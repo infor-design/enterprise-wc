@@ -20,7 +20,7 @@ export default class IdsProgressBar extends IdsElement {
   labelAudible: boolean;
 
   /** Sets the max attribute * */
-  max: string | number
+  max: string | number;
 
   /** Sets the `value` attribute * */
   value: string | number;

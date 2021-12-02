@@ -44,4 +44,7 @@ export default class IdsCheckbox extends IdsElement {
 
   /** Set the theme version */
   version: 'new' | 'classic' | string;
+
+  /** Sets the input label text as audible * */
+  labelAudible: 'true' | 'false' | boolean;
 }

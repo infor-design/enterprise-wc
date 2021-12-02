@@ -86,7 +86,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {string} The template
    */
   template() {
-    const trueVal = (/** @type {any} */v) => IdsStringUtils.stringToBool(v);
+    const trueVal = (v) => IdsStringUtils.stringToBool(v);
     const accept = this.accept ? ` accept="${this.accept}"` : '';
     const dirtyTracker = trueVal(this.dirtyTracker) ? ` dirty-tracker="${this.dirtyTracker}"` : '';
     const disabled = trueVal(this.disabled) ? ` disabled="${this.disabled}"` : '';
@@ -110,7 +110,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
           <ids-text audible="true" class="label-filetype" part="label">${labelFiletype}</ids-text>
         </label>
         <input id="${ID}" type="file" class="ids-upload-filetype" aria-hidden="true" tabindex="-1"${accept}${multiple}${value} />
-        <ids-trigger-field 
+        <ids-trigger-field
           ${label}${disabled}${readonlyBtn}${validate}
           css-class="ids-upload"
         >
@@ -332,7 +332,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {boolean} true, if not disabled or readonly
    */
   get hasAccess() {
-    const trueVal = (/** @type {any} */ v) => IdsStringUtils.stringToBool(v);
+    const trueVal = (v) => IdsStringUtils.stringToBool(v);
     return !(trueVal(this.disabled) || trueVal(this.readonly));
   }
 

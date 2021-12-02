@@ -526,8 +526,11 @@ class IdsTree extends mix(IdsElement).with(
       const response = (veto) => {
         canProceed = !!veto;
       };
-      this.triggerEvent(shared.EVENTS.beforeselected, this,
-        { detail: { elem: this, response, node } });
+      this.triggerEvent(
+        shared.EVENTS.beforeselected,
+        this,
+        { detail: { elem: this, response, node } }
+      );
       if (!canProceed) {
         return;
       }
@@ -553,8 +556,11 @@ class IdsTree extends mix(IdsElement).with(
       const response = (veto) => {
         canProceed = !!veto;
       };
-      this.triggerEvent(shared.EVENTS.beforeunselected, this,
-        { detail: { elem: this, response, node } });
+      this.triggerEvent(
+        shared.EVENTS.beforeunselected,
+        this,
+        { detail: { elem: this, response, node } }
+      );
       if (!canProceed) {
         return;
       }

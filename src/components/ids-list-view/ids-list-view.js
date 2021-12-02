@@ -15,7 +15,7 @@ import { IdsThemeMixin, IdsKeyboardMixin, IdsEventsMixin } from '../../mixins';
 import IdsVirtualScroll from '../ids-virtual-scroll';
 import styles from './ids-list-view.scss';
 
-const DEFAULT_HEIGHT = 310;
+const DEFAULT_HEIGHT = '100%';
 
 /**
  * IDS List View Component
@@ -90,7 +90,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
    */
   virtualScrollTemplate() {
     const html = `
-      <ids-virtual-scroll height="${this.height}px" item-height="${this.itemHeight}">
+      <ids-virtual-scroll height="${this.height}" item-height="${this.itemHeight}">
         <div class="ids-list-view" part="container">
           <div slot="contents" part="list">
           </div>
@@ -105,7 +105,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
    * Sets up keyboard navigation among list elements
    * @returns {void}
    */
-   #handleKeys() {
+  #handleKeys() {
     // Arrow key navigates up and down
     this.listen(['ArrowUp', 'ArrowDown'], this, (e) => {
       const focused = this.shadowRoot.querySelector('[part="list-item"][tabindex="0"]');
@@ -131,35 +131,35 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
     });
   }
 
-   /**
-    * Inner template contents
-    * @returns {string} The template
-    */
-   template() {
-     return `
+  /**
+   * Inner template contents
+   * @returns {string} The template
+   */
+  template() {
+    return `
       ${this.virtualScroll ? this.virtualScrollTemplate() : this.staticScrollTemplate()}
     `;
-   }
+  }
 
-   /**
-    * Return an item's html injecting any values from the dataset as needed.
-    * @param  {object} item The item to generate
-    * @returns {string} The html for this item
-    */
-   itemTemplate(item) {
-     return stringUtils.injectTemplate(this.defaultTemplate, item);
-   }
+  /**
+   * Return an item's html injecting any values from the dataset as needed.
+   * @param  {object} item The item to generate
+   * @returns {string} The html for this item
+   */
+  itemTemplate(item) {
+    return stringUtils.injectTemplate(this.defaultTemplate, item);
+  }
 
-   /**
-    * Render the list by applying the template
-    * @private
-    */
-   render() {
-     super.render();
+  /**
+   * Render the list by applying the template
+   * @private
+   */
+  render() {
+    super.render();
 
-     if (this.virtualScroll && this?.data.length > 0) {
-       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
-       this.virtualScrollContainer.itemTemplate = (item, index) => `
+    if (this.virtualScroll && this?.data.length > 0) {
+      this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
+      this.virtualScrollContainer.itemTemplate = (item, index) => `
         ${this.draggable ? `<ids-draggable axis="y">` : ``}
           <div part="list-item" tabindex="${index === 0 ? '0' : '-1'}">
             ${this.draggable ? `<span></span>` : ``}
@@ -167,123 +167,123 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
           </div>
         ${this.draggable ? `</ids-draggable>` : ``}
         `;
-       this.virtualScrollContainer.itemCount = this.data.length;
-       this.virtualScrollContainer.itemHeight = this.itemHeight || this.checkTemplateHeight(`
+      this.virtualScrollContainer.itemCount = this.data.length;
+      this.virtualScrollContainer.itemHeight = this.itemHeight || this.checkTemplateHeight(`
         <div part="list-item" tabindex="-1" id="height-tester">
           ${this.itemTemplate(this.datasource.data[0])}
         </div>
       `);
-       this.virtualScrollContainer.data = this.data;
-       this.shadowRoot.querySelector('.ids-list-view').style.overflow = 'initial';
-     }
+      this.virtualScrollContainer.data = this.data;
+      this.shadowRoot.querySelector('.ids-list-view').style.overflow = 'initial';
+    }
 
-     this.adjustHeight();
-   }
+    this.adjustHeight();
+  }
 
-   /**
-    * Set the height of the list after loading the template
-    * @private
-    */
-   adjustHeight() {
-     this.shadowRoot.querySelector('.ids-list-view').style.height = `${this.height}px`;
-   }
+  /**
+   * Set the height of the list after loading the template
+   * @private
+   */
+  adjustHeight() {
+    this.shadowRoot.querySelector('.ids-list-view').style.height = `${this.height}px`;
+  }
 
-   /**
-    * Calculate the height of a template element.
-    * @private
-    * @param  {string} itemTemplate The item template
-    * @returns {number} The item height
-    */
-   checkTemplateHeight(itemTemplate) {
-     this.shadowRoot.querySelector('.ids-list-view div').insertAdjacentHTML('beforeEnd', itemTemplate);
-     const tester = this.shadowRoot.querySelector('#height-tester');
-     const height = tester.offsetHeight;
-     tester.remove();
+  /**
+   * Calculate the height of a template element.
+   * @private
+   * @param  {string} itemTemplate The item template
+   * @returns {number} The item height
+   */
+  checkTemplateHeight(itemTemplate) {
+    this.shadowRoot.querySelector('.ids-list-view div').insertAdjacentHTML('beforeEnd', itemTemplate);
+    const tester = this.shadowRoot.querySelector('#height-tester');
+    const height = tester.offsetHeight;
+    tester.remove();
 
-     return height;
-   }
+    return height;
+  }
 
-   /**
-    * Set the data array of the listview
-    * @param {Array | null} value The array to use
-    */
-   set data(value) {
-     this.datasource.data = value || [];
-     this.render(true);
-   }
+  /**
+   * Set the data array of the listview
+   * @param {Array | null} value The array to use
+   */
+  set data(value) {
+    this.datasource.data = value || [];
+    this.render(true);
+  }
 
-   get data() { return this?.datasource?.data || []; }
+  get data() { return this?.datasource?.data || []; }
 
-   /**
-    * Set the list view to use virtual scrolling for a large amount of elements.
-    * @param {boolean|string} value true to use virtual scrolling
-    */
-   set virtualScroll(value) {
-     if (stringUtils.stringToBool(value)) {
-       this.setAttribute(attributes.VIRTUAL_SCROLL, value.toString());
-     } else {
-       this.removeAttribute(attributes.VIRTUAL_SCROLL);
-     }
-     this.render();
-   }
+  /**
+   * Set the list view to use virtual scrolling for a large amount of elements.
+   * @param {boolean|string} value true to use virtual scrolling
+   */
+  set virtualScroll(value) {
+    if (stringUtils.stringToBool(value)) {
+      this.setAttribute(attributes.VIRTUAL_SCROLL, value.toString());
+    } else {
+      this.removeAttribute(attributes.VIRTUAL_SCROLL);
+    }
+    this.render();
+  }
 
-   get virtualScroll() { return stringUtils.stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
+  get virtualScroll() { return stringUtils.stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
 
-   /**
-    * Set the expected height of the viewport for virtual scrolling
-    * @param {string} value true to use virtual scrolling
-    */
-   set height(value) {
-     if (value) {
-       this.setAttribute(attributes.HEIGHT, value);
-     } else {
-       this.setAttribute(attributes.HEIGHT, DEFAULT_HEIGHT);
-     }
-   }
+  /**
+   * Set the expected height of the viewport for virtual scrolling
+   * @param {string} value true to use virtual scrolling
+   */
+  set height(value) {
+    if (value) {
+      this.setAttribute(attributes.HEIGHT, value);
+    } else {
+      this.setAttribute(attributes.HEIGHT, DEFAULT_HEIGHT);
+    }
+  }
 
-   get height() {
-     return this.getAttribute(attributes.HEIGHT) || DEFAULT_HEIGHT;
-   }
+  get height() {
+    return this.getAttribute(attributes.HEIGHT) || DEFAULT_HEIGHT;
+  }
 
-   /**
-    * Set the expected height of each item
-    * @param {string} value true to use virtual scrolling
-    */
-   set itemHeight(value) {
-     if (value) {
-       this.setAttribute(attributes.ITEM_HEIGHT, value);
-     } else {
-       this.removeAttribute(attributes.ITEM_HEIGHT);
-     }
-   }
+  /**
+   * Set the expected height of each item
+   * @param {string} value true to use virtual scrolling
+   */
+  set itemHeight(value) {
+    if (value) {
+      this.setAttribute(attributes.ITEM_HEIGHT, value);
+    } else {
+      this.removeAttribute(attributes.ITEM_HEIGHT);
+    }
+  }
 
-   get itemHeight() {
-     return this.getAttribute(attributes.ITEM_HEIGHT);
-   }
+  get itemHeight() {
+    return this.getAttribute(attributes.ITEM_HEIGHT);
+  }
 
-   /**
-    * Set to true to allow items to be draggable/sortable
-    * @param {string} value true to use draggable
-    */
-   set draggable(value) {
-     if (value) {
-       this.setAttribute(attributes.DRAGGABLE, value);
-     } else {
-       this.removeAttribute(attributes.DRAGGABLE);
-     }
-   }
+  /**
+   * Set to true to allow items to be draggable/sortable
+   * @param {string} value true to use draggable
+   */
+  set draggable(value) {
+    if (value) {
+      this.setAttribute(attributes.DRAGGABLE, value);
+    } else {
+      this.removeAttribute(attributes.DRAGGABLE);
+    }
+  }
 
-   get draggable() {
-     return stringUtils.stringToBool(this.getAttribute(attributes.DRAGGABLE));
-   }
+  get draggable() {
+    return stringUtils.stringToBool(this.getAttribute(attributes.DRAGGABLE));
+  }
 
-   /**
-    * Passes focus from the Panel to its Header component
-    * @returns {void}
-    */
-   focus() {
-     this.shadowRoot.querySelector('.ids-list-view [tabindex="0"]')?.focus();
-   }
+  /**
+   * Passes focus from the Panel to its Header component
+   * @returns {void}
+   */
+  focus() {
+    this.shadowRoot.querySelector('.ids-list-view [tabindex="0"]')?.focus();
+  }
 }
 
 export default IdsListView;

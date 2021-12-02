@@ -1,4 +1,6 @@
 @import '../../core/ids-base';
+@import '../../mixins/sass/ids-checkbox-mixin';
+@import '../../mixins/sass/ids-radio-mixin';
 
 $cell-border-color: var(--ids-color-palette-slate-30);
 $header-bg-color: var(--ids-color-palette-slate-80);
@@ -36,6 +38,11 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
     display: grid;
     grid-template-columns: var(--ids-data-grid-column-widths); // Filled in dynamically
+
+    &.selected:not(.mixed) .ids-data-grid-cell,
+    &.activated .ids-data-grid-cell {
+      @include bg-azure-10();
+    }
   }
 
   // Row Height Feature
@@ -210,6 +217,72 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     }
   }
 
+  // Selection Checkbox
+  .ids-datagrid-checkbox-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .ids-datagrid-checkbox {
+    @include checkbox-unchecked();
+    @include cursor-pointer();
+    position: relative;
+    left: 0;
+    top: 0;
+
+    &.checked {
+      @include checkbox-checked();
+
+      &::after {
+        @include checkbox-checked-after();
+      }
+    }
+
+    &.indeterminate {
+      @include checkbox-indeterminate();
+
+      &::after {
+        @include checkbox-indeterminate-after();
+      }
+    }
+  }
+
+  // Selection Radio
+  .ids-datagrid-radio-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .ids-datagrid-radio {
+    @include radio-unchecked();
+    @include cursor-pointer();
+    position: relative;
+    left: 0;
+    top: 0;
+
+    &.checked {
+      @include radio-checked();
+
+      &::after {
+        @include radio-checked-after();
+      }
+    }
+  }
+
+  // Negates the padding
+  .ids-data-grid-header-text .ids-datagrid-checkbox-container {
+    margin-left: -3px;
+    margin-top: 1px;
+    width: 20px;
+
+    .ids-datagrid-checkbox:not(.checked):not(.indeterminate) {
+      @include bg-white();
+      @include border-white();
+    }
+  }
+
   // Standalone Css
   tr.ids-data-grid-header {
     position: initial;
@@ -229,13 +302,68 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   td.ids-data-grid-cell {
     @include px-16();
   }
+
+  // List Style Feature
+  &.is-list-style {
+    border-width: 0;
+
+    // Change Header Color
+    .ids-data-grid-header-cell {
+      @include bg-slate-10();
+      @include border-slate-10();
+    }
+
+    .ids-data-grid-header-text {
+      @include text-slate-100();
+    }
+
+    // Change Cell Borders/BG
+    .ids-data-grid-cell {
+      border-left: 0;
+      border-top: 1px solid var(--ids-color-palette-slate-20);
+
+      &.readonly {
+        @include bg-slate-10();
+      }
+    }
+
+    .ids-data-grid-body .ids-data-grid-row:first-child .ids-data-grid-cell {
+      border-top: 0;
+    }
+
+    // Change Sort Icon
+    .is-sortable {
+      ids-icon {
+        @include text-slate-50();
+      }
+
+      &[aria-sort='descending'] ids-icon {
+        &:last-child {
+          @include text-slate-20();
+        }
+      }
+
+      &[aria-sort='ascending'] ids-icon {
+        &:first-child {
+          @include text-slate-20();
+        }
+      }
+    }
+
+    // Change Header Checkbox
+    .ids-data-grid-header-text .ids-datagrid-checkbox-container {
+      .ids-datagrid-checkbox:not(.checked):not(.indeterminate) {
+        @include border-slate-70();
+      }
+    }
+  }
 }
 
 /// Handle Themes
-
 // Dark Theme
 .ids-data-grid[mode='dark'] {
   @include bg-slate-90();
+  @include border-slate-60();
 
   .ids-data-grid-header-cell {
     @include bg-slate-20();
@@ -271,6 +399,71 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     &.readonly {
       @include bg-slate-70();
     }
+  }
+
+  // List Style Feature
+  &.is-list-style {
+    // Change Header Color
+    .ids-data-grid-header-cell {
+      @include bg-slate-80();
+      @include border-slate-80();
+    }
+
+    .ids-data-grid-header-text {
+      @include text-slate-30();
+    }
+
+    // Change Sort Icon
+    .is-sortable {
+      ids-icon {
+        @include text-slate-40();
+      }
+
+      &[aria-sort='descending'] ids-icon {
+        &:last-child {
+          @include text-slate-20();
+        }
+      }
+
+      &[aria-sort='ascending'] ids-icon {
+        &:first-child {
+          @include text-slate-20();
+        }
+      }
+    }
+
+    // Change Header Checkbox
+    .ids-data-grid-header-text .ids-datagrid-checkbox-container {
+      .ids-datagrid-checkbox:not(.checked):not(.indeterminate) {
+        @include border-slate-40();
+      }
+    }
+  }
+
+  // Selection
+  .ids-data-grid-row.selected:not(.mixed) .ids-data-grid-cell,
+  .ids-data-grid-row.activated .ids-data-grid-cell {
+    // Uses a non pallette color - no better looking ones
+    background-color: #334d60;
+  }
+
+  .ids-data-grid-cell {
+    .ids-datagrid-checkbox {
+      @include border-slate-30();
+    }
+
+    .ids-datagrid-checkbox.checked {
+      @include border-azure-60();
+    }
+  }
+
+  .ids-datagrid-radio {
+    @include border-slate-40();
+  }
+
+  .ids-data-grid-header-text .ids-datagrid-checkbox-container .ids-datagrid-checkbox:not(.checked):not(.indeterminate) {
+    @include bg-transparent();
+    @include border-slate-90();
   }
 }
 
@@ -319,6 +512,57 @@ $header-bg-color: var(--ids-color-palette-slate-80);
       outline: 1px solid var(--ids-color-palette-azure-80);
     }
   }
+
+  // List Style Feature
+  &.is-list-style {
+    // Change Header Color
+    .ids-data-grid-header-cell {
+      @include bg-slate-30();
+      @include border-slate-30();
+    }
+
+    .ids-data-grid-header-text {
+      @include text-slate-100();
+    }
+
+    // Change Cell Borders/BG
+    .ids-data-grid-cell {
+      &.readonly {
+        @include bg-slate-20();
+      }
+    }
+
+    // Change Sort Icon
+    .is-sortable {
+      ids-icon {
+        @include text-slate-60();
+      }
+
+      &[aria-sort='descending'] ids-icon {
+        &:last-child {
+          @include text-slate-30();
+        }
+      }
+
+      &[aria-sort='ascending'] ids-icon {
+        &:first-child {
+          @include text-slate-30();
+        }
+      }
+    }
+  }
+
+  // Selection
+  .ids-data-grid-row.selected:not(.mixed) .ids-data-grid-cell,
+  .ids-data-grid-row.activated .ids-data-grid-cell {
+    @include bg-azure-20();
+  }
+
+  .ids-data-grid-cell {
+    .ids-datagrid-checkbox:not(.checked):not(.indeterminate) {
+      @include border-slate-90();
+    }
+  }
 }
 
 // Handle Classic - Light Theme
@@ -358,6 +602,49 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
     &.readonly {
       @include bg-graphite-10();
+    }
+  }
+
+  // List Style Feature
+  &.is-list-style {
+    background-color: transparent;
+
+    // Change Header Color
+    .ids-data-grid-header-cell {
+      @include bg-graphite-20();
+      @include border-graphite-20();
+    }
+
+    .ids-data-grid-header-text {
+      @include text-graphite-60();
+    }
+
+    // Change Cell Borders/BG
+    .ids-data-grid-cell {
+      border-top: 1px solid var(--ids-color-palette-graphite-30);
+
+      &.readonly {
+        @include bg-graphite-20();
+      }
+    }
+
+    // Change Sort Icon
+    .is-sortable {
+      ids-icon {
+        @include text-graphite-50();
+      }
+
+      &[aria-sort='descending'] ids-icon {
+        &:last-child {
+          @include text-graphite-30();
+        }
+      }
+
+      &[aria-sort='ascending'] ids-icon {
+        &:first-child {
+          @include text-graphite-30();
+        }
+      }
     }
   }
 }
@@ -401,15 +688,47 @@ $header-bg-color: var(--ids-color-palette-slate-80);
       @include bg-classic-slate-70();
     }
   }
+
+  // List Style Feature
+  &.is-list-style {
+    // Change Header Color
+    .ids-data-grid-header-cell {
+      @include bg-classic-slate-70();
+      @include border-classic-slate-70();
+    }
+
+    .ids-data-grid-header-text {
+      @include text-classic-slate-30();
+    }
+
+    // Change Sort Icon
+    .is-sortable {
+      ids-icon {
+        @include text-classic-slate-10();
+      }
+
+      &[aria-sort='descending'] ids-icon {
+        &:last-child {
+          @include text-classic-slate-40();
+        }
+      }
+
+      &[aria-sort='ascending'] ids-icon {
+        &:first-child {
+          @include text-classic-slate-40();
+        }
+      }
+    }
+  }
 }
 
 // Handle Classic - Contrast Theme
-.ids-data-grid[mode='contrast'] {
+.ids-data-grid[version='classic'][mode='contrast'] {
   @include bg-graphite-10();
 
   .ids-data-grid-header-cell {
     @include bg-graphite-70();
-    @include border-graphite-60();
+    @include border-graphite-50();
   }
 
   .ids-data-grid-header-text {
@@ -445,6 +764,45 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     &:focus {
       box-shadow: 0 0 0 1px rgba(0, 84, 177, 1);
       outline: 1px solid var(--ids-color-palette-azure-80);
+    }
+  }
+
+  // List Style Feature
+  &.is-list-style {
+    // Change Header Color
+    .ids-data-grid-header-cell {
+      @include bg-graphite-30();
+      @include border-graphite-30();
+    }
+
+    .ids-data-grid-header-text {
+      @include text-graphite-100();
+    }
+
+    // Change Cell Borders/BG
+    .ids-data-grid-cell {
+      &.readonly {
+        @include bg-graphite-20();
+      }
+    }
+
+    // Change Sort Icon
+    .is-sortable {
+      ids-icon {
+        @include text-graphite-60();
+      }
+
+      &[aria-sort='descending'] ids-icon {
+        &:last-child {
+          @include text-graphite-40();
+        }
+      }
+
+      &[aria-sort='ascending'] ids-icon {
+        &:first-child {
+          @include text-graphite-40();
+        }
+      }
     }
   }
 }

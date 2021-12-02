@@ -5,7 +5,7 @@ export default class extends IdsElement {
   readonly panel: HTMLElement;
 
   /** True if the Accordion Header should display "expanded" styling */
-  expanded?: boolean
+  expanded?: boolean;
 
   /** Defines the display type of the expander button, if it's currently enabled */
   expanderType?: 'caret' | 'plus-minus';
