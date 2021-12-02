@@ -14,15 +14,15 @@ We validate the files by running `npm run lint` or `npm run mdlint`. This covers
 
 ## EsLint Linter
 
-We are using the core [eslinter for Javascript](https://eslint.org/) all settings can be set within the `.eslintrc.js` file in the root. If using Atom the package [linter-eslint](https://atom.io/packages/linter-eslint) should be installed. The web pack config in the demo app will also report errors in the Google Chrome console while testing.
+We are using the core [eslinter for Javascript](https://eslint.org/) all settings can be set within the `.eslintrc.js` file in the root. If using Atom the package [linter-eslint](https://atom.io/packages/linter-eslint) should be installed. If using visual code the [eslint]( https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) should be installed. The web pack config in the demo app will also report errors in the Google Chrome console while testing.
 
 ## Style Linter
 
-We are using [style lint](https://github.com/stylelint/stylelint) for checking the rules in scss files. All settings can be set within the `.stylelintignore` file in the root. If using Atom the package [linter-stylelint](https://atom.io/packages/linter-stylelint) should be installed. The web pack config in the demo app will also report errors in the Google Chrome console while testing.
+We are using [style lint](https://github.com/stylelint/stylelint) for checking the rules in scss files. All settings can be set within the `.stylelintignore` file in the root. If using Atom the package [linter-stylelint](https://atom.io/packages/linter-stylelint) should be installed. If using visual code the [stylelint](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint) should be installed. The web pack config in the demo app will also report errors in the Google Chrome console while testing.
 
 ## HtmlHint Linter
 
-We are using [HtmlHint lint](https://github.com/htmlhint/HTMLHint) for checking simple rules around valid HTML. All settings can be set within the `.htmlhintrc` file in the root. If using Atom the package [linter-htmlhint](https://atom.io/packages/linter-htmlhint) should be installed.
+We are using [HtmlHint lint](https://github.com/htmlhint/HTMLHint) for checking simple rules around valid HTML. All settings can be set within the `.htmlhintrc` file in the root. If using Atom the package [linter-htmlhint](https://atom.io/packages/linter-htmlhint) should be installed. If using Visual Code the [HTMLHint](https://marketplace.visualstudio.com/items?itemName=mkaufman.HTMLHint) should be used.
 
 ## Typescript Type Checking
 
