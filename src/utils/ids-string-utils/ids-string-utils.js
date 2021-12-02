@@ -31,10 +31,10 @@ export function removeDuplicates(str) {
  * @returns {boolean} The return boolean
  */
 export function stringToBool(val) {
-  if (typeof val === 'string' && val.toLowerCase() === 'false') {
+  if ((typeof val === 'string' && val.toLowerCase() === 'false') || val === false) {
     return false;
   }
-  return typeof val === 'string';
+  return typeof val === 'string' || val === true;
 }
 
 /**
