@@ -32,7 +32,7 @@ describe('Ids Modal e2e Tests', () => {
     await page.waitForSelector(modalSelector);
 
     // Fire a 'click' on the overlay
-    await page.evaluate(`document.querySelector("${modalSelector}").overlay.click()`);
+    await page.evaluate(`document.querySelector("${modalSelector} #modal-close-btn").click()`);
 
     // Modal should be closed.  Check the visible value
     const modal = await page.waitForSelector('#my-modal:not([visible])');
