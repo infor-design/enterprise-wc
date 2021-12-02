@@ -108,7 +108,7 @@ class IdsDataGrid extends mix(IdsElement).with(
 
     const html = `
       <div
-        class="ids-data-grid ${cssClasses}"
+        class="ids-data-grid ${cssClasses.join(' ')}"
         role="table" part="table" aria-label="${this.label}"
         data-row-height="${this.rowHeight}"
         mode="${this.mode}"
@@ -226,8 +226,8 @@ class IdsDataGrid extends mix(IdsElement).with(
     `;
 
     const headerContentTemplate = `
-      ${(column.id !== 'selectionRadio' && column.id === 'selectionCheckBox') ? selectionCheckBoxTemplate : ''}
-      ${(column.id !== 'selectionRadio' && column.id !== 'selectionCheckBox' && column.name) ? column.name : ''}
+      ${(column.id !== 'selectionRadio' && column.id === 'selectionCheckbox') ? selectionCheckBoxTemplate : ''}
+      ${(column.id !== 'selectionRadio' && column.id !== 'selectionCheckbox' && column.name) ? column.name : ''}
     `.trim();
 
     const html = `
@@ -990,14 +990,16 @@ class IdsDataGrid extends mix(IdsElement).with(
     const queriedRows = this.shadowRoot.querySelectorAll('.ids-data-grid-body .ids-data-grid-row');
     const rowNode = queriedRows[row]; // exclude header rows
     const queriedCells = rowNode?.querySelectorAll('.ids-data-grid-cell');
-    const cellNode = queriedCells[cell];
+    if (queriedCells && queriedCells.length > 0) {
+      const cellNode = queriedCells[cell];
 
-    this.activeCell?.node?.removeAttribute('tabindex');
-    this.activeCell.node = cellNode;
-    cellNode.setAttribute('tabindex', '0');
+      this.activeCell?.node?.removeAttribute('tabindex');
+      this.activeCell.node = cellNode;
+      cellNode.setAttribute('tabindex', '0');
 
-    if (!nofocus) {
-      cellNode.focus();
+      if (!nofocus) {
+        cellNode.focus();
+      }
     }
     this.triggerEvent('activecellchange', this, { detail: { elem: this, activeCell: this.activeCell } });
     return this.activeCell;

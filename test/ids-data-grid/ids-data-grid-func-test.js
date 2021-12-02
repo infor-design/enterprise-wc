@@ -286,7 +286,7 @@ describe('IdsDataGrid Component', () => {
       dataGrid.virtualScroll = false;
 
       expect(dataGrid.shadowRoot.querySelectorAll('ids-virtual-scroll').length).toEqual(0);
-      expect(dataGrid.getAttribute('virtual-scroll')).toEqual('false');
+      expect(dataGrid.getAttribute('virtual-scroll')).toEqual(null);
     });
 
     it('can reset the virtualScroll option', () => {
@@ -304,13 +304,13 @@ describe('IdsDataGrid Component', () => {
       dataGrid.virtualScroll = true;
       expect(dataGrid.rowPixelHeight).toEqual(50);
 
-      dataGrid.rowHeight = 'medium';
+      dataGrid.rowHeight = 'md';
       expect(dataGrid.rowPixelHeight).toEqual(40);
 
-      dataGrid.rowHeight = 'small';
+      dataGrid.rowHeight = 'sm';
       expect(dataGrid.rowPixelHeight).toEqual(35);
 
-      dataGrid.rowHeight = 'extra-small';
+      dataGrid.rowHeight = 'xs';
       expect(dataGrid.rowPixelHeight).toEqual(30);
     });
   });
