@@ -77,7 +77,7 @@ export default class IdsDataGrid extends IdsElement {
   autoFit: boolean;
 
   /** Enables the virtual scrolling behavior */
-  rowHeight: 'extra-small' | 'small' | 'medium' | 'large';
+  rowHeight: 'xs' | 'sm' | 'md' | 'lg';
 
   /** Set the row selection mode between false, 'single', 'multiple' and 'mixed` */
   rowSelection: false | 'single' | 'multiple' | 'mixed';
