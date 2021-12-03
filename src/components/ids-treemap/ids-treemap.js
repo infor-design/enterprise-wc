@@ -108,8 +108,8 @@ class IdsTreeMap extends mix(IdsElement).with(
   template() {
     const treemap = `
       <div class="treemap-container">
-        <div class="treemap-title">${this.renderTitle()}</div>
-        ${this.renderSvg(this.result)}
+        <div class="treemap-title">${this.templateTitle()}</div>
+        ${this.templateSvg(this.result)}
       </div>
     `;
 
@@ -122,13 +122,13 @@ class IdsTreeMap extends mix(IdsElement).with(
    * @returns {*} svg
    * @memberof IdsTreeMap
    */
-  renderSvg(result) {
+  templateSvg(result) {
     let svg = `<svg>Sorry, your browser does not support inline SVG.</svg>`;
 
     if (result !== undefined) {
       svg = `
         <svg width='${this.width}' height='${this.height}' stroke="#fff" stroke-width="1">
-          ${this.result.map((rect) => this.renderGroups(rect)).join('')}
+          ${this.result.map((rect) => this.templateGroups(rect)).join('')}
         </svg>
       `;
     }
@@ -141,7 +141,7 @@ class IdsTreeMap extends mix(IdsElement).with(
    * @returns {*} svg group
    * @memberof IdsTreeMap
    */
-  renderGroups(rect) {
+  templateGroups(rect) {
     const textOffset = 8;
 
     return `
@@ -181,7 +181,7 @@ class IdsTreeMap extends mix(IdsElement).with(
    * @returns {*} Title banner markup
    * @memberof IdsTreeMap
    */
-  renderTitle() {
+  templateTitle() {
     return `
       <ids-text type="span" font-weight="bold">
         ${this.title !== null ? this.title : 'Add Treemap Title'}
@@ -235,14 +235,13 @@ class IdsTreeMap extends mix(IdsElement).with(
 
   /**
    * Validate the treemap object.
-   * @param {object} obj { data, width, height }
+   * @param {object} obj { data, height }
    * @param {Array} obj.data array that contains the treemap block definitions
-   * @param {number} obj.width total width of the treemap
    * @param {number} obj.height total hieght of the treemap
    * @memberof IdsTreeMap
    * @private
    */
-  validateArguments = ({ data, width, height }) => {
+  validateArguments = ({ data, height }) => {
     if (!height || typeof height !== 'number' || height < 0) {
       throw new Error('You need to specify the height of your treemap');
     }

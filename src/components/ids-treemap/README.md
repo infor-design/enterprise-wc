@@ -91,12 +91,11 @@ The contrast and actual colors can be a concern for visibility impaired and colo
         label: '18%'
       }
     ],
-    width: 1000 // Optional
     height: 300
 }
 ```
 
-- **width** Optional. By default the treemap takes on the width of the container. The treemap will resize as the screen size changes.
+- **width** By default the treemap takes on the width of the container. The treemap will resize as the screen size changes.
 = **height** Required. You will need to set the height for the treemap.
 
 ## Keyboard Shortcuts
