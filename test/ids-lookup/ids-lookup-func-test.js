@@ -276,12 +276,12 @@ describe('IdsLookup Component', () => {
     lookup.columns = columns();
     lookup.data = dataset;
     lookup.dataGridSettings = {
-      rowHeight: 'small'
+      rowHeight: 'sm'
     };
 
-    expect(lookup.dataGrid.rowHeight).toEqual('small');
+    expect(lookup.dataGrid.rowHeight).toEqual('sm');
     expect(lookup.dataGridSettings).toEqual({
-      rowHeight: 'small'
+      rowHeight: 'sm'
     });
   });
 
