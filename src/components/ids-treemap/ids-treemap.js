@@ -17,6 +17,7 @@ import styles from './ids-treemap.scss';
 
 /**
  * IDS Tree Component
+ * Based on Treemap Squarify: https://github.com/clementbat/treemap
  * @type {IdsTreeMap}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
