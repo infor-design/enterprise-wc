@@ -34,6 +34,17 @@ class IdsProcessStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
 
   connectedCallback() {
     super.connectedCallback?.();
+
+    requestAnimationFrame(() => {
+      const parentElement = this.parentElement;
+      console.log(this.parentElement.getBoundingClientRect())
+      if (parentElement.tagName === 'IDS-PROCESS-INDICATOR') {
+        const parentWidth = parentElement.getBoundingClientRect().width;
+        const stepAmount = parentElement.querySelectorAll('ids-process-step').length;
+        const stepWidth = parentWidth / stepAmount;
+        this.container.style.setProperty('--step-width', stepWidth);
+      }
+    })
   }
 
   /**
@@ -55,9 +66,10 @@ class IdsProcessStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
   template() {
     return `
       <div class="ids-process-step">
-        <span class="step">
-        </span>
-          <ids-text part="label" class="label">${this.label}</ids-text>
+        <ids-text part="label" class="label">
+        ${this.label}
+        </ids-text>
+        <span class="step"></span>
           <div class="details">
             <slot></slot>
           </div>

@@ -28,6 +28,15 @@ class IdsProcessIndicator extends mix(IdsElement).with(IdsThemeMixin) {
 
   connectedCallback() {
     this.#calculateProgressLine();
+
+    requestAnimationFrame(() => {
+      const lastStep = this.querySelector('ids-process-step:last-child');
+      const containerWidth = this.getBoundingClientRect().width;
+      const lastStepWidth = lastStep.getBoundingClientRect().width;
+      // const lineWidth = `${containerWidth - lastStepWidth}px`
+      const lineWidth = `calc(100% - ${lastStepWidth}px)`
+      this.container.style.setProperty('--line-width', lineWidth);
+    });
   }
 
   static get attributes() {
@@ -37,7 +46,7 @@ class IdsProcessIndicator extends mix(IdsElement).with(IdsThemeMixin) {
   }
 
   #calculateProgressLine() {
-    window.requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
       const steps = this.querySelectorAll('ids-process-step');
 
       if (steps.length >= 2) {
@@ -68,11 +77,11 @@ class IdsProcessIndicator extends mix(IdsElement).with(IdsThemeMixin) {
     return `
       <div class="ids-process-indicator">
         <span class="line">
-          <span class="step-container">
-            <span class="progress-line"></span>
-            <slot></slot>
-          </span>
-          </span>
+        <span class="progress-line"></span>
+        </span>
+        <span class="step-container">
+          <slot></slot>
+        </span>
       </div>
     `;
   }
