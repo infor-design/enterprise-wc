@@ -3,7 +3,7 @@
  */
 import IdsDataSource from '../../src/core/ids-data-source';
 
-describe.only('IdsDataSourceMixin Tests', () => {
+describe('IdsDataSourceMixin Tests', () => {
   let datasource;
 
   beforeEach(async () => {

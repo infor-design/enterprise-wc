@@ -12,7 +12,7 @@ export default class IdsDraggable extends IdsElement {
    * Whether the draggable should be limited in range
    * by its parent element
    */
-   parentContainment?: boolean;
+  parentContainment?: boolean;
 
   /**
    * Whether or not draggable functionality is disabled

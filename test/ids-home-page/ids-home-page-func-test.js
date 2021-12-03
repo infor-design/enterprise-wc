@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import ResizeObserver from '../helpers/resize-observer-mock'; // eslint-disable-line
+import ResizeObserver from '../helpers/resize-observer-mock';
 import wait from '../helpers/wait';
 import IdsContainer from '../../src/components/ids-container';
 import IdsHomePage from '../../src/components/ids-home-page';

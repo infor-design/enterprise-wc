@@ -7,6 +7,7 @@ export function camelCase(str) {
   return (str.slice(0, 1).toLowerCase() + str.slice(1))
     .replace(/([-_ ]){1,}/g, ' ')
     .split(/[-_ ]/)
+    // eslint-disable-next-line no-unsafe-optional-chaining
     .reduce((cur, acc) => cur + acc[0]?.toUpperCase() + acc.substring(1));
 }
 
@@ -30,20 +31,19 @@ export function removeDuplicates(str) {
  * @returns {boolean} The return boolean
  */
 export function stringToBool(val) {
-  if (typeof val === 'string' && val.toLowerCase() === 'false') {
+  if ((typeof val === 'string' && val.toLowerCase() === 'false') || val === false) {
     return false;
   }
-  return val !== null && (val === true || (typeof val === 'string' && val !== 'false'));
+  return typeof val === 'string' || val === true;
 }
 
 /**
- * Converts an attribute string into a number
+ * Converts an attribute string into a number, or returns NaN
  * @param {string|number|any} val string value from the component attribute
  * @returns {number} The return boolean
  */
 export function stringToNumber(val) {
-  const v = val?.toString() * 1; // Converting String to Number
-  return !isNaN(v) ? v : 0; // eslint-disable-line
+  return parseFloat(val); // eslint-disable-line
 }
 
 /**
@@ -63,7 +63,7 @@ export function injectTemplate(str, obj) {
  * @returns {string} ` class="c1 c2..."` || ""
  */
 export function buildClassAttrib(...classes) {
-  const classAttrib = classes.reduce((attribStr = '', c) => {
+  const classAttrib = classes.reduce((attribStr, c) => {
     if (attribStr && c) { return `${attribStr} ${c}`; }
 
     if (!attribStr && c) { return c; }

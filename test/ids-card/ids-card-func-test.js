@@ -41,10 +41,10 @@ describe('IdsCard Component', () => {
 
   it('renders auto-fit from an attribute', () => {
     card.setAttribute('auto-fit', 'true');
-    expect(card.autoFit).toEqual('true');
+    expect(card.autoFit).toEqual(true);
     expect(card.getAttribute('auto-fit')).toEqual('true');
     card.setAttribute('auto-fit', 'false');
-    expect(card.autoFit).toEqual(null);
+    expect(card.autoFit).toEqual(false);
     expect(card.getAttribute('auto-fit')).toEqual(null);
   });
 
@@ -61,6 +61,20 @@ describe('IdsCard Component', () => {
     card.autoHeight = false;
     expect(card.getAttribute('auto-height')).toEqual(null);
     expect(card.autoHeight).toEqual(null);
+  });
+
+  it('removes the overflow attribute when reset', () => {
+    card.overflow = 'hidden';
+    expect(card.getAttribute('overflow')).toEqual('hidden');
+
+    card.overflow = 'auto';
+    expect(card.getAttribute('overflow')).toEqual(null);
+  });
+
+  it('add the overflow class when reset', () => {
+    card.overflow = 'hidden';
+    card.template();
+    expect(card.container.querySelector('.ids-card-content').classList.contains('overflow-hidden')).toBeTruthy();
   });
 
   it('supports setting mode', () => {

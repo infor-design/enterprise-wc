@@ -223,7 +223,6 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    */
   getDropareaLabel(hasBrowse) {
     const toBool = IdsStringUtils.stringToBool;
-    // const isValid = (/** @type {string} */ s) => typeof s === 'string' && s !== '';
     const text = shared.slotVal(this.shadowRoot, 'text-droparea');
     const textHasBrowse = shared.slotVal(this.shadowRoot, 'text-droparea-with-browse');
     const link = shared.slotVal(this.shadowRoot, 'text-droparea-with-browse-link');

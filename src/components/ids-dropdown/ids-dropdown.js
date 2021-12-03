@@ -166,8 +166,8 @@ class IdsDropdown extends mix(IdsElement).with(
   }
 
   /**
-   * If set to true the tag has an x to dismiss
-   * @param {boolean|string} value true of false depending if the tag is dismissed
+   * Set the `label` text
+   * @param {string} value of the `label` text property
    */
   set label(value) {
     this.setAttribute('label', value);
@@ -245,24 +245,20 @@ class IdsDropdown extends mix(IdsElement).with(
     if (isReadonly) {
       if (this.input) {
         this.removeAttribute('disabled');
-        this.inputRoot.readonly = true;
-        this.inputRoot.disabled = false;
+        this.container.readonly = true;
+        this.container.disabled = false;
         this.inputRoot.cursor = 'text';
         this.inputRoot.bgTransparent = false;
-        this.trigger.readonly = true;
-        this.trigger.disabled = false;
       }
       this.setAttribute('readonly', 'true');
       return;
     }
 
     if (this.input) {
-      this.inputRoot.readonly = false;
-      this.inputRoot.disabled = false;
+      this.container.readonly = false;
+      this.container.disabled = false;
       this.inputRoot.cursor = 'pointer';
       this.inputRoot.bgTransparent = true;
-      this.trigger.readonly = false;
-      this.trigger.disabled = false;
     }
     this.removeAttribute('readonly');
   }
@@ -280,24 +276,19 @@ class IdsDropdown extends mix(IdsElement).with(
     if (isDisabled) {
       if (this.inputRoot) {
         this.removeAttribute('readonly');
-        this.inputRoot.disabled = true;
-        this.inputRoot.readonly = false;
+        this.container.disabled = true;
+        this.container.readonly = false;
         this.inputRoot.cursor = 'initial';
-        this.inputRoot.bgTransparent = true;
-        this.trigger.disabled = true;
-        this.trigger.readonly = false;
+        this.inputRoot.bgTransparent = false;
       }
       this.setAttribute('disabled', 'true');
       return;
     }
 
     if (this.input) {
-      this.inputRoot.disabled = false;
-      this.inputRoot.readonly = false;
+      this.container.disabled = false;
       this.inputRoot.cursor = 'pointer';
-      this.inputRoot.bgTransparent = false;
-      this.trigger.disabled = false;
-      this.trigger.readonly = false;
+      this.inputRoot.bgTransparent = true;
     }
     this.removeAttribute('disabled');
   }
@@ -311,7 +302,7 @@ class IdsDropdown extends mix(IdsElement).with(
    * @private
    * @param {HTMLElement} option the option to select
    */
-   #selectOption(option) {
+  #selectOption(option) {
     option?.setAttribute('aria-selected', 'true');
     option?.classList.add('is-selected');
   }
@@ -322,12 +313,12 @@ class IdsDropdown extends mix(IdsElement).with(
    * @param {HTMLElement} option the option to select
    */
   #selectIcon(option) {
-     if (!this.hasIcons) {
-       return;
-     }
-     const icon = option.querySelector('ids-icon');
-     this.shadowRoot.querySelector('.icon-container ids-icon').setAttribute('icon', icon.getAttribute('icon'));
-   }
+    if (!this.hasIcons) {
+      return;
+    }
+    const icon = option.querySelector('ids-icon');
+    this.shadowRoot.querySelector('.icon-container ids-icon').setAttribute('icon', icon.getAttribute('icon'));
+  }
 
   /**
    * Set the tooltip to be visible for the selected option

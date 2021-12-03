@@ -181,7 +181,7 @@ class IdsPopup extends mix(IdsElement).with(
         }
       }
     }
-  })
+  });
 
   /**
    * Watches for resizing that occurs whenever the page changes dimensions, and re-applies some
@@ -199,7 +199,7 @@ class IdsPopup extends mix(IdsElement).with(
         }
       }
     }
-  })
+  });
 
   /**
    * Places the Popup and performs an adjustment to its `transform: matrix3d()`

@@ -680,6 +680,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   #updateRelativeBounds() {
     const relativeBoundsAttr = this.getAttribute(attributes.RELATIVE_BOUNDS);
     const newBounds = Object.fromEntries(relativeBoundsAttr.split(';').map((str) => {
+      // eslint-disable-next-line no-unsafe-optional-chaining
       const [kStr, vStr] = str?.split?.(':');
       return [kStr, !Number.isNaN(parseInt(vStr)) ? parseInt(vStr) : 0];
     }));
