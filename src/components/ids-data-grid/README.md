@@ -93,7 +93,7 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 - `alternateRowShading` {boolean} For better scan-ability you can shade alternate rows.
 - `listStyle` {boolean} Sets the style of the grid to list style for simple readonly lists.
 - `columns` {Array<object>} Sets the data array of the datagrid. This can be a JSON Array.
-- `rowHeight` {string|number} Sets the height of each row
+- `rowHeight` {string | 'xs' | 'sm' | 'md' | 'lg'} Sets the height of each row
 - `data` {Array<object>} Sets the columns array of the datagrid. See column settings.
 - `rowSelection` {string|boolean} Set the row selection mode between false, 'single', 'multiple' and 'mixed
 - `supressRowDeactivation` {boolean} Set to true to prevent rows from being deactivated if clicked. i.e. once a row is activated, it remains activated until another row is activated in its place.
