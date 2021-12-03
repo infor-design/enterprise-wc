@@ -669,7 +669,6 @@ class IdsMenuItem extends mix(IdsElement).with(
   get text() {
     const textNode = (n) => ((n.nodeType === Node.TEXT_NODE) || (n.name === 'ids-text'));
     return [...this.childNodes].find((i) => textNode(i)).textContent.trim();
-    // return [...this.childNodes].find((i) => i.nodeType === Node.TEXT_NODE).textContent.trim();
   }
 
   /**
