@@ -37,14 +37,17 @@ class IdsProcessStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
 
     requestAnimationFrame(() => {
       const parentElement = this.parentElement;
-      console.log(this.parentElement.getBoundingClientRect())
       if (parentElement.tagName === 'IDS-PROCESS-INDICATOR') {
-        const parentWidth = parentElement.getBoundingClientRect().width;
-        const stepAmount = parentElement.querySelectorAll('ids-process-step').length;
-        const stepWidth = parentWidth / stepAmount;
-        this.container.style.setProperty('--step-width', stepWidth);
+        const steps = this.parentElement.querySelectorAll('ids-process-step');
+        const stepAmount = steps.length;
+        if (steps[stepAmount - 1] === this) {
+          // don't render the line for the last step
+          this.container.querySelector('.line').setAttribute('hidden', '');
+        } else {
+          // render the line, depending on if it has a status
+        }
       }
-    })
+    });
   }
 
   /**
@@ -66,13 +69,14 @@ class IdsProcessStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
   template() {
     return `
       <div class="ids-process-step">
+        <div class="line"></div>
         <ids-text part="label" class="label">
-        ${this.label}
+          ${this.label}
         </ids-text>
         <span class="step"></span>
-          <div class="details">
-            <slot></slot>
-          </div>
+        <div class="details">
+          <slot></slot>
+        </div>
       </div>
     `;
   }

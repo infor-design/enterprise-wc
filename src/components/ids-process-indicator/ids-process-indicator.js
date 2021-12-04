@@ -28,15 +28,6 @@ class IdsProcessIndicator extends mix(IdsElement).with(IdsThemeMixin) {
 
   connectedCallback() {
     this.#calculateProgressLine();
-
-    requestAnimationFrame(() => {
-      const lastStep = this.querySelector('ids-process-step:last-child');
-      const containerWidth = this.getBoundingClientRect().width;
-      const lastStepWidth = lastStep.getBoundingClientRect().width;
-      // const lineWidth = `${containerWidth - lastStepWidth}px`
-      const lineWidth = `calc(100% - ${lastStepWidth}px)`
-      this.container.style.setProperty('--line-width', lineWidth);
-    });
   }
 
   static get attributes() {
@@ -76,9 +67,6 @@ class IdsProcessIndicator extends mix(IdsElement).with(IdsThemeMixin) {
   template() {
     return `
       <div class="ids-process-indicator">
-        <span class="line">
-        <span class="progress-line"></span>
-        </span>
         <span class="step-container">
           <slot></slot>
         </span>

@@ -1,32 +1,12 @@
 @import '../../core/ids-base';
 
 .ids-process-indicator {
-  // display: flex;
   width: 100%;
   height: 100px;
-  // align-items: center;
 
-  .line {
-    position: absolute;
-    width: var(--line-width);
-    height: 2px;
-    background-color: var(--ids-color-palette-slate-30);
-    align-items: center;
-    transform: translate(0, 34px);
+  .step-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
   }
-  
-      .step-container {
-        border: 1px red solid;
-        display: flex;
-        // position: relative;
-        justify-content: space-between;
-        width: 100%;
-      }
-      
-            .progress-line {
-              position: absolute;
-              width: var(--percentEnd);
-              height: 2px;
-              background-color: var(--ids-color-palette-azure-70);
-            }
 }

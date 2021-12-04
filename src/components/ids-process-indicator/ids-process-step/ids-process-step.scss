@@ -1,12 +1,14 @@
 @import '../../../core/ids-base';
 
 :host {
-  border: 1px solid blue;
-  // transform: translate(0, -20px);
   display: flex;
+  position: relative;
   flex: 1;
-  // width: var(--step-width);
-  margin: 0 5px 4px 0;
+}
+
+::slotted(*) {
+  display: block;
+  margin: 0 5px 0 0;
 }
 
 .ids-process-step {
@@ -15,8 +17,14 @@
   --active-color: var(--ids-color-palette-azure-70);
   --base-color: var(--ids-color-palette-slate-30);
   --cancelled-color: var(--ids-color-status-danger);
-  // --step-width: 160px;
-
+  
+  .line {
+    position: absolute;
+    transform: translate(0, 36px);
+    height: 2px;
+    width: 100%;
+    background-color: green;
+  }
   &[mode='dark'] {
     --bg-color: #3e3e42;
 
@@ -36,11 +44,9 @@
     }
   }
 
-  // display: flex;
-
   .step {
     display: flex;
-    transform: translate(0, -50%);
+    transform: translate(0, -75%);
     height: 11px;
     width: 11px;
     border-radius: 50%;
@@ -48,33 +54,19 @@
     border: 2px solid var(--base-color);
   }
 
-  // .contents {
-  //   transform: translate(0, -40px);
-  // }
-
   .details {
-    // transform: translate(0, 20px);
-    // position: absolute;
-    // width: var(--step-width);
-    // min-width: 130px;
-    // word-break: break-word;
-    // white-space: nowrap;
+    margin: 0 5px 4px 0;
   }
 
   ids-text {
     &::part(text) {
       color: var(--ids-color-palette-slate-60);
+      margin: 0 5px 4px 0;
     }
 
     &.label {
-      margin: 0 5px 4px 0;
+      margin: 0 5px 0 0;
       white-space: nowrap;
-      // position: absolute;
-      // bottom: 40px;
-      // transform: translate(0, -50px);
-      // width: var(--step-width);
-      // min-width: 130px;
-      // word-break: break-word;
     }
   }
 
@@ -105,11 +97,11 @@
     height: 18px;
     background-color: var(--cancelled-color);
     border: 0;
+    justify-content: center;
 
     ids-icon {
       display: flex;
       justify-content: center;
-      transform: translate(0, 4px);
       color: var(--bg-color);
     }
   }
