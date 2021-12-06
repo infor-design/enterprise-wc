@@ -2,8 +2,38 @@
 
 :host {
   display: flex;
-  position: relative;
   flex: 1;
+  position: relative;
+
+  @media (min-width: $breakpoint-xs) {
+
+    .label {
+      display: none;
+    }
+
+    .details {
+      display: none;
+    }
+
+    .step {
+      margin-top: 40px;
+    }
+  }
+
+  @media (min-width: $breakpoint-md) {
+
+    .details {
+      display: unset;
+    }
+
+    .label {
+      display: unset;
+    }
+
+    .step {
+      margin-top: unset;
+    }
+  }
 }
 
 ::slotted(*) {
@@ -12,11 +42,24 @@
 }
 
 .ids-process-step {
+  // NEW LIGHT / DEFAULTS
   --bg-color: #fff;
   --primary-color: var(--ids-color-palette-azure-70);
   --active-color: var(--ids-color-palette-azure-70);
   --base-color: var(--ids-color-palette-slate-30);
   --cancelled-color: var(--ids-color-status-danger);
+
+  ids-text {
+    &::part(text) {
+      color: var(--ids-color-palette-slate-60);
+      margin: 0 5px 4px 0;
+    }
+    
+    &.label {
+      margin: 0 5px 0 0;
+      white-space: nowrap;
+    }
+  }
   
   .line {
     position: absolute;
@@ -25,25 +68,7 @@
     width: 100%;
     background-color: var(--ids-color-palette-slate-30);
   }
-  &[mode='dark'] {
-    --bg-color: #3e3e42;
-
-    ids-text::part(text) {
-      color: var(--ids-color-palette-slate-30);
-    }
-  }
-
-  &[mode='contrast'] {
-    --bg-color: var(--ids-color-palette-slate-10);
-    --active-color: var(--ids-color-palette-azure-50);
-    --primary-color: var(--ids-color-palette-azure-100);
-    --cancelled-color: #7b0f11;
-
-    ids-text::part(text) {
-      color: var(--ids-color-palette-slate-90);
-    }
-  }
-
+  
   .step {
     display: flex;
     transform: translate(0, -75%);
@@ -54,28 +79,33 @@
     border: 2px solid var(--base-color);
   }
 
-  .details {
-    margin: 0 5px 4px 0;
-  }
+  // NEW DARK
+  &[mode='dark'] {
+    --bg-color: #3e3e42;
 
-  ids-text {
-    &::part(text) {
-      color: var(--ids-color-palette-slate-60);
-      margin: 0 5px 4px 0;
-    }
-
-    &.label {
-      margin: 0 5px 0 0;
-      white-space: nowrap;
+    ids-text::part(text) {
+      color: var(--ids-color-palette-slate-30);
     }
   }
 
+  // NEW CONTRAST
+  &[mode='contrast'] {
+    --bg-color: var(--ids-color-palette-slate-10);
+    --active-color: var(--ids-color-palette-azure-50);
+    --primary-color: var(--ids-color-palette-azure-100);
+    --cancelled-color: #7b0f11;
+
+    ids-text::part(text) {
+      color: var(--ids-color-palette-slate-90);
+    }
+  }
+  
   // CLASSIC
   &[version='classic'] {
     &[mode='light'] {
       --bg-color: #eee;
     }
-
+    
     &[mode='dark'] {
       --bg-color: #212224;
 
@@ -91,6 +121,7 @@
   }
 }
 
+// step styling based on status
 :host([status='cancelled']) {
   .step {
     width: 18px;
