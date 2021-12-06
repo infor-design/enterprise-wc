@@ -302,6 +302,25 @@ describe('IdsLookup Component', () => {
     expect(lookup.validationEvents).toEqual('change blur');
   });
 
+  it('adding validation dynamically', async () => {
+    lookup = createFromTemplate(lookup, `<ids-lookup id="lookup-5" label="Dynamic Validation"></ids-lookup>`);
+    await waitFor(() => expect(lookup.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
+
+    document.querySelector('ids-lookup').validate = 'required';
+    const triggerElem = lookup.shadowRoot.querySelector('ids-trigger-field');
+    const inputElem = lookup.shadowRoot.querySelector('ids-input');
+    expect(triggerElem.getAttribute('validate')).toEqual('required');
+    expect(triggerElem.getAttribute('validation-events')).toEqual('change blur');
+    expect(inputElem.labelEl).not.toEqual(undefined);
+
+    document.querySelector('ids-lookup').validate = '';
+    expect(triggerElem.getAttribute('validate')).toEqual(null);
+    expect(triggerElem.getAttribute('validation-events')).toEqual(null);
+    expect(inputElem.labelEl).not.toEqual(undefined);
+
+    expect(lookup.getAttribute('validate')).toEqual(null);
+  });
+
   it('supports validation', async () => {
     lookup = createFromTemplate(lookup, `<ids-lookup id="lookup-5" label="Dropdown with Icons" validate="true">
      </ids-lookup>`);
