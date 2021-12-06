@@ -23,7 +23,7 @@
     transform: translate(0, 36px);
     height: 2px;
     width: 100%;
-    background-color: green;
+    background-color: var(--ids-color-palette-slate-30);
   }
   &[mode='dark'] {
     --bg-color: #3e3e42;

@@ -13,6 +13,7 @@ import {
 } from '../../../mixins';
 
 import styles from './ids-process-step.scss';
+import { IdsStringUtils } from '../../../utils/ids-string-utils';
 
 const statuses = ['cancelled', 'started', 'done'];
 
@@ -40,11 +41,15 @@ class IdsProcessStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
       if (parentElement.tagName === 'IDS-PROCESS-INDICATOR') {
         const steps = this.parentElement.querySelectorAll('ids-process-step');
         const stepAmount = steps.length;
+
+        const line = this.container.querySelector('.line');
+
         if (steps[stepAmount - 1] === this) {
           // don't render the line for the last step
-          this.container.querySelector('.line').setAttribute('hidden', '');
+          line.setAttribute('hidden', '');
         } else {
-          // render the line, depending on if it has a status
+          // render the line, conditionally color it based on status
+          this.status && line.style.setProperty('background-color', 'var(--ids-color-palette-azure-70)');
         }
       }
     });
@@ -88,7 +93,7 @@ class IdsProcessStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
   }
 
   getString(attribute, defaultValue) {
-    const result = this.getAttribute(attribute) || (defaultValue ?? '');
+    const result = this.getAttribute(attribute) ?? (defaultValue ?? '');
     return result;
   }
 
@@ -102,6 +107,10 @@ class IdsProcessStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
 
   get label() {
     return this.getString(attributes.LABEL);
+  }
+
+  get status() {
+    return IdsStringUtils.stringToBool(this.getAttribute('status'));
   }
 
   /**
@@ -123,10 +132,6 @@ class IdsProcessStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
         this.container.querySelector('.step').insertAdjacentHTML('beforeend', `<ids-icon icon="close" size="xsmall"></ids-icon>`);
       }
     }
-  }
-
-  get status() {
-    return this.getString(attributes.STATUS, '');
   }
 }
 

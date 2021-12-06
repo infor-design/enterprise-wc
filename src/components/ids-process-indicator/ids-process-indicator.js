@@ -27,37 +27,12 @@ class IdsProcessIndicator extends mix(IdsElement).with(IdsThemeMixin) {
   }
 
   connectedCallback() {
-    this.#calculateProgressLine();
   }
 
   static get attributes() {
     return [
       ...super.attributes,
     ];
-  }
-
-  #calculateProgressLine() {
-    requestAnimationFrame(() => {
-      const steps = this.querySelectorAll('ids-process-step');
-
-      if (steps.length >= 2) {
-        let lastStatusStep = 0;
-
-        steps.forEach((step, i) => {
-          const status = step.getAttribute('status');
-
-          if (status) {
-            if (i > lastStatusStep) {
-              lastStatusStep = i;
-            }
-          }
-        });
-
-        const n = lastStatusStep;
-        const percent = (100 / (steps.length - 1)) * n;
-        this.container.querySelector('.progress-line').style.setProperty('--percentEnd', `${percent}%`);
-      }
-    });
   }
 
   /**
