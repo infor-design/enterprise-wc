@@ -47,9 +47,9 @@ class IdsProcessStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
         if (steps[stepAmount - 1] === this) {
           // don't render the line for the last step
           line.setAttribute('hidden', '');
-        } else {
+        } else if (this.status === 'started' || this.status === 'done') {
           // render the line, conditionally color it based on status
-          this.status && line.style.setProperty('background-color', 'var(--ids-color-palette-azure-70)');
+          line.style.setProperty('background-color', 'var(--ids-color-palette-azure-70)');
         }
       }
     });
@@ -110,7 +110,8 @@ class IdsProcessStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
   }
 
   get status() {
-    return IdsStringUtils.stringToBool(this.getAttribute('status'));
+    const status = this.getAttribute(attributes.STATUS);
+    return statuses.includes(status) ? status : '';
   }
 
   /**

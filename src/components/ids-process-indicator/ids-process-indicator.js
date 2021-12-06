@@ -26,7 +26,24 @@ class IdsProcessIndicator extends mix(IdsElement).with(IdsThemeMixin) {
     super();
   }
 
+  #activeStepLabel;
+
   connectedCallback() {
+    // set the active step label for xs heading
+    requestAnimationFrame(() => {
+      let activeStep;
+
+      const steps = this.querySelectorAll('ids-process-step');
+      if (steps) {
+        for (const step of steps) {
+          if (step.status === 'started') {
+            activeStep = step;
+            break;
+          }
+        }
+        this.container.querySelector('.xs-header .label').innerHTML = activeStep.label;
+      }
+    });
   }
 
   static get attributes() {
@@ -41,11 +58,15 @@ class IdsProcessIndicator extends mix(IdsElement).with(IdsThemeMixin) {
    */
   template() {
     return `
-      <div class="ids-process-indicator">
-        <span class="step-container">
-          <slot></slot>
-        </span>
-      </div>
+    <div class="ids-process-indicator">
+      <span class="step-container">
+        <div class="xs-header">
+          <ids-text>Current: </ids-text>
+          <ids-text class="label" font-weight="bold"></ids-text>
+        </div>
+        <slot></slot>
+      </span>
+    </div>
     `;
   }
 }
