@@ -1,17 +1,17 @@
 /* eslint-disable quote-props */
 const path = require('path');
-const fs = require("fs")
+const fs = require("fs");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-//const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
+const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
 
-const listFiles = ( dirPath, fileType, fileOptions ) => {
-  files = fs.readdirSync( dirPath )
-  fileOptions = fileOptions || []
-  files.forEach( file => {
-    if ( fs.statSync(dirPath + "/" + file).isDirectory( ) ) {
-      fileOptions = listFiles(dirPath + "/" + file, fileType, fileOptions)
+const listFiles = (dirPath, fileType, fileOptions) => {
+  const files = fs.readdirSync(dirPath);
+  fileOptions = fileOptions || [];
+  files.forEach((file) => {
+    if (fs.statSync(`${dirPath}/${file}`).isDirectory()) {
+      fileOptions = listFiles(`${dirPath}/${file}`, fileType, fileOptions);
     } else {
       file.split('.')[1] === fileType ?  (Array.isArray(fileOptions) ? fileOptions.push(path.join(__dirname, dirPath, "/", file)) : fileOptions[path.join(file.split('.')[0])] = path.join(__dirname, dirPath, "/", file)) : ''
     }
@@ -102,5 +102,5 @@ module.exports = {
     })
   ],
   devtool: 'source-map',
-  mode: 'production' //isProduction ? 'production' : 'development'
+  mode: isProduction
 };
