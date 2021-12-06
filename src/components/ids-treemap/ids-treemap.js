@@ -204,7 +204,7 @@ class IdsTreeMap extends mix(IdsElement).with(
    * @memberof IdsTreeMap
    * @private
    */
-  getMaximum = (array) => Math.max(...array);
+  #getMaximum = (array) => Math.max(...array);
 
   /**
    * Get min number
@@ -213,7 +213,7 @@ class IdsTreeMap extends mix(IdsElement).with(
    * @memberof IdsTreeMap
    * @private
    */
-  getMinimum = (array) => Math.min(...array);
+  #getMinimum = (array) => Math.min(...array);
 
   /**
    * Sum Reducer
@@ -223,7 +223,7 @@ class IdsTreeMap extends mix(IdsElement).with(
    * @memberof IdsTreeMap
    * @private
    */
-  sumReducer = (acc, cur) => acc + cur;
+  #sumReducer = (acc, cur) => acc + cur;
 
   /**
    * Round Value
@@ -232,7 +232,7 @@ class IdsTreeMap extends mix(IdsElement).with(
    * @memberof IdsTreeMap
    * @private
    */
-  roundValue = (number) => Math.max(Math.round(number * 100) / 100, 0);
+  #roundValue = (number) => Math.max(Math.round(number * 100) / 100, 0);
 
   /**
    * Validate the treemap object.
@@ -242,7 +242,7 @@ class IdsTreeMap extends mix(IdsElement).with(
    * @memberof IdsTreeMap
    * @private
    */
-  validateArguments = ({ data, height }) => {
+  #validateArguments = ({ data, height }) => {
     if (!height || typeof height !== 'number' || height < 0) {
       throw new Error('You need to specify the height of your treemap');
     }
@@ -259,10 +259,10 @@ class IdsTreeMap extends mix(IdsElement).with(
    * @memberof IdsTreeMap
    * @private
    */
-  worstRatio = (row, width) => {
-    const sum = row.reduce(this.sumReducer, 0);
-    const rowMax = this.getMaximum(row);
-    const rowMin = this.getMinimum(row);
+  #worstRatio = (row, width) => {
+    const sum = row.reduce(this.#sumReducer, 0);
+    const rowMax = this.#getMaximum(row);
+    const rowMin = this.#getMinimum(row);
     return Math.max(((width ** 2) * rowMax) / (sum ** 2), (sum ** 2) / ((width ** 2) * rowMin));
   };
 
@@ -272,7 +272,7 @@ class IdsTreeMap extends mix(IdsElement).with(
    * @memberof IdsTreeMap
    * @private
    */
-  getMinWidth = () => {
+  #getMinWidth = () => {
     if (this.Rectangle.totalHeight ** 2 > this.Rectangle.totalWidth ** 2) {
       return { value: this.Rectangle.totalWidth, vertical: false };
     }
@@ -287,8 +287,8 @@ class IdsTreeMap extends mix(IdsElement).with(
    * @memberof IdsTreeMap
    * @private
    */
-  layoutRow = (row, width, vertical) => {
-    const rowHeight = row.reduce(this.sumReducer, 0) / width;
+  #layoutRow = (row, width, vertical) => {
+    const rowHeight = row.reduce(this.#sumReducer, 0) / width;
 
     row.forEach((rowItem) => {
       const rowWidth = rowItem / rowHeight;
@@ -339,10 +339,10 @@ class IdsTreeMap extends mix(IdsElement).with(
    * @param {number} width number
    * @memberof IdsTreeMap
    */
-  layoutLastRow = (rows, children, width) => {
-    const { vertical } = this.getMinWidth();
-    this.layoutRow(rows, width, vertical);
-    this.layoutRow(children, width, vertical);
+  #layoutLastRow = (rows, children, width) => {
+    const { vertical } = this.#getMinWidth();
+    this.#layoutRow(rows, width, vertical);
+    this.#layoutRow(children, width, vertical);
   };
 
   /**
@@ -354,20 +354,20 @@ class IdsTreeMap extends mix(IdsElement).with(
    * @memberof IdsTreeMap
    * @private
    */
-  squarify = (children, row, width) => {
+  #squarify = (children, row, width) => {
     if (children.length === 1) {
-      return this.layoutLastRow(row, children, width);
+      return this.#layoutLastRow(row, children, width);
     }
 
     const rowWithChild = [...row, children[0]];
 
-    if (row.length === 0 || this.worstRatio(row, width) >= this.worstRatio(rowWithChild, width)) {
+    if (row.length === 0 || this.#worstRatio(row, width) >= this.#worstRatio(rowWithChild, width)) {
       children.shift();
-      return this.squarify(children, rowWithChild, width);
+      return this.#squarify(children, rowWithChild, width);
     }
 
-    this.layoutRow(row, width, this.getMinWidth().vertical);
-    return this.squarify(children, [], this.getMinWidth().value);
+    this.#layoutRow(row, width, this.#getMinWidth().vertical);
+    return this.#squarify(children, [], this.#getMinWidth().value);
   };
 
   /**
@@ -380,7 +380,7 @@ class IdsTreeMap extends mix(IdsElement).with(
    * @memberof IdsTreeMap
    */
   treeMap({ data, width, height }) {
-    this.validateArguments({ data, width, height });
+    this.#validateArguments({ data, width, height });
 
     this.width = this.container.offsetWidth;
     this.height = height;
@@ -394,17 +394,17 @@ class IdsTreeMap extends mix(IdsElement).with(
     };
 
     this.initialData = data;
-    const totalValue = data.map((dataPoint) => dataPoint.value).reduce(this.sumReducer, 0);
+    const totalValue = data.map((dataPoint) => dataPoint.value).reduce(this.#sumReducer, 0);
     const dataScaled = data.map((dataPoint) => (dataPoint.value * this.height * this.width) / totalValue);
 
-    this.squarify(dataScaled, [], this.getMinWidth().value);
+    this.#squarify(dataScaled, [], this.#getMinWidth().value);
 
     return this.Rectangle.data.map((dataPoint) => ({
       ...dataPoint,
-      x: this.roundValue(dataPoint.x),
-      y: this.roundValue(dataPoint.y),
-      width: this.roundValue(dataPoint.width),
-      height: this.roundValue(dataPoint.height),
+      x: this.#roundValue(dataPoint.x),
+      y: this.#roundValue(dataPoint.y),
+      width: this.#roundValue(dataPoint.width),
+      height: this.#roundValue(dataPoint.height),
     }));
   }
 
