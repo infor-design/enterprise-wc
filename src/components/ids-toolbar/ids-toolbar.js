@@ -58,7 +58,11 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
     // After repaint
     requestAnimationFrame(() => {
       this.makeTabbable(this.detectTabbable());
-      this.#resize();
+
+      // Perform resize calculation after all children have rendered
+      requestAnimationFrame(() => {
+        this.#resize();
+      });
     });
     super.connectedCallback();
   }

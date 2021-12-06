@@ -37,8 +37,12 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
     requestAnimationFrame(() => {
       this.render();
       this.refresh();
-
       this.#attachEventHandlers();
+
+      // Connect the menu items to their Toolbar items after everything is rendered
+      requestAnimationFrame(() => {
+        this.connectOverflowedItems();
+      });
     });
   }
 
@@ -73,17 +77,61 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
     </ids-menu-group>`;
   }
 
-  moreActionsItemTemplate(item) {
+  moreActionsItemTemplate(item, isSubmenuItem = false) {
     let text = '';
     let icon = '';
+    let hidden = '';
     let disabled = '';
-    const overflowed = this.isOverflowed(item) ? '' : ' hidden';
+    let submenu = '';
+    let overflowed = '';
+
+    if (!isSubmenuItem) {
+      overflowed = this.isOverflowed(item) ? '' : ' hidden';
+    }
+
+    // NOTE: the `hidden` property is not identified on buttons by design,
+    // since the "hidden" attribute is appended to the Toolbar Items
+    // to control their visibility when overflowed.
+    const handleButton = (thisItem) => {
+      if (thisItem.disabled) disabled = ' disabled';
+      if (thisItem.icon) icon = ` icon="${thisItem.icon}"`;
+      text = thisItem.text;
+    };
+
+    // Top-level Menus/Submenus are handled by this same method
+    const handleSubmenu = (thisItem) => {
+      const menuProp = isSubmenuItem ? 'submenu' : 'menuEl';
+
+      if (thisItem[menuProp]) {
+        const thisSubItems = thisItem[menuProp].items;
+        submenu = `<ids-popup-menu slot="submenu">
+          ${thisSubItems.map((subItem) => this.moreActionsItemTemplate(subItem, true)).join('') || ''}
+        </ids-popup-menu>`;
+      }
+    };
+
+    // These represent menu items in top-level menu buttons, which can be hidden.
+    const handleMenuItem = (thisItem) => {
+      if (thisItem.disabled) disabled = ' disabled';
+      if (thisItem.icon) icon = ` icon="${thisItem.icon}"`;
+      if (thisItem.hidden) hidden = ` hidden`;
+      text = thisItem.text;
+
+      if (thisItem.submenu) {
+        handleSubmenu(thisItem);
+      }
+    };
 
     switch (item.tagName) {
+    case 'IDS-MENU-BUTTON':
+      handleButton(item);
+      handleSubmenu(item);
+      break;
+    case 'IDS-MENU-ITEM':
+      handleMenuItem(item, isSubmenuItem);
+      break;
     case 'IDS-BUTTON':
-      if (item.disabled) disabled = ' disabled';
-      if (item.icon) icon = ` icon="${item.icon}"`;
-      text = item.text;
+      handleButton(item);
       break;
     default:
       text = item.textContent;
@@ -91,9 +139,12 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
     }
 
     // Sanitize text from Toolbar elements to fit menu items
-    text = IdsStringUtils.removeNewLines(text);
+    text = IdsStringUtils.removeNewLines(text).trim();
 
-    return `<ids-menu-item${disabled}${icon}${overflowed}>${text}</ids-menu-item>`;
+    return `<ids-menu-item${disabled}${icon}${hidden || overflowed}>
+      ${text}
+      ${submenu}
+    </ids-menu-item>`;
   }
 
   /**
@@ -125,7 +176,11 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {Array<IdsMenuItem|IdsMenuGroup>} list of menu items that mirror Toolbar items
    */
   get overflowMenuItems() {
-    return [...this.querySelector('[more-actions]').children];
+    const moreActionsMenu = this.querySelector('[more-actions]');
+    if (moreActionsMenu) {
+      return [...this.querySelector('[more-actions]').children];
+    }
+    return [];
   }
 
   /**
@@ -190,7 +245,6 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
   refresh() {
     this.menu.popup.align = 'bottom, right';
     this.menu.popup.alignEdge = 'bottom';
-    this.connectOverflowedItems();
   }
 
   /**
@@ -199,12 +253,12 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
    */
   refreshOverflowedItems() {
     this.overflowMenuItems.forEach((item) => {
-      const doHide = !this.isOverflowed(item.target);
+      const doHide = !this.isOverflowed(item.overflowTarget);
       item.hidden = doHide;
       if (doHide) {
-        item.target.removeAttribute('overflowed');
+        item.overflowTarget.removeAttribute('overflowed');
       } else {
-        item.target.setAttribute('overflowed', '');
+        item.overflowTarget.setAttribute('overflowed', '');
       }
     });
   }
@@ -214,13 +268,30 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {void}
    */
   connectOverflowedItems() {
+    // Render the "More Actions" area if it doesn't exist
     const el = this.querySelector('[more-actions]');
     if (!el) {
       this.insertAdjacentHTML('afterbegin', this.moreActionsMenuTemplate());
     }
 
+    // Connects Overflow Menu subitems with corresponding menu items in the Toolbar
+    // (generally by way of IdsMenuButtons or other menu-driven components)
+    const handleSubmenu = (thisItem, overflowTargetMenu) => {
+      [...thisItem.submenu.children].forEach((item, i) => {
+        item.overflowTarget = overflowTargetMenu.items[i];
+        if (item.submenu) {
+          handleSubmenu(item, item.overflowTarget.submenu);
+        }
+      });
+    };
+
+    // Connect all "More Action" items generated from Toolbar Elements to their
+    // real counterparts in the Toolbar
     this.overflowMenuItems.forEach((item, i) => {
-      item.target = this.toolbar.items[i];
+      item.overflowTarget = this.toolbar.items[i];
+      if (item.submenu) {
+        handleSubmenu(item, item.overflowTarget.menuEl);
+      }
     });
   }
 
