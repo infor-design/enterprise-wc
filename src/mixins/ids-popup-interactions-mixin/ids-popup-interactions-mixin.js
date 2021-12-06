@@ -4,7 +4,15 @@ import { IdsEventsMixin } from '../ids-events-mixin';
 const POPUP_TRIGGER_TYPES = [
   'contextmenu',
   'click',
+  'hover',
   'immediate'
+];
+
+const POPUP_INTERACTION_EVENT_NAMES = [
+  'click.trigger',
+  'contextmenu.trigger',
+  'hoverend.trigger',
+  'mouseleave.trigger'
 ];
 
 /**
@@ -53,6 +61,18 @@ const IdsPopupInteractionsMixin = (superclass) => class extends superclass {
    * are currently applied to this component
    */
   hasTriggerEvents = false;
+
+  /**
+   * @property {number} popupDelay duration in miliseconds to delay a `mouseenter` event.
+   *  Used in Popups configured to use the `hover` interaction.
+   */
+  popupDelay = 500;
+
+  /**
+   * @private
+   * @property {Window}
+   */
+  #currentPopupTarget = window;
 
   /**
    * @readonly
@@ -149,6 +169,23 @@ const IdsPopupInteractionsMixin = (superclass) => class extends superclass {
         }
       });
       break;
+    case 'hover':
+      this.onEvent('hoverend.trigger', targetElem, (e) => {
+        if (typeof this.onTriggerHover === 'function') {
+          this.onTriggerHover(e);
+        }
+      }, { delay: this.popupDelay });
+      this.onEvent('mouseleave.trigger', targetElem, (e) => {
+        if (typeof this.onCancelHover === 'function') {
+          this.onCancelHover(e);
+        }
+      });
+      this.onEvent('click.trigger', targetElem, (e) => {
+        if (typeof this.onTriggerHoverClick === 'function') {
+          this.onTriggerHoverClick(e);
+        }
+      });
+      break;
     case 'immediate':
       if (typeof this.onTriggerImmediate === 'function') {
         this.onTriggerImmediate();
@@ -158,6 +195,7 @@ const IdsPopupInteractionsMixin = (superclass) => class extends superclass {
       break;
     }
 
+    this.#currentPopupTarget = targetElem;
     this.hasTriggerEvents = true;
   }
 
@@ -167,13 +205,8 @@ const IdsPopupInteractionsMixin = (superclass) => class extends superclass {
    */
   removeTriggerEvents() {
     this.alignTarget?.removeAttribute('aria-controls');
-
-    const removeEventTargets = ['contextmenu.trigger', 'click.trigger'];
-    removeEventTargets.forEach((eventName) => {
-      const evt = this.handledEvents.get(eventName);
-      if (evt) {
-        this.detachEventsByName(eventName);
-      }
+    POPUP_INTERACTION_EVENT_NAMES.forEach((eventName) => {
+      this.detachEventsByName(eventName);
     });
     this.hasTriggerEvents = false;
   }
