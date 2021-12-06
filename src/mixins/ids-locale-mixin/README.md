@@ -20,25 +20,11 @@ this.onEvent('languagechange.component-name-container', this.closest('ids-contai
   // Do something with parent lang
 });
 
-// Respond to the element changing language
-this.offEvent('languagechange.component-name');
-this.onEvent('languagechange.component-name', this, async (e) => {
-  await this.locale.setLanguage(e.detail.language.name);
- // Do something with component lang
-});
-
 // Respond to parent changing locale
 this.offEvent('localechange.component-name-container');
 this.onEvent('localechange.component-name-container', this.closest('ids-container'), async (e) => {
   await this.locale.setLocale(e.detail.locale.name);
   // Do something with parent locale
-});
-
-// Respond to the element changing locale
-this.offEvent('localechange.component-name');
-this.onEvent('localechange.component-name', this, async (e) => {
-  await this.locale.setLocale(e.detail.locale.name);
- // Do something with component locale
 });
 ```
 

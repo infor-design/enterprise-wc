@@ -11,6 +11,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
   }
 
   connectedCallback() {
+    super.connectedCallback?.();
     this.handleValidation();
   }
 

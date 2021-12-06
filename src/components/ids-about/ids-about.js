@@ -74,23 +74,19 @@ export default class IdsAbout extends Base {
    */
   attachEventHandlers() {
     super.attachEventHandlers();
-
     this.#refreshProduct();
     this.#attachCloseButton();
+    this.#refreshDeviceSpecs();
+    this.#refreshCopyright();
 
     // Respond to parent changing language
     this.offEvent('languagechange.about-container');
-    this.onEvent('languagechange.about-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
-    });
-
-    // Respond to the element changing language
-    this.offEvent('languagechange.about');
-    this.onEvent('languagechange.about', this, async (e) => {
-      await this.locale.setLanguage(e.detail.language.name);
+    this.onEvent('languagechange.about-container', this.closest('ids-container'), async () => {
+      this.setDirection();
       this.#refreshDeviceSpecs();
       this.#refreshCopyright();
     });
+
     return this;
   }
 
@@ -193,7 +189,6 @@ export default class IdsAbout extends Base {
     const boolVal = stringToBool(val);
 
     this.setAttribute(attributes.DEVICE_SPECS, boolVal);
-
     this.#refreshDeviceSpecs();
   }
 
@@ -213,8 +208,8 @@ export default class IdsAbout extends Base {
       const element = `<ids-text slot="device" type="p"><span>${this.locale?.translate('OperatingSystem')} : ${specs.os.replace(specs.currentOSVersion, '')} ${specs.currentOSVersion}</span><br/>
         <span>${this.locale?.translate('Platform')} : ${specs.platform}</span><br/>
         <span>${this.locale?.translate('Mobile')} : ${specs.isMobile}</span><br/>
-        <span>${this.locale?.translate('Locale')} : ${this.locale.locale.name}</span><br/>
-        <span>${this.locale?.translate('Language')} : ${this.locale.language.name}</span><br/>
+        <span>${this.locale?.translate('Locale')} : ${this.locale?.locale.name || 'en-US'}</span><br/>
+        <span>${this.locale?.translate('Language')} : ${this.locale?.language.name || 'en'}</span><br/>
         <span>${this.locale?.translate('Browser')} : ${specs.currentBrowser} (${specs.browserVersion})</span><br/>
         <span>${this.locale?.translate('BrowserLanguage')} : ${specs.browserLanguage}</span><br/>
         <span>${this.locale?.translate('CookiesEnabled')} : ${specs.cookiesEnabled}</span><br/>

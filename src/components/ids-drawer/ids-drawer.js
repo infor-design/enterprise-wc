@@ -36,6 +36,13 @@ export default class IdsDrawer extends Base {
     this.#handleEvents();
   }
 
+  #handleEvents() {
+    this.offEvent('languagechange.data-grid-container');
+    this.onEvent('languagechange.data-grid-container', this.closest('ids-container'), async () => {
+      this.setDirection();
+    });
+  }
+
   static get attributes() {
     return [
       ...super.attributes,
@@ -235,17 +242,6 @@ export default class IdsDrawer extends Base {
    * @returns {Array<string>} Drawer vetoable events
    */
   vetoableEventTypes = ['beforeshow', 'beforehide'];
-
-  /**
-   * @returns {void}
-   */
-  #handleEvents() {
-    // Respond to parent changing language
-    this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
-    });
-  }
 
   /**
    * Shows the drawer

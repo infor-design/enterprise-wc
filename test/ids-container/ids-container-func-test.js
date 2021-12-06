@@ -24,6 +24,22 @@ describe('IdsContainer Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
+  it('can set language via async func', async () => {
+    await container.setLanguage('ar');
+    expect(container.getAttribute('dir')).toEqual('rtl');
+  });
+
+  it('can set locale via attribute', () => {
+    container.locale = 'de-DE';
+    expect(container.locale.state.localeName).toEqual('de-DE');
+  });
+
+  it('can set locale via async func', async () => {
+    await container.setLocale('ar-SA');
+    expect(container.localeName).toEqual('ar-SA');
+    expect(container.getAttribute('dir')).toEqual('rtl');
+  });
+
   it('renders correctly', () => {
     container.shadowRoot.querySelector('style').remove();
     expect(container.shadowRoot.innerHTML).toMatchSnapshot();

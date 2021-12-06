@@ -12,7 +12,7 @@ import styles from './ids-contextual-action-panel.scss';
  */
 @customElement('ids-contextual-action-panel')
 @scss(styles)
-class IdsContextualActionPanel extends Base {
+export default class IdsContextualActionPanel extends Base {
   constructor() {
     super();
   }
@@ -80,5 +80,3 @@ class IdsContextualActionPanel extends Base {
     this.offEvent('click.toolbar');
   }
 }
-
-export default IdsContextualActionPanel;

@@ -12,7 +12,7 @@ import styles from './ids-fieldset.scss';
  */
 @customElement('ids-fieldset')
 @scss(styles)
-class IdsFieldset extends Base {
+export default class IdsFieldset extends Base {
   constructor() {
     super();
   }

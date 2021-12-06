@@ -2,9 +2,10 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
+import waitFor from '../helpers/wait-for';
+import processAnimFrame from '../helpers/process-anim-frame';
 
 import IdsDropdown from '../../src/components/ids-dropdown/ids-dropdown';
-import waitFor from '../helpers/wait-for';
 import IdsListBox from '../../src/components/ids-list-box/ids-list-box';
 import IdsListBoxOption from '../../src/components/ids-list-box/ids-list-box-option';
 import IdsInput from '../../src/components/ids-input/ids-input';
@@ -466,8 +467,8 @@ describe('IdsDropdown Component', () => {
   });
 
   it('can changing language from the container', async () => {
-    container.language = 'de';
-    await waitFor(() => expect(dropdown.getAttribute('language')).toEqual('de'));
+    await container.setLanguage('de');
+    await processAnimFrame();
     expect(dropdown.getAttribute('aria-description')).toEqual('Drücken Sie zum Auswählen die Nach-unten-Taste');
   });
 

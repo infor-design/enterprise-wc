@@ -2,7 +2,7 @@ import IdsHyperLink from '../ids-hyperlink/ids-hyperlink';
 
 /* eslint-disable jsdoc/require-returns */
 /* eslint-disable jsdoc/require-param */
-export class IdsDataGridFormatters {
+export default class IdsDataGridFormatters {
   /** Formats Just the string Data Removing Nulls and Undefined */
   nullToString(rowData, columnData) {
     const value = rowData[columnData.field];
@@ -35,22 +35,22 @@ export class IdsDataGridFormatters {
   /** Formats date data as a date string in the desired format */
   date(rowData, columnData, _index, api) {
     let value = this.nullToObj(rowData, columnData);
-    value = api.locale.formatDate(value, columnData.formatOptions);
+    value = api.locale?.formatDate(value, columnData.formatOptions) ?? value.toString();
     return `<span class="text-ellipsis">${value}</span>`;
   }
 
   /** Formats date data as a time string in the desired format */
   time(rowData, columnData, _index, api) {
     let value = this.nullToObj(rowData, columnData);
-    value = api.locale.formatDate(value, columnData.formatOptions || { timeStyle: 'short' });
+    value = api.locale?.formatDate(value, columnData.formatOptions || { timeStyle: 'short' }) ?? value.toString();
     return `<span class="text-ellipsis">${value}</span>`;
   }
 
   /** Formats number data as a decimal string in the specific locale */
   decimal(rowData, columnData, _index, api) {
     let value = this.nullToObj(rowData, columnData);
-    value = api.locale.formatNumber(value, columnData.formatOptions
-      || { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    value = api.locale?.formatNumber(value, columnData.formatOptions
+      || { minimumFractionDigits: 2, maximumFractionDigits: 2 }) ?? value.toString();
     return `<span class="text-ellipsis">${value === 'NaN' ? '' : value}</span>`;
   }
 
@@ -60,7 +60,7 @@ export class IdsDataGridFormatters {
     const opts = columnData.formatOptions || { };
     opts.style = 'integer';
 
-    value = api.locale.formatNumber(value, opts);
+    value = api.locale?.formatNumber(value, opts) ?? value.toString();
     return `<span class="text-ellipsis">${value === 'NaN' ? '' : value}</span>`;
   }
 

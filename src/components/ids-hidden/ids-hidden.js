@@ -12,7 +12,7 @@ import styles from './ids-hidden.scss';
  */
 @customElement('ids-hidden')
 @scss(styles)
-class IdsHidden extends Base {
+export default class IdsHidden extends Base {
   constructor() {
     super();
   }
@@ -153,5 +153,3 @@ class IdsHidden extends Base {
     return mq;
   }
 }
-
-export default IdsHidden;

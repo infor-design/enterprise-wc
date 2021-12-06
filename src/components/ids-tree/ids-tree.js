@@ -23,7 +23,7 @@ import styles from './ids-tree.scss';
  */
 @customElement('ids-tree')
 @scss(styles)
-class IdsTree extends Base {
+export default class IdsTree extends Base {
   constructor() {
     super();
   }

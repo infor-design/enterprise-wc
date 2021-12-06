@@ -12,6 +12,7 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
   }
 
   connectedCallback() {
+    super.connectedCallback?.();
     this.handleDirtyTracker();
   }
 

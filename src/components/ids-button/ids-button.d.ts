@@ -2,7 +2,7 @@
 // confirm our code is type safe, and to support TypeScript users.
 import Base from './ids-button-base';
 
-export class IdsButton extends Base {
+export default class IdsButton extends Base {
   /* Contains space-delimited CSS classes (or an array of CSS classes) that will be passed to the Shadow Root button */
   cssClass?: Array<string> | string | null;
 

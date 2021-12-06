@@ -1,8 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-
-/* eslint-disable no-debugger */
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsIcon from '../../src/components/ids-icon/ids-icon';
 

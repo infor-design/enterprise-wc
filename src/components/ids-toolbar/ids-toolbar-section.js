@@ -72,7 +72,7 @@ function setCssClassFromGroup(targetClass, targetElem, group) {
  */
 @customElement('ids-toolbar-section')
 @scss(styles)
-class IdsToolbarSection extends Base {
+export default class IdsToolbarSection extends Base {
   constructor() {
     super();
   }
@@ -160,7 +160,6 @@ class IdsToolbarSection extends Base {
   }
 }
 
-export default IdsToolbarSection;
 export {
   TOOLBAR_ITEM_TAGNAMES
 };

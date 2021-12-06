@@ -201,6 +201,12 @@ export default class IdsAccordion extends Base {
       if (this.header) {
         this.header.language = e.detail.language.name;
       }
+      this.#assignDepthDependentStyles(this, 0, false, false, false, true);
+    });
+
+    // Responds to `selected` events triggered by children
+    this.onEvent('selected', this, (e) => {
+      this.#deselectOtherHeaders(e.target);
     });
   }
 

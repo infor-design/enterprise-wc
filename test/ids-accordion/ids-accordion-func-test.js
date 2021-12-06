@@ -333,6 +333,5 @@ describe('IdsAccordion Component', () => {
     container.dispatchEvent(event);
 
     expect(mockCallback.mock.calls.length).toBe(1);
-    expect(accordion.language.name).toEqual(language.after);
   });
 });

@@ -34,8 +34,6 @@ export default class IdsIcon extends Base {
       ...super.attributes,
       attributes.BADGE_COLOR,
       attributes.BADGE_POSITION,
-      attributes.LANGUAGE,
-      attributes.LOCALE,
       attributes.ICON,
       attributes.SIZE,
       attributes.VERTICAL,
@@ -47,8 +45,7 @@ export default class IdsIcon extends Base {
    */
   #attachEventHandlers() {
     this.offEvent('languagechange.icon-container');
-    this.onEvent('languagechange.icon-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
+    this.onEvent('languagechange.icon-container', this.closest('ids-container'), async () => {
       if (this.isFlipped(this.icon)) {
         this.container.classList.add('flipped');
       } else {

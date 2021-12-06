@@ -37,7 +37,7 @@ module.exports = {
   experiments: {
   },
   infrastructureLogging: {
-    level: 'error'
+    level: 'error' // or 'verbose' if any debug info is needed
   },
   performance: {
     hints: false
@@ -57,6 +57,10 @@ module.exports = {
       chunks: 'async'
     },
   },
+  watchOptions: {
+    aggregateTimeout: 2000,
+    poll: 2000,
+  },
   output: {
     chunkFormat: 'module',
     path: path.resolve(__dirname, 'demo-dist'),
@@ -74,6 +78,7 @@ module.exports = {
     },
     static: {
       directory: path.resolve(__dirname, 'demo-dist'),
+      watch: false
     },
     onBeforeSetupMiddleware: (devServer) => {
       // Post method, upload files to `/tmp` folder
@@ -138,7 +143,7 @@ module.exports = {
         use: [
           {
             // Options are all in babel.config.js
-            loader: 'babel-loader',
+            loader: 'babel-loader'
           }
         ]
       },
