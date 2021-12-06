@@ -128,7 +128,7 @@ class IdsTreeMap extends mix(IdsElement).with(
 
     if (data !== undefined) {
       svg = `
-        <svg width='${this.width}' height='${this.height}' stroke="#fff" stroke-width="1">
+        <svg width='${this.width}' height='${this.height}' stroke-width=".5">
           ${this.data.map((rect) => this.templateGroups(rect)).join('')}
         </svg>
       `;
