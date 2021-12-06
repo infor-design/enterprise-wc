@@ -224,42 +224,9 @@ class IdsMenuItem extends mix(IdsElement).with(
    * @returns {void}
    */
   attachEventHandlers() {
-    const self = this;
-    // "Hover" timeout deals with `mouseenter`/`mouseleave` events, and causes the
-    // menu to open after a delay.
-    let hoverTimeout;
-    const clearHoverTimeout = () => {
-      if (hoverTimeout) {
-        hoverTimeout.destroy(true);
-        hoverTimeout = null;
-      }
-    };
-
-    // "Hide Submenu" timeout causes a submenu to close after a delay, if the mouse/touch
-    // does not exist over top of a valid menu/submenu item.
-    let hideSubmenuTimeout;
-    const clearHideSubmenuTimeout = () => {
-      if (hideSubmenuTimeout) {
-        hideSubmenuTimeout.destroy(true);
-        hideSubmenuTimeout = null;
-      }
-    };
-
     // On 'mouseenter', after a specified duration, run some events,
     // including activation of submenus where applicable.
     this.onEvent('mouseenter', this, () => {
-      clearHideSubmenuTimeout();
-      if (!this.disabled && !this.hidden && this.hasSubmenu) {
-        clearHoverTimeout();
-        hoverTimeout = new IdsRenderLoopItem({
-          duration: 200,
-          timeoutCallback() {
-            self.showSubmenu();
-          }
-        });
-        renderLoop.register(hoverTimeout);
-      }
-
       // Highlight
       this.menu.highlightItem(this);
 
@@ -279,21 +246,8 @@ class IdsMenuItem extends mix(IdsElement).with(
     // On 'mouseleave', clear any pending timeouts, hide submenus if applicable,
     // and unhighlight the item
     this.onEvent('mouseleave', this, () => {
-      clearHoverTimeout();
-
       if (this.hasSubmenu && !this.submenu.hidden) {
-        clearHideSubmenuTimeout();
-        hideSubmenuTimeout = new IdsRenderLoopItem({
-          duration: 200,
-          timeoutCallback() {
-            // Only focus again if the parent menu is still visible
-            // (The menu may have closed here)
-            if (!self.menu.hidden) {
-              (self.menu.lastHovered || self).focus();
-            }
-          }
-        });
-        renderLoop.register(hideSubmenuTimeout);
+        console.log('huh');
       } else {
         this.unhighlight();
       }

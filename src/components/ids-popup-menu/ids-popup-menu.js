@@ -55,8 +55,9 @@ class IdsPopupMenu extends mix(IdsMenu).with(
 
     // If this Popupmenu is a submenu, and no target is pre-defined,
     // align the menu against the parent menu item.
-    // @TODO change this logic if Popup accepts HTMLElement
     if (this.parentMenuItem && !this.target) {
+      this.popupDelay = 200;
+      this.trigger = 'hover';
       this.target = this.parentMenuItem;
       this.popup.align = 'right, top';
       this.popup.alignEdge = 'right';
@@ -216,6 +217,18 @@ class IdsPopupMenu extends mix(IdsMenu).with(
   }
 
   /**
+   * Shows the Popupmenu if allowed
+   * @returns {void}
+   */
+  showIfAble() {
+    if (!this.target) {
+      this.show();
+    } else if (!this.target.disabled && !this.target.hidden) {
+      this.show();
+    }
+  }
+
+  /**
    * Hides any "open" submenus within this menu structure, optionally ingorning a single
    * menu to "keep open".
    * @param {any} [focusedMenuItem] [IdsMenuItem] if provided, will be ignored and considered the
@@ -261,7 +274,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(
    * Inherited from the Popup Interactions Mixin.
    * Runs when a Popup Menu has a triggering element, and that element is clicked.
    * @param {MouseEvent} e the original mouse event
-   * @returns {void}
+   * @returns {boolean} true if the click is allowed to propagate
    */
   onTriggerClick(e) {
     if (e.currentTarget !== window) {
@@ -274,7 +287,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(
     }
 
     if (this.hidden) {
-      this.show();
+      this.showIfAble();
     } else {
       this.hide();
     }
@@ -291,7 +304,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(
     e.preventDefault();
     e.stopPropagation();
     this.popup.setPosition(e.pageX, e.pageY);
-    this.show();
+    this.showIfAble();
   }
 
   /**
@@ -301,8 +314,37 @@ class IdsPopupMenu extends mix(IdsMenu).with(
    */
   onTriggerImmediate() {
     window.requestAnimationFrame(() => {
-      this.show();
+      this.showIfAble();
     });
+  }
+
+  /**
+   * Inherited from the Popup Interactions Mixin.
+   * Runs on a delayed `mouseenter` event and fires when that delay completes
+   * @returns {void}
+   */
+  onTriggerHover() {
+    if (!this.target.disabled && !this.target.hidden) {
+      this.showIfAble();
+    }
+  }
+
+  /**
+   * Inherited from the Popup Interactions Mixin.
+   * Runs after a `mouseleave` event occurs from this menu
+   * @returns {void}
+   */
+  onCancelTriggerHover() {
+    this.hide();
+  }
+
+  /**
+   * Use the same click event type
+   * @param {MouseEvent} e the original click event
+   * @returns {boolean} true if the event is allowed to propagate
+   */
+  onTriggerHoverClick(e) {
+    return this.onTriggerClick(e);
   }
 }
 

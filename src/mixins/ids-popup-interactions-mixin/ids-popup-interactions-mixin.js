@@ -176,8 +176,8 @@ const IdsPopupInteractionsMixin = (superclass) => class extends superclass {
         }
       }, { delay: this.popupDelay });
       this.onEvent('mouseleave.trigger', targetElem, (e) => {
-        if (typeof this.onCancelHover === 'function') {
-          this.onCancelHover(e);
+        if (typeof this.onCancelTriggerHover === 'function') {
+          this.onCancelTriggerHover(e);
         }
       });
       this.onEvent('click.trigger', targetElem, (e) => {
