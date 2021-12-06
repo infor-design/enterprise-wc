@@ -10,8 +10,8 @@
     "example": "demos"
   },
   "scripts": {
-    "build:dist": "npx webpack --config ./webpack.config.dist.js",
-    "build:stats": "npx webpack --config ./webpack.config.dist.js",
+    "build:dist": "npx webpack --config ./webpack.config.dist.js --mode production",
+    "build:stats": "npx webpack --config ./webpack.config.dist.js --mode production",
     "build:dist:prod": "npx webpack --config ./webpack.config.dist.js --mode production",
     "build": "node --max-old-space-size=8192 node_modules/webpack/bin/webpack --config ./webpack.config.demos.js",
     "build:app:prod": "webpack --config ./webpack.config.demos.js --mode production",
