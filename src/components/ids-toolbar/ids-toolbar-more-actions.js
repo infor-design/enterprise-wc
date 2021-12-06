@@ -236,6 +236,18 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
     this.onEvent('beforeshow', this.menu, () => {
       this.refreshOverflowedItems();
     });
+
+    // Forward `selected` events from the More Actions Menu to their
+    // Toolbar Item counterparts.  This is needed for firing Toolbar Actions that
+    // live in the overflow menu.
+    this.onEvent('selected', this.menu, (e) => {
+      const menuItem = e.detail.elem;
+      if (menuItem.overflowTarget) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.toolbar.triggerSelectedEvent(menuItem, true);
+      }
+    });
   }
 
   /**

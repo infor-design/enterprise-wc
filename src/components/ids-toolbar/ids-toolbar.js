@@ -52,6 +52,7 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
     super.connectedCallback?.();
     this.setAttribute('role', 'toolbar');
     this.#setType();
+    this.#attachEventHandlers();
     this.#attachKeyboardListeners();
     this.#resizeObserver.observe(this);
 
@@ -80,6 +81,22 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
   #resizeObserver = new ResizeObserver(() => {
     this.#resize();
   });
+
+  /**
+   * Sets up event handlers assigned to the Toolbar and its child elements
+   * @private
+   * @returns {void}
+   */
+  #attachEventHandlers() {
+    // Translate click events on buttons into Toolbar `selected` events to correspond
+    // to the behavior of menu buttons and the "More Actions" menu
+    this.onEvent('click.toolbar-item', this, (e) => {
+      const btn = e.target.closest('ids-button');
+      if (btn) {
+        this.triggerSelectedEvent(btn);
+      }
+    });
+  }
 
   /**
    * Sets up the connection to the global keyboard handler
@@ -354,6 +371,37 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
     if (moreSection) {
       moreSection.refreshOverflowedItems();
     }
+  }
+
+  /**
+   * Triggers a `selected` event on a specified Toolbar item
+   * @param {HTMLElement} elem the specified Toolbar item
+   * @param {boolean} [triggeredFromOverflow] if true, notifies the event handler that this
+   *  `selected` event originated from the Overflow menu
+   * @returns {void}
+   */
+  triggerSelectedEvent(elem, triggeredFromOverflow = false) {
+    // Don't trigger these events on non-Toolbar items
+    if (!this.contains(elem)) {
+      return;
+    }
+
+    const detail = {
+      elem,
+      value: this.value
+    };
+
+    // Handle Overflowed items
+    if (elem.overflowTarget) {
+      detail.elem = elem.overflowTarget;
+      detail.overflowMenuItem = elem;
+      detail.triggeredFromOverflow = triggeredFromOverflow;
+    }
+
+    elem.dispatchEvent(new CustomEvent('selected', {
+      bubbles: true,
+      detail
+    }));
   }
 }
 

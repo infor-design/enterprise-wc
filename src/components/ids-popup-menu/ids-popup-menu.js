@@ -337,6 +337,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(
    * @returns {boolean} true if the event is allowed to propagate
    */
   onTriggerHoverClick(e) {
+    e.preventDefault();
     return this.onTriggerClick(e);
   }
 }
