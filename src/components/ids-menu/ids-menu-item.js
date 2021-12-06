@@ -201,11 +201,12 @@ class IdsMenuItem extends mix(IdsElement).with(
     this.attachEventHandlers();
     this.shouldUpdate = true;
     super.connectedCallback();
-
-    if (this.target) {
-      this.#refreshTargetEvents(undefined, this.target);
-    }
   }
+
+  /**
+   * @returns {Array<string>} Menu Item vetoable events
+   */
+  vetoableEventTypes = ['beforeselected', 'beforedeselected'];
 
   /**
    * Updates the visual state of this menu item
@@ -230,13 +231,6 @@ class IdsMenuItem extends mix(IdsElement).with(
       // Highlight
       this.menu.highlightItem(this);
 
-      /*
-      // If the parent menu is a Popupmenu, hide its other open submenus.
-      if (this.menu.popup) {
-        this.menu.hideSubmenus(this);
-      }
-      */
-
       // Tell the menu which item to use for converting a hover state to keyboard
       if (!this.disabled) {
         this.menu.lastHovered = this;
@@ -246,9 +240,7 @@ class IdsMenuItem extends mix(IdsElement).with(
     // On 'mouseleave', clear any pending timeouts, hide submenus if applicable,
     // and unhighlight the item
     this.onEvent('mouseleave', this, () => {
-      if (this.hasSubmenu && !this.submenu.hidden) {
-        console.log('huh');
-      } else {
+      if (!this.hasSubmenu || this.submenu.hidden) {
         this.unhighlight();
       }
     });
@@ -565,19 +557,8 @@ class IdsMenuItem extends mix(IdsElement).with(
     const duringEventName = trueVal ? 'selected' : 'deselected';
     const beforeEventName = `before${duringEventName}`;
 
-    // Build/Fire a `beforeselect` event that will allow an external hook to
-    // determine if this menu item can be selected, or perform other actions.
-    let canSelect = true;
-    const beforeSelectResponse = (veto) => {
-      canSelect = !!veto;
-    };
-    this.triggerEvent(beforeEventName, this, {
-      detail: {
-        elem: this,
-        response: beforeSelectResponse
-      }
-    });
-    if (!canSelect) {
+    // Trigger a veto-able event for the specified selection type
+    if (!this.triggerVetoableEvent(beforeEventName)) {
       return;
     }
 
@@ -665,11 +646,9 @@ class IdsMenuItem extends mix(IdsElement).with(
       if (element instanceof HTMLElement) {
         if (!element.isEqualNode(currentTarget)) {
           this.#target = element;
-          this.#refreshTargetEvents(currentTarget, element);
         }
       } else if (element === null || element === undefined) {
         this.#target = undefined;
-        this.#refreshTargetEvents(currentTarget);
       }
     }
   }
@@ -765,22 +744,6 @@ class IdsMenuItem extends mix(IdsElement).with(
    */
   focus() {
     if (!this.hidden && !this.disabled) this.a.focus();
-  }
-
-  /**
-   * Refreshes menu item event handlers attached to a target element when the target element is changed
-   * @private
-   * @param {HTMLElement} [prevTarget] a reference to the previously-set target element
-   * @param {HTMLElement} [newTarget] a reference to the new target element
-   * @returns {void}
-   */
-  #refreshTargetEvents(prevTarget, newTarget) {
-    if (prevTarget) {
-      // remove events from prev target
-    }
-    if (newTarget) {
-      // add events to new target
-    }
   }
 }
 

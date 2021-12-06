@@ -87,6 +87,11 @@ class IdsPopupMenu extends mix(IdsMenu).with(
   }
 
   /**
+   * @returns {Array<string>} Drawer vetoable events
+   */
+  vetoableEventTypes = ['beforeshow'];
+
+  /**
    * Sets up event handlers used in this menu.
    * @returns {void}
    */
@@ -187,19 +192,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(
    */
   show() {
     // Trigger a veto-able `beforeshow` event.
-    let canShow = true;
-    const beforeShowResponse = (veto) => {
-      canShow = !!veto;
-    };
-
-    this.triggerEvent('beforeshow', this, {
-      detail: {
-        elem: this,
-        response: beforeShowResponse
-      }
-    });
-
-    if (!canShow) {
+    if (!this.triggerVetoableEvent('beforeshow')) {
       return;
     }
 
