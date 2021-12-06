@@ -302,7 +302,7 @@ describe('IdsLookup Component', () => {
     expect(lookup.validationEvents).toEqual('change blur');
   });
 
-  it('adding validation dynamically', async () => {
+  it('supports changing validation dynamically', async () => {
     lookup = createFromTemplate(lookup, `<ids-lookup id="lookup-5" label="Dynamic Validation"></ids-lookup>`);
     await waitFor(() => expect(lookup.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
 
