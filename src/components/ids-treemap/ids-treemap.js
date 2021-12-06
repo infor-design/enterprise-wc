@@ -90,6 +90,11 @@ class IdsTreeMap extends mix(IdsElement).with(
     } else {
       this.removeAttribute(attributes.TITLE);
     }
+
+    const titleText = this.shadowRoot.querySelector('[part="title"]');
+    if (titleText) {
+      titleText.innerHTML = value ? value.toString() : '';
+    }
   }
 
   /**
@@ -184,7 +189,7 @@ class IdsTreeMap extends mix(IdsElement).with(
    */
   templateTitle() {
     return `
-      <ids-text type="span" font-weight="bold">
+      <ids-text type="span" font-weight="bold" part="title">
         ${this.title !== null ? this.title : 'Add Treemap Title'}
       </ids-text>`;
   }
