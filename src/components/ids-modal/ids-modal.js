@@ -1,4 +1,3 @@
-// Import Core
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 

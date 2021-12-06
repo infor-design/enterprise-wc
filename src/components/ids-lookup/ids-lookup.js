@@ -1,30 +1,13 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core';
+import { attributes } from '../../core/ids-attributes';
+import { customElement, scss } from '../../core/ids-decorators';
 
-// Import Mixins
-import {
-  IdsDirtyTrackerMixin,
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsThemeMixin,
-  IdsLocaleMixin,
-  IdsTooltipMixin
-} from '../../mixins';
+import Base from './ids-lookup-base';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-// Import Utils
-import { IdsStringUtils as stringUtils } from '../../utils';
+import { IdsTriggerButton, IdsTriggerField } from '../ids-trigger-field/ids-trigger-field';
+import { IdsModal } from '../ids-modal/ids-modal';
+import { IdsDataGrid } from '../ids-data-grid/ids-data-grid';
 
-// Supporting components
-import { IdsTriggerButton, IdsTriggerField } from '../ids-trigger-field';
-import { IdsModal } from '../ids-modal';
-import { IdsDataGrid } from '../ids-data-grid';
-
-// Import Styles
 import styles from './ids-lookup.scss';
 
 /**
@@ -45,14 +28,7 @@ import styles from './ids-lookup.scss';
  */
 @customElement('ids-lookup')
 @scss(styles)
-class IdsLookup extends mix(IdsElement).with(
-    IdsDirtyTrackerMixin,
-    IdsEventsMixin,
-    IdsKeyboardMixin,
-    IdsThemeMixin,
-    IdsLocaleMixin,
-    IdsTooltipMixin
-  ) {
+export default class IdsLookup extends Base {
   constructor() {
     super();
   }
@@ -189,7 +165,7 @@ class IdsLookup extends mix(IdsElement).with(
    * @param {string|boolean} value string value from the readonly attribute
    */
   set readonly(value) {
-    const isReadonly = stringUtils.stringToBool(value);
+    const isReadonly = stringToBool(value);
     if (!this.triggerField) {
       return;
     }
@@ -208,7 +184,7 @@ class IdsLookup extends mix(IdsElement).with(
   }
 
   get readonly() {
-    return stringUtils.stringToBool(this.getAttribute('readonly')) || false;
+    return stringToBool(this.getAttribute('readonly')) || false;
   }
 
   /**
@@ -216,7 +192,7 @@ class IdsLookup extends mix(IdsElement).with(
    * @param {string|boolean} value string value from the disabled attribute
    */
   set disabled(value) {
-    const isDisabled = stringUtils.stringToBool(value);
+    const isDisabled = stringToBool(value);
     if (!this.triggerField) {
       return;
     }
@@ -235,7 +211,7 @@ class IdsLookup extends mix(IdsElement).with(
   }
 
   get disabled() {
-    return stringUtils.stringToBool(this.getAttribute('disabled')) || false;
+    return stringToBool(this.getAttribute('disabled')) || false;
   }
 
   /**
@@ -243,7 +219,7 @@ class IdsLookup extends mix(IdsElement).with(
    * @param {boolean|string} value True of false depending if the trigger field is tabbable
    */
   set tabbable(value) {
-    const isTabbable = stringUtils.stringToBool(value);
+    const isTabbable = stringToBool(value);
     if (!this.triggerField) {
       return;
     }
@@ -260,7 +236,7 @@ class IdsLookup extends mix(IdsElement).with(
     if (attr === null) {
       return true;
     }
-    return stringUtils.stringToBool(this.getAttribute(attributes.TABBABLE));
+    return stringToBool(this.getAttribute(attributes.TABBABLE));
   }
 
   /**
@@ -467,5 +443,3 @@ class IdsLookup extends mix(IdsElement).with(
     return this;
   }
 }
-
-export default IdsLookup;

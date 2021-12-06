@@ -3,7 +3,7 @@
  */
 import { IdsDataGrid, IdsDataGridFormatters } from '../../src/components/ids-data-grid/ids-data-grid';
 import ResizeObserver from '../helpers/resize-observer-mock';
-import IdsLookup from '../../src/components/ids-lookup';
+import IdsLookup from '../../src/components/ids-lookup/ids-lookup';
 import createFromTemplate from '../helpers/create-from-template';
 import waitFor from '../helpers/wait-for';
 import dataset from '../../demos/data/books.json';

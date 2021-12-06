@@ -1,8 +1,8 @@
 // Ids is a JavaScript project, but we define TypeScript declarations so we can
 // confirm our code is type safe, and to support TypeScript users.
 
-import { IdsElement } from '../../core';
-import { IdsDataGrid } from '../ids-data-grid';
+import Base from './ids-lookup-base';
+import IdsDataGrid from '../ids-data-grid/ids-data-grid';
 
 interface IdsLookupEventDetail extends Event {
   detail: {
@@ -25,7 +25,7 @@ interface selectionchanged extends Event {
   }
 }
 
-export default class IdsLookup extends IdsElement {
+export default class IdsLookup extends Base {
   /** Sets the dirty tracking feature on to indicate a changed field */
   dirtyTracker: boolean;
 
