@@ -174,13 +174,6 @@ export default class IdsPopup extends Base {
    */
   #attachEventHandlers() {
     const containerNode = getClosest(this, 'ids-container');
-
-    // Respond to parent changing language
-    this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', containerNode, async (e) => {
-      await this.setLanguage(e.detail.language.name);
-    });
-
     // Setup Resize Observer
     this.#ro.observe(this.container);
     if (containerNode) {

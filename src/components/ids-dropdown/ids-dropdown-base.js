@@ -5,16 +5,19 @@ import IdsValidationMixin from '../../mixins/ids-validation-mixin/ids-validation
 import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
 import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty-tracker-mixin';
 import IdsElement from '../../core/ids-element';
 
 const Base = IdsThemeMixin(
   IdsLocaleMixin(
-    IdsKeyboardMixin(
-      IdsPopupOpenEventsMixin(
-        IdsValidationMixin(
-          IdsTooltipMixin(
-            IdsEventsMixin(
-              IdsElement
+    IdsDirtyTrackerMixin(
+      IdsKeyboardMixin(
+        IdsPopupOpenEventsMixin(
+          IdsValidationMixin(
+            IdsTooltipMixin(
+              IdsEventsMixin(
+                IdsElement
+              )
             )
           )
         )

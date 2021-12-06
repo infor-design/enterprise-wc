@@ -6,7 +6,7 @@ import { deepClone } from '../../utils/ids-deep-clone-utils/ids-deep-clone-utils
 
 import Base from './ids-data-grid-base';
 import IdsDataSource from '../../core/ids-data-source';
-import { IdsDataGridFormatters } from './ids-data-grid-formatters';
+import IdsDataGridFormatters from './ids-data-grid-formatters';
 import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 
 import styles from './ids-data-grid.scss';
@@ -273,33 +273,14 @@ export default class IdsDataGrid extends Base {
       this.setActiveCell(parseInt(cell.getAttribute('aria-colindex') - 1, 10), parseInt(row.getAttribute('aria-rowindex') - 1, 10));
     });
 
-    // Handle the Locale Changes
-    // Respond to parent changing language
+    // Handle the Locale Change
     this.offEvent('languagechange.data-grid-container');
-    this.onEvent('languagechange.data-grid-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
+    this.onEvent('languagechange.data-grid-container', this.closest('ids-container'), async () => {
+      this.setDirection();
     });
 
-    // Respond to the element changing language
-    this.offEvent('languagechange.data-grid');
-    this.onEvent('languagechange.data-grid', this, async (e) => {
-      await this.locale.setLanguage(e.detail.language.name);
-    });
-
-    // Respond to parent changing language
     this.offEvent('localechange.data-grid-container');
-    this.onEvent('localechange.data-grid-container', this.closest('ids-container'), async (e) => {
-      await this.setLocale(e.detail.locale.name);
-      this.rerender();
-    });
-
-    // Respond to the element changing language
-    this.offEvent('localechange.data-grid');
-    this.onEvent('localechange.data-grid', this, async (e) => {
-      if (!e.detail.locale.name) {
-        return;
-      }
-      await this.locale.setLocale(e.detail.locale.name);
+    this.onEvent('localechange.data-grid-container', this.closest('ids-container'), async () => {
       this.rerender();
     });
   }

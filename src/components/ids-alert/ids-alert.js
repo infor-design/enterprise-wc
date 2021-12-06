@@ -1,6 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
 import Base from './ids-alert-base';
 import IdsIcon from '../ids-icon/ids-icon';
 
@@ -16,7 +17,7 @@ import styles from './ids-alert.scss';
  */
 @customElement('ids-alert')
 @scss(styles)
-class IdsAlert extends Base {
+export default class IdsAlert extends Base {
   constructor() {
     super();
   }

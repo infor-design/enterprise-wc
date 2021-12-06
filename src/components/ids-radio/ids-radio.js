@@ -30,7 +30,7 @@ const attribs = [
  */
 @customElement('ids-radio')
 @scss(styles)
-export class IdsRadio extends Base {
+export default class IdsRadio extends Base {
   /**
    * Call the constructor and then initialize
    */

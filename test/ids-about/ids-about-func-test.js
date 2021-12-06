@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
+import processAnimFrame from '../helpers/process-anim-frame';
 
 import IdsAbout from '../../src/components/ids-about/ids-about';
 
@@ -293,53 +294,18 @@ describe('IdsAbout Component locale', () => {
     container = null;
   });
 
-  it('can change language on self', async () => {
-    await component.setLanguage('ar');
-    expect(component.getAttribute('dir')).toEqual('rtl');
-
-    await component.setLanguage('es');
-
-    // if copyright translates
-    let copyrightOriginal = esMessages.AboutText.value
-      .replace('&copy; {0}', `© ${new Date().getFullYear()}`)
-      .concat(' www.infor.com.');
-    let copyrightReceived = document.querySelector('[slot="copyright"]').textContent;
-
-    expect(copyrightOriginal).toEqual(copyrightReceived);
-
-    // if device specs translates
-    let deviceSpecsText = document.querySelector('[slot="device"]').textContent;
-
-    expect(deviceSpecsText).toContain(esMessages.Platform.value);
-
-    await component.setLanguage('ja');
-
-    // if copyright translates
-    copyrightOriginal = jaMessages.AboutText.value
-      .replace('&copy; {0}', `© ${new Date().getFullYear()}`)
-      .concat(' www.infor.com.');
-    copyrightReceived = document.querySelector('[slot="copyright"]').textContent;
-
-    expect(copyrightOriginal).toEqual(copyrightReceived);
-
-    // if device specs translates
-    deviceSpecsText = document.querySelector('[slot="device"]').textContent;
-
-    expect(deviceSpecsText).toContain(jaMessages.Platform.value);
-  });
-
   it('can change language from the container', async () => {
     await container.setLanguage('ar');
-    expect(component.getAttribute('dir')).toEqual('rtl');
+    expect(container.getAttribute('dir')).toEqual('rtl');
 
     await container.setLanguage('es');
+    await processAnimFrame();
 
     // if copyright translates
     let copyrightOriginal = esMessages.AboutText.value
-      .replace('&copy; {0}', `© ${new Date().getFullYear()}`)
+      .replace('&copy; {0}', `© ${copyrightYear}`)
       .concat(' www.infor.com.');
     let copyrightReceived = document.querySelector('[slot="copyright"]').textContent;
-
     expect(copyrightOriginal).toEqual(copyrightReceived);
 
     // if device specs translates
@@ -348,10 +314,11 @@ describe('IdsAbout Component locale', () => {
     expect(deviceSpecsText).toContain(esMessages.Platform.value);
 
     await container.setLanguage('ja');
+    await processAnimFrame();
 
     // if copyright translates
     copyrightOriginal = jaMessages.AboutText.value
-      .replace('&copy; {0}', `© ${new Date().getFullYear()}`)
+      .replace('&copy; {0}', `© ${copyrightYear}`)
       .concat(' www.infor.com.');
     copyrightReceived = document.querySelector('[slot="copyright"]').textContent;
 

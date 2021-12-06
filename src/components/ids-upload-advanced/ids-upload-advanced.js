@@ -24,7 +24,7 @@ const shared = IdsUploadAdvancedShared;
  */
 @customElement('ids-upload-advanced')
 @scss(styles)
-class IdsUploadAdvanced extends Base {
+export default class IdsUploadAdvanced extends Base {
   constructor() {
     super();
   }
@@ -885,5 +885,3 @@ class IdsUploadAdvanced extends Base {
 
   get url() { return this.getAttribute(attributes.URL); }
 }
-
-export default IdsUploadAdvanced;

@@ -59,6 +59,7 @@ export default class IdsDraggable extends Base {
     this.#cursorEl.style.width = `${CURSOR_EL_SIZE}px`;
     this.#cursorEl.style.height = `${CURSOR_EL_SIZE}px`;
     this.#cursorEl.style.cursor = this.#getCursorStyle({ axis: this.axis });
+    super.connectedCallback?.();
   }
 
   /**

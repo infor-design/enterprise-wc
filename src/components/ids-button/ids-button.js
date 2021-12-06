@@ -202,8 +202,7 @@ export default class IdsButton extends Base {
 
     // Respond to parent changing language
     this.offEvent('languagechange.button');
-    this.onEvent('languagechange.button', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
+    this.onEvent('languagechange.button', this.closest('ids-container'), async () => {
       this.container.classList[this.locale.isRTL() ? 'add' : 'remove']('rtl');
     });
   }
@@ -526,7 +525,7 @@ export default class IdsButton extends Base {
     if (isTruthy !== trueVal) {
       if (trueVal) {
         this.container.classList.add('no-padding');
-        this.setAttribute('no-padding', '');
+        this.setAttribute('no-padding', 'true');
       } else {
         this.container.classList.remove('no-padding');
         this.removeAttribute('no-padding');

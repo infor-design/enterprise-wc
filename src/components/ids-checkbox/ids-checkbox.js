@@ -171,8 +171,8 @@ export default class IdsCheckbox extends Base {
 
     // Respond to parent changing language
     this.offEvent('languagechange.checkbox-container');
-    this.onEvent('languagechange.checkbox-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
+    this.onEvent('languagechange.checkbox-container', this.closest('ids-container'), async () => {
+      this.setDirection();
     });
   }
 

@@ -36,7 +36,7 @@ import styles from './ids-toast.scss';
  */
 @customElement('ids-toast')
 @scss(styles)
-class IdsToast extends Base {
+export default class IdsToast extends Base {
   constructor() {
     super();
   }
@@ -606,5 +606,3 @@ class IdsToast extends Base {
     return uniqueId !== null ? uniqueId : DEFAULTS.uniqueId;
   }
 }
-
-export default IdsToast;

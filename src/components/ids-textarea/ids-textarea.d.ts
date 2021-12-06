@@ -6,7 +6,7 @@ interface IdsTextareaEventDetail extends Event {
   }
 }
 
-export class IdsTextarea extends Base {
+export default class IdsTextarea extends Base {
   /** Will automatically expand the textarea to fit the contents when typing */
   autogrow: boolean;
 

@@ -8,6 +8,7 @@ import IdsButton from '../../src/components/ids-button/ids-button';
 import elemBuilderFactory from '../helpers/elem-builder-factory';
 import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';
 import waitFor from '../helpers/wait-for';
+import processAnimFrame from '../helpers/process-anim-frame';
 
 const elemBuilder = elemBuilderFactory();
 
@@ -135,25 +136,33 @@ describe('IdsDrawer Component', () => {
     expect(elem.visible).toBeTruthy();
   });
 
-  it('should update with container language change', () => {
+  it('should update with container language change', async () => {
     const elem = new IdsDrawer();
     const container = new IdsContainer();
     document.body.appendChild(container);
     container.appendChild(elem);
 
-    const language = { before: 'en', after: 'ar' };
-    const mockCallback = jest.fn((e) => {
-      expect(e.detail.language.name).toEqual(language.after);
-    });
+    await container.setLanguage('ar');
+    await processAnimFrame();
+    expect(elem.getAttribute('dir')).toEqual('rtl');
+  });
 
-    expect(elem.language.name).toEqual(language.before);
-    container.addEventListener('languagechange', mockCallback);
-    const event = new CustomEvent('languagechange', {
-      detail: { language: { name: language.after } }
-    });
-    container.dispatchEvent(event);
+  it('should call hide on outside click', async () => {
+    const elem = await elemBuilder.createElemFromTemplate(
+      `<ids-drawer>
+        <div>Content</div>
+      </ids-drawer>`
+    );
+    elem.show();
+    const spy = jest.spyOn(elem, 'hide');
+    elem.onOutsideClick({ target: document.body });
 
-    expect(mockCallback.mock.calls.length).toBe(1);
-    expect(elem.language.name).toEqual(language.after);
+    expect(spy).toHaveBeenCalled();
+    expect(elem.visible).toBe(false);
+
+    elem.show();
+    elem.onOutsideClick({ target: elem });
+
+    expect(elem.visible).toBe(true);
   });
 });

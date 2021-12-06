@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`IdsDropdown Component renders correctly 1`] = `
-"<ids-dropdown id=\\"dropdown-1\\" label=\\"Normal Dropdown\\" value=\\"opt2\\" dirty-tracker=\\"true\\" role=\\"combobox\\" aria-expanded=\\"false\\" aria-autocomplete=\\"list\\" aria-haspopup=\\"listbox\\" aria-description=\\"Press Down arrow to select\\" aria-controls=\\"ids-list-box-dropdown-1\\" language=\\"en\\" locale=\\"en-US\\">
+"<ids-dropdown id=\\"dropdown-1\\" label=\\"Normal Dropdown\\" value=\\"opt2\\" dirty-tracker=\\"true\\" role=\\"combobox\\" aria-expanded=\\"false\\" aria-autocomplete=\\"list\\" aria-haspopup=\\"listbox\\" aria-description=\\"Press Down arrow to select\\" aria-controls=\\"ids-list-box-dropdown-1\\">
       <ids-list-box id=\\"ids-list-box-dropdown-1\\" role=\\"listbox\\" tabindex=\\"0\\">
         <ids-list-box-option value=\\"opt1\\" id=\\"opt1\\" role=\\"option\\" tabindex=\\"-1\\">Option One</ids-list-box-option>
         <ids-list-box-option value=\\"opt2\\" id=\\"opt2\\" aria-selected=\\"true\\" class=\\"is-selected\\" role=\\"option\\" tabindex=\\"-1\\">Option Two</ids-list-box-option>

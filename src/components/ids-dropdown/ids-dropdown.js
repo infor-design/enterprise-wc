@@ -29,7 +29,7 @@ import styles from './ids-dropdown.scss';
  */
 @customElement('ids-dropdown')
 @scss(styles)
-class IdsDropdown extends Base {
+export default class IdsDropdown extends Base {
   constructor() {
     super();
     this.state = { selectedIndex: 0 };
@@ -468,6 +468,12 @@ class IdsDropdown extends Base {
       window.getSelection().removeAllRanges();
     });
 
+    // Handle the Locale Change
+    this.offEvent('languagechange.data-grid-container');
+    this.onEvent('languagechange.data-grid-container', this.closest('ids-container'), async () => {
+      this.setDirection();
+      this.#addAria();
+    });
     return this;
   }
 

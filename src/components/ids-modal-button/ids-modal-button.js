@@ -18,6 +18,14 @@ export default class IdsModalButton extends IdsButton {
   }
 
   /**
+   * Toggle-Button-level `connectedCallback` implementation (adds an icon refresh)
+   * @returns {void}
+   */
+  connectedCallback() {
+    super.connectedCallback?.();
+  }
+
+  /**
    * @returns {Array} containing configurable properties on this component
    */
   static get attributes() {
@@ -25,13 +33,6 @@ export default class IdsModalButton extends IdsButton {
       ...super.attributes,
       attributes.CANCEL
     ];
-  }
-
-  /**
-   * Toggle-Button-level `connectedCallback` implementation (adds an icon refresh)
-   * @returns {void}
-   */
-  connectedCallback() {
   }
 
   /**

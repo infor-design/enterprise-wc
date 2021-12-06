@@ -17,7 +17,7 @@ import styles from './ids-wizard.scss';
  */
 @customElement('ids-wizard')
 @scss(styles)
-class IdsWizard extends Base {
+export default class IdsWizard extends Base {
   constructor() {
     super();
   }
@@ -490,5 +490,3 @@ class IdsWizard extends Base {
     return rects;
   }
 }
-
-export default IdsWizard;

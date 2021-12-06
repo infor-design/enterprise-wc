@@ -32,6 +32,16 @@ export default class IdsContainer extends Base {
     if (this.reset) {
       this.#addReset();
     }
+
+    // Remove hidden for FOUC
+    this.onEvent('load.container', window, () => {
+      this.removeAttribute('hidden');
+      this.offEvent('load.container', window);
+    });
+
+    // Set initial lang and locale
+    this.setAttribute('language', this.state.locale.state.language);
+    this.setAttribute('locale', this.state.locale.state.localeName);
   }
 
   /**
@@ -118,4 +128,72 @@ export default class IdsContainer extends Base {
   }
 
   get reset() { return this.getAttribute(attributes.RESET) || 'true'; }
+
+  /**
+   * Set the language for a component and wait for it to finish (async)
+   * @param {string} value The language string value
+   */
+  async setLanguage(value) {
+    await this.state.locale.setLanguage(value);
+    this.language = value;
+  }
+
+  /**
+   * Set the language for a component
+   * @param {string} value The language string value
+   */
+  set language(value) {
+    if (value) {
+      this.state.locale.setLanguage(value);
+      this.state.locale.updateLangTag(this, value);
+      this.setAttribute('language', value);
+      requestAnimationFrame(() => {
+        this.triggerEvent('languagechange', this, { detail: { elem: this, language: this.language, locale: this.state.locale } });
+      });
+    }
+  }
+
+  /**
+   * Get the language data keys and message for the current language
+   * @returns {object} The language data object
+   */
+  get language() {
+    return this.state.locale?.language;
+  }
+
+  /**
+   * Set the locale for a component and wait for it to finish (async)
+   * @param {string} value The locale string value
+   */
+  async setLocale(value) {
+    if (value) {
+      await this.state.locale.setLocale(value);
+      this.setAttribute('locale', value);
+      this.state.locale.updateLangTag(this, value.substr(0, 2));
+      this.triggerEvent('localechange', this, { detail: { elem: this, language: this.language, locale: this.state.locale } });
+    }
+  }
+
+  /**
+   * Set the locale for a component
+   * @param {string} value The locale string value
+   */
+  set locale(value) {
+    if (value) {
+      this.state.locale.setLocale(value);
+      this.setAttribute('locale', value);
+
+      requestAnimationFrame(() => {
+        this.triggerEvent('localechange', this, { detail: { elem: this, language: this.language, locale: this.state.locale } });
+      });
+    }
+  }
+
+  get locale() {
+    return this.state.locale;
+  }
+
+  get localeName() {
+    return this.state.locale.state.localeName;
+  }
 }

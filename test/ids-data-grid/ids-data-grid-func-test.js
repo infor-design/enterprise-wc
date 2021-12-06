@@ -1,9 +1,11 @@
 /**
  * @jest-environment jsdom
  */
-import { IdsDataGrid, IdsDataGridFormatters } from '../../src/components/ids-data-grid/ids-data-grid';
+import IdsDataGrid from '../../src/components/ids-data-grid/ids-data-grid';
+import IdsDataGridFormatters from '../../src/components/ids-data-grid/ids-data-grid-formatters';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import dataset from '../../demos/data/books.json';
+import processAnimFrame from '../helpers/process-anim-frame';
 
 describe('IdsDataGrid Component', () => {
   let dataGrid;
@@ -410,6 +412,21 @@ describe('IdsDataGrid Component', () => {
     });
   });
 
+  describe('Header Tests', () => {
+    it('has a default header height', () => {
+      expect(dataGrid.headerPixelHeight).toBe(35);
+    });
+  });
+
+  describe('Container / Height Tests', () => {
+    it('supports auto fit', () => {
+      dataGrid.autoFit = true;
+      expect(dataGrid.getAttribute('auto-fit')).toEqual('true');
+      dataGrid.autoFit = false;
+      expect(dataGrid.getAttribute('auto-fit')).toBeFalsy();
+    });
+  });
+
   describe('Row Height Tests', () => {
     it('can set the rowHeight setting', () => {
       dataGrid.rowHeight = 'extra-small';
@@ -725,27 +742,28 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('RTL/Language Tests', () => {
-    it('supports direction / RTL', () => {
-      dataGrid.language = 'ar';
-      expect(dataGrid.getAttribute('dir')).toEqual('rtl');
-      expect(dataGrid.container.getAttribute('dir')).toEqual('rtl');
-      dataGrid.rerender();
-      expect(dataGrid.getAttribute('dir')).toEqual('rtl');
-      expect(dataGrid.container.getAttribute('dir')).toEqual('rtl');
-    });
-
     it('supports readonly columns / RTL', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
         .querySelectorAll('.ids-data-grid-cell')[1].classList.contains('readonly')).toBeTruthy();
     });
 
-    it('supports readonly RTL when set from the container', () => {
+    it('supports readonly RTL when set from the container', async () => {
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(5)').textContent).toEqual('2/23/2021');
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(6)').textContent).toEqual('1:25 PM');
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(7)').textContent).toEqual('13.99');
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(10)').textContent).toEqual('14');
+
       container.language = 'ar';
-      expect(dataGrid.container.getAttribute('dir')).toEqual('rtl');
-      expect(dataGrid.getAttribute('language')).toEqual('ar');
+      await processAnimFrame();
+      expect(dataGrid.getAttribute('dir')).toEqual('rtl');
 
       container.locale = 'de-DE';
-      expect(dataGrid.locale.locale.name).toEqual('de-DE');
+      await processAnimFrame();
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(5)').textContent).toEqual('23.2.2021');
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(6)').textContent).toEqual('13:25');
+      // Set to en-US for the example
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(7)').textContent).toEqual('13.99');
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(10)').textContent).toEqual('14');
     });
   });
 });
