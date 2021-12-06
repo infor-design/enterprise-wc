@@ -71,6 +71,20 @@ describe('IdsCard Component', () => {
     expect(card.autoHeight).toEqual(null);
   });
 
+  it('removes the overflow attribute when reset', () => {
+    card.overflow = 'hidden';
+    expect(card.getAttribute('overflow')).toEqual('hidden');
+
+    card.overflow = 'auto';
+    expect(card.getAttribute('overflow')).toEqual(null);
+  });
+
+  it('add the overflow class when reset', () => {
+    card.overflow = 'hidden';
+    card.template();
+    expect(card.container.querySelector('.ids-card-content').classList.contains('overflow-hidden')).toBeTruthy();
+  });
+
   it('supports setting mode', () => {
     card.mode = 'dark';
     expect(card.container.getAttribute('mode')).toEqual('dark');

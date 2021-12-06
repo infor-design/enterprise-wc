@@ -142,7 +142,7 @@ describe('IdsAbout Component (using attributes)', () => {
 
   beforeEach(async () => {
     document.body.insertAdjacentHTML('beforeend', `<ids-about id="about-example" product-name="Controls" product-version="4.0.0">
-      <ids-icon slot="icon" icon="logo" size="large" /></ids-icon>
+      <ids-icon slot="icon" icon="logo" viewbox="0 0 35 34" size="large" /></ids-icon>
       <ids-text id="about-example-name" slot="appName" type="h1" font-size="24">IDS Enterprise</ids-text>
       <ids-text id="about-example-content" slot="content" type="p">Fashionable components for fashionable applications.</ids-text>
     </ids-about>`);

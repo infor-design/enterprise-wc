@@ -222,11 +222,18 @@ describe('IdsAccordion Component', () => {
     elemBuilder.clearElement();
     accordion = await createAccordion('app-menu');
     waitFor(() => expect(accordion.colorVariant).toBe('app-menu'));
+    expect(accordion.panels[0].colorVariant).toBe(null);
   });
 
   it('has a reference to its panels', () => {
     expect(accordion.panels.length).toBe(3);
     expect(accordion.panels.includes(panel3));
+  });
+
+  it('will not error if no pane', () => {
+    panel.container.querySelector('.ids-accordion-pane').remove();
+    panel.collapsePane();
+    expect(panel.pane).toBe(null);
   });
 
   it('has a reference to its focused panel', () => {

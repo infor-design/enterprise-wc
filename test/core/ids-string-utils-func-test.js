@@ -29,13 +29,13 @@ describe('IdsStringUtils Tests', () => {
     expect(stringToBool('True')).toEqual(true);
   });
 
-  it('can convert a string to number', () => {
+  it('can convert a string to number or NaN', () => {
     expect(stringToNumber('100')).toEqual(100);
-    expect(stringToNumber('test-100')).toEqual(0);
-    expect(stringToNumber('test')).toEqual(0);
-    expect(stringToNumber()).toEqual(0);
-    expect(stringToNumber('')).toEqual(0);
-    expect(stringToNumber(null)).toEqual(0);
+    expect(stringToNumber('test-100')).toEqual(NaN);
+    expect(stringToNumber('test')).toEqual(NaN);
+    expect(stringToNumber()).toEqual(NaN);
+    expect(stringToNumber('')).toEqual(NaN);
+    expect(stringToNumber(null)).toEqual(NaN);
   });
 
   it('can inject a template variable', () => {

@@ -35,7 +35,7 @@ export default class IdsTabContent extends Base {
     return `<slot></slot>`;
   }
 
-  /** @type {string} Value representing associated tab */
+  /** @param {string} value representing associated tab */
   set value(value) {
     if (this.getAttribute(attributes.VALUE) === value) {
       return;

@@ -57,6 +57,8 @@ export default class IdsColorPicker extends Base {
     this.advanced = this.advanced;
     // eslint-disable-next-line no-self-assign
     this.label = this.label;
+
+    this.triggerField = this.container.querySelector('ids-trigger-field');
     this.#attachEventHandlers();
   }
 
@@ -140,11 +142,20 @@ export default class IdsColorPicker extends Base {
   set readonly(value) {
     value = stringToBool(value);
     if (value) {
-      this.setAttribute(attributes.READONLY, value.toString());
-      this.triggerBtn.setAttribute(attributes.TABBABLE, false);
+      this.setAttribute(attributes.READONLY, 'true');
+      this.triggerField?.setAttribute(attributes.READONLY, 'true');
+      this.colorPickerInput?.setAttribute(attributes.READONLY, 'true');
+      this.removeAttribute(attributes.DISABLED);
+      this.triggerField?.removeAttribute(attributes.DISABLED);
+      this.colorPickerInput?.removeAttribute(attributes.DISABLED);
       return;
     }
     this.removeAttribute(attributes.READONLY);
+    this.triggerField?.removeAttribute(attributes.READONLY);
+    this.colorPickerInput?.removeAttribute(attributes.READONLY);
+    this.removeAttribute(attributes.DISABLED);
+    this.triggerField?.removeAttribute(attributes.DISABLED);
+    this.colorPickerInput?.removeAttribute(attributes.DISABLED);
   }
 
   get readonly() {
@@ -163,6 +174,8 @@ export default class IdsColorPicker extends Base {
       return;
     }
     this.removeAttribute(attributes.DISABLED);
+    this.triggerField?.removeAttribute(attributes.DISABLED);
+    this.colorPickerInput?.removeAttribute(attributes.DISABLED);
   }
 
   get disabled() {
@@ -186,8 +199,8 @@ export default class IdsColorPicker extends Base {
   }
 
   /**
-   * Sets the label attribute
-   * @param {string} value string value from the label attribute
+   * Set the `label` text
+   * @param {string} value of the `label` text property
    */
   set label(value) {
     this.setAttribute('label', value.toString());

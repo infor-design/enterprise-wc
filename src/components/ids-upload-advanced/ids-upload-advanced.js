@@ -213,14 +213,12 @@ export default class IdsUploadAdvanced extends Base {
    * @returns {string} The html output
    */
   getDropareaLabel(hasBrowse) {
-    const toBool = stringToBool;
-    // const isValid = (/** @type {string} */ s) => typeof s === 'string' && s !== '';
     const text = shared.slotVal(this.shadowRoot, 'text-droparea');
     const textHasBrowse = shared.slotVal(this.shadowRoot, 'text-droparea-with-browse');
     const link = shared.slotVal(this.shadowRoot, 'text-droparea-with-browse-link');
 
     let browseLabelHtml = '';
-    if (!toBool(hasBrowse)) {
+    if (!stringToBool(hasBrowse)) {
       browseLabelHtml = `<ids-text class="inline">${text}</ids-text>`;
     } else {
       const textArray = textHasBrowse.split('{browseLink}');

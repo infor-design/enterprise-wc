@@ -257,6 +257,18 @@ button {
   @include text-white();
 }
 
+.ids-modal-button[mode='dark'] {
+  &:not(.ids-modal-icon-button) {
+    @include bg-transparent();
+  }
+}
+
+.ids-modal-button[mode='contrast'] {
+  &:not(.ids-modal-icon-button) {
+    @include bg-slate-10();
+  }
+}
+
 // Non-RTL Styles
 :not(.rtl) {
   // Applies to all non-icon button types

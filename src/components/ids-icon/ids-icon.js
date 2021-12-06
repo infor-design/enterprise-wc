@@ -1,4 +1,6 @@
 import pathData from 'ids-identity/dist/theme-new/icons/standard/path-data.json';
+import emptyIconPathData from 'ids-identity/dist/theme-new/icons/empty/path-data.json';
+
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { sizes } from './ids-icon-attributes';
@@ -34,9 +36,14 @@ export default class IdsIcon extends Base {
       ...super.attributes,
       attributes.BADGE_COLOR,
       attributes.BADGE_POSITION,
+      attributes.HEIGHT,
       attributes.ICON,
+      attributes.LANGUAGE,
+      attributes.LOCALE,
       attributes.SIZE,
       attributes.VERTICAL,
+      attributes.VIEWBOX,
+      attributes.WIDTH
     ];
   }
 
@@ -59,8 +66,19 @@ export default class IdsIcon extends Base {
    * @returns {string} The template
    */
   template() {
-    const size = sizes[this.size];
-    let template = `<svg xmlns="http://www.w3.org/2000/svg"${this.isFlipped(this.icon) ? ` class="flipped"` : ''} stroke="currentColor" fill="none" height="${size}" width="${size}" viewBox="0 0 18 18" aria-hidden="true">
+    let height = '';
+    let width = '';
+    let viewBox = '';
+
+    height = this.height;
+    width = this.width;
+
+    if (this.viewbox) {
+      viewBox = this.viewbox;
+    } else {
+      viewBox = '0 0 18 18';
+    }
+    let template = `<svg xmlns="http://www.w3.org/2000/svg"${this.isFlipped(this.icon) ? ` class="flipped"` : ''} stroke="currentColor" fill="none" height="${height}" width="${width}" viewBox="${viewBox}" aria-hidden="true">
       ${this.iconData()}
     </svg>`;
     if (this.badgePosition || this.badgeColor) {
@@ -80,7 +98,13 @@ export default class IdsIcon extends Base {
    * @returns {string} the path data
    */
   iconData() {
-    return pathData[this.icon];
+    let iconData = '';
+    if (emptyIconPathData[this.icon]) {
+      iconData = emptyIconPathData[this.icon];
+    } else {
+      iconData = pathData[this.icon];
+    }
+    return iconData;
   }
 
   /**
@@ -198,7 +222,9 @@ export default class IdsIcon extends Base {
   /**
    * @returns {string} the current color of the notification badge
    */
-  get badgeColor() { return this.getAttribute(attributes.BADGE_COLOR); }
+  get badgeColor() {
+    return this.getAttribute(attributes.BADGE_COLOR);
+  }
 
   /**
    * @param {string} value sets the color of the notification badge
@@ -232,6 +258,68 @@ export default class IdsIcon extends Base {
   }
 
   /**
+   * Returns the height attribute
+   * @returns {string} a stringified height number
+   */
+  get height() {
+    return this.getAttribute(attributes.HEIGHT) || sizes[this.size];
+  }
+
+  /**
+   * @param {string} value allows sets a custom height value for the icon svg
+   */
+  set height(value) {
+    if (value) {
+      this.removeAttribute(attributes.SIZE);
+      this.setAttribute(attributes.HEIGHT, value);
+      this.container?.setAttribute('height', value);
+    } else {
+      this.removeAttribute(attributes.HEIGHT);
+    }
+  }
+
+  /**
+   * Return the viewbox
+   * @returns {string} the string of viewbox numbers
+   */
+  get viewbox() {
+    return this.getAttribute(attributes.VIEWBOX);
+  }
+
+  /**
+   * @param {string} value set a custom viewbox for the icon svg
+   */
+  set viewbox(value) {
+    if (value) {
+      this.setAttribute(attributes.VIEWBOX, value);
+      this.#adjustViewbox();
+    } else {
+      this.removeAttribute(attributes.VIEWBOX);
+    }
+  }
+
+  /**
+   * Return the width number
+   * @returns {string} the stringified width number
+   */
+  get width() {
+    return this.getAttribute(attributes.WIDTH) || sizes[this.size];
+  }
+
+  /**
+   * @param {string} value sets a custom width for the icon svg
+   */
+  set width(value) {
+    if (value) {
+      this.removeAttribute(attributes.SIZE);
+      this.setAttribute(attributes.WIDTH, value);
+      this.container?.setAttribute('width', value);
+    } else {
+      this.removeAttribute(attributes.WIDTH);
+    }
+  }
+
+  /**
    * Return the icon name
    * @returns {string} the icon
    */
@@ -243,7 +331,9 @@ export default class IdsIcon extends Base {
    */
   set icon(value) {
     const svgElem = this.shadowRoot?.querySelector('svg');
-    if (value && pathData[value]) {
+    const isPathData = pathData.hasOwnProperty(value);
+    const isEmptyPathData = emptyIconPathData.hasOwnProperty(value);
+    if (value && (isPathData || isEmptyPathData)) {
       svgElem.style.display = '';
       this.setAttribute(attributes.ICON, value);
       svgElem.innerHTML = this.iconData();
@@ -279,8 +369,8 @@ export default class IdsIcon extends Base {
   #adjustViewbox() {
     let viewboxSize = '0 0 18 18';
 
-    if (this.icon === 'logo' || this.icon === 'logo-trademark') {
-      viewboxSize = '0 0 35 34';
+    if (this.viewbox) {
+      viewboxSize = this.viewbox;
     }
     this.container.setAttribute('viewBox', viewboxSize);
   }

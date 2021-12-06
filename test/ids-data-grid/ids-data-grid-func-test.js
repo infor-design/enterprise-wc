@@ -7,6 +7,9 @@ import IdsContainer from '../../src/components/ids-container/ids-container';
 import dataset from '../../demos/data/books.json';
 import processAnimFrame from '../helpers/process-anim-frame';
 
+import createFromTemplate from '../helpers/create-from-template';
+import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
+
 describe('IdsDataGrid Component', () => {
   let dataGrid;
   let container;
@@ -19,7 +22,7 @@ describe('IdsDataGrid Component', () => {
       id: 'selectionCheckbox',
       sortable: false,
       resizable: false,
-      formatter: formatters.text,
+      formatter: formatters.selectionCheckbox,
       align: 'center',
       width: 20
     });
@@ -286,7 +289,7 @@ describe('IdsDataGrid Component', () => {
       dataGrid.virtualScroll = false;
 
       expect(dataGrid.shadowRoot.querySelectorAll('ids-virtual-scroll').length).toEqual(0);
-      expect(dataGrid.getAttribute('virtual-scroll')).toEqual('false');
+      expect(dataGrid.getAttribute('virtual-scroll')).toEqual(null);
     });
 
     it('can reset the virtualScroll option', () => {
@@ -298,6 +301,20 @@ describe('IdsDataGrid Component', () => {
       dataGrid.data = dataset;
 
       expect(dataGrid.shadowRoot.querySelectorAll('ids-virtual-scroll').length).toEqual(1);
+    });
+
+    it('has the right row height for each rowHeight value', () => {
+      dataGrid.virtualScroll = true;
+      expect(dataGrid.rowPixelHeight).toEqual(50);
+
+      dataGrid.rowHeight = 'md';
+      expect(dataGrid.rowPixelHeight).toEqual(40);
+
+      dataGrid.rowHeight = 'sm';
+      expect(dataGrid.rowPixelHeight).toEqual(35);
+
+      dataGrid.rowHeight = 'xs';
+      expect(dataGrid.rowPixelHeight).toEqual(30);
     });
   });
 
@@ -429,49 +446,49 @@ describe('IdsDataGrid Component', () => {
 
   describe('Row Height Tests', () => {
     it('can set the rowHeight setting', () => {
-      dataGrid.rowHeight = 'extra-small';
-      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('extra-small');
-      expect(dataGrid.getAttribute('row-height')).toEqual('extra-small');
+      dataGrid.rowHeight = 'xs';
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('xs');
+      expect(dataGrid.getAttribute('row-height')).toEqual('xs');
 
-      dataGrid.rowHeight = 'small';
-      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('small');
-      expect(dataGrid.getAttribute('row-height')).toEqual('small');
+      dataGrid.rowHeight = 'sm';
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('sm');
+      expect(dataGrid.getAttribute('row-height')).toEqual('sm');
 
-      dataGrid.rowHeight = 'medium';
-      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('medium');
-      expect(dataGrid.getAttribute('row-height')).toEqual('medium');
+      dataGrid.rowHeight = 'md';
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('md');
+      expect(dataGrid.getAttribute('row-height')).toEqual('md');
 
       dataGrid.rowHeight = null;
-      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('large');
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('lg');
       expect(dataGrid.getAttribute('row-height')).toEqual(null);
 
-      dataGrid.rowHeight = 'large';
-      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('large');
-      expect(dataGrid.getAttribute('row-height')).toEqual('large');
+      dataGrid.rowHeight = 'lg';
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('lg');
+      expect(dataGrid.getAttribute('row-height')).toEqual('lg');
     });
 
     it('can set the rowHeight setting in virtualScroll mode', () => {
       requestAnimationFrame(() => {
         dataGrid.virtualScroll = true;
-        dataGrid.rowHeight = 'extra-small';
+        dataGrid.rowHeight = 'xs';
         expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('30');
 
-        dataGrid.rowHeight = 'small';
+        dataGrid.rowHeight = 'sm';
         expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('35');
 
-        dataGrid.rowHeight = 'medium';
+        dataGrid.rowHeight = 'md';
         expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('40');
 
         dataGrid.rowHeight = null;
         expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('50');
 
-        dataGrid.rowHeight = 'large';
+        dataGrid.rowHeight = 'lg';
         expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('50');
 
         dataGrid.virtualScroll = false;
-        dataGrid.rowHeight = 'small';
-        expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('small');
-        expect(dataGrid.getAttribute('row-height')).toEqual('small');
+        dataGrid.rowHeight = 'sm';
+        expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('sm');
+        expect(dataGrid.getAttribute('row-height')).toEqual('sm');
       });
     });
   });
@@ -729,7 +746,7 @@ describe('IdsDataGrid Component', () => {
     });
   });
 
-  describe('Theme Tests', () => {
+  describe('Theme/Style Tests', () => {
     it('supports setting mode', () => {
       dataGrid.mode = 'dark';
       expect(dataGrid.container.getAttribute('mode')).toEqual('dark');
@@ -738,6 +755,21 @@ describe('IdsDataGrid Component', () => {
     it('supports setting version', () => {
       dataGrid.version = 'classic';
       expect(dataGrid.container.getAttribute('version')).toEqual('classic');
+    });
+
+    it('renders with listStyle option', () => {
+      dataGrid.listStyle = true;
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').classList.contains('is-list-style')).toBeTruthy();
+
+      dataGrid.listStyle = false;
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').classList.contains('is-list-style')).toBeFalsy();
+    });
+
+    it('renders with listStyle  from template', () => {
+      dataGrid = createFromTemplate(dataGrid, `<ids-data-grid list-style="true"></ids-data-grid>`);
+      dataGrid.columns = columns();
+      dataGrid.data = dataset;
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').classList.contains('is-list-style')).toBeTruthy();
     });
   });
 
@@ -764,6 +796,179 @@ describe('IdsDataGrid Component', () => {
       // Set to en-US for the example
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(7)').textContent).toEqual('13.99');
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(10)').textContent).toEqual('14');
+    });
+  });
+
+  describe('Selection Tests', () => {
+    it('renders a radio for single select', () => {
+      const newColumns = deepClone(columns());
+      newColumns[0].id = 'selectionRadio';
+      newColumns[0].formatter = formatters.selectionRadio;
+      dataGrid.rowSelection = 'single';
+      dataGrid.columns = newColumns;
+
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-datagrid-radio').length).toEqual(9);
+    });
+
+    it('removes rowSelection on setting to false', () => {
+      dataGrid.rowSelection = 'single';
+      expect(dataGrid.getAttribute('row-selection')).toEqual('single');
+      dataGrid.rowSelection = false;
+      expect(dataGrid.getAttribute('row-selection')).toBeFalsy();
+    });
+
+    it('keeps selections on sort for single and multiple selection', () => {
+      const newColumns = deepClone(columns());
+      newColumns[0].id = 'selectionRadio';
+      newColumns[0].formatter = formatters.selectionRadio;
+      dataGrid.rowSelection = 'single';
+      dataGrid.columns = newColumns;
+
+      expect(dataGrid.selectedRows.length).toBe(0);
+      dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(1)').click();
+      expect(dataGrid.selectedRows.length).toBe(1);
+      expect(dataGrid.selectedRows[0].index).toBe(1);
+
+      dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell')[2].click();
+      expect(dataGrid.selectedRows.length).toBe(1);
+      expect(dataGrid.selectedRows[0].index).toBe(1);
+
+      dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell')[2].click();
+      expect(dataGrid.selectedRows.length).toBe(1);
+      expect(dataGrid.selectedRows[0].index).toBe(7);
+    });
+
+    it('keeps selections on sort for mixed selection', () => {
+      const newColumns = deepClone(columns());
+      newColumns[0].id = 'selectionCheckbox';
+      newColumns[0].formatter = formatters.selectionCheckbox;
+      dataGrid.rowSelection = 'mixed';
+      dataGrid.columns = newColumns;
+
+      expect(dataGrid.selectedRows.length).toBe(0);
+      dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(1)').click();
+      dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(3) .ids-data-grid-cell:nth-child(2)').click();
+      expect(dataGrid.selectedRows.length).toBe(1);
+      expect(dataGrid.activatedRow.index).toBe(2);
+      expect(dataGrid.selectedRows[0].index).toBe(1);
+
+      dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell')[2].click();
+      expect(dataGrid.selectedRows.length).toBe(1);
+      expect(dataGrid.activatedRow.index).toBe(2);
+      expect(dataGrid.selectedRows[0].index).toBe(1);
+
+      dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell')[2].click();
+      expect(dataGrid.selectedRows.length).toBe(1);
+      expect(dataGrid.selectedRows[0].index).toBe(7);
+      expect(dataGrid.activatedRow.index).toBe(6);
+
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row.activated').getAttribute('aria-rowindex')).toBe('7');
+    });
+
+    it('can click the header checkbox to select all and deselect all', () => {
+      const newColumns = deepClone(columns());
+      newColumns[0].id = 'selectionCheckbox';
+      newColumns[0].formatter = formatters.selectionCheckbox;
+      dataGrid.rowSelection = 'multiple';
+      dataGrid.columns = newColumns;
+
+      dataGrid.headerCheckbox.click();
+      expect(dataGrid.selectedRows.length).toBe(9);
+      dataGrid.headerCheckbox.click();
+      expect(dataGrid.selectedRows.length).toBe(0);
+    });
+
+    it('can select a row with space key', () => {
+      const newColumns = deepClone(columns());
+      newColumns[0].id = 'selectionCheckbox';
+      newColumns[0].formatter = formatters.selectionCheckbox;
+      dataGrid.rowSelection = 'multiple';
+      dataGrid.columns = newColumns;
+
+      dataGrid.activeCell.node.focus();
+
+      const event = new KeyboardEvent('keydown', { key: ' ' });
+      dataGrid.dispatchEvent(event);
+      expect(dataGrid.selectedRows.length).toBe(1);
+    });
+
+    it('handles supress row deselection', () => {
+      dataGrid.rowSelection = 'single';
+      dataGrid.supressRowDeselection = false;
+      dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(1)').click();
+      expect(dataGrid.selectedRows.length).toBe(1);
+      dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(1)').click();
+      expect(dataGrid.selectedRows.length).toBe(0);
+
+      dataGrid.supressRowDeselection = true;
+      expect(dataGrid.supressRowDeselection).toBeTruthy();
+
+      dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(1)').click();
+      dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(1)').click();
+      expect(dataGrid.selectedRows.length).toBe(1);
+      expect(dataGrid.selectedRows[0].index).toBe(1);
+
+      dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(3) .ids-data-grid-cell:nth-child(1)').click();
+      expect(dataGrid.selectedRows.length).toBe(1);
+      expect(dataGrid.selectedRows[0].index).toBe(2);
+    });
+
+    it('handles a deSelectRow method', () => {
+      dataGrid.rowSelection = 'mixed';
+      dataGrid.selectRow(1);
+      dataGrid.deSelectRow(1);
+      expect(dataGrid.selectedRows.length).toBe(0);
+      expect(dataGrid.rowByIndex(1).classList.contains('mixed')).toBeFalsy();
+    });
+  });
+
+  describe('Activation Tests', () => {
+    it('handles supress row deactivation', () => {
+      dataGrid.rowSelection = 'mixed';
+      dataGrid.supressRowDeactivation = false;
+      dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(2)').click();
+      expect(dataGrid.activatedRow.index).toBe(1);
+      dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(2)').click();
+      expect(dataGrid.activatedRow).toBeFalsy();
+
+      dataGrid.supressRowDeactivation = true;
+      expect(dataGrid.supressRowDeactivation).toBeTruthy();
+
+      dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(2)').click();
+      dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(2)').click();
+      expect(dataGrid.activatedRow.index).toBe(1);
+
+      dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(3) .ids-data-grid-cell:nth-child(2)').click();
+      expect(dataGrid.activatedRow.index).toBe(2);
+    });
+
+    it('should fire the rowactivated event', () => {
+      const mockCallback = jest.fn((x) => {
+        expect(x.detail.elem).toBeTruthy();
+      });
+
+      dataGrid.rowSelection = 'mixed';
+      dataGrid.addEventListener('rowactivated', mockCallback);
+      dataGrid.activateRow(1);
+
+      expect(dataGrid.activatedRow.index).toBe(1);
+      expect(mockCallback.mock.calls.length).toBe(1);
+
+      dataGrid.rowSelection = false;
+      dataGrid.activateRow(1);
+      expect(dataGrid.activatedRow.index).toBe(1);
+      expect(mockCallback.mock.calls.length).toBe(1);
+    });
+
+    it('handles a deActivateRow method', () => {
+      dataGrid.deActivateRow(1);
+      expect(dataGrid.activatedRow).toBeFalsy();
+
+      dataGrid.rowSelection = 'mixed';
+      dataGrid.activateRow(1);
+      expect(dataGrid.activatedRow).toBeTruthy();
+      dataGrid.deActivateRow(1);
+      expect(dataGrid.activatedRow).toBeFalsy();
     });
   });
 });

@@ -74,7 +74,7 @@ export default class IdsUpload extends Base {
    * @returns {string} The template
    */
   template() {
-    const trueVal = (/** @type {any} */v) => stringToBool(v);
+    const trueVal = (v) => stringToBool(v);
     const accept = this.accept ? ` accept="${this.accept}"` : '';
     const dirtyTracker = trueVal(this.dirtyTracker) ? ` dirty-tracker="${this.dirtyTracker}"` : '';
     const disabled = trueVal(this.disabled) ? ` disabled="${this.disabled}"` : '';
@@ -320,7 +320,7 @@ export default class IdsUpload extends Base {
    * @returns {boolean} true, if not disabled or readonly
    */
   get hasAccess() {
-    const trueVal = (/** @type {any} */ v) => stringToBool(v);
+    const trueVal = (v) => stringToBool(v);
     return !(trueVal(this.disabled) || trueVal(this.readonly));
   }
 
