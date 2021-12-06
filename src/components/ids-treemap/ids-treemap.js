@@ -34,7 +34,7 @@ class IdsTreeMap extends mix(IdsElement).with(
   ) {
   constructor() {
     super();
-    this.res = [];
+    this.d = [];
     this.width = '';
     this.height = '';
   }
@@ -54,29 +54,29 @@ class IdsTreeMap extends mix(IdsElement).with(
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.RESULT,
+      attributes.DATA,
       attributes.TITLE
     ];
   }
 
   /**
-   * Set the result attribute
+   * Set the data attribute
    * @param {string} value of the treemap data object
    * @memberof IdsTreeMap
    */
-  set result(value) {
-    this.res = value;
+  set data(value) {
+    this.d = value;
     this.render(true);
   }
 
   /**
-   * Get the result attribute
-   * @returns {object} result of the treemap data object
+   * Get the data attribute
+   * @returns {object} data of the treemap data object
    * @readonly
    * @memberof IdsTreeMap
    */
-  get result() {
-    return this.res;
+  get data() {
+    return this.d;
   }
 
   /**
@@ -110,7 +110,7 @@ class IdsTreeMap extends mix(IdsElement).with(
     const treemap = `
       <div class="treemap-container">
         <div class="treemap-title">${this.templateTitle()}</div>
-        ${this.templateSvg(this.result)}
+        ${this.templateSvg(this.data)}
       </div>
     `;
 
@@ -119,17 +119,17 @@ class IdsTreeMap extends mix(IdsElement).with(
 
   /**
    * Render SVG markup
-   * @param {Array} result data array
+   * @param {Array} data data array
    * @returns {*} svg
    * @memberof IdsTreeMap
    */
-  templateSvg(result) {
+  templateSvg(data) {
     let svg = `<svg>Sorry, your browser does not support inline SVG.</svg>`;
 
-    if (result !== undefined) {
+    if (data !== undefined) {
       svg = `
         <svg width='${this.width}' height='${this.height}' stroke="#fff" stroke-width="1">
-          ${this.result.map((rect) => this.templateGroups(rect)).join('')}
+          ${this.data.map((rect) => this.templateGroups(rect)).join('')}
         </svg>
       `;
     }
@@ -138,7 +138,7 @@ class IdsTreeMap extends mix(IdsElement).with(
 
   /**
    * Render the group markup
-   * @param {object} rect item in the result array
+   * @param {object} rect item in the data array
    * @returns {*} svg group
    * @memberof IdsTreeMap
    */
@@ -420,7 +420,7 @@ class IdsTreeMap extends mix(IdsElement).with(
         width: this.width,
         height: this.height
       };
-      this.result = this.treeMap(updatedObj);
+      this.data = this.treeMap(updatedObj);
     });
   }
 }

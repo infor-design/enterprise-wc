@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const treeMapEl = document.querySelector('ids-treemap');
 
-  treeMapEl.result = treeMapEl.treeMap({
+  treeMapEl.data = treeMapEl.treeMap({
     data: [
       {
         value: 28,
