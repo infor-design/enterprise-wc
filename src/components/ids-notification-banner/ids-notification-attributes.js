@@ -1,20 +1,16 @@
 // Notification Types
 const TYPES = {
   success: {
-    type: 'success',
-    color: 'emerald',
+    type: 'success'
   },
   alert: {
-    type: 'alert',
-    color: 'amber'
+    type: 'alert'
   },
   info: {
     type: 'info',
-    color: 'azure'
   },
   error: {
-    type: 'error',
-    color: 'ruby'
+    type: 'error'
   }
 };
 

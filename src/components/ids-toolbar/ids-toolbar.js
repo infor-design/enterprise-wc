@@ -2,13 +2,22 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
+
 import IdsToolbarSection from './ids-toolbar-section';
 import IdsToolbarMoreActions from './ids-toolbar-more-actions';
 import Base from './ids-toolbar-base';
+
 import styles from './ids-toolbar.scss';
+
+const TYPE_FORMATTER = 'formatter';
 
 /**
  * IDS Toolbar Component
+ * @type {IdsToolbar}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsKeyboardMixin
+ * @mixes IdsThemeMixin
  */
 @customElement('ids-toolbar')
 @scss(styles)
@@ -19,19 +28,23 @@ export default class IdsToolbar extends Base {
 
   static get attributes() {
     return [
+      ...super.attributes,
       attributes.DISABLED,
-      attributes.TABBABLE
+      attributes.TABBABLE,
+      attributes.TYPE
     ];
   }
 
   connectedCallback() {
     this.setAttribute('role', 'toolbar');
+    this.#setType();
     this.#attachKeyboardListeners();
 
     // After repaint
     requestAnimationFrame(() => {
       this.makeTabbable(this.detectTabbable());
     });
+    super.connectedCallback();
   }
 
   /**
@@ -194,6 +207,20 @@ export default class IdsToolbar extends Base {
 
   /**
    * @readonly
+   * @returns {Array<any>} list of all available ids-separator nodes present in all toolbar sections
+   */
+  get separators() {
+    const sep = [];
+    this.sections.forEach((section) => {
+      if (section?.name !== 'ids-toolbar-more-actions' && section?.separators) {
+        sep.push(...section.separators);
+      }
+    });
+    return sep;
+  }
+
+  /**
+   * @readonly
    * @returns {Array<any>} list of available sections within the toolbar
    */
   get sections() {
@@ -225,6 +252,40 @@ export default class IdsToolbar extends Base {
    */
   get tabbable() {
     return this.container.classList.contains('tabbable');
+  }
+
+  /**
+   * Set the type for toolbar
+   * @param {string|null} value of toolbar type
+   */
+  set type(value) {
+    if (value === TYPE_FORMATTER) {
+      this.setAttribute(attributes.TYPE, value);
+    } else {
+      this.removeAttribute(attributes.TYPE);
+    }
+    this.#setType();
+  }
+
+  get type() {
+    return this.getAttribute(attributes.TYPE) ?? null;
+  }
+
+  /**
+   * Set the toolbar type to each section
+   * @private
+   * @returns {void}
+   */
+  #setType() {
+    this.sections.forEach((s) => s.setAttribute('toolbar-type', this.type));
+    [...this.items, ...this.separators].forEach((item) => {
+      if (this.type) {
+        item.setAttribute('color-variant', 'alternate-formatter');
+      } else {
+        const val = item.getAttribute('color-variant');
+        if (val === 'alternate-formatter') item.removeAttribute('color-variant');
+      }
+    });
   }
 
   /**

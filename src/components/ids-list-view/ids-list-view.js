@@ -17,8 +17,6 @@ const DEFAULT_HEIGHT = '100%';
  * @mixes IdsThemeMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsEventsMixin
- * @part container - the root container element
- * @part list - the ul list element
  * @part list-item - the li list element
  */
 @customElement('ids-list-view')
@@ -28,11 +26,14 @@ export default class IdsListView extends Base {
     super();
   }
 
+  // the currently focused list item
+  #focusedLiIndex = 0;
+
   datasource = new IdsDataSource();
 
   connectedCallback() {
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
-    this.#handleKeys();
+    super.connectedCallback();
   }
 
   /**
@@ -50,30 +51,143 @@ export default class IdsListView extends Base {
     ];
   }
 
+  getAllLi() {
+    return this.container.querySelectorAll('div[part="list-item"]');
+  }
+
+  getAllDraggable() {
+    return this.draggable ? this.container.querySelectorAll('ids-draggable') : null;
+  }
+
+  attachEventListeners() {
+    this.attachClickListeners();
+    this.attachKeyboardListeners();
+  }
+
+  attachClickListeners() {
+    this.getAllLi().forEach((item) => {
+      this.attachClickListenersForItems(item);
+    });
+  }
+
+  // each click on an item - always set that to focus, toggle the selected feature
+  attachClickListenersForItems(item) {
+    this.onEvent('click', item, () => {
+      if (this.getFocusedLi !== item) {
+        this.focusLi(item);
+      }
+    });
+  }
+
+  attachKeyboardListeners() {
+    this.getAllLi().forEach((item) => {
+      this.attachKeyboardListenersForItems(item);
+    });
+
+    this.onEvent('keydown', document, (event) => {
+      switch (event.key) {
+      case 'Tab':
+        this.virtualScrollContainer?.scrollToIndex(this.#focusedLiIndex);
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        if (this.#focusedLiIndex >= 0 && !this.getFocusedLi()) {
+          this.virtualScrollContainer?.scrollToIndex(this.#focusedLiIndex);
+          this.focusLi(this.getPreviousLi(this.getFocusedLi()));
+        }
+        break;
+      case 'ArrowDown':
+        event.preventDefault();
+        if (this.#focusedLiIndex >= 0 && !this.getFocusedLi()) {
+          this.virtualScrollContainer?.scrollToIndex(this.#focusedLiIndex);
+          this.focusLi(this.getNextLi(this.getFocusedLi()));
+        }
+        break;
+      default:
+        break;
+      }
+    });
+  }
+
+  attachKeyboardListenersForItems(item) {
+    this.onEvent('keydown', item, (event) => {
+      switch (event.key) {
+      case 'ArrowUp':
+        event.preventDefault();
+        this.focusLi(this.getPreviousLi(this.getFocusedLi()));
+        break;
+      case 'ArrowDown':
+        event.preventDefault();
+        this.focusLi(this.getNextLi(this.getFocusedLi()));
+        break;
+      default:
+        break;
+      }
+    });
+  }
+
+  focusLi(li) {
+    if (li) {
+      const prevFocus = this.getFocusedLi();
+      // remove tabindex from previous focus
+      if (li !== prevFocus) {
+        prevFocus?.setAttribute('tabindex', '-1');
+        this.#focusedLiIndex = li.getAttribute('index');
+      }
+      // init new focus
+      li.setAttribute('tabindex', '0'); // this clears after every render
+      li.focus();
+    }
+  }
+
+  getFocusedLi() {
+    const savedFocusedLi = this.container.querySelector(`div[part="list-item"][index="${this.#focusedLiIndex}"]`);
+    const val = savedFocusedLi ?? this.container.querySelector('div[part="list-item"][tabindex="0"]');
+    return val;
+  }
+
+  getPreviousLi(li) {
+    return this.draggable
+      ? li.parentElement.previousElementSibling?.firstElementChild // needs to navigate outside to ids-draggable wrapper
+      : li.previousElementSibling;
+  }
+
+  getNextLi(li) {
+    return this.draggable
+      ? li.parentElement.nextElementSibling?.firstElementChild
+      : li.nextElementSibling;
+  }
+
+  listItemTemplateFunc() {
+    const func = (item, index) => `
+      ${this.draggable ? `<ids-draggable axis="y">` : '' }
+        <div
+          part="list-item"
+          role="listitem"
+          tabindex="-1"
+          index="${index}"
+        >
+          ${this.draggable ? `<span></span>` : ``}
+          ${this.itemTemplate(item)}
+        </div>
+      ${this.draggable ? `</ids-draggable>` : '' }
+    `;
+
+    return func;
+  }
+
   /**
    * Helper method to render the static scrolling template
    * @returns {string} html
    */
   staticScrollTemplate() {
-    // TODO: save this variable for list item template (to use in checkTemplateHeight)
-    const listItems = this.data?.map((item, index) => `
-      ${this.draggable ? `<ids-draggable axis="y">` : '' }
-        <div part="list-item" tabindex="${index === 0 ? '0' : '-1'}">
-          ${this.draggable ? `<span></span>` : ``}
-          ${this.itemTemplate(item)}
-        </div>
-      ${this.draggable ? `</ids-draggable>` : '' }
-    `);
-
-    const html = `
-      <div class="ids-list-view" part="container">
-        <div part="list">
-          ${listItems.length > 0 ? listItems.reduce((htmlA, htmlB) => htmlA + htmlB) : ''}
+    return `
+      <div class="ids-list-view">
+        <div class="ids-list-view-body" role="list">
+          ${this.data.length > 0 ? this.data?.map(this.listItemTemplateFunc()).join('') : ''}
         </div>
       </div>
     `;
-
-    return html;
   }
 
   /**
@@ -82,45 +196,17 @@ export default class IdsListView extends Base {
    */
   virtualScrollTemplate() {
     const html = `
-      <ids-virtual-scroll height="${this.height}" item-height="${this.itemHeight}">
-        <div class="ids-list-view" part="container">
-          <div slot="contents" part="list">
-          </div>
-        </div>
-      </ids-virtual-scroll>
+      <div class="ids-list-view">
+        <ids-virtual-scroll
+          height="${this.height}"
+          item-height="${this.itemHeight}"
+        >
+          <div class="ids-list-view-body" role="list" part="contents"></div>
+        </ids-virtual-scroll>
+      </div>
     `;
 
     return html;
-  }
-
-  /**
-   * Sets up keyboard navigation among list elements
-   * @returns {void}
-   */
-  #handleKeys() {
-    // Arrow key navigates up and down
-    this.listen(['ArrowUp', 'ArrowDown'], this, (e) => {
-      const focused = this.shadowRoot.querySelector('[part="list-item"][tabindex="0"]');
-      focused.setAttribute('tabindex', '-1');
-      if (e.key === 'ArrowDown') {
-        if (this.draggable) {
-          focused.parentElement.nextElementSibling.firstElementChild.setAttribute('tabindex', '0');
-          focused.parentElement.nextElementSibling.firstElementChild.focus();
-        } else {
-          focused.nextElementSibling.setAttribute('tabindex', '0');
-          focused.nextElementSibling.focus();
-        }
-        return;
-      }
-
-      if (this.draggable) {
-        focused.parentElement.previousElementSibling.firstElementChild.setAttribute('tabindex', '0');
-        focused.parentElement.previousElementSibling.firstElementChild.focus();
-      } else {
-        focused.previousElementSibling.setAttribute('tabindex', '0');
-        focused.previousElementSibling.focus();
-      }
-    });
   }
 
   /**
@@ -129,8 +215,8 @@ export default class IdsListView extends Base {
    */
   template() {
     return `
-      ${this.virtualScroll ? this.virtualScrollTemplate() : this.staticScrollTemplate()}
-    `;
+    ${this.virtualScroll ? this.virtualScrollTemplate() : this.staticScrollTemplate()}
+  `;
   }
 
   /**
@@ -142,6 +228,13 @@ export default class IdsListView extends Base {
     return injectTemplate(this.defaultTemplate, item);
   }
 
+  #refocus() {
+    // focused item is in range
+    if (this.getFocusedLi() && this.#focusedLiIndex >= 0) {
+      this.focusLi(this.getFocusedLi());
+    }
+  }
+
   /**
    * Render the list by applying the template
    * @private
@@ -149,27 +242,38 @@ export default class IdsListView extends Base {
   render() {
     super.render();
 
-    if (this.virtualScroll && this?.data.length > 0) {
-      this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
-      this.virtualScrollContainer.itemTemplate = (item, index) => `
-        ${this.draggable ? `<ids-draggable axis="y">` : ``}
-          <div part="list-item" tabindex="${index === 0 ? '0' : '-1'}">
-            ${this.draggable ? `<span></span>` : ``}
-            ${this.itemTemplate(item)}
-          </div>
-        ${this.draggable ? `</ids-draggable>` : ``}
-        `;
-      this.virtualScrollContainer.itemCount = this.data.length;
-      this.virtualScrollContainer.itemHeight = this.itemHeight || this.checkTemplateHeight(`
+    if (!this.virtualScroll && this.data?.length > 0) {
+      this.attachEventListeners();
+    }
+
+    if (this.virtualScroll && this.data?.length > 0) {
+      // reattach event listeners and refocus any focused list item
+      this.onEvent('ids-virtual-scroll-afterrender', this.virtualScrollContainer, () => {
+        this.attachEventListeners();
+        if (this.#focusedLiIndex >= 0) this.#refocus();
+      });
+
+      // set the virtual-scroll item-height attribute
+      const itemHeight = this.itemHeight || this.checkTemplateHeight(`
         <div part="list-item" tabindex="-1" id="height-tester">
           ${this.itemTemplate(this.datasource.data[0])}
         </div>
       `);
-      this.virtualScrollContainer.data = this.data;
-      this.shadowRoot.querySelector('.ids-list-view').style.overflow = 'initial';
+
+      this.virtualScrollContainer.itemHeight = itemHeight; // calls renderItems()
+
+      this.virtualScrollContainer.itemTemplate = this.listItemTemplateFunc();
+      this.virtualScrollContainer.data = this.data; // calls renderItems()
+
+      // give the first list-item a tabbable index on first render
+      this.container.querySelector('div[part="list-item"]').setAttribute('tabindex', '0');
     }
 
     this.adjustHeight();
+  }
+
+  get virtualScrollContainer() {
+    return this.container.querySelector('ids-virtual-scroll');
   }
 
   /**
@@ -177,7 +281,8 @@ export default class IdsListView extends Base {
    * @private
    */
   adjustHeight() {
-    this.shadowRoot.querySelector('.ids-list-view').style.height = `${this.height}px`;
+    const rootContainer = this.virtualScroll ? this.virtualScrollContainer : this.container;
+    rootContainer.style.height = `${this.height}`;
   }
 
   /**
@@ -187,7 +292,7 @@ export default class IdsListView extends Base {
    * @returns {number} The item height
    */
   checkTemplateHeight(itemTemplate) {
-    this.shadowRoot.querySelector('.ids-list-view div').insertAdjacentHTML('beforeEnd', itemTemplate);
+    this.container.insertAdjacentHTML('beforeEnd', itemTemplate);
     const tester = this.shadowRoot.querySelector('#height-tester');
     const height = tester.offsetHeight;
     tester.remove();
@@ -200,8 +305,10 @@ export default class IdsListView extends Base {
    * @param {Array | null} value The array to use
    */
   set data(value) {
-    this.datasource.data = value || [];
-    this.render(true);
+    if (this.datasource) {
+      this.datasource.data = value || [];
+      this.render(true);
+    }
   }
 
   get data() { return this?.datasource?.data || []; }
@@ -267,13 +374,5 @@ export default class IdsListView extends Base {
 
   get draggable() {
     return stringToBool(this.getAttribute(attributes.DRAGGABLE));
-  }
-
-  /**
-   * Passes focus from the Panel to its Header component
-   * @returns {void}
-   */
-  focus() {
-    this.shadowRoot.querySelector('.ids-list-view [tabindex="0"]')?.focus();
   }
 }

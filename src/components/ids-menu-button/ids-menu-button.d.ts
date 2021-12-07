@@ -7,6 +7,9 @@ export default class IdsMenuButton extends IdsButton {
   /** Defines the type of icon used as the secondary "dropdown icon".  If null, no icon is used */
   dropdownIcon: string | boolean;
 
+  /** Set the width and formatter style for menu button */
+  formatterWidth: string | number;
+
   /** */
   readonly dropdownIconEl: IdsIcon | null;
 

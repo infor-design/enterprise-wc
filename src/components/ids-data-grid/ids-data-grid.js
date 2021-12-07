@@ -27,7 +27,6 @@ const rowHeights = {
  * @mixes IdsThemeMixin
  * @mixes IdsLocaleMixin
  * @part table - the table main element
- * @part container - the table container element
  * @part body - the table body element
  * @part header - the header element
  * @part header-cell - the header cells
@@ -135,13 +134,11 @@ export default class IdsDataGrid extends Base {
     // Setup virtual scrolling
     if (this.virtualScroll && this.data.length > 0) {
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
-      if (this.virtualScrollContainer) {
-        this.virtualScrollContainer.scrollTarget = this.container;
-        this.virtualScrollContainer.itemTemplate = (row, index) => this.rowTemplate(row, index);
-        this.virtualScrollContainer.itemCount = this.data.length;
-        this.virtualScrollContainer.itemHeight = this.rowPixelHeight;
-        this.virtualScrollContainer.data = this.data;
-      }
+      this.virtualScrollContainer.scrollTarget = this.container;
+
+      this.virtualScrollContainer.itemTemplate = (row, index) => this.rowTemplate(row, index); //eslint-disable-line
+      this.virtualScrollContainer.itemHeight = this.rowPixelHeight;
+      this.virtualScrollContainer.data = this.data;
     }
 
     this.#attachEventHandlers();
@@ -906,15 +903,6 @@ export default class IdsDataGrid extends Base {
    */
   get rowPixelHeight() {
     return rowHeights[this.rowHeight];
-  }
-
-  /**
-   * Get the header height in pixels
-   * @private
-   * @returns {number} The pixel height
-   */
-  get headerPixelHeight() {
-    return 35;
   }
 
   /**

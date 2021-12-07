@@ -1,11 +1,11 @@
-import { customElement, scss } from '../../core/ids-decorators';
-import Base from './ids-toolbar-section-base';
 import { attributes } from '../../core/ids-attributes';
-
+import { customElement, scss, appendIds } from '../../core/ids-decorators';
 import styles from './ids-toolbar-section.scss';
+import Base from './ids-toolbar-section-base';
 
 const TOOLBAR_SECTION_ATTRIBUTES = [
   'align',
+  'toolbar-type',
   attributes.TYPE
 ];
 
@@ -16,6 +16,9 @@ const SECTION_ALIGNS = [
   'align-center-even',
   'align-end'
 ];
+
+// Toolbar types
+const TOOLBAR_TYPES = ['formatter'];
 
 // Section types
 const SECTION_TYPES = [
@@ -40,6 +43,11 @@ const TOOLBAR_ITEM_TAGNAMES = [
 // WebComponent Tagnames that correspond to valid text nodes
 const TOOLBAR_TEXTNODE_TAGNAMES = [
   'ids-text'
+];
+
+// WebComponent Tagnames that correspond to valid ids-separator nodes
+const TOOLBAR_SEPARATOR_TAGNAMES = [
+  'ids-separator'
 ];
 
 /**
@@ -69,6 +77,10 @@ function setCssClassFromGroup(targetClass, targetElem, group) {
 
 /**
  * IDS Toolbar Section Component
+ * @type {IdsToolbarSection}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsThemeMixin
  */
 @customElement('ids-toolbar-section')
 @scss(styles)
@@ -78,7 +90,7 @@ export default class IdsToolbarSection extends Base {
   }
 
   static get attributes() {
-    return TOOLBAR_SECTION_ATTRIBUTES;
+    return [...super.attributes, ...TOOLBAR_SECTION_ATTRIBUTES];
   }
 
   template() {
@@ -92,6 +104,8 @@ export default class IdsToolbarSection extends Base {
   connectedCallback() {
     setCssClassFromGroup(`align-${this.align}`, this.container, SECTION_ALIGNS);
     setCssClassFromGroup(this.type, this.container, SECTION_TYPES);
+    setCssClassFromGroup(this.toolbarType, this.container, TOOLBAR_TYPES);
+    super.connectedCallback();
   }
 
   /**
@@ -113,6 +127,18 @@ export default class IdsToolbarSection extends Base {
     const nodes = [...this.children].filter((e) => {
       const elemTagName = e.tagName.toLowerCase();
       return TOOLBAR_TEXTNODE_TAGNAMES.includes(elemTagName);
+    });
+    return nodes;
+  }
+
+  /**
+   * @readonly
+   * @returns {Array<any>} list of ids-separator nodes contained by the toolbar
+   */
+  get separators() {
+    const nodes = [...this.children].filter((e) => {
+      const elemTagName = e.tagName.toLowerCase();
+      return TOOLBAR_SEPARATOR_TAGNAMES.includes(elemTagName);
     });
     return nodes;
   }
@@ -157,6 +183,27 @@ export default class IdsToolbarSection extends Base {
    */
   get type() {
     return this.getAttribute('type') || 'static';
+  }
+
+  /**
+   * @param {string} value the type of toolbar
+   */
+  set toolbarType(value) {
+    const attr = 'toolbar-type';
+    if (TOOLBAR_TYPES.includes(value)) {
+      this.setAttribute(attr, value);
+      this.container.classList.add(value);
+    } else {
+      this.removeAttribute(attr);
+      this.container.classList.remove(TOOLBAR_TYPES[0]);
+    }
+  }
+
+  /**
+   * @returns {string} the type of toolbar
+   */
+  get toolbarType() {
+    return this.getAttribute('toolbar-type');
   }
 }
 

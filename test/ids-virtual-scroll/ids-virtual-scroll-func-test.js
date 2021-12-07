@@ -2,18 +2,18 @@
  * @jest-environment jsdom
  */
 import IdsVirtualScroll from '../../src/components/ids-virtual-scroll/ids-virtual-scroll';
-import dataset from '../../demos/data/products.json';
+import dataset from '../../demos/data/bikes.json';
 
 describe('IdsVirtualScroll Component', () => {
   let virtualScroll;
 
   const appendVirtualScroll = () => {
     const elem = new IdsVirtualScroll();
-    elem.innerHTML = `<div class="ids-list-view"><ul slot="contents"></ul></div>`;
+    elem.innerHTML = `<div class="ids-list-view-body" part="contents"></div>`;
     document.body.appendChild(elem);
     elem.height = 308;
     elem.itemHeight = 20;
-    elem.itemTemplate = (item) => `<li class="ids-virtual-scroll-item">${item.productName}</li>`;
+    elem.itemTemplate = (item) => `<div part="list-item" class="ids-virtual-scroll-item">${item.manufacturerName}</div>`;
     elem.data = dataset;
     return elem;
   };
@@ -53,7 +53,6 @@ describe('IdsVirtualScroll Component', () => {
     virtualScroll.handleScroll({ target: virtualScroll });
     // eslint-disable-next-line no-promise-executor-return
     await new Promise((r) => setTimeout(r, 50));
-
     expect(virtualScroll.innerHTML).not.toEqual(startingHtml);
   });
 
@@ -73,13 +72,13 @@ describe('IdsVirtualScroll Component', () => {
   });
 
   it('can set the bufferSize attribute', async () => {
-    expect((virtualScroll.innerHTML.match(/<li/g) || []).length > 0).toBeTruthy();
+    expect((virtualScroll.innerHTML.match(/<div part="list-item"/g) || []).length > 0).toBeTruthy();
     virtualScroll.bufferSize = 100;
     expect(virtualScroll.getAttribute('buffer-size')).toEqual('100');
 
     virtualScroll.renderItems();
 
-    expect((virtualScroll.innerHTML.match(/<li/g) || []).length).toEqual(virtualScroll.visibleItemCount());
+    expect((virtualScroll.innerHTML.match(/<div part="list-item"/g) || []).length).toEqual(virtualScroll.visibleItemCount());
   });
 
   it('removes the height attribute when reset', () => {
@@ -95,11 +94,6 @@ describe('IdsVirtualScroll Component', () => {
   it('removes the itemHeight attribute when reset', () => {
     virtualScroll.itemHeight = null;
     expect(virtualScroll.getAttribute('item-height')).toEqual(null);
-  });
-
-  it('removes the itemCount attribute when reset', () => {
-    virtualScroll.itemCount = null;
-    expect(virtualScroll.getAttribute('item-count')).toEqual(null);
   });
 
   it('removes the data value when reset', () => {
@@ -141,14 +135,26 @@ describe('IdsVirtualScroll Component', () => {
   });
 
   it('can reset the data', () => {
-    expect(virtualScroll.querySelectorAll('li').length > 0).toBeTruthy();
-    virtualScroll.data = virtualScroll.data.slice(1, 10);
-    expect(virtualScroll.querySelectorAll('li').length).toEqual(9);
+    let list = virtualScroll.querySelectorAll('.ids-virtual-scroll-item');
+    let listSize = list.length;
+    expect(listSize > 0).toBeTruthy();
+    virtualScroll.data = virtualScroll.data.slice(1, 3);
+
+    // reselect
+    list = virtualScroll.querySelectorAll('.ids-virtual-scroll-item');
+    listSize = list.length;
+    expect(listSize).toEqual(2);
   });
 
   it('can reset the data to zero', () => {
-    expect(virtualScroll.querySelectorAll('li').length > 0).toBeTruthy();
+    let list = virtualScroll.querySelectorAll('div[part="list-item"]');
+    let listSize = list.length;
+    expect(listSize > 0).toBeTruthy();
     virtualScroll.data = [];
-    expect(virtualScroll.querySelectorAll('li').length).toEqual(0);
+
+    // reselect
+    list = virtualScroll.querySelectorAll('div[part="list-item"]');
+    listSize = list.length;
+    expect(listSize).toEqual(0);
   });
 });

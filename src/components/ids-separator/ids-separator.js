@@ -2,7 +2,8 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsDataSource from '../../core/ids-data-source';
-import Base from '../ids-menu/ids-menu-base';
+
+import Base from './ids-separator-base';
 
 import styles from './ids-separator.scss';
 
@@ -10,6 +11,7 @@ import styles from './ids-separator.scss';
  * IDS Separator Component
  * @type {IdsSeparator}
  * @inherits IdsElement
+ * @mixes IdsColorVariantMixin
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  * @part separator - the menu separator element
@@ -31,6 +33,12 @@ export default class IdsSeparator extends Base {
       attributes.VERTICAL
     ];
   }
+
+  /**
+   * Inherited from `IdsColorVariantMixin`
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  colorVariants = ['alternate-formatter'];
 
   template() {
     let tagName = 'div';
