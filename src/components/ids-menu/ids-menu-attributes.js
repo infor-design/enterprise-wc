@@ -73,7 +73,7 @@ function isValidGroup(menuGroup, idsMenu) {
  * @returns {boolean} true if the provided element is a "currently-usable" IdsMenuItem type.
  */
 function isUsableItem(item, idsMenu) {
-  const isItem = item.nodeName === 'IDS-MENU-ITEM';
+  const isItem = item?.nodeName === 'IDS-MENU-ITEM';
   if (!isItem) {
     return false;
   }

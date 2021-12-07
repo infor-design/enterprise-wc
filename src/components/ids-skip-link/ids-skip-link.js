@@ -1,4 +1,4 @@
-import { IdsElement, customElement, scss } from '../../core/ids-decorators';
+import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 import Base from './ids-skip-link-base';

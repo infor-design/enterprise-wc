@@ -16,6 +16,8 @@ import {
 
 import styles from './ids-input.scss';
 
+let instanceCounter = 0;
+
 /**
  * IDS Input Component
  * @type {IdsInput}
@@ -42,7 +44,6 @@ export default class IdsInput extends Base {
    */
   constructor() {
     super();
-    this.instanceCounter = 0;
   }
 
   /**
@@ -102,7 +103,7 @@ export default class IdsInput extends Base {
    */
   template() {
     if (!this.id) {
-      this.setAttribute?.(attributes.ID, `ids-input-${++this.instanceCounter}`);
+      this.setAttribute?.(attributes.ID, `ids-input-${++instanceCounter}`);
     }
 
     // Input

@@ -1,9 +1,11 @@
 /**
  * @jest-environment jsdom
  */
-import { IdsDataGrid, IdsDataGridFormatters } from '../../src/components/ids-data-grid/ids-data-grid';
-import ResizeObserver from '../helpers/resize-observer-mock';
+import IdsDataGrid from '../../src/components/ids-data-grid/ids-data-grid';
+import IdsDataGridFormatters from '../../src/components/ids-data-grid/ids-data-grid-formatters';
 import IdsLookup from '../../src/components/ids-lookup/ids-lookup';
+
+import ResizeObserver from '../helpers/resize-observer-mock';
 import createFromTemplate from '../helpers/create-from-template';
 import waitFor from '../helpers/wait-for';
 import dataset from '../../demos/data/books.json';
@@ -385,5 +387,25 @@ describe('IdsLookup Component', () => {
     lookup.dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(8) .ids-data-grid-cell:nth-child(1)').click();
 
     expect(mockCallback.mock.calls.length).toBe(1);
+  });
+
+  it('supports custom modals', async () => {
+    lookup = await createFromTemplate(lookup, `<ids-lookup id="lookup-5" label="Custom Lookup">
+      <ids-modal slot="lookup-modal" id="custom-lookup-modal" aria-labelledby="custom-lookup-modal-title">
+        <ids-text slot="title" font-size="24" type="h2" id="lookup-modal-title">Custom Lookup Modal</ids-text>
+        <ids-modal-button slot="buttons" id="modal-cancel-btn" type="primary">
+          <span slot="text">Apply</span>
+        </ids-modal-button>
+      </ids-modal>
+    </ids-lookup>`);
+    lookup.dataGridSettings = {
+      rowSelection: 'multiple'
+    };
+    lookup.columns = columns();
+    lookup.data = dataset;
+
+    expect(document.querySelector('#custom-lookup-modal').visible).toBeFalsy();
+    lookup.modal.visible = true;
+    expect(document.querySelector('#custom-lookup-modal').visible).toBeTruthy();
   });
 });

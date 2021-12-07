@@ -40,6 +40,14 @@ describe('IdsModal Component (with buttons)', () => {
     expect(modal.visible).toBeTruthy();
   });
 
+  it('can set/change the cancel attribute', async () => {
+    modal.buttons[0].cancel = true;
+    expect(modal.buttons[0].getAttribute('cancel')).toBeTruthy();
+
+    modal.buttons[0].cancel = false;
+    expect(modal.buttons[0].getAttribute('cancel')).toBeFalsy();
+  });
+
   it('responds to its normal buttons\' clicks', async () => {
     // Setup a button click handler
     modal.popup.animated = false;

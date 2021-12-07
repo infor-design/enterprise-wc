@@ -107,9 +107,6 @@ export default class IdsExpandableArea extends Base {
 
       this.pane.style.height = `${this.pane?.scrollHeight}px`;
       requestAnimationFrame(() => {
-        if (!this.pane) {
-          return;
-        }
         this.pane.style.height = `0px`;
       });
     });

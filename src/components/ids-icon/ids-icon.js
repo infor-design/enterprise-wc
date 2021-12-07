@@ -403,7 +403,7 @@ export default class IdsIcon extends Base {
       badge = this.shadowRoot.querySelector('span');
     }
 
-    if (!this.badgeColor && !this.badgePosition && badge) {
+    if ((!this.badgeColor || !this.badgePosition) && badge) {
       this.className = '';
     } else {
       badge.className = '';

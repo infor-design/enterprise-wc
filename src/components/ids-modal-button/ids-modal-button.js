@@ -1,7 +1,8 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import IdsButton from '../ids-button/ids-button';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
+import Base from './ids-modal-button-base';
 
 import styles from '../ids-button/ids-button.scss';
 
@@ -12,7 +13,7 @@ import styles from '../ids-button/ids-button.scss';
  */
 @customElement('ids-modal-button')
 @scss(styles)
-export default class IdsModalButton extends IdsButton {
+export default class IdsModalButton extends Base {
   constructor() {
     super();
   }

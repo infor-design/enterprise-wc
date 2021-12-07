@@ -548,7 +548,7 @@ export default class IdsModal extends Base {
    * @returns {void}
    */
   onOutsideClick(e) {
-    if (e || !e?.target) {
+    if (!e || !e?.target) {
       return;
     }
 
