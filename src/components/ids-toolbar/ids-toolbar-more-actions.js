@@ -239,7 +239,7 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
 
     // Forward `selected` events from the More Actions Menu to their
     // Toolbar Item counterparts.  This is needed for firing Toolbar Actions that
-    // live in the overflow menu.
+    // are only visible inside the overflow menu.
     this.onEvent('selected', this.menu, (e) => {
       const menuItem = e.detail.elem;
       if (menuItem.overflowTarget) {
