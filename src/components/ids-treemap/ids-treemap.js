@@ -114,7 +114,9 @@ class IdsTreeMap extends mix(IdsElement).with(
   template() {
     const treemap = `
       <div class="treemap-container">
-        <div class="treemap-title">${this.templateTitle()}</div>
+        <div class="treemap-title">
+          ${this.templateTitle()}
+        </div>
         ${this.templateSvg(this.data)}
       </div>
     `;
@@ -190,7 +192,7 @@ class IdsTreeMap extends mix(IdsElement).with(
   templateTitle() {
     return `
       <ids-text type="span" font-weight="bold" part="title">
-        ${this.title !== null ? this.title : 'Add Treemap Title'}
+        ${typeof this.title === 'string' ? this.title : 'Add Treemap Title'}
       </ids-text>`;
   }
 
@@ -231,7 +233,7 @@ class IdsTreeMap extends mix(IdsElement).with(
   #sumReducer = (acc, cur) => acc + cur;
 
   /**
-   * Round Value
+   * Round Value and preserve 2 decimals
    * @param {Array} number row
    * @returns {Array} round value array
    * @memberof IdsTreeMap
@@ -248,10 +250,10 @@ class IdsTreeMap extends mix(IdsElement).with(
    * @private
    */
   #validateArguments = ({ data, height }) => {
-    if (!height || typeof height !== 'number' || height < 0) {
+    if (typeof height !== 'number' || height <= 0) {
       throw new Error('You need to specify the height of your treemap');
     }
-    if (!data || !Array.isArray(data) || data.length === 0 || !data.every((dataPoint) => Object.prototype.hasOwnProperty.call(dataPoint, 'value') && typeof dataPoint.value === 'number' && dataPoint.value >= 0 && !Number.isNaN(dataPoint.value))) {
+    if (!Array.isArray(data) || data.length === 0 || !data.every((dataPoint) => Object.prototype.hasOwnProperty.call(dataPoint, 'value') && typeof dataPoint.value === 'number' && dataPoint.value >= 0)) {
       throw new Error('Your data must be in this format [{ value: 1 }, { value: 2 }], \'value\' being a positive number');
     }
   };
