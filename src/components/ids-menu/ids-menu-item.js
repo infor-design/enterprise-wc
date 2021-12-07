@@ -16,11 +16,6 @@ import {
   IdsLocaleMixin
 } from '../../mixins';
 
-import {
-  renderLoop,
-  IdsRenderLoopItem
-} from '../ids-render-loop';
-
 import IdsIcon from '../ids-icon/ids-icon';
 
 import styles from './ids-menu-item.scss';
@@ -38,22 +33,6 @@ const MENU_DEFAULTS = {
   tabIndex: 0,
   value: null,
 };
-
-// Definable attributes
-const MENU_ATTRIBUTES = [
-  attributes.TEXT_ALIGN,
-  attributes.DISABLED,
-  attributes.HIDDEN,
-  attributes.ICON,
-  attributes.LANGUAGE,
-  attributes.SELECTED,
-  attributes.SUBMENU,
-  attributes.TARGET,
-  attributes.TABINDEX,
-  attributes.VALUE,
-  attributes.MODE,
-  attributes.VERSION
-];
 
 /**
  * Determines if a menu item's stored value can safely be described by its attribute inside the DOM.
@@ -166,7 +145,18 @@ class IdsMenuItem extends mix(IdsElement).with(
    * @returns {Array} The attributes as an array
    */
   static get attributes() {
-    return MENU_ATTRIBUTES;
+    return [
+      ...super.attributes,
+      attributes.TEXT_ALIGN,
+      attributes.DISABLED,
+      attributes.HIDDEN,
+      attributes.ICON,
+      attributes.SELECTED,
+      attributes.SUBMENU,
+      attributes.TARGET,
+      attributes.TABINDEX,
+      attributes.VALUE,
+    ];
   }
 
   /**
@@ -186,7 +176,7 @@ class IdsMenuItem extends mix(IdsElement).with(
         }
         break;
       default:
-        IdsElement.prototype.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
+        super.attributeChangedCallback(name, oldValue, newValue);
         break;
       }
     }

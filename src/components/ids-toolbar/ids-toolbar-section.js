@@ -148,7 +148,7 @@ class IdsToolbarSection extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
 
   /**
    * @readonly
-   * @returns {IdsToolbar} a reference to this section's toolbar parent node
+   * @returns {HTMLElement} a reference to this section's toolbar parent node
    */
   get toolbar() {
     return this.parentElement;

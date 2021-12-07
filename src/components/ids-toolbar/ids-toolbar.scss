@@ -2,7 +2,6 @@
 
 :host {
   @include block();
-
   @include ids-toolbar-section-host-size-styles();
 
   &[disabled] {

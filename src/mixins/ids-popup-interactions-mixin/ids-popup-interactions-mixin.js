@@ -70,7 +70,7 @@ const IdsPopupInteractionsMixin = (superclass) => class extends superclass {
 
   /**
    * @private
-   * @property {Window}
+   * @property {Window|HTMLElement} currentPopupTarget the target entity for receiving Popup Interaction Events
    */
   #currentPopupTarget = window;
 

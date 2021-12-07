@@ -39,12 +39,12 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
 
     requestAnimationFrame(() => {
       this.render();
-      this.refresh();
+      this.#refresh();
       this.#attachEventHandlers();
 
       // Connect the menu items to their Toolbar items after everything is rendered
       requestAnimationFrame(() => {
-        this.connectOverflowedItems();
+        this.#connectOverflowedItems();
       });
     });
   }
@@ -75,16 +75,26 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
     </div>`;
   }
 
-  moreActionsMenuTemplate() {
+  /**
+   * @private
+   * @returns {string} the template for the More Actions Menu Group
+   */
+  #moreActionsMenuTemplate() {
     // Cycle through toolbar items, if present, and render a menu item that represents them
-    const renderToolbarItems = () => this.toolbar?.items?.map((i) => this.moreActionsItemTemplate(i)).join('') || '';
-
+    const renderToolbarItems = () => this.toolbar?.items?.map((i) => this.#moreActionsItemTemplate(i)).join('') || '';
     return `<ids-menu-group ${attributes.MORE_ACTIONS}>
       ${renderToolbarItems() }
     </ids-menu-group>`;
   }
 
-  moreActionsItemTemplate(item, isSubmenuItem = false) {
+  /**
+   * @private
+   * @param {HTMLElement} item an element from inside one of the Toolbar sections
+   *  that will be mirrored in the More Actions menu
+   * @param {boolean} isSubmenuItem true if the item provided is a submenu item
+   * @returns {string} representing a single menu item
+   */
+  #moreActionsItemTemplate(item, isSubmenuItem = false) {
     let text = '';
     let icon = '';
     let hidden = '';
@@ -112,7 +122,7 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
       if (thisItem[menuProp]) {
         const thisSubItems = thisItem[menuProp].items;
         submenu = `<ids-popup-menu slot="submenu">
-          ${thisSubItems.map((subItem) => this.moreActionsItemTemplate(subItem, true)).join('') || ''}
+          ${thisSubItems.map((subItem) => this.#moreActionsItemTemplate(subItem, true)).join('') || ''}
         </ids-popup-menu>`;
       }
     };
@@ -172,7 +182,7 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
 
   /**
    * @readonly
-   * @returns {Array<IdsMenuItem>} list of manually-defined menu items
+   * @returns {Array<HTMLElement>} list of manually-defined menu items
    */
   get predefinedMenuItems() {
     return [...this.querySelectorAll('ids-menu-item')];
@@ -180,7 +190,7 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
 
   /**
    * @readonly
-   * @returns {Array<IdsMenuItem|IdsMenuGroup>} list of menu items that mirror Toolbar items
+   * @returns {Array<HTMLElement>} list of menu items that mirror Toolbar items
    */
   get overflowMenuItems() {
     const moreActionsMenu = this.querySelector(MORE_ACTIONS_SELECTOR);
@@ -192,7 +202,7 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
 
   /**
    * @readonly
-   * @returns {IdsToolbar} a reference to this section's toolbar parent node
+   * @returns {HTMLElement} a reference to this section's toolbar parent node
    */
   get toolbar() {
     return this.parentElement;
@@ -284,7 +294,7 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
    * Refreshes the state of the More Actions button
    * @returns {void}
    */
-  refresh() {
+  #refresh() {
     if (this.menu.popup) {
       this.menu.popup.align = 'bottom, right';
       this.menu.popup.alignEdge = 'bottom';
@@ -309,13 +319,14 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
 
   /**
    * Connects each overflowed menu item to a real Toolbar element
+   * @private
    * @returns {void}
    */
-  connectOverflowedItems() {
+  #connectOverflowedItems() {
     // Render the "More Actions" area if it doesn't exist
     const el = this.querySelector(MORE_ACTIONS_SELECTOR);
     if (!el && this.overflow) {
-      this.insertAdjacentHTML('afterbegin', this.moreActionsMenuTemplate());
+      this.insertAdjacentHTML('afterbegin', this.#moreActionsMenuTemplate());
     }
     if (el && !this.overflow) {
       el.remove();

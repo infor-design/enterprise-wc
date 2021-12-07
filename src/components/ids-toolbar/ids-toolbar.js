@@ -392,12 +392,13 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
 
     const detail = {
       elem,
-      value: this.value
+      value: elem.value
     };
 
     // Handle Overflowed items
     if (elem.overflowTarget) {
       detail.elem = elem.overflowTarget;
+      detail.value = elem.overflowTarget.value;
       detail.overflowMenuItem = elem;
       detail.triggeredFromOverflow = triggeredFromOverflow;
     }
