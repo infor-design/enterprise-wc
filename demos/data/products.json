@@ -56,7 +56,7 @@
    {
       "id":7,
       "productId":"8616822348",
-      "productName":"Syrup - Monin, Swiss Choclate",
+      "productName":"Syrup - Monin, Swiss Chocolate",
       "inStock":false,
       "units":"0805",
       "unitPrice":9,
@@ -623,7 +623,7 @@
    {
       "id":70,
       "productId":"5296933680",
-      "productName":"Syrup - Monin, Swiss Choclate",
+      "productName":"Syrup - Monin, Swiss Chocolate",
       "inStock":true,
       "units":"80",
       "unitPrice":23,
@@ -7463,7 +7463,7 @@
    {
       "id":830,
       "productId":"0530078368",
-      "productName":"Syrup - Monin, Swiss Choclate",
+      "productName":"Syrup - Monin, Swiss Chocolate",
       "inStock":false,
       "units":"7",
       "unitPrice":60,
