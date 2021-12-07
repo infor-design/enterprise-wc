@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
+import '../../src/components/ids-text/ids-text';
 
 import IdsMenu, {
   IdsMenuGroup,
@@ -491,8 +492,10 @@ describe('IdsMenu Component', () => {
 
     it('can get text content', () => {
       item1.textContent = 'The First Item';
-
       expect(item1.text).toEqual('The First Item');
+
+      item1.innerHTML = '<ids-text font-size="20">The First Item(ids-text)</ids-text>';
+      expect(item1.text).toEqual('The First Item(ids-text)');
     });
 
     it('can explain what menu it exists within', () => {
