@@ -1,4 +1,12 @@
 @import '../../../core/ids-base';
+:host(.last) {
+  @media (min-width: $breakpoint-xs) {
+    flex: 0;
+  }
+  @media (min-width: $breakpoint-sm) {
+    flex: 1;
+  }
+}
 
 :host {
   display: flex;

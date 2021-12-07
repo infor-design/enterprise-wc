@@ -45,6 +45,8 @@ class IdsProcessStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
         const line = this.container.querySelector('.line');
 
         if (steps[stepAmount - 1] === this) {
+          // reponsive styling for last step
+          this.classList.add('last');
           // don't render the line for the last step
           line.setAttribute('hidden', '');
         } else if (this.status === 'started' || this.status === 'done') {
