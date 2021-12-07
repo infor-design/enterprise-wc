@@ -53,7 +53,7 @@ const exampleHTML = `
     </ids-button>
   </ids-toolbar-section>
 
-  <ids-toolbar-more-actions id="section-more">
+  <ids-toolbar-more-actions id="section-more" overflow="true">
     <ids-menu-group>
       <ids-menu-item value="1">Option One</ids-menu-item>
       <ids-menu-item value="2">Option Two</ids-menu-item>

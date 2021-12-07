@@ -119,21 +119,16 @@ describe('IdsToolbarSection Component', () => {
 
   it('can be aligned', () => {
     expect(sectionTitle.align).toBe('start');
-    expect(sectionTitle.container.classList.contains('align-start')).toBeTruthy();
-
     expect(sectionButtonset.align).toBe('end');
-    expect(sectionButtonset.container.classList.contains('align-end')).toBeTruthy();
 
     sectionTitle.align = 'center';
 
     expect(sectionTitle.align).toBe('center');
-    expect(sectionTitle.container.classList.contains('align-center')).toBeTruthy();
 
     // Setting a junk value defaults to `align-start`, but removes the attribute
     sectionTitle.align = 'junk';
 
     expect(sectionTitle.align).toBe('start');
-    expect(sectionTitle.container.classList.contains('align-start')).toBeTruthy();
     expect(sectionTitle.getAttribute('align')).toBe(null);
   });
 });

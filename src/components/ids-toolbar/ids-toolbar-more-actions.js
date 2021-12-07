@@ -14,6 +14,8 @@ import IdsMenuButton from '../ids-menu-button/ids-menu-button';
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import { IdsStringUtils } from '../../utils/ids-string-utils';
 
+const MORE_ACTIONS_SELECTOR = `[${attributes.MORE_ACTIONS}]`;
+
 /**
  * IDS Toolbar Section Component
  */
@@ -27,6 +29,7 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.DISABLED,
       attributes.OVERFLOW
     ];
   }
@@ -52,7 +55,7 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
     // Cleanup overflow markings on Toolbar items
     // (possibly still present)
     this.overflowMenuItems.forEach((item) => {
-      item.removeAttribute('overflowed');
+      item.removeAttribute(attributes.OVERFLOWED);
     });
   }
 
@@ -72,7 +75,7 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
     // Cycle through toolbar items, if present, and render a menu item that represents them
     const renderToolbarItems = () => this.toolbar?.items?.map((i) => this.moreActionsItemTemplate(i)).join('') || '';
 
-    return `<ids-menu-group more-actions>
+    return `<ids-menu-group ${attributes.MORE_ACTIONS}>
       ${renderToolbarItems() }
     </ids-menu-group>`;
   }
@@ -176,9 +179,9 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {Array<IdsMenuItem|IdsMenuGroup>} list of menu items that mirror Toolbar items
    */
   get overflowMenuItems() {
-    const moreActionsMenu = this.querySelector('[more-actions]');
+    const moreActionsMenu = this.querySelector(MORE_ACTIONS_SELECTOR);
     if (moreActionsMenu) {
-      return [...this.querySelector('[more-actions]').children];
+      return [...this.querySelector(MORE_ACTIONS_SELECTOR).children];
     }
     return [];
   }
@@ -199,9 +202,9 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
     const currentValue = this.overflow;
     if (newValue !== currentValue) {
       if (newValue) {
-        this.setAttribute('overflow', '');
+        this.setAttribute(attributes.OVERFLOW, '');
       } else {
-        this.removeAttribute('overflow');
+        this.removeAttribute(attributes.OVERFLOW);
       }
     }
   }
@@ -210,7 +213,7 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {boolean} true if this More Actions menu will display overflowed items from the toolbar
    */
   get overflow() {
-    return this.hasAttribute('overflow');
+    return this.hasAttribute(attributes.OVERFLOW);
   }
 
   /**
@@ -218,7 +221,7 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
    * @param {string} val the type value
    */
   set type(val) {
-    this.removeAttribute('type');
+    this.removeAttribute(attributes.TYPE);
   }
 
   /**
@@ -255,8 +258,10 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {void}
    */
   refresh() {
-    this.menu.popup.align = 'bottom, right';
-    this.menu.popup.alignEdge = 'bottom';
+    if (this.menu.popup) {
+      this.menu.popup.align = 'bottom, right';
+      this.menu.popup.alignEdge = 'bottom';
+    }
   }
 
   /**
@@ -268,9 +273,9 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
       const doHide = !this.isOverflowed(item.overflowTarget);
       item.hidden = doHide;
       if (doHide) {
-        item.overflowTarget.removeAttribute('overflowed');
+        item.overflowTarget.removeAttribute(attributes.OVERFLOWED);
       } else {
-        item.overflowTarget.setAttribute('overflowed', '');
+        item.overflowTarget.setAttribute(attributes.OVERFLOWED, '');
       }
     });
   }
@@ -281,9 +286,12 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
    */
   connectOverflowedItems() {
     // Render the "More Actions" area if it doesn't exist
-    const el = this.querySelector('[more-actions]');
-    if (!el) {
+    const el = this.querySelector(MORE_ACTIONS_SELECTOR);
+    if (!el && this.overflow) {
       this.insertAdjacentHTML('afterbegin', this.moreActionsMenuTemplate());
+    }
+    if (el && !this.overflow) {
+      el.remove();
     }
 
     // Connects Overflow Menu subitems with corresponding menu items in the Toolbar

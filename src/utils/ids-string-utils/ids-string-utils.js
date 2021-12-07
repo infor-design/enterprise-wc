@@ -30,7 +30,7 @@ export function removeDuplicates(str) {
  * @param {string} str the incoming string to format
  * @returns {string} the string with newline characters replaced
  */
-export function removeNewLines(str) {
+export function removeNewLines(str = '') {
   return str.replace(/\r?\n|\r/g, ' ');
 }
 

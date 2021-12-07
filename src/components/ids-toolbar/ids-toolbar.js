@@ -163,7 +163,7 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
       }
 
       // Don't count disabled/overflowed items as "taking a step"
-      if (!currentItem.disabled && !currentItem.hasAttribute('overflowed')) {
+      if (!currentItem.disabled && !currentItem.hasAttribute(attributes.OVERFLOWED)) {
         steps -= 1;
       }
     }
@@ -189,12 +189,12 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
     const trueVal = IdsStringUtils.stringToBool(val);
 
     if (trueVal) {
-      this.setAttribute('disabled', val);
+      this.setAttribute(attributes.DISABLED, val);
     } else {
-      this.removeAttribute('disabled');
+      this.removeAttribute(attributes.DISABLED);
     }
 
-    this.container.classList[trueVal ? 'add' : 'remove']('disabled');
+    this.container.classList[trueVal ? 'add' : 'remove'](attributes.DISABLED);
 
     // Set disabled state on all relevant subcomponents
     const setDisabledState = (elem) => {
@@ -208,7 +208,7 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
    * @returns {boolean} true if the toolbar is currently disabled
    */
   get disabled() {
-    return this.container.classList.contains('disabled');
+    return this.container.classList.contains(attributes.DISABLED);
   }
 
   /**
@@ -287,12 +287,12 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
     const trueVal = IdsStringUtils.stringToBool(val);
 
     if (trueVal) {
-      this.setAttribute('tabbable', val);
+      this.setAttribute(attributes.TABBABLE, val);
     } else {
-      this.removeAttribute('tabbable');
+      this.removeAttribute(attributes.TABBABLE);
     }
 
-    this.container.classList[trueVal ? 'add' : 'remove']('tabbable');
+    this.container.classList[trueVal ? 'add' : 'remove'](attributes.TABBABLE);
 
     // Try to use a currently-focused element
     this.makeTabbable(this.focused);
@@ -302,7 +302,7 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
    * @returns {boolean} true if the toolbar is fully tabbable
    */
   get tabbable() {
-    return this.container.classList.contains('tabbable');
+    return this.container.classList.contains(attributes.TABBABLE);
   }
 
   /**

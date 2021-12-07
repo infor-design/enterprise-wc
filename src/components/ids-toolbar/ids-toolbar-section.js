@@ -207,7 +207,7 @@ class IdsToolbarSection extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
     } else {
       trueVal = `${val}`;
     }
-    this.setAttribute('type', trueVal);
+    this.setAttribute(attributes.TYPE, trueVal);
     setCssClassFromGroup(trueVal, this.container, SECTION_TYPES);
   }
 
@@ -215,7 +215,7 @@ class IdsToolbarSection extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    * @returns {string} the type of section
    */
   get type() {
-    return this.getAttribute('type') || 'static';
+    return this.getAttribute(attributes.TYPE) || 'static';
   }
 
   /**
