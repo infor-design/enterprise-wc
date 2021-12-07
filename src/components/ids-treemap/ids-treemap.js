@@ -424,12 +424,14 @@ class IdsTreeMap extends mix(IdsElement).with(
     requestAnimationFrame(() => {
       const resizeObserver = new ResizeObserver((entries) => {
         for (const entry of entries) {
+          // Ignore the first call to the observer function
           if (observerStarted) {
             observerStarted = false;
             return;
           }
           resizeObserver.disconnect();
 
+          // Recalculate treemap data
           this.width = entry.target.offsetWidth;
           const updatedObj = {
             data: this.initialData,
