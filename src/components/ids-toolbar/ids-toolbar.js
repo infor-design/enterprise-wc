@@ -198,7 +198,11 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
 
     // Set disabled state on all relevant subcomponents
     const setDisabledState = (elem) => {
-      elem.disabled = trueVal;
+      if (elem.id === 'more-actions') {
+        elem.parentElement.parentNode.host.disabled = trueVal;
+      } else {
+        elem.disabled = trueVal;
+      }
     };
     this.items.forEach(setDisabledState);
     this.textElems.forEach(setDisabledState);

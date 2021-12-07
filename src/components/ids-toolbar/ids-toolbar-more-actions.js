@@ -60,12 +60,16 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   template() {
+    const menuButtonId = 'more-actions';
+    const menuId = 'more-actions-menu';
+    const disabled = this.disabled ? ' disabled' : '';
+
     return `<div class="ids-toolbar-section ids-toolbar-more-actions more">
-      <ids-menu-button id="icon-button" menu="icon-menu">
+      <ids-menu-button id="${menuButtonId}" menu="${menuId}"${disabled}>
         <ids-icon slot="icon" icon="more"></ids-icon>
         <span class="audible">More Actions Button</span>
       </ids-menu-button>
-      <ids-popup-menu id="icon-menu" target="#icon-button" trigger="click">
+      <ids-popup-menu id="${menuId}" target="#${menuButtonId}" trigger="click">
         <slot></slot>
       </ids-popup-menu>
     </div>`;
@@ -192,6 +196,29 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
    */
   get toolbar() {
     return this.parentElement;
+  }
+
+  /**
+   * @param {boolean} val true if the More Actions menu should be disabled
+   */
+  set disabled(val) {
+    const trueVal = IdsStringUtils.stringToBool(val);
+
+    if (trueVal) {
+      this.setAttribute(attributes.DISABLED, val);
+    } else {
+      this.removeAttribute(attributes.DISABLED);
+    }
+
+    this.button.disabled = trueVal;
+    this.container.classList[trueVal ? 'add' : 'remove'](attributes.DISABLED);
+  }
+
+  /**
+   * @returns {boolean} true if the More Actions menu is currently disabled
+   */
+  get disabled() {
+    return this.container?.classList.contains(attributes.DISABLED);
   }
 
   /**

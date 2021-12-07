@@ -73,6 +73,7 @@ export const attributes = {
   DISMISSIBLE: 'dismissible',
   DISPLAY: 'display',
   DRAGGABLE: 'draggable',
+  DROPDOWN_ICON: 'dropdown-icon',
   EDGE: 'edge',
   END_DATE: 'end-date',
   END_HOUR: 'end-hour',
