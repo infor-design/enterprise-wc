@@ -276,12 +276,12 @@ describe('IdsLookup Component', () => {
     lookup.columns = columns();
     lookup.data = dataset;
     lookup.dataGridSettings = {
-      rowHeight: 'small'
+      rowHeight: 'sm'
     };
 
-    expect(lookup.dataGrid.rowHeight).toEqual('small');
+    expect(lookup.dataGrid.rowHeight).toEqual('sm');
     expect(lookup.dataGridSettings).toEqual({
-      rowHeight: 'small'
+      rowHeight: 'sm'
     });
   });
 
@@ -300,6 +300,25 @@ describe('IdsLookup Component', () => {
     lookup = createFromTemplate(lookup, `<ids-lookup id="lookup-1" validate="required" label="Test"></ids-lookup>`);
     expect(lookup.validate).toEqual('required');
     expect(lookup.validationEvents).toEqual('change blur');
+  });
+
+  it('supports changing validation dynamically', async () => {
+    lookup = createFromTemplate(lookup, `<ids-lookup id="lookup-5" label="Dynamic Validation"></ids-lookup>`);
+    await waitFor(() => expect(lookup.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
+
+    document.querySelector('ids-lookup').validate = 'required';
+    const triggerElem = lookup.shadowRoot.querySelector('ids-trigger-field');
+    const inputElem = lookup.shadowRoot.querySelector('ids-input');
+    expect(triggerElem.getAttribute('validate')).toEqual('required');
+    expect(triggerElem.getAttribute('validation-events')).toEqual('change blur');
+    expect(inputElem.labelEl).not.toEqual(undefined);
+
+    document.querySelector('ids-lookup').validate = '';
+    expect(triggerElem.getAttribute('validate')).toEqual(null);
+    expect(triggerElem.getAttribute('validation-events')).toEqual(null);
+    expect(inputElem.labelEl).not.toEqual(undefined);
+
+    expect(lookup.getAttribute('validate')).toEqual(null);
   });
 
   it('supports validation', async () => {

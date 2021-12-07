@@ -4,9 +4,8 @@
 
 <ids-layout-grid cols="2" gap="xl">
   <ids-layout-grid-cell col-span="1">
-    <ids-text font-size="12" type="h1">With Border:</ids-text>
-    <div class="parent-container border">
-        <ids-list-view virtual-scroll="false">
+    <div class="parent-container">
+        <ids-list-view item-height="76" virtual-scroll="true">
           <template>
             <ids-text font-size="16" type="h2">${subject}</ids-text>
             <ids-text font-size="12" type="span">ID: ${id}</ids-text>

@@ -25,6 +25,7 @@ The Ids Toolbar can also be responsive, intelligently hiding buttons that can't 
 - `focused` describes the currently-focused Toolbar item
 - `items` provides access to all Toolbar items in all sections
 - `sections` provides access to all the Toolbar's sections
+- `separators` provides access to all the Toolbar's separators
 - `tabbable` if true, makes it possible to navigate all Toolbar items by using the Tab/Shift+Tab keys by setting all items to a 0-or-more tabIndex property.  By default (false), only one Toolbar item at a time can have a 0-or-more tabIndex.
 
 ### Toolbar Section
@@ -165,6 +166,22 @@ Toolbars can also contain sections that are meant to be customized with CSS.  It
             <span slot="text">Button 2</span>
         </ids-button>
     </ids-toolbar-section>
+<ids-toolbar>
+```
+
+The toolbar can be set as the formatter styles:
+
+```html
+<ids-toolbar type="formatter">
+  <ids-toolbar-section type="buttonset">
+    <ids-button id="button-1" role="button">
+      <span slot="text">Button 1</span>
+    </ids-button>
+    <ids-separator vertical></ids-separator>
+    <ids-button id="button-2" role="button">
+      <span slot="text">Button 2</span>
+    </ids-button>
+  </ids-toolbar-section>
 <ids-toolbar>
 ```
 

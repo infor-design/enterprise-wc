@@ -11,6 +11,7 @@ import { IdsStringUtils } from '../../utils/ids-string-utils';
 
 // Import Mixins
 import {
+  IdsColorVariantMixin,
   IdsEventsMixin,
   IdsThemeMixin
 } from '../../mixins';
@@ -21,13 +22,14 @@ import styles from './ids-separator.scss';
  * IDS Separator Component
  * @type {IdsSeparator}
  * @inherits IdsElement
+ * @mixes IdsColorVariantMixin
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  * @part separator - the menu separator element
  */
 @customElement('ids-separator')
 @scss(styles)
-class IdsSeparator extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+class IdsSeparator extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsMixin, IdsThemeMixin) {
   constructor() {
     super();
   }
@@ -42,6 +44,12 @@ class IdsSeparator extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       attributes.VERTICAL
     ];
   }
+
+  /**
+   * Inherited from `IdsColorVariantMixin`
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  colorVariants = ['alternate-formatter'];
 
   template() {
     let tagName = 'div';

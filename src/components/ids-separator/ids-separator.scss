@@ -28,15 +28,32 @@
     width: 1px;
     height: 24px;
   }
+
+  &.color-variant-alternate-formatter {
+    background-color: var(--ids-color-palette-slate-80);
+
+    &.vertical {
+      align-self: center;
+      height: 16px;
+    }
+  }
 }
 
 // Handle Themes
 .ids-separator[mode='dark'] {
   @include bg-slate-50();
+
+  &.color-variant-alternate-formatter {
+    background-color: var(--ids-color-palette-slate-40);
+  }
 }
 
 .ids-separator[mode='contrast'] {
   @include text-slate-100();
+
+  &.color-variant-alternate-formatter {
+    background-color: var(--ids-color-palette-slate-60);
+  }
 }
 
 .ids-separator[version='classic'][mode='light'] {
