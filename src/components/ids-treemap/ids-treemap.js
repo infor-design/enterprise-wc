@@ -420,14 +420,30 @@ class IdsTreeMap extends mix(IdsElement).with(
    * @memberof IdsTreeMap
    */
   resizeTreemap() {
-    window.addEventListener('resize', () => {
-      this.width = this.container.offsetWidth;
-      const updatedObj = {
-        data: this.initialData,
-        width: this.width,
-        height: this.height
-      };
-      this.data = this.treeMap(updatedObj);
+    let observerStarted = true;
+    requestAnimationFrame(() => {
+      const resizeObserver = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          if (observerStarted) {
+            observerStarted = false;
+            return;
+          }
+          resizeObserver.disconnect();
+
+          this.width = entry.target.offsetWidth;
+          const updatedObj = {
+            data: this.initialData,
+            width: this.width,
+            height: this.height
+          };
+          this.data = this.treeMap(updatedObj);
+
+          observerStarted = true;
+          requestAnimationFrame(() => resizeObserver.observe(this.container));
+        }
+      });
+
+      resizeObserver.observe(this.container);
     });
   }
 }
