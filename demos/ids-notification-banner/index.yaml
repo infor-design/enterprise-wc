@@ -9,3 +9,5 @@
     description: Showing a simple notification Banner
   - link: dynamic.html
     description: Showing adding notification banners dynamically
+  - link: card.html
+    description: Showing adding notification banners in a card/widget

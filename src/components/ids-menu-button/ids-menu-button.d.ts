@@ -1,4 +1,4 @@
-import IdsButton from '../ids-button/ids-button';
+import { IdsButton } from '../ids-button/ids-button';
 
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';

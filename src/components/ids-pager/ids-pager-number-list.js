@@ -2,7 +2,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import Base from './ids-pager-base';
+import Base from './ids-pager-number-list-base';
 import IdsText from '../ids-text/ids-text';
 import IdsButton from '../ids-button/ids-button';
 

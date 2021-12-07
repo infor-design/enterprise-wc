@@ -37,6 +37,7 @@ export default class IdsNotificationBanner extends Base {
     this
       .#attachEventHandlers()
       .#attachKeyboardListeners();
+    super.connectedCallback();
   }
 
   /**
