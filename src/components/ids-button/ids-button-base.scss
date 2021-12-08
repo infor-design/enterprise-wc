@@ -218,7 +218,8 @@
   // ====================================================
   // Light Mode Alternate Styles
 
-  &.color-variant-alternate {
+  &.color-variant-alternate,
+  &.color-variant-alternate-formatter {
     @include text-white();
 
     opacity: 0.7;
@@ -306,6 +307,19 @@
     }
   }
 
+  &.color-variant-alternate-formatter {
+    opacity: 0.8;
+
+    &:focus {
+      border-color: var(--ids-color-palette-azure-50);
+      box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-60);
+    }
+
+    .ripple-effect {
+      background-color: var(--ids-color-palette-azure-40);
+    }
+  }
+
   // ====================================================
   // Dark Mode
 
@@ -365,6 +379,16 @@
           @include border-slate-20();
           @include text-graphite-100();
         }
+      }
+    }
+
+    // Dark Mode Alternate Formatter Styles
+    &.color-variant-alternate-formatter {
+      @include text-slate-100();
+
+      &:focus {
+        border-color: var(--ids-color-palette-azure-50);
+        box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-40);
       }
     }
   }
@@ -455,6 +479,19 @@
         }
       }
     }
+
+    &.color-variant-alternate-formatter {
+      @include text-white();
+
+      &:focus {
+        border-color: var(--ids-color-palette-azure-40);
+        box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-50);
+      }
+
+      .ripple-effect {
+        background-color: var(--ids-color-palette-azure-40);
+      }
+    }
   }
 
   // ====================================================
@@ -494,7 +531,8 @@
     }
 
     // Classic Light Mode Alternate Styles
-    &.color-variant-alternate {
+    &.color-variant-alternate,
+    &.color-variant-alternate-formatter {
       @include text-white();
 
       &:focus {
@@ -550,6 +588,23 @@
         }
       }
     }
+
+    &.color-variant-alternate-formatter {
+      opacity: 0.8;
+
+      &:focus {
+        border-color: var(--ids-color-palette-azure-40);
+        box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-60);
+      }
+
+      &[disabled] {
+        @include text-slate-40();
+      }
+
+      .ripple-effect {
+        background-color: var(--ids-color-palette-azure-40);
+      }
+    }
   }
 
   // ====================================================
@@ -592,7 +647,8 @@
     }
 
     // Classic Dark Mode Alternate Styles
-    &.color-variant-alternate {
+    &.color-variant-alternate,
+    &.color-variant-alternate-formatter {
       @include text-white();
 
       &:hover {
@@ -641,6 +697,27 @@
         }
       }
     }
+
+    &.color-variant-alternate-formatter {
+      @include text-slate-100();
+
+      &:focus {
+        border-color: var(--ids-color-palette-azure-50);
+        box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-40);
+      }
+
+      &:hover {
+        @include text-slate-100();
+
+        opacity: 1;
+      }
+
+      &[disabled] {
+        @include text-slate-40();
+
+        opacity: 1;
+      }
+    }
   }
 
   // ====================================================
@@ -683,7 +760,8 @@
     }
 
     // Classic High-Contrast Mode Alternate Styles
-    &.color-variant-alternate {
+    &.color-variant-alternate,
+    &.color-variant-alternate-formatter {
       @include text-white();
 
       &:hover {

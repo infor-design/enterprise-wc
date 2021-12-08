@@ -3,6 +3,9 @@
 import { IdsElement } from '../../core';
 
 export default class IdsSeparator extends IdsElement {
+  /* Set the variants theme styles */
+  colorVariant?: 'alternate-formatter';
+
   /** Set the theme mode */
   mode: 'light' | 'dark' | 'contrast' | string;
 

@@ -667,7 +667,8 @@ class IdsMenuItem extends mix(IdsElement).with(
    * @returns {string} a menu item's textContent stripped of any extraneous white space.
    */
   get text() {
-    return [...this.childNodes].find((i) => i.nodeType === Node.TEXT_NODE).textContent.trim();
+    const textNode = (n) => ((n.nodeType === Node.TEXT_NODE) || (n.name === 'ids-text'));
+    return [...this.childNodes].find((i) => textNode(i)).textContent.trim();
   }
 
   /**

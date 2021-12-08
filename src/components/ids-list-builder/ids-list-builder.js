@@ -32,6 +32,8 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
   // the currently selected list item
   #selectedLi;
 
+  #selectedLiIndex;
+
   // any active editor of the selected list item
   #selectedLiEditor;
 
@@ -40,7 +42,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
 
   connectedCallback() {
     this.draggable = true;
-    this.itemHeight = 44; // hard-coded
+    this.itemHeight = 46; // hard-coded
     this.#attachEventListeners();
     super.connectedCallback();
   }
@@ -90,12 +92,14 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
               </ids-toolbar-section>
             </ids-toolbar>
           </div>
-          <div class="content">
-            ${super.template()}
-          </div>
-        <slot></slot>
+          ${super.template()}
       </div>
     `;
+  }
+
+  get selectedLi() {
+    const savedSelectedLi = this.container.querySelector(`div[part="list-item"][index="${this.#selectedLiIndex}"]`);
+    return savedSelectedLi;
   }
 
   get data() {
@@ -116,18 +120,30 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
   /**
    * Helper function that toggles the 'selected' attribute of an element, then focuses on that element
    * @param {Element} item the item to add/remove the selected attribute
+   * @param {boolean} switchValue optional switch values to force add/remove the selected attribute
    */
-  #toggleSelectedAttribute(item) {
-    const hasSelectedAttribute = item.getAttribute('selected');
-
-    if (hasSelectedAttribute) {
+  #toggleSelectedAttribute(item, switchValue) {
+    const unselect = () => {
       item.removeAttribute('selected');
-      this.#selectedLi = null;
-    } else if (!hasSelectedAttribute) {
+      this.#selectedLiIndex = null;
+    };
+
+    const select = () => {
       item.setAttribute('selected', 'selected');
-      this.#selectedLi = item;
+      this.#selectedLiIndex = item.getAttribute('index');
+    };
+
+    if (switchValue === true) {
+      select();
+    } else if (switchValue === false) {
+      unselect();
+    } else {
+      // otherwise toggle it depending on whether or not it has the attribute already
+      const hasSelectedAttribute = item.getAttribute('selected');
+      hasSelectedAttribute ? unselect() : select();
+
+      this.focusLi(item);
     }
-    item.focus();
   }
 
   /**
@@ -136,14 +152,22 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
    */
   #toggleSelectedLi(item) {
     if (item.tagName === 'DIV' && item.getAttribute('part') === 'list-item') {
-      if (item !== this.#selectedLi) {
-        if (this.#selectedLi) {
+      const prevSelectedLi = this.selectedLi;
+      if (item !== prevSelectedLi) {
+        if (prevSelectedLi) {
           // unselect previous item if it's selected
-          this.#toggleSelectedAttribute(this.#selectedLi);
+          prevSelectedLi.setAttribute('tabindex', '-1');
+          this.#toggleSelectedAttribute(prevSelectedLi);
         }
       }
       this.#toggleSelectedAttribute(item);
-      item.focus();
+    }
+  }
+
+  #reselect() {
+    const prevSelectedLi = this.selectedLi;
+    if (prevSelectedLi) {
+      this.#toggleSelectedAttribute(prevSelectedLi, true);
     }
   }
 
@@ -154,6 +178,14 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     this.#attachClickListeners(); // for toolbar buttons
     this.#attachDragEventListeners(); // for dragging list items
     this.#attachKeyboardListeners(); // for selecting/editing list items
+
+    if (this.virtualScroll) {
+      this.onEvent('ids-virtual-scroll-afterrender', this.virtualScrollContainer, () => {
+        this.#attachDragEventListeners();
+        this.#attachKeyboardListeners();
+        this.#reselect();
+      });
+    }
   }
 
   /**
@@ -209,15 +241,15 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
    * Helper function to update the list item inner text with the editor's input value
    */
   #updateSelectedLiWithEditorValue() {
-    this.#selectedLi.querySelector('ids-text').innerHTML = this.#selectedLiEditor.value;
+    this.selectedLi.querySelector('ids-text').innerHTML = this.#selectedLiEditor.value;
   }
 
   /**
    * Helper function to remove the editor element from the DOM
    */
   #removeSelectedLiEditor() {
-    this.#selectedLi.querySelector('ids-text').style.display = 'list-item';
-    this.#selectedLi.parentNode.removeAttribute('disabled');
+    this.selectedLi.querySelector('ids-text').style.display = 'list-item';
+    this.selectedLi.parentNode.removeAttribute('disabled');
     this.#selectedLiEditor.remove();
     this.#selectedLiEditor = null;
   }
@@ -227,19 +259,19 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
    * @param {boolean} newEntry whether or not this is an editor for a new or pre-existing list item
    */
   #insertSelectedLiWithEditor(newEntry = false) {
-    if (this.#selectedLi) {
+    if (this.selectedLi) {
       if (!this.#selectedLiEditor) {
         const i = new IdsInput();
 
         // insert into DOM
-        this.#selectedLi.insertBefore(i, this.#selectedLi.querySelector('ids-text'));
+        this.selectedLi.insertBefore(i, this.selectedLi.querySelector('ids-text'));
 
         // hide inner text
-        this.#selectedLi.querySelector('ids-text').style.display = `none`;
+        this.selectedLi.querySelector('ids-text').style.display = `none`;
 
         // set the value of input
         this.#selectedLiEditor = i;
-        i.value = newEntry ? 'New Value' : this.#selectedLi.querySelector('ids-text').innerHTML;
+        i.value = newEntry ? 'New Value' : this.selectedLi.querySelector('ids-text').innerHTML;
         i.autoselect = 'true';
         i.noMargins = 'true';
         i.colorVariant = 'alternate';
@@ -254,13 +286,13 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
    * Add/remove the editor in one function -- used when 'Enter' key is hit on a selected list item
    */
   #toggleEditor() {
-    if (this.#selectedLi) {
+    if (this.selectedLi) {
       if (!this.#selectedLiEditor) {
         this.#insertSelectedLiWithEditor();
       } else {
         this.#unfocusAnySelectedLiEditor();
       }
-      this.#selectedLi.focus();
+      this.focusLi(this.selectedLi);
     }
   }
 
@@ -272,9 +304,9 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     this.onEvent('click', this.container.querySelector('#button-add'), () => {
       this.#unfocusAnySelectedLiEditor();
 
-      const selectionNull = !this.#selectedLi;
+      const selectionNull = !this.selectedLi;
       // if an item is selected, create a node under it, otherwise create a node above the first item
-      const targetDraggableItem = selectionNull ? this.container.querySelector('ids-draggable') : this.#selectedLi.parentNode;
+      const targetDraggableItem = selectionNull ? this.container.querySelector('ids-draggable') : this.selectedLi.parentNode;
       const newDraggableItem = targetDraggableItem.cloneNode(true);
 
       const insertionLocation = selectionNull ? targetDraggableItem : targetDraggableItem.nextSibling;
@@ -293,24 +325,24 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
 
     // Up button
     this.onEvent('click', this.container.querySelector('#button-up'), () => {
-      if (this.#selectedLi) {
+      if (this.selectedLi) {
         this.#unfocusAnySelectedLiEditor();
 
-        const prev = this.#selectedLi.parentNode.previousElementSibling;
+        const prev = this.selectedLi.parentNode.previousElementSibling;
         if (prev) {
-          this.#swap(this.#selectedLi.parentNode, prev);
+          this.#swap(this.selectedLi.parentNode, prev);
         }
       }
     });
 
     // Down button
     this.onEvent('click', this.container.querySelector('#button-down'), () => {
-      if (this.#selectedLi) {
+      if (this.selectedLi) {
         this.#unfocusAnySelectedLiEditor();
 
-        const next = this.#selectedLi.parentNode.nextElementSibling;
+        const next = this.selectedLi.parentNode.nextElementSibling;
         if (next) {
-          this.#swap(this.#selectedLi.parentNode, next);
+          this.#swap(this.selectedLi.parentNode, next);
         }
       }
     });
@@ -322,9 +354,9 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
 
     // Delete button
     this.onEvent('click', this.container.querySelector('#button-delete'), () => {
-      if (this.#selectedLi) {
-        this.#selectedLi.parentNode.remove();
-        this.#selectedLi = null;
+      if (this.selectedLi) {
+        this.selectedLi.parentNode.remove();
+        this.selectedLi = null;
         if (this.#selectedLiEditor) this.#selectedLiEditor = null;
       }
     });
@@ -334,7 +366,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
    * Adds dragging functionality to all list items
    */
   #attachDragEventListeners() {
-    this.container.querySelectorAll('ids-draggable').forEach((draggable) => {
+    this.getAllDraggable().forEach((draggable) => {
       this.#attachDragEventListenersForDraggable(draggable);
     });
   }
@@ -410,7 +442,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
    * Attach selection toggling, editing feature, and navigation focus functionality to keyboard events
    */
   #attachKeyboardListeners() {
-    this.container.querySelectorAll('div[part="list-item"]').forEach((l) => {
+    this.getAllLi().forEach((l) => {
       this.#attachKeyboardListenersForLi(l);
     });
   }
@@ -428,6 +460,14 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
         }
         break;
       case 'Tab':
+        this.#unfocusAnySelectedLiEditor();
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        this.#unfocusAnySelectedLiEditor();
+        break;
+      case 'ArrowDown':
+        event.preventDefault();
         this.#unfocusAnySelectedLiEditor();
         break;
       default:
