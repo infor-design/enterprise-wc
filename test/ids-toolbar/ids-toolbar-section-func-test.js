@@ -98,6 +98,10 @@ describe('IdsToolbarSection Component', () => {
     expect(items.length).toBe(4);
   });
 
+  it('has a parent toolbar reference', () => {
+    expect(sectionButtonset.toolbar instanceof IdsToolbar).toBeTruthy();
+  });
+
   it('can have a specified type', () => {
     expect(sectionAppMenu.type).toBe('static');
     expect(sectionTitle.type).toBe('title');
@@ -130,5 +134,17 @@ describe('IdsToolbarSection Component', () => {
 
     expect(sectionTitle.align).toBe('start');
     expect(sectionTitle.getAttribute('align')).toBe(null);
+  });
+
+  it('can be favorable', () => {
+    sectionTitle.favorable = true;
+
+    expect(sectionTitle.container.classList.contains('favorable')).toBeTruthy();
+
+    sectionTitle.favorable = false;
+    sectionButtonset.favorable = true;
+
+    expect(sectionTitle.container.classList.contains('favorable')).toBeFalsy();
+    expect(sectionButtonset.container.classList.contains('favorable')).toBeTruthy();
   });
 });

@@ -4,6 +4,7 @@
 import '../helpers/resize-observer-mock';
 
 import IdsToolbar from '../../src/components/ids-toolbar/ids-toolbar';
+import waitFor from '../helpers/wait-for';
 
 const exampleHTML = `
   <ids-toolbar-section id="appmenu-section">
@@ -52,7 +53,7 @@ const exampleHTML = `
     <a href="#">Outgoing Link</a>
   </ids-toolbar-section>
 
-  <ids-toolbar-more-actions id="section-more">
+  <ids-toolbar-more-actions id="section-more" overflow>
     <ids-menu-group>
       <ids-menu-item value="1">Option One</ids-menu-item>
       <ids-menu-item value="2">Option Two</ids-menu-item>
@@ -71,6 +72,7 @@ const exampleHTML = `
 `;
 
 describe('IdsToolbar Component', () => {
+  let selectedEventListener;
   let toolbar;
   let sectionMore;
   let buttonAppMenu;
@@ -96,6 +98,10 @@ describe('IdsToolbar Component', () => {
 
   afterEach(async () => {
     document.body.innerHTML = '';
+    if (selectedEventListener) {
+      document.body.removeEventListener('selected', selectedEventListener);
+      selectedEventListener = null;
+    }
   });
 
   it('renders with no errors', () => {
@@ -289,5 +295,23 @@ describe('IdsToolbar Component', () => {
       expect(button2.menuEl.visible).toBeTruthy();
       done();
     }, 30);
+  });
+
+  it('can programatically trigger selected events on its items', async () => {
+    selectedEventListener = jest.fn();
+    document.body.addEventListener('selected', selectedEventListener);
+
+    toolbar.triggerSelectedEvent(button1);
+    await waitFor(() => expect(selectedEventListener).toHaveBeenCalledTimes(1));
+
+    // Try using an element from outside the Toolbar.  It shouldn't trigger an event
+    toolbar.triggerSelectedEvent(document.body);
+    await waitFor(() => expect(selectedEventListener).toHaveBeenCalledTimes(1));
+
+    // Try using an overflow menu item (should be valid)
+    const overflowItemButton1 = sectionMore.overflowMenuItems[1];
+    console.log(overflowItemButton1);
+    toolbar.triggerSelectedEvent(overflowItemButton1, true);
+    await waitFor(() => expect(selectedEventListener).toHaveBeenCalledTimes(2));
   });
 });

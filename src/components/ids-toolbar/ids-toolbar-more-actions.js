@@ -185,7 +185,7 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {Array<HTMLElement>} list of manually-defined menu items
    */
   get predefinedMenuItems() {
-    return [...this.querySelectorAll('ids-menu-item')];
+    return [...this.querySelectorAll(`:scope > ids-menu-group:not(${MORE_ACTIONS_SELECTOR}) > ids-menu-item`)];
   }
 
   /**

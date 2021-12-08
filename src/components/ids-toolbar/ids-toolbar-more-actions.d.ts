@@ -3,6 +3,16 @@ import IdsToolbarSection from './ids-toolbar-section';
 // Subcomponents
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import IdsMenuButton from '../ids-menu-button/ids-menu-button';
+import IdsMenuItem from '../ids-menu/ids-menu-item';
+
+interface IdsToolbarSelectedEventDetail extends Event {
+  detail: {
+    elem: HTMLElement,
+    value?: string,
+    overflowMenuItem?: IdsMenuItem,
+    triggeredFromOverflow?: boolean
+  }
+}
 
 export default class IdsToolbarMoreActions extends IdsToolbarSection {
   /** The internal Menu Button element */
@@ -37,6 +47,9 @@ export default class IdsToolbarMoreActions extends IdsToolbarSection {
 
   /** Refreshes the visible state of items in the overflow menu to match their Toolbar counterparts */
   refreshOverflowedItems(): void;
+
+  /** Fires when a More Actions menu item is selected */
+  on(event: 'selected', listener: (detail: IdsToolbarSelectedEventDetail) => void): this;
 }
 export {
   IdsMenuButton,
