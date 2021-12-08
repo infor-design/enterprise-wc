@@ -381,13 +381,12 @@ class IdsTreeMap extends mix(IdsElement).with(
    * Create the Treemap
    * @param {object} obj object that contains config for the treemap
    * @param {Array} obj.data array that contains the treemap block definitions
-   * @param {number} obj.width total width of the treemap
    * @param {number} obj.height total hieght of the treemap
    * @returns {Array} treemap array
    * @memberof IdsTreeMap
    */
-  treeMap({ data, width, height }) {
-    this.#validateArguments({ data, width, height });
+  treeMap({ data, height = '300' }) {
+    this.#validateArguments({ data, height });
 
     this.width = this.container.offsetWidth;
     this.height = height;
@@ -431,16 +430,31 @@ class IdsTreeMap extends mix(IdsElement).with(
           }
           resizeObserver.disconnect();
 
+          observerStarted = true;
+
           // Recalculate treemap data
           this.width = entry.target.offsetWidth;
+          // If the height comes back empty add a default height
+          if (this.height === '') {
+            this.height = 300;
+          }
+
+          // If the initialData comes back undefined add some default data
+          if (!this.initialData) {
+            this.initialData = [
+              { value: 1 },
+              { value: 2 }
+            ];
+          }
+
           const updatedObj = {
             data: this.initialData,
             width: this.width,
             height: this.height
           };
+
           this.data = this.treeMap(updatedObj);
 
-          observerStarted = true;
           requestAnimationFrame(() => resizeObserver.observe(this.container));
         }
       });
