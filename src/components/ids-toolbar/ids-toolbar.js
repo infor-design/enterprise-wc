@@ -332,13 +332,13 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
    * @returns {void}
    */
   #setType() {
-    this.sections.forEach((s) => s.setAttribute('toolbar-type', this.type));
+    this.sections.forEach((s) => s.setAttribute(attributes.TOOLBAR_TYPE, this.type));
     [...this.items, ...this.separators].forEach((item) => {
       if (this.type) {
-        item.setAttribute('color-variant', 'alternate-formatter');
+        item.setAttribute(attributes.COLOR_VARIANT, 'alternate-formatter');
       } else {
-        const val = item.getAttribute('color-variant');
-        if (val === 'alternate-formatter') item.removeAttribute('color-variant');
+        const val = item.getAttribute(attributes.COLOR_VARIANT);
+        if (val === 'alternate-formatter') item.removeAttribute(attributes.COLOR_VARIANT);
       }
     });
   }

@@ -1,4 +1,9 @@
-import { IdsElement, scss, mix, customElement } from '../../core';
+import {
+  IdsElement,
+  scss,
+  mix,
+  customElement
+} from '../../core';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import styles from './ids-toolbar-section.scss';
@@ -7,9 +12,9 @@ import styles from './ids-toolbar-section.scss';
 import { IdsEventsMixin, IdsThemeMixin } from '../../mixins';
 
 const TOOLBAR_SECTION_ATTRIBUTES = [
-  'toolbar-type',
   attributes.ALIGN,
   attributes.FAVORABLE,
+  attributes.TOOLBAR_TYPE,
   attributes.TYPE
 ];
 
@@ -222,12 +227,11 @@ class IdsToolbarSection extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    * @param {string} value the type of toolbar
    */
   set toolbarType(value) {
-    const attr = 'toolbar-type';
     if (TOOLBAR_TYPES.includes(value)) {
-      this.setAttribute(attr, value);
+      this.setAttribute(attributes.TOOLBAR_TYPE, value);
       this.container.classList.add(value);
     } else {
-      this.removeAttribute(attr);
+      this.removeAttribute(attributes.TOOLBAR_TYPE);
       this.container.classList.remove(TOOLBAR_TYPES[0]);
     }
   }
@@ -236,7 +240,7 @@ class IdsToolbarSection extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    * @returns {string} the type of toolbar
    */
   get toolbarType() {
-    return this.getAttribute('toolbar-type');
+    return this.getAttribute(attributes.TOOLBAR_TYPE);
   }
 }
 

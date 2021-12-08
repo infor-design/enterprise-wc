@@ -233,6 +233,7 @@ export const attributes = {
   TARGET: 'target',
   TITLE: 'title',
   TIMEOUT: 'timeout',
+  TOOLBAR_TYPE: 'toolbar-type',
   TOOLTIP: 'tooltip',
   TOTAL: 'total',
   TRANSLATE_TEXT: 'translate-text',
