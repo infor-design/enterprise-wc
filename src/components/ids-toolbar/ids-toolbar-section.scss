@@ -78,5 +78,6 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
       @include bg-slate-100();
     }
   }
+
   @include ids-toolbar-section-inner-size-styles();
 }

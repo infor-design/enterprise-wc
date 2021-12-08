@@ -3,7 +3,6 @@
  */
 import '../helpers/resize-observer-mock';
 import elemBuilderFactory from '../helpers/elem-builder-factory';
-import processAnimFrame from '../helpers/process-anim-frame';
 import waitFor from '../helpers/wait-for';
 
 import IdsToolbar, {
