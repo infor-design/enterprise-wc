@@ -18,6 +18,7 @@ import styles from '../ids-button/ids-button.scss';
 // Property names
 const MENU_BUTTON_ATTRIBUTES = [
   'dropdown-icon',
+  'formatter-width',
   attributes.ID,
   attributes.MENU
 ];
@@ -176,6 +177,35 @@ class IdsMenuButton extends IdsButton {
     }
     this.menuEl.popup.arrowTarget = this.dropdownIconEl || this;
     this.menuEl.popup.arrow = 'bottom';
+  }
+
+  /**
+   * Set the formatter width for menu button
+   * @param {string | number} value The formatter width value
+   */
+  set formatterWidth(value) {
+    let val = null;
+    if (typeof value === 'number' && !Number.isNaN(value)) {
+      val = `${value}px`;
+    } else if (typeof value === 'string') {
+      const last = parseInt(value.slice(-1), 10);
+      if ((typeof last === 'number' && !Number.isNaN(last))) {
+        val = `${value}px`;
+      } else if (/(px|em|vw|vh|ch|%)$/g.test(value) && !Number.isNaN(parseInt(value, 10))) {
+        this.container.classList[/%$/g.test(value) ? 'add' : 'remove']('formatter-width-percentage');
+        val = value;
+      }
+    }
+    const FORMATTER_WIDTH = 'formatter-width';
+    if (val) {
+      this.setAttribute(FORMATTER_WIDTH, value);
+      this.container.classList.add(FORMATTER_WIDTH);
+      this.container.style.minWidth = val;
+    } else {
+      this.removeAttribute(FORMATTER_WIDTH);
+      this.container.classList.remove(FORMATTER_WIDTH);
+      this.container.style.minWidth = '';
+    }
   }
 }
 

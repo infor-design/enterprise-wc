@@ -14,4 +14,10 @@ export default class IdsNotificationBanner extends IdsElement {
 
   /** Sets the messageText of the notification */
   messageText: string;
+
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
+  /** Set the theme version */
+  version: 'new' | 'classic' | string;
 }

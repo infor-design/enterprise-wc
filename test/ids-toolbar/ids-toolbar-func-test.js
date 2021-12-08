@@ -121,6 +121,42 @@ describe('IdsToolbar Component', () => {
     expect(items.length).toBe(6);
   });
 
+  it('should render type formatter', () => {
+    const formatterHTML = `
+      <ids-toolbar type="formatter">
+        <ids-toolbar-section type="buttonset">
+          <ids-button>
+            <span slot="text" class="audible">Settings</span>
+            <ids-icon slot="icon" icon="settings"></ids-icon>
+          </ids-button>
+          <ids-separator vertical></ids-separator>
+        </ids-toolbar-section>
+    </ids-toolbar>`;
+    document.body.innerHTML = '';
+    document.body.insertAdjacentHTML('afterbegin', formatterHTML);
+    toolbar = document.querySelector('ids-toolbar');
+    expect(toolbar.getAttribute('type')).toEqual('formatter');
+    expect(toolbar.type).toEqual('formatter');
+    toolbar.type = 'test';
+    expect(toolbar.getAttribute('type')).toEqual(null);
+    expect(toolbar.type).toEqual(null);
+    toolbar.type = 'formatter';
+    toolbar.separators[0].vertical = false;
+    expect(toolbar.getAttribute('type')).toEqual('formatter');
+    expect(toolbar.type).toEqual('formatter');
+  });
+
+  it('can be set type formatter', () => {
+    expect(toolbar.getAttribute('type')).toEqual(null);
+    expect(toolbar.type).toEqual(null);
+    toolbar.type = 'formatter';
+    expect(toolbar.getAttribute('type')).toEqual('formatter');
+    expect(toolbar.type).toEqual('formatter');
+    toolbar.type = 'test';
+    expect(toolbar.getAttribute('type')).toEqual(null);
+    expect(toolbar.type).toEqual(null);
+  });
+
   it('can be disabled and enabled', () => {
     toolbar.disabled = true;
 

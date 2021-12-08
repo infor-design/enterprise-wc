@@ -87,6 +87,20 @@ button {
   }
 }
 
+.ids-menu-button.formatter-width {
+  &:not(.no-padding):not(.ids-icon-button) {
+    @include px-8();
+  }
+
+  &:not(.formatter-width-percentage) {
+    .ids-icon {
+      @include absolute();
+
+      inset-inline-end: 4px;
+    }
+  }
+}
+
 .ids-icon-button {
   @include ids-base-button-styles();
   @include ids-standard-button-colors();
