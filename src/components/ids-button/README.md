@@ -74,7 +74,12 @@ If placing a button inside a container with a contrasting background color, some
 </ids-button>
 
 <!-- Generates a Secondary Button with a slightly more bright Slate --->
-<ids-button id="my-button-2" type="primary" color-variant="alternate">
+<ids-button id="my-button-3" type="primary" color-variant="alternate">
+  <span slot="text">My Button</span>
+</ids-button>
+
+<!-- Generates a button to use with toolbar formatter type --->
+<ids-button id="my-button-4" color-variant="alternate-formatter">
   <span slot="text">My Button</span>
 </ids-button>
 ```
@@ -117,6 +122,7 @@ In the absence of the property, icons will align to `start` by default.
 
 ## Settings and Attributes
 
+- `colorVariant` {'alternate' | 'alternate-formatter'} Set the variants theme styles
 - `cssClass` {Array<string> | string | null} Contains space-delimited CSS classes (or an array of CSS classes) that will be passed to the Shadow Root button
 - `disabled` {boolean} Sets the internal Button element's `disabled` property to enable/disable the button
 - `icon` {string | null} A string representing an icon to display inside the button.  This icon will become the content of the Shadow Root button's `icon` slot when set

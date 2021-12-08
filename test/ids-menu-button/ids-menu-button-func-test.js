@@ -140,4 +140,28 @@ describe('IdsMenuButton Component', () => {
       }, 20);
     }, 20);
   });
+
+  it('can set formatter width', () => {
+    expect(buttonEl.getAttribute('formatter-width')).toEqual(null);
+    buttonEl.formatterWidth = 150;
+    expect(buttonEl.getAttribute('formatter-width')).toEqual('150');
+    buttonEl.formatterWidth = '150';
+    expect(buttonEl.getAttribute('formatter-width')).toEqual('150');
+    buttonEl.formatterWidth = '150px';
+    expect(buttonEl.getAttribute('formatter-width')).toEqual('150px');
+    buttonEl.formatterWidth = '5em';
+    expect(buttonEl.getAttribute('formatter-width')).toEqual('5em');
+    buttonEl.formatterWidth = '15rem';
+    expect(buttonEl.getAttribute('formatter-width')).toEqual('15rem');
+    buttonEl.formatterWidth = '2vh';
+    expect(buttonEl.getAttribute('formatter-width')).toEqual('2vh');
+    buttonEl.formatterWidth = '2vw';
+    expect(buttonEl.getAttribute('formatter-width')).toEqual('2vw');
+    buttonEl.formatterWidth = '15ch';
+    expect(buttonEl.getAttribute('formatter-width')).toEqual('15ch');
+    buttonEl.formatterWidth = '100%';
+    expect(buttonEl.getAttribute('formatter-width')).toEqual('100%');
+    buttonEl.formatterWidth = 'test';
+    expect(buttonEl.getAttribute('formatter-width')).toEqual(null);
+  });
 });

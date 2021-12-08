@@ -1,8 +1,9 @@
 import {
   IdsElement,
+  customElement,
   mix,
   scss,
-  customElement
+  attributes
 } from '../../core';
 
 // Import Utils
@@ -11,39 +12,53 @@ import { IdsStringUtils, IdsDOMUtils } from '../../utils';
 // Import Dependencies
 import IdsToolbarSection, { TOOLBAR_ITEM_TAGNAMES } from './ids-toolbar-section';
 import IdsToolbarMoreActions from './ids-toolbar-more-actions';
-import { attributes } from '../../core/ids-attributes';
 
 // Import Mixins
-import { IdsEventsMixin, IdsKeyboardMixin } from '../../mixins';
+import {
+  IdsEventsMixin,
+  IdsKeyboardMixin,
+  IdsThemeMixin
+} from '../../mixins';
 
 // Import Styles
 import styles from './ids-toolbar.scss';
 
+const TYPE_FORMATTER = 'formatter';
+
 /**
  * IDS Toolbar Component
+ * @type {IdsToolbar}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsKeyboardMixin
+ * @mixes IdsThemeMixin
  */
 @customElement('ids-toolbar')
 @scss(styles)
-class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
+class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin) {
   constructor() {
     super();
   }
 
   static get attributes() {
     return [
+      ...super.attributes,
       attributes.DISABLED,
-      attributes.TABBABLE
+      attributes.TABBABLE,
+      attributes.TYPE
     ];
   }
 
   connectedCallback() {
     this.setAttribute('role', 'toolbar');
+    this.#setType();
     this.#attachKeyboardListeners();
 
     // After repaint
     requestAnimationFrame(() => {
       this.makeTabbable(this.detectTabbable());
     });
+    super.connectedCallback();
   }
 
   /**
@@ -206,6 +221,20 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
 
   /**
    * @readonly
+   * @returns {Array<any>} list of all available ids-separator nodes present in all toolbar sections
+   */
+  get separators() {
+    const sep = [];
+    this.sections.forEach((section) => {
+      if (section?.name !== 'ids-toolbar-more-actions' && section?.separators) {
+        sep.push(...section.separators);
+      }
+    });
+    return sep;
+  }
+
+  /**
+   * @readonly
    * @returns {Array<any>} list of available sections within the toolbar
    */
   get sections() {
@@ -237,6 +266,40 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
    */
   get tabbable() {
     return this.container.classList.contains('tabbable');
+  }
+
+  /**
+   * Set the type for toolbar
+   * @param {string|null} value of toolbar type
+   */
+  set type(value) {
+    if (value === TYPE_FORMATTER) {
+      this.setAttribute(attributes.TYPE, value);
+    } else {
+      this.removeAttribute(attributes.TYPE);
+    }
+    this.#setType();
+  }
+
+  get type() {
+    return this.getAttribute(attributes.TYPE) ?? null;
+  }
+
+  /**
+   * Set the toolbar type to each section
+   * @private
+   * @returns {void}
+   */
+  #setType() {
+    this.sections.forEach((s) => s.setAttribute('toolbar-type', this.type));
+    [...this.items, ...this.separators].forEach((item) => {
+      if (this.type) {
+        item.setAttribute('color-variant', 'alternate-formatter');
+      } else {
+        const val = item.getAttribute('color-variant');
+        if (val === 'alternate-formatter') item.removeAttribute('color-variant');
+      }
+    });
   }
 
   /**

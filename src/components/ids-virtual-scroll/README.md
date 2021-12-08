@@ -20,14 +20,11 @@ For this to work items must be fixed height. We set the item count and item temp
 
 ## Features (With Code Examples)
 
-Set up a ids-virtual-scroll container and properties like height, item-height and item-count. Then inside the ids-virtual-scroll element we setup a structure to render where one element is `slot="contents"` this is the place where the item template will be rendered with the calculations.
+Set up a ids-virtual-scroll container and properties like height, item-height and item-count. Then inside the ids-virtual-scroll element we setup a structure to render where one element is `part="contents"` this is the place where the item template will be rendered with the calculations.
 
 ```html
 <ids-virtual-scroll id="virtual-scroll-1" height="308" item-height="20" item-count="1000">
-  <div class="ids-list-view">
-   <ul slot="contents">
-   </ul>
- </div>
+  <div class="ids-list-view" part="contents"></div>
 </ids-virtual-scroll>
 ```
 
