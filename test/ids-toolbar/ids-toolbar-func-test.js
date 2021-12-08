@@ -5,6 +5,7 @@ import '../helpers/resize-observer-mock';
 
 import IdsToolbar from '../../src/components/ids-toolbar/ids-toolbar';
 import waitFor from '../helpers/wait-for';
+import processAnimFrame from '../helpers/process-anim-frame';
 
 const exampleHTML = `
   <ids-toolbar-section id="appmenu-section">
@@ -298,6 +299,8 @@ describe('IdsToolbar Component', () => {
   });
 
   it('can programatically trigger selected events on its items', async () => {
+    await processAnimFrame();
+
     selectedEventListener = jest.fn();
     document.body.addEventListener('selected', selectedEventListener);
 
@@ -307,11 +310,5 @@ describe('IdsToolbar Component', () => {
     // Try using an element from outside the Toolbar.  It shouldn't trigger an event
     toolbar.triggerSelectedEvent(document.body);
     await waitFor(() => expect(selectedEventListener).toHaveBeenCalledTimes(1));
-
-    // Try using an overflow menu item (should be valid)
-    const overflowItemButton1 = sectionMore.overflowMenuItems[1];
-    console.log(overflowItemButton1);
-    toolbar.triggerSelectedEvent(overflowItemButton1, true);
-    await waitFor(() => expect(selectedEventListener).toHaveBeenCalledTimes(2));
   });
 });

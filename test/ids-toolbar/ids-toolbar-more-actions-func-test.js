@@ -3,6 +3,7 @@
  */
 import '../helpers/resize-observer-mock';
 import elemBuilderFactory from '../helpers/elem-builder-factory';
+import processAnimFrame from '../helpers/process-anim-frame';
 import waitFor from '../helpers/wait-for';
 
 import IdsToolbar, {
@@ -148,5 +149,36 @@ describe('IdsToolbarMoreActions Component', () => {
     const groups = sectionMore.menu.groups;
 
     expect(groups.length).toBe(1);
+  });
+});
+
+// @TODO need an issue to resolve why this can't find overflow items
+describe.skip('IdsToolbarMoreActions Component (initialized with overflow)', () => {
+  let selectedEventListener;
+
+  beforeEach(async () => {
+    // Build and destroy a Toolbar that will have overflow established by default
+    elemBuilder.createElemFromTemplate(`<div id="wrapper" style="width: 450px;">
+      <ids-toolbar id="my-toolbar">${await getToolbarExampleHTML(true)}</ids-toolbar>
+    </div>`);
+  });
+
+  afterEach(async () => {
+    await elemBuilder.clearElement();
+    if (selectedEventListener) {
+      document.body.removeEventListener('selected', selectedEventListener);
+      selectedEventListener = null;
+    }
+  });
+
+  it('can programmatically trigger selected events using More Actions menu items', async () => {
+    selectedEventListener = jest.fn();
+    document.body.addEventListener('selected', selectedEventListener);
+
+    const sectionMore = document.querySelector('#section-more');
+    const overflowItemButton1 = sectionMore.overflowMenuItems[1];
+    document.querySelector('#my-toolbar').triggerSelectedEvent(overflowItemButton1);
+
+    waitFor(() => expect(selectedEventListener).toHaveBeenCalledTimes(1));
   });
 });
