@@ -9,7 +9,6 @@
   @include p-0();
   @include rounded-round();
   @include text-slate-60();
-  @include bg-opacity-70();
   @include mx-4;
 
   align-items: center;
@@ -19,13 +18,12 @@
 
   &:focus {
     @include outline-none();
-    @include bg-opacity-100();
 
     box-shadow: 0 0 0 2px transparent, 0 0 0 1px var(--ids-color-palette-azure-60), 0 0 4px 2px rgb(141 201 230 / 0.3);
   }
 
   &:hover {
-    @include bg-opacity-100();
+    @include text-slate-100();
   }
 
   &[disabled] {
@@ -113,6 +111,8 @@
 }
 
 .ids-icon-button.color-variant-alternate {
+  @include bg-opacity-70();
+
   &:focus {
     @include bg-opacity-70();
 
