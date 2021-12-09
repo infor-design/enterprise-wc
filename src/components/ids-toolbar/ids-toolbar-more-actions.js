@@ -30,7 +30,8 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
     return [
       ...super.attributes,
       attributes.DISABLED,
-      attributes.OVERFLOW
+      attributes.OVERFLOW,
+      attributes.VISIBLE,
     ];
   }
 
@@ -270,6 +271,26 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
+   * @param {boolean} val alters whether the More Actions menu is displayed/hidden
+   */
+  set visible(val) {
+    if (IdsStringUtils.stringToBool(val)) {
+      this.setAttribute(attributes.VISIBLE, '');
+      this.menu.showIfAble();
+    } else {
+      this.removeAttribute(attributes.VISIBLE);
+      this.menu.hide();
+    }
+  }
+
+  /**
+   * @returns {boolean} true if the More Actions menu is currently displayed
+   */
+  get visible() {
+    return this.menu?.visible || false;
+  }
+
+  /**
    * @returns {void}
    */
   #attachEventHandlers() {
@@ -287,6 +308,14 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
         e.stopPropagation();
         this.toolbar.triggerSelectedEvent(menuItem, true);
       }
+    });
+
+    // Listen to show/hide events from the inner IdsPopupMenu and reflect the `visible` attribute
+    this.onEvent('show', this.menu, () => {
+      this.visible = true;
+    });
+    this.onEvent('hide', this.menu, () => {
+      this.visible = false;
     });
   }
 

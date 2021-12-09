@@ -149,6 +149,18 @@ describe('IdsToolbarMoreActions Component', () => {
 
     expect(groups.length).toBe(1);
   });
+
+  it('can programatically open/close its menu', async () => {
+    sectionMore.visible = true;
+
+    waitFor(() => expect(sectionMore.hasAttribute('visible').toBeTruthy()));
+    expect(sectionMore.visible).toBeTruthy();
+
+    sectionMore.visible = false;
+
+    waitFor(() => expect(sectionMore.hasAttribute('visible').toBeFalsy()));
+    expect(sectionMore.visible).toBeFalsy();
+  });
 });
 
 // @TODO need an issue to resolve why this can't find overflow items

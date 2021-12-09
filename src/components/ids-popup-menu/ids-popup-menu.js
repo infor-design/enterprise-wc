@@ -109,11 +109,24 @@ class IdsPopupMenu extends mix(IdsMenu).with(
       }
     });
 
-    // When the underlying Popup triggers it's "show" event,
-    // focus on the derived focusTarget.
-    this.onEvent('show', this.container, () => {
+    // When the underlying Popup triggers its "show" event,
+    // focus on the derived focusTarget, and pass the event to the Host element.
+    this.onEvent('show', this.container, (e) => {
       requestAnimationFrame(() => {
         this.focusTarget?.focus();
+        if (!this.parentMenuItem) {
+          this.triggerEvent('show', this, e);
+        }
+      });
+    });
+
+    // When the underlying Popup triggers its "hide" event,
+    // pass the event to the Host element.
+    this.onEvent('hide', this.container, (e) => {
+      requestAnimationFrame(() => {
+        if (!this.parentMenuItem) {
+          this.triggerEvent('hide', this, e);
+        }
       });
     });
 
@@ -177,6 +190,8 @@ class IdsPopupMenu extends mix(IdsMenu).with(
    * @returns {void}
    */
   hide() {
+    if (!this.popup.visible) return;
+
     this.hidden = true;
     this.popup.querySelector('nav')?.removeAttribute('role');
     this.lastHovered = undefined;
@@ -191,6 +206,8 @@ class IdsPopupMenu extends mix(IdsMenu).with(
    * @returns {void}
    */
   show() {
+    if (this.popup.visible) return;
+
     // Trigger a veto-able `beforeshow` event.
     if (!this.triggerVetoableEvent('beforeshow')) {
       return;
