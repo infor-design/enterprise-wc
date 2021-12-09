@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import '../helpers/resize-observer-mock';
 import IdsWeekView from '../../src/components/ids-week-view';
 import { IdsDateUtils as dateUtils } from '../../src/utils';
 
