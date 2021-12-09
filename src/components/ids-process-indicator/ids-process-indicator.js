@@ -31,17 +31,19 @@ class IdsProcessIndicator extends mix(IdsElement).with(IdsThemeMixin) {
   connectedCallback() {
     // set the active step label for xs heading
     requestAnimationFrame(() => {
-      let activeStep;
+      let activeStepLabel = 'None';
 
       const steps = this.querySelectorAll('ids-process-step');
-      if (steps) {
+      if (steps.length > 1) {
+        let i = 0;
         for (const step of steps) {
           if (step.status === 'started') {
-            activeStep = step;
+            activeStepLabel = step.label === 'empty label' ? `${i + 1}` : step.label;
             break;
           }
+          i++;
         }
-        this.container.querySelector('.xs-header .label').innerHTML = activeStep.label;
+        this.container.querySelector('.xs-header .label').innerHTML = activeStepLabel;
       }
     });
   }
