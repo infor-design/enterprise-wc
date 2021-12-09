@@ -393,32 +393,35 @@ class IdsTreeMap extends mix(IdsElement).with(
    * @memberof IdsTreeMap
    */
   treeMap({ data, height }) {
-    this.#validateArguments({ data, height });
+    if (data && data.length > 0) {
+      this.#validateArguments({ data, height });
+      this.width = this.container.offsetWidth;
+      this.height = height;
 
-    this.width = this.container.offsetWidth;
-    this.height = height;
+      this.Rectangle = {
+        data: [],
+        xBeginning: 0,
+        yBeginning: 0,
+        totalWidth: this.width,
+        totalHeight: this.height,
+      };
 
-    this.Rectangle = {
-      data: [],
-      xBeginning: 0,
-      yBeginning: 0,
-      totalWidth: this.width,
-      totalHeight: this.height,
-    };
+      this.initialData = data;
+      const totalValue = data.map((dataPoint) => dataPoint.value).reduce(this.#sumReducer, 0);
+      const dataScaled = data.map((dataPoint) => (dataPoint.value * this.height * this.width) / totalValue);
 
-    this.initialData = data;
-    const totalValue = data.map((dataPoint) => dataPoint.value).reduce(this.#sumReducer, 0);
-    const dataScaled = data.map((dataPoint) => (dataPoint.value * this.height * this.width) / totalValue);
+      this.#squarify(dataScaled, [], this.#getMinWidth().value);
 
-    this.#squarify(dataScaled, [], this.#getMinWidth().value);
+      return this.Rectangle.data.map((dataPoint) => ({
+        ...dataPoint,
+        x: this.#roundValue(dataPoint.x),
+        y: this.#roundValue(dataPoint.y),
+        width: this.#roundValue(dataPoint.width),
+        height: this.#roundValue(dataPoint.height),
+      }));
+    }
 
-    return this.Rectangle.data.map((dataPoint) => ({
-      ...dataPoint,
-      x: this.#roundValue(dataPoint.x),
-      y: this.#roundValue(dataPoint.y),
-      width: this.#roundValue(dataPoint.width),
-      height: this.#roundValue(dataPoint.height),
-    }));
+    return false;
   }
 
   /**
@@ -438,7 +441,6 @@ class IdsTreeMap extends mix(IdsElement).with(
           resizeObserver.disconnect();
 
           // Recalculate treemap data
-          console.log(this.data);
           this.width = entry.target.offsetWidth;
           const updatedObj = {
             data: this.initialData,
@@ -446,11 +448,14 @@ class IdsTreeMap extends mix(IdsElement).with(
             height: this.height
           };
 
-          this.data = this.treeMap(updatedObj);
-
-          observerStarted = true;
-          requestAnimationFrame(() => resizeObserver.observe(this.container));
+          const newData = this.treeMap(updatedObj);
+          if (newData) {
+            this.data = this.treeMap(updatedObj);
+          }
         }
+
+        observerStarted = true;
+        requestAnimationFrame(() => resizeObserver.observe(this.container));
       });
 
       resizeObserver.observe(this.container);
