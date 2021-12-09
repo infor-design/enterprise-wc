@@ -33,7 +33,7 @@ class IdsMenuButton extends IdsButton {
   static get attributes() {
     return [
       ...super.attributes,
-      'formatter-width',
+      attributes.FORMATTER_WIDTH,
       attributes.DROPDOWN_ICON,
       attributes.ID,
       attributes.MENU
@@ -191,14 +191,14 @@ class IdsMenuButton extends IdsButton {
         val = value;
       }
     }
-    const FORMATTER_WIDTH = 'formatter-width';
+
     if (val) {
-      this.setAttribute(FORMATTER_WIDTH, value);
-      this.container.classList.add(FORMATTER_WIDTH);
+      this.setAttribute(attributes.FORMATTER_WIDTH, value);
+      this.container.classList.add(attributes.FORMATTER_WIDTH);
       this.container.style.minWidth = val;
     } else {
-      this.removeAttribute(FORMATTER_WIDTH);
-      this.container.classList.remove(FORMATTER_WIDTH);
+      this.removeAttribute(attributes.FORMATTER_WIDTH);
+      this.container.classList.remove(attributes.FORMATTER_WIDTH);
       this.container.style.minWidth = '';
     }
   }

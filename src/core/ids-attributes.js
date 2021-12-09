@@ -94,6 +94,7 @@ export const attributes = {
   FOCUSABLE: 'focusable',
   FONT_SIZE: 'font-size',
   FONT_WEIGHT: 'font-weight',
+  FORMATTER_WIDTH: 'formatter-width',
   GAP: 'gap',
   GAP_X: 'gap-x',
   GAP_Y: 'gap-y',
