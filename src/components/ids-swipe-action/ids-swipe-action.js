@@ -63,8 +63,13 @@ class IdsSwipeAction extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
     }
 
     if (this.leftButton && this.swipeType === 'reveal') {
+      this.container.style.visibility = 'hidden';
       setTimeout(() => {
         this.container.scrollLeft = 85;
+
+        setTimeout(() => {
+          this.container.style.visibility = 'visible';
+        }, 500);
       });
     }
   }
