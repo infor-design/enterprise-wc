@@ -15,6 +15,12 @@ import {
 
 import styles from './ids-treemap.scss';
 
+const DEFAULT_DATA = [
+  { value: 1 },
+  { value: 2 }
+];
+const DEFAULT_HEIGHT = 300;
+
 /**
  * IDS Tree Component
  * Based on Treemap Squarify: https://github.com/clementbat/treemap
@@ -34,9 +40,9 @@ class IdsTreeMap extends mix(IdsElement).with(
   ) {
   constructor() {
     super();
-    this.d = [];
+    this.d = DEFAULT_DATA;
+    this.height = DEFAULT_HEIGHT;
     this.width = '';
-    this.height = '';
   }
 
   /**
@@ -345,6 +351,7 @@ class IdsTreeMap extends mix(IdsElement).with(
    * @param {Array} children array
    * @param {number} width number
    * @memberof IdsTreeMap
+   * @private
    */
   #layoutLastRow = (rows, children, width) => {
     const { vertical } = this.#getMinWidth();
@@ -385,7 +392,7 @@ class IdsTreeMap extends mix(IdsElement).with(
    * @returns {Array} treemap array
    * @memberof IdsTreeMap
    */
-  treeMap({ data, height = '300' }) {
+  treeMap({ data, height }) {
     this.#validateArguments({ data, height });
 
     this.width = this.container.offsetWidth;
@@ -430,23 +437,9 @@ class IdsTreeMap extends mix(IdsElement).with(
           }
           resizeObserver.disconnect();
 
-          observerStarted = true;
-
           // Recalculate treemap data
+          console.log(this.data);
           this.width = entry.target.offsetWidth;
-          // If the height comes back empty add a default height
-          if (this.height === '') {
-            this.height = 300;
-          }
-
-          // If the initialData comes back undefined add some default data
-          if (!this.initialData) {
-            this.initialData = [
-              { value: 1 },
-              { value: 2 }
-            ];
-          }
-
           const updatedObj = {
             data: this.initialData,
             width: this.width,
@@ -455,6 +448,7 @@ class IdsTreeMap extends mix(IdsElement).with(
 
           this.data = this.treeMap(updatedObj);
 
+          observerStarted = true;
           requestAnimationFrame(() => resizeObserver.observe(this.container));
         }
       });
