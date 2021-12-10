@@ -41,7 +41,7 @@ export default class IdsSearchField extends Base {
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants = ['alternate'];
+  colorVariants = ['alternate', 'app-menu'];
 
   static get attributes() {
     return [

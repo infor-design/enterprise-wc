@@ -2,6 +2,7 @@ import IdsAppMenu from '../../src/components/ids-app-menu/ids-app-menu';
 import IdsAccordion from '../../src/components/ids-accordion/ids-accordion';
 import IdsButton from '../../src/components/ids-button/ids-button';
 import IdsIcon from '../../src/components/ids-icon/ids-icon';
+import IdsSearchField from '../../src/components/ids-search-field/ids-search-field';
 import IdsToolbar, { IdsToolbarSection } from '../../src/components/ids-toolbar/ids-toolbar';
 
 document.addEventListener('DOMContentLoaded', () => {
