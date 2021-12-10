@@ -53,8 +53,14 @@ class IdsTimePicker extends mix(IdsElement).with(
   ) {
   constructor() {
     super();
+  }
 
-    this.elements = {
+  /**
+   * Get a list of element dependencies for this component
+   * @returns {object} of elements
+   */
+  get elements() {
+    return {
       dropdowns: {
         hours: this.container.querySelector('ids-dropdown#hours'),
         minutes: this.container.querySelector('ids-dropdown#minutes'),

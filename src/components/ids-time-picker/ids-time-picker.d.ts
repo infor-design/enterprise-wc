@@ -43,6 +43,11 @@ export default class IdsTimePicker extends IdsElement {
   /** Set the theme version */
   version?: 'new' | 'classic' | string;
 
+  /** Get a list of element dependencies for this component */
+  readonly elements: {
+    [key: string]: HTMLElement | { [key: string]: HTMLElement },
+  };
+
   /** Get the minutes and seconds intervals */
   readonly intervals: {
     minutes: number | false,
