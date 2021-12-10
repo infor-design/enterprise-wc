@@ -98,20 +98,52 @@ class IdsTimePicker extends mix(IdsElement).with(
     ];
   }
 
+  /**
+   * @readonly
+   * @returns {boolean} returns true if the timepicker format includes seconds ("ss")
+   */
   get hasSeconds() { return this.format.toLowerCase().includes('ss'); }
 
+  /**
+   * @readonly
+   * @returns {boolean} returns true if the timepicker format includes the am/pm period (" a")
+   */
   get hasPeriod() { return this.is12Hours && this.format.toLowerCase().includes(' a'); }
 
+  /**
+   * @readonly
+   * @returns {boolean} returns true if the timepicker is using a 12-Hour format ("hh")
+   */
   get is12Hours() { return this.format.includes('hh'); }
 
+  /**
+   * @readonly
+   * @returns {boolean} returns true if the timepicker is using a 24-Hour format ("HH")
+   */
   get is24Hours() { return this.format.includes('HH') || !this.hasPeriod; }
 
+  /**
+   * @readonly
+   * @returns {boolean} returns true if the timepicker's popup is open
+   */
   get isOpen() { return !!this.elements.popup.visible; }
 
+  /**
+   * Sets the format that the timepicker's timestring should be rendered as
+   * @param {string} value - a variation of "hh:mm:ss a"
+   */
   set format(value) { this.setAttribute(attributes.FORMAT, value); }
 
-  get format() { return this.getAttribute(attributes.FORMAT) ?? 'hh:mm:ss a'; }
+  /**
+   * Gets the format that the timepicker's timestring should be rendered as
+   * @returns {string} default is "hh:mm a"
+   */
+  get format() { return this.getAttribute(attributes.FORMAT) ?? 'hh:mm a'; }
 
+  /**
+   * Sets a current timestring-value of the timepickers input-field
+   * @param {string} value - a timestring value for the input-field
+   */
   set value(value) {
     if (!this.disabled && !this.readonly) {
       this.setAttribute('value', value);
@@ -119,16 +151,40 @@ class IdsTimePicker extends mix(IdsElement).with(
     }
   }
 
+  /**
+   * Gets a timestring that matches the format specified by this.format()
+   * @returns {string} the current timestring value of the timepicker
+   */
   get value() { return this.getAttribute('value') || ''; }
 
+  /**
+   * Sets the autoselect attribute
+   * @param {boolean} value - true or false
+   */
   set autoselect(value) { this.setAttribute(attributes.AUTOSELECT, !!value); }
 
+  /**
+   * Gets the autoselect attribute
+   * @returns {boolean} true if autoselect is enabled
+   */
   get autoselect() { return this.hasAttribute(attributes.AUTOSELECT); }
 
+  /**
+   * Sets the autoupdate attribute
+   * @param {boolean} value - true or false
+   */
   set autoupdate(value) { this.setAttribute(attributes.AUTOUPDATE, !!value); }
 
+  /**
+   * Gets the autoupdate attribute
+   * @returns {boolean} true if autoselect is enabled
+   */
   get autoupdate() { return this.hasAttribute(attributes.AUTOUPDATE); }
 
+  /**
+   * Sets the disabled attribute
+   * @param {boolean} value - true or false
+   */
   set disabled(value) {
     const disabled = stringUtils.stringToBool(value);
     this.setAttribute(attributes.DISABLED, disabled);
@@ -137,8 +193,16 @@ class IdsTimePicker extends mix(IdsElement).with(
     this.elements.input.disabled = disabled;
   }
 
+  /**
+   * Gets the disabled attribute
+   * @returns {boolean} true if the timepicker is disabled
+   */
   get disabled() { return this.getAttribute(attributes.DISABLED) ?? false; }
 
+  /**
+   * Sets the readonly attribute
+   * @param {boolean} value - true or false
+   */
   set readonly(value) {
     const readonly = stringUtils.stringToBool(value);
     this.setAttribute(attributes.READONLY, readonly);
@@ -147,24 +211,52 @@ class IdsTimePicker extends mix(IdsElement).with(
     this.elements.input.readonly = readonly;
   }
 
+  /**
+   * Gets the readonly attribute
+   * @returns {boolean} true if the timepicker is in readonly mode
+   */
   get readonly() { return this.getAttribute(attributes.READONLY) ?? false; }
 
+  /**
+   * Sets the label attribute
+   * @param {string} value - the label's text
+   */
   set label(value) {
     this.setAttribute(attributes.LABEL, value);
     this.elements.triggerField.label = value;
   }
 
+  /**
+   * Gets the label attribute
+   * @returns {string} default is ""
+   */
   get label() { return this.getAttribute(attributes.LABEL) ?? ''; }
 
+  /**
+   * Sets the placeholder attribute
+   * @param {string} value - the placeholder's text
+   */
   set placeholder(value) {
     this.setAttribute(attributes.PLACEHOLDER, value);
     this.elements.input.placeholder = value;
   }
 
+  /**
+   * Get the placeholder attribute
+   * @returns {string} default is ""
+   */
   get placeholder() { return this.getAttribute(attributes.PLACEHOLDER) ?? ''; }
 
+  /**
+   * Get the size attribute
+   * @returns {string} default is "sm"
+   */
   get size() { return this.getAttribute(attributes.SIZE) ?? 'sm'; }
 
+  /**
+   * Gets an object keyed-by minutes|seconds which contains the minutes and seconds intervals
+   * @returns {object} an object with type { [minutes|seconds]: number }
+   */
   get intervals() {
     return {
       minutes: parseInt(this.getAttribute(attributes.MINUTE_INTERVAL)) || false,
@@ -172,6 +264,10 @@ class IdsTimePicker extends mix(IdsElement).with(
     };
   }
 
+  /**
+   * Gets an object containing the dropdown-field values for hours|minutes|seconds|period
+   * @returns {object} an object keyed by hours|minutes|seconds|period
+   */
   get options() {
     const intervals = this.intervals;
     return {
@@ -182,6 +278,15 @@ class IdsTimePicker extends mix(IdsElement).with(
     };
   }
 
+  /**
+   * Creates the HTML the timepicker's dropdown fields
+   *
+   * @param {object} data the data used to build a dropdown
+   * @param {string|number} data.id the unqiue-id for this dropdown
+   * @param {string|number} data.label text for the label displayed above the dropdown
+   * @param {Array<string|number>} data.options an array used to create the dropdown's options
+   * @returns {string} the HTML for the dropdowns
+   */
   dropdown({
     id,
     label,
@@ -202,7 +307,7 @@ class IdsTimePicker extends mix(IdsElement).with(
 
   /**
    * Create the Template for the contents
-   * @returns {string} The template
+   * @returns {string} HTML for the template
    */
   template() {
     const options = this.options;

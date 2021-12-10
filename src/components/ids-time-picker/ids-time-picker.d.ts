@@ -5,7 +5,7 @@ import { IdsElement } from '../../core';
 
 export default class IdsTimePicker extends IdsElement {
   /** Set the time format to indicate which dropdowns to render (Default: "hh:mm:ss a") */
-  format?: string | 'hh:mm:ss a';
+  format?: string | 'hh:mm a';
 
   /** Set the input-field value (a timestring) */
   value?: string;
