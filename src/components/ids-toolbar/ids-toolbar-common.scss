@@ -6,7 +6,7 @@
 // These rules are applied to the `.ids-toolbar` element
 // These are used for Standalone CSS Toolbars
 @mixin ids-toolbar-section-inner-size-styles() {
-  &:not(.favorable) {
+  &:not(.favor) {
     flex: 0 1 auto;
 
     &.title,
@@ -20,7 +20,7 @@
   &.fluid {
     flex: 1 0 auto;
 
-    &:not(.favorable) {
+    &:not(.favor) {
       flex: 0 1 auto;
       overflow-x: hidden;
       overflow-y: auto;
@@ -32,7 +32,7 @@
     }
   }
 
-  &.favorable {
+  &.favor {
     flex: 2 0 auto;
 
     &.title,
@@ -64,7 +64,7 @@
 
 // These rules are applied to `ids-toolbar-section:host` elements
 @mixin ids-toolbar-section-host-size-styles() {
-  ::slotted(ids-toolbar-section:not([favorable])) {
+  ::slotted(ids-toolbar-section:not([favor])) {
     overflow: hidden;
   }
 
@@ -78,18 +78,18 @@
     flex: 1 0 auto;
   }
 
-  ::slotted(ids-toolbar-section[type='fluid']:not([favorable])),
-  ::slotted(ids-toolbar-section[type='title']:not([favorable])),
-  ::slotted(ids-toolbar-section[type='buttonset']:not([favorable])) {
+  ::slotted(ids-toolbar-section[type='fluid']:not([favor])),
+  ::slotted(ids-toolbar-section[type='title']:not([favor])),
+  ::slotted(ids-toolbar-section[type='buttonset']:not([favor])) {
     flex: 1 1 auto;
   }
 
-  ::slotted(ids-toolbar-section[favorable]) {
+  ::slotted(ids-toolbar-section[favor]) {
     flex: 2 0 auto;
   }
 
-  ::slotted(ids-toolbar-section[favorable][type='buttonset']),
-  ::slotted(ids-toolbar-section[favorable][type='title']) {
+  ::slotted(ids-toolbar-section[favor][type='buttonset']),
+  ::slotted(ids-toolbar-section[favor][type='title']) {
     overflow: auto;
     flex: 2 0 auto;
   }

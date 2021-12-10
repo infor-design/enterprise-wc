@@ -23,7 +23,7 @@ export default class IdsToolbarSection extends IdsElement {
   align?: string;
 
   /** Causes the contents of this Toolbar section not to be collapsed/shrunk if the parent toolbar size shrinks */
-  favorable?: boolean;
+  favor?: boolean;
 
   /** Sets the "type" of section */
   type?: 'static' | 'fluid' | 'title' | 'buttonset' | 'search' | 'more';

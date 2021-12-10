@@ -31,7 +31,7 @@ The Ids Toolbar can also be responsive, intelligently hiding buttons that can't 
 ### Toolbar Section
 
 - `align` - Determines the alignment of the items within this section.  Defaults to `start`, which is the left side of the Toolbar in a standard Left-to-Right toolbar setup.  Can also be `center` and `end` (right).
-- `favorable` - Determines if this section should not shrink/collapse when the size of the entire Toolbar shrinks.  This causes the other Toolbar sections to become smaller first.
+- `favor` - Determines if this section should not shrink/collapse when the size of the entire Toolbar shrinks.  This causes the other Toolbar sections to become smaller first.
 - `items` - provides access to all Toolbar items in this section.
 - `type` - Sets a pre-defined "type" on the toolbar section.  This defaults to `static` but can also be set to `title`, `buttonset`, and `search` to mimic those specific sections.  To create a custom section that fills available space, `fluid` is also an available type.
 
@@ -303,5 +303,5 @@ The IDS Button doesn't contain any interactions beyond a standard HTMLButtonElem
 Ids Toolbar closely resembles the 4.x Flex Toolbar in structure and functionality.  The main differences are:
 
 - Toolbar Sections and the More Actions Button are now standardized components.
-- Toolbar Section behavior is now controlled by attributes (`favorable`, `type`, etc) instead of CSS classes.
+- Toolbar Section behavior is now controlled by attributes (`favor`, `type`, etc) instead of CSS classes.
 - The More Actions button can be configured NOT to automatically show overflow items by omitting its `overflow` attribute.

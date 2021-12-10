@@ -13,7 +13,7 @@ import { IdsEventsMixin, IdsThemeMixin } from '../../mixins';
 
 const TOOLBAR_SECTION_ATTRIBUTES = [
   attributes.ALIGN,
-  attributes.FAVORABLE,
+  attributes.FAVOR,
   attributes.TOOLBAR_TYPE,
   attributes.TYPE
 ];
@@ -180,26 +180,26 @@ class IdsToolbarSection extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
   }
 
   /**
-   * @param {boolean|string} val true if this toolbar section should be marked "favorable"
+   * @param {boolean|string} val true if this toolbar section should be marked "favor"
    * (will try not to be collapsed/shrunk if the parent toolbar size shrinks)
    */
-  set favorable(val) {
+  set favor(val) {
     const newValue = stringToBool(val);
     if (newValue) {
-      this.setAttribute(attributes.FAVORABLE, '');
-      this.container.classList.add(attributes.FAVORABLE);
+      this.setAttribute(attributes.FAVOR, '');
+      this.container.classList.add(attributes.FAVOR);
     } else {
-      this.removeAttribute(attributes.FAVORABLE);
-      this.container.classList.remove(attributes.FAVORABLE);
+      this.removeAttribute(attributes.FAVOR);
+      this.container.classList.remove(attributes.FAVOR);
     }
   }
 
   /**
-   * @returns {boolean} true if this toolbar section is marked "favorable"
+   * @returns {boolean} true if this toolbar section is marked "favor"
    * (will try not to be collapsed/shrunk if the parent toolbar size shrinks)
    */
-  get favorable() {
-    return this.hasAttribute(attributes.FAVORABLE);
+  get favor() {
+    return this.hasAttribute(attributes.FAVOR);
   }
 
   /**

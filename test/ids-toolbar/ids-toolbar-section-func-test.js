@@ -136,15 +136,15 @@ describe('IdsToolbarSection Component', () => {
     expect(sectionTitle.getAttribute('align')).toBe(null);
   });
 
-  it('can be favorable', () => {
-    sectionTitle.favorable = true;
+  it('can be favored', () => {
+    sectionTitle.favor = true;
 
-    expect(sectionTitle.container.classList.contains('favorable')).toBeTruthy();
+    expect(sectionTitle.container.classList.contains('favor')).toBeTruthy();
 
-    sectionTitle.favorable = false;
-    sectionButtonset.favorable = true;
+    sectionTitle.favor = false;
+    sectionButtonset.favor = true;
 
-    expect(sectionTitle.container.classList.contains('favorable')).toBeFalsy();
-    expect(sectionButtonset.container.classList.contains('favorable')).toBeTruthy();
+    expect(sectionTitle.container.classList.contains('favor')).toBeFalsy();
+    expect(sectionButtonset.container.classList.contains('favor')).toBeTruthy();
   });
 });

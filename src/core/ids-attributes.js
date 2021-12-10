@@ -83,7 +83,7 @@ export const attributes = {
   EXPANDER_TYPE: 'expander-type',
   FALLBACK: 'fallback',
   FIELD: 'field',
-  FAVORABLE: 'favorable',
+  FAVOR: 'favor',
   FIELD_HEIGHT: 'field-height',
   FILE: 'file',
   FILE_NAME: 'file-name',
