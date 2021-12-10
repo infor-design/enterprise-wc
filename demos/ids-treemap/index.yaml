@@ -1,0 +1,9 @@
+---
+ component: Treemap
+ link: ids-treemap
+ description: Hierarchical data viz component
+ category: Charts and Visualizations
+ keywords:
+ examples:
+  - link: index.html
+    description: Hierarchical data viz component
