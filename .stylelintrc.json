@@ -3,7 +3,7 @@
     "stylelint-scss"
   ],
   "extends": ["stylelint-config-standard-scss"],
-  "ignoreFiles": ["**/*.js"],
+  "ignoreFiles": ["**/*.js", "**/*.html", "**/*.md"],
   "rules": {
     "at-rule-no-unknown": [true, {
       "ignoreAtRules": [

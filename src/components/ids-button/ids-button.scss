@@ -87,6 +87,20 @@ button {
   }
 }
 
+.ids-menu-button.formatter-width {
+  &:not(.no-padding):not(.ids-icon-button) {
+    @include px-8();
+  }
+
+  &:not(.formatter-width-percentage) {
+    .ids-icon {
+      @include absolute();
+
+      inset-inline-end: 4px;
+    }
+  }
+}
+
 .ids-icon-button {
   @include ids-base-button-styles();
   @include ids-standard-button-colors();
@@ -255,6 +269,18 @@ button {
 .btn-swipe-action-right[mode='contrast'][version='classic'] {
   @include bg-azure-50();
   @include text-white();
+}
+
+.ids-modal-button[mode='dark'] {
+  &:not(.ids-modal-icon-button) {
+    @include bg-transparent();
+  }
+}
+
+.ids-modal-button[mode='contrast'] {
+  &:not(.ids-modal-icon-button) {
+    @include bg-slate-10();
+  }
 }
 
 // Non-RTL Styles

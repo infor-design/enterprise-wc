@@ -79,3 +79,16 @@ $modal-border-style: 1px solid var(--ids-color-palette-slate-30);
     font-size: 26px;
   }
 }
+
+// Handle Themes (some is in popup)
+:host([mode='dark']) {
+  .ids-modal-footer {
+    border-top: 1px solid var(--ids-color-palette-slate-50);
+  }
+}
+
+:host([mode='contrast']) {
+  .ids-modal-footer {
+    border-top: 1px solid var(--ids-color-palette-slate-60);
+  }
+}

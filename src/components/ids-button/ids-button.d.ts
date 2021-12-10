@@ -6,6 +6,9 @@ import { IdsElement } from '../../core';
  * @type {any}
  */
 export class IdsButton extends IdsElement {
+  /* Set the variants theme styles */
+  colorVariant?: 'alternate' | 'alternate-formatter';
+
   /* Contains space-delimited CSS classes (or an array of CSS classes) that will be passed to the Shadow Root button */
   cssClass?: Array<string> | string | null;
 

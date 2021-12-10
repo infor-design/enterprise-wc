@@ -12,6 +12,6 @@ describe('Ids Virtual Scroll e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await expect(page).toPassAxeTests({ disabledRules: ['scrollable-region-focusable'] });
+    await expect(page).toPassAxeTests({ disabledRules: ['scrollable-region-focusable', 'landmark-one-main', 'page-has-heading-one'] });
   });
 });
