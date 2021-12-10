@@ -13,6 +13,7 @@ import {
 } from '../../mixins';
 
 import styles from './ids-swipe-action.scss';
+import { renderLoop, IdsRenderLoopItem } from '../ids-render-loop';
 
 /**
  * IDS SwipeAction Component
@@ -64,13 +65,23 @@ class IdsSwipeAction extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
 
     if (this.leftButton && this.swipeType === 'reveal') {
       this.container.style.visibility = 'hidden';
-      setTimeout(() => {
-        this.container.scrollLeft = 85;
 
-        setTimeout(() => {
-          this.container.style.visibility = 'visible';
-        }, 500);
-      });
+      const self = this;
+      const timeout = renderLoop.register(new IdsRenderLoopItem({
+        duration: 1,
+        timeoutCallback() {
+          self.container.scrollLeft = 85;
+          timeout.destroy(true);
+        }
+      }));
+
+      const timeout1 = renderLoop.register(new IdsRenderLoopItem({
+        duration: 500,
+        timeoutCallback() {
+          self.container.style.visibility = 'visible';
+          timeout1.destroy(true);
+        }
+      }));
     }
   }
 
