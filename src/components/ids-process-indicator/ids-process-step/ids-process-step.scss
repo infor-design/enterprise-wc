@@ -1,5 +1,24 @@
 @import '../../../core/ids-base';
 
+:host {
+  // slotted text details
+  ::slotted(ids-text) {
+      color: var(--ids-color-palette-slate-60);
+  }
+
+  [mode='dark'] {
+    ::slotted(ids-text) {
+      color: var(--ids-color-palette-slate-30);
+    }
+  }
+
+  [mode='contrast'] {
+    ::slotted(ids-text) {
+      color: var(--ids-color-palette-slate-90);
+    }
+  }
+}
+
 .ids-process-step {
   --bg-color: #fff;
   --primary-color: var(--ids-color-palette-azure-70);
