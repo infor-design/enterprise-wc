@@ -223,6 +223,10 @@ describe('IdsTimePicker Component', () => {
     timepicker.replaceWith(timepicker);
     input.focus();
     expect(timepicker.isOpen).toBe(true);
+
+    timepicker.autoselect = false;
+    expect(timepicker.autoselect).toBe(false);
+    expect(timepicker.getAttribute(attributes.AUTOSELECT)).toBeNull();
   });
 
   it('can update the timestring value with the "Set Time" button', () => {
@@ -242,6 +246,10 @@ describe('IdsTimePicker Component', () => {
     timepicker.replaceWith(timepicker);
     expect(timepicker.autoupdate).toBeTruthy();
     expect(timepicker.getAttribute(attributes.AUTOUPDATE)).toBeTruthy();
+
+    timepicker.autoupdate = false;
+    expect(timepicker.autoupdate).toBe(false);
+    expect(timepicker.getAttribute(attributes.AUTOUPDATE)).toBeNull();
 
     // TODO: this currently fails and needs to be fixed
     // expect(setTimeButton).toBeUndefined();

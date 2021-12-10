@@ -138,7 +138,7 @@ class IdsTimePicker extends mix(IdsElement).with(
    * Gets the format that the timepicker's timestring should be rendered as
    * @returns {string} default is "hh:mm a"
    */
-  get format() { return this.getAttribute(attributes.FORMAT) ?? 'hh:mm a'; }
+  get format() { return this.getAttribute(attributes.FORMAT) ?? 'hh:mm:ss a'; }
 
   /**
    * Sets a current timestring-value of the timepickers input-field
@@ -161,7 +161,14 @@ class IdsTimePicker extends mix(IdsElement).with(
    * Sets the autoselect attribute
    * @param {boolean} value - true or false
    */
-  set autoselect(value) { this.setAttribute(attributes.AUTOSELECT, !!value); }
+  set autoselect(value) {
+    value = value === 'false' ? false : value;
+    if (!value) {
+      this.removeAttribute(attributes.AUTOSELECT);
+    } else {
+      this.setAttribute(attributes.AUTOSELECT, true);
+    }
+  }
 
   /**
    * Gets the autoselect attribute
@@ -173,7 +180,14 @@ class IdsTimePicker extends mix(IdsElement).with(
    * Sets the autoupdate attribute
    * @param {boolean} value - true or false
    */
-  set autoupdate(value) { this.setAttribute(attributes.AUTOUPDATE, !!value); }
+  set autoupdate(value) {
+    value = value === 'false' ? false : value;
+    if (!value) {
+      this.removeAttribute(attributes.AUTOUPDATE);
+    } else {
+      this.setAttribute(attributes.AUTOUPDATE, true);
+    }
+  }
 
   /**
    * Gets the autoupdate attribute
