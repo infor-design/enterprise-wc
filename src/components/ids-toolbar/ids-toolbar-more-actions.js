@@ -23,9 +23,10 @@ class IdsToolbarMoreActions extends IdsElement {
   }
 
   template() {
+    const icon = this.getAttribute('icon') || 'more';
     return `<div class="ids-toolbar-section ids-toolbar-more-actions more">
       <ids-menu-button id="icon-button" menu="icon-menu">
-        <ids-icon slot="icon" icon="more"></ids-icon>
+        <ids-icon slot="icon" icon="${icon}"></ids-icon>
         <span class="audible">More Actions Button</span>
       </ids-menu-button>
       <ids-popup-menu id="icon-menu" target="#icon-button" trigger="click">
