@@ -462,7 +462,6 @@ export default class IdsDropdown extends Base {
     // Handle the Locale Change
     this.offEvent('languagechange.data-grid-container');
     this.onEvent('languagechange.data-grid-container', this.closest('ids-container'), async () => {
-      this.setDirection();
       this.#addAria();
     });
     return this;

@@ -37,7 +37,7 @@ export function firstDayOfWeek(date, startsOn = 0, showRange = false) {
  * @returns {boolean} Returns true or false if the compared date is today.
  */
 export function lastDayOfWeek(date, startsOn = 0) {
-  const lastDay = this.firstDayOfWeek(date, startsOn);
+  const lastDay = firstDayOfWeek(date, startsOn);
   lastDay.setDate(lastDay.getDate() + 6);
   lastDay.setHours(23, 59, 59, 999);
   return lastDay;

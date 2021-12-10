@@ -33,7 +33,7 @@ exports[`IdsTabs Tests renders tab dividers on counts, and has no errors 1`] = `
        Pizzas\\">Pizzas</ids-tab>
         <ids-tab count=\\"18\\" role=\\"tab\\" aria-selected=\\"false\\" tabindex=\\"-1\\" aria-label=\\"18
        Diet Cokes\\">Diet Cokes</ids-tab>
-        <ids-tab-divider></ids-tab-divider>
+        <ids-tab-divider role=\\"presentation\\"></ids-tab-divider>
        <ids-tab count=\\"12\\" role=\\"tab\\" aria-selected=\\"false\\" tabindex=\\"-1\\" aria-label=\\"12
        Ginger Ales\\">Ginger Ales</ids-tab>
       </ids-tabs>"

@@ -149,6 +149,7 @@ const messages = {
   ExampleData: { id: 'ExampleData', value: 'Example Data', comment: 'Translated text for an example piece of data instance' },
   ExamplePlaceholder: { id: 'ExamplePlaceholder', value: 'Example Placeholder', comment: 'Translated text for an example form placeholder text' },
   Export: { id: 'Export', value: 'Export', comment: 'Export tooltip' },
+  ExportToCsv: { id: 'ExportToCsv', value: 'Export To CSV', comment: 'Export To CSV menu option in datagrid' },
   ExportToExcel: { id: 'ExportToExcel', value: 'Export To Excel', comment: 'Export To Excel menu option in datagrid' },
   ExtraSmall: { id: 'ExtraSmall', value: 'Extra Small', comment: 'A smaller font size and compressed mode for datagrid rows.' },
   Favorite: { id: 'Favorite', value: 'Favorite', comment: 'A favorite item' },

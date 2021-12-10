@@ -97,14 +97,7 @@ export default class IdsText extends Base {
   #attachEventHandlers() {
     if (this.translateText) {
       this.offEvent('languagechange.text-container');
-      this.onEvent('languagechange.text-container', this.closest('ids-container'), async (e) => {
-        await this.setLanguage(e.detail.language.name);
-        this.#translateAsync();
-      });
-
-      this.offEvent('languagechange.text');
-      this.onEvent('languagechange.text', this, async (e) => {
-        await this.locale.setLanguage(e.detail.language.name);
+      this.onEvent('languagechange.text-container', this.closest('ids-container'), async () => {
         this.#translateAsync();
       });
     }
@@ -342,7 +335,11 @@ export default class IdsText extends Base {
    * @private
    */
   async #translateAsync() {
-    await this.locale.setLanguage(this.language.name);
-    this.textContent = this.locale.translate(this.getAttribute('translation-key') || this.textContent);
+    if (!this.locale) {
+      return;
+    }
+
+    await this.locale.setLanguage(this.locale.language.name);
+    this.textContent = this.locale.translate(this.getAttribute('translation-key'));
   }
 }

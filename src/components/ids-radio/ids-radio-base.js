@@ -5,7 +5,9 @@ import IdsElement from '../../core/ids-element';
 
 const Base = IdsLocaleMixin(
   IdsThemeMixin(
-    IdsElement
+    IdsEventsMixin(
+      IdsElement
+    )
   )
 );
 

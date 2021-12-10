@@ -33,14 +33,6 @@ export default class IdsDrawer extends Base {
 
   connectedCallback() {
     super.connectedCallback?.();
-    this.#handleEvents();
-  }
-
-  #handleEvents() {
-    this.offEvent('languagechange.data-grid-container');
-    this.onEvent('languagechange.data-grid-container', this.closest('ids-container'), async () => {
-      this.setDirection();
-    });
   }
 
   static get attributes() {

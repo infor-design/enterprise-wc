@@ -334,4 +334,20 @@ describe('IdsTriggerField Component', () => {
     triggerField.label = 'Ids Trigger Field';
     expect(triggerField.getAttribute('label')).toEqual('Ids Trigger Field');
   });
+
+  it('can set the noMargins attribute', () => {
+    triggerField.noMargins = true;
+    expect(triggerField.getAttribute('no-margins')).toEqual('true');
+    expect(triggerField.noMargins).toEqual(true);
+
+    triggerField.noMargins = false;
+    expect(triggerField.getAttribute('no-margins')).toBeFalsy();
+    expect(triggerField.noMargins).toEqual(false);
+  });
+
+  it('can set the cssClass attribute', () => {
+    triggerField.cssClass = 'test';
+    expect(triggerField.getAttribute('css-class')).toEqual('test');
+    expect(triggerField.cssClass).toEqual('test');
+  });
 });

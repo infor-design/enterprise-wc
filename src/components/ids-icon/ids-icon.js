@@ -124,6 +124,8 @@ export default class IdsIcon extends Base {
       'cart',
       'cascade',
       'change-font',
+      'chevron-left',
+      'chevron-right',
       'clear-screen',
       'clockwise-90',
       'close-cancel',

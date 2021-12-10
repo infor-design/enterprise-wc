@@ -5,7 +5,14 @@ const IdsLocaleMixin = (superclass) => class extends superclass {
     super();
   }
 
+  // Flag for one initial event call
+  initialized = false;
+
   connectedCallback() {
+    this.offEvent('languagechange.mixin');
+    this.onEvent('languagechange.mixin', this.closest('ids-container'), async () => {
+      this.setDirection();
+    });
     super.connectedCallback?.();
   }
 

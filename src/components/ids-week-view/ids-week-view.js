@@ -1,6 +1,8 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+
 import Base from './ids-week-view-base';
+
 import {
   daysDiff,
   addDate,
@@ -38,8 +40,8 @@ export default class IdsWeekView extends Base {
   }
 
   connectedCallback() {
-    this.attachEventHandlers();
     super.connectedCallback();
+    this.#attachEventHandlers();
   }
 
   /**
@@ -71,40 +73,32 @@ export default class IdsWeekView extends Base {
   /**
    * Establish internal event handlers
    * @returns {object} The object for chaining
+   * @private
    */
-  attachEventHandlers() {
+  #attachEventHandlers() {
     // Respond to parent changing language
     this.offEvent('languagechange.week-view-container');
-    this.onEvent('languagechange.week-view-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
+
+    // Set the height from the top
+    const ro = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.contentRect.width > 0) {
+          this.#attachOffsetTop();
+        }
+      }
     });
+    ro.observe(this.container);
 
-    // Respond to parent changing locale
-    this.offEvent('localechange.week-view-container');
-    this.onEvent('localechange.week-view-container', this.closest('ids-container'), async (e) => {
-      await this.setLocale(e.detail.locale.name);
-    });
-
-    // Respond to the element changing language
-    this.offEvent('languagechange.week-view');
-    this.onEvent('languagechange.week-view', this, async (e) => {
-      await this.locale.setLanguage(e.detail.language.name);
-
+    this.onEvent('languagechange.week-view-container', this.closest('ids-container'), async () => {
       this.#renderToolbar();
       this.#renderWeek();
       this.#renderTimeline();
       this.#attachOffsetTop();
     });
 
-    // Respond to the element changing locale
-    this.offEvent('localechange.week-view');
-    this.onEvent('localechange.week-view', this, async (e) => {
-      if (!e.detail.locale.name) {
-        return;
-      }
-
-      await this.locale.setLocale(e.detail.locale.name);
-
+    // Respond to parent changing locale
+    this.offEvent('localechange.week-view-container');
+    this.onEvent('localechange.week-view-container', this.closest('ids-container'), async () => {
       this.#renderWeek();
       this.#renderTimeline();
       this.#attachDatepickerText();
@@ -117,6 +111,10 @@ export default class IdsWeekView extends Base {
    * Add toolbar HTML to shadow
    */
   #renderToolbar() {
+    if (!this.locale) {
+      return;
+    }
+
     const toolbarTemplate = `<ids-toolbar class="week-view-header" tabbable="true">
       <ids-toolbar-section type="buttonset">
         <ids-button class="week-view-btn-previous">
@@ -246,12 +244,16 @@ export default class IdsWeekView extends Base {
    * Add week HTML to shadow including day/weekday header, hour rows, event cells
    */
   #renderWeek() {
+    if (!this.locale) {
+      return;
+    }
+
     const diff = daysDiff(this.startDate, this.endDate);
     const hoursDiff = this.endHour - this.startHour + 1;
     const isDayView = diff === 1 || diff === 0;
     // Get locale loaded calendars and dayOfWeek calendar setting
     const calendars = this.locale.locale.options.calendars;
-    const dayOfWeekSetting = (calendars || [])[0]?.dateFormat?.dayOfWeek;
+    const dayOfWeekSetting = (calendars)[0]?.dateFormat?.dayOfWeek;
     // Determinate day/weekday order based on calendar settings (d EEE or EEE)
     const emphasis = dayOfWeekSetting && dayOfWeekSetting.split(' ')[0] === 'EEE';
     // Helper to get day/weekday font size in the template
@@ -396,7 +398,6 @@ export default class IdsWeekView extends Base {
    */
   #attachOffsetTop() {
     const offsetTop = this.container.offsetTop;
-
     this.container.style = `--offset-top: ${offsetTop}px`;
   }
 
@@ -406,7 +407,6 @@ export default class IdsWeekView extends Base {
    */
   get showToday() {
     const attrVal = this.getAttribute(attributes.SHOW_TODAY);
-
     return stringToBool(attrVal);
   }
 

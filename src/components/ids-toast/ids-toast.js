@@ -46,12 +46,6 @@ export default class IdsToast extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
-
-    // Respond to parent changing language
-    this.offEvent('languagechange.toast-container');
-    this.onEvent('languagechange.toast-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
-    });
   }
 
   /**
@@ -283,7 +277,10 @@ export default class IdsToast extends Base {
     addAttribute(toastEl, attributes.AUDIBLE);
     addAttribute(toastEl, attributes.PROGRESS_BAR);
     addAttribute(toastEl, attributes.TIMEOUT);
-
+    if (this.locale?.isRTL()) {
+      this.setAttribute('dir', 'rtl');
+      toastEl.setAttribute('dir', 'rtl');
+    }
     toastEl.appendChild(this.#title(options?.title));
     toastEl.appendChild(this.#message(options?.message, isAllowLink));
     toastEl.appendChild(this.#closeButtonLabel(options?.closeButtonLabel));

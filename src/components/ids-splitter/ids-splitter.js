@@ -365,7 +365,7 @@ export default class IdsSplitter extends Base {
         translate: 'translateX',
         minTransform: 'minTransformX',
         maxTransform: 'maxTransformX',
-        useRTL: this.locale.isRTL()
+        useRTL: this.locale?.isRTL()
       };
     }
     this.#prop = { ...prop, barPixel: 22, barPercentage: this.#toPercentage(22) };
@@ -987,8 +987,7 @@ export default class IdsSplitter extends Base {
   #attachEventHandlers() {
     // Respond to parent changing language
     this.offEvent('languagechange.splitter');
-    this.onEvent('languagechange.splitter', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
+    this.onEvent('languagechange.splitter', this.closest('ids-container'), async () => {
       this.#resize();
     });
 

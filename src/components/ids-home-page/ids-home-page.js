@@ -545,7 +545,6 @@ export default class IdsHomePage extends Base {
     // Respond to parent changing language
     this.offEvent('languagechange.tree');
     this.onEvent('languagechange.tree', this.closest('ids-container'), async () => {
-      this.setDirection();
       this.#resize();
     });
 

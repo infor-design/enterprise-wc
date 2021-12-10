@@ -1,7 +1,10 @@
 /**
  * @jest-environment jsdom
  */
+import '../helpers/resize-observer-mock';
 import IdsWeekView from '../../src/components/ids-week-view/ids-week-view';
+import IdsContainer from '../../src/components/ids-container/ids-container';
+
 import {
   addDate,
   firstDayOfWeek,
@@ -24,6 +27,8 @@ describe('IdsWeekView Component (using properties)', () => {
   let component;
 
   beforeEach(async () => {
+    const container = new IdsContainer();
+    document.body.appendChild(container);
     component = new IdsWeekView();
     component.startDate = startDate;
     component.endDate = endDate;
@@ -33,7 +38,9 @@ describe('IdsWeekView Component (using properties)', () => {
     component.showTimeline = false;
     component.timelineInterval = interval;
 
-    document.body.appendChild(component);
+    await container.setLanguage('en');
+    await container.setLocale('en-US');
+    container.appendChild(component);
   });
 
   afterEach(async () => {
@@ -93,7 +100,9 @@ describe('IdsWeekView Component (using attributes)', () => {
   let component;
 
   beforeEach(async () => {
-    document.body.insertAdjacentHTML('beforeend', `
+    const container = new IdsContainer();
+    document.body.appendChild(container);
+    container.insertAdjacentHTML('beforeend', `
       <ids-week-view
         start-date="${startDate}"
         end-date="${endDate}"
@@ -143,13 +152,25 @@ describe('IdsWeekView Component (empty)', () => {
   let component;
 
   beforeEach(async () => {
-    document.body.insertAdjacentHTML('beforeend', `<ids-week-view></ids-week-view>`);
+    const container = new IdsContainer();
+    document.body.appendChild(container);
+    container.insertAdjacentHTML('beforeend', `<ids-week-view></ids-week-view>`);
     component = document.querySelector(name);
   });
 
   afterEach(async () => {
     document.body.innerHTML = '';
     component = null;
+  });
+
+  it('should not error if no container', () => {
+    document.body.innerHTML = '';
+    const errors = jest.spyOn(global.console, 'error');
+    const comp = new IdsWeekView();
+    delete comp.locale;
+    comp.startDate = new Date();
+    document.body.appendChild(comp);
+    expect(errors).not.toHaveBeenCalled();
   });
 
   it('should render', () => {

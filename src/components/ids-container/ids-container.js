@@ -136,6 +136,7 @@ export default class IdsContainer extends Base {
   async setLanguage(value) {
     await this.state.locale.setLanguage(value);
     this.language = value;
+    this.triggerEvent('languagechange', this, { detail: { elem: this, language: this.language, locale: this.state.locale } });
   }
 
   /**
@@ -147,9 +148,7 @@ export default class IdsContainer extends Base {
       this.state.locale.setLanguage(value);
       this.state.locale.updateLangTag(this, value);
       this.setAttribute('language', value);
-      requestAnimationFrame(() => {
-        this.triggerEvent('languagechange', this, { detail: { elem: this, language: this.language, locale: this.state.locale } });
-      });
+      this.triggerEvent('languagechange', this, { detail: { elem: this, language: this.language, locale: this.state.locale } });
     }
   }
 

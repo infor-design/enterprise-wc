@@ -220,7 +220,6 @@ export default class IdsSlider extends Base {
   /** Add event listener for when the language changes to check for RTL */
   #attachRTLListener() {
     this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
       const isRTL = this.locale.isRTL(e.detail.language.name);
       this.isRTL = isRTL;
     });

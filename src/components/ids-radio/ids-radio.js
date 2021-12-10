@@ -1,9 +1,11 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import Base from '../ids-accordion/ids-accordion-base';
+import Base from './ids-radio-base';
+
 import IdsText from '../ids-text/ids-text';
 import IdsRadioGroup from './ids-radio-group';
+
 import styles from './ids-radio.scss';
 
 const attribs = [
@@ -177,13 +179,6 @@ export default class IdsRadio extends Base {
     this.#attachRadioClickEvent();
     this.#attachRadioChangeEvent();
     this.#attachNativeEvents();
-
-    // Respond to parent changing language
-    this.offEvent('languagechange.radio-container');
-    this.onEvent('languagechange.radio-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
-      // Do something with parent lang
-    });
   }
 
   /**

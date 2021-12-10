@@ -170,12 +170,6 @@ export default class IdsSpinbox extends Base {
       }
     });
 
-    // Respond to parent changing language
-    this.offEvent('languagechange.spinbox-container');
-    this.onEvent('languagechange.spinbox-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
-    });
-
     this.labelEl = this.container.children[0];
     this.onEvent('click.label', this.labelEl, () => {
       const isDisabled = this.hasAttribute(attributes.DISABLED);

@@ -22,7 +22,8 @@ describe('IdsTree Component', () => {
     container.appendChild(elem);
     document.body.appendChild(container);
     tree = container.querySelector('ids-tree');
-    tree.language = 'en';
+    await container.setLanguage('en');
+
     dataset = [{
       id: 'home',
       text: 'Home',
@@ -764,11 +765,10 @@ describe('IdsTree Component', () => {
     expect(nodes[1].node.elem.expanded).toEqual(true);
   });
 
-  it('should moves focus on keydown RTL', () => {
+  it('should moves focus on keydown RTL', async () => {
     tree.data = dataset;
-    tree.language = 'ar';
+    await container.setLanguage('ar');
     expect(tree.getAttribute('dir')).toEqual('rtl');
-    expect(tree.container.getAttribute('dir')).toEqual('rtl');
 
     const tabbable = (n) => {
       expect(n.node.elem.getAttribute('tabbable')).toEqual('true');
@@ -806,23 +806,10 @@ describe('IdsTree Component', () => {
     tabbable(nodes[2]);
   });
 
-  it('should update with container language change', () => {
+  it('should update with container language change', async () => {
     tree.data = dataset;
-    tree.language = 'en';
-    const language = { before: 'en', after: 'ar' };
-    const mockCallback = jest.fn((e) => {
-      expect(e.detail.language.name).toEqual(language.after);
-    });
-
-    expect(tree.language.name).toEqual(language.before);
-    container.addEventListener('languagechange', mockCallback);
-    const event = new CustomEvent('languagechange', {
-      detail: { language: { name: language.after } }
-    });
-    container.dispatchEvent(event);
-    tree.dispatchEvent(event);
-
-    expect(mockCallback.mock.calls.length).toBe(1);
+    await container.setLanguage('ar');
+    expect(tree.getAttribute('dir')).toEqual('rtl');
   });
 
   it('should veto before collapse response', () => {

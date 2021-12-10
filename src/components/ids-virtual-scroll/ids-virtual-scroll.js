@@ -37,9 +37,7 @@ export default class IdsVirtualScroll extends Base {
    */
   #attachEventHandlers() {
     this.timeout = null;
-
     this.scrollTarget = this.container;
-
     return this;
   }
 

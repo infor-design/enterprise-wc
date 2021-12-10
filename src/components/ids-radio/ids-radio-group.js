@@ -52,21 +52,7 @@ export default class IdsRadioGroup extends Base {
     this.onEvent('slotchange', slot, () => {
       this.afterChildrenReady();
     });
-    this.#attachEventHandlers();
     super.connectedCallback();
-  }
-
-  /**
-   * Event handlers for the component
-   * @private
-   */
-  #attachEventHandlers() {
-    // Respond to parent changing language
-    this.offEvent('languagechange.radio-group-container');
-    this.onEvent('languagechange.radio-group-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
-      // Do something with parent lang
-    });
   }
 
   /**

@@ -4,6 +4,7 @@ import { attributes } from '../../core/ids-attributes';
 import Base from './ids-tabs-base';
 import IdsHeader from '../ids-header/ids-header';
 import IdsTab from './ids-tab';
+import IdsTabDivider from './ids-tab-divider';
 
 import styles from './ids-tabs.scss';
 

@@ -16,15 +16,13 @@ When using it access the locale with `this.locale`.
 // Respond to parent changing language
 this.offEvent('languagechange.component-name-container');
 this.onEvent('languagechange.component-name-container', this.closest('ids-container'), async (e) => {
-  await this.setLanguage(e.detail.language.name);
-  // Do something with parent lang
+  // Do something based on the changed language
 });
 
 // Respond to parent changing locale
 this.offEvent('localechange.component-name-container');
 this.onEvent('localechange.component-name-container', this.closest('ids-container'), async (e) => {
-  await this.locale.setLocale(e.detail.locale.name);
-  // Do something with parent locale
+  // Do something based on the changed locale
 });
 ```
 
@@ -49,7 +47,7 @@ justify-content: flex-end;
 If needed and it cannot be done with css. Then add the Ids Locale mixin as described above and then add css rules like:
 
 ```scss
-.ids-component-name[dir='rtl'] {
+:host([dir='rtl']){
   // Reversals
   border-left-style: solid;
   border-left-style: hidden;

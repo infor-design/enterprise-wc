@@ -168,12 +168,6 @@ export default class IdsCheckbox extends Base {
   #attachEventHandlers() {
     this.attachCheckboxChangeEvent();
     this.attachNativeEvents();
-
-    // Respond to parent changing language
-    this.offEvent('languagechange.checkbox-container');
-    this.onEvent('languagechange.checkbox-container', this.closest('ids-container'), async () => {
-      this.setDirection();
-    });
   }
 
   /**

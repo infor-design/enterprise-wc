@@ -209,12 +209,9 @@ export default class IdsSearchField extends Base {
    */
   #attachKeyboardListener() {
     this.onEvent('keydown', this.input, (event) => {
-      if (['Enter'].indexOf(event.code) > -1) {
-        event.preventDefault();
-      }
-
       switch (event.key) {
       case 'Enter':
+        event.preventDefault();
         this.#searchFunction();
         break;
       default:
