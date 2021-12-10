@@ -39,8 +39,14 @@ class IdsTriggerField extends IdsInput {
    */
   constructor() {
     super();
+  }
 
-    this.elements = {
+  /**
+   * Get a list of element dependencies for this component
+   * @returns {object} of elements
+   */
+  get elements() {
+    return {
       content: this.container.querySelector('.ids-trigger-field-content'),
       label: this.container.querySelector('label'),
       text: this.container.querySelector('ids-text'),
