@@ -26,7 +26,7 @@ Some optional features in the masthead:
 
 * A masthead can provide a prominent application level bar to other applications, homepages, and bookmarks within a Web Application.
 
-A masthead can be utilized when it is necessary to surface global actions that affect more than one page within a Web Application.
+* A masthead can be utilized when it is necessary to surface global actions that affect more than one page within a Web Application.
 
 ## Terminology
 
