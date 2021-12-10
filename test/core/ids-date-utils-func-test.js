@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import {
-  isToday,
+  isTodaysDate,
   firstDayOfWeek,
   lastDayOfWeek,
   dateDiff,
@@ -19,8 +19,8 @@ describe('IdsDateUtils Tests', () => {
     const today = new Date();
     const notToday = new Date('01/01/2015');
 
-    expect(isToday(today)).toBeTruthy();
-    expect(isToday(notToday)).toBeFalsy();
+    expect(isTodaysDate(today)).toBeTruthy();
+    expect(isTodaysDate(notToday)).toBeFalsy();
   });
 
   it('should get the first day of the week', () => {

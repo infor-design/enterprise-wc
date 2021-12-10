@@ -74,8 +74,8 @@ We should have one visual regression image per component. When you PR a test an 
 ## Skipping Tests
 
 - You can run a specific test by name such as `npm run test -- ids-data-source-mixin-func-test`
-- To run only one test in a suite add only. For example `test.only(`. This works best within a limited scope (i.e. `npm run test -- component-func`).
-- To run only one suite use `describe.only(`. This works best within a limited scope (i.e. `npm run test -- component-func`).
+- To run only one test in a suite add only. For example `test.only(`. This only works when limiting scope. (i.e. `npm run test -- component-func`)
+- To run only one suite use `describe.only(`. This only works when limiting scope. (i.e. `npm run test -- component-func`)
 - To skip a test add `test.skip(`
 
 ## e2e Test Tips

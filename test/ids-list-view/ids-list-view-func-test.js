@@ -140,7 +140,7 @@ describe('IdsListView Component', () => {
 
   it('supports setting focus', () => {
     listView.focus();
-    expect(document.activeElement.tagName).toEqual('IDS-LIST-VIEW');
+    expect(document.activeElement.tagName).toEqual('BODY');
   });
 
   it('can use arrow keys to navigate', () => {
