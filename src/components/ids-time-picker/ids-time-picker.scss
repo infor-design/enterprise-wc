@@ -41,7 +41,7 @@ ids-button {
 ids-dropdown#minutes,
 ids-dropdown#seconds,
 ids-dropdown#period {
-  @include ml-16();
+  margin-inline-start: 16px;
 }
 
 ids-dropdown#minutes,

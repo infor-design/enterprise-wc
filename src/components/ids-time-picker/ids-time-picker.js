@@ -155,7 +155,7 @@ class IdsTimePicker extends mix(IdsElement).with(
    * Gets a timestring that matches the format specified by this.format()
    * @returns {string} the current timestring value of the timepicker
    */
-  get value() { return this.getAttribute('value') || ''; }
+  get value() { return this.getAttribute(attributes.VALUE) || ''; }
 
   /**
    * Sets the autoselect attribute

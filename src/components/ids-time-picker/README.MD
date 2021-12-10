@@ -128,6 +128,7 @@ It's also possible to control the intervals of minutes and seconds available for
 - `is12Hours` {boolean} Is the timepicker using a 12-Hour format ("hh")?
 - `is24Hours` {boolean} Is the timepicker using a 24-Hour format ("HH")?
 - `isOpen` {boolean} Is the timepicker's popup open?
+
 ## Keyboard Guidelines
 
 - <kbd>Enter</kbd>: Toggles the popup window, if the timepicker is not disabled or readonly.
