@@ -2,7 +2,25 @@
 
 ## Description
 
-The Masthead Component is a primary toolbar with navigable links to useful applications/pages within the Web Application.
+The Masthead Component is a very top level application toolbar with navigable links to useful applications/pages within the Web Application.
+
+The masthead can be added to applications when not running inside mingle shell to add functionality that mingle would add that you need standalone. When running in mingle shell, you should detect and do not show the mast head.
+
+The masthead can be found in tenant environments that are opted in to the CloudSuite. It provides navigation to other applications, homepages, and bookmarks within the environment. The masthead is a visual representation of InforOS, which serves as a database for all information and actions made by users within different applications within the suite.
+
+In some cases, the masthead may be implemented in a context outside of the CloudSuite. This should only be done when it is necessary to surface global actions that affect more than one page within an application and do not fit into the context of a page header.
+
+Actions and links found in the masthead are configurable by the tenant admin. The masthead will almost always have:
+
+The application tray: allows users to navigate to other applications within a tenants suite
+* Search: pulls results from the current application and around the cloudsuite
+* Bookmarks: allows users to save specific pages within applications and access them from anywhere within the cloudsuite
+* User settings: central place for end users to view/edit their personal information and any global preferences
+
+Some optional features in the masthead:
+* Company logo/home icon: navigates the user to the default or preferred home page
+* Coleman
+* Inbox
 
 ## Use Cases
 
