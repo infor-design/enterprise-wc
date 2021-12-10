@@ -15,15 +15,21 @@
         <ids-text font-size="20">My Toolbar</ids-text>
         <ids-text font-size="14">With some extra information below</ids-text>
       </ids-toolbar-section>
-      <ids-toolbar-section type="buttonset" align="end" no-padding>
-        <ids-button id="button-1" role="button">
-          <span slot="text">Text</span>
+      <ids-toolbar-section type="buttonset" align="end">
+        <ids-button id="button-1" role="button" no-padding>
+          <span slot="text">Text 1</span>
+        </ids-button>
+        <ids-button id="button-2" role="button" no-padding>
+          <span slot="text">Text 2</span>
+        </ids-button>
+        <ids-button id="button-3" role="button" no-padding>
+          <span slot="text">Text 3</span>
         </ids-button>
 
-        <ids-menu-button role="button" id="button-2" menu="button-2-menu" dropdown-icon no-padding>
+        <ids-menu-button role="button" id="button-4" menu="button-4-menu" dropdown-icon no-padding>
           <span slot="text">Menu</span>
         </ids-menu-button>
-        <ids-popup-menu id="button-2-menu" target="#button-2">
+        <ids-popup-menu id="button-4-menu" target="#button-4">
           <ids-menu-group>
             <ids-menu-item value="1">Item One</ids-menu-item>
             <ids-menu-item value="2">Item Two</ids-menu-item>
@@ -40,12 +46,12 @@
           </ids-menu-group>
         </ids-popup-menu>
 
-        <ids-button id="button-3" disabled>
+        <ids-button id="button-5" disabled>
           <span slot="text" class="audible">Settings</span>
           <ids-icon slot="icon" icon="settings"></ids-icon>
         </ids-button>
 
-        <ids-button id="button-4">
+        <ids-button id="button-6">
           <span slot="text" class="audible">Trash</span>
           <ids-icon slot="icon" icon="delete"></ids-icon>
         </ids-button>
