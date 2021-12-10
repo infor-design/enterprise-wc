@@ -48,11 +48,11 @@ Masthead with `nav` elements as slots:
 ## Class Hierarchy
 
 - IdsMasthead
-    - IdsHeader
+  - IdsHeader
 - Mixins
-    - IdsEventsMixin
-    - IdsKeyboardMixin
-    - IdsThemeMixin
+  - IdsEventsMixin
+  - IdsKeyboardMixin
+  - IdsThemeMixin
 
 ## Settings
 
@@ -79,10 +79,6 @@ Masthead with `nav` elements as slots:
 ## States and Variations
 
 - Mobile, tablet and desktop viewports/breakpoints
-
-## Responsive Guidelines
-
-- Sticks to the top of the page, and responds to mobile, tablet and desktop breakpoints.
 
 ## Accessibility
 
