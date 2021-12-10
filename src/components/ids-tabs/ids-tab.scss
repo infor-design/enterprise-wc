@@ -152,7 +152,7 @@
 }
 
 .ids-tab:not(.selected) {
-  @include text-graphite-50;
+  @include text-slate-70;
 
   cursor: pointer;
 }
@@ -198,6 +198,10 @@
 
 :host(ids-tab[mode='dark']) {
   .ids-tab {
+    &:not(.selected) {
+      @include text-slate-20;
+    }
+
     &:hover {
       @include text-white();
 
@@ -226,6 +230,10 @@
 
 :host(ids-tab[mode='contrast']) {
   .ids-tab {
+    &:not(.selected) {
+      @include text-slate-100;
+    }
+
     &:focus-visible:not(.color-variant-alternate),
     &:focus:not(.color-variant-alternate),
     &:focus-within:not(.color-variant-alternate) {
