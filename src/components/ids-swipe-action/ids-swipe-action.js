@@ -76,7 +76,7 @@ class IdsSwipeAction extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
       }));
 
       const timeout1 = renderLoop.register(new IdsRenderLoopItem({
-        duration: 500,
+        duration: 200,
         timeoutCallback() {
           self.container.style.visibility = 'visible';
           timeout1.destroy(true);
