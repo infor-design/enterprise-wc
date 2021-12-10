@@ -9,9 +9,13 @@
   // @include inline-flex();
   min-width: $input-size-xs;
   width: fit-content;
+
+  .hidden {
+    display: none;
+  }
 }
 
-.dropdowns {
+#dropdowns {
   @include flex();
   @include p-8();
 
@@ -60,7 +64,7 @@ ids-dropdown#seconds {
 }
 
 @include breakpoint-xs-down {
-  .dropdowns {
+  #dropdowns {
     flex-direction: column;
     align-items: center;
     width: $input-size-sm;

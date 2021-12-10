@@ -62,6 +62,7 @@ class IdsTimePicker extends mix(IdsElement).with(
   get elements() {
     return {
       dropdowns: {
+        wrapper: this.container.querySelector('div#dropdowns'),
         hours: this.container.querySelector('ids-dropdown#hours'),
         minutes: this.container.querySelector('ids-dropdown#minutes'),
         seconds: this.container.querySelector('ids-dropdown#seconds'),
@@ -76,6 +77,25 @@ class IdsTimePicker extends mix(IdsElement).with(
   }
 
   /**
+   * Return the attributes we handle as getters/setters
+   * @private
+   * @returns {Array} The attributes in an array
+   */
+  static get attributes() {
+    return [
+      ...super.attributes,
+      attributes.AUTOSELECT,
+      attributes.AUTOUPDATE,
+      attributes.DISABLED,
+      attributes.FORMAT,
+      attributes.LABEL,
+      attributes.READONLY,
+      attributes.PLACEHOLDER,
+      attributes.VALUE,
+    ];
+  }
+
+  /**
    * @see IdsElement.getAttribute()
    * @override
    * @param {string} name the attribute's name
@@ -87,21 +107,29 @@ class IdsTimePicker extends mix(IdsElement).with(
   }
 
   /**
-   * Return the attributes we handle as getters/setters
-   * @private
-   * @returns {Array} The attributes in an array
+   * Invoked each time an attribute is changed on a custom element.
+   * @param {string} name - the attribute's name
+   * @param {string} oldValue - the attribute's old value
+   * @param {string} newValue - the attribute's new value
    */
-  static get attributes() {
-    return [
-      ...super.attributes,
-      attributes.AUTOSELECT,
-      attributes.AUTOUPDATE,
-      attributes.DISABLED,
-      attributes.LABEL,
-      attributes.READONLY,
-      attributes.PLACEHOLDER,
-      attributes.VALUE,
-    ];
+  attributeChangedCallback(name, oldValue, newValue) {
+    super.attributeChangedCallback(name, oldValue, newValue);
+
+    if (oldValue !== newValue) {
+      switch (name) {
+      case attributes.FORMAT:
+        this.elements.dropdowns.wrapper.innerHTML = this.dropdowns().join('');
+        this.setTimeOnField();
+        break;
+      case attributes.AUTOUPDATE:
+        this.elements.setTimeButton.classList.remove('hidden');
+        !!newValue && this.elements.setTimeButton.classList.add('hidden');
+        break;
+      default:
+        // handle default case
+        break;
+      }
+    }
   }
 
   /**
@@ -144,7 +172,7 @@ class IdsTimePicker extends mix(IdsElement).with(
    * Gets the format that the timepicker's timestring should be rendered as
    * @returns {string} default is "hh:mm a"
    */
-  get format() { return this.getAttribute(attributes.FORMAT) ?? 'hh:mm:ss a'; }
+  get format() { return this.getAttribute(attributes.FORMAT) ?? 'hh:mm a'; }
 
   /**
    * Sets a current timestring-value of the timepickers input-field
@@ -299,46 +327,10 @@ class IdsTimePicker extends mix(IdsElement).with(
   }
 
   /**
-   * Creates the HTML the timepicker's dropdown fields
-   *
-   * @param {object} data the data used to build a dropdown
-   * @param {string|number} data.id the unqiue-id for this dropdown
-   * @param {string|number} data.label text for the label displayed above the dropdown
-   * @param {Array<string|number>} data.options an array used to create the dropdown's options
-   * @returns {string} the HTML for the dropdowns
-   */
-  dropdown({
-    id,
-    label,
-    options,
-  }) {
-    return `
-      <ids-dropdown id="${id}" label="${label}" value="${options[0]}" size="xs">
-        <ids-list-box>
-          ${options.map((option) => `
-            <ids-list-box-option id="timepicker-${id}-${option}" value="${option}">
-              ${(`0${option}`).slice(-2)}
-            </ids-list-box-option>
-          `).join('')}
-        </ids-list-box>
-      </ids-dropdown>
-    `;
-  }
-
-  /**
    * Create the Template for the contents
    * @returns {string} HTML for the template
    */
   template() {
-    const options = this.options;
-    const hours = this.dropdown({ id: 'hours', label: 'Hours', options: options.hours });
-    const minutes = this.dropdown({ id: 'minutes', label: 'Minutes', options: options.minutes });
-    const seconds = this.hasSeconds && this.dropdown({ id: 'seconds', label: 'Seconds', options: options.seconds });
-    const period = this.hasPeriod && this.dropdown({ id: 'period', label: 'Period', options: options.period });
-
-    const dropdowns = [hours, minutes, seconds, period].filter(Boolean);
-    const setTimeButton = this.autoupdate ? '' : '<ids-button id="set-time">Set Time</ids-button>';
-
     return `
       <div class="ids-time-picker">
         <ids-trigger-field
@@ -364,13 +356,44 @@ class IdsTimePicker extends mix(IdsElement).with(
           arrow="bottom"
           animated="true"
         >
-          <section slot="content" cols="${dropdowns.length}">
-            <div class="dropdowns">${dropdowns.join('')}</div>
-            ${setTimeButton}
+          <section slot="content"">
+            <div id="dropdowns">${this.dropdowns().join('')}</div>
+            <ids-button id="set-time" class="${this.autoupdate ? 'hidden' : ''}">
+              Set Time
+            </ids-button>
           </section>
         </ids-popup>
       <div>
     `;
+  }
+
+  /**
+   * Creates the HTML the timepicker's dropdown fields
+   * @returns {string[]} an array of HTML for the timepicker's dropdowns
+   */
+  dropdowns() {
+    const dropdown = ({
+      id,
+      label,
+      options,
+    }) => `
+      <ids-dropdown id="${id}" label="${label}" value="${options[0]}" size="xs">
+        <ids-list-box>
+          ${options.map((option) => `
+            <ids-list-box-option id="timepicker-${id}-${option}" value="${option}">
+              ${(`0${option}`).slice(-2)}
+            </ids-list-box-option>
+          `).join('')}
+        </ids-list-box>
+      </ids-dropdown>
+    `;
+
+    const options = this.options;
+    const hours = dropdown({ id: 'hours', label: 'Hours', options: options.hours });
+    const minutes = dropdown({ id: 'minutes', label: 'Minutes', options: options.minutes });
+    const seconds = this.hasSeconds && dropdown({ id: 'seconds', label: 'Seconds', options: options.seconds });
+    const period = this.hasPeriod && dropdown({ id: 'period', label: 'Period', options: options.period });
+    return [hours, minutes, seconds, period].filter(Boolean);
   }
 
   /**
