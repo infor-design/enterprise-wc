@@ -1,7 +1,6 @@
 # TimePicker TODO's
 
 - [ ] Update README.md
-- [ ] Add "Set Time" button
 - [ ] Make dropdown default values reflect what's in the input-field
 - [ ] Add validation
 - [ ] Write func-tests for "validation"
@@ -14,6 +13,6 @@
 - [ ] Add colon-prefix to minutes + seconds
 - [ ] Add ARIA-attributes
 - [ ] Add LocaleMixin to translate dropdown labels (hours, minutes, seconds, periods)
-- [ ] Add more jsdoc blocks
 - [ ] Create a side-by-side.html demo for timepicker 4.x
 - [ ] Consider moving range() helper-function into a utility file
+- [ ] Use `this.locale.calendar().timeFormat` as the default value for IdsTimePicker.format
