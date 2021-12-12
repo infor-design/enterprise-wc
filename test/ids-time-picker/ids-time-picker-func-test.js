@@ -215,20 +215,19 @@ describe('IdsTimePicker Component', () => {
   it('with autoselect attribute, can auto show the popup', () => {
     const { input } = timepicker.elements;
     expect(timepicker.autoselect).toBe(false);
-    expect(timepicker.getAttribute(attributes.AUTOSELECT)).toBeNull();
+    expect(timepicker.getAttribute(attributes.AUTOSELECT)).toBeFalsy();
     expect(timepicker.isOpen).toBe(false);
 
     timepicker.autoselect = true;
     expect(timepicker.autoselect).toBeTruthy();
     expect(timepicker.getAttribute(attributes.AUTOSELECT)).toBeTruthy();
 
-    timepicker.replaceWith(timepicker);
     input.focus();
     expect(timepicker.isOpen).toBe(true);
 
     timepicker.autoselect = false;
     expect(timepicker.autoselect).toBe(false);
-    expect(timepicker.getAttribute(attributes.AUTOSELECT)).toBeNull();
+    expect(timepicker.getAttribute(attributes.AUTOSELECT)).toBeFalsy();
   });
 
   it('can update the timestring value with the "Set Time" button', () => {
@@ -251,20 +250,18 @@ describe('IdsTimePicker Component', () => {
   it('with autoupdate attribute, can hide the "Set Time" button', () => {
     const { setTimeButton } = timepicker.elements;
     expect(timepicker.autoupdate).toBe(false);
-    expect(timepicker.getAttribute(attributes.AUTOUPDATE)).toBeNull();
+    expect(timepicker.getAttribute(attributes.AUTOUPDATE)).toBeFalsy();
     expect(setTimeButton).toBeDefined();
 
     timepicker.autoupdate = true;
-    timepicker.replaceWith(timepicker);
     expect(timepicker.autoupdate).toBeTruthy();
     expect(timepicker.getAttribute(attributes.AUTOUPDATE)).toBeTruthy();
+    expect(setTimeButton.classList.contains('hidden')).toBe(true);
 
     timepicker.autoupdate = false;
     expect(timepicker.autoupdate).toBe(false);
-    expect(timepicker.getAttribute(attributes.AUTOUPDATE)).toBeNull();
-
-    // TODO: this currently fails and needs to be fixed
-    // expect(setTimeButton).toBeUndefined();
+    expect(timepicker.getAttribute(attributes.AUTOUPDATE)).toBeFalsy();
+    expect(setTimeButton.classList.contains('hidden')).toBe(false);
   });
 
   it('with autoupdate attribute, fires dropdown change-event for hours', () => {

@@ -123,7 +123,7 @@ class IdsTimePicker extends mix(IdsElement).with(
         break;
       case attributes.AUTOUPDATE:
         this.elements.setTimeButton.classList.remove('hidden');
-        !!newValue && this.elements.setTimeButton.classList.add('hidden');
+        stringUtils.stringToBool(newValue) && this.elements.setTimeButton.classList.add('hidden');
         break;
       default:
         // handle default case
@@ -196,38 +196,28 @@ class IdsTimePicker extends mix(IdsElement).with(
    * @param {boolean} value - true or false
    */
   set autoselect(value) {
-    value = value === 'false' ? false : value;
-    if (!value) {
-      this.removeAttribute(attributes.AUTOSELECT);
-    } else {
-      this.setAttribute(attributes.AUTOSELECT, true);
-    }
+    this.setAttribute(attributes.AUTOSELECT, stringUtils.stringToBool(value));
   }
 
   /**
    * Gets the autoselect attribute
    * @returns {boolean} true if autoselect is enabled
    */
-  get autoselect() { return this.hasAttribute(attributes.AUTOSELECT); }
+  get autoselect() { return stringUtils.stringToBool(this.getAttribute(attributes.AUTOSELECT)); }
 
   /**
    * Sets the autoupdate attribute
    * @param {boolean} value - true or false
    */
   set autoupdate(value) {
-    value = value === 'false' ? false : value;
-    if (!value) {
-      this.removeAttribute(attributes.AUTOUPDATE);
-    } else {
-      this.setAttribute(attributes.AUTOUPDATE, true);
-    }
+    this.setAttribute(attributes.AUTOUPDATE, stringUtils.stringToBool(value));
   }
 
   /**
    * Gets the autoupdate attribute
    * @returns {boolean} true if autoselect is enabled
    */
-  get autoupdate() { return this.hasAttribute(attributes.AUTOUPDATE); }
+  get autoupdate() { return stringUtils.stringToBool(this.getAttribute(attributes.AUTOUPDATE)); }
 
   /**
    * Sets the disabled attribute
@@ -518,12 +508,10 @@ class IdsTimePicker extends mix(IdsElement).with(
       setTimeButton,
     } = this.elements;
 
-    if (this.autoupdate) {
-      this.onEvent('change', dropdowns.hours, (e) => { this.setTimeOnField({ hours: e.detail.value }); });
-      this.onEvent('change', dropdowns.minutes, (e) => { this.setTimeOnField({ minutes: e.detail.value }); });
-      this.onEvent('change', dropdowns.seconds, (e) => { this.setTimeOnField({ seconds: e.detail.value }); });
-      this.onEvent('change', dropdowns.period, (e) => { this.setTimeOnField({ period: e.detail.value }); });
-    }
+    this.onEvent('change', dropdowns.hours, (e) => { this.autoupdate && this.setTimeOnField({ hours: e.detail.value }); });
+    this.onEvent('change', dropdowns.minutes, (e) => { this.autoupdate && this.setTimeOnField({ minutes: e.detail.value }); });
+    this.onEvent('change', dropdowns.seconds, (e) => { this.autoupdate && this.setTimeOnField({ seconds: e.detail.value }); });
+    this.onEvent('change', dropdowns.period, (e) => { this.autoupdate && this.setTimeOnField({ period: e.detail.value }); });
 
     // using on mouseup, because on click interferes with on Enter
     this.onEvent('mouseup', setTimeButton, () => {
@@ -534,9 +522,7 @@ class IdsTimePicker extends mix(IdsElement).with(
     // using on mouseup, because on click interferes with on Enter
     this.onEvent('mouseup', triggerButton, () => this.toggleTimePopup());
 
-    if (this.autoselect) {
-      this.onEvent('focus', input, () => this.openTimePopup());
-    }
+    this.onEvent('focus', input, () => this.autoselect && this.openTimePopup());
 
     return this;
   }
