@@ -5,22 +5,19 @@
 - [ ] Add validation
 - [ ] Write func-tests for "validation"
 - [ ] Write e2e and percy tests
-- [x] Fix func-test to hide "Set Time" button when autoupdate attribute true
 - [ ] Add custom id's/automation id's that can be used for scripting.
 - [ ] Fix onOutsideClick() (ids-time-picker width too-wide, but inline-flex breaks alignment)
 - [ ] Fix theme colors
 - [ ] Add "Themeable Parts" for `label`, `input`, and `popup`.
-- [ ] Add colon-prefix to minutes + seconds
+- [ ] Add actual colon-prefix to minutes + seconds (and remove from SCSS)
 - [ ] Add ARIA-attributes
 - [ ] Add LocaleMixin to translate dropdown labels (hours, minutes, seconds, periods)
 - [ ] Create a side-by-side.html demo for timepicker 4.x
 - [ ] Replace the `range()` with the Date object or some other API, so we don't have to assume manually. See [Ed's comment](https://github.com/infor-design/enterprise-wc/pull/432#discussion_r756304951).
 - [ ] Use `this.locale.calendar().timeFormat` as the default value for IdsTimePicker.format
 - [ ] Make `this.dropdowns` private (i.e. `this.#dropdowns()`). See [Ed's comment](https://github.com/infor-design/enterprise-wc/pull/432#discussion_r756209961).
-- [ ] Make `this.is24Hours` private (i.e. `this.#is24Hours`)
-- [ ] Make `this.is12Hours` private (i.e. `this.#is12Hours`)
-- [ ] Make `this.hasSeconds` private (i.e. `this.#hasSeconds`)
-- [ ] Make `this.hasPeriod` private (i.e. `this.#hasPeriod`)
+- [ ] Make private `this.is24Hours`, `this.is12Hours`, `this.hasSeconds` and `this.hasPeriod` (i.e. `this.#is24Hours`)
 - [ ] Make the default time format the current locales time setting. See [Tim's comment](https://github.com/infor-design/enterprise-wc/pull/432#discussion_r758427694).
+- [x] Fix func-test to hide "Set Time" button when autoupdate attribute true
 - [x] Add timepicker trigger translation `<ids-text audible="true" translate-text="true">TimepickerTriggerButton</ids-text>`. See [Andrii's comment](https://github.com/infor-design/enterprise-wc/pull/432#discussion_r759205003).
 - [x] Trigger field label is missing audible text "Use arrow keys to select." with translation. See [Andrii's comment](https://github.com/infor-design/enterprise-wc/pull/432#discussion_r759205003).
