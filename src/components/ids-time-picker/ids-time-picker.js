@@ -151,13 +151,13 @@ class IdsTimePicker extends mix(IdsElement).with(
    * @readonly
    * @returns {boolean} returns true if the timepicker is using a 12-Hour format ("hh")
    */
-  get is12Hours() { return this.format.includes('hh'); }
+  get is12Hours() { return this.format.includes('h'); }
 
   /**
    * @readonly
    * @returns {boolean} returns true if the timepicker is using a 24-Hour format ("HH")
    */
-  get is24Hours() { return this.format.includes('HH') || !this.hasPeriod; }
+  get is24Hours() { return this.format.includes('H') || !this.hasPeriod; }
 
   /**
    * @readonly
