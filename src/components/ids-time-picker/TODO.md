@@ -13,6 +13,7 @@
 - [ ] Add ARIA-attributes
 - [ ] Add LocaleMixin to translate dropdown labels (hours, minutes, seconds, periods)
 - [ ] Create a side-by-side.html demo for timepicker 4.x
+- [ ] Add config for enabling/disabling leading-zeros on hours minutes and seconds.
 - [ ] Replace the `range()` with the Date object or some other API, so we don't have to assume manually. See [Ed's comment](https://github.com/infor-design/enterprise-wc/pull/432#discussion_r756304951).
 - [ ] Use `this.locale.calendar().timeFormat` as the default value for IdsTimePicker.format
 - [ ] Make `this.dropdowns` private (i.e. `this.#dropdowns()`). See [Ed's comment](https://github.com/infor-design/enterprise-wc/pull/432#discussion_r756209961).
