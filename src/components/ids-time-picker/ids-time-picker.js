@@ -121,7 +121,7 @@ class IdsTimePicker extends mix(IdsElement).with(
     if (oldValue !== newValue) {
       switch (name) {
       case attributes.FORMAT:
-        this.elements.dropdowns.wrapper.innerHTML = this.dropdowns().join('');
+        this.elements.dropdowns.wrapper.innerHTML = this.dropdowns();
         this.setTimeOnField();
         break;
       case attributes.AUTOUPDATE:
@@ -351,7 +351,7 @@ class IdsTimePicker extends mix(IdsElement).with(
           animated="true"
         >
           <section slot="content"">
-            <div id="dropdowns">${this.dropdowns().join('')}</div>
+            <div id="dropdowns">${this.dropdowns()}</div>
             <ids-button id="set-time" class="${this.autoupdate ? 'hidden' : ''}">
               Set Time
             </ids-button>
@@ -387,7 +387,12 @@ class IdsTimePicker extends mix(IdsElement).with(
     const minutes = dropdown({ id: 'minutes', label: 'Minutes', options: options.minutes });
     const seconds = this.hasSeconds && dropdown({ id: 'seconds', label: 'Seconds', options: options.seconds });
     const period = this.hasPeriod && dropdown({ id: 'period', label: 'Period', options: options.period });
-    return [hours, minutes, seconds, period].filter(Boolean);
+
+    const separator = '<span class="separator">:</span>';
+    const spacer = '<span class="separator">&nbsp;</span>';
+
+    const numbers = [hours, minutes, seconds].filter(Boolean).join(separator);
+    return [numbers, period].filter(Boolean).join(spacer);
   }
 
   /**

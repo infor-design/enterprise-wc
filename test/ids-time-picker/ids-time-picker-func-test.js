@@ -44,6 +44,17 @@ describe('IdsTimePicker Component', () => {
     expect(triggerField).toBeDefined();
   });
 
+  it('renders separators', () => {
+    timepicker.format = 'hh:mm:ss a';
+    expect(timepicker.elements.popup.querySelectorAll('.separator')).toHaveLength(3);
+
+    timepicker.format = 'hh:mm:ss';
+    expect(timepicker.elements.popup.querySelectorAll('.separator')).toHaveLength(2);
+
+    timepicker.format = 'hh:mm';
+    expect(timepicker.elements.popup.querySelectorAll('.separator')).toHaveLength(1);
+  });
+
   it('renders placeholder', () => {
     const { input } = timepicker.elements;
     expect(timepicker.placeholder).toBe('');

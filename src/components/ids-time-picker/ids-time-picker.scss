@@ -15,17 +15,28 @@
   }
 }
 
-#dropdowns {
-  @include flex();
-  @include p-8();
+.ids-time-picker {
+  #dropdowns {
+    @include flex();
+    @include p-8();
 
-  border-bottom: 1px solid var(--ids-color-palette-slate-30, #b7b7ba);
-  flex-direction: row;
-}
+    border-bottom: 1px solid var(--ids-color-palette-slate-30, #b7b7ba);
+    flex-direction: row;
+  }
 
-ids-popup::part(popup) {
-  margin: 0;
-  padding: 0;
+  ids-popup::part(popup) {
+    margin: 0;
+    padding: 0;
+  }
+
+  .separator {
+    @include mx-4();
+    color: var(--ids-color-font-muted, #606066);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+  }
 }
 
 ids-button {
@@ -42,114 +53,83 @@ ids-button {
   }
 }
 
-ids-dropdown#minutes,
-ids-dropdown#seconds,
-ids-dropdown#period {
-  margin-inline-start: 16px;
-}
-
-ids-dropdown#minutes,
-ids-dropdown#seconds {
-  &::part(input) {
-    position: relative;
-
-    &::before {
-      color: var(--ids-color-font-muted, #606066);
-      content: ':';
-      position: absolute;
-      left: -11px;
-      top: 6px;
-    }
-  }
-}
-
 @include breakpoint-xs-down {
   #dropdowns {
     flex-direction: column;
     align-items: center;
     width: $input-size-sm;
   }
+}
 
-  ids-dropdown#minutes,
-  ids-dropdown#seconds,
-  ids-dropdown#period {
-    margin-left: 0;
-
-    &::part(input) {
-      &::before {
-        display: none;
-      }
-    }
+.ids-time-picker {
+  // Handle Themes
+  &[mode='dark'] {
+    // @include bg-slate-60();
+    @include border-slate-60();
+    @include text-white();
   }
-}
 
-// Handle Themes
-.ids-time-picker[mode='dark'] {
-  // @include bg-slate-60();
-  @include border-slate-60();
-  @include text-white();
-}
+  &[mode='dark'] ::slotted(ids-icon) {
+    @include text-slate-10();
+  }
 
-.ids-time-picker[mode='dark'] ::slotted(ids-icon) {
-  @include text-slate-10();
-}
+  &[mode='dark'] ::slotted(ids-icon:hover) {
+    @include text-white();
+  }
 
-.ids-time-picker[mode='dark'] ::slotted(ids-icon:hover) {
-  @include text-white();
-}
+  &[mode='contrast'] {
+    // @include bg-slate-20();
+    @include border-slate-20();
+    @include text-slate-100();
+  }
 
-.ids-time-picker[mode='contrast'] {
-  // @include bg-slate-20();
-  @include border-slate-20();
-  @include text-slate-100();
-}
+  &[mode='contrast'] ::slotted(ids-icon) {
+    @include text-slate-100();
+  }
 
-.ids-time-picker[mode='contrast'] ::slotted(ids-icon) {
-  @include text-slate-100();
-}
+  &[mode='contrast'] ::slotted(ids-icon:hover) {
+    @include text-black();
+  }
 
-.ids-time-picker[mode='contrast'] ::slotted(ids-icon:hover) {
-  @include text-black();
-}
+  &[version='classic'][mode='light'] {
+    // @include bg-graphite-20();
+    @include border-graphite-20();
+    @include text-black();
+  }
 
-.ids-time-picker[version='classic'][mode='light'] {
-  // @include bg-graphite-20();
-  @include border-graphite-20();
-  @include text-black();
-}
+  &[version='classic'][mode='light'] ::slotted(ids-icon) {
+    @include text-graphite-100();
+  }
 
-.ids-time-picker[version='classic'][mode='light'] ::slotted(ids-icon) {
-  @include text-graphite-100();
-}
+  &[version='classic'][mode='light'] ::slotted(ids-icon:hover) {
+    @include text-black();
+  }
 
-.ids-time-picker[version='classic'][mode='light'] ::slotted(ids-icon:hover) {
-  @include text-black();
-}
+  &[version='classic'][mode='dark'] {
+    // @include bg-graphite-60();
+    @include border-graphite-60();
+    @include text-white();
+  }
 
-.ids-time-picker[version='classic'][mode='dark'] {
-  // @include bg-graphite-60();
-  @include border-graphite-60();
-  @include text-white();
-}
+  &[version='classic'][mode='dark'] ::slotted(ids-icon) {
+    @include text-graphite-10();
+  }
 
-.ids-time-picker[version='classic'][mode='dark'] ::slotted(ids-icon) {
-  @include text-graphite-10();
-}
+  &[version='classic'][mode='dark'] ::slotted(ids-icon:hover) {
+    @include text-white();
+  }
 
-.ids-time-picker[version='classic'][mode='dark'] ::slotted(ids-icon:hover) {
-  @include text-white();
-}
+  &[version='classic'][mode='contrast'] {
+    // @include bg-graphite-40();
+    @include border-graphite-40();
+    @include text-black();
+  }
 
-.ids-time-picker[version='classic'][mode='contrast'] {
-  // @include bg-graphite-40();
-  @include border-graphite-40();
-  @include text-black();
-}
+  &[version='classic'][mode='contrast'] ::slotted(ids-icon) {
+    @include text-graphite-100();
+  }
 
-.ids-time-picker[version='classic'][mode='contrast'] ::slotted(ids-icon) {
-  @include text-graphite-100();
-}
-
-.ids-time-picker[version='classic'][mode='contrast'] ::slotted(ids-icon:hover) {
-  @include text-black();
+  &[version='classic'][mode='contrast'] ::slotted(ids-icon:hover) {
+    @include text-black();
+  }
 }
