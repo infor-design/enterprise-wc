@@ -22,5 +22,5 @@
 - [ ] Make `this.hasSeconds` private (i.e. `this.#hasSeconds`)
 - [ ] Make `this.hasPeriod` private (i.e. `this.#hasPeriod`)
 - [ ] Make the default time format the current locales time setting. See [Tim's comment](https://github.com/infor-design/enterprise-wc/pull/432#discussion_r758427694).
-- [ ] Add timepicker trigger translation `<ids-text audible="true" translate-text="true">TimepickerTriggerButton</ids-text>`. See [Andrii's comment](https://github.com/infor-design/enterprise-wc/pull/432#discussion_r759205003).
-- [ ] Trigger field label is missing audible text "Use arrow keys to select." with translation. See [Andrii's comment](https://github.com/infor-design/enterprise-wc/pull/432#discussion_r759205003).
+- [x] Add timepicker trigger translation `<ids-text audible="true" translate-text="true">TimepickerTriggerButton</ids-text>`. See [Andrii's comment](https://github.com/infor-design/enterprise-wc/pull/432#discussion_r759205003).
+- [x] Trigger field label is missing audible text "Use arrow keys to select." with translation. See [Andrii's comment](https://github.com/infor-design/enterprise-wc/pull/432#discussion_r759205003).

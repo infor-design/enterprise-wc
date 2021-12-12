@@ -13,7 +13,8 @@ import {
   IdsEventsMixin,
   IdsKeyboardMixin,
   IdsPopupOpenEventsMixin,
-  IdsThemeMixin
+  IdsThemeMixin,
+  IdsLocaleMixin,
 } from '../../mixins';
 
 // Supporting components
@@ -42,6 +43,7 @@ const TIME = {
  * @mixes IdsKeyboardMixin
  * @mixes IdsPopupOpenEventsMixin
  * @mixes IdsThemeMixin
+ * @mixes IdsLocaleMixin
  */
 @customElement('ids-time-picker')
 @scss(styles)
@@ -49,7 +51,8 @@ class IdsTimePicker extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsKeyboardMixin,
     IdsPopupOpenEventsMixin,
-    IdsThemeMixin
+    IdsThemeMixin,
+    IdsLocaleMixin,
   ) {
   constructor() {
     super();
@@ -327,6 +330,7 @@ class IdsTimePicker extends mix(IdsElement).with(
           label="${this.label}"
           size="${this.size}"
         >
+          <ids-text audible="true" translate-text="true">UseArrow</ids-text>
           <ids-input
             type="text"
             placeholder="${this.placeholder}"
@@ -335,7 +339,7 @@ class IdsTimePicker extends mix(IdsElement).with(
           >
           </ids-input>
           <ids-trigger-button>
-            <ids-text audible="true">Timepicker trigger</ids-text>
+            <ids-text audible="true" translate-text="true">TimepickerTriggerButton</ids-text>
             <ids-icon slot="icon" icon="clock"></ids-icon>
           </ids-trigger-button>
         </ids-trigger-field>
