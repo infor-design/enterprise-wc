@@ -83,6 +83,11 @@ class IdsErrorPage extends mix(IdsModal).with(
     } else {
       this.removeAttribute(attributes.ICON);
     }
+
+    const emptyMessage = this.shadowRoot.querySelector('ids-empty-message');
+    if (emptyMessage) {
+      emptyMessage.icon = value;
+    }
   }
 
   get icon() {
