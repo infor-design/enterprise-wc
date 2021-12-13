@@ -3,7 +3,7 @@ import renderLoop from '../components/ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../components/ids-render-loop/ids-render-loop-item';
 import { camelCase } from '../utils/ids-string-utils/ids-string-utils';
 
-const VERSION = '0.0.0-beta.15';
+const VERSION = '0.0.0-beta.16';
 
 /**
  * Simple dictionary used to cache attribute names
