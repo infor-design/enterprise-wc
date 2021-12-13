@@ -1,0 +1,48 @@
+/* Ids Text Css */
+@import '../../core/ids-base';
+
+text {
+  @include antialiased();
+  @include block();
+  @include font-normal();
+  @include font-sans();
+  @include m-0();
+  @include text-16();
+
+  color: currentColor;
+}
+
+svg {
+  stroke: var(--ids-color-palette-white);
+}
+
+.treemap-title {
+  @include bg-slate-60();
+  @include p-8();
+  @include text-white();
+
+  text-align: center;
+}
+
+// Handle Themes
+:host([mode='dark']) {
+  .treemap-title {
+    @include bg-slate-30();
+    @include text-slate-100();
+  }
+
+  svg {
+    stroke: var(--ids-color-palette-slate-90);
+  }
+}
+
+:host([mode='contrast']) {
+  .treemap-title {
+    @include bg-slate-80();
+    @include text-white();
+  }
+
+  svg {
+    stroke: var(--ids-color-palette-slate-10);
+  }
+}

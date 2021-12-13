@@ -198,6 +198,7 @@ export const attributes = {
   ROW_START: 'row-start',
   ROWS: 'rows',
   RESET: 'reset',
+  RESULT: 'result',
   SAVE_POSITION: 'save-position',
   SCROLLABLE: 'scrollable',
   SCROLL_TOP: 'scroll-top',
