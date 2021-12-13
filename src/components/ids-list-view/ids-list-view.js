@@ -80,9 +80,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
   // each click on an item - always set that to focus, toggle the selected feature
   attachClickListenersForItems(item) {
     this.onEvent('click', item, () => {
-      if (this.getFocusedLi !== item) {
-        this.focusLi(item);
-      }
+      this.onClick(item);
     });
   }
 
@@ -131,6 +129,12 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
         break;
       }
     });
+  }
+
+  onClick(item) {
+    if (this.getFocusedLi !== item) {
+      this.focusLi(item);
+    }
   }
 
   focusLi(li) {
@@ -381,6 +385,115 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
 
   get draggable() {
     return stringUtils.stringToBool(this.getAttribute(attributes.DRAGGABLE));
+  }
+
+  /**
+   * Helper function for swapping nodes in the list item -- used when dragging list items or clicking the up/down arrows
+   * @param {Node} nodeA the first node
+   * @param {Node} nodeB the second node
+   */
+  swap(nodeA, nodeB) {
+    const parentA = nodeA.parentNode;
+    const siblingA = nodeA.nextSibling === nodeB ? nodeA : nodeA.nextSibling;
+
+    nodeB.parentNode.insertBefore(nodeA, nodeB);
+    parentA.insertBefore(nodeB, siblingA);
+  }
+
+  /**
+   * Helper function to check if a node is being dragged above another node
+   * @param {Node} nodeA the node being dragged
+   * @param {Node} nodeB the referred node being checked if nodeA is above
+   * @returns {boolean} whether or not nodeA is above nodeB
+   */
+  isAbove(nodeA, nodeB) {
+    const rectA = nodeA.getBoundingClientRect();
+    const rectB = nodeB.getBoundingClientRect();
+    const centerA = rectA.top + rectA.height / 2;
+    const centerB = rectB.top + rectB.height / 2;
+    return centerA < centerB;
+  }
+
+  /**
+   * Helper function that creates a placeholder node in place of the node being dragged
+   * @param {Node} node the node being dragged around to clone
+   * @returns {Node} a clone of the node
+   */
+  #createPlaceholderClone(node) {
+    const p = node.cloneNode(true);
+    p.querySelector('div[part="list-item"]').classList.add('placeholder');
+    p.querySelector('div[part="list-item"]').removeAttribute('selected');
+    return p;
+  }
+
+  /**
+   * Adds dragging functionality to all list items
+   */
+  attachDragEventListeners() {
+    this.getAllDraggable().forEach((draggable) => {
+      this.attachDragEventListenersForDraggable(draggable);
+    });
+  }
+
+  /**
+   * Helper function for attaching dragging functionality to a list item
+   * @param {Element} el the list item to add draggable functionality
+   */
+  attachDragEventListenersForDraggable(el) {
+    // Toggle selected attribute, create placeholder, edit the css at the beginning of the drag
+    this.onEvent('ids-dragstart', el, () => {
+      this.onClick(el);
+
+      // create placeholder
+      this.placeholder = this.#createPlaceholderClone(el);
+
+      // need this for draggable to move around
+      el.style.position = `absolute`;
+      el.style.opacity = `0.95`;
+      el.style.zIndex = `100`;
+
+      el.parentNode.insertBefore(
+        this.placeholder,
+        el.nextSibling
+      );
+    });
+
+    // Calculate where the dragged list item is in relation to the other list items and move the placeholder accordingly
+    this.onEvent('ids-drag', el, () => {
+      let prevEle = this.placeholder?.previousElementSibling;
+      let nextEle = this.placeholder?.nextElementSibling;
+
+      // skip over checking the original selected node position
+      if (prevEle === el) {
+        prevEle = prevEle.previousElementSibling;
+      }
+      // skip over checking the original selected position
+      if (nextEle === el) {
+        nextEle = nextEle.nextElementSibling;
+      }
+
+      if (prevEle && this.isAbove(el, prevEle)) {
+        this.swap(this.placeholder, prevEle);
+        return;
+      }
+
+      if (nextEle && this.isAbove(nextEle, el)) {
+        this.swap(nextEle, this.placeholder);
+      }
+    });
+
+    // At the end of the drag, return the css properties back to normal and remove the placeholder
+    this.onEvent('ids-dragend', el, () => {
+      el.style.removeProperty('position');
+      el.style.removeProperty('transform');
+      el.style.removeProperty('opacity');
+      el.style.removeProperty('z-index');
+
+      this.swap(el, this.placeholder);
+      if (this.placeholder) {
+        this.placeholder.remove();
+      }
+    });
   }
 }
 
