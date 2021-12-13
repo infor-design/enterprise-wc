@@ -159,6 +159,7 @@ export const attributes = {
   OPACITY: 'opacity',
   OVERFLOW: 'overflow',
   ORIENTATION: 'orientation',
+  PARAGRAPH_SEPARATOR: 'paragraph-separator',
   PAGE_COUNT: 'page-count',
   PAGE_NUMBER: 'page-number',
   PAGE_SIZE: 'page-size',

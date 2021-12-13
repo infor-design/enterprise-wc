@@ -1,0 +1,11 @@
+---
+ component: Editor
+ link: ids-editor
+ description: An input for multi line editable text
+ category: Form Inputs
+ keywords: theme, color, switcher
+ examples:
+  - link: index.html
+    description: Showing editor states
+  - link: side-by-side.html
+    description: Showing a editor side by side working with 4.x

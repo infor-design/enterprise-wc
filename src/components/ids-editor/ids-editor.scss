@@ -1,0 +1,84 @@
+/* Ids Editor Component */
+@import '../../core/ids-base';
+
+.ids-editor {
+
+  .hidden {
+    @include hidden();
+  }
+
+  .main-container {
+    @include border-1();
+    @include border-slate-60();
+    @include border-solid();
+    @include rounded-default();
+
+    &:focus-within {
+      @include border-azure-60();
+      @include outline-none();
+      @include shadow();
+    }
+  }
+
+  .toolbar-container {
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
+    overflow-x: hidden; // TODO: remove soon toolbar spillover implements
+  }
+
+  .editor-container {
+    @include antialiased();
+    @include font-sans();
+    @include outline-none();
+    @include p-16();
+
+    a {
+      @include text-azure-60();
+      @include p-4();
+
+      &:hover,
+      &:active {
+        @include text-azure-70();
+      }
+
+      &:focus {
+        @include border-1();
+        @include border-azure-60();
+        @include border-solid();
+        @include outline-none();
+        @include rounded-default();
+        @include shadow();
+      }
+    }
+
+    :is(h1, h2, h3, h4, h5, h6, p, pre, blockquote):first-child {
+      margin-block-start: 0;
+    }
+  }
+
+  .editor-container,
+  .source-container {
+    max-height: 320px;
+    overflow: auto;
+  }
+
+  &[mode='dark'] {
+    .main-container {
+      @include border-slate-20();
+
+      &:focus-within {
+        @include border-azure-60();
+      }
+    }
+  }
+
+  &[mode='contrast'] {
+    .main-container {
+      @include border-slate-100();
+
+      &:focus-within {
+        @include border-azure-90();
+      }
+    }
+  }
+}
