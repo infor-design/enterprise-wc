@@ -40,6 +40,7 @@ export default class IdsLayoutGrid extends Base {
 
   connectedCallback() {
     this.#setDefaults();
+    this.aGridCell = new IdsLayoutGridCell();
   }
 
   template() {

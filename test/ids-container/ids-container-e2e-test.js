@@ -1,5 +1,5 @@
 describe('Ids Color e2e Tests', () => {
-  const url = 'http://localhost:4300/ids-container';
+  const url = 'http://localhost:4444/ids-container';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });

@@ -10,9 +10,9 @@
     "example": "demos"
   },
   "scripts": {
-    "build:dist": "npx webpack --config ./webpack.config.dist.js --mode production",
-    "build:stats": "npx webpack --config ./webpack.config.dist.js --mode production",
-    "build:dist:prod": "npx webpack --config ./webpack.config.dist.js --mode production",
+    "build:dist": "npx rimraf dist && npx webpack --config ./webpack.config.dist.js",
+    "build:stats": "npx rimraf dist && npx webpack --config ./webpack.config.dist.js --mode production",
+    "build:dist:prod": "npx rimraf dist && npx webpack --config ./webpack.config.dist.js --mode production",
     "build": "node --max-old-space-size=8192 node_modules/webpack/bin/webpack --config ./webpack.config.demos.js",
     "build:app:prod": "webpack --config ./webpack.config.demos.js --mode production",
     "build:verbose": "npx webpack --config ./webpack.config.demos.js --progress profile",
@@ -95,6 +95,7 @@
     "puppeteer": "^13.0.0",
     "remark-cli": "^10.0.1",
     "remark-preset-lint-markdown-style-guide": "^5.1.2",
+    "rimraf": "^3.0.2",
     "sass": "^1.44.0",
     "sass-loader": "^12.4.0",
     "sass-to-string": "^1.6.0",

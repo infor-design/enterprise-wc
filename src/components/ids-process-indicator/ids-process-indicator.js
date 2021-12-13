@@ -1,6 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import Base from './ids-process-indicator-base';
-import IdsProcessStep from './ids-process-step';
+import IdsProcessStep from './ids-process-step/ids-process-step';
 
 import styles from './ids-process-indicator.scss';
 
