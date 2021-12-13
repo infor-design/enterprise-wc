@@ -64,9 +64,11 @@ class IdsErrorPage extends mix(IdsModal).with(
             label="true"
             slot="label"
           >
-            ${this.label}
+            ${!this.label ? 'Add Label' : this.label}
           </ids-text>
-          <ids-text label="true" slot="description">${this.description}</ids-text>
+          <ids-text label="true" slot="description">
+            ${!this.description ? 'Add Description' : this.description}
+          </ids-text>
           <ids-button class="action-button" slot="button" type="primary">
             <span slot="text">${!this.buttonText ? 'Action' : this.buttonText}</span>
           </ids-button>
@@ -93,6 +95,8 @@ class IdsErrorPage extends mix(IdsModal).with(
     } else {
       this.removeAttribute(attributes.LABEL);
     }
+
+    this.#refreshText('[slot="label"]', value);
   }
 
   get label() {
@@ -105,6 +109,8 @@ class IdsErrorPage extends mix(IdsModal).with(
     } else {
       this.removeAttribute(attributes.DESCRIPTION);
     }
+
+    this.#refreshText('[slot="description"]', value);
   }
 
   get description() {
@@ -117,6 +123,8 @@ class IdsErrorPage extends mix(IdsModal).with(
     } else {
       this.removeAttribute(attributes.BUTTON_TEXT);
     }
+
+    this.#refreshText('[slot="button"]', value);
   }
 
   get buttonText() {
@@ -144,6 +152,13 @@ class IdsErrorPage extends mix(IdsModal).with(
         }
       });
     });
+  }
+
+  #refreshText(el, value) {
+    const elText = this.shadowRoot.querySelector(el);
+    if (elText) {
+      elText.innerHTML = value ? value.toString() : '';
+    }
   }
 }
 
