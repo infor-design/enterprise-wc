@@ -183,7 +183,7 @@ class IdsTimePicker extends mix(IdsElement).with(
    */
   set value(value) {
     if (!this.disabled && !this.readonly) {
-      this.setAttribute('value', value);
+      this.setAttribute(attributes.VALUE, value);
       this.elements.input.value = value;
     }
   }
