@@ -49,6 +49,25 @@
   margin: 0 5px 0 0;
 }
 
+:host {
+  // slotted text details
+  ::slotted(ids-text) {
+      color: var(--ids-color-palette-slate-60);
+  }
+
+  [mode='dark'] {
+    ::slotted(ids-text) {
+      color: var(--ids-color-palette-slate-30);
+    }
+  }
+
+  [mode='contrast'] {
+    ::slotted(ids-text) {
+      color: var(--ids-color-palette-slate-90);
+    }
+  }
+}
+
 .ids-process-step {
   // NEW LIGHT / DEFAULTS
   --bg-color: #fff;
