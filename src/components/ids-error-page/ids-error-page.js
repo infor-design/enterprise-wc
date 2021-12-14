@@ -208,6 +208,16 @@ class IdsErrorPage extends mix(IdsModal).with(
   }
 
   /**
+   * Used for ARIA Labels and other content
+   * @readonly
+   * @returns {string} concatenating the label and description.
+   */
+  get ariaLabelContent() {
+    const label = this.querySelector('[slot="label"')?.innerText;
+    return `${label || ''} ${this.label || ''} ${this.description || ''}`;
+  }
+
+  /**
    * Refresh the text attributes
    * @param {object} el dom element to query
    * @param {string} value attribute value
