@@ -5,3 +5,11 @@
 :host(ids-tab-content:not([active])) {
   display: none;
 }
+
+:host(ids-tab-content[mode='dark'][active]) {
+  color: white;
+}
+
+:host(ids-tab-content[mode='contrast'][active]) {
+  color: black;
+}
