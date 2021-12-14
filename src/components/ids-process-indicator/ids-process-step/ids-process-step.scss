@@ -1,13 +1,93 @@
 @import '../../../core/ids-base';
+:host(.last) {
+  @media (min-width: $breakpoint-xs) {
+    flex: 0;
+  }
+  @media (min-width: $breakpoint-md) {
+    flex: 1;
+  }
+}
+
+:host {
+  display: flex;
+  flex: 1;
+  position: relative;
+
+  @media (min-width: $breakpoint-xs) {
+
+    .label {
+      display: none;
+    }
+
+    .details {
+      display: none;
+    }
+
+    .step {
+      margin-top: 40px;
+    }
+  }
+
+  @media (min-width: $breakpoint-md) {
+
+    .details {
+      display: unset;
+    }
+
+    .label {
+      display: unset;
+    }
+
+    .step {
+      margin-top: unset;
+    }
+  }
+}
+
+::slotted(*) {
+  display: block;
+  margin: 0 5px 0 0;
+}
 
 .ids-process-step {
+  // NEW LIGHT / DEFAULTS
   --bg-color: #fff;
   --primary-color: var(--ids-color-palette-azure-70);
   --active-color: var(--ids-color-palette-azure-70);
   --base-color: var(--ids-color-palette-slate-30);
   --cancelled-color: var(--ids-color-status-danger);
-  --step-width: 160px;
 
+  ids-text {
+    &::part(text) {
+      color: var(--ids-color-palette-slate-60);
+      margin: 0 5px 4px 0;
+    }
+    
+    &.label {
+      margin: 0 5px 0 0;
+      white-space: nowrap;
+    }
+  }
+  
+  .line {
+    position: absolute;
+    transform: translate(0, 36px);
+    height: 2px;
+    width: 100%;
+    background-color: var(--ids-color-palette-slate-30);
+  }
+  
+  .step {
+    display: flex;
+    transform: translate(0, -75%);
+    height: 11px;
+    width: 11px;
+    border-radius: 50%;
+    background-color: var(--bg-color);
+    border: 2px solid var(--base-color);
+  }
+
+  // NEW DARK
   &[mode='dark'] {
     --bg-color: #3e3e42;
 
@@ -16,6 +96,7 @@
     }
   }
 
+  // NEW CONTRAST
   &[mode='contrast'] {
     --bg-color: var(--ids-color-palette-slate-10);
     --active-color: var(--ids-color-palette-azure-50);
@@ -26,46 +107,13 @@
       color: var(--ids-color-palette-slate-90);
     }
   }
-
-  display: flex;
-
-  .step {
-    transform: translate(0, -50%);
-    height: 11px;
-    width: 11px;
-    border-radius: 50%;
-    background-color: var(--bg-color);
-    border: 2px solid var(--base-color);
-  }
-
-  .details {
-    transform: translate(0, 20px);
-    position: absolute;
-    max-width: var(--step-width);
-    min-width: 130px;
-    word-break: break-word;
-  }
-
-  ids-text {
-    &::part(text) {
-      color: var(--ids-color-palette-slate-60);
-    }
-
-    &.label {
-      position: absolute;
-      bottom: 40px;
-      max-width: var(--step-width);
-      min-width: 130px;
-      word-break: break-word;
-    }
-  }
-
+  
   // CLASSIC
   &[version='classic'] {
     &[mode='light'] {
       --bg-color: #eee;
     }
-
+    
     &[mode='dark'] {
       --bg-color: #212224;
 
@@ -81,17 +129,18 @@
   }
 }
 
+// step styling based on status
 :host([status='cancelled']) {
   .step {
     width: 18px;
     height: 18px;
     background-color: var(--cancelled-color);
     border: 0;
+    justify-content: center;
 
     ids-icon {
       display: flex;
       justify-content: center;
-      transform: translate(0, 4px);
       color: var(--bg-color);
     }
   }
