@@ -20,6 +20,7 @@ import {
 
 // Import Dependencies
 import { IdsDataGridFormatters } from './ids-data-grid-formatters';
+import IdsPager from '../ids-pager';
 import IdsVirtualScroll from '../ids-virtual-scroll';
 
 // Import Styles
@@ -101,8 +102,8 @@ class IdsDataGrid extends mix(IdsElement).with(
     }
 
     const cssClasses = [
-      `${this.alternateRowShading ? `alt-row-shading` : ``}`,
-      `${this.listStyle ? `is-list-style` : ``}`
+      this.alternateRowShading ? `alt-row-shading` : ``,
+      this.listStyle ? `is-list-style` : ``
     ];
 
     const html = `
@@ -121,6 +122,7 @@ class IdsDataGrid extends mix(IdsElement).with(
       : `${this.bodyTemplate()}`
       }
       </div>
+      ${this.pagerTemplate()}
     `;
 
     return html;
@@ -254,6 +256,23 @@ class IdsDataGrid extends mix(IdsElement).with(
       <div class="ids-data-grid-body" part="body" role="rowgroup">
         ${this.data.map((row, index) => this.rowTemplate(row, index)).join('')}
       </div> 
+    `;
+  }
+
+  /**
+   * Body template markup
+   * @private
+   * @returns {string} The template
+   */
+  pagerTemplate() {
+    return `
+      <ids-pager page-size="20" page-number="10" total="200" id="ids-pager-example">
+        <ids-pager-button first></ids-pager-button>
+        <ids-pager-button previous></ids-pager-button>
+        <ids-pager-input></ids-pager-input>
+        <ids-pager-button next></ids-pager-button>
+        <ids-pager-button last></ids-pager-button>
+      </ids-pager>
     `;
   }
 
