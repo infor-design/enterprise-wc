@@ -491,13 +491,13 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       }
 
       // Don't count disabled items as "taking a step"
-      if (!currentItem.disabled) {
+      if (!currentItem.disabled && !currentItem.hidden) {
         steps -= 1;
       }
     }
 
     this.lastNavigated = currentItem;
-    if (!currentItem.disabled && doFocus) {
+    if (!currentItem.disabled && !currentItem.hidden && doFocus) {
       currentItem.focus();
     }
 
