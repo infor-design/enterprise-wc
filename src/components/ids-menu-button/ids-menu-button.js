@@ -8,24 +8,13 @@ import {
 import { IdsStringUtils, IdsDOMUtils } from '../../utils';
 
 // Import Dependencies
-import { IdsButton, BUTTON_ATTRIBUTES } from '../ids-button';
+import { IdsButton } from '../ids-button';
 import IdsIcon from '../ids-icon';
 import IdsPopupMenu from '../ids-popup-menu';
 
 // Import Styles
 import styles from '../ids-button/ids-button.scss';
 
-// Property names
-const MENU_BUTTON_ATTRIBUTES = [
-  'dropdown-icon',
-  'formatter-width',
-  attributes.ID,
-  attributes.MENU
-];
-
-/**
- * IDS Menu Button Component
- */
 /**
  * IDS Menu Button Component
  * @type {IdsMenuButton}
@@ -42,7 +31,13 @@ class IdsMenuButton extends IdsButton {
    * @returns {Array} containing configurable attributes on this component
    */
   static get attributes() {
-    return BUTTON_ATTRIBUTES.concat(MENU_BUTTON_ATTRIBUTES);
+    return [
+      ...super.attributes,
+      attributes.FORMATTER_WIDTH,
+      attributes.DROPDOWN_ICON,
+      attributes.ID,
+      attributes.MENU
+    ];
   }
 
   /**
@@ -197,14 +192,14 @@ class IdsMenuButton extends IdsButton {
         val = value;
       }
     }
-    const FORMATTER_WIDTH = 'formatter-width';
+
     if (val) {
-      this.setAttribute(FORMATTER_WIDTH, value);
-      this.container.classList.add(FORMATTER_WIDTH);
+      this.setAttribute(attributes.FORMATTER_WIDTH, value);
+      this.container.classList.add(attributes.FORMATTER_WIDTH);
       this.container.style.minWidth = val;
     } else {
-      this.removeAttribute(FORMATTER_WIDTH);
-      this.container.classList.remove(FORMATTER_WIDTH);
+      this.removeAttribute(attributes.FORMATTER_WIDTH);
+      this.container.classList.remove(attributes.FORMATTER_WIDTH);
       this.container.style.minWidth = '';
     }
   }

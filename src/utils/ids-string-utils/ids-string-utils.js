@@ -26,6 +26,15 @@ export function removeDuplicates(str) {
 }
 
 /**
+ * Removes all newLines from a string and replaces them with spaces
+ * @param {string} str the incoming string to format
+ * @returns {string} the string with newline characters replaced
+ */
+export function removeNewLines(str = '') {
+  return str.replace(/\r?\n|\r/g, ' ');
+}
+
+/**
  * Convert an attribute string into a boolean representation
  * @param {string|boolean|any} val string value from the component attribute
  * @returns {boolean} The return boolean
@@ -100,6 +109,7 @@ export const IdsStringUtils = {
   stringToBool,
   stringToNumber,
   removeDuplicates,
+  removeNewLines,
   buildClassAttrib,
   isPrintable
 };
