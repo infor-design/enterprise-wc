@@ -10,12 +10,24 @@
   min-width: $input-size-xs;
   width: fit-content;
 
+  ids-button {
+    align-items: center;
+    height: 45px;
+    width: 100%;
+
+    &::part(button) {
+      color: var(--ids-color-palette-azure-70);
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0;
+    }
+  }
+
   .hidden {
     display: none;
   }
-}
 
-.ids-time-picker {
   #dropdowns {
     @include flex();
     @include p-8();
@@ -31,37 +43,22 @@
 
   .separator {
     @include mx-4();
+
     color: var(--ids-color-font-muted, #606066);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     margin-bottom: 10px;
   }
-}
 
-ids-button {
-  align-items: center;
-  height: 45px;
-  width: 100%;
-
-  &::part(button) {
-    color: var(--ids-color-palette-azure-70);
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    padding: 0;
+  @include breakpoint-xs-down {
+    #dropdowns {
+      flex-direction: column;
+      align-items: center;
+      width: $input-size-sm;
+    }
   }
-}
 
-@include breakpoint-xs-down {
-  #dropdowns {
-    flex-direction: column;
-    align-items: center;
-    width: $input-size-sm;
-  }
-}
-
-.ids-time-picker {
   // Handle Themes
   &[mode='dark'] {
     // @include bg-slate-60();
