@@ -11,6 +11,7 @@ import {
   IdsColorVariantMixin,
   IdsEventsMixin,
   IdsOrientationMixin,
+  IdsThemeMixin,
 } from '../../mixins';
 
 // Import Dependencies
@@ -34,7 +35,7 @@ const { stringToBool, buildClassAttrib } = stringUtils;
  */
 @customElement('ids-tab')
 @scss(styles)
-class IdsTab extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsMixin, IdsOrientationMixin) {
+class IdsTab extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsMixin, IdsOrientationMixin, IdsThemeMixin) {
   constructor() {
     super();
   }
@@ -138,14 +139,10 @@ class IdsTab extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsMixin, 
   }
 
   #attachEventHandlers() {
-    this.onEvent('click', this, () => {
+    this.onEvent('focus', this, () => {
       if (!this.selected) {
         this.selected = true;
       }
-      this.focus();
-    });
-
-    this.onEvent('focus', this, () => {
       this.focus();
     });
   }
