@@ -41,6 +41,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
   connectedCallback() {
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
     super.connectedCallback();
+    this.attachEventListeners();
   }
 
   /**
@@ -69,6 +70,9 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
   attachEventListeners() {
     this.attachClickListeners();
     this.attachKeyboardListeners();
+    if (this.draggable) {
+      this.attachDragEventListeners(); // for dragging list items
+    }
   }
 
   attachClickListeners() {
@@ -138,6 +142,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
   }
 
   focusLi(li) {
+    console.log(li)
     if (li) {
       const prevFocus = this.getFocusedLi();
       // remove tabindex from previous focus
@@ -376,15 +381,16 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
    * @param {string} value true to use draggable
    */
   set draggable(value) {
-    if (value) {
-      this.setAttribute(attributes.DRAGGABLE, value);
+    const val = stringUtils.stringToBool(value);
+    if (val) {
+      this.setAttribute(attributes.DRAGGABLE, val);
     } else {
       this.removeAttribute(attributes.DRAGGABLE);
     }
   }
 
   get draggable() {
-    return stringUtils.stringToBool(this.getAttribute(attributes.DRAGGABLE));
+    return this.hasAttribute(attributes.DRAGGABLE);
   }
 
   /**
@@ -442,7 +448,8 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
   attachDragEventListenersForDraggable(el) {
     // Toggle selected attribute, create placeholder, edit the css at the beginning of the drag
     this.onEvent('ids-dragstart', el, () => {
-      this.onClick(el);
+      // TODO: fix focusing since draggable is now parent
+      this.onClick(el.querySelector('div[part="list-item"]'));
 
       // create placeholder
       this.placeholder = this.#createPlaceholderClone(el);

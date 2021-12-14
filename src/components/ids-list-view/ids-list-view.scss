@@ -5,6 +5,10 @@
   overflow: auto;
   scroll-behavior: smooth;
 
+  ids-draggable {
+    width: 100%;
+  }
+
   .ids-list-view-body {
     &:focus {
       @include border-azure-40();
@@ -18,6 +22,7 @@
       border: 1px solid transparent;
       border-bottom-color: var(--ids-color-palette-slate-20);
       contain: content;
+      cursor: pointer;
 
       &:focus {
         @include border-azure-40();
