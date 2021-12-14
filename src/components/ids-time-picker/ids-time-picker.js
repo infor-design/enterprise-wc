@@ -229,8 +229,6 @@ class IdsTimePicker extends mix(IdsElement).with(
   set disabled(value) {
     const disabled = stringUtils.stringToBool(value);
     this.setAttribute(attributes.DISABLED, disabled);
-    this.elements.triggerField.disabled = disabled;
-    this.elements.triggerButton.disabled = disabled;
     this.elements.input.disabled = disabled;
   }
 
@@ -247,8 +245,6 @@ class IdsTimePicker extends mix(IdsElement).with(
   set readonly(value) {
     const readonly = stringUtils.stringToBool(value);
     this.setAttribute(attributes.READONLY, readonly);
-    this.elements.triggerField.readonly = readonly;
-    this.elements.triggerButton.readonly = readonly;
     this.elements.input.readonly = readonly;
   }
 

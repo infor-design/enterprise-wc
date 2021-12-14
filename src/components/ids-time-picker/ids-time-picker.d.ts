@@ -11,10 +11,10 @@ export default class IdsTimePicker extends IdsElement {
   value?: string;
 
   /** Multiples of this value are displayed as options in the minutes dropdown. */
-  ['minute-interval']?: number;
+  minuteInternal?: number;
 
   /** Multiples of this value are displayed as options in the seconds dropdown. */
-  ['second-interval']?: number;
+  secondInternal?: number;
 
   /** Enable autoselect popup feature */
   autoselect?: boolean | false;

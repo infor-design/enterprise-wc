@@ -31,9 +31,4 @@ export default class IdsTriggerField extends HTMLElement {
 
   /** Fires as the trigger button is clicked. */
   on(event: 'triggerclicked', listener: (detail: IdsTriggerFieldEventDetail) => void): this;
-
-  /** Get a list of element dependencies for this component */
-  readonly elements: {
-    [key: string]: HTMLElement | { [key: string]: HTMLElement },
-  };
 }
