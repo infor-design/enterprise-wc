@@ -86,4 +86,38 @@ describe('Ids Error Page Tests', () => {
     expect(errorPage.buttonText).toBe(null);
     expect(errorPage.getAttribute('buttonText')).toBe(null);
   });
+
+  it('can trigger the action-button event on click', async () => {
+    const button = errorPage.shadowRoot.querySelector('[slot="button"]');
+    const event = new MouseEvent('click', {
+      button: 1,
+      pageX: 0,
+      pageY: 0,
+      target: button,
+      bubbles: true,
+      cancelable: true,
+      view: window
+    });
+
+    button.dispatchEvent(event);
+    expect(errorPage.getAttribute('visible')).toBe(null);
+  });
+
+  it('can trigger the action-button event on touchstart', async () => {
+    const button = errorPage.shadowRoot.querySelector('[slot="button"]');
+    const event = new TouchEvent('touchstart', {
+      touches: [{
+        identifier: '123',
+        pageX: 0,
+        pageY: 0,
+        target: button
+      }],
+      bubbles: true,
+      cancelable: true,
+      view: window
+    });
+
+    button.dispatchEvent(event);
+    expect(errorPage.getAttribute('visible')).toBe(null);
+  });
 });
