@@ -18,7 +18,7 @@ describe('Ids Tabs e2e Tests', () => {
   it('should update via resize observer', async () => {
     await page.evaluate(`document.querySelector("ids-tabs").innerHTML = '<ids-tab value="tab1">Tab 1</ids-tab><ids-tab value="tab2">Tab 2</ids-tab>'`);
     const innerHTML = await page.evaluate('document.querySelector("ids-tabs").innerHTML');
-    expect(innerHTML).toEqual(`<ids-tab value="tab1" role="tab" aria-selected="false" tabindex="-1" aria-label="Tab 1">Tab 1</ids-tab><ids-tab value="tab2" role="tab" aria-selected="false" tabindex="-1" aria-label="Tab 2">Tab 2</ids-tab>`);
+    expect(innerHTML).toEqual(`<ids-tab value="tab1" mode="light" version="new" role="tab" aria-selected="false" tabindex="-1" aria-label="Tab 1">Tab 1</ids-tab><ids-tab value="tab2" mode="light" version="new" role="tab" aria-selected="false" tabindex="-1" aria-label="Tab 2">Tab 2</ids-tab>`);
   });
 
   it('can use arrow left/right keys to focus', async () => {

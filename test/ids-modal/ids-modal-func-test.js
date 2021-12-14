@@ -98,7 +98,7 @@ describe('IdsModal Component', () => {
 
     modal.target = btn;
 
-    expect(modal.state.target.isEqualNode(btn)).toBeTruthy();
+    expect(modal.target.isEqualNode(btn)).toBeTruthy();
 
     // Clicking on the trigger should make the Modal show
     const clickEvent = new MouseEvent('click', { bubbles: true });
@@ -107,9 +107,9 @@ describe('IdsModal Component', () => {
     // Dispatch twice to cover the 'else'
     btn.dispatchEvent(clickEvent);
 
-    modal.target = null;
+    modal.target = undefined;
 
-    expect(modal.state.target).toBeNull();
+    expect(modal.target).toBeUndefined();
   });
 
   it('can have a title', () => {

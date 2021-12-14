@@ -1,0 +1,117 @@
+@import '../../core/ids-base';
+
+// Due to WebComponent construction, these styles are applied to host elements,
+// but also to the `.ids-toolbar` element class for use in standalone CSS styles
+
+// These rules are applied to the `.ids-toolbar` element
+// These are used for Standalone CSS Toolbars
+@mixin ids-toolbar-section-inner-size-styles() {
+  &:not(.favor) {
+    flex: 0 1 auto;
+
+    &.title,
+    &.buttonset {
+      flex: 1 1 auto;
+    }
+  }
+
+  &.title,
+  &.buttonset,
+  &.fluid {
+    flex: 1 0 auto;
+
+    &:not(.favor) {
+      flex: 0 1 auto;
+      overflow-x: hidden;
+      overflow-y: auto;
+      text-overflow: ellipsis;
+    }
+
+    &.static {
+      flex-grow: 0 0 auto;
+    }
+  }
+
+  &.favor {
+    flex: 2 0 auto;
+
+    &.title,
+    &.buttonset {
+      &:not(.static) {
+        flex-grow: 2 0 auto;
+      }
+    }
+  }
+
+  // ================================================
+  // Alignments for Standalone CSS Toolbar Sections
+  &.align-start {
+    justify-content: flex-start;
+  }
+
+  &.align-center {
+    justify-content: center;
+  }
+
+  &.align-center-even {
+    justify-content: space-around;
+  }
+
+  &.align-end {
+    justify-content: flex-end;
+  }
+}
+
+// These rules are applied to `ids-toolbar-section:host` elements
+@mixin ids-toolbar-section-host-size-styles() {
+  ::slotted(ids-toolbar-section:not([favor])) {
+    overflow: hidden;
+  }
+
+  ::slotted(ids-toolbar-section:not([type])) {
+    flex: 0 0 auto;
+  }
+
+  ::slotted(ids-toolbar-section[type='fluid']),
+  ::slotted(ids-toolbar-section[type='title']),
+  ::slotted(ids-toolbar-section[type='buttonset']) {
+    flex: 1 0 auto;
+  }
+
+  ::slotted(ids-toolbar-section[type='fluid']:not([favor])),
+  ::slotted(ids-toolbar-section[type='title']:not([favor])),
+  ::slotted(ids-toolbar-section[type='buttonset']:not([favor])) {
+    flex: 1 1 auto;
+  }
+
+  ::slotted(ids-toolbar-section[favor]) {
+    flex: 2 0 auto;
+  }
+
+  ::slotted(ids-toolbar-section[favor][type='buttonset']),
+  ::slotted(ids-toolbar-section[favor][type='title']) {
+    overflow: auto;
+    flex: 2 0 auto;
+  }
+
+  // ================================================
+  // Alignments for the host elements
+  // In the `ids-toolbar-section` web components, the CSS classes are omitted in favor of these
+
+  ::slotted(ids-toolbar-section[align='start']),
+  ::slotted(ids-toolbar-section:not([align])) {
+    justify-content: flex-start;
+  }
+
+  ::slotted(ids-toolbar-section[align='center']) {
+    justify-content: center;
+  }
+
+  ::slotted(ids-toolbar-section[align='center-even']) {
+    justify-content: space-around;
+  }
+
+  ::slotted(ids-toolbar-section[align='end']) {
+    justify-content: flex-end;
+  }
+}
