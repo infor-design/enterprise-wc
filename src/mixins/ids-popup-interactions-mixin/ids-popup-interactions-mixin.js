@@ -4,7 +4,15 @@ import { IdsEventsMixin } from '../ids-events-mixin';
 const POPUP_TRIGGER_TYPES = [
   'contextmenu',
   'click',
+  'hover',
   'immediate'
+];
+
+const POPUP_INTERACTION_EVENT_NAMES = [
+  'click.trigger',
+  'contextmenu.trigger',
+  'hoverend.trigger',
+  'mouseleave.trigger'
 ];
 
 /**
@@ -21,7 +29,6 @@ const IdsPopupInteractionsMixin = (superclass) => class extends superclass {
     if (!this.state) {
       this.state = {};
     }
-    this.state.target = null;
     this.state.trigger = POPUP_TRIGGER_TYPES[0];
   }
 
@@ -56,6 +63,18 @@ const IdsPopupInteractionsMixin = (superclass) => class extends superclass {
   hasTriggerEvents = false;
 
   /**
+   * @property {number} popupDelay duration in miliseconds to delay a `mouseenter` event.
+   *  Used in Popups configured to use the `hover` interaction.
+   */
+  popupDelay = 500;
+
+  /**
+   * @private
+   * @property {Window|HTMLElement} currentPopupTarget the target entity for receiving Popup Interaction Events
+   */
+  #currentPopupTarget = window;
+
+  /**
    * @readonly
    * @returns {any} reference to the inner Popup component
    */
@@ -78,7 +97,6 @@ const IdsPopupInteractionsMixin = (superclass) => class extends superclass {
     if (val !== this.popup.alignTarget) {
       this.removeTriggerEvents();
       this.popup.alignTarget = val;
-      this.state.target = val;
       this.refreshTriggerEvents();
     }
   }
@@ -98,6 +116,7 @@ const IdsPopupInteractionsMixin = (superclass) => class extends superclass {
     if (!POPUP_TRIGGER_TYPES.includes(val)) {
       trueTriggerType = POPUP_TRIGGER_TYPES[0];
     }
+    this.removeTriggerEvents();
     this.state.trigger = trueTriggerType;
     this.refreshTriggerEvents();
   }
@@ -106,6 +125,10 @@ const IdsPopupInteractionsMixin = (superclass) => class extends superclass {
    * Causes events related to the Popupmenu's "trigger" style to be unbound/rebound
    */
   refreshTriggerEvents() {
+    if (this.hasTriggerEvents) {
+      return;
+    }
+
     const targetElem = this.popup.alignTarget || window;
 
     // Based on the trigger type, bind new events
@@ -125,8 +148,9 @@ const IdsPopupInteractionsMixin = (superclass) => class extends superclass {
       this.offEvent('click.trigger');
       this.onEvent('click.trigger', targetElem, (e) => {
         if (typeof this.onTriggerClick === 'function') {
-          this.onTriggerClick(e);
+          return this.onTriggerClick(e);
         }
+        return true;
       });
 
       break;
@@ -145,6 +169,23 @@ const IdsPopupInteractionsMixin = (superclass) => class extends superclass {
         }
       });
       break;
+    case 'hover':
+      this.onEvent('hoverend.trigger', targetElem, (e) => {
+        if (typeof this.onTriggerHover === 'function') {
+          this.onTriggerHover(e);
+        }
+      }, { delay: this.popupDelay });
+      this.onEvent('mouseleave.trigger', targetElem, (e) => {
+        if (typeof this.onCancelTriggerHover === 'function') {
+          this.onCancelTriggerHover(e);
+        }
+      });
+      this.onEvent('click.trigger', targetElem, (e) => {
+        if (typeof this.onTriggerHoverClick === 'function') {
+          this.onTriggerHoverClick(e);
+        }
+      });
+      break;
     case 'immediate':
       if (typeof this.onTriggerImmediate === 'function') {
         this.onTriggerImmediate();
@@ -154,6 +195,7 @@ const IdsPopupInteractionsMixin = (superclass) => class extends superclass {
       break;
     }
 
+    this.#currentPopupTarget = targetElem;
     this.hasTriggerEvents = true;
   }
 
@@ -163,13 +205,8 @@ const IdsPopupInteractionsMixin = (superclass) => class extends superclass {
    */
   removeTriggerEvents() {
     this.alignTarget?.removeAttribute('aria-controls');
-
-    const removeEventTargets = ['contextmenu.trigger', 'click.trigger'];
-    removeEventTargets.forEach((eventName) => {
-      const evt = this.handledEvents.get(eventName);
-      if (evt) {
-        this.detachEventsByName(eventName);
-      }
+    POPUP_INTERACTION_EVENT_NAMES.forEach((eventName) => {
+      this.detachEventsByName(eventName);
     });
     this.hasTriggerEvents = false;
   }

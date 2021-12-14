@@ -15,6 +15,10 @@
   }
 }
 
+:host([hidden]) {
+  display: none;
+}
+
 .ids-menu-item {
   @include font-sans();
 
@@ -133,6 +137,12 @@
     .ids-icon {
       fill: var(--ids-color-palette-slate-30);
     }
+  }
+
+  // ================================================
+  // Hidden state
+  &.hidden {
+    display: none;
   }
 
   // ================================================

@@ -10,6 +10,11 @@
   @include mr-4;
 }
 
+:host(ids-tab:not([orientation='vertical']):not(:last-child)),
+.ids-tab-container:not([orientation='vertical']):not(:last-child) {
+  @include mr-8;
+}
+
 :host(ids-tab:focus-visible),
 .ids-tab-container:focus-visible {
   outline: none;
@@ -29,6 +34,24 @@
   list-style: none outside none;
   border-color: transparent;
   height: 100%;
+
+  &:hover {
+    @include text-slate-100();
+
+    &:not(.orientation-vertical)::after,
+    &:not(.orientation-vertical) .selection-underline {
+      @include bg-slate-100();
+
+      position: absolute;
+      bottom: 0;
+      height: 3px;
+      left: -1px;
+      width: calc(100% + 2px);
+      z-index: 1;
+      pointer-events: none;
+      content: '';
+    }
+  }
 
   &:focus-visible,
   &:focus {
@@ -129,7 +152,7 @@
 }
 
 .ids-tab:not(.selected) {
-  @include text-graphite-50;
+  @include text-slate-70;
 
   cursor: pointer;
 }
@@ -171,4 +194,59 @@
 
 .ids-tab.count {
   @include px-12();
+}
+
+:host(ids-tab[mode='dark']) {
+  .ids-tab {
+    &:not(.selected) {
+      @include text-slate-20;
+    }
+
+    &:hover {
+      @include text-white();
+
+      &:not(.orientation-vertical)::after,
+      &:not(.orientation-vertical) .selection-underline {
+        @include bg-white();
+      }
+    }
+
+    &:focus-visible:not(.color-variant-alternate),
+    &:focus:not(.color-variant-alternate),
+    &:focus-within:not(.color-variant-alternate) {
+      @include border-azure-40();
+    }
+
+    &.selected {
+      @include text-azure-40;
+
+      &:not(.orientation-vertical):not(.color-variant-alternate)::after,
+      &:not(.orientation-vertical):not(.color-variant-alternate) .selection-underline {
+        @include bg-azure-40();
+      }
+    }
+  }
+}
+
+:host(ids-tab[mode='contrast']) {
+  .ids-tab {
+    &:not(.selected) {
+      @include text-slate-100;
+    }
+
+    &:focus-visible:not(.color-variant-alternate),
+    &:focus:not(.color-variant-alternate),
+    &:focus-within:not(.color-variant-alternate) {
+      @include border-azure-90();
+    }
+
+    &.selected {
+      @include text-azure-90;
+
+      &:not(.orientation-vertical):not(.color-variant-alternate)::after,
+      &:not(.orientation-vertical):not(.color-variant-alternate) .selection-underline {
+        @include bg-azure-90();
+      }
+    }
+  }
 }
