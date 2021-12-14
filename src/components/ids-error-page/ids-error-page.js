@@ -77,6 +77,11 @@ class IdsErrorPage extends mix(IdsModal).with(
     </ids-popup>`;
   }
 
+  /**
+   * Set the icon
+   * @param {string} value icon id
+   * @memberof IdsErrorPage
+   */
   set icon(value) {
     if (value) {
       this.setAttribute(attributes.ICON, value);
@@ -90,10 +95,21 @@ class IdsErrorPage extends mix(IdsModal).with(
     }
   }
 
+  /**
+   * Get the icon
+   * @returns {string} the icon attribute
+   * @readonly
+   * @memberof IdsErrorPage
+   */
   get icon() {
     return this.getAttribute(attributes.ICON);
   }
 
+  /**
+   * Set the label
+   * @param {string} value label text
+   * @memberof IdsErrorPage
+   */
   set label(value) {
     if (value) {
       this.setAttribute(attributes.LABEL, value);
@@ -104,10 +120,21 @@ class IdsErrorPage extends mix(IdsModal).with(
     this.#refreshText('[slot="label"]', value);
   }
 
+  /**
+   * Get the label
+   * @returns {string} the label text
+   * @readonly
+   * @memberof IdsErrorPage
+   */
   get label() {
     return this.getAttribute(attributes.LABEL);
   }
 
+  /**
+   * Set the description text
+   * @param {string} value description text
+   * @memberof IdsErrorPage
+   */
   set description(value) {
     if (value) {
       this.setAttribute(attributes.DESCRIPTION, value);
@@ -118,10 +145,21 @@ class IdsErrorPage extends mix(IdsModal).with(
     this.#refreshText('[slot="description"]', value);
   }
 
+  /**
+   * Get the description text
+   * @returns {string} the description text
+   * @readonly
+   * @memberof IdsErrorPage
+   */
   get description() {
     return this.getAttribute(attributes.DESCRIPTION);
   }
 
+  /**
+   * Set the button text
+   * @param {string} value button text
+   * @memberof IdsErrorPage
+   */
   set buttonText(value) {
     if (value) {
       this.setAttribute(attributes.BUTTON_TEXT, value);
@@ -132,10 +170,20 @@ class IdsErrorPage extends mix(IdsModal).with(
     this.#refreshText('[slot="button"]', value);
   }
 
+  /**
+   * Get the button text
+   * @returns {string} button text
+   * @readonly
+   * @memberof IdsErrorPage
+   */
   get buttonText() {
     return this.getAttribute(attributes.BUTTON_TEXT);
   }
 
+  /**
+   * Attach the error page event handlers
+   * @private
+   */
   #attachEventHandlers() {
     const button = this.shadowRoot.querySelector('.action-button');
     const actionBtnEvent = 'action-button';
@@ -159,6 +207,12 @@ class IdsErrorPage extends mix(IdsModal).with(
     });
   }
 
+  /**
+   * Refresh the text attributes
+   * @param {object} el dom element to query
+   * @param {string} value attribute value
+   * @private
+   */
   #refreshText(el, value) {
     const elText = this.shadowRoot.querySelector(el);
     if (elText) {
