@@ -49,17 +49,17 @@ Masthead with `nav` elements as slots:
 
 ```html
 <ids-masthead icon="logo" title="Infor Application">
-  <nav slot="start">
+  <section slot="start">
     <ids-button icon="grid"></ids-button>
     <ids-button icon="star-outline"></ids-button>
-  </nav>
-  <nav slot="center">
+  </section>
+  <section slot="center">
     <ids-button icon="info">
-  </ids-button></nav>
-  <nav slot="end">
+  </ids-button></section>
+  <section slot="end">
     <ids-button icon="user"></ids-button>
     <ids-button icon="bookmark-outline"></ids-button>
-  </nav>
+  </section>
 </ids-masthead>
 ```
 
