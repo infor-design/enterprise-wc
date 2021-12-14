@@ -42,7 +42,6 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
 
   static get attributes() {
     return [
-      ...super.attributes,
       attributes.DISABLED,
       attributes.TABBABLE,
       attributes.TYPE
@@ -50,15 +49,53 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
   }
 
   connectedCallback() {
+    super.connectedCallback?.();
     this.setAttribute('role', 'toolbar');
     this.#setType();
+    this.#attachEventHandlers();
     this.#attachKeyboardListeners();
+    this.#resizeObserver.observe(this);
 
     // After repaint
     requestAnimationFrame(() => {
       this.makeTabbable(this.detectTabbable());
+
+      // Perform resize calculation after all children have rendered
+      requestAnimationFrame(() => {
+        this.#resize();
+      });
     });
     super.connectedCallback();
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback?.();
+    this.#resizeObserver.disconnect(this.container);
+  }
+
+  /**
+   * Attach the resize observer.
+   * @private
+   * @type {number}
+   */
+  #resizeObserver = new ResizeObserver(() => {
+    this.#resize();
+  });
+
+  /**
+   * Sets up event handlers assigned to the Toolbar and its child elements
+   * @private
+   * @returns {void}
+   */
+  #attachEventHandlers() {
+    // Translate click events on buttons into Toolbar `selected` events to correspond
+    // to the behavior of menu buttons and the "More Actions" menu
+    this.onEvent('click.toolbar-item', this, (e) => {
+      const btn = e.target.closest('ids-button');
+      if (btn) {
+        this.triggerSelectedEvent(btn);
+      }
+    });
   }
 
   /**
@@ -125,8 +162,8 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
         currentItem = items[currentIndex];
       }
 
-      // Don't count disabled items as "taking a step"
-      if (!currentItem.disabled) {
+      // Don't count disabled/overflowed items as "taking a step"
+      if (!currentItem.disabled && !currentItem.hasAttribute(attributes.OVERFLOWED)) {
         steps -= 1;
       }
     }
@@ -152,16 +189,20 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
     const trueVal = IdsStringUtils.stringToBool(val);
 
     if (trueVal) {
-      this.setAttribute('disabled', val);
+      this.setAttribute(attributes.DISABLED, val);
     } else {
-      this.removeAttribute('disabled');
+      this.removeAttribute(attributes.DISABLED);
     }
 
-    this.container.classList[trueVal ? 'add' : 'remove']('disabled');
+    this.container.classList[trueVal ? 'add' : 'remove'](attributes.DISABLED);
 
     // Set disabled state on all relevant subcomponents
     const setDisabledState = (elem) => {
-      elem.disabled = trueVal;
+      if (elem.id === 'more-actions') {
+        elem.parentElement.parentNode.host.disabled = trueVal;
+      } else {
+        elem.disabled = trueVal;
+      }
     };
     this.items.forEach(setDisabledState);
     this.textElems.forEach(setDisabledState);
@@ -171,7 +212,7 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
    * @returns {boolean} true if the toolbar is currently disabled
    */
   get disabled() {
-    return this.container.classList.contains('disabled');
+    return this.container.classList.contains(attributes.DISABLED);
   }
 
   /**
@@ -250,12 +291,12 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
     const trueVal = IdsStringUtils.stringToBool(val);
 
     if (trueVal) {
-      this.setAttribute('tabbable', val);
+      this.setAttribute(attributes.TABBABLE, val);
     } else {
-      this.removeAttribute('tabbable');
+      this.removeAttribute(attributes.TABBABLE);
     }
 
-    this.container.classList[trueVal ? 'add' : 'remove']('tabbable');
+    this.container.classList[trueVal ? 'add' : 'remove'](attributes.TABBABLE);
 
     // Try to use a currently-focused element
     this.makeTabbable(this.focused);
@@ -265,7 +306,7 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
    * @returns {boolean} true if the toolbar is fully tabbable
    */
   get tabbable() {
-    return this.container.classList.contains('tabbable');
+    return this.container.classList.contains(attributes.TABBABLE);
   }
 
   /**
@@ -291,13 +332,13 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
    * @returns {void}
    */
   #setType() {
-    this.sections.forEach((s) => s.setAttribute('toolbar-type', this.type));
+    this.sections.forEach((s) => s.setAttribute(attributes.TOOLBAR_TYPE, this.type));
     [...this.items, ...this.separators].forEach((item) => {
       if (this.type) {
-        item.setAttribute('color-variant', 'alternate-formatter');
+        item.setAttribute(attributes.COLOR_VARIANT, 'alternate-formatter');
       } else {
-        const val = item.getAttribute('color-variant');
-        if (val === 'alternate-formatter') item.removeAttribute('color-variant');
+        const val = item.getAttribute(attributes.COLOR_VARIANT);
+        if (val === 'alternate-formatter') item.removeAttribute(attributes.COLOR_VARIANT);
       }
     });
   }
@@ -327,6 +368,45 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
       const nonTabbableTargetIndex = elem.isEqualNode(item) ? 0 : -1;
       item.tabIndex = isTabbable ? 0 : nonTabbableTargetIndex;
     });
+  }
+
+  #resize() {
+    const moreSection = document.querySelector('ids-toolbar-more-actions');
+    if (moreSection) {
+      moreSection.refreshOverflowedItems();
+    }
+  }
+
+  /**
+   * Triggers a `selected` event on a specified Toolbar item
+   * @param {HTMLElement} elem the specified Toolbar item
+   * @param {boolean} [triggeredFromOverflow] if true, notifies the event handler that this
+   *  `selected` event originated from the Overflow menu
+   * @returns {void}
+   */
+  triggerSelectedEvent(elem, triggeredFromOverflow = false) {
+    // Don't trigger these events on non-Toolbar items
+    if (!this.contains(elem)) {
+      return;
+    }
+
+    const detail = {
+      elem,
+      value: elem.value
+    };
+
+    // Handle Overflowed items
+    if (elem.overflowTarget) {
+      detail.elem = elem.overflowTarget;
+      detail.value = elem.overflowTarget.value;
+      detail.overflowMenuItem = elem;
+      detail.triggeredFromOverflow = triggeredFromOverflow;
+    }
+
+    elem.dispatchEvent(new CustomEvent('selected', {
+      bubbles: true,
+      detail
+    }));
   }
 }
 
