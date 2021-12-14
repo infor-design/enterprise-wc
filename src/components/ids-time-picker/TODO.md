@@ -1,6 +1,6 @@
 # TimePicker TODO's
 
-- [ ] Update README.md
+- [ ] Add option to limit hours. [See issue](https://github.com/infor-design/enterprise/issues/5880).
 - [ ] Make dropdown default values reflect what's in the input-field
 - [ ] Add validation
 - [ ] Write func-tests for "validation"
