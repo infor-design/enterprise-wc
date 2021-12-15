@@ -513,10 +513,20 @@ class IdsTimePicker extends mix(IdsElement).with(
       setTimeButton,
     } = this.elements;
 
-    this.onEvent('change', dropdowns.hours, (e) => { this.autoupdate && this.setTimeOnField({ hours: e.detail.value }); });
-    this.onEvent('change', dropdowns.minutes, (e) => { this.autoupdate && this.setTimeOnField({ minutes: e.detail.value }); });
-    this.onEvent('change', dropdowns.seconds, (e) => { this.autoupdate && this.setTimeOnField({ seconds: e.detail.value }); });
-    this.onEvent('change', dropdowns.period, (e) => { this.autoupdate && this.setTimeOnField({ period: e.detail.value }); });
+    this.onEvent('change', this.container, (e) => {
+      const currentId = e.detail?.elem?.id;
+      if (!currentId || !this.autoupdate) return;
+
+      if (currentId === dropdowns?.hours?.id) {
+        this.setTimeOnField({ hours: e.detail.value });
+      } else if (currentId === dropdowns?.minutes?.id) {
+        this.setTimeOnField({ minutes: e.detail.value });
+      } else if (currentId === dropdowns?.seconds?.id) {
+        this.setTimeOnField({ seconds: e.detail.value });
+      } else if (currentId === dropdowns?.period?.id) {
+        this.setTimeOnField({ period: e.detail.value });
+      }
+    });
 
     // using on mouseup, because on click interferes with on Enter
     this.onEvent('mouseup', setTimeButton, () => {

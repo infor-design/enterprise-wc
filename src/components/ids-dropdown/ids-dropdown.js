@@ -199,6 +199,7 @@ class IdsDropdown extends mix(IdsElement).with(
     // Send the change event
     if (this.value === value) {
       this.triggerEvent('change', this, {
+        bubbles: true,
         detail: {
           elem: this,
           value: this.value
