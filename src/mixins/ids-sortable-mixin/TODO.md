@@ -1,0 +1,7 @@
+- [ ] decide between this.draggable and this.sortable
+- [ ] move the attachDragEventListeners() to mixin, make them modular
+- [ ] decide how to support ids-virtual-scroll in ids-list-view when dragging items around
+  - [ ] ids-list-builder does not support ids-virtual-scroll for data changes, however if it's supported in ids-list-view, it will work for list-builder as well
+  - [ ] update the data whenever swaps happen
+- [ ] add support for x-axis draggables
+- [ ] how to guarantee that items being dragged are ids-draggables? (is documentation in the README enough?)
