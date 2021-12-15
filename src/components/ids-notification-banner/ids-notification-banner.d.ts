@@ -1,6 +1,4 @@
-import Base from './ids-notification-banner-base';
-
-export default class IdsNotificationBanner extends Base {
+export default class IdsNotificationBanner extends HTMLElement {
   /** Sets the type of Notification */
   type: 'success' | 'alert' | 'info' | 'error' | string;
 

@@ -1,12 +1,10 @@
-import Base from './ids-trigger-field-base';
-
 interface IdsTriggerFieldEventDetail extends Event {
   detail: {
     elem: IdsTriggerField
   }
 }
 
-export default class IdsTriggerField extends Base {
+export default class IdsTriggerField extends HTMLElement {
   /** Set if the trigger field is tabbable */
   tabbable: boolean;
 

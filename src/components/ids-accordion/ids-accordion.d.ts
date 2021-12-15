@@ -1,8 +1,7 @@
-import Base from './ids-accordion-base';
 import IdsAccordionHeader from './ids-accordion-header';
 import IdsAccordionPanel from './ids-accordion-panel';
 
-export default class IdsAccordion extends Base {
+export default class IdsAccordion extends HTMLElement {
   /** Reference to all inner Accordion Headers */
   readonly headers?: Array<IdsAccordionHeader>;
 

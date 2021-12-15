@@ -1,6 +1,4 @@
-import Base from './ids-skip-link-base';
-
-export default class IdsSkipLink extends Base {
+export default class IdsSkipLink extends HTMLElement {
   /** Set the links href */
   href: string;
 

@@ -1,13 +1,9 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-import Base from './ids-menu-group-base';
-
 import IdsMenu from './ids-menu';
 import IdsMenuHeader from './ids-menu-header';
 import IdsMenuItem from './ids-menu-item';
 import IdsIcon from '../ids-icon/ids-icon';
 
-export default class IdsMenuGroup extends Base {
+export default class IdsMenuGroup extends HTMLElement {
   /* Access the menu element */
   readonly menu: IdsMenu;
 

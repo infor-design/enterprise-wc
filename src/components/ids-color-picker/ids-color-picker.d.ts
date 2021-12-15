@@ -1,6 +1,4 @@
-import Base from './ids-color-picker-base';
-
-export default class IdsColorPicker extends Base {
+export default class IdsColorPicker extends HTMLElement {
   /** Set the theme version */
   version: 'new' | 'classic' | string;
 

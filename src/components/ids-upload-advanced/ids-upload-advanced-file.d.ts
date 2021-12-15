@@ -1,12 +1,10 @@
-import Base from './ids-upload-advanced-file-base';
-
 interface IdsUploadAdvancedFileEventDetail extends Event {
   detail: {
     elem: IdsUploadAdvancedFile
   }
 }
 
-export default class IdsUploadAdvancedFile extends Base {
+export default class IdsUploadAdvancedFile extends HTMLElement {
   /** Sets the whole file element to disabled state */
   disabled: boolean|string;
 

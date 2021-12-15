@@ -1,6 +1,4 @@
-import Base from './ids-progress-chart-base';
-
-export default class IdsProgressChart extends Base {
+export default class IdsProgressChart extends HTMLElement {
   /** Sets the color theme of the chart */
   color: 'success' | 'warning' | 'caution' | 'error' | 'base' | string;
 

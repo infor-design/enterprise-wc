@@ -1,6 +1,4 @@
-import Base from './ids-header-base';
-
-export default class IdsHeader extends Base {
+export default class IdsHeader extends HTMLElement {
   /** Set the theme version */
   version: 'new' | 'classic' | string;
 

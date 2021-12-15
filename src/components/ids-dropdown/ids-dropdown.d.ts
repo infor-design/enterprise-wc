@@ -1,12 +1,10 @@
-import Base from './ids-dropdown-base';
-
 interface IdsDropdownEventDetail extends Event {
   detail: {
     elem: IdsDropdown
   }
 }
 
-export default class IdsDropdown extends Base {
+export default class IdsDropdown extends HTMLElement {
   /** Sets the dirty tracking feature on to indicate a changed field */
   dirtyTracker: boolean;
 

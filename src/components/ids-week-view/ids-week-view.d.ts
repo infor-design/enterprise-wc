@@ -1,6 +1,4 @@
-import Base from './ids-week-view-base';
-
-export default class IdsWeekView extends Base {
+export default class IdsWeekView extends HTMLElement {
   /** Set start of the week to show */
   startDate: string | null;
 

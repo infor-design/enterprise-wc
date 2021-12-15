@@ -1,6 +1,4 @@
-import Base from './ids-virtual-scroll-base';
-
-export default class IdsVirtualScroll extends Base {
+export default class IdsVirtualScroll extends HTMLElement {
   /** Set the internal element template markup for a single element */
   itemTemplate: (item: unknown) => string | string;
 

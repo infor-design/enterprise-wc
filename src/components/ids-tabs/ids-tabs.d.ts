@@ -1,6 +1,4 @@
-import Base from './ids-tabs-base';
-
-export default class IdsTabs extends Base {
+export default class IdsTabs extends HTMLElement {
   /** A theming variant to the ids-tabs which also applies to each ids-tab */
   colorVariant? : 'alternate';
 

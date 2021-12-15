@@ -1,6 +1,4 @@
-import Base from './ids-card-base';
-
-export default class IdsCard extends Base {
+export default class IdsCard extends HTMLElement {
   /** Set the card height */
   autoHeight: boolean;
 

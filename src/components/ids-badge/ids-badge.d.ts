@@ -1,6 +1,4 @@
-import Base from './ids-badge-base';
-
-export default class IdsBadge extends Base {
+export default class IdsBadge extends HTMLElement {
   /* Set the shape of the badge */
   shape: 'normal' | 'round';
 

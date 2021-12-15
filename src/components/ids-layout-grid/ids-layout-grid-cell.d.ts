@@ -1,6 +1,4 @@
-import Base from './ids-layout-grid-cell-base';
-
-export default class IdsLayoutGridCell extends Base {
+export default class IdsLayoutGridCell extends HTMLElement {
   /** Set the background fill color */
   fill: string;
 

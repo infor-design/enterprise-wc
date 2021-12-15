@@ -8,8 +8,6 @@ import {
 } from '../ids-menu/ids-menu';
 import IdsPopup from '../ids-popup/ids-popup';
 
-import Base from './ids-popup-menu-base';
-
 // Subcomponent Export
 export {
   IdsMenuGroup,
@@ -18,7 +16,7 @@ export {
   IdsSeparator
 };
 
-export default class IdsPopupMenu extends Base {
+export default class IdsPopupMenu extends HTMLElement {
   /* references this menu's parent menu component, if this menu is a submenu */
   readonly parentMenu: IdsPopupMenu | undefined;
 

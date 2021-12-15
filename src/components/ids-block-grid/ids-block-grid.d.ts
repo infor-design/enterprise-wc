@@ -1,6 +1,4 @@
-import Base from './ids-block-grid-item-base';
-
-export default class IdsBlockGrid extends Base {
+export default class IdsBlockGrid extends HTMLElement {
   /** Set the block alignment */
   align: 'center' | 'left' | 'right';
 

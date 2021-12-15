@@ -1,6 +1,4 @@
-import Base from './ids-splitter-base';
-
-export default class IdsSplitterPane extends Base {
+export default class IdsSplitterPane extends HTMLElement {
   /** Sets initially the pane size height or width for example: '20%', '200px' or 200 */
   size: string | number | null;
 

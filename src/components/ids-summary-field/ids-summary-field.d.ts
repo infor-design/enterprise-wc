@@ -1,6 +1,4 @@
-import Base from './ids-summary-field-base';
-
-export default class IdsSummaryField extends Base {
+export default class IdsSummaryField extends HTMLElement {
   /** Sets the data field of the summary field */
   data: string;
 

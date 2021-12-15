@@ -1,6 +1,4 @@
-import Base from './ids-layout-grid-base';
-
-export default class IdsLayoutGrid extends Base {
+export default class IdsLayoutGrid extends HTMLElement {
   /** If true the grid is not responsive and stays equal width as will fit */
   fixed: boolean;
 

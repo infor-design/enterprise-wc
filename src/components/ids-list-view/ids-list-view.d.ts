@@ -1,6 +1,4 @@
-import Base from './ids-list-view-base';
-
-export default class IdsListView extends Base {
+export default class IdsListView extends HTMLElement {
   /** Enabled virtual scrolling */
   virtualScroll: boolean;
 

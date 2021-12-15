@@ -1,5 +1,3 @@
-import Base from './ids-home-page-base';
-
 /** Interface for home page event detail */
 interface IdsHomePageEventDetail extends Event {
   detail: {
@@ -20,7 +18,7 @@ interface IdsHomePageEventDetail extends Event {
   }
 }
 
-export default class IdsHomePage extends Base {
+export default class IdsHomePage extends HTMLElement {
   /** Set to animated or not the home page cards on resize */
   animated: boolean | string;
 

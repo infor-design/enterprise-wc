@@ -1,6 +1,4 @@
-import Base from './ids-container-base';
-
-export default class IdsTag extends Base {
+export default class IdsTag extends HTMLElement {
   /** Set the theme mode */
   mode: 'light' | 'dark' | 'contrast' | string;
 

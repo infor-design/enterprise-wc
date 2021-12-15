@@ -1,6 +1,4 @@
-import Base from './ids-accordion-panel-base';
-
-export default class IdsAccordionPanel extends Base {
+export default class IdsAccordionPanel extends HTMLElement {
   /** Reference to this Accordion Panel's header, if applicable */
   readonly header?: HTMLElement;
 

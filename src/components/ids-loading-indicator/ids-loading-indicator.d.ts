@@ -1,6 +1,4 @@
-import Base from './ids-loading-indicator-base';
-
-export default class IdsLoadingIndicator extends Base {
+export default class IdsLoadingIndicator extends HTMLElement {
   /** Set the theme mode */
   mode: 'light' | 'dark' | 'contrast' | string;
 

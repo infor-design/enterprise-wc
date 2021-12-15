@@ -1,6 +1,4 @@
-import Base from './ids-separator-base';
-
-export default class IdsSeparator extends Base {
+export default class IdsSeparator extends HTMLElement {
   /* Set the variants theme styles */
   colorVariant?: 'alternate-formatter';
 

@@ -1,5 +1,3 @@
-import Base from './ids-toolbar-section-base';
-
 declare const TOOLBAR_ITEM_TAGNAMES: [
   'ids-button',
   'ids-checkbox',
@@ -9,7 +7,7 @@ declare const TOOLBAR_ITEM_TAGNAMES: [
   'ids-toolbar-more-actions'
 ];
 
-export default class IdsToolbarSection extends Base {
+export default class IdsToolbarSection extends HTMLElement {
   /** Provides a list of all available toolbar items within this section */
   readonly items: Array<HTMLElement>;
 

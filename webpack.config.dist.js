@@ -1,29 +1,50 @@
 const path = require('path');
-const fs = require('fs');
 const sass = require('sass');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const glob = require('glob');
 
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
 process.env.NODE_ENV = isProduction ? 'production' : 'development';
 
-const listFiles = (dirPath, fileType, fileOptions) => {
-  const files = fs.readdirSync(dirPath);
-  fileOptions = fileOptions || [];
-  files.forEach((file) => {
-    if (fs.statSync(`${dirPath}/${file}`).isDirectory()) {
-      fileOptions = listFiles(`${dirPath}/${file}`, fileType, fileOptions);
-    } else {
-      // eslint-disable-next-line
-      file.split('.')[1] === fileType ? (Array.isArray(fileOptions) ? fileOptions.push(path.join(__dirname, dirPath, '/', file)) : fileOptions[path.join(file.split('.')[0])] = path.join(__dirname, dirPath, '/', file)) : '';
-    }
-  });
-  return fileOptions;
-};
-
 module.exports = {
-  entry: () => listFiles('./src/components', 'js', {}),
+  entry: glob.sync('./src/**/**.js').reduce((acc, filePath) => {
+    const dirname = path.dirname(filePath)
+      .replace('./src/components/', '')
+      .replace('./src/core', '')
+      .replace('./src/utils/', '')
+      .replace('./src/mixins/', '');
+
+    const baseName = path.basename(filePath).replace('.js', '');
+
+    // Core
+    if (dirname === '' || dirname.includes('mixin') || dirname.includes('utils')) {
+      acc[`${baseName}`] = filePath;
+      return acc;
+    }
+    // Everything
+    if (baseName === 'enterprise-wc') {
+      acc[`${baseName}`] = filePath;
+      return acc;
+    }
+    // Cultures
+    if (dirname === 'ids-locale/cultures') {
+      acc[`ids-locale/cultures/${baseName}`] = filePath;
+      return acc;
+    }
+
+    // Components
+    // If we comment this out we can get submodules included as entries but this may not be needed
+    if (dirname === baseName) {
+      if (!acc[`${dirname}`]) {
+        acc[`${dirname}`] = [filePath];
+      } else {
+        acc[`${dirname}`].push(filePath);
+      }
+    }
+    return acc;
+  }, {}),
   output: {
     filename: (pathData) => (pathData.chunk.name === 'enterprise-wc' ? '[name].js' : '[name]/[name].js'),
     chunkFormat: 'module',
@@ -132,11 +153,16 @@ module.exports = {
             const folders = path.dirname(absoluteFilename).split(path.sep);
             let filePath = `${folders[folders.length - 1]}/${baseName}`;
             filePath = filePath.replace('src/components/', '');
+
+            if (filePath.includes('core/')) {
+              filePath = filePath.replace('core/', '').replace('.d.ts', '');
+              return `${filePath}/${filePath}.d.ts`;
+            }
             return filePath;
           }
         },
         {
-          from: './src/**/**/*.md',
+          from: './src/components/**/README.md',
           to({ absoluteFilename }) {
             const baseName = path.basename(absoluteFilename);
             const folders = path.dirname(absoluteFilename).split(path.sep);

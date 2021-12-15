@@ -1,6 +1,4 @@
-import Base from './ids-hidden-base';
-
-export default class extends Base {
+export default class extends HTMLElement {
   /** Sets the min width breakpoint that should hide the element */
   hideUp?: string | 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
 

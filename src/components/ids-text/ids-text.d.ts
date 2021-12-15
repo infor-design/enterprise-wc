@@ -1,6 +1,4 @@
-import Base from './ids-text-base';
-
-export default class IdsText extends Base {
+export default class IdsText extends HTMLElement {
   /** Set the type of element it is (h1-h6, span (default)) */
   type: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'span' | string | null;
 

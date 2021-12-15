@@ -1,6 +1,4 @@
-import Base from './ids-count-base';
-
-export default class IdsCounts extends Base {
+export default class IdsCounts extends HTMLElement {
   /** Set the tag type/color */
   color: 'base' | 'caution' | 'danger' | 'success' | 'warning' | string;
 

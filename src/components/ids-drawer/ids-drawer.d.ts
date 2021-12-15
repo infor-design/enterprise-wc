@@ -1,6 +1,4 @@
-import Base from './ids-drawer-base';
-
-export default class IdsDrawer extends Base {
+export default class IdsDrawer extends HTMLElement {
   /** Defines the edge on which to display the Drawer */
   edge: 'bottom' | 'left';
 

@@ -1,6 +1,4 @@
-import Base from './ids-rating-base';
-
-export default class IdsRating extends Base {
+export default class IdsRating extends HTMLElement {
   /** Set the value attribute */
   value: '0' | string | number;
 

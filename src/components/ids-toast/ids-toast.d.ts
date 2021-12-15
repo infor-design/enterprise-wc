@@ -1,5 +1,3 @@
-import Base from './ids-toast-base';
-
 interface IdsToastMsgAddRemoveEventDetail extends Event {
   detail: {
     elem: HTMLElement,
@@ -65,7 +63,7 @@ type IdsToastShownTypes = {
   timeout?: number | string;
 }
 
-export default class IdsToast extends Base {
+export default class IdsToast extends HTMLElement {
   /** Set to put links in the toast message */
   allowLink: boolean | string;
 

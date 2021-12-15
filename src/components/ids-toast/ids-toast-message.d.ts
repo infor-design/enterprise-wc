@@ -1,5 +1,3 @@
-import Base from './ids-toast-message-base';
-
 interface IdsToastMessageRemoveEventDetail extends Event {
   detail: {
     elem: IdsToastMessage,
@@ -17,7 +15,7 @@ interface IdsToastMessageRemoveEventDetail extends Event {
   }
 }
 
-export default class IdsToastMessage extends Base {
+export default class IdsToastMessage extends HTMLElement {
   /** Set as invisible on the screen, but still read out loud by screen readers */
   audible: boolean | string;
 

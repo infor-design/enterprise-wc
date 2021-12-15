@@ -1,6 +1,4 @@
-import Base from './ids-tree-node-base';
-
-export default class IdsTreeNode extends Base {
+export default class IdsTreeNode extends HTMLElement {
   /** Sets the tree group collapse icon */
   collapseIcon: string | null;
 

@@ -1,6 +1,4 @@
-import Base from './ids-exandable-area-base';
-
-export default class extends Base {
+export default class extends HTMLElement {
   /** Set the expanded state */
   expanded: string;
 

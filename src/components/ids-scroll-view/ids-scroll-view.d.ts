@@ -1,6 +1,4 @@
-import Base from './ids-scroll-view-base';
-
-export default class IdsScrollView extends Base {
+export default class IdsScrollView extends HTMLElement {
   /** Set the theme mode */
   mode: 'light' | 'dark' | 'contrast' | string;
 

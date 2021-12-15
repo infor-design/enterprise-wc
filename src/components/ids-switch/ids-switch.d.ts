@@ -1,6 +1,4 @@
-import Base from './ids-switch-base';
-
-export default class IdsSwitch extends Base {
+export default class IdsSwitch extends HTMLElement {
   /** Sets the checked state to true or false */
   checked: boolean;
 

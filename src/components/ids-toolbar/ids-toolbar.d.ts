@@ -1,9 +1,7 @@
-import Base from './ids-toolbar-base';
-
 import IdsToolbarSection from './ids-toolbar-section';
 import IdsToolbarMoreActions from './ids-toolbar-more-actions';
 
-export default class IdsToolbar extends Base {
+export default class IdsToolbar extends HTMLElement {
   /** Provides a list of all available toolbar items */
   readonly items: Array<HTMLElement>;
 

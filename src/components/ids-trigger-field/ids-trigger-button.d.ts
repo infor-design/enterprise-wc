@@ -1,6 +1,4 @@
-import Base from './ids-trigger-button-base';
-
-export default class IdsTriggerButton extends Base {
+export default class IdsTriggerButton extends HTMLElement {
   /* Contains space-delimeted CSS classes (or an array of CSS classes) that will be passed to the Shadow Root button */
   cssClass?: Array<string> | string | null;
 

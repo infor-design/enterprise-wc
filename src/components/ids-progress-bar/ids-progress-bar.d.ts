@@ -1,12 +1,10 @@
-import Base from './ids-progress-bar-base';
-
 interface IdsProgressEventDetail extends Event {
   detail: {
     elem: IdsProgressBar
   }
 }
 
-export default class IdsProgressBar extends Base {
+export default class IdsProgressBar extends HTMLElement {
   /** Sets to disabled * */
   disabled: boolean;
 

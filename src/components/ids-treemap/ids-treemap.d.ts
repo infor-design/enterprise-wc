@@ -1,6 +1,4 @@
-import Base from './ids-treemap-base';
-
-export default class IdsTreeMap extends Base {
+export default class IdsTreeMap extends HTMLElement {
   /** Sets the data object of the treemap */
   data?: object | [{ value: 1 }, { value: 2 }];
 

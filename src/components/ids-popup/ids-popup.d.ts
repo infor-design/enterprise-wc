@@ -1,6 +1,4 @@
-import Base from './ids-popup-base';
-
-export default class IdsPopup extends Base {
+export default class IdsPopup extends HTMLElement {
   /** Sets the element to align with via a css selector */
   alignTarget: string | HTMLElement;
 

@@ -1,6 +1,4 @@
-import Base from './ids-pager-input-base';
-
-export default class IdsPagerInput extends Base {
+export default class IdsPagerInput extends HTMLElement {
   /** Whether or not the input has an overriding disable state applied */
   disabled: boolean;
 

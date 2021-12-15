@@ -1,6 +1,4 @@
-import Base from './ids-about-base';
-
-export default class IdsAbout extends Base {
+export default class IdsAbout extends HTMLElement {
   /** Sets semantic product version number */
   productVersion?: string;
 

@@ -1,6 +1,4 @@
-import Base from './ids-radio-group-base';
-
-export default class IdsRadioGroup extends Base {
+export default class IdsRadioGroup extends HTMLElement {
   /** Sets the dirty tracking feature on to indicate a changed field */
   dirtyTracker: boolean;
 

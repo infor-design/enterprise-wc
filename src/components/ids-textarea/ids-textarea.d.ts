@@ -1,12 +1,10 @@
-import Base from './ids-textarea-base';
-
 interface IdsTextareaEventDetail extends Event {
   detail: {
     elem: IdsTextarea
   }
 }
 
-export default class IdsTextarea extends Base {
+export default class IdsTextarea extends HTMLElement {
   /** Will automatically expand the textarea to fit the contents when typing */
   autogrow: boolean;
 

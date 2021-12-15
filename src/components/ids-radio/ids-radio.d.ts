@@ -1,6 +1,4 @@
-import Base from './ids-radio-base';
-
-export default class IdsRadio extends Base {
+export default class IdsRadio extends HTMLElement {
   /** Sets the checked state of the radio */
   checked: boolean;
 

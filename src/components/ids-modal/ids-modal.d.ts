@@ -1,4 +1,3 @@
-import Base from './ids-modal-base';
 import IdsOverlay from './ids-overlay';
 import IdsPopup from '../ids-popup/ids-popup';
 import IdsModalButton from '../ids-modal-button/ids-modal-button';
@@ -41,7 +40,7 @@ export { IdsOverlay };
 /**
  * @type {any}
  */
-export default class IdsModal extends Base {
+export default class IdsModal extends HTMLElement {
   /** Allows for the definition of an external overlay, or for the use of a generated, internal overlay */
   overlay?: IdsOverlay | null;
 

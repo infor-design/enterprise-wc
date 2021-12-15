@@ -1,6 +1,4 @@
-import Base from './ids-checkbox-base';
-
-export default class IdsCheckbox extends Base {
+export default class IdsCheckbox extends HTMLElement {
   /** Sets the checked state to true or false */
   checked: boolean;
 

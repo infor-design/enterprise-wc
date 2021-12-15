@@ -1,5 +1,3 @@
-import Base from './ids-tooltip-base';
-
 interface IdsTooltipEventDetail extends Event {
   detail: {
     elem: IdsTooltip
@@ -13,7 +11,7 @@ interface IdsTooltipEventVetoable extends Event {
   }
 }
 
-export default class IdsTooltip extends Base {
+export default class IdsTooltip extends HTMLElement {
   /** An async function that fires as the tooltip is showing allowing you to set contents. */
   beforeShow(): Promise<string>;
 

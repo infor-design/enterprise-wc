@@ -1,6 +1,4 @@
-import Base from './ids-color-base';
-
-export default class IdsColor extends Base {
+export default class IdsColor extends HTMLElement {
   /** Set the hex color */
   hex: string;
 }

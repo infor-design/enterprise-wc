@@ -1,7 +1,4 @@
-import Base from './ids-breadcrumb-base';
-
-/** A segment of text with standardized settings, theming and fonts */
-export default class IdsBreadcrumb extends Base {
+export default class IdsBreadcrumb extends HTMLElement {
   /** Set the theme mode */
   mode: 'light' | 'dark' | 'contrast' | string;
 

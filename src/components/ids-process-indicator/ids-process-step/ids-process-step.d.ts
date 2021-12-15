@@ -1,6 +1,4 @@
-import Base from './ids-process-step-base';
-
-export default class IdsProcessStep extends Base {
+export default class IdsProcessStep extends HTMLElement {
   /** Sets the label of process step */
   label?: string;
 

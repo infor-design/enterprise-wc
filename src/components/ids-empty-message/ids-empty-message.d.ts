@@ -1,6 +1,4 @@
-import Base from './ids-empty-message-base';
-
-export default class IdsEmptyMessage extends Base {
+export default class IdsEmptyMessage extends HTMLElement {
   /* id of the icon to be displayed */
   icon: string;
 }

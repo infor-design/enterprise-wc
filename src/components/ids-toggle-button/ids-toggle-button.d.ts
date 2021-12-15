@@ -1,6 +1,4 @@
-import Base from './ids-toggle-button-base';
-
-export default class IdsToggleButton extends Base {
+export default class IdsToggleButton extends HTMLElement {
   /* Contains space-delimeted CSS classes (or an array of CSS classes) that will be passed to the Shadow Root button */
   cssClass?: Array<string> | string | null;
 

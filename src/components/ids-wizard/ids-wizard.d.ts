@@ -1,6 +1,4 @@
-import Base from './ids-wizard-base';
-
-export default class IdsWizard extends Base {
+export default class IdsWizard extends HTMLElement {
   /**
    * Determines whether all wizard steps are clickable by default
    */

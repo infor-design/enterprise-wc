@@ -1,6 +1,4 @@
-import Base from './ids-tab-content-base';
-
-export default class IdsTabContent extends Base {
+export default class IdsTabContent extends HTMLElement {
   /** Value representing the associated tab */
   value?: string;
 

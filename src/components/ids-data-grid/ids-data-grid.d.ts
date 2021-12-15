@@ -1,5 +1,3 @@
-import Base from './ids-data-grid-base';
-
 interface sort extends Event {
   detail: {
     elem: IdsDataGrid,
@@ -53,7 +51,7 @@ interface activationchanged extends Event {
   }
 }
 
-export default class IdsDataGrid extends Base {
+export default class IdsDataGrid extends HTMLElement {
   /** Set the data array of the datagrid */
   data: Array<unknown>;
 

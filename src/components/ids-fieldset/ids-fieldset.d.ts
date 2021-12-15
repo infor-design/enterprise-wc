@@ -1,6 +1,4 @@
-import Base from './ids-fieldset-base';
-
-export default class IdsFieldset extends Base {
+export default class IdsFieldset extends HTMLElement {
   /** Set the theme mode */
   mode: 'light' | 'dark' | 'contrast' | string;
 

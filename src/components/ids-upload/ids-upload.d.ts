@@ -1,12 +1,10 @@
-import Base from './ids-upload-base';
-
 interface IdsUploadEventDetail extends Event {
   detail: {
     elem: IdsUpload
   }
 }
 
-export default class IdsUpload extends Base {
+export default class IdsUpload extends HTMLElement {
   /** Sets limit the file types to be uploaded */
   accept: string;
 

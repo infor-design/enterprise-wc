@@ -1,6 +1,4 @@
-import Base from './ids-step-chart-base';
-
-export default class IdsStepChart extends Base {
+export default class IdsStepChart extends HTMLElement {
   /**
    * sets the color of completed steps using
    * predefined ids color variables

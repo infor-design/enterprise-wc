@@ -1,5 +1,3 @@
-import Base from './ids-tree-node';
-
 /** Type for tree node */
 type IdsTreeTypeNode = {
   /** Node element */
@@ -49,7 +47,7 @@ interface IdsTreeEventDetail extends Event {
   }
 }
 
-export default class IdsTree extends Base {
+export default class IdsTree extends HTMLElement {
   /** Sets the tree group collapse icon */
   collapseIcon: string | null;
 

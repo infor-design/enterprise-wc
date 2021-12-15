@@ -1,6 +1,4 @@
-import Base from './ids-list-box-option-base';
-
-export default class IdsListBoxOption extends Base {
+export default class IdsListBoxOption extends HTMLElement {
   /** Sets the `id` attribute */
   id: string;
 

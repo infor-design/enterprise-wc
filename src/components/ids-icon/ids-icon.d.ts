@@ -1,6 +1,4 @@
-import Base from './ids-icon-base';
-
-export default class IdsIcon extends Base {
+export default class IdsIcon extends HTMLElement {
   /* position of notification badge */
   badgePosition?: 'base' | 'caution' | 'danger' | 'success' | 'warning';
 

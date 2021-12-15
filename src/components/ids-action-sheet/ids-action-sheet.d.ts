@@ -1,6 +1,4 @@
-import Base from './ids-action-sheet-base';
-
-export default class extends Base {
+export default class extends HTMLElement {
   /** True if the Action sheet should be displayed */
   visible: boolean;
 

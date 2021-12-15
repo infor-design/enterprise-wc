@@ -1,5 +1,3 @@
-import Base from './ids-menu-item-base';
-
 import IdsMenu from './ids-menu';
 import IdsMenuGroup from './ids-menu-group';
 import IdsIcon from '../ids-icon/ids-icon';
@@ -36,7 +34,7 @@ interface beforedeselected extends Event {
   }
 }
 
-export default class IdsMenuItem extends Base {
+export default class IdsMenuItem extends HTMLElement {
   /* Internal state object used for some attributes */
   readonly state: unknown;
 
