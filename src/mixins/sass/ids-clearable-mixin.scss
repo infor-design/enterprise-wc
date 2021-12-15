@@ -10,6 +10,8 @@
     ~ .btn-clear {
       @include outline-none();
 
+      color: inherit;
+
       position: absolute;
       right: 0;
       margin-top: -15px;
@@ -20,11 +22,13 @@
 
       [slot='icon'] {
         @include ml-0();
-        @include text-slate-60();
+        // @include text-slate-60();
+
+        color: inherit;
       }
 
       &:hover [slot='icon'] {
-        @include text-slate-100();
+        // @include text-slate-100();
       }
     }
 

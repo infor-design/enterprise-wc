@@ -76,7 +76,7 @@ export default class IdsSearchField extends Base {
           ${this.readonly && 'readonly'}
           no-margins
         >
-          <ids-icon class="search-icon" size="medium" icon="search"></ids-icon>
+          <ids-icon part="search-icon" class="search-icon" size="medium" icon="search"></ids-icon>
           <ids-input
             color-variant="${this.colorVariant}"
             ${!this.readonly && !this.disabled && 'clearable'}

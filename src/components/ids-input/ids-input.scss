@@ -103,17 +103,19 @@ $input-compact-height: $input-field-height-xs;
     @include p-8();
     @include rounded-default();
     @include text-16();
-    @include text-black();
     @include w-full();
     @include mb-16();
 
     appearance: none;
     border-collapse: separate;
     border-radius: 2px;
+    color: inherit;
     display: inline-block;
     height: $input-field-height-default;
     resize: none;
     text-align: left;
+
+    background-color: pink;
 
     &:hover {
       @include border-slate-90();

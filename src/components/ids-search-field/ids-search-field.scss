@@ -20,24 +20,78 @@ ids-input::part(container) {
     @include ml-8();
   }
 
+  // =============================
+  // Default Styles for color variants (Applicable to all themes)
+
   &.color-variant-alternate {
     ids-trigger-field::part(content) {
       @include border-none();
 
-      background-color: rgba(71 71 76 / 0.3);
-      border-bottom: 1px solid rgba(62 62 66 / 0.7);
-    }
-
-    ids-icon {
-      color: rgba(255 255 255 / 0.7);
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
     }
   }
 
   &.color-variant-app-menu {
-    /*
     ids-trigger-field::part(content) {
-
+      @include border-none();
+      @include rounded-md();
     }
-    */
   }
+
+  // =============================
+  // Theme Colors for color variants
+
+  // Light Mode
+  &[version='new'][mode='light'] {
+    &.color-variant-alternate {
+      ids-trigger-field::part(content) {
+        background-color: rgba(71 71 76 / 0.3);
+        border-bottom-color: rgba(62 62 66 / 0.7);
+      }
+
+      ids-icon {
+        color: rgba(255 255 255 / 0.7);
+
+        &:hover {
+          color: rgba(255 255 255 / 1);
+        }
+      }
+    }
+
+    &.color-variant-app-menu {
+      @include text-slate-20();
+
+      ids-trigger-field::part(content) {
+        @include bg-black();
+      }
+
+      ids-trigger-field::part(input) {
+        @include text-slate-20();
+      }
+
+      ids-trigger-button::part(clearable-button) {
+        @include text-slate-40();
+      }
+
+      ids-trigger-button::part(clearable-button):hover {
+        @include text-white();
+      }
+
+      ids-icon::part(search-icon) {
+        @include text-slate-20();
+      }
+
+      &:focus {
+        ids-icon::part(search-icon) {
+          @include text-white();
+        }
+      }
+    }
+  }
+
+  // Dark Mode
+
+  // High Contrast Mode
+
 }
