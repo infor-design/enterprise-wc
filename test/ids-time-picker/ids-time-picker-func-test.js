@@ -283,13 +283,13 @@ describe('IdsTimePicker Component', () => {
 
     timepicker.autoupdate = true;
     timepicker.replaceWith(timepicker);
-    timepicker.triggerEvent('change', dropdowns.hours, { detail: { value: '5' } });
+    timepicker.triggerEvent('change', timepicker.container, { detail: { elem: dropdowns.hours, value: '5' } });
     expect(timepicker.value).toBe('05:30');
 
-    timepicker.triggerEvent('change', dropdowns.hours, { detail: { value: '21' } });
+    timepicker.triggerEvent('change', timepicker.container, { detail: { elem: dropdowns.hours, value: '21' } });
     expect(timepicker.value).toBe('21:30');
 
-    timepicker.triggerEvent('change', dropdowns.hours, { detail: { value: '67' } });
+    timepicker.triggerEvent('change', timepicker.container, { detail: { elem: dropdowns.hours, value: '67' } });
     expect(timepicker.value).toBe('21:30');
   });
 
@@ -301,13 +301,13 @@ describe('IdsTimePicker Component', () => {
 
     timepicker.autoupdate = true;
     timepicker.replaceWith(timepicker);
-    timepicker.triggerEvent('change', dropdowns.minutes, { detail: { value: '5' } });
+    timepicker.triggerEvent('change', timepicker.container, { detail: { elem: dropdowns.minutes, value: '5' } });
     expect(timepicker.value).toBe('07:05');
 
-    timepicker.triggerEvent('change', dropdowns.minutes, { detail: { value: '21' } });
+    timepicker.triggerEvent('change', timepicker.container, { detail: { elem: dropdowns.minutes, value: '21' } });
     expect(timepicker.value).toBe('07:21');
 
-    timepicker.triggerEvent('change', dropdowns.minutes, { detail: { value: '67' } });
+    timepicker.triggerEvent('change', timepicker.container, { detail: { elem: dropdowns.minutes, value: '67' } });
     expect(timepicker.value).toBe('07:21');
   });
 
@@ -320,13 +320,13 @@ describe('IdsTimePicker Component', () => {
 
     timepicker.autoupdate = true;
     timepicker.replaceWith(timepicker);
-    timepicker.triggerEvent('change', dropdowns.seconds, { detail: { value: '5' } });
+    timepicker.triggerEvent('change', timepicker.container, { detail: { elem: dropdowns.seconds, value: '5' } });
     expect(timepicker.value).toBe('04:15:05');
 
-    timepicker.triggerEvent('change', dropdowns.seconds, { detail: { value: '21' } });
+    timepicker.triggerEvent('change', timepicker.container, { detail: { elem: dropdowns.seconds, value: '21' } });
     expect(timepicker.value).toBe('04:15:21');
 
-    timepicker.triggerEvent('change', dropdowns.seconds, { detail: { value: '67' } });
+    timepicker.triggerEvent('change', timepicker.container, { detail: { elem: dropdowns.seconds, value: '67' } });
     expect(timepicker.value).toBe('04:15:00');
   });
 
@@ -339,16 +339,16 @@ describe('IdsTimePicker Component', () => {
 
     timepicker.autoupdate = true;
     timepicker.replaceWith(timepicker);
-    timepicker.triggerEvent('change', dropdowns.period, { detail: { value: 'pm' } });
+    timepicker.triggerEvent('change', timepicker.container, { detail: { elem: dropdowns.period, value: 'pm' } });
     expect(timepicker.value).toBe('09:12 PM');
 
-    timepicker.triggerEvent('change', dropdowns.period, { detail: { value: 'am' } });
+    timepicker.triggerEvent('change', timepicker.container, { detail: { elem: dropdowns.period, value: 'am' } });
     expect(timepicker.value).toBe('09:12 AM');
 
-    timepicker.triggerEvent('change', dropdowns.period, { detail: { value: 'PM' } });
+    timepicker.triggerEvent('change', timepicker.container, { detail: { elem: dropdowns.period, value: 'PM' } });
     expect(timepicker.value).toBe('09:12 PM');
 
-    timepicker.triggerEvent('change', dropdowns.period, { detail: { value: 'AM' } });
+    timepicker.triggerEvent('change', timepicker.container, { detail: { elem: dropdowns.period, value: 'AM' } });
     expect(timepicker.value).toBe('09:12 AM');
   });
 
