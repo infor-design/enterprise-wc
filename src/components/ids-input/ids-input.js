@@ -107,11 +107,47 @@ export default class IdsInput extends Base {
    * @returns {string} The template
    */
   template() {
+    this.templateHostAttributes();
+    const {
+      containerClass,
+      inputClass,
+      inputState,
+      labelHtml,
+      placeholder,
+      type
+    } = this.templateVariables();
+
+    return (
+      `<div class="${containerClass}" part="container">
+        ${labelHtml}
+        <div class="field-container" part="field-container">
+          <input
+            part="input"
+            id="${this.id}-input"
+            ${type}${inputClass}${placeholder}${inputState}
+            ${this.getAttribute(attributes.LABEL_HIDDEN) && this.label ? `aria-label="${this.label}"` : ''}
+            ${this.hasAttribute(attributes.VALUE) ? ` value="${this.getAttribute(attributes.VALUE)}" ` : ''}
+            ></input>
+        </div>
+      </div>`
+    );
+  }
+
+  /**
+   * Uses current IdsInput state to set some attributes on its host element
+   * @returns {void}
+   */
+  templateHostAttributes() {
     if (!this.id) {
       this.setAttribute?.(attributes.ID, `ids-input-${++instanceCounter}`);
     }
+  }
 
-    // Input
+  /**
+   * Uses current IdsInput state to generate strings used in its template.
+   * @returns {object} containing template strings used for generating an IdsInput template
+   */
+  templateVariables() {
     const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
     let type = ` type="${this.type || TYPES.default}"`;
     let inputClass = `ids-input-field ${this.textAlign}`;
@@ -135,24 +171,14 @@ export default class IdsInput extends Base {
       </label>`
     );
 
-    return (
-      `<div class="${containerClass}" part="container">
-        ${labelHtml}
-        <div class="field-container" part="field-container">
-          <input
-            part="input"
-            id="${this.id}-input"
-            ${type}${inputClass}${placeholder}${inputState}
-            ${this.getAttribute(attributes.LABEL_HIDDEN) && this.label ? `aria-label="${this.label}"` : ''}
-            ${this.hasAttribute(attributes.VALUE) ? ` value="${this.getAttribute(attributes.VALUE)}" ` : ''}
-            ></input>
-            <div class="inline-indicators">
-              ${showHide}
-            </div>
-        </div>
-
-      </div>`
-    );
+    return {
+      containerClass,
+      inputClass,
+      inputState,
+      labelHtml,
+      placeholder,
+      type
+    };
   }
 
   set colorVariant(value) {

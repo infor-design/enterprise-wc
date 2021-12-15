@@ -64,15 +64,11 @@ export default class IdsTriggerField extends Base {
    */
   static get attributes() {
     return [
+      ...super.attributes,
       attributes.APPEARANCE,
-      attributes.DISABLED,
-      attributes.DISABLE_EVENTS,
-      attributes.LABEL,
-      attributes.NO_MARGINS,
-      attributes.READONLY,
-      attributes.SIZE,
-      attributes.TABBABLE,
       attributes.CSS_CLASS,
+      attributes.DISABLE_EVENTS,
+      attributes.TABBABLE
     ];
   }
 
