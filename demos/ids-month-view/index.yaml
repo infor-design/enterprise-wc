@@ -1,0 +1,9 @@
+---
+ component: Month View
+ link: ids-month-view
+ description: Displays weeks and days with navigation
+ category: Layouts
+ keywords: calendar, date, day, week, month, toolbar
+ examples:
+  - link: index.html
+    description: Past dates, no timeline, no today's day highlight

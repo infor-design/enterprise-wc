@@ -1,0 +1,335 @@
+@import '../../core/ids-base';
+
+$hour-row-height: 25px;
+
+:host {
+  @include h-full();
+
+  contain: content;
+}
+
+.ids-month-view {
+  @include flex();
+  @include border-solid();
+  @include border-1();
+  @include bg-white();
+  @include border-slate-20();
+
+  flex-direction: column;
+  overflow: auto;
+
+  // Make the component fit to the height of the viewport
+  // excluding component top offset
+  height: calc(100vh - 26px - var(--offset-top, 0px));
+
+  .week-view-header {
+    @include sticky();
+    @include border-slate-20();
+    @include bg-white();
+
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    left: 0;
+    top: 0;
+    z-index: 4;
+    height: 50px;
+    flex-shrink: 0;
+  }
+
+  .week-view-today-text {
+    @include text-azure-60();
+  }
+
+  .week-view-table-header {
+    th {
+      background-clip: padding-box;
+      border-top: 0;
+      height: 24px;
+      line-height: 24px;
+      text-align: left;
+      z-index: 3;
+    }
+
+    // Times on the right
+    .week-view-header-wrapper {
+      padding: 0 5px;
+      text-align: center;
+
+      .week-view-header-day-of-week {
+        line-height: $hour-row-height;
+      }
+
+      &.is-day-view .week-view-header-day-of-week.is-emphasis {
+        line-height: 40px;
+      }
+    }
+
+    // All day section
+    .week-view-all-day-wrapper {
+      @include relative();
+      @include box-border();
+      @include border-slate-20();
+
+      height: 44px;
+      text-transform: unset;
+      border-top-width: 1px;
+      border-top-style: solid;
+    }
+
+    th:nth-child(1) .week-view-all-day-wrapper {
+      border-top-color: transparent;
+      padding: 5px;
+    }
+  }
+
+  .week-view-table {
+    @include w-full();
+
+    border-collapse: separate;
+    border-spacing: 0;
+
+    .week-view-allday-row {
+      height: 40px;
+    }
+
+    .week-view-hour-row,
+    .week-view-half-hour-row {
+      height: $hour-row-height;
+    }
+
+    th,
+    td {
+      @include border-b-1();
+      @include p-0();
+      @include border-slate-20();
+
+      height: $hour-row-height;
+    }
+
+    // Legend Row with times
+    th:nth-child(1) {
+      width: 60px;
+    }
+
+    // First column padding
+    tr td:nth-child(1) {
+      .week-view-cell-wrapper {
+        padding: 0 5px;
+      }
+    }
+
+    // Alternate row style
+    tr:nth-child(odd) td {
+      @include border-b-1();
+
+      border-bottom-color: var(--ids-color-palette-slate-10);
+    }
+  }
+
+  .week-view-header-wrapper.is-today {
+    @include text-azure-60();
+
+    box-shadow: 0 4px 0 0 var(--ids-color-palette-azure-60);
+  }
+
+  // Header Section Container with All Day events
+  .week-view-container {
+    @include bg-white();
+
+    flex-shrink: 0;
+
+    th {
+      @include sticky();
+      @include bg-white();
+
+      top: 51px;
+      z-index: 3;
+    }
+  }
+
+  .week-view-cell-wrapper {
+    @include relative();
+    @include p-0();
+
+    height: $hour-row-height;
+    min-width: 50px;
+  }
+
+  // Moving time marker
+  .week-view-time-marker {
+    @include border-solid();
+    @include border-1();
+    @include block();
+    @include z-2();
+    @include relative();
+    @include box-border();
+    @include border-azure-60();
+
+    height: 1px;
+    margin-top: -2px;
+    top: var(--timeline-shift);
+  }
+
+  // Datepicker
+  .datepicker {
+    @include flex();
+    @include border-solid();
+    @include border-1();
+    @include border-transparent();
+    @include pl-8();
+    @include ml-4();
+
+    align-items: center;
+    outline: none;
+    outline-color: transparent;
+
+    &-text {
+      @include leading-none();
+      @include mr-2();
+    }
+
+    &-icon {
+      @include mb-2();
+    }
+
+    &:focus {
+      @include border-azure-60();
+
+      box-shadow: 0 0 4px 3px rgba(54 138 192 / 0.3);
+    }
+  }
+
+  // Theme mode
+  &[version='classic'][mode='dark'],
+  &[version='new'][mode='dark'] {
+    @include bg-slate-100();
+    @include border-slate-70();
+
+    .week-view-table {
+      th,
+      td {
+        @include border-slate-70();
+      }
+
+      tr:nth-child(odd) td {
+        border-bottom-color: var(--ids-color-palette-slate-70);
+      }
+    }
+
+    .week-view-header {
+      @include border-slate-70();
+      @include bg-slate-100();
+    }
+
+    .week-view-all-day-wrapper {
+      @include border-slate-70();
+    }
+
+    .week-view-container {
+      @include bg-slate-100();
+
+      th {
+        @include bg-slate-100();
+      }
+    }
+
+    .week-view-header-wrapper.is-today {
+      @include text-azure-60();
+
+      box-shadow: 0 4px 0 0 var(--ids-color-palette-azure-60);
+    }
+
+    .week-view-today-text {
+      @include text-azure-60();
+    }
+
+    .week-view-time-marker {
+      @include border-azure-60();
+    }
+
+    .datepicker:focus {
+      @include border-azure-60();
+
+      box-shadow: 0 0 4px 2px rgba(141 201 230 / 0.3);
+    }
+  }
+
+  &[version='classic'][mode='contrast'],
+  &[version='new'][mode='contrast'] {
+    @include bg-white();
+    @include border-slate-30();
+
+    .week-view-table {
+      th,
+      td {
+        @include border-slate-30();
+      }
+
+      tr:nth-child(odd) td {
+        border-bottom-color: var(--ids-color-palette-slate-30);
+      }
+    }
+
+    .week-view-header {
+      @include border-slate-30();
+      @include bg-white();
+    }
+
+    .week-view-all-day-wrapper {
+      @include border-slate-30();
+    }
+
+    .week-view-container {
+      @include bg-white();
+
+      th {
+        @include bg-white();
+      }
+    }
+
+    .week-view-header-wrapper.is-today {
+      @include text-azure-90();
+
+      box-shadow: 0 4px 0 0 var(--ids-color-palette-azure-90);
+    }
+
+    .week-view-today-text {
+      @include text-azure-90();
+    }
+
+    .week-view-time-marker {
+      @include border-azure-90();
+    }
+
+    .datepicker:focus {
+      @include border-azure-90();
+
+      box-shadow: 0 0 4px 2px rgba(41 41 41 / 0.3);
+    }
+  }
+
+  // Text direction
+  &[dir='rtl'] {
+    .week-view-all-day-wrapper {
+      text-align: right;
+    }
+
+    .week-view-table {
+      th:not(:first-child),
+      td:not(:first-child) {
+        border-right-width: 1px;
+        border-right-style: solid;
+      }
+    }
+  }
+
+  &:not([dir='rtl']) {
+    .week-view-table {
+      th:not(:last-child),
+      td:not(:last-child) {
+        border-right-width: 1px;
+        border-right-style: solid;
+      }
+    }
+  }
+}
