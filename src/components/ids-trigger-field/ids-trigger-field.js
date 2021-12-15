@@ -137,7 +137,7 @@ export default class IdsTriggerField extends Base {
     );
 
     return (
-      `<div class="${containerClass}" part="container">
+      `<div class="ids-trigger-field ${containerClass}" part="container">
         ${labelHtml}
         <div class="field-container" part="field-container">
           <slot name="trigger-start"></slot>
@@ -350,30 +350,6 @@ export default class IdsTriggerField extends Base {
         btn.removeAttribute(attributes.DISABLED);
       });
     }
-
-    /*
-    if (stringUtils.stringToBool(d)) {
-      this.setAttribute(attributes.DISABLED, d.toString());
-      this.setAttribute(attributes.TABBABLE, 'false');
-    }
-    if (stringToBool(d)) {
-      this.setAttribute(attributes.DISABLED, 'true');
-      this.removeAttribute(attributes.READONLY);
-      this.querySelector('ids-trigger-button')?.setAttribute(attributes.DISABLED, 'true');
-      this.querySelector('ids-trigger-button')?.removeAttribute(attributes.READONLY);
-      this.querySelector('ids-input').setAttribute(attributes.DISABLED, 'true');
-      this.querySelector('ids-input').removeAttribute(attributes.READONLY);
-      this.shadowRoot.querySelector('label ids-text')?.setAttribute(attributes.DISABLED, 'true');
-      this.shadowRoot.querySelector('.ids-trigger-field-content')?.removeAttribute(attributes.READONLY);
-      this.shadowRoot.querySelector('.ids-trigger-field-content')?.setAttribute(attributes.DISABLED, 'true');
-      return;
-    }
-    this.removeAttribute(attributes.DISABLED);
-    this.querySelector('ids-trigger-button')?.removeAttribute(attributes.DISABLED);
-    this.querySelector('ids-input').removeAttribute(attributes.DISABLED);
-    this.shadowRoot.querySelector('label ids-text')?.removeAttribute(attributes.DISABLED);
-    this.shadowRoot.querySelector('.ids-trigger-field-content')?.removeAttribute(attributes.DISABLED);
-    */
   }
 
   get disabled() {
@@ -387,7 +363,7 @@ export default class IdsTriggerField extends Base {
   set readonly(r) {
     super.readonly = r;
 
-    if (stringToBool(d)) {
+    if (stringToBool(r)) {
       this.buttons.forEach((btn) => {
         btn.setAttribute(attributes.READONLY, '');
         btn.removeAttribute(attributes.DISABLED);
@@ -397,18 +373,6 @@ export default class IdsTriggerField extends Base {
         btn.removeAttribute(attributes.READONLY);
       });
     }
-
-    /*
-    if (stringUtils.stringToBool(r)) {
-      this.setAttribute(attributes.READONLY, 'true');
-      this.querySelector('ids-trigger-button')?.setAttribute(attributes.READONLY, 'true');
-      this.shadowRoot.querySelector('.ids-trigger-field-content').setAttribute(attributes.READONLY, 'true');
-      return;
-    }
-    this.removeAttribute(attributes.READONLY);
-    this.querySelector('ids-trigger-button')?.removeAttribute(attributes.READONLY);
-    this.shadowRoot.querySelector('.ids-trigger-field-content').removeAttribute(attributes.READONLY);
-    */
   }
 
   get readonly() {

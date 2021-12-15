@@ -28,11 +28,16 @@
 
     &.has-clearable {
       @include pr-32();
+    }
+  }
+}
 
+.ids-trigger-field {
+  .ids-input-field {
+    &.has-clearable {
       &.has-triggerfield {
         padding-right: 55px;
       }
-
       &.has-triggerfield ~ .btn-clear {
         margin-top: 0;
         right: -8px;

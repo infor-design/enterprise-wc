@@ -55,11 +55,11 @@ $input-compact-height: $input-field-height-xs;
   }
 
   .field-container {
-    @include mb-1();
+    // @include mb-1();
   }
 
   .ids-input-field {
-    @include mb-2();
+    // @include mb-2();
     @include px-4();
     @include py-0();
     @include text-14();
@@ -71,79 +71,87 @@ $input-compact-height: $input-field-height-xs;
 .ids-input {
   @include block();
 
-  // alternate colors for header placement
-  &.color-variant-alternate {
-    .ids-input-field {
-      @include text-white();
-
-      &::placeholder {
-        color: rgba(255 255 255 / 0.7);
-      }
-    }
-  }
-
+  // Applied to the wrapper element that wraps the input and other interactable elements
   .field-container {
     @include m-0();
+    @include mb-16();
     @include p-0();
     @include relative();
 
-    align-items: center;
-    display: flex;
-    max-width: $input-size-default;
-  }
-
-  .ids-input-field {
-    @include antialiased();
     @include bg-white();
-    @include box-border();
     @include border-1();
     @include border-slate-40();
     @include border-solid();
-    @include font-sans();
-    @include p-8();
     @include rounded-default();
     @include text-16();
     @include w-full();
     @include mb-16();
 
-    appearance: none;
+    align-items: center;
     border-collapse: separate;
     border-radius: 2px;
     color: inherit;
-    display: inline-block;
-    height: $input-field-height-default;
     resize: none;
     text-align: left;
+    display: flex;
+    height: $input-field-height-default;
+    max-width: $input-size-default;
 
     &:hover {
       @include border-slate-90();
     }
 
-    &:focus,
-    &:focus[readonly] {
+    &:focus-within,
+    &:focus-within[readonly] {
       @include border-azure-60();
       @include shadow();
 
-      outline: none;
-      outline-color: transparent;
+      .ids-input-field {
+        outline: none;
+        outline-color: transparent;
+      }
     }
+  }
 
-    &[disabled] {
+  &.readonly {
+    .field-container {
+      @include bg-slate-20();
+      @include border-slate-40();
+      @include text-black();
+    }
+  }
+
+  &.disabled {
+    .field-container {
       @include border-slate-30();
       @include text-slate-30();
     }
+  }
 
+  // Applied to the shadow root's HTMLInputElement
+  .ids-input-field {
+    @include antialiased();
+    @include bg-transparent();
+    @include box-border();
+    @include border-none();
+    @include font-sans();
+    @include p-8();
+    @include text-16();
+    @include w-full();
+
+    appearance: none;
+    color: currentColor;
+    display: inline-block;
+    height: fit-content;
+    resize: none;
+    text-align: left;
+
+    /*
     &[readonly] {
-      @include bg-slate-20();
-      @include border-1();
-      @include border-solid();
-      @include border-slate-40();
-      @include rounded-default();
-      @include text-black();
-
       padding-bottom: 9px;
       padding-top: 9px;
     }
+    */
 
     &.bg-transparent {
       @include bg-transparent();
@@ -253,31 +261,33 @@ $input-compact-height: $input-field-height-xs;
   }
 
   // input sizes: [xs, sm, mm, md, lg, full]
+  // Subtracting 2 takes into account that the width includes the `.field-container` border on both sides.
   &.xs .field-container {
-    max-width: $input-size-xs;
+    max-width: $input-size-xs - 2;
   }
 
   &.sm .field-container {
-    max-width: $input-size-sm;
+    max-width: $input-size-sm - 2;
   }
 
   &.mm .field-container {
-    max-width: $input-size-mm;
+    max-width: $input-size-mm - 2;
   }
 
   &.md .field-container {
-    max-width: $input-size-md;
+    max-width: $input-size-md - 2;
   }
 
   &.lg .field-container {
-    max-width: $input-size-lg;
+    max-width: $input-size-lg - 2;
   }
 
   &.full .field-container {
-    max-width: $input-size-full;
+    max-width: $input-size-full - 2;
   }
 
   // input field-heights: [xs, sm, md, lg]
+  // Subtracting 2 takes into account that the width includes the `.field-container` border on both sides.
   &.field-height-xs {
     @include input-extra-small-height();
 
@@ -292,19 +302,15 @@ $input-compact-height: $input-field-height-xs;
   }
 
   &.field-height-sm .ids-input-field {
-    height: $input-field-height-sm;
+    height: $input-field-height-sm - 2;
   }
 
   &.field-height-md .ids-input-field {
-    height: $input-field-height-md;
-
-    &.has-triggerfield {
-      height: $input-field-height-md - 2;
-    }
+    height: $input-field-height-md - 2;
   }
 
   &.field-height-lg .ids-input-field {
-    height: $input-field-height-lg;
+    height: $input-field-height-lg - 2;
   }
 
   // input compact
@@ -333,6 +339,20 @@ $input-compact-height: $input-field-height-xs;
   .validation-message {
     margin-bottom: 12px;
     margin-top: -10px;
+  }
+
+  // ===========================================
+  // Color Variants
+
+  // alternate colors for header placement
+  &.color-variant-alternate {
+    .ids-input-field {
+      @include text-white();
+
+      &::placeholder {
+        color: rgba(255 255 255 / 0.7);
+      }
+    }
   }
 }
 

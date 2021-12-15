@@ -158,12 +158,16 @@ export default class IdsInput extends Base {
       showHide = `<ids-button text="${this.passwordVisible ? 'HIDE' : 'SHOW'}" id="show-hide-password" class="show-hide-password"></ids-button>`;
       type = `  type="${this.passwordVisible ? 'text' : this.type}"`;
     }
-    inputClass += stringToBool(this.triggerfield) ? ' has-triggerfield' : '';
+
     inputClass += stringToBool(this.bgTransparent) ? ' bg-transparent' : '';
+    inputClass += stringToBool(this.noMargins) ? ' noMargins' : '';
     inputClass += stringToBool(this.textEllipsis) ? ' text-ellipsis' : '';
+    inputClass += stringToBool(this.triggerfield) ? ' has-triggerfield' : '';
     inputClass = ` class="${inputClass}"`;
+
     let inputState = stringToBool(this.readonly) ? ' readonly' : '';
     inputState = stringToBool(this.disabled) ? ' disabled' : inputState;
+
     let containerClass = `ids-input${inputState} ${this.size} ${this.fieldHeight}`;
     containerClass += stringToBool(this.compact) ? ' compact' : '';
 

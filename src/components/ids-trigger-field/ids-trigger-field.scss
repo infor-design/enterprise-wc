@@ -1,6 +1,7 @@
 @import '../../core/ids-base';
 @import '../ids-input/ids-input';
 
+/*
 .ids-trigger-field {
   @include flex();
   @include mb-16();
@@ -133,20 +134,10 @@
     }
   }
 }
+*/
 
-// input sizes: [xs, sm, mm, md, lg, full]
-.ids-trigger-field.xs .ids-trigger-field-content {
-  max-width: $input-size-xs;
-}
 
-.ids-trigger-field.sm .ids-trigger-field-content {
-  max-width: $input-size-sm;
-}
-
-.ids-trigger-field.mm .ids-trigger-field-content {
-  max-width: $input-size-mm;
-}
-
+<<<<<<< HEAD
 .ids-trigger-field.md .ids-trigger-field-content {
   max-width: $input-size-md;
 }
@@ -178,7 +169,15 @@
 
 .ids-trigger-field.full .ids-trigger-field-content {
   max-width: $input-size-full;
+=======
+/*
+.ids-input.ids-trigger-field {
+  &.field-height-md .ids-input-field {
+    height: $input-field-height-md - 2;
+  }
+>>>>>>> 709ab5ec (replicate height/width of all fields on container)
 }
+*/
 
 .ids-trigger-field:focus-within,
 .ids-trigger-field.is-active {
