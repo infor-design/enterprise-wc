@@ -1,4 +1,4 @@
-import { IdsDataGrid } from '../../src/components/ids-data-grid/ids-data-grid';
+import IdsDataGrid from '../../src/components/ids-data-grid/ids-data-grid';
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector('#data-grid-1');

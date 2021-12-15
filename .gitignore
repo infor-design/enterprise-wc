@@ -8,7 +8,6 @@ test/**/diff
 tmp
 app
 .build-report
-build/
 
 # OS Setting Files
 .DS_Store

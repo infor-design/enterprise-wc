@@ -3,7 +3,6 @@ import { attributes } from '../../../core/ids-attributes';
 import Base from './ids-process-step-base';
 
 import styles from './ids-process-step.scss';
-import { IdsStringUtils } from '../../../utils/ids-string-utils';
 
 const statuses = ['cancelled', 'started', 'done'];
 const DEFAULT_LABEL = 'empty label';
