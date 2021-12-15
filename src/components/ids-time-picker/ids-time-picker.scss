@@ -24,8 +24,23 @@
     }
   }
 
-  .hidden {
-    display: none;
+  ids-dropdown {
+    &::part(trigger-field) {
+      @include inline-flex();
+      width: fit-content;
+    }
+  }
+
+  ids-list-box,
+  ids-list-box-option {
+    width: 100%;
+  }
+
+  ids-popup {
+    &::part(popup) {
+      margin: 0;
+      padding: 0;
+    }
   }
 
   #dropdowns {
@@ -36,9 +51,8 @@
     flex-direction: row;
   }
 
-  ids-popup::part(popup) {
-    margin: 0;
-    padding: 0;
+  .hidden {
+    display: none;
   }
 
   .separator {

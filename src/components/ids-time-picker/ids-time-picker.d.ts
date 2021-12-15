@@ -86,7 +86,7 @@ export default class IdsTimePicker extends IdsElement {
   /** Close the timepicker's popup window */
   toggleTimePopup(): void;
 
-  /** Set the input-field's timestring value. */
+  /** Calculate and set the input-field's timestring value. */
   setTimeOnField(timeunits: {
     hours?: string | number,
     minutes?: string | number,
