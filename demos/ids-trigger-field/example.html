@@ -9,8 +9,7 @@
     tabbable="false"
     label="Date Field"
   >
-    <ids-input></ids-input>
-    <ids-trigger-button>
+    <ids-trigger-button slot="trigger-end">
       <ids-text audible="true">Date Field trigger</ids-text>
       <ids-icon slot="icon" icon="schedule"></ids-icon>
     </ids-trigger-button>
@@ -19,11 +18,9 @@
   <ids-layout-grid-cell>
     <ids-trigger-field
       id="trigger-field-2"
+      label="Timepicker"
       size="md"
-      label="Timepicker">
-      <ids-input
-        type="text"
-      ></ids-input>
+      type="text">
       <ids-trigger-button>
         <ids-text audible="true">Timepicker trigger</ids-text>
         <ids-icon slot="icon" icon="clock"></ids-icon>
@@ -33,14 +30,12 @@
 
   <ids-layout-grid-cell>
     <ids-trigger-field
+      disable-native-events="true"
       id="trigger-field-3"
       label="Photos"
-      disable-native-events="true"
+      placeholder="Enter Album Name"
       validate="required">
-      <ids-input
-        placeholder="Enter Album Name">
-      </ids-input>
-      <ids-trigger-button>
+      <ids-trigger-button slot="trigger-end">
         <ids-text audible="true">Select Image</ids-text>
         <ids-icon slot="icon" icon="camera"></ids-icon>
       </ids-trigger-button>
@@ -51,12 +46,12 @@
 <ids-layout-grid cols="3" gap="md">
   <ids-layout-grid-cell>
     <ids-trigger-field
+      disabled
       id="trigger-field-4"
       size="md"
       label="Disabled Trigger Field"
-      disabled>
-      <ids-input disabled="true" value="Enter Album Name"></ids-input>
-      <ids-trigger-button disabled>
+      value="Enter Album Name">
+      <ids-trigger-button slot="trigger-end" disabled>
         <ids-text audible="true">Select Image</ids-text>
         <ids-icon slot="icon" icon="camera"></ids-icon>
       </ids-trigger-button>
@@ -66,17 +61,15 @@
   <ids-layout-grid-cell>
     <ids-trigger-field
       id="trigger-field-5"
-      size="md"
-      label="Two Trigger Buttons">
-      <ids-trigger-button>
+      label="Two Trigger Buttons"
+      label-hidden
+      placeholder="Enter Product"
+      size="md">
+      <ids-trigger-button slot="trigger-start">
         <ids-text audible="true">Products trigger</ids-text>
         <ids-icon slot="icon" icon="caret-down"></ids-icon>
       </ids-trigger-button>
-      <ids-input
-        placeholder="Enter Product"
-        label-hidden>
-      </ids-input>
-      <ids-trigger-button>
+      <ids-trigger-button slot="trigger-end">
         <ids-text audible="true">Products trigger</ids-text>
         <ids-icon slot="icon" icon="caret-down"></ids-icon>
       </ids-trigger-button>
@@ -86,17 +79,12 @@
   <ids-layout-grid-cell>
     <ids-trigger-field
       id="trigger-field-6"
+      placeholder="Type an input..."
       size="md"
       label="Read-only Trigger Field"
-      readonly
-      >
-      <ids-input
-        placeholder="Type an input..."
-        label-hidden
-        readonly
-      >
-      </ids-input>
-      <ids-trigger-button>
+      label-hidden
+      readonly>
+      <ids-trigger-button slot="trigger-end">
         <ids-text audible="true">Read Only Trigger Field</ids-text>
         <ids-icon slot="icon" icon="rename"></ids-icon>
       </ids-trigger-button>

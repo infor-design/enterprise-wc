@@ -114,6 +114,7 @@ export default class IdsInput extends Base {
       inputState,
       labelHtml,
       placeholder,
+      showHide,
       type
     } = this.templateVariables();
 
@@ -128,6 +129,7 @@ export default class IdsInput extends Base {
             ${this.getAttribute(attributes.LABEL_HIDDEN) && this.label ? `aria-label="${this.label}"` : ''}
             ${this.hasAttribute(attributes.VALUE) ? ` value="${this.getAttribute(attributes.VALUE)}" ` : ''}
             ></input>
+          ${showHide}
         </div>
       </div>`
     );
@@ -177,6 +179,7 @@ export default class IdsInput extends Base {
       inputState,
       labelHtml,
       placeholder,
+      showHide,
       type
     };
   }

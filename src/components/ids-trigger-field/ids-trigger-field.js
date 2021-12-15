@@ -88,21 +88,10 @@ export default class IdsTriggerField extends Base {
       hidden: this.label.length ? 'hidden' : '',
     };
 
-    const label = `
-      <label
-        class="ids-label-text ${classes.hidden}"
-        for="${this.id}-input"
-        slot="ids-trigger-field-label"
-        part="label"
-        ${attrs.readonly}
-        ${attrs.disabled}
-        ${attrs.required}
-      >
-        <ids-text label ${attrs.disabled}>
-          ${this.label}
-        </ids-text>
-      </label>
-    `;
+    /*
+    const disabledAttribHtml = this.hasAttribute(attributes.DISABLED)
+      ? ' disabled'
+      : '';
 
     return `
       <div
@@ -121,6 +110,48 @@ export default class IdsTriggerField extends Base {
         </div>
       </div>
     `;
+    */
+
+    this.templateHostAttributes();
+    const {
+      containerClass,
+      inputClass,
+      inputState,
+      placeholder,
+      type
+    } = this.templateVariables();
+
+    const labelHtml = !this.label || this.getAttribute(attributes.LABEL_HIDDEN) ? '' : (`<label
+        class="ids-label-text ${classes.hidden}"
+        for="${this.id}-input"
+        slot="ids-trigger-field-label"
+        part="label"
+        ${attrs.readonly}
+        ${attrs.disabled}
+        ${attrs.required}
+      >
+        <ids-text label ${attrs.disabled} color-unset>
+          ${this.label}
+        </ids-text>
+      </label>`
+    );
+
+    return (
+      `<div class="${containerClass}" part="container">
+        ${labelHtml}
+        <div class="field-container" part="field-container">
+          <slot name="trigger-start"></slot>
+          <input
+            part="input"
+            id="${this.id}-input"
+            ${type}${inputClass}${placeholder}${inputState}
+            ${this.getAttribute(attributes.LABEL_HIDDEN) && this.label ? `aria-label="${this.label}"` : ''}
+            ${this.hasAttribute(attributes.VALUE) ? ` value="${this.getAttribute(attributes.VALUE)}" ` : ''}
+            ></input>
+          <slot name="trigger-end"></slot>
+        </div>
+      </div>`
+    );
   }
 
   /**
@@ -189,6 +220,14 @@ export default class IdsTriggerField extends Base {
         this.setInputObserver();
       });
     }
+  }
+
+  /**
+   * @readonly
+   * @returns {Array<HTMLElement>} containing references to slotted IdsTriggerButtons on this component
+   */
+  get buttons() {
+    return [...this.querySelectorAll('ids-trigger-button')];
   }
 
   /**
@@ -299,7 +338,21 @@ export default class IdsTriggerField extends Base {
    * @param {string} d string value from the disabled attribute
    */
   set disabled(d) {
+    super.disabled = d;
+
     if (stringToBool(d)) {
+      this.buttons.forEach((btn) => {
+        btn.setAttribute(attributes.DISABLED, '');
+        btn.removeAttribute(attributes.READONLY);
+      });
+    } else {
+      this.buttons.forEach((btn) => {
+        btn.removeAttribute(attributes.DISABLED);
+      });
+    }
+
+    /*
+    if (stringUtils.stringToBool(d)) {
       this.setAttribute(attributes.DISABLED, d.toString());
       this.setAttribute(attributes.TABBABLE, 'false');
     }
@@ -320,10 +373,11 @@ export default class IdsTriggerField extends Base {
     this.querySelector('ids-input').removeAttribute(attributes.DISABLED);
     this.shadowRoot.querySelector('label ids-text')?.removeAttribute(attributes.DISABLED);
     this.shadowRoot.querySelector('.ids-trigger-field-content')?.removeAttribute(attributes.DISABLED);
+    */
   }
 
   get disabled() {
-    return stringToBool(this.getAttribute(attributes.DISABLED));
+    return super.disabled;
   }
 
   /**
@@ -331,7 +385,21 @@ export default class IdsTriggerField extends Base {
    * @param {string} r string value from the read only attribute
    */
   set readonly(r) {
-    if (stringToBool(r)) {
+    super.readonly = r;
+
+    if (stringToBool(d)) {
+      this.buttons.forEach((btn) => {
+        btn.setAttribute(attributes.READONLY, '');
+        btn.removeAttribute(attributes.DISABLED);
+      });
+    } else {
+      this.buttons.forEach((btn) => {
+        btn.removeAttribute(attributes.READONLY);
+      });
+    }
+
+    /*
+    if (stringUtils.stringToBool(r)) {
       this.setAttribute(attributes.READONLY, 'true');
       this.querySelector('ids-trigger-button')?.setAttribute(attributes.READONLY, 'true');
       this.shadowRoot.querySelector('.ids-trigger-field-content').setAttribute(attributes.READONLY, 'true');
@@ -340,10 +408,11 @@ export default class IdsTriggerField extends Base {
     this.removeAttribute(attributes.READONLY);
     this.querySelector('ids-trigger-button')?.removeAttribute(attributes.READONLY);
     this.shadowRoot.querySelector('.ids-trigger-field-content').removeAttribute(attributes.READONLY);
+    */
   }
 
   get readonly() {
-    return stringToBool(this.getAttribute('readonly'));
+    return super.readonly;
   }
 
   /**
