@@ -27,6 +27,7 @@
   ids-dropdown {
     &::part(trigger-field) {
       @include inline-flex();
+
       width: fit-content;
     }
   }
