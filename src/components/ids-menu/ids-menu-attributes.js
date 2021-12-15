@@ -1,7 +1,3 @@
-// Import Core
-import { attributes } from '../../core/ids-attributes';
-
-// Import Dependencies
 import { getClosestRootNode } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 // Menu Selection Types
@@ -23,19 +19,6 @@ const MENU_DEFAULTS = {
   tabIndex: 0,
   value: null,
 };
-
-// Definable attributes
-const MENU_ATTRIBUTES = [
-  attributes.DISABLED,
-  attributes.ICON,
-  attributes.LANGUAGE,
-  attributes.SELECTED,
-  attributes.SUBMENU,
-  attributes.TABINDEX,
-  attributes.VALUE,
-  attributes.MODE,
-  attributes.VERSION
-];
 
 /**
  * Determines if a menu item's stored value can safely be described by its attribute inside the DOM.
@@ -90,5 +73,5 @@ function isUsableItem(item, idsMenu) {
 }
 
 export {
-  MENU_GROUP_SELECT_TYPES, MENU_ITEM_SIZE, MENU_DEFAULTS, MENU_ATTRIBUTES, safeForAttribute, isValidGroup, isUsableItem
+  MENU_GROUP_SELECT_TYPES, MENU_ITEM_SIZE, MENU_DEFAULTS, safeForAttribute, isValidGroup, isUsableItem
 };

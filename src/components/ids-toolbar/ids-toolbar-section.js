@@ -1,11 +1,13 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss, appendIds } from '../../core/ids-decorators';
-import styles from './ids-toolbar-section.scss';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import Base from './ids-toolbar-section-base';
+import styles from './ids-toolbar-section.scss';
 
 const TOOLBAR_SECTION_ATTRIBUTES = [
-  'align',
-  'toolbar-type',
+  attributes.ALIGN,
+  attributes.FAVOR,
+  attributes.TOOLBAR_TYPE,
   attributes.TYPE
 ];
 
@@ -102,7 +104,6 @@ export default class IdsToolbarSection extends Base {
   }
 
   connectedCallback() {
-    setCssClassFromGroup(`align-${this.align}`, this.container, SECTION_ALIGNS);
     setCssClassFromGroup(this.type, this.container, SECTION_TYPES);
     setCssClassFromGroup(this.toolbarType, this.container, TOOLBAR_TYPES);
     super.connectedCallback();
@@ -144,6 +145,14 @@ export default class IdsToolbarSection extends Base {
   }
 
   /**
+   * @readonly
+   * @returns {HTMLElement} a reference to this section's toolbar parent node
+   */
+  get toolbar() {
+    return this.parentElement;
+  }
+
+  /**
    * @param {string} val the alignment type to set
    */
   set align(val) {
@@ -154,7 +163,6 @@ export default class IdsToolbarSection extends Base {
     } else {
       this.setAttribute('align', val);
     }
-    setCssClassFromGroup(trueVal, this.container, SECTION_ALIGNS);
   }
 
   /**
@@ -162,6 +170,29 @@ export default class IdsToolbarSection extends Base {
    */
   get align() {
     return this.getAttribute('align') || 'start';
+  }
+
+  /**
+   * @param {boolean|string} val true if this toolbar section should be marked "favor"
+   * (will try not to be collapsed/shrunk if the parent toolbar size shrinks)
+   */
+  set favor(val) {
+    const newValue = stringToBool(val);
+    if (newValue) {
+      this.setAttribute(attributes.FAVOR, '');
+      this.container.classList.add(attributes.FAVOR);
+    } else {
+      this.removeAttribute(attributes.FAVOR);
+      this.container.classList.remove(attributes.FAVOR);
+    }
+  }
+
+  /**
+   * @returns {boolean} true if this toolbar section is marked "favor"
+   * (will try not to be collapsed/shrunk if the parent toolbar size shrinks)
+   */
+  get favor() {
+    return this.hasAttribute(attributes.FAVOR);
   }
 
   /**
@@ -174,7 +205,7 @@ export default class IdsToolbarSection extends Base {
     } else {
       trueVal = `${val}`;
     }
-    this.setAttribute('type', trueVal);
+    this.setAttribute(attributes.TYPE, trueVal);
     setCssClassFromGroup(trueVal, this.container, SECTION_TYPES);
   }
 
@@ -182,19 +213,18 @@ export default class IdsToolbarSection extends Base {
    * @returns {string} the type of section
    */
   get type() {
-    return this.getAttribute('type') || 'static';
+    return this.getAttribute(attributes.TYPE) || 'static';
   }
 
   /**
    * @param {string} value the type of toolbar
    */
   set toolbarType(value) {
-    const attr = 'toolbar-type';
     if (TOOLBAR_TYPES.includes(value)) {
-      this.setAttribute(attr, value);
+      this.setAttribute(attributes.TOOLBAR_TYPE, value);
       this.container.classList.add(value);
     } else {
-      this.removeAttribute(attr);
+      this.removeAttribute(attributes.TOOLBAR_TYPE);
       this.container.classList.remove(TOOLBAR_TYPES[0]);
     }
   }
@@ -203,7 +233,7 @@ export default class IdsToolbarSection extends Base {
    * @returns {string} the type of toolbar
    */
   get toolbarType() {
-    return this.getAttribute('toolbar-type');
+    return this.getAttribute(attributes.TOOLBAR_TYPE);
   }
 }
 

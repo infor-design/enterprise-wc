@@ -121,14 +121,10 @@ export default class IdsTab extends Base {
   }
 
   #attachEventHandlers() {
-    this.onEvent('click', this, () => {
+    this.onEvent('focus', this, () => {
       if (!this.selected) {
         this.selected = true;
       }
-      this.focus();
-    });
-
-    this.onEvent('focus', this, () => {
       this.focus();
     });
   }

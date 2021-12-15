@@ -46,8 +46,9 @@ export default class IdsPopupMenu extends Base {
 
     // If this Popupmenu is a submenu, and no target is pre-defined,
     // align the menu against the parent menu item.
-    // @TODO change this logic if Popup accepts HTMLElement
     if (this.parentMenuItem && !this.target) {
+      this.popupDelay = 200;
+      this.trigger = 'hover';
       this.target = this.parentMenuItem;
       this.popup.align = 'right, top';
       this.popup.alignEdge = 'right';
@@ -64,6 +65,11 @@ export default class IdsPopupMenu extends Base {
   }
 
   /**
+   * @returns {Array<string>} Drawer vetoable events
+   */
+  vetoableEventTypes = ['beforeshow'];
+
+  /**
    * Sets up event handlers used in this menu.
    * @returns {void}
    */
@@ -73,17 +79,32 @@ export default class IdsPopupMenu extends Base {
     // Hide the menu when an item is selected
     // (only if `keep-open` attribute is not present)
     this.onEvent('selected', this, (e) => {
-      const item = e.detail.elem;
-      if (!item?.group?.keepOpen) {
-        this.hide();
+      if (this.visible) {
+        const item = e.detail.elem;
+        if (!item?.group?.keepOpen) {
+          this.hideAndFocus();
+        }
       }
     });
 
-    // When the underlying Popup triggers it's "show" event,
-    // focus on the derived focusTarget.
-    this.onEvent('show', this.container, () => {
-      window.requestAnimationFrame(() => {
+    // When the underlying Popup triggers its "show" event,
+    // focus on the derived focusTarget, and pass the event to the Host element.
+    this.onEvent('show', this.container, (e) => {
+      requestAnimationFrame(() => {
         this.focusTarget?.focus();
+        if (!this.parentMenuItem) {
+          this.triggerEvent('show', this, e);
+        }
+      });
+    });
+
+    // When the underlying Popup triggers its "hide" event,
+    // pass the event to the Host element.
+    this.onEvent('hide', this.container, (e) => {
+      requestAnimationFrame(() => {
+        if (!this.parentMenuItem) {
+          this.triggerEvent('hide', this, e);
+        }
       });
     });
 
@@ -127,12 +148,9 @@ export default class IdsPopupMenu extends Base {
         }
         e.preventDefault();
         e.stopPropagation();
-        this.hide();
 
         // Since Escape cancels without selection, re-focus the button
-        if (this.target) {
-          this.target.focus();
-        }
+        this.hideAndFocus();
       });
     }
   }
@@ -150,6 +168,8 @@ export default class IdsPopupMenu extends Base {
    * @returns {void}
    */
   hide() {
+    if (!this.popup.visible) return;
+
     this.hidden = true;
     this.popup.querySelector('nav')?.removeAttribute('role');
     this.lastHovered = undefined;
@@ -164,20 +184,10 @@ export default class IdsPopupMenu extends Base {
    * @returns {void}
    */
   show() {
+    if (this.popup.visible) return;
+
     // Trigger a veto-able `beforeshow` event.
-    let canShow = true;
-    const beforeShowResponse = (veto) => {
-      canShow = !!veto;
-    };
-
-    this.triggerEvent('beforeshow', this, {
-      detail: {
-        elem: this,
-        response: beforeShowResponse
-      }
-    });
-
-    if (!canShow) {
+    if (!this.triggerVetoableEvent('beforeshow')) {
       return;
     }
 
@@ -192,6 +202,18 @@ export default class IdsPopupMenu extends Base {
     this.popup.place();
 
     this.addOpenEvents();
+  }
+
+  /**
+   * Shows the Popupmenu if allowed
+   * @returns {void}
+   */
+  showIfAble() {
+    if (!this.target) {
+      this.show();
+    } else if (!this.target.disabled && !this.target.hidden) {
+      this.show();
+    }
   }
 
   /**
@@ -217,6 +239,17 @@ export default class IdsPopupMenu extends Base {
   }
 
   /**
+   * Hides the popup menu and focuses a target element, if applicable
+   * @returns {void}
+   */
+  hideAndFocus() {
+    this.hide();
+    if (this.target) {
+      this.target.focus();
+    }
+  }
+
+  /**
    * Inherited from the Popup Open Events Mixin.
    * Runs when a click event is propagated to the window.
    * @returns {void}
@@ -229,18 +262,24 @@ export default class IdsPopupMenu extends Base {
    * Inherited from the Popup Interactions Mixin.
    * Runs when a Popup Menu has a triggering element, and that element is clicked.
    * @param {MouseEvent} e the original mouse event
-   * @returns {void}
+   * @returns {boolean} true if the click is allowed to propagate
    */
   onTriggerClick(e) {
     if (e.currentTarget !== window) {
       e.preventDefault();
     }
 
+    // Escape if not using a left-click
+    if (e.button !== 0) {
+      return true;
+    }
+
     if (this.hidden) {
-      this.show();
+      this.showIfAble();
     } else {
       this.hide();
     }
+    return true;
   }
 
   /**
@@ -253,7 +292,7 @@ export default class IdsPopupMenu extends Base {
     e.preventDefault();
     e.stopPropagation();
     this.popup.setPosition(e.pageX, e.pageY);
-    this.show();
+    this.showIfAble();
   }
 
   /**
@@ -263,7 +302,37 @@ export default class IdsPopupMenu extends Base {
    */
   onTriggerImmediate() {
     window.requestAnimationFrame(() => {
-      this.show();
+      this.showIfAble();
     });
+  }
+
+  /**
+   * Inherited from the Popup Interactions Mixin.
+   * Runs on a delayed `mouseenter` event and fires when that delay completes
+   * @returns {void}
+   */
+  onTriggerHover() {
+    if (!this.target.disabled && !this.target.hidden) {
+      this.showIfAble();
+    }
+  }
+
+  /**
+   * Inherited from the Popup Interactions Mixin.
+   * Runs after a `mouseleave` event occurs from this menu
+   * @returns {void}
+   */
+  onCancelTriggerHover() {
+    this.hide();
+  }
+
+  /**
+   * Use the same click event type
+   * @param {MouseEvent} e the original click event
+   * @returns {boolean} true if the event is allowed to propagate
+   */
+  onTriggerHoverClick(e) {
+    e.preventDefault();
+    return this.onTriggerClick(e);
   }
 }

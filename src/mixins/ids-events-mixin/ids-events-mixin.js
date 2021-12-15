@@ -161,9 +161,10 @@ const IdsEventsMixin = (superclass) => class extends superclass {
    * @param {string} [eventName] an optional event name to filter with
    */
   detachEventsByName = (eventName) => {
-    const isValidName = (typeof eventName === 'string') && eventName.length;
+    const isValidName = (typeof eventName === 'string') && !!eventName.length;
+    const hasEvent = this.handledEvents.has(eventName);
 
-    if (isValidName && this.handledEvents.has(eventName)) {
+    if (isValidName && hasEvent) {
       const event = this.handledEvents.get(eventName);
       this.offEvent(eventName, event.target, event.options);
     }

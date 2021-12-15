@@ -1,8 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { getClosestRootNode } from '../../utils/ids-dom-utils/ids-dom-utils';
-import { BUTTON_ATTRIBUTES } from '../ids-button/ids-button-attributes';
-import { MENU_BUTTON_ATTRIBUTES } from './ids-menu-button-attributes';
+import { attributes } from '../../core/ids-attributes';
 
 import Base from './ids-menu-button-base';
 import IdsIcon from '../ids-icon/ids-icon';
@@ -10,9 +9,6 @@ import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 
 import styles from '../ids-button/ids-button.scss';
 
-/**
- * IDS Menu Button Component
- */
 /**
  * IDS Menu Button Component
  * @type {IdsMenuButton}
@@ -29,7 +25,13 @@ export default class IdsMenuButton extends Base {
    * @returns {Array} containing configurable attributes on this component
    */
   static get attributes() {
-    return BUTTON_ATTRIBUTES.concat(MENU_BUTTON_ATTRIBUTES);
+    return [
+      ...super.attributes,
+      attributes.DROPDOWN_ICON,
+      attributes.FORMATTER_WIDTH,
+      attributes.ID,
+      attributes.MENU
+    ];
   }
 
   /**
@@ -183,14 +185,14 @@ export default class IdsMenuButton extends Base {
         val = value;
       }
     }
-    const FORMATTER_WIDTH = 'formatter-width';
+
     if (val) {
-      this.setAttribute(FORMATTER_WIDTH, value);
-      this.container.classList.add(FORMATTER_WIDTH);
+      this.setAttribute(attributes.FORMATTER_WIDTH, value);
+      this.container.classList.add(attributes.FORMATTER_WIDTH);
       this.container.style.minWidth = val;
     } else {
-      this.removeAttribute(FORMATTER_WIDTH);
-      this.container.classList.remove(FORMATTER_WIDTH);
+      this.removeAttribute(attributes.FORMATTER_WIDTH);
+      this.container.classList.remove(attributes.FORMATTER_WIDTH);
       this.container.style.minWidth = '';
     }
   }

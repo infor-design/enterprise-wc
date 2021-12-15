@@ -17,8 +17,26 @@ export default class IdsProcessIndicator extends Base {
     super();
   }
 
+  #activeStepLabel;
+
   connectedCallback() {
-    this.#calculateProgressLine();
+    // set the active step label for xs heading
+    requestAnimationFrame(() => {
+      let activeStepLabel = 'None';
+
+      const steps = this.querySelectorAll('ids-process-step');
+      if (steps.length > 1) {
+        let i = 0;
+        for (const step of steps) {
+          if (step.status === 'started') {
+            activeStepLabel = step.label === 'empty label' ? `${i + 1}` : step.label;
+            break;
+          }
+          i++;
+        }
+        this.container.querySelector('.xs-header .label').innerHTML = activeStepLabel;
+      }
+    });
   }
 
   static get attributes() {
@@ -27,44 +45,21 @@ export default class IdsProcessIndicator extends Base {
     ];
   }
 
-  #calculateProgressLine() {
-    window.requestAnimationFrame(() => {
-      const steps = this.querySelectorAll('ids-process-step');
-
-      if (steps.length >= 2) {
-        let lastStatusStep = 0;
-
-        steps.forEach((step, i) => {
-          const status = step.getAttribute('status');
-
-          if (status) {
-            if (i > lastStatusStep) {
-              lastStatusStep = i;
-            }
-          }
-        });
-
-        const n = lastStatusStep;
-        const percent = (100 / (steps.length - 1)) * n;
-        this.container.querySelector('.progress-line').style.setProperty('--percentEnd', `${percent}%`);
-      }
-    });
-  }
-
   /**
    * Create the Template for the contents
    * @returns {string} The template
    */
   template() {
     return `
-      <div class="ids-process-indicator">
-        <span class="line">
-          <span class="step-container">
-            <span class="progress-line"></span>
-            <slot></slot>
-          </span>
-          </span>
-      </div>
+    <div class="ids-process-indicator">
+      <span class="step-container">
+        <div class="xs-header">
+          <ids-text>Current: </ids-text>
+          <ids-text class="label" font-weight="bold"></ids-text>
+        </div>
+        <slot></slot>
+      </span>
+    </div>
     `;
   }
 }
