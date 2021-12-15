@@ -66,6 +66,7 @@ import IdsToggleButton from './ids-toggle-button/ids-toggle-button';
 import IdsToolbar from './ids-toolbar/ids-toolbar';
 import IdsTooltip from './ids-tooltip/ids-tooltip';
 import IdsTree from './ids-tree/ids-tree';
+import IdsTreeMap from './ids-treemap/ids-treemap';
 import IdsTriggerField from './ids-trigger-field/ids-trigger-field';
 import IdsUpload from './ids-upload/ids-upload';
 import IdsUploadAdvanced from './ids-upload-advanced/ids-upload-advanced';
