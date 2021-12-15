@@ -1,13 +1,8 @@
-@import '../../core/ids-base';
+@import './ids-toolbar-common';
 
 :host {
   @include block();
-
-  ::slotted(ids-toolbar-section[type='fluid']),
-  ::slotted(ids-toolbar-section[type='title']),
-  ::slotted(ids-toolbar-section[type='buttonset']) {
-    flex-grow: 1;
-  }
+  @include ids-toolbar-section-host-size-styles();
 
   &[disabled] {
     ::slotted(.ids-text) {

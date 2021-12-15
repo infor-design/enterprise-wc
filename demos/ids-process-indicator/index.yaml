@@ -7,3 +7,5 @@
  examples:
   - link: index.html
     description: Showing various process indicator examples
+  - link: empty-label.html
+    description: Showing various process indicator examples without labels

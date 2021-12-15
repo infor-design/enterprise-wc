@@ -152,6 +152,11 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
   connectedCallback() {
     this.attachEventHandlers();
     this.attachKeyboardListeners();
+
+    // After repaint
+    requestAnimationFrame(() => {
+      this.makeTabbable(this.detectTabbable());
+    });
   }
 
   /**
@@ -491,17 +496,44 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       }
 
       // Don't count disabled items as "taking a step"
-      if (!currentItem.disabled) {
+      if (!currentItem.disabled && !currentItem.hidden) {
+        this.makeTabbable(currentItem);
         steps -= 1;
       }
     }
 
     this.lastNavigated = currentItem;
-    if (!currentItem.disabled && doFocus) {
+    if (!currentItem.disabled && !currentItem.hidden && doFocus) {
       currentItem.focus();
     }
 
     return currentItem;
+  }
+
+  /**
+   * Gets the current item that should be used as the "tabbable" item
+   * (item that receives focus when the menu is "focused").
+   * @returns {HTMLElement | undefined} an element that currently has a usable tabIndex attribute
+   */
+  detectTabbable() {
+    let tabbableItem;
+    for (let i = 0; !tabbableItem && i < this.items.length; i++) {
+      if (this.items[i].tabIndex > -1) {
+        tabbableItem = this.items[i];
+      }
+    }
+    return tabbableItem;
+  }
+
+  /**
+   * @private
+   * @param {HTMLElement} elem an element residing within the menu that can accept
+   */
+  makeTabbable(elem = this.items[0]) {
+    this.items.forEach((item) => {
+      const nonTabbableTargetIndex = elem.isEqualNode(item) ? 0 : -1;
+      item.tabIndex = nonTabbableTargetIndex;
+    });
   }
 
   /**
