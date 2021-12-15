@@ -11,6 +11,7 @@ export { default as IdsMaskMixin } from './ids-mask-mixin/ids-mask-mixin';
 export { default as IdsOrientationMixin } from './ids-orientation-mixin/ids-orientation-mixin';
 export { default as IdsPopupInteractionsMixin } from './ids-popup-interactions-mixin/ids-popup-interactions-mixin';
 export { default as IdsPopupOpenEventsMixin } from './ids-popup-open-events-mixin/ids-popup-open-events-mixin';
+export { default as IdsSortableMixin } from './ids-sortable-mixin/ids-sortable-mixin';
 export { default as IdsThemeMixin } from './ids-theme-mixin/ids-theme-mixin';
 export { default as IdsTooltipMixin } from './ids-tooltip-mixin/ids-tooltip-mixin';
 export { default as IdsValidationMixin } from './ids-validation-mixin/ids-validation-mixin';

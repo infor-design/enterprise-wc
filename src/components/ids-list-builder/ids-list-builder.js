@@ -42,6 +42,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
 
   connectedCallback() {
     this.draggable = true;
+    this.virtualScroll = false; // list-builder is not designed to handle thousands of items, so don't support virtual scroll
     this.itemHeight = 46; // hard-coded
     this.#attachEventListeners();
     super.connectedCallback();
@@ -176,7 +177,6 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
    */
   #attachEventListeners() {
     this.#attachClickListeners(); // for toolbar buttons
-    this.attachDragEventListeners(); // for dragging list items
     this.#attachKeyboardListeners(); // for selecting/editing list items
 
     if (this.virtualScroll) {
@@ -267,8 +267,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     this.#unfocusAnySelectedLiEditor();
 
     // toggle selected item
-    const listItem = item.querySelector('div[part="list-item"]');
-    this.#toggleSelectedLi(listItem);
+    this.#toggleSelectedLi(item);
   }
 
   /**

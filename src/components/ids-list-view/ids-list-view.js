@@ -7,10 +7,10 @@ import {
 } from '../../core';
 
 // Import Utils
-import { IdsStringUtils as stringUtils } from '../../utils';
+import { IdsStringUtils } from '../../utils';
 
 import IdsDataSource from '../../core/ids-data-source';
-import { IdsThemeMixin, IdsKeyboardMixin, IdsEventsMixin } from '../../mixins';
+import { IdsThemeMixin, IdsKeyboardMixin, IdsEventsMixin, IdsSortableMixin } from '../../mixins';
 
 import IdsVirtualScroll from '../ids-virtual-scroll';
 import styles from './ids-list-view.scss';
@@ -28,7 +28,7 @@ const DEFAULT_HEIGHT = '100%';
  */
 @customElement('ids-list-view')
 @scss(styles)
-class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin) {
+class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin, IdsSortableMixin) {
   constructor() {
     super();
   }
@@ -63,15 +63,13 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
     return this.container.querySelectorAll('div[part="list-item"]');
   }
 
-  getAllDraggable() {
-    return this.draggable ? this.container.querySelectorAll('ids-draggable') : null;
-  }
-
   attachEventListeners() {
-    this.attachClickListeners();
     this.attachKeyboardListeners();
     if (this.draggable) {
       this.attachDragEventListeners(); // for dragging list items
+    } 
+    else {
+      this.attachClickListeners();
     }
   }
 
@@ -136,13 +134,12 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
   }
 
   onClick(item) {
-    if (this.getFocusedLi !== item) {
+    if (this.getFocusedLi() !== item) {
       this.focusLi(item);
     }
   }
 
   focusLi(li) {
-    console.log(li)
     if (li) {
       const prevFocus = this.getFocusedLi();
       // remove tabindex from previous focus
@@ -241,7 +238,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
    * @returns {string} The html for this item
    */
   itemTemplate(item) {
-    return stringUtils.injectTemplate(this.defaultTemplate, item);
+    return IdsStringUtils.injectTemplate(this.defaultTemplate, item);
   }
 
   #refocus() {
@@ -334,7 +331,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
    * @param {boolean|string} value true to use virtual scrolling
    */
   set virtualScroll(value) {
-    if (stringUtils.stringToBool(value)) {
+    if (IdsStringUtils.stringToBool(value)) {
       this.setAttribute(attributes.VIRTUAL_SCROLL, value.toString());
     } else {
       this.removeAttribute(attributes.VIRTUAL_SCROLL);
@@ -342,7 +339,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
     this.render();
   }
 
-  get virtualScroll() { return stringUtils.stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
+  get virtualScroll() { return IdsStringUtils.stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
 
   /**
    * Set the expected height of the viewport for virtual scrolling
@@ -377,62 +374,6 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
   }
 
   /**
-   * Set to true to allow items to be draggable/sortable
-   * @param {string} value true to use draggable
-   */
-  set draggable(value) {
-    const val = stringUtils.stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.DRAGGABLE, val);
-    } else {
-      this.removeAttribute(attributes.DRAGGABLE);
-    }
-  }
-
-  get draggable() {
-    return this.hasAttribute(attributes.DRAGGABLE);
-  }
-
-  /**
-   * Helper function for swapping nodes in the list item -- used when dragging list items or clicking the up/down arrows
-   * @param {Node} nodeA the first node
-   * @param {Node} nodeB the second node
-   */
-  swap(nodeA, nodeB) {
-    const parentA = nodeA.parentNode;
-    const siblingA = nodeA.nextSibling === nodeB ? nodeA : nodeA.nextSibling;
-
-    nodeB.parentNode.insertBefore(nodeA, nodeB);
-    parentA.insertBefore(nodeB, siblingA);
-  }
-
-  /**
-   * Helper function to check if a node is being dragged above another node
-   * @param {Node} nodeA the node being dragged
-   * @param {Node} nodeB the referred node being checked if nodeA is above
-   * @returns {boolean} whether or not nodeA is above nodeB
-   */
-  isAbove(nodeA, nodeB) {
-    const rectA = nodeA.getBoundingClientRect();
-    const rectB = nodeB.getBoundingClientRect();
-    const centerA = rectA.top + rectA.height / 2;
-    const centerB = rectB.top + rectB.height / 2;
-    return centerA < centerB;
-  }
-
-  /**
-   * Helper function that creates a placeholder node in place of the node being dragged
-   * @param {Node} node the node being dragged around to clone
-   * @returns {Node} a clone of the node
-   */
-  #createPlaceholderClone(node) {
-    const p = node.cloneNode(true);
-    p.querySelector('div[part="list-item"]').classList.add('placeholder');
-    p.querySelector('div[part="list-item"]').removeAttribute('selected');
-    return p;
-  }
-
-  /**
    * Adds dragging functionality to all list items
    */
   attachDragEventListeners() {
@@ -446,19 +387,19 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
    * @param {Element} el the list item to add draggable functionality
    */
   attachDragEventListenersForDraggable(el) {
+    const li = el.querySelector('div[part="list-item"]');
     // Toggle selected attribute, create placeholder, edit the css at the beginning of the drag
     this.onEvent('ids-dragstart', el, () => {
-      // TODO: fix focusing since draggable is now parent
-      this.onClick(el.querySelector('div[part="list-item"]'));
+      // TODO: change this to take draggable as parameter to make it more modular, can specify that its a div[part="list-item"] in the onClick() method for both list-builder/view 
+      this.onClick(li);
 
       // create placeholder
-      this.placeholder = this.#createPlaceholderClone(el);
-
+      this.placeholder = this.createPlaceholderClone(el);
       // need this for draggable to move around
       el.style.position = `absolute`;
       el.style.opacity = `0.95`;
       el.style.zIndex = `100`;
-
+      
       el.parentNode.insertBefore(
         this.placeholder,
         el.nextSibling
@@ -479,11 +420,12 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
         nextEle = nextEle.nextElementSibling;
       }
 
+      
       if (prevEle && this.isAbove(el, prevEle)) {
         this.swap(this.placeholder, prevEle);
         return;
       }
-
+      
       if (nextEle && this.isAbove(nextEle, el)) {
         this.swap(nextEle, this.placeholder);
       }
@@ -499,7 +441,10 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
       this.swap(el, this.placeholder);
       if (this.placeholder) {
         this.placeholder.remove();
+        this.placeholder = null;
       }
+
+      li.focus();
     });
   }
 }
