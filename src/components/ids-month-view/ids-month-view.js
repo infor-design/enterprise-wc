@@ -56,10 +56,11 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.END_DATE,
+      attributes.DAY,
       attributes.FIRST_DAY_OF_WEEK,
+      attributes.MONTH,
       attributes.SHOW_TODAY,
-      attributes.START_DATE,
+      attributes.YEAR,
     ];
   }
 
@@ -129,7 +130,7 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
           <ids-icon slot="icon" icon="chevron-right"></ids-icon>
         </ids-button>
         <span class="datepicker" tabindex="0">
-          <ids-text font-size="20" class="datepicker-text">${this.#formatMonthRange()}</ids-text>
+          <ids-text font-size="20" class="datepicker-text">${this.#formatMonthText()}</ids-text>
           <ids-text audible="true" translate-text="true">SelectDay</ids-text>
           <ids-trigger-button>
             <ids-text audible="true" translate-text="true">DatePickerTriggerButton</ids-text>
@@ -185,30 +186,14 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
   }
 
   /**
-   * Helper to format startDate/endDate to month range
-   * @returns {string} locale formatted month range
+   * Helper to format datepicker text in the toolbar
+   * @returns {string} locale formatted month year
+   * @private
    */
-  #formatMonthRange() {
-    const startMonth = this.locale.formatDate(this.startDate, { month: 'long' });
-    const endMonth = this.locale.formatDate(this.endDate, { month: 'long' });
-    const startYear = this.locale.formatDate(this.startDate, { year: 'numeric' });
-    const endYear = this.locale.formatDate(this.endDate, { year: 'numeric' });
+  #formatMonthText() {
+    const dayOfMonth = new Date(this.year, this.month - 1);
 
-    if (endYear !== startYear) {
-      return `${this.locale.formatDate(this.startDate, {
-        month: 'short',
-        year: 'numeric',
-      })} - ${this.locale.formatDate(this.endDate, {
-        month: 'short',
-        year: 'numeric',
-      })}`;
-    }
-
-    if (endMonth !== startMonth) {
-      return `${this.locale.formatDate(this.startDate, { month: 'short' })} - ${endMonth} ${startYear}`;
-    }
-
-    return this.locale.formatDate(this.startDate, { month: 'long', year: 'numeric' });
+    return this.locale.formatDate(dayOfMonth, { month: 'long', year: 'numeric' });
   }
 
   /**
@@ -216,33 +201,30 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
    * @private
    */
   #attachDatepickerText() {
-    const text = this.#formatMonthRange();
+    const text = this.#formatMonthText();
 
     this.container.querySelector('.datepicker-text').innerText = text;
   }
 
   /**
-   * Change startDate/endDate by event type
+   * Change month/year by event type
    * @param {'next'|'previous'|'today'} type of event to be called
    * @private
    */
   #changeDate(type) {
-    const daysDiff = dateUtils.daysDiff(this.startDate, this.endDate);
-    const hasIrregularDays = daysDiff !== 7;
-
     if (type === 'next') {
-      this.startDate = dateUtils.add(this.startDate, daysDiff, 'days');
-      this.endDate = dateUtils.add(this.endDate, daysDiff - 1, 'days');
+      this.year = this.month === 12 ? this.year + 1 : this.year;
+      this.month = this.month === 12 ? 1 : this.month + 1;
     }
 
     if (type === 'previous') {
-      this.startDate = dateUtils.subtract(this.startDate, daysDiff, 'days');
-      this.endDate = dateUtils.subtract(this.endDate, daysDiff + 1, 'days');
+      this.year = this.month === 0 ? this.year - 1 : this.year;
+      this.month = this.month === 1 ? 12 : this.month - 1;
     }
 
     if (type === 'today') {
-      this.startDate = hasIrregularDays ? new Date() : dateUtils.firstDayOfWeek(new Date(), this.firstDayOfWeek);
-      this.endDate = dateUtils.add(this.startDate, daysDiff - 1, 'days');
+      this.year = new Date().getFullYear();
+      this.month = new Date().getMonth() + 1;
     }
   }
 
@@ -313,31 +295,30 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
   }
 
   /**
-   * start-date attribute
-   * @returns {Date} startDate date parsed from attribute value
+   * month attribute
+   * @returns {number} month param converted to number from attribute value with range (1-12)
    */
-  get startDate() {
-    const attrVal = this.getAttribute(attributes.START_DATE);
-    const attrDate = new Date(attrVal);
+  get month() {
+    const attrVal = this.getAttribute(attributes.MONTH);
+    const numberVal = stringUtils.stringToNumber(attrVal);
 
-    if (attrVal && dateUtils.isValidDate(attrDate)) {
-      return attrDate;
+    if (attrVal && numberVal >= 1 && numberVal <= 12) {
+      return numberVal;
     }
 
-    // If no start-date attribute is set or not valid date
-    // set startDate as first day of the week from current date
-    return dateUtils.firstDayOfWeek(new Date(), this.firstDayOfWeek);
+    // Default is current month
+    return new Date().getMonth() + 1;
   }
 
   /**
-   * Set start of the week to show
-   * @param {string|null} val startDate param value
+   * Set month param and render month table/toolbar
+   * @param {string|number|null} val month param value
    */
-  set startDate(val) {
+  set month(val) {
     if (val) {
-      this.setAttribute(attributes.START_DATE, val);
+      this.setAttribute(attributes.MONTH, val);
     } else {
-      this.removeAttribute(attributes.START_DATE);
+      this.removeAttribute(attributes.MONTH);
     }
 
     this.#renderMonth();
@@ -345,32 +326,30 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
   }
 
   /**
-   * end-date attribute
-   * @returns {Date} endDate date parsed from attribute value
+   * year attribute
+   * @returns {number} year param converted to number from attribute value with 4-digit check
    */
-  get endDate() {
-    const attrVal = this.getAttribute(attributes.END_DATE);
-    const attrDate = new Date(attrVal);
+  get year() {
+    const attrVal = this.getAttribute(attributes.YEAR);
+    const numberVal = stringUtils.stringToNumber(attrVal);
 
-    if (attrVal && dateUtils.isValidDate(attrDate)) {
-      // Adding one day to include end date to the range
-      return dateUtils.add(attrDate, 1, 'days');
+    if (attrVal && attrVal.length === 4) {
+      return numberVal;
     }
 
-    // If no end-date attribute is set or not valid date
-    // set endDate as last day of the week from current date
-    return dateUtils.lastDayOfWeek(new Date(), this.firstDayOfWeek);
+    // Default is current year
+    return new Date().getFullYear();
   }
 
   /**
-   * Set end of the week to show
-   * @param {string|null} val endDate param value
+   * Set year param and render month table/toolbar
+   * @param {string|number|null} val year param value
    */
-  set endDate(val) {
+  set year(val) {
     if (val) {
-      this.setAttribute(attributes.END_DATE, val);
+      this.setAttribute(attributes.YEAR, val);
     } else {
-      this.removeAttribute(attributes.END_DATE);
+      this.removeAttribute(attributes.YEAR);
     }
 
     this.#renderMonth();
