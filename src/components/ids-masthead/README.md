@@ -13,20 +13,19 @@ In some cases, the masthead may be implemented in a context outside of the Cloud
 Actions and links found in the masthead are configurable by the tenant admin. The masthead will almost always have:
 
 The application tray: allows users to navigate to other applications within a tenants suite
-* Search: pulls results from the current application and around the cloudsuite
-* Bookmarks: allows users to save specific pages within applications and access them from anywhere within the cloudsuite
-* User settings: central place for end users to view/edit their personal information and any global preferences
+- Search: pulls results from the current application and around the cloudsuite
+- Bookmarks: allows users to save specific pages within applications and access them from anywhere within the cloudsuite
+- User settings: central place for end users to view/edit their personal information and any global preferences
 
 Some optional features in the masthead:
-* Company logo/home icon: navigates the user to the default or preferred home page
-* Coleman
-* Inbox
+- Company logo/home icon: navigates the user to the default or preferred home page
+- Coleman
+- Inbox
 
 ## Use Cases
 
-* A masthead can provide a prominent application level bar to other applications, homepages, and bookmarks within a Web Application.
-
-* A masthead can be utilized when it is necessary to surface global actions that affect more than one page within a Web Application.
+- A masthead can provide a prominent application level bar to other applications, homepages, and bookmarks within a Web Application.
+- A masthead can be utilized when it is necessary to surface global actions that affect more than one page within a Web Application.
 
 ## Terminology
 
