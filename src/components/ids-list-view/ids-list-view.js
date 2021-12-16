@@ -50,7 +50,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
    */
   static get attributes() {
     return [
-      attributes.DRAGGABLE,
+      attributes.SORTABLE,
       attributes.HEIGHT,
       attributes.ITEM_HEIGHT,
       attributes.MODE,
@@ -65,7 +65,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
 
   attachEventListeners() {
     this.attachKeyboardListeners();
-    if (this.draggable) {
+    if (this.sortable) {
       this.attachDragEventListeners(); // for dragging list items
     } 
     else {
@@ -160,30 +160,30 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
   }
 
   getPreviousLi(li) {
-    return this.draggable
+    return this.sortable
       ? li.parentElement.previousElementSibling?.firstElementChild // needs to navigate outside to ids-draggable wrapper
       : li.previousElementSibling;
   }
 
   getNextLi(li) {
-    return this.draggable
+    return this.sortable
       ? li.parentElement.nextElementSibling?.firstElementChild
       : li.nextElementSibling;
   }
 
   listItemTemplateFunc() {
     const func = (item, index) => `
-      ${this.draggable ? `<ids-draggable axis="y">` : '' }
+      ${this.sortable ? `<ids-draggable axis="y">` : '' }
         <div
           part="list-item"
           role="listitem"
           tabindex="-1"
           index="${index}"
         >
-          ${this.draggable ? `<span></span>` : ``}
+          ${this.sortable ? `<span></span>` : ``}
           ${this.itemTemplate(item)}
         </div>
-      ${this.draggable ? `</ids-draggable>` : '' }
+      ${this.sortable ? `</ids-draggable>` : '' }
     `;
 
     return func;

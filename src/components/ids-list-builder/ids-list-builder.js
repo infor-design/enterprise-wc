@@ -41,7 +41,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
   placeholder;
 
   connectedCallback() {
-    this.draggable = true;
+    this.sortable = true;
     this.virtualScroll = false; // list-builder is not designed to handle thousands of items, so don't support virtual scroll
     this.itemHeight = 46; // hard-coded
     this.#attachEventListeners();

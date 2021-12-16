@@ -1,5 +1,5 @@
-- [ ] decide between this.draggable and this.sortable
-- [ ] move the attachDragEventListeners() to mixin, make them modular
+- [x] decide between this.draggable and this.sortable
+- [x] move the attachDragEventListeners() to mixin, make them modular
 - [ ] decide how to support ids-virtual-scroll in ids-list-view when dragging items around
   - [ ] ids-list-builder does not support ids-virtual-scroll for data changes, however if it's supported in ids-list-view, it will work for list-builder as well
   - [ ] update the data whenever swaps happen

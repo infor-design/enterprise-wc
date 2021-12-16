@@ -15,33 +15,31 @@ const IdsSortableMixin = (superclass) => class extends superclass {
 
   connectedCallback() {
     super.connectedCallback?.();
-    // this.sortable = this.hasAttribute(attributes.SORTABLE);
-    this.draggable = this.hasAttribute(attributes.DRAGGABLE);
+    this.sortable = this.hasAttribute(attributes.SORTABLE);
   }
 
   static get attributes() {
     return [
       ...super.attributes,
-      // attributes.SORTABLE,
-      attributes.DRAGGABLE,
+      attributes.SORTABLE,
     ];
   }
 
   /**
-   * Set to true to allow items to be draggable/sortable
-   * @param {string} value true to use draggable
+   * Handles the sortable property and reflects it on the DOM
+   * @param {string | boolean} value
    */
-   set draggable(value) {
+   set sortable(value) {
     const val = IdsStringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(attributes.DRAGGABLE, val);
+      this.setAttribute(attributes.SORTABLE, val);
     } else {
-      this.removeAttribute(attributes.DRAGGABLE);
+      this.removeAttribute(attributes.SORTABLE);
     }
   }
 
-  get draggable() {
-    return this.hasAttribute(attributes.DRAGGABLE);
+  get sortable() {
+    return this.hasAttribute(attributes.SORTABLE);
   }
 
  /**
@@ -86,7 +84,7 @@ const IdsSortableMixin = (superclass) => class extends superclass {
    * @returns NodeList or null
    */
   getAllDraggable() {
-    return this.draggable ? this.container.querySelectorAll('ids-draggable') : null;
+    return this.sortable ? this.container.querySelectorAll('ids-draggable') : null;
   }
 
   /**
@@ -123,7 +121,6 @@ const IdsSortableMixin = (superclass) => class extends superclass {
    * @param {Element} el 
    */
   onDragEnd(el) {
-    console.log(typeof el)
     el.style.removeProperty('position');
     el.style.removeProperty('transform');
     el.style.removeProperty('opacity');
