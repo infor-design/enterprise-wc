@@ -39,7 +39,7 @@ Some optional features in the masthead:
 
 An masthead is created by using the `ids-masthead` tag. It has a `icon` property to set the desired logo/icon for the masthead.  It also has a `title` property to set the text that appears next to the logo/icon.
 
-Masthead with `icon` and `logo` attributes:
+Masthead with `icon` and `title` attributes:
 
 ```html
 <ids-masthead icon="logo" title="Infor Application"></ids-masthead>
