@@ -23,6 +23,8 @@ export default class IdsHeader extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback?.();
+    this.#refreshVariants();
   }
 
   static get attributes() {
@@ -43,6 +45,21 @@ export default class IdsHeader extends Base {
     <div class="ids-header">
       <slot></slot>
     </div>`;
+  }
+
+  /**
+   * Refresh the color variants on all elements
+   * @private
+   */
+  #refreshVariants() {
+    const elementNames = ['ids-button', 'ids-search-field', 'ids-text', 'ids-theme-switcher'];
+
+    for (const element of elementNames) {
+      const idsElements = [...this.querySelectorAll(element)];
+      idsElements.forEach((elem) => {
+        elem.colorVariant = 'alternate';
+      });
+    }
   }
 
   /**

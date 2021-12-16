@@ -69,10 +69,14 @@ describe('IdsSwipeAction Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders scroll position on reveal', () => {
+  it('renders scroll position on reveal', (done) => {
     swipeAction.swipeType = 'reveal';
     swipeAction.rendered();
-    expect(swipeAction.container.scrollLeft).toEqual(85);
+
+    setTimeout(() => {
+      expect(swipeAction.container.scrollLeft).toEqual(85);
+      done();
+    }, 200);
 
     swipeAction.container.scrollLeft = 0;
     swipeAction.swipeType = 'continuous';

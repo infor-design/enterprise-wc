@@ -53,7 +53,11 @@ const IdsClearableMixin = (superclass) => class extends superclass {
     icon.setAttribute('icon', 'close');
     icon.setAttribute('size', 'small');
     icon.setAttribute('slot', 'icon');
-    if (this.colorVariant === 'alternate') icon.style.color = 'white';
+    if (this.colorVariant === 'alternate') {
+      icon.style.color = 'white';
+      const triggerBtn = xButton.shadowRoot.querySelector('button');
+      triggerBtn.classList.add('color-variant-alternate');
+    }
     text.setAttribute('audible', 'true');
     text.textContent = 'clear';
     xButton.className = 'btn-clear';

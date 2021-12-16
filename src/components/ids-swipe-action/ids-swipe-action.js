@@ -4,6 +4,7 @@ import { attributes } from '../../core/ids-attributes';
 import Base from './ids-swipe-action-base';
 
 import styles from './ids-swipe-action.scss';
+import { renderLoop, IdsRenderLoopItem } from '../ids-render-loop';
 
 /**
  * IDS SwipeAction Component
@@ -54,7 +55,20 @@ export default class IdsSwipeAction extends Base {
     }
 
     if (this.leftButton && this.swipeType === 'reveal') {
-      this.container.scrollLeft = 85;
+      this.container.style.visibility = 'hidden';
+
+      const self = this;
+      requestAnimationFrame(() => {
+        this.container.scrollLeft = 85;
+      });
+
+      const timeout1 = renderLoop.register(new IdsRenderLoopItem({
+        duration: 200,
+        timeoutCallback() {
+          self.container.style.visibility = 'visible';
+          timeout1.destroy(true);
+        }
+      }));
     }
   }
 
