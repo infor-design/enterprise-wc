@@ -54,8 +54,8 @@ Masthead with `nav` elements as slots:
     <ids-button icon="star-outline"></ids-button>
   </section>
   <section slot="center">
-    <ids-button icon="info">
-  </ids-button></section>
+    <ids-button icon="info"></ids-button>
+  </section>
   <section slot="end">
     <ids-button icon="user"></ids-button>
     <ids-button icon="bookmark-outline"></ids-button>
