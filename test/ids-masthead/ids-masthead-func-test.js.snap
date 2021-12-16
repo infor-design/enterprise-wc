@@ -1,15 +1,103 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`IdsMasthead Component renders and updates logo 1`] = `
+"
+      <ids-toolbar class=\\"ids-masthead\\" tabbable=\\"true\\">
+        <ids-toolbar-section id=\\"start\\" align=\\"start\\" type=\\"fluid\\">
+          <span id=\\"logo-wrapper\\">
+        <ids-button id=\\"logo\\" class=\\"icon-logo\\" color-variant=\\"alternate\\" square=\\"true\\">
+          <ids-icon slot=\\"icon\\" icon=\\"logo\\" viewbox=\\"0 0 32 34\\" width=\\"30\\" height=\\"30\\"></ids-icon>
+          <ids-text slot=\\"text\\" audible=\\"true\\">Masthead logo</ids-text>
+        </ids-button>
+      </span>
+          <ids-text id=\\"title\\" color-variant=\\"alternate\\" font-size=\\"14\\" font-weight=\\"bold\\">title</ids-text>
+          <slot name=\\"start\\"></slot>
+        </ids-toolbar-section>
+
+        <ids-toolbar-section id=\\"center\\" align=\\"center\\" type=\\"fluid\\">
+          <slot name=\\"center\\"></slot>
+        </ids-toolbar-section>
+
+        <ids-toolbar-section id=\\"end\\" align=\\"end\\" type=\\"fluid\\">
+          <slot name=\\"end\\"></slot>
+        </ids-toolbar-section>
+
+        <ids-toolbar-more-actions id=\\"more\\" icon=\\"expand-app-tray\\" class=\\"hidden\\">
+          <slot name=\\"more\\"></slot>
+        </ids-toolbar-more-actions>
+      </ids-toolbar>
+    "
+`;
+
+exports[`IdsMasthead Component renders and updates logo 2`] = `
+"
+      <ids-toolbar class=\\"ids-masthead\\" tabbable=\\"true\\">
+        <ids-toolbar-section id=\\"start\\" align=\\"start\\" type=\\"fluid\\">
+          <span id=\\"logo-wrapper\\">
+        <ids-button id=\\"logo\\" class=\\"icon-star-outlined\\" color-variant=\\"alternate\\" square=\\"true\\">
+          <ids-icon slot=\\"icon\\" icon=\\"star-outlined\\"></ids-icon>
+          <ids-text slot=\\"text\\" audible=\\"true\\">Masthead logo</ids-text>
+        </ids-button>
+      </span>
+          <ids-text id=\\"title\\" color-variant=\\"alternate\\" font-size=\\"14\\" font-weight=\\"bold\\">title</ids-text>
+          <slot name=\\"start\\"></slot>
+        </ids-toolbar-section>
+
+        <ids-toolbar-section id=\\"center\\" align=\\"center\\" type=\\"fluid\\">
+          <slot name=\\"center\\"></slot>
+        </ids-toolbar-section>
+
+        <ids-toolbar-section id=\\"end\\" align=\\"end\\" type=\\"fluid\\">
+          <slot name=\\"end\\"></slot>
+        </ids-toolbar-section>
+
+        <ids-toolbar-more-actions id=\\"more\\" icon=\\"expand-app-tray\\" class=\\"hidden\\">
+          <slot name=\\"more\\"></slot>
+        </ids-toolbar-more-actions>
+      </ids-toolbar>
+    "
+`;
+
+exports[`IdsMasthead Component renders and updates title 1`] = `
+"
+      <ids-toolbar class=\\"ids-masthead\\" tabbable=\\"true\\">
+        <ids-toolbar-section id=\\"start\\" align=\\"start\\" type=\\"fluid\\">
+          <span id=\\"logo-wrapper\\">
+        <ids-button id=\\"logo\\" class=\\"icon-logo\\" color-variant=\\"alternate\\" square=\\"true\\">
+          <ids-icon slot=\\"icon\\" icon=\\"logo\\" viewbox=\\"0 0 32 34\\" width=\\"30\\" height=\\"30\\"></ids-icon>
+          <ids-text slot=\\"text\\" audible=\\"true\\">Masthead logo</ids-text>
+        </ids-button>
+      </span>
+          <ids-text id=\\"title\\" color-variant=\\"alternate\\" font-size=\\"14\\" font-weight=\\"bold\\">Infor Application</ids-text>
+          <slot name=\\"start\\"></slot>
+        </ids-toolbar-section>
+
+        <ids-toolbar-section id=\\"center\\" align=\\"center\\" type=\\"fluid\\">
+          <slot name=\\"center\\"></slot>
+        </ids-toolbar-section>
+
+        <ids-toolbar-section id=\\"end\\" align=\\"end\\" type=\\"fluid\\">
+          <slot name=\\"end\\"></slot>
+        </ids-toolbar-section>
+
+        <ids-toolbar-more-actions id=\\"more\\" icon=\\"expand-app-tray\\" class=\\"hidden\\">
+          <slot name=\\"more\\"></slot>
+        </ids-toolbar-more-actions>
+      </ids-toolbar>
+    "
+`;
+
 exports[`IdsMasthead Component renders any icon 1`] = `
 "
       <ids-toolbar class=\\"ids-masthead\\" tabbable=\\"true\\">
         <ids-toolbar-section id=\\"start\\" align=\\"start\\" type=\\"fluid\\">
-          
+          <span id=\\"logo-wrapper\\">
         <ids-button id=\\"logo\\" class=\\"icon-info\\" color-variant=\\"alternate\\" square=\\"true\\">
           <ids-icon slot=\\"icon\\" icon=\\"info\\"></ids-icon>
           <ids-text slot=\\"text\\" audible=\\"true\\">Masthead logo</ids-text>
         </ids-button>
-       <ids-text id=\\"title\\" color-variant=\\"alternate\\" font-size=\\"14\\" font-weight=\\"bold\\">title</ids-text>
+      </span>
+          <ids-text id=\\"title\\" color-variant=\\"alternate\\" font-size=\\"14\\" font-weight=\\"bold\\">title</ids-text>
           <slot name=\\"start\\"></slot>
         </ids-toolbar-section>
 
@@ -32,12 +120,13 @@ exports[`IdsMasthead Component renders any icon 2`] = `
 "
       <ids-toolbar class=\\"ids-masthead\\" tabbable=\\"true\\">
         <ids-toolbar-section id=\\"start\\" align=\\"start\\" type=\\"fluid\\">
-          
+          <span id=\\"logo-wrapper\\">
         <ids-button id=\\"logo\\" class=\\"icon-user\\" color-variant=\\"alternate\\" square=\\"true\\">
           <ids-icon slot=\\"icon\\" icon=\\"user\\"></ids-icon>
           <ids-text slot=\\"text\\" audible=\\"true\\">Masthead logo</ids-text>
         </ids-button>
-       <ids-text id=\\"title\\" color-variant=\\"alternate\\" font-size=\\"14\\" font-weight=\\"bold\\">title</ids-text>
+      </span>
+          <ids-text id=\\"title\\" color-variant=\\"alternate\\" font-size=\\"14\\" font-weight=\\"bold\\">title</ids-text>
           <slot name=\\"start\\"></slot>
         </ids-toolbar-section>
 
@@ -57,81 +146,25 @@ exports[`IdsMasthead Component renders any icon 2`] = `
 `;
 
 exports[`IdsMasthead Component renders correctly 1`] = `
-"<ids-masthead icon=\\"logo\\" title=\\"\\">
-      <nav slot=\\"start\\"><ids-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">start nav</ids-button></nav>
-      <nav slot=\\"center\\"><ids-menu-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">center nav</ids-menu-button></nav>
-      <nav slot=\\"end\\"><ids-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">end nav</ids-button></nav>
+"<ids-masthead icon=\\"\\" title=\\"\\">
+      <section slot=\\"start\\"><ids-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">start section</ids-button></section>
+      <section slot=\\"center\\"><ids-menu-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">center section</ids-menu-button></section>
+      <section slot=\\"end\\"><ids-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">end section</ids-button></section>
     </ids-masthead>"
 `;
 
 exports[`IdsMasthead Component renders correctly 2`] = `
 "<ids-masthead icon=\\"info\\" title=\\"\\">
-      <nav slot=\\"start\\"><ids-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">start nav</ids-button></nav>
-      <nav slot=\\"center\\"><ids-menu-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">center nav</ids-menu-button></nav>
-      <nav slot=\\"end\\"><ids-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">end nav</ids-button></nav>
+      <section slot=\\"start\\"><ids-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">start section</ids-button></section>
+      <section slot=\\"center\\"><ids-menu-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">center section</ids-menu-button></section>
+      <section slot=\\"end\\"><ids-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">end section</ids-button></section>
     </ids-masthead>"
 `;
 
 exports[`IdsMasthead Component renders correctly 3`] = `
 "<ids-masthead icon=\\"logo\\" title=\\"Infor Application\\">
-      <nav slot=\\"start\\"><ids-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">start nav</ids-button></nav>
-      <nav slot=\\"center\\"><ids-menu-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">center nav</ids-menu-button></nav>
-      <nav slot=\\"end\\"><ids-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">end nav</ids-button></nav>
+      <section slot=\\"start\\"><ids-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">start section</ids-button></section>
+      <section slot=\\"center\\"><ids-menu-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">center section</ids-menu-button></section>
+      <section slot=\\"end\\"><ids-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">end section</ids-button></section>
     </ids-masthead>"
-`;
-
-exports[`IdsMasthead Component renders logo 1`] = `
-"
-      <ids-toolbar class=\\"ids-masthead\\" tabbable=\\"true\\">
-        <ids-toolbar-section id=\\"start\\" align=\\"start\\" type=\\"fluid\\">
-          
-        <ids-button id=\\"logo\\" class=\\"icon-logo\\" color-variant=\\"alternate\\" square=\\"true\\">
-          <ids-icon slot=\\"icon\\" icon=\\"logo\\" viewbox=\\"0 0 32 34\\" width=\\"30\\" height=\\"30\\"></ids-icon>
-          <ids-text slot=\\"text\\" audible=\\"true\\">Masthead logo</ids-text>
-        </ids-button>
-       <ids-text id=\\"title\\" color-variant=\\"alternate\\" font-size=\\"14\\" font-weight=\\"bold\\">title</ids-text>
-          <slot name=\\"start\\"></slot>
-        </ids-toolbar-section>
-
-        <ids-toolbar-section id=\\"center\\" align=\\"center\\" type=\\"fluid\\">
-          <slot name=\\"center\\"></slot>
-        </ids-toolbar-section>
-
-        <ids-toolbar-section id=\\"end\\" align=\\"end\\" type=\\"fluid\\">
-          <slot name=\\"end\\"></slot>
-        </ids-toolbar-section>
-
-        <ids-toolbar-more-actions id=\\"more\\" icon=\\"expand-app-tray\\" class=\\"hidden\\">
-          <slot name=\\"more\\"></slot>
-        </ids-toolbar-more-actions>
-      </ids-toolbar>
-    "
-`;
-
-exports[`IdsMasthead Component renders title 1`] = `
-"
-      <ids-toolbar class=\\"ids-masthead\\" tabbable=\\"true\\">
-        <ids-toolbar-section id=\\"start\\" align=\\"start\\" type=\\"fluid\\">
-          
-        <ids-button id=\\"logo\\" class=\\"icon-logo\\" color-variant=\\"alternate\\" square=\\"true\\">
-          <ids-icon slot=\\"icon\\" icon=\\"logo\\" viewbox=\\"0 0 32 34\\" width=\\"30\\" height=\\"30\\"></ids-icon>
-          <ids-text slot=\\"text\\" audible=\\"true\\">Masthead logo</ids-text>
-        </ids-button>
-       <ids-text id=\\"title\\" color-variant=\\"alternate\\" font-size=\\"14\\" font-weight=\\"bold\\">Info Application</ids-text>
-          <slot name=\\"start\\"></slot>
-        </ids-toolbar-section>
-
-        <ids-toolbar-section id=\\"center\\" align=\\"center\\" type=\\"fluid\\">
-          <slot name=\\"center\\"></slot>
-        </ids-toolbar-section>
-
-        <ids-toolbar-section id=\\"end\\" align=\\"end\\" type=\\"fluid\\">
-          <slot name=\\"end\\"></slot>
-        </ids-toolbar-section>
-
-        <ids-toolbar-more-actions id=\\"more\\" icon=\\"expand-app-tray\\" class=\\"hidden\\">
-          <slot name=\\"more\\"></slot>
-        </ids-toolbar-more-actions>
-      </ids-toolbar>
-    "
 `;

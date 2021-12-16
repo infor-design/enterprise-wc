@@ -38,8 +38,16 @@ class IdsMasthead extends mix(IdsHeader).with(IdsEventsMixin, IdsKeyboardMixin, 
 
   constructor() {
     super();
+  }
 
-    this.elements = {
+  /**
+   * Get a list of element dependencies for this component
+   * @returns {object} of elements
+   */
+  get elements() {
+    return {
+      logo: this.container.querySelector('#logo-wrapper'),
+      title: this.container.querySelector('#title'),
       sections: {
         start: this.container.querySelector('ids-toolbar-section#start'),
         center: this.container.querySelector('ids-toolbar-section#center'),
@@ -112,7 +120,10 @@ class IdsMasthead extends mix(IdsHeader).with(IdsEventsMixin, IdsKeyboardMixin, 
    * @param {string} value - the icon name
    * @returns {void}
    */
-  set icon(value) { this.setAttribute(attributes.ICON, value); }
+  set icon(value) {
+    this.setAttribute(attributes.ICON, value);
+    this.elements.logo.innerHTML = this.logo();
+  }
 
   /**
    * Gets the icon attribute
@@ -125,7 +136,10 @@ class IdsMasthead extends mix(IdsHeader).with(IdsEventsMixin, IdsKeyboardMixin, 
    * @param {string} value - the masthead's title
    * @returns {void}
    */
-  set title(value) { this.setAttribute(attributes.TITLE, value); }
+  set title(value) {
+    this.setAttribute(attributes.TITLE, value);
+    this.elements.title.innerHTML = value;
+  }
 
   /**
    * Gets the title attribute
@@ -138,29 +152,11 @@ class IdsMasthead extends mix(IdsHeader).with(IdsEventsMixin, IdsKeyboardMixin, 
    * @returns {string} The template
    */
   template() {
-    let icon = this.icon;
-    let title = this.title;
-
-    if (icon) {
-      const logoIcon = `<ids-icon slot="icon" icon="${icon}" viewbox="0 0 32 34" width="30" height="30"></ids-icon>`;
-      const otherIcon = `<ids-icon slot="icon" icon="${icon}"></ids-icon>`;
-
-      icon = `
-        <ids-button id="logo" class="icon-${icon}" color-variant="alternate" square="true">
-          ${icon === 'logo' ? logoIcon : otherIcon}
-          <ids-text slot="text" audible="true">Masthead logo</ids-text>
-        </ids-button>
-      `;
-    }
-
-    if (title) {
-      title = `<ids-text id="title" color-variant="alternate" font-size="14" font-weight="bold">${title}</ids-text>`;
-    }
-
     return `
       <ids-toolbar class="ids-masthead" tabbable="true">
         <ids-toolbar-section id="start" align="start" type="fluid">
-          ${icon} ${title}
+          <span id="logo-wrapper">${this.logo()}</span>
+          <ids-text id="title" color-variant="alternate" font-size="14" font-weight="bold">${this.title}</ids-text>
           <slot name="start"></slot>
         </ids-toolbar-section>
 
@@ -177,6 +173,28 @@ class IdsMasthead extends mix(IdsHeader).with(IdsEventsMixin, IdsKeyboardMixin, 
         </ids-toolbar-more-actions>
       </ids-toolbar>
     `;
+  }
+
+  /**
+   * Create the HTML template for the logo
+   * @returns {string} The template
+   */
+  logo() {
+    let icon = this.icon;
+
+    if (icon) {
+      const logoIcon = `<ids-icon slot="icon" icon="${icon}" viewbox="0 0 32 34" width="30" height="30"></ids-icon>`;
+      const otherIcon = `<ids-icon slot="icon" icon="${icon}"></ids-icon>`;
+
+      icon = `
+        <ids-button id="logo" class="icon-${icon}" color-variant="alternate" square="true">
+          ${icon === 'logo' ? logoIcon : otherIcon}
+          <ids-text slot="text" audible="true">Masthead logo</ids-text>
+        </ids-button>
+      `;
+    }
+
+    return icon;
   }
 
   /**

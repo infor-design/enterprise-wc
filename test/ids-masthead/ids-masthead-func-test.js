@@ -14,9 +14,9 @@ describe('IdsMasthead Component', () => {
     masthead.icon = 'logo';
     masthead.title = 'title';
     masthead.innerHTML = `
-      <nav slot="start"><ids-button>start nav</ids-button></nav>
-      <nav slot="center"><ids-menu-button>center nav</ids-button></nav>
-      <nav slot="end"><ids-button>end nav</ids-button></nav>
+      <section slot="start"><ids-button>start section</ids-button></section>
+      <section slot="center"><ids-menu-button>center section</ids-button></section>
+      <section slot="end"><ids-button>end section</ids-button></section>
     `;
 
     document.body.appendChild(masthead);
@@ -41,7 +41,7 @@ describe('IdsMasthead Component', () => {
   });
 
   it('renders correctly', () => {
-    element.logo = '';
+    element.icon = '';
     element.title = '';
     expect(element.outerHTML).toMatchSnapshot();
 
@@ -68,24 +68,41 @@ describe('IdsMasthead Component', () => {
     expect(element.template()).toMatchSnapshot();
   });
 
-  it('renders logo', () => {
+  it('renders and updates logo', () => {
+    const ICON1 = 'logo';
+    const ICON2 = 'star-outlined';
     element.setAttribute('icon', '');
     expect(element.icon).toBe('');
 
-    element.icon = 'logo';
-    expect(element.icon).toBe('logo');
-    expect(element.getAttribute('icon')).toBe('logo');
+    element.icon = ICON1;
+    expect(element.icon).toBe(ICON1);
+    expect(element.getAttribute('icon')).toBe(ICON1);
+
+    let logo = element.shadowRoot.querySelector('#logo');
+    expect(logo.id).toBe('logo');
+    expect(logo.classList.contains(`icon-${ICON1}`)).toBe(true);
+    expect(element.template()).toMatchSnapshot();
+
+    element.icon = ICON2;
+    expect(element.icon).toBe(ICON2);
+    expect(element.getAttribute('icon')).toBe(ICON2);
+
+    logo = element.shadowRoot.querySelector('#logo');
+    expect(logo.id).toBe('logo');
+    expect(logo.classList.contains(`icon-${ICON2}`)).toBe(true);
     expect(element.template()).toMatchSnapshot();
   });
 
-  it('renders clickable logo', () => {});
+  it.skip('renders clickable logo', () => {});
 
-  it('renders title', () => {
+  it('renders and updates title', () => {
     element.setAttribute('title', '');
     expect(element.title).toBe('');
-    element.title = 'Info Application';
-    expect(element.title).toBe('Info Application');
-    expect(element.getAttribute('title')).toBe('Info Application');
+
+    element.title = 'Infor Application';
+    expect(element.title).toBe('Infor Application');
+    expect(element.getAttribute('title')).toBe('Infor Application');
+    expect(element.shadowRoot.innerHTML).toContain('Infor Application');
     expect(element.template()).toMatchSnapshot();
   });
 
