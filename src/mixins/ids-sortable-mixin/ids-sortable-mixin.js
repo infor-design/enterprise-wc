@@ -78,13 +78,113 @@ const IdsSortableMixin = (superclass) => class extends superclass {
    */
   createPlaceholderClone(node) {
     const p = node.cloneNode(true);
-    p.querySelector('div[part="list-item"]').classList.add('placeholder');
-    p.querySelector('div[part="list-item"]').removeAttribute('selected');
     return p;
   }
 
+  /**
+   * Helper function that queries a list of all the ids-draggable elements
+   * @returns NodeList or null
+   */
   getAllDraggable() {
     return this.draggable ? this.container.querySelectorAll('ids-draggable') : null;
+  }
+
+  /**
+   * Adds dragging functionality to all list items
+   */
+   attachDragEventListeners() {
+    this.getAllDraggable().forEach((draggable) => {
+      this.attachDragEventListenersForDraggable(draggable);
+    });
+  }
+
+  /**
+   * Helper function for when ids-dragstart fires
+   * Can be overriden to include any additional calls
+   * @param {Element} el 
+   */
+  onDragStart(el) {
+    // create placeholder
+    this.placeholder = this.createPlaceholderClone(el);
+    // need this for draggable to move around
+    el.style.position = `absolute`;
+    el.style.opacity = `0.95`;
+    el.style.zIndex = `100`;
+    
+    el.parentNode.insertBefore(
+      this.placeholder,
+      el.nextSibling
+    );
+  }
+
+  /**
+   * Helper function for when ids-dragend fires
+   * Can be overridden to include any additional calls
+   * @param {Element} el 
+   */
+  onDragEnd(el) {
+    console.log(typeof el)
+    el.style.removeProperty('position');
+    el.style.removeProperty('transform');
+    el.style.removeProperty('opacity');
+    el.style.removeProperty('z-index');
+
+    this.swap(el, this.placeholder);
+    if (this.placeholder) {
+      this.placeholder.remove();
+      this.placeholder = null;
+    }
+  }
+
+  /**
+   * Helper function for when ids-drag fires
+   * Can be overridden to include any additional calls
+   * @param {Element} el 
+   * @returns 
+   */
+  onDrag(el) {
+    let prevEle = this.placeholder?.previousElementSibling;
+    let nextEle = this.placeholder?.nextElementSibling;
+
+    // skip over the original node
+    if (prevEle === el) {
+      prevEle = prevEle.previousElementSibling;
+    }
+    // skip over the original node
+    if (nextEle === el) {
+      nextEle = nextEle.nextElementSibling;
+    }
+
+    // TODO: support isLeft() for horizontal switching;
+    if (prevEle && this.isAbove(el, prevEle)) {
+      this.swap(this.placeholder, prevEle);
+      return;
+    }
+    
+    if (nextEle && this.isAbove(nextEle, el)) {
+      this.swap(nextEle, this.placeholder);
+    }
+  }
+
+  /**
+   * Helper function for attaching dragging functionality to a list item
+   * @param {Element} el the list item to add draggable functionality
+   */
+  attachDragEventListenersForDraggable(el) {
+    // Toggle selected attribute, create placeholder, edit the css at the beginning of the drag
+    this.onEvent('ids-dragstart', el, () => {
+      this.onDragStart(el);
+    });
+
+    // Calculate where the dragged list item is in relation to the other list items and move the placeholder accordingly
+    this.onEvent('ids-drag', el, () => {
+      this.onDrag(el);
+    });
+
+    // At the end of the drag, return the css properties back to normal and remove the placeholder
+    this.onEvent('ids-dragend', el, () => {
+      this.onDragEnd(el);
+    });
   }
 };
 

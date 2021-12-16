@@ -346,6 +346,9 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     });
   }
 
+  /**
+   * Helper function to attach keyboard events to each individual item
+   */
   #attachKeyboardListenersForLi(l) {
     this.onEvent('keydown', l, (event) => {
       switch (event.key) {
@@ -373,6 +376,17 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
         break;
       }
     });
+  }
+
+  /**
+   * Overrides the ids-sortable-mixin function to ensure there are no duplicate selected nodes as a result of cloning
+   * @param {Node} node 
+   * @returns {Node} the cloned node
+   */
+  createPlaceholderNode(node) {
+    const p = super.createPlaceholderNode(node);
+    p.querySelector('div[part="list-item"]').removeAttribute('selected');
+    return p;
   }
 }
 

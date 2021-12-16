@@ -374,79 +374,38 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
   }
 
   /**
-   * Adds dragging functionality to all list items
+   * Overrides the ids-sortable-mixin function to focus on item
+   * @param {Element} el 
    */
-  attachDragEventListeners() {
-    this.getAllDraggable().forEach((draggable) => {
-      this.attachDragEventListenersForDraggable(draggable);
-    });
+  onDragStart(el) {
+    super.onDragStart(el);
+
+    const li = el.querySelector('div[part="list-item"]');
+    this.onClick(li);
+  }
+  
+  /**
+   * Overrides the ids-sortable-mixin function to focus on item
+   * @param {Element} el 
+   */
+  onDragEnd(el) {
+    super.onDragEnd(el);
+    
+    const li = el.querySelector('div[part="list-item"]');
+    li.focus();
   }
 
   /**
-   * Helper function for attaching dragging functionality to a list item
-   * @param {Element} el the list item to add draggable functionality
+   * Overrides the ids-sortable-mixin function to add styling for the placeholder node
+   * @param {Node} node 
+   * @returns {Node} the cloned node
    */
-  attachDragEventListenersForDraggable(el) {
-    const li = el.querySelector('div[part="list-item"]');
-    // Toggle selected attribute, create placeholder, edit the css at the beginning of the drag
-    this.onEvent('ids-dragstart', el, () => {
-      // TODO: change this to take draggable as parameter to make it more modular, can specify that its a div[part="list-item"] in the onClick() method for both list-builder/view 
-      this.onClick(li);
-
-      // create placeholder
-      this.placeholder = this.createPlaceholderClone(el);
-      // need this for draggable to move around
-      el.style.position = `absolute`;
-      el.style.opacity = `0.95`;
-      el.style.zIndex = `100`;
-      
-      el.parentNode.insertBefore(
-        this.placeholder,
-        el.nextSibling
-      );
-    });
-
-    // Calculate where the dragged list item is in relation to the other list items and move the placeholder accordingly
-    this.onEvent('ids-drag', el, () => {
-      let prevEle = this.placeholder?.previousElementSibling;
-      let nextEle = this.placeholder?.nextElementSibling;
-
-      // skip over checking the original selected node position
-      if (prevEle === el) {
-        prevEle = prevEle.previousElementSibling;
-      }
-      // skip over checking the original selected position
-      if (nextEle === el) {
-        nextEle = nextEle.nextElementSibling;
-      }
-
-      
-      if (prevEle && this.isAbove(el, prevEle)) {
-        this.swap(this.placeholder, prevEle);
-        return;
-      }
-      
-      if (nextEle && this.isAbove(nextEle, el)) {
-        this.swap(nextEle, this.placeholder);
-      }
-    });
-
-    // At the end of the drag, return the css properties back to normal and remove the placeholder
-    this.onEvent('ids-dragend', el, () => {
-      el.style.removeProperty('position');
-      el.style.removeProperty('transform');
-      el.style.removeProperty('opacity');
-      el.style.removeProperty('z-index');
-
-      this.swap(el, this.placeholder);
-      if (this.placeholder) {
-        this.placeholder.remove();
-        this.placeholder = null;
-      }
-
-      li.focus();
-    });
+  createPlaceholderNode(node) {
+    const p = super.createPlaceholderNode(node);
+    p.querySelector('div[part="list-item"]').classList.add('placeholder'); // for styling the placeholder
+    return p;
   }
+
 }
 
 export default IdsListView;
