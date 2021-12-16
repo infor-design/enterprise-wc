@@ -225,22 +225,27 @@ class IdsMasthead extends mix(IdsHeader).with(IdsEventsMixin, IdsKeyboardMixin, 
    */
   renderBreakpoint() {
     const { start, center, end } = this.slots;
+    const { more } = this.elements.sections;
+
+    if (more.menu?.container) {
+      more.menu.container.type = 'menu-alt';
+    }
 
     if (this.isDesktop) {
-      this.elements.sections.more.classList.add('hidden');
       start.slot = 'start';
       center.slot = 'center';
       end.slot = 'end';
+      more.classList.add('hidden');
     } else if (this.isTablet) {
-      this.elements.sections.more.classList.remove('hidden');
       start.slot = 'start';
       center.slot = 'more';
       end.slot = 'more';
+      more.classList.remove('hidden');
     } else if (this.isMobile) {
-      this.elements.sections.more.classList.remove('hidden');
       start.slot = 'more';
       center.slot = 'more';
       end.slot = 'more';
+      more.classList.remove('hidden');
     }
   }
 
@@ -250,19 +255,15 @@ class IdsMasthead extends mix(IdsHeader).with(IdsEventsMixin, IdsKeyboardMixin, 
    * @returns {void}
    */
   #restyleButtons() {
-    const { more } = this.elements.sections;
-    if (more?.menu?.container) {
-      more.menu.container.type = 'menu-alt';
-    }
-
     const buttons = [
-      more?.button,
+      this.elements.sections.more?.button,
       ...this.querySelectorAll('ids-button, ids-menu-button'),
     ];
 
     buttons.forEach((button) => {
       if (button) {
         button.colorVariant = 'alternate';
+        button.iconAlign = 'start';
         button.square = 'true';
         button.type = 'default';
       }
