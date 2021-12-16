@@ -18,7 +18,6 @@ import IdsIcon from '../ids-icon';
 import IdsText from '../ids-text';
 import IdsToolbar from '../ids-toolbar';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
-import { renderLoop, IdsRenderLoopItem } from '../ids-render-loop';
 
 // Import Mixins
 import {
@@ -31,7 +30,7 @@ import {
 import styles from './ids-month-view.scss';
 
 /**
- * IDS Week View Component
+ * IDS Month View Component
  * @type {IdsMonthView}
  * @inherits IdsElement
  * @mixes IdsLocaleMixin
@@ -58,13 +57,9 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
     return [
       ...super.attributes,
       attributes.END_DATE,
-      attributes.END_HOUR,
       attributes.FIRST_DAY_OF_WEEK,
-      attributes.SHOW_TIMELINE,
       attributes.SHOW_TODAY,
       attributes.START_DATE,
-      attributes.START_HOUR,
-      attributes.TIMELINE_INTERVAL,
     ];
   }
 
@@ -82,39 +77,36 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
    */
   attachEventHandlers() {
     // Respond to parent changing language
-    this.offEvent('languagechange.week-view-container');
-    this.onEvent('languagechange.week-view-container', this.closest('ids-container'), async (e) => {
+    this.offEvent('languagechange.month-view-container');
+    this.onEvent('languagechange.month-view-container', this.closest('ids-container'), async (e) => {
       await this.setLanguage(e.detail.language.name);
     });
 
     // Respond to parent changing locale
-    this.offEvent('localechange.week-view-container');
-    this.onEvent('localechange.week-view-container', this.closest('ids-container'), async (e) => {
+    this.offEvent('localechange.month-view-container');
+    this.onEvent('localechange.month-view-container', this.closest('ids-container'), async (e) => {
       await this.setLocale(e.detail.locale.name);
     });
 
     // Respond to the element changing language
-    this.offEvent('languagechange.week-view');
-    this.onEvent('languagechange.week-view', this, async (e) => {
+    this.offEvent('languagechange.month-view');
+    this.onEvent('languagechange.month-view', this, async (e) => {
       await this.locale.setLanguage(e.detail.language.name);
 
       this.#renderToolbar();
-      this.#renderWeek();
-      this.#renderTimeline();
-      this.#attachOffsetTop();
+      this.#renderMonth();
     });
 
     // Respond to the element changing locale
-    this.offEvent('localechange.week-view');
-    this.onEvent('localechange.week-view', this, async (e) => {
+    this.offEvent('localechange.month-view');
+    this.onEvent('localechange.month-view', this, async (e) => {
       if (!e.detail.locale.name) {
         return;
       }
 
       await this.locale.setLocale(e.detail.locale.name);
 
-      this.#renderWeek();
-      this.#renderTimeline();
+      this.#renderMonth();
       this.#attachDatepickerText();
     });
 
@@ -123,15 +115,16 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
 
   /**
    * Add toolbar HTML to shadow
+   * @private
    */
   #renderToolbar() {
-    const toolbarTemplate = `<ids-toolbar class="week-view-header" tabbable="true">
+    const toolbarTemplate = `<ids-toolbar class="month-view-header" tabbable="true">
       <ids-toolbar-section type="buttonset">
-        <ids-button class="week-view-btn-previous">
+        <ids-button class="month-view-btn-previous">
           <ids-text audible="true" translate-text="true">PreviousMonth</ids-text>
           <ids-icon slot="icon" icon="chevron-left"></ids-icon>
         </ids-button>
-        <ids-button class="week-view-btn-next">
+        <ids-button class="month-view-btn-next">
           <ids-text audible="true" translate-text="true">NextMonth</ids-text>
           <ids-icon slot="icon" icon="chevron-right"></ids-icon>
         </ids-button>
@@ -144,9 +137,9 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
           </ids-trigger-button>
         </span>
         ${this.showToday ? `
-          <ids-button css-class="no-padding" class="week-view-btn-today">
+          <ids-button css-class="no-padding" class="month-view-btn-today">
             <ids-text
-              class="week-view-today-text"
+              class="month-view-today-text"
               font-size="16"
               translate-text="true"
               font-weight="bold"
@@ -165,28 +158,29 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
 
   /**
    * Add next/previous/today click events when toolbar attached to shadow
+   * @private
    */
   #attachToolbarEvents() {
-    this.offEvent('click.week-view-previous');
-    this.onEvent('click.week-view-previous', this.container.querySelector('.week-view-btn-previous'), () => {
+    this.offEvent('click.month-view-previous');
+    this.onEvent('click.month-view-previous', this.container.querySelector('.month-view-btn-previous'), () => {
       this.#changeDate('previous');
       this.#attachDatepickerText();
     });
 
-    this.offEvent('click.week-view-next');
-    this.onEvent('click.week-view-next', this.container.querySelector('.week-view-btn-next'), () => {
+    this.offEvent('click.month-view-next');
+    this.onEvent('click.month-view-next', this.container.querySelector('.month-view-btn-next'), () => {
       this.#changeDate('next');
       this.#attachDatepickerText();
     });
 
     if (this.showToday) {
-      this.offEvent('click.week-view-today');
-      this.onEvent('click.week-view-today', this.container.querySelector('.week-view-btn-today'), () => {
+      this.offEvent('click.month-view-today');
+      this.onEvent('click.month-view-today', this.container.querySelector('.month-view-btn-today'), () => {
         this.#changeDate('today');
         this.#attachDatepickerText();
       });
     } else {
-      this.offEvent('click.week-view-today');
+      this.offEvent('click.month-view-today');
     }
   }
 
@@ -219,6 +213,7 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
 
   /**
    * Datepicker changing text
+   * @private
    */
   #attachDatepickerText() {
     const text = this.#formatMonthRange();
@@ -229,6 +224,7 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
   /**
    * Change startDate/endDate by event type
    * @param {'next'|'previous'|'today'} type of event to be called
+   * @private
    */
   #changeDate(type) {
     const daysDiff = dateUtils.daysDiff(this.startDate, this.endDate);
@@ -251,161 +247,43 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
   }
 
   /**
-   * Add week HTML to shadow including day/weekday header, hour rows, event cells
+   * Add month HTML to shadow including weekdays header
+   * @private
    */
-  #renderWeek() {
-    const daysDiff = dateUtils.daysDiff(this.startDate, this.endDate);
-    const hoursDiff = this.endHour - this.startHour + 1;
-    const isDayView = daysDiff === 1 || daysDiff === 0;
-    // Get locale loaded calendars and dayOfWeek calendar setting
+  #renderMonth() {
+    // Get locale loaded calendars and days of the week
     const calendars = this.locale.locale.options.calendars;
-    const dayOfWeekSetting = (calendars || [])[0]?.dateFormat?.dayOfWeek;
-    // Determinate day/weekday order based on calendar settings (d EEE or EEE)
-    const emphasis = dayOfWeekSetting && dayOfWeekSetting.split(' ')[0] === 'EEE';
-    // Helper to get day/weekday font size in the template
-    const getTextFontSize = (isEmphasis) => {
-      if (!isEmphasis) return 16;
 
-      return isDayView ? 32 : 20;
-    };
+    if (!calendars) return;
 
-    const daysTemplate = Array.from({ length: daysDiff }, (_, index) => {
-      const date = this.startDate.setDate(this.startDate.getDate() + index);
-      const dayNumeric = this.locale.formatDate(date, { day: 'numeric' });
-      const weekday = this.locale.formatDate(date, { weekday: 'short' });
-      const isToday = dateUtils.isToday(new Date(date));
+    const days = (calendars || [])[0]?.days.abbreviated;
+
+    const daysTemplate = days.map((item, index) => {
+      const weekday = days[(index + this.firstDayOfWeek) % 7];
 
       return `
         <th>
-          <div class="week-view-header-wrapper${isToday ? ' is-today' : ''}${isDayView ? ' is-day-view' : ''}">
-            <ids-text
-              class="week-view-header-day-of-week${emphasis ? '' : ' is-emphasis'}"
-              font-size="${getTextFontSize(!emphasis)}"
-              ${isToday ? 'font-weight="bold"' : ''}
-            >${emphasis ? weekday : dayNumeric}</ids-text>
-            <ids-text
-              class="week-view-header-day-of-week${emphasis ? ' is-emphasis' : ''}"
-              font-size="${getTextFontSize(emphasis)}"
-              ${isToday ? 'font-weight="bold"' : ''}
-            >${emphasis ? dayNumeric : weekday}</ids-text>
-          </div>
-          <div class="week-view-all-day-wrapper"></div>
+          <ids-text
+            class="month-view-header-day-of-week"
+            font-size="14"
+          >${weekday}</ids-text>
         </th>
       `;
     }).join('');
 
-    const cellTemplate = Array.from({ length: daysDiff }).map(() => `
-      <td>
-        <div class="week-view-cell-wrapper"></div>
-      </td>
-    `).join('');
-
-    const hoursTemplate = Array.from({ length: hoursDiff }).map((_, index) => `
-      <tr class="week-view-hour-row">
-        <td>
-          <div class="week-view-cell-wrapper">
-            <ids-text font-size="12">${calendars ? this.locale.formatHour(this.startHour + index) : ''}</ids-text>
-          </div>
-        </td>
-        ${cellTemplate}
-      </tr>
-      <tr class="week-view-half-hour-row">
-        <td>
-          <div class="week-view-cell-wrapper"></div>
-        </td>
-        ${cellTemplate}
-      </tr>
-    `).join('');
-
-    const weekTemplate = `<div class="week-view-container">
-      <table class="week-view-table">
-        <thead class="week-view-table-header">
-          <tr>
-            <th>
-              <div class="week-view-header-wrapper${isDayView ? ' is-day-view' : ''}">
-                <ids-text translate-text="true" audible="true">Hour</ids-text>
-              </div>
-              <div class="week-view-all-day-wrapper">
-                <ids-text font-size="12" translate-text="true">AllDay</ids-text>
-              </div>
-            </th>
-            ${daysTemplate}
-          </tr>
+    const monthTemplate = `<div class="month-view-container">
+      <table class="month-view-table" aria-label="${this.locale.translate('Calendar')}" role="application">
+        <thead class="month-view-table-header">
+          <tr>${daysTemplate}</tr>
         </thead>
         <tbody>
-          ${hoursTemplate}
         </tbody>
       </table>
     </div>`;
 
     // Clear/add HTML
-    this.container.querySelector('.week-view-container')?.remove();
-    this.container.insertAdjacentHTML('beforeend', weekTemplate);
-  }
-
-  /**
-   * Add/remove timeline HTML to hour row
-   * Update timeline position every 30 seconds
-   */
-  #renderTimeline() {
-    // Clear before rerender
-    this.container.querySelectorAll('.week-view-time-marker')
-      .forEach((item) => item.remove());
-
-    if (this.timer) this.timer.destroy(true);
-
-    if (!this.showTimeline) {
-      return;
-    }
-
-    // Add timeline element
-    this.container.querySelectorAll('.week-view-hour-row:nth-child(1) td')
-      .forEach((item) => item.insertAdjacentHTML(
-        'afterbegin',
-        '<div class="week-view-time-marker"></div>'
-      ));
-
-    const hoursDiff = this.endHour - this.startHour + 1;
-    const hourRowElement = this.container.querySelector('.week-view-hour-row');
-    const timelineInterval = this.timelineInterval;
-
-    // Timeline position based on current hour and startHour/endHour parameters
-    const setTimelinePosition = () => {
-      const now = new Date();
-      const hours = now.getHours();
-      const mins = now.getMinutes();
-      const diff = hours - this.startHour + (mins / 60);
-      const diffInMilliseconds = now.getTime() - this.startDate.getTime();
-      // 52 is the size of one whole hour (25 + two borders)
-      const position = diff > 0 && diff <= hoursDiff ? diff * 52 : 0;
-
-      hourRowElement.style = `--timeline-shift: ${position}px`;
-      // For testing purposes only
-      hourRowElement.dataset.diffInMilliseconds = diffInMilliseconds;
-    };
-
-    setTimelinePosition();
-
-    // Update timeline top shift (default is 30 seconds)
-    this.timer = new IdsRenderLoopItem({
-      id: 'week-view-timer',
-      updateDuration: timelineInterval,
-      updateCallback() {
-        setTimelinePosition();
-      }
-    });
-
-    renderLoop.register(this.timer);
-  }
-
-  /**
-   * Add CSS variable of the container offset top
-   * to be used in CSS to fit the component to the viewport height
-   */
-  #attachOffsetTop() {
-    const offsetTop = this.container.offsetTop;
-
-    this.container.style = `--offset-top: ${offsetTop}px`;
+    this.container.querySelector('.month-view-container')?.remove();
+    this.container.insertAdjacentHTML('beforeend', monthTemplate);
   }
 
   /**
@@ -462,7 +340,7 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
       this.removeAttribute(attributes.START_DATE);
     }
 
-    this.#renderWeek();
+    this.#renderMonth();
     this.#renderToolbar();
   }
 
@@ -495,7 +373,7 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
       this.removeAttribute(attributes.END_DATE);
     }
 
-    this.#renderWeek();
+    this.#renderMonth();
     this.#renderToolbar();
   }
 
@@ -526,128 +404,8 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
       this.removeAttribute(attributes.FIRST_DAY_OF_WEEK);
     }
 
-    this.#renderWeek();
+    this.#renderMonth();
     this.#renderToolbar();
-  }
-
-  /**
-   * start-hour attribute
-   * @returns {number} startHour param converted to number from attribute value with range (0-24)
-   */
-  get startHour() {
-    const attrVal = this.getAttribute(attributes.START_HOUR);
-    const numberVal = stringUtils.stringToNumber(attrVal);
-
-    if (attrVal && numberVal >= 0 && numberVal <= 24) {
-      return numberVal;
-    }
-
-    // Default value
-    return 7;
-  }
-
-  /**
-   * Set start hour of the day (0-24)
-   * @param {string|number|null} val startHour param value
-   */
-  set startHour(val) {
-    // Allow 0 to be set
-    if (val !== null) {
-      this.setAttribute(attributes.START_HOUR, val);
-    } else {
-      this.removeAttribute(attributes.START_HOUR);
-    }
-
-    this.#renderWeek();
-    this.#renderTimeline();
-  }
-
-  /**
-   * end-hour attribute
-   * @returns {number} endHour param converted to number from attribute value with range (0-24)
-   */
-  get endHour() {
-    const attrVal = this.getAttribute(attributes.END_HOUR);
-    const numberVal = stringUtils.stringToNumber(attrVal);
-
-    if (attrVal && numberVal >= 0 && numberVal <= 24) {
-      return numberVal;
-    }
-
-    // Default value
-    return 19;
-  }
-
-  /**
-   * Set end hour of the day (0-24)
-   * @param {string|number|null} val endHour param value
-   */
-  set endHour(val) {
-    // Allow 0 to be set
-    if (val !== null) {
-      this.setAttribute(attributes.END_HOUR, val);
-    } else {
-      this.removeAttribute(attributes.END_HOUR);
-    }
-
-    this.#renderWeek();
-    this.#renderTimeline();
-  }
-
-  /**
-   * show-timeline attribute
-   * @returns {boolean} showTimeline param converted to boolean from attribute value
-   */
-  get showTimeline() {
-    const attrVal = this.getAttribute(attributes.SHOW_TIMELINE);
-
-    if (attrVal) {
-      return stringUtils.stringToBool(attrVal);
-    }
-
-    // Default value
-    return true;
-  }
-
-  /**
-   * Set whether or not to show a bar across the current time
-   * @param {string|boolean|null} val showTimeline param value
-   */
-  set showTimeline(val) {
-    const boolVal = stringUtils.stringToBool(val);
-    this.setAttribute(attributes.SHOW_TIMELINE, boolVal);
-
-    this.#renderTimeline();
-  }
-
-  /**
-   * timeline-interval attribute value in milliseconds
-   * @returns {number} timelineInterval param converted to number
-   */
-  get timelineInterval() {
-    const attrVal = this.getAttribute(attributes.TIMELINE_INTERVAL);
-    const numberVal = stringUtils.stringToNumber(attrVal);
-
-    if (numberVal > 0) {
-      return numberVal;
-    }
-
-    // Default value
-    return 30000;
-  }
-
-  /**
-   * Set how often timeline should update it's position (in milliseconds)
-   * @param {number|string|null} val timelineInterval param value
-   */
-  set timelineInterval(val) {
-    if (val) {
-      this.setAttribute(attributes.TIMELINE_INTERVAL, val);
-    } else {
-      this.removeAttribute(attributes.TIMELINE_INTERVAL);
-    }
-
-    this.#renderTimeline();
   }
 }
 
