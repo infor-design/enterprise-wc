@@ -70,12 +70,6 @@ class IdsSwipeAction extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
       requestAnimationFrame(() => {
         this.container.scrollLeft = 85;
       });
-        duration: 1,
-        timeoutCallback() {
-          self.container.scrollLeft = 85;
-          timeout.destroy(true);
-        }
-      }));
 
       const timeout1 = renderLoop.register(new IdsRenderLoopItem({
         duration: 200,
