@@ -1,3 +1,4 @@
+{{> ../layouts/head.html }}
 <ids-layout-grid cols="1">
   <ids-text font-size="12" type="h1">Process Indicator</ids-text>
 </ids-layout-grid>
@@ -5,7 +6,7 @@
 <ids-layout-grid cols="1" gap="xl">
   <ids-layout-grid-cell>
     <ids-process-indicator>
-      <ids-process-step label="Process Started" status="done">
+      <ids-process-step status="done">
         <ids-text slot="detail">Unreleased</ids-text>
         <div slot="detail">
           <ids-icon icon="success" size="small"></ids-icon>
@@ -15,7 +16,7 @@
         </div>
         <ids-text slot="detail" class="date">January 2, 2021 06:42 AM</ids-text>
       </ids-process-step>
-      <ids-process-step label="1st Level" status="done">
+      <ids-process-step status="done">
         <ids-text slot="detail">Unreleased</ids-text>
         <div slot="detail">
           <ids-icon icon="success" size="small"></ids-icon>
@@ -31,7 +32,7 @@
         </div>
         <ids-text slot="detail" class="date">January 12, 2021 06:42 AM</ids-text>
       </ids-process-step>
-      <ids-process-step label="2nd Level" status="done">
+      <ids-process-step status="done">
         <ids-text slot="detail">Unreleased</ids-text>
         <div slot="detail">
           <ids-icon icon="success" size="small"></ids-icon>
@@ -41,7 +42,7 @@
         </div>
         <ids-text slot="detail" class="date">January 22, 2021 02:42 AM</ids-text>
       </ids-process-step>
-      <ids-process-step label="3rd Level - Multiple Approvers" status="started">
+      <ids-process-step status="started">
         <ids-text slot="detail">Unreleased</ids-text>
         <div slot="detail">
           <ids-icon icon="success" size="small"></ids-icon>
@@ -57,7 +58,7 @@
         </div>
         <ids-text slot="detail" class="date">Feb 2, 2021 21:12 AM</ids-text>
       </ids-process-step>
-      <ids-process-step label="4th Level" status="cancelled">
+      <ids-process-step status="cancelled">
         <ids-text slot="detail">Status</ids-text>
         <div slot="detail">
           <ids-icon icon="rejected-outline" size="small"></ids-icon>
@@ -73,7 +74,7 @@
         </div>
         <ids-text slot="detail" class="date">Feb 12, 2021 14:12 AM</ids-text>
       </ids-process-step>
-      <ids-process-step label="5th Level">
+      <ids-process-step>
         <ids-text slot="detail">Status</ids-text>
         <ids-hyperlink  slot="detail" href="#">
           <span>James Martin</span>
@@ -86,7 +87,7 @@
         </ids-hyperlink>
         <ids-text slot="detail" class="date">Feb 22, 2021 21:42 AM</ids-text>
       </ids-process-step>
-      <ids-process-step label="Final Level">
+      <ids-process-step>
         <ids-text slot="detail">Status</ids-text>
         <ids-hyperlink slot="detail" href="#">
           <span>Fred Walsh</span>
@@ -102,3 +103,4 @@
     </ids-process-indicator>
   </ids-layout-grid-cell>
 </ids-layout-grid>
+{{> ../layouts/footer.html }}

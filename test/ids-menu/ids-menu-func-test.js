@@ -284,6 +284,53 @@ describe('IdsMenu Component', () => {
     expect(menu.focused).toEqual(item6);
   });
 
+  it('tab should not change navigation in the menu', () => {
+    const tabKeyEvent = new KeyboardEvent('keydown', { key: 'Tab' });
+    const navigateUpEvent = new KeyboardEvent('keydown', { key: 'ArrowUp' });
+    const navigateDownEvent = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+
+    // Focus the first one
+    item1.focus();
+
+    expect(menu.focused).toEqual(item1);
+
+    // Tab should not change navigation in the menu
+    document.body.dispatchEvent(tabKeyEvent);
+    expect(menu.focused).toEqual(item1);
+
+    // Navigate down one item
+    menu.dispatchEvent(navigateDownEvent);
+
+    expect(menu.focused).toEqual(item2);
+
+    // Tab should not change navigation in the menu
+    document.body.dispatchEvent(tabKeyEvent);
+    document.body.dispatchEvent(tabKeyEvent);
+    expect(menu.focused).toEqual(item2);
+
+    // Only focused item should be tabbable
+    expect(item1.tabIndex).toEqual(-1);
+    expect(item2.tabIndex).toEqual(0);
+    expect(item3.tabIndex).toEqual(-1);
+    expect(item4.tabIndex).toEqual(-1);
+    expect(item5.tabIndex).toEqual(-1);
+    expect(item6.tabIndex).toEqual(-1);
+
+    // Navigate up two items (navigation will wrap to the bottom item)
+    menu.dispatchEvent(navigateUpEvent);
+    menu.dispatchEvent(navigateUpEvent);
+
+    expect(menu.focused).toEqual(item6);
+
+    // Only focused item should be tabbable
+    expect(item1.tabIndex).toEqual(-1);
+    expect(item2.tabIndex).toEqual(-1);
+    expect(item3.tabIndex).toEqual(-1);
+    expect(item4.tabIndex).toEqual(-1);
+    expect(item5.tabIndex).toEqual(-1);
+    expect(item6.tabIndex).toEqual(0);
+  });
+
   it('highlights a menu item on click', () => {
     item2.select();
     item1.click();
