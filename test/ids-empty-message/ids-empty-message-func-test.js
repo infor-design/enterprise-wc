@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { IdsText } from '../../src/components/ids-text/ids-text';
+import IdsText from '../../src/components/ids-text/ids-text';
 import IdsEmptyMessage from '../../src/components/ids-empty-message/ids-empty-message';
 
 describe('Ids Empty Message Tests', () => {

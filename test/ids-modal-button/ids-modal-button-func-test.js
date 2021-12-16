@@ -6,7 +6,7 @@ import wait from '../helpers/wait';
 
 import IdsModal, { IdsOverlay } from '../../src/components/ids-modal/ids-modal';
 import IdsText from '../../src/components/ids-text/ids-text';
-import { IdsModalButton } from '../../src/components/ids-modal-button/ids-modal-button';
+import IdsModalButton from '../../src/components/ids-modal-button/ids-modal-button';
 
 const modalButtonHTML = `
   <ids-modal-button slot="buttons" type="secondary" id="my-message-cancel" cancel>Cancel</ids-modal-button>

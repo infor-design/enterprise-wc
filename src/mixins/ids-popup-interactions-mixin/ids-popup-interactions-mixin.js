@@ -1,5 +1,5 @@
 import { attributes } from '../../core/ids-attributes';
-import { IdsEventsMixin } from '../ids-events-mixin/ids-events-mixin';
+import IdsEventsMixin from '../ids-events-mixin/ids-events-mixin';
 
 const POPUP_TRIGGER_TYPES = [
   'contextmenu',

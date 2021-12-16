@@ -1,4 +1,4 @@
-import { IdsElement, customElement, scss } from '../../core/ids-decorators';
+import { customElement, scss } from '../../core/ids-decorators';
 import Base from './ids-tab-divider-base';
 
 import styles from './ids-tab-divider.scss';

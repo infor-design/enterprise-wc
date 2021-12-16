@@ -4,9 +4,9 @@ import { customElement, scss } from '../../core/ids-decorators';
 import Base from './ids-lookup-base';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import { IdsTriggerButton, IdsTriggerField } from '../ids-trigger-field/ids-trigger-field';
-import { IdsModal } from '../ids-modal/ids-modal';
-import { IdsDataGrid } from '../ids-data-grid/ids-data-grid';
+import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
+import IdsModal from '../ids-modal/ids-modal';
+import IdsDataGrid from '../ids-data-grid/ids-data-grid';
 
 import styles from './ids-lookup.scss';
 

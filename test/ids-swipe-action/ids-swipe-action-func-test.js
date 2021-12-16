@@ -99,13 +99,13 @@ describe('IdsSwipeAction Component', () => {
     swipeAction.swipeType = 'reveal';
     swipeAction.rendered();
     document.querySelector('#action-right-continuous').click();
-    expect(swipeAction.container.scrollLeft).toEqual(85);
+    expect(swipeAction.container.scrollLeft).toEqual(0);
   });
 
   it('can click the left button and reset scroll', () => {
     swipeAction.swipeType = 'reveal';
     swipeAction.rendered();
     document.querySelector('#action-left-continuous').click();
-    expect(swipeAction.container.scrollLeft).toEqual(85);
+    expect(swipeAction.container.scrollLeft).toEqual(0);
   });
 });

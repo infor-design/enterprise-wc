@@ -19,8 +19,9 @@ import {
   getBoolVal,
   POSITIONS
 } from './ids-toast-shared';
-import { IdsToastMessage } from './ids-toast-message';
-import { IdsDraggable } from '../ids-draggable/ids-draggable';
+
+import IdsToastMessage from './ids-toast-message';
+import IdsDraggable from '../ids-draggable/ids-draggable';
 
 import styles from './ids-toast.scss';
 
