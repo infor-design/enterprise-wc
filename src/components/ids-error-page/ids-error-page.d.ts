@@ -4,7 +4,7 @@ export default class IdsErrorPage extends IdsElement {
   /* id of the icon to be displayed */
   icon: string;
 
-  /* label of te error page to be displayed */
+  /* label of the error page to be displayed */
   label: string;
 
   /* description of the error page to be displayed */
