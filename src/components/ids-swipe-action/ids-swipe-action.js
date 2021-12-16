@@ -67,7 +67,9 @@ class IdsSwipeAction extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
       this.container.style.visibility = 'hidden';
 
       const self = this;
-      const timeout = renderLoop.register(new IdsRenderLoopItem({
+      requestAnimationFrame(() => {
+        this.container.scrollLeft = 85;
+      });
         duration: 1,
         timeoutCallback() {
           self.container.scrollLeft = 85;
