@@ -1,7 +1,7 @@
-@import '../../core/ids-base';
+@import './ids-toolbar-common';
 
 :host {
-  @include flex();
+  display: flex;
 }
 
 ids-toolbar-section + ids-toolbar-section[type='title'],
@@ -14,21 +14,16 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
   width: auto;
 
   // ================================================
-  // Alignments
-  &.align-start {
-    justify-content: flex-start;
+  // Controls animated hide/show of slotted, overflowed toolbar items
+
+  ::slotted(*) {
+    transition: opacity $transition-length $transition-ease;
+    opacity: 1;
   }
 
-  &.align-center {
-    justify-content: center;
-  }
-
-  &.align-center-even {
-    justify-content: space-around;
-  }
-
-  &.align-end {
-    justify-content: flex-end;
+  ::slotted([overflowed]) {
+    opacity: 0;
+    pointer-events: none;
   }
 
   // ================================================
@@ -59,31 +54,16 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
   &.title,
   &.buttonset {
     @include px-8();
-
-    flex-grow: 1;
-
-    &:not(.favor) {
-      overflow-x: hidden;
-      overflow-y: auto;
-      text-overflow: ellipsis;
-    }
-
-    &.static {
-      flex-grow: 0;
-    }
   }
 
   // Intended for use by developers that need "custom" sections that stretch to fit.
   // The default functionality is NOT to stretch.
   &.fluid {
     @include flex();
-
-    flex-grow: 1;
   }
 
   // Contains Searchfields
   &.search {
-    @include flex();
     @include px-12();
   }
 
@@ -98,4 +78,6 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
       @include bg-slate-100();
     }
   }
+
+  @include ids-toolbar-section-inner-size-styles();
 }

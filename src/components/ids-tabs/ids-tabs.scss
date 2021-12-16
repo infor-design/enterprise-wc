@@ -26,5 +26,13 @@
 :host(ids-tabs:not([orientation='vertical']):not([color-variant='alternate'])),
 .ids-tabs-container:not([orientation='vertical']):not([color-variant='alternate']) {
   @include border-b-1;
-  @include border-graphite-30;
+  @include border-slate-30;
+}
+
+:host(ids-tabs[mode='dark']:not([orientation='vertical']):not([color-variant='alternate'])) {
+  @include border-slate-70;
+}
+
+:host(ids-tabs[mode='contrast']:not([orientation='vertical']):not([color-variant='alternate'])) {
+  @include border-slate-100;
 }
