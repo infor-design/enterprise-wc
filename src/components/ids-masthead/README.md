@@ -75,7 +75,7 @@ Masthead with `nav` elements as slots:
 ## Settings
 
 - `icon` {string} Sets the masthead's icon attribute
-- `title` {boolean} Sets the masthead's title attribute
+- `title` {string} Sets the masthead's title attribute
 - `slots` {readonly} An object containing the masthead's slots/sections for start|center|end|more
 - `breakpoints` {readonly}  object containing (window.matchMedia) breakpoints for mobile|tablet|desktop
 - `isMobile` {readonly} Returns true if the mobile breakpoint is active
