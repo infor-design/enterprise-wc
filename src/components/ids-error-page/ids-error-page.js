@@ -1,6 +1,7 @@
 import {
   customElement,
   mix,
+  scss,
   attributes
 } from '../../core/ids-element';
 
@@ -13,6 +14,7 @@ import {
 import IdsModal from '../ids-modal';
 import IdsEmptyMessage from '../ids-empty-message';
 import IdsIcon from '../ids-icon/ids-icon';
+import styles from './ids-error-page.scss';
 
 const DEFAULT_ICON = 'empty-error-loading';
 
@@ -25,6 +27,7 @@ const DEFAULT_ICON = 'empty-error-loading';
  * @mixes IdsThemeMixin
  */
 @customElement('ids-error-page')
+@scss(styles)
 class IdsErrorPage extends mix(IdsModal).with(
     IdsEventsMixin,
     IdsKeyboardMixin,

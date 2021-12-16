@@ -1,6 +1,6 @@
 ## Ids Error Page Component
 
-This example shows how to render a page in an IDS Error Page that shows an unknown error. Ideally its best to avoid these types of errors in your application but when an unexpected error occurs you can use this component to render information about the error.
+This example shows how to render a page in an IDS Error Page that shows an unknown error. Ideally its best to avoid these types of errors in your application but when an unexpected error occurs you can use this component to render information about the error. The general use case is similar to a 40(x) error page.
 
 The IDS Error Page Component builds on top of the [Modal]('../ids-modal/README.md'). It also utilizes [EmptyMessage]('../ids-empty-message/README.md')
 
