@@ -1,3 +1,5 @@
+import IdsCard from '../../src/components/ids-card/ids-card';
+
 // Setup normal click events on the actions
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#action-left-reveal').addEventListener('click', () => {
