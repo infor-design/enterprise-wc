@@ -235,13 +235,16 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
    */
   #attachKeyboardListener() {
     this.onEvent('keydown', this.input, (event) => {
-      if (['Enter'].indexOf(event.code) > -1) {
+      const shouldSearchOnReturn = !event?.path?.length || !event.path[0].classList || !event.path[0].classList.contains('ids-icon-button');
+      if (['Enter'].indexOf(event.code) > -1 && shouldSearchOnReturn) {
         event.preventDefault();
       }
 
       switch (event.key) {
       case 'Enter':
-        this.#searchFunction();
+        if (shouldSearchOnReturn) {
+          this.#searchFunction();
+        }
         break;
       default:
         break;
