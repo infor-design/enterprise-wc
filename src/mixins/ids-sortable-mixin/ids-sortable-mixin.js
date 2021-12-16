@@ -1,10 +1,10 @@
 import { attributes } from '../../core';
-import { IdsXssUtils, IdsStringUtils } from '../../utils';
+import { IdsStringUtils } from '../../utils';
 
 /**
- * A mixin that will provide the container element of an IDS Component with a class
- * reserved for flipping the foreground color (text color, icon fill, etc) to an alternate,
- * contrasting color.  This allows easy integration with alternate layouts, headers, app menu, etc.
+ * A mixin that will provide the container element of an IDS Component with a "drag and drop" functionality
+ * and swap elements in the DOM accordingly. Assumes that items will be `ids-draggable` components.
+ * This is built with the intention of supporting sortability within lists, tab lists, etc.
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
