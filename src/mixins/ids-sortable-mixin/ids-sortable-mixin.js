@@ -70,6 +70,20 @@ const IdsSortableMixin = (superclass) => class extends superclass {
   }
 
   /**
+   * Helper function to check if a node is being dragged left of another node
+   * @param {Node} nodeA the node being dragged
+   * @param {Node} nodeB the referred node being checked if nodeA is left of
+   * @returns {boolean} whether or not nodeA is left of nodeB
+   */
+  isLeft(nodeA, nodeB) {
+    const rectA = nodeA.getBoundingClientRect();
+    const rectB = nodeB.getBoundingClientRect();
+    const centerA = rectA.left + rectA.width / 2;
+    const centerB = rectB.left + rectB.width / 2;
+    return centerA < centerB;
+  }
+
+  /**
    * Helper function that creates a placeholder node in place of the node being dragged
    * @param {Node} node the node being dragged around to clone
    * @returns {Node} a clone of the node
@@ -152,13 +166,15 @@ const IdsSortableMixin = (superclass) => class extends superclass {
       nextEle = nextEle.nextElementSibling;
     }
 
-    // TODO: support isLeft() for horizontal switching;
-    if (prevEle && this.isAbove(el, prevEle)) {
+    const draggableAxis = el.getAttribute('axis');
+    const isBefore = draggableAxis === 'x' ? this.isLeft : this.isAbove;
+
+    if (prevEle && isBefore(el, prevEle)) {
       this.swap(this.placeholder, prevEle);
       return;
     }
     
-    if (nextEle && this.isAbove(nextEle, el)) {
+    if (nextEle && isBefore(nextEle, el)) {
       this.swap(nextEle, this.placeholder);
     }
   }
