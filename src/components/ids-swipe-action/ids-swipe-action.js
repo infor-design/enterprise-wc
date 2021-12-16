@@ -4,7 +4,8 @@ import { attributes } from '../../core/ids-attributes';
 import Base from './ids-swipe-action-base';
 
 import styles from './ids-swipe-action.scss';
-import { renderLoop, IdsRenderLoopItem } from '../ids-render-loop';
+import renderLoop from '../ids-render-loop/ids-render-loop-global';
+import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 
 /**
  * IDS SwipeAction Component
