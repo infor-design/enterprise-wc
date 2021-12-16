@@ -1,7 +1,5 @@
 import {
-  IdsElement,
   customElement,
-  scss,
   mix,
   attributes
 } from '../../core/ids-element';
@@ -15,7 +13,6 @@ import {
 import IdsModal from '../ids-modal';
 import IdsEmptyMessage from '../ids-empty-message';
 import IdsIcon from '../ids-icon/ids-icon';
-import styles from './ids-error-page.scss';
 
 const DEFAULT_ICON = 'empty-error-loading';
 
@@ -28,7 +25,6 @@ const DEFAULT_ICON = 'empty-error-loading';
  * @mixes IdsThemeMixin
  */
 @customElement('ids-error-page')
-@scss(styles)
 class IdsErrorPage extends mix(IdsModal).with(
     IdsEventsMixin,
     IdsKeyboardMixin,
@@ -56,7 +52,7 @@ class IdsErrorPage extends mix(IdsModal).with(
   template() {
     return `<ids-popup part="modal" class="ids-modal ids-error" type="custom" position-style="viewport">
       <div class="ids-modal-container" slot="content">
-        <ids-empty-message icon="${!this.icon ? DEFAULT_ICON : this.icon}">
+        <ids-empty-message icon="${this.icon ?? DEFAULT_ICON}">
           <ids-text
             type="h2"
             font-size="24"
@@ -64,13 +60,13 @@ class IdsErrorPage extends mix(IdsModal).with(
             label="true"
             slot="label"
           >
-            ${!this.label ? 'Add Label' : this.label}
+            ${this.label ?? 'Add Label'}
           </ids-text>
           <ids-text label="true" slot="description">
-            ${!this.description ? 'Add Description' : this.description}
+            ${this.description ?? 'Add Description'}
           </ids-text>
           <ids-button class="action-button" slot="button" type="primary">
-            <span slot="text">${!this.buttonText ? 'Action' : this.buttonText}</span>
+            <span slot="text">${this.buttonText ?? 'Action'}</span>
           </ids-button>
         </ids-empty-message>
       </div>
@@ -89,7 +85,7 @@ class IdsErrorPage extends mix(IdsModal).with(
       this.removeAttribute(attributes.ICON);
     }
 
-    const emptyMessage = this.shadowRoot.querySelector('ids-empty-message');
+    const emptyMessage = this.container.querySelector('ids-empty-message');
     if (emptyMessage) {
       emptyMessage.icon = value;
     }
@@ -185,7 +181,7 @@ class IdsErrorPage extends mix(IdsModal).with(
    * @private
    */
   #attachEventHandlers() {
-    const button = this.shadowRoot.querySelector('.action-button');
+    const button = this.container.querySelector('.action-button');
     const actionBtnEvent = 'action-button';
 
     this.onEvent('click', button, (e) => {
@@ -197,7 +193,7 @@ class IdsErrorPage extends mix(IdsModal).with(
       });
     });
 
-    this.onEvent('touchstart', button, (e) => {
+    this.onEvent('touchend', button, (e) => {
       this.triggerEvent(actionBtnEvent, this, {
         detail: {
           elem: this,
@@ -224,7 +220,7 @@ class IdsErrorPage extends mix(IdsModal).with(
    * @private
    */
   #refreshText(el, value) {
-    const elText = this.shadowRoot.querySelector(el);
+    const elText = this.container.querySelector(el);
     if (elText) {
       elText.innerHTML = value ? value.toString() : '';
     }

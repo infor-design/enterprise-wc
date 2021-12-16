@@ -103,9 +103,9 @@ describe('Ids Error Page Tests', () => {
     expect(errorPage.getAttribute('visible')).toBe(null);
   });
 
-  it('can trigger the action-button event on touchstart', async () => {
+  it('can trigger the action-button event on touchend', async () => {
     const button = errorPage.shadowRoot.querySelector('[slot="button"]');
-    const event = new TouchEvent('touchstart', {
+    const event = new TouchEvent('touchend', {
       touches: [{
         identifier: '123',
         pageX: 0,
