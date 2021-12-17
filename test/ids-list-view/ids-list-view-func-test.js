@@ -131,11 +131,11 @@ describe('IdsListView Component', () => {
     expect(listView.getAttribute('item-height')).toBeFalsy();
   });
 
-  it('supports setting draggable', () => {
-    listView.draggable = true;
-    expect(listView.getAttribute('draggable')).toEqual('true');
-    listView.draggable = false;
-    expect(listView.getAttribute('draggable')).toBeFalsy();
+  it('supports setting sortable', () => {
+    listView.sortable = true;
+    expect(listView.hasAttribute('sortable')).toEqual(true);
+    listView.sortable = false;
+    expect(listView.hasAttribute('sortable')).toBeFalsy();
   });
 
   it('supports setting focus', () => {
