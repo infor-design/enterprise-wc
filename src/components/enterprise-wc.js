@@ -17,6 +17,7 @@ import IdsCounts from './ids-counts/ids-counts';
 import IdsDataGrid from './ids-data-grid/ids-data-grid';
 import IdsDropdown from './ids-dropdown/ids-dropdown';
 import IdsEmptyMessage from './ids-empty-message/ids-empty-message';
+import IdsErrorPage from './ids-error-page/ids-error-page';
 import IdsExpandableArea from './ids-expandable-area/ids-expandable-area';
 import IdsFieldset from './ids-fieldset/ids-fieldset';
 import IdsHeader from './ids-header/ids-header';
