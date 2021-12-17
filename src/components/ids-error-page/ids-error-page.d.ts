@@ -1,6 +1,4 @@
-import { IdsElement } from '../../core';
-
-export default class IdsErrorPage extends IdsElement {
+export default class IdsErrorPage extends HTMLElement {
   /* id of the icon to be displayed */
   icon: string;
 

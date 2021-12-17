@@ -1,18 +1,9 @@
-import {
-  customElement,
-  mix,
-  scss,
-  attributes
-} from '../../core/ids-element';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import Base from './ids-error-page-base';
 
-import {
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
-import IdsModal from '../ids-modal';
-import IdsEmptyMessage from '../ids-empty-message';
+import IdsModal from '../ids-modal/ids-modal';
+import IdsEmptyMessage from '../ids-empty-message/ids-empty-message';
 import IdsIcon from '../ids-icon/ids-icon';
 import styles from './ids-error-page.scss';
 
@@ -28,11 +19,7 @@ const DEFAULT_ICON = 'empty-error-loading';
  */
 @customElement('ids-error-page')
 @scss(styles)
-class IdsErrorPage extends mix(IdsModal).with(
-    IdsEventsMixin,
-    IdsKeyboardMixin,
-    IdsThemeMixin
-  ) {
+export default class IdsErrorPage extends Base {
   constructor() {
     super();
   }
@@ -63,7 +50,7 @@ class IdsErrorPage extends mix(IdsModal).with(
             label="true"
             slot="label"
           >
-            ${this.label ?? 'Add Label'}
+          ${this.label ?? 'Add Label'}
           </ids-text>
           <ids-text label="true" slot="description">
             ${this.description ?? 'Add Description'}
@@ -229,5 +216,3 @@ class IdsErrorPage extends mix(IdsModal).with(
     }
   }
 }
-
-export default IdsErrorPage;

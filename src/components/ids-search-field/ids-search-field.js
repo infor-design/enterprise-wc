@@ -1,33 +1,14 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core';
+import { attributes } from '../../core/ids-attributes';
+import { customElement, scss } from '../../core/ids-decorators';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import {
-  IdsEventsMixin,
-  IdsThemeMixin,
-  IdsKeyboardMixin,
-  IdsColorVariantMixin
-} from '../../mixins';
-
-import { IdsStringUtils } from '../../utils';
+import Base from './ids-search-field-base';
+import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
+import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
+import IdsInput from '../ids-input/ids-input';
+import IdsIcon from '../ids-icon/ids-icon';
 
 import styles from './ids-search-field.scss';
-
-import IdsTriggerField from '../ids-trigger-field';
-import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
-import IdsInput from '../ids-input';
-import IdsIcon from '../ids-icon';
-
-const appliedMixins = [
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsThemeMixin,
-  IdsColorVariantMixin
-];
 
 const DEFAULT_LABEL = 'Search';
 const DEFAULT_PLACEHOLDER = 'Type to search';
@@ -41,10 +22,9 @@ const DEFAULT_PLACEHOLDER = 'Type to search';
  * @mixes IdsKeyboardMixin
  * @mixes IdsColorVariantMixin
  */
-
 @customElement('ids-search-field')
 @scss(styles)
-class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
+export default class IdsSearchField extends Base {
   DEFAULT_LABEL = DEFAULT_LABEL;
 
   DEFAULT_PLACEHOLDER = DEFAULT_PLACEHOLDER;
@@ -182,36 +162,34 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
    * @param {boolean} value True or False
    */
   set disabled(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     this.setAttribute(attributes.DISABLED, val);
     this.triggerField.disabled = val;
     this.input.disabled = val;
   }
 
   get disabled() {
-    return IdsStringUtils.stringToBool(this.getAttribute(attributes.DISABLED));
+    return stringToBool(this.getAttribute(attributes.DISABLED));
   }
 
   /**
    * Sets the input state to readonly so the field is uneditable but accessible through tabbing
    */
   set readonly(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     this.setAttribute(attributes.READONLY, val);
     this.input.readonly = val;
     this.triggerField.readonly = val;
   }
 
   get readonly() {
-    return IdsStringUtils.stringToBool(this.getAttribute(attributes.READONLY));
+    return stringToBool(this.getAttribute(attributes.READONLY));
   }
 
   /**
    * TODO: search function that gets triggered upon 'Enter' key or clicking the trigger button
    */
   #searchFunction() {
-    // const searchParam = this.value;
-    // query the searchParm in some list/database
   }
 
   #attachEventHandlers() {
@@ -224,10 +202,6 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
       this.value = e.target.value;
       // TODO: pop up autocomplete suggestions
     });
-
-    // this.onEvent('click', this.triggerButton, () => {
-    //   this.#searchFunction();
-    // });
   }
 
   /**
@@ -252,5 +226,3 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
     });
   }
 }
-
-export default IdsSearchField;

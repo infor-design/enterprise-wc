@@ -1,6 +1,4 @@
-import { IdsButton } from '../ids-button/ids-button';
-
-export default class IdsModalButton extends IdsButton {
+export default class IdsModalButton extends HTMLElement {
   /** Determines if this is a Cancel Button */
   cancel?: boolean;
 }

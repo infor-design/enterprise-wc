@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsScrollView from '../../src/components/ids-scroll-view';
+import IdsScrollView from '../../src/components/ids-scroll-view/ids-scroll-view';
 import IntersectionObserver from '../helpers/intersection-observer-mock';
 
 describe('IdsScrollView Component', () => {

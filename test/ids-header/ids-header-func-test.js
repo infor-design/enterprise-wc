@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsHeader from '../../src/components/ids-header';
+import IdsHeader from '../../src/components/ids-header/ids-header';
 
 describe('IdsHeader Component', () => {
   let elem;

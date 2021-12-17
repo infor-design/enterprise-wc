@@ -1,9 +1,4 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-
-import { IdsButton } from '../ids-button/ids-button';
-
-export default class IdsTriggerButton extends IdsButton {
+export default class IdsTriggerButton extends HTMLElement {
   /* Contains space-delimeted CSS classes (or an array of CSS classes) that will be passed to the Shadow Root button */
   cssClass?: Array<string> | string | null;
 

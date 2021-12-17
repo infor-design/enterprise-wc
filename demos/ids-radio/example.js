@@ -1,5 +1,5 @@
 // Supporting components
-import IdsButton from '../../src/components/ids-button';
+import IdsButton from '../../src/components/ids-button/ids-button';
 
 document.addEventListener('DOMContentLoaded', () => {
   const radio = document.querySelector('#ids-radio-validation');

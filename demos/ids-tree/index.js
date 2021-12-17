@@ -1,1 +1,1 @@
-import IdsTree from '../../src/components/ids-tree';
+import IdsTree from '../../src/components/ids-tree/ids-tree';

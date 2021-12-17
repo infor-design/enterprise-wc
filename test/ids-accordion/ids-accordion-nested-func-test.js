@@ -4,9 +4,9 @@
 import IdsAccordion, {
   IdsAccordionHeader,
   IdsAccordionPanel
-} from '../../src/components/ids-accordion';
-import IdsIcon from '../../src/components/ids-icon';
-import IdsText from '../../src/components/ids-text';
+} from '../../src/components/ids-accordion/ids-accordion';
+import IdsIcon from '../../src/components/ids-icon/ids-icon';
+import IdsText from '../../src/components/ids-text/ids-text';
 
 import elemBuilderFactory from '../helpers/elem-builder-factory';
 import processAnimFrame from '../helpers/process-anim-frame';

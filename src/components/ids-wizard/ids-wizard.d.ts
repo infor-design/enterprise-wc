@@ -1,9 +1,4 @@
-import { IdsElement } from '../../core';
-import IdsWizardStep from './ids-wizard-step';
-
-export { IdsWizardStep };
-
-export default class IdsWizard extends IdsElement {
+export default class IdsWizard extends HTMLElement {
   /**
    * Determines whether all wizard steps are clickable by default
    */

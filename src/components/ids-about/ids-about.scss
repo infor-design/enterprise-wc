@@ -97,7 +97,7 @@
 ::slotted([slot='content']),
 ::slotted([slot='copyright']) {
   @include block();
-  @include mb-16();
+  @include mb-32();
 }
 
 ::slotted([slot='icon']) {
@@ -115,4 +115,16 @@
 // (not needed since buttons are aligned differently here)
 ::slotted([slot='buttons']:not(:first-of-type)) {
   border-left: transparent;
+}
+
+// Move Stuff for RTL
+:host([dir='rtl']) {
+  ::slotted([slot='buttons']) {
+    left: 3px;
+    right: unset;
+  }
+
+  .ids-modal-content {
+    text-align: right;
+  }
 }

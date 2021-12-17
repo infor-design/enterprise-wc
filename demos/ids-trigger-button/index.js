@@ -1,1 +1,1 @@
-import IdsTriggerButton from '../../src/components/ids-trigger-field';
+import IdsTriggerButton from '../../src/components/ids-trigger-field/ids-trigger-button';

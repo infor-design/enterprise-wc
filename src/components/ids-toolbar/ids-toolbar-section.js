@@ -1,15 +1,8 @@
-import {
-  IdsElement,
-  scss,
-  mix,
-  customElement
-} from '../../core';
 import { attributes } from '../../core/ids-attributes';
+import { customElement, scss, appendIds } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import Base from './ids-toolbar-section-base';
 import styles from './ids-toolbar-section.scss';
-
-// Import Mixins
-import { IdsEventsMixin, IdsThemeMixin } from '../../mixins';
 
 const TOOLBAR_SECTION_ATTRIBUTES = [
   attributes.ALIGN,
@@ -93,7 +86,7 @@ function setCssClassFromGroup(targetClass, targetElem, group) {
  */
 @customElement('ids-toolbar-section')
 @scss(styles)
-class IdsToolbarSection extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+export default class IdsToolbarSection extends Base {
   constructor() {
     super();
   }
@@ -244,7 +237,6 @@ class IdsToolbarSection extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
   }
 }
 
-export default IdsToolbarSection;
 export {
   TOOLBAR_ITEM_TAGNAMES
 };

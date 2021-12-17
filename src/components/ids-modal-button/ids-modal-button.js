@@ -1,14 +1,10 @@
-import {
-  customElement,
-  scss,
-  attributes
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
+import Base from './ids-modal-button-base';
 
 import styles from '../ids-button/ids-button.scss';
-import { IdsButton } from '../ids-button';
-import { IdsStringUtils } from '../../utils';
-
-const { stringToBool } = IdsStringUtils;
 
 /**
  * IDS Modal Button Component
@@ -17,9 +13,17 @@ const { stringToBool } = IdsStringUtils;
  */
 @customElement('ids-modal-button')
 @scss(styles)
-class IdsModalButton extends IdsButton {
+export default class IdsModalButton extends Base {
   constructor() {
     super();
+  }
+
+  /**
+   * Toggle-Button-level `connectedCallback` implementation (adds an icon refresh)
+   * @returns {void}
+   */
+  connectedCallback() {
+    super.connectedCallback?.();
   }
 
   /**
@@ -30,14 +34,6 @@ class IdsModalButton extends IdsButton {
       ...super.attributes,
       attributes.CANCEL
     ];
-  }
-
-  /**
-   * Toggle-Button-level `connectedCallback` implementation (adds an icon refresh)
-   * @returns {void}
-   */
-  connectedCallback() {
-    super.connectedCallback?.();
   }
 
   /**
@@ -69,5 +65,3 @@ class IdsModalButton extends IdsButton {
     }
   }
 }
-
-export default IdsModalButton;

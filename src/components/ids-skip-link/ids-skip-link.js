@@ -1,19 +1,9 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  attributes,
-  mix
-} from '../../core';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
+import Base from './ids-skip-link-base';
 
 import styles from './ids-skip-link.scss';
-import IdsHyperlink from '../ids-hyperlink';
 
 /**
  * IDS IdsSkipLink Component
@@ -25,7 +15,7 @@ import IdsHyperlink from '../ids-hyperlink';
  */
 @customElement('ids-skip-link')
 @scss(styles)
-class IdsSkiplink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+export default class IdsSkiplink extends Base {
   constructor() {
     super();
   }
@@ -70,5 +60,3 @@ class IdsSkiplink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
   get href() { return this.getAttribute(attributes.HREF); }
 }
-
-export default IdsSkiplink;

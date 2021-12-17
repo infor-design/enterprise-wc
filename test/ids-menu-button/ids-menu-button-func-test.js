@@ -107,6 +107,16 @@ describe('IdsMenuButton Component', () => {
     }, 20);
   });
 
+  it('not error if no menu', () => {
+    const noMenuButton = new IdsMenuButton();
+    document.body.appendChild(noMenuButton);
+
+    expect(() => {
+      noMenuButton.configureMenu();
+      noMenuButton.resizeMenu();
+    }).not.toThrow();
+  });
+
   it('should render an icon button', () => {
     document.body.innerHTML = '';
     buttonEl = new IdsMenuButton();

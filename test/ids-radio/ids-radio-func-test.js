@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsRadio from '../../src/components/ids-radio';
-import IdsContainer from '../../src/components/ids-container';
+import IdsRadio from '../../src/components/ids-radio/ids-radio';
+import IdsContainer from '../../src/components/ids-container/ids-container';
 
 describe('IdsRadio Component', () => {
   let rb;

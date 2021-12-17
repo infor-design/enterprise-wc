@@ -53,6 +53,11 @@
   @include text-slate-100();
 }
 
+::slotted(ids-icon[dir='rtl']) {
+  @include pr-4();
+  @include pl-0();
+}
+
 // Adjust hover state
 ::slotted(ids-icon:hover) {
   @include text-slate-60();

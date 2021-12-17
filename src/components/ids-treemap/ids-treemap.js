@@ -1,17 +1,6 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin,
-  IdsLocaleMixin
-} from '../../mixins';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import Base from './ids-treemap-base';
 
 import styles from './ids-treemap.scss';
 
@@ -33,11 +22,7 @@ const DEFAULT_HEIGHT = 300;
  */
 @customElement('ids-treemap')
 @scss(styles)
-class IdsTreeMap extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsThemeMixin,
-    IdsLocaleMixin
-  ) {
+export default class IdsTreeMap extends Base {
   constructor() {
     super();
     this.d = DEFAULT_DATA;
@@ -429,15 +414,9 @@ class IdsTreeMap extends mix(IdsElement).with(
    * @memberof IdsTreeMap
    */
   resizeTreemap() {
-    let observerStarted = true;
     requestAnimationFrame(() => {
       const resizeObserver = new ResizeObserver((entries) => {
         for (const entry of entries) {
-          // Ignore the first call to the observer function
-          if (observerStarted) {
-            observerStarted = false;
-            return;
-          }
           resizeObserver.disconnect();
 
           // Recalculate treemap data
@@ -454,7 +433,6 @@ class IdsTreeMap extends mix(IdsElement).with(
           }
         }
 
-        observerStarted = true;
         requestAnimationFrame(() => resizeObserver.observe(this.container));
       });
 
@@ -462,5 +440,3 @@ class IdsTreeMap extends mix(IdsElement).with(
     });
   }
 }
-
-export default IdsTreeMap;

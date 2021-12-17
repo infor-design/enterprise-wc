@@ -135,7 +135,7 @@
   }
 }
 
-.ids-spinbox[dir='rtl'] {
+:host([dir='rtl']) {
   .ids-spinbox-content ids-button:first-child::part(button) {
     border-left-style: none;
     border-right-style: solid;

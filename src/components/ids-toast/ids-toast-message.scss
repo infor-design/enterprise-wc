@@ -29,8 +29,6 @@
 
   &.effect-scale-hide {
     @include animation(animScaleOut 0.25s);
-
-    // @include bg-opacity-0();
   }
 
   .main-container {

@@ -785,7 +785,7 @@
 }
 
 // RTL Fixes
-.ids-popup[dir='rtl'] {
+:host([dir='rtl']) {
   .arrow.bottom::after {
     left: 8px;
   }

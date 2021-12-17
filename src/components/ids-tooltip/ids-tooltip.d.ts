@@ -1,8 +1,3 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-
-import { IdsElement } from '../../core';
-
 interface IdsTooltipEventDetail extends Event {
   detail: {
     elem: IdsTooltip
@@ -16,7 +11,7 @@ interface IdsTooltipEventVetoable extends Event {
   }
 }
 
-export default class IdsTooltip extends IdsElement {
+export default class IdsTooltip extends HTMLElement {
   /** An async function that fires as the tooltip is showing allowing you to set contents. */
   beforeShow(): Promise<string>;
 

@@ -1,5 +1,5 @@
-import IdsTooltip from '../../src/components/ids-tooltip';
-import IdsSpinbox from '../../src/components/ids-spinbox';
+import IdsTooltip from '../../src/components/ids-tooltip/ids-tooltip';
+import IdsSpinbox from '../../src/components/ids-spinbox/ids-spinbox';
 import './index.scss';
 
 document.addEventListener('DOMContentLoaded', () => {
