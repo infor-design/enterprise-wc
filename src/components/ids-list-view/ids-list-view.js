@@ -7,7 +7,7 @@ import {
 } from '../../core';
 
 // Import Utils
-import { IdsStringUtils } from '../../utils';
+import { IdsStringUtils as stringUtils } from '../../utils';
 
 import IdsDataSource from '../../core/ids-data-source';
 import {
@@ -67,12 +67,19 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
     return this.container.querySelectorAll('div[part="list-item"]');
   }
 
+  addSortableStyles() {
+    this.getAllLi().forEach((li) => {
+      li.classList.add('sortable');
+    });
+  }
+
   attachEventListeners() {
     this.attachKeyboardListeners();
 
     // attaching both event listeners causes focus issues, so do it conditionally based on the sortable prop
     if (this.sortable) {
       this.attachDragEventListeners(); // for focusing and dragging list items
+      this.addSortableStyles();
     } else {
       this.attachClickListeners(); // for focusing list items
     }
@@ -243,7 +250,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
    * @returns {string} The html for this item
    */
   itemTemplate(item) {
-    return IdsStringUtils.injectTemplate(this.defaultTemplate, item);
+    return stringUtils.injectTemplate(this.defaultTemplate, item);
   }
 
   #refocus() {
@@ -336,7 +343,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
    * @param {boolean|string} value true to use virtual scrolling
    */
   set virtualScroll(value) {
-    if (IdsStringUtils.stringToBool(value)) {
+    if (stringUtils.stringToBool(value)) {
       this.setAttribute(attributes.VIRTUAL_SCROLL, value.toString());
     } else {
       this.removeAttribute(attributes.VIRTUAL_SCROLL);
@@ -344,7 +351,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
     this.render();
   }
 
-  get virtualScroll() { return IdsStringUtils.stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
+  get virtualScroll() { return stringUtils.stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
 
   /**
    * Set the expected height of the viewport for virtual scrolling
