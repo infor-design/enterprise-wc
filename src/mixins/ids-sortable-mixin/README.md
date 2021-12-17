@@ -5,11 +5,11 @@ This mixin injects a `sortable` property into a component that can be toggled to
 The items to be dragged and dropped **MUST** be `ids-draggable` or else this mixin won't work. It depends on event listeners for the events `ids-dragstart`, `ids-drag`, `ids-dragend` which are fired by `ids-draggable`. It works like this:
 
 1. User clicks item/starts drag
-    - A placeholder is created under the selected item
+   - A placeholder is created under the selected item
 2. User drags item around the screen
-    - The placeholder moves up/down or left/right as a marker to indicate where the item will end up after being "dropped"
+   - The placeholder moves up/down or left/right as a marker to indicate where the item will end up after being "dropped"
 3. User releases mouse button/ends drag
-    - The placeholder is removed from the DOM
+   - The placeholder is removed from the DOM
 
 For more info on dragging and dropping elements in a list, and what the coding logic in this mixin is based on, refer to [this article](https://htmldom.dev/drag-and-drop-element-in-a-list/)
 

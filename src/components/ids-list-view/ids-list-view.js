@@ -10,8 +10,12 @@ import {
 import { IdsStringUtils } from '../../utils';
 
 import IdsDataSource from '../../core/ids-data-source';
-import { IdsThemeMixin, IdsKeyboardMixin, IdsEventsMixin, IdsSortableMixin } from '../../mixins';
-
+import {
+  IdsThemeMixin,
+  IdsKeyboardMixin,
+  IdsEventsMixin,
+  IdsSortableMixin
+} from '../../mixins';
 import IdsVirtualScroll from '../ids-virtual-scroll';
 import styles from './ids-list-view.scss';
 
@@ -65,11 +69,12 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
 
   attachEventListeners() {
     this.attachKeyboardListeners();
+
+    // attaching both event listeners causes focus issues, so do it conditionally based on the sortable prop
     if (this.sortable) {
-      this.attachDragEventListeners(); // for dragging list items
-    } 
-    else {
-      this.attachClickListeners();
+      this.attachDragEventListeners(); // for focusing and dragging list items
+    } else {
+      this.attachClickListeners(); // for focusing list items
     }
   }
 
@@ -375,7 +380,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
 
   /**
    * Overrides the ids-sortable-mixin function to focus on item
-   * @param {Element} el 
+   * @param {Element} el element to be dragged
    */
   onDragStart(el) {
     super.onDragStart(el);
@@ -383,21 +388,21 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
     const li = el.querySelector('div[part="list-item"]');
     this.onClick(li);
   }
-  
+
   /**
    * Overrides the ids-sortable-mixin function to focus on item
-   * @param {Element} el 
+   * @param {Element} el element to be dragged
    */
   onDragEnd(el) {
     super.onDragEnd(el);
-    
+
     const li = el.querySelector('div[part="list-item"]');
     li.focus();
   }
 
   /**
    * Overrides the ids-sortable-mixin function to add styling for the placeholder node
-   * @param {Node} node 
+   * @param {Node} node the node to be cloned
    * @returns {Node} the cloned node
    */
   createPlaceholderNode(node) {
@@ -405,7 +410,6 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
     p.querySelector('div[part="list-item"]').classList.add('placeholder'); // for styling the placeholder
     return p;
   }
-
 }
 
 export default IdsListView;

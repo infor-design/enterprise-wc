@@ -42,7 +42,8 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
 
   connectedCallback() {
     this.sortable = true;
-    this.virtualScroll = false; // list-builder is not designed to handle thousands of items, so don't support virtual scroll
+    // list-builder is not designed to handle thousands of items, so don't support virtual scroll
+    this.virtualScroll = false;
     this.itemHeight = 46; // hard-coded
     this.#attachEventListeners();
     super.connectedCallback();
@@ -380,7 +381,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
 
   /**
    * Overrides the ids-sortable-mixin function to ensure there are no duplicate selected nodes as a result of cloning
-   * @param {Node} node 
+   * @param {Node} node the node to be cloned
    * @returns {Node} the cloned node
    */
   createPlaceholderNode(node) {

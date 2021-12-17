@@ -27,9 +27,9 @@ const IdsSortableMixin = (superclass) => class extends superclass {
 
   /**
    * Handles the sortable property and reflects it on the DOM
-   * @param {string | boolean} value
+   * @param {string | boolean} value the sortable parameter
    */
-   set sortable(value) {
+  set sortable(value) {
     const val = IdsStringUtils.stringToBool(value);
     if (val) {
       this.setAttribute(attributes.SORTABLE, val);
@@ -42,7 +42,7 @@ const IdsSortableMixin = (superclass) => class extends superclass {
     return this.hasAttribute(attributes.SORTABLE);
   }
 
- /**
+  /**
    * Helper function for swapping nodes in the list item -- used when dragging list items or clicking the up/down arrows
    * @param {Node} nodeA the first node
    * @param {Node} nodeB the second node
@@ -95,7 +95,7 @@ const IdsSortableMixin = (superclass) => class extends superclass {
 
   /**
    * Helper function that queries a list of all the ids-draggable elements
-   * @returns NodeList or null
+   * @returns {NodeList | null} returns list of ids-draggable elements, or null
    */
   getAllDraggable() {
     return this.sortable ? this.container.querySelectorAll('ids-draggable') : null;
@@ -104,7 +104,7 @@ const IdsSortableMixin = (superclass) => class extends superclass {
   /**
    * Adds dragging functionality to all list items
    */
-   attachDragEventListeners() {
+  attachDragEventListeners() {
     this.getAllDraggable().forEach((draggable) => {
       this.attachDragEventListenersForDraggable(draggable);
     });
@@ -113,7 +113,7 @@ const IdsSortableMixin = (superclass) => class extends superclass {
   /**
    * Helper function for when ids-dragstart fires
    * Can be overriden to include any additional calls
-   * @param {Element} el 
+   * @param {Element} el element to be dragged
    */
   onDragStart(el) {
     // create placeholder
@@ -122,7 +122,7 @@ const IdsSortableMixin = (superclass) => class extends superclass {
     el.style.position = `absolute`;
     el.style.opacity = `0.95`;
     el.style.zIndex = `100`;
-    
+
     el.parentNode.insertBefore(
       this.placeholder,
       el.nextSibling
@@ -132,7 +132,7 @@ const IdsSortableMixin = (superclass) => class extends superclass {
   /**
    * Helper function for when ids-dragend fires
    * Can be overridden to include any additional calls
-   * @param {Element} el 
+   * @param {Element} el element to be dragged
    */
   onDragEnd(el) {
     el.style.removeProperty('position');
@@ -150,8 +150,7 @@ const IdsSortableMixin = (superclass) => class extends superclass {
   /**
    * Helper function for when ids-drag fires
    * Can be overridden to include any additional calls
-   * @param {Element} el 
-   * @returns 
+   * @param {Element} el element to be dragged
    */
   onDrag(el) {
     let prevEle = this.placeholder?.previousElementSibling;
@@ -173,7 +172,7 @@ const IdsSortableMixin = (superclass) => class extends superclass {
       this.swap(this.placeholder, prevEle);
       return;
     }
-    
+
     if (nextEle && isBefore(nextEle, el)) {
       this.swap(nextEle, this.placeholder);
     }
