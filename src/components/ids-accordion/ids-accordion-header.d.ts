@@ -1,6 +1,4 @@
-import { IdsElement } from '../../core';
-
-export default class extends IdsElement {
+export default class extends HTMLElement {
   /** Reference to the corresponding IdsAccordionPanel element */
   readonly panel: HTMLElement;
 

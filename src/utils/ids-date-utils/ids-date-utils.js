@@ -3,7 +3,7 @@
  * @param {Date} date The date to check.
  * @returns {boolean} Returns true or false if the compared date is today.
  */
-export function isToday(date) {
+export function isTodaysDate(date) {
   const today = new Date();
   return (
     date.getDate() === today.getDate()
@@ -37,7 +37,7 @@ export function firstDayOfWeek(date, startsOn = 0, showRange = false) {
  * @returns {boolean} Returns true or false if the compared date is today.
  */
 export function lastDayOfWeek(date, startsOn = 0) {
-  const lastDay = this.firstDayOfWeek(date, startsOn);
+  const lastDay = firstDayOfWeek(date, startsOn);
   lastDay.setDate(lastDay.getDate() + 6);
   lastDay.setHours(23, 59, 59, 999);
   return lastDay;
@@ -92,7 +92,7 @@ export function daysDiff(startDate, endDate) {
  * @param {string} unit days
  * @returns {Date} new date after addition.
  */
-export function add(date, number, unit) {
+export function addDate(date, number, unit) {
   let newDate = null;
   const originalDate = date instanceof Date ? new Date(date.toISOString()) : new Date(date);
   switch (unit) {
@@ -112,7 +112,7 @@ export function add(date, number, unit) {
  * @param {string} unit days
  * @returns {Date} new date after subtraction.
  */
-export function subtract(date, number, unit) {
+export function subtractDate(date, number, unit) {
   let newDate = null;
   const originalDate = date instanceof Date ? new Date(date.toISOString()) : new Date(date);
   switch (unit) {
@@ -144,22 +144,3 @@ export function isDaylightSavingTime(date) {
 export function isValidDate(date) {
   return date instanceof Date && !Number.isNaN(date);
 }
-
-/**
- * Ids Date Utilities
- */
-export const IdsDateUtils = {
-  isToday,
-  firstDayOfWeek,
-  lastDayOfWeek,
-  dateDiff,
-  monthDiff,
-  add,
-  subtract,
-  isDaylightSavingTime,
-  isValidDate,
-  daysDiff,
-};
-
-export default IdsDateUtils;
-export { IdsDateUtils as dateUtils };

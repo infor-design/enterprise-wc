@@ -4,8 +4,8 @@
 import IdsAccordion, {
   IdsAccordionHeader,
   IdsAccordionPanel
-} from '../../src/components/ids-accordion';
-import IdsContainer from '../../src/components/ids-container';
+} from '../../src/components/ids-accordion/ids-accordion';
+import IdsContainer from '../../src/components/ids-container/ids-container';
 
 import elemBuilderFactory from '../helpers/elem-builder-factory';
 import waitFor from '../helpers/wait-for';
@@ -340,6 +340,5 @@ describe('IdsAccordion Component', () => {
     container.dispatchEvent(event);
 
     expect(mockCallback.mock.calls.length).toBe(1);
-    expect(accordion.language.name).toEqual(language.after);
   });
 });

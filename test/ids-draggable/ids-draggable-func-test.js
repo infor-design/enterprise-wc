@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsDraggable from '../../src/components/ids-draggable';
-import { IdsStringUtils } from '../../src/utils';
+import IdsDraggable from '../../src/components/ids-draggable/ids-draggable';
+import { stringToBool } from '../../src/utils/ids-string-utils/ids-string-utils';
 import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';
 import expectFlagAttributeBehavior from '../helpers/expect-flag-attribute-behavior';
 import simulateMouseDownEvents from '../helpers/simulate-mouse-down-events';
@@ -158,7 +158,7 @@ describe('IdsDraggable Component', () => {
     Object.defineProperty(elem, 'isDragging', {
       get: jest.fn(),
       set: jest.fn((v) => {
-        const isTruthy = IdsStringUtils.stringToBool(v);
+        const isTruthy = stringToBool(v);
 
         if (isTruthy) {
           hasDraggingBeenSet = true;
@@ -182,7 +182,7 @@ describe('IdsDraggable Component', () => {
     Object.defineProperty(elem, 'isDragging', {
       get: jest.fn(),
       set: jest.fn((v) => {
-        const isTruthy = IdsStringUtils.stringToBool(v);
+        const isTruthy = stringToBool(v);
 
         if (isTruthy) {
           hasDraggingBeenSet = true;

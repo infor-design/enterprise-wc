@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsCounts from '../../src/components/ids-counts';
-import IdsText from '../../src/components/ids-text';
+import IdsCounts from '../../src/components/ids-counts/ids-counts';
+import IdsText from '../../src/components/ids-text/ids-text';
 
 const template = `
 <ids-counts href="#">

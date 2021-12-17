@@ -1,23 +1,11 @@
-import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix,
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-// Import Utils
-import { IdsStringUtils } from '../../utils';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsLocaleMixin,
-  IdsThemeMixin
-} from '../../mixins';
+import Base from './ids-switch-base';
+import IdsText from '../ids-text/ids-text';
 
 import styles from './ids-switch.scss';
-import IdsText from '../ids-text';
 
 /**
  * IDS Switch Component
@@ -32,7 +20,7 @@ import IdsText from '../ids-text';
  */
 @customElement('ids-switch')
 @scss(styles)
-class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsThemeMixin) {
+export default class IdsSwitch extends Base {
   /**
    * Call the constructor and then initialize
    */
@@ -71,7 +59,7 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, Ids
    * @returns {void}
    */
   disconnectedCallback() {
-    IdsElement.prototype.disconnectedCallback.apply(this);
+    Base.prototype.disconnectedCallback.apply(this);
     this.#attachSwitchChangeEvent('remove');
     this.attachNativeEvents('remove');
   }
@@ -81,8 +69,8 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, Ids
    * @returns {string} The template
    */
   template() {
-    const disabled = IdsStringUtils.stringToBool(this.disabled) ? ' disabled' : '';
-    const checked = IdsStringUtils.stringToBool(this.checked) ? ' checked' : '';
+    const disabled = stringToBool(this.disabled) ? ' disabled' : '';
+    const checked = stringToBool(this.checked) ? ' checked' : '';
     const rootClass = ` class="ids-switch${disabled}"`;
     const checkboxClass = ` class="checkbox"`;
 
@@ -167,13 +155,6 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, Ids
   #attachEventHandlers() {
     this.#attachSwitchChangeEvent();
     this.attachNativeEvents();
-
-    // Respond to parent changing language
-    this.offEvent('languagechange.switch-container');
-    this.onEvent('languagechange.switch-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
-      // Do something with parent lang
-    });
   }
 
   /**
@@ -183,7 +164,7 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, Ids
   set checked(value) {
     const slider = this.shadowRoot.querySelector('.slider');
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.CHECKED, val.toString());
       this.input?.setAttribute(attributes.CHECKED, val);
@@ -204,7 +185,7 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, Ids
   set disabled(value) {
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     const rootEl = this.shadowRoot.querySelector('.ids-switch');
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     const labelText = this.shadowRoot.querySelector('.label-text');
 
     if (val) {
@@ -263,5 +244,3 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, Ids
     this.input.focus();
   }
 }
-
-export default IdsSwitch;

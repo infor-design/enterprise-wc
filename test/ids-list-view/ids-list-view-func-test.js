@@ -117,6 +117,32 @@ describe('IdsListView Component', () => {
     expect(listView.container.getAttribute('version')).toEqual('classic');
   });
 
+  it('supports setting height', () => {
+    listView.height = '600px';
+    expect(listView.getAttribute('height')).toEqual('600px');
+    listView.height = undefined;
+    expect(listView.getAttribute('height')).toEqual('100%');
+  });
+
+  it('supports setting itemHeight', () => {
+    listView.itemHeight = '40px';
+    expect(listView.getAttribute('item-height')).toEqual('40px');
+    listView.itemHeight = undefined;
+    expect(listView.getAttribute('item-height')).toBeFalsy();
+  });
+
+  it('supports setting draggable', () => {
+    listView.draggable = true;
+    expect(listView.getAttribute('draggable')).toEqual('true');
+    listView.draggable = false;
+    expect(listView.getAttribute('draggable')).toBeFalsy();
+  });
+
+  it('supports setting focus', () => {
+    listView.focus();
+    expect(document.activeElement.tagName).toEqual('BODY');
+  });
+
   it('can use arrow keys to navigate', () => {
     requestAnimationFrame(() => {
       expect(listView.shadowRoot.querySelector('[part="list-item"][tabindex="0"]').innerHTML.indexOf('Discretionary') > -1).toEqual(true);

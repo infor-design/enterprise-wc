@@ -1,5 +1,5 @@
-import { attributes } from '../../core';
-import { IdsXssUtils } from '../../utils';
+import { attributes } from '../../core/ids-attributes';
+import { stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 /**
  * A mixin that will provide the container element of an IDS Component with a class
@@ -55,7 +55,7 @@ const IdsColorVariantMixin = (superclass) => class extends superclass {
   set colorVariant(val) {
     let safeValue = null;
     if (typeof val === 'string') {
-      safeValue = IdsXssUtils.stripTags(val, '');
+      safeValue = stripTags(val, '');
     }
 
     const currentValue = this.state.colorVariant;

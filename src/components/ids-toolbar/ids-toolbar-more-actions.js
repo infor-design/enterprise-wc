@@ -1,18 +1,13 @@
-import {
-  IdsElement,
-  scss,
-  customElement,
-  mix
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import { IdsEventsMixin } from '../../mixins/ids-events-mixin';
+import Base from './ids-toolbar-more-actions-base';
+import { removeNewLines, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import styles from './ids-toolbar-more-actions.scss';
-
-// Subcomponents
+import IdsToolbarSection from './ids-toolbar-section';
 import IdsMenuButton from '../ids-menu-button/ids-menu-button';
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
-import { IdsStringUtils } from '../../utils/ids-string-utils';
+
+import styles from './ids-toolbar-more-actions.scss';
 
 const MORE_ACTIONS_SELECTOR = `[${attributes.MORE_ACTIONS}]`;
 
@@ -21,7 +16,7 @@ const MORE_ACTIONS_SELECTOR = `[${attributes.MORE_ACTIONS}]`;
  */
 @customElement('ids-toolbar-more-actions')
 @scss(styles)
-class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
+export default class IdsToolbarMoreActions extends Base {
   constructor() {
     super();
   }
@@ -157,7 +152,7 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
     }
 
     // Sanitize text from Toolbar elements to fit menu items
-    text = IdsStringUtils.removeNewLines(text).trim();
+    text = removeNewLines(text).trim();
 
     return `<ids-menu-item${disabled}${icon}${hidden || overflowed}>
       ${text}
@@ -213,7 +208,7 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
    * @param {boolean} val true if the More Actions menu should be disabled
    */
   set disabled(val) {
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
 
     if (trueVal) {
       this.setAttribute(attributes.DISABLED, val);
@@ -236,7 +231,7 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
    * @param {boolean|string} val truthy if this More Actions menu should display overflowed items from the toolbar
    */
   set overflow(val) {
-    const newValue = IdsStringUtils.stringToBool(val);
+    const newValue = stringToBool(val);
     const currentValue = this.overflow;
     if (newValue !== currentValue) {
       if (newValue) {
@@ -274,7 +269,7 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
    * @param {boolean} val alters whether the More Actions menu is displayed/hidden
    */
   set visible(val) {
-    if (IdsStringUtils.stringToBool(val)) {
+    if (stringToBool(val)) {
       this.setAttribute(attributes.VISIBLE, '');
       this.menu.showIfAble();
     } else {
@@ -409,9 +404,3 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
     return isBeyondLeftEdge || isBeyondRightEdge;
   }
 }
-
-export default IdsToolbarMoreActions;
-export {
-  IdsMenuButton,
-  IdsPopupMenu
-};

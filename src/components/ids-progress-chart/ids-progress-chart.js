@@ -1,16 +1,6 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import Base from './ids-progress-chart-base';
 
 import styles from './ids-progress-chart.scss';
 
@@ -28,7 +18,7 @@ const DEFAULT_SIZE = 'normal';
  */
 @customElement('ids-progress-chart')
 @scss(styles)
-class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+export default class IdsProgressChart extends Base {
   constructor() {
     super();
   }
@@ -259,5 +249,3 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
     return this;
   }
 }
-
-export default IdsProgressChart;

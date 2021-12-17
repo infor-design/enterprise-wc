@@ -1,6 +1,4 @@
-import { IdsElement } from '../../core';
-
-export default class extends IdsElement {
+export default class extends HTMLElement {
   /** Sets the min width breakpoint that should hide the element */
   hideUp?: string | 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
 

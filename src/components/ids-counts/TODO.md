@@ -1,6 +1,5 @@
-# TODO on IDS Coounts
+# TODO on IDS Counts
 
 ## Features
 
-- [x] Focus State for links
 - [] Test accessibility with screen reader

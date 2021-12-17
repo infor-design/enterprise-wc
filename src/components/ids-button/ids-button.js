@@ -1,82 +1,24 @@
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
+import Base from './ids-button-base';
+import renderLoop from '../ids-render-loop/ids-render-loop-global';
+import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 import {
-  IdsElement,
-  customElement,
-  mix,
-  scss,
-  attributes
-} from '../../core';
+  BUTTON_TYPES, BUTTON_DEFAULTS, BUTTON_ATTRIBUTES, ICON_ALIGN, baseProtoClasses
+} from './ids-button-attributes';
 
-import { IdsStringUtils } from '../../utils';
-
-import {
-  IdsEventsMixin,
-  IdsColorVariantMixin,
-  IdsLocaleMixin,
-  IdsThemeMixin,
-  IdsTooltipMixin
-} from '../../mixins';
-
-import { renderLoop, IdsRenderLoopItem } from '../ids-render-loop';
-import '../ids-text';
-import '../ids-icon';
 import styles from './ids-button.scss';
-
-const { stringToBool } = IdsStringUtils;
-
-// Button Styles
-const BUTTON_TYPES = [
-  'default',
-  'primary',
-  'secondary',
-  'tertiary',
-  'destructive',
-  'swipe-action-left',
-  'swipe-action-right'
-];
-
-// Default Button state values
-const BUTTON_DEFAULTS = {
-  cssClass: [],
-  disabled: false,
-  tabIndex: 0,
-  type: BUTTON_TYPES[0]
-};
-
-// Definable attributes
-const BUTTON_ATTRIBUTES = [
-  attributes.CSS_CLASS,
-  attributes.DISABLED,
-  attributes.ICON,
-  attributes.ICON_ALIGN,
-  attributes.ID,
-  attributes.NO_PADDING,
-  attributes.NO_RIPPLE,
-  attributes.SQUARE,
-  attributes.TEXT,
-  attributes.TYPE,
-  attributes.TABINDEX,
-  attributes.COLOR_VARIANT
-];
-
-// Icon alignments
-const ICON_ALIGN = [
-  'align-icon-start',
-  'align-icon-end'
-];
-
-const baseProtoClasses = [
-  'ids-button',
-  'ids-icon-button',
-  'ids-menu-button',
-  'ids-toggle-button'
-];
 
 /**
  * IDS Button Component
  * @type {IdsButton}
  * @inherits IdsElement
- * @mixes IdsThemeMixin
  * @mixes IdsEventsMixin
+ * @mixes IdsColorVariantMixin
+ * @mixes IdsLocaleMixin
+ * @mixes IdsThemeMixin
  * @mixes IdsTooltipMixin
  * @part button - the button element
  * @part icon - the icon element
@@ -84,13 +26,7 @@ const baseProtoClasses = [
  */
 @customElement('ids-button')
 @scss(styles)
-class IdsButton extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsColorVariantMixin,
-    IdsLocaleMixin,
-    IdsThemeMixin,
-    IdsTooltipMixin
-  ) {
+export default class IdsButton extends Base {
   constructor() {
     super();
     this.state = {};
@@ -266,8 +202,7 @@ class IdsButton extends mix(IdsElement).with(
 
     // Respond to parent changing language
     this.offEvent('languagechange.button');
-    this.onEvent('languagechange.button', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
+    this.onEvent('languagechange.button', this.closest('ids-container'), async () => {
       this.container.classList[this.locale.isRTL() ? 'add' : 'remove']('rtl');
     });
   }
@@ -563,7 +498,7 @@ class IdsButton extends mix(IdsElement).with(
    * @param {boolean} val The ripple value
    */
   set noRipple(val) {
-    if (IdsStringUtils.stringToBool(val)) {
+    if (stringToBool(val)) {
       this.setAttribute(attributes.NO_RIPPLE, true);
       this.state.noRipple = true;
       this.offEvent('click.ripple');
@@ -586,11 +521,11 @@ class IdsButton extends mix(IdsElement).with(
    */
   set noPadding(val) {
     const isTruthy = this.noPadding;
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
     if (isTruthy !== trueVal) {
       if (trueVal) {
         this.container.classList.add('no-padding');
-        this.setAttribute('no-padding', '');
+        this.setAttribute('no-padding', 'true');
       } else {
         this.container.classList.remove('no-padding');
         this.removeAttribute('no-padding');
@@ -755,5 +690,3 @@ class IdsButton extends mix(IdsElement).with(
     [...icons, ...texts].forEach(iterator);
   }
 }
-
-export { IdsButton, BUTTON_ATTRIBUTES, BUTTON_TYPES };

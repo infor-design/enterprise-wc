@@ -4,12 +4,12 @@
 import '../helpers/resize-observer-mock';
 import '../../src/components/ids-text/ids-text';
 
-import IdsMenu, {
-  IdsMenuGroup,
-  IdsMenuHeader,
-  IdsMenuItem,
-  IdsSeparator
-} from '../../src/components/ids-menu/ids-menu';
+import IdsMenu from '../../src/components/ids-menu/ids-menu';
+import IdsMenuItem from '../../src/components/ids-menu/ids-menu-item';
+import IdsPopupMenu from '../../src/components/ids-popup-menu/ids-popup-menu';
+import IdsMenuGroup from '../../src/components/ids-menu/ids-menu-group';
+import IdsMenuHeader from '../../src/components/ids-menu/ids-menu-header';
+import IdsSeparator from '../../src/components/ids-separator/ids-separator';
 
 const exampleHTML = `
   <ids-menu-header>My Items</ids-menu-header>

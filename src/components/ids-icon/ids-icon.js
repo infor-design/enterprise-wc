@@ -1,35 +1,13 @@
 import pathData from 'ids-identity/dist/theme-new/icons/standard/path-data.json';
 import emptyIconPathData from 'ids-identity/dist/theme-new/icons/empty/path-data.json';
-import {
-  attributes,
-  customElement,
-  IdsElement,
-  mix,
-  scss
-} from '../../core';
 
-// Import Utils
-import { IdsStringUtils } from '../../utils';
+import { attributes } from '../../core/ids-attributes';
+import { customElement, scss } from '../../core/ids-decorators';
+import { sizes } from './ids-icon-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsLocaleMixin
-} from '../../mixins';
-
-// Import Styles
+import Base from './ids-icon-base';
 import styles from './ids-icon.scss';
-
-// Setting Defaults
-const sizes = {
-  xxl: 64,
-  xl: 34,
-  large: 24,
-  normal: 18,
-  medium: 18,
-  small: 14,
-  xsmall: 10
-};
 
 /**
  * IDS Icon Component
@@ -39,7 +17,7 @@ const sizes = {
  */
 @customElement('ids-icon')
 @scss(styles)
-class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
+export default class IdsIcon extends Base {
   constructor() {
     super();
   }
@@ -59,13 +37,13 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
       attributes.BADGE_COLOR,
       attributes.BADGE_POSITION,
       attributes.HEIGHT,
-      attributes.VIEWBOX,
-      attributes.WIDTH,
+      attributes.ICON,
       attributes.LANGUAGE,
       attributes.LOCALE,
-      attributes.ICON,
       attributes.SIZE,
-      attributes.VERTICAL
+      attributes.VERTICAL,
+      attributes.VIEWBOX,
+      attributes.WIDTH
     ];
   }
 
@@ -74,22 +52,11 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
    */
   #attachEventHandlers() {
     this.offEvent('languagechange.icon-container');
-    this.onEvent('languagechange.icon-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
+    this.onEvent('languagechange.icon-container', this.closest('ids-container'), async () => {
       if (this.isFlipped(this.icon)) {
         this.container.classList.add('flipped');
       } else {
         this.container.classList.remove('flipped');
-      }
-    });
-
-    this.offEvent('languagechange.icon');
-    this.onEvent('languagechange.icon', this, async (e) => {
-      await this.locale.setLanguage(e.detail.language.name);
-      if (this.isFlipped(this.icon)) {
-        this.shadowRoot.querySelector('svg').classList.add('flipped');
-      } else {
-        this.shadowRoot.querySelector('svg').classList.remove('flipped');
       }
     });
   }
@@ -157,6 +124,8 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
       'cart',
       'cascade',
       'change-font',
+      'chevron-left',
+      'chevron-right',
       'clear-screen',
       'clockwise-90',
       'close-cancel',
@@ -246,7 +215,7 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
       'zoom-out'
     ];
 
-    if (this.locale.isRTL() && flippedIcons.includes(iconName)) {
+    if (this.locale?.isRTL() && flippedIcons.includes(iconName)) {
       return true;
     }
     return false;
@@ -413,7 +382,7 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
 
   /** @param {string|boolean} value Rotate the icon to vertical */
   set vertical(value) {
-    const isVertical = IdsStringUtils.stringToBool(value);
+    const isVertical = stringToBool(value);
     if (isVertical) {
       this.setAttribute(attributes.VERTICAL, value);
       this.container.classList.add('vertical');
@@ -436,7 +405,7 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
       badge = this.shadowRoot.querySelector('span');
     }
 
-    if (!this.badgeColor && !this.badgePosition && badge) {
+    if ((!this.badgeColor || !this.badgePosition) && badge) {
       this.className = '';
     } else {
       badge.className = '';
@@ -444,5 +413,3 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
     }
   }
 }
-
-export default IdsIcon;

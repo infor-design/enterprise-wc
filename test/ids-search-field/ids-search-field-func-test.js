@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import IdsSearchField from '../../src/components/ids-search-field';
+import IdsSearchField from '../../src/components/ids-search-field/ids-search-field';
 
 const HTMLSnippets = {
   VANILLA_SEARCH_FIELD: (

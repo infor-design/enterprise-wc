@@ -1,24 +1,9 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  attributes,
-  mix
-} from '../../core';
-
-// Import Utils
-import { IdsStringUtils } from '../../utils';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
-// Import Styles
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import Base from './ids-hyperlink-base';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { fontSizes } from './ids-hyperlink-attributes';
 import styles from './ids-hyperlink.scss';
-
-const fontSizes = ['xs', 'sm', 'base', 'lg', 'xl', 10, 12, 14, 16, 20, 24, 28, 32, 40, 48, 60, 72];
 
 /**
  * IDS Hyperlink Component
@@ -30,7 +15,7 @@ const fontSizes = ['xs', 'sm', 'base', 'lg', 'xl', 10, 12, 14, 16, 20, 24, 28, 3
  */
 @customElement('ids-hyperlink')
 @scss(styles)
-class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+export default class IdsHyperlink extends Base {
   constructor() {
     super();
   }
@@ -126,7 +111,7 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @param {boolean} value True if disabled
    */
   set disabled(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, value);
       this.container.setAttribute(attributes.DISABLED, value);
@@ -199,5 +184,3 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     return this.getAttribute(attributes.FONT_WEIGHT);
   }
 }
-
-export default IdsHyperlink;

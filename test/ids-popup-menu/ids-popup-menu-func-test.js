@@ -3,13 +3,11 @@
  */
 import '../helpers/resize-observer-mock';
 
-import IdsPopupMenu, {
-  IdsMenuGroup,
-  IdsMenuHeader,
-  IdsMenuItem,
-  IdsSeparator
-} from '../../src/components/ids-popup-menu/ids-popup-menu';
-
+import IdsPopupMenu from '../../src/components/ids-popup-menu/ids-popup-menu';
+import IdsMenuGroup from '../../src/components/ids-menu/ids-menu-group';
+import IdsMenuHeader from '../../src/components/ids-menu/ids-menu-header';
+import IdsMenuItem from '../../src/components/ids-menu/ids-menu-item';
+import IdsSeparator from '../../src/components/ids-separator/ids-separator';
 import IdsPopup from '../../src/components/ids-popup/ids-popup';
 
 /*

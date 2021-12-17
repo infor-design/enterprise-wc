@@ -1,11 +1,11 @@
-import IdsModal from '../../src/components/ids-modal';
-import IdsModalButton from '../../src/components/ids-modal-button';
+import IdsModal from '../../src/components/ids-modal/ids-modal';
+import IdsModalButton from '../../src/components/ids-modal-button/ids-modal-button';
 
 // Supporting Components
-import IdsCheckbox from '../../src/components/ids-checkbox';
-import IdsInput from '../../src/components/ids-input';
-import IdsDropdown from '../../src/components/ids-dropdown';
-import IdsTextarea from '../../src/components/ids-textarea';
+import IdsCheckbox from '../../src/components/ids-checkbox/ids-checkbox';
+import IdsInput from '../../src/components/ids-input/ids-input';
+import IdsDropdown from '../../src/components/ids-dropdown/ids-dropdown';
+import IdsTextarea from '../../src/components/ids-textarea/ids-textarea';
 
 import './focus.scss';
 

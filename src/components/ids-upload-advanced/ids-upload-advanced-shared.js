@@ -1,5 +1,4 @@
-// Import Utils
-import { IdsStringUtils } from '../../utils';
+import { camelCase } from '../../utils/ids-string-utils/ids-string-utils';
 
 /**
  * Shared in between upload advanced.
@@ -83,8 +82,8 @@ const IdsUploadAdvancedShared = {
     const d = this.DEFAULTS;
     const html = (slot) => slot?.assignedNodes()[0]?.innerHTML;
     const slot = shadowRoot?.querySelector(`slot[name="${slotName}"]`);
-    return html(slot) || d[IdsStringUtils.camelCase(slotName)];
+    return html(slot) || d[camelCase(slotName)];
   }
 };
 
-export { IdsUploadAdvancedShared };
+export default IdsUploadAdvancedShared;

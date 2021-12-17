@@ -1,1 +1,1 @@
-import IdsText from '../../src/components/ids-text';
+import IdsText from '../../src/components/ids-text/ids-text';

@@ -1,5 +1,5 @@
 /* global $ */
-import IdsToggleButton from '../../src/components/ids-toggle-button';
+import IdsToggleButton from '../../src/components/ids-toggle-button/ids-toggle-button';
 
 document.addEventListener('DOMContentLoaded', () => {
   // Add an event listener to test clickable links

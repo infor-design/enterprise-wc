@@ -15,14 +15,3 @@ export function isObject(obj) {
 export function isObjectAndNotEmpty(obj) {
   return isObject(obj) && Object.keys(obj).length > 0;
 }
-
-/**
- * Ids Object utilities
- */
-export const IdsObjectUtils = {
-  isObject,
-  isObjectAndNotEmpty
-};
-
-export default IdsObjectUtils;
-export { IdsObjectUtils as objectUtils };

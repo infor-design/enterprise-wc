@@ -1,8 +1,3 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-
-import { IdsElement } from '../../core';
-
 interface IdsToastMsgAddRemoveEventDetail extends Event {
   detail: {
     elem: HTMLElement,
@@ -68,7 +63,7 @@ type IdsToastShownTypes = {
   timeout?: number | string;
 }
 
-export default class IdsToast extends IdsElement {
+export default class IdsToast extends HTMLElement {
   /** Set to put links in the toast message */
   allowLink: boolean | string;
 

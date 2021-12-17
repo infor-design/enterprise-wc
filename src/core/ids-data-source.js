@@ -1,4 +1,4 @@
-import { IdsDeepCloneUtils } from '../utils';
+import { deepClone } from '../utils/ids-deep-clone-utils/ids-deep-clone-utils';
 
 /**
  * Handle Attaching Array / Object Data to Components
@@ -27,7 +27,7 @@ class IdsDataSource {
    * @param {Array | null} value The array to attach
    */
   set data(value) {
-    this.currentData = IdsDeepCloneUtils.deepClone(value);
+    this.currentData = deepClone(value);
     this.originalData = value;
   }
 
