@@ -1,19 +1,7 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-} from '../../core';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
-import styles from './ids-list-builder.scss';
-import IdsListView from '../ids-list-view';
+import { customElement, scss } from '../../core/ids-decorators';
 import IdsInput from '../ids-input/ids-input';
+import Base from './ids-list-builder-base';
+import styles from './ids-list-builder.scss';
 
 /**
  * IDS ListBuilder Component
@@ -24,7 +12,7 @@ import IdsInput from '../ids-input/ids-input';
  */
 @customElement('ids-list-builder')
 @scss(styles)
-class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin) {
+export default class IdsListBuilder extends Base {
   constructor() {
     super();
   }
@@ -390,5 +378,3 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     return p;
   }
 }
-
-export default IdsListBuilder;

@@ -3,10 +3,10 @@
  */
 import '../helpers/resize-observer-mock';
 
-import IdsMessage from '../../src/components/ids-message';
+import IdsMessage from '../../src/components/ids-message/ids-message';
 
 // Supporing components
-import IdsModalButton from '../../src/components/ids-modal-button';
+import IdsModalButton from '../../src/components/ids-modal-button/ids-modal-button';
 import IdsText from '../../src/components/ids-text/ids-text';
 
 const messageId = 'test-message';

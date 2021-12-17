@@ -1,5 +1,5 @@
-import { attributes } from '../../core';
-import { IdsStringUtils } from '../../utils';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 /**
  * A mixin that will provide the container element of an IDS Component with a "drag and drop" functionality
@@ -30,7 +30,7 @@ const IdsSortableMixin = (superclass) => class extends superclass {
    * @param {string | boolean} value the sortable parameter
    */
   set sortable(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.SORTABLE, val);
     } else {

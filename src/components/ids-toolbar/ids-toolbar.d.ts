@@ -1,8 +1,7 @@
-import { IdsElement } from '../../core';
 import IdsToolbarSection from './ids-toolbar-section';
 import IdsToolbarMoreActions from './ids-toolbar-more-actions';
 
-export default class IdsToolbar extends IdsElement {
+export default class IdsToolbar extends HTMLElement {
   /** Provides a list of all available toolbar items */
   readonly items: Array<HTMLElement>;
 

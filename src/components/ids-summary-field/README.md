@@ -16,9 +16,9 @@ This component is closely intertwined with the [old component](https://main-ente
 
 ## Features (With Code Samples)
 
-Examples can be viewed at [http://localhost:4300/ids-summary-field](http://localhost:4300/ids-summary-field)
+Examples can be viewed at https://main.wc.design.infor.com/ids-summary-field/](https://main.wc.design.infor.com/ids-summary-field/)
 
-### A standard summary field 
+### A standard summary field
 
 ```html
   <ids-summary-field label="Shipping to" data="4209 Industrial Avenue<br/>Los Angeles, California 90001 USA">

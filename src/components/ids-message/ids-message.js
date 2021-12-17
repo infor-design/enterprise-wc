@@ -1,21 +1,11 @@
-import {
-  IdsElement,
-  customElement,
-  scss
-} from '../../core/ids-element';
-
-import IdsModal from '../ids-modal';
-import IdsIcon from '../ids-icon';
-
+import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import { IdsStringUtils, IdsDOMUtils } from '../../utils';
+import { MESSAGE_STATUSES } from './ids-message-attributes';
+
+import Base from './ids-message-base';
+import IdsIcon from '../ids-icon/ids-icon';
 
 import styles from './ids-message.scss';
-
-// Types of status that can be applied to message components
-const MESSAGE_STATUSES = [
-  'none', 'default', 'error', 'alert', 'success', 'info'
-];
 
 /**
  * IDS Message Component
@@ -26,7 +16,7 @@ const MESSAGE_STATUSES = [
  */
 @customElement('ids-message')
 @scss(styles)
-class IdsMessage extends IdsModal {
+export default class IdsMessage extends Base {
   constructor() {
     super();
 
@@ -173,5 +163,3 @@ class IdsMessage extends IdsModal {
     });
   }
 }
-
-export default IdsMessage;

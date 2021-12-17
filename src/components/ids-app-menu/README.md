@@ -49,7 +49,7 @@ For more examples of Accordion customization, please see [the Accordion document
 
 ### Toolbars
 
-App Menus can contain small [Toolbars](../ids-toolbar/README.md) that sit above and below the main navigation area.  These toolbars will ideally contain ansulary functions that are application-specific, but not necessarily the most important top-level features of the application.
+App Menus can contain small [Toolbars](../ids-toolbar/README.md) that sit above and below the main navigation area.  These toolbars will ideally contain supporting functions that are application-specific, but not necessarily the most important top-level features of the application.
 
 To include these Toolbars, simply add them to the App Menu's markup with `[slot="header"]` or `[slot="footer"]`:
 

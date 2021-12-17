@@ -1,5 +1,5 @@
-import IdsListView from '../../src/components/ids-list-view';
-import IdsDraggable from '../../src/components/ids-draggable';
+import IdsListView from '../../src/components/ids-list-view/ids-list-view';
+import IdsDraggable from '../../src/components/ids-draggable/ids-draggable';
 import './index.scss';
 
 // Example for populating the List View

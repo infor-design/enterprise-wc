@@ -5,11 +5,13 @@
 The color consists of a custom element `<ids-color></ids-color>`. Once initialized, it functions to display a color setting using a hex attribute.
 
 ## Settings and Attributes
+
 - `hex` {string} Sets the hex attribute to display a colors hex value `hex="#b94e4e"`
 
 ## Code Examples
 
-A basic use case of the color picker with a few color options.
+A basic use case of the color picker with a hex color option.
+
 ```html
 <ids-color hex="#b94e4e"></ids-color>
 ```

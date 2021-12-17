@@ -1,18 +1,12 @@
-import {
-  customElement,
-  scss,
-  attributes
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { getClosestRootNode } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { attributes } from '../../core/ids-attributes';
 
-// Import Utils
-import { IdsStringUtils, IdsDOMUtils } from '../../utils';
+import Base from './ids-menu-button-base';
+import IdsIcon from '../ids-icon/ids-icon';
+import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 
-// Import Dependencies
-import { IdsButton } from '../ids-button';
-import IdsIcon from '../ids-icon';
-import IdsPopupMenu from '../ids-popup-menu';
-
-// Import Styles
 import styles from '../ids-button/ids-button.scss';
 
 /**
@@ -22,7 +16,7 @@ import styles from '../ids-button/ids-button.scss';
  */
 @customElement('ids-menu-button')
 @scss(styles)
-class IdsMenuButton extends IdsButton {
+export default class IdsMenuButton extends Base {
   constructor() {
     super();
   }
@@ -33,8 +27,8 @@ class IdsMenuButton extends IdsButton {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.FORMATTER_WIDTH,
       attributes.DROPDOWN_ICON,
+      attributes.FORMATTER_WIDTH,
       attributes.ID,
       attributes.MENU
     ];
@@ -47,14 +41,14 @@ class IdsMenuButton extends IdsButton {
   connectedCallback() {
     this.configureMenu();
     this.attachEventHandlers();
-    IdsButton.prototype.connectedCallback.apply(this);
+    Base.prototype.connectedCallback.apply(this);
   }
 
   /**
    * @returns {void}
    */
   attachEventHandlers() {
-    IdsButton.prototype.attachEventHandlers.apply(this);
+    Base.prototype.attachEventHandlers.apply(this);
   }
 
   /**
@@ -74,7 +68,7 @@ class IdsMenuButton extends IdsButton {
    * @param {string|undefined} val referencing an icon string name to use
    */
   set dropdownIcon(val) {
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
     const iconName = (typeof val === 'string' && val.length) ? `${val}` : 'dropdown';
     const icon = this.dropdownIconEl;
     if (trueVal) {
@@ -125,7 +119,7 @@ class IdsMenuButton extends IdsButton {
   get menuEl() {
     // Check for a Shadow Root parent.
     // If none, use `document`
-    const target = IdsDOMUtils.getClosestRootNode(this);
+    const target = getClosestRootNode(this);
     return target.querySelector(`ids-popup-menu[id="${this.menu}"]`) || target.querySelector(`ids-action-sheet[id="${this.menu}"]`);
   }
 
@@ -203,5 +197,3 @@ class IdsMenuButton extends IdsButton {
     }
   }
 }
-
-export default IdsMenuButton;

@@ -1,18 +1,13 @@
-import {
-  customElement,
-  mix,
-  scss
-} from '../../core';
+// Import Core
+import { customElement, scss } from '../../core/ids-decorators';
 
-import {
-  IdsEventsMixin,
-  IdsPopupInteractionsMixin,
-  IdsPopupOpenEventsMixin,
-  IdsLocaleMixin
-} from '../../mixins';
+// Import Dependencies
+import IdsPopup from '../ids-popup/ids-popup';
 
-import IdsMenu from '../ids-menu/ids-menu';
-import IdsPopup from '../ids-popup';
+// Import Base And Mixins
+import Base from './ids-popup-menu-base';
+
+// Import Styles
 import styles from './ids-popup-menu.scss';
 
 /**
@@ -26,12 +21,7 @@ import styles from './ids-popup-menu.scss';
  */
 @customElement('ids-popup-menu')
 @scss(styles)
-class IdsPopupMenu extends mix(IdsMenu).with(
-    IdsEventsMixin,
-    IdsPopupOpenEventsMixin,
-    IdsPopupInteractionsMixin,
-    IdsLocaleMixin
-  ) {
+export default class IdsPopupMenu extends Base {
   constructor() {
     super();
   }
@@ -41,7 +31,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(
    * @returns {string} The template
    */
   template() {
-    const menuTemplate = IdsMenu.prototype.template.apply(this);
+    const menuTemplate = Base.prototype.template.apply(this);
     return `<ids-popup class="ids-popup-menu" type="menu">${menuTemplate}</ids-popup>`;
   }
 
@@ -49,6 +39,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(
    * @returns {void}
    */
   connectedCallback() {
+    super.connectedCallback?.();
     if (!this.hasAttribute('hidden')) {
       this.setAttribute('hidden', '');
     }
@@ -62,17 +53,6 @@ class IdsPopupMenu extends mix(IdsMenu).with(
       this.popup.align = 'right, top';
       this.popup.alignEdge = 'right';
     }
-
-    super.connectedCallback?.();
-
-    // Respond to parent changing language
-    this.offEvent('languagechange.popup-menu');
-    this.onEvent('languagechange.popup-menu', this, async (e) => {
-      await this.shadowRoot.querySelector('ids-popup')?.setLanguage(e.detail.language.name);
-      this.querySelectorAll('ids-menu-group')?.forEach((menuGroup) => {
-        menuGroup?.setLanguage(e.detail.language.name);
-      });
-    });
   }
 
   /**
@@ -82,8 +62,6 @@ class IdsPopupMenu extends mix(IdsMenu).with(
     if (this.hasOpenEvents) {
       this.hide();
     }
-
-    super.disconnectedCallback?.();
   }
 
   /**
@@ -358,11 +336,3 @@ class IdsPopupMenu extends mix(IdsMenu).with(
     return this.onTriggerClick(e);
   }
 }
-
-export default IdsPopupMenu;
-export {
-  IdsMenuGroup,
-  IdsMenuHeader,
-  IdsMenuItem,
-  IdsSeparator
-} from '../ids-menu/ids-menu';

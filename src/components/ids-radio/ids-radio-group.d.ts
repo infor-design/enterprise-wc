@@ -1,6 +1,3 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-
 export default class IdsRadioGroup extends HTMLElement {
   /** Sets the dirty tracking feature on to indicate a changed field */
   dirtyTracker: boolean;

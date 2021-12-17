@@ -71,7 +71,7 @@ Counts using just the css. Use the anchor tag for normal counts and span for non
 
 ## Settings and Attributes
 
-- `color` {string} Sets the color to an internal color such as `azure`. Can also a hexidecimal color code beginning with `#`.
+- `color` {string} Sets the color to an internal color such as `azure`. Can also a hexadecimal color code beginning with `#`.
 - `compact` {string} Use "true" to set the value font-size to 40. Omitting this attribute or using any will result in the default value of 48.
 - `href` {string} The url that the count component links to.
 

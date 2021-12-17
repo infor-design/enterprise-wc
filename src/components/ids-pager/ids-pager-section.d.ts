@@ -1,3 +1,3 @@
-import { IdsElement } from '../../core';
+export default class IdsPagerSection extends HTMLElement {
 
-export default class IdsPagerSection extends IdsElement {}
+}

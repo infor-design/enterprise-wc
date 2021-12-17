@@ -1,15 +1,10 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-
-import { IdsElement } from '../../core';
-
 interface IdsUploadAdvancedEventDetail extends Event {
   detail: {
     elem: IdsUploadAdvanced
   }
 }
 
-export default class IdsUploadAdvanced extends IdsElement {
+export default class IdsUploadAdvanced extends HTMLElement {
   /** Sets limit the file types to be uploaded */
   accept: string;
 

@@ -1,6 +1,4 @@
-import { IdsElement } from '../../core';
-
-export default class IdsEmptyMessage extends IdsElement {
+export default class IdsEmptyMessage extends HTMLElement {
   /* id of the icon to be displayed */
   icon: string;
 }

@@ -1,34 +1,20 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix
-} from '../../core/ids-element';
-
 import { attributes } from '../../core/ids-attributes';
+import { customElement, scss } from '../../core/ids-decorators';
 
-import {
-  IdsEventsMixin,
-  IdsFocusCaptureMixin,
-  IdsKeyboardMixin,
-  IdsPopupInteractionsMixin,
-  IdsPopupOpenEventsMixin,
-  IdsThemeMixin,
-  IdsXssMixin
-} from '../../mixins';
+import Base from './ids-modal-base';
 
-import {
-  renderLoop,
-  IdsRenderLoopItem
-} from '../ids-render-loop';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { waitForTransitionEnd } from '../../utils/ids-dom-utils/ids-dom-utils';
+import renderLoop from '../ids-render-loop/ids-render-loop-global';
+import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 
 import zCounter from './ids-modal-z-counter';
-import IdsPopup from '../ids-popup';
+import IdsPopup from '../ids-popup/ids-popup';
 import IdsOverlay from './ids-overlay';
-import IdsModalButton from '../ids-modal-button';
+import IdsModalButton from '../ids-modal-button/ids-modal-button';
 
+// Import Styles
 import styles from './ids-modal.scss';
-import { IdsStringUtils, IdsDOMUtils } from '../../utils';
 
 // When a user clicks the Modal Buttons, this is the delay between
 // the click and the "hiding" of the Modal.
@@ -50,15 +36,7 @@ const dismissTimeout = 200;
  */
 @customElement('ids-modal')
 @scss(styles)
-class IdsModal extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsFocusCaptureMixin,
-    IdsKeyboardMixin,
-    IdsPopupInteractionsMixin,
-    IdsPopupOpenEventsMixin,
-    IdsThemeMixin,
-    IdsXssMixin,
-  ) {
+export default class IdsModal extends Base {
   constructor() {
     super();
 
@@ -293,7 +271,7 @@ class IdsModal extends mix(IdsElement).with(
    * @param {boolean} val true if the Modal is visible.
    */
   set visible(val) {
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
     if (this.#visible !== trueVal) {
       this.#visible = trueVal;
 
@@ -329,7 +307,7 @@ class IdsModal extends mix(IdsElement).with(
     this.popup.visible = true;
 
     if (this.popup.animated) {
-      await IdsDOMUtils.waitForTransitionEnd(this.popup.container, 'opacity');
+      await waitForTransitionEnd(this.popup.container, 'opacity');
     }
     this.removeAttribute('aria-hidden');
 
@@ -368,7 +346,7 @@ class IdsModal extends mix(IdsElement).with(
 
     // Animation-out can wait for the opacity transition to end before changing z-index.
     if (this.popup.animated) {
-      await IdsDOMUtils.waitForTransitionEnd(this.popup.container, 'opacity');
+      await waitForTransitionEnd(this.popup.container, 'opacity');
     }
     this.style.zIndex = '';
     this.setAttribute('aria-hidden', 'true');
@@ -570,16 +548,14 @@ class IdsModal extends mix(IdsElement).with(
    * @returns {void}
    */
   onOutsideClick(e) {
-    if (e || !e?.target) {
+    if (!e || !e?.target) {
       return;
     }
 
-    const isOverlay = e.target.tagName === 'IDS-OVERLAY';
+    const isOverlay = e.target.tagName.toUpperCase() === 'IDS-OVERLAY';
     if (this.isEqualNode(e.target) || isOverlay) {
       return;
     }
     this.hide();
   }
 }
-
-export default IdsModal;

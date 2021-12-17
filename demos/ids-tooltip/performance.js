@@ -1,5 +1,5 @@
 import IdsButton from '../../src/components/ids-button/ids-button';
-import IdsTooltip from '../../src/components/ids-tooltip';
+import IdsTooltip from '../../src/components/ids-tooltip/ids-tooltip';
 
 const appendTestItems = () => {
   const section = document.querySelector('ids-layout-grid[cols="4"]');

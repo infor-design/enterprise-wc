@@ -1,9 +1,4 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-
-import { IdsElement } from '../../core';
-
-export default class IdsListBoxOption extends IdsElement {
+export default class IdsListBoxOption extends HTMLElement {
   /** Sets the `id` attribute */
   id: string;
 

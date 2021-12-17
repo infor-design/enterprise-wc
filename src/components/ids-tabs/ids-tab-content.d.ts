@@ -1,6 +1,4 @@
-import { IdsElement } from '../../core';
-
-export default class IdsTabContent extends IdsElement {
+export default class IdsTabContent extends HTMLElement {
   /** Value representing the associated tab */
   value?: string;
 
