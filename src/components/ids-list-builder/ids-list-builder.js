@@ -337,6 +337,7 @@ export default class IdsListBuilder extends Base {
 
   /**
    * Helper function to attach keyboard events to each individual item
+   * @param {Element} l the list item
    */
   #attachKeyboardListenersForLi(l) {
     this.onEvent('keydown', l, (event) => {

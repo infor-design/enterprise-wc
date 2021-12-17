@@ -342,7 +342,7 @@ export default class IdsListView extends Base {
 
   /**
    * Set the expected height of the viewport for virtual scrolling
-   * @param {string} value true to use virtual scrolling
+   * @param {string | number} value true to use virtual scrolling
    */
   set height(value) {
     if (value) {
@@ -358,7 +358,7 @@ export default class IdsListView extends Base {
 
   /**
    * Set the expected height of each item
-   * @param {string} value true to use virtual scrolling
+   * @param {string | number} value true to use virtual scrolling
    */
   set itemHeight(value) {
     if (value) {
