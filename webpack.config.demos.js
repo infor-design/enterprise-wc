@@ -16,22 +16,12 @@ const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'produ
 process.env.NODE_ENV = isProduction ? 'production' : 'development';
 
 module.exports = {
-  entry: glob.sync('./demos/**/**.js').reduce((acc, filePath) => {
-    let entry = filePath.replace(`/${path.basename(filePath)}`, '');
-    entry = (entry === './demos' ? 'index' : entry.replace('./demos/', ''));
-
-    if (path.basename(filePath) === 'index.js') {
-      acc[entry === 'index' ? entry : `${entry}/${entry}`] = filePath;
-    } else {
-      acc[`${entry}/${path.basename(filePath).replace('.js', '')}`] = filePath;
-    }
-
-    // Add kitchen sink example js
-    if (acc.index) {
-      acc.example = './demos/example.js';
-    }
-    return acc;
-  }, {}),
+  entry: {
+    'ids-line-chart/ids-line-chart': './demos/ids-line-chart/index.js',
+    'ids-container/ids-container': './demos/ids-container/index.js',
+    'ids-text/ids-text': './demos/ids-text/index.js',
+    'ids-layout-grid/ids-layout-grid': './demos/ids-layout-grid/index.js',
+  },
   devtool: isProduction ? 'cheap-module-source-map' : 'source-map', // try source-map for prod
   mode: isProduction ? 'production' : 'development',
   experiments: {
@@ -64,7 +54,7 @@ module.exports = {
   output: {
     chunkFormat: 'module',
     path: path.resolve(__dirname, 'demo-dist'),
-    filename: '[name].js',
+    filename: '[name].[contenthash].js',
     clean: true,
     publicPath: '/'
   },

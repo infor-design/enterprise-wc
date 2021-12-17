@@ -8,22 +8,57 @@
 
   border: 1px dashed; // TODO: Remove this line when done testing
   contain: content;
-  height: calc(100vh - 114px);
+  // height: calc(100vh - 114px);
+  height: 500px;
+  width: 800px;
 
-  // Font Styles
-  @include antialiased();
-  @include font-sans();
+  // Grid Lines
+  .grid {
+    shape-rendering: crispEdges;
+    stroke: var(--ids-color-palette-slate-20);
+    stroke-width: 1;
+
+    // Hide x grid lines for now
+    &.x-grid {
+      // stroke: none;
+      stroke-dasharray: 1 2;
+    }
+  }
 
   // Dot Styles
-  .data {
-    fill: #1C86EF;
-    stroke-width: 1;
+  .dots {
+    fill: var(--ids-color-palette-azure-80);
+  }
+
+  .areas {
+    fill-opacity: 0.2;
+    fill: var(--ids-color-palette-azure-80);
   }
 
   // Axis Styles
-  .grid {
-    stroke: #ccc;
-    stroke-dasharray: 0;
-    stroke-width: 1;
+  .data-lines {
+    fill: none;
+    stroke: var(--ids-color-palette-azure-80);
+    stroke-width: 2;
+  }
+
+  // Label Styles
+  .labels {
+    @include text-14();
+    @include antialiased();
+    @include font-sans();
+    fill: var(--ids-color-palette-slate-60);
+
+    &.x-labels {
+      text-anchor: middle;
+    }
+
+    &.y-labels {
+      text-anchor: end;
+    }
+
+    &.axis-label {
+      @include text-16();
+    }
   }
 }

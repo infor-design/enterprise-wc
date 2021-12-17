@@ -1,1 +1,1 @@
-import IdsTag from '../../src/components/ids-tag';
+import IdsLineChart from '../../src/components/ids-line-chart/ids-line-chart';
