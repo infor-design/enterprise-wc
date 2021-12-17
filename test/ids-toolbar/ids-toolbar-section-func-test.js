@@ -98,6 +98,10 @@ describe('IdsToolbarSection Component', () => {
     expect(items.length).toBe(4);
   });
 
+  it('has a parent toolbar reference', () => {
+    expect(sectionButtonset.toolbar instanceof IdsToolbar).toBeTruthy();
+  });
+
   it('can have a specified type', () => {
     expect(sectionAppMenu.type).toBe('static');
     expect(sectionTitle.type).toBe('title');
@@ -119,21 +123,28 @@ describe('IdsToolbarSection Component', () => {
 
   it('can be aligned', () => {
     expect(sectionTitle.align).toBe('start');
-    expect(sectionTitle.container.classList.contains('align-start')).toBeTruthy();
-
     expect(sectionButtonset.align).toBe('end');
-    expect(sectionButtonset.container.classList.contains('align-end')).toBeTruthy();
 
     sectionTitle.align = 'center';
 
     expect(sectionTitle.align).toBe('center');
-    expect(sectionTitle.container.classList.contains('align-center')).toBeTruthy();
 
     // Setting a junk value defaults to `align-start`, but removes the attribute
     sectionTitle.align = 'junk';
 
     expect(sectionTitle.align).toBe('start');
-    expect(sectionTitle.container.classList.contains('align-start')).toBeTruthy();
     expect(sectionTitle.getAttribute('align')).toBe(null);
+  });
+
+  it('can be favored', () => {
+    sectionTitle.favor = true;
+
+    expect(sectionTitle.container.classList.contains('favor')).toBeTruthy();
+
+    sectionTitle.favor = false;
+    sectionButtonset.favor = true;
+
+    expect(sectionTitle.container.classList.contains('favor')).toBeFalsy();
+    expect(sectionButtonset.container.classList.contains('favor')).toBeTruthy();
   });
 });
