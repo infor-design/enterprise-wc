@@ -1,0 +1,29 @@
+/* Ids Line Chart Component */
+@import '../../core/ids-base';
+
+.ids-line-chart {
+  @include border-slate-10();
+  @include flex();
+  @include w-full();
+
+  border: 1px dashed; // TODO: Remove this line when done testing
+  contain: content;
+  height: calc(100vh - 114px);
+
+  // Font Styles
+  @include antialiased();
+  @include font-sans();
+
+  // Dot Styles
+  .data {
+    fill: #1C86EF;
+    stroke-width: 1;
+  }
+
+  // Axis Styles
+  .grid {
+    stroke: #ccc;
+    stroke-dasharray: 0;
+    stroke-width: 1;
+  }
+}
