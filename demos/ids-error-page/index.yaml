@@ -1,0 +1,9 @@
+---
+ component: Error Page
+ link: ids-error-page
+ description: Displays error message
+ category: Messages and Alerts
+ keywords: modal, info, popup, product, application
+ examples:
+  - link: index.html
+    description: Shows basic error message
