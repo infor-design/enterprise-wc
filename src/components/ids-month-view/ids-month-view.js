@@ -218,7 +218,7 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
     }
 
     if (type === 'previous') {
-      this.year = this.month === 0 ? this.year - 1 : this.year;
+      this.year = this.month === 1 ? this.year - 1 : this.year;
       this.month = this.month === 1 ? 12 : this.month - 1;
     }
 
@@ -239,8 +239,11 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
     if (!calendars) return;
 
     const days = (calendars || [])[0]?.days.abbreviated;
-
-    const daysTemplate = days.map((item, index) => {
+    const year = this.year;
+    const month = this.month;
+    const firstDayOfMonth = (new Date(year, month - 1, 1));
+    const firstDayOfWeek = dateUtils.firstDayOfWeek(firstDayOfMonth, this.firstDayOfWeek);
+    const weekDaysTemplate = days.map((item, index) => {
       const weekday = days[(index + this.firstDayOfWeek) % 7];
 
       return `
@@ -253,19 +256,28 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
       `;
     }).join('');
 
-    const monthTemplate = `<div class="month-view-container">
+    const daysTemplate = (week) => Array.from({ length: 7 }).map((_, index) => {
+      const date = dateUtils.add(firstDayOfWeek, (week * 7) + index, 'days');
+      const dayNumeric = this.locale.formatDate(date, { day: 'numeric' });
+
+      return `<td aria-label="${this.locale.formatDate(date, { dateStyle: 'full' })}" role="link">${dayNumeric}</td>`;
+    }).join('');
+
+    const weeksTemplate = Array.from({ length: 5 }).map((_, index) =>
+      `<tr>${daysTemplate(index)}</tr>`).join('');
+
+    const container = `<div class="month-view-container">
       <table class="month-view-table" aria-label="${this.locale.translate('Calendar')}" role="application">
         <thead class="month-view-table-header">
-          <tr>${daysTemplate}</tr>
+          <tr>${weekDaysTemplate}</tr>
         </thead>
-        <tbody>
-        </tbody>
+        <tbody>${weeksTemplate}</tbody>
       </table>
     </div>`;
 
     // Clear/add HTML
     this.container.querySelector('.month-view-container')?.remove();
-    this.container.insertAdjacentHTML('beforeend', monthTemplate);
+    this.container.insertAdjacentHTML('beforeend', container);
   }
 
   /**
