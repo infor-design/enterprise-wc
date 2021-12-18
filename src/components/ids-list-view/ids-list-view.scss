@@ -19,7 +19,6 @@
       @include list-none();
       @include py-12();
       @include px-20();
-      @include bg-white();
 
       border: 1px solid transparent;
       border-bottom-color: var(--ids-color-palette-slate-20);
@@ -46,6 +45,10 @@
 }
 
 // Handle Themes
+.ids-list-view[mode='light'] div[part='list-item'] {
+  @include bg-white();
+}
+
 .ids-list-view[mode='dark'] div[part='list-item'] {
   @include bg-slate-90();
   @include border-slate-70();
