@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Ids Error Page Tests renders correctly 1`] = `
+"<ids-overlay></ids-overlay><style nonce=\\"undefined\\">:host { background-color: transparent; }</style><ids-popup part=\\"modal\\" class=\\"ids-modal ids-error\\" type=\\"custom\\" position-style=\\"viewport\\" align=\\"center\\">
+      <div class=\\"ids-modal-container\\" slot=\\"content\\">
+        <ids-empty-message icon=\\"empty-error-loading\\">
+          <ids-text type=\\"h2\\" font-size=\\"24\\" font-weight=\\"bold\\" label=\\"true\\" slot=\\"label\\">
+          Add Label
+          </ids-text>
+          <ids-text label=\\"true\\" slot=\\"description\\">
+            Add Description
+          </ids-text>
+          <ids-button class=\\"action-button\\" slot=\\"button\\" type=\\"primary\\">
+            <span slot=\\"text\\">Action</span>
+          </ids-button>
+        </ids-empty-message>
+      </div>
+    </ids-popup>"
+`;

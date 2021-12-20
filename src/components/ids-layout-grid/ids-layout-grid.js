@@ -1,20 +1,18 @@
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 import {
-  IdsElement,
-  customElement,
-  scss,
-  attributes
-} from '../../core';
+  fluidGridClass,
+  fluidGridXlClass,
+  autoGridClass,
+  colsGridClass,
+  rowsClass,
+  noMarginsClass
+} from './ids-layout-grid-attributes';
 
-import styles from './ids-layout-grid.scss';
+import Base from './ids-layout-grid-base';
 import IdsLayoutGridCell from './ids-layout-grid-cell';
 
-// Class vars
-const fluidGridClass = `ids-layout-fluid-grid`;
-const fluidGridXlClass = `ids-layout-fluid-grid-xl`;
-const autoGridClass = `ids-layout-grid-auto`;
-const colsGridClass = `ids-layout-grid-cols`;
-const rowsClass = `ids-layout-grid-rows`;
-const noMarginsClass = `ids-layout-grid-no-margins`;
+import styles from './ids-layout-grid.scss';
 
 /**
  * IDS Layout Grid Component
@@ -23,7 +21,7 @@ const noMarginsClass = `ids-layout-grid-no-margins`;
  */
 @customElement('ids-layout-grid')
 @scss(styles)
-class IdsLayoutGrid extends IdsElement {
+export default class IdsLayoutGrid extends Base {
   constructor() {
     super();
   }
@@ -42,6 +40,7 @@ class IdsLayoutGrid extends IdsElement {
 
   connectedCallback() {
     this.#setDefaults();
+    this.aGridCell = new IdsLayoutGridCell();
   }
 
   template() {
@@ -208,5 +207,3 @@ class IdsLayoutGrid extends IdsElement {
 
   get minColWidth() { return this.getAttribute(attributes.MIN_COL_WIDTH); }
 }
-
-export default IdsLayoutGrid;

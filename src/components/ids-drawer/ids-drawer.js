@@ -1,27 +1,13 @@
-import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix
-} from '../../core/ids-element';
+// Import Core
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { EDGES, TYPES } from './ids-drawer-attributes';
 
-import { IdsXssUtils } from '../../utils/ids-xss-utils';
-import { IdsStringUtils } from '../../utils/ids-string-utils';
-
-import {
-  IdsEventsMixin,
-  IdsLocaleMixin,
-  IdsPopupOpenEventsMixin
-} from '../../mixins';
+import Base from './ids-drawer-base';
 
 import styles from './ids-drawer.scss';
-
-// Edges that can have a drawer applied
-const EDGES = ['start', 'bottom'];
-
-// Types of Available Drawers
-const TYPES = ['app-menu', 'action-sheet'];
 
 /**
  * IDS Drawer Component
@@ -32,11 +18,7 @@ const TYPES = ['app-menu', 'action-sheet'];
  */
 @customElement('ids-drawer')
 @scss(styles)
-class IdsDrawer extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsLocaleMixin,
-    IdsPopupOpenEventsMixin
-  ) {
+export default class IdsDrawer extends Base {
   constructor() {
     super();
 
@@ -51,7 +33,6 @@ class IdsDrawer extends mix(IdsElement).with(
 
   connectedCallback() {
     super.connectedCallback?.();
-    this.#handleEvents();
   }
 
   static get attributes() {
@@ -214,9 +195,9 @@ class IdsDrawer extends mix(IdsElement).with(
    * @param {boolean} val true if the Drawer should become visible
    */
   set visible(val) {
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
     if (trueVal) {
-      this.setAttribute(attributes.VISIBLE, IdsXssUtils.stripHTML(`${val}`));
+      this.setAttribute(attributes.VISIBLE, stripHTML(`${val}`));
     } else {
       this.removeAttribute(attributes.VISIBLE);
     }
@@ -255,17 +236,6 @@ class IdsDrawer extends mix(IdsElement).with(
   vetoableEventTypes = ['beforeshow', 'beforehide'];
 
   /**
-   * @returns {void}
-   */
-  #handleEvents() {
-    // Respond to parent changing language
-    this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
-    });
-  }
-
-  /**
    * Shows the drawer
    * @returns {void}
    */
@@ -302,5 +272,3 @@ class IdsDrawer extends mix(IdsElement).with(
     this.hide();
   }
 }
-
-export default IdsDrawer;

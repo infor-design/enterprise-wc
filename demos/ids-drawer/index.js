@@ -1,6 +1,6 @@
-import IdsDrawer from '../../src/components/ids-drawer';
-import IdsButton from '../../src/components/ids-button';
-import IdsText from '../../src/components/ids-text';
+import IdsDrawer from '../../src/components/ids-drawer/ids-drawer';
+import IdsButton from '../../src/components/ids-button/ids-button';
+import IdsText from '../../src/components/ids-text/ids-text';
 
 document.addEventListener('DOMContentLoaded', () => {
   const appMenuDrawer = document.querySelector('#drawer-app-menu');

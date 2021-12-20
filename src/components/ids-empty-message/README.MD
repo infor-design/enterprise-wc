@@ -9,15 +9,17 @@ The IDS Empty Message component is a layout pattern for indicating there is no d
 - When no content is present, an empty message is useful to communicate information & action. It is critical to communicate why it’s empty and what the user can do.
 ## Terminology
 - **icon**: this property when included and provided with a supported icon id will display the chosen icon in the empty message format
-- **label**: this is a web component slot, the contense of this slot are treated as a primary label and are styled accordingly
-- **description**: this is a web component slot, the contense of this slot are formatted as secondary text in the ids-empty-message format
+- **label**: this is a web component slot, the contents of this slot are treated as a primary label and are styled accordingly
+- **description**: this is a web component slot, the contents of this slot are formatted as secondary text in the ids-empty-message format
 - **button**: this is a slot that is used for any button inputs for the empty message
 
 ## Themeable Parts
+
 - `container` allows for the styling of the container element
 
 ## Features
-a simple implementation of the empty-message component
+
+A simple implementation of the empty-message component
 
 ```html
   <ids-empty-message icon="empty-no-tasks">
@@ -45,7 +47,9 @@ When making use of the `icon` property, it is important to remember that only em
 `empty-search-data`
 
 ## Settings and Attributes
+
 - **icon** the attribute for adding an icon to the empty message, also has bound property with getter/setter
 
-## Accessibilty
+## Accessibility
+
 It is important to remember to always include a label or description with an Icon for screen reader users.

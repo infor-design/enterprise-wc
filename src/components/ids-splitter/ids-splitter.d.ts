@@ -1,8 +1,3 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-
-import { IdsElement } from '../../core';
-
 /** Type for splitter start object */
 type IdsSplitterStart = {
   /** The start pane element */
@@ -115,7 +110,7 @@ interface IdsSplitterEventDetail extends Event {
   }
 }
 
-export default class IdsSplitter extends IdsElement {
+export default class IdsSplitter extends HTMLElement {
   /** Set the split bar align direction to start or end */
   align: string | null;
 

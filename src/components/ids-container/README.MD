@@ -2,13 +2,14 @@
 
 ## Description
 
-We created a root container component. This is used currently for theming the page and reseting the browser styles. In the future some components like popup will use it for layout boundaries.
+We created a root container component. This is used currently for theming the page and reseting the browser styles. In addition the container is the parent element for the locale and language, all components that are in it will use this locale/language.
 
 ## Use Cases
 
 - When you need to use components that will not overflow the page boundary
 - When you need a root container for IDS components
 - When you need to style the page background
+- When you need a locale and language
 
 ## Terminology
 

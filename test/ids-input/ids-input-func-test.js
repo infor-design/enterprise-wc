@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import IdsInput from '../../src/components/ids-input/ids-input';
-import IdsClearableMixin from '../../src/mixins';
+import IdsClearableMixin from '../../src/mixins/ids-clearable-mixin/ids-clearable-mixin';
 
 const processAnimFrame = () => new Promise((resolve) => {
   window.requestAnimationFrame(() => {
@@ -621,6 +621,18 @@ describe('IdsInput Component', () => {
   it('supports setting cursor', () => {
     input.cursor = 'pointer';
     expect(input.shadowRoot.querySelector('input').style.cursor).toEqual('pointer');
+    expect(input.cursor).toEqual('pointer');
+  });
+
+  it('supports setting noMargins', () => {
+    input.noMargins = true;
+    expect(input.noMargins).toEqual(true);
+    expect(input.container.querySelector('input').classList.contains('no-margin')).toEqual(true);
+    expect(input.getAttribute('no-margins')).toEqual('true');
+
+    input.noMargins = false;
+    expect(input.noMargins).toEqual(false);
+    expect(input.getAttribute('no-margins')).toBeFalsy();
   });
 
   it('can focus its inner Input element', () => {

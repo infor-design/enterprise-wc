@@ -1,25 +1,11 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  attributes,
-  mix
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-// Import Utils
-import { IdsStringUtils } from '../../utils';
+import IdsIcon from '../ids-icon/ids-icon';
+import IdsText from '../ids-text/ids-text';
+import Base from './ids-image-base';
 
-// Supporting components
-import IdsIcon from '../ids-icon';
-import IdsText from '../ids-text';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
-// Import Styles
 import styles from './ids-image.scss';
 
 /**
@@ -31,7 +17,7 @@ import styles from './ids-image.scss';
  */
 @customElement('ids-image')
 @scss(styles)
-class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+export default class IdsImage extends Base {
   constructor() {
     super();
   }
@@ -241,7 +227,7 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   get placeholder() {
     const attrVal = this.getAttribute(attributes.PLACEHOLDER);
 
-    return IdsStringUtils.stringToBool(attrVal);
+    return stringToBool(attrVal);
   }
 
   /**
@@ -249,7 +235,7 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @param {string} val placeholder attribute value
    */
   set placeholder(val) {
-    const boolVal = IdsStringUtils.stringToBool(val);
+    const boolVal = stringToBool(val);
 
     if (boolVal) {
       this.setAttribute(attributes.PLACEHOLDER, boolVal);
@@ -267,7 +253,7 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   get fallback() {
     const attrVal = this.getAttribute(attributes.FALLBACK);
 
-    return IdsStringUtils.stringToBool(attrVal);
+    return stringToBool(attrVal);
   }
 
   /**
@@ -275,7 +261,7 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @param {string} val fallback attribute value
    */
   set fallback(val) {
-    const boolVal = IdsStringUtils.stringToBool(val);
+    const boolVal = stringToBool(val);
 
     if (boolVal) {
       this.setAttribute(attributes.FALLBACK, boolVal);
@@ -293,7 +279,7 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   get round() {
     const attrVal = this.getAttribute(attributes.ROUND);
 
-    return IdsStringUtils.stringToBool(attrVal);
+    return stringToBool(attrVal);
   }
 
   /**
@@ -301,7 +287,7 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @param {string} val round attribute value
    */
   set round(val) {
-    const boolVal = IdsStringUtils.stringToBool(val);
+    const boolVal = stringToBool(val);
 
     if (boolVal) {
       this.setAttribute(attributes.ROUND, boolVal);
@@ -420,5 +406,3 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.removeAttribute(attributes.INITIALS);
   }
 }
-
-export default IdsImage;

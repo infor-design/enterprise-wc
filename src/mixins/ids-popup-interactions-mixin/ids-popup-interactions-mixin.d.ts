@@ -1,6 +1,4 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-import IdsPopup from '../../components/ids-popup';
+import IdsPopup from '../../components/ids-popup/ids-popup';
 
 export class IdsPopupInteractionsMixin {
   /** true if the component currently has trigger events */

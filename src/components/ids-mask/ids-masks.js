@@ -1,13 +1,8 @@
 import {
-  ALPHAS_REGEX,
-  ANY_REGEX,
-  CARET_TRAP,
-  DIGITS_REGEX,
-  EMPTY_STRING,
-  NON_DIGITS_REGEX
+  ALPHAS_REGEX, ANY_REGEX, CARET_TRAP, DIGITS_REGEX, EMPTY_STRING, NON_DIGITS_REGEX
 } from './ids-mask-common';
-
-import { IdsStringUtils, IdsDeepCloneUtils } from '../../utils';
+import { removeDuplicates } from '../../utils/ids-string-utils/ids-string-utils';
+import { deepClone } from '../../utils/ids-deep-clone-utils/ids-deep-clone-utils';
 
 // Default Number Mask Options
 export const DEFAULT_NUMBER_MASK_OPTIONS = {
@@ -122,7 +117,7 @@ function getRegexForPart(part, type) {
  * @returns {object} containing a mask that will match a formatted number.
  */
 export function numberMask(rawValue, options) {
-  let thisOptions = IdsDeepCloneUtils.deepClone(DEFAULT_NUMBER_MASK_OPTIONS);
+  let thisOptions = deepClone(DEFAULT_NUMBER_MASK_OPTIONS);
   thisOptions = Object.assign(thisOptions, options);
 
   const PREFIX = thisOptions.prefix;
@@ -310,7 +305,7 @@ function getSplitterRegex(splitterStr) {
  * along with extra meta-data about the characters contained.
  */
 export function dateMask(rawValue = '', options = {}) {
-  let thisOptions = IdsDeepCloneUtils.deepClone(DEFAULT_DATETIME_MASK_OPTIONS);
+  let thisOptions = deepClone(DEFAULT_DATETIME_MASK_OPTIONS);
   thisOptions = Object.assign(thisOptions, options);
 
   let mask = [];
@@ -321,7 +316,7 @@ export function dateMask(rawValue = '', options = {}) {
 
   const digitRegex = DIGITS_REGEX;
   const format = thisOptions.format;
-  const splitterStr = IdsStringUtils.removeDuplicates(format.replace(/[dMyHhmsa]+/g, ''));
+  const splitterStr = removeDuplicates(format.replace(/[dMyHhmsa]+/g, ''));
 
   const splitterRegex = getSplitterRegex(splitterStr);
   const formatArray = format.match(/(d{1,2}|M{1,4}|y{1,4}|H{1,2}|h{1,2}|m{1,2}|s{1,2}|a{1}|z{1, 4}|E{1, 4})/g);

@@ -2,10 +2,14 @@
  * @jest-environment jsdom
  */
 import wait from '../helpers/wait';
-import IdsContainer from '../../src/components/ids-container';
-import IdsToast from '../../src/components/ids-toast';
+import IdsContainer from '../../src/components/ids-container/ids-container';
+import IdsToast from '../../src/components/ids-toast/ids-toast';
 import IdsToastMessage from '../../src/components/ids-toast/ids-toast-message';
-import { IdsToastShared as shared } from '../../src/components/ids-toast/ids-toast-shared';
+import {
+  DEFAULTS,
+  id,
+  EVENTS
+} from '../../src/components/ids-toast/ids-toast-shared';
 
 describe('IdsToast Component', () => {
   const origInnerWidth = window.innerWidth;
@@ -55,7 +59,7 @@ describe('IdsToast Component', () => {
 
   it('should set to put links in the toast message', () => {
     expect(toast.getAttribute('allow-link')).toEqual(null);
-    expect(toast.allowLink).toEqual(shared.DEFAULTS.allowLink);
+    expect(toast.allowLink).toEqual(DEFAULTS.allowLink);
     toast.allowLink = true;
     expect(toast.getAttribute('allow-link')).toEqual('true');
     expect(toast.allowLink).toEqual(true);
@@ -64,12 +68,12 @@ describe('IdsToast Component', () => {
     expect(toast.allowLink).toEqual(false);
     toast.allowLink = null;
     expect(toast.getAttribute('allow-link')).toEqual(null);
-    expect(toast.allowLink).toEqual(shared.DEFAULTS.allowLink);
+    expect(toast.allowLink).toEqual(DEFAULTS.allowLink);
   });
 
   it('should set audible to toast message', () => {
     expect(toast.getAttribute('audible')).toEqual(null);
-    expect(toast.audible).toEqual(shared.DEFAULTS.audible);
+    expect(toast.audible).toEqual(DEFAULTS.audible);
     toast.audible = true;
     expect(toast.getAttribute('audible')).toEqual('true');
     expect(toast.audible).toEqual(true);
@@ -78,12 +82,12 @@ describe('IdsToast Component', () => {
     expect(toast.audible).toEqual(false);
     toast.audible = null;
     expect(toast.getAttribute('audible')).toEqual(null);
-    expect(toast.audible).toEqual(shared.DEFAULTS.audible);
+    expect(toast.audible).toEqual(DEFAULTS.audible);
   });
 
   it('should set to allows drag/drop the toast', () => {
     expect(toast.getAttribute('draggable')).toEqual(null);
-    expect(toast.draggable).toEqual(shared.DEFAULTS.draggable);
+    expect(toast.draggable).toEqual(DEFAULTS.draggable);
     toast.draggable = true;
     expect(toast.getAttribute('draggable')).toEqual('true');
     expect(toast.draggable).toEqual(true);
@@ -92,15 +96,15 @@ describe('IdsToast Component', () => {
     expect(toast.draggable).toEqual(false);
     toast.draggable = null;
     expect(toast.getAttribute('draggable')).toEqual(null);
-    expect(toast.draggable).toEqual(shared.DEFAULTS.draggable);
+    expect(toast.draggable).toEqual(DEFAULTS.draggable);
   });
 
   it('should set position of the toast container in specific place', () => {
     let toastContainer = toast.toastContainer();
 
     expect(toast.getAttribute('position')).toEqual(null);
-    expect(toast.position).toEqual(shared.DEFAULTS.position);
-    expect(toastContainer.classList.contains(shared.DEFAULTS.position)).toEqual(true);
+    expect(toast.position).toEqual(DEFAULTS.position);
+    expect(toastContainer.classList.contains(DEFAULTS.position)).toEqual(true);
 
     const values = ['bottom-end', 'bottom-start', 'top-end', 'top-start'];
     values.forEach((v) => {
@@ -116,13 +120,13 @@ describe('IdsToast Component', () => {
     toastContainer = toast.toastContainer();
 
     expect(toast.getAttribute('position')).toEqual(null);
-    expect(toast.position).toEqual(shared.DEFAULTS.position);
-    expect(toastContainer.classList.contains(shared.DEFAULTS.position)).toEqual(true);
+    expect(toast.position).toEqual(DEFAULTS.position);
+    expect(toastContainer.classList.contains(DEFAULTS.position)).toEqual(true);
   });
 
   it('should set toast to progress bar', () => {
     expect(toast.getAttribute('progress-bar')).toEqual(null);
-    expect(toast.progressBar).toEqual(shared.DEFAULTS.progressBar);
+    expect(toast.progressBar).toEqual(DEFAULTS.progressBar);
     toast.progressBar = true;
     expect(toast.getAttribute('progress-bar')).toEqual('true');
     expect(toast.progressBar).toEqual(true);
@@ -131,12 +135,12 @@ describe('IdsToast Component', () => {
     expect(toast.progressBar).toEqual(false);
     toast.progressBar = null;
     expect(toast.getAttribute('progress-bar')).toEqual(null);
-    expect(toast.progressBar).toEqual(shared.DEFAULTS.progressBar);
+    expect(toast.progressBar).toEqual(DEFAULTS.progressBar);
   });
 
   it('should set toast container to save position', () => {
     expect(toast.getAttribute('save-position')).toEqual(null);
-    expect(toast.savePosition).toEqual(shared.DEFAULTS.savePosition);
+    expect(toast.savePosition).toEqual(DEFAULTS.savePosition);
     toast.savePosition = true;
     expect(toast.getAttribute('save-position')).toEqual('true');
     expect(toast.savePosition).toEqual(true);
@@ -145,35 +149,35 @@ describe('IdsToast Component', () => {
     expect(toast.savePosition).toEqual(false);
     toast.savePosition = null;
     expect(toast.getAttribute('save-position')).toEqual(null);
-    expect(toast.savePosition).toEqual(shared.DEFAULTS.savePosition);
+    expect(toast.savePosition).toEqual(DEFAULTS.savePosition);
   });
 
   it('should set toast timeout', () => {
     expect(toast.getAttribute('timeout')).toEqual(null);
-    expect(toast.timeout).toEqual(shared.DEFAULTS.timeout);
+    expect(toast.timeout).toEqual(DEFAULTS.timeout);
     toast.timeout = 2000;
     expect(toast.getAttribute('timeout')).toEqual('2000');
     expect(toast.timeout).toEqual('2000');
     toast.timeout = false;
     expect(toast.getAttribute('timeout')).toEqual(null);
-    expect(toast.timeout).toEqual(shared.DEFAULTS.timeout);
+    expect(toast.timeout).toEqual(DEFAULTS.timeout);
   });
 
   it('should set toast uniqueId', () => {
     const uniqueId = 'some-uniqueid';
     expect(toast.getAttribute('unique-id')).toEqual(null);
-    expect(toast.uniqueId).toEqual(shared.DEFAULTS.uniqueId);
+    expect(toast.uniqueId).toEqual(DEFAULTS.uniqueId);
     toast.uniqueId = uniqueId;
     expect(toast.getAttribute('unique-id')).toEqual(uniqueId);
     expect(toast.uniqueId).toEqual(uniqueId);
     toast.uniqueId = false;
     expect(toast.getAttribute('unique-id')).toEqual(null);
-    expect(toast.uniqueId).toEqual(shared.DEFAULTS.uniqueId);
+    expect(toast.uniqueId).toEqual(DEFAULTS.uniqueId);
   });
 
   it('should set to destroy after complete all the toasts', () => {
     expect(toast.getAttribute('destroy-on-complete')).toEqual(null);
-    expect(toast.destroyOnComplete).toEqual(shared.DEFAULTS.destroyOnComplete);
+    expect(toast.destroyOnComplete).toEqual(DEFAULTS.destroyOnComplete);
     toast.destroyOnComplete = true;
     expect(toast.getAttribute('destroy-on-complete')).toEqual('true');
     expect(toast.destroyOnComplete).toEqual(true);
@@ -182,7 +186,7 @@ describe('IdsToast Component', () => {
     expect(toast.destroyOnComplete).toEqual(false);
     toast.destroyOnComplete = null;
     expect(toast.getAttribute('destroy-on-complete')).toEqual(null);
-    expect(toast.destroyOnComplete).toEqual(shared.DEFAULTS.destroyOnComplete);
+    expect(toast.destroyOnComplete).toEqual(DEFAULTS.destroyOnComplete);
   });
 
   it('should set toast message', () => {
@@ -230,11 +234,11 @@ describe('IdsToast Component', () => {
     messageEl = toastContainer.querySelector('ids-toast-message');
 
     expect(messageEl).toBeFalsy();
-    expect(localStorage.getItem(shared.id(uniqueId))).toEqual(null);
+    expect(localStorage.getItem(id(uniqueId))).toEqual(null);
     toast.clearPosition();
     toast.clearPositionAll();
 
-    expect(localStorage.getItem(shared.id(uniqueId))).toEqual(null);
+    expect(localStorage.getItem(id(uniqueId))).toEqual(null);
   });
 
   it('should saved position to local storage', async () => {
@@ -259,16 +263,16 @@ describe('IdsToast Component', () => {
     messageEl = toastContainer.querySelector('ids-toast-message');
 
     expect(messageEl).toBeFalsy();
-    expect(localStorage.getItem(shared.id(uniqueId))).toEqual(transform);
+    expect(localStorage.getItem(id(uniqueId))).toEqual(transform);
     toast.clearPosition(uniqueId);
 
-    expect(localStorage.getItem(shared.id(uniqueId))).toEqual(null);
+    expect(localStorage.getItem(id(uniqueId))).toEqual(null);
   });
 
   it('should restore saved position', () => {
     const uniqueId = 'some-uniqueid';
     const transform = 'translate(100px, 250px)';
-    localStorage.setItem(shared.id(uniqueId), transform);
+    localStorage.setItem(id(uniqueId), transform);
 
     toast.uniqueId = uniqueId;
     toast.savePosition = true;
@@ -285,7 +289,7 @@ describe('IdsToast Component', () => {
   it('should reset saved position', () => {
     const uniqueId = 'some-uniqueid';
     const transform = 'translate(-9999px, -9999px)';
-    localStorage.setItem(shared.id(uniqueId), transform);
+    localStorage.setItem(id(uniqueId), transform);
 
     Object.defineProperty(window, 'innerWidth', { configurable: true, value: null, writable: true });
     Object.defineProperty(window, 'innerHeight', { configurable: true, value: null, writable: true });
@@ -305,33 +309,33 @@ describe('IdsToast Component', () => {
   it('should clear saved position', () => {
     const uniqueId = 'some-uniqueid';
     const transform = 'translate(100px, 250px)';
-    localStorage.setItem(shared.id(uniqueId), transform);
+    localStorage.setItem(id(uniqueId), transform);
     toast.clearPosition('aaa');
 
-    expect(localStorage.getItem(shared.id(uniqueId))).toEqual(transform);
+    expect(localStorage.getItem(id(uniqueId))).toEqual(transform);
     toast.clearPosition(uniqueId);
 
-    expect(localStorage.getItem(shared.id(uniqueId))).toEqual(null);
-    localStorage.setItem(shared.id('test0'), 'test-0-value');
+    expect(localStorage.getItem(id(uniqueId))).toEqual(null);
+    localStorage.setItem(id('test0'), 'test-0-value');
 
-    expect(localStorage.getItem(shared.id('test0'))).toEqual('test-0-value');
+    expect(localStorage.getItem(id('test0'))).toEqual('test-0-value');
     toast.uniqueId = 'test0';
     toast.clearPosition();
 
-    expect(localStorage.getItem(shared.id('test0'))).toEqual(null);
-    localStorage.setItem(shared.id('test1'), 'test-1-value');
-    localStorage.setItem(shared.id('test2'), 'test-2-value');
-    localStorage.setItem(shared.id('test3'), 'test-3-value');
+    expect(localStorage.getItem(id('test0'))).toEqual(null);
+    localStorage.setItem(id('test1'), 'test-1-value');
+    localStorage.setItem(id('test2'), 'test-2-value');
+    localStorage.setItem(id('test3'), 'test-3-value');
     localStorage.setItem('testaaa', 'test-aaa-value');
 
-    expect(localStorage.getItem(shared.id('test1'))).toEqual('test-1-value');
-    expect(localStorage.getItem(shared.id('test2'))).toEqual('test-2-value');
-    expect(localStorage.getItem(shared.id('test3'))).toEqual('test-3-value');
+    expect(localStorage.getItem(id('test1'))).toEqual('test-1-value');
+    expect(localStorage.getItem(id('test2'))).toEqual('test-2-value');
+    expect(localStorage.getItem(id('test3'))).toEqual('test-3-value');
     toast.clearPositionAll();
 
-    expect(localStorage.getItem(shared.id('test1'))).toEqual(null);
-    expect(localStorage.getItem(shared.id('test2'))).toEqual(null);
-    expect(localStorage.getItem(shared.id('test3'))).toEqual(null);
+    expect(localStorage.getItem(id('test1'))).toEqual(null);
+    expect(localStorage.getItem(id('test2'))).toEqual(null);
+    expect(localStorage.getItem(id('test3'))).toEqual(null);
     expect(localStorage.getItem('testaaa')).toEqual('test-aaa-value');
     localStorage.removeItem('testaaa');
 
@@ -363,16 +367,16 @@ describe('IdsToast Component', () => {
       }
     };
 
-    toast.addEventListener(shared.EVENTS.addMessage, (e) => {
+    toast.addEventListener(EVENTS.addMessage, (e) => {
       detail.active.addMessage = e.detail?.messageId;
     });
-    toast.addEventListener(shared.EVENTS.removeMessage, (e) => {
+    toast.addEventListener(EVENTS.removeMessage, (e) => {
       detail.active.removeMessage = e.detail?.messageId;
     });
-    toast.addEventListener(shared.EVENTS.savePosition, (e) => {
+    toast.addEventListener(EVENTS.savePosition, (e) => {
       detail.active.savePosition = e.detail?.uniqueId;
     });
-    toast.addEventListener(shared.EVENTS.clearPosition, (e) => {
+    toast.addEventListener(EVENTS.clearPosition, (e) => {
       detail.active.clearPosition = e.detail?.clearIds[0];
     });
 
@@ -411,10 +415,10 @@ describe('IdsToast Component', () => {
     expect(detail.active.savePosition).toEqual(detail.after.savePosition);
     expect(detail.active.clearPosition).toEqual(detail.before.clearPosition);
 
-    expect(localStorage.getItem(shared.id(uniqueId))).toEqual(transform);
+    expect(localStorage.getItem(id(uniqueId))).toEqual(transform);
     toast.clearPosition(uniqueId);
 
-    expect(localStorage.getItem(shared.id(uniqueId))).toEqual(null);
+    expect(localStorage.getItem(id(uniqueId))).toEqual(null);
 
     expect(detail.active.addMessage).toEqual(detail.after.addMessage);
     expect(detail.active.removeMessage).toEqual(detail.after.removeMessage);
@@ -422,21 +426,9 @@ describe('IdsToast Component', () => {
     expect(detail.active.clearPosition).toEqual(detail.after.clearPosition);
   });
 
-  it('should update with container language change', () => {
-    const language = { before: 'en', after: 'ar' };
-    const mockCallback = jest.fn((e) => {
-      expect(e.detail.language.name).toEqual(language.after);
-    });
-
-    expect(toast.language.name).toEqual(language.before);
-    container.addEventListener('languagechange', mockCallback);
-    const event = new CustomEvent('languagechange', {
-      detail: { language: { name: language.after } }
-    });
-    container.dispatchEvent(event);
-
-    expect(mockCallback.mock.calls.length).toBe(1);
-    expect(toast.language.name).toEqual(language.after);
+  it('should update with container language change', async () => {
+    await container.setLanguage('ar');
+    expect(toast.getAttribute('dir')).toEqual('rtl');
   });
 
   it('should remove toast  host element', async () => {

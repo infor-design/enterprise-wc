@@ -37,7 +37,7 @@ module.exports = {
   experiments: {
   },
   infrastructureLogging: {
-    level: 'error'
+    level: 'error' // or 'verbose' if any debug info is needed
   },
   performance: {
     hints: false
@@ -53,14 +53,20 @@ module.exports = {
         test: /\.js(\?.*)?$/i
       }),
     ],
-    runtimeChunk: 'single'
+    splitChunks: {
+      chunks: 'async'
+    },
+  },
+  watchOptions: {
+    aggregateTimeout: 2000,
+    poll: 2000,
   },
   output: {
-    library: '[name]-lib.js',
-    libraryTarget: 'umd',
-    libraryExport: 'default',
+    chunkFormat: 'module',
     path: path.resolve(__dirname, 'demo-dist'),
-    filename: '[name].js'
+    filename: '[name].js',
+    clean: true,
+    publicPath: '/'
   },
   // Configure the dev server (node) with settings
   devServer: {
@@ -72,6 +78,7 @@ module.exports = {
     },
     static: {
       directory: path.resolve(__dirname, 'demo-dist'),
+      watch: false
     },
     onBeforeSetupMiddleware: (devServer) => {
       // Post method, upload files to `/tmp` folder
@@ -136,7 +143,7 @@ module.exports = {
         use: [
           {
             // Options are all in babel.config.js
-            loader: 'babel-loader',
+            loader: 'babel-loader'
           }
         ]
       },
@@ -270,13 +277,14 @@ glob.sync('./demos/**/*.html').reduce((acc, filePath) => {
   // The specified chunk is added to a list of components that will be pre-loaded,
   // no matter which page is displayed.
   const folderChunks = [
-    chunk,
+    'ids-locale/ids-locale',
     'ids-container/ids-container',
     'ids-icon/ids-icon',
     'ids-layout-grid/ids-layout-grid',
     'ids-text/ids-text',
     'ids-theme-switcher/ids-theme-switcher',
-    'ids-toolbar/ids-toolbar'
+    'ids-toolbar/ids-toolbar',
+    chunk
   ];
 
   // Add example.js to the page as a separate chunk

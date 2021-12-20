@@ -3,14 +3,14 @@
  */
 // eslint-disable-next-line
 import processAnimFrame from '../helpers/process-anim-frame';
-import IdsInput from '../../src/components/ids-input';
-import IdsContainer from '../../src/components/ids-container';
+import IdsInput from '../../src/components/ids-input/ids-input';
+import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsPager, {
   IdsPagerInput,
   IdsPagerButton,
   IdsPagerSection,
   IdsPagerNumberList
-} from '../../src/components/ids-pager';
+} from '../../src/components/ids-pager/ids-pager';
 
 const HTMLSnippets = {
   NAV_BUTTONS_WITHOUT_NESTING: (

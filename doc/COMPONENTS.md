@@ -47,19 +47,11 @@ Create an example basic component, for example this code would make a new custom
 
 ```js
 // Import Base and Decorators
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core';
+import { attributes } from '../../core/ids-attributes';
+import { customElement, scss } from '../../core/ids-decorators';
 
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
+// Import a Base File with all mixins and the main extends from element
+import Base from './../ids-[component-name].base';
 
 // Import Sass to be encapsulated in the component shadowRoot
 import styles from './ids-[component-name].scss';
@@ -74,7 +66,7 @@ import styles from './ids-[component-name].scss';
  */
 @customElement('ids-[component]')
 @scss(styles)
-class [IdsComponent] extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+class [IdsComponent] extends Base {
   constructor() {
     super();
   }
@@ -84,7 +76,7 @@ class [IdsComponent] extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
    */
   connectedCallback() {
     this.#attachEventHandlers();
-    super.connectedCallback();
+    super.connectedCallback(); // Some mixins require this
   }
 
   /**
@@ -123,15 +115,12 @@ Each of the steps and code sections are explained here.
 - Import the base element and other utilities and decorators from `../ids-base`
 
 ```js
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix
-} from '../../core';
+import { attributes } from '../../core/ids-attributes';
+import { customElement, scss } from '../../core/ids-decorators';
+
 ```
 
-- If this new code is an IDS UI Web Component (not a special class or utility ect), ensure that it imports `src/ids-base/ids-element.js` extends the `IdsElement` base component.
+- If this new code is an IDS UI Web Component (not a special class or utility ect), ensure that it imports `src/ids-base/ids-element.js` extends a Base element that is established in a `ids-[component-name]-base.js` file
 - Ensure that your styles are imported from `ids-[component-name].scss` and added to the component via the `@scss` decorator, this will be added into the components shadowRoot by IdsElement.
 
 ```js
@@ -157,10 +146,10 @@ import styles from './ids-[component-name].scss';
 @customElement('ids-[component]')
 ```
 
-- Review the mixins that are available in the `src/ids-mixins/README.md` folder for any reusable parts then include them in the `mix(IdsElement).with(`. Some commonly used ones include IdsEventsMix if you need event handlers, and IdsThemeMixin if your component is visual with colors and needs themes and IdsKeyBoardMixin if your component responds to keyboard inputs.
+- Review the mixins that are available in the `src/ids-mixins/README.md` folder for any reusable parts then include them in the `ids-component-base.js` file. Some commonly used ones include IdsEventsMix if you need event handlers, and IdsThemeMixin if your component is visual with colors and needs themes and IdsKeyBoardMixin if your component responds to keyboard inputs.
 
 ```js
-class [IdsComponent] extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+class [IdsComponent] extends Base {
 ```
 
 - Add a constructor which is a basic web component requirement. Nothing much should be done in here, this is called when the element is created.
@@ -171,7 +160,7 @@ constructor() {
 }
 ```
 
-- Add a `connectedCallback` this is called when the element is attached to the DOM. You can add any setup functions here and call `super` as some mixins also need the callback and this will call it on them.
+- Add a `connectedCallback` this is called when the element is attached to the DOM. You can add any setup functions here and call `super` as some mixins also need the callback and this will call it on them. This is needed for any mixins that call super themself. But is safe to always do it if you need code in `connectedCallback`.
 
 ```js
 connectedCallback() {

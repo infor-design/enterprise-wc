@@ -1,18 +1,11 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  attributes,
-  mix
-} from '../../core';
-
-// Import Utils
-import { IdsStringUtils as stringUtils } from '../../utils';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { injectTemplate, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsDataSource from '../../core/ids-data-source';
-import { IdsThemeMixin, IdsKeyboardMixin, IdsEventsMixin } from '../../mixins';
+import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
+import Base from './ids-list-view-base';
 
-import IdsVirtualScroll from '../ids-virtual-scroll';
 import styles from './ids-list-view.scss';
 
 const DEFAULT_HEIGHT = '100%';
@@ -28,7 +21,7 @@ const DEFAULT_HEIGHT = '100%';
  */
 @customElement('ids-list-view')
 @scss(styles)
-class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin) {
+export default class IdsListView extends Base {
   constructor() {
     super();
   }
@@ -232,7 +225,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
    * @returns {string} The html for this item
    */
   itemTemplate(item) {
-    return stringUtils.injectTemplate(this.defaultTemplate, item);
+    return injectTemplate(this.defaultTemplate, item);
   }
 
   #refocus() {
@@ -325,7 +318,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
    * @param {boolean|string} value true to use virtual scrolling
    */
   set virtualScroll(value) {
-    if (stringUtils.stringToBool(value)) {
+    if (stringToBool(value)) {
       this.setAttribute(attributes.VIRTUAL_SCROLL, value.toString());
     } else {
       this.removeAttribute(attributes.VIRTUAL_SCROLL);
@@ -333,7 +326,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
     this.render();
   }
 
-  get virtualScroll() { return stringUtils.stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
+  get virtualScroll() { return stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
 
   /**
    * Set the expected height of the viewport for virtual scrolling
@@ -380,8 +373,6 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
   }
 
   get draggable() {
-    return stringUtils.stringToBool(this.getAttribute(attributes.DRAGGABLE));
+    return stringToBool(this.getAttribute(attributes.DRAGGABLE));
   }
 }
-
-export default IdsListView;

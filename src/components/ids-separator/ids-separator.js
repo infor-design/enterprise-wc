@@ -1,20 +1,9 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core';
-
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsDataSource from '../../core/ids-data-source';
-import { IdsStringUtils } from '../../utils/ids-string-utils';
 
-// Import Mixins
-import {
-  IdsColorVariantMixin,
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
+import Base from './ids-separator-base';
 
 import styles from './ids-separator.scss';
 
@@ -29,7 +18,7 @@ import styles from './ids-separator.scss';
  */
 @customElement('ids-separator')
 @scss(styles)
-class IdsSeparator extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsMixin, IdsThemeMixin) {
+export default class IdsSeparator extends Base {
   constructor() {
     super();
   }
@@ -65,7 +54,7 @@ class IdsSeparator extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsM
 
   set vertical(val) {
     const current = this.vertical;
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
     if (current !== trueVal) {
       if (trueVal) {
         this.container.classList.add('vertical');
@@ -77,5 +66,3 @@ class IdsSeparator extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsM
     }
   }
 }
-
-export default IdsSeparator;

@@ -1,21 +1,11 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix
-} from '../../core';
-
-import IdsModal from '../ids-modal';
-import IdsHyperlink from '../ids-hyperlink';
-
 import { attributes } from '../../core/ids-attributes';
-import {
-  IdsStringUtils,
-  IdsDOMUtils,
-  IdsDeviceEnvUtils
-} from '../../utils';
+import { customElement, scss } from '../../core/ids-decorators';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { getSpecs } from '../../utils/ids-device-env-specs-utils/ids-device-env-specs-utils';
 
-import { IdsLocaleMixin } from '../../mixins';
+import Base from './ids-about-base';
+import IdsModal from '../ids-modal/ids-modal';
+import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 
 import styles from './ids-about.scss';
 
@@ -29,7 +19,7 @@ import styles from './ids-about.scss';
  */
 @customElement('ids-about')
 @scss(styles)
-class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
+export default class IdsAbout extends Base {
   constructor() {
     super();
   }
@@ -37,12 +27,12 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.COPYRIGHT_YEAR,
+      attributes.DEVICE_SPECS,
       attributes.LANGUAGE,
       attributes.LOCALE,
       attributes.PRODUCT_NAME,
       attributes.PRODUCT_VERSION,
-      attributes.COPYRIGHT_YEAR,
-      attributes.DEVICE_SPECS,
       attributes.USE_DEFAULT_COPYRIGHT,
     ];
   }
@@ -84,24 +74,17 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
    */
   attachEventHandlers() {
     super.attachEventHandlers();
-
     this.#refreshProduct();
+    this.#attachCloseButton();
+    this.#refreshDeviceSpecs();
+    this.#refreshCopyright();
 
     // Respond to parent changing language
     this.offEvent('languagechange.about-container');
-    this.onEvent('languagechange.about-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
-    });
-
-    // Respond to the element changing language
-    this.offEvent('languagechange.about');
-    this.onEvent('languagechange.about', this, async (e) => {
-      await this.locale.setLanguage(e.detail.language.name);
+    this.onEvent('languagechange.about-container', this.closest('ids-container'), async () => {
       this.#refreshDeviceSpecs();
       this.#refreshCopyright();
     });
-
-    this.#attachCloseButton();
 
     return this;
   }
@@ -185,7 +168,7 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
     const attrVal = this.getAttribute(attributes.DEVICE_SPECS);
 
     if (attrVal) {
-      return IdsStringUtils.stringToBool(attrVal);
+      return stringToBool(attrVal);
     }
 
     return true;
@@ -196,10 +179,9 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
    * @param {string|boolean} val deviceSpecs attribute value
    */
   set deviceSpecs(val) {
-    const boolVal = IdsStringUtils.stringToBool(val);
+    const boolVal = stringToBool(val);
 
     this.setAttribute(attributes.DEVICE_SPECS, boolVal);
-
     this.#refreshDeviceSpecs();
   }
 
@@ -215,16 +197,16 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
     slot.forEach((item) => item.remove());
 
     if (this.deviceSpecs) {
-      const specs = IdsDeviceEnvUtils.getSpecs();
-      const element = `<ids-text slot="device" type="p"><span>${this.locale.translate('OperatingSystem')} : ${specs.os.replace(specs.currentOSVersion, '')} ${specs.currentOSVersion}</span><br/>
-        <span>${this.locale.translate('Platform')} : ${specs.platform}</span><br/>
-        <span>${this.locale.translate('Mobile')} : ${specs.isMobile}</span><br/>
-        <span>${this.locale.translate('Locale')} : ${this.locale.locale.name}</span><br/>
-        <span>${this.locale.translate('Language')} : ${this.locale.language.name}</span><br/>
-        <span>${this.locale.translate('Browser')} : ${specs.currentBrowser} (${specs.browserVersion})</span><br/>
-        <span>${this.locale.translate('BrowserLanguage')} : ${specs.browserLanguage}</span><br/>
-        <span>${this.locale.translate('CookiesEnabled')} : ${specs.cookiesEnabled}</span><br/>
-        <span>${this.locale.translate('Version')} : ${specs.idsVersion}</span>
+      const specs = getSpecs();
+      const element = `<ids-text slot="device" type="p"><span>${this.locale?.translate('OperatingSystem')} : ${specs.os.replace(specs.currentOSVersion, '')} ${specs.currentOSVersion}</span><br/>
+        <span>${this.locale?.translate('Platform')} : ${specs.platform}</span><br/>
+        <span>${this.locale?.translate('Mobile')} : ${specs.isMobile}</span><br/>
+        <span>${this.locale?.translate('Locale')} : ${this.locale?.locale.name || 'en-US'}</span><br/>
+        <span>${this.locale?.translate('Language')} : ${this.locale?.language.name || 'en'}</span><br/>
+        <span>${this.locale?.translate('Browser')} : ${specs.currentBrowser} (${specs.browserVersion})</span><br/>
+        <span>${this.locale?.translate('BrowserLanguage')} : ${specs.browserLanguage}</span><br/>
+        <span>${this.locale?.translate('CookiesEnabled')} : ${specs.cookiesEnabled}</span><br/>
+        <span>${this.locale?.translate('Version')} : ${specs.idsVersion}</span>
       </ids-text>`;
 
       this.insertAdjacentHTML('beforeend', element);
@@ -255,7 +237,7 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
     const attrVal = this.getAttribute(attributes.USE_DEFAULT_COPYRIGHT);
 
     if (attrVal) {
-      return IdsStringUtils.stringToBool(attrVal);
+      return stringToBool(attrVal);
     }
 
     return true;
@@ -266,7 +248,7 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
    * @param {string|boolean} val useDefaultCopyright attribute value
    */
   set useDefaultCopyright(val) {
-    const boolVal = IdsStringUtils.stringToBool(val);
+    const boolVal = stringToBool(val);
 
     this.setAttribute(attributes.USE_DEFAULT_COPYRIGHT, boolVal);
 
@@ -280,7 +262,7 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
    */
   #refreshCopyright() {
     const slot = this.querySelectorAll('[slot="copyright"]');
-    const copyrightText = this.locale.translate('AboutText').replace('{0}', this.copyrightYear);
+    const copyrightText = this.locale?.translate('AboutText').replace('{0}', this.copyrightYear);
     const element = `<ids-text slot="copyright" type="p">${copyrightText} <ids-hyperlink target="_blank" text-decoration="underline" href="https://www.infor.com">www.infor.com</ids-hyperlink>.</ids-text>`;
 
     // Clear slot before rerender
@@ -291,5 +273,3 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
     }
   }
 }
-
-export default IdsAbout;

@@ -1,6 +1,6 @@
 // Ids is a JavaScript project, but we define TypeScript declarations so we can
 // confirm our code is type safe, and to support TypeScript users.
-import IdsMenu, {
+import {
   IdsMenuGroup,
   IdsMenuHeader,
   IdsMenuItem,
@@ -16,7 +16,7 @@ export {
   IdsSeparator
 };
 
-export default class IdsPopupMenu extends IdsMenu {
+export default class IdsPopupMenu extends HTMLElement {
   /* references this menu's parent menu component, if this menu is a submenu */
   readonly parentMenu: IdsPopupMenu | undefined;
 

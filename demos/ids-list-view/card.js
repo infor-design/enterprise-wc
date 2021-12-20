@@ -1,5 +1,5 @@
-import IdsListView from '../../src/components/ids-list-view';
-import IdsCard from '../../src/components/ids-card';
+import IdsListView from '../../src/components/ids-list-view/ids-list-view';
+import IdsCard from '../../src/components/ids-card/ids-card';
 import './index.scss';
 
 // Example for populating the List View

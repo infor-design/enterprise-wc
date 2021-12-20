@@ -278,7 +278,7 @@
 }
 
 // Negate some rules for RTL
-.ids-radio[dir='rtl'] {
+:host([dir='rtl']) {
   input[type='radio'] ~ .circle {
     left: initial;
     right: 0;
