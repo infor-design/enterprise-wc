@@ -8,7 +8,7 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
  */
 const IdsClearableMixin = (superclass) => class extends superclass {
   // Input clearable events
-  inputClearableEvents = ['blur', 'change', 'keyup'];
+  inputClearableEvents = ['blur.clearmixin', 'change.clearmixin', 'keyup.clearmixin'];
 
   constructor() {
     super();
