@@ -262,7 +262,7 @@ if (!isProduction) {
 }
 
 // Dynamically add all html examples
-glob.sync('./demos/**/*.html').reduce((acc, filePath) => {
+glob.sync(`./demos/*${filterComponents}*/*.html`).reduce((acc, filePath) => {
   const folderName = path.dirname(filePath).replace('./demos/', '');
   const folderAndFile = filePath.replace('./demos/', '');
   let title = `${folderName.split('-').map((word) =>
