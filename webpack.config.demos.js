@@ -14,11 +14,20 @@ const fileUpload = require('express-fileupload');
 
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
 process.env.NODE_ENV = isProduction ? 'production' : 'development';
+const filterComponents = process.env.npm_config_components || '';
 
 module.exports = {
-  entry: glob.sync('./demos/**/**.js').reduce((acc, filePath) => {
+  entry: glob.sync(`./demos/*${filterComponents}*/*.js`).reduce((acc, filePath) => {
     let entry = filePath.replace(`/${path.basename(filePath)}`, '');
     entry = (entry === './demos' ? 'index' : entry.replace('./demos/', ''));
+
+    // If filtering add a few "required" entries
+    if (filterComponents) {
+      acc['ids-container/ids-container'] = './demos/ids-container/index.js';
+      acc['ids-text/ids-text'] = './demos/ids-text/index.js';
+      acc['ids-icon/ids-icon'] = './demos/ids-icon/index.js';
+      acc['ids-layout-grid/ids-layout-grid'] = './demos/ids-layout-grid/index.js';
+    }
 
     if (path.basename(filePath) === 'index.js') {
       acc[entry === 'index' ? entry : `${entry}/${entry}`] = filePath;
