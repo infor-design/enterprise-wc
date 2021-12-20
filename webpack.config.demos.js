@@ -14,15 +14,15 @@ const fileUpload = require('express-fileupload');
 
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
 process.env.NODE_ENV = isProduction ? 'production' : 'development';
-const filterComponents = process.env.npm_config_components || '';
+const filterComponent = process.env.npm_config_component || '';
 
 module.exports = {
-  entry: glob.sync(`./demos/*${filterComponents}*/*.js`).reduce((acc, filePath) => {
+  entry: glob.sync(`./demos/*${filterComponent}*/*.js`).reduce((acc, filePath) => {
     let entry = filePath.replace(`/${path.basename(filePath)}`, '');
     entry = (entry === './demos' ? 'index' : entry.replace('./demos/', ''));
 
     // If filtering add a few "required" entries
-    if (filterComponents) {
+    if (filterComponent) {
       acc['ids-container/ids-container'] = './demos/ids-container/index.js';
       acc['ids-text/ids-text'] = './demos/ids-text/index.js';
       acc['ids-icon/ids-icon'] = './demos/ids-icon/index.js';
@@ -262,7 +262,7 @@ if (!isProduction) {
 }
 
 // Dynamically add all html examples
-glob.sync(`./demos/*${filterComponents}*/*.html`).reduce((acc, filePath) => {
+glob.sync(`./demos/*${filterComponent}*/*.html`).reduce((acc, filePath) => {
   const folderName = path.dirname(filePath).replace('./demos/', '');
   const folderAndFile = filePath.replace('./demos/', '');
   let title = `${folderName.split('-').map((word) =>
