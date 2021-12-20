@@ -34,6 +34,7 @@ export default class IdsListView extends Base {
   connectedCallback() {
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
     super.connectedCallback();
+    this.attachEventListeners();
   }
 
   /**
@@ -42,7 +43,7 @@ export default class IdsListView extends Base {
    */
   static get attributes() {
     return [
-      attributes.DRAGGABLE,
+      attributes.SORTABLE,
       attributes.HEIGHT,
       attributes.ITEM_HEIGHT,
       attributes.MODE,
@@ -55,13 +56,22 @@ export default class IdsListView extends Base {
     return this.container.querySelectorAll('div[part="list-item"]');
   }
 
-  getAllDraggable() {
-    return this.draggable ? this.container.querySelectorAll('ids-draggable') : null;
+  addSortableStyles() {
+    this.getAllLi().forEach((li) => {
+      li.classList.add('sortable');
+    });
   }
 
   attachEventListeners() {
-    this.attachClickListeners();
     this.attachKeyboardListeners();
+
+    // attaching both event listeners causes focus issues, so do it conditionally based on the sortable prop
+    if (this.sortable) {
+      this.attachDragEventListeners(); // for focusing and dragging list items
+      this.addSortableStyles();
+    } else {
+      this.attachClickListeners(); // for focusing list items
+    }
   }
 
   attachClickListeners() {
@@ -73,9 +83,7 @@ export default class IdsListView extends Base {
   // each click on an item - always set that to focus, toggle the selected feature
   attachClickListenersForItems(item) {
     this.onEvent('click', item, () => {
-      if (this.getFocusedLi !== item) {
-        this.focusLi(item);
-      }
+      this.onClick(item);
     });
   }
 
@@ -126,6 +134,10 @@ export default class IdsListView extends Base {
     });
   }
 
+  onClick(item) {
+    this.focusLi(item);
+  }
+
   focusLi(li) {
     if (li) {
       const prevFocus = this.getFocusedLi();
@@ -147,30 +159,30 @@ export default class IdsListView extends Base {
   }
 
   getPreviousLi(li) {
-    return this.draggable
+    return this.sortable
       ? li.parentElement.previousElementSibling?.firstElementChild // needs to navigate outside to ids-draggable wrapper
       : li.previousElementSibling;
   }
 
   getNextLi(li) {
-    return this.draggable
+    return this.sortable
       ? li.parentElement.nextElementSibling?.firstElementChild
       : li.nextElementSibling;
   }
 
   listItemTemplateFunc() {
     const func = (item, index) => `
-      ${this.draggable ? `<ids-draggable axis="y">` : '' }
+      ${this.sortable ? `<ids-draggable axis="y">` : '' }
         <div
           part="list-item"
           role="listitem"
           tabindex="-1"
           index="${index}"
         >
-          ${this.draggable ? `<span></span>` : ``}
+          ${this.sortable ? `<span></span>` : ``}
           ${this.itemTemplate(item)}
         </div>
-      ${this.draggable ? `</ids-draggable>` : '' }
+      ${this.sortable ? `</ids-draggable>` : '' }
     `;
 
     return func;
@@ -330,7 +342,7 @@ export default class IdsListView extends Base {
 
   /**
    * Set the expected height of the viewport for virtual scrolling
-   * @param {string} value true to use virtual scrolling
+   * @param {string | number} value true to use virtual scrolling
    */
   set height(value) {
     if (value) {
@@ -346,7 +358,7 @@ export default class IdsListView extends Base {
 
   /**
    * Set the expected height of each item
-   * @param {string} value true to use virtual scrolling
+   * @param {string | number} value true to use virtual scrolling
    */
   set itemHeight(value) {
     if (value) {
@@ -361,18 +373,35 @@ export default class IdsListView extends Base {
   }
 
   /**
-   * Set to true to allow items to be draggable/sortable
-   * @param {string} value true to use draggable
+   * Overrides the ids-sortable-mixin function to focus on item
+   * @param {Element} el element to be dragged
    */
-  set draggable(value) {
-    if (value) {
-      this.setAttribute(attributes.DRAGGABLE, value);
-    } else {
-      this.removeAttribute(attributes.DRAGGABLE);
-    }
+  onDragStart(el) {
+    super.onDragStart(el);
+
+    const li = el.querySelector('div[part="list-item"]');
+    this.onClick(li);
   }
 
-  get draggable() {
-    return stringToBool(this.getAttribute(attributes.DRAGGABLE));
+  /**
+   * Overrides the ids-sortable-mixin function to focus on item
+   * @param {Element} el element to be dragged
+   */
+  onDragEnd(el) {
+    super.onDragEnd(el);
+
+    const li = el.querySelector('div[part="list-item"]');
+    li.focus();
+  }
+
+  /**
+   * Overrides the ids-sortable-mixin function to add styling for the placeholder node
+   * @param {Node} node the node to be cloned
+   * @returns {Node} the cloned node
+   */
+  createPlaceholderNode(node) {
+    const p = super.createPlaceholderNode(node);
+    p.querySelector('div[part="list-item"]').classList.add('placeholder'); // for styling the placeholder
+    return p;
   }
 }
