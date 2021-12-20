@@ -1,30 +1,21 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  attributes,
-  mix
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+
+import Base from './ids-month-view-base';
 
 // Import Utils
 import {
-  IdsStringUtils as stringUtils,
-  IdsDateUtils as dateUtils
-} from '../../utils';
+  addDate,
+  firstDayOfWeek,
+} from '../../utils/ids-date-utils/ids-date-utils';
+import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
 // Supporting components
-import IdsButton from '../ids-button';
-import IdsIcon from '../ids-icon';
-import IdsText from '../ids-text';
-import IdsToolbar from '../ids-toolbar';
+import IdsButton from '../ids-button/ids-button';
+import IdsIcon from '../ids-icon/ids-icon';
+import IdsText from '../ids-text/ids-text';
+import IdsToolbar from '../ids-toolbar/ids-toolbar';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsLocaleMixin,
-  IdsThemeMixin
-} from '../../mixins';
 
 // Import Styles
 import styles from './ids-month-view.scss';
@@ -39,13 +30,13 @@ import styles from './ids-month-view.scss';
  */
 @customElement('ids-month-view')
 @scss(styles)
-class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, IdsThemeMixin) {
+class IdsMonthView extends Base {
   constructor() {
     super();
   }
 
   connectedCallback() {
-    this.attachEventHandlers();
+    this.#attachEventHandlers();
     super.connectedCallback();
   }
 
@@ -76,7 +67,7 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
    * Establish internal event handlers
    * @returns {object} The object for chaining
    */
-  attachEventHandlers() {
+  #attachEventHandlers() {
     // Respond to parent changing language
     this.offEvent('languagechange.month-view-container');
     this.onEvent('languagechange.month-view-container', this.closest('ids-container'), async (e) => {
@@ -242,7 +233,7 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
     const year = this.year;
     const month = this.month;
     const firstDayOfMonth = (new Date(year, month - 1, 1));
-    const firstDayOfWeek = dateUtils.firstDayOfWeek(firstDayOfMonth, this.firstDayOfWeek);
+    const firstWeekDay = firstDayOfWeek(firstDayOfMonth, this.firstDayOfWeek);
     const weekDaysTemplate = days.map((item, index) => {
       const weekday = days[(index + this.firstDayOfWeek) % 7];
 
@@ -257,7 +248,7 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
     }).join('');
 
     const daysTemplate = (week) => Array.from({ length: 7 }).map((_, index) => {
-      const date = dateUtils.add(firstDayOfWeek, (week * 7) + index, 'days');
+      const date = addDate(firstWeekDay, (week * 7) + index, 'days');
       const dayNumeric = this.locale.formatDate(date, { day: 'numeric' });
 
       return `<td aria-label="${this.locale.formatDate(date, { dateStyle: 'full' })}" role="link">${dayNumeric}</td>`;
@@ -287,7 +278,7 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
   get showToday() {
     const attrVal = this.getAttribute(attributes.SHOW_TODAY);
 
-    return stringUtils.stringToBool(attrVal);
+    return stringToBool(attrVal);
   }
 
   /**
@@ -295,7 +286,7 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
    * @param {string|boolean|null} val showToday param value
    */
   set showToday(val) {
-    const boolVal = stringUtils.stringToBool(val);
+    const boolVal = stringToBool(val);
 
     if (boolVal) {
       this.setAttribute(attributes.SHOW_TODAY, boolVal);
@@ -312,7 +303,7 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
    */
   get month() {
     const attrVal = this.getAttribute(attributes.MONTH);
-    const numberVal = stringUtils.stringToNumber(attrVal);
+    const numberVal = stringToNumber(attrVal);
 
     if (attrVal && numberVal >= 1 && numberVal <= 12) {
       return numberVal;
@@ -343,7 +334,7 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
    */
   get year() {
     const attrVal = this.getAttribute(attributes.YEAR);
-    const numberVal = stringUtils.stringToNumber(attrVal);
+    const numberVal = stringToNumber(attrVal);
 
     if (attrVal && attrVal.length === 4) {
       return numberVal;
@@ -374,7 +365,7 @@ class IdsMonthView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, 
    */
   get firstDayOfWeek() {
     const attrVal = this.getAttribute(attributes.FIRST_DAY_OF_WEEK);
-    const numberVal = stringUtils.stringToNumber(attrVal);
+    const numberVal = stringToNumber(attrVal);
 
     if (attrVal && numberVal >= 0 && numberVal <= 6) {
       return numberVal;

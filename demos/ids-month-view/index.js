@@ -1,1 +1,1 @@
-import IdsMonthView from '../../src/components/ids-month-view';
+import IdsMonthView from '../../src/components/ids-month-view/ids-month-view';
