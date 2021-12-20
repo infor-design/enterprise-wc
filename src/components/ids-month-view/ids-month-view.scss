@@ -1,97 +1,32 @@
 @import '../../core/ids-base';
 
+// Temporary workaround till ids-identity border-r-2 fix
+@mixin border-r-1 {
+  border-right: 1px solid;
+}
+
 :host {
   contain: content;
 }
 
 .ids-month-view {
   @include flex();
-  @include border-solid();
-  @include border-1();
   @include bg-white();
+  @include border-t-1();
+  @include border-r-1();
+  @include border-l-1();
   @include border-slate-20();
 
   flex-direction: column;
   overflow: auto;
 
   .month-view-header {
-    @include border-slate-20();
     @include bg-white();
+    @include border-b-1();
+    @include border-slate-20();
 
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
     height: 50px;
     flex-shrink: 0;
-  }
-
-  .month-view-today-text {
-    @include text-azure-60();
-  }
-
-  .month-view-table-header {
-    th {
-      background-clip: padding-box;
-      border-top: 0;
-      height: 30px;
-      line-height: 30px;
-      text-align: center;
-      width: 14.3%;
-    }
-
-    // All day section
-    .month-view-all-day-wrapper {
-      @include relative();
-      @include box-border();
-      @include border-slate-20();
-
-      height: 44px;
-      text-transform: unset;
-      border-top-width: 1px;
-      border-top-style: solid;
-    }
-
-    th:nth-child(1) .month-view-all-day-wrapper {
-      border-top-color: transparent;
-      padding: 5px;
-    }
-  }
-
-  .month-view-table {
-    @include w-full();
-
-    border-collapse: separate;
-    border-spacing: 0;
-
-    .month-view-allday-row {
-      height: 40px;
-    }
-
-    th,
-    td {
-      @include border-b-1();
-      @include p-0();
-      @include border-slate-20();
-    }
-  }
-
-  .month-view-header-wrapper.is-today {
-    @include text-azure-60();
-
-    box-shadow: 0 4px 0 0 var(--ids-color-palette-azure-60);
-  }
-
-  // Header Section Container with All Day events
-  .month-view-container {
-    @include bg-white();
-
-    flex-shrink: 0;
-  }
-
-  .month-view-cell-wrapper {
-    @include relative();
-    @include p-0();
-
-    min-width: 50px;
   }
 
   // Datepicker
@@ -123,9 +58,52 @@
     }
   }
 
+  .month-view-today-text {
+    @include text-azure-60();
+  }
+
+  .month-view-container {
+    @include bg-white();
+
+    flex-shrink: 0;
+  }
+
+  .month-view-table-header {
+    th {
+      background-clip: padding-box;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      width: 14.3%;
+    }
+  }
+
+  .month-view-table {
+    @include w-full();
+
+    border-spacing: 0;
+    border-collapse: collapse;
+
+    td {
+      @include border-b-1();
+      @include border-r-1();
+      @include border-l-1();
+
+      height: 100px;
+      width: 14.3%;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      @include p-0();
+      @include border-b-1();
+      @include border-slate-20();
+    }
+  }
+
   // Theme mode
-  &[version='classic'][mode='dark'],
-  &[version='new'][mode='dark'] {
+  &[mode='dark'] {
     @include bg-slate-100();
     @include border-slate-70();
 
@@ -134,10 +112,6 @@
       td {
         @include border-slate-70();
       }
-
-      tr:nth-child(odd) td {
-        border-bottom-color: var(--ids-color-palette-slate-70);
-      }
     }
 
     .month-view-header {
@@ -145,30 +119,12 @@
       @include bg-slate-100();
     }
 
-    .month-view-all-day-wrapper {
-      @include border-slate-70();
-    }
-
     .month-view-container {
       @include bg-slate-100();
-
-      th {
-        @include bg-slate-100();
-      }
-    }
-
-    .month-view-header-wrapper.is-today {
-      @include text-azure-60();
-
-      box-shadow: 0 4px 0 0 var(--ids-color-palette-azure-60);
     }
 
     .month-view-today-text {
       @include text-azure-60();
-    }
-
-    .month-view-time-marker {
-      @include border-azure-60();
     }
 
     .datepicker:focus {
@@ -178,8 +134,7 @@
     }
   }
 
-  &[version='classic'][mode='contrast'],
-  &[version='new'][mode='contrast'] {
+  &[mode='contrast'] {
     @include bg-white();
     @include border-slate-30();
 
@@ -188,10 +143,6 @@
       td {
         @include border-slate-30();
       }
-
-      tr:nth-child(odd) td {
-        border-bottom-color: var(--ids-color-palette-slate-30);
-      }
     }
 
     .month-view-header {
@@ -199,36 +150,43 @@
       @include bg-white();
     }
 
-    .month-view-all-day-wrapper {
-      @include border-slate-30();
-    }
-
     .month-view-container {
       @include bg-white();
-
-      th {
-        @include bg-white();
-      }
-    }
-
-    .month-view-header-wrapper.is-today {
-      @include text-azure-90();
-
-      box-shadow: 0 4px 0 0 var(--ids-color-palette-azure-90);
     }
 
     .month-view-today-text {
       @include text-azure-90();
     }
 
-    .month-view-time-marker {
-      @include border-azure-90();
-    }
-
     .datepicker:focus {
       @include border-azure-90();
 
       box-shadow: 0 0 4px 2px rgba(41 41 41 / 0.3);
+    }
+  }
+}
+
+// // Text direction
+:host([dir='rtl']) {
+  .ids-month-view .month-view-table td {
+    &:last-child {
+      border-left: 0;
+    }
+
+    &:first-child {
+      border-right: 0;
+    }
+  }
+}
+
+:host(:not([dir='rtl'])) {
+  .ids-month-view .month-view-table td {
+    &:first-child {
+      border-left: 0;
+    }
+
+    &:last-child {
+      border-right: 0;
     }
   }
 }

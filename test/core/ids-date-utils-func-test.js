@@ -11,7 +11,8 @@ import {
   monthDiff,
   subtractDate,
   isValidDate,
-  isDaylightSavingTime
+  isDaylightSavingTime,
+  weeksInMonth
 } from '../../src/utils/ids-date-utils/ids-date-utils';
 
 describe('IdsDateUtils Tests', () => {
@@ -96,5 +97,15 @@ describe('IdsDateUtils Tests', () => {
   it('should check if a date is using daylight saving time', () => {
     expect(isDaylightSavingTime(new Date('11/10/2021'))).toBeFalsy();
     expect(isDaylightSavingTime(new Date('06/10/2021'))).toBeTruthy();
+  });
+
+  it('should get correct number of weeks in a month', () => {
+    expect(weeksInMonth(2021, 11, 0)).toEqual(5);
+    expect(weeksInMonth(2021, 11, 5)).toEqual(6);
+    expect(weeksInMonth(2022, 1, 2)).toEqual(4);
+    expect(weeksInMonth(2022, 1, 1)).toEqual(5);
+    expect(weeksInMonth(2017, 11, 0)).toEqual(6);
+    expect(weeksInMonth(2017, 11, 1)).toEqual(5);
+    expect(weeksInMonth(2018, 0, 0)).toEqual(5);
   });
 });

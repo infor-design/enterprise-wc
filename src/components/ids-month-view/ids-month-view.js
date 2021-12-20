@@ -7,6 +7,7 @@ import Base from './ids-month-view-base';
 import {
   addDate,
   firstDayOfWeek,
+  weeksInMonth,
 } from '../../utils/ids-date-utils/ids-date-utils';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
@@ -70,34 +71,15 @@ class IdsMonthView extends Base {
   #attachEventHandlers() {
     // Respond to parent changing language
     this.offEvent('languagechange.month-view-container');
-    this.onEvent('languagechange.month-view-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
-    });
-
-    // Respond to parent changing locale
-    this.offEvent('localechange.month-view-container');
-    this.onEvent('localechange.month-view-container', this.closest('ids-container'), async (e) => {
-      await this.setLocale(e.detail.locale.name);
-    });
-
-    // Respond to the element changing language
-    this.offEvent('languagechange.month-view');
-    this.onEvent('languagechange.month-view', this, async (e) => {
-      await this.locale.setLanguage(e.detail.language.name);
-
+    this.onEvent('languagechange.month-view-container', this.closest('ids-container'), async () => {
       this.#renderToolbar();
       this.#renderMonth();
     });
 
-    // Respond to the element changing locale
-    this.offEvent('localechange.month-view');
-    this.onEvent('localechange.month-view', this, async (e) => {
-      if (!e.detail.locale.name) {
-        return;
-      }
-
-      await this.locale.setLocale(e.detail.locale.name);
-
+    // Respond to parent changing locale
+    this.offEvent('localechange.month-view-container');
+    this.onEvent('localechange.month-view-container', this.closest('ids-container'), async () => {
+      this.#setDirection();
       this.#renderMonth();
       this.#attachDatepickerText();
     });
@@ -182,7 +164,7 @@ class IdsMonthView extends Base {
    * @private
    */
   #formatMonthText() {
-    const dayOfMonth = new Date(this.year, this.month - 1);
+    const dayOfMonth = new Date(this.year, this.month);
 
     return this.locale.formatDate(dayOfMonth, { month: 'long', year: 'numeric' });
   }
@@ -204,18 +186,18 @@ class IdsMonthView extends Base {
    */
   #changeDate(type) {
     if (type === 'next') {
-      this.year = this.month === 12 ? this.year + 1 : this.year;
-      this.month = this.month === 12 ? 1 : this.month + 1;
+      this.year = this.month === 11 ? this.year + 1 : this.year;
+      this.month = this.month === 11 ? 0 : this.month + 1;
     }
 
     if (type === 'previous') {
-      this.year = this.month === 1 ? this.year - 1 : this.year;
-      this.month = this.month === 1 ? 12 : this.month - 1;
+      this.year = this.month === 0 ? this.year - 1 : this.year;
+      this.month = this.month === 0 ? 11 : this.month - 1;
     }
 
     if (type === 'today') {
       this.year = new Date().getFullYear();
-      this.month = new Date().getMonth() + 1;
+      this.month = new Date().getMonth();
     }
   }
 
@@ -230,11 +212,11 @@ class IdsMonthView extends Base {
     if (!calendars) return;
 
     const days = (calendars || [])[0]?.days.abbreviated;
-    const year = this.year;
-    const month = this.month;
-    const firstDayOfMonth = (new Date(year, month - 1, 1));
+    const firstDayOfMonth = new Date(this.year, this.month, 1);
     const firstWeekDay = firstDayOfWeek(firstDayOfMonth, this.firstDayOfWeek);
-    const weekDaysTemplate = days.map((item, index) => {
+    const weeksCount = weeksInMonth(this.year, this.month, this.firstDayOfWeek);
+
+    const weekDaysTemplate = days.map((_, index) => {
       const weekday = days[(index + this.firstDayOfWeek) % 7];
 
       return `
@@ -251,10 +233,13 @@ class IdsMonthView extends Base {
       const date = addDate(firstWeekDay, (week * 7) + index, 'days');
       const dayNumeric = this.locale.formatDate(date, { day: 'numeric' });
 
-      return `<td aria-label="${this.locale.formatDate(date, { dateStyle: 'full' })}" role="link">${dayNumeric}</td>`;
+      return `<td
+        aria-label="${this.locale.formatDate(date, { dateStyle: 'full' })}"
+        role="link"><ids-text class="month-view-header-day-of-week" font-size="14"
+      >${dayNumeric}</ids-text></td>`;
     }).join('');
 
-    const weeksTemplate = Array.from({ length: 5 }).map((_, index) =>
+    const weeksTemplate = Array.from({ length: weeksCount }).map((_, index) =>
       `<tr>${daysTemplate(index)}</tr>`).join('');
 
     const container = `<div class="month-view-container">
@@ -299,18 +284,18 @@ class IdsMonthView extends Base {
 
   /**
    * month attribute
-   * @returns {number} month param converted to number from attribute value with range (1-12)
+   * @returns {number} month param converted to number from attribute value with range (0-11)
    */
   get month() {
     const attrVal = this.getAttribute(attributes.MONTH);
     const numberVal = stringToNumber(attrVal);
 
-    if (attrVal && numberVal >= 1 && numberVal <= 12) {
+    if (!Number.isNaN(numberVal) && numberVal >= 0 && numberVal <= 11) {
       return numberVal;
     }
 
     // Default is current month
-    return new Date().getMonth() + 1;
+    return new Date().getMonth();
   }
 
   /**
@@ -318,7 +303,7 @@ class IdsMonthView extends Base {
    * @param {string|number|null} val month param value
    */
   set month(val) {
-    if (val) {
+    if (val !== null) {
       this.setAttribute(attributes.MONTH, val);
     } else {
       this.removeAttribute(attributes.MONTH);
@@ -380,7 +365,7 @@ class IdsMonthView extends Base {
    * @param {string|number|null} val firstDayOfWeek param value
    */
   set firstDayOfWeek(val) {
-    if (val) {
+    if (val !== null) {
       this.setAttribute(attributes.FIRST_DAY_OF_WEEK, val);
     } else {
       this.removeAttribute(attributes.FIRST_DAY_OF_WEEK);
@@ -388,6 +373,17 @@ class IdsMonthView extends Base {
 
     this.#renderMonth();
     this.#renderToolbar();
+  }
+
+  /**
+   * Set the direction attribute
+   */
+  #setDirection() {
+    if (this.locale?.isRTL()) {
+      this.setAttribute('dir', 'rtl');
+    } else {
+      this.removeAttribute('dir');
+    }
   }
 }
 

@@ -144,3 +144,19 @@ export function isDaylightSavingTime(date) {
 export function isValidDate(date) {
   return date instanceof Date && !Number.isNaN(date);
 }
+
+/**
+ * Gets the number of weeks in a given month.
+ * @param {number} year a given year, long format
+ * @param {number} month a given month, 0-11 range
+ * @param {number} startsOn day of the week to start on. Sunday is 0, Monday is 1, and so on.
+ * @returns {number} the number of weeks in a given month.
+ */
+export function weeksInMonth(year, month, startsOn = 0) {
+  const firstOfMonth = new Date(year, month, 1);
+  const lastOfMonth = new Date(year, month + 1, 0);
+  const numberOfDaysInMonth = lastOfMonth.getDate();
+  const firstWeekDay = (firstOfMonth.getDay() - startsOn + 7) % 7;
+
+  return Math.ceil((firstWeekDay + numberOfDaysInMonth) / 7);
+}
