@@ -90,13 +90,33 @@
       @include border-l-1();
       @include relative();
 
-      height: 100px;
+      height: 99px;
       width: 14.3%;
       overflow: hidden;
+      user-select: none;
 
-      &:hover,
-      &:active {
+      &:not(.is-selected):hover,
+      &:not(.is-selected):active {
         background-color: rgb(240 240 240 / 0.5);
+      }
+
+      &.is-selected {
+        @include bg-slate-10();
+
+        box-shadow: inset 0 5px 0 0 var(--ids-color-palette-azure-60);
+
+        &:focus,
+        &:focus-visible {
+          @include border-transparent();
+
+          outline: none;
+          box-shadow: 0 0 2px 2px rgb(54 138 192 / 30%),
+            inset 0 5px 0 0 var(--ids-color-palette-azure-60);
+        }
+
+        ids-text::part(text) {
+          font-weight: 600;
+        }
       }
 
       .month-view-weekday-text,

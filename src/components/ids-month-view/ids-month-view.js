@@ -20,6 +20,7 @@ import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 
 // Import Styles
 import styles from './ids-month-view.scss';
+import e from 'express';
 
 const MIN_MONTH = 0;
 const MAX_MONTH = 11;
@@ -184,7 +185,7 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * Change month/year by event type
+   * Change month/year/day by event type
    * @param {'next'|'previous'|'today'} type of event to be called
    * @private
    */
@@ -200,8 +201,11 @@ class IdsMonthView extends Base {
     }
 
     if (type === 'today') {
-      this.year = new Date().getFullYear();
-      this.month = new Date().getMonth();
+      const now = new Date();
+
+      this.day = now.getDate();
+      this.year = now.getFullYear();
+      this.month = now.getMonth();
     }
   }
 
@@ -237,15 +241,27 @@ class IdsMonthView extends Base {
     const daysTemplate = (weekIndex) => Array.from({ length: WEEK_LENGTH }).map((_, index) => {
       const date = addDate(firstWeekDay, (weekIndex * WEEK_LENGTH) + index, 'days');
       const dayNumeric = this.locale.formatDate(date, { day: 'numeric' });
+      const dateFull = this.locale.formatDate(date, { dateStyle: 'full' });
+      const isSelected = date.getDate() === this.day;
       const classes = buildClassAttrib(
         date < firstDayOfMonth && 'alternate prev-month',
-        date > lastDayOfMonth && 'alternate next-month'
+        date > lastDayOfMonth && 'alternate next-month',
+        isSelected && 'is-selected'
       );
+      const selectedAttr = isSelected ? 'aria-selected="true" tabindex="0"' : '';
+      const dataAttr = [
+        `data-year="${date.getFullYear()}"`,
+        `data-month="${date.getMonth()}"`,
+        `data-day="${date.getDate()}"`
+      ].join(' ');
 
-      return `<td
-        aria-label="${this.locale.formatDate(date, { dateStyle: 'full' })}"
-        role="link" ${classes}><ids-text class="month-view-day-text" font-size="14"
-      >${dayNumeric}</ids-text></td>`;
+      return `<td aria-label="${dateFull}" ${dataAttr} role="link" ${classes} ${selectedAttr}>
+        <ids-text
+          aria-hidden="true"
+          class="month-view-day-text"
+          font-size="14"
+        >${dayNumeric}</ids-text>
+      </td>`;
     }).join('');
 
     const weeksTemplate = Array.from({ length: weeksCount }).map((_, index) =>
@@ -263,6 +279,24 @@ class IdsMonthView extends Base {
     // Clear/add HTML
     this.container.querySelector('.month-view-container')?.remove();
     this.container.insertAdjacentHTML('beforeend', container);
+
+    // Related events
+    this.offEvent('click.month-view-select');
+    this.onEvent('click.month-view-select', this.container.querySelector('tbody'), (e) => {
+      // if (e.target.hasAttribute('role') &&
+      // !e.target.classList.contains('is-selected') && !e.target.classList.contains('is-disabled')) {
+      //   const month = e.target.dataset.month;
+      //   const year = e.target.dataset.year;
+      //   const day = e.target.dataset.day;
+
+      //   this.day = day;
+
+      //   if (month !== this.month) {
+      //     this.year = year;
+      //     this.month = month;
+      //   }
+      // }
+    });
   }
 
   /**
@@ -351,6 +385,42 @@ class IdsMonthView extends Base {
 
     this.#renderMonth();
     this.#renderToolbar();
+  }
+
+  get day() {
+    const attrVal = this.getAttribute(attributes.DAY);
+    const numberVal = stringToNumber(attrVal);
+
+    if (attrVal) {
+      return numberVal;
+    }
+
+    // Default is current day
+    return new Date().getDate();
+  }
+
+  set day(val) {
+    if (val) {
+      this.setAttribute(attributes.DAY, val);
+      this.#selectDay(this.year, this.month, val);
+    } else {
+      this.removeAttribute(attributes.DAY);
+    }
+  }
+
+  #selectDay(year, month, day) {
+    // this.container.querySelectorAll('td').forEach((el) => {
+    //   el.classList.remove('is-selected');
+    //   el.removeAttribute('aria-selected');
+    //   el.removeAttribute('tabindex');
+    // });
+
+    // const selectedQuery = `td[data-day="${day}"][data-month="${month}"][data-year="${year}"]`;
+
+    // const selectedNode = this.container.querySelector(selectedQuery);
+    // selectedNode?.setAttribute('tabindex', 0);
+    // selectedNode?.setAttribute('aria-selected', true);
+    // selectedNode?.classList.add('is-selected');
   }
 
   /**
