@@ -3,12 +3,7 @@
  */
 import IdsInput from '../../src/components/ids-input/ids-input';
 import IdsClearableMixin from '../../src/mixins/ids-clearable-mixin/ids-clearable-mixin';
-
-const processAnimFrame = () => new Promise((resolve) => {
-  window.requestAnimationFrame(() => {
-    window.requestAnimationFrame(resolve);
-  });
-});
+import processAnimFrame from '../helpers/process-anim-frame';
 
 describe('IdsInput Component', () => {
   let input;
@@ -141,6 +136,16 @@ describe('IdsInput Component', () => {
     expect(input.getAttribute('label-required')).toEqual('true');
     expect(input.labelEl.classList).not.toContain(className);
     expect(input.labelRequired).toEqual('true');
+  });
+
+  it('should render an error on blur for required', async () => {
+    expect(input.container.querySelector('.validation-message')).toBeFalsy();
+    input.validate = 'required';
+    input.input.focus();
+    input.value = '';
+    input.input.blur();
+    await processAnimFrame();
+    expect(input.container.querySelector('.validation-message')).toBeTruthy();
   });
 
   it('should have an input with "aria-label" set when label-hidden '
