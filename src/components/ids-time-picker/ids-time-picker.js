@@ -101,7 +101,9 @@ export default class IdsTimePicker extends Base {
       switch (name) {
       case attributes.FORMAT:
         this.elements.dropdowns.wrapper.innerHTML = this.dropdowns();
-        this.setTimeOnField();
+        if (this.value) {
+          this.setTimeOnField();
+        }
         break;
       case attributes.AUTOUPDATE:
         this.elements.setTimeButton.classList.remove('hidden');
@@ -145,16 +147,18 @@ export default class IdsTimePicker extends Base {
   get isOpen() { return !!this.elements.popup.visible; }
 
   /**
-   * Sets the format that the timepicker's timestring should be rendered as
+   * Sets the time format to use in the picker.
    * @param {string} value - a variation of "hh:mm:ss a"
    */
   set format(value) { this.setAttribute(attributes.FORMAT, value); }
 
   /**
-   * Gets the format that the timepicker's timestring should be rendered as
-   * @returns {string} default is "hh:mm a"
+   * Gets the time format to use in the picker. Defaults to the current locale's time format or english ("hh:mm a")
+   * @returns {string} the time format being used
    */
-  get format() { return this.getAttribute(attributes.FORMAT) ?? 'hh:mm a'; }
+  get format() {
+    return this.getAttribute(attributes.FORMAT) || this.locale?.calendar().timeFormat || 'hh:mm a';
+  }
 
   /**
    * Sets a current timestring-value of the timepickers input-field
@@ -362,12 +366,12 @@ export default class IdsTimePicker extends Base {
     `;
 
     const options = this.options;
-    const hours = dropdown({ id: 'hours', label: 'Hours', options: options.hours });
-    const minutes = dropdown({ id: 'minutes', label: 'Minutes', options: options.minutes });
-    const seconds = this.hasSeconds && dropdown({ id: 'seconds', label: 'Seconds', options: options.seconds });
-    const period = this.hasPeriod && dropdown({ id: 'period', label: 'Period', options: options.period });
+    const hours = dropdown({ id: 'hours', label: this.locale?.translate('Hours') || 'Hours', options: options.hours });
+    const minutes = dropdown({ id: 'minutes', label: this.locale?.translate('Minutes') || 'Minutes', options: options.minutes });
+    const seconds = this.hasSeconds && dropdown({ id: 'seconds', label: this.locale?.translate('Seconds') || 'Seconds', options: options.seconds });
+    const period = this.hasPeriod && dropdown({ id: 'period', label: this.locale?.translate('Period') || 'Period', options: options.period });
 
-    const separator = '<span class="separator">:</span>';
+    const separator = '<span class="separator">&nbsp;</span>';
     const spacer = '<span class="separator">&nbsp;</span>';
 
     const numbers = [hours, minutes, seconds].filter(Boolean).join(separator);
@@ -519,8 +523,33 @@ export default class IdsTimePicker extends Base {
 
     // using on mouseup, because on click interferes with on Enter
     this.onEvent('mouseup', triggerButton, () => this.toggleTimePopup());
-
     this.onEvent('focus', input, () => this.autoselect && this.openTimePopup());
+
+    // Translate Labels
+    this.offEvent('languagechange.container');
+    this.onEvent('languagechange.container', this.closest('ids-container'), async () => {
+      if (this.elements.dropdowns.hours) {
+        this.elements.dropdowns.hours.label = this.locale?.translate('Hours') || 'Hours';
+      }
+      if (this.elements.dropdowns.minutes) {
+        this.elements.dropdowns.minutes.label = this.locale?.translate('Minutes') || 'Minutes';
+      }
+      if (this.elements.dropdowns.period) {
+        this.elements.dropdowns.period.label = this.locale?.translate('Period') || 'HouPeriodrs';
+      }
+      if (this.elements.dropdowns.seconds) {
+        this.elements.dropdowns.seconds.label = this.locale?.translate('Seconds') || 'Seconds';
+      }
+    });
+
+    // Change Locale if not set by a setting initially
+    const formatSet = this.getAttribute('format') !== null;
+    this.offEvent('localechange.container');
+    this.onEvent('localechange.container', this.closest('ids-container'), async () => {
+      if (!formatSet) {
+        this.format = this.locale?.calendar().timeFormat;
+      }
+    });
 
     return this;
   }

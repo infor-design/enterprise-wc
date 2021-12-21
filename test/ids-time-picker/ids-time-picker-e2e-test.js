@@ -21,4 +21,6 @@ describe('Ids Time Picker e2e Tests', () => {
   it.skip('can be disabled', () => {});
   it.skip('should show and hide popup on enter on the trigger-button', async () => {});
   it.skip('should show popup on clicking the trigger-button', async () => {});
+  it.skip('setting the language will update the labels', () => {});
+  it.skip('setting the locale will update the dropdowns and field', () => {});
 });

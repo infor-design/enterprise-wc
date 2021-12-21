@@ -148,6 +148,7 @@ export default class IdsDropdown extends Base {
   set label(value) {
     this.setAttribute('label', value);
     this.shadowRoot.querySelector('ids-input').setAttribute('label', value);
+    this.shadowRoot.querySelector('ids-trigger-field').setAttribute('label', value);
   }
 
   get label() { return this.getAttribute('label'); }
