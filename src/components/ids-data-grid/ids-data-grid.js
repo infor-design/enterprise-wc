@@ -15,7 +15,8 @@ import {
   IdsEventsMixin,
   IdsKeyboardMixin,
   IdsThemeMixin,
-  IdsLocaleMixin
+  IdsLocaleMixin,
+  IdsPagerMixin
 } from '../../mixins';
 
 // Import Dependencies
@@ -41,6 +42,7 @@ const rowHeights = {
  * @mixes IdsKeyboardMixin
  * @mixes IdsThemeMixin
  * @mixes IdsLocaleMixin
+ * @mixes IdsPagerMixin
  * @part table - the table main element
  * @part body - the table body element
  * @part header - the header element
@@ -54,7 +56,8 @@ class IdsDataGrid extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsThemeMixin,
     IdsKeyboardMixin,
-    IdsLocaleMixin
+    IdsLocaleMixin,
+    IdsPagerMixin
   ) {
   constructor() {
     super();
@@ -87,7 +90,7 @@ class IdsDataGrid extends mix(IdsElement).with(
       attributes.SUPRESS_ROW_DESELECTION,
       attributes.VIRTUAL_SCROLL,
       attributes.MODE,
-      attributes.VERSION
+      attributes.VERSION,
     ];
   }
 
@@ -97,7 +100,7 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @private
    */
   template() {
-    if (this?.data.length === 0 && this?.columns.length === 0) {
+    if ((!this?.data && this?.datasource.total === 0) && this?.columns.length === 0) {
       return ``;
     }
 
@@ -122,7 +125,6 @@ class IdsDataGrid extends mix(IdsElement).with(
       : `${this.bodyTemplate()}`
       }
       </div>
-      ${this.pagerTemplate()}
     `;
 
     return html;
@@ -133,7 +135,7 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @private
    */
   rerender() {
-    if (this.columns.length === 0 && this.data.length === 0) {
+    if (this.columns.length === 0 && this.datasource.total === 0) {
       return;
     }
 
@@ -151,7 +153,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     this.container = this.shadowRoot.querySelector('.ids-data-grid');
 
     // Setup virtual scrolling
-    if (this.virtualScroll && this.data.length > 0) {
+    if (this.virtualScroll && this.datasource.total > 0) {
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
       this.virtualScrollContainer.scrollTarget = this.container;
 
@@ -161,8 +163,9 @@ class IdsDataGrid extends mix(IdsElement).with(
     }
 
     this.#attachEventHandlers();
+    // this.#attachPagerHandlers();
 
-    if (this.data.length > 0) {
+    if (this.datasource.total > 0) {
       this.setActiveCell(0, 0, true);
       this.#attachKeyboardListeners();
     }
@@ -176,6 +179,8 @@ class IdsDataGrid extends mix(IdsElement).with(
 
     // Set back selection
     this.#setHeaderCheckbox();
+
+    super.rerender();
   }
 
   /**
@@ -256,23 +261,6 @@ class IdsDataGrid extends mix(IdsElement).with(
       <div class="ids-data-grid-body" part="body" role="rowgroup">
         ${this.data.map((row, index) => this.rowTemplate(row, index)).join('')}
       </div> 
-    `;
-  }
-
-  /**
-   * Body template markup
-   * @private
-   * @returns {string} The template
-   */
-  pagerTemplate() {
-    return `
-      <ids-pager page-size="20" page-number="10" total="200" id="ids-pager-example">
-        <ids-pager-button first></ids-pager-button>
-        <ids-pager-button previous></ids-pager-button>
-        <ids-pager-input></ids-pager-input>
-        <ids-pager-button next></ids-pager-button>
-        <ids-pager-button last></ids-pager-button>
-      </ids-pager>
     `;
   }
 
@@ -929,7 +917,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     }
 
     const selectedCount = this.selectedRows.length;
-    const dataCount = this.data.length;
+    const dataCount = this.datasource.total;
 
     if (selectedCount === 0) {
       this.headerCheckbox.classList.remove('indeterminate');
@@ -983,7 +971,7 @@ class IdsDataGrid extends mix(IdsElement).with(
    */
   setActiveCell(cell, row, nofocus) {
     // TODO Hidden Columns
-    if (row < 0 || cell < 0 || row > this.data.length - 1 || cell > this.columns.length - 1) {
+    if (row < 0 || cell < 0 || row > this.datasource.total - 1 || cell > this.columns.length - 1) {
       return this.activeCell;
     }
 

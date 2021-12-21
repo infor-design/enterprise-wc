@@ -953,3 +953,26 @@ describe('IdsDataGrid Component', () => {
     });
   });
 });
+
+describe('IdsDataGrid Component with IdsPagerMixin', () => {
+  it.skip('hides pager when pagination attribute is "none"', () => {});
+
+  it.skip('shows pager when pagination attribute is "standalone"', () => {});
+  it.skip('shows pager when pagination attribute is "client-side"', () => {});
+  it.skip('shows pager when pagination attribute is "server-side"', () => {});
+
+  it.skip('supports page-number attribute', () => {});
+  it.skip('supports page-size attribute', () => {});
+
+  it.skip('pages correctly when data-grid is sorted by column', () => {});
+  it.skip('always shows correct page-number in pager input-field', () => {});
+
+  it.skip('can paginate to next page', () => {});
+  it.skip('can paginate to previous page', () => {});
+  it.skip('can paginate to last page', () => {});
+  it.skip('can paginate to first page', () => {});
+
+  it.skip('only fires pager events when pagination is "standalone"', () => {});
+  it.skip('does client-side pagination when pagination is "client-side"', () => {});
+  it.skip('does server-side pagination when pagination is "server-side"', () => {});
+});

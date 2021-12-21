@@ -168,6 +168,7 @@ export const attributes = {
   PAGE_COUNT: 'page-count',
   PAGE_NUMBER: 'page-number',
   PAGE_SIZE: 'page-size',
+  PAGINATION: 'pagination',
   PADDING: 'padding',
   PARENT_CONTAINMENT: 'parent-containment',
   PARENT_DISABLED: 'parent-disabled',

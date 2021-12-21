@@ -149,7 +149,7 @@ export default class IdsPagerInput extends mix(IdsElement).with(
 
   /** @returns {string|number} value A 1-based page number displayed */
   get pageNumber() {
-    return parseInt(this.getAttribute(attributes.PAGE_NUMBER));
+    return parseInt(this.getAttribute(attributes.PAGE_NUMBER)) || 1;
   }
 
   /** @param {string|number} value The number of items to track */
@@ -169,14 +169,16 @@ export default class IdsPagerInput extends mix(IdsElement).with(
 
   /** @returns {string|number} The number of items for pager is tracking */
   get total() {
-    return parseInt(this.getAttribute(attributes.TOTAL));
+    return parseInt(this.getAttribute(attributes.TOTAL)) || 0;
   }
 
-  /** @returns {number|null} The calculated pageCount using total and pageSize */
+  /** @returns {number} The calculated pageCount using total and pageSize */
   get pageCount() {
-    return (this.total !== null && !Number.isNaN(this.total))
-      ? Math.floor(this.total / this.pageSize)
-      : null;
+    const total = this.total || 0;
+    const pageSize = this.pageSize || 1;
+    const pageCount = Math.floor(total / pageSize);
+
+    return Math.max(pageCount, 1);
   }
 
   /** @param {boolean|string} value Whether or not to disable input at app-specified-level */
