@@ -21,6 +21,10 @@ import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 // Import Styles
 import styles from './ids-month-view.scss';
 
+const MIN_MONTH = 0;
+const MAX_MONTH = 11;
+const WEEK_LENGTH = 7;
+
 /**
  * IDS Month View Component
  * @type {IdsMonthView}
@@ -186,13 +190,13 @@ class IdsMonthView extends Base {
    */
   #changeDate(type) {
     if (type === 'next') {
-      this.year = this.month === 11 ? this.year + 1 : this.year;
-      this.month = this.month === 11 ? 0 : this.month + 1;
+      this.year = this.month === MAX_MONTH ? this.year + 1 : this.year;
+      this.month = this.month === MAX_MONTH ? MIN_MONTH : this.month + 1;
     }
 
     if (type === 'previous') {
-      this.year = this.month === 0 ? this.year - 1 : this.year;
-      this.month = this.month === 0 ? 11 : this.month - 1;
+      this.year = this.month === MIN_MONTH ? this.year - 1 : this.year;
+      this.month = this.month === MIN_MONTH ? MAX_MONTH : this.month - 1;
     }
 
     if (type === 'today') {
@@ -218,7 +222,7 @@ class IdsMonthView extends Base {
     const weeksCount = weeksInMonth(this.year, this.month, this.firstDayOfWeek);
 
     const weekDaysTemplate = days.map((_, index) => {
-      const weekday = days[(index + this.firstDayOfWeek) % 7];
+      const weekday = days[(index + this.firstDayOfWeek) % WEEK_LENGTH];
 
       return `
         <th>
@@ -230,8 +234,8 @@ class IdsMonthView extends Base {
       `;
     }).join('');
 
-    const daysTemplate = (week) => Array.from({ length: 7 }).map((_, index) => {
-      const date = addDate(firstWeekDay, (week * 7) + index, 'days');
+    const daysTemplate = (weekIndex) => Array.from({ length: WEEK_LENGTH }).map((_, index) => {
+      const date = addDate(firstWeekDay, (weekIndex * WEEK_LENGTH) + index, 'days');
       const dayNumeric = this.locale.formatDate(date, { day: 'numeric' });
       const classes = buildClassAttrib(
         date < firstDayOfMonth && 'alternate prev-month',
@@ -289,13 +293,13 @@ class IdsMonthView extends Base {
 
   /**
    * month attribute
-   * @returns {number} month param converted to number from attribute value with range (0-11)
+   * @returns {number} month param converted to number from attribute value with range (MIN_MONTH - MAX_MONTH)
    */
   get month() {
     const attrVal = this.getAttribute(attributes.MONTH);
     const numberVal = stringToNumber(attrVal);
 
-    if (!Number.isNaN(numberVal) && numberVal >= 0 && numberVal <= 11) {
+    if (!Number.isNaN(numberVal) && numberVal >= MIN_MONTH && numberVal <= MAX_MONTH) {
       return numberVal;
     }
 
