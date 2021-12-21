@@ -19,7 +19,7 @@ $grid-cols-sm: 4;
   --grid-row-end: 0;
   --grid-spacing-unit: 8px;
   --grid-fill-color: #efeff0;
-  --grid-min-col-width: 50px;
+  --grid-min-col-width: 100px;
 
   @include mx-16();
   @include my-16();
