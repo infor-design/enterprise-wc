@@ -1,27 +1,15 @@
-import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 
-// Import Mixins
-import { IdsEventsMixin, IdsLocaleMixin } from '../../mixins';
+import Base from './ids-pager-button-base';
 
-// Import Utils
-import { IdsStringUtils } from '../../utils';
-
-// Import Dependencies
-import { IdsButton } from '../ids-button';
-import { IdsIcon } from '../ids-icon';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import IdsButton from '../ids-button/ids-button';
+import IdsIcon from '../ids-icon/ids-icon';
 import IdsPagerSection from './ids-pager-section';
+import { buttonTypes } from './ids-pager-attributes';
 
-// Import Styles
 import styles from './ids-pager-button.scss';
-
-const { stringToBool } = IdsStringUtils;
-const buttonTypes = ['first', 'last', 'next', 'previous'];
 
 /**
  * IDS PagerButton Component
@@ -34,7 +22,7 @@ const buttonTypes = ['first', 'last', 'next', 'previous'];
  */
 @customElement('ids-pager-button')
 @scss(styles)
-export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
+export default class IdsPagerButton extends Base {
   constructor() {
     super();
   }
@@ -87,12 +75,6 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin,
    * @returns {void}
    */
   #attachEventHandlers() {
-    // Respond to parent changing language
-    this.offEvent('languagechange.pager-container');
-    this.onEvent('languagechange.pager-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
-      await this.icon.setLanguage(e.detail.language.name);
-    });
   }
 
   /**

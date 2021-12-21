@@ -3,8 +3,10 @@
  */
 import ResizeObserver from '../helpers/resize-observer-mock';
 import wait from '../helpers/wait';
-import IdsContainer from '../../src/components/ids-container';
-import IdsHomePage from '../../src/components/ids-home-page';
+import processAnimFrame from '../helpers/process-anim-frame';
+
+import IdsContainer from '../../src/components/ids-container/ids-container';
+import IdsHomePage from '../../src/components/ids-home-page/ids-home-page';
 
 describe('IdsHomePage Component', () => {
   const origInnerWidth = window.innerWidth;
@@ -185,15 +187,6 @@ describe('IdsHomePage Component', () => {
     expect(homePage.gapY).toEqual(null);
   });
 
-  it('should get current state', () => {
-    expect(homePage.state).toEqual(expect.objectContaining({
-      blocks: [],
-      cols: 0,
-      containerHeight: 0,
-      rows: 0
-    }));
-  });
-
   it('should trigger resized event', async () => {
     const mockCallback = jest.fn(() => { });
     homePage.addEventListener(EVENTS.resized, mockCallback);
@@ -201,23 +194,13 @@ describe('IdsHomePage Component', () => {
     await wait(100);
     homePage.container.style.width = '800px';
     homePage.refresh();
-    expect(mockCallback.mock.calls.length).toBe(1);
+    expect(mockCallback).toHaveBeenCalled();
   });
 
-  it('should update with container language change', () => {
-    homePage.language = 'en';
-    const language = { before: 'en', after: 'ar' };
-    const mockCallback = jest.fn((e) => {
-      expect(e.detail.language.name).toEqual(language.after);
-    });
-    expect(homePage.language.name).toEqual(language.before);
-    container.addEventListener('languagechange', mockCallback);
-    const event = new CustomEvent('languagechange', {
-      detail: { language: { name: language.after } }
-    });
-    container.dispatchEvent(event);
-    homePage.dispatchEvent(event);
-    expect(mockCallback.mock.calls.length).toBe(1);
+  it('should trigger resized event in RTL', async () => {
+    await container.setLanguage('ar');
+    await processAnimFrame();
+    expect(homePage.getAttribute('dir')).toEqual('rtl');
   });
 
   it('should append card', async () => {

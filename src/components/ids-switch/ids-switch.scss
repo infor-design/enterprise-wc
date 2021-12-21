@@ -238,7 +238,7 @@
 }
 
 // Negate some rules for RTL
-.ids-switch[dir='rtl'] {
+:host([dir='rtl']) {
   input[type='checkbox'] ~ .slider {
     left: initial;
     right: 0;

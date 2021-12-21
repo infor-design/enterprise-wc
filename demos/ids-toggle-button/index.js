@@ -1,1 +1,1 @@
-import IdsToggleButton from '../../src/components/ids-toggle-button';
+import IdsToggleButton from '../../src/components/ids-toggle-button/ids-toggle-button';

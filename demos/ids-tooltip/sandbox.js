@@ -1,6 +1,6 @@
 import './sandbox.scss';
-import IdsTooltip from '../../src/components/ids-tooltip';
-import IdsInput from '../../src/components/ids-input';
+import IdsTooltip from '../../src/components/ids-tooltip/ids-tooltip';
+import IdsInput from '../../src/components/ids-input/ids-input';
 
 // Use the syncronous `beforeshow` event to log a message
 const tooltipTop = document.querySelector('[target="#tooltip-top"]');

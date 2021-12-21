@@ -1,47 +1,14 @@
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix
-} from '../../core';
+  MENU_ITEM_SIZE, MENU_DEFAULTS, safeForAttribute
+} from './ids-menu-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-// Import Utils
-import { IdsStringUtils } from '../../utils';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin,
-  IdsLocaleMixin
-} from '../../mixins';
-
+import Base from './ids-menu-item-base';
 import IdsIcon from '../ids-icon/ids-icon';
 
 import styles from './ids-menu-item.scss';
-
-// @TODO handle other menu-item sizes
-const MENU_ITEM_SIZE = 'medium';
-
-// Default Button state values
-const MENU_DEFAULTS = {
-  disabled: false,
-  hidden: false,
-  icon: null,
-  selected: false,
-  submenu: null,
-  tabIndex: 0,
-  value: null,
-};
-
-/**
- * Determines if a menu item's stored value can safely be described by its attribute inside the DOM.
- * @param {any} value the value to be checked
- * @returns {boolean} true if the value can be "stringified" safely for the DOM attribute
- */
-function safeForAttribute(value) {
-  return value !== null && ['string', 'number', 'boolean'].includes(typeof value);
-}
 
 /**
  * IDS Menu Item Component
@@ -57,11 +24,7 @@ function safeForAttribute(value) {
  */
 @customElement('ids-menu-item')
 @scss(styles)
-class IdsMenuItem extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsLocaleMixin,
-    IdsThemeMixin
-  ) {
+export default class IdsMenuItem extends Base {
   /**
    * Build the menu item
    */
@@ -147,7 +110,6 @@ class IdsMenuItem extends mix(IdsElement).with(
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.TEXT_ALIGN,
       attributes.DISABLED,
       attributes.HIDDEN,
       attributes.ICON,
@@ -155,6 +117,7 @@ class IdsMenuItem extends mix(IdsElement).with(
       attributes.SUBMENU,
       attributes.TARGET,
       attributes.TABINDEX,
+      attributes.TEXT_ALIGN,
       attributes.VALUE,
     ];
   }
@@ -190,7 +153,7 @@ class IdsMenuItem extends mix(IdsElement).with(
     this.refresh();
     this.attachEventHandlers();
     this.shouldUpdate = true;
-    super.connectedCallback();
+    super.connectedCallback?.();
   }
 
   /**
@@ -275,7 +238,7 @@ class IdsMenuItem extends mix(IdsElement).with(
    */
   set disabled(val) {
     // Handled as boolean attribute
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
     this.state.disabled = trueVal;
 
     const a = this.a;
@@ -318,7 +281,7 @@ class IdsMenuItem extends mix(IdsElement).with(
    * @param {boolean|string} val true if the menu item should be hidden from view
    */
   set hidden(val) {
-    const newValue = IdsStringUtils.stringToBool(val);
+    const newValue = stringToBool(val);
     if (newValue) {
       this.setAttribute(attributes.HIDDEN, '');
       this.container.classList.add(attributes.HIDDEN);
@@ -339,7 +302,7 @@ class IdsMenuItem extends mix(IdsElement).with(
    * @param {boolean} val true if the menu item should appear highlighted
    */
   set highlighted(val) {
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
 
     // Don't highlight if the item is disabled.
     if (trueVal && this.disabled) {
@@ -543,7 +506,7 @@ class IdsMenuItem extends mix(IdsElement).with(
    */
   set selected(val) {
     // Determine true state and event names
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
     const duringEventName = trueVal ? 'selected' : 'deselected';
     const beforeEventName = `before${duringEventName}`;
 
@@ -736,5 +699,3 @@ class IdsMenuItem extends mix(IdsElement).with(
     if (!this.hidden && !this.disabled) this.a.focus();
   }
 }
-
-export default IdsMenuItem;

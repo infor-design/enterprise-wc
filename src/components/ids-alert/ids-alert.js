@@ -1,14 +1,10 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  attributes,
-  mix
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import { IdsStringUtils } from '../../utils';
-import { IdsEventsMixin, IdsThemeMixin } from '../../mixins';
-import IdsIcon from '../ids-icon';
+import Base from './ids-alert-base';
+import IdsIcon from '../ids-icon/ids-icon';
+
 import styles from './ids-alert.scss';
 
 /**
@@ -21,7 +17,7 @@ import styles from './ids-alert.scss';
  */
 @customElement('ids-alert')
 @scss(styles)
-class IdsAlert extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+export default class IdsAlert extends Base {
   constructor() {
     super();
   }
@@ -44,7 +40,7 @@ class IdsAlert extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {string} The template
    */
   template() {
-    const cssClass = IdsStringUtils.stringToBool(this.disabled) ? ' class="disabled"' : '';
+    const cssClass = stringToBool(this.disabled) ? ' class="disabled"' : '';
     return `<ids-icon size="normal"${cssClass} part="icon"></ids-icon>`;
   }
 
@@ -54,7 +50,7 @@ class IdsAlert extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   set disabled(value) {
     const icon = this.shadowRoot?.querySelector('ids-icon');
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
       icon?.classList.add(attributes.DISABLED);
@@ -85,5 +81,3 @@ class IdsAlert extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     }
   }
 }
-
-export default IdsAlert;

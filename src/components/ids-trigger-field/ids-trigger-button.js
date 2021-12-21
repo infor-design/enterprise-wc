@@ -1,16 +1,9 @@
-import {
-  customElement,
-  scss,
-  attributes
-} from '../../core';
+import { attributes } from '../../core/ids-attributes';
+import { customElement, scss } from '../../core/ids-decorators';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-// Import Utils
-import { IdsStringUtils as stringUtils } from '../../utils';
+import Base from './ids-trigger-button-base';
 
-// Import Dependencies
-import { IdsButton } from '../ids-button/ids-button';
-
-// Import Styles
 import styles from './ids-trigger-button.scss';
 
 /**
@@ -20,7 +13,7 @@ import styles from './ids-trigger-button.scss';
  */
 @customElement('ids-trigger-button')
 @scss(styles)
-class IdsTriggerButton extends IdsButton {
+export default class IdsTriggerButton extends Base {
   /**
    * Call the constructor and then initialize
    */
@@ -28,7 +21,7 @@ class IdsTriggerButton extends IdsButton {
     super();
 
     // Trigger it the first time since we have no template
-    if (stringUtils.stringToBool(this.readonly)) {
+    if (stringToBool(this.readonly)) {
       this.readonly = true;
     }
   }
@@ -50,7 +43,7 @@ class IdsTriggerButton extends IdsButton {
    * @param {boolean|string} value True of false depending if the trigger field is tabbable
    */
   set tabbable(value) {
-    const isTabbable = stringUtils.stringToBool(value);
+    const isTabbable = stringToBool(value);
     const button = this.shadowRoot?.querySelector('button');
     if (isTabbable) {
       this.setAttribute(attributes.TABBABLE, 'true');
@@ -68,7 +61,7 @@ class IdsTriggerButton extends IdsButton {
    * @param {boolean|string} value True of false depending if the trigger button is readonly
    */
   set readonly(value) {
-    const isReadonly = stringUtils.stringToBool(value);
+    const isReadonly = stringToBool(value);
     const button = this.shadowRoot?.querySelector('button');
     if (isReadonly) {
       button.setAttribute(attributes.READONLY, 'true');
@@ -82,8 +75,6 @@ class IdsTriggerButton extends IdsButton {
   }
 
   get readonly() {
-    return stringUtils.stringToBool(this.getAttribute(attributes.READONLY)) || false;
+    return stringToBool(this.getAttribute(attributes.READONLY)) || false;
   }
 }
-
-export default IdsTriggerButton;

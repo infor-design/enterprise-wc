@@ -1,5 +1,5 @@
-import IdsNotificationBanner from '../../src/components/ids-notification-banner';
-import IdsCard from '../../src/components/ids-card';
+import IdsNotificationBanner from '../../src/components/ids-notification-banner/ids-notification-banner';
+import IdsCard from '../../src/components/ids-card/ids-card';
 
 document.addEventListener('DOMContentLoaded', () => {
   const notificationBanner = new IdsNotificationBanner();

@@ -1,5 +1,3 @@
-import { IdsElement } from '../../core';
-
 declare const TOOLBAR_ITEM_TAGNAMES: [
   'ids-button',
   'ids-checkbox',
@@ -9,7 +7,7 @@ declare const TOOLBAR_ITEM_TAGNAMES: [
   'ids-toolbar-more-actions'
 ];
 
-export default class IdsToolbarSection extends IdsElement {
+export default class IdsToolbarSection extends HTMLElement {
   /** Provides a list of all available toolbar items within this section */
   readonly items: Array<HTMLElement>;
 
@@ -31,4 +29,5 @@ export default class IdsToolbarSection extends IdsElement {
   /** Sets the type of toolbar */
   toolbarType?: 'formatter';
 }
+
 export { TOOLBAR_ITEM_TAGNAMES };

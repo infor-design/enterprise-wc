@@ -121,14 +121,16 @@ describe('Ids Week View e2e Tests', () => {
     expect(monthYear).toEqual('Dec 2021 - Jan 2022');
   });
 
-  it('should change locale', async () => {
+  it('should support changing locale', async () => {
     await page.evaluate((el) => {
       const element = document.querySelector(el);
 
       element.startDate = '11/08/2021';
       element.endDate = '11/08/2021';
-      element.setLocale('ar-SA');
-      element.setLanguage('ar');
+
+      const container = document.querySelector('ids-container');
+      container.setLocale('ar-SA');
+      container.setLanguage('ar');
     }, name);
 
     // Wait till calendars loading

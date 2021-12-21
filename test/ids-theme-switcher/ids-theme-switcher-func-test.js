@@ -75,10 +75,16 @@ describe('IdsThemeSwitcher Component', () => {
     });
   });
 
-  it('can change child languages', async () => {
-    container.language = 'de';
+  it('sync color variant with the container', async () => {
+    switcher.colorVariant = 'alternate';
+    switcher.onColorVariantRefresh();
+    expect(switcher.container.colorVariant).toEqual('alternate');
+  });
+
+  it('can change language', async () => {
+    container.language = 'ar';
     setTimeout(() => {
-      expect(switcher.getAttribute('language')).toEqual('de');
+      expect(switcher.getAttribute('dir')).toEqual('rtl');
     });
   });
 });

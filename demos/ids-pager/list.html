@@ -1,0 +1,16 @@
+{{> ../layouts/head.html }}
+<ids-layout-grid cols="3" gap="md">
+  <ids-text font-size="12" type="h1">List Style Pager</ids-text>
+</ids-layout-grid>
+
+<ids-layout-grid cols="3" gap="md">
+  <ids-layout-grid-cell>
+    <ids-pager page-size="20" page-number="10" total="150">
+      <ids-pager-button previous></ids-pager-button>
+      <ids-pager-number-list></ids-pager-number-list>
+      <ids-pager-button next></ids-pager-button>
+    </ids-pager>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+{{> ../layouts/footer.html }}

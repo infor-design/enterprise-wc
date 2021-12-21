@@ -28,6 +28,7 @@ class IdsLocale {
     const defaultLocale = 'en-US';
     await this.setLanguage(defaultLang);
     await this.setLocale('en-US');
+
     this.state.defaultLocale.messages = this.language.messages;
     this.state.defaultLocale.language = defaultLang;
     this.state.defaultLocale.localeName = defaultLocale;
