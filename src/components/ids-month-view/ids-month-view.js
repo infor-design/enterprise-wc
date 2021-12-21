@@ -9,7 +9,7 @@ import {
   firstDayOfWeek,
   weeksInMonth,
 } from '../../utils/ids-date-utils/ids-date-utils';
-import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
+import { stringToBool, stringToNumber, buildClassAttrib } from '../../utils/ids-string-utils/ids-string-utils';
 
 // Supporting components
 import IdsButton from '../ids-button/ids-button';
@@ -213,6 +213,7 @@ class IdsMonthView extends Base {
 
     const days = (calendars || [])[0]?.days.abbreviated;
     const firstDayOfMonth = new Date(this.year, this.month, 1);
+    const lastDayOfMonth = new Date(this.year, this.month + 1, 0);
     const firstWeekDay = firstDayOfWeek(firstDayOfMonth, this.firstDayOfWeek);
     const weeksCount = weeksInMonth(this.year, this.month, this.firstDayOfWeek);
 
@@ -222,7 +223,7 @@ class IdsMonthView extends Base {
       return `
         <th>
           <ids-text
-            class="month-view-header-day-of-week"
+            class="month-view-weekday-text"
             font-size="14"
           >${weekday}</ids-text>
         </th>
@@ -232,10 +233,14 @@ class IdsMonthView extends Base {
     const daysTemplate = (week) => Array.from({ length: 7 }).map((_, index) => {
       const date = addDate(firstWeekDay, (week * 7) + index, 'days');
       const dayNumeric = this.locale.formatDate(date, { day: 'numeric' });
+      const classes = buildClassAttrib(
+        date < firstDayOfMonth && 'alternate prev-month',
+        date > lastDayOfMonth && 'alternate next-month'
+      );
 
       return `<td
         aria-label="${this.locale.formatDate(date, { dateStyle: 'full' })}"
-        role="link"><ids-text class="month-view-header-day-of-week" font-size="14"
+        role="link" ${classes}><ids-text class="month-view-day-text" font-size="14"
       >${dayNumeric}</ids-text></td>`;
     }).join('');
 
