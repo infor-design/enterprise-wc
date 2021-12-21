@@ -1,4 +1,4 @@
-import { attributes } from '../../core';
+import { attributes } from '../../core/ids-attributes';
 
 /**
 /**

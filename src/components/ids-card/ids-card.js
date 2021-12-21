@@ -1,16 +1,9 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core';
-
-import { IdsEventsMixin, IdsThemeMixin } from '../../mixins';
-import { IdsSelectionMixin } from '../../mixins/ids-selection-mixin';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import Base from './ids-card-base';
 
-import IdsCheckbox from '../ids-checkbox';
+import IdsCheckbox from '../ids-checkbox/ids-checkbox';
 import styles from './ids-card.scss';
 
 /**
@@ -25,7 +18,7 @@ import styles from './ids-card.scss';
  */
 @customElement('ids-card')
 @scss(styles)
-export default class IdsCard extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsSelectionMixin) {
+export default class IdsCard extends Base {
   constructor() {
     super();
   }
