@@ -14,14 +14,33 @@ const fileUpload = require('express-fileupload');
 
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
 process.env.NODE_ENV = isProduction ? 'production' : 'development';
+const filterComponent = process.env.npm_config_component || '';
 
 module.exports = {
-  entry: {
-    'ids-line-chart/ids-line-chart': './demos/ids-line-chart/index.js',
-    'ids-container/ids-container': './demos/ids-container/index.js',
-    'ids-text/ids-text': './demos/ids-text/index.js',
-    'ids-layout-grid/ids-layout-grid': './demos/ids-layout-grid/index.js',
-  },
+  entry: glob.sync(`./demos/*${filterComponent}*/*.js`).reduce((acc, filePath) => {
+    let entry = filePath.replace(`/${path.basename(filePath)}`, '');
+    entry = (entry === './demos' ? 'index' : entry.replace('./demos/', ''));
+
+    // If filtering add a few "required" entries
+    if (filterComponent) {
+      acc['ids-container/ids-container'] = './demos/ids-container/index.js';
+      acc['ids-text/ids-text'] = './demos/ids-text/index.js';
+      acc['ids-icon/ids-icon'] = './demos/ids-icon/index.js';
+      acc['ids-layout-grid/ids-layout-grid'] = './demos/ids-layout-grid/index.js';
+    }
+
+    if (path.basename(filePath) === 'index.js') {
+      acc[entry === 'index' ? entry : `${entry}/${entry}`] = filePath;
+    } else {
+      acc[`${entry}/${path.basename(filePath).replace('.js', '')}`] = filePath;
+    }
+
+    // Add kitchen sink example js
+    if (acc.index) {
+      acc.example = './demos/example.js';
+    }
+    return acc;
+  }, {}),
   devtool: isProduction ? 'cheap-module-source-map' : 'source-map', // try source-map for prod
   mode: isProduction ? 'production' : 'development',
   experiments: {
@@ -243,7 +262,7 @@ if (!isProduction) {
 }
 
 // Dynamically add all html examples
-glob.sync('./demos/**/*.html').reduce((acc, filePath) => {
+glob.sync(`./demos/*${filterComponent}*/*.html`).reduce((acc, filePath) => {
   const folderName = path.dirname(filePath).replace('./demos/', '');
   const folderAndFile = filePath.replace('./demos/', '');
   let title = `${folderName.split('-').map((word) =>
