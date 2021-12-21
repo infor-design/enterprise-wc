@@ -1,6 +1,7 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import Base from './ids-line-chart-base';
+import NiceScale from './ids-nice-scale';
 
 import styles from './ids-line-chart.scss';
 
@@ -23,6 +24,7 @@ export default class IdsLineChart extends Base {
    */
   connectedCallback() {
     this.#attachEventHandlers();
+    console.info('nice!', new NiceScale(10, 1206));
   }
 
   /**

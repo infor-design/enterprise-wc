@@ -1,5 +1,8 @@
 # TODO's For Line Charts
 
+## General
+- [ ] Remove commented web pack config
+
 ## Rendering
 - [ ] Axis
 - [ ] Linear Scale

@@ -2,7 +2,7 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 /**
- *Clearable (Shows an x-icon button to clear).
+ * Clearable (Shows an x-icon button to clear).
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
