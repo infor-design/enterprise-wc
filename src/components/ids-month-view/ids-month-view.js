@@ -20,7 +20,6 @@ import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 
 // Import Styles
 import styles from './ids-month-view.scss';
-import e from 'express';
 
 const MIN_MONTH = 0;
 const MAX_MONTH = 11;
@@ -242,7 +241,9 @@ class IdsMonthView extends Base {
       const date = addDate(firstWeekDay, (weekIndex * WEEK_LENGTH) + index, 'days');
       const dayNumeric = this.locale.formatDate(date, { day: 'numeric' });
       const dateFull = this.locale.formatDate(date, { dateStyle: 'full' });
-      const isSelected = date.getDate() === this.day;
+      const isSelected = date.getDate() === this.day
+        && date.getFullYear() === this.year
+        && date.getMonth() === this.month;
       const classes = buildClassAttrib(
         date < firstDayOfMonth && 'alternate prev-month',
         date > lastDayOfMonth && 'alternate next-month',
@@ -283,19 +284,17 @@ class IdsMonthView extends Base {
     // Related events
     this.offEvent('click.month-view-select');
     this.onEvent('click.month-view-select', this.container.querySelector('tbody'), (e) => {
-      // if (e.target.hasAttribute('role') &&
-      // !e.target.classList.contains('is-selected') && !e.target.classList.contains('is-disabled')) {
-      //   const month = e.target.dataset.month;
-      //   const year = e.target.dataset.year;
-      //   const day = e.target.dataset.day;
+      if (
+        e.target.hasAttribute('role')
+        && !e.target.classList.contains('is-selected')
+        && !e.target.classList.contains('is-disabled')
+      ) {
+        const month = e.target.dataset.month;
+        const year = e.target.dataset.year;
+        const day = e.target.dataset.day;
 
-      //   this.day = day;
-
-      //   if (month !== this.month) {
-      //     this.year = year;
-      //     this.month = month;
-      //   }
-      // }
+        this.#selectDay(year, month, day);
+      }
     });
   }
 
@@ -391,7 +390,7 @@ class IdsMonthView extends Base {
     const attrVal = this.getAttribute(attributes.DAY);
     const numberVal = stringToNumber(attrVal);
 
-    if (attrVal) {
+    if (!Number.isNaN(numberVal)) {
       return numberVal;
     }
 
@@ -405,22 +404,34 @@ class IdsMonthView extends Base {
       this.#selectDay(this.year, this.month, val);
     } else {
       this.removeAttribute(attributes.DAY);
+      this.#selectDay(this.year, this.month, this.day);
     }
   }
 
   #selectDay(year, month, day) {
-    // this.container.querySelectorAll('td').forEach((el) => {
-    //   el.classList.remove('is-selected');
-    //   el.removeAttribute('aria-selected');
-    //   el.removeAttribute('tabindex');
-    // });
+    if (stringToNumber(day) !== this.day) {
+      this.day = stringToNumber(day);
+    }
 
-    // const selectedQuery = `td[data-day="${day}"][data-month="${month}"][data-year="${year}"]`;
+    if (stringToNumber(month) !== this.month) {
+      this.year = year;
+      this.month = month;
+    }
 
-    // const selectedNode = this.container.querySelector(selectedQuery);
-    // selectedNode?.setAttribute('tabindex', 0);
-    // selectedNode?.setAttribute('aria-selected', true);
-    // selectedNode?.classList.add('is-selected');
+    const clearable = this.container.querySelector('td.is-selected');
+
+    // Clear before
+    clearable?.removeAttribute('aria-selected');
+    clearable?.removeAttribute('tabindex');
+    clearable?.classList.remove('is-selected');
+
+    const selectedQuery = `td[data-year="${year}"][data-month="${month}"][data-day="${day}"]`;
+    const selected = this.container.querySelector(selectedQuery);
+
+    // Selectable attributes
+    selected?.setAttribute('tabindex', 0);
+    selected?.setAttribute('aria-selected', true);
+    selected?.classList.add('is-selected');
   }
 
   /**
