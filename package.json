@@ -17,6 +17,7 @@
     "build:app:prod": "webpack --config ./webpack.config.demos.js --mode production",
     "build:verbose": "npx webpack --config ./webpack.config.demos.js --progress profile",
     "start": "webpack serve --live-reload --open --config ./webpack.config.demos.js",
+    "start:filter": "npm --component=data-grid run start",
     "start:watch": "nodemon --watch webpack.config.demos.js --exec \"npx webpack serve --config ./webpack.config.demos.js\"",
     "lint": "npx eslint src test demos && npx stylelint src/**/**/*.scss --config .stylelintrc.json && npm run mdlint && npx htmlhint 'demos/**/*.html' && npm run typecheck",
     "mdlint": "npx remark . -f",
