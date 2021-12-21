@@ -1,22 +1,8 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  attributes,
-  mix,
-} from '../../core';
+import { attributes } from '../../core/ids-attributes';
+import { customElement, scss } from '../../core/ids-decorators';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-// Import Utils
-import { IdsStringUtils } from '../../utils';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsColorVariantMixin,
-  IdsTooltipMixin,
-  IdsThemeMixin,
-  IdsLocaleMixin
-} from '../../mixins';
+import Base from './ids-text-base';
 
 import styles from './ids-text.scss';
 
@@ -38,13 +24,7 @@ const typesCssClasses = ['label', 'legend', 'span'];
  */
 @customElement('ids-text')
 @scss(styles)
-class IdsText extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsThemeMixin,
-    IdsTooltipMixin,
-    IdsLocaleMixin,
-    IdsColorVariantMixin
-  ) {
+export default class IdsText extends Base {
   constructor() {
     super();
   }
@@ -117,14 +97,7 @@ class IdsText extends mix(IdsElement).with(
   #attachEventHandlers() {
     if (this.translateText) {
       this.offEvent('languagechange.text-container');
-      this.onEvent('languagechange.text-container', this.closest('ids-container'), async (e) => {
-        await this.setLanguage(e.detail.language.name);
-        this.#translateAsync();
-      });
-
-      this.offEvent('languagechange.text');
-      this.onEvent('languagechange.text', this, async (e) => {
-        await this.locale.setLanguage(e.detail.language.name);
+      this.onEvent('languagechange.text-container', this.closest('ids-container'), async () => {
         this.#translateAsync();
       });
     }
@@ -238,7 +211,7 @@ class IdsText extends mix(IdsElement).with(
    * @param {string | null} value The `audible` attribute
    */
   set audible(value) {
-    const isValueTruthy = IdsStringUtils.stringToBool(value);
+    const isValueTruthy = stringToBool(value);
 
     if (isValueTruthy && this.container && !this.container?.classList.contains('audible')) {
       this.container.classList.add('audible');
@@ -258,7 +231,7 @@ class IdsText extends mix(IdsElement).with(
    * @param {boolean} value True if disabled
    */
   set disabled(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, value);
       return;
@@ -273,7 +246,7 @@ class IdsText extends mix(IdsElement).with(
    * @param {boolean} value True if error text
    */
   set error(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.container.classList.add('error');
       this.setAttribute(attributes.ERROR, value);
@@ -290,7 +263,7 @@ class IdsText extends mix(IdsElement).with(
    * @param {boolean} value True if label text
    */
   set label(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.container.classList.add('label');
       this.setAttribute(attributes.LABEL, value);
@@ -307,7 +280,7 @@ class IdsText extends mix(IdsElement).with(
    * @param {boolean} value True if data text
    */
   set data(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.container.classList.add('data');
       this.setAttribute(attributes.DATA, value);
@@ -345,7 +318,7 @@ class IdsText extends mix(IdsElement).with(
    * @param {boolean} value If true translate this value
    */
   set translateText(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val && !this.getAttribute('translation-key')) {
       this.setAttribute(attributes.TRANSLATE_TEXT, value);
       this.setAttribute('translation-key', this.textContent);
@@ -353,18 +326,20 @@ class IdsText extends mix(IdsElement).with(
     }
   }
 
+  get translateText() {
+    return this.getAttribute(attributes.TRANSLATE_TEXT);
+  }
+
   /**
    * Translate the contents asyncronously
    * @private
    */
   async #translateAsync() {
-    await this.locale.setLanguage(this.language.name);
-    this.textContent = this.locale.translate(this.getAttribute('translation-key') || this.textContent);
-  }
+    if (!this.locale) {
+      return;
+    }
 
-  get translateText() {
-    return this.getAttribute(attributes.TRANSLATE_TEXT);
+    await this.locale.setLanguage(this.locale.language.name);
+    this.textContent = this.locale.translate(this.getAttribute('translation-key'));
   }
 }
-
-export default IdsText;

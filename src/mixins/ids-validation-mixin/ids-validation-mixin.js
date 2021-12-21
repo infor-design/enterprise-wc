@@ -1,4 +1,4 @@
-import { attributes } from '../../core';
+import { attributes } from '../../core/ids-attributes';
 
 /**
  * Adds validation to any input field
@@ -50,7 +50,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
 
     if (this.labelEl && typeof this.validate === 'string' && canRadio) {
       const isCheckbox = this.input?.getAttribute('type') === 'checkbox';
-      const defaultEvents = (isCheckbox || isRadioGroup) ? 'change' : 'blur';
+      const defaultEvents = (isCheckbox || isRadioGroup) ? 'change.validationmixin' : 'blur.validationmixin';
       const events = (this.validationEvents && typeof this.validationEvents === 'string')
         ? this.validationEvents : defaultEvents;
       this.validationEventsList = [...new Set(events.split(' '))];
@@ -420,7 +420,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
       type: 'error',
       id: 'email'
     }
-  }
+  };
 
   setValidationElement(el) {
     this.#externalValidationEl = el;

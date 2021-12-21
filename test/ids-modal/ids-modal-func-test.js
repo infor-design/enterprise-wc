@@ -4,8 +4,9 @@
 import '../helpers/resize-observer-mock';
 import wait from '../helpers/wait';
 
-import IdsModal, { IdsOverlay } from '../../src/components/ids-modal';
-import { IdsButton } from '../../src/components/ids-button/ids-button';
+import IdsModal from '../../src/components/ids-modal/ids-modal';
+import IdsOverlay from '../../src/components/ids-modal/ids-overlay';
+import IdsButton from '../../src/components/ids-button/ids-button';
 
 describe('IdsModal Component', () => {
   let modal;
@@ -98,7 +99,7 @@ describe('IdsModal Component', () => {
 
     modal.target = btn;
 
-    expect(modal.state.target.isEqualNode(btn)).toBeTruthy();
+    expect(modal.target.isEqualNode(btn)).toBeTruthy();
 
     // Clicking on the trigger should make the Modal show
     const clickEvent = new MouseEvent('click', { bubbles: true });
@@ -107,9 +108,9 @@ describe('IdsModal Component', () => {
     // Dispatch twice to cover the 'else'
     btn.dispatchEvent(clickEvent);
 
-    modal.target = null;
+    modal.target = undefined;
 
-    expect(modal.state.target).toBeNull();
+    expect(modal.target).toBeUndefined();
   });
 
   it('can have a title', () => {
@@ -152,7 +153,7 @@ describe('IdsModal Component', () => {
     await modal.show();
     await wait(310);
 
-    document.body.dispatchEvent(closeEvent);
+    modal.dispatchEvent(closeEvent);
     await wait(310);
 
     expect(modal.visible).toBeFalsy();
@@ -160,7 +161,27 @@ describe('IdsModal Component', () => {
 
   it('will not trigger a vetoable event of any type not supported', () => {
     modal.triggerVetoableEvent('fish');
-
     expect(modal.state.visible).toBeFalsy();
+  });
+
+  it('will open on onTriggerClick', () => {
+    modal.onTriggerClick();
+    expect(modal.state.visible).toBeFalsy();
+  });
+
+  it('will not hide on outside click in some cases', () => {
+    modal.show();
+    modal.onOutsideClick({ noValue: false });
+    expect(modal.visible).toBeTruthy();
+
+    const overlay = new IdsOverlay();
+    modal.onOutsideClick({ target: overlay });
+    expect(modal.visible).toBeTruthy();
+  });
+
+  it('will hide on outside click in some cases', () => {
+    modal.show();
+    modal.onOutsideClick({ target: document.body });
+    expect(modal.visible).toBeFalsy();
   });
 });

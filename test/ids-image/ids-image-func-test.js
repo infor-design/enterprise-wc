@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsImage from '../../src/components/ids-image';
+import IdsImage from '../../src/components/ids-image/ids-image';
 
 const name = 'ids-image';
 const alt = 'example alt';
@@ -181,8 +181,10 @@ describe('IdsImage Component (round and statuses)', () => {
   let component;
 
   beforeEach(async () => {
-    document.body.insertAdjacentHTML('beforeend',
-      `<ids-image src="${src}" alt="${alt}" round="true" user-status="available"></ids-image>`);
+    document.body.insertAdjacentHTML(
+      'beforeend',
+      `<ids-image src="${src}" alt="${alt}" round="true" user-status="available"></ids-image>`
+    );
     component = document.querySelector(name);
   });
 
@@ -231,8 +233,10 @@ describe('IdsImage Component (round and statuses)', () => {
 
   it('should render initials and back to placeholder', () => {
     document.body.innerHTML = '';
-    document.body.insertAdjacentHTML('beforeend',
-    `<ids-image round="true" initials="long"></ids-image>`);
+    document.body.insertAdjacentHTML(
+      'beforeend',
+    `<ids-image round="true" initials="long"></ids-image>`
+    );
     component = document.querySelector(name);
 
     expect(component.getAttribute('initials')).toEqual('long');

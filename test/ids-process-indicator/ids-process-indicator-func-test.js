@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsProcessIndicator from '../../src/components/ids-process-indicator';
-import IdsProcessStep from '../../src/components/ids-process-indicator/ids-process-step';
+import IdsProcessIndicator from '../../src/components/ids-process-indicator/ids-process-indicator';
+import IdsProcessStep from '../../src/components/ids-process-indicator/ids-process-step/ids-process-step';
 
 const HTMLSnippets = {
   VANILLA_PROCESS_INDICATOR: (
@@ -22,7 +22,7 @@ const HTMLSnippets = {
   `<ids-process-indicator>
   <ids-process-step status="" label=""></ids-process-step>
   <ids-process-step status="" label=""></ids-process-step>
-  <ids-process-step status="" label=""></ids-process-step>
+  <ids-process-step></ids-process-step>
   </ids-process-indicator>`
   ),
 };
@@ -91,7 +91,15 @@ describe('IdsProcessIndicator Component', () => {
     const steps = document.querySelectorAll('ids-process-step');
     steps.forEach((s) => {
       expect(s.status).toBeFalsy();
-      expect(s.label).toBeFalsy();
+      expect(s.label).toBe('empty label');
     });
+  });
+
+  it('handles icon changes/removal correctly', async () => {
+    processIndicator = await createElemViaTemplate(HTMLSnippets.CANCELLED_PROCESS_INDICATOR);
+    const step = document.querySelector('ids-process-step[status="cancelled"]');
+    expect(step.container.querySelector('ids-icon')).toBeTruthy();
+    step.status = 'done';
+    expect(step.container.querySelector('ids-icon')).toBe(null);
   });
 });

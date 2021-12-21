@@ -4,7 +4,7 @@ const container = document.querySelector('ids-container');
 
 (async function init() {
   // Set Locale and wait for it to load
-  await container.setLocale('en-US');
+  await container?.setLocale('en-US');
 
   // Do an ajax request
   const xmlhttp = new XMLHttpRequest();
@@ -14,11 +14,11 @@ const container = document.querySelector('ids-container');
   // Set up columns
   columns.push({
     id: 'selectionCheckbox',
+    name: 'selection',
     sortable: false,
     resizable: false,
-    formatter: dataGrid.formatters.text,
-    align: 'center',
-    width: 20
+    formatter: dataGrid.formatters.selectionCheckbox,
+    align: 'center'
   });
   columns.push({
     id: 'rowNumber',

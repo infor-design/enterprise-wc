@@ -1,6 +1,4 @@
-import { IdsElement } from '../../core';
-
-export default class IdsDrawer extends IdsElement {
+export default class IdsDrawer extends HTMLElement {
   /** Defines the edge on which to display the Drawer */
   edge: 'bottom' | 'left';
 

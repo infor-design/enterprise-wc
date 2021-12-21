@@ -1,65 +1,14 @@
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix
-} from '../../core';
+  MENU_ITEM_SIZE, MENU_DEFAULTS, safeForAttribute
+} from './ids-menu-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-// Import Utils
-import { IdsStringUtils } from '../../utils';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin,
-  IdsLocaleMixin
-} from '../../mixins';
-
-import {
-  renderLoop,
-  IdsRenderLoopItem
-} from '../ids-render-loop';
-
+import Base from './ids-menu-item-base';
 import IdsIcon from '../ids-icon/ids-icon';
 
 import styles from './ids-menu-item.scss';
-
-// @TODO handle other menu-item sizes
-const MENU_ITEM_SIZE = 'medium';
-
-// Default Button state values
-const MENU_DEFAULTS = {
-  disabled: false,
-  icon: null,
-  selected: false,
-  submenu: null,
-  tabIndex: 0,
-  value: null,
-};
-
-// Definable attributes
-const MENU_ATTRIBUTES = [
-  attributes.TEXT_ALIGN,
-  attributes.DISABLED,
-  attributes.ICON,
-  attributes.LANGUAGE,
-  attributes.SELECTED,
-  attributes.SUBMENU,
-  attributes.TABINDEX,
-  attributes.VALUE,
-  attributes.MODE,
-  attributes.VERSION
-];
-
-/**
- * Determines if a menu item's stored value can safely be described by its attribute inside the DOM.
- * @param {any} value the value to be checked
- * @returns {boolean} true if the value can be "stringified" safely for the DOM attribute
- */
-function safeForAttribute(value) {
-  return value !== null && ['string', 'number', 'boolean'].includes(typeof value);
-}
 
 /**
  * IDS Menu Item Component
@@ -75,11 +24,7 @@ function safeForAttribute(value) {
  */
 @customElement('ids-menu-item')
 @scss(styles)
-class IdsMenuItem extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsLocaleMixin,
-    IdsThemeMixin
-  ) {
+export default class IdsMenuItem extends Base {
   /**
    * Build the menu item
    */
@@ -163,7 +108,18 @@ class IdsMenuItem extends mix(IdsElement).with(
    * @returns {Array} The attributes as an array
    */
   static get attributes() {
-    return MENU_ATTRIBUTES;
+    return [
+      ...super.attributes,
+      attributes.DISABLED,
+      attributes.HIDDEN,
+      attributes.ICON,
+      attributes.SELECTED,
+      attributes.SUBMENU,
+      attributes.TARGET,
+      attributes.TABINDEX,
+      attributes.TEXT_ALIGN,
+      attributes.VALUE,
+    ];
   }
 
   /**
@@ -183,7 +139,7 @@ class IdsMenuItem extends mix(IdsElement).with(
         }
         break;
       default:
-        IdsElement.prototype.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
+        super.attributeChangedCallback(name, oldValue, newValue);
         break;
       }
     }
@@ -197,8 +153,13 @@ class IdsMenuItem extends mix(IdsElement).with(
     this.refresh();
     this.attachEventHandlers();
     this.shouldUpdate = true;
-    super.connectedCallback();
+    super.connectedCallback?.();
   }
+
+  /**
+   * @returns {Array<string>} Menu Item vetoable events
+   */
+  vetoableEventTypes = ['beforeselected', 'beforedeselected'];
 
   /**
    * Updates the visual state of this menu item
@@ -207,6 +168,7 @@ class IdsMenuItem extends mix(IdsElement).with(
    */
   refresh() {
     this.tabIndex = this.state.tabIndex;
+    this.detectHidden();
     this.detectSubmenu();
     this.detectSelectability();
     this.decorateForIcon();
@@ -216,49 +178,11 @@ class IdsMenuItem extends mix(IdsElement).with(
    * @returns {void}
    */
   attachEventHandlers() {
-    const self = this;
-    // "Hover" timeout deals with `mouseenter`/`mouseleave` events, and causes the
-    // menu to open after a delay.
-    let hoverTimeout;
-    const clearHoverTimeout = () => {
-      if (hoverTimeout) {
-        hoverTimeout.destroy(true);
-        hoverTimeout = null;
-      }
-    };
-
-    // "Hide Submenu" timeout causes a submenu to close after a delay, if the mouse/touch
-    // does not exist over top of a valid menu/submenu item.
-    let hideSubmenuTimeout;
-    const clearHideSubmenuTimeout = () => {
-      if (hideSubmenuTimeout) {
-        hideSubmenuTimeout.destroy(true);
-        hideSubmenuTimeout = null;
-      }
-    };
-
     // On 'mouseenter', after a specified duration, run some events,
     // including activation of submenus where applicable.
     this.onEvent('mouseenter', this, () => {
-      clearHideSubmenuTimeout();
-      if (!this.disabled && this.hasSubmenu) {
-        clearHoverTimeout();
-        hoverTimeout = new IdsRenderLoopItem({
-          duration: 200,
-          timeoutCallback() {
-            self.showSubmenu();
-          }
-        });
-        renderLoop.register(hoverTimeout);
-      }
-
       // Highlight
       this.menu.highlightItem(this);
-
-      // If the parent menu is a Popupmenu, hide its other open submenus.
-      if (this.menu.popup) {
-        this.menu.hideSubmenus(this);
-      }
 
       // Tell the menu which item to use for converting a hover state to keyboard
       if (!this.disabled) {
@@ -269,22 +193,7 @@ class IdsMenuItem extends mix(IdsElement).with(
     // On 'mouseleave', clear any pending timeouts, hide submenus if applicable,
     // and unhighlight the item
     this.onEvent('mouseleave', this, () => {
-      clearHoverTimeout();
-
-      if (this.hasSubmenu && !this.submenu.hidden) {
-        clearHideSubmenuTimeout();
-        hideSubmenuTimeout = new IdsRenderLoopItem({
-          duration: 200,
-          timeoutCallback() {
-            // Only focus again if the parent menu is still visible
-            // (The menu may have closed here)
-            if (!self.menu.hidden) {
-              (self.menu.lastHovered || self).focus();
-            }
-          }
-        });
-        renderLoop.register(hideSubmenuTimeout);
-      } else {
+      if (!this.hasSubmenu || this.submenu.hidden) {
         this.unhighlight();
       }
     });
@@ -329,7 +238,7 @@ class IdsMenuItem extends mix(IdsElement).with(
    */
   set disabled(val) {
     // Handled as boolean attribute
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
     this.state.disabled = trueVal;
 
     const a = this.a;
@@ -369,10 +278,31 @@ class IdsMenuItem extends mix(IdsElement).with(
   }
 
   /**
+   * @param {boolean|string} val true if the menu item should be hidden from view
+   */
+  set hidden(val) {
+    const newValue = stringToBool(val);
+    if (newValue) {
+      this.setAttribute(attributes.HIDDEN, '');
+      this.container.classList.add(attributes.HIDDEN);
+    } else {
+      this.removeAttribute(attributes.HIDDEN);
+      this.container.classList.remove(attributes.HIDDEN);
+    }
+  }
+
+  /**
+   * @returns {boolean} true if the menu item is hidden from view
+   */
+  get hidden() {
+    return this.hasAttribute(attributes.HIDDEN);
+  }
+
+  /**
    * @param {boolean} val true if the menu item should appear highlighted
    */
   set highlighted(val) {
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
 
     // Don't highlight if the item is disabled.
     if (trueVal && this.disabled) {
@@ -481,6 +411,13 @@ class IdsMenuItem extends mix(IdsElement).with(
   }
 
   /**
+   *
+   */
+  detectHidden() {
+    this.hidden = this.hasAttribute('hidden');
+  }
+
+  /**
    * @readonly
    * @returns {any} [IdsMenu | IdsPopupMenu] submenu component, if one is present.
    */
@@ -569,23 +506,12 @@ class IdsMenuItem extends mix(IdsElement).with(
    */
   set selected(val) {
     // Determine true state and event names
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
     const duringEventName = trueVal ? 'selected' : 'deselected';
     const beforeEventName = `before${duringEventName}`;
 
-    // Build/Fire a `beforeselect` event that will allow an external hook to
-    // determine if this menu item can be selected, or perform other actions.
-    let canSelect = true;
-    const beforeSelectResponse = (veto) => {
-      canSelect = !!veto;
-    };
-    this.triggerEvent(beforeEventName, this, {
-      detail: {
-        elem: this,
-        response: beforeSelectResponse
-      }
-    });
-    if (!canSelect) {
+    // Trigger a veto-able event for the specified selection type
+    if (!this.triggerVetoableEvent(beforeEventName)) {
       return;
     }
 
@@ -662,12 +588,38 @@ class IdsMenuItem extends mix(IdsElement).with(
     return this.state.tabIndex;
   }
 
+  #target = undefined;
+
+  /**
+   * @param {HTMLElement|undefined} element an element reference to use for triggering/responding to elements
+   */
+  set target(element) {
+    const currentTarget = this.target;
+    if (element !== currentTarget) {
+      if (element instanceof HTMLElement) {
+        if (!element.isEqualNode(currentTarget)) {
+          this.#target = element;
+        }
+      } else if (element === null || element === undefined) {
+        this.#target = undefined;
+      }
+    }
+  }
+
+  /**
+   * @returns {HTMLElement|undefined} a reference to a target element, if applicable
+   */
+  get target() {
+    return this.#target;
+  }
+
   /**
    * @readonly
    * @returns {string} a menu item's textContent stripped of any extraneous white space.
    */
   get text() {
-    return [...this.childNodes].find((i) => i.nodeType === Node.TEXT_NODE).textContent.trim();
+    const textNode = (n) => ((n.nodeType === Node.TEXT_NODE) || (n.name === 'ids-text'));
+    return [...this.childNodes].find((i) => textNode(i)).textContent.trim();
   }
 
   /**
@@ -744,8 +696,6 @@ class IdsMenuItem extends mix(IdsElement).with(
    * @returns {void}
    */
   focus() {
-    this.a.focus();
+    if (!this.hidden && !this.disabled) this.a.focus();
   }
 }
-
-export default IdsMenuItem;

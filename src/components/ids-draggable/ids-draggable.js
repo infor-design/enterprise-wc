@@ -1,24 +1,11 @@
-import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix
-} from '../../core/ids-element';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-// Import Utils
-import { IdsStringUtils, IdsDeepCloneUtils } from '../../utils';
-
-// Import Mixins
-import { IdsEventsMixin } from '../../mixins';
-
-// Import Dependencies
+import Base from './ids-draggable-base';
 import getElTranslatePoint from './get-el-translate-point';
 
-// Import Styles
 import styles from './ids-draggable.scss';
-
-const { stringToBool } = IdsStringUtils;
 
 const CURSOR_EL_SIZE = 32;
 
@@ -27,12 +14,10 @@ const CURSOR_EL_SIZE = 32;
  * @type {IdsDraggable}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
- * @mixes IdsKeyboardMixin
  */
 @customElement('ids-draggable')
 @scss(styles)
-export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
+export default class IdsDraggable extends Base {
   constructor() {
     super();
   }
@@ -74,7 +59,6 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     this.#cursorEl.style.width = `${CURSOR_EL_SIZE}px`;
     this.#cursorEl.style.height = `${CURSOR_EL_SIZE}px`;
     this.#cursorEl.style.cursor = this.#getCursorStyle({ axis: this.axis });
-
     super.connectedCallback?.();
   }
 
@@ -149,7 +133,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
    * @param {boolean} value Whether or not draggable functionality is to be disabled
    */
   set disabled(value) {
-    const isTruthy = IdsStringUtils.stringToBool(value);
+    const isTruthy = stringToBool(value);
 
     if (isTruthy && this.getAttribute(attributes.DISABLED) !== '') {
       this.offEvent('mousemove', window.document, this.onMouseMove);
@@ -163,7 +147,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {boolean} value Whether or not draggable functionality is disabled
    */
   get disabled() {
-    return IdsStringUtils.stringToBool(this.getAttribute(attributes.DISABLED));
+    return stringToBool(this.getAttribute(attributes.DISABLED));
   }
 
   /**
@@ -288,7 +272,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
    * sets an optional integer attribute for an element
    * (may offload as general util; just need to think
    * through this a bit more)
-   * @param {IdsElement} elem ids element to update
+   * @param {Base} elem ids element to update
    * @param {string} attribute the attribute to update
    * @param {any} value a value to set on the
    */
@@ -680,6 +664,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   #updateRelativeBounds() {
     const relativeBoundsAttr = this.getAttribute(attributes.RELATIVE_BOUNDS);
     const newBounds = Object.fromEntries(relativeBoundsAttr.split(';').map((str) => {
+      // eslint-disable-next-line no-unsafe-optional-chaining
       const [kStr, vStr] = str?.split?.(':');
       return [kStr, !Number.isNaN(parseInt(vStr)) ? parseInt(vStr) : 0];
     }));

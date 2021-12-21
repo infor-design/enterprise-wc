@@ -1,30 +1,27 @@
-import {
-  IdsElement,
-  mix,
-  scss,
-  customElement
-} from '../../core';
-
-// Import Utils
-import { IdsStringUtils, IdsDOMUtils } from '../../utils';
-
-// Import Dependencies
-import IdsToolbarSection, { TOOLBAR_ITEM_TAGNAMES } from './ids-toolbar-section';
-import IdsToolbarMoreActions from './ids-toolbar-more-actions';
+import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
 
-// Import Mixins
-import { IdsEventsMixin, IdsKeyboardMixin } from '../../mixins';
+import IdsToolbarSection from './ids-toolbar-section';
+import IdsToolbarMoreActions from './ids-toolbar-more-actions';
+import Base from './ids-toolbar-base';
 
-// Import Styles
 import styles from './ids-toolbar.scss';
+
+const TYPE_FORMATTER = 'formatter';
 
 /**
  * IDS Toolbar Component
+ * @type {IdsToolbar}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsKeyboardMixin
+ * @mixes IdsThemeMixin
  */
 @customElement('ids-toolbar')
 @scss(styles)
-class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
+export default class IdsToolbar extends Base {
   constructor() {
     super();
   }
@@ -32,17 +29,58 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
   static get attributes() {
     return [
       attributes.DISABLED,
-      attributes.TABBABLE
+      attributes.TABBABLE,
+      attributes.TYPE
     ];
   }
 
   connectedCallback() {
+    super.connectedCallback?.();
     this.setAttribute('role', 'toolbar');
+    this.#setType();
+    this.#attachEventHandlers();
     this.#attachKeyboardListeners();
+    this.#resizeObserver.observe(this);
 
     // After repaint
     requestAnimationFrame(() => {
       this.makeTabbable(this.detectTabbable());
+
+      // Perform resize calculation after all children have rendered
+      requestAnimationFrame(() => {
+        this.#resize();
+      });
+    });
+    super.connectedCallback();
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback?.();
+    this.#resizeObserver.disconnect(this.container);
+  }
+
+  /**
+   * Attach the resize observer.
+   * @private
+   * @type {number}
+   */
+  #resizeObserver = new ResizeObserver(() => {
+    this.#resize();
+  });
+
+  /**
+   * Sets up event handlers assigned to the Toolbar and its child elements
+   * @private
+   * @returns {void}
+   */
+  #attachEventHandlers() {
+    // Translate click events on buttons into Toolbar `selected` events to correspond
+    // to the behavior of menu buttons and the "More Actions" menu
+    this.onEvent('click.toolbar-item', this, (e) => {
+      const btn = e.target.closest('ids-button');
+      if (btn) {
+        this.triggerSelectedEvent(btn);
+      }
     });
   }
 
@@ -110,8 +148,8 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
         currentItem = items[currentIndex];
       }
 
-      // Don't count disabled items as "taking a step"
-      if (!currentItem.disabled) {
+      // Don't count disabled/overflowed items as "taking a step"
+      if (!currentItem.disabled && !currentItem.hasAttribute(attributes.OVERFLOWED)) {
         steps -= 1;
       }
     }
@@ -134,19 +172,23 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
    * @param {boolean} val sets the disabled state of the entire toolbar
    */
   set disabled(val) {
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
 
     if (trueVal) {
-      this.setAttribute('disabled', val);
+      this.setAttribute(attributes.DISABLED, val);
     } else {
-      this.removeAttribute('disabled');
+      this.removeAttribute(attributes.DISABLED);
     }
 
-    this.container.classList[trueVal ? 'add' : 'remove']('disabled');
+    this.container.classList[trueVal ? 'add' : 'remove'](attributes.DISABLED);
 
     // Set disabled state on all relevant subcomponents
     const setDisabledState = (elem) => {
-      elem.disabled = trueVal;
+      if (elem.id === 'more-actions') {
+        elem.parentElement.parentNode.host.disabled = trueVal;
+      } else {
+        elem.disabled = trueVal;
+      }
     };
     this.items.forEach(setDisabledState);
     this.textElems.forEach(setDisabledState);
@@ -156,7 +198,7 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
    * @returns {boolean} true if the toolbar is currently disabled
    */
   get disabled() {
-    return this.container.classList.contains('disabled');
+    return this.container.classList.contains(attributes.DISABLED);
   }
 
   /**
@@ -166,7 +208,7 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
   get focused() {
     // @TODO clean this up / document why/how it works
     return this.items.find((item) => {
-      const container = IdsDOMUtils.getClosestContainerNode(item);
+      const container = getClosestContainerNode(item);
       const focused = container.activeElement;
       const isEqualNode = focused?.isEqualNode(item);
       return isEqualNode;
@@ -206,6 +248,20 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
 
   /**
    * @readonly
+   * @returns {Array<any>} list of all available ids-separator nodes present in all toolbar sections
+   */
+  get separators() {
+    const sep = [];
+    this.sections.forEach((section) => {
+      if (section?.name !== 'ids-toolbar-more-actions' && section?.separators) {
+        sep.push(...section.separators);
+      }
+    });
+    return sep;
+  }
+
+  /**
+   * @readonly
    * @returns {Array<any>} list of available sections within the toolbar
    */
   get sections() {
@@ -218,15 +274,15 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
    * @param {boolean} val sets the tabbable state of the toolbar
    */
   set tabbable(val) {
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
 
     if (trueVal) {
-      this.setAttribute('tabbable', val);
+      this.setAttribute(attributes.TABBABLE, val);
     } else {
-      this.removeAttribute('tabbable');
+      this.removeAttribute(attributes.TABBABLE);
     }
 
-    this.container.classList[trueVal ? 'add' : 'remove']('tabbable');
+    this.container.classList[trueVal ? 'add' : 'remove'](attributes.TABBABLE);
 
     // Try to use a currently-focused element
     this.makeTabbable(this.focused);
@@ -236,7 +292,41 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
    * @returns {boolean} true if the toolbar is fully tabbable
    */
   get tabbable() {
-    return this.container.classList.contains('tabbable');
+    return this.container.classList.contains(attributes.TABBABLE);
+  }
+
+  /**
+   * Set the type for toolbar
+   * @param {string|null} value of toolbar type
+   */
+  set type(value) {
+    if (value === TYPE_FORMATTER) {
+      this.setAttribute(attributes.TYPE, value);
+    } else {
+      this.removeAttribute(attributes.TYPE);
+    }
+    this.#setType();
+  }
+
+  get type() {
+    return this.getAttribute(attributes.TYPE) ?? null;
+  }
+
+  /**
+   * Set the toolbar type to each section
+   * @private
+   * @returns {void}
+   */
+  #setType() {
+    this.sections.forEach((s) => s.setAttribute(attributes.TOOLBAR_TYPE, this.type));
+    [...this.items, ...this.separators].forEach((item) => {
+      if (this.type) {
+        item.setAttribute(attributes.COLOR_VARIANT, 'alternate-formatter');
+      } else {
+        const val = item.getAttribute(attributes.COLOR_VARIANT);
+        if (val === 'alternate-formatter') item.removeAttribute(attributes.COLOR_VARIANT);
+      }
+    });
   }
 
   /**
@@ -265,7 +355,43 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
       item.tabIndex = isTabbable ? 0 : nonTabbableTargetIndex;
     });
   }
-}
 
-export default IdsToolbar;
-export { IdsToolbarSection, IdsToolbarMoreActions, TOOLBAR_ITEM_TAGNAMES };
+  #resize() {
+    const moreSection = document.querySelector('ids-toolbar-more-actions');
+    if (moreSection) {
+      moreSection.refreshOverflowedItems();
+    }
+  }
+
+  /**
+   * Triggers a `selected` event on a specified Toolbar item
+   * @param {HTMLElement} elem the specified Toolbar item
+   * @param {boolean} [triggeredFromOverflow] if true, notifies the event handler that this
+   *  `selected` event originated from the Overflow menu
+   * @returns {void}
+   */
+  triggerSelectedEvent(elem, triggeredFromOverflow = false) {
+    // Don't trigger these events on non-Toolbar items
+    if (!this.contains(elem)) {
+      return;
+    }
+
+    const detail = {
+      elem,
+      value: elem.value
+    };
+
+    // Handle Overflowed items
+    if (elem.overflowTarget) {
+      detail.elem = elem.overflowTarget;
+      detail.value = elem.overflowTarget.value;
+      detail.overflowMenuItem = elem;
+      detail.triggeredFromOverflow = triggeredFromOverflow;
+    }
+
+    elem.dispatchEvent(new CustomEvent('selected', {
+      bubbles: true,
+      detail
+    }));
+  }
+}

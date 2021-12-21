@@ -1,40 +1,26 @@
-import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix,
-} from '../../core/ids-element';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 
-import {
-  IdsKeyboardMixin,
-  IdsEventsMixin,
-  IdsThemeMixin,
-  IdsColorVariantMixin,
-  IdsOrientationMixin
-} from '../../mixins';
-
-import IdsHeader from '../ids-header';
+import Base from './ids-tabs-base';
+import IdsHeader from '../ids-header/ids-header';
 import IdsTab from './ids-tab';
+import IdsTabDivider from './ids-tab-divider';
+
 import styles from './ids-tabs.scss';
 
 /**
  * IDS Tabs Component
  * @type {IdsTabs}
  * @inherits IdsElement
+ * @mixes IdsColorVariantMixin
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @mixes IdsKeyboardMixin
+ * @mixes IdsOrientationMixin
+ * @mixes IdsThemeMixin
  */
 @customElement('ids-tabs')
 @scss(styles)
-class IdsTabs extends mix(IdsElement).with(
-    IdsColorVariantMixin,
-    IdsEventsMixin,
-    IdsKeyboardMixin,
-    IdsOrientationMixin,
-    IdsThemeMixin
-  ) {
+export default class IdsTabs extends Base {
   constructor() {
     super();
   }
@@ -276,5 +262,3 @@ class IdsTabs extends mix(IdsElement).with(
     });
   }
 }
-
-export default IdsTabs;

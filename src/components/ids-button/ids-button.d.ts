@@ -1,11 +1,7 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-import { IdsElement } from '../../core';
+export class IdsButton extends HTMLElement {
+  /* Set the variants theme styles */
+  colorVariant?: 'alternate' | 'alternate-formatter';
 
-/**
- * @type {any}
- */
-export class IdsButton extends IdsElement {
   /* Contains space-delimited CSS classes (or an array of CSS classes) that will be passed to the Shadow Root button */
   cssClass?: Array<string> | string | null;
 
@@ -25,7 +21,7 @@ export class IdsButton extends IdsElement {
   text?: string;
 
   /* The type/purpose of the button to display */
-  type: 'default' | 'primary' | 'secondary' | 'tertiary' | 'destructive'
+  type: 'default' | 'primary' | 'secondary' | 'tertiary' | 'destructive';
 
   /* Sets up a string based tooltip */
   tooltip?: string;

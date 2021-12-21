@@ -1,11 +1,9 @@
-import { IdsElement } from '../../core';
-
-export default class extends IdsElement {
+export default class extends HTMLElement {
   /** Reference to the corresponding IdsAccordionPanel element */
   readonly panel: HTMLElement;
 
   /** True if the Accordion Header should display "expanded" styling */
-  expanded?: boolean
+  expanded?: boolean;
 
   /** Defines the display type of the expander button, if it's currently enabled */
   expanderType?: 'caret' | 'plus-minus';

@@ -1,29 +1,32 @@
 @import '../../core/ids-base';
 
-.ids-process-indicator {
-  display: flex;
-  width: 90%;
-  height: 100px;
-  align-items: center;
-
-  .line {
-    width: 100%;
-    height: 2px;
-    background-color: var(--ids-color-palette-slate-30);
-    align-items: center;
-
-    .step-container {
+:host {
+  @media (min-width: $breakpoint-xs) {
+    .xs-header {
       display: flex;
-      position: relative;
-      justify-content: space-between;
-      width: 100%;
+      position: absolute;
 
-      .progress-line {
-        position: absolute;
-        width: var(--percentEnd);
-        height: 2px;
-        background-color: var(--ids-color-palette-azure-70);
+      .label {
+        margin-left: 5px;
       }
     }
+  }
+
+  @media (min-width: $breakpoint-md) {
+    .xs-header {
+      display: none;
+      position: unset;
+    }
+  }
+}
+
+.ids-process-indicator {
+  width: 100%;
+  height: auto;
+
+  .step-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
   }
 }

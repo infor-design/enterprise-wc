@@ -1,26 +1,13 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core/ids-element';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import {
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsPopupOpenEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
-import '../ids-color/ids-color';
-import '../ids-trigger-field/ids-trigger-field';
-import '../ids-trigger-field/ids-trigger-button';
-import '../ids-popup/ids-popup';
+import IdsColor from '../ids-color/ids-color';
+import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
+import IdsPopup from '../ids-popup/ids-popup';
+import Base from './ids-color-picker-base';
 
 import styles from './ids-color-picker.scss';
-
-import { IdsStringUtils as stringUtils } from '../../utils';
 
 /**
  * IDS ColorPicker
@@ -31,39 +18,34 @@ import { IdsStringUtils as stringUtils } from '../../utils';
  */
 @customElement('ids-color-picker')
 @scss(styles)
-class IdsColorPicker extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsKeyboardMixin,
-    IdsPopupOpenEventsMixin,
-    IdsThemeMixin
-  ) {
+export default class IdsColorPicker extends Base {
   constructor() {
     super();
   }
 
   // Reference to the root
-  root = this.shadowRoot
+  root = this.shadowRoot;
 
   // Reference to internal Popup
   popup = this.root.querySelector('ids-popup');
 
   // Reference to swatch input
-  swatchInput = this.root.querySelector('.color-input')
+  swatchInput = this.root.querySelector('.color-input');
 
   // Reference to the color picker input
-  colorPickerInput = this.root.querySelector(this.label === '' ? '.color-input-value-no-label' : '.color-input-value')
+  colorPickerInput = this.root.querySelector(this.label === '' ? '.color-input-value-no-label' : '.color-input-value');
 
   // Reference to the trigger color picker input
-  triggerColorPickerInput = this.root.querySelector('ids-trigger-button').querySelector('input')
+  triggerColorPickerInput = this.root.querySelector('ids-trigger-button').querySelector('input');
 
   // Reference to the color picker's trigger button
   triggerBtn = this.root.querySelector('ids-trigger-button');
 
   // Reference to the color preview
-  colorPreview = this.root.querySelector('.color-preview')
+  colorPreview = this.root.querySelector('.color-preview');
 
   // Reference to the colors
-  idsColorsArr = document.querySelectorAll('ids-color')
+  idsColorsArr = document.querySelectorAll('ids-color');
 
   connectedCallback() {
     // TODO: Need to do this and not sure why or the setters/getters do not work
@@ -75,6 +57,8 @@ class IdsColorPicker extends mix(IdsElement).with(
     this.advanced = this.advanced;
     // eslint-disable-next-line no-self-assign
     this.label = this.label;
+
+    this.triggerField = this.container.querySelector('ids-trigger-field');
     this.#attachEventHandlers();
   }
 
@@ -156,17 +140,26 @@ class IdsColorPicker extends mix(IdsElement).with(
    * @param {string} value string value from the readonly attribute
    */
   set readonly(value) {
-    value = stringUtils.stringToBool(value);
+    value = stringToBool(value);
     if (value) {
-      this.setAttribute(attributes.READONLY, value.toString());
-      this.triggerBtn.setAttribute(attributes.TABBABLE, false);
+      this.setAttribute(attributes.READONLY, 'true');
+      this.triggerField?.setAttribute(attributes.READONLY, 'true');
+      this.colorPickerInput?.setAttribute(attributes.READONLY, 'true');
+      this.removeAttribute(attributes.DISABLED);
+      this.triggerField?.removeAttribute(attributes.DISABLED);
+      this.colorPickerInput?.removeAttribute(attributes.DISABLED);
       return;
     }
     this.removeAttribute(attributes.READONLY);
+    this.triggerField?.removeAttribute(attributes.READONLY);
+    this.colorPickerInput?.removeAttribute(attributes.READONLY);
+    this.removeAttribute(attributes.DISABLED);
+    this.triggerField?.removeAttribute(attributes.DISABLED);
+    this.colorPickerInput?.removeAttribute(attributes.DISABLED);
   }
 
   get readonly() {
-    return stringUtils.stringToBool(this.getAttribute(attributes.READONLY)) || false;
+    return stringToBool(this.getAttribute(attributes.READONLY)) || false;
   }
 
   /**
@@ -174,17 +167,19 @@ class IdsColorPicker extends mix(IdsElement).with(
    * @param {string} value string value from the disabled attribute
    */
   set disabled(value) {
-    value = stringUtils.stringToBool(value);
+    value = stringToBool(value);
     if (value) {
       this.setAttribute(attributes.DISABLED, value.toString());
       this.triggerBtn.setAttribute(attributes.TABBABLE, false);
       return;
     }
     this.removeAttribute(attributes.DISABLED);
+    this.triggerField?.removeAttribute(attributes.DISABLED);
+    this.colorPickerInput?.removeAttribute(attributes.DISABLED);
   }
 
   get disabled() {
-    return stringUtils.stringToBool(this.getAttribute('disabled')) || false;
+    return stringToBool(this.getAttribute('disabled')) || false;
   }
 
   /**
@@ -192,7 +187,7 @@ class IdsColorPicker extends mix(IdsElement).with(
    * @param {string} value string value from the advanced attribute
    */
   set advanced(value) {
-    if (stringUtils.stringToBool(value)) {
+    if (stringToBool(value)) {
       this.setAttribute('advanced', 'true');
       return;
     }
@@ -200,12 +195,12 @@ class IdsColorPicker extends mix(IdsElement).with(
   }
 
   get advanced() {
-    return stringUtils.stringToBool(this.getAttribute('advanced')) || false;
+    return stringToBool(this.getAttribute('advanced')) || false;
   }
 
   /**
-   * Sets the label attribute
-   * @param {string} value string value from the label attribute
+   * Set the `label` text
+   * @param {string} value of the `label` text property
    */
   set label(value) {
     this.setAttribute('label', value.toString());
@@ -226,8 +221,8 @@ class IdsColorPicker extends mix(IdsElement).with(
     });
 
     this.onEvent('click', this.container, (event) => {
-      const isEditable = !stringUtils.stringToBool(this.readonly)
-      && !stringUtils.stringToBool(this.disabled);
+      const isEditable = !stringToBool(this.readonly)
+      && !stringToBool(this.disabled);
 
       if (!isEditable) {
         return;
@@ -280,66 +275,64 @@ class IdsColorPicker extends mix(IdsElement).with(
    * Update color picker value to match setected color hex value
    * @param {string} colorValue the value to update
    */
- #updateColorPickerValues(colorValue) {
+  #updateColorPickerValues(colorValue) {
     this.swatchInput.value = colorValue;
     this.colorPreview.style.backgroundColor = colorValue;
     this.colorPickerInput.value = colorValue;
   }
 
-   /**
-    * Open/Close popup to show and hide color panel
-    * @private
-    */
-   #openCloseColorpicker() {
-   if (!this.popup.visible) {
-     this.show();
-   } else {
-     this.hide();
-   }
- }
+  /**
+   * Open/Close popup to show and hide color panel
+   * @private
+   */
+  #openCloseColorpicker() {
+    if (!this.popup.visible) {
+      this.show();
+    } else {
+      this.hide();
+    }
+  }
 
-   /**
-    * Hides the Color Picker's Popup
-    * @returns {void}
-    */
-   hide() {
-     this.popup.visible = false;
-     this.removeOpenEvents();
-   }
+  /**
+   * Hides the Color Picker's Popup
+   * @returns {void}
+   */
+  hide() {
+    this.popup.visible = false;
+    this.removeOpenEvents();
+  }
 
-   /**
-    * Shows the Color Picker's Popup
-    * @returns {void}
-    */
-   show() {
-     this.popup.alignTarget = this.container.querySelector('ids-icon');
-     this.popup.align = 'bottom, center';
-     this.popup.arrow = 'bottom';
-     this.popup.y = 12;
-     this.popup.visible = true;
-     this.addOpenEvents();
-   }
+  /**
+   * Shows the Color Picker's Popup
+   * @returns {void}
+   */
+  show() {
+    this.popup.alignTarget = this.container.querySelector('ids-icon');
+    this.popup.align = 'bottom, center';
+    this.popup.arrow = 'bottom';
+    this.popup.y = 12;
+    this.popup.visible = true;
+    this.addOpenEvents();
+  }
 
-   /**
-    * Inherited from the Popup Open Events Mixin.
-    * Runs when a click event is propagated to the window.
-    * @returns {void}
-    */
-   onOutsideClick() {
-     this.hide();
-   }
+  /**
+   * Inherited from the Popup Open Events Mixin.
+   * Runs when a click event is propagated to the window.
+   * @returns {void}
+   */
+  onOutsideClick() {
+    this.hide();
+  }
 
-   /**
-    * Update color check to match setected color
-    * @param {any} target event target
-    */
-   #updateColorCheck(target) {
-     const checkedColor = target.parentElement.querySelector('[checked="true"]');
-     if (checkedColor) {
-       checkedColor.removeAttribute('checked');
-     }
-     target.setAttribute('checked', 'true');
-   }
+  /**
+   * Update color check to match setected color
+   * @param {any} target event target
+   */
+  #updateColorCheck(target) {
+    const checkedColor = target.parentElement.querySelector('[checked="true"]');
+    if (checkedColor) {
+      checkedColor.removeAttribute('checked');
+    }
+    target.setAttribute('checked', 'true');
+  }
 }
-
-export default IdsColorPicker;

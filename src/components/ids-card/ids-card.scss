@@ -31,10 +31,12 @@
     @include h-full();
     @include m-0();
 
+    display: flex;
+    flex-direction: column;
     min-height: auto;
 
     .ids-card-content {
-      @include h-full();
+      height: unset;
     }
   }
 }
@@ -45,10 +47,6 @@
     min-height: auto;
     height: auto;
 
-    .ids-card-header {
-      display: none;
-    }
-
     .ids-card-content {
       height: auto;
     }
@@ -58,8 +56,11 @@
 // Style the title
 .ids-card-header {
   @include px-16();
-  @include py-12();
   @include border-slate-30();
+}
+
+::slotted([slot='card-header']) {
+  @include py-12();
 }
 
 // Handle Themes

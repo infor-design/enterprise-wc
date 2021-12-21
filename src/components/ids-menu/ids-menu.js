@@ -1,68 +1,15 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { isValidGroup, isUsableItem } from './ids-menu-attributes';
 
 import IdsDataSource from '../../core/ids-data-source';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsKeyboardMixin
-} from '../../mixins';
-
-// SubComponents
+import Base from './ids-menu-base';
 import IdsMenuGroup from './ids-menu-group';
 import IdsMenuHeader from './ids-menu-header';
 import IdsMenuItem from './ids-menu-item';
-import IdsSeparator from '../ids-separator';
+import IdsSeparator from '../ids-separator/ids-separator';
 
 import styles from './ids-menu.scss';
-import { IdsDOMUtils } from '../../utils';
-
-/**
- * @private
- * @param {string|IdsMenuGroup} menuGroup the group to search for
- * @param {IdsMenu} idsMenu the parent menu element
- * @returns {IdsMenuGroup|undefined} if valid, a reference to the menu group.
- * Otherwise, returns undefined.
- */
-function isValidGroup(menuGroup, idsMenu) {
-  let hasGroup;
-
-  const isElem = menuGroup instanceof IdsMenuGroup;
-  idsMenu.groups.forEach((group) => {
-    if ((isElem && group.isEqualNode(menuGroup)) || (group?.id === menuGroup)) {
-      hasGroup = group;
-    }
-  });
-  return hasGroup;
-}
-
-/**
- * @private
- * @param {IdsMenuItem} item the element to be checked
- * @param {HTMLElement} idsMenu the parent menu element
- * @returns {boolean} true if the provided element is a "currently-usable" IdsMenuItem type.
- */
-function isUsableItem(item, idsMenu) {
-  const isItem = item instanceof IdsMenuItem;
-  if (!isItem) {
-    return false;
-  }
-
-  // The item is only usable if it's contained by the correct IdsMenu
-  const menuHasItem = idsMenu.contains(item);
-
-  // In some nested cases, we need to detect the item's Shadow Root containment to accurately
-  // figure out if it's slotted inside the same menu.
-  const closestItemRoot = IdsDOMUtils.getClosestRootNode(item.assignedSlot);
-  const itemInMenuShadow = closestItemRoot?.menu?.isEqualNode(idsMenu);
-
-  return (itemInMenuShadow || menuHasItem) && !item.disabled;
-}
 
 /**
  * IDS Menu Component
@@ -74,7 +21,7 @@ function isUsableItem(item, idsMenu) {
  */
 @customElement('ids-menu')
 @scss(styles)
-class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
+export default class IdsMenu extends Base {
   constructor() {
     super();
     this.datasource = new IdsDataSource();
@@ -150,8 +97,14 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * @returns {void}
    */
   connectedCallback() {
+    super.connectedCallback?.();
     this.attachEventHandlers();
     this.attachKeyboardListeners();
+
+    // After repaint
+    requestAnimationFrame(() => {
+      this.makeTabbable(this.detectTabbable());
+    });
   }
 
   /**
@@ -373,7 +326,7 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    */
   get focused() {
     return this.items.find((item) => {
-      const containerNode = IdsDOMUtils.getClosestContainerNode(this);
+      const containerNode = getClosestContainerNode(this);
       return containerNode?.activeElement?.isEqualNode(item);
     });
   }
@@ -491,17 +444,44 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       }
 
       // Don't count disabled items as "taking a step"
-      if (!currentItem.disabled) {
+      if (!currentItem.disabled && !currentItem.hidden) {
+        this.makeTabbable(currentItem);
         steps -= 1;
       }
     }
 
     this.lastNavigated = currentItem;
-    if (!currentItem.disabled && doFocus) {
+    if (!currentItem.disabled && !currentItem.hidden && doFocus) {
       currentItem.focus();
     }
 
     return currentItem;
+  }
+
+  /**
+   * Gets the current item that should be used as the "tabbable" item
+   * (item that receives focus when the menu is "focused").
+   * @returns {HTMLElement | undefined} an element that currently has a usable tabIndex attribute
+   */
+  detectTabbable() {
+    let tabbableItem;
+    for (let i = 0; !tabbableItem && i < this.items.length; i++) {
+      if (this.items[i].tabIndex > -1) {
+        tabbableItem = this.items[i];
+      }
+    }
+    return tabbableItem;
+  }
+
+  /**
+   * @private
+   * @param {HTMLElement} elem an element residing within the menu that can accept
+   */
+  makeTabbable(elem = this.items[0]) {
+    this.items.forEach((item) => {
+      const nonTabbableTargetIndex = elem.isEqualNode(item) ? 0 : -1;
+      item.tabIndex = nonTabbableTargetIndex;
+    });
   }
 
   /**
@@ -601,11 +581,3 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     });
   }
 }
-
-export {
-  IdsMenu as default,
-  IdsMenuHeader,
-  IdsMenuGroup,
-  IdsMenuItem,
-  IdsSeparator
-};

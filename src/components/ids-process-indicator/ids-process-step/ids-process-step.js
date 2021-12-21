@@ -1,20 +1,11 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  attributes,
-  mix
-} from '../../../core';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../../mixins';
+import { customElement, scss } from '../../../core/ids-decorators';
+import { attributes } from '../../../core/ids-attributes';
+import Base from './ids-process-step-base';
 
 import styles from './ids-process-step.scss';
 
 const statuses = ['cancelled', 'started', 'done'];
+const DEFAULT_LABEL = 'empty label';
 
 /**
  * IDS Process Step Component
@@ -24,16 +15,37 @@ const statuses = ['cancelled', 'started', 'done'];
  * @mixes IdsThemeMixin
  * @part label
  */
-
 @customElement('ids-process-step')
 @scss(styles)
-class IdsProcessStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+export default class IdsProcessStep extends Base {
   constructor() {
     super();
   }
 
   connectedCallback() {
     super.connectedCallback?.();
+
+    requestAnimationFrame(() => {
+      const parentElement = this.parentElement;
+      if (parentElement.tagName === 'IDS-PROCESS-INDICATOR') {
+        const steps = this.parentElement.querySelectorAll('ids-process-step');
+        const stepAmount = steps.length;
+
+        const line = this.container.querySelector('.line');
+
+        if (steps[stepAmount - 1] === this) {
+          // reponsive styling for last step
+          this.classList.add('last');
+          // don't render the line for the last step
+          line.setAttribute('hidden', '');
+        } else if (this.status === 'started' || this.status === 'done') {
+          // render the line, conditionally color it based on status
+          line.style.setProperty('background-color', 'var(--ids-color-palette-azure-70)');
+        }
+      }
+
+      this.updateLabelVisibility();
+    });
   }
 
   /**
@@ -55,12 +67,14 @@ class IdsProcessStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
   template() {
     return `
       <div class="ids-process-step">
-        <span class="step">
-        </span>
-          <ids-text part="label" class="label">${this.label}</ids-text>
-          <div class="details">
-            <slot></slot>
-          </div>
+        <div class="line"></div>
+        <ids-text part="label" hidden class="label">
+          ${this.label}
+        </ids-text>
+        <span class="step"></span>
+        <div class="details">
+          <slot name="detail"></slot>
+        </div>
       </div>
     `;
   }
@@ -76,16 +90,45 @@ class IdsProcessStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
     return result;
   }
 
+  hide(element) {
+    element.style.setProperty('visibility', 'hidden');
+  }
+
+  show(element) {
+    element.style.removeProperty('visibility');
+  }
+
+  updateLabelVisibility() {
+    const labelEl = this.getLabelElement();
+    if (this.label === DEFAULT_LABEL) {
+      this.hide(labelEl);
+    } else {
+      this.show(labelEl);
+    }
+  }
+
+  getLabelElement() {
+    return this.container.querySelector('.label');
+  }
+
   /**
    * Sets the label for the step
    * @param {string} value The step name
    */
   set label(value) {
-    this.setString(attributes.LABEL, value);
+    const val = value || DEFAULT_LABEL;
+    this.setString(attributes.LABEL, val);
+    this.getLabelElement().innerHTML = val;
+    this.updateLabelVisibility();
   }
 
   get label() {
-    return this.getString(attributes.LABEL);
+    return this.getString(attributes.LABEL, DEFAULT_LABEL);
+  }
+
+  get status() {
+    const status = this.getAttribute(attributes.STATUS);
+    return statuses.includes(status) ? status : '';
   }
 
   /**
@@ -108,10 +151,4 @@ class IdsProcessStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
       }
     }
   }
-
-  get status() {
-    return this.getString(attributes.STATUS, '');
-  }
 }
-
-export default IdsProcessStep;

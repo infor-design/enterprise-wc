@@ -1,17 +1,9 @@
-import {
-  customElement,
-  appendIds,
-  version,
-  scss
-} from './ids-decorators';
-
 import { attributes } from './ids-attributes';
-import mix from './ids-mixin-builder';
 import renderLoop from '../components/ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../components/ids-render-loop/ids-render-loop-item';
+import { camelCase } from '../utils/ids-string-utils/ids-string-utils';
 
-// Import Utils
-import { IdsStringUtils as stringUtils } from '../utils';
+const VERSION = '0.0.0-beta.17';
 
 /**
  * Simple dictionary used to cache attribute names
@@ -20,15 +12,14 @@ import { IdsStringUtils as stringUtils } from '../utils';
  */
 const attribPropNameDict = Object.fromEntries(
   Object.entries(attributes).map(([_, attrib]) => (
-    [attrib, stringUtils.camelCase(attrib)]
+    [attrib, camelCase(attrib)]
   ))
 );
 
 /**
  * IDS Base Element
  */
-@version()
-class IdsElement extends HTMLElement {
+export default class IdsElement extends HTMLElement {
   constructor() {
     super();
     this.addBaseName();
@@ -40,8 +31,9 @@ class IdsElement extends HTMLElement {
    * @private
    */
   addBaseName() {
-    // Add the base class
+    // Add the base class and version
     this.name = this.nodeName?.toLowerCase();
+    this.IdsVersion = VERSION;
   }
 
   /**
@@ -61,7 +53,8 @@ class IdsElement extends HTMLElement {
     for (let i = 0; i < this.attributes.length; i++) {
       if (this.attributes[i].name.includes('data-') && this.attributes[i].name.includes('id')) {
         this.appendIdtoPart(
-          parts, this.attributes[i].name,
+          parts,
+          this.attributes[i].name,
           this.getAttribute(this.attributes[i].name)
         );
       }
@@ -103,7 +96,7 @@ class IdsElement extends HTMLElement {
   attributeChangedCallback(name, oldValue, newValue) {
     if (oldValue !== newValue) {
       if (!attribPropNameDict[name]) {
-        attribPropNameDict[name] = stringUtils.camelCase(name);
+        attribPropNameDict[name] = camelCase(name);
       }
 
       this[attribPropNameDict[name]] = newValue;
@@ -237,12 +230,3 @@ class IdsElement extends HTMLElement {
     this.hasStyles = true;
   }
 }
-
-export {
-  IdsElement,
-  customElement,
-  appendIds,
-  mix,
-  scss,
-  attributes
-};

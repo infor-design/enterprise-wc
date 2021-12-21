@@ -151,9 +151,3 @@ export function getSpecs() {
     browserLanguage
   };
 }
-
-export const IdsDeviceEnvUtils = {
-  getSpecs,
-};
-export default IdsDeviceEnvUtils;
-export { IdsDeviceEnvUtils as deviceEnvUtils };

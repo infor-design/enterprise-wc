@@ -1,33 +1,13 @@
 import pathData from 'ids-identity/dist/theme-new/icons/standard/path-data.json';
-import {
-  attributes,
-  customElement,
-  IdsElement,
-  mix,
-  scss
-} from '../../core';
+import emptyIconPathData from 'ids-identity/dist/theme-new/icons/empty/path-data.json';
 
-// Import Utils
-import { IdsStringUtils } from '../../utils';
+import { attributes } from '../../core/ids-attributes';
+import { customElement, scss } from '../../core/ids-decorators';
+import { sizes } from './ids-icon-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsLocaleMixin
-} from '../../mixins';
-
-// Import Styles
+import Base from './ids-icon-base';
 import styles from './ids-icon.scss';
-
-// Setting Defaults
-const sizes = {
-  largex3: 64,
-  large: 24,
-  normal: 18,
-  medium: 18,
-  small: 14,
-  xsmall: 10
-};
 
 /**
  * IDS Icon Component
@@ -37,7 +17,7 @@ const sizes = {
  */
 @customElement('ids-icon')
 @scss(styles)
-class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
+export default class IdsIcon extends Base {
   constructor() {
     super();
   }
@@ -56,11 +36,14 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
       ...super.attributes,
       attributes.BADGE_COLOR,
       attributes.BADGE_POSITION,
+      attributes.HEIGHT,
+      attributes.ICON,
       attributes.LANGUAGE,
       attributes.LOCALE,
-      attributes.ICON,
       attributes.SIZE,
       attributes.VERTICAL,
+      attributes.VIEWBOX,
+      attributes.WIDTH
     ];
   }
 
@@ -69,22 +52,11 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
    */
   #attachEventHandlers() {
     this.offEvent('languagechange.icon-container');
-    this.onEvent('languagechange.icon-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
+    this.onEvent('languagechange.icon-container', this.closest('ids-container'), async () => {
       if (this.isFlipped(this.icon)) {
         this.container.classList.add('flipped');
       } else {
         this.container.classList.remove('flipped');
-      }
-    });
-
-    this.offEvent('languagechange.icon');
-    this.onEvent('languagechange.icon', this, async (e) => {
-      await this.locale.setLanguage(e.detail.language.name);
-      if (this.isFlipped(this.icon)) {
-        this.shadowRoot.querySelector('svg').classList.add('flipped');
-      } else {
-        this.shadowRoot.querySelector('svg').classList.remove('flipped');
       }
     });
   }
@@ -94,8 +66,19 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
    * @returns {string} The template
    */
   template() {
-    const size = sizes[this.size];
-    let template = `<svg xmlns="http://www.w3.org/2000/svg"${this.isFlipped(this.icon) ? ` class="flipped"` : ''} stroke="currentColor" fill="none" height="${size}" width="${size}" viewBox="0 0 18 18" aria-hidden="true">
+    let height = '';
+    let width = '';
+    let viewBox = '';
+
+    height = this.height;
+    width = this.width;
+
+    if (this.viewbox) {
+      viewBox = this.viewbox;
+    } else {
+      viewBox = '0 0 18 18';
+    }
+    let template = `<svg xmlns="http://www.w3.org/2000/svg"${this.isFlipped(this.icon) ? ` class="flipped"` : ''} stroke="currentColor" fill="none" height="${height}" width="${width}" viewBox="${viewBox}" aria-hidden="true">
       ${this.iconData()}
     </svg>`;
     if (this.badgePosition || this.badgeColor) {
@@ -115,7 +98,13 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
    * @returns {string} the path data
    */
   iconData() {
-    return pathData[this.icon];
+    let iconData = '';
+    if (emptyIconPathData[this.icon]) {
+      iconData = emptyIconPathData[this.icon];
+    } else {
+      iconData = pathData[this.icon];
+    }
+    return iconData;
   }
 
   /**
@@ -135,6 +124,8 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
       'cart',
       'cascade',
       'change-font',
+      'chevron-left',
+      'chevron-right',
       'clear-screen',
       'clockwise-90',
       'close-cancel',
@@ -224,7 +215,7 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
       'zoom-out'
     ];
 
-    if (this.locale.isRTL() && flippedIcons.includes(iconName)) {
+    if (this.locale?.isRTL() && flippedIcons.includes(iconName)) {
       return true;
     }
     return false;
@@ -233,7 +224,9 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
   /**
    * @returns {string} the current color of the notification badge
    */
-  get badgeColor() { return this.getAttribute(attributes.BADGE_COLOR); }
+  get badgeColor() {
+    return this.getAttribute(attributes.BADGE_COLOR);
+  }
 
   /**
    * @param {string} value sets the color of the notification badge
@@ -267,6 +260,68 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
   }
 
   /**
+   * Returns the height attribute
+   * @returns {string} a stringified height number
+   */
+  get height() {
+    return this.getAttribute(attributes.HEIGHT) || sizes[this.size];
+  }
+
+  /**
+   * @param {string} value allows sets a custom height value for the icon svg
+   */
+  set height(value) {
+    if (value) {
+      this.removeAttribute(attributes.SIZE);
+      this.setAttribute(attributes.HEIGHT, value);
+      this.container?.setAttribute('height', value);
+    } else {
+      this.removeAttribute(attributes.HEIGHT);
+    }
+  }
+
+  /**
+   * Return the viewbox
+   * @returns {string} the string of viewbox numbers
+   */
+  get viewbox() {
+    return this.getAttribute(attributes.VIEWBOX);
+  }
+
+  /**
+   * @param {string} value set a custom viewbox for the icon svg
+   */
+  set viewbox(value) {
+    if (value) {
+      this.setAttribute(attributes.VIEWBOX, value);
+      this.#adjustViewbox();
+    } else {
+      this.removeAttribute(attributes.VIEWBOX);
+    }
+  }
+
+  /**
+   * Return the width number
+   * @returns {string} the stringified width number
+   */
+  get width() {
+    return this.getAttribute(attributes.WIDTH) || sizes[this.size];
+  }
+
+  /**
+   * @param {string} value sets a custom width for the icon svg
+   */
+  set width(value) {
+    if (value) {
+      this.removeAttribute(attributes.SIZE);
+      this.setAttribute(attributes.WIDTH, value);
+      this.container?.setAttribute('width', value);
+    } else {
+      this.removeAttribute(attributes.WIDTH);
+    }
+  }
+
+  /**
    * Return the icon name
    * @returns {string} the icon
    */
@@ -278,7 +333,9 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
    */
   set icon(value) {
     const svgElem = this.shadowRoot?.querySelector('svg');
-    if (value && pathData[value]) {
+    const isPathData = pathData.hasOwnProperty(value);
+    const isEmptyPathData = emptyIconPathData.hasOwnProperty(value);
+    if (value && (isPathData || isEmptyPathData)) {
       svgElem.style.display = '';
       this.setAttribute(attributes.ICON, value);
       svgElem.innerHTML = this.iconData();
@@ -314,8 +371,8 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
   #adjustViewbox() {
     let viewboxSize = '0 0 18 18';
 
-    if (this.icon === 'logo' || this.icon === 'logo-trademark') {
-      viewboxSize = '0 0 35 34';
+    if (this.viewbox) {
+      viewboxSize = this.viewbox;
     }
     this.container.setAttribute('viewBox', viewboxSize);
   }
@@ -325,7 +382,7 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
 
   /** @param {string|boolean} value Rotate the icon to vertical */
   set vertical(value) {
-    const isVertical = IdsStringUtils.stringToBool(value);
+    const isVertical = stringToBool(value);
     if (isVertical) {
       this.setAttribute(attributes.VERTICAL, value);
       this.container.classList.add('vertical');
@@ -348,7 +405,7 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
       badge = this.shadowRoot.querySelector('span');
     }
 
-    if (!this.badgeColor && !this.badgePosition && badge) {
+    if ((!this.badgeColor || !this.badgePosition) && badge) {
       this.className = '';
     } else {
       badge.className = '';
@@ -356,5 +413,3 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
     }
   }
 }
-
-export default IdsIcon;

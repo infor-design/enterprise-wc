@@ -2,8 +2,9 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
+import processAnimFrame from '../helpers/process-anim-frame';
 
-import IdsAbout from '../../src/components/ids-about';
+import IdsAbout from '../../src/components/ids-about/ids-about';
 
 // Supporing components
 import IdsContainer from '../../src/components/ids-container/ids-container';
@@ -26,6 +27,10 @@ describe('IdsAbout Component (using properties)', () => {
   let component;
 
   beforeEach(async () => {
+    const container = document.createElement('ids-container');
+    document.body.appendChild(container);
+    await container.setLanguage('en');
+
     component = new IdsAbout();
     component.id = id;
     component.productVersion = productVersion;
@@ -33,8 +38,7 @@ describe('IdsAbout Component (using properties)', () => {
     component.copyrightYear = copyrightYear;
     component.deviceSpecs = deviceSpecs;
     component.useDefaultCopyright = useDefaultCopyright;
-
-    document.body.appendChild(component);
+    container.appendChild(component);
   });
 
   afterEach(async () => {
@@ -138,7 +142,7 @@ describe('IdsAbout Component (using attributes)', () => {
 
   beforeEach(async () => {
     document.body.insertAdjacentHTML('beforeend', `<ids-about id="about-example" product-name="Controls" product-version="4.0.0">
-      <ids-icon slot="icon" icon="logo" size="large" /></ids-icon>
+      <ids-icon slot="icon" icon="logo" viewbox="0 0 35 34" size="large" /></ids-icon>
       <ids-text id="about-example-name" slot="appName" type="h1" font-size="24">IDS Enterprise</ids-text>
       <ids-text id="about-example-content" slot="content" type="p">Fashionable components for fashionable applications.</ids-text>
     </ids-about>`);
@@ -270,10 +274,18 @@ describe('IdsAbout Component locale', () => {
   let container;
 
   beforeEach(async () => {
-    container = new IdsContainer();
-    component = new IdsAbout();
-    container.appendChild(component);
+    container = document.createElement('ids-container');
     document.body.appendChild(container);
+    await container.setLanguage('en');
+
+    component = new IdsAbout();
+    component.id = id;
+    component.productVersion = productVersion;
+    component.productName = productName;
+    component.copyrightYear = copyrightYear;
+    component.deviceSpecs = deviceSpecs;
+    component.useDefaultCopyright = useDefaultCopyright;
+    container.appendChild(component);
   });
 
   afterEach(async () => {
@@ -282,53 +294,18 @@ describe('IdsAbout Component locale', () => {
     container = null;
   });
 
-  it('can change language self', async () => {
-    await component.setLanguage('ar');
-    expect(component.getAttribute('dir')).toEqual('rtl');
-
-    await component.setLanguage('es');
-
-    // if copyright translates
-    let copyrightOriginal = esMessages.AboutText.value
-      .replace('&copy; {0}', `© ${new Date().getFullYear()}`)
-      .concat(' www.infor.com.');
-    let copyrightReceived = document.querySelector('[slot="copyright"]').textContent;
-
-    expect(copyrightOriginal).toEqual(copyrightReceived);
-
-    // if device specs translates
-    let deviceSpecsText = document.querySelector('[slot="device"]').textContent;
-
-    expect(deviceSpecsText).toContain(esMessages.Platform.value);
-
-    await component.setLanguage('ja');
-
-    // if copyright translates
-    copyrightOriginal = jaMessages.AboutText.value
-      .replace('&copy; {0}', `© ${new Date().getFullYear()}`)
-      .concat(' www.infor.com.');
-    copyrightReceived = document.querySelector('[slot="copyright"]').textContent;
-
-    expect(copyrightOriginal).toEqual(copyrightReceived);
-
-    // if device specs translates
-    deviceSpecsText = document.querySelector('[slot="device"]').textContent;
-
-    expect(deviceSpecsText).toContain(jaMessages.Platform.value);
-  });
-
   it('can change language from the container', async () => {
     await container.setLanguage('ar');
-    expect(component.getAttribute('dir')).toEqual('rtl');
+    expect(container.getAttribute('dir')).toEqual('rtl');
 
     await container.setLanguage('es');
+    await processAnimFrame();
 
     // if copyright translates
     let copyrightOriginal = esMessages.AboutText.value
-      .replace('&copy; {0}', `© ${new Date().getFullYear()}`)
+      .replace('&copy; {0}', `© ${copyrightYear}`)
       .concat(' www.infor.com.');
     let copyrightReceived = document.querySelector('[slot="copyright"]').textContent;
-
     expect(copyrightOriginal).toEqual(copyrightReceived);
 
     // if device specs translates
@@ -337,10 +314,11 @@ describe('IdsAbout Component locale', () => {
     expect(deviceSpecsText).toContain(esMessages.Platform.value);
 
     await container.setLanguage('ja');
+    await processAnimFrame();
 
     // if copyright translates
     copyrightOriginal = jaMessages.AboutText.value
-      .replace('&copy; {0}', `© ${new Date().getFullYear()}`)
+      .replace('&copy; {0}', `© ${copyrightYear}`)
       .concat(' www.infor.com.');
     copyrightReceived = document.querySelector('[slot="copyright"]').textContent;
 

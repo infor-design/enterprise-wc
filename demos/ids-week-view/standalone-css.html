@@ -1,0 +1,815 @@
+{{> ../layouts/head-visible.html }}
+
+<link rel="stylesheet" href="../ids-layout-grid/ids-layout-grid.css" />
+<link rel="stylesheet" href="../ids-text/ids-text.css" />
+<link rel="stylesheet" href="../ids-button/ids-button.css" />
+<link rel="stylesheet" href="../ids-toolbar/ids-toolbar.css" />
+<link rel="stylesheet" href="../ids-toolbar/ids-toolbar-section.css" />
+<link rel="stylesheet" href="../ids-week-view/ids-week-view.css" />
+
+<div class="ids-layout-grid">
+  <div class="ids-layout-grid-cell">
+    <h1 class="ids-text ids-text-12">IDS Week View - Standalone CSS</h1>
+  </div>
+</div>
+
+<div class="ids-layout-grid ids-layout-grid-cols ids-layout-grid-auto">
+  <div class="ids-layout-grid-cell ids-layout-grid-col-span">
+    <div class="full-height">
+      <div class="ids-week-view" id="week-view-example">
+        <div class="ids-toolbar week-view-header" role="toolbar">
+          <div class="ids-toolbar-section align-start buttonset">
+            <button class="ids-icon-button align-icon-start week-view-btn-previous" tabindex="0">
+              <span class="ids-text audible">Previous Month</span>
+              <svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18"
+                viewBox="0 0 18 18" aria-hidden="true">
+                <path d="M13 17.5L4 9l9-8.5" stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+              </svg>
+            </button>
+            <button class="ids-icon-button align-icon-start week-view-btn-next" tabindex="0">
+              <span class="ids-text audible">Next Month</span>
+              <svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18"
+                viewBox="0 0 18 18" aria-hidden="true">
+                <path d="M4 .5L13 9l-9 8.5" stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+              </svg>
+            </button>
+            <button class="ids-button week-view-btn-today" tabindex="0">
+              <span class="ids-text bold ids-text-16 week-view-today-text">Today</span>
+            </button>
+          </div>
+        </div>
+        <div class="week-view-container">
+          <table class="week-view-table">
+            <thead class="week-view-table-header">
+              <tr>
+                <th>
+                  <div class="week-view-header-wrapper">
+                    <span class="ids-text audible">Hour</span>
+                  </div>
+                  <div class="week-view-all-day-wrapper">
+                    <span class="ids-text ids-text-12">All Day</span>
+                  </div>
+                </th>
+                <th>
+                  <div class="week-view-header-wrapper">
+                    <span class="ids-text ids-text-20 week-view-header-day-of-week is-emphasis">11</span>
+                    <span class="ids-text ids-text-16 week-view-header-day-of-week">Thu</span>
+                  </div>
+                  <div class="week-view-all-day-wrapper"></div>
+                </th>
+                <th>
+                  <div class="week-view-header-wrapper">
+                    <span class="ids-text ids-text-20 week-view-header-day-of-week is-emphasis">12</span>
+                    <span class="ids-text ids-text-16 week-view-header-day-of-week">Fri</span>
+                  </div>
+                  <div class="week-view-all-day-wrapper"></div>
+                </th>
+                <th>
+                  <div class="week-view-header-wrapper">
+                    <span class="ids-text ids-text-20 week-view-header-day-of-week is-emphasis">13</span>
+                    <span class="ids-text ids-text-16 week-view-header-day-of-week">Sat</span>
+                  </div>
+                  <div class="week-view-all-day-wrapper"></div>
+                </th>
+                <th>
+                  <div class="week-view-header-wrapper">
+                    <span class="ids-text ids-text-20 week-view-header-day-of-week is-emphasis">14</span>
+                    <span class="ids-text ids-text-16 week-view-header-day-of-week">Sun</span>
+                  </div>
+                  <div class="week-view-all-day-wrapper"></div>
+                </th>
+                <th>
+                  <div class="week-view-header-wrapper">
+                    <span class="ids-text ids-text-20 week-view-header-day-of-week is-emphasis">15</span>
+                    <span class="ids-text ids-text-16 week-view-header-day-of-week">Mon</span>
+                  </div>
+                  <div class="week-view-all-day-wrapper"></div>
+                </th>
+                <th>
+                  <div class="week-view-header-wrapper is-today">
+                    <span class="ids-text ids-text-20 bold week-view-header-day-of-week is-emphasis">16</span>
+                    <span class="ids-text ids-text-16 bold week-view-header-day-of-week">Tue</span>
+                  </div>
+                  <div class="week-view-all-day-wrapper"></div>
+                </th>
+                <th>
+                  <div class="week-view-header-wrapper">
+                    <span class="ids-text ids-text-20 week-view-header-day-of-week is-emphasis">17</span>
+                    <span class="ids-text ids-text-16 week-view-header-day-of-week">Wed</span>
+                  </div>
+                  <div class="week-view-all-day-wrapper"></div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper">
+                    <span class="ids-text ids-text-12">7:00 AM</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper">
+                    <span class="ids-text ids-text-12">8:00 AM</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper">
+                    <span class="ids-text ids-text-12">9:00 AM</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper">
+                    <span class="ids-text ids-text-12">10:00 AM</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper">
+                    <span class="ids-text ids-text-12">11:00 AM</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper">
+                    <span class="ids-text ids-text-12">12:00 PM</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper">
+                    <span class="ids-text ids-text-12">1:00 PM</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper">
+                    <span class="ids-text ids-text-12">2:00 PM</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper">
+                    <span class="ids-text ids-text-12">3:00 PM</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper">
+                    <span class="ids-text ids-text-12">4:00 PM</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper">
+                    <span class="ids-text ids-text-12">5:00 PM</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper">
+                    <span class="ids-text ids-text-12">6:00 PM</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper">
+                    <span class="ids-text ids-text-12">7:00 PM</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+              <tr class="week-view-hour-row">
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{> ../layouts/footer.html}}

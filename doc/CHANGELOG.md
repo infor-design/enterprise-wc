@@ -45,6 +45,8 @@
   flag `parent-container`.
   - A handle within the draggable content can be set by using the attribute `handle` as a query selector e.g. `handle=".custom-handle-class"`.
   - Draggable events to listen for are now `ids-dragstart`, `ids-drag`, and `ids-dragend`.
+- `[ErrorPage]` The Error Page component has been changed to a web component and use with `ids-error-page`.
+  - the icon, label, description and button-text are set via properties/attributes.
 - `[Fieldset]` The fieldset component has been changed to a web component `ids-fieldset` ([#138](https://github.com/infor-design/enterprise-wc/issues/138))
   - Markup has changed to a custom element `<ids-fieldset></ids-fieldset>`
   - Can now be imported as a single JS file and used with encapsulated styles.
@@ -58,6 +60,8 @@
   - The icon and size are set via properties/attributes
   - Can now be imported as a single JS file and used with encapsulated styles
   - Can now display notification badges
+  - has new sizing options
+  - can now be used to display empty-message options
 - `[Input]` The Input component has been changed to a web component and renamed to ids-input.
   - Markup has changed to a custom element `<ids-input></ids-input>`
   - If using events, events are now plain JS events.
@@ -180,6 +184,7 @@
   - Markup has changed to a custom element `<ids-tree><ids-tree-node></ids-tree-node></ids-tree>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
+- `[Treemap]` The Treemap component has been changed to a web component and used with ids-treemap
 - `[Wizard]` The Wizard component has been changed to a web component. ([#5026](https://github.com/infor-design/enterprise/issues/5026))
   - Wizard is now a custom element `<ids-wizard></ids-wizard>`
   - Steps are now codified as custom elements `<ids-wizard-step>MY-LABEL</ids-wizard-step>`

@@ -1,5 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IdsToast Component renders correctly 1`] = `"<ids-toast language=\\"en\\" locale=\\"en-US\\"></ids-toast>"`;
+exports[`IdsToast Component renders correctly 1`] = `"<ids-toast></ids-toast>"`;
 
 exports[`IdsToast Component renders correctly 2`] = `"<ids-toast-message message-id=\\"test-message-id\\" timeout=\\"10\\"><span slot=\\"title\\">Test</span><span slot=\\"message\\">Some test text</span><span slot=\\"close-button-label\\">Close</span></ids-toast-message>"`;

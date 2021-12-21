@@ -1,23 +1,11 @@
 /**
  * @jest-environment jsdom
  */
+import { attributes } from '../../src/core/ids-attributes';
 import IdsTriggerField from '../../src/components/ids-trigger-field/ids-trigger-field';
 import IdsInput from '../../src/components/ids-input/ids-input';
 import IdsTriggerButton from '../../src/components/ids-trigger-field/ids-trigger-button';
-import { attributes } from '../../src/core';
 import processAnimFrame from '../helpers/process-anim-frame';
-
-/*
-const resizeObserverMock = jest.fn(function ResizeObserver(callback) {
-  this.observe = jest.fn();
-  this.disconnect = jest.fn();
-  this.unobserve = jest.fn();
-  this.trigger = (entryList) => {
-    callback(entryList, this);
-  };
-});
-global.ResizeObserver = resizeObserverMock;
-*/
 
 const DEFAULT_TRIGGERFIELD_HTML = (
   `<ids-trigger-field
@@ -195,14 +183,14 @@ describe('IdsTriggerField Component', () => {
   it('renders tabbable setting', () => {
     triggerField.tabbable = true;
     expect(triggerField.getAttribute(attributes.TABBABLE)).toEqual('true');
-    expect(triggerField.tabbable).toEqual('true');
+    expect(triggerField.tabbable).toEqual(true);
   });
 
   it('removes tabbable setting if reset', () => {
     triggerField.tabbable = true;
     triggerField.tabbable = false;
     expect(triggerField.getAttribute(attributes.TABBABLE)).toEqual('false');
-    expect(triggerField.tabbable).toEqual('false');
+    expect(triggerField.tabbable).toEqual(false);
   });
 
   it('renders appearance setting', () => {
@@ -345,5 +333,21 @@ describe('IdsTriggerField Component', () => {
   it('has a label attribute', () => {
     triggerField.label = 'Ids Trigger Field';
     expect(triggerField.getAttribute('label')).toEqual('Ids Trigger Field');
+  });
+
+  it('can set the noMargins attribute', () => {
+    triggerField.noMargins = true;
+    expect(triggerField.getAttribute('no-margins')).toEqual('true');
+    expect(triggerField.noMargins).toEqual(true);
+
+    triggerField.noMargins = false;
+    expect(triggerField.getAttribute('no-margins')).toBeFalsy();
+    expect(triggerField.noMargins).toEqual(false);
+  });
+
+  it('can set the cssClass attribute', () => {
+    triggerField.cssClass = 'test';
+    expect(triggerField.getAttribute('css-class')).toEqual('test');
+    expect(triggerField.cssClass).toEqual('test');
   });
 });

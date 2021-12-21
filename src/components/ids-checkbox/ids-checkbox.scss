@@ -14,7 +14,7 @@
 
     display: inline-block;
 
-    &.required .label-text::after {
+    &.required .label-checkbox::after {
       @include absolute();
       @include font-sans();
       @include mx-2();
@@ -26,7 +26,7 @@
       top: -2px;
     }
 
-    &.no-required-indicator .label-text::after {
+    &.no-required-indicator .label-checkbox::after {
       content: '';
     }
   }
@@ -34,7 +34,7 @@
   &.disabled label {
     @include cursor-default();
 
-    &.required .label-text::after {
+    &.required .label-checkbox::after {
       @include text-ruby-30();
     }
   }
@@ -54,7 +54,7 @@
     display: inline-flex;
     padding: 12px 0;
 
-    &.required .label-text {
+    &.required .label-checkbox {
       top: 0;
 
       &::after {
@@ -72,7 +72,7 @@
       top: 14px;
     }
 
-    .label-text {
+    .label-checkbox {
       align-items: center;
       display: inline-flex;
       margin-right: 14px;
@@ -129,7 +129,7 @@
         @include checkbox-disabled-unchecked();
       }
 
-      ~ .label-text {
+      ~ .label-checkbox {
         @include checkbox-disabled-text();
       }
 
@@ -280,7 +280,7 @@
 }
 
 // Negate some rules for RTL
-.ids-checkbox[dir='rtl'] {
+:host([dir='rtl']) {
   input[type='checkbox'] ~ .checkmark {
     left: initial;
     right: 0;
@@ -291,7 +291,7 @@
     padding-left: 0;
   }
 
-  label.required .label-text::after {
+  label.required .label-checkbox::after {
     right: initial;
     left: -13px;
   }

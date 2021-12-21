@@ -1,27 +1,10 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  attributes,
-  mix
-} from '../../core/ids-element';
-
-// Import Utils
-import { IdsStringUtils } from '../../utils';
-
-import IdsButton from '../ids-button';
-import IdsInput from '../ids-input';
-import {
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsLocaleMixin,
-  IdsThemeMixin,
-  IdsDirtyTrackerMixin,
-  IdsValidationMixin
-} from '../../mixins';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool, buildClassAttrib } from '../../utils/ids-string-utils/ids-string-utils';
+import IdsButton from '../ids-button/ids-button';
+import IdsInput from '../ids-input/ids-input';
+import Base from './ids-spinbox-base';
 import styles from './ids-spinbox.scss';
-
-const { stringToBool, buildClassAttrib } = IdsStringUtils;
 
 /**
  * used for assigning ids
@@ -32,10 +15,10 @@ let instanceCounter = 0;
  * IDS Spinbox Component
  * @type {IdsSpinbox}
  * @inherits IdsElement
+ * @mixes IdsThemeMixin
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsLocaleMixin
- * @mixes IdsThemeMixin
  * @mixes IdsDirtyTrackerMixin
  * @mixes IdsValidationMixin
  * @part container the overall container of the spinbox
@@ -46,14 +29,7 @@ let instanceCounter = 0;
  */
 @customElement('ids-spinbox')
 @scss(styles)
-export default class IdsSpinbox extends mix(IdsElement).with(
-    IdsThemeMixin,
-    IdsEventsMixin,
-    IdsKeyboardMixin,
-    IdsLocaleMixin,
-    IdsDirtyTrackerMixin,
-    IdsValidationMixin
-  ) {
+export default class IdsSpinbox extends Base {
   constructor() {
     super();
   }
@@ -194,12 +170,6 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       }
     });
 
-    // Respond to parent changing language
-    this.offEvent('languagechange.spinbox-container');
-    this.onEvent('languagechange.spinbox-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
-    });
-
     this.labelEl = this.container.children[0];
     this.onEvent('click.label', this.labelEl, () => {
       const isDisabled = this.hasAttribute(attributes.DISABLED);
@@ -250,10 +220,10 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       case 'ArrowUp':
         this.#onStep('up');
         break;
-      default:
       case 'ArrowDown':
         this.#onStep('down');
         break;
+      default:
       }
 
       e.preventDefault();
@@ -414,7 +384,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    * will be applied on the input element)
    */
   set labelHidden(value) {
-    if (IdsStringUtils.stringToBool(value)) {
+    if (stringToBool(value)) {
       if (this.getAttribute(attributes.LABEL_HIDDEN) !== '') {
         this.setAttribute(attributes.LABEL_HIDDEN, '');
       }

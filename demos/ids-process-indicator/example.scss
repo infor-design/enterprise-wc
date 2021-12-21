@@ -1,22 +1,4 @@
-ids-icon {
-
-  &[icon='success'] {
-    color: green;
-  }
-
-  &[icon='rejected-outline'] {
-    color: red;
-  }
-}
-
 ids-text {
-  align-items: center;
-
-  &::part(text) {
-    margin-bottom: 6px;
-    color: var(--ids-color-palette-slate-60);
-  }
-
   &.date::part(text) {
     margin-top: 4px;
     font-size: 14px;
@@ -24,17 +6,17 @@ ids-text {
   }
 }
 
-[mode='dark'] {
-  ids-text::part(text) {
-    color: var(--ids-color-palette-slate-30);
+ids-icon {
+  &[icon='success'] {
+    color: green;
+  }
+  
+  &[icon='rejected-outline'] {
+    color: red;
   }
 }
 
 [mode='contrast'] {
-  ids-text::part(text) {
-    color: var(--ids-color-palette-slate-90);
-  }
-
   ids-icon[icon='rejected-outline'] {
     color: #7b0f11;
   }

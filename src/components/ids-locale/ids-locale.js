@@ -28,6 +28,7 @@ class IdsLocale {
     const defaultLocale = 'en-US';
     await this.setLanguage(defaultLang);
     await this.setLocale('en-US');
+
     this.state.defaultLocale.messages = this.language.messages;
     this.state.defaultLocale.language = defaultLang;
     this.state.defaultLocale.localeName = defaultLocale;
@@ -338,6 +339,7 @@ class IdsLocale {
     const percentSign = options?.percentSign ? options.percentSign : numSettings.percentSign;
     const currencySign = options?.currencySign ? options.currencySign : localeData.currencySign;
 
+    // eslint-disable-next-line prefer-regex-literals
     const exp = (group === ' ') ? new RegExp(/\s/g) : new RegExp(`\\${group}`, 'g');
     numString = numString.replace(exp, '');
     numString = numString.replace(decimal, '.');
@@ -627,7 +629,7 @@ class IdsLocale {
    * @param  {string} filter5 The fifth option to filter.
    * @returns {string} The filtered out date part.
    */
-   #determineDatePart(formatParts, dateStringParts, filter1, filter2, filter3, filter4, filter5) {
+  #determineDatePart(formatParts, dateStringParts, filter1, filter2, filter3, filter4, filter5) {
     let ret = 0;
     for (let i = 0; i < dateStringParts.length; i++) {
       if (filter1 === formatParts[i]
@@ -641,25 +643,25 @@ class IdsLocale {
     return ret;
   }
 
-   /**
-    * Shortcut function to get the default or any calendar
-    * @param {string} locale The locale to use
-    * @param {string} name the name of the calendar (fx: "gregorian", "islamic-umalqura")
-    * @returns {object} containing calendar data
-    */
-   calendar(locale, name) {
-     const localeData = this.loadedLocales.get(locale || this.locale.name);
-     const calendars = localeData.calendars;
-     if (name && calendars) {
-       for (let i = 0; i < calendars.length; i++) {
-         const cal = calendars[i];
-         if (cal.name === name) {
-           return cal;
-         }
-       }
-     }
-     return calendars[0];
-   }
+  /**
+   * Shortcut function to get the default or any calendar
+   * @param {string} locale The locale to use
+   * @param {string} name the name of the calendar (fx: "gregorian", "islamic-umalqura")
+   * @returns {object} containing calendar data
+   */
+  calendar(locale, name) {
+    const localeData = this.loadedLocales.get(locale || this.locale.name);
+    const calendars = localeData.calendars;
+    if (name && calendars) {
+      for (let i = 0; i < calendars.length; i++) {
+        const cal = calendars[i];
+        if (cal.name === name) {
+          return cal;
+        }
+      }
+    }
+    return calendars[0];
+  }
 }
 
 export default IdsLocale;

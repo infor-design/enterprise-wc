@@ -1,39 +1,12 @@
-import {
-  IdsElement,
-  customElement,
-  mix,
-  scss,
-  attributes
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import { IdsStringUtils } from '../../utils';
+import Base from './ids-checkbox-base';
+import IdsText from '../ids-text/ids-text';
+import attribs from './ids-checkbox-attributes';
+
 import styles from './ids-checkbox.scss';
-
-import {
-  IdsEventsMixin,
-  IdsDirtyTrackerMixin,
-  IdsHitboxMixin,
-  IdsValidationMixin,
-  IdsThemeMixin,
-  IdsLocaleMixin
-} from '../../mixins';
-
-import IdsText from '../ids-text';
-
-const attribs = [
-  { name: 'checked', prop: 'checked' },
-  { name: 'color', prop: 'color' },
-  { name: 'dirty-tracker', prop: 'dirtyTracker' },
-  { name: 'disabled', prop: 'disabled' },
-  { name: 'hitbox', prop: 'hitbox' },
-  { name: 'horizontal', prop: 'horizontal' },
-  { name: 'indeterminate', prop: 'indeterminate' },
-  { name: 'label', prop: 'label' },
-  { name: 'label-required', prop: 'labelRequired' },
-  { name: 'validate', prop: 'validate' },
-  { name: 'validation-events', prop: 'validationEvents' },
-  { name: 'value', prop: 'value' }
-];
 
 /**
  * IDS Checkbox Component
@@ -47,18 +20,11 @@ const attribs = [
  * @mixes IdsLocaleMixin
  * @part label - the label element
  * @part input - the checkbox input element
- * @part label-text - the label text element
+ * @part label-checkbox - the label text element
  */
 @customElement('ids-checkbox')
 @scss(styles)
-class IdsCheckbox extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsDirtyTrackerMixin,
-    IdsHitboxMixin,
-    IdsValidationMixin,
-    IdsThemeMixin,
-    IdsLocaleMixin
-  ) {
+export default class IdsCheckbox extends Base {
   /**
    * Call the constructor and then initialize
    */
@@ -80,6 +46,7 @@ class IdsCheckbox extends mix(IdsElement).with(
       attributes.INDETERMINATE,
       attributes.LABEL,
       attributes.LABEL_REQUIRED,
+      attributes.LABEL_AUDIBLE,
       attributes.LANGUAGE,
       attributes.VALUE,
       attributes.MODE,
@@ -115,7 +82,6 @@ class IdsCheckbox extends mix(IdsElement).with(
   connectedCallback() {
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
-
     this.#attachEventHandlers();
     super.connectedCallback();
   }
@@ -125,16 +91,21 @@ class IdsCheckbox extends mix(IdsElement).with(
    * @returns {string} The template.
    */
   template() {
+    if (!this.label && !this.labelAudible) {
+      this.label = '&nbsp;';
+    }
+
     // Checkbox
     const color = this.color ? ` color="${this.color}"` : '';
-    const disabled = IdsStringUtils.stringToBool(this.disabled) ? ' disabled' : '';
-    const horizontal = IdsStringUtils.stringToBool(this.horizontal) ? ' horizontal' : '';
-    const checked = IdsStringUtils.stringToBool(this.checked) ? ' checked' : '';
+    const audible = stringToBool(this.labelAudible) ? ' audible="true"' : '';
+    const disabled = stringToBool(this.disabled) ? ' disabled' : '';
+    const horizontal = stringToBool(this.horizontal) ? ' horizontal' : '';
+    const checked = stringToBool(this.checked) ? ' checked' : '';
     const rootClass = ` class="ids-checkbox${disabled}${horizontal}"`;
     let checkboxClass = 'checkbox';
-    checkboxClass += IdsStringUtils.stringToBool(this.indeterminate) ? ' indeterminate' : '';
+    checkboxClass += stringToBool(this.indeterminate) ? ' indeterminate' : '';
     checkboxClass = ` class="${checkboxClass}"`;
-    const rInd = !(IdsStringUtils.stringToBool(this.labelRequired) || this.labelRequired === null);
+    const rInd = !(stringToBool(this.labelRequired) || this.labelRequired === null);
     const labelClass = rInd ? ' class="no-required-indicator"' : '';
 
     return `
@@ -142,7 +113,7 @@ class IdsCheckbox extends mix(IdsElement).with(
         <label${labelClass} part="label">
           <input part="input" type="checkbox"${checkboxClass}${disabled}${checked}>
           <span class="checkmark${checked}"></span>
-          <ids-text class="label-text" part="label-text">${this.label}</ids-text>
+          <ids-text${audible} class="label-checkbox" part="label-checkbox">${this.label}</ids-text>
         </label>
       </div>
     `;
@@ -197,13 +168,6 @@ class IdsCheckbox extends mix(IdsElement).with(
   #attachEventHandlers() {
     this.attachCheckboxChangeEvent();
     this.attachNativeEvents();
-
-    // Respond to parent changing language
-    this.offEvent('languagechange.checkbox-container');
-    this.onEvent('languagechange.checkbox-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
-      // Do something with parent lang
-    });
   }
 
   /**
@@ -212,7 +176,7 @@ class IdsCheckbox extends mix(IdsElement).with(
    */
   set checked(value) {
     const checkmark = this.shadowRoot.querySelector('.checkmark');
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.CHECKED, val.toString());
       this.input?.setAttribute(attributes.CHECKED, val.toString());
@@ -249,17 +213,17 @@ class IdsCheckbox extends mix(IdsElement).with(
    */
   set disabled(value) {
     const rootEl = this.shadowRoot.querySelector('.ids-checkbox');
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
       this.input?.setAttribute(attributes.DISABLED, val.toString());
       rootEl?.classList.add(attributes.DISABLED);
-      this.labelEl?.querySelector('.label-text')?.setAttribute(attributes.DISABLED, val.toString());
+      this.labelEl?.querySelector('.label-checkbox')?.setAttribute(attributes.DISABLED, val.toString());
     } else {
       this.removeAttribute(attributes.DISABLED);
       this.input?.removeAttribute(attributes.DISABLED);
       rootEl?.classList.remove(attributes.DISABLED);
-      this.labelEl?.querySelector('.label-text').removeAttribute(attributes.DISABLED);
+      this.labelEl?.querySelector('.label-checkbox').removeAttribute(attributes.DISABLED);
     }
   }
 
@@ -271,7 +235,7 @@ class IdsCheckbox extends mix(IdsElement).with(
    */
   set horizontal(value) {
     const rootEl = this.shadowRoot.querySelector('.ids-checkbox');
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.HORIZONTAL, val.toString());
       rootEl?.classList.add(attributes.HORIZONTAL);
@@ -288,7 +252,7 @@ class IdsCheckbox extends mix(IdsElement).with(
    * @param {string|boolean} value The `indeterminate` attribute
    */
   set indeterminate(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.INDETERMINATE, val.toString());
     } else {
@@ -312,7 +276,7 @@ class IdsCheckbox extends mix(IdsElement).with(
    * @param {string} value of the `label` text property
    */
   set label(value) {
-    const labelText = this.labelEl?.querySelector('.label-text');
+    const labelText = this.labelEl?.querySelector('.label-checkbox');
     if (value) {
       this.setAttribute(attributes.LABEL, value);
     } else {
@@ -326,11 +290,27 @@ class IdsCheckbox extends mix(IdsElement).with(
   get label() { return this.getAttribute(attributes.LABEL) || ''; }
 
   /**
+   * Set the `label-audible` attribute
+   * @param {boolean} value of the `labelAudible`
+   */
+  set labelAudible(value) {
+    this.setAttribute(attributes.LABEL_AUDIBLE, value);
+    const idsTextElem = this.labelEl?.querySelector('ids-text');
+    if (stringToBool(value)) {
+      idsTextElem.setAttribute(attributes.AUDIBLE, value);
+    } else {
+      idsTextElem.removeAttribute(attributes.AUDIBLE);
+    }
+  }
+
+  get labelAudible() { return this.getAttribute(attributes.LABEL_AUDIBLE); }
+
+  /**
    * Sets the checkbox to required
    * @param {string} value The `label-required` attribute
    */
   set labelRequired(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (value) {
       this.setAttribute(attributes.LABEL_REQUIRED, value.toString());
     } else {
@@ -363,5 +343,3 @@ class IdsCheckbox extends mix(IdsElement).with(
     this.input.focus();
   }
 }
-
-export default IdsCheckbox;

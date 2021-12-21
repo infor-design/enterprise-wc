@@ -116,4 +116,44 @@ describe('IdsListView Component', () => {
     listView.version = 'classic';
     expect(listView.container.getAttribute('version')).toEqual('classic');
   });
+
+  it('supports setting height', () => {
+    listView.height = '600px';
+    expect(listView.getAttribute('height')).toEqual('600px');
+    listView.height = undefined;
+    expect(listView.getAttribute('height')).toEqual('100%');
+  });
+
+  it('supports setting itemHeight', () => {
+    listView.itemHeight = '40px';
+    expect(listView.getAttribute('item-height')).toEqual('40px');
+    listView.itemHeight = undefined;
+    expect(listView.getAttribute('item-height')).toBeFalsy();
+  });
+
+  it('supports setting sortable', () => {
+    listView.sortable = true;
+    expect(listView.hasAttribute('sortable')).toEqual(true);
+    listView.sortable = false;
+    expect(listView.hasAttribute('sortable')).toBeFalsy();
+  });
+
+  it('supports setting focus', () => {
+    listView.focus();
+    expect(document.activeElement.tagName).toEqual('BODY');
+  });
+
+  it('can use arrow keys to navigate', () => {
+    requestAnimationFrame(() => {
+      expect(listView.shadowRoot.querySelector('[part="list-item"][tabindex="0"]').innerHTML.indexOf('Discretionary') > -1).toEqual(true);
+      listView.shadowRoot.querySelector('[part="list-item"][tabindex="0"]').focus();
+      let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+      listView.dispatchEvent(event);
+      expect(listView.shadowRoot.querySelector('[part="list-item"][tabindex="0"]').innerHTML.indexOf('Dentist') > -1).toEqual(true);
+
+      event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
+      listView.dispatchEvent(event);
+      expect(listView.shadowRoot.querySelector('[part="list-item"][tabindex="0"]').innerHTML.indexOf('Discretionary') > -1).toEqual(true);
+    });
+  });
 });

@@ -1,44 +1,15 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes,
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { TYPES } from './ids-notification-attributes';
 
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsThemeMixin
-} from '../../mixins';
+import IdsText from '../ids-text/ids-text';
+import IdsAlert from '../ids-alert/ids-alert';
+import IdsIcon from '../ids-icon/ids-icon';
+import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
+import IdsButton from '../ids-button/ids-button';
+import Base from './ids-notification-banner-base';
 
 import styles from './ids-notification-banner.scss';
-import IdsText from '../ids-text';
-import IdsAlert from '../ids-alert';
-import IdsIcon from '../ids-icon';
-import IdsHyperlink from '../ids-hyperlink';
-import IdsButton from '../ids-button';
-
-// Notification Types
-const TYPES = {
-  success: {
-    type: 'success',
-    color: 'emerald',
-  },
-  alert: {
-    type: 'alert',
-    color: 'amber'
-  },
-  info: {
-    type: 'info',
-    color: 'azure'
-  },
-  error: {
-    type: 'error',
-    color: 'ruby'
-  }
-};
 
 /**
  * IDS Notification Banner
@@ -54,14 +25,7 @@ const TYPES = {
  */
 @customElement('ids-notification-banner')
 @scss(styles)
-class IdsNotificationBanner extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsKeyboardMixin,
-    IdsThemeMixin
-  ) {
-  /**
-   * Call the constructor and then initialize
-   */
+export default class IdsNotificationBanner extends Base {
   constructor() {
     super();
   }
@@ -129,16 +93,13 @@ class IdsNotificationBanner extends mix(IdsElement).with(
    * success, alert, info, error
    */
   set type(value) {
-    let bgColor;
     if (!value || TYPES[value] === undefined) {
       this.removeAttribute(attributes.TYPE);
       this.setAttribute(attributes.TYPE, TYPES.success.type);
-      bgColor = `var(--ids-color-palette-${TYPES.success.color}-10)`;
-      this.container.style.backgroundColor = bgColor;
+      this.container.setAttribute(attributes.TYPE, TYPES.success.type);
     } else {
       this.setAttribute(attributes.TYPE, value);
-      bgColor = `var(--ids-color-palette-${TYPES[value].color}-10)`;
-      this.container.style.backgroundColor = bgColor;
+      this.container.setAttribute(attributes.TYPE, value);
     }
   }
 
@@ -264,5 +225,3 @@ class IdsNotificationBanner extends mix(IdsElement).with(
     this.triggerEvent('afterNotificationRemove', this, { detail: { elem: this } });
   }
 }
-
-export default IdsNotificationBanner;

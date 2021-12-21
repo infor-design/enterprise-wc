@@ -1,20 +1,8 @@
-import {
-  IdsElement,
-  customElement,
-  mix,
-  attributes,
-  scss
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 
-// Supporting Components
+import Base from './ids-theme-switcher-base';
 import IdsMenuButton from '../ids-menu-button/ids-menu-button';
-
-// Import Mixins
-import {
-  IdsColorVariantMixin,
-  IdsEventsMixin,
-  IdsLocaleMixin
-} from '../../mixins';
 
 import styles from './ids-theme-switcher.scss';
 
@@ -23,17 +11,13 @@ import styles from './ids-theme-switcher.scss';
  */
 @customElement('ids-theme-switcher')
 @scss(styles)
-class IdsThemeSwitcher extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsLocaleMixin,
-    IdsColorVariantMixin
-  ) {
+export default class IdsThemeSwitcher extends Base {
   constructor() {
     super();
   }
 
   connectedCallback() {
-    super.conenctedCallback?.();
+    super.connectedCallback?.();
     this.#attachEventHandlers();
   }
 
@@ -53,14 +37,6 @@ class IdsThemeSwitcher extends mix(IdsElement).with(
         this.mode = val;
       }
     });
-
-    this.offEvent('languagechange.switcher-container');
-    this.onEvent('languagechange.switcher-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
-      await this.shadowRoot.querySelector('ids-popup-menu').setLanguage(e.detail.language.name);
-      await this.shadowRoot.querySelector('ids-popup-menu')
-        .shadowRoot.querySelector('ids-popup').setLanguage(e.detail.language.name);
-    });
   }
 
   /**
@@ -68,7 +44,7 @@ class IdsThemeSwitcher extends mix(IdsElement).with(
    * @returns {string} The template
    */
   template() {
-    return `<ids-menu-button id="ids-theme-switcher" menu="ids-theme-menu">
+    return `<ids-menu-button id="ids-theme-switcher" menu="ids-theme-menu" color-variant="${this.colorVariant}">
             <ids-icon slot="icon" icon="more"></ids-icon>
             <span class="audible">Theme Switcher</span>
         </ids-menu-button>
@@ -153,5 +129,3 @@ class IdsThemeSwitcher extends mix(IdsElement).with(
     this.container.colorVariant = this.colorVariant;
   }
 }
-
-export default IdsThemeSwitcher;

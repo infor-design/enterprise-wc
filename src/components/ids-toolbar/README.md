@@ -25,11 +25,13 @@ The Ids Toolbar can also be responsive, intelligently hiding buttons that can't 
 - `focused` describes the currently-focused Toolbar item
 - `items` provides access to all Toolbar items in all sections
 - `sections` provides access to all the Toolbar's sections
+- `separators` provides access to all the Toolbar's separators
 - `tabbable` if true, makes it possible to navigate all Toolbar items by using the Tab/Shift+Tab keys by setting all items to a 0-or-more tabIndex property.  By default (false), only one Toolbar item at a time can have a 0-or-more tabIndex.
 
 ### Toolbar Section
 
 - `align` - Determines the alignment of the items within this section.  Defaults to `start`, which is the left side of the Toolbar in a standard Left-to-Right toolbar setup.  Can also be `center` and `end` (right).
+- `favor` - Determines if this section should not shrink/collapse when the size of the entire Toolbar shrinks.  This causes the other Toolbar sections to become smaller first.
 - `items` - provides access to all Toolbar items in this section.
 - `type` - Sets a pre-defined "type" on the toolbar section.  This defaults to `static` but can also be set to `title`, `buttonset`, and `search` to mimic those specific sections.  To create a custom section that fills available space, `fluid` is also an available type.
 
@@ -37,6 +39,7 @@ The Ids Toolbar can also be responsive, intelligently hiding buttons that can't 
 
 - `button` provides access to the internal [Menu Button component](../ids-menu-button/README.md)
 - `menu` provides access to the internal [Popup Menu component](../ids-popup-menu/README.md)
+- `overflow` if true, menu items that cannot be displayed in the main Toolbar area due to lack of space will be "mirrored" and generated as menu items in a special group inside this menu.  Clicking the mirrored menu items will cause the original Toolbar action to be fired.  When a [Menu Button](../ids-menu-button/README.md) component is mirrored, its attached menu is also mirrored as a submenu on its generated menu item.
 - `type` this component is a standalone toolbar section that always reports `more` for its type.
 
 ## States and Variations
@@ -128,7 +131,7 @@ Toolbar Title sections can have multiple text elements, if needed:
 </ids-toolbar-section>
 ```
 
-Toolbar Buttonset sections can contain an indeterminate number of components.  Generally these are [Buttons](../ids-button/README.md), but other component types such as Hyperlinks and some Pickers are accepted.  The Buttonset Section is styled with CSS to prevent the wrapping of these elements to multiple lines, instead cutting off actions that don't fit.  If accompanied by a More Actions button, the actions that don't fit will "spill over" into the More Actions menu:
+Toolbar Buttonset sections can contain an indeterminate number of components.  Generally these are [Buttons](../ids-button/README.md), but other component types such as Hyperlinks and some Pickers are accepted.  The Buttonset Section is styled with CSS to prevent the wrapping of these elements to multiple lines, instead cutting off actions that don't fit.
 
 ```html
 <ids-toolbar-section type="buttonset" align="end">
@@ -168,9 +171,25 @@ Toolbars can also contain sections that are meant to be customized with CSS.  It
 <ids-toolbar>
 ```
 
+The toolbar can be set as the formatter styles:
+
+```html
+<ids-toolbar type="formatter">
+  <ids-toolbar-section type="buttonset">
+    <ids-button id="button-1" role="button">
+      <span slot="text">Button 1</span>
+    </ids-button>
+    <ids-separator vertical></ids-separator>
+    <ids-button id="button-2" role="button">
+      <span slot="text">Button 2</span>
+    </ids-button>
+  </ids-toolbar-section>
+<ids-toolbar>
+```
+
 ### More Actions Button
 
-Optionally, toolbars can contain a "More Actions" Button, which is a [Menu Button]('../ids-menu-button/README.md) wrapped inside a special Toolbar Section.  This component's purpose is to provide ansulary actions that are related to your Toolbar's primary actions, but don't necessarily need to be readily available on a single click.  In responsive situations with many primary actions present, the Toolbar will collapse any actions that don't fit within its boundaries and make them available at the top of the More Actions button's menu (also referred to as the "overflow" menu).
+Optionally, toolbars can contain a "More Actions" Button, which is a [Menu Button]('../ids-menu-button/README.md) wrapped inside a special Toolbar Section.  This component's purpose is to provide ansulary actions that are related to your Toolbar's primary actions, but don't necessarily need to be readily available on a single click.  In responsive settings with many primary actions present, the Toolbar will collapse any actions that don't fit within its boundaries.  Optionally, the More Actions menu can display these collapsed actions at the top of its menu (also referred to as the "overflow" menu).
 
 The Ids Toolbar More Actions component sits alongside the other toolbar sections, and contains a single slot that takes the same types of elements as a standard [Ids Popup Menu](../ids-popup-menu/README.md):
 
@@ -189,6 +208,27 @@ The Ids Toolbar More Actions component sits alongside the other toolbar sections
             </ids-menu-group>
         </ids-popup-menu>
         </ids-menu-item>
+    </ids-menu-group>
+</ids-toolbar-more-actions>
+```
+
+If accompanied by a More Actions button with the `overflow` attribute set, Toolbar Actions that don't fit within their sections will be hidden in the Toolbar, but will also "spill over" into the More Actions menu, inside a special `IdsMenuGroup` with a `more-actions` attribute.  If a user clicks on one of the menu items that reflects a Toolbar element, the Toolbar element will also be "clicked".  This allows visually-hidden Toolbar actions to still remain available in responsive settings.
+
+```html
+<ids-toolbar-more-actions overflow>
+    <!--
+        Toolbar Items will be mirrored here inside a group that looks like:
+        <ids-menu-group more-actions>
+            <ids-menu-item>Text</ids-menu-item>
+            <ids-menu-item icon="settings">Settings</ids-menu-item>
+            <ids-menu-item>Text</ids-menu-item>
+            <ids-menu-item>Text</ids-menu-item>
+        </ids-menu-group>
+    --->
+    <ids-menu-group>
+        <ids-menu-item value="1">Option One</ids-menu-item>
+        <ids-menu-item value="2">Option Two</ids-menu-item>
+        <ids-menu-item value="3">Option Three</ids-menu-item>
     </ids-menu-group>
 </ids-toolbar-more-actions>
 ```
@@ -215,6 +255,37 @@ const moreActionsButtonEl = document.querySelector('ids-toolbar-more-actions').b
 const moreActionsMenuEl = document.querySelector('ids-toolbar-more-actions').menu;
 ```
 
+Access to the different More Actions menu items is also exposed:
+
+```js
+// These items are defined inside the `<ids-toolbar-more-actions>` element's default slot.
+const predefinedMenuItems = document.querySelector('ids-toolbar-more-actions').predefinedMenuItems;
+
+// These items are generated by the More Actions menu if the `overflow` attribute is set.
+// These items mirror the regular Toolbar elements.
+const overflowMenuItems = document.querySelector('ids-toolbar-more-actions').overflowMenuItems;
+```
+
+Overflow menu items also provide a reference to their corresponding Toolbar element:
+
+```js
+const overflowMenuItems = document.querySelector('ids-toolbar-more-actions').overflowMenuItems;
+overflowMenuItems.forEach((item) => {
+    console.log(item.overflowTarget); // <-- Points to the Toolbar button/element/etc
+});
+```
+
+### Events
+
+All elements inside the Toolbar will fire a `selected` event when clicked.  The `selected` event from the More Actions menu's [IdsPopupMenu]('../ids-popup-menu/README.md) is converted into a Toolbar-compatible event automatically, so only one listener at the Toolbar level is needed:
+
+```js
+const toolbarEl = document.querySelector('#my-toolbar');
+toolbarEl.addEventListener('selected', (e) => {
+    console.log(e.detail); // Provides data about the originating element, and overflow status, if applicable
+}
+```
+
 ## Keyboard Guidelines
 
 The IDS Button doesn't contain any interactions beyond a standard HTMLButtonElement:
@@ -232,3 +303,5 @@ The IDS Button doesn't contain any interactions beyond a standard HTMLButtonElem
 Ids Toolbar closely resembles the 4.x Flex Toolbar in structure and functionality.  The main differences are:
 
 - Toolbar Sections and the More Actions Button are now standardized components.
+- Toolbar Section behavior is now controlled by attributes (`favor`, `type`, etc) instead of CSS classes.
+- The More Actions button can be configured NOT to automatically show overflow items by omitting its `overflow` attribute.

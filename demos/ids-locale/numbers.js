@@ -1,4 +1,4 @@
-import IdsContainer from '../../src/components/ids-container';
+import IdsContainer from '../../src/components/ids-container/ids-container';
 
 // Use the container to set the language
 const container = document.querySelector('ids-container');

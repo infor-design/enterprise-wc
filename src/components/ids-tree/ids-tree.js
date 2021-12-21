@@ -1,33 +1,16 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes,
-  IdsDataSource
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin,
-  IdsLocaleMixin
-} from '../../mixins';
+import Base from './ids-tree-base';
+import IdsDataSource from '../../core/ids-data-source';
+import IdsTreeShared from './ids-tree-shared';
+import IdsTreeNode from './ids-tree-node';
+import IdsText from '../ids-text/ids-text';
 
-// Import Utils
-import {
-  IdsStringUtils as stringUtils,
-  IdsXssUtils as xssUtils
-} from '../../utils';
+import { unescapeHTML, htmlEntities } from '../../utils/ids-xss-utils/ids-xss-utils';
+import { stringToBool, camelCase } from '../../utils/ids-string-utils/ids-string-utils';
 
-import { IdsTreeShared as shared } from './ids-tree-shared';
-import { IdsTreeNode } from './ids-tree-node';
 import styles from './ids-tree.scss';
-
-// Supporting components
-import { IdsText } from '../ids-text/ids-text';
-
-const { stringToBool } = stringUtils;
 
 /**
  * IDS Tree Component
@@ -40,11 +23,7 @@ const { stringToBool } = stringUtils;
  */
 @customElement('ids-tree')
 @scss(styles)
-class IdsTree extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsThemeMixin,
-    IdsLocaleMixin
-  ) {
+export default class IdsTree extends Base {
   constructor() {
     super();
   }
@@ -218,8 +197,8 @@ class IdsTree extends mix(IdsElement).with(
    * @returns {object} The html and data array
    */
   #htmlAndData() {
-    const unescapeHTML = (s) => (/&#?[^\s].{1,9};/g.test(s) ? xssUtils.unescapeHTML(s) : s);
-    const validatedText = (s) => xssUtils.htmlEntities(unescapeHTML(s));
+    const processed = (s) => (/&#?[^\s].{1,9};/g.test(s) ? unescapeHTML(s) : s);
+    const validatedText = (s) => htmlEntities(processed(s));
     let html = '';
     const data = [];
     const nodesHtml = (nodesData) => {
@@ -526,8 +505,11 @@ class IdsTree extends mix(IdsElement).with(
       const response = (veto) => {
         canProceed = !!veto;
       };
-      this.triggerEvent(shared.EVENTS.beforeselected, this,
-        { detail: { elem: this, response, node } });
+      this.triggerEvent(
+        IdsTreeShared.EVENTS.beforeselected,
+        this,
+        { detail: { elem: this, response, node } }
+      );
       if (!canProceed) {
         return;
       }
@@ -537,7 +519,7 @@ class IdsTree extends mix(IdsElement).with(
       if (this.#active.selectedOld) {
         this.#active.selectedOld.elem.selected = false;
       }
-      this.triggerEvent(shared.EVENTS.selected, this, { detail: { elem: this, node } });
+      this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, node } });
     }
   }
 
@@ -553,15 +535,18 @@ class IdsTree extends mix(IdsElement).with(
       const response = (veto) => {
         canProceed = !!veto;
       };
-      this.triggerEvent(shared.EVENTS.beforeunselected, this,
-        { detail: { elem: this, response, node } });
+      this.triggerEvent(
+        IdsTreeShared.EVENTS.beforeunselected,
+        this,
+        { detail: { elem: this, response, node } }
+      );
       if (!canProceed) {
         return;
       }
       this.#active.selectedCurrent.elem.selected = false;
       this.#active.selectedOld = null;
       this.#active.selectedCurrent = null;
-      this.triggerEvent(shared.EVENTS.unselected, this, { detail: { elem: this, node } });
+      this.triggerEvent(IdsTreeShared.EVENTS.unselected, this, { detail: { elem: this, node } });
     }
   }
 
@@ -598,8 +583,8 @@ class IdsTree extends mix(IdsElement).with(
   #toggle(node) {
     if (node && node.elem?.isGroup) {
       const events = node.elem.expanded
-        ? { before: shared.EVENTS.beforecollapsed, after: shared.EVENTS.collapsed }
-        : { before: shared.EVENTS.beforeexpanded, after: shared.EVENTS.expanded };
+        ? { before: IdsTreeShared.EVENTS.beforecollapsed, after: IdsTreeShared.EVENTS.collapsed }
+        : { before: IdsTreeShared.EVENTS.beforeexpanded, after: IdsTreeShared.EVENTS.expanded };
       let canProceed = true;
       const response = (veto) => {
         canProceed = !!veto;
@@ -639,7 +624,7 @@ class IdsTree extends mix(IdsElement).with(
   #updateNodeAttribute(attr, mustUpdate) {
     this.#nodes.forEach((n) => {
       const nodeVal = n.elem.getAttribute(attr);
-      const value = this[stringUtils.camelCase(attr)];
+      const value = this[camelCase(attr)];
       if (mustUpdate || nodeVal !== value) {
         n.elem.setAttribute(attr, value?.toString());
       }
@@ -653,12 +638,6 @@ class IdsTree extends mix(IdsElement).with(
    * @returns {object} The object for chaining.
    */
   #attachEventHandlers() {
-    // Respond to parent changing language
-    this.offEvent('languagechange.tree');
-    this.onEvent('languagechange.tree', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
-    });
-
     // Set the move action with arrow keys
     const move = {
       next: (current) => {
@@ -790,7 +769,7 @@ class IdsTree extends mix(IdsElement).with(
     this.#updateNodeAttribute(attributes.COLLAPSE_ICON);
   }
 
-  get collapseIcon() { return shared.getVal(this, attributes.COLLAPSE_ICON); }
+  get collapseIcon() { return IdsTreeShared.getVal(this, attributes.COLLAPSE_ICON); }
 
   /**
    * Set the data array of the datagrid
@@ -838,14 +817,14 @@ class IdsTree extends mix(IdsElement).with(
     this.#updateNodeAttribute(attributes.EXPAND_ICON);
   }
 
-  get expandIcon() { return shared.getVal(this, attributes.EXPAND_ICON); }
+  get expandIcon() { return IdsTreeShared.getVal(this, attributes.EXPAND_ICON); }
 
   /**
    * Sets the tree to be expanded
    * @param {boolean|string} value If true will set expanded attribute
    */
   set expanded(value) {
-    if (shared.isBool(value)) {
+    if (IdsTreeShared.isBool(value)) {
       this.setAttribute(attributes.EXPANDED, `${value}`);
     } else {
       this.removeAttribute(attributes.EXPANDED);
@@ -853,7 +832,7 @@ class IdsTree extends mix(IdsElement).with(
     this.#updateNodeAttribute(attributes.EXPANDED, true);
   }
 
-  get expanded() { return shared.getBoolVal(this, attributes.EXPANDED); }
+  get expanded() { return IdsTreeShared.getBoolVal(this, attributes.EXPANDED); }
 
   /**
    * Sets the tree node icon
@@ -868,7 +847,7 @@ class IdsTree extends mix(IdsElement).with(
     this.#updateNodeAttribute(attributes.ICON);
   }
 
-  get icon() { return shared.getVal(this, attributes.ICON); }
+  get icon() { return IdsTreeShared.getVal(this, attributes.ICON); }
 
   /**
    * Set the tree aria label text
@@ -880,11 +859,11 @@ class IdsTree extends mix(IdsElement).with(
       this.container.setAttribute('aria-label', value.toString());
     } else {
       this.removeAttribute(attributes.LABEL);
-      this.container.setAttribute('aria-label', shared.TREE_ARIA_LABEL);
+      this.container.setAttribute('aria-label', IdsTreeShared.TREE_ARIA_LABEL);
     }
   }
 
-  get label() { return this.getAttribute(attributes.LABEL) || shared.TREE_ARIA_LABEL; }
+  get label() { return this.getAttribute(attributes.LABEL) || IdsTreeShared.TREE_ARIA_LABEL; }
 
   /**
    * Sets the tree group to be selectable 'single', 'multiple'
@@ -892,7 +871,7 @@ class IdsTree extends mix(IdsElement).with(
    */
   set selectable(value) {
     const val = `${value}`;
-    const isValid = shared.SELECTABLE.indexOf(val) > -1;
+    const isValid = IdsTreeShared.SELECTABLE.indexOf(val) > -1;
     if (isValid) {
       this.setAttribute(attributes.SELECTABLE, val);
     } else {
@@ -906,7 +885,7 @@ class IdsTree extends mix(IdsElement).with(
     if (value === 'false') {
       return false;
     }
-    return value !== null ? value : shared.DEFAULTS.selectable;
+    return value !== null ? value : IdsTreeShared.DEFAULTS.selectable;
   }
 
   /**
@@ -922,7 +901,7 @@ class IdsTree extends mix(IdsElement).with(
     this.#setToggleIcon();
   }
 
-  get toggleCollapseIcon() { return shared.getVal(this, attributes.TOGGLE_COLLAPSE_ICON); }
+  get toggleCollapseIcon() { return IdsTreeShared.getVal(this, attributes.TOGGLE_COLLAPSE_ICON); }
 
   /**
    * Sets the tree group toggle expand icon
@@ -937,28 +916,28 @@ class IdsTree extends mix(IdsElement).with(
     this.#setToggleIcon();
   }
 
-  get toggleExpandIcon() { return shared.getVal(this, attributes.TOGGLE_EXPAND_ICON); }
+  get toggleExpandIcon() { return IdsTreeShared.getVal(this, attributes.TOGGLE_EXPAND_ICON); }
 
   /**
    * Sets the tree to use toggle icon rotate
    * @param {boolean|string} value If false will set to use toggle icon to be false
    */
   set toggleIconRotate(value) {
-    if (shared.isBool(value)) {
+    if (IdsTreeShared.isBool(value)) {
       this.setAttribute(attributes.TOGGLE_ICON_ROTATE, `${value}`);
     } else {
       this.removeAttribute(attributes.TOGGLE_ICON_ROTATE);
     }
   }
 
-  get toggleIconRotate() { return shared.getBoolVal(this, attributes.TOGGLE_ICON_ROTATE); }
+  get toggleIconRotate() { return IdsTreeShared.getBoolVal(this, attributes.TOGGLE_ICON_ROTATE); }
 
   /**
    * Sets the tree to use toggle target
    * @param {boolean|string} value If true will set to use toggle target
    */
   set useToggleTarget(value) {
-    if (shared.isBool(value)) {
+    if (IdsTreeShared.isBool(value)) {
       this.setAttribute(attributes.USE_TOGGLE_TARGET, `${value}`);
     } else {
       this.removeAttribute(attributes.USE_TOGGLE_TARGET);
@@ -966,7 +945,5 @@ class IdsTree extends mix(IdsElement).with(
     this.#updateNodeAttribute(attributes.USE_TOGGLE_TARGET);
   }
 
-  get useToggleTarget() { return shared.getBoolVal(this, attributes.USE_TOGGLE_TARGET); }
+  get useToggleTarget() { return IdsTreeShared.getBoolVal(this, attributes.USE_TOGGLE_TARGET); }
 }
-
-export default IdsTree;

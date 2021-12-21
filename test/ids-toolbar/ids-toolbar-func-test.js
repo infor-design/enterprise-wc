@@ -4,6 +4,8 @@
 import '../helpers/resize-observer-mock';
 
 import IdsToolbar from '../../src/components/ids-toolbar/ids-toolbar';
+import waitFor from '../helpers/wait-for';
+import processAnimFrame from '../helpers/process-anim-frame';
 
 const exampleHTML = `
   <ids-toolbar-section id="appmenu-section">
@@ -52,7 +54,7 @@ const exampleHTML = `
     <a href="#">Outgoing Link</a>
   </ids-toolbar-section>
 
-  <ids-toolbar-more-actions id="section-more">
+  <ids-toolbar-more-actions id="section-more" overflow>
     <ids-menu-group>
       <ids-menu-item value="1">Option One</ids-menu-item>
       <ids-menu-item value="2">Option Two</ids-menu-item>
@@ -71,6 +73,7 @@ const exampleHTML = `
 `;
 
 describe('IdsToolbar Component', () => {
+  let selectedEventListener;
   let toolbar;
   let sectionMore;
   let buttonAppMenu;
@@ -96,6 +99,10 @@ describe('IdsToolbar Component', () => {
 
   afterEach(async () => {
     document.body.innerHTML = '';
+    if (selectedEventListener) {
+      document.body.removeEventListener('selected', selectedEventListener);
+      selectedEventListener = null;
+    }
   });
 
   it('renders with no errors', () => {
@@ -119,6 +126,42 @@ describe('IdsToolbar Component', () => {
 
     expect(items).toBeDefined();
     expect(items.length).toBe(6);
+  });
+
+  it('should render type formatter', () => {
+    const formatterHTML = `
+      <ids-toolbar type="formatter">
+        <ids-toolbar-section type="buttonset">
+          <ids-button>
+            <span slot="text" class="audible">Settings</span>
+            <ids-icon slot="icon" icon="settings"></ids-icon>
+          </ids-button>
+          <ids-separator vertical></ids-separator>
+        </ids-toolbar-section>
+    </ids-toolbar>`;
+    document.body.innerHTML = '';
+    document.body.insertAdjacentHTML('afterbegin', formatterHTML);
+    toolbar = document.querySelector('ids-toolbar');
+    expect(toolbar.getAttribute('type')).toEqual('formatter');
+    expect(toolbar.type).toEqual('formatter');
+    toolbar.type = 'test';
+    expect(toolbar.getAttribute('type')).toEqual(null);
+    expect(toolbar.type).toEqual(null);
+    toolbar.type = 'formatter';
+    toolbar.separators[0].vertical = false;
+    expect(toolbar.getAttribute('type')).toEqual('formatter');
+    expect(toolbar.type).toEqual('formatter');
+  });
+
+  it('can be set type formatter', () => {
+    expect(toolbar.getAttribute('type')).toEqual(null);
+    expect(toolbar.type).toEqual(null);
+    toolbar.type = 'formatter';
+    expect(toolbar.getAttribute('type')).toEqual('formatter');
+    expect(toolbar.type).toEqual('formatter');
+    toolbar.type = 'test';
+    expect(toolbar.getAttribute('type')).toEqual(null);
+    expect(toolbar.type).toEqual(null);
   });
 
   it('can be disabled and enabled', () => {
@@ -253,5 +296,19 @@ describe('IdsToolbar Component', () => {
       expect(button2.menuEl.visible).toBeTruthy();
       done();
     }, 30);
+  });
+
+  it('can programatically trigger selected events on its items', async () => {
+    await processAnimFrame();
+
+    selectedEventListener = jest.fn();
+    document.body.addEventListener('selected', selectedEventListener);
+
+    toolbar.triggerSelectedEvent(button1);
+    await waitFor(() => expect(selectedEventListener).toHaveBeenCalledTimes(1));
+
+    // Try using an element from outside the Toolbar.  It shouldn't trigger an event
+    toolbar.triggerSelectedEvent(document.body);
+    await waitFor(() => expect(selectedEventListener).toHaveBeenCalledTimes(1));
   });
 });

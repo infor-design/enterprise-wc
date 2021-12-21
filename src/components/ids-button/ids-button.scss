@@ -87,6 +87,20 @@ button {
   }
 }
 
+.ids-menu-button.formatter-width {
+  &:not(.no-padding):not(.ids-icon-button) {
+    @include px-8();
+  }
+
+  &:not(.formatter-width-percentage) {
+    .ids-icon {
+      @include absolute();
+
+      inset-inline-end: 4px;
+    }
+  }
+}
+
 .ids-icon-button {
   @include ids-base-button-styles();
   @include ids-standard-button-colors();
@@ -148,7 +162,7 @@ button {
 
 // Adjusting hitbox for the modal close icon
 .ids-modal-icon-button {
-  @include p-12();
+  @include p-8();
 }
 
 @include keyframes(ripple-animation) {
@@ -257,13 +271,25 @@ button {
   @include text-white();
 }
 
+.ids-modal-button[mode='dark'] {
+  &:not(.ids-modal-icon-button) {
+    @include bg-transparent();
+  }
+}
+
+.ids-modal-button[mode='contrast'] {
+  &:not(.ids-modal-icon-button) {
+    @include bg-slate-10();
+  }
+}
+
 // Non-RTL Styles
 :not(.rtl) {
   // Applies to all non-icon button types
   &.ids-button,
   &.ids-toggle-button,
   &.ids-menu-button:not(.ids-icon-button),
-  &.ids-modal-button {
+  &.ids-modal-button:not(.ids-icon-button) {
     // Padding rules for buttons that insert both text/icon into the fallback (unnamed) slot.
     ::slotted(ids-icon:not(:first-child)), // shadowroot + text + icon
     ::slotted(span:nth-child(2):last-child), // shadowroot + icon + text
@@ -282,13 +308,21 @@ button {
   }
 }
 
+// Adjustment for about close icon
+:not(.rtl).ids-modal-button,
+.rtl.ids-modal-button {
+  ::slotted(ids-icon:not(:first-child)) { // shadowroot + text + icon
+    @include p-2();
+  }
+}
+
 // RTL Styles
 .rtl {
   // Applies to all non-icon button types
   &.ids-button,
   &.ids-toggle-button,
   &.ids-menu-button:not(.ids-icon-button),
-  &.ids-modal-button {
+  &.ids-modal-button:not(.ids-icon-button) {
     // Padding rules for buttons that insert both text/icon into the fallback (unnamed) slot.
     ::slotted(ids-icon:not(:first-child)), // shadowroot + text + icon
     ::slotted(span:nth-child(2):last-child), // shadowroot + icon + text

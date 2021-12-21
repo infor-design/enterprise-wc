@@ -1,11 +1,10 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-import { IdsElement } from '../../core';
+export default class IdsSeparator extends HTMLElement {
+  /* Set the variants theme styles */
+  colorVariant?: 'alternate-formatter';
 
-export default class IdsSeparator extends IdsElement {
-    /** Set the theme mode */
-    mode: 'light' | 'dark' | 'contrast' | string;
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
 
-    /** Set the theme version */
-    version: 'new' | 'classic' | string;
+  /** Set the theme version */
+  version: 'new' | 'classic' | string;
 }

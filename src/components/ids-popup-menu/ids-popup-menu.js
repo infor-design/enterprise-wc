@@ -1,18 +1,13 @@
-import {
-  customElement,
-  mix,
-  scss
-} from '../../core';
+// Import Core
+import { customElement, scss } from '../../core/ids-decorators';
 
-import {
-  IdsEventsMixin,
-  IdsPopupInteractionsMixin,
-  IdsPopupOpenEventsMixin,
-  IdsLocaleMixin
-} from '../../mixins';
+// Import Dependencies
+import IdsPopup from '../ids-popup/ids-popup';
 
-import IdsMenu from '../ids-menu/ids-menu';
-import IdsPopup from '../ids-popup';
+// Import Base And Mixins
+import Base from './ids-popup-menu-base';
+
+// Import Styles
 import styles from './ids-popup-menu.scss';
 
 /**
@@ -26,12 +21,7 @@ import styles from './ids-popup-menu.scss';
  */
 @customElement('ids-popup-menu')
 @scss(styles)
-class IdsPopupMenu extends mix(IdsMenu).with(
-    IdsEventsMixin,
-    IdsPopupOpenEventsMixin,
-    IdsPopupInteractionsMixin,
-    IdsLocaleMixin
-  ) {
+export default class IdsPopupMenu extends Base {
   constructor() {
     super();
   }
@@ -41,7 +31,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(
    * @returns {string} The template
    */
   template() {
-    const menuTemplate = IdsMenu.prototype.template.apply(this);
+    const menuTemplate = Base.prototype.template.apply(this);
     return `<ids-popup class="ids-popup-menu" type="menu">${menuTemplate}</ids-popup>`;
   }
 
@@ -49,29 +39,20 @@ class IdsPopupMenu extends mix(IdsMenu).with(
    * @returns {void}
    */
   connectedCallback() {
+    super.connectedCallback?.();
     if (!this.hasAttribute('hidden')) {
       this.setAttribute('hidden', '');
     }
 
     // If this Popupmenu is a submenu, and no target is pre-defined,
     // align the menu against the parent menu item.
-    // @TODO change this logic if Popup accepts HTMLElement
     if (this.parentMenuItem && !this.target) {
+      this.popupDelay = 200;
+      this.trigger = 'hover';
       this.target = this.parentMenuItem;
       this.popup.align = 'right, top';
       this.popup.alignEdge = 'right';
     }
-
-    super.connectedCallback?.();
-
-    // Respond to parent changing language
-    this.offEvent('languagechange.popup-menu');
-    this.onEvent('languagechange.popup-menu', this, async (e) => {
-      await this.shadowRoot.querySelector('ids-popup')?.setLanguage(e.detail.language.name);
-      this.querySelectorAll('ids-menu-group')?.forEach((menuGroup) => {
-        menuGroup?.setLanguage(e.detail.language.name);
-      });
-    });
   }
 
   /**
@@ -81,9 +62,12 @@ class IdsPopupMenu extends mix(IdsMenu).with(
     if (this.hasOpenEvents) {
       this.hide();
     }
-
-    super.disconnectedCallback?.();
   }
+
+  /**
+   * @returns {Array<string>} Drawer vetoable events
+   */
+  vetoableEventTypes = ['beforeshow'];
 
   /**
    * Sets up event handlers used in this menu.
@@ -95,17 +79,32 @@ class IdsPopupMenu extends mix(IdsMenu).with(
     // Hide the menu when an item is selected
     // (only if `keep-open` attribute is not present)
     this.onEvent('selected', this, (e) => {
-      const item = e.detail.elem;
-      if (!item?.group?.keepOpen) {
-        this.hide();
+      if (this.visible) {
+        const item = e.detail.elem;
+        if (!item?.group?.keepOpen) {
+          this.hideAndFocus();
+        }
       }
     });
 
-    // When the underlying Popup triggers it's "show" event,
-    // focus on the derived focusTarget.
-    this.onEvent('show', this.container, () => {
-      window.requestAnimationFrame(() => {
+    // When the underlying Popup triggers its "show" event,
+    // focus on the derived focusTarget, and pass the event to the Host element.
+    this.onEvent('show', this.container, (e) => {
+      requestAnimationFrame(() => {
         this.focusTarget?.focus();
+        if (!this.parentMenuItem) {
+          this.triggerEvent('show', this, e);
+        }
+      });
+    });
+
+    // When the underlying Popup triggers its "hide" event,
+    // pass the event to the Host element.
+    this.onEvent('hide', this.container, (e) => {
+      requestAnimationFrame(() => {
+        if (!this.parentMenuItem) {
+          this.triggerEvent('hide', this, e);
+        }
       });
     });
 
@@ -149,12 +148,9 @@ class IdsPopupMenu extends mix(IdsMenu).with(
         }
         e.preventDefault();
         e.stopPropagation();
-        this.hide();
 
         // Since Escape cancels without selection, re-focus the button
-        if (this.target) {
-          this.target.focus();
-        }
+        this.hideAndFocus();
       });
     }
   }
@@ -172,6 +168,8 @@ class IdsPopupMenu extends mix(IdsMenu).with(
    * @returns {void}
    */
   hide() {
+    if (!this.popup.visible) return;
+
     this.hidden = true;
     this.popup.querySelector('nav')?.removeAttribute('role');
     this.lastHovered = undefined;
@@ -186,20 +184,10 @@ class IdsPopupMenu extends mix(IdsMenu).with(
    * @returns {void}
    */
   show() {
+    if (this.popup.visible) return;
+
     // Trigger a veto-able `beforeshow` event.
-    let canShow = true;
-    const beforeShowResponse = (veto) => {
-      canShow = !!veto;
-    };
-
-    this.triggerEvent('beforeshow', this, {
-      detail: {
-        elem: this,
-        response: beforeShowResponse
-      }
-    });
-
-    if (!canShow) {
+    if (!this.triggerVetoableEvent('beforeshow')) {
       return;
     }
 
@@ -214,6 +202,18 @@ class IdsPopupMenu extends mix(IdsMenu).with(
     this.popup.place();
 
     this.addOpenEvents();
+  }
+
+  /**
+   * Shows the Popupmenu if allowed
+   * @returns {void}
+   */
+  showIfAble() {
+    if (!this.target) {
+      this.show();
+    } else if (!this.target.disabled && !this.target.hidden) {
+      this.show();
+    }
   }
 
   /**
@@ -239,6 +239,17 @@ class IdsPopupMenu extends mix(IdsMenu).with(
   }
 
   /**
+   * Hides the popup menu and focuses a target element, if applicable
+   * @returns {void}
+   */
+  hideAndFocus() {
+    this.hide();
+    if (this.target) {
+      this.target.focus();
+    }
+  }
+
+  /**
    * Inherited from the Popup Open Events Mixin.
    * Runs when a click event is propagated to the window.
    * @returns {void}
@@ -251,18 +262,24 @@ class IdsPopupMenu extends mix(IdsMenu).with(
    * Inherited from the Popup Interactions Mixin.
    * Runs when a Popup Menu has a triggering element, and that element is clicked.
    * @param {MouseEvent} e the original mouse event
-   * @returns {void}
+   * @returns {boolean} true if the click is allowed to propagate
    */
   onTriggerClick(e) {
     if (e.currentTarget !== window) {
       e.preventDefault();
     }
 
+    // Escape if not using a left-click
+    if (e.button !== 0) {
+      return true;
+    }
+
     if (this.hidden) {
-      this.show();
+      this.showIfAble();
     } else {
       this.hide();
     }
+    return true;
   }
 
   /**
@@ -275,7 +292,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(
     e.preventDefault();
     e.stopPropagation();
     this.popup.setPosition(e.pageX, e.pageY);
-    this.show();
+    this.showIfAble();
   }
 
   /**
@@ -285,15 +302,37 @@ class IdsPopupMenu extends mix(IdsMenu).with(
    */
   onTriggerImmediate() {
     window.requestAnimationFrame(() => {
-      this.show();
+      this.showIfAble();
     });
   }
-}
 
-export default IdsPopupMenu;
-export {
-  IdsMenuGroup,
-  IdsMenuHeader,
-  IdsMenuItem,
-  IdsSeparator
-} from '../ids-menu/ids-menu';
+  /**
+   * Inherited from the Popup Interactions Mixin.
+   * Runs on a delayed `mouseenter` event and fires when that delay completes
+   * @returns {void}
+   */
+  onTriggerHover() {
+    if (!this.target.disabled && !this.target.hidden) {
+      this.showIfAble();
+    }
+  }
+
+  /**
+   * Inherited from the Popup Interactions Mixin.
+   * Runs after a `mouseleave` event occurs from this menu
+   * @returns {void}
+   */
+  onCancelTriggerHover() {
+    this.hide();
+  }
+
+  /**
+   * Use the same click event type
+   * @param {MouseEvent} e the original click event
+   * @returns {boolean} true if the event is allowed to propagate
+   */
+  onTriggerHoverClick(e) {
+    e.preventDefault();
+    return this.onTriggerClick(e);
+  }
+}

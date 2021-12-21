@@ -71,7 +71,7 @@ module.exports = {
     // https://eslint.org/docs/rules/class-methods-use-this
     'class-methods-use-this': ['off', { }],
     // Allow Ids Imports to be unsed in index.js files
-    'no-unused-vars': ['error', { varsIgnorePattern: 'Ids', argsIgnorePattern: '^_' }],
+    'no-unused-vars': ['error', { varsIgnorePattern: 'Ids|ResizeObserver', argsIgnorePattern: '^_' }],
     // Allow Arrow functions to be on the next line or below
     'implicit-arrow-linebreak': ['off', { }],
     // Allow single quotes only or template literals
@@ -97,6 +97,7 @@ module.exports = {
     'template-curly-spacing': ['off'],
     'no-underscore-dangle': ['error', { allow: ['_client'] }],
     'no-unused-expressions': ['error', { allowShortCircuit: true, allowTernary: true }],
+    'no-restricted-exports': ['off'],
     'max-len': ['error', 120, 2, {
       ignoreUrls: true,
       ignoreComments: false,
@@ -104,7 +105,7 @@ module.exports = {
       ignoreStrings: true,
       ignoreTemplateLiterals: true
     }],
-    indent: ['error', 2, { ignoredNodes: ['TemplateLiteral'] }
+    indent: ['error', 2, { ignoredNodes: ['TemplateLiteral'] },
     ],
   },
   settings: {

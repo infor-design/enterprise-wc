@@ -5,7 +5,7 @@ import { timestamp } from './ids-render-loop-common';
  * @type {IdsRenderLoopItem}
  * @param {object} settings incoming item options
  */
-class IdsRenderLoopItem extends Object {
+export default class IdsRenderLoopItem extends Object {
   /**
    * @param {object} settings incoming item options
    */
@@ -52,8 +52,6 @@ class IdsRenderLoopItem extends Object {
     this.paused = false;
     this.startTime = timestamp();
     this.totalStoppedTime = 0;
-
-    return this;
   }
 
   /**
@@ -143,5 +141,3 @@ class IdsRenderLoopItem extends Object {
     this.doRemoveOnNextTick = true;
   }
 }
-
-export default IdsRenderLoopItem;

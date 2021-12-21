@@ -1,6 +1,4 @@
-import { IdsElement } from '../../core';
-
-export default class IdsPager extends IdsElement {
+export default class IdsPager extends HTMLElement {
   /** A 1-based page number displayed */
   pageNumber: number;
 

@@ -1,28 +1,11 @@
-import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix,
-} from '../../core/ids-element';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool, buildClassAttrib } from '../../utils/ids-string-utils/ids-string-utils';
 
-// Import Mixins
-import {
-  IdsColorVariantMixin,
-  IdsEventsMixin,
-  IdsOrientationMixin,
-} from '../../mixins';
+import Base from './ids-tab-base';
+import IdsText from '../ids-text/ids-text';
 
-// Import Dependencies
-import IdsText from '../ids-text';
-
-// Import Styles
 import styles from './ids-tab.scss';
-
-// Import Utils
-import { IdsStringUtils as stringUtils } from '../../utils';
-
-const { stringToBool, buildClassAttrib } = stringUtils;
 
 /**
  * IDS Tab Component
@@ -34,7 +17,7 @@ const { stringToBool, buildClassAttrib } = stringUtils;
  */
 @customElement('ids-tab')
 @scss(styles)
-class IdsTab extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsMixin, IdsOrientationMixin) {
+export default class IdsTab extends Base {
   constructor() {
     super();
   }
@@ -138,14 +121,10 @@ class IdsTab extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsMixin, 
   }
 
   #attachEventHandlers() {
-    this.onEvent('click', this, () => {
+    this.onEvent('focus', this, () => {
       if (!this.selected) {
         this.selected = true;
       }
-      this.focus();
-    });
-
-    this.onEvent('focus', this, () => {
       this.focus();
     });
   }
@@ -233,6 +212,7 @@ class IdsTab extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsMixin, 
    * @returns {string} aria-label content
    */
   #getReadableAriaLabel() {
+    // eslint-disable-next-line no-unsafe-optional-chaining
     const idsTextEls = [...this.container?.querySelectorAll('ids-text')];
     return idsTextEls.map((textEl) => {
       const slotNode = textEl.querySelector('slot')?.assignedNodes?.()?.[0];
@@ -252,11 +232,9 @@ class IdsTab extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsMixin, 
     if (slotNode && idsText) {
       idsText.container.setAttribute('data-text', `"${slotNode.textContent}"`);
     }
-  }
+  };
 
   focus() {
     this.container.focus();
   }
 }
-
-export default IdsTab;

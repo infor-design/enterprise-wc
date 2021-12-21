@@ -1,54 +1,76 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const sass = require('sass');
-const TerserPlugin = require('terser-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const path = require('path');
+const sass = require('sass');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const glob = require('glob');
 
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
+process.env.NODE_ENV = isProduction ? 'production' : 'development';
 
 module.exports = {
-  entry: glob.sync('./src/**/**/ids*.js',).reduce((acc, filePath) => {
-    acc[filePath.replace('./src', '').replace('.js', '')] = filePath;
+  entry: glob.sync('./src/**/**.js').reduce((acc, filePath) => {
+    const dirname = path.dirname(filePath)
+      .replace('./src/components/', '')
+      .replace('./src/core', '')
+      .replace('./src/utils/', '')
+      .replace('./src/mixins/', '');
+
+    const baseName = path.basename(filePath).replace('.js', '');
+
+    // Core
+    if (dirname === '' || dirname.includes('mixin') || dirname.includes('utils')) {
+      acc[`${baseName}`] = filePath;
+      return acc;
+    }
+    // Everything
+    if (baseName === 'enterprise-wc') {
+      acc[`${baseName}`] = filePath;
+      return acc;
+    }
+    // Cultures
+    if (dirname === 'ids-locale/cultures') {
+      acc[`ids-locale/cultures/${baseName}`] = filePath;
+      return acc;
+    }
+
+    // Components
+    // If we comment this out we can get submodules included as entries but this may not be needed
+    if (dirname === baseName) {
+      if (!acc[`${dirname}`]) {
+        acc[`${dirname}`] = [filePath];
+      } else {
+        acc[`${dirname}`].push(filePath);
+      }
+    }
     return acc;
   }, {}),
-  devtool: isProduction ? 'cheap-module-source-map' : 'source-map', // try source-map for prod
-  mode: isProduction ? 'production' : 'development',
-  performance: {
-    hints: false
+  output: {
+    filename: (pathData) => (pathData.chunk.name === 'enterprise-wc' ? '[name].js' : '[name]/[name].js'),
+    chunkFormat: 'module',
+    asyncChunks: true,
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '',
+    clean: true
   },
-  cache: {
-    type: 'filesystem',
-    version: '0.0.0'
+  infrastructureLogging: {
+    level: 'error' // or 'verbose' if any debug info is needed
   },
   optimization: {
-    minimize: !!isProduction,
-    minimizer: [
-      new TerserPlugin({
-        test: /\.js(\?.*)?$/i
-      }),
-    ]
-  },
-  output: {
-    library: '[name]-lib.js',
-    libraryTarget: 'umd',
-    libraryExport: 'default',
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js'
+    splitChunks: {
+      chunks: 'async',
+    },
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            // Options are all in babel.config.js
-            loader: 'babel-loader',
+        test: /\.(png|jpg|svg)$/,
+        type: 'asset',
+        parser: {
+          dataUrlCondition: {
+            maxSize: 3 * 1024 // 3kb
           }
-        ]
+        }
       },
       {
         test: /\.scss$/,
@@ -84,18 +106,28 @@ module.exports = {
           // Compiles Sass to CSS
           'sass-loader',
         ]
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            // Options are all in babel.config.js
+            loader: 'babel-loader',
+          }
+        ]
       }
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin({
-      filename: 'css/[name].min.css'
-    }),
     new BundleAnalyzerPlugin({
-      analyzerMode: 'static',
-      reportFilename: `./build-report/index-${isProduction ? 'prod' : 'dev'}.html`
+      analyzerMode: process.env.npm_lifecycle_event === 'build:stats' ? 'server' : 'disabled',
+      reportFilename: 'prod-build-report.html'
     }),
+    new MiniCssExtractPlugin({
+      filename: '[name]/[name].css'
+    }),
+    // Copy the standalone css and d.ts files to the output directory
     new CopyWebpackPlugin({
       patterns: [
         {
@@ -103,7 +135,7 @@ module.exports = {
           to({ absoluteFilename }) {
             const baseName = path.basename(absoluteFilename);
             const folders = path.dirname(absoluteFilename).split(path.sep);
-            return `${folders[folders.length - 2]}/${folders[folders.length - 1]}/${baseName.replace('scss', 'css')}`;
+            return `${folders[folders.length - 1]}/${baseName.replace('scss', 'css')}`;
           },
           transform(content, transFormPath) {
             const result = sass.renderSync({
@@ -115,36 +147,33 @@ module.exports = {
           }
         },
         {
-          from: './src/**/**/index.js',
-          to({ absoluteFilename }) {
-            const baseName = path.basename(absoluteFilename);
-            const folders = path.dirname(absoluteFilename).split(path.sep);
-            let filePath = `${folders[folders.length - 2]}/${folders[folders.length - 1]}/${baseName}`;
-            filePath = filePath.replace('src/', '');
-            return filePath;
-          }
-        },
-        {
           from: './src/**/**/*.d.ts',
           to({ absoluteFilename }) {
             const baseName = path.basename(absoluteFilename);
             const folders = path.dirname(absoluteFilename).split(path.sep);
-            let filePath = `${folders[folders.length - 2]}/${folders[folders.length - 1]}/${baseName}`;
-            filePath = filePath.replace('src/', '');
+            let filePath = `${folders[folders.length - 1]}/${baseName}`;
+            filePath = filePath.replace('src/components/', '');
+
+            if (filePath.includes('core/')) {
+              filePath = filePath.replace('core/', '').replace('.d.ts', '');
+              return `${filePath}/${filePath}.d.ts`;
+            }
             return filePath;
           }
         },
         {
-          from: './src/**/**/*.md',
+          from: './src/components/**/README.md',
           to({ absoluteFilename }) {
             const baseName = path.basename(absoluteFilename);
             const folders = path.dirname(absoluteFilename).split(path.sep);
-            let filePath = `${folders[folders.length - 2]}/${folders[folders.length - 1]}/${baseName}`;
-            filePath = filePath.replace('src/', '');
+            let filePath = `${folders[folders.length - 1]}/${baseName}`;
+            filePath = filePath.replace('src/components/', '');
             return filePath;
           }
         }
       ]
     })
-  ]
+  ],
+  devtool: 'source-map',
+  mode: isProduction ? 'production' : 'development',
 };

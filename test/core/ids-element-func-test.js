@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import IdsTag from '../../src/components/ids-tag/ids-tag';
-import { IdsElement } from '../../src/core/ids-element';
+import IdsElement from '../../src/core/ids-element';
 
 describe('IdsElement Tests', () => {
   afterEach(async () => {

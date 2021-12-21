@@ -1,8 +1,4 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-import { IdsElement } from '../../core';
-
-export default class IdsCheckbox extends IdsElement {
+export default class IdsCheckbox extends HTMLElement {
   /** Sets the checked state to true or false */
   checked: boolean;
 
@@ -44,4 +40,7 @@ export default class IdsCheckbox extends IdsElement {
 
   /** Set the theme version */
   version: 'new' | 'classic' | string;
+
+  /** Sets the input label text as audible * */
+  labelAudible: 'true' | 'false' | boolean;
 }

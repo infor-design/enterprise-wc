@@ -3,7 +3,7 @@
  */
 import processAnimFrame from '../helpers/process-anim-frame';
 import IdsHidden from '../../src/components/ids-hidden/ids-hidden';
-import IdsContainer from '../../src/components/ids-container';
+import IdsContainer from '../../src/components/ids-container/ids-container';
 
 const DEFAULT_HIDDEN_HTML = (
   `<ids-hidden hide-up="sm" visible="true"></ids-hidden>`
@@ -118,6 +118,12 @@ describe('IdsHidden Component', () => {
     expect(el.hideDown).toEqual('sm');
   });
 
+  it('can remove the hideDown attribute', () => {
+    el.hideDown = 'sm';
+    el.hideDown = false;
+    expect(el.getAttribute('hide-down')).toBeFalsy();
+  });
+
   it('can set the hideUp attribute', () => {
     el.hideUp = 'sm';
     el.setAttribute('hide-up', 'sm');
@@ -125,14 +131,27 @@ describe('IdsHidden Component', () => {
     expect(el.hideUp).toEqual('sm');
   });
 
+  it('can remove the hideUp attribute', () => {
+    el.hideUp = 'sm';
+    el.hideUp = false;
+    expect(el.getAttribute('hide-up')).toBeFalsy();
+  });
+
   it('can set the visible attribute', () => {
     expect(el.getAttribute('visible')).toBe(null);
 
     el.setAttribute('visible', true);
     expect(el.getAttribute('visible')).toBe('true');
+    expect(el.visible).toBe('true');
 
     el.visible = null;
     el.removeAttribute('visible');
+    expect(el.getAttribute('visible')).toBe(null);
+    expect(el.visible).toBe(null);
+
+    el.visible = true;
+    expect(el.getAttribute('visible')).toBe('true');
+    el.visible = false;
     expect(el.getAttribute('visible')).toBe(null);
   });
 });

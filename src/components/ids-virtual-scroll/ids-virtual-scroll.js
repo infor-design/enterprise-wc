@@ -1,14 +1,10 @@
-import {
-  IdsElement,
-  customElement,
-  mix,
-  scss,
-  IdsDataSource,
-  attributes
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import Base from './ids-virtual-scroll-base';
+import { injectTemplate } from '../../utils/ids-string-utils/ids-string-utils';
 
-import { IdsEventsMixin } from '../../mixins';
-import { IdsStringUtils } from '../../utils';
+import IdsDataSource from '../../core/ids-data-source';
+
 import styles from './ids-virtual-scroll.scss';
 
 const DEFAULT_HEIGHT = '100vh';
@@ -22,10 +18,9 @@ const DEFAULT_ITEM_HEIGHT = 50;
  */
 @customElement('ids-virtual-scroll')
 @scss(styles)
-class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
+export default class IdsVirtualScroll extends Base {
   constructor() {
     super();
-    this.state = { itemCount: 0 };
   }
 
   connectedCallback() {
@@ -42,9 +37,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
    */
   #attachEventHandlers() {
     this.timeout = null;
-
     this.scrollTarget = this.container;
-
     return this;
   }
 
@@ -70,37 +63,34 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
    * @param {boolean} allowZero Allow a zero length dataset (render empty)
    */
   renderItems(allowZero) {
-    if (!this.data || (!allowZero && this.data.length === 0)) {
-      return;
-    }
+    if (!this.data || (!allowZero && this.data.length === 0)) return;
+
     const startIndex = this.startIndex;
     const endIndex = this.startIndex + this.visibleItemCount();
 
-    if (this.lastStart === startIndex && this.lastEnd === endIndex) {
-      return;
-    }
+    const indexesChanged = this.lastStart !== startIndex || this.lastEnd !== endIndex;
+    if (!indexesChanged) return;
 
     this.lastStart = startIndex;
     this.lastEnd = endIndex;
 
-    const data = this.data.slice(
-      startIndex,
-      endIndex
-    );
+    const visibleItems = this.data.slice(startIndex, endIndex);
 
     let html = '';
-    data.map((item, index) => {
-      const node = this.itemTemplate(item, index);
+    visibleItems.map((item, index) => {
+      const node = this.itemTemplate(item, index + startIndex);
       html += node;
       return node;
     });
 
-    if (this.itemContainer) {
-      this.itemContainer.style.transform = `translateY(${this.offsetY}px)`;
-      this.itemContainer.innerHTML = html;
-    }
-    const elem = this;
-    this.triggerEvent('afterrender', elem, { detail: { elem: this, startIndex, endIndex } });
+    const offset = this.container.querySelector('.offset');
+    offset.style.transform = `translateY(${this.offsetY}px)`;
+
+    // work-around for outside components to style contents inside this shadowroot
+    const wrapper = this.querySelector('[part="contents"]') ?? offset;
+    wrapper.innerHTML = html;
+
+    this.triggerEvent('ids-virtual-scroll-afterrender', this, { detail: { elem: this, startIndex, endIndex } });
   }
 
   /**
@@ -119,17 +109,8 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
 
     content.style.height = `${this.contentHeight}px`;
 
-    this.itemContainer = this.querySelector('[slot="contents"]');
-    if (this.itemContainer) {
-      this.itemContainer.style.transform = `translateY(${this.offsetY}px)`;
-    }
-
-    // TODO: this should belong in the ids-data-grid container, not here -- unnecessary coupling
-    this.isTable = this.querySelectorAll('.ids-data-grid-container').length > 0;
-    if (this.isTable) {
-      const scroll = this.shadowRoot.querySelector('.ids-virtual-scroll');
-      scroll.style.overflow = 'inherit';
-    }
+    const offset = this.container.querySelector('.offset');
+    offset.style.transform = `translateY(${this.offsetY}px)`;
   }
 
   /**
@@ -166,7 +147,9 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
     return `
       <div class="ids-virtual-scroll">
         <div class="ids-virtual-scroll-content">
-          <slot></slot>
+          <div class="offset">
+            <slot></slot>
+          </div>
         </div>
       </div>
     `;
@@ -221,16 +204,17 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
     this.removeAttribute(attributes.BUFFER_SIZE);
   }
 
-  get bufferSize() { return this.getAttribute(attributes.BUFFER_SIZE) || 20; }
+  get bufferSize() { return this.getAttribute(attributes.BUFFER_SIZE) || 2; }
 
   /**
    * Set the scroll top position and scroll down to that location
    * @param {number|string} value The number of pixels from the top
    */
   set scrollTop(value) {
-    if (value !== null && value !== undefined) {
-      this.setAttribute(attributes.SCROLL_TOP, value.toString());
-      this.container.scrollTop = Number(value);
+    const val = parseFloat(value);
+    if (!(Number.isNaN(val))) {
+      this.setAttribute(attributes.SCROLL_TOP, val.toString());
+      this.container.scrollTop = val;
       this.renderItems(false);
       return;
     }
@@ -254,20 +238,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
    */
   get contentHeight() { return Number(this.itemCount) * Number(this.itemHeight); }
 
-  /**
-   * The number of data items being rendered
-   * @param {number} value The number of pixels from the top
-   */
-  set itemCount(value) {
-    if (value) {
-      this.state.itemCount = value;
-      return;
-    }
-
-    this.state.itemCount = 0;
-  }
-
-  get itemCount() { return this.state.itemCount; }
+  get itemCount() { return this.data?.length; }
 
   get offsetY() {
     return Number(this.startIndex) * Number(this.itemHeight);
@@ -286,17 +257,16 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {string} The html for this item
    */
   itemTemplate(item) {
-    return IdsStringUtils.injectTemplate(this.stringTemplate, item);
+    return injectTemplate(this.stringTemplate, item);
   }
 
   /**
    * Set the data array of the listview
-   * @param {Array|undefined} value The array to use
+   * @param {Array|undefined} array The array to use
    */
-  set data(value) {
-    if (value && this.datasource) {
-      this.datasource.data = value;
-      this.itemCount = value.length;
+  set data(array) {
+    if (array && this.datasource) {
+      this.datasource.data = array;
       this.lastStart = null;
       this.lastEnd = null;
       this.scrollTop = 0;
@@ -329,5 +299,3 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
     return this?.eventTarget;
   }
 }
-
-export default IdsVirtualScroll;

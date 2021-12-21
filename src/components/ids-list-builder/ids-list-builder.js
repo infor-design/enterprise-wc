@@ -1,19 +1,7 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-} from '../../core';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
-import styles from './ids-list-builder.scss';
-import IdsListView from '../ids-list-view';
+import { customElement, scss } from '../../core/ids-decorators';
 import IdsInput from '../ids-input/ids-input';
+import Base from './ids-list-builder-base';
+import styles from './ids-list-builder.scss';
 
 /**
  * IDS ListBuilder Component
@@ -24,13 +12,15 @@ import IdsInput from '../ids-input/ids-input';
  */
 @customElement('ids-list-builder')
 @scss(styles)
-class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin) {
+export default class IdsListBuilder extends Base {
   constructor() {
     super();
   }
 
   // the currently selected list item
   #selectedLi;
+
+  #selectedLiIndex;
 
   // any active editor of the selected list item
   #selectedLiEditor;
@@ -39,8 +29,10 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
   placeholder;
 
   connectedCallback() {
-    this.draggable = true;
-    this.itemHeight = 44; // hard-coded
+    this.sortable = true;
+    // list-builder is not designed to handle thousands of items, so don't support virtual scroll
+    this.virtualScroll = false;
+    this.itemHeight = 46; // hard-coded
     this.#attachEventListeners();
     super.connectedCallback();
   }
@@ -90,12 +82,14 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
               </ids-toolbar-section>
             </ids-toolbar>
           </div>
-          <div class="content">
-            ${super.template()}
-          </div>
-        <slot></slot>
+          ${super.template()}
       </div>
     `;
+  }
+
+  get selectedLi() {
+    const savedSelectedLi = this.container.querySelector(`div[part="list-item"][index="${this.#selectedLiIndex}"]`);
+    return savedSelectedLi;
   }
 
   get data() {
@@ -116,18 +110,30 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
   /**
    * Helper function that toggles the 'selected' attribute of an element, then focuses on that element
    * @param {Element} item the item to add/remove the selected attribute
+   * @param {boolean} switchValue optional switch values to force add/remove the selected attribute
    */
-  #toggleSelectedAttribute(item) {
-    const hasSelectedAttribute = item.getAttribute('selected');
-
-    if (hasSelectedAttribute) {
+  #toggleSelectedAttribute(item, switchValue) {
+    const unselect = () => {
       item.removeAttribute('selected');
-      this.#selectedLi = null;
-    } else if (!hasSelectedAttribute) {
+      this.#selectedLiIndex = null;
+    };
+
+    const select = () => {
       item.setAttribute('selected', 'selected');
-      this.#selectedLi = item;
+      this.#selectedLiIndex = item.getAttribute('index');
+    };
+
+    if (switchValue === true) {
+      select();
+    } else if (switchValue === false) {
+      unselect();
+    } else {
+      // otherwise toggle it depending on whether or not it has the attribute already
+      const hasSelectedAttribute = item.getAttribute('selected');
+      hasSelectedAttribute ? unselect() : select();
+
+      this.focusLi(item);
     }
-    item.focus();
   }
 
   /**
@@ -136,14 +142,22 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
    */
   #toggleSelectedLi(item) {
     if (item.tagName === 'DIV' && item.getAttribute('part') === 'list-item') {
-      if (item !== this.#selectedLi) {
-        if (this.#selectedLi) {
+      const prevSelectedLi = this.selectedLi;
+      if (item !== prevSelectedLi) {
+        if (prevSelectedLi) {
           // unselect previous item if it's selected
-          this.#toggleSelectedAttribute(this.#selectedLi);
+          prevSelectedLi.setAttribute('tabindex', '-1');
+          this.#toggleSelectedAttribute(prevSelectedLi);
         }
       }
       this.#toggleSelectedAttribute(item);
-      item.focus();
+    }
+  }
+
+  #reselect() {
+    const prevSelectedLi = this.selectedLi;
+    if (prevSelectedLi) {
+      this.#toggleSelectedAttribute(prevSelectedLi, true);
     }
   }
 
@@ -152,47 +166,15 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
    */
   #attachEventListeners() {
     this.#attachClickListeners(); // for toolbar buttons
-    this.#attachDragEventListeners(); // for dragging list items
     this.#attachKeyboardListeners(); // for selecting/editing list items
-  }
 
-  /**
-   * Helper function for swapping nodes in the list item -- used when dragging list items or clicking the up/down arrows
-   * @param {Node} nodeA the first node
-   * @param {Node} nodeB the second node
-   */
-  #swap(nodeA, nodeB) {
-    const parentA = nodeA.parentNode;
-    const siblingA = nodeA.nextSibling === nodeB ? nodeA : nodeA.nextSibling;
-
-    nodeB.parentNode.insertBefore(nodeA, nodeB);
-    parentA.insertBefore(nodeB, siblingA);
-  }
-
-  /**
-   * Helper function to check if a node is being dragged above another node
-   * @param {Node} nodeA the node being dragged
-   * @param {Node} nodeB the referred node being checked if nodeA is above
-   * @returns {boolean} whether or not nodeA is above nodeB
-   */
-  #isAbove(nodeA, nodeB) {
-    const rectA = nodeA.getBoundingClientRect();
-    const rectB = nodeB.getBoundingClientRect();
-    const centerA = rectA.top + rectA.height / 2;
-    const centerB = rectB.top + rectB.height / 2;
-    return centerA < centerB;
-  }
-
-  /**
-   * Helper function that creates a placeholder node in place of the node being dragged
-   * @param {Node} node the node being dragged around to clone
-   * @returns {Node} a clone of the node
-   */
-  #createPlaceholderClone(node) {
-    const p = node.cloneNode(true);
-    p.querySelector('div[part="list-item"]').classList.add('placeholder');
-    p.querySelector('div[part="list-item"]').removeAttribute('selected');
-    return p;
+    if (this.virtualScroll) {
+      this.onEvent('ids-virtual-scroll-afterrender', this.virtualScrollContainer, () => {
+        this.attachDragEventListeners();
+        this.#attachKeyboardListeners();
+        this.#reselect();
+      });
+    }
   }
 
   /**
@@ -209,15 +191,15 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
    * Helper function to update the list item inner text with the editor's input value
    */
   #updateSelectedLiWithEditorValue() {
-    this.#selectedLi.querySelector('ids-text').innerHTML = this.#selectedLiEditor.value;
+    this.selectedLi.querySelector('ids-text').innerHTML = this.#selectedLiEditor.value;
   }
 
   /**
    * Helper function to remove the editor element from the DOM
    */
   #removeSelectedLiEditor() {
-    this.#selectedLi.querySelector('ids-text').style.display = 'list-item';
-    this.#selectedLi.parentNode.removeAttribute('disabled');
+    this.selectedLi.querySelector('ids-text').style.display = 'list-item';
+    this.selectedLi.parentNode.removeAttribute('disabled');
     this.#selectedLiEditor.remove();
     this.#selectedLiEditor = null;
   }
@@ -227,19 +209,19 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
    * @param {boolean} newEntry whether or not this is an editor for a new or pre-existing list item
    */
   #insertSelectedLiWithEditor(newEntry = false) {
-    if (this.#selectedLi) {
+    if (this.selectedLi) {
       if (!this.#selectedLiEditor) {
         const i = new IdsInput();
 
         // insert into DOM
-        this.#selectedLi.insertBefore(i, this.#selectedLi.querySelector('ids-text'));
+        this.selectedLi.insertBefore(i, this.selectedLi.querySelector('ids-text'));
 
         // hide inner text
-        this.#selectedLi.querySelector('ids-text').style.display = `none`;
+        this.selectedLi.querySelector('ids-text').style.display = `none`;
 
         // set the value of input
         this.#selectedLiEditor = i;
-        i.value = newEntry ? 'New Value' : this.#selectedLi.querySelector('ids-text').innerHTML;
+        i.value = newEntry ? 'New Value' : this.selectedLi.querySelector('ids-text').innerHTML;
         i.autoselect = 'true';
         i.noMargins = 'true';
         i.colorVariant = 'alternate';
@@ -254,14 +236,27 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
    * Add/remove the editor in one function -- used when 'Enter' key is hit on a selected list item
    */
   #toggleEditor() {
-    if (this.#selectedLi) {
+    if (this.selectedLi) {
       if (!this.#selectedLiEditor) {
         this.#insertSelectedLiWithEditor();
       } else {
         this.#unfocusAnySelectedLiEditor();
       }
-      this.#selectedLi.focus();
+      this.focusLi(this.selectedLi);
     }
+  }
+
+  /**
+   * Overrides the onClick() to include select functionality and unfocus any active editor inputs
+   * @param {Element} item the draggable list item
+   */
+  onClick(item) {
+    super.onClick(item);
+
+    this.#unfocusAnySelectedLiEditor();
+
+    // toggle selected item
+    this.#toggleSelectedLi(item);
   }
 
   /**
@@ -272,14 +267,15 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     this.onEvent('click', this.container.querySelector('#button-add'), () => {
       this.#unfocusAnySelectedLiEditor();
 
-      const selectionNull = !this.#selectedLi;
+      const selectionNull = !this.selectedLi;
       // if an item is selected, create a node under it, otherwise create a node above the first item
-      const targetDraggableItem = selectionNull ? this.container.querySelector('ids-draggable') : this.#selectedLi.parentNode;
+
+      const targetDraggableItem = selectionNull ? this.container.querySelector('ids-draggable') : this.selectedLi.parentNode;
       const newDraggableItem = targetDraggableItem.cloneNode(true);
 
       const insertionLocation = selectionNull ? targetDraggableItem : targetDraggableItem.nextSibling;
       targetDraggableItem.parentNode.insertBefore(newDraggableItem, insertionLocation);
-      this.#attachDragEventListenersForDraggable(newDraggableItem);
+      this.attachDragEventListenersForDraggable(newDraggableItem);
       this.#attachKeyboardListenersForLi(newDraggableItem.querySelector('div[part="list-item"]'));
 
       const listItem = newDraggableItem.querySelector('div[part="list-item"]');
@@ -293,24 +289,24 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
 
     // Up button
     this.onEvent('click', this.container.querySelector('#button-up'), () => {
-      if (this.#selectedLi) {
+      if (this.selectedLi) {
         this.#unfocusAnySelectedLiEditor();
 
-        const prev = this.#selectedLi.parentNode.previousElementSibling;
+        const prev = this.selectedLi.parentNode.previousElementSibling;
         if (prev) {
-          this.#swap(this.#selectedLi.parentNode, prev);
+          this.swap(this.selectedLi.parentNode, prev);
         }
       }
     });
 
     // Down button
     this.onEvent('click', this.container.querySelector('#button-down'), () => {
-      if (this.#selectedLi) {
+      if (this.selectedLi) {
         this.#unfocusAnySelectedLiEditor();
 
-        const next = this.#selectedLi.parentNode.nextElementSibling;
+        const next = this.selectedLi.parentNode.nextElementSibling;
         if (next) {
-          this.#swap(this.#selectedLi.parentNode, next);
+          this.swap(this.selectedLi.parentNode, next);
         }
       }
     });
@@ -322,87 +318,11 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
 
     // Delete button
     this.onEvent('click', this.container.querySelector('#button-delete'), () => {
-      if (this.#selectedLi) {
-        this.#selectedLi.parentNode.remove();
-        this.#selectedLi = null;
+      if (this.selectedLi) {
+        this.selectedLi.parentNode.remove();
+        this.selectedLi = null;
         if (this.#selectedLiEditor) this.#selectedLiEditor = null;
       }
-    });
-  }
-
-  /**
-   * Adds dragging functionality to all list items
-   */
-  #attachDragEventListeners() {
-    this.container.querySelectorAll('ids-draggable').forEach((draggable) => {
-      this.#attachDragEventListenersForDraggable(draggable);
-    });
-  }
-
-  /**
-   * Helper function for attaching dragging functionality to a list item
-   * @param {Element} el the list item to add draggable functionality
-   */
-  #attachDragEventListenersForDraggable(el) {
-    // Toggle selected attribute, create placeholder, edit the css at the beginning of the drag
-    this.onEvent('ids-dragstart', el, (event) => {
-      this.#unfocusAnySelectedLiEditor();
-
-      // toggle selected item
-      const listItem = event.target.querySelector('div[part="list-item"]');
-      this.#toggleSelectedLi(listItem);
-
-      // create placeholder
-      this.placeholder = this.#createPlaceholderClone(el);
-
-      // need this for draggable to move around
-      el.style.position = `absolute`;
-      el.style.opacity = `0.95`;
-      el.style.zIndex = `100`;
-
-      el.parentNode.insertBefore(
-        this.placeholder,
-        el.nextSibling
-      );
-    });
-
-    // Calculate where the dragged list item is in relation to the other list items and move the placeholder accordingly
-    this.onEvent('ids-drag', el, () => {
-      let prevEle = this.placeholder?.previousElementSibling;
-      let nextEle = this.placeholder?.nextElementSibling;
-
-      // skip over checking the original selected node position
-      if (prevEle === el) {
-        prevEle = prevEle.previousElementSibling;
-      }
-      // skip over checking the original selected position
-      if (nextEle === el) {
-        nextEle = nextEle.nextElementSibling;
-      }
-
-      if (prevEle && this.#isAbove(el, prevEle)) {
-        this.#swap(this.placeholder, prevEle);
-        return;
-      }
-
-      if (nextEle && this.#isAbove(nextEle, el)) {
-        this.#swap(nextEle, this.placeholder);
-      }
-    });
-
-    // At the end of the drag, return the css properties back to normal and remove the placeholder
-    this.onEvent('ids-dragend', el, () => {
-      el.style.removeProperty('position');
-      el.style.removeProperty('transform');
-      el.style.removeProperty('opacity');
-      el.style.removeProperty('z-index');
-
-      this.#swap(el, this.placeholder);
-      if (this.placeholder) {
-        this.placeholder.remove();
-      }
-
-      el.querySelector('div[part="list-item"]').focus();
     });
   }
 
@@ -410,11 +330,15 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
    * Attach selection toggling, editing feature, and navigation focus functionality to keyboard events
    */
   #attachKeyboardListeners() {
-    this.container.querySelectorAll('div[part="list-item"]').forEach((l) => {
+    this.getAllLi().forEach((l) => {
       this.#attachKeyboardListenersForLi(l);
     });
   }
 
+  /**
+   * Helper function to attach keyboard events to each individual item
+   * @param {Element} l the list item
+   */
   #attachKeyboardListenersForLi(l) {
     this.onEvent('keydown', l, (event) => {
       switch (event.key) {
@@ -430,11 +354,28 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       case 'Tab':
         this.#unfocusAnySelectedLiEditor();
         break;
+      case 'ArrowUp':
+        event.preventDefault();
+        this.#unfocusAnySelectedLiEditor();
+        break;
+      case 'ArrowDown':
+        event.preventDefault();
+        this.#unfocusAnySelectedLiEditor();
+        break;
       default:
         break;
       }
     });
   }
-}
 
-export default IdsListBuilder;
+  /**
+   * Overrides the ids-sortable-mixin function to ensure there are no duplicate selected nodes as a result of cloning
+   * @param {Node} node the node to be cloned
+   * @returns {Node} the cloned node
+   */
+  createPlaceholderNode(node) {
+    const p = super.createPlaceholderNode(node);
+    p.querySelector('div[part="list-item"]').removeAttribute('selected');
+    return p;
+  }
+}

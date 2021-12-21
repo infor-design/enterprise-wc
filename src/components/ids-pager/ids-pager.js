@@ -1,61 +1,42 @@
-import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 // Import Utils
-import { IdsStringUtils } from '../../utils';
+import Base from './ids-pager-base';
 
-import { IdsAttributeProviderMixin, IdsEventsMixin, IdsThemeMixin } from '../../mixins';
 import IdsPagerSection from './ids-pager-section';
 import IdsPagerButton from './ids-pager-button';
 import IdsPagerInput from './ids-pager-input';
 import IdsPagerNumberList from './ids-pager-number-list';
+
 import styles from './ids-pager.scss';
 
-const {
-  PAGE_NUMBER,
-  PAGE_SIZE,
-  DISABLED,
-  PARENT_DISABLED,
-  TOTAL
-} = attributes;
-
-const attributeProviderDefs = {
-  attributesProvided: [
-    { attribute: DISABLED, component: IdsPagerInput, targetAttribute: PARENT_DISABLED },
-    { attribute: DISABLED, component: IdsPagerButton, targetAttribute: PARENT_DISABLED },
-    { attribute: DISABLED, component: IdsPagerInput, targetAttribute: PARENT_DISABLED },
-    { attribute: DISABLED, component: IdsPagerNumberList, targetAttribute: PARENT_DISABLED },
-    { attribute: PAGE_NUMBER, component: IdsPagerInput },
-    { attribute: PAGE_NUMBER, component: IdsPagerNumberList },
-    { attribute: PAGE_NUMBER, component: IdsPagerButton },
-    { attribute: PAGE_SIZE, component: IdsPagerNumberList },
-    { attribute: PAGE_SIZE, component: IdsPagerButton },
-    { attribute: PAGE_SIZE, component: IdsPagerInput },
-    { attribute: TOTAL, component: IdsPagerInput },
-    { attribute: TOTAL, component: IdsPagerNumberList },
-    { attribute: TOTAL, component: IdsPagerButton }
-  ]
-};
+// { attribute: DISABLED, component: IdsPagerInput, targetAttribute: PARENT_DISABLED },
+// { attribute: DISABLED, component: IdsPagerButton, targetAttribute: PARENT_DISABLED },
+// { attribute: DISABLED, component: IdsPagerInput, targetAttribute: PARENT_DISABLED },
+// { attribute: DISABLED, component: IdsPagerNumberList, targetAttribute: PARENT_DISABLED },
+// { attribute: PAGE_NUMBER, component: IdsPagerInput },
+// { attribute: PAGE_NUMBER, component: IdsPagerNumberList },
+// { attribute: PAGE_NUMBER, component: IdsPagerButton },
+// { attribute: PAGE_SIZE, component: IdsPagerNumberList },
+// { attribute: PAGE_SIZE, component: IdsPagerButton },
+// { attribute: PAGE_SIZE, component: IdsPagerInput },
+// { attribute: TOTAL, component: IdsPagerInput },
+// { attribute: TOTAL, component: IdsPagerNumberList },
+// { attribute: TOTAL, component: IdsPagerButton }
 
 /**
  * IDS Pager Component
  * @type {IdsPager}
  * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsThemeMixin
  * @part container the overall ids-pager container
- * @mixes IdsAttributeProviderMixin
  */
 @customElement('ids-pager')
 @scss(styles)
-export default class IdsPager extends mix(IdsElement).with(
-    IdsAttributeProviderMixin(attributeProviderDefs),
-    IdsEventsMixin,
-    IdsThemeMixin
-  ) {
+export default class IdsPager extends Base {
   constructor() {
     super();
   }
@@ -64,9 +45,9 @@ export default class IdsPager extends mix(IdsElement).with(
     return [
       attributes.DISABLED,
       attributes.MODE,
-      attributes.PAGE_NUMBER,
+      attributes.TOTAL, // has to be in this order
       attributes.PAGE_SIZE,
-      attributes.TOTAL,
+      attributes.PAGE_NUMBER,
       attributes.VERSION
     ];
   }
@@ -99,7 +80,6 @@ export default class IdsPager extends mix(IdsElement).with(
       this.pageNumber = e.detail.value;
     });
 
-    this.provideAttributes();
     super.connectedCallback?.();
   }
 
@@ -118,15 +98,37 @@ export default class IdsPager extends mix(IdsElement).with(
   }
 
   /**
+   * Sync children with the given attribute
+   * @param {string} attribute attribute to sync
+   * @param {string} value value to sync
+   * @private
+   */
+  #syncChildren(attribute, value) {
+    const input = this.querySelector('ids-pager-input');
+    if (input) {
+      input.setAttribute(attribute, value);
+    }
+    const list = this.querySelector('ids-pager-number-list');
+    if (list) {
+      list.setAttribute(attribute, value);
+    }
+    this.querySelectorAll('ids-pager-button')?.forEach((button) => {
+      button.setAttribute(attribute, value);
+    });
+  }
+
+  /**
    * @param {boolean} value Whether or not to disable the pager overall
    */
   set disabled(value) {
-    const isTruthy = IdsStringUtils.stringToBool(value);
+    const isTruthy = stringToBool(value);
 
     if (isTruthy && !this.hasAttribute(attributes.DISABLED)) {
       this.setAttribute(attributes.DISABLED, '');
+      this.#syncChildren(attributes.PARENT_DISABLED, true);
     } else if (!isTruthy && this.hasAttribute(attributes.DISABLED)) {
       this.removeAttribute(attributes.DISABLED);
+      this.#syncChildren(attributes.PARENT_DISABLED, false);
     }
   }
 
@@ -142,19 +144,14 @@ export default class IdsPager extends mix(IdsElement).with(
     let nextValue = parseInt(value);
 
     if (Number.isNaN(nextValue)) {
-      // console.error('ids-pager: non-numeric value sent to page-size');
       nextValue = 1;
     } else if (nextValue < 1) {
-      // console.error('ids-pager: page-size cannot be < 1');
       nextValue = 1;
     } else {
       nextValue = Number.parseInt(value);
     }
-
-    if (this.getAttribute(attributes.PAGE_SIZE) !== `${nextValue}`) {
-      this.setAttribute(attributes.PAGE_SIZE, nextValue);
-    }
-
+    this.setAttribute(attributes.PAGE_SIZE, nextValue);
+    this.#syncChildren(attributes.PAGE_SIZE, nextValue);
     this.#keepPageNumberInBounds();
   }
 
@@ -169,7 +166,6 @@ export default class IdsPager extends mix(IdsElement).with(
 
     if (Number.isNaN(nextValue)) {
       nextValue = 1;
-      // console.error('ids-pager: non-numeric value sent to pageNumber');
     } else if (nextValue <= 1) {
       nextValue = 1;
     } else {
@@ -177,9 +173,8 @@ export default class IdsPager extends mix(IdsElement).with(
       nextValue = Math.min(nextValue, pageCount);
     }
 
-    if (parseInt(this.getAttribute(attributes.PAGE_NUMBER)) !== nextValue) {
-      this.setAttribute(attributes.PAGE_NUMBER, nextValue);
-    }
+    this.setAttribute(attributes.PAGE_NUMBER, nextValue);
+    this.#syncChildren(attributes.PAGE_NUMBER, nextValue);
   }
 
   /** @returns {string|number} value A 1-based-index for the page number displayed */
@@ -198,19 +193,15 @@ export default class IdsPager extends mix(IdsElement).with(
   set total(value) {
     let nextValue;
     if (Number.isNaN(Number.parseInt(value))) {
-      // console.error('ids-pager: non-numeric value sent to total');
       nextValue = 1;
     } else if (Number.parseInt(value) <= 0) {
-      // console.error('ids-pager: total cannot be <= 0');
       nextValue = 1;
     } else {
       nextValue = Number.parseInt(value);
     }
 
-    if (parseInt(this.getAttribute(attributes.TOTAL)) !== nextValue) {
-      this.setAttribute(attributes.TOTAL, nextValue);
-    }
-
+    this.setAttribute(attributes.TOTAL, nextValue);
+    this.#syncChildren(attributes.TOTAL, nextValue);
     this.#keepPageNumberInBounds();
   }
 
@@ -229,8 +220,9 @@ export default class IdsPager extends mix(IdsElement).with(
    * their styling, and adds an extra left section
    * if only 2 sections exist for alignment sake to
    * keep things simple
+   * @private
    */
-    #normalizeSectionContainers() {
+  #normalizeSectionContainers() {
     if (!this.hasSectionContainers()) {
       this.shadowRoot.querySelector('ids-pager-section')
         .setAttribute('role', 'navigation');
@@ -260,35 +252,33 @@ export default class IdsPager extends mix(IdsElement).with(
     case 1:
       break;
     default: {
-      // console.error('ids-pager: invalid number of children passed');
       break;
     }
     }
   }
 
   #keepPageNumberInBounds() {
-      let nextValue = parseInt(this.getAttribute(attributes.PAGE_NUMBER));
+    let nextValue = parseInt(this.getAttribute(attributes.PAGE_NUMBER));
 
-      if (Number.isNaN(nextValue)) {
-        nextValue = 1;
-      } else if (nextValue <= 1) {
-        nextValue = 1;
-      } else if (nextValue > this.pageCount) {
-        nextValue = this.pageCount;
-      }
-
-      if (parseInt(this.getAttribute(attributes.PAGE_NUMBER)) !== nextValue) {
-        this.setAttribute(attributes.PAGE_NUMBER, nextValue);
-      }
+    if (Number.isNaN(nextValue)) {
+      nextValue = 1;
+    } else if (nextValue <= 1) {
+      nextValue = 1;
+    } else if (nextValue > this.pageCount) {
+      nextValue = this.pageCount;
     }
 
+    if (parseInt(this.getAttribute(attributes.PAGE_NUMBER)) !== nextValue) {
+      this.setAttribute(attributes.PAGE_NUMBER, nextValue);
+    }
+  }
+
   /** Observes changes in content/layout */
-    #contentObserver = new MutationObserver((mutations) => {
-      for (const m of mutations) {
-        if (m.type === 'childList') {
-          this.#normalizeSectionContainers();
-          this.provideAttributes();
-        }
+  #contentObserver = new MutationObserver((mutations) => {
+    for (const m of mutations) {
+      if (m.type === 'childList') {
+        this.#normalizeSectionContainers();
       }
-    });
+    }
+  });
 }

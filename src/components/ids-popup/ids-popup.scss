@@ -427,7 +427,6 @@
 // Handle Themes
 
 // Dark Theme
-
 .ids-popup.dropdown[mode='dark'] {
   @include bg-slate-70();
   @include border-azure-60();
@@ -512,7 +511,6 @@
 }
 
 // Contrast Theme
-
 .ids-popup.dropdown[mode='contrast'] {
   @include bg-white();
   @include border-azure-90();
@@ -526,7 +524,7 @@
 }
 
 .ids-popup.modal[mode='contrast'] {
-  @include bg-white();
+  @include bg-slate-10();
   @include border-slate-60();
 
   box-shadow: 0 2px 5px rgb(239 239 240 / 0.2);
@@ -787,7 +785,7 @@
 }
 
 // RTL Fixes
-.ids-popup[dir='rtl'] {
+:host([dir='rtl']) {
   .arrow.bottom::after {
     left: 8px;
   }

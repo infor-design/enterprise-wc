@@ -1,20 +1,12 @@
-import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-// Import Utils
-import { IdsStringUtils } from '../../utils';
-
+import Base from './ids-pager-number-list-base';
 import IdsText from '../ids-text/ids-text';
-import { IdsEventsMixin, IdsKeyboardMixin } from '../../mixins';
 import IdsButton from '../ids-button/ids-button';
-import styles from './ids-pager-number-list.scss';
 
-const { stringToBool } = IdsStringUtils;
+import styles from './ids-pager-number-list.scss';
 
 /**
  * IDS PagerNumberList Component
@@ -25,10 +17,7 @@ const { stringToBool } = IdsStringUtils;
  */
 @customElement('ids-pager-number-list')
 @scss(styles)
-export default class IdsPagerNumberList extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsKeyboardMixin
-  ) {
+export default class IdsPagerNumberList extends Base {
   constructor() {
     super();
   }
@@ -128,16 +117,16 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
     }
   }
 
+  /** @returns {string|number} The number of items for pager is tracking */
+  get total() {
+    return parseInt(this.getAttribute(attributes.TOTAL));
+  }
+
   /** @returns {number|null} The calculated pageCount using total and pageSize */
   get pageCount() {
     return this.hasAttribute(attributes.TOTAL)
       ? Math.floor(this.total / this.pageSize)
       : null;
-  }
-
-  /** @returns {string|number} The number of items for pager is tracking */
-  get total() {
-    return parseInt(this.getAttribute(attributes.TOTAL));
   }
 
   /** @param {boolean|string} value Whether to disable input at app-specified-level */

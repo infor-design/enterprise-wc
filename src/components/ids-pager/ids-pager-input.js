@@ -1,33 +1,26 @@
-import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 
-import IdsInput from '../ids-input';
-import IdsText from '../ids-text';
-import { IdsEventsMixin, IdsKeyboardMixin } from '../../mixins';
+import Base from './ids-pager-input-base';
+import IdsInput from '../ids-input/ids-input';
+import IdsText from '../ids-text/ids-text';
 import IdsPagerSection from './ids-pager-section';
-import styles from './ids-pager-input.scss';
-import { IdsStringUtils } from '../../utils';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-const { stringToBool } = IdsStringUtils;
+import styles from './ids-pager-input.scss';
 
 /**
  * IDS PagerInput Component
  *
  * @type {IdsPagerInput}
+ * @mixes IdsEventsMixin
+ * @mixes IdsKeyboardMixin
  * @inherits IdsElement
  * @part container ids-pager-button container
  */
 @customElement('ids-pager-input')
 @scss(styles)
-export default class IdsPagerInput extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsKeyboardMixin
-  ) {
+export default class IdsPagerInput extends Base {
   constructor() {
     super();
   }
@@ -167,16 +160,16 @@ export default class IdsPagerInput extends mix(IdsElement).with(
     this.#updatePageCountShown();
   }
 
+  /** @returns {string|number} The number of items for pager is tracking */
+  get total() {
+    return parseInt(this.getAttribute(attributes.TOTAL));
+  }
+
   /** @returns {number|null} The calculated pageCount using total and pageSize */
   get pageCount() {
     return (this.total !== null && !Number.isNaN(this.total))
       ? Math.floor(this.total / this.pageSize)
       : null;
-  }
-
-  /** @returns {string|number} The number of items for pager is tracking */
-  get total() {
-    return parseInt(this.getAttribute(attributes.TOTAL));
   }
 
   /** @param {boolean|string} value Whether or not to disable input at app-specified-level */

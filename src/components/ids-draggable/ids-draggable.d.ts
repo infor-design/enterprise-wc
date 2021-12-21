@@ -1,6 +1,4 @@
-import { IdsElement } from '../../core';
-
-export default class IdsDraggable extends IdsElement {
+export default class IdsDraggable extends HTMLElement {
   /**
    * The axis that the draggable content will
    * be moving along (e.g. X => horizontal, Y => vertical);
@@ -12,7 +10,7 @@ export default class IdsDraggable extends IdsElement {
    * Whether the draggable should be limited in range
    * by its parent element
    */
-   parentContainment?: boolean;
+  parentContainment?: boolean;
 
   /**
    * Whether or not draggable functionality is disabled

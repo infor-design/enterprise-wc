@@ -1,16 +1,12 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-import { IdsElement } from '../../core';
-
-export default class IdsAccordionPanel extends IdsElement {
+export default class IdsAccordionPanel extends HTMLElement {
   /** Reference to this Accordion Panel's header, if applicable */
-  readonly header?: HTMLElement
+  readonly header?: HTMLElement;
 
   /** Reference to this Accordion Panel's Shadow DOM expander element */
-  readonly expander: HTMLElement
+  readonly expander: HTMLElement;
 
   /** Reference to this Accordion Panel's Shadow DOM pane element */
-  readonly pane: HTMLElement
+  readonly pane: HTMLElement;
 
   /** In nested accordions, describes whether or not this panel resides inside another panel */
   readonly hasParentPanel: boolean;

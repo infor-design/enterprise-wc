@@ -1,4 +1,4 @@
-import IdsCard from '../../src/components/ids-card';
+import IdsCard from '../../src/components/ids-card/ids-card';
 import './index.scss';
 
 // Example for populating the Virtual Scoller
@@ -12,14 +12,14 @@ const url = '/data/products.json';
 xmlhttp.onreadystatechange = function onreadystatechange() {
   if (this.readyState === 4 && this.status === 200) {
     // Setup the list view
-    virtualScrollUl.itemTemplate = (item) => `<li class="ids-virtual-scroll-item">${item.productName}</li>`;
+    virtualScrollUl.itemTemplate = (item) => `<div part="list-item">${item.productName}</div>`;
     virtualScrollUl.data = JSON.parse(this.responseText);
 
     // Set up the table
     virtualScrollTable.scrollTarget = document.querySelector('.ids-data-grid');
-    virtualScrollTable.itemTemplate = (item) => `<div role="row" class="ids-data-grid-row">
-      <span role="cell" class="ids-data-grid-cell"><span class="text-ellipsis">${item.productId}</span></span>
-      <span role="cell" class="ids-data-grid-cell"><span class="text-ellipsis">${item.productName}</span></span>
+    virtualScrollTable.itemTemplate = (item) => `<div part="row" role="row" class="ids-data-grid-row">
+      <span role="cell" part="cell" class="ids-data-grid-cell"><span class="text-ellipsis" part="text-ellipsis">${item.productId}</span></span>
+      <span role="cell" part="cell" class="ids-data-grid-cell"><span class="text-ellipsis" part="text-ellipsis">${item.productName}</span></span>
     </div>`;
     virtualScrollTable.data = JSON.parse(this.responseText);
   }
