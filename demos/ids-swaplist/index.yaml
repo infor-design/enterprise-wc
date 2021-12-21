@@ -1,0 +1,9 @@
+---
+ component: SwapList 
+ link: ids-swaplist
+ description: Displays SwapList component 
+ category: Choose one -> [Charts and Visualizations, Layouts, Form Inputs, Navigation and Interaction, Lists, Messages and Alerts]
+ keywords: ids-swaplist, SwapList 
+ examples:
+  - link: index.html
+    description: Showing various SwapList examples
