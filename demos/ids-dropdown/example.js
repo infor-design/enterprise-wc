@@ -8,15 +8,20 @@ document.querySelector('#dropdown-1')?.addEventListener('focus', (e) => {
 
 // Use the asynchronous `beforeshow` callback to load contents
 const getContents = () => new Promise((resolve) => {
-  const xhr = new XMLHttpRequest();
-  xhr.open('get', '/data/states.json', true);
-  xhr.onload = () => {
-    const status = xhr.status;
-    if (status === 200) {
-      resolve(JSON.parse(xhr.responseText));
-    }
-  };
-  xhr.send();
+  const url = '/data/states.json';
+
+  fetch(url)
+    .then(
+      (res) => {
+        if (res.status !== 200) {
+          return;
+        }
+
+        res.json().then((data) => {
+          resolve(data);
+        });
+      }
+    );
 });
 
 const dropdownAsync = document.querySelector('#dropdown-7');

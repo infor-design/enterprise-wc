@@ -7,7 +7,6 @@ const container = document.querySelector('ids-container');
   await container.setLocale('en-US');
 
   // Do an ajax request
-  const xmlhttp = new XMLHttpRequest();
   const url = '/data/books.json';
   const columns = [];
 
@@ -55,33 +54,33 @@ const container = document.querySelector('ids-container');
     formatter: lookup.dataGrid.formatters.text
   });
 
-  xmlhttp.onreadystatechange = function onreadystatechange() {
-    if (this.readyState === 4 && this.status === 200) {
-      lookup.dataGridSettings = {
-        rowHeight: 'md',
-        rowSelection: 'multiple'
-      };
-      lookup.data = JSON.parse(this.responseText);
-      lookup.columns = columns;
-      lookup.addEventListener('change', () => {
-        console.info(`Value Changed`, lookup.dataGrid.selectedRows, lookup.value);
-      });
+  lookup.columns = columns;
 
-      lookup.addEventListener('rowselected', (e) => {
-        console.info(`Row Selected`, e.detail);
-      });
+  fetch(url)
+    .then(
+      (res) => {
+        if (res.status !== 200) {
+          return;
+        }
 
-      lookup.addEventListener('rowdeselected', (e) => {
-        console.info(`Row DeSelected`, e.detail);
-      });
+        res.json().then((data) => {
+          lookup.data = data;
+          lookup.addEventListener('change', () => {
+            console.info(`Value Changed`, lookup.dataGrid.selectedRows, lookup.value);
+          });
 
-      lookup.addEventListener('selectionchanged', (e) => {
-        console.info(`Selection Changed`, e.detail);
-      });
-    }
-  };
+          lookup.addEventListener('rowselected', (e) => {
+            console.info(`Row Selected`, e.detail);
+          });
 
-  // Execute the request
-  xmlhttp.open('GET', url, true);
-  xmlhttp.send();
+          lookup.addEventListener('rowdeselected', (e) => {
+            console.info(`Row DeSelected`, e.detail);
+          });
+
+          lookup.addEventListener('selectionchanged', (e) => {
+            console.info(`Selection Changed`, e.detail);
+          });
+        });
+      }
+    );
 }());

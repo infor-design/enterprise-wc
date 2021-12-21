@@ -8,17 +8,21 @@ tooltipTop.addEventListener('beforeshow', (e) => {
   console.info('beforeshow', e, e.detail);
 });
 
+const url = '/data/bikes.json';
 // Use the asyncronous `beforeshow` callback to load contents
 const getContents = () => new Promise((resolve) => {
-  const xhr = new XMLHttpRequest();
-  xhr.open('get', '/data/bikes.json', true);
-  xhr.onload = () => {
-    const status = xhr.status;
-    if (status === 200) {
-      resolve(JSON.parse(xhr.responseText)[1].manufacturerName);
-    }
-  };
-  xhr.send();
+  fetch(url)
+    .then(
+      (res) => {
+        if (res.status !== 200) {
+          return;
+        }
+
+        res.json().then((data) => {
+          resolve(data[1].manufacturerName);
+        });
+      }
+    );
 });
 
 const tooltipAsync = document.querySelector('[target="#tooltip-async"]');

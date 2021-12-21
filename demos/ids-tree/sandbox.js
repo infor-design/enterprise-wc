@@ -5,14 +5,18 @@ import IdsRadio from '../../src/components/ids-radio/ids-radio';
 // Get some sample data
 const getData = async function getData(callback, url = '/data/tree-basic.json') {
   if (typeof callback === 'function') {
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function onreadystatechange() {
-      if (this.readyState === 4 && this.status === 200) {
-        callback(JSON.parse(this.responseText));
-      }
-    };
-    xmlhttp.open('GET', url, true);
-    xmlhttp.send();
+    fetch(url)
+      .then(
+        (res) => {
+          if (res.status !== 200) {
+            return;
+          }
+
+          res.json().then((data) => {
+            callback(data);
+          });
+        }
+      );
   }
 };
 
