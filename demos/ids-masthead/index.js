@@ -1,1 +1,1 @@
-import IdsMasthead from '../../src/components/ids-masthead';
+import IdsMasthead from '../../src/components/ids-masthead/ids-masthead';

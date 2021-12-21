@@ -1,8 +1,4 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-import IdsHeader from '../ids-header/ids-header';
-
-export default class IdsMasthead extends IdsHeader {
+export default class IdsMasthead extends HTMLElement {
   /** Sets the masthead's icon attribute */
   icon?: string;
 

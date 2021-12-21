@@ -1,15 +1,9 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  attributes,
-  mix
-} from '../../core';
+import { attributes } from '../../core/ids-attributes';
+import { customElement, scss } from '../../core/ids-decorators';
+import Base from './ids-masthead-base';
 
-import { IdsStringUtils } from '../../utils';
-import { IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin } from '../../mixins';
-import IdsHeader from '../ids-header';
-import IdsToolbar from '../ids-toolbar';
+import IdsHeader from '../ids-header/ids-header';
+import IdsToolbar from '../ids-toolbar/ids-toolbar';
 
 import styles from './ids-masthead.scss';
 
@@ -23,7 +17,7 @@ import styles from './ids-masthead.scss';
  */
 @customElement('ids-masthead')
 @scss(styles)
-class IdsMasthead extends mix(IdsHeader).with(IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin) {
+export default class IdsMasthead extends Base {
   /**
    * @private
    * @see IdsMasthead.slots()
@@ -270,5 +264,3 @@ class IdsMasthead extends mix(IdsHeader).with(IdsEventsMixin, IdsKeyboardMixin, 
     });
   }
 }
-
-export default IdsMasthead;

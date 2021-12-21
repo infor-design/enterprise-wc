@@ -147,24 +147,24 @@ exports[`IdsMasthead Component renders any icon 2`] = `
 
 exports[`IdsMasthead Component renders correctly 1`] = `
 "<ids-masthead icon=\\"\\" title=\\"\\">
-      <section slot=\\"start\\"><ids-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">start section</ids-button></section>
-      <section slot=\\"center\\"><ids-menu-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">center section</ids-menu-button></section>
-      <section slot=\\"end\\"><ids-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">end section</ids-button></section>
+      <section slot=\\"start\\"><ids-button color-variant=\\"alternate\\" square=\\"\\">start section</ids-button></section>
+      <section slot=\\"center\\"><ids-menu-button color-variant=\\"alternate\\" square=\\"\\">center section</ids-menu-button></section>
+      <section slot=\\"end\\"><ids-button color-variant=\\"alternate\\" square=\\"\\">end section</ids-button></section>
     </ids-masthead>"
 `;
 
 exports[`IdsMasthead Component renders correctly 2`] = `
 "<ids-masthead icon=\\"info\\" title=\\"\\">
-      <section slot=\\"start\\"><ids-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">start section</ids-button></section>
-      <section slot=\\"center\\"><ids-menu-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">center section</ids-menu-button></section>
-      <section slot=\\"end\\"><ids-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">end section</ids-button></section>
+      <section slot=\\"start\\"><ids-button color-variant=\\"alternate\\" square=\\"\\">start section</ids-button></section>
+      <section slot=\\"center\\"><ids-menu-button color-variant=\\"alternate\\" square=\\"\\">center section</ids-menu-button></section>
+      <section slot=\\"end\\"><ids-button color-variant=\\"alternate\\" square=\\"\\">end section</ids-button></section>
     </ids-masthead>"
 `;
 
 exports[`IdsMasthead Component renders correctly 3`] = `
 "<ids-masthead icon=\\"logo\\" title=\\"Infor Application\\">
-      <section slot=\\"start\\"><ids-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">start section</ids-button></section>
-      <section slot=\\"center\\"><ids-menu-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">center section</ids-menu-button></section>
-      <section slot=\\"end\\"><ids-button color-variant=\\"alternate\\" language=\\"en\\" locale=\\"en-US\\" square=\\"\\">end section</ids-button></section>
+      <section slot=\\"start\\"><ids-button color-variant=\\"alternate\\" square=\\"\\">start section</ids-button></section>
+      <section slot=\\"center\\"><ids-menu-button color-variant=\\"alternate\\" square=\\"\\">center section</ids-menu-button></section>
+      <section slot=\\"end\\"><ids-button color-variant=\\"alternate\\" square=\\"\\">end section</ids-button></section>
     </ids-masthead>"
 `;
