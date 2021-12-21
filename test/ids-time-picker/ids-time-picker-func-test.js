@@ -4,7 +4,7 @@
 import '../helpers/resize-observer-mock';
 
 import IdsTimePicker from '../../src/components/ids-time-picker/ids-time-picker';
-import { attributes } from '../../src/core';
+import { attributes } from '../../src/core/ids-attributes';
 
 describe('IdsTimePicker Component', () => {
   let timepicker;

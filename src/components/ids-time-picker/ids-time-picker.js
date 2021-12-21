@@ -1,23 +1,8 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import { stringUtils } from '../../utils/ids-string-utils/ids-string-utils';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsPopupOpenEventsMixin,
-  IdsThemeMixin,
-  IdsLocaleMixin,
-} from '../../mixins';
-
-// Supporting components
+import Base from './ids-time-picker-base';
 import IdsDropdown from '../ids-dropdown/ids-dropdown';
 import IdsPopup from '../ids-popup/ids-popup';
 import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
@@ -47,13 +32,7 @@ const TIME = {
  */
 @customElement('ids-time-picker')
 @scss(styles)
-class IdsTimePicker extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsKeyboardMixin,
-    IdsPopupOpenEventsMixin,
-    IdsThemeMixin,
-    IdsLocaleMixin,
-  ) {
+export default class IdsTimePicker extends Base {
   constructor() {
     super();
   }
@@ -126,7 +105,7 @@ class IdsTimePicker extends mix(IdsElement).with(
         break;
       case attributes.AUTOUPDATE:
         this.elements.setTimeButton.classList.remove('hidden');
-        stringUtils.stringToBool(newValue) && this.elements.setTimeButton.classList.add('hidden');
+        stringToBool(newValue) && this.elements.setTimeButton.classList.add('hidden');
         break;
       default:
         // handle default case
@@ -199,35 +178,35 @@ class IdsTimePicker extends mix(IdsElement).with(
    * @param {boolean} value - true or false
    */
   set autoselect(value) {
-    this.setAttribute(attributes.AUTOSELECT, stringUtils.stringToBool(value));
+    this.setAttribute(attributes.AUTOSELECT, stringToBool(value));
   }
 
   /**
    * Gets the autoselect attribute
    * @returns {boolean} true if autoselect is enabled
    */
-  get autoselect() { return stringUtils.stringToBool(this.getAttribute(attributes.AUTOSELECT)); }
+  get autoselect() { return stringToBool(this.getAttribute(attributes.AUTOSELECT)); }
 
   /**
    * Sets the autoupdate attribute
    * @param {boolean} value - true or false
    */
   set autoupdate(value) {
-    this.setAttribute(attributes.AUTOUPDATE, stringUtils.stringToBool(value));
+    this.setAttribute(attributes.AUTOUPDATE, stringToBool(value));
   }
 
   /**
    * Gets the autoupdate attribute
    * @returns {boolean} true if autoselect is enabled
    */
-  get autoupdate() { return stringUtils.stringToBool(this.getAttribute(attributes.AUTOUPDATE)); }
+  get autoupdate() { return stringToBool(this.getAttribute(attributes.AUTOUPDATE)); }
 
   /**
    * Sets the disabled attribute
    * @param {boolean} value - true or false
    */
   set disabled(value) {
-    const disabled = stringUtils.stringToBool(value);
+    const disabled = stringToBool(value);
     this.setAttribute(attributes.DISABLED, disabled);
     this.elements.triggerField.disabled = disabled;
     this.elements.triggerButton.disabled = disabled;
@@ -245,7 +224,7 @@ class IdsTimePicker extends mix(IdsElement).with(
    * @param {boolean} value - true or false
    */
   set readonly(value) {
-    const readonly = stringUtils.stringToBool(value);
+    const readonly = stringToBool(value);
     this.setAttribute(attributes.READONLY, readonly);
     this.elements.triggerField.readonly = readonly;
     this.elements.triggerButton.readonly = readonly;
@@ -566,5 +545,3 @@ class IdsTimePicker extends mix(IdsElement).with(
     return this;
   }
 }
-
-export default IdsTimePicker;

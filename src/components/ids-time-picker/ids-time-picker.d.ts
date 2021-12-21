@@ -1,9 +1,4 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-
-import { IdsElement } from '../../core';
-
-export default class IdsTimePicker extends IdsElement {
+export default class IdsTimePicker extends HTMLElement {
   /** Set the time format to indicate which dropdowns to render (Default: "hh:mm:ss a") */
   format?: string | 'hh:mm a';
 
