@@ -7,7 +7,6 @@ const container = document.querySelector('ids-container');
   await container?.setLocale('en-US');
 
   // Do an ajax request
-  const xmlhttp = new XMLHttpRequest();
   const url = '/data/books.json';
   const columns = [];
 
@@ -130,16 +129,17 @@ const container = document.querySelector('ids-container');
     formatter: dataGrid.formatters.text
   });
 
-  xmlhttp.onreadystatechange = function onreadystatechange() {
-    if (this.readyState === 4 && this.status === 200) {
-      dataGrid.columns = columns;
-      dataGrid.data = JSON.parse(this.responseText);
-      console.info('Loading Time:', window.performance.now());
-      console.info('Page Memory:', window.performance.memory);
-    }
-  };
+  dataGrid.columns = columns;
+  fetch(url)
+    .then(
+      (res) => {
+        if (res.status !== 200) {
+          return;
+        }
 
-  // Execute the request
-  xmlhttp.open('GET', url, true);
-  xmlhttp.send();
+        res.json().then((data) => {
+          dataGrid.data = data;
+        });
+      }
+    );
 }());

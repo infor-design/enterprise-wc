@@ -4,7 +4,6 @@ import IdsDataGrid from '../../src/components/ids-data-grid/ids-data-grid';
 const dataGrid = document.querySelector('#data-grid-1');
 
 // Do an ajax request
-const xmlhttp = new XMLHttpRequest();
 const url = '/data/products.json';
 const columns = [];
 
@@ -60,13 +59,19 @@ columns.push({
   sortable: true
 });
 
-xmlhttp.onreadystatechange = function onreadystatechange() {
-  if (this.readyState === 4 && this.status === 200) {
-    dataGrid.columns = columns;
-    dataGrid.data = JSON.parse(this.responseText);
-  }
-};
+dataGrid.columns = columns;
 
-// Execute the request
-xmlhttp.open('GET', url, true);
-xmlhttp.send();
+fetch(url)
+  .then(
+    (res) => {
+      if (res.status !== 200) {
+        return;
+      }
+
+      res.json().then((data) => {
+        console.info('Loading Time:', window.performance.now());
+        console.info('Page Memory:', window.performance.memory);
+        dataGrid.data = data;
+      });
+    }
+  );

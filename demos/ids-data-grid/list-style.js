@@ -10,7 +10,6 @@ const container = document.querySelector('ids-container');
   await container.setLocale('en-US');
 
   // Do an ajax request
-  const xmlhttp = new XMLHttpRequest();
   const url = '/data/companies.json';
   const columns = [];
 
@@ -60,14 +59,18 @@ const container = document.querySelector('ids-container');
     formatter: dataGrid.formatters.date
   });
 
-  xmlhttp.onreadystatechange = function onreadystatechange() {
-    if (this.readyState === 4 && this.status === 200) {
-      dataGrid.columns = columns;
-      dataGrid.data = JSON.parse(this.responseText);
-    }
-  };
+  dataGrid.columns = columns;
 
-  // Execute the request
-  xmlhttp.open('GET', url, true);
-  xmlhttp.send();
+  fetch(url)
+    .then(
+      (res) => {
+        if (res.status !== 200) {
+          return;
+        }
+
+        res.json().then((data) => {
+          dataGrid.data = data;
+        });
+      }
+    );
 }());
