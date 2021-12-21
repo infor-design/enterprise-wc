@@ -4,8 +4,12 @@
 // eslint-disable-next-line
 import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';
 import expectFlagAttributeBehavior from '../helpers/expect-flag-attribute-behavior';
-import IdsTabs, { IdsTab, IdsTabsContext, IdsTabContent } from '../../src/components/ids-tabs';
-import IdsHeader from '../../src/components/ids-header';
+import IdsTabs from '../../src/components/ids-tabs/ids-tabs';
+import IdsTab from '../../src/components/ids-tabs/ids-tab';
+import IdsTabsContext from '../../src/components/ids-tabs/ids-tabs-context';
+import IdsTabContent from '../../src/components/ids-tabs/ids-tab-content';
+
+import IdsHeader from '../../src/components/ids-header/ids-header';
 import IdsText from '../../src/components/ids-text/ids-text';
 import createFromTemplate from '../helpers/create-from-template';
 

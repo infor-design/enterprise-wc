@@ -1,16 +1,14 @@
 /**
  * @jest-environment jsdom
  */
-import { IdsRenderLoop, IdsRenderLoopItem } from '../../src/components/ids-render-loop/ids-render-loop';
-
-// Supporting Components
+import IdsRenderLoop from '../../src/components/ids-render-loop/ids-render-loop';
+import IdsRenderLoopItem from '../../src/components/ids-render-loop/ids-render-loop-item';
 import IdsIcon from '../../src/components/ids-icon/ids-icon';
 
 describe('Ids RenderLoop', () => {
   let loop;
 
   beforeEach(() => {
-    // Setup Loop
     loop = new IdsRenderLoop();
   });
 
@@ -85,6 +83,11 @@ describe('Ids RenderLoop', () => {
 
   it('keeps time records', () => {
     expect(loop.startTime).toBeDefined();
+    expect(loop.elapsedTime).toBeDefined();
+  });
+
+  it('keeps time records with null start time', () => {
+    loop.startTime = null;
     expect(loop.elapsedTime).toBeDefined();
   });
 

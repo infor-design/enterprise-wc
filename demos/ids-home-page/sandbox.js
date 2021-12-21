@@ -1,2 +1,2 @@
 // IdsHomePage Sandbox
-import IdsHyperlink from '../../src/components/ids-hyperlink';
+import IdsHyperlink from '../../src/components/ids-hyperlink/ids-hyperlink';

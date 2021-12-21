@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsImage from '../../src/components/ids-image';
+import IdsImage from '../../src/components/ids-image/ids-image';
 
 const name = 'ids-image';
 const alt = 'example alt';

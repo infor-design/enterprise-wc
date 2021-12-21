@@ -1,2 +1,2 @@
-import IdsText from '../../src/components/ids-text';
-import IdsHyperlink from '../../src/components/ids-hyperlink';
+import IdsText from '../../src/components/ids-text/ids-text';
+import IdsHyperlink from '../../src/components/ids-hyperlink/ids-hyperlink';

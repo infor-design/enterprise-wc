@@ -1,33 +1,25 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  attributes,
-  mix
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
+import Base from './ids-swipe-action-base';
 
 import styles from './ids-swipe-action.scss';
-import { renderLoop, IdsRenderLoopItem } from '../ids-render-loop';
+import renderLoop from '../ids-render-loop/ids-render-loop-global';
+import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 
 /**
  * IDS SwipeAction Component
  * @type {IdsSwipeAction}
  * @inherits IdsElement
- * @mixes IdsThemeMixin
  * @mixes IdsEventsMixin
+ * @mixes IdsThemeMixin
  * @part container - the contents
  * @part action-left - the left action
  * @part action-right - the right  action
  */
 @customElement('ids-swipe-action')
 @scss(styles)
-class IdsSwipeAction extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+export default class IdsSwipeAction extends Base {
   constructor() {
     super();
   }
@@ -144,5 +136,3 @@ class IdsSwipeAction extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
 
   get swipeType() { return this.getAttribute(attributes.SWIPE_TYPE) || 'reveal'; }
 }
-
-export default IdsSwipeAction;

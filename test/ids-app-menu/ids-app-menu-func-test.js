@@ -1,14 +1,14 @@
 /**
  * @jest-environment jsdom
  */
-import IdsAppMenu from '../../src/components/ids-app-menu';
+import IdsAppMenu from '../../src/components/ids-app-menu/ids-app-menu';
 import IdsAccordion, {
   IdsAccordionHeader,
   IdsAccordionPanel
-} from '../../src/components/ids-accordion';
-import IdsButton from '../../src/components/ids-button';
-import IdsToolbar, { IdsToolbarSection } from '../../src/components/ids-toolbar';
-import IdsText from '../../src/components/ids-text';
+} from '../../src/components/ids-accordion/ids-accordion';
+import IdsButton from '../../src/components/ids-button/ids-button';
+import IdsToolbar, { IdsToolbarSection } from '../../src/components/ids-toolbar/ids-toolbar';
+import IdsText from '../../src/components/ids-text/ids-text';
 
 import elemBuilderFactory from '../helpers/elem-builder-factory';
 import waitFor from '../helpers/wait-for';

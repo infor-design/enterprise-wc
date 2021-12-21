@@ -1,26 +1,12 @@
-import {
-  IdsElement,
-  customElement,
-  mix,
-  scss,
-  attributes
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
 
-// Import Utils
-import { IdsStringUtils, IdsDOMUtils } from '../../utils';
-
-// Import Dependencies
-import IdsToolbarSection, { TOOLBAR_ITEM_TAGNAMES } from './ids-toolbar-section';
+import IdsToolbarSection from './ids-toolbar-section';
 import IdsToolbarMoreActions from './ids-toolbar-more-actions';
+import Base from './ids-toolbar-base';
 
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
-// Import Styles
 import styles from './ids-toolbar.scss';
 
 const TYPE_FORMATTER = 'formatter';
@@ -35,7 +21,7 @@ const TYPE_FORMATTER = 'formatter';
  */
 @customElement('ids-toolbar')
 @scss(styles)
-class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin) {
+export default class IdsToolbar extends Base {
   constructor() {
     super();
   }
@@ -186,7 +172,7 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
    * @param {boolean} val sets the disabled state of the entire toolbar
    */
   set disabled(val) {
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
 
     if (trueVal) {
       this.setAttribute(attributes.DISABLED, val);
@@ -222,7 +208,7 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
   get focused() {
     // @TODO clean this up / document why/how it works
     return this.items.find((item) => {
-      const container = IdsDOMUtils.getClosestContainerNode(item);
+      const container = getClosestContainerNode(item);
       const focused = container.activeElement;
       const isEqualNode = focused?.isEqualNode(item);
       return isEqualNode;
@@ -288,7 +274,7 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
    * @param {boolean} val sets the tabbable state of the toolbar
    */
   set tabbable(val) {
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
 
     if (trueVal) {
       this.setAttribute(attributes.TABBABLE, val);
@@ -409,6 +395,3 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
     }));
   }
 }
-
-export default IdsToolbar;
-export { IdsToolbarSection, IdsToolbarMoreActions, TOOLBAR_ITEM_TAGNAMES };

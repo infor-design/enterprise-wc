@@ -1,13 +1,5 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-} from '../../core';
-
-// Import Mixins
-import { IdsEventsMixin, IdsThemeMixin } from '../../mixins';
-
+import { customElement, scss } from '../../core/ids-decorators';
+import Base from './ids-breadcrumb-base';
 import styles from './ids-breadcrumb.scss';
 
 /**
@@ -20,7 +12,7 @@ import styles from './ids-breadcrumb.scss';
  */
 @customElement('ids-breadcrumb')
 @scss(styles)
-class IdsBreadcrumb extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+export default class IdsBreadcrumb extends Base {
   constructor() {
     super();
     this.#init();
@@ -84,5 +76,3 @@ class IdsBreadcrumb extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) 
     return null;
   }
 }
-
-export default IdsBreadcrumb;

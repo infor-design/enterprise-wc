@@ -52,7 +52,7 @@
 }
 
 // RTL Adjustments
-.ids-radio-group[dir='rtl'] {
+:host([dir='rtl']) {
   .group-label-text.required::after {
     left: -13px;
     right: initial;

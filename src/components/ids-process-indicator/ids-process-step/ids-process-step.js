@@ -1,19 +1,8 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  attributes,
-  mix
-} from '../../../core';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../../mixins';
+import { customElement, scss } from '../../../core/ids-decorators';
+import { attributes } from '../../../core/ids-attributes';
+import Base from './ids-process-step-base';
 
 import styles from './ids-process-step.scss';
-import { IdsStringUtils } from '../../../utils/ids-string-utils';
 
 const statuses = ['cancelled', 'started', 'done'];
 const DEFAULT_LABEL = 'empty label';
@@ -26,10 +15,9 @@ const DEFAULT_LABEL = 'empty label';
  * @mixes IdsThemeMixin
  * @part label
  */
-
 @customElement('ids-process-step')
 @scss(styles)
-class IdsProcessStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+export default class IdsProcessStep extends Base {
   constructor() {
     super();
   }
@@ -164,5 +152,3 @@ class IdsProcessStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
     }
   }
 }
-
-export default IdsProcessStep;

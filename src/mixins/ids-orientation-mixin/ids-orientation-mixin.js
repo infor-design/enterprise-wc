@@ -1,5 +1,5 @@
-import { attributes } from '../../core';
-import { IdsXssUtils } from '../../utils';
+import { attributes } from '../../core/ids-attributes';
+import { stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 /**
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
@@ -52,7 +52,7 @@ const IdsOrientationMixin = (superclass) => class extends superclass {
   set orientation(val) {
     let safeValue = null;
     if (typeof val === 'string') {
-      safeValue = IdsXssUtils.stripTags(val, '');
+      safeValue = stripTags(val, '');
     }
 
     const currentValue = this.state.orientation;

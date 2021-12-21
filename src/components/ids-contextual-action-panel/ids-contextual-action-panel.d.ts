@@ -1,7 +1,6 @@
-import IdsModal from '../ids-modal';
-import IdsToolbar from '../ids-toolbar';
+import IdsToolbar from '../ids-toolbar/ids-toolbar';
 
-export default class IdsContextualActionPanel extends IdsModal {
+export default class IdsContextualActionPanel extends HTMLElement {
   /** Optional Toolbar that will appear in the Contextul Action Panel header */
   readonly toolbar?: IdsToolbar;
 }

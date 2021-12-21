@@ -808,9 +808,17 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 }
 
 // Handle RTL
-.ids-data-grid[dir='rtl'] {
+:host([dir='rtl']) {
   // Hide first/last border
   .ids-data-grid-cell {
+    &:first-child {
+      border-left-style: solid;
+    }
+    &:last-child {
+      border-left-style: hidden;
+    }
+  }
+  .ids-data-grid-header-cell {
     &:first-child {
       border-left-style: solid;
     }

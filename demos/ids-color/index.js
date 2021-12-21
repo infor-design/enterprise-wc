@@ -1,1 +1,1 @@
-import IdsColor from '../../src/components/ids-color';
+import IdsColor from '../../src/components/ids-color/ids-color';

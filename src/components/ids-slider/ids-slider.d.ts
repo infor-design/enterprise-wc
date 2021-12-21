@@ -1,6 +1,4 @@
-import { IdsElement } from '../../core';
-
-export default class IdsSlider extends IdsElement {
+export default class IdsSlider extends HTMLElement {
   /** Sets the color of the slider bar */
   color: string | 'success' | 'warning' | 'caution' | 'error' | 'base';
 

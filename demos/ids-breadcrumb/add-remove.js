@@ -1,7 +1,7 @@
-import IdsBreadcrumb from '../../src/components/ids-breadcrumb';
-import IdsHyperlink from '../../src/components/ids-hyperlink';
-import IdsText from '../../src/components/ids-text';
-import IdsCheckbox from '../../src/components/ids-checkbox';
+import IdsBreadcrumb from '../../src/components/ids-breadcrumb/ids-breadcrumb';
+import IdsHyperlink from '../../src/components/ids-hyperlink/ids-hyperlink';
+import IdsText from '../../src/components/ids-text/ids-text';
+import IdsCheckbox from '../../src/components/ids-checkbox/ids-checkbox';
 
 const [button1, button2] = document.querySelectorAll('ids-button');
 const breadcrumb = document.querySelector('ids-breadcrumb');

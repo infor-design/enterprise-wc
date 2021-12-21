@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsListBuilder from '../../src/components/ids-list-builder';
+import IdsListBuilder from '../../src/components/ids-list-builder/ids-list-builder';
 
 const sampleData = [
   {

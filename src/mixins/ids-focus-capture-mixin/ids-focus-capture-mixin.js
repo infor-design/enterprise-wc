@@ -1,6 +1,9 @@
-import { attributes } from '../../core';
+// Import Core
+import { attributes } from '../../core/ids-attributes';
+
 // Import Utils
-import { IdsStringUtils, IdsDOMUtils } from '../../utils';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 const FOCUS_CAPTURE_EVENTNAME = 'keydown.focus-capture';
 
@@ -31,7 +34,7 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
 
   connectedCallback() {
     super.connectedCallback?.();
-    this.#hostNode = IdsDOMUtils.getClosestContainerNode(this);
+    this.#hostNode = getClosestContainerNode(this);
   }
 
   /**
@@ -43,7 +46,7 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
 
   set capturesFocus(val) {
     const currentVal = this.#capturesFocus;
-    const newVal = IdsStringUtils.stringToBool(val);
+    const newVal = stringToBool(val);
     if (currentVal !== newVal) {
       this.#capturesFocus = newVal;
       newVal
@@ -65,7 +68,7 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
 
   set cyclesFocus(val) {
     const currentVal = this.#cyclesFocus;
-    const newVal = IdsStringUtils.stringToBool(val);
+    const newVal = stringToBool(val);
     if (currentVal !== newVal) {
       this.#cyclesFocus = newVal;
       newVal

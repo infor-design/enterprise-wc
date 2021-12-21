@@ -15,6 +15,6 @@ ids-trigger-button {
   top: 2px;
 }
 
-ids-trigger-field[dir='rtl'] .icon-container {
+:host([dir='rtl']) .icon-container {
   margin: 0 8px 0 0;
 }

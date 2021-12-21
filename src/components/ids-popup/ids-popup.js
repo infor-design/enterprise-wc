@@ -1,102 +1,35 @@
-import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix
-} from '../../core';
-
-// Import Utils
-import { IdsStringUtils, IdsDOMUtils } from '../../utils';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsLocaleMixin,
-  IdsThemeMixin
-} from '../../mixins';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { camelCase, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import {
-  renderLoop,
-  IdsRenderLoopItem
-} from '../ids-render-loop';
+  getClosest,
+  getClosestRootNode,
+  waitForTransitionEnd,
+  getEditableRect
+} from '../../utils/ids-dom-utils/ids-dom-utils';
+
+import Base from './ids-popup-base';
+
+import {
+  CENTER,
+  ALIGNMENT_EDGES,
+  ALIGNMENTS_X,
+  ALIGNMENTS_Y,
+  ALIGNMENTS_EDGES_X,
+  ALIGNMENTS_EDGES_Y,
+  ANIMATION_STYLES,
+  ARROW_TYPES,
+  POSITION_STYLES,
+  TYPES,
+  POPUP_PROPERTIES,
+  formatAlignAttribute
+} from './ids-popup-attributes';
+
+import renderLoop from '../ids-render-loop/ids-render-loop-global';
+import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 
 import styles from './ids-popup.scss';
-
-const CENTER = 'center';
-
-// Locations in which a parent-positioned Popup can be located
-const ALIGNMENT_EDGES = [CENTER, 'bottom', 'top', 'left', 'right'];
-
-// Methods for X/Y-coordinate alignment against a parent
-const ALIGNMENTS_X = [CENTER, 'left', 'right'];
-const ALIGNMENTS_Y = [CENTER, 'top', 'bottom'];
-const ALIGNMENTS_EDGES_X = ALIGNMENTS_X.filter((x) => x !== CENTER);
-const ALIGNMENTS_EDGES_Y = ALIGNMENTS_Y.filter((y) => y !== CENTER);
-
-// Possible animation styles for the Popup
-const ANIMATION_STYLES = [
-  'fade',
-  'scale-in',
-  'slide-from-bottom'
-];
-
-// Arrow Directions (defaults to 'none')
-const ARROW_TYPES = ['none', 'bottom', 'top', 'left', 'right'];
-
-// Position types
-const POSITION_STYLES = ['fixed', 'absolute', 'viewport'];
-
-// Types of Popups
-const TYPES = ['none', 'menu', 'menu-alt', 'modal', 'tooltip', 'tooltip-alt', 'custom', 'dropdown'];
-
-// Properties exposed with getters/setters
-// safeSet/RemoveAttribute also use these so we pull them out
-const POPUP_PROPERTIES = [
-  attributes.ALIGN,
-  attributes.ALIGN_X,
-  attributes.ALIGN_Y,
-  attributes.ALIGN_EDGE,
-  attributes.ALIGN_TARGET,
-  attributes.ARROW,
-  attributes.ARROW_TARGET,
-  attributes.ANIMATED,
-  attributes.ANIMATION_STYLE,
-  attributes.BLEED,
-  attributes.LANGUAGE,
-  attributes.POSITION_STYLE,
-  attributes.TYPE,
-  attributes.VISIBLE,
-  attributes.X,
-  attributes.Y
-];
-
-/**
- * Formats the text value of the `align` attribute.
- * @private
- * @param {string} alignX matches a value from the ALIGNMENTS_X array
- * @param {string} alignY matches a value from the ALIGNMENTS_Y array
- * @param {string} edge matches a value from the ALIGNMENT_EDGES array
- * @returns {string} containing the properly formatted align value
- */
-function formatAlignAttribute(alignX, alignY, edge) {
-  // Check the edge for a "Y" alignment
-  if (ALIGNMENTS_EDGES_Y.includes(edge)) {
-    if (!alignX || !alignX.length || alignX === CENTER) {
-      return `${edge}`;
-    }
-    return `${edge}, ${alignX}`;
-  }
-
-  // Alignment is definitely "X"
-  if (!alignY || !alignY.length || alignY === CENTER) {
-    return `${alignX}`;
-  }
-  if (edge === CENTER) {
-    return `${alignY}`;
-  }
-  return `${edge}, ${alignY}`;
-}
 
 /**
  * IDS Popup Component
@@ -110,11 +43,7 @@ function formatAlignAttribute(alignX, alignY, edge) {
  */
 @customElement('ids-popup')
 @scss(styles)
-class IdsPopup extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsLocaleMixin,
-    IdsThemeMixin
-  ) {
+export default class IdsPopup extends Base {
   constructor() {
     super();
     this.shouldUpdate = false;
@@ -124,7 +53,7 @@ class IdsPopup extends mix(IdsElement).with(
     super.connectedCallback?.();
 
     // Always setup link to containing element first
-    this.containingElem = IdsDOMUtils.getClosest(this, 'ids-container') || document.body;
+    this.containingElem = getClosest(this, 'ids-container') || document.body;
 
     // Set inital state and events
     this.#setInitialState();
@@ -234,7 +163,7 @@ class IdsPopup extends mix(IdsElement).with(
    */
   #setInitialState() {
     POPUP_PROPERTIES.forEach((prop) => {
-      const camelProp = IdsStringUtils.camelCase(prop);
+      const camelProp = camelCase(prop);
       this[camelProp] = this.getAttribute(prop) || this[camelProp];
     });
   }
@@ -244,14 +173,7 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {void}
    */
   #attachEventHandlers() {
-    const containerNode = IdsDOMUtils.getClosest(this, 'ids-container');
-
-    // Respond to parent changing language
-    this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', containerNode, async (e) => {
-      await this.setLanguage(e.detail.language.name);
-    });
-
+    const containerNode = getClosest(this, 'ids-container');
     // Setup Resize Observer
     this.#ro.observe(this.container);
     if (containerNode) {
@@ -299,7 +221,7 @@ class IdsPopup extends mix(IdsElement).with(
     let elem;
     if (isString) {
       // @TODO Harden for security (XSS)
-      const rootNode = IdsDOMUtils.getClosestRootNode(this);
+      const rootNode = getClosestRootNode(this);
       elem = rootNode.querySelector(val);
       if (!(elem instanceof HTMLElement)) {
         return;
@@ -582,7 +504,7 @@ class IdsPopup extends mix(IdsElement).with(
    * @param {boolean} val true if animation should occur on the Popup
    */
   set animated(val) {
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
     if (this.#animated !== trueVal) {
       this.#animated = trueVal;
       if (trueVal) {
@@ -658,7 +580,7 @@ class IdsPopup extends mix(IdsElement).with(
    * @param {boolean|string} val true if bleeds should be respected by the Popup
    */
   set bleed(val) {
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
     if (this.#bleed !== trueVal) {
       this.#bleed = val;
       if (trueVal) {
@@ -790,7 +712,7 @@ class IdsPopup extends mix(IdsElement).with(
     let elem;
     if (isString) {
       // @TODO Harden for security (XSS)
-      const rootNode = IdsDOMUtils.getClosestRootNode(this);
+      const rootNode = getClosestRootNode(this);
       elem = rootNode.querySelector(val);
       if (!(elem instanceof HTMLElement)) {
         return;
@@ -907,7 +829,7 @@ class IdsPopup extends mix(IdsElement).with(
    * @param {boolean} val a boolean for displaying or hiding the popup
    */
   set visible(val) {
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
     if (this.#visible !== trueVal) {
       this.#visible = trueVal;
       if (trueVal) {
@@ -1045,7 +967,7 @@ class IdsPopup extends mix(IdsElement).with(
             this.placeArrow();
 
             if (this.animated) {
-              await IdsDOMUtils.waitForTransitionEnd(this.container);
+              await waitForTransitionEnd(this.container);
             }
             this.#correct3dMatrix();
             this.open = true;
@@ -1466,7 +1388,7 @@ class IdsPopup extends mix(IdsElement).with(
   #removeAbsoluteParentDistance(elem, rect) {
     const adjustedProps = ['absolute', 'fixed'];
     const domRectProps = ['bottom', 'left', 'right', 'top', 'x', 'y'];
-    const elemRect = IdsDOMUtils.getEditableRect(rect || elem.getBoundingClientRect());
+    const elemRect = getEditableRect(rect || elem.getBoundingClientRect());
 
     let parent = (elem && (elem.host || elem.parentNode));
     let parentStyle;
@@ -1561,5 +1483,3 @@ class IdsPopup extends mix(IdsElement).with(
     arrowEl.style[targetMargin] = `${d}px`;
   }
 }
-
-export default IdsPopup;
