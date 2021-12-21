@@ -2,7 +2,7 @@
 
 exports[`IdsCard Component renders correctly 1`] = `
 "<ids-card><div slot=\\"card-header\\">
-            <ids-text font-size=\\"20\\" type=\\"h2\\">Card Title Two</ids-text>
+            <ids-text font-size=\\"20\\" type=\\"h2\\" language=\\"en\\" locale=\\"en-US\\">Card Title Two</ids-text>
           </div>
           <div slot=\\"card-content\\">
           </div></ids-card>"

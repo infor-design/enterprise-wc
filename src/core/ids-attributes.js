@@ -37,6 +37,8 @@ export const attributes = {
   CANCEL: 'cancel',
   CAPTURES_FOCUS: 'captures-focus',
   CARD_HEIGHT: 'card-height',
+  CARD_SELECTED: 'card-selected',
+  CARD_SELECTION: 'card-selection',
   CARD_WIDTH: 'card-width',
   CHAR_MAX_TEXT: 'char-max-text',
   CHAR_REMAINING_TEXT: 'char-remaining-text',

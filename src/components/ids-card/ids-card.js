@@ -1,8 +1,16 @@
-import { customElement, scss } from '../../core/ids-decorators';
-import { attributes } from '../../core/ids-attributes';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import Base from './ids-card-base';
+import {
+  IdsElement,
+  customElement,
+  scss,
+  mix,
+  attributes
+} from '../../core';
 
+import { IdsEventsMixin, IdsThemeMixin } from '../../mixins';
+import { IdsSelectionMixin } from '../../mixins/ids-selection-mixin';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
+import IdsCheckbox from '../ids-checkbox';
 import styles from './ids-card.scss';
 
 /**
@@ -17,9 +25,14 @@ import styles from './ids-card.scss';
  */
 @customElement('ids-card')
 @scss(styles)
-export default class IdsCard extends Base {
+export default class IdsCard extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsSelectionMixin) {
   constructor() {
     super();
+  }
+
+  connectedCallback() {
+    this.#handleEvents();
+    super.connectedCallback();
   }
 
   /**
@@ -42,14 +55,64 @@ export default class IdsCard extends Base {
   template() {
     return `
       <div class="ids-card" part="card">
-        <div class="ids-card-header" part="header">
-          <slot name="card-header"></slot>
-        </div>
-        <div class="ids-card-content ${this.overflow === 'hidden' ? 'overflow-hidden' : ''}" part="content">
-          <slot name="card-content"></slot>
+        <ids-checkbox
+          class="${this.cardSelection === 'multiple' ? '' : 'hidden'}"
+        ></ids-checkbox>
+        <div class="ids-card-body">
+          <div class="ids-card-header" part="header">
+            <slot name="card-header"></slot>
+          </div>
+          <div class="ids-card-content ${this.overflow === 'hidden' ? 'overflow-hidden' : ''}" part="content">
+            <slot name="card-content"></slot>
+          </div>
         </div>
       </div>
     `;
+  }
+
+  /**
+   * Establish Internal Event Handlers
+   * @private
+   * @returns {object} The object for chaining.
+   */
+  #handleEvents() {
+    this.onEvent('click', this, (e) => {
+      if (this.cardSelection === 'single') {
+        const cardElements = document.querySelectorAll('ids-card[card-selection="single"]');
+        for (const elem of cardElements) {
+          elem.setAttribute(attributes.CARD_SELECTED, false);
+        }
+
+        this.setAttribute(attributes.CARD_SELECTED, true);
+      } else if (this.cardSelection === 'multiple') {
+        this.#changeSelection(e);
+      }
+    });
+
+    if (this.cardSelection === 'multiple') {
+      const idsCheckboxElem = this.container.querySelector('ids-checkbox');
+      idsCheckboxElem.onEvent('click', idsCheckboxElem, (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        this.#changeSelection(e);
+      });
+    }
+
+    return this;
+  }
+
+  #changeSelection(e) {
+    this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, this.cardSelected !== 'true');
+    this.setAttribute(attributes.CARD_SELECTED, this.cardSelected !== 'true');
+
+    this.triggerEvent('selectionchanged', this, {
+      detail: {
+        elem: this,
+        nativeEvent: e,
+        selected: this.cardSelected,
+        selection: this.cardSelection,
+      }
+    });
   }
 
   /**

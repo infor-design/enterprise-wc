@@ -7,10 +7,13 @@
   @include border-solid();
   @include rounded-md();
   @include mb-20();
+  @include box-border();
 
   box-shadow: rgba(0 0 0 / 0.1) 0 0 8px;
   contain: content;
   height: 360px;
+  display: flex;
+  align-items: center;
 
   .ids-card-content {
     @include w-full();
@@ -21,6 +24,23 @@
     &.overflow-hidden {
       overflow: hidden;
     }
+  }
+
+  &.is-selectable {
+    @include cursor-pointer();
+  }
+
+  &.is-selected {
+    background-color: #e6f1fd;
+    border: 2px solid #0072ed;
+  }
+
+  ids-checkbox {
+    margin-left: 16px;
+  }
+
+  .hidden {
+    display: none;
   }
 }
 

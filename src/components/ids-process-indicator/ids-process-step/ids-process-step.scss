@@ -15,6 +15,23 @@
   flex: 1;
   position: relative;
 
+  // slotted text details
+  ::slotted(ids-text) {
+    color: var(--ids-color-palette-slate-60);
+  }
+
+  [mode='dark'] {
+    ::slotted(ids-text) {
+      color: var(--ids-color-palette-slate-30);
+    }
+  }
+
+  [mode='contrast'] {
+    ::slotted(ids-text) {
+      color: var(--ids-color-palette-slate-90);
+    }
+  }
+
   @media (min-width: $breakpoint-xs) {
     .label {
       display: none;
@@ -40,23 +57,6 @@
 
     .step {
       margin-top: unset;
-    }
-  }
-
-  // slotted text details
-  ::slotted(ids-text) {
-    color: var(--ids-color-palette-slate-60);
-  }
-
-  [mode='dark'] {
-    ::slotted(ids-text) {
-      color: var(--ids-color-palette-slate-30);
-    }
-  }
-
-  [mode='contrast'] {
-    ::slotted(ids-text) {
-      color: var(--ids-color-palette-slate-90);
     }
   }
 }

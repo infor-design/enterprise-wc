@@ -94,4 +94,30 @@ describe('IdsCard Component', () => {
     card.version = 'classic';
     expect(card.container.getAttribute('version')).toEqual('classic');
   });
+
+  it('support card selection single', () => {
+    const clickEvent = new MouseEvent('click', { bubbles: true });
+    card.cardSelection = 'single';
+
+    card.dispatchEvent(clickEvent);
+    expect(card.cardSelected).toBe('true');
+
+    card.dispatchEvent(clickEvent);
+    expect(card.cardSelected).toBe('true');
+  });
+
+  it('support card selection multiple', () => {
+    const clickEvent = new MouseEvent('click', { bubbles: true });
+    card.cardSelection = 'multiple';
+    const checkboxElem = card.shadowRoot.querySelector('ids-checkbox');
+
+    // when user click card container
+    card.dispatchEvent(clickEvent);
+    expect(card.cardSelected).toBe('true');
+    expect(checkboxElem.checked).toBe('true');
+
+    card.dispatchEvent(clickEvent);
+    expect(card.cardSelected).toBe('false');
+    expect(checkboxElem.checked).toBeNull();
+  });
 });
