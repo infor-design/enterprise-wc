@@ -124,6 +124,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
       ...super.attributes,
       attributes.AUTOSELECT,
       attributes.BG_TRANSPARENT,
+      attributes.CAPS_LOCK,
       attributes.CLEARABLE,
       attributes.CLEARABLE_FORCED,
       attributes.COMPACT,
@@ -139,12 +140,14 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
       attributes.PLACEHOLDER,
       attributes.SIZE,
       attributes.READONLY,
+      attributes.REVEALABLE_TEXT,
       attributes.TEXT_ALIGN,
       attributes.TEXT_ELLIPSIS,
       attributes.TRIGGERFIELD,
       attributes.TYPE,
       attributes.VALUE,
-      attributes.VERSION
+      attributes.VERSION,
+      attributes.PASSWORD_VISIBLE
     ];
   }
 
@@ -172,8 +175,13 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
 
     // Input
     const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
-    const type = ` type="${this.type || TYPES.default}"`;
+    let type = ` type="${this.type || TYPES.default}"`;
     let inputClass = `ids-input-field ${this.textAlign}`;
+    let showHide = ``;
+    if (this.revealableText && this.type === TYPES.password) {
+      showHide = `<ids-button class="show-hide-password">${this.passwordVisible ? 'Hide' : 'Show'}</ids-button>`;
+      type = `  type="${this.passwordVisible ? 'text' : this.type}"`;
+    }
     inputClass += stringUtils.stringToBool(this.triggerfield) ? ' has-triggerfield' : '';
     inputClass += stringUtils.stringToBool(this.bgTransparent) ? ' bg-transparent' : '';
     inputClass += stringUtils.stringToBool(this.textEllipsis) ? ' text-ellipsis' : '';
@@ -200,7 +208,11 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
             ${this.getAttribute(attributes.LABEL_HIDDEN) && this.label ? `aria-label="${this.label}"` : ''}
             ${this.hasAttribute(attributes.VALUE) ? ` value="${this.getAttribute(attributes.VALUE)}" ` : ''}
             ></input>
+            <div class="inline-indicators">
+              ${showHide}
+            </div>
         </div>
+
       </div>`
     );
   }
@@ -232,6 +244,50 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
       this.#labelEl
       || this.shadowRoot?.querySelector(`[for="${this.id}-input"]`)
     );
+  }
+
+  get revealableText() {
+    return stringUtils.stringToBool(this.getAttribute(attributes.REVEALABLE_TEXT));
+  }
+
+  set revealableText(value) {
+    if (this.type === TYPES.password) {
+      if (stringUtils.stringToBool(value)) {
+        this.setAttribute(attributes.REVEALABLE_TEXT, 'true');
+        this.#togglePasswordEventSetUp(true);
+      } else {
+        this.setAttribute(attributes.REVEALABLE_TEXT, 'false');
+        this.#togglePasswordEventSetUp(false);
+      }
+    } else {
+      this.removeAttribute(attributes.REVEALABLE_TEXT);
+    }
+  }
+
+  get capsLock() {
+    return stringUtils.stringToBool(this.getAttribute(attributes.CAPS_LOCK));
+  }
+
+  set capsLock(value) {
+    if (stringUtils.stringToBool(value)) {
+      this.#capsLockEventSetUp(true);
+      this.setAttribute(attributes.CAPS_LOCK, 'true');
+    } else {
+      this.#capsLockEventSetUp(false);
+      this.removeAttribute(attributes.CAPS_LOCK);
+    }
+  }
+
+  get passwordVisible() {
+    return stringUtils.stringToBool(this.getAttribute(attributes.PASSWORD_VISIBLE));
+  }
+
+  set passwordVisible(value) {
+    stringUtils.stringToBool(value)
+      ? this.setAttribute(attributes.PASSWORD_VISIBLE, 'true')
+      : this.setAttribute(attributes.PASSWORD_VISIBLE, 'false');
+
+    this.passwordVisibilityHandler();
   }
 
   /**
@@ -380,6 +436,24 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     }
   }
 
+  #capsLockEventSetUp(value) {
+    const indicatorDiv = this.shadowRoot.querySelector('.inline-indicators');
+    let capsLockIndicator = indicatorDiv.querySelector('#caps-lock-indicator');
+    if (value) {
+      this.onEvent('keyup.capslock', this.input, (event) => {
+        capsLockIndicator = indicatorDiv.querySelector('#caps-lock-indicator');
+        if (event.getModifierState('CapsLock') && !capsLockIndicator) {
+          indicatorDiv.innerHTML += '<ids-icon id="caps-lock-indicator" icon="capslock"></ids-icon>';
+        } else if (capsLockIndicator && !event.getModifierState('CapsLock')) {
+          capsLockIndicator.remove();
+        }
+      });
+    } else {
+      this.offEvent('keyup.capslock', this.input);
+      capsLockIndicator?.remove();
+    }
+  }
+
   /**
    * Handle input change event
    * @private
@@ -432,6 +506,40 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   #attachEventHandlers() {
     this.#attachNativeEvents();
     this.#attachInputChangeEvent();
+  }
+
+  #togglePasswordEventSetUp(value) {
+    const showHidePasswordElem = this.shadowRoot.querySelector(`.show-hide-password`);
+    const inputContainer = this.shadowRoot.querySelector('.inline-indicators');
+    if (value) {
+      if (!showHidePasswordElem && this.revealableText && this.type === TYPES.password) {
+        inputContainer.innerHTML += `<ids-button class="show-hide-password">${this.passwordVisible ? 'Hide' : 'Show'}</ids-button>`;
+        this.input.type = `${this.passwordVisible ? 'text' : this.type}`;
+      }
+      this.onEvent('click.showhidepassword', showHidePasswordElem, () => {
+        this.passwordVisible = !this.passwordVisible;
+        this.passwordVisibilityHandler();
+      });
+    } else {
+      this.offEvent('click.showhidepassword', showHidePasswordElem);
+      this.input.type = this.type;
+      showHidePasswordElem?.remove();
+    }
+  }
+
+  passwordVisibilityHandler() {
+    const passwordButton = this.shadowRoot.querySelector(`ids-button`);
+    const passwordField = this.shadowRoot.querySelector(`.ids-input-field`);
+    if(passwordButton){
+      if (this.passwordVisible) {
+        passwordButton.innerHTML = 'Hide';
+        passwordField.type = 'text';
+      } else {
+        passwordButton.innerHTML = 'Show';
+        passwordField.type = 'password';
+      }
+    }
+
   }
 
   /**

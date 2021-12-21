@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import { template } from 'handlebars';
 import IdsInput from '../../src/components/ids-input/ids-input';
 import IdsClearableMixin from '../../src/mixins';
 
@@ -83,6 +84,34 @@ describe('IdsInput Component', () => {
     input.type = 'password';
     expect(input.getAttribute('type')).toEqual('password');
     expect(input.type).toEqual('password');
+  });
+
+  it('renders showable password', () => {
+    input.type = 'password';
+    debugger;
+    input.reveal = 'true';
+    input.visible = 'true';
+
+    expect(input.getAttribute('visible')).toBe('true');
+    expect(input.getAttribute('reveal')).toBe('true');
+    const showHideButton = input.shadowRoot.querySelector('.show-hide-password');
+    expect(showHideButton).toBeTruthy();
+    expect(showHideButton.innerHTML).toBe('Hide');
+
+    input.visible = 'false';
+
+    expect(showHideButton).toBeTruthy();
+    expect(showHideButton.innerHTML).toBe('Show');
+  })
+
+  it('renders capslock indicator', () => {
+    input.type = 'password';
+    input.capsLock = 'true';
+    debugger;
+    expect(input.getAttribute('caps-lock')).toBe('true');
+    const capslockEvent = new KeyboardEvent('keyup', {key:'w', modifierCapsLock: true});
+    input.input.dispatchEvent(capslockEvent);
+    expect(input.shadowRoot.querySelector('#caps-lock-indicator')).toBeTruthy();
   });
 
   it('renders field type of number', () => {

@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnEnable = document.querySelector('#btn-input-enable');
   const btnDisable = document.querySelector('#btn-input-disable');
   const btnReadonly = document.querySelector('#btn-input-readonly');
+  const btnTest = document.querySelector('#test');
+  const passwordBtn = document.querySelector('#password-test');
   const input = document.querySelector('#input-toggle-state') || {};
 
   // Enable
@@ -21,5 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Readonly
   btnReadonly?.addEventListener('click', () => {
     input.readonly = true;
+  });
+
+  btnTest?.addEventListener('click', () => {
+    passwordBtn.revealableText = !passwordBtn.revealableText;
   });
 });
