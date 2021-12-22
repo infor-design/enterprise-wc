@@ -249,14 +249,14 @@ class IdsMonthView extends Base {
         date > lastDayOfMonth && 'alternate next-month',
         isSelected && 'is-selected'
       );
-      const selectedAttr = isSelected ? 'aria-selected="true" tabindex="0"' : '';
+      const selectedAttr = isSelected ? 'aria-selected="true" tabindex="0" role="gridcell"' : 'role="link"';
       const dataAttr = [
         `data-year="${date.getFullYear()}"`,
         `data-month="${date.getMonth()}"`,
         `data-day="${date.getDate()}"`
       ].join(' ');
 
-      return `<td aria-label="${dateFull}" ${dataAttr} role="link" ${classes} ${selectedAttr}>
+      return `<td aria-label="${dateFull}" ${dataAttr} ${classes} ${selectedAttr}>
         <ids-text
           aria-hidden="true"
           class="month-view-day-text"

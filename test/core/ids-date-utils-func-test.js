@@ -106,6 +106,6 @@ describe('IdsDateUtils Tests', () => {
     expect(weeksInMonth(2022, 1, 1)).toEqual(5);
     expect(weeksInMonth(2017, 11, 0)).toEqual(6);
     expect(weeksInMonth(2017, 11, 1)).toEqual(5);
-    expect(weeksInMonth(2018, 0, 0)).toEqual(5);
+    expect(weeksInMonth(2018, 0)).toEqual(5);
   });
 });
