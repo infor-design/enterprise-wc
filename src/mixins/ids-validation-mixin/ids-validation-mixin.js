@@ -217,7 +217,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     elem.className = cssClass;
     elem.innerHTML = `${iconHtml}<ids-text error="true" class="message-text">${audible}${message}</ids-text>`;
     this.validationElems?.main?.classList.add(type);
-    this.input?.classList.add(type);
+    this.fieldContainer?.classList.add(type);
     this.input?.setAttribute('aria-describedby', messageId);
     this.input?.setAttribute('aria-invalid', 'true');
 
@@ -229,6 +229,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     }
 
     // If multiple inputs in triggerfield
+    /*
     if (this.inputs) {
       [...this.inputs].forEach((input) => {
         input.classList.add(type);
@@ -237,6 +238,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
         parent.querySelector('.ids-trigger-field-content').classList.add(type);
       });
     }
+    */
 
     // Add extra classes for radios
     const isRadioGroup = this.input?.classList.contains('ids-radio-group');
@@ -271,7 +273,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     }
 
     if (this.isTypeNotValid && !this.isTypeNotValid[type]) {
-      this.input?.classList.remove(type);
+      this.fieldContainer?.classList.remove(type);
       this.input?.removeAttribute('aria-describedby');
       this.input?.removeAttribute('aria-invalid');
     }
@@ -280,6 +282,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     const parent = rootEl || this.shadowRoot;
 
     // If multiple inputs in triggerfield
+    /*
     if (this.inputs) {
       [...this.inputs].forEach((input) => {
         if (this.isTypeNotValid && !this.isTypeNotValid[type]) {
@@ -290,6 +293,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
         }
       });
     }
+    */
 
     const isRadioGroup = this.input?.classList.contains('ids-radio-group');
     if (isRadioGroup) {
