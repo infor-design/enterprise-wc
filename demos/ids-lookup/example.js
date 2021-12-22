@@ -56,31 +56,30 @@ const container = document.querySelector('ids-container');
 
   lookup.columns = columns;
 
-  fetch(url)
-    .then(
-      (res) => {
-        if (res.status !== 200) {
-          return;
-        }
+  const addEventListeners = () => {
+    lookup.addEventListener('change', () => {
+      console.info(`Value Changed`, lookup.dataGrid.selectedRows, lookup.value);
+    });
 
-        res.json().then((data) => {
-          lookup.data = data;
-          lookup.addEventListener('change', () => {
-            console.info(`Value Changed`, lookup.dataGrid.selectedRows, lookup.value);
-          });
+    lookup.addEventListener('rowselected', (e) => {
+      console.info(`Row Selected`, e.detail);
+    });
 
-          lookup.addEventListener('rowselected', (e) => {
-            console.info(`Row Selected`, e.detail);
-          });
+    lookup.addEventListener('rowdeselected', (e) => {
+      console.info(`Row DeSelected`, e.detail);
+    });
 
-          lookup.addEventListener('rowdeselected', (e) => {
-            console.info(`Row DeSelected`, e.detail);
-          });
+    lookup.addEventListener('selectionchanged', (e) => {
+      console.info(`Selection Changed`, e.detail);
+    });
+  };
 
-          lookup.addEventListener('selectionchanged', (e) => {
-            console.info(`Selection Changed`, e.detail);
-          });
-        });
-      }
-    );
+  const setData = async () => {
+    const res = await fetch(url);
+    const data = await res.json();
+    lookup.data = data;
+  };
+
+  setData();
+  addEventListeners();
 }());

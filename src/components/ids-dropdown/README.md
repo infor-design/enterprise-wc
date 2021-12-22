@@ -93,25 +93,13 @@ For the JS part set the `beforeShow` callback to an async function that returns 
 
 ```js
 // Use the asynchronous `beforeshow` callback to load contents
-const getContents = () => new Promise((resolve) => {
-  const url = '/data/states.json';
-  fetch(url)
-  .then(
-    (res) => {
-      if (res.status !== 200) {
-        return;
-      }
-
-      res.json().then((data) => {
-        resolve(data);
-      });
-    }
-  );
-});
-
 const dropdownAsync = document.querySelector('#dropdown-7');
+
 dropdownAsync.beforeShow = async function beforeShow() {
-  return getContents();
+  const url = '/data/states.json';
+  const res = await fetch(url);
+  const data = await res.json();
+  return data;
 };
 ```
 

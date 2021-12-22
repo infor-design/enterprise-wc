@@ -62,15 +62,10 @@ columns.push({
 
 dataGrid.columns = columns;
 
-fetch(url)
-  .then(
-    (res) => {
-      if (res.status !== 200) {
-        return;
-      }
+const setData = async () => {
+  const res = await fetch(url);
+  const data = await res.json();
+  dataGrid.data = data;
+};
 
-      res.json().then((data) => {
-        dataGrid.data = data;
-      });
-    }
-  );
+setData();

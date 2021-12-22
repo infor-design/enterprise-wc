@@ -10,20 +10,15 @@ const listView = document.querySelectorAll('ids-list-view');
 // Do an ajax request and apply the data to the list
 const url = '/data/products.json';
 
-fetch(url)
-  .then(
-    (res) => {
-      if (res.status !== 200) {
-        return;
-      }
+const setData = async () => {
+  const res = await fetch(url);
+  const data = await res.json();
+  listView.forEach((l) => {
+    l.data = data;
+  });
+};
 
-      res.json().then((data) => {
-        listView.forEach((l) => {
-          l.data = data;
-        });
-      });
-    }
-  );
+setData();
 
 // Initialize the 4.x
 $('body').initialize();

@@ -37,25 +37,13 @@ document.querySelector('#button-1').textContent = 'New Content';
 A tooltips content can be set in an synchronous way with the beforeShow property.
 
 ```js
-const getContents = () => new Promise((resolve) => {
+const dropdownAsync = document.querySelector('#dropdown-7');
+
+dropdownAsync.beforeShow = async function beforeShow() {
   const url = '/data/bikes.json';
-  fetch(url)
-  .then(
-    (res) => {
-      if (res.status !== 200) {
-        return;
-      }
-
-      res.json().then((data) => {
-        resolve(data[1].manufacturerName);
-      });
-    }
-  );
-});
-
-const tooltipAsync = document.querySelector('[target="#tooltip-async"]');
-tooltipAsync.beforeShow = async function beforeShow() {
-  return getContents();
+  const res = await fetch(url);
+  const data = await res.json();
+  return data[1].manufacturerName;
 };
 ```
 

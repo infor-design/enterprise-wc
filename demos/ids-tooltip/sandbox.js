@@ -9,23 +9,12 @@ tooltipTop.addEventListener('beforeshow', (e) => {
 });
 
 const url = '/data/bikes.json';
-// Use the asyncronous `beforeshow` callback to load contents
-const getContents = () => new Promise((resolve) => {
-  fetch(url)
-    .then(
-      (res) => {
-        if (res.status !== 200) {
-          return;
-        }
-
-        res.json().then((data) => {
-          resolve(data[1].manufacturerName);
-        });
-      }
-    );
-});
-
 const tooltipAsync = document.querySelector('[target="#tooltip-async"]');
+
+// Use the asyncronous `beforeshow` callback to load contents
 tooltipAsync.beforeShow = async function beforeShow() {
-  return getContents();
+  const res = await fetch(url);
+  const data = await res.json();
+
+  return data[1].manufacturerName;
 };

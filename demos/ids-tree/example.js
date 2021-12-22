@@ -6,18 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
       // Do an ajax request
       const url = '/data/tree-basic.json';
 
-      fetch(url)
-        .then(
-          (res) => {
-            if (res.status !== 200) {
-              return;
-            }
-
-            res.json().then((data) => {
-              treeDemo.data = data;
-            });
-          }
-        );
+      const res = await fetch(url);
+      const data = await res.json();
+      treeDemo.data = data;
 
       // On selected
       treeDemo.addEventListener('selected', (e) => {

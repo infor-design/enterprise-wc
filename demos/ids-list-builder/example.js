@@ -4,15 +4,10 @@ const listBuilder = document.querySelector('ids-list-builder');
 // Do an ajax request and apply the data to the list
 const url = '/data/bikes.json';
 
-fetch(url)
-  .then(
-    (res) => {
-      if (res.status !== 200) {
-        return;
-      }
+const setData = async () => {
+  const res = await fetch(url);
+  const data = await res.json();
+  listBuilder.data = data;
+};
 
-      res.json().then((data) => {
-        listBuilder.data = data;
-      });
-    }
-  );
+setData();
