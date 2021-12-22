@@ -88,9 +88,13 @@ export default class IdsTriggerField extends Base {
       noMargins: this.noMargins ? 'no-margins' : '',
     };
 
+    const classes = {
+      hidden: this.label.length ? 'hidden' : '',
+    };
+
     const label = `
       <label
-        class="ids-label-text"
+        class="ids-label-text ${classes.hidden}"
         for="${this.id}-input"
         slot="ids-trigger-field-label"
         part="label"
@@ -250,8 +254,13 @@ export default class IdsTriggerField extends Base {
    * @param {string} value string value from the label attribute
    */
   set label(value) {
-    this.setAttribute(attributes.LABEL, String(value));
-    this.elements.text.innerHTML = String(value);
+    if (value) {
+      this.setAttribute(attributes.LABEL, String(value));
+      this.elements.text.innerHTML = String(value);
+      this.elements.label.classList.remove('hidden');
+    } else {
+      this.elements.label.classList.add('hidden');
+    }
   }
 
   get label() {
