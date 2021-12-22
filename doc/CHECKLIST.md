@@ -71,7 +71,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Dropdown (ids-drop-down)
  - [ ] Editor (ids-editor)
  - [ ] Emptymessage (ids-empty-message)
- - [ ] Error Page (ids-page-error)
+ - [x] Error Page (ids-page-error)
  - [x] Expandable area (ids-expandable-area)
  - [ ] Fieldset (ids-field-set)
  - [x] Fileupload (ids-file-upload)

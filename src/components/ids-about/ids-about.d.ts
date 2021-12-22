@@ -1,6 +1,4 @@
-import IdsModal from '../ids-modal';
-
-export default class IdsAbout extends IdsModal {
+export default class IdsAbout extends HTMLElement {
   /** Sets semantic product version number */
   productVersion?: string;
 

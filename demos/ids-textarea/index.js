@@ -1,1 +1,1 @@
-import IdsTextarea from '../../src/components/ids-textarea';
+import IdsTextarea from '../../src/components/ids-textarea/ids-textarea';

@@ -134,6 +134,7 @@ describe('Ids Splitter e2e Tests', () => {
     await page.goto(urlSandbox, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('#splitter-minmax', { visible: true });
     await page.evaluate('document.querySelector("ids-container").setAttribute("language", "ar")');
+    await page.waitForTimeout(200);
     let splitBar = await page.evaluateHandle('document.querySelector("#splitter-basic").shadowRoot.querySelector("#split-1")');
     let startRects = await splitBar.boundingBox();
     const outBound = 999999;

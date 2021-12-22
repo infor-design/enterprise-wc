@@ -1,16 +1,3 @@
-/* eslint no-param-reassign: ["error", { "props": false }] */
-const VERSION = '0.0.0-beta.15';
-
-/**
- * Add the version to the component
- * @returns {Function} The function that did the decorating
- */
-export function version() {
-  return (target) => {
-    target.prototype.version = VERSION;
-  };
-}
-
 /**
  * Custom Element Decorator
  * @param  {string} name The custom element name

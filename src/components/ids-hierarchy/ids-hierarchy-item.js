@@ -1,22 +1,9 @@
-import {
-  attributes,
-  customElement,
-  IdsElement,
-  mix,
-  scss
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-// Import Utils
-import { IdsStringUtils } from '../../utils';
+import Base from './ids-hierarchy-item-base';
 
-// Import Mixins
-import {
-  IdsColorVariantMixin,
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
-// Import Styles
 import styles from './ids-hierarchy-item.scss';
 
 /**
@@ -29,11 +16,7 @@ import styles from './ids-hierarchy-item.scss';
  */
 @customElement('ids-hierarchy-item')
 @scss(styles)
-class IdsHierarchyItem extends mix(IdsElement).with(
-    IdsColorVariantMixin,
-    IdsEventsMixin,
-    IdsThemeMixin
-  ) {
+export default class IdsHierarchyItem extends Base {
   /** store the previous "selected" value to prevent double firing events */
   #prevSelected = false;
 
@@ -107,7 +90,7 @@ class IdsHierarchyItem extends mix(IdsElement).with(
    * @param {boolean} value the value of the attribute
    */
   set expanded(value) {
-    const isValueTruthy = IdsStringUtils.stringToBool(value);
+    const isValueTruthy = stringToBool(value);
     if (isValueTruthy) {
       this.setAttribute(attributes.EXPANDED, true);
     } else {
@@ -127,7 +110,7 @@ class IdsHierarchyItem extends mix(IdsElement).with(
    * @param {boolean} value the value of the attribute
    */
   set selected(value) {
-    const isValueTruthy = IdsStringUtils.stringToBool(value);
+    const isValueTruthy = stringToBool(value);
     if (isValueTruthy) {
       this.setAttribute(attributes.SELECTED, true);
       this.setAttribute('tabindex', '0');
@@ -154,7 +137,7 @@ class IdsHierarchyItem extends mix(IdsElement).with(
    * @param {boolean} value the value of the attribute
    */
   set rootItem(value) {
-    const isValueTruthy = IdsStringUtils.stringToBool(value);
+    const isValueTruthy = stringToBool(value);
     if (isValueTruthy) {
       this.setAttribute(attributes.ROOT_ITEM, true);
     } else {
@@ -223,5 +206,3 @@ class IdsHierarchyItem extends mix(IdsElement).with(
     });
   }
 }
-
-export default IdsHierarchyItem;

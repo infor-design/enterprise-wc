@@ -14,11 +14,20 @@ const fileUpload = require('express-fileupload');
 
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
 process.env.NODE_ENV = isProduction ? 'production' : 'development';
+const filterComponent = process.env.npm_config_component || '';
 
 module.exports = {
-  entry: glob.sync('./demos/**/**.js').reduce((acc, filePath) => {
+  entry: glob.sync(`./demos/*${filterComponent}*/*.js`).reduce((acc, filePath) => {
     let entry = filePath.replace(`/${path.basename(filePath)}`, '');
     entry = (entry === './demos' ? 'index' : entry.replace('./demos/', ''));
+
+    // If filtering add a few "required" entries
+    if (filterComponent) {
+      acc['ids-container/ids-container'] = './demos/ids-container/index.js';
+      acc['ids-text/ids-text'] = './demos/ids-text/index.js';
+      acc['ids-icon/ids-icon'] = './demos/ids-icon/index.js';
+      acc['ids-layout-grid/ids-layout-grid'] = './demos/ids-layout-grid/index.js';
+    }
 
     if (path.basename(filePath) === 'index.js') {
       acc[entry === 'index' ? entry : `${entry}/${entry}`] = filePath;
@@ -37,7 +46,7 @@ module.exports = {
   experiments: {
   },
   infrastructureLogging: {
-    level: 'error'
+    level: 'error' // or 'verbose' if any debug info is needed
   },
   performance: {
     hints: false
@@ -53,14 +62,20 @@ module.exports = {
         test: /\.js(\?.*)?$/i
       }),
     ],
-    runtimeChunk: 'single'
+    splitChunks: {
+      chunks: 'async'
+    },
+  },
+  watchOptions: {
+    aggregateTimeout: 2000,
+    poll: 2000,
   },
   output: {
-    library: '[name]-lib.js',
-    libraryTarget: 'umd',
-    libraryExport: 'default',
+    chunkFormat: 'module',
     path: path.resolve(__dirname, 'demo-dist'),
-    filename: '[name].js'
+    filename: '[name].js',
+    clean: true,
+    publicPath: '/'
   },
   // Configure the dev server (node) with settings
   devServer: {
@@ -72,6 +87,7 @@ module.exports = {
     },
     static: {
       directory: path.resolve(__dirname, 'demo-dist'),
+      watch: false
     },
     onBeforeSetupMiddleware: (devServer) => {
       // Post method, upload files to `/tmp` folder
@@ -136,7 +152,7 @@ module.exports = {
         use: [
           {
             // Options are all in babel.config.js
-            loader: 'babel-loader',
+            loader: 'babel-loader'
           }
         ]
       },
@@ -246,7 +262,7 @@ if (!isProduction) {
 }
 
 // Dynamically add all html examples
-glob.sync('./demos/**/*.html').reduce((acc, filePath) => {
+glob.sync(`./demos/*${filterComponent}*/*.html`).reduce((acc, filePath) => {
   const folderName = path.dirname(filePath).replace('./demos/', '');
   const folderAndFile = filePath.replace('./demos/', '');
   let title = `${folderName.split('-').map((word) =>
@@ -270,13 +286,14 @@ glob.sync('./demos/**/*.html').reduce((acc, filePath) => {
   // The specified chunk is added to a list of components that will be pre-loaded,
   // no matter which page is displayed.
   const folderChunks = [
-    chunk,
+    'ids-locale/ids-locale',
     'ids-container/ids-container',
     'ids-icon/ids-icon',
     'ids-layout-grid/ids-layout-grid',
     'ids-text/ids-text',
     'ids-theme-switcher/ids-theme-switcher',
-    'ids-toolbar/ids-toolbar'
+    'ids-toolbar/ids-toolbar',
+    chunk
   ];
 
   // Add example.js to the page as a separate chunk

@@ -1,10 +1,7 @@
-import {
-  customElement,
-  scss,
-} from '../../core/ids-element';
+import { customElement, scss } from '../../core/ids-decorators';
 
-import IdsModal from '../ids-modal';
-import '../ids-toolbar';
+import Base from './ids-contextual-action-panel-base';
+import IdsToolbar from '../ids-toolbar/ids-toolbar';
 
 import styles from './ids-contextual-action-panel.scss';
 
@@ -15,7 +12,7 @@ import styles from './ids-contextual-action-panel.scss';
  */
 @customElement('ids-contextual-action-panel')
 @scss(styles)
-class IdsContextualActionPanel extends IdsModal {
+export default class IdsContextualActionPanel extends Base {
   constructor() {
     super();
   }
@@ -83,5 +80,3 @@ class IdsContextualActionPanel extends IdsModal {
     this.offEvent('click.toolbar');
   }
 }
-
-export default IdsContextualActionPanel;

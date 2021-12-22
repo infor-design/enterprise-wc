@@ -1,17 +1,6 @@
-import {
-  attributes,
-  customElement,
-  IdsElement,
-  mix
-} from '../../core';
-
-// Import Utils
-import { IdsStringUtils } from '../../utils';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-} from '../../mixins';
+import { customElement } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import Base from './ids-hierarchy-base';
 
 /**
  * IDS Hierarchy Component
@@ -20,7 +9,7 @@ import {
  * @mixes IdsEventsMixin
  */
 @customElement('ids-hierarchy')
-class IdsHierarchy extends mix(IdsElement).with(IdsEventsMixin) {
+export default class IdsHierarchy extends Base {
   constructor() {
     super();
   }
@@ -32,10 +21,6 @@ class IdsHierarchy extends mix(IdsElement).with(IdsEventsMixin) {
   connectedCallback() {
     this.#selectItem();
     super.connectedCallback?.();
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback?.();
   }
 
   template() {
@@ -63,5 +48,3 @@ class IdsHierarchy extends mix(IdsElement).with(IdsEventsMixin) {
     });
   }
 }
-
-export default IdsHierarchy;

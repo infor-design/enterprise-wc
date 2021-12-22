@@ -2,7 +2,7 @@
 // confirm our code is type safe, and to support TypeScript users.
 import { attributes } from './ids-attributes';
 
-export class IdsElement extends HTMLElement {
+export default class IdsElement extends HTMLElement {
   /** The main container in the shadowRoot */
   container: HTMLElement;
 

@@ -5,7 +5,7 @@ The Ids Drawer component creates a fixed area on the edge of the browser viewpor
 ## Attributes and Properties
 
 - `edge` defines which edge of the viewport the Drawer will appear from.  Can be `start` (left) or `bottom`
-- `type` sets the display type of the Drawer.  It can be styledd as an `app-menu` or `action-sheet`.
+- `type` sets the display type of the Drawer.  It can be styled as an `app-menu` or `action-sheet`.
 - `visible` if true, the Drawer is rolled out from its specified edge
 
 ## Features (With Code Examples)

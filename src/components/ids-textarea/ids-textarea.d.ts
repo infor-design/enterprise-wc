@@ -1,13 +1,10 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-
 interface IdsTextareaEventDetail extends Event {
   detail: {
     elem: IdsTextarea
   }
 }
 
-export class IdsTextarea extends HTMLElement {
+export default class IdsTextarea extends HTMLElement {
   /** Will automatically expand the textarea to fit the contents when typing */
   autogrow: boolean;
 

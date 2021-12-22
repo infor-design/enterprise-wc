@@ -1,0 +1,13 @@
+---
+ component: Notification Banner
+ link: ids-notification-banner
+ description: Displays a Top Level Application Message
+ category: Navigation and Interaction
+ keywords: Modal, Dialog
+ examples:
+  - link: index.html
+    description: Showing a simple notification Banner
+  - link: dynamic.html
+    description: Showing adding notification banners dynamically
+  - link: card.html
+    description: Showing adding notification banners in a card/widget

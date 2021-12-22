@@ -5,8 +5,8 @@ import expectFlagAttributeBehavior from '../helpers/expect-flag-attribute-behavi
 import processAnimFrame from '../helpers/process-anim-frame';
 import waitFor from '../helpers/wait-for';
 import simulateMouseDownEvents from '../helpers/simulate-mouse-down-events';
-import IdsSpinbox from '../../src/components/ids-spinbox';
-import IdsContainer from '../../src/components/ids-container';
+import IdsSpinbox from '../../src/components/ids-spinbox/ids-spinbox';
+import IdsContainer from '../../src/components/ids-container/ids-container';
 
 const DEFAULT_SPINBOX_HTML = (
   `<ids-spinbox

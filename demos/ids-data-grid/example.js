@@ -4,7 +4,7 @@ const container = document.querySelector('ids-container');
 
 (async function init() {
   // Set Locale and wait for it to load
-  await container.setLocale('en-US');
+  await container?.setLocale('en-US');
 
   // Do an ajax request
   const xmlhttp = new XMLHttpRequest();

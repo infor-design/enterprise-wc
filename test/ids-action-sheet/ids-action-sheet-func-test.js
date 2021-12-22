@@ -2,8 +2,8 @@
  * @jest-environment jsdom
  */
 import processAnimFrame from '../helpers/process-anim-frame';
-import IdsActionSheet from '../../src/components/ids-action-sheet';
-import IdsContainer from '../../src/components/ids-container';
+import IdsActionSheet from '../../src/components/ids-action-sheet/ids-action-sheet';
+import IdsContainer from '../../src/components/ids-container/ids-container';
 
 const DEFAULT_ACTIONSHEET_HTML = (
   `<ids-action-sheet btn-text="Override Text" visible="true" hidden>
