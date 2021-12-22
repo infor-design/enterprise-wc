@@ -51,6 +51,13 @@
       }
     }
 
+    blockquote {
+      border-inline-start: 3px solid var(--ids-color-palette-slate-40);
+      margin-inline-start: 4px;
+      margin-inline-end: 0;
+      padding-inline-start: 12px;
+    }
+
     :is(h1, h2, h3, h4, h5, h6, p, pre, blockquote):first-child {
       margin-block-start: 0;
     }
