@@ -10,11 +10,6 @@
     ~ .btn-clear {
       @include outline-none();
 
-      color: inherit;
-      position: absolute;
-      right: 0;
-      margin-top: -15px;
-
       &.is-empty {
         display: none;
       }

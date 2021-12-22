@@ -78,8 +78,6 @@ $input-compact-height: $input-field-height-xs;
   }
 }
 
-
-
 /* in case of external label in compound component */
 .ids-label-text {
   @include antialiased();
@@ -327,7 +325,7 @@ $input-compact-height: $input-field-height-xs;
       @include bg-transparent();
     }
 
-    &:focus {
+    &:focus-within {
       .field-container {
         @include bg-transparent();
       }
