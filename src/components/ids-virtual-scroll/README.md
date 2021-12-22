@@ -30,7 +30,7 @@ Set up a ids-virtual-scroll container and properties like height, item-height an
 
 ```js
 const virtualScroll = document.querySelector('#virtual-scroll-1');
-virtualScrollUl.itemTemplate = (item) => `<li class="ids-virtual-scroll-item">${item.productName}</li>`;
+virtualScrollUl.itemTemplate = (item) => `<li class="ids-virtual-scroll-item" part="list-item">${item.productName}</li>`;
 virtualScrollUl.data = dataset;
 ```
 
