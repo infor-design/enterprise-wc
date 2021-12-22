@@ -8,6 +8,78 @@ $input-size-default: $input-size-md;
 $input-field-height-default: $input-field-height-md;
 $input-compact-height: $input-field-height-xs;
 
+// Mixin for message styles: [alert, error, info, success]
+@mixin ids-input-message-styles {
+  .alert,
+  .alert:hover {
+    @include border-alert-warning();
+    @include text-alert-warning();
+
+    &:focus-within {
+      @include border-alert-warning();
+
+      box-shadow: rgba(249 131 0 / 0.3) 0 0 3px 2px;
+    }
+
+    &[disabled] {
+      @include border-amber-30();
+      @include text-amber-30();
+    }
+  }
+
+  .error,
+  .error:hover {
+    @include border-alert-error();
+    @include text-alert-error();
+
+    &:focus-within {
+      @include border-alert-error();
+      @include shadow-error();
+    }
+
+    &[disabled] {
+      @include border-ruby-30();
+      @include text-ruby-30();
+    }
+  }
+
+  .info,
+  .info:hover {
+    @include border-alert-info();
+    @include text-alert-info();
+
+    &:focus-within {
+      @include border-alert-info();
+
+      box-shadow: rgba(0 102 212 / 0.3) 0 0 3px 2px;
+    }
+
+    &[disabled] {
+      @include border-azure-30();
+      @include text-azure-30();
+    }
+  }
+
+  .success,
+  .success:hover {
+    @include border-alert-success();
+    @include text-alert-success();
+
+    &:focus-within {
+      @include border-alert-success();
+
+      box-shadow: rgba(42 195 113 / 0.3) 0 0 3px 2px;
+    }
+
+    &[disabled] {
+      @include border-emerald-30();
+      @include text-emerald-30();
+    }
+  }
+}
+
+
+
 /* in case of external label in compound component */
 .ids-label-text {
   @include antialiased();
@@ -80,14 +152,9 @@ $input-compact-height: $input-field-height-xs;
     @include p-0();
     @include relative();
 
-    @include bg-white();
     @include border-1();
-    @include border-slate-40();
     @include border-solid();
     @include rounded-default();
-    @include text-16();
-    @include w-full();
-    @include mb-16();
 
     align-items: center;
     border-collapse: separate;
@@ -98,35 +165,13 @@ $input-compact-height: $input-field-height-xs;
     display: flex;
     height: $input-field-height-default;
     max-width: $input-size-default;
-
-    &:hover {
-      @include border-slate-90();
-    }
-
-    &:focus-within,
-    &:focus-within[readonly] {
-      @include border-azure-60();
-      @include shadow();
-
-      .ids-input-field {
-        outline: none;
-        outline-color: transparent;
-      }
-    }
   }
 
-  &.readonly {
-    .field-container {
-      @include bg-slate-20();
-      @include border-slate-40();
-      @include text-black();
-    }
-  }
-
-  &.disabled {
-    .field-container {
-      @include border-slate-30();
-      @include text-slate-30();
+  &:focus-within,
+  &.readonly:focus-within {
+    .ids-input-field {
+      outline: none;
+      outline-color: transparent;
     }
   }
 
@@ -148,21 +193,6 @@ $input-compact-height: $input-field-height-xs;
     resize: none;
     text-align: left;
 
-    /*
-    &[readonly] {
-      padding-bottom: 9px;
-      padding-top: 9px;
-    }
-    */
-
-    &.bg-transparent {
-      @include bg-transparent();
-    }
-
-    &.bg-transparent:focus {
-      @include border-azure-60();
-    }
-
     &.text-ellipsis {
       @include ellipsis();
     }
@@ -182,74 +212,6 @@ $input-compact-height: $input-field-height-xs;
 
     &.no-margin {
       @include mb-0();
-    }
-  }
-
-  // input message: [alert, error, info, success]
-  .alert,
-  .alert:hover {
-    @include border-alert-warning();
-    @include text-alert-warning();
-
-    &:focus-within {
-      @include border-alert-warning();
-
-      box-shadow: rgba(249 131 0 / 0.3) 0 0 3px 2px;
-    }
-
-    &[disabled] {
-      @include border-amber-30();
-      @include text-amber-30();
-    }
-  }
-
-  .error,
-  .error:hover {
-    @include border-alert-error();
-    @include text-alert-error();
-
-    &:focus-within {
-      @include border-alert-error();
-      @include shadow-error();
-    }
-
-    &[disabled] {
-      @include border-ruby-30();
-      @include text-ruby-30();
-    }
-  }
-
-  .info,
-  .info:hover {
-    @include border-alert-info();
-    @include text-alert-info();
-
-    &:focus-within {
-      @include border-alert-info();
-
-      box-shadow: rgba(0 102 212 / 0.3) 0 0 3px 2px;
-    }
-
-    &[disabled] {
-      @include border-azure-30();
-      @include text-azure-30();
-    }
-  }
-
-  .success,
-  .success:hover {
-    @include border-alert-success();
-    @include text-alert-success();
-
-    &:focus-within {
-      @include border-alert-success();
-
-      box-shadow: rgba(42 195 113 / 0.3) 0 0 3px 2px;
-    }
-
-    &[disabled] {
-      @include border-emerald-30();
-      @include text-emerald-30();
     }
   }
 
@@ -333,171 +295,281 @@ $input-compact-height: $input-field-height-xs;
     margin-bottom: 12px;
     margin-top: -10px;
   }
-
-  // ===========================================
-  // Color Variants
-
-  // alternate colors for header placement
-  &.color-variant-alternate {
-    .ids-input-field {
-      @include text-white();
-
-      &::placeholder {
-        color: rgba(255 255 255 / 0.7);
-      }
-    }
-  }
 }
 
+// =======================================================
 // Handle Themes
-.ids-input[mode='dark'] .ids-input-field {
-  @include bg-transparent();
-  @include border-slate-40();
-  @include text-white();
 
-  &[disabled] {
-    @include border-slate-60();
-    @include text-slate-60();
-  }
-
-  &[readonly] {
-    @include bg-slate-70();
-    @include border-slate-40();
-    @include text-slate-10();
-  }
-
-  &.bg-transparent {
-    @include bg-transparent();
-  }
-
-  &:focus {
-    @include border-azure-60();
-  }
-}
-
-.ids-input[mode='contrast'] {
-  .ids-input-field {
+.ids-input[version='new'][mode='light'] {
+  .field-container {
     @include bg-white();
     @include border-slate-40();
     @include text-black();
+  }
 
-    &[disabled] {
+  &.readonly {
+    .field-container {
+      @include bg-slate-20();
+      @include border-slate-40();
+      @include text-black();
+    }
+  }
+
+  &.disabled {
+    .field-container {
       @include border-slate-30();
       @include text-slate-30();
     }
+  }
 
-    &[readonly] {
-      @include bg-slate-20();
-      @include border-slate-40();
-      @include text-slate-100();
-    }
-
-    &.bg-transparent {
+  &.bg-transparent {
+    .field-container {
       @include bg-transparent();
     }
 
     &:focus {
+      .field-container {
+        @include bg-transparent();
+      }
+    }
+  }
+
+  &:hover {
+    .field-container {
+      @include border-slate-90();
+    }
+  }
+
+  &:focus-within,
+  &.readonly:focus-within {
+    .field-container {
+      @include border-azure-60();
+      @include shadow();
+    }
+  }
+
+  // Include error styles
+  @include ids-input-message-styles();
+
+  // alternate colors for header placement
+  &.color-variant-alternate {
+    .field-container {
+      @include text-white();
+    }
+
+    .ids-input-field::placeholder {
+      color: rgba(255 255 255 / 0.7);
+    }
+  }
+}
+
+.ids-input[version='new'][mode='dark'] {
+  .field-container {
+    @include bg-transparent();
+    @include border-slate-40();
+    @include text-white();
+  }
+
+  &.disabled {
+    .field-container {
+      @include border-slate-60();
+      @include text-slate-60();
+    }
+  }
+
+  &.readonly {
+    .field-container {
+      @include bg-slate-70();
+      @include border-slate-40();
+      @include text-slate-10();
+    }
+  }
+
+  &.bg-transparent {
+    .field-container {
+      @include bg-transparent();
+    }
+  }
+
+  &:focus-within {
+    .field-container {
+      @include border-azure-60();
+    }
+  }
+
+  // Include error styles
+  @include ids-input-message-styles();
+}
+
+.ids-input[version='new'][mode='contrast'] {
+  .field-container {
+    @include bg-white();
+    @include border-slate-40();
+    @include text-black();
+  }
+
+  &.disabled {
+    .field-container {
+      @include border-slate-30();
+      @include text-slate-30();
+    }
+  }
+
+  &.readonly {
+    .field-container {
+      @include bg-slate-20();
+      @include border-slate-40();
+      @include text-slate-100();
+    }
+  }
+
+  &.bg-transparent {
+    .field-container {
+      @include bg-transparent();
+    }
+  }
+
+  &:focus-within {
+    .field-container {
       @include border-azure-90();
     }
   }
 
+  // Include error styles
+  @include ids-input-message-styles();
+
   &.color-variant-alternate,
   &.color-variant-app-menu {
-    .ids-input-field {
+    .field-container {
       @include text-white();
     }
   }
 }
 
 .ids-input[version='classic'][mode='light'] {
-  .ids-input-field {
+  .field-container {
     @include bg-transparent();
     @include border-graphite-40();
     @include text-graphite-100();
+  }
 
-    &[disabled] {
+  &.disabled {
+    .field-container {
       @include border-graphite-30();
       @include text-graphite-40();
     }
+  }
 
-    &[readonly] {
+  &.readonly {
+    .field-container {
       @include bg-graphite-20();
       @include border-graphite-40();
       @include text-classic-slate-100();
     }
+  }
 
-    &.bg-transparent {
+  &.bg-transparent {
+    .field-container {
       @include bg-transparent();
     }
+  }
 
-    &:focus {
+  &:focus-within {
+    .field-container {
       @include border-azure-60();
     }
   }
 
+  // Include error styles
+  @include ids-input-message-styles();
+
   &.color-variant-alternate {
-    .ids-input-field {
+    .field-container {
       @include text-white();
     }
   }
 }
 
-.ids-input[version='classic'][mode='dark'] .ids-input-field {
-  @include bg-transparent();
-  @include border-slate-40();
-  @include text-white();
-
-  &[disabled] {
-    @include border-classic-slate-40();
-    @include text-classic-slate-50();
-  }
-
-  &[readonly] {
-    @include bg-classic-slate-60();
-    @include border-classic-slate-40();
+.ids-input[version='classic'][mode='dark'] {
+  .field-container {
+    @include bg-transparent();
+    @include border-slate-40();
     @include text-white();
   }
 
-  &.bg-transparent {
-    @include bg-transparent();
+  &.disabled {
+    .field-container {
+      @include border-classic-slate-40();
+      @include text-classic-slate-50();
+    }
   }
 
-  &:focus {
-    @include border-azure-60();
-  }
-}
-
-.ids-input[version='classic'][mode='contrast'] {
-  &.color-variant-alternate {
-    .ids-input-field {
+  &.readonly {
+    .field-container {
+      @include bg-classic-slate-60();
+      @include border-classic-slate-40();
       @include text-white();
     }
   }
 
-  .ids-input-field {
+  &.bg-transparent {
+    .field-container {
+      @include bg-transparent();
+    }
+  }
+
+  &:focus-within {
+    .field-container {
+      @include border-azure-60();
+    }
+  }
+
+  // Include error styles
+  @include ids-input-message-styles();
+}
+
+.ids-input[version='classic'][mode='contrast'] {
+  .field-container {
     @include bg-white();
     @include border-graphite-80();
     @include text-graphite-100();
+  }
 
-    &[disabled] {
+  &.disabled {
+    .field-container {
       @include bg-transparent();
       @include border-slate-50();
       @include text-graphite-80();
     }
+  }
 
-    &[readonly] {
+  &.readonly {
+    .field-container {
       @include bg-slate-30();
       @include border-slate-80();
       @include text-graphite-100();
     }
+  }
 
-    &.bg-transparent {
+  &.bg-transparent {
+    .field-container {
       @include bg-transparent();
     }
+  }
 
-    &:focus,
-    &:focus[readonly] {
+  &:focus-within,
+  &:focus-within[readonly] {
+    .field-container {
       @include border-azure-60();
+    }
+  }
+
+  // Include error styles
+  @include ids-input-message-styles();
+
+  &.color-variant-alternate {
+    .field-container {
+      @include text-white();
     }
   }
 }
