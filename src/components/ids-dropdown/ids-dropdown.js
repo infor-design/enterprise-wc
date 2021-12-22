@@ -86,7 +86,6 @@ export default class IdsDropdown extends Base {
 
     return `
     <ids-trigger-field
-      no-margins
       size="${this.size}"
       label="${this.label}"
       part="trigger-field"

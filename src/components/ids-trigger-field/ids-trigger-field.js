@@ -251,7 +251,7 @@ export default class IdsTriggerField extends Base {
    */
   set label(value) {
     this.setAttribute(attributes.LABEL, String(value));
-    this.elements.label.innerHTML = String(value);
+    this.elements.text.innerHTML = String(value);
   }
 
   get label() {
