@@ -528,17 +528,23 @@ export default class IdsTimePicker extends Base {
     // Translate Labels
     this.offEvent('languagechange.container');
     this.onEvent('languagechange.container', this.closest('ids-container'), async () => {
-      if (this.elements.dropdowns.hours) {
-        this.elements.dropdowns.hours.label = this.locale?.translate('Hours') || 'Hours';
+      const {
+        hours,
+        minutes,
+        period,
+        seconds,
+      } = this.elements.dropdowns;
+      if (hours) {
+        hours.label = this.locale?.translate('Hours') || 'Hours';
       }
-      if (this.elements.dropdowns.minutes) {
-        this.elements.dropdowns.minutes.label = this.locale?.translate('Minutes') || 'Minutes';
+      if (minutes) {
+        minutes.label = this.locale?.translate('Minutes') || 'Minutes';
       }
-      if (this.elements.dropdowns.period) {
-        this.elements.dropdowns.period.label = this.locale?.translate('Period') || 'HouPeriodrs';
+      if (period) {
+        period.label = this.locale?.translate('Period') || 'HouPeriodrs';
       }
-      if (this.elements.dropdowns.seconds) {
-        this.elements.dropdowns.seconds.label = this.locale?.translate('Seconds') || 'Seconds';
+      if (seconds) {
+        seconds.label = this.locale?.translate('Seconds') || 'Seconds';
       }
     });
 
