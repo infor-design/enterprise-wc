@@ -83,93 +83,73 @@
 
     border-spacing: 0;
     border-collapse: collapse;
+  }
 
-    td {
-      @include border-b-1();
-      @include border-r-1();
-      @include border-l-1();
-      @include relative();
+  td {
+    @include border-b-1();
+    @include border-r-1();
+    @include border-l-1();
+    @include relative();
 
-      height: 99px;
-      width: 14.3%;
-      overflow: hidden;
-      user-select: none;
+    height: 99px;
+    width: 14.3%;
+    overflow: hidden;
+    user-select: none;
 
-      &:not(.is-selected):hover,
-      &:not(.is-selected):active {
-        background-color: rgb(240 240 240 / 0.5);
+    &:not(.is-selected):hover,
+    &:not(.is-selected):active {
+      background-color: rgb(240 240 240 / 0.5);
+    }
+
+    &.is-selected {
+      @include bg-slate-10();
+
+      box-shadow: inset 0 5px 0 0 var(--ids-color-palette-azure-60);
+
+      &:focus,
+      &:focus-visible {
+        @include border-transparent();
+
+        outline: none;
+        box-shadow: 0 0 2px 2px rgb(54 138 192 / 0.3), inset 0 5px 0 0 var(--ids-color-palette-azure-60);
       }
 
-      &.is-selected {
-        @include bg-slate-10();
-
-        box-shadow: inset 0 5px 0 0 var(--ids-color-palette-azure-60);
-
-        &:focus,
-        &:focus-visible {
-          @include border-transparent();
-
-          outline: none;
-          box-shadow: 0 0 2px 2px rgb(54 138 192 / 30%),
-            inset 0 5px 0 0 var(--ids-color-palette-azure-60);
-        }
-
-        ids-text::part(text) {
-          font-weight: 600;
-        }
-      }
-
-      .month-view-weekday-text,
-      &:not(.alternate) .month-view-day-text {
-        @include text-slate-80();
-      }
-
-      &.alternate .month-view-day-text {
-        @include text-slate-40();
-      }
-
-      .month-view-day-text {
-        @include absolute();
-        @include cursor-pointer();
-
-        left: calc(100% - 25px);
-        top: 15px;
-        width: 10px;
-        text-align: center;
+      ids-text::part(text) {
+        font-weight: 600;
       }
     }
 
-    th,
-    td {
-      @include p-0();
-      @include border-b-1();
-      @include border-slate-20();
+    .month-view-weekday-text,
+    &:not(.alternate) .month-view-day-text {
+      @include text-slate-80();
+    }
+
+    &.alternate .month-view-day-text {
+      @include text-slate-40();
+    }
+
+    .month-view-day-text {
+      @include absolute();
+      @include cursor-pointer();
+
+      left: calc(100% - 25px);
+      top: 13px;
+      width: 10px;
+      text-align: center;
     }
   }
 
-  // Theme mode
+  th,
+  td {
+    @include p-0();
+    @include border-b-1();
+    @include border-slate-20();
+  }
+
+  // Themes
   &[mode='dark'] {
     @include bg-slate-80();
     @include border-slate-70();
-
-    th,
-    td {
-      @include border-slate-70();
-
-      &:hover,
-      &:active {
-        background-color: rgb(49 50 54 / 0.2);
-      }
-    }
-
-    th .month-view-weekday-text,
-    td:not(.alternate) .month-view-day-text {
-      @include text-slate-30();
-    }
-
-    td.alternate .month-view-day-text {
-      @include text-slate-50();
-    }
 
     .month-view-header {
       @include border-slate-70();
@@ -189,30 +169,41 @@
 
       box-shadow: 0 0 4px 2px rgba(141 201 230 / 0.3);
     }
+
+    th,
+    td {
+      @include border-slate-70();
+    }
+
+    th .month-view-weekday-text,
+    td:not(.alternate) .month-view-day-text {
+      @include text-slate-30();
+    }
+
+    td {
+      &.alternate .month-view-day-text {
+        @include text-slate-50();
+      }
+
+      &:not(.is-selected):hover,
+      &:not(.is-selected):active {
+        background-color: rgb(49 50 54 / 0.2);
+      }
+
+      &.is-selected {
+        @include bg-slate-70();
+
+        &:focus,
+        &:focus-visible {
+          box-shadow: 0 0 2px 2px rgb(141 201 230 / 0.3), inset 0 5px 0 0 var(--ids-color-palette-azure-60);
+        }
+      }
+    }
   }
 
   &[mode='contrast'] {
     @include bg-white();
     @include border-slate-30();
-
-    th,
-    td {
-      @include border-slate-30();
-
-      &:hover,
-      &:active {
-        background-color: rgb(74 74 74 / 0.1);
-      }
-    }
-
-    th .month-view-weekday-text,
-    td:not(.alternate) .month-view-day-text {
-      @include text-black();
-    }
-
-    td.alternate .month-view-day-text {
-      @include text-slate-50();
-    }
 
     .month-view-header {
       @include border-slate-30();
@@ -232,12 +223,42 @@
 
       box-shadow: 0 0 4px 2px rgba(41 41 41 / 0.3);
     }
+
+    th,
+    td {
+      @include border-slate-30();
+    }
+
+    th .month-view-weekday-text,
+    td:not(.alternate) .month-view-day-text {
+      @include text-black();
+    }
+
+    td {
+      &.alternate .month-view-day-text {
+        @include text-slate-50();
+      }
+
+      &:not(.is-selected):hover,
+      &:not(.is-selected):active {
+        background-color: rgb(74 74 74 / 0.1);
+      }
+
+      &.is-selected {
+        box-shadow: inset 0 5px 0 0 var(--ids-color-palette-azure-90);
+
+        &:focus,
+        &:focus-visible {
+          box-shadow: 0 0 2px 2px rgb(41 41 41 / 0.3), inset 0 5px 0 0 var(--ids-color-palette-azure-90);
+        }
+      }
+    }
   }
 }
 
 // Text direction
 :host([dir='rtl']) {
-  .ids-month-view .month-view-table td {
+  .ids-month-view td {
     &:last-child {
       border-left: 0;
     }
@@ -249,7 +270,7 @@
 }
 
 :host(:not([dir='rtl'])) {
-  .ids-month-view .month-view-table td {
+  .ids-month-view td {
     &:first-child {
       border-left: 0;
     }
