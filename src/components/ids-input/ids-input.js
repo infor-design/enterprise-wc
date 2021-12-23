@@ -183,12 +183,13 @@ export default class IdsInput extends Base {
   }
 
   get revealableText() {
-    return stringUtils.stringToBool(this.getAttribute(attributes.REVEALABLE_TEXT));
+    return stringToBool(this.getAttribute(attributes.REVEALABLE_TEXT));
   }
 
   set revealableText(value) {
+    const valueSafe = stringToBool(value);
     if (this.type === TYPES.password) {
-      if (stringUtils.stringToBool(value)) {
+      if (valueSafe) {
         this.setAttribute(attributes.REVEALABLE_TEXT, 'true');
         this.#togglePasswordEventSetUp(true);
       } else {
@@ -201,11 +202,11 @@ export default class IdsInput extends Base {
   }
 
   get capsLock() {
-    return stringUtils.stringToBool(this.getAttribute(attributes.CAPS_LOCK));
+    return stringToBool(this.getAttribute(attributes.CAPS_LOCK));
   }
 
   set capsLock(value) {
-    if (stringUtils.stringToBool(value)) {
+    if (stringToBool(value)) {
       this.#capsLockEventSetUp(true);
       this.setAttribute(attributes.CAPS_LOCK, 'true');
     } else {
@@ -215,13 +216,16 @@ export default class IdsInput extends Base {
   }
 
   get passwordVisible() {
-    return stringUtils.stringToBool(this.getAttribute(attributes.PASSWORD_VISIBLE));
+    return stringToBool(this.getAttribute(attributes.PASSWORD_VISIBLE));
   }
 
   set passwordVisible(value) {
-    stringUtils.stringToBool(value)
-      ? this.setAttribute(attributes.PASSWORD_VISIBLE, 'true')
-      : this.setAttribute(attributes.PASSWORD_VISIBLE, 'false');
+    const valueSafe = stringToBool(value);
+    if (valueSafe !== this.passwordVisible) {
+      valueSafe
+        ? this.setAttribute(attributes.PASSWORD_VISIBLE, 'true')
+        : this.setAttribute(attributes.PASSWORD_VISIBLE, 'false');
+    }
 
     this.passwordVisibilityHandler();
   }
@@ -466,7 +470,7 @@ export default class IdsInput extends Base {
   passwordVisibilityHandler() {
     const passwordButton = this.shadowRoot.querySelector(`ids-button`);
     const passwordField = this.shadowRoot.querySelector(`.ids-input-field`);
-    if(passwordButton){
+    if (passwordButton) {
       if (this.passwordVisible) {
         passwordButton.innerHTML = 'Hide';
         passwordField.type = 'text';
@@ -475,7 +479,6 @@ export default class IdsInput extends Base {
         passwordField.type = 'password';
       }
     }
-
   }
 
   /**
