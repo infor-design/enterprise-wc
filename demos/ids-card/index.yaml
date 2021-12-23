@@ -13,6 +13,8 @@
     description: Showing an cards with a 4.x cards
   - link: standalone-css.html
     description: Showing a cards that works with css only
-  - link: selection.html
-    description: Showing cards with different selection (single/multiple/none)
+  - link: single-selection.html
+    description: Showing cards with single selection
+  - link: multiple-selection.html
+    description: Showing cards with multiple selection
 
