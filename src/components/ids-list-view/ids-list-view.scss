@@ -36,10 +36,24 @@
       &.sortable:hover::before {
         position: absolute;
         left: 0;
-        transform: translate(75%, 50%);
+        transform: translate(75%, 0);
         font-size: 24px;
         content: '⁞';
         cursor: move;
+      }
+
+      &[selected='selected'] {
+        background-color: var(--ids-color-palette-azure-60);
+        color: white;
+        outline: none;
+      }
+
+      &:focus[selected='selected'] {
+        background-color: var(--ids-color-palette-azure-60);
+        color: white;
+        border: 1px solid var(--ids-color-palette-azure-40);
+        box-shadow: 0 0 4px 1px rgb(54 138 192 / 0.3);
+        outline: none;
       }
     }
   }
