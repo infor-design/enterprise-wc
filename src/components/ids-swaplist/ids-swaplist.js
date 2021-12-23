@@ -32,7 +32,6 @@ export default class IdsSwapList extends Base {
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
     const l = this.container.querySelector('ids-list-view');
     l.defaultTemplate = this.defaultTemplate;
-    l.sortable = true;
     l.data = [
       {
         "id":1,
@@ -109,7 +108,7 @@ export default class IdsSwapList extends Base {
           </ids-button>
         </div>
         <div slot="card-content">
-          <ids-list-view>
+          <ids-list-view selectable sortable>
           </ids-list-view>
         </div>
       </ids-card>
