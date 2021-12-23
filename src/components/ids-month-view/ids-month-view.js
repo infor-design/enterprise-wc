@@ -8,6 +8,8 @@ import {
   addDate,
   firstDayOfWeek,
   weeksInMonth,
+  firstDayOfMonth,
+  lastDayOfMonth
 } from '../../utils/ids-date-utils/ids-date-utils';
 import { stringToBool, stringToNumber, buildClassAttrib } from '../../utils/ids-string-utils/ids-string-utils';
 
@@ -209,6 +211,44 @@ class IdsMonthView extends Base {
   }
 
   /**
+   *
+   * @param {number} weekIndex number of week in month starting from 0
+   * @returns {string} table cell template
+   */
+  #getCellTemplate(weekIndex) {
+    const firstDay = firstDayOfMonth(this.year, this.month, this.day, this.locale.isIslamic());
+    const lastDay = lastDayOfMonth(this.year, this.month, this.day, this.locale.isIslamic());
+    const rangeStartsOn = firstDayOfWeek(firstDay, this.firstDayOfWeek);
+
+    return Array.from({ length: WEEK_LENGTH }).map((_, index) => {
+      const date = addDate(rangeStartsOn, (weekIndex * WEEK_LENGTH) + index, 'days');
+      const dayNumeric = this.locale.formatDate(date, { day: 'numeric', numberingSystem: 'latn' });
+      const ariaLabel = this.locale.formatDate(date, { dateStyle: 'full' });
+      const isSelected = date.getDate() === this.day
+        && date.getFullYear() === this.year
+        && date.getMonth() === this.month;
+      const classes = buildClassAttrib(
+        (date < firstDay || date > lastDay) && 'alternate',
+        isSelected && 'is-selected'
+      );
+      const selectedAttr = isSelected ? 'aria-selected="true" tabindex="0" role="gridcell"' : 'role="link"';
+      const dataAttr = [
+        `data-year="${date.getFullYear()}"`,
+        `data-month="${date.getMonth()}"`,
+        `data-day="${date.getDate()}"`
+      ].join(' ');
+
+      return `<td aria-label="${ariaLabel}" ${dataAttr} ${classes} ${selectedAttr}>
+        <ids-text
+          aria-hidden="true"
+          class="month-view-day-text"
+          font-size="14"
+        >${dayNumeric}</ids-text>
+      </td>`;
+    }).join('');
+  }
+
+  /**
    * Add month HTML to shadow including weekdays header
    * @private
    */
@@ -218,14 +258,11 @@ class IdsMonthView extends Base {
 
     if (!calendars) return;
 
-    const days = (calendars || [])[0]?.days.abbreviated;
-    const firstDayOfMonth = new Date(this.year, this.month, 1);
-    const lastDayOfMonth = new Date(this.year, this.month + 1, 0);
-    const firstWeekDay = firstDayOfWeek(firstDayOfMonth, this.firstDayOfWeek);
-    const weeksCount = weeksInMonth(this.year, this.month, this.firstDayOfWeek);
+    // const weekDays = (calendars || [])[0]?.days.abbreviated;
+    const weekDays = calendars[0].days.abbreviated;
 
-    const weekDaysTemplate = days.map((_, index) => {
-      const weekday = days[(index + this.firstDayOfWeek) % WEEK_LENGTH];
+    const weekDaysTemplate = weekDays.map((_, index) => {
+      const weekday = weekDays[(index + this.firstDayOfWeek) % WEEK_LENGTH];
 
       return `
         <th>
@@ -237,43 +274,17 @@ class IdsMonthView extends Base {
       `;
     }).join('');
 
-    const daysTemplate = (weekIndex) => Array.from({ length: WEEK_LENGTH }).map((_, index) => {
-      const date = addDate(firstWeekDay, (weekIndex * WEEK_LENGTH) + index, 'days');
-      const dayNumeric = this.locale.formatDate(date, { day: 'numeric' });
-      const dateFull = this.locale.formatDate(date, { dateStyle: 'full' });
-      const isSelected = date.getDate() === this.day
-        && date.getFullYear() === this.year
-        && date.getMonth() === this.month;
-      const classes = buildClassAttrib(
-        date < firstDayOfMonth && 'alternate prev-month',
-        date > lastDayOfMonth && 'alternate next-month',
-        isSelected && 'is-selected'
-      );
-      const selectedAttr = isSelected ? 'aria-selected="true" tabindex="0" role="gridcell"' : 'role="link"';
-      const dataAttr = [
-        `data-year="${date.getFullYear()}"`,
-        `data-month="${date.getMonth()}"`,
-        `data-day="${date.getDate()}"`
-      ].join(' ');
+    const weeksCount = weeksInMonth(this.year, this.month, this.day, this.firstDayOfWeek, this.locale.isIslamic());
 
-      return `<td aria-label="${dateFull}" ${dataAttr} ${classes} ${selectedAttr}>
-        <ids-text
-          aria-hidden="true"
-          class="month-view-day-text"
-          font-size="14"
-        >${dayNumeric}</ids-text>
-      </td>`;
-    }).join('');
-
-    const weeksTemplate = Array.from({ length: weeksCount }).map((_, index) =>
-      `<tr>${daysTemplate(index)}</tr>`).join('');
+    const rowsTemplate = Array.from({ length: weeksCount }).map((_, weekIndex) =>
+      `<tr>${this.#getCellTemplate(weekIndex)}</tr>`).join('');
 
     const container = `<div class="month-view-container">
       <table class="month-view-table" aria-label="${this.locale.translate('Calendar')}" role="application">
         <thead class="month-view-table-header">
           <tr>${weekDaysTemplate}</tr>
         </thead>
-        <tbody>${weeksTemplate}</tbody>
+        <tbody>${rowsTemplate}</tbody>
       </table>
     </div>`;
 
@@ -285,17 +296,49 @@ class IdsMonthView extends Base {
     this.offEvent('click.month-view-select');
     this.onEvent('click.month-view-select', this.container.querySelector('tbody'), (e) => {
       if (
-        e.target.hasAttribute('role')
+        e.target.getAttribute('role') === 'link'
         && !e.target.classList.contains('is-selected')
         && !e.target.classList.contains('is-disabled')
       ) {
-        const month = e.target.dataset.month;
-        const year = e.target.dataset.year;
-        const day = e.target.dataset.day;
+        const { month, year, day } = e.target.dataset;
 
-        this.#selectDay(year, month, day);
+        this.#selectDay(stringToNumber(year), stringToNumber(month), stringToNumber(day));
       }
     });
+  }
+
+  /**
+   *
+   * @param {number} year
+   * @param {number} month
+   * @param {number} day
+   */
+  #selectDay(year, month, day) {
+    if (day !== this.day) {
+      this.day = day;
+    }
+
+    if (month !== this.month) {
+      this.year = year;
+      this.month = month;
+    }
+
+    const clearable = this.container.querySelector('td.is-selected');
+
+    // Clear before
+    clearable?.removeAttribute('aria-selected');
+    clearable?.removeAttribute('tabindex');
+    clearable?.setAttribute('role', 'link');
+    clearable?.classList.remove('is-selected');
+
+    const selectedQuery = `td[data-year="${year}"][data-month="${month}"][data-day="${day}"]`;
+    const selected = this.container.querySelector(selectedQuery);
+
+    // Selectable attributes
+    selected?.setAttribute('tabindex', 0);
+    selected?.setAttribute('aria-selected', true);
+    selected?.setAttribute('role', 'gridcell');
+    selected?.classList.add('is-selected');
   }
 
   /**
@@ -401,37 +444,11 @@ class IdsMonthView extends Base {
   set day(val) {
     if (val) {
       this.setAttribute(attributes.DAY, val);
-      this.#selectDay(this.year, this.month, val);
+      this.#selectDay(this.year, this.month, stringToNumber(val));
     } else {
       this.removeAttribute(attributes.DAY);
       this.#selectDay(this.year, this.month, this.day);
     }
-  }
-
-  #selectDay(year, month, day) {
-    if (stringToNumber(day) !== this.day) {
-      this.day = stringToNumber(day);
-    }
-
-    if (stringToNumber(month) !== this.month) {
-      this.year = year;
-      this.month = month;
-    }
-
-    const clearable = this.container.querySelector('td.is-selected');
-
-    // Clear before
-    clearable?.removeAttribute('aria-selected');
-    clearable?.removeAttribute('tabindex');
-    clearable?.classList.remove('is-selected');
-
-    const selectedQuery = `td[data-year="${year}"][data-month="${month}"][data-day="${day}"]`;
-    const selected = this.container.querySelector(selectedQuery);
-
-    // Selectable attributes
-    selected?.setAttribute('tabindex', 0);
-    selected?.setAttribute('aria-selected', true);
-    selected?.classList.add('is-selected');
   }
 
   /**
