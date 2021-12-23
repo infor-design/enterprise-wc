@@ -6,7 +6,7 @@ describe('Ids Swap List e2e Tests', () => {
   });
 
   it('should not have errors', async () => {
-    await expect(page.title()).resolves.toMatch('IDS Swap List Component');
+    await expect(page.title()).resolves.toMatch('IDS Swaplist Component');
   });
 
   it('should pass Axe accessibility tests', async () => {

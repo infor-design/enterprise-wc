@@ -61,7 +61,7 @@ export default class IdsSwapList extends Base {
 
   get count() {
     const val = this.getAttribute(attributes.COUNT);
-    return parseInt(val);
+    return parseInt(val) || DEFAULT_COUNT;
   }
 
   buttonTemplate(i) {
