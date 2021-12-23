@@ -1,5 +1,5 @@
 // Example for populating the List View
-const listView = document.querySelectorAll('ids-list-view');
+const listView = document.querySelector('ids-swaplist').container.querySelectorAll('ids-list-view');
 
 // Do an ajax request and apply the data to the list
 const url = '/data/products.json';

@@ -11,6 +11,8 @@ import IdsListView from '../ids-list-view/ids-list-view';
 
 import styles from './ids-swaplist.scss';
 
+const DEFAULT_COUNT = 2;
+
 /**
  * IDS SwapList Component
  * @type {IdsSwapList}
@@ -29,48 +31,11 @@ export default class IdsSwapList extends Base {
   connectedCallback() {
     super.connectedCallback();
 
+    // sets up the proper template for each list-view
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
-    const l = this.container.querySelector('ids-list-view');
-    l.defaultTemplate = this.defaultTemplate;
-    l.data = [
-      {
-        "id":1,
-        "productId":"7439937961",
-        "productName":"Steampan Lid",
-        "inStock":true,
-        "units":"9",
-        "unitPrice":23,
-        "color":"Green"
-     },
-     {
-        "id":2,
-        "productId":"3672150959",
-        "productName":"Coconut - Creamed, Pure",
-        "inStock":true,
-        "units":"588",
-        "unitPrice":18,
-        "color":"Yellow"
-     },
-     {
-        "id":3,
-        "productId":"8233719404",
-        "productName":"Onions - Red",
-        "inStock":false,
-        "units":"68",
-        "unitPrice":58,
-        "color":"Green"
-     },
-     {
-        "id":4,
-        "productId":"2451410442",
-        "productName":"Pasta - Fusili Tri - Coloured",
-        "inStock":true,
-        "units":"02",
-        "unitPrice":24,
-        "color":"Crimson"
-     },
-    ];
-
+    this.getAllLists().forEach((l) => {
+      l.defaultTemplate = this.defaultTemplate;
+    });
   }
 
   /**
@@ -84,11 +49,14 @@ export default class IdsSwapList extends Base {
     ];
   }
 
+  getAllLists() {
+    return this.container.querySelectorAll('ids-list-view');
+  }
+
   set count(value) {
     const val = parseInt(value);
-    // if val is not nan
-    this.setAttribute(attributes.COUNT, val);
-    // else set it to the default (2)
+    if (!Number.isNaN(val)) this.setAttribute(attributes.COUNT, val);
+    else this.setAttribute(attributes.COUNT, DEFAULT_COUNT);
   }
 
   get count() {
@@ -96,16 +64,36 @@ export default class IdsSwapList extends Base {
     return parseInt(val);
   }
 
-  cardTemplate() {
+  buttonTemplate(i) {
+    const leftArrow = `
+      <ids-button><ids-icon slot="icon" icon="arrow-left"></ids-icon></ids-button>
+    `;
+    const rightArrow = `
+      <ids-button><ids-icon slot="icon" icon="arrow-right"></ids-icon></ids-button>
+    `;
+    let html = ``;
+    if (i > 0 && i < this.count - 1) {
+      // render left and right arrow button
+      html = leftArrow + rightArrow;
+    } else if (i === 0) {
+      // render the right arrow button
+      html = rightArrow;
+    } else if (i === this.count - 1) {
+      // render the left arrow button
+      html = leftArrow;
+    }
+
+    return html;
+  }
+
+  listTemplate() {
     const arr = Array(this.count).fill(0);
 
-    return arr.map(() => `
+    return arr.map((v, i) => `
       <ids-card auto-fit>
         <div slot="card-header">
-          INSERT TITLE
-          <ids-button>
-            ICON
-          </ids-button>
+          <ids-text>List #${i}</ids-text>
+          ${this.buttonTemplate(i)}
         </div>
         <div slot="card-content">
           <ids-list-view selectable multiselect sortable>
@@ -122,7 +110,7 @@ export default class IdsSwapList extends Base {
   template() {
     return `
       <div class="ids-swaplist">
-        ${this.cardTemplate()}
+        ${this.listTemplate()}
       </div>
     `;
   }

@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsSwapList from '../../src/components/ids-swaplist';
+import IdsSwapList from '../../src/components/ids-swaplist/ids-swaplist';
 
 const HTMLSnippets = {
   VANILLA_COMPONENT: (
