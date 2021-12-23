@@ -548,7 +548,7 @@ describe('IdsLocale API', () => {
 
     it('Should correct some missing translations', async () => {
       await locale.setLocale('tl-PH');
-      expect(locale.translate('Clickable')).toEqual('Napipindot sa editor');
+      expect(locale.translate('Clickable')).toEqual('Clickable sa editor');
       expect(locale.translate('Columns')).toEqual('Mga kolum');
       expect(locale.translate('Component')).toEqual('Bahagi');
       expect(locale.translate('Classic')).toEqual('Klasiko');
