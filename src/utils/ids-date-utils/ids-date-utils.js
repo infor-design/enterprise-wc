@@ -19,9 +19,9 @@ export function isTodaysDate(date) {
  * @param {Date} date The date to check.
  * @param {number} startsOn Day of the week to start on. Sunday is 0, Monday is 1, and so on.
  * @param {boolean} showRange If calendar is showing range view, day of the week should not be counted backwards
- * @returns {boolean} Returns true or false if the compared date is today.
+ * @returns {Date} Returns first day of the week date.
  */
-export function firstDayOfWeek(date, startsOn = 0, showRange = false) {
+export function firstDayOfWeekDate(date, startsOn = 0, showRange = false) {
   const dayOfWeek = date.getDay();
   const firstDay = new Date(date);
   const diff = dayOfWeek >= startsOn || showRange ? dayOfWeek - startsOn : 6 - dayOfWeek;
@@ -36,12 +36,13 @@ export function firstDayOfWeek(date, startsOn = 0, showRange = false) {
  * Gets the last day of the week.
  * @param {Date} date The date to check.
  * @param {number} startsOn Day of the week to start on. Sunday is 0, Monday is 1, and so on.
- * @returns {boolean} Returns true or false if the compared date is today.
+ * @returns {Date} Returns last day of the week date.
  */
-export function lastDayOfWeek(date, startsOn = 0) {
-  const lastDay = firstDayOfWeek(date, startsOn);
+export function lastDayOfWeekDate(date, startsOn = 0) {
+  const lastDay = firstDayOfWeekDate(date, startsOn);
   lastDay.setDate(lastDay.getDate() + 6);
   lastDay.setHours(23, 59, 59, 999);
+
   return lastDay;
 }
 
@@ -178,11 +179,7 @@ export function umalquraToGregorian(year, month, day, hours = 0, mins = 0, secs 
     const e = Math.floor((b - d) / 30.6001);
     const gday = b - d - Math.floor(e * 30.6001);
     const gmonth = e - (e > 13.5 ? 13 : 1);
-    let gyear = c - (gmonth > 2.5 ? 4716 : 4715);
-    // No zero year
-    if (gyear <= 0) {
-      gyear--;
-    }
+    const gyear = c - (gmonth > 2.5 ? 4716 : 4715);
 
     return { year: gyear, month: gmonth - 1, day: gday };
   };
@@ -203,20 +200,16 @@ export function umalquraToGregorian(year, month, day, hours = 0, mins = 0, secs 
 
 /**
  * Convert Gregorian to Umm al-Qura calendar date.
+ * Modified version of Amro Osama's code. From at https://github.com/kbwood/calendars/blob/master/src/js/jquery.calendars.ummalqura.js
  * @param {Date} date Gregorian calendar date
  * @returns {object} Umm al-Qura calendar year, month, day
  */
 export function gregorianToUmalqura(date) {
-  // fromGregorian
-  // Modified version of Amro Osama's code. From at https://github.com/kbwood/calendars/blob/master/src/js/jquery.calendars.ummalqura.js
-  if (typeof date.getMonth !== 'function') {
+  if (!isValidDate(date)) {
     return null;
   }
 
   const getJd = (year, month, day) => {
-    if (year < 0) {
-      year++;
-    }
     if (month < 3) {
       month += 12;
       year--;
@@ -262,7 +255,7 @@ export function gregorianToUmalqura(date) {
  * @param {boolean} isIslamic if set to true the calculation is based on the Umm al-Qura Calendar
  * @returns {Date} Gregorian calendar date
  */
-export function firstDayOfMonth(year, month, day, isIslamic = false) {
+export function firstDayOfMonthDate(year, month, day, isIslamic = false) {
   if (isIslamic) {
     const umalqura = gregorianToUmalqura(new Date(year, month, day));
 
@@ -280,7 +273,7 @@ export function firstDayOfMonth(year, month, day, isIslamic = false) {
  * @param {boolean} isIslamic if set to true the calculation is based on the Umm al-Qura Calendar
  * @returns {Date} Gregorian calendar date
  */
-export function lastDayOfMonth(year, month, day, isIslamic = false) {
+export function lastDayOfMonthDate(year, month, day, isIslamic = false) {
   if (isIslamic) {
     const umalqura = gregorianToUmalqura(new Date(year, month, day));
 
@@ -291,19 +284,38 @@ export function lastDayOfMonth(year, month, day, isIslamic = false) {
 }
 
 /**
+ * Gets the number of days in a given month.
+ * @param {number} year Gregorian calendar year, long format
+ * @param {number} month Gregorian calendar month, 0-11 range
+ * @param {number} day Gregorian calendar day, needed only if converting to Umm al-Qura calendar date
+ * @param {boolean} isIslamic if set to true the calculation is base the Umm al-Qura Calendar
+ * @returns {number} number of days in a given month.
+ */
+export function daysInMonth(year, month, day, isIslamic = false) {
+  const lastDayOfMonth = lastDayOfMonthDate(year, month, day, isIslamic);
+
+  if (isIslamic) {
+    const firstDayOfMonth = firstDayOfMonthDate(year, month, day, isIslamic);
+
+    return daysDiff(firstDayOfMonth, lastDayOfMonth) + 1;
+  }
+
+  return lastDayOfMonth.getDate();
+}
+
+/**
  * Gets the number of weeks in a given month.
  * @param {number} year Gregorian calendar year, long format
  * @param {number} month Gregorian calendar month, 0-11 range
  * @param {number} day Gregorian calendar day, needed only if converting to Umm al-Qura calendar date
  * @param {number} startsOn day of the week to start on. Sunday is 0, Monday is 1 and so on.
  * @param {boolean} isIslamic if set to true the calculation is base the Umm al-Qura Calendar
- * @returns {number} the number of weeks in a given month.
+ * @returns {number} number of weeks in a given month.
  */
 export function weeksInMonth(year, month, day, startsOn = 0, isIslamic = false) {
-  const firstOfMonth = firstDayOfMonth(year, month, day, isIslamic);
-  const lastOfMonth = lastDayOfMonth(year, month, day, isIslamic);
-  const numberOfDaysInMonth = isIslamic ? daysDiff(firstOfMonth, lastOfMonth) : lastOfMonth.getDate();
-  const firstWeekDay = (firstOfMonth.getDay() - startsOn + 7) % 7;
+  const firstDayOfMonth = firstDayOfMonthDate(year, month, day, isIslamic);
+  const numberOfDaysInMonth = daysInMonth(year, month, day, isIslamic);
+  const firstDayOfWeekIndex = (firstDayOfMonth.getDay() - startsOn + 7) % 7;
 
-  return Math.ceil((firstWeekDay + numberOfDaysInMonth) / 7);
+  return Math.ceil((firstDayOfWeekIndex + numberOfDaysInMonth) / 7);
 }
