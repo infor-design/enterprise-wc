@@ -7,10 +7,10 @@ import {
   daysDiff,
   addDate,
   subtractDate,
-  firstDayOfWeek,
+  firstDayOfWeekDate,
   isTodaysDate,
   isValidDate,
-  lastDayOfWeek
+  lastDayOfWeekDate
 } from '../../utils/ids-date-utils/ids-date-utils';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
@@ -235,7 +235,7 @@ export default class IdsWeekView extends Base {
     }
 
     if (type === 'today') {
-      this.startDate = hasIrregularDays ? new Date() : firstDayOfWeek(new Date(), this.firstDayOfWeek);
+      this.startDate = hasIrregularDays ? new Date() : firstDayOfWeekDate(new Date(), this.firstDayOfWeek);
       this.endDate = addDate(this.startDate, diff - 1, 'days');
     }
   }
@@ -440,7 +440,7 @@ export default class IdsWeekView extends Base {
 
     // If no start-date attribute is set or not valid date
     // set startDate as first day of the week from current date
-    return firstDayOfWeek(new Date(), this.firstDayOfWeek);
+    return firstDayOfWeekDate(new Date(), this.firstDayOfWeek);
   }
 
   /**
@@ -473,7 +473,7 @@ export default class IdsWeekView extends Base {
 
     // If no end-date attribute is set or not valid date
     // set endDate as last day of the week from current date
-    return lastDayOfWeek(new Date(), this.firstDayOfWeek);
+    return lastDayOfWeekDate(new Date(), this.firstDayOfWeek);
   }
 
   /**
