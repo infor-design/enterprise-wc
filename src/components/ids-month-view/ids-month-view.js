@@ -6,12 +6,16 @@ import Base from './ids-month-view-base';
 // Import Utils
 import {
   addDate,
-  firstDayOfWeek,
+  firstDayOfWeekDate,
   weeksInMonth,
-  firstDayOfMonth,
-  lastDayOfMonth
+  firstDayOfMonthDate,
+  lastDayOfMonthDate
 } from '../../utils/ids-date-utils/ids-date-utils';
-import { stringToBool, stringToNumber, buildClassAttrib } from '../../utils/ids-string-utils/ids-string-utils';
+import {
+  stringToBool,
+  stringToNumber,
+  buildClassAttrib,
+} from "../../utils/ids-string-utils/ids-string-utils";
 
 // Supporting components
 import IdsButton from '../ids-button/ids-button';
@@ -26,6 +30,7 @@ import styles from './ids-month-view.scss';
 const MIN_MONTH = 0;
 const MAX_MONTH = 11;
 const WEEK_LENGTH = 7;
+const FULL_SIZE_THRESHOLD = 600;
 
 /**
  * IDS Month View Component
@@ -89,6 +94,16 @@ class IdsMonthView extends Base {
       this.#renderMonth();
       this.#attachDatepickerText();
     });
+
+    // Set type of view based on the component size
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const isFullSize = entry.contentRect.width > FULL_SIZE_THRESHOLD;
+
+        this.container.classList.toggle('is-fullsize', isFullSize);
+      }
+    });
+    resizeObserver.observe(this.container);
 
     return this;
   }
@@ -172,7 +187,7 @@ class IdsMonthView extends Base {
   #formatMonthText() {
     const dayOfMonth = new Date(this.year, this.month);
 
-    return this.locale.formatDate(dayOfMonth, { month: 'long', year: 'numeric' });
+    return this.locale.formatDate(dayOfMonth, { month: 'long', year: 'numeric', numberingSystem: 'latn' });
   }
 
   /**
@@ -208,6 +223,8 @@ class IdsMonthView extends Base {
       this.year = now.getFullYear();
       this.month = now.getMonth();
     }
+
+    this.#triggerSelectedEvent();
   }
 
   /**
@@ -216,9 +233,9 @@ class IdsMonthView extends Base {
    * @returns {string} table cell template
    */
   #getCellTemplate(weekIndex) {
-    const firstDay = firstDayOfMonth(this.year, this.month, this.day, this.locale.isIslamic());
-    const lastDay = lastDayOfMonth(this.year, this.month, this.day, this.locale.isIslamic());
-    const rangeStartsOn = firstDayOfWeek(firstDay, this.firstDayOfWeek);
+    const firstDay = firstDayOfMonthDate(this.year, this.month, this.day, this.locale.isIslamic());
+    const lastDay = lastDayOfMonthDate(this.year, this.month, this.day, this.locale.isIslamic());
+    const rangeStartsOn = firstDayOfWeekDate(firstDay, this.firstDayOfWeek);
 
     return Array.from({ length: WEEK_LENGTH }).map((_, index) => {
       const date = addDate(rangeStartsOn, (weekIndex * WEEK_LENGTH) + index, 'days');
@@ -253,13 +270,8 @@ class IdsMonthView extends Base {
    * @private
    */
   #renderMonth() {
-    // Get locale loaded calendars and days of the week
-    const calendars = this.locale.locale.options.calendars;
-
-    if (!calendars) return;
-
-    // const weekDays = (calendars || [])[0]?.days.abbreviated;
-    const weekDays = calendars[0].days.abbreviated;
+    const calendar = this.locale.calendar();
+    const weekDays = calendar.days.abbreviated
 
     const weekDaysTemplate = weekDays.map((_, index) => {
       const weekday = weekDays[(index + this.firstDayOfWeek) % WEEK_LENGTH];
@@ -303,8 +315,26 @@ class IdsMonthView extends Base {
         const { month, year, day } = e.target.dataset;
 
         this.#selectDay(stringToNumber(year), stringToNumber(month), stringToNumber(day));
+        this.#triggerSelectedEvent();
       }
     });
+  }
+
+  /**
+   * Trigger selected event with current params.
+   * @private
+   * @returns {void}
+   */
+   #triggerSelectedEvent() {
+    const date = new Date(this.year, this.month, this.day);
+    const args = {
+      detail: {
+        elem: this,
+        date
+      }
+    };
+
+    this.triggerEvent('dayselected', this, args);
   }
 
   /**
@@ -388,7 +418,9 @@ class IdsMonthView extends Base {
    * @param {string|number|null} val month param value
    */
   set month(val) {
-    if (val !== null) {
+    const numberVal = stringToNumber(val);
+
+    if (!Number.isNaN(numberVal) && numberVal >= MIN_MONTH && numberVal <= MAX_MONTH) {
       this.setAttribute(attributes.MONTH, val);
     } else {
       this.removeAttribute(attributes.MONTH);
@@ -419,7 +451,9 @@ class IdsMonthView extends Base {
    * @param {string|number|null} val year param value
    */
   set year(val) {
-    if (val) {
+    const numberVal = stringToNumber(val);
+
+    if (!Number.isNaN(numberVal) && numberVal.toString().length === 4) {
       this.setAttribute(attributes.YEAR, val);
     } else {
       this.removeAttribute(attributes.YEAR);
@@ -442,9 +476,11 @@ class IdsMonthView extends Base {
   }
 
   set day(val) {
-    if (val) {
+    const numberVal = stringToNumber(val);
+
+    if (!Number.isNaN(numberVal) && numberVal > 0) {
       this.setAttribute(attributes.DAY, val);
-      this.#selectDay(this.year, this.month, stringToNumber(val));
+      this.#selectDay(this.year, this.month, numberVal);
     } else {
       this.removeAttribute(attributes.DAY);
       this.#selectDay(this.year, this.month, this.day);
