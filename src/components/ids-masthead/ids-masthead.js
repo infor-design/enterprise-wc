@@ -53,7 +53,7 @@ export default class IdsMasthead extends Base {
 
   /**
    * @readonly
-   * @returns {object} the user-generated slots that were nested in ids-masthead
+   * @returns {object} the user-provided slots that were nested in ids-masthead
    */
   get slots() {
     this.#cachedSlots = this.#cachedSlots || {
