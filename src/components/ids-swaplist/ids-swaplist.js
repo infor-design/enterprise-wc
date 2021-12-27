@@ -66,10 +66,17 @@ export default class IdsSwapList extends Base {
 
   buttonTemplate(i) {
     const leftArrow = `
-      <ids-button><ids-icon slot="icon" icon="arrow-left"></ids-icon></ids-button>
-    `;
+      <ids-button id="${i}-left-arrow">
+        <span slot="text" class="audible">Swap Item Left</span>
+        <ids-icon slot="icon" icon="arrow-left"></ids-icon>
+        </ids-button>
+        `;
+
     const rightArrow = `
-      <ids-button><ids-icon slot="icon" icon="arrow-right"></ids-icon></ids-button>
+      <ids-button id="${i}-right-arrow">
+        <span slot="text" class="audible">Swap Item Left</span>
+        <ids-icon slot="icon" icon="arrow-right"></ids-icon>
+      </ids-button>
     `;
     let html = ``;
     if (i > 0 && i < this.count - 1) {

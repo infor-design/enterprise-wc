@@ -2,7 +2,7 @@
 const listView = document.querySelector('ids-swaplist').container.querySelectorAll('ids-list-view');
 
 // Do an ajax request and apply the data to the list
-const url = '/data/products.json';
+const url = '/data/bikes.json';
 
 const setData = async () => {
   const res = await fetch(url);
