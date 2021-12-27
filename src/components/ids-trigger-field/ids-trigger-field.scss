@@ -17,6 +17,12 @@
   pointer-events: none;
 }
 
+.ids-label-text {
+  &.hidden {
+    display: none;
+  }
+}
+
 .ids-trigger-field-content {
   @include antialiased();
   @include bg-white();

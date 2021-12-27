@@ -148,7 +148,9 @@ export default class IdsContainer extends Base {
       this.state.locale.setLanguage(value);
       this.state.locale.updateLangTag(this, value);
       this.setAttribute('language', value);
-      this.triggerEvent('languagechange', this, { detail: { elem: this, language: this.language, locale: this.state.locale } });
+      requestAnimationFrame(() => {
+        this.triggerEvent('languagechange', this, { detail: { elem: this, language: this.language, locale: this.state.locale } });
+      });
     }
   }
 
