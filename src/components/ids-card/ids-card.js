@@ -48,14 +48,12 @@ export default class IdsCard extends Base {
   template() {
     return `
       <div class="ids-card" part="card">
-        <ids-checkbox
-          class="${this.cardSelection === 'multiple' ? '' : 'hidden'}"
-        ></ids-checkbox>
         <div class="ids-card-body">
           <div class="ids-card-header" part="header">
             <slot name="card-header"></slot>
           </div>
           <div class="ids-card-content ${this.overflow === 'hidden' ? 'overflow-hidden' : ''}" part="content">
+            ${this.selection === 'multiple' ? '<ids-checkbox></ids-checkbox>' : ''}
             <slot name="card-content"></slot>
           </div>
         </div>
@@ -70,19 +68,19 @@ export default class IdsCard extends Base {
    */
   #handleEvents() {
     this.onEvent('click', this, (e) => {
-      if (this.cardSelection === 'single') {
-        const cardElements = document.querySelectorAll('ids-card[card-selection="single"]');
+      if (this.selection === 'single') {
+        const cardElements = document.querySelectorAll('ids-card[selection="single"]');
         for (const elem of cardElements) {
-          elem.setAttribute(attributes.CARD_SELECTED, false);
+          elem.setAttribute(attributes.SELECTED, false);
         }
 
-        this.setAttribute(attributes.CARD_SELECTED, true);
-      } else if (this.cardSelection === 'multiple') {
+        this.setAttribute(attributes.SELECTED, true);
+      } else if (this.selection === 'multiple') {
         this.#changeSelection(e);
       }
     });
 
-    if (this.cardSelection === 'multiple') {
+    if (this.selection === 'multiple') {
       const idsCheckboxElem = this.container.querySelector('ids-checkbox');
       idsCheckboxElem.onEvent('click', idsCheckboxElem, (e) => {
         e.stopPropagation();
@@ -95,15 +93,15 @@ export default class IdsCard extends Base {
   }
 
   #changeSelection(e) {
-    this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, this.cardSelected !== 'true');
-    this.setAttribute(attributes.CARD_SELECTED, this.cardSelected !== 'true');
+    this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, this.selected !== 'true');
+    this.setAttribute(attributes.SELECTED, this.selected !== 'true');
 
     this.triggerEvent('selectionchanged', this, {
       detail: {
         elem: this,
         nativeEvent: e,
-        selected: this.cardSelected,
-        selection: this.cardSelection,
+        selected: this.selected,
+        selection: this.selection,
       }
     });
   }

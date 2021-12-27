@@ -14,8 +14,8 @@ const IdsSelectionMixin = (superclass) => class extends superclass {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.CARD_SELECTED,
-      attributes.CARD_SELECTION,
+      attributes.SELECTED,
+      attributes.SELECTION,
     ];
   }
 
@@ -24,11 +24,11 @@ const IdsSelectionMixin = (superclass) => class extends superclass {
   }
 
   /**
-   * Set the card-selection to a particular string
+   * Set the selection to a particular string
    * @param {string} value The selection value
    */
-  set cardSelection(value) {
-    this.setAttribute(attributes.CARD_SELECTION, value);
+  set selection(value) {
+    this.setAttribute(attributes.SELECTION, value);
 
     if (value === 'multiple' || value === 'single') {
       this.container?.classList.add('is-selectable');
@@ -37,21 +37,21 @@ const IdsSelectionMixin = (superclass) => class extends superclass {
     }
   }
 
-  get cardSelection() { return this.getAttribute(attributes.CARD_SELECTION); }
+  get selection() { return this.getAttribute(attributes.SELECTION); }
 
   /**
-   * Set the card-selected to a boolean value
+   * Set the selected to a boolean value
    * @param {boolean} value The selected value
    */
-  set cardSelected(value) {
-    this.setAttribute(attributes.CARD_SELECTED, value);
+  set selected(value) {
+    this.setAttribute(attributes.SELECTED, value);
 
-    if (this.cardSelection === 'multiple' || this.cardSelection === 'single') {
+    if (this.selection === 'multiple' || this.selection === 'single') {
       this.container?.classList[value === 'true' ? 'add' : 'remove']('is-selected');
     }
   }
 
-  get cardSelected() { return this.getAttribute(attributes.CARD_SELECTED); }
+  get selected() { return this.getAttribute(attributes.SELECTED); }
 };
 
 export default IdsSelectionMixin;
