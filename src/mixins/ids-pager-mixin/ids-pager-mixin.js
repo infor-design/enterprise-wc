@@ -1,5 +1,10 @@
-import { attributes, IdsDataSource } from '../../core';
-import IdsPager from '../../components/ids-pager';
+import { attributes } from '../../core/ids-attributes';
+import IdsDataSource from '../../core/ids-data-source';
+import IdsButton from '../../components/ids-button/ids-button';
+import IdsPager from '../../components/ids-pager/ids-pager';
+// import IdsPopup from '../../components/ids-popup/ids-popup';
+// import IdsPopupMenu from '../../components/ids-popup-menu/ids-popup-menu';
+import IdsMenuButton from '../../components/ids-menu-button/ids-menu-button';
 
 /**
 /**
@@ -8,9 +13,12 @@ import IdsPager from '../../components/ids-pager';
  * @returns {any} The extended object
  */
 const IdsPagerMixin = (superclass) => class extends superclass {
+  datasource = new IdsDataSource();
+
   #pager = new IdsPager();
 
-  datasource = new IdsDataSource();
+  // #popup = new IdsPopupMenu();
+  // #button = new IdsButton();
 
   constructor() {
     super();
@@ -21,11 +29,65 @@ const IdsPagerMixin = (superclass) => class extends superclass {
       <ids-pager-input></ids-pager-input>
       <ids-pager-button next></ids-pager-button>
       <ids-pager-button last></ids-pager-button>
+      <div slot="end">
+        <ids-menu-button id="pager-size-menu-button" menu="pager-size-menu" role="button" dropdown-icon>
+          <span slot="text">${this.pageSize} Records per page</span>
+        </ids-menu-button>
+        <ids-popup-menu id="pager-size-menu" target="#pager-size-menu-button" trigger="click">
+          <ids-menu-group>
+            <ids-menu-item>10</ids-menu-item>
+            <ids-menu-item>25</ids-menu-item>
+            <ids-menu-item>50</ids-menu-item>
+            <ids-menu-item>100</ids-menu-item>
+          </ids-menu-group>
+        </ids-popup-menu>
+      </div>
     `;
+
+    // const popup = new IdsPagerSection();
+    // popup.innerHTML = `
+    //   <ids-menu-button id="ids-pager"" menu="pager-size-menu" icon-align="end">
+    //     <span slot="text">${this.pageSize} Records per page</span>
+    //     <ids-icon slot="icon" icon="dropdown"></ids-icon>
+    //   </ids-menu-button>
+    //   <ids-popup-menu id="pager-size-menu"" target="pager-size-menu"" trigger="click">
+    //     <ids-menu-group>
+    //       <ids-menu-item>Action 1</ids-menu-item>
+    //       <ids-menu-item>Action 2</ids-menu-item>
+    //       <ids-menu-item>Action 3</ids-menu-item>
+    //     </ids-menu-group>
+    //   </ids-popup-menu>
+    // `;
+
+    // this.#pager.appendChild(popup);
+
+    // this.#pager.innerHTML = `
+    //   <div>
+    //     <ids-pager-button first></ids-pager-button>
+    //     <ids-pager-button previous></ids-pager-button>
+    //     <ids-pager-input></ids-pager-input>
+    //     <ids-pager-button next></ids-pager-button>
+    //     <ids-pager-button last></ids-pager-button>
+    //   </div>
+    //   <div slot="end">
+    //     <ids-menu-button id="ids-pager"" menu="pager-size-menu" icon-align="end">
+    //       <span slot="text">${this.pageSize} Records per page</span>
+    //       <ids-icon slot="icon" icon="dropdown"></ids-icon>
+    //     </ids-menu-button>
+    //     <ids-popup-menu id="pager-size-menu"" target="pager-size-menu"" trigger="click">
+    //       <ids-menu-group>
+    //         <ids-menu-item>Action 1</ids-menu-item>
+    //         <ids-menu-item>Action 2</ids-menu-item>
+    //         <ids-menu-item>Action 3</ids-menu-item>
+    //       </ids-menu-group>
+    //     </ids-popup-menu>
+    //   </div>
+    // `;
 
     this.#pager.pageNumber = Math.max(parseInt(this.pageNumber) || 1, 1);
     this.#pager.pageSize = Math.max(parseInt(this.pageSize) || 0, 1);
-    // this.#pager.pageSize = parseInt(this.pageSize) || false;
+
+    // this.#popup.innerHTML = `<span slot="text">${this.pageSize} Records per page</span>`;
   }
 
   get pager() { return this.#pager; }
@@ -64,23 +126,20 @@ const IdsPagerMixin = (superclass) => class extends superclass {
     this.setAttribute(attributes.PAGE_SIZE, value);
     this.pager.pageSize = value;
     this.datasource.pageSize = value;
+
+    // this.#popup.querySelector('span').textContent = `${value} Records per page`;
   }
 
   get pageSize() { return this.getAttribute(attributes.PAGE_SIZE) || this.pager.pageSize; }
 
-  // set pageTotal(value) { this.pager.total = value; }
-
-  // get pageTotal() { return this.getAttribute(attributes.TOTAL) || this.pager.total; }
   get pageTotal() { return this.datasource.total; }
 
   rerender() {
     super.rerender?.();
-    console.log('IdsPagerMixin.rerender');
     this.#attachPager();
   }
 
   connectedCallback() {
-    console.log('IdsPagerMixin.connectedCallback() running...');
     super.connectedCallback?.();
     this.#attachPager();
   }
@@ -101,7 +160,6 @@ const IdsPagerMixin = (superclass) => class extends superclass {
 
     this.offEvent('pagenumberchange', this.pager);
     this.onEvent('pagenumberchange', this.pager, ({ detail }) => {
-      console.log('attachPagerHandlers firing...', detail);
       this.pageNumber = detail.value;
 
       // TODO: find a better way/trigger to load results without rebuilding entire component
@@ -109,11 +167,10 @@ const IdsPagerMixin = (superclass) => class extends superclass {
     });
 
     if (pager) {
-      console.log('pager.replaceWith(this.pager)');
       pager.replaceWith(this.pager);
     } else {
-      console.log('this.shadowRoot?.appendChild(this.pager)');
-      this.shadowRoot?.appendChild(this.pager);
+      this.shadowRoot?.append(this.#pager);
+      // this.shadowRoot?.append(this.#pager, this.#popup);
     }
   }
 

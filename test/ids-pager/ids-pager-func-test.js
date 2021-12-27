@@ -24,49 +24,49 @@ const HTMLSnippets = {
   ),
   NAV_BUTTONS_AND_INPUT: (
     `<ids-pager page-size="20" page-number="10" total="200">
-      <ids-pager-section>
+      <section>
         <ids-pager-button first></ids-pager-button>
         <ids-pager-button previous></ids-pager-button>
         <ids-pager-input></ids-pager-input>
         <ids-pager-button next></ids-pager-button>
         <ids-pager-button last></ids-pager-button>
-      </ids-pager-section>
+      </section>
     </ids-pager>`
   ),
   NUMBER_LIST_NAV: (
   `<ids-pager page-size="20" page-number="10" total="150">
-      <ids-pager-section>
+      <section>
         <ids-pager-button previous></ids-pager-button>
         <ids-pager-number-list></ids-pager-number-list>
         <ids-pager-button next></ids-pager-button>
-      </ids-pager-section>
+      </section>
   </ids-pager>`
   ),
   RIGHT_ALIGNED_CONTENT: (
     `<ids-pager page-size="20" page-number="10" total="150">
-      <ids-pager-section>
+      <section>
         <ids-pager-button previous></ids-pager-button>
         <ids-pager-number-list></ids-pager-number-list>
         <ids-pager-button next></ids-pager-button>
-      </ids-pager-section>
-      <ids-pager-section>
+      </section>
+      <section slot="end">
         Right-Aligned Content
-      </ids-pager-section>
+      </section>
     </ids-pager>`
   ),
   DOUBLE_SIDED_CONTENT: (
     `<ids-pager page-size="20" page-number="10" total="150">
-      <ids-pager-section>
+      <section slot="start">
         Left-Aligned-Content
-      </ids-pager-section>
-      <ids-pager-section>
+      </section>
+      <section>
         <ids-pager-button previous></ids-pager-button>
         <ids-pager-number-list></ids-pager-number-list>
         <ids-pager-button next></ids-pager-button>
-      </ids-pager-section>
-      <ids-pager-section>
+      </section>
+      <section slot="end">
         Right-Aligned-Content
-      </ids-pager-section>
+      </section>
     </ids-pager>`
   )
 };
@@ -624,25 +624,6 @@ describe('IdsPager Component', () => {
     elem.parentDisabled = false;
     expect(elem.parentDisabled).toEqual(false);
     expect(elem.hasAttribute('parent-disabled')).toEqual(false);
-  });
-
-  it('can trigger align setters on ids-pager-section predictably', async () => {
-    elem = await createElemViaTemplate(`<ids-pager-section></ids-pager-section>`);
-
-    expect(elem.align).toEqual(undefined);
-    expect(elem.getAttribute('align')).toEqual(null);
-
-    elem.align = 'end';
-    expect(elem.getAttribute('align')).toEqual('end');
-
-    elem.align = 'start';
-    expect(elem.getAttribute('align')).toEqual('start');
-
-    elem.setAttribute('align', 'end');
-    expect(elem.getAttribute('align')).toEqual('end');
-
-    elem.align = null;
-    expect(elem.attribute).toEqual(undefined);
   });
 
   it('can change child languages', async () => {

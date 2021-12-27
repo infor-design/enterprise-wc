@@ -4,7 +4,6 @@ import { attributes } from '../../core/ids-attributes';
 import Base from './ids-pager-input-base';
 import IdsInput from '../ids-input/ids-input';
 import IdsText from '../ids-text/ids-text';
-import IdsPagerSection from './ids-pager-section';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import styles from './ids-pager-input.scss';

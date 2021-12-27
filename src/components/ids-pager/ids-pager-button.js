@@ -6,7 +6,6 @@ import Base from './ids-pager-button-base';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsButton from '../ids-button/ids-button';
 import IdsIcon from '../ids-icon/ids-icon';
-import IdsPagerSection from './ids-pager-section';
 import { buttonTypes } from './ids-pager-attributes';
 
 import styles from './ids-pager-button.scss';
