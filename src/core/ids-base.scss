@@ -176,3 +176,9 @@ $input-field-height-lg: 48px;
     display: none;
   }
 }
+
+@mixin breakpoint-xs-down {
+  @media all and (max-width: $breakpoint-xs) {
+    @content;
+  }
+}
