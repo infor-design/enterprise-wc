@@ -27,6 +27,19 @@ describe('IdsDeviceEnvUtils Tests', () => {
     expect(typeof specs.idsVersion).toBe('string');
   });
 
+  it('should check isMobile with matchMedia present', () => {
+    expect(specs.isMobile).toBeFalsy();
+
+    Object.defineProperty(window, 'matchMedia', {
+      value: jest.fn().mockImplementation((query) => ({
+        matches: false,
+        media: query
+      }))
+    });
+    specs = getSpecs();
+    expect(specs.isMobile).toBeFalsy();
+  });
+
   it('should detect browser and device specs', () => {
     const userAgentGetter = jest.spyOn(window.navigator, 'userAgent', 'get');
     const platformGetter = jest.spyOn(window.navigator, 'platform', 'get');
