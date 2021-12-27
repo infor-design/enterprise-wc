@@ -149,7 +149,7 @@ const messages = {
   ExamplePlaceholder: { id: 'ExamplePlaceholder', value: 'Örnek Yer Tutucu', comment: 'Translated text for an example form placeholder text' },
   Export: { id: 'Export', value: 'Dışarı Aktar', comment: 'Export tooltip' },
   ExportToExcel: { id: 'ExportToExcel', value: 'Excel\'e Aktar', comment: 'Export To Excel menu option in datagrid' },
-  ExtraSmall: { id: 'ExtraSmall', value: 'Ekstra Küçük', comment: 'A smaller font size and compressed mode for datagrid rows. NOTE: Please change french to Très petite (Masculine form)' },
+  ExtraSmall: { id: 'ExtraSmall', value: 'Ekstra Küçük', comment: 'A smaller font size and compressed mode for datagrid rows.' },
   Favorite: { id: 'Favorite', value: 'Sık Kullanılan', comment: 'A favorite item' },
   FileUpload: { id: 'FileUpload', value: 'Dosya Yükleme. Bir dosyaya Gözatmak için Enter tuşuna basın', comment: 'Screen Reader instructions' },
   FieldFilter: { id: 'FieldFilter', value: 'Alan Filtresi', comment: 'Used for Field Filter' },

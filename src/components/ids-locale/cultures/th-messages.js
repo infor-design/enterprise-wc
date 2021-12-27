@@ -149,7 +149,7 @@ const messages = {
   ExamplePlaceholder: { id: 'ExamplePlaceholder', value: 'ตัวอย่างตัวแทนค่า', comment: 'Translated text for an example form placeholder text' },
   Export: { id: 'Export', value: 'ส่งออก', comment: 'Export tooltip' },
   ExportToExcel: { id: 'ExportToExcel', value: 'ส่งออกไปยัง Excel', comment: 'Export To Excel menu option in datagrid' },
-  ExtraSmall: { id: 'ExtraSmall', value: 'เล็กพิเศษ', comment: 'A smaller font size and compressed mode for datagrid rows. NOTE: Please change french to Très petite (Masculine form)' },
+  ExtraSmall: { id: 'ExtraSmall', value: 'เล็กพิเศษ', comment: 'A smaller font size and compressed mode for datagrid rows.' },
   Favorite: { id: 'Favorite', value: 'รายการโปรด', comment: 'A favorite item' },
   FileUpload: { id: 'FileUpload', value: 'ไฟล์อัปโหลด กด Enter เพื่อเรียกดูไฟล์', comment: 'Screen Reader instructions' },
   FieldFilter: { id: 'FieldFilter', value: 'ตัวกรองฟิลด์', comment: 'Used for Field Filter' },

@@ -149,7 +149,7 @@ const messages = {
   ExamplePlaceholder: { id: 'ExamplePlaceholder', value: 'Pavyzdžio vietos rezervavimo ženklas', comment: 'Translated text for an example form placeholder text' },
   Export: { id: 'Export', value: 'Eksportuoti', comment: 'Export tooltip' },
   ExportToExcel: { id: 'ExportToExcel', value: 'Eksportuoti į „Excel“', comment: 'Export To Excel menu option in datagrid' },
-  ExtraSmall: { id: 'ExtraSmall', value: 'Labai mažas', comment: 'A smaller font size and compressed mode for datagrid rows. NOTE: Please change french to Très petite (Masculine form)' },
+  ExtraSmall: { id: 'ExtraSmall', value: 'Labai mažas', comment: 'A smaller font size and compressed mode for datagrid rows.' },
   Favorite: { id: 'Favorite', value: 'Parankiniai', comment: 'A favorite item' },
   FileUpload: { id: 'FileUpload', value: 'Failo nusiuntimas. Jei norite ieškoti failo, spauskite Enter', comment: 'Screen Reader instructions' },
   FieldFilter: { id: 'FieldFilter', value: 'Laukų filtras', comment: 'Used for Field Filter' },

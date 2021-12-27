@@ -149,7 +149,7 @@ const messages = {
   ExamplePlaceholder: { id: 'ExamplePlaceholder', value: 'Príklad zástupného znaku', comment: 'Translated text for an example form placeholder text' },
   Export: { id: 'Export', value: 'Exportovať', comment: 'Export tooltip' },
   ExportToExcel: { id: 'ExportToExcel', value: 'Exportovať do súboru programu Excel', comment: 'Export To Excel menu option in datagrid' },
-  ExtraSmall: { id: 'ExtraSmall', value: 'Extra malé', comment: 'A smaller font size and compressed mode for datagrid rows. NOTE: Please change french to Très petite (Masculine form)' },
+  ExtraSmall: { id: 'ExtraSmall', value: 'Extra malé', comment: 'A smaller font size and compressed mode for datagrid rows.' },
   Favorite: { id: 'Favorite', value: 'Obľúbené', comment: 'A favorite item' },
   FileUpload: { id: 'FileUpload', value: 'Nahratie súboru. Stlačte kláves Enter a vyhľadajte súbor', comment: 'Screen Reader instructions' },
   FieldFilter: { id: 'FieldFilter', value: 'Filter polí', comment: 'Used for Field Filter' },
