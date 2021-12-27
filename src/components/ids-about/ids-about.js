@@ -29,8 +29,6 @@ export default class IdsAbout extends Base {
       ...super.attributes,
       attributes.COPYRIGHT_YEAR,
       attributes.DEVICE_SPECS,
-      attributes.LANGUAGE,
-      attributes.LOCALE,
       attributes.PRODUCT_NAME,
       attributes.PRODUCT_VERSION,
       attributes.USE_DEFAULT_COPYRIGHT,
@@ -86,6 +84,11 @@ export default class IdsAbout extends Base {
       this.#refreshCopyright();
     });
 
+    this.offEvent('localechange.about-container');
+    this.onEvent('localechange.about-container', this.closest('ids-container'), async () => {
+      this.#refreshDeviceSpecs();
+      this.#refreshCopyright();
+    });
     return this;
   }
 
@@ -198,14 +201,13 @@ export default class IdsAbout extends Base {
 
     if (this.deviceSpecs) {
       const specs = getSpecs();
-      const element = `<ids-text slot="device" type="p"><span>${this.locale?.translate('OperatingSystem')} : ${specs.os.replace(specs.currentOSVersion, '')} ${specs.currentOSVersion}</span><br/>
+      const element = `<ids-text slot="device" type="p">
         <span>${this.locale?.translate('Platform')} : ${specs.platform}</span><br/>
         <span>${this.locale?.translate('Mobile')} : ${specs.isMobile}</span><br/>
+        <span>${this.locale?.translate('Browser')} : ${specs.browser} (${specs.browserVersion})</span><br/>
         <span>${this.locale?.translate('Locale')} : ${this.locale?.locale.name || 'en-US'}</span><br/>
         <span>${this.locale?.translate('Language')} : ${this.locale?.language.name || 'en'}</span><br/>
-        <span>${this.locale?.translate('Browser')} : ${specs.currentBrowser} (${specs.browserVersion})</span><br/>
         <span>${this.locale?.translate('BrowserLanguage')} : ${specs.browserLanguage}</span><br/>
-        <span>${this.locale?.translate('CookiesEnabled')} : ${specs.cookiesEnabled}</span><br/>
         <span>${this.locale?.translate('Version')} : ${specs.idsVersion}</span>
       </ids-text>`;
 

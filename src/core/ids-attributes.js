@@ -287,3 +287,5 @@ export const breakpoints = {
   sm: '600px',
   xs: '360px'
 };
+
+export const version = '0.0.0-beta.17';
