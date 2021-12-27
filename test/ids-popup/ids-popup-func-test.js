@@ -3,9 +3,10 @@
  */
 import '../helpers/resize-observer-mock';
 import wait from '../helpers/wait';
+import processAnimFrame from '../helpers/process-anim-frame';
 
-import IdsPopup from '../../src/components/ids-popup';
-import IdsContainer from '../../src/components/ids-container';
+import IdsPopup from '../../src/components/ids-popup/ids-popup';
+import IdsContainer from '../../src/components/ids-container/ids-container';
 
 /**
  * Creates the test div used as an ArrowTarget in many of the below tests
@@ -846,10 +847,9 @@ describe('IdsPopup Component', () => {
   });
 
   it('can change child languages', async () => {
-    container.language = 'de';
-    setTimeout(() => {
-      expect(popup.getAttribute('language')).toEqual('de');
-    });
+    container.language = 'ar';
+    await processAnimFrame();
+    expect(popup.getAttribute('dir')).toEqual('rtl');
   });
 
   // Coverage

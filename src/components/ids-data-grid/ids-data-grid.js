@@ -1,30 +1,14 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  attributes,
-  mix,
-  IdsDataSource
-} from '../../core';
+// Import Core
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { deepClone } from '../../utils/ids-deep-clone-utils/ids-deep-clone-utils';
 
-// Import Utils
-import { IdsDeepCloneUtils, IdsStringUtils as stringUtils } from '../../utils';
+import Base from './ids-data-grid-base';
+import IdsDataSource from '../../core/ids-data-source';
+import IdsDataGridFormatters from './ids-data-grid-formatters';
+import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsThemeMixin,
-  IdsLocaleMixin,
-  IdsPagerMixin
-} from '../../mixins';
-
-// Import Dependencies
-import { IdsDataGridFormatters } from './ids-data-grid-formatters';
-import IdsPager from '../ids-pager';
-import IdsVirtualScroll from '../ids-virtual-scroll';
-
-// Import Styles
 import styles from './ids-data-grid.scss';
 
 const rowHeights = {
@@ -42,7 +26,6 @@ const rowHeights = {
  * @mixes IdsKeyboardMixin
  * @mixes IdsThemeMixin
  * @mixes IdsLocaleMixin
- * @mixes IdsPagerMixin
  * @part table - the table main element
  * @part body - the table body element
  * @part header - the header element
@@ -52,13 +35,7 @@ const rowHeights = {
  */
 @customElement('ids-data-grid')
 @scss(styles)
-class IdsDataGrid extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsThemeMixin,
-    IdsKeyboardMixin,
-    IdsLocaleMixin,
-    IdsPagerMixin
-  ) {
+export default class IdsDataGrid extends Base {
   constructor() {
     super();
   }
@@ -68,8 +45,10 @@ class IdsDataGrid extends mix(IdsElement).with(
     super.connectedCallback();
   }
 
+  /** API for list of formatters */
   formatters = new IdsDataGridFormatters();
 
+  /** Reference to datasource API */
   datasource = new IdsDataSource();
 
   /**
@@ -90,7 +69,7 @@ class IdsDataGrid extends mix(IdsElement).with(
       attributes.SUPRESS_ROW_DESELECTION,
       attributes.VIRTUAL_SCROLL,
       attributes.MODE,
-      attributes.VERSION,
+      attributes.VERSION
     ];
   }
 
@@ -100,13 +79,13 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @private
    */
   template() {
-    if ((!this?.data && this?.datasource.total === 0) && this?.columns.length === 0) {
+    if (this?.data.length === 0 && this?.columns.length === 0) {
       return ``;
     }
 
     const cssClasses = [
-      this.alternateRowShading ? `alt-row-shading` : ``,
-      this.listStyle ? `is-list-style` : ``
+      `${this.alternateRowShading ? `alt-row-shading` : ``}`,
+      `${this.listStyle ? `is-list-style` : ``}`
     ];
 
     const html = `
@@ -135,7 +114,7 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @private
    */
   rerender() {
-    if (this.columns.length === 0 && this.datasource.total === 0) {
+    if (this.columns.length === 0 && this.data.length === 0) {
       return;
     }
 
@@ -153,7 +132,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     this.container = this.shadowRoot.querySelector('.ids-data-grid');
 
     // Setup virtual scrolling
-    if (this.virtualScroll && this.datasource.total > 0) {
+    if (this.virtualScroll && this.data.length > 0) {
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
       this.virtualScrollContainer.scrollTarget = this.container;
 
@@ -163,9 +142,8 @@ class IdsDataGrid extends mix(IdsElement).with(
     }
 
     this.#attachEventHandlers();
-    // this.#attachPagerHandlers();
 
-    if (this.datasource.total > 0) {
+    if (this.data.length > 0) {
       this.setActiveCell(0, 0, true);
       this.#attachKeyboardListeners();
     }
@@ -179,8 +157,6 @@ class IdsDataGrid extends mix(IdsElement).with(
 
     // Set back selection
     this.#setHeaderCheckbox();
-
-    super.rerender();
   }
 
   /**
@@ -212,10 +188,10 @@ class IdsDataGrid extends mix(IdsElement).with(
 
     const selectionCheckBoxTemplate = `
       <span class="ids-datagrid-checkbox-container">
-        <span 
-          role="checkbox" 
-          aria-checked="false" 
-          aria-label="${column.name}" 
+        <span
+          role="checkbox"
+          aria-checked="false"
+          aria-label="${column.name}"
           class="ids-datagrid-checkbox"
         >
         </span>
@@ -235,7 +211,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     `.trim();
 
     const html = `
-      <span 
+      <span
         class="ids-data-grid-header-cell ${cssClasses.join(' ')}"
         part="header-cell"
         data-column-id="${column.id}"
@@ -260,7 +236,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     return `
       <div class="ids-data-grid-body" part="body" role="rowgroup">
         ${this.data.map((row, index) => this.rowTemplate(row, index)).join('')}
-      </div> 
+      </div>
     `;
   }
 
@@ -349,33 +325,14 @@ class IdsDataGrid extends mix(IdsElement).with(
       }
     });
 
-    // Handle the Locale Changes
-    // Respond to parent changing language
+    // Handle the Locale Change
     this.offEvent('languagechange.data-grid-container');
-    this.onEvent('languagechange.data-grid-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
-    });
-
-    // Respond to the element changing language
-    this.offEvent('languagechange.data-grid');
-    this.onEvent('languagechange.data-grid', this, async (e) => {
-      await this.locale.setLanguage(e.detail.language.name);
-    });
-
-    // Respond to parent changing language
-    this.offEvent('localechange.data-grid-container');
-    this.onEvent('localechange.data-grid-container', this.closest('ids-container'), async (e) => {
-      await this.setLocale(e.detail.locale.name);
+    this.onEvent('languagechange.data-grid-container', this.closest('ids-container'), async () => {
       this.rerender();
     });
 
-    // Respond to the element changing language
-    this.offEvent('localechange.data-grid');
-    this.onEvent('localechange.data-grid', this, async (e) => {
-      if (!e.detail.locale.name) {
-        return;
-      }
-      await this.locale.setLocale(e.detail.locale.name);
+    this.offEvent('localechange.data-grid-container');
+    this.onEvent('localechange.data-grid-container', this.closest('ids-container'), async () => {
       this.rerender();
     });
   }
@@ -487,7 +444,7 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @param {boolean|string} value true to use alternate row shading
    */
   set alternateRowShading(value) {
-    if (stringUtils.stringToBool(value)) {
+    if (stringToBool(value)) {
       this.setAttribute(attributes.ALTERNATE_ROW_SHADING, 'true');
       this.shadowRoot?.querySelector('.ids-data-grid').classList.add('alt-row-shading');
       return;
@@ -498,7 +455,7 @@ class IdsDataGrid extends mix(IdsElement).with(
   }
 
   get alternateRowShading() {
-    return stringUtils.stringToBool(this.getAttribute(attributes.ALTERNATE_ROW_SHADING)) || false;
+    return stringToBool(this.getAttribute(attributes.ALTERNATE_ROW_SHADING)) || false;
   }
 
   /**
@@ -506,7 +463,7 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @param {Array} value The array to use
    */
   set columns(value) {
-    this.currentColumns = value ? IdsDeepCloneUtils.deepClone(value) : [{ id: '', name: '' }];
+    this.currentColumns = value ? deepClone(value) : [{ id: '', name: '' }];
     this.rerender();
   }
 
@@ -533,14 +490,14 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @param {boolean|string} value true to use virtual scrolling
    */
   set virtualScroll(value) {
-    stringUtils.stringToBool(value)
+    stringToBool(value)
       ? this.setAttribute(attributes.VIRTUAL_SCROLL, 'true')
       : this.removeAttribute(attributes.VIRTUAL_SCROLL);
 
     this.rerender();
   }
 
-  get virtualScroll() { return stringUtils.stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
+  get virtualScroll() { return stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
 
   /**
    * Set the aria-label element in the DOM. This should be translated.
@@ -584,7 +541,7 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @param {boolean} value list styling to use
    */
   set listStyle(value) {
-    if (stringUtils.stringToBool(value)) {
+    if (stringToBool(value)) {
       this.setAttribute(attributes.LIST_STYLE, value);
       this.shadowRoot.querySelector('.ids-data-grid').classList.add('is-list-style');
     } else {
@@ -593,14 +550,14 @@ class IdsDataGrid extends mix(IdsElement).with(
     }
   }
 
-  get listStyle() { return stringUtils.stringToBool(this.getAttribute(attributes.LIST_STYLE)) || false; }
+  get listStyle() { return stringToBool(this.getAttribute(attributes.LIST_STYLE)) || false; }
 
   /**
    * Set the row selection mode between false, 'single', 'multiple' and 'mixed'
    * @param {string|boolean} value selection mode to use
    */
   set rowSelection(value) {
-    if (stringUtils.stringToBool(value)) {
+    if (stringToBool(value)) {
       this.setAttribute(attributes.ROW_SELECTION, value);
     } else {
       this.removeAttribute(attributes.ROW_SELECTION);
@@ -615,7 +572,7 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @param {string|boolean} value true or false
    */
   set supressRowDeselection(value) {
-    if (stringUtils.stringToBool(value)) {
+    if (stringToBool(value)) {
       this.setAttribute(attributes.SUPRESS_ROW_DESELECTION, value);
     } else {
       this.removeAttribute(attributes.SUPRESS_ROW_DESELECTION);
@@ -630,7 +587,7 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @param {string|boolean} value true or false
    */
   set supressRowDeactivation(value) {
-    if (stringUtils.stringToBool(value)) {
+    if (stringToBool(value)) {
       this.setAttribute(attributes.SUPRESS_ROW_DEACTIVATION, value);
     } else {
       this.removeAttribute(attributes.SUPRESS_ROW_DEACTIVATION);
@@ -917,7 +874,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     }
 
     const selectedCount = this.selectedRows.length;
-    const dataCount = this.datasource.total;
+    const dataCount = this.data.length;
 
     if (selectedCount === 0) {
       this.headerCheckbox.classList.remove('indeterminate');
@@ -953,14 +910,14 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @param {boolean|null} value The auto fit
    */
   set autoFit(value) {
-    if (stringUtils.stringToBool(value)) {
+    if (stringToBool(value)) {
       this.setAttribute(attributes.AUTO_FIT, value);
       return;
     }
     this.removeAttribute(attributes.AUTO_FIT);
   }
 
-  get autoFit() { return stringUtils.stringToBool(this.getAttribute(attributes.AUTO_FIT)); }
+  get autoFit() { return stringToBool(this.getAttribute(attributes.AUTO_FIT)); }
 
   /**
    * Set the active cell for focus
@@ -971,7 +928,7 @@ class IdsDataGrid extends mix(IdsElement).with(
    */
   setActiveCell(cell, row, nofocus) {
     // TODO Hidden Columns
-    if (row < 0 || cell < 0 || row > this.datasource.total - 1 || cell > this.columns.length - 1) {
+    if (row < 0 || cell < 0 || row > this.data.length - 1 || cell > this.columns.length - 1) {
       return this.activeCell;
     }
 
@@ -1000,5 +957,3 @@ class IdsDataGrid extends mix(IdsElement).with(
     return this.activeCell;
   }
 }
-
-export { IdsDataGrid, IdsDataGridFormatters };

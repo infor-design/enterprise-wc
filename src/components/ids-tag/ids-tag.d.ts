@@ -1,14 +1,11 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-
-import { IdsElement } from '../../core';
-
+/** Defines the event data types for any non vetoable tag event */
 interface IdsTagEventDetail extends Event {
   detail: {
     elem: IdsTag
   }
 }
 
+/** Defines the event data types for any vetoable tag event */
 interface IdsTagEventVetoable extends Event {
   detail: {
     elem: IdsTag,
@@ -16,7 +13,8 @@ interface IdsTagEventVetoable extends Event {
   }
 }
 
-export default class IdsTag extends IdsElement {
+/** Defines the public API for the `<ids-tag>` element */
+export default class IdsTag extends HTMLElement {
   /** Set the tag color */
   color: 'secondary' | 'error' | 'success' | 'caution' | string;
 

@@ -1,12 +1,8 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-import { IdsElement } from '../../core';
-
 // Subcomponents
 import IdsMenuGroup from './ids-menu-group';
 import IdsMenuHeader from './ids-menu-header';
 import IdsMenuItem from './ids-menu-item';
-import IdsSeparator from '../ids-separator';
+import IdsSeparator from '../ids-separator/ids-separator';
 
 // Subcomponent Export
 export {
@@ -20,7 +16,7 @@ type IdsMenuTarget = {
   trigger: string
 }
 
-export default class IdsMenu extends IdsElement {
+export default class IdsMenu extends HTMLElement {
   /* references all available menu groups */
   readonly groups: Array<IdsMenuGroup>;
 

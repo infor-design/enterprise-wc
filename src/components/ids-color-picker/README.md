@@ -2,11 +2,11 @@
 
 ## Description
 
-The color picker consists of a custom element `<ids-color-picker></ids-color-picker>`. Once initialized, it functions similarly to a dropdown except that the list shows a color palette in the popup. After selecting a color selection, the hex code and swatch will be updated with the new value. 
+The color picker consists of a custom element `<ids-color-picker></ids-color-picker>`. Once initialized, it functions similarly to a dropdown except that the list shows a color palette in the popup. After selecting a color selection, the hex code and swatch will be updated with the new value.
 
 ## Behavior Guidelines
 
-The Color Picker by default supports colors within a pre-configured palette of IDS colors. You can optionally add your own list of colors by nesting a `<ids-color></ids-color>` custom element indside `<ids-color-picker></ids-color-picker>`.
+The Color Picker by default supports colors within a pre-configured palette of IDS colors. You can optionally add your own list of colors by nesting a `<ids-color></ids-color>` custom element inside `<ids-color-picker></ids-color-picker>`.
 
 ## Settings and Attributes
 - `value` {string} Sets the value attribute to displayed the color of selected `value="#b94e4e"`

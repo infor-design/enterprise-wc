@@ -1,24 +1,12 @@
-import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import Base from './ids-radio-base';
 
-// Import Utils
-import { IdsStringUtils } from '../../utils';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsLocaleMixin,
-  IdsThemeMixin
-} from '../../mixins';
+import IdsText from '../ids-text/ids-text';
+import IdsRadioGroup from './ids-radio-group';
 
 import styles from './ids-radio.scss';
-import IdsText from '../ids-text';
-import IdsRadioGroup from './ids-radio-group';
 
 const attribs = [
   { name: 'checked', prop: 'checked' },
@@ -44,7 +32,7 @@ const attribs = [
  */
 @customElement('ids-radio')
 @scss(styles)
-class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsThemeMixin) {
+export default class IdsRadio extends Base {
   /**
    * Call the constructor and then initialize
    */
@@ -97,7 +85,6 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsT
    */
   connectedCallback() {
     super.connectedCallback();
-
     this.input = this.shadowRoot.querySelector('input[type="radio"]');
     this.labelEl = this.shadowRoot.querySelector('label');
     this.rootEl = this.shadowRoot.querySelector('.ids-radio');
@@ -115,13 +102,12 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsT
    */
   template() {
     // Checkbox
-    const toBool = IdsStringUtils.stringToBool;
-    const isDisabled = toBool(this.groupDisabled) || toBool(this.disabled);
+    const isDisabled = stringToBool(this.groupDisabled) || stringToBool(this.disabled);
     const disabled = isDisabled ? ' disabled' : '';
     const disabledAria = isDisabled ? ' aria-disabled="true"' : '';
     const color = this.color ? ` color="${this.color}"` : '';
-    const horizontal = toBool(this.horizontal) ? ' horizontal' : '';
-    const checked = toBool(this.checked) ? ' checked' : '';
+    const horizontal = stringToBool(this.horizontal) ? ' horizontal' : '';
+    const checked = stringToBool(this.checked) ? ' checked' : '';
     const rootClass = ` class="ids-radio${disabled}${horizontal}"`;
     const radioClass = ' class="radio-button"';
 
@@ -193,13 +179,6 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsT
     this.#attachRadioClickEvent();
     this.#attachRadioChangeEvent();
     this.#attachNativeEvents();
-
-    // Respond to parent changing language
-    this.offEvent('languagechange.radio-container');
-    this.onEvent('languagechange.radio-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
-      // Do something with parent lang
-    });
   }
 
   /**
@@ -208,7 +187,7 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsT
    */
   set checked(value) {
     const circle = this.shadowRoot.querySelector('.circle');
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.CHECKED, val.toString());
     } else {
@@ -216,8 +195,8 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsT
     }
     if (this.input && this.rootEl && circle) {
       if (val) {
-        if (!(IdsStringUtils.stringToBool(this.disabled)
-          || IdsStringUtils.stringToBool(this.groupDisabled))) {
+        if (!(stringToBool(this.disabled)
+          || stringToBool(this.groupDisabled))) {
           this.rootEl.setAttribute('tabindex', '0');
         }
         circle.classList.add(attributes.CHECKED);
@@ -254,7 +233,7 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsT
    */
   set disabled(value) {
     const labelText = this.shadowRoot.querySelector('.label-text');
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
       this.input?.setAttribute(attributes.DISABLED, val);
@@ -279,7 +258,7 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsT
    */
   set groupDisabled(value) {
     const labelText = this.shadowRoot.querySelector('.label-text');
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.GROUP_DISABLED, val.toString());
       this.input?.setAttribute(attributes.DISABLED, val);
@@ -301,7 +280,7 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsT
    * @param {boolean|string} value If true will set `horizontal` attribute
    */
   set horizontal(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.HORIZONTAL, val.toString());
       this.rootEl?.classList.add(attributes.HORIZONTAL);
@@ -336,7 +315,7 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsT
    * @param {boolean|string} value If true will set `validation-has-error` attribute
    */
   set validationHasError(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.VALIDATION_HAS_ERROR, val.toString());
       this.input?.classList.add('error');
@@ -370,5 +349,3 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsT
     this.input.focus();
   }
 }
-
-export default IdsRadio;

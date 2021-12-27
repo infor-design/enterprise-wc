@@ -1,8 +1,3 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-
-import { IdsElement } from '../../core';
-
 /** Interface for home page event detail */
 interface IdsHomePageEventDetail extends Event {
   detail: {
@@ -23,7 +18,7 @@ interface IdsHomePageEventDetail extends Event {
   }
 }
 
-export default class IdsHomePage extends IdsElement {
+export default class IdsHomePage extends HTMLElement {
   /** Set to animated or not the home page cards on resize */
   animated: boolean | string;
 

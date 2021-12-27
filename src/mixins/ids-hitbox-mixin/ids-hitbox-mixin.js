@@ -1,5 +1,5 @@
-import { attributes } from '../../core';
-import { IdsStringUtils as stringUtils } from '../../utils';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 /**
  * A mixin that will add hitbox stylings to the component element.
@@ -24,7 +24,7 @@ const IdsHitboxMixin = (superclass) => class extends superclass {
    * @param {boolean|string} value If true, it will apply the hitbox stylings.
    */
   set hitbox(value) {
-    const val = stringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.HITBOX, val.toString());
       this.container?.classList.add(attributes.HITBOX);

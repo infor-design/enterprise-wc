@@ -276,9 +276,9 @@ describe('IdsCheckbox Component', () => {
     expect(cb.getAttribute('indeterminate')).toEqual('true');
   });
 
-  it('can change language from the container', () => {
-    container.language = 'en';
-    expect(cb.getAttribute('language')).toEqual('en');
+  it('can change language to rtl from the container', () => {
+    container.language = 'ar';
+    expect(container.getAttribute('dir')).toEqual('rtl');
   });
 
   it('can focus its inner Input element', () => {

@@ -1,6 +1,3 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-import { IdsElement } from '../../core';
 import IdsMenu from './ids-menu';
 import IdsMenuGroup from './ids-menu-group';
 import IdsIcon from '../ids-icon/ids-icon';
@@ -37,7 +34,7 @@ interface beforedeselected extends Event {
   }
 }
 
-export default class IdsMenuItem extends IdsElement {
+export default class IdsMenuItem extends HTMLElement {
   /* Internal state object used for some attributes */
   readonly state: unknown;
 

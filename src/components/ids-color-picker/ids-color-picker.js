@@ -1,26 +1,13 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core/ids-element';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import {
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsPopupOpenEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
-import '../ids-color/ids-color';
-import '../ids-trigger-field/ids-trigger-field';
-import '../ids-trigger-field/ids-trigger-button';
-import '../ids-popup/ids-popup';
+import IdsColor from '../ids-color/ids-color';
+import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
+import IdsPopup from '../ids-popup/ids-popup';
+import Base from './ids-color-picker-base';
 
 import styles from './ids-color-picker.scss';
-
-import { IdsStringUtils as stringUtils } from '../../utils';
 
 /**
  * IDS ColorPicker
@@ -31,12 +18,7 @@ import { IdsStringUtils as stringUtils } from '../../utils';
  */
 @customElement('ids-color-picker')
 @scss(styles)
-class IdsColorPicker extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsKeyboardMixin,
-    IdsPopupOpenEventsMixin,
-    IdsThemeMixin
-  ) {
+export default class IdsColorPicker extends Base {
   constructor() {
     super();
   }
@@ -158,7 +140,7 @@ class IdsColorPicker extends mix(IdsElement).with(
    * @param {string} value string value from the readonly attribute
    */
   set readonly(value) {
-    value = stringUtils.stringToBool(value);
+    value = stringToBool(value);
     if (value) {
       this.setAttribute(attributes.READONLY, 'true');
       this.triggerField?.setAttribute(attributes.READONLY, 'true');
@@ -177,7 +159,7 @@ class IdsColorPicker extends mix(IdsElement).with(
   }
 
   get readonly() {
-    return stringUtils.stringToBool(this.getAttribute(attributes.READONLY)) || false;
+    return stringToBool(this.getAttribute(attributes.READONLY)) || false;
   }
 
   /**
@@ -185,14 +167,10 @@ class IdsColorPicker extends mix(IdsElement).with(
    * @param {string} value string value from the disabled attribute
    */
   set disabled(value) {
-    if (stringUtils.stringToBool(value)) {
-      this.setAttribute(attributes.DISABLED, 'true');
-      this.triggerField?.setAttribute(attributes.DISABLED, 'true');
-      this.colorPickerInput?.setAttribute(attributes.DISABLED, 'true');
-      this.removeAttribute(attributes.READONLY);
-      this.triggerField?.removeAttribute(attributes.READONLY);
-      this.colorPickerInput?.removeAttribute(attributes.READONLY);
-      this.colorPickerInput?.removeAttribute(attributes.BG_TRANSPARENT);
+    value = stringToBool(value);
+    if (value) {
+      this.setAttribute(attributes.DISABLED, value.toString());
+      this.triggerBtn.setAttribute(attributes.TABBABLE, false);
       return;
     }
     this.removeAttribute(attributes.DISABLED);
@@ -201,7 +179,7 @@ class IdsColorPicker extends mix(IdsElement).with(
   }
 
   get disabled() {
-    return stringUtils.stringToBool(this.getAttribute('disabled')) || false;
+    return stringToBool(this.getAttribute('disabled')) || false;
   }
 
   /**
@@ -209,7 +187,7 @@ class IdsColorPicker extends mix(IdsElement).with(
    * @param {string} value string value from the advanced attribute
    */
   set advanced(value) {
-    if (stringUtils.stringToBool(value)) {
+    if (stringToBool(value)) {
       this.setAttribute('advanced', 'true');
       return;
     }
@@ -217,7 +195,7 @@ class IdsColorPicker extends mix(IdsElement).with(
   }
 
   get advanced() {
-    return stringUtils.stringToBool(this.getAttribute('advanced')) || false;
+    return stringToBool(this.getAttribute('advanced')) || false;
   }
 
   /**
@@ -243,8 +221,8 @@ class IdsColorPicker extends mix(IdsElement).with(
     });
 
     this.onEvent('click', this.container, (event) => {
-      const isEditable = !stringUtils.stringToBool(this.readonly)
-      && !stringUtils.stringToBool(this.disabled);
+      const isEditable = !stringToBool(this.readonly)
+      && !stringToBool(this.disabled);
 
       if (!isEditable) {
         return;
@@ -358,5 +336,3 @@ class IdsColorPicker extends mix(IdsElement).with(
     target.setAttribute('checked', 'true');
   }
 }
-
-export default IdsColorPicker;

@@ -2,15 +2,16 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
-
-import IdsDropdown from '../../src/components/ids-dropdown';
 import waitFor from '../helpers/wait-for';
-import IdsListBox from '../../src/components/ids-list-box';
+import processAnimFrame from '../helpers/process-anim-frame';
+
+import IdsDropdown from '../../src/components/ids-dropdown/ids-dropdown';
+import IdsListBox from '../../src/components/ids-list-box/ids-list-box';
 import IdsListBoxOption from '../../src/components/ids-list-box/ids-list-box-option';
-import IdsInput from '../../src/components/ids-input';
-import IdsTriggerField from '../../src/components/ids-trigger-field';
+import IdsInput from '../../src/components/ids-input/ids-input';
+import IdsTriggerField from '../../src/components/ids-trigger-field/ids-trigger-field';
 import states from '../../demos/data/states.json';
-import IdsContainer from '../../src/components/ids-container';
+import IdsContainer from '../../src/components/ids-container/ids-container';
 
 describe('IdsDropdown Component', () => {
   let dropdown;
@@ -466,8 +467,8 @@ describe('IdsDropdown Component', () => {
   });
 
   it('can changing language from the container', async () => {
-    container.language = 'de';
-    await waitFor(() => expect(dropdown.getAttribute('language')).toEqual('de'));
+    await container.setLanguage('de');
+    await processAnimFrame();
     expect(dropdown.getAttribute('aria-description')).toEqual('Drücken Sie zum Auswählen die Nach-unten-Taste');
   });
 

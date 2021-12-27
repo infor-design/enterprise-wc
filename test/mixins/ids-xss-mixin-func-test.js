@@ -3,8 +3,8 @@
  */
 import '../helpers/resize-observer-mock';
 
-import IdsXssMixin from '../../src/mixins';
-import IdsMessage from '../../src/components/ids-message';
+import IdsXssMixin from '../../src/mixins/ids-xss-mixin/ids-xss-mixin';
+import IdsMessage from '../../src/components/ids-message/ids-message';
 
 describe('IdsXssMixin tests (properties)', () => {
   let messageEl;

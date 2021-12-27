@@ -1,4 +1,6 @@
-import { customElement, IdsElement, attributes } from '../../core';
+import { customElement } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import Base from './ids-layout-grid-cell-base';
 
 /**
  * IDS Layout Grid Cell Component
@@ -6,7 +8,7 @@ import { customElement, IdsElement, attributes } from '../../core';
  * @inherits IdsElement
  */
 @customElement('ids-layout-grid-cell')
-class IdsLayoutGridCell extends IdsElement {
+export default class IdsLayoutGridCell extends Base {
   constructor() {
     super();
   }
@@ -32,9 +34,6 @@ class IdsLayoutGridCell extends IdsElement {
       attributes.ROW_START,
       attributes.ROW_END
     ];
-  }
-
-  connectedCallback() {
   }
 
   parentColSetting = this.parentElement?.getAttribute(attributes.COLS);
@@ -335,5 +334,3 @@ class IdsLayoutGridCell extends IdsElement {
 
   get justify() { return this.getAttribute(attributes.JUSTIFY); }
 }
-
-export default IdsLayoutGridCell;

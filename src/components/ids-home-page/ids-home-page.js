@@ -1,39 +1,15 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool, stringToNumber, camelCase } from '../../utils/ids-string-utils/ids-string-utils';
+import { HOME_PAGE_DEFAULTS, EVENTS } from './ids-home-page-attributes';
 
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsLocaleMixin,
-  IdsThemeMixin
-} from '../../mixins';
+import IdsCard from '../ids-card/ids-card';
+import Base from './ids-home-page-base';
 
 import styles from './ids-home-page.scss';
 
-// Supporting components
-import { IdsCard } from '../ids-card/ids-card';
-
-// Import Utils
-import { IdsStringUtils as stringUtils } from '../../utils';
-
-const { stringToBool, stringToNumber, camelCase } = stringUtils;
-
-const HOME_PAGE_DEFAULTS = {
-  animated: true,
-  cardHeight: 370,
-  cardWidth: 360,
-  cols: 3,
-  gap: 20
-};
 HOME_PAGE_DEFAULTS.gapX = HOME_PAGE_DEFAULTS.gap;
 HOME_PAGE_DEFAULTS.gapY = HOME_PAGE_DEFAULTS.gap;
-
-const EVENTS = { resized: 'resized' };
 
 /**
  * IDS Home Page Component
@@ -47,11 +23,7 @@ const EVENTS = { resized: 'resized' };
  */
 @customElement('ids-home-page')
 @scss(styles)
-class IdsHomePage extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsLocaleMixin,
-    IdsThemeMixin
-  ) {
+export default class IdsHomePage extends Base {
   constructor() {
     super();
   }
@@ -538,7 +510,7 @@ class IdsHomePage extends mix(IdsElement).with(
         const box = this.cardWidth + this.#gapX;
         const totalWidth = box * this.#columns;
         const top = (this.cardHeight + this.#gapY) * available.row;
-        const left = this.locale.isRTL()
+        const left = this.locale?.isRTL()
           ? totalWidth - ((box * block.w) + (box * available.col))
           : box * available.col;
         const pos = { left, top };
@@ -558,7 +530,7 @@ class IdsHomePage extends mix(IdsElement).with(
       this.container.style.height = `${this.#containerHeight}px`;
 
       // Fires after the page is resized and layout is set
-      this.triggerEvent(EVENTS.resized, this, { detail: { elem: this, ...this.state } });
+      this.triggerEvent(EVENTS.resized, this, { detail: { elem: this, ...this.status } });
     });
 
     return this;
@@ -572,8 +544,7 @@ class IdsHomePage extends mix(IdsElement).with(
   #attachEventHandlers() {
     // Respond to parent changing language
     this.offEvent('languagechange.tree');
-    this.onEvent('languagechange.tree', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
+    this.onEvent('languagechange.tree', this.closest('ids-container'), async () => {
       this.#resize();
     });
 
@@ -637,10 +608,10 @@ class IdsHomePage extends mix(IdsElement).with(
   }
 
   /**
-   * Get the current state of home page
-   * @returns {object} containing information about the current state
+   * Get the current status of home page
+   * @returns {object} containing information about the current status of the home page
    */
-  get state() {
+  get status() {
     let rows = this.#rowsAndCols.length;
     const cols = rows ? this.#rowsAndCols[0].length : 0;
 
@@ -758,5 +729,3 @@ class IdsHomePage extends mix(IdsElement).with(
 
   get gapY() { return this.getAttribute(attributes.GAP_Y); }
 }
-
-export default IdsHomePage;

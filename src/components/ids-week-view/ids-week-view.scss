@@ -124,6 +124,12 @@ $hour-row-height: 25px;
 
       border-bottom-color: var(--ids-color-palette-slate-10);
     }
+
+    th:not(:last-child),
+    td:not(:last-child) {
+      border-right-width: 1px;
+      border-right-style: solid;
+    }
   }
 
   .week-view-header-wrapper.is-today {
@@ -307,29 +313,24 @@ $hour-row-height: 25px;
       box-shadow: 0 0 4px 2px rgba(41 41 41 / 0.3);
     }
   }
+}
 
-  // Text direction
-  &[dir='rtl'] {
-    .week-view-all-day-wrapper {
-      text-align: right;
-    }
-
-    .week-view-table {
-      th:not(:first-child),
-      td:not(:first-child) {
-        border-right-width: 1px;
-        border-right-style: solid;
-      }
-    }
+// Text direction
+:host([dir='rtl']) {
+  .week-view-all-day-wrapper {
+    text-align: right;
   }
 
-  &:not([dir='rtl']) {
-    .week-view-table {
-      th:not(:last-child),
-      td:not(:last-child) {
-        border-right-width: 1px;
-        border-right-style: solid;
-      }
+  .ids-week-view .week-view-table {
+    th:not(:first-child),
+    td:not(:first-child) {
+      border-right-width: 1px;
+      border-right-style: solid;
+    }
+
+    th:first-child,
+    td:first-child {
+      border-right-width: 0;
     }
   }
 }

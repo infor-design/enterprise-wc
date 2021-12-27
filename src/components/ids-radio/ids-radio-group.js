@@ -1,24 +1,10 @@
-import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix
-} from '../../core';
-
-// Import Utils
-import { IdsStringUtils } from '../../utils';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsDirtyTrackerMixin,
-  IdsLocaleMixin,
-  IdsValidationMixin
-} from '../../mixins';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import IdsText from '../ids-text/ids-text';
+import Base from './ids-radio-group-base';
 
 import styles from './ids-radio-group.scss';
-import IdsText from '../ids-text/ids-text';
 
 /**
  * IDS Radio Group Component
@@ -31,12 +17,7 @@ import IdsText from '../ids-text/ids-text';
  */
 @customElement('ids-radio-group')
 @scss(styles)
-class IdsRadioGroup extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsDirtyTrackerMixin,
-    IdsLocaleMixin,
-    IdsValidationMixin
-  ) {
+export default class IdsRadioGroup extends Base {
   /**
    * Call the constructor and then initialize
    */
@@ -71,21 +52,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
     this.onEvent('slotchange', slot, () => {
       this.afterChildrenReady();
     });
-    this.#attachEventHandlers();
     super.connectedCallback();
-  }
-
-  /**
-   * Event handlers for the component
-   * @private
-   */
-  #attachEventHandlers() {
-    // Respond to parent changing language
-    this.offEvent('languagechange.radio-group-container');
-    this.onEvent('languagechange.radio-group-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
-      // Do something with parent lang
-    });
   }
 
   /**
@@ -94,11 +61,11 @@ class IdsRadioGroup extends mix(IdsElement).with(
    */
   template() {
     // Radio
-    const disabled = IdsStringUtils.stringToBool(this.disabled) ? ' disabled' : '';
-    const disabledAria = IdsStringUtils.stringToBool(this.disabled) ? ' aria-disabled="true"' : '';
-    const horizontal = IdsStringUtils.stringToBool(this.horizontal) ? ' horizontal' : '';
+    const disabled = stringToBool(this.disabled) ? ' disabled' : '';
+    const disabledAria = stringToBool(this.disabled) ? ' aria-disabled="true"' : '';
+    const horizontal = stringToBool(this.horizontal) ? ' horizontal' : '';
     const rootClass = ` class="ids-radio-group${disabled}${horizontal}"`;
-    const rInd = !(IdsStringUtils.stringToBool(this.labelRequired) || this.labelRequired === null);
+    const rInd = !(stringToBool(this.labelRequired) || this.labelRequired === null);
     const labelClass = ` class="group-label-text${rInd ? ' no-required-indicator' : ''}"`;
 
     // Label
@@ -166,7 +133,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
     const rootEl = this.shadowRoot.querySelector('.ids-radio-group');
 
-    if (IdsStringUtils.stringToBool(this.disabled)) {
+    if (stringToBool(this.disabled)) {
       this.labelEl?.setAttribute('aria-disabled', 'true');
       rootEl?.classList.add(attributes.DISABLED);
       radioArr.forEach((r) => r.setAttribute(attributes.GROUP_DISABLED, true));
@@ -184,7 +151,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
   handleHorizontal() {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
     const rootEl = this.shadowRoot.querySelector('.ids-radio-group');
-    if (IdsStringUtils.stringToBool(this.horizontal)) {
+    if (stringToBool(this.horizontal)) {
       rootEl?.classList.add(attributes.HORIZONTAL);
       radioArr.forEach((r) => r.setAttribute(attributes.HORIZONTAL, true));
     } else {
@@ -282,7 +249,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
    * @param {boolean|string} value If true will set `dirty-tracker` attribute
    */
   set dirtyTracker(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
     } else {
@@ -298,7 +265,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
    * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value) {
-    if (IdsStringUtils.stringToBool(value)) {
+    if (stringToBool(value)) {
       this.setAttribute(attributes.DISABLED, value.toString());
     } else {
       this.removeAttribute(attributes.DISABLED);
@@ -313,7 +280,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
    * @param {boolean|string} value If true will set `horizontal` attribute
    */
   set horizontal(value) {
-    if (IdsStringUtils.stringToBool(value)) {
+    if (stringToBool(value)) {
       this.setAttribute(attributes.HORIZONTAL, value.toString());
     } else {
       this.removeAttribute(attributes.HORIZONTAL);
@@ -354,7 +321,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
    * @param {string} value The `label-required` attribute
    */
   set labelRequired(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (value) {
       this.setAttribute(attributes.LABEL_REQUIRED, value.toString());
     } else {
@@ -424,5 +391,3 @@ class IdsRadioGroup extends mix(IdsElement).with(
 
   get value() { return this.getAttribute(attributes.VALUE); }
 }
-
-export default IdsRadioGroup;

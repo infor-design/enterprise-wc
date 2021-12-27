@@ -280,7 +280,7 @@
 }
 
 // Negate some rules for RTL
-.ids-checkbox[dir='rtl'] {
+:host([dir='rtl']) {
   input[type='checkbox'] ~ .checkmark {
     left: initial;
     right: 0;

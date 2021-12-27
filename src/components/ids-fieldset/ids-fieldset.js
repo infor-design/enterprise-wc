@@ -1,16 +1,5 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix
-} from '../../core';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
+import { customElement, scss } from '../../core/ids-decorators';
+import Base from './ids-fieldset-base';
 import styles from './ids-fieldset.scss';
 
 /**
@@ -23,7 +12,7 @@ import styles from './ids-fieldset.scss';
  */
 @customElement('ids-fieldset')
 @scss(styles)
-class IdsFieldset extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+export default class IdsFieldset extends Base {
   constructor() {
     super();
   }
@@ -36,5 +25,3 @@ class IdsFieldset extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     return `<fieldset class="ids-fieldset" part="fieldset"><slot></slot></fieldset>`;
   }
 }
-
-export default IdsFieldset;

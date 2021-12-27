@@ -7,6 +7,8 @@
  examples:
   - link: index.html
     description: Showing a standalone Pager example
+  - link: list.html
+    description: Showing a list style Pager example
   - link: sandbox.html
     description: Showing a test page for pager states
   - link: side-by-side.html

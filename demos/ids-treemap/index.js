@@ -1,1 +1,1 @@
-import IdsTreeMap from '../../src/components/ids-treemap';
+import IdsTreeMap from '../../src/components/ids-treemap/ids-treemap';

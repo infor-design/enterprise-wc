@@ -1,16 +1,9 @@
-import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 
-import {
-  IdsEventsMixin
-} from '../../mixins';
-
+import Base from './ids-tabs-context-base';
 import IdsTabContent from './ids-tab-content';
+
 import styles from './ids-tabs.scss';
 
 /**
@@ -18,15 +11,11 @@ import styles from './ids-tabs.scss';
  * @type {IdsTabsContext}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
- * @mixes IdsKeyboardMixin
  * @part container - the container of all tabs
  */
 @customElement('ids-tabs-context')
 @scss(styles)
-class IdsTabsContext extends mix(IdsElement).with(
-    IdsEventsMixin
-  ) {
+export default class IdsTabsContext extends Base {
   constructor() {
     super();
   }
@@ -78,5 +67,3 @@ class IdsTabsContext extends mix(IdsElement).with(
     if (targetPane) targetPane.active = true;
   }
 }
-
-export default IdsTabsContext;

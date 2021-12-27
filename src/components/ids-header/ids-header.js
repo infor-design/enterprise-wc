@@ -1,20 +1,9 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core/ids-element';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
-import {
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
-import { IdsXssUtils } from '../../utils/ids-xss-utils/ids-xss-utils';
-
-import IdsInput from '../ids-input';
+import Base from './ids-header-base';
+import IdsInput from '../ids-input/ids-input';
 
 import styles from './ids-header.scss';
 
@@ -28,18 +17,14 @@ import styles from './ids-header.scss';
  */
 @customElement('ids-header')
 @scss(styles)
-
-class IdsHeader extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsKeyboardMixin,
-    IdsThemeMixin
-  ) {
+export default class IdsHeader extends Base {
   constructor() {
     super();
   }
 
   connectedCallback() {
     super.connectedCallback?.();
+    this.#refreshVariants();
   }
 
   static get attributes() {
@@ -63,6 +48,21 @@ class IdsHeader extends mix(IdsElement).with(
   }
 
   /**
+   * Refresh the color variants on all elements
+   * @private
+   */
+  #refreshVariants() {
+    const elementNames = ['ids-button', 'ids-search-field', 'ids-text', 'ids-theme-switcher'];
+
+    for (const element of elementNames) {
+      const idsElements = [...this.querySelectorAll(element)];
+      idsElements.forEach((elem) => {
+        elem.colorVariant = 'alternate';
+      });
+    }
+  }
+
+  /**
    * Sets the color attribute
    * @param {string} c string value for color
    */
@@ -70,7 +70,7 @@ class IdsHeader extends mix(IdsElement).with(
     if (typeof c !== 'string' || !c.length) {
       return;
     }
-    const sanitzedVal = IdsXssUtils.stripHTML(c);
+    const sanitzedVal = stripHTML(c);
     this.container.style.backgroundColor = sanitzedVal;
     this.setAttribute('color', sanitzedVal);
   }
@@ -79,5 +79,3 @@ class IdsHeader extends mix(IdsElement).with(
     return this.getAttribute('color') || '#0072ed';
   }
 }
-
-export default IdsHeader;

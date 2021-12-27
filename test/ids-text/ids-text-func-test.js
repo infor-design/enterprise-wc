@@ -117,6 +117,13 @@ describe('IdsText Component', () => {
     expect(elem.shadowRoot.querySelectorAll('h1').length).toEqual(1);
   });
 
+  it('renders type setting with classes', () => {
+    elem = new IdsText();
+    elem.type = 'label';
+    expect(elem.type).toEqual('label');
+    expect(elem.container.classList.contains('label')).toEqual(true);
+  });
+
   it('renders disabled setting', () => {
     elem.disabled = 'true';
     expect(elem.disabled).toEqual('true');

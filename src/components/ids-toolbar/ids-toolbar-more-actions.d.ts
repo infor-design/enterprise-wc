@@ -51,6 +51,7 @@ export default class IdsToolbarMoreActions extends IdsToolbarSection {
   /** Fires when a More Actions menu item is selected */
   on(event: 'selected', listener: (detail: IdsToolbarSelectedEventDetail) => void): this;
 }
+
 export {
   IdsMenuButton,
   IdsPopupMenu

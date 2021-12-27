@@ -126,14 +126,3 @@ export function htmlEntities(string) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 }
-
-export const IdsXssUtils = {
-  sanitizeConsoleMethods,
-  sanitizeHTML,
-  stripTags,
-  stripHTML,
-  unescapeHTML,
-  htmlEntities
-};
-export default IdsXssUtils;
-export { IdsXssUtils as xssUtils };

@@ -1,7 +1,3 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-import { IdsElement } from '../../core';
-
 interface sort extends Event {
   detail: {
     elem: IdsDataGrid,
@@ -55,7 +51,7 @@ interface activationchanged extends Event {
   }
 }
 
-export default class IdsDataGrid extends IdsElement {
+export default class IdsDataGrid extends HTMLElement {
   /** Set the data array of the datagrid */
   data: Array<unknown>;
 

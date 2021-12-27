@@ -33,33 +33,32 @@
       @include top-8();
     }
   }
+}
 
-  // Handle RTL
-  &[dir='rtl'] {
-    .toast-container {
-      &.bottom-end {
-        @include left-8();
+:host([dir='rtl']) {
+  .toast-container {
+    &.bottom-end {
+      @include left-8();
 
-        right: unset;
-      }
+      right: unset;
+    }
 
-      &.bottom-start {
-        @include right-8();
+    &.bottom-start {
+      @include right-8();
 
-        left: unset;
-      }
+      left: unset;
+    }
 
-      &.top-end {
-        @include left-8();
+    &.top-end {
+      @include left-8();
 
-        right: unset;
-      }
+      right: unset;
+    }
 
-      &.top-start {
-        @include right-8();
+    &.top-start {
+      @include right-8();
 
-        left: unset;
-      }
+      left: unset;
     }
   }
 }
