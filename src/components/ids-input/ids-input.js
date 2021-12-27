@@ -278,7 +278,7 @@ export default class IdsInput extends Base {
    * @returns {string} css class name with prefix
    */
   fieldHeightClass(val) {
-    return `field-height-${val || FIELD_HEIGHTS.default}${this.hasParentTriggerField ? ' no-margin-bottom' : ''}`;
+    return `field-height-${val || FIELD_HEIGHTS.default}`;
   }
 
   /**
@@ -375,7 +375,7 @@ export default class IdsInput extends Base {
    * @returns {boolean} true if this input resides inside trigger-field
    */
   get hasParentTriggerField() {
-    return this.parentElement.tagName === 'IDS-TRIGGER-FIELD';
+    return this.parentElement?.tagName === 'IDS-TRIGGER-FIELD';
   }
 
   /**
@@ -577,6 +577,12 @@ export default class IdsInput extends Base {
       this.container?.classList.add(this.fieldHeightClass(fieldHeight));
     } else {
       this.removeAttribute(attributes.FIELD_HEIGHT);
+    }
+
+    if (this.hasParentTriggerField) {
+      this.container?.classList.add('no-margin-bottom');
+    } else {
+      this.container?.classList.remove('no-margin-bottom');
     }
   }
 

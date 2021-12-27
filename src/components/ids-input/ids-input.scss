@@ -284,7 +284,8 @@ $input-compact-height: $input-field-height-xs;
     &.no-margin-bottom {
       margin-bottom: 0;
 
-      .field-container {
+      .field-container,
+      .ids-input-field {
         margin-bottom: 0;
       }
     }
