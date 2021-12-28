@@ -25,7 +25,7 @@ export default class IdsListBuilder extends Base {
 
   connectedCallback() {
     this.sortable = true;
-    this.selectable = true;
+    this.selectable = 'single';
     // list-builder is not designed to handle thousands of items, so don't support virtual scroll
     this.virtualScroll = false;
     this.itemHeight = 46; // hard-coded
