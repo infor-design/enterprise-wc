@@ -305,7 +305,7 @@ export default class IdsListView extends Base {
         // give the first list-item a tabbable index on first render
         const firstItem = this.container.querySelector('div[part="list-item"]');
         if (firstItem) firstItem.setAttribute('tabindex', '0');
-      })
+      });
     }
 
     this.adjustHeight();
