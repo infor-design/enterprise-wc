@@ -406,13 +406,20 @@ export default class IdsEditor extends Base {
     return this;
   }
 
+  getSelection() {
+    if (!this.shadowRoot.getSelection) {
+      return document.getSelection();
+    }
+    return this.shadowRoot.getSelection();
+  }
+
   /**
    * Get block element and tagName for given node
    * @private
    * @param {Selection|undefined} sel The selection.
    * @returns {object} The element
    */
-  #blockElem(sel = this.shadowRoot.getSelection()) {
+  #blockElem(sel = this.getSelection()) {
     let tagName;
     let el = sel.anchorNode;
     if (el && el.tagName) tagName = el.tagName.toLowerCase();
@@ -429,7 +436,7 @@ export default class IdsEditor extends Base {
    * @param {Selection|undefined} sel The selection.
    * @returns {Array<HTMLElement>} List of selection block elements
    */
-  #selectionBlockElems(sel = this.shadowRoot.getSelection()) {
+  #selectionBlockElems(sel = this.getSelection()) {
     const blockElems = [];
     this.#qsAll(BLOCK_ELEMENTS.join(', '), this.#elems.editor).forEach((elem) => {
       if (sel.containsNode(elem, true)) {
@@ -445,7 +452,7 @@ export default class IdsEditor extends Base {
    * @returns {Array<Range>|null} The selection ranges.
    */
   #saveSelection() {
-    const sel = this.shadowRoot.getSelection();
+    const sel = this.getSelection();
     if (sel.getRangeAt && sel.rangeCount) {
       const ranges = [];
       for (let i = 0, l = sel.rangeCount; i < l; i += 1) {
@@ -463,7 +470,7 @@ export default class IdsEditor extends Base {
    * @returns {object} The object for chaining.
    */
   #restoreSelection(savedSel = this.#savedSelection) {
-    const sel = this.shadowRoot.getSelection();
+    const sel = this.getSelection();
     if (savedSel) {
       sel.removeAllRanges();
       for (let i = 0, len = savedSel.length; i < len; i += 1) {
@@ -485,7 +492,7 @@ export default class IdsEditor extends Base {
     let comprng;
     let selparent;
     const container = this.#elems.editor;
-    const range = this.shadowRoot.getSelection().getRangeAt(0);
+    const range = this.getSelection().getRangeAt(0);
 
     if (range) {
       selparent = range.commonAncestorContainer || range.parentElement();
@@ -797,7 +804,7 @@ export default class IdsEditor extends Base {
     let a = { ...this.#actions[action] };
     if (typeof a === 'undefined') return;
 
-    const sel = this.shadowRoot.getSelection();
+    const sel = this.getSelection();
 
     // Set format block
     if (a.action === 'formatBlock') {
@@ -870,7 +877,7 @@ export default class IdsEditor extends Base {
     if (typeof a === 'undefined') return;
 
     this.#restoreSelection(this.#savedSelection);
-    const sel = this.shadowRoot.getSelection();
+    const sel = this.getSelection();
     const range = sel.getRangeAt(0);
 
     // Insert image
