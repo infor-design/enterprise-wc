@@ -9,6 +9,7 @@ import Base from './ids-list-view-base';
 import styles from './ids-list-view.scss';
 
 const DEFAULT_HEIGHT = '100%';
+const SELECTABLE_OPTIONS = ['single', 'multiple'];
 
 /**
  * IDS List View Component
@@ -381,25 +382,15 @@ export default class IdsListView extends Base {
   }
 
   set selectable(value) {
-    const val = stringToBool(value);
-    this.setAttribute(attributes.SELECTABLE, val);
+    if (SELECTABLE_OPTIONS.includes(value)) {
+      this.setAttribute(attributes.SELECTABLE, value);
+    } else {
+      this.removeAttribute(attributes.SELECTABLE);
+    }
   }
 
   get selectable() {
-    return this.hasAttribute(attributes.SELECTABLE);
-  }
-
-  /**
-   * Selectable MUST be enabled for multiselect to be valid
-   * @param {boolean} value true to enable multiple selection of list items
-   */
-  set multiselect(value) {
-    const val = stringToBool(value);
-    this.setAttribute(attributes.MULTISELECT, val && this.selectable);
-  }
-
-  get multiselect() {
-    return this.selectable && this.hasAttribute(attributes.MULTISELECT);
+    return this.getAttribute(attributes.SELECTABLE);
   }
 
   /**
@@ -407,7 +398,7 @@ export default class IdsListView extends Base {
    * @returns {NodeList | HTMLElement} a list if multiselect is enabled, else the single selected list item
    */
   get selectedLi() {
-    const savedSelectedLi = this.multiselect
+    const savedSelectedLi = this.selectable === 'multiple'
       ? this.container.querySelectorAll(`div[part=list-item][selected='selected']`)
       : this.container.querySelector(`div[part="list-item"][index="${this.#selectedLiIndex}"]`);
     return savedSelectedLi;
@@ -448,7 +439,7 @@ export default class IdsListView extends Base {
    */
   toggleSelectedLi(item) {
     if (item.tagName === 'DIV' && item.getAttribute('part') === 'list-item') {
-      if (!this.multiselect) {
+      if (this.selectable === 'single') {
         const prevSelectedLi = this.selectedLi;
         if (item !== prevSelectedLi && prevSelectedLi) {
           // unselect previous item if it's selected
@@ -463,7 +454,7 @@ export default class IdsListView extends Base {
     const prevSelectedLi = this.selectedLi;
     if (prevSelectedLi) {
       this.toggleSelectedAttribute(prevSelectedLi, true);
-    } else if (this.multiselect) {
+    } else if (this.selectable === 'multiple') {
       if (prevSelectedLi.length > 0) {
         prevSelectedLi.forEach((l) => {
           this.toggleSelectedAttribute(l, true);

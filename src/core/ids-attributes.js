@@ -156,7 +156,6 @@ export const attributes = {
   MODE: 'mode',
   MORE_ACTIONS: 'more-actions',
   MULTIPLE: 'multiple',
-  MULTISELECT: 'multiselect',
   NAME: 'name',
   NAV_DISABLED: 'nav-disabled',
   NEXT: 'next',
