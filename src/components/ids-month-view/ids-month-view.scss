@@ -78,187 +78,234 @@
     border-spacing: 0;
     border-collapse: collapse;
   }
+}
 
-  &:not(.is-fullsize) {
-    td {
+// Compact view
+.ids-month-view:not(.is-fullsize) {
+  .month-view-table-header th {
+    line-height: unset;
+    vertical-align: top;
+  }
+
+  .month-view-table {
+    margin-top: 10px;
+  }
+
+  .datepicker-icon {
+    @include text-azure-60();
+  }
+
+  td {
+    text-align: center;
+
+    &:not(.is-selected):hover .day-text,
+    &:not(.is-selected):active .day-text {
+      @include bg-slate-20();
+    }
+
+    .day-container {
+      @include rounded-round();
+      @include border-transparent();
+      @include border-1();
+      @include border-solid();
+
+      display: inline-block;
+      margin: 5px 0;
+    }
+
+    .day-text {
+      @include cursor-pointer();
+      @include rounded-round();
+
+      margin: 2px;
+      display: inline-block;
+      transition: 0.2s background-color ease;
+    }
+
+    &:not(.alternate):not(.is-selected) .day-text {
+      @include text-slate-80();
+    }
+
+    &.alternate .day-text {
+      @include text-slate-40();
+    }
+
+    ids-text::part(text) {
+      @include rounded-round();
+
+      width: 38px;
+      height: 38px;
+      line-height: 38px;
       text-align: center;
+      display: inline-block;
+    }
 
-      &:not(.is-selected):hover .month-view-day-text,
-      &:not(.is-selected):active .month-view-day-text {
-        @include bg-slate-20();
+    &.is-selected {
+      &:focus,
+      &:focus-visible {
+        outline: none;
+        outline-style: none;
       }
 
-      &.is-selected {
-        // &:focus,
-        // &:focus-visible {
-        //   .month-view-day-text {
-        //     @include border-azure-60();
+      &:focus .day-container,
+      &:focus-visible .day-container {
+        @include border-azure-60();
 
-        //     box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
-        //     outline: none;
-        //     outline-style: none;
-        //   }
-        // }
-
-        ids-text::part(text) {
-          font-weight: 600;
-        }
-
-        &:focus ids-text::part(text) {
-          @include border-azure-60();
-
-          box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
-          outline: none;
-          outline-style: none;
-        }
-
-        .month-view-day-text {
-          @include text-white();
-          @include bg-azure-60();
-        }
-      }
-
-      &:not(.alternate):not(.is-selected) .month-view-day-text {
-        @include text-slate-80();
-      }
-
-      &.alternate .month-view-day-text {
-        @include text-slate-40();
+        box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
       }
 
       ids-text::part(text) {
-        width: 38px;
-        height: 38px;
-        line-height: 38px;
-        text-align: center;
-        display: inline-block;
+        font-weight: 600;
       }
 
-      .month-view-day-text {
-        @include cursor-pointer();
+      .day-text {
+        @include text-white();
+        @include bg-azure-60();
+      }
+    }
+  }
 
-        display: inline-block;
-        border-radius: 50%;
-        margin: 5px 0;
+  th,
+  td {
+    @include p-0();
+  }
+}
+
+// Full size view
+.ids-month-view.is-fullsize {
+  @include border-t-1();
+  @include border-r-1();
+  @include border-l-1();
+  @include border-slate-20();
+
+  .month-view-header {
+    @include border-b-1();
+    @include border-slate-20();
+  }
+
+  td {
+    @include border-b-1();
+    @include border-r-1();
+    @include border-l-1();
+    @include relative();
+
+    height: 99px;
+    width: 14.3%;
+    overflow: hidden;
+    user-select: none;
+
+    &:not(.is-selected):hover,
+    &:not(.is-selected):active {
+      background-color: rgb(240 240 240 / 0.5);
+    }
+
+    &.is-selected {
+      @include bg-slate-10();
+
+      box-shadow: inset 0 5px 0 0 var(--ids-color-palette-azure-60);
+
+      &:focus,
+      &:focus-visible {
+        @include border-transparent();
+
+        outline: none;
+        box-shadow: 0 0 2px 2px rgb(54 138 192 / 0.3), inset 0 5px 0 0 var(--ids-color-palette-azure-60);
+      }
+
+      ids-text::part(text) {
+        font-weight: 600;
       }
     }
 
-    th,
-    td {
-      @include p-0();
+    .weekday-text,
+    &:not(.alternate) .day-text {
+      @include text-slate-80();
+    }
+
+    &.alternate .day-text {
+      @include text-slate-40();
+    }
+
+    .day-text {
+      @include absolute();
+      @include cursor-pointer();
+
+      left: calc(100% - 25px);
+      top: 13px;
+      width: 10px;
+      text-align: center;
+    }
+  }
+
+  th,
+  td {
+    @include p-0();
+    @include border-b-1();
+    @include border-slate-20();
+  }
+}
+
+// Themes
+.ids-month-view[mode='dark'] {
+  @include bg-slate-80();
+  @include border-slate-70();
+
+  .month-view-header {
+    @include border-slate-70();
+    @include bg-slate-80();
+  }
+
+  .month-view-container {
+    @include bg-slate-80();
+  }
+
+  .month-view-today-text,
+  &:not(.is-fullsize) .datepicker-icon {
+    @include text-azure-60();
+  }
+
+  .datepicker:focus {
+    @include border-azure-60();
+
+    box-shadow: 0 0 4px 2px rgba(141 201 230 / 0.3);
+  }
+
+  // Compact view
+  &:not(.is-fullsize) {
+    td:not(.is-selected):hover .day-text,
+    td:not(.is-selected):active .day-text {
+      @include bg-slate-70();
+      @include text-white();
+    }
+
+    .weekday-text,
+    td:not(.alternate) .day-text {
+      @include text-slate-30();
+    }
+
+    td.alternate .day-text {
+      @include text-slate-50();
+    }
+
+    td.is-selected .day-text {
+      @include text-white();
     }
   }
 
   // Full size view
   &.is-fullsize {
-    @include border-t-1();
-    @include border-r-1();
-    @include border-l-1();
-    @include border-slate-20();
-
-    .month-view-header {
-      @include border-b-1();
-      @include border-slate-20();
-    }
-
-    td {
-      @include border-b-1();
-      @include border-r-1();
-      @include border-l-1();
-      @include relative();
-
-      height: 99px;
-      width: 14.3%;
-      overflow: hidden;
-      user-select: none;
-
-      &:not(.is-selected):hover,
-      &:not(.is-selected):active {
-        background-color: rgb(240 240 240 / 0.5);
-      }
-
-      &.is-selected {
-        @include bg-slate-10();
-
-        box-shadow: inset 0 5px 0 0 var(--ids-color-palette-azure-60);
-
-        &:focus,
-        &:focus-visible {
-          @include border-transparent();
-
-          outline: none;
-          box-shadow: 0 0 2px 2px rgb(54 138 192 / 0.3), inset 0 5px 0 0 var(--ids-color-palette-azure-60);
-        }
-
-        ids-text::part(text) {
-          font-weight: 600;
-        }
-      }
-
-      .month-view-weekday-text,
-      &:not(.alternate) .month-view-day-text {
-        @include text-slate-80();
-      }
-
-      &.alternate .month-view-day-text {
-        @include text-slate-40();
-      }
-
-      .month-view-day-text {
-        @include absolute();
-        @include cursor-pointer();
-
-        left: calc(100% - 25px);
-        top: 13px;
-        width: 10px;
-        text-align: center;
-      }
-    }
-
-    th,
-    td {
-      @include p-0();
-      @include border-b-1();
-      @include border-slate-20();
-    }
-  }
-
-  // Themes
-  &[mode='dark'] {
-    @include bg-slate-80();
-    @include border-slate-70();
-
-    .month-view-header {
-      @include border-slate-70();
-      @include bg-slate-80();
-    }
-
-    .month-view-container {
-      @include bg-slate-80();
-    }
-
-    .month-view-today-text {
-      @include text-azure-60();
-    }
-
-    .datepicker:focus {
-      @include border-azure-60();
-
-      box-shadow: 0 0 4px 2px rgba(141 201 230 / 0.3);
-    }
-
     th,
     td {
       @include border-slate-70();
     }
 
-    th .month-view-weekday-text,
-    td:not(.alternate) .month-view-day-text {
+    th .weekday-text,
+    td:not(.alternate) .day-text {
       @include text-slate-30();
     }
 
     td {
-      &.alternate .month-view-day-text {
+      &.alternate .day-text {
         @include text-slate-50();
       }
 
@@ -277,42 +324,74 @@
       }
     }
   }
+}
 
-  &[mode='contrast'] {
-    @include bg-white();
+.ids-month-view[mode='contrast'] {
+  @include bg-white();
+  @include border-slate-30();
+
+  .month-view-header {
     @include border-slate-30();
+    @include bg-white();
+  }
 
-    .month-view-header {
-      @include border-slate-30();
-      @include bg-white();
+  .month-view-container {
+    @include bg-white();
+  }
+
+  .month-view-today-text,
+  &:not(.is-fullsize) .datepicker-icon {
+    @include text-azure-90();
+  }
+
+  .datepicker:focus {
+    @include border-azure-90();
+
+    box-shadow: 0 0 4px 2px rgba(41 41 41 / 0.3);
+  }
+
+  // Compact view
+  &:not(.is-fullsize) {
+    td:not(.is-selected):hover .day-text,
+    td:not(.is-selected):active .day-text {
+      @include bg-slate-30();
     }
 
-    .month-view-container {
-      @include bg-white();
+    .weekday-text,
+    td:not(.alternate) .day-text {
+      @include text-black();
     }
 
-    .month-view-today-text {
-      @include text-azure-90();
+    td.alternate .day-text {
+      @include text-slate-50();
     }
 
-    .datepicker:focus {
-      @include border-azure-90();
-
-      box-shadow: 0 0 4px 2px rgba(41 41 41 / 0.3);
+    td.is-selected .day-text {
+      @include bg-azure-90();
+      @include text-white();
     }
 
+    td.is-selected:focus .day-container {
+      @include border-azure-100();
+
+      box-shadow: 0 0 4px 2px rgb(41 41 41 / 0.3);
+    }
+  }
+
+  // Full size view
+  &.is-fullsize {
     th,
     td {
       @include border-slate-30();
     }
 
-    th .month-view-weekday-text,
-    td:not(.alternate) .month-view-day-text {
+    th .weekday-text,
+    td:not(.alternate) .day-text {
       @include text-black();
     }
 
     td {
-      &.alternate .month-view-day-text {
+      &.alternate .day-text {
         @include text-slate-50();
       }
 
@@ -344,7 +423,7 @@
       border-right: 0;
     }
 
-    .month-view-day-text {
+    .day-text {
       left: unset;
       right: calc(100% - 25px);
     }
