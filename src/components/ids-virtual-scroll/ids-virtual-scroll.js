@@ -122,7 +122,7 @@ export default class IdsVirtualScroll extends Base {
    */
   visibleItemCount() {
     const viewportHeight = this.getBoundingClientRect().height;
-    let count = Math.ceil(viewportHeight / this.itemHeight) + this.bufferSize;
+    let count = Math.ceil(viewportHeight / this.itemHeight) + (2 * this.bufferSize);
     count = Math.min(Number(this.itemCount) - this.startIndex, count);
     return count;
   }
@@ -206,7 +206,7 @@ export default class IdsVirtualScroll extends Base {
     this.removeAttribute(attributes.BUFFER_SIZE);
   }
 
-  get bufferSize() { return this.getAttribute(attributes.BUFFER_SIZE) || 4; }
+  get bufferSize() { return this.getAttribute(attributes.BUFFER_SIZE) || 3; }
 
   /**
    * Set the scroll top position and scroll down to that location

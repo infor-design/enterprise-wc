@@ -170,10 +170,7 @@ const IdsSortableMixin = (superclass) => class extends superclass {
 
     if (prevEle && isBefore(el, prevEle)) {
       this.swap(this.placeholder, prevEle);
-      return;
-    }
-
-    if (nextEle && isBefore(nextEle, el)) {
+    } else if (nextEle && isBefore(nextEle, el)) {
       this.swap(nextEle, this.placeholder);
     }
   }
