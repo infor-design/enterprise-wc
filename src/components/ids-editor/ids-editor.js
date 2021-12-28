@@ -2,6 +2,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
 import Base from './ids-editor-base';
+import IdsButton from '../ids-button/ids-button';
 import IdsText from '../ids-text/ids-text';
 import IdsCheckbox from '../ids-checkbox/ids-checkbox';
 import IdsDropdown from '../ids-dropdown/ids-dropdown';
@@ -23,7 +24,10 @@ import styles from './ids-editor.scss';
 const PARAGRAPH_SEPARATORS = ['p', 'div', 'br'];
 
 // List of block elements
-const BLOCK_ELEMENTS = ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'pre'];
+const BLOCK_ELEMENTS = ['p', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'pre'];
+
+// List of font size
+const FONT_SIZES = ['1', '2', '3', '4', '5', '6', '7'];
 
 // List of defaults
 const EDITOR_DEFAULTS = {
@@ -69,9 +73,10 @@ export default class IdsEditor extends Base {
    */
   connectedCallback() {
     this
-      .elementsValueInModals()
-      .#addDefaultToolbar()
+      .modalElementsValue()
+      .#initToolbar()
       .#initContent()
+      .#initModals()
       .#setParagraphSeparator()
       .#attachEventHandlers();
     super.connectedCallback();
@@ -101,30 +106,27 @@ export default class IdsEditor extends Base {
           <div class="toolbar-container" part="toolbar-container">
             <slot name="toolbar"></slot>
           </div>
-          <div id="editor-container" class="editor-container" part="editor-container" contenteditable="true" aria-multiline="true" role="textbox" aria-label="${this.label}"></div>
+          <div class="editor-container" part="editor-container" contenteditable="true" aria-multiline="true" role="textbox" aria-label="${this.label}"></div>
           <div class="source-container" part="source-container"></div>
         </div>
       </div>`;
   }
 
   /**
-   * Set default value for each elements in modals.
-   * @param {{
-   *  hyperlink: {
-   *    url: string,
-   *    class: string,
-   *    targets: [{ text: string, value: string }],
-   *    isClickable: boolean,
-   *    showIsClickable: boolean
-   *  },
-   *  insertimage: {
-   *    url: string,
-   *    alt: string,
-   *  }
-   * }|undefined} modals incoming modals options
+   * Set default value to each element in modals.
+   * @param {object} [modals] Incoming modals options.
+   * @param {object} [modals.hyperlink] The hyperlink options.
+   * @param {string} [modals.hyperlink.url] Url for hyperlink.
+   * @param {string} [modals.hyperlink.class] Css Class for hyperlink.
+   * @param {Array} [modals.hyperlink.targets] List target options for hyperlink.
+   * @param {boolean} [modals.hyperlink.isClickable] If true, isClickable checkbox should checked.
+   * @param {boolean} [modals.hyperlink.showIsClickable] If true, will show isClickable checkbox.
+   * @param {object} [modals.insertimage] The insertimage options.
+   * @param {string} [modals.insertimage.url] Url for insertimage.
+   * @param {string} [modals.insertimage.alt] Alt text for insertimage.
    * @returns {object} This API object for chaining
    */
-  elementsValueInModals(modals) {
+  modalElementsValue(modals) {
     const m = isObject(modals) ? modals : {};
     const d = EDITOR_DEFAULTS.modals;
 
@@ -167,7 +169,7 @@ export default class IdsEditor extends Base {
   #toolbarActions = [];
 
   /**
-   * List of modals attached to editor.
+   * Modals attached to editor.
    * @private
    * @type {object}
    */
@@ -188,6 +190,13 @@ export default class IdsEditor extends Base {
   #savedSelection;
 
   /**
+   * Cache elements use most.
+   * @private
+   * @type {object}
+   */
+  #elems = {};
+
+  /**
    * List of actions can be execute with editor.
    * @private
    * @type {Array<object>}
@@ -204,27 +213,10 @@ export default class IdsEditor extends Base {
     subscript: { action: 'subscript' },
 
     // TEXT FORMAT
-    h1: { action: 'formatBlock', value: 'h1' },
-    h2: { action: 'formatBlock', value: 'h2' },
-    h3: { action: 'formatBlock', value: 'h3' },
-    h4: { action: 'formatBlock', value: 'h4' },
-    h5: { action: 'formatBlock', value: 'h5' },
-    h6: { action: 'formatBlock', value: 'h6' },
-    div: { action: 'formatBlock', value: 'div' },
-    p: { action: 'formatBlock', value: 'p' },
-    pre: { action: 'formatBlock', value: 'pre' },
-    blockquote: { action: 'formatBlock', value: 'blockquote' },
-    formatblock: { action: 'formatBlock', value: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre', 'blockquote'] },
+    formatblock: { action: 'formatBlock', value: [...BLOCK_ELEMENTS] },
 
     // FONT SIZE
-    fontsize1: { action: 'fontSize', value: '1' },
-    fontsize2: { action: 'fontSize', value: '2' },
-    fontsize3: { action: 'fontSize', value: '3' },
-    fontsize4: { action: 'fontSize', value: '4' },
-    fontsize5: { action: 'fontSize', value: '5' },
-    fontsize6: { action: 'fontSize', value: '6' },
-    fontsize7: { action: 'fontSize', value: '7' },
-    fontsize: { action: 'fontSize', value: ['1', '2', '3', '4', '5', '6', '7'] },
+    fontsize: { action: 'fontSize', value: [...FONT_SIZES] },
 
     // COLORS
     forecolor: { action: 'foreColor' },
@@ -256,11 +248,48 @@ export default class IdsEditor extends Base {
   };
 
   /**
-   * Add the default toolbar
+   * Query selector in shadow root or given element.
+   * @private
+   * @param {string} s The selector.
+   * @param {ShadowRoot|HTMLElement|undefined} root The root element.
+   * @returns {HTMLElement|null} First matched selector element.
+   */
+  #qs(s, root = this.shadowRoot) {
+    return root?.querySelector(s);
+  }
+
+  /**
+   * Query selector all in shadow root or given element.
+   * @private
+   * @param {string} s The selector.
+   * @param {ShadowRoot|HTMLElement|undefined} root The root element.
+   * @returns {Array<NodeList>} List of elements that matched.
+   */
+  #qsAll(s, root = this.shadowRoot) {
+    return Array.from(root?.querySelectorAll(s));
+  }
+
+  /**
+   * Convert rgb to hex color value.
+   * @private
+   * @param {string} rgb The rgb value
+   * @returns {string} the hex value
+   */
+  #rgbToHex(rgb) {
+    const arrayRgb = rgb.split('(')[1].split(')')[0].split(',');
+    const hex = arrayRgb.map((item) => {
+      const x = parseInt(item).toString(16);
+      return (x.length === 1) ? `0${x}` : x;
+    }).join('');
+    return `#${hex}`;
+  }
+
+  /**
+   * Init the toolbar
    * @private
    * @returns {object} This API object for chaining
    */
-  #addDefaultToolbar() {
+  #initToolbar() {
     const tmplToolbar = `
       <ids-toolbar slot="toolbar" tabbable="true" type="formatter">
         <ids-toolbar-section type="buttonset" favor>
@@ -301,7 +330,7 @@ export default class IdsEditor extends Base {
 
           <ids-separator vertical></ids-separator>
 
-          <ids-button editor-action="forecolor" editor-action-value="#ff0000" square="true" tooltip="Text Color">
+          <ids-button editor-action="forecolor" square="true" tooltip="Text Color">
             <span slot="text" class="audible">Text color</span>
             <ids-icon slot="icon" icon="fore-color"></ids-icon>
           </ids-button>
@@ -378,12 +407,12 @@ export default class IdsEditor extends Base {
   }
 
   /**
-   * Get block element for given node
+   * Get block element and tagName for given node
    * @private
-   * @param {Selection} sel The selection.
+   * @param {Selection|undefined} sel The selection.
    * @returns {object} The element
    */
-  #blockElem(sel) {
+  #blockElem(sel = this.shadowRoot.getSelection()) {
     let tagName;
     let el = sel.anchorNode;
     if (el && el.tagName) tagName = el.tagName.toLowerCase();
@@ -395,14 +424,104 @@ export default class IdsEditor extends Base {
   }
 
   /**
-   * Check if current selection block element tagName same as given tagName
+   * Get list of block elements for selection
    * @private
-   * @param {Selection} sel The selection.
-   * @param {string} tagName Element tag name.
-   * @returns {boolean} true if same tagName
+   * @param {Selection|undefined} sel The selection.
+   * @returns {Array<HTMLElement>} List of selection block elements
    */
-  #isBlockTag(sel, tagName) {
-    return this.#blockElem(sel).tagName === tagName;
+  #selectionBlockElems(sel = this.shadowRoot.getSelection()) {
+    const blockElems = [];
+    this.#qsAll(BLOCK_ELEMENTS.join(', '), this.#elems.editor).forEach((elem) => {
+      if (sel.containsNode(elem, true)) {
+        blockElems.push(elem);
+      }
+    });
+    return blockElems;
+  }
+
+  /**
+   * Save current selection.
+   * @private
+   * @returns {Array<Range>|null} The selection ranges.
+   */
+  #saveSelection() {
+    const sel = this.shadowRoot.getSelection();
+    if (sel.getRangeAt && sel.rangeCount) {
+      const ranges = [];
+      for (let i = 0, l = sel.rangeCount; i < l; i += 1) {
+        ranges.push(sel.getRangeAt(i));
+      }
+      return ranges;
+    }
+    return null;
+  }
+
+  /**
+   * Restore selection.
+   * @private
+   * @param {Array<Range>|null} savedSel Saved selection ranges.
+   * @returns {object} The object for chaining.
+   */
+  #restoreSelection(savedSel = this.#savedSelection) {
+    const sel = this.shadowRoot.getSelection();
+    if (savedSel) {
+      sel.removeAllRanges();
+      for (let i = 0, len = savedSel.length; i < len; i += 1) {
+        sel.addRange(savedSel[i]);
+      }
+    }
+    return this;
+  }
+
+  /**
+   * Find element within the selection
+   * http://stackoverflow.com/questions/6052870/how-to-know-if-there-is-a-link-element-within-the-selection
+   * @private
+   * @param {string} tagname The tagname to find.
+   * @returns {HTMLElement|null} The found element.
+   */
+  #findElementInSelection(tagname) {
+    let el;
+    let comprng;
+    let selparent;
+    const container = this.#elems.editor;
+    const range = this.shadowRoot.getSelection().getRangeAt(0);
+
+    if (range) {
+      selparent = range.commonAncestorContainer || range.parentElement();
+      // Look for an element *around* the selected range
+      for (el = selparent; el !== container; el = el?.parentNode) {
+        if (el && el.tagName && el.tagName.toLowerCase() === tagname) {
+          return el;
+        }
+      }
+
+      // Look for an element *within* the selected range
+      if (!range.collapsed
+        && (range.text === undefined || range.text)
+        && selparent.getElementsByTagName) {
+        el = selparent.getElementsByTagName(tagname);
+        comprng = document.createRange ? document.createRange() : document.body.createTextRange();
+
+        for (let i = 0, len = el.length; i < len; i++) {
+          // determine if element el[i] is within the range
+          if (document.createRange) {
+            comprng.selectNodeContents(el[i]);
+            if (range.compareBoundaryPoints(Range.END_TO_START, comprng) < 0
+              && range.compareBoundaryPoints(Range.START_TO_END, comprng) > 0) {
+              return el[i];
+            }
+          } else {
+            comprng.moveToElementText(el[i]);
+            if (range.compareEndPoints('StartToEnd', comprng) < 0
+              && range.compareEndPoints('EndToStart', comprng) > 0) {
+              return el[i];
+            }
+          }
+        }
+      }
+    }
+    return null;
   }
 
   /**
@@ -423,11 +542,47 @@ export default class IdsEditor extends Base {
    * @returns {object} This API object for chaining
    */
   #initContent() {
+    // Format block action
+    this.#actions.formatblock?.value.forEach((value) => {
+      this.#actions[value] = { value, action: 'formatBlock' };
+    });
+
+    // Font size action
+    this.#actions.fontsize?.value.forEach((value) => {
+      this.#actions[`fontsize${value}`] = { value, action: 'fontSize' };
+    });
+
+    // set colorpicker
+    const setColorpicker = (key) => {
+      const btn = this.querySelector(`[editor-action="${key}"]`);
+      if (btn) {
+        let input = this.querySelector(`.${key}-input`);
+        if (!input) {
+          const elem = document.createElement('input');
+          elem.setAttribute('type', 'color');
+          elem.classList.add(`${key}-input`);
+          btn.after(elem);
+          input = this.querySelector(`.${key}-input`);
+        }
+        input?.style.setProperty('visibility', 'hidden');
+        input?.style.setProperty('width', '0');
+        input?.style.setProperty('height', '0');
+        this.#elems[`${key}Input`] = input;
+      }
+    };
+    setColorpicker('forecolor');
+    setColorpicker('backcolor');
+
+    // Set to cache some elements
+    this.#elems.main = this.#qs('.main-container');
+    this.#elems.editor = this.#qs('.editor-container');
+    this.#elems.source = this.#qs('.source-container');
+    this.#elems.toolbar = this.querySelector('ids-toolbar');
+
     const html = (slot) => slot?.assignedNodes()[0]?.innerHTML;
-    const slot = this.shadowRoot?.querySelector('slot[name="content"]');
-    const editor = this.shadowRoot.querySelector('.editor-container');
-    editor.innerHTML = html(slot) || '';
-    // editor.innerHTML = xssUtils.stripHTML(html(slot) || '');
+    const slot = this.#qs('slot[name="content"]');
+    this.#elems.editor.innerHTML = html(slot) || '';
+    // this.#elems..innerHTML = xssUtils.stripHTML(html(slot) || '');
     return this;
   }
 
@@ -437,15 +592,14 @@ export default class IdsEditor extends Base {
    * @returns {object} This API object for chaining
    */
   #initModals() {
-    const qs = (s) => this.shadowRoot?.querySelector(s);
     const appendModal = (key, btn, html) => {
       const template = document.createElement('template');
       template.innerHTML = html;
       this.container.appendChild(template.content.cloneNode(true));
-      this.#modals[key] = { btn, modal: qs(`#${key}-modal`) };
+      this.#modals[key] = { btn, modal: this.#qs(`#${key}-modal`) };
     };
-    const hyperlinkBtn = qs('[editor-action="hyperlink"]');
-    const insertimageBtn = qs('[editor-action="insertimage"]');
+    const hyperlinkBtn = this.querySelector('[editor-action="hyperlink"]');
+    const insertimageBtn = this.querySelector('[editor-action="insertimage"]');
 
     // Error message
     const errorMessageHtml = `
@@ -455,7 +609,7 @@ export default class IdsEditor extends Base {
         <ids-modal-button slot="buttons" type="primary" id="errormessage-modal-ok">OK</ids-modal-button>
       </ids-message>`;
     appendModal('errormessage', null, errorMessageHtml);
-    this.#modals.errormessage.btn = qs('#errormessage-modal-ok');
+    this.#modals.errormessage.btn = this.#qs('#errormessage-modal-ok');
 
     // Hyperlink
     if (hyperlinkBtn) {
@@ -507,12 +661,12 @@ export default class IdsEditor extends Base {
         </ids-modal>`;
       appendModal(key, btn, html);
       this.#modals[key].elems = {
-        url: qs(`#${key}-modal-input-url`),
-        clickable: qs(`#${key}-modal-checkbox-clickable`),
-        classes: qs(`#${key}-modal-input-classes`),
-        targets: qs(`#${key}-modal-dropdown-targets`),
-        removeContainer: qs(`#${key}-modal-checkbox-remove-container`),
-        removeElem: qs(`#${key}-modal-checkbox-remove`)
+        url: this.#qs(`#${key}-modal-input-url`),
+        clickable: this.#qs(`#${key}-modal-checkbox-clickable`),
+        classes: this.#qs(`#${key}-modal-input-classes`),
+        targets: this.#qs(`#${key}-modal-dropdown-targets`),
+        removeContainer: this.#qs(`#${key}-modal-checkbox-remove-container`),
+        removeElem: this.#qs(`#${key}-modal-checkbox-remove`)
       };
     }
 
@@ -545,42 +699,63 @@ export default class IdsEditor extends Base {
   }
 
   /**
-   * Handle given action.
+   * On toolbar items click.
    * @private
-   * @param {string} action The action
-   * @param {string|undefined} val The value
+   * @param {Event} e The event
    * @returns {void}
    */
-  #handleAction(action, val) {
-    let a = { ...this.#actions[action] };
-    if (typeof a === 'undefined' || /hyperlink|insertimage/i.test(action)) return;
+  #onClickTollbar(e) {
+    if (!e) return;
 
-    const sel = this.shadowRoot.getSelection();
-    if (action === 'hyperlink'
-      && sel.anchorNode.parentNode.tagName === 'A'
-      && sel.anchorNode === sel.focusNode) {
-      a = { ...this.#actions.unlink };
+    if (/^ids-button$/i.test(e.target.nodeName)) {
+      const modals = ['hyperlink', 'insertimage'];
+      const action = e.target.getAttribute('editor-action');
+      const a = { ...this.#actions[action] };
+      if (typeof a === 'undefined' || modals.includes(action)) return;
+      this.#handleAction(action);
     }
-    if (a.action === 'formatBlock') {
-      const v = val ?? a.value;
-      const blockAction = v === 'normal' ? this.#paragraphSeparator : v;
-      a = { ...this.#actions[blockAction] };
-
-      if (a.value === 'blockquote' && this.#isBlockTag(sel, 'blockquote')) {
-        a = { ...this.#actions[this.#paragraphSeparator] };
-      }
-    }
-    a.value = a.value ?? val;
-    document.execCommand(a.action, false, a.value);
   }
 
   /**
-   * Handle modal before show.
+   * On toolbar items selected.
+   * @private
+   * @param {Event} e The event
+   * @returns {void}
+   */
+  #onSelectedTollbar(e) {
+    if (!e) return;
+
+    if (/^ids-menu-item$/i.test(e.target.nodeName)) {
+      const action = `${e.target?.menu?.target?.getAttribute('editor-action') ?? ''}`.replace(/^menu-button-/i, '');
+      if (action === 'formatblock') {
+        this.#handleAction(action, e.detail.value);
+      }
+    }
+  }
+
+  /**
+   * On toolbar items change event.
+   * @private
+   * @param {Event} e The event
+   * @returns {void}
+   */
+  #onChangeTollbar(e) {
+    if (!e) return;
+
+    if (/forecolor-input|backcolor-input/i.test(e.target.className)) {
+      const action = /forecolor-input/i.test(e.target.className) ? 'forecolor' : 'backcolor';
+      const a = { ...this.#actions[action], value: e.target.value };
+      document.execCommand(a.action, false, a.value);
+    }
+  }
+
+  /**
+   * On modal before show.
    * @private
    * @param {string} key The modal key
    * @returns {boolean} false if, should not proseed
    */
-  #handleModalBeforeshow(key) {
+  #onBeforeShowModal(key) {
     this.#savedSelection = this.#saveSelection();
     if (!this.#savedSelection) return false;
 
@@ -612,28 +787,79 @@ export default class IdsEditor extends Base {
   }
 
   /**
+   * Handle given action.
+   * @private
+   * @param {string} action The action
+   * @param {string|undefined} val The value
+   * @returns {void}
+   */
+  #handleAction(action, val) {
+    let a = { ...this.#actions[action] };
+    if (typeof a === 'undefined') return;
+
+    const sel = this.shadowRoot.getSelection();
+
+    // Set format block
+    if (a.action === 'formatBlock') {
+      const v = val ?? a.value;
+      const blockAction = v === 'normal' ? this.#paragraphSeparator : v;
+      a = { ...this.#actions[blockAction] };
+
+      if (a.value === 'blockquote' && this.#blockElem().tagName === 'blockquote') {
+        a = { ...this.#actions[this.#paragraphSeparator] };
+      }
+    }
+
+    // Set text align
+    if (/^(alignleft|alignright|aligncenter|alignjustify)$/i.test(action)) {
+      const alignDoc = this.locale.isRTL() ? 'right' : 'left';
+      const align = action.replace('align', '');
+      const value = align === alignDoc ? '' : align;
+      this.#selectionBlockElems()
+        .forEach((elem) => elem?.style.setProperty('text-align', value));
+      return;
+    }
+
+    // Set forecolor, backcolor
+    if (/^(forecolor|backcolor)$/i.test(action)) {
+      this.#savedSelection = this.#saveSelection();
+      if (this.#savedSelection && this.#elems[`${action}Input`]) {
+        const color = action === 'backcolor'
+          ? sel?.focusNode?.parentNode?.style?.getProperty('background-color')
+          : document.queryCommandValue(a.action);
+        this.#elems[`${action}Input`].value = /rgb/i.test(color) ? this.#rgbToHex(color) : color;
+        this.#elems[`${action}Input`].click();
+      }
+      return;
+    }
+    a.value = a.value ?? val;
+    document.execCommand(a.action, false, a.value);
+  }
+
+  /**
    * Handle modal action.
    * @private
    * @param {string} key The modal key
    * @returns {void}
    */
   #handleModalAction(key) {
-    const qs = (s) => this.shadowRoot?.querySelector(s);
+    let a = { ...this.#actions[key] };
+    if (typeof a === 'undefined') return;
+
     this.#restoreSelection(this.#savedSelection);
     const sel = this.shadowRoot.getSelection();
     const range = sel.getRangeAt(0);
-    let a = { ...this.#actions[key] };
 
     // Insert image
     if (key === 'insertimage') {
-      a.value = qs(`#${key}-modal-input-src`).value ?? '';
+      a.value = this.#qs(`#${key}-modal-input-src`).value ?? '';
       if (a.value !== '') {
         if (sel.type === 'Caret') {
           range.insertNode(document.createTextNode(' '));
           sel.removeAllRanges();
           sel.addRange(range);
         }
-        const alt = qs(`#${key}-modal-input-alt`).value ?? '';
+        const alt = this.#qs(`#${key}-modal-input-alt`).value ?? '';
         if (alt !== '') {
           a = { ...this.#actions.inserthtml, value: `<img src="${a.value}" alt="${alt}" />` };
         }
@@ -654,7 +880,7 @@ export default class IdsEditor extends Base {
         if (elems.url.value) {
           a.value = 'EDITOR_CREATED_NEW_HYPERLINK';
           document.execCommand(a.action, false, a.value);
-          const aLink = qs(`a[href="${a.value}"`);
+          const aLink = this.#qs(`a[href="${a.value}"`);
           aLink.setAttribute('href', elems.url.value);
           aLink.innerHTML = aLink.innerHTML.replace(a.value, elems.url.value);
           if (elems.classes.value !== '') {
@@ -692,92 +918,6 @@ export default class IdsEditor extends Base {
         .map((x) => x[1])
         .forEach((elem) => { elem && (elem.disabled = false); });
     }
-    qs('.editor-container').focus();
-  }
-
-  /**
-   * Save current selection.
-   * @private
-   * @returns {Array<Range>|null} The selection ranges.
-   */
-  #saveSelection() {
-    const sel = this.shadowRoot.getSelection();
-    if (sel.getRangeAt && sel.rangeCount) {
-      const ranges = [];
-      for (let i = 0, l = sel.rangeCount; i < l; i += 1) {
-        ranges.push(sel.getRangeAt(i));
-      }
-      return ranges;
-    }
-    return null;
-  }
-
-  /**
-   * Restore selection.
-   * @private
-   * @param {Array<Range>|null} savedSel Saved selection ranges.
-   * @returns {object} The object for chaining.
-   */
-  #restoreSelection(savedSel = this.#savedSelection) {
-    const sel = this.shadowRoot.getSelection();
-    if (savedSel) {
-      sel.removeAllRanges();
-      for (let i = 0, len = savedSel.length; i < len; i += 1) {
-        sel.addRange(savedSel[i]);
-      }
-    }
-    return this;
-  }
-
-  /**
-   * Find element within the selection
-   * http://stackoverflow.com/questions/6052870/how-to-know-if-there-is-a-link-element-within-the-selection
-   * @private
-   * @param {string} tagname The tagname to find.
-   * @returns {HTMLElement|null} The found element.
-   */
-  #findElementInSelection(tagname) {
-    let el;
-    let comprng;
-    let selparent;
-    const container = this.shadowRoot.querySelector('#editor-container');
-    const range = this.shadowRoot.getSelection().getRangeAt(0);
-
-    if (range) {
-      selparent = range.commonAncestorContainer || range.parentElement();
-      // Look for an element *around* the selected range
-      for (el = selparent; el !== container; el = el?.parentNode) {
-        if (el && el.tagName && el.tagName.toLowerCase() === tagname) {
-          return el;
-        }
-      }
-
-      // Look for an element *within* the selected range
-      if (!range.collapsed
-        && (range.text === undefined || range.text)
-        && selparent.getElementsByTagName) {
-        el = selparent.getElementsByTagName(tagname);
-        comprng = document.createRange ? document.createRange() : document.body.createTextRange();
-
-        for (let i = 0, len = el.length; i < len; i++) {
-          // determine if element el[i] is within the range
-          if (document.createRange) {
-            comprng.selectNodeContents(el[i]);
-            if (range.compareBoundaryPoints(Range.END_TO_START, comprng) < 0
-              && range.compareBoundaryPoints(Range.START_TO_END, comprng) > 0) {
-              return el[i];
-            }
-          } else {
-            comprng.moveToElementText(el[i]);
-            if (range.compareEndPoints('StartToEnd', comprng) < 0
-              && range.compareEndPoints('EndToStart', comprng) > 0) {
-              return el[i];
-            }
-          }
-        }
-      }
-    }
-    return null;
   }
 
   /**
@@ -792,103 +932,76 @@ export default class IdsEditor extends Base {
       await this.setLanguage(e.detail.language.name);
     });
 
-    // Get toolbar actions attached toolbarActions
-    let max = 100;
-    const reqUntilAvailabile = () => {
-      const actionBtns = [].slice.call(this.shadowRoot.querySelectorAll('[editor-action]'));
-      max--;
-      window.requestAnimationFrame(() => {
-        const availabileElems = [];
-        this.#toolbarActions = actionBtns.map((btn) => {
-          const action = btn.getAttribute('editor-action');
-          const args = { btn, action };
-          availabileElems.push(btn);
-          if (/^menu-button-/i.test(action)) {
-            args.isPopup = true;
-            args.popup = btn?.menuEl?.popup;
-            availabileElems.push(args.popup);
-          } else {
-            args.value = btn.getAttribute('editor-action-value');
-          }
-          return args;
-        });
-        if (Object.values(availabileElems).some((v) => typeof v === 'undefined') && max > 0) {
-          reqUntilAvailabile();
-        } else {
-          // Reday to bind events
-          this.#toolbarActions.forEach((a) => {
-            if (a.isPopup) {
-              const action = a.action.replace(/^menu-button-/i, '');
-              this.offEvent('selected.editor-toolbar-popup', a.popup);
-              this.onEvent('selected.editor-toolbar-popup', a.popup, (e) => {
-                a.btn.text = e.detail.elem.text;
-                this.#handleAction(action, e.detail.value);
-              });
-            } else {
-              this.offEvent('click.editor-toolbar-btn', a.btn);
-              this.onEvent('click.editor-toolbar-btn', a.btn, () => {
-                this.#handleAction(a.action, a.value);
-              });
-            }
-          });
+    // Attach toolbar events
+    const toolbar = this.querySelector('[slot="toolbar"]');
+    this.onEvent('click.editor-toolbar', toolbar, (e) => {
+      this.#onClickTollbar(e);
+    });
+    this.onEvent('selected.editor-toolbar', toolbar, (e) => {
+      this.#onSelectedTollbar(e);
+    });
+    this.onEvent('change.editor-toolbar', toolbar, (e) => {
+      this.#onChangeTollbar(e);
+    });
 
-          // Link the Modal to its trigger button (sets up click/focus events)
-          this.#initModals();
-          const attachModalEvents = (key) => {
-            const modal = this.#modals[key].modal;
-            modal.target = this.#modals[key].btn;
-            modal.trigger = 'click';
-            this.offEvent(`beforeshow.editor-modal-${key}`, modal);
-            this.onEvent(`beforeshow.editor-modal-${key}`, modal, (e) => {
-              if (!this.#handleModalBeforeshow(key)) {
-                e.detail.response(false);
-                this.#modals.errormessage?.modal?.show();
-              }
-            });
-            this.offEvent(`click.editor-modal-${key}`, modal);
-            this.onEvent(`click.editor-modal-${key}`, modal, (e) => {
-              if (e.target.getAttribute('id') === `${key}-modal-cancel-btn`) {
-                modal.hide();
-              }
-              if (e.target.getAttribute('id') === `${key}-modal-apply-btn`) {
-                modal.hide();
-                this.#handleModalAction(key);
-              }
-            });
-          };
-
-          // Hide error message
-          if (this.#modals.errormessage?.modal) {
-            this.#modals.errormessage.modal.onButtonClick = () => {
-              this.#modals.errormessage?.modal.hide();
-            };
-          }
-
-          if (this.#modals.hyperlink?.modal) {
-            attachModalEvents('hyperlink');
-
-            // list all hyperlink-modal elements, except remove checkbox
-            const elems = Object.entries(this.#modals.hyperlink.elems)
-              .filter(([k]) => (!(/^(removeElem|removeContainer)$/.test(k)))).map((x) => x[1]);
-
-            // Bind toggle disable with remove checkbox
-            const removeElem = this.#modals.hyperlink.elems.removeElem;
-            this.offEvent('change.editor-modal-hyperlink-checkbox-remove', removeElem);
-            this.onEvent('change.editor-modal-hyperlink-checkbox-remove', removeElem, (e) => {
-              elems.forEach((elem) => {
-                elem && (elem.disabled = e.detail.checked);
-              });
-            });
-          }
-          if (this.#modals.insertimage?.modal) {
-            attachModalEvents('insertimage');
-          }
-        }
-      });
-    };
-    reqUntilAvailabile();
+    // Attach events to each modal
+    ['errormessage', 'insertimage', 'hyperlink'].forEach((key) => {
+      if (this.#modals[key]?.modal) {
+        this.#attachModalEvents(key);
+      }
+    });
 
     return this;
+  }
+
+  /**
+   * Attach modal events
+   * @private
+   * @param {string} key The modal key
+   * @returns {void}
+   */
+  #attachModalEvents(key) {
+    const modal = this.#modals[key].modal;
+
+    // Hide modal
+    modal.onButtonClick = () => {
+      modal?.hide();
+    };
+
+    // No need to bind else, if modal has no target-btn
+    if (!this.#modals[key].btn) return;
+
+    // Set modal trigger
+    modal.target = this.#modals[key].btn;
+    modal.trigger = 'click';
+
+    // Before modal open
+    this.onEvent(`beforeshow.editor-modal-${key}`, modal, (e) => {
+      if (!this.#onBeforeShowModal(key) && key !== 'errormessage') {
+        e.detail.response(false);
+        this.#modals.errormessage?.modal?.show();
+      }
+    });
+
+    // Apply button clicked
+    this.onEvent(`click.editor-modal-${key}`, modal, (e) => {
+      if (e.target.getAttribute('id') === `${key}-modal-apply-btn`) {
+        this.#handleModalAction(key);
+      }
+    });
+
+    // Toggle disable elements in hyperlink modal
+    if (key === 'hyperlink') {
+      const elems = this.#modals[key].elems;
+      const removeElem = elems.removeElem;
+      const elemsToDisable = Object.entries(elems)
+        .filter(([k]) => (!(/^(removeElem|removeContainer)$/.test(k)))).map((x) => x[1]);
+      this.onEvent(`change.editor-modal-${key}-checkbox-remove`, removeElem, (e) => {
+        elemsToDisable.forEach((elem) => {
+          elem && (elem.disabled = e.detail.checked);
+        });
+      });
+    }
   }
 
   /**
