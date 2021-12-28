@@ -475,6 +475,12 @@ export default class IdsInput extends Base {
       this.removeAttribute(attributes.COMPACT);
       this.container?.classList.remove(attributes.COMPACT);
     }
+
+    if (this.hasParentTriggerField) {
+      this.container?.classList.add('no-margin-bottom');
+    } else {
+      this.container?.classList.remove('no-margin-bottom');
+    }
   }
 
   get compact() { return this.getAttribute(attributes.COMPACT); }

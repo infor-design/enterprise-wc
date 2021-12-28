@@ -172,6 +172,10 @@
   height: $input-field-height-lg;
 }
 
+.ids-trigger-field.compact .ids-trigger-field-content {
+  height: $input-field-height-xs;
+}
+
 .ids-trigger-field.full .ids-trigger-field-content {
   max-width: $input-size-full;
 }
