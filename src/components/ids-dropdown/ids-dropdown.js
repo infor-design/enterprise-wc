@@ -82,9 +82,11 @@ export default class IdsDropdown extends Base {
    */
   template() {
     this.hasIcons = this.querySelector('ids-list-box-option ids-icon') !== null;
+    this.size = this.getAttribute(attributes.SIZE) || 'md';
 
     return `
     <ids-trigger-field
+      size="${this.size}"
       label="${this.label}"
       part="trigger-field"
       ${this.disabled ? ' disabled="true"' : ''}
@@ -93,6 +95,7 @@ export default class IdsDropdown extends Base {
       ${this.validate && this.validationEvents ? ` validation-events="${this.validationEvents}"` : ''}>
       ${this.hasIcons ? '<span class="icon-container"><ids-icon icon="user-profile"></ids-icon></span>' : ''}
       <ids-input
+        size="${this.size}"
         part="input"
         disabled="${this.disabled}"
         label-hidden="true" ${!this.disabled && !this.readonly ? 'cursor="pointer"' : ''}
@@ -144,6 +147,7 @@ export default class IdsDropdown extends Base {
   set label(value) {
     this.setAttribute('label', value);
     this.shadowRoot.querySelector('ids-input').setAttribute('label', value);
+    this.shadowRoot.querySelector('ids-trigger-field').setAttribute('label', value);
   }
 
   get label() { return this.getAttribute('label'); }
@@ -167,6 +171,7 @@ export default class IdsDropdown extends Base {
     // Send the change event
     if (this.value === value) {
       this.triggerEvent('change', this, {
+        bubbles: true,
         detail: {
           elem: this,
           value: this.value
