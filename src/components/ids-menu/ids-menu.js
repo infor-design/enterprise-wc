@@ -45,7 +45,7 @@ export default class IdsMenu extends Base {
     // Unhighlight handler - Menu Items Only
     const unhighlightItem = (e) => {
       const thisItem = e.target.closest('ids-menu-item');
-      thisItem.unhighlight();
+      thisItem?.unhighlight();
     };
 
     // Highlight the item on click

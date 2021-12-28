@@ -11,16 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// Create an ajax request
-const xmlhttp = new XMLHttpRequest();
 const url = '/data/menu-contents.json';
-xmlhttp.onreadystatechange = function onreadystatechange() {
-  if (this.readyState === 4 && this.status === 200) {
-    popupEl.align = 'top, left';
-    popupmenuEl.data = JSON.parse(this.responseText);
-  }
+popupEl.align = 'top, left';
+
+const setData = async () => {
+  const res = await fetch(url);
+  const data = await res.json();
+  popupmenuEl.data = data;
 };
 
-// Execute the request
-xmlhttp.open('GET', url, true);
-xmlhttp.send();
+setData();

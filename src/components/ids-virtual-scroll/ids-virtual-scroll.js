@@ -25,7 +25,7 @@ export default class IdsVirtualScroll extends Base {
 
   connectedCallback() {
     this.datasource = new IdsDataSource();
-    this.stringTemplate = '<div class="ids-virtual-scroll-item">${productName}</div>'; //eslint-disable-line
+    this.stringTemplate = '<div class="ids-virtual-scroll-item" part="list-item">${productName}</div>'; //eslint-disable-line
     this.applyHeight();
     this.renderItems(false);
     this.#attachEventHandlers();
