@@ -212,11 +212,11 @@ describe('IdsTriggerField Component', () => {
   it('has a disabled attribute', () => {
     triggerField.disabled = false;
     expect(triggerField.disabled).toEqual(false);
-    expect(triggerField.getAttribute('disabled')).toEqual(null);
+    expect(triggerField.getAttribute('disabled')).toBeFalsy();
 
     triggerField.disabled = true;
     expect(triggerField.disabled).toEqual(true);
-    expect(triggerField.getAttribute('disabled')).toEqual('true');
+    expect(triggerField.getAttribute('disabled')).toBeTruthy();
   });
 
   it('has a readonly attribute', () => {

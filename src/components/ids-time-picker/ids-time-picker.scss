@@ -1,0 +1,147 @@
+/* Ids Time Picker Component */
+@import '../../core/ids-base';
+@import '../ids-input/ids-input';
+
+.ids-time-picker {
+  @include flex();
+
+  // TODO: use inline or reduce width of timepicker so onOutsideClick() works laterally
+  // @include inline-flex();
+  min-width: $input-size-xs;
+  width: fit-content;
+
+  ids-button {
+    align-items: center;
+    height: 45px;
+    width: 100%;
+
+    &::part(button) {
+      color: var(--ids-color-palette-azure-70);
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0;
+    }
+  }
+
+  ids-dropdown {
+    &::part(trigger-field) {
+      @include inline-flex();
+
+      width: fit-content;
+    }
+  }
+
+  ids-list-box,
+  ids-list-box-option {
+    width: 100%;
+  }
+
+  ids-popup {
+    &::part(popup) {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  #dropdowns {
+    @include flex();
+    @include p-8();
+
+    border-bottom: 1px solid var(--ids-color-palette-slate-30, #b7b7ba);
+    flex-direction: row;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .separator {
+    @include mx-4();
+
+    color: var(--ids-color-font-muted, #606066);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin-bottom: -8px;
+  }
+
+  @include breakpoint-xs-down {
+    #dropdowns {
+      flex-direction: column;
+      align-items: center;
+      width: $input-size-sm;
+    }
+  }
+
+  // Handle Themes
+  &[mode='dark'] {
+    // @include bg-slate-60();
+    @include border-slate-60();
+    @include text-white();
+  }
+
+  &[mode='dark'] ::slotted(ids-icon) {
+    @include text-slate-10();
+  }
+
+  &[mode='dark'] ::slotted(ids-icon:hover) {
+    @include text-white();
+  }
+
+  &[mode='contrast'] {
+    // @include bg-slate-20();
+    @include border-slate-20();
+    @include text-slate-100();
+  }
+
+  &[mode='contrast'] ::slotted(ids-icon) {
+    @include text-slate-100();
+  }
+
+  &[mode='contrast'] ::slotted(ids-icon:hover) {
+    @include text-black();
+  }
+
+  &[version='classic'][mode='light'] {
+    // @include bg-graphite-20();
+    @include border-graphite-20();
+    @include text-black();
+  }
+
+  &[version='classic'][mode='light'] ::slotted(ids-icon) {
+    @include text-graphite-100();
+  }
+
+  &[version='classic'][mode='light'] ::slotted(ids-icon:hover) {
+    @include text-black();
+  }
+
+  &[version='classic'][mode='dark'] {
+    // @include bg-graphite-60();
+    @include border-graphite-60();
+    @include text-white();
+  }
+
+  &[version='classic'][mode='dark'] ::slotted(ids-icon) {
+    @include text-graphite-10();
+  }
+
+  &[version='classic'][mode='dark'] ::slotted(ids-icon:hover) {
+    @include text-white();
+  }
+
+  &[version='classic'][mode='contrast'] {
+    // @include bg-graphite-40();
+    @include border-graphite-40();
+    @include text-black();
+  }
+
+  &[version='classic'][mode='contrast'] ::slotted(ids-icon) {
+    @include text-graphite-100();
+  }
+
+  &[version='classic'][mode='contrast'] ::slotted(ids-icon:hover) {
+    @include text-black();
+  }
+}
