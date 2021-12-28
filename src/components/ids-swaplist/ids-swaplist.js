@@ -36,6 +36,16 @@ export default class IdsSwapList extends Base {
     this.getAllLists().forEach((l) => {
       l.defaultTemplate = this.defaultTemplate;
     });
+
+    this.container.querySelectorAll('ids-button').forEach((b) => {
+      this.onEvent('click', b, () => {
+        if (b.classList.contains('left-arrow')) {
+          this.swapToPreviousList(b);
+        } else if (b.classList.contains('right-arrow')) {
+          this.swapToNextList(b);
+        }
+      });
+    });
   }
 
   /**
@@ -47,6 +57,28 @@ export default class IdsSwapList extends Base {
       ...super.attributes,
       attributes.COUNT
     ];
+  }
+
+  swapToNextList(button) {
+    console.log('swapToNextList')
+    const currentCard = button.parentElement.parentElement;
+    console.log(currentCard)
+    const currentList = currentCard.querySelector('ids-list-view');
+    console.log(currentList)
+    const nextCard = currentCard.nextSibling;
+    console.log(nextCard);
+    const nextList = nextCard.querySelector('ids-list-view');
+    console.log(nextList)
+    // query select the next list-view node
+    currentList.selectedLi.forEach((x) => {
+      nextList.appendChild(x);
+    // move selected node(s) into that list-view
+    });
+  }
+
+  swapToPreviouList(button) {
+    // query select the previous list-view node
+      // move node(s) into that list-view
   }
 
   getAllLists() {
@@ -66,14 +98,14 @@ export default class IdsSwapList extends Base {
 
   buttonTemplate(i) {
     const leftArrow = `
-      <ids-button id="${i}-left-arrow">
+      <ids-button id="${i}-left-arrow" class="left-arrow">
         <span slot="text" class="audible">Swap Item Left</span>
         <ids-icon slot="icon" icon="arrow-left"></ids-icon>
-        </ids-button>
-        `;
+      </ids-button>
+    `;
 
     const rightArrow = `
-      <ids-button id="${i}-right-arrow">
+      <ids-button id="${i}-right-arrow" class="right-arrow">
         <span slot="text" class="audible">Swap Item Left</span>
         <ids-icon slot="icon" icon="arrow-right"></ids-icon>
       </ids-button>
@@ -96,7 +128,7 @@ export default class IdsSwapList extends Base {
   listTemplate() {
     const arr = Array(this.count).fill(0);
 
-    return arr.map((v, i) => `
+    const html = arr.map((v, i) => `
       <ids-card auto-fit>
         <div slot="card-header">
           <ids-text>List #${i}</ids-text>
@@ -107,7 +139,9 @@ export default class IdsSwapList extends Base {
           </ids-list-view>
         </div>
       </ids-card>
-    `).join('');
+    `.trim()).join('');
+
+    return html;
   }
 
   /**
