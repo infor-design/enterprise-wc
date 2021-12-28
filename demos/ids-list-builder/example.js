@@ -2,15 +2,12 @@
 const listBuilder = document.querySelector('ids-list-builder');
 
 // Do an ajax request and apply the data to the list
-const xmlhttp = new XMLHttpRequest();
 const url = '/data/bikes.json';
 
-xmlhttp.onreadystatechange = function onreadystatechange() {
-  if (this.readyState === 4 && this.status === 200 && listBuilder) {
-    listBuilder.data = JSON.parse(this.responseText);
-  }
+const setData = async () => {
+  const res = await fetch(url);
+  const data = await res.json();
+  listBuilder.data = data;
 };
 
-// Execute the request
-xmlhttp.open('GET', url, true);
-xmlhttp.send();
+setData();

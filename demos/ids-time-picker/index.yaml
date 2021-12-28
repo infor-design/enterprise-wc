@@ -1,0 +1,11 @@
+---
+ component: Time Picker
+ link: ids-time-picker
+ description: Input field for time and dates
+ category: Form Inputs
+ keywords: timepicker, time, picker, hours, seconds, minutes, label, text
+ examples:
+  - link: index.html
+    description: Shows all ids-time-picker combinations
+# - link: side-by-side.html
+#   description: Showing a time-picker element side by side working with 4.x

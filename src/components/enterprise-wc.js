@@ -58,6 +58,7 @@ import IdsSwipeAction from './ids-swipe-action/ids-swipe-action';
 import IdsSwitch from './ids-switch/ids-switch';
 import IdsTabs from './ids-tabs/ids-tabs';
 import IdsTag from './ids-tag/ids-tag';
+import IdsTimePicker from './ids-time-picker';
 import IdsText from './ids-text/ids-text';
 import IdsTextarea from './ids-textarea/ids-textarea';
 import IdsThemeSwitcher from './ids-theme-switcher/ids-theme-switcher';
