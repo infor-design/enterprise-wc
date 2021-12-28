@@ -704,7 +704,7 @@ export default class IdsEditor extends Base {
    * @param {Event} e The event
    * @returns {void}
    */
-  #onClickTollbar(e) {
+  #onClickToolbar(e) {
     if (!e) return;
 
     if (/^ids-button$/i.test(e.target.nodeName)) {
@@ -722,7 +722,7 @@ export default class IdsEditor extends Base {
    * @param {Event} e The event
    * @returns {void}
    */
-  #onSelectedTollbar(e) {
+  #onSelectedToolbar(e) {
     if (!e) return;
 
     if (/^ids-menu-item$/i.test(e.target.nodeName)) {
@@ -734,12 +734,12 @@ export default class IdsEditor extends Base {
   }
 
   /**
-   * On toolbar items change event.
+   * On toolbar items input event.
    * @private
    * @param {Event} e The event
    * @returns {void}
    */
-  #onChangeTollbar(e) {
+  #onInputToolbar(e) {
     if (!e) return;
 
     if (/forecolor-input|backcolor-input/i.test(e.target.className)) {
@@ -958,13 +958,13 @@ export default class IdsEditor extends Base {
     // Attach toolbar events
     const toolbar = this.querySelector('[slot="toolbar"]');
     this.onEvent('click.editor-toolbar', toolbar, (e) => {
-      this.#onClickTollbar(e);
+      this.#onClickToolbar(e);
     });
     this.onEvent('selected.editor-toolbar', toolbar, (e) => {
-      this.#onSelectedTollbar(e);
+      this.#onSelectedToolbar(e);
     });
-    this.onEvent('change.editor-toolbar', toolbar, (e) => {
-      this.#onChangeTollbar(e);
+    this.onEvent('input.editor-toolbar', toolbar, (e) => {
+      this.#onInputToolbar(e);
     });
 
     // Attach events to each modal
