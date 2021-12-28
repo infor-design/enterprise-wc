@@ -86,7 +86,8 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * Compact or full size view. Resize Observer is changing this value
+   * Compact or full size view
+   * Resize observer is changing this value
    */
   #isFullSize = true;
 
@@ -111,7 +112,7 @@ class IdsMonthView extends Base {
       this.#attachDatepickerText();
     });
 
-    // Day select
+    // Day select event
     this.offEvent('click.month-view-dayselect');
     this.onEvent('click.month-view-dayselect', this.container.querySelector('tbody'), (e) => {
       const element = e.target.closest('td');
@@ -217,7 +218,7 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * Add next/previous/today click events when toolbar attached to shadow
+   * Add next/previous/today click events when toolbar attached
    * @private
    */
   #attachToolbarEvents() {
@@ -293,7 +294,7 @@ class IdsMonthView extends Base {
   }
 
   /**
-   *
+   * Table cell HTML template with locale, data attributes
    * @param {number} weekIndex number of week in month starting from 0
    * @returns {string} table cell HTML template
    * @private
@@ -334,6 +335,7 @@ class IdsMonthView extends Base {
   }
 
   /**
+   * Week days HTML template with locale
    * @private
    */
   #renderWeekDays() {
@@ -359,7 +361,7 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * Add month HTML to shadow including weekdays header
+   * Adds month HTML including weekdays
    * @private
    */
   #renderMonth() {
@@ -376,7 +378,7 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * Trigger selected event with current params.
+   * Trigger selected event with current params
    * @private
    * @returns {void}
    */
@@ -393,6 +395,7 @@ class IdsMonthView extends Base {
   }
 
   /**
+   * Select active day and change dates if year/month/day is out of current view
    * @param {number} year a given year
    * @param {number} month a given month
    * @param {number} day a given day
@@ -518,6 +521,10 @@ class IdsMonthView extends Base {
     this.#renderToolbar();
   }
 
+  /**
+   * day attribute
+   * @returns {number} day param converted to number
+   */
   get day() {
     const attrVal = this.getAttribute(attributes.DAY);
     const numberVal = stringToNumber(attrVal);
@@ -530,6 +537,10 @@ class IdsMonthView extends Base {
     return new Date().getDate();
   }
 
+  /**
+   * Set day param and select active day
+   * @param {string|number|null} val day param value
+   */
   set day(val) {
     const numberVal = stringToNumber(val);
 

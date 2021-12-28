@@ -1,14 +1,77 @@
 # Ids Month View Component
 
 ## Description
+The `ids-month-view` component is a web component that provides calendar view with navigation
 
 ## Use Cases
+- Display one month full size or compact view calendar
+- Display a day range more than one month
 
 ## Settings (Attributes)
-- `month`
-- `day`
-- `year`
+- `month` `{string|number|null}` - Specifies a month to show from 0 to 11 range. 0 is January, 11 is December. Defaults to current date month if no specified or out of the range
+- `day` `{string|number|null}` - Specifies a day to initially set as active. Defaults to current date day if no specified or the day value is bigger than the month days
+- `year` `{string|number|null}` - Specifies a year to show. Defaults to current date year if no specified
 - `first-day-of-week` `{string|number|null}` - Specifies first day of the week from 0 to 6 range. 0 is Sunday, 1 is Monday. Defaults to 0 if no specified or out of the range
 - `show-today` `{true|false}` - Whether or not to show the today button in the toolbar
 
+## Events
+- `dayselected` - Fires when a day is selected
+
 ## Features (With Code Examples)
+With no settings. Month/Day/Year defaults to current date. First day of the week is 0 - Sunday.
+
+```html
+<ids-month-view></ids-month-view>
+```
+
+Specified date. First day of the week is 1 - Monday. Showing Today button in the toolbar.
+
+```html
+<ids-month-view
+  show-today="true"
+  month="10"
+  year="2021"
+  day="15"
+  first-day-of-week="1"
+></ids-month-view>
+```
+
+The component can be controlled dynamically
+
+```js
+const monthView = document.querySelector('ids-month-view');
+
+// Changing month (March)
+monthView.month = 2;
+
+// Changing day
+monthView.day = 4;
+
+// Changing year
+monthView.year = 2016;
+
+// Changing first day of the week (Monday)
+monthView.firstDayOfWeek = 1;
+```
+
+## Accessibility
+
+The monthview is a very complex component to code for accessibility. We take the following approach:
+
+- Add an `aria` label to the calendar element
+- Add `aria-selected=true` to selected day
+- Each calendar item should have an audible label to announce the day of week while arrowing through days
+- For comparison, see a similar <a href="http://oaa-accessibility.org/example/15/" target="_blank">example</a>
+
+## Keyboard Shortcuts
+
+- <kbd>Tab</kbd> - Tabbing will tab across the header elements and into the monthview
+- <kbd>Shift + Tab</kbd> reverses the direction of the tab order.
+- <kbd>Up</kbd> and <kbd>Down</kbd> goes to the same day of the week in the previous or next week respectively. If the user advances past the end of the month they continue into the next or previous month as appropriate
+- <kbd>Left</kbd> and <kbd>Right</kbd> advances one day to the next, also in a continuum. Visually, focus is moved from day to day and wraps from row to row in a grid of days and weeks
+- <kbd>Control + Page Up</kbd> moves to the same date in the previous year
+- <kbd>Control + Page Down</kbd> moves to the same date in the next year
+- <kbd>Home</kbd> moves to the first day of the current month
+- <kbd>End</kbd> moves to the last day of the current month
+- <kbd>Page Up</kbd> moves to the same date in the previous month
+- <kbd>Page Down</kbd> moves to the same date in the next month
