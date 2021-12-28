@@ -33,6 +33,7 @@ export default class IdsListView extends Base {
 
   connectedCallback() {
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
+    this.dataKeys = this.extractTemplateLiteralsFromHTML(this.defaultTemplate);
     super.connectedCallback();
     this.attachEventListeners();
   }
@@ -50,6 +51,13 @@ export default class IdsListView extends Base {
       attributes.VERSION,
       attributes.VIRTUAL_SCROLL
     ];
+  }
+
+  extractTemplateLiteralsFromHTML(string) {
+    const arr = string.split('${');
+    arr.shift();
+    const tokens = arr.map((x) => x.split('}')[0]);
+    return tokens;
   }
 
   getAllLi() {
@@ -247,6 +255,22 @@ export default class IdsListView extends Base {
     }
   }
 
+  updateDataFromDOM() {
+    const newData = [];
+    this.container.querySelectorAll('div[part="list-item"]').forEach((x) => {
+      const objItem = {};
+      x.querySelectorAll('ids-text').forEach((value, i) => {
+        objItem[this.dataKeys[i]] = value.innerHTML;
+      });
+
+      newData.push(objItem);
+    });
+
+    if (this.datasource) {
+      this.datasource.data = newData;
+    }
+  }
+
   /**
    * Render the list by applying the template
    * @private
@@ -259,26 +283,29 @@ export default class IdsListView extends Base {
     }
 
     if (this.virtualScroll && this.data?.length > 0) {
-      // reattach event listeners and refocus any focused list item
-      this.onEvent('ids-virtual-scroll-afterrender', this.virtualScrollContainer, () => {
-        this.attachEventListeners();
-        if (this.#focusedLiIndex >= 0) this.#refocus();
-      });
+      requestAnimationFrame(() => {
+        // reattach event listeners and refocus any focused list item
+        this.onEvent('ids-virtual-scroll-afterrender', this.virtualScrollContainer, () => {
+          this.attachEventListeners();
+          if (this.#focusedLiIndex >= 0) this.#refocus();
+        });
 
-      // set the virtual-scroll item-height attribute
-      const itemHeight = this.itemHeight || this.checkTemplateHeight(`
-        <div part="list-item" tabindex="-1" id="height-tester">
-          ${this.itemTemplate(this.datasource.data[0])}
-        </div>
-      `);
+        // set the virtual-scroll item-height attribute
+        const itemHeight = this.itemHeight || this.checkTemplateHeight(`
+          <div part="list-item" tabindex="-1" id="height-tester">
+            ${this.itemTemplate(this.datasource.data[0])}
+          </div>
+        `);
 
-      this.virtualScrollContainer.itemHeight = itemHeight; // calls renderItems()
+        this.virtualScrollContainer.itemHeight = itemHeight; // calls renderItems()
 
-      this.virtualScrollContainer.itemTemplate = this.listItemTemplateFunc();
-      this.virtualScrollContainer.data = this.data; // calls renderItems()
+        this.virtualScrollContainer.itemTemplate = this.listItemTemplateFunc();
+        this.virtualScrollContainer.data = this.data; // calls renderItems()
 
-      // give the first list-item a tabbable index on first render
-      this.container.querySelector('div[part="list-item"]').setAttribute('tabindex', '0');
+        // give the first list-item a tabbable index on first render
+        const firstItem = this.container.querySelector('div[part="list-item"]');
+        if (firstItem) firstItem.setAttribute('tabindex', '0');
+      })
     }
 
     this.adjustHeight();
@@ -392,6 +419,8 @@ export default class IdsListView extends Base {
 
     const li = el.querySelector('div[part="list-item"]');
     li.focus();
+
+    this.updateDataFromDOM();
   }
 
   /**
