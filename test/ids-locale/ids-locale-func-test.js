@@ -546,20 +546,6 @@ describe('IdsLocale API', () => {
       expect(locale.translate('InsertAnchor')).toEqual('插入定位标记');
     });
 
-    it('Should correct some missing translations', async () => {
-      await locale.setLocale('tl-PH');
-      expect(locale.translate('Clickable')).toEqual('Napipindot sa editor');
-      expect(locale.translate('Columns')).toEqual('Mga kolum');
-      expect(locale.translate('Component')).toEqual('Bahagi');
-      expect(locale.translate('Classic')).toEqual('Klasiko');
-      expect(locale.translate('ClassicDarkTheme')).toEqual('Klasiko Dark');
-      expect(locale.translate('ClassicLightTheme')).toEqual('Klasiko Light');
-      expect(locale.translate('ClassicHighContrastTheme')).toEqual('Klasiko High Contrast');
-      expect(locale.translate('Device')).toEqual('Pangalan ng aparato');
-      expect(locale.translate('ExtraSmall')).toEqual('Pinaka Maliit');
-      expect(locale.translate('Roles')).toEqual('Mga tungkulin');
-    });
-
     it('should support fr-CA', async () => {
       await locale.setLocale('en-US');
       await locale.setLanguage('fr-CA');
