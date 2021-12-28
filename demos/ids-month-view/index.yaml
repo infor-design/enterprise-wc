@@ -6,6 +6,6 @@
  keywords: calendar, date, day, week, month, toolbar
  examples:
   - link: index.html
-    description: Past dates
+    description: Past dates. Full size view
   - link: current-month.html
-    description: Current month and day
+    description: Current month, year and day. Compact view

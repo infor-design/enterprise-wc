@@ -116,8 +116,8 @@
     .day-text {
       @include cursor-pointer();
       @include rounded-round();
+      @include m-2();
 
-      margin: 2px;
       display: inline-block;
       transition: 0.2s background-color ease;
     }
@@ -188,6 +188,14 @@
     @include border-r-1();
     @include border-l-1();
     @include relative();
+
+    &:last-child {
+      border-right: 0;
+    }
+
+    &:first-child {
+      border-left: 0;
+    }
 
     height: 99px;
     width: 14.3%;
@@ -414,30 +422,16 @@
 
 // Text direction
 :host([dir='rtl']) {
-  .ids-month-view td {
-    &:last-child {
-      border-left: 0;
-    }
+  .ids-month-view {
+    &.is-fullsize td {
+      .day-text {
+        left: unset;
+        right: calc(100% - 25px);
+      }
 
-    &:first-child {
-      border-right: 0;
-    }
-
-    .day-text {
-      left: unset;
-      right: calc(100% - 25px);
-    }
-  }
-}
-
-:host(:not([dir='rtl'])) {
-  .ids-month-view td {
-    &:first-child {
-      border-left: 0;
-    }
-
-    &:last-child {
-      border-right: 0;
+      &:last-child {
+        border-left: 0;
+      }
     }
   }
 }

@@ -560,7 +560,9 @@ class IdsMonthView extends Base {
    * @param {string|number|null} val firstDayOfWeek param value
    */
   set firstDayOfWeek(val) {
-    if (val !== null) {
+    const numberVal = stringToNumber(val);
+
+    if (!Number.isNaN(numberVal)) {
       this.setAttribute(attributes.FIRST_DAY_OF_WEEK, val);
     } else {
       this.removeAttribute(attributes.FIRST_DAY_OF_WEEK);
@@ -572,6 +574,7 @@ class IdsMonthView extends Base {
 
   /**
    * Set the direction attribute
+   * @private
    */
   #setDirection() {
     if (this.locale?.isRTL()) {
