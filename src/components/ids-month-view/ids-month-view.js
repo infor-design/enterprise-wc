@@ -30,6 +30,7 @@ import styles from './ids-month-view.scss';
 const MIN_MONTH = 0;
 const MAX_MONTH = 11;
 const WEEK_LENGTH = 7;
+// Size in pixels where compact/fullsize is triggered
 const FULL_SIZE_THRESHOLD = 600;
 
 /**
@@ -92,6 +93,7 @@ class IdsMonthView extends Base {
   /**
    * Establish internal event handlers
    * @returns {object} The object for chaining
+   * @private
    */
   #attachEventHandlers() {
     // Respond to parent changing language
@@ -140,7 +142,7 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * Add toolbar HTML to shadow
+   * Add toolbar HTML
    * @private
    */
   #renderToolbar() {
@@ -293,7 +295,8 @@ class IdsMonthView extends Base {
   /**
    *
    * @param {number} weekIndex number of week in month starting from 0
-   * @returns {string} table cell template
+   * @returns {string} table cell HTML template
+   * @private
    */
   #getCellTemplate(weekIndex) {
     const firstDay = firstDayOfMonthDate(this.year, this.month, this.day, this.locale.isIslamic());

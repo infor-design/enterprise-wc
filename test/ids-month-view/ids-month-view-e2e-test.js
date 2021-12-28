@@ -161,4 +161,39 @@ describe('Ids Month View e2e Tests', () => {
 
     expect(numberOfDays).toEqual(29);
   });
+
+  it('should trigger compact view when size less than treshold', async () => {
+    let hasFullSizeClass = await page.$eval(name, (el) =>
+      el.container.classList.contains('is-fullsize'));
+
+    expect(hasFullSizeClass).toBeTruthy();
+
+    // Changing width of parent element
+    await page.evaluate(() => {
+      const element = document.querySelector('ids-layout-grid-cell');
+
+      element.style.width = '500px';
+    });
+
+    // Wait till calendars load
+    await page.waitForFunction(() =>
+      !document.querySelector('ids-month-view').container.classList.contains('is-fullsize'));
+
+    hasFullSizeClass = await page.$eval(name, (el) =>
+      el.container.classList.contains('is-fullsize'));
+
+    expect(hasFullSizeClass).toBeFalsy();
+
+    // Hide Today button
+    await page.evaluate((el) => {
+      const component = document.querySelector(el);
+
+      component.showToday = false;
+    }, name);
+
+    const hasTodayBtn = await page.$eval(name, (el) =>
+      el.shadowRoot.querySelector('month-view-btn-today'));
+
+    expect(hasTodayBtn).toBeNull();
+  });
 });
