@@ -833,6 +833,29 @@ export default class IdsEditor extends Base {
       return;
     }
     a.value = a.value ?? val;
+
+    // Set ordered list, unordered list
+    if (/^(orderedlist|unorderedlist)$/i.test(action)) {
+      let isAdd = true;
+      this.#selectionBlockElems().forEach((elem) => {
+        if (elem.innerHTML.includes(action === 'orderedlist' ? '<ol>' : '<ul>')) {
+          isAdd = false;
+        }
+        elem.innerHTML = elem.innerHTML
+          .replaceAll('</ul>', '')
+          .replaceAll('</ol>', '')
+          .replaceAll('</li>', '')
+          .replaceAll('<ul>', '')
+          .replaceAll('<ol>', '')
+          .replaceAll('<li>', '');
+      });
+
+      if (isAdd) {
+        document.execCommand(a.action, false, a.value);
+      }
+      return;
+    }
+
     document.execCommand(a.action, false, a.value);
   }
 
@@ -928,8 +951,8 @@ export default class IdsEditor extends Base {
   #attachEventHandlers() {
     // Respond to parent changing language
     this.offEvent('languagechange.editor');
-    this.onEvent('languagechange.editor', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
+    this.onEvent('languagechange.editor', this.closest('ids-container'), async () => {
+      // TODO: DO something changing language ?
     });
 
     // Attach toolbar events
