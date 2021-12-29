@@ -107,6 +107,17 @@ describe('Ids Month View e2e Tests', () => {
     year = await page.$eval(name, (el) => el.year);
 
     expect(year).toEqual(2021);
+
+    // Should ignore click to selected day
+    await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected')?.click());
+
+    const selectedClick = await page.$eval(name, (el) => {
+      el.shadowRoot.querySelector('td.is-selected')?.click();
+
+      return el.shadowRoot.querySelector('td.is-selected').getAttribute('role', 'gridcell');
+    });
+
+    expect(selectedClick).toBeTruthy();
   });
 
   it('should support changing locale', async () => {

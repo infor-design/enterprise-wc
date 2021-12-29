@@ -88,6 +88,7 @@ class IdsMonthView extends Base {
   /**
    * Compact or full size view
    * Resize observer is changing this value
+   * @private
    */
   #isFullSize = true;
 
@@ -97,14 +98,14 @@ class IdsMonthView extends Base {
    * @private
    */
   #attachEventHandlers() {
-    // Respond to parent changing language
+    // Respond to container changing language
     this.offEvent('languagechange.month-view-container');
     this.onEvent('languagechange.month-view-container', this.closest('ids-container'), async () => {
       this.#renderToolbar();
       this.#renderMonth();
     });
 
-    // Respond to parent changing locale
+    // Respond to container changing locale
     this.offEvent('localechange.month-view-container');
     this.onEvent('localechange.month-view-container', this.closest('ids-container'), async () => {
       this.#setDirection();
@@ -124,7 +125,7 @@ class IdsMonthView extends Base {
       }
     });
 
-    // Set type of view based on the component size
+    // Set type of view based on the size
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const isFullSize = entry.contentRect.width > FULL_SIZE_THRESHOLD;
