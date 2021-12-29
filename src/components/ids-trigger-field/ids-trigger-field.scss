@@ -17,6 +17,12 @@
   pointer-events: none;
 }
 
+.ids-label-text {
+  &.hidden {
+    display: none;
+  }
+}
+
 .ids-trigger-field-content {
   @include antialiased();
   @include bg-white();
@@ -147,6 +153,27 @@
 
 .ids-trigger-field.lg .ids-trigger-field-content {
   max-width: $input-size-lg;
+}
+
+// height sizes: [xs, sm, md, lg]
+.ids-trigger-field.field-height-xs .ids-trigger-field-content {
+  height: $input-field-height-xs;
+}
+
+.ids-trigger-field.field-height-sm .ids-trigger-field-content {
+  height: $input-field-height-sm;
+}
+
+.ids-trigger-field.field-height-md .ids-trigger-field-content {
+  height: $input-field-height-md;
+}
+
+.ids-trigger-field.field-height-lg .ids-trigger-field-content {
+  height: $input-field-height-lg;
+}
+
+.ids-trigger-field.compact .ids-trigger-field-content {
+  height: $input-field-height-xs;
 }
 
 .ids-trigger-field.full .ids-trigger-field-content {
