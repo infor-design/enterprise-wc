@@ -207,4 +207,21 @@ describe('Ids Month View e2e Tests', () => {
 
     expect(hasTodayBtn).toBeNull();
   });
+
+  it('should remove toolbar if range is set', async () => {
+    let toolbar = await page.$eval(name, (el) => el.shadowRoot.querySelector('ids-toolbar'));
+
+    expect(toolbar).not.toBeNull();
+
+    await page.evaluate((el) => {
+      const component = document.querySelector(el);
+
+      component.startDate = '03/04/2022';
+      component.endDate = '03/04/2022';
+    }, name);
+
+    toolbar = await page.$eval(name, (el) => el.shadowRoot.querySelector('ids-toolbar'));
+
+    expect(toolbar).toBeNull();
+  });
 });

@@ -322,8 +322,8 @@ export function weeksInMonth(year, month, day, startsOn = 0, isIslamic = false) 
 
 /**
  * Gets the number of weeks in a given range of dates.
- * @param {Date} startDate the first date
- * @param {Date} endDate the second date
+ * @param {Date} startDate start of the range
+ * @param {Date} endDate end of the range
  * @param {number} startsOn day of the week to start on. Sunday is 0, Monday is 1, and so on
  * @returns {number} number of weeks in a given range of dates
  */

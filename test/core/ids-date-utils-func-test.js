@@ -17,7 +17,8 @@ import {
   umalquraToGregorian,
   gregorianToUmalqura,
   firstDayOfMonthDate,
-  lastDayOfMonthDate
+  lastDayOfMonthDate,
+  weeksInRange
 } from '../../src/utils/ids-date-utils/ids-date-utils';
 
 describe('IdsDateUtils Tests', () => {
@@ -127,6 +128,11 @@ describe('IdsDateUtils Tests', () => {
     expect(weeksInMonth(2017, 10, 0, 1)).toEqual(5);
     expect(weeksInMonth(2018, 0)).toEqual(5);
     expect(weeksInMonth(2000, 1)).toEqual(5);
+  });
+
+  it('should get correct number of weeks in range', () => {
+    expect(weeksInRange(new Date(2021, 11, 1), new Date(2021, 11, 1))).toEqual(1);
+    expect(weeksInRange(new Date(2021, 11, 1), new Date(2021, 11, 15))).toEqual(3);
   });
 
   it('should convert the Umm al-Qura to Gregorian calendar date', () => {

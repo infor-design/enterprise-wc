@@ -59,3 +59,6 @@ export function weeksInMonth(
   startsOn: number,
   isIslamic: boolean
 ): number;
+
+/** Gets the number of weeks in a given range of dates */
+export function weeksInRange(startDate: Date, endDate: Date, startsOn: number): number;

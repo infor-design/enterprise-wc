@@ -15,6 +15,12 @@ export default class IdsMonthView extends HTMLElement {
   /** Set a day to highlight */
   day: string | number | null;
 
+  /** Set start of the range to show */
+  startDate: string | null;
+
+  /** Set end of the range to show */
+  endDate: string | null;
+
   /** Set first day of the week (0-6) */
   firstDayOfWeek: string | number | null;
 

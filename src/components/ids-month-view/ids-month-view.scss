@@ -257,6 +257,17 @@
       width: 10px;
       text-align: center;
     }
+
+    &.month-label .day-text {
+      left: auto;
+      width: 100%;
+      text-align: right;
+    }
+
+    &.month-label ids-text::part(text) {
+      font-weight: 600;
+      padding-right: 10px;
+    }
   }
 
   th,
@@ -464,6 +475,16 @@
       .day-text {
         left: unset;
         right: calc(100% - 25px);
+      }
+
+      &.month-label .day-text {
+        right: auto;
+        text-align: left;
+      }
+
+      &.month-label ids-text::part(text) {
+        padding-right: unset;
+        padding-left: 10px;
       }
 
       &:last-child {

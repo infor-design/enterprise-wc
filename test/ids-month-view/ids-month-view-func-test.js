@@ -207,3 +207,61 @@ describe('IdsMonthView Component (empty)', () => {
     expect(component.firstDayOfWeek).toEqual(0);
   });
 });
+
+describe('IdsMonthView Component (range of dates)', () => {
+  let component;
+
+  beforeEach(async () => {
+    const container = new IdsContainer();
+    document.body.appendChild(container);
+    container.insertAdjacentHTML('beforeend', `
+      <ids-month-view
+        start-date="07/14/2021"
+        end-date="02/02/2022"
+      ></ids-month-view>
+    `);
+    component = document.querySelector(name);
+  });
+
+  afterEach(async () => {
+    document.body.innerHTML = '';
+    component = null;
+  });
+
+  it('should not error if no container', () => {
+    document.body.innerHTML = '';
+    const errors = jest.spyOn(global.console, 'error');
+    const comp = new IdsMonthView();
+    delete comp.locale;
+    document.body.appendChild(comp);
+    expect(errors).not.toHaveBeenCalled();
+  });
+
+  it('should render', () => {
+    const errors = jest.spyOn(global.console, 'error');
+
+    expect(document.querySelectorAll(name).length).toEqual(1);
+    expect(errors).not.toHaveBeenCalled();
+  });
+
+  it('should have properties', () => {
+    expect(component.startDate.getFullYear()).toEqual(2021);
+    expect(component.endDate.getFullYear()).toEqual(2022);
+    expect(component.startDate.getDate()).toEqual(14);
+    expect(component.endDate.getDate()).toEqual(2);
+    expect(component.startDate.getMonth()).toEqual(6);
+    expect(component.endDate.getMonth()).toEqual(1);
+    expect(component.firstDayOfWeek).toEqual(0);
+  });
+
+  it('should switch to one month if start/end dates removed', () => {
+    component.startDate = null;
+    component.endDate = null;
+
+    const now = new Date();
+
+    expect(component.year).toEqual(now.getFullYear());
+    expect(component.month).toEqual(now.getMonth());
+    expect(component.day).toEqual(now.getDate());
+  });
+});

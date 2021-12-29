@@ -6,8 +6,10 @@ import Base from './ids-month-view-base';
 // Import Utils
 import {
   addDate,
+  daysDiff,
   firstDayOfMonthDate,
   firstDayOfWeekDate,
+  gregorianToUmalqura,
   isValidDate,
   lastDayOfMonthDate,
   weeksInMonth,
@@ -92,14 +94,12 @@ class IdsMonthView extends Base {
   /**
    * Compact or full size view
    * Resize observer is changing this value
-   * @private
    */
   #isFullSize = true;
 
   /**
    * Establish internal event handlers
    * @returns {object} The object for chaining
-   * @private
    */
   #attachEventHandlers() {
     // Respond to container changing language
@@ -131,7 +131,7 @@ class IdsMonthView extends Base {
       }
     });
 
-    // Set type of view based on the size
+    // Set type of view based on the component width
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const isFullSize = entry.contentRect.width > FULL_SIZE_THRESHOLD;
@@ -150,74 +150,53 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * Add toolbar HTML
-   * @private
+   * Add/Remove toolbar HTML to container
    */
   #renderToolbar() {
-    if (this.startDate && this.endDate) {
+    if (this.#isRange()) {
       this.container.querySelector('ids-toolbar')?.remove();
+      this.#detachToolbarEvents();
 
       return;
     }
 
+    const prevNextBtn = `<ids-button class="month-view-btn-previous">
+      <ids-text audible="true" translate-text="true">PreviousMonth</ids-text>
+      <ids-icon slot="icon" icon="chevron-left"></ids-icon>
+    </ids-button>
+    <ids-button class="month-view-btn-next">
+      <ids-text audible="true" translate-text="true">NextMonth</ids-text>
+      <ids-icon slot="icon" icon="chevron-right"></ids-icon>
+    </ids-button>`;
+    const todayBtn = this.showToday ? `<ids-button css-class="no-padding" class="month-view-btn-today">
+      <ids-text
+        class="month-view-today-text"
+        font-size="16"
+        translate-text="true"
+        font-weight="bold"
+      >Today</ids-text>
+    </ids-button>` : '';
+    const datepicker = `<span class="datepicker" tabindex="0">
+      <ids-text font-size="20" class="datepicker-text">${this.#formatMonthText()}</ids-text>
+      <ids-text audible="true" translate-text="true">SelectDay</ids-text>
+      <ids-trigger-button>
+        <ids-text audible="true" translate-text="true">DatePickerTriggerButton</ids-text>
+        <ids-icon slot="icon" icon="schedule" class="datepicker-icon"></ids-icon>
+      </ids-trigger-button>
+    </span>`;
+
     const toolbarTemplate = `<ids-toolbar class="month-view-header" tabbable="true">
       ${this.#isFullSize ? `
         <ids-toolbar-section type="buttonset">
-          <ids-button class="month-view-btn-previous">
-            <ids-text audible="true" translate-text="true">PreviousMonth</ids-text>
-            <ids-icon slot="icon" icon="chevron-left"></ids-icon>
-          </ids-button>
-          <ids-button class="month-view-btn-next">
-            <ids-text audible="true" translate-text="true">NextMonth</ids-text>
-            <ids-icon slot="icon" icon="chevron-right"></ids-icon>
-          </ids-button>
-          <span class="datepicker" tabindex="0">
-            <ids-text font-size="20" class="datepicker-text">${this.#formatMonthText()}</ids-text>
-            <ids-text audible="true" translate-text="true">SelectDay</ids-text>
-            <ids-trigger-button>
-              <ids-text audible="true" translate-text="true">DatePickerTriggerButton</ids-text>
-              <ids-icon slot="icon" icon="schedule" class="datepicker-icon"></ids-icon>
-            </ids-trigger-button>
-          </span>
-          ${this.showToday ? `
-            <ids-button css-class="no-padding" class="month-view-btn-today">
-              <ids-text
-                class="month-view-today-text"
-                font-size="16"
-                translate-text="true"
-                font-weight="bold"
-              >Today</ids-text>
-            </ids-button>` : ''}
+          ${prevNextBtn}
+          ${datepicker}
+          ${todayBtn}
         </ids-toolbar-section>
       ` : `
-        <ids-toolbar-section>
-          <span class="datepicker" tabindex="0">
-            <ids-text font-size="20" class="datepicker-text">${this.#formatMonthText()}</ids-text>
-            <ids-text audible="true" translate-text="true">SelectDay</ids-text>
-            <ids-trigger-button icon-align="start">
-              <ids-text audible="true" translate-text="true">DatePickerTriggerButton</ids-text>
-              <ids-icon slot="icon" icon="schedule" class="datepicker-icon"></ids-icon>
-            </ids-trigger-button>
-          </span>
-        </ids-toolbar-section>
+        <ids-toolbar-section>${datepicker}</ids-toolbar-section>
         <ids-toolbar-section align="end" type="buttonset">
-          ${this.showToday ? `
-            <ids-button css-class="no-padding" class="month-view-btn-today">
-              <ids-text
-                class="month-view-today-text"
-                font-size="16"
-                translate-text="true"
-                font-weight="bold"
-              >Today</ids-text>
-            </ids-button>` : ''}
-          <ids-button class="month-view-btn-previous">
-            <ids-text audible="true" translate-text="true">PreviousMonth</ids-text>
-            <ids-icon slot="icon" icon="chevron-left"></ids-icon>
-          </ids-button>
-          <ids-button class="month-view-btn-next">
-            <ids-text audible="true" translate-text="true">NextMonth</ids-text>
-            <ids-icon slot="icon" icon="chevron-right"></ids-icon>
-          </ids-button>
+          ${todayBtn}
+          ${prevNextBtn}
         </ids-toolbar-section>
       `}
     </ids-toolbar>`;
@@ -231,8 +210,7 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * Add next/previous/today click events when toolbar attached
-   * @private
+   * Add next/previous/today click events when toolbar is attached
    */
   #attachToolbarEvents() {
     this.offEvent('click.month-view-previous');
@@ -259,9 +237,17 @@ class IdsMonthView extends Base {
   }
 
   /**
+   * Remove next/previous/today click events when showing range of dates
+   */
+  #detachToolbarEvents() {
+    this.offEvent('click.month-view-previous');
+    this.offEvent('click.month-view-next');
+    this.offEvent('click.month-view-today');
+  }
+
+  /**
    * Helper to format datepicker text in the toolbar
    * @returns {string} locale formatted month year
-   * @private
    */
   #formatMonthText() {
     const dayOfMonth = new Date(this.year, this.month);
@@ -270,14 +256,12 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * Datepicker changing text
-   * @private
+   * Datepicker changing locale formatted text
    */
   #attachDatepickerText() {
-    const isRange = this.startDate && this.endDate;
     const text = this.#formatMonthText();
 
-    if (!isRange) {
+    if (!this.#isRange()) {
       this.container.querySelector('.datepicker-text').innerText = text;
     }
   }
@@ -285,7 +269,6 @@ class IdsMonthView extends Base {
   /**
    * Change month/year/day by event type
    * @param {'next'|'previous'|'today'} type of event to be called
-   * @private
    */
   #changeDate(type) {
     if (type === 'next') {
@@ -310,55 +293,76 @@ class IdsMonthView extends Base {
   }
 
   /**
+   * Helper to get month format for first day of a month or first day of the range
+   * @param {Date} date date to check
+   * @param {Date} rangeStartsOn very first day of the range
+   * @returns {string|undefined} Intl.DateTimeFormat options month format (numeric, long, short)
+   */
+  #getMonthFormat(date, rangeStartsOn) {
+    const isFirstDayOfRange = daysDiff(date, rangeStartsOn) === 0;
+    const isFirstDayOfMonth = this.locale.isIslamic()
+      ? gregorianToUmalqura(date).day === 1
+      : date.getDate() === 1;
+
+    if (this.#isRange() && (isFirstDayOfRange || isFirstDayOfMonth)) {
+      return 'short';
+    }
+
+    return undefined;
+  }
+
+  /**
    * Table cell HTML template with locale, data attributes
    * @param {number} weekIndex number of week in month starting from 0
    * @returns {string} table cell HTML template
-   * @private
    */
   #getCellTemplate(weekIndex) {
-    const isRange = this.startDate && this.endDate;
-    const firstDayOfRange = isRange
+    const firstDayOfRange = this.#isRange()
       ? this.startDate
       : firstDayOfMonthDate(this.year, this.month, this.day, this.locale.isIslamic());
-    const lastDayOfRange = isRange
+    const lastDayOfRange = this.#isRange()
       ? this.endDate
       : lastDayOfMonthDate(this.year, this.month, this.day, this.locale.isIslamic());
     const rangeStartsOn = firstDayOfWeekDate(firstDayOfRange, this.firstDayOfWeek);
 
     return Array.from({ length: WEEK_LENGTH }).map((_, index) => {
       const date = addDate(rangeStartsOn, (weekIndex * WEEK_LENGTH) + index, 'days');
-      const dayNumeric = this.locale.formatDate(date, { day: 'numeric', numberingSystem: 'latn' });
+      const monthFormat = this.#getMonthFormat(date, rangeStartsOn);
+      const dayText = this.locale.formatDate(date, {
+        day: 'numeric',
+        month: monthFormat,
+        numberingSystem: 'latn'
+      });
       const ariaLabel = this.locale.formatDate(date, { dateStyle: 'full' });
-      const isSelected = date.getDate() === this.day
-        && date.getFullYear() === this.year
-        && date.getMonth() === this.month;
-      const classes = buildClassAttrib(
-        !isRange && (date < firstDayOfRange || date > lastDayOfRange) && 'alternate',
-        isRange && (date < this.startDate || date > this.endDate) && 'is-disabled',
-        isSelected && 'is-selected'
+      const day = date.getDate();
+      const month = date.getMonth();
+      const year = date.getFullYear();
+      const isSelected = day === this.day && year === this.year && month === this.month;
+      const isDisabled = this.#isRange() && (date < this.startDate || date > this.endDate);
+      const isAlternate = !this.#isRange() && (date < firstDayOfRange || date > lastDayOfRange);
+      const classAttr = buildClassAttrib(
+        isAlternate && 'alternate',
+        isDisabled && 'is-disabled',
+        isSelected && 'is-selected',
+        monthFormat && 'month-label'
       );
       const selectedAttr = isSelected ? 'aria-selected="true" tabindex="0" role="gridcell"' : 'role="link"';
-      const dataAttr = [
-        `data-year="${date.getFullYear()}"`,
-        `data-month="${date.getMonth()}"`,
-        `data-day="${date.getDate()}"`
-      ].join(' ');
+      const dataAttr = [`data-year="${year}"`, `data-month="${month}"`, `data-day="${day}"`].join(' ');
 
-      return `<td aria-label="${ariaLabel}" ${dataAttr} ${classes} ${selectedAttr}>
+      return `<td aria-label="${ariaLabel}" ${dataAttr} ${classAttr} ${selectedAttr}>
         <span class="day-container">
           <ids-text
             aria-hidden="true"
             class="day-text"
             font-size="14"
-          >${dayNumeric}</ids-text>
+          >${dayText}</ids-text>
         </span>
       </td>`;
     }).join('');
   }
 
   /**
-   * Week days HTML template with locale
-   * @private
+   * Add week days HTML to the table
    */
   #renderWeekDays() {
     const calendar = this.locale.calendar();
@@ -383,12 +387,10 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * Adds month HTML including weekdays
-   * @private
+   * Add month HTML to the table
    */
   #renderMonth() {
-    const isRange = this.startDate && this.endDate;
-    const weeksCount = isRange
+    const weeksCount = this.#isRange()
       ? weeksInRange(this.startDate, this.endDate, this.firstDayOfWeek)
       : weeksInMonth(this.year, this.month, this.day, this.firstDayOfWeek, this.locale.isIslamic());
 
@@ -404,7 +406,6 @@ class IdsMonthView extends Base {
 
   /**
    * Trigger selected event with current params
-   * @private
    * @returns {void}
    */
   #triggerSelectedEvent() {
@@ -420,19 +421,17 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * Select active day and change dates if year/month/day is out of current view
+   * Select active day and change dates if year/month/day is out of current month
    * @param {number} year a given year
    * @param {number} month a given month
    * @param {number} day a given day
    */
   #selectDay(year, month, day) {
-    const isRange = this.startDate && this.endDate;
-
     if (day !== this.day) {
       this.day = day;
     }
 
-    if (month !== this.month && !isRange) {
+    if (month !== this.month && !this.#isRange()) {
       this.year = year;
       this.month = month;
     }
@@ -454,6 +453,14 @@ class IdsMonthView extends Base {
     selected?.setAttribute('role', 'gridcell');
     selected?.classList.add('is-selected');
     selected?.focus();
+  }
+
+  /**
+   * Whether or not it should show range of dates instead of one month view
+   * @returns {boolean} startDate and endDate are set
+   */
+  #isRange() {
+    return this.startDate && this.endDate && this.endDate >= this.startDate;
   }
 
   /**
@@ -673,7 +680,6 @@ class IdsMonthView extends Base {
 
   /**
    * Set the direction attribute
-   * @private
    */
   #setDirection() {
     if (this.locale?.isRTL()) {
