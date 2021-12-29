@@ -98,11 +98,6 @@
   td {
     text-align: center;
 
-    &:not(.is-selected):hover .day-text,
-    &:not(.is-selected):active .day-text {
-      @include bg-slate-20();
-    }
-
     .day-container {
       @include rounded-round();
       @include border-transparent();
@@ -117,17 +112,19 @@
       @include cursor-pointer();
       @include rounded-round();
       @include m-2();
+      @include text-slate-80();
 
       display: inline-block;
       transition: 0.2s background-color ease;
     }
 
-    &:not(.alternate):not(.is-selected) .day-text {
-      @include text-slate-80();
-    }
-
     &.alternate .day-text {
       @include text-slate-40();
+    }
+
+    &.is-disabled .day-text {
+      @include bg-slate-10();
+      @include text-slate-30();
     }
 
     ids-text::part(text) {
@@ -163,6 +160,16 @@
         @include bg-azure-60();
       }
     }
+
+    &:not(.is-selected):hover .day-text,
+    &:not(.is-selected):active .day-text {
+      @include bg-slate-20();
+    }
+
+    &:not(.is-selected):not(.alternate):hover .day-text,
+    &:not(.is-selected):not(.alternate):active .day-text {
+      @include text-black();
+    }
   }
 
   th,
@@ -189,6 +196,8 @@
     @include border-l-1();
     @include relative();
 
+    transition: 0.1s background-color ease-out;
+
     &:last-child {
       border-right: 0;
     }
@@ -205,6 +214,11 @@
     &:not(.is-selected):hover,
     &:not(.is-selected):active {
       background-color: rgb(240 240 240 / 0.5);
+    }
+
+    &.is-disabled {
+      @include bg-opacity-50();
+      @include bg-slate-20();
     }
 
     &.is-selected {
@@ -278,16 +292,10 @@
     box-shadow: 0 0 4px 2px rgba(141 201 230 / 0.3);
   }
 
-  // Compact view
+  // Compact view dark theme
   &:not(.is-fullsize) {
-    td:not(.is-selected):hover .day-text,
-    td:not(.is-selected):active .day-text {
-      @include bg-slate-70();
-      @include text-white();
-    }
-
     .weekday-text,
-    td:not(.alternate) .day-text {
+    .day-text {
       @include text-slate-30();
     }
 
@@ -298,9 +306,24 @@
     td.is-selected .day-text {
       @include text-white();
     }
+
+    td.is-disabled .day-text {
+      @include bg-slate-70();
+      @include text-slate-10();
+    }
+
+    td:not(.is-selected):hover .day-text,
+    td:not(.is-selected):active .day-text {
+      @include bg-slate-70();
+    }
+
+    td:not(.is-selected):not(.alternate):hover .day-text,
+    td:not(.is-selected):not(.alternate):active .day-text {
+      @include text-white();
+    }
   }
 
-  // Full size view
+  // Full size view dark theme
   &.is-fullsize {
     th,
     td {
@@ -330,6 +353,10 @@
       &.is-selected:focus-visible {
         box-shadow: 0 0 2px 2px rgb(141 201 230 / 0.3), inset 0 5px 0 0 var(--ids-color-palette-azure-60);
       }
+
+      &.is-disabled {
+        @include bg-slate-80();
+      }
     }
   }
 }
@@ -358,15 +385,10 @@
     box-shadow: 0 0 4px 2px rgba(41 41 41 / 0.3);
   }
 
-  // Compact view
+  // Compact view contrast theme
   &:not(.is-fullsize) {
-    td:not(.is-selected):hover .day-text,
-    td:not(.is-selected):active .day-text {
-      @include bg-slate-30();
-    }
-
     .weekday-text,
-    td:not(.alternate) .day-text {
+    .day-text {
       @include text-black();
     }
 
@@ -384,9 +406,24 @@
 
       box-shadow: 0 0 4px 2px rgb(41 41 41 / 0.3);
     }
+
+    td.is-disabled .day-text {
+      @include bg-slate-20();
+      @include text-slate-100();
+    }
+
+    td:not(.is-selected):hover .day-text,
+    td:not(.is-selected):active .day-text {
+      @include bg-slate-30();
+    }
+
+    td:not(.is-selected):not(.alternate):hover .day-text,
+    td:not(.is-selected):not(.alternate):active .day-text {
+      @include text-black();
+    }
   }
 
-  // Full size view
+  // Full size view contrast theme
   &.is-fullsize {
     th,
     td {

@@ -6,10 +6,12 @@ import Base from './ids-month-view-base';
 // Import Utils
 import {
   addDate,
-  firstDayOfWeekDate,
-  weeksInMonth,
   firstDayOfMonthDate,
-  lastDayOfMonthDate
+  firstDayOfWeekDate,
+  isValidDate,
+  lastDayOfMonthDate,
+  weeksInMonth,
+  weeksInRange,
 } from '../../utils/ids-date-utils/ids-date-utils';
 import {
   stringToBool,
@@ -61,9 +63,11 @@ class IdsMonthView extends Base {
     return [
       ...super.attributes,
       attributes.DAY,
+      attributes.END_DATE,
       attributes.FIRST_DAY_OF_WEEK,
       attributes.MONTH,
       attributes.SHOW_TODAY,
+      attributes.START_DATE,
       attributes.YEAR,
     ];
   }
@@ -118,8 +122,10 @@ class IdsMonthView extends Base {
     this.onEvent('click.month-view-dayselect', this.container.querySelector('tbody'), (e) => {
       const element = e.target.closest('td');
       const { month, year, day } = element.dataset;
+      const isSelected = element.classList.contains('is-selected');
+      const isDisabled = element.classList.contains('is-disabled');
 
-      if (!element.classList.contains('is-selected')) {
+      if (!(isSelected || isDisabled)) {
         this.#selectDay(stringToNumber(year), stringToNumber(month), stringToNumber(day));
         this.#triggerSelectedEvent();
       }
@@ -148,6 +154,12 @@ class IdsMonthView extends Base {
    * @private
    */
   #renderToolbar() {
+    if (this.startDate && this.endDate) {
+      this.container.querySelector('ids-toolbar')?.remove();
+
+      return;
+    }
+
     const toolbarTemplate = `<ids-toolbar class="month-view-header" tabbable="true">
       ${this.#isFullSize ? `
         <ids-toolbar-section type="buttonset">
@@ -262,9 +274,12 @@ class IdsMonthView extends Base {
    * @private
    */
   #attachDatepickerText() {
+    const isRange = this.startDate && this.endDate;
     const text = this.#formatMonthText();
 
-    this.container.querySelector('.datepicker-text').innerText = text;
+    if (!isRange) {
+      this.container.querySelector('.datepicker-text').innerText = text;
+    }
   }
 
   /**
@@ -301,9 +316,14 @@ class IdsMonthView extends Base {
    * @private
    */
   #getCellTemplate(weekIndex) {
-    const firstDay = firstDayOfMonthDate(this.year, this.month, this.day, this.locale.isIslamic());
-    const lastDay = lastDayOfMonthDate(this.year, this.month, this.day, this.locale.isIslamic());
-    const rangeStartsOn = firstDayOfWeekDate(firstDay, this.firstDayOfWeek);
+    const isRange = this.startDate && this.endDate;
+    const firstDayOfRange = isRange
+      ? this.startDate
+      : firstDayOfMonthDate(this.year, this.month, this.day, this.locale.isIslamic());
+    const lastDayOfRange = isRange
+      ? this.endDate
+      : lastDayOfMonthDate(this.year, this.month, this.day, this.locale.isIslamic());
+    const rangeStartsOn = firstDayOfWeekDate(firstDayOfRange, this.firstDayOfWeek);
 
     return Array.from({ length: WEEK_LENGTH }).map((_, index) => {
       const date = addDate(rangeStartsOn, (weekIndex * WEEK_LENGTH) + index, 'days');
@@ -313,7 +333,8 @@ class IdsMonthView extends Base {
         && date.getFullYear() === this.year
         && date.getMonth() === this.month;
       const classes = buildClassAttrib(
-        (date < firstDay || date > lastDay) && 'alternate',
+        !isRange && (date < firstDayOfRange || date > lastDayOfRange) && 'alternate',
+        isRange && (date < this.startDate || date > this.endDate) && 'is-disabled',
         isSelected && 'is-selected'
       );
       const selectedAttr = isSelected ? 'aria-selected="true" tabindex="0" role="gridcell"' : 'role="link"';
@@ -366,7 +387,10 @@ class IdsMonthView extends Base {
    * @private
    */
   #renderMonth() {
-    const weeksCount = weeksInMonth(this.year, this.month, this.day, this.firstDayOfWeek, this.locale.isIslamic());
+    const isRange = this.startDate && this.endDate;
+    const weeksCount = isRange
+      ? weeksInRange(this.startDate, this.endDate, this.firstDayOfWeek)
+      : weeksInMonth(this.year, this.month, this.day, this.firstDayOfWeek, this.locale.isIslamic());
 
     const rowsTemplate = Array.from({ length: weeksCount }).map((_, weekIndex) =>
       `<tr>${this.#getCellTemplate(weekIndex)}</tr>`).join('');
@@ -402,11 +426,13 @@ class IdsMonthView extends Base {
    * @param {number} day a given day
    */
   #selectDay(year, month, day) {
+    const isRange = this.startDate && this.endDate;
+
     if (day !== this.day) {
       this.day = day;
     }
 
-    if (month !== this.month) {
+    if (month !== this.month && !isRange) {
       this.year = year;
       this.month = month;
     }
@@ -552,6 +578,64 @@ class IdsMonthView extends Base {
       this.removeAttribute(attributes.DAY);
       this.#selectDay(this.year, this.month, this.day);
     }
+  }
+
+  /**
+   * start-date attribute
+   * @returns {Date} startDate date parsed from attribute value
+   */
+  get startDate() {
+    const attrVal = this.getAttribute(attributes.START_DATE);
+    const attrDate = new Date(attrVal);
+
+    if (attrVal && isValidDate(attrDate)) {
+      return attrDate;
+    }
+
+    return null;
+  }
+
+  /**
+   * Set start of the range to show
+   * @param {string|null} val startDate param value
+   */
+  set startDate(val) {
+    if (val) {
+      this.setAttribute(attributes.START_DATE, val);
+    } else {
+      this.removeAttribute(attributes.START_DATE);
+    }
+
+    this.#renderMonth();
+  }
+
+  /**
+   * end-date attribute
+   * @returns {Date|null} endDate date parsed from attribute value
+   */
+  get endDate() {
+    const attrVal = this.getAttribute(attributes.END_DATE);
+    const attrDate = new Date(attrVal);
+
+    if (attrVal && isValidDate(attrDate)) {
+      return attrDate;
+    }
+
+    return null;
+  }
+
+  /**
+   * Set end of the range to show
+   * @param {string|null} val endDate param value
+   */
+  set endDate(val) {
+    if (val) {
+      this.setAttribute(attributes.END_DATE, val);
+    } else {
+      this.removeAttribute(attributes.END_DATE);
+    }
+
+    this.#renderMonth();
   }
 
   /**

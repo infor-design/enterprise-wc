@@ -248,7 +248,7 @@ export function gregorianToUmalqura(date) {
 }
 
 /**
- * Gets first day of given month/year date
+ * Gets first day of given month/year date.
  * @param {number} year Gregorian calendar year, long format
  * @param {number} month Gregorian calendar month, 0-11 range
  * @param {number} day Gregorian calendar day, needed only if converting to Umm al-Qura calendar date
@@ -266,7 +266,7 @@ export function firstDayOfMonthDate(year, month, day, isIslamic = false) {
 }
 
 /**
- * Gets last day of given month/year date
+ * Gets last day of given month/year date.
  * @param {number} year Gregorian calendar year, long format
  * @param {number} month Gregorian calendar month, 0-11 range
  * @param {number} day Gregorian calendar day, needed only if converting to Umm al-Qura calendar date
@@ -308,9 +308,9 @@ export function daysInMonth(year, month, day, isIslamic = false) {
  * @param {number} year Gregorian calendar year, long format
  * @param {number} month Gregorian calendar month, 0-11 range
  * @param {number} day Gregorian calendar day, needed only if converting to Umm al-Qura calendar date
- * @param {number} startsOn day of the week to start on. Sunday is 0, Monday is 1 and so on.
+ * @param {number} startsOn day of the week to start on. Sunday is 0, Monday is 1 and so on
  * @param {boolean} isIslamic if set to true the calculation is base the Umm al-Qura Calendar
- * @returns {number} number of weeks in a given month.
+ * @returns {number} number of weeks in a given month
  */
 export function weeksInMonth(year, month, day, startsOn = 0, isIslamic = false) {
   const firstDayOfMonth = firstDayOfMonthDate(year, month, day, isIslamic);
@@ -318,4 +318,18 @@ export function weeksInMonth(year, month, day, startsOn = 0, isIslamic = false) 
   const firstDayOfWeekIndex = (firstDayOfMonth.getDay() - startsOn + 7) % 7;
 
   return Math.ceil((firstDayOfWeekIndex + numberOfDaysInMonth) / 7);
+}
+
+/**
+ * Gets the number of weeks in a given range of dates.
+ * @param {Date} startDate the first date
+ * @param {Date} endDate the second date
+ * @param {number} startsOn day of the week to start on. Sunday is 0, Monday is 1, and so on
+ * @returns {number} number of weeks in a given range of dates
+ */
+export function weeksInRange(startDate, endDate, startsOn = 0) {
+  const daysInRange = daysDiff(startDate, endDate);
+  const firstDayOfWeekIndex = (startDate.getDay() - startsOn + 7) % 7;
+
+  return Math.ceil((firstDayOfWeekIndex + daysInRange) / 7);
 }
