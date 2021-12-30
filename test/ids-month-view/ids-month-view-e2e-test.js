@@ -138,6 +138,11 @@ describe('Ids Month View e2e Tests', () => {
     await page.waitForFunction(() =>
       document.querySelector('ids-month-view')?.locale?.calendar().name === 'islamic-umalqura');
 
+    // RTL check
+    let isRtl = await page.$eval(name, (el) => el.getAttribute('dir') === 'rtl');
+
+    expect(isRtl).toBeTruthy();
+
     // Selected day
     const day = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').dataset.day);
     const month = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').dataset.month);
@@ -180,6 +185,22 @@ describe('Ids Month View e2e Tests', () => {
       el.shadowRoot.querySelector('td.is-selected')?.textContent);
 
     expect(+numberOfDays).toEqual(1);
+
+    await page.evaluate(() => {
+      const container = document.querySelector('ids-container');
+
+      container.setLocale('en-US');
+      container.setLanguage('en');
+    });
+
+    // Wait till calendars load
+    await page.waitForFunction(() =>
+      document.querySelector('ids-month-view')?.locale?.calendar().name === 'gregorian');
+
+    // RTL check
+    isRtl = await page.$eval(name, (el) => el.getAttribute('dir'));
+
+    expect(isRtl).toBeNull();
   });
 
   it('should trigger compact view when size less than treshold', async () => {
