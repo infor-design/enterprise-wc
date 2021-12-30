@@ -171,6 +171,15 @@ describe('Ids Month View e2e Tests', () => {
       el.shadowRoot.querySelectorAll('td:not(.alternate)').length);
 
     expect(numberOfDays).toEqual(29);
+
+    // Selectable
+    await page.$eval(name, (el) =>
+      el.shadowRoot.querySelector('td:not(.alternate)')?.click());
+
+    numberOfDays = await page.$eval(name, (el) =>
+      el.shadowRoot.querySelector('td.is-selected')?.textContent);
+
+    expect(+numberOfDays).toEqual(1);
   });
 
   it('should trigger compact view when size less than treshold', async () => {
@@ -208,7 +217,8 @@ describe('Ids Month View e2e Tests', () => {
     expect(hasTodayBtn).toBeNull();
   });
 
-  it('should remove toolbar if range is set', async () => {
+  it('should handle range dates', async () => {
+    // Toolbar
     let toolbar = await page.$eval(name, (el) => el.shadowRoot.querySelector('ids-toolbar'));
 
     expect(toolbar).not.toBeNull();
@@ -216,12 +226,27 @@ describe('Ids Month View e2e Tests', () => {
     await page.evaluate((el) => {
       const component = document.querySelector(el);
 
-      component.startDate = '03/04/2022';
-      component.endDate = '03/04/2022';
+      component.startDate = '02/04/2022';
+      component.endDate = '04/04/2022';
     }, name);
 
     toolbar = await page.$eval(name, (el) => el.shadowRoot.querySelector('ids-toolbar'));
 
     expect(toolbar).toBeNull();
+
+    // Selectable
+    let selected = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected'));
+
+    // Click to tr element within tbody
+    await page.$eval(name, (el) => el.shadowRoot.querySelector('tbody tr')?.click());
+
+    expect(selected).toBeNull();
+
+    await page.$eval(name, (el) => el.shadowRoot.querySelector('td:not(.is-disabled)')?.click());
+
+    // Selectable
+    selected = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected'));
+
+    expect(selected).not.toBeNull();
   });
 });

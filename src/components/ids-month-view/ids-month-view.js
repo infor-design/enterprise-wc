@@ -120,21 +120,7 @@ class IdsMonthView extends Base {
     // Day select event
     this.offEvent('click.month-view-dayselect');
     this.onEvent('click.month-view-dayselect', this.container.querySelector('tbody'), (e) => {
-      const element = e.target.closest('td');
-
-      if (!element) return;
-
-      const { month, year, day } = element.dataset;
-      const isSelected = element.classList.contains('is-selected');
-      const isDisabled = element.classList.contains('is-disabled');
-
-      if (!(isSelected || isDisabled)) {
-        this.month = month;
-        this.year = year;
-        this.day = day;
-
-        this.#triggerSelectedEvent();
-      }
+      this.#daySelectClick(e.target.closest('td'));
     });
 
     // Set type of view based on the component width
@@ -300,6 +286,36 @@ class IdsMonthView extends Base {
   }
 
   /**
+   * Day cell clicked
+   * @param {HTMLElement} element The element.
+   * @returns {undefined|void} exits if no element
+   */
+  #daySelectClick(element) {
+    if (!element) return;
+
+    const { month, year, day } = element.dataset;
+    const isSelected = element.classList.contains('is-selected');
+    const isDisabled = element.classList.contains('is-disabled');
+
+    if (!(isSelected || isDisabled)) {
+      // Not changing day for range calendar, just selecting UI
+      if (this.#isRange()) {
+        this.#selectDay(year, month, day);
+      } else {
+        this.day = day;
+      }
+
+      // Alternate cells clicked
+      if ((stringToNumber(month) !== this.month || this.locale.isIslamic()) && !this.#isRange()) {
+        this.year = year;
+        this.month = month;
+      }
+
+      this.#triggerSelectedEvent();
+    }
+  }
+
+  /**
    * Helper to get month format for first day of a month or first day of the range
    * @param {Date} date date to check
    * @param {Date} rangeStartsOn very first day of the range
@@ -428,6 +444,32 @@ class IdsMonthView extends Base {
   }
 
   /**
+   * Select active day and change dates if year/month/day is out of current month
+   * @param {number} year a given year
+   * @param {number} month a given month
+   * @param {number} day a given day
+   */
+  #selectDay(year, month, day) {
+    const clearable = this.container.querySelector('td.is-selected');
+
+    // Clear before
+    clearable?.removeAttribute('aria-selected');
+    clearable?.removeAttribute('tabindex');
+    clearable?.setAttribute('role', 'link');
+    clearable?.classList.remove('is-selected');
+
+    const selectedQuery = `td[data-year="${year}"][data-month="${month}"][data-day="${day}"]`;
+    const selected = this.container.querySelector(selectedQuery);
+
+    // Selectable attributes
+    selected?.setAttribute('tabindex', 0);
+    selected?.setAttribute('aria-selected', true);
+    selected?.setAttribute('role', 'gridcell');
+    selected?.classList.add('is-selected');
+    selected?.focus();
+  }
+
+  /**
    * Whether or not it should show range of dates instead of one month view
    * @returns {boolean} startDate and endDate are set
    */
@@ -552,12 +594,11 @@ class IdsMonthView extends Base {
 
     if (!Number.isNaN(numberVal) && numberVal > 0) {
       this.setAttribute(attributes.DAY, val);
+      this.#selectDay(this.year, this.month, numberVal);
     } else {
       this.removeAttribute(attributes.DAY);
+      this.#selectDay(this.year, this.month, this.day);
     }
-
-    this.#renderMonth();
-    this.#attachDatepickerText();
   }
 
   /**
