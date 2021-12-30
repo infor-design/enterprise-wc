@@ -185,26 +185,28 @@ export default class IdsWeekView extends Base {
    * @returns {string} locale formatted month range
    */
   #formatMonthRange() {
-    const startMonth = this.locale.formatDate(this.startDate, { month: 'long' });
-    const endMonth = this.locale.formatDate(this.endDate, { month: 'long' });
-    const startYear = this.locale.formatDate(this.startDate, { year: 'numeric' });
-    const endYear = this.locale.formatDate(this.endDate, { year: 'numeric' });
+    const startDate = this.startDate;
+    const endDate = subtractDate(this.endDate, 1, 'days');
+    const startMonth = this.locale.formatDate(startDate, { month: 'long' });
+    const endMonth = this.locale.formatDate(endDate, { month: 'long' });
+    const startYear = this.locale.formatDate(startDate, { year: 'numeric' });
+    const endYear = this.locale.formatDate(endDate, { year: 'numeric' });
 
     if (endYear !== startYear) {
-      return `${this.locale.formatDate(this.startDate, {
+      return `${this.locale.formatDate(startDate, {
         month: 'short',
         year: 'numeric',
-      })} - ${this.locale.formatDate(this.endDate, {
+      })} - ${this.locale.formatDate(endDate, {
         month: 'short',
         year: 'numeric',
       })}`;
     }
 
     if (endMonth !== startMonth) {
-      return `${this.locale.formatDate(this.startDate, { month: 'short' })} - ${endMonth} ${startYear}`;
+      return `${this.locale.formatDate(startDate, { month: 'short' })} - ${endMonth} ${startYear}`;
     }
 
-    return this.locale.formatDate(this.startDate, { month: 'long', year: 'numeric' });
+    return this.locale.formatDate(startDate, { month: 'long', year: 'numeric' });
   }
 
   /**
@@ -238,6 +240,8 @@ export default class IdsWeekView extends Base {
       this.startDate = hasIrregularDays ? new Date() : firstDayOfWeekDate(new Date(), this.firstDayOfWeek);
       this.endDate = addDate(this.startDate, diff - 1, 'days');
     }
+
+    this.#renderTimeline();
   }
 
   /**
@@ -499,7 +503,7 @@ export default class IdsWeekView extends Base {
     const attrVal = this.getAttribute(attributes.FIRST_DAY_OF_WEEK);
     const numberVal = stringToNumber(attrVal);
 
-    if (attrVal && numberVal >= 0 && numberVal <= 6) {
+    if (!Number.isNaN(numberVal) && numberVal >= 0 && numberVal <= 6) {
       return numberVal;
     }
 
@@ -512,7 +516,9 @@ export default class IdsWeekView extends Base {
    * @param {string|number|null} val firstDayOfWeek param value
    */
   set firstDayOfWeek(val) {
-    if (val) {
+    const numberVal = stringToNumber(val);
+
+    if (!Number.isNaN(numberVal)) {
       this.setAttribute(attributes.FIRST_DAY_OF_WEEK, val);
     } else {
       this.removeAttribute(attributes.FIRST_DAY_OF_WEEK);

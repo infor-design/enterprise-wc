@@ -667,7 +667,7 @@ class IdsMonthView extends Base {
     const attrVal = this.getAttribute(attributes.FIRST_DAY_OF_WEEK);
     const numberVal = stringToNumber(attrVal);
 
-    if (attrVal && numberVal >= 0 && numberVal <= 6) {
+    if (!Number.isNaN(numberVal) && numberVal >= 0 && numberVal <= 6) {
       return numberVal;
     }
 
