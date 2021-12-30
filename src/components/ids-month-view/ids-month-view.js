@@ -121,12 +121,18 @@ class IdsMonthView extends Base {
     this.offEvent('click.month-view-dayselect');
     this.onEvent('click.month-view-dayselect', this.container.querySelector('tbody'), (e) => {
       const element = e.target.closest('td');
+
+      if (!element) return;
+
       const { month, year, day } = element.dataset;
       const isSelected = element.classList.contains('is-selected');
       const isDisabled = element.classList.contains('is-disabled');
 
       if (!(isSelected || isDisabled)) {
-        this.#selectDay(stringToNumber(year), stringToNumber(month), stringToNumber(day));
+        this.month = month;
+        this.year = year;
+        this.day = day;
+
         this.#triggerSelectedEvent();
       }
     });
@@ -216,20 +222,20 @@ class IdsMonthView extends Base {
     this.offEvent('click.month-view-previous');
     this.onEvent('click.month-view-previous', this.container.querySelector('.month-view-btn-previous'), () => {
       this.#changeDate('previous');
-      this.#attachDatepickerText();
+      this.#triggerSelectedEvent();
     });
 
     this.offEvent('click.month-view-next');
     this.onEvent('click.month-view-next', this.container.querySelector('.month-view-btn-next'), () => {
       this.#changeDate('next');
-      this.#attachDatepickerText();
+      this.#triggerSelectedEvent();
     });
 
     if (this.showToday) {
       this.offEvent('click.month-view-today');
       this.onEvent('click.month-view-today', this.container.querySelector('.month-view-btn-today'), () => {
         this.#changeDate('today');
-        this.#attachDatepickerText();
+        this.#triggerSelectedEvent();
       });
     } else {
       this.offEvent('click.month-view-today');
@@ -250,7 +256,7 @@ class IdsMonthView extends Base {
    * @returns {string} locale formatted month year
    */
   #formatMonthText() {
-    const dayOfMonth = new Date(this.year, this.month);
+    const dayOfMonth = new Date(this.year, this.month, this.day);
 
     return this.locale.formatDate(dayOfMonth, { month: 'long', year: 'numeric', numberingSystem: 'latn' });
   }
@@ -260,9 +266,10 @@ class IdsMonthView extends Base {
    */
   #attachDatepickerText() {
     const text = this.#formatMonthText();
+    const el = this.container.querySelector('.datepicker-text');
 
-    if (!this.#isRange()) {
-      this.container.querySelector('.datepicker-text').innerText = text;
+    if (!this.#isRange() && el) {
+      el.innerText = text;
     }
   }
 
@@ -289,7 +296,7 @@ class IdsMonthView extends Base {
       this.month = now.getMonth();
     }
 
-    this.#triggerSelectedEvent();
+    this.#attachDatepickerText();
   }
 
   /**
@@ -298,7 +305,7 @@ class IdsMonthView extends Base {
    * @param {Date} rangeStartsOn very first day of the range
    * @returns {string|undefined} Intl.DateTimeFormat options month format (numeric, long, short)
    */
-  #getMonthFormat(date, rangeStartsOn) {
+  #monthInDayFormat(date, rangeStartsOn) {
     const isFirstDayOfRange = daysDiff(date, rangeStartsOn) === 0;
     const isFirstDayOfMonth = this.locale.isIslamic()
       ? gregorianToUmalqura(date).day === 1
@@ -327,7 +334,7 @@ class IdsMonthView extends Base {
 
     return Array.from({ length: WEEK_LENGTH }).map((_, index) => {
       const date = addDate(rangeStartsOn, (weekIndex * WEEK_LENGTH) + index, 'days');
-      const monthFormat = this.#getMonthFormat(date, rangeStartsOn);
+      const monthFormat = this.#monthInDayFormat(date, rangeStartsOn);
       const dayText = this.locale.formatDate(date, {
         day: 'numeric',
         month: monthFormat,
@@ -421,41 +428,6 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * Select active day and change dates if year/month/day is out of current month
-   * @param {number} year a given year
-   * @param {number} month a given month
-   * @param {number} day a given day
-   */
-  #selectDay(year, month, day) {
-    if (day !== this.day) {
-      this.day = day;
-    }
-
-    if (month !== this.month && !this.#isRange()) {
-      this.year = year;
-      this.month = month;
-    }
-
-    const clearable = this.container.querySelector('td.is-selected');
-
-    // Clear before
-    clearable?.removeAttribute('aria-selected');
-    clearable?.removeAttribute('tabindex');
-    clearable?.setAttribute('role', 'link');
-    clearable?.classList.remove('is-selected');
-
-    const selectedQuery = `td[data-year="${year}"][data-month="${month}"][data-day="${day}"]`;
-    const selected = this.container.querySelector(selectedQuery);
-
-    // Selectable attributes
-    selected?.setAttribute('tabindex', 0);
-    selected?.setAttribute('aria-selected', true);
-    selected?.setAttribute('role', 'gridcell');
-    selected?.classList.add('is-selected');
-    selected?.focus();
-  }
-
-  /**
    * Whether or not it should show range of dates instead of one month view
    * @returns {boolean} startDate and endDate are set
    */
@@ -519,7 +491,7 @@ class IdsMonthView extends Base {
     }
 
     this.#renderMonth();
-    this.#renderToolbar();
+    this.#attachDatepickerText();
   }
 
   /**
@@ -530,7 +502,7 @@ class IdsMonthView extends Base {
     const attrVal = this.getAttribute(attributes.YEAR);
     const numberVal = stringToNumber(attrVal);
 
-    if (attrVal && attrVal.length === 4) {
+    if (!Number.isNaN(numberVal) && attrVal.length === 4) {
       return numberVal;
     }
 
@@ -552,7 +524,7 @@ class IdsMonthView extends Base {
     }
 
     this.#renderMonth();
-    this.#renderToolbar();
+    this.#attachDatepickerText();
   }
 
   /**
@@ -563,7 +535,7 @@ class IdsMonthView extends Base {
     const attrVal = this.getAttribute(attributes.DAY);
     const numberVal = stringToNumber(attrVal);
 
-    if (!Number.isNaN(numberVal)) {
+    if (!Number.isNaN(numberVal) && numberVal > 0) {
       return numberVal;
     }
 
@@ -580,11 +552,12 @@ class IdsMonthView extends Base {
 
     if (!Number.isNaN(numberVal) && numberVal > 0) {
       this.setAttribute(attributes.DAY, val);
-      this.#selectDay(this.year, this.month, numberVal);
     } else {
       this.removeAttribute(attributes.DAY);
-      this.#selectDay(this.year, this.month, this.day);
     }
+
+    this.#renderMonth();
+    this.#attachDatepickerText();
   }
 
   /**
@@ -675,7 +648,7 @@ class IdsMonthView extends Base {
     }
 
     this.#renderMonth();
-    this.#renderToolbar();
+    this.#attachDatepickerText();
   }
 
   /**
