@@ -53,7 +53,7 @@ export default class IdsPagerInput extends Base {
 
   connectedCallback() {
     this.input = this.shadowRoot.querySelector('ids-input');
-    this.input.input.setAttribute('aria-label', 'Input for page number');
+    this.input?.input?.setAttribute('aria-label', 'Input for page number');
 
     this.onEvent('change', this.input, () => {
       const inputPageNumber = parseInt(this.input.input.value);

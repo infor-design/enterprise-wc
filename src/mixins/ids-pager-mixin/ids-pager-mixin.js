@@ -35,54 +35,14 @@ const IdsPagerMixin = (superclass) => class extends superclass {
         </ids-menu-button>
         <ids-popup-menu id="pager-size-menu" target="#pager-size-menu-button" trigger="click">
           <ids-menu-group>
-            <ids-menu-item>10</ids-menu-item>
-            <ids-menu-item>25</ids-menu-item>
-            <ids-menu-item>50</ids-menu-item>
-            <ids-menu-item>100</ids-menu-item>
+            <ids-menu-item value="10">10</ids-menu-item>
+            <ids-menu-item value="25">25</ids-menu-item>
+            <ids-menu-item value="50">50</ids-menu-item>
+            <ids-menu-item value="100">100</ids-menu-item>
           </ids-menu-group>
         </ids-popup-menu>
       </div>
     `;
-
-    // const popup = new IdsPagerSection();
-    // popup.innerHTML = `
-    //   <ids-menu-button id="ids-pager"" menu="pager-size-menu" icon-align="end">
-    //     <span slot="text">${this.pageSize} Records per page</span>
-    //     <ids-icon slot="icon" icon="dropdown"></ids-icon>
-    //   </ids-menu-button>
-    //   <ids-popup-menu id="pager-size-menu"" target="pager-size-menu"" trigger="click">
-    //     <ids-menu-group>
-    //       <ids-menu-item>Action 1</ids-menu-item>
-    //       <ids-menu-item>Action 2</ids-menu-item>
-    //       <ids-menu-item>Action 3</ids-menu-item>
-    //     </ids-menu-group>
-    //   </ids-popup-menu>
-    // `;
-
-    // this.#pager.appendChild(popup);
-
-    // this.#pager.innerHTML = `
-    //   <div>
-    //     <ids-pager-button first></ids-pager-button>
-    //     <ids-pager-button previous></ids-pager-button>
-    //     <ids-pager-input></ids-pager-input>
-    //     <ids-pager-button next></ids-pager-button>
-    //     <ids-pager-button last></ids-pager-button>
-    //   </div>
-    //   <div slot="end">
-    //     <ids-menu-button id="ids-pager"" menu="pager-size-menu" icon-align="end">
-    //       <span slot="text">${this.pageSize} Records per page</span>
-    //       <ids-icon slot="icon" icon="dropdown"></ids-icon>
-    //     </ids-menu-button>
-    //     <ids-popup-menu id="pager-size-menu"" target="pager-size-menu"" trigger="click">
-    //       <ids-menu-group>
-    //         <ids-menu-item>Action 1</ids-menu-item>
-    //         <ids-menu-item>Action 2</ids-menu-item>
-    //         <ids-menu-item>Action 3</ids-menu-item>
-    //       </ids-menu-group>
-    //     </ids-popup-menu>
-    //   </div>
-    // `;
 
     this.#pager.pageNumber = Math.max(parseInt(this.pageNumber) || 1, 1);
     this.#pager.pageSize = Math.max(parseInt(this.pageSize) || 0, 1);
@@ -127,7 +87,8 @@ const IdsPagerMixin = (superclass) => class extends superclass {
     this.pager.pageSize = value;
     this.datasource.pageSize = value;
 
-    // this.#popup.querySelector('span').textContent = `${value} Records per page`;
+    const popupButton = this.pager.querySelector('ids-menu-button');
+    popupButton.text = `${value} Records per page`;
   }
 
   get pageSize() { return this.getAttribute(attributes.PAGE_SIZE) || this.pager.pageSize; }
@@ -169,9 +130,18 @@ const IdsPagerMixin = (superclass) => class extends superclass {
     if (pager) {
       pager.replaceWith(this.pager);
     } else {
-      this.shadowRoot?.append(this.#pager);
-      // this.shadowRoot?.append(this.#pager, this.#popup);
+      this.shadowRoot?.append(this.pager);
     }
+
+    const popupMenu = this.pager.querySelector('ids-popup-menu');
+    this.offEvent('selected', popupMenu);
+    this.onEvent('selected', popupMenu, (evt) => {
+      const oldPageSize = this.pageSize;
+      const newPageSize = evt.detail?.value || oldPageSize;
+      if (newPageSize !== oldPageSize) {
+        this.pageSize = newPageSize;
+      }
+    });
   }
 
   // get data() {
