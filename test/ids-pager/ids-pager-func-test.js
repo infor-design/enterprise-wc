@@ -119,6 +119,14 @@ describe('IdsPager Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
+  it('has slots: start, middle, end', async () => {
+    elem = await createElemViaTemplate(HTMLSnippets.DOUBLE_SIDED_CONTENT);
+    const { slots } = elem.elements;
+    expect(slots.start).toBeDefined();
+    expect(slots.middle).toBeDefined();
+    expect(slots.end).toBeDefined();
+  });
+
   it('renders with content on both sides with no errors', async () => {
     elem = await createElemViaTemplate(HTMLSnippets.DOUBLE_SIDED_CONTENT);
 
@@ -484,7 +492,7 @@ describe('IdsPager Component', () => {
       `<ids-pager-input page-number="10" page-size="2" first></ids-pager-input>`
     );
 
-    expect(elem.pageCount).toEqual(null);
+    expect(elem.pageCount).toEqual(1);
   });
 
   it('sets total on ids-pager-input to non-numeric value and gets page-number reset to 1', async () => {

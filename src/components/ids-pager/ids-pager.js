@@ -40,6 +40,23 @@ export default class IdsPager extends Base {
     super();
   }
 
+  get elements() {
+    return {
+      buttons: {
+        first: this.querySelector('ids-pager-button[first]'),
+        previous: this.querySelector('ids-pager-button[previous]'),
+        next: this.querySelector('ids-pager-button[next]'),
+        last: this.querySelector('ids-pager-button[last]'),
+      },
+      input: this.querySelector('ids-pager-input'),
+      slots: {
+        start: this.container.querySelector('.pager-section.start slot'),
+        middle: this.container.querySelector('.pager-section.middle slot'),
+        end: this.container.querySelector('.pager-section.end slot'),
+      }
+    };
+  }
+
   static get attributes() {
     return [
       attributes.DISABLED,

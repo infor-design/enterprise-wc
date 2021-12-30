@@ -40,6 +40,14 @@ export default class IdsDataGrid extends Base {
     super();
   }
 
+  get elements() {
+    return {
+      header: this.container.querySelector('.ids-data-grid-header'),
+      labels: this.container.querySelectorAll('.ids-data-grid-header-cell.is-sortable'),
+      body: this.container.querySelector('.ids-data-grid-body'),
+    };
+  }
+
   connectedCallback() {
     this.state = { selectedRows: [], activatedRow: null };
     super.connectedCallback();

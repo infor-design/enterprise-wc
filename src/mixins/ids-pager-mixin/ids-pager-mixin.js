@@ -2,9 +2,14 @@ import { attributes } from '../../core/ids-attributes';
 import IdsDataSource from '../../core/ids-data-source';
 import IdsButton from '../../components/ids-button/ids-button';
 import IdsPager from '../../components/ids-pager/ids-pager';
-// import IdsPopup from '../../components/ids-popup/ids-popup';
-// import IdsPopupMenu from '../../components/ids-popup-menu/ids-popup-menu';
 import IdsMenuButton from '../../components/ids-menu-button/ids-menu-button';
+
+const PAGINATION_TYPES = {
+  NONE: 'none',
+  CLIENT_SIDE: 'client-side',
+  SERVER_SIDE: 'server-side',
+  STANDALONE: 'standalone',
+};
 
 /**
 /**
@@ -72,7 +77,7 @@ const IdsPagerMixin = (superclass) => class extends superclass {
    * Gets the pagination attribute
    * @returns {string} default is "none"
    */
-  get pagination() { return this.getAttribute(attributes.PAGINATION) || 'none'; }
+  get pagination() { return this.getAttribute(attributes.PAGINATION) || PAGINATION_TYPES.NONE; }
 
   set pageNumber(value) {
     this.setAttribute(attributes.PAGE_NUMBER, value);
@@ -80,7 +85,7 @@ const IdsPagerMixin = (superclass) => class extends superclass {
     this.datasource.pageNumber = value;
   }
 
-  get pageNumber() { return this.getAttribute(attributes.PAGE_NUMBER) || this.pager.pageNumber; }
+  get pageNumber() { return parseInt(this.getAttribute(attributes.PAGE_NUMBER) || this.pager.pageNumber) || 1; }
 
   set pageSize(value) {
     this.setAttribute(attributes.PAGE_SIZE, value);
@@ -91,7 +96,7 @@ const IdsPagerMixin = (superclass) => class extends superclass {
     popupButton.text = `${value} Records per page`;
   }
 
-  get pageSize() { return this.getAttribute(attributes.PAGE_SIZE) || this.pager.pageSize; }
+  get pageSize() { return parseInt(this.getAttribute(attributes.PAGE_SIZE) || this.pager.pageSize) || 1; }
 
   get pageTotal() { return this.datasource.total; }
 
@@ -111,7 +116,7 @@ const IdsPagerMixin = (superclass) => class extends superclass {
    */
   #attachPager() {
     const pager = this.shadowRoot?.querySelector('ids-pager');
-    if (!this.pagination || this.pagination === 'none') {
+    if (!this.pagination || this.pagination === PAGINATION_TYPES.NONE) {
       pager?.remove();
       return;
     }
@@ -121,10 +126,17 @@ const IdsPagerMixin = (superclass) => class extends superclass {
 
     this.offEvent('pagenumberchange', this.pager);
     this.onEvent('pagenumberchange', this.pager, ({ detail }) => {
-      this.pageNumber = detail.value;
+      const shouldUpdate = [
+        PAGINATION_TYPES.CLIENT_SIDE,
+        PAGINATION_TYPES.SERVER_SIDE,
+      ].includes(this.pagination);
 
-      // TODO: find a better way/trigger to load results without rebuilding entire component
-      this.rerender();
+      if (shouldUpdate) {
+        this.pageNumber = detail.value;
+
+        // TODO: find a better way/trigger to load results without rebuilding entire component
+        this.rerender();
+      }
     });
 
     if (pager) {
