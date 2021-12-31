@@ -8,15 +8,33 @@ import IdsPager from '../../components/ids-pager/ids-pager';
  * @returns {any} The extended object
  */
 export class IdsPagerMixin {
+  /**
+   * Gets the internal IdsDataSource object
+   */
   datasource: IdsDataSource;
 
+  /**
+   * Gets the interal IdsPager component
+   */
   pager: IdsPager;
 
+  /**
+   * Get the page-number attribute
+   */
   pageNumber: number;
 
+  /**
+   * Get the page-size attribute
+   */
   pageSize: number;
 
+  /**
+   * Get the page-total attribute
+   */
   pageTotal: number;
 
+  /**
+   * Gets the pagination attribute
+   */
   pagination: 'none' | 'client-side' | 'server-side' | 'standalone';
 }

@@ -18,9 +18,23 @@ const PAGINATION_TYPES = {
  * @returns {any} The extended object
  */
 const IdsPagerMixin = (superclass) => class extends superclass {
-  datasource = new IdsDataSource();
-
+  /**
+   * The internal IdsPager component
+   * @private
+   */
   #pager = new IdsPager();
+
+  /**
+   * Gets the internal IdsPager component
+   * @returns {IdsPager} pager
+   */
+  get pager() { return this.#pager; }
+
+  /**
+   * Gets the internal IdsDataSource object
+   * @returns {IdsDataSource} object
+   */
+  datasource = new IdsDataSource();
 
   constructor() {
     super();
@@ -50,8 +64,11 @@ const IdsPagerMixin = (superclass) => class extends superclass {
     this.#pager.pageSize = Math.max(parseInt(this.pageSize) || 0, 1);
   }
 
-  get pager() { return this.#pager; }
-
+  /**
+   * Return the attributes we handle as getters/setters
+   * @private
+   * @returns {Array} The attributes in an array
+   */
   static get attributes() {
     return [
       ...super.attributes,
@@ -74,14 +91,26 @@ const IdsPagerMixin = (superclass) => class extends superclass {
    */
   get pagination() { return this.getAttribute(attributes.PAGINATION) || PAGINATION_TYPES.NONE; }
 
+  /**
+   * Set the page-number attribute
+   * @param {number} value - new the page-number
+   */
   set pageNumber(value) {
     this.setAttribute(attributes.PAGE_NUMBER, value);
     this.pager.pageNumber = value;
     this.datasource.pageNumber = value;
   }
 
+  /**
+   * Get the page-number attribute
+   * @returns {number} - the current page-number
+   */
   get pageNumber() { return parseInt(this.getAttribute(attributes.PAGE_NUMBER) || this.pager.pageNumber) || 1; }
 
+  /**
+   * Set the page-size attribute
+   * @param {number} value - new the page-size
+   */
   set pageSize(value) {
     this.setAttribute(attributes.PAGE_SIZE, value);
     this.pager.pageSize = value;
@@ -91,28 +120,48 @@ const IdsPagerMixin = (superclass) => class extends superclass {
     popupButton.text = `${value} Records per page`;
   }
 
+  /**
+   * Get the page-size attribute
+   * @returns {number} - the current page-size
+   */
   get pageSize() { return parseInt(this.getAttribute(attributes.PAGE_SIZE) || this.pager.pageSize) || 1; }
 
+  /**
+   * Set the page-total attribute
+   * @param {number} value - new the page-total
+   */
   set pageTotal(value) {
     this.setAttribute(attributes.PAGE_TOTAL, value);
     this.pager.pageTotal = value;
     this.datasource.pageTotal = value;
   }
 
+  /**
+   * Get the page-total attribute
+   * @returns {number} - the current page-total
+   */
   get pageTotal() { return parseInt(this.getAttribute(attributes.PAGE_TOTAL)) || this.datasource.total; }
 
+  /**
+   * Rerenders the IdsPager component
+   * @private
+   */
   rerender() {
     super.rerender?.();
     this.#attachPager();
   }
 
+  /**
+   * Invoked each time the custom element is appended into a document-connected element.
+   * @private
+   */
   connectedCallback() {
     super.connectedCallback?.();
     this.#attachPager();
   }
 
   /**
-   * Appends IdsPager to this element if pagination is enabled.
+   * Appends IdsPager to this.shadowRoot if pagination is enabled.
    * @private
    */
   #attachPager() {

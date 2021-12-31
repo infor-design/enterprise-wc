@@ -16,14 +16,28 @@ import { deepClone } from '../utils/ids-deep-clone-utils/ids-deep-clone-utils';
  *  - sync (sync back original array)
  */
 class IdsDataSource {
-  // Holds a reference to the original data
+  /**
+   * Holds a reference to the original data
+   * @private
+   */
   #originalData = [];
 
-  // Holds the data in its current state
+  /**
+   * Holds the data in its current state
+   * @private
+   */
   #currentData = [];
 
+  /**
+   * Page-number used for pagination
+   * @private
+   */
   #pageNumber = 1;
 
+  /**
+   * Page-size used for pagination
+   * @private
+   */
   #pageSize;
 
   /**
@@ -47,14 +61,34 @@ class IdsDataSource {
     return this.#currentData;
   }
 
+  /**
+   * Get the total number of items in data
+   * @returns {number} - the current page-total
+   */
   get total() { return this.#currentData.length; }
 
+  /**
+   * Set the current page-number
+   * @param {number} value - new the page-number
+   */
   set pageNumber(value) { this.#pageNumber = value; }
 
+  /**
+   * Get the curret page-number
+   * @returns {number} - the current page-number
+   */
   get pageNumber() { return this.#pageNumber; }
 
+  /**
+   * Set the current page-size
+   * @param {number} value - new the page-size
+   */
   set pageSize(value) { this.#pageSize = value; }
 
+  /**
+   * Get the current page-size
+   * @returns {number} - the current page-size
+   */
   get pageSize() { return this.#pageSize; }
 
   /**
