@@ -22,9 +22,6 @@ const IdsPagerMixin = (superclass) => class extends superclass {
 
   #pager = new IdsPager();
 
-  // #popup = new IdsPopupMenu();
-  // #button = new IdsButton();
-
   constructor() {
     super();
 
@@ -51,8 +48,6 @@ const IdsPagerMixin = (superclass) => class extends superclass {
 
     this.#pager.pageNumber = Math.max(parseInt(this.pageNumber) || 1, 1);
     this.#pager.pageSize = Math.max(parseInt(this.pageSize) || 0, 1);
-
-    // this.#popup.innerHTML = `<span slot="text">${this.pageSize} Records per page</span>`;
   }
 
   get pager() { return this.#pager; }
@@ -98,7 +93,13 @@ const IdsPagerMixin = (superclass) => class extends superclass {
 
   get pageSize() { return parseInt(this.getAttribute(attributes.PAGE_SIZE) || this.pager.pageSize) || 1; }
 
-  get pageTotal() { return this.datasource.total; }
+  set pageTotal(value) {
+    this.setAttribute(attributes.PAGE_TOTAL, value);
+    this.pager.pageTotal = value;
+    this.datasource.pageTotal = value;
+  }
+
+  get pageTotal() { return parseInt(this.getAttribute(attributes.PAGE_TOTAL)) || this.datasource.total; }
 
   rerender() {
     super.rerender?.();
@@ -155,33 +156,6 @@ const IdsPagerMixin = (superclass) => class extends superclass {
       }
     });
   }
-
-  // get data() {
-  //   const pagination = this.pagination;
-  //   const pager = this.pager;
-  //   console.log('pagination && pager', pagination, pager);
-  //   // debugger;
-  //   if (pagination !== 'none' && pager) {
-  //     if (pagination === 'standalone') {
-  //       // Standalone: Just add the pager and do not link it to the grid.
-  //       // In the example just show the pager events firing the end developer will do the rest.
-  //       console.log(`pagenumberchange => ${pagination}`, this.datasource?.data);
-  //     } else if (pagination === 'client-side') {
-  //       // ClientSide: Do the paging on the dataset thats attached.
-  //       // Probably this logic goes into IdsDataSource
-  //       console.log(`pagenumberchange => ${pagination}`, this.datasource?.data);
-  //       return this?.datasource?.pager(pager.pageNumber, pager.pageSize);
-  //     } else if (pagination === 'server-side') {
-  //       // ServerSide: Do the paging on the dataset thats attached and fire the pager events through the datagrid.
-  //       // Show this in the example working
-  //       // (can mock the data with a timeout instead of real serverside logic since we only have static JSON)
-  //       console.log(`pagenumberchange => ${pagination}`, this.datasource?.data);
-  //     }
-  //   }
-
-  //   console.log('made it here');
-  //   return this?.datasource?.data || [];
-  // }
 };
 
 export default IdsPagerMixin;
