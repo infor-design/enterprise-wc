@@ -1,145 +1,74 @@
+import { IdsDataGrid } from '../../src/components/ids-data-grid/ids-data-grid';
+import { IdsContainer } from '../../src/components/ids-container/ids-container';
+
 // Example for populating the DataGrid
-const dataGrid = document.querySelector('#data-grid-1');
+const dataGrid = document.querySelector('ids-data-grid');
 const container = document.querySelector('ids-container');
 
 (async function init() {
   // Set Locale and wait for it to load
   await container.setLocale('en-US');
-
-  // Do an ajax request
-  const xmlhttp = new XMLHttpRequest();
-  const url = '/data/books.json';
   const columns = [];
 
   // Set up columns
   columns.push({
-    id: 'selectionCheckbox',
-    name: 'selection',
-    sortable: false,
-    resizable: false,
-    formatter: dataGrid.formatters.selectionCheckbox,
-    align: 'center'
-  });
-  columns.push({
-    id: 'rowNumber',
-    name: '#',
-    formatter: dataGrid.formatters.rowNumber,
-    sortable: false,
-    readonly: true,
-    width: 65
-  });
-  columns.push({
-    id: 'description',
-    name: 'Description',
-    field: 'description',
-    sortable: true,
-    formatter: dataGrid.formatters.text
-  });
-  columns.push({
-    id: 'ledger',
-    name: 'Ledger',
-    field: 'ledger',
-    formatter: dataGrid.formatters.text
-  });
-  columns.push({
-    id: 'publishDate',
-    name: 'Pub. Date',
-    field: 'publishDate',
-    formatter: dataGrid.formatters.date
-  });
-  columns.push({
-    id: 'publishTime',
-    name: 'Pub. Time',
-    field: 'publishDate',
-    formatter: dataGrid.formatters.time
-  });
-  columns.push({
-    id: 'price',
-    name: 'Price',
-    field: 'price',
-    formatter: dataGrid.formatters.decimal,
-    formatOptions: { locale: 'en-US' } // Data Values are in en-US
-  });
-  columns.push({
-    id: 'bookCurrency',
-    name: 'Currency',
-    field: 'bookCurrency',
-    formatter: dataGrid.formatters.text
-  });
-  columns.push({
-    id: 'transactionCurrency',
-    name: 'Transaction Currency',
-    field: 'transactionCurrency',
+    id: 'id',
+    name: 'ID',
+    field: 'id',
     formatter: dataGrid.formatters.text,
+    width: 80,
+    sortable: true
   });
   columns.push({
-    id: 'integer',
-    name: 'Price (Int)',
-    field: 'price',
-    formatter: dataGrid.formatters.integer,
-    formatOptions: { locale: 'en-US' } // Data Values are in en-US
-  });
-  columns.push({
-    id: 'location',
-    name: 'Location',
-    field: 'location',
-    formatter: dataGrid.formatters.hyperlink,
-    href: '#'
-  });
-  columns.push({
-    id: 'postHistory',
-    name: 'Post History',
-    field: 'postHistory',
-    formatter: dataGrid.formatters.text
-  });
-  columns.push({
-    id: 'active',
-    name: 'Active',
-    field: 'active',
-    formatter: dataGrid.formatters.text
-  });
-  columns.push({
-    id: 'convention',
-    name: 'Convention',
-    field: 'convention',
-    formatter: dataGrid.formatters.text
-  });
-  columns.push({
-    id: 'methodSwitch',
-    name: 'Method Switch',
-    field: 'methodSwitch',
+    id: 'color',
+    name: 'Color',
+    field: 'color',
     formatter: dataGrid.formatters.text,
-    filterType: 'select'
+    sortable: true
   });
   columns.push({
-    id: 'trackDeprecationHistory',
-    name: 'Track Deprecation History',
-    field: 'trackDeprecationHistory',
-    formatter: dataGrid.formatters.dropdown
+    id: 'inStock',
+    name: 'In Stock',
+    field: 'inStock',
+    formatter: dataGrid.formatters.text,
+    sortable: true
   });
   columns.push({
-    id: 'useForEmployee',
-    name: 'Use For Employee',
-    field: 'useForEmployee',
-    formatter: dataGrid.formatters.password
+    id: 'productId',
+    name: 'Product Id',
+    field: 'productId',
+    formatter: dataGrid.formatters.text,
+    sortable: true
   });
   columns.push({
-    id: 'deprecationHistory',
-    name: 'Deprecation History',
-    field: 'deprecationHistory',
-    formatter: dataGrid.formatters.text
+    id: 'productName',
+    name: 'Product Name',
+    field: 'productName',
+    formatter: dataGrid.formatters.text,
+    sortable: true
+  });
+  columns.push({
+    id: 'unitPrice',
+    name: 'Unit Price',
+    field: 'unitPrice',
+    formatter: dataGrid.formatters.text,
+    sortable: true
+  });
+  columns.push({
+    id: 'units',
+    name: 'Units',
+    field: 'units',
+    formatter: dataGrid.formatters.text,
+    sortable: true
   });
 
-  xmlhttp.onreadystatechange = function onreadystatechange() {
-    if (this.readyState === 4 && this.status === 200) {
-      dataGrid.columns = columns;
-      dataGrid.data = JSON.parse(this.responseText);
-      console.info('Loading Time:', window.performance.now());
-      console.info('Page Memory:', window.performance.memory);
-    }
-  };
+  // Do an ajax request
+  const url = '/data/products.json';
+  const response = await fetch(url);
+  const data = await response.json();
+  dataGrid.columns = columns;
+  dataGrid.data = data;
 
-  // Execute the request
-  xmlhttp.open('GET', url, true);
-  xmlhttp.send();
+  console.info('Loading Time:', window.performance.now());
+  console.info('Page Memory:', window.performance.memory);
 }());
