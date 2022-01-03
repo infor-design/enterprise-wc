@@ -13,6 +13,10 @@
     description: Showing a list view using virtual scroll
   - link: side-by-side.html
     description: Showing a list view side by side with a 4.x busy indicator
+  - link: sortable.html
+    description: Showing a list view with the sortable functionality
+  - link: selectable.html
+    description: Showing a list view with the selectable functionality
   - link: standalone-css.html
     description: Showing a limited list view that works with css only
 

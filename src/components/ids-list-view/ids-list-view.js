@@ -9,6 +9,7 @@ import Base from './ids-list-view-base';
 import styles from './ids-list-view.scss';
 
 const DEFAULT_HEIGHT = '100%';
+const SELECTABLE_OPTIONS = ['single', 'multiple'];
 
 /**
  * IDS List View Component
@@ -29,6 +30,11 @@ export default class IdsListView extends Base {
   // the currently focused list item
   #focusedLiIndex = 0;
 
+  // the currently selected list item
+  #selectedLi;
+
+  #selectedLiIndex;
+
   datasource = new IdsDataSource();
 
   connectedCallback() {
@@ -45,6 +51,7 @@ export default class IdsListView extends Base {
   static get attributes() {
     return [
       attributes.SORTABLE,
+      attributes.SELECTABLE,
       attributes.HEIGHT,
       attributes.ITEM_HEIGHT,
       attributes.MODE,
@@ -144,6 +151,7 @@ export default class IdsListView extends Base {
 
   onClick(item) {
     this.focusLi(item);
+    if (this.selectable) this.toggleSelectedLi(item);
   }
 
   focusLi(li) {
@@ -305,6 +313,13 @@ export default class IdsListView extends Base {
         // give the first list-item a tabbable index on first render
         const firstItem = this.container.querySelector('div[part="list-item"]');
         if (firstItem) firstItem.setAttribute('tabindex', '0');
+
+        // reattach event listeners and refocus any focused list item
+        this.onEvent('ids-virtual-scroll-afterrender', this.virtualScrollContainer, () => {
+          this.attachEventListeners();
+          if (this.#focusedLiIndex >= 0) this.#refocus();
+          if (this.selectable) this.#reselect();
+        });
       });
     }
 
@@ -397,6 +412,88 @@ export default class IdsListView extends Base {
 
   get itemHeight() {
     return this.getAttribute(attributes.ITEM_HEIGHT);
+  }
+
+  set selectable(value) {
+    if (SELECTABLE_OPTIONS.includes(value)) {
+      this.setAttribute(attributes.SELECTABLE, value);
+    } else {
+      this.removeAttribute(attributes.SELECTABLE);
+    }
+  }
+
+  get selectable() {
+    return this.getAttribute(attributes.SELECTABLE);
+  }
+
+  /**
+   * Getter that returns the selected list items
+   * @returns {NodeList | HTMLElement} a list if multiselect is enabled, else the single selected list item
+   */
+  get selectedLi() {
+    const savedSelectedLi = this.selectable === 'multiple'
+      ? this.container.querySelectorAll(`div[part=list-item][selected='selected']`)
+      : this.container.querySelector(`div[part="list-item"][index="${this.#selectedLiIndex}"]`);
+    return savedSelectedLi;
+  }
+
+  /**
+   * Helper function that toggles the 'selected' attribute of an element, then focuses on that element
+   * @param {Element} item the item to add/remove the selected attribute
+   * @param {boolean} switchValue optional switch values to force add/remove the selected attribute
+   */
+  toggleSelectedAttribute(item, switchValue) {
+    const unselect = () => {
+      item.removeAttribute('selected');
+      this.#selectedLiIndex = null;
+    };
+
+    const select = () => {
+      item.setAttribute('selected', 'selected');
+      this.#selectedLiIndex = item.getAttribute('index');
+    };
+
+    if (switchValue === true) {
+      select();
+    } else if (switchValue === false) {
+      unselect();
+    } else {
+      // otherwise toggle it depending on whether or not it has the attribute already
+      const hasSelectedAttribute = item.getAttribute('selected');
+      hasSelectedAttribute ? unselect() : select();
+
+      this.focusLi(item);
+    }
+  }
+
+  /**
+   * Toggles the selected list item
+   * @param {*} item the selected list item to toggle
+   */
+  toggleSelectedLi(item) {
+    if (item.tagName === 'DIV' && item.getAttribute('part') === 'list-item') {
+      if (this.selectable === 'single') {
+        const prevSelectedLi = this.selectedLi;
+        if (item !== prevSelectedLi && prevSelectedLi) {
+          // unselect previous item if it's selected
+          this.toggleSelectedAttribute(prevSelectedLi);
+        }
+      }
+      this.toggleSelectedAttribute(item);
+    }
+  }
+
+  #reselect() {
+    const prevSelectedLi = this.selectedLi;
+    if (prevSelectedLi) {
+      this.toggleSelectedAttribute(prevSelectedLi, true);
+    } else if (this.selectable === 'multiple') {
+      if (prevSelectedLi.length > 0) {
+        prevSelectedLi.forEach((l) => {
+          this.toggleSelectedAttribute(l, true);
+        });
+      }
+    }
   }
 
   /**
