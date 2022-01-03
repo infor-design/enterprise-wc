@@ -1,0 +1,6 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IdsSwapList Component renders correctly 1`] = `
+"<ids-swaplist>
+  </ids-swaplist>"
+`;
