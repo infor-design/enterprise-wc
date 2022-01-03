@@ -3,6 +3,7 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import Base from './ids-card-base';
 
+import IdsCheckbox from '../ids-checkbox/ids-checkbox';
 import styles from './ids-card.scss';
 
 /**
@@ -20,6 +21,11 @@ import styles from './ids-card.scss';
 export default class IdsCard extends Base {
   constructor() {
     super();
+  }
+
+  connectedCallback() {
+    this.#handleEvents();
+    super.connectedCallback();
   }
 
   /**
@@ -42,14 +48,91 @@ export default class IdsCard extends Base {
   template() {
     return `
       <div class="ids-card" part="card">
-        <div class="ids-card-header" part="header">
-          <slot name="card-header"></slot>
-        </div>
-        <div class="ids-card-content ${this.overflow === 'hidden' ? 'overflow-hidden' : ''}" part="content">
-          <slot name="card-content"></slot>
+        <div class="ids-card-body">
+          <div class="ids-card-header" part="header">
+            <slot name="card-header"></slot>
+          </div>
+          <div class="ids-card-content ${this.selection === 'multiple' ? 'has-checkbox' : ''} ${this.overflow === 'hidden' ? 'overflow-hidden' : ''}" part="content">
+            <slot name="card-content"></slot>
+          </div>
+          <div class="ids-card-checkbox ${this.selection === 'multiple' ? '' : 'hidden'}">
+            <ids-checkbox></ids-checkbox>
+          </div>
         </div>
       </div>
     `;
+  }
+
+  /**
+   * Establish Internal Event Handlers
+   * @private
+   * @returns {object} The object for chaining.
+   */
+  #handleEvents() {
+    this.onEvent('click', this, this.#handleSelectionChange);
+
+    if (this.selection === 'multiple') {
+      const idsCheckboxElem = this.container.querySelector('ids-checkbox');
+      idsCheckboxElem.onEvent('click', idsCheckboxElem, (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        this.#handleMultipleSelectionChange(e);
+      });
+    }
+
+    return this;
+  }
+
+  /**
+   * Handle single/multiple selection change
+   * @private
+   * @param  {object} e Actual event
+   */
+  #handleSelectionChange(e) {
+    if (this.selection === 'single') {
+      this.#handleSingleSelectionChange(e);
+    } else if (this.selection === 'multiple') {
+      this.#handleMultipleSelectionChange(e);
+    }
+  }
+
+  /**
+   * Change single selection for cards
+   * @private
+   * @param  {object} e Actual event
+   */
+  #handleSingleSelectionChange(e) {
+    const cardElements = document.querySelectorAll('ids-card[selection="single"]');
+    [...cardElements].forEach((elem) => elem.setAttribute(attributes.SELECTED, false));
+    this.setAttribute(attributes.SELECTED, true);
+
+    this.triggerEvent('selectionchanged', this, {
+      detail: {
+        elem: this,
+        nativeEvent: e,
+        selected: this.selected,
+        selection: this.selection,
+      }
+    });
+  }
+
+  /**
+   * Change multiple selection for cards
+   * @private
+   * @param  {object} e Actual event
+   */
+  #handleMultipleSelectionChange(e) {
+    this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, this.selected !== 'true');
+    this.setAttribute(attributes.SELECTED, this.selected !== 'true');
+
+    this.triggerEvent('selectionchanged', this, {
+      detail: {
+        elem: this,
+        nativeEvent: e,
+        selected: this.selected,
+        selection: this.selection,
+      }
+    });
   }
 
   /**
