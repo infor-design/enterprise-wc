@@ -215,6 +215,7 @@ export const attributes = {
   SELECT: 'select',
   SELECTABLE: 'selectable',
   SELECTED: 'selected',
+  SELECTION: 'selection',
   SHAPE: 'shape',
   SHOW_BROWSE_LINK: 'show-browse-link',
   SHOW_TIMELINE: 'show-timeline',

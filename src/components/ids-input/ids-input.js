@@ -371,6 +371,14 @@ export default class IdsInput extends Base {
   }
 
   /**
+   * @readonly
+   * @returns {boolean} true if this input resides inside trigger-field
+   */
+  get hasParentTriggerField() {
+    return this.parentElement?.tagName === 'IDS-TRIGGER-FIELD';
+  }
+
+  /**
    * When set the input will select all text on focus
    * @param {boolean|string} value If true will set `autoselect` attribute
    */
@@ -466,6 +474,12 @@ export default class IdsInput extends Base {
     } else {
       this.removeAttribute(attributes.COMPACT);
       this.container?.classList.remove(attributes.COMPACT);
+    }
+
+    if (this.hasParentTriggerField) {
+      this.container?.classList.add('no-margin-bottom');
+    } else {
+      this.container?.classList.remove('no-margin-bottom');
     }
   }
 
@@ -569,6 +583,12 @@ export default class IdsInput extends Base {
       this.container?.classList.add(this.fieldHeightClass(fieldHeight));
     } else {
       this.removeAttribute(attributes.FIELD_HEIGHT);
+    }
+
+    if (this.hasParentTriggerField) {
+      this.container?.classList.add('no-margin-bottom');
+    } else {
+      this.container?.classList.remove('no-margin-bottom');
     }
   }
 
