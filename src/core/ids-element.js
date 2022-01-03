@@ -1,9 +1,7 @@
-import { attributes } from './ids-attributes';
+import { attributes, version } from './ids-attributes';
 import renderLoop from '../components/ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../components/ids-render-loop/ids-render-loop-item';
 import { camelCase } from '../utils/ids-string-utils/ids-string-utils';
-
-const VERSION = '0.0.0-beta.17';
 
 /**
  * Simple dictionary used to cache attribute names
@@ -33,7 +31,7 @@ export default class IdsElement extends HTMLElement {
   addBaseName() {
     // Add the base class and version
     this.name = this.nodeName?.toLowerCase();
-    this.IdsVersion = VERSION;
+    this.IdsVersion = version;
   }
 
   /**
