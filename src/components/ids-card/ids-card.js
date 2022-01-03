@@ -71,32 +71,59 @@ export default class IdsCard extends Base {
    * @returns {object} The object for chaining.
    */
   #handleEvents() {
-    this.onEvent('click', this, (e) => {
-      if (this.selection === 'single') {
-        const cardElements = document.querySelectorAll('ids-card[selection="single"]');
-        for (const elem of cardElements) {
-          elem.setAttribute(attributes.SELECTED, false);
-        }
-
-        this.setAttribute(attributes.SELECTED, true);
-      } else if (this.selection === 'multiple') {
-        this.#changeSelection(e);
-      }
-    });
+    this.onEvent('click', this, this.#handleSelectionChange);
 
     if (this.selection === 'multiple') {
       const idsCheckboxElem = this.container.querySelector('ids-checkbox');
       idsCheckboxElem.onEvent('click', idsCheckboxElem, (e) => {
         e.stopPropagation();
         e.preventDefault();
-        this.#changeSelection(e);
+        this.#handleMultipleSelectionChange(e);
       });
     }
 
     return this;
   }
 
-  #changeSelection(e) {
+  /**
+   * Handle single/multiple selection change
+   * @private
+   * @param  {object} e Actual event
+   */
+  #handleSelectionChange(e) {
+    if (this.selection === 'single') {
+      this.#handleSingleSelectionChange(e);
+    } else if (this.selection === 'multiple') {
+      this.#handleMultipleSelectionChange(e);
+    }
+  }
+
+  /**
+   * Change single selection for cards
+   * @private
+   * @param  {object} e Actual event
+   */
+  #handleSingleSelectionChange(e) {
+    const cardElements = document.querySelectorAll('ids-card[selection="single"]');
+    [...cardElements].forEach((elem) => elem.setAttribute(attributes.SELECTED, false));
+    this.setAttribute(attributes.SELECTED, true);
+
+    this.triggerEvent('selectionchanged', this, {
+      detail: {
+        elem: this,
+        nativeEvent: e,
+        selected: this.selected,
+        selection: this.selection,
+      }
+    });
+  }
+
+  /**
+   * Change multiple selection for cards
+   * @private
+   * @param  {object} e Actual event
+   */
+  #handleMultipleSelectionChange(e) {
     this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, this.selected !== 'true');
     this.setAttribute(attributes.SELECTED, this.selected !== 'true');
 
