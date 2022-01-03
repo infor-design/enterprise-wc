@@ -8,6 +8,7 @@ import Base from './ids-swaplist-base';
 import IdsCard from '../ids-card/ids-card';
 import IdsButton from '../ids-button/ids-button';
 import IdsListView from '../ids-list-view/ids-list-view';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import styles from './ids-swaplist.scss';
 
@@ -76,7 +77,6 @@ export default class IdsSwapList extends Base {
     const currentList = currentCard.querySelector('ids-list-view');
     const prevCard = currentCard.previousSibling;
     const prevList = prevCard.querySelector('ids-list-view').shadowRoot.querySelector('.ids-list-view-body');
-    console.log(prevList);
 
     currentList.selectedLi.forEach((x) => {
       const dragItem = x.parentElement;
@@ -138,7 +138,7 @@ export default class IdsSwapList extends Base {
           ${this.buttonTemplate(i)}
         </div>
         <div slot="card-content">
-          <ids-list-view selectable="multiple" sortable>
+          <ids-list-view selectable="multiple" sortable swappable>
           </ids-list-view>
         </div>
       </ids-card>
