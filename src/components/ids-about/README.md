@@ -75,3 +75,8 @@ about.copyrightYear = '2020';
 about.deviceSpecs = false;
 about.useDefaultCopyright = false;
 ```
+
+## Converting from Previous Versions
+
+- 3.x: Replace `.inforAboutDialog()` with `.about()` and notice that many of the names of the settings (e.g. productName to appName) to have changed so must be updated to the new settings.
+- 4.x: About now uses all new markup and classes for web components (see above). Also note that cookies and full OS information (like version) has been removed to adhere to more modern browser standards and lack of availability of these features in modern browsers.
