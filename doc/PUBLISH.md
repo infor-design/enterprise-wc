@@ -4,7 +4,7 @@
 
 - Bump version in `package.json`
 - Bump version in `package-dist.json`
-- Bump version in `src/core/ids-element.js`
+- Bump version in `src/core/ids-attributes.js`
 - Run command `npm run publish:dry-run` to test first
 - Run command `npm run publish:npm`
 
