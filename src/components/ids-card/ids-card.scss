@@ -17,12 +17,23 @@
 
     height: 310px;
     overflow: auto;
-    display: flex;
-    align-items: center;
+    padding-left: 50px;
 
     &.overflow-hidden {
       overflow: hidden;
     }
+  }
+
+  &-checkbox {
+    @include absolute();
+    @include flex();
+    
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    align-items: center;
+    justify-content: center;
   }
 
   &.is-selectable {
@@ -32,10 +43,7 @@
   &.is-selected {
     background-color: var(--ids-color-palette-azure-10);
     outline: 2px solid #0072ed;
-  }
-
-  ids-checkbox {
-    margin-left: 16px;
+    outline-offset: -1px;
   }
 
   .hidden {

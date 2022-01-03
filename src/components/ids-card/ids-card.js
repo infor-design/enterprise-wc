@@ -53,10 +53,12 @@ export default class IdsCard extends Base {
             <slot name="card-header"></slot>
           </div>
           <div class="ids-card-content ${this.overflow === 'hidden' ? 'overflow-hidden' : ''}" part="content">
+            <slot name="card-content"></slot>
+          </div>
+          <div class="ids-card-checkbox">
             <ids-checkbox
               class="${this.selection === 'multiple' ? '' : 'hidden'}"
             ></ids-checkbox>
-            <slot name="card-content"></slot>
           </div>
         </div>
       </div>
