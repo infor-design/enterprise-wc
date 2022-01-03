@@ -60,25 +60,28 @@ export default class IdsSwapList extends Base {
   }
 
   swapToNextList(button) {
-    console.log('swapToNextList')
     const currentCard = button.parentElement.parentElement;
-    console.log(currentCard)
     const currentList = currentCard.querySelector('ids-list-view');
-    console.log(currentList)
     const nextCard = currentCard.nextSibling;
-    console.log(nextCard);
-    const nextList = nextCard.querySelector('ids-list-view');
-    console.log(nextList)
-    // query select the next list-view node
+    const nextList = nextCard.querySelector('ids-list-view').shadowRoot.querySelector('.ids-list-view-body');
+
     currentList.selectedLi.forEach((x) => {
-      nextList.appendChild(x);
-    // move selected node(s) into that list-view
+      const dragItem = x.parentElement;
+      nextList.appendChild(dragItem);
     });
   }
 
-  swapToPreviouList(button) {
-    // query select the previous list-view node
-      // move node(s) into that list-view
+  swapToPreviousList(button) {
+    const currentCard = button.parentElement.parentElement;
+    const currentList = currentCard.querySelector('ids-list-view');
+    const prevCard = currentCard.previousSibling;
+    const prevList = prevCard.querySelector('ids-list-view').shadowRoot.querySelector('.ids-list-view-body');
+    console.log(prevList);
+
+    currentList.selectedLi.forEach((x) => {
+      const dragItem = x.parentElement;
+      prevList.appendChild(dragItem);
+    });
   }
 
   getAllLists() {
