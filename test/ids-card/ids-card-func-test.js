@@ -94,4 +94,46 @@ describe('IdsCard Component', () => {
     card.version = 'classic';
     expect(card.container.getAttribute('version')).toEqual('classic');
   });
+
+  it('support card selection single', () => {
+    const clickEvent = new MouseEvent('click', { bubbles: true });
+    card.selection = 'single';
+
+    card.dispatchEvent(clickEvent);
+    expect(card.selected).toBe('true');
+
+    card.dispatchEvent(clickEvent);
+    expect(card.selected).toBe('true');
+  });
+
+  it('support card selection multiple', () => {
+    const clickEvent = new MouseEvent('click', { bubbles: true });
+    card.selection = 'multiple';
+    const checkboxElem = card.shadowRoot.querySelector('ids-checkbox');
+
+    // when user click card container
+    card.dispatchEvent(clickEvent);
+    expect(card.selected).toBe('true');
+    expect(checkboxElem.checked).toBe('true');
+
+    card.dispatchEvent(clickEvent);
+    expect(card.selected).toBe('false');
+    expect(checkboxElem.checked).toBeNull();
+  });
+
+  it('should fire selectionchanged event', async () => {
+    const mockCallback = jest.fn((x) => {
+      expect(x.detail.elem).toEqual(card);
+      expect(x.detail.selected).toEqual('true');
+      expect(x.detail.selection).toEqual('multiple');
+    });
+
+    const clickEvent = new MouseEvent('click', { bubbles: true });
+    card.selection = 'multiple';
+
+    card.addEventListener('selectionchanged', mockCallback);
+    card.dispatchEvent(clickEvent);
+
+    expect(mockCallback.mock.calls.length).toBe(1);
+  });
 });

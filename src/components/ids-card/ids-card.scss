@@ -21,6 +21,36 @@
     &.overflow-hidden {
       overflow: hidden;
     }
+
+    &.has-checkbox {
+      padding-left: 50px;
+    }
+  }
+
+  &-checkbox {
+    @include absolute();
+    @include flex();
+
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &.is-selectable {
+    @include cursor-pointer();
+  }
+
+  &.is-selected {
+    background-color: var(--ids-color-palette-azure-10);
+    outline: 2px solid #0072ed;
+    outline-offset: -1px;
+  }
+
+  .hidden {
+    display: none;
   }
 }
 
@@ -54,6 +84,10 @@
 }
 
 // Style the title
+.ids-card-body {
+  width: 100%;
+}
+
 .ids-card-header {
   @include px-16();
   @include border-slate-30();
