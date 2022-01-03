@@ -17,11 +17,6 @@ export default class IdsListBuilder extends Base {
     super();
   }
 
-  // the currently selected list item
-  #selectedLi;
-
-  #selectedLiIndex;
-
   // any active editor of the selected list item
   #selectedLiEditor;
 
@@ -30,6 +25,7 @@ export default class IdsListBuilder extends Base {
 
   connectedCallback() {
     this.sortable = true;
+    this.selectable = 'single';
     // list-builder is not designed to handle thousands of items, so don't support virtual scroll
     this.virtualScroll = false;
     this.itemHeight = 46; // hard-coded
@@ -87,11 +83,6 @@ export default class IdsListBuilder extends Base {
     `;
   }
 
-  get selectedLi() {
-    const savedSelectedLi = this.container.querySelector(`div[part="list-item"][index="${this.#selectedLiIndex}"]`);
-    return savedSelectedLi;
-  }
-
   get data() {
     return super.data;
   }
@@ -108,60 +99,6 @@ export default class IdsListBuilder extends Base {
   }
 
   /**
-   * Helper function that toggles the 'selected' attribute of an element, then focuses on that element
-   * @param {Element} item the item to add/remove the selected attribute
-   * @param {boolean} switchValue optional switch values to force add/remove the selected attribute
-   */
-  #toggleSelectedAttribute(item, switchValue) {
-    const unselect = () => {
-      item.removeAttribute('selected');
-      this.#selectedLiIndex = null;
-    };
-
-    const select = () => {
-      item.setAttribute('selected', 'selected');
-      this.#selectedLiIndex = item.getAttribute('index');
-    };
-
-    if (switchValue === true) {
-      select();
-    } else if (switchValue === false) {
-      unselect();
-    } else {
-      // otherwise toggle it depending on whether or not it has the attribute already
-      const hasSelectedAttribute = item.getAttribute('selected');
-      hasSelectedAttribute ? unselect() : select();
-
-      this.focusLi(item);
-    }
-  }
-
-  /**
-   * Toggles the selected list item
-   * @param {*} item the selected list item to toggle
-   */
-  #toggleSelectedLi(item) {
-    if (item.tagName === 'DIV' && item.getAttribute('part') === 'list-item') {
-      const prevSelectedLi = this.selectedLi;
-      if (item !== prevSelectedLi) {
-        if (prevSelectedLi) {
-          // unselect previous item if it's selected
-          prevSelectedLi.setAttribute('tabindex', '-1');
-          this.#toggleSelectedAttribute(prevSelectedLi);
-        }
-      }
-      this.#toggleSelectedAttribute(item);
-    }
-  }
-
-  #reselect() {
-    const prevSelectedLi = this.selectedLi;
-    if (prevSelectedLi) {
-      this.#toggleSelectedAttribute(prevSelectedLi, true);
-    }
-  }
-
-  /**
    * Attaches all the listeners which allow for clicking, dragging, and keyboard interaction with the list items
    */
   #attachEventListeners() {
@@ -172,7 +109,6 @@ export default class IdsListBuilder extends Base {
       this.onEvent('ids-virtual-scroll-afterrender', this.virtualScrollContainer, () => {
         this.attachDragEventListeners();
         this.#attachKeyboardListeners();
-        this.#reselect();
       });
     }
   }
@@ -252,11 +188,7 @@ export default class IdsListBuilder extends Base {
    */
   onClick(item) {
     super.onClick(item);
-
     this.#unfocusAnySelectedLiEditor();
-
-    // toggle selected item
-    this.#toggleSelectedLi(item);
   }
 
   /**
@@ -281,7 +213,7 @@ export default class IdsListBuilder extends Base {
       const listItem = newDraggableItem.querySelector('div[part="list-item"]');
       // remove any selected attribute on li that may have propogated from the clone
       listItem.getAttribute('selected') && listItem.removeAttribute('selected');
-      this.#toggleSelectedLi(listItem);
+      this.toggleSelectedLi(listItem);
 
       const newEntry = true;
       this.#insertSelectedLiWithEditor(newEntry);
@@ -348,7 +280,7 @@ export default class IdsListBuilder extends Base {
       case ' ': // selects the list item
         if (!this.#selectedLiEditor) {
           event.preventDefault(); // prevent container from scrolling
-          this.#toggleSelectedLi(l);
+          this.toggleSelectedLi(l);
         }
         break;
       case 'Tab':
