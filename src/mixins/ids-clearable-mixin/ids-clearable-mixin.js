@@ -81,10 +81,12 @@ const IdsClearableMixin = (superclass) => class extends superclass {
       let parent = this.shadowRoot.querySelector('.ids-input, .ids-textarea');
       parent = parent?.querySelector('.field-container');
       parent?.appendChild(xButton);
-      this.input?.classList.add('has-clearable');
+
       if (this.closest('.ids-search-field')) {
-        this.input?.classList.add('has-no-trigger-button');
+        this.container.classList.add('has-no-trigger-button');
       }
+      this.container.classList.add('has-clearable');
+
       this.attachClearableEvents();
     }
   }
@@ -98,7 +100,9 @@ const IdsClearableMixin = (superclass) => class extends superclass {
     const xButton = this.shadowRoot.querySelector('.btn-clear');
     if (xButton) {
       xButton.remove();
+      this.container.classList.remove('has-clearable');
     }
+    // @TODO: remove event handlers
   }
 
   /**

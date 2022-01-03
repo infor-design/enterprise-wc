@@ -173,6 +173,10 @@ $input-compact-height: $input-field-height-xs;
     }
   }
 
+  .ids-icon:first-child {
+    @include ml-8();
+  }
+
   // Applied to the shadow root's HTMLInputElement
   .ids-input-field {
     @include antialiased();
@@ -207,9 +211,29 @@ $input-compact-height: $input-field-height-xs;
     &.right {
       text-align: end;
     }
+  }
 
-    &.no-margin {
+  // If `no-margins` is used:
+  // - margins are removed from component top/bottom
+  // - labels are visually hidden instead of displaying blank content for spacing
+  &.no-margins {
+    margin: 0;
+
+    .field-container {
       @include mb-0();
+    }
+
+    .ids-input-field {
+      @include mb-0();
+    }
+
+    .ids-label-text {
+      &.empty {
+        @include m-0();
+
+        visibility: hidden;
+        height: 0;
+      }
     }
   }
 
@@ -306,7 +330,9 @@ $input-compact-height: $input-field-height-xs;
   }
 
   &.readonly {
-    .field-container {
+    .field-container,
+    &.hover .field-container,
+    &.focus-within .field-container {
       @include bg-slate-20();
       @include border-slate-40();
       @include text-black();
@@ -314,7 +340,9 @@ $input-compact-height: $input-field-height-xs;
   }
 
   &.disabled {
-    .field-container {
+    .field-container,
+    &:hover .field-container,
+    &:focus-within .field-container {
       @include border-slate-30();
       @include text-slate-30();
     }
@@ -349,10 +377,14 @@ $input-compact-height: $input-field-height-xs;
   // Include error styles
   @include ids-input-message-styles();
 
-  // alternate colors for header placement
+  // Alternate Color Variant (used in IdsHeader)
   &.color-variant-alternate {
     .field-container {
+      @include border-transparent();
       @include text-white();
+
+      background-color: rgba(71 71 76 / 0.3);
+      border-bottom: 1px solid rgba(62 62 66 / 0.7);
     }
 
     .ids-input-field::placeholder {
@@ -481,6 +513,7 @@ $input-compact-height: $input-field-height-xs;
   // Include error styles
   @include ids-input-message-styles();
 
+  // Alternate Color Variant
   &.color-variant-alternate {
     .field-container {
       @include text-white();
@@ -565,6 +598,7 @@ $input-compact-height: $input-field-height-xs;
   // Include error styles
   @include ids-input-message-styles();
 
+  // Alternate Color Variant
   &.color-variant-alternate {
     .field-container {
       @include text-white();

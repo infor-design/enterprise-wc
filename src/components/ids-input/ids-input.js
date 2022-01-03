@@ -160,7 +160,6 @@ export default class IdsInput extends Base {
     }
 
     inputClass += stringToBool(this.bgTransparent) ? ' bg-transparent' : '';
-    inputClass += stringToBool(this.noMargins) ? ' noMargins' : '';
     inputClass += stringToBool(this.textEllipsis) ? ' text-ellipsis' : '';
     inputClass += stringToBool(this.triggerfield) ? ' has-triggerfield' : '';
     inputClass = ` class="${inputClass}"`;
@@ -170,12 +169,12 @@ export default class IdsInput extends Base {
 
     let containerClass = `ids-input${inputState} ${this.size} ${this.fieldHeight}`;
     containerClass += stringToBool(this.compact) ? ' compact' : '';
+    containerClass += stringToBool(this.noMargins) ? ' no-margins' : '';
 
-    const labelHtml = !this.label || this.getAttribute(attributes.LABEL_HIDDEN) ? '' : (
-      `<label for="${this.id}-input" class="ids-label-text">
+    const hiddenLabelCss = !this.label || this.getAttribute(attributes.LABEL_HIDDEN) ? ' empty' : '';
+    const labelHtml = `<label for="${this.id}-input" class="ids-label-text${hiddenLabelCss}">
         <ids-text part="label" label="true" color-unset>${this.label}</ids-text>
-      </label>`
-    );
+      </label>`;
 
     return {
       containerClass,
@@ -917,12 +916,12 @@ export default class IdsInput extends Base {
    */
   set noMargins(n) {
     if (stringToBool(n)) {
-      this.setAttribute(attributes.NO_MARGINS, 'true');
-      this.container.querySelector('input').classList.add('no-margin');
+      this.setAttribute(attributes.NO_MARGINS, '');
+      this.container.classList.add('no-margins');
       return;
     }
     this.removeAttribute(attributes.NO_MARGINS);
-    this.container.querySelector('input').classList.remove('no-margin');
+    this.container.classList.remove('no-margins');
   }
 
   get noMargins() {

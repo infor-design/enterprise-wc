@@ -7,7 +7,7 @@
 .ids-textarea {
   .ids-input-field,
   .ids-textarea-field {
-    ~ .btn-clear {
+    .btn-clear {
       @include outline-none();
 
       &.is-empty {
@@ -20,9 +20,15 @@
         color: inherit;
       }
     }
+  }
 
-    &.has-clearable {
-      @include pr-32();
+  &.has-clearable {
+    .btn-clear {
+      &.is-empty {
+        display: initial;
+        visibility: hidden;
+        pointer-events: none;
+      }
     }
   }
 }

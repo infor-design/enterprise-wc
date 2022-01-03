@@ -1,15 +1,12 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import Base from './ids-search-field-base';
-import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import IdsInput from '../ids-input/ids-input';
 import IdsIcon from '../ids-icon/ids-icon';
 
-import styles from './ids-search-field.scss';
+import styles from '../ids-input/ids-input.scss';
 
 const DEFAULT_LABEL = 'Search';
 const DEFAULT_PLACEHOLDER = 'Type to search';
@@ -29,10 +26,6 @@ export default class IdsSearchField extends Base {
   DEFAULT_LABEL = DEFAULT_LABEL;
 
   DEFAULT_PLACEHOLDER = DEFAULT_PLACEHOLDER;
-
-  input;
-
-  triggerField;
 
   constructor() {
     super();
@@ -56,15 +49,41 @@ export default class IdsSearchField extends Base {
   }
 
   connectedCallback() {
-    this.input = this.container.querySelector('ids-input');
-    this.triggerField = this.container.querySelector('ids-trigger-field');
-
     this.#attachEventHandlers();
     this.#attachKeyboardListener();
     super.connectedCallback();
   }
 
   template() {
+    this.templateHostAttributes();
+    const {
+      containerClass,
+      inputClass,
+      inputState,
+      labelHtml,
+      placeholder,
+      type
+    } = this.templateVariables();
+
+    return (
+      `<div id="ids-search-field" class="ids-search-field ids-trigger-field ${containerClass}" part="container">
+        ${labelHtml}
+        <div class="field-container" part="field-container">
+          <ids-icon class="ids-icon search-icon" size="medium" icon="search"></ids-icon>
+          <slot name="trigger-start"></slot>
+          <input
+            part="input"
+            id="${this.id}-input"
+            ${type}${inputClass}${placeholder}${inputState}
+            ${this.getAttribute(attributes.LABEL_HIDDEN) && this.label ? `aria-label="${this.label}"` : ''}
+            ${this.hasAttribute(attributes.VALUE) ? ` value="${this.getAttribute(attributes.VALUE)}" ` : ''}
+            ></input>
+          <slot name="trigger-end"></slot>
+        </div>
+      </div>`
+    );
+
+    /*
     return `
       <div
         class="ids-search-field"
@@ -88,102 +107,7 @@ export default class IdsSearchField extends Base {
           </ids-input>
       </div>
     `;
-  }
-
-  /**
-   * Set the color variant to alternate or default style
-   */
-  set colorVariant(value) {
-    if (value) {
-      super.colorVariant = value;
-      this.container.querySelector('ids-input').colorVariant = value;
-    }
-  }
-
-  get colorVariant() {
-    return super.colorVariant;
-  }
-
-  /**
-   * Sets the value inside the input
-   * @param {string} value The input value
-   */
-  set value(value) {
-    this.setAttribute(attributes.VALUE, value);
-    this.search(value);
-  }
-
-  get value() {
-    return this.getAttribute(attributes.VALUE) || '';
-  }
-
-  /**
-   * Set the placeholder text inside the input
-   * @param {string} value The placeholder text
-   */
-  set placeholder(value) {
-    this.setAttribute(attributes.PLACEHOLDER, value);
-
-    if (this.input) {
-      this.input.placeholder = value;
-    }
-  }
-
-  get placeholder() {
-    const a = this.getAttribute(attributes.PLACEHOLDER);
-    if (typeof a === 'string') {
-      return this.getAttribute(attributes.PLACEHOLDER);
-    }
-    return DEFAULT_PLACEHOLDER;
-  }
-
-  /**
-   * Set the label text that rests above the input field
-   * @param {string} value The name for the label
-   */
-  set label(value) {
-    this.setAttribute(attributes.LABEL, value);
-
-    if (this.input) {
-      this.triggerField.label = value;
-    }
-  }
-
-  get label() {
-    const a = this.getAttribute(attributes.LABEL);
-    if (typeof a === 'string') {
-      return this.getAttribute(attributes.LABEL);
-    }
-    return DEFAULT_LABEL;
-  }
-
-  /**
-   * Sets the input state to disabled so the field is uneditable or accessible through tabbing
-   * @param {boolean} value True or False
-   */
-  set disabled(value) {
-    const val = stringToBool(value);
-    this.setAttribute(attributes.DISABLED, val);
-    this.triggerField.disabled = val;
-    this.input.disabled = val;
-  }
-
-  get disabled() {
-    return stringToBool(this.getAttribute(attributes.DISABLED));
-  }
-
-  /**
-   * Sets the input state to readonly so the field is uneditable but accessible through tabbing
-   */
-  set readonly(value) {
-    const val = stringToBool(value);
-    this.setAttribute(attributes.READONLY, val);
-    this.input.readonly = val;
-    this.triggerField.readonly = val;
-  }
-
-  get readonly() {
-    return stringToBool(this.getAttribute(attributes.READONLY));
+    */
   }
 
   /**
