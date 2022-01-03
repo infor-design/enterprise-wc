@@ -39,6 +39,10 @@
         margin-top: 0;
         right: -8px;
       }
+
+      &.has-no-trigger-button ~ .btn-clear {
+        right: 0;
+      }
     }
   }
 }
