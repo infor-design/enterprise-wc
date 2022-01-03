@@ -61,6 +61,10 @@
 
 ::slotted([slot='card-header']) {
   @include py-12();
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 // Handle Themes
