@@ -17,10 +17,13 @@
 
     height: 310px;
     overflow: auto;
-    padding-left: 50px;
 
     &.overflow-hidden {
       overflow: hidden;
+    }
+
+    &.has-checkbox {
+      padding-left: 50px;
     }
   }
 
