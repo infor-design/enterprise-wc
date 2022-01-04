@@ -120,6 +120,7 @@ export default class IdsListBuilder extends Base {
     if (this.#selectedLiEditor) {
       this.#updateSelectedLiWithEditorValue();
       this.#removeSelectedLiEditor();
+      this.updateDataFromDOM();
     }
   }
 
@@ -213,6 +214,8 @@ export default class IdsListBuilder extends Base {
       const listItem = newDraggableItem.querySelector('div[part="list-item"]');
       // remove any selected attribute on li that may have propogated from the clone
       listItem.getAttribute('selected') && listItem.removeAttribute('selected');
+
+      this.resetIndices();
       this.toggleSelectedLi(listItem);
 
       const newEntry = true;
@@ -228,6 +231,7 @@ export default class IdsListBuilder extends Base {
         if (prev) {
           this.swap(this.selectedLi.parentNode, prev);
         }
+        this.updateDataFromDOM();
       }
     });
 
@@ -240,6 +244,7 @@ export default class IdsListBuilder extends Base {
         if (next) {
           this.swap(this.selectedLi.parentNode, next);
         }
+        this.updateDataFromDOM();
       }
     });
 
@@ -254,6 +259,8 @@ export default class IdsListBuilder extends Base {
         this.selectedLi.parentNode.remove();
         this.selectedLi = null;
         if (this.#selectedLiEditor) this.#selectedLiEditor = null;
+        this.resetIndices();
+        this.updateDataFromDOM();
       }
     });
   }
@@ -309,5 +316,11 @@ export default class IdsListBuilder extends Base {
     const p = super.createPlaceholderNode(node);
     p.querySelector('div[part="list-item"]').removeAttribute('selected');
     return p;
+  }
+
+  resetIndices() {
+    this.container.querySelectorAll('div[part="list-item"]').forEach((x, i) => {
+      x.setAttribute('index', i);
+    });
   }
 }

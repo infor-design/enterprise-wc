@@ -1,24 +1,18 @@
-import packageJson from '../../../package.json';
+import { version } from '../../core/ids-attributes';
 
 /**
- * @private
- * @returns {object} broser device env specs
+ * Return an object with some browser information. Used primary for the ids-about component.
+ * You avoid using browser detection for anything else.
+ * @returns {object} browser device env specs
  */
 export function getSpecs() {
-  const unknown = '-';
-  const nAppVer = navigator.appVersion;
   const nUAgent = navigator.userAgent;
-  let browser = navigator.appName;
   let appVersion = ` ${parseFloat(navigator.appVersion)}`;
-  const majorVersion = parseInt(navigator.appVersion, 10);
+  const platform = navigator.userAgentData?.platform || navigator.platform;
+  const isMobile = window.matchMedia ? window.matchMedia('only screen and (max-width: 760px)').matches : false;
   let nameOffset;
   let verOffset;
-  let ix;
-  const isIPad = () => !!(navigator.userAgent.match(/(iPad)/)
-    || (navigator.platform === 'MacIntel' && typeof navigator.standalone !== 'undefined'));
-  const browserLanguage = navigator.appName === 'Microsoft Internet Explorer'
-    ? navigator.userLanguage
-    : navigator.language;
+  let browser = '';
 
   if (nUAgent.indexOf('Opera') !== -1) {
     verOffset = nUAgent.indexOf('Opera');
@@ -66,7 +60,9 @@ export function getSpecs() {
     browser = nUAgent.substring(nameOffset, verOffset);
     appVersion = nUAgent.substring(verOffset + 1);
   }
+
   // Trim the version string
+  let ix;
   if (appVersion.indexOf(';') !== -1) {
     ix = appVersion.indexOf(';');
     appVersion = appVersion.substring(0, ix);
@@ -80,74 +76,12 @@ export function getSpecs() {
     appVersion = appVersion.substring(0, ix);
   }
 
-  // mobile version
-  const mobile = /Mobile|mini|Fennec|Android|iP(ad|od|hone)/.test(nAppVer);
-
-  let os = unknown;
-
-  const clientStrings = [
-    { s: 'Windows 10', r: /(Windows 10.0|Windows NT 10.0)/ },
-    { s: 'Windows 8.1', r: /(Windows 8.1|Windows NT 6.3)/ },
-    { s: 'Windows 8', r: /(Windows 8|Windows NT 6.2)/ },
-    { s: 'Windows 7', r: /(Windows 7|Windows NT 6.1)/ },
-    { s: 'Android', r: /Android/ },
-    { s: 'Open BSD', r: /OpenBSD/ },
-    { s: 'Sun OS', r: /SunOS/ },
-    { s: 'Linux', r: /(Linux|X11)/ },
-    { s: 'iOS', r: /(iPhone|iPad|iPod)/ },
-    { s: 'Mac OS X', r: /Mac OS X/ },
-    { s: 'Mac OS', r: /(MacPPC|MacIntel|Mac_PowerPC|Macintosh)/ },
-    { s: 'UNIX', r: /UNIX/ },
-  ];
-
-  os = (clientStrings.find((cs) => cs.r.test(nUAgent)) || {}).s || unknown;
-
-  let osVersion = unknown;
-
-  switch (os) {
-  case 'Mac OS X':
-    osVersion = /Mac OS X ([1-9][0-9][._\d]+)/
-      .exec(nUAgent)[1]
-      .replace(/_/g, '.');
-    break;
-
-  case 'Android':
-    osVersion = /Android ([._\d]+)/.exec(nUAgent)[1];
-    break;
-
-  case 'iOS':
-    osVersion = /OS (\d+)_?(\d+)?/.exec(nUAgent);
-    osVersion = `${osVersion[1]}.${osVersion[2]}.${osVersion[3] | 0}`;
-    break;
-
-  default:
-    osVersion = unknown;
-    break;
-  }
-
-  if (/Windows/.test(os)) {
-    osVersion = /Windows (.*)/.exec(os)[1];
-  }
-
-  if (isIPad()) {
-    const osVersionStr = nUAgent.substr(
-      nUAgent.indexOf('Version'),
-      nUAgent.substr(nUAgent.indexOf('Version')).indexOf(' ')
-    );
-    osVersion = osVersionStr.replace('Version/', '');
-    os = 'IOS';
-  }
-
   return {
-    currentBrowser: browser,
-    cookiesEnabled: navigator.cookieEnabled,
+    platform,
+    isMobile,
+    browser,
     browserVersion: appVersion.trim(),
-    browserMajorVersion: `${majorVersion}`,
-    isMobile: mobile || isIPad(),
-    os,
-    currentOSVersion: osVersion,
-    idsVersion: packageJson.version,
-    platform: navigator.platform,
-    browserLanguage
+    idsVersion: version,
+    browserLanguage: navigator.language
   };
 }
