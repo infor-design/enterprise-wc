@@ -80,12 +80,7 @@ const container = document.querySelector('ids-container');
   paginateData(1, dataGrid.pageSize);
 
   dataGrid.pager.addEventListener('pagenumberchange', async (e) => {
-    await new Promise((resolve) => {
-      setTimeout(() => {
-        paginateData(e.detail.value, dataGrid.pageSize);
-        resolve();
-      }, 2000);
-    });
+    paginateData(e.detail.value, dataGrid.pageSize);
   });
 
   console.info('Loading Time:', window.performance.now());
