@@ -37,12 +37,12 @@ export default class IdsSwapList extends Base {
       l.defaultTemplate = this.defaultTemplate;
     });
 
-    this.container.querySelectorAll('ids-button').forEach((b) => {
-      this.onEvent('click', b, () => {
-        if (b.classList.contains('left-arrow')) {
-          this.swapToPreviousList(b);
-        } else if (b.classList.contains('right-arrow')) {
-          this.swapToNextList(b);
+    this.container.querySelectorAll('.swap-buttons').forEach((b) => {
+      this.onEvent('click', b, (e) => {
+        if (e.target.classList.contains('left-arrow')) {
+          this.swapToPreviousList(e.target);
+        } else if (e.target.classList.contains('right-arrow')) {
+          this.swapToNextList(e.target);
         }
       });
     });
@@ -60,7 +60,7 @@ export default class IdsSwapList extends Base {
   }
 
   swapToNextList(button) {
-    const currentCard = button.parentElement.parentElement;
+    const currentCard = button.parentElement.parentElement.parentElement;
     const currentList = currentCard.querySelector('ids-list-view');
     const nextCard = currentCard.nextSibling;
     const nextList = nextCard.querySelector('ids-list-view').shadowRoot.querySelector('.ids-list-view-body');
@@ -68,11 +68,12 @@ export default class IdsSwapList extends Base {
     currentList.selectedLi.forEach((x) => {
       const dragItem = x.parentElement;
       nextList.appendChild(dragItem);
+      x.removeAttribute('selected');
     });
   }
 
   swapToPreviousList(button) {
-    const currentCard = button.parentElement.parentElement;
+    const currentCard = button.parentElement.parentElement.parentElement;
     const currentList = currentCard.querySelector('ids-list-view');
     const prevCard = currentCard.previousSibling;
     const prevList = prevCard.querySelector('ids-list-view').shadowRoot.querySelector('.ids-list-view-body');
@@ -80,6 +81,7 @@ export default class IdsSwapList extends Base {
     currentList.selectedLi.forEach((x) => {
       const dragItem = x.parentElement;
       prevList.appendChild(dragItem);
+      x.removeAttribute('selected');
     });
   }
 

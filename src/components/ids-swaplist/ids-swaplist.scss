@@ -16,23 +16,26 @@ ids-card {
 
   &.card {
     &::part(card) {
+      @include rounded-none();
+
       border-left: none;
       border-right: none;
-      border-radius: 0;
     }
   }
 
   &.card-0 {
     &::part(card) {
+      @include rounded-l-md();
+
       border: 1px solid var(--ids-color-palette-slate-30);
-      border-radius: 4px 0 0 4px;
     }
   }
 
   &.card-last {
     &::part(card) {
+      @include rounded-r-md();
+
       border: 1px solid var(--ids-color-palette-slate-30);
-      border-radius: 0 4px 4px 0;
     }
   }
 
