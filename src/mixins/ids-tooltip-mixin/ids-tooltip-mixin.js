@@ -49,7 +49,7 @@ const IdsTooltipMixin = (superclass) => class extends superclass {
       return this.container.querySelector('input');
     }
     if (this.nodeName === 'IDS-DROPDOWN') {
-      return this.container?.querySelector('ids-input').container?.querySelector('input');
+      return this.triggerField.container.querySelector('input');
     }
     return this;
   }

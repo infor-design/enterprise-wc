@@ -44,12 +44,11 @@ export default class IdsDropdown extends Base {
       this.container = document.createElement('ids-trigger-field');
     }
     this.popup = this.shadowRoot?.querySelector('ids-popup');
-    this.inputRoot = this.shadowRoot?.querySelector('ids-input');
-    this.fieldContainer = this.container?.querySelector('ids-input')?.shadowRoot?.querySelector('.field-container');
+    this.inputRoot = this.container;
+    this.fieldContainer = this.container?.shadowRoot?.querySelector('.field-container');
     this.trigger = this.shadowRoot?.querySelector('ids-trigger-button');
     this.input = this.inputRoot?.shadowRoot?.querySelector('input');
-    this.triggerContent = this.container?.shadowRoot?.querySelector('.ids-trigger-field-content');
-    this.triggerField = this.container?.shadowRoot?.querySelector('.ids-trigger-field');
+    this.triggerContent = this.container?.shadowRoot?.querySelector('.field-container');
     this.listBox = this.querySelector('ids-list-box');
     this.labelEl = this.inputRoot?.shadowRoot?.querySelector('label');
 
@@ -93,17 +92,8 @@ export default class IdsDropdown extends Base {
       ${this.readonly ? ' readonly="true"' : ''}
       ${this.validate ? ` validate="${this.validate}"` : ''}
       ${this.validate && this.validationEvents ? ` validation-events="${this.validationEvents}"` : ''}>
-      ${this.hasIcons ? '<span class="icon-container"><ids-icon icon="user-profile"></ids-icon></span>' : ''}
-      <ids-input
-        size="${this.size}"
-        part="input"
-        disabled="${this.disabled}"
-        label-hidden="true" ${!this.disabled && !this.readonly ? 'cursor="pointer"' : ''}
-        readonly
-        ${this.readonly ? 'cursor="text"' : ''}
-        bg-transparent="${!this.readonly && !this.disabled}"
-        user-select="none" triggerfield="true"></ids-input>
       <ids-trigger-button
+        slot="trigger-end"
         part="trigger-button"
         tabbable="false"
         disabled="${this.disabled}"
@@ -146,8 +136,7 @@ export default class IdsDropdown extends Base {
    */
   set label(value) {
     this.setAttribute('label', value);
-    this.shadowRoot.querySelector('ids-input').setAttribute('label', value);
-    this.shadowRoot.querySelector('ids-trigger-field').setAttribute('label', value);
+    this.container.setAttribute('label', value);
   }
 
   get label() { return this.getAttribute('label'); }
@@ -165,7 +154,7 @@ export default class IdsDropdown extends Base {
     this.#selectOption(elem);
     this.#selectIcon(elem);
     this.#selectTooltip(elem);
-    this.shadowRoot.querySelector('ids-input').value = elem.textContent.trim();
+    this.container.value = elem.textContent.trim();
     this.state.selectedIndex = [...elem.parentElement.children].indexOf(elem);
 
     // Send the change event
@@ -290,11 +279,27 @@ export default class IdsDropdown extends Base {
    * @param {HTMLElement} option the option to select
    */
   #selectIcon(option) {
+    let dropdownIcon = this.container?.querySelector('ids-icon[slot="trigger-start"]');
     if (!this.hasIcons) {
+      if (dropdownIcon) {
+        dropdownIcon.remove();
+      }
       return;
     }
     const icon = option.querySelector('ids-icon');
-    this.shadowRoot.querySelector('.icon-container ids-icon').setAttribute('icon', icon.getAttribute('icon'));
+
+    if (!dropdownIcon) {
+      const dropdownIconContainer = document.createElement('span');
+      dropdownIconContainer.slot = 'trigger-start';
+      dropdownIconContainer.classList.add('icon-container');
+      dropdownIcon = document.createElement('ids-icon');
+      dropdownIcon.icon = icon.icon;
+      dropdownIcon.setAttribute('slot', 'trigger-start');
+      dropdownIconContainer.append(dropdownIcon);
+      this.container?.appendChild(dropdownIconContainer);
+    } else {
+      dropdownIcon.icon = icon.icon;
+    }
   }
 
   /**
@@ -342,7 +347,7 @@ export default class IdsDropdown extends Base {
     this.popup.visible = true;
     this.popup.type = 'dropdown';
     this.addOpenEvents();
-    this.triggerField.classList.add('is-active');
+    this.container.classList.add('is-active');
     this.input.setAttribute('aria-expanded', 'true');
 
     // Add aria for the open state
@@ -398,7 +403,7 @@ export default class IdsDropdown extends Base {
    */
   close(noFocus) {
     this.popup.visible = false;
-    this.triggerField.classList.remove('is-active');
+    this.container.classList.remove('is-active');
     this.input.setAttribute('aria-expanded', 'false');
     const selected = this.querySelector('ids-list-box-option.is-selected');
 
@@ -460,7 +465,7 @@ export default class IdsDropdown extends Base {
     });
 
     // Disable text selection on tab (extra info in the screen reader)
-    this.onEvent('focus', this.shadowRoot.querySelector('ids-input'), () => {
+    this.onEvent('focus', this.container, () => {
       window.getSelection().removeAllRanges();
     });
 
