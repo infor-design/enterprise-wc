@@ -3,6 +3,7 @@
 ## Features
 
 - [ ] Add support for IdsBlockGrid
+- [ ] Add support for IdsListView
 
 ## Ids Popup Menu
 
