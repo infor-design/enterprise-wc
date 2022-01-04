@@ -47,38 +47,44 @@ describe('IdsVirtualScroll Component', () => {
   });
 
   it('renders rows on scroll', async () => {
-    const startingHtml = virtualScroll.innerHTML;
+    requestAnimationFrame(async () => {
+      const startingHtml = virtualScroll.innerHTML;
 
-    virtualScroll.scrollTop = 30000;
-    virtualScroll.handleScroll({ target: virtualScroll });
-    // eslint-disable-next-line no-promise-executor-return
-    await new Promise((r) => setTimeout(r, 50));
-    expect(virtualScroll.innerHTML).not.toEqual(startingHtml);
+      virtualScroll.scrollTop = 30000;
+      virtualScroll.handleScroll({ target: virtualScroll });
+      // eslint-disable-next-line no-promise-executor-return
+      await new Promise((r) => setTimeout(r, 50));
+      expect(virtualScroll.innerHTML).not.toEqual(startingHtml);
+    });
   });
 
   it('renders cancels multiple handleScroll', async () => {
-    const startingHtml = virtualScroll.innerHTML;
+    requestAnimationFrame(async () => {
+      const startingHtml = virtualScroll.innerHTML;
 
-    virtualScroll.scrollTop = 500;
-    virtualScroll.handleScroll({ target: virtualScroll });
-    virtualScroll.scrollTop = 500;
-    virtualScroll.handleScroll({ target: virtualScroll });
-    virtualScroll.scrollTop = 501;
-    virtualScroll.handleScroll({ target: virtualScroll });
-    // eslint-disable-next-line no-promise-executor-return
-    await new Promise((r) => setTimeout(r, 50));
+      virtualScroll.scrollTop = 500;
+      virtualScroll.handleScroll({ target: virtualScroll });
+      virtualScroll.scrollTop = 500;
+      virtualScroll.handleScroll({ target: virtualScroll });
+      virtualScroll.scrollTop = 501;
+      virtualScroll.handleScroll({ target: virtualScroll });
+      // eslint-disable-next-line no-promise-executor-return
+      await new Promise((r) => setTimeout(r, 50));
 
-    expect(virtualScroll.innerHTML).not.toEqual(startingHtml);
+      expect(virtualScroll.innerHTML).not.toEqual(startingHtml);
+    });
   });
 
   it('can set the bufferSize attribute', async () => {
-    expect((virtualScroll.innerHTML.match(/<div part="list-item"/g) || []).length > 0).toBeTruthy();
-    virtualScroll.bufferSize = 100;
-    expect(virtualScroll.getAttribute('buffer-size')).toEqual('100');
+    requestAnimationFrame(() => {
+      expect((virtualScroll.innerHTML.match(/<div part="list-item"/g) || []).length > 0).toBeTruthy();
+      virtualScroll.bufferSize = 100;
+      expect(virtualScroll.getAttribute('buffer-size')).toEqual('100');
 
-    virtualScroll.renderItems();
+      virtualScroll.renderItems();
 
-    expect((virtualScroll.innerHTML.match(/<div part="list-item"/g) || []).length).toEqual(virtualScroll.visibleItemCount());
+      expect((virtualScroll.innerHTML.match(/<div part="list-item"/g) || []).length).toEqual(virtualScroll.visibleItemCount());
+    });
   });
 
   it('removes the height attribute when reset', () => {
@@ -135,26 +141,30 @@ describe('IdsVirtualScroll Component', () => {
   });
 
   it('can reset the data', () => {
-    let list = virtualScroll.querySelectorAll('.ids-virtual-scroll-item');
-    let listSize = list.length;
-    expect(listSize > 0).toBeTruthy();
-    virtualScroll.data = virtualScroll.data.slice(1, 3);
+    requestAnimationFrame(() => {
+      let list = virtualScroll.querySelectorAll('.ids-virtual-scroll-item');
+      let listSize = list.length;
+      expect(listSize > 0).toBeTruthy();
+      virtualScroll.data = virtualScroll.data.slice(1, 3);
 
-    // reselect
-    list = virtualScroll.querySelectorAll('.ids-virtual-scroll-item');
-    listSize = list.length;
-    expect(listSize).toEqual(2);
+      // reselect
+      list = virtualScroll.querySelectorAll('.ids-virtual-scroll-item');
+      listSize = list.length;
+      expect(listSize).toEqual(2);
+    });
   });
 
   it('can reset the data to zero', () => {
-    let list = virtualScroll.querySelectorAll('div[part="list-item"]');
-    let listSize = list.length;
-    expect(listSize > 0).toBeTruthy();
-    virtualScroll.data = [];
+    requestAnimationFrame(() => {
+      let list = virtualScroll.querySelectorAll('div[part="list-item"]');
+      let listSize = list.length;
+      expect(listSize > 0).toBeTruthy();
+      virtualScroll.data = [];
 
-    // reselect
-    list = virtualScroll.querySelectorAll('div[part="list-item"]');
-    listSize = list.length;
-    expect(listSize).toEqual(0);
+      // reselect
+      list = virtualScroll.querySelectorAll('div[part="list-item"]');
+      listSize = list.length;
+      expect(listSize).toEqual(0);
+    });
   });
 });
