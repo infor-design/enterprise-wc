@@ -73,7 +73,7 @@ export default class IdsDataGrid extends HTMLElement {
   autoFit: boolean;
 
   /** Enables the pager  */
-  pagination: 'standalone' | 'client-side' | 'none';
+  pagination: 'standalone' | 'client-side' | 'server-side' | 'none';
 
   /** Enables the virtual scrolling behavior */
   rowHeight: 'xs' | 'sm' | 'md' | 'lg';
