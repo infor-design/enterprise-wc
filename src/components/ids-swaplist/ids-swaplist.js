@@ -8,7 +8,6 @@ import Base from './ids-swaplist-base';
 import IdsCard from '../ids-card/ids-card';
 import IdsButton from '../ids-button/ids-button';
 import IdsListView from '../ids-list-view/ids-list-view';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import styles from './ids-swaplist.scss';
 
@@ -130,12 +129,15 @@ export default class IdsSwapList extends Base {
 
   listTemplate() {
     const arr = Array(this.count).fill(0);
+    const arrLen = arr.length;
 
     const html = arr.map((v, i) => `
-      <ids-card auto-fit>
+      <ids-card auto-fit class="${arrLen === i + 1 ? `card card-${i} card-last` : `card card-${i}`}">
         <div slot="card-header">
-          <ids-text>List #${i}</ids-text>
-          ${this.buttonTemplate(i)}
+          <ids-text font-size="20">List #${i}</ids-text>
+          <div class="swap-buttons">
+            ${this.buttonTemplate(i)}
+          </div>
         </div>
         <div slot="card-content">
           <ids-list-view selectable="multiple" sortable swappable>
