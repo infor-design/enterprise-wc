@@ -9,3 +9,5 @@
     description: Past dates. Full size view
   - link: current-month.html
     description: Current month, year and day. Compact view
+  - link: range-in-month.html
+    description: Range of dates. More than one month view. No toolbar
