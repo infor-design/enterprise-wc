@@ -1,4 +1,5 @@
 import { ummalquraData } from '../../components/ids-locale/info/umalqura-data';
+import { stringToNumber } from '../ids-string-utils/ids-string-utils';
 
 /**
  * Determine whether or not a date is todays date.
@@ -200,50 +201,19 @@ export function umalquraToGregorian(year, month, day, hours = 0, mins = 0, secs 
 
 /**
  * Convert Gregorian to Umm al-Qura calendar date.
- * Modified version of Amro Osama's code. From at https://github.com/kbwood/calendars/blob/master/src/js/jquery.calendars.ummalqura.js
  * @param {Date} date Gregorian calendar date
  * @returns {object} Umm al-Qura calendar year, month, day
  */
 export function gregorianToUmalqura(date) {
-  if (!isValidDate(date)) {
-    return null;
-  }
-
-  const getJd = (year, month, day) => {
-    if (month < 3) {
-      month += 12;
-      year--;
-    }
-    const a = Math.floor(year / 100);
-    const b = 2 - a + Math.floor(a / 4);
-
-    return Math.floor(365.25 * (year + 4716)) + Math.floor(30.6001 * (month + 1)) + day + b - 1524.5;
-  };
-  const jd = getJd(date.getFullYear(), date.getMonth() + 1, date.getDate());
-
-  const julianToUmalqura = (julianDate) => {
-    const mcjdn = julianDate - 2400000 + 0.5;
-    let index = 0;
-    for (let i = 0; i < ummalquraData.length; i++) {
-      if (ummalquraData[i] > mcjdn) {
-        break;
-      }
-      index++;
-    }
-    const lunation = index + 15292;
-    const ii = Math.floor((lunation - 1) / 12);
-    const year = ii + 1;
-    const month = lunation - 12 * ii;
-    const day = mcjdn - ummalquraData[index - 1] + 1;
-
-    return { year, month: month - 1, day };
-  };
-  const umalquraDate = julianToUmalqura(jd);
+  const umalquraParts = new Intl.DateTimeFormat('en-US', { calendar: 'islamic-umalqura' })
+    // set a current date if argument is not valid
+    .formatToParts(isValidDate(date) ? date : new Date())
+    .reduce((acc, item) => ({ ...acc, [item.type]: stringToNumber(item.value) }), {});
 
   return {
-    year: umalquraDate.year,
-    month: umalquraDate.month,
-    day: umalquraDate.day
+    year: umalquraParts.year,
+    month: umalquraParts.month - 1,
+    day: umalquraParts.day
   };
 }
 

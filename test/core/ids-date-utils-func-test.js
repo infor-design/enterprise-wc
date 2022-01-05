@@ -148,7 +148,9 @@ describe('IdsDateUtils Tests', () => {
   });
 
   it('should convert the Gregorian to Umm al-Qura calendar date', () => {
-    expect(gregorianToUmalqura()).toBeNull();
+    expect(gregorianToUmalqura()).toHaveProperty('year');
+    expect(gregorianToUmalqura()).toHaveProperty('month');
+    expect(gregorianToUmalqura()).toHaveProperty('day');
     expect(gregorianToUmalqura(new Date(2000, 1, 14)).month).toEqual(10);
     expect(gregorianToUmalqura(new Date(2000, 1, 14)).day).toEqual(8);
     expect(gregorianToUmalqura(new Date(2000, 1, 14)).year).toEqual(1420);
