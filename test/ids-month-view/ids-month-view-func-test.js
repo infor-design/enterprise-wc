@@ -265,3 +265,45 @@ describe('IdsMonthView Component (range of dates)', () => {
     expect(component.day).toEqual(now.getDate());
   });
 });
+
+describe('IdsMonthView Component (compact)', () => {
+  let component;
+
+  beforeEach(async () => {
+    const container = new IdsContainer();
+    document.body.appendChild(container);
+    container.insertAdjacentHTML('beforeend', `
+      <ids-month-view
+        compact="true"
+      ></ids-month-view>
+    `);
+    component = document.querySelector(name);
+  });
+
+  afterEach(async () => {
+    document.body.innerHTML = '';
+    component = null;
+  });
+
+  it('should not error if no container', () => {
+    document.body.innerHTML = '';
+    const errors = jest.spyOn(global.console, 'error');
+    const comp = new IdsMonthView();
+    delete comp.locale;
+    document.body.appendChild(comp);
+    expect(errors).not.toHaveBeenCalled();
+  });
+
+  it('should render', () => {
+    const errors = jest.spyOn(global.console, 'error');
+
+    expect(document.querySelectorAll(name).length).toEqual(1);
+    expect(errors).not.toHaveBeenCalled();
+  });
+
+  it('should have compact css class initially', () => {
+    const hasCompactClass = component.container.classList.contains('is-compact');
+
+    expect(hasCompactClass).toBeTruthy();
+  });
+});

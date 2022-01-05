@@ -34,8 +34,6 @@ import styles from './ids-month-view.scss';
 const MIN_MONTH = 0;
 const MAX_MONTH = 11;
 const WEEK_LENGTH = 7;
-// Size in pixels where compact/fullsize is triggered
-const FULL_SIZE_THRESHOLD = 600;
 
 /**
  * IDS Month View Component
@@ -64,13 +62,14 @@ class IdsMonthView extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.COMPACT,
       attributes.DAY,
       attributes.END_DATE,
       attributes.FIRST_DAY_OF_WEEK,
       attributes.MONTH,
       attributes.SHOW_TODAY,
       attributes.START_DATE,
-      attributes.YEAR,
+      attributes.YEAR
     ];
   }
 
@@ -79,7 +78,7 @@ class IdsMonthView extends Base {
    * @returns {string} The template
    */
   template() {
-    return `<div class="ids-month-view">
+    return `<div class="ids-month-view ${this.compact ? 'is-compact' : 'is-fullsize'}">
       <div class="month-view-container">
         <table class="month-view-table" aria-label="${this.locale?.translate('Calendar')}" role="application">
           <thead class="month-view-table-header">
@@ -90,12 +89,6 @@ class IdsMonthView extends Base {
       </div>
     </div>`;
   }
-
-  /**
-   * Compact or full size view
-   * Resize observer is changing this value
-   */
-  #isFullSize = true;
 
   /**
    * Establish internal event handlers
@@ -122,21 +115,6 @@ class IdsMonthView extends Base {
     this.onEvent('click.month-view-dayselect', this.container.querySelector('tbody'), (e) => {
       this.#daySelectClick(e.target.closest('td'));
     });
-
-    // Set type of view based on the component width
-    const resizeObserver = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        const isFullSize = entry.contentRect.width > FULL_SIZE_THRESHOLD;
-
-        this.container.classList.toggle('is-fullsize', isFullSize);
-
-        this.#isFullSize = isFullSize;
-
-        this.#renderToolbar();
-        this.#renderWeekDays();
-      }
-    });
-    resizeObserver.observe(this.container);
 
     return this;
   }
@@ -168,17 +146,19 @@ class IdsMonthView extends Base {
         font-weight="bold"
       >Today</ids-text>
     </ids-button>` : '';
+    const datepickerText = `<ids-text font-size="20" class="datepicker-text">${this.#formatMonthText()}</ids-text>`;
     const datepicker = `<span class="datepicker" tabindex="0">
-      <ids-text font-size="20" class="datepicker-text">${this.#formatMonthText()}</ids-text>
+      ${!this.compact ? datepickerText : ''}
       <ids-text audible="true" translate-text="true">SelectDay</ids-text>
       <ids-trigger-button>
         <ids-text audible="true" translate-text="true">DatePickerTriggerButton</ids-text>
         <ids-icon slot="icon" icon="schedule" class="datepicker-icon"></ids-icon>
       </ids-trigger-button>
+      ${this.compact ? datepickerText : ''}
     </span>`;
 
     const toolbarTemplate = `<ids-toolbar class="month-view-header" tabbable="true">
-      ${this.#isFullSize ? `
+      ${!this.compact ? `
         <ids-toolbar-section type="buttonset">
           ${prevNextBtn}
           ${datepicker}
@@ -288,7 +268,6 @@ class IdsMonthView extends Base {
   /**
    * Day cell clicked
    * @param {HTMLElement} element The element.
-   * @returns {undefined|void} exits if no element
    */
   #daySelectClick(element) {
     if (!element) return;
@@ -389,7 +368,7 @@ class IdsMonthView extends Base {
    */
   #renderWeekDays() {
     const calendar = this.locale.calendar();
-    const weekDays = this.#isFullSize ? calendar.days.abbreviated : calendar.days.narrow;
+    const weekDays = this.compact ? calendar.days.narrow : calendar.days.abbreviated;
 
     const weekDaysTemplate = weekDays.map((_, index) => {
       const weekday = weekDays[(index + this.firstDayOfWeek) % WEEK_LENGTH];
@@ -627,6 +606,7 @@ class IdsMonthView extends Base {
       this.removeAttribute(attributes.START_DATE);
     }
 
+    this.#renderToolbar();
     this.#renderMonth();
   }
 
@@ -656,6 +636,7 @@ class IdsMonthView extends Base {
       this.removeAttribute(attributes.END_DATE);
     }
 
+    this.#renderToolbar();
     this.#renderMonth();
   }
 
@@ -690,6 +671,37 @@ class IdsMonthView extends Base {
 
     this.#renderMonth();
     this.#attachDatepickerText();
+  }
+
+  /**
+   * compact attribute
+   * @returns {boolean} compact param converted to boolean from attribute value
+   */
+  get compact() {
+    const attrVal = this.getAttribute(attributes.COMPACT);
+
+    return stringToBool(attrVal);
+  }
+
+  /**
+   * Set whether or not the component should be compact view
+   * @param {string|boolean|null} val compact param value
+   */
+  set compact(val) {
+    const boolVal = stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.COMPACT, boolVal);
+    } else {
+      this.removeAttribute(attributes.COMPACT);
+    }
+
+    // Toggle container CSS class
+    this.container.classList.toggle('is-fullsize', !boolVal);
+    this.container.classList.toggle('is-compact', boolVal);
+    // Render related views
+    this.#renderToolbar();
+    this.#renderWeekDays();
   }
 
   /**

@@ -203,27 +203,41 @@ describe('Ids Month View e2e Tests', () => {
     expect(isRtl).toBeNull();
   });
 
-  it('should trigger compact view when size less than treshold', async () => {
+  it('should trigger compact view and today button', async () => {
     let hasFullSizeClass = await page.$eval(name, (el) =>
       el.container.classList.contains('is-fullsize'));
 
     expect(hasFullSizeClass).toBeTruthy();
 
-    // Changing width of parent element
-    await page.evaluate(() => {
-      const element = document.querySelector('ids-layout-grid-cell');
+    // Make it compact
+    await page.evaluate((el) => {
+      const element = document.querySelector(el);
 
-      element.style.width = '500px';
-    });
-
-    // Wait till calendars load
-    await page.waitForFunction(() =>
-      !document.querySelector('ids-month-view').container.classList.contains('is-fullsize'));
+      element.compact = true;
+    }, name);
 
     hasFullSizeClass = await page.$eval(name, (el) =>
       el.container.classList.contains('is-fullsize'));
+    const hasCompactClass = await page.$eval(name, (el) =>
+      el.container.classList.contains('is-compact'));
 
     expect(hasFullSizeClass).toBeFalsy();
+    expect(hasCompactClass).toBeTruthy();
+
+    // If weekdays have narrow format
+    const isNarrow = await page.$eval(name, (el) => {
+      const weekDayList = el.shadowRoot.querySelectorAll('.month-view-table-header ids-text');
+
+      return Array.from(weekDayList).every((item) => item.textContent.length === 1);
+    });
+
+    expect(isNarrow).toBeTruthy();
+
+    await page.evaluate((el) => {
+      const element = document.querySelector(el);
+
+      element.compact = false;
+    }, name);
 
     // Hide Today button
     await page.evaluate((el) => {

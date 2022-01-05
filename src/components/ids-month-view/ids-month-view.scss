@@ -12,9 +12,12 @@
 .ids-month-view {
   @include flex();
   @include bg-white();
+  @include w-full();
+  @include box-border();
 
   flex-direction: column;
   overflow: auto;
+  max-width: inherit;
 
   .month-view-header {
     @include bg-white();
@@ -29,8 +32,6 @@
     @include border-solid();
     @include border-1();
     @include border-transparent();
-    @include pl-8();
-    @include ml-4();
 
     align-items: center;
     outline: none;
@@ -38,17 +39,10 @@
 
     &-text {
       @include leading-none();
-      @include mr-2();
     }
 
     &-icon {
       @include mb-2();
-    }
-
-    &:focus {
-      @include border-azure-60();
-
-      box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
     }
   }
 
@@ -81,7 +75,7 @@
 }
 
 // Compact view
-.ids-month-view:not(.is-fullsize) {
+.ids-month-view.is-compact {
   .month-view-table-header th {
     line-height: unset;
     vertical-align: top;
@@ -91,8 +85,16 @@
     margin-top: 10px;
   }
 
-  .datepicker-icon {
-    @include text-azure-60();
+  .datepicker {
+    @include pr-8();
+
+    &-text {
+      @include ml-2();
+    }
+
+    &-icon {
+      @include text-azure-60();
+    }
   }
 
   td {
@@ -115,6 +117,7 @@
       @include text-slate-80();
 
       display: inline-block;
+      white-space: nowrap;
       transition: 0.2s background-color ease;
     }
 
@@ -188,6 +191,21 @@
   .month-view-header {
     @include border-b-1();
     @include border-slate-20();
+  }
+
+  .datepicker {
+    @include pl-8();
+    @include ml-4();
+
+    &-text {
+      @include mr-2();
+    }
+
+    &:focus {
+      @include border-azure-60();
+
+      box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
+    }
   }
 
   td {
@@ -293,7 +311,7 @@
   }
 
   .month-view-today-text,
-  &:not(.is-fullsize) .datepicker-icon {
+  &.is-compact .datepicker-icon {
     @include text-azure-60();
   }
 
@@ -304,7 +322,7 @@
   }
 
   // Compact view dark theme
-  &:not(.is-fullsize) {
+  &.is-compact {
     .weekday-text,
     .day-text {
       @include text-slate-30();
@@ -386,7 +404,7 @@
   }
 
   .month-view-today-text,
-  &:not(.is-fullsize) .datepicker-icon {
+  &.is-compact .datepicker-icon {
     @include text-azure-90();
   }
 
@@ -397,7 +415,7 @@
   }
 
   // Compact view contrast theme
-  &:not(.is-fullsize) {
+  &.is-compact {
     .weekday-text,
     .day-text {
       @include text-black();

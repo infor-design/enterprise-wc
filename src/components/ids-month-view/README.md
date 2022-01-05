@@ -20,6 +20,7 @@ Examples of the format:
 If both start and end dates are set calendar toolbar will not be displayed.
 - `first-day-of-week` `{string|number|null}` - Specifies first day of the week from 0 to 6 range. 0 is Sunday, 1 is Monday. Defaults to 0 if no specified or out of the range
 - `show-today` `{true|false}` - Whether or not to show the today button in the toolbar
+- `compact` ` `{true|false}` - Whether or not the component should be compact view
 
 ## Events
 - `dayselected` - Fires when a day is selected
@@ -68,6 +69,9 @@ monthView.year = 2016;
 
 // Changing first day of the week (Monday)
 monthView.firstDayOfWeek = 1;
+
+// Make it compact
+monthView.compact = true;
 
 // Showing date range
 monthView.startDate = '07/14/2021';

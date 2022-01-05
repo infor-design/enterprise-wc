@@ -27,6 +27,9 @@ export default class IdsMonthView extends HTMLElement {
   /** Set whether or not the today button should be shown */
   showToday: 'true' | 'false' | boolean | null;
 
+  /** Whether or not the component should be compact view */
+  compact: 'true' | 'false' | boolean | null;
+
   /** Fires when a day selected */
   on(event: 'dayselected', listener: (event: dayselected) => void): this;
 }
