@@ -1,7 +1,8 @@
 # TODO's For Line Charts
 
 ## General
-- [ ] Remove commented web pack config
+- [ ] Make axis chart and separate line and areas charts
+- [ ] Tests for what's there
 
 ## Rendering
 - [ ] Axis

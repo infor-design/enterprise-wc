@@ -2,7 +2,7 @@
  component: Line Chart
  link: ids-line-chart
  description: UI Classification
- category: Charts and Visualizations
+ category: Charts used to track changes over time
  keywords: tag, label, text
  examples:
   - link: index.html

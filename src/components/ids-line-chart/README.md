@@ -20,23 +20,48 @@ For more information on line charts check out the article [Line Charts Made Simp
 
 ## Terminology
 
-- **Tag**: A UI embellishments for classification
-- **Clickable/Dismissible**: Tag can be closed and removed with an X button
-- **Classification**:  How tags are labelled with colors and text
-- **Disabled**: Tag can be disabled so it cannot be followed or clicked.
+- **Marker**: A UI embellishments that shows the data points (i.e. the dots on a line chart).
+- **Domain**: The domain is all x-values (the values of the graph from left to right)
+- **Range**: The domain is all y-values (the values of the graph from down to up)
+- **Scale**: The range of values in the graph (the values of the graph from down to up) and the amount of steps between each value.
 
 ## Features (With Code Examples)
 
-A normal tag used as a web component.
+A line chart is defined with the custom element and width and height.
 
 ```html
-<ids-tag>Normal Tag</ids-tag>
+<ids-line-chart title="A line chart showing component usage" width="800" height="500"></ids-line-chart>
 ```
 
-A normal tag used using just the css. This is limited to normal tags only.
+Datasets can be added to the line chart by passing in an array of objects. Each object must have a `data` and object with `name` and `values` from the data points. Also a name should be given for each data object which will be used as the legend text. The `shortName` is used to show the short name of the legend text and the `abbrName` is used to show an even shorter name of the legend text in responsive situations.
 
 ```html
-<span class="ids-tag">Normal Tag</span>
+const lineData2 = [{
+  data: [{
+    name: 'Jan',
+    value: 1
+  }, {
+    name: 'Feb',
+    value: 2
+  }, {
+    name: 'Mar',
+    value: 3
+  }, {
+    name: 'Apr',
+    value: 5
+  }, {
+    name: 'May',
+    value: 7
+  }, {
+    name: 'Jun',
+    value: 10
+  }],
+  name: 'Component A',
+  shortName: 'Comp A',
+  abbrName: 'A',
+}];
+
+document.querySelector('ids-line-chart').data = lineData;
 ```
 
 A colored tag is done by adding the `color` attribute and one of the following: secondary, error, success, caution or a hex color beginning with a # character.
@@ -100,8 +125,10 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 
 ## Converting from Previous Versions
 
-- 3.x: Tags have all new markup and classes.
-- 4.x: Tags have all new markup and classes for web components.
+- 4.x: The line chart was added after version 3.6 so new in 4.x
+- 5.x: Line Chart have all new markup and classes for web components but the data is still the same except for a few changes.
+    - `legendShortName` is now `shortName`
+    - `legendAbbrName` is now `abbrName`
 
 ## Designs
 
@@ -111,11 +138,10 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 ## Accessibility Guidelines
 
 - 1.4.1 Use of Color - Color is not used as the only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual element. Ensure the color tags that indicate state like OK, cancel, ect have other ways to indicate that information. This is failing.
-- 1.4.3 Contrast (Minimum) - The visual presentation of text and images of text has a contrast ratio of at least 4.5:1.   Ensure the color tags pass contrast.
 
 ## Regional Considerations
 
-Labels should be localized in the current language. The close and link icons will flip to the alternate side in Right To Left mode. Consider that in some languages text may be a lot longer (German). And in some cases it cant be wrapped (Thai)
+Chart labels should be localized in the current language. The chart will flip in RTL mode. For some color blind users the svg patterns can be used.
 
 ## Why Not Canvas?
 

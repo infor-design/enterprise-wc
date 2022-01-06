@@ -74,7 +74,7 @@ module.exports = {
   output: {
     chunkFormat: 'module',
     path: path.resolve(__dirname, 'demo-dist'),
-    filename: '[name].[contenthash].js',
+    filename: '[name].js',
     clean: true,
     publicPath: '/'
   },
