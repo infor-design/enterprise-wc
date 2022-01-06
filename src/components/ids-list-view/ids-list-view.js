@@ -189,6 +189,7 @@ export default class IdsListView extends Base {
           role="listitem"
           tabindex="-1"
           index="${index}"
+          draggable="true"
         >
           ${this.sortable ? `<span></span>` : ``}
           ${this.itemTemplate(item)}

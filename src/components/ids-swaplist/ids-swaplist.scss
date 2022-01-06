@@ -14,6 +14,10 @@
 ids-card {
   width: 33.33%;
 
+  &::part(card) {
+    contain: initial;
+  }
+
   &.card {
     &::part(card) {
       @include rounded-none();
