@@ -53,6 +53,7 @@ const IdsClearableMixin = (superclass) => class extends superclass {
     icon.setAttribute('icon', 'close');
     icon.setAttribute('size', 'small');
     icon.setAttribute('slot', 'icon');
+
     if (this.colorVariant === 'alternate') {
       icon.style.color = 'white';
       const triggerBtn = xButton.shadowRoot.querySelector('button');
@@ -81,7 +82,9 @@ const IdsClearableMixin = (superclass) => class extends superclass {
       parent = parent?.querySelector('.field-container');
       parent?.appendChild(xButton);
       this.input?.classList.add('has-clearable');
-
+      if (this.closest('.ids-search-field')) {
+        this.input?.classList.add('has-no-trigger-button');
+      }
       this.attachClearableEvents();
     }
   }

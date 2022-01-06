@@ -216,6 +216,7 @@ export const attributes = {
   SELECT: 'select',
   SELECTABLE: 'selectable',
   SELECTED: 'selected',
+  SELECTION: 'selection',
   SHAPE: 'shape',
   SHOW_BROWSE_LINK: 'show-browse-link',
   SHOW_TIMELINE: 'show-timeline',
@@ -294,3 +295,5 @@ export const breakpoints = {
   sm: '600px',
   xs: '360px'
 };
+
+export const version = '0.0.0-beta.17';

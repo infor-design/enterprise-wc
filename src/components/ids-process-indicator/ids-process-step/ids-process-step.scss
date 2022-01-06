@@ -1,8 +1,10 @@
 @import '../../../core/ids-base';
+
 :host(.last) {
   @media (min-width: $breakpoint-xs) {
     flex: 0;
   }
+
   @media (min-width: $breakpoint-md) {
     flex: 1;
   }
@@ -13,8 +15,24 @@
   flex: 1;
   position: relative;
 
-  @media (min-width: $breakpoint-xs) {
+  // slotted text details
+  ::slotted(ids-text) {
+    color: var(--ids-color-palette-slate-60);
+  }
 
+  [mode='dark'] {
+    ::slotted(ids-text) {
+      color: var(--ids-color-palette-slate-30);
+    }
+  }
+
+  [mode='contrast'] {
+    ::slotted(ids-text) {
+      color: var(--ids-color-palette-slate-90);
+    }
+  }
+
+  @media (min-width: $breakpoint-xs) {
     .label {
       display: none;
     }
@@ -29,7 +47,6 @@
   }
 
   @media (min-width: $breakpoint-md) {
-
     .details {
       display: unset;
     }
@@ -49,25 +66,6 @@
   margin: 0 5px 0 0;
 }
 
-:host {
-  // slotted text details
-  ::slotted(ids-text) {
-      color: var(--ids-color-palette-slate-60);
-  }
-
-  [mode='dark'] {
-    ::slotted(ids-text) {
-      color: var(--ids-color-palette-slate-30);
-    }
-  }
-
-  [mode='contrast'] {
-    ::slotted(ids-text) {
-      color: var(--ids-color-palette-slate-90);
-    }
-  }
-}
-
 .ids-process-step {
   // NEW LIGHT / DEFAULTS
   --bg-color: #fff;
@@ -81,13 +79,13 @@
       color: var(--ids-color-palette-slate-60);
       margin: 0 5px 4px 0;
     }
-    
+
     &.label {
       margin: 0 5px 0 0;
       white-space: nowrap;
     }
   }
-  
+
   .line {
     position: absolute;
     transform: translate(0, 36px);
@@ -95,7 +93,7 @@
     width: 100%;
     background-color: var(--ids-color-palette-slate-30);
   }
-  
+
   .step {
     display: flex;
     transform: translate(0, -75%);
@@ -126,13 +124,13 @@
       color: var(--ids-color-palette-slate-90);
     }
   }
-  
+
   // CLASSIC
   &[version='classic'] {
     &[mode='light'] {
       --bg-color: #eee;
     }
-    
+
     &[mode='dark'] {
       --bg-color: #212224;
 
