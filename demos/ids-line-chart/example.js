@@ -3,8 +3,7 @@ import IdsLineChart from '../../src/components/ids-line-chart/ids-line-chart';
 const lineData = [{
   data: [{
     name: 'Jan',
-    value: 3211,
-    depth: 4
+    value: 100
   }, {
     name: 'Feb',
     value: 3111
@@ -13,13 +12,13 @@ const lineData = [{
     value: 3411
   }, {
     name: 'Apr',
-    value: 3011
+    value: 500
   }, {
     name: 'May',
     value: 3411
   }, {
     name: 'Jun',
-    value: 3111
+    value: 6500
   }],
   name: 'Component A',
   legendShortName: 'Comp A',
@@ -62,14 +61,37 @@ const lineData = [{
     value: 1011
   }, {
     name: 'May',
-    value: 1411
-  }, {
-    name: 'Jun',
-    value: 1811
+    value: 8000
   }],
   name: 'Component C',
   legendShortName: 'Comp C',
   legendAbbrName: 'C'
+}];
+
+// eslint-disable-next-line no-unused-vars
+const lineData2 = [{
+  data: [{
+    name: 'Jan',
+    value: 1
+  }, {
+    name: 'Feb',
+    value: 2
+  }, {
+    name: 'Mar',
+    value: 3
+  }, {
+    name: 'Apr',
+    value: 5
+  }, {
+    name: 'May',
+    value: 7
+  }, {
+    name: 'Jun',
+    value: 10
+  }],
+  name: 'Component A',
+  legendShortName: 'Comp A',
+  legendAbbrName: 'A',
 }];
 
 document.querySelector('ids-line-chart').data = lineData;

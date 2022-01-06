@@ -22,6 +22,9 @@ describe('Nice Scale Tests', () => {
 
     scale = new NiceScale(0, 9999);
     expect(scale).toEqual({ niceMax: 10000, niceMin: 0, tickSpacing: 1000 });
+
+    scale = new NiceScale(0, 10);
+    expect(scale).toEqual({ niceMax: 10, niceMin: 0, tickSpacing: 1 });
   });
 
   it('can loop the scale', () => {

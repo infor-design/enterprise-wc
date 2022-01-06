@@ -61,11 +61,11 @@ export default class NiceScale {
     const fraction = range / 10 ** exponent;
 
     if (round) {
-      if (fraction <= 1.5) {
+      if (fraction < 1.5) {
         niceFraction = 1;
-      } else if (fraction <= 3) {
+      } else if (fraction < 3) {
         niceFraction = 2;
-      } else if (fraction <= 7) {
+      } else if (fraction < 7) {
         niceFraction = 5;
       } else {
         niceFraction = 10;
