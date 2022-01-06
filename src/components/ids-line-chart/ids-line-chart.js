@@ -282,7 +282,7 @@ export default class IdsLineChart extends Base {
     this.markerData.points = [];
     let markerHTML = '';
     let points = '';
-    const areas = '';
+
     let left = this.textWidths.left + this.margins.left + (this.margins.leftInner * 2);
 
     for (let index = 0; index < this.markerData.markerCount; index++) {
@@ -309,6 +309,7 @@ export default class IdsLineChart extends Base {
   /**
    * Generate the svg markup for the area paths
    * @returns {string} The area markup
+   * @private
    */
   #areas() {
     let areas = '';
