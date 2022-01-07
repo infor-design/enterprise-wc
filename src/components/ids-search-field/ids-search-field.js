@@ -187,21 +187,35 @@ export default class IdsSearchField extends Base {
   }
 
   /**
-   * TODO: search function that gets triggered upon 'Enter' key or clicking the trigger button
+   * Define this method to carry out search functionality.
+   * @param {any} [value] the value to be searched for
+   * @returns {Array<any>} containing matching search results
    */
-  #searchFunction() {
+  onSearch(value = undefined) {
+    return [];
   }
 
-  #attachEventHandlers() {
-    this.onEvent('change', this.input, (e) => {
-      this.value = e.target.value;
-      // TODO: pop up autocomplete suggestions
-    });
+  /**
+   * @param {any} value
+   */
+  #previousSearchValue = null;
 
-    this.onEvent('input', this.input, (e) => {
-      this.value = e.target.value;
-      // TODO: pop up autocomplete suggestions
-    });
+  /**
+   * Adds Search Field specific event handlers
+   */
+  #attachEventHandlers() {
+    const handleSearchEvent = (e) => {
+      if (this.#previousSearchValue !== e.target.value) {
+        this.value = e.target.value;
+        this.#previousSearchValue = this.value;
+        if (typeof this.onSearch === 'function') {
+          this.onSearch(this.value);
+        }
+      }
+    };
+
+    this.onEvent('change', this.input, handleSearchEvent);
+    this.onEvent('input', this.input, handleSearchEvent);
   }
 
   /**
@@ -217,7 +231,7 @@ export default class IdsSearchField extends Base {
       switch (event.key) {
       case 'Enter':
         if (shouldSearchOnReturn) {
-          this.#searchFunction();
+          this.onSearch();
         }
         break;
       default:

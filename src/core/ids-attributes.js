@@ -109,6 +109,7 @@ export const attributes = {
   HANDLE: 'handle',
   HEIGHT: 'height',
   HIDDEN: 'hidden',
+  HIDDEN_BY_FILTER: 'hidden-by-filter',
   HIDE_DOWN: 'hide-down',
   HIDE_UP: 'hide-up',
   HITBOX: 'hitbox',

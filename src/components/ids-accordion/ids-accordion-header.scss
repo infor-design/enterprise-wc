@@ -261,3 +261,10 @@
     }
   }
 }
+
+// control filtered accordion highlighted text color
+mark {
+  background-color: var(--ids-color-palette-slate-10);
+  color: var(--ids-color-palette-slate-100);
+  font-weight: bold;
+}

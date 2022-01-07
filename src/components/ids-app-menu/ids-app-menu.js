@@ -1,4 +1,5 @@
 import { customElement, scss } from '../../core/ids-decorators';
+import { Mark, IdsHighlightUtil } from '../../utils/ids-highlight-utils/ids-highlight-utils';
 
 import Base from './ids-app-base';
 import IdsDrawer from '../ids-drawer/ids-drawer';
@@ -29,6 +30,7 @@ export default class IdsAppMenu extends Base {
     this.edge = 'start';
     this.type = 'app-menu';
     this.#refreshVariants();
+    this.#connectSearchField();
   }
 
   static get attributes() {
@@ -66,6 +68,20 @@ export default class IdsAppMenu extends Base {
     </div>`;
   }
 
+  get accordion() {
+    return this.querySelector(`ids-accordion:not([slot])`);
+  }
+
+  /**
+   * Stores a reference to a `Mark.js` api targeted at the accordion
+   */
+  filterMarker = null;
+
+  /**
+   *
+   */
+  isMarked = false;
+
   #refreshVariants() {
     const accordions = [...this.querySelectorAll('ids-accordion')];
     accordions.forEach((acc) => {
@@ -75,6 +91,73 @@ export default class IdsAppMenu extends Base {
     const btns = [...this.querySelectorAll('ids-button')];
     btns.forEach((btn) => {
       btn.colorVariant = 'alternate';
+    });
+  }
+
+  #connectSearchField() {
+    const searchfield = this.querySelector('ids-search-field[slot="search"]');
+    if (searchfield) {
+      searchfield.onSearch = (value) => {
+        if (value !== '') {
+          this.#filterAccordion(value);
+        } else {
+          this.#clearFilterAccordion();
+        }
+      };
+    }
+  }
+
+  #filterAccordion = (value = '') => {
+    const valueRegex = new RegExp(value, 'gi');
+    const headers = [...this.accordion.querySelectorAll('ids-accordion-header')];
+    let filteredHeaders = [];
+
+    if (!this.filterMarker) {
+      this.filterMarker = new IdsHighlightUtil(this.accordion);
+    }
+
+    if (!headers.length) {
+      return filteredHeaders;
+    }
+
+    // Always remove previous highlight before applying a new one
+    this.filterMarker.reset();
+
+    // Check each accordion header for a match
+    filteredHeaders = headers.map((header) => {
+      const textContent = header.textContent.trim();
+      const hasTextMatch = textContent.match(valueRegex);
+      if (hasTextMatch) {
+        // Highlight
+        header.hiddenByFilter = true;
+        filteredHeaders.push(header);
+        return header;
+      }
+
+      // Unhighlight
+      if (header.hiddenByFilter) {
+        header.hiddenByFilter = false;
+      }
+      return undefined;
+    });
+
+    // Highlight any matched headers
+    if (filteredHeaders.length) {
+      this.isMarked = true;
+      this.filterMarker.mark(value);
+    } else {
+      this.isMarked = false;
+    }
+
+    return filteredHeaders;
+  }
+
+  #clearFilterAccordion() {
+    const filteredHeaders = [...this.accordion.querySelectorAll('ids-accordion-header[hidden-by-filter]')];
+    filteredHeaders.map((header) => {
+      header.hiddenByFilter = false;
+      this.filterMarker.reset();
+      return header;
     });
   }
 

@@ -49,6 +49,7 @@ export default class IdsAccordionHeader extends Base {
       attributes.VERSION,
       attributes.EXPANDED,
       attributes.EXPANDER_TYPE,
+      attributes.HIDDEN_BY_FILTER,
       attributes.ICON,
       attributes.SELECTED
     ];
@@ -279,5 +280,24 @@ export default class IdsAccordionHeader extends Base {
       iconType = this.expanded ? ICON_PLUS : ICON_MINUS;
     }
     icon.setAttribute('icon', iconType);
+  }
+
+  set hiddenByFilter(val) {
+    const currentVal = this.hiddenByFilter;
+    const newVal = stringToBool(val);
+
+    if (newVal !== currentVal) {
+      if (newVal) {
+        this.setAttribute(attributes.HIDDEN_BY_FILTER, '');
+        this.container.classList.add(attributes.HIDDEN_BY_FILTER);
+      } else {
+        this.removeAttribute(attributes.HIDDEN_BY_FILTER);
+        this.container.classList.remove(attributes.HIDDEN_BY_FILTER);
+      }
+    }
+  }
+
+  get hiddenByFilter() {
+    return this.hasAttribute(attributes.HIDDEN_BY_FILTER);
   }
 }

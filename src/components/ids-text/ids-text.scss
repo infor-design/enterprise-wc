@@ -76,6 +76,10 @@
   @include audible();
 }
 
+::slotted(.filter) {
+  font-weight: 700;
+}
+
 /* Ids Typography System */
 .ids-text-10 {
   @include text-10();
