@@ -92,4 +92,4 @@ const lineData2 = [{
   legendAbbrName: 'A',
 }];
 
-document.querySelector('ids-line-chart').data = lineData;
+document.querySelector('ids-area-chart').data = lineData;

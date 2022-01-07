@@ -1,16 +1,11 @@
 /* Ids Line Chart Component */
 @import '../../components/ids-axis-chart/ids-axis-chart';
+@import '../../components/ids-line-chart/ids-line-chart';
 
 .ids-axis-chart {
-  // Dot Styles
-  .markers {
+  // Area Styles
+  .areas {
+    fill-opacity: 0.2;
     fill: var(--ids-color-palette-azure-80);
-  }
-
-  // Line Styles
-  .marker-lines {
-    fill: none;
-    stroke: var(--ids-color-palette-azure-80);
-    stroke-width: 2;
   }
 }

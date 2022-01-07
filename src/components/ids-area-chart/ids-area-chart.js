@@ -1,26 +1,25 @@
 import { customElement, scss } from '../../core/ids-decorators';
-
-import Base from './ids-line-chart-base';
-
-import styles from './ids-line-chart.scss';
+import Base from './ids-area-chart-base';
+import styles from './ids-area-chart.scss';
 
 /**
- * IDS Line Chart Component
- * @type {IdsLineChart}
+ * IDS Area Chart Component
+ * @type {IdsAreaChart}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @part container - the outside container element
  */
-@customElement('ids-line-chart')
+@customElement('ids-area-chart')
 @scss(styles)
-export default class IdsLineChart extends Base {
+export default class IdsAreaChart extends Base {
   constructor() {
     super();
   }
 
   /**
    * Return the chart data for the internal svg
-   * @returns {object} The markers and lines
+   * @private
+   * @returns {object} The markers and areas and lines
    */
   chartTemplate() {
     return `<g class="markers">
@@ -28,30 +27,10 @@ export default class IdsLineChart extends Base {
     </g>
     <g class="marker-lines">
       ${this.lineMarkers().lines}
+    </g>
+    <g class="areas">
+      ${this.#areas()}
     </g>`;
-  }
-
-  /**
-   * Return the marker data for the svg
-   * @private
-   * @returns {object} The markers and lines
-   */
-  lineMarkers() {
-    if (!this.markerData) {
-      return '';
-    }
-
-    let points = '';
-    let markerHTML = '';
-    this.markerData.points.forEach((point) => {
-      points += `${point.left},${point.top} `;
-      markerHTML += `<circle cx="${point.left}" cy="${point.top}" data-value="${point.value}" r="${this.markerSize}">${point.value}</circle>`;
-    });
-
-    return {
-      markers: markerHTML,
-      lines: `<polyline class="data-line" points="${points}"/>`
-    };
   }
 
   /**

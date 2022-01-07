@@ -1,0 +1,47 @@
+/* Ids Line Chart Component */
+@import '../../core/ids-base';
+
+.ids-axis-chart {
+  @include border-slate-10();
+  @include flex();
+
+  // Grid Lines
+  .grid {
+    shape-rendering: crispEdges;
+    stroke: var(--ids-color-palette-slate-20);
+    stroke-width: 1;
+
+    // Hide x grid lines for now
+    &.x-lines {
+      stroke-dasharray: 1 2;
+    }
+
+    // Make bottom line more solid
+    &.y-lines line:last-child {
+      stroke: var(--ids-color-palette-slate-70);
+    }
+  }
+
+  // Label Styles
+  .labels {
+    @include text-14();
+    @include antialiased();
+    @include font-sans();
+
+    text {
+      color: var(--ids-color-palette-slate-60);
+    }
+
+    &.x-labels {
+      text-anchor: middle;
+    }
+
+    &.y-labels {
+      text-anchor: end;
+    }
+
+    &.axis-label {
+      @include text-16();
+    }
+  }
+}

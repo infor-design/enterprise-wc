@@ -1,8 +1,5 @@
-import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsElement from '../../core/ids-element';
+import IdsAxisChart from '../ids-axis-chart/ids-axis-chart';
 
-const Base = IdsEventsMixin(
-  IdsElement
-);
+const Base = IdsAxisChart;
 
 export default Base;

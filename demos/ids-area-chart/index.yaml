@@ -1,0 +1,9 @@
+---
+ component: Area Chart
+ link: ids-area-chart
+ description: Chart used to track changes over time (with solid areas)
+ category: Charts and Visualizations
+ keywords: line chart, chart, visualization, track changes over time, area chart
+ examples:
+  - link: index.html
+    description: Shows a basic area chart
