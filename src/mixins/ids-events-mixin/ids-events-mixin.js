@@ -121,9 +121,10 @@ const IdsEventsMixin = (superclass) => class extends superclass {
   /**
    * Triggers an event that occurs before the show/hide operations of the Modal that can "cancel"
    * @param {string} eventType the name of the event to trigger
+   * @param {unknown} data extra data to send with vetoable event
    * @returns {boolean} true if the event works
    */
-  triggerVetoableEvent(eventType) {
+  triggerVetoableEvent(eventType, data) {
     if (this.vetoableEventTypes.length > 0
       && !this.vetoableEventTypes.includes(eventType)) {
       return false;
@@ -134,10 +135,7 @@ const IdsEventsMixin = (superclass) => class extends superclass {
       canShow = !!veto;
     };
     this.triggerEvent(eventType, this, {
-      detail: {
-        elem: this,
-        response: eventResponse
-      }
+      detail: { data, elem: this, response: eventResponse }
     });
     return canShow;
   }

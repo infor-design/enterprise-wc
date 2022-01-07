@@ -16,9 +16,15 @@ import IdsToolbar, {
 
 // import { unescapeHTML, htmlEntities } from '../../utils/ids-xss-utils/ids-xss-utils';
 // import { stringToBool, camelCase } from '../../utils/ids-string-utils/ids-string-utils';
+import { debounce } from '../../utils/ids-debounce-utils/ids-debounce-utils';
+import { sanitizeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { isObject } from '../../utils/ids-object-utils/ids-object-utils';
 
 import styles from './ids-editor.scss';
+
+// List of view modes
+const VIEWS = ['editor', 'source'];
 
 // List of paragraph separators
 const PARAGRAPH_SEPARATORS = ['p', 'div', 'br'];
@@ -29,9 +35,15 @@ const BLOCK_ELEMENTS = ['p', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockqu
 // List of font size
 const FONT_SIZES = ['1', '2', '3', '4', '5', '6', '7'];
 
+// Css classes used most in editor
+const CLASSES = { hidden: 'hidden', labelRequired: 'no-required-indicator' };
+
 // List of defaults
 const EDITOR_DEFAULTS = {
+  disabled: false,
   label: 'Ids editor',
+  labelHidden: false,
+  labelRequired: true,
   modals: {
     hyperlink: {
       url: 'http://www.example.com',
@@ -49,7 +61,10 @@ const EDITOR_DEFAULTS = {
       alt: ''
     }
   },
-  paragraphSeparator: 'p'
+  paragraphSeparator: 'p',
+  readonly: false,
+  sourceFormatter: false,
+  view: 'editor', // 'editor', 'source'
 };
 
 /**
@@ -89,8 +104,15 @@ export default class IdsEditor extends Base {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.PARAGRAPH_SEPARATOR,
+      attributes.DISABLED,
       attributes.LABEL,
+      attributes.LABEL_HIDDEN,
+      attributes.LABEL_REQUIRED,
+      attributes.PARAGRAPH_SEPARATOR,
+      attributes.PLACEHOLDER,
+      attributes.READONLY,
+      attributes.SOURCE_FORMATTER,
+      attributes.VIEW,
     ];
   }
 
@@ -99,18 +121,41 @@ export default class IdsEditor extends Base {
    * @returns {string} The template
    */
   template() {
+    const disabled = this.disabled ? ' disabled' : '';
+    const readonly = this.readonly ? ' readonly' : '';
+    const contenteditable = !this.disabled && !this.readonly ? ' contenteditable="true"' : '';
+    const labelClass = `editor-label${!this.labelRequired ? ` ${CLASSES.labelRequired}` : ''}`;
+    const labelHidden = this.labelHidden ? ' audible' : '';
+    const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
     return `
-      <div class="ids-editor" part="editor">
-        <slot name="content" class="hidden"></slot>
+      <div class="ids-editor" part="editor"${disabled}${readonly}>
+        <slot name="content" class="${CLASSES.hidden}"></slot>
+        <ids-text id="editor-label" class="${labelClass}" part="editor-label"${disabled}${readonly}>${this.label}${labelHidden}</ids-text>
         <div class="main-container" part="main-container">
           <div class="toolbar-container" part="toolbar-container">
             <slot name="toolbar"></slot>
           </div>
-          <div class="editor-container" part="editor-container" contenteditable="true" aria-multiline="true" role="textbox" aria-label="${this.label}"></div>
-          <div class="source-container" part="source-container"></div>
+          <div class="editor-content">
+            <div class="editor-container" part="editor-container"${contenteditable} aria-multiline="true" role="textbox" aria-labelledby="editor-label"${placeholder}></div>
+            <div class="source-container ${CLASSES.hidden}" part="source-container">
+              <div class="source-wrapper">
+                <ul class="line-numbers"></ul>
+                <label class="audible" for="source-textarea">${this.label} - HTML Source View</label>
+                <textarea id="source-textarea" class="source-textarea"${placeholder}></textarea>
+              </div>
+            </div>
+          </div>
         </div>
       </div>`;
   }
+
+  /**
+   * @returns {Array<string>} Drawer vetoable events
+   */
+  vetoableEventTypes = [
+    'beforesourcemode',
+    'beforeeditormode'
+  ];
 
   /**
    * Set default value to each element in modals.
@@ -245,7 +290,18 @@ export default class IdsEditor extends Base {
     // HISTORY
     redo: { action: 'redo' },
     undo: { action: 'undo' },
+
+    // EXTRA
+    editormode: { action: 'editorMode' },
+    sourcemode: { action: 'sourceMode' }
   };
+
+  /**
+   * Attach the resize observer.
+   * @private
+   * @type {number}
+   */
+  #resizeObserver = new ResizeObserver(() => this.#resize());
 
   /**
    * Query selector in shadow root or given element.
@@ -282,6 +338,21 @@ export default class IdsEditor extends Base {
       return (x.length === 1) ? `0${x}` : x;
     }).join('');
     return `#${hex}`;
+  }
+
+  /**
+   * Trigger the given event with current value.
+   * @private
+   * @param {string} evtName The event name to be trigger.
+   * @param {HTMLElement} target The target element.
+   * @param {object} extra Extra data.
+   * @returns {object} This API object for chaining.
+   */
+  #triggerEvent(evtName, target = this, extra = {}) {
+    this.triggerEvent(evtName, target, {
+      detail: { elem: this, value: this.value, ...extra }
+    });
+    return this;
   }
 
   /**
@@ -395,6 +466,11 @@ export default class IdsEditor extends Base {
             <ids-icon slot="icon" icon="html" width="38" viewbox="0 0 54 18"></ids-icon>
           </ids-button>
 
+          <ids-button editor-action="editormode" square="true" tooltip="View Visual">
+            <span slot="text" class="audible">View Visual</span>
+            <ids-icon slot="icon" icon="visual" width="50" viewbox="0 0 73 18"></ids-icon>
+          </ids-button>
+
         </ids-toolbar-section>
       </ids-toolbar>`;
 
@@ -406,7 +482,12 @@ export default class IdsEditor extends Base {
     return this;
   }
 
-  getSelection() {
+  /**
+   * Get current selection
+   * @private
+   * @returns {Selection} The selection
+   */
+  #getSelection() {
     if (!this.shadowRoot.getSelection) {
       return document.getSelection();
     }
@@ -419,7 +500,7 @@ export default class IdsEditor extends Base {
    * @param {Selection|undefined} sel The selection.
    * @returns {object} The element
    */
-  #blockElem(sel = this.getSelection()) {
+  #blockElem(sel = this.#getSelection()) {
     let tagName;
     let el = sel.anchorNode;
     if (el && el.tagName) tagName = el.tagName.toLowerCase();
@@ -436,7 +517,7 @@ export default class IdsEditor extends Base {
    * @param {Selection|undefined} sel The selection.
    * @returns {Array<HTMLElement>} List of selection block elements
    */
-  #selectionBlockElems(sel = this.getSelection()) {
+  #selectionBlockElems(sel = this.#getSelection()) {
     const blockElems = [];
     this.#qsAll(BLOCK_ELEMENTS.join(', '), this.#elems.editor).forEach((elem) => {
       if (sel.containsNode(elem, true)) {
@@ -452,7 +533,7 @@ export default class IdsEditor extends Base {
    * @returns {Array<Range>|null} The selection ranges.
    */
   #saveSelection() {
-    const sel = this.getSelection();
+    const sel = this.#getSelection();
     if (sel.getRangeAt && sel.rangeCount) {
       const ranges = [];
       for (let i = 0, l = sel.rangeCount; i < l; i += 1) {
@@ -470,7 +551,7 @@ export default class IdsEditor extends Base {
    * @returns {object} The object for chaining.
    */
   #restoreSelection(savedSel = this.#savedSelection) {
-    const sel = this.getSelection();
+    const sel = this.#getSelection();
     if (savedSel) {
       sel.removeAllRanges();
       for (let i = 0, len = savedSel.length; i < len; i += 1) {
@@ -492,7 +573,7 @@ export default class IdsEditor extends Base {
     let comprng;
     let selparent;
     const container = this.#elems.editor;
-    const range = this.getSelection().getRangeAt(0);
+    const range = this.#getSelection().getRangeAt(0);
 
     if (range) {
       selparent = range.commonAncestorContainer || range.parentElement();
@@ -544,6 +625,391 @@ export default class IdsEditor extends Base {
   }
 
   /**
+   * Format given string to proper indentation.
+   * @param {string} html true will force to toggle in to source mode.
+   * @returns {string} formated value
+   */
+  #formatHtml(html) {
+    html = html.trim();
+    const tokens = html.split(/</);
+    let indentLevel = 0;
+    let result = '';
+
+    const getIndent = (level) => {
+      const tabsize = 4;
+      let indentation = '';
+      let i = level * tabsize;
+      if (level > -1) {
+        while (i--) {
+          indentation += ' ';
+        }
+      }
+      return indentation;
+    };
+
+    for (let i = 0, l = tokens.length; i < l; i++) {
+      const parts = tokens[i].split(/>/);
+
+      if (parts.length === 2) {
+        if (tokens[i][0] === '/') {
+          indentLevel--;
+        }
+        result += getIndent(indentLevel);
+        if (tokens[i][0] !== '/') {
+          indentLevel++;
+        }
+        if (i > 0) {
+          result += '<';
+        }
+        result += `${parts[0].trim()}>\n`;
+        if (parts[1].trim() !== '') {
+          result += `${getIndent(indentLevel) + parts[1].trim().replace(/\s+/g, ' ')}\n`;
+        }
+        if (parts[0].match(/^(area|base|br|col|command|embed|hr|img|input|link|meta|param|source)/)) {
+          indentLevel--;
+        }
+      } else {
+        result += `${getIndent(indentLevel) + parts[0]}\n`;
+      }
+    }
+    return result.trim();
+  }
+
+  /**
+   * Set the heights and adjust the line number feature.
+   * @private
+   * @returns {void}
+   */
+  #adjustSourceLineNumbers() {
+    window.requestAnimationFrame(() => {
+      const lineHeight = parseInt(getComputedStyle(this.#elems.textarea).lineHeight, 10);
+      const YPadding = 0;
+      this.#elems.textarea.style.height = '';
+
+      const scrollHeight = this.#elems.textarea.scrollHeight;
+      const lineNumberCount = Math.floor((scrollHeight - YPadding) / lineHeight);
+      const numberList = this.#elems.lineNumbers;
+      const lastIdx = numberList.querySelectorAll('li').length;
+
+      let list = '';
+      let i = 0;
+
+      if (!this.#elems.lineNumberCount || lineNumberCount !== this.#elems.lineNumberCount) {
+        if (!this.#elems.lineNumberCount) {
+          // Build the list of line numbers from scratch
+          this.#elems.lineNumberCount = lineNumberCount;
+          while (i < this.#elems.lineNumberCount) {
+            list += `<li role="presentation"><span>${(i + 1)}</span></li>`;
+            i++;
+          }
+          numberList.insertAdjacentHTML('beforeend', list);
+        } else if (this.#elems.lineNumberCount < lineNumberCount) {
+          // Add extra line numbers to the bottom
+          while (i < (lineNumberCount - this.#elems.lineNumberCount)) {
+            list += `<li role="presentation"><span>${(lastIdx + i + 1)}</span></li>`;
+            i++;
+          }
+          numberList.insertAdjacentHTML('beforeend', list);
+        } else if (this.#elems.lineNumberCount > lineNumberCount) {
+          // Remove extra line numbers from the bottom
+          i = this.#elems.lineNumberCount - lineNumberCount;
+          [...numberList.querySelectorAll('li')].slice(-(i)).forEach((item) => item?.remove());
+        }
+        this.#elems.lineNumberCount = lineNumberCount;
+      }
+
+      this.#elems.textarea.style.height = `${numberList.scrollHeight}px`;
+    });
+  }
+
+  /**
+   * Check if given html is word format
+   * @private
+   * @param {string} content The html
+   * @returns {string} The cleaned html
+   */
+  #isWordFormat(content) {
+    return (
+      (/<font face="Times New Roman"|class="?Mso|style="[^"]*\bmso-|style='[^'']*\bmso-|w:WordDocument/i)
+        .test(content)
+        || (/class="OutlineElement/).test(content)
+        || (/id="?docs\-internal\-guid\-/.test(content)) // eslint-disable-line
+    );
+  }
+
+  /**
+   * Clean word format for given html
+   * @private
+   * @param {string} content The html
+   * @returns {string} The cleaned html
+   */
+  #cleanWordHtml(content) {
+    let s = content;
+
+    // Word comments like conditional comments etc
+    s = s.replace(/<!--[\s\S]+?-->/gi, '');
+
+    // Remove comments, scripts (e.g., msoShowComment), XML tag, VML content,
+    // MS Office namespaced tags, and a few other tags
+    s = s.replace(/<(!|script[^>]*>.*?<\/script(?=[>\s])|\/?(\?xml(:\w+)?|img|meta|link|style|\w:\w+)(?=[\s\/>]))[^>]*>/gi, ''); // eslint-disable-line
+
+    // Convert <s> into <strike> for line-though
+    s = s.replace(/<(\/?)s>/gi, '<$1strike>');
+
+    // Replace nbsp entites to char since it's easier to handle
+    s = s.replace(/&nbsp;/gi, '\u00a0');
+
+    // Convert <span style="mso-spacerun:yes"></span> to string of alternating
+    // breaking/non-breaking spaces of same length
+    s = s.replace(/<span\s+style\s*=\s*"\s*mso-spacerun\s*:\s*yes\s*;?\s*"\s*>([\s\u00a0]*)<\/span>/gi, (str, spaces) => ((spaces.length > 0) ? spaces.replace(/./, ' ').slice(Math.floor(spaces.length / 2)).split('').join('\u00a0') : ''));
+
+    // Remove line breaks / Mso classes
+    s = s.replace(/(\n|\r| class=(\'|")?Mso[a-zA-Z]+(\'|")?)/g, ' '); // eslint-disable-line
+
+    const badTags = ['style', 'script', 'applet', 'embed', 'noframes', 'noscript'];
+
+    // Remove everything in between and including "badTags"
+    for (let i = 0, l = badTags.length; i < l; i++) {
+      const re = new RegExp(`<${badTags[i]}.*?${badTags[i]}(.*?)>`, 'gi');
+      s = s.replace(re, '');
+    }
+
+    return s;
+  }
+
+  /**
+   * Strip given styles
+   * @private
+   * @param {string} content The html
+   * @param {RegExp} styleStripper The RegExp
+   * @returns {string} The cleaned html
+   */
+  #stripStyles(content, styleStripper) {
+    const stylesToKeep = ['color', 'font-size', 'background', 'font-weight', 'font-style', 'text-decoration', 'text-align'];
+    return content.replace(styleStripper, (m) => {
+      m = m.replace(/( style=|("|\'))/gi, ''); // eslint-disable-line
+      const attrs = m.split(';');
+      let strStyle = '';
+      for (let i = 0; i < attrs.length; i++) {
+        const entry = attrs[i].split(':');
+        strStyle += (stylesToKeep.indexOf((entry[0] || '').trim()) > -1) ? `${entry[0]}:${entry[1]};` : '';
+      }
+      return (strStyle !== '') ? ` style="${strStyle}"` : '';
+    });
+  }
+
+  /**
+   * Strip given attribute
+   * @private
+   * @param {string} content The html
+   * @param {string} attribute The attribute
+   * @param {RegExp} attributeStripper The RegExp
+   * @returns {string} The cleaned html
+   */
+  #stripAttribute(content, attribute, attributeStripper) {
+    return (attribute === 'style')
+      ? this.#stripStyles(content, attributeStripper)
+      : content.replace(attributeStripper, '');
+  }
+
+  /**
+   * Clean given html
+   * @private
+   * @param {string} content The html
+   * @returns {string} The cleaned html
+   */
+  #cleanHtml(content) {
+    let attributeStripper;
+    let s = content || '';
+
+    const badAttributes = [
+      'start', 'xmlns', 'xmlns:o', 'xmlns:w', 'xmlns:x', 'xmlns:m',
+      'onmouseover', 'onmouseout', 'onmouseenter', 'onmouseleave',
+      'onmousemove', 'onload', 'onfocus', 'onblur', 'onclick',
+      'style'
+    ];
+
+    // Remove extra word formating
+    if (this.#isWordFormat(s)) {
+      s = this.#cleanWordHtml(s);
+    }
+
+    // Remove bad attributes
+    for (let i = 0, l = badAttributes.length; i < l; i++) {
+      attributeStripper = new RegExp(` ${badAttributes[i]}="(.*?)"`, 'gi');
+      s = this.#stripAttribute(s, badAttributes[i], attributeStripper);
+
+      attributeStripper = new RegExp(` ${badAttributes[i]}='(.*?)'`, 'gi');
+      s = this.#stripAttribute(s, badAttributes[i], attributeStripper);
+    }
+
+    // Remove "ng-" directives and "ng-" classes
+    s = s.replace(/\sng-[a-z-]+/, '');
+
+    // Remove comments
+    s = s.replace(/<!--(.*?)-->/gm, '');
+
+    // Remove extra spaces
+    s = s.replace(/\s\s+/g, ' ').replace(/\s>+/g, '>');
+
+    // Remove extra attributes from list elements
+    s = s.replace(/<(ul)(.*?)>/gi, '<$1>');
+
+    // Remove empty list
+    s = s.replace(/<li><\/li>/gi, '');
+    s = s.replace(/<(ul|ol)><\/(ul|ol)>/gi, '');
+
+    // Remove html and body tags
+    s = s.replace(/<\/?(html|body)(.*?)>/gi, '');
+
+    // Remove header tag and content
+    s = s.replace(/<head\b[^>]*>(.*?)<\/head>/gi, '');
+
+    // Remove empty tags
+    s = s.replace(/<(div|span|p)> <\/(div|span|p)>/gi, ' ');
+    s = s.replace(/<[^(br|/>)]+>[\s]*<\/[^>]+>/gi, '');
+
+    if (s.indexOf('·') > -1) {
+      // Replace span and paragraph tags from bulleted list pasting
+      s = s.replace(/<\/p>/gi, '</li>');
+      s = s.replace(/<p><span><span>·<\/span><\/span>/gi, '<li>');
+      // Remove white space
+      s = s.replace(/<\/li>\s<li>/gi, '<\/li><li>');
+      // Add in opening and closing ul tags
+      s = [s.slice(0, s.indexOf('<li>')), '<ul>', s.slice(s.indexOf('<li>'))].join('');
+      s = [s.slice(0, s.lastIndexOf('</li>')), '</ul>', s.slice(s.lastIndexOf('</li>'))].join('');
+    }
+
+    return s;
+  }
+
+  /**
+   * Trim out the editor spaces for comparison.
+   * @private
+   * @param  {string} content The html.
+   * @returns {string} The trimmed content.
+   */
+  #trimContent(content) {
+    const bElems = BLOCK_ELEMENTS.join('|');
+    return sanitizeHTML(content || '')
+      .trim()
+      .replace(/>\s+</g, '><')
+      .replace(/\s+/g, ' ')
+      .replace(/<br(\s?\/)?>/g, '<br>\n')
+      .replace(new RegExp(`</(${bElems})>`, 'gi'), '</$1>\n\n')
+      .replace(/\n\n$/, '\n')
+      .replace(new RegExp(`<(${bElems})><br>\\n</(${bElems})>\\n`, 'gi'), '');
+  }
+
+  /**
+   * Set editor content value
+   * @private
+   * @param {string} content The html
+   * @returns {object} This API object for chaining
+   */
+  #setEditorContent(content) {
+    const { editor, textarea } = this.#elems;
+    const html = this.#trimContent(content || textarea.value);
+    editor.innerHTML = this.#cleanHtml(html);
+    return this;
+  }
+
+  /**
+   * Set source content value
+   * @private
+   * @param {string} content The html
+   * @returns {object} This API object for chaining
+   */
+  #setSourceContent(content) {
+    const { editor, textarea } = this.#elems;
+    if (editor.textContent.replace('\n', '') === '') editor.innerHTML = '';
+    const value = this.#trimContent(content || editor.innerHTML);
+    textarea.value = this.sourceFormatter ? this.#formatHtml(value) : value;
+    return this;
+  }
+
+  /**
+   * Switch to editor mode
+   * @private
+   * @param {string} content The html
+   * @returns {object} This API object for chaining
+   */
+  #editorMode(content) {
+    // Fire the vetoable event.
+    if (!this.triggerVetoableEvent('beforeeditormode', { value: this.value })) {
+      return this;
+    }
+    this.#setEditorContent(content);
+    this.#elems.toolbar.disabled = false;
+    this.#elems.btnSource.classList.remove(CLASSES.hidden);
+    this.#elems.btnEditor.classList.add(CLASSES.hidden);
+    this.#elems.source.classList.add(CLASSES.hidden);
+    this.#elems.editor.classList.remove(CLASSES.hidden);
+    this.#elems.editor.focus();
+    this.#triggerEvent('aftereditormode');
+    return this;
+  }
+
+  /**
+   * Switch to source mode
+   * @private
+   * @param {string} content The html
+   * @returns {object} This API object for chaining
+   */
+  #sourceMode(content) {
+    // Fire the vetoable event.
+    if (!this.triggerVetoableEvent('beforesourcemode', { value: this.value })) {
+      return this;
+    }
+    this.#setSourceContent(content);
+    this.#adjustSourceLineNumbers();
+    this.#elems.toolbar.disabled = true;
+    this.#elems.btnSource.classList.add(CLASSES.hidden);
+    this.#elems.btnEditor.classList.remove(CLASSES.hidden);
+    this.#elems.btnEditor.disabled = false;
+    this.#elems.source.classList.remove(CLASSES.hidden);
+    this.#elems.editor.classList.add(CLASSES.hidden);
+    this.#elems.textarea.focus();
+    this.#triggerEvent('aftersourcemode');
+    return this;
+  }
+
+  /**
+   * Activate to current view mode
+   * @private
+   * @returns {object} This API object for chaining
+   */
+  #activateMode() {
+    if (this.view === 'source') this.#sourceMode();
+    if (this.view === 'editor') this.#editorMode();
+    this.#triggerEvent('activatemode', this, { view: this.view });
+    return this;
+  }
+
+  /**
+   * Resize
+   * @private
+   * @returns {object} This API object for chaining
+   */
+  #resize() {
+    if (this.view === 'source') {
+      this.#adjustSourceLineNumbers();
+    }
+    return this;
+  }
+
+  /**
+   * Set contenteditable
+   * @private
+   * @returns {object} This API object for chaining
+   */
+  #contenteditable() {
+    const value = !this.disabled && !this.readonly;
+    this.#elems.editor.setAttribute('contenteditable', value);
+    return this;
+  }
+
+  /**
    * Initialize the raw content
    * @private
    * @returns {object} This API object for chaining
@@ -580,16 +1046,57 @@ export default class IdsEditor extends Base {
     setColorpicker('forecolor');
     setColorpicker('backcolor');
 
+    // Set source/editor mode buttons
+    const btnSource = this.querySelector('[editor-action="sourcemode"]');
+    const btnEditor = this.querySelector('[editor-action="editormode"]');
+    if (btnSource || btnEditor) {
+      if (!btnEditor) {
+        const template = document.createElement('template');
+        template.innerHTML = `
+          <ids-button editor-action="editormode" square="true" tooltip="View Visual">
+            <span slot="text" class="audible">View Visual</span>
+            <ids-icon slot="icon" icon="visual" width="50" viewbox="0 0 73 18"></ids-icon>
+          </ids-button>`;
+        btnSource.after(template.content.cloneNode(true));
+      }
+      if (!btnSource) {
+        const template = document.createElement('template');
+        template.innerHTML = `
+          <ids-button editor-action="sourcemode" square="true" tooltip="View Source">
+            <span slot="text" class="audible">View Source</span>
+            <ids-icon slot="icon" icon="html" width="38" viewbox="0 0 54 18"></ids-icon>
+          </ids-button>`;
+        btnEditor.after(template.content.cloneNode(true));
+      }
+      if (this.view === 'source') {
+        btnSource?.classList.add(CLASSES.hidden);
+        btnEditor?.classList.remove(CLASSES.hidden);
+      } else {
+        btnSource?.classList.remove(CLASSES.hidden);
+        btnEditor?.classList.add(CLASSES.hidden);
+      }
+    }
+
     // Set to cache some elements
     this.#elems.main = this.#qs('.main-container');
     this.#elems.editor = this.#qs('.editor-container');
     this.#elems.source = this.#qs('.source-container');
+    this.#elems.lineNumbers = this.#qs('.line-numbers');
+    this.#elems.textarea = this.#qs('#source-textarea');
     this.#elems.toolbar = this.querySelector('ids-toolbar');
+    this.#elems.btnSource = this.querySelector('[editor-action="sourcemode"]');
+    this.#elems.btnEditor = this.querySelector('[editor-action="editormode"]');
 
+    // Editor container
     const html = (slot) => slot?.assignedNodes()[0]?.innerHTML;
     const slot = this.#qs('slot[name="content"]');
-    this.#elems.editor.innerHTML = html(slot) || '';
-    // this.#elems..innerHTML = xssUtils.stripHTML(html(slot) || '');
+    this.#setEditorContent(html(slot) ?? '');
+    this.#setSourceContent();
+
+    // Use for dirty-tracker and validation
+    this.input = this.#elems.textarea;
+    this.labelEl = this.#qs('#editor-label');
+    this.validationEvents = 'change.editorvalidation input.editorvalidation';
     return this;
   }
 
@@ -653,7 +1160,7 @@ export default class IdsEditor extends Base {
               ${clickableElemHtml}
               <ids-input id="${key}-modal-input-classes" label="Css Class" value="${classes}"></ids-input>
               ${targetDropdownHtml}
-              <div id="${key}-modal-checkbox-remove-container" class="hidden">
+              <div id="${key}-modal-checkbox-remove-container" class="${CLASSES.hidden}">
                 <ids-checkbox id="${key}-modal-checkbox-remove" label="Remove hyperlink"></ids-checkbox>
               </div>
             </ids-layout-grid-cell>
@@ -720,6 +1227,7 @@ export default class IdsEditor extends Base {
       const a = { ...this.#actions[action] };
       if (typeof a === 'undefined' || modals.includes(action)) return;
       this.#handleAction(action);
+      this.#triggerEvent('input', this.#elems.editor);
     }
   }
 
@@ -736,6 +1244,7 @@ export default class IdsEditor extends Base {
       const action = `${e.target?.menu?.target?.getAttribute('editor-action') ?? ''}`.replace(/^menu-button-/i, '');
       if (action === 'formatblock') {
         this.#handleAction(action, e.detail.value);
+        this.#triggerEvent('input', this.#elems.editor);
       }
     }
   }
@@ -782,7 +1291,7 @@ export default class IdsEditor extends Base {
         args.targetSelected = { value: currentLink?.getAttribute('target') ?? '' };
       }
       const opt = args.hideRemoveContainer ? 'add' : 'remove';
-      elems.removeContainer?.classList[opt]('hidden');
+      elems.removeContainer?.classList[opt](CLASSES.hidden);
       elems.url.value = args.url;
       elems.url.checkValidation();
       elems.classes.value = args.classes;
@@ -804,7 +1313,7 @@ export default class IdsEditor extends Base {
     let a = { ...this.#actions[action] };
     if (typeof a === 'undefined') return;
 
-    const sel = this.getSelection();
+    const sel = this.#getSelection();
 
     // Set format block
     if (a.action === 'formatBlock') {
@@ -815,15 +1324,23 @@ export default class IdsEditor extends Base {
       if (a.value === 'blockquote' && this.#blockElem().tagName === 'blockquote') {
         a = { ...this.#actions[this.#paragraphSeparator] };
       }
+      this.#selectionBlockElems().forEach((elem) => {
+        const regx = new RegExp(`<(/?)${elem.tagName}((?:[^>"']|"[^"]*"|'[^']*')*)>`, 'gi');
+        const html = elem.outerHTML.replace(regx, `<$1${a.value}$2>`);
+        elem.outerHTML = html;
+      });
+      return;
     }
 
     // Set text align
     if (/^(alignleft|alignright|aligncenter|alignjustify)$/i.test(action)) {
       const alignDoc = this.locale.isRTL() ? 'right' : 'left';
       const align = action.replace('align', '');
-      const value = align === alignDoc ? '' : align;
-      this.#selectionBlockElems()
-        .forEach((elem) => elem?.style.setProperty('text-align', value));
+      this.#selectionBlockElems().forEach((elem) => {
+        align === alignDoc
+          ? elem?.removeAttribute('style')
+          : elem?.style.setProperty('text-align', align);
+      });
       return;
     }
 
@@ -839,7 +1356,6 @@ export default class IdsEditor extends Base {
       }
       return;
     }
-    a.value = a.value ?? val;
 
     // Set ordered list, unordered list
     if (/^(orderedlist|unorderedlist)$/i.test(action)) {
@@ -863,6 +1379,13 @@ export default class IdsEditor extends Base {
       return;
     }
 
+    // Switch editor/source mode
+    if (/^(editormode|sourcemode)$/i.test(action)) {
+      this.view = action.replace(/mode/gi, '');
+      return;
+    }
+
+    a.value = a.value ?? val;
     document.execCommand(a.action, false, a.value);
   }
 
@@ -877,7 +1400,7 @@ export default class IdsEditor extends Base {
     if (typeof a === 'undefined') return;
 
     this.#restoreSelection(this.#savedSelection);
-    const sel = this.getSelection();
+    const sel = this.#getSelection();
     const range = sel.getRangeAt(0);
 
     // Insert image
@@ -962,6 +1485,9 @@ export default class IdsEditor extends Base {
       // TODO: DO something changing language ?
     });
 
+    // Attach slotchange events
+    this.#attachSlotchangeEvent();
+
     // Attach toolbar events
     const toolbar = this.querySelector('[slot="toolbar"]');
     this.onEvent('click.editor-toolbar', toolbar, (e) => {
@@ -980,6 +1506,24 @@ export default class IdsEditor extends Base {
         this.#attachModalEvents(key);
       }
     });
+
+    // Editor container
+    this.onEvent('input.editor-editcontainer', this.#elems.editor, debounce(() => {
+      this.#setSourceContent();
+      this.#triggerEvent('change', this.#elems.textarea);
+    }, 400));
+
+    // Textarea
+    this.onEvent('input.editor-textarea', this.#elems.textarea, () => {
+      this.#adjustSourceLineNumbers();
+    });
+    this.onEvent('change.editor-textarea', this.#elems.textarea, () => {
+      this.#triggerEvent('change');
+    });
+
+    // Set observer for resize
+    this.#resizeObserver.disconnect();
+    this.#resizeObserver.observe(this.container);
 
     return this;
   }
@@ -1035,6 +1579,51 @@ export default class IdsEditor extends Base {
   }
 
   /**
+   * Attach slotchange events
+   * @private
+   * @returns {void}
+   */
+  #attachSlotchangeEvent() {
+    const html = (slot) => slot?.assignedNodes()[0]?.innerHTML ?? '';
+    const contentSlot = this.#qs('slot[name="content"]');
+    this.onEvent('slotchange.editor-content', contentSlot, () => {
+      this.#setEditorContent(html(contentSlot) ?? '');
+    });
+  }
+
+  /**
+   * Get editor current value
+   * @returns {string} The current value
+   */
+  get value() {
+    return this.#trimContent(this.#elems.textarea.value);
+  }
+
+  /**
+   * Sets the editor to disabled
+   * @param {boolean|string} value If true will set disabled
+   */
+  set disabled(value) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.DISABLED, '');
+      this.container.setAttribute(attributes.DISABLED, '');
+      this.#elems?.textarea?.setAttribute(attributes.DISABLED, '');
+      this.labelEl?.setAttribute(attributes.DISABLED, '');
+    } else {
+      this.removeAttribute(attributes.DISABLED);
+      this.container.removeAttribute(attributes.DISABLED);
+      this.#elems?.textarea?.removeAttribute(attributes.DISABLED);
+      this.labelEl?.removeAttribute(attributes.DISABLED);
+    }
+    this.#contenteditable();
+  }
+
+  get disabled() {
+    const value = this.getAttribute(attributes.DISABLED);
+    return value !== null ? stringToBool(value) : EDITOR_DEFAULTS.disabled;
+  }
+
+  /**
    * Set the editor aria label text
    * @param {string} value of the label text
    */
@@ -1048,6 +1637,44 @@ export default class IdsEditor extends Base {
 
   get label() {
     return this.getAttribute(attributes.LABEL) || EDITOR_DEFAULTS.label;
+  }
+
+  /**
+   * Set the label to be hidden or shown
+   * @param {boolean|string} value The value
+   */
+  set labelHidden(value) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.LABEL_HIDDEN, '');
+      this.labelEl?.setAttribute(attributes.AUDIBLE, '');
+    } else {
+      this.removeAttribute(attributes.LABEL_HIDDEN);
+      this.labelEl?.removeAttribute(attributes.AUDIBLE);
+    }
+  }
+
+  get labelHidden() {
+    const value = this.getAttribute(attributes.LABEL_HIDDEN);
+    return value !== null ? stringToBool(value) : EDITOR_DEFAULTS.labelHidden;
+  }
+
+  /**
+   * Set required indicator (red '*') to be hidden or shown
+   * @param {boolean|string} value The value
+   */
+  set labelRequired(value) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.LABEL_REQUIRED, '');
+      this.labelEl?.classList.remove(CLASSES.labelRequired);
+    } else {
+      this.removeAttribute(attributes.LABEL_REQUIRED);
+      this.labelEl?.classList.add(CLASSES.labelRequired);
+    }
+  }
+
+  get labelRequired() {
+    const value = this.getAttribute(attributes.LABEL_REQUIRED);
+    return value !== null ? stringToBool(value) : EDITOR_DEFAULTS.labelRequired;
   }
 
   /**
@@ -1065,5 +1692,81 @@ export default class IdsEditor extends Base {
 
   get paragraphSeparator() {
     return this.getAttribute(attributes.PARAGRAPH_SEPARATOR) || EDITOR_DEFAULTS.paragraphSeparator;
+  }
+
+  /**
+   * Set the placeholder for editor
+   * @param {string} value The placeholder value
+   */
+  set placeholder(value) {
+    if (value) {
+      this.setAttribute(attributes.PLACEHOLDER, value);
+      this.#elems?.editor?.setAttribute(attributes.PLACEHOLDER, value);
+      this.#elems?.textarea?.setAttribute(attributes.PLACEHOLDER, value);
+    } else {
+      this.removeAttribute(attributes.PLACEHOLDER);
+      this.#elems?.editor?.removeAttribute(attributes.PLACEHOLDER);
+      this.#elems?.textarea?.removeAttribute(attributes.PLACEHOLDER);
+    }
+  }
+
+  get placeholder() { return this.getAttribute(attributes.PLACEHOLDER); }
+
+  /**
+   * Sets the editor to readonly
+   * @param {boolean|string} value If true will set readonly
+   */
+  set readonly(value) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.READONLY, '');
+      this.container.setAttribute(attributes.READONLY, '');
+      this.#elems?.textarea?.setAttribute(attributes.READONLY, '');
+      this.labelEl?.setAttribute(attributes.READONLY, '');
+    } else {
+      this.removeAttribute(attributes.READONLY);
+      this.container.removeAttribute(attributes.READONLY);
+      this.#elems?.textarea?.removeAttribute(attributes.READONLY);
+      this.labelEl?.removeAttribute(attributes.READONLY);
+    }
+    this.#contenteditable();
+  }
+
+  get readonly() {
+    const value = this.getAttribute(attributes.READONLY);
+    return value !== null ? stringToBool(value) : EDITOR_DEFAULTS.readonly;
+  }
+
+  /**
+   * Sets the source formatter for editor
+   * @param {boolean|string} value The value
+   */
+  set sourceFormatter(value) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.SOURCE_FORMATTER, '');
+    } else {
+      this.removeAttribute(attributes.SOURCE_FORMATTER);
+    }
+  }
+
+  get sourceFormatter() {
+    const value = this.getAttribute(attributes.SOURCE_FORMATTER);
+    return value !== null ? stringToBool(value) : EDITOR_DEFAULTS.sourceFormatter;
+  }
+
+  /**
+   * Set the view mode for editor
+   * @param {string} value The value: 'editor', 'source'
+   */
+  set view(value) {
+    if (VIEWS.indexOf(value) > -1) {
+      this.setAttribute(attributes.VIEW, value);
+    } else {
+      this.removeAttribute(attributes.VIEW);
+    }
+    this.#activateMode();
+  }
+
+  get view() {
+    return this.getAttribute(attributes.VIEW) || EDITOR_DEFAULTS.view;
   }
 }

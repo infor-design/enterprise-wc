@@ -40,6 +40,8 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     success: 'success',
   };
 
+  validationIsEditor = false;
+
   /**
    * Handle the validation rules
    * @returns {void}
@@ -49,6 +51,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     const canRadio = ((!isRadioGroup) || (!!(isRadioGroup && this.querySelector('ids-radio'))));
 
     if (this.labelEl && typeof this.validate === 'string' && canRadio) {
+      this.validationIsEditor = this.input?.classList.contains('source-textarea');
       const isCheckbox = this.input?.getAttribute('type') === 'checkbox';
       const defaultEvents = (isCheckbox || isRadioGroup) ? 'change.validationmixin' : 'blur.validationmixin';
       const events = (this.validationEvents && typeof this.validationEvents === 'string')
@@ -72,6 +75,9 @@ const IdsValidationMixin = (superclass) => class extends superclass {
           if (isRadioGroup) {
             const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
             radioArr.forEach((r) => r.input.setAttribute('required', 'required'));
+          }
+          if (this.validationIsEditor) {
+            this.shadowRoot.querySelector('.editor-container')?.setAttribute('aria-required', true);
           }
         }
 
@@ -363,7 +369,13 @@ const IdsValidationMixin = (superclass) => class extends superclass {
         this.handleValidationEvents('remove');
         this.useRules.delete(input);
       }
-      this.labelEl?.classList.remove('required');
+      if (!(/\brequired\b/gi.test(this.validate))) {
+        this.labelEl?.classList.remove('required');
+        input.removeAttribute('aria-required');
+        if (this.validationIsEditor) {
+          this.shadowRoot.querySelector('.editor-container')?.removeAttribute('aria-required');
+        }
+      }
       this.removeAllMessages();
     };
 

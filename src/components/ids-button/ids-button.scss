@@ -31,6 +31,10 @@
   }
 }
 
+:host(.hidden) {
+  @include hidden();
+}
+
 // Reset button display styles internally
 button {
   display: block;

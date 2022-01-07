@@ -1,10 +1,50 @@
 /* Ids Editor Component */
 @import '../../core/ids-base';
+@import '../../mixins/sass/ids-dirty-tracker-mixin';
+@import '../../mixins/sass/ids-validation-mixin';
+
 
 .ids-editor {
 
   .hidden {
     @include hidden();
+  }
+
+  .audible {
+    @include audible();
+  }
+
+  .editor-label {
+    @include mb-4();
+
+    align-items: baseline;
+    display: flex;
+
+    &.required {
+      &::after {
+        @include relative();
+        @include font-sans();
+        @include mx-2();
+        @include text-20();
+        @include text-alert-danger();
+
+        content: '*';
+        margin-top: -10px;
+        top: 1px;
+      }
+
+      &.no-required-indicator::after {
+        content: '';
+      }
+    }
+
+    &[audible] {
+      @include mb-0();
+
+      &.required::after {
+        content: '';
+      }
+    }
   }
 
   .main-container {
@@ -26,10 +66,66 @@
     overflow-x: hidden; // TODO: remove soon toolbar spillover implements
   }
 
+  .editor-content {
+    @include relative();
+  }
+
+  &[readonly] {
+    .editor-label.required::after {
+      content: '';
+    }
+
+    .toolbar-container {
+      @include hidden();
+    }
+
+    .main-container,
+    .main-container * {
+      @include cursor-text();
+    }
+
+    .editor-container,
+    .source-container {
+      @include bg-slate-20();
+
+      a {
+        pointer-events: none;
+      }
+    }
+  }
+
+  &[disabled] {
+    .editor-label.required::after {
+      @include text-ruby-30();
+    }
+
+    .toolbar-container {
+      @include hidden();
+    }
+
+    .main-container,
+    .main-container * {
+      @include border-slate-30();
+      @include text-slate-40();
+      @include cursor-default();
+
+      pointer-events: none;
+      user-select: none;
+
+      &:hover,
+      &:active {
+        @include text-slate-40();
+      }
+
+      &:focus,
+      &:focus-within {
+        @include border-slate-30();
+        @include shadow-none();
+      }
+    }
+  }
+
   .editor-container {
-    @include antialiased();
-    @include font-sans();
-    @include outline-none();
     @include p-16();
 
     a {
@@ -61,11 +157,67 @@
     :is(h1, h2, h3, h4, h5, h6, p, pre, blockquote):first-child {
       margin-block-start: 0;
     }
+
+    &[placeholder]:empty {
+      &::before {
+        content: attr(placeholder);
+        display: inline-block;
+        opacity: 0.6;
+      }
+
+      &:focus::before {
+        content: '';
+      }
+    }
+  }
+
+  .source-wrapper {
+    @include flex();
+    @include m-0();
+    @include p-0();
+
+    min-height: 100%;
+
+    .line-numbers {
+      @include antialiased();
+      @include font-sans();
+      @include bg-slate-10();
+      @include m-0();
+      @include px-12();
+      @include text-slate-50();
+
+      font-weight: 700;
+      padding-top: 16px;
+      line-height: 1.5rem;
+      list-style: none;
+      text-align: end;
+    }
+
+    .source-textarea {
+      @include antialiased();
+      @include font-sans();
+      @include text-16();
+      @include px-16();
+      @include outline-none();
+      @include h-full();
+      @include w-full();
+
+      background-color: transparent;
+      border: none;
+      padding-top: 16px;
+      line-height: 1.5rem;
+      overflow: hidden;
+      resize: none;
+    }
   }
 
   .editor-container,
   .source-container {
-    max-height: 320px;
+    @include antialiased();
+    @include font-sans();
+    @include outline-none();
+
+    height: 320px;
     overflow: auto;
   }
 
@@ -77,6 +229,46 @@
         @include border-azure-60();
       }
     }
+
+    .source-wrapper {
+      .line-numbers {
+        @include bg-slate-80();
+        @include text-slate-40();
+      }
+      .source-textarea {
+        @include text-white();
+      }
+    }
+
+    &[readonly] {
+      .main-container {
+        @include border-slate-40();
+        @include text-slate-10();
+      }
+
+      .editor-container,
+      .source-container {
+        @include bg-slate-70();
+      }
+    }
+
+    &[disabled] {
+      .main-container,
+      .main-container * {
+        @include border-slate-60();
+        @include text-slate-60();
+
+        &:hover,
+        &:active {
+          @include text-slate-60();
+        }
+
+        &:focus,
+        &:focus-within {
+          @include border-slate-60();
+        }
+      }
+    }
   }
 
   &[mode='contrast'] {
@@ -85,6 +277,48 @@
 
       &:focus-within {
         @include border-azure-90();
+      }
+    }
+
+    .source-wrapper {
+      .line-numbers {
+        @include bg-slate-20();
+        @include text-slate-70();
+      }
+    }
+
+    &[readonly] {
+      .main-container {
+        @include border-slate-40();
+      }
+
+      .editor-container,
+      .source-container {
+        @include bg-slate-20();
+      }
+
+      .source-wrapper {
+        .line-numbers {
+          @include bg-slate-10();
+        }
+      }
+    }
+
+    &[disabled] {
+      .main-container,
+      .main-container * {
+        @include border-slate-30();
+        @include text-slate-30();
+
+        &:hover,
+        &:active {
+          @include text-slate-30();
+        }
+
+        &:focus,
+        &:focus-within {
+          @include border-slate-30();
+        }
       }
     }
   }
