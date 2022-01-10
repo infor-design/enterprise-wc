@@ -7,8 +7,8 @@ import IdsContainer from '../../src/components/ids-container/ids-container';
 
 import {
   addDate,
-  firstDayOfWeek,
-  lastDayOfWeek
+  firstDayOfWeekDate,
+  lastDayOfWeekDate
 } from '../../src/utils/ids-date-utils/ids-date-utils';
 
 const name = 'ids-week-view';
@@ -86,8 +86,8 @@ describe('IdsWeekView Component (using properties)', () => {
     component.showToday = null;
     component.timelineInterval = null;
 
-    expect(component.startDate.toISOString()).toEqual(firstDayOfWeek(new Date()).toISOString());
-    expect(component.endDate.toISOString()).toEqual(lastDayOfWeek(new Date()).toISOString());
+    expect(component.startDate.toISOString()).toEqual(firstDayOfWeekDate(new Date()).toISOString());
+    expect(component.endDate.toISOString()).toEqual(lastDayOfWeekDate(new Date()).toISOString());
     expect(component.startHour).toEqual(defaultStartHour);
     expect(component.endHour).toEqual(defaultEndHour);
     expect(component.firstDayOfWeek).toEqual(defaultFirstDayOfWeek);
@@ -181,8 +181,8 @@ describe('IdsWeekView Component (empty)', () => {
   });
 
   it('should have default properties', () => {
-    expect(component.startDate.toISOString()).toEqual(firstDayOfWeek(new Date()).toISOString());
-    expect(component.endDate.toISOString()).toEqual(lastDayOfWeek(new Date()).toISOString());
+    expect(component.startDate.toISOString()).toEqual(firstDayOfWeekDate(new Date()).toISOString());
+    expect(component.endDate.toISOString()).toEqual(lastDayOfWeekDate(new Date()).toISOString());
     expect(component.startHour).toEqual(7);
     expect(component.endHour).toEqual(19);
     expect(component.showToday).toBeFalsy();
