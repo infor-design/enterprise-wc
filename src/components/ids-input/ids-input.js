@@ -191,7 +191,7 @@ export default class IdsInput extends Base {
 
   /**
    * sets whether password reveal functionality is available
-   * @param {boolean|string} value
+   * @param {boolean|string} value boolean value sets whether reveal functionality is toggled on or off
    */
   set revealablePassword(value) {
     const valueSafe = stringToBool(value);
@@ -217,7 +217,7 @@ export default class IdsInput extends Base {
 
   /**
    * sets whether capslock indicatoris enabled or disabled
-   * @param {boolean|string}
+   * @param {boolean|string} value sets whether capslock indicator functionality is toggled on or off
    */
   set capsLock(value) {
     if (stringToBool(value)) {
@@ -230,7 +230,7 @@ export default class IdsInput extends Base {
   }
 
   /**
-   * @return {boolean} whether the password is currently visible
+   * @returns {boolean} whether the password is currently visible
    */
   get passwordVisible() {
     return stringToBool(this.getAttribute(attributes.PASSWORD_VISIBLE));
@@ -238,7 +238,7 @@ export default class IdsInput extends Base {
 
   /**
    * sets whether the password is currently visible
-   * @param {boolean|string}
+   * @param {boolean|string} value toggles the visibility of the password on or off
    */
   set passwordVisible(value) {
     const valueSafe = stringToBool(value);
@@ -493,7 +493,6 @@ export default class IdsInput extends Base {
         showHideButton.id = 'show-hide-password';
         showHideButton.classList.add('show-hide-password');
         inputContainer.prepend(showHideButton);
-        //inputContainer.innerHTML += `<ids-button text='${this.passwordVisible ? 'HIDE' : 'SHOW'}' id="show-hide-password" class="show-hide-password"></ids-button>`;
         this.input.type = `${this.passwordVisible ? 'text' : this.type}`;
       }
       this.onEvent('click.showhidepassword', showHidePasswordElem, () => {
