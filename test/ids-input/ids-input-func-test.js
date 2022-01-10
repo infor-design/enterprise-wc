@@ -82,19 +82,19 @@ describe('IdsInput Component', () => {
 
   it('renders showable password', () => {
     input.type = 'password';
-    input.revealableText = 'true';
+    input.revealablePassword = 'true';
     input.passwordVisible = 'true';
 
     expect(input.getAttribute('password-visible')).toBe('true');
-    expect(input.getAttribute('revealable-text')).toBe('true');
+    expect(input.getAttribute('revealable-password')).toBe('true');
     const showHideButton = input.shadowRoot.querySelector('.show-hide-password');
     expect(showHideButton).toBeTruthy();
-    expect(showHideButton.innerHTML).toBe('Hide');
+    expect(showHideButton.text).toBe('HIDE');
 
     input.passwordVisible = 'false';
 
     expect(showHideButton).toBeTruthy();
-    expect(showHideButton.innerHTML).toBe('Show');
+    expect(showHideButton.text).toBe('SHOW');
   });
 
   it('renders capslock indicator', () => {
