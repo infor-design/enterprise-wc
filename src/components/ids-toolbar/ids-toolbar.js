@@ -37,13 +37,13 @@ export default class IdsToolbar extends Base {
   connectedCallback() {
     super.connectedCallback?.();
     this.setAttribute('role', 'toolbar');
-    this.#setType();
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
     this.#resizeObserver.observe(this);
 
     // After repaint
     requestAnimationFrame(() => {
+      this.#setType();
       this.makeTabbable(this.detectTabbable());
 
       // Perform resize calculation after all children have rendered
