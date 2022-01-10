@@ -66,6 +66,13 @@
     overflow-x: hidden; // TODO: remove soon toolbar spillover implements
   }
 
+  // Causes overflow to occur on Formatter Toolbar
+  // (slotted for WebComponent, CSS class for CSS only)
+  ::slotted(ids-toolbar),
+  .ids-toolbar {
+    max-width: 100%;
+  }
+
   .editor-content {
     @include relative();
   }

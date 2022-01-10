@@ -363,7 +363,7 @@ export default class IdsEditor extends Base {
   #initToolbar() {
     const tmplToolbar = `
       <ids-toolbar slot="toolbar" tabbable="true" type="formatter">
-        <ids-toolbar-section type="buttonset" favor>
+        <ids-toolbar-section type="buttonset">
 
           <ids-menu-button editor-action="menu-button-formatblock" id="btn-formatblock" role="button" menu="menu-formatblock" tooltip="Choose Font Style" formatter-width="125px" dropdown-icon>
             <span slot="text">Normal Text</span>
@@ -472,6 +472,7 @@ export default class IdsEditor extends Base {
           </ids-button>
 
         </ids-toolbar-section>
+        <ids-toolbar-more-actions overflow color-variant="alternate-formatter"></ids-toolbar-more-actions>
       </ids-toolbar>`;
 
     const slot = this.querySelector('[slot="toolbar"]');
