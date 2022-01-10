@@ -25,7 +25,7 @@ export default class IdsVirtualScroll extends Base {
 
   connectedCallback() {
     this.datasource = new IdsDataSource();
-    this.stringTemplate = '<div class="ids-virtual-scroll-item">${productName}</div>'; //eslint-disable-line
+    this.stringTemplate = '<div class="ids-virtual-scroll-item" part="list-item">${productName}</div>'; //eslint-disable-line
     this.applyHeight();
     this.renderItems(false);
     this.#attachEventHandlers();
@@ -65,32 +65,34 @@ export default class IdsVirtualScroll extends Base {
   renderItems(allowZero) {
     if (!this.data || (!allowZero && this.data.length === 0)) return;
 
-    const startIndex = this.startIndex;
-    const endIndex = this.startIndex + this.visibleItemCount();
+    requestAnimationFrame(() => {
+      const startIndex = this.startIndex;
+      const endIndex = this.startIndex + this.visibleItemCount();
 
-    const indexesChanged = this.lastStart !== startIndex || this.lastEnd !== endIndex;
-    if (!indexesChanged) return;
+      const indexesChanged = this.lastStart !== startIndex || this.lastEnd !== endIndex;
+      if (!indexesChanged) return;
 
-    this.lastStart = startIndex;
-    this.lastEnd = endIndex;
+      this.lastStart = startIndex;
+      this.lastEnd = endIndex;
 
-    const visibleItems = this.data.slice(startIndex, endIndex);
+      const visibleItems = this.data.slice(startIndex, endIndex);
 
-    let html = '';
-    visibleItems.map((item, index) => {
-      const node = this.itemTemplate(item, index + startIndex);
-      html += node;
-      return node;
+      let html = '';
+      visibleItems.map((item, index) => {
+        const node = this.itemTemplate(item, index + startIndex);
+        html += node;
+        return node;
+      });
+
+      const offset = this.container.querySelector('.offset');
+      offset.style.transform = `translateY(${this.offsetY}px)`;
+
+      // work-around for outside components to style contents inside this shadowroot
+      const wrapper = this.querySelector('[part="contents"]') ?? offset;
+      wrapper.innerHTML = html;
+
+      this.triggerEvent('ids-virtual-scroll-afterrender', this, { detail: { elem: this, startIndex, endIndex } });
     });
-
-    const offset = this.container.querySelector('.offset');
-    offset.style.transform = `translateY(${this.offsetY}px)`;
-
-    // work-around for outside components to style contents inside this shadowroot
-    const wrapper = this.querySelector('[part="contents"]') ?? offset;
-    wrapper.innerHTML = html;
-
-    this.triggerEvent('ids-virtual-scroll-afterrender', this, { detail: { elem: this, startIndex, endIndex } });
   }
 
   /**
@@ -119,7 +121,7 @@ export default class IdsVirtualScroll extends Base {
    * @returns {number} The array of visible data
    */
   visibleItemCount() {
-    const viewportHeight = this.container.getBoundingClientRect().height;
+    const viewportHeight = this.getBoundingClientRect().height;
     let count = Math.ceil(viewportHeight / this.itemHeight) + (2 * this.bufferSize);
     count = Math.min(Number(this.itemCount) - this.startIndex, count);
     return count;
@@ -204,7 +206,7 @@ export default class IdsVirtualScroll extends Base {
     this.removeAttribute(attributes.BUFFER_SIZE);
   }
 
-  get bufferSize() { return this.getAttribute(attributes.BUFFER_SIZE) || 2; }
+  get bufferSize() { return this.getAttribute(attributes.BUFFER_SIZE) || 3; }
 
   /**
    * Set the scroll top position and scroll down to that location

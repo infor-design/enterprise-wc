@@ -651,7 +651,7 @@ class IdsLocale {
    */
   calendar(locale, name) {
     const localeData = this.loadedLocales.get(locale || this.locale.name);
-    const calendars = localeData.calendars;
+    const calendars = localeData?.calendars;
     if (name && calendars) {
       for (let i = 0; i < calendars.length; i++) {
         const cal = calendars[i];

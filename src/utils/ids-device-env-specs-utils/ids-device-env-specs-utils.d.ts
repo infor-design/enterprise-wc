@@ -6,7 +6,6 @@ interface Specs {
   os: string,
   currentOSVersion: string,
   idsVersion: string,
-  cookiesEnabled: boolean,
   platform: string,
   browserLanguage: string
 }

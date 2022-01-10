@@ -9,6 +9,7 @@ import Base from './ids-list-view-base';
 import styles from './ids-list-view.scss';
 
 const DEFAULT_HEIGHT = '100%';
+const SELECTABLE_OPTIONS = ['single', 'multiple'];
 
 /**
  * IDS List View Component
@@ -29,10 +30,16 @@ export default class IdsListView extends Base {
   // the currently focused list item
   #focusedLiIndex = 0;
 
+  // the currently selected list item
+  #selectedLi;
+
+  #selectedLiIndex;
+
   datasource = new IdsDataSource();
 
   connectedCallback() {
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
+    this.dataKeys = this.extractTemplateLiteralsFromHTML(this.defaultTemplate);
     super.connectedCallback();
     this.attachEventListeners();
   }
@@ -44,12 +51,20 @@ export default class IdsListView extends Base {
   static get attributes() {
     return [
       attributes.SORTABLE,
+      attributes.SELECTABLE,
       attributes.HEIGHT,
       attributes.ITEM_HEIGHT,
       attributes.MODE,
       attributes.VERSION,
       attributes.VIRTUAL_SCROLL
     ];
+  }
+
+  extractTemplateLiteralsFromHTML(string) {
+    const arr = string.split('${');
+    arr.shift();
+    const tokens = arr.map((x) => x.split('}')[0]);
+    return tokens;
   }
 
   getAllLi() {
@@ -136,6 +151,7 @@ export default class IdsListView extends Base {
 
   onClick(item) {
     this.focusLi(item);
+    if (this.selectable) this.toggleSelectedLi(item);
   }
 
   focusLi(li) {
@@ -247,6 +263,22 @@ export default class IdsListView extends Base {
     }
   }
 
+  updateDataFromDOM() {
+    const newData = [];
+    this.container.querySelectorAll('div[part="list-item"]').forEach((x) => {
+      const objItem = {};
+      x.querySelectorAll('ids-text').forEach((value, i) => {
+        objItem[this.dataKeys[i]] = value.innerHTML;
+      });
+
+      newData.push(objItem);
+    });
+
+    if (this.datasource) {
+      this.datasource.data = newData;
+    }
+  }
+
   /**
    * Render the list by applying the template
    * @private
@@ -259,26 +291,36 @@ export default class IdsListView extends Base {
     }
 
     if (this.virtualScroll && this.data?.length > 0) {
-      // reattach event listeners and refocus any focused list item
-      this.onEvent('ids-virtual-scroll-afterrender', this.virtualScrollContainer, () => {
-        this.attachEventListeners();
-        if (this.#focusedLiIndex >= 0) this.#refocus();
+      requestAnimationFrame(() => {
+        // reattach event listeners and refocus any focused list item
+        this.onEvent('ids-virtual-scroll-afterrender', this.virtualScrollContainer, () => {
+          this.attachEventListeners();
+          if (this.#focusedLiIndex >= 0) this.#refocus();
+        });
+
+        // set the virtual-scroll item-height attribute
+        const itemHeight = this.itemHeight || this.checkTemplateHeight(`
+          <div part="list-item" tabindex="-1" id="height-tester">
+            ${this.itemTemplate(this.datasource.data[0])}
+          </div>
+        `);
+
+        this.virtualScrollContainer.itemHeight = itemHeight; // calls renderItems()
+
+        this.virtualScrollContainer.itemTemplate = this.listItemTemplateFunc();
+        this.virtualScrollContainer.data = this.data; // calls renderItems()
+
+        // give the first list-item a tabbable index on first render
+        const firstItem = this.container.querySelector('div[part="list-item"]');
+        if (firstItem) firstItem.setAttribute('tabindex', '0');
+
+        // reattach event listeners and refocus any focused list item
+        this.onEvent('ids-virtual-scroll-afterrender', this.virtualScrollContainer, () => {
+          this.attachEventListeners();
+          if (this.#focusedLiIndex >= 0) this.#refocus();
+          if (this.selectable) this.#reselect();
+        });
       });
-
-      // set the virtual-scroll item-height attribute
-      const itemHeight = this.itemHeight || this.checkTemplateHeight(`
-        <div part="list-item" tabindex="-1" id="height-tester">
-          ${this.itemTemplate(this.datasource.data[0])}
-        </div>
-      `);
-
-      this.virtualScrollContainer.itemHeight = itemHeight; // calls renderItems()
-
-      this.virtualScrollContainer.itemTemplate = this.listItemTemplateFunc();
-      this.virtualScrollContainer.data = this.data; // calls renderItems()
-
-      // give the first list-item a tabbable index on first render
-      this.container.querySelector('div[part="list-item"]').setAttribute('tabindex', '0');
     }
 
     this.adjustHeight();
@@ -372,6 +414,88 @@ export default class IdsListView extends Base {
     return this.getAttribute(attributes.ITEM_HEIGHT);
   }
 
+  set selectable(value) {
+    if (SELECTABLE_OPTIONS.includes(value)) {
+      this.setAttribute(attributes.SELECTABLE, value);
+    } else {
+      this.removeAttribute(attributes.SELECTABLE);
+    }
+  }
+
+  get selectable() {
+    return this.getAttribute(attributes.SELECTABLE);
+  }
+
+  /**
+   * Getter that returns the selected list items
+   * @returns {NodeList | HTMLElement} a list if multiselect is enabled, else the single selected list item
+   */
+  get selectedLi() {
+    const savedSelectedLi = this.selectable === 'multiple'
+      ? this.container.querySelectorAll(`div[part=list-item][selected='selected']`)
+      : this.container.querySelector(`div[part="list-item"][index="${this.#selectedLiIndex}"]`);
+    return savedSelectedLi;
+  }
+
+  /**
+   * Helper function that toggles the 'selected' attribute of an element, then focuses on that element
+   * @param {Element} item the item to add/remove the selected attribute
+   * @param {boolean} switchValue optional switch values to force add/remove the selected attribute
+   */
+  toggleSelectedAttribute(item, switchValue) {
+    const unselect = () => {
+      item.removeAttribute('selected');
+      this.#selectedLiIndex = null;
+    };
+
+    const select = () => {
+      item.setAttribute('selected', 'selected');
+      this.#selectedLiIndex = item.getAttribute('index');
+    };
+
+    if (switchValue === true) {
+      select();
+    } else if (switchValue === false) {
+      unselect();
+    } else {
+      // otherwise toggle it depending on whether or not it has the attribute already
+      const hasSelectedAttribute = item.getAttribute('selected');
+      hasSelectedAttribute ? unselect() : select();
+
+      this.focusLi(item);
+    }
+  }
+
+  /**
+   * Toggles the selected list item
+   * @param {*} item the selected list item to toggle
+   */
+  toggleSelectedLi(item) {
+    if (item.tagName === 'DIV' && item.getAttribute('part') === 'list-item') {
+      if (this.selectable === 'single') {
+        const prevSelectedLi = this.selectedLi;
+        if (item !== prevSelectedLi && prevSelectedLi) {
+          // unselect previous item if it's selected
+          this.toggleSelectedAttribute(prevSelectedLi);
+        }
+      }
+      this.toggleSelectedAttribute(item);
+    }
+  }
+
+  #reselect() {
+    const prevSelectedLi = this.selectedLi;
+    if (prevSelectedLi) {
+      this.toggleSelectedAttribute(prevSelectedLi, true);
+    } else if (this.selectable === 'multiple') {
+      if (prevSelectedLi.length > 0) {
+        prevSelectedLi.forEach((l) => {
+          this.toggleSelectedAttribute(l, true);
+        });
+      }
+    }
+  }
+
   /**
    * Overrides the ids-sortable-mixin function to focus on item
    * @param {Element} el element to be dragged
@@ -392,6 +516,8 @@ export default class IdsListView extends Base {
 
     const li = el.querySelector('div[part="list-item"]');
     li.focus();
+
+    this.updateDataFromDOM();
   }
 
   /**

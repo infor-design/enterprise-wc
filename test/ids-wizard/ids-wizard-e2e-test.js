@@ -49,6 +49,6 @@ describe('Ids Wizard e2e Tests', () => {
     await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0'] });
     size = await page.evaluate('document.querySelector("ids-wizard").shadowRoot.querySelector(".step-label").style.maxWidth');
     expect(Number(size.replace('px', ''))).toBeLessThan(55);
-    expect(Number(size.replace('px', ''))).toBeGreaterThan(45);
+    expect(Number(size.replace('px', ''))).toBeGreaterThan(44);
   });
 });

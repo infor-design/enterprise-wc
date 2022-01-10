@@ -1,0 +1,6 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IdsListBuilder Component renders correctly 1`] = `
+"<ids-list-builder sortable=\\"true\\" selectable=\\"single\\" item-height=\\"46\\">
+  </ids-list-builder>"
+`;

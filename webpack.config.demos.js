@@ -89,7 +89,7 @@ module.exports = {
       directory: path.resolve(__dirname, 'demo-dist'),
       watch: false
     },
-    onBeforeSetupMiddleware: (devServer) => {
+    setupMiddlewares: (middlewares, devServer) => {
       // Post method, upload files to `/tmp` folder
       // After one minute, all files will get removed
       devServer.app.use(fileUpload({ debug: false }));
@@ -130,9 +130,11 @@ module.exports = {
           });
         }, delay);
 
-        // Complete
-        res.send('Uploaded successfully!');
+        // Completed successfully
+        res.send('Uploaded successful');
       });
+
+      return middlewares;
     },
   },
   module: {

@@ -23,6 +23,7 @@ export const attributes = {
   AUTO_FIT: 'auto-fit',
   AUTO_HEIGHT: 'auto-height',
   AUTOSELECT: 'autoselect',
+  AUTOUPDATE: 'autoupdate',
   AXIS: 'axis',
   BADGE_COLOR: 'badge-color',
   BADGE_POSITION: 'badge-position',
@@ -65,6 +66,7 @@ export const attributes = {
   CURSOR: 'cursor',
   CYCLES_FOCUS: 'cycles-focus',
   DATA: 'data',
+  DAY: 'day',
   DELAY: 'delay',
   DELIMITER: 'delimiter',
   DESCRIPTION: 'description',
@@ -96,6 +98,7 @@ export const attributes = {
   FOCUSABLE: 'focusable',
   FONT_SIZE: 'font-size',
   FONT_WEIGHT: 'font-weight',
+  FORMAT: 'format',
   FORMATTER_WIDTH: 'formatter-width',
   GAP: 'gap',
   GAP_X: 'gap-x',
@@ -153,7 +156,9 @@ export const attributes = {
   MIN_SIZE: 'min-size',
   MIN_TRANSFORM_X: 'min-transform-x',
   MIN_TRANSFORM_Y: 'min-transform-y',
+  MINUTE_INTERVAL: 'minute-interval',
   MODE: 'mode',
+  MONTH: 'month',
   MORE_ACTIONS: 'more-actions',
   MULTIPLE: 'multiple',
   NAME: 'name',
@@ -207,9 +212,11 @@ export const attributes = {
   SAVE_POSITION: 'save-position',
   SCROLLABLE: 'scrollable',
   SCROLL_TOP: 'scroll-top',
+  SECOND_INTERVAL: 'second-interval',
   SELECT: 'select',
   SELECTABLE: 'selectable',
   SELECTED: 'selected',
+  SELECTION: 'selection',
   SHAPE: 'shape',
   SHOW_BROWSE_LINK: 'show-browse-link',
   SHOW_TIMELINE: 'show-timeline',
@@ -271,7 +278,8 @@ export const attributes = {
   WIDTH: 'width',
   X: 'x',
   XSS_IGNORED_TAGS: 'xss-ignored-tags',
-  Y: 'y'
+  Y: 'y',
+  YEAR: 'year'
 };
 // Please keep constants alphabetized
 
@@ -287,3 +295,5 @@ export const breakpoints = {
   sm: '600px',
   xs: '360px'
 };
+
+export const version = '0.0.0-beta.17';
