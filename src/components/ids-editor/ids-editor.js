@@ -365,7 +365,14 @@ export default class IdsEditor extends Base {
       <ids-toolbar slot="toolbar" tabbable="true" type="formatter">
         <ids-toolbar-section type="buttonset">
 
-          <ids-menu-button editor-action="menu-button-formatblock" id="btn-formatblock" role="button" menu="menu-formatblock" tooltip="Choose Font Style" formatter-width="125px" dropdown-icon>
+          <ids-menu-button
+            editor-action="menu-button-formatblock"
+            id="btn-formatblock"
+            role="button" menu="menu-formatblock"
+            tooltip="Choose Font Style"
+            formatter-width="125px"
+            dropdown-icon
+            trigger="click">
             <span slot="text">Normal Text</span>
           </ids-menu-button>
           <ids-popup-menu id="menu-formatblock" target="#btn-formatblock">
