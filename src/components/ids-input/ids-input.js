@@ -74,16 +74,16 @@ export default class IdsInput extends Base {
       attributes.MODE,
       attributes.NO_MARGINS,
       attributes.PLACEHOLDER,
+      attributes.PASSWORD_VISIBLE,
       attributes.SIZE,
       attributes.READONLY,
-      attributes.REVEALABLE_TEXT,
+      attributes.REVEALABLE_PASSWORD,
       attributes.TEXT_ALIGN,
       attributes.TEXT_ELLIPSIS,
       attributes.TRIGGERFIELD,
       attributes.TYPE,
       attributes.VALUE,
       attributes.VERSION,
-      attributes.PASSWORD_VISIBLE
     ];
   }
 
@@ -114,8 +114,8 @@ export default class IdsInput extends Base {
     let type = ` type="${this.type || TYPES.default}"`;
     let inputClass = `ids-input-field ${this.textAlign}`;
     let showHide = ``;
-    if (this.revealableText && this.type === TYPES.password) {
-      showHide = `<ids-button class="show-hide-password">${this.passwordVisible ? 'Hide' : 'Show'}</ids-button>`;
+    if (this.revealablePassword && this.type === TYPES.password) {
+      showHide = `<ids-button text="${this.passwordVisible ? 'HIDE' : 'SHOW'}" id="show-hide-password" class="show-hide-password"></ids-button>`;
       type = `  type="${this.passwordVisible ? 'text' : this.type}"`;
     }
     inputClass += stringToBool(this.triggerfield) ? ' has-triggerfield' : '';
@@ -182,29 +182,43 @@ export default class IdsInput extends Base {
     );
   }
 
-  get revealableText() {
-    return stringToBool(this.getAttribute(attributes.REVEALABLE_TEXT));
+  /**
+   * @returns {boolean} indicates whether password reveal functionality is on or off
+   */
+  get revealablePassword() {
+    return stringToBool(this.getAttribute(attributes.REVEALABLE_PASSWORD));
   }
 
-  set revealableText(value) {
+  /**
+   * sets whether password reveal functionality is available
+   * @param {boolean|string} value
+   */
+  set revealablePassword(value) {
     const valueSafe = stringToBool(value);
     if (this.type === TYPES.password) {
       if (valueSafe) {
-        this.setAttribute(attributes.REVEALABLE_TEXT, 'true');
+        this.setAttribute(attributes.REVEALABLE_PASSWORD, 'true');
         this.#togglePasswordEventSetUp(true);
       } else {
-        this.setAttribute(attributes.REVEALABLE_TEXT, 'false');
+        this.setAttribute(attributes.REVEALABLE_PASSWORD, 'false');
         this.#togglePasswordEventSetUp(false);
       }
     } else {
-      this.removeAttribute(attributes.REVEALABLE_TEXT);
+      this.removeAttribute(attributes.REVEALABLE_PASSWORD);
     }
   }
 
+  /**
+   * @returns {boolean} indicates whether the capslock indicator is enabled or disabled
+   */
   get capsLock() {
     return stringToBool(this.getAttribute(attributes.CAPS_LOCK));
   }
 
+  /**
+   * sets whether capslock indicatoris enabled or disabled
+   * @param {boolean|string}
+   */
   set capsLock(value) {
     if (stringToBool(value)) {
       this.#capsLockEventSetUp(true);
@@ -215,10 +229,17 @@ export default class IdsInput extends Base {
     }
   }
 
+  /**
+   * @return {boolean} whether the password is currently visible
+   */
   get passwordVisible() {
     return stringToBool(this.getAttribute(attributes.PASSWORD_VISIBLE));
   }
 
+  /**
+   * sets whether the password is currently visible
+   * @param {boolean|string}
+   */
   set passwordVisible(value) {
     const valueSafe = stringToBool(value);
     if (valueSafe !== this.passwordVisible) {
@@ -227,7 +248,7 @@ export default class IdsInput extends Base {
         : this.setAttribute(attributes.PASSWORD_VISIBLE, 'false');
     }
 
-    this.passwordVisibilityHandler();
+    this.#passwordVisibilityHandler();
   }
 
   /**
@@ -376,16 +397,24 @@ export default class IdsInput extends Base {
     }
   }
 
+  /**
+   * handles teardown and set up for capslock detection events
+   * @param {boolean} value indicates whether to turn events on or off
+   * @returns {void}
+   */
   #capsLockEventSetUp(value) {
     const indicatorDiv = this.shadowRoot.querySelector('.inline-indicators');
     let capsLockIndicator = indicatorDiv.querySelector('#caps-lock-indicator');
     if (value) {
+      this.offEvent('keyup.capslock', this.input);
       this.onEvent('keyup.capslock', this.input, (event) => {
         capsLockIndicator = indicatorDiv.querySelector('#caps-lock-indicator');
         if (event.getModifierState('CapsLock') && !capsLockIndicator) {
-          indicatorDiv.innerHTML += '<ids-icon id="caps-lock-indicator" icon="capslock"></ids-icon>';
+          indicatorDiv.innerHTML += '<ids-icon id="caps-lock-indicator" class="caps-lock-indicator" icon="capslock"></ids-icon>';
+        } else if (event.getModifierState('CapsLock') && capsLockIndicator) {
+          capsLockIndicator.style.display = '';
         } else if (capsLockIndicator && !event.getModifierState('CapsLock')) {
-          capsLockIndicator.remove();
+          capsLockIndicator.style.display = 'none';
         }
       });
     } else {
@@ -448,17 +477,28 @@ export default class IdsInput extends Base {
     this.#attachInputChangeEvent();
   }
 
+  /**
+   * handles event set up and teardown for password indicator
+   * @private
+   * @param {boolean} value whether to toggle events on or off
+   * @returns {void}
+   */
   #togglePasswordEventSetUp(value) {
     const showHidePasswordElem = this.shadowRoot.querySelector(`.show-hide-password`);
     const inputContainer = this.shadowRoot.querySelector('.inline-indicators');
     if (value) {
-      if (!showHidePasswordElem && this.revealableText && this.type === TYPES.password) {
-        inputContainer.innerHTML += `<ids-button class="show-hide-password">${this.passwordVisible ? 'Hide' : 'Show'}</ids-button>`;
+      if (!showHidePasswordElem && this.revealablePassword && this.type === TYPES.password) {
+        const showHideButton = document.createElement('ids-button');
+        showHideButton.text = this.passwordVisible ? 'HIDE' : 'SHOW';
+        showHideButton.id = 'show-hide-password';
+        showHideButton.classList.add('show-hide-password');
+        inputContainer.prepend(showHideButton);
+        //inputContainer.innerHTML += `<ids-button text='${this.passwordVisible ? 'HIDE' : 'SHOW'}' id="show-hide-password" class="show-hide-password"></ids-button>`;
         this.input.type = `${this.passwordVisible ? 'text' : this.type}`;
       }
       this.onEvent('click.showhidepassword', showHidePasswordElem, () => {
         this.passwordVisible = !this.passwordVisible;
-        this.passwordVisibilityHandler();
+        this.#passwordVisibilityHandler();
       });
     } else {
       this.offEvent('click.showhidepassword', showHidePasswordElem);
@@ -467,15 +507,19 @@ export default class IdsInput extends Base {
     }
   }
 
-  passwordVisibilityHandler() {
-    const passwordButton = this.shadowRoot.querySelector(`ids-button`);
+  /**
+   * toggles the visibility of the password by changing field type
+   * @private
+   */
+  #passwordVisibilityHandler() {
+    const passwordButton = this.shadowRoot.querySelector(`.show-hide-password`);
     const passwordField = this.shadowRoot.querySelector(`.ids-input-field`);
     if (passwordButton) {
       if (this.passwordVisible) {
-        passwordButton.innerHTML = 'Hide';
+        passwordButton.text = 'HIDE';
         passwordField.type = 'text';
       } else {
-        passwordButton.innerHTML = 'Show';
+        passwordButton.text = 'SHOW';
         passwordField.type = 'password';
       }
     }

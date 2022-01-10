@@ -200,7 +200,7 @@ export const attributes = {
   RESIZE_ON_DRAG_END: 'resize-on-drag-end',
   REQUIRED: 'required',
   REVEAL: 'reveal',
-  REVEALABLE_TEXT: 'revealable-text',
+  REVEALABLE_PASSWORD: 'revealable-password',
   ROUND: 'round',
   ROOT_ITEM: 'root-item',
   ROW_END: 'row-end',

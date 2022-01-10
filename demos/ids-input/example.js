@@ -26,6 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   btnRevealable?.addEventListener('click', () => {
-    passwordBtn.revealableText = !passwordBtn.revealableText;
+    passwordBtn.revealablePassword = !passwordBtn.revealablePassword;
   });
 });

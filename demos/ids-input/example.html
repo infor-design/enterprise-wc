@@ -18,7 +18,7 @@
     <ids-input type="text" label="Disabled" disabled="true" value="Field not editable"></ids-input>
     <ids-input type="text" label="Readonly" readonly="true" value="02006"></ids-input>
     <ids-input type="text" label="Dirty Tracking" dirty-tracker="true" placeholder="Dirty Tracking" value="02006"></ids-input>
-    <ids-input type="text" label="Clearable" placeholder="Clearable text Field" clearable="true"></ids-input>
+    <ids-input type="text" label="Clearable" placeholder="Clearable text Field" validate="email" clearable="true"></ids-input>
     <ids-input type="text" label="Autoselect" value="Text select on focus" autoselect="true"></ids-input>
   </ids-layout-grid-cell>
 
@@ -69,8 +69,7 @@
 </ids-layout-grid>
 <ids-layout-grid cols="3" gap="md">
   <ids-layout-grid-cell>
-    <ids-input id="password-test" label="password" caps-lock="true" revealable-text="true" password-visible="false" type="password" value="Test"></ids-input>
-
+    <ids-input id="password-test" validate="email" label="password" caps-lock="true" revealable-password="true" password-visible="false" type="password" value="Test"></ids-input>
     <ids-button id="revealable-btn" type="secondary"><span slot="text">Toggle revealable text option</span></ids-button>
   </ids-layout-grid-cell>
 </ids-layout-grid>
