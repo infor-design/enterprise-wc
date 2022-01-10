@@ -3,6 +3,8 @@
 ids-input::part(input) {
   @include border-none();
   @include mb-0();
+
+  padding-right: 30px;
 }
 
 ids-input::part(container) {
