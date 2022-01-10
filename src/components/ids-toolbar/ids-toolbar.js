@@ -2,6 +2,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import IdsToolbarSection from './ids-toolbar-section';
 import IdsToolbarMoreActions from './ids-toolbar-more-actions';
@@ -9,7 +10,9 @@ import Base from './ids-toolbar-base';
 
 import styles from './ids-toolbar.scss';
 
-const TYPE_FORMATTER = 'formatter';
+const FORMATTER_VARIANT = 'alternate-formatter';
+
+const TOOLBAR_TYPES = ['formatter'];
 
 /**
  * IDS Toolbar Component
@@ -37,13 +40,13 @@ export default class IdsToolbar extends Base {
   connectedCallback() {
     super.connectedCallback?.();
     this.setAttribute('role', 'toolbar');
-    this.#setType();
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
     this.#resizeObserver.observe(this);
 
     // After repaint
     requestAnimationFrame(() => {
+      this.#setType(null, this.type);
       this.makeTabbable(this.detectTabbable());
 
       // Perform resize calculation after all children have rendered
@@ -300,12 +303,21 @@ export default class IdsToolbar extends Base {
    * @param {string|null} value of toolbar type
    */
   set type(value) {
-    if (value === TYPE_FORMATTER) {
-      this.setAttribute(attributes.TYPE, value);
-    } else {
-      this.removeAttribute(attributes.TYPE);
+    let safeValue = null;
+    if (typeof value === 'string') {
+      safeValue = stripTags(value, '');
     }
-    this.#setType();
+
+    const currentValue = this.type;
+    if (currentValue !== safeValue) {
+      if (TOOLBAR_TYPES.includes(safeValue)) {
+        this.setAttribute(attributes.TYPE, `${safeValue}`);
+      } else {
+        this.removeAttribute(attributes.TYPE);
+        safeValue = null;
+      }
+      this.#setType(currentValue, safeValue);
+    }
   }
 
   get type() {
@@ -315,16 +327,34 @@ export default class IdsToolbar extends Base {
   /**
    * Set the toolbar type to each section
    * @private
+   * @param {string|null} oldType the type class to remove
+   * @param {string|null} addType the type class to add
    * @returns {void}
    */
-  #setType() {
-    this.sections.forEach((s) => s.setAttribute(attributes.TOOLBAR_TYPE, this.type));
+  #setType(oldType, newType) {
+    const cl = this.container.classList;
+
+    // Update CSS Class for main Toolbar type
+    if (oldType) cl.remove(`type-${oldType}`);
+    if (newType) cl.add(`type-${newType}`);
+
+    // If using a "formatter" type, change the buttons/separators/etc to use the alternate style
+    this.sections.forEach((s) => {
+      s.setAttribute(attributes.TOOLBAR_TYPE, newType);
+      if (s.tagName === 'IDS-TOOLBAR-MORE-ACTIONS') {
+        if (newType === 'formatter') {
+          s.colorVariant = FORMATTER_VARIANT;
+        } else {
+          s.colorVariant = null;
+        }
+      }
+    });
     [...this.items, ...this.separators].forEach((item) => {
-      if (this.type) {
-        item.setAttribute(attributes.COLOR_VARIANT, 'alternate-formatter');
+      if (newType === 'formatter') {
+        item.setAttribute(attributes.COLOR_VARIANT, FORMATTER_VARIANT);
       } else {
         const val = item.getAttribute(attributes.COLOR_VARIANT);
-        if (val === 'alternate-formatter') item.removeAttribute(attributes.COLOR_VARIANT);
+        if (val === FORMATTER_VARIANT) item.removeAttribute(attributes.COLOR_VARIANT);
       }
     });
   }

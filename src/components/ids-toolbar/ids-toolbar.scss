@@ -27,4 +27,16 @@
       color: inherit;
     }
   }
+
+  &.type-formatter {
+    @include bg-slate-60();
+
+    &[mode='dark'] {
+      @include bg-slate-20();
+    }
+
+    &[mode='contrast'] {
+      @include bg-slate-100();
+    }
+  }
 }

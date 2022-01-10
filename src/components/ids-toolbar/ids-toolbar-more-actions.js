@@ -11,6 +11,8 @@ import styles from './ids-toolbar-more-actions.scss';
 
 const MORE_ACTIONS_SELECTOR = `[${attributes.MORE_ACTIONS}]`;
 
+const TOOLBAR_TYPES = ['formatter'];
+
 /**
  * IDS Toolbar Section Component
  */
@@ -26,6 +28,7 @@ export default class IdsToolbarMoreActions extends Base {
       ...super.attributes,
       attributes.DISABLED,
       attributes.OVERFLOW,
+      attributes.TOOLBAR_TYPE,
       attributes.VISIBLE,
     ];
   }
@@ -70,6 +73,8 @@ export default class IdsToolbarMoreActions extends Base {
       </ids-popup-menu>
     </div>`;
   }
+
+  colorVariants = ['alternate-formatter'];
 
   /**
    * @private
@@ -250,6 +255,26 @@ export default class IdsToolbarMoreActions extends Base {
   }
 
   /**
+   * @param {string} value the type of toolbar
+   */
+  set toolbarType(value) {
+    if (TOOLBAR_TYPES.includes(value)) {
+      this.setAttribute(attributes.TOOLBAR_TYPE, value);
+      this.container.classList.add(value);
+    } else {
+      this.removeAttribute(attributes.TOOLBAR_TYPE);
+      this.container.classList.remove(TOOLBAR_TYPES[0]);
+    }
+  }
+
+  /**
+   * @returns {string} the type of toolbar
+   */
+  get toolbarType() {
+    return this.getAttribute(attributes.TOOLBAR_TYPE);
+  }
+
+  /**
    * Overrides the standard toolbar section "type" setter, which is always "more" in this case.
    * @param {string} val the type value
    */
@@ -402,5 +427,14 @@ export default class IdsToolbarMoreActions extends Base {
     const isBeyondLeftEdge = itemRect.left < sectionRect.left;
 
     return isBeyondLeftEdge || isBeyondRightEdge;
+  }
+
+  onColorVariantRefresh() {
+    const colorVariant = this.colorVariant;
+    if (colorVariant === 'alternate-formatter') {
+      this.button.colorVariant = 'alternate';
+    } else {
+      this.button.colorVariant = null;
+    }
   }
 }
