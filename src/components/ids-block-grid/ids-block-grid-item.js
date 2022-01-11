@@ -40,12 +40,12 @@ export default class IdsBlockgridItem extends Base {
   #handleEvents() {
     this.onEvent('click', this, this.#handleSelectionChange);
 
-    if (this.selection === 'multiple') {
+    if (this.selection === 'multiple' || this.selection === 'mixed') {
       const idsCheckboxElem = this.container.querySelector('ids-checkbox');
       idsCheckboxElem.onEvent('click', idsCheckboxElem, (e) => {
         e.stopPropagation();
         e.preventDefault();
-        this.#handleMultipleSelectionChange(e);
+        this.#handleMultiMixedSelectionChange(e);
       });
     }
 
@@ -62,7 +62,9 @@ export default class IdsBlockgridItem extends Base {
     if (this.selection === 'single') {
       this.#handleSingleSelectionChange(e);
     } else if (this.selection === 'multiple') {
-      this.#handleMultipleSelectionChange(e);
+      this.#handleMultiMixedSelectionChange(e);
+    } else {
+      this.#handlePreSelectionChange();
     }
   }
 
@@ -100,7 +102,7 @@ export default class IdsBlockgridItem extends Base {
    * @private
    * @param  {object} e Actual event
    */
-  #handleMultipleSelectionChange(e) {
+  #handleMultiMixedSelectionChange(e) {
     this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, this.selected !== 'true');
     this.setAttribute(attributes.SELECTED, this.selected !== 'true');
 
@@ -112,5 +114,21 @@ export default class IdsBlockgridItem extends Base {
         selection: this.selection,
       }
     });
+  }
+
+  /**
+   * Change single selection for block item
+   * @private
+   */
+  #handlePreSelectionChange() {
+    if (this.preSelected === 'true') {
+      this.setAttribute(attributes.PRE_SELECTED, false);
+    } else {
+      const blockElements = this.parentElement.querySelectorAll('ids-block-grid-item[selection="mixed"]');
+      [...blockElements].forEach((elem) => {
+        elem.setAttribute(attributes.PRE_SELECTED, false);
+      });
+      this.setAttribute(attributes.PRE_SELECTED, true);
+    }
   }
 }

@@ -16,6 +16,7 @@ const IdsSelectionMixin = (superclass) => class extends superclass {
       ...super.attributes,
       attributes.SELECTED,
       attributes.SELECTION,
+      attributes.PRE_SELECTED,
     ];
   }
 
@@ -30,7 +31,7 @@ const IdsSelectionMixin = (superclass) => class extends superclass {
   set selection(value) {
     this.setAttribute(attributes.SELECTION, value);
 
-    if (value === 'multiple' || value === 'single') {
+    if (value === 'multiple' || value === 'single' || value === 'mixed') {
       this.container?.classList.add('is-selectable');
     } else {
       this.container?.classList.remove('is-selectable');
@@ -46,12 +47,26 @@ const IdsSelectionMixin = (superclass) => class extends superclass {
   set selected(value) {
     this.setAttribute(attributes.SELECTED, value);
 
-    if (this.selection === 'multiple' || this.selection === 'single') {
+    if (this.selection === 'multiple' || this.selection === 'single' || this.selection === 'mixed') {
       this.container?.classList[value === 'true' ? 'add' : 'remove']('is-selected');
     }
   }
 
   get selected() { return this.getAttribute(attributes.SELECTED); }
+
+  /**
+   * Set the pre-selected to a boolean value
+   * @param {boolean} value The pre-selected value
+   */
+  set preSelected(value) {
+    this.setAttribute(attributes.PRE_SELECTED, value);
+
+    if (this.selection === 'mixed') {
+      this.container?.classList[value === 'true' ? 'add' : 'remove']('pre-selected');
+    }
+  }
+
+  get preSelected() { return this.getAttribute(attributes.PRE_SELECTED); }
 };
 
 export default IdsSelectionMixin;

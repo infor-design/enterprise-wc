@@ -11,5 +11,7 @@
     description: Shows a block grid with single selection
   - link: multiple-selection.html
     description: Shows a block grid with multiple selection
+  - link: mixed-selection.html
+    description: Shows a block grid with mixed selection
   - link: side-by-side.html
     description: Showing a block grid with a 4.x block grid

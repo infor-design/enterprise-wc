@@ -6,6 +6,7 @@
 }
 
 :host([selection='single']),
+:host([selection='mixed']),
 :host([selection='multiple']) {
   width: auto !important;
   max-width: 300px !important;
@@ -52,6 +53,11 @@
       .ids-block-grid-item-checkbox {
         visibility: visible;
       }
+    }
+
+    &.pre-selected {
+      background-color: rgba(230, 241, 253, 0.7);
+      cursor: pointer;
     }
   }
 
