@@ -1,0 +1,9 @@
+---
+ component: Date Picker
+ link: ids-date-picker
+ description: Input field for a date
+ category: Form Inputs
+ keywords: date, month, input
+ examples:
+  - link: index.html
+    description: Showing a basic date picker
