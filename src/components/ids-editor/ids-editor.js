@@ -948,12 +948,13 @@ export default class IdsEditor extends Base {
       return this;
     }
     this.#setEditorContent(content);
-    this.#elems.toolbar.disabled = false;
-    this.#elems.btnSource.classList.remove(CLASSES.hidden);
-    this.#elems.btnEditor.classList.add(CLASSES.hidden);
-    this.#elems.source.classList.add(CLASSES.hidden);
-    this.#elems.editor.classList.remove(CLASSES.hidden);
-    this.#elems.editor.focus();
+    const elems = this.#elems;
+    elems.btnSource.hidden = false;
+    elems.btnEditor.hidden = true;
+    elems.source.classList.add(CLASSES.hidden);
+    elems.editor.classList.remove(CLASSES.hidden);
+    elems.toolbar.disabled = false;
+    elems.editor.focus();
     this.#triggerEvent('aftereditormode');
     return this;
   }
@@ -971,13 +972,15 @@ export default class IdsEditor extends Base {
     }
     this.#setSourceContent(content);
     this.#adjustSourceLineNumbers();
-    this.#elems.toolbar.disabled = true;
-    this.#elems.btnSource.classList.add(CLASSES.hidden);
-    this.#elems.btnEditor.classList.remove(CLASSES.hidden);
-    this.#elems.btnEditor.disabled = false;
-    this.#elems.source.classList.remove(CLASSES.hidden);
-    this.#elems.editor.classList.add(CLASSES.hidden);
-    this.#elems.textarea.focus();
+
+    const elems = this.#elems;
+    elems.btnSource.hidden = true;
+    elems.btnEditor.hidden = false;
+    elems.source.classList.remove(CLASSES.hidden);
+    elems.editor.classList.add(CLASSES.hidden);
+    elems.toolbar.disabled = true;
+    elems.btnEditor.disabled = false;
+    elems.textarea.focus();
     this.#triggerEvent('aftersourcemode');
     return this;
   }
@@ -1077,11 +1080,11 @@ export default class IdsEditor extends Base {
         btnEditor.after(template.content.cloneNode(true));
       }
       if (this.view === 'source') {
-        btnSource?.classList.add(CLASSES.hidden);
-        btnEditor?.classList.remove(CLASSES.hidden);
+        btnSource.hidden = true;
+        btnEditor.hidden = false;
       } else {
-        btnSource?.classList.remove(CLASSES.hidden);
-        btnEditor?.classList.add(CLASSES.hidden);
+        btnSource.hidden = false;
+        btnEditor.hidden = true;
       }
     }
 

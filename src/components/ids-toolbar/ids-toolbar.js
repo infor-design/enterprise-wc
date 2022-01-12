@@ -340,7 +340,7 @@ export default class IdsToolbar extends Base {
    * Set the toolbar type to each section
    * @private
    * @param {string|null} oldType the type class to remove
-   * @param {string|null} addType the type class to add
+   * @param {string|null} newType the type class to add
    * @returns {void}
    */
   #setType(oldType, newType) {
