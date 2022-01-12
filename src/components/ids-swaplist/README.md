@@ -1,4 +1,4 @@
-# Ids SwapList 
+# Ids SwapList
 
 ## Description
 
@@ -9,7 +9,7 @@
 ## Features (With Code Samples)
 
 ```html
-<ids-swaplist>
+<ids-swaplist count="2">
 </ids-swaplist>
 ```
 

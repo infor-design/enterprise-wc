@@ -48,4 +48,13 @@ describe('IdsSwapList Component', () => {
     idsSwapList.template();
     expect(idsSwapList.outerHTML).toMatchSnapshot();
   });
+
+  it('can set the count', async () => {
+    expect(idsSwapList.count).toBe(2);
+    expect(idsSwapList.getAttribute('count')).toBe(null);
+
+    idsSwapList.count = 3;
+    expect(idsSwapList.count).toBe(3);
+    expect(idsSwapList.getAttribute('count')).toBe('3');
+  });
 });

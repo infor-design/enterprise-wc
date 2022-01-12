@@ -26,26 +26,13 @@ const DEFAULT_COUNT = 2;
 export default class IdsSwapList extends Base {
   constructor() {
     super();
+    this.swapButtons = this.container.querySelectorAll('.swap-buttons');
   }
 
   connectedCallback() {
     super.connectedCallback();
-
-    // sets up the proper template for each list-view
-    this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
-    this.getAllLists().forEach((l) => {
-      l.defaultTemplate = this.defaultTemplate;
-    });
-
-    this.container.querySelectorAll('.swap-buttons').forEach((b) => {
-      this.onEvent('click', b, (e) => {
-        if (e.target.classList.contains('left-arrow')) {
-          this.swapToPreviousList(e.target);
-        } else if (e.target.classList.contains('right-arrow')) {
-          this.swapToNextList(e.target);
-        }
-      });
-    });
+    this.setupTemplate();
+    this.attachEventHandlers();
   }
 
   /**
@@ -147,6 +134,25 @@ export default class IdsSwapList extends Base {
     `.trim()).join('');
 
     return html;
+  }
+
+  setupTemplate() {
+    this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
+    this.getAllLists().forEach((l) => {
+      l.defaultTemplate = this.defaultTemplate;
+    });
+  }
+
+  attachEventHandlers() {
+    this.swapButtons.forEach((b) => {
+      this.onEvent('click', b, (e) => {
+        if (e.target.classList.contains('left-arrow')) {
+          this.swapToPreviousList(e.target);
+        } else if (e.target.classList.contains('right-arrow')) {
+          this.swapToNextList(e.target);
+        }
+      });
+    });
   }
 
   /**

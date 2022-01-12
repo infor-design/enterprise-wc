@@ -83,7 +83,7 @@ ids-card {
     &::part(card) {
       @include rounded-none();
 
-      border-left: none;
+      border-left: 1px solid var(--ids-color-palette-slate-30);;
       border-right: none;
     }
   }
@@ -92,7 +92,8 @@ ids-card {
     &::part(card) {
       @include rounded-l-md();
 
-      border: 1px solid var(--ids-color-palette-slate-30);
+      border-left: 1px solid var(--ids-color-palette-slate-30);
+      border-right: none;
     }
   }
 
