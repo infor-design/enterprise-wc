@@ -66,9 +66,8 @@ export default class IdsSwapList extends Base {
     const nextList = nextCard.querySelector('ids-list-view').shadowRoot.querySelector('.ids-list-view-body');
 
     currentList.selectedLi.forEach((x) => {
-      const dragItem = x.parentElement;
-      nextList.appendChild(dragItem);
-      x.removeAttribute('selected');
+      nextList.appendChild(x);
+      x.removeAttribute(attributes.SELECTED);
     });
   }
 
@@ -79,9 +78,8 @@ export default class IdsSwapList extends Base {
     const prevList = prevCard.querySelector('ids-list-view').shadowRoot.querySelector('.ids-list-view-body');
 
     currentList.selectedLi.forEach((x) => {
-      const dragItem = x.parentElement;
-      prevList.appendChild(dragItem);
-      x.removeAttribute('selected');
+      prevList.appendChild(x);
+      x.removeAttribute(attributes.SELECTED);
     });
   }
 
@@ -104,14 +102,14 @@ export default class IdsSwapList extends Base {
     const leftArrow = `
       <ids-button id="left-arrow-${i}" class="left-arrow">
         <span slot="text" class="audible">Swap Item Left</span>
-        <ids-icon slot="icon" icon="arrow-left"></ids-icon>
+        <ids-icon slot="icon" icon="arrow-left" size="xsmall"></ids-icon>
       </ids-button>
     `;
 
     const rightArrow = `
       <ids-button id="right-arrow-${i}" class="right-arrow">
         <span slot="text" class="audible">Swap Item Left</span>
-        <ids-icon slot="icon" icon="arrow-right"></ids-icon>
+        <ids-icon slot="icon" icon="arrow-right" size="xsmall"></ids-icon>
       </ids-button>
     `;
     let html = ``;
@@ -142,7 +140,7 @@ export default class IdsSwapList extends Base {
           </div>
         </div>
         <div slot="card-content">
-          <ids-list-view selectable="multiple" sortable swappable>
+          <ids-list-view selectable="multiple" swappable>
           </ids-list-view>
         </div>
       </ids-card>
