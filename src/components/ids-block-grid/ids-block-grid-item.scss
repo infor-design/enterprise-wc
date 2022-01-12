@@ -5,6 +5,7 @@
   margin-bottom: 10px;
 }
 
+// For mixed/single/multiple selection
 :host([selection='single']),
 :host([selection='mixed']),
 :host([selection='multiple']) {
@@ -15,6 +16,27 @@
   .ids-block-grid-item {
     &-container {
       padding: 24px 36px;
+    }
+  }
+}
+
+// For text multiple selection
+:host([selection='multiple'][type='block']) {
+  width: 100% !important;
+
+  ::slotted(ids-text) {
+    text-align: left;
+  }
+
+  .ids-block-grid-item {
+    &-container {
+      padding: 24px 24px 24px 45px;
+    }
+
+    &-checkbox {
+      top: calc(50% - 10px);
+      left: 30px;
+      right: unset;
     }
   }
 }
