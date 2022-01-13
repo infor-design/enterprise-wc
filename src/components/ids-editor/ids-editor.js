@@ -1536,6 +1536,15 @@ export default class IdsEditor extends Base {
     this.#resizeObserver.disconnect();
     this.#resizeObserver.observe(this.container);
 
+    // EPC: @TODO replace this with the setting from infor-design/enterprise-wc#488
+    const moreActions = this.querySelector('ids-toolbar-more-actions');
+    this.onEvent('beforeshow.more-actions', moreActions, () => {
+      const currentWidth = moreActions.menu.popup.container.style.width;
+      if (!currentWidth) {
+        moreActions.menu.popup.container.style.width = '175px';
+      }
+    });
+
     return this;
   }
 

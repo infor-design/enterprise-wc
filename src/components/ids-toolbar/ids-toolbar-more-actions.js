@@ -314,7 +314,13 @@ export default class IdsToolbarMoreActions extends Base {
    * @returns {void}
    */
   #attachEventHandlers() {
-    this.onEvent('beforeshow', this.menu, () => {
+    this.onEvent('beforeshow', this.menu, (e) => {
+      // Reflect this event to the host element
+      this.triggerEvent('beforeshow', this, {
+        bubbles: e.bubbles,
+        detail: e.detail
+      });
+
       this.refreshOverflowedItems();
     });
 
