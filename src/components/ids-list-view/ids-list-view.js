@@ -56,7 +56,7 @@ export default class IdsListView extends Base {
       attributes.MODE,
       attributes.VERSION,
       attributes.VIRTUAL_SCROLL,
-      'swappable'
+      attributes.SWAPPABLE
     ];
   }
 
@@ -189,7 +189,6 @@ export default class IdsListView extends Base {
           role="listitem"
           tabindex="-1"
           index="${index}"
-          draggable="true"
         >
           ${this.sortable ? `<span></span>` : ``}
           ${this.itemTemplate(item)}

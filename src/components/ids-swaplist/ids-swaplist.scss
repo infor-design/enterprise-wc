@@ -61,6 +61,7 @@ ids-button {
         0 16px 0 var(--ids-color-palette-slate-100),
         13px 16px 0 var(--ids-color-palette-slate-100);
     }
+
     &::after {
       box-shadow:
         0 6px 0 var(--ids-color-palette-slate-100),
@@ -83,7 +84,7 @@ ids-card {
     &::part(card) {
       @include rounded-none();
 
-      border-left: 1px solid var(--ids-color-palette-slate-30);;
+      border-left: 1px solid var(--ids-color-palette-slate-30);
       border-right: none;
     }
   }
