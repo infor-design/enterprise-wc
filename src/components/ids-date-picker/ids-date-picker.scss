@@ -1,5 +1,10 @@
 @import '../../core/ids-base';
 
 .ids-date-picker {
+  @include inline-flex();
 
+  ids-month-view {
+    width: 100%;
+    max-width: 330px;
+  }
 }

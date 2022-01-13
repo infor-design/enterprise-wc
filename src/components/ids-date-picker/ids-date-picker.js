@@ -34,7 +34,17 @@ class IdsDatePicker extends Base {
     super();
   }
 
+  #popup = this.container.querySelector('ids-popup');
+
+  #triggerField = this.container.querySelector('ids-trigger-field');
+
+  #triggerButton = this.container.querySelector('ids-trigger-button');
+
+  #input = this.container.querySelector('ids-input');
+
   connectedCallback() {
+    this.#attachEventHandlers();
+    this.#attachKeyboardListeners();
     super.connectedCallback();
   }
 
@@ -64,32 +74,165 @@ class IdsDatePicker extends Base {
         <ids-trigger-field
           label="${this.label}"
           size="${this.size}"
+          disabled="${this.disabled}"
+          readonly="${this.readonly}"
         >
           <ids-text audible="true" translate-text="true">UseArrow</ids-text>
           <ids-input
             type="text"
-            placeholder="${this.placeholder}"
-            value="${this.value}"
-            disabled="${this.disabled}"
           >
           </ids-input>
           <ids-trigger-button>
-            <ids-text audible="true" translate-text="true">TimepickerTriggerButton</ids-text>
-            <ids-icon slot="icon" icon="clock"></ids-icon>
+            <ids-text audible="true" translate-text="true">DatePickerTriggerButton</ids-text>
+            <ids-icon slot="icon" icon="schedule"></ids-icon>
           </ids-trigger-button>
         </ids-trigger-field>
         <ids-popup
           type="menu"
-          align-target="ids-trigger-field"
-          align="bottom, left"
-          arrow="bottom"
           animated="true"
         >
-          <ids-month-view></ids-month-view>
+          <ids-month-view
+            month="11"
+            year="2018"
+            day="20"
+            slot="content"
+            compact="true"
+            show-today="true"
+          ></ids-month-view>
         </ids-popup>
       <div>
     `;
   }
+
+  /**
+   * Runs when a click event is propagated to the window.
+   * @returns {void}
+   */
+  onOutsideClick() {
+    this.#togglePopup(false);
+  }
+
+  /**
+   * Establish internal event handlers
+   * @returns {object} The object for chaining
+   */
+  #attachEventHandlers() {
+    // Respond to container changing language
+    this.offEvent('languagechange.date-picker-container');
+    this.onEvent('languagechange.date-picker-container', this.closest('ids-container'), async () => {
+    });
+
+    // Respond to container changing locale
+    this.offEvent('localechange.date-picker-container');
+    this.onEvent('localechange.date-picker-container', this.closest('ids-container'), async () => {
+    });
+
+    this.offEvent('click.date-picker');
+    this.onEvent('click.date-picker', this.#triggerButton, () => {
+      this.#togglePopup(!this.#popup.visible);
+    });
+
+    return this;
+  }
+
+  /**
+   * Establish Internal Keyboard shortcuts
+   * @returns {object} this class-instance object for chaining
+   */
+  #attachKeyboardListeners() {
+    this.listen(['ArrowDown', 'Escape'], this, (e) => {
+      if (e.key === 'ArrowDown') {
+        this.#togglePopup(true);
+      }
+
+      if (e.key === 'Escape') {
+        this.#togglePopup(false);
+      }
+    });
+
+    return this;
+  }
+
+  #togglePopup(open) {
+    if (open && !this.readonly) {
+      this.addOpenEvents();
+      this.#popup.visible = true;
+      const { bottom } = this.#triggerButton.getBoundingClientRect();
+      const positionBottom = (bottom + 100) < window.innerHeight;
+
+      this.#popup.alignTarget = this.#input;
+      this.#popup.arrowTarget = this.#triggerButton;
+      this.#popup.align = positionBottom ? 'bottom, left' : 'top, left';
+      this.#popup.arrow = positionBottom ? 'bottom' : 'top';
+      this.#popup.y = 16;
+    } else {
+      this.removeOpenEvents();
+      this.#popup.visible = false;
+    }
+  }
+
+  get label() {
+    return this.getAttribute(attributes.LABEL) ?? '';
+  }
+
+  set label(value) {
+    if (value) {
+      this.setAttribute(attributes.LABEL, value);
+    } else {
+      this.removeAttribute(attributes.LABEL);
+    }
+
+    this.#triggerField.label = value;
+  }
+
+  get disabled() {
+    const attrVal = this.getAttribute(attributes.DISABLED);
+
+    return stringToBool(attrVal);
+  }
+
+  set disabled(val) {
+    const boolVal = stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.DISABLED, boolVal);
+    } else {
+      this.removeAttribute(attributes.DISABLED);
+    }
+
+    this.#triggerField.disabled = boolVal;
+  }
+
+  get readonly() {
+    const attrVal = this.getAttribute(attributes.READONLY);
+
+    return stringToBool(attrVal);
+  }
+
+  set readonly(val) {
+    const boolVal = stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.READONLY, boolVal);
+    } else {
+      this.removeAttribute(attributes.READONLY);
+    }
+
+    this.#triggerField.readonly = boolVal;
+    this.#input.readonly = boolVal;
+  }
+
+  get size() { return this.getAttribute(attributes.SIZE); }
+
+  set size(value) {
+    if (value) {
+      this.setAttribute(attributes.SIZE, value);
+    } else {
+      this.removeAttribute(attributes.SIZE);
+    }
+
+    this.#triggerField.size = value;
+  }
 }
 
-export default IdsMonthView;
+export default IdsDatePicker;
