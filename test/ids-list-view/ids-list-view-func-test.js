@@ -46,14 +46,16 @@ describe('IdsListView Component', () => {
   });
 
   it('renders the template with virtual scroll', () => {
-    document.body.innerHTML = '';
-    listView = new IdsListView();
-    listView.virtualScroll = true;
-    listView.innerHTML = '<template><ids-text type="h2">${productName}</ids-text></template></ids-list-view>'; //eslint-disable-line
-    document.body.appendChild(listView);
-    listView.data = dataset;
+    requestAnimationFrame(() => {
+      document.body.innerHTML = '';
+      listView = new IdsListView();
+      listView.virtualScroll = true;
+      listView.innerHTML = '<template><ids-text type="h2">${productName}</ids-text></template></ids-list-view>'; //eslint-disable-line
+      document.body.appendChild(listView);
+      listView.data = dataset;
 
-    expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(listView.shadowRoot.querySelector('ids-virtual-scroll').visibleItemCount());
+      expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(listView.shadowRoot.querySelector('ids-virtual-scroll').visibleItemCount());
+    });
   });
 
   it('renders without errors with no template', () => {
@@ -93,13 +95,15 @@ describe('IdsListView Component', () => {
   });
 
   it('removes the virtualScroll attribute when reset', () => {
-    listView.virtualScroll = true;
-    expect(listView.getAttribute('virtual-scroll')).toEqual('true');
-    expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(listView.shadowRoot.querySelector('ids-virtual-scroll').visibleItemCount());
+    requestAnimationFrame(() => {
+      listView.virtualScroll = true;
+      expect(listView.getAttribute('virtual-scroll')).toEqual('true');
+      expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(listView.shadowRoot.querySelector('ids-virtual-scroll').visibleItemCount());
 
-    listView.virtualScroll = false;
-    expect(listView.getAttribute('virtual-scroll')).toEqual(null);
-    expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(1000);
+      listView.virtualScroll = false;
+      expect(listView.getAttribute('virtual-scroll')).toEqual(null);
+      expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(1000);
+    });
   });
 
   it('render with empty data', () => {

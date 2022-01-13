@@ -2,6 +2,10 @@
 
 ## 5.0.0 Breaking Changes
 
+- `[About]` The About component is now a web component. ([#308](https://github.com/infor-design/enterprise-wc/issues/308))
+  - Markup has changed to a custom element `<ids-about></ids-about`>
+  - Can now be imported as a single JS file and used with encapsulated styles
+  - Some contents have been removed including cookies and some OS information as this is deprecated and not reccomended to use in modern browsers.
 - `[App Menu]` The App Menu component is now a web component. ([#130](https://github.com/infor-design/enterprise-wc/issues/130))
   - Markup has changed to a custom element `<ids-app-menu></ids-app-menu`>
   - Can now be imported as a single JS file and used with encapsulated styles

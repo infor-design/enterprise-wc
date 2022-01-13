@@ -66,6 +66,7 @@ export const attributes = {
   CURSOR: 'cursor',
   CYCLES_FOCUS: 'cycles-focus',
   DATA: 'data',
+  DAY: 'day',
   DELAY: 'delay',
   DELIMITER: 'delimiter',
   DESCRIPTION: 'description',
@@ -157,6 +158,7 @@ export const attributes = {
   MIN_TRANSFORM_Y: 'min-transform-y',
   MINUTE_INTERVAL: 'minute-interval',
   MODE: 'mode',
+  MONTH: 'month',
   MORE_ACTIONS: 'more-actions',
   MULTIPLE: 'multiple',
   NAME: 'name',
@@ -214,6 +216,7 @@ export const attributes = {
   SELECT: 'select',
   SELECTABLE: 'selectable',
   SELECTED: 'selected',
+  SELECTION: 'selection',
   SHAPE: 'shape',
   SHOW_BROWSE_LINK: 'show-browse-link',
   SHOW_TIMELINE: 'show-timeline',
@@ -276,7 +279,8 @@ export const attributes = {
   WIDTH: 'width',
   X: 'x',
   XSS_IGNORED_TAGS: 'xss-ignored-tags',
-  Y: 'y'
+  Y: 'y',
+  YEAR: 'year'
 };
 // Please keep constants alphabetized
 
@@ -292,3 +296,5 @@ export const breakpoints = {
   sm: '600px',
   xs: '360px'
 };
+
+export const version = '0.0.0-beta.17';
