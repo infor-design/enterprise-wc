@@ -26,6 +26,13 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
     pointer-events: none;
   }
 
+  :slotted([hidden]) {
+    @include audible();
+
+    display: inline-block;
+    width: 1px;
+  }
+
   // ================================================
   // Built-in Section Type Styles
 

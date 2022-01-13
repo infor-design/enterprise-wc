@@ -195,6 +195,7 @@ export default class IdsToolbar extends Base {
     };
     this.items.forEach(setDisabledState);
     this.textElems.forEach(setDisabledState);
+    this.refreshOverflowedItems();
   }
 
   /**
@@ -202,6 +203,17 @@ export default class IdsToolbar extends Base {
    */
   get disabled() {
     return this.container.classList.contains(attributes.DISABLED);
+  }
+
+  /**
+   * Refreshes the overflow state of toolbar items
+   * @returns {void}
+   */
+  refreshOverflowedItems() {
+    const moreActions = this.querySelector('ids-toolbar-more-actions');
+    if (moreActions) {
+      moreActions.refreshOverflowedItems();
+    }
   }
 
   /**
@@ -328,7 +340,7 @@ export default class IdsToolbar extends Base {
    * Set the toolbar type to each section
    * @private
    * @param {string|null} oldType the type class to remove
-   * @param {string|null} addType the type class to add
+   * @param {string|null} newType the type class to add
    * @returns {void}
    */
   #setType(oldType, newType) {
@@ -387,10 +399,7 @@ export default class IdsToolbar extends Base {
   }
 
   #resize() {
-    const moreSection = document.querySelector('ids-toolbar-more-actions');
-    if (moreSection) {
-      moreSection.refreshOverflowedItems();
-    }
+    this.refreshOverflowedItems();
   }
 
   /**

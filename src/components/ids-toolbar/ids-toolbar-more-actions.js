@@ -314,7 +314,13 @@ export default class IdsToolbarMoreActions extends Base {
    * @returns {void}
    */
   #attachEventHandlers() {
-    this.onEvent('beforeshow', this.menu, () => {
+    this.onEvent('beforeshow', this.menu, (e) => {
+      // Reflect this event to the host element
+      this.triggerEvent('beforeshow', this, {
+        bubbles: e.bubbles,
+        detail: e.detail
+      });
+
       this.refreshOverflowedItems();
     });
 
@@ -364,6 +370,9 @@ export default class IdsToolbarMoreActions extends Base {
         item.overflowTarget.setAttribute(attributes.OVERFLOWED, '');
       }
     });
+
+    this.button.hidden = !this.hasVisibleActions();
+    this.button.disabled = !this.hasEnabledActions();
   }
 
   /**
@@ -411,11 +420,28 @@ export default class IdsToolbarMoreActions extends Base {
   }
 
   /**
+   * @returns {boolean} true if there are currently visible actions in this menu
+   */
+  hasVisibleActions() {
+    return this.querySelectorAll(':scope > ids-menu-group > ids-menu-item:not([hidden])').length > 0;
+  }
+
+  /**
+   * @returns {boolean} true if there are currently enabled (read: not disabled) actions in this menu
+   */
+  hasEnabledActions() {
+    return this.querySelectorAll(':scope > ids-menu-group > ids-menu-item:not([disabled])').length > 0;
+  }
+
+  /**
    * @param {HTMLElement} item reference to the toolbar item to be checked for overflow
    * @returns {boolean} true if the item is a toolbar member and should be displayed by overflow
    */
   isOverflowed(item) {
     if (!this.toolbar.contains(item)) {
+      return false;
+    }
+    if (item.hidden) {
       return false;
     }
 
@@ -432,7 +458,7 @@ export default class IdsToolbarMoreActions extends Base {
   onColorVariantRefresh() {
     const colorVariant = this.colorVariant;
     if (colorVariant === 'alternate-formatter') {
-      this.button.colorVariant = 'alternate';
+      this.button.colorVariant = 'alternate-formatter';
     } else {
       this.button.colorVariant = null;
     }

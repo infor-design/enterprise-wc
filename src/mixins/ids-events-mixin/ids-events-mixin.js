@@ -135,7 +135,12 @@ const IdsEventsMixin = (superclass) => class extends superclass {
       canShow = !!veto;
     };
     this.triggerEvent(eventType, this, {
-      detail: { data, elem: this, response: eventResponse }
+      bubbles: true,
+      detail: {
+        data,
+        elem: this,
+        response: eventResponse
+      }
     });
     return canShow;
   }
