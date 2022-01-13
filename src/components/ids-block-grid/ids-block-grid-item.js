@@ -131,14 +131,17 @@ export default class IdsBlockgridItem extends Base {
       this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, true);
     }
 
-    this.triggerEvent('selectionchanged', this, {
+    const eventData = {
       detail: {
         elem: this,
         nativeEvent: e,
         selected: this.selected,
         selection: this.selection,
       }
-    });
+    };
+
+    this.triggerEvent('selectionchanged', this, eventData);
+    console.log(eventData); // eslint-disable-line
   }
 
   /**
@@ -150,14 +153,17 @@ export default class IdsBlockgridItem extends Base {
     this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, this.selected !== 'true');
     this.setAttribute(attributes.SELECTED, this.selected !== 'true');
 
-    this.triggerEvent('selectionchanged', this, {
+    const eventData = {
       detail: {
         elem: this,
         nativeEvent: e,
         selected: this.selected,
         selection: this.selection,
       }
-    });
+    };
+
+    this.triggerEvent('selectionchanged', this, eventData);
+    console.log(eventData); // eslint-disable-line
   }
 
   /**
