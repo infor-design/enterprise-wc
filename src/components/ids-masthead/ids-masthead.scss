@@ -31,6 +31,12 @@
     }
   }
 
+  ::slotted([slot='more']) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   // New Version: Light Mode
   &[mode='light'] {
     @include bg-black();

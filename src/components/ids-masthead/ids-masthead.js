@@ -196,21 +196,11 @@ export default class IdsMasthead extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
-    this.renderBreakpoint();
-    this.#restyleButtons();
     this.#attachEventHandlers();
+    this.renderBreakpoint();
   }
 
-  /**
-   * Attach desktop, mobile and table breakpoint listeners for masthead
-   * @private
-   * @returns {void}
-   */
-  #attachEventHandlers() {
-    this.breakpoints.mobile.addEventListener('change', () => this.renderBreakpoint());
-    this.breakpoints.tablet.addEventListener('change', () => this.renderBreakpoint());
-    this.breakpoints.desktop.addEventListener('change', () => this.renderBreakpoint());
-  }
+  rendered() { this.renderBreakpoint(); }
 
   /**
    * Rearranges user's slots in masthead according to desktop, tablet and mobile viewports.
@@ -221,8 +211,8 @@ export default class IdsMasthead extends Base {
     const { start, center, end } = this.slots;
     const { more } = this.elements.sections;
 
-    if (more.menu?.container) {
-      more.menu.container.type = 'menu-alt';
+    if (more.menu?.popup) {
+      more.menu.popup.type = 'menu-alt';
     }
 
     if (this.isDesktop) {
@@ -241,6 +231,19 @@ export default class IdsMasthead extends Base {
       end.slot = 'more';
       more.classList.remove('hidden');
     }
+
+    this.#restyleButtons();
+  }
+
+  /**
+   * Attach desktop, mobile and table breakpoint listeners for masthead
+   * @private
+   * @returns {void}
+   */
+  #attachEventHandlers() {
+    this.breakpoints.mobile.addEventListener('change', () => this.renderBreakpoint());
+    this.breakpoints.tablet.addEventListener('change', () => this.renderBreakpoint());
+    this.breakpoints.desktop.addEventListener('change', () => this.renderBreakpoint());
   }
 
   /**
@@ -249,8 +252,10 @@ export default class IdsMasthead extends Base {
    * @returns {void}
    */
   #restyleButtons() {
+    const { sections } = this.elements;
+
     const buttons = [
-      this.elements.sections.more?.button,
+      sections.more?.button,
       ...this.querySelectorAll('ids-button, ids-menu-button'),
     ];
 
@@ -260,6 +265,23 @@ export default class IdsMasthead extends Base {
         button.iconAlign = 'start';
         button.square = 'true';
         button.type = 'default';
+
+        const buttonParentSlot = button.closest('[slot]');
+        const buttonText = button.querySelector('[slot="text"]');
+        const hasAudible = buttonText?.classList.contains('audible');
+        const hasAudibleOff = buttonText?.classList.contains('audible-off');
+        if (hasAudible) {
+          if (buttonParentSlot?.slot === 'more') {
+            buttonText?.classList.remove('audible');
+            buttonText?.classList.add('audible-off');
+          }
+        }
+        if (hasAudibleOff) {
+          if (buttonParentSlot?.slot !== 'more') {
+            buttonText?.classList.remove('audible-off');
+            buttonText?.classList.add('audible');
+          }
+        }
       }
     });
   }
