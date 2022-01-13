@@ -13,6 +13,10 @@
   min-height: 40px;
 
   #logo.icon-logo {
+    @include px-8();
+    position: relative;
+    top: 1px;
+
     &::part(button) {
       @include m-0();
       @include p-0();
@@ -22,7 +26,7 @@
   }
 
   #title {
-    @include mx-4();
+    @include mx-8();
   }
 
   #more {

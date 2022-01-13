@@ -270,16 +270,19 @@ export default class IdsMasthead extends Base {
         const buttonText = button.querySelector('[slot="text"]');
         const hasAudible = buttonText?.classList.contains('audible');
         const hasAudibleOff = buttonText?.classList.contains('audible-off');
+
         if (hasAudible) {
           if (buttonParentSlot?.slot === 'more') {
             buttonText?.classList.remove('audible');
             buttonText?.classList.add('audible-off');
+            buttonText.style.padding = '0 4px';
           }
         }
         if (hasAudibleOff) {
           if (buttonParentSlot?.slot !== 'more') {
             buttonText?.classList.remove('audible-off');
             buttonText?.classList.add('audible');
+            buttonText.style.padding = '';
           }
         }
       }
