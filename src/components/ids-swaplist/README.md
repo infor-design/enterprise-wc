@@ -16,4 +16,3 @@
 ## Settings (Attributes)
 
 ## Responsive Guidelines
-
