@@ -1,6 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IdsSwapList Component renders correctly 1`] = `
-"<ids-swaplist>
-  </ids-swaplist>"
-`;
+exports[`IdsSwapList Component renders correctly 1`] = `"<ids-swaplist id=\\"swaplist-1\\" count=\\"3\\"></ids-swaplist>"`;
