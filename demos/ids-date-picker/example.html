@@ -3,17 +3,22 @@
 </ids-layout-grid>
 <ids-layout-grid auto="true" cols="4">
   <ids-layout-grid-cell>
-    <ids-date-picker></ids-date-picker>
+    <ids-date-picker tabbable="false" validate="required date"></ids-date-picker>
     <ids-date-picker
       label="Date Field"
+      placeholder="With placeholder"
+      id="with-id"
     ></ids-date-picker>
     <ids-date-picker
       label="Date Field (Disabled)"
+      value="10/31/2014"
       disabled
     ></ids-date-picker>
     <ids-date-picker
       label="Date Field (Readonly)"
+      value="2021-10-18"
       readonly
+      size="sm"
     ></ids-date-picker>
   </ids-layout-grid-cell>
 </ids-layout-grid>
