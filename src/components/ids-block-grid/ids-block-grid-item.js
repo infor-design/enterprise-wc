@@ -7,6 +7,10 @@ import { attributes } from '../../core/ids-attributes';
 /**
  * IDS Block Grid Item Component
  * @type {IdsBlockgridItem}
+ * @mixes IdsKeyboardMixin
+ * @mixes IdsSelectionMixin
+ * @mixes IdsEventsMixin
+ * @mixes IdsThemeMixin
  * @inherits IdsElement
  */
 @customElement('ids-block-grid-item')
@@ -14,10 +18,15 @@ import { attributes } from '../../core/ids-attributes';
 export default class IdsBlockgridItem extends Base {
   constructor() {
     super();
+    this.state = {
+      checkboxHasFocus: false,
+    };
   }
 
   connectedCallback() {
-    this.#handleEvents();
+    this
+      .#handleEvents()
+      .#attachKeyboardListeners();
     super.connectedCallback();
   }
 
@@ -48,6 +57,41 @@ export default class IdsBlockgridItem extends Base {
         this.#handleMultiMixedSelectionChange(e);
       });
     }
+
+    return this;
+  }
+
+  /**
+   * Establish Internal Keyboard shortcuts
+   * @private
+   * @returns {object} This API object for chaining
+   */
+  #attachKeyboardListeners() {
+    this.listen(['Tab'], this, (e) => {
+      if (!this.checkboxHasFocus && this.selection === 'mixed') {
+        e.preventDefault();
+        e.stopPropagation();
+        this.checkboxHasFocus = true;
+        this.container.querySelector('ids-checkbox').container.classList.add('has-focus');
+      } else {
+        if (this.nextElementSibling) {
+          e.preventDefault();
+          e.stopPropagation();
+          this.nextElementSibling.container.focus();
+        }
+
+        this.checkboxHasFocus = false;
+        this.container.querySelector('ids-checkbox').container.classList.remove('has-focus');
+      }
+    });
+
+    this.listen([' '], this, () => {
+      if (this.checkboxHasFocus && this.selection === 'mixed') {
+        this.container.querySelector('ids-checkbox').dispatchEvent(new Event('click'));
+      } else {
+        this.dispatchEvent(new Event('click'));
+      }
+    });
 
     return this;
   }

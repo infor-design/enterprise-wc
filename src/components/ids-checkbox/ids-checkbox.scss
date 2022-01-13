@@ -151,6 +151,13 @@
 
     margin-left: -1px;
   }
+
+  &.has-focus {
+    input[type='checkbox'] ~ .checkmark {
+      border-color: var(--ids-color-palette-azure-60);
+      box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
+    }
+  }
 }
 
 :host-context(form) {
@@ -186,6 +193,12 @@
 .ids-checkbox[mode='contrast'] {
   input[type='checkbox']:disabled ~ .checkmark {
     @include checkbox-disabled-checked(contrast);
+  }
+
+  &.has-focus {
+    input[type='checkbox'] ~ .checkmark {
+      border-color: var(--ids-color-palette-azure-90);
+    }
   }
 }
 
