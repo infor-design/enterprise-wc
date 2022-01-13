@@ -458,7 +458,7 @@ export default class IdsToolbarMoreActions extends Base {
   onColorVariantRefresh() {
     const colorVariant = this.colorVariant;
     if (colorVariant === 'alternate-formatter') {
-      this.button.colorVariant = 'alternate';
+      this.button.colorVariant = 'alternate-formatter';
     } else {
       this.button.colorVariant = null;
     }
