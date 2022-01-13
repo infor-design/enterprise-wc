@@ -142,6 +142,7 @@
   - Splitter orientation can be set by use of `axis` settings.
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
+- `[SwapList]` The swaplist component has been changed to a web componentn and renamed to ids-swaplist.
 - `[Switch]` The Switch component has been changed to a web component and renamed to ids-switch.
   - Markup has changed to a custom element `<ids-switch></ids-switch>`
   - If using events, events are now plain JS events.
