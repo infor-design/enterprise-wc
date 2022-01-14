@@ -672,7 +672,6 @@ describe('IdsInput Component', () => {
   });
 
   it('can have tabbablity turned off', () => {
-    debugger;
     input.tabbable = false;
     expect(input.tabIndex).toEqual(-1);
   });
