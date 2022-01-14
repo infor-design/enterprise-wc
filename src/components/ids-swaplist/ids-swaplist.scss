@@ -4,7 +4,6 @@
   @include flex();
 
   flex-direction: row;
-  height: 430px;
 }
 
 .swap-buttons {
@@ -12,26 +11,29 @@
 }
 
 ids-button {
-  position: relative;
-  padding: 0;
+  @include relative();
+  @include p-0();
+
   width: 36px;
   height: 34px;
 
   &::part(button) {
-    display: flex;
+    @include flex();
+    @include p-0();
+
     align-items: center;
     justify-content: center;
-    padding: 0;
   }
 
   &::after,
   &::before {
+    @include bg-slate-60();
+    @include absolute();
+
     display: inline-block;
     content: '';
-    position: absolute;
     top: 8px;
     left: 9px;
-    background: var(--ids-color-palette-slate-60);
   }
 
   &::after {
@@ -75,10 +77,6 @@ ids-button {
 
 ids-card {
   width: 33.33%;
-
-  &::part(card) {
-    contain: initial;
-  }
 
   &.card {
     &::part(card) {

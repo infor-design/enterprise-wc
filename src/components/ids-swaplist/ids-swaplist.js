@@ -20,7 +20,6 @@ const DEFAULT_COUNT = 2;
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  */
-
 @customElement('ids-swaplist')
 @scss(styles)
 export default class IdsSwapList extends Base {
@@ -46,7 +45,13 @@ export default class IdsSwapList extends Base {
     ];
   }
 
-  swapToNextList(button) {
+  /**
+   * Swap the list item to the next list
+   * @param {*} button htmlElement
+   * @private
+   * @returns {void}
+   */
+  #swapToNextList(button) {
     const currentCard = button.parentElement.parentElement.parentElement;
     const currentList = currentCard.querySelector('ids-list-view');
     const nextCard = currentCard.nextSibling;
@@ -58,7 +63,7 @@ export default class IdsSwapList extends Base {
     });
   }
 
-  swapToPreviousList(button) {
+  #swapToPreviousList(button) {
     const currentCard = button.parentElement.parentElement.parentElement;
     const currentList = currentCard.querySelector('ids-list-view');
     const prevCard = currentCard.previousSibling;
@@ -119,7 +124,7 @@ export default class IdsSwapList extends Base {
     const arrLen = arr.length;
 
     const html = arr.map((v, i) => `
-      <ids-card auto-fit class="${arrLen === i + 1 ? `card card-${i} card-last` : `card card-${i}`}">
+      <ids-card class="${arrLen === i + 1 ? `card card-${i} card-last` : `card card-${i}`}">
         <div slot="card-header">
           <ids-text font-size="20">List #${i}</ids-text>
           <div class="swap-buttons">
@@ -147,9 +152,9 @@ export default class IdsSwapList extends Base {
     this.swapButtons.forEach((b) => {
       this.onEvent('click', b, (e) => {
         if (e.target.classList.contains('left-arrow')) {
-          this.swapToPreviousList(e.target);
+          this.#swapToPreviousList(e.target);
         } else if (e.target.classList.contains('right-arrow')) {
-          this.swapToNextList(e.target);
+          this.#swapToNextList(e.target);
         }
       });
     });
