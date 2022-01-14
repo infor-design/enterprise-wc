@@ -1,0 +1,16 @@
+{{> ../layouts/head.html }}
+
+<ids-layout-grid auto="true">
+  <ids-text font-size="12" type="h1">Month View Current Month Compact</ids-text>
+</ids-layout-grid>
+<ids-layout-grid auto="true" cols="12">
+  <ids-layout-grid-cell col-span="3">
+    <ids-month-view
+      first-day-of-week="1"
+      show-today="true"
+      compact="true"
+    ></ids-month-view>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+{{> ../layouts/footer.html }}
