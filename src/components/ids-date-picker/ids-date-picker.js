@@ -107,6 +107,7 @@ class IdsDatePicker extends Base {
             slot="content"
             compact="true"
             show-today="true"
+            is-date-picker="true"
           ></ids-month-view>
         </ids-popup>
       <div>

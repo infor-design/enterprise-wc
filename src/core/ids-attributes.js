@@ -120,6 +120,7 @@ export const attributes = {
   INDETERMINATE: 'indeterminate',
   INLINE: 'inline',
   INITIALS: 'initials',
+  IS_DATEPICKER: 'is-date-picker',
   IS_DRAGGING: 'is-dragging',
   ITEM_HEIGHT: 'item-height',
   JUSTIFY: 'justify',

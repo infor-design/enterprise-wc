@@ -21,6 +21,7 @@ If both start and end dates are set calendar toolbar will not be displayed.
 - `first-day-of-week` `{string|number|null}` - Specifies first day of the week from 0 to 6 range. 0 is Sunday, 1 is Monday. Defaults to 0 if no specified or out of the range
 - `show-today` `{true|false}` - Whether or not to show the today button in the toolbar
 - `compact` `{true|false}` - Whether or not the component should be compact view
+- `is-date-picker` `{true|false}` - Whether or not the component is used in a date picker component popup
 
 ## Events
 - `dayselected` - Fires when a day is selected

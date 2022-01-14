@@ -7,7 +7,13 @@
   }
 
   ids-month-view {
-    width: 100%;
+    @include w-full();
+
     max-width: 330px;
+  }
+
+  ids-popup::part(popup) {
+    padding-top: 0;
+    padding-bottom: 0;
   }
 }

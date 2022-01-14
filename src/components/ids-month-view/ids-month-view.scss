@@ -296,6 +296,42 @@
   }
 }
 
+// Used in a day picker
+.ids-month-view.is-date-picker {
+  .month-view-header {
+    @include border-b-1();
+    @include border-slate-30();
+    @include pr-1();
+    @include pl-20();
+
+    height: 43px;
+  }
+
+  .month-view-container {
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 310px;
+  }
+
+  .month-view-btn-today::part(button) {
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+
+  .month-view-btn-previous,
+  .month-view-btn-next {
+    @include pl-0();
+  }
+
+  .month-view-table {
+    @include mt-20();
+  }
+
+  td .day-container {
+    @include m-0();
+  }
+}
+
 // Themes
 .ids-month-view[mode='dark'] {
   @include bg-slate-80();
@@ -304,6 +340,10 @@
   .month-view-header {
     @include border-slate-70();
     @include bg-slate-80();
+  }
+
+  &.is-date-picker .month-view-header {
+    @include border-slate-50();
   }
 
   .month-view-container {
@@ -397,6 +437,10 @@
   .month-view-header {
     @include border-slate-30();
     @include bg-white();
+  }
+
+  &.is-date-picker .month-view-header {
+    @include border-slate-30();
   }
 
   .month-view-container {

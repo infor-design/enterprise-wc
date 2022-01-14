@@ -66,6 +66,7 @@ class IdsMonthView extends Base {
       attributes.DAY,
       attributes.END_DATE,
       attributes.FIRST_DAY_OF_WEEK,
+      attributes.IS_DATEPICKER,
       attributes.MONTH,
       attributes.SHOW_TODAY,
       attributes.START_DATE,
@@ -78,7 +79,7 @@ class IdsMonthView extends Base {
    * @returns {string} The template
    */
   template() {
-    return `<div class="ids-month-view ${this.compact ? 'is-compact' : 'is-fullsize'}">
+    return `<div class="ids-month-view ${this.compact ? 'is-compact' : 'is-fullsize'}${this.isDatePicker ? ' is-date-picker' : ''}">
       <div class="month-view-container">
         <table class="month-view-table" aria-label="${this.locale?.translate('Calendar')}" role="application">
           <thead class="month-view-table-header">
@@ -188,13 +189,11 @@ class IdsMonthView extends Base {
     this.offEvent('click.month-view-previous');
     this.onEvent('click.month-view-previous', this.container.querySelector('.month-view-btn-previous'), () => {
       this.#changeDate('previous');
-      this.#triggerSelectedEvent();
     });
 
     this.offEvent('click.month-view-next');
     this.onEvent('click.month-view-next', this.container.querySelector('.month-view-btn-next'), () => {
       this.#changeDate('next');
-      this.#triggerSelectedEvent();
     });
 
     if (this.showToday) {
@@ -702,6 +701,33 @@ class IdsMonthView extends Base {
     // Render related views
     this.#renderToolbar();
     this.#renderWeekDays();
+  }
+
+  /**
+   * is-date-picker attribute
+   * @returns {boolean} isDatePicker param converted to boolean from attribute value
+   */
+  get isDatePicker() {
+    const attrVal = this.getAttribute(attributes.IS_DATEPICKER);
+
+    return stringToBool(attrVal);
+  }
+
+  /**
+   * Set whether or not the component is used in datepicker popup
+   * @param {string|boolean|null} val compact param value
+   */
+  set isDatePicker(val) {
+    const boolVal = stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.IS_DATEPICKER, boolVal);
+    } else {
+      this.removeAttribute(attributes.IS_DATEPICKER);
+    }
+
+    // Toggle container CSS class
+    this.container.classList.toggle('is-date-picker', boolVal);
   }
 
   /**
