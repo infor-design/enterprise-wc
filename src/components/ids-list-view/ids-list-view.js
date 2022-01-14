@@ -56,8 +56,7 @@ export default class IdsListView extends Base {
       attributes.ITEM_HEIGHT,
       attributes.MODE,
       attributes.VERSION,
-      attributes.VIRTUAL_SCROLL,
-      attributes.SWAPPABLE
+      attributes.VIRTUAL_SCROLL
     ];
   }
 
@@ -188,10 +187,8 @@ export default class IdsListView extends Base {
   }
 
   listItemTemplateFunc() {
-    const axis = this.swappable ? '' : 'axis="y"';
-
     const func = (item, index) => `
-      ${this.sortable ? `<ids-draggable ${axis}>` : '' }
+      ${this.sortable ? `<ids-draggable axis="y">` : '' }
         <div
           part="list-item"
           role="listitem"
@@ -427,19 +424,6 @@ export default class IdsListView extends Base {
 
   get selectable() {
     return this.getAttribute(attributes.SELECTABLE);
-  }
-
-  set swappable(value) {
-    const isSwappable = stringToBool(value);
-    if (isSwappable) {
-      this.setAttribute('swappable', true);
-    } else {
-      this.removeAttribute('swappable');
-    }
-  }
-
-  get swappable() {
-    return this.getAttribute('swappable') || false;
   }
 
   /**

@@ -165,7 +165,7 @@ export default class IdsSwapList extends Base {
           </div>
         </div>
         <div slot="card-content">
-          <ids-list-view selectable="multiple" swappable>
+          <ids-list-view selectable="multiple">
           </ids-list-view>
         </div>
       </ids-card>
