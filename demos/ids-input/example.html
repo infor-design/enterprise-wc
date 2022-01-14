@@ -1,17 +1,7 @@
 <ids-layout-grid cols="3" gap="md">
   <ids-layout-grid-cell>
     <ids-text font-size="12" type="h1">Ids Input</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell>
-    <ids-text font-size="12" type="h2">Ids Input - Sizes</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell>
-    <ids-text font-size="12" type="h2">Input - Enable/ Disable/ Readonly</ids-text>
-  </ids-layout-grid-cell>
-</ids-layout-grid>
-
-<ids-layout-grid cols="3" gap="md">
-  <ids-layout-grid-cell>
+    <br>
     <ids-input type="text" label="First Name" placeholder="Normal text Field"></ids-input>
     <ids-input type="text" label="Last Name" validate="required"></ids-input>
     <ids-input type="text" label="Email Address" placeholder="Company@address.com" validate="email required"></ids-input>
@@ -22,19 +12,27 @@
     <ids-input type="text" label="Autoselect" value="Text select on focus" autoselect="true"></ids-input>
   </ids-layout-grid-cell>
 
-  <!-- Sizes -->
   <ids-layout-grid-cell>
-    <!-- sizes: [xs, sm, mm, md, lg, full] -->
+    <ids-text font-size="12" type="h2">Ids Input - Sizes</ids-text>
+    <br>
     <ids-input size="xs" label="Xtra Small"></ids-input>
     <ids-input size="sm" label="Small"></ids-input>
     <ids-input size="mm" label="Small - Medium"></ids-input>
     <ids-input size="md" label="Medium"></ids-input>
+    <br>
+    <ids-text font-size="12" type="h2">Ids Input - Text align</ids-text>
+    <br>
+    <ids-input label="Default align (left)" value="Default align"></ids-input>
+    <ids-input label="Left align" value="Left align" text-align="left"></ids-input>
+    <ids-input label="Center align" value="Center align" text-align="center"></ids-input>
+    <ids-input label="Right align" value="Right align" text-align="right"></ids-input>
+    <br>
   </ids-layout-grid-cell>
 
-  <!-- Enable, Disable, Readonly -->
   <ids-layout-grid-cell>
+    <ids-text font-size="12" type="h2">Input - Enable/ Disable/ Readonly</ids-text>
+    <br>
     <ids-input id="input-toggle-state" label="Text Field" value="Some text"></ids-input>
-
     <ids-button id="btn-input-enable" type="secondary">
       <span slot="text">Enable</span>
     </ids-button>
@@ -44,33 +42,11 @@
     <ids-button id="btn-input-readonly" type="secondary">
       <span slot="text">Readonly</span>
     </ids-button>
-
-  </ids-layout-grid-cell>
-</ids-layout-grid>
-
-<ids-layout-grid auto="true">
-  <ids-layout-grid-cell>
-    <ids-text font-size="12" type="h2">Ids Input - Text align</ids-text>
-  </ids-layout-grid-cell>
-</ids-layout-grid>
-<ids-layout-grid cols="3" gap="md">
-  <ids-layout-grid-cell>
-    <ids-input label="Default align (left)" value="Default align"></ids-input>
-    <ids-input label="Left align" value="Left align" text-align="left"></ids-input>
-    <ids-input label="Center align" value="Center align" text-align="center"></ids-input>
-    <ids-input label="Right align" value="Right align" text-align="right"></ids-input>
-  </ids-layout-grid-cell>
-</ids-layout-grid>
-
-<ids-layout-grid auto="true">
-  <ids-layout-grid-cell>
+    <br><br>
     <ids-text font-size="12" type="h2">Ids Input - Password</ids-text>
-  </ids-layout-grid-cell>
-</ids-layout-grid>
-<ids-layout-grid cols="3" gap="md">
-  <ids-layout-grid-cell>
-    <ids-input id="password-test" label="password" caps-lock="true" revealable-password="true" password-visible="false" type="password" value="Test"></ids-input>
-    <ids-button id="revealable-btn" type="secondary"><span slot="text">Toggle revealable text option</span></ids-button>
-    <ids-button id="tabbable-btn" type="secondary"><span slot="text">Toggle tabbable options</span></ids-button>
+    <br>
+    <ids-input id="password-test" label="Password" caps-lock="true" revealable-password="true" password-visible="false" type="password" value="Test"></ids-input>
+    <ids-button id="revealable-btn" type="secondary"><span slot="text">Toggle revealable text</span></ids-button>
+    <ids-button id="tabbable-btn" type="secondary"><span slot="text">Toggle tabbable</span></ids-button>
   </ids-layout-grid-cell>
 </ids-layout-grid>
