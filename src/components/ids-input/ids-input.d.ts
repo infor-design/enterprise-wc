@@ -77,6 +77,9 @@ export default class IdsInput extends HTMLElement {
   /** Sets the input to readonly state * */
   readonly: boolean;
 
+  /* Sets whether the input allows tabbing */
+  tabbable: boolean;
+
   /* Sets up a string based tooltip */
   tooltip?: string;
 

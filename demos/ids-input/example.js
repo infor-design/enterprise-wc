@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnDisable = document.querySelector('#btn-input-disable');
   const btnReadonly = document.querySelector('#btn-input-readonly');
   const btnRevealable = document.querySelector('#revealable-btn');
+  const btnTabbable = document.querySelector('#tabbable-btn');
   const passwordBtn = document.querySelector('#password-test');
   const input = document.querySelector('#input-toggle-state') || {};
 
@@ -27,5 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   btnRevealable?.addEventListener('click', () => {
     passwordBtn.revealablePassword = !passwordBtn.revealablePassword;
+  });
+
+  btnTabbable?.addEventListener('click', () => {
+    passwordBtn.tabbable = !passwordBtn.tabbable;
   });
 });

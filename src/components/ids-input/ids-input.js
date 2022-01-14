@@ -78,6 +78,8 @@ export default class IdsInput extends Base {
       attributes.SIZE,
       attributes.READONLY,
       attributes.REVEALABLE_PASSWORD,
+      attributes.TABBABLE,
+      attributes.TABINDEX,
       attributes.TEXT_ALIGN,
       attributes.TEXT_ELLIPSIS,
       attributes.TRIGGERFIELD,
@@ -877,6 +879,36 @@ export default class IdsInput extends Base {
 
   get noMargins() {
     return stringToBool(this.getAttribute(attributes.NO_MARGINS));
+  }
+
+  /**
+   * Set if the input and buttons are tabbable
+   * @param {boolean|string} value True of false depending if the trigger field is tabbable
+   */
+  set tabbable(value) {
+    if (stringToBool(value) !== this.getAttribute(attributes.TABBABLE)) {
+      const isTabbable = stringToBool(value);
+      const inputs = this.shadowRoot?.querySelectorAll(`#${this.id}-input, ids-button, ids-trigger-button`);
+      if (isTabbable) {
+        this.setAttribute(attributes.TABBABLE, 'true');
+        inputs.forEach((input) => {
+          input.setAttribute(attributes.TABINDEX, '0');
+        });
+        return;
+      }
+      this.setAttribute(attributes.TABBABLE, 'false');
+      inputs.forEach((input) => {
+        input.setAttribute(attributes.TABINDEX, '-1');
+      });
+    }
+  }
+
+  /**
+   * get whether the input currently allows tabbing.
+   * @returns {boolean} true or false depending on whether the input is currently tabbable
+   */
+  get tabbable() {
+    return stringToBool(this.getAttribute(attributes.TABBABLE) || true);
   }
 
   /**
