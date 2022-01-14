@@ -62,10 +62,11 @@ export default class IdsToolbarMoreActions extends Base {
     const menuButtonId = 'more-actions';
     const menuId = 'more-actions-menu';
     const disabled = this.disabled ? ' disabled' : '';
+    const icon = this.getAttribute('icon') || 'more';
 
     return `<div class="ids-toolbar-section ids-toolbar-more-actions more">
       <ids-menu-button id="${menuButtonId}" menu="${menuId}"${disabled}>
-        <ids-icon slot="icon" icon="more"></ids-icon>
+        <ids-icon slot="icon" icon="${icon}"></ids-icon>
         <span class="audible">More Actions Button</span>
       </ids-menu-button>
       <ids-popup-menu id="${menuId}" target="#${menuButtonId}" trigger="click">

@@ -67,6 +67,9 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
   // The default functionality is NOT to stretch.
   &.fluid {
     @include flex();
+
+    flex-grow: 1;
+    align-items: center;
   }
 
   // Contains Searchfields
