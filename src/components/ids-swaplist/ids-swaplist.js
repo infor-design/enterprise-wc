@@ -63,6 +63,12 @@ export default class IdsSwapList extends Base {
     });
   }
 
+  /**
+   * Swap the list item to the previous list
+   * @param {*} button htmlElement
+   * @private
+   * @returns {void}
+   */
   #swapToPreviousList(button) {
     const currentCard = button.parentElement.parentElement.parentElement;
     const currentList = currentCard.querySelector('ids-list-view');
@@ -75,21 +81,43 @@ export default class IdsSwapList extends Base {
     });
   }
 
+  /**
+   * Get all lists present on the page
+   * @returns {*} nodeList
+   * @memberof IdsSwapList
+   */
   getAllLists() {
     return this.container.querySelectorAll('ids-list-view');
   }
 
+  /**
+   * Set the count of lists
+   * @param {number} value number of lists
+   * @memberof IdsSwapList
+   */
   set count(value) {
     const val = parseInt(value);
     if (!Number.isNaN(val)) this.setAttribute(attributes.COUNT, val);
     else this.setAttribute(attributes.COUNT, DEFAULT_COUNT);
   }
 
+  /**
+   * Get the count of lists
+   * @returns {number} number of lists
+   * @readonly
+   * @memberof IdsSwapList
+   */
   get count() {
     const val = this.getAttribute(attributes.COUNT);
     return parseInt(val) || DEFAULT_COUNT;
   }
 
+  /**
+   * Setup the next/prev button template
+   * @param {number} i index of the list
+   * @returns {object} html element
+   * @memberof IdsSwapList
+   */
   buttonTemplate(i) {
     const leftArrow = `
       <ids-button id="left-arrow-${i}" class="left-arrow">
@@ -119,6 +147,11 @@ export default class IdsSwapList extends Base {
     return html;
   }
 
+  /**
+   * Set up the list view template
+   * @returns {*} html element
+   * @memberof IdsSwapList
+   */
   listTemplate() {
     const arr = Array(this.count).fill(0);
     const arrLen = arr.length;
@@ -141,6 +174,10 @@ export default class IdsSwapList extends Base {
     return html;
   }
 
+  /**
+   * Setup the default template
+   * @memberof IdsSwapList
+   */
   setupTemplate() {
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
     this.getAllLists().forEach((l) => {
@@ -148,6 +185,10 @@ export default class IdsSwapList extends Base {
     });
   }
 
+  /**
+   * Attach event handlers
+   * @memberof IdsSwapList
+   */
   attachEventHandlers() {
     this.swapButtons.forEach((b) => {
       this.onEvent('click', b, (e) => {
