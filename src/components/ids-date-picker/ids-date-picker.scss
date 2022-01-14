@@ -1,7 +1,10 @@
 @import '../../core/ids-base';
 
 .ids-date-picker {
-  @include inline-flex();
+  // Fixes input doesn't stretch to lg size and up
+  ids-input {
+    max-width: 100%;
+  }
 
   ids-month-view {
     width: 100%;

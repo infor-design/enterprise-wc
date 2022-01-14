@@ -4,15 +4,16 @@ import { attributes } from '../../core/ids-attributes';
 import Base from './ids-date-picker-base';
 
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
 
 // Supporting components
 import IdsDropdown from '../ids-dropdown/ids-dropdown';
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsInput from '../ids-input/ids-input';
+import IdsMonthView from '../ids-month-view/ids-month-view';
 import IdsPopup from '../ids-popup/ids-popup';
 import IdsText from '../ids-text/ids-text';
 import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
-import IdsMonthView from '../ids-month-view/ids-month-view';
 
 // Import Styles
 import styles from './ids-date-picker.scss';
@@ -42,6 +43,8 @@ class IdsDatePicker extends Base {
   #triggerButton = this.container.querySelector('ids-trigger-button');
 
   #input = this.container.querySelector('ids-input');
+
+  #monthView = this.container.querySelector('ids-month-view');
 
   connectedCallback() {
     this.#attachEventHandlers();
@@ -78,6 +81,7 @@ class IdsDatePicker extends Base {
     return `
       <div class="ids-date-picker">
         <ids-trigger-field
+          id="${this.id}"
           label="${this.label}"
           size="${this.size}"
           validate="${this.validate}"
@@ -87,6 +91,7 @@ class IdsDatePicker extends Base {
             type="text"
             value="${this.value}"
             placeholder="${this.placeholder}"
+            mask="date"
           >
           </ids-input>
           <ids-trigger-button>
@@ -99,9 +104,6 @@ class IdsDatePicker extends Base {
           animated="true"
         >
           <ids-month-view
-            month="11"
-            year="2018"
-            day="20"
             slot="content"
             compact="true"
             show-today="true"
@@ -112,8 +114,8 @@ class IdsDatePicker extends Base {
   }
 
   /**
-   * Runs when a click event is propagated to the window.
-   * @param {MouseEvent} e the original click event
+   * Click event is propagated to the window.
+   * @param {PointerEvent} e native pointer event
    * @returns {void}
    */
   onOutsideClick(e) {
@@ -135,11 +137,18 @@ class IdsDatePicker extends Base {
     // Respond to container changing locale
     this.offEvent('localechange.date-picker-container');
     this.onEvent('localechange.date-picker-container', this.closest('ids-container'), async () => {
+      this.#applyMask();
     });
 
     this.offEvent('click.date-picker');
     this.onEvent('click.date-picker', this.#triggerButton, () => {
       this.#togglePopup(!this.#popup.visible);
+    });
+
+    this.offEvent('dayselected.date-picker');
+    this.onEvent('dayselected.date-picker', this.#monthView, (e) => {
+      this.value = this.locale.formatDate(e.detail.date);
+      this.#togglePopup(false);
     });
 
     return this;
@@ -166,6 +175,7 @@ class IdsDatePicker extends Base {
   #togglePopup(open) {
     if (open && !this.readonly) {
       this.addOpenEvents();
+      this.#setupMonthView();
       this.#popup.visible = true;
       const { bottom } = this.#triggerButton.getBoundingClientRect();
       const positionBottom = (bottom + 100) < window.innerHeight;
@@ -179,6 +189,15 @@ class IdsDatePicker extends Base {
       this.removeOpenEvents();
       this.#popup.visible = false;
     }
+  }
+
+  #setupMonthView() {
+    const now = new Date();
+    const parsed = new Date(this.value);
+
+    this.#monthView.year = isValidDate(parsed) ? parsed.getFullYear() : now.getFullYear();
+    this.#monthView.month = isValidDate(parsed) ? parsed.getMonth() : now.getMonth();
+    this.#monthView.day = isValidDate(parsed) ? parsed.getDate() : now.getDate();
   }
 
   get value() {
@@ -323,14 +342,15 @@ class IdsDatePicker extends Base {
     }
   }
 
+  #applyMask() {
+    const format = this.format === 'locale' ? this.locale.calendar().dateFormat.short : this.format;
+
+    this.#input.maskOptions = { format };
+    this.#input.value = this.value;
+  }
+
   get format() {
-    const attrVal = this.getAttribute(attributes.FORMAT);
-
-    if (attrVal) {
-      return attrVal;
-    }
-
-    return this.locale.calendar().dateFormat.short;
+    return this.getAttribute(attributes.FORMAT) ?? 'locale';
   }
 
   set format(val) {
@@ -339,6 +359,8 @@ class IdsDatePicker extends Base {
     } else {
       this.removeAttribute(attributes.FORMAT);
     }
+
+    this.#applyMask();
   }
 }
 
