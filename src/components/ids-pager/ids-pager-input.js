@@ -56,7 +56,7 @@ export default class IdsPagerInput extends Base {
     this.input?.input?.setAttribute('aria-label', 'Input for page number');
 
     this.onEvent('change', this.input, () => {
-      const inputPageNumber = parseInt(this.input.input.value);
+      const inputPageNumber = Math.min(parseInt(this.input.input.value), this.pageCount);
 
       if (inputPageNumber !== this.pageNumber) {
         if (!Number.isNaN(inputPageNumber)) {
@@ -120,23 +120,37 @@ export default class IdsPagerInput extends Base {
 
   /** @param {string|number} value A 1-based page number shown */
   set pageNumber(value) {
-    let nextValue;
+    const pagerInputWebComponent = this.input;
+    const pagerInputField = pagerInputWebComponent?.input;
+    const currentPageNumber = pagerInputField?.value || 1;
+    let nexPageNumber;
 
     if (Number.isNaN(Number.parseInt(value))) {
-      nextValue = 1;
+      nexPageNumber = 1;
     } else if (Number.parseInt(value) <= 1) {
-      nextValue = 1;
+      nexPageNumber = 1;
     } else {
-      nextValue = Number.parseInt(value);
+      nexPageNumber = Number.parseInt(value);
     }
 
-    if (parseInt(nextValue) !== parseInt(this.input?.input.value)) {
-      if (this.input) {
-        this.input.value = nextValue;
-      }
-      this.setAttribute(attributes.PAGE_NUMBER, nextValue);
-      this.#updatePageCountShown();
+    const isSamePageNumber = parseInt(nexPageNumber) === parseInt(currentPageNumber);
+    if (isSamePageNumber) {
+      // no need to update if page number did not changed.
+      return;
     }
+
+    if (pagerInputWebComponent) {
+      pagerInputWebComponent.value = nexPageNumber;
+
+      if (pagerInputField) {
+        // TODO: find a way within CSS to make input-field width auto-resize
+        const inputFieldWidth = String(nexPageNumber).length;
+        pagerInputField.style.width = `${inputFieldWidth}em`;
+      }
+    }
+
+    this.setAttribute(attributes.PAGE_NUMBER, nexPageNumber);
+    this.#updatePageCountShown();
   }
 
   /** @returns {string|number} value A 1-based page number displayed */
@@ -226,7 +240,8 @@ export default class IdsPagerInput extends Base {
 
   /** Updates text found in page-count within ids-text span */
   #updatePageCountShown() {
-    const pageCountShown = (this.pageCount === null) ? 'N/A' : this.pageCount;
+    const pageCount = this.pageCount;
+    const pageCountShown = (pageCount === null) ? 'N/A' : pageCount;
     this.shadowRoot.querySelector('span.page-count').textContent = pageCountShown;
   }
 

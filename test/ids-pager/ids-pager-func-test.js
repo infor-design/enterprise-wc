@@ -420,10 +420,6 @@ describe('IdsPager Component', () => {
     expect(elem.hasAttribute('previous')).toBeTruthy();
   });
 
-  // --------------------- //
-  // ids-pager-number-list //
-  // ===================== //
-
   it('updates the input on ids-pager-input and pager pageNumber updates', async () => {
     elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
     const idsPagerInput = elem.querySelector('ids-pager-input');
@@ -434,6 +430,10 @@ describe('IdsPager Component', () => {
 
     expect(elem.pageNumber).toEqual(10);
   });
+
+  // --------------------- //
+  // ids-pager-number-list //
+  // ===================== //
 
   it('creates ids-pager-number-list and it has the correct number of entries based on page size and total', async () => {
     const pageSize = 10;
@@ -566,7 +566,7 @@ describe('IdsPager Component', () => {
 
   it('it sets the pageSize on ids-pager-number-list to non numeric and it is reset to 1', async () => {
     elem = await createElemViaTemplate(
-      `<ids-pager-number-list page-number="1" page-size="z2z" total="100" first></ids-pager-input>`
+      `<ids-pager-number-list page-number="1" page-size="z2z" total="100" first></ids-pager-number-list>`
     );
 
     expect(elem.pageSize).toEqual(1);
@@ -574,7 +574,7 @@ describe('IdsPager Component', () => {
 
   it('it sets the pageNumber on ids-pager-number-list to invalid sizes and it is reset to 1', async () => {
     elem = await createElemViaTemplate(
-      `<ids-pager-number-list page-number="zz" page-size="2" total="100" first></ids-pager-input>`
+      `<ids-pager-number-list page-number="zz" page-size="2" total="100" first></ids-pager-number-list>`
     );
 
     expect(elem.pageNumber).toEqual(1);
@@ -585,7 +585,7 @@ describe('IdsPager Component', () => {
 
   it('it sets the total on ids-pager-number-list to invalid sizes and it is reset to 1', async () => {
     elem = await createElemViaTemplate(
-      `<ids-pager-number-list page-number="1" page-size="2" total="z2z" first></ids-pager-input>`
+      `<ids-pager-number-list page-number="1" page-size="2" total="z2z" first></ids-pager-number-list>`
     );
 
     expect(elem.total).toEqual(1);

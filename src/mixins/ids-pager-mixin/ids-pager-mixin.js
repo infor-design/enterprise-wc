@@ -39,6 +39,9 @@ const IdsPagerMixin = (superclass) => class extends superclass {
   constructor() {
     super();
 
+    const pageNumber = Math.max(parseInt(this.pageNumber) || 1, 1);
+    const pageSize = Math.max(parseInt(this.pageSize) || 0, 1);
+
     this.#pager.innerHTML = `
       <ids-pager-button first></ids-pager-button>
       <ids-pager-button previous></ids-pager-button>
@@ -47,21 +50,21 @@ const IdsPagerMixin = (superclass) => class extends superclass {
       <ids-pager-button last></ids-pager-button>
       <div slot="end">
         <ids-menu-button id="pager-size-menu-button" menu="pager-size-menu" role="button" dropdown-icon>
-          <span slot="text">${this.pageSize} Records per page</span>
+          <span slot="text">${pageSize} Records per page</span>
         </ids-menu-button>
         <ids-popup-menu id="pager-size-menu" target="#pager-size-menu-button" trigger="click">
           <ids-menu-group>
-            <ids-menu-item value="10">10</ids-menu-item>
-            <ids-menu-item value="25">25</ids-menu-item>
-            <ids-menu-item value="50">50</ids-menu-item>
-            <ids-menu-item value="100">100</ids-menu-item>
+            <ids-menu-item icon="${pageSize === 10 ? 'check' : 'no-check'}" value="10">10</ids-menu-item>
+            <ids-menu-item icon="${pageSize === 25 ? 'check' : 'no-check'}" value="25">25</ids-menu-item>
+            <ids-menu-item icon="${pageSize === 50 ? 'check' : 'no-check'}" value="50">50</ids-menu-item>
+            <ids-menu-item icon="${pageSize === 100 ? 'check' : 'no-check'}" value="100">100</ids-menu-item>
           </ids-menu-group>
         </ids-popup-menu>
       </div>
     `;
 
-    this.#pager.pageNumber = Math.max(parseInt(this.pageNumber) || 1, 1);
-    this.#pager.pageSize = Math.max(parseInt(this.pageSize) || 0, 1);
+    this.#pager.pageNumber = pageNumber;
+    this.#pager.pageSize = pageSize;
   }
 
   /**
@@ -196,12 +199,21 @@ const IdsPagerMixin = (superclass) => class extends superclass {
     }
 
     const popupMenu = this.pager.querySelector('ids-popup-menu');
+    const popupMenuGroup = popupMenu.querySelector('ids-menu-group');
+
+    popupMenu.popup.type = 'menu';
+    popupMenuGroup.style.minWidth = '175px';
+    popupMenuGroup.style.textAlign = 'left';
+
     this.offEvent('selected', popupMenu);
     this.onEvent('selected', popupMenu, (evt) => {
       const oldPageSize = this.pageSize;
       const newPageSize = evt.detail?.value || oldPageSize;
       if (newPageSize !== oldPageSize) {
         this.pageSize = newPageSize;
+        popupMenu.querySelectorAll('ids-menu-item').forEach((item) => {
+          item.icon = parseInt(item.value) === parseInt(newPageSize) ? 'check' : 'no-check';
+        });
       }
     });
   }

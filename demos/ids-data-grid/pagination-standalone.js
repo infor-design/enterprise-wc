@@ -66,8 +66,13 @@ const container = document.querySelector('ids-container');
   const url = '/data/products.json';
   const response = await fetch(url);
   const data = await response.json();
+
   dataGrid.columns = columns;
   dataGrid.data = data;
+
+  dataGrid.pager.addEventListener('pagenumberchange', async (e) => {
+    console.info(`standalone page # ${e.detail.value}`);
+  });
 
   console.info('Loading Time:', window.performance.now());
   console.info('Page Memory:', window.performance.memory);
