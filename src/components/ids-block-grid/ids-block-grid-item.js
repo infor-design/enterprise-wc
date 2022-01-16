@@ -16,11 +16,15 @@ import { attributes } from '../../core/ids-attributes';
 @customElement('ids-block-grid-item')
 @scss(styles)
 export default class IdsBlockgridItem extends Base {
-  constructor() {
+  constructor(settings = {}) {
     super();
     this.state = {
       checkboxHasFocus: false,
     };
+
+    if (settings.selection) {
+      this.selection = settings.selection;
+    }
   }
 
   connectedCallback() {
@@ -49,14 +53,17 @@ export default class IdsBlockgridItem extends Base {
   #handleEvents() {
     this.onEvent('click', this, this.#handleSelectionChange);
 
-    if (this.selection === 'multiple' || this.selection === 'mixed') {
-      const idsCheckboxElem = this.container.querySelector('ids-checkbox');
-      idsCheckboxElem.onEvent('click', idsCheckboxElem, (e) => {
-        e.stopPropagation();
-        e.preventDefault();
+    const checkbox = this.container.querySelector('ids-checkbox');
+    this.onEvent('click.checkbox', checkbox, (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+
+      if (this.selection === 'single') {
+        this.#handleSingleSelectionChange(e);
+      } else {
         this.#handleMultiMixedSelectionChange(e);
-      });
-    }
+      }
+    });
 
     return this;
   }
