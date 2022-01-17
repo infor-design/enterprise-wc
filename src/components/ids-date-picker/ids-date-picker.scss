@@ -16,4 +16,53 @@
     padding-top: 0;
     padding-bottom: 0;
   }
+
+  // In calendar toolbar
+  &.is-calendar-toolbar {
+    @include flex();
+    @include border-solid();
+    @include border-1();
+    @include border-transparent();
+    @include pl-8();
+    @include ml-4();
+
+    align-items: center;
+    outline: none;
+    outline-color: transparent;
+
+    .datepicker-text {
+      @include leading-none();
+      @include mr-2();
+    }
+
+    .datepicker-icon {
+      @include mb-2();
+    }
+
+    &:focus {
+      @include border-azure-60();
+
+      box-shadow: 0 0 4px 3px rgba(54 138 192 / 0.3);
+    }
+
+    &[mode='dark'] {
+      &:focus {
+        @include border-azure-60();
+
+        box-shadow: 0 0 4px 2px rgba(141 201 230 / 0.3);
+      }
+    }
+
+    &[mode='contrast'] {
+      &:focus {
+        @include border-azure-90();
+
+        box-shadow: 0 0 4px 2px rgba(41 41 41 / 0.3);
+      }
+    }
+  }
+}
+
+:host([is-calendar-toolbar='true']) {
+  @include flex();
 }

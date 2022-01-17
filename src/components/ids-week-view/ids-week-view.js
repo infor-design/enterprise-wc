@@ -209,7 +209,7 @@ export default class IdsWeekView extends Base {
   #attachDatepickerText() {
     const text = this.#formatMonthRange();
 
-    this.container.querySelector('.datepicker-text').innerText = text;
+    this.container.querySelector('ids-date-picker').value = text;
   }
 
   /**

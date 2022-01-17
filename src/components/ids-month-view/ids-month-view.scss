@@ -26,26 +26,6 @@
     flex-shrink: 0;
   }
 
-  // Datepicker
-  .datepicker {
-    @include flex();
-    @include border-solid();
-    @include border-1();
-    @include border-transparent();
-
-    align-items: center;
-    outline: none;
-    outline-color: transparent;
-
-    &-text {
-      @include leading-none();
-    }
-
-    &-icon {
-      @include mb-2();
-    }
-  }
-
   .month-view-today-text {
     @include text-azure-60();
   }
@@ -191,21 +171,6 @@
   .month-view-header {
     @include border-b-1();
     @include border-slate-20();
-  }
-
-  .datepicker {
-    @include pl-8();
-    @include ml-4();
-
-    &-text {
-      @include mr-2();
-    }
-
-    &:focus {
-      @include border-azure-60();
-
-      box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
-    }
   }
 
   td {
@@ -355,12 +320,6 @@
     @include text-azure-60();
   }
 
-  .datepicker:focus {
-    @include border-azure-60();
-
-    box-shadow: 0 0 4px 2px rgba(141 201 230 / 0.3);
-  }
-
   // Compact view dark theme
   &.is-compact {
     .weekday-text,
@@ -450,12 +409,6 @@
   .month-view-today-text,
   &.is-compact .datepicker-icon {
     @include text-azure-90();
-  }
-
-  .datepicker:focus {
-    @include border-azure-90();
-
-    box-shadow: 0 0 4px 2px rgba(41 41 41 / 0.3);
   }
 
   // Compact view contrast theme

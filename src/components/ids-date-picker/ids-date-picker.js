@@ -7,9 +7,11 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
 
 // Supporting components
+import IdsModalButton from '../ids-modal-button/ids-modal-button';
 import IdsDropdown from '../ids-dropdown/ids-dropdown';
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsInput from '../ids-input/ids-input';
+// eslint-disable-next-line import/no-cycle
 import IdsMonthView from '../ids-month-view/ids-month-view';
 import IdsPopup from '../ids-popup/ids-popup';
 import IdsText from '../ids-text/ids-text';
@@ -63,13 +65,14 @@ class IdsDatePicker extends Base {
       attributes.FORMAT,
       attributes.FORMAT,
       attributes.ID,
+      attributes.IS_CALENDAR_TOOLBAR,
       attributes.LABEL,
       attributes.PLACEHOLDER,
       attributes.READONLY,
       attributes.TABBABLE,
-      attributes.VALUE,
       attributes.VALIDATE,
-      attributes.VALIDATION_EVENTS
+      attributes.VALIDATION_EVENTS,
+      attributes.VALUE,
     ];
   }
 
@@ -79,36 +82,54 @@ class IdsDatePicker extends Base {
    */
   template() {
     return `
-      <div class="ids-date-picker">
-        <ids-trigger-field
-          id="${this.id}"
-          label="${this.label}"
-          size="${this.size}"
-          validate="${this.validate}"
-        >
-          <ids-text audible="true" translate-text="true">UseArrow</ids-text>
-          <ids-input
-            type="text"
-            value="${this.value}"
-            placeholder="${this.placeholder}"
-            mask="date"
-          >
-          </ids-input>
+      <div class="ids-date-picker${this.isCalendarToolbar ? ' is-calendar-toolbar' : ''}"${this.isCalendarToolbar ? ' tabindex="0"' : ''}>
+        ${this.isCalendarToolbar ? `
+          <ids-text font-size="20" class="datepicker-text">${this.value}</ids-text>
+          <ids-text audible="true" translate-text="true">SelectDay</ids-text>
           <ids-trigger-button>
             <ids-text audible="true" translate-text="true">DatePickerTriggerButton</ids-text>
-            <ids-icon slot="icon" icon="schedule"></ids-icon>
+            <ids-icon slot="icon" icon="schedule" class="datepicker-icon"></ids-icon>
           </ids-trigger-button>
-        </ids-trigger-field>
+        ` : `
+          <ids-trigger-field
+            id="${this.id}"
+            label="${this.label}"
+            size="${this.size}"
+            validate="${this.validate}"
+          >
+            <ids-text audible="true" translate-text="true">UseArrow</ids-text>
+            <ids-input
+              type="text"
+              value="${this.value}"
+              placeholder="${this.placeholder}"
+              mask="date"
+            >
+            </ids-input>
+            <ids-trigger-button>
+              <ids-text audible="true" translate-text="true">DatePickerTriggerButton</ids-text>
+              <ids-icon slot="icon" icon="schedule"></ids-icon>
+            </ids-trigger-button>
+          </ids-trigger-field>
+        `}
         <ids-popup
           type="menu"
           animated="true"
         >
-          <ids-month-view
-            slot="content"
-            compact="true"
-            show-today="true"
-            is-date-picker="true"
-          ></ids-month-view>
+          <section slot="content">
+            <ids-month-view
+              compact="true"
+              show-today="true"
+              is-date-picker="true"
+            ></ids-month-view>
+            <div class="popup-footer">
+              <ids-button class="popup-btn-start">
+                Cancel
+              </ids-button>
+              <ids-button class="popup-btn-end">
+                Apply
+              </ids-button>
+            </div>
+          </section>
         </ids-popup>
       <div>
     `;
@@ -181,7 +202,7 @@ class IdsDatePicker extends Base {
       const { bottom } = this.#triggerButton.getBoundingClientRect();
       const positionBottom = (bottom + 100) < window.innerHeight;
 
-      this.#popup.alignTarget = this.#input;
+      this.#popup.alignTarget = this.container;
       this.#popup.arrowTarget = this.#triggerButton;
       this.#popup.align = positionBottom ? 'bottom, left' : 'top, left';
       this.#popup.arrow = positionBottom ? 'bottom' : 'top';
@@ -208,7 +229,7 @@ class IdsDatePicker extends Base {
   set value(val) {
     if (!this.disabled && !this.readonly) {
       this.setAttribute(attributes.VALUE, val);
-      this.#input.value = val;
+      this.#input?.setAttribute(attributes.VALUE, val);
     }
   }
 
@@ -362,6 +383,25 @@ class IdsDatePicker extends Base {
     }
 
     this.#applyMask();
+  }
+
+  get isCalendarToolbar() {
+    const attrVal = this.getAttribute(attributes.IS_CALENDAR_TOOLBAR);
+
+    return stringToBool(attrVal);
+  }
+
+  set isCalendarToolbar(val) {
+    const boolVal = stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.IS_CALENDAR_TOOLBAR, boolVal);
+    } else {
+      this.removeAttribute(attributes.IS_CALENDAR_TOOLBAR);
+    }
+
+    // Toggle container CSS class
+    this.container.classList.toggle('is-calendar-toolbar', boolVal);
   }
 }
 

@@ -23,6 +23,8 @@ import {
 
 // Supporting components
 import IdsButton from '../ids-button/ids-button';
+// eslint-disable-next-line import/no-cycle
+import IdsDatePicker from '../ids-date-picker/ids-date-picker';
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsText from '../ids-text/ids-text';
 import IdsToolbar from '../ids-toolbar/ids-toolbar';
@@ -162,7 +164,7 @@ class IdsMonthView extends Base {
       ${!this.compact ? `
         <ids-toolbar-section type="buttonset">
           ${prevNextBtn}
-          ${datepicker}
+          <ids-date-picker is-calendar-toolbar="true" value="${this.#formatMonthText()}"></ids-date-picker>
           ${todayBtn}
         </ids-toolbar-section>
       ` : `
@@ -187,18 +189,21 @@ class IdsMonthView extends Base {
    */
   #attachToolbarEvents() {
     this.offEvent('click.month-view-previous');
-    this.onEvent('click.month-view-previous', this.container.querySelector('.month-view-btn-previous'), () => {
+    this.onEvent('click.month-view-previous', this.container.querySelector('.month-view-btn-previous'), (e) => {
+      e.stopPropagation();
       this.#changeDate('previous');
     });
 
     this.offEvent('click.month-view-next');
-    this.onEvent('click.month-view-next', this.container.querySelector('.month-view-btn-next'), () => {
+    this.onEvent('click.month-view-next', this.container.querySelector('.month-view-btn-next'), (e) => {
+      e.stopPropagation();
       this.#changeDate('next');
     });
 
     if (this.showToday) {
       this.offEvent('click.month-view-today');
-      this.onEvent('click.month-view-today', this.container.querySelector('.month-view-btn-today'), () => {
+      this.onEvent('click.month-view-today', this.container.querySelector('.month-view-btn-today'), (e) => {
+        e.stopPropagation();
         this.#changeDate('today');
         this.#triggerSelectedEvent();
       });
