@@ -14,6 +14,7 @@ import {
 } from '../../utils/ids-date-utils/ids-date-utils';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
+import IdsDatePicker from '../ids-date-picker/ids-date-picker';
 import IdsButton from '../ids-button/ids-button';
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsText from '../ids-text/ids-text';
@@ -125,14 +126,7 @@ export default class IdsWeekView extends Base {
           <ids-text audible="true" translate-text="true">NextMonth</ids-text>
           <ids-icon slot="icon" icon="chevron-right"></ids-icon>
         </ids-button>
-        <span class="datepicker" tabindex="0">
-          <ids-text font-size="20" class="datepicker-text">${this.#formatMonthRange()}</ids-text>
-          <ids-text audible="true" translate-text="true">SelectDay</ids-text>
-          <ids-trigger-button>
-            <ids-text audible="true" translate-text="true">DatePickerTriggerButton</ids-text>
-            <ids-icon slot="icon" icon="schedule" class="datepicker-icon"></ids-icon>
-          </ids-trigger-button>
-        </span>
+        <ids-date-picker is-calendar-toolbar="true" value="${this.#formatMonthRange()}"></ids-date-picker>
         ${this.showToday ? `
           <ids-button css-class="no-padding" class="week-view-btn-today">
             <ids-text
