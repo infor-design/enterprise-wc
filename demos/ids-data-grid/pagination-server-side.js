@@ -71,12 +71,12 @@ const container = document.querySelector('ids-container');
     const last = pageNumber * pageSize;
     const start = last - pageSize;
     dataGrid.data = data.slice(start, start + pageSize);
-    dataGrid.pageNumber = pageNumber;
     dataGrid.pageTotal = data.length;
+    dataGrid.pageNumber = pageNumber;
+    dataGrid.pageSize = pageSize;
   };
 
   dataGrid.columns = columns;
-  dataGrid.pageTotal = data.length;
   paginateData(1, dataGrid.pageSize);
 
   dataGrid.pager.addEventListener('pagenumberchange', async (e) => {

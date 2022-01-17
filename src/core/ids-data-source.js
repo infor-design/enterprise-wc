@@ -41,12 +41,19 @@ class IdsDataSource {
   #pageSize;
 
   /**
+   * An override for the total number of items in data
+   * @private
+   */
+  #total;
+
+  /**
    * Sets the data array on the data source object
    * @param {Array | null} value The array to attach
    */
   set data(value) {
     this.#currentData = deepClone(value);
     this.#originalData = value;
+    this.#total = this.#currentData?.length || 0;
   }
 
   /**
@@ -65,7 +72,13 @@ class IdsDataSource {
    * Get the total number of items in data
    * @returns {number} - the current page-total
    */
-  get total() { return this.#currentData.length; }
+  get total() { return this.#total; }
+
+  /**
+   * Override the total number of items in data
+   * @param {number} value - the new page-total
+   */
+  set total(value) { this.#total = value; }
 
   /**
    * Set the current page-number

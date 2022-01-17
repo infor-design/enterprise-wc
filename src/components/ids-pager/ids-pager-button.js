@@ -152,6 +152,8 @@ export default class IdsPagerButton extends Base {
    */
   set total(value) {
     this.setAttribute(attributes.TOTAL, value);
+    this.#updateNavDisabled();
+    this.#updateDisabledState();
   }
 
   /**

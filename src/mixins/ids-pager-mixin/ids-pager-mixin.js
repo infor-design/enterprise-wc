@@ -135,8 +135,8 @@ const IdsPagerMixin = (superclass) => class extends superclass {
    */
   set pageTotal(value) {
     this.setAttribute(attributes.PAGE_TOTAL, value);
-    this.pager.pageTotal = value;
-    this.datasource.pageTotal = value;
+    this.pager.total = value;
+    this.datasource.total = value;
   }
 
   /**
