@@ -1,32 +1,29 @@
-# Ids SwapList 
+# Ids SwapList
 
 ## Description
 
+A swaplist allows for easy movement of objects between two or more lists.
+
 ## Use Cases
+
+A common usecase for swaplists is to select items from a list of available objects. On one list, the user can view all available items. The user can then move an item from the available list to the selected list, and vice versa. This allows the user to view and track all items in the dataset. Users can drag and drop objects from list to list or select items and click an icon to move them to the desired list.
 
 ## Terminology
 
 ## Features (With Code Samples)
 
 ```html
-<ids-swaplist>
-</ids-swaplist>
+<ids-swaplist count="2"></ids-swaplist>
 ```
 
 ## Settings (Attributes)
+**count** Sets the amount of lists on the page. By default `count` is set to 2.
+## States
 
-## Responsive Guidelines
-
-## Converting from Previous Version
-
-### Converting from 4.x
-
-The Ids SwapList is now a Web Component. Instead of using classes to define it, it is done directly with a custom element and attributes:
-
-```html
-<!-- 4.x example -->
-// insert code sample from enterprise repo of that component
-
-<!-- this is the same using the WebComponent -->
-<ids-swaplist>
-</ids-swaplist>
+**Default**
+**Hover**
+**Click**
+### TODO
+**Drag To**: When a user selects a list item and drags it to another area within the swaplist.
+**Drop From**: When a user has selected an item from elsewhere within the swaplist and is going to drop it into the highlighted area.
+Focus

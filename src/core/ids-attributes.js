@@ -245,6 +245,7 @@ export const attributes = {
   SUBMENU: 'submenu',
   SUPRESS_ROW_DEACTIVATION: 'supress-row-deactivation',
   SUPRESS_ROW_DESELECTION: 'supress-row-deselection',
+  SWAPPABLE: 'swappable',
   SWATCH: 'swatch',
   SWIPE_TYPE: 'swipe-type',
   TABBABLE: 'tabbable',
