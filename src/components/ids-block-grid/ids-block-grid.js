@@ -17,7 +17,10 @@ export default class IdsBlockgrid extends Base {
   }
 
   static get attributes() {
-    return [attributes.ALIGN];
+    return [
+      attributes.ALIGN,
+      attributes.SELECTION,
+    ];
   }
 
   /**
@@ -46,5 +49,24 @@ export default class IdsBlockgrid extends Base {
       this.removeAttribute(attributes.ALIGN);
       this.style.removeProperty('text-align');
     }
+  }
+
+  /**
+   * Set the selection to a block-grid and it will add selection to all items
+   * @param {string} value The selection value
+   */
+  set selection(value) {
+    this.syncSelectionOnItems();
+  }
+
+  get selection() {
+    return this.getAttribute(attributes.SELECTION);
+  }
+
+  /**
+   * Add selection value to all block-grid-items
+   */
+  syncSelectionOnItems() {
+    this.querySelectorAll('ids-block-grid-item').forEach((item) => item.setAttribute(attributes.SELECTION, this.selection));
   }
 }
