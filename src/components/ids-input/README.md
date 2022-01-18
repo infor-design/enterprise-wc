@@ -79,19 +79,34 @@ Set the Text Align to Text Input this way:
 <ids-input label="Right align" value="Right align" text-align="right"></ids-input>
 ```
 
+Set the capslock alert indicator this way:
+
+```html
+<ids-input label="password" caps-lock="true" type="password"></ids-input>
+```
+
+Set up for displaying the show/hide password button:
+
+```html
+<ids-input label="password" revealable-text="true" password-visible="false" type="password"></ids-input>
+```
+
 ## Settings (Attributes)
 
 - `autoselect` {boolean} set auto select text on focus to input.
 - `bgTransparent` {boolean} set the transparent background to readonly input.
 - `clearable` {boolean} set (x) button to clear text on click/key to input.
 - `clearableForced` {boolean} set (x) button to clear text on click/key to input, forced to be on readonly.
+- `caps-lock` {boolean} sets whether the capslock indicator appears when caps lock is on.
 - `dirty-tracker` {boolean} set dirty tracker to input.
 - `disabled` {boolean} set disabled state.
 - `label` {string} set the label text.
 - `labelHidden` {string} indicates that a label is hidden (note that for accessibility reasons, `label` should still be specified).
 - `mask` {array|function} defines how to mask the input.  See [Ids Mask Mixin](../ids-mask/README.md) for more information.
+- `password-visible` {boolean} sets whether the password is currently visible must be paired with revealable-text = 'true' and type = 'password'.
 - `placeholder` {string} set the placeholder text to input.
 - `size` {string} set the input size, it will set `md` as defaults.
+- `revealable-text` {boolean} sets whether the show/hide button is availble for password fields must be paired with type='password'
 - `readonly` {boolean} set readonly state.
 - `text-align` {string} set text-align to input, it will set `left` as defaults.
 - `triggerfield` {boolean} if true will add css class/style `has-triggerfield`.
