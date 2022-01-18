@@ -1,6 +1,11 @@
 /* Ids Text Css */
 @import '../../core/ids-base';
 
+:host {
+  display: block;
+  width: 100%;
+}
+
 text {
   @include antialiased();
   @include block();

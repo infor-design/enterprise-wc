@@ -10,3 +10,4 @@
  - [ ] Api to set dynamically allSizes()
  - [ ] Api to collapse for multiple and all panes
  - [ ] Api to expand for multiple and all panes
+ - [ ] Does not work on a touch device (ipad/iphone in chrome dev tools)

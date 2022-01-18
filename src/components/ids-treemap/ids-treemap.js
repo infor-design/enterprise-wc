@@ -414,29 +414,23 @@ export default class IdsTreeMap extends Base {
    * @memberof IdsTreeMap
    */
   resizeTreemap() {
-    requestAnimationFrame(() => {
-      const resizeObserver = new ResizeObserver((entries) => {
-        for (const entry of entries) {
-          resizeObserver.disconnect();
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        // Recalculate treemap data
+        this.width = entry.target.offsetWidth;
+        const updatedObj = {
+          data: this.initialData,
+          width: this.width,
+          height: this.height
+        };
 
-          // Recalculate treemap data
-          this.width = entry.target.offsetWidth;
-          const updatedObj = {
-            data: this.initialData,
-            width: this.width,
-            height: this.height
-          };
-
-          const newData = this.treeMap(updatedObj);
-          if (newData) {
-            this.data = this.treeMap(updatedObj);
-          }
+        const newData = this.treeMap(updatedObj);
+        if (newData) {
+          this.data = this.treeMap(updatedObj);
         }
-
-        requestAnimationFrame(() => resizeObserver.observe(this));
-      });
-
-      resizeObserver.observe(this);
+      }
     });
+
+    resizeObserver.observe(this);
   }
 }
