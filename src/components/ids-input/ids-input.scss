@@ -24,7 +24,7 @@ $input-compact-height: $input-field-height-xs;
       @include font-sans();
       @include mx-2();
       @include text-20();
-      @include text-alert-danger();
+      @include text-alert-error();
 
       content: '*';
       margin-top: -10px;
@@ -190,11 +190,11 @@ $input-compact-height: $input-field-height-xs;
 
     &.error,
     &.error:hover {
-      @include border-alert-danger();
-      @include text-alert-danger();
+      @include border-alert-error();
+      @include text-alert-error();
 
       &:focus {
-        @include border-alert-danger();
+        @include border-alert-error();
         @include shadow-error();
       }
 

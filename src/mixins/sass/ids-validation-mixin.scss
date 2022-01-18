@@ -31,7 +31,7 @@
   }
 
   &.error {
-    @include text-alert-danger();
+    @include text-alert-error();
 
     &.disabled {
       @include text-ruby-30();

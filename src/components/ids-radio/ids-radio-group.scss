@@ -22,7 +22,7 @@
       @include font-sans();
       @include mx-2();
       @include text-20();
-      @include text-alert-danger();
+      @include text-alert-error();
 
       content: '*';
       right: -13px;

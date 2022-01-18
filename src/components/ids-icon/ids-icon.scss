@@ -21,7 +21,7 @@
   border-radius: 4px;
   height: 6px;
   width: 6px;
-  background-color: var(--ids-color-status-danger);
+  background-color: var(--ids-color-status-warning);
   position: absolute;
 
   /**
@@ -32,11 +32,11 @@
   }
 
   &.caution {
-    background-color: var(--ids-color-status-caution);
+    background-color: var(--ids-color-status-warning);
   }
 
   &.danger {
-    background-color: var(--ids-color-status-danger);
+    background-color: var(--ids-color-status-warning);
   }
 
   &.success {

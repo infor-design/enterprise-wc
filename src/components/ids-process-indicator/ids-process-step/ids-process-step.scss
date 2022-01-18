@@ -72,7 +72,7 @@
   --primary-color: var(--ids-color-palette-azure-70);
   --active-color: var(--ids-color-palette-azure-70);
   --base-color: var(--ids-color-palette-slate-30);
-  --cancelled-color: var(--ids-color-status-danger);
+  --cancelled-color: var(--ids-color-status-warning);
 
   ids-text {
     &::part(text) {

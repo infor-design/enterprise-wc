@@ -9,8 +9,7 @@ export default class IdsText extends HTMLElement {
   disabled: boolean;
 
   /** Set the size of font to use */
-  fontSize: '10' | '12' | 'x2' | '14' | 'sm' | '16' | '20' | '24' | 'lg' |
-    '32' | 'xl' | '40' | '48' | '60' | '72' | string | null;
+  labelFontSize: 10 | 12 | 14 | 16 | 20 | 24 | 28 | 32 | 40 | 48 | 60 | 72 | string | number;
 
   /** Set the font weight */
   fontWeight: 'bold' | 'lighter' | null;
