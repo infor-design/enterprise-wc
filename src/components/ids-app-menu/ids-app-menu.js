@@ -99,7 +99,7 @@ export default class IdsAppMenu extends Base {
     if (searchfield) {
       searchfield.onSearch = (value) => {
         if (value !== '') {
-          this.#filterAccordion(value);
+          this.filterAccordion(value);
         } else {
           this.#clearFilterAccordion();
         }
@@ -107,41 +107,78 @@ export default class IdsAppMenu extends Base {
     }
   }
 
-  #filterAccordion = (value = '') => {
-    const valueRegex = new RegExp(value, 'gi');
-    const headers = [...this.accordion.querySelectorAll('ids-accordion-header')];
+  /**
+   * Performs a filter operation on accordion headers
+   * @param {string} value text value with which to filter accordion headers
+   * @returns {Array<HTMLElement>} containing matching accordion headers
+   */
+  filterAccordion = (value = '') => {
+    // Do nothing if there is no accordion, or there are no accordion headers
     let filteredHeaders = [];
-
-    if (!this.filterMarker) {
-      this.filterMarker = new IdsHighlightUtil(this.accordion);
+    if (!this.accordion) {
+      return filteredHeaders;
     }
 
+    const headers = [...this.accordion.querySelectorAll('ids-accordion-header')];
     if (!headers.length) {
       return filteredHeaders;
     }
 
+    // Establish a highlight API on the app menu, if needed
+    if (!this.filterMarker) {
+      this.filterMarker = new IdsHighlightUtil(this.accordion);
+    }
+
     // Always remove previous highlight before applying a new one
     this.filterMarker.reset();
+    this.#clearChildFilter();
 
-    // Check each accordion header for a match
-    filteredHeaders = headers.map((header) => {
+    // Check each accordion header for a match.
+    // Accordion headers are shown/hidden as needed
+    const valueRegex = new RegExp(value, 'gi');
+    filteredHeaders = headers.filter((header) => {
       const textContent = header.textContent.trim();
       const hasTextMatch = textContent.match(valueRegex);
       if (hasTextMatch) {
         // Highlight
-        header.hiddenByFilter = true;
+        if (header.hiddenByFilter) {
+          header.hiddenByFilter = false;
+        }
         filteredHeaders.push(header);
-        return header;
+        return true;
       }
 
       // Unhighlight
-      if (header.hiddenByFilter) {
-        header.hiddenByFilter = false;
+      if (!header.hiddenByFilter) {
+        header.hiddenByFilter = true;
       }
-      return undefined;
+
+      return false;
     });
 
-    // Highlight any matched headers
+    // If an accordion pane has children that match the filter result,
+    // mark the pane's header with a flag that makes it visible, but
+    // stand out less-visually than the ones that match.
+    debugger;
+    filteredHeaders.map((header) => {
+      const markParentHeader = (thisHeader) => {
+        const panel = thisHeader.panel;
+        if (panel && panel.hasParentPanel) {
+          const parentHeader = panel.parentElement.header;
+
+          if (!panel.parentExpanded) {
+            panel.parentElement.expanded = true;
+          }
+
+          parentHeader.childFilterMatch = true;
+          markParentHeader(parentHeader);
+        }
+      };
+      markParentHeader(header);
+      return header;
+    });
+
+    // Highlight the matching text inside any matched headers
     if (filteredHeaders.length) {
       this.isMarked = true;
       this.filterMarker.mark(value);
@@ -150,13 +187,31 @@ export default class IdsAppMenu extends Base {
     }
 
     return filteredHeaders;
-  }
+  };
 
+  /**
+   * Clears a navigation accordion's previous filter result
+   * @private
+   * @returns {void}
+   */
   #clearFilterAccordion() {
     const filteredHeaders = [...this.accordion.querySelectorAll('ids-accordion-header[hidden-by-filter]')];
     filteredHeaders.map((header) => {
       header.hiddenByFilter = false;
       this.filterMarker.reset();
+      return header;
+    });
+    this.#clearChildFilter();
+  }
+
+  /**
+   * Resets the "child-filter-match" attribute on any accordion headers who's children matched a previous filter result
+   * @returns {void}
+   */
+  #clearChildFilter() {
+    const childFilterMatches = [...this.accordion.querySelectorAll('[child-filter-match]')];
+    childFilterMatches.map((header) => {
+      header.childFilterMatch = false;
       return header;
     });
   }

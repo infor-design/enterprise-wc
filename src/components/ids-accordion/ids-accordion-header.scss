@@ -136,6 +136,18 @@
       @include border-slate-100();
       @include text-slate-40();
     }
+
+    // Filtered text color (standalone-CSS only)
+    .filter {
+      @include bg-white();
+      @include text-slate-100();
+
+      font-weight: bold;
+    }
+
+    &.hidden-by-filter.child-filter-match {
+      @include text-slate-60();
+    }
   }
 }
 
@@ -159,6 +171,14 @@
   ids-icon[icon='caret-down'] {
     transform: rotateX(180deg);
   }
+}
+
+:host([hidden-by-filter]) {
+  display: none;
+}
+
+:host([hidden-by-filter][child-filter-match]) {
+  display: initial;
 }
 
 .ids-accordion-header {
@@ -260,11 +280,4 @@
       @include ml-8();
     }
   }
-}
-
-// control filtered accordion highlighted text color
-mark {
-  background-color: var(--ids-color-palette-slate-10);
-  color: var(--ids-color-palette-slate-100);
-  font-weight: bold;
 }

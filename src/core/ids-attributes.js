@@ -43,6 +43,7 @@ export const attributes = {
   CHAR_REMAINING_TEXT: 'char-remaining-text',
   CHARACTER_COUNTER: 'character-counter',
   CHECKED: 'checked',
+  CHILD_FILTER_MATCH: 'child-filter-match',
   CLEARABLE: 'clearable',
   CLEARABLE_FORCED: 'clearable-forced',
   COL_END: 'col-end',

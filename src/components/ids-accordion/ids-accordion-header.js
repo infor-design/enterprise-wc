@@ -47,6 +47,7 @@ export default class IdsAccordionHeader extends Base {
       ...super.attributes,
       attributes.MODE,
       attributes.VERSION,
+      attributes.CHILD_FILTER_MATCH,
       attributes.EXPANDED,
       attributes.EXPANDER_TYPE,
       attributes.HIDDEN_BY_FILTER,
@@ -283,21 +284,30 @@ export default class IdsAccordionHeader extends Base {
   }
 
   set hiddenByFilter(val) {
-    const currentVal = this.hiddenByFilter;
-    const newVal = stringToBool(val);
-
-    if (newVal !== currentVal) {
-      if (newVal) {
-        this.setAttribute(attributes.HIDDEN_BY_FILTER, '');
-        this.container.classList.add(attributes.HIDDEN_BY_FILTER);
-      } else {
-        this.removeAttribute(attributes.HIDDEN_BY_FILTER);
-        this.container.classList.remove(attributes.HIDDEN_BY_FILTER);
-      }
+    if (stringToBool(val)) {
+      this.setAttribute(attributes.HIDDEN_BY_FILTER, '');
+      this.container.classList.add(attributes.HIDDEN_BY_FILTER);
+    } else {
+      this.removeAttribute(attributes.HIDDEN_BY_FILTER);
+      this.container.classList.remove(attributes.HIDDEN_BY_FILTER);
     }
   }
 
   get hiddenByFilter() {
+    return this.hasAttribute(attributes.HIDDEN_BY_FILTER);
+  }
+
+  set childFilterMatch(val) {
+    if (stringToBool(val)) {
+      this.setAttribute(attributes.CHILD_FILTER_MATCH, '');
+      this.container.classList.add(attributes.CHILD_FILTER_MATCH);
+    } else {
+      this.removeAttribute(attributes.CHILD_FILTER_MATCH);
+      this.container.classList.remove(attributes.CHILD_FILTER_MATCH);
+    }
+  }
+
+  get childFilterMatch() {
     return this.hasAttribute(attributes.HIDDEN_BY_FILTER);
   }
 }
