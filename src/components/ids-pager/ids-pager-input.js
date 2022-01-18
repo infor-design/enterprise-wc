@@ -4,7 +4,6 @@ import { attributes } from '../../core/ids-attributes';
 import Base from './ids-pager-input-base';
 import IdsInput from '../ids-input/ids-input';
 import IdsText from '../ids-text/ids-text';
-import IdsPagerSection from './ids-pager-section';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import styles from './ids-pager-input.scss';
@@ -54,10 +53,10 @@ export default class IdsPagerInput extends Base {
 
   connectedCallback() {
     this.input = this.shadowRoot.querySelector('ids-input');
-    this.input.input.setAttribute('aria-label', 'Input for page number');
+    this.input?.input?.setAttribute('aria-label', 'Input for page number');
 
     this.onEvent('change', this.input, () => {
-      const inputPageNumber = parseInt(this.input.input.value);
+      const inputPageNumber = Math.min(parseInt(this.input.input.value), this.pageCount);
 
       if (inputPageNumber !== this.pageNumber) {
         if (!Number.isNaN(inputPageNumber)) {
@@ -121,28 +120,42 @@ export default class IdsPagerInput extends Base {
 
   /** @param {string|number} value A 1-based page number shown */
   set pageNumber(value) {
-    let nextValue;
+    const pagerInputWebComponent = this.input;
+    const pagerInputField = pagerInputWebComponent?.input;
+    const currentPageNumber = pagerInputField?.value || 1;
+    let nexPageNumber;
 
     if (Number.isNaN(Number.parseInt(value))) {
-      nextValue = 1;
+      nexPageNumber = 1;
     } else if (Number.parseInt(value) <= 1) {
-      nextValue = 1;
+      nexPageNumber = 1;
     } else {
-      nextValue = Number.parseInt(value);
+      nexPageNumber = Number.parseInt(value);
     }
 
-    if (parseInt(nextValue) !== parseInt(this.input?.input.value)) {
-      if (this.input) {
-        this.input.value = nextValue;
-      }
-      this.setAttribute(attributes.PAGE_NUMBER, nextValue);
-      this.#updatePageCountShown();
+    const isSamePageNumber = parseInt(nexPageNumber) === parseInt(currentPageNumber);
+    if (isSamePageNumber) {
+      // no need to update if page number did not changed.
+      return;
     }
+
+    if (pagerInputWebComponent) {
+      pagerInputWebComponent.value = nexPageNumber;
+
+      if (pagerInputField) {
+        // TODO: find a way within CSS to make input-field width auto-resize
+        const inputFieldWidth = String(nexPageNumber).length;
+        pagerInputField.style.width = `${inputFieldWidth}em`;
+      }
+    }
+
+    this.setAttribute(attributes.PAGE_NUMBER, nexPageNumber);
+    this.#updatePageCountShown();
   }
 
   /** @returns {string|number} value A 1-based page number displayed */
   get pageNumber() {
-    return parseInt(this.getAttribute(attributes.PAGE_NUMBER));
+    return parseInt(this.getAttribute(attributes.PAGE_NUMBER)) || 1;
   }
 
   /** @param {string|number} value The number of items to track */
@@ -162,14 +175,16 @@ export default class IdsPagerInput extends Base {
 
   /** @returns {string|number} The number of items for pager is tracking */
   get total() {
-    return parseInt(this.getAttribute(attributes.TOTAL));
+    return parseInt(this.getAttribute(attributes.TOTAL)) || 0;
   }
 
-  /** @returns {number|null} The calculated pageCount using total and pageSize */
+  /** @returns {number} The calculated pageCount using total and pageSize */
   get pageCount() {
-    return (this.total !== null && !Number.isNaN(this.total))
-      ? Math.floor(this.total / this.pageSize)
-      : null;
+    const total = this.total || 0;
+    const pageSize = this.pageSize || 1;
+    const pageCount = Math.floor(total / pageSize);
+
+    return Math.max(pageCount, 1);
   }
 
   /** @param {boolean|string} value Whether or not to disable input at app-specified-level */
@@ -225,7 +240,8 @@ export default class IdsPagerInput extends Base {
 
   /** Updates text found in page-count within ids-text span */
   #updatePageCountShown() {
-    const pageCountShown = (this.pageCount === null) ? 'N/A' : this.pageCount;
+    const pageCount = this.pageCount;
+    const pageCountShown = (pageCount === null) ? 'N/A' : pageCount;
     this.shadowRoot.querySelector('span.page-count').textContent = pageCountShown;
   }
 
