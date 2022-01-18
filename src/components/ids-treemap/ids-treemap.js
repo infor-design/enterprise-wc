@@ -433,10 +433,10 @@ export default class IdsTreeMap extends Base {
           }
         }
 
-        requestAnimationFrame(() => resizeObserver.observe(this.container));
+        requestAnimationFrame(() => resizeObserver.observe(this));
       });
 
-      resizeObserver.observe(this.container);
+      resizeObserver.observe(this);
     });
   }
 }
