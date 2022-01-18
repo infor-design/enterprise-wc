@@ -185,6 +185,13 @@ export default class IdsSwapList extends Base {
     });
   }
 
+  /**
+   * Handle the item swap logic
+   * @param {object} e event paramater
+   * @returns {void}
+   * @private
+   * @memberof IdsSwapList
+   */
   #handleItemSwap(e) {
     if (e.target.classList.contains('left-arrow')) {
       this.#swapToPreviousList(e.target);
