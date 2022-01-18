@@ -18,14 +18,14 @@ describe('Ids Treemap e2e Tests', () => {
   it('should resize the width when the viewport changes', async () => {
     await page.setViewport({ width: 589, height: 9999, deviceScaleFactor: 1 });
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await page.waitForTimeout(400);
+    await page.waitForTimeout(420);
     let containerWidth = await page.evaluate(`document.querySelector("ids-treemap").container.offsetWidth`);
     let treemapWidth = await page.evaluate(`document.querySelector("ids-treemap").width`);
     expect(treemapWidth).toEqual(containerWidth);
 
     await page.setViewport({ width: 989, height: 9999, deviceScaleFactor: 1 });
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await page.waitForTimeout(400);
+    await page.waitForTimeout(420);
     containerWidth = await page.evaluate(`document.querySelector("ids-treemap").container.offsetWidth`);
     treemapWidth = await page.evaluate(`document.querySelector("ids-treemap").width`);
     expect(treemapWidth).toEqual(containerWidth);
