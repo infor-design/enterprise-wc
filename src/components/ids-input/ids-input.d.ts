@@ -41,6 +41,9 @@ export default class IdsInput extends HTMLElement {
   /** When set the input will render as transparent background */
   bgTransparent: boolean;
 
+  /** Sets whether the capslock indicator appears */
+  capsLock: 'true' | 'false' | boolean;
+
   /** When set the input will add a clearable x button */
   clearable: boolean;
 
@@ -62,11 +65,20 @@ export default class IdsInput extends HTMLElement {
   /** Sets the input placeholder text * */
   placeholder: string;
 
+  /** Sets whether a password type input is curretly visible */
+  passwordVisible: 'true' | 'false ' | boolean;
+
   /** Sets the size (width) of input * */
   size: 'xs' | 'sm ' | 'mm' | 'md' | 'lg' | 'full' | string;
 
+  /** Sets whether revealable password functionality is available */
+  reveablePassword: 'true' | 'false' | boolean;
+
   /** Sets the input to readonly state * */
   readonly: boolean;
+
+  /* Sets whether the input allows tabbing */
+  tabbable: boolean;
 
   /* Sets up a string based tooltip */
   tooltip?: string;
