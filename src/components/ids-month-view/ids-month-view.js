@@ -149,16 +149,6 @@ class IdsMonthView extends Base {
         font-weight="bold"
       >Today</ids-text>
     </ids-button>` : '';
-    const datepickerText = `<ids-text font-size="20" class="datepicker-text">${this.#formatMonthText()}</ids-text>`;
-    const datepicker = `<span class="datepicker" tabindex="0">
-      ${!this.compact ? datepickerText : ''}
-      <ids-text audible="true" translate-text="true">SelectDay</ids-text>
-      <ids-trigger-button>
-        <ids-text audible="true" translate-text="true">DatePickerTriggerButton</ids-text>
-        <ids-icon slot="icon" icon="schedule" class="datepicker-icon"></ids-icon>
-      </ids-trigger-button>
-      ${this.compact ? datepickerText : ''}
-    </span>`;
 
     const toolbarTemplate = `<ids-toolbar class="month-view-header" tabbable="true">
       ${!this.compact ? `
@@ -168,7 +158,12 @@ class IdsMonthView extends Base {
           ${todayBtn}
         </ids-toolbar-section>
       ` : `
-        <ids-toolbar-section>${datepicker}</ids-toolbar-section>
+        <ids-toolbar-section>
+          <ids-date-picker
+            is-dropdown="true"
+            value="${this.#formatMonthText()}"
+          ></ids-date-picker>
+        </ids-toolbar-section>
         <ids-toolbar-section align="end" type="buttonset">
           ${todayBtn}
           ${prevNextBtn}

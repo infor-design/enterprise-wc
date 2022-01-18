@@ -66,6 +66,7 @@ class IdsDatePicker extends Base {
       attributes.FORMAT,
       attributes.ID,
       attributes.IS_CALENDAR_TOOLBAR,
+      attributes.IS_DROPDOWN,
       attributes.LABEL,
       attributes.PLACEHOLDER,
       attributes.READONLY,
@@ -81,8 +82,14 @@ class IdsDatePicker extends Base {
    * @returns {string} The template
    */
   template() {
+    const classes = [
+      'ids-date-picker',
+      this.isCalendarToolbar && 'is-calendar-toolbar',
+      this.isDropdown && 'is-dropdown'
+    ].filter(Boolean).join(' ');
+
     return `
-      <div class="ids-date-picker${this.isCalendarToolbar ? ' is-calendar-toolbar' : ''}"${this.isCalendarToolbar ? ' tabindex="0"' : ''}>
+      <div class="${classes}"${this.isCalendarToolbar ? ' tabindex="0"' : ''}>
         ${this.isCalendarToolbar ? `
           <ids-text font-size="20" class="datepicker-text">${this.value}</ids-text>
           <ids-text audible="true" translate-text="true">SelectDay</ids-text>
@@ -90,7 +97,23 @@ class IdsDatePicker extends Base {
             <ids-text audible="true" translate-text="true">DatePickerTriggerButton</ids-text>
             <ids-icon slot="icon" icon="schedule" class="datepicker-icon"></ids-icon>
           </ids-trigger-button>
-        ` : `
+        ` : ``}
+        ${this.isDropdown ? `
+          <ids-button
+            icon="dropdown"
+            icon-align="end"
+            square="true"
+          >${this.value}</ids-button>
+          <ids-popup
+            type="dropdown"
+            animated="true"
+          >
+            <section slot="content">
+              <ids-text>Test</ids-text>
+            </section>
+          </ids-popup>
+        ` : ''}
+        ${(!(this.isDropdown || this.isCalendarToolbar)) ? `
           <ids-trigger-field
             id="${this.id}"
             label="${this.label}"
@@ -110,27 +133,29 @@ class IdsDatePicker extends Base {
               <ids-icon slot="icon" icon="schedule"></ids-icon>
             </ids-trigger-button>
           </ids-trigger-field>
-        `}
-        <ids-popup
-          type="menu"
-          animated="true"
-        >
-          <section slot="content">
-            <ids-month-view
-              compact="true"
-              show-today="true"
-              is-date-picker="true"
-            ></ids-month-view>
-            <div class="popup-footer">
-              <ids-button class="popup-btn-start">
-                Cancel
-              </ids-button>
-              <ids-button class="popup-btn-end">
-                Apply
-              </ids-button>
-            </div>
-          </section>
-        </ids-popup>
+        ` : ``}
+        ${!this.isDropdown ? `
+          <ids-popup
+            type="menu"
+            animated="true"
+          >
+            <section slot="content">
+              <ids-month-view
+                compact="true"
+                show-today="true"
+                is-date-picker="true"
+              ></ids-month-view>
+              <div class="popup-footer">
+                <ids-button class="popup-btn-start">
+                  Cancel
+                </ids-button>
+                <ids-button class="popup-btn-end">
+                  Apply
+                </ids-button>
+              </div>
+            </section>
+          </ids-popup>
+        ` : ``}
       <div>
     `;
   }
@@ -402,6 +427,25 @@ class IdsDatePicker extends Base {
 
     // Toggle container CSS class
     this.container.classList.toggle('is-calendar-toolbar', boolVal);
+  }
+
+  get isDropdown() {
+    const attrVal = this.getAttribute(attributes.IS_DROPDOWN);
+
+    return stringToBool(attrVal);
+  }
+
+  set isDropdown(val) {
+    const boolVal = stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.IS_DROPDOWN, boolVal);
+    } else {
+      this.removeAttribute(attributes.IS_DROPDOWN);
+    }
+
+    // Toggle container CSS class
+    this.container.classList.toggle('is-dropdown', boolVal);
   }
 }
 

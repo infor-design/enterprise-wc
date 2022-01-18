@@ -123,6 +123,7 @@ export const attributes = {
   IS_CALENDAR_TOOLBAR: 'is-calendar-toolbar',
   IS_DATEPICKER: 'is-date-picker',
   IS_DRAGGING: 'is-dragging',
+  IS_DROPDOWN: 'is-dropdown',
   ITEM_HEIGHT: 'item-height',
   JUSTIFY: 'justify',
   KEEP_OPEN: 'keep-open',
