@@ -21,4 +21,10 @@
     description: Shows a css only styles table
   - link: side-by-side.html
     description: Showing a datagrid next to a 4.x datagrid
+  - link: pagination-client-side.html
+    description: Showing a datagrid with client-side pagination
+  - link: pagination-server-side.html
+    description: Showing a datagrid with server-side pagination
+  - link: pagination-standalone.html
+    description: Showing a datagrid with standalone pagination
 

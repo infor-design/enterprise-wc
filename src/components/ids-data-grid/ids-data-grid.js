@@ -40,6 +40,14 @@ export default class IdsDataGrid extends Base {
     super();
   }
 
+  get elements() {
+    return {
+      header: this.container.querySelector('.ids-data-grid-header'),
+      labels: this.container.querySelectorAll('.ids-data-grid-header-cell.is-sortable'),
+      body: this.container.querySelector('.ids-data-grid-body'),
+    };
+  }
+
   connectedCallback() {
     this.state = { selectedRows: [], activatedRow: null };
     super.connectedCallback();
@@ -57,6 +65,7 @@ export default class IdsDataGrid extends Base {
    */
   static get attributes() {
     return [
+      ...super.attributes,
       attributes.ALTERNATE_ROW_SHADING,
       attributes.AUTO_FIT,
       attributes.LABEL,
@@ -130,6 +139,7 @@ export default class IdsDataGrid extends Base {
     template.innerHTML = html;
     this.shadowRoot.appendChild(template.content.cloneNode(true));
     this.container = this.shadowRoot.querySelector('.ids-data-grid');
+    super.rerender();
 
     // Setup virtual scrolling
     if (this.virtualScroll && this.data.length > 0) {

@@ -1,0 +1,9 @@
+---
+ component: Masthead
+ link: ids-masthead
+ description: Masthead component
+ category: Layouts
+ keywords: masthead, header, layout
+ examples:
+  - link: index.html
+    description: Shows the masthead
