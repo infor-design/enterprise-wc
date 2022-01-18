@@ -80,6 +80,32 @@ describe('IdsInput Component', () => {
     expect(input.type).toEqual('password');
   });
 
+  it('renders showable password', () => {
+    input.type = 'password';
+    input.revealablePassword = 'true';
+    input.passwordVisible = 'true';
+
+    expect(input.getAttribute('password-visible')).toBe('true');
+    expect(input.getAttribute('revealable-password')).toBe('true');
+    const showHideButton = input.shadowRoot.querySelector('.show-hide-password');
+    expect(showHideButton).toBeTruthy();
+    expect(showHideButton.text).toBe('HIDE');
+
+    input.passwordVisible = 'false';
+
+    expect(showHideButton).toBeTruthy();
+    expect(showHideButton.text).toBe('SHOW');
+  });
+
+  it('renders capslock indicator', () => {
+    input.type = 'password';
+    input.capsLock = 'true';
+    expect(input.getAttribute('caps-lock')).toBe('true');
+    const capslockEvent = new KeyboardEvent('keyup', { key: 'w', modifierCapsLock: true });
+    input.input.dispatchEvent(capslockEvent);
+    expect(input.shadowRoot.querySelector('#caps-lock-indicator')).toBeTruthy();
+  });
+
   it('renders field type of number', () => {
     input.type = 'number';
     expect(input.getAttribute('type')).toEqual('number');
@@ -643,5 +669,10 @@ describe('IdsInput Component', () => {
   it('can focus its inner Input element', () => {
     input.focus();
     expect(document.activeElement).toEqual(input);
+  });
+
+  it('can have tabbablity turned off', () => {
+    input.tabbable = false;
+    expect(input.tabIndex).toEqual(-1);
   });
 });
