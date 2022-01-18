@@ -1,5 +1,5 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import { Mark, IdsHighlightUtil } from '../../utils/ids-highlight-utils/ids-highlight-utils';
+import { IdsHighlightUtil } from '../../utils/ids-highlight-utils/ids-highlight-utils';
 
 import Base from './ids-app-base';
 import IdsDrawer from '../ids-drawer/ids-drawer';
@@ -73,14 +73,14 @@ export default class IdsAppMenu extends Base {
   }
 
   /**
-   * Stores a reference to a `Mark.js` api targeted at the accordion
+   * Stores a reference to an IdsHighlight API targeted at the accordion
    */
-  filterMarker = null;
+  filterHighlighter = null;
 
   /**
-   *
+   * @property {boolean} isFiltered true if the inner navigation accordion is currently being filtered
    */
-  isMarked = false;
+  isFiltered = false;
 
   #refreshVariants() {
     const accordions = [...this.querySelectorAll('ids-accordion')];
@@ -125,12 +125,12 @@ export default class IdsAppMenu extends Base {
     }
 
     // Establish a highlight API on the app menu, if needed
-    if (!this.filterMarker) {
-      this.filterMarker = new IdsHighlightUtil(this.accordion);
+    if (!this.filterHighlighter) {
+      this.filterHighlighter = new IdsHighlightUtil(this.accordion);
     }
 
     // Always remove previous highlight before applying a new one
-    this.filterMarker.reset();
+    this.filterHighlighter.reset();
     this.#clearChildFilter();
 
     // Check each accordion header for a match.
@@ -159,7 +159,6 @@ export default class IdsAppMenu extends Base {
     // If an accordion pane has children that match the filter result,
     // mark the pane's header with a flag that makes it visible, but
     // stand out less-visually than the ones that match.
-    debugger;
     filteredHeaders.map((header) => {
       const markParentHeader = (thisHeader) => {
         const panel = thisHeader.panel;
@@ -180,10 +179,10 @@ export default class IdsAppMenu extends Base {
 
     // Highlight the matching text inside any matched headers
     if (filteredHeaders.length) {
-      this.isMarked = true;
-      this.filterMarker.mark(value);
+      this.isFiltered = true;
+      this.filterHighlighter.mark(value);
     } else {
-      this.isMarked = false;
+      this.isFiltered = false;
     }
 
     return filteredHeaders;
@@ -198,7 +197,7 @@ export default class IdsAppMenu extends Base {
     const filteredHeaders = [...this.accordion.querySelectorAll('ids-accordion-header[hidden-by-filter]')];
     filteredHeaders.map((header) => {
       header.hiddenByFilter = false;
-      this.filterMarker.reset();
+      this.filterHighlighter.reset();
       return header;
     });
     this.#clearChildFilter();

@@ -173,10 +173,13 @@
   }
 }
 
+// "Filtered" accordion headers should not be displayed
 :host([hidden-by-filter]) {
   display: none;
 }
 
+// Parent accordion headers that have children who match the filter
+// should be displayed, but their text color is muted
 :host([hidden-by-filter][child-filter-match]) {
   display: initial;
 }
