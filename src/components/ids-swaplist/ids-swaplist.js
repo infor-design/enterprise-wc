@@ -185,6 +185,14 @@ export default class IdsSwapList extends Base {
     });
   }
 
+  #handleItemSwap(e) {
+    if (e.target.classList.contains('left-arrow')) {
+      this.#swapToPreviousList(e.target);
+    } else if (e.target.classList.contains('right-arrow')) {
+      this.#swapToNextList(e.target);
+    }
+  }
+
   /**
    * Attach event handlers
    * @memberof IdsSwapList
@@ -192,11 +200,15 @@ export default class IdsSwapList extends Base {
   attachEventHandlers() {
     this.swapButtons.forEach((b) => {
       this.onEvent('click', b, (e) => {
-        if (e.target.classList.contains('left-arrow')) {
-          this.#swapToPreviousList(e.target);
-        } else if (e.target.classList.contains('right-arrow')) {
-          this.#swapToNextList(e.target);
-        }
+        this.#handleItemSwap(e);
+      });
+
+      this.onEvent('touchend', b, (e) => {
+        this.#handleItemSwap(e);
+      });
+
+      this.listen('Enter', this.expander, (e) => {
+        this.#handleItemSwap(e);
       });
     });
   }
