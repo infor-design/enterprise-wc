@@ -8,9 +8,10 @@ The IDS Pager Component is used to provide an interface for browsing paginated d
 - Controlling the pagination or keeping track of what is browsed in a data set.
 - Presenting digestible portions of large data sets.
 
-## Sub-Components
-**`<ids-pager-section>`**: divides the different sections on a pager panel. It will automatically align itself to the left, middle, or right side of the component depending on how many sections are provided.
+## Slots
+`start` and `end` slots allow you to position content to the left or the right side of the pager panel. If no slot is provided, the child-contents of the pager component will be automatically inserted into the middle slot.
 
+## Sub-Components
 **`<ids-pager-button>`**: represents a navigation button within the pager that is flagged with an attribute flag specifying what clicking it accomplishes e.g. `first`, `last`, `previous`, or `next`.
 
 **`<ids-pager-number-list>`**: provides a list of page numbered buttons which a user can click.
@@ -26,9 +27,6 @@ The IDS Pager Component is used to provide an interface for browsing paginated d
 - `total` {number} number of items the pager tracks
 - `disabled` {boolean} whether or not to disable this pager and all navigation buttons nested inside of it
 
-### &lt;ids-pager-section&gt;
-- no applicable attributes that are user-controlled.
-
 ### &lt;ids-pager-number-list&gt;
 - `disabled` {boolean} whether to override the natural or parent-disabled functionality to specifically disable the number buttons in this component.
 
@@ -42,9 +40,6 @@ The IDS Pager Component is used to provide an interface for browsing paginated d
 
 ### IdsPager
 **container** - the overall `ids-pager` container
-
-### IdsPagerSection
-**container** - the `ids-pager-section` container
 
 ### IdsPagerButton
 **button** - the `ids-button` component
@@ -75,12 +70,12 @@ A pager with a data set that represents 20 entries per page, with 63 items overa
 A pager with numbered-page-buttons for navigation, surrounded by navigation buttons:
 ```html
 <ids-pager page-size="20" page-number="10" total="150">
-  <ids-pager-section>
+  <section>
     <ids-pager-button previous></ids-pager-button>
     <ids-pager-number-list></ids-pager-number-list>
     <ids-pager-button next></ids-pager-button>
-  </ids-pager-section>
-  <ids-pager-section>Right-Aligned Content</ids-pager-section>
+  </section>
+  <section slot="end">Right-Aligned Content</section>
 </ids-pager>
 ```
 
@@ -113,35 +108,35 @@ A pager with only the `first` button disabled:
 User-defined right aligned content:
 ```html
 <ids-pager page-size="10" total="100" page-number="2">
-  <ids-pager-section>
+  <section>
     <ids-pager-button first></ids-pager-button>
     <ids-pager-button previous></ids-pager-button>
     <ids-pager-input></ids-pager-input>
     <ids-pager-button next></ids-pager-button>
     <ids-pager-button last></ids-pager-button>
-  </ids-pager-section>
-  <ids-pager-section>
+  </section>
+  <section slot="end">
     user defined right-aligned content
-  </ids-pager-section>
+  </section>
 </ids-pager>
 ```
 
 A pager with user-defined content aligned to the left and to the right of the central navigation buttons:
 ```html
 <ids-pager page-size="10" total="100" page-number="2">
-  <ids-pager-section>
-    user defined right-aligned content
-  </ids-pager-section>
-  <ids-pager-section>
+  <section slot="start">
+    user defined left-aligned content
+  </section>
+  <section>
     <ids-pager-button first></ids-pager-button>
     <ids-pager-button previous></ids-pager-button>
     <ids-pager-input></ids-pager-input>
     <ids-pager-button next></ids-pager-button>
     <ids-pager-button last></ids-pager-button>
-  </ids-pager-section>
-  <ids-pager-section>
+  </section>
+  <section slot="end">
     user defined right-aligned content
-  </ids-pager-section>
+  </section>
 </ids-pager>
 ```
 
@@ -167,4 +162,4 @@ A pager with user-defined content aligned to the left and to the right of the ce
 
 ## Regional Considerations
 
-All elements will flip to the alternate side in Right To Left mode, including user defined content. Alignment on left and right aligned `ids-pager-section` will also flip.
+All elements will flip to the alternate side in Right To Left mode, including user defined content. Alignment on left and right aligned slots will also flip.

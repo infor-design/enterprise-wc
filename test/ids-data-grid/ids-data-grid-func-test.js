@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import '../helpers/resize-observer-mock';
 import IdsDataGrid from '../../src/components/ids-data-grid/ids-data-grid';
 import IdsDataGridFormatters from '../../src/components/ids-data-grid/ids-data-grid-formatters';
 import IdsContainer from '../../src/components/ids-container/ids-container';
@@ -963,6 +964,253 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.activatedRow).toBeTruthy();
       dataGrid.deActivateRow(1);
       expect(dataGrid.activatedRow).toBeFalsy();
+    });
+  });
+
+  describe('IdsPagerMixin Tests', () => {
+    it('renders pager', () => {
+      dataGrid.pagination = 'client-side';
+      dataGrid.pageSize = 10;
+      dataGrid.replaceWith(dataGrid);
+      expect(dataGrid).toMatchSnapshot();
+      expect(dataGrid.shadowRoot.innerHTML).toMatchSnapshot();
+    });
+
+    it('hides pager when pagination attribute is "none"', () => {
+      dataGrid.pagination = 'client-side';
+      expect(dataGrid.pagination).toBe('client-side');
+      expect(dataGrid.shadowRoot.querySelector('ids-pager')).toBeDefined();
+
+      dataGrid.pagination = 'none';
+      expect(dataGrid.pagination).toBe('none');
+      expect(dataGrid.shadowRoot.querySelector('ids-pager')).toBe(null);
+    });
+
+    it('shows pager when pagination attribute is "standalone"', () => {
+      expect(dataGrid.pagination).toBe('none');
+      expect(dataGrid.shadowRoot.querySelector('ids-pager')).toBe(null);
+
+      dataGrid.pagination = 'standalone';
+      expect(dataGrid.pagination).toBe('standalone');
+      expect(dataGrid.shadowRoot.querySelector('ids-pager')).toBeDefined();
+    });
+
+    it('shows pager when pagination attribute is "client-side"', () => {
+      expect(dataGrid.pagination).toBe('none');
+      expect(dataGrid.shadowRoot.querySelector('ids-pager')).toBe(null);
+
+      dataGrid.pagination = 'client-side';
+      expect(dataGrid.pagination).toBe('client-side');
+      expect(dataGrid.shadowRoot.querySelector('ids-pager')).toBeDefined();
+    });
+
+    it('shows pager when pagination attribute is "server-side"', () => {
+      expect(dataGrid.pagination).toBe('none');
+      expect(dataGrid.shadowRoot.querySelector('ids-pager')).toBe(null);
+
+      dataGrid.pagination = 'server-side';
+      expect(dataGrid.pagination).toBe('server-side');
+      expect(dataGrid.shadowRoot.querySelector('ids-pager')).toBeDefined();
+    });
+
+    it('has page-total attribute', () => {
+      dataGrid.pagination = 'client-side';
+      expect(dataGrid.pageTotal).toBeDefined();
+      expect(dataGrid.pageTotal).toBe(9);
+    });
+
+    it('has page-size attribute', () => {
+      dataGrid.pagination = 'client-side';
+      expect(dataGrid.pageSize).toBeDefined();
+      expect(dataGrid.pageSize).toBe(1);
+
+      dataGrid.pageSize = 25;
+      expect(dataGrid.pageSize).toBe(25);
+
+      dataGrid.pageSize = 0;
+      expect(dataGrid.pageSize).toBe(1);
+    });
+
+    it('has page-number attribute', () => {
+      dataGrid.pagination = 'client-side';
+      expect(dataGrid.pageNumber).toBeDefined();
+      expect(dataGrid.pageNumber).toBe(1);
+
+      dataGrid.pageNumber = 2;
+      expect(dataGrid.pageNumber).toBe(2);
+
+      dataGrid.pageNumber = 0;
+      expect(dataGrid.pageNumber).toBe(1);
+    });
+
+    it('always shows correct page-number in pager input-field', () => {
+      dataGrid.pagination = 'client-side';
+      dataGrid.replaceWith(dataGrid);
+
+      expect(dataGrid.pageNumber).toBe(1);
+      expect(dataGrid.pager.querySelector('ids-pager-input').input.value).toBe('1');
+
+      dataGrid.pageNumber = 3;
+
+      dataGrid.replaceWith(dataGrid);
+      expect(dataGrid.pageNumber).toBe(3);
+      expect(dataGrid.pager.querySelector('ids-pager-input').input.value).toBe('3');
+    });
+
+    it('can paginate to next page', () => {
+      dataGrid.pagination = 'client-side';
+      dataGrid.pageSize = 2;
+      dataGrid.replaceWith(dataGrid);
+
+      const { buttons } = dataGrid.pager.elements;
+      const mouseClick = new MouseEvent('click', { bubbles: true });
+
+      expect(dataGrid.pageNumber).toBe(1);
+      buttons.next.button.dispatchEvent(mouseClick);
+      expect(dataGrid.pageNumber).toBe(2);
+      buttons.next.button.dispatchEvent(mouseClick);
+      expect(dataGrid.pageNumber).toBe(3);
+    });
+
+    it('can paginate to last page', () => {
+      dataGrid.pagination = 'client-side';
+      dataGrid.pageSize = 2;
+      dataGrid.replaceWith(dataGrid);
+
+      const { buttons } = dataGrid.pager.elements;
+      const mouseClick = new MouseEvent('click', { bubbles: true });
+
+      expect(dataGrid.pageNumber).toBe(1);
+      buttons.next.button.dispatchEvent(mouseClick);
+      expect(dataGrid.pageNumber).toBe(2);
+      buttons.last.button.dispatchEvent(mouseClick);
+      expect(dataGrid.pageNumber).toBe(4);
+      buttons.last.button.dispatchEvent(mouseClick);
+      expect(dataGrid.pageNumber).toBe(4);
+    });
+
+    it('can paginate to previous page', () => {
+      dataGrid.pagination = 'client-side';
+      dataGrid.pageSize = 2;
+      dataGrid.replaceWith(dataGrid);
+
+      const { buttons } = dataGrid.pager.elements;
+      const mouseClick = new MouseEvent('click', { bubbles: true });
+
+      buttons.last.button.dispatchEvent(mouseClick);
+      expect(dataGrid.pageNumber).toBe(4);
+      buttons.previous.button.dispatchEvent(mouseClick);
+      expect(dataGrid.pageNumber).toBe(3);
+      buttons.previous.button.dispatchEvent(mouseClick);
+      expect(dataGrid.pageNumber).toBe(2);
+    });
+
+    it('can paginate to first page', () => {
+      dataGrid.pagination = 'client-side';
+      dataGrid.pageSize = 2;
+      dataGrid.replaceWith(dataGrid);
+
+      const { buttons } = dataGrid.pager.elements;
+      const mouseClick = new MouseEvent('click', { bubbles: true });
+
+      buttons.last.button.dispatchEvent(mouseClick);
+      expect(dataGrid.pageNumber).toBe(4);
+      buttons.previous.button.dispatchEvent(mouseClick);
+      expect(dataGrid.pageNumber).toBe(3);
+      buttons.first.button.dispatchEvent(mouseClick);
+      expect(dataGrid.pageNumber).toBe(1);
+    });
+
+    it.skip('paginates correctly when data-grid is sorted by column', () => {
+      dataGrid.pagination = 'client-side';
+      dataGrid.pageNumber = 1;
+      dataGrid.pageSize = 3;
+      dataGrid.replaceWith(dataGrid);
+
+      const { labels } = dataGrid.elements;
+      const { buttons } = dataGrid.pager.elements;
+      const mouseClick = new MouseEvent('click', { bubbles: true });
+
+      labels[0].dispatchEvent(mouseClick);
+      labels[0].dispatchEvent(mouseClick);
+      buttons.last.button.dispatchEvent(mouseClick);
+      expect(dataGrid.shadowRoot.innerHTML).toMatchSnapshot();
+    });
+
+    it.skip('does server-side pagination when pagination is "server-side"', () => {});
+
+    it('only fires pager events when pagination is "standalone"', () => {
+      dataGrid.pagination = 'standalone';
+      dataGrid.pageSize = 2;
+      dataGrid.pageNumber = 1;
+      dataGrid.replaceWith(dataGrid);
+
+      const { buttons } = dataGrid.pager.elements;
+      const mouseClick = new MouseEvent('click', { bubbles: true });
+
+      const pageNumberChangedListener = jest.fn();
+      dataGrid.onEvent('pagenumberchange', dataGrid.pager, pageNumberChangedListener);
+
+      expect(pageNumberChangedListener).toHaveBeenCalledTimes(0);
+
+      // page numbers shouldn't change in standalone mode
+      expect(dataGrid.pageNumber).toBe(1);
+      buttons.next.button.dispatchEvent(mouseClick);
+      expect(dataGrid.pageNumber).toBe(1);
+      buttons.next.button.dispatchEvent(mouseClick);
+      expect(dataGrid.pageNumber).toBe(1);
+
+      expect(pageNumberChangedListener).toHaveBeenCalledTimes(2);
+    });
+
+    it('shows page-size popup-menu in the end-slot', () => {
+      dataGrid.pagination = 'client-side';
+      dataGrid.pageNumber = 1;
+      dataGrid.pageSize = 3;
+      dataGrid.replaceWith(dataGrid);
+
+      const { slots } = dataGrid.pager.elements;
+      expect(slots.start).toBeDefined();
+      expect(slots.middle).toBeDefined();
+      expect(slots.end).toBeDefined();
+
+      const endSlotNodes = slots.end.assignedNodes();
+
+      expect(endSlotNodes[0].querySelector('ids-menu-button')).toBeDefined();
+      expect(endSlotNodes[0].querySelector('ids-popup-menu')).toBeDefined();
+    });
+
+    it('page-size popup-menu has options for: 10, 25, 50, 100', () => {
+      dataGrid.pagination = 'client-side';
+      dataGrid.pageNumber = 1;
+      dataGrid.pageSize = 3;
+      dataGrid.replaceWith(dataGrid);
+
+      const popupMenu = dataGrid.pager.querySelector('ids-popup-menu');
+      const select10 = popupMenu.querySelector('ids-menu-item[value="10"]');
+      const select25 = popupMenu.querySelector('ids-menu-item[value="25"]');
+      const select50 = popupMenu.querySelector('ids-menu-item[value="50"]');
+      const select100 = popupMenu.querySelector('ids-menu-item[value="100"]');
+
+      expect(select10).toBeDefined();
+      expect(select25).toBeDefined();
+      expect(select50).toBeDefined();
+      expect(select100).toBeDefined();
+
+      const mouseClick = new MouseEvent('click', { bubbles: true });
+      const menuButton = dataGrid.pager.querySelector('ids-menu-button');
+
+      select10.dispatchEvent(mouseClick);
+      expect(menuButton.textContent).toContain('10 Records per page');
+
+      select25.dispatchEvent(mouseClick);
+      expect(menuButton.textContent).toContain('25 Records per page');
+
+      select50.dispatchEvent(mouseClick);
+      expect(menuButton.textContent).toContain('50 Records per page');
+
+      select100.dispatchEvent(mouseClick);
+      expect(menuButton.textContent).toContain('100 Records per page');
     });
   });
 });
