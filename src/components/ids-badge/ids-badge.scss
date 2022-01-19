@@ -42,18 +42,19 @@
   }
 
   &[color='error'] {
-    background-color: var(--ids-color-status-warning);
-    border-color: var(--ids-color-status-warning);
+    @include bg-alert-error();
+    @include border-alert-error();
   }
 
-  &[color='alert'] {
-    background-color: var(--ids-color-status-warning);
-    border-color: var(--ids-color-status-warning);
+  &[color='alert'],
+  &[color='warning'] {
+    @include bg-alert-warning();
+    @include border-alert-warning();
   }
 
   &[color='info'] {
-    background-color: var(--ids-color-status-base);
-    border-color: var(--ids-color-status-base);
+    @include bg-alert-info();
+    @include border-alert-info();
   }
 
   ::slotted(ids-icon) {

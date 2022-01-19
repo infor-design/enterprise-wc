@@ -72,7 +72,6 @@
   --primary-color: var(--ids-color-palette-azure-70);
   --active-color: var(--ids-color-palette-azure-70);
   --base-color: var(--ids-color-palette-slate-30);
-  --cancelled-color: var(--ids-color-status-warning);
 
   ids-text {
     &::part(text) {
@@ -118,7 +117,6 @@
     --bg-color: var(--ids-color-palette-slate-10);
     --active-color: var(--ids-color-palette-azure-50);
     --primary-color: var(--ids-color-palette-azure-100);
-    --cancelled-color: #7b0f11;
 
     ids-text::part(text) {
       color: var(--ids-color-palette-slate-90);
@@ -149,9 +147,10 @@
 // step styling based on status
 :host([status='cancelled']) {
   .step {
+    @include bg-alert-error();
+
     width: 18px;
     height: 18px;
-    background-color: var(--cancelled-color);
     border: 0;
     justify-content: center;
 
@@ -160,6 +159,26 @@
       justify-content: center;
       color: var(--bg-color);
     }
+  }
+}
+
+:host([status='cancelled'][mode='dark']) {
+  .step {
+    @include bg-alert-dark-error();
+
+    ids-icon {
+      color: var(--ids-color-palette-white);
+    }
+  }
+}
+
+:host([status='cancelled'][mode='contrast']) {
+  .step {
+    @include bg-alert-contrast-error();
+  }
+
+  ids-icon {
+    color: var(--ids-color-palette-white);
   }
 }
 
