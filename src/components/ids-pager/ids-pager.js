@@ -5,7 +5,6 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 // Import Utils
 import Base from './ids-pager-base';
 
-import IdsPagerSection from './ids-pager-section';
 import IdsPagerButton from './ids-pager-button';
 import IdsPagerInput from './ids-pager-input';
 import IdsPagerNumberList from './ids-pager-number-list';
@@ -41,6 +40,23 @@ export default class IdsPager extends Base {
     super();
   }
 
+  get elements() {
+    return {
+      buttons: {
+        first: this.querySelector('ids-pager-button[first]'),
+        previous: this.querySelector('ids-pager-button[previous]'),
+        next: this.querySelector('ids-pager-button[next]'),
+        last: this.querySelector('ids-pager-button[last]'),
+      },
+      input: this.querySelector('ids-pager-input'),
+      slots: {
+        start: this.container.querySelector('.pager-section.start slot'),
+        middle: this.container.querySelector('.pager-section.middle slot'),
+        end: this.container.querySelector('.pager-section.end slot'),
+      }
+    };
+  }
+
   static get attributes() {
     return [
       attributes.DISABLED,
@@ -53,48 +69,21 @@ export default class IdsPager extends Base {
   }
 
   template() {
-    if (!this.hasSectionContainers()) {
-      return (
-        `<ids-pager-section><slot></slot></ids-pager-section>`
-      );
-    }
-
     return (
       `<div class="ids-pager">
-        <slot></slot>
+        <section class="pager-section start"><slot name="start"></slot></section>
+        <section class="pager-section middle" role="navigation"><slot></slot></section>
+        <section class="pager-section end"><slot name="end"></slot></section>
       </div>`
     );
   }
 
   connectedCallback() {
-    this.#contentObserver.observe(this, {
-      childList: true,
-      attributes: true,
-      attributeFilter: [attributes.ALIGN],
-      subtree: true
-    });
-
-    this.#normalizeSectionContainers();
-
     this.onEvent('pagenumberchange', this, (e) => {
       this.pageNumber = e.detail.value;
     });
 
     super.connectedCallback?.();
-  }
-
-  /**
-   * @returns {boolean} Whether or not IdsPageSection containers were
-   * provided to content
-   */
-  hasSectionContainers() {
-    for (const el of this.children) {
-      if (el instanceof IdsPagerSection) {
-        return true;
-      }
-    }
-
-    return false;
   }
 
   /**
@@ -212,51 +201,6 @@ export default class IdsPager extends Base {
     return parseInt(this.getAttribute(attributes.TOTAL));
   }
 
-  /**
-   * Updates the state of the section containers so
-   * a user doesn't have to manually input the
-   * ids-section-container boilerplate as well as
-   * alignment e.g. adds start/end attributes as needed for
-   * their styling, and adds an extra left section
-   * if only 2 sections exist for alignment sake to
-   * keep things simple
-   * @private
-   */
-  #normalizeSectionContainers() {
-    if (!this.hasSectionContainers()) {
-      this.shadowRoot.querySelector('ids-pager-section')
-        .setAttribute('role', 'navigation');
-      return;
-    }
-
-    switch (this.children.length) {
-    case 3:
-      this.children[0].setAttribute(attributes.ALIGN, 'start');
-      this.children[2].setAttribute(attributes.ALIGN, 'end');
-      break;
-    case 2: {
-      this.children[1].setAttribute(attributes.ALIGN, 'end');
-
-      // insert an empty pager-section to the left
-      // of the 2nd element for alignment purposes
-
-      const sectionTemplate = document.createElement('template');
-      sectionTemplate.innerHTML = (
-        '<ids-pager-section align="start"></ids-pager-section>'
-      );
-      const emptySection = sectionTemplate.content.childNodes[0];
-      document.body.appendChild(emptySection);
-      this.insertBefore(emptySection, this.children[0]);
-      break;
-    }
-    case 1:
-      break;
-    default: {
-      break;
-    }
-    }
-  }
-
   #keepPageNumberInBounds() {
     let nextValue = parseInt(this.getAttribute(attributes.PAGE_NUMBER));
 
@@ -272,13 +216,4 @@ export default class IdsPager extends Base {
       this.setAttribute(attributes.PAGE_NUMBER, nextValue);
     }
   }
-
-  /** Observes changes in content/layout */
-  #contentObserver = new MutationObserver((mutations) => {
-    for (const m of mutations) {
-      if (m.type === 'childList') {
-        this.#normalizeSectionContainers();
-      }
-    }
-  });
 }
