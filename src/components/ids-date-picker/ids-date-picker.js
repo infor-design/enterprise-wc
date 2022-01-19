@@ -3,7 +3,7 @@ import { attributes } from '../../core/ids-attributes';
 
 import Base from './ids-date-picker-base';
 
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { stringToBool, buildClassAttrib } from '../../utils/ids-string-utils/ids-string-utils';
 import { isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
 
 // Supporting components
@@ -83,14 +83,14 @@ class IdsDatePicker extends Base {
    * @returns {string} The template
    */
   template() {
-    const classes = [
+    const classAttr = buildClassAttrib(
       'ids-date-picker',
       this.isCalendarToolbar && 'is-calendar-toolbar',
       this.isDropdown && 'is-dropdown'
-    ].filter(Boolean).join(' ');
+    );
 
     return `
-      <div class="${classes}"${this.isCalendarToolbar ? ' tabindex="0"' : ''}>
+      <div ${classAttr} ${this.isCalendarToolbar ? ' tabindex="0"' : ''}>
         ${this.isCalendarToolbar ? `
           <ids-text font-size="20" class="datepicker-text">${this.value}</ids-text>
           <ids-text audible="true" translate-text="true">SelectDay</ids-text>

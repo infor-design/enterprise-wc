@@ -159,10 +159,18 @@ class IdsMonthView extends Base {
         </ids-toolbar-section>
       ` : `
         <ids-toolbar-section>
-          <ids-date-picker
-            is-dropdown="true"
-            value="${this.#formatMonthText()}"
-          ></ids-date-picker>
+          <div class="datepicker-section">
+            ${!this.isDatePicker ? `
+              <ids-trigger-button>
+                <ids-text audible="true" translate-text="true">DatePickerTriggerButton</ids-text>
+                <ids-icon slot="icon" icon="schedule" class="trigger-icon"></ids-icon>
+              </ids-trigger-button>
+            ` : ''}
+            <ids-date-picker
+              is-dropdown="true"
+              value="${this.#formatMonthText()}"
+            ></ids-date-picker>
+          </div>
         </ids-toolbar-section>
         <ids-toolbar-section align="end" type="buttonset">
           ${todayBtn}

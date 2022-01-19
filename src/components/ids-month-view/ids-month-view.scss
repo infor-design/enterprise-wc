@@ -52,6 +52,16 @@
     border-spacing: 0;
     border-collapse: collapse;
   }
+
+  .datepicker-section {
+    @include flex();
+
+    align-items: center;
+  }
+
+  .trigger-icon {
+    @include text-azure-60();
+  }
 }
 
 // Compact view
@@ -303,8 +313,7 @@
     @include bg-slate-80();
   }
 
-  .month-view-today-text,
-  &.is-compact .datepicker-icon {
+  .month-view-today-text {
     @include text-azure-60();
   }
 
@@ -395,7 +404,7 @@
   }
 
   .month-view-today-text,
-  &.is-compact .datepicker-icon {
+  &.is-compact .trigger-icon {
     @include text-azure-90();
   }
 

@@ -19,7 +19,6 @@ import IdsButton from '../ids-button/ids-button';
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsText from '../ids-text/ids-text';
 import IdsToolbar from '../ids-toolbar/ids-toolbar';
-import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 
