@@ -37,21 +37,21 @@ const createAppMenu = async () => elemBuilder.createElemFromTemplate(`<ids-app-m
       <ids-accordion-header id="h3" slot="header">
         <ids-text>Third Pane</ids-text>
       </ids-accordion-header>
-      <ids-accordion-pane slot="content" id="sp1">
+      <ids-accordion-panel slot="content" id="sp1">
         <ids-accordion-header id="sh1" slot="header">
-          <ids-text>Sub-Pane 1</ids-text>
+          <ids-text font-size="14">Sub-Pane 1</ids-text>
         </ids-accordion-header>
-      </ids-accordion-pane>
-      <ids-accordion-pane slot="content" id="sp2">
+      </ids-accordion-panel>
+      <ids-accordion-panel slot="content" id="sp2">
         <ids-accordion-header id="sh2" slot="header">
-          <ids-text>Sub-Pane 2</ids-text>
+          <ids-text font-size="14">Sub-Pane 2</ids-text>
         </ids-accordion-header>
-      </ids-accordion-pane>
-      <ids-accordion-pane slot="content" id="sp3">
+      </ids-accordion-panel>
+      <ids-accordion-panel slot="content" id="sp3">
         <ids-accordion-header id="sh3" slot="header">
-          <ids-text>Sub-Pane 3</ids-text>
+          <ids-text font-size="14">Sub-Pane 3</ids-text>
         </ids-accordion-header>
-      </ids-accordion-pane>
+      </ids-accordion-panel>
     </ids-accordion-panel>
   </ids-accordion>
 </ids-app-menu>`);
@@ -136,7 +136,6 @@ describe('IdsAppMenu Component', () => {
 
     // Filter for a top-level match...
     searchField.value = 'Second';
-    await processAnimFrame();
 
     // ...all but "Second Pane" are hidden
     let hiddenEls = appMenuElem.querySelectorAll('[hidden-by-filter]');
@@ -144,7 +143,6 @@ describe('IdsAppMenu Component', () => {
 
     // Clear filter by clearing the search field value...
     searchField.value = '';
-    await processAnimFrame();
 
     // ...no headers should be filtered out
     hiddenEls = appMenuElem.querySelectorAll('[hidden-by-filter]');
@@ -152,11 +150,10 @@ describe('IdsAppMenu Component', () => {
 
     // Filter for a child match...
     searchField.value = 'Sub-Pane';
-    await processAnimFrame();
 
     // ...one header should be tagged as having a child match
     hiddenEls = appMenuElem.querySelectorAll('[hidden-by-filter]');
     expect(hiddenEls.length).toBe(3);
-    expect(document.querySelector('#h3').getAttribute('child-filter-match')).toBeTruthy();
+    expect(document.querySelector('#h3').hasAttribute('child-filter-match')).toBeTruthy();
   });
 });

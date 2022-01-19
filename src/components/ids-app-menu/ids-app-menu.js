@@ -135,8 +135,7 @@ export default class IdsAppMenu extends Base {
     }
 
     // Always remove previous highlight before applying a new one
-    this.filterHighlighter.reset();
-    this.#clearChildFilter();
+    this.clearFilterAccordion();
 
     // Check each accordion header for a match.
     // Accordion headers are shown/hidden as needed
@@ -202,9 +201,9 @@ export default class IdsAppMenu extends Base {
     const filteredHeaders = [...this.accordion.querySelectorAll('ids-accordion-header[hidden-by-filter]')];
     filteredHeaders.map((header) => {
       header.hiddenByFilter = false;
-      this.filterHighlighter.reset();
       return header;
     });
+    this.filterHighlighter.reset();
     this.#clearChildFilter();
   }
 

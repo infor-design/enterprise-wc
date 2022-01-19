@@ -15,7 +15,7 @@
 <ids-app-menu id="app-menu">
   <img slot="avatar" src="/assets/avatar-placeholder.jpg" alt="Picture of Richard Fairbanks" />
   <ids-text slot="username" font-size="24" font-weight="bold">Richard Fairbanks</ids-text>
-  <ids-search-field id="search" slot="search" label=""></ids-search-field>
+  <ids-search-field id="search" color-variant="app-menu" slot="search" label=""></ids-search-field>
   <ids-accordion>
     <ids-accordion-panel id="p1">
       <ids-accordion-header id="h1" slot="header">
@@ -31,21 +31,21 @@
       <ids-accordion-header id="h3" slot="header">
         <ids-text>Third Pane</ids-text>
       </ids-accordion-header>
-      <ids-accordion-pane slot="content" id="sp1">
+      <ids-accordion-panel slot="content" id="sp1">
         <ids-accordion-header id="sh1" slot="header">
-          <ids-text>Sub-Pane 1</ids-text>
+          <ids-text font-size="14">Sub-Pane 1</ids-text>
         </ids-accordion-header>
-      </ids-accordion-pane>
-      <ids-accordion-pane slot="content" id="sp2">
+      </ids-accordion-panel>
+      <ids-accordion-panel slot="content" id="sp2">
         <ids-accordion-header id="sh2" slot="header">
-          <ids-text>Sub-Pane 2</ids-text>
+          <ids-text font-size="14">Sub-Pane 2</ids-text>
         </ids-accordion-header>
-      </ids-accordion-pane>
-      <ids-accordion-pane slot="content" id="sp3">
+      </ids-accordion-panel>
+      <ids-accordion-panel slot="content" id="sp3">
         <ids-accordion-header id="sh3" slot="header">
-          <ids-text>Sub-Pane 3</ids-text>
+          <ids-text font-size="14">Sub-Pane 3</ids-text>
         </ids-accordion-header>
-      </ids-accordion-pane>
+      </ids-accordion-panel>
     </ids-accordion-panel>
   </ids-accordion>
 </ids-app-menu>
