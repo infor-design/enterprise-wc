@@ -156,4 +156,31 @@ describe('IdsAppMenu Component', () => {
     expect(hiddenEls.length).toBe(3);
     expect(document.querySelector('#h3').hasAttribute('child-filter-match')).toBeTruthy();
   });
+
+  it('filters its navigation using its API', async () => {
+    const searchField = appMenuElem.querySelector('#search');
+    expect(searchField).toBeDefined();
+
+    // Filter for a top-level match...
+    appMenuElem.filterAccordion('Second');
+
+    // ...all but "Second Pane" are hidden
+    let hiddenEls = appMenuElem.querySelectorAll('[hidden-by-filter]');
+    expect(hiddenEls.length).toBe(5);
+
+    // Clear filter by clearing the search field value...
+    appMenuElem.clearFilterAccordion();
+
+    // ...no headers should be filtered out
+    hiddenEls = appMenuElem.querySelectorAll('[hidden-by-filter]');
+    expect(hiddenEls.length).toBe(0);
+
+    // Filter for a child match...
+    appMenuElem.filterAccordion('Sub-Pane');
+
+    // ...one header should be tagged as having a child match
+    hiddenEls = appMenuElem.querySelectorAll('[hidden-by-filter]');
+    expect(hiddenEls.length).toBe(3);
+    expect(document.querySelector('#h3').hasAttribute('child-filter-match')).toBeTruthy();
+  });
 });
