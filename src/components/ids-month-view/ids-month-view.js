@@ -205,6 +205,15 @@ class IdsMonthView extends Base {
     } else {
       this.offEvent('click.month-view-today');
     }
+
+    this.offEvent('dayselected.month-view-datepicker');
+    this.onEvent('dayselected.month-view-datepicker', this.container.querySelector('ids-date-picker'), (e) => {
+      const date = e.detail.date;
+
+      this.day = date.getDate();
+      this.year = date.getFullYear();
+      this.month = date.getMonth();
+    });
   }
 
   /**

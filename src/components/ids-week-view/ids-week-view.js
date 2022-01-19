@@ -172,6 +172,18 @@ export default class IdsWeekView extends Base {
     } else {
       this.offEvent('click.week-view-today');
     }
+
+    this.offEvent('dayselected.week-view-datepicker');
+    this.onEvent('dayselected.week-view-datepicker', this.container.querySelector('ids-date-picker'), (e) => {
+      const date = e.detail.date;
+      const diff = daysDiff(this.startDate, this.endDate);
+      const hasIrregularDays = diff !== 7;
+
+      this.startDate = hasIrregularDays ? date : firstDayOfWeekDate(date, this.firstDayOfWeek);
+      this.endDate = addDate(this.startDate, diff - 1, 'days');
+
+      this.#renderTimeline();
+    });
   }
 
   /**

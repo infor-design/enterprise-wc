@@ -181,15 +181,45 @@ class IdsDatePicker extends Base {
       this.#applyMask();
     });
 
-    this.offEvent('click.date-picker');
-    this.onEvent('click.date-picker', this.#triggerButton, () => {
+    this.offEvent('click.date-picker-popup');
+    this.onEvent('click.date-picker-popup', this.#triggerButton, () => {
       this.#togglePopup(!this.#popup.visible);
     });
 
     this.offEvent('dayselected.date-picker');
     this.onEvent('dayselected.date-picker', this.#monthView, (e) => {
-      this.value = this.locale.formatDate(e.detail.date);
+      if (!(this.isCalendarToolbar || this.isDropdown)) {
+        this.value = this.locale.formatDate(e.detail.date);
+        this.#input?.focus();
+      }
+
       this.#togglePopup(false);
+      this.#triggerSelectedEvent();
+    });
+
+    this.offEvent('click.date-picker-clear');
+    this.onEvent('click.date-picker-clear', this.container.querySelector('.popup-btn-start'), (e) => {
+      e.stopPropagation();
+
+      if (!(this.isCalendarToolbar || this.isDropdown)) {
+        this.value = '';
+        this.#input?.focus();
+        this.#triggerSelectedEvent();
+      }
+
+      this.#togglePopup(false);
+    });
+
+    this.offEvent('click.date-picker-apply');
+    this.onEvent('click.date-picker-apply', this.container.querySelector('.popup-btn-end'), (e) => {
+      e.stopPropagation();
+
+      const { month, year, day } = this.#monthView;
+
+      this.value = this.locale.formatDate(new Date(year, month, day));
+      this.#togglePopup(false);
+      this.#input?.focus();
+      this.#triggerSelectedEvent();
     });
 
     return this;
@@ -234,6 +264,24 @@ class IdsDatePicker extends Base {
 
       this.container.classList.remove('is-open');
     }
+  }
+
+  /**
+   * Trigger selected event with current params
+   * @returns {void}
+   */
+  #triggerSelectedEvent() {
+    const { year, month, day } = this.#monthView;
+
+    const date = new Date(year, month, day);
+    const args = {
+      detail: {
+        elem: this,
+        date,
+      }
+    };
+
+    this.triggerEvent('dayselected', this, args);
   }
 
   #setupMonthView() {
