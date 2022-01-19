@@ -1,6 +1,8 @@
 @import '../../core/ids-base';
 
 .ids-date-picker {
+  display: inline-block;
+
   // Fixes input doesn't stretch to lg size and up
   ids-input {
     max-width: 100%;
@@ -10,6 +12,10 @@
     @include w-full();
 
     max-width: 330px;
+  }
+
+  ids-trigger-field::part(field) {
+    display: inline-block;
   }
 
   ids-popup::part(popup) {
@@ -60,6 +66,21 @@
         box-shadow: 0 0 4px 2px rgba(41 41 41 / 0.3);
       }
     }
+  }
+
+  // Dropdown
+  .dropdown-btn::part(button) {
+    @include rounded-default();
+    @include text-slate-100();
+    @include p-4();
+  }
+
+  &[mode='dark'] .dropdown-btn::part(button) {
+    @include text-white();
+  }
+
+  &[mode='contrast'] .dropdown-btn::part(button) {
+    @include text-black();
   }
 }
 

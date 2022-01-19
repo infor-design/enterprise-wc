@@ -231,10 +231,10 @@ class IdsMonthView extends Base {
    */
   #attachDatepickerText() {
     const text = this.#formatMonthText();
-    const el = this.container.querySelector('.datepicker-text');
+    const datepicker = this.container.querySelector('ids-date-picker');
 
-    if (!this.#isRange() && el) {
-      el.innerText = text;
+    if (!this.#isRange() && datepicker) {
+      datepicker.value = text;
     }
   }
 

@@ -38,9 +38,9 @@ describe('Ids Week View e2e Tests', () => {
     const weekDay = await page.$eval(name, (el) =>
       el.shadowRoot.querySelector('.week-view-header-day-of-week:not(.is-emphasis)').textContent);
 
-    // Month range in toolbar
+    // Month range in calendar toolbar datepicker
     const monthYear = await page.$eval(name, (el) =>
-      el.shadowRoot.querySelector('.datepicker-text').textContent);
+      el.shadowRoot.querySelector('ids-date-picker').value);
 
     expect(hasCssClass).toBeTruthy();
     expect(dayNumeric).toEqual('8');
@@ -93,7 +93,7 @@ describe('Ids Week View e2e Tests', () => {
 
     // Month range
     let monthYear = await page.$eval(name, (el) =>
-      el.shadowRoot.querySelector('.datepicker-text').textContent);
+      el.shadowRoot.querySelector('ids-date-picker').value);
 
     expect(monthYear).toEqual('Nov - December 2021');
 
@@ -116,7 +116,7 @@ describe('Ids Week View e2e Tests', () => {
 
     // Month range
     monthYear = await page.$eval(name, (el) =>
-      el.shadowRoot.querySelector('.datepicker-text').textContent);
+      el.shadowRoot.querySelector('ids-date-picker').value);
 
     expect(monthYear).toEqual('Dec 2021 - Jan 2022');
   });

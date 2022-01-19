@@ -7,7 +7,8 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
 
 // Supporting components
-import IdsModalButton from '../ids-modal-button/ids-modal-button';
+import IdsButton from '../ids-button/ids-button';
+import IdsMenuButton from '../ids-menu-button/ids-menu-button';
 import IdsDropdown from '../ids-dropdown/ids-dropdown';
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsInput from '../ids-input/ids-input';
@@ -99,19 +100,10 @@ class IdsDatePicker extends Base {
           </ids-trigger-button>
         ` : ``}
         ${this.isDropdown ? `
-          <ids-button
-            icon="dropdown"
-            icon-align="end"
-            square="true"
-          >${this.value}</ids-button>
-          <ids-popup
-            type="dropdown"
-            animated="true"
-          >
-            <section slot="content">
-              <ids-text>Test</ids-text>
-            </section>
-          </ids-popup>
+          <ids-menu-button
+            class="dropdown-btn"
+            dropdown-icon
+          ><ids-text font-size="20" class="dropdown-btn-text" slot="text" bold>${this.value}</ids-text></ids-menu-button>
         ` : ''}
         ${(!(this.isDropdown || this.isCalendarToolbar)) ? `
           <ids-trigger-field
@@ -227,7 +219,7 @@ class IdsDatePicker extends Base {
       const { bottom } = this.#triggerButton.getBoundingClientRect();
       const positionBottom = (bottom + 100) < window.innerHeight;
 
-      this.#popup.alignTarget = this.container;
+      this.#popup.alignTarget = this.isDropdown ? this.container : this.#input;
       this.#popup.arrowTarget = this.#triggerButton;
       this.#popup.align = positionBottom ? 'bottom, left' : 'top, left';
       this.#popup.arrow = positionBottom ? 'bottom' : 'top';
@@ -252,9 +244,20 @@ class IdsDatePicker extends Base {
   }
 
   set value(val) {
+    const textEl = this.container.querySelector('.datepicker-text');
+    const dropdownEl = this.container.querySelector('.dropdown-btn-text');
+
     if (!this.disabled && !this.readonly) {
       this.setAttribute(attributes.VALUE, val);
       this.#input?.setAttribute(attributes.VALUE, val);
+
+      if (textEl) {
+        textEl.innerText = val;
+      }
+
+      if (dropdownEl) {
+        dropdownEl.innerText = val;
+      }
     }
   }
 
