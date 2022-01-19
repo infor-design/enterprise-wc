@@ -6,5 +6,6 @@
 - [ ] add categories
 
 ## related to #439
-- [ ] add `app-menu` style
-- [ ] trigger callbacks/events/etc for when results should be retreived/filtered
+- [x] add default `app-menu` color variant
+- [ ] add dark/contrast/classic theme colors for app-menu color variant
+- [x] trigger callbacks/events/etc for when results should be retreived/filtered
