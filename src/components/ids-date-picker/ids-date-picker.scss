@@ -63,6 +63,27 @@
     }
   }
 
+  // Is open state
+  &.is-open:not(.is-dropdown) {
+    ids-trigger-button::part(button) {
+      @include text-azure-60();
+    }
+
+    ids-trigger-field::part(content) {
+      @include border-azure-60();
+    }
+  }
+
+  &[mode='contrast'].is-open:not(.is-dropdown) {
+    ids-trigger-button::part(button) {
+      @include text-azure-90();
+    }
+
+    ids-trigger-field::part(content) {
+      @include border-azure-90();
+    }
+  }
+
   // Popup container and popup buttons
   ids-popup::part(popup) {
     padding-top: 0;

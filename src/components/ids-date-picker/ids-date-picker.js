@@ -226,9 +226,13 @@ class IdsDatePicker extends Base {
       this.#popup.align = positionBottom ? 'bottom, left' : 'top, left';
       this.#popup.arrow = positionBottom ? 'bottom' : 'top';
       this.#popup.y = 16;
+
+      this.container.classList.add('is-open');
     } else {
       this.removeOpenEvents();
       this.#popup.visible = false;
+
+      this.container.classList.remove('is-open');
     }
   }
 
