@@ -77,16 +77,20 @@
 
   &[color='error'] {
     @include text-white();
+    @include bg-alert-dark-error();
+    @include border-alert-dark-error();
+  }
 
-    background-color: var(--ids-color-status-warning);
-    border-color: var(--ids-color-status-warning);
+  &[color='alert'],
+  &[color='warning'] {
+    @include bg-alert-dark-warning();
+    @include border-alert-dark-warning();
   }
 
   &[color='info'] {
     @include text-white();
-
-    background-color: var(--ids-color-status-base);
-    border-color: var(--ids-color-status-base);
+    @include bg-alert-dark-info();
+    @include border-alert-dark-info();
   }
 }
 
@@ -97,16 +101,20 @@
 
   &[color='error'] {
     @include text-white();
-
-    background-color: var(--ids-color-palette-ruby-80);
-    border-color: var(--ids-color-palette-ruby-80);
+    @include bg-alert-contrast-error();
+    @include border-alert-contrast-error();
   }
 
   &[color='info'] {
     @include text-white();
+    @include bg-alert-contrast-info();
+    @include border-alert-contrast-info();
+  }
 
-    background-color: var(--ids-color-palette-azure-80);
-    border-color: var(--ids-color-palette-azure-80);
+  &[color='alert'],
+  &[color='warning'] {
+    @include bg-alert-contrast-warning();
+    @include border-alert-contrast-warning();
   }
 }
 
