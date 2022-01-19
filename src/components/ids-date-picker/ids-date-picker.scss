@@ -18,11 +18,6 @@
     display: inline-block;
   }
 
-  ids-popup::part(popup) {
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-
   // In calendar toolbar
   &.is-calendar-toolbar {
     @include flex();
@@ -66,6 +61,89 @@
         box-shadow: 0 0 4px 2px rgba(41 41 41 / 0.3);
       }
     }
+  }
+
+  // Popup container and popup buttons
+  ids-popup::part(popup) {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  &[mode='dark'] ids-popup::part(popup) {
+    @include bg-slate-80();
+  }
+
+  .popup-footer {
+    @include flex();
+
+    margin-top: 10px;
+  }
+
+  .popup-btn {
+    width: 50%;
+  }
+
+  .popup-btn::part(button) {
+    @include flex();
+    @include py-12();
+    @include rounded-none();
+
+    justify-content: center;
+
+    &:not(:focus) {
+      @include border-1();
+      @include border-transparent();
+
+      border-top-color: var(--ids-color-palette-slate-30);
+    }
+  }
+
+  &[mode='dark'] .popup-btn::part(button):not(:focus) {
+    border-top-color: var(--ids-color-palette-slate-50);
+  }
+
+  .popup-btn-start::part(button) {
+    @include text-slate-60();
+
+    &:not(:focus) {
+      border-right-color: var(--ids-color-palette-slate-30);
+    }
+
+    &:hover {
+      @include text-slate-100();
+    }
+  }
+
+  &[mode='dark'] .popup-btn-start::part(button) {
+    @include text-slate-30();
+
+    &:not(:focus) {
+      border-right-color: var(--ids-color-palette-slate-50);
+    }
+
+    &:hover {
+      @include text-white();
+    }
+  }
+
+  &[mode='contrast'] .popup-btn-start::part(button) {
+    @include text-slate-80();
+
+    &:hover {
+      @include text-slate-50();
+    }
+  }
+
+  .popup-btn-end::part(button) {
+    @include text-azure-70();
+  }
+
+  &[mode='dark'] .popup-btn-end::part(button) {
+    @include text-azure-60();
+  }
+
+  &[mode='contrast'] .popup-btn-end::part(button) {
+    @include text-azure-90();
   }
 
   // Dropdown

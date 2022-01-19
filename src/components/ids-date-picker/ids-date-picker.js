@@ -103,7 +103,9 @@ class IdsDatePicker extends Base {
           <ids-menu-button
             class="dropdown-btn"
             dropdown-icon
-          ><ids-text font-size="20" class="dropdown-btn-text" slot="text" bold>${this.value}</ids-text></ids-menu-button>
+          >
+            <ids-text slot="text" class="dropdown-btn-text" font-size="20">${this.value}</ids-text>
+          </ids-menu-button>
         ` : ''}
         ${(!(this.isDropdown || this.isCalendarToolbar)) ? `
           <ids-trigger-field
@@ -138,11 +140,11 @@ class IdsDatePicker extends Base {
                 is-date-picker="true"
               ></ids-month-view>
               <div class="popup-footer">
-                <ids-button class="popup-btn-start">
-                  Cancel
+                <ids-button class="popup-btn popup-btn-start">
+                  <ids-text translate-text="true" font-weight="bold">${this.isCalendarToolbar ? 'Cancel' : 'Clear'}</ids-text>
                 </ids-button>
-                <ids-button class="popup-btn-end">
-                  Apply
+                <ids-button class="popup-btn popup-btn-end">
+                  <ids-text translate-text="true" font-weight="bold">Apply</ids-text>
                 </ids-button>
               </div>
             </section>
@@ -219,7 +221,7 @@ class IdsDatePicker extends Base {
       const { bottom } = this.#triggerButton.getBoundingClientRect();
       const positionBottom = (bottom + 100) < window.innerHeight;
 
-      this.#popup.alignTarget = this.isDropdown ? this.container : this.#input;
+      this.#popup.alignTarget = (this.isDropdown || this.isCalendarToolbar) ? this.container : this.#input;
       this.#popup.arrowTarget = this.#triggerButton;
       this.#popup.align = positionBottom ? 'bottom, left' : 'top, left';
       this.#popup.arrow = positionBottom ? 'bottom' : 'top';
