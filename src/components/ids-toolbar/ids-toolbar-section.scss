@@ -70,6 +70,10 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
     @include px-12();
   }
 
+  // ================================================
+  // Toolbar Types & Color Variants
+
+  // Colors for Formatter Toolbar
   &.formatter {
     @include bg-slate-60();
 

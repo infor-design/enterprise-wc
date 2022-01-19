@@ -10,7 +10,6 @@ export class IdsHighlightUtil {
   contextEl = null;
 
   /**
-   * @constructor
    * @param {HTMLElement} contextEl a root element to parse for content that should be highlighted
    */
   constructor(contextEl) {
@@ -23,7 +22,7 @@ export class IdsHighlightUtil {
    * @returns {void}
    */
   mark(str) {
-    console.log(`highlighting "${str}" on element:`, this.contextEl);
+    // console.log(`highlighting "${str}" on element:`, this.contextEl);
   }
 
   /**
@@ -31,6 +30,6 @@ export class IdsHighlightUtil {
    * @returns {void}
    */
   reset() {
-    console.log(`removing all highlighted content from element:`, this.contextEl);
+    // console.log(`removing all highlighted content from element:`, this.contextEl);
   }
 }

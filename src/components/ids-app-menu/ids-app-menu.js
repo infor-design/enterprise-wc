@@ -29,8 +29,8 @@ export default class IdsAppMenu extends Base {
     super.connectedCallback?.();
     this.edge = 'start';
     this.type = 'app-menu';
-    this.#refreshVariants();
     this.#connectSearchField();
+    this.#refreshVariants();
   }
 
   static get attributes() {
@@ -92,6 +92,11 @@ export default class IdsAppMenu extends Base {
     btns.forEach((btn) => {
       btn.colorVariant = 'alternate';
     });
+
+    /*
+    const searchField = this.querySelector('ids-search-field');
+    if (searchField) searchField.colorVariant = 'app-menu';
+    */
   }
 
   #connectSearchField() {
@@ -101,7 +106,7 @@ export default class IdsAppMenu extends Base {
         if (value !== '') {
           this.filterAccordion(value);
         } else {
-          this.#clearFilterAccordion();
+          this.clearFilterAccordion();
         }
       };
     }
@@ -193,7 +198,7 @@ export default class IdsAppMenu extends Base {
    * @private
    * @returns {void}
    */
-  #clearFilterAccordion() {
+  clearFilterAccordion() {
     const filteredHeaders = [...this.accordion.querySelectorAll('ids-accordion-header[hidden-by-filter]')];
     filteredHeaders.map((header) => {
       header.hiddenByFilter = false;
