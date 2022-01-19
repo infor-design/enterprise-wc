@@ -1,5 +1,4 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import { IdsHighlightUtil } from '../../utils/ids-highlight-utils/ids-highlight-utils';
 
 import Base from './ids-app-base';
 import IdsDrawer from '../ids-drawer/ids-drawer';
@@ -68,16 +67,16 @@ export default class IdsAppMenu extends Base {
     </div>`;
   }
 
+  /**
+   * @readonly
+   * @returns {IdsAccordion} reference to an optionally-slotted IdsAccordion element
+   */
   get accordion() {
     return this.querySelector(`ids-accordion:not([slot])`);
   }
 
   /**
-   * Stores a reference to an IdsHighlight API targeted at the accordion
-   */
-  filterHighlighter = null;
-
-  /**
+   * @readonly
    * @property {boolean} isFiltered true if the inner navigation accordion is currently being filtered
    */
   isFiltered = false;
@@ -92,22 +91,21 @@ export default class IdsAppMenu extends Base {
     btns.forEach((btn) => {
       btn.colorVariant = 'alternate';
     });
-
-    /*
-    const searchField = this.querySelector('ids-search-field');
-    if (searchField) searchField.colorVariant = 'app-menu';
-    */
   }
 
+  /**
+   * Attaches a slotted IdsSearchField component to the app menu
+   */
   #connectSearchField() {
     const searchfield = this.querySelector('ids-search-field[slot="search"]');
     if (searchfield) {
       searchfield.onSearch = (value) => {
         if (value !== '') {
-          this.filterAccordion(value);
-        } else {
-          this.clearFilterAccordion();
+          return this.filterAccordion(value);
         }
+
+        this.clearFilterAccordion();
+        return [];
       };
     }
   }
@@ -129,10 +127,7 @@ export default class IdsAppMenu extends Base {
       return filteredHeaders;
     }
 
-    // Establish a highlight API on the app menu, if needed
-    if (!this.filterHighlighter) {
-      this.filterHighlighter = new IdsHighlightUtil(this.accordion);
-    }
+    // NOTE: Clear text highlight here (See #494)
 
     // Always remove previous highlight before applying a new one
     this.clearFilterAccordion();
@@ -182,12 +177,9 @@ export default class IdsAppMenu extends Base {
     });
 
     // Highlight the matching text inside any matched headers
-    if (filteredHeaders.length) {
-      this.isFiltered = true;
-      this.filterHighlighter.mark(value);
-    } else {
-      this.isFiltered = false;
-    }
+    this.isFiltered = filteredHeaders.length > 0;
+
+    // NOTE: Apply text highlighter here (See #494)
 
     return filteredHeaders;
   };
@@ -203,7 +195,9 @@ export default class IdsAppMenu extends Base {
       header.hiddenByFilter = false;
       return header;
     });
-    this.filterHighlighter.reset();
+
+    // NOTE: Apply text highlighter here (See #494)
+
     this.#clearChildFilter();
   }
 

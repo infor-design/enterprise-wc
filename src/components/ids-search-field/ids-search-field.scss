@@ -53,6 +53,7 @@ ids-input::part(container) {
       ids-icon {
         color: rgba(255 255 255 / 0.7);
 
+        // stylelint-disable-next-line
         &:hover {
           color: rgba(255 255 255 / 1);
         }
@@ -83,6 +84,7 @@ ids-input::part(container) {
       }
 
       &:focus {
+        // stylelint-disable-next-line
         ids-icon::part(search-icon) {
           @include text-white();
         }
@@ -93,5 +95,4 @@ ids-input::part(container) {
   // Dark Mode
 
   // High Contrast Mode
-
 }

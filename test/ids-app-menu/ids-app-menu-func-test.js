@@ -14,7 +14,6 @@ import IdsText from '../../src/components/ids-text/ids-text';
 
 import elemBuilderFactory from '../helpers/elem-builder-factory';
 import waitFor from '../helpers/wait-for';
-import processAnimFrame from '../helpers/process-anim-frame';
 
 const elemBuilder = elemBuilderFactory();
 

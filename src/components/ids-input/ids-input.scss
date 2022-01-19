@@ -115,8 +115,6 @@ $input-compact-height: $input-field-height-xs;
     resize: none;
     text-align: left;
 
-    background-color: pink;
-
     &:hover {
       @include border-slate-90();
     }

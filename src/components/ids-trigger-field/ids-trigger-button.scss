@@ -22,10 +22,6 @@
     box-shadow: 0 0 0 2px transparent, 0 0 0 1px var(--ids-color-palette-azure-60), 0 0 4px 2px rgb(141 201 230 / 0.3);
   }
 
-  &:hover {
-    //@include text-slate-100();
-  }
-
   &[disabled] {
     @include cursor-default();
     @include text-slate-30();
