@@ -3,7 +3,7 @@ export default class IdsBadge extends HTMLElement {
   shape: 'normal' | 'round';
 
   /* Set the color of the badge */
-  color: string | null;
+  color: 'success' | 'info' | 'warning' | 'error' | string | null;
 
   /** Set the theme mode */
   mode: 'light' | 'dark' | 'contrast' | string;

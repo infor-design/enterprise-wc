@@ -46,7 +46,6 @@
     @include border-alert-error();
   }
 
-  &[color='alert'],
   &[color='warning'] {
     @include bg-alert-warning();
     @include border-alert-warning();
@@ -138,16 +137,14 @@
 
   &[color='error'] {
     @include text-white();
-
-    background-color: var(--ids-color-status-warning);
-    border-color: var(--ids-color-status-warning);
+    @include bg-alert-dark-error();
+    @include border-alert-dark-error();
   }
 
   &[color='info'] {
     @include text-white();
-
-    background-color: var(--ids-color-status-base);
-    border-color: var(--ids-color-status-base);
+    @include bg-alert-dark-info();
+    @include border-alert-dark-info();
   }
 }
 
@@ -157,16 +154,14 @@
   }
 
   &[color='error'] {
+    @include bg-alert-error();
+    @include border-alert-error();
     @include text-white();
-
-    background-color: var(--ids-color-palette-ruby-80);
-    border-color: var(--ids-color-palette-ruby-80);
   }
 
   &[color='info'] {
+    @include bg-alert-contrast-info();
+    @include border-alert-contrast-info();
     @include text-white();
-
-    background-color: var(--ids-color-palette-azure-80);
-    border-color: var(--ids-color-palette-azure-80);
   }
 }

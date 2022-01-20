@@ -18,33 +18,31 @@
 }
 
 .notification-badge {
+  @include bg-alert-error();
+
   border-radius: 4px;
   height: 6px;
   width: 6px;
-  background-color: var(--ids-color-status-warning);
   position: absolute;
 
   /**
   * color notification badge
   */
+  &.info,
   &.base {
-    background-color: var(--ids-color-status-base);
+    @include bg-alert-info();
   }
 
-  &.caution {
-    background-color: var(--ids-color-status-warning);
-  }
-
-  &.danger {
-    background-color: var(--ids-color-status-warning);
+  &.error {
+    @include bg-alert-error();
   }
 
   &.success {
-    background-color: var(--ids-color-status-success);
+    @include bg-alert-success();
   }
 
   &.warning {
-    background-color: var(--ids-color-status-warning);
+    @include bg-alert-warning();
   }
 
   /**
