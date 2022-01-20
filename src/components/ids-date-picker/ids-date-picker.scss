@@ -8,17 +8,11 @@
     max-width: 100%;
   }
 
-  ids-month-view {
-    @include w-full();
-
-    max-width: 330px;
-  }
-
   ids-trigger-field::part(field) {
     display: inline-block;
   }
 
-  // In calendar toolbar
+  // Is calendar toolbar
   &.is-calendar-toolbar {
     @include flex();
     @include border-solid();
@@ -84,7 +78,13 @@
     }
   }
 
-  // Popup container and popup buttons
+  // Popup related
+  ids-month-view {
+    @include w-full();
+
+    max-width: 330px;
+  }
+
   ids-popup::part(popup) {
     padding-top: 0;
     padding-bottom: 0;
@@ -167,7 +167,7 @@
     @include text-azure-90();
   }
 
-  // Dropdown
+  // Dropdown related
   .dropdown-btn::part(button) {
     @include rounded-default();
     @include text-slate-100();

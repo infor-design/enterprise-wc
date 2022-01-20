@@ -3,7 +3,11 @@ import { attributes } from '../../core/ids-attributes';
 
 import Base from './ids-date-picker-base';
 
-import { stringToBool, buildClassAttrib } from '../../utils/ids-string-utils/ids-string-utils';
+import {
+  buildClassAttrib,
+  stringToBool,
+  stringToNumber
+} from '../../utils/ids-string-utils/ids-string-utils';
 import { isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
 
 // Supporting components
@@ -63,7 +67,7 @@ class IdsDatePicker extends Base {
     return [
       ...super.attributes,
       attributes.DISABLED,
-      attributes.FORMAT,
+      attributes.FIRST_DAY_OF_WEEK,
       attributes.FORMAT,
       attributes.ID,
       attributes.IS_CALENDAR_TOOLBAR,
@@ -71,6 +75,7 @@ class IdsDatePicker extends Base {
       attributes.LABEL,
       attributes.PLACEHOLDER,
       attributes.READONLY,
+      attributes.SHOW_TODAY,
       attributes.TABBABLE,
       attributes.VALIDATE,
       attributes.VALIDATION_EVENTS,
@@ -92,7 +97,7 @@ class IdsDatePicker extends Base {
     return `
       <div ${classAttr} ${this.isCalendarToolbar ? ' tabindex="0"' : ''}>
         ${this.isCalendarToolbar ? `
-          <ids-text font-size="20" class="datepicker-text">${this.value}</ids-text>
+          <ids-text font-size="20" class="datepicker-text">${this.label}</ids-text>
           <ids-text audible="true" translate-text="true">SelectDay</ids-text>
           <ids-trigger-button>
             <ids-text audible="true" translate-text="true">DatePickerTriggerButton</ids-text>
@@ -104,7 +109,7 @@ class IdsDatePicker extends Base {
             class="dropdown-btn"
             dropdown-icon
           >
-            <ids-text slot="text" class="dropdown-btn-text" font-size="20">${this.value}</ids-text>
+            <ids-text slot="text" class="dropdown-btn-text" font-size="20">${this.label}</ids-text>
           </ids-menu-button>
         ` : ''}
         ${(!(this.isDropdown || this.isCalendarToolbar)) ? `
@@ -216,12 +221,16 @@ class IdsDatePicker extends Base {
         <section slot="content">
           <ids-month-view
             compact="true"
-            show-today="true"
             is-date-picker="true"
+            show-today=${this.showToday}
+            first-day-of-week="${this.firstDayOfWeek}"
           ></ids-month-view>
           <div class="popup-footer">
             <ids-button class="popup-btn popup-btn-start">
-              <ids-text translate-text="true" font-weight="bold">${this.isCalendarToolbar ? 'Cancel' : 'Clear'}</ids-text>
+              <ids-text
+                translate-text="true"
+                font-weight="bold"
+              >${this.isCalendarToolbar ? 'Cancel' : 'Clear'}</ids-text>
             </ids-button>
             <ids-button class="popup-btn popup-btn-end">
               <ids-text translate-text="true" font-weight="bold">Apply</ids-text>
@@ -351,10 +360,10 @@ class IdsDatePicker extends Base {
   set label(val) {
     if (val) {
       this.setAttribute(attributes.LABEL, val);
-      this.#triggerField.setAttribute(attributes.LABEL, val);
+      this.#triggerField?.setAttribute(attributes.LABEL, val);
     } else {
       this.removeAttribute(attributes.LABEL);
-      this.#triggerField.removeAttribute(attributes.LABEL);
+      this.#triggerField?.removeAttribute(attributes.LABEL);
     }
   }
 
@@ -501,12 +510,20 @@ class IdsDatePicker extends Base {
     this.container.classList.toggle('is-calendar-toolbar', boolVal);
   }
 
+  /**
+   * is-dropdown attribute
+   * @returns {boolean} isDropdown param converted to boolean from attribute value
+   */
   get isDropdown() {
     const attrVal = this.getAttribute(attributes.IS_DROPDOWN);
 
     return stringToBool(attrVal);
   }
 
+  /**
+   * Set whether or not the component is dropdown type
+   * @param {string|boolean|null} val isDropdown param value
+   */
   set isDropdown(val) {
     const boolVal = stringToBool(val);
 
@@ -518,6 +535,65 @@ class IdsDatePicker extends Base {
 
     // Toggle container CSS class
     this.container.classList.toggle('is-dropdown', boolVal);
+  }
+
+  /**
+   * show-today attribute
+   * @returns {boolean} showToday param converted to boolean from attribute value
+   */
+  get showToday() {
+    const attrVal = this.getAttribute(attributes.SHOW_TODAY);
+
+    // true by default if no attribute
+    return attrVal !== null ? stringToBool(attrVal) : true;
+  }
+
+  /**
+   * Set whether or not the today button should be shown
+   * @param {string|boolean|null} val showToday param value
+   */
+  set showToday(val) {
+    const boolVal = stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.SHOW_TODAY, boolVal);
+      this.#monthView.setAttribute(attributes.SHOW_TODAY, boolVal);
+    } else {
+      this.removeAttribute(attributes.SHOW_TODAY);
+      this.#monthView.removeAttribute(attributes.SHOW_TODAY);
+    }
+  }
+
+  /**
+   * fist-day-of-week attribute
+   * @returns {number} firstDayOfWeek param converted to number from attribute value with range (0-6)
+   */
+  get firstDayOfWeek() {
+    const attrVal = this.getAttribute(attributes.FIRST_DAY_OF_WEEK);
+    const numberVal = stringToNumber(attrVal);
+
+    if (!Number.isNaN(numberVal) && numberVal >= 0 && numberVal <= 6) {
+      return numberVal;
+    }
+
+    // Default value
+    return 0;
+  }
+
+  /**
+   * Set first day of the week (0-6)
+   * @param {string|number|null} val firstDayOfWeek param value
+   */
+  set firstDayOfWeek(val) {
+    const numberVal = stringToNumber(val);
+
+    if (!Number.isNaN(numberVal)) {
+      this.setAttribute(attributes.FIRST_DAY_OF_WEEK, val);
+      this.#monthView.setAttribute(attributes.FIRST_DAY_OF_WEEK, val);
+    } else {
+      this.removeAttribute(attributes.FIRST_DAY_OF_WEEK);
+      this.#monthView.removeAttribute(attributes.FIRST_DAY_OF_WEEK);
+    }
   }
 }
 
