@@ -56,6 +56,8 @@ module.exports = {
       exports: 'never',
       functions: 'never'
     }],
+    // allow inconsistent return values (allows empty return values on array functions, etc)
+    'consistent-return': ['off'],
     // bit masks used for idiomatic MouseEvents.buttons detection w/ mousewheel down
     'no-bitwise': 0,
     // we aren't doing special math with binary/hex radix numbers often,
