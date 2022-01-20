@@ -1,5 +1,5 @@
 import IdsAccordion from '../ids-accordion/ids-accordion';
-import IdsAccordionHeader from '../ids-accordion/ids-accordion-header';
+import IdsAccordionPanel from '../ids-accordion/ids-accordion-panel';
 import IdsDrawer from '../ids-drawer/ids-drawer';
 
 export default class IdsAppMenu extends IdsDrawer {
@@ -10,7 +10,7 @@ export default class IdsAppMenu extends IdsDrawer {
   readonly isFiltered: boolean;
 
   /** performs a filter operation on the navigation accordion's headers */
-  filterAccordion(value?: string): Array<IdsAccordionHeader>;
+  filterAccordion(value?: string): Array<IdsAccordionPanel>;
 
   /** clears the navigation accordion's previous filter result */
   clearFilterAccordion(): void;

@@ -111,20 +111,20 @@ export default class IdsAppMenu extends Base {
   }
 
   /**
-   * Performs a filter operation on accordion headers
-   * @param {string} value text value with which to filter accordion headers
-   * @returns {Array<HTMLElement>} containing matching accordion headers
+   * Performs a filter operation on accordion panels
+   * @param {string} value text value with which to filter accordion panels
+   * @returns {Array<HTMLElement>} containing matching accordion panels
    */
   filterAccordion = (value = '') => {
-    // Do nothing if there is no accordion, or there are no accordion headers
-    let filteredHeaders = [];
+    // Do nothing if there is no accordion, or there are no accordion panels
+    let filteredPanels = [];
     if (!this.accordion) {
-      return filteredHeaders;
+      return filteredPanels;
     }
 
-    const headers = [...this.accordion.querySelectorAll('ids-accordion-header')];
-    if (!headers.length) {
-      return filteredHeaders;
+    const panels = [...this.accordion.querySelectorAll('ids-accordion-panel')];
+    if (!panels.length) {
+      return filteredPanels;
     }
 
     // NOTE: Clear text highlight here (See #494)
@@ -132,10 +132,24 @@ export default class IdsAppMenu extends Base {
     // Always remove previous highlight before applying a new one
     this.clearFilterAccordion();
 
-    // Check each accordion header for a match.
-    // Accordion headers are shown/hidden as needed
+    // Check each accordion panel for a match.
+    // Accordion panels are shown/hidden as needed
     const valueRegex = new RegExp(value, 'gi');
-    filteredHeaders = headers.filter((header) => {
+    const markParentPanel = (thisPanel) => {
+      if (thisPanel.hasParentPanel) {
+        const parentPanel = thisPanel.parentElement;
+        const parentHeader = parentPanel.header;
+
+        if (!parentPanel.expanded) {
+          parentPanel.expanded = true;
+        }
+
+        parentHeader.childFilterMatch = true;
+        markParentPanel(parentPanel);
+      }
+    };
+    filteredPanels = panels.filter((panel) => {
+      const header = panel.header;
       const textContent = header.textContent.trim();
       const hasTextMatch = textContent.match(valueRegex);
       if (hasTextMatch) {
@@ -143,45 +157,22 @@ export default class IdsAppMenu extends Base {
         if (header.hiddenByFilter) {
           header.hiddenByFilter = false;
         }
-        filteredHeaders.push(header);
-        return true;
+        markParentPanel(panel);
+        return header;
       }
 
       // Unhighlight
       if (!header.hiddenByFilter) {
         header.hiddenByFilter = true;
       }
-
-      return false;
-    });
-
-    // If an accordion pane has children that match the filter result,
-    // mark the pane's header with a flag that makes it visible, but
-    // stand out less-visually than the ones that match.
-    filteredHeaders.map((header) => {
-      const markParentHeader = (thisHeader) => {
-        const panel = thisHeader.panel;
-        if (panel && panel.hasParentPanel) {
-          const parentHeader = panel.parentElement.header;
-
-          if (!panel.parentExpanded) {
-            panel.parentElement.expanded = true;
-          }
-
-          parentHeader.childFilterMatch = true;
-          markParentHeader(parentHeader);
-        }
-      };
-      markParentHeader(header);
-      return header;
     });
 
     // Highlight the matching text inside any matched headers
-    this.isFiltered = filteredHeaders.length > 0;
+    this.isFiltered = filteredPanels.length > 0;
 
     // NOTE: Apply text highlighter here (See #494)
 
-    return filteredHeaders;
+    return filteredPanels;
   };
 
   /**
