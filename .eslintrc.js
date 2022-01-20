@@ -44,6 +44,10 @@ module.exports = {
     'jsdoc/no-multi-asterisks': 0,
     // Allow a few custom jsdoc tags
     'jsdoc/check-tag-names': ['error', { definedTags: ['jest-environment', 'inherits', 'part'] }],
+    // Allow array methods to not require an explicit return value (for no return values in `.filter()`, `.map()`, etc)
+    'array-callback-return': ['off', {
+      allowImplicit: true
+    }],
     // require trailing commas in multiline object literals
     'comma-dangle': ['off', {
       arrays: 'never',
