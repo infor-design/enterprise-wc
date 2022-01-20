@@ -128,28 +128,6 @@ class IdsDatePicker extends Base {
             </ids-trigger-button>
           </ids-trigger-field>
         ` : ``}
-        ${!this.isDropdown ? `
-          <ids-popup
-            type="menu"
-            animated="true"
-          >
-            <section slot="content">
-              <ids-month-view
-                compact="true"
-                show-today="true"
-                is-date-picker="true"
-              ></ids-month-view>
-              <div class="popup-footer">
-                <ids-button class="popup-btn popup-btn-start">
-                  <ids-text translate-text="true" font-weight="bold">${this.isCalendarToolbar ? 'Cancel' : 'Clear'}</ids-text>
-                </ids-button>
-                <ids-button class="popup-btn popup-btn-end">
-                  <ids-text translate-text="true" font-weight="bold">Apply</ids-text>
-                </ids-button>
-              </div>
-            </section>
-          </ids-popup>
-        ` : ``}
       <div>
     `;
   }
@@ -170,14 +148,18 @@ class IdsDatePicker extends Base {
    * @returns {object} The object for chaining
    */
   #attachEventHandlers() {
+    this.#renderPopup();
+
     // Respond to container changing language
     this.offEvent('languagechange.date-picker-container');
     this.onEvent('languagechange.date-picker-container', this.closest('ids-container'), async () => {
+      this.#renderPopup();
     });
 
     // Respond to container changing locale
     this.offEvent('localechange.date-picker-container');
     this.onEvent('localechange.date-picker-container', this.closest('ids-container'), async () => {
+      this.#renderPopup();
       this.#applyMask();
     });
 
@@ -223,6 +205,39 @@ class IdsDatePicker extends Base {
     });
 
     return this;
+  }
+
+  #renderPopup() {
+    const template = `
+      <ids-popup
+        type="menu"
+        animated="true"
+      >
+        <section slot="content">
+          <ids-month-view
+            compact="true"
+            show-today="true"
+            is-date-picker="true"
+          ></ids-month-view>
+          <div class="popup-footer">
+            <ids-button class="popup-btn popup-btn-start">
+              <ids-text translate-text="true" font-weight="bold">${this.isCalendarToolbar ? 'Cancel' : 'Clear'}</ids-text>
+            </ids-button>
+            <ids-button class="popup-btn popup-btn-end">
+              <ids-text translate-text="true" font-weight="bold">Apply</ids-text>
+            </ids-button>
+          </div>
+        </section>
+      </ids-popup>
+    `;
+
+    this.container.querySelector('ids-popup')?.remove();
+
+    if (!this.isDropdown) {
+      this.container.insertAdjacentHTML('beforeend', template);
+      this.#popup = this.container.querySelector('ids-popup');
+      this.#monthView = this.container.querySelector('ids-month-view');
+    }
   }
 
   /**
