@@ -117,17 +117,13 @@ export default class IdsAppMenu extends Base {
    */
   filterAccordion = (value = '') => {
     // Do nothing if there is no accordion, or there are no accordion panels
-    let filteredPanels = [];
     if (!this.accordion) {
-      return filteredPanels;
+      return [];
     }
-
     const panels = [...this.accordion.querySelectorAll('ids-accordion-panel')];
     if (!panels.length) {
-      return filteredPanels;
+      return [];
     }
-
-    // NOTE: Clear text highlight here (See #494)
 
     // Always remove previous highlight before applying a new one
     this.clearFilterAccordion();
@@ -148,16 +144,19 @@ export default class IdsAppMenu extends Base {
         markParentPanel(parentPanel);
       }
     };
-    filteredPanels = panels.filter((panel) => {
+
+    return panels.filter((panel) => {
       const header = panel.header;
       const textContent = header.textContent.trim();
       const hasTextMatch = textContent.match(valueRegex);
       if (hasTextMatch) {
         // Highlight
+        // NOTE: Apply text highlighter here (See #494)
         if (header.hiddenByFilter) {
           header.hiddenByFilter = false;
         }
         markParentPanel(panel);
+        this.isFiltered = true;
         return header;
       }
 
@@ -166,13 +165,6 @@ export default class IdsAppMenu extends Base {
         header.hiddenByFilter = true;
       }
     });
-
-    // Highlight the matching text inside any matched headers
-    this.isFiltered = filteredPanels.length > 0;
-
-    // NOTE: Apply text highlighter here (See #494)
-
-    return filteredPanels;
   };
 
   /**
@@ -187,9 +179,9 @@ export default class IdsAppMenu extends Base {
       return header;
     });
 
-    // NOTE: Apply text highlighter here (See #494)
-
+    // NOTE: Clear text highlighter here (See #494)
     this.#clearChildFilter();
+    this.isFiltered = false;
   }
 
   /**
