@@ -2,4 +2,4 @@
 
 ## Filtering
 
-- [ ] Complete IdsHighlight utility and implement against matching text in accordion headers.
+- [ ] Complete IdsHighlight utility and implement against matching text in accordion headers. (infor-design/enterprise-wc#494)
