@@ -29,8 +29,3 @@
     @include text-alert-info();
   }
 }
-
-// Fixes cross pixel issue / cut off on bottom
-ids-icon::part(svg) {
-  height: 21px;
-}
