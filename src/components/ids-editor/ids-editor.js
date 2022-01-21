@@ -14,8 +14,6 @@ import IdsToolbar, {
   IdsToolbarMoreActions
 } from '../ids-toolbar/ids-toolbar';
 
-// import { unescapeHTML, htmlEntities } from '../../utils/ids-xss-utils/ids-xss-utils';
-// import { stringToBool, camelCase } from '../../utils/ids-string-utils/ids-string-utils';
 import { debounce } from '../../utils/ids-debounce-utils/ids-debounce-utils';
 import { sanitizeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
@@ -62,19 +60,30 @@ const EDITOR_DEFAULTS = {
     }
   },
   paragraphSeparator: 'p',
+  pasteAsPlainText: false,
   readonly: false,
   sourceFormatter: false,
   view: 'editor', // 'editor', 'source'
 };
 
+// Instance counter
+let instanceCounter = 0;
+
 /**
  * IDS Editor Component
  * @type {IdsEditor}
  * @inherits IdsElement
- * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  * @mixes IdsLocaleMixin
+ * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsValidationMixin
+ * @mixes IdsEventsMixin
  * @part editor - the editor element
+ * @part editor-label - the editor label element
+ * @part main-container - the main container element
+ * @part toolbar-container - the toolbar container element
+ * @part editor-container - the editor container element
+ * @part source-container - the source container element
  */
 @customElement('ids-editor')
 @scss(styles)
@@ -88,13 +97,32 @@ export default class IdsEditor extends Base {
    */
   connectedCallback() {
     this
-      .modalElementsValue()
       .#initToolbar()
       .#initContent()
-      .#initModals()
+      .modalElementsValue()
       .#setParagraphSeparator()
-      .#attachEventHandlers();
-    super.connectedCallback();
+      .#attachEventHandlers()
+      .#initView();
+    super.connectedCallback?.();
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback?.();
+
+    // Cleanup markings might still present
+    [
+      ...this.#qsAll('#errormessage-modal, #hyperlink-modal, #insertimage-modal'),
+      ...this.#qsAll(
+        `ids-button,
+        ids-separator,
+        ids-menu-button,
+        ids-popup-menu,
+        ids-toolbar-section,
+        ids-toolbar-more-actions,
+        ids-toolbar`,
+        this
+      )
+    ].flat().forEach((elem) => elem?.remove());
   }
 
   /**
@@ -109,6 +137,7 @@ export default class IdsEditor extends Base {
       attributes.LABEL_HIDDEN,
       attributes.LABEL_REQUIRED,
       attributes.PARAGRAPH_SEPARATOR,
+      attributes.PASTE_AS_PLAIN_TEXT,
       attributes.PLACEHOLDER,
       attributes.READONLY,
       attributes.SOURCE_FORMATTER,
@@ -121,6 +150,7 @@ export default class IdsEditor extends Base {
    * @returns {string} The template
    */
   template() {
+    instanceCounter++;
     const disabled = this.disabled ? ' disabled' : '';
     const readonly = this.readonly ? ' readonly' : '';
     const contenteditable = !this.disabled && !this.readonly ? ' contenteditable="true"' : '';
@@ -130,17 +160,19 @@ export default class IdsEditor extends Base {
     return `
       <div class="ids-editor" part="editor"${disabled}${readonly}>
         <slot name="content" class="${CLASSES.hidden}"></slot>
-        <ids-text id="editor-label" class="${labelClass}" part="editor-label"${disabled}${readonly}>${this.label}${labelHidden}</ids-text>
+        <ids-text id="editor-label" class="${labelClass}" part="editor-label"${disabled}${readonly}${labelHidden}>${this.label}</ids-text>
         <div class="main-container" part="main-container">
           <div class="toolbar-container" part="toolbar-container">
             <slot name="toolbar"></slot>
           </div>
           <div class="editor-content">
-            <div class="editor-container" part="editor-container"${contenteditable} aria-multiline="true" role="textbox" aria-labelledby="editor-label"${placeholder}></div>
+            <div id="editor-container" class="editor-container" part="editor-container"${contenteditable} aria-multiline="true" role="textbox" aria-labelledby="editor-label"${placeholder}></div>
             <div class="source-container ${CLASSES.hidden}" part="source-container">
               <div class="source-wrapper">
                 <ul class="line-numbers"></ul>
-                <label class="audible" for="source-textarea">${this.label} - HTML Source View</label>
+                <label class="audible" for="source-textarea">
+                  ${this.sourceTextareaLabel()}
+                </label>
                 <textarea id="source-textarea" class="source-textarea"${placeholder}></textarea>
               </div>
             </div>
@@ -154,7 +186,8 @@ export default class IdsEditor extends Base {
    */
   vetoableEventTypes = [
     'beforesourcemode',
-    'beforeeditormode'
+    'beforeeditormode',
+    'beforepaste'
   ];
 
   /**
@@ -163,7 +196,7 @@ export default class IdsEditor extends Base {
    * @param {object} [modals.hyperlink] The hyperlink options.
    * @param {string} [modals.hyperlink.url] Url for hyperlink.
    * @param {string} [modals.hyperlink.class] Css Class for hyperlink.
-   * @param {Array} [modals.hyperlink.targets] List target options for hyperlink.
+   * @param {Array<object>} [modals.hyperlink.targets] List target options for hyperlink.
    * @param {boolean} [modals.hyperlink.isClickable] If true, isClickable checkbox should checked.
    * @param {boolean} [modals.hyperlink.showIsClickable] If true, will show isClickable checkbox.
    * @param {object} [modals.insertimage] The insertimage options.
@@ -177,10 +210,12 @@ export default class IdsEditor extends Base {
 
     // Set hyperlink targets
     let hyperlinkTargets = [];
-    if (m.hyperlink?.targets && m.hyperlink.targets.constructor === Array) {
+    if (m.hyperlink?.targets?.constructor === Array) {
       m.hyperlink.targets.forEach((target) => {
         if (isObject(target) && target.text) {
-          hyperlinkTargets.push({ text: target.text, value: target.value });
+          const args = { text: target.text, value: target.value };
+          if (target.selected) args.selected = true;
+          hyperlinkTargets.push(args);
         }
       });
     } else {
@@ -203,15 +238,17 @@ export default class IdsEditor extends Base {
       }
     };
 
+    this.#initModals();
     return this;
   }
 
   /**
-   * List of toolbar actions attached to editor.
-   * @private
-   * @type {Array<object>}
+   * Get label text for source textarea.
+   * @returns {string} The label text for source textarea
    */
-  #toolbarActions = [];
+  sourceTextareaLabel() {
+    return `${this.label} - HTML Source View`;
+  }
 
   /**
    * Modals attached to editor.
@@ -243,19 +280,20 @@ export default class IdsEditor extends Base {
 
   /**
    * List of actions can be execute with editor.
+   * extra actions get added in `#initContent()`
    * @private
    * @type {Array<object>}
    */
   #actions = {
     // STYLES
-    bold: { action: 'bold' },
-    italic: { action: 'italic' },
-    underline: { action: 'underline' },
-    strikethrough: { action: 'strikeThrough' },
+    bold: { action: 'bold', keyid: 'KeyB' },
+    italic: { action: 'italic', keyid: 'KeyI' },
+    underline: { action: 'underline', keyid: 'KeyU' },
+    strikethrough: { action: 'strikeThrough', keyid: 'KeyS|shift' },
 
     // SCRIPTS
-    superscript: { action: 'superscript' },
-    subscript: { action: 'subscript' },
+    superscript: { action: 'superscript', keyid: 'Equal|shift' },
+    subscript: { action: 'subscript', keyid: 'Equal' },
 
     // TEXT FORMAT
     formatblock: { action: 'formatBlock', value: [...BLOCK_ELEMENTS] },
@@ -264,36 +302,36 @@ export default class IdsEditor extends Base {
     fontsize: { action: 'fontSize', value: [...FONT_SIZES] },
 
     // COLORS
-    forecolor: { action: 'foreColor' },
+    forecolor: { action: 'foreColor', keyid: 'KeyK|shift|alt' },
     backcolor: { action: 'backColor' },
 
     // LISTS
-    orderedlist: { action: 'insertOrderedList' },
-    unorderedlist: { action: 'insertUnorderedList' },
+    orderedlist: { action: 'insertOrderedList', keyid: 'KeyO|shift' },
+    unorderedlist: { action: 'insertUnorderedList', keyid: 'KeyU|shift' },
 
     // INSERT
-    insertimage: { action: 'insertImage' },
-    hyperlink: { action: 'createLink' },
-    unlink: { action: 'unlink' },
+    insertimage: { action: 'insertImage', keyid: 'KeyI|shift' },
+    hyperlink: { action: 'createLink', keyid: 'KeyK' },
+    unlink: { action: 'unlink', keyid: 'KeyK|shift' },
     inserthtml: { action: 'insertHTML' },
-    inserthorizontalrule: { action: 'insertHorizontalRule' },
+    inserthorizontalrule: { action: 'insertHorizontalRule', keyid: 'KeyL|shift' },
 
     // ALIGNMENT
-    alignleft: { action: 'justifyLeft' },
-    alignright: { action: 'justifyRight' },
-    aligncenter: { action: 'justifyCenter' },
-    alignjustify: { action: 'justifyFull' },
+    alignleft: { action: 'justifyLeft', keyid: 'KeyL' },
+    alignright: { action: 'justifyRight', keyid: 'KeyR' },
+    aligncenter: { action: 'justifyCenter', keyid: 'KeyE' },
+    alignjustify: { action: 'justifyFull', keyid: 'KeyJ' },
 
     // CLEAR FORMATTING
-    clearformatting: { action: 'removeFormat' },
+    clearformatting: { action: 'removeFormat', keyid: 'Space|shift' },
 
     // HISTORY
-    redo: { action: 'redo' },
-    undo: { action: 'undo' },
+    redo: { action: 'redo', keyid: 'KeyY' },
+    undo: { action: 'undo', keyid: 'KeyZ' },
 
     // EXTRA
-    editormode: { action: 'editorMode' },
-    sourcemode: { action: 'sourceMode' }
+    editormode: { action: 'editorMode', keyid: 'Backquote|shift' },
+    sourcemode: { action: 'sourceMode', keyid: 'Backquote' }
   };
 
   /**
@@ -343,15 +381,26 @@ export default class IdsEditor extends Base {
   /**
    * Trigger the given event with current value.
    * @private
-   * @param {string} evtName The event name to be trigger.
+   * @param {string} eventtName The event name to be trigger.
    * @param {HTMLElement} target The target element.
    * @param {object} extra Extra data.
    * @returns {object} This API object for chaining.
    */
-  #triggerEvent(evtName, target = this, extra = {}) {
-    this.triggerEvent(evtName, target, {
+  #triggerEvent(eventtName, target = this, extra = {}) {
+    this.triggerEvent(eventtName, target, {
       detail: { elem: this, value: this.value, ...extra }
     });
+    return this;
+  }
+
+  /**
+   * Init the current view
+   * @private
+   * @returns {object} This API object for chaining
+   */
+  #initView() {
+    const shouldChange = this.#elems[this.view]?.classList?.contains(CLASSES.hidden);
+    if (shouldChange) /source/i.test(this.view) ? this.#sourceMode() : this.#editorMode();
     return this;
   }
 
@@ -366,18 +415,19 @@ export default class IdsEditor extends Base {
         <ids-toolbar-section type="buttonset">
 
           <ids-menu-button
-            editor-action="menu-button-formatblock"
-            id="btn-formatblock"
-            role="button" menu="menu-formatblock"
+            editor-action="formatblock"
+            id="btn-formatblock-${instanceCounter}"
+            role="button"
+            menu="menu-formatblock-${instanceCounter}"
             tooltip="Choose Font Style"
             formatter-width="125px"
             dropdown-icon
             trigger="click">
             <span slot="text">Normal Text</span>
           </ids-menu-button>
-          <ids-popup-menu id="menu-formatblock" target="#btn-formatblock">
+          <ids-popup-menu id="menu-formatblock-${instanceCounter}" target="#btn-formatblock-${instanceCounter}">
             <ids-menu-group>
-              <ids-menu-item value="normal" selected="true"><ids-text>Normal Text</ids-text></ids-menu-item>
+              <ids-menu-item value="p" selected="true"><ids-text>Normal Text</ids-text></ids-menu-item>
               <ids-menu-item value="h1"><ids-text font-size="28">Header 1</ids-text></ids-menu-item>
               <ids-menu-item value="h2"><ids-text font-size="24">Header 2</ids-text></ids-menu-item>
               <ids-menu-item value="h3"><ids-text font-size="20">Header 3</ids-text></ids-menu-item>
@@ -449,8 +499,8 @@ export default class IdsEditor extends Base {
 
           <ids-separator vertical></ids-separator>
 
-          <ids-button editor-action="hyperlink" square="true" tooltip="Insert Anchor">
-            <span slot="text" class="audible">Insert Anchor</span>
+          <ids-button editor-action="hyperlink" square="true" tooltip="Insert Hyperlink">
+            <span slot="text" class="audible">Insert Hyperlink</span>
             <ids-icon slot="icon" icon="link"></ids-icon>
           </ids-button>
 
@@ -567,6 +617,25 @@ export default class IdsEditor extends Base {
       }
     }
     return this;
+  }
+
+  /**
+   * Get all selection parents.
+   * @private
+   * @returns {object} List of selection parents.
+   */
+  #selectionParents() {
+    const parents = {};
+    const sel = this.#getSelection();
+    if (sel?.containsNode(this.#elems.editor, true)) {
+      let node = sel?.focusNode;
+      while (node?.id !== 'editor-container') {
+        const tag = node?.tagName?.toLowerCase();
+        if (tag) parents[tag] = { tag, node };
+        node = node?.parentNode;
+      }
+    }
+    return parents;
   }
 
   /**
@@ -821,6 +890,22 @@ export default class IdsEditor extends Base {
   }
 
   /**
+   * Convert html entities
+   * @private
+   * @param {string} str The html
+   * @returns {string} The converted html
+   */
+  #htmlEntities(str) {
+    // converts special characters (e.g., <) into their escaped/encoded values (e.g., &lt;).
+    // This allows you to display the string without the browser reading it as HTML.
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  /**
    * Clean given html
    * @private
    * @param {string} content The html
@@ -882,7 +967,7 @@ export default class IdsEditor extends Base {
       s = s.replace(/<\/p>/gi, '</li>');
       s = s.replace(/<p><span><span>·<\/span><\/span>/gi, '<li>');
       // Remove white space
-      s = s.replace(/<\/li>\s<li>/gi, '<\/li><li>');
+      s = s.replace(/<\/li>\s<li>/gi, '</li><li>');
       // Add in opening and closing ul tags
       s = [s.slice(0, s.indexOf('<li>')), '<ul>', s.slice(s.indexOf('<li>'))].join('');
       s = [s.slice(0, s.lastIndexOf('</li>')), '</ul>', s.slice(s.lastIndexOf('</li>'))].join('');
@@ -917,8 +1002,9 @@ export default class IdsEditor extends Base {
    */
   #setEditorContent(content) {
     const { editor, textarea } = this.#elems;
-    const html = this.#trimContent(content || textarea.value);
-    editor.innerHTML = this.#cleanHtml(html);
+    let html = this.#trimContent(content || textarea.value);
+    html = this.#cleanHtml(html);
+    if (editor.innerHTML !== html) editor.innerHTML = html;
     return this;
   }
 
@@ -931,8 +1017,9 @@ export default class IdsEditor extends Base {
   #setSourceContent(content) {
     const { editor, textarea } = this.#elems;
     if (editor.textContent.replace('\n', '') === '') editor.innerHTML = '';
-    const value = this.#trimContent(content || editor.innerHTML);
-    textarea.value = this.sourceFormatter ? this.#formatHtml(value) : value;
+    let value = this.#trimContent(content || editor.innerHTML);
+    value = this.sourceFormatter ? this.#formatHtml(value) : value;
+    if (textarea.value !== value) textarea.value = value;
     return this;
   }
 
@@ -940,12 +1027,16 @@ export default class IdsEditor extends Base {
    * Switch to editor mode
    * @private
    * @param {string} content The html
-   * @returns {object} This API object for chaining
+   * @returns {object|boolean} This API object for chaining, false if veto
    */
   #editorMode(content) {
+    this.#elems.reqviewchange = true;
+
     // Fire the vetoable event.
-    if (!this.triggerVetoableEvent('beforeeditormode', { value: this.value })) {
-      return this;
+    const args = { value: this.value, view: this.view };
+    if (!this.triggerVetoableEvent('beforeeditormode', args)) {
+      this.#triggerEvent('rejectviewchanged');
+      return false;
     }
     this.#setEditorContent(content);
     const elems = this.#elems;
@@ -955,7 +1046,6 @@ export default class IdsEditor extends Base {
     elems.editor.classList.remove(CLASSES.hidden);
     elems.toolbar.disabled = false;
     elems.editor.focus();
-    this.#triggerEvent('aftereditormode');
     return this;
   }
 
@@ -963,12 +1053,16 @@ export default class IdsEditor extends Base {
    * Switch to source mode
    * @private
    * @param {string} content The html
-   * @returns {object} This API object for chaining
+   * @returns {object|boolean} This API object for chaining, false if veto
    */
   #sourceMode(content) {
+    this.#elems.reqviewchange = true;
+
     // Fire the vetoable event.
-    if (!this.triggerVetoableEvent('beforesourcemode', { value: this.value })) {
-      return this;
+    const args = { value: this.value, view: this.view };
+    if (!this.triggerVetoableEvent('beforesourcemode', args)) {
+      this.#triggerEvent('rejectviewchanged');
+      return false;
     }
     this.#setSourceContent(content);
     this.#adjustSourceLineNumbers();
@@ -981,19 +1075,6 @@ export default class IdsEditor extends Base {
     elems.toolbar.disabled = true;
     elems.btnEditor.disabled = false;
     elems.textarea.focus();
-    this.#triggerEvent('aftersourcemode');
-    return this;
-  }
-
-  /**
-   * Activate to current view mode
-   * @private
-   * @returns {object} This API object for chaining
-   */
-  #activateMode() {
-    if (this.view === 'source') this.#sourceMode();
-    if (this.view === 'editor') this.#editorMode();
-    this.#triggerEvent('activatemode', this, { view: this.view });
     return this;
   }
 
@@ -1016,7 +1097,68 @@ export default class IdsEditor extends Base {
    */
   #contenteditable() {
     const value = !this.disabled && !this.readonly;
-    this.#elems.editor.setAttribute('contenteditable', value);
+    this.#elems?.editor?.setAttribute('contenteditable', value);
+    return this;
+  }
+
+  /**
+   * Set labels for editor and textarea
+   * @private
+   * @returns {object} This API object for chaining
+   */
+  #setLabels() {
+    const labelEl = this.labelEl ?? this.#qs?.('#editor-label');
+    const sourceLabel = this.#qs?.('[for="source-textarea"]');
+
+    if (labelEl) labelEl.innerHTML = this.label;
+    if (sourceLabel) sourceLabel.innerHTML = this.sourceTextareaLabel();
+    return this;
+  }
+
+  /**
+   * Set disabled hyperlinks and keep tab order in sync
+   * @private
+   * @returns {object} This API object for chaining
+   */
+  #disabledHyperlinks() {
+    window.requestAnimationFrame(() => {
+      if (this.disabled) {
+        this.#elems?.editor?.querySelectorAll('a').forEach((a) => {
+          const idx = a.getAttribute('tabindex');
+          if (idx !== null) a.dataset.idsTabindex = idx;
+          a.setAttribute('tabindex', '-1');
+        });
+      } else {
+        this.#elems?.editor?.querySelectorAll('a').forEach((a) => {
+          if (typeof a.dataset.idsTabindex === 'undefined') {
+            a.removeAttribute('tabindex');
+          } else {
+            a.setAttribute('tabindex', a.dataset.idsTabindex);
+            delete a.dataset.idsTabindex;
+          }
+        });
+      }
+    });
+    return this;
+  }
+
+  /**
+   * Set disabled state
+   * @private
+   * @returns {object} This API object for chaining
+   */
+  #setDisabled() {
+    if (this.disabled) {
+      this.container.setAttribute(attributes.DISABLED, '');
+      this.#elems?.textarea?.setAttribute(attributes.DISABLED, '');
+      this.labelEl?.setAttribute(attributes.DISABLED, '');
+    } else {
+      this.container.removeAttribute(attributes.DISABLED);
+      this.#elems?.textarea?.removeAttribute(attributes.DISABLED);
+      this.labelEl?.removeAttribute(attributes.DISABLED);
+    }
+    this.#contenteditable();
+    this.#disabledHyperlinks();
     return this;
   }
 
@@ -1029,6 +1171,9 @@ export default class IdsEditor extends Base {
     // Format block action
     this.#actions.formatblock?.value.forEach((value) => {
       this.#actions[value] = { value, action: 'formatBlock' };
+    });
+    ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].forEach((h) => {
+      this.#actions[h] && (this.#actions[h].keyid = `Digit${h.replace('h', '')}|alt`);
     });
 
     // Font size action
@@ -1048,9 +1193,8 @@ export default class IdsEditor extends Base {
           btn.after(elem);
           input = this.querySelector(`.${key}-input`);
         }
-        input?.style.setProperty('visibility', 'hidden');
-        input?.style.setProperty('width', '0');
-        input?.style.setProperty('height', '0');
+        const cssText = 'border:0;padding:0;margin:0;height:0;width:0;visibility:hidden;';
+        input.style.cssText = cssText;
         this.#elems[`${key}Input`] = input;
       }
     };
@@ -1058,8 +1202,8 @@ export default class IdsEditor extends Base {
     setColorpicker('backcolor');
 
     // Set source/editor mode buttons
-    const btnSource = this.querySelector('[editor-action="sourcemode"]');
-    const btnEditor = this.querySelector('[editor-action="editormode"]');
+    let btnSource = this.querySelector('[editor-action="sourcemode"]');
+    let btnEditor = this.querySelector('[editor-action="editormode"]');
     if (btnSource || btnEditor) {
       if (!btnEditor) {
         const template = document.createElement('template');
@@ -1069,6 +1213,7 @@ export default class IdsEditor extends Base {
             <ids-icon slot="icon" icon="visual" width="50" viewbox="0 0 73 18"></ids-icon>
           </ids-button>`;
         btnSource.after(template.content.cloneNode(true));
+        btnEditor = this.querySelector('[editor-action="editormode"]');
       }
       if (!btnSource) {
         const template = document.createElement('template');
@@ -1078,6 +1223,7 @@ export default class IdsEditor extends Base {
             <ids-icon slot="icon" icon="html" width="38" viewbox="0 0 54 18"></ids-icon>
           </ids-button>`;
         btnEditor.after(template.content.cloneNode(true));
+        btnSource = this.querySelector('[editor-action="sourcemode"]');
       }
       if (this.view === 'source') {
         btnSource.hidden = true;
@@ -1098,6 +1244,21 @@ export default class IdsEditor extends Base {
     this.#elems.btnSource = this.querySelector('[editor-action="sourcemode"]');
     this.#elems.btnEditor = this.querySelector('[editor-action="editormode"]');
 
+    this.#elems.toolbarElms = this.querySelectorAll('[editor-action]');
+    this.#elems.forecolorBtn = this.querySelector('[editor-action="forecolor"]');
+    this.#elems.backcolorBtn = this.querySelector('[editor-action="backcolor"]');
+    this.#elems.blockquoteBtn = this.querySelector('[editor-action="blockquote"]');
+    this.#elems.hyperlinkBtn = this.querySelector('[editor-action="hyperlink"]');
+    // Formatblock
+    this.#elems.formatblock = { btn: this.querySelector('[editor-action="formatblock"]') };
+    this.#elems.formatblock.items = {};
+    this.#elems.formatblock.btn?.menuEl?.items?.forEach((item) => {
+      this.#elems.formatblock.items[item.value] = {
+        text: (item.text || item.textContent?.trim()),
+        value: item.value
+      };
+    });
+
     // Editor container
     const html = (slot) => slot?.assignedNodes()[0]?.innerHTML;
     const slot = this.#qs('slot[name="content"]');
@@ -1107,7 +1268,11 @@ export default class IdsEditor extends Base {
     // Use for dirty-tracker and validation
     this.input = this.#elems.textarea;
     this.labelEl = this.#qs('#editor-label');
-    this.validationEvents = 'change.editorvalidation input.editorvalidation';
+    this.validationEvents = 'change.editorvalidation input.editorvalidation blur.editorvalidation';
+    this.validationElems = {
+      main: this.#elems.main,
+      editor: this.#elems.editor
+    };
     return this;
   }
 
@@ -1125,6 +1290,14 @@ export default class IdsEditor extends Base {
     };
     const hyperlinkBtn = this.querySelector('[editor-action="hyperlink"]');
     const insertimageBtn = this.querySelector('[editor-action="insertimage"]');
+
+    // Remove elements
+    const removeElems = [
+      this.#qs('#errormessage-modal'),
+      this.#qs('#hyperlink-modal'),
+      this.#qs('#insertimage-modal'),
+    ];
+    removeElems.forEach((elem) => elem?.remove());
 
     // Error message
     const errorMessageHtml = `
@@ -1163,7 +1336,7 @@ export default class IdsEditor extends Base {
       }
 
       const html = `
-        <ids-modal id="${key}-modal" part="${key}-modal">
+        <ids-modal id="${key}-modal">
           <ids-text slot="title" font-size="24" type="h2" id="${key}-modal-title">Insert Anchor</ids-text>
           <ids-layout-grid class="data-grid-container" auto="true" gap="md" no-margins="true" min-col-width="300px">
             <ids-layout-grid-cell>
@@ -1201,7 +1374,7 @@ export default class IdsEditor extends Base {
       const btn = insertimageBtn;
       const { url, alt } = this.#modals.defaults.insertimage;
       const html = `
-        <ids-modal id="${key}-modal" part="${key}-modal">
+        <ids-modal id="${key}-modal">
           <ids-text slot="title" font-size="24" type="h2" id="${key}-modal-title">Insert Image</ids-text>
           <ids-layout-grid class="data-grid-container" auto="true" gap="md" no-margins="true" min-col-width="300px">
             <ids-layout-grid-cell>
@@ -1220,25 +1393,157 @@ export default class IdsEditor extends Base {
       appendModal(key, btn, html);
     }
 
+    // Attach events to each modal
+    ['errormessage', 'insertimage', 'hyperlink'].forEach((key) => {
+      if (this.#modals[key]?.modal) {
+        this.#attachModalEvents(key);
+      }
+    });
+
     return this;
   }
 
   /**
-   * On toolbar items click.
+   * Paste as plain text.
+   * @private
+   * @param {Event} e The event
+   * @returns {string|null} The updated pasted data
+   */
+  #pasteAsPlainText(e) {
+    if (!e) return null;
+
+    let paste;
+    let html = '';
+    if (e.clipboardData?.getData) {
+      paste = e.clipboardData.getData('text/plain');
+    } else {
+      paste = window.clipboardData?.getData ? window.clipboardData.getData('Text') : false;
+    }
+    if (paste) {
+      const paragraphs = paste.split(/[\r\n]/g);
+      for (let i = 0, l = paragraphs.length; i < l; i++) {
+        if (paragraphs[i] !== '') {
+          if (navigator.userAgent.match(/firefox/i) && i === 0) {
+            html += `<p>${this.#htmlEntities(paragraphs[i])}</p>`;
+          } else if ((/\.(gif|jpg|jpeg|tiff|png)$/i).test(paragraphs[i])) {
+            html += `<img src="${this.#htmlEntities(paragraphs[i])}" />`;
+          } else {
+            html += `<p>${this.#htmlEntities(paragraphs[i])}</p>`;
+          }
+        }
+      }
+    }
+    return html;
+  }
+
+  /**
+   * Paste as Html.
+   * @private
+   * @param {Event} e The event
+   * @returns {string|null} The updated pasted data
+   */
+  #pasteAsHtml(e) {
+    if (!e) return null;
+
+    const clipboardData = e.clipboardData;
+    let html;
+
+    if (clipboardData?.types) {
+      const types = clipboardData.types;
+      if ((types instanceof DOMStringList && types.contains('text/html'))
+        || (types.indexOf && types.indexOf('text/html') !== -1)) {
+        html = e.clipboardData.getData('text/html');
+      }
+      if (types instanceof DOMStringList && types.contains('text/plain')) {
+        html = e.clipboardData.getData('text/plain');
+      }
+      if ((typeof types === 'object' && types[0] === 'text/plain') && !types[1]) {
+        html = e.clipboardData.getData('text/plain');
+      }
+    } else {
+      const paste = window.clipboardData ? window.clipboardData.getData('Text') : '';
+      const paragraphs = paste.split(/[\r\n]/g);
+      html = '';
+      for (let i = 0, l = paragraphs.length; i < l; i++) {
+        if (paragraphs[i] !== '') {
+          if (navigator.userAgent.match(/firefox/i) && i === 0) {
+            html += `<p>${this.#htmlEntities(paragraphs[i])}</p>`;
+          } else if ((/\.(gif|jpg|jpeg|tiff|png)$/i).test(paragraphs[i])) {
+            html += `<img src="${this.#htmlEntities(paragraphs[i])}" />`;
+          } else {
+            html += `<p>${this.#htmlEntities(paragraphs[i])}</p>`;
+          }
+        }
+      }
+    }
+    return this.#cleanHtml(html);
+  }
+
+  /**
+   * On paste editor container.
    * @private
    * @param {Event} e The event
    * @returns {void}
    */
-  #onClickToolbar(e) {
-    if (!e) return;
+  #onPasteEditorContainer(e) {
+    if (!e || this.view !== 'editor') return;
 
-    if (/^ids-button$/i.test(e.target.nodeName)) {
-      const modals = ['hyperlink', 'insertimage'];
-      const action = e.target.getAttribute('editor-action');
-      const a = { ...this.#actions[action] };
-      if (typeof a === 'undefined' || modals.includes(action)) return;
-      this.#handleAction(action);
-      this.#triggerEvent('input', this.#elems.editor);
+    e.preventDefault();
+    const asPlainText = this.#pasteAsPlainText(e);
+    const asHtml = this.#pasteAsHtml(e);
+    const args = {
+      asHtml,
+      asPlainText,
+      value: this.value,
+      view: this.view
+    };
+    if (!this.triggerVetoableEvent('beforepaste', args)) {
+      this.#triggerEvent('rejectpaste', this, args);
+      return;
+    }
+    if (document.queryCommandSupported('insertText')) {
+      document.execCommand('insertHTML', false, (this.pasteAsPlainText ? asPlainText : asHtml));
+      debounce(() => this.#triggerEvent('afterpaste'), 410)();
+    }
+  }
+
+  /**
+   * On selection change.
+   * @private
+   * @returns {void}
+   */
+  #onSelectionChange() {
+    const elems = this.#elems;
+    const parents = this.#selectionParents();
+    const setActive = (btn) => {
+      if (btn) btn.cssClass = ['is-active'];
+    };
+    const regxFormatblock = new RegExp(`^(${Object.keys(elems.formatblock.items).join('|')})$`, 'i');
+    elems.toolbarElms?.forEach((btn) => {
+      if (btn) btn.cssClass = [];
+    });
+    const isEditor = elems?.editor === this.shadowRoot?.activeElement;
+    if (isEditor) {
+      Object.entries(this.#actions).forEach(([k, v]) => {
+        if (k === 'forecolor' && parents.font?.node?.hasAttribute('color')) {
+          setActive(elems.forecolorBtn);
+        }
+        if (k === 'backcolor' && parents.span?.node?.style?.backgroundColor) {
+          setActive(elems.backcolorBtn);
+        }
+        if (k === 'blockquote' && !!parents.blockquote) {
+          setActive(elems.blockquoteBtn);
+        }
+        if (k === 'hyperlink' && !!parents.a) {
+          setActive(elems.hyperlinkBtn);
+        }
+        if (elems.formatblock?.btn && regxFormatblock.test(k) && !!parents[k]) {
+          elems.formatblock.btn.text = elems.formatblock.items[k].text;
+        }
+        if (document.queryCommandState(v.action)) {
+          setActive(this.querySelector(`[editor-action="${k}"]`));
+        }
+      });
     }
   }
 
@@ -1249,14 +1554,29 @@ export default class IdsEditor extends Base {
    * @returns {void}
    */
   #onSelectedToolbar(e) {
-    if (!e) return;
+    if (!e?.detail?.elem) return;
 
-    if (/^ids-menu-item$/i.test(e.target.nodeName)) {
-      const action = `${e.target?.menu?.target?.getAttribute('editor-action') ?? ''}`.replace(/^menu-button-/i, '');
+    const elem = e.detail.elem;
+    let target = null;
+
+    if (/^ids-menu-item$/i.test(elem.nodeName)) target = elem.menu?.target;
+    if (/^ids-button$/i.test(elem.nodeName)) target = elem;
+
+    const action = target?.getAttribute('editor-action');
+    if (this.#actions[action]) {
+      let value = null;
       if (action === 'formatblock') {
-        this.#handleAction(action, e.detail.value);
-        this.#triggerEvent('input', this.#elems.editor);
+        const menuBtn = elem.menu?.target;
+        if (menuBtn) menuBtn.text = elem.text || elem.textContent?.trim();
+        value = e.detail.value;
       }
+
+      if (/^(hyperlink|insertimage)$/i.test(action)) {
+        this.#modals[action]?.modal?.show();
+      } else {
+        this.#handleAction(action, value);
+      }
+      this.#triggerEvent('input', this.#elems.editor);
     }
   }
 
@@ -1303,11 +1623,13 @@ export default class IdsEditor extends Base {
       }
       const opt = args.hideRemoveContainer ? 'add' : 'remove';
       elems.removeContainer?.classList[opt](CLASSES.hidden);
-      elems.url.value = args.url;
-      elems.url.checkValidation();
-      elems.classes.value = args.classes;
-      elems.targets.value = args.targetSelected?.value ?? '';
-      elems.clickable.checked = args.isClickable;
+      if (elems.url) {
+        elems.url.value = args.url;
+        elems.url.checkValidation();
+      }
+      if (elems.classes) elems.classes.value = args.classes;
+      if (elems.targets) elems.targets.value = args.targetSelected?.value ?? '';
+      if (elems.clickable) elems.clickable.checked = args.isClickable;
       this.#modals.beforeShowValues.hyperlink = { ...args };
     }
     return true;
@@ -1322,14 +1644,13 @@ export default class IdsEditor extends Base {
    */
   #handleAction(action, val) {
     let a = { ...this.#actions[action] };
-    if (typeof a === 'undefined') return;
+    if (a === {}) return;
 
     const sel = this.#getSelection();
 
     // Set format block
     if (a.action === 'formatBlock') {
-      const v = val ?? a.value;
-      const blockAction = v === 'normal' ? this.#paragraphSeparator : v;
+      const blockAction = val ?? a.value;
       a = { ...this.#actions[blockAction] };
 
       if (a.value === 'blockquote' && this.#blockElem().tagName === 'blockquote') {
@@ -1345,7 +1666,7 @@ export default class IdsEditor extends Base {
 
     // Set text align
     if (/^(alignleft|alignright|aligncenter|alignjustify)$/i.test(action)) {
-      const alignDoc = this.locale.isRTL() ? 'right' : 'left';
+      const alignDoc = this.locale?.isRTL() ? 'right' : 'left';
       const align = action.replace('align', '');
       this.#selectionBlockElems().forEach((elem) => {
         align === alignDoc
@@ -1360,7 +1681,7 @@ export default class IdsEditor extends Base {
       this.#savedSelection = this.#saveSelection();
       if (this.#savedSelection && this.#elems[`${action}Input`]) {
         const color = action === 'backcolor'
-          ? sel?.focusNode?.parentNode?.style?.getProperty('background-color')
+          ? sel?.focusNode?.parentNode?.style?.getProperty?.('background-color')
           : document.queryCommandValue(a.action);
         this.#elems[`${action}Input`].value = /rgb/i.test(color) ? this.#rgbToHex(color) : color;
         this.#elems[`${action}Input`].click();
@@ -1392,7 +1713,7 @@ export default class IdsEditor extends Base {
 
     // Switch editor/source mode
     if (/^(editormode|sourcemode)$/i.test(action)) {
-      this.view = action.replace(/mode/gi, '');
+      this.view = action.replace(/mode/i, '');
       return;
     }
 
@@ -1441,38 +1762,38 @@ export default class IdsEditor extends Base {
 
       if (hideRemoveContainer) {
         // Create new hyperlink
-        if (elems.url.value) {
+        if (elems.url?.value) {
           a.value = 'EDITOR_CREATED_NEW_HYPERLINK';
           document.execCommand(a.action, false, a.value);
           const aLink = this.#qs(`a[href="${a.value}"`);
           aLink.setAttribute('href', elems.url.value);
           aLink.innerHTML = aLink.innerHTML.replace(a.value, elems.url.value);
-          if (elems.classes.value !== '') {
+          if (elems.classes?.value !== '') {
             aLink.setAttribute('class', elems.classes.value);
           }
-          if (elems.targets.value !== '') {
+          if (elems.targets?.value !== '') {
             aLink.setAttribute('target', elems.targets.value);
           }
-          if (elems.clickable.checked) {
+          if (elems.clickable?.checked) {
             aLink.setAttribute('contenteditable', 'false');
           }
         }
-      } else if (elems.removeElem.checked || elems.url.value === '') {
+      } else if (elems.removeElem?.checked || elems.url?.value === '') {
         // Remove the current hyperlink, selection was on hyperlink
         currentLink.outerHTML = currentLink.innerHTML;
       } else {
         // Update the current hyperlink, selection was on hyperlink
         const attr = (name, value) => {
           if (value !== '') {
-            currentLink.setAttribute(name, value);
+            currentLink?.setAttribute(name, value);
           } else {
-            currentLink.removeAttribute(name);
+            currentLink?.removeAttribute(name);
           }
         };
-        attr('href', elems.url.value);
-        attr('class', elems.classes.value);
-        attr('target', elems.targets.value);
-        attr('contenteditable', elems.clickable.checked ? 'false' : '');
+        attr('href', elems.url?.value);
+        attr('class', elems.classes?.value);
+        attr('target', elems.targets?.value);
+        attr('contenteditable', elems.clickable?.checked ? 'false' : '');
       }
 
       // Reset all hyperlink related elements in modal, for next time open
@@ -1496,14 +1817,13 @@ export default class IdsEditor extends Base {
       // TODO: DO something changing language ?
     });
 
-    // Attach slotchange events
-    this.#attachSlotchangeEvent();
+    // Attach selection change
+    this.onEvent('selectionchange.editor', document, debounce(() => {
+      this.#onSelectionChange();
+    }, 400));
 
     // Attach toolbar events
     const toolbar = this.querySelector('[slot="toolbar"]');
-    this.onEvent('click.editor-toolbar', toolbar, (e) => {
-      this.#onClickToolbar(e);
-    });
     this.onEvent('selected.editor-toolbar', toolbar, (e) => {
       this.#onSelectedToolbar(e);
     });
@@ -1511,26 +1831,42 @@ export default class IdsEditor extends Base {
       this.#onInputToolbar(e);
     });
 
-    // Attach events to each modal
-    ['errormessage', 'insertimage', 'hyperlink'].forEach((key) => {
-      if (this.#modals[key]?.modal) {
-        this.#attachModalEvents(key);
-      }
-    });
-
     // Editor container
     this.onEvent('input.editor-editcontainer', this.#elems.editor, debounce(() => {
-      this.#setSourceContent();
-      this.#triggerEvent('change', this.#elems.textarea);
+      if (!this.#elems.reqviewchange) {
+        this.#setSourceContent();
+        this.#triggerEvent('change', this.#elems.textarea);
+      }
     }, 400));
+    this.onEvent('blur.editor-editcontainer', this.#elems.editor, () => {
+      this.#triggerEvent('blur', this.#elems.textarea);
+    });
+    this.onEvent('paste.editor-editcontainer', this.#elems.editor, (e) => {
+      this.#onPasteEditorContainer(e);
+    });
 
     // Textarea
     this.onEvent('input.editor-textarea', this.#elems.textarea, () => {
       this.#adjustSourceLineNumbers();
+      debounce(() => {
+        if (!this.#elems.reqviewchange) this.#triggerEvent('change', this.#elems.textarea);
+      }, 400)();
     });
     this.onEvent('change.editor-textarea', this.#elems.textarea, () => {
       this.#triggerEvent('change');
     });
+
+    // View changed
+    this.onEvent('viewchanged.editor-reqviewchanged', this, debounce(() => {
+      delete this.#elems.reqviewchange;
+    }, 410));
+    this.onEvent('rejectviewchanged.editor-reqviewchanged', this, debounce(() => {
+      delete this.#elems.reqviewchange;
+    }, 410));
+
+    // Other events
+    this.#attachSlotchangeEvent();
+    this.#attachKeyboardEvents();
 
     // Set observer for resize
     this.#resizeObserver.disconnect();
@@ -1565,11 +1901,8 @@ export default class IdsEditor extends Base {
     // No need to bind else, if modal has no target-btn
     if (!this.#modals[key].btn) return;
 
-    // Set modal trigger
-    modal.target = this.#modals[key].btn;
-    modal.trigger = 'click';
-
     // Before modal open
+    this.offEvent(`beforeshow.editor-modal-${key}`, modal);
     this.onEvent(`beforeshow.editor-modal-${key}`, modal, (e) => {
       if (!this.#onBeforeShowModal(key) && key !== 'errormessage') {
         e.detail.response(false);
@@ -1578,6 +1911,7 @@ export default class IdsEditor extends Base {
     });
 
     // Apply button clicked
+    this.offEvent(`click.editor-modal-${key}`, modal);
     this.onEvent(`click.editor-modal-${key}`, modal, (e) => {
       if (e.target.getAttribute('id') === `${key}-modal-apply-btn`) {
         this.#handleModalAction(key);
@@ -1590,6 +1924,7 @@ export default class IdsEditor extends Base {
       const removeElem = elems.removeElem;
       const elemsToDisable = Object.entries(elems)
         .filter(([k]) => (!(/^(removeElem|removeContainer)$/.test(k)))).map((x) => x[1]);
+      this.offEvent(`change.editor-modal-${key}-checkbox-remove`, removeElem);
       this.onEvent(`change.editor-modal-${key}-checkbox-remove`, removeElem, (e) => {
         elemsToDisable.forEach((elem) => {
           elem && (elem.disabled = e.detail.checked);
@@ -1601,14 +1936,58 @@ export default class IdsEditor extends Base {
   /**
    * Attach slotchange events
    * @private
-   * @returns {void}
+   * @returns {object} This API object for chaining
    */
   #attachSlotchangeEvent() {
     const html = (slot) => slot?.assignedNodes()[0]?.innerHTML ?? '';
     const contentSlot = this.#qs('slot[name="content"]');
     this.onEvent('slotchange.editor-content', contentSlot, () => {
       this.#setEditorContent(html(contentSlot) ?? '');
+      this.#triggerEvent('input', this.#elems.editor);
     });
+    return this;
+  }
+
+  /**
+   * Attach Keyboard events
+   * @private
+   * @returns {object} This API object for chaining
+   */
+  #attachKeyboardEvents() {
+    const hasKey = (action, key) => (new RegExp(key, 'i')).test(action[1].keyid);
+    const getKey = (action) => action[1].keyid.replace(/\|.*$/g, '');
+    const actions = Object.entries(this.#actions).filter(([, v]) => v.keyid);
+    const keys = [...new Set(actions.map((action) => getKey(action)))];
+    const mapped = {};
+    keys.forEach((key) => {
+      mapped[key] = actions.filter((action) => getKey(action) === key);
+    });
+
+    this.onEvent('keydown.editor-container', this.container, (e) => {
+      if (this.disabled || this.readonly) {
+        return;
+      }
+      const key = e.code;
+      if (keys.indexOf(key) > -1 && (e.ctrlKey || e.metaKey)) {
+        const action = mapped[key]?.filter((a) => (
+          e.shiftKey === hasKey(a, 'shift') && e.altKey === hasKey(a, 'alt')
+        )).flat();
+
+        if (action?.length) {
+          if (this.view === 'source' && action[0] !== 'editormode') {
+            return;
+          }
+          if (['hyperlink', 'insertimage'].includes(action[0])) {
+            this.#modals[action[0]]?.modal?.show();
+          } else {
+            this.#handleAction(action[0]);
+            this.#triggerEvent('input', this.#elems.editor);
+          }
+          e.preventDefault();
+        }
+      }
+    });
+    return this;
   }
 
   /**
@@ -1616,7 +1995,7 @@ export default class IdsEditor extends Base {
    * @returns {string} The current value
    */
   get value() {
-    return this.#trimContent(this.#elems.textarea.value);
+    return this.#trimContent?.(this.#elems.textarea.value);
   }
 
   /**
@@ -1626,16 +2005,10 @@ export default class IdsEditor extends Base {
   set disabled(value) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.DISABLED, '');
-      this.container.setAttribute(attributes.DISABLED, '');
-      this.#elems?.textarea?.setAttribute(attributes.DISABLED, '');
-      this.labelEl?.setAttribute(attributes.DISABLED, '');
     } else {
       this.removeAttribute(attributes.DISABLED);
-      this.container.removeAttribute(attributes.DISABLED);
-      this.#elems?.textarea?.removeAttribute(attributes.DISABLED);
-      this.labelEl?.removeAttribute(attributes.DISABLED);
     }
-    this.#contenteditable();
+    this.#setDisabled?.();
   }
 
   get disabled() {
@@ -1653,6 +2026,7 @@ export default class IdsEditor extends Base {
     } else {
       this.removeAttribute(attributes.LABEL);
     }
+    this.#setLabels?.();
   }
 
   get label() {
@@ -1707,7 +2081,7 @@ export default class IdsEditor extends Base {
     } else {
       this.removeAttribute(attributes.PARAGRAPH_SEPARATOR);
     }
-    this.#setParagraphSeparator();
+    this.#setParagraphSeparator?.();
   }
 
   get paragraphSeparator() {
@@ -1715,7 +2089,24 @@ export default class IdsEditor extends Base {
   }
 
   /**
-   * Set the placeholder for editor
+   * Sets to be paste as plain text for editor
+   * @param {boolean|string} value The value
+   */
+  set pasteAsPlainText(value) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.PASTE_AS_PLAIN_TEXT, '');
+    } else {
+      this.removeAttribute(attributes.PASTE_AS_PLAIN_TEXT);
+    }
+  }
+
+  get pasteAsPlainText() {
+    const value = this.getAttribute(attributes.PASTE_AS_PLAIN_TEXT);
+    return value !== null ? stringToBool(value) : EDITOR_DEFAULTS.pasteAsPlainText;
+  }
+
+  /**
+   * Set the placeholder text for editor
    * @param {string} value The placeholder value
    */
   set placeholder(value) {
@@ -1748,7 +2139,7 @@ export default class IdsEditor extends Base {
       this.#elems?.textarea?.removeAttribute(attributes.READONLY);
       this.labelEl?.removeAttribute(attributes.READONLY);
     }
-    this.#contenteditable();
+    this.#contenteditable?.();
   }
 
   get readonly() {
@@ -1757,7 +2148,7 @@ export default class IdsEditor extends Base {
   }
 
   /**
-   * Sets the source formatter for editor
+   * Sets to be use source formatter for editor
    * @param {boolean|string} value The value
    */
   set sourceFormatter(value) {
@@ -1779,11 +2170,17 @@ export default class IdsEditor extends Base {
    */
   set view(value) {
     if (VIEWS.indexOf(value) > -1) {
-      this.setAttribute(attributes.VIEW, value);
+      const attr = this.getAttribute(attributes.VIEW);
+      let veto = null;
+      if (this.view !== value) veto = /source/i.test(value) ? this.#sourceMode() : this.#editorMode();
+      if (veto || (veto === null && attr !== value)) this.setAttribute(attributes.VIEW, value);
+      if (veto) {
+        this.#triggerEvent(`after${value}mode`);
+        this.#triggerEvent('viewchanged', this, { view: value });
+      }
     } else {
       this.removeAttribute(attributes.VIEW);
     }
-    this.#activateMode();
   }
 
   get view() {

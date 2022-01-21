@@ -181,6 +181,7 @@ export const attributes = {
   PADDING: 'padding',
   PARENT_CONTAINMENT: 'parent-containment',
   PARENT_DISABLED: 'parent-disabled',
+  PASTE_AS_PLAIN_TEXT: 'paste-as-plain-text',
   PASSWORD_VISIBLE: 'password-visible',
   PERCENT: 'percent',
   PERCENTAGE_VISIBLE: 'percentage-visible',

@@ -3,6 +3,7 @@
 @import '../../mixins/sass/ids-dirty-tracker-mixin';
 @import '../../mixins/sass/ids-validation-mixin';
 
+$editor-container-height: 285px;
 
 .ids-editor {
 
@@ -15,10 +16,10 @@
   }
 
   .editor-label {
+    @include flex();
     @include mb-4();
 
     align-items: baseline;
-    display: flex;
 
     &.required {
       &::after {
@@ -58,12 +59,22 @@
       @include outline-none();
       @include shadow();
     }
+
+    &.error,
+    &.error:hover {
+      @include border-alert-danger();
+      @include text-alert-danger();
+
+      &:focus-within {
+        @include border-alert-danger();
+        @include shadow-error();
+      }
+    }
   }
 
   .toolbar-container {
     border-top-left-radius: 1px;
     border-top-right-radius: 1px;
-    overflow-x: hidden; // TODO: remove soon toolbar spillover implements
   }
 
   // Causes overflow to occur on Formatter Toolbar
@@ -132,8 +143,27 @@
     }
   }
 
+
+  .source-container,
+  .editor-container {
+    @include antialiased();
+    @include font-sans();
+    @include outline-none();
+    @include leading-normal();
+    @include text-16();
+
+    overflow: auto;
+  }
+
+  .source-container {
+    height: $editor-container-height + 32; // top/bottom padding;
+  }
+
+
   .editor-container {
     @include p-16();
+
+    height: $editor-container-height;
 
     a {
       @include text-azure-60();
@@ -155,7 +185,7 @@
     }
 
     blockquote {
-      border-inline-start: 3px solid var(--ids-color-palette-slate-40);
+      border-inline-start: 2px solid var(--ids-color-palette-slate-40);
       margin-inline-start: 4px;
       margin-inline-end: 0;
       padding-inline-start: 12px;
@@ -167,9 +197,10 @@
 
     &[placeholder]:empty {
       &::before {
+        @include opacity-70();
+
         content: attr(placeholder);
         display: inline-block;
-        opacity: 0.6;
       }
 
       &:focus::before {
@@ -180,52 +211,41 @@
 
   .source-wrapper {
     @include flex();
+    @include min-h-full();
     @include m-0();
     @include p-0();
 
-    min-height: 100%;
-
     .line-numbers {
       @include antialiased();
-      @include font-sans();
       @include bg-slate-10();
+      @include font-bold();
+      @include font-sans();
+      @include leading-normal();
       @include m-0();
       @include px-12();
+      @include pt-16();
       @include text-slate-50();
 
-      font-weight: 700;
-      padding-top: 16px;
-      line-height: 1.5rem;
       list-style: none;
       text-align: end;
     }
 
     .source-textarea {
       @include antialiased();
+      @include bg-transparent();
       @include font-sans();
       @include text-16();
       @include px-16();
+      @include pt-16();
       @include outline-none();
+      @include leading-normal();
       @include h-full();
       @include w-full();
 
-      background-color: transparent;
       border: none;
-      padding-top: 16px;
-      line-height: 1.5rem;
       overflow: hidden;
       resize: none;
     }
-  }
-
-  .editor-container,
-  .source-container {
-    @include antialiased();
-    @include font-sans();
-    @include outline-none();
-
-    height: 320px;
-    overflow: auto;
   }
 
   &[mode='dark'] {
@@ -234,6 +254,17 @@
 
       &:focus-within {
         @include border-azure-60();
+      }
+
+      &.error,
+      &.error:hover {
+        @include border-alert-danger();
+        @include text-alert-danger();
+
+        &:focus-within {
+          @include border-alert-danger();
+          @include shadow-error();
+        }
       }
     }
 
@@ -284,6 +315,17 @@
 
       &:focus-within {
         @include border-azure-90();
+      }
+
+      &.error,
+      &.error:hover {
+        @include border-alert-danger();
+        @include text-alert-danger();
+
+        &:focus-within {
+          @include border-alert-danger();
+          @include shadow-error();
+        }
       }
     }
 

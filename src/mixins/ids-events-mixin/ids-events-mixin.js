@@ -1,6 +1,6 @@
 import renderLoop from '../../components/ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../../components/ids-render-loop/ids-render-loop-item';
-import { isPrintable } from '../../utils/ids-string-utils/ids-string-utils';
+import { stringToBool, isPrintable } from '../../utils/ids-string-utils/ids-string-utils';
 
 /**
  * A mixin that adds event handler functionality that is also safely torn down when a component is
@@ -132,7 +132,7 @@ const IdsEventsMixin = (superclass) => class extends superclass {
 
     let canShow = true;
     const eventResponse = (veto) => {
-      canShow = !!veto;
+      canShow = stringToBool(veto);
     };
     this.triggerEvent(eventType, this, {
       bubbles: true,

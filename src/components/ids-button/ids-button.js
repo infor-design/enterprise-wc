@@ -361,6 +361,14 @@ export default class IdsButton extends Base {
   }
 
   /**
+   * Gets the current icon element
+   * @returns {HTMLElement|null} a defined IdsIcon, if one is present
+   */
+  get iconEl() {
+    return this.querySelector('ids-icon');
+  }
+
+  /**
    * Sets the alignment of an existing icon to the 'start' or 'end' of the text
    * @param {string} val the alignment type to set.
    */

@@ -103,6 +103,7 @@ export default class IdsToolbarMoreActions extends Base {
     let disabled = '';
     let submenu = '';
     let overflowed = '';
+    let viewbox = '';
 
     if (!isSubmenuItem) {
       overflowed = this.isOverflowed(item) ? '' : ' hidden';
@@ -113,7 +114,11 @@ export default class IdsToolbarMoreActions extends Base {
     // to control their visibility when overflowed.
     const handleButton = (thisItem) => {
       if (thisItem.disabled) disabled = ' disabled';
-      if (thisItem.icon) icon = ` icon="${thisItem.icon}"`;
+      if (thisItem.icon) {
+        icon = ` icon="${thisItem.icon}"`;
+        viewbox = thisItem.iconEl?.viewbox;
+        viewbox = viewbox ? ` viewbox="${viewbox}"` : '';
+      }
       text = thisItem.text;
     };
 
@@ -160,7 +165,7 @@ export default class IdsToolbarMoreActions extends Base {
     // Sanitize text from Toolbar elements to fit menu items
     text = removeNewLines(text).trim();
 
-    return `<ids-menu-item${disabled}${icon}${hidden || overflowed}>
+    return `<ids-menu-item${disabled}${icon}${viewbox}${hidden || overflowed}>
       ${text}
       ${submenu}
     </ids-menu-item>`;
