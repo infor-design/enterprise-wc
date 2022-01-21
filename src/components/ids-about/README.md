@@ -78,13 +78,13 @@ about.useDefaultCopyright = false;
 
 ## Converting from Previous Versions (Breaking Changes)
 
-**3.x**
+**3.x to 4.x**
 - Replace `.inforAboutDialog()` with `.about()` and notice that many of the names of the settings (e.g. productName to appName) to have changed so must be updated to the new settings.
 
-**4.x**
+**4.x to 5.x**
 - About now uses all new markup and classes for web components (see above)
 - Cookies and full OS information (like version) has been removed to adhere to more modern browser standards and lack of availability of these features in modern browsers.
-- `version` has been renamed to `productVersion`
-- `close` method has been removed use `$('ids-about').visible = false` instead
-- `destroy` method has been removed its all cleaned up when removing the DOM element
-- `close/open` events have been named to `show/hide`
+- The `version` has been renamed to `productVersion`
+- The `close` method has been removed use `$('ids-about').visible = false` instead
+- The `destroy` method has been removed since everything is now cleaned up when removing the DOM element
+- The `close/open` events have been named to `show/hide`
