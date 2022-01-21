@@ -6,7 +6,6 @@ All components in this version are now web components. Each component can now be
 For more details on breaking changes in each component see the individual README.md files.
 
 - `[About]` The was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-tag#converting-from-previous-versions)` for details. ([#308](https://github.com/infor-design/enterprise-wc/issues/308))
-
 - `[App Menu]` The App Menu component is now a web component. ([#130](https://github.com/infor-design/enterprise-wc/issues/130))
   - Markup has changed to a custom element `<ids-app-menu></ids-app-menu`>
   - Can now be imported as a single JS file and used with encapsulated styles

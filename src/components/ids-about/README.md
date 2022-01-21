@@ -88,4 +88,3 @@ about.useDefaultCopyright = false;
 - `close` method has been removed use `$('ids-about').visible = false` instead
 - `destroy` method has been removed its all cleaned up when removing the DOM element
 - `close/open` events have been named to `show/hide`
-
