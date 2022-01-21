@@ -2,10 +2,11 @@
 
 ## 5.0.0 Breaking Changes
 
-- `[About]` The About component is now a web component. ([#308](https://github.com/infor-design/enterprise-wc/issues/308))
-  - Markup has changed to a custom element `<ids-about></ids-about`>
-  - Can now be imported as a single JS file and used with encapsulated styles
-  - Some contents have been removed including cookies and some OS information as this is deprecated and not reccomended to use in modern browsers.
+All components in this version are now web components. Each component can now be imported as a single JS file and used with encapsulated styles.
+For more details on breaking changes in each component see the individual README.md files.
+
+- `[About]` The was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-tag#converting-from-previous-versions)` for details. ([#308](https://github.com/infor-design/enterprise-wc/issues/308))
+
 - `[App Menu]` The App Menu component is now a web component. ([#130](https://github.com/infor-design/enterprise-wc/issues/130))
   - Markup has changed to a custom element `<ids-app-menu></ids-app-menu`>
   - Can now be imported as a single JS file and used with encapsulated styles
@@ -146,7 +147,7 @@
   - Splitter orientation can be set by use of `axis` settings.
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
-- `[SwapList]` The swaplist component has been changed to a web componentn and renamed to ids-swaplist.
+- `[SwapList]` The swaplist component has been changed to a web component and renamed to ids-swaplist.
 - `[Switch]` The Switch component has been changed to a web component and renamed to ids-switch.
   - Markup has changed to a custom element `<ids-switch></ids-switch>`
   - If using events, events are now plain JS events.
