@@ -5,9 +5,9 @@
 All components in this version are now web components. Each component can now be imported as a single JS file and used with encapsulated styles.
 For more details on breaking changes in each component see the individual README.md files.
 
-- `[About]` The about component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-about#converting-from-previous-versions)` for details. ([#308](https://github.com/infor-design/enterprise-wc/issues/308))
+- `[About]` The was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/blob/todo-passthrough/src/components/ids-about/README.md#converting-from-previous-versions-breaking-changes)` for details. ([#308](https://github.com/infor-design/enterprise-wc/issues/308))
 - `[Accordion]` The accordion component converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-accordion#converting-from-previous-versions)` for details. ([#168](https://github.com/infor-design/enterprise-wc/issues/168))
-- `[App Menu]` The accordion component is now a web component. ([#130](https://github.com/infor-design/enterprise-wc/issues/130))
+- `[App Menu]` The App Menu component is now a web component. ([#130](https://github.com/infor-design/enterprise-wc/issues/130))
   - Markup has changed to a custom element `<ids-app-menu></ids-app-menu`>
   - Can now be imported as a single JS file and used with encapsulated styles
   - Sections are now slotted for easier use.  Accordion is the main slot, and other areas (toolbars, user info, etc) are named slots.
