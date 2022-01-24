@@ -29,6 +29,19 @@ An alert can be used in a disabled situation so comes with a disabled style
 <ids-alert icon="info" disabled="true"></ids-alert>
 ```
 
+## Class Hierarchy
+
+- IdsAlert
+    - IdsElement
+- Mixins
+  IdsEventsMixin
+  IdsThemeMixin
+
+## Settings (Attributes)
+
+- `icon` {boolean} Set the type of icon / alert to show options include  'alert' | 'success' | 'dirty' | 'error' | 'info' |'pending' | 'new' | 'in-progress' | 'info-field'
+- `disabled` {boolean} Set alert to disabled
+
 ## Themeable Parts
 
 - `icon` allows you to further style the icon element
@@ -58,3 +71,10 @@ The traffic light colors are accessibility violations for contrast, however, the
 ## Regional Considerations
 
 Some icons that indicate direction will be flipped when in Right-To-Left languages. This is a TODO still.
+
+## Converting from Previous Versions (Breaking Changes)
+
+**4.x to 5.x**
+- About now uses all new markup and classes for web components (see above)
+- The yellow alert is no longer available due to having poor contrast with the background.
+- The names of some alerts (icon setting) have changed
