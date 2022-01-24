@@ -32,7 +32,7 @@ An alert can be used in a disabled situation so comes with a disabled style
 ## Class Hierarchy
 
 - IdsAlert
-    - IdsElement
+  - IdsElement
 - Mixins
   IdsEventsMixin
   IdsThemeMixin
