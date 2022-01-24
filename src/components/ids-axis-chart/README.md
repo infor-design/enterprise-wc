@@ -2,21 +2,17 @@
 
 ## Description
 
-A line chart or line graph is a type of chart which displays information as a series of data points connected by straight line segments. Often Line charts convey a series of data over periods over time. Line charts can use both single and multiple variables to emphasize trends over several series. Users can interact by clicking or tapping on chart lines to focus on a certain series of data on a line chart. And users can also interact by hovering data points to reveal additional information.
-
-For more information on line charts check out the article [Line Charts Made Simple](https://uxdesign.cc/line-chart-design-made-simple-a1b823510674).
+The axis chart is a chart with an x-axis and y-axis. This is the base chart object used to make line, area, column and other charts.
+Generally it should not be used on its own but if you have a case of making some other chart it could be used.
 
 ## Use Cases
 
-- Use when you want to show change over time.
-- Use when you want to show trends.
-- Use when you want to show comparison of change for several groups.
-- Use when you want to aid prediction.
+- When you want a chart with x and y axis and control over whats rendered in it.
 
 ## Usage Considerations
 
 - Do not show too many lines at once as it may be difficult to interpret.
-- Hover tooltips should only be used to reveal additional information.
+- Hover tooltips should only be used to reveal additional non-critical information.
 
 ## Terminology
 
@@ -24,10 +20,11 @@ For more information on line charts check out the article [Line Charts Made Simp
 - **Domain**: The domain is all x-values (the values of the graph from left to right)
 - **Range**: The domain is all y-values (the values of the graph from down to up)
 - **Scale**: The range of values in the graph (the values of the graph from down to up) and the amount of steps between each value.
+- **Axis**: Charts typically have two axes that are used to measure and categorize data: a vertical axis (also known as value axis or y axis), and a horizontal axis (also known as category axis or x axis).
 
 ## Features (With Code Examples)
 
-A line chart is defined with the custom element and width and height.
+A line chart is defined with a custom element with a width and height.
 
 ```html
 <ids-axis-chart title="A line chart showing component usage" width="800" height="500"></ids-axis-chart>
@@ -61,77 +58,61 @@ const lineData2 = [{
   abbrName: 'A',
 }];
 
-document.querySelector('ids-line-chart').data = lineData;
+document.querySelector('ids-axis-chart').data = lineData;
+```
+
+Inside the chart you should provide a chartTemplate that returns the inside (markers) of the chart as svg. The `lineMarkers` element will contain the correct points and position of the markers to use based on the data/height/width/margins of the chart.
+
+```js
+chartTemplate() {
+  return `<g class="markers">
+    ${this.lineMarkers().markers}
+  </g>
+  <g class="marker-lines">
+    ${this.lineMarkers().lines}
+  </g>
+  <g class="areas">
+    ${this.#areas()}
+  </g>`;
+}
 ```
 
 ## Class Hierarchy
 
-- IdsTag
+- IdsAxisChart
     - IdsElement
 - Mixins
   IdsEventsMixin
-  IdsKeyboardMixin
+  IdsLocaleMixin
   IdsThemeMixin
 
 ## Settings
 
-- `clickable` {boolean} Turns on the functionality to make the tag clickable like a link
-- `dismissible` {boolean} Turns on the functionality to add an (x) button to clear remove the tag
-- `color` {string} Sets the color to a internal color such as `azure` or may be a hex starting with a `#`
+- `title` {string} Sets the internal title of the chart (for accessibility).
+- `height` {number} Generally this is calculated automatically but can be used to set a specific height.
+- `width` {number} Generally this is calculated automatically but can be used to set a specific width.
+- `textWidths` {object} Generally this is calculated automatically but can be overridden by setting the amount of space to allocate for margins on the `{ left, right, top, bottom }` sides.
+- `textWidths` {object} Generally this is calculated automatically but can be overridden by setting the amount of space to allocate for text on the `{ left, right, top, bottom }` sides.
+- `yAxisMin` {number}  Set the minimum value on the y axis  (default: 0)
+- `showVerticalGridLines` {boolean}  Show the vertical axis grid lines (default: false)
+- `showHorizontalGridLines` {boolean}  Show the horizontal axis grid lines (default: true)
 
 ## Events
 
-- `beforetagremove` Fire before the tag is removed allowing to veto the action. Detail contains the element `elem` and the callback for vetoing
-- `tagremove` Fires at the time the tag is removed. Detail contains the element `elem`
-- `aftertagremove` Fires after the tag is removed from the DOM. Detail contains the element `elem`
-
-## Methods
-
-- `dismiss` Removes the tag from the page.
+- `rendered` Fires each time the chart is rendered or rerendered (on resize).
 
 ## Themeable Parts
 
-- `checkbox` allows you to further style the checkbox input element
-- `slider` allows you to further style the sliding part of the switch
-- `label` allows you to further style the label text
+- `chart` the svg outer element
 
 ## States and Variations
 
-- Color
-- Linkable
-- Badge
-- Disabled
-- Closable
-
-## Keyboard Guidelines
-
-- <kbd>Tab/Shift+Tab</kbd>: If the tab is focusable this will focus or unfocus the tag.
-- <kbd>Backspace / Alt+Del</kbd>: If the tag is dismissible then this will remove the tag.
-- <kbd>Enter</kbd>: If the tag is clickable then this will follow the tag link.
+- Theme
+- Legends
 
 ## Responsive Guidelines
 
-- Flows with padding and margin within the width and height of the parent container. Possibly scrolling as needed based on parent dimensions.
-
-## Converting from Previous Versions
-
-- 4.x: The line chart was added after version 3.6 so new in 4.x
-- 5.x: Line Chart have all new markup and classes for web components but the data is still the same except for a few changes.
-    - `legendShortName` is now `shortName`
-    - `legendAbbrName` is now `abbrName`
-
-## Designs
-
-[Design Specs 4.5](https://www.figma.com/file/yaJ8mJrqRRej8oTsd6iT8P/IDS-(SoHo)-Component-Library-v4.5?node-id=760%3A771)
-[Design Specs 4.6](https://www.figma.com/file/ok0LLOT9PP1J0kBkPMaZ5c/IDS_Component_File_v4.6-(Draft))
-
-## Accessibility Guidelines
-
-- 1.4.1 Use of Color - Color is not used as the only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual element. Ensure the color tags that indicate state like OK, cancel, ect have other ways to indicate that information. This is failing.
-
-## Regional Considerations
-
-Chart labels should be localized in the current language. The chart will flip in RTL mode. For some color blind users the svg patterns can be used.
+- Sizes to the given width/height defaulting to that of the immediate parent.
 
 ## Why Not Canvas?
 

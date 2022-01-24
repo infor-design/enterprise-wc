@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import NiceScale from '../../src/components/ids-line-chart/ids-nice-scale';
+import NiceScale from '../../src/components/ids-axis-chart/ids-nice-scale';
 
 describe('Nice Scale Tests', () => {
   it('computes scales', () => {

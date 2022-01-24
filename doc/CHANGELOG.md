@@ -13,6 +13,7 @@
 - `[ActionSheet]` The Action Sheet component is now a web component. ([#348](https://github.com/infor-design/enterprise-wc/issues/348)).
   - Markup has changed to a custom element `<ids-action-sheet></ids-action-sheet>`
   - Can now be imported as a single JS file and used with encapsulated styles
+  - `[AreaChart]`The Area Chart component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/blob/todo-passthrough/src/components/ids-area-chart/README.md#converting-from-previous-versions-breaking-changes)` for details. ([#400](https://github.com/infor-design/enterprise-wc/issues/400))
 - `[Button]` The button component has been changed to a web component. ([#4390](https://github.com/infor-design/enterprise/issues/4390))
   - Markup has changed to a custom element `<ids-button id="my-button" type="primary"></ids-button>`
   - Can now be imported as a single JS file and used with encapsulated styles.
@@ -72,6 +73,7 @@
   - Can now be imported as a single JS file and used with encapsulated styles
   - Can now be use variation of sizes (width/height)
   - If using a clearable X on the input the x is now tabbable by default for accessibility
+- `[LineChart]`The Line Chart component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/blob/todo-passthrough/src/components/ids-line-chart/README.md#converting-from-previous-versions-breaking-changes)` for details. ([#317](https://github.com/infor-design/enterprise-wc/issues/317))
 - `[ListView]` The List View component has been changed to a web component and renamed to ids-list-view.
   - If using properties/settings these are now attributes.
   - Markup has changed to a custom element `<ids-list-view></ids-list-view>`

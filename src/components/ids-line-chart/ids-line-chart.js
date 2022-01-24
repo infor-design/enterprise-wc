@@ -1,7 +1,6 @@
+import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
-
 import Base from './ids-line-chart-base';
-
 import styles from './ids-line-chart.scss';
 
 /**
@@ -9,13 +8,26 @@ import styles from './ids-line-chart.scss';
  * @type {IdsLineChart}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @part container - the outside container element
+ * @part svg - the outside svg element
+ * @part marker - the dots/markers in the chart
+ * @part line - the lines in the chart
  */
 @customElement('ids-line-chart')
 @scss(styles)
 export default class IdsLineChart extends Base {
   constructor() {
     super();
+  }
+
+  /**
+   * Return the attributes we handle as getters/setters
+   * @returns {Array} The attributes in an array
+   */
+  static get attributes() {
+    return [
+      ...super.attributes,
+      attributes.MARKER_SIZE
+    ];
   }
 
   /**
@@ -37,35 +49,36 @@ export default class IdsLineChart extends Base {
    * @returns {object} The markers and lines
    */
   lineMarkers() {
-    if (!this.markerData) {
-      return '';
-    }
-
-    let points = '';
     let markerHTML = '';
-    this.markerData.points.forEach((point) => {
-      points += `${point.left},${point.top} `;
-      markerHTML += `<circle cx="${point.left}" cy="${point.top}" data-value="${point.value}" r="${this.markerSize}">${point.value}</circle>`;
+    let lineHTML = '';
+
+    this.markerData.points.forEach((pointGroup, index) => {
+      let points = '';
+      markerHTML += '<g class="marker-set">';
+      pointGroup.forEach((point) => {
+        points += `${point.left},${point.top} `;
+        markerHTML += `<circle part="marker" fill="var(${this.color(index)}" cx="${point.left}" cy="${point.top}" data-value="${point.value}" r="${this.markerSize}">${point.value}</circle>`;
+      });
+      markerHTML += '</g>';
+      lineHTML += `<polyline part="line" class="data-line" points="${points}" stroke="var(${this.color(index)}"/>`;
     });
 
     return {
       markers: markerHTML,
-      lines: `<polyline class="data-line" points="${points}"/>`
+      lines: lineHTML
     };
   }
 
   /**
-   * Generate the svg markup for the area paths
-   * @returns {string} The area markup
-   * @private
+   * Set the size of the markers (aka dots/ticks) in the chart
+   * @param {number} value The value to use (in pixels)
    */
-  #areas() {
-    let areas = '';
-    this.markerData.points.forEach((point, index) => {
-      if (this.markerData.points[index + 1]) {
-        areas += `M${point.left},${point.top}L${point.left},${this.markerData.gridBottom}L${this.markerData.points[index + 1]?.left},${this.markerData.gridBottom}L${this.markerData.points[index + 1]?.left},${this.markerData.points[index + 1]?.top}`;
-      }
-    });
-    return `<path d="${areas}Z"></path>`;
+  set markerSize(value) {
+    this.setAttribute(attributes.MARKER_SIZE, value);
+    this.rerender();
+  }
+
+  get markerSize() {
+    return parseFloat(this.getAttribute(attributes.MARKER_SIZE)) || 5;
   }
 }

@@ -1,9 +1,11 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-axis-chart-base';
 import IdsDataSource from '../../core/ids-data-source';
 import NiceScale from './ids-nice-scale';
+import { QUALITATIVE_COLORS } from './ids-chart-colors';
 
 import styles from './ids-axis-chart.scss';
 
@@ -44,7 +46,8 @@ export default class IdsAxisChart extends Base {
       attributes.DATA,
       attributes.HEIGHT,
       attributes.MARGINS,
-      attributes.MARKER_SIZE,
+      attributes.SHOW_HORIZONTAL_GRID_LINES,
+      attributes.SHOW_VERTICAL_GRID_LINES,
       attributes.TITLE,
       attributes.WIDTH
     ];
@@ -80,6 +83,7 @@ export default class IdsAxisChart extends Base {
     }
     this.#calculate();
     this.svg.innerHTML = this.#axisTemplate();
+    this.triggerEvent('rendered', this, { svg: this.svg, data: this.data, markerData: this.markerData });
   }
 
   /**
@@ -130,21 +134,24 @@ export default class IdsAxisChart extends Base {
 
     // Calculate the Data Points / Locations
     this.markerData.points = [];
-    let left = this.textWidths.left + this.margins.left + (this.margins.leftInner * 2);
+    this.data.forEach((dataPoints) => {
+      let left = this.textWidths.left + this.margins.left + (this.margins.leftInner * 2);
+      const points = [];
+      for (let index = 0; index < this.markerData.markerCount; index++) {
+        left = index === 0 ? left : left + this.#xLineGap();
 
-    for (let index = 0; index < this.markerData.markerCount; index++) {
-      left = index === 0 ? left : left + this.#xLineGap();
+        const value = dataPoints.data[index]?.value || 0;
+        this.markerData.gridTop = this.margins.top + this.textWidths.top;
+        this.markerData.gridBottom = this.height - this.margins.bottom - this.textWidths.bottom;
 
-      const value = this.data[0].data[index]?.value || 0;
-      this.markerData.gridTop = this.margins.top + this.textWidths.top;
-      this.markerData.gridBottom = this.height - this.margins.bottom - this.textWidths.bottom;
-
-      // y = (value - min) / (max - min)
-      const cyPerc = ((value - this.markerData.scale.niceMin)
-        / (this.markerData.scale.niceMax - this.markerData.scale.niceMin));
-      const cyHeight = (cyPerc * (this.markerData.gridBottom - this.markerData.gridTop));
-      this.markerData.points.push({ left, top: this.markerData.gridBottom - cyHeight, value });
-    }
+        // y = (value - min) / (max - min)
+        const cyPerc = ((value - this.markerData.scale.niceMin)
+          / (this.markerData.scale.niceMax - this.markerData.scale.niceMin));
+        const cyHeight = (cyPerc * (this.markerData.gridBottom - this.markerData.gridTop));
+        points.push({ left, top: this.markerData.gridBottom - cyHeight, value });
+      }
+      this.markerData.points.push(points);
+    });
   }
 
   /**
@@ -155,11 +162,11 @@ export default class IdsAxisChart extends Base {
   #axisTemplate() {
     return `
     <title id="title">${this.title}</title>
-    <g class="grid x-lines">
-      ${this.#xLines()}
+    <g class="grid vertical-lines${!this.showVerticalGridLines ? ' hidden' : '' }">
+      ${this.#verticalLines()}
     </g>
-    <g class="grid y-lines">
-      ${this.#yLines()}
+    <g class="grid horizontal-lines${!this.showHorizontalGridLines ? ' hidden' : '' }">
+      ${this.#horizonatalLines()}
     </g>
     ${this.chartTemplate()}
     <g class="labels x-labels">
@@ -184,11 +191,7 @@ export default class IdsAxisChart extends Base {
    * @private
    * @returns {string} The y line markup
    */
-  #yLines() {
-    if (!this.markerData) {
-      return '';
-    }
-
+  #horizonatalLines() {
     let lineHtml = '';
     let top = 0;
     const left = this.textWidths.left + this.margins.left + this.margins.leftInner;
@@ -207,11 +210,7 @@ export default class IdsAxisChart extends Base {
    * @private
    * @returns {string} The x line markup
    */
-  #xLines() {
-    if (!this.markerData) {
-      return '';
-    }
-
+  #verticalLines() {
     let lineHtml = '';
     let left = this.textWidths.left + this.margins.left + (this.margins.leftInner * 2);
     const height = this.height - this.margins.bottom - this.textWidths.bottom;
@@ -229,10 +228,6 @@ export default class IdsAxisChart extends Base {
    * @returns {string} The y label markup
    */
   #yLabels() {
-    if (!this.markerData) {
-      return '';
-    }
-
     let lineHtml = '';
     let top = 0;
     // 3 is the half height of the text - could figure this out based on font size?
@@ -248,12 +243,20 @@ export default class IdsAxisChart extends Base {
   }
 
   /**
+   * Return true if there is at least one data point
+   * @returns {boolean} True if there is at least one data point
+   * */
+  get hasData() {
+    return !this.markerData || !this.data[0]?.data;
+  }
+
+  /**
    * Return the x label data for the svg
    * @private
    * @returns {string} The x label markup
    */
   #xLabels() {
-    if (!this.markerData) {
+    if (this.hasData) {
       return '';
     }
     let labelHtml = '';
@@ -262,7 +265,7 @@ export default class IdsAxisChart extends Base {
 
     for (let index = 0; index <= this.markerData.markerCount; index++) {
       left = index === 0 ? left : left + this.#xLineGap();
-      labelHtml += `<text x="${left}" y="${height}">${this.data[0].data[index]?.name}</text>`;
+      labelHtml += `<text x="${left}" y="${height}">${this.data[0]?.data[index]?.name}</text>`;
     }
     return labelHtml;
   }
@@ -310,7 +313,7 @@ export default class IdsAxisChart extends Base {
    */
   set height(value) {
     this.setAttribute(attributes.HEIGHT, value);
-    this.container.setAttribute(attributes.HEIGHT, value);
+    this.svg.setAttribute(attributes.HEIGHT, value);
     this.rerender();
   }
 
@@ -322,7 +325,7 @@ export default class IdsAxisChart extends Base {
    */
   set width(value) {
     this.setAttribute(attributes.WIDTH, value);
-    this.container.setAttribute(attributes.WIDTH, value);
+    this.svg.setAttribute(attributes.WIDTH, value);
     this.rerender();
   }
 
@@ -376,25 +379,15 @@ export default class IdsAxisChart extends Base {
       return;
     }
 
+    // TODO: Show Empty Message
     this.datasource.data = null;
   }
 
   get data() { return this?.datasource?.data || []; }
 
   /**
-   * Set the size of the markers (aka dots/ticks) in the chart
-   * @param {number} value The value to use (in pixels)
-   */
-  set markerSize(value) {
-    this.setAttribute(attributes.MARKER_SIZE, value);
-    this.rerender();
-  }
-
-  get markerSize() { return parseFloat(this.getAttribute(attributes.MARKER_SIZE)) || 5; }
-
-  /**
    * Set the minimum value on the y axis
-   * @param {number} value The value to use (integer)
+   * @param {number} value The value to use
    */
   set yAxisMin(value) {
     this.setAttribute(attributes.Y_AXIS_MIN, value);
@@ -402,4 +395,55 @@ export default class IdsAxisChart extends Base {
   }
 
   get yAxisMin() { return parseInt(this.getAttribute(attributes.Y_AXIS_MIN)) || 0; }
+
+  /**
+   * Show the vertical axis grid lines
+   * @param {number} value True or false to show the grid lines
+   */
+  set showVerticalGridLines(value) {
+    this.setAttribute(attributes.SHOW_VERTICAL_GRID_LINES, value);
+    this.rerender();
+  }
+
+  get showVerticalGridLines() {
+    const value = this.getAttribute(attributes.SHOW_VERTICAL_GRID_LINES);
+    if (value) {
+      return stringToBool(this.getAttribute(attributes.SHOW_VERTICAL_GRID_LINES));
+    }
+    return false;
+  }
+
+  /**
+   * Show the horizontal axis grid lines
+   * @param {boolean} value True or false to show the grid lines
+   */
+  set showHorizontalGridLines(value) {
+    this.setAttribute(attributes.SHOW_HORIZONTAL_GRID_LINES, value);
+    this.rerender();
+  }
+
+  get showHorizontalGridLines() {
+    const value = this.getAttribute(attributes.SHOW_HORIZONTAL_GRID_LINES);
+    if (value) {
+      return stringToBool(this.getAttribute(attributes.SHOW_HORIZONTAL_GRID_LINES));
+    }
+    return true;
+  }
+
+  get colorPallate() {
+    // TODO: compare or contrast
+    return true;
+  }
+
+  /**
+   * Get the color to use based on the index
+   * @param {number} index The current index
+   * @param {boolean} useRange Set to true to use the range colors (vs the sequential colors)
+   * @returns {number} The value to use (integer)
+   * @private
+   */
+  color(index, useRange) {
+    // TODO: Figure out range colors
+    return useRange ? [] : QUALITATIVE_COLORS[index];
+  }
 }

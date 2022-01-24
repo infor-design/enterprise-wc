@@ -1,7 +1,7 @@
 ---
  component: Line Chart
  link: ids-line-chart
- description: Chart used to track changes over time
+ description: Chart used to track changes over time with lines
  category: Charts and Visualizations
  keywords: line chart, chart, visualization, track changes over time
  examples:

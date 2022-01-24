@@ -10,15 +10,16 @@
     shape-rendering: crispEdges;
     stroke: var(--ids-color-palette-slate-20);
     stroke-width: 1;
-
-    // Hide x grid lines for now
-    &.x-lines {
-      stroke-dasharray: 1 2;
-    }
+    stroke-dasharray: 2 2;
 
     // Make bottom line more solid
-    &.y-lines line:last-child {
+    &.horizontal-lines line:last-child {
       stroke: var(--ids-color-palette-slate-70);
+      stroke-dasharray: none;
+    }
+
+    &.hidden {
+      stroke-width: 0;
     }
   }
 

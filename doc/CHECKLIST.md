@@ -19,7 +19,7 @@
  - [ ] Themes: Implement color changes for Themes
  - [ ] Types: In the `d.ts` file add types for all public settings, methods and events
  - [ ] 100% Test Coverage: Add Functional test coverage to 100% or by ignoring coverage on a non testable section
- - [ ] Changelog: Add detailed Upgrade Docs in Changelog discussing any gotchas converting from 4.x
+ - [ ] Changelog: Add detailed Upgrade Docs in Change log discussing any gotchas converting from 4.x
  - [ ] e2e Tests: Add tests for any e2e functionality that cant be accurately tested in the functional tests as well as basic sanity checks, Axe checks and Percy Tests for all 3 themes
  - [ ] Security: We will always pass all [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) guidelines. But the code is setup to error if this fails. Also we will pass security scans like Veracode and Snyk. The biggest issue here is usually XSS.
  - [ ] NG / Vue / React / Svelte / TS Example (we will build this out)
@@ -45,7 +45,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Action Sheet (ids-action-sheet)
  - [x] Alerts (ids-alert)
  - [x] Application menu (ids-application-menu)
- - [ ] Area (ids-area-chart)
+ - [x] Area (ids-area-chart)
  - [ ] Autocomplete (ids-autocomplete)
  - [x] Badges (ids-badge)
  - [x] Bar (ids-bar-chart)
@@ -70,7 +70,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Drag (ids-draggable)
  - [ ] Dropdown (ids-drop-down)
  - [ ] Editor (ids-editor)
- - [ ] Emptymessage (ids-empty-message)
+ - [ ] EmptyMessage (ids-empty-message)
  - [x] Error Page (ids-page-error)
  - [x] Expandable area (ids-expandable-area)
  - [ ] Fieldset (ids-field-set)
@@ -86,7 +86,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Icons (ids-icon)
  - [x] Images (ids-image)
  - [x] Input (ids-input)
- - [ ] Line (ids-line-chart)
+ - [x] Line (ids-line-chart)
  - [x] Listbuilder (ids-list-builder)
  - [x] Listview (ids-list-view)
  - [x] Locale (ids-locale)
@@ -136,7 +136,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Toast (ids-toast)
  - [x] Toolbar (ids-toolbar)r
  - [x] Tooltip (ids-tooltip
- - [x] Trackdirty (mixin)
+ - [x] TrackDirty (mixin)
  - [x] Tree (ids-tree)
  - [x] Treemap (ids-tree-map)
  - [x] Typography (ids-text)
