@@ -1,0 +1,16 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#month-view-example {
+  .ids-toolbar-section {
+    align-items: center;
+    flex: 1 1 auto;
+  }
+
+  .ids-icon-button,
+  .ids-button {
+    display: inline-flex;
+  }
+}

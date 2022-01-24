@@ -1,7 +1,111 @@
 @import '../../core/ids-base';
 
 .ids-swaplist {
-  display: flex;
+  @include flex();
+
   flex-direction: row;
-  height: 360px;
+}
+
+.swap-buttons {
+  margin-inline-start: auto;
+}
+
+ids-button {
+  @include relative();
+  @include p-0();
+
+  width: 36px;
+  height: 34px;
+
+  &::part(button) {
+    @include flex();
+    @include p-0();
+
+    align-items: center;
+    justify-content: center;
+  }
+
+  &::after,
+  &::before {
+    @include bg-slate-60();
+    @include absolute();
+
+    display: inline-block;
+    content: '';
+    top: 8px;
+    left: 9px;
+  }
+
+  &::after {
+    box-shadow:
+      0 6px 0 var(--ids-color-palette-slate-60),
+      0 12px 0 var(--ids-color-palette-slate-60),
+      16px 0 0 var(--ids-color-palette-slate-60),
+      16px 6px 0 var(--ids-color-palette-slate-60),
+      16px 12px 0 var(--ids-color-palette-slate-60);
+    height: 5px;
+    width: 2px;
+  }
+
+  &::before {
+    box-shadow:
+      13px 0 0 var(--ids-color-palette-slate-60),
+      0 16px 0 var(--ids-color-palette-slate-60),
+      13px 16px 0 var(--ids-color-palette-slate-60);
+    height: 2px;
+    width: 5px;
+  }
+
+  &:hover {
+    &::before {
+      box-shadow:
+        13px 0 0 var(--ids-color-palette-slate-100),
+        0 16px 0 var(--ids-color-palette-slate-100),
+        13px 16px 0 var(--ids-color-palette-slate-100);
+    }
+
+    &::after {
+      box-shadow:
+        0 6px 0 var(--ids-color-palette-slate-100),
+        0 12px 0 var(--ids-color-palette-slate-100),
+        16px 0 0 var(--ids-color-palette-slate-100),
+        16px 6px 0 var(--ids-color-palette-slate-100),
+        16px 12px 0 var(--ids-color-palette-slate-100);
+    }
+  }
+}
+
+ids-card {
+  width: 33.33%;
+
+  &.card {
+    &::part(card) {
+      @include rounded-none();
+
+      border-left: 1px solid var(--ids-color-palette-slate-30);
+      border-right: none;
+      box-shadow: rgba(0 0 0 / 0.1) 3px 0 8px;
+    }
+  }
+
+  &.card-0 {
+    &::part(card) {
+      @include rounded-l-md();
+
+      border-left: 1px solid var(--ids-color-palette-slate-30);
+      border-right: none;
+    }
+  }
+
+  &.card-last {
+    &::part(card) {
+      @include rounded-r-md();
+
+      border: 1px solid var(--ids-color-palette-slate-30);
+    }
+  }
+
+  &::part(header) {
+    border-bottom: 1px solid var(--ids-color-palette-slate-30);
+  }
 }

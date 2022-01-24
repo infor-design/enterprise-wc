@@ -487,3 +487,21 @@ $input-compact-height: $input-field-height-xs;
     }
   }
 }
+
+.inline-indicators {
+  position: absolute;
+  display: flex;
+  outline: 0;
+  right: 8px;
+  margin-top: -15px;
+
+  .show-hide-password {
+    &::part(button) {
+      padding: 0;
+    }
+  }
+
+  .caps-lock-indicator {
+    padding-left: 8px;
+  }
+}

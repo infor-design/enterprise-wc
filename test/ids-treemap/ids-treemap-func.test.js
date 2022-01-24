@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import IdsTreeMap from '../../src/components/ids-treemap/ids-treemap';
+import ResizeObserver from '../helpers/resize-observer-mock';
 
 describe('IdsTreeMap Component', () => {
   let treemap;
