@@ -66,6 +66,7 @@ class IdsDatePicker extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.DAY,
       attributes.DISABLED,
       attributes.FIRST_DAY_OF_WEEK,
       attributes.FORMAT,
@@ -73,6 +74,7 @@ class IdsDatePicker extends Base {
       attributes.IS_CALENDAR_TOOLBAR,
       attributes.IS_DROPDOWN,
       attributes.LABEL,
+      attributes.MONTH,
       attributes.PLACEHOLDER,
       attributes.READONLY,
       attributes.SHOW_TODAY,
@@ -80,6 +82,7 @@ class IdsDatePicker extends Base {
       attributes.VALIDATE,
       attributes.VALIDATION_EVENTS,
       attributes.VALUE,
+      attributes.YEAR,
     ];
   }
 
@@ -224,6 +227,9 @@ class IdsDatePicker extends Base {
             is-date-picker="true"
             show-today=${this.showToday}
             first-day-of-week="${this.firstDayOfWeek}"
+            year="${this.year}"
+            month="${this.month}"
+            day="${this.day}"
           ></ids-month-view>
           <div class="popup-footer">
             <ids-button class="popup-btn popup-btn-start">
@@ -309,6 +315,14 @@ class IdsDatePicker extends Base {
   }
 
   #setupMonthView() {
+    if (this.isCalendarToolbar) {
+      this.#monthView.year = this.year;
+      this.#monthView.month = this.month;
+      this.#monthView.day = this.day;
+
+      return;
+    }
+
     const now = new Date();
     const parsed = new Date(this.value);
 
@@ -557,10 +571,10 @@ class IdsDatePicker extends Base {
 
     if (boolVal) {
       this.setAttribute(attributes.SHOW_TODAY, boolVal);
-      this.#monthView.setAttribute(attributes.SHOW_TODAY, boolVal);
+      this.#monthView?.setAttribute(attributes.SHOW_TODAY, boolVal);
     } else {
       this.removeAttribute(attributes.SHOW_TODAY);
-      this.#monthView.removeAttribute(attributes.SHOW_TODAY);
+      this.#monthView?.removeAttribute(attributes.SHOW_TODAY);
     }
   }
 
@@ -570,14 +584,8 @@ class IdsDatePicker extends Base {
    */
   get firstDayOfWeek() {
     const attrVal = this.getAttribute(attributes.FIRST_DAY_OF_WEEK);
-    const numberVal = stringToNumber(attrVal);
 
-    if (!Number.isNaN(numberVal) && numberVal >= 0 && numberVal <= 6) {
-      return numberVal;
-    }
-
-    // Default value
-    return 0;
+    return stringToNumber(attrVal);
   }
 
   /**
@@ -589,10 +597,79 @@ class IdsDatePicker extends Base {
 
     if (!Number.isNaN(numberVal)) {
       this.setAttribute(attributes.FIRST_DAY_OF_WEEK, val);
-      this.#monthView.setAttribute(attributes.FIRST_DAY_OF_WEEK, val);
+      this.#monthView?.setAttribute(attributes.FIRST_DAY_OF_WEEK, val);
     } else {
       this.removeAttribute(attributes.FIRST_DAY_OF_WEEK);
-      this.#monthView.removeAttribute(attributes.FIRST_DAY_OF_WEEK);
+      this.#monthView?.removeAttribute(attributes.FIRST_DAY_OF_WEEK);
+    }
+  }
+
+  /**
+   * month attribute
+   * @returns {number} month param
+   */
+  get month() {
+    const attrVal = this.getAttribute(attributes.MONTH);
+
+    return stringToNumber(attrVal);
+  }
+
+  /**
+   * Set month param
+   * @param {string|number|null} val month param value
+   */
+  set month(val) {
+    if (val) {
+      this.setAttribute(attributes.MONTH, val);
+    } else {
+      this.removeAttribute(attributes.MONTH);
+    }
+  }
+
+  /**
+   * year attribute
+   * @returns {number} year param converted to number from attribute value with 4-digit check
+   */
+  get year() {
+    const attrVal = this.getAttribute(attributes.YEAR);
+    return stringToNumber(attrVal);
+  }
+
+  /**
+   * Set year param and render month table/toolbar
+   * @param {string|number|null} val year param value
+   */
+  set year(val) {
+    const numberVal = stringToNumber(val);
+
+    if (!Number.isNaN(numberVal) && numberVal.toString().length === 4) {
+      this.setAttribute(attributes.YEAR, val);
+    } else {
+      this.removeAttribute(attributes.YEAR);
+    }
+  }
+
+  /**
+   * day attribute
+   * @returns {number} day param converted to number
+   */
+  get day() {
+    const attrVal = this.getAttribute(attributes.DAY);
+
+    return stringToNumber(attrVal);
+  }
+
+  /**
+   * Set day param and select active day
+   * @param {string|number|null} val day param value
+   */
+  set day(val) {
+    const numberVal = stringToNumber(val);
+
+    if (!Number.isNaN(numberVal) && numberVal > 0) {
+      this.setAttribute(attributes.DAY, val);
+    } else {
+      this.removeAttribute(attributes.DAY);
     }
   }
 }

@@ -101,7 +101,7 @@ export default class IdsWeekView extends Base {
     this.onEvent('localechange.week-view-container', this.closest('ids-container'), async () => {
       this.#renderWeek();
       this.#renderTimeline();
-      this.#attachDatepickerText();
+      this.#attachDatepicker();
     });
 
     return this;
@@ -125,7 +125,9 @@ export default class IdsWeekView extends Base {
           <ids-text audible="true" translate-text="true">NextMonth</ids-text>
           <ids-icon slot="icon" icon="chevron-right"></ids-icon>
         </ids-button>
-        <ids-date-picker is-calendar-toolbar="true" value="${this.#formatMonthRange()}"></ids-date-picker>
+        <ids-date-picker
+          is-calendar-toolbar="true"
+        ></ids-date-picker>
         ${this.showToday ? `
           <ids-button css-class="no-padding" class="week-view-btn-today">
             <ids-text
@@ -144,6 +146,8 @@ export default class IdsWeekView extends Base {
 
     // Toolbar events
     this.#attachToolbarEvents();
+
+    this.#attachDatepicker();
   }
 
   /**
@@ -153,20 +157,20 @@ export default class IdsWeekView extends Base {
     this.offEvent('click.week-view-previous');
     this.onEvent('click.week-view-previous', this.container.querySelector('.week-view-btn-previous'), () => {
       this.#changeDate('previous');
-      this.#attachDatepickerText();
+      this.#attachDatepicker();
     });
 
     this.offEvent('click.week-view-next');
     this.onEvent('click.week-view-next', this.container.querySelector('.week-view-btn-next'), () => {
       this.#changeDate('next');
-      this.#attachDatepickerText();
+      this.#attachDatepicker();
     });
 
     if (this.showToday) {
       this.offEvent('click.week-view-today');
       this.onEvent('click.week-view-today', this.container.querySelector('.week-view-btn-today'), () => {
         this.#changeDate('today');
-        this.#attachDatepickerText();
+        this.#attachDatepicker();
       });
     } else {
       this.offEvent('click.week-view-today');
@@ -217,10 +221,18 @@ export default class IdsWeekView extends Base {
   /**
    * Datepicker changing text
    */
-  #attachDatepickerText() {
+  #attachDatepicker() {
     const text = this.#formatMonthRange();
+    const datepicker = this.container.querySelector('ids-date-picker');
 
-    this.container.querySelector('ids-date-picker').value = text;
+    if (datepicker) {
+      datepicker.value = text;
+      datepicker.year = this.startDate.getFullYear();
+      datepicker.month = this.startDate.getMonth();
+      datepicker.day = this.startDate.getDate();
+      datepicker.showToday = this.showToday;
+      datepicker.firstDayOfWeek = this.firstDayOfWeek;
+    }
   }
 
   /**

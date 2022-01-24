@@ -110,7 +110,7 @@ class IdsMonthView extends Base {
     this.onEvent('localechange.month-view-container', this.closest('ids-container'), async () => {
       this.#setDirection();
       this.#renderMonth();
-      this.#attachDatepickerText();
+      this.#attachDatepicker();
     });
 
     // Day select event
@@ -154,7 +154,15 @@ class IdsMonthView extends Base {
       ${!this.compact ? `
         <ids-toolbar-section type="buttonset">
           ${prevNextBtn}
-          <ids-date-picker is-calendar-toolbar="true" value="${this.#formatMonthText()}"></ids-date-picker>
+          <ids-date-picker
+            is-calendar-toolbar="true"
+            value="${this.#formatMonthText()}"
+            month="${this.month}"
+            year="${this.year}"
+            day="${this.day}"
+            first-day-of-week="${this.firstDayOfWeek}"
+            show-today=${this.showToday}"
+          ></ids-date-picker>
           ${todayBtn}
         </ids-toolbar-section>
       ` : `
@@ -246,12 +254,17 @@ class IdsMonthView extends Base {
   /**
    * Datepicker changing locale formatted text
    */
-  #attachDatepickerText() {
+  #attachDatepicker() {
     const text = this.#formatMonthText();
     const datepicker = this.container.querySelector('ids-date-picker');
 
     if (!this.#isRange() && datepicker) {
       datepicker.value = text;
+      datepicker.month = this.month;
+      datepicker.year = this.year;
+      datepicker.day = this.day;
+      datepicker.firstDayOfWeek = this.firstDayOfWeek;
+      datepicker.showToday = this.showToday;
     }
   }
 
@@ -278,7 +291,7 @@ class IdsMonthView extends Base {
       this.month = now.getMonth();
     }
 
-    this.#attachDatepickerText();
+    this.#attachDatepicker();
   }
 
   /**
@@ -496,6 +509,7 @@ class IdsMonthView extends Base {
     }
 
     this.#renderToolbar();
+    this.#attachDatepicker();
   }
 
   /**
@@ -528,7 +542,7 @@ class IdsMonthView extends Base {
     }
 
     this.#renderMonth();
-    this.#attachDatepickerText();
+    this.#attachDatepicker();
   }
 
   /**
@@ -561,7 +575,7 @@ class IdsMonthView extends Base {
     }
 
     this.#renderMonth();
-    this.#attachDatepickerText();
+    this.#attachDatepicker();
   }
 
   /**
@@ -594,6 +608,8 @@ class IdsMonthView extends Base {
       this.removeAttribute(attributes.DAY);
       this.#selectDay(this.year, this.month, this.day);
     }
+
+    this.#attachDatepicker();
   }
 
   /**
@@ -686,7 +702,7 @@ class IdsMonthView extends Base {
     }
 
     this.#renderMonth();
-    this.#attachDatepickerText();
+    this.#attachDatepicker();
   }
 
   /**
