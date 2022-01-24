@@ -1,15 +1,9 @@
 @import '../../core/ids-base';
 
 .ids-date-picker {
-  display: inline-block;
-
   // Fixes input doesn't stretch to lg size and up
   ids-input {
     max-width: 100%;
-  }
-
-  ids-trigger-field::part(field) {
-    display: inline-block;
   }
 
   // Is calendar toolbar

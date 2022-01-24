@@ -239,6 +239,7 @@ class IdsMonthView extends Base {
     this.offEvent('click.month-view-previous');
     this.offEvent('click.month-view-next');
     this.offEvent('click.month-view-today');
+    this.offEvent('dayselected.month-view-datepicker');
   }
 
   /**

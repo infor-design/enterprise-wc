@@ -76,8 +76,7 @@ export default class IdsWeekView extends Base {
    * @private
    */
   #attachEventHandlers() {
-    // Respond to parent changing language
-    this.offEvent('languagechange.week-view-container');
+    this.#renderToolbar();
 
     // Set the height from the top
     const ro = new ResizeObserver((entries) => {
@@ -89,6 +88,8 @@ export default class IdsWeekView extends Base {
     });
     ro.observe(this.container);
 
+    // Respond to parent changing language
+    this.offEvent('languagechange.week-view-container');
     this.onEvent('languagechange.week-view-container', this.closest('ids-container'), async () => {
       this.#renderToolbar();
       this.#renderWeek();
@@ -157,20 +158,17 @@ export default class IdsWeekView extends Base {
     this.offEvent('click.week-view-previous');
     this.onEvent('click.week-view-previous', this.container.querySelector('.week-view-btn-previous'), () => {
       this.#changeDate('previous');
-      this.#attachDatepicker();
     });
 
     this.offEvent('click.week-view-next');
     this.onEvent('click.week-view-next', this.container.querySelector('.week-view-btn-next'), () => {
       this.#changeDate('next');
-      this.#attachDatepicker();
     });
 
     if (this.showToday) {
       this.offEvent('click.week-view-today');
       this.onEvent('click.week-view-today', this.container.querySelector('.week-view-btn-today'), () => {
         this.#changeDate('today');
-        this.#attachDatepicker();
       });
     } else {
       this.offEvent('click.week-view-today');
@@ -178,14 +176,7 @@ export default class IdsWeekView extends Base {
 
     this.offEvent('dayselected.week-view-datepicker');
     this.onEvent('dayselected.week-view-datepicker', this.container.querySelector('ids-date-picker'), (e) => {
-      const date = e.detail.date;
-      const diff = daysDiff(this.startDate, this.endDate);
-      const hasIrregularDays = diff !== 7;
-
-      this.startDate = hasIrregularDays ? date : firstDayOfWeekDate(date, this.firstDayOfWeek);
-      this.endDate = addDate(this.startDate, diff - 1, 'days');
-
-      this.#renderTimeline();
+      this.#datepickerChangeDate(e.detail.date);
     });
   }
 
@@ -194,6 +185,8 @@ export default class IdsWeekView extends Base {
    * @returns {string} locale formatted month range
    */
   #formatMonthRange() {
+    if (!this.locale) return '';
+
     const startDate = this.startDate;
     const endDate = subtractDate(this.endDate, 1, 'days');
     const startMonth = this.locale.formatDate(startDate, { month: 'long' });
@@ -257,6 +250,21 @@ export default class IdsWeekView extends Base {
       this.startDate = hasIrregularDays ? new Date() : firstDayOfWeekDate(new Date(), this.firstDayOfWeek);
       this.endDate = addDate(this.startDate, diff - 1, 'days');
     }
+
+    this.#attachDatepicker();
+    this.#renderTimeline();
+  }
+
+  /**
+   * When datepicker changing date
+   * @param {Date} date datepicker dayselected event date
+   */
+  #datepickerChangeDate(date) {
+    const diff = daysDiff(this.startDate, this.endDate);
+    const hasIrregularDays = diff !== 7;
+
+    this.startDate = hasIrregularDays ? date : firstDayOfWeekDate(date, this.firstDayOfWeek);
+    this.endDate = addDate(this.startDate, diff - 1, 'days');
 
     this.#renderTimeline();
   }
@@ -428,6 +436,7 @@ export default class IdsWeekView extends Base {
    */
   get showToday() {
     const attrVal = this.getAttribute(attributes.SHOW_TODAY);
+
     return stringToBool(attrVal);
   }
 
@@ -444,7 +453,8 @@ export default class IdsWeekView extends Base {
       this.removeAttribute(attributes.SHOW_TODAY);
     }
 
-    this.#renderToolbar();
+    this.#renderWeek();
+    this.#attachDatepicker();
   }
 
   /**
@@ -476,7 +486,7 @@ export default class IdsWeekView extends Base {
     }
 
     this.#renderWeek();
-    this.#renderToolbar();
+    this.#attachDatepicker();
   }
 
   /**
@@ -509,7 +519,7 @@ export default class IdsWeekView extends Base {
     }
 
     this.#renderWeek();
-    this.#renderToolbar();
+    this.#attachDatepicker();
   }
 
   /**
@@ -542,7 +552,7 @@ export default class IdsWeekView extends Base {
     }
 
     this.#renderWeek();
-    this.#renderToolbar();
+    this.#attachDatepicker();
   }
 
   /**

@@ -43,7 +43,7 @@ class IdsDatePicker extends Base {
     super();
   }
 
-  #popup = this.container.querySelector('ids-popup');
+  #popup;
 
   #triggerField = this.container.querySelector('ids-trigger-field');
 
@@ -51,7 +51,7 @@ class IdsDatePicker extends Base {
 
   #input = this.container.querySelector('ids-input');
 
-  #monthView = this.container.querySelector('ids-month-view');
+  #monthView;
 
   connectedCallback() {
     this.#attachEventHandlers();
@@ -78,6 +78,7 @@ class IdsDatePicker extends Base {
       attributes.PLACEHOLDER,
       attributes.READONLY,
       attributes.SHOW_TODAY,
+      attributes.SIZE,
       attributes.TABBABLE,
       attributes.VALIDATE,
       attributes.VALIDATION_EVENTS,
@@ -100,7 +101,7 @@ class IdsDatePicker extends Base {
     return `
       <div ${classAttr} ${this.isCalendarToolbar ? ' tabindex="0"' : ''}>
         ${this.isCalendarToolbar ? `
-          <ids-text font-size="20" class="datepicker-text">${this.label}</ids-text>
+          <ids-text font-size="20" class="datepicker-text">${this.value}</ids-text>
           <ids-text audible="true" translate-text="true">SelectDay</ids-text>
           <ids-trigger-button>
             <ids-text audible="true" translate-text="true">DatePickerTriggerButton</ids-text>
@@ -112,7 +113,7 @@ class IdsDatePicker extends Base {
             class="dropdown-btn"
             dropdown-icon
           >
-            <ids-text slot="text" class="dropdown-btn-text" font-size="20">${this.label}</ids-text>
+            <ids-text slot="text" class="dropdown-btn-text" font-size="20">${this.value}</ids-text>
           </ids-menu-button>
         ` : ''}
         ${(!(this.isDropdown || this.isCalendarToolbar)) ? `
@@ -128,8 +129,7 @@ class IdsDatePicker extends Base {
               value="${this.value}"
               placeholder="${this.placeholder}"
               mask="date"
-            >
-            </ids-input>
+            ></ids-input>
             <ids-trigger-button>
               <ids-text audible="true" translate-text="true">DatePickerTriggerButton</ids-text>
               <ids-icon slot="icon" icon="schedule"></ids-icon>
@@ -176,42 +176,6 @@ class IdsDatePicker extends Base {
       this.#togglePopup(!this.#popup.visible);
     });
 
-    this.offEvent('dayselected.date-picker');
-    this.onEvent('dayselected.date-picker', this.#monthView, (e) => {
-      if (!(this.isCalendarToolbar || this.isDropdown)) {
-        this.value = this.locale.formatDate(e.detail.date);
-        this.#input?.focus();
-      }
-
-      this.#togglePopup(false);
-      this.#triggerSelectedEvent();
-    });
-
-    this.offEvent('click.date-picker-clear');
-    this.onEvent('click.date-picker-clear', this.container.querySelector('.popup-btn-start'), (e) => {
-      e.stopPropagation();
-
-      if (!(this.isCalendarToolbar || this.isDropdown)) {
-        this.value = '';
-        this.#input?.focus();
-        this.#triggerSelectedEvent();
-      }
-
-      this.#togglePopup(false);
-    });
-
-    this.offEvent('click.date-picker-apply');
-    this.onEvent('click.date-picker-apply', this.container.querySelector('.popup-btn-end'), (e) => {
-      e.stopPropagation();
-
-      const { month, year, day } = this.#monthView;
-
-      this.value = this.locale.formatDate(new Date(year, month, day));
-      this.#togglePopup(false);
-      this.#input?.focus();
-      this.#triggerSelectedEvent();
-    });
-
     return this;
   }
 
@@ -247,12 +211,58 @@ class IdsDatePicker extends Base {
     `;
 
     this.container.querySelector('ids-popup')?.remove();
+    this.#detachPopupEvents();
 
     if (!this.isDropdown) {
       this.container.insertAdjacentHTML('beforeend', template);
       this.#popup = this.container.querySelector('ids-popup');
       this.#monthView = this.container.querySelector('ids-month-view');
+      this.#attachPopupEvents();
     }
+  }
+
+  #attachPopupEvents() {
+    this.offEvent('dayselected.date-picker');
+    this.onEvent('dayselected.date-picker', this.#monthView, (e) => {
+      if (!(this.isCalendarToolbar || this.isDropdown)) {
+        this.value = this.locale.formatDate(e.detail.date);
+        this.#input?.focus();
+      }
+
+      this.#togglePopup(false);
+      this.#triggerSelectedEvent();
+    });
+
+    this.offEvent('click.date-picker-clear');
+    this.onEvent('click.date-picker-clear', this.container.querySelector('.popup-btn-start'), (e) => {
+      e.stopPropagation();
+
+      if (!(this.isCalendarToolbar || this.isDropdown)) {
+        this.value = '';
+        this.#input?.focus();
+        this.#triggerSelectedEvent();
+      }
+
+      this.#togglePopup(false);
+    });
+
+    this.offEvent('click.date-picker-apply');
+    this.onEvent('click.date-picker-apply', this.container.querySelector('.popup-btn-end'), (e) => {
+      e.stopPropagation();
+
+      const { month, year, day } = this.#monthView;
+
+      this.value = this.locale.formatDate(new Date(year, month, day));
+      this.#togglePopup(false);
+      this.#input?.focus();
+      this.#triggerSelectedEvent();
+    });
+  }
+
+  #detachPopupEvents() {
+    this.offEvent('dayselected.date-picker');
+    this.offEvent('click.date-picker-clear');
+    this.offEvent('click.date-picker-apply');
   }
 
   /**
@@ -276,7 +286,7 @@ class IdsDatePicker extends Base {
   #togglePopup(open) {
     if (open && !this.readonly) {
       this.addOpenEvents();
-      this.#setupMonthView();
+      this.#attachMonthView();
       this.#popup.visible = true;
       const { bottom } = this.#triggerButton.getBoundingClientRect();
       const positionBottom = (bottom + 100) < window.innerHeight;
@@ -314,7 +324,7 @@ class IdsDatePicker extends Base {
     this.triggerEvent('dayselected', this, args);
   }
 
-  #setupMonthView() {
+  #attachMonthView() {
     if (this.isCalendarToolbar) {
       this.#monthView.year = this.year;
       this.#monthView.month = this.month;
@@ -360,11 +370,11 @@ class IdsDatePicker extends Base {
   set placeholder(val) {
     if (val) {
       this.setAttribute(attributes.PLACEHOLDER, val);
+      this.#input?.setAttribute(attributes.PLACEHOLDER, val);
     } else {
       this.removeAttribute(attributes.PLACEHOLDER);
+      this.#input?.removeAttribute(attributes.PLACEHOLDER);
     }
-
-    this.#input.placeholder = val;
   }
 
   get label() {
@@ -392,11 +402,11 @@ class IdsDatePicker extends Base {
 
     if (boolVal) {
       this.setAttribute(attributes.DISABLED, boolVal);
+      this.#triggerField?.setAttribute(attributes.DISABLED, boolVal);
     } else {
       this.removeAttribute(attributes.DISABLED);
+      this.#triggerField?.removeAttribute(attributes.DISABLED);
     }
-
-    this.#triggerField.disabled = boolVal;
   }
 
   get readonly() {
@@ -410,19 +420,20 @@ class IdsDatePicker extends Base {
 
     if (boolVal) {
       this.setAttribute(attributes.READONLY, boolVal);
+      this.#triggerField?.setAttribute(attributes.READONLY, boolVal);
+      this.#input?.setAttribute(attributes.READONLY, boolVal);
     } else {
       this.removeAttribute(attributes.READONLY);
+      this.#triggerField?.removeAttribute(attributes.READONLY);
+      this.#input?.removeAttribute(attributes.READONLY);
     }
-
-    this.#triggerField.readonly = boolVal;
-    this.#input.readonly = boolVal;
   }
 
   get size() { return this.getAttribute(attributes.SIZE); }
 
   set size(val) {
     this.setAttribute(attributes.SIZE, val);
-    this.#triggerField.size = val;
+    this.#triggerField?.setAttribute(attributes.SIZE, val);
   }
 
   get tabbable() {
@@ -449,10 +460,10 @@ class IdsDatePicker extends Base {
   set id(val) {
     if (val) {
       this.setAttribute(attributes.ID, val);
-      this.#triggerField.setAttribute(attributes.ID, val);
+      this.#triggerField?.setAttribute(attributes.ID, val);
     } else {
       this.removeAttribute(attributes.ID);
-      this.#triggerField.removeAttribute(attributes.ID);
+      this.#triggerField?.removeAttribute(attributes.ID);
     }
   }
 
@@ -461,14 +472,14 @@ class IdsDatePicker extends Base {
   set validate(val) {
     if (val) {
       this.setAttribute(attributes.VALIDATE, val);
-      this.#triggerField.setAttribute(attributes.VALIDATE, val);
-      this.#triggerField.setAttribute(attributes.VALIDATION_EVENTS, this.validationEvents);
-      this.#triggerField.handleValidation();
+      this.#triggerField?.setAttribute(attributes.VALIDATE, val);
+      this.#triggerField?.setAttribute(attributes.VALIDATION_EVENTS, this.validationEvents);
+      this.#triggerField?.handleValidation();
     } else {
       this.removeAttribute(attributes.VALIDATE);
-      this.#triggerField.removeAttribute(attributes.VALIDATE);
-      this.#triggerField.removeAttribute(attributes.VALIDATION_EVENTS);
-      this.#triggerField.handleValidation();
+      this.#triggerField?.removeAttribute(attributes.VALIDATE);
+      this.#triggerField?.removeAttribute(attributes.VALIDATION_EVENTS);
+      this.#triggerField?.handleValidation();
     }
   }
 
@@ -477,10 +488,10 @@ class IdsDatePicker extends Base {
   set validationEvents(val) {
     if (val) {
       this.setAttribute(attributes.VALIDATION_EVENTS, val);
-      this.#input.setAttribute(attributes.VALIDATION_EVENTS, val);
+      this.#input?.setAttribute(attributes.VALIDATION_EVENTS, val);
     } else {
       this.removeAttribute(attributes.VALIDATION_EVENTS);
-      this.#input.removeAttribute(attributes.VALIDATION_EVENTS);
+      this.#input?.removeAttribute(attributes.VALIDATION_EVENTS);
     }
   }
 
