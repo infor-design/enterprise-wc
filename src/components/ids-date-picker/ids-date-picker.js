@@ -43,8 +43,6 @@ class IdsDatePicker extends Base {
     super();
   }
 
-  #popup;
-
   #triggerField = this.container.querySelector('ids-trigger-field');
 
   #triggerButton = this.container.querySelector('ids-trigger-button');
@@ -52,6 +50,8 @@ class IdsDatePicker extends Base {
   #input = this.container.querySelector('ids-input');
 
   #monthView;
+
+  #popup;
 
   connectedCallback() {
     this.#attachEventHandlers();
@@ -136,7 +136,7 @@ class IdsDatePicker extends Base {
             </ids-trigger-button>
           </ids-trigger-field>
         ` : ``}
-      <div>
+      </div>
     `;
   }
 
@@ -162,6 +162,9 @@ class IdsDatePicker extends Base {
     this.offEvent('languagechange.date-picker-container');
     this.onEvent('languagechange.date-picker-container', this.closest('ids-container'), async () => {
       this.#renderPopup();
+      this.container.querySelectorAll('ids-text[translate-text]').forEach((el) => {
+        el.textContent = this.locale.translate(el.translationKey);
+      });
     });
 
     // Respond to container changing locale
@@ -171,10 +174,12 @@ class IdsDatePicker extends Base {
       this.#applyMask();
     });
 
-    this.offEvent('click.date-picker-popup');
-    this.onEvent('click.date-picker-popup', this.#triggerButton, () => {
-      this.#togglePopup(!this.#popup.visible);
-    });
+    if (this.#triggerButton) {
+      this.offEvent('click.date-picker-popup');
+      this.onEvent('click.date-picker-popup', this.#triggerButton, () => {
+        this.#togglePopup(!this.#popup.visible);
+      });
+    }
 
     return this;
   }
