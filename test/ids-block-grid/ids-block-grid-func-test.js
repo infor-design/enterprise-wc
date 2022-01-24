@@ -161,7 +161,7 @@ describe('IdsBlockgridItem Component', () => {
     const clickEvent = new MouseEvent('click', { bubbles: true });
 
     blockgridItemEl2.dispatchEvent(clickEvent);
-    expect(blockgridItemEl2.preSelected).toBe('true');
+    expect(blockgridItemEl2.preselected).toBe('true');
     expect(blockgridItemEl2.selected).not.toBe('true');
   });
 

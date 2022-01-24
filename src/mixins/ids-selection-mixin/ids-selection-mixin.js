@@ -55,10 +55,10 @@ const IdsSelectionMixin = (superclass) => class extends superclass {
   get selected() { return this.getAttribute(attributes.SELECTED); }
 
   /**
-   * Set the pre-selected to a boolean value
-   * @param {boolean} value The pre-selected value
+   * Set the preselected to a boolean value
+   * @param {boolean} value The preselected value
    */
-  set preSelected(value) {
+  set preselected(value) {
     this.setAttribute(attributes.PRE_SELECTED, value);
 
     if (this.selection === 'mixed') {
@@ -66,7 +66,7 @@ const IdsSelectionMixin = (superclass) => class extends superclass {
     }
   }
 
-  get preSelected() { return this.getAttribute(attributes.PRE_SELECTED); }
+  get preselected() { return this.getAttribute(attributes.PRE_SELECTED); }
 };
 
 export default IdsSelectionMixin;

@@ -5,12 +5,16 @@
   margin-bottom: 10px;
 }
 
+:host {
+  width: 200px;
+}
+
 // For mixed/single/multiple selection
 :host([selection='single']),
 :host([selection='mixed']),
 :host([selection='multiple']) {
-  width: auto !important;
-  max-width: 300px !important;
+  width: auto;
+  max-width: 300px;
   box-sizing: border-box;
 
   .ids-block-grid-item {
@@ -22,7 +26,7 @@
 
 // For text multiple selection
 :host([selection='multiple'][type='block']) {
-  width: 100% !important;
+  width: 100%;
 
   ::slotted(ids-text) {
     text-align: left;
@@ -43,6 +47,10 @@
 
 .ids-block-grid-item {
   &-container {
+    &:focus-visible {
+      outline: none;
+    }
+
     &.is-selectable {
       @include cursor-pointer();
 
@@ -65,7 +73,7 @@
 
     &.is-selected:not(:focus) {
       border-radius: 3px;
-      background-color: transparent !important;
+      background-color: transparent;
       outline: 2px solid var(--ids-color-palette-azure-60);
     }
 

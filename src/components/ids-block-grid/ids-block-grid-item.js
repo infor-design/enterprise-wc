@@ -81,10 +81,14 @@ export default class IdsBlockgridItem extends Base {
         this.checkboxHasFocus = true;
         this.container.querySelector('ids-checkbox').container.classList.add('has-focus');
       } else {
-        if (this.nextElementSibling) {
+        if (this.nextElementSibling && !e.shiftKey) {
           e.preventDefault();
           e.stopPropagation();
           this.nextElementSibling.container.focus();
+        } else if (this.previousElementSibling && e.shiftKey) {
+          e.preventDefault();
+          e.stopPropagation();
+          this.previousElementSibling.container.focus();
         }
 
         this.checkboxHasFocus = false;
