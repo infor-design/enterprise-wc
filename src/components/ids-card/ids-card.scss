@@ -83,6 +83,79 @@
   }
 }
 
+// Actionable Button Card styles
+:host([actionable]) {
+  .ids-card {
+    contain: unset;
+    height: auto;
+
+    ids-button {
+      align-items: center;
+      height: 50px;
+      width: 100%;
+    }
+  }
+
+  ::slotted([slot='actionable-text']) {
+    width: 100%;
+  }
+}
+
+// Handle the themes for Actionable
+.ids-card ids-button {
+  &::part(button) {
+    align-items: center;
+    height: 50px;
+
+    &:focus {
+      @include border-1();
+      @include border-slate-30();
+      @include border-solid();
+
+      box-shadow:
+        0 0 0 2px var(--ids-color-palette-white),
+        0 0 0 3px var(--ids-color-brand-primary-base),
+        0 0 4px 3px var(--ids-color-brand-primary-base);
+    }
+  }
+
+  &[mode='dark']::part(button):focus {
+    @include border-slate-70();
+
+    box-shadow:
+      0 0 0 2px var(--ids-color-palette-slate-90),
+      0 0 0 3px var(--ids-color-palette-azure-60),
+      0 0 4px 2px rgba(141 201 230 / 0.3);
+  }
+
+  &[mode='contrast']::part(button):focus {
+    @include border-slate-60();
+
+    box-shadow:
+      0 0 0 2px var(--ids-color-palette-slate-10),
+      0 0 0 3px var(--ids-color-palette-azure-90),
+      0 0 4px 2px rgba(41 41 41 / 0.3);
+  }
+
+  &[mode='light'][version='classic']::part(button):focus {
+    @include border-graphite-30();
+
+    box-shadow:
+      0 0 0 2px var(--ids-color-palette-graphite-10),
+      0 0 0 3px var(--ids-color-palette-azure-50),
+      0 0 4px 2px rgba(54 138 92 / 0.3);
+  }
+
+  &[mode='dark'][version='classic']::part(button):focus {
+    @include border-slate-60();
+
+    box-shadow:
+      0 0 0 2px var(--ids-color-palette-classic-slate-80),
+      0 0 0 3px var(--ids-color-palette-azure-50),
+      0 0 4px 2px rgba(141 201 230 / 0.3);
+  }
+}
+
 // Style the title
 .ids-card-body {
   width: 100%;

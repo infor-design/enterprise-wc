@@ -1,6 +1,7 @@
 // Please keep constants alphabetized
 export const attributes = {
   ACCEPT: 'accept',
+  ACTIONABLE: 'actionable',
   ACTIVE: 'active',
   ADVANCED: 'advanced',
   ALT: 'alt',
