@@ -14,6 +14,7 @@ import styles from './ids-icon.scss';
  * @type {IdsIcon}
  * @inherits IdsElement
  * @mixes IdsLocaleMixin
+ * @part svg
  */
 @customElement('ids-icon')
 @scss(styles)
@@ -78,7 +79,7 @@ export default class IdsIcon extends Base {
     } else {
       viewBox = '0 0 18 18';
     }
-    let template = `<svg xmlns="http://www.w3.org/2000/svg"${this.isFlipped(this.icon) ? ` class="flipped"` : ''} stroke="currentColor" fill="none" height="${height}" width="${width}" viewBox="${viewBox}" aria-hidden="true">
+    let template = `<svg part="svg" xmlns="http://www.w3.org/2000/svg"${this.isFlipped(this.icon) ? ` class="flipped"` : ''} stroke="currentColor" fill="none" height="${height}" width="${width}" viewBox="${viewBox}" aria-hidden="true">
       ${this.iconData()}
     </svg>`;
     if (this.badgePosition || this.badgeColor) {
@@ -86,7 +87,7 @@ export default class IdsIcon extends Base {
         this.badgePosition = `bottom-right`;
       }
       if (!this.badgeColor) {
-        this.badgeColor = `danger`;
+        this.badgeColor = `info`;
       }
       template += `<span class="notification-badge ${this.badgePosition} ${this.badgeColor}"></span>`;
     }

@@ -183,7 +183,7 @@ describe('IdsTag Component', () => {
     const event = new KeyboardEvent('keydown', { key: 'Enter' });
     tag.dispatchEvent(event);
 
-    expect(tag.container.classList.contains('ids-focusable')).toEqual(true);
+    expect(tag.container.classList.contains('focusable')).toEqual(true);
     expect(mockHandler.mock.calls.length).toBe(1);
   });
 
@@ -195,7 +195,7 @@ describe('IdsTag Component', () => {
     tag.clickable = false;
     expect(tag.getAttribute('clickable')).toEqual(null);
     expect(tag.clickable).toEqual(null);
-    expect(tag.container.classList.contains('ids-focusable')).toEqual(false);
+    expect(tag.container.classList.contains('focusable')).toEqual(false);
   });
 
   it('supports setting mode', () => {

@@ -1,9 +1,9 @@
 export default class IdsIcon extends HTMLElement {
   /* position of notification badge */
-  badgePosition?: 'base' | 'caution' | 'danger' | 'success' | 'warning';
+  badgeColor?: 'success' | 'info' | 'warning'| 'error' | null;
 
   /* color of notification badge */
-  badgeColor?: 'bottom-left'| 'bottom-right' | 'top-left' | 'top-right';
+  badgePosition?: 'bottom-left'| 'bottom-right' | 'top-left' | 'top-right';
 
   /* sets a custom height for the icon */
   height?: string;

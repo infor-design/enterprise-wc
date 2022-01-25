@@ -100,7 +100,7 @@ export default class IdsMessage extends Base {
    * @returns {string} the message's current status type
    */
   get status() {
-    return this.state.status;
+    return this.state.status || 'default';
   }
 
   /**
