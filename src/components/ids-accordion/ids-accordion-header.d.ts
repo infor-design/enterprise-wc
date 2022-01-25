@@ -11,6 +11,9 @@ export default class extends HTMLElement {
   /** Displays/Hides an optional icon on this Accordion header */
   icon?: string | undefined;
 
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
   /** Selects/Deselects this accordion header, firing events when appropriate */
   selected?: boolean;
 
