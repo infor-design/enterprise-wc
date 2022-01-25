@@ -430,20 +430,22 @@ export default class IdsAxisChart extends Base {
     return true;
   }
 
-  get colorPallate() {
-    // TODO: compare or contrast
-    return true;
+  /**
+   * Utility function to get the colors series being used in this chart
+   * @returns {Array} The colors being used on this instance.
+   */
+  get colors() {
+    return QUALITATIVE_COLORS;
   }
 
   /**
    * Get the color to use based on the index
    * @param {number} index The current index
-   * @param {boolean} useRange Set to true to use the range colors (vs the sequential colors)
    * @returns {number} The value to use (integer)
    * @private
    */
-  color(index, useRange) {
-    // TODO: Figure out range colors
-    return useRange ? [] : QUALITATIVE_COLORS[index];
+  color(index) {
+    // TODO: Figure out passing sequential and custom colors
+    return this.colors[index];
   }
 }

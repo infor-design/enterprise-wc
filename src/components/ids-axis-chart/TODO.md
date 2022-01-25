@@ -9,19 +9,21 @@
 - [x] Types and settings
 - [x] Yaml
 - [x] Change Log
-- [ ] Do a test coverage pass
+- [x] Do a test coverage pass
 - [ ] Side By Side Examples
 - [ ] Refactor this file to new stuff
 
 ## Rendering
-- [ ] Empty Messages
 - [ ] Legends
 - [ ] Themes
 - [ ] Axis Formatters (k,m ect)
-- [ ] Short Names
+- [ ] Short Names / Responsive
+- [ ] Take Parent Size
 - [ ] Colors (passing them in and range colors)
 - [ ] Locale (translate values)
 - [ ] RTL
+- [ ] Empty Message
+- [ ] Negative Values
 
 ## Accessibility
 - [ ] Should be keyboard friendly. Can focus the legend and hit enter to select.
@@ -36,11 +38,11 @@
 - [ ] Responsive
 - [ ] Animation
 
-## Interaction
+## Chart Types
 
+- [ ] Column
 - [ ] Bubble
 - [ ] Scatter Plot
-- [ ] Column
 - [ ] Grouped Column
 - [ ] Stacked Column
 - [ ] Positive Negative ( Negative Values)
