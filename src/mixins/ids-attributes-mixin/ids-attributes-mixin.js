@@ -2,6 +2,7 @@ const TypeCasters = {
   boolean: Boolean,
   number: Number,
   string: String,
+  object: JSON.parse,
 };
 
 const capitalize = (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
@@ -11,16 +12,18 @@ const camelCase = (word) => word.split('-').reduce((curr, next) => (`${curr}${ca
 export const defineProp = (target, name, defaultValue, { changing, changed }) => {
   const attrName = String(name?.attrName || name).trim();
   const propName = String(name?.propName || camelCase(attrName)).trim();
-  const propTypeCaster = TypeCasters[typeof (defaultValue)] || Boolean;
+  const propTypeCaster = target.propTypeCasters[typeof (defaultValue)] || Boolean;
+  const stringCaster = (typeof (defaultValue) === 'object') ? JSON.stringify : String;
+
+  target.setAttribute(attrName, stringCaster(defaultValue)); // initialize attribute
 
   const getter = () => (propTypeCaster(target.getAttribute(attrName)) ?? defaultValue);
   const setter = (value) => {
-    changing?.bind(target)?.(value);
-    target.setAttribute(attrName, value);
-    changed?.bind(target)?.(value);
+    const stringValue = stringCaster(value);
+    changing?.bind(target)?.(stringValue);
+    target.setAttribute(attrName, stringValue);
+    changed?.bind(target)?.(stringValue);
   };
-
-  target.setAttribute(attrName, defaultValue); // initialize attribute
 
   const propDescriptor = {
     get: getter.bind(target),
@@ -36,6 +39,7 @@ export const defineProp = (target, name, defaultValue, { changing, changed }) =>
     propName,
     propDescriptor,
     propTypeCaster,
+    stringCaster,
     changing,
     changed,
     defaultValue,
@@ -61,6 +65,12 @@ export const IdsAttributesMixin = (superclass) => class extends superclass {
       changed: (changed) => this.prop(propInfo, defaultValue, { ...propInfo, changed })
     };
   }
+
+  /**
+   * Overridable getter - allows Web Components to define their own propTypeCasters
+   * @returns {TypeCasters} needs keys for string|boolean|number|object
+   */
+  get propTypeCasters() { return TypeCasters; }
 };
 
 export default IdsAttributesMixin;
