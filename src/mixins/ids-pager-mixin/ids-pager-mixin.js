@@ -54,6 +54,7 @@ const IdsPagerMixin = (superclass) => class extends superclass {
         </ids-menu-button>
         <ids-popup-menu id="pager-size-menu" target="#pager-size-menu-button" trigger="click">
           <ids-menu-group>
+            <ids-menu-item icon="${pageSize === 5 ? 'check' : 'no-check'}" value="5">5</ids-menu-item>
             <ids-menu-item icon="${pageSize === 10 ? 'check' : 'no-check'}" value="10">10</ids-menu-item>
             <ids-menu-item icon="${pageSize === 25 ? 'check' : 'no-check'}" value="25">25</ids-menu-item>
             <ids-menu-item icon="${pageSize === 50 ? 'check' : 'no-check'}" value="50">50</ids-menu-item>
@@ -214,6 +215,8 @@ const IdsPagerMixin = (superclass) => class extends superclass {
         popupMenu.querySelectorAll('ids-menu-item').forEach((item) => {
           item.icon = parseInt(item.value) === parseInt(newPageSize) ? 'check' : 'no-check';
         });
+
+        this.rerender();
       }
     });
   }

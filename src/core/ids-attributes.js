@@ -192,6 +192,7 @@ export const attributes = {
   PARAM_NAME: 'param-name',
   POSITION: 'position',
   PREVIOUS: 'previous',
+  PRE_SELECTED: 'preselected',
   PRINTABLE: 'printable',
   PROGRESS_BAR: 'progress-bar',
   PRODUCT_NAME: 'product-name',

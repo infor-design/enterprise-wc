@@ -1253,6 +1253,7 @@ exports[`IdsDataGrid Component IdsPagerMixin Tests renders pager 2`] = `
         </ids-menu-button>
         <ids-popup-menu id=\\"pager-size-menu\\" target=\\"#pager-size-menu-button\\" trigger=\\"click\\" hidden=\\"\\">
           <ids-menu-group style=\\"min-width: 175px; text-align: left;\\">
+            <ids-menu-item icon=\\"no-check\\" value=\\"5\\"><ids-icon slot=\\"icon\\" size=\\"medium\\" class=\\"ids-icon ids-menu-item-display-icon\\"></ids-icon>5</ids-menu-item>
             <ids-menu-item icon=\\"no-check\\" value=\\"10\\"><ids-icon slot=\\"icon\\" size=\\"medium\\" class=\\"ids-icon ids-menu-item-display-icon\\"></ids-icon>10</ids-menu-item>
             <ids-menu-item icon=\\"no-check\\" value=\\"25\\"><ids-icon slot=\\"icon\\" size=\\"medium\\" class=\\"ids-icon ids-menu-item-display-icon\\"></ids-icon>25</ids-menu-item>
             <ids-menu-item icon=\\"no-check\\" value=\\"50\\"><ids-icon slot=\\"icon\\" size=\\"medium\\" class=\\"ids-icon ids-menu-item-display-icon\\"></ids-icon>50</ids-menu-item>

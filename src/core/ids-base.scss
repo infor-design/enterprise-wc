@@ -33,6 +33,10 @@ $input-field-height-md: 38px;
 $input-field-height-lg: 48px;
 
 // Hidden Classes
+.hide {
+  display: none;
+}
+
 .hide-xxl-down {
   @media all and (max-width: $breakpoint-xxl) {
     display: none;

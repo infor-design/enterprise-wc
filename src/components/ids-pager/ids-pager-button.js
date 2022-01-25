@@ -82,7 +82,7 @@ export default class IdsPagerButton extends Base {
    */
   get pageCount() {
     return (this.total !== null && !Number.isNaN(this.total))
-      ? Math.floor(this.total / this.pageSize)
+      ? Math.ceil(this.total / this.pageSize)
       : null;
   }
 
@@ -218,7 +218,7 @@ export default class IdsPagerButton extends Base {
     } else if (nextValue <= 1) {
       nextValue = 1;
     } else {
-      const pageCount = Math.floor(this.total / this.pageSize);
+      const pageCount = Math.ceil(this.total / this.pageSize);
       nextValue = Math.min(nextValue, pageCount);
     }
 
@@ -269,7 +269,7 @@ export default class IdsPagerButton extends Base {
    */
   #onClick() {
     if (!this.disabled) {
-      const lastPageNumber = Math.floor(this.total / this.pageSize);
+      const lastPageNumber = Math.ceil(this.total / this.pageSize);
 
       /* eslint-disable default-case */
       switch (this.type) {
