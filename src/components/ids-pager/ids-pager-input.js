@@ -182,7 +182,7 @@ export default class IdsPagerInput extends Base {
   get pageCount() {
     const total = this.total || 0;
     const pageSize = this.pageSize || 1;
-    const pageCount = Math.floor(total / pageSize);
+    const pageCount = Math.ceil(total / pageSize);
 
     return Math.max(pageCount, 1);
   }

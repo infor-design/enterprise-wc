@@ -2,18 +2,17 @@
 
 ## 5.0.0 Breaking Changes
 
-- `[About]` The About component is now a web component. ([#308](https://github.com/infor-design/enterprise-wc/issues/308))
-  - Markup has changed to a custom element `<ids-about></ids-about`>
-  - Can now be imported as a single JS file and used with encapsulated styles
-  - Some contents have been removed including cookies and some OS information as this is deprecated and not reccomended to use in modern browsers.
+All components in this version are now web components. Each component can now be imported as a single JS file and used with encapsulated styles.
+For more details on breaking changes in each component see the individual README.md files.
+
+- `[About]`The about component was converted. See the [README](https://github.com/infor-design/enterprise-wc/blob/todo-passthrough/src/components/ids-about/README.md#converting-from-previous-versions-breaking-changes)` for details. ([#308](https://github.com/infor-design/enterprise-wc/issues/308))
+- `[Accordion]` The accordion component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-accordion//README.md##converting-from-previous-versions)` for details. ([#168](https://github.com/infor-design/enterprise-wc/issues/168))
+- `[ActionSheet]` The action sheet component converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-action-sheet/README.md#converting-from-previous-versions)` for details. ([#348](https://github.com/infor-design/enterprise-wc/issues/348))
+- `[Alert]` The alert component converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-alert/README.md#converting-from-previous-versions)` for details. ([#348](https://github.com/infor-design/enterprise-wc/issues/348))
 - `[App Menu]` The App Menu component is now a web component. ([#130](https://github.com/infor-design/enterprise-wc/issues/130))
   - Markup has changed to a custom element `<ids-app-menu></ids-app-menu`>
   - Can now be imported as a single JS file and used with encapsulated styles
   - Sections are now slotted for easier use.  Accordion is the main slot, and other areas (toolbars, user info, etc) are named slots.
-- `[ActionSheet]` The Action Sheet component is now a web component. ([#348](https://github.com/infor-design/enterprise-wc/issues/348)).
-  - Markup has changed to a custom element `<ids-action-sheet></ids-action-sheet>`
-  - Can now be imported as a single JS file and used with encapsulated styles
-  - `[AreaChart]`The Area Chart component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/blob/todo-passthrough/src/components/ids-area-chart/README.md#converting-from-previous-versions-breaking-changes)` for details. ([#400](https://github.com/infor-design/enterprise-wc/issues/400))
 - `[Button]` The button component has been changed to a web component. ([#4390](https://github.com/infor-design/enterprise/issues/4390))
   - Markup has changed to a custom element `<ids-button id="my-button" type="primary"></ids-button>`
   - Can now be imported as a single JS file and used with encapsulated styles.
@@ -148,7 +147,7 @@
   - Splitter orientation can be set by use of `axis` settings.
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
-- `[SwapList]` The swaplist component has been changed to a web componentn and renamed to ids-swaplist.
+- `[SwapList]` The swaplist component has been changed to a web component and renamed to ids-swaplist.
 - `[Switch]` The Switch component has been changed to a web component and renamed to ids-switch.
   - Markup has changed to a custom element `<ids-switch></ids-switch>`
   - If using events, events are now plain JS events.

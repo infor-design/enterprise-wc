@@ -45,7 +45,7 @@
 }
 
 @mixin checkbox-unchecked-error {
-  @include border-alert-danger();
+  @include border-alert-warning();
 }
 
 // Checked

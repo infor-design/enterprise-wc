@@ -14,18 +14,18 @@
   }
 
   &.error {
-    color: var(--ids-color-status-danger);
+    @include text-alert-error();
   }
 
-  &.alert {
-    color: var(--ids-color-status-warning);
+  &.warning {
+    @include text-alert-warning();
   }
 
   &.success {
-    color: var(--ids-color-status-success);
+    @include text-alert-success();
   }
 
   &.info {
-    color: var(--ids-color-status-base);
+    @include text-alert-info();
   }
 }

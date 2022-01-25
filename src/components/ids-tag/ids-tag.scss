@@ -7,31 +7,51 @@
   @include border-1();
   @include border-slate-20();
   @include border-solid();
+  @include font-bold();
   @include font-sans();
   @include inline-flex();
   @include mb-4();
   @include mr-4();
   @include px-8();
-  @include py-1();
+  @include pb-1();
   @include rounded-lg();
-  @include text-14();
+  @include text-16();
   @include text-slate-100();
 
   contain: content;
 
   // Secondary has a darker border
-  &.ids-secondary {
+  &.secondary {
     @include border-slate-30();
+    @include bg-white();
   }
 
-  // Some colors require white text
-  &.ids-white {
-    @include bg-white();
+  &.info {
+    @include bg-alert-info();
+    @include border-alert-info();
+    @include text-white();
+  }
+
+  &.success {
+    @include bg-alert-success();
+    @include border-alert-success();
+    @include text-white();
+  }
+
+  &.warning {
+    @include bg-alert-warning();
+    @include border-alert-warning();
+    @include text-white();
+  }
+
+  &.error {
+    @include bg-alert-error();
+    @include border-alert-error();
     @include text-white();
   }
 
   // Clickable tags can be focused and clicked
-  &.ids-focusable {
+  &.focusable {
     @include cursor-pointer();
 
     &:focus {
@@ -74,6 +94,35 @@
   @include bg-slate-60();
   @include border-slate-60();
   @include text-white();
+
+  &.secondary {
+    @include border-slate-60();
+    @include bg-black();
+  }
+
+  &.info {
+    @include bg-alert-dark-info();
+    @include border-alert-dark-info();
+    @include text-white();
+  }
+
+  &.success {
+    @include bg-alert-dark-success();
+    @include border-alert-dark-success();
+    @include text-slate-100();
+  }
+
+  &.warning {
+    @include bg-alert-dark-warning();
+    @include border-alert-dark-warning();
+    @include text-slate-100();
+  }
+
+  &.error {
+    @include bg-alert-dark-error();
+    @include border-alert-dark-error();
+    @include text-white();
+  }
 }
 
 .ids-tag[mode='dark'] ::slotted(ids-icon) {
@@ -88,6 +137,35 @@
   @include bg-slate-20();
   @include border-slate-20();
   @include text-slate-100();
+
+  &.secondary {
+    @include border-slate-100();
+    @include bg-transparent();
+  }
+
+  &.info {
+    @include bg-alert-contrast-info();
+    @include border-alert-contrast-info();
+    @include text-white();
+  }
+
+  &.success {
+    @include bg-alert-contrast-success();
+    @include border-alert-contrast-success();
+    @include text-white();
+  }
+
+  &.warning {
+    @include bg-alert-contrast-warning();
+    @include border-alert-contrast-warning();
+    @include text-white();
+  }
+
+  &.error {
+    @include bg-alert-contrast-error();
+    @include border-alert-contrast-error();
+    @include text-white();
+  }
 }
 
 .ids-tag[mode='contrast'] ::slotted(ids-icon) {
@@ -101,7 +179,38 @@
 .ids-tag[version='classic'][mode='light'] {
   @include bg-graphite-20();
   @include border-graphite-20();
+  @include font-normal();
   @include text-black();
+  @include text-14();
+
+  &.secondary {
+    @include border-graphite-30();
+    @include bg-white();
+  }
+
+  &.info {
+    @include bg-alert-info();
+    @include border-alert-info();
+    @include text-white();
+  }
+
+  &.success {
+    @include bg-alert-success();
+    @include border-alert-success();
+    @include text-white();
+  }
+
+  &.warning {
+    @include bg-alert-warning();
+    @include border-alert-warning();
+    @include text-white();
+  }
+
+  &.error {
+    @include bg-alert-error();
+    @include border-alert-error();
+    @include text-white();
+  }
 }
 
 .ids-tag[version='classic'][mode='light'] ::slotted(ids-icon) {
@@ -116,6 +225,37 @@
   @include bg-graphite-60();
   @include border-graphite-60();
   @include text-white();
+  @include font-normal();
+  @include text-14();
+
+  &.secondary {
+    @include border-slate-60();
+    @include bg-black();
+  }
+
+  &.info {
+    @include bg-alert-dark-info();
+    @include border-alert-dark-info();
+    @include text-white();
+  }
+
+  &.success {
+    @include bg-alert-dark-success();
+    @include border-alert-dark-success();
+    @include text-slate-100();
+  }
+
+  &.warning {
+    @include bg-alert-dark-warning();
+    @include border-alert-dark-warning();
+    @include text-slate-100();
+  }
+
+  &.error {
+    @include bg-alert-dark-error();
+    @include border-alert-dark-error();
+    @include text-white();
+  }
 }
 
 .ids-tag[version='classic'][mode='dark'] ::slotted(ids-icon) {
@@ -130,6 +270,37 @@
   @include bg-graphite-40();
   @include border-graphite-40();
   @include text-black();
+  @include font-normal();
+  @include text-14();
+
+  &.secondary {
+    @include border-slate-100();
+    @include bg-transparent();
+  }
+
+  &.info {
+    @include bg-alert-contrast-info();
+    @include border-alert-contrast-info();
+    @include text-white();
+  }
+
+  &.success {
+    @include bg-alert-contrast-success();
+    @include border-alert-contrast-success();
+    @include text-white();
+  }
+
+  &.warning {
+    @include bg-alert-contrast-warning();
+    @include border-alert-contrast-warning();
+    @include text-white();
+  }
+
+  &.error {
+    @include bg-alert-contrast-error();
+    @include border-alert-contrast-error();
+    @include text-white();
+  }
 }
 
 .ids-tag[version='classic'][mode='contrast'] ::slotted(ids-icon) {
