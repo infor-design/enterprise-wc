@@ -74,7 +74,7 @@ export default class IdsCard extends Base {
     const html = `
       <div class="ids-card" part="card">
         <ids-button>
-          <slot name="actionable-text"></slot>
+          <slot name="card-content"></slot>
         </ids-button>
       </div>
     `;

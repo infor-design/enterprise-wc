@@ -96,7 +96,7 @@
     }
   }
 
-  ::slotted([slot='actionable-text']) {
+  ::slotted([slot='card-content']) {
     width: 100%;
   }
 }
