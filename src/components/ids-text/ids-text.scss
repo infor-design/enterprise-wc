@@ -23,7 +23,7 @@
   }
 
   &.error {
-    @include text-alert-danger();
+    @include text-alert-error();
   }
 
   &.label {
@@ -82,19 +82,16 @@
   @include text-uppercase();
 }
 
-.ids-text-12,
-.ids-text-xs {
+.ids-text-12 {
   @include text-12();
   @include text-uppercase();
 }
 
-.ids-text-14,
-.ids-text-sm {
+.ids-text-14 {
   @include text-14();
 }
 
-.ids-text-16,
-.ids-text-base {
+.ids-text-16 {
   @include text-16();
 }
 
@@ -102,8 +99,7 @@
   @include text-20();
 }
 
-.ids-text-24,
-.ids-text-lg {
+.ids-text-24 {
   @include text-24();
 }
 
@@ -111,8 +107,7 @@
   @include text-28();
 }
 
-.ids-text-32,
-.ids-text-xl {
+.ids-text-32 {
   @include text-32();
 }
 

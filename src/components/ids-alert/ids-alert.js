@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
@@ -70,12 +71,19 @@ export default class IdsAlert extends Base {
 
   /**
    * Set the icon
-   * @param {string | null} value The Icon Type [success, info, error, alert]
+   * @param {string | null} value The Icon Type [success, info, error, warning]
    */
   set icon(value) {
+    let icon = value;
     if (value) {
       this.setAttribute(attributes.ICON, value);
-      this.shadowRoot?.querySelector('ids-icon')?.setAttribute(attributes.ICON, value);
+      if (icon === 'warning') {
+        icon = 'alert';
+      }
+      if (icon === 'warning-solid') {
+        icon = 'alert-solid';
+      }
+      this.shadowRoot?.querySelector('ids-icon')?.setAttribute(attributes.ICON, icon);
     } else {
       this.removeAttribute(attributes.ICON);
     }
