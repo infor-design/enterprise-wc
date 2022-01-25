@@ -16,8 +16,7 @@
 
     &:focus {
       @include shadow();
-
-      border: 1px solid var(--ids-color-palette-azure-70);
+      @include border-azure-70();
     }
   }
 
@@ -32,7 +31,8 @@
     }
 
     &:focus {
-      border-bottom-color: var(--ids-color-palette-azure-70);
+      @include shadow();
+      @include border-azure-70();
     }
   }
 
@@ -47,7 +47,8 @@
     }
 
     &:focus {
-      border-bottom-color: var(--ids-color-palette-azure-80);
+      @include shadow();
+      @include border-azure-80();
     }
   }
 
