@@ -5,7 +5,7 @@ describe('Ids Header Percy Tests', () => {
 
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await page.waitForTimeout(30); // Wait for Search Field to change variants/types
+    await page.waitForTimeout(60); // Wait for Search Field to change variants/types
     await percySnapshot(page, 'ids-header-new-light');
   });
 
@@ -14,7 +14,7 @@ describe('Ids Header Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
     });
-    await page.waitForTimeout(30); // Wait for Search Field to change variants/types
+    await page.waitForTimeout(60); // Wait for Search Field to change variants/types
     await percySnapshot(page, 'ids-header-new-dark');
   });
 
@@ -23,7 +23,7 @@ describe('Ids Header Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
     });
-    await page.waitForTimeout(30); // Wait for Search Field to change variants/types
+    await page.waitForTimeout(60); // Wait for Search Field to change variants/types
     await percySnapshot(page, 'ids-header-new-contrast');
   });
 });
