@@ -62,23 +62,13 @@ export default class IdsTag extends Base {
   set color(value) {
     if (value) {
       this.setAttribute('color', value);
-      const prop = value.substr(0, 1) === '#' ? value : `var(--ids-color-status-${value === 'error' ? 'danger' : value})`;
-      this.container.style.backgroundColor = prop;
-      this.container.style.borderColor = value === 'secondary' ? '' : prop;
-
-      if (value === 'caution' || value.substr(0, 1) === '#') {
-        this.container.style.color = 'var(--ids-color-palette-slate-100)';
+      if (value.substring(0, 1) === '#') {
+        this.container.style.backgroundColor = value;
+        this.container.style.borderColor = value;
+        return;
       }
 
-      if (value === 'error' || value === 'danger') {
-        this.container.classList.add('ids-white');
-      } else {
-        this.container.classList.remove('ids-white');
-      }
-
-      if (value === 'secondary') {
-        this.container.classList.add('ids-secondary');
-      }
+      this.container.classList.add(value);
       return;
     }
 
@@ -122,7 +112,7 @@ export default class IdsTag extends Base {
   set dismissible(value) {
     if (value) {
       this.setAttribute('dismissible', value.toString());
-      this.container.classList.add('ids-focusable');
+      this.container.classList.add('focusable');
       this.container.setAttribute('tabindex', '0');
       this.#appendIcon('close');
       this.#attachKeyboardListeners();
@@ -132,7 +122,7 @@ export default class IdsTag extends Base {
     this.removeAttribute('dismissible');
     this.#removeIcon('close');
     this.container.removeAttribute('tabindex');
-    this.container.classList.remove('ids-focusable');
+    this.container.classList.remove('focusable');
   }
 
   get dismissible() { return this.getAttribute('dismissible'); }
@@ -144,7 +134,7 @@ export default class IdsTag extends Base {
   set clickable(value) {
     if (value) {
       this.setAttribute('clickable', value.toString());
-      this.container.classList.add('ids-focusable');
+      this.container.classList.add('focusable');
       this.container.setAttribute('tabindex', '0');
       this.#attachKeyboardListeners();
       return;
@@ -152,7 +142,7 @@ export default class IdsTag extends Base {
 
     this.removeAttribute('clickable');
     this.container.removeAttribute('tabindex');
-    this.container.classList.remove('ids-focusable');
+    this.container.classList.remove('focusable');
   }
 
   get clickable() { return this.getAttribute('clickable'); }

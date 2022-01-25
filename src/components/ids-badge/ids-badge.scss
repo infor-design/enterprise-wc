@@ -42,18 +42,18 @@
   }
 
   &[color='error'] {
-    background-color: var(--ids-color-status-danger);
-    border-color: var(--ids-color-status-danger);
+    @include bg-alert-error();
+    @include border-alert-error();
   }
 
-  &[color='alert'] {
-    background-color: var(--ids-color-status-caution);
-    border-color: var(--ids-color-status-caution);
+  &[color='warning'] {
+    @include bg-alert-warning();
+    @include border-alert-warning();
   }
 
   &[color='info'] {
-    background-color: var(--ids-color-status-base);
-    border-color: var(--ids-color-status-base);
+    @include bg-alert-info();
+    @include border-alert-info();
   }
 
   ::slotted(ids-icon) {
@@ -76,16 +76,20 @@
 
   &[color='error'] {
     @include text-white();
+    @include bg-alert-dark-error();
+    @include border-alert-dark-error();
+  }
 
-    background-color: var(--ids-color-status-danger);
-    border-color: var(--ids-color-status-danger);
+  &[color='alert'],
+  &[color='warning'] {
+    @include bg-alert-dark-warning();
+    @include border-alert-dark-warning();
   }
 
   &[color='info'] {
     @include text-white();
-
-    background-color: var(--ids-color-status-base);
-    border-color: var(--ids-color-status-base);
+    @include bg-alert-dark-info();
+    @include border-alert-dark-info();
   }
 }
 
@@ -96,16 +100,20 @@
 
   &[color='error'] {
     @include text-white();
-
-    background-color: var(--ids-color-palette-ruby-80);
-    border-color: var(--ids-color-palette-ruby-80);
+    @include bg-alert-contrast-error();
+    @include border-alert-contrast-error();
   }
 
   &[color='info'] {
     @include text-white();
+    @include bg-alert-contrast-info();
+    @include border-alert-contrast-info();
+  }
 
-    background-color: var(--ids-color-palette-azure-80);
-    border-color: var(--ids-color-palette-azure-80);
+  &[color='alert'],
+  &[color='warning'] {
+    @include bg-alert-contrast-warning();
+    @include border-alert-contrast-warning();
   }
 }
 
@@ -129,16 +137,14 @@
 
   &[color='error'] {
     @include text-white();
-
-    background-color: var(--ids-color-status-danger);
-    border-color: var(--ids-color-status-danger);
+    @include bg-alert-dark-error();
+    @include border-alert-dark-error();
   }
 
   &[color='info'] {
     @include text-white();
-
-    background-color: var(--ids-color-status-base);
-    border-color: var(--ids-color-status-base);
+    @include bg-alert-dark-info();
+    @include border-alert-dark-info();
   }
 }
 
@@ -148,16 +154,14 @@
   }
 
   &[color='error'] {
+    @include bg-alert-error();
+    @include border-alert-error();
     @include text-white();
-
-    background-color: var(--ids-color-palette-ruby-80);
-    border-color: var(--ids-color-palette-ruby-80);
   }
 
   &[color='info'] {
+    @include bg-alert-contrast-info();
+    @include border-alert-contrast-info();
     @include text-white();
-
-    background-color: var(--ids-color-palette-azure-80);
-    border-color: var(--ids-color-palette-azure-80);
   }
 }
