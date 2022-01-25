@@ -34,7 +34,7 @@
 
   [icon='error'],
   [icon='error-solid'] {
-    @include text-alert-danger();
+    @include text-alert-error();
 
     &.disabled {
       color: var(--ids-color-palette-ruby-30);

@@ -40,7 +40,7 @@ Using the data/label theme, related to [IdsSummaryField](../ids-summary-field/RE
 - `type` {boolean} Set the type of element it is usually h1-h6. Defaults to span
 - `audible` {string} Set `audible` string (screen reader only text)
 - `disabled` {boolean} Set the text to disabled in appearance
-- `fontSize` {string} Set the size of font to use (in pixels)
+- `fontSize` {string} Set the size of font to use (in pixels) we use design tokens for this in specific increments [10 | 12 | 14 | 16 | 20 | 24 | 28 | 32 | 40 | 48 | 60 | 72 ]
 - `mode` {string} Set the theme mode
 - `version` {string} Set the theme version
 - `color` {string} If set to `unset`, the CSS color will be `'unset'` allowing you to color with surrounding content.

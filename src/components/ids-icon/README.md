@@ -59,10 +59,10 @@ These badges can also be displayed in 5 possible colors
 ```html
 
 <ids-icon icon="notes" badge-position="top-left" badge-color="base"></ids-icon>
-<ids-icon icon="notes" badge-position="top-left" badge-color="caution"></ids-icon>
-<ids-icon icon="notes" badge-position="top-left"></ids-icon badge-color="danger">
+<ids-icon icon="notes" badge-position="top-left" badge-color="info"></ids-icon>
+<ids-icon icon="notes" badge-position="top-left"></ids-icon badge-color="warning">
 <ids-icon icon="notes" badge-position="top-left"></ids-icon badge-color="success">
-<ids-icon icon="notes" badge-position="top-left" badge-color="warning"></ids-icon>
+<ids-icon icon="notes" badge-position="top-left" badge-color="error"></ids-icon>
 ```
 
 ## States and Variations
