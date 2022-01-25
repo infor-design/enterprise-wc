@@ -1,10 +1,5 @@
 @import '../../core/ids-base';
 
-// Temporary workaround till ids-identity border-r-2 fix
-@mixin border-r-1 {
-  border-right: 1px solid;
-}
-
 :host {
   contain: content;
 }

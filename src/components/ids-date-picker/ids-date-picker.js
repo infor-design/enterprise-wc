@@ -316,7 +316,7 @@ class IdsDatePicker extends Base {
 
   /**
    * Parse date from value and pass as params to month view
-   * Pass year, month, day to month view if arguments are set
+   * Pass year, month, day to month view if attributes are set
    */
   #attachMonthView() {
     const hasAttributes = this.year && this.month && this.day;
