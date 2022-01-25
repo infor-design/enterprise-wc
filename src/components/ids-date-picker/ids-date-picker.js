@@ -316,23 +316,23 @@ class IdsDatePicker extends Base {
 
   /**
    * Parse date from value and pass as params to month view
-   * or pass year, month, day params if the component is used in calendar toolbar
+   * Pass year, month, day to month view if arguments are set
    */
   #attachMonthView() {
-    if (this.isCalendarToolbar) {
+    const hasAttributes = this.year && this.month && this.day;
+
+    if (!hasAttributes) {
+      const now = new Date();
+      const parsed = new Date(this.value);
+
+      this.#monthView.year = isValidDate(parsed) ? parsed.getFullYear() : now.getFullYear();
+      this.#monthView.month = isValidDate(parsed) ? parsed.getMonth() : now.getMonth();
+      this.#monthView.day = isValidDate(parsed) ? parsed.getDate() : now.getDate();
+    } else {
       this.#monthView.year = this.year;
       this.#monthView.month = this.month;
       this.#monthView.day = this.day;
-
-      return;
     }
-
-    const now = new Date();
-    const parsed = new Date(this.value);
-
-    this.#monthView.year = isValidDate(parsed) ? parsed.getFullYear() : now.getFullYear();
-    this.#monthView.month = isValidDate(parsed) ? parsed.getMonth() : now.getMonth();
-    this.#monthView.day = isValidDate(parsed) ? parsed.getDate() : now.getDate();
   }
 
   /**
