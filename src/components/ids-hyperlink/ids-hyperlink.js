@@ -1,8 +1,9 @@
+import fontSizes from 'ids-identity/dist/theme-new/tokens/web/ui.config.font-sizes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import Base from './ids-hyperlink-base';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { fontSizes } from './ids-hyperlink-attributes';
+
 import styles from './ids-hyperlink.scss';
 
 /**
@@ -150,7 +151,9 @@ export default class IdsHyperlink extends Base {
    * i.e. 10, 12, 16 or xs, sm, base, lg, xl
    */
   set fontSize(value) {
-    fontSizes.forEach((size) => this.container?.classList.remove(`ids-text-${size}`));
+    fontSizes?.forEach((size) => {
+      this.container?.classList.remove(`ids-text-${Object.keys(size)}`);
+    });
 
     if (value) {
       this.setAttribute(attributes.FONT_SIZE, value);

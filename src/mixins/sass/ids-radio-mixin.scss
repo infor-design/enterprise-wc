@@ -36,11 +36,11 @@
 }
 
 @mixin radio-unchecked-error-circle {
-  @include border-alert-danger();
+  @include border-alert-warning();
 }
 
 @mixin radio-unchecked-error-label-text {
-  @include text-alert-danger();
+  @include text-alert-error();
 }
 
 // Checked

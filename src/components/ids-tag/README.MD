@@ -50,7 +50,7 @@ A colored tag is done by adding the `color` attribute and one of the following: 
   IdsKeyboardMixin
   IdsThemeMixin
 
-## Settings
+## Settings (Attributes)
 
 - `clickable` {boolean} Turns on the functionality to make the tag clickable like a link
 - `dismissible` {boolean} Turns on the functionality to add an (x) button to clear remove the tag
@@ -90,7 +90,7 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 
 - Flows with padding and margin within the width and height of the parent container. Possibly scrolling as needed based on parent dimensions.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
 - 3.x: Tags have all new markup and classes.
 - 4.x: Tags have all new markup and classes for web components.

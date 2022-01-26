@@ -1084,9 +1084,9 @@ describe('IdsDataGrid Component', () => {
       buttons.next.button.dispatchEvent(mouseClick);
       expect(dataGrid.pageNumber).toBe(2);
       buttons.last.button.dispatchEvent(mouseClick);
-      expect(dataGrid.pageNumber).toBe(4);
+      expect(dataGrid.pageNumber).toBe(5);
       buttons.last.button.dispatchEvent(mouseClick);
-      expect(dataGrid.pageNumber).toBe(4);
+      expect(dataGrid.pageNumber).toBe(5);
     });
 
     it('can paginate to previous page', () => {
@@ -1098,11 +1098,11 @@ describe('IdsDataGrid Component', () => {
       const mouseClick = new MouseEvent('click', { bubbles: true });
 
       buttons.last.button.dispatchEvent(mouseClick);
+      expect(dataGrid.pageNumber).toBe(5);
+      buttons.previous.button.dispatchEvent(mouseClick);
       expect(dataGrid.pageNumber).toBe(4);
       buttons.previous.button.dispatchEvent(mouseClick);
       expect(dataGrid.pageNumber).toBe(3);
-      buttons.previous.button.dispatchEvent(mouseClick);
-      expect(dataGrid.pageNumber).toBe(2);
     });
 
     it('can paginate to first page', () => {
@@ -1114,9 +1114,9 @@ describe('IdsDataGrid Component', () => {
       const mouseClick = new MouseEvent('click', { bubbles: true });
 
       buttons.last.button.dispatchEvent(mouseClick);
-      expect(dataGrid.pageNumber).toBe(4);
+      expect(dataGrid.pageNumber).toBe(5);
       buttons.previous.button.dispatchEvent(mouseClick);
-      expect(dataGrid.pageNumber).toBe(3);
+      expect(dataGrid.pageNumber).toBe(4);
       buttons.first.button.dispatchEvent(mouseClick);
       expect(dataGrid.pageNumber).toBe(1);
     });

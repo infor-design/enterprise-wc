@@ -83,7 +83,7 @@ export default class IdsPagerNumberList extends Base {
     } else if (nextValue <= 1) {
       nextValue = 1;
     } else {
-      const pageCount = Math.floor(this.total / this.pageSize);
+      const pageCount = Math.ceil(this.total / this.pageSize);
       nextValue = Math.min(nextValue, pageCount);
     }
 
@@ -125,7 +125,7 @@ export default class IdsPagerNumberList extends Base {
   /** @returns {number|null} The calculated pageCount using total and pageSize */
   get pageCount() {
     return this.hasAttribute(attributes.TOTAL)
-      ? Math.floor(this.total / this.pageSize)
+      ? Math.ceil(this.total / this.pageSize)
       : null;
   }
 

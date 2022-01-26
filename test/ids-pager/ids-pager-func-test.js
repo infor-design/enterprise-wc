@@ -443,7 +443,7 @@ describe('IdsPager Component', () => {
       `<ids-pager-number-list page-number="10" page-size="${pageSize}" total="${total}" last></ids-pager-number-list>`
     );
 
-    const pageCount = Math.floor(total / pageSize);
+    const pageCount = Math.ceil(total / pageSize);
     const pageNumberButtons = elem.shadowRoot.querySelectorAll('ids-button');
 
     expect(pageNumberButtons.length).toEqual(pageCount);

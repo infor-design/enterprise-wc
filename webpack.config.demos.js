@@ -27,6 +27,7 @@ module.exports = {
       acc['ids-text/ids-text'] = './demos/ids-text/index.js';
       acc['ids-icon/ids-icon'] = './demos/ids-icon/index.js';
       acc['ids-layout-grid/ids-layout-grid'] = './demos/ids-layout-grid/index.js';
+      acc['ids-theme-switcher/ids-theme-switcher'] = './demos/ids-theme-switcher/index.js';
     }
 
     if (path.basename(filePath) === 'index.js') {

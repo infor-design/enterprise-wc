@@ -64,21 +64,17 @@ export default class IdsBadge extends Base {
 
   /**
    * Set the color
-   * @param {string | null} value The Badge Color [base, error, info, success and alert]
+   * @param {string | null} value The Badge Color [base, error, info, success and warning]
    */
   set color(value) {
     if (value) {
       this.setAttribute('color', value);
       this.container.setAttribute('color', value);
       let statusColor;
-
-      if (value !== 'error' && value !== 'alert' && value !== 'info') {
-        statusColor = `var(--ids-color-status-${value})`;
-      }
-
       this.container.style.backgroundColor = statusColor;
       this.container.style.borderColor = statusColor;
-      if (value === 'error' || value === 'info') {
+
+      if (value === 'error' || value === 'info' || value === 'warning') {
         this.container.classList.add('ids-white');
       }
     } else {
