@@ -3,7 +3,11 @@
 </ids-layout-grid>
 <ids-layout-grid cols="3" gap="sm">
   <ids-layout-grid-cell col-start="1" row-start="1">
-    <ids-date-picker tabbable="false" validate="required date" value="3/4/2016"></ids-date-picker>
+    <ids-date-picker
+      label="Form Field (value) not tabbable"
+      value="3/4/2016"
+      tabbable="false"
+    ></ids-date-picker>
   </ids-layout-grid-cell>
   <ids-layout-grid-cell col-start="1" row-start="2">
     <ids-date-picker
@@ -11,6 +15,7 @@
       label="Date Field (required) placeholder"
       placeholder="M/d/yyyy"
       validate="required"
+      show-today="false"
     ></ids-date-picker>
   </ids-layout-grid-cell>
   <ids-layout-grid-cell col-start="1" row-start="3">

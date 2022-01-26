@@ -249,7 +249,7 @@ class IdsMonthView extends Base {
   #formatMonthText() {
     const dayOfMonth = new Date(this.year, this.month, this.day);
 
-    return this.locale.formatDate(dayOfMonth, { month: 'long', year: 'numeric', numberingSystem: 'latn' });
+    return this.locale?.formatDate(dayOfMonth, { month: 'long', year: 'numeric', numberingSystem: 'latn' });
   }
 
   /**
@@ -315,7 +315,7 @@ class IdsMonthView extends Base {
       }
 
       // Alternate cells clicked
-      if ((stringToNumber(month) !== this.month || this.locale.isIslamic()) && !this.#isRange()) {
+      if ((stringToNumber(month) !== this.month || this.locale?.isIslamic()) && !this.#isRange()) {
         this.year = year;
         this.month = month;
       }
@@ -332,7 +332,7 @@ class IdsMonthView extends Base {
    */
   #monthInDayFormat(date, rangeStartsOn) {
     const isFirstDayOfRange = daysDiff(date, rangeStartsOn) === 0;
-    const isFirstDayOfMonth = this.locale.isIslamic()
+    const isFirstDayOfMonth = this.locale?.isIslamic()
       ? gregorianToUmalqura(date).day === 1
       : date.getDate() === 1;
 
@@ -351,21 +351,21 @@ class IdsMonthView extends Base {
   #getCellTemplate(weekIndex) {
     const firstDayOfRange = this.#isRange()
       ? this.startDate
-      : firstDayOfMonthDate(this.year, this.month, this.day, this.locale.isIslamic());
+      : firstDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
     const lastDayOfRange = this.#isRange()
       ? this.endDate
-      : lastDayOfMonthDate(this.year, this.month, this.day, this.locale.isIslamic());
+      : lastDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
     const rangeStartsOn = firstDayOfWeekDate(firstDayOfRange, this.firstDayOfWeek);
 
     return Array.from({ length: WEEK_LENGTH }).map((_, index) => {
       const date = addDate(rangeStartsOn, (weekIndex * WEEK_LENGTH) + index, 'days');
       const monthFormat = this.#monthInDayFormat(date, rangeStartsOn);
-      const dayText = this.locale.formatDate(date, {
+      const dayText = this.locale?.formatDate(date, {
         day: 'numeric',
         month: monthFormat,
         numberingSystem: 'latn'
       });
-      const ariaLabel = this.locale.formatDate(date, { dateStyle: 'full' });
+      const ariaLabel = this.locale?.formatDate(date, { dateStyle: 'full' });
       const day = date.getDate();
       const month = date.getMonth();
       const year = date.getFullYear();
@@ -397,6 +397,8 @@ class IdsMonthView extends Base {
    * Add week days HTML to the table
    */
   #renderWeekDays() {
+    if (!this.locale) return;
+
     const calendar = this.locale.calendar();
     const weekDays = this.compact ? calendar.days.narrow : calendar.days.abbreviated;
 
@@ -424,7 +426,7 @@ class IdsMonthView extends Base {
   #renderMonth() {
     const weeksCount = this.#isRange()
       ? weeksInRange(this.startDate, this.endDate, this.firstDayOfWeek)
-      : weeksInMonth(this.year, this.month, this.day, this.firstDayOfWeek, this.locale.isIslamic());
+      : weeksInMonth(this.year, this.month, this.day, this.firstDayOfWeek, this.locale?.isIslamic());
 
     const rowsTemplate = Array.from({ length: weeksCount }).map((_, weekIndex) =>
       `<tr>${this.#getCellTemplate(weekIndex)}</tr>`).join('');
