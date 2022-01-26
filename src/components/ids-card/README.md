@@ -36,9 +36,20 @@ A card is created by using the custom `ids-card` element. A card has two content
 </ids-card>
 ```
 
+A card can be an actionable with the behavior of a button.
+
+```html
+<ids-card actionable="true">
+  <div slot="actionable-text">
+    <ids-text font-size="16" type="p">Actionable Button Card</ids-text>
+  </div>
+</ids-card>
+```
+
 ## Settings and Attributes
 
 - `autoHeight` {boolean} Makes the card the same height as its inner content
+- `actionable` {boolean} It will make the card act as a button
 
 ## States and Variations (With Code Examples)
 
