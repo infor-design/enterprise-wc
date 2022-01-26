@@ -9,9 +9,9 @@ const capitalize = (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowe
 
 const camelCase = (word) => word.split('-').reduce((curr, next) => (`${curr}${capitalize(next)}`));
 
-export const defineProp = (target, name, defaultValue, { changing, changed }) => {
-  const attrName = String(name?.attrName || name).trim();
-  const propName = String(name?.propName || camelCase(attrName)).trim();
+export const defineProp = (target, name, defaultValue, { propName, before, after }) => {
+  const attrName = String(name).trim();
+  propName = String(propName || camelCase(attrName)).trim();
   const propTypeCaster = target.propTypeCasters[typeof (defaultValue)] || Boolean;
   const stringCaster = (typeof (defaultValue) === 'object') ? JSON.stringify : String;
 
@@ -20,9 +20,9 @@ export const defineProp = (target, name, defaultValue, { changing, changed }) =>
   const getter = () => (propTypeCaster(target.getAttribute(attrName)) ?? defaultValue);
   const setter = (value) => {
     const stringValue = stringCaster(value);
-    changing?.bind(target)?.(stringValue);
+    before?.bind(target)?.(stringValue);
     target.setAttribute(attrName, stringValue);
-    changed?.bind(target)?.(stringValue);
+    after?.bind(target)?.(stringValue);
   };
 
   const propDescriptor = {
@@ -40,8 +40,8 @@ export const defineProp = (target, name, defaultValue, { changing, changed }) =>
     propDescriptor,
     propTypeCaster,
     stringCaster,
-    changing,
-    changed,
+    before,
+    after,
     defaultValue,
   };
 };
@@ -51,7 +51,9 @@ export const defineProp = (target, name, defaultValue, { changing, changed }) =>
  *
  * Possible usage could look like this:
  *
- * +  @attr(attributes.ALIGN, 'center', { changing, changed, })
+ * +  import { decorator as attr } from 'mixins/ids-attributes-mixin/ids-attributes-mixin';
+ * +
+ * +  @attr(attributes.ALIGN, 'center', { before, after, })
  * +  class IdsCustomComponent extends Base {}
  *
  * @param  {...any} args - attribute settings
@@ -80,30 +82,36 @@ export const IdsAttributesMixin = (superclass) => class extends superclass {
    * +  class IdsCustomComponent extends Base {
    * +    constructor() {
    * +      super();
-   * +      this.prop(attributes.ALIGN_X, 'start', { changed: this.alignXChanged });
-   * +      this.prop(attributes.ALIGN_Y, 'top').changing(this.alignYChanging).changed(this.alignYChanged);
-   * +      this.prop(attributes.ALIGN_Y, 'top');
-   * +      this.prop(attributes.AUTO_FOCUS, true);
+   * +
    * +      this.prop(attributes.DATA, { fname: "John", lname: "Doe" });
+   * +      this.prop(attributes.AUTO_FOCUS);
+   * +
+   * +      // Reacting to prop changes using method-chaining
+   * +      this.prop(attributes.ALIGN_Y, 'top').before(this.alignYBefore).after(this.alignYAfter);
+   * +
+   * +      // Reacting to prop changes using the options argument
+   * +      this.prop(attributes.ALIGN_X, 'start', { after: this.alignXAfter });
+   * +
    * +    }
    * +
-   * +    alignXChanged(value) { console.log('alignXChanged, value, this.alignX); }
-   * +    alignYChanging(value) { console.log('alignYChanging, value, this.alignY); }
-   * +    alignYChanged(value) { console.log('alignYChanged, value, this.alignY); }
+   * +    // Methods for reacting to prop changes (used in the constructor above)
+   * +    alignXAfter(value) { console.log('alignXAfter, value, this.alignX); }
+   * +    alignYBefore(value) { console.log('alignYBefore, value, this.alignY); }
+   * +    alignYAfter(value) { console.log('alignYAfter, value, this.alignY); }
    * +  }
    *
    * @param {string} name the attribute name that appears in the DOM
    * @param {*} defaultValue the attributes default value (used to determine TypeCaster)
    * @param {object} options additional settings
-   * @returns {object} - object containing changing/changed callbacks to react to attribute changes
+   * @returns {object} - object containing before/after callbacks to react to attribute changes
    */
   prop(name, defaultValue = false, options = {}) {
     const propInfo = defineProp(this, name, defaultValue, options);
     this.#properties.set(propInfo.attrName, propInfo);
 
     return {
-      changing: (changing) => this.prop(propInfo, defaultValue, { ...propInfo, changing }),
-      changed: (changed) => this.prop(propInfo, defaultValue, { ...propInfo, changed })
+      before: (before) => this.prop(propInfo.attrName, defaultValue, { ...propInfo, before }),
+      after: (after) => this.prop(propInfo.attrName, defaultValue, { ...propInfo, after })
     };
   }
 
@@ -118,7 +126,9 @@ export const IdsAttributesMixin = (superclass) => class extends superclass {
    *
    * Possible usage could look like this:
    *
-   * + @IdsAttributes.attr(attributes.ALIGN_EDGE, 'center')
+   * + import { IdsAttributes } from 'mixins/ids-attributes-mixin/ids-attributes-mixin';
+   * +
+   * + @IdsAttributes.attr(attributes.AUTO_UPDATE)
    * + class IdsCustomComponent extends Base {}
    *
    * @see decorator()
