@@ -189,16 +189,6 @@ class IdsDatePicker extends Base {
    * @returns {object} The object for chaining
    */
   #attachEventHandlers() {
-    // Respond to container changing language
-    this.offEvent('languagechange.date-picker-container');
-    this.onEvent('languagechange.date-picker-container', this.closest('ids-container'), async () => {
-      // Temporary workaround for ids-text component
-      // not translating if used inside another component
-      this.container.querySelectorAll('ids-text[translate-text]').forEach((el) => {
-        el.textContent = this.locale.translate(el.translationKey || el.textContent);
-      });
-    });
-
     // Respond to container changing locale
     this.offEvent('localechange.date-picker-container');
     this.onEvent('localechange.date-picker-container', this.closest('ids-container'), async () => {
