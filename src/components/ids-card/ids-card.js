@@ -35,6 +35,7 @@ export default class IdsCard extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.ACTIONABLE,
       attributes.AUTO_FIT,
       attributes.AUTO_HEIGHT,
       attributes.OVERFLOW
@@ -42,11 +43,11 @@ export default class IdsCard extends Base {
   }
 
   /**
-   * Inner template contents
-   * @returns {string} The template
+   * Method for card template
+   * @returns {string} html
    */
-  template() {
-    return `
+  cardTemplate() {
+    const html = `
       <div class="ids-card" part="card">
         <div class="ids-card-body">
           <div class="ids-card-header" part="header">
@@ -60,6 +61,34 @@ export default class IdsCard extends Base {
           </div>
         </div>
       </div>
+    `;
+
+    return html;
+  }
+
+  /**
+   * Method for actionable button card template
+   * @returns {string} html
+   */
+  actionableButtonTemplate() {
+    const html = `
+      <div class="ids-card" part="card">
+        <ids-button>
+          <slot name="card-content"></slot>
+        </ids-button>
+      </div>
+    `;
+
+    return html;
+  }
+
+  /**
+   * Inner template contents
+   * @returns {string} The template
+   */
+  template() {
+    return `
+      ${this.actionable ? this.actionableButtonTemplate() : this.cardTemplate()}
     `;
   }
 
@@ -163,6 +192,21 @@ export default class IdsCard extends Base {
   }
 
   get autoHeight() { return this.getAttribute(attributes.AUTO_HEIGHT); }
+
+  /**
+   * Set the card to be actionable button.
+   * @param {boolean | null} value The card can act as a button.
+   */
+  set actionable(value) {
+    const val = stringToBool(value);
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.ACTIONABLE, val);
+      return;
+    }
+    this.removeAttribute(attributes.ACTIONABLE);
+  }
+
+  get actionable() { return stringToBool(this.getAttribute(attributes.ACTIONABLE)); }
 
   /**
    * Set how the container overflows, can be hidden or auto (default)
