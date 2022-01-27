@@ -271,13 +271,13 @@
     width: 310px;
   }
 
-  .month-view-btn-today::part(button) {
+  .btn-today::part(button) {
     padding-left: 3px;
     padding-right: 3px;
   }
 
-  .month-view-btn-previous,
-  .month-view-btn-next {
+  .btn-previous,
+  .btn-next {
     @include pl-0();
   }
 

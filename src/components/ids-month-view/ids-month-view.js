@@ -134,15 +134,15 @@ class IdsMonthView extends Base {
       return;
     }
 
-    const prevNextBtn = `<ids-button class="month-view-btn-previous">
+    const prevNextBtn = `<ids-button class="btn-previous">
       <ids-text audible="true" translate-text="true">PreviousMonth</ids-text>
       <ids-icon slot="icon" icon="chevron-left"></ids-icon>
     </ids-button>
-    <ids-button class="month-view-btn-next">
+    <ids-button class="btn-next">
       <ids-text audible="true" translate-text="true">NextMonth</ids-text>
       <ids-icon slot="icon" icon="chevron-right"></ids-icon>
     </ids-button>`;
-    const todayBtn = this.showToday ? `<ids-button css-class="no-padding" class="month-view-btn-today">
+    const todayBtn = this.showToday ? `<ids-button css-class="no-padding" class="btn-today">
       <ids-text
         class="month-view-today-text"
         font-size="16"
@@ -200,28 +200,27 @@ class IdsMonthView extends Base {
    * Add next/previous/today click events when toolbar is attached
    */
   #attachToolbarEvents() {
-    this.offEvent('click.month-view-previous');
-    this.onEvent('click.month-view-previous', this.container.querySelector('.month-view-btn-previous'), (e) => {
-      e.stopPropagation();
-      this.#changeDate('previous');
-    });
+    const buttonSet = this.container.querySelector('ids-toolbar-section[type="buttonset"]');
 
-    this.offEvent('click.month-view-next');
-    this.onEvent('click.month-view-next', this.container.querySelector('.month-view-btn-next'), (e) => {
+    this.offEvent('click.month-view-buttons');
+    this.onEvent('click.month-view-buttons', buttonSet, (e) => {
       e.stopPropagation();
-      this.#changeDate('next');
-    });
 
-    if (this.showToday) {
-      this.offEvent('click.month-view-today');
-      this.onEvent('click.month-view-today', this.container.querySelector('.month-view-btn-today'), (e) => {
-        e.stopPropagation();
+      if (!e.target) return;
+
+      if (e.target.classList.contains('btn-previous')) {
+        this.#changeDate('previous');
+      }
+
+      if (e.target.classList.contains('btn-next')) {
+        this.#changeDate('next');
+      }
+
+      if (e.target.classList.contains('btn-today')) {
         this.#changeDate('today');
         this.#triggerSelectedEvent();
-      });
-    } else {
-      this.offEvent('click.month-view-today');
-    }
+      }
+    });
 
     this.offEvent('dayselected.month-view-datepicker');
     this.onEvent('dayselected.month-view-datepicker', this.container.querySelector('ids-date-picker'), (e) => {
@@ -234,12 +233,10 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * Remove next/previous/today click events when showing range of dates
+   * Remove calendar toolbar events when showing range of dates
    */
   #detachToolbarEvents() {
-    this.offEvent('click.month-view-previous');
-    this.offEvent('click.month-view-next');
-    this.offEvent('click.month-view-today');
+    this.offEvent('click.month-view-buttons');
     this.offEvent('dayselected.month-view-datepicker');
   }
 
