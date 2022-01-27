@@ -102,6 +102,7 @@ class IdsMonthView extends Base {
     // Respond to container changing language
     this.offEvent('languagechange.month-view-container');
     this.onEvent('languagechange.month-view-container', getClosest(this, 'ids-container'), async () => {
+      this.#setDirection();
       this.#renderToolbar();
       this.#renderMonth();
     });

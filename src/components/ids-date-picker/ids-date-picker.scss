@@ -180,3 +180,19 @@
 :host([is-calendar-toolbar='true']) {
   @include flex();
 }
+
+// Text direction
+:host([dir='rtl']) {
+  .ids-date-picker {
+    .popup-btn-start::part(button):not(:focus) {
+      border-right-color: transparent;
+      border-left-color: var(--ids-color-palette-slate-30);
+    }
+
+    &[mode='dark'] .popup-btn-start::part(button) {
+      &:not(:focus) {
+        border-left-color: var(--ids-color-palette-slate-50);
+      }
+    }
+  }
+}

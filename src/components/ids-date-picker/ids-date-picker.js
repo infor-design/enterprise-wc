@@ -35,7 +35,6 @@ import styles from './ids-date-picker.scss';
  * @mixes IdsThemeMixin
  * @mixes IdsLocaleMixin
  */
-
 @customElement('ids-date-picker')
 @scss(styles)
 class IdsDatePicker extends Base {
@@ -122,10 +121,10 @@ class IdsDatePicker extends Base {
         ` : ''}
         ${(!(this.isDropdown || this.isCalendarToolbar)) ? `
           <ids-trigger-field
-            id="${this.id}"
-            label="${this.label}"
+            ${this.id ? `id="${this.id}"` : ''}
+            ${this.label ? `label="${this.label}"` : ''}
             size="${this.size}"
-            validate="${this.validate}"
+            ${this.validate ? `validate="${this.validate}"` : ''}
           >
             <ids-text audible="true" translate-text="true">UseArrow</ids-text>
             <ids-input
@@ -192,6 +191,7 @@ class IdsDatePicker extends Base {
     // Respond to container changing locale
     this.offEvent('localechange.date-picker-container');
     this.onEvent('localechange.date-picker-container', this.closest('ids-container'), async () => {
+      this.#setDirection();
       this.#applyMask();
     });
 
@@ -739,6 +739,17 @@ class IdsDatePicker extends Base {
       this.setAttribute(attributes.DAY, val);
     } else {
       this.removeAttribute(attributes.DAY);
+    }
+  }
+
+  /**
+   * Set the direction attribute
+   */
+  #setDirection() {
+    if (this.locale?.isRTL()) {
+      this.setAttribute('dir', 'rtl');
+    } else {
+      this.removeAttribute('dir');
     }
   }
 }
