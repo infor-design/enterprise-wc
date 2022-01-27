@@ -20,6 +20,7 @@ import {
   stringToNumber,
   buildClassAttrib,
 } from '../../utils/ids-string-utils/ids-string-utils';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 // Supporting components
 import IdsButton from '../ids-button/ids-button';
@@ -100,14 +101,14 @@ class IdsMonthView extends Base {
   #attachEventHandlers() {
     // Respond to container changing language
     this.offEvent('languagechange.month-view-container');
-    this.onEvent('languagechange.month-view-container', this.closest('ids-container'), async () => {
+    this.onEvent('languagechange.month-view-container', getClosest(this, 'ids-container'), async () => {
       this.#renderToolbar();
       this.#renderMonth();
     });
 
     // Respond to container changing locale
     this.offEvent('localechange.month-view-container');
-    this.onEvent('localechange.month-view-container', this.closest('ids-container'), async () => {
+    this.onEvent('localechange.month-view-container', getClosest(this, 'ids-container'), async () => {
       this.#setDirection();
       this.#renderMonth();
       this.#attachDatepicker();
