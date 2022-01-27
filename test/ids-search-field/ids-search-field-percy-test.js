@@ -23,7 +23,8 @@ describe('Ids Search Field Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
     });
-    await page.waitForSelector('#header-search[color-variant="alternate"]'); // Wait for Search Field to change variants/types
+
+    await page.waitFor('pierce/.ids-input.color-variant-alternate .ids-input-field');
     await percySnapshot(page, 'ids-search-field-new-contrast');
   });
 });
