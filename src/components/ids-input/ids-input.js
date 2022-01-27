@@ -207,6 +207,15 @@ export default class IdsInput extends Base {
 
   /**
    * @readonly
+   * @returns {HTMLElement} the element in this component's Shadow Root
+   *  that wraps the input and any triggering elements or icons
+   */
+  get fieldContainer() {
+    return this.container.querySelector('.field-container');
+  }
+
+  /**
+   * @readonly
    * @returns {HTMLLabelElement} the inner `label` element or
    * reference to what was last provided by setLabelElement
    */
@@ -352,30 +361,13 @@ export default class IdsInput extends Base {
    * */
   set labelHidden(value) {
     if (stringToBool(value)) {
-      this?.setAttribute(attributes.LABEL_HIDDEN, true);
-      const existingLabel = this.shadowRoot.querySelector('label');
-      if (existingLabel) {
-        existingLabel.remove();
-      }
-
-      this.input?.setAttribute?.('aria-label', this.label);
+      this.setAttribute(attributes.LABEL_HIDDEN, '');
+      this.#hideLabel();
+      this.input.setAttribute('aria-label', this.label);
     } else {
-      this?.removeAttribute(attributes.LABEL_HIDDEN);
-
-      if (this.input) {
-        this.input?.removeAttribute('aria-label');
-
-        const labelTemplate = document.createElement('template');
-        labelTemplate.innerHTML = (
-          `<label for="${this.id}-input" class="ids-label-text">
-            <ids-text part="label" label="true" color-unset>${this.label}</ids-text>
-          </label>`
-        );
-        this.container.insertBefore(
-          labelTemplate.content.childNodes[0],
-          this.container.querySelector('.field-container')
-        );
-      }
+      this.removeAttribute(attributes.LABEL_HIDDEN);
+      this.#showLabel();
+      this.input.removeAttribute('aria-label');
     }
   }
 
@@ -385,6 +377,26 @@ export default class IdsInput extends Base {
    */
   get labelHidden() {
     return this.getAttribute(attributes.LABEL_HIDDEN);
+  }
+
+  #hideLabel() {
+    const existingLabel = this.shadowRoot.querySelector('label');
+    if (existingLabel) {
+      existingLabel.classList.add('empty');
+      existingLabel.children[0].textContent = '';
+    }
+  }
+
+  #showLabel() {
+    const existingLabel = this.shadowRoot.querySelector('label');
+    if (!existingLabel) {
+      this.fieldContainer.insertAdjacentHTML('beforebegin', `<label for="${this.id}-input" class="ids-label-text">
+        <ids-text part="label" label="true" color-unset>${this.label}</ids-text>
+      </label>`);
+    } else {
+      existingLabel.classList.remove('empty');
+      existingLabel.children[0].textContent = this.label;
+    }
   }
 
   /**

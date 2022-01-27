@@ -18,6 +18,13 @@ $input-compact-height: $input-field-height-xs;
   align-items: baseline;
   display: flex;
 
+  // Simulate standard label text size while empty with a non-breaking space
+  &.empty {
+    &::before {
+      content: '\00a0';
+    }
+  }
+
   &.required {
     &::after {
       @include relative();
@@ -54,12 +61,7 @@ $input-compact-height: $input-field-height-xs;
     @include text-14();
   }
 
-  .field-container {
-    // @include mb-1();
-  }
-
   .ids-input-field {
-    // @include mb-2();
     @include px-4();
     @include py-0();
     @include text-14();
@@ -178,85 +180,76 @@ $input-compact-height: $input-field-height-xs;
       text-align: end;
     }
 
-    // input message: [alert, error, info, success]
-    &.alert,
-    &.alert:hover {
-      @include border-alert-warning();
-      @include text-alert-warning();
-
-      &:focus {
-        @include border-alert-warning();
-
-        box-shadow: rgba(249 131 0 / 0.3) 0 0 3px 2px;
-      }
-
-      &[disabled] {
-        @include border-amber-30();
-        @include text-amber-30();
-      }
-    }
-
-    &.error,
-    &.error:hover {
-      @include border-alert-error();
-      @include text-alert-error();
-
-      &:focus {
-        @include border-alert-error();
-        @include shadow-error();
-      }
-
-      &[disabled] {
-        @include border-ruby-30();
-        @include text-ruby-30();
-      }
-    }
-
-    &.info,
-    &.info:hover {
-      @include border-alert-info();
-      @include text-alert-info();
-
-      &:focus {
-        @include border-alert-info();
-
-        box-shadow: rgba(0 102 212 / 0.3) 0 0 3px 2px;
-      }
-
-      &[disabled] {
-        @include border-azure-30();
-        @include text-azure-30();
-      }
-    }
-
-    &.success,
-    &.success:hover {
-      @include border-alert-success();
-      @include text-alert-success();
-
-      &:focus {
-        @include border-alert-success();
-
-        box-shadow: rgba(42 195 113 / 0.3) 0 0 3px 2px;
-      }
-
-      &[disabled] {
-        @include border-emerald-30();
-        @include text-emerald-30();
-      }
-    }
-
-    &.has-triggerfield {
-      border: none;
-      margin-bottom: 0;
-
-      &:focus {
-        box-shadow: none;
-      }
-    }
-
     &.no-margin {
       @include mb-0();
+    }
+  }
+
+  // input message: [alert, error, info, success]
+  .alert,
+  .alert:hover {
+    @include border-alert-warning();
+    @include text-alert-warning();
+
+    &:focus-within {
+      @include border-alert-warning();
+
+      box-shadow: rgba(249 131 0 / 0.3) 0 0 3px 2px;
+    }
+
+    &[disabled] {
+      @include border-amber-30();
+      @include text-amber-30();
+    }
+  }
+
+  .error,
+  .error:hover {
+    @include border-alert-error();
+    @include text-alert-error();
+
+    &:focus-within {
+      @include border-alert-error();
+      @include shadow-error();
+    }
+
+    &[disabled] {
+      @include border-ruby-30();
+      @include text-ruby-30();
+    }
+  }
+
+  .info,
+  .info:hover {
+    @include border-alert-info();
+    @include text-alert-info();
+
+    &:focus-within {
+      @include border-alert-info();
+
+      box-shadow: rgba(0 102 212 / 0.3) 0 0 3px 2px;
+    }
+
+    &[disabled] {
+      @include border-azure-30();
+      @include text-azure-30();
+    }
+  }
+
+  .success,
+  .success:hover {
+    @include border-alert-success();
+    @include text-alert-success();
+
+    &:focus-within {
+      @include border-alert-success();
+
+      box-shadow: rgba(42 195 113 / 0.3) 0 0 3px 2px;
+    }
+
+    &[disabled] {
+      @include border-emerald-30();
+      @include text-emerald-30();
     }
   }
 

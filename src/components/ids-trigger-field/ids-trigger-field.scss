@@ -136,46 +136,11 @@
 }
 */
 
-
-<<<<<<< HEAD
-.ids-trigger-field.md .ids-trigger-field-content {
-  max-width: $input-size-md;
-}
-
-.ids-trigger-field.lg .ids-trigger-field-content {
-  max-width: $input-size-lg;
-}
-
-// height sizes: [xs, sm, md, lg]
-.ids-trigger-field.field-height-xs .ids-trigger-field-content {
-  height: $input-field-height-xs;
-}
-
-.ids-trigger-field.field-height-sm .ids-trigger-field-content {
-  height: $input-field-height-sm;
-}
-
-.ids-trigger-field.field-height-md .ids-trigger-field-content {
-  height: $input-field-height-md;
-}
-
-.ids-trigger-field.field-height-lg .ids-trigger-field-content {
-  height: $input-field-height-lg;
-}
-
-.ids-trigger-field.compact .ids-trigger-field-content {
-  height: $input-field-height-xs;
-}
-
-.ids-trigger-field.full .ids-trigger-field-content {
-  max-width: $input-size-full;
-=======
 /*
 .ids-input.ids-trigger-field {
   &.field-height-md .ids-input-field {
     height: $input-field-height-md - 2;
   }
->>>>>>> 709ab5ec (replicate height/width of all fields on container)
 }
 */
 
@@ -195,14 +160,6 @@
 
   flex: 0;
   z-index: 2;
-}
-
-::slotted(ids-input) {
-  @include relative();
-
-  flex: 1;
-  max-width: $input-size-default;
-  z-index: 1;
 }
 
 // Handle Themes
