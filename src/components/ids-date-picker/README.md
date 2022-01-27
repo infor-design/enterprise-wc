@@ -18,7 +18,7 @@ The `ids-date-picker` is a web component to support date entry
 - `size` {'xs'|'sm'|'mm'|'md'|'lg'|'full'} - Size (width) of the field
 - `validate` {'required'|string} - Input validation rules
 - `validation-events` {string} - Input validation events, `change blur` as default
-- `format` {'locale'|string|null} - Input date format, if no set defaults to locale calendar date format. Examples: `yyyy-MM-dd`, `d/M/yyyy`, `dd/MM/yyyy`
+- `format` {'locale'|string|null} - Input date format, if not set defaults to locale calendar date format. Examples: `yyyy-MM-dd`, `d/M/yyyy`, `dd/MM/yyyy`
 - `is-calendar-toolbar` {true|false} - Whether or not the component is used in calendar toolbar. Uses text instead of input
 - `is-dropdown` {true|false} - Whether or not the component is dropdown with year/month picker
 - `month` `{string|number|null}` - Specifies a month for the popup calendar (`ids-month-view` attribute)
