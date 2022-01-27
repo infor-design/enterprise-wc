@@ -20,7 +20,8 @@
 
     &:focus {
       @include border-azure-60();
-      box-shadow: 0 0 4px 3px rgb(54 138 192 / 30%);
+
+      box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
     }
   }
 
@@ -36,7 +37,8 @@
 
     &:focus {
       @include border-azure-60();
-      box-shadow: 0 0 4px 2px rgb(141 201 230 / 30%);
+
+      box-shadow: 0 0 4px 2px rgb(141 201 230 / 0.3);
     }
   }
 
@@ -52,7 +54,8 @@
 
     &:focus {
       @include border-azure-50();
-      box-shadow: 0 0 4px 2px rgb(41 41 41 / 30%);
+
+      box-shadow: 0 0 4px 2px rgb(41 41 41 / 0.3);
     }
   }
 
