@@ -1,6 +1,7 @@
 // Please keep constants alphabetized
 export const attributes = {
   ACCEPT: 'accept',
+  ACTIONABLE: 'actionable',
   ACTIVE: 'active',
   ADVANCED: 'advanced',
   ALT: 'alt',
@@ -303,4 +304,4 @@ export const breakpoints = {
   xs: '360px'
 };
 
-export const version = '0.0.0-beta.17';
+export const version = '0.0.0-beta.18';
