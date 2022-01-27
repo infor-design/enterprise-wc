@@ -243,7 +243,7 @@ export default class IdsAccordion extends Base {
   }
 
   /**
-   * Traverses the Accordion a specified number of steps, focusing the last one
+   * Traverses the Accordion a specified number of steps
    * @param {number} amt the amount of steps to take
    * @returns {IdsAccordionPanel} the newly-focused accordion pane
    */
