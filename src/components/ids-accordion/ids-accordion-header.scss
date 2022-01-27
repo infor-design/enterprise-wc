@@ -4,6 +4,10 @@
 // Styles specific to the in-page Accordion
 
 @mixin accordion-header-standard-colors() {
+  // classic color variables
+  --ids-color-palette-classic-azure-50: #54a1d3;
+  --ids-color-palette-classic-azure-60: #368ac0;
+
   border-color: transparent;
 
   // Light Mode Styles
@@ -15,8 +19,8 @@
     border-top-color: transparent;
 
     &:focus {
-      @include shadow();
-      @include border-azure-70();
+      @include border-azure-60();
+      box-shadow: 0 0 4px 3px rgb(54 138 192 / 30%);
     }
   }
 
@@ -31,8 +35,8 @@
     }
 
     &:focus {
-      @include shadow();
-      @include border-azure-70();
+      @include border-azure-60();
+      box-shadow: 0 0 4px 2px rgb(141 201 230 / 30%);
     }
   }
 
@@ -47,8 +51,8 @@
     }
 
     &:focus {
-      @include shadow();
-      @include border-azure-80();
+      @include border-azure-50();
+      box-shadow: 0 0 4px 2px rgb(41 41 41 / 30%);
     }
   }
 
@@ -63,7 +67,7 @@
     }
 
     &:focus {
-      border-bottom-color: var(--ids-color-palette-azure-70);
+      border-color: var(--ids-color-palette-classic-azure-60);
     }
   }
 
@@ -78,7 +82,7 @@
     }
 
     &:focus {
-      border-bottom-color: var(--ids-color-palette-azure-70);
+      border-color: var(--ids-color-palette-classic-azure-60);
     }
   }
 
@@ -93,7 +97,7 @@
     }
 
     &:focus {
-      border-bottom-color: var(--ids-color-palette-azure-80);
+      border-color: var(--ids-color-palette-classic-azure-50);
     }
   }
 }
