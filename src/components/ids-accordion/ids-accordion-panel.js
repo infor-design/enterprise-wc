@@ -348,7 +348,7 @@ export default class IdsAccordionPanel extends Base {
    * @returns {void}
    */
   select(panel) {
-    if (panel && panel.tagName === 'IDS-ACCORDION-PANEL') {
+    if (panel?.tagName === 'IDS-ACCORDION-PANEL') {
       this.header.selected = true;
       panel.focus();
     }
