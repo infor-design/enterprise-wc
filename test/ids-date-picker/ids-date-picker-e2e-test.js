@@ -170,4 +170,31 @@ describe('Ids Date Picker e2e Tests', () => {
 
     expect(value).toEqual('');
   });
+
+  it('should change when used in calendar toolbar', async () => {
+    // Add calendar toolbar datepicker
+    await page.evaluate(() => {
+      document.querySelector('ids-container').insertAdjacentHTML('afterbegin', `
+        <ids-date-picker
+          id="e2e-datepicker-toolbar"
+          is-calendar-toolbar="true"
+          value="is calendar toolbar"
+          month="1"
+          year="2022"
+          day="25"
+        ></ids-date-picker>
+      `);
+    });
+
+    const hasCssClass = await page.$eval('#e2e-datepicker-toolbar', (el) =>
+      el.container.classList.contains('is-calendar-toolbar'));
+    const hasTabindex = await page.$eval('#e2e-datepicker-toolbar', (el) =>
+      el.container.getAttribute('tabindex') === '0');
+    const hasCancelBtn = await page.$eval('#e2e-datepicker-toolbar', (el) =>
+      el.shadowRoot.querySelector('.popup-btn-start ids-text')?.textContent === 'Cancel');
+
+    expect(hasCssClass).toBeTruthy();
+    expect(hasTabindex).toBeTruthy();
+    expect(hasCancelBtn).toBeTruthy();
+  });
 });

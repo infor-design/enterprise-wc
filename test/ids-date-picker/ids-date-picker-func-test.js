@@ -312,4 +312,18 @@ describe('IdsDatePicker Component (empty)', () => {
     expect(component.year).toBeNull();
     expect(component.day).toBeNull();
   });
+
+  it('should handle is-dropdown is-calendar-toolbar attributes', () => {
+    component.isCalendarToolbar = true;
+    component.isDropdown = true;
+
+    expect(component.hasAttribute('is-calendar-toolbar')).toBeTruthy();
+    expect(component.hasAttribute('is-dropdown')).toBeTruthy();
+
+    component.isCalendarToolbar = null;
+    component.isDropdown = null;
+
+    expect(component.hasAttribute('is-calendar-toolbar')).toBeFalsy();
+    expect(component.hasAttribute('is-dropdown')).toBeFalsy();
+  });
 });

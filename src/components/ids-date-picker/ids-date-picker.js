@@ -203,7 +203,7 @@ class IdsDatePicker extends Base {
 
       this.offEvent('dayselected.date-picker');
       this.onEvent('dayselected.date-picker', this.#monthView, (e) => {
-        if (!(this.isCalendarToolbar || this.isDropdown)) {
+        if (!this.isCalendarToolbar) {
           this.value = this.locale.formatDate(e.detail.date);
           this.#input?.focus();
         }
@@ -216,7 +216,7 @@ class IdsDatePicker extends Base {
       this.onEvent('click.date-picker-clear', this.container.querySelector('.popup-btn-start'), (e) => {
         e.stopPropagation();
 
-        if (!(this.isCalendarToolbar || this.isDropdown)) {
+        if (!this.isCalendarToolbar) {
           this.value = '';
           this.#input?.focus();
           this.#triggerSelectedEvent();
