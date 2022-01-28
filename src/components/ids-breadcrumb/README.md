@@ -61,7 +61,6 @@ The following ids-hyperlink attributes should be considered
 
 **4.x to 5.x**
 - Bread Crumb now uses all new markup and classes for web components (see above)
-- The `version` has been renamed to `productVersion`
-- The `close` method has been removed use `$('ids-about').visible = false` instead
-- The `destroy` method has been removed since everything is now cleaned up when removing the DOM element
-- The `close/open` events have been named to `show/hide`
+- Markup has changed to a custom element `<ids-breadcrumb></ids-breadcrumb>`
+- Markup Uses `ids-hyperlink` instead of `<a>`
+- Can now be imported as a single JS file and used with encapsulated styles

@@ -10,3 +10,5 @@
 ## Minor
 
 - [ ] Add a test for click events on the links (callback example)
+- [ ] In RTL mode are the slashes the right direction?
+- [ ] In dark mode the slashes are hard to see (confirm)
