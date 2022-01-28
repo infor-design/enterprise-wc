@@ -49,3 +49,12 @@ You can set the alignment of the block grid by setting the `align` property with
 ## Accessibility
 
 The use of this component is not recommended for Accessibility since the lack of elements in the page may pose issues for screen reader and other assistive technology. Consider a way to disable this functionality.
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+- New Component in 4.x
+
+**4.x to 5.x**
+- Block Grid now uses all new markup and classes for web components (see above)
+- The way paging and selection are applied have changes to the api
