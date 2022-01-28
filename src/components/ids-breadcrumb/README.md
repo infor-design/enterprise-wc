@@ -52,3 +52,16 @@ The following ids-hyperlink attributes should be considered
 
 - <kbd>Tab/Shift+Tab</kbd>: If the bread crumb item is focus is focusable this will focus or unfocus the link.
 - <kbd>Enter</kbd>: If a link this will follow the link.
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+- "Collapsing Lists" was deprecated but later added as truncate feature.
+- Markup has entirely changed, see the updated code example
+
+**4.x to 5.x**
+- Bread Crumb now uses all new markup and classes for web components (see above)
+- The `version` has been renamed to `productVersion`
+- The `close` method has been removed use `$('ids-about').visible = false` instead
+- The `destroy` method has been removed since everything is now cleaned up when removing the DOM element
+- The `close/open` events have been named to `show/hide`

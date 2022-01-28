@@ -7,19 +7,16 @@ For more details on breaking changes in each component see the individual README
 
 - `[About]`The about component was converted. See the [README](https://github.com/infor-design/enterprise-wc/blob/todo-passthrough/src/components/ids-about/README.md#converting-from-previous-versions-breaking-changes)` for details. ([#308](https://github.com/infor-design/enterprise-wc/issues/308))
 - `[Accordion]` The accordion component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-accordion//README.md##converting-from-previous-versions)` for details. ([#168](https://github.com/infor-design/enterprise-wc/issues/168))
-- `[ActionSheet]` The action sheet component converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-action-sheet/README.md#converting-from-previous-versions)` for details. ([#348](https://github.com/infor-design/enterprise-wc/issues/348))
-- `[Alert]` The alert component converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-alert/README.md#converting-from-previous-versions)` for details. ([#348](https://github.com/infor-design/enterprise-wc/issues/348))
-- `[App Menu]` The app menu component converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-app-menu/README.md#converting-from-previous-versions)` for details. ([#130](https://github.com/infor-design/enterprise-wc/issues/130))
-- `[Badge]` The badge component converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-badge/README.md#converting-from-previous-versions)` for details. ([#41](https://github.com/infor-design/enterprise-wc/issues/41))
-- `[BlockGrid]` The block-grid component converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-block-grid/README.md#converting-from-previous-versions)` for details. ([#159](https://github.com/infor-design/enterprise-wc/issues/159))
+- `[ActionSheet]` The action sheet component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-action-sheet/README.md#converting-from-previous-versions)` for details. ([#348](https://github.com/infor-design/enterprise-wc/issues/348))
+- `[Alert]` The alert component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-alert/README.md#converting-from-previous-versions)` for details. ([#348](https://github.com/infor-design/enterprise-wc/issues/348))
+- `[App Menu]` The app menu component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-app-menu/README.md#converting-from-previous-versions)` for details. ([#130](https://github.com/infor-design/enterprise-wc/issues/130))
+- `[Badge]` The badge component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-badge/README.md#converting-from-previous-versions)` for details. ([#41](https://github.com/infor-design/enterprise-wc/issues/41))
+- `[BlockGrid]` The block-grid component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-block-grid/README.md#converting-from-previous-versions)` for details. ([#159](https://github.com/infor-design/enterprise-wc/issues/159))
+- `[Breadcrumb]` The breadcrumb component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-bread-crumb/README.md#converting-from-previous-versions)` for details. ([#137](https://github.com/infor-design/enterprise-wc/issues/137))
 - `[Button]` The button component has been changed to a web component. ([#4390](https://github.com/infor-design/enterprise/issues/4390))
   - Markup has changed to a custom element `<ids-button id="my-button" type="primary"></ids-button>`
   - Can now be imported as a single JS file and used with encapsulated styles.
   - Some button properties are now attributes - "type", "text", "icon", "disabled", "focusable", etc.
-- `[Breadcrumb]` The button component has been changed to a web component. ([#137](https://github.com/infor-design/enterprise-wc/issues/137))
-  - Markup has changed to a custom element `<ids-breadcrumb></ids-breadcrumb>`
-  - Can now be imported as a single JS file and used with encapsulated styles.
-  - gradients on overflowing horizontal tab headers have been updated to blend with the background
 - `[Card]` The Card/Widget component has been changed to a web component and renamed to ids-card.
   - Markup has changed to a custom element `<ids-card></ids-card>` and has slots for the header and body content
   - Can now be imported as a single JS file and used with encapsulated styles
