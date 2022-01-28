@@ -9,3 +9,4 @@
 - [x] add default `app-menu` color variant
 - [ ] add dark/contrast/classic theme colors for app-menu color variant
 - [x] trigger callbacks/events/etc for when results should be retreived/filtered
+- [ ] "alternate" variant colors for dark/contrast mode
