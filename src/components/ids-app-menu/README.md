@@ -117,3 +117,11 @@ The App Menu doesn't contain any states or variants of its own, but applies the 
 ## Keyboard Guidelines
 
 - **Escape**: When focus is on an element inside an open App Menu, the App Menu will close.
+
+## Converting from Previous Versions (Breaking Changes)
+
+**4.x to 5.x**
+- Markup has changed to a custom element `<ids-app-menu></ids-app-menu`>
+Sections are now slotted for easier use.  Accordion is the main slot, and other areas (toolbars, user info, etc) are named slots.
+- Can now be imported as a single JS file and used with encapsulated styles
+- The names of some alerts (icon setting) have changed
