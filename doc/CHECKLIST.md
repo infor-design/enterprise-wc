@@ -48,11 +48,11 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Area (ids-area-chart)
  - [ ] Autocomplete (ids-autocomplete)
  - [x] Badges (ids-badge)
- - [x] Bar (ids-bar-chart)
+ - [ ] Bar (ids-bar-chart)
  - [x] Block grid (ids-block-grid)
  - [x] Breadcrumb (ids-bread-crumb
  - [ ] Bubble (ids-bubble-chart
- - [ ] Bullet (ids-bullet-chart)
+ - [ ] Bullet (ids-bullet-chart) skipping for now
  - [ ] Builder (ids-patterns)
  - [x] Loader (ids-loading-indicator) aka Busy Indicator / Loading Indicator
  - [x] Button (ids-button)

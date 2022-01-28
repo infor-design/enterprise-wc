@@ -74,3 +74,12 @@ Badges do not have tab stops and have no keyboard interaction on their own, but 
 
 - 1.4.1 Use of Color - Color is not used as the only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual element. Ensure the color tags that indicate state like OK, cancel, ect have other ways to indicate that information. This is failing.
 - 1.4.3 Contrast (Minimum) - The visual presentation of text and images of text has a contrast ratio of at least 4.5:1 Ensure the color badges pass contrast.
+
+## Converting from Previous Versions (Breaking Changes)
+
+**4.x to 5.x**
+- Markup has changed to a custom element `<ids-badge></ids-badge>
+- Can now be imported as a single JS file and used with encapsulated styles
+- The names of some badge types have changed.
+- The yellow warning is removed in favor of just the orange warning.
+- Some of the types/settings are changed.
