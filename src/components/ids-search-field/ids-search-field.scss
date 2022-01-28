@@ -1,5 +1,23 @@
 @import '../../core/ids-base';
 
+@mixin ids-search-field-alternate-colors() {
+  &.color-variant-alternate {
+    ids-trigger-field::part(content) {
+      background-color: rgba(71 71 76 / 0.3);
+      border-bottom-color: rgba(62 62 66 / 0.7);
+    }
+
+    ids-icon {
+      color: rgba(255 255 255 / 0.7);
+
+      // stylelint-disable-next-line
+      &:hover {
+        color: rgba(255 255 255 / 1);
+      }
+    }
+  }
+}
+
 ids-input::part(input) {
   @include border-none();
   @include mb-0();
@@ -44,21 +62,7 @@ ids-input::part(container) {
 
   // Light Mode
   &[version='new'][mode='light'] {
-    &.color-variant-alternate {
-      ids-trigger-field::part(content) {
-        background-color: rgba(71 71 76 / 0.3);
-        border-bottom-color: rgba(62 62 66 / 0.7);
-      }
-
-      ids-icon {
-        color: rgba(255 255 255 / 0.7);
-
-        // stylelint-disable-next-line
-        &:hover {
-          color: rgba(255 255 255 / 1);
-        }
-      }
-    }
+    @include ids-search-field-alternate-colors();
 
     &.color-variant-app-menu {
       @include text-slate-20();
@@ -93,6 +97,12 @@ ids-input::part(container) {
   }
 
   // Dark Mode
+  &[version='new'][mode='dark'] {
+    @include ids-search-field-alternate-colors();
+  }
 
   // High Contrast Mode
+  &[version='new'][mode='contrast'] {
+    @include ids-search-field-alternate-colors();
+  }
 }
