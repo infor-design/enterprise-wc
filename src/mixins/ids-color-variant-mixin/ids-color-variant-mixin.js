@@ -19,7 +19,10 @@ const IdsColorVariantMixin = (superclass) => class extends superclass {
 
     // Overrides the IdsElement `render` method to also include an update
     // to color variant styling after it runs, keeping the visual state in-sync.
-    this.#refreshColorVariant();
+    this.render = () => {
+      super.render();
+      this.#refreshColorVariant();
+    };
   }
 
   connectedCallback() {
