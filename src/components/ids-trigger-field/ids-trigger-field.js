@@ -121,20 +121,20 @@ export default class IdsTriggerField extends Base {
       type
     } = this.templateVariables();
 
-    const labelHtml = !this.label || this.getAttribute(attributes.LABEL_HIDDEN) ? '' : (`<label
-        class="ids-label-text ${classes.hidden}"
-        for="${this.id}-input"
-        slot="ids-trigger-field-label"
-        part="label"
-        ${attrs.readonly}
-        ${attrs.disabled}
-        ${attrs.required}
-      >
-        <ids-text label ${attrs.disabled} color-unset>
-          ${this.label}
-        </ids-text>
-      </label>`
-    );
+    const hiddenLabelCss = !this.label || this.getAttribute(attributes.LABEL_HIDDEN) ? ' empty' : '';
+    const labelHtml = `<label
+      class="ids-label-text${hiddenLabelCss}"
+      for="${this.id}-input"
+      slot="ids-trigger-field-label"
+      part="label"
+      ${attrs.readonly}
+      ${attrs.disabled}
+      ${attrs.required}
+    >
+      <ids-text part="label" label ${attrs.disabled} color-unset>
+        ${this.label}
+      </ids-text>
+    </label>`;
 
     return (
       `<div class="ids-trigger-field ${containerClass}" part="container">

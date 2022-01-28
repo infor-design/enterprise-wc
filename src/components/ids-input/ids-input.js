@@ -1,6 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import Base from './ids-input-base';
 
@@ -94,12 +95,16 @@ export default class IdsInput extends Base {
    * @returns {void}
    */
   connectedCallback() {
+    super.connectedCallback();
+
     this.#attachEventHandlers();
 
     if (this.hasAttribute(attributes.AUTOSELECT)) {
       this.handleAutoselect();
     }
-    super.connectedCallback();
+    if (this.labelHidden) {
+      this.#hideLabel();
+    }
   }
 
   /**
@@ -360,7 +365,7 @@ export default class IdsInput extends Base {
    * */
   set labelHidden(value) {
     if (stringToBool(value)) {
-      this.setAttribute(attributes.LABEL_HIDDEN, '');
+      this.setAttribute(attributes.LABEL_HIDDEN, `${stripHTML(value)}`);
       this.#hideLabel();
       this.input.setAttribute('aria-label', this.label);
     } else {
@@ -375,7 +380,7 @@ export default class IdsInput extends Base {
    * explicitly in the component
    */
   get labelHidden() {
-    return this.getAttribute(attributes.LABEL_HIDDEN);
+    return stringToBool(this.getAttribute(attributes.LABEL_HIDDEN));
   }
 
   #hideLabel() {
