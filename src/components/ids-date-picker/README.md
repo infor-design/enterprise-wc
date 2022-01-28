@@ -24,7 +24,7 @@ The `ids-date-picker` is a web component to support date entry
 - `month` `{string|number|null}` - Specifies a month for the popup calendar (`ids-month-view` attribute)
 - `day` `{string|number|null}` - Specifies a day for the popup calendar (`ids-month-view` attribute)
 - `year` `{string|number|null}` - Specifies a year for the popup calendar (`ids-month-view` attribute)
-- `first-day-of-week` `{string|number|null}` - Specifies first day of the week for the popup calendar (`ids-month-view` attribute)
+- `first-day-of-week` `{string|number|null}` - Specifies first day of the week for the popup calendar, if not set the information comes from the locale (`ids-month-view` attribute)
 - `show-today` `{true|false}` - Whether or not to show the today button in the popup calendar (`ids-month-view` attribute)
 
 ## Events
