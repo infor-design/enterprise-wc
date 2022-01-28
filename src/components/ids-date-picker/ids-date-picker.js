@@ -8,7 +8,6 @@ import {
   stringToBool,
   stringToNumber
 } from '../../utils/ids-string-utils/ids-string-utils';
-import { isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
 
 // Supporting components
 import IdsButton from '../ids-button/ids-button';
