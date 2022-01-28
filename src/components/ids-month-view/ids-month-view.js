@@ -207,17 +207,15 @@ class IdsMonthView extends Base {
     this.onEvent('click.month-view-buttons', buttonSet, (e) => {
       e.stopPropagation();
 
-      if (!e.target) return;
-
-      if (e.target.classList.contains('btn-previous')) {
+      if (e.target?.classList.contains('btn-previous')) {
         this.#changeDate('previous');
       }
 
-      if (e.target.classList.contains('btn-next')) {
+      if (e.target?.classList.contains('btn-next')) {
         this.#changeDate('next');
       }
 
-      if (e.target.classList.contains('btn-today')) {
+      if (e.target?.classList.contains('btn-today')) {
         this.#changeDate('today');
         this.#triggerSelectedEvent();
       }

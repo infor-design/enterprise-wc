@@ -193,6 +193,11 @@ class IdsDatePicker extends Base {
     this.onEvent('localechange.date-picker-container', this.closest('ids-container'), async () => {
       this.#setDirection();
       this.#applyMask();
+
+      // Locale change first day of week only if it's not set as attribute
+      if (this.firstDayOfWeek === null) {
+        this.firstDayOfWeek = this.locale?.calendar().firstDayofWeek || 0;
+      }
     });
 
     if (!this.isDropdown) {
@@ -663,14 +668,19 @@ class IdsDatePicker extends Base {
   }
 
   /**
-   * fist-day-of-week attribute
+   * fist-day-of-week attribute for calendar popup
+   * If not set the information comes from the locale. If not set in the locale defaults to 0
    * @returns {number} firstDayOfWeek param
    */
   get firstDayOfWeek() {
     const attrVal = this.getAttribute(attributes.FIRST_DAY_OF_WEEK);
     const numberVal = stringToNumber(attrVal);
 
-    return !Number.isNaN(numberVal) ? numberVal : 0;
+    if (!Number.isNaN(numberVal)) {
+      return numberVal;
+    }
+
+    return this.locale?.calendar().firstDayofWeek || 0;
   }
 
   /**

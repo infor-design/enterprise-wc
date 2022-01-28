@@ -15,14 +15,14 @@ describe('Ids Date Picker e2e Tests', () => {
     await expect(page).toPassAxeTests();
   });
 
-  it('should open/close calendar popup', async () => {
+  it('should handle calendar popup events', async () => {
     // Closed before
     let isOpen = await page.$eval('#e2e-datepicker-value', (el) =>
       el.shadowRoot.querySelector('ids-popup')?.visible);
 
     expect(isOpen).toBeFalsy();
 
-    // Trigger
+    // Open popup
     await page.$eval('#e2e-datepicker-value', (el) =>
       el.shadowRoot.querySelector('ids-trigger-button')?.click());
 
@@ -60,7 +60,7 @@ describe('Ids Date Picker e2e Tests', () => {
   });
 
   it('should set correct date to the calendar popup', async () => {
-    // Trigger
+    // Open popup
     await page.$eval('#e2e-datepicker-value', (el) =>
       el.shadowRoot.querySelector('ids-trigger-button')?.click());
 
@@ -81,7 +81,7 @@ describe('Ids Date Picker e2e Tests', () => {
       document.querySelector('#e2e-datepicker-value')?.setAttribute('value', '1/23/2022');
     });
 
-    // Trigger
+    // Open popup
     await page.$eval('#e2e-datepicker-value', (el) =>
       el.shadowRoot.querySelector('ids-trigger-button')?.click());
 
@@ -102,7 +102,7 @@ describe('Ids Date Picker e2e Tests', () => {
       document.querySelector('#e2e-datepicker-value')?.setAttribute('value', '');
     });
 
-    // Trigger
+    // Open popup
     await page.$eval('#e2e-datepicker-value', (el) =>
       el.shadowRoot.querySelector('ids-trigger-button')?.click());
 
@@ -126,7 +126,7 @@ describe('Ids Date Picker e2e Tests', () => {
       document.querySelector('#e2e-datepicker-value')?.setAttribute('value', '3/4/2016');
     });
 
-    // Trigger
+    // Open popup
     await page.$eval('#e2e-datepicker-value', (el) =>
       el.shadowRoot.querySelector('ids-trigger-button')?.click());
 
@@ -158,7 +158,7 @@ describe('Ids Date Picker e2e Tests', () => {
 
     expect(value).toEqual('1/26/2022');
 
-    // Trigger
+    // Open popup
     await page.$eval('#e2e-datepicker-value', (el) =>
       el.shadowRoot.querySelector('ids-trigger-button')?.click());
 
