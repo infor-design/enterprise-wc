@@ -94,8 +94,10 @@ export default class IdsSearchField extends Base {
    * Set the color variant to alternate or default style
    */
   set colorVariant(value) {
-    super.colorVariant = value;
-    this.container.querySelector('ids-input').colorVariant = value;
+    if (value) {
+      super.colorVariant = value;
+      this.container.querySelector('ids-input').colorVariant = value;
+    }
   }
 
   get colorVariant() {
