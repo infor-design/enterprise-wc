@@ -31,6 +31,15 @@ describe('Ids Date Picker e2e Tests', () => {
 
     expect(isOpen).toBeTruthy();
 
+    // Click to itself
+    await page.$eval('#e2e-datepicker-value', (el) =>
+      el.shadowRoot.querySelector('ids-popup')?.click());
+
+    isOpen = await page.$eval('#e2e-datepicker-value', (el) =>
+      el.shadowRoot.querySelector('ids-popup')?.visible);
+
+    expect(isOpen).toBeTruthy();
+
     // Click outside
     await page.evaluate(() => {
       document.querySelector('ids-container')?.click();
@@ -118,6 +127,22 @@ describe('Ids Date Picker e2e Tests', () => {
     expect(year).toEqual(now.getFullYear());
     expect(month).toEqual(now.getMonth());
     expect(day).toEqual(now.getDate());
+
+    // No value with placeholder
+    // Open popup
+    await page.$eval('#e2e-datepicker-required', (el) =>
+      el.shadowRoot.querySelector('ids-trigger-button')?.click());
+
+    year = await page.$eval('#e2e-datepicker-required', (el) =>
+      el.shadowRoot.querySelector('ids-month-view')?.year);
+    month = await page.$eval('#e2e-datepicker-required', (el) =>
+      el.shadowRoot.querySelector('ids-month-view')?.month);
+    day = await page.$eval('#e2e-datepicker-required', (el) =>
+      el.shadowRoot.querySelector('ids-month-view')?.day);
+
+    expect(year).toEqual(now.getFullYear());
+    expect(month).toEqual(now.getMonth());
+    expect(day).toEqual(now.getDate());
   });
 
   it('calendar popup should set correct input date value', async () => {
@@ -148,7 +173,7 @@ describe('Ids Date Picker e2e Tests', () => {
       const monthView = component?.shadowRoot.querySelector('ids-month-view');
 
       monthView.year = 2022;
-      monthView.month = 0;
+      monthView.month = 2;
       monthView.day = 26;
 
       component?.shadowRoot.querySelector('.popup-btn-end')?.click();
@@ -156,7 +181,7 @@ describe('Ids Date Picker e2e Tests', () => {
 
     value = await page.$eval('#e2e-datepicker-value', (el) => el?.value);
 
-    expect(value).toEqual('1/26/2022');
+    expect(value).toEqual('3/26/2022');
 
     // Open popup
     await page.$eval('#e2e-datepicker-value', (el) =>
@@ -196,5 +221,89 @@ describe('Ids Date Picker e2e Tests', () => {
     expect(hasCssClass).toBeTruthy();
     expect(hasTabindex).toBeTruthy();
     expect(hasCancelBtn).toBeTruthy();
+
+    // Changing date doesn't change value
+    await page.evaluate(() => {
+      const component = document.querySelector('#e2e-datepicker-toolbar');
+
+      component.month = 4;
+      component.year = 2000;
+      component.day = 22;
+    });
+
+    const value = await page.$eval('#e2e-datepicker-toolbar', (el) => el.value);
+
+    expect(value).toEqual('is calendar toolbar');
+  });
+
+  it('should handle validation', async () => {
+    let isRequired = await page.$eval('#e2e-datepicker-required', (el) => el.validate === 'required');
+    let validationEvents = await page.$eval('#e2e-datepicker-required', (el) => el.validationEvents);
+
+    expect(isRequired).toBeTruthy();
+    expect(validationEvents).toEqual('change blur');
+
+    await page.evaluate(() => {
+      document.querySelector('#e2e-datepicker-required').validate = null;
+      document.querySelector('#e2e-datepicker-required').validationEvents = null;
+    });
+
+    isRequired = await page.$eval('#e2e-datepicker-required', (el) => el.validate === 'required');
+    validationEvents = await page.$eval('#e2e-datepicker-required', (el) => el.validationEvents);
+
+    expect(isRequired).toBeFalsy();
+    expect(validationEvents).toEqual('change blur');
+
+    await page.evaluate(() => {
+      document.querySelector('#e2e-datepicker-required').validationEvents = 'blur';
+    });
+
+    validationEvents = await page.$eval('#e2e-datepicker-required', (el) => el.validationEvents);
+
+    expect(validationEvents).toEqual('blur');
+  });
+
+  it('should handle locale change', async () => {
+    let firstDayOfWeek = await page.$eval('#e2e-datepicker-value', (el) => el.firstDayOfWeek);
+    let isRtl = await page.$eval('#e2e-datepicker-value', (el) => el.getAttribute('dir') === 'rtl');
+
+    expect(isRtl).toBeFalsy();
+    expect(firstDayOfWeek).toEqual(0);
+
+    await page.evaluate(() => {
+      document.querySelector('ids-container')?.setLocale('ar-SA');
+    });
+
+    // Wait till calendars load
+    await page.waitForFunction(() =>
+      document.querySelector('ids-container')?.locale?.calendar().name === 'islamic-umalqura');
+
+    isRtl = await page.$eval('#e2e-datepicker-value', (el) => el.getAttribute('dir') === 'rtl');
+
+    expect(isRtl).toBeTruthy();
+
+    await page.evaluate(() => {
+      document.querySelector('ids-container')?.setLocale('ar-EG');
+    });
+
+    // Wait till calendars load
+    await page.waitForFunction(() =>
+      document.querySelector('ids-container')?.locale?.calendar().name === 'gregorian');
+
+    firstDayOfWeek = await page.$eval('#e2e-datepicker-value', (el) => el.firstDayOfWeek);
+
+    expect(firstDayOfWeek).toEqual(6);
+
+    firstDayOfWeek = await page.$eval('#e2e-datepicker-required', (el) => el.firstDayOfWeek);
+
+    expect(firstDayOfWeek).toEqual(1);
+
+    await page.evaluate(() => {
+      document.querySelector('ids-container')?.setLocale('en-US');
+    });
+
+    isRtl = await page.$eval('#e2e-datepicker-value', (el) => el.getAttribute('dir') === 'rtl');
+
+    expect(isRtl).toBeFalsy();
   });
 });
