@@ -48,6 +48,10 @@ For more details on breaking changes in each component see the individual README
   flag `parent-container`.
   - A handle within the draggable content can be set by using the attribute `handle` as a query selector e.g. `handle=".custom-handle-class"`.
   - Draggable events to listen for are now `ids-dragstart`, `ids-drag`, and `ids-dragend`.
+- `[Editor]` The Editor component has been changed to a web component and renamed to ids-editor.
+  - Markup has changed to a custom element `<ids-editor><div slot="content"><p>Some sample text</p></div></ids-editor>`
+  - If using events, events are now plain JS events.
+  - Can now be imported as a single JS file and used with encapsulated styles
 - `[ErrorPage]` The Error Page component has been changed to a web component and use with `ids-error-page`.
   - the icon, label, description and button-text are set via properties/attributes.
 - `[Fieldset]` The fieldset component has been changed to a web component `ids-fieldset` ([#138](https://github.com/infor-design/enterprise-wc/issues/138))

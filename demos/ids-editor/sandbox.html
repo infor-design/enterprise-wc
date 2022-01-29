@@ -266,9 +266,9 @@
     </ids-radio-group>
     <ids-text font-size="14" font-weight="bold" class="inline">&mdash; aftersourcemode:</ids-text>
     <ids-text font-size="14" class="inline">Will fire after change view to source mode.</ids-text><br />
-    <ids-text font-size="14" font-weight="bold" class="inline">&mdash; rejectviewchanged:</ids-text>
-    <ids-text font-size="14" class="inline">Fires if requested view mode rejected.</ids-text><br />
-    <ids-text font-size="14" font-weight="bold" class="inline">&mdash; viewchanged:</ids-text>
+    <ids-text font-size="14" font-weight="bold" class="inline">&mdash; rejectviewchange:</ids-text>
+    <ids-text font-size="14" class="inline">Fires if requested view mode reject.</ids-text><br />
+    <ids-text font-size="14" font-weight="bold" class="inline">&mdash; viewchange:</ids-text>
     <ids-text font-size="14" class="inline">Will fire after requested view mode changed.</ids-text><br />
     <ids-text font-size="14" font-weight="bold" class="inline">&mdash; beforepaste:</ids-text>
     <ids-text font-size="14" class="inline">Fire before paste and can prevent by passing boolean value.
@@ -279,9 +279,14 @@
       <ids-radio value="false" label="False"></ids-radio>
     </ids-radio-group>
     <ids-text font-size="14" font-weight="bold" class="inline">&mdash; rejectpaste:</ids-text>
-    <ids-text font-size="14" class="inline">Fires if paste content rejected.</ids-text><br />
+    <ids-text font-size="14" class="inline">Fires if paste content reject.</ids-text><br />
     <ids-text font-size="14" font-weight="bold" class="inline">&mdash; afterpaste:</ids-text>
-    <ids-text font-size="14" class="inline">Will fire after paste.</ids-text><br /><br />
+    <ids-text font-size="14" class="inline">Will fire after paste.</ids-text><br />
+    <ids-text font-size="14" font-weight="bold" class="inline">&mdash; initialize:</ids-text>
+    <ids-text font-size="14" class="inline">Will fire after initialize.</ids-text><br />
+    <ids-text font-size="14" font-weight="bold" class="inline">&mdash; change:</ids-text>
+    <ids-text font-size="14" class="inline">Will fire after value change.</ids-text><br />
+    <br />
     <ids-checkbox id="cb-paste-as-plain-text" label="Paste as plain text"></ids-checkbox>
   </ids-layout-grid-cell>
 </ids-layout-grid>

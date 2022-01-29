@@ -118,10 +118,10 @@ export default class IdsEditor extends HTMLElement {
   on(event: 'aftersourcemode', listener: (detail: IdsEditorEventDetail) => void): this;
 
   /** Fires after requested view mode changed */
-  on(event: 'viewchanged', listener: (detail: IdsEditorEventDetail) => void): this;
+  on(event: 'viewchange', listener: (detail: IdsEditorEventDetail) => void): this;
 
-  /** Fires if requested view mode rejected */
-  on(event: 'rejectviewchanged', listener: (detail: IdsEditorEventDetail) => void): this;
+  /** Fires if requested view mode reject */
+  on(event: 'rejectviewchange', listener: (detail: IdsEditorEventDetail) => void): this;
 
   /** Fires before paste, you can return false in the response to veto */
   on(event: 'beforepaste', listener: (detail: IdsEditorEventVetoable) => void): this;
@@ -129,9 +129,12 @@ export default class IdsEditor extends HTMLElement {
   /** Fires after paste */
   on(event: 'afterpaste', listener: (detail: IdsEditorEventDetail) => void): this;
 
-  /** Fires if rejected paste content */
+  /** Fires if reject paste content */
   on(event: 'rejectpaste', listener: (detail: IdsEditorEventDetail) => void): this;
 
-  /** Fires after value changed */
+  /** Fires after initialize */
+  on(event: 'initialize', listener: (detail: IdsEditorEventDetail) => void): this;
+
+  /** Fires after value change */
   on(event: 'change', listener: (detail: IdsEditorEventDetail) => void): this;
 }

@@ -206,12 +206,13 @@ editorEl.modalElementsValue(modals);
 - `aftereditormode` Fires after change view to editor mode
 - `beforesourcemode` Fires before change view to source mode, you can return false in the response to veto
 - `aftersourcemode` Fires after change view to source mode
-- `viewchanged` Fires after requested view mode changed
-- `rejectviewchanged` Fires if requested view mode rejected
+- `viewchange` Fires after requested view mode changed
+- `rejectviewchange` Fires if requested view mode reject
 - `beforepaste` Fires before paste, you can return false in the response to veto
 - `afterpaste` Fires after paste content
-- `rejectpaste` Fires if rejected paste content
-- `change` Fires after value changed
+- `rejectpaste` Fires if reject paste content
+- `initialize` Fires after initialize
+- `change` Fires after value change
 
 ## Methods
 

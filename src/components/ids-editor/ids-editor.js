@@ -150,6 +150,7 @@ export default class IdsEditor extends Base {
    * @returns {string} The template
    */
   template() {
+    this.reqInitialize = true;
     instanceCounter++;
     const disabled = this.disabled ? ' disabled' : '';
     const readonly = this.readonly ? ' readonly' : '';
@@ -401,6 +402,11 @@ export default class IdsEditor extends Base {
   #initView() {
     const shouldChange = this.#elems[this.view]?.classList?.contains(CLASSES.hidden);
     if (shouldChange) /source/i.test(this.view) ? this.#sourceMode() : this.#editorMode();
+
+    window.requestAnimationFrame(() => {
+      this.#setSourceContent();
+      this.#triggerEvent('initialize');
+    });
     return this;
   }
 
@@ -411,7 +417,7 @@ export default class IdsEditor extends Base {
    */
   #initToolbar() {
     const tmplToolbar = `
-      <ids-toolbar slot="toolbar" tabbable="true" type="formatter">
+      <ids-toolbar slot="toolbar" type="formatter">
         <ids-toolbar-section type="buttonset">
 
           <ids-menu-button
@@ -1035,7 +1041,7 @@ export default class IdsEditor extends Base {
     // Fire the vetoable event.
     const args = { value: this.value, view: this.view };
     if (!this.triggerVetoableEvent('beforeeditormode', args)) {
-      this.#triggerEvent('rejectviewchanged');
+      this.#triggerEvent('rejectviewchange');
       return false;
     }
     this.#setEditorContent(content);
@@ -1061,7 +1067,7 @@ export default class IdsEditor extends Base {
     // Fire the vetoable event.
     const args = { value: this.value, view: this.view };
     if (!this.triggerVetoableEvent('beforesourcemode', args)) {
-      this.#triggerEvent('rejectviewchanged');
+      this.#triggerEvent('rejectviewchange');
       return false;
     }
     this.#setSourceContent(content);
@@ -1250,29 +1256,22 @@ export default class IdsEditor extends Base {
     this.#elems.blockquoteBtn = this.querySelector('[editor-action="blockquote"]');
     this.#elems.hyperlinkBtn = this.querySelector('[editor-action="hyperlink"]');
     // Formatblock
-    this.#elems.formatblock = { btn: this.querySelector('[editor-action="formatblock"]') };
-    this.#elems.formatblock.items = {};
+    this.#elems.formatblock = { btn: this.querySelector('[editor-action="formatblock"]'), items: {} };
     this.#elems.formatblock.btn?.menuEl?.items?.forEach((item) => {
-      this.#elems.formatblock.items[item.value] = {
-        text: (item.text || item.textContent?.trim()),
-        value: item.value
-      };
+      const text = item.text || item.textContent?.trim();
+      this.#elems.formatblock.items[item.value] = { text, value: item.value };
     });
-
-    // Editor container
-    const html = (slot) => slot?.assignedNodes()[0]?.innerHTML;
-    const slot = this.#qs('slot[name="content"]');
-    this.#setEditorContent(html(slot) ?? '');
-    this.#setSourceContent();
 
     // Use for dirty-tracker and validation
     this.input = this.#elems.textarea;
     this.labelEl = this.#qs('#editor-label');
-    this.validationEvents = 'change.editorvalidation input.editorvalidation blur.editorvalidation';
-    this.validationElems = {
-      main: this.#elems.main,
-      editor: this.#elems.editor
-    };
+    if (this.validate) {
+      this.validationEvents = 'change.editorvalidation input.editorvalidation blur.editorvalidation';
+      this.validationElems = {
+        main: this.#elems.main,
+        editor: this.#elems.editor
+      };
+    }
     return this;
   }
 
@@ -1379,7 +1378,7 @@ export default class IdsEditor extends Base {
           <ids-layout-grid class="data-grid-container" auto="true" gap="md" no-margins="true" min-col-width="300px">
             <ids-layout-grid-cell>
               <ids-input id="${key}-modal-input-src" label="Url" value="${url}" validate="required"></ids-input>
-              <ids-input id="${key}-modal-input-alt" label="Alt text">${alt}</ids-input>
+              <ids-input id="${key}-modal-input-alt" label="Alt text" value="${alt}"></ids-input>
             </ids-layout-grid-cell>
           </ids-layout-grid>
 
@@ -1480,6 +1479,17 @@ export default class IdsEditor extends Base {
   }
 
   /**
+   * Set toolbar buttons as un-active.
+   * @private
+   * @returns {void}
+   */
+  #unActiveToolbarButtons() {
+    this.#elems.toolbarElms?.forEach((btn) => {
+      if (btn) btn.cssClass = [];
+    });
+  }
+
+  /**
    * On paste editor container.
    * @private
    * @param {Event} e The event
@@ -1519,10 +1529,8 @@ export default class IdsEditor extends Base {
       if (btn) btn.cssClass = ['is-active'];
     };
     const regxFormatblock = new RegExp(`^(${Object.keys(elems.formatblock.items).join('|')})$`, 'i');
-    elems.toolbarElms?.forEach((btn) => {
-      if (btn) btn.cssClass = [];
-    });
     const isEditor = elems?.editor === this.shadowRoot?.activeElement;
+    this.#unActiveToolbarButtons();
     if (isEditor) {
       Object.entries(this.#actions).forEach(([k, v]) => {
         if (k === 'forecolor' && parents.font?.node?.hasAttribute('color')) {
@@ -1823,12 +1831,14 @@ export default class IdsEditor extends Base {
     }, 400));
 
     // Attach toolbar events
-    const toolbar = this.querySelector('[slot="toolbar"]');
-    this.onEvent('selected.editor-toolbar', toolbar, (e) => {
+    this.onEvent('selected.editor-toolbar', this.#elems.toolbar, (e) => {
       this.#onSelectedToolbar(e);
     });
-    this.onEvent('input.editor-toolbar', toolbar, (e) => {
+    this.onEvent('input.editor-toolbar', this.#elems.toolbar, (e) => {
       this.#onInputToolbar(e);
+    });
+    this.onEvent('focusin.editor-toolbar', this.#elems.toolbar, () => {
+      this.#unActiveToolbarButtons();
     });
 
     // Editor container
@@ -1856,14 +1866,6 @@ export default class IdsEditor extends Base {
       this.#triggerEvent('change');
     });
 
-    // View changed
-    this.onEvent('viewchanged.editor-reqviewchanged', this, debounce(() => {
-      delete this.#elems.reqviewchange;
-    }, 410));
-    this.onEvent('rejectviewchanged.editor-reqviewchanged', this, debounce(() => {
-      delete this.#elems.reqviewchange;
-    }, 410));
-
     // Other events
     this.#attachSlotchangeEvent();
     this.#attachKeyboardEvents();
@@ -1880,6 +1882,17 @@ export default class IdsEditor extends Base {
         moreActions.menu.popup.container.style.width = '175px';
       }
     });
+
+    // Remove flags
+    this.onEvent('viewchange.editor-reqviewchange', this, debounce(() => {
+      delete this.#elems.reqviewchange;
+    }, 410));
+    this.onEvent('rejectviewchange.editor-reqviewchange', this, debounce(() => {
+      delete this.#elems.reqviewchange;
+    }, 410));
+    this.onEvent('initialize.editor-initialize', this, debounce(() => {
+      delete this.reqInitialize;
+    }, 410));
 
     return this;
   }
@@ -1943,7 +1956,7 @@ export default class IdsEditor extends Base {
     const contentSlot = this.#qs('slot[name="content"]');
     this.onEvent('slotchange.editor-content', contentSlot, () => {
       this.#setEditorContent(html(contentSlot) ?? '');
-      this.#triggerEvent('input', this.#elems.editor);
+      if (!this.reqInitialize) this.#triggerEvent('input', this.#elems.editor);
     });
     return this;
   }
@@ -2057,13 +2070,14 @@ export default class IdsEditor extends Base {
    * @param {boolean|string} value The value
    */
   set labelRequired(value) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.LABEL_REQUIRED, '');
-      this.labelEl?.classList.remove(CLASSES.labelRequired);
+    const isValid = typeof value !== 'undefined' && value !== null;
+    const val = isValid ? stringToBool(value) : EDITOR_DEFAULTS.labelRequired;
+    if (isValid) {
+      this.setAttribute(attributes.LABEL_REQUIRED, val);
     } else {
       this.removeAttribute(attributes.LABEL_REQUIRED);
-      this.labelEl?.classList.add(CLASSES.labelRequired);
     }
+    this.labelEl?.classList[!val ? 'add' : 'remove'](CLASSES.labelRequired);
   }
 
   get labelRequired() {
@@ -2176,7 +2190,7 @@ export default class IdsEditor extends Base {
       if (veto || (veto === null && attr !== value)) this.setAttribute(attributes.VIEW, value);
       if (veto) {
         this.#triggerEvent(`after${value}mode`);
-        this.#triggerEvent('viewchanged', this, { view: value });
+        this.#triggerEvent('viewchange', this, { view: value });
       }
     } else {
       this.removeAttribute(attributes.VIEW);

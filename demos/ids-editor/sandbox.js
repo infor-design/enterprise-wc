@@ -30,12 +30,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   const radioBeforePaste = document.querySelector('#radio-editor-evt-beforepaste');
   const cbPasteAsPlainText = document.querySelector('#cb-paste-as-plain-text');
   if (editorEventsEl) {
-    // Display colcole logs
+    // display colcole logs
     const show = (type, detail, veto) => {
       const showVeto = typeof veto !== 'undefined' ? `veto: ${veto}` : '';
-      console.log(type, detail, showVeto); // eslint-disable-line
+      console.log(type, (detail ?? ''), showVeto); // eslint-disable-line
     };
-    // Init paste as plain text checkbox
+    // init paste as plain text checkbox
     cbPasteAsPlainText.checked = editorEventsEl.pasteAsPlainText;
 
     // before editor mode
@@ -58,13 +58,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     editorEventsEl.addEventListener('aftersourcemode', (e) => {
       show('aftersourcemode', e.detail);
     });
-    // if requested view mode rejected
-    editorEventsEl.addEventListener('rejectviewchanged', (e) => {
-      show('rejectviewchanged', e.detail);
+    // if requested view mode reject
+    editorEventsEl.addEventListener('rejectviewchange', (e) => {
+      show('rejectviewchange', e.detail);
     });
-    // after requested view mode changed
-    editorEventsEl.addEventListener('viewchanged', (e) => {
-      show('viewchanged', e.detail);
+    // after requested view mode change
+    editorEventsEl.addEventListener('viewchange', (e) => {
+      show('viewchange', e.detail);
     });
     // before paste
     editorEventsEl.addEventListener('beforepaste', (e) => {
@@ -78,13 +78,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     editorEventsEl.addEventListener('afterpaste', (e) => {
       show('afterpaste', e.detail);
     });
-    // if rejected paste content
+    // if reject paste content
     editorEventsEl.addEventListener('rejectpaste', (e) => {
       show('rejectpaste', e.detail);
     });
-    // change event
-    editorEventsEl.addEventListener('change', (e) => {
-      show('change', e.detail);
-    });
+    // // change event
+    // editorEventsEl.addEventListener('change', () => {
+    //   show('change');
+    // });
+    // // initialize event
+    // editorEventsEl.addEventListener('initialize', () => {
+    //   show('initialize');
+    // });
   }
 });

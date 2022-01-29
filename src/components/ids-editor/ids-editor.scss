@@ -27,7 +27,7 @@ $editor-container-height: 285px;
         @include font-sans();
         @include mx-2();
         @include text-20();
-        @include text-alert-danger();
+        @include text-alert-error();
 
         content: '*';
         margin-top: -10px;
@@ -62,11 +62,11 @@ $editor-container-height: 285px;
 
     &.error,
     &.error:hover {
-      @include border-alert-danger();
-      @include text-alert-danger();
+      @include border-alert-error();
+      @include text-alert-error();
 
       &:focus-within {
-        @include border-alert-danger();
+        @include border-alert-error();
         @include shadow-error();
       }
     }
@@ -164,6 +164,8 @@ $editor-container-height: 285px;
     @include p-16();
 
     height: $editor-container-height;
+    user-select: text;
+    -webkit-user-select: text;
 
     a {
       @include text-azure-60();
@@ -185,10 +187,11 @@ $editor-container-height: 285px;
     }
 
     blockquote {
+      @include ml-4();
+      @include mr-0();
+      @include pl-12();
+
       border-inline-start: 2px solid var(--ids-color-palette-slate-40);
-      margin-inline-start: 4px;
-      margin-inline-end: 0;
-      padding-inline-start: 12px;
     }
 
     :is(h1, h2, h3, h4, h5, h6, p, pre, blockquote):first-child {
@@ -258,11 +261,11 @@ $editor-container-height: 285px;
 
       &.error,
       &.error:hover {
-        @include border-alert-danger();
-        @include text-alert-danger();
+        @include border-alert-error();
+        @include text-alert-error();
 
         &:focus-within {
-          @include border-alert-danger();
+          @include border-alert-error();
           @include shadow-error();
         }
       }
@@ -319,11 +322,11 @@ $editor-container-height: 285px;
 
       &.error,
       &.error:hover {
-        @include border-alert-danger();
-        @include text-alert-danger();
+        @include border-alert-error();
+        @include text-alert-error();
 
         &:focus-within {
-          @include border-alert-danger();
+          @include border-alert-error();
           @include shadow-error();
         }
       }
