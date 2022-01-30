@@ -6,7 +6,6 @@
 $editor-container-height: 285px;
 
 .ids-editor {
-
   .hidden {
     @include hidden();
   }
@@ -143,7 +142,6 @@ $editor-container-height: 285px;
     }
   }
 
-
   .source-container,
   .editor-container {
     @include antialiased();
@@ -159,13 +157,11 @@ $editor-container-height: 285px;
     height: $editor-container-height + 32; // top/bottom padding;
   }
 
-
   .editor-container {
+    @include css3(user-select, text);
     @include p-16();
 
     height: $editor-container-height;
-    user-select: text;
-    -webkit-user-select: text;
 
     a {
       @include text-azure-60();
@@ -263,11 +259,11 @@ $editor-container-height: 285px;
       &.error:hover {
         @include border-alert-error();
         @include text-alert-error();
+      }
 
-        &:focus-within {
-          @include border-alert-error();
-          @include shadow-error();
-        }
+      &.error:focus-within:hover {
+        @include border-alert-error();
+        @include shadow-error();
       }
     }
 
@@ -276,6 +272,7 @@ $editor-container-height: 285px;
         @include bg-slate-80();
         @include text-slate-40();
       }
+
       .source-textarea {
         @include text-white();
       }
@@ -298,16 +295,20 @@ $editor-container-height: 285px;
       .main-container * {
         @include border-slate-60();
         @include text-slate-60();
+      }
 
-        &:hover,
-        &:active {
-          @include text-slate-60();
-        }
+      .main-container:hover,
+      .main-container:active,
+      .main-container *:hover,
+      .main-container *:active {
+        @include text-slate-60();
+      }
 
-        &:focus,
-        &:focus-within {
-          @include border-slate-60();
-        }
+      .main-container:focus,
+      .main-container:focus-within,
+      .main-container *:focus,
+      .main-container *:focus-within {
+        @include text-slate-60();
       }
     }
   }
@@ -324,11 +325,11 @@ $editor-container-height: 285px;
       &.error:hover {
         @include border-alert-error();
         @include text-alert-error();
+      }
 
-        &:focus-within {
-          @include border-alert-error();
-          @include shadow-error();
-        }
+      &.error:focus-within:hover {
+        @include border-alert-error();
+        @include shadow-error();
       }
     }
 
@@ -349,10 +350,8 @@ $editor-container-height: 285px;
         @include bg-slate-20();
       }
 
-      .source-wrapper {
-        .line-numbers {
-          @include bg-slate-10();
-        }
+      .source-wrapper .line-numbers {
+        @include bg-slate-10();
       }
     }
 
@@ -361,16 +360,20 @@ $editor-container-height: 285px;
       .main-container * {
         @include border-slate-30();
         @include text-slate-30();
+      }
 
-        &:hover,
-        &:active {
-          @include text-slate-30();
-        }
+      .main-container:hover,
+      .main-container:active,
+      .main-container *:hover,
+      .main-container *:active {
+        @include text-slate-30();
+      }
 
-        &:focus,
-        &:focus-within {
-          @include border-slate-30();
-        }
+      .main-container:focus,
+      .main-container:focus-within,
+      .main-container *:focus,
+      .main-container *:focus-within {
+        @include text-slate-30();
       }
     }
   }
