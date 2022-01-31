@@ -76,7 +76,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Fieldset (ids-field-set)
  - [x] Fileupload (ids-file-upload)
  - [x] Fileupload Advanced (ids-file-upload-advanced)
- - [ ] ~~Fontpicker (ids-font-picker)~~
+ - [x] Fontpicker (added as part of editor)
  - [ ] Form  (ids-form)
  - [x] Grid (ids-layout-grid)
  - [x] Header (ids-header)
