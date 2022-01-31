@@ -3,7 +3,7 @@
  link: ids-editor
  description: An input for multi line rich text
  category: Form Inputs
- keywords: theme, color, switcher
+ keywords: editor, rich text, content editable, RTE
  examples:
   - link: index.html
     description: Showing editor states
