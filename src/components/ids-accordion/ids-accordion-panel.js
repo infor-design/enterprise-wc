@@ -329,7 +329,7 @@ export default class IdsAccordionPanel extends Base {
       this.#selectAndToggle();
     });
 
-    this.onEvent('touchstart', this.expander, (e) => {
+    this.onEvent('touchend', this.expander, (e) => {
       if (e.touches && e.touches.length > 0) {
         this.#selectAndToggle();
       }
@@ -348,11 +348,10 @@ export default class IdsAccordionPanel extends Base {
    * @returns {void}
    */
   select(panel) {
-    if (panel === undefined) {
-      return;
+    if (panel?.tagName === 'IDS-ACCORDION-PANEL') {
+      this.header.selected = true;
+      panel.focus();
     }
-    this.header.selected = true;
-    panel.focus();
   }
 
   /**
