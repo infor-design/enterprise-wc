@@ -149,7 +149,7 @@ const messages = {
   ExamplePlaceholder: { id: 'ExamplePlaceholder', value: 'Primjer držača mjesta', comment: 'Translated text for an example form placeholder text' },
   Export: { id: 'Export', value: 'Izvezi', comment: 'Export tooltip' },
   ExportToExcel: { id: 'ExportToExcel', value: 'Izvezi u Excel', comment: 'Export To Excel menu option in datagrid' },
-  ExtraSmall: { id: 'ExtraSmall', value: 'Iznimno mali', comment: 'A smaller font size and compressed mode for datagrid rows. ' },
+  ExtraSmall: { id: 'ExtraSmall', value: 'Iznimno mali', comment: 'A smaller font size and compressed mode for datagrid rows.' },
   Favorite: { id: 'Favorite', value: 'Favorit', comment: 'A favorite item' },
   FileUpload: { id: 'FileUpload', value: 'Prijenos datoteke. Za opciju Pretraživanje datoteke pritisnite Enter', comment: 'Screen Reader instructions' },
   FieldFilter: { id: 'FieldFilter', value: 'Filtar polja', comment: 'Used for Field Filter' },
