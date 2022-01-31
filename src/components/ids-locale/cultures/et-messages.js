@@ -149,7 +149,7 @@ const messages = {
   ExamplePlaceholder: { id: 'ExamplePlaceholder', value: 'Näidiskohatäide', comment: 'Translated text for an example form placeholder text' },
   Export: { id: 'Export', value: 'Ekspordi', comment: 'Export tooltip' },
   ExportToExcel: { id: 'ExportToExcel', value: 'Ekspordi Excelisse', comment: 'Export To Excel menu option in datagrid' },
-  ExtraSmall: { id: 'ExtraSmall', value: 'Eriti väike', comment: 'A smaller font size and compressed mode for datagrid rows. NOTE: Please change french to Très petite (Masculine form)' },
+  ExtraSmall: { id: 'ExtraSmall', value: 'Eriti väike', comment: 'A smaller font size and compressed mode for datagrid rows. ' },
   Favorite: { id: 'Favorite', value: 'Lemmik', comment: 'A favorite item' },
   FileUpload: { id: 'FileUpload', value: 'Failide üleslaadimine. Sirvides otsimiseks vajutage klahvi Enter.', comment: 'Screen Reader instructions' },
   FieldFilter: { id: 'FieldFilter', value: 'Välja filter', comment: 'Used for Field Filter' },

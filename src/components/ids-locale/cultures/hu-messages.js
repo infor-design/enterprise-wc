@@ -149,7 +149,7 @@ const messages = {
   ExamplePlaceholder: { id: 'ExamplePlaceholder', value: 'Példahelyőrző', comment: 'Translated text for an example form placeholder text' },
   Export: { id: 'Export', value: 'Exportálás', comment: 'Export tooltip' },
   ExportToExcel: { id: 'ExportToExcel', value: 'Exportálás Excelbe', comment: 'Export To Excel menu option in datagrid' },
-  ExtraSmall: { id: 'ExtraSmall', value: 'Extra kicsi', comment: 'A smaller font size and compressed mode for datagrid rows. NOTE: Please change french to Très petite (Masculine form)' },
+  ExtraSmall: { id: 'ExtraSmall', value: 'Extra kicsi', comment: 'A smaller font size and compressed mode for datagrid rows. ' },
   Favorite: { id: 'Favorite', value: 'Kedvenc', comment: 'A favorite item' },
   FileUpload: { id: 'FileUpload', value: 'Fájlfeltöltés: az Enter billentyűt megnyomva tallózással megkeresheti a kívánt fájlt', comment: 'Screen Reader instructions' },
   FieldFilter: { id: 'FieldFilter', value: 'Mezőszűrő', comment: 'Used for Field Filter' },
