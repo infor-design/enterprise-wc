@@ -149,7 +149,7 @@ const messages = {
   ExamplePlaceholder: { id: 'ExamplePlaceholder', value: 'Phần giữ chỗ Ví dụ', comment: 'Translated text for an example form placeholder text' },
   Export: { id: 'Export', value: 'Xuất', comment: 'Export tooltip' },
   ExportToExcel: { id: 'ExportToExcel', value: 'Xuất sang Excel', comment: 'Export To Excel menu option in datagrid' },
-  ExtraSmall: { id: 'ExtraSmall', value: 'Cực nhỏ', comment: 'A smaller font size and compressed mode for datagrid rows.' },
+  ExtraSmall: { id: 'ExtraSmall', value: 'Cực nhỏ', comment: 'A smaller font size and compressed mode for datagrid rows. NOTE: Please change french to Très petite (Masculine form)' },
   Favorite: { id: 'Favorite', value: 'Mục yêu thích', comment: 'A favorite item' },
   FileUpload: { id: 'FileUpload', value: 'Tải lên tệp. Nhấn Enter để duyệt tệp', comment: 'Screen Reader instructions' },
   FieldFilter: { id: 'FieldFilter', value: 'Bộ lọc trường', comment: 'Used for Field Filter' },

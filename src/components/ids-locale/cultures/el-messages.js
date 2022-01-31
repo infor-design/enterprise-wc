@@ -149,7 +149,7 @@ const messages = {
   ExamplePlaceholder: { id: 'ExamplePlaceholder', value: 'Παράδειγμα συμβόλου κράτησης θέσης', comment: 'Translated text for an example form placeholder text' },
   Export: { id: 'Export', value: 'Εξαγωγή ', comment: 'Export tooltip' },
   ExportToExcel: { id: 'ExportToExcel', value: 'Εξαγωγή στο Excel', comment: 'Export To Excel menu option in datagrid' },
-  ExtraSmall: { id: 'ExtraSmall', value: 'Πολύ μικρό', comment: 'A smaller font size and compressed mode for datagrid rows.' },
+  ExtraSmall: { id: 'ExtraSmall', value: 'Πολύ μικρό', comment: 'A smaller font size and compressed mode for datagrid rows. NOTE: Please change french to Très petite (Masculine form)' },
   Favorite: { id: 'Favorite', value: 'Αγαπημένο', comment: 'A favorite item' },
   FileUpload: { id: 'FileUpload', value: 'Αποστολή αρχείου. Πατήστε το Enter για να αναζητήσετε κάποιο αρχείο', comment: 'Screen Reader instructions' },
   FieldFilter: { id: 'FieldFilter', value: 'Πεδίο φίλτρου', comment: 'Used for Field Filter' },

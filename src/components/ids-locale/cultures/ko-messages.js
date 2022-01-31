@@ -1,5 +1,5 @@
 const messages = {
-  AboutText: { id: 'AboutText', value: 'Copyright &copy; {0} Infor. All rights reserved. 여기에 명시된 용어와 디자인 마크는 Infor 및 해당 자회사 및/또는 계열사의 상표 및/또는 등록 상표입니다. 여기에 나열된 모든 기타 상표는 각 소유주의 재산입니다.' },
+  AboutText: { id: 'AboutText', value: 'Copyright &copy; {0} Infor. All rights reserved. 여기에 명시된 용어와 디자인 마크는 Infor 및 해당 자회사 및/또는 계열사의 상표 및/또는 등록 상표입니다. All rights reserved. 여기에 나열된 모든 기타 상표는 각 소유주의 재산입니다.' },
   Actions: { id: 'Actions', value: '작업', comment: 'Tooltip text for the action button with additional in context actions' },
   Add: { id: 'Add', value: '추가', comment: 'Add' },
   AddComments: { id: 'AddComments', value: '댓글 추가', comment: 'Add comments to a form of data' },
@@ -149,7 +149,7 @@ const messages = {
   ExamplePlaceholder: { id: 'ExamplePlaceholder', value: '예제 자리표시자', comment: 'Translated text for an example form placeholder text' },
   Export: { id: 'Export', value: '내보내기', comment: 'Export tooltip' },
   ExportToExcel: { id: 'ExportToExcel', value: 'Excel로 내보내기', comment: 'Export To Excel menu option in datagrid' },
-  ExtraSmall: { id: 'ExtraSmall', value: '초소형', comment: 'A smaller font size and compressed mode for datagrid rows.' },
+  ExtraSmall: { id: 'ExtraSmall', value: '초소형', comment: 'A smaller font size and compressed mode for datagrid rows. NOTE: Please change french to Très petite (Masculine form)' },
   Favorite: { id: 'Favorite', value: '즐겨찾기', comment: 'A favorite item' },
   FileUpload: { id: 'FileUpload', value: '파일 업로드. 파일을 찾으려면 Enter를 누르세요.', comment: 'Screen Reader instructions' },
   FieldFilter: { id: 'FieldFilter', value: '필드 필터', comment: 'Used for Field Filter' },

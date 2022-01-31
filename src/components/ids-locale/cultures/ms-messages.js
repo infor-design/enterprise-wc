@@ -149,7 +149,7 @@ const messages = {
   ExamplePlaceholder: { id: 'ExamplePlaceholder', value: 'Pemegang Contoh', comment: 'Translated text for an example form placeholder text' },
   Export: { id: 'Export', value: 'Eksport', comment: 'Export tooltip' },
   ExportToExcel: { id: 'ExportToExcel', value: 'Eksport ke Excel', comment: 'Export To Excel menu option in datagrid' },
-  ExtraSmall: { id: 'ExtraSmall', value: 'Lebih Kecil', comment: 'A smaller font size and compressed mode for datagrid rows.' },
+  ExtraSmall: { id: 'ExtraSmall', value: 'Lebih Kecil', comment: 'A smaller font size and compressed mode for datagrid rows. NOTE: Please change french to Très petite (Masculine form)' },
   Favorite: { id: 'Favorite', value: 'Kegemaran', comment: 'A favorite item' },
   FileUpload: { id: 'FileUpload', value: 'Muat Naik Fail. Tekan Enter untuk Menyemak Imbas dan mencari fail', comment: 'Screen Reader instructions' },
   FieldFilter: { id: 'FieldFilter', value: 'Penapis Medan', comment: 'Used for Field Filter' },

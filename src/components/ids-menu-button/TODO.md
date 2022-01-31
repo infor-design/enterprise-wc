@@ -1,12 +1,11 @@
-# Ids Button TODOs
+# Ids Menu Button TODOs
 
 ## Major
 
-- [ ] Add a 100% (responsive button) example like the [old version](https://main-enterprise.demo.design.infor.com/components/button/example-100-percent.html)
+- [ ] Add single and multi select examples like the old version [old version](https://main-enterprise.demo.design.infor.com/components/button/example-menubutton-selectable.html)
 
 ## Minor
 
-- [ ] Add the secondary border button (also called outline button in bootstrap) see [old version](https://main-enterprise.demo.design.infor.com/components/button/test-secondary-border.html)
 - [ ] Dispatch events to the parent for better delegation
 - [ ] API method/prop for toggling the `.audible` class on the text span
 - [ ] API method/prop for re-arranging the order of named text/icon slots?

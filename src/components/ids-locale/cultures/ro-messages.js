@@ -149,7 +149,7 @@ const messages = {
   ExamplePlaceholder: { id: 'ExamplePlaceholder', value: 'Înlocuitor exemplu', comment: 'Translated text for an example form placeholder text' },
   Export: { id: 'Export', value: 'Export', comment: 'Export tooltip' },
   ExportToExcel: { id: 'ExportToExcel', value: 'Export în Excel', comment: 'Export To Excel menu option in datagrid' },
-  ExtraSmall: { id: 'ExtraSmall', value: 'Foarte mic', comment: 'A smaller font size and compressed mode for datagrid rows.' },
+  ExtraSmall: { id: 'ExtraSmall', value: 'Foarte mic', comment: 'A smaller font size and compressed mode for datagrid rows. NOTE: Please change french to Très petite (Masculine form)' },
   Favorite: { id: 'Favorite', value: 'Preferință', comment: 'A favorite item' },
   FileUpload: { id: 'FileUpload', value: 'Încărcare fișier. Apăsați pe Enter pentru a răsfoi după un fișier', comment: 'Screen Reader instructions' },
   FieldFilter: { id: 'FieldFilter', value: 'Filtru câmp', comment: 'Used for Field Filter' },
