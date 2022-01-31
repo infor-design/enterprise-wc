@@ -42,14 +42,52 @@ The `ids-date-picker` is a web component to support date entry
 - `end-button` - allows you to further style the apply button in the popup footer
 
 ## Features (With Code Examples)
-With no settings
+With no settings. Showing empty input field with no label or placeholder.
+Calendar popup highlights current date, the first day of week is based on the locale calendar.
 
 ```html
 <ids-date-picker></ids-date-picker>
 ```
 
-## Accessibility
+With date form field settings. Required. Validation triggers on the input value change. Not tabbable.
 
+```html
+<ids-date-picker
+  id="date-field"
+  label="Date Field"
+  value="3/4/2016"
+  placeholder="M/d/yyyy"
+  format="locale"
+  validate="required"
+  validation-events="change"
+  size="lg"
+  tabbable="false"
+></ids-date-picker>
+```
+
+As dropdown variation.
+
+```html
+<ids-date-picker
+  value="November 2021"
+  is-dropdown="true"
+></ids-date-picker>
+```
+
+When used in calendar toolbar.
+
+```html
+<ids-date-picker
+  is-calendar-toolbar="true"
+  year="2021"
+  month="10"
+  day="15"
+  show-today="false"
+  first-day-of-week="1"
+></ids-date-picker>
+```
+
+## Accessibility
 The Date Picker is a complex control to code for accessibility.
 
 - Always associate labels to the input field
