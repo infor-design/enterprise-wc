@@ -54,7 +54,7 @@ describe('Ids Month View e2e Tests', () => {
     expect(numberOfDays).toEqual(29);
 
     // Move to current month
-    await page.$eval(name, (el) => el.shadowRoot.querySelector('.month-view-btn-today')?.click());
+    await page.$eval(name, (el) => el.shadowRoot.querySelector('.btn-today')?.click());
 
     day = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').dataset.day);
     month = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').dataset.month);
@@ -92,7 +92,7 @@ describe('Ids Month View e2e Tests', () => {
     expect(year).toEqual(2021);
 
     // Back to initial month and click to next month day
-    await page.$eval(name, (el) => el.shadowRoot.querySelector('.month-view-btn-next')?.click());
+    await page.$eval(name, (el) => el.shadowRoot.querySelector('.btn-next')?.click());
     await page.$eval(name, (el) => el.shadowRoot.querySelector('td.alternate:last-child')?.click());
 
     month = await page.$eval(name, (el) => el.month);
@@ -102,7 +102,7 @@ describe('Ids Month View e2e Tests', () => {
     expect(year).toEqual(2022);
 
     // Back to previous month
-    await page.$eval(name, (el) => el.shadowRoot.querySelector('.month-view-btn-previous')?.click());
+    await page.$eval(name, (el) => el.shadowRoot.querySelector('.btn-previous')?.click());
 
     year = await page.$eval(name, (el) => el.year);
 
@@ -161,7 +161,7 @@ describe('Ids Month View e2e Tests', () => {
     expect(numberOfDays).toEqual(30);
 
     // Prev month
-    await page.$eval(name, (el) => el.shadowRoot.querySelector('.month-view-btn-previous')?.click());
+    await page.$eval(name, (el) => el.shadowRoot.querySelector('.btn-previous')?.click());
 
     numberOfDays = await page.$eval(name, (el) =>
       el.shadowRoot.querySelectorAll('td:not(.alternate)').length);
@@ -169,8 +169,8 @@ describe('Ids Month View e2e Tests', () => {
     expect(numberOfDays).toEqual(29);
 
     // Back to initial month and next month
-    await page.$eval(name, (el) => el.shadowRoot.querySelector('.month-view-btn-next')?.click());
-    await page.$eval(name, (el) => el.shadowRoot.querySelector('.month-view-btn-next')?.click());
+    await page.$eval(name, (el) => el.shadowRoot.querySelector('.btn-next')?.click());
+    await page.$eval(name, (el) => el.shadowRoot.querySelector('.btn-next')?.click());
 
     numberOfDays = await page.$eval(name, (el) =>
       el.shadowRoot.querySelectorAll('td:not(.alternate)').length);
@@ -247,7 +247,7 @@ describe('Ids Month View e2e Tests', () => {
     }, name);
 
     const hasTodayBtn = await page.$eval(name, (el) =>
-      el.shadowRoot.querySelector('month-view-btn-today'));
+      el.shadowRoot.querySelector('.btn-today'));
 
     expect(hasTodayBtn).toBeNull();
   });

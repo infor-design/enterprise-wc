@@ -102,6 +102,7 @@ describe('IdsMonthView Component (using attributes)', () => {
         day="15"
         first-day-of-week="1"
         show-today="true"
+        is-date-picker="true"
       ></ids-month-view>
     `);
     component = document.querySelector(name);
@@ -134,6 +135,7 @@ describe('IdsMonthView Component (using attributes)', () => {
     expect(component.day).toEqual(15);
     expect(component.firstDayOfWeek).toEqual(1);
     expect(component.showToday).toBeTruthy();
+    expect(component.isDatePicker).toBeTruthy();
   });
 
   it('should change attributes', () => {
@@ -142,12 +144,14 @@ describe('IdsMonthView Component (using attributes)', () => {
     component.setAttribute('day', 22);
     component.setAttribute('first-day-of-week', 2);
     component.setAttribute('show-today', false);
+    component.setAttribute('is-date-picker', false);
 
     expect(component.month).toEqual(4);
     expect(component.year).toEqual(2019);
     expect(component.day).toEqual(22);
     expect(component.firstDayOfWeek).toEqual(2);
     expect(component.showToday).toBeFalsy();
+    expect(component.isDatePicker).toBeFalsy();
 
     // Reset to defaults
     component.removeAttribute('month');
@@ -266,7 +270,7 @@ describe('IdsMonthView Component (range of dates)', () => {
   });
 });
 
-describe('IdsMonthView Component (compact)', () => {
+describe('IdsMonthView Component (compact and datepicker)', () => {
   let component;
 
   beforeEach(async () => {
@@ -275,6 +279,7 @@ describe('IdsMonthView Component (compact)', () => {
     container.insertAdjacentHTML('beforeend', `
       <ids-month-view
         compact="true"
+        is-date-picker="true"
       ></ids-month-view>
     `);
     component = document.querySelector(name);
@@ -301,9 +306,11 @@ describe('IdsMonthView Component (compact)', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('should have compact css class initially', () => {
-    const hasCompactClass = component.container.classList.contains('is-compact');
+  it('should have compact/datepicker css class initially', () => {
+    const isCompact = component.container.classList.contains('is-compact');
+    const isDatePicker = component.container.classList.contains('is-date-picker');
 
-    expect(hasCompactClass).toBeTruthy();
+    expect(isCompact).toBeTruthy();
+    expect(isDatePicker).toBeTruthy();
   });
 });
