@@ -139,6 +139,7 @@ export const attributes = {
   LABEL_PROGRESS: 'label-progress',
   LABEL_REQUIRED: 'label-required',
   LABEL_TOTAL: 'label-total',
+  LABEL_POSITION: 'label-position',
   LANGUAGE: 'language',
   LAST: 'last',
   LINEAR: 'linear',
