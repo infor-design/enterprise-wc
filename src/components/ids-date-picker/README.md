@@ -30,6 +30,17 @@ The `ids-date-picker` is a web component to support date entry
 ## Events
 - `dayselected` - Fires when a day is selected
 
+## Themeable Parts
+- `container` allows you to further style the container element of the component
+- `trigger-field` allows you to further style the trigger container
+- `trigger-button` allows you to further style the trigger button
+- `icon` allows you to further style the icon in the trigger button
+- `input` allows you to further style the input element
+- `popup` allows you to further style the popup element
+- `footer` - allows you to further style the popup footer
+- `start-button` - allows you to further style the clear/cancel button in the popup footer
+- `end-button` - allows you to further style the apply button in the popup footer
+
 ## Features (With Code Examples)
 With no settings
 

@@ -33,6 +33,15 @@ import styles from './ids-date-picker.scss';
  * @mixes IdsPopupOpenEventsMixin
  * @mixes IdsThemeMixin
  * @mixes IdsLocaleMixin
+ * @part container - the container of the component
+ * @part trigger-field - the trigger container
+ * @part trigger-button - the trigger button
+ * @part icon - the icon in the trigger button
+ * @part input - the input element
+ * @part popup - the popup with calendar
+ * @part footer - footer of the popup
+ * @part start-button - clear/cancel button in the popup footer
+ * @part end-button - apply button in the popup footer
  */
 @customElement('ids-date-picker')
 @scss(styles)
@@ -101,7 +110,7 @@ class IdsDatePicker extends Base {
     );
 
     return `
-      <div ${classAttr} ${this.isCalendarToolbar ? ' tabindex="0"' : ''}>
+      <div ${classAttr} ${this.isCalendarToolbar ? ' tabindex="0"' : ''} part="container">
         ${this.isCalendarToolbar ? `
           <ids-text font-size="20" class="datepicker-text">${this.value}</ids-text>
           <ids-text audible="true" translate-text="true">SelectDay</ids-text>
@@ -120,6 +129,7 @@ class IdsDatePicker extends Base {
         ` : ''}
         ${(!(this.isDropdown || this.isCalendarToolbar)) ? `
           <ids-trigger-field
+            part="trigger-field"
             ${this.id ? `id="${this.id}"` : ''}
             ${this.label ? `label="${this.label}"` : ''}
             size="${this.size}"
@@ -127,19 +137,21 @@ class IdsDatePicker extends Base {
           >
             <ids-text audible="true" translate-text="true">UseArrow</ids-text>
             <ids-input
+              part="input"
               type="text"
               value="${this.value}"
               placeholder="${this.placeholder}"
               mask="date"
             ></ids-input>
-            <ids-trigger-button>
+            <ids-trigger-button part="trigger-button">
               <ids-text audible="true" translate-text="true">DatePickerTriggerButton</ids-text>
-              <ids-icon slot="icon" icon="schedule"></ids-icon>
+              <ids-icon part="icon" slot="icon" icon="schedule"></ids-icon>
             </ids-trigger-button>
           </ids-trigger-field>
         ` : ``}
         ${!this.isDropdown ? `
           <ids-popup
+            part="popup"
             type="menu"
             animated="true"
           >
@@ -153,14 +165,14 @@ class IdsDatePicker extends Base {
                 month="${this.month}"
                 day="${this.day}"
               ></ids-month-view>
-              <div class="popup-footer">
-                <ids-button class="popup-btn popup-btn-start">
+              <div class="popup-footer" part="footer">
+                <ids-button class="popup-btn popup-btn-start" part="start-button">
                   <ids-text
                     translate-text="true"
                     font-weight="bold"
                   >${this.isCalendarToolbar ? 'Cancel' : 'Clear'}</ids-text>
                 </ids-button>
-                <ids-button class="popup-btn popup-btn-end">
+                <ids-button class="popup-btn popup-btn-end" part="end-button">
                   <ids-text translate-text="true" font-weight="bold">Apply</ids-text>
                 </ids-button>
               </div>
