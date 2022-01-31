@@ -1,7 +1,7 @@
 ---
  component: Editor
  link: ids-editor
- description: An input for multi line editable text
+ description: An input for multi line rich text
  category: Form Inputs
  keywords: theme, color, switcher
  examples:
