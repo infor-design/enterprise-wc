@@ -1,0 +1,9 @@
+---
+ component: Data Label
+ link: ids-data-label
+ description: Data Label
+ category: Label
+ keywords: label
+ examples:
+  - link: index.html
+    description: Shows top/left positioned data labels
