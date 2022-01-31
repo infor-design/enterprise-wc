@@ -123,7 +123,7 @@ describe('IdsAccordion Component', () => {
   });
 
   it('can be expanded/collapsed when touched', () => {
-    const event = new TouchEvent('touchstart', {
+    const event = new TouchEvent('touchend', {
       touches: [{
         identifier: '123',
         pageX: 0,
