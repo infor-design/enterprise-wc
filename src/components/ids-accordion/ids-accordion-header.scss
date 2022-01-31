@@ -104,22 +104,58 @@
 // ================================================
 // Styles specific to the Top-level App Menu Accordions
 
+@mixin accordion-header-app-menu-dark-colors() {
+  @include text-slate-20();
+
+  &:hover {
+    @include bg-slate-90();
+    @include border-slate-90();
+  }
+
+  &:focus {
+    @include text-white();
+    @include border-azure-40();
+  }
+
+  &.selected {
+    @include text-white();
+  }
+
+  &[disabled] {
+    @include bg-slate-20();
+    @include border-slate-20();
+    @include text-slate-70();
+  }
+
+  // Filtered text color (standalone-CSS only)
+  .filter {
+    @include bg-black();
+    @include text-slate-10();
+
+    font-weight: bold;
+  }
+
+  &.hidden-by-filter.child-filter-match {
+    @include text-slate-40();
+  }
+}
+
 @mixin accordion-header-app-menu-colors() {
   @include mx-8();
   @include rounded-md();
 
-  // Light Mode Styles
-  &[mode='light'] {
-    // Contrasts background of "bg-slate-100()" from the Drawer
+  // Contrasts background of "bg-slate-100()" from the Drawer
+  background-color: transparent;
+  border-color: transparent;
+
+  &.expanded {
     background-color: transparent;
     border-color: transparent;
+  }
 
+  // Light Mode Styles
+  &[mode='light'] {
     @include text-slate-20();
-
-    &.expanded {
-      background-color: transparent;
-      border-color: transparent;
-    }
 
     &:hover {
       @include bg-slate-90();
@@ -152,6 +188,14 @@
     &.hidden-by-filter.child-filter-match {
       @include text-slate-60();
     }
+  }
+
+  &[mode='dark'] {
+    @include accordion-header-app-menu-dark-colors();
+  }
+
+  &[mode='contrast'] {
+    @include accordion-header-app-menu-dark-colors();
   }
 }
 

@@ -18,6 +18,40 @@
   }
 }
 
+// Applies to both `dark` and `contrast` theme modes
+@mixin ids-search-field-dark-app-menu-colors() {
+  &.color-variant-app-menu {
+    @include text-slate-20();
+
+    ids-trigger-field::part(content) {
+      @include bg-slate-100();
+    }
+
+    ids-trigger-field::part(input) {
+      @include text-slate-20();
+    }
+
+    ids-trigger-button::part(clearable-button) {
+      @include text-slate-40();
+    }
+
+    ids-trigger-button::part(clearable-button):hover {
+      @include text-white();
+    }
+
+    ids-icon::part(search-icon) {
+      @include text-slate-20();
+    }
+
+    &:focus {
+      // stylelint-disable-next-line
+      ids-icon::part(search-icon) {
+        @include text-white();
+      }
+    }
+  }
+}
+
 ids-input::part(input) {
   @include border-none();
   @include mb-0();
@@ -61,7 +95,7 @@ ids-input::part(container) {
   // Theme Colors for color variants
 
   // Light Mode
-  &[version='new'][mode='light'] {
+  &[mode='light'] {
     @include ids-search-field-alternate-colors();
 
     &.color-variant-app-menu {
@@ -97,12 +131,14 @@ ids-input::part(container) {
   }
 
   // Dark Mode
-  &[version='new'][mode='dark'] {
+  &[mode='dark'] {
     @include ids-search-field-alternate-colors();
+    @include ids-search-field-dark-app-menu-colors();
   }
 
   // High Contrast Mode
-  &[version='new'][mode='contrast'] {
+  &[mode='contrast'] {
     @include ids-search-field-alternate-colors();
+    @include ids-search-field-dark-app-menu-colors();
   }
 }
