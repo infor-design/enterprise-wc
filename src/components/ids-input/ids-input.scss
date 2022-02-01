@@ -161,7 +161,7 @@ $input-compact-height: $input-field-height-xs;
     resize: none;
     text-align: left;
     display: flex;
-    height: $input-field-height-default;
+
     max-width: $input-size-default;
   }
 
@@ -184,7 +184,8 @@ $input-compact-height: $input-field-height-xs;
     @include box-border();
     @include border-none();
     @include font-sans();
-    @include p-8();
+    @include py-4();
+    @include px-8();
     @include text-16();
     @include w-full();
 
