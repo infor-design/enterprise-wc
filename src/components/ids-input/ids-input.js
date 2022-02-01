@@ -102,9 +102,8 @@ export default class IdsInput extends Base {
     if (this.hasAttribute(attributes.AUTOSELECT)) {
       this.handleAutoselect();
     }
-    if (this.labelHidden) {
-      this.#hideLabel();
-    }
+
+    this.#setLabelHidden(this.hasAttribute(attributes.LABEL_HIDDEN));
   }
 
   /**
@@ -349,29 +348,30 @@ export default class IdsInput extends Base {
    * @returns {void}
    */
   setLabelText(value) {
-    if (this.#labelEl) {
-      this.#labelEl.innerHTML = value || '';
-      return;
-    }
-
-    const labelEl = this.shadowRoot.querySelector(`[for="${this.id}-input"] ids-text`);
+    const labelEl = this.#labelEl || this.shadowRoot.querySelector(`[for="${this.id}-input"]`);
     if (labelEl) {
-      labelEl.innerHTML = value || '';
+      labelEl.querySelector('ids-text').innerHTML = value || '';
+      labelEl.classList[value ? 'remove' : 'add']('empty');
     }
   }
+
+  #labelHidden = false;
 
   /**
    * @param {boolean} value Flags a label's text as not displayed explicitly in the label element
    * */
   set labelHidden(value) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.LABEL_HIDDEN, `${stripHTML(value)}`);
-      this.#hideLabel();
-      this.input.setAttribute('aria-label', this.label);
-    } else {
-      this.removeAttribute(attributes.LABEL_HIDDEN);
-      this.#showLabel();
-      this.input.removeAttribute('aria-label');
+    const newValue = stringToBool(value);
+    const currentValue = this.#labelHidden;
+
+    if (newValue !== currentValue) {
+      if (newValue) {
+        this.setAttribute(attributes.LABEL_HIDDEN, `${stripHTML(value)}`);
+      } else {
+        this.removeAttribute(attributes.LABEL_HIDDEN);
+      }
+      this.#labelHidden = newValue;
+      this.#setLabelHidden(newValue);
     }
   }
 
@@ -380,15 +380,21 @@ export default class IdsInput extends Base {
    * explicitly in the component
    */
   get labelHidden() {
-    return stringToBool(this.getAttribute(attributes.LABEL_HIDDEN));
+    return this.#labelHidden;
+  }
+
+  #setLabelHidden(doHide = false) {
+    if (doHide) {
+      this.#hideLabel();
+      this.input.setAttribute('aria-label', this.label);
+    } else {
+      this.#showLabel();
+      this.input.removeAttribute('aria-label');
+    }
   }
 
   #hideLabel() {
-    const existingLabel = this.shadowRoot.querySelector('label');
-    if (existingLabel) {
-      existingLabel.classList.add('empty');
-      existingLabel.children[0].textContent = '';
-    }
+    this.setLabelText('');
   }
 
   #showLabel() {
@@ -398,8 +404,7 @@ export default class IdsInput extends Base {
         <ids-text part="label" label="true" color-unset>${this.label}</ids-text>
       </label>`);
     } else {
-      existingLabel.classList.remove('empty');
-      existingLabel.children[0].textContent = this.label;
+      this.setLabelText(this.label);
     }
   }
 
@@ -716,12 +721,17 @@ export default class IdsInput extends Base {
    * @param {string} value of the `label` text property
    */
   set label(value) {
-    if (value) {
-      this.setAttribute(attributes.LABEL, value.toString());
-    } else {
-      this.removeAttribute(attributes.LABEL);
+    const newValue = stripHTML(value);
+    const currentValue = this.label;
+
+    if (newValue !== currentValue) {
+      if (value) {
+        this.setAttribute(attributes.LABEL, value.toString());
+      } else {
+        this.removeAttribute(attributes.LABEL);
+      }
+      this.setLabelText(value);
     }
-    this.setLabelText(value);
   }
 
   get label() { return this.getAttribute(attributes.LABEL) || ''; }

@@ -4,7 +4,6 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-trigger-field-base';
 
-import { SIZES } from '../ids-input/ids-input-attributes';
 import IdsTriggerButton from './ids-trigger-button';
 
 import styles from './ids-trigger-field.scss';
@@ -83,34 +82,6 @@ export default class IdsTriggerField extends Base {
       required: this.validate ? 'required' : '',
       noMargins: this.noMargins ? 'no-margins' : '',
     };
-
-    const classes = {
-      hidden: this.label.length ? 'hidden' : '',
-    };
-
-    /*
-    const disabledAttribHtml = this.hasAttribute(attributes.DISABLED)
-      ? ' disabled'
-      : '';
-
-    return `
-      <div
-        class="ids-trigger-field ${this.size}"
-        part="field"
-        ${attrs.noMargins}
-      >
-        ${label}
-        <div
-          class="ids-trigger-field-content ${this.cssClass}"
-          part="content"
-          ${attrs.readonly}
-          ${attrs.disabled}
-        >
-          <slot></slot>
-        </div>
-      </div>
-    `;
-    */
 
     this.templateHostAttributes();
     const {
@@ -236,6 +207,8 @@ export default class IdsTriggerField extends Base {
    */
   set tabbable(value) {
     const isTabbable = stringToBool(value);
+    super.tabbable = isTabbable;
+
     this.setAttribute(attributes.TABBABLE, isTabbable);
     const button = this.querySelector('ids-trigger-button');
 
@@ -245,11 +218,7 @@ export default class IdsTriggerField extends Base {
   }
 
   get tabbable() {
-    const attr = this.getAttribute(attributes.TABBABLE);
-    if (attr === null) {
-      return true;
-    }
-    return stringToBool(this.getAttribute(attributes.TABBABLE));
+    return super.tabbable;
   }
 
   /**
@@ -283,41 +252,6 @@ export default class IdsTriggerField extends Base {
   }
 
   get disableNativeEvents() { return this.getAttribute(attributes.DISABLE_EVENTS); }
-
-  /**
-   * Sets the label attribute
-   * @param {string} value string value from the label attribute
-   */
-  set label(value) {
-    if (value) {
-      this.setAttribute(attributes.LABEL, String(value));
-      this.elements.text.innerHTML = String(value);
-      this.elements.label.classList.remove('hidden');
-    } else {
-      this.elements.label.classList.add('hidden');
-    }
-  }
-
-  get label() {
-    return this.getAttribute(attributes.LABEL) ?? '';
-  }
-
-  /**
-   * Sets the no margins attribute
-   * @param {string} n string value from the no margins attribute
-   */
-  set noMargins(n) {
-    if (stringToBool(n)) {
-      this.setAttribute(attributes.NO_MARGINS, 'true');
-      this.container.style.marginBottom = '0';
-      return;
-    }
-    this.removeAttribute(attributes.NO_MARGINS);
-  }
-
-  get noMargins() {
-    return stringToBool(this.getAttribute(attributes.NO_MARGINS));
-  }
 
   /**
    * Sets the css class
@@ -378,19 +312,6 @@ export default class IdsTriggerField extends Base {
   get readonly() {
     return super.readonly;
   }
-
-  /**
-   * Set the size (width) of input
-   * @param {string} value [xs, sm, mm, md, lg, full]
-   */
-  set size(value) {
-    const size = SIZES[value];
-    this.setAttribute(attributes.SIZE, size || SIZES.default);
-    this.container?.classList.remove(...Object.values(SIZES));
-    this.container?.classList.add(size || SIZES.default);
-  }
-
-  get size() { return this.getAttribute(attributes.SIZE) || SIZES.default; }
 
   /**
    * Establish Internal Event Handlers
