@@ -28,6 +28,7 @@ export default class IdsAppMenu extends Base {
     super.connectedCallback?.();
     this.edge = 'start';
     this.type = 'app-menu';
+    this.#connectSearchField();
     this.#refreshVariants();
   }
 
@@ -66,6 +67,20 @@ export default class IdsAppMenu extends Base {
     </div>`;
   }
 
+  /**
+   * @readonly
+   * @returns {IdsAccordion} reference to an optionally-slotted IdsAccordion element
+   */
+  get accordion() {
+    return this.querySelector(`ids-accordion:not([slot])`);
+  }
+
+  /**
+   * @readonly
+   * @property {boolean} isFiltered true if the inner navigation accordion is currently being filtered
+   */
+  isFiltered = false;
+
   #refreshVariants() {
     const accordions = [...this.querySelectorAll('ids-accordion')];
     accordions.forEach((acc) => {
@@ -75,6 +90,109 @@ export default class IdsAppMenu extends Base {
     const btns = [...this.querySelectorAll('ids-button')];
     btns.forEach((btn) => {
       btn.colorVariant = 'alternate';
+    });
+  }
+
+  /**
+   * Attaches a slotted IdsSearchField component to the app menu
+   */
+  #connectSearchField() {
+    const searchfield = this.querySelector('ids-search-field[slot="search"]');
+    if (searchfield) {
+      searchfield.onSearch = (value) => {
+        if (value !== '') {
+          return this.filterAccordion(value);
+        }
+
+        this.clearFilterAccordion();
+        return [];
+      };
+    }
+  }
+
+  /**
+   * Performs a filter operation on accordion panels
+   * @param {string} value text value with which to filter accordion panels
+   * @returns {Array<HTMLElement>} containing matching accordion panels
+   */
+  filterAccordion = (value = '') => {
+    // Do nothing if there is no accordion, or there are no accordion panels
+    if (!this.accordion) {
+      return [];
+    }
+    const panels = [...this.accordion.querySelectorAll('ids-accordion-panel')];
+    if (!panels.length) {
+      return [];
+    }
+
+    // Always remove previous highlight before applying a new one
+    this.clearFilterAccordion();
+
+    // Check each accordion panel for a match.
+    // Accordion panels are shown/hidden as needed
+    const valueRegex = new RegExp(value, 'gi');
+    const markParentPanel = (thisPanel) => {
+      if (thisPanel.hasParentPanel) {
+        const parentPanel = thisPanel.parentElement;
+        const parentHeader = parentPanel.header;
+
+        if (!parentPanel.expanded) {
+          parentPanel.expanded = true;
+        }
+
+        parentHeader.childFilterMatch = true;
+        markParentPanel(parentPanel);
+      }
+    };
+
+    return panels.filter((panel) => {
+      const header = panel.header;
+      const textContent = header.textContent.trim();
+      const hasTextMatch = textContent.match(valueRegex);
+      if (hasTextMatch) {
+        // Highlight
+        // NOTE: Apply text highlighter here (See #494)
+        if (header.hiddenByFilter) {
+          header.hiddenByFilter = false;
+        }
+        markParentPanel(panel);
+        this.isFiltered = true;
+        return header;
+      }
+
+      // Unhighlight
+      if (!header.hiddenByFilter) {
+        header.hiddenByFilter = true;
+      }
+    });
+  };
+
+  /**
+   * Clears a navigation accordion's previous filter result
+   * @private
+   * @returns {void}
+   */
+  clearFilterAccordion() {
+    const filteredHeaders = [...this.accordion.querySelectorAll('ids-accordion-header[hidden-by-filter]')];
+    filteredHeaders.map((header) => {
+      header.hiddenByFilter = false;
+      return header;
+    });
+
+    // NOTE: Clear text highlighter here (See #494)
+    this.#clearChildFilter();
+    this.isFiltered = false;
+  }
+
+  /**
+   * Resets the "child-filter-match" attribute on any accordion headers who's children matched a previous filter result
+   * @returns {void}
+   */
+  #clearChildFilter() {
+    const childFilterMatches = [...this.accordion.querySelectorAll('[child-filter-match]')];
+    childFilterMatches.map((header) => {
+      header.childFilterMatch = false;
+      return header;
     });
   }
 

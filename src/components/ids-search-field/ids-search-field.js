@@ -1,6 +1,7 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import Base from './ids-search-field-base';
 import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
@@ -41,7 +42,7 @@ export default class IdsSearchField extends Base {
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants = ['alternate'];
+  colorVariants = ['alternate', 'app-menu'];
 
   static get attributes() {
     return [
@@ -76,7 +77,7 @@ export default class IdsSearchField extends Base {
           ${this.readonly && 'readonly'}
           no-margins
         >
-          <ids-icon class="search-icon" size="medium" icon="search"></ids-icon>
+          <ids-icon part="search-icon" class="search-icon" size="medium" icon="search"></ids-icon>
           <ids-input
             color-variant="${this.colorVariant}"
             ${!this.readonly && !this.disabled && 'clearable'}
@@ -93,8 +94,10 @@ export default class IdsSearchField extends Base {
    * Set the color variant to alternate or default style
    */
   set colorVariant(value) {
-    super.colorVariant = value;
-    this.container.querySelector('ids-input').colorVariant = value;
+    if (value) {
+      super.colorVariant = value;
+      this.container.querySelector('ids-input').colorVariant = value;
+    }
   }
 
   get colorVariant() {
@@ -107,10 +110,7 @@ export default class IdsSearchField extends Base {
    */
   set value(value) {
     this.setAttribute(attributes.VALUE, value);
-
-    if (this.input) {
-      this.input.value = value;
-    }
+    this.search(value);
   }
 
   get value() {
@@ -187,21 +187,57 @@ export default class IdsSearchField extends Base {
   }
 
   /**
-   * TODO: search function that gets triggered upon 'Enter' key or clicking the trigger button
+   * Programmatically sets the search field's value and performs an optional search function
+   * @param {any} val the incoming value to search for
+   * @returns {Array<any>} containing search results, if applicable
    */
-  #searchFunction() {
+  async search(val) {
+    let ret = [];
+    const safeVal = stripHTML(val);
+
+    if (this.#previousSearchValue !== safeVal) {
+      this.#previousSearchValue = safeVal;
+      if (this.input) {
+        this.input.value = safeVal;
+      }
+      if (typeof this.onSearch === 'function') {
+        ret = await this.onSearch(safeVal);
+      }
+    }
+    return ret;
   }
 
-  #attachEventHandlers() {
-    this.onEvent('change', this.input, (e) => {
-      this.value = e.target.value;
-      // TODO: pop up autocomplete suggestions
-    });
+  /**
+   * Define this method to carry out search functionality
+   * (override this method when implementing an IdsSearchField).
+   * @param {any} [val] the value to be searched for
+   * @returns {Array<any>} containing matching search results
+   */
+  onSearch(val = undefined) {
+    return [`${stripHTML(val)}`];
+  }
 
-    this.onEvent('input', this.input, (e) => {
-      this.value = e.target.value;
-      // TODO: pop up autocomplete suggestions
-    });
+  /**
+   * @param {any} value
+   */
+  #previousSearchValue = null;
+
+  /**
+   * Adds Search Field specific event handlers
+   */
+  #attachEventHandlers() {
+    const handleSearchEvent = (e) => {
+      if (this.#previousSearchValue !== e.target.value) {
+        this.value = e.target.value;
+        this.#previousSearchValue = this.value;
+        if (typeof this.onSearch === 'function') {
+          this.onSearch(this.value);
+        }
+      }
+    };
+
+    this.onEvent('change', this.input, handleSearchEvent);
+    this.onEvent('input', this.input, handleSearchEvent);
   }
 
   /**
@@ -217,7 +253,7 @@ export default class IdsSearchField extends Base {
       switch (event.key) {
       case 'Enter':
         if (shouldSearchOnReturn) {
-          this.#searchFunction();
+          this.onSearch(this.input.value);
         }
         break;
       default:
