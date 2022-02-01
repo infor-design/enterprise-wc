@@ -14,9 +14,7 @@ For more details on breaking changes in each component see the individual README
 - `[BlockGrid]` The block-grid component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-block-grid/README.md#converting-from-previous-versions) for details. ([#159](https://github.com/infor-design/enterprise-wc/issues/159))
 - `[Breadcrumb]` The breadcrumb component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-bread-crumb/README.md#converting-from-previous-versions) for details. ([#137](https://github.com/infor-design/enterprise-wc/issues/137))
 - `[Button]` The button component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-button/README.md#converting-from-previous-versions for details. ([#173](https://github.com/infor-design/enterprise-wc/issues/173))
-- `[Card]` The Card/Widget component has been changed to a web component and renamed to ids-card.
-  - Markup has changed to a custom element `<ids-card></ids-card>` and has slots for the header and body content
-  - Can now be imported as a single JS file and used with encapsulated styles
+- `[Card]` The card component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-card/README.md#converting-from-previous-versions for details. ([#419](https://github.com/infor-design/enterprise-wc/issues/419))
 - `[Checkbox]` The Checkbox component has been changed to a web component and renamed to ids-checkbox.
   - Markup has changed to a custom element `<ids-checkbox></ids-checkbox>`
   - If using events, events are now plain JS events.
