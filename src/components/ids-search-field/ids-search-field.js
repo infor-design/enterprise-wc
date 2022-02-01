@@ -1,5 +1,6 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
+import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import Base from './ids-search-field-base';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
@@ -82,32 +83,6 @@ export default class IdsSearchField extends Base {
         </div>
       </div>`
     );
-
-    /*
-    return `
-      <div
-        class="ids-search-field"
-        id="ids-search-field"
-      >
-        <ids-trigger-field
-          tabbable="false"
-          label="${this.label}"
-          ${this.disabled && 'disabled'}
-          ${this.readonly && 'readonly'}
-          no-margins
-        >
-          <ids-icon part="search-icon" class="search-icon" size="medium" icon="search"></ids-icon>
-          <ids-input
-            color-variant="${this.colorVariant}"
-            ${!this.readonly && !this.disabled && 'clearable'}
-            ${this.readonly && 'readonly'}
-            value="${this.value}"
-            placeholder="${this.placeholder}"
-          >
-          </ids-input>
-      </div>
-    `;
-    */
   }
 
   /**
