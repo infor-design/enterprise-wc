@@ -25,6 +25,12 @@ const SELECTABLE_OPTIONS = ['single', 'multiple'];
 export default class IdsListView extends Base {
   constructor() {
     super();
+
+    // this.addEventListener('dragstart', this.#dragStart.bind(this));
+    // this.addEventListener('dragend', this.#dragEnd.bind(this));
+    // this.addEventListener('drop', this.#dragEnd.bind(this));
+    // this.addEventListener('dragover', this.#dragOver.bind(this));
+    // this.addEventListener('dragleave', this.#dragLeave.bind(this));
   }
 
   // the currently focused list item
@@ -42,6 +48,7 @@ export default class IdsListView extends Base {
     this.dataKeys = this.extractTemplateLiteralsFromHTML(this.defaultTemplate);
     super.connectedCallback();
     this.attachEventListeners();
+    this.getAllLi().forEach((item) => item.addEventListener('dragstart', item.#dragStart.bind(item)));
   }
 
   /**
@@ -56,8 +63,35 @@ export default class IdsListView extends Base {
       attributes.ITEM_HEIGHT,
       attributes.MODE,
       attributes.VERSION,
-      attributes.VIRTUAL_SCROLL
+      attributes.VIRTUAL_SCROLL,
+      'over',
+      'dragging'
     ];
+  }
+
+  // Important: we need to understand who's dragging so we can
+  // grab in the dropzone
+  #dragStart(event) {
+    event.dataTransfer.setData('text/html', 'test');
+    console.log(event);
+    this.setAttribute('dragging', '');
+  }
+
+  #dragEnd() {
+    this.removeAttribute('dragging');
+    this.removeAttribute('over');
+  }
+
+  #dragOver() {
+    if (this.hasAttribute('dragging')) {
+      this.removeAttribute('over');
+    } else {
+      this.setAttribute('over', '');
+    }
+  }
+
+  #dragLeave() {
+    this.removeAttribute('over');
   }
 
   extractTemplateLiteralsFromHTML(string) {
@@ -194,6 +228,7 @@ export default class IdsListView extends Base {
           role="listitem"
           tabindex="-1"
           index="${index}"
+          draggable="true"
         >
           ${this.sortable ? `<span></span>` : ``}
           ${this.itemTemplate(item)}
