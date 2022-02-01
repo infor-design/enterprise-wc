@@ -65,7 +65,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Completion Chart (ids-progress-chart)
  - [ ] Contextual Action Panel (ids-contextual-action-panel or ids-modal
  - [x] Datagrid (ids-data-grid)
- - [ ] Datepicker (ids-date-picker)
+ - [x] Datepicker (ids-date-picker)
  - [ ] Donut (ids-donut or combined with ids-pie)
  - [x] Drag (ids-draggable)
  - [ ] Dropdown (ids-drop-down)
