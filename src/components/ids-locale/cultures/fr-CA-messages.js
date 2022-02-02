@@ -7,7 +7,7 @@ const messages = {
   AdministrativeLeave: { id: 'AdministrativeLeave', value: 'Congé administratif', comment: 'As in vacation time from work' },
   AdvancedFilter: { id: 'AdvancedFilter', value: 'Créer filtre avancé', comment: 'In a data grid active an advanced filtering feature' },
   Alert: { id: 'Alert', value: 'Alerte', comment: 'Alert' },
-  AlertOnPage: { id: 'AlertOnPage', value: 'Mess\'alerte sur page', comment: 'Alert message(s) on page n' },
+  AlertOnPage: { id: 'AlertOnPage', value: 'Message(s) d\'alerte sur page', comment: 'Alert message(s) on page n' },
   All: { id: 'All', value: 'Tout', comment: 'All items in the context of a filter' },
   AllDay: { id: 'AllDay', value: 'Journée entière', comment: 'Label for an event which lasts all day' },
   AllResults: { id: 'AllResults', value: 'Tous les résultats pour', comment: 'Search Results Text' },

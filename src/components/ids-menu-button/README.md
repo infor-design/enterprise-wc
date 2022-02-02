@@ -78,6 +78,13 @@ The button can set as formatter width and style:
 
 - When the menu is opened, it will intelligently decide which direction to flow.  If there is more space between the top of the button and the top of the viewport (compared to the bottom of the button/viewport), it will open above the button.  In some cases, the menu may open to the left/right of the button.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-- 4.x: Menu Button was not a "standard" component in 4.x, and needed to be created manually.
+**3.x to 4.x**
+- Menu Button was not a "standard" component in 4.x, and needed to be created manually.
+
+**4.x to 5.x**
+- Markup has changed to a custom element `<ids-menu-button></ids-menu-button>`
+- Can now be imported as a single JS file and used with encapsulated styles.
+- Now exists as its own component
+- Implicitly linked to a menu by using `menu="my-menu"` CSS selector attribute, or direct element reference in JS

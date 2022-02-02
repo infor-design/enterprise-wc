@@ -24,6 +24,10 @@
   @include p-24();
 }
 
+.ids-app-menu-search {
+  @include p-8();
+}
+
 // Add some padding and sizing on Avatar Icons
 ::slotted(ids-icon[slot='avatar']) {
   @include p-8();
