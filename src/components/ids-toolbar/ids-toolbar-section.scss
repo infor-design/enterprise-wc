@@ -26,13 +26,6 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
     pointer-events: none;
   }
 
-  :slotted([hidden]) {
-    @include audible();
-
-    display: inline-block;
-    width: 1px;
-  }
-
   // ================================================
   // Built-in Section Type Styles
 
@@ -75,6 +68,22 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
   // Contains Searchfields
   &.search {
     @include px-12();
+  }
+
+  // ================================================
+  // Toolbar Types & Color Variants
+
+  // Colors for Formatter Toolbar
+  &.formatter {
+    @include bg-slate-60();
+
+    &[mode='dark'] {
+      @include bg-slate-20();
+    }
+
+    &[mode='contrast'] {
+      @include bg-slate-100();
+    }
   }
 
   @include ids-toolbar-section-inner-size-styles();
