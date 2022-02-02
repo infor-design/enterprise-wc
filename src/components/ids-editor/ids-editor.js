@@ -15,56 +15,55 @@ import IdsToolbar, {
 } from '../ids-toolbar/ids-toolbar';
 
 import { debounce } from '../../utils/ids-debounce-utils/ids-debounce-utils';
-import { sanitizeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { isObject } from '../../utils/ids-object-utils/ids-object-utils';
 
+import {
+  VIEWS,
+  PARAGRAPH_SEPARATORS,
+  BLOCK_ELEMENTS,
+  FONT_SIZES,
+  CLASSES,
+  EDITOR_DEFAULTS,
+  EDITOR_ATTRIBUTES,
+  qs,
+  qsAll,
+  rgbToHex
+} from './ids-editor-shared';
+
+import {
+  cleanHtml,
+  trimContent
+} from './ids-editor-clean-utils';
+
+import {
+  blockElem,
+  selectionBlockElems,
+  saveSelection,
+  restoreSelection,
+  selectionParents,
+  findElementInSelection
+} from './ids-editor-selection-utils';
+
+import {
+  parseTemplate,
+  editorTemplate,
+  btnEditorModeTemplate,
+  btnSourceModeTemplate,
+  toolbarTemplate,
+  errorMessageTemplate,
+  hyperlinkModalTemplate,
+  insertimageModalTemplate
+} from './ids-editor-templates';
+
+import {
+  handlePasteAsPlainText,
+  handlePasteAsHtml
+} from './ids-editor-handle-paste';
+
+import { formatHtml } from './ids-editor-formatters';
+
 import styles from './ids-editor.scss';
-
-// List of view modes
-const VIEWS = ['editor', 'source'];
-
-// List of paragraph separators
-const PARAGRAPH_SEPARATORS = ['p', 'div', 'br'];
-
-// List of block elements
-const BLOCK_ELEMENTS = ['p', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'pre'];
-
-// List of font size
-const FONT_SIZES = ['1', '2', '3', '4', '5', '6', '7'];
-
-// Css classes used most in editor
-const CLASSES = { hidden: 'hidden', labelRequired: 'no-required-indicator' };
-
-// List of defaults
-const EDITOR_DEFAULTS = {
-  disabled: false,
-  label: 'Ids editor',
-  labelHidden: false,
-  labelRequired: true,
-  modals: {
-    hyperlink: {
-      url: 'http://www.example.com',
-      classes: 'hyperlink',
-      targets: [
-        { text: 'Same Window', value: '' },
-        { text: 'New Window', value: '_blank', selected: true }
-      ],
-      // Clickable hyperlink in editor
-      isClickable: false,
-      showIsClickable: true
-    },
-    insertimage: {
-      url: '/assets/placeholder-154x120.png',
-      alt: ''
-    }
-  },
-  paragraphSeparator: 'p',
-  pasteAsPlainText: false,
-  readonly: false,
-  sourceFormatter: false,
-  view: 'editor', // 'editor', 'source'
-};
 
 // Instance counter
 let instanceCounter = 0;
@@ -111,8 +110,8 @@ export default class IdsEditor extends Base {
 
     // Cleanup markings might still present
     [
-      ...this.#qsAll('#errormessage-modal, #hyperlink-modal, #insertimage-modal'),
-      ...this.#qsAll(
+      ...qsAll('#errormessage-modal, #hyperlink-modal, #insertimage-modal', this.shadowRoot),
+      ...qsAll(
         `ids-button,
         ids-separator,
         ids-menu-button,
@@ -130,19 +129,7 @@ export default class IdsEditor extends Base {
    * @returns {Array} The attributes in an array
    */
   static get attributes() {
-    return [
-      ...super.attributes,
-      attributes.DISABLED,
-      attributes.LABEL,
-      attributes.LABEL_HIDDEN,
-      attributes.LABEL_REQUIRED,
-      attributes.PARAGRAPH_SEPARATOR,
-      attributes.PASTE_AS_PLAIN_TEXT,
-      attributes.PLACEHOLDER,
-      attributes.READONLY,
-      attributes.SOURCE_FORMATTER,
-      attributes.VIEW,
-    ];
+    return [...super.attributes, ...EDITOR_ATTRIBUTES];
   }
 
   /**
@@ -152,34 +139,18 @@ export default class IdsEditor extends Base {
   template() {
     this.reqInitialize = true;
     instanceCounter++;
-    const disabled = this.disabled ? ' disabled' : '';
-    const readonly = this.readonly ? ' readonly' : '';
-    const contenteditable = !this.disabled && !this.readonly ? ' contenteditable="true"' : '';
-    const labelClass = `editor-label${!this.labelRequired ? ` ${CLASSES.labelRequired}` : ''}`;
-    const labelHidden = this.labelHidden ? ' audible' : '';
-    const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
-    return `
-      <div class="ids-editor" part="editor"${disabled}${readonly}>
-        <slot name="content" class="${CLASSES.hidden}"></slot>
-        <ids-text id="editor-label" class="${labelClass}" part="editor-label"${disabled}${readonly}${labelHidden}>${this.label}</ids-text>
-        <div class="main-container" part="main-container">
-          <div class="toolbar-container" part="toolbar-container">
-            <slot name="toolbar"></slot>
-          </div>
-          <div class="editor-content">
-            <div id="editor-container" class="editor-container" part="editor-container"${contenteditable} aria-multiline="true" role="textbox" aria-labelledby="editor-label"${placeholder}></div>
-            <div class="source-container ${CLASSES.hidden}" part="source-container">
-              <div class="source-wrapper">
-                <ul class="line-numbers"></ul>
-                <label class="audible" for="source-textarea">
-                  ${this.sourceTextareaLabel()}
-                </label>
-                <textarea id="source-textarea" class="source-textarea"${placeholder}></textarea>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>`;
+
+    return parseTemplate(editorTemplate, {
+      disabled: this.disabled ? ' disabled' : '',
+      readonly: this.readonly ? ' readonly' : '',
+      contenteditable: !this.disabled && !this.readonly ? ' contenteditable="true"' : '',
+      labelClass: `editor-label${!this.labelRequired ? ` ${CLASSES.labelRequired}` : ''}`,
+      labelHidden: this.labelHidden ? ' audible' : '',
+      placeholder: this.placeholder ? ` placeholder="${this.placeholder}"` : '',
+      hiddenClass: CLASSES.hidden,
+      labelText: this.label,
+      sourceTextareaLabel: this.sourceTextareaLabel()
+    });
   }
 
   /**
@@ -343,43 +314,6 @@ export default class IdsEditor extends Base {
   #resizeObserver = new ResizeObserver(() => this.#resize());
 
   /**
-   * Query selector in shadow root or given element.
-   * @private
-   * @param {string} s The selector.
-   * @param {ShadowRoot|HTMLElement|undefined} root The root element.
-   * @returns {HTMLElement|null} First matched selector element.
-   */
-  #qs(s, root = this.shadowRoot) {
-    return root?.querySelector(s);
-  }
-
-  /**
-   * Query selector all in shadow root or given element.
-   * @private
-   * @param {string} s The selector.
-   * @param {ShadowRoot|HTMLElement|undefined} root The root element.
-   * @returns {Array<NodeList>} List of elements that matched.
-   */
-  #qsAll(s, root = this.shadowRoot) {
-    return Array.from(root?.querySelectorAll(s));
-  }
-
-  /**
-   * Convert rgb to hex color value.
-   * @private
-   * @param {string} rgb The rgb value
-   * @returns {string} the hex value
-   */
-  #rgbToHex(rgb) {
-    const arrayRgb = rgb.split('(')[1].split(')')[0].split(',');
-    const hex = arrayRgb.map((item) => {
-      const x = parseInt(item).toString(16);
-      return (x.length === 1) ? `0${x}` : x;
-    }).join('');
-    return `#${hex}`;
-  }
-
-  /**
    * Trigger the given event with current value.
    * @private
    * @param {string} eventtName The event name to be trigger.
@@ -405,6 +339,7 @@ export default class IdsEditor extends Base {
 
     window.requestAnimationFrame(() => {
       this.#setSourceContent();
+      this.resetDirtyTracker();
       this.#triggerEvent('initialize');
     });
     return this;
@@ -416,133 +351,10 @@ export default class IdsEditor extends Base {
    * @returns {object} This API object for chaining
    */
   #initToolbar() {
-    const tmplToolbar = `
-      <ids-toolbar slot="toolbar" type="formatter">
-        <ids-toolbar-section type="buttonset">
-
-          <ids-menu-button
-            editor-action="formatblock"
-            id="btn-formatblock-${instanceCounter}"
-            role="button"
-            menu="menu-formatblock-${instanceCounter}"
-            tooltip="Choose Font Style"
-            formatter-width="125px"
-            dropdown-icon
-            trigger="click">
-            <span slot="text">Normal Text</span>
-          </ids-menu-button>
-          <ids-popup-menu id="menu-formatblock-${instanceCounter}" target="#btn-formatblock-${instanceCounter}">
-            <ids-menu-group>
-              <ids-menu-item value="p" selected="true"><ids-text>Normal Text</ids-text></ids-menu-item>
-              <ids-menu-item value="h1"><ids-text font-size="28">Header 1</ids-text></ids-menu-item>
-              <ids-menu-item value="h2"><ids-text font-size="24">Header 2</ids-text></ids-menu-item>
-              <ids-menu-item value="h3"><ids-text font-size="20">Header 3</ids-text></ids-menu-item>
-            </ids-menu-group>
-          </ids-popup-menu>
-
-          <ids-separator vertical></ids-separator>
-
-          <ids-button editor-action="bold" square="true" tooltip="Toggle Bold Text">
-            <span slot="text" class="audible">Bold</span>
-            <ids-icon slot="icon" icon="bold"></ids-icon>
-          </ids-button>
-
-          <ids-button editor-action="italic" square="true" tooltip="Toggle Italic Text">
-            <span slot="text" class="audible">Italic</span>
-            <ids-icon slot="icon" icon="italic"></ids-icon>
-          </ids-button>
-
-          <ids-button editor-action="underline" square="true" tooltip="Toggle Underline Text">
-            <span slot="text" class="audible">Underline</span>
-            <ids-icon slot="icon" icon="underline"></ids-icon>
-          </ids-button>
-
-          <ids-button editor-action="strikethrough" square="true" tooltip="Toggle Strike Through Text">
-            <span slot="text" class="audible">Strike through</span>
-            <ids-icon slot="icon" icon="strike-through"></ids-icon>
-          </ids-button>
-
-          <ids-separator vertical></ids-separator>
-
-          <ids-button editor-action="forecolor" square="true" tooltip="Text Color">
-            <span slot="text" class="audible">Text color</span>
-            <ids-icon slot="icon" icon="fore-color"></ids-icon>
-          </ids-button>
-
-          <ids-separator vertical></ids-separator>
-
-          <ids-button editor-action="alignleft" square="true" tooltip="Align Left">
-            <span slot="text" class="audible">Align left</span>
-            <ids-icon slot="icon" icon="left-text-align"></ids-icon>
-          </ids-button>
-
-          <ids-button editor-action="aligncenter" square="true" tooltip="Align Center">
-            <span slot="text" class="audible">Align center</span>
-            <ids-icon slot="icon" icon="center-text"></ids-icon>
-          </ids-button>
-
-          <ids-button editor-action="alignright" square="true" tooltip="Align Right">
-            <span slot="text" class="audible">Align right</span>
-            <ids-icon slot="icon" icon="right-text-align"></ids-icon>
-          </ids-button>
-
-          <ids-separator vertical></ids-separator>
-
-          <ids-button editor-action="blockquote" square="true" tooltip="Block Quote">
-            <span slot="text" class="audible">Block quote</span>
-            <ids-icon slot="icon" icon="quote"></ids-icon>
-          </ids-button>
-
-          <ids-button editor-action="orderedlist" square="true" tooltip="Insert/Remove Numbered List">
-            <span slot="text" class="audible">Ordered List</span>
-            <ids-icon slot="icon" icon="number-list"></ids-icon>
-          </ids-button>
-
-          <ids-button editor-action="unorderedlist" square="true" tooltip="Insert/Remove Bulleted List">
-            <span slot="text" class="audible">Unordered List</span>
-            <ids-icon slot="icon" icon="bullet-list"></ids-icon>
-          </ids-button>
-
-          <ids-separator vertical></ids-separator>
-
-          <ids-button editor-action="hyperlink" square="true" tooltip="Insert Hyperlink">
-            <span slot="text" class="audible">Insert Hyperlink</span>
-            <ids-icon slot="icon" icon="link"></ids-icon>
-          </ids-button>
-
-          <ids-button editor-action="insertimage" square="true" tooltip="Insert Image">
-            <span slot="text" class="audible">Insert Image</span>
-            <ids-icon slot="icon" icon="insert-image"></ids-icon>
-          </ids-button>
-
-          <ids-separator vertical></ids-separator>
-
-          <ids-button editor-action="clearformatting" square="true" tooltip="Clear Formatting">
-            <span slot="text" class="audible">Clear Formatting</span>
-            <ids-icon slot="icon" icon="clear-formatting"></ids-icon>
-          </ids-button>
-
-          <ids-separator vertical></ids-separator>
-
-          <ids-button editor-action="sourcemode" square="true" tooltip="View Source">
-            <span slot="text" class="audible">View Source</span>
-            <ids-icon slot="icon" icon="html" width="38" viewbox="0 0 54 18"></ids-icon>
-          </ids-button>
-
-          <ids-button editor-action="editormode" square="true" tooltip="View Visual">
-            <span slot="text" class="audible">View Visual</span>
-            <ids-icon slot="icon" icon="visual" width="50" viewbox="0 0 73 18"></ids-icon>
-          </ids-button>
-
-        </ids-toolbar-section>
-        <ids-toolbar-more-actions overflow color-variant="alternate-formatter"></ids-toolbar-more-actions>
-      </ids-toolbar>`;
-
     const slot = this.querySelector('[slot="toolbar"]');
     if (!slot) {
-      this.insertAdjacentHTML('afterbegin', tmplToolbar);
+      this.insertAdjacentHTML('afterbegin', parseTemplate(toolbarTemplate, { instanceCounter }));
     }
-
     return this;
   }
 
@@ -559,143 +371,6 @@ export default class IdsEditor extends Base {
   }
 
   /**
-   * Get block element and tagName for given node
-   * @private
-   * @param {Selection|undefined} sel The selection.
-   * @returns {object} The element
-   */
-  #blockElem(sel = this.#getSelection()) {
-    let tagName;
-    let el = sel.anchorNode;
-    if (el && el.tagName) tagName = el.tagName.toLowerCase();
-    while (el && BLOCK_ELEMENTS.indexOf(tagName) === -1) {
-      el = el.parentNode;
-      if (el && el.tagName) tagName = el.tagName.toLowerCase();
-    }
-    return { el, tagName };
-  }
-
-  /**
-   * Get list of block elements for selection
-   * @private
-   * @param {Selection|undefined} sel The selection.
-   * @returns {Array<HTMLElement>} List of selection block elements
-   */
-  #selectionBlockElems(sel = this.#getSelection()) {
-    const blockElems = [];
-    this.#qsAll(BLOCK_ELEMENTS.join(', '), this.#elems.editor).forEach((elem) => {
-      if (sel.containsNode(elem, true)) {
-        blockElems.push(elem);
-      }
-    });
-    return blockElems;
-  }
-
-  /**
-   * Save current selection.
-   * @private
-   * @returns {Array<Range>|null} The selection ranges.
-   */
-  #saveSelection() {
-    const sel = this.#getSelection();
-    if (sel.getRangeAt && sel.rangeCount) {
-      const ranges = [];
-      for (let i = 0, l = sel.rangeCount; i < l; i += 1) {
-        ranges.push(sel.getRangeAt(i));
-      }
-      return ranges;
-    }
-    return null;
-  }
-
-  /**
-   * Restore selection.
-   * @private
-   * @param {Array<Range>|null} savedSel Saved selection ranges.
-   * @returns {object} The object for chaining.
-   */
-  #restoreSelection(savedSel = this.#savedSelection) {
-    const sel = this.#getSelection();
-    if (savedSel) {
-      sel.removeAllRanges();
-      for (let i = 0, len = savedSel.length; i < len; i += 1) {
-        sel.addRange(savedSel[i]);
-      }
-    }
-    return this;
-  }
-
-  /**
-   * Get all selection parents.
-   * @private
-   * @returns {object} List of selection parents.
-   */
-  #selectionParents() {
-    const parents = {};
-    const sel = this.#getSelection();
-    if (sel?.containsNode(this.#elems.editor, true)) {
-      let node = sel?.focusNode;
-      while (node?.id !== 'editor-container') {
-        const tag = node?.tagName?.toLowerCase();
-        if (tag) parents[tag] = { tag, node };
-        node = node?.parentNode;
-      }
-    }
-    return parents;
-  }
-
-  /**
-   * Find element within the selection
-   * http://stackoverflow.com/questions/6052870/how-to-know-if-there-is-a-link-element-within-the-selection
-   * @private
-   * @param {string} tagname The tagname to find.
-   * @returns {HTMLElement|null} The found element.
-   */
-  #findElementInSelection(tagname) {
-    let el;
-    let comprng;
-    let selparent;
-    const container = this.#elems.editor;
-    const range = this.#getSelection().getRangeAt(0);
-
-    if (range) {
-      selparent = range.commonAncestorContainer || range.parentElement();
-      // Look for an element *around* the selected range
-      for (el = selparent; el !== container; el = el?.parentNode) {
-        if (el && el.tagName && el.tagName.toLowerCase() === tagname) {
-          return el;
-        }
-      }
-
-      // Look for an element *within* the selected range
-      if (!range.collapsed
-        && (range.text === undefined || range.text)
-        && selparent.getElementsByTagName) {
-        el = selparent.getElementsByTagName(tagname);
-        comprng = document.createRange ? document.createRange() : document.body.createTextRange();
-
-        for (let i = 0, len = el.length; i < len; i++) {
-          // determine if element el[i] is within the range
-          if (document.createRange) {
-            comprng.selectNodeContents(el[i]);
-            if (range.compareBoundaryPoints(Range.END_TO_START, comprng) < 0
-              && range.compareBoundaryPoints(Range.START_TO_END, comprng) > 0) {
-              return el[i];
-            }
-          } else {
-            comprng.moveToElementText(el[i]);
-            if (range.compareEndPoints('StartToEnd', comprng) < 0
-              && range.compareEndPoints('EndToStart', comprng) > 0) {
-              return el[i];
-            }
-          }
-        }
-      }
-    }
-    return null;
-  }
-
-  /**
    * Set default paragraph separator
    * @private
    * @returns {object} This API object for chaining
@@ -705,57 +380,6 @@ export default class IdsEditor extends Base {
     this.#paragraphSeparator = this.paragraphSeparator !== 'br'
       ? this.paragraphSeparator : EDITOR_DEFAULTS.paragraphSeparator;
     return this;
-  }
-
-  /**
-   * Format given string to proper indentation.
-   * @param {string} html true will force to toggle in to source mode.
-   * @returns {string} formated value
-   */
-  #formatHtml(html) {
-    html = html.trim();
-    const tokens = html.split(/</);
-    let indentLevel = 0;
-    let result = '';
-
-    const getIndent = (level) => {
-      const tabsize = 4;
-      let indentation = '';
-      let i = level * tabsize;
-      if (level > -1) {
-        while (i--) {
-          indentation += ' ';
-        }
-      }
-      return indentation;
-    };
-
-    for (let i = 0, l = tokens.length; i < l; i++) {
-      const parts = tokens[i].split(/>/);
-
-      if (parts.length === 2) {
-        if (tokens[i][0] === '/') {
-          indentLevel--;
-        }
-        result += getIndent(indentLevel);
-        if (tokens[i][0] !== '/') {
-          indentLevel++;
-        }
-        if (i > 0) {
-          result += '<';
-        }
-        result += `${parts[0].trim()}>\n`;
-        if (parts[1].trim() !== '') {
-          result += `${getIndent(indentLevel) + parts[1].trim().replace(/\s+/g, ' ')}\n`;
-        }
-        if (parts[0].match(/^(area|base|br|col|command|embed|hr|img|input|link|meta|param|source)/)) {
-          indentLevel--;
-        }
-      } else {
-        result += `${getIndent(indentLevel) + parts[0]}\n`;
-      }
-    }
-    return result.trim();
   }
 
   /**
@@ -776,21 +400,20 @@ export default class IdsEditor extends Base {
 
       let list = '';
       let i = 0;
+      let l;
 
       if (!this.#elems.lineNumberCount || lineNumberCount !== this.#elems.lineNumberCount) {
         if (!this.#elems.lineNumberCount) {
           // Build the list of line numbers from scratch
           this.#elems.lineNumberCount = lineNumberCount;
-          while (i < this.#elems.lineNumberCount) {
+          for (l = this.#elems.lineNumberCount; i < l; i++) {
             list += `<li role="presentation"><span>${(i + 1)}</span></li>`;
-            i++;
           }
           numberList.insertAdjacentHTML('beforeend', list);
         } else if (this.#elems.lineNumberCount < lineNumberCount) {
           // Add extra line numbers to the bottom
-          while (i < (lineNumberCount - this.#elems.lineNumberCount)) {
+          for (l = (lineNumberCount - this.#elems.lineNumberCount); i < l; i++) {
             list += `<li role="presentation"><span>${(lastIdx + i + 1)}</span></li>`;
-            i++;
           }
           numberList.insertAdjacentHTML('beforeend', list);
         } else if (this.#elems.lineNumberCount > lineNumberCount) {
@@ -806,201 +429,6 @@ export default class IdsEditor extends Base {
   }
 
   /**
-   * Check if given html is word format
-   * @private
-   * @param {string} content The html
-   * @returns {string} The cleaned html
-   */
-  #isWordFormat(content) {
-    return (
-      (/<font face="Times New Roman"|class="?Mso|style="[^"]*\bmso-|style='[^'']*\bmso-|w:WordDocument/i)
-        .test(content)
-        || (/class="OutlineElement/).test(content)
-        || (/id="?docs\-internal\-guid\-/.test(content)) // eslint-disable-line
-    );
-  }
-
-  /**
-   * Clean word format for given html
-   * @private
-   * @param {string} content The html
-   * @returns {string} The cleaned html
-   */
-  #cleanWordHtml(content) {
-    let s = content;
-
-    // Word comments like conditional comments etc
-    s = s.replace(/<!--[\s\S]+?-->/gi, '');
-
-    // Remove comments, scripts (e.g., msoShowComment), XML tag, VML content,
-    // MS Office namespaced tags, and a few other tags
-    s = s.replace(/<(!|script[^>]*>.*?<\/script(?=[>\s])|\/?(\?xml(:\w+)?|img|meta|link|style|\w:\w+)(?=[\s\/>]))[^>]*>/gi, ''); // eslint-disable-line
-
-    // Convert <s> into <strike> for line-though
-    s = s.replace(/<(\/?)s>/gi, '<$1strike>');
-
-    // Replace nbsp entites to char since it's easier to handle
-    s = s.replace(/&nbsp;/gi, '\u00a0');
-
-    // Convert <span style="mso-spacerun:yes"></span> to string of alternating
-    // breaking/non-breaking spaces of same length
-    s = s.replace(/<span\s+style\s*=\s*"\s*mso-spacerun\s*:\s*yes\s*;?\s*"\s*>([\s\u00a0]*)<\/span>/gi, (str, spaces) => ((spaces.length > 0) ? spaces.replace(/./, ' ').slice(Math.floor(spaces.length / 2)).split('').join('\u00a0') : ''));
-
-    // Remove line breaks / Mso classes
-    s = s.replace(/(\n|\r| class=(\'|")?Mso[a-zA-Z]+(\'|")?)/g, ' '); // eslint-disable-line
-
-    const badTags = ['style', 'script', 'applet', 'embed', 'noframes', 'noscript'];
-
-    // Remove everything in between and including "badTags"
-    for (let i = 0, l = badTags.length; i < l; i++) {
-      const re = new RegExp(`<${badTags[i]}.*?${badTags[i]}(.*?)>`, 'gi');
-      s = s.replace(re, '');
-    }
-
-    return s;
-  }
-
-  /**
-   * Strip given styles
-   * @private
-   * @param {string} content The html
-   * @param {RegExp} styleStripper The RegExp
-   * @returns {string} The cleaned html
-   */
-  #stripStyles(content, styleStripper) {
-    const stylesToKeep = ['color', 'font-size', 'background', 'font-weight', 'font-style', 'text-decoration', 'text-align'];
-    return content.replace(styleStripper, (m) => {
-      m = m.replace(/( style=|("|\'))/gi, ''); // eslint-disable-line
-      const attrs = m.split(';');
-      let strStyle = '';
-      for (let i = 0; i < attrs.length; i++) {
-        const entry = attrs[i].split(':');
-        strStyle += (stylesToKeep.indexOf((entry[0] || '').trim()) > -1) ? `${entry[0]}:${entry[1]};` : '';
-      }
-      return (strStyle !== '') ? ` style="${strStyle}"` : '';
-    });
-  }
-
-  /**
-   * Strip given attribute
-   * @private
-   * @param {string} content The html
-   * @param {string} attribute The attribute
-   * @param {RegExp} attributeStripper The RegExp
-   * @returns {string} The cleaned html
-   */
-  #stripAttribute(content, attribute, attributeStripper) {
-    return (attribute === 'style')
-      ? this.#stripStyles(content, attributeStripper)
-      : content.replace(attributeStripper, '');
-  }
-
-  /**
-   * Convert html entities
-   * @private
-   * @param {string} str The html
-   * @returns {string} The converted html
-   */
-  #htmlEntities(str) {
-    // converts special characters (e.g., <) into their escaped/encoded values (e.g., &lt;).
-    // This allows you to display the string without the browser reading it as HTML.
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
-  }
-
-  /**
-   * Clean given html
-   * @private
-   * @param {string} content The html
-   * @returns {string} The cleaned html
-   */
-  #cleanHtml(content) {
-    let attributeStripper;
-    let s = content || '';
-
-    const badAttributes = [
-      'start', 'xmlns', 'xmlns:o', 'xmlns:w', 'xmlns:x', 'xmlns:m',
-      'onmouseover', 'onmouseout', 'onmouseenter', 'onmouseleave',
-      'onmousemove', 'onload', 'onfocus', 'onblur', 'onclick',
-      'style'
-    ];
-
-    // Remove extra word formating
-    if (this.#isWordFormat(s)) {
-      s = this.#cleanWordHtml(s);
-    }
-
-    // Remove bad attributes
-    for (let i = 0, l = badAttributes.length; i < l; i++) {
-      attributeStripper = new RegExp(` ${badAttributes[i]}="(.*?)"`, 'gi');
-      s = this.#stripAttribute(s, badAttributes[i], attributeStripper);
-
-      attributeStripper = new RegExp(` ${badAttributes[i]}='(.*?)'`, 'gi');
-      s = this.#stripAttribute(s, badAttributes[i], attributeStripper);
-    }
-
-    // Remove "ng-" directives and "ng-" classes
-    s = s.replace(/\sng-[a-z-]+/, '');
-
-    // Remove comments
-    s = s.replace(/<!--(.*?)-->/gm, '');
-
-    // Remove extra spaces
-    s = s.replace(/\s\s+/g, ' ').replace(/\s>+/g, '>');
-
-    // Remove extra attributes from list elements
-    s = s.replace(/<(ul)(.*?)>/gi, '<$1>');
-
-    // Remove empty list
-    s = s.replace(/<li><\/li>/gi, '');
-    s = s.replace(/<(ul|ol)><\/(ul|ol)>/gi, '');
-
-    // Remove html and body tags
-    s = s.replace(/<\/?(html|body)(.*?)>/gi, '');
-
-    // Remove header tag and content
-    s = s.replace(/<head\b[^>]*>(.*?)<\/head>/gi, '');
-
-    // Remove empty tags
-    s = s.replace(/<(div|span|p)> <\/(div|span|p)>/gi, ' ');
-    s = s.replace(/<[^(br|/>)]+>[\s]*<\/[^>]+>/gi, '');
-
-    if (s.indexOf('·') > -1) {
-      // Replace span and paragraph tags from bulleted list pasting
-      s = s.replace(/<\/p>/gi, '</li>');
-      s = s.replace(/<p><span><span>·<\/span><\/span>/gi, '<li>');
-      // Remove white space
-      s = s.replace(/<\/li>\s<li>/gi, '</li><li>');
-      // Add in opening and closing ul tags
-      s = [s.slice(0, s.indexOf('<li>')), '<ul>', s.slice(s.indexOf('<li>'))].join('');
-      s = [s.slice(0, s.lastIndexOf('</li>')), '</ul>', s.slice(s.lastIndexOf('</li>'))].join('');
-    }
-
-    return s;
-  }
-
-  /**
-   * Trim out the editor spaces for comparison.
-   * @private
-   * @param  {string} content The html.
-   * @returns {string} The trimmed content.
-   */
-  #trimContent(content) {
-    const bElems = BLOCK_ELEMENTS.join('|');
-    return sanitizeHTML(content || '')
-      .trim()
-      .replace(/>\s+</g, '><')
-      .replace(/\s+/g, ' ')
-      .replace(/<br(\s?\/)?>/g, '<br>\n')
-      .replace(new RegExp(`</(${bElems})>`, 'gi'), '</$1>\n\n')
-      .replace(/\n\n$/, '\n')
-      .replace(new RegExp(`<(${bElems})><br>\\n</(${bElems})>\\n`, 'gi'), '');
-  }
-
-  /**
    * Set editor content value
    * @private
    * @param {string} content The html
@@ -1008,8 +436,8 @@ export default class IdsEditor extends Base {
    */
   #setEditorContent(content) {
     const { editor, textarea } = this.#elems;
-    let html = this.#trimContent(content || textarea.value);
-    html = this.#cleanHtml(html);
+    let html = trimContent(content || textarea.value);
+    html = cleanHtml(html);
     if (editor.innerHTML !== html) editor.innerHTML = html;
     return this;
   }
@@ -1023,8 +451,8 @@ export default class IdsEditor extends Base {
   #setSourceContent(content) {
     const { editor, textarea } = this.#elems;
     if (editor.textContent.replace('\n', '') === '') editor.innerHTML = '';
-    let value = this.#trimContent(content || editor.innerHTML);
-    value = this.sourceFormatter ? this.#formatHtml(value) : value;
+    let value = trimContent(content || editor.innerHTML);
+    value = this.sourceFormatter ? formatHtml(value) : value;
     if (textarea.value !== value) textarea.value = value;
     return this;
   }
@@ -1113,8 +541,8 @@ export default class IdsEditor extends Base {
    * @returns {object} This API object for chaining
    */
   #setLabels() {
-    const labelEl = this.labelEl ?? this.#qs?.('#editor-label');
-    const sourceLabel = this.#qs?.('[for="source-textarea"]');
+    const labelEl = this.labelEl ?? qs('#editor-label', this.shadowRoot);
+    const sourceLabel = qs('[for="source-textarea"]', this.shadowRoot);
 
     if (labelEl) labelEl.innerHTML = this.label;
     if (sourceLabel) sourceLabel.innerHTML = this.sourceTextareaLabel();
@@ -1213,21 +641,13 @@ export default class IdsEditor extends Base {
     if (btnSource || btnEditor) {
       if (!btnEditor) {
         const template = document.createElement('template');
-        template.innerHTML = `
-          <ids-button editor-action="editormode" square="true" tooltip="View Visual">
-            <span slot="text" class="audible">View Visual</span>
-            <ids-icon slot="icon" icon="visual" width="50" viewbox="0 0 73 18"></ids-icon>
-          </ids-button>`;
+        template.innerHTML = btnEditorModeTemplate;
         btnSource.after(template.content.cloneNode(true));
         btnEditor = this.querySelector('[editor-action="editormode"]');
       }
       if (!btnSource) {
         const template = document.createElement('template');
-        template.innerHTML = `
-          <ids-button editor-action="sourcemode" square="true" tooltip="View Source">
-            <span slot="text" class="audible">View Source</span>
-            <ids-icon slot="icon" icon="html" width="38" viewbox="0 0 54 18"></ids-icon>
-          </ids-button>`;
+        template.innerHTML = btnSourceModeTemplate;
         btnEditor.after(template.content.cloneNode(true));
         btnSource = this.querySelector('[editor-action="sourcemode"]');
       }
@@ -1241,11 +661,11 @@ export default class IdsEditor extends Base {
     }
 
     // Set to cache some elements
-    this.#elems.main = this.#qs('.main-container');
-    this.#elems.editor = this.#qs('.editor-container');
-    this.#elems.source = this.#qs('.source-container');
-    this.#elems.lineNumbers = this.#qs('.line-numbers');
-    this.#elems.textarea = this.#qs('#source-textarea');
+    this.#elems.main = qs('.main-container', this.shadowRoot);
+    this.#elems.editor = qs('.editor-container', this.shadowRoot);
+    this.#elems.source = qs('.source-container', this.shadowRoot);
+    this.#elems.lineNumbers = qs('.line-numbers', this.shadowRoot);
+    this.#elems.textarea = qs('#source-textarea', this.shadowRoot);
     this.#elems.toolbar = this.querySelector('ids-toolbar');
     this.#elems.btnSource = this.querySelector('[editor-action="sourcemode"]');
     this.#elems.btnEditor = this.querySelector('[editor-action="editormode"]');
@@ -1264,7 +684,7 @@ export default class IdsEditor extends Base {
 
     // Use for dirty-tracker and validation
     this.input = this.#elems.textarea;
-    this.labelEl = this.#qs('#editor-label');
+    this.labelEl = qs('#editor-label', this.shadowRoot);
     if (this.validate) {
       this.validationEvents = 'change.editorvalidation input.editorvalidation blur.editorvalidation';
       this.validationElems = {
@@ -1285,28 +705,22 @@ export default class IdsEditor extends Base {
       const template = document.createElement('template');
       template.innerHTML = html;
       this.container.appendChild(template.content.cloneNode(true));
-      this.#modals[key] = { btn, modal: this.#qs(`#${key}-modal`) };
+      this.#modals[key] = { btn, modal: qs(`#${key}-modal`, this.shadowRoot) };
     };
     const hyperlinkBtn = this.querySelector('[editor-action="hyperlink"]');
     const insertimageBtn = this.querySelector('[editor-action="insertimage"]');
 
     // Remove elements
     const removeElems = [
-      this.#qs('#errormessage-modal'),
-      this.#qs('#hyperlink-modal'),
-      this.#qs('#insertimage-modal'),
+      qs('#errormessage-modal', this.shadowRoot),
+      qs('#hyperlink-modal', this.shadowRoot),
+      qs('#insertimage-modal', this.shadowRoot),
     ];
     removeElems.forEach((elem) => elem?.remove());
 
     // Error message
-    const errorMessageHtml = `
-      <ids-message id="errormessage-modal" status="error">
-        <ids-text slot="title" font-size="24" type="h2" id="errormessage-modal-title">No Selection!</ids-text>
-        <ids-text class="demo-contents" align="left">Please make some selection to complete this task.</ids-text>
-        <ids-modal-button slot="buttons" type="primary" id="errormessage-modal-ok">OK</ids-modal-button>
-      </ids-message>`;
-    appendModal('errormessage', null, errorMessageHtml);
-    this.#modals.errormessage.btn = this.#qs('#errormessage-modal-ok');
+    appendModal('errormessage', null, errorMessageTemplate);
+    this.#modals.errormessage.btn = qs('#errormessage-modal-ok', this.shadowRoot);
 
     // Hyperlink
     if (hyperlinkBtn) {
@@ -1333,37 +747,22 @@ export default class IdsEditor extends Base {
             <ids-list-box>${options}</ids-list-box>
           </ids-dropdown>`;
       }
-
-      const html = `
-        <ids-modal id="${key}-modal">
-          <ids-text slot="title" font-size="24" type="h2" id="${key}-modal-title">Insert Anchor</ids-text>
-          <ids-layout-grid class="data-grid-container" auto="true" gap="md" no-margins="true" min-col-width="300px">
-            <ids-layout-grid-cell>
-              <ids-input id="${key}-modal-input-url" label="Url" value="${url}" validate="required"></ids-input>
-              ${clickableElemHtml}
-              <ids-input id="${key}-modal-input-classes" label="Css Class" value="${classes}"></ids-input>
-              ${targetDropdownHtml}
-              <div id="${key}-modal-checkbox-remove-container" class="${CLASSES.hidden}">
-                <ids-checkbox id="${key}-modal-checkbox-remove" label="Remove hyperlink"></ids-checkbox>
-              </div>
-            </ids-layout-grid-cell>
-          </ids-layout-grid>
-
-          <ids-modal-button slot="buttons" id="${key}-modal-cancel-btn" type="secondary">
-            <span slot="text">Cancel</span>
-          </ids-modal-button>
-          <ids-modal-button slot="buttons" id="${key}-modal-apply-btn" type="primary">
-            <span slot="text">Apply</span>
-          </ids-modal-button>
-        </ids-modal>`;
+      const html = parseTemplate(hyperlinkModalTemplate, {
+        key,
+        url,
+        clickableElemHtml,
+        classes,
+        targetDropdownHtml,
+        hiddenClass: CLASSES.hidden
+      });
       appendModal(key, btn, html);
       this.#modals[key].elems = {
-        url: this.#qs(`#${key}-modal-input-url`),
-        clickable: this.#qs(`#${key}-modal-checkbox-clickable`),
-        classes: this.#qs(`#${key}-modal-input-classes`),
-        targets: this.#qs(`#${key}-modal-dropdown-targets`),
-        removeContainer: this.#qs(`#${key}-modal-checkbox-remove-container`),
-        removeElem: this.#qs(`#${key}-modal-checkbox-remove`)
+        url: qs(`#${key}-modal-input-url`, this.shadowRoot),
+        clickable: qs(`#${key}-modal-checkbox-clickable`, this.shadowRoot),
+        classes: qs(`#${key}-modal-input-classes`, this.shadowRoot),
+        targets: qs(`#${key}-modal-dropdown-targets`, this.shadowRoot),
+        removeContainer: qs(`#${key}-modal-checkbox-remove-container`, this.shadowRoot),
+        removeElem: qs(`#${key}-modal-checkbox-remove`, this.shadowRoot)
       };
     }
 
@@ -1372,23 +771,7 @@ export default class IdsEditor extends Base {
       const key = 'insertimage';
       const btn = insertimageBtn;
       const { url, alt } = this.#modals.defaults.insertimage;
-      const html = `
-        <ids-modal id="${key}-modal">
-          <ids-text slot="title" font-size="24" type="h2" id="${key}-modal-title">Insert Image</ids-text>
-          <ids-layout-grid class="data-grid-container" auto="true" gap="md" no-margins="true" min-col-width="300px">
-            <ids-layout-grid-cell>
-              <ids-input id="${key}-modal-input-src" label="Url" value="${url}" validate="required"></ids-input>
-              <ids-input id="${key}-modal-input-alt" label="Alt text" value="${alt}"></ids-input>
-            </ids-layout-grid-cell>
-          </ids-layout-grid>
-
-          <ids-modal-button slot="buttons" id="${key}-modal-cancel-btn" type="secondary">
-            <span slot="text">Cancel</span>
-          </ids-modal-button>
-          <ids-modal-button slot="buttons" id="${key}-modal-apply-btn" type="primary">
-            <span slot="text">Apply</span>
-          </ids-modal-button>
-        </ids-modal>`;
+      const html = parseTemplate(insertimageModalTemplate, { key, url, alt });
       appendModal(key, btn, html);
     }
 
@@ -1400,82 +783,6 @@ export default class IdsEditor extends Base {
     });
 
     return this;
-  }
-
-  /**
-   * Paste as plain text.
-   * @private
-   * @param {Event} e The event
-   * @returns {string|null} The updated pasted data
-   */
-  #pasteAsPlainText(e) {
-    if (!e) return null;
-
-    let paste;
-    let html = '';
-    if (e.clipboardData?.getData) {
-      paste = e.clipboardData.getData('text/plain');
-    } else {
-      paste = window.clipboardData?.getData ? window.clipboardData.getData('Text') : false;
-    }
-    if (paste) {
-      const paragraphs = paste.split(/[\r\n]/g);
-      for (let i = 0, l = paragraphs.length; i < l; i++) {
-        if (paragraphs[i] !== '') {
-          if (navigator.userAgent.match(/firefox/i) && i === 0) {
-            html += `<p>${this.#htmlEntities(paragraphs[i])}</p>`;
-          } else if ((/\.(gif|jpg|jpeg|tiff|png)$/i).test(paragraphs[i])) {
-            html += `<img src="${this.#htmlEntities(paragraphs[i])}" />`;
-          } else {
-            html += `<p>${this.#htmlEntities(paragraphs[i])}</p>`;
-          }
-        }
-      }
-    }
-    return html;
-  }
-
-  /**
-   * Paste as Html.
-   * @private
-   * @param {Event} e The event
-   * @returns {string|null} The updated pasted data
-   */
-  #pasteAsHtml(e) {
-    if (!e) return null;
-
-    const clipboardData = e.clipboardData;
-    let html;
-
-    if (clipboardData?.types) {
-      const types = clipboardData.types;
-      if ((types instanceof DOMStringList && types.contains('text/html'))
-        || (types.indexOf && types.indexOf('text/html') !== -1)) {
-        html = e.clipboardData.getData('text/html');
-      }
-      if (types instanceof DOMStringList && types.contains('text/plain')) {
-        html = e.clipboardData.getData('text/plain');
-      }
-      if ((typeof types === 'object' && types[0] === 'text/plain') && !types[1]) {
-        html = e.clipboardData.getData('text/plain');
-      }
-    } else {
-      const paste = window.clipboardData ? window.clipboardData.getData('Text') : '';
-      const paragraphs = paste.split(/[\r\n]/g);
-      html = '';
-      for (let i = 0, l = paragraphs.length; i < l; i++) {
-        if (paragraphs[i] !== '') {
-          if (navigator.userAgent.match(/firefox/i) && i === 0) {
-            html += `<p>${this.#htmlEntities(paragraphs[i])}</p>`;
-          } else if ((/\.(gif|jpg|jpeg|tiff|png)$/i).test(paragraphs[i])) {
-            html += `<img src="${this.#htmlEntities(paragraphs[i])}" />`;
-          } else {
-            html += `<p>${this.#htmlEntities(paragraphs[i])}</p>`;
-          }
-        }
-      }
-    }
-    return this.#cleanHtml(html);
   }
 
   /**
@@ -1499,8 +806,8 @@ export default class IdsEditor extends Base {
     if (!e || this.view !== 'editor') return;
 
     e.preventDefault();
-    const asPlainText = this.#pasteAsPlainText(e);
-    const asHtml = this.#pasteAsHtml(e);
+    const asPlainText = handlePasteAsPlainText(e);
+    const asHtml = handlePasteAsHtml(e);
     const args = {
       asHtml,
       asPlainText,
@@ -1523,8 +830,9 @@ export default class IdsEditor extends Base {
    * @returns {void}
    */
   #onSelectionChange() {
+    const sel = this.#getSelection();
     const elems = this.#elems;
-    const parents = this.#selectionParents();
+    const parents = selectionParents(sel, elems.editor);
     const setActive = (btn) => {
       if (btn) btn.cssClass = ['is-active'];
     };
@@ -1611,7 +919,8 @@ export default class IdsEditor extends Base {
    * @returns {boolean} false if, should not proseed
    */
   #onBeforeShowModal(key) {
-    this.#savedSelection = this.#saveSelection();
+    const sel = this.#getSelection();
+    this.#savedSelection = saveSelection(sel);
     if (!this.#savedSelection) return false;
 
     // Rest all values;
@@ -1620,7 +929,7 @@ export default class IdsEditor extends Base {
     if (key === 'hyperlink') {
       const args = { ...this.#modals.defaults.hyperlink, hideRemoveContainer: true };
       const elems = { ...this.#modals.hyperlink.elems };
-      const currentLink = this.#findElementInSelection('a');
+      const currentLink = findElementInSelection(sel, this.#elems.editor, 'a');
       if (currentLink) {
         args.currentLink = currentLink;
         args.hideRemoveContainer = false;
@@ -1661,10 +970,10 @@ export default class IdsEditor extends Base {
       const blockAction = val ?? a.value;
       a = { ...this.#actions[blockAction] };
 
-      if (a.value === 'blockquote' && this.#blockElem().tagName === 'blockquote') {
+      if (a.value === 'blockquote' && blockElem(sel).tagName === 'blockquote') {
         a = { ...this.#actions[this.#paragraphSeparator] };
       }
-      this.#selectionBlockElems().forEach((elem) => {
+      selectionBlockElems(sel, this.#elems.editor).forEach((elem) => {
         const regx = new RegExp(`<(/?)${elem.tagName}((?:[^>"']|"[^"]*"|'[^']*')*)>`, 'gi');
         const html = elem.outerHTML.replace(regx, `<$1${a.value}$2>`);
         elem.outerHTML = html;
@@ -1676,7 +985,7 @@ export default class IdsEditor extends Base {
     if (/^(alignleft|alignright|aligncenter|alignjustify)$/i.test(action)) {
       const alignDoc = this.locale?.isRTL() ? 'right' : 'left';
       const align = action.replace('align', '');
-      this.#selectionBlockElems().forEach((elem) => {
+      selectionBlockElems(sel, this.#elems.editor).forEach((elem) => {
         align === alignDoc
           ? elem?.removeAttribute('style')
           : elem?.style.setProperty('text-align', align);
@@ -1686,12 +995,12 @@ export default class IdsEditor extends Base {
 
     // Set forecolor, backcolor
     if (/^(forecolor|backcolor)$/i.test(action)) {
-      this.#savedSelection = this.#saveSelection();
+      this.#savedSelection = saveSelection(sel);
       if (this.#savedSelection && this.#elems[`${action}Input`]) {
         const color = action === 'backcolor'
           ? sel?.focusNode?.parentNode?.style?.getProperty?.('background-color')
           : document.queryCommandValue(a.action);
-        this.#elems[`${action}Input`].value = /rgb/i.test(color) ? this.#rgbToHex(color) : color;
+        this.#elems[`${action}Input`].value = /rgb/i.test(color) ? rgbToHex(color) : color;
         this.#elems[`${action}Input`].click();
       }
       return;
@@ -1700,7 +1009,7 @@ export default class IdsEditor extends Base {
     // Set ordered list, unordered list
     if (/^(orderedlist|unorderedlist)$/i.test(action)) {
       let isAdd = true;
-      this.#selectionBlockElems().forEach((elem) => {
+      selectionBlockElems(sel, this.#elems.editor).forEach((elem) => {
         if (elem.innerHTML.includes(action === 'orderedlist' ? '<ol>' : '<ul>')) {
           isAdd = false;
         }
@@ -1739,20 +1048,20 @@ export default class IdsEditor extends Base {
     let a = { ...this.#actions[key] };
     if (typeof a === 'undefined') return;
 
-    this.#restoreSelection(this.#savedSelection);
+    restoreSelection(this.#getSelection(), this.#savedSelection);
     const sel = this.#getSelection();
     const range = sel.getRangeAt(0);
 
     // Insert image
     if (key === 'insertimage') {
-      a.value = this.#qs(`#${key}-modal-input-src`).value ?? '';
+      a.value = qs(`#${key}-modal-input-src`, this.shadowRoot).value ?? '';
       if (a.value !== '') {
         if (sel.type === 'Caret') {
           range.insertNode(document.createTextNode(' '));
           sel.removeAllRanges();
           sel.addRange(range);
         }
-        const alt = this.#qs(`#${key}-modal-input-alt`).value ?? '';
+        const alt = qs(`#${key}-modal-input-alt`, this.shadowRoot).value ?? '';
         if (alt !== '') {
           a = { ...this.#actions.inserthtml, value: `<img src="${a.value}" alt="${alt}" />` };
         }
@@ -1773,7 +1082,7 @@ export default class IdsEditor extends Base {
         if (elems.url?.value) {
           a.value = 'EDITOR_CREATED_NEW_HYPERLINK';
           document.execCommand(a.action, false, a.value);
-          const aLink = this.#qs(`a[href="${a.value}"`);
+          const aLink = qs(`a[href="${a.value}"`, this.shadowRoot);
           aLink.setAttribute('href', elems.url.value);
           aLink.innerHTML = aLink.innerHTML.replace(a.value, elems.url.value);
           if (elems.classes?.value !== '') {
@@ -1952,11 +1261,13 @@ export default class IdsEditor extends Base {
    * @returns {object} This API object for chaining
    */
   #attachSlotchangeEvent() {
-    const html = (slot) => slot?.assignedNodes()[0]?.innerHTML ?? '';
-    const contentSlot = this.#qs('slot[name="content"]');
-    this.onEvent('slotchange.editor-content', contentSlot, () => {
-      this.#setEditorContent(html(contentSlot) ?? '');
-      if (!this.reqInitialize) this.#triggerEvent('input', this.#elems.editor);
+    this.onEvent('slotchange.editor-content', this.container, (e) => {
+      const slot = e.target;
+      if (slot?.name === '') {
+        const html = slot.assignedElements().map((el) => el.outerHTML).join('');
+        this.#setEditorContent(html);
+        if (!this.reqInitialize) this.#triggerEvent('input', this.#elems.editor);
+      }
     });
     return this;
   }
@@ -2008,7 +1319,7 @@ export default class IdsEditor extends Base {
    * @returns {string} The current value
    */
   get value() {
-    return this.#trimContent?.(this.#elems.textarea.value);
+    return trimContent?.(this.#elems.textarea.value);
   }
 
   /**

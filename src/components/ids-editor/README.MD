@@ -23,9 +23,7 @@ A normal editor used as a web component.
 
 ```html
 <ids-editor label="Demo Editor">
-  <div slot="content">
-    <p>Some sample text</p>
-  </div>
+  <p>Some sample text</p>
 </ids-editor>
 ```
 
@@ -33,9 +31,7 @@ Readonly editor component.
 
 ```html
 <ids-editor label="Demo Editor" readonly>
-  <div slot="content">
-    <p>Some sample text</p>
-  </div>
+  <p>Some sample text</p>
 </ids-editor>
 ```
 
@@ -43,9 +39,7 @@ Disabled editor component.
 
 ```html
 <ids-editor label="Demo Editor" disabled>
-  <div slot="content">
-    <p>Some sample text</p>
-  </div>
+  <p>Some sample text</p>
 </ids-editor>
 ```
 
@@ -53,9 +47,7 @@ Dirty tracking editor component.
 
 ```html
 <ids-editor label="Demo Editor" dirty-tracker>
-  <div slot="content">
-    <p>Some sample text</p>
-  </div>
+  <p>Some sample text</p>
 </ids-editor>
 ```
 
@@ -63,9 +55,7 @@ Validation (required) editor component.
 
 ```html
 <ids-editor label="Demo Editor" validate="required">
-  <div slot="content">
-    <p>Some sample text</p>
-  </div>
+  <p>Some sample text</p>
 </ids-editor>
 ```
 
@@ -94,9 +84,7 @@ Custom toolbar with editor component.
       </ids-button>
     </ids-toolbar-section>
   </ids-toolbar>
-  <div slot="content">
-    <p>Some sample text</p>
-  </div>
+  <p>Some sample text</p>
 </ids-editor>
 ```
 
@@ -104,9 +92,7 @@ Editor init with source mode.
 
 ```html
 <ids-editor label="Demo Editor" view="source">
-  <div slot="content">
-    <p>Some sample text</p>
-  </div>
+  <p>Some sample text</p>
 </ids-editor>
 ```
 
@@ -114,9 +100,7 @@ Editor with hidden label.
 
 ```html
 <ids-editor label="Demo Editor" label-hidden>
-  <div slot="content">
-    <p>Some sample text</p>
-  </div>
+  <p>Some sample text</p>
 </ids-editor>
 ```
 
@@ -124,7 +108,6 @@ Editor placeholder.
 
 ```html
 <ids-editor label="Demo Editor" placeholder="Type some text here...">
-  <div slot="content"></div>
 </ids-editor>
 ```
 
@@ -132,9 +115,7 @@ Editor use source formatter
 
 ```html
 <ids-editor label="Demo Editor" source-formatter>
-  <div slot="content">
-    <p>Some sample text</p>
-  </div>
+  <p>Some sample text</p>
 </ids-editor>
 ```
 
@@ -142,9 +123,7 @@ Editor use clickable hyperlink
 
 ```html
 <ids-editor label="Demo Editor">
-  <div slot="content">
-    <p>Some sample text <a href="https://www.example.com/" class="hyperlink" contenteditable="false" target="_blank">example hyperlink</a></p>
-  </div>
+  <p>Some sample text <a href="https://www.example.com/" class="hyperlink" contenteditable="false" target="_blank">example hyperlink</a></p>
 </ids-editor>
 ```
 
@@ -152,9 +131,7 @@ Custom default values in modals (ie. hyperlink modal)
 
 ```html
 <ids-editor id="editor-demo" label="Demo Editor">
-  <div slot="content">
-    <p>Some sample text</p>
-  </div>
+  <p>Some sample text</p>
 </ids-editor>
 ```
 

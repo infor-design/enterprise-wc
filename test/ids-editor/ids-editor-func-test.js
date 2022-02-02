@@ -7,8 +7,14 @@ import processAnimFrame from '../helpers/process-anim-frame';
 
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsEditor from '../../src/components/ids-editor/ids-editor';
+import {
+  handlePasteAsPlainText,
+  handlePasteAsHtml
+} from '../../src/components/ids-editor/ids-editor-handle-paste';
 
 document.execCommand = jest.fn();
+document.queryCommandSupported = jest.fn();
+global.DOMStringList = jest.fn();
 
 describe('IdsEditor Component', () => {
   let container;
@@ -39,7 +45,7 @@ describe('IdsEditor Component', () => {
   it('should be able to get current value', async () => {
     expect(editor.value).toEqual('');
     const template = document.createElement('template');
-    template.innerHTML = '<div slot="content"><p>test</p></div>';
+    template.innerHTML = '<p>test</p>';
     editor.appendChild(template.content.childNodes[0]);
     await wait(500);
     expect(editor.value).toEqual('<p>test</p>\n');
@@ -80,7 +86,7 @@ describe('IdsEditor Component', () => {
 
   it('should sets as hyperlink disabled state', async () => {
     const template = document.createElement('template');
-    template.innerHTML = '<div slot="content"><p>test<a href="http://example.com">link</a></p></div>';
+    template.innerHTML = '<p>test<a href="http://example.com">link</a></p>';
     editor.appendChild(template.content.childNodes[0]);
     await wait(500);
     const link = editor.container.querySelector('.editor-container a');
@@ -461,14 +467,10 @@ describe('IdsEditor Component', () => {
   it('should renders with markup', async () => {
     document.body.innerHTML = `
       <ids-editor label="test editor1" placeholder="test" view="source" label-hidden disabled>
-        <div slot="content">
-          <p>test<a href="http://example.com">link</a></p>
-        </div>
+        <p>test<a href="http://example.com">link</a></p>
       </ids-editor>
       <ids-editor label="test editor2" view="editor" label-required="false" readonly>
-        <div slot="content">
-          <p>test<a href="http://example.com">link</a></p>
-        </div>
+        <p>test<a href="http://example.com">link</a></p>
       </ids-editor>`;
     await processAnimFrame();
     const editors = document.querySelectorAll('ids-editor');
@@ -478,5 +480,71 @@ describe('IdsEditor Component', () => {
     expect(editors[1].view).toEqual('editor');
     expect(editors[1].disabled).toEqual(false);
     expect(editors[1].readonly).toEqual(true);
+  });
+
+  it('should be let paste content', () => {
+    const mockCallback = jest.fn(() => { });
+    const editorContainer = editor.container.querySelector('.editor-container');
+    const event = new Event('paste', {
+      clipboardData: {
+        getData: jest.fn(),
+        types: ['text/html'],
+        value: '<h1>test</h1>'
+      }
+    });
+    editorContainer.addEventListener('paste', mockCallback);
+    editor.pasteAsPlainText = false;
+    editorContainer.dispatchEvent(event);
+    expect(mockCallback).toBeCalledTimes(1);
+    editor.pasteAsPlainText = true;
+    editorContainer.dispatchEvent(event);
+    expect(mockCallback).toBeCalledTimes(2);
+  });
+
+  it('should be handle paste as plain text', () => {
+    let content = null;
+    const getClipboardData = (opt) => ({
+      clipboardData: {
+        getData: (s) => (s === 'text/plain' ? `${opt}` : `<h1>${opt}</h1>`),
+        types: ['text/plain']
+      }
+    });
+    content = handlePasteAsPlainText();
+    expect(content).toEqual(null);
+    content = handlePasteAsPlainText(getClipboardData('test'));
+    expect(content).toEqual('<p>test</p>');
+    content = handlePasteAsPlainText(getClipboardData('test.png'));
+    expect(content).toEqual('<img src="test.png" />');
+  });
+
+  it('should be handle paste as html', () => {
+    let content = null;
+    const getGlobalData = (opt) => ({ getData: (s) => (s === 'Text' ? `${opt}` : `<h1>${opt}</h1>`) });
+    const getClipboardData = (opt) => ({
+      clipboardData: {
+        getData: (s) => (s === 'text/plain' ? `${opt}` : `<h1>${opt}</h1>`),
+        types: ['text/html']
+      }
+    });
+    content = handlePasteAsHtml();
+    expect(content).toEqual(null);
+    content = handlePasteAsHtml(getClipboardData('test'));
+    expect(content).toEqual('<h1>test</h1>');
+    let data = getClipboardData('test');
+    data.clipboardData.types = ['text/plain'];
+    content = handlePasteAsHtml(data);
+    expect(content).toEqual('test');
+
+    data = getClipboardData('test');
+    data.clipboardData.types = null;
+    global.clipboardData = getGlobalData('test');
+    content = handlePasteAsHtml(data);
+    expect(content).toEqual('<p>test</p>');
+
+    data = getClipboardData('test');
+    data.clipboardData.types = null;
+    global.clipboardData = getGlobalData('test.png');
+    content = handlePasteAsHtml(data);
+    expect(content).toEqual('<img src="test.png" />');
   });
 });

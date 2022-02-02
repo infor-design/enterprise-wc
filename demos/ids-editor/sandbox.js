@@ -35,8 +35,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       const showVeto = typeof veto !== 'undefined' ? `veto: ${veto}` : '';
       console.log(type, (detail ?? ''), showVeto); // eslint-disable-line
     };
-    // init paste as plain text checkbox
-    cbPasteAsPlainText.checked = editorEventsEl.pasteAsPlainText;
 
     // before editor mode
     editorEventsEl.addEventListener('beforeeditormode', (e) => {
