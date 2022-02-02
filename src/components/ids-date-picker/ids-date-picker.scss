@@ -1,0 +1,198 @@
+@import '../../core/ids-base';
+
+.ids-date-picker {
+  // Fixes input doesn't stretch to lg size and up
+  ids-input {
+    max-width: 100%;
+  }
+
+  // Is calendar toolbar
+  &.is-calendar-toolbar {
+    @include flex();
+    @include border-solid();
+    @include border-1();
+    @include border-transparent();
+    @include pl-8();
+    @include ml-4();
+
+    align-items: center;
+    outline: none;
+    outline-color: transparent;
+
+    .datepicker-text {
+      @include leading-none();
+      @include mr-2();
+    }
+
+    .datepicker-icon {
+      @include mb-2();
+    }
+
+    &:focus {
+      @include border-azure-60();
+
+      box-shadow: 0 0 4px 3px rgba(54 138 192 / 0.3);
+    }
+
+    &[mode='dark'] {
+      &:focus {
+        @include border-azure-60();
+
+        box-shadow: 0 0 4px 2px rgba(141 201 230 / 0.3);
+      }
+    }
+
+    &[mode='contrast'] {
+      &:focus {
+        @include border-azure-90();
+
+        box-shadow: 0 0 4px 2px rgba(41 41 41 / 0.3);
+      }
+    }
+  }
+
+  // Is open state
+  &.is-open:not(.is-dropdown) {
+    ids-trigger-button::part(button) {
+      @include text-azure-60();
+    }
+
+    ids-trigger-field::part(content) {
+      @include border-azure-60();
+    }
+  }
+
+  &[mode='contrast'].is-open:not(.is-dropdown) {
+    ids-trigger-button::part(button) {
+      @include text-azure-90();
+    }
+
+    ids-trigger-field::part(content) {
+      @include border-azure-90();
+    }
+  }
+
+  // Popup related
+  ids-month-view {
+    @include w-full();
+
+    max-width: 330px;
+  }
+
+  ids-popup::part(popup) {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  &[mode='dark'] ids-popup::part(popup) {
+    @include bg-slate-80();
+  }
+
+  .popup-footer {
+    @include flex();
+
+    margin-top: 10px;
+  }
+
+  .popup-btn {
+    width: 50%;
+  }
+
+  .popup-btn::part(button) {
+    @include flex();
+    @include py-12();
+    @include rounded-none();
+
+    justify-content: center;
+
+    &:not(:focus) {
+      @include border-1();
+      @include border-transparent();
+
+      border-top-color: var(--ids-color-palette-slate-30);
+    }
+  }
+
+  &[mode='dark'] .popup-btn::part(button):not(:focus) {
+    border-top-color: var(--ids-color-palette-slate-50);
+  }
+
+  .popup-btn-start::part(button) {
+    @include text-slate-60();
+
+    &:not(:focus) {
+      border-right-color: var(--ids-color-palette-slate-30);
+    }
+
+    &:hover {
+      @include text-slate-100();
+    }
+  }
+
+  &[mode='dark'] .popup-btn-start::part(button) {
+    @include text-slate-30();
+
+    &:not(:focus) {
+      border-right-color: var(--ids-color-palette-slate-50);
+    }
+
+    &:hover {
+      @include text-white();
+    }
+  }
+
+  &[mode='contrast'] .popup-btn-start::part(button) {
+    @include text-slate-80();
+
+    &:hover {
+      @include text-slate-50();
+    }
+  }
+
+  .popup-btn-end::part(button) {
+    @include text-azure-70();
+  }
+
+  &[mode='dark'] .popup-btn-end::part(button) {
+    @include text-azure-60();
+  }
+
+  &[mode='contrast'] .popup-btn-end::part(button) {
+    @include text-azure-90();
+  }
+
+  // Dropdown related
+  .dropdown-btn::part(button) {
+    @include rounded-default();
+    @include text-slate-100();
+    @include p-4();
+  }
+
+  &[mode='dark'] .dropdown-btn::part(button) {
+    @include text-white();
+  }
+
+  &[mode='contrast'] .dropdown-btn::part(button) {
+    @include text-black();
+  }
+}
+
+:host([is-calendar-toolbar='true']) {
+  @include flex();
+}
+
+// Text direction
+:host([dir='rtl']) {
+  .ids-date-picker {
+    .popup-btn-start::part(button):not(:focus) {
+      border-right-color: transparent;
+      border-left-color: var(--ids-color-palette-slate-30);
+    }
+
+    &[mode='dark'] .popup-btn-start::part(button) {
+      &:not(:focus) {
+        border-left-color: var(--ids-color-palette-slate-50);
+      }
+    }
+  }
+}

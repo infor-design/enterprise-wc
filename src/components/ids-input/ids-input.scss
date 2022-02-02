@@ -103,13 +103,13 @@ $input-compact-height: $input-field-height-xs;
     @include p-8();
     @include rounded-default();
     @include text-16();
-    @include text-black();
     @include w-full();
     @include mb-16();
 
     appearance: none;
     border-collapse: separate;
     border-radius: 2px;
+    color: inherit;
     display: inline-block;
     height: $input-field-height-default;
     resize: none;
@@ -363,12 +363,6 @@ $input-compact-height: $input-field-height-xs;
 }
 
 .ids-input[mode='contrast'] {
-  &.color-variant-alternate {
-    .ids-input-field {
-      @include text-white();
-    }
-  }
-
   .ids-input-field {
     @include bg-white();
     @include border-slate-40();
@@ -393,15 +387,16 @@ $input-compact-height: $input-field-height-xs;
       @include border-azure-90();
     }
   }
-}
 
-.ids-input[version='classic'][mode='light'] {
-  &.color-variant-alternate {
+  &.color-variant-alternate,
+  &.color-variant-app-menu {
     .ids-input-field {
       @include text-white();
     }
   }
+}
 
+.ids-input[version='classic'][mode='light'] {
   .ids-input-field {
     @include bg-transparent();
     @include border-graphite-40();
@@ -424,6 +419,12 @@ $input-compact-height: $input-field-height-xs;
 
     &:focus {
       @include border-azure-60();
+    }
+  }
+
+  &.color-variant-alternate {
+    .ids-input-field {
+      @include text-white();
     }
   }
 }

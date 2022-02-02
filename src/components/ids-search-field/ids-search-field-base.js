@@ -5,8 +5,8 @@ import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color
 import IdsElement from '../../core/ids-element';
 
 const Base = IdsColorVariantMixin(
-  IdsThemeMixin(
-    IdsKeyboardMixin(
+  IdsKeyboardMixin(
+    IdsThemeMixin(
       IdsEventsMixin(
         IdsElement
       )

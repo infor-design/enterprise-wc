@@ -148,4 +148,15 @@ describe('IdsSearchField Component', () => {
       createKeyboardEvent('Space')
     );
   });
+
+  it('fires a user-defined `onSearch` method when the value changes', async () => {
+    const data = ['one', 'two', 'three', 'four', 'five'];
+    s.onSearch = (val) => data.filter((item) => item.includes(val));
+
+    let results = await s.search('five');
+    expect(results.length).toBe(1);
+
+    results = await s.search('f');
+    expect(results.length).toBe(2);
+  });
 });

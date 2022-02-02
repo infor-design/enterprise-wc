@@ -34,12 +34,12 @@
   @include flex();
   @include rounded-default();
   @include text-16();
-  @include text-black();
 
   align-items: center;
   appearance: none;
   border-collapse: separate;
   border-radius: 2px;
+  color: currentColor;
   height: $input-field-height-md;
   width: 100%;
 
