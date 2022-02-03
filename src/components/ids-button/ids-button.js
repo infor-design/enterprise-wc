@@ -284,6 +284,33 @@ export default class IdsButton extends Base {
   }
 
   /**
+   * @param {boolean} val true if the button component should be hidden from view
+   */
+  set hidden(val) {
+    const isValueTruthy = stringToBool(val);
+    this.shouldUpdate = false;
+    if (isValueTruthy) {
+      this.setAttribute(attributes.HIDDEN, '');
+    } else {
+      this.removeAttribute(attributes.HIDDEN);
+    }
+
+    this.shouldUpdate = true;
+    this.state.hidden = isValueTruthy;
+
+    if (this.button) {
+      this.button.hidden = isValueTruthy;
+    }
+  }
+
+  /**
+   * @returns {boolean} true if the button component is hidden from view
+   */
+  get hidden() {
+    return this.state.hidden;
+  }
+
+  /**
    * Passes a tabIndex attribute from the custom element to the button
    * @param {number} val the tabIndex value
    * @returns {void}
@@ -331,6 +358,14 @@ export default class IdsButton extends Base {
    */
   get icon() {
     return this.querySelector('ids-icon')?.getAttribute('icon');
+  }
+
+  /**
+   * Gets the current icon element
+   * @returns {HTMLElement|null} a defined IdsIcon, if one is present
+   */
+  get iconEl() {
+    return this.querySelector('ids-icon');
   }
 
   /**
