@@ -34,7 +34,10 @@ describe('IdsDataLabel Component', () => {
   it('renders with label-position', () => {
     expect(dataLabel.container.classList).toContain('top-positioned');
 
-    dataLabel.setAttribute('label-position', 'left');
+    dataLabel.labelPosition = 'left';
     waitFor(() => expect(dataLabel.container.classList[0]).toEqual('left-positioned'));
+
+    dataLabel.labelPosition = 'top';
+    waitFor(() => expect(dataLabel.container.classList[0]).toEqual('top-positioned'));
   });
 });

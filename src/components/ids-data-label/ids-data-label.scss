@@ -1,12 +1,12 @@
 @import '../../core/ids-base';
 
-:host([lang='fr']) {
+:host([language='fr']) {
   .left-positioned {
     direction: rtl;
 
     .label {
       padding: 0 0 0 8px;
-    }  
+    }
   }
 }
 
@@ -36,10 +36,11 @@
   .label {
     color: var(--ids-color-palette-slate-60);
     margin-bottom: 8px;
-    
+
     &[mode='dark'] {
       color: var(--ids-color-palette-slate-30);
     }
+
     &[mode='contrast'] {
       color: var(--ids-color-palette-slate-90);
     }

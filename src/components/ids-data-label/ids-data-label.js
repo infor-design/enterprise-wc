@@ -23,6 +23,11 @@ export default class IdsDataLabel extends Base {
   }
 
   connectedCallback() {
+    this.offEvent('languagechange');
+    this.onEvent('languagechange', this.closest('ids-container'), async (e) => {
+      this.language = e.detail.language.name;
+    });
+    this.language = this.closest('ids-container')?.getAttribute('language');
     super.connectedCallback();
   }
 
@@ -31,12 +36,18 @@ export default class IdsDataLabel extends Base {
    * @returns {Array} The propertires in an array
    */
   static get attributes() {
-    return [attributes.LABEL, attributes.LABEL_POSITION, attributes.MODE, attributes.VERSION];
+    return [
+      ...super.attributes,
+      attributes.LABEL,
+      attributes.LABEL_POSITION,
+      attributes.MODE,
+      attributes.VERSION,
+      attributes.LANGUAGE
+    ];
   }
 
   /**
    * Create the Template for the contents
-   *
    * @returns {string} The template
    */
   template() {
@@ -55,6 +66,7 @@ export default class IdsDataLabel extends Base {
   set label(value) {
     if (value) {
       this.setAttribute(attributes.LABEL, value);
+      this.container.querySelector('.label').innerHTML = value + this.colon;
     }
   }
 
@@ -67,6 +79,8 @@ export default class IdsDataLabel extends Base {
   set labelPosition(value) {
     if (value) {
       this.setAttribute(attributes.LABEL_POSITION, value);
+      this.container.className = `${value}-positioned`;
+      this.container.querySelector('.label').innerHTML = this.label + this.colon;
     }
   }
 
@@ -87,5 +101,11 @@ export default class IdsDataLabel extends Base {
    */
   get colon() {
     return this.labelPosition === 'left' ? ':' : '';
+  }
+
+  set language(value) {
+    if (value) {
+      this.setAttribute('language', value);
+    }
   }
 }
