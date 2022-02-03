@@ -39,16 +39,19 @@ export default class IdsMenuButton extends Base {
    * @returns {void}
    */
   connectedCallback() {
-    this.configureMenu();
-    this.attachEventHandlers();
-    Base.prototype.connectedCallback.apply(this);
+    super.connectedCallback?.();
+
+    requestAnimationFrame(() => {
+      this.configureMenu();
+      this.attachEventHandlers();
+    });
   }
 
   /**
    * @returns {void}
    */
   attachEventHandlers() {
-    Base.prototype.attachEventHandlers.apply(this);
+    super.attachEventHandlers?.(this);
   }
 
   /**

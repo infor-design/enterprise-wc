@@ -15,6 +15,7 @@ const BUTTON_TYPES = [
 const BUTTON_DEFAULTS = {
   cssClass: [],
   disabled: false,
+  hidden: false,
   tabIndex: true,
   type: BUTTON_TYPES[0]
 };
@@ -24,6 +25,7 @@ const BUTTON_ATTRIBUTES = [
   attributes.CSS_CLASS,
   attributes.COLOR_VARIANT,
   attributes.DISABLED,
+  attributes.HIDDEN,
   attributes.ICON,
   attributes.ICON_ALIGN,
   attributes.ID,

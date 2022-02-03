@@ -406,6 +406,7 @@ describe('IdsMenu Component', () => {
       newItem.id = 'newitem';
       newItem.disabled = true;
       newItem.icon = 'settings';
+      newItem.viewbox = '0 0 20 20';
       newItem.selected = true;
       newItem.value = 1;
       newItem.tabIndex = 1;
@@ -495,6 +496,18 @@ describe('IdsMenu Component', () => {
 
       expect(item1.iconEl).not.toBeDefined();
       expect(item1.icon).toBe(undefined);
+    });
+
+    it('can have an icon viewbox set/removed', () => {
+      item1.icon = 'settings';
+      item1.viewbox = '0 0 20 20';
+
+      expect(item1.iconEl).toBeDefined();
+      expect(item1.icon).toBe('settings');
+      expect(item1.viewbox).toBe('0 0 20 20');
+
+      item1.viewbox = null;
+      expect(item1.viewbox).toBe(null);
     });
 
     it('can set tabindex', () => {

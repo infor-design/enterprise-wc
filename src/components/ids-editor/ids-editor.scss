@@ -1,0 +1,380 @@
+/* Ids Editor Component */
+@import '../../core/ids-base';
+@import '../../mixins/sass/ids-dirty-tracker-mixin';
+@import '../../mixins/sass/ids-validation-mixin';
+
+$editor-container-height: 285px;
+
+.ids-editor {
+  .hidden {
+    @include hidden();
+  }
+
+  .audible {
+    @include audible();
+  }
+
+  .editor-label {
+    @include flex();
+    @include mb-4();
+
+    align-items: baseline;
+
+    &.required {
+      &::after {
+        @include relative();
+        @include font-sans();
+        @include mx-2();
+        @include text-20();
+        @include text-alert-error();
+
+        content: '*';
+        margin-top: -10px;
+        top: 1px;
+      }
+
+      &.no-required-indicator::after {
+        content: '';
+      }
+    }
+
+    &[audible] {
+      @include mb-0();
+
+      &.required::after {
+        content: '';
+      }
+    }
+  }
+
+  .main-container {
+    @include border-1();
+    @include border-slate-60();
+    @include border-solid();
+    @include rounded-default();
+
+    &:focus-within {
+      @include border-azure-60();
+      @include outline-none();
+      @include shadow();
+    }
+
+    &.error,
+    &.error:hover {
+      @include border-alert-error();
+      @include text-alert-error();
+
+      &:focus-within {
+        @include border-alert-error();
+        @include shadow-error();
+      }
+    }
+  }
+
+  .toolbar-container {
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
+  }
+
+  // Causes overflow to occur on Formatter Toolbar
+  // (slotted for WebComponent, CSS class for CSS only)
+  ::slotted(ids-toolbar),
+  .ids-toolbar {
+    max-width: 100%;
+  }
+
+  .editor-content {
+    @include relative();
+  }
+
+  &[readonly] {
+    .editor-label.required::after {
+      content: '';
+    }
+
+    .toolbar-container {
+      @include hidden();
+    }
+
+    .main-container,
+    .main-container * {
+      @include cursor-text();
+    }
+
+    .editor-container,
+    .source-container {
+      @include bg-slate-20();
+
+      a {
+        pointer-events: none;
+      }
+    }
+  }
+
+  &[disabled] {
+    .editor-label.required::after {
+      @include text-ruby-30();
+    }
+
+    .toolbar-container {
+      @include hidden();
+    }
+
+    .main-container,
+    .main-container * {
+      @include border-slate-30();
+      @include text-slate-40();
+      @include cursor-default();
+
+      pointer-events: none;
+      user-select: none;
+
+      &:hover,
+      &:active {
+        @include text-slate-40();
+      }
+
+      &:focus,
+      &:focus-within {
+        @include border-slate-30();
+        @include shadow-none();
+      }
+    }
+  }
+
+  .source-container,
+  .editor-container {
+    @include antialiased();
+    @include font-sans();
+    @include outline-none();
+    @include leading-normal();
+    @include text-16();
+
+    overflow: auto;
+  }
+
+  .source-container {
+    height: $editor-container-height + 32; // top/bottom padding;
+  }
+
+  .editor-container {
+    @include css3(user-select, text);
+    @include p-16();
+
+    height: $editor-container-height;
+
+    a {
+      @include text-azure-60();
+      @include p-4();
+
+      &:hover,
+      &:active {
+        @include text-azure-70();
+      }
+
+      &:focus {
+        @include border-1();
+        @include border-azure-60();
+        @include border-solid();
+        @include outline-none();
+        @include rounded-default();
+        @include shadow();
+      }
+    }
+
+    blockquote {
+      @include ml-4();
+      @include mr-0();
+      @include pl-12();
+
+      border-inline-start: 2px solid var(--ids-color-palette-slate-40);
+    }
+
+    :is(h1, h2, h3, h4, h5, h6, p, pre, blockquote):first-child {
+      margin-block-start: 0;
+    }
+
+    &[placeholder]:empty {
+      &::before {
+        @include opacity-70();
+
+        content: attr(placeholder);
+        display: inline-block;
+      }
+
+      &:focus::before {
+        content: '';
+      }
+    }
+  }
+
+  .source-wrapper {
+    @include flex();
+    @include min-h-full();
+    @include m-0();
+    @include p-0();
+
+    .line-numbers {
+      @include antialiased();
+      @include bg-slate-10();
+      @include font-bold();
+      @include font-sans();
+      @include leading-normal();
+      @include m-0();
+      @include px-12();
+      @include pt-16();
+      @include text-slate-50();
+
+      list-style: none;
+      text-align: end;
+    }
+
+    .source-textarea {
+      @include antialiased();
+      @include bg-transparent();
+      @include font-sans();
+      @include text-16();
+      @include px-16();
+      @include pt-16();
+      @include outline-none();
+      @include leading-normal();
+      @include h-full();
+      @include w-full();
+
+      border: none;
+      overflow: hidden;
+      resize: none;
+    }
+  }
+
+  &[mode='dark'] {
+    .main-container {
+      @include border-slate-20();
+
+      &:focus-within {
+        @include border-azure-60();
+      }
+
+      &.error,
+      &.error:hover {
+        @include border-alert-error();
+        @include text-alert-error();
+      }
+
+      &.error:focus-within:hover {
+        @include border-alert-error();
+        @include shadow-error();
+      }
+    }
+
+    .source-wrapper {
+      .line-numbers {
+        @include bg-slate-80();
+        @include text-slate-40();
+      }
+
+      .source-textarea {
+        @include text-white();
+      }
+    }
+
+    &[readonly] {
+      .main-container {
+        @include border-slate-40();
+        @include text-slate-10();
+      }
+
+      .editor-container,
+      .source-container {
+        @include bg-slate-70();
+      }
+    }
+
+    &[disabled] {
+      .main-container,
+      .main-container * {
+        @include border-slate-60();
+        @include text-slate-60();
+      }
+
+      .main-container:hover,
+      .main-container:active,
+      .main-container *:hover,
+      .main-container *:active {
+        @include text-slate-60();
+      }
+
+      .main-container:focus,
+      .main-container:focus-within,
+      .main-container *:focus,
+      .main-container *:focus-within {
+        @include text-slate-60();
+      }
+    }
+  }
+
+  &[mode='contrast'] {
+    .main-container {
+      @include border-slate-100();
+
+      &:focus-within {
+        @include border-azure-90();
+      }
+
+      &.error,
+      &.error:hover {
+        @include border-alert-error();
+        @include text-alert-error();
+      }
+
+      &.error:focus-within:hover {
+        @include border-alert-error();
+        @include shadow-error();
+      }
+    }
+
+    .source-wrapper {
+      .line-numbers {
+        @include bg-slate-20();
+        @include text-slate-70();
+      }
+    }
+
+    &[readonly] {
+      .main-container {
+        @include border-slate-40();
+      }
+
+      .editor-container,
+      .source-container {
+        @include bg-slate-20();
+      }
+
+      .source-wrapper .line-numbers {
+        @include bg-slate-10();
+      }
+    }
+
+    &[disabled] {
+      .main-container,
+      .main-container * {
+        @include border-slate-30();
+        @include text-slate-30();
+      }
+
+      .main-container:hover,
+      .main-container:active,
+      .main-container *:hover,
+      .main-container *:active {
+        @include text-slate-30();
+      }
+
+      .main-container:focus,
+      .main-container:focus-within,
+      .main-container *:focus,
+      .main-container *:focus-within {
+        @include text-slate-30();
+      }
+    }
+  }
+}

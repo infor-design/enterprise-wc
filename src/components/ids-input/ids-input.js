@@ -682,17 +682,20 @@ export default class IdsInput extends Base {
    * @param {string} value The `label-required` attribute
    */
   set labelRequired(value) {
-    const val = stringToBool(value);
-
-    if (val) {
-      this.setAttribute(attributes.LABEL_REQUIRED, val.toString());
+    const isValid = typeof value !== 'undefined' && value !== null;
+    const val = isValid ? stringToBool(value) : true;
+    if (isValid) {
+      this.setAttribute(attributes.LABEL_REQUIRED, val);
     } else {
       this.removeAttribute(attributes.LABEL_REQUIRED);
     }
     this.labelEl?.classList[!val ? 'add' : 'remove']('no-required-indicator');
   }
 
-  get labelRequired() { return this.getAttribute(attributes.LABEL_REQUIRED); }
+  get labelRequired() {
+    const value = this.getAttribute(attributes.LABEL_REQUIRED);
+    return value !== null ? stringToBool(value) : true;
+  }
 
   /**
    * Set the `placeholder` of input

@@ -11,6 +11,8 @@ import styles from './ids-toolbar-more-actions.scss';
 
 const MORE_ACTIONS_SELECTOR = `[${attributes.MORE_ACTIONS}]`;
 
+const TOOLBAR_TYPES = ['formatter'];
+
 /**
  * IDS Toolbar Section Component
  */
@@ -26,6 +28,7 @@ export default class IdsToolbarMoreActions extends Base {
       ...super.attributes,
       attributes.DISABLED,
       attributes.OVERFLOW,
+      attributes.TOOLBAR_TYPE,
       attributes.VISIBLE,
     ];
   }
@@ -72,6 +75,8 @@ export default class IdsToolbarMoreActions extends Base {
     </div>`;
   }
 
+  colorVariants = ['alternate-formatter'];
+
   /**
    * @private
    * @returns {string} the template for the More Actions Menu Group
@@ -98,6 +103,7 @@ export default class IdsToolbarMoreActions extends Base {
     let disabled = '';
     let submenu = '';
     let overflowed = '';
+    let viewbox = '';
 
     if (!isSubmenuItem) {
       overflowed = this.isOverflowed(item) ? '' : ' hidden';
@@ -108,7 +114,11 @@ export default class IdsToolbarMoreActions extends Base {
     // to control their visibility when overflowed.
     const handleButton = (thisItem) => {
       if (thisItem.disabled) disabled = ' disabled';
-      if (thisItem.icon) icon = ` icon="${thisItem.icon}"`;
+      if (thisItem.icon) {
+        icon = ` icon="${thisItem.icon}"`;
+        viewbox = thisItem.iconEl?.viewbox;
+        viewbox = viewbox ? ` viewbox="${viewbox}"` : '';
+      }
       text = thisItem.text;
     };
 
@@ -155,7 +165,7 @@ export default class IdsToolbarMoreActions extends Base {
     // Sanitize text from Toolbar elements to fit menu items
     text = removeNewLines(text).trim();
 
-    return `<ids-menu-item${disabled}${icon}${hidden || overflowed}>
+    return `<ids-menu-item${disabled}${icon}${viewbox}${hidden || overflowed}>
       ${text}
       ${submenu}
     </ids-menu-item>`;
@@ -251,6 +261,26 @@ export default class IdsToolbarMoreActions extends Base {
   }
 
   /**
+   * @param {string} value the type of toolbar
+   */
+  set toolbarType(value) {
+    if (TOOLBAR_TYPES.includes(value)) {
+      this.setAttribute(attributes.TOOLBAR_TYPE, value);
+      this.container.classList.add(value);
+    } else {
+      this.removeAttribute(attributes.TOOLBAR_TYPE);
+      this.container.classList.remove(TOOLBAR_TYPES[0]);
+    }
+  }
+
+  /**
+   * @returns {string} the type of toolbar
+   */
+  get toolbarType() {
+    return this.getAttribute(attributes.TOOLBAR_TYPE);
+  }
+
+  /**
    * Overrides the standard toolbar section "type" setter, which is always "more" in this case.
    * @param {string} val the type value
    */
@@ -290,7 +320,13 @@ export default class IdsToolbarMoreActions extends Base {
    * @returns {void}
    */
   #attachEventHandlers() {
-    this.onEvent('beforeshow', this.menu, () => {
+    this.onEvent('beforeshow', this.menu, (e) => {
+      // Reflect this event to the host element
+      this.triggerEvent('beforeshow', this, {
+        bubbles: e.bubbles,
+        detail: e.detail
+      });
+
       this.refreshOverflowedItems();
     });
 
@@ -340,6 +376,9 @@ export default class IdsToolbarMoreActions extends Base {
         item.overflowTarget.setAttribute(attributes.OVERFLOWED, '');
       }
     });
+
+    this.button.hidden = !this.hasVisibleActions();
+    this.button.disabled = !this.hasEnabledActions();
   }
 
   /**
@@ -387,11 +426,28 @@ export default class IdsToolbarMoreActions extends Base {
   }
 
   /**
+   * @returns {boolean} true if there are currently visible actions in this menu
+   */
+  hasVisibleActions() {
+    return this.querySelectorAll(':scope > ids-menu-group > ids-menu-item:not([hidden])').length > 0;
+  }
+
+  /**
+   * @returns {boolean} true if there are currently enabled (read: not disabled) actions in this menu
+   */
+  hasEnabledActions() {
+    return this.querySelectorAll(':scope > ids-menu-group > ids-menu-item:not([disabled])').length > 0;
+  }
+
+  /**
    * @param {HTMLElement} item reference to the toolbar item to be checked for overflow
    * @returns {boolean} true if the item is a toolbar member and should be displayed by overflow
    */
   isOverflowed(item) {
     if (!this.toolbar.contains(item)) {
+      return false;
+    }
+    if (item.hidden) {
       return false;
     }
 
@@ -403,5 +459,14 @@ export default class IdsToolbarMoreActions extends Base {
     const isBeyondLeftEdge = itemRect.left < sectionRect.left;
 
     return isBeyondLeftEdge || isBeyondRightEdge;
+  }
+
+  onColorVariantRefresh() {
+    const colorVariant = this.colorVariant;
+    if (colorVariant === 'alternate-formatter') {
+      this.button.colorVariant = 'alternate-formatter';
+    } else {
+      this.button.colorVariant = null;
+    }
   }
 }
