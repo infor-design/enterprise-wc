@@ -127,10 +127,16 @@ export default class IdsAccordion extends Base {
 
   /**
    * Sets allowOnePane property
-   * @param {boolean} allow boolean to set allowOnePane
+   * @param {boolean|string} allow true/false
    */
   set allowOnePane(allow) {
-    this.setAttribute(attributes.ALLOW_ONE_PANE, `${allow}`);
+    const toAllow = stringToBool(allow);
+
+    if (toAllow) {
+      this.setAttribute(attributes.ALLOW_ONE_PANE, `${toAllow}`);
+    } else {
+      this.removeAttribute(attributes.ALLOW_ONE_PANE);
+    }
   }
 
   /**
