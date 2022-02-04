@@ -55,3 +55,13 @@ describe('Ids Data Grid List Style Percy Tests', () => {
     await percySnapshot(page, 'ids-data-grid-list-style-new-contrast');
   });
 });
+
+describe('Ids Data Grid Virtual Scroll Percy Tests', () => {
+  const url = 'http://localhost:4444/ids-data-grid/virtual-scroll.html';
+
+  it('should not have visual regressions in new light theme (percy)', async () => {
+    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    await page.waitForSelector('ids-layout-grid-cell');
+    await percySnapshot(page, 'ids-data-grid-virtual-scroll-new-light');
+  });
+});

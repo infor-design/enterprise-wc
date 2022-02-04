@@ -124,6 +124,8 @@ const container = document.querySelector('ids-container');
     formatter: dataGrid.formatters.text
   });
 
+  dataGrid.columns = columns;
+
   const setData = async () => {
     const res = await fetch(url);
     const data = await res.json();
