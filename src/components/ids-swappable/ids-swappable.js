@@ -4,7 +4,6 @@ import {
 } from '../../core/ids-decorators';
 
 import { attributes } from '../../core/ids-attributes';
-import IdsDataSource from '../../core/ids-data-source';
 import Base from './ids-swappable-base';
 import styles from './ids-swappable.scss';
 
@@ -25,8 +24,6 @@ export default class IdsSwappable extends Base {
     this.addEventListener('dragover', this.#dzDragover.bind(this));
     this.addEventListener('dragleave', this.#dzDragLeave.bind(this));
   }
-
-  datasource = new IdsDataSource();
 
   connectedCallback() {
     this.setAttribute('dropzone', 'move');
