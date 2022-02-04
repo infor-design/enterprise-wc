@@ -1,10 +1,18 @@
 @import '../../core/ids-base';
 
+:host([active]) {
+  border: 2px dotted #0072ED;
+}
+
 .ids-list-view {
   height: 100%;
   overflow: auto;
   scroll-behavior: smooth;
   position: relative;
+
+  &[active] {
+    border: 1px dotted #0072ED;
+  }
 
   ids-draggable {
     width: 100%;
@@ -25,6 +33,15 @@
       border-bottom-color: var(--ids-color-palette-slate-20);
       contain: content;
       cursor: pointer;
+
+      &[dragging] {
+        background-color: #0072ED;
+        color: #fff;
+      }
+
+      &[over] {
+        border: 1px dotted #0072ED;
+      }
 
       &:focus {
         @include border-azure-40();

@@ -8,6 +8,7 @@ import Base from './ids-swaplist-base';
 import IdsCard from '../ids-card/ids-card';
 import IdsButton from '../ids-button/ids-button';
 import IdsListView from '../ids-list-view/ids-list-view';
+import IdsSwappable from '../ids-swappable/ids-swappable';
 
 import styles from './ids-swaplist.scss';
 
@@ -30,7 +31,6 @@ export default class IdsSwapList extends Base {
 
   connectedCallback() {
     super.connectedCallback();
-    this.setupTemplate();
     this.attachEventHandlers();
   }
 
@@ -165,24 +165,12 @@ export default class IdsSwapList extends Base {
           </div>
         </div>
         <div slot="card-content">
-          <ids-list-view selectable="multiple">
-          </ids-list-view>
+          <ids-swappable></ids-swappable>
         </div>
       </ids-card>
     `.trim()).join('');
 
     return html;
-  }
-
-  /**
-   * Setup the default template
-   * @memberof IdsSwapList
-   */
-  setupTemplate() {
-    this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
-    this.getAllLists().forEach((l) => {
-      l.defaultTemplate = this.defaultTemplate;
-    });
   }
 
   /**

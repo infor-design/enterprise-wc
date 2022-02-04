@@ -1,0 +1,16 @@
+:host {
+  font-family: sans-serif;
+  display: block;
+  padding: 0.5rem;
+  background-color: #f1f1f1;
+  border: 2px dotted transparent;
+}
+
+:host([dragging]) {
+  background-color: #0072ED;
+  color: #fff;
+}
+
+:host([over]) {
+  border: 2px dotted #0072ED;
+}

@@ -1,0 +1,10 @@
+:host {
+  display: block;
+  border: 2px dotted grey;
+  min-height: 400px;
+  margin-bottom: 20px;
+}
+
+:host([active]) {
+  border: 2px dotted #0072ED;
+}

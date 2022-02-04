@@ -25,12 +25,6 @@ const SELECTABLE_OPTIONS = ['single', 'multiple'];
 export default class IdsListView extends Base {
   constructor() {
     super();
-
-    // this.addEventListener('dragstart', this.#dragStart.bind(this));
-    // this.addEventListener('dragend', this.#dragEnd.bind(this));
-    // this.addEventListener('drop', this.#dragEnd.bind(this));
-    // this.addEventListener('dragover', this.#dragOver.bind(this));
-    // this.addEventListener('dragleave', this.#dragLeave.bind(this));
   }
 
   // the currently focused list item
@@ -48,7 +42,6 @@ export default class IdsListView extends Base {
     this.dataKeys = this.extractTemplateLiteralsFromHTML(this.defaultTemplate);
     super.connectedCallback();
     this.attachEventListeners();
-    this.getAllLi().forEach((item) => item.addEventListener('dragstart', item.#dragStart.bind(item)));
   }
 
   /**
@@ -65,33 +58,9 @@ export default class IdsListView extends Base {
       attributes.VERSION,
       attributes.VIRTUAL_SCROLL,
       'over',
-      'dragging'
+      'dragging',
+      'active'
     ];
-  }
-
-  // Important: we need to understand who's dragging so we can
-  // grab in the dropzone
-  #dragStart(event) {
-    event.dataTransfer.setData('text/html', 'test');
-    console.log(event);
-    this.setAttribute('dragging', '');
-  }
-
-  #dragEnd() {
-    this.removeAttribute('dragging');
-    this.removeAttribute('over');
-  }
-
-  #dragOver() {
-    if (this.hasAttribute('dragging')) {
-      this.removeAttribute('over');
-    } else {
-      this.setAttribute('over', '');
-    }
-  }
-
-  #dragLeave() {
-    this.removeAttribute('over');
   }
 
   extractTemplateLiteralsFromHTML(string) {
@@ -120,6 +89,118 @@ export default class IdsListView extends Base {
       this.addSortableStyles();
     } else {
       this.attachClickListeners(); // for focusing list items
+    }
+
+    this.items.forEach((item) => {
+      item.addEventListener('dragstart', this.#dragStart.bind(item));
+      item.addEventListener('dragend', this.#dragEnd.bind(item));
+      item.addEventListener('drop', this.#dragEnd.bind(item));
+      item.addEventListener('dragover', this.#dragOver.bind(item));
+      item.addEventListener('dragleave', this.#dragLeave.bind(item));
+    });
+
+    this.addEventListener('drop', this.#dzDropHandler);
+    this.addEventListener('dragover', this.#dzDragover);
+    this.addEventListener('dragleave', this.#dzDragLeave);
+  }
+
+  #dragStart(event) {
+    event.dataTransfer.setData('text/html', 'test');
+    this.setAttribute('dragging', '');
+  }
+
+  #dragEnd() {
+    this.removeAttribute('dragging');
+    this.removeAttribute('over');
+  }
+
+  #dragOver() {
+    if (this.hasAttribute('dragging')) {
+      this.removeAttribute('over');
+    } else {
+      this.setAttribute('over', '');
+    }
+  }
+
+  #dragLeave() {
+    this.removeAttribute('over');
+  }
+
+  get items() {
+    return this.container.querySelectorAll('ids-swaplist-item');
+  }
+
+  /**
+   * Functionality for the list container once an item has been dropped
+   * @param {object} event drop
+   */
+  #dzDropHandler(event) {
+    event.preventDefault();
+
+    const getDragAfterElement = (container, y) => {
+      const draggableElms = [...container.querySelectorAll(':not([dragging])')];
+      return draggableElms.reduce((closest, child) => {
+        const rect = child.getBoundingClientRect();
+        // (rect.top + rect.height/2) returns the y of the container's child element's middle point
+        const offset = y - (rect.top + rect.height / 2);
+        // if the dragging element is immediately above the child's middle point
+        if (offset < 0 && offset > closest.offset) {
+          return { offset, element: child };
+        }
+
+        return closest;
+      }, { offset: Number.NEGATIVE_INFINITY }).element;
+    };
+
+    const container = this.container.querySelector('.ids-list-view-body');
+    const afterElement = getDragAfterElement(container, event.clientY);
+
+    if (afterElement) {
+      container.insertBefore(this.draggingElement, afterElement);
+    } else {
+      container.appendChild(this.draggingElement);
+    }
+
+    this.removeAttribute('active');
+    this.draggingElement = null;
+  }
+
+  #dzDragLeave() {
+    this.removeAttribute('active');
+  }
+
+  /**
+   * Functionality for the list container once we are hover on the list
+   * @param {object} event drop
+   */
+  #dzDragover(event) {
+    event.preventDefault();
+    const overEl = this.container.querySelector('ids-swaplist-item[over]');
+
+    if (!overEl) {
+      this.setAttribute('active', '');
+    } else {
+      this.removeAttribute('active');
+    }
+
+    if (!this.draggingElement) {
+      // find what we're looking for in the composed path that isn't a slot
+      const found = event.composedPath().find((i) => {
+        // usually we can just grab event.composedPath()[0], but let's be safe
+        if (i.nodeType === 1 && i.nodeName !== 'SLOT') {
+          return i;
+        }
+      });
+
+      if (found) {
+        // find where we are deep in the change
+        const theLowestShadowRoot = found.getRootNode();
+        this.draggingElement = theLowestShadowRoot.querySelector(
+          '[dragging]'
+        );
+      } else {
+        this.draggingElement = document.querySelector('[dragging]');
+      }
     }
   }
 
