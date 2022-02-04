@@ -118,6 +118,15 @@ In the example below, the "My Benefits", "Dependents and Beneficiaries", "Life E
 </ids-accordion>
 ```
 
+## Settings and Attributes
+
+When used as an attribute the settings are kebab case, when used in the JS they are camel case.
+
+- `headers` {Array<IdsAccordionHeader>} Reference to all inner Accordion Headers.
+- `panels` {Array<IdsAccordionPanel>} Reference to all inner Accordion Panels.
+- `focused` {HTMLElement} Reference to the currently-focused element within the accordion, if applicable.
+- `allowOnePane` {boolean} Sets Accordion to allow only one inner Accordion Panel to be expanded at a time.
+
 ## States and Variations
 
 The Accordion's headers support the following states:
