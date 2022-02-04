@@ -9,6 +9,12 @@ const IdsKeyboardMixin = (superclass) => class extends superclass {
     this.initKeyboardHandlers();
   }
 
+  static get attributes() {
+    return [
+      ...super.attributes,
+    ];
+  }
+
   /**
    * Initializes the keyboard management system with the current object
    * @private

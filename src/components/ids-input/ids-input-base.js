@@ -9,14 +9,14 @@ import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
 
-const Base = IdsThemeMixin(
-  IdsTooltipMixin(
-    IdsDirtyTrackerMixin(
-      IdsClearableMixin(
-        IdsColorVariantMixin(
-          IdsMaskMixin(
-            IdsValidationMixin(
-              IdsKeyboardMixin(
+const Base = IdsTooltipMixin(
+  IdsDirtyTrackerMixin(
+    IdsClearableMixin(
+      IdsColorVariantMixin(
+        IdsMaskMixin(
+          IdsValidationMixin(
+            IdsKeyboardMixin(
+              IdsThemeMixin(
                 IdsEventsMixin(
                   IdsElement
                 )

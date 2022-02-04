@@ -1,4 +1,3 @@
-@import '../../core/ids-base';
 @import '../ids-input/ids-input';
 
 .ids-color-picker {
@@ -53,9 +52,7 @@ ids-trigger-button .color-preview {
 
 .color-input {
   display: block;
-  height: 100%;
   opacity: 0;
-  width: 100%;
 }
 
 .color-input-value {

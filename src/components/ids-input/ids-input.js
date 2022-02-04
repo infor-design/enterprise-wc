@@ -72,7 +72,6 @@ export default class IdsInput extends Base {
       attributes.LABEL_HIDDEN,
       attributes.LABEL_REQUIRED,
       attributes.ID,
-      attributes.MODE,
       attributes.NO_MARGINS,
       attributes.PLACEHOLDER,
       attributes.PASSWORD_VISIBLE,
@@ -86,7 +85,6 @@ export default class IdsInput extends Base {
       attributes.TRIGGERFIELD,
       attributes.TYPE,
       attributes.VALUE,
-      attributes.VERSION,
     ];
   }
 
@@ -205,7 +203,7 @@ export default class IdsInput extends Base {
    * @returns {HTMLInputElement} the inner `input` element
    */
   get input() {
-    return this.shadowRoot?.querySelector(`#${this.id}-input`);
+    return this.container.querySelector(`input[part="input"]`);
   }
 
   /**
