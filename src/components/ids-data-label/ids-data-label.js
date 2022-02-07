@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import Base from './ids-data-label-base';
@@ -40,9 +39,9 @@ export default class IdsDataLabel extends Base {
       ...super.attributes,
       attributes.LABEL,
       attributes.LABEL_POSITION,
+      attributes.LANGUAGE,
       attributes.MODE,
-      attributes.VERSION,
-      attributes.LANGUAGE
+      attributes.VERSION
     ];
   }
 
@@ -53,7 +52,7 @@ export default class IdsDataLabel extends Base {
   template() {
     return `
       <div class="${this.labelClass}">
-        <ids-text class="label" font-size="16">${this.label}${this.colon}</ids-text>
+        <ids-text class="label" font-size="16"></ids-text>
         <ids-text class="description" font-size="16"><slot></slot></ids-text>
       </div>
     `;
@@ -66,7 +65,7 @@ export default class IdsDataLabel extends Base {
   set label(value) {
     if (value) {
       this.setAttribute(attributes.LABEL, value);
-      this.container.querySelector('.label').innerHTML = value + this.colon;
+      this.container.querySelector('.label').innerHTML = `${value}<span class="colon">${this.colon}</span>`;
     }
   }
 
@@ -80,7 +79,7 @@ export default class IdsDataLabel extends Base {
     if (value) {
       this.setAttribute(attributes.LABEL_POSITION, value);
       this.container.className = `${value}-positioned`;
-      this.container.querySelector('.label').innerHTML = this.label + this.colon;
+      this.container.querySelector('.label').innerHTML = `${value}<span class="colon">${this.colon}</span>`;
     }
   }
 

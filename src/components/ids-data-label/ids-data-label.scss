@@ -2,10 +2,8 @@
 
 :host([language='fr']) {
   .left-positioned {
-    direction: rtl;
-
-    .label {
-      padding: 0 0 0 8px;
+    .colon {
+      padding-left: 8px;
     }
   }
 }

@@ -2,13 +2,15 @@
 
 ## Description
 
-The IDS Data Label component used to show both label and value.
+The IDS Data Label component used to show both label and value for readonly (non editable data).
 
 ## Use Cases
 
-Typically, these data labels are useful to show information with top/left/right label positioned.
+- When you need to show a readonly data item with a label.
 
 ## Feature (With the Code Examples)
+
+Shows a data label with one top label and one with a left label.
 
 ```html
 <ids-data-label label="Shipping to" label-position="left">Los Angeles, California 90001 USA</ids-data-label>

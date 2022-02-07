@@ -40,4 +40,21 @@ describe('IdsDataLabel Component', () => {
     dataLabel.labelPosition = 'top';
     waitFor(() => expect(dataLabel.container.classList[0]).toEqual('top-positioned'));
   });
+
+  it('renders for french', () => {
+    dataLabel.label = 'Shipping To';
+    dataLabel.labelPosition = 'left';
+    waitFor(() => {
+      const colonElements = dataLabel.container.querySelector('.label').getElementsByClassName('colon');
+      expect(colonElements.length).toEqual(1);
+      expect(colonElements[0].style.paddingLeft).toEqual('');
+    });
+
+    dataLabel.language = 'fr';
+    waitFor(() => {
+      const colonElements = dataLabel.container.querySelector('.label').getElementsByClassName('colon');
+      expect(colonElements.length).toEqual(1);
+      expect(colonElements[0].style.paddingLeft).toEqual('8px');
+    });
+  });
 });
