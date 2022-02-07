@@ -31,7 +31,7 @@ export default class IdsSwappable extends Base {
 
   static get attributes() {
     return [
-      'active'
+      attributes.ACTIVE
     ];
   }
 
@@ -71,12 +71,12 @@ export default class IdsSwappable extends Base {
       this.appendChild(this.draggingElement);
     }
 
-    this.removeAttribute('active');
+    this.removeAttribute(attributes.ACTIVE);
     this.draggingElement = null;
   }
 
   #dzDragLeave() {
-    this.removeAttribute('active');
+    this.removeAttribute(attributes.ACTIVE);
   }
 
   /**
@@ -88,9 +88,9 @@ export default class IdsSwappable extends Base {
     const overEl = this.querySelector('ids-swappable-item[over]');
 
     if (!overEl) {
-      this.setAttribute('active', '');
+      this.setAttribute(attributes.ACTIVE, '');
     } else {
-      this.removeAttribute('active');
+      this.removeAttribute(attributes.ACTIVE);
     }
 
     // find what we're looking for in the composed path that isn't a slot
