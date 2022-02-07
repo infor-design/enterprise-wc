@@ -10,6 +10,7 @@ export const attributes = {
   ALIGN_X: 'align-x',
   ALIGN_Y: 'align-y',
   ALLOW_LINK: 'allow-link',
+  ALLOW_ONE_PANE: 'allow-one-pane',
   ALT: 'alt',
   ALTERNATE_ROW_SHADING: 'alternate-row-shading',
   ANIMATED: 'animated',
