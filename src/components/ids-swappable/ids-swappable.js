@@ -65,8 +65,11 @@ export default class IdsSwappable extends Base {
     const container = this;
     const afterElement = this.getDragAfterElement(container, event.clientY);
 
-    if (afterElement) {
-      this.insertBefore(this.draggingElement, afterElement);
+    if (afterElement && this.selectedElements) {
+      this.selectedElements.forEach((draggingEl) => {
+        this.insertBefore(draggingEl, afterElement);
+      });
+      // this.insertBefore(this.draggingElement, afterElement);
     } else {
       this.appendChild(this.draggingElement);
     }
@@ -102,22 +105,10 @@ export default class IdsSwappable extends Base {
 
     if (found) {
       const theLowestShadowRoot = found.getRootNode();
+      this.selectedElements = theLowestShadowRoot.querySelectorAll('ids-swappable-item[selected]');
       this.draggingElement = theLowestShadowRoot.querySelector(
         '[dragging]'
       );
     }
   }
-
-  /**
-   * Set the data array of the listview
-   * @param {Array | null} value The array to use
-   */
-  set data(value) {
-    if (this.datasource) {
-      this.datasource.data = value || [];
-      this.render(true);
-    }
-  }
-
-  get data() { return this?.datasource?.data || []; }
 }

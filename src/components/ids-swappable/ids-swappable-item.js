@@ -51,8 +51,8 @@ export default class IdsSwappableItem extends Base {
 
   #dragEnd() {
     this.removeAttribute(attributes.DRAGGING);
-    this.removeAttribute(attributes.OVER);
     this.removeAttribute(attributes.SELECTED);
+    this.removeAttribute(attributes.OVER);
   }
 
   #dragOver() {
