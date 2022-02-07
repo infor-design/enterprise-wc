@@ -173,8 +173,12 @@ $input-compact-height: $input-field-height-xs;
     }
   }
 
-  .ids-icon:first-child {
+  .ids-icon.starting-icon {
     @include ml-8();
+  }
+
+  .ids-icon.ending-icon {
+    @include mr-8();
   }
 
   // Applied to the shadow root's HTMLInputElement

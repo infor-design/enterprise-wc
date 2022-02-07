@@ -70,7 +70,7 @@ export default class IdsSearchField extends Base {
       `<div id="ids-search-field" class="ids-search-field ids-trigger-field ${containerClass}" part="container">
         ${labelHtml}
         <div class="field-container" part="field-container">
-          <ids-icon class="ids-icon search-icon" size="medium" icon="search"></ids-icon>
+          <ids-icon class="ids-icon search-icon starting-icon" size="medium" icon="search"></ids-icon>
           <slot name="trigger-start"></slot>
           <input
             part="input"

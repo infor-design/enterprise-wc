@@ -4,7 +4,12 @@
 
 <ids-layout-grid cols="3" gap="xl">
   <ids-layout-grid-cell>
-    <ids-search-field label="Products" value="Anti-virus Software" validate="required"></ids-search-field>
+    <ids-search-field
+      dirty-tracker
+      label="Products"
+      value="Anti-virus Software"
+      validate="required">
+    </ids-search-field>
   </ids-layout-grid-cell>
   <ids-layout-grid-cell>
     <ids-search-field label="Search Field with Hidden Label" label-hidden placeholder="Custom placeholder text" clearable></ids-search-field>
