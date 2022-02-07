@@ -262,6 +262,10 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     left: 0;
     top: 0;
 
+    &::after {
+      @include radio-unchecked-after();
+    }
+
     &.checked {
       @include radio-checked();
 
