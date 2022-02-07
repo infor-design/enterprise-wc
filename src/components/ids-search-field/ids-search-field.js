@@ -41,11 +41,6 @@ export default class IdsSearchField extends Base {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.DISABLED,
-      attributes.LABEL,
-      attributes.PLACEHOLDER,
-      attributes.READONLY,
-      attributes.VALUE,
     ];
   }
 
