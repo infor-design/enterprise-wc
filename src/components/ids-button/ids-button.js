@@ -630,7 +630,7 @@ export default class IdsButton extends Base {
    */
   getRippleOffsets(x, y) {
     const btnRect = this.getBoundingClientRect();
-    const halfRippleSize = this.button.classList.contains('ids-icon-button') ? 35 : 125;
+    const halfRippleSize = this.button.classList.contains('ids-icon-button') ? 35 : 50;
     let btnX;
     let btnY;
 
