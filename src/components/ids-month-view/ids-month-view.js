@@ -12,6 +12,7 @@ import {
   gregorianToUmalqura,
   isValidDate,
   lastDayOfMonthDate,
+  subtractDate,
   weeksInMonth,
   weeksInRange,
 } from '../../utils/ids-date-utils/ids-date-utils';
@@ -55,6 +56,7 @@ class IdsMonthView extends Base {
 
   connectedCallback() {
     this.#attachEventHandlers();
+    this.#attachKeyboardListeners();
     super.connectedCallback();
   }
 
@@ -122,6 +124,44 @@ class IdsMonthView extends Base {
     });
 
     return this;
+  }
+
+  #attachKeyboardListeners() {
+    const keys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', '+', '-', ' '];
+
+    this.listen(keys, this.container.querySelector('tbody'), (e) => {
+      if (e.key === 'ArrowRight' || e.key === '+') {
+        const lastDayOfMonth = lastDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
+
+        // Next month/year with rerender
+        if (lastDayOfMonth.getDate() === this.day) {
+          const nextDate = addDate(lastDayOfMonth, 1, 'days');
+
+          this.year = nextDate.getFullYear();
+          this.month = nextDate.getMonth();
+          this.day = nextDate.getDate();
+        } else {
+          // Just increase day without rerender
+          this.day += 1;
+        }
+      }
+
+      if (e.key === 'ArrowLeft' || e.key === '-') {
+        const firstDayOfMonth = firstDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
+
+        // Previous month/year with rerender
+        if (firstDayOfMonth.getDate() === this.day) {
+          const prevDate = subtractDate(firstDayOfMonth, 1, 'days');
+
+          this.year = prevDate.getFullYear();
+          this.month = prevDate.getMonth();
+          this.day = prevDate.getDate();
+        } else {
+          // Just decrease day without rerender
+          this.day -= 1;
+        }
+      }
+    });
   }
 
   /**
