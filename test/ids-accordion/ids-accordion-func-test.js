@@ -218,6 +218,14 @@ describe('IdsAccordion Component', () => {
     expect(accordion.container.getAttribute('version')).toEqual('classic');
   });
 
+  it('supports setting allow one pane', () => {
+    accordion.allowOnePane = true;
+    expect(accordion.allowOnePane).toBeTruthy();
+
+    accordion.allowOnePane = false;
+    expect(accordion.allowOnePane).toBeFalsy();
+  });
+
   it('supports color variants', async () => {
     elemBuilder.clearElement();
     accordion = await createAccordion('app-menu');
@@ -228,6 +236,10 @@ describe('IdsAccordion Component', () => {
   it('has a reference to its panels', () => {
     expect(accordion.panels.length).toBe(3);
     expect(accordion.panels.includes(panel3));
+  });
+
+  it('should have reference to accordion in accordion-panels', () => {
+    expect(panel.accordion).toEqual(accordion);
   });
 
   it('will not error if no pane', () => {
@@ -340,5 +352,15 @@ describe('IdsAccordion Component', () => {
     container.dispatchEvent(event);
 
     expect(mockCallback.mock.calls.length).toBe(1);
+  });
+
+  it('should have only one pane expanded with allowOnePane setting', () => {
+    accordion.allowOnePane = true;
+    panel.expanded = true;
+    panel2.expanded = true;
+
+    expect(panel.expanded).toBeFalsy();
+    expect(panel2.expanded).toBeTruthy();
+    expect(panel3.expanded).toBeFalsy();
   });
 });

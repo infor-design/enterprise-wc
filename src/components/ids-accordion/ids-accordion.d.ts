@@ -19,4 +19,7 @@ export default class IdsAccordion extends HTMLElement {
 
   /** Set the theme version */
   version: 'new' | 'classic' | string;
+
+  /** Set the Accordion to allow only one inner Accordion Panel to be expanded at a time */
+  allowOnePane: boolean;
 }
