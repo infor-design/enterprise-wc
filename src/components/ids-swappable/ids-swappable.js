@@ -80,7 +80,7 @@ export default class IdsSwappable extends Base {
   }
 
   /**
-   * Functionality for the list container once we are hover on the list
+   * Functionality for the list container once we are hovering over the list
    * @param {object} event drop
    */
   #dzDragover(event) {
@@ -93,22 +93,18 @@ export default class IdsSwappable extends Base {
       this.removeAttribute(attributes.ACTIVE);
     }
 
-    // find what we're looking for in the composed path that isn't a slot
+    // find ids-swappable or ids-swappable-item
     const found = event.composedPath().find((i) => {
-      // usually we can just grab event.composedPath()[0], but let's be safe
-      if (i.nodeType === 1 && i.nodeName !== 'SLOT') {
+      if (i.nodeType === 1 && (i.nodeName === 'IDS-SWAPPABLE-ITEM' || i.nodeName === 'IDS-SWAPPABLE')) {
         return i;
       }
     });
 
     if (found) {
-      // find where we are deep in the change
       const theLowestShadowRoot = found.getRootNode();
       this.draggingElement = theLowestShadowRoot.querySelector(
         '[dragging]'
       );
-    } else {
-      this.draggingElement = document.querySelector('[dragging]');
     }
   }
 

@@ -1,10 +1,12 @@
+@import '../../core/ids-base';
+
 :host {
   display: block;
-  border: 2px dotted grey;
+  border: 1px dotted transparent;
   min-height: 400px;
   margin-bottom: 20px;
 }
 
 :host([active]) {
-  border: 2px dotted #0072ED;
+  border-color: var(--ids-color-brand-primary-base);
 }

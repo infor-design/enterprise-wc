@@ -10,7 +10,9 @@ const setData = async () => {
   swappable1.forEach((s) => {
     data.forEach((d) => {
       s.innerHTML += `
-        <ids-swappable-item>${d.city}</ids-swappable-item>
+        <ids-swappable-item>
+          <ids-text>${d.city}</ids-text>
+        </ids-swappable-item>
       `;
     });
   });

@@ -1,16 +1,23 @@
+@import '../../core/ids-base';
+
 :host {
   font-family: sans-serif;
   display: block;
   padding: 0.5rem;
-  background-color: #f1f1f1;
-  border: 2px dotted transparent;
+  border: 1px dotted transparent;
+  cursor: pointer;
 }
 
-:host([dragging]) {
-  background-color: #0072ED;
-  color: #fff;
+:host(:hover) {
+  background-color: var(--ids-color-palette-azure-10);
+}
+
+:host([dragging]),
+:host([selected]) {
+  background-color: var(--ids-color-brand-primary-base);
+  color: var(--ids-color-palette-white);
 }
 
 :host([over]) {
-  border: 2px dotted #0072ED;
+  border: 1px dotted var(--ids-color-brand-primary-base);
 }

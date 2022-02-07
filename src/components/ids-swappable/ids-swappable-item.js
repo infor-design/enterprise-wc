@@ -6,6 +6,7 @@ import {
 import { attributes } from '../../core/ids-attributes';
 import Base from './ids-swappable-item-base';
 import styles from './ids-swappable-item.scss';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 /**
  * IDS SwapList Component
@@ -28,13 +29,15 @@ export default class IdsSwappableItem extends Base {
   }
 
   connectedCallback() {
-    this.setAttribute('draggable', 'true');
+    this.setAttribute('draggable', 'false');
+    this.onEvent('click', this, this.#toggleSelected);
   }
 
   static get attributes() {
     return [
-      'over',
-      'dragging'
+      attributes.DRAGGING,
+      attributes.OVER,
+      attributes.SELECTED
     ];
   }
 
@@ -42,25 +45,47 @@ export default class IdsSwappableItem extends Base {
     return `<slot></slot>`;
   }
 
-  #dragStart(event) {
-    event.dataTransfer.setData('text/html', 'test');
-    this.setAttribute('dragging', '');
+  #dragStart() {
+    this.setAttribute(attributes.DRAGGING, '');
   }
 
   #dragEnd() {
-    this.removeAttribute('dragging');
-    this.removeAttribute('over');
+    this.removeAttribute(attributes.DRAGGING);
+    this.removeAttribute(attributes.OVER);
+    this.removeAttribute(attributes.SELECTED);
   }
 
   #dragOver() {
-    if (this.hasAttribute('dragging')) {
-      this.removeAttribute('over');
+    if (this.hasAttribute(attributes.DRAGGING)) {
+      this.removeAttribute(attributes.OVER);
     } else {
-      this.setAttribute('over', '');
+      this.setAttribute(attributes.OVER, '');
     }
   }
 
   #dragLeave() {
-    this.removeAttribute('over');
+    this.removeAttribute(attributes.OVER);
+  }
+
+  set selected(value) {
+    const isValueTruthy = stringToBool(value);
+    if (isValueTruthy) {
+      this.setAttribute(attributes.SELECTED, '');
+      this.setAttribute('draggable', 'true');
+    } else {
+      this.removeAttribute(attributes.SELECTED);
+    }
+  }
+
+  get selected() {
+    return stringToBool(this.getAttribute(attributes.SELECTED));
+  }
+
+  #toggleSelected() {
+    if (this.selected) {
+      this.removeAttribute(attributes.SELECTED);
+    } else {
+      this.setAttribute(attributes.SELECTED, '');
+    }
   }
 }

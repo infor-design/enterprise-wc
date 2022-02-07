@@ -53,11 +53,10 @@ export default class IdsSwapList extends Base {
    */
   #swapToNextList(button) {
     const currentCard = button.parentElement.parentElement.parentElement;
-    const currentList = currentCard.querySelector('ids-list-view');
     const nextCard = currentCard.nextSibling;
-    const nextList = nextCard.querySelector('ids-list-view').shadowRoot.querySelector('.ids-list-view-body');
+    const nextList = nextCard.querySelector('ids-swappable');
 
-    currentList.selectedLi.forEach((x) => {
+    this.selectedLi.forEach((x) => {
       nextList.appendChild(x);
       x.removeAttribute(attributes.SELECTED);
     });
@@ -71,23 +70,17 @@ export default class IdsSwapList extends Base {
    */
   #swapToPreviousList(button) {
     const currentCard = button.parentElement.parentElement.parentElement;
-    const currentList = currentCard.querySelector('ids-list-view');
     const prevCard = currentCard.previousSibling;
-    const prevList = prevCard.querySelector('ids-list-view').shadowRoot.querySelector('.ids-list-view-body');
+    const prevList = prevCard.querySelector('ids-swappable');
 
-    currentList.selectedLi.forEach((x) => {
+    this.selectedLi.forEach((x) => {
       prevList.appendChild(x);
       x.removeAttribute(attributes.SELECTED);
     });
   }
 
-  /**
-   * Get all lists present on the page
-   * @returns {*} nodeList
-   * @memberof IdsSwapList
-   */
-  getAllLists() {
-    return this.container.querySelectorAll('ids-list-view');
+  get selectedLi() {
+    return this.container.querySelectorAll('ids-swappable-item[selected]');
   }
 
   /**
