@@ -111,10 +111,6 @@ Hide label and show only checkbox:
 - `change` The change event is fired when a checkbox element's value is committed by the user. Unlike the input event, the change event is not necessarily fired for each alteration to an element's value.
 - `input` The input event fires when the value of a checkbox element has been changed.
 
-## Methods
-
-- `dismiss` Removes the tag from the page.
-
 ## States
 
 - disabled
