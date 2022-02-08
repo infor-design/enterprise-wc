@@ -106,7 +106,7 @@ export default class IdsListBuilder extends Base {
     this.#attachKeyboardListeners(); // for selecting/editing list items
 
     if (this.virtualScroll) {
-      this.onEvent('ids-virtual-scroll-afterrender', this.virtualScrollContainer, () => {
+      this.onEvent('aftervirtualscroll', this.virtualScrollContainer, () => {
         this.attachDragEventListeners();
         this.#attachKeyboardListeners();
       });
