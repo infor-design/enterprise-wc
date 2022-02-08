@@ -534,6 +534,14 @@ class IdsMonthView extends Base {
   }
 
   /**
+   * Focuses the active/selected day
+   * @returns {void}
+   */
+  focus() {
+    this.#selectDay(this.year, this.month, this.day);
+  }
+
+  /**
    * show-today attribute
    * @returns {boolean} showToday param converted to boolean from attribute value
    */

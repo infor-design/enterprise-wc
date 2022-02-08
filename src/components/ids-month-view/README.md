@@ -26,6 +26,9 @@ If both start and end dates are set calendar toolbar will not be displayed.
 ## Events
 - `dayselected` - Fires when a day is selected
 
+## Methods
+- `focus` - Focuses the active/selected day
+
 ## Features (With Code Examples)
 With no settings. Month/Day/Year defaults to current date. First day of the week is 0 - Sunday.
 

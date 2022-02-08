@@ -314,8 +314,8 @@ class IdsDatePicker extends Base {
       this.#popup.y = 16;
 
       this.container.classList.add('is-open');
-      // Focus active day in month view when open popup
-      this.#monthView?.container.querySelector('td.is-selected')?.focus();
+      // Focus active day in month view when open the popup
+      this.#monthView?.focus();
     } else {
       this.removeOpenEvents();
       this.#popup.visible = false;
