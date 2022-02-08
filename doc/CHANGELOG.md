@@ -15,11 +15,7 @@ For more details on breaking changes in each component see the individual README
 - `[Breadcrumb]` The breadcrumb component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-bread-crumb/README.md#converting-from-previous-versions) for details. ([#137](https://github.com/infor-design/enterprise-wc/issues/137))
 - `[Button]` The button component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-button/README.md#converting-from-previous-versions for details. ([#173](https://github.com/infor-design/enterprise-wc/issues/173))
 - `[Card]` The card component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-card/README.md#converting-from-previous-versions for details. ([#419](https://github.com/infor-design/enterprise-wc/issues/419))
-- `[Checkbox]` The Checkbox component has been changed to a web component and renamed to ids-checkbox.
-  - Markup has changed to a custom element `<ids-checkbox></ids-checkbox>`
-  - If using events, events are now plain JS events.
-  - Can now be imported as a single JS file and used with encapsulated styles
-  - Can now use the hitbox styles by adding the setting to the ids-checkbox component.
+- `[Checkbox]` The checkbox component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-checkbox/README.md#converting-from-previous-versions for details. ([#164](https://github.com/infor-design/enterprise-wc/issues/164))
 - `[Colorpicker]` The color picker has been ported from 4.x and converted to a custom element `<ids-color-picker></ids-color-picker>`
 - `[IdsContainer]` Adding a new setting to provide a custom padding property. <ids-container padding="8"></ids-container>
 - `[Contextual Action Panel]` The Contextual Action Panel is now a webcomponent.
