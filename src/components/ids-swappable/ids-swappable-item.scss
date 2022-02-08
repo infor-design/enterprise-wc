@@ -8,6 +8,10 @@
   cursor: pointer;
 }
 
+:host([selected]) {
+  cursor: move;
+}
+
 :host(:hover) {
   background-color: var(--ids-color-palette-azure-10);
 }

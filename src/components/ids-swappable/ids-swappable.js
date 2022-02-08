@@ -19,14 +19,11 @@ import styles from './ids-swappable.scss';
 export default class IdsSwappable extends Base {
   constructor() {
     super();
-
-    this.addEventListener('drop', this.#dzDropHandler.bind(this));
-    this.addEventListener('dragover', this.#dzDragover.bind(this));
-    this.addEventListener('dragleave', this.#dzDragLeave.bind(this));
   }
 
   connectedCallback() {
     this.setAttribute('dropzone', 'move');
+    this.attachEventListeners();
   }
 
   static get attributes() {
@@ -37,6 +34,10 @@ export default class IdsSwappable extends Base {
 
   template() {
     return `<slot></slot>`;
+  }
+
+  get overEl() {
+    return this.querySelector('ids-swappable-item[over]');
   }
 
   getDragAfterElement = (container, y) => {
@@ -56,6 +57,13 @@ export default class IdsSwappable extends Base {
     }, { offset: Number.NEGATIVE_INFINITY }).element;
   };
 
+  #dzDragStart(event) {
+    console.log(event);
+    requestAnimationFrame(() => {
+      console.log(this.selectedElements);
+    });
+  }
+
   /**
    * Functionality for the list container once an item has been dropped
    * @param {object} event drop
@@ -69,13 +77,13 @@ export default class IdsSwappable extends Base {
       this.selectedElements.forEach((draggingEl) => {
         this.insertBefore(draggingEl, afterElement);
       });
-      // this.insertBefore(this.draggingElement, afterElement);
     } else {
-      this.appendChild(this.draggingElement);
+      this.selectedElements.forEach((draggingEl) => {
+        this.appendChild(draggingEl);
+      });
     }
 
-    this.removeAttribute(attributes.ACTIVE);
-    this.draggingElement = null;
+    this.#resetElements();
   }
 
   #dzDragLeave() {
@@ -88,9 +96,8 @@ export default class IdsSwappable extends Base {
    */
   #dzDragover(event) {
     event.preventDefault();
-    const overEl = this.querySelector('ids-swappable-item[over]');
 
-    if (!overEl) {
+    if (!this.overEl) {
       this.setAttribute(attributes.ACTIVE, '');
     } else {
       this.removeAttribute(attributes.ACTIVE);
@@ -106,9 +113,22 @@ export default class IdsSwappable extends Base {
     if (found) {
       const theLowestShadowRoot = found.getRootNode();
       this.selectedElements = theLowestShadowRoot.querySelectorAll('ids-swappable-item[selected]');
-      this.draggingElement = theLowestShadowRoot.querySelector(
-        '[dragging]'
-      );
     }
+  }
+
+  #resetElements() {
+    this.removeAttribute(attributes.ACTIVE);
+    this.draggingElement = null;
+    this.selectedElements.forEach((el) => {
+      el.removeAttribute(attributes.SELECTED);
+      el.removeAttribute('aria-selected');
+    });
+  }
+
+  attachEventListeners() {
+    this.addEventListener('dragstart', this.#dzDragStart.bind(this));
+    this.addEventListener('drop', this.#dzDropHandler.bind(this));
+    this.addEventListener('dragover', this.#dzDragover.bind(this));
+    this.addEventListener('dragleave', this.#dzDragLeave.bind(this));
   }
 }

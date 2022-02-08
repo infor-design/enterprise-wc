@@ -20,17 +20,11 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 export default class IdsSwappableItem extends Base {
   constructor() {
     super();
-
-    this.addEventListener('dragstart', this.#dragStart.bind(this));
-    this.addEventListener('dragend', this.#dragEnd.bind(this));
-    this.addEventListener('drop', this.#dragEnd.bind(this));
-    this.addEventListener('dragover', this.#dragOver.bind(this));
-    this.addEventListener('dragleave', this.#dragLeave.bind(this));
   }
 
   connectedCallback() {
     this.setAttribute('draggable', 'false');
-    this.onEvent('click', this, this.#toggleSelected);
+    this.attachEventListeners();
   }
 
   static get attributes() {
@@ -45,7 +39,29 @@ export default class IdsSwappableItem extends Base {
     return `<slot></slot>`;
   }
 
-  #dragStart() {
+  set selected(value) {
+    const isValueTruthy = stringToBool(value);
+    if (isValueTruthy) {
+      this.setAttribute(attributes.SELECTED, '');
+      this.setAttribute('aria-selected', 'selected');
+      this.setAttribute('draggable', 'true');
+    } else {
+      this.removeAttribute(attributes.SELECTED);
+      this.removeAttribute('aria-selected');
+      this.removeAttribute('draggable');
+    }
+  }
+
+  get selected() {
+    return stringToBool(this.getAttribute(attributes.SELECTED));
+  }
+
+  get selectedItems() {
+    return this.parentElement.shadowRoot.querySelectorAll('[selected]');
+  }
+
+  #dragStart(event) {
+    event.dataTransfer.setData('text/plain', event.target.innerText);
     this.setAttribute(attributes.DRAGGING, '');
   }
 
@@ -67,25 +83,21 @@ export default class IdsSwappableItem extends Base {
     this.removeAttribute(attributes.OVER);
   }
 
-  set selected(value) {
-    const isValueTruthy = stringToBool(value);
-    if (isValueTruthy) {
-      this.setAttribute(attributes.SELECTED, '');
-      this.setAttribute('draggable', 'true');
-    } else {
-      this.removeAttribute(attributes.SELECTED);
-    }
-  }
-
-  get selected() {
-    return stringToBool(this.getAttribute(attributes.SELECTED));
-  }
-
   #toggleSelected() {
     if (this.selected) {
       this.removeAttribute(attributes.SELECTED);
     } else {
       this.setAttribute(attributes.SELECTED, '');
     }
+  }
+
+  attachEventListeners() {
+    this.onEvent('click', this, this.#toggleSelected);
+
+    this.addEventListener('dragstart', this.#dragStart.bind(this));
+    this.addEventListener('dragend', this.#dragEnd.bind(this));
+    this.addEventListener('drop', this.#dragEnd.bind(this));
+    this.addEventListener('dragover', this.#dragOver.bind(this));
+    this.addEventListener('dragleave', this.#dragLeave.bind(this));
   }
 }
