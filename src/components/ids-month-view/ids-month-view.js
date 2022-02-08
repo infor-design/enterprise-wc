@@ -127,9 +127,13 @@ class IdsMonthView extends Base {
   }
 
   #attachKeyboardListeners() {
-    const keys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', '+', '-', ' '];
+    const keys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', '+', '-', 'Enter', ' '];
 
     this.listen(keys, this.container.querySelector('tbody'), (e) => {
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      e.preventDefault();
+
       if (e.key === 'ArrowRight' || e.key === '+') {
         const lastDayOfMonth = lastDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
 
@@ -160,6 +164,10 @@ class IdsMonthView extends Base {
           // Just decrease day without rerender
           this.day -= 1;
         }
+      }
+
+      if (e.key === 'Enter' || e.key === ' ') {
+        this.#triggerSelectedEvent();
       }
     });
   }
@@ -340,10 +348,9 @@ class IdsMonthView extends Base {
     if (!element) return;
 
     const { month, year, day } = element.dataset;
-    const isSelected = element.classList.contains('is-selected');
     const isDisabled = element.classList.contains('is-disabled');
 
-    if (!(isSelected || isDisabled)) {
+    if (!isDisabled) {
       // Not changing day for range calendar, just selecting UI
       if (this.#isRange()) {
         this.#selectDay(year, month, day);
@@ -355,6 +362,7 @@ class IdsMonthView extends Base {
       if ((stringToNumber(month) !== this.month || this.locale?.isIslamic()) && !this.#isRange()) {
         this.year = year;
         this.month = month;
+        this.#selectDay(year, month, day);
       }
 
       this.#triggerSelectedEvent();

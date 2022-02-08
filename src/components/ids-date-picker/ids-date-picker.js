@@ -272,6 +272,28 @@ class IdsDatePicker extends Base {
       }
     });
 
+    // Loop focus inside calendar popup
+    this.listen(['Tab'], this.#popup, (e) => {
+      if (this.#popup.visible) {
+        const lastEl = this.container.querySelector('.popup-btn-end')?.container;
+        const firstEl = this.#monthView?.container.querySelector('.btn-today')?.container;
+
+        if (!e.shiftKey && lastEl?.matches(':focus')) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          firstEl.focus();
+        }
+
+        if (e.shiftKey && firstEl?.matches(':focus')) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          lastEl.focus();
+        }
+      }
+    });
+
     return this;
   }
 
@@ -292,6 +314,8 @@ class IdsDatePicker extends Base {
       this.#popup.y = 16;
 
       this.container.classList.add('is-open');
+      // Focus active day in month view when open popup
+      this.#monthView?.container.querySelector('td.is-selected')?.focus();
     } else {
       this.removeOpenEvents();
       this.#popup.visible = false;
