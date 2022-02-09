@@ -274,22 +274,24 @@ class IdsDatePicker extends Base {
 
     // Loop focus inside calendar popup
     this.listen(['Tab'], this.#popup, (e) => {
-      if (this.#popup.visible) {
-        const lastEl = this.container.querySelector('.popup-btn-end')?.container;
-        const firstEl = this.#monthView?.container.querySelector('.btn-today')?.container;
+      if (this.#popup?.visible) {
+        const lastFocusable = this.container.querySelector('.popup-btn-end')?.container;
+        const firstFocusable = this.#monthView?.container.querySelector('ids-date-picker[is-dropdown="true"]');
 
-        if (!e.shiftKey && lastEl?.matches(':focus')) {
+        if (!e.shiftKey && lastFocusable?.matches(':focus')) {
           e.preventDefault();
           e.stopPropagation();
+          e.stopImmediatePropagation();
 
-          firstEl.focus();
+          firstFocusable.focus();
         }
 
-        if (e.shiftKey && firstEl?.matches(':focus')) {
+        if (e.shiftKey && firstFocusable?.matches(':focus')) {
           e.preventDefault();
           e.stopPropagation();
+          e.stopImmediatePropagation();
 
-          lastEl.focus();
+          lastFocusable.focus();
         }
       }
     });
@@ -314,8 +316,8 @@ class IdsDatePicker extends Base {
       this.#popup.y = 16;
 
       this.container.classList.add('is-open');
-      // Focus active day in month view when open the popup
-      this.#monthView?.focus();
+
+      this.#monthView.focus();
     } else {
       this.removeOpenEvents();
       this.#popup.visible = false;
@@ -370,6 +372,15 @@ class IdsDatePicker extends Base {
       this.#input.maskOptions = { format };
       this.#input.value = this.value;
     }
+  }
+
+  /**
+   * Focuses input or dropdown
+   * @returns {void}
+   */
+  focus() {
+    this.#input?.focus();
+    this.container.querySelector('ids-menu-button')?.container?.focus();
   }
 
   /**

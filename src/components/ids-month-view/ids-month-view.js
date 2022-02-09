@@ -126,50 +126,94 @@ class IdsMonthView extends Base {
     return this;
   }
 
+  /**
+   * Establish Internal Keyboard shortcuts
+   * @returns {object} this class-instance object for chaining
+   */
   #attachKeyboardListeners() {
-    const keys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', '+', '-', 'Enter', ' '];
+    const keys = [13, 32, 33, 34, 35, 36, 37, 38, 39, 40, 84, 187, 189];
 
-    this.listen(keys, this.container.querySelector('tbody'), (e) => {
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-      e.preventDefault();
+    this.offEvent('keydown.month-view-keyboard');
+    this.onEvent('keydown.month-view-keyboard', this.container.querySelector('.month-view-table'), (e) => {
+      const key = e.keyCode;
 
-      if (e.key === 'ArrowRight' || e.key === '+') {
-        const lastDayOfMonth = lastDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
+      if (keys.includes(key)) {
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        e.preventDefault();
 
-        // Next month/year with rerender
-        if (lastDayOfMonth.getDate() === this.day) {
-          const nextDate = addDate(lastDayOfMonth, 1, 'days');
-
-          this.year = nextDate.getFullYear();
-          this.month = nextDate.getMonth();
-          this.day = nextDate.getDate();
-        } else {
-          // Just increase day without rerender
-          this.day += 1;
+        if (!this.isDatePicker) {
+          this.#triggerSelectedEvent();
         }
       }
 
-      if (e.key === 'ArrowLeft' || e.key === '-') {
-        const firstDayOfMonth = firstDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
-
-        // Previous month/year with rerender
-        if (firstDayOfMonth.getDate() === this.day) {
-          const prevDate = subtractDate(firstDayOfMonth, 1, 'days');
-
-          this.year = prevDate.getFullYear();
-          this.month = prevDate.getMonth();
-          this.day = prevDate.getDate();
-        } else {
-          // Just decrease day without rerender
-          this.day -= 1;
-        }
+      // Arrow Up selects same day previous week
+      if (key === 38) {
+        this.#changeDate('previous-week');
       }
 
-      if (e.key === 'Enter' || e.key === ' ') {
+      // Arrow Down selects same day next week
+      if (key === 40) {
+        this.#changeDate('next-week');
+      }
+
+      // Arrow Right or + key selects next day
+      if (key === 39 || (key === 187 && e.shiftKey)) {
+        this.#changeDate('next-day');
+      }
+
+      // Arrow Left or - key selects previous day
+      if (key === 37 || (key === 189 && !e.shiftKey)) {
+        this.#changeDate('previous-day');
+      }
+
+      // Page Up selects same day previous month
+      if (key === 33 && !e.altKey && !(e.ctrlKey || e.metaKey)) {
+        this.#changeDate('previous-month');
+      }
+
+      // Page Down selects same day next month
+      if (key === 34 && !e.altKey && !(e.ctrlKey || e.metaKey)) {
+        this.#changeDate('next-month');
+      }
+
+      // ctrl + Page Up selects same day previous year
+      if (key === 33 && (e.ctrlKey || e.metaKey)) {
+        this.#changeDate('previous-year');
+      }
+
+      // ctrl + Page Down selects same day next year
+      if (key === 34 && (e.ctrlKey || e.metaKey)) {
+        this.#changeDate('next-year');
+      }
+
+      // Home moves to start of the month
+      if (key === 36) {
+        this.#changeDate('start');
+      }
+
+      // End moves to end of the month
+      if (key === 35) {
+        this.#changeDate('end');
+      }
+
+      // 't' selects today
+      if (key === 84) {
+        this.#changeDate('today');
+      }
+
+      // Page Up/Down and t should focus selected day
+      if (key === 33 || key === 34 || key === 84) {
+        this.focus();
+      }
+
+      // Enter or Space triggers dayselected event
+      if (key === 32 || key === 13) {
         this.#triggerSelectedEvent();
       }
     });
+
+    return this;
   }
 
   /**
@@ -256,15 +300,16 @@ class IdsMonthView extends Base {
       e.stopPropagation();
 
       if (e.target?.classList.contains('btn-previous')) {
-        this.#changeDate('previous');
+        this.#changeDate('previous-month');
       }
 
       if (e.target?.classList.contains('btn-next')) {
-        this.#changeDate('next');
+        this.#changeDate('next-month');
       }
 
       if (e.target?.classList.contains('btn-today')) {
         this.#changeDate('today');
+
         this.#triggerSelectedEvent();
       }
     });
@@ -316,17 +361,57 @@ class IdsMonthView extends Base {
 
   /**
    * Change month/year/day by event type
-   * @param {'next'|'previous'|'today'} type of event to be called
+   * @param {string} type of event to be called
    */
   #changeDate(type) {
-    if (type === 'next') {
+    if (type === 'next-month') {
       this.year = this.month === MAX_MONTH ? this.year + 1 : this.year;
       this.month = this.month === MAX_MONTH ? MIN_MONTH : this.month + 1;
     }
 
-    if (type === 'previous') {
+    if (type === 'previous-month') {
       this.year = this.month === MIN_MONTH ? this.year - 1 : this.year;
       this.month = this.month === MIN_MONTH ? MAX_MONTH : this.month - 1;
+    }
+
+    if (type === 'next-day') {
+      const lastDayOfMonth = lastDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
+
+      // Next month/year with rerender
+      if (lastDayOfMonth.getDate() === this.day) {
+        const nextDate = addDate(lastDayOfMonth, 1, 'days');
+
+        this.year = nextDate.getFullYear();
+        this.month = nextDate.getMonth();
+        this.day = nextDate.getDate();
+      } else {
+        // Just increase day without rerender
+        this.day += 1;
+      }
+    }
+
+    if (type === 'previous-day') {
+      const firstDayOfMonth = firstDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
+
+      // Previous month/year with rerender
+      if (firstDayOfMonth.getDate() === this.day) {
+        const prevDate = subtractDate(firstDayOfMonth, 1, 'days');
+
+        this.year = prevDate.getFullYear();
+        this.month = prevDate.getMonth();
+        this.day = prevDate.getDate();
+      } else {
+        // Just decrease day without rerender
+        this.day -= 1;
+      }
+    }
+
+    if (type === 'next-year') {
+      this.year += 1;
+    }
+
+    if (type === 'previous-year') {
+      this.year -= 1;
     }
 
     if (type === 'today') {
@@ -335,6 +420,46 @@ class IdsMonthView extends Base {
       this.day = now.getDate();
       this.year = now.getFullYear();
       this.month = now.getMonth();
+    }
+
+    if (type === 'next-week') {
+      const date = new Date(this.year, this.month, this.day);
+      const nextWeek = addDate(date, WEEK_LENGTH, 'days');
+      const lastDayOfMonth = lastDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
+
+      if (nextWeek > lastDayOfMonth) {
+        this.year = nextWeek.getFullYear();
+        this.month = nextWeek.getMonth();
+        this.day = nextWeek.getDate();
+      } else {
+        this.day = nextWeek.getDate();
+      }
+    }
+
+    if (type === 'previous-week') {
+      const date = new Date(this.year, this.month, this.day);
+      const prevWeek = subtractDate(date, WEEK_LENGTH, 'days');
+      const firstDayOfMonth = firstDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
+
+      if (prevWeek < firstDayOfMonth) {
+        this.year = prevWeek.getFullYear();
+        this.month = prevWeek.getMonth();
+        this.day = prevWeek.getDate();
+      } else {
+        this.day = prevWeek.getDate();
+      }
+    }
+
+    if (type === 'start') {
+      const firstDayOfMonth = firstDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
+
+      this.day = firstDayOfMonth.getDate();
+    }
+
+    if (type === 'end') {
+      const lastDayOfMonth = lastDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
+
+      this.day = lastDayOfMonth.getDate();
     }
 
     this.#attachDatepicker();
@@ -351,9 +476,11 @@ class IdsMonthView extends Base {
     const isDisabled = element.classList.contains('is-disabled');
 
     if (!isDisabled) {
-      // Not changing day for range calendar, just selecting UI
+      //
       if (this.#isRange()) {
-        this.#selectDay(year, month, day);
+        this.year = year;
+        this.month = month;
+        this.day = day;
       } else {
         this.day = day;
       }
@@ -597,8 +724,10 @@ class IdsMonthView extends Base {
       this.removeAttribute(attributes.MONTH);
     }
 
-    this.#renderMonth();
-    this.#attachDatepicker();
+    if (!this.#isRange()) {
+      this.#renderMonth();
+      this.#attachDatepicker();
+    }
   }
 
   /**
@@ -630,8 +759,10 @@ class IdsMonthView extends Base {
       this.removeAttribute(attributes.YEAR);
     }
 
-    this.#renderMonth();
-    this.#attachDatepicker();
+    if (!this.#isRange()) {
+      this.#renderMonth();
+      this.#attachDatepicker();
+    }
   }
 
   /**
@@ -665,7 +796,9 @@ class IdsMonthView extends Base {
       this.#selectDay(this.year, this.month, this.day);
     }
 
-    this.#attachDatepicker();
+    if (!this.#isRange()) {
+      this.#attachDatepicker();
+    }
   }
 
   /**
