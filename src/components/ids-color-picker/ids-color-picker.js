@@ -185,14 +185,14 @@ export default class IdsColorPicker extends Base {
    */
   set advanced(value) {
     if (stringToBool(value)) {
-      this.setAttribute('advanced', 'true');
+      this.setAttribute(attributes.ADVANCED, '');
       return;
     }
-    this.removeAttribute('advanced');
+    this.removeAttribute(attributes.ADVANCED);
   }
 
   get advanced() {
-    return stringToBool(this.getAttribute('advanced')) || false;
+    return stringToBool(this.getAttribute(attributes.ADVANCED)) || false;
   }
 
   /**
@@ -202,9 +202,10 @@ export default class IdsColorPicker extends Base {
    */
   #attachEventHandlers() {
     this.idsColorsArr.forEach((element) => {
-      element.style.backgroundColor = element.getAttribute('hex');
+      element.style.backgroundColor = element.getAttribute(attributes.HEX);
     });
 
+    // Respond to clicks on Color Picker swatches
     this.onEvent('click', this.container, (event) => {
       const isEditable = !stringToBool(this.readonly)
       && !stringToBool(this.disabled);
@@ -214,35 +215,41 @@ export default class IdsColorPicker extends Base {
       }
 
       const target = event.target;
-
-      if (target.closest('.color-picker-trigger-btn')) {
+      if (target.closest('.color-picker-trigger-btn') || target.closest('.color-preview')) {
         this.#openCloseColorpicker();
       }
-
-      if (target.hasAttribute('hex')) {
-        this.#updateColorCheck(target);
-        this.setAttribute('value', target.getAttribute('hex'));
-        this.#openCloseColorpicker();
-      }
+      this.#selectSwatch(target);
     });
 
-    // Respond to change events from internal components
+    // Respond to change events from the swatch input
     this.onEvent('input', this.swatchInput, (e) => {
       this.value = e.target.value;
     });
 
+    // Respond to click events on the swatch
+    this.onEvent('click', this.swatchInput, () => {
+      if (!this.advanced) {
+        this.#openCloseColorpicker();
+      }
+    });
+
+    // Respond to Keyup events on swatches and buttons
     this.onEvent('keydown', this.container, (keyup) => {
       if (keyup.key === 'Enter') {
         if (keyup.target.id === `ids-color-picker-menu-button`) {
           this.#openCloseColorpicker();
         }
-        if (keyup.target.hasAttribute('hex')) {
-          this.setAttribute('value', keyup.target.getAttribute('hex'));
-          this.#openCloseColorpicker();
-          this.#updateColorCheck(keyup.target);
-        }
+        this.#selectSwatch(keyup.target);
       }
     });
+  }
+
+  #selectSwatch(swatchEl) {
+    if (swatchEl.hasAttribute(attributes.HEX)) {
+      this.#updateColorCheck(swatchEl);
+      this.setAttribute(attributes.VALUE, swatchEl.getAttribute(attributes.HEX));
+      this.#openCloseColorpicker();
+    }
   }
 
   /**
