@@ -106,6 +106,11 @@ Hide label and show only checkbox:
 - `validation-events` {string} set the validation events, use `space` to add multiple default is set to `change`.
 - `value` {string} set the checkbox value.
 
+## Events
+
+- `change` The change event is fired when a checkbox element's value is committed by the user. Unlike the input event, the change event is not necessarily fired for each alteration to an element's value.
+- `input` The input event fires when the value of a checkbox element has been changed.
+
 ## States
 
 - disabled
@@ -126,9 +131,18 @@ The IDS Checkbox doesn't contain any interactions beyond a standard HTMLInputEle
 
 - Default display set as `block`, but can change to `inline-block` by use of `horizontal` attribute as `true`.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-### Converting from 4.x
+**3.x to 4.x**
+- Wrap the input in an element with the class field
+- Change class inforCheckbox to checkbox
+- Change class inforCheckboxLabel to checkbox-label
+
+**4.x to 5.x**
+- Markup has changed to a custom element `<ids-checkbox></ids-checkbox>`
+- Can now be imported as a single JS file and used with encapsulated styles.
+- If using events, events are now plain JS events (change/input ect)
+- Can now use the hitbox styles by adding the setting to the ids-checkbox component
 
 The IDS Checkbox component is now a WebComponent. Instead of using classes to define, it is done directly:
 
@@ -139,6 +153,6 @@ The IDS Checkbox component is now a WebComponent. Instead of using classes to de
   <label for="checkbox1" class="checkbox-label">Unchecked</label>
 </div>
 
-<!-- this is the same checkbox using the WebComponent -->
+<!-- this is the same checkbox using the web component version -->
 <ids-checkbox label="Unchecked"></ids-checkbox>
 ```

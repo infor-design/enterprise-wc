@@ -47,7 +47,6 @@ export default class IdsCheckbox extends Base {
       attributes.LABEL,
       attributes.LABEL_REQUIRED,
       attributes.LABEL_AUDIBLE,
-      attributes.LANGUAGE,
       attributes.VALUE,
       attributes.MODE,
       attributes.VERSION
