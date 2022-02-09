@@ -6,6 +6,7 @@
   padding: 0.5rem;
   border: 1px dotted transparent;
   cursor: pointer;
+  transition: height 0.4s ease, padding 0.4s ease;
 }
 
 :host([selected]) {
@@ -24,4 +25,11 @@
 
 :host([over]) {
   border: 1px dotted var(--ids-color-brand-primary-base);
+}
+
+:host(.is-hidden) {
+  height: 0px;
+  padding: 0;
+  border: none;
+  overflow: hidden;
 }

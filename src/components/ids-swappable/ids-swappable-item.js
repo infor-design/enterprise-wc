@@ -48,7 +48,7 @@ export default class IdsSwappableItem extends Base {
     } else {
       this.removeAttribute(attributes.SELECTED);
       this.removeAttribute('aria-selected');
-      this.removeAttribute('draggable');
+      this.setAttribute('draggable', 'false');
     }
   }
 
@@ -58,6 +58,18 @@ export default class IdsSwappableItem extends Base {
 
   get selectedItems() {
     return this.parentElement.shadowRoot.querySelectorAll('[selected]');
+  }
+
+  set originalText(value) {
+    if (value) {
+      this.setAttribute('originalText', value);
+    } else {
+      this.removeAttribute('originalText');
+    }
+  }
+
+  get originalText() {
+    return this.getAttribute('originalText');
   }
 
   #dragStart(event) {
@@ -93,7 +105,6 @@ export default class IdsSwappableItem extends Base {
 
   attachEventListeners() {
     this.onEvent('click', this, this.#toggleSelected);
-
     this.addEventListener('dragstart', this.#dragStart.bind(this));
     this.addEventListener('dragend', this.#dragEnd.bind(this));
     this.addEventListener('drop', this.#dragEnd.bind(this));
