@@ -312,16 +312,11 @@ export default class IdsTimePicker extends Base {
         <ids-trigger-field
           label="${this.label}"
           size="${this.size}"
-        >
+          placeholder="${this.placeholder}"
+          value="${this.value}"
+          disabled="${this.disabled}">
           <ids-text audible="true" translate-text="true">UseArrow</ids-text>
-          <ids-input
-            type="text"
-            placeholder="${this.placeholder}"
-            value="${this.value}"
-            disabled="${this.disabled}"
-          >
-          </ids-input>
-          <ids-trigger-button>
+          <ids-trigger-button slot="trigger-end">
             <ids-text audible="true" translate-text="true">TimepickerTriggerButton</ids-text>
             <ids-icon slot="icon" icon="clock"></ids-icon>
           </ids-trigger-button>
@@ -331,9 +326,8 @@ export default class IdsTimePicker extends Base {
           align-target="ids-trigger-field"
           align="bottom, left"
           arrow="bottom"
-          animated="true"
-        >
-          <section slot="content"">
+          animated="true">
+          <section slot="content">
             <div id="dropdowns">${this.dropdowns()}</div>
             <ids-button id="set-time" class="${this.autoupdate ? 'hidden' : ''}">
               Set Time

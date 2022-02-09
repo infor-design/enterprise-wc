@@ -52,6 +52,9 @@ ids-trigger-button .color-preview {
 
 .color-input {
   display: block;
+  height: calc(100% + 12px);
+  margin: 0;
+  padding: 0;
   opacity: 0;
 }
 

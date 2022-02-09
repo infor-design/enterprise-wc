@@ -85,11 +85,13 @@ export default class IdsTriggerField extends Base {
 
     this.templateHostAttributes();
     const {
+      ariaLabel,
       containerClass,
       inputClass,
       inputState,
       placeholder,
-      type
+      type,
+      value
     } = this.templateVariables();
 
     const hiddenLabelCss = !this.label || this.getAttribute(attributes.LABEL_HIDDEN) ? ' empty' : '';
@@ -116,8 +118,8 @@ export default class IdsTriggerField extends Base {
             part="input"
             id="${this.id}-input"
             ${type}${inputClass}${placeholder}${inputState}
-            ${this.getAttribute(attributes.LABEL_HIDDEN) && this.label ? `aria-label="${this.label}"` : ''}
-            ${this.hasAttribute(attributes.VALUE) ? ` value="${this.getAttribute(attributes.VALUE)}" ` : ''}
+            ${ariaLabel}
+            ${value}
             ></input>
           <slot name="trigger-end"></slot>
         </div>

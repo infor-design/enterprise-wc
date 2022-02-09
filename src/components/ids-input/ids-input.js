@@ -111,30 +111,30 @@ export default class IdsInput extends Base {
   template() {
     this.templateHostAttributes();
     const {
+      ariaLabel,
       containerClass,
       inputClass,
       inputState,
       labelHtml,
       placeholder,
       showHide,
-      type
+      type,
+      value
     } = this.templateVariables();
 
-    return (
-      `<div class="${containerClass}" part="container">
-        ${labelHtml}
-        <div class="field-container" part="field-container">
-          <input
-            part="input"
-            id="${this.id}-input"
-            ${type}${inputClass}${placeholder}${inputState}
-            ${this.getAttribute(attributes.LABEL_HIDDEN) && this.label ? `aria-label="${this.label}"` : ''}
-            ${this.hasAttribute(attributes.VALUE) ? ` value="${this.getAttribute(attributes.VALUE)}" ` : ''}
-            ></input>
-          ${showHide}
-        </div>
-      </div>`
-    );
+    return `<div class="${containerClass}" part="container">
+      ${labelHtml}
+      <div class="field-container" part="field-container">
+        <input
+          part="input"
+          id="${this.id}-input"
+          ${type}${inputClass}${placeholder}${inputState}
+          ${ariaLabel}
+          ${value}
+          ></input>
+        ${showHide}
+      </div>
+    </div>`;
   }
 
   /**
@@ -173,19 +173,23 @@ export default class IdsInput extends Base {
     containerClass += stringToBool(this.compact) ? ' compact' : '';
     containerClass += stringToBool(this.noMargins) ? ' no-margins' : '';
 
+    const ariaLabel = this.getAttribute(attributes.LABEL_HIDDEN) && this.label ? `aria-label="${this.label}"` : '';
     const hiddenLabelCss = !this.label || this.getAttribute(attributes.LABEL_HIDDEN) ? ' empty' : '';
     const labelHtml = `<label for="${this.id}-input" class="ids-label-text${hiddenLabelCss}">
         <ids-text part="label" label="true" color-unset>${this.label}</ids-text>
       </label>`;
+    const value = this.hasAttribute(attributes.VALUE) ? ` value="${this.getAttribute(attributes.VALUE)}" ` : '';
 
     return {
+      ariaLabel,
       containerClass,
       inputClass,
       inputState,
       labelHtml,
       placeholder,
       showHide,
-      type
+      type,
+      value
     };
   }
 

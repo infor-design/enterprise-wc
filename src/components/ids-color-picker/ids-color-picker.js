@@ -26,13 +26,15 @@ export default class IdsColorPicker extends Base {
 
   // Reference to swatch input
   // (Used in the advanced color picker to retain `input[type="color"]` state)
-  swatchInput = this.container.querySelector('.color-input');
+  get swatchInput() {
+    return this.container.querySelector('.color-input');
+  }
+
+  // Reference to the wrapper element containing the input field, icons, and trigger button slots
+  fieldContainer = this.container.querySelector('.field-container');
 
   // Reference to the color picker input
-  colorPickerInput = this.container.querySelector(this.label === '' ? '.color-input-value-no-label' : '.color-input-value');
-
-  // Reference to the trigger color picker input
-  triggerColorPickerInput = this.container.querySelector('ids-trigger-button').querySelector('input');
+  colorPickerInput = this.container.querySelector('ids-trigger-field');
 
   // Reference to the color picker's trigger button
   triggerBtn = this.container.querySelector('ids-trigger-button');
@@ -59,17 +61,19 @@ export default class IdsColorPicker extends Base {
   template() {
     this.templateHostAttributes();
     const {
+      ariaLabel,
       containerClass,
       inputClass,
       inputState,
       labelHtml,
       placeholder,
-      type
+      type,
+      value
     } = this.templateVariables();
 
     // Color Picker Icon
     const colorPreviewHtml = `<label class="color-preview">
-      <input tabindex="-1" class="color-input" type="color" ${!this.advanced || this.disabled || this.readonly ? ' disabled="true"' : ''}></input>
+      <input tabindex="-1" class="color-input" type="color" ${!this.advanced || this.disabled || this.readonly ? ' disabled="true"' : ''} />
       <ids-text audible="true">Pick Custom Color</ids-text>
     </label>`;
 
@@ -78,9 +82,7 @@ export default class IdsColorPicker extends Base {
     const colorPopupHtml = `<ids-trigger-button
       class="color-picker-trigger-btn"
       id="ids-color-picker-menu-button"
-      tabbable="false" ${this.disabled ? ' disabled="true"' : ''} ${this.readonly ? ' readonly="true"' : ''}
-    >
-      ${this.advanced ? colorPreviewHtml : ''}
+      tabbable="false" ${this.disabled ? ' disabled="true"' : ''} ${this.readonly ? ' readonly="true"' : ''}>
       <ids-text audible="true">color picker trigger</ids-text>
       <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
     </ids-trigger-button>
@@ -88,24 +90,22 @@ export default class IdsColorPicker extends Base {
       <slot slot="content" class="color-popup"></slot>
     </ids-popup>`;
 
-    return (
-      `<div id="ids-color-picker" class="ids-color-picker ids-trigger-field ${containerClass}" part="container">
-        ${labelHtml}
-        <div class="field-container" part="field-container">
-          <slot name="trigger-start"></slot>
-          ${colorPreviewHtml}
-          <input
-            part="input"
-            id="ids-color-picker-input"
-            ${type}${inputClass}${placeholder}${inputState}
-            ${this.getAttribute(attributes.LABEL_HIDDEN) && this.label ? `aria-label="${this.label}"` : ''}
-            ${this.hasAttribute(attributes.VALUE) ? ` value="${this.getAttribute(attributes.VALUE)}" ` : ''}
-            ></input>
-          ${colorPopupHtml}
-          <slot name="trigger-end"></slot>
-        </div>
-      </div>`
-    );
+    return `<div id="ids-color-picker" class="ids-color-picker ids-trigger-field ${containerClass}" part="container">
+      ${labelHtml}
+      <div class="field-container" part="field-container">
+        <slot name="trigger-start"></slot>
+        ${colorPreviewHtml}
+        <input
+          part="input"
+          id="ids-color-picker-input"
+          ${type}${inputClass}${placeholder}${inputState}
+          ${ariaLabel}
+          ${value}
+          ></input>
+        ${colorPopupHtml}
+        <slot name="trigger-end"></slot>
+      </div>
+    </div>`;
   }
 
   /**
@@ -125,6 +125,7 @@ export default class IdsColorPicker extends Base {
     const value = super.value;
     if (value) {
       this.#updateColorPickerValues(value);
+      this.#updateColorCheck(this.querySelector(`ids-color[hex="${value}"]`));
     }
   }
 
@@ -213,28 +214,21 @@ export default class IdsColorPicker extends Base {
       }
 
       const target = event.target;
-      let openColorCondition = (target.classList.contains('colorpicker-icon') || target.classList.contains('ids-dropdown')
-      || target.classList.contains('color-preview') || target.classList.contains('color-picker-trigger-btn'));
-      let openAdvanced = target.classList.contains('color-input');
 
-      if (target.classList.contains('ids-dropdown') && this.advanced) {
-        openAdvanced = true;
-        openColorCondition = false;
-      }
-
-      if (!this.advanced && openAdvanced) {
-        openColorCondition = true;
-      }
-
-      if (openColorCondition) {
+      if (target.closest('.color-picker-trigger-btn')) {
         this.#openCloseColorpicker();
       }
 
       if (target.hasAttribute('hex')) {
         this.#updateColorCheck(target);
-        this.setAttribute('value', target.getAttribute('hex').toLowerCase());
+        this.setAttribute('value', target.getAttribute('hex'));
         this.#openCloseColorpicker();
       }
+    });
+
+    // Respond to change events from internal components
+    this.onEvent('input', this.swatchInput, (e) => {
+      this.value = e.target.value;
     });
 
     this.onEvent('keydown', this.container, (keyup) => {
@@ -243,16 +237,12 @@ export default class IdsColorPicker extends Base {
           this.#openCloseColorpicker();
         }
         if (keyup.target.hasAttribute('hex')) {
-          this.setAttribute('value', keyup.target.getAttribute('hex').toLowerCase());
+          this.setAttribute('value', keyup.target.getAttribute('hex'));
           this.#openCloseColorpicker();
           this.#updateColorCheck(keyup.target);
         }
       }
     });
-
-    this.onEvent('change', this.swatchInput, () => this.setAttribute('value', this.swatchInput.value.toLowerCase()));
-    this.onEvent('change', this.colorPickerInput, () => this.setAttribute('value', this.colorPickerInput.value.toLowerCase()));
-    this.onEvent('change', this.triggerColorPickerInput, () => this.setAttribute('value', this.triggerColorPickerInput.value.toLowerCase()));
   }
 
   /**
@@ -261,13 +251,10 @@ export default class IdsColorPicker extends Base {
    */
   #updateColorPickerValues(colorValue) {
     const targetColorValue = colorValue || this.#getSelectedSwatchValue();
-    if (this.value !== targetColorValue) {
-      this.value = targetColorValue;
-      return;
+    if (targetColorValue) {
+      this.swatchInput.value = targetColorValue;
+      this.colorPreview.style.backgroundColor = targetColorValue;
     }
-
-    this.swatchInput.value = targetColorValue;
-    this.colorPreview.style.backgroundColor = targetColorValue;
   }
 
   /**
@@ -287,6 +274,11 @@ export default class IdsColorPicker extends Base {
    * @private
    */
   #openCloseColorpicker() {
+    if (this.advanced) {
+      this.swatchInput.click();
+      return;
+    }
+
     if (!this.popup.visible) {
       if (this.swatches.length) {
         this.show();
@@ -310,8 +302,9 @@ export default class IdsColorPicker extends Base {
    * @returns {void}
    */
   show() {
-    this.popup.alignTarget = this.container.querySelector('ids-icon');
-    this.popup.align = 'bottom, center';
+    this.popup.alignTarget = this.fieldContainer;
+    this.popup.align = 'bottom, left';
+    this.popup.arrowTarget = this.triggerBtn;
     this.popup.arrow = 'bottom';
     this.popup.y = 12;
     this.popup.visible = true;
@@ -332,10 +325,12 @@ export default class IdsColorPicker extends Base {
    * @param {any} target event target
    */
   #updateColorCheck(target) {
-    const checkedColor = target.parentElement.querySelector('[checked="true"]');
+    const checkedColor = this.querySelector('[checked]');
     if (checkedColor) {
-      checkedColor.removeAttribute('checked');
+      checkedColor.removeAttribute(attributes.CHECKED);
     }
-    target.setAttribute('checked', 'true');
+    if (target) {
+      target.setAttribute(attributes.CHECKED, '');
+    }
   }
 }
