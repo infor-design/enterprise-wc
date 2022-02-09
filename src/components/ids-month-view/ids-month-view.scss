@@ -114,14 +114,12 @@
     }
 
     &.is-selected {
-      &:focus,
-      &:focus-visible {
+      &:focus {
         outline: none;
         outline-style: none;
       }
 
-      &:focus .day-container,
-      &:focus-visible .day-container {
+      &:focus .day-container {
         @include border-azure-60();
 
         box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
@@ -202,8 +200,7 @@
 
       box-shadow: inset 0 5px 0 0 var(--ids-color-palette-azure-60);
 
-      &:focus,
-      &:focus-visible {
+      &:focus {
         @include border-transparent();
 
         outline: none;
@@ -369,8 +366,7 @@
         @include bg-slate-70();
       }
 
-      &.is-selected:focus,
-      &.is-selected:focus-visible {
+      &.is-selected:focus {
         box-shadow: 0 0 2px 2px rgb(141 201 230 / 0.3), inset 0 5px 0 0 var(--ids-color-palette-azure-60);
       }
 
@@ -467,8 +463,7 @@
         box-shadow: inset 0 5px 0 0 var(--ids-color-palette-azure-90);
       }
 
-      &.is-selected:focus,
-      &.is-selected:focus-visible {
+      &.is-selected:focus {
         box-shadow: 0 0 2px 2px rgb(41 41 41 / 0.3), inset 0 5px 0 0 var(--ids-color-palette-azure-90);
       }
     }
