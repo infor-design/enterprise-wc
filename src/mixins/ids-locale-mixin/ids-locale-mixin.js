@@ -12,6 +12,35 @@ const IdsLocaleMixin = (superclass) => class extends superclass {
     this.offEvent('languagechange.mixin');
     this.onEvent('languagechange.mixin', this.closest('ids-container'), async () => {
       this.setDirection();
+
+      const elements = [];
+      let elementIdx = 0;
+
+      for (let i = 0; i < this.children.length ?? 0; i++) {
+        elements.push(this.children[i]);
+      }
+      for (let i = 0; i < this?.shadowRoot?.children.length ?? 0; i++) {
+        elements.push(this.shadowRoot?.children[i]);
+      }
+
+      while (elementIdx < elements.length) {
+        if (elements[elementIdx].localName.includes('ids-')) {
+          if (this.locale?.isRTL()) {
+            elements[elementIdx].setAttribute('dir', 'rtl');
+          } else {
+            elements[elementIdx].removeAttribute('dir');
+          }
+        }
+
+        for (let i = 0; i < elements[elementIdx].children.length ?? 0; i++) {
+          elements.push(elements[elementIdx].children[i]);
+        }
+        for (let i = 0; i < elements[elementIdx]?.shadowRoot?.children.length ?? 0; i++) {
+          elements.push(elements[elementIdx].shadowRoot.children[i]);
+        }
+
+        elementIdx++;
+      }
     });
     super.connectedCallback?.();
   }
