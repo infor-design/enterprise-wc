@@ -815,9 +815,8 @@ class IdsMonthView extends Base {
    */
   set month(val) {
     const numberVal = stringToNumber(val);
-    const isValid = !Number.isNaN(numberVal) && numberVal >= MIN_MONTH && numberVal <= MAX_MONTH;
 
-    if (isValid) {
+    if (!Number.isNaN(numberVal) && numberVal >= MIN_MONTH && numberVal <= MAX_MONTH) {
       this.setAttribute(attributes.MONTH, val);
     } else {
       this.removeAttribute(attributes.MONTH);
@@ -825,7 +824,7 @@ class IdsMonthView extends Base {
 
     // Month change in range calendar doesn't trigger a rerender, just selects a day
     if (this.#isRange()) {
-      this.#selectDay(this.year, isValid ? numberVal : (new Date().getMonth()), this.day);
+      this.#selectDay(this.year, this.month, this.day);
     } else {
       this.#renderMonth();
       this.#attachDatepicker();
@@ -854,9 +853,8 @@ class IdsMonthView extends Base {
    */
   set year(val) {
     const numberVal = stringToNumber(val);
-    const isValid = !Number.isNaN(numberVal) && numberVal.toString().length === 4;
 
-    if (isValid) {
+    if (!Number.isNaN(numberVal) && numberVal.toString().length === 4) {
       this.setAttribute(attributes.YEAR, val);
     } else {
       this.removeAttribute(attributes.YEAR);
@@ -864,7 +862,7 @@ class IdsMonthView extends Base {
 
     // Year change in range calendar doesn't trigger a rerender, just selects a day
     if (this.#isRange()) {
-      this.#selectDay(isValid ? numberVal : (new Date().getFullYear()), this.month, this.day);
+      this.#selectDay(this.year, this.month, this.day);
     } else {
       this.#renderMonth();
       this.#attachDatepicker();

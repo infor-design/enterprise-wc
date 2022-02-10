@@ -284,4 +284,174 @@ describe('Ids Month View e2e Tests', () => {
 
     expect(selected).not.toBeNull();
   });
+
+  it('should handle keyboard shortcuts (gregorian calendar)', async () => {
+    // Reset
+    await page.evaluate((el) => {
+      const component = document.querySelector(el);
+      const container = document.querySelector('ids-container');
+
+      container.setLocale('en-US');
+      container.setLanguage('en');
+
+      component.year = 2021;
+      component.month = 10;
+      component.day = 15;
+      component.startDate = null;
+      component.endDate = null;
+      component.compact = false;
+    }, name);
+
+    await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected')?.click());
+
+    // Arrow Left - previous day
+    await page.keyboard.press('ArrowLeft');
+
+    let day = await page.$eval(name, (el) => el.day);
+
+    expect(day).toEqual(14);
+
+    // Arrow Right and '+' - next day after initial
+    await page.keyboard.press('ArrowRight');
+    await page.keyboard.down('ShiftLeft');
+    await page.keyboard.press('Equal');
+    await page.keyboard.up('ShiftLeft');
+
+    day = await page.$eval(name, (el) => el.day);
+
+    expect(day).toEqual(16);
+
+    // Arrow Up - prev week and up to prev month
+    await page.keyboard.press('ArrowUp');
+    await page.keyboard.press('ArrowUp');
+    await page.keyboard.press('ArrowUp');
+
+    day = await page.$eval(name, (el) => el.day);
+    let month = await page.$eval(name, (el) => el.month);
+
+    expect(day).toEqual(26);
+    expect(month).toEqual(9);
+
+    // Arrow Down - back to initial month and to the next week after initial
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('ArrowDown');
+
+    day = await page.$eval(name, (el) => el.day);
+
+    expect(day).toEqual(23);
+
+    // End - last day of the month
+    await page.keyboard.press('End');
+
+    day = await page.$eval(name, (el) => el.day);
+
+    expect(day).toEqual(30);
+
+    // Home - first day of the month
+    await page.keyboard.press('Home');
+
+    day = await page.$eval(name, (el) => el.day);
+
+    expect(day).toEqual(1);
+
+    // '-' key - prev day and to the last day of previous month
+    await page.keyboard.press('Minus');
+
+    day = await page.$eval(name, (el) => el.day);
+    month = await page.$eval(name, (el) => el.month);
+
+    expect(day).toEqual(31);
+    expect(month).toEqual(9);
+
+    // Page Down - next month
+    await page.keyboard.press('PageDown');
+
+    day = await page.$eval(name, (el) => el.day);
+    month = await page.$eval(name, (el) => el.month);
+
+    // 31 -> 1 since the month has 30 days
+    expect(day).toEqual(1);
+    expect(month).toEqual(10);
+
+    // To the end of current month and next day to the next month
+    await page.keyboard.press('End');
+    await page.keyboard.press('ArrowRight');
+
+    day = await page.$eval(name, (el) => el.day);
+    month = await page.$eval(name, (el) => el.month);
+
+    expect(day).toEqual(1);
+    expect(month).toEqual(11);
+
+    // To the end of current month and next week to the next year
+    await page.keyboard.press('End');
+    await page.keyboard.press('ArrowDown');
+
+    day = await page.$eval(name, (el) => el.day);
+    month = await page.$eval(name, (el) => el.month);
+    let year = await page.$eval(name, (el) => el.year);
+
+    expect(day).toEqual(7);
+    expect(month).toEqual(0);
+    expect(year).toEqual(2022);
+
+    await page.keyboard.press('PageUp');
+
+    day = await page.$eval(name, (el) => el.day);
+    month = await page.$eval(name, (el) => el.month);
+    year = await page.$eval(name, (el) => el.year);
+
+    expect(day).toEqual(7);
+    expect(month).toEqual(11);
+    expect(year).toEqual(2021);
+
+    await page.keyboard.press('PageUp');
+
+    month = await page.$eval(name, (el) => el.month);
+    year = await page.$eval(name, (el) => el.year);
+
+    expect(month).toEqual(10);
+    expect(year).toEqual(2021);
+
+    await page.keyboard.press('PageDown');
+    await page.keyboard.press('PageDown');
+
+    month = await page.$eval(name, (el) => el.month);
+    year = await page.$eval(name, (el) => el.year);
+
+    expect(month).toEqual(0);
+    expect(year).toEqual(2022);
+
+    // Prev year
+    await page.keyboard.down('Control');
+    await page.keyboard.press('PageUp');
+
+    year = await page.$eval(name, (el) => el.year);
+
+    expect(year).toEqual(2021);
+
+    // Next year
+    await page.keyboard.down('Control');
+    await page.keyboard.press('PageDown');
+    await page.keyboard.up('Control');
+
+    year = await page.$eval(name, (el) => el.year);
+
+    expect(year).toEqual(2022);
+
+    // Today
+    await page.keyboard.press('t');
+
+    day = await page.$eval(name, (el) => el.day);
+    month = await page.$eval(name, (el) => el.month);
+    year = await page.$eval(name, (el) => el.year);
+
+    const now = new Date();
+
+    expect(day).toEqual(now.getDate());
+    expect(month).toEqual(now.getMonth());
+    expect(year).toEqual(now.getFullYear());
+  });
 });
