@@ -11,6 +11,7 @@ The `ids-month-view` component is a web component that provides calendar view wi
 - `month` `{string|number|null}` - Specifies a month to show from 0 to 11 range. 0 is January, 11 is December. Defaults to current date month if no specified or out of the range
 - `day` `{string|number|null}` - Specifies a day to initially set as active. Defaults to current date day if no specified or the day value is bigger than the month days
 - `year` `{string|number|null}` - Specifies a year to show. Defaults to current date year if no specified
+- `activeDate` - `{Date}` - Read only property to get selected day in a date format
 - `start-date` `{string|null}` - Specifies start of the range as a string date format.
 Examples of the format:
   - Tue Nov 16 2021
@@ -19,15 +20,12 @@ Examples of the format:
 - `end-date` `{string|null}` - Specifies end of the range as a string date format.
 If both start and end dates are set calendar toolbar will not be displayed.
 - `first-day-of-week` `{string|number|null}` - Specifies first day of the week from 0 to 6 range. 0 is Sunday, 1 is Monday. Defaults to 0 if no specified or out of the range
-- `show-today` `{true|false}` - Whether or not to show the today button in the toolbar
-- `compact` `{true|false}` - Whether or not the component should be compact view
-- `is-date-picker` `{true|false}` - Whether or not the component is used in a date picker component popup
+- `show-today` `{true|false}` - Specifies whether or not to show the today button in the toolbar
+- `compact` `{true|false}` - Specifies whether or not the component should be compact view
+- `is-date-picker` `{true|false}` - Specifies whether or not the component is used in a date picker component popup
 
 ## Events
 - `dayselected` - Fires when a day is selected
-
-## Methods
-- `focus` - Focuses the active/selected day
 
 ## Features (With Code Examples)
 With no settings. Month/Day/Year defaults to current date. First day of the week is 0 - Sunday.

@@ -245,9 +245,7 @@ class IdsDatePicker extends Base {
       this.onEvent('click.date-picker-apply', this.container.querySelector('.popup-btn-end'), (e) => {
         e.stopPropagation();
 
-        const { month, year, day } = this.#monthView;
-
-        this.value = this.locale.formatDate(new Date(year, month, day));
+        this.value = this.locale.formatDate(this.#monthView.activeDate);
         this.#togglePopup(false);
         this.#input?.focus();
         this.#triggerSelectedEvent();
@@ -331,13 +329,10 @@ class IdsDatePicker extends Base {
    * @returns {void}
    */
   #triggerSelectedEvent() {
-    const { year, month, day } = this.#monthView;
-
-    const date = new Date(year, month, day);
     const args = {
       detail: {
         elem: this,
-        date,
+        date: this.#monthView.activeDate
       }
     };
 

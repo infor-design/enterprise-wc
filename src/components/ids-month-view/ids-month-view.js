@@ -14,6 +14,7 @@ import {
   isValidDate,
   lastDayOfMonthDate,
   subtractDate,
+  umalquraToGregorian,
   weeksInMonth,
   weeksInRange,
 } from '../../utils/ids-date-utils/ids-date-utils';
@@ -371,31 +372,35 @@ class IdsMonthView extends Base {
   #changeDate(type) {
     if (type === 'next-month') {
       if (this.locale?.isIslamic()) {
-        const numberOfDays = daysInMonth(this.year, this.month, this.day, true);
-        const nextMonth = addDate(this.activeDate, numberOfDays, 'days');
+        const umalqura = gregorianToUmalqura(this.activeDate);
+        const year = umalqura.month === MAX_MONTH ? umalqura.year + 1 : umalqura.year;
+        const month = umalqura.month === MAX_MONTH ? MIN_MONTH : umalqura.month + 1;
+        const gregorian = umalquraToGregorian(year, month, umalqura.day === 30 ? 1 : umalqura.day);
 
-        this.year = nextMonth.getFullYear();
-        this.month = nextMonth.getMonth();
-        this.day = nextMonth.getDate();
+        this.day = gregorian.getDate();
+        this.year = gregorian.getFullYear();
+        this.month = gregorian.getMonth();
       } else {
         this.year = this.month === MAX_MONTH ? this.year + 1 : this.year;
         this.month = this.month === MAX_MONTH ? MIN_MONTH : this.month + 1;
-        this.day = this.#getDayInMonth();
+        this.day = this.#getDayInMonth(this.day);
       }
     }
 
     if (type === 'previous-month') {
       if (this.locale?.isIslamic()) {
-        const numberOfDays = daysInMonth(this.year, this.month, this.day, true);
-        const prevMonth = addDate(this.activeDate, numberOfDays, 'days');
+        const umalqura = gregorianToUmalqura(this.activeDate);
+        const year = umalqura.month === MIN_MONTH ? umalqura.year - 1 : umalqura.year;
+        const month = umalqura.month === MIN_MONTH ? MAX_MONTH : umalqura.month - 1;
+        const gregorian = umalquraToGregorian(year, month, umalqura.day === 30 ? 1 : umalqura.day);
 
-        this.month = prevMonth.getMonth();
-        this.year = prevMonth.getFullYear();
-        this.day = prevMonth.getDate();
+        this.day = gregorian.getDate();
+        this.year = gregorian.getFullYear();
+        this.month = gregorian.getMonth();
       } else {
         this.year = this.month === MIN_MONTH ? this.year - 1 : this.year;
         this.month = this.month === MIN_MONTH ? MAX_MONTH : this.month - 1;
-        this.day = this.#getDayInMonth();
+        this.day = this.#getDayInMonth(this.day);
       }
     }
 
@@ -452,13 +457,39 @@ class IdsMonthView extends Base {
     }
 
     if (type === 'next-year') {
-      this.year += 1;
-      this.day = this.#getDayInMonth();
+      if (this.locale?.isIslamic()) {
+        const umalqura = gregorianToUmalqura(this.activeDate);
+        const gregorian = umalquraToGregorian(
+          umalqura.year + 1,
+          umalqura.month,
+          umalqura.day === 30 ? 1 : umalqura.day
+        );
+
+        this.day = gregorian.getDate();
+        this.month = gregorian.getMonth();
+        this.year = gregorian.getFullYear();
+      } else {
+        this.year += 1;
+        this.day = this.#getDayInMonth(this.day);
+      }
     }
 
     if (type === 'previous-year') {
-      this.year -= 1;
-      this.day = this.#getDayInMonth();
+      if (this.locale?.isIslamic()) {
+        const umalqura = gregorianToUmalqura(this.activeDate);
+        const gregorian = umalquraToGregorian(
+          umalqura.year - 1,
+          umalqura.month,
+          umalqura.day === 30 ? 1 : umalqura.day
+        );
+
+        this.day = gregorian.getDate();
+        this.month = gregorian.getMonth();
+        this.year = gregorian.getFullYear();
+      } else {
+        this.year -= 1;
+        this.day = this.#getDayInMonth(this.day);
+      }
     }
 
     if (type === 'today') {
@@ -708,17 +739,14 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * Helper to check if a month has the day
+   * Helper to check if the month has a day
+   * @param {number} day to check
    * @returns {number} day of the month either active or first
    */
-  #getDayInMonth() {
+  #getDayInMonth(day) {
     const numberOfDays = daysInMonth(this.year, this.month);
 
-    if (this.day > numberOfDays) {
-      return 1;
-    }
-
-    return this.day;
+    return day > numberOfDays ? 1 : day;
   }
 
   /**

@@ -261,8 +261,8 @@ describe('Ids Month View e2e Tests', () => {
     await page.evaluate((el) => {
       const component = document.querySelector(el);
 
-      component.startDate = '02/04/2022';
-      component.endDate = '04/04/2022';
+      component.startDate = '02/04/2021';
+      component.endDate = '04/04/2021';
     }, name);
 
     toolbar = await page.$eval(name, (el) => el.shadowRoot.querySelector('ids-toolbar'));
