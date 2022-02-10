@@ -57,6 +57,7 @@
     "@babel/preset-env": "^7.16.11",
     "@babel/traverse": "^7.16.10",
     "@babel/types": "^7.16.8",
+    "@justinribeiro/html5-dragdroptouch-shim": "^0.1.2",
     "@percy/cli": "^1.0.0-beta.74",
     "@percy/puppeteer": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^5.10.1",

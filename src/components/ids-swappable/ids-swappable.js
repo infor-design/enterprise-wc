@@ -63,7 +63,7 @@ export default class IdsSwappable extends Base {
 
   #dzDragStart(event) {
     event.stopImmediatePropagation();
-
+    this.dragging = true;
     this.selectedItems.forEach((el) => {
       this.#addDragEffect(event, el);
     });
@@ -75,21 +75,22 @@ export default class IdsSwappable extends Base {
    */
   #dzDropHandler(event) {
     event.preventDefault();
-    const container = this;
-    const afterElement = this.getDragAfterElement(container, event.clientY);
+    this.dragging = false;
 
-    if (afterElement) {
-      this.selectedElements.forEach((draggingEl) => {
-        this.#resetElText(draggingEl);
-        this.#resetItemClasses(draggingEl);
-        this.insertBefore(draggingEl, afterElement);
-      });
-    } else {
-      this.selectedElements.forEach((draggingEl) => {
-        this.#resetElText(draggingEl);
-        this.#resetItemClasses(draggingEl);
-        this.appendChild(draggingEl);
-      });
+    const afterElement = this.getDragAfterElement(this, event.clientY);
+
+    if (this.selectedElements.length > 0) {
+      if (afterElement) {
+        this.selectedElements.forEach((draggingEl) => {
+          this.#resetItems(draggingEl);
+          this.insertBefore(draggingEl, afterElement);
+        });
+      } else {
+        this.selectedElements.forEach((draggingEl) => {
+          this.#resetItems(draggingEl);
+          this.appendChild(draggingEl);
+        });
+      }
     }
 
     this.#resetList();
@@ -141,6 +142,9 @@ export default class IdsSwappable extends Base {
   }
 
   #addDragEffect(event, el) {
+    el.setAttribute('aria-grabbed', true);
+    el.setAttribute('aria-dropeffect', 'move');
+
     if (this.selectedItems.length <= 1) {
       return;
     }
@@ -149,10 +153,19 @@ export default class IdsSwappable extends Base {
     el.innerHTML = `<ids-text>${this.selectedItems.length} Items Selected</ids-text>`;
 
     if (el !== event.target) {
-      setTimeout(() => {
-        el.classList.add('is-hidden');
-      }, 150);
+      el.classList.add('is-hidden');
     }
+  }
+
+  #removeDragEffect(el) {
+    el.removeAttribute('aria-grabbed');
+    el.removeAttribute('aria-dropeffect');
+  }
+
+  #resetItems(el) {
+    this.#removeDragEffect(el);
+    this.#resetItemClasses(el);
+    this.#resetElText(el);
   }
 
   #resetItemClasses(el) {
@@ -160,14 +173,14 @@ export default class IdsSwappable extends Base {
   }
 
   attachEventListeners() {
-    this.removeEventListener('dragstart', this.#dzDragStart.bind(this));
-    this.removeEventListener('drop', this.#dzDropHandler.bind(this));
-    this.removeEventListener('dragover', this.#dzDragover.bind(this));
-    this.removeEventListener('dragleave', this.#dzDragLeave.bind(this));
-
     this.addEventListener('dragstart', this.#dzDragStart.bind(this));
     this.addEventListener('drop', this.#dzDropHandler.bind(this));
     this.addEventListener('dragover', this.#dzDragover.bind(this));
     this.addEventListener('dragleave', this.#dzDragLeave.bind(this));
+
+    this.removeEventListener('dragstart', this.#dzDragStart.bind(this));
+    this.removeEventListener('drop', this.#dzDropHandler.bind(this));
+    this.removeEventListener('dragover', this.#dzDragover.bind(this));
+    this.removeEventListener('dragleave', this.#dzDragLeave.bind(this));
   }
 }

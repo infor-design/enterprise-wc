@@ -76,17 +76,6 @@
   }
 }
 
-:host([swappable='true']) {
-  .ids-list-view-body {
-    div[part='list-item'] {
-      &.sortable:hover::before {
-        top: 50%;
-        transform: translate(75%, -50%);
-      }
-    }
-  }
-}
-
 // Handle Themes
 .ids-list-view[mode='light'] div[part='list-item'] {
   @include bg-white();
