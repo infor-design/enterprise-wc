@@ -1,5 +1,5 @@
 const messages = {
-  AboutText: { id: 'AboutText', value: 'حقوق النشر &copy; {0} Infor. جميع الحقوق محفوظة. تعتبر الكلمات والعلامات المنصوص عليها بهذه الوثيقة علامات تجارية و/أو علامات تجارية مسجلة لشركة Infor و/أو الشركات التابعة لها والفرعية. تعتبر كافة العلامات التجارية المدرجة هنا ملكية خاصة بأصحابها.', comment: 'Please recheck as duplicate "all rights reserved" was removed.' },
+  AboutText: { id: 'AboutText', value: 'حقوق النشر &copy; {0} Infor. جميع الحقوق محفوظة. تعتبر الكلمات والعلامات المنصوص عليها بهذه الوثيقة علامات تجارية و/أو علامات تجارية مسجلة لشركة Infor و/أو الشركات التابعة لها والفرعية. تعتبر كافة العلامات التجارية المدرجة هنا ملكية خاصة بأصحابها.' },
   Actions: { id: 'Actions', value: 'الإجراءات', comment: 'Tooltip text for the action button with additional in context actions' },
   Add: { id: 'Add', value: 'إضافة', comment: 'Add' },
   AddComments: { id: 'AddComments', value: 'إضافة تعليقات', comment: 'Add comments to a form of data' },

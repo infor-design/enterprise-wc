@@ -1,5 +1,5 @@
 const messages = {
-  AboutText: { id: 'AboutText', value: 'Πνευματικά δικαιώματα &copy; {0} Infor. Με επιφύλαξη κάθε νόμιμου δικαιώματος. Τα λεκτικά και σχεδιαστικά σήματα που παρατίθενται στο παρόν είναι εμπορικά ή/και κατατεθέντα σήματα της Infor ή/και των θυγατρικών της. Όλα τα υπόλοιπα εμπορικά σήματα που παρατίθενται στο παρόν ανήκουν στους αντίστοιχους ιδιοκτήτες τους', comment: 'Please recheck as duplicate "all rights reserved" was removed.' },
+  AboutText: { id: 'AboutText', value: 'Πνευματικά δικαιώματα &copy; {0} Infor. Με επιφύλαξη κάθε νόμιμου δικαιώματος. Τα λεκτικά και σχεδιαστικά σήματα που παρατίθενται στο παρόν είναι εμπορικά ή/και κατατεθέντα σήματα της Infor ή/και των θυγατρικών της. Όλα τα υπόλοιπα εμπορικά σήματα που παρατίθενται στο παρόν ανήκουν στους αντίστοιχους ιδιοκτήτες τους' },
   Actions: { id: 'Actions', value: 'Ενέργειες', comment: 'Tooltip text for the action button with additional in context actions' },
   Add: { id: 'Add', value: 'Προσθήκη', comment: 'Add' },
   AddComments: { id: 'AddComments', value: 'Προσθήκη σχολίων', comment: 'Add comments to a form of data' },

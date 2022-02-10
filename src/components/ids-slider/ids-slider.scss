@@ -184,9 +184,11 @@
     .track-progress {
       height: inherit;
       position: absolute;
+      /* stylelint-disable-next-line custom-property-pattern */
       width: calc((var(--percentEnd) - var(--percentStart)) * 1%); // horiz
 
       &.vertical {
+        /* stylelint-disable-next-line custom-property-pattern */
         height: calc((var(--percentEnd) - var(--percentStart)) * 1%); // vert
         width: 100%; // vert
         bottom: 0%; // vert
