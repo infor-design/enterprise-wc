@@ -50,7 +50,6 @@ export default class IdsTimePicker extends Base {
         seconds: this.container.querySelector('ids-dropdown#seconds'),
         period: this.container.querySelector('ids-dropdown#period'),
       },
-      input: this.container.querySelector('ids-input'),
       popup: this.container.querySelector('ids-popup'),
       triggerButton: this.container.querySelector('ids-trigger-button'),
       triggerField: this.container.querySelector('ids-trigger-field'),
@@ -167,7 +166,7 @@ export default class IdsTimePicker extends Base {
   set value(value) {
     if (!this.disabled && !this.readonly) {
       this.setAttribute(attributes.VALUE, value);
-      this.elements.input.value = value;
+      this.elements.triggerField.value = value;
     }
   }
 
@@ -214,7 +213,6 @@ export default class IdsTimePicker extends Base {
     this.setAttribute(attributes.DISABLED, disabled);
     this.elements.triggerField.disabled = disabled;
     this.elements.triggerButton.disabled = disabled;
-    this.elements.input.disabled = disabled;
   }
 
   /**
@@ -232,7 +230,6 @@ export default class IdsTimePicker extends Base {
     this.setAttribute(attributes.READONLY, readonly);
     this.elements.triggerField.readonly = readonly;
     this.elements.triggerButton.readonly = readonly;
-    this.elements.input.readonly = readonly;
   }
 
   /**
@@ -262,7 +259,7 @@ export default class IdsTimePicker extends Base {
    */
   set placeholder(value) {
     this.setAttribute(attributes.PLACEHOLDER, value);
-    this.elements.input.placeholder = value;
+    this.elements.triggerField.placeholder = value;
   }
 
   /**

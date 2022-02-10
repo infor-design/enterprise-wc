@@ -83,8 +83,7 @@ export default class IdsDropdown extends Base {
     this.hasIcons = this.querySelector('ids-list-box-option ids-icon') !== null;
     this.size = this.getAttribute(attributes.SIZE) || 'md';
 
-    return `
-    <ids-trigger-field
+    return `<ids-trigger-field
       size="${this.size}"
       label="${this.label}"
       part="trigger-field"
@@ -106,8 +105,7 @@ export default class IdsDropdown extends Base {
     <ids-popup type="menu" part="popup">
       <slot slot="content">
       </slot>
-    </ids-popup>
-    `;
+    </ids-popup>`;
   }
 
   /**
