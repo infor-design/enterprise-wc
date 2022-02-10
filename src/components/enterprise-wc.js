@@ -15,6 +15,7 @@ import IdsContainer from './ids-container/ids-container';
 import IdsContextualActionPanel from './ids-contextual-action-panel/ids-contextual-action-panel';
 import IdsCounts from './ids-counts/ids-counts';
 import IdsDataGrid from './ids-data-grid/ids-data-grid';
+import IdsDataLabel from './ids-data-label/ids-data-label';
 import IdsDropdown from './ids-dropdown/ids-dropdown';
 import IdsEmptyMessage from './ids-empty-message/ids-empty-message';
 import IdsErrorPage from './ids-error-page/ids-error-page';
