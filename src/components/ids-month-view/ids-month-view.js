@@ -133,8 +133,8 @@ class IdsMonthView extends Base {
    * @returns {object} this class-instance object for chaining
    */
   #attachKeyboardListeners() {
-    // All keyboard key codes to listen
-    const keys = [13, 32, 33, 34, 35, 36, 37, 38, 39, 40, 84, 187, 189];
+    // Group key codes to stop keyboard event, trigger dayselected event and focus active day
+    const keys = [33, 34, 35, 36, 37, 38, 39, 40, 187, 189];
 
     // Range calendar doesn't have keyboard shortcuts
     if (this.#isRange()) {
@@ -205,16 +205,12 @@ class IdsMonthView extends Base {
           this.#changeDate('today');
         }
 
-        // Enter or Space triggers dayselected event
-        if (key === 32 || key === 13) {
+        // Add keys including Enter or Space triggers dayselected event in regular calendar
+        if (((keys.includes(key) || key === 84) && !this.isDatePicker) || (key === 32 || key === 13)) {
           this.#triggerSelectedEvent();
         }
 
-        if (keys.includes(key) && !this.isDatePicker) {
-          this.#triggerSelectedEvent();
-        }
-
-        if (keys.includes(key)) {
+        if (keys.includes(key) || key === 84) {
           this.focus();
         }
       });

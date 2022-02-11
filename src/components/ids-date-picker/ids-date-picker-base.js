@@ -8,10 +8,8 @@ import IdsElement from '../../core/ids-element';
 const Base = IdsThemeMixin(
   IdsPopupOpenEventsMixin(
     IdsLocaleMixin(
-      IdsKeyboardMixin(
-        IdsEventsMixin(
-          IdsElement
-        )
+      IdsEventsMixin(
+        IdsElement
       )
     )
   )

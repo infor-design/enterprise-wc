@@ -8,6 +8,7 @@ import {
   stringToBool,
   stringToNumber
 } from '../../utils/ids-string-utils/ids-string-utils';
+import { addDate, subtractDate } from '../../utils/ids-date-utils/ids-date-utils';
 
 // Supporting components
 import IdsButton from '../ids-button/ids-button';
@@ -29,7 +30,6 @@ import styles from './ids-date-picker.scss';
  * @type {IdsDatePicker}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsKeyboardMixin
  * @mixes IdsPopupOpenEventsMixin
  * @mixes IdsThemeMixin
  * @mixes IdsLocaleMixin
@@ -221,10 +221,10 @@ class IdsDatePicker extends Base {
       this.onEvent('dayselected.date-picker', this.#monthView, (e) => {
         if (!this.isCalendarToolbar) {
           this.value = this.locale.formatDate(e.detail.date);
-          this.#input?.focus();
         }
 
         this.#togglePopup(false);
+        this.focus();
         this.#triggerSelectedEvent();
       });
 
@@ -234,7 +234,7 @@ class IdsDatePicker extends Base {
 
         if (!this.isCalendarToolbar) {
           this.value = '';
-          this.#input?.focus();
+          this.focus();
           this.#triggerSelectedEvent();
         }
 
@@ -247,7 +247,7 @@ class IdsDatePicker extends Base {
 
         this.value = this.locale.formatDate(this.#monthView.activeDate);
         this.#togglePopup(false);
-        this.#input?.focus();
+        this.focus();
         this.#triggerSelectedEvent();
       });
     }
@@ -260,36 +260,68 @@ class IdsDatePicker extends Base {
    * @returns {object} this class-instance object for chaining
    */
   #attachKeyboardListeners() {
-    this.listen(['ArrowDown', 'Escape'], this, (e) => {
-      if (e.key === 'ArrowDown') {
+    this.offEvent('keydown.date-picker-keyboard');
+    this.onEvent('keydown.date-picker-keyboard', this, (e) => {
+      const key = e.keyCode;
+      const stopEvent = () => {
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        e.preventDefault();
+      };
+
+      // Arrow Down opens calendar popup
+      if (key === 40) {
+        stopEvent();
+
         this.#togglePopup(true);
       }
 
-      if (e.key === 'Escape') {
-        this.#togglePopup(false);
-      }
-    });
+      // Escape closes calendar popup
+      if (key === 27) {
+        stopEvent();
 
-    // Loop focus inside calendar popup
-    this.listen(['Tab'], this.#popup, (e) => {
-      if (this.#popup?.visible) {
+        this.#togglePopup(false);
+        this.focus();
+      }
+
+      // Tab will loop focus inside calendar popup
+      if (key === 9 && this.#popup?.visible) {
         const lastFocusable = this.container.querySelector('.popup-btn-end')?.container;
         const firstFocusable = this.#monthView?.container.querySelector('ids-date-picker[is-dropdown="true"]');
 
         if (!e.shiftKey && lastFocusable?.matches(':focus')) {
-          e.preventDefault();
-          e.stopPropagation();
-          e.stopImmediatePropagation();
+          stopEvent();
 
           firstFocusable.focus();
         }
 
         if (e.shiftKey && firstFocusable?.matches(':focus')) {
-          e.preventDefault();
-          e.stopPropagation();
-          e.stopImmediatePropagation();
+          stopEvent();
 
           lastFocusable.focus();
+        }
+      }
+
+      // 't' sets today date
+      if (key === 84 && !this.isCalendarToolbar) {
+        stopEvent();
+
+        this.#changeDate('today');
+      }
+
+      if (!this.isCalendarToolbar && !this.value.includes('-')) {
+        // '+' increments day
+        if (key === 187 || key === 107) {
+          stopEvent();
+
+          this.#changeDate('next-day');
+        }
+
+        // '-' decrements day
+        if (key === 189 || key === 109) {
+          stopEvent();
+
+          this.#changeDate('previous-day');
         }
       }
     });
@@ -345,7 +377,7 @@ class IdsDatePicker extends Base {
    */
   #attachMonthView() {
     if (!this.isCalendarToolbar) {
-      const parsed = new Date(this.value);
+      const parsed = new Date(this.#input?.value);
 
       this.#monthView.year = parsed.getFullYear();
       this.#monthView.month = parsed.getMonth();
@@ -369,6 +401,24 @@ class IdsDatePicker extends Base {
     }
   }
 
+  #changeDate(type) {
+    const date = this.#input?.value ? new Date(this.#input.value) : new Date();
+
+    if (type === 'today') {
+      const now = new Date();
+
+      this.value = this.locale.formatDate(now);
+    }
+
+    if (type === 'next-day') {
+      this.value = this.locale.formatDate(addDate(date, 1, 'days'));
+    }
+
+    if (type === 'previous-day') {
+      this.value = this.locale.formatDate(subtractDate(date, 1, 'days'));
+    }
+  }
+
   /**
    * Focuses input or dropdown
    * @returns {void}
@@ -376,6 +426,10 @@ class IdsDatePicker extends Base {
   focus() {
     this.#input?.focus();
     this.container.querySelector('ids-menu-button')?.container?.focus();
+
+    if (this.isCalendarToolbar) {
+      this.container.focus();
+    }
   }
 
   /**
