@@ -27,6 +27,19 @@ If both start and end dates are set calendar toolbar will not be displayed.
 ## Events
 - `dayselected` - Fires when a day is selected
 
+## Keyboard Guidelines
+- <kbd>Tab</kbd> - Tabbing will tab across the header elements and into the monthview.
+- <kbd>Shift + Tab</kbd> reverses the direction of the tab order.
+- <kbd>Up</kbd> and <kbd>Down</kbd> goes to the same day of the week in the previous or next week respectively. If the user advances past the end of the month they continue into the next or previous month as appropriate
+- <kbd>Left</kbd> and <kbd>Right</kbd> advances one day to the next, also in a continuum. Visually, focus is moved from day to day and wraps from row to row in a grid of days and weeks
+- <kbd>Control + Page Up</kbd> moves to the same date in the previous year
+- <kbd>Control + Page Down</kbd> moves to the same date in the next year
+- <kbd>Home</kbd> moves to the first day of the current month
+- <kbd>End</kbd> moves to the last day of the current month
+- <kbd>Page Up</kbd> moves to the same date in the previous month
+- <kbd>Page Down</kbd> moves to the same date in the next month
+- <kbd>T</kbd> moves to today's date
+
 ## Features (With Code Examples)
 With no settings. Month/Day/Year defaults to current date. First day of the week is 0 - Sunday.
 
