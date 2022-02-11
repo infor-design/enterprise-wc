@@ -286,8 +286,10 @@ class IdsDatePicker extends Base {
 
       // Tab will loop focus inside calendar popup
       if (key === 9 && this.#popup?.visible) {
+        // First focusable in the calendar popup is dropdown datepicker
+        const firstFocusable = this.#monthView?.container.querySelector('ids-date-picker');
+        // Last focusable in the calendar popup is Apply button
         const lastFocusable = this.container.querySelector('.popup-btn-end')?.container;
-        const firstFocusable = this.#monthView?.container.querySelector('ids-date-picker[is-dropdown="true"]');
 
         if (!e.shiftKey && lastFocusable?.matches(':focus')) {
           stopEvent();
@@ -295,7 +297,7 @@ class IdsDatePicker extends Base {
           firstFocusable.focus();
         }
 
-        if (e.shiftKey && firstFocusable?.matches(':focus')) {
+        if (e.shiftKey && firstFocusable.hasFocus) {
           stopEvent();
 
           lastFocusable.focus();
@@ -430,6 +432,17 @@ class IdsDatePicker extends Base {
     if (this.isCalendarToolbar) {
       this.container.focus();
     }
+  }
+
+  /**
+   * Indicates if input, dropdown or the calendar toolbar has focus
+   * @returns {boolean} whether or not an element has focus
+   */
+  get hasFocus() {
+    const input = this.#input?.container.querySelector('input');
+    const dropdown = this.container.querySelector('.dropdown-btn')?.shadowRoot.querySelector('button');
+
+    return input?.matches(':focus') || dropdown?.matches(':focus');
   }
 
   /**

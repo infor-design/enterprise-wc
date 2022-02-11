@@ -66,6 +66,26 @@ describe('Ids Date Picker e2e Tests', () => {
       el.shadowRoot.querySelector('ids-popup')?.visible);
 
     expect(isOpen).toBeFalsy();
+
+    // Loop focus inside the popup
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Tab');
+
+    let focusedElId = await page.evaluate(() => document.activeElement.id);
+
+    expect(focusedElId).toEqual('e2e-datepicker-value');
+
+    await page.keyboard.down('ShiftLeft');
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Tab');
+    await page.keyboard.up('ShiftLeft');
+
+    focusedElId = await page.evaluate(() => document.activeElement.id);
+
+    expect(focusedElId).toEqual('e2e-datepicker-value');
   });
 
   it('should set correct date to the calendar popup', async () => {
@@ -305,5 +325,58 @@ describe('Ids Date Picker e2e Tests', () => {
     isRtl = await page.$eval('#e2e-datepicker-value', (el) => el.getAttribute('dir') === 'rtl');
 
     expect(isRtl).toBeFalsy();
+  });
+
+  it('should change date on keyboard events', async () => {
+    // Reset
+    await page.evaluate(() => {
+      const container = document.querySelector('ids-container');
+      const component = document.querySelector('#e2e-datepicker-value');
+
+      container.setLocale('en-US');
+      container.setLanguage('en');
+
+      component.value = '3/4/2016';
+    });
+
+    await page.$eval('#e2e-datepicker-value', (el) => el?.click());
+
+    await page.keyboard.press('Equal');
+
+    let value = await page.$eval('#e2e-datepicker-value', (el) => el.value);
+
+    expect(value).toEqual('3/5/2016');
+
+    await page.keyboard.press('Minus');
+    await page.keyboard.press('Minus');
+
+    value = await page.$eval('#e2e-datepicker-value', (el) => el.value);
+
+    expect(value).toEqual('3/3/2016');
+
+    await page.keyboard.press('KeyT');
+
+    value = await page.$eval('#e2e-datepicker-value', (el) => el.value);
+
+    expect(value).toEqual(new Intl.DateTimeFormat('en-US').format(new Date()));
+
+    await page.evaluate(() => {
+      const component = document.querySelector('#e2e-datepicker-value');
+
+      component.format = 'yyyy-MM-dd';
+      component.value = '2021-10-18';
+    });
+
+    await page.keyboard.press('Minus');
+
+    value = await page.$eval('#e2e-datepicker-value', (el) => el.value);
+
+    expect(value).toEqual('2021-10-18');
+
+    await page.keyboard.press('Equal');
+
+    value = await page.$eval('#e2e-datepicker-value', (el) => el.value);
+
+    expect(value).toEqual('2021-10-18');
   });
 });
