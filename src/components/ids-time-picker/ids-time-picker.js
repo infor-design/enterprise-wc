@@ -395,18 +395,17 @@ export default class IdsTimePicker extends Base {
    * Open the timepicker's popup window
    */
   openTimePopup() {
-    const { input, popup, triggerButton } = this.elements;
+    const { triggerField, popup, triggerButton } = this.elements;
 
     if (!this.isOpen) {
       popup.visible = true;
       const { bottom } = triggerButton.getBoundingClientRect();
       const positionBottom = (bottom + 100) < window.innerHeight;
 
-      popup.alignTarget = input;
+      popup.alignTarget = triggerField;
       popup.arrowTarget = triggerButton;
       popup.align = positionBottom ? 'bottom, left' : 'top, left';
       popup.arrow = positionBottom ? 'bottom' : 'top';
-      popup.y = positionBottom ? 10 : -10;
 
       this.addOpenEvents();
     }
@@ -486,7 +485,7 @@ export default class IdsTimePicker extends Base {
   #attachEventHandlers() {
     const {
       dropdowns,
-      input,
+      triggerField,
       triggerButton,
       setTimeButton,
     } = this.elements;
@@ -514,7 +513,7 @@ export default class IdsTimePicker extends Base {
 
     // using on mouseup, because on click interferes with on Enter
     this.onEvent('mouseup', triggerButton, () => this.toggleTimePopup());
-    this.onEvent('focus', input, () => this.autoselect && this.openTimePopup());
+    this.onEvent('focus', triggerField, () => this.autoselect && this.openTimePopup());
 
     // Translate Labels
     this.offEvent('languagechange.container');
