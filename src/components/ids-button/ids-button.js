@@ -583,6 +583,24 @@ export default class IdsButton extends Base {
   }
 
   /**
+   * Sets the no margins attribute
+   * @param {string} n string value from the no margins attribute
+   */
+  set noMargins(n) {
+    if (stringToBool(n)) {
+      this.setAttribute(attributes.NO_MARGINS, '');
+      this.container.classList.add(attributes.NO_MARGINS);
+      return;
+    }
+    this.removeAttribute(attributes.NO_MARGINS);
+    this.container.classList.remove(attributes.NO_MARGINS);
+  }
+
+  get noMargins() {
+    return stringToBool(this.getAttribute(attributes.NO_MARGINS));
+  }
+
+  /**
    * @param {boolean} val true if the button should not have standard padding rules applied
    */
   set noPadding(val) {

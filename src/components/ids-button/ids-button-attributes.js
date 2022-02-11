@@ -30,6 +30,7 @@ const BUTTON_ATTRIBUTES = [
   attributes.ICON_ALIGN,
   attributes.ID,
   attributes.NO_PADDING,
+  attributes.NO_MARGINS,
   attributes.NO_RIPPLE,
   attributes.SQUARE,
   attributes.TEXT,

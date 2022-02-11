@@ -368,7 +368,7 @@ export default class IdsInput extends Base {
 
     if (newValue !== currentValue) {
       if (newValue) {
-        this.setAttribute(attributes.LABEL_HIDDEN, "");
+        this.setAttribute(attributes.LABEL_HIDDEN, '');
       } else {
         this.removeAttribute(attributes.LABEL_HIDDEN);
       }

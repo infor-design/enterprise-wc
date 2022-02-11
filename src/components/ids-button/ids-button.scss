@@ -148,6 +148,10 @@ button {
     height: 70px;
     width: 70px;
   }
+
+  &.no-margins {
+    @include mx-0();
+  }
 }
 
 // Mix-in special rules for contextual buttons

@@ -120,6 +120,10 @@
       align-self: flex-end;
     }
   }
+
+  &.no-margins {
+    @include mx-0();
+  }
 }
 
 /**

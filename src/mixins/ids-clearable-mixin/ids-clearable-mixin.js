@@ -62,6 +62,7 @@ const IdsClearableMixin = (superclass) => class extends superclass {
     text.textContent = 'clear';
     xButton.setAttribute('part', 'clearable-button');
     xButton.className = 'btn-clear';
+    xButton.noMargins = true;
     xButton.appendChild(text);
     xButton.appendChild(icon);
     xButton.refreshProtoClasses();
@@ -79,8 +80,12 @@ const IdsClearableMixin = (superclass) => class extends superclass {
     if (!xButton) {
       xButton = this.#initClearableButton();
       let parent = this.shadowRoot.querySelector('.ids-input, .ids-textarea');
+
       parent = parent?.querySelector('.field-container');
       parent?.appendChild(xButton);
+
+      const input = this.shadowRoot.querySelector('.ids-input-field, .ids-textarea-field');
+      input.after(xButton);
 
       if (this.closest('.ids-search-field')) {
         this.container.classList.add('has-no-trigger-button');
