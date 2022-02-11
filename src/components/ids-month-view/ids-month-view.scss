@@ -280,6 +280,8 @@
 
   .month-view-table {
     @include mt-20();
+
+    margin-bottom: 10px;
   }
 
   td .day-container {
