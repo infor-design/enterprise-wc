@@ -10,11 +10,26 @@
     height $transition-length $transition-ease,
     padding $transition-length $transition-ease;
 
+  &.expanded {
+    @include py-8();
+  }
+
   // Light Mode Styles
   &[mode='light'] {
     &.expanded {
-      @include py-8();
       @include bg-black();
+    }
+  }
+
+  &[mode='dark'] {
+    &.expanded {
+      @include bg-slate-100();
+    }
+  }
+
+  &[mode='contrast'] {
+    &.expanded {
+      @include bg-slate-100();
     }
   }
 }

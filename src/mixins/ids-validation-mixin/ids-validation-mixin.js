@@ -73,6 +73,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
             const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
             radioArr.forEach((r) => r.input.setAttribute('required', 'required'));
           }
+          this.validationElems?.editor?.setAttribute('aria-required', true);
         }
 
         /**
@@ -215,6 +216,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     elem.setAttribute('type', type);
     elem.className = cssClass;
     elem.innerHTML = `${iconHtml}<ids-text error="true" class="message-text">${audible}${message}</ids-text>`;
+    this.validationElems?.main?.classList.add(type);
     this.input?.classList.add(type);
     this.input?.setAttribute('aria-describedby', messageId);
     this.input?.setAttribute('aria-invalid', 'true');
@@ -294,6 +296,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
       const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
       radioArr.forEach((r) => r.removeAttribute('validation-has-error'));
     }
+    this.validationElems?.main?.classList.remove(type);
   }
 
   /**
@@ -363,7 +366,11 @@ const IdsValidationMixin = (superclass) => class extends superclass {
         this.handleValidationEvents('remove');
         this.useRules.delete(input);
       }
-      this.labelEl?.classList.remove('required');
+      if (!(/\brequired\b/gi.test(this.validate))) {
+        this.labelEl?.classList.remove('required');
+        input.removeAttribute('aria-required');
+        this.validationElems?.editor?.removeAttribute('aria-required');
+      }
       this.removeAllMessages();
     };
 

@@ -183,6 +183,7 @@
 @mixin checkbox-colored() {
   @each $name in $color-names {
     $i: list.index($color-names, $name);
+    /* stylelint-disable-next-line custom-property-pattern */
     $color: var(#{list.nth($color-vars, $i)});
 
     &[color='#{$name}'] input[type='checkbox'] {

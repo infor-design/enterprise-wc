@@ -70,17 +70,5 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
     @include px-12();
   }
 
-  &.formatter {
-    @include bg-slate-60();
-
-    &[mode='dark'] {
-      @include bg-slate-20();
-    }
-
-    &[mode='contrast'] {
-      @include bg-slate-100();
-    }
-  }
-
   @include ids-toolbar-section-inner-size-styles();
 }

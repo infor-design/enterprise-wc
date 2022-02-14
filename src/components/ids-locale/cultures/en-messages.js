@@ -1,5 +1,5 @@
 const messages = {
-  AboutText: { id: 'AboutText', value: 'Copyright &copy; {0} Infor. All rights reserved. The word and design marks set forth herein are trademarks and/or registered trademarks of Infor and/or its affiliates and subsidiaries. All other trademarks listed herein are the property of their respective owners', comment: 'Please recheck as duplicate "all rights reserved" was removed.' },
+  AboutText: { id: 'AboutText', value: 'Copyright &copy; {0} Infor. All rights reserved. The word and design marks set forth herein are trademarks and/or registered trademarks of Infor and/or its affiliates and subsidiaries. All other trademarks listed herein are the property of their respective owners' },
   Actions: { id: 'Actions', value: 'Actions', comment: 'Tooltip text for the action button with additional in context actions' },
   Add: { id: 'Add', value: 'Add', comment: 'Add' },
   AddComments: { id: 'AddComments', value: 'Add Comments', comment: 'Add comments to a form of data' },
@@ -361,8 +361,9 @@ const messages = {
   SearchList: { id: 'SearchList', value: 'Search List', comment: 'Search List tooltip' },
   Select: { id: 'Select', value: 'Select', comment: 'text describing a select action' },
   SelectDay: { id: 'SelectDay', value: 'Select a Day', comment: 'Select a day in the calendar picker' },
-  Selected: { id: 'Selected', value: 'Selected', comment: 'text describing a selected object' },
   SelectAll: { id: 'SelectAll', value: 'Select All', comment: 'describes the action of selecting all items available in a list' },
+  Selected: { id: 'Selected', value: 'Selected', comment: 'text describing a selected object' },
+  Selection: { id: 'Selection', value: 'Selection', comment: 'text describing current selections in a field' },
   SelectedOptions: { id: 'SelectedOptions', value: 'Selected Options', comment: 'shown on a list of selected dropdown options (generic)' },
   Send: { id: 'Send', value: 'Send', comment: 'Send tooltip' },
   SetTime: { id: 'SetTime', value: 'Set Time', comment: 'button the sets time in a field' },

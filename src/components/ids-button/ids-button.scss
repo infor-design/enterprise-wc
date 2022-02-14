@@ -31,6 +31,14 @@
   }
 }
 
+:host(.hidden) {
+  @include hidden();
+}
+
+:host([hidden]) {
+  @include hidden();
+}
+
 // Reset button display styles internally
 button {
   display: block;
@@ -62,8 +70,8 @@ button {
   }
 
   .ripple-effect {
-    height: 250px;
-    width: 250px;
+    height: 100px;
+    width: 100px;
   }
 }
 

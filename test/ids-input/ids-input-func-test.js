@@ -154,14 +154,14 @@ describe('IdsInput Component', () => {
     expect(input.labelEl.classList).not.toContain(className);
     input.labelRequired = false;
     expect(input.getAttribute('validate')).toEqual('required');
-    expect(input.getAttribute('label-required')).toEqual(null);
+    expect(input.getAttribute('label-required')).toEqual('false');
     expect(input.labelEl.classList).toContain(className);
-    expect(input.labelRequired).toEqual(null);
+    expect(input.labelRequired).toEqual(false);
     input.labelRequired = true;
     expect(input.getAttribute('validate')).toEqual('required');
     expect(input.getAttribute('label-required')).toEqual('true');
     expect(input.labelEl.classList).not.toContain(className);
-    expect(input.labelRequired).toEqual('true');
+    expect(input.labelRequired).toEqual(true);
   });
 
   it('should render an error on blur for required', async () => {

@@ -1,5 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-accordion-base';
 
@@ -47,6 +48,7 @@ export default class IdsAccordion extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.ALLOW_ONE_PANE,
       attributes.MODE,
       attributes.VERSION
     ];
@@ -112,6 +114,29 @@ export default class IdsAccordion extends Base {
       return document.activeElement.closest('ids-accordion-panel');
     }
     return undefined;
+  }
+
+  /**
+   * Gets allowOnePane property
+   * @readonly
+   * @returns {boolean} true if accordion set to allowOnePane
+   */
+  get allowOnePane() {
+    return stringToBool(this.getAttribute(attributes.ALLOW_ONE_PANE));
+  }
+
+  /**
+   * Sets allowOnePane property
+   * @param {boolean|string} allow true/false
+   */
+  set allowOnePane(allow) {
+    const toAllow = stringToBool(allow);
+
+    if (toAllow) {
+      this.setAttribute(attributes.ALLOW_ONE_PANE, `${toAllow}`);
+    } else {
+      this.removeAttribute(attributes.ALLOW_ONE_PANE);
+    }
   }
 
   /**
@@ -243,7 +268,7 @@ export default class IdsAccordion extends Base {
   }
 
   /**
-   * Traverses the Accordion a specified number of steps, focusing the last one
+   * Traverses the Accordion a specified number of steps
    * @param {number} amt the amount of steps to take
    * @returns {IdsAccordionPanel} the newly-focused accordion pane
    */

@@ -52,3 +52,15 @@ The following ids-hyperlink attributes should be considered
 
 - <kbd>Tab/Shift+Tab</kbd>: If the bread crumb item is focus is focusable this will focus or unfocus the link.
 - <kbd>Enter</kbd>: If a link this will follow the link.
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+- "Collapsing Lists" was deprecated but later added as truncate feature.
+- Markup has entirely changed, see the updated code example
+
+**4.x to 5.x**
+- Bread Crumb now uses all new markup and classes for web components (see above)
+- Markup has changed to a custom element `<ids-breadcrumb></ids-breadcrumb>`
+- Markup Uses `ids-hyperlink` instead of `<a>`
+- Can now be imported as a single JS file and used with encapsulated styles

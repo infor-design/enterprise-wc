@@ -112,6 +112,14 @@ export default class IdsAccordionPanel extends Base {
 
   /**
    * @readonly
+   * @returns {HTMLElement} the parent accordion component
+   */
+  get accordion() {
+    return this.closest('ids-accordion');
+  }
+
+  /**
+   * @readonly
    * @returns {HTMLElement|null} the provided header, if applicable
    */
   get header() {
@@ -188,17 +196,38 @@ export default class IdsAccordionPanel extends Base {
 
   /**
    * The main state switching function
+   * Collapses sibling panels if allowOnePane setting is true
    * @param {boolean} isExpanded true if the panel is to be expanded
    * @returns {void}
    * @private
    */
   #toggleExpanded(isExpanded) {
     this.header?.setAttribute('aria-expanded', `${isExpanded}`);
+
     if (!isExpanded) {
       this.collapsePane();
     } else {
       this.expandPane();
+
+      if (this.accordion.allowOnePane) {
+        this.#collapseSiblingPanels();
+      }
     }
+  }
+
+  /**
+   * Collapses sibling ids-accordion-panels
+   * @returns {void}
+   * @private
+   */
+  #collapseSiblingPanels() {
+    const panels = [...this.parentElement.querySelectorAll(':scope > ids-accordion-panel')];
+
+    panels.forEach((panel) => {
+      if (panel !== this && panel.expanded) {
+        panel.expanded = false;
+      }
+    });
   }
 
   /**
@@ -329,7 +358,7 @@ export default class IdsAccordionPanel extends Base {
       this.#selectAndToggle();
     });
 
-    this.onEvent('touchstart', this.expander, (e) => {
+    this.onEvent('touchend', this.expander, (e) => {
       if (e.touches && e.touches.length > 0) {
         this.#selectAndToggle();
       }
@@ -348,11 +377,10 @@ export default class IdsAccordionPanel extends Base {
    * @returns {void}
    */
   select(panel) {
-    if (panel === undefined) {
-      return;
+    if (panel?.tagName === 'IDS-ACCORDION-PANEL') {
+      this.header.selected = true;
+      panel.focus();
     }
-    this.header.selected = true;
-    panel.focus();
   }
 
   /**

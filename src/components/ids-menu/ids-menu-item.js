@@ -57,7 +57,8 @@ export default class IdsMenuItem extends Base {
     // Icon
     let icon = '';
     if (this.state?.icon) {
-      icon = `<ids-icon slot="icon" icon="${this.state.icon}" size="${MENU_ITEM_SIZE}" part="icon"></ids-icon>`;
+      const viewbox = this.viewbox ? ` viewbox="${this.viewbox}"` : '';
+      icon = `<ids-icon slot="icon" icon="${this.state.icon}"${viewbox} size="${MENU_ITEM_SIZE}" part="icon"></ids-icon>`;
     }
     const iconSlot = `<slot name="icon">${icon}</slot>`;
 
@@ -119,6 +120,7 @@ export default class IdsMenuItem extends Base {
       attributes.TABINDEX,
       attributes.TEXT_ALIGN,
       attributes.VALUE,
+      attributes.VIEWBOX
     ];
   }
 
@@ -385,7 +387,8 @@ export default class IdsMenuItem extends Base {
     if (icon) {
       icon.icon = iconName;
     } else {
-      this.insertAdjacentHTML('afterbegin', `<ids-icon slot="icon" icon="${iconName}" size="${MENU_ITEM_SIZE}" class="ids-icon ids-menu-item-display-icon"></ids-icon>`);
+      const viewbox = this.viewbox ? ` viewbox="${this.viewbox}"` : '';
+      this.insertAdjacentHTML('afterbegin', `<ids-icon slot="icon" icon="${iconName}"${viewbox} size="${MENU_ITEM_SIZE}" class="ids-icon ids-menu-item-display-icon"></ids-icon>`);
     }
   }
 
@@ -697,5 +700,25 @@ export default class IdsMenuItem extends Base {
    */
   focus() {
     if (!this.hidden && !this.disabled) this.a.focus();
+  }
+
+  /**
+   * Set icon viewbox
+   * @param {string} value for icon viewbox
+   */
+  set viewbox(value) {
+    if (value) {
+      this.setAttribute(attributes.VIEWBOX, value);
+    } else {
+      this.removeAttribute(attributes.VIEWBOX);
+    }
+  }
+
+  /**
+   * Return the viewbox
+   * @returns {string} the viewbox
+   */
+  get viewbox() {
+    return this.getAttribute(attributes.VIEWBOX);
   }
 }

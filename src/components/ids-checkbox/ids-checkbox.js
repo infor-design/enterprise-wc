@@ -47,7 +47,6 @@ export default class IdsCheckbox extends Base {
       attributes.LABEL,
       attributes.LABEL_REQUIRED,
       attributes.LABEL_AUDIBLE,
-      attributes.LANGUAGE,
       attributes.VALUE,
       attributes.MODE,
       attributes.VERSION
@@ -178,13 +177,17 @@ export default class IdsCheckbox extends Base {
     const checkmark = this.shadowRoot.querySelector('.checkmark');
     const val = stringToBool(value);
     if (val) {
-      this.setAttribute(attributes.CHECKED, val.toString());
-      this.input?.setAttribute(attributes.CHECKED, val.toString());
+      this.setAttribute(attributes.CHECKED, val);
       checkmark?.classList.add(attributes.CHECKED);
+      if (this.input) {
+        this.input.checked = true;
+      }
     } else {
       this.removeAttribute(attributes.CHECKED);
-      this.input?.removeAttribute(attributes.CHECKED);
       checkmark?.classList.remove(attributes.CHECKED);
+      if (this.input) {
+        this.input.checked = false;
+      }
     }
   }
 

@@ -1,6 +1,6 @@
 import renderLoop from '../../components/ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../../components/ids-render-loop/ids-render-loop-item';
-import { isPrintable } from '../../utils/ids-string-utils/ids-string-utils';
+import { stringToBool, isPrintable } from '../../utils/ids-string-utils/ids-string-utils';
 
 /**
  * A mixin that adds event handler functionality that is also safely torn down when a component is
@@ -121,9 +121,10 @@ const IdsEventsMixin = (superclass) => class extends superclass {
   /**
    * Triggers an event that occurs before the show/hide operations of the Modal that can "cancel"
    * @param {string} eventType the name of the event to trigger
+   * @param {any} data extra data to send with vetoable event
    * @returns {boolean} true if the event works
    */
-  triggerVetoableEvent(eventType) {
+  triggerVetoableEvent(eventType, data) {
     if (this.vetoableEventTypes.length > 0
       && !this.vetoableEventTypes.includes(eventType)) {
       return false;
@@ -131,10 +132,12 @@ const IdsEventsMixin = (superclass) => class extends superclass {
 
     let canShow = true;
     const eventResponse = (veto) => {
-      canShow = !!veto;
+      canShow = stringToBool(veto);
     };
     this.triggerEvent(eventType, this, {
+      bubbles: true,
       detail: {
+        data,
         elem: this,
         response: eventResponse
       }
