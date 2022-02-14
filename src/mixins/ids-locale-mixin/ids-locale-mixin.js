@@ -1,4 +1,5 @@
 import { attributes } from '../../core/ids-attributes';
+import { getIdsElements } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 const IdsLocaleMixin = (superclass) => class extends superclass {
   constructor() {
@@ -13,33 +14,14 @@ const IdsLocaleMixin = (superclass) => class extends superclass {
     this.onEvent('languagechange.mixin', this.closest('ids-container'), async () => {
       this.setDirection();
 
-      const elements = [];
-      let elementIdx = 0;
+      const elements = getIdsElements(this, true);
 
-      for (let i = 0; i < this.children.length ?? 0; i++) {
-        elements.push(this.children[i]);
-      }
-      for (let i = 0; i < this?.shadowRoot?.children.length ?? 0; i++) {
-        elements.push(this.shadowRoot?.children[i]);
-      }
-
-      while (elementIdx < elements.length) {
-        if (elements[elementIdx].localName.includes('ids-')) {
-          if (this.locale?.isRTL()) {
-            elements[elementIdx].setAttribute('dir', 'rtl');
-          } else {
-            elements[elementIdx].removeAttribute('dir');
-          }
+      for (const element of elements) {
+        if (this.locale?.isRTL()) {
+          element.setAttribute('dir', 'rtl');
+        } else {
+          element.removeAttribute('dir');
         }
-
-        for (let i = 0; i < elements[elementIdx].children.length ?? 0; i++) {
-          elements.push(elements[elementIdx].children[i]);
-        }
-        for (let i = 0; i < elements[elementIdx]?.shadowRoot?.children.length ?? 0; i++) {
-          elements.push(elements[elementIdx].shadowRoot.children[i]);
-        }
-
-        elementIdx++;
       }
     });
     super.connectedCallback?.();

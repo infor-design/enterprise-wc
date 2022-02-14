@@ -11,6 +11,11 @@ declare const IdsDOMUtils: {
    * fallback. This method allows for `querySelector()` in some nested Shadow Roots to work properly
    */
   getClosestRootNode(node: HTMLElement): Node;
+
+  /**
+   * Get all child elements start tag name with `ids-`
+   */
+  getIdsElements(node: HTMLElement, pierce: boolean): HTMLElement[];
 };
 
 export default IdsDOMUtils;

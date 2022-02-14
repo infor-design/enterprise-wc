@@ -109,3 +109,21 @@ export function getEditableRect(rect) {
     bottom, left, right, top, height, width, x, y
   };
 }
+
+/**
+ * Get all child elements start tag name with `ids-`
+ * @param {HTMLElement} node parent html element
+ * @param {boolean} pierce indicate if this search will include shadowRoot
+ * @returns {HTMLElement[]} array of elements
+ */
+export function getIdsElements(node, pierce = false) {
+  if (node == null) return [];
+
+  let idsElements = node.tagName.indexOf('IDS-') !== -1 ? [node] : [];
+  const shadowChildren = pierce && node.shadowRoot ? [...node.shadowRoot.children] : [];
+  const children = [...node.children].concat(shadowChildren);
+  for (const child of children) {
+    idsElements = idsElements.concat(getIdsElements(child, pierce));
+  }
+  return idsElements;
+}
