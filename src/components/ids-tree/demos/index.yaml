@@ -1,0 +1,9 @@
+---
+ component: Tree
+ link: ids-tree
+ description: Hierarchical view of items and subitems
+ category: Navigation and Interaction
+ keywords: tree, decoration, folder, files, links, nodes
+ examples:
+  - link: index.html
+    description: Shows basic tree view

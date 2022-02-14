@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Toolbar (Formatter)</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+
+        <ids-toolbar tabbable="true" type="formatter">
+          <ids-toolbar-section type="buttonset" favor>
+
+            <ids-menu-button role="button" id="btn-fontpicker" menu="menu-fontpicker" tooltip="Choose Font Style" formatter-width="125px" dropdown-icon>
+              <span slot="text">Normal Text</span>
+            </ids-menu-button>
+            <ids-popup-menu id="menu-fontpicker" target="#btn-fontpicker">
+              <ids-menu-group>
+                <ids-menu-item value="normal" selected="true"><ids-text>Normal Text</ids-text></ids-menu-item>
+                <ids-menu-item value="h1"><ids-text font-size="28">Header 1</ids-text></ids-menu-item>
+                <ids-menu-item value="h2"><ids-text font-size="24">Header 2</ids-text></ids-menu-item>
+                <ids-menu-item value="h3"><ids-text font-size="20">Header 3</ids-text></ids-menu-item>
+              </ids-menu-group>
+            </ids-popup-menu>
+
+            <ids-separator vertical></ids-separator>
+
+            <ids-button id="btn-bold" square="true" tooltip="Toggle Bold Text">
+              <span slot="text" class="audible">Bold</span>
+              <ids-icon slot="icon" icon="bold"></ids-icon>
+            </ids-button>
+
+            <ids-button id="btn-italic" square="true" tooltip="Toggle Italic Text">
+              <span slot="text" class="audible">Italic</span>
+              <ids-icon slot="icon" icon="italic"></ids-icon>
+            </ids-button>
+
+            <ids-button id="btn-underline" square="true" tooltip="Toggle Underline Text">
+              <span slot="text" class="audible">Underline</span>
+              <ids-icon slot="icon" icon="underline"></ids-icon>
+            </ids-button>
+
+            <ids-button id="btn-strike-through" square="true" tooltip="Toggle Strike Through Text">
+              <span slot="text" class="audible">Strike Through</span>
+              <ids-icon slot="icon" icon="strike-through"></ids-icon>
+            </ids-button>
+
+            <ids-separator vertical></ids-separator>
+
+            <ids-button id="btn-fore-color" square="true" tooltip="Text Color">
+              <span slot="text" class="audible">Text Color</span>
+              <ids-icon slot="icon" icon="fore-color"></ids-icon>
+            </ids-button>
+
+            <ids-separator vertical></ids-separator>
+
+            <ids-button id="btn-left-text-align" square="true" tooltip="Align Left">
+              <span slot="text" class="audible">Justify Left</span>
+              <ids-icon slot="icon" icon="left-text-align"></ids-icon>
+            </ids-button>
+
+            <ids-button id="btn-center-text" square="true" tooltip="Align Center">
+              <span slot="text" class="audible">Justify Center</span>
+              <ids-icon slot="icon" icon="center-text"></ids-icon>
+            </ids-button>
+
+            <ids-button id="btn-right-text-align" square="true" tooltip="Align Right">
+              <span slot="text" class="audible">Justify Right</span>
+              <ids-icon slot="icon" icon="right-text-align"></ids-icon>
+            </ids-button>
+
+            <ids-separator vertical></ids-separator>
+
+            <ids-button id="btn-quote" square="true" tooltip="Block quote">
+              <span slot="text" class="audible">Block quote</span>
+              <ids-icon slot="icon" icon="quote"></ids-icon>
+            </ids-button>
+
+            <ids-button id="btn-number-list" square="true" tooltip="Insert/Remove Numbered List">
+              <span slot="text" class="audible">Ordered List</span>
+              <ids-icon slot="icon" icon="number-list"></ids-icon>
+            </ids-button>
+
+            <ids-button id="btn-bullet-list" square="true" tooltip="Insert/Remove Bulleted List">
+              <span slot="text" class="audible">Unordered List</span>
+              <ids-icon slot="icon" icon="bullet-list"></ids-icon>
+            </ids-button>
+
+            <ids-separator vertical></ids-separator>
+
+            <ids-button id="btn-link" square="true" tooltip="Insert Anchor">
+              <span slot="text" class="audible">Insert Anchor</span>
+              <ids-icon slot="icon" icon="link"></ids-icon>
+            </ids-button>
+
+            <ids-button id="btn-insert-image" square="true" tooltip="Insert Image">
+              <span slot="text" class="audible">Insert Image</span>
+              <ids-icon slot="icon" icon="insert-image"></ids-icon>
+            </ids-button>
+
+            <ids-separator vertical></ids-separator>
+
+            <ids-button id="btn-clear-formatting" square="true" tooltip="Clear Formatting">
+              <span slot="text" class="audible">Clear Formatting</span>
+              <ids-icon slot="icon" icon="clear-formatting"></ids-icon>
+            </ids-button>
+
+            <ids-separator vertical></ids-separator>
+
+            <ids-button id="btn-html" square="true" tooltip="View Source">
+              <span slot="text" class="audible">View Source</span>
+              <ids-icon slot="icon" icon="html" width="38" viewbox="0 0 54 18"></ids-icon>
+            </ids-button>
+
+          </ids-toolbar-section>
+        </ids-toolbar>
+
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Trigger Field - Defaults</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+
+        <ids-trigger-field label="Basic">
+          <ids-input></ids-input>
+          <ids-trigger-button>
+            <ids-text audible="true">Date Field trigger</ids-text>
+            <ids-icon slot="icon" icon="schedule"></ids-icon>
+          </ids-trigger-button>
+        </ids-trigger-field>
+
+        <ids-trigger-field label="Compact">
+          <ids-input compact="true"></ids-input>
+          <ids-trigger-button>
+            <ids-text audible="true">Date Field trigger</ids-text>
+            <ids-icon slot="icon" icon="schedule"></ids-icon>
+          </ids-trigger-button>
+
+        </ids-trigger-field>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2">Trigger Field - Field Heights (Height)</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <!-- Field Heights: [xs, sm, md, lg] -->
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+
+        <ids-trigger-field label="Extra Small (compact)">
+          <ids-input field-height="xs"></ids-input>
+          <ids-trigger-button>
+            <ids-text audible="true">Date Field trigger</ids-text>
+            <ids-icon slot="icon" icon="schedule"></ids-icon>
+          </ids-trigger-button>
+        </ids-trigger-field>
+
+        <ids-trigger-field label="Small">
+          <ids-input field-height="sm"></ids-input>
+          <ids-trigger-button>
+            <ids-text audible="true">Date Field trigger</ids-text>
+            <ids-icon slot="icon" icon="schedule"></ids-icon>
+          </ids-trigger-button>
+        </ids-trigger-field>
+
+        <ids-trigger-field label="Medium (default)">
+          <ids-input field-height="md"></ids-input>
+          <ids-trigger-button>
+            <ids-text audible="true">Date Field trigger</ids-text>
+            <ids-icon slot="icon" icon="schedule"></ids-icon>
+          </ids-trigger-button>
+        </ids-trigger-field>
+
+        <ids-trigger-field label="Large">
+          <ids-input field-height="lg"></ids-input>
+          <ids-trigger-button>
+            <ids-text audible="true">Date Field trigger</ids-text>
+            <ids-icon slot="icon" icon="schedule"></ids-icon>
+          </ids-trigger-button>
+        </ids-trigger-field>
+
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2">Trigger Field - Sizes (Width)</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <!-- Sizes: [xs, sm, mm, md, lg, full] -->
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+
+        <ids-trigger-field size="xs" label="Extra Small">
+          <ids-input></ids-input>
+          <ids-trigger-button>
+            <ids-text audible="true">Date Field trigger</ids-text>
+            <ids-icon slot="icon" icon="schedule"></ids-icon>
+          </ids-trigger-button>
+        </ids-trigger-field>
+
+        <ids-trigger-field size="sm" label="Small">
+          <ids-input></ids-input>
+          <ids-trigger-button>
+            <ids-text audible="true">Date Field trigger</ids-text>
+            <ids-icon slot="icon" icon="schedule"></ids-icon>
+          </ids-trigger-button>
+        </ids-trigger-field>
+
+        <ids-trigger-field size="mm" label="Small - Medium">
+          <ids-input></ids-input>
+          <ids-trigger-button>
+            <ids-text audible="true">Date Field trigger</ids-text>
+            <ids-icon slot="icon" icon="schedule"></ids-icon>
+          </ids-trigger-button>
+        </ids-trigger-field>
+
+        <ids-trigger-field size="md" label="Medium (default)">
+          <ids-input></ids-input>
+          <ids-trigger-button>
+            <ids-text audible="true">Date Field trigger</ids-text>
+            <ids-icon slot="icon" icon="schedule"></ids-icon>
+          </ids-trigger-button>
+        </ids-trigger-field>
+
+        <ids-trigger-field size="lg" label="Large">
+          <ids-input></ids-input>
+          <ids-trigger-button>
+            <ids-text audible="true">Date Field trigger</ids-text>
+            <ids-icon slot="icon" icon="schedule"></ids-icon>
+          </ids-trigger-button>
+        </ids-trigger-field>
+
+        <ids-trigger-field size="full" label="Full">
+          <ids-input></ids-input>
+          <ids-trigger-button>
+            <ids-text audible="true">Date Field trigger</ids-text>
+            <ids-icon slot="icon" icon="schedule"></ids-icon>
+          </ids-trigger-button>
+        </ids-trigger-field>
+
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

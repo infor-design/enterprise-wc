@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid>
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Tree Sandbox</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid>
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2">Datasource</ids-text>
+        <ids-tree id="tree-datasource" label="Tree use Datasource"></ids-tree>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid>
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2">Toggle Target</ids-text>
+        <ids-tree id="tree-toggle-target" label="Tree with Toggle Target"></ids-tree>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid>
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2">Toggle Target (No Icon Rotation)</ids-text>
+        <ids-tree id="tree-toggle-target-no-rotation" label="Tree with Toggle Target (No Icon Rotation)"></ids-tree>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid>
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2">Custom Icons</ids-text>
+        <ids-tree id="tree-custom-icons" label="Tree with Custom Icons"></ids-tree>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid>
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2">Badges / Pre Selected thru data</ids-text>
+        <ids-tree id="tree-badges" label="Tree with Badges and selected node"></ids-tree>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid>
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2">Expand or Collapse</ids-text>
+        <ids-radio-group id="radio-tree-expandcollapse" label="Choose to set the tree node/s as expand or collapse">
+          <ids-radio value="expand" label="Expand (Public Folders)"></ids-radio>
+          <ids-radio value="collapse" label="Collapse (Public Folders)"></ids-radio>
+          <ids-radio value="expand-all" label="Expand All"></ids-radio>
+          <ids-radio value="collapse-all" label="Collapse All" checked="true"></ids-radio>
+        </ids-radio-group>
+        <ids-button id="btn-tree-expandcollapse" type="secondary">
+          <span slot="text">Expand/Collapse Action</span>
+        </ids-button>
+        <br/><br/>
+        <ids-tree id="tree-expand-or-collapse" label="Tree Expand or Collapse"></ids-tree>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid>
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2">Selection</ids-text>
+        <br/>
+        <ids-button id="btn-tree-toggle-selection" type="secondary">
+          <span slot="text">Toggle Selection (Public Folders)</span>
+        </ids-button>
+        <br/><br/>
+        <ids-tree id="tree-selection" label="Tree Selection"></ids-tree>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid>
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2">Disable / Enable</ids-text>
+        <br/>
+        <ids-button id="btn-tree-disable-enable" type="secondary">
+          <span slot="text">Enable Tree</span>
+        </ids-button>
+        <br/><br/>
+        <ids-tree id="tree-disable-enable" label="Tree Disable and Enable"></ids-tree>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid>
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2" class="inline">Events</ids-text>
+        <ids-text font-size="14" class="inline">(watch the logs for the events in console)</ids-text><br />
+        <ids-text font-size="14" font-weight="bold" class="inline">&mdash; beforeselected:</ids-text>
+        <ids-text font-size="14" class="inline">Fire before select and can prevent by passing boolean value.</ids-text><br/>
+        <ids-text font-size="14" font-weight="bold" class="inline">&mdash; selected:</ids-text>
+        <ids-text font-size="14" class="inline">Fire after selected.</ids-text><br />
+        <ids-text font-size="14" font-weight="bold" class="inline">&mdash; beforecollapsed:</ids-text>
+        <ids-text font-size="14" class="inline">Fire before collapse and can prevent by passing boolean value.</ids-text><br />
+        <ids-text font-size="14" font-weight="bold" class="inline">&mdash; collapsed:</ids-text>
+        <ids-text font-size="14" class="inline">Will fire after collapse the node group.</ids-text><br />
+        <ids-text font-size="14" font-weight="bold" class="inline">&mdash; beforeexpanded:</ids-text>
+        <ids-text font-size="14" class="inline">Fire before expand and can prevent by passing boolean value.</ids-text><br />
+        <ids-text font-size="14" font-weight="bold" class="inline">&mdash; expanded:</ids-text>
+        <ids-text font-size="14" class="inline">Will fire after expand the node group.</ids-text><br /><br />
+        <ids-tree id="tree-events" label="Tree with Events Demo"></ids-tree>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid>
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2">Markup Only</ids-text>
+        <ids-tree id="tree-markup" label="Tree with Markup only">
+          <ids-tree-node id="tm-home">Home</ids-tree-node>
+          <ids-tree-node id="tm-about-us">About Us</ids-tree-node>
+          <ids-tree-node id="tm-public-folders" label="Public Folders">
+            <ids-tree-node id="tm-leadership" label="Leadership">
+              <ids-badge slot="badge" color="info" shape="round">5</ids-badge>
+              <ids-tree-node id="tm-leadership-2">Leadership 2nd</ids-tree-node>
+              <ids-tree-node id="tm-history" disabled="true">History</ids-tree-node>
+              <ids-tree-node id="tm-careers-last">Careers last</ids-tree-node>
+            </ids-tree-node>
+            <ids-tree-node id="tm-history-2">
+              <ids-badge slot="badge" color="alert" shape="round">10</ids-badge>
+              History 2nd
+            </ids-tree-node>
+            <ids-tree-node id="tm-careers">Careers</ids-tree-node>
+          </ids-tree-node>
+          <ids-tree-node id="tm-icons" label="Icons" expanded="false">
+            <ids-tree-node id="tm-audio" icon="tree-audio">Audio</ids-tree-node>
+            <ids-tree-node id="tm-avi" icon="tree-avi">Avi</ids-tree-node>
+            <ids-tree-node id="tm-bmp" icon="tree-bmp">Bmp</ids-tree-node>
+            <ids-tree-node id="tm-chart" icon="tree-chart">Chart</ids-tree-node>
+            <ids-tree-node id="tm-code" icon="tree-code">Code</ids-tree-node>
+          </ids-tree-node>
+          <ids-tree-node id="tm-blog">Blog</ids-tree-node>
+          <ids-tree-node id="tm-contact">Contact</ids-tree-node>
+        </ids-tree>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid>
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2">Characters and Symbols</ids-text>
+        <ids-tree id="tree-characters-and-symbols" label="Tree Characters and Symbols"></ids-tree>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid>
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2">Characters and Symbols (markup only)</ids-text>
+        <ids-tree id="tree-characters-and-symbols-markup" label="Tree Characters and Symbols by markup only">
+          <ids-tree-node id="cs-n1">&lt;online onload="alert()"&gt;</ids-tree-node>
+          <ids-tree-node id="cs-n2">
+            <> & " &#33; &#34; &#35; &#36; &#37; &#38; &#39;
+            &#40; &#41; &#42; &#43; &#44; &#45; &#46; &#47;
+            &#161;, &#162;, &#163;, &#164;, &#165;, &#166;, &#167;, &#169;
+          </ids-tree-node>
+        </ids-tree>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

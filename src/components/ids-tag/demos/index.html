@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Tags</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-tag>Normal Tag</ids-tag>
+        <ids-tag color="secondary">Secondary Tags</ids-tag>
+        <ids-tag color="error">Error Tag</ids-tag>
+        <ids-tag color="success">Success Tag</ids-tag>
+        <ids-tag color="caution">Warning Tag</ids-tag>
+        <ids-tag color="#EDE3FC">Custom Tag Color</ids-tag>
+        <ids-tag clickable="true" id="ids-clickable-tag">Clickable Tag
+          <ids-icon icon="caret-right" size="xsmall"></ids-icon>
+        </ids-tag>
+        <ids-tag dismissible="true">
+            <span>Dismissible Tag 1</span>
+            <ids-icon icon="close" size="xsmall" id="ids-closable-btn"></ids-icon>
+        </ids-tag>
+        <ids-tag dismissible="true">
+            <span>Dismissible Tag 2</span>
+        </ids-tag>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

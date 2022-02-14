@@ -1,0 +1,37 @@
+{{> ../layouts/head-side-by-side.html }}
+
+<ids-layout-grid auto="true">
+  <h2 class="ids-text ids-text-px-12">Web Component Trigger Field</h2>
+</ids-layout-grid>
+<ids-layout-grid auto="true" gap="md">
+  <ids-layout-grid-cell>
+    <ids-trigger-field size="sm" label="Date Field" tabbable="false">
+      <ids-input label="Date Field"></ids-input>
+      <ids-trigger-button>
+        <ids-text audible="true">Date Field trigger</ids-text>
+        <ids-icon slot="icon" icon="schedule"></ids-icon>
+      </ids-trigger-button>
+    </ids-trigger-field>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid auto="true">
+  <h2 class="ids-text ids-text-px-12">4.x Trigger Field</h2>
+</ids-layout-grid>
+<div class="svg hidden">
+  <div class="svg-icons">
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-icons">
+      <symbol id="icon-calendar" viewBox="0 0 18 18"><path d="M.5 3.5h17v8.727c0 2.912-2.342 5.273-5.23 5.273H.5v-14zm.5 4h16M3.5 0v3m11-3v3" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+    </svg>
+  </div>
+</div>
+<div class="row">
+  <div class="four columns">
+    <div class="field">
+      <label for="date-field-normal" class="label">Date Field</label>
+      <input id="date-field-normal" data-automation-id="custom-automation-id" class="datepicker" name="date-field" type="text" data-init="false"/>
+    </div>
+  </div>
+</div>
+
+{{> ../layouts/footer.html }}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-container role="main" padding="8" hidden>
+        <ids-layout-grid auto="true">
+            <ids-text font-size="12" type="h1">Toggle Buttons</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid cols="4" gap="md">
+            <ids-layout-grid-cell>
+                <ids-toggle-button id="test-toggle-button" icon-align="end" icon-on="heart-filled" icon-off="heart-outlined"
+                    text-off="Favorite (Off)" text-on="Favorite (On)">
+                    <ids-icon slot="icon" icon="settings"></ids-icon>
+                    <span slot="text"></span>
+                </ids-toggle-button>
+            </ids-layout-grid-cell>
+        </ids-layout-grid>
+    </ids-container>
+</body>
+</html>
