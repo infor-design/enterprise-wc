@@ -1,13 +1,18 @@
 /* Ids Line Chart Component */
 @import '../../core/ids-base';
+@import '../../mixins/sass/ids-chart-legend-mixin';
 
 .ids-axis-chart {
   @include border-slate-10();
   @include flex();
 
+  &.hidden {
+    @include hidden();
+  }
+
   // Grid Lines
   .grid {
-    shape-rendering: crispEdges;
+    shape-rendering: crispedges;
     stroke: var(--ids-color-palette-slate-20);
     stroke-width: 1;
     stroke-dasharray: 2 2;
@@ -30,7 +35,7 @@
     @include font-sans();
 
     text {
-      color: var(--ids-color-palette-slate-60);
+      fill: var(--ids-color-palette-slate-60);
     }
 
     &.x-labels {
@@ -44,5 +49,101 @@
     &.axis-label {
       @include text-16();
     }
+  }
+}
+
+// Center an Empty Message
+ids-empty-message,
+::slotted(ids-empty-message) {
+  @include absolute();
+
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// Handle Themes
+.ids-axis-chart[mode='dark'],
+.ids-chart-container[mode='dark'] {
+  // Line Colors
+  .grid {
+    stroke: var(--ids-color-palette-slate-40);
+
+    &.horizontal-lines line:last-child {
+      stroke: var(--ids-color-palette-slate-30);
+    }
+  }
+
+  // Axis Text
+  .labels text {
+    fill: var(--ids-color-palette-slate-10);
+  }
+}
+
+.ids-axis-chart[mode='contrast'],
+.ids-chart-container[mode='contrast'] {
+  // Line Colors
+  .grid {
+    stroke: var(--ids-color-palette-slate-80);
+
+    &.horizontal-lines line:last-child {
+      stroke: var(--ids-color-palette-slate-100);
+    }
+  }
+
+  // Axis Text
+  .labels text {
+    fill: var(--ids-color-palette-slate-100);
+  }
+}
+
+.ids-axis-chart[version='classic'][mode='light'],
+.ids-chart-container[version='classic'][mode='light'] {
+  // Line Colors
+  .grid {
+    stroke: var(--ids-color-palette-graphite-20);
+
+    &.horizontal-lines line:last-child {
+      stroke: var(--ids-color-palette-graphite-40);
+    }
+  }
+
+  // Axis Text
+  .labels text {
+    fill: var(--ids-color-palette-graphite-60);
+  }
+}
+
+.ids-axis-chart[version='classic'][mode='dark'],
+.ids-chart-container[version='classic'][mode='dark'] {
+  // Line Colors
+  .grid {
+    stroke: var(--ids-color-palette-graphite-40);
+
+    &.horizontal-lines line:last-child {
+      stroke: var(--ids-color-palette-classic-slate-30);
+    }
+  }
+
+  // Axis Text
+  .labels text {
+    fill: var(--ids-color-palette-classic-slate-10);
+  }
+}
+
+.ids-axis-chart[version='classic'][mode='contrast'],
+.ids-chart-container[version='classic'][mode='contrast'] {
+  // Line Colors
+  .grid {
+    stroke: var(--ids-color-palette-classic-slate-80);
+
+    &.horizontal-lines line:last-child {
+      stroke: var(--ids-color-palette-classic-slate-100);
+    }
+  }
+
+  // Axis Text
+  .labels text {
+    fill: var(--ids-color-palette-classic-slate-100);
   }
 }

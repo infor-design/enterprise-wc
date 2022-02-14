@@ -197,6 +197,7 @@ export const attributes = {
   PRODUCT_NAME: 'product-name',
   PRODUCT_VERSION: 'product-version',
   LAST: 'last',
+  LEGEND_PLACEMENT: 'legend-placement',
   LINK: 'link',
   LINK_TEXT: 'link-text',
   PROGRESS: 'progress',
@@ -288,8 +289,10 @@ export const attributes = {
   VISIBLE: 'visible',
   WIDTH: 'width',
   X: 'x',
+  X_AXIS_FORMATTER: 'x-axis-formatter',
   XSS_IGNORED_TAGS: 'xss-ignored-tags',
   Y: 'y',
+  Y_AXIS_FORMATTER: 'y-axis-formatter',
   Y_AXIS_MIN: 'y-axis-min',
   YEAR: 'year'
 };

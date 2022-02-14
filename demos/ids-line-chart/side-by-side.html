@@ -1,0 +1,43 @@
+{{> ../layouts/head-side-by-side.html }}
+
+<ids-layout-grid auto="true">
+  <h2 class="ids-text ids-text-px-12">Web Component Line Chart</h2>
+</ids-layout-grid>
+<ids-layout-grid auto="true">
+  <ids-layout-grid-cell>
+    <ids-line-chart title="A line chart showing component usage" width="800" height="500"></ids-line-chart>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid auto="true">
+  <h2 class="ids-text ids-text-px-12">4.x Line Chart</h2>
+</ids-layout-grid>
+<div class="row">
+  <div class="two-thirds column">
+      <div class="widget">
+        <div class="widget-header">
+          <h2 class="widget-title">Line Chart Title</h2>
+        </div>
+        <div class="widget-content">
+          <div id="line-example" class="chart-container">
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+<script>
+  $('body').initialize();
+
+  const url = '/data/components.json';
+  const setData = async () => {
+    const res = await fetch(url);
+    const data = await res.json();
+
+    document.querySelector('ids-line-chart').data = data;
+    $('#line-example').chart({type: 'line', dataset: data, yAxis: {ticks: {number: 10} } });
+  };
+
+  setData();
+</script>
+{{> ../layouts/footer.html }}

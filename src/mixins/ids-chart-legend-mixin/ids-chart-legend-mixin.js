@@ -1,0 +1,54 @@
+import { attributes } from '../../core/ids-attributes';
+
+/**
+ * A mixin that adds selection functionality to components
+ * @param {any} superclass Accepts a superclass and creates a new subclass from it
+ * @returns {any} The extended object
+ */
+const IdsChartLegend = (superclass) => class extends superclass {
+  constructor() {
+    super();
+  }
+
+  static get attributes() {
+    return [
+      ...super.attributes,
+      attributes.LEGEND_PLACEMENT,
+    ];
+  }
+
+  connectedCallback() {
+    super.connectedCallback?.();
+  }
+
+  /**
+   * Set the legend placement between top, bottom, left, right
+   * @param {string} value The placement value
+   */
+  set legendPlacement(value) {
+    const chartContainer = this.shadowRoot.querySelector('.ids-chart-container');
+
+    if (value === 'top' || value === 'bottom' || value === 'left' || value === 'right') {
+      this.setAttribute(attributes.LEGEND_PLACEMENT, value);
+      chartContainer?.classList.remove('legend-top', 'legend-bottom', 'legend-left', 'legend-right');
+      chartContainer?.classList.add(`legend-${value}`);
+    }
+  }
+
+  get legendPlacement() { return this.getAttribute(attributes.LEGEND_PLACEMENT) || 'bottom'; }
+
+  /**
+   * Calculate the legend markup and return it
+   * @returns {string} The legend markup.
+   */
+  legendTemplate() {
+    let legend = `<div class="chart-legend">`;
+    this.data.forEach((group, index) => {
+      legend += `<a href="#"><div class="swatch color-${index + 1}"></div>${group.name}</a>`;
+    });
+    legend += `</div>`;
+    return legend;
+  }
+};
+
+export default IdsChartLegend;

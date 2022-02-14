@@ -2,15 +2,23 @@
  * @jest-environment jsdom
  */
 import IdsAxisChart from '../../src/components/ids-axis-chart/ids-axis-chart';
+import IdsContainer from '../../src/components/ids-container/ids-container';
+import IdsEmptyMessage from '../../src/components/ids-empty-message/ids-empty-message';
+import IdsText from '../../src/components/ids-text/ids-text';
 import badDataset from '../../demos/data/products.json';
 import dataset from '../../demos/data/components.json';
+import processAnimFrame from '../helpers/process-anim-frame';
 
 describe('IdsAxisChart Component', () => {
   let axisChart;
+  let container;
 
   beforeEach(async () => {
+    container = new IdsContainer();
     axisChart = new IdsAxisChart();
-    document.body.appendChild(axisChart);
+
+    container.appendChild(axisChart);
+    document.body.appendChild(container);
     axisChart.data = dataset;
   });
 
@@ -84,16 +92,16 @@ describe('IdsAxisChart Component', () => {
   it('supports setting dataset to null', () => {
     expect(axisChart.shadowRoot.querySelector('.grid')).toBeTruthy();
     axisChart.data = null;
-    expect(axisChart.data).toEqual([]);
+    expect(axisChart.data).toBeFalsy();
   });
 
   it('supports setting yAxisMin', () => {
     expect(axisChart.yAxisMin).toEqual(0);
-    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('8000');
+    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('8K');
     expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[8].textContent).toEqual('0');
     axisChart.yAxisMin = 1000;
-    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('8000');
-    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[7].textContent).toEqual('1000');
+    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('8K');
+    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[7].textContent).toEqual('1K');
   });
 
   it('supports setting showVerticalGridLines', () => {
@@ -125,5 +133,109 @@ describe('IdsAxisChart Component', () => {
       }]
     }];
     expect(axisChart.markerData.points[0]['1'].value).toEqual(0);
+  });
+
+  it('renders an empty message with empty data', async () => {
+    expect(axisChart.emptyMessage.getAttribute('hidden')).toBeTruthy();
+    axisChart.data = [];
+    expect(axisChart.emptyMessage.getAttribute('hidden')).toBeFalsy();
+    axisChart.data = [{
+      data: [{
+        name: 'Jan',
+        value: 100
+      }, {
+        name: 'Feb',
+        value: null
+      }]
+    }];
+    expect(axisChart.emptyMessage.getAttribute('hidden')).toBeTruthy();
+    axisChart.data = [];
+    expect(axisChart.emptyMessage.getAttribute('hidden')).toBeFalsy();
+  });
+
+  it('changes empty message text when changing locale', async () => {
+    axisChart.data = [];
+    expect(axisChart.emptyMessage.querySelector('ids-text').textContent).toEqual('No Data Available');
+    container.locale = 'de-DE';
+    await processAnimFrame();
+    expect(axisChart.emptyMessage.querySelector('ids-text').textContent).toEqual('Keine Daten verfügbar');
+  });
+
+  it('can get colors and color range', async () => {
+    expect(axisChart.colors.length).toEqual(20);
+    expect(axisChart.color(2)).toEqual('--ids-color-palette-amethyst-60');
+  });
+
+  it('renders when changing format/locale', async () => {
+    container.locale = 'fr-FR';
+    await processAnimFrame();
+    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('8 k');
+    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[8].textContent).toEqual('0');
+    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('8 k');
+    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[7].textContent).toEqual('1 k');
+    container.locale = 'en-US';
+  });
+
+  it('renders decimal and groups when changing format/locale', async () => {
+    container.locale = 'fr-FR';
+    axisChart.yAxisFormatter = {
+      style: 'currency',
+      currency: 'EUR'
+    };
+    await processAnimFrame();
+    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('8 000,00 €');
+    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[8].textContent).toEqual('0,00 €');
+    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('8 000,00 €');
+    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[7].textContent).toEqual('1 000,00 €');
+    container.locale = 'en-US';
+  });
+
+  it('can set the y axis formatter to Intl.NumberFormat', async () => {
+    container.locale = 'en-US';
+    axisChart.yAxisFormatter = {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0
+    };
+    await processAnimFrame();
+    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('$8,000');
+    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[8].textContent).toEqual('$0');
+    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('$8,000');
+    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[7].textContent).toEqual('$1,000');
+  });
+
+  it('can set the y axis formatter to a function', async () => {
+    axisChart.yAxisFormatter = (value) => `${value / 1000 }$`;
+    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('8$');
+    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[8].textContent).toEqual('0$');
+    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('8$');
+    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[7].textContent).toEqual('1$');
+  });
+
+  it('can set the x axis formatter to a function', async () => {
+    axisChart.xAxisFormatter = (value) => value.substring(0, 1);
+    expect(axisChart.shadowRoot.querySelectorAll('.x-labels text')[0].textContent).toEqual('J');
+    expect(axisChart.shadowRoot.querySelectorAll('.x-labels text')[1].textContent).toEqual('F');
+    expect(axisChart.shadowRoot.querySelectorAll('.x-labels text')[2].textContent).toEqual('M');
+    expect(axisChart.shadowRoot.querySelectorAll('.x-labels text')[3].textContent).toEqual('A');
+  });
+
+  it('can set the y axis formatter to empty', async () => {
+    axisChart.yAxisFormatter = null;
+    expect(axisChart.shadowRoot.querySelectorAll('.x-labels text')[0].textContent).toEqual('Jan');
+    expect(axisChart.shadowRoot.querySelectorAll('.x-labels text')[1].textContent).toEqual('Feb');
+  });
+
+  it('can set the legend placement', async () => {
+    expect(axisChart.legendPlacement).toEqual('bottom');
+    axisChart.legendPlacement = 'left';
+    axisChart.rerender();
+    expect(axisChart.container.parentNode.classList.contains('legend-left')).toBeTruthy();
+    axisChart.legendPlacement = 'right';
+    axisChart.rerender();
+    expect(axisChart.container.parentNode.classList.contains('legend-right')).toBeTruthy();
+    axisChart.legendPlacement = 'bottom';
+    axisChart.rerender();
+    expect(axisChart.container.parentNode.classList.contains('legend-bottom')).toBeTruthy();
   });
 });

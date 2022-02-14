@@ -10,23 +10,24 @@
 - [x] Yaml
 - [x] Change Log
 - [x] Do a test coverage pass
-- [ ] Side By Side Examples
-- [ ] Refactor this file to new stuff
+- [x] Side By Side Example
 
 ## Rendering
-- [ ] Legends
-- [ ] Themes
-- [ ] Axis Formatters (k,m ect)
-- [ ] Short Names / Responsive
-- [ ] Take Parent Size
+- [x] Legend
+- [x] Themes
+- [x] X and Y Axis Formatters (k, m ect)
+- [x] Locale (translate values) including No Data
 - [ ] Colors (passing them in and range colors)
-- [ ] Locale (translate values)
+- [ ] Take Parent Size
+- [ ] Short Names / Responsive
+- [ ] Test round
 - [ ] RTL
-- [ ] Empty Message
+- [x] Empty Message
 - [ ] Negative Values
+- [ ] Axis and Rotated Labels
 
 ## Accessibility
-- [ ] Should be keyboard friendly. Can focus the legend and hit enter to select.
+- [ ] Should be keyboard friendly. Can focus the legend and hit enter to select [see for suggestions](https://github.com/infor-design/enterprise/issues/6074)
 - [ ] When keying in to the legend elements it should read the data
 - [ ] Have a table option to display the data in optional data form.
 - [ ] SVG Patterns for accessibility https://css-tricks.com/simple-patterns-for-separation/

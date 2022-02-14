@@ -1,4 +1,7 @@
 export default class IdsAxisChart extends HTMLElement {
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
   /** Sets the title of the line chart */
   title: string;
 
@@ -19,4 +22,10 @@ export default class IdsAxisChart extends HTMLElement {
 
   /** Show or hide the horizontal grid lines */
   showHorizontalLines?: boolean;
+
+  /** Set the format on the x axis items */
+  xAxisFormatter?: object | boolean;
+
+  /** Set the format on the y axis items */
+  yAxisFormatter?: object | boolean;
 }

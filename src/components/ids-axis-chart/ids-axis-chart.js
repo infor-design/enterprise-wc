@@ -4,6 +4,8 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-axis-chart-base';
 import IdsDataSource from '../../core/ids-data-source';
+import IdsEmptyMessage from '../ids-empty-message/ids-empty-message';
+
 import NiceScale from './ids-nice-scale';
 import { QUALITATIVE_COLORS } from './ids-chart-colors';
 
@@ -22,7 +24,13 @@ import styles from './ids-axis-chart.scss';
 export default class IdsAxisChart extends Base {
   constructor() {
     super();
+
+    // Setup the default values
     this.state = {};
+    this.state.yAxisFormatter = {
+      notation: 'compact',
+      compactDisplay: 'short'
+    };
   }
 
   /** Reference to datasource API */
@@ -33,8 +41,11 @@ export default class IdsAxisChart extends Base {
    */
   connectedCallback() {
     this.svg = this.shadowRoot.querySelector('svg');
+    this.emptyMessage = this.querySelector('ids-empty-message') || this.shadowRoot.querySelector('ids-empty-message');
+    this.legend = this.shadowRoot.querySelector('[name="legend"]');
     this.#attachEventHandlers();
     this.rerender();
+    super.connectedCallback?.();
   }
 
   /**
@@ -43,6 +54,7 @@ export default class IdsAxisChart extends Base {
    */
   static get attributes() {
     return [
+      ...super.attributes,
       attributes.DATA,
       attributes.HEIGHT,
       attributes.MARGINS,
@@ -58,9 +70,16 @@ export default class IdsAxisChart extends Base {
    * @returns {string} The template
    */
   template() {
-    return `<div class="ids-axis-chart-container" part="container">
+    return `<div class="ids-chart-container" part="container">
       <svg class="ids-axis-chart" part="chart" width="${this.width}" height="${this.height}" xmlns="http://www.w3.org/2000/svg">
       </svg>
+      <slot name="legend">
+      </slot>
+      <slot name="empty-message">
+        <ids-empty-message icon="empty-no-data" hidden>
+          <ids-text type="h2" font-size="20" label="true" slot="label">${this.locale?.translate('NoData') || 'No Data Available'}</ids-text>
+        </ids-empty-message>
+      </slot>
     </div>`;
   }
 
@@ -69,7 +88,13 @@ export default class IdsAxisChart extends Base {
    * @private
    */
   #attachEventHandlers() {
-    // TODO: Add Event Handlers
+    this.onEvent('localechange.about-container', this.closest('ids-container'), async () => {
+      this.rerender();
+    });
+
+    this.onEvent('languagechange.about-container', this.closest('ids-container'), async () => {
+      this.shadowRoot.querySelector('ids-empty-message ids-text').textContent = this.locale?.translate('NoData');
+    });
   }
 
   /**
@@ -77,12 +102,13 @@ export default class IdsAxisChart extends Base {
    * @private
    */
   rerender() {
-    if (!this.data || this.data.length === 0) {
-      // TODO: Add Empty Message
+    if (this.data && this.data.length === 0 && this.initialized) {
+      this.#showEmptyMessage();
       return;
     }
     this.#calculate();
     this.svg.innerHTML = this.#axisTemplate();
+    this.legend.innerHTML = this.legendTemplate();
     this.triggerEvent('rendered', this, { svg: this.svg, data: this.data, markerData: this.markerData });
   }
 
@@ -236,16 +262,49 @@ export default class IdsAxisChart extends Base {
 
     this.markerData.scaleY.slice().reverse().forEach((value) => {
       top = top === 0 ? this.margins.top + textHeight : top + this.#yLineGap();
-      lineHtml += `<text x="${left}" y="${top}">${value}</text>`;
+      lineHtml += `<text x="${left}" y="${top}">${this.#formatYLabel(value)}</text>`;
     });
 
     return lineHtml;
   }
 
   /**
+   * Format the value for the x label in a variety of ways
+   * @param {string} value The value to format value
+   * @returns {string} The formatted value
+   * @private
+   */
+  #formatXLabel(value) {
+    if (!this.xAxisFormatter) {
+      return value;
+    }
+
+    if (typeof this.xAxisFormatter === 'function') {
+      return this.xAxisFormatter(value, this.data, this);
+    }
+  }
+
+  /**
+   * Format the value for the y label in a variety of ways
+   * @param {string} value The value to format value
+   * @returns {string} The formatted value
+   * @private
+   */
+  #formatYLabel(value) {
+    if (!this.yAxisFormatter) {
+      return value;
+    }
+
+    if (typeof this.yAxisFormatter === 'function') {
+      return this.yAxisFormatter(value, this.data, this);
+    }
+    return new Intl.NumberFormat(this.locale?.locale?.name || 'en', this.yAxisFormatter).format(value);
+  }
+
+  /**
    * Return true if there is at least one data point
    * @returns {boolean} True if there is at least one data point
-   * */
+   */
   get hasData() {
     return !this.markerData || !this.data[0]?.data;
   }
@@ -263,9 +322,9 @@ export default class IdsAxisChart extends Base {
     let left = this.textWidths.left + this.margins.left + (this.margins.leftInner * 2);
     const height = this.height - this.margins.top - this.margins.bottom + this.margins.bottomInner;
 
-    for (let index = 0; index <= this.markerData.markerCount; index++) {
+    for (let index = 0; index < this.markerData.markerCount; index++) {
       left = index === 0 ? left : left + this.#xLineGap();
-      labelHtml += `<text x="${left}" y="${height}">${this.data[0]?.data[index]?.name}</text>`;
+      labelHtml += `<text x="${left}" y="${height}">${this.#formatXLabel(this.data[0]?.data[index]?.name)}</text>`;
     }
     return labelHtml;
   }
@@ -280,6 +339,24 @@ export default class IdsAxisChart extends Base {
       this.height - this.margins.top - this.margins.bottom - this.textWidths.bottom - this.textWidths.top)
       / (this.markerData.scaleY.length - 1)
     );
+  }
+
+  /**
+   * Show an empty message with settings configuration
+   * @private
+   */
+  #showEmptyMessage() {
+    this.svg.classList.add('hidden');
+    this.emptyMessage.removeAttribute('hidden');
+  }
+
+  /**
+   * Hide the empty message
+   * @private
+   */
+  #hideEmptyMessage() {
+    this.svg.classList.remove('hidden');
+    this.emptyMessage.setAttribute('hidden', 'true');
   }
 
   /**
@@ -326,10 +403,24 @@ export default class IdsAxisChart extends Base {
   set width(value) {
     this.setAttribute(attributes.WIDTH, value);
     this.svg.setAttribute(attributes.WIDTH, value);
+    this.#setContainerWidth(value);
     this.rerender();
   }
 
   get width() { return parseFloat(this.getAttribute(attributes.WIDTH)) || 800; }
+
+  /**
+   * Set the container width (for correct legend and sizing)
+   * @param {number} value The width value
+   */
+  #setContainerWidth(value) {
+    const container = this.container;
+    if (container.classList.contains('ids-chart-container')) {
+      container.style.width = `${value}px`;
+      return;
+    }
+    container.parentNode.style.width = `${value}px`;
+  }
 
   /**
    * Set the chart margin (all 4 sides)
@@ -343,9 +434,9 @@ export default class IdsAxisChart extends Base {
   get margins() {
     return this.state?.margins || {
       left: 16,
-      right: 16,
+      right: this.legendPlacement === 'right' ? 150 : 16, // TODO: Calculate this
       top: 16,
-      bottom: 16,
+      bottom: 12,
       leftInner: 8,
       rightInner: 8,
       topInner: 0,
@@ -364,7 +455,10 @@ export default class IdsAxisChart extends Base {
 
   get textWidths() {
     return this.state.textWidths || {
-      left: 68, right: 0, top: 0, bottom: 24
+      left: this.legendPlacement === 'left' ? 34 : 68, // TODO: Calculate this
+      right: 0,
+      top: 0,
+      bottom: 24
     };
   }
 
@@ -373,17 +467,17 @@ export default class IdsAxisChart extends Base {
    * @param {Array} value The array to use
    */
   set data(value) {
+    this.initialized = true;
     if (value) {
+      this.#hideEmptyMessage();
       this.datasource.data = value;
       this.rerender();
       return;
     }
-
-    // TODO: Show Empty Message
     this.datasource.data = null;
   }
 
-  get data() { return this?.datasource?.data || []; }
+  get data() { return this?.datasource?.data || undefined; }
 
   /**
    * Set the minimum value on the y axis
@@ -447,5 +541,31 @@ export default class IdsAxisChart extends Base {
   color(index) {
     // TODO: Figure out passing sequential and custom colors
     return this.colors[index];
+  }
+
+  /**
+   * Set the format on the x axis items
+   * @param {Function} value A string with the formatting routine or a function for more customization.
+   */
+  set xAxisFormatter(value) {
+    this.state.xAxisFormatter = value;
+    this.rerender();
+  }
+
+  get xAxisFormatter() {
+    return this.state.xAxisFormatter;
+  }
+
+  /**
+   * Set the format on the y axis items
+   * @param {object|Function} value A string with the formatting routine or a function for more customization.
+   */
+  set yAxisFormatter(value) {
+    this.state.yAxisFormatter = value;
+    this.rerender();
+  }
+
+  get yAxisFormatter() {
+    return this.state.yAxisFormatter;
   }
 }

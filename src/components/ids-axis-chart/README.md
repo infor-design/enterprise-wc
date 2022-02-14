@@ -33,7 +33,7 @@ A line chart is defined with a custom element with a width and height.
 Datasets can be added to the line chart by passing in an array of objects. Each object must have a `data` and object with `name` and `values` from the data points. Also a name should be given for each data object which will be used as the legend text. The `shortName` is used to show the short name of the legend text and the `abbrName` is used to show an even shorter name of the legend text in responsive situations.
 
 ```html
-const lineData2 = [{
+const dataset = [{
   data: [{
     name: 'Jan',
     value: 1
@@ -58,7 +58,7 @@ const lineData2 = [{
   abbrName: 'A',
 }];
 
-document.querySelector('ids-axis-chart').data = lineData;
+document.querySelector('ids-axis-chart').data = dataset;
 ```
 
 Inside the chart you should provide a chartTemplate that returns the inside (markers) of the chart as svg. The `lineMarkers` element will contain the correct points and position of the markers to use based on the data/height/width/margins of the chart.
@@ -75,6 +75,16 @@ chartTemplate() {
     ${this.#areas()}
   </g>`;
 }
+```
+
+You can also customize the empty message contents but adding an `ids-empty-element` to the slot.
+
+```html
+<ids-axis-chart title="A line chart showing component usage" width="800" height="500">
+    <ids-empty-message slot="empty-message"icon="empty-no-data" hidden>
+        <ids-text type="h2" font-size="20" label="true" slot="label">No Data Right Now</ids-text>
+    </ids-empty-message>
+</ids-axis-chart>
 ```
 
 ## Class Hierarchy
@@ -96,6 +106,8 @@ chartTemplate() {
 - `yAxisMin` {number}  Set the minimum value on the y axis  (default: 0)
 - `showVerticalGridLines` {boolean}  Show the vertical axis grid lines (default: false)
 - `showHorizontalGridLines` {boolean}  Show the horizontal axis grid lines (default: true)
+- `yAxisFormatter` {object | Function} Sets the format on the y axis items. This can either be settings that are passed to `Intl.NumberFormat` or a formatter function. The formatter function will get three parameters (value, data, api) and should return a string based on the axis value. The y axis is not always a number so it does not default to `Intl.NumberFormat`. The default is `{ notation: 'compact', compactDisplay: 'short' }`.
+- `xAxisFormatter` {Function} Sets the format on the x axis items. The formatter function will get three parameters (value, data, api) and should return a string based on the axis value. The x axis is not always a number so it does not default to `Intl.NumberFormat`. See the [Intl.NumberFormat api](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) for more details and examples on formatting options.
 
 ## Events
 
@@ -103,6 +115,7 @@ chartTemplate() {
 
 ## Themeable Parts
 
+- `container` the outer container div element
 - `chart` the svg outer element
 
 ## States and Variations
