@@ -1,0 +1,9 @@
+---
+ component: Multiselect
+ link: ids-multiselect
+ description: Dropdown extension that allows for multiple options to be chosen
+ category: Form Inputs
+ keywords: input, text, form, dropdown, multiselect
+ examples:
+  - link: index.html
+    description: Shows all multiselect settings and states

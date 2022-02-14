@@ -1,0 +1,6 @@
+@import '../../core/ids-base';
+
+::slotted(.options){
+  border-top: 1px solid #B7B7BA;
+  padding-top: 4px;
+}
