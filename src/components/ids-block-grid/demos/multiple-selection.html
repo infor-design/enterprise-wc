@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true" gap="md">
+      <ids-text font-size="12" type="h1">block-grid</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-block-grid selection="multiple" align="center">
+          <ids-block-grid-item>
+            <img src="/assets/placeholder-200x200.png" alt="Placeholder 200x200" />
+            <ids-text type="p">
+              Sheena Taylor<br/>
+              Infor, Developer
+            </ids-text>
+          </ids-block-grid-item>
+          <ids-block-grid-item>
+            <img src="/assets/placeholder-200x200.png" alt="Placeholder 200x200" />
+            <ids-text type="p">
+              Jane Taylor<br/>
+              Infor, Developer
+            </ids-text>
+          </ids-block-grid-item>
+          <ids-block-grid-item>
+            <img src="/assets/placeholder-200x200.png" alt="Placeholder 200x200" />
+            <ids-text type="p">
+              Sam Smith<br/>
+              Infor, SVP
+            </ids-text>
+          </ids-block-grid-item>
+          <ids-block-grid-item>
+            <img src="/assets/placeholder-200x200.png" alt="Placeholder 200x200" />
+            <ids-text type="p">
+              Mary Pane<br/>
+              Infor, Developer
+            </ids-text>
+          </ids-block-grid-item>
+          <ids-block-grid-item>
+            <img src="/assets/placeholder-200x200.png" alt="Placeholder 200x200" />
+            <ids-text type="p">
+              Paula Paulson<br/>
+              Infor, Architect
+            </ids-text>
+          </ids-block-grid-item>
+        </ids-block-grid>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

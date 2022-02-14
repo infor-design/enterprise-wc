@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Date Picker</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid cols="3" gap="sm">
+      <ids-layout-grid-cell col-start="1" row-start="1">
+        <ids-date-picker
+          id="e2e-datepicker-value"
+          label="Date Field (with value) not tabbable"
+          value="3/4/2016"
+          tabbable="false"
+        ></ids-date-picker>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell col-start="1" row-start="2">
+        <ids-date-picker
+          id="e2e-datepicker-required"
+          label="Date Field (required) with placeholder"
+          placeholder="M/d/yyyy"
+          validate="required"
+          show-today="false"
+          first-day-of-week="1"
+        ></ids-date-picker>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell col-start="1" row-start="3">
+        <ids-date-picker
+          id="e2e-datepicker-disabled"
+          label="Date Field (disabled) Size lg"
+          value="10/31/2014"
+          disabled
+          size="lg"
+        ></ids-date-picker>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell col-start="1" row-start="4">
+        <ids-date-picker
+          id="e2e-datepicker-readonly"
+          label="Date Field (readonly) Size sm (yyyy-MM-dd)"
+          value="2021-10-18"
+          format="yyyy-MM-dd"
+          readonly
+          size="sm"
+        ></ids-date-picker>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>    
+  </ids-container>
+</body>
+</html>

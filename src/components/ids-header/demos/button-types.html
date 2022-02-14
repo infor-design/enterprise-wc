@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="0" hidden>
+    <ids-text font-size="12" type="h1" audible="true">Ids Header (Different Button Types)</ids-text>
+    <ids-header>
+      <ids-toolbar>
+        <ids-toolbar-section>
+          <ids-button icon="menu" role="button" color-variant="alternate">
+            <span slot="text" class="audible">Application Menu Trigger</span>
+          </ids-button>
+        </ids-toolbar-section>
+        <ids-toolbar-section type="title">
+          <ids-text font-size="20" color-variant="alternate">My Header</ids-text>
+          <ids-text font-size="14" color-variant="alternate">With some extra information below</ids-text>
+        </ids-toolbar-section>
+        <ids-toolbar-section type="buttonset" align="end">
+          <ids-button id="button-1" role="button" type="primary" color-variant="alternate">
+            <ids-icon slot="icon" icon="filter"></ids-icon>
+            <span slot="text">My Filters</span>
+          </ids-button>
+
+          <ids-button id="button-2" type="secondary" color-variant="alternate">
+            <ids-icon slot="icon" icon="settings"></ids-icon>
+            <span slot="text">My Settings</span>
+          </ids-button>
+
+          <ids-button id="button-3" type="tertiary" color-variant="alternate">
+            <ids-icon slot="icon" icon="delete"></ids-icon>
+            <span slot="text">Trash</span>
+          </ids-button>
+        </ids-toolbar-section>
+        <ids-theme-switcher mode="light" version="new" color-variant="alternate"></ids-theme-switcher>
+      </ids-toolbar>
+    </ids-header>
+
+  <ids-layout-grid>
+    <ids-layout-grid-cell>
+      <ids-checkbox id="controls-disabled" label="Disable Header Buttons"></ids-checkbox>
+    </ids-layout-grid-cell>
+</ids-layout-grid>
+  </ids-container>
+</body>
+</html>

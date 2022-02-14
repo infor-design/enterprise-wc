@@ -1,0 +1,42 @@
+{{> ../layouts/head-side-by-side.html }}
+
+<ids-layout-grid auto="true">
+  <h2 class="ids-text ids-text-px-12">Web Component Loading Indicator</h2>
+</ids-layout-grid>
+<ids-layout-grid gap="md" cols="4">
+  <ids-layout-grid-cell>
+    <div class="circular-progress-container" data-step="10">
+      <ids-loading-indicator></ids-loading-indicator>
+    </div>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid auto="true">
+  <ids-layout-grid-cell>
+    <h2 class="ids-text ids-text-px-12">4.x Loading Indicator</h2>
+    <p>Click Submit button to see Loading Indicator</p>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+<div class="row">
+  <div class="one-half column">
+    <div class="busy" id="busy-form" data-options="{ 'displayDelay': 100, 'timeToComplete': 100000, 'attributes' : [{ name: 'id', value: 'busyindicator-id-1' }, { name: 'data-automation-id', value: 'busyindicator-automation-id-1' }] }">
+      <div class="field">
+        <label for="busy-field-name">Name</label>
+        <input type="text" id="busy-field-name" name="busy-field-name" value="" />
+      </div>
+      <div class="field">
+        <label for="busy-field-address">Address</label>
+        <input type="text" id="busy-field-address" name="busy-field-address" value="" />
+      </div>
+      <div class="field">
+        <label for="busy-field-cats">Number of Cats</label>
+        <input type="text" id="busy-field-cats" name="busy-field-cats" value="" />
+      </div>
+      <div class="field">
+        <button type="text" id="submit" class="btn-primary">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{> ../layouts/footer.html }}

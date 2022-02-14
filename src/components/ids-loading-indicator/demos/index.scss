@@ -1,0 +1,36 @@
+.loading-indicator-determinate-controls {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0;
+}
+
+.sticky-indicator-container {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: dashed 1px;
+  width: 100%;
+  padding: 24px 16px;
+}
+
+[mode='light'] .sticky-indicator-container {
+  border-color: var(--ids-color-palette-slate-60);
+}
+
+[mode='dark'] .sticky-indicator-container {
+  border-color: var(--ids-color-palette-white);
+}
+
+[mode='contrast'] .sticky-indicator-container {
+  border-color: var(--ids-color-palette-slate-60);
+}
+
+.circular-progress-container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Data Grid</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <!-- Wrapping ids-data-grid inside of a parent container with a fixed height while using the auto-fit attribute will allow the grid to grow to the size of said fixed height -->
+        <div class="parent-container">
+          <ids-data-grid auto-fit id="data-grid-1" label="Books" row-height="md>
+          </ids-data-grid>
+        </div>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

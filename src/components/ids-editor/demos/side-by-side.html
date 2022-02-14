@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <div>
+    <ids-layout-grid auto="true">
+      <h2 class="ids-text ids-text-px-12">Web Component Editor</h2>
+    </ids-layout-grid>
+    
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+    
+        <ids-editor id="editor-wc" label="Comments">
+          <p>Embrace <a href="http://en.wikipedia.org/wiki/e-commerce" class="hyperlink">e-commerce action-items</a>, reintermediate, ecologies paradigms wireless share life-hacks create innovative harness. Evolve solutions rich-clientAPIs synergies harness relationships virtual vertical facilitate end-to-end, wireless, evolve synergistic synergies.</p>
+          <p>Cross-platform, evolve, ROI scale cultivate eyeballs addelivery, e-services content cross-platform leverage extensible viral incentivize integrateAJAX-enabled sticky evolve magnetic cultivate leverage; cutting-edge. Innovate, end-to-end podcasting, whiteboard streamline e-business social; compelling, "cross-media exploit infomediaries innovative integrate integrateAJAX-enabled." Killer interactive reinvent, cultivate widgets leverage morph.</p>
+        </ids-editor>
+    
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+    
+    <!--
+      Begin 4.x
+     -->
+    <ids-layout-grid auto="true">
+      <h2 class="ids-text ids-text-px-12">4.x Editor</h2>
+    </ids-layout-grid>
+    
+    <div class="svg hidden">
+      <div class="svg-icons">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-icons">
+    
+          <symbol id="icon-dropdown" viewBox="0 0 18 18">
+            <path clip-rule="evenodd" d="M4 6l5 6 5-6H4z" fill="currentColor" fill-rule="evenodd" stroke="none"></path>
+          </symbol>
+          <symbol id="icon-bold" viewBox="0 0 18 18">
+            <path clip-rule="evenodd" d="M3 17V1h5.406c.824 0 1.588.061 2.291.184.703.123 1.317.34 1.842.65.526.311.938.72 1.237 1.227.299.508.448 1.146.448 1.914 0 .36-.048.72-.145 1.08-.097.36-.235.696-.412 1.006-.178.311-.392.59-.643.835-.25.245-.537.425-.86.54v.098c.404.098.775.25 1.115.454a3.481 3.481 0 011.503 1.865c.145.417.218.896.218 1.435 0 .818-.158 1.522-.473 2.11a4.104 4.104 0 01-1.309 1.46 5.994 5.994 0 01-1.951.86 9.762 9.762 0 01-2.4.282H3zm3-9h2.5c1.047 0 1.313-.19 1.788-.571.475-.381.712-.89.712-1.524 0-.69-.242-1.18-.727-1.47C9.79 4.145 9.508 4 8.5 4H6v4zm2.441 6H6v-4h3c1.196 0 1.53.147 2.118.44.588.294.882.782.882 1.465C12 13.302 10.814 14 8.441 14z" fill="currentColor" fill-rule="evenodd" stroke="none"></path>
+          </symbol>
+          <symbol id="icon-italic" viewBox="0 0 18 18">
+            <path clip-rule="evenodd" d="M6 17L8.23 5H10L7.747 17H6zM9.916 3a.982.982 0 01-.645-.223C9.091 2.627 9 2.41 9 2.127c0-.324.109-.593.327-.807.218-.213.47-.32.757-.32.25 0 .464.078.645.233.18.155.271.375.271.66 0 .324-.109.59-.327.796-.218.207-.47.311-.757.311z" fill="currentColor" fill-rule="evenodd" stroke="none"></path>
+          </symbol>
+          <symbol id="icon-underline" viewBox="0 0 18 18">
+            <path clip-rule="evenodd" d="M8.5 15c-.743 0-1.677-.108-2.323-.326a3.993 3.993 0 01-1.672-1.077c-.468-.502-.836-1.157-1.104-1.965C3.134 10.823 3 9.828 3 8.645V0h2v8.69c0 .883-.06 1.624.118 2.223.178.599.42 1.078.724 1.437.305.36.665.618 1.082.775.416.157 1.1.236 1.576.236.49 0 .992-.079 1.408-.236.416-.157.78-.415 1.092-.775.312-.359.557-.838.736-1.437.178-.599.267-1.34.267-2.223V0H14v8.645c0 1.183-.134 2.178-.401 2.987-.268.808-.636 1.463-1.104 1.965a4.002 4.002 0 01-1.66 1.077c-.64.218-1.592.326-2.335.326zM2 17v-1h13v1H2z" fill="currentColor" fill-rule="evenodd" stroke="none"></path>
+          </symbol>
+          <symbol id="icon-strike-through" viewBox="0 0 18 18">
+            <path d="M6.252 16.388c.868.408 1.81.612 2.825.612.766 0 1.45-.114 2.053-.341a4.603 4.603 0 001.545-.941c.427-.4.755-.867.983-1.4A4.321 4.321 0 0014 12.6c0-.565-.077-1.063-.232-1.494-.15-.421-.354-.79-.61-1.106H15V9h-3.012a8.669 8.669 0 00-.968-.518l-2.053-.94a11.013 11.013 0 01-.861-.413 4.54 4.54 0 01-.773-.517 2.314 2.314 0 01-.563-.683c-.14-.258-.21-.576-.21-.953 0-.705.247-1.258.74-1.658.493-.4 1.144-.6 1.954-.6.677 0 1.284.13 1.821.388a5.163 5.163 0 011.468 1.07l.993-1.27a6.045 6.045 0 00-1.876-1.377A5.49 5.49 0 009.254 1c-.662 0-1.27.102-1.821.306-.552.204-1.03.49-1.435.859a3.968 3.968 0 00-.95 1.306 3.878 3.878 0 00-.342 1.623c0 .565.089 1.063.265 1.494.177.432.405.804.685 1.118.28.314.596.58.949.8.302.187.598.352.889.494H3v1h6.642l.075.035c.339.173.655.338.95.494.294.157.548.334.761.53.214.196.383.431.508.706.125.274.188.607.188 1 0 .753-.265 1.36-.795 1.823-.53.463-1.273.694-2.23.694-.75 0-1.475-.176-2.174-.53a6.069 6.069 0 01-1.821-1.4L4 14.719a6.972 6.972 0 002.252 1.67z" fill="currentColor" stroke="none"></path>
+          </symbol>
+          <symbol id="icon-fore-color" viewBox="0 0 18 18">
+            <path clip-rule="evenodd" d="M7.63 6.13L7 8h4l-.63-1.87a65.634 65.634 0 01-.69-2.046C9.464 3.405 9.247 2.71 9.03 2h-.08c-.204.71-.414 1.405-.63 2.084-.217.68-.447 1.361-.69 2.047zM4 13L8.126 1h1.748L14 13h-1.654l-1.153-3.659H6.751L5.58 13H4zM15 15v2H3v-2h12z" fill="currentColor" fill-rule="evenodd" stroke="none"></path>
+          </symbol>
+          <symbol id="icon-left-text-align" viewBox="0 0 18 18">
+            <path d="M0 9.5h12m-12 6h18M0 3.5h18" stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+          </symbol>
+          <symbol id="icon-center-text" viewBox="0 0 18 18">
+            <path d="M3 15.5h12m-15-6h18m-18-6h18" stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+          </symbol>
+          <symbol id="icon-right-text-align" viewBox="0 0 18 18">
+            <path d="M18 8.5H6m12 6H0m18-12H0" stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+          </symbol>
+          <symbol id="icon-quote" viewBox="0 0 18 18">
+            <path clip-rule="evenodd" d="M0 15h7V8H0v7zM11 15h7V8h-7v7zM0 8a6.5 6.5 0 016.5-6.5v1A5.5 5.5 0 001 8H0zM11 8a6.5 6.5 0 016.5-6.5v1A5.5 5.5 0 0012 8h-1z" fill="currentColor" fill-rule="evenodd" stroke="none"></path>
+          </symbol>
+          <symbol id="icon-number-list" viewBox="0 0 19 18">
+            <path d="M6.133 9.5h12m-12 6h12m-12-12h12m-18-1h2.5V8m-2.5 2.5h1.748c.855 0 1.366 1.062.89 1.852L.884 15.5h3.25" stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+          </symbol>
+          <symbol id="icon-bullet-list" viewBox="0 0 18 18">
+            <path d="M4 2.5h14m-14 12h14m-14-6h14M1.5 14a.5.5 0 100 1 .5.5 0 000-1zm0-6a.5.5 0 100 1 .5.5 0 000-1zm0-6a.5.5 0 100 1 .5.5 0 000-1z" stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+          </symbol>
+          <symbol id="icon-link" viewBox="0 0 18 18">
+            <path d="M4 8.5h10m-7-4H4.9C2.746 4.5 1 6.29 1 8.5s1.746 4 3.9 4H7m4-8h2.1c2.154 0 3.9 1.79 3.9 4s-1.746 4-3.9 4H11" stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+          </symbol>
+          <symbol id="icon-insert-image" viewBox="0 0 18 18">
+            <path d="M.5 14.379l3.923-3.864 3.923 2.576L17.5 7.939m0-6.439H.5v14h11.77c2.92 0 5.23-2.248 5.23-5.09V1.5zM6.893 5.965a1.889 1.889 0 11-3.777 0 1.889 1.889 0 013.777 0z" stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+          </symbol>
+          <symbol id="icon-clear-formatting" viewBox="0 0 18 18">
+            <path clip-rule="evenodd" d="M11.723 13.533L5.569 7.36l.708-.706 6.154 6.171-.708.707z" fill="currentColor"
+              fill-rule="evenodd" stroke="none"></path>
+            <path clip-rule="evenodd" d="M10.846 1.363l6.86 6.88-6.717 6.736a5.414 5.414 0 01-7.67 0L.294 11.945 10.846 1.363zm-9.14 10.582l2.321 2.328a4.414 4.414 0 006.253 0l6.014-6.03-5.448-5.464-9.14 9.166z" fill="currentColor" fill-rule="evenodd" stroke="none"></path>
+            <path d="M10.414 2l6.364 6.364-4.95 4.95L5.464 6.95 10.414 2z" fill="currentColor" stroke="none"></path>
+          </symbol>
+          <symbol id="icon-html" viewBox="0 0 54 18">
+            <path clip-rule="evenodd" d="M0 1h2v7h8V1h2v16h-2v-7H2v7H0V1zM19 3h-5V1h12v2h-5v14h-2V3zM28 1h2.39l4.11 12 4.11-12H41v16h-2V8 4.5l-4 11h-1l-4-11V17h-2V1zM45 1h2.032v14H54v2h-9V1z" fill="currentColor" fill-rule="evenodd" stroke="none"></path>
+          </symbol>
+          <symbol id="icon-visual" viewBox="0 0 73 18">
+            <path clip-rule="evenodd" d="M0 1h2.234l2.674 8.65c.582 1.881.98 3.407 1.596 5.284h.1c.613-1.877 1.021-3.403 1.595-5.285L10.853 1H13L7.737 17H5.293L0 1zm16 16h2V1h-2v16zm5-2.291l1.213-1.348c1.147 1.153 2.739 1.913 4.394 1.913 2.09 0 3.33-1.01 3.33-2.509 0-1.576-1.154-2.08-2.657-2.715l-2.288-.979c-1.484-.614-3.225-1.704-3.225-3.973 0-2.36 2.12-4.098 5.014-4.098 1.887 0 3.57.792 4.69 1.912l-1.074 1.262c-.977-.893-2.144-1.447-3.616-1.447-1.786 0-2.97.872-2.97 2.253 0 1.487 1.389 2.043 2.637 2.555l2.271.951C30.562 9.254 32 10.319 32 12.614 32 15.052 29.92 17 26.572 17c-2.235 0-4.18-.884-5.572-2.291zM35 1h2v9.224c0 3.776 1.503 5.018 3.503 5.018C42.532 15.242 44 14 44 10.224V1h2v9.224C46 15.266 43.628 17 40.503 17 37.377 17 35 15.266 35 10.224V1zm26 16h-2.3l-1.624-4.874h-6.225L49.211 17H47l5.774-16h2.452L61 17zm-8.78-8.936l-.821 2.437h5.136l-.812-2.437a130.17 130.17 0 01-1.708-5.39h-.105a105.116 105.116 0 01-1.69 5.39zM63 1h2v14h8v2H63V1z" fill="currentColor" fill-rule="evenodd" stroke="none"></path>
+          </symbol>
+    
+        </svg>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="twelve columns">
+    
+        <div class="field">
+          <span id="editor-4x-label" class="label">Comments</span>
+          <div id="editor-4x" class="editor" aria-label="Comments">
+            <p>Embrace <a href="http://en.wikipedia.org/wiki/e-commerce" class="hyperlink">e-commerce action-items</a>, reintermediate, ecologies paradigms wireless share life-hacks create innovative harness. Evolve solutions rich-clientAPIs synergies harness relationships virtual vertical facilitate end-to-end, wireless, evolve synergistic synergies.</p>
+            <p>Cross-platform, evolve, ROI scale cultivate eyeballs addelivery, e-services content cross-platform leverage extensible viral incentivize integrateAJAX-enabled sticky evolve magnetic cultivate leverage; cutting-edge. Innovate, end-to-end podcasting, whiteboard streamline e-business social; compelling, "cross-media exploit infomediaries innovative integrate integrateAJAX-enabled." Killer interactive reinvent, cultivate widgets leverage morph.</p>
+          </div>
+        </div>
+    
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container padding="8" role="main" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid cols="3" gap="md">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Ids Checkbox</ids-text><br />
+        <ids-checkbox label="Unchecked"></ids-checkbox>
+        <ids-checkbox label="Checked" checked="true"></ids-checkbox>
+        <ids-checkbox label="Dirty tracking" dirty-tracker="true"></ids-checkbox>
+        <ids-checkbox label="Disabled and unchecked" disabled="true"></ids-checkbox>
+        <ids-checkbox label="Disabled and checked" checked="true" disabled="true"></ids-checkbox>
+        <ids-checkbox label="Required" validate="required"></ids-checkbox>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Ids Checkbox with no label</ids-text><br />
+        <ids-checkbox label="UnChecked" label-audible="true"></ids-checkbox>
+        <ids-checkbox label="Checked" checked="true" label-audible="false"></ids-checkbox>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Ids Checkbox - Colored</ids-text><br />
+        <ids-checkbox checked="true" color="emerald07" label="Emerald 07"></ids-checkbox>
+        <ids-checkbox checked="true" color="amethyst07" label="Amethyst 07"></ids-checkbox>
+        <ids-checkbox checked="true" color="azure07" label="Azure 07"></ids-checkbox>
+        <ids-checkbox checked="true" color="amber07" label="Amber 07"></ids-checkbox>
+        <ids-checkbox checked="true" color="ruby07" label="Ruby 07"></ids-checkbox>
+        <ids-checkbox checked="true" color="ruby07" label="Ruby 07 (disabled)" disabled="true"></ids-checkbox>
+        <ids-checkbox checked="true" color="caution" label="Caution"></ids-checkbox>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Ids Indeterminate</ids-text><br />
+        <ids-checkbox label="Indeterminate" indeterminate="true" id="cb-indeterminate"></ids-checkbox>
+        <ids-button type="secondary" id="btn-set-indeterminate">
+          <span slot="text">Set</span>
+        </ids-button>
+        <ids-button type="secondary" id="btn-remove-indeterminate">
+          <span slot="text">Remove</span>
+        </ids-button>
+
+        <br /><br />
+        <ids-text font-size="12" type="h1">Ids Checkbox - Horizontal</ids-text><br />
+
+        <ids-checkbox label="Option 1 I am long" horizontal="true"></ids-checkbox>
+        <ids-checkbox label="Option 2" horizontal="true" checked="true"></ids-checkbox>
+        <ids-checkbox label="Option 3" horizontal="true" checked="true"></ids-checkbox>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Ids Checkbox with Hitbox</ids-text><br />
+        <ids-checkbox label="Unchecked" hitbox="true"></ids-checkbox>
+        <ids-checkbox label="Checked" checked="true" hitbox="true"></ids-checkbox>
+        <ids-checkbox
+          label="Can store up to about a gigabyte of text, even though controls on forms and reports can only display the first 64,000 characters."
+          checked="true" hitbox="true"></ids-checkbox>
+        <ids-checkbox label="Dirty tracking" dirty-tracker="true" hitbox="true"></ids-checkbox>
+        <ids-checkbox label="Disabled and unchecked" disabled="true" hitbox="true"></ids-checkbox>
+        <ids-checkbox label="Disabled and checked" checked="true" disabled="true" hitbox="true"></ids-checkbox>
+        <ids-checkbox label="Required" validate="required" hitbox="true"></ids-checkbox>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

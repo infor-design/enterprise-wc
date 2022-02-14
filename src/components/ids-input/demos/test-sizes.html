@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <script src="<%= htmlWebpackPlugin.options.js.index %>" type="module"></script>
+  <script src="<%= htmlWebpackPlugin.options.js.meta %>" type="module"></script>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Ids Input - Defaults</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-input label="Basic"></ids-input>
+        <ids-input label="Compact" compact="true"></ids-input>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2">Ids Input - Field Heights (Height)</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <!-- Field Heights: [xs, sm, md, lg] -->
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-input field-height="xs" label="Extra Small (compact)"></ids-input>
+        <ids-input field-height="sm" label="Small"></ids-input>
+        <ids-input field-height="md" label="Medium (default)"></ids-input>
+        <ids-input field-height="lg" label="Large"></ids-input>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2">Ids Input - Sizes (Width)</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <!-- Sizes: [xs, sm, mm, md, lg, full] -->
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-input size="xs" label="Extra Small"></ids-input>
+        <ids-input size="sm" label="Small"></ids-input>
+        <ids-input size="mm" label="Small - Medium"></ids-input>
+        <ids-input size="md" label="Medium (default)"></ids-input>
+        <ids-input size="lg" label="Large"></ids-input>
+        <ids-input size="full" label="Full"></ids-input>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

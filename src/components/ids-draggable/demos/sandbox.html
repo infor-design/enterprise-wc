@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Draggable</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-draggable>
+        <div class="ids-draggable-demo-box">
+          <ids-text>no axis</ids-text></div>
+      </ids-draggable>
+        <ids-draggable axis="y">
+          <div class="ids-draggable-demo-box">
+            <ids-text>axis='y'</ids-text>
+          </div>
+        </ids-draggable>
+        <ids-draggable axis="x">
+          <div class="ids-draggable-demo-box">
+            <ids-text>axis='x'</ids-text>
+          </div>
+        </ids-draggable>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Draggable (Bounded by Div/Container)</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <div class="ids-draggable-demo-content">
+        <ids-draggable parent-containment>
+          <div class="ids-draggable-demo-box">
+            <ids-text>no axis</ids-text></div>
+        </ids-draggable>
+        <ids-draggable axis="y" parent-containment>
+          <div class="ids-draggable-demo-box">
+            <ids-text>axis='y'</ids-text>
+          </div>
+        </ids-draggable>
+        <ids-draggable axis="x" parent-containment>
+          <div class="ids-draggable-demo-box">
+            <ids-text>axis='x'</ids-text>
+          </div>
+        </ids-draggable>
+      </div>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Draggable (Bounded by Layout Grid)</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-draggable parent-containment>
+        <div class="ids-draggable-demo-box">
+          <ids-text>no axis</ids-text></div>
+      </ids-draggable>
+      <ids-draggable axis="y" parent-containment>
+        <div class="ids-draggable-demo-box">
+          <ids-text>axis='y'</ids-text>
+        </div>
+      </ids-draggable>
+      <ids-draggable axis="x" parent-containment>
+        <div class="ids-draggable-demo-box">
+          <ids-text>axis='x'</ids-text>
+        </div>
+      </ids-draggable>
+    </ids-layout-grid>
+    
+    <ids-layout-grid auto="true">
+      <ids-draggable handle=".ids-draggable-handle">
+        <div class="ids-draggable-handle-example">
+        <ids-icon
+          class="ids-draggable-handle"
+          icon="drag"
+          size="large"
+        ></ids-icon>
+        <div>
+          drag the handle to the left
+        </div>
+      </div>
+      </ids-draggable>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>
