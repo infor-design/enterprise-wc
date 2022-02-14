@@ -1,5 +1,5 @@
-import '../ids-button/ids-button.js';
-import './example.scss';
+// import '../ids-button/ids-button.js';
+// import './example.scss';
 
 document.addEventListener('DOMContentLoaded', () => {
   const triggerBtn = document.querySelector('#message-example-error-trigger');

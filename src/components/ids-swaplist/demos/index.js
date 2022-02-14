@@ -1,5 +1,5 @@
 // Supporting components
-import '../ids-draggable/ids-draggable.js';
+//import '../ids-draggable/ids-draggable.js';
 
 // Example for populating the List View
 const listView1 = document.querySelector('#swaplist-1').container.querySelectorAll('ids-list-view');

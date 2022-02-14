@@ -1,7 +1,7 @@
-import '../ids-breadcrumb/ids-breadcrumb.js';
-import '../ids-hyperlink/ids-hyperlink.js';
-import '../ids-text/ids-text.js';
-import '../ids-checkbox/ids-checkbox.js';
+// import '../ids-breadcrumb/ids-breadcrumb.js';
+// import '../ids-hyperlink/ids-hyperlink.js';
+// import '../ids-text/ids-text.js';
+// import '../ids-checkbox/ids-checkbox.js';
 
 const [button1, button2] = document.querySelectorAll('ids-button');
 const breadcrumb = document.querySelector('ids-breadcrumb');

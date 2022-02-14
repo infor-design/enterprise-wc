@@ -1,5 +1,5 @@
 // Supporting components
-import '../ids-button/ids-button.js';
+//import '../ids-button/ids-button.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const btnUpdateValue = document.querySelector('#btn-textarea-update-value');

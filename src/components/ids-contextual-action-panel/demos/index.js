@@ -1,11 +1,11 @@
 // Supporting components
-import '../ids-checkbox/ids-checkbox.js';
-import '../ids-dropdown/ids-dropdown.js';
-import '../ids-popup-menu/ids-popup-menu.js';
-import '../ids-textarea/ids-textarea.js';
-import '../ids-toolbar/ids-toolbar.js';
-import '../ids-button/ids-button.js';
-import '../ids-separator/ids-separator.js';
+// import '../ids-checkbox/ids-checkbox.js';
+// import '../ids-dropdown/ids-dropdown.js';
+// import '../ids-popup-menu/ids-popup-menu.js';
+// import '../ids-textarea/ids-textarea.js';
+// import '../ids-toolbar/ids-toolbar.js';
+// import '../ids-button/ids-button.js';
+// import '../ids-separator/ids-separator.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const triggerId = '#cap-trigger-btn';

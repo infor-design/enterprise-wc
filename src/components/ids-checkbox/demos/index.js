@@ -1,6 +1,6 @@
 // Supporting components
-import '../ids-button/ids-button.js';
-import '../ids-layout-grid/ids-layout-grid.js';
+// import '../ids-button/ids-button.js';
+// import '../ids-layout-grid/ids-layout-grid.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const btnSetIndeterminate = document.querySelector('#btn-set-indeterminate');

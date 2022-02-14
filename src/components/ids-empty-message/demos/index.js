@@ -1,11 +1,11 @@
-import '../ids-card/ids-card.js';
-import '../ids-empty-message/ids-empty-message.js';
-import '../ids-text/ids-text.js';
-import '../ids-toast/ids-toast.js';
-import '../ids-button/ids-button.js';
+// import '../ids-card/ids-card.js';
+// import '../ids-empty-message/ids-empty-message.js';
+// import '../ids-text/ids-text.js';
+// import '../ids-toast/ids-toast.js';
+// import '../ids-button/ids-button.js';
 
-import pathData from 'ids-identity/dist/theme-new/icons/empty/path-data.json';
-import './example.scss';
+// import pathData from 'ids-identity/dist/theme-new/icons/empty/path-data.json';
+// import './example.scss';
 
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.querySelector('.icon-examples');

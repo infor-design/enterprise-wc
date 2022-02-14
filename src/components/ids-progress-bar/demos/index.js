@@ -1,5 +1,5 @@
 // Supporting components
-import '../ids-toggle-button/ids-toggle-button.js';
+//import '../ids-toggle-button/ids-toggle-button.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const btnUpdateVal = document.querySelector('#btn-progress-value');

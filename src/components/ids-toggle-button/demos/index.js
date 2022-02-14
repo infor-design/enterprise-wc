@@ -1,5 +1,5 @@
 // Supporting components
-import '../ids-icon/ids-icon.js';
+//import '../ids-icon/ids-icon.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   // Add an event listener to test clickable links

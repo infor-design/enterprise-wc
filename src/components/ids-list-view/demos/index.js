@@ -1,6 +1,6 @@
-import '../ids-card/ids-card.js';
-import '../ids-draggable/ids-draggable.js';
-import './index.scss';
+// import '../ids-card/ids-card.js';
+// import '../ids-draggable/ids-draggable.js';
+// import './index.scss';
 
 // Example for populating the List View
 const listView = document.querySelectorAll('ids-list-view');

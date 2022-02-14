@@ -15,7 +15,6 @@ import IdsSearchField from '../../ids-search-field/ids-search-field';
 import IdsToolbar from '../../ids-toolbar/ids-toolbar';
 
 document.addEventListener('DOMContentLoaded', () => {
-  
   const appMenuDrawer = document.querySelector('#app-menu');
   const appMenuTriggerBtn = document.querySelector('#app-menu-trigger');
 

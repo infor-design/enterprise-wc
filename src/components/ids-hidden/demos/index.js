@@ -1,1 +1,1 @@
-import '../ids-card/ids-card.js';
+//import '../ids-card/ids-card.js';

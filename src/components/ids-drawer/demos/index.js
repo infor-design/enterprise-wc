@@ -1,5 +1,5 @@
-import IdsDrawer from '../ids-drawer/ids-drawer';
-import IdsButton from '../ids-button/ids-button';
+// import IdsDrawer from '../ids-drawer/ids-drawer';
+// import IdsButton from '../ids-button/ids-button';
 
 document.addEventListener('DOMContentLoaded', () => {
   const appMenuDrawer = document.querySelector('#drawer-app-menu');

@@ -1,10 +1,10 @@
 // Supporting components
-import '../ids-tabs/ids-tab.js';
-import '../ids-tabs/ids-tab-content.js';
-import '../ids-tabs/ids-tabs-context.js';
-import '../ids-tabs/ids-tab-divider.js';
+// import '../ids-tabs/ids-tab.js';
+// import '../ids-tabs/ids-tab-content.js';
+// import '../ids-tabs/ids-tabs-context.js';
+// import '../ids-tabs/ids-tab-divider.js';
 
-import './example.scss';
+// import './example.scss';
 
 document.addEventListener('DOMContentLoaded', () => {
   const tabElements = [...document.querySelectorAll('ids-tabs')];

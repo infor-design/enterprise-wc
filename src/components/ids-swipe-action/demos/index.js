@@ -1,5 +1,5 @@
-import '../ids-card/ids-card.js';
-import '../ids-menu-button/ids-menu-button.js';
+// import '../ids-card/ids-card.js';
+// import '../ids-menu-button/ids-menu-button.js';
 
 // Setup normal click events on the actions
 document.addEventListener('DOMContentLoaded', () => {

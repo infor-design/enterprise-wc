@@ -22,6 +22,7 @@ import styles from './ids-app-menu.scss';
 export default class IdsAppMenu extends Base {
   constructor() {
     super();
+    console.log('app menu...')
   }
 
   connectedCallback() {
