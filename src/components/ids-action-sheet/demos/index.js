@@ -1,17 +1,8 @@
 // Supporting components
-// import '../ids-container/ids-container.js';
-// import '../ids-text/ids-text.js';
-// import '../ids-card/ids-card.js';
-// import '../ids-layout-grid/ids-layout-grid.js';
-// import '../ids-popup-menu/ids-popup-menu.js';
-// import '../ids-action-sheet/ids-action-sheet.js';
+import IdsActionSheet from '../ids-action-sheet';
+import IdsBlockGrid from '../../ids-block-grid/ids-block-grid';
+import IdsCard from '../../ids-card/ids-card';
 
-import IdsContainer from "../../ids-container/ids-container";
-import IdsText from "../../ids-text/ids-text";
-import IdsBlockGrid from "../../ids-block-grid/ids-block-grid";
-import IdsCard from "../../ids-card/ids-card";
-import IdsLayoutGrid from "../../ids-layout-grid/ids-layout-grid";
-import IdsActionSheet from "../ids-action-sheet";
 
 document.addEventListener('DOMContentLoaded', () => {
   const menuBtnEl = document.querySelector('ids-menu-button');

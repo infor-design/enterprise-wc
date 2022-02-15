@@ -1,8 +1,3 @@
-// IdsEditor Sandbox
-import './index';
-import IdsRadio from '../../src/components/ids-radio/ids-radio';
-import IdsCheckbox from '../../src/components/ids-checkbox/ids-checkbox';
-
 document.addEventListener('DOMContentLoaded', async () => {
   /**
    * MODAL ELEMENTS DEFAULT VALUE

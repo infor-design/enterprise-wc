@@ -1,14 +1,7 @@
 // Supporting components
-
 import IdsAppMenu from '../ids-app-menu';
-
-import IdsContainer from "../../ids-container/ids-container";
-import IdsText from "../../ids-text/ids-text";
 import IdsBlockGrid from "../../ids-block-grid/ids-block-grid";
 import IdsCard from "../../ids-card/ids-card";
-import IdsLayoutGrid from "../../ids-layout-grid/ids-layout-grid";
-import { IdsThemeSwitcher } from "../../ids-theme-switcher/ids-theme-switcher";
-
 import IdsButtom from '../../ids-button/ids-button';
 import IdsIcon from '../../ids-icon/ids-icon';
 import IdsSearchField from '../../ids-search-field/ids-search-field';

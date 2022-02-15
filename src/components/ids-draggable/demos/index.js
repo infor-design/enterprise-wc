@@ -1,4 +1,5 @@
-
+// Supporting components
+import IdsDraggable from '../ids-draggable';
 
 const draggables = [...document.querySelectorAll('ids-draggable')];
 

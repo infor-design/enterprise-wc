@@ -1,2 +1,3 @@
-// import '../ids-theme-switcher/ids-theme-switcher.js';
-// import '../ids-tag/ids-tag.js';
+// Supporting components
+import { IdsThemeSwitcher } from '../ids-theme-switcher';
+import IdsTag from '../../ids-container/ids-container';

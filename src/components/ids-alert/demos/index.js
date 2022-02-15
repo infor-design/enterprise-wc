@@ -1,0 +1,1 @@
+import IdsAlert from '../ids-alert';

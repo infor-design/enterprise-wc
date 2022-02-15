@@ -1,3 +1,6 @@
+// Supporting components 
+import IdsAbout from '../ids-about';
+
 document.addEventListener('DOMContentLoaded', () => {
   const triggerBtn = document.querySelector('#about-example-trigger');
   const about = document.querySelector('#about-example');

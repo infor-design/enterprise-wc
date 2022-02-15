@@ -1,0 +1,1 @@
+import IdsContainer from '../ids-container';

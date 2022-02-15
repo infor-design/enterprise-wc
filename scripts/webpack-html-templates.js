@@ -23,7 +23,7 @@ const WebpackHtmlExamples = WebpackHtmlTemplates.map((template) => {
 
     filename: `${chunkName}/${chunkFileName}`,
 
-    chunks: [chunkName], //'ids-container', 'ids-text', 'ids-icon', 'ids-layout-grid', 'ids-theme-switcher'
+    chunks: [chunkName, 'ids-container', 'ids-text', 'ids-icon', 'ids-layout-grid', 'ids-theme-switcher'],
 
     // js: {
     //   meta: '/js/head-meta.js',
