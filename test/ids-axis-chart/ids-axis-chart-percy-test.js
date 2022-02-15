@@ -23,4 +23,9 @@ describe('Ids Axis Chart Percy Tests', () => {
     });
     await percySnapshot(page, 'ids-axis-chart-new-contrast');
   });
+
+  it('should not have visual regressions with custom colors', async () => {
+    await page.goto('http://localhost:4444/ids-axis-chart/colors.html', { waitUntil: ['networkidle2', 'load'] });
+    await percySnapshot(page, 'ids-axis-chart-colors');
+  });
 });

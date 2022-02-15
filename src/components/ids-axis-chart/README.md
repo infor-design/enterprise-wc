@@ -87,6 +87,29 @@ You can also customize the empty message contents but adding an `ids-empty-eleme
 </ids-axis-chart>
 ```
 
+Another type of chart you can use is a sequential color chart. A sequence of colors is used to represent various concepts of range in low-high density, quantity, and concentration situations. I.E. The data is highly related and should be represented with a single color.
+
+To achieve this it is recommended to use the `color` setting and pick one of the Ids Colors in the color palette and use variables in its range. For example:
+
+```js
+[{
+   "data": [],
+   "name": "Component A",
+   "color": "var(--ids-color-palette-azure-60)
+ }, {
+   "data": [],
+   "name": "Component B",
+   "legendShortName": "Comp B",
+   "legendAbbrName": "B",
+   "color": "var(--ids-color-palette-azure-40)"
+ }, {
+   "data": [{
+   ],
+   "name": "Component C",
+   "color": "var(--ids-color-palette-azure-20)"
+ }]
+```
+
 ## Class Hierarchy
 
 - IdsAxisChart
@@ -95,6 +118,15 @@ You can also customize the empty message contents but adding an `ids-empty-eleme
   IdsEventsMixin
   IdsLocaleMixin
   IdsThemeMixin
+
+## Data Settings
+
+The following data attributes can be used on the data passed to a chart.
+
+- `data` {object} A data group with one or more `name` and `value` pairs.
+- `shortName` {string} The short name of the legend text.
+- `abbrName` {string} A very short name of the legend text (one or two characters).
+- `color` {string} The color of this axis group. This can be either a hex value for example `#FF0000` or a color name like `red` or an ids variable like `var(--ids-color-palette-azure-20)`.
 
 ## Settings
 

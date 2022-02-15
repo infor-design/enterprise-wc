@@ -1,5 +1,4 @@
 /** Chart Legends Mixin */
-
 .chart-legend {
   @include flex();
 
@@ -27,43 +26,10 @@
     height: 12px;
     width: 12px;
 
-    // Colors
-    --color-1: var(--ids-color-palette-azure-80);
-    --color-2: var(--ids-color-palette-turquoise-40);
-    --color-3: var(--ids-color-palette-amethyst-60);
-    --color-4: var(--ids-color-palette-slate-40);
-    --color-5: var(--ids-color-palette-slate-40);
-    --color-6: var(--ids-color-palette-amber-30);
-    --color-7: var(--ids-color-palette-amber-70);
-    --color-8: var(--ids-color-palette-emerald-80);
-    --color-9: var(--ids-color-palette-azure-30);
-    --color-10: var(--ids-color-palette-ruby-80);
-    --color-11: var(--ids-color-palette-slate-20);
-    --color-12: var(--ids-color-palette-turquoise-60);
-    --color-13: var(--ids-color-palette-amber-90);
-    --color-14: var(--ids-color-palette-amethyst-30);
-    --color-15: var(--ids-color-palette-azure-60);
-    --color-16: var(--ids-color-palette-ruby-30);
-    --color-17: var(--ids-color-palette-amethyst-80);
-    --color-18: var(--ids-color-palette-emerald-30);
-    --color-19: var(--ids-color-palette-turquoise-80);
-    --color-20: var(--ids-color-palette-slate-60);
-    --color-21: var(--ids-color-palette-ruby-40);
-
-    &.color-1 {
-      background-color: var(--color-1);
-    }
-
-    &.color-2 {
-      background-color: var(--color-2);
-    }
-
-    &.color-3 {
-      background-color: var(--color-3);
-    }
-
-    &.color-4 {
-      background-color: var(--color-4);
+    @for $i from 1 through 21 {
+      &.color-#{$i} {
+        background-color: var(--color-#{$i});
+      }
     }
   }
 }

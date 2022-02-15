@@ -1,0 +1,13 @@
+---
+ component: Axis Chart
+ link: ids-axis-chart
+ description: Configurable chart with x and y axis
+ category: Charts and Visualizations
+ keywords: axis chart, chart, visualization
+ examples:
+  - link: index.html
+    description: Shows a basic axis chart
+  - link: empty-message.html
+    description: Shows an empty message with no data
+  - link: colors.html
+    description: Shows configuring custom colors

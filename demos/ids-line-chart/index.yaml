@@ -7,3 +7,7 @@
  examples:
   - link: index.html
     description: Shows a basic line chart
+  - link: colors.html
+    description: Shows configuring custom colors
+  - link: side-by-side.html
+    description: Shows chart side by side with a 4.x chart

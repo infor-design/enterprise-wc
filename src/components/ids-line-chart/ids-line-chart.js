@@ -57,10 +57,10 @@ export default class IdsLineChart extends Base {
       markerHTML += '<g class="marker-set">';
       pointGroup.forEach((point) => {
         points += `${point.left},${point.top} `;
-        markerHTML += `<circle part="marker" fill="var(${this.color(index)}" cx="${point.left}" cy="${point.top}" data-value="${point.value}" r="${this.markerSize}">${point.value}</circle>`;
+        markerHTML += `<circle part="marker" class="color-${index + 1}" cx="${point.left}" cy="${point.top}" data-value="${point.value}" r="${this.markerSize}">${point.value}</circle>`;
       });
       markerHTML += '</g>';
-      lineHTML += `<polyline part="line" class="data-line" points="${points}" stroke="var(${this.color(index)}"/>`;
+      lineHTML += `<polyline part="line" class="data-line color-${index + 1}" points="${points}" stroke="var(${this.color(index)}"/>`;
     });
 
     return {

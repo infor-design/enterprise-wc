@@ -6,6 +6,11 @@
   // Area Styles
   .areas {
     fill-opacity: 0.2;
-    fill: var(--ids-color-palette-azure-80);
+
+    @for $i from 1 through 21 {
+      path.color-#{$i} {
+        fill: var(--color-#{$i});
+      }
+    }
   }
 }

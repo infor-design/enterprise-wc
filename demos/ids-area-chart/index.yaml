@@ -7,3 +7,5 @@
  examples:
   - link: index.html
     description: Shows a basic area chart
+  - link: colors.html
+    description: Shows configuring custom colors

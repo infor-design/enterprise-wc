@@ -35,4 +35,38 @@ describe('IdsLineChart Component', () => {
     lineChart.markerSize = 8;
     expect(lineChart.markerSize).toEqual(8);
   });
+
+  it('can set custom colors', async () => {
+    lineChart.data = [{
+      data: [{
+        name: 'Jan',
+        value: 100
+      }, {
+        name: 'Feb',
+        value: 200
+      }],
+      name: 'Series 1',
+      color: '#800000',
+    }, {
+      data: [{
+        name: 'Jan',
+        value: 100
+      }, {
+        name: 'Feb',
+        value: 300
+      }],
+      color: 'var(--ids-color-palette-azure-20)',
+      name: 'Series 2'
+    }];
+    lineChart.rerender();
+
+    expect(lineChart.container.parentNode.querySelectorAll('.swatch')[0].classList.contains('color-1')).toBeTruthy();
+    expect(lineChart.shadowRoot.querySelectorAll('circle')[0].classList.contains('color-1')).toBeTruthy();
+    expect(lineChart.color(0)).toEqual('color-1');
+
+    expect(lineChart.container.parentNode.querySelectorAll('.swatch')[1].classList.contains('color-2')).toBeTruthy();
+    expect(lineChart.shadowRoot.querySelectorAll('circle')[1].classList.contains('color-1')).toBeTruthy();
+    expect(lineChart.shadowRoot.querySelector('circle').getAttribute('r')).toEqual('5');
+    expect(lineChart.color(1)).toEqual('color-2');
+  });
 });

@@ -89,6 +89,29 @@ const lineData2 = [{
 document.querySelector('ids-line-chart').data = lineData;
 ```
 
+Another type of chart you can use is a sequential color chart. A sequence of colors is used to represent various concepts of range in low-high density, quantity, and concentration situations. I.E. The data is highly related and should be represented with a single color.
+
+To achieve this it is recommended to use the `color` setting and pick one of the Ids Colors in the color palette and use variables in its range. For example:
+
+```js
+[{
+   "data": [],
+   "name": "Component A",
+   "color": "var(--ids-color-palette-azure-60)
+ }, {
+   "data": [],
+   "name": "Component B",
+   "legendShortName": "Comp B",
+   "legendAbbrName": "B",
+   "color": "var(--ids-color-palette-azure-40)"
+ }, {
+   "data": [{
+   ],
+   "name": "Component C",
+   "color": "var(--ids-color-palette-azure-20)"
+ }]
+```
+
 ## Class Hierarchy
 
 - IdsAreaChart
@@ -99,6 +122,10 @@ document.querySelector('ids-line-chart').data = lineData;
   IdsEventsMixin
   IdsLocaleMixin
   IdsThemeMixin
+
+## Data Settings
+
+(See Line Chart and Axis Chart Settings for more information)
 
 ## Settings
 

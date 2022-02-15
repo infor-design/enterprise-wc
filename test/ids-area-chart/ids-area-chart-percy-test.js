@@ -23,4 +23,9 @@ describe('Ids Area Chart Percy Tests', () => {
     });
     await percySnapshot(page, 'ids-area-chart-new-contrast');
   });
+
+  it('should not have visual regressions with custom colors', async () => {
+    await page.goto('http://localhost:4444/ids-area-chart/colors.html', { waitUntil: ['networkidle2', 'load'] });
+    await percySnapshot(page, 'ids-area-chart-colors');
+  });
 });

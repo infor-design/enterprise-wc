@@ -193,15 +193,13 @@ describe('IdsAxisChart Component', () => {
   it('can set the y axis formatter to Intl.NumberFormat', async () => {
     container.locale = 'en-US';
     axisChart.yAxisFormatter = {
-      style: 'currency',
-      currency: 'USD',
       maximumFractionDigits: 0
     };
     await processAnimFrame();
-    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('$8,000');
-    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[8].textContent).toEqual('$0');
-    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('$8,000');
-    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[7].textContent).toEqual('$1,000');
+    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('8,000');
+    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[8].textContent).toEqual('0');
+    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('8,000');
+    expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[7].textContent).toEqual('1,000');
   });
 
   it('can set the y axis formatter to a function', async () => {
@@ -237,5 +235,36 @@ describe('IdsAxisChart Component', () => {
     axisChart.legendPlacement = 'bottom';
     axisChart.rerender();
     expect(axisChart.container.parentNode.classList.contains('legend-bottom')).toBeTruthy();
+  });
+
+  it('can set custom colors', async () => {
+    axisChart.data = [{
+      data: [{
+        name: 'Jan',
+        value: 100
+      }, {
+        name: 'Feb',
+        value: 200
+      }],
+      name: 'Series 1',
+      color: '#800000',
+    }, {
+      data: [{
+        name: 'Jan',
+        value: 100
+      }, {
+        name: 'Feb',
+        value: 300
+      }],
+      color: 'var(--ids-color-palette-azure-20)',
+      name: 'Series 2'
+    }];
+    axisChart.rerender();
+
+    expect(axisChart.container.parentNode.querySelectorAll('.swatch')[0].classList.contains('color-1')).toBeTruthy();
+    expect(axisChart.color(0)).toEqual('color-1');
+
+    expect(axisChart.container.parentNode.querySelectorAll('.swatch')[1].classList.contains('color-2')).toBeTruthy();
+    expect(axisChart.color(1)).toEqual('color-2');
   });
 });

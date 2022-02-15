@@ -51,7 +51,7 @@ export default class IdsAreaChart extends Base {
           areas += `M${point.left},${point.top}L${point.left},${this.markerData.gridBottom}L${pointGroup[index + 1]?.left},${this.markerData.gridBottom}L${pointGroup[index + 1]?.left},${pointGroup[index + 1]?.top}`;
         }
       });
-      areaHTML += `<path part="area" d="${areas}Z" fill="var(${this.color(groupIndex)})"}></path>`;
+      areaHTML += `<path class="color-${groupIndex + 1}" part="area" d="${areas}Z" fill="var(${this.color(groupIndex)})"}></path>`;
     });
     return areaHTML;
   }

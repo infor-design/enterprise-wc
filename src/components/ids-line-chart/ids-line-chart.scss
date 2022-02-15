@@ -4,13 +4,22 @@
 .ids-axis-chart {
   // Dot Styles
   .markers {
-    fill: var(--ids-color-palette-azure-80);
+    @for $i from 1 through 21 {
+      circle.color-#{$i} {
+        fill: var(--color-#{$i});
+      }
+    }
   }
 
   // Line Styles
   .marker-lines {
     fill: none;
-    stroke: var(--ids-color-palette-azure-80);
     stroke-width: 2;
+
+    @for $i from 1 through 21 {
+      .data-line.color-#{$i} {
+        stroke: var(--color-#{$i});
+      }
+    }
   }
 }

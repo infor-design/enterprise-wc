@@ -107,6 +107,7 @@ export default class IdsAxisChart extends Base {
       return;
     }
     this.#calculate();
+    this.#addColorVariables();
     this.svg.innerHTML = this.#axisTemplate();
     this.legend.innerHTML = this.legendTemplate();
     this.triggerEvent('rendered', this, { svg: this.svg, data: this.data, markerData: this.markerData });
@@ -178,6 +179,29 @@ export default class IdsAxisChart extends Base {
       }
       this.markerData.points.push(points);
     });
+  }
+
+  /**
+   * Add colors in a style sheet to the root so the variables can be used
+   * @private
+   */
+  #addColorVariables() {
+    let colorSheet = '';
+    if (!this.shadowRoot.styleSheets) {
+      return;
+    }
+
+    this.data.forEach((group, index) => {
+      colorSheet += `--color-${index + 1}: ${group.color || `var(${this.colors[index]})`} !important;`;
+    });
+
+    const styleSheet = this.shadowRoot.styleSheets[0];
+    if (colorSheet) {
+      styleSheet.deleteRule(0);
+      styleSheet.insertRule(`:host {
+        ${colorSheet}
+      }`);
+    }
   }
 
   /**
@@ -539,8 +563,8 @@ export default class IdsAxisChart extends Base {
    * @private
    */
   color(index) {
-    // TODO: Figure out passing sequential and custom colors
-    return this.colors[index];
+    // Sequential and custom colors
+    return this.data[index].color ? `color-${index + 1}` : this.colors[index];
   }
 
   /**
