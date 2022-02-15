@@ -1,6 +1,91 @@
 @import '../../core/ids-base';
 
 .ids-date-picker {
+  ids-expandable-area::part(container) {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    border: none;
+    top: 44px;
+    left: 0;
+  }
+
+  ids-expandable-area::part(header) {
+    display: none;
+  }
+
+  ids-expandable-area::part(pane) {
+    background: white;
+  }
+
+  .picklist {
+    display: flex;
+  }
+
+  .picklist-section {
+    width: 50%;
+    flex: 0 0 50%;
+    height: 100%;
+
+    &:first-child::after {
+      border-left: 1px solid #B7B7BA;
+      content: ' ';
+      height: calc(100% - 25px);
+      left: 164px;
+      position: absolute;
+      top: 15px;
+    }
+  }
+
+  .picklist-list {
+    list-style: none;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: inherit;
+    justify-content: space-around;
+    padding: 5px 0 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    height: calc(100% - 10px);
+  }
+
+  .picklist-item {
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 14px;
+    box-shadow: none;
+    color: #47474C;
+    padding: 1px 8px;
+    text-decoration: none;
+    user-select: none;
+    height: calc(100% / 12);
+    display: flex;
+    align-items: center;
+
+    ids-text {
+      line-height: 0;
+    }
+
+    &.is-selected {
+      background-color: #0072ED;
+      color: #ffffff;
+
+      ids-text::part(text) {
+        font-weight: 600;
+      }
+    }
+
+    &:focus {
+      border-color: #0072ED;
+      box-shadow: 0 0 4px 3px rgb(54 138 192 / 30%);
+      outline: none;
+    }
+  }
+}
+
+.ids-date-picker {
   // Fixes input doesn't stretch to lg size and up
   ids-input {
     max-width: 100%;

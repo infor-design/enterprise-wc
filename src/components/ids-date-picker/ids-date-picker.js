@@ -9,10 +9,12 @@ import {
   stringToNumber
 } from '../../utils/ids-string-utils/ids-string-utils';
 import { addDate, subtractDate } from '../../utils/ids-date-utils/ids-date-utils';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 // Supporting components
 import IdsButton from '../ids-button/ids-button';
-import IdsMenuButton from '../ids-menu-button/ids-menu-button';
+import IdsToggleButton from '../ids-toggle-button/ids-toggle-button';
+import IdsExpandableArea from '../ids-expandable-area/ids-expandable-area';
 import IdsDropdown from '../ids-dropdown/ids-dropdown';
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsInput from '../ids-input/ids-input';
@@ -64,9 +66,14 @@ class IdsDatePicker extends Base {
 
   #triggerField = this.container.querySelector('ids-trigger-field');
 
+  #dropdownButton = this.container.querySelector('ids-toggle-button');
+
+  #expandableArea = this.container.querySelector('ids-expandable-area');
+
   connectedCallback() {
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
+    this.#attachPicklist();
     super.connectedCallback();
   }
 
@@ -120,12 +127,13 @@ class IdsDatePicker extends Base {
           </ids-trigger-button>
         ` : ``}
         ${this.isDropdown ? `
-          <ids-menu-button
-            class="dropdown-btn"
-            dropdown-icon
-          >
+          <ids-toggle-button icon-off="dropdown" icon-align="end" class="dropdown-btn">
+            <ids-icon slot="icon" icon="dropdown"></ids-icon>
             <ids-text slot="text" class="dropdown-btn-text" font-size="20">${this.value}</ids-text>
-          </ids-menu-button>
+          </ids-toggle-button>
+          <ids-expandable-area type="toggle-btn">
+            <div class="picklist" slot="pane"></div>
+          </ids-expandable-area>
         ` : ''}
         ${(!(this.isDropdown || this.isCalendarToolbar)) ? `
           <ids-trigger-field
@@ -251,6 +259,23 @@ class IdsDatePicker extends Base {
       });
     }
 
+    if (this.isDropdown) {
+      this.offEvent('click.date-picker-dropdown');
+      this.onEvent('click.date-picker-dropdown', this.#dropdownButton, () => {
+        const monthView = getClosest(this, 'ids-month-view')?.container.scrollHeight;
+
+        this.container.querySelector('.picklist').style.height = `${monthView - 44}px`;
+
+        const expanded = stringToBool(this.#expandableArea?.expanded);
+
+        if (expanded) {
+          this.#expandableArea.expanded = false;
+        } else {
+          this.#expandableArea.expanded = true;
+        }
+      });
+    }
+
     return this;
   }
 
@@ -261,6 +286,8 @@ class IdsDatePicker extends Base {
   #attachKeyboardListeners() {
     this.offEvent('keydown.date-picker-keyboard');
     this.onEvent('keydown.date-picker-keyboard', this, (e) => {
+      if (this.isDropdown) return;
+
       const key = e.keyCode;
       const stopEvent = () => {
         e.stopPropagation();
@@ -357,6 +384,48 @@ class IdsDatePicker extends Base {
     }
   }
 
+  #attachPicklist() {
+    if (!this.isDropdown) return;
+
+    const months = this.locale?.calendar()?.months.wide;
+    const startYear = this.year - 4;
+    const monthTemplate = months?.map((item, index) => {
+      const isSelected = stringToNumber(this.month) === index;
+      const classes = buildClassAttrib(
+        'picklist-item',
+        isSelected && 'is-selected'
+      );
+
+      return `<li role="link" tabindex="${isSelected ? 0 : -1}" ${classes}><ids-text>${item}</ids-text></li>`;
+    }).join('');
+    const yearTemplate = Array.from({ length: 10 }).map((_, index) => {
+      const isSelected = index === 4;
+      const classes = buildClassAttrib(
+        'picklist-item',
+        isSelected && 'is-selected'
+      );
+
+      return `<li role="link" tabindex="${isSelected ? 0 : -1}" ${classes}><ids-text>${startYear + index}</ids-text></li>`;
+    }).join('');
+
+    const template = `
+      <div class="picklist-section">
+        <ul class="picklist-list">
+          ${monthTemplate}
+        </ul>
+      </div>
+      <div class="picklist-section">
+        <ul class="picklist-list">
+          <li role="link" tabindex="0" class="picklist-item">Up</li>
+          ${yearTemplate}
+          <li role="link" tabindex="0" class="picklist-item">Down</li>
+        </ul>
+      </div>
+    `;
+
+    this.container.querySelector('.picklist')?.insertAdjacentHTML('afterBegin', template);
+  }
+
   /**
    * Trigger selected event with current params
    * @returns {void}
@@ -426,7 +495,7 @@ class IdsDatePicker extends Base {
    */
   focus() {
     this.#input?.focus();
-    this.container.querySelector('ids-menu-button')?.container?.focus();
+    this.container.querySelector('ids-toggle-button')?.container?.focus();
 
     if (this.isCalendarToolbar) {
       this.container.focus();
