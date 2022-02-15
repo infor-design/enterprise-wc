@@ -1,1 +1,3 @@
-//import '../ids-card/ids-card.js';
+// Supporting components
+import IdsHidden from '../ids-hidden';
+import IdsCard from '../../ids-card/ids-card';

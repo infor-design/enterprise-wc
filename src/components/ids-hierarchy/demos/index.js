@@ -1,4 +1,5 @@
-// import '../ids-hierarchy/ids-hierarchy.js';
-// import '../ids-hierarchy/ids-hierarchy-item.js';
-// import '../ids-hierarchy/ids-hierarchy-legend.js';
-// import '../ids-hierarchy/ids-hierarchy-legend-item.js';
+// Supporting components
+import IdsHierarchy from '../ids-hierarchy';
+import idsHierarchyItem from '../ids-hierarchy-item';
+import IdsHierarchyLegend from '../ids-hierarchy-legend';
+import idsHierarchyLegendItem from '../ids-hierarchy-legend-item';

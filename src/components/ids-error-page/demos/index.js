@@ -1,3 +1,6 @@
+// Supporting components
+import IdsErrorPage from '../ids-error-page';
+
 document.addEventListener('DOMContentLoaded', () => {
   const errorPage = document.querySelector('ids-error-page');
 

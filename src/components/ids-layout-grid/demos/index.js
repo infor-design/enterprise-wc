@@ -1,3 +1,4 @@
-// import '../ids-card/ids-card.js';
-// import '../ids-popup-menu/ids-popup-menu.js';
-// import '../ids-menu-button/ids-menu-button.js';
+// Supporting components
+import IdsCard from '../../ids-card/ids-card';
+import IdsPopupMenu from '../../ids-popup-menu/ids-popup-menu';
+import IdsMenuButton from '../../ids-menu-button/ids-menu-button';

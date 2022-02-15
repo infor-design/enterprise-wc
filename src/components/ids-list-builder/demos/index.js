@@ -1,4 +1,6 @@
-// import '../ids-draggable/ids-draggable.js';
+// Supporting components
+import IdsListBuilder from '../ids-list-builder';
+import IdsDraggable from '../../ids-draggable/ids-draggable';
 
 // Example for populating the List Builder with Ajax
 const listBuilder = document.querySelector('ids-list-builder');

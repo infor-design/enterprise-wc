@@ -1,5 +1,6 @@
-// import '../ids-search-field/ids-search-field.js';
-// import '../ids-header/ids-header.js';
-// import '../ids-breadcrumb/ids-breadcrumb.js';
-// import '../ids-hyperlink/ids-hyperlink.js';
-// import '../ids-checkbox/ids-checkbox.js';
+// Supporting components
+import IdsHeader from '../ids-header';
+import IdsSearchField from '../../ids-search-field/ids-search-field';
+import IdsBreadcrumb from '../../ids-breadcrumb/ids-breadcrumb';
+import IdsHyperlink from '../../ids-hyperlink/ids-hyperlink';
+import IdsCheckbox from '../../ids-checkbox/ids-checkbox';

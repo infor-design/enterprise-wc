@@ -1,5 +1,5 @@
-// import '../ids-layout-grid/ids-layout-grid.js';
-// import '../ids-fieldset/ids-fieldset.js';
-// import '../ids-input/ids-input.js';
-// import '../ids-button/ids-button.js';
-// import '../ids-checkbox/ids-checkbox.js';
+// Supporting components
+import IdsFieldset from '../ids-fieldset';
+import IdsInput from '../../ids-input/ids-input';
+import IdsButton from '../../ids-button/ids-button'
+import IdsCheckbox from '../../ids-checkbox/ids-checkbox';

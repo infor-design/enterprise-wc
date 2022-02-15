@@ -1,7 +1,7 @@
-// import '../ids-loading-indicator/ids-loading-indicator.js';
-// import '../ids-tooltip/ids-tooltip.js';
-// import '../ids-spinbox/ids-spinbox.js';
-// import './index.scss';
+// Supporting components
+import IdsLoadingIndicator from '../ids-loading-indicator';
+import IdsTooltip from '../../ids-tooltip/ids-tooltip';
+import IdsSpinbox from '../../ids-spinbox/ids-spinbox';
 
 document.addEventListener('DOMContentLoaded', () => {
   const determinateIndicators = document.querySelectorAll('ids-loading-indicator[progress]');

@@ -1,8 +1,9 @@
 // Supporting components
-// import '../ids-input/ids-input.js';
-// import '../ids-toggle-button/ids-toggle-button.js';
-// import '../ids-icon/ids-icon.js';
-// import '../ids-hyperlink/ids-hyperlink.js';
+import IdsExpandableArea from '../ids-expandable-area';
+import IdsInput from '../../ids-input/ids-input';
+import IdsToggleButton from '../../ids-toggle-button/ids-toggle-button';
+import IdsIcon from '../../ids-icon/ids-icon';
+import IdsHyperLink from '../../ids-hyperlink/ids-hyperlink';
 
 document.addEventListener('DOMContentLoaded', () => {
   // Add an event listener to test clickable links

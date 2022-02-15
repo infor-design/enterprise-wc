@@ -1,5 +1,8 @@
-// import '../ids-card/ids-card.js';
-// import '../ids-draggable/ids-draggable.js';
+// Supporting components
+import IdsListView from '../ids-list-view';
+import IdsCard from '../../ids-card/ids-card';
+import IdsDraggable from '../../ids-draggable/ids-draggable';
+
 // import './index.scss';
 
 // Example for populating the List View

@@ -1,9 +1,4 @@
-// import '../ids-card/ids-card.js';
-// import '../ids-empty-message/ids-empty-message.js';
-// import '../ids-text/ids-text.js';
-// import '../ids-toast/ids-toast.js';
-// import '../ids-button/ids-button.js';
-
+// Supporting components 
 import IdsEmptyMessage from '../ids-empty-message';
 import IdsCard from '../../ids-card/ids-card';
 import Idstoast from '../../ids-toast/ids-toast';

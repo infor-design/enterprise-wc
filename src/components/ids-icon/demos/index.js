@@ -1,3 +1,6 @@
+// Supporting components
+import IdsIcon from '../ids-icon';
+
 // Imports Used in the Examples
 import pathData from 'ids-identity/dist/theme-new/icons/standard/path-data.json';
 import emptyIconPathData from 'ids-identity/dist/theme-new/icons/empty/path-data.json';
