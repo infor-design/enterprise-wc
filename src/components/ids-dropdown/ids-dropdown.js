@@ -161,10 +161,10 @@ export default class IdsDropdown extends Base {
     if (!elem) {
       return;
     }
-    this.#clearSelected();
-    this.#selectOption(elem);
-    this.#selectIcon(elem);
-    this.#selectTooltip(elem);
+    this.clearSelected();
+    this.selectOption(elem);
+    this.selectIcon(elem);
+    this.selectTooltip(elem);
     this.shadowRoot.querySelector('ids-input').value = elem.textContent.trim();
     this.state.selectedIndex = [...elem.parentElement.children].indexOf(elem);
 
@@ -279,7 +279,7 @@ export default class IdsDropdown extends Base {
    * @private
    * @param {HTMLElement} option the option to select
    */
-  #selectOption(option) {
+  selectOption(option) {
     option?.setAttribute('aria-selected', 'true');
     option?.classList.add('is-selected');
   }
@@ -289,7 +289,7 @@ export default class IdsDropdown extends Base {
    * @private
    * @param {HTMLElement} option the option to select
    */
-  #selectIcon(option) {
+  selectIcon(option) {
     if (!this.hasIcons) {
       return;
     }
@@ -302,7 +302,7 @@ export default class IdsDropdown extends Base {
    * @private
    * @param {HTMLElement} option the option to select
    */
-  #selectTooltip(option) {
+  selectTooltip(option) {
     const tooltip = option.getAttribute('tooltip');
     if (tooltip) {
       this.tooltip = tooltip;
@@ -312,7 +312,7 @@ export default class IdsDropdown extends Base {
   /**
    * Remove the aria and state from the currently selected element
    */
-  #clearSelected() {
+  clearSelected() {
     const option = this.querySelector('ids-list-box-option[aria-selected]');
     if (option) {
       option.removeAttribute('aria-selected');
@@ -331,7 +331,7 @@ export default class IdsDropdown extends Base {
     // Trigger an async callback for contents
     if (this.state.beforeShow) {
       const stuff = await this.state.beforeShow();
-      this.#loadDataSet(stuff);
+      this.loadDataSet(stuff);
     }
 
     // Open the popup and add a class
@@ -359,7 +359,7 @@ export default class IdsDropdown extends Base {
    * @param {Function} dataset The dataset to use with value, label ect...
    * @private
    */
-  #loadDataSet(dataset) {
+  loadDataSet(dataset) {
     let html = '';
     const listbox = this.querySelector('ids-list-box');
     listbox.innerHTML = '';
@@ -427,6 +427,23 @@ export default class IdsDropdown extends Base {
   }
 
   /**
+   * Handle Clicking with the mouse on options
+   *  @public
+   */
+  attachClickEvent() {
+    this.onEvent('click', this, (e) => {
+      if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
+        this.value = e.target.getAttribute('value');
+        return;
+      }
+
+      if (e.target.closest('ids-list-box-option')) {
+        this.value = e.target.closest('ids-list-box-option').getAttribute('value');
+      }
+    });
+  }
+
+  /**
    * Establish Internal Event Handlers
    * @private
    * @returns {object} The object for chaining.
@@ -448,16 +465,7 @@ export default class IdsDropdown extends Base {
     });
 
     // Handle Clicking with the mouse on options
-    this.onEvent('click', this, (e) => {
-      if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
-        this.value = e.target.getAttribute('value');
-        return;
-      }
-
-      if (e.target.closest('ids-list-box-option')) {
-        this.value = e.target.closest('ids-list-box-option').getAttribute('value');
-      }
-    });
+    this.attachClickEvent();
 
     // Disable text selection on tab (extra info in the screen reader)
     this.onEvent('focus', this.shadowRoot.querySelector('ids-input'), () => {

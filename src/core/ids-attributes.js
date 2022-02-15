@@ -241,6 +241,7 @@ export const attributes = {
   SWIPE_TYPE: 'swipe-type',
   TABBABLE: 'tabbable',
   TABINDEX: 'tabindex',
+  TAGS: 'tags',
   TARGET: 'target',
   TITLE: 'title',
   TIMEOUT: 'timeout',

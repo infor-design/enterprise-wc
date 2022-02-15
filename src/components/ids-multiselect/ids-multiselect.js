@@ -210,8 +210,11 @@ class IdsMultiselect extends Base {
         console.log('tag clicked');
         console.log(e.target.nodeName);
         if (e.target.nodeName == "IDS-ICON") {
+          const tag = e.target.closest("ids-tag");
           console.log('got the tag');
-          console.log(e.target.closest("ids-tag").text);
+          console.log(tag.childNodes);
+          const removedSelection = this.#selectedList.indexOf((item) => item === e.target.closest('ids-tag').id);
+          console.log(removedSelection);
         }
       });
     }
@@ -228,7 +231,7 @@ class IdsMultiselect extends Base {
     this.#selectedList.forEach((selectedValue, index) => {
       const matchedElem = this.querySelector(`ids-list-box-option[value="${selectedValue}"]`);
       if(this.tags){
-        this.shadowRoot.querySelector('ids-trigger-field').insertAdjacentHTML('afterbegin', `<ids-tag dismissible="true">${matchedElem.querySelector('ids-checkbox').label}</ids-tag>`);
+        this.shadowRoot.querySelector('ids-trigger-field').insertAdjacentHTML('afterbegin', `<ids-tag id="${selectedValue}" dismissible="true">${matchedElem.querySelector('ids-checkbox').label}</ids-tag>`);
       } else {
         if (index > 0) {
           this.shadowRoot.querySelector('ids-input').value += ', ';
