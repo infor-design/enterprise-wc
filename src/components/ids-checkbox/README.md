@@ -135,8 +135,8 @@ The IDS Checkbox doesn't contain any interactions beyond a standard HTMLInputEle
 
 **3.x to 4.x**
 - Wrap the input in an element with the class field
-- Change class inforCheckbox to checkbox
-- Change class inforCheckboxLabel to checkbox-label
+- Change class `inforCheckbox` to checkbox
+- Change class `inforCheckboxLabel` to checkbox-label
 
 **4.x to 5.x**
 - Markup has changed to a custom element `<ids-checkbox></ids-checkbox>`
