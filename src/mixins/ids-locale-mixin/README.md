@@ -15,13 +15,13 @@ When using it access the locale with `this.locale`.
 ```js
 // Respond to parent changing language
 this.offEvent('languagechange.component-name-container');
-this.onEvent('languagechange.component-name-container', this.closest('ids-container'), async (e) => {
+this.onEvent('languagechange.component-name-container', this.closest('ids-container'), (e) => {
   // Do something based on the changed language
 });
 
 // Respond to parent changing locale
 this.offEvent('localechange.component-name-container');
-this.onEvent('localechange.component-name-container', this.closest('ids-container'), async (e) => {
+this.onEvent('localechange.component-name-container', this.closest('ids-container'), (e) => {
   // Do something based on the changed locale
 });
 ```

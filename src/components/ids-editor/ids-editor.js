@@ -1128,12 +1128,6 @@ export default class IdsEditor extends Base {
    * @returns {object} The object for chaining.
    */
   #attachEventHandlers() {
-    // Respond to parent changing language
-    this.offEvent('languagechange.editor');
-    this.onEvent('languagechange.editor', this.closest('ids-container'), async () => {
-      // TODO: DO something changing language ?
-    });
-
     // Attach selection change
     this.onEvent('selectionchange.editor', document, debounce(() => {
       this.#onSelectionChange();
