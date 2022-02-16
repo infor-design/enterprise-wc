@@ -1,11 +1,11 @@
 // Supporting components
-// import '../ids-menu-button/ids-menu-button.js';
-// import '../ids-popup-menu/ids-popup-menu.js';
-// import '../ids-popup/ids-popup.js';
-// import '../ids-menu/ids-menu-header.js';
-// import '../ids-menu/ids-menu.js';
-// import '../ids-menu/ids-menu-item.js';
-// import '../ids-menu/ids-menu-group.js';
+import IdsMenuButton from '../ids-menu-button';
+import IdsMenu from '../../ids-menu/ids-menu';
+import IdsPopup from '../../ids-popup/ids-popup';
+import IdsMenuHeader from '../../ids-menu/ids-menu-header';
+import IdsMenuItem from '../../ids-menu/ids-menu-item';
+import IdsMenuGroup from '../../ids-menu/ids-menu-group';
+import IdsPopupMenu from '../../ids-popup-menu/ids-popup-menu';
 
 document.addEventListener('DOMContentLoaded', () => {
   const menuBtnEl = document.querySelector('ids-menu-button');

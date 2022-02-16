@@ -1,5 +1,6 @@
-// import '../ids-card/ids-card.js';
-// import '../ids-menu-button/ids-menu-button.js';
+import IdsSwipeAction from '../ids-swipe-action';
+import IdsCard from '../../ids-card/ids-card';
+import IdsMenuButton from '../../ids-menu-button/ids-menu-button';
 
 // Setup normal click events on the actions
 document.addEventListener('DOMContentLoaded', () => {

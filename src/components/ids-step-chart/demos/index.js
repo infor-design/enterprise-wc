@@ -1,9 +1,9 @@
 // Supporting components
-// import '../ids-step-chart/ids-step-chart.js';
-// import '../ids-card/ids-card.js';
-// import '../ids-icon/ids-icon.js';
-// import '../ids-alert/ids-alert.js';
-// import '../ids-button/ids-button.js';
+import IdsStepChart from "../ids-step-chart";
+import IdsCard from "../../ids-card/ids-card";
+import IdsIcon from "../../ids-icon/ids-icon";
+import IdsAlert from "../../ids-alert/ids-alert";
+import IdsButton from "../../ids-button/ids-button";
 
 const inProgressTwo = document.querySelectorAll('ids-step-chart')[3];
 inProgressTwo.stepsInProgress = ['3'];

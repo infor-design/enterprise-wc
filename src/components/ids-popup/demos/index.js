@@ -1,3 +1,6 @@
+// Supporting components 
+import IdsPopup from '../ids-popup';
+
 document.addEventListener('DOMContentLoaded', () => {
   const triggerId = '#popup-trigger-btn';
   const triggerBtn = document.querySelector(triggerId);

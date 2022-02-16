@@ -1,3 +1,6 @@
+// Supporting components
+import IdsLookup from "../ids-lookup";
+
 // Example for populating the DataGrid
 const lookup = document.querySelector('#lookup-1');
 const container = document.querySelector('ids-container');

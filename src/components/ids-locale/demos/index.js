@@ -1,3 +1,6 @@
+// Supporting components
+import IdsLocale from '../ids-locale';
+
 // Asyncronously load a language and display the strings
 (async function loadMessages() {
   let html = '';

@@ -1,8 +1,8 @@
 // Supporting components
-// import '../ids-tabs/ids-tab.js';
-// import '../ids-tabs/ids-tab-content.js';
-// import '../ids-tabs/ids-tabs-context.js';
-// import '../ids-tabs/ids-tab-divider.js';
+import IdsTabs from '../ids-tab'
+import IdsTabContent from '../ids-tab-content';
+import IdsTabsContext from '../ids-tabs-context';
+import IdsTabDivider from '../ids-tab-divider';
 
 // import './example.scss';
 

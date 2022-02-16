@@ -1,4 +1,7 @@
-// import '../ids-button/ids-button.js';
+// Supporting components
+import IdsMessage from '../ids-message';
+import IdsButton from '../../ids-button/ids-button';
+
 // import './example.scss';
 
 document.addEventListener('DOMContentLoaded', () => {

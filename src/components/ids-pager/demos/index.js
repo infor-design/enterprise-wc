@@ -1,3 +1,6 @@
+// Supporting components
+import IdsPager from '../ids-pager';
+
 document.addEventListener('DOMContentLoaded', () => {
   // Add an event listener to test clickable links
   const pager = document.querySelector('#ids-pager-example');

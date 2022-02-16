@@ -1,1 +1,2 @@
-//import '../ids-input/ids-input.js';
+// Supporting components
+import IdsMaskAPI from '../ids-mask-api';
