@@ -81,3 +81,10 @@ ids-trigger-button .color-preview {
   display: flex;
   justify-content: center;
 }
+
+// Adjust position of dirty tracker icon to push it out slightly further from the corner
+// (Creates a border between the icon and the color swatch)
+.field-container .icon-dirty {
+  left: -2px;
+  top: -2px;
+}
