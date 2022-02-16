@@ -258,6 +258,16 @@
   &[mode='contrast'] .dropdown-btn::part(button) {
     @include text-black();
   }
+
+  &.is-expanded {
+    .dropdown-btn::part(button) {
+      @include text-azure-60();
+    }
+
+    .dropdown-btn-icon {
+      transform: rotate(180deg);
+    }
+  }
 }
 
 :host([is-calendar-toolbar='true']) {

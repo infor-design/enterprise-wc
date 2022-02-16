@@ -273,6 +273,7 @@ class IdsMonthView extends Base {
             ` : ''}
             <ids-date-picker
               is-dropdown="true"
+              value="${this.#formatMonthText()}"
               year="${this.year}"
               month="${this.month}"
             ></ids-date-picker>

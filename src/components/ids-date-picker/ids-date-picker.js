@@ -73,7 +73,6 @@ class IdsDatePicker extends Base {
   connectedCallback() {
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
-    this.#attachPicklist();
     super.connectedCallback();
   }
 
@@ -128,7 +127,7 @@ class IdsDatePicker extends Base {
         ` : ``}
         ${this.isDropdown ? `
           <ids-toggle-button icon-off="dropdown" icon-align="end" class="dropdown-btn">
-            <ids-icon slot="icon" icon="dropdown"></ids-icon>
+            <ids-icon slot="icon" icon="dropdown" class="dropdown-btn-icon"></ids-icon>
             <ids-text slot="text" class="dropdown-btn-text" font-size="20">${this.value}</ids-text>
           </ids-toggle-button>
           <ids-expandable-area type="toggle-btn">
@@ -261,17 +260,48 @@ class IdsDatePicker extends Base {
 
     if (this.isDropdown) {
       this.offEvent('click.date-picker-dropdown');
-      this.onEvent('click.date-picker-dropdown', this.#dropdownButton, () => {
-        const monthView = getClosest(this, 'ids-month-view')?.container.scrollHeight;
+      this.onEvent('click.date-picker-dropdown', this.#dropdownButton, (e) => {
+        e.stopPropagation();
 
-        this.container.querySelector('.picklist').style.height = `${monthView - 44}px`;
+        this.#toggleExpanded(!stringToBool(this.#expandableArea?.expanded));
+      });
 
-        const expanded = stringToBool(this.#expandableArea?.expanded);
+      this.offEvent('click.date-picker-picklist');
+      this.onEvent('click.date-picker-picklist', this.container.querySelector('.picklist'), (e) => {
+        if (!e.target) return;
 
-        if (expanded) {
-          this.#expandableArea.expanded = false;
-        } else {
-          this.#expandableArea.expanded = true;
+        if (e.target.closest('.is-btn-up')) {
+          this.#picklistYear(false);
+        }
+
+        if (e.target.closest('.is-btn-down')) {
+          this.#picklistYear(true);
+        }
+
+        if (e.target.closest('.is-month')) {
+          e.stopPropagation();
+
+          this.container.querySelectorAll('.picklist-item.is-month').forEach((el) => {
+            el.removeAttribute('tabindex');
+            el.classList.remove('is-selected');
+          });
+
+          e.target.closest('.is-month').classList.add('is-selected');
+          this.month = e.target.closest('.is-month').dataset.month;
+          e.target.closest('.is-month').setAttribute('tabindex', 0);
+          e.target.closest('.is-month').focus();
+        }
+
+        if (e.target.closest('.is-year')) {
+          const selected = this.container.querySelector('.picklist-item.is-year.is-selected');
+
+          selected?.removeAttribute('tabindex');
+          selected?.classList.remove('is-selected');
+
+          e.target.closest('.is-year').setAttribute('tabindex', 0);
+          e.target.closest('.is-year').classList.add('is-selected');
+
+          this.year = e.target.closest('.is-year').dataset.year;
         }
       });
     }
@@ -296,7 +326,7 @@ class IdsDatePicker extends Base {
       };
 
       // Arrow Down opens calendar popup
-      if (key === 40) {
+      if (key === 40 && !this.#popup?.visible) {
         stopEvent();
 
         this.#togglePopup(true);
@@ -362,6 +392,8 @@ class IdsDatePicker extends Base {
    * @param {boolean} isOpen should be opened or closed
    */
   #togglePopup(isOpen) {
+    if (this.isDropdown) return;
+
     if (isOpen && !this.readonly) {
       this.addOpenEvents();
 
@@ -373,8 +405,8 @@ class IdsDatePicker extends Base {
       this.#popup.y = 16;
 
       this.container.classList.add('is-open');
-
       this.#attachMonthView();
+
       this.#monthView.focus();
     } else {
       this.removeOpenEvents();
@@ -384,46 +416,115 @@ class IdsDatePicker extends Base {
     }
   }
 
+  /**
+   *
+   */
+  #toggleExpanded(expand) {
+    if (!this.isDropdown) return;
+
+    this.container.classList.toggle('is-expanded', expand);
+
+    if (expand) {
+      const height = getClosest(this, 'ids-month-view')?.container.scrollHeight;
+
+      this.container.querySelector('.picklist').style.height = `${height - 44}px`;
+
+      this.container.querySelectorAll('.picklist-item').forEach((el) => {
+        if (el.classList.contains('is-btn-up') || el.classList.contains('is-btn-down')) {
+          el.setAttribute('tabindex', 0);
+        }
+
+        if (el.classList.contains('is-month') && el.dataset.month === this.month) {
+          el.classList.add('is-selected');
+          el.setAttribute('tabindex', 0);
+          el.focus();
+        }
+
+        if (el.classList.contains('is-year') && el.dataset.year === this.year) {
+          el.classList.add('is-selected');
+          el.setAttribute('tabindex', 0);
+        }
+      });
+      this.#expandableArea.expanded = true;
+
+      return;
+    }
+
+    if (stringToBool(this.#expandableArea.expanded)) {
+      this.#expandableArea.expanded = false;
+    }
+
+    // Make all picklist items not tabbable when not expanded
+    this.container.querySelectorAll('.picklist-item').forEach((el) => {
+      el.removeAttribute('tabindex');
+    });
+  }
+
+  /**
+   *
+   */
   #attachPicklist() {
     if (!this.isDropdown) return;
 
-    const months = this.locale?.calendar()?.months.wide;
+    const calendarMonths = this.locale?.calendar()?.months.wide;
     const startYear = this.year - 4;
-    const monthTemplate = months?.map((item, index) => {
-      const isSelected = stringToNumber(this.month) === index;
-      const classes = buildClassAttrib(
-        'picklist-item',
-        isSelected && 'is-selected'
-      );
-
-      return `<li role="link" tabindex="${isSelected ? 0 : -1}" ${classes}><ids-text>${item}</ids-text></li>`;
-    }).join('');
-    const yearTemplate = Array.from({ length: 10 }).map((_, index) => {
-      const isSelected = index === 4;
-      const classes = buildClassAttrib(
-        'picklist-item',
-        isSelected && 'is-selected'
-      );
-
-      return `<li role="link" tabindex="${isSelected ? 0 : -1}" ${classes}><ids-text>${startYear + index}</ids-text></li>`;
-    }).join('');
+    const months = calendarMonths?.map((item, index) =>
+      `<li
+        role="link"
+        data-month="${index}"
+        class="picklist-item is-month"
+      ><ids-text>${item}</ids-text></li>`).join('');
+    const years = Array.from({ length: 10 }).map((_, index) =>
+      `<li
+        data-year="${startYear + index}"
+        role="link"
+        class="picklist-item is-year"
+      ><ids-text>${startYear + index}</ids-text></li>`).join('');
 
     const template = `
       <div class="picklist-section">
         <ul class="picklist-list">
-          ${monthTemplate}
+          ${months}
         </ul>
       </div>
       <div class="picklist-section">
         <ul class="picklist-list">
-          <li role="link" tabindex="0" class="picklist-item">Up</li>
-          ${yearTemplate}
-          <li role="link" tabindex="0" class="picklist-item">Down</li>
+          <li role="link" class="picklist-item is-btn-up">
+            <ids-icon icon="chevron-up"></ids-icon>
+          </li>
+          ${years}
+          <li role="link" class="picklist-item is-btn-down">
+            <ids-icon icon="chevron-down"></ids-icon>
+          </li>
         </ul>
       </div>
     `;
 
+    this.container.querySelectorAll('.picklist-section').forEach((el) => el?.remove());
     this.container.querySelector('.picklist')?.insertAdjacentHTML('afterBegin', template);
+  }
+
+  /**
+   * Helper to loop through the year list and increase/descrese depends on the param
+   * @param {boolean} isNext increase/descrese picklist year
+   */
+  #picklistYear(isNext) {
+    this.container.querySelectorAll('.picklist-item.is-year').forEach((el, index) => {
+      const elYear = stringToNumber(el.dataset.year);
+      el.removeAttribute('tabindex');
+      el.classList.remove('is-selected');
+
+      el.dataset.year = isNext ? elYear + 10 : elYear - 10;
+      el.querySelector('ids-text').textContent = isNext ? elYear + 10 : elYear - 10;
+
+      if (index === 4) {
+        el.tabindex = 0;
+        el.classList.add('is-selected');
+        el.setAttribute('tabindex', 0);
+
+        this.year = el.dataset.year;
+      }
+    });
   }
 
   /**
@@ -543,6 +644,9 @@ class IdsDatePicker extends Base {
         dropdownEl.innerText = val;
       }
     }
+
+    this.#toggleExpanded(false);
+    this.#attachPicklist();
   }
 
   /**
@@ -876,11 +980,13 @@ class IdsDatePicker extends Base {
    * @param {string|number|null} val month param value
    */
   set month(val) {
-    if (val) {
+    if (!Number.isNaN(stringToNumber(val))) {
       this.setAttribute(attributes.MONTH, val);
     } else {
       this.removeAttribute(attributes.MONTH);
     }
+
+    this.#togglePopup(false);
   }
 
   /**
@@ -901,6 +1007,8 @@ class IdsDatePicker extends Base {
     } else {
       this.removeAttribute(attributes.YEAR);
     }
+
+    this.#togglePopup(false);
   }
 
   /**
@@ -921,6 +1029,8 @@ class IdsDatePicker extends Base {
     } else {
       this.removeAttribute(attributes.DAY);
     }
+
+    this.#togglePopup(false);
   }
 
   /**

@@ -61,6 +61,8 @@
 
 // Compact view
 .ids-month-view.is-compact {
+  @include relative();
+
   .month-view-table-header th {
     line-height: unset;
     vertical-align: top;
