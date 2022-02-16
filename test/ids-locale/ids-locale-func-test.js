@@ -3,6 +3,7 @@
  */
 import IdsLocale from '../../src/components/ids-locale/ids-locale';
 import IdsContainer from '../../src/components/ids-container/ids-container';
+import processAnimFrame from '../helpers/process-anim-frame';
 
 describe('IdsLocale API', () => {
   let locale;
@@ -1320,7 +1321,7 @@ describe('IdsLocale API', () => {
 
     it('should format zh-Hans dates', async () => {
       await locale.setLocale('zh-Hans');
-      await locale.setLocale('zh-Hans');
+      await processAnimFrame();
       expect(locale.formatDate(new Date(2019, 12, 1), { dateStyle: 'short' })).toEqual('2020/1/1');
       expect(locale.formatDate(new Date(2019, 10, 8), { dateStyle: 'medium' })).toEqual('2019年11月8日');
       expect(locale.formatDate(new Date(2019, 10, 8), { dateStyle: 'long' })).toEqual('2019年11月8日');
@@ -1334,7 +1335,7 @@ describe('IdsLocale API', () => {
 
     it('should format datetime in es-419', async () => {
       await locale.setLocale('es-419');
-      await locale.setLocale('es-419');
+      await processAnimFrame();
       expect(locale.formatDate(new Date(2018, 10, 10))).toEqual('10/11/2018');
       expect(locale.formatDate(new Date(2018, 10, 10), { dateStyle: 'medium' })).toEqual('10 nov. 2018');
       expect(locale.formatDate(new Date(2018, 10, 10), { dateStyle: 'long' })).toEqual('10 de noviembre de 2018');
