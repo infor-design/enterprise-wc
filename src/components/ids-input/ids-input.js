@@ -11,9 +11,9 @@ import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import {
   TYPES,
   SIZES,
-  FIELD_HEIGHTS,
   TEXT_ALIGN
 } from './ids-input-attributes';
+import { FIELD_HEIGHTS } from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
 
 import styles from './ids-input.scss';
 
@@ -152,6 +152,13 @@ export default class IdsInput extends Base {
    * @returns {object} containing template strings used for generating an IdsInput template
    */
   templateVariables() {
+    const attrs = {
+      readonly: this.readonly ? 'readonly' : '',
+      disabled: this.disabled ? 'disabled' : '',
+      required: this.validate ? 'required' : '',
+      noMargins: this.noMargins ? 'no-margins' : '',
+    };
+
     const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
     let type = ` type="${this.type || TYPES.default}"`;
     let inputClass = `ids-input-field ${this.textAlign}`;
@@ -175,9 +182,19 @@ export default class IdsInput extends Base {
 
     const ariaLabel = this.getAttribute(attributes.LABEL_HIDDEN) && this.label ? `aria-label="${this.label}"` : '';
     const hiddenLabelCss = !this.label || this.getAttribute(attributes.LABEL_HIDDEN) ? ' empty' : '';
-    const labelHtml = `<label for="${this.id}-input" class="ids-label-text${hiddenLabelCss}">
-        <ids-text part="label" label="true" color-unset>${this.label}</ids-text>
-      </label>`;
+    const labelHtml = `<label
+      class="ids-label-text${hiddenLabelCss}"
+      for="${this.id}-input"
+      part="label"
+      ${attrs.readonly}
+      ${attrs.disabled}
+      ${attrs.required}
+    >
+      <ids-text part="label" label ${attrs.disabled} color-unset>
+        ${this.label}
+      </ids-text>
+    </label>`;
+
     const value = this.hasAttribute(attributes.VALUE) ? ` value="${this.getAttribute(attributes.VALUE)}" ` : '';
 
     return {
@@ -221,8 +238,7 @@ export default class IdsInput extends Base {
 
   /**
    * @readonly
-   * @returns {HTMLLabelElement} the inner `label` element or
-   * reference to what was last provided by setLabelElement
+   * @returns {HTMLLabelElement} the inner `label` element
    */
   get labelEl() {
     return (
@@ -298,15 +314,6 @@ export default class IdsInput extends Base {
     }
 
     this.#passwordVisibilityHandler();
-  }
-
-  /**
-   * setter for label element; since reflected attributes
-   * cannot be non serializable refs
-   * @param {HTMLElement} el element representing the label
-   */
-  setLabelElement(el) {
-    this.#labelEl = el;
   }
 
   /**
@@ -408,16 +415,6 @@ export default class IdsInput extends Base {
     } else {
       this.setLabelText(this.label);
     }
-  }
-
-  /**
-   * Get field height css class name with prefix
-   * @private
-   * @param {string} val The given value
-   * @returns {string} css class name with prefix
-   */
-  fieldHeightClass(val) {
-    return `field-height-${val || FIELD_HEIGHTS.default}`;
   }
 
   /**
@@ -583,14 +580,6 @@ export default class IdsInput extends Base {
   }
 
   /**
-   * @readonly
-   * @returns {boolean} true if this input resides inside trigger-field
-   */
-  get hasParentTriggerField() {
-    return this.parentElement?.tagName === 'IDS-TRIGGER-FIELD';
-  }
-
-  /**
    * When set the input will select all text on focus
    * @param {boolean|string} value If true will set `autoselect` attribute
    */
@@ -686,12 +675,6 @@ export default class IdsInput extends Base {
     } else {
       this.removeAttribute(attributes.COMPACT);
       this.container?.classList.remove(attributes.COMPACT);
-    }
-
-    if (this.hasParentTriggerField) {
-      this.container?.classList.add('no-margin-bottom');
-    } else {
-      this.container?.classList.remove('no-margin-bottom');
     }
   }
 
@@ -789,30 +772,6 @@ export default class IdsInput extends Base {
   }
 
   get readonly() { return stringToBool(this.getAttribute(attributes.READONLY)); }
-
-  /**
-   * Set the fieldHeight (height) of input
-   * @param {string} value [xs, sm, mm, md, lg]
-   */
-  set fieldHeight(value) {
-    const fieldHeight = FIELD_HEIGHTS[value];
-    const heightClasses = Object.values(FIELD_HEIGHTS).map((h) => this.fieldHeightClass(h));
-    this.container?.classList.remove(...heightClasses);
-    if (fieldHeight) {
-      this.setAttribute(attributes.FIELD_HEIGHT, fieldHeight);
-      this.container?.classList.add(this.fieldHeightClass(fieldHeight));
-    } else {
-      this.removeAttribute(attributes.FIELD_HEIGHT);
-    }
-
-    if (this.hasParentTriggerField) {
-      this.container?.classList.add('no-margin-bottom');
-    } else {
-      this.container?.classList.remove('no-margin-bottom');
-    }
-  }
-
-  get fieldHeight() { return this.fieldHeightClass(this.getAttribute(attributes.FIELD_HEIGHT)); }
 
   /**
    * Set the size (width) of input

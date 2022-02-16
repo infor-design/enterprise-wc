@@ -64,7 +64,6 @@ export default class IdsTriggerField extends Base {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.APPEARANCE,
       attributes.CSS_CLASS,
       attributes.DISABLE_EVENTS,
       attributes.TABBABLE
@@ -76,38 +75,17 @@ export default class IdsTriggerField extends Base {
    * @returns {string} The template
    */
   template() {
-    const attrs = {
-      readonly: this.readonly ? 'readonly' : '',
-      disabled: this.disabled ? 'disabled' : '',
-      required: this.validate ? 'required' : '',
-      noMargins: this.noMargins ? 'no-margins' : '',
-    };
-
     this.templateHostAttributes();
     const {
       ariaLabel,
       containerClass,
       inputClass,
       inputState,
+      labelHtml,
       placeholder,
       type,
       value
     } = this.templateVariables();
-
-    const hiddenLabelCss = !this.label || this.getAttribute(attributes.LABEL_HIDDEN) ? ' empty' : '';
-    const labelHtml = `<label
-      class="ids-label-text${hiddenLabelCss}"
-      for="${this.id}-input"
-      slot="ids-trigger-field-label"
-      part="label"
-      ${attrs.readonly}
-      ${attrs.disabled}
-      ${attrs.required}
-    >
-      <ids-text part="label" label ${attrs.disabled} color-unset>
-        ${this.label}
-      </ids-text>
-    </label>`;
 
     return (
       `<div class="ids-trigger-field ${containerClass}" part="container">
@@ -224,21 +202,6 @@ export default class IdsTriggerField extends Base {
   }
 
   /**
-   * Set the appearance of the trigger field
-   * @param {string} value Provide different options for appearance 'normal' | 'compact'
-   */
-  set appearance(value) {
-    if (value) {
-      this.setAttribute(attributes.APPEARANCE, value);
-      return;
-    }
-
-    this.setAttribute(attributes.APPEARANCE, 'normal');
-  }
-
-  get appearance() { return this.getAttribute(attributes.APPEARANCE); }
-
-  /**
    * Set if the button handles events
    * @param {boolean|string} value True of false depending if the button handles events
    */
@@ -344,6 +307,16 @@ export default class IdsTriggerField extends Base {
     }
 
     return this;
+  }
+
+  /**
+   * Updates trigger buttons when the trigger field's fieldHeight property is updated
+   * @param {string} val the new field height setting
+   */
+  onFieldHeightChange(val) {
+    this.buttons.forEach((btn) => {
+      btn.fieldHeight = val;
+    });
   }
 
   /**

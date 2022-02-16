@@ -1,40 +1,83 @@
-@import '../../core/ids-base';
+@import '../ids-button/ids-button';
 
-.ids-icon-button {
+:host {
+  button {
+    height: auto;
+    width: auto;
+  }
+}
+
+.ids-trigger-button {
   @include bg-transparent();
-  @include border-1();
-  @include border-transparent();
   @include cursor-pointer();
   @include flex();
-  @include p-0();
-  @include rounded-round();
-  @include m-0();
 
   align-items: center;
   color: currentColor;
   justify-content: center;
-  height: 28px;
-  width: 28px;
 
-  &:focus {
-    @include outline-none();
-
-    box-shadow: 0 0 0 2px transparent, 0 0 0 1px var(--ids-color-palette-azure-60), 0 0 4px 2px rgb(141 201 230 / 0.3);
+  &.ids-icon-button {
+    @include p-4();
   }
 
-  &[disabled] {
-    @include cursor-default();
-    @include text-slate-30();
+  // ===================================================
+  // Default Style: Show a rounded border on the trigger button (either side)
+  &.style-default {
+
   }
 
-  &[readonly] {
-    @include cursor-text();
-    @include text-slate-40();
+  // ===================================================
+  // Inline Style: Show a border on the trigger button's inner-edge
+  &.style-inline {
+    @include border-0();
+    @include p-0();
+    @include m-0();
+    @include rounded-none();
+
+    &.ids-icon-button {
+      @include p-0();
+    }
+  }
+
+  &.inline-end {
+    @include border-l-1();
+  }
+
+  &.inline-start {
+    @include border-r-1();
+  }
+
+  // ===================================================
+  // Field Heights
+  &.field-height-xs {
+    &.style-inline {
+      height: $input-field-height-xs - 2px;
+      width: $input-field-height-xs - 2px;
+    }
+  }
+  &.field-height-sm {
+    &.style-inline {
+      height: $input-field-height-sm - 2px;
+      width: $input-field-height-sm - 2px;
+    }
+  }
+  &.field-height-md {
+    &.style-inline {
+      height: $input-field-height-md - 2px;
+      width: $input-field-height-md - 2px;
+    }
+  }
+  &.field-height-lg {
+    &.style-inline {
+      height: $input-field-height-lg - 2px;
+      width: $input-field-height-lg - 2px;
+    }
   }
 }
 
+/*
 // Handle Themes
-.ids-icon-button[mode='dark'] {
+.ids-trigger-button[mode='dark'] {
   @include text-slate-20();
 
   &:focus {
@@ -54,7 +97,7 @@
   }
 }
 
-.ids-icon-button[mode='contrast'] {
+.ids-trigger-button[mode='contrast'] {
   @include text-slate-90();
 
   &:focus {
@@ -70,7 +113,7 @@
   }
 }
 
-.ids-icon-button[version='classic'][mode='light'] {
+.ids-trigger-button[version='classic'][mode='light'] {
   @include text-graphite-60();
 
   &:hover {
@@ -82,7 +125,7 @@
   }
 }
 
-.ids-icon-button[version='classic'][mode='dark'] {
+.ids-trigger-button[version='classic'][mode='dark'] {
   @include text-classic-slate-30();
 
   &:hover {
@@ -94,7 +137,7 @@
   }
 }
 
-.ids-icon-button[version='classic'][mode='contrast'] {
+.ids-trigger-button[version='classic'][mode='contrast'] {
   @include text-graphite-90();
 
   &:hover {
@@ -106,7 +149,7 @@
   }
 }
 
-.ids-icon-button.color-variant-alternate {
+.ids-trigger-button.color-variant-alternate {
   @include bg-opacity-70();
 
   &:focus {
@@ -119,3 +162,4 @@
     @include bg-opacity-100();
   }
 }
+*/

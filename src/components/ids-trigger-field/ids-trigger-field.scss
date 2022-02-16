@@ -1,24 +1,6 @@
 @import '../../core/ids-base';
 @import '../ids-input/ids-input';
 
-.ids-trigger-field:focus-within,
-.ids-trigger-field.is-active {
-  .ids-trigger-field-content:not(.error):not(.info):not(.success) {
-    @include border-azure-60();
-    @include shadow();
-
-    outline: none;
-    outline-color: transparent;
-  }
-}
-
-::slotted(ids-trigger-button) {
-  @include relative();
-
-  flex: 0;
-  z-index: 2;
-}
-
 ::slotted(*[slot="trigger-start"]:first-of-type) {
   @include ml-4();
 }
