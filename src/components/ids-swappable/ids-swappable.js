@@ -44,6 +44,22 @@ export default class IdsSwappable extends Base {
     return this.querySelectorAll('ids-swappable-item[selected]');
   }
 
+  #dzDragStart() {
+    if (this.selectedItems.length <= 1) {
+      return;
+    }
+    this.selectedItems.forEach((el) => {
+      el.originalText = el.innerText;
+      el.innerHTML = `<ids-text>${this.selectedItems.length} Items Selected</ids-text>`;
+    });
+  }
+
+  #dzDrag(event) {
+    this.selectedItems.forEach((el) => {
+      this.#hideSelectedItems(event, el);
+    });
+  }
+
   getDragAfterElement = (container, y) => {
     const draggableElms = [...container.querySelectorAll('ids-swappable-item:not([dragging])')];
 
@@ -61,39 +77,29 @@ export default class IdsSwappable extends Base {
     }, { offset: Number.NEGATIVE_INFINITY }).element;
   };
 
-  #dzDragStart(event) {
-    event.stopImmediatePropagation();
-    this.dragging = true;
-    this.selectedItems.forEach((el) => {
-      this.#addDragEffect(event, el);
-    });
-  }
-
   /**
    * Functionality for the list container once an item has been dropped
    * @param {object} event drop
    */
   #dzDropHandler(event) {
     event.preventDefault();
-    this.dragging = false;
-
     const afterElement = this.getDragAfterElement(this, event.clientY);
 
     if (this.selectedElements.length > 0) {
       if (afterElement) {
         this.selectedElements.forEach((draggingEl) => {
-          this.#resetItems(draggingEl);
+          this.#resetSelectedItems(draggingEl);
           this.insertBefore(draggingEl, afterElement);
         });
       } else {
         this.selectedElements.forEach((draggingEl) => {
-          this.#resetItems(draggingEl);
+          this.#resetSelectedItems(draggingEl);
           this.appendChild(draggingEl);
         });
       }
     }
 
-    this.#resetList();
+    this.removeAttribute(attributes.ACTIVE);
   }
 
   #dzDragLeave() {
@@ -126,59 +132,40 @@ export default class IdsSwappable extends Base {
     }
   }
 
-  #resetList() {
-    this.removeAttribute(attributes.ACTIVE);
-    this.draggingElement = null;
-    this.selectedElements.forEach((el) => {
-      el.removeAttribute(attributes.SELECTED);
-      el.removeAttribute('aria-selected');
-    });
-  }
-
-  #resetElText(el) {
-    if (el.originalText) {
-      el.innerHTML = `<ids-text>${el.originalText}</ids-text>`;
-    }
-  }
-
-  #addDragEffect(event, el) {
+  #hideSelectedItems(event, el) {
     el.setAttribute('aria-grabbed', true);
-    el.setAttribute('aria-dropeffect', 'move');
+    el.setAttribute('aria-dropeffect', event.dataTransfer.dropEffect);
 
     if (this.selectedItems.length <= 1) {
       return;
     }
-
-    el.originalText = el.innerText;
-    el.innerHTML = `<ids-text>${this.selectedItems.length} Items Selected</ids-text>`;
 
     if (el !== event.target) {
       el.classList.add('is-hidden');
     }
   }
 
-  #removeDragEffect(el) {
+  #resetSelectedItems(el) {
+    if (el.originalText) {
+      el.innerHTML = `<ids-text>${el.originalText}</ids-text>`;
+    }
+
     el.removeAttribute('aria-grabbed');
     el.removeAttribute('aria-dropeffect');
-  }
-
-  #resetItems(el) {
-    this.#removeDragEffect(el);
-    this.#resetItemClasses(el);
-    this.#resetElText(el);
-  }
-
-  #resetItemClasses(el) {
     el.classList.remove('is-hidden');
+    el.removeAttribute(attributes.SELECTED);
+    el.removeAttribute('aria-selected');
   }
 
   attachEventListeners() {
     this.addEventListener('dragstart', this.#dzDragStart.bind(this));
+    this.addEventListener('drag', this.#dzDrag.bind(this));
     this.addEventListener('drop', this.#dzDropHandler.bind(this));
     this.addEventListener('dragover', this.#dzDragover.bind(this));
     this.addEventListener('dragleave', this.#dzDragLeave.bind(this));
 
     this.removeEventListener('dragstart', this.#dzDragStart.bind(this));
+    this.removeEventListener('drag', this.#dzDrag.bind(this));
     this.removeEventListener('drop', this.#dzDropHandler.bind(this));
     this.removeEventListener('dragover', this.#dzDragover.bind(this));
     this.removeEventListener('dragleave', this.#dzDragLeave.bind(this));
