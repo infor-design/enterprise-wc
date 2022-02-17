@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         targets: [{ text: 'New Window', value: '_blank', selected: true }],
         showIsClickable: false
       },
-      insertimage: { url: '/assets/placeholder-200x200.png' }
+      insertimage: { url: '../assets/images/placeholder-200x200.png' }
     };
     editorModalElementsValueEl.modalElementsValue(modals);
   }

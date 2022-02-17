@@ -76,7 +76,7 @@ describe('IdsBlockgridItem Component', () => {
     document.body.appendChild(blockgrid);
 
     blockgridItem.innerHTML = `
-  <img src="/assets/placeholder-200x200.png" alt="Placeholder 200x200" />
+  <img src="../assets/images/placeholder-200x200.png" alt="Placeholder 200x200" />
   <ids-text type="p">
     Sheena Taylor<br/>
     Infor, Developer
