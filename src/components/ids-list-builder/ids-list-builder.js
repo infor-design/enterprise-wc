@@ -118,7 +118,6 @@ export default class IdsListBuilder extends Base {
    */
   #unfocusAnySelectedLiEditor() {
     if (this.#selectedLiEditor) {
-      this.#updateSelectedLiWithEditorValue();
       this.#removeSelectedLiEditor();
       this.updateDataFromDOM();
     }
@@ -135,8 +134,8 @@ export default class IdsListBuilder extends Base {
    * Helper function to remove the editor element from the DOM
    */
   #removeSelectedLiEditor() {
-    this.selectedLi.querySelector('ids-text').style.display = 'list-item';
-    this.selectedLi.parentNode.removeAttribute('disabled');
+    this.offEvent('keyup', this.#selectedLiEditor);
+    this.#selectedLiEditor.nextElementSibling.style.display = 'list-item';
     this.#selectedLiEditor.remove();
     this.#selectedLiEditor = null;
   }
@@ -163,6 +162,9 @@ export default class IdsListBuilder extends Base {
         i.noMargins = 'true';
         i.colorVariant = 'alternate';
         i.focus();
+
+        // update inner text on keyup
+        this.onEvent('keyup', i, () => this.#updateSelectedLiWithEditorValue());
       } else {
         this.#selectedLiEditor.focus();
       }
@@ -257,7 +259,6 @@ export default class IdsListBuilder extends Base {
     this.onEvent('click', this.container.querySelector('#button-delete'), () => {
       if (this.selectedLi) {
         this.selectedLi.parentNode.remove();
-        this.selectedLi = null;
         if (this.#selectedLiEditor) this.#selectedLiEditor = null;
         this.resetIndices();
         this.updateDataFromDOM();

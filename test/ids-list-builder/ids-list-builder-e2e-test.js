@@ -85,4 +85,18 @@ describe('Ids List Builder e2e Tests', () => {
     // random button to trigger default keyboard case
     await page.keyboard.press('Shift');
   });
+
+  it('should update inner text on edit keyup', async () => {
+    // click first list item
+    await page.click('pierce/.ids-list-view-body ids-draggable');
+
+    // click edit button
+    await page.click('pierce/#button-edit');
+
+    // type something and check for match
+    const keyToMatch = 'q';
+    await page.keyboard.press(keyToMatch);
+    const idsText = await page.$eval('pierce/.ids-list-view-body ids-text', (el) => el.innerHTML);
+    expect(idsText).toEqual(keyToMatch);
+  });
 });
