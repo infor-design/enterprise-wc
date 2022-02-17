@@ -23,7 +23,6 @@ const BUTTON_DEFAULTS = {
 // Definable attributes
 const BUTTON_ATTRIBUTES = [
   attributes.CSS_CLASS,
-  attributes.COLOR_VARIANT,
   attributes.DISABLED,
   attributes.HIDDEN,
   attributes.ICON,

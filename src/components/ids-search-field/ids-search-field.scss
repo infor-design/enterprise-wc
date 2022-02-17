@@ -1,8 +1,8 @@
-@import '../../core/ids-base';
+@import '../ids-trigger-field/ids-trigger-field';
 
 @mixin ids-search-field-alternate-colors() {
   &.color-variant-alternate {
-    ids-trigger-field::part(content) {
+    .field-container {
       background-color: rgba(71 71 76 / 0.3);
       border-bottom-color: rgba(62 62 66 / 0.7);
     }
@@ -23,19 +23,20 @@
   &.color-variant-app-menu {
     @include text-slate-20();
 
-    ids-trigger-field::part(content) {
+    .field-container {
       @include bg-slate-100();
-    }
-
-    ids-trigger-field::part(input) {
       @include text-slate-20();
     }
 
-    ids-trigger-button::part(clearable-button) {
+    .ids-input-field {
+      @include text-slate-20();
+    }
+
+    .btn-clear {
       @include text-slate-40();
     }
 
-    ids-trigger-button::part(clearable-button):hover {
+    .btn-clear:hover {
       @include text-white();
     }
 
@@ -52,17 +53,6 @@
   }
 }
 
-ids-input::part(input) {
-  @include border-none();
-  @include mb-0();
-
-  padding-right: 30px;
-}
-
-ids-input::part(container) {
-  @include mb-0();
-}
-
 .ids-search-field:focus-within ids-input::part(input) {
   box-shadow: none;
 }
@@ -76,7 +66,7 @@ ids-input::part(container) {
   // Default Styles for color variants (Applicable to all themes)
 
   &.color-variant-alternate {
-    ids-trigger-field::part(content) {
+    .field-container {
       @include border-none();
 
       border-bottom-style: solid;
@@ -85,7 +75,7 @@ ids-input::part(container) {
   }
 
   &.color-variant-app-menu {
-    ids-trigger-field::part(content) {
+    .field-container {
       @include border-none();
       @include rounded-md();
     }
@@ -101,19 +91,20 @@ ids-input::part(container) {
     &.color-variant-app-menu {
       @include text-slate-20();
 
-      ids-trigger-field::part(content) {
+      .field-container {
         @include bg-black();
-      }
-
-      ids-trigger-field::part(input) {
         @include text-slate-20();
       }
 
-      ids-trigger-button::part(clearable-button) {
+      .ids-input-field {
+        @include text-slate-20();
+      }
+
+      .btn-clear {
         @include text-slate-40();
       }
 
-      ids-trigger-button::part(clearable-button):hover {
+      .btn-clear:hover {
         @include text-white();
       }
 

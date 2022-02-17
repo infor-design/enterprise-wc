@@ -1,3 +1,4 @@
+import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
@@ -6,7 +7,7 @@ import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import IdsInput from '../ids-input/ids-input';
 import IdsIcon from '../ids-icon/ids-icon';
 
-import styles from '../ids-input/ids-input.scss';
+import styles from './ids-search-field.scss';
 
 const DEFAULT_LABEL = 'Search';
 const DEFAULT_PLACEHOLDER = 'Type to search';
@@ -36,6 +37,24 @@ export default class IdsSearchField extends Base {
    * @returns {Array<string>} List of available color variants for this component
    */
   colorVariants = ['alternate', 'app-menu'];
+
+  /**
+   * Inherited from `IdsColorVariantMixin`. If the Color Variant on Search Fields are changed,
+   * switch trigger buttons to the "alternate" style instead of an `app-menu` style.
+   * @param {string} variantName the new color variant being applied to the Search Field
+   */
+  onColorVariantRefresh(variantName) {
+    let btnVariantName = variantName;
+    if (variantName === 'app-menu') {
+      btnVariantName = 'alternate';
+    }
+    const adjustBtnVariant = (btn) => {
+      btn.setAttribute(attributes.COLOR_VARIANT, btnVariantName);
+    };
+
+    this.buttons.forEach(adjustBtnVariant);
+    [...this.fieldContainer.querySelectorAll('ids-trigger-button')].forEach(adjustBtnVariant);
+  }
 
   static get attributes() {
     return [
