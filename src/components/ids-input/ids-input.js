@@ -112,6 +112,7 @@ export default class IdsInput extends Base {
     this.templateHostAttributes();
     const {
       ariaLabel,
+      capsLock,
       containerClass,
       inputClass,
       inputState,
@@ -133,6 +134,7 @@ export default class IdsInput extends Base {
           ${value}
           ></input>
         ${showHide}
+        ${capsLock}
       </div>
     </div>`;
   }
@@ -160,13 +162,12 @@ export default class IdsInput extends Base {
     };
 
     const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
-    let type = ` type="${this.type || TYPES.default}"`;
+    const type = ` type="${this.isPasswordVisible ? 'text' : this.type || TYPES.default}"`;
     let inputClass = `ids-input-field ${this.textAlign}`;
-    let showHide = ``;
-    if (this.revealablePassword && this.type === TYPES.password) {
-      showHide = `<ids-button text="${this.passwordVisible ? 'HIDE' : 'SHOW'}" id="show-hide-password" class="show-hide-password"></ids-button>`;
-      type = `  type="${this.passwordVisible ? 'text' : this.type}"`;
-    }
+
+    // Handle Password Fields
+    const showHide = this.templateShowHide();
+    const capsLock = this.templateCapsLock();
 
     inputClass += stringToBool(this.bgTransparent) ? ' bg-transparent' : '';
     inputClass += stringToBool(this.textEllipsis) ? ' text-ellipsis' : '';
@@ -199,6 +200,7 @@ export default class IdsInput extends Base {
 
     return {
       ariaLabel,
+      capsLock,
       containerClass,
       inputClass,
       inputState,
@@ -208,6 +210,26 @@ export default class IdsInput extends Base {
       type,
       value
     };
+  }
+
+  /**
+   * @readonly
+   * @returns {boolean} true if this is a password field and the password should be shown as plain text
+   */
+  get isPasswordVisible() {
+    return this.revealablePassword && this.type === TYPES.password;
+  }
+
+  templateShowHide() {
+    return this.isPasswordVisible
+      ? `<ids-button id="show-hide-password" class="show-hide-password" no-padding text="${this.passwordVisible ? 'HIDE' : 'SHOW'}"></ids-button>`
+      : '';
+  }
+
+  templateCapsLock() {
+    return this.isPasswordVisible
+      ? `<ids-icon id="caps-lock-indicator" class="caps-lock-indicator" icon="capslock"></ids-icon>`
+      : '';
   }
 
   set colorVariant(value) {
@@ -286,11 +308,11 @@ export default class IdsInput extends Base {
    */
   set capsLock(value) {
     if (stringToBool(value)) {
-      this.#capsLockEventSetUp(true);
       this.setAttribute(attributes.CAPS_LOCK, 'true');
+      this.#capsLockEventSetUp(true);
     } else {
-      this.#capsLockEventSetUp(false);
       this.removeAttribute(attributes.CAPS_LOCK);
+      this.#capsLockEventSetUp(false);
     }
   }
 
@@ -458,36 +480,19 @@ export default class IdsInput extends Base {
    * @returns {void}
    */
   #capsLockEventSetUp(value) {
-    const indicatorDiv = this.shadowRoot.querySelector('.inline-indicators');
-    let capsLockIndicator = indicatorDiv.querySelector('#caps-lock-indicator');
-    if (value) {
-      this.offEvent('keyup.capslock', this.input);
-      this.onEvent('keyup.capslock', this.input, (event) => {
-        capsLockIndicator = indicatorDiv.querySelector('#caps-lock-indicator');
-        if (event.getModifierState('CapsLock') && !capsLockIndicator) {
-          indicatorDiv.innerHTML += '<ids-icon id="caps-lock-indicator" class="caps-lock-indicator" icon="capslock"></ids-icon>';
-        } else if (event.getModifierState('CapsLock') && capsLockIndicator) {
-          capsLockIndicator.style.display = '';
-        } else if (capsLockIndicator && !event.getModifierState('CapsLock')) {
-          capsLockIndicator.style.display = 'none';
-        }
-      });
-    } else {
-      this.offEvent('keyup.capslock', this.input);
-      capsLockIndicator?.remove();
-    }
-  }
+    const capsLockIcon = this.container.querySelector('#caps-lock-indicator');
 
-  /**
-   * Handle input change event
-   * @private
-   * @returns {void}
-   */
-  #attachInputChangeEvent() {
-    const eventName = 'change.input';
-    this.onEvent(eventName, this.input, () => {
-      this.value = this.input.value;
-    });
+    if (value) {
+      if (!capsLockIcon) {
+        this.input.insertAdjacentHTML('afterend', this.templateCapsLock());
+      }
+      this.onEvent('keypress.capslock', this.input, (event) => {
+        capsLockIcon.hidden = !event.getModifierState('CapsLock');
+      });
+    } else if (capsLockIcon) {
+      this.offEvent('keypress.capslock', this.input);
+      capsLockIcon.remove();
+    }
   }
 
   /**
@@ -529,7 +534,11 @@ export default class IdsInput extends Base {
    */
   #attachEventHandlers() {
     this.#attachNativeEvents();
-    this.#attachInputChangeEvent();
+
+    // If the internal input value is updated, reflect the change on the WebComponent
+    this.onEvent('change.input', this.input, () => {
+      this.value = this.input.value;
+    });
   }
 
   /**
@@ -540,14 +549,14 @@ export default class IdsInput extends Base {
    */
   #togglePasswordEventSetUp(value) {
     const showHidePasswordElem = this.shadowRoot.querySelector(`.show-hide-password`);
-    const inputContainer = this.shadowRoot.querySelector('.inline-indicators');
     if (value) {
       if (!showHidePasswordElem && this.revealablePassword && this.type === TYPES.password) {
         const showHideButton = document.createElement('ids-button');
         showHideButton.text = this.passwordVisible ? 'HIDE' : 'SHOW';
         showHideButton.id = 'show-hide-password';
         showHideButton.classList.add('show-hide-password');
-        inputContainer.prepend(showHideButton);
+        showHideButton.noPadding = true;
+        this.input.insertAdjacentElement('afterend', showHideButton);
         this.input.type = `${this.passwordVisible ? 'text' : this.type}`;
       }
       this.onEvent('click.showhidepassword', showHidePasswordElem, () => {

@@ -1,11 +1,11 @@
 @import '../../core/ids-base';
 @import '../ids-input/ids-input';
 
-::slotted(*[slot="trigger-start"]:first-of-type) {
+::slotted(*[slot="trigger-start"]:first-of-type:not([inline])) {
   @include ml-4();
 }
 
-::slotted(*[slot="trigger-end"]:last-of-type) {
+::slotted(*[slot="trigger-end"]:last-of-type:not([inline])) {
   @include mr-4();
 }
 
