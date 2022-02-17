@@ -13,7 +13,6 @@ import {
   SIZES,
   TEXT_ALIGN
 } from './ids-input-attributes';
-import { FIELD_HEIGHTS } from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
 
 import styles from './ids-input.scss';
 
@@ -62,12 +61,8 @@ export default class IdsInput extends Base {
       attributes.AUTOSELECT,
       attributes.BG_TRANSPARENT,
       attributes.CAPS_LOCK,
-      attributes.CLEARABLE,
-      attributes.CLEARABLE_FORCED,
-      attributes.COMPACT,
       attributes.CURSOR,
       attributes.DISABLED,
-      attributes.FIELD_HEIGHT,
       attributes.LABEL,
       attributes.LABEL_HIDDEN,
       attributes.LABEL_REQUIRED,
@@ -82,7 +77,6 @@ export default class IdsInput extends Base {
       attributes.TABINDEX,
       attributes.TEXT_ALIGN,
       attributes.TEXT_ELLIPSIS,
-      attributes.TRIGGERFIELD,
       attributes.TYPE,
       attributes.VALUE,
     ];
@@ -171,13 +165,13 @@ export default class IdsInput extends Base {
 
     inputClass += stringToBool(this.bgTransparent) ? ' bg-transparent' : '';
     inputClass += stringToBool(this.textEllipsis) ? ' text-ellipsis' : '';
-    inputClass += stringToBool(this.triggerfield) ? ' has-triggerfield' : '';
     inputClass = ` class="${inputClass}"`;
 
     let inputState = stringToBool(this.readonly) ? ' readonly' : '';
     inputState = stringToBool(this.disabled) ? ' disabled' : inputState;
 
-    let containerClass = `ids-input${inputState} ${this.size} ${this.fieldHeight}`;
+    const fieldHeightState = this.fieldHeight ? `${this.fieldHeight}` : '';
+    let containerClass = `ids-input${inputState} ${this.size} ${fieldHeightState}`;
     containerClass += stringToBool(this.compact) ? ' compact' : '';
     containerClass += stringToBool(this.noMargins) ? ' no-margins' : '';
 
@@ -641,59 +635,6 @@ export default class IdsInput extends Base {
   get textEllipsis() { return this.getAttribute(attributes.TEXT_ELLIPSIS); }
 
   /**
-   * When set the input will add a clearable x button
-   * @param {boolean|string} value If true will set `clearable` attribute
-   */
-  /*
-  set clearable(value) {
-    const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.CLEARABLE, val.toString());
-    } else {
-      this.removeAttribute(attributes.CLEARABLE);
-    }
-    this.handleClearable();
-  }
-
-  get clearable() { return this.getAttribute(attributes.CLEARABLE); }
-  */
-
-  /**
-   * When set the input will force to add a clearable x button on readonly and disabled
-   * @param {boolean|string} value If true will set `clearable-forced` attribute
-   */
-  /*
-  set clearableForced(value) {
-    const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.CLEARABLE_FORCED, val.toString());
-    } else {
-      this.removeAttribute(attributes.CLEARABLE_FORCED);
-    }
-    this.handleClearable();
-  }
-
-  get clearableForced() { return this.getAttribute(attributes.CLEARABLE_FORCED); }
-  */
-
-  /**
-   *  Set the compact height
-   * @param {boolean|string} value If true will set `compact` attribute
-   */
-  set compact(value) {
-    const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.COMPACT, val.toString());
-      this.container?.classList.add(attributes.COMPACT);
-    } else {
-      this.removeAttribute(attributes.COMPACT);
-      this.container?.classList.remove(attributes.COMPACT);
-    }
-  }
-
-  get compact() { return this.getAttribute(attributes.COMPACT); }
-
-  /**
    * Sets input to disabled
    * @param {boolean|string} value If true will set `disabled` attribute
    */
@@ -811,22 +752,6 @@ export default class IdsInput extends Base {
   }
 
   get textAlign() { return this.getAttribute(attributes.TEXT_ALIGN) || TEXT_ALIGN.default; }
-
-  /**
-   * Set to true if the input is a triggr field
-   * @param {boolean|string} value If true will set `triggerfield` attribute
-   */
-  set triggerfield(value) {
-    const val = stringToBool(stringToBool(value));
-    if (val) {
-      this.setAttribute(attributes.TRIGGERFIELD, val.toString());
-    } else {
-      this.removeAttribute(attributes.TRIGGERFIELD);
-    }
-    this.input?.classList[this.triggerfield ? 'add' : 'remove']('has-triggerfield');
-  }
-
-  get triggerfield() { return this.getAttribute(attributes.TRIGGERFIELD); }
 
   /**
    * Sets the input type
