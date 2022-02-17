@@ -295,6 +295,22 @@ describe('IdsButton Component', () => {
     expect(btn.text).toEqual('New');
   });
 
+  it('can set width', () => {
+    // with pixels
+    const pixelWidth = '200px';
+    btn.width = pixelWidth;
+    expect(btn.width).toEqual(pixelWidth);
+    expect(btn.style.width).toEqual('');
+    expect(btn.button.style.width).toEqual(pixelWidth);
+
+    // with percentage
+    const percentWidth = '90%';
+    btn.width = percentWidth;
+    expect(btn.width).toEqual(percentWidth);
+    expect(btn.style.width).toEqual(percentWidth);
+    expect(btn.button.style.width).toEqual('');
+  });
+
   describe('Ripple effect tests', () => {
     beforeEach(async () => {
       const elem = new IdsButton();
