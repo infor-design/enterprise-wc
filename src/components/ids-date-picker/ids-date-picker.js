@@ -548,6 +548,8 @@ class IdsDatePicker extends Base {
 
     this.container.classList.toggle('is-expanded', expand);
 
+    this.#triggerExpandedEvent(expand);
+
     if (expand) {
       const height = getClosest(this, 'ids-month-view')?.container.scrollHeight;
 
@@ -648,6 +650,8 @@ class IdsDatePicker extends Base {
   #selectPicklistEl(el) {
     el?.classList.add('is-selected');
     el?.setAttribute('tabindex', 0);
+    el?.setAttribute('aria-selected', true);
+    el?.setAttribute('role', 'gridcell');
   }
 
   /**
@@ -660,6 +664,11 @@ class IdsDatePicker extends Base {
     this.container.querySelectorAll(selector).forEach((el) => {
       el.removeAttribute('tabindex');
       el.classList.remove('is-selected');
+      el.removeAttribute('aria-selected');
+
+      if (el.getAttribute('role') === 'gridcell') {
+        el.setAttribute('role', 'link');
+      }
     });
   }
 
@@ -676,6 +685,22 @@ class IdsDatePicker extends Base {
     };
 
     this.triggerEvent('dayselected', this, args);
+  }
+
+  /**
+   * Trigger expanded event with current params
+   * @param {boolean} expanded expanded or collapsed
+   * @returns {void}
+   */
+  #triggerExpandedEvent(expanded) {
+    const args = {
+      detail: {
+        elem: this,
+        expanded
+      }
+    };
+
+    this.triggerEvent('expanded', this, args);
   }
 
   /**
