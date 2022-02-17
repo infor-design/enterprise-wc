@@ -263,7 +263,7 @@ class IdsMonthView extends Base {
           ${todayBtn}
         </ids-toolbar-section>
       ` : `
-        <ids-toolbar-section>
+        <ids-toolbar-section favor>
           <div class="datepicker-section">
             ${!this.isDatePicker ? `
               <ids-trigger-button>

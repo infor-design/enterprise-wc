@@ -259,7 +259,6 @@
     @include border-b-1();
     @include border-slate-30();
     @include pr-1();
-    @include pl-16();
 
     height: 43px;
   }
@@ -288,6 +287,10 @@
 
   td .day-container {
     @include m-0();
+  }
+
+  ids-date-picker {
+    margin-left: 12px;
   }
 }
 
