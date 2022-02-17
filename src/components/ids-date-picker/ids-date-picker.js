@@ -207,7 +207,7 @@ class IdsDatePicker extends Base {
   #attachEventHandlers() {
     // Respond to container changing locale
     this.offEvent('localechange.date-picker-container');
-    this.onEvent('localechange.date-picker-container', this.closest('ids-container'), async () => {
+    this.onEvent('localechange.date-picker-container', this.closest('ids-container'), () => {
       this.#setDirection();
       this.#applyMask();
 
