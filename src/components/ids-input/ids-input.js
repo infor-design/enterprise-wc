@@ -644,6 +644,7 @@ export default class IdsInput extends Base {
    * When set the input will add a clearable x button
    * @param {boolean|string} value If true will set `clearable` attribute
    */
+  /*
   set clearable(value) {
     const val = stringToBool(value);
     if (val) {
@@ -655,11 +656,13 @@ export default class IdsInput extends Base {
   }
 
   get clearable() { return this.getAttribute(attributes.CLEARABLE); }
+  */
 
   /**
    * When set the input will force to add a clearable x button on readonly and disabled
    * @param {boolean|string} value If true will set `clearable-forced` attribute
    */
+  /*
   set clearableForced(value) {
     const val = stringToBool(value);
     if (val) {
@@ -671,6 +674,7 @@ export default class IdsInput extends Base {
   }
 
   get clearableForced() { return this.getAttribute(attributes.CLEARABLE_FORCED); }
+  */
 
   /**
    *  Set the compact height

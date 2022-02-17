@@ -24,6 +24,8 @@
 
   &.has-clearable {
     .btn-clear {
+      @include mr-4();
+
       &.is-empty {
         display: initial;
         visibility: hidden;
@@ -36,10 +38,9 @@
 .ids-trigger-field {
   .ids-input-field {
     &.has-clearable {
-      &.has-triggerfield {
-        padding-right: 55px;
-      }
-      &.has-triggerfield ~ .btn-clear {
+      padding-inline-end: 55px;
+
+      ~ .btn-clear {
         margin-top: 0;
         right: -8px;
       }
