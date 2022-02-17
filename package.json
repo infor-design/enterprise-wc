@@ -47,7 +47,7 @@
   "license": "Apache-2.0",
   "homepage": "https://design.infor.com",
   "devDependencies": {
-    "@babel/core": "^7.17.4",
+    "@babel/core": "^7.17.5",
     "@babel/eslint-parser": "^7.17.0",
     "@babel/parser": "^7.17.3",
     "@babel/plugin-proposal-class-properties": "^7.16.7",
@@ -83,7 +83,7 @@
     "handlebars-loader": "^1.7.1",
     "html-loader": "^3.1.0",
     "html-webpack-plugin": "^5.5.0",
-    "htmlhint": "^0.9.9",
+    "htmlhint": "^1.1.2",
     "ids-identity": "4.11.0",
     "install": "^0.13.0",
     "jest": "^27.5.1",

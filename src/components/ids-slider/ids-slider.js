@@ -867,7 +867,6 @@ export default class IdsSlider extends Base {
       const clickedLabel = className.includes('label');
       const clickedTrackArea = className.includes('track-area');
 
-      // console.log(event.clientX + ', ' + event.clientY);
       if (clickedIdsSlider || clickedLabel || clickedTrackArea) {
         if (clickedTrackArea || clickedIdsSlider) {
           this.#calculateUIFromClick(event.clientX, event.clientY);
