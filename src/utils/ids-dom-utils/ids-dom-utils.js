@@ -122,8 +122,6 @@ export function getIdsElements(node, pierce = false) {
   let idsElements = node.tagName.indexOf('IDS-') !== -1 ? [node] : [];
   const shadowChildren = pierce && node.shadowRoot ? [...node.shadowRoot.children] : [];
   const children = [...node.children].concat(shadowChildren);
-  for (const child of children) {
-    idsElements = idsElements.concat(getIdsElements(child, pierce));
-  }
+  children.forEach((child) => { idsElements = idsElements.concat(getIdsElements(child, pierce)); });
   return idsElements;
 }
