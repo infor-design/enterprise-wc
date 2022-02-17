@@ -1,8 +1,9 @@
 // Supporting components
-// import '../ids-button/ids-button.js';
-// import '../ids-input/ids-input.js';
-// import '../ids-menu-button/ids-menu-button.js';
-// import '../ids-popup-menu/ids-popup-menu.js';
+import IdsToolbar from '../ids-toolbar';
+import IdsButton from '../../ids-button/ids-button';
+import IdsInput from '../../ids-input/ids-input';
+import IdsMenuButton from '../../ids-menu-button/ids-menu-button';
+import IdsPopupMenu from '../../ids-popup-menu/ids-popup-menu';
 
 document.addEventListener('DOMContentLoaded', () => {
   const toolbarEl = document.querySelector('#my-toolbar');

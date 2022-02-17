@@ -1,3 +1,5 @@
+import IdsTree from '../ids-tree';
+
 document.addEventListener('DOMContentLoaded', () => {
   const treeDemo = document.querySelector('#tree-demo');
 

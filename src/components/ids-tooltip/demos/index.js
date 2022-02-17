@@ -1,2 +1,4 @@
-// import '../ids-button/ids-button.js';
-// import '../ids-text/ids-text.js';
+// Supporting components
+import IdsTooltip from "../ids-tooltip";
+import IdsButton from "../../ids-button/ids-button";
+import IdsText from "../../ids-text/ids-text";

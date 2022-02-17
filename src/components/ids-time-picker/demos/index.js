@@ -1,0 +1,1 @@
+import IdsTimePicker from '../ids-time-picker';

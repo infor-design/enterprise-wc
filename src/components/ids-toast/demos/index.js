@@ -1,4 +1,6 @@
 // IdsToast Example
+import IdsToast from '../ids-toast';
+
 document.addEventListener('DOMContentLoaded', () => {
   const idsContainer = document.querySelector('ids-container');
   const btnToastDemo = document.querySelector('#btn-toast-demo');

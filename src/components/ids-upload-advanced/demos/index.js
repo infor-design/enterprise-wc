@@ -1,3 +1,5 @@
+import IdsUploadAdvanced from '../ids-upload-advanced';
+
 /**
  * Example to show the way to custom send method for uploading files.
  * Send files to Demo App server, files will remove soon uploaded.

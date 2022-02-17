@@ -1,3 +1,5 @@
+import IdsTreeMap from '../ids-treemap';
+
 document.addEventListener('DOMContentLoaded', () => {
   const treeMapEl = document.querySelector('ids-treemap');
 
