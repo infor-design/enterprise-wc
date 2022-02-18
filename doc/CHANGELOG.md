@@ -19,14 +19,8 @@ For more details on breaking changes in each component see the individual README
 - `[Colorpicker]` The card component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-color-picker/README.md#converting-from-previous-versions for details. ([#223](https://github.com/infor-design/enterprise-wc/issues/223))
 - `[IdsContainer]` Added a new component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-containerr/README.md) for details.
 - `[Contextual Action Panel]` The contextual action panel component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-contextual-action-panel/README.md#converting-from-previous-versions for details. ([#330](https://github.com/infor-design/enterprise-wc/issues/330))
-- `[Counts]` The counts component has been changed to a web component and renamed to ids-counts.
-  - Text is now contained in an ids-text element `<ids-text></ids-text>`
-  - Can now be imported as a single JS file and used with encapsulated styles
-- `[Datagrid]` The Datagrid component has been changed to a web component `ids-data-grid`.
-  - If using events events are now plain JS events for example: sorted, rendered
-  - If using properties/settings these are now attributes or as plain properties for example: data, virtual-scroll
-  - Markup has changed to a custom element `<ids-data-grid></ids-data-grid>`
-  - Can now be imported as a single JS file and used with encapsulated styles
+- `[Counts]` The counts component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-counts/README.md#converting-from-previous-versions for details. ([#330](https://github.com/infor-design/enterprise-wc/issues/123))
+- `[Counts]` The counts component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-data-gridREADME.md#converting-from-previous-versions for details. ([#330](https://github.com/infor-design/enterprise-wc/issues/183))
 - `[Draggable]` The drag component is now a web component called `ids-draggable` ([#253](https://github.com/infor-design/enterprise-wc/issues/253))
   - Markup has changed to a custom element that wraps draggable content; `<ids-draggable>content</ids-draggable>`.
   - Bounding drag movement to a specific axis is done by passing the axis attribute as `x` or `y`.
