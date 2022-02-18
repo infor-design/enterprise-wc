@@ -9,6 +9,8 @@ import {
   BUTTON_TYPES, BUTTON_DEFAULTS, BUTTON_ATTRIBUTES, ICON_ALIGN, baseProtoClasses
 } from './ids-button-attributes';
 
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
+
 import styles from './ids-button.scss';
 
 /**
@@ -202,7 +204,7 @@ export default class IdsButton extends Base {
 
     // Respond to parent changing language
     this.offEvent('languagechange.button');
-    this.onEvent('languagechange.button', this.closest('ids-container'), () => {
+    this.onEvent('languagechange.button', getClosest(this, 'ids-container'), () => {
       this.container.classList[this.locale.isRTL() ? 'add' : 'remove']('rtl');
     });
   }
