@@ -13,16 +13,6 @@ const IdsLocaleMixin = (superclass) => class extends superclass {
     this.offEvent('languagechange.mixin');
     this.onEvent('languagechange.mixin', this.closest('ids-container'), () => {
       this.setDirection();
-
-      const elements = getIdsElements(this, true);
-
-      for (const element of elements) {
-        if (this.locale?.isRTL()) {
-          element.setAttribute('dir', 'rtl');
-        } else {
-          element.removeAttribute('dir');
-        }
-      }
     });
     super.connectedCallback?.();
   }
@@ -55,8 +45,20 @@ const IdsLocaleMixin = (superclass) => class extends superclass {
   setDirection() {
     if (this.locale?.isRTL()) {
       this.setAttribute('dir', 'rtl');
+      this.triggerEvent('directionchange', this, { detail: { isRTL: true } });
     } else {
       this.removeAttribute('dir');
+      this.triggerEvent('directionchange', this, { detail: { isRTL: false } });
+    }
+  }
+
+  onDirectionChange(e, target) {
+    if (e?.detail?.isRTL) {
+      target.setAttribute('dir', 'rtl');
+      target.triggerEvent('directionchange', this, { detail: { isRTL: true } });
+    } else {
+      target.removeAttribute('dir');
+      target.triggerEvent('directionchange', this, { detail: { isRTL: false } });
     }
   }
 

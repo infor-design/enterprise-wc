@@ -108,6 +108,10 @@ export default class IdsPopupMenu extends Base {
       });
     });
 
+    // If direction chagnes on host element, set/remove `dir` in current element
+    this.onEvent('directionchange', this.getRootNode().host, (e) => this.onDirectionChange(e, this));
+    this.onEvent('directionchange', this.parentElement, (e) => this.onDirectionChange(e, this));
+
     // Set up all the events specifically-related to the "trigger" type
     this.refreshTriggerEvents();
   }

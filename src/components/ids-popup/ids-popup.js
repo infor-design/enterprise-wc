@@ -65,6 +65,10 @@ export default class IdsPopup extends Base {
       this.refreshVisibility();
       this.place();
     });
+
+    // If direction chagnes on host element, set/remove `dir` in current element
+    this.onEvent('directionchange', this.getRootNode().host, (e) => this.onDirectionChange(e, this));
+    this.onEvent('directionchange', this.parentElement, (e) => this.onDirectionChange(e, this));
   }
 
   disconnectedCallback() {
