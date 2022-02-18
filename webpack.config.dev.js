@@ -42,6 +42,10 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(png|jpe?g|gif|svg|json)$/i,
+        type: "asset/resource"
+      },
+      {
         test: /\.js$/,
         exclude: /node_modules/,
         use: [
@@ -91,35 +95,35 @@ module.exports = {
       analyzerMode: process.env.npm_lifecycle_event === 'build:dev:stats' ? 'server' : 'disabled',
       reportFilename: 'dev-build-report.html'
     }),
-    new CopyWebpackPlugin({
-      patterns: [
-        // {
-        //   from: './demos/**/**/*.js',
-        //   to({ absoluteFilename }) {
-        //     const baseName = path.basename(absoluteFilename);
-        //     const folders = path.dirname(absoluteFilename).split(path.sep);
-        //     const filePath = `${folders[folders.length - 1]}/${baseName}`;
-        //     return filePath;
-        //   }
-        // },
-        // {
-        //   from: path.resolve(__dirname, 'demos/data/'),
-        //   to: path.resolve(__dirname, `build/${isProduction ? 'production' : 'development'}/data/`)
-        // },
-        {
-          from: path.resolve(__dirname, 'src/assets'),
-          to: path.resolve(__dirname, `build/${isProduction ? 'production' : 'development'}/assets/`)
-        },
-        // {
-        //   from: './demos/**/**/*.yaml',
-        //   to({ absoluteFilename }) {
-        //     const baseName = path.basename(absoluteFilename);
-        //     const folders = path.dirname(absoluteFilename).split(path.sep);
-        //     const filePath = `${folders[folders.length - 1]}/${baseName}`;
-        //     return filePath;
-        //   }
-        // }
-      ]
-    }),
+    // new CopyWebpackPlugin({
+    //   patterns: [
+    //     // {
+    //     //   from: './demos/**/**/*.js',
+    //     //   to({ absoluteFilename }) {
+    //     //     const baseName = path.basename(absoluteFilename);
+    //     //     const folders = path.dirname(absoluteFilename).split(path.sep);
+    //     //     const filePath = `${folders[folders.length - 1]}/${baseName}`;
+    //     //     return filePath;
+    //     //   }
+    //     // },
+    //     // {
+    //     //   from: path.resolve(__dirname, 'demos/data/'),
+    //     //   to: path.resolve(__dirname, `build/${isProduction ? 'production' : 'development'}/data/`)
+    //     // },
+    //     // {
+    //     //   from: path.resolve(__dirname, 'src/assets'),
+    //     //   to: path.resolve(__dirname, `build/${isProduction ? 'production' : 'development'}/assets/`)
+    //     // },
+    //     // {
+    //     //   from: './demos/**/**/*.yaml',
+    //     //   to({ absoluteFilename }) {
+    //     //     const baseName = path.basename(absoluteFilename);
+    //     //     const folders = path.dirname(absoluteFilename).split(path.sep);
+    //     //     const filePath = `${folders[folders.length - 1]}/${baseName}`;
+    //     //     return filePath;
+    //     //   }
+    //     // }
+    //   ]
+    // }),
   ].concat(WebpackHtmlExamples)
 };
