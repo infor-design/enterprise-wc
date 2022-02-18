@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const demoEntry = require('./scripts/webpack-dev-entery')
 const WebpackHtmlExamples = require('./scripts/webpack-html-templates');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
 
@@ -57,37 +58,43 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        exclude: [
-          /node_modules/,
-          path.resolve(__dirname, 'build')
-        ],
         use: [
-          'sass-to-string',
-          {
-            loader: 'sass-loader',
-          }
-        ],
-      },
-      {
-        test: /\.scss$/,
-        exclude: [
-          /node_modules/,
-          path.resolve(__dirname, 'src')
-        ],
-        use: [
-          {
-            loader: 'style-loader',
-            options: {
-              attributes: {
-                id: 'demo-styles',
-                nonce: '0a59a005' // @TODO needs to match a global nonce instance
-              }
-            }
-          },
-          'css-loader',
-          'sass-loader',
+          MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'
         ]
-      }
+      },
+      // {
+      //   test: /\.scss$/,
+      //   exclude: [
+      //     /node_modules/,
+      //     path.resolve(__dirname, 'build')
+      //   ],
+      //   use: [
+      //     'sass-to-string',
+      //     {
+      //       loader: 'sass-loader',
+      //     }
+      //   ],
+      // },
+      // {
+      //   test: /\.scss$/,
+      //   exclude: [
+      //     /node_modules/,
+      //     path.resolve(__dirname, 'src')
+      //   ],
+      //   use: [
+      //     {
+      //       loader: 'style-loader',
+      //       options: {
+      //         attributes: {
+      //           id: 'demo-styles',
+      //           nonce: '0a59a005' // @TODO needs to match a global nonce instance
+      //         }
+      //       }
+      //     },
+      //     'css-loader',
+      //     'sass-loader',
+      //   ]
+      // }
     ]
   },
   plugins: [
@@ -95,6 +102,9 @@ module.exports = {
       analyzerMode: process.env.npm_lifecycle_event === 'build:dev:stats' ? 'server' : 'disabled',
       reportFilename: 'dev-build-report.html'
     }),
+    new MiniCssExtractPlugin({
+      filename: 'style.[name].css'
+    })
     // new CopyWebpackPlugin({
     //   patterns: [
     //     // {
