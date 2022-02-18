@@ -40,17 +40,9 @@ export default class IdsSpinbox extends Base {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.DISABLED,
-      attributes.LABEL,
-      attributes.LABEL_HIDDEN,
-      attributes.LANGUAGE,
       attributes.MAX,
       attributes.MIN,
-      attributes.MODE,
-      attributes.READONLY,
       attributes.STEP,
-      attributes.VALUE,
-      attributes.VERSION
     ];
   }
 
@@ -87,57 +79,6 @@ export default class IdsSpinbox extends Base {
         </div>
       </div>`
     );
-
-    /*
-    return (
-      `<div
-        ${buildClassAttrib(
-        'ids-spinbox',
-        this.hasAttribute(attributes.DISABLED) && 'disabled',
-        this.hasAttribute(attributes.READONLY) && 'readonly'
-      ) }
-        part="container">
-          ${labelHtml}
-          <div class="ids-spinbox-content">
-            <ids-button
-              type="tertiary"
-              part="button"
-              tabindex="-1"
-              ${buttonDisabledAttribHtml}
-            ><ids-text
-              label
-              font-size="16"
-              font-weight="bold"
-              ${buttonDisabledAttribHtml}
-            >-</ids-text>
-            </ids-button>
-            <ids-input
-              text-align="center"
-              value=${this.value}
-              id="${this.id}-input"
-              label="${this.label}"
-              label-hidden="true"
-              ${this.placeholder ? ` placeholder="${this.placeholder}"` : ''}
-              ${disabledAttribHtml}
-              part="input"
-            ></ids-input>
-            <ids-button
-              type="tertiary"
-              part="button"
-              tabindex="-1"
-              ${buttonDisabledAttribHtml}
-            ><ids-text
-              label
-              font-size="16"
-              font-weight="bold"
-              ${buttonDisabledAttribHtml}
-            >+</ids-text>
-            </ids-button>
-          </div>
-          ${this.validate ? '<div class="validation-message" part="validation"></div>' : ''}
-      </div>`
-    );
-    */
   }
 
   templateHostAttributes() {
@@ -187,7 +128,7 @@ export default class IdsSpinbox extends Base {
       this.setAttribute('aria-valuemin', this.min);
     }
 
-    // Add slotted elements, if needed
+    // Add slotted elements BEFORE size/tab adjustments
     this.#appendTriggerButtons();
 
     // Adjust some defaults of IdsInput/IdsTriggerField if they aren't specified
@@ -202,7 +143,6 @@ export default class IdsSpinbox extends Base {
     }
 
     this.#configureMask();
-
     this.#attachEventHandlers();
   }
 
@@ -353,16 +293,13 @@ export default class IdsSpinbox extends Base {
       super.value = nextValue;
 
       // corrections on value if not in-step
-
       const step = parseInt(this.step);
       const hasValidStep = !Number.isNaN(step);
-
       if (hasValidStep && (nextValue % step !== 0)) {
         nextValue = Math.round(nextValue / step) * step;
       }
 
       // corrections on value if not in-range
-
       const hasMinValue = !Number.isNaN(parseInt(this.min));
       const hasMaxValue = !Number.isNaN(parseInt(this.max));
 
@@ -381,19 +318,8 @@ export default class IdsSpinbox extends Base {
       }
 
       // set properties/updaters
-
-      // this.setAttribute(attributes.VALUE, nextValue);
       this.setAttribute('aria-valuenow', nextValue);
-      // this.input.value = nextValue;
-
       this.#updateDisabledButtonStates();
-
-      /*
-      this.triggerEvent('change', this, {
-        bubbles: false,
-        detail: { elem: this, value: nextValue }
-      });
-      */
     }
   }
 
@@ -405,65 +331,6 @@ export default class IdsSpinbox extends Base {
   }
 
   /**
-   * @param {boolean} value Flags a label's text as not displayed
-   * explicitly in the label element
-   *
-   * (still requires a label for the sake of accessibility and
-   * will be applied on the input element)
-   */
-  /*
-  set labelHidden(value) {
-    if (stringToBool(value)) {
-      if (this.getAttribute(attributes.LABEL_HIDDEN) !== '') {
-        this.setAttribute(attributes.LABEL_HIDDEN, '');
-      }
-
-      const existingLabel = this.shadowRoot.querySelector('label');
-      if (existingLabel) {
-        existingLabel.remove();
-      }
-
-      this.input?.setAttribute?.('aria-label', this.label);
-    } else {
-      if (this.hasAttribute(attributes.LABEL_HIDDEN)) {
-        this.removeAttribute(attributes.LABEL_HIDDEN);
-      }
-
-      if (this.input) {
-        this.input?.removeAttribute('aria-label');
-
-        const labelTemplate = document.createElement('template');
-        labelTemplate.innerHTML = (
-          `<label
-              ${ buildClassAttrib('ids-label-text', this.disabled && 'disabled') }
-              part="label"
-              for="${this.id}-input-input"
-            >`
-        );
-
-        this.container.insertBefore(
-          labelTemplate.content.childNodes[0],
-          this.container.querySelector('field-container')
-        );
-      }
-    }
-  }
-  */
-
-  /**
-   * @returns {boolean} value Whether a label's text has been flagged
-   * as hidden.
-   *
-   * (a label is still required for the sake of accessibility and this will be applied on the input
-   * element)
-   */
-  /*
-  get labelHidden() {
-    return this.hasAttribute(attributes.LABEL_HIDDEN);
-  }
-  */
-
-  /**
    * @param {boolean|string} value whether or not spinbox
    * interaction is disabled
    */
@@ -472,22 +339,9 @@ export default class IdsSpinbox extends Base {
     super.disabled = isValueTruthy;
 
     if (isValueTruthy) {
-      /*
-      this.setAttribute(attributes.DISABLED, true);
-      this.input?.setAttribute?.(attributes.DISABLED, true);
-      this.container.classList.add('disabled');
-      this.setAttribute('tabindex', '-1');
-      */
-
       this.incrementButton?.setAttribute?.(attributes.DISABLED, '');
       this.decrementButton?.setAttribute?.(attributes.DISABLED, '');
     } else if (!this.hasAttribute(attributes.READONLY)) {
-      /*
-      this.removeAttribute?.(attributes.DISABLED);
-      this.input?.removeAttribute?.(attributes.DISABLED);
-      this.container.classList.remove('disabled');
-      this.removeAttribute('tabindex');
-      */
       this.incrementButton?.removeAttribute?.(attributes.DISABLED);
       this.decrementButton?.removeAttribute?.(attributes.DISABLED);
     }
@@ -501,38 +355,6 @@ export default class IdsSpinbox extends Base {
   }
 
   /**
-   * @param {string} value handles `validate` functionality;
-   * if set as "required", has a required value
-   */
-  /*
-  set validate(value) {
-    if (value) {
-      this.setAttribute(attributes.VALIDATE, value);
-      this.input.setAttribute(attributes.VALIDATE, value);
-      if (this.container.children.length === 2) {
-        const validateElTemplate = document.createElement('template');
-        validateElTemplate.innerHTML = `<div class="validation-message"></div>`;
-        const [validateEl] = [...validateElTemplate.content.childNodes];
-        this.container.appendChild(validateEl);
-        this.input?.setValidationElement(validateEl);
-      }
-    } else {
-      this.removeAttribute(attributes.VALIDATE);
-      this.input.removeAttribute(attributes.VALIDATE);
-
-      const validateEl = this.shadowRoot.querySelector('.validation-message');
-      validateEl?.remove?.();
-    }
-  }
-  */
-
-  /**
-   * @returns {string} validation mode to use on input; if "required" then
-   * displays a notice when no value was set.
-   */
-  // get validate() { return this.getAttribute(attributes.VALIDATE); }
-
-  /**
    * @param {boolean} value whether or not spinbox is readonly
    */
   set readonly(value) {
@@ -540,20 +362,10 @@ export default class IdsSpinbox extends Base {
     super.readonly = isValueTruthy;
 
     if (isValueTruthy) {
-      /*
-      this.container.classList.add('readonly');
-      this.setAttribute(attributes.READONLY, true);
-      this.input.setAttribute(attributes.READONLY, true);
-      */
       this.#onStepButtonUnpressed();
       this.incrementButton?.setAttribute(attributes.DISABLED, '');
       this.decrementButton?.setAttribute(attributes.DISABLED, '');
     } else if (!this.hasAttribute(attributes.DISABLED)) {
-      /*
-      this.container.classList.remove('readonly');
-      this.removeAttribute(attributes.READONLY);
-      this.input.removeAttribute(attributes.READONLY);
-      */
       this.incrementButton?.removeAttribute(attributes.DISABLED);
       this.decrementButton?.removeAttribute(attributes.DISABLED);
     }
@@ -591,9 +403,7 @@ export default class IdsSpinbox extends Base {
    */
   #updateDisabledButtonStates() {
     // increment button
-
     const hasMaxValue = !Number.isNaN(parseInt(this.max));
-
     if (!hasMaxValue) {
       this.incrementButton?.removeAttribute(attributes.DISABLED);
       return;
@@ -606,9 +416,7 @@ export default class IdsSpinbox extends Base {
     }
 
     // decrement button
-
     const hasMinValue = !Number.isNaN(parseInt(this.min));
-
     if (!hasMinValue) {
       this.decrementButton?.removeAttribute(attributes.DISABLED);
       return;

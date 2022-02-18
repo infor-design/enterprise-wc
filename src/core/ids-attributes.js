@@ -137,6 +137,7 @@ export const attributes = {
   LABEL_FILETYPE: 'label-filetype',
   LABEL_HIDDEN: 'label-hidden',
   LABEL_POSITION: 'label-position',
+  LABEL_STATE: 'label-state',
   LABEL_PROGRESS: 'label-progress',
   LABEL_REQUIRED: 'label-required',
   LABEL_TOTAL: 'label-total',

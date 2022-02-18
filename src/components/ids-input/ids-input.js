@@ -64,7 +64,6 @@ export default class IdsInput extends Base {
       attributes.CURSOR,
       attributes.DISABLED,
       attributes.LABEL,
-      attributes.LABEL_HIDDEN,
       attributes.LABEL_REQUIRED,
       attributes.ID,
       attributes.NO_MARGINS,
@@ -94,8 +93,6 @@ export default class IdsInput extends Base {
     if (this.hasAttribute(attributes.AUTOSELECT)) {
       this.handleAutoselect();
     }
-
-    this.#setLabelHidden(this.hasAttribute(attributes.LABEL_HIDDEN));
   }
 
   /**
@@ -175,8 +172,8 @@ export default class IdsInput extends Base {
     containerClass += stringToBool(this.compact) ? ' compact' : '';
     containerClass += stringToBool(this.noMargins) ? ' no-margins' : '';
 
-    const ariaLabel = this.getAttribute(attributes.LABEL_HIDDEN) && this.label ? `aria-label="${this.label}"` : '';
-    const hiddenLabelCss = !this.label || this.getAttribute(attributes.LABEL_HIDDEN) ? ' empty' : '';
+    const ariaLabel = this.hasAttribute(attributes.LABEL_STATE) && this.label ? `aria-label="${this.label}"` : '';
+    const hiddenLabelCss = !this.label || this.hasAttribute(attributes.LABEL_HIDDEN) ? ' empty' : '';
     const labelHtml = `<label
       class="ids-label-text${hiddenLabelCss}"
       for="${this.id}-input"
@@ -377,59 +374,6 @@ export default class IdsInput extends Base {
     if (labelEl) {
       labelEl.querySelector('ids-text').innerHTML = value || '';
       labelEl.classList[value ? 'remove' : 'add']('empty');
-    }
-  }
-
-  #labelHidden = false;
-
-  /**
-   * @param {boolean} value Flags a label's text as not displayed explicitly in the label element
-   * */
-  set labelHidden(value) {
-    const newValue = stringToBool(value);
-    const currentValue = this.#labelHidden;
-
-    if (newValue !== currentValue) {
-      if (newValue) {
-        this.setAttribute(attributes.LABEL_HIDDEN, '');
-      } else {
-        this.removeAttribute(attributes.LABEL_HIDDEN);
-      }
-      this.#labelHidden = newValue;
-      this.#setLabelHidden(newValue);
-    }
-  }
-
-  /**
-   * @returns {boolean} Flag indicating whether a label's text is not displayed
-   * explicitly in the component
-   */
-  get labelHidden() {
-    return this.#labelHidden;
-  }
-
-  #setLabelHidden(doHide = false) {
-    if (doHide) {
-      this.#hideLabel();
-      this.input.setAttribute('aria-label', this.label);
-    } else {
-      this.#showLabel();
-      this.input.removeAttribute('aria-label');
-    }
-  }
-
-  #hideLabel() {
-    this.setLabelText('');
-  }
-
-  #showLabel() {
-    const existingLabel = this.shadowRoot.querySelector('label');
-    if (!existingLabel) {
-      this.fieldContainer.insertAdjacentHTML('beforebegin', `<label for="${this.id}-input" class="ids-label-text">
-        <ids-text part="label" label="true" color-unset>${this.label}</ids-text>
-      </label>`);
-    } else {
-      this.setLabelText(this.label);
     }
   }
 

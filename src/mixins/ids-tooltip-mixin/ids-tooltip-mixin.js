@@ -45,11 +45,9 @@ const IdsTooltipMixin = (superclass) => class extends superclass {
    * @returns {HTMLElement} The correct target element
    */
   get toolTipTarget() {
-    if (this.nodeName === 'IDS-INPUT') {
-      return this.container.querySelector('input');
-    }
-    if (this.nodeName === 'IDS-DROPDOWN') {
-      return this.triggerField.container.querySelector('input');
+    // `this.fieldContainer` targets any IDS Component that extends IdsInput
+    if (this.fieldContainer instanceof HTMLElement) {
+      return this.fieldContainer;
     }
     return this;
   }
