@@ -12,6 +12,6 @@ $('body').on('initialized', () => {
       ]
     })
     .on('change', () => {
-      console.log('Change Event Fired'); // eslint-disable-line no-console
+      console.info('Change Event Fired');
     });
 });

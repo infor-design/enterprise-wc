@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Events
   const treeEv = document.querySelector('#tree-events');
   if (treeEv) {
-    const show = (type, detail) => (console.log(type, detail)); // eslint-disable-line
+    const show = (type, detail) => (console.info(type, detail));
     await getData((data) => {
       treeEv.data = data;
     });

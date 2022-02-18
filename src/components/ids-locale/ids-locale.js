@@ -614,7 +614,6 @@ class IdsLocale {
     if (dateFormat.indexOf('.') > -1) {
       return '.';
     }
-    return '';
   }
 
   /**

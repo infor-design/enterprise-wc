@@ -152,7 +152,6 @@ export default class IdsBlockgridItem extends Base {
     };
 
     this.triggerEvent('selectionchanged', this, eventData);
-    console.log(eventData); // eslint-disable-line
   }
 
   /**
