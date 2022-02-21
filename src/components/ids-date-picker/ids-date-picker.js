@@ -27,6 +27,9 @@ import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 // Import Styles
 import styles from './ids-date-picker.scss';
 
+const MIN_MONTH = 0;
+const MAX_MONTH = 11;
+
 /**
  * IDS Date Picker Component
  * @type {IdsDatePicker}
@@ -60,8 +63,6 @@ class IdsDatePicker extends Base {
 
   #monthView = this.container.querySelector('ids-month-view');
 
-  #picklist = this.#monthView?.container.querySelector('ids-date-picker');
-
   #popup = this.container.querySelector('ids-popup');
 
   #triggerButton = this.container.querySelector('ids-trigger-button');
@@ -70,6 +71,7 @@ class IdsDatePicker extends Base {
 
   connectedCallback() {
     this.#attachEventHandlers();
+    this.#attachExpandedListener();
     this.#attachKeyboardListeners();
     super.connectedCallback();
   }
@@ -222,8 +224,8 @@ class IdsDatePicker extends Base {
         this.#togglePopup(!this.#popup.visible);
       });
 
-      this.offEvent('dayselected.date-picker');
-      this.onEvent('dayselected.date-picker', this.#monthView, (e) => {
+      this.offEvent('dayselected.date-picker-calendar');
+      this.onEvent('dayselected.date-picker-calendar', this.#monthView, (e) => {
         if (!this.isCalendarToolbar) {
           this.value = this.locale.formatDate(e.detail.date);
         }
@@ -258,7 +260,7 @@ class IdsDatePicker extends Base {
       this.onEvent('click.date-picker-apply', this.container.querySelector('.popup-btn-end'), (e) => {
         e.stopPropagation();
 
-        const picklist = this.#monthView?.container.querySelector('ids-date-picker');
+        const picklist = this.#monthView?.container?.querySelector('ids-date-picker');
 
         if (picklist?.expanded) {
           const { month, year } = picklist;
@@ -276,23 +278,13 @@ class IdsDatePicker extends Base {
         this.focus();
         this.#triggerSelectedEvent();
       });
-
-      // Month/year picker expanded/collapsed
-      this.offEvent('expanded.date-picker-expand');
-      this.onEvent('expanded.date-picker-expand', this.#monthView?.container.querySelector('ids-date-picker'), (e) => {
-        const btnText = this.container.querySelector('.popup-btn-start ids-text');
-
-        if (btnText && !this.isCalendarToolbar) {
-          btnText.textContent = this.locale?.translate(e.detail.expanded ? 'Cancel' : 'Clear');
-        }
-      });
     }
 
     if (this.isDropdown) {
       this.offEvent('click.date-picker-dropdown');
       this.onEvent('click.date-picker-dropdown', this.container.querySelector('ids-toggle-button'), (e) => {
         e.stopPropagation();
-        this.#triggerExpandedEvent(!this.expanded);
+
         this.expanded = !this.expanded;
       });
 
@@ -342,6 +334,24 @@ class IdsDatePicker extends Base {
   }
 
   /**
+   * Expanded/collapsed event for date picker (picklist) in calendar popup
+   */
+  #attachExpandedListener() {
+    if (this.isDropdown) {
+      this.offEvent('expanded.date-picker-expand');
+    } else {
+      this.offEvent('expanded.date-picker-expand');
+      this.onEvent('expanded.date-picker-expand', this.#monthView?.container?.querySelector('ids-date-picker'), (e) => {
+        const btnText = this.container.querySelector('.popup-btn-start ids-text');
+
+        if (btnText && !this.isCalendarToolbar) {
+          btnText.textContent = this.locale?.translate(e.detail.expanded ? 'Cancel' : 'Clear');
+        }
+      });
+    }
+  }
+
+  /**
    * Establish Internal Keyboard shortcuts
    * @returns {object} this class-instance object for chaining
    */
@@ -374,7 +384,7 @@ class IdsDatePicker extends Base {
 
         // Arrow Up on picklist month
         if (key === 38 && monthSelected?.matches(':focus')) {
-          const month = this.month === 0 ? 11 : this.month - 1;
+          const month = this.month === MIN_MONTH ? MAX_MONTH : this.month - 1;
           const el = this.container.querySelector(`.is-month[data-month="${month}"]`);
 
           this.#unselectPicklist('month');
@@ -386,7 +396,7 @@ class IdsDatePicker extends Base {
 
         // Arrow Down on picklist month
         if (key === 40 && monthSelected?.matches(':focus')) {
-          const month = this.month === 11 ? 0 : this.month + 1;
+          const month = this.month === MAX_MONTH ? MIN_MONTH : this.month + 1;
           const el = this.container.querySelector(`.is-month[data-month="${month}"]`);
 
           this.#unselectPicklist('month');
@@ -487,7 +497,7 @@ class IdsDatePicker extends Base {
         // Tab will loop focus inside calendar popup
         if (key === 9 && this.#popup?.visible) {
           // First focusable in the calendar popup is dropdown datepicker
-          const firstFocusable = this.#monthView?.container.querySelector('ids-date-picker');
+          const firstFocusable = this.#monthView?.container?.querySelector('ids-date-picker');
           // Last focusable in the calendar popup is Apply button
           const lastFocusable = this.container.querySelector('.popup-btn-end')?.container;
 
@@ -567,9 +577,13 @@ class IdsDatePicker extends Base {
         this.container.setAttribute('tabindex', 0);
       }
 
-      // Close month/year picker when main popup is closed
-      if (this.#picklist) {
-        this.#picklist.expanded = false;
+      // Close and reset month/year picker when main popup is closed
+      const picklist = this.#monthView?.container?.querySelector('ids-date-picker');
+
+      if (picklist) {
+        picklist.expanded = false;
+        picklist.month = this.month;
+        picklist.year = this.year;
       }
     }
   }
@@ -1106,6 +1120,7 @@ class IdsDatePicker extends Base {
   set showToday(val) {
     this.setAttribute(attributes.SHOW_TODAY, val);
     this.#monthView?.setAttribute(attributes.SHOW_TODAY, val);
+    this.#attachExpandedListener();
   }
 
   /**
@@ -1138,7 +1153,15 @@ class IdsDatePicker extends Base {
    * @returns {number} month param
    */
   get month() {
-    return stringToNumber(this.getAttribute(attributes.MONTH));
+    const attrVal = this.getAttribute(attributes.MONTH);
+    const numberVal = stringToNumber(attrVal);
+
+    if (!Number.isNaN(numberVal) && numberVal >= MIN_MONTH && numberVal <= MAX_MONTH) {
+      return numberVal;
+    }
+
+    // Default is current month
+    return new Date().getMonth();
   }
 
   /**
@@ -1164,7 +1187,15 @@ class IdsDatePicker extends Base {
    * @returns {number} year param converted to number from attribute value
    */
   get year() {
-    return stringToNumber(this.getAttribute(attributes.YEAR));
+    const attrVal = this.getAttribute(attributes.YEAR);
+    const numberVal = stringToNumber(attrVal);
+
+    if (!Number.isNaN(numberVal) && attrVal.length === 4) {
+      return numberVal;
+    }
+
+    // Default is current year
+    return new Date().getFullYear();
   }
 
   /**
@@ -1190,7 +1221,15 @@ class IdsDatePicker extends Base {
    * @returns {number} day param converted to number from attribute value
    */
   get day() {
-    return this.getAttribute(attributes.DAY);
+    const attrVal = this.getAttribute(attributes.DAY);
+    const numberVal = stringToNumber(attrVal);
+
+    if (!Number.isNaN(numberVal) && numberVal > 0) {
+      return numberVal;
+    }
+
+    // Default is current day
+    return new Date().getDate();
   }
 
   /**
@@ -1230,6 +1269,7 @@ class IdsDatePicker extends Base {
 
     this.container.querySelector('ids-expandable-area').expanded = boolVal;
     this.container.classList.toggle('is-expanded', boolVal);
+    this.#triggerExpandedEvent(boolVal);
 
     if (boolVal) {
       const height = getClosest(this, 'ids-month-view')?.container.scrollHeight;

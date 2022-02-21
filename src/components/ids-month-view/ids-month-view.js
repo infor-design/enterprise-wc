@@ -240,7 +240,7 @@ class IdsMonthView extends Base {
     </ids-button>`;
     const todayBtn = this.showToday ? `<ids-button css-class="no-padding" class="btn-today">
       <ids-text
-        class="month-view-today-text"
+        class="month-view-btn-text"
         font-size="16"
         translate-text="true"
         font-weight="bold"
@@ -282,6 +282,16 @@ class IdsMonthView extends Base {
         <ids-toolbar-section align="end" type="buttonset">
           ${todayBtn}
           ${prevNextBtn}
+          ${!this.isDatePicker ? `
+            <ids-button css-class="no-padding" class="btn-apply" hidden="true">
+              <ids-text
+                class="month-view-btn-text"
+                font-size="16"
+                translate-text="true"
+                font-weight="bold"
+              >Apply</ids-text>
+            </ids-button>
+          ` : ''}
         </ids-toolbar-section>
       `}
     </ids-toolbar>`;
@@ -299,6 +309,7 @@ class IdsMonthView extends Base {
    */
   #attachToolbarEvents() {
     const buttonSet = this.container.querySelector('ids-toolbar-section[type="buttonset"]');
+    const toolbarDatepicker = this.container.querySelector('ids-date-picker');
 
     this.offEvent('click.month-view-buttons');
     this.onEvent('click.month-view-buttons', buttonSet, (e) => {
@@ -318,10 +329,21 @@ class IdsMonthView extends Base {
         this.focus();
         this.#triggerSelectedEvent();
       }
+
+      if (e.target?.classList.contains('btn-apply')) {
+        const { year, month } = toolbarDatepicker;
+
+        this.year = year;
+        this.month = month;
+
+        toolbarDatepicker.expanded = false;
+
+        this.#triggerSelectedEvent();
+      }
     });
 
     this.offEvent('dayselected.month-view-datepicker');
-    this.onEvent('dayselected.month-view-datepicker', this.container.querySelector('ids-date-picker'), (e) => {
+    this.onEvent('dayselected.month-view-datepicker', toolbarDatepicker, (e) => {
       const date = e.detail.date;
 
       this.day = date.getDate();
@@ -331,10 +353,14 @@ class IdsMonthView extends Base {
 
     // Date picker dropdown picklist expanded or collapsed
     this.offEvent('expanded.month-view-picklist');
-    this.onEvent('expanded.month-view-picklist', this.container.querySelector('ids-date-picker'), (e) => {
-      this.container.querySelector('.btn-today')?.setAttribute('hidden', e.detail.expanded);
-      this.container.querySelector('.btn-previous')?.setAttribute(this.isDatePicker ? 'disabled' : 'hidden', e.detail.expanded);
-      this.container.querySelector('.btn-next')?.setAttribute(this.isDatePicker ? 'disabled' : 'hidden', e.detail.expanded);
+    this.onEvent('expanded.month-view-picklist', toolbarDatepicker, (e) => {
+      const expanded = e.detail.expanded;
+
+      this.container.querySelector('.btn-today')?.setAttribute('hidden', expanded);
+      this.container.querySelector('.btn-apply')?.setAttribute('hidden', !expanded);
+      this.container.querySelector('.btn-previous')?.setAttribute(this.isDatePicker ? 'disabled' : 'hidden', expanded);
+      this.container.querySelector('.btn-next')?.setAttribute(this.isDatePicker ? 'disabled' : 'hidden', expanded);
+      this.#selectDay(!expanded && this.year, !expanded && this.month, !expanded && this.day);
     });
   }
 
@@ -712,7 +738,7 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * Select active day and change dates if year/month/day is out of current month
+   * Add selectable attribute to active day
    * @param {number} year a given year
    * @param {number} month a given month
    * @param {number} day a given day

@@ -21,7 +21,7 @@
     flex-shrink: 0;
   }
 
-  .month-view-today-text {
+  .month-view-btn-text {
     @include text-azure-60();
   }
 
@@ -312,7 +312,7 @@
     @include bg-slate-80();
   }
 
-  .month-view-today-text {
+  .month-view-btn-text {
     @include text-azure-60();
   }
 
@@ -401,7 +401,7 @@
     @include bg-white();
   }
 
-  .month-view-today-text,
+  .month-view-btn-text,
   &.is-compact .trigger-icon {
     @include text-azure-90();
   }

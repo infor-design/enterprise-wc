@@ -69,9 +69,9 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.placeholder).toEqual(name);
       expect(component.size).toEqual('lg');
       expect(component.format).toEqual('yyyy-MM-dd');
-      expect(component.month).toEqual('9');
-      expect(component.year).toEqual('2021');
-      expect(component.day).toEqual('18');
+      expect(component.month).toEqual(9);
+      expect(component.year).toEqual(2021);
+      expect(component.day).toEqual(18);
     });
 
     it('should change properties', () => {
@@ -95,9 +95,9 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.value).toEqual('2020-11-19');
       expect(component.placeholder).toEqual('changed');
       expect(component.size).toEqual('md');
-      expect(component.month).toEqual('10');
-      expect(component.year).toEqual('2020');
-      expect(component.day).toEqual('19');
+      expect(component.month).toEqual(10);
+      expect(component.year).toEqual(2020);
+      expect(component.day).toEqual(19);
 
       // Reset to defaults
       component.tabbable = null;
@@ -120,9 +120,9 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.label).toEqual('');
       expect(component.format).toEqual('locale');
       expect(component.placeholder).toEqual('');
-      expect(component.month).toBeNull();
-      expect(component.year).toBeNull();
-      expect(component.day).toBeNull();
+      expect(component.month).toEqual((new Date()).getMonth());
+      expect(component.year).toEqual((new Date()).getFullYear());
+      expect(component.day).toEqual((new Date()).getDate());
     });
 
     it('should not change value when disabled or readonly', () => {
@@ -202,9 +202,9 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.placeholder).toEqual(name);
       expect(component.size).toEqual('lg');
       expect(component.format).toEqual('yyyy-MM-dd');
-      expect(component.month).toEqual('9');
-      expect(component.year).toEqual('2021');
-      expect(component.day).toEqual('18');
+      expect(component.month).toEqual(9);
+      expect(component.year).toEqual(2021);
+      expect(component.day).toEqual(18);
     });
 
     it('should change attributes', () => {
@@ -231,9 +231,9 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.placeholder).toEqual('changed');
       expect(component.size).toEqual('sm');
       expect(component.format).toEqual('locale');
-      expect(component.month).toEqual('4');
-      expect(component.year).toEqual('2019');
-      expect(component.day).toEqual('22');
+      expect(component.month).toEqual(4);
+      expect(component.year).toEqual(2019);
+      expect(component.day).toEqual(22);
 
       // Reset to defaults
       component.removeAttribute('tabbable');
@@ -256,9 +256,9 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.label).toEqual('');
       expect(component.format).toEqual('locale');
       expect(component.placeholder).toEqual('');
-      expect(component.month).toBeNull();
-      expect(component.year).toBeNull();
-      expect(component.day).toBeNull();
+      expect(component.month).toEqual((new Date()).getMonth());
+      expect(component.year).toEqual((new Date()).getFullYear());
+      expect(component.day).toEqual((new Date()).getDate());
     });
   });
 
@@ -309,9 +309,9 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.format).toEqual('locale');
       expect(component.isCalendarToolbar).toBeFalsy();
       expect(component.isDropdown).toBeFalsy();
-      expect(component.month).toBeNull();
-      expect(component.year).toBeNull();
-      expect(component.day).toBeNull();
+      expect(component.month).toEqual((new Date()).getMonth());
+      expect(component.year).toEqual((new Date()).getFullYear());
+      expect(component.day).toEqual((new Date()).getDate());
     });
 
     it('should handle is-dropdown is-calendar-toolbar attributes', () => {

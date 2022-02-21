@@ -250,7 +250,7 @@
       content: ' ';
       border-left-color: var(--ids-color-palette-slate-30);
       height: calc(100% - 25px);
-      left: 164px;
+      left: calc(50% - 1px);
       top: 15px;
     }
   }
