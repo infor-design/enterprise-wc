@@ -106,7 +106,7 @@ class IdsMonthView extends Base {
     // Respond to container changing language
     this.offEvent('languagechange.month-view-container');
     this.onEvent('languagechange.month-view-container', getClosest(this, 'ids-container'), () => {
-      this.#setDirection();
+      this.setDirection();
       this.#renderToolbar();
       this.#renderMonth();
     });
@@ -114,7 +114,7 @@ class IdsMonthView extends Base {
     // Respond to container changing locale
     this.offEvent('localechange.month-view-container');
     this.onEvent('localechange.month-view-container', getClosest(this, 'ids-container'), () => {
-      this.#setDirection();
+      this.setDirection();
       this.#renderMonth();
       this.#attachDatepicker();
     });
@@ -1062,17 +1062,6 @@ class IdsMonthView extends Base {
 
     // Toggle container CSS class
     this.container.classList.toggle('is-date-picker', boolVal);
-  }
-
-  /**
-   * Set the direction attribute
-   */
-  #setDirection() {
-    if (this.locale?.isRTL()) {
-      this.setAttribute('dir', 'rtl');
-    } else {
-      this.removeAttribute('dir');
-    }
   }
 }
 

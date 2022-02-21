@@ -206,8 +206,8 @@ class IdsDatePicker extends Base {
   #attachEventHandlers() {
     // Respond to container changing locale
     this.offEvent('localechange.date-picker-container');
-    this.onEvent('localechange.date-picker-container', this.closest('ids-container'), () => {
-      this.#setDirection();
+    this.onEvent('localechange.date-picker-container', getClosest(this, 'ids-container'), () => {
+      this.setDirection();
       this.#applyMask();
 
       // Locale change first day of week only if it's not set as attribute
@@ -545,7 +545,7 @@ class IdsDatePicker extends Base {
       this.#popup.visible = true;
       this.#popup.alignTarget = this.isCalendarToolbar ? this.container : this.#input;
       this.#popup.arrowTarget = this.#triggerButton;
-      this.#popup.align = 'bottom, left';
+      this.#popup.align = `bottom, ${this.locale.isRTL() ? 'right' : 'left'}`;
       this.#popup.arrow = 'bottom';
       this.#popup.y = 16;
 
@@ -1251,17 +1251,6 @@ class IdsDatePicker extends Base {
     } else {
       this.#unselectPicklist('all');
       this.removeAttribute(attributes.EXPANDED);
-    }
-  }
-
-  /**
-   * Set the direction attribute
-   */
-  #setDirection() {
-    if (this.locale?.isRTL()) {
-      this.setAttribute('dir', 'rtl');
-    } else {
-      this.removeAttribute('dir');
     }
   }
 }
