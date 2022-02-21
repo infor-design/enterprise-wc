@@ -19,11 +19,11 @@ It's also possible to use Namespaces with the Ids Event Handler's methods, simil
 ```js
 this.onEvent('click', closeIcon, () => this.dismiss());
 this.onEvent(('click.doop', closeIcon, () => this.otherDismissCheck());
-console.log(this.handledEvents());
+console.info(this.handledEvents());
 // both `click` and `click.doop` exist.
 
 this.offEvent(('click.doop', closeIcon);
-console.log(this.handledEvents());
+console.info(this.handledEvents());
 // `click.doop` is not there, but `click` remains.
 ```
 

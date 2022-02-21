@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
       consoleArgs.push(e.detail.overflowMenuItem);
     }
 
-    // eslint-disable-next-line
-    console.log(...consoleArgs);
+    console.info(...consoleArgs);
   });
 });
