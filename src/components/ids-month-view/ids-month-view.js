@@ -332,9 +332,9 @@ class IdsMonthView extends Base {
     // Date picker dropdown picklist expanded or collapsed
     this.offEvent('expanded.month-view-picklist');
     this.onEvent('expanded.month-view-picklist', this.container.querySelector('ids-date-picker'), (e) => {
-      this.container.querySelector('.btn-today').setAttribute('hidden', e.detail.expanded);
-      this.container.querySelector('.btn-previous').setAttribute('disabled', e.detail.expanded);
-      this.container.querySelector('.btn-next').setAttribute('disabled', e.detail.expanded);
+      this.container.querySelector('.btn-today')?.setAttribute('hidden', e.detail.expanded);
+      this.container.querySelector('.btn-previous')?.setAttribute(this.isDatePicker ? 'disabled' : 'hidden', e.detail.expanded);
+      this.container.querySelector('.btn-next')?.setAttribute(this.isDatePicker ? 'disabled' : 'hidden', e.detail.expanded);
     });
   }
 

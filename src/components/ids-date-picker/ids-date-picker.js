@@ -60,15 +60,13 @@ class IdsDatePicker extends Base {
 
   #monthView = this.container.querySelector('ids-month-view');
 
+  #picklist = this.#monthView?.container.querySelector('ids-date-picker');
+
   #popup = this.container.querySelector('ids-popup');
 
   #triggerButton = this.container.querySelector('ids-trigger-button');
 
   #triggerField = this.container.querySelector('ids-trigger-field');
-
-  #dropdownButton = this.container.querySelector('ids-toggle-button');
-
-  #expandableArea = this.container.querySelector('ids-expandable-area');
 
   connectedCallback() {
     this.#attachEventHandlers();
@@ -85,6 +83,7 @@ class IdsDatePicker extends Base {
       ...super.attributes,
       attributes.DAY,
       attributes.DISABLED,
+      attributes.EXPANDED,
       attributes.FIRST_DAY_OF_WEEK,
       attributes.FORMAT,
       attributes.ID,
@@ -130,7 +129,7 @@ class IdsDatePicker extends Base {
             <ids-icon slot="icon" icon="dropdown" class="dropdown-btn-icon"></ids-icon>
             <ids-text slot="text" class="dropdown-btn-text" font-size="20">${this.value}</ids-text>
           </ids-toggle-button>
-          <ids-expandable-area type="toggle-btn">
+          <ids-expandable-area type="toggle-btn" expanded="${this.expanded}">
             <div class="picklist" slot="pane" role="application"></div>
           </ids-expandable-area>
         ` : ''}
@@ -238,6 +237,14 @@ class IdsDatePicker extends Base {
       this.onEvent('click.date-picker-clear', this.container.querySelector('.popup-btn-start'), (e) => {
         e.stopPropagation();
 
+        const picklist = this.#monthView?.container.querySelector('ids-date-picker');
+
+        if (picklist?.expanded) {
+          picklist.expanded = false;
+
+          return;
+        }
+
         if (!this.isCalendarToolbar) {
           this.value = '';
           this.focus();
@@ -251,19 +258,42 @@ class IdsDatePicker extends Base {
       this.onEvent('click.date-picker-apply', this.container.querySelector('.popup-btn-end'), (e) => {
         e.stopPropagation();
 
+        const picklist = this.#monthView?.container.querySelector('ids-date-picker');
+
+        if (picklist?.expanded) {
+          const { month, year } = picklist;
+
+          this.#monthView.year = year;
+          this.#monthView.month = month;
+
+          picklist.expanded = false;
+
+          return;
+        }
+
         this.value = this.locale.formatDate(this.#monthView.activeDate);
         this.#togglePopup(false);
         this.focus();
         this.#triggerSelectedEvent();
       });
+
+      // Month/year picker expanded/collapsed
+      this.offEvent('expanded.date-picker-expand');
+      this.onEvent('expanded.date-picker-expand', this.#monthView?.container.querySelector('ids-date-picker'), (e) => {
+        const btnText = this.container.querySelector('.popup-btn-start ids-text');
+
+        if (btnText && !this.isCalendarToolbar) {
+          btnText.textContent = this.locale?.translate(e.detail.expanded ? 'Cancel' : 'Clear');
+        }
+      });
     }
 
     if (this.isDropdown) {
       this.offEvent('click.date-picker-dropdown');
-      this.onEvent('click.date-picker-dropdown', this.#dropdownButton, (e) => {
+      this.onEvent('click.date-picker-dropdown', this.container.querySelector('ids-toggle-button'), (e) => {
         e.stopPropagation();
-
-        this.#toggleExpanded(!stringToBool(this.#expandableArea?.expanded));
+        this.#triggerExpandedEvent(!this.expanded);
+        this.expanded = !this.expanded;
       });
 
       this.offEvent('click.date-picker-picklist');
@@ -520,7 +550,7 @@ class IdsDatePicker extends Base {
       this.#popup.y = 16;
 
       this.container.classList.add('is-open');
-      this.#attachMonthView();
+      this.#parseInputDate();
 
       this.#monthView.focus();
 
@@ -536,46 +566,12 @@ class IdsDatePicker extends Base {
       if (this.isCalendarToolbar) {
         this.container.setAttribute('tabindex', 0);
       }
+
+      // Close month/year picker when main popup is closed
+      if (this.#picklist) {
+        this.#picklist.expanded = false;
+      }
     }
-  }
-
-  /**
-   * Open/close dropdown year/month picker
-   * @param {boolean} expand to expand or collapse
-   */
-  #toggleExpanded(expand) {
-    if (!this.isDropdown) return;
-
-    this.container.classList.toggle('is-expanded', expand);
-
-    this.#triggerExpandedEvent(expand);
-
-    if (expand) {
-      const height = getClosest(this, 'ids-month-view')?.container.scrollHeight;
-
-      this.container.querySelector('.picklist').style.height = `${height - 44}px`;
-
-      const monthEl = this.container.querySelector(`.picklist-item.is-month[data-month="${this.month}"]`);
-      const yearEl = this.container.querySelector(`.picklist-item.is-year[data-year="${this.year}"]`);
-      const btnUp = this.container.querySelector('.picklist-item.is-btn-up');
-      const btnDown = this.container.querySelector('.picklist-item.is-btn-down');
-
-      this.#selectPicklistEl(monthEl);
-      this.#selectPicklistEl(yearEl);
-      btnUp.setAttribute('tabindex', 0);
-      btnDown.setAttribute('tabindex', 0);
-      monthEl?.focus();
-
-      this.#expandableArea.expanded = true;
-
-      return;
-    }
-
-    if (stringToBool(this.#expandableArea.expanded)) {
-      this.#expandableArea.expanded = false;
-    }
-
-    this.#unselectPicklist('all');
   }
 
   /**
@@ -704,20 +700,26 @@ class IdsDatePicker extends Base {
   }
 
   /**
-   * Parse date from value and pass as params to month view
-   * Pass year, month, day to month view if is calendar toolbar
+   * Parse date from value and pass as year/month/day params what triggers month view to rerender
    */
-  #attachMonthView() {
-    if (!this.isCalendarToolbar) {
-      const parsed = new Date(this.#input?.value);
+  #parseInputDate() {
+    if (this.isCalendarToolbar) return;
 
-      this.#monthView.year = parsed.getFullYear();
-      this.#monthView.month = parsed.getMonth();
-      this.#monthView.day = parsed.getDate();
-    } else {
-      this.#monthView.year = this.year;
-      this.#monthView.month = this.month;
-      this.#monthView.day = this.day;
+    const date = new Date(this.#input?.value);
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    const day = date.getDate();
+
+    if (this.year !== year) {
+      this.year = year;
+    }
+
+    if (this.month !== month) {
+      this.month = month;
+    }
+
+    if (this.day !== day) {
+      this.day = day;
     }
   }
 
@@ -810,7 +812,6 @@ class IdsDatePicker extends Base {
       }
     }
 
-    this.#toggleExpanded(false);
     this.#attachPicklist();
   }
 
@@ -1147,11 +1148,15 @@ class IdsDatePicker extends Base {
   set month(val) {
     if (!Number.isNaN(stringToNumber(val))) {
       this.setAttribute(attributes.MONTH, val);
+      this.#monthView?.setAttribute(attributes.MONTH, val);
     } else {
       this.removeAttribute(attributes.MONTH);
+      this.#monthView?.removeAttribute(attributes.MONTH);
     }
 
-    this.#togglePopup(false);
+    if (this.isCalendarToolbar) {
+      this.#togglePopup(false);
+    }
   }
 
   /**
@@ -1169,11 +1174,15 @@ class IdsDatePicker extends Base {
   set year(val) {
     if (val) {
       this.setAttribute(attributes.YEAR, val);
+      this.#monthView?.setAttribute(attributes.YEAR, val);
     } else {
       this.removeAttribute(attributes.YEAR);
+      this.#monthView?.removeAttribute(attributes.YEAR);
     }
 
-    this.#togglePopup(false);
+    if (this.isCalendarToolbar) {
+      this.#togglePopup(false);
+    }
   }
 
   /**
@@ -1191,11 +1200,58 @@ class IdsDatePicker extends Base {
   set day(val) {
     if (val) {
       this.setAttribute(attributes.DAY, val);
+      this.#monthView?.setAttribute(attributes.DAY, val);
     } else {
       this.removeAttribute(attributes.DAY);
+      this.#monthView?.removeAttribute(attributes.DAY);
     }
 
-    this.#togglePopup(false);
+    if (this.isCalendarToolbar) {
+      this.#togglePopup(false);
+    }
+  }
+
+  /**
+   * expanded attribute
+   * @returns {boolean} expanded param converted to boolean from attribute value
+   */
+  get expanded() {
+    return stringToBool(this.getAttribute(attributes.EXPANDED));
+  }
+
+  /**
+   * Set whether or not the month/year picker should be expanded
+   * @param {string|boolean|null} val expanded attribute value
+   */
+  set expanded(val) {
+    if (!this.isDropdown) return;
+
+    const boolVal = stringToBool(val);
+
+    this.container.querySelector('ids-expandable-area').expanded = boolVal;
+    this.container.classList.toggle('is-expanded', boolVal);
+
+    if (boolVal) {
+      const height = getClosest(this, 'ids-month-view')?.container.scrollHeight;
+
+      this.container.querySelector('.picklist').style.height = `${height - 44}px`;
+
+      const monthEl = this.container.querySelector(`.picklist-item.is-month[data-month="${this.month}"]`);
+      const yearEl = this.container.querySelector(`.picklist-item.is-year[data-year="${this.year}"]`);
+      const btnUp = this.container.querySelector('.picklist-item.is-btn-up');
+      const btnDown = this.container.querySelector('.picklist-item.is-btn-down');
+
+      this.#selectPicklistEl(monthEl);
+      this.#selectPicklistEl(yearEl);
+      btnUp.setAttribute('tabindex', 0);
+      btnDown.setAttribute('tabindex', 0);
+      monthEl?.focus();
+
+      this.setAttribute(attributes.EXPANDED, boolVal);
+    } else {
+      this.#unselectPicklist('all');
+      this.removeAttribute(attributes.EXPANDED);
+    }
   }
 
   /**
