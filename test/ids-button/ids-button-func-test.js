@@ -106,7 +106,6 @@ describe('IdsButton Component', () => {
     await container.setLanguage('ar');
     await processAnimFrame();
     expect(btn.locale.isRTL()).toEqual(true);
-    expect(btn.container.classList.contains('rtl')).toBeTruthy();
   });
 
   it('can be focusable or not', () => {
