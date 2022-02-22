@@ -52,11 +52,6 @@ export default class IdsMenuButton extends Base {
    */
   attachEventHandlers() {
     super.attachEventHandlers?.(this);
-
-    this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', getClosest(this, 'ids-container'), () => {
-      this.setDirection();
-    });
   }
 
   /**

@@ -179,11 +179,6 @@ export default class IdsPopup extends Base {
     if (containerNode) {
       this.#ro.observe(containerNode);
     }
-
-    this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', getClosest(this, 'ids-container'), () => {
-      this.setDirection();
-    });
   }
 
   /**
