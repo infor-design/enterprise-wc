@@ -86,14 +86,15 @@
       margin: 5px 0;
 
       &::after {
-        background-color: var(--legend-color);
-        border-radius: 50%;
+        @include rounded-round();
+        @include absolute();
+
         content: '';
+        background-color: var(--legend-color);
         display: inline-block;
         height: 38px;
         left: 2px;
         overflow: hidden;
-        position: absolute;
         top: 2px;
         width: 38px;
         opacity: 0.3;
@@ -169,7 +170,7 @@
 
     &.has-legend:hover {
       .day-container::after {
-        opacity: 1;
+        @include opacity-100();
       }
     }
   }
@@ -213,8 +214,8 @@
     overflow: hidden;
     user-select: none;
 
-    &:not(.is-selected):hover,
-    &:not(.is-selected):active {
+    &:not(.is-selected):not(.has-legend):hover,
+    &:not(.is-selected):not(.has-legend):active {
       background-color: rgb(240 240 240 / 0.5);
     }
 
@@ -223,9 +224,11 @@
       @include bg-slate-20();
     }
 
-    &.is-selected {
+    &.is-selected:not(.has-legend) {
       @include bg-slate-10();
+    }
 
+    &.is-selected {
       box-shadow: inset 0 5px 0 0 var(--ids-color-palette-azure-60);
 
       &:focus {
@@ -237,6 +240,29 @@
 
       ids-text::part(text) {
         font-weight: 600;
+      }
+    }
+
+    &.has-legend {
+      &::after {
+        @include absolute();
+        @include w-full();
+
+        background-color: var(--legend-color);
+        content: '';
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        opacity: 0.3;
+      }
+
+      &.is-selected::after {
+        top: 5px;
+      }
+
+      &:hover::after {
+        @include opacity-100();
       }
     }
 
@@ -252,6 +278,7 @@
     .day-text {
       @include absolute();
       @include cursor-pointer();
+      @include z-1();
 
       left: calc(100% - 25px);
       top: 13px;
@@ -390,12 +417,12 @@
         @include text-slate-50();
       }
 
-      &:not(.is-selected):hover,
-      &:not(.is-selected):active {
+      &:not(.is-selected):not(.has-legend):hover,
+      &:not(.is-selected):not(.has-legend):active {
         background-color: rgb(49 50 54 / 0.2);
       }
 
-      &.is-selected {
+      &.is-selected:not(.has-legend) {
         @include bg-slate-70();
       }
 
@@ -487,8 +514,8 @@
         @include text-slate-50();
       }
 
-      &:not(.is-selected):hover,
-      &:not(.is-selected):active {
+      &:not(.is-selected):not(.has-legend):hover,
+      &:not(.is-selected):not(.has-legend):active {
         background-color: rgb(74 74 74 / 0.1);
       }
 
