@@ -1,0 +1,17 @@
+.parent-container {
+  height: 300px;
+}
+
+#primary-toolbar {
+  width: 100%;
+}
+
+#secondary-toolbar {
+  padding: 0 16px 0 32px;
+  border-top: 1px solid var(--ids-color-palette-slate-20);
+  border-bottom: 1px solid var(--ids-color-palette-slate-20);
+}
+
+button::after {
+  content: 'a';
+}

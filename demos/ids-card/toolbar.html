@@ -1,0 +1,45 @@
+{{> ../layouts/head.html }}
+
+<ids-layout-grid cols="3" gap="md">
+  <ids-layout-grid-cell>
+    <ids-card auto-fit="true">
+      <div slot="card-header">
+        <ids-toolbar id="primary-toolbar">
+          <ids-toolbar-section type="title" favor>
+            <ids-text font-size="20">Tasks</ids-text>
+          </ids-toolbar-section>
+          <ids-toolbar-section type="buttonset" align="end">
+            <ids-menu-button id="icon-btn-more" menu="icon-more">
+              <ids-icon slot="icon" icon="more"></ids-icon>
+              <span class="audible">Icon More Button</span>
+            </ids-menu-button>
+          </ids-toolbar-section>
+        </ids-toolbar>
+      </div>
+      <div slot="card-content">
+        <ids-toolbar id="secondary-toolbar">
+          <ids-toolbar-section type="title" favor>
+            <ids-text font-size="16">Card group action</ids-text>
+          </ids-toolbar-section>
+          <ids-toolbar-section type="buttonset" align="end">
+            <ids-menu-button id="icon-btn-filter" menu="icon-filter">
+              <ids-icon slot="icon" icon="filter"></ids-icon>
+              <span class="audible">Icon Filter Button</span>
+            </ids-menu-button>
+          </ids-toolbar-section>
+        </ids-toolbar>
+
+        <div class="parent-container">
+          <ids-list-view item-height="76">
+            <template>
+              <ids-text font-size="16" type="h2">${subject}</ids-text>
+              <ids-text font-size="12" type="span">Comments: ${comments}</ids-text>
+            </template>
+          </ids-list-view>
+        </div>
+      </div>
+    </ids-card>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+{{> ../layouts/footer.html }}
