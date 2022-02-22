@@ -3,49 +3,14 @@ const sass = require('sass');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const NodeFsFiles = require('./scripts/node-fs-files');
+const prodEntry = require('./scripts/webpack-prod-entery');
 
-const isWin32 = process.platform === 'win32' ? '\\' : '/';
+console.log(prodEntry())
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
 process.env.NODE_ENV = isProduction ? 'production' : 'development';
 
 module.exports = {
-  entry: NodeFsFiles(`./src/`, 'js', []).reduce((acc, filePath) => {
-    const dirname = path.dirname(filePath)
-      .replace(`src${isWin32}components${isWin32}`, '')
-      .replace(`src${isWin32}core`, '')
-      .replace(`src${isWin32}utils${isWin32}`, '')
-      .replace(`src${isWin32}mixins${isWin32}`, '');
-    const baseName = path.basename(filePath).replace('.js', '');
-    filePath = filePath.replace(`src${isWin32}`, `.${isWin32}src${isWin32}`);
-
-    // Core
-    if (dirname === '' || dirname.includes('mixin') || dirname.includes('utils')) {
-      acc[`${baseName}`] = filePath;
-      return acc;
-    }
-    // Everything
-    if (baseName === 'enterprise-wc') {
-      acc[`${baseName}`] = filePath;
-      return acc;
-    }
-
-    // Cultures
-    if (dirname === `ids-locale${isWin32}cultures`) {
-      acc[`ids-locale${isWin32}cultures${isWin32}${baseName}`] = filePath;
-      return acc;
-    }
-
-    // Components
-    if (dirname === baseName) {
-      if (!acc[`${dirname}`]) {
-        acc[`${dirname}`] = [filePath];
-      } else {
-        acc[`${dirname}`].push(filePath);
-      }
-    }
-    return acc;
-  }, {}),
+  entry: () => prodEntry(),
   output: {
     filename: (pathData) => (pathData.chunk.name === 'enterprise-wc' ? '[name].js' : '[name]/[name].js'),
     chunkFormat: 'module',

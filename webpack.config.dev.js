@@ -5,7 +5,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const demoEntry = require('./scripts/webpack-dev-entery')
 const WebpackHtmlExamples = require('./scripts/webpack-html-templates');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
 
@@ -14,7 +13,7 @@ module.exports = {
   output: {
     chunkFormat: 'module',
     path: path.resolve(__dirname, './build/development'),
-    filename: '[name]/[name].[contenthash].js',
+    filename: '[name]/[name].[contenthash].[id].js',
     clean: true,
     publicPath: '/'
   },
@@ -58,43 +57,37 @@ module.exports = {
       },
       {
         test: /\.scss$/,
+        exclude: [
+          /node_modules/,
+          path.resolve(__dirname, 'build')
+        ],
         use: [
-          MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'
-        ]
+          'sass-to-string',
+          {
+            loader: 'sass-loader',
+          }
+        ],
       },
-      // {
-      //   test: /\.scss$/,
-      //   exclude: [
-      //     /node_modules/,
-      //     path.resolve(__dirname, 'build')
-      //   ],
-      //   use: [
-      //     'sass-to-string',
-      //     {
-      //       loader: 'sass-loader',
-      //     }
-      //   ],
-      // },
-      // {
-      //   test: /\.scss$/,
-      //   exclude: [
-      //     /node_modules/,
-      //     path.resolve(__dirname, 'src')
-      //   ],
-      //   use: [
-      //     {
-      //       loader: 'style-loader',
-      //       options: {
-      //         attributes: {
-      //           id: 'demo-styles',
-      //           nonce: '0a59a005' // @TODO needs to match a global nonce instance
-      //         }
-      //       }
-      //     },
-      //     'css-loader',
-      //     'sass-loader',
-      //   ]
-      // }
+      {
+        test: /\.scss$/,
+        exclude: [
+          /node_modules/,
+          path.resolve(__dirname, 'src')
+        ],
+        use: [
+          {
+            loader: 'style-loader',
+            options: {
+              attributes: {
+                id: 'demo-styles',
+                nonce: '0a59a005' // @TODO needs to match a global nonce instance
+              }
+            }
+          },
+          'css-loader',
+          'sass-loader',
+        ]
+      }
     ]
   },
   plugins: [
@@ -102,38 +95,13 @@ module.exports = {
       analyzerMode: process.env.npm_lifecycle_event === 'build:dev:stats' ? 'server' : 'disabled',
       reportFilename: 'dev-build-report.html'
     }),
-    new MiniCssExtractPlugin({
-      filename: 'style.[name].css'
-    })
-    // new CopyWebpackPlugin({
-    //   patterns: [
-    //     // {
-    //     //   from: './demos/**/**/*.js',
-    //     //   to({ absoluteFilename }) {
-    //     //     const baseName = path.basename(absoluteFilename);
-    //     //     const folders = path.dirname(absoluteFilename).split(path.sep);
-    //     //     const filePath = `${folders[folders.length - 1]}/${baseName}`;
-    //     //     return filePath;
-    //     //   }
-    //     // },
-    //     // {
-    //     //   from: path.resolve(__dirname, 'demos/data/'),
-    //     //   to: path.resolve(__dirname, `build/${isProduction ? 'production' : 'development'}/data/`)
-    //     // },
-    //     // {
-    //     //   from: path.resolve(__dirname, 'src/assets'),
-    //     //   to: path.resolve(__dirname, `build/${isProduction ? 'production' : 'development'}/assets/`)
-    //     // },
-    //     // {
-    //     //   from: './demos/**/**/*.yaml',
-    //     //   to({ absoluteFilename }) {
-    //     //     const baseName = path.basename(absoluteFilename);
-    //     //     const folders = path.dirname(absoluteFilename).split(path.sep);
-    //     //     const filePath = `${folders[folders.length - 1]}/${baseName}`;
-    //     //     return filePath;
-    //     //   }
-    //     // }
-    //   ]
-    // }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, 'demos/data/'),
+          to: path.resolve(__dirname, `build/${isProduction ? 'production' : 'development'}/data/`)
+        }
+      ]
+    }),
   ].concat(WebpackHtmlExamples)
 };
