@@ -24,6 +24,7 @@ import {
   buildClassAttrib,
 } from '../../utils/ids-string-utils/ids-string-utils';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { deepClone } from '../../utils/ids-deep-clone-utils/ids-deep-clone-utils';
 
 // Supporting components
 import IdsButton from '../ids-button/ids-button';
@@ -61,6 +62,8 @@ class IdsMonthView extends Base {
     this.#attachKeyboardListeners();
     super.connectedCallback();
   }
+
+  #currentLegend = [];
 
   /**
    * Return the attributes we handle as getters/setters
@@ -656,16 +659,19 @@ class IdsMonthView extends Base {
       const isSelected = day === this.day && year === this.year && month === this.month;
       const isDisabled = this.#isRange() && (date < this.startDate || date > this.endDate);
       const isAlternate = !this.#isRange() && (date < firstDayOfRange || date > lastDayOfRange);
+      const legend = this.#getLegend(date);
       const classAttr = buildClassAttrib(
         isAlternate && 'alternate',
+        legend && 'has-legend',
         isDisabled && 'is-disabled',
         isSelected && 'is-selected',
         monthFormat && 'month-label'
       );
       const selectedAttr = isSelected ? 'aria-selected="true" tabindex="0" role="gridcell"' : 'role="link"';
       const dataAttr = [`data-year="${year}"`, `data-month="${month}"`, `data-day="${day}"`].join(' ');
+      const colorAttr = legend ? `data-color="${legend.color}"` : '';
 
-      return `<td aria-label="${ariaLabel}" ${dataAttr} ${classAttr} ${selectedAttr}>
+      return `<td aria-label="${ariaLabel}" ${dataAttr} ${classAttr} ${selectedAttr} ${colorAttr}>
         <span class="day-container">
           <ids-text
             aria-hidden="true"
@@ -719,6 +725,7 @@ class IdsMonthView extends Base {
     this.container.querySelectorAll('tbody tr').forEach((el) => el.remove());
     this.container.querySelector('tbody').insertAdjacentHTML('beforeend', rowsTemplate);
 
+    this.#colorToVar();
     this.#renderWeekDays();
   }
 
@@ -768,6 +775,18 @@ class IdsMonthView extends Base {
    */
   #isRange() {
     return this.startDate && this.endDate && this.endDate >= this.startDate;
+  }
+
+  #colorToVar() {
+    this.container.querySelectorAll('td')
+      .forEach((el) => {
+        const color = el.dataset.color;
+        const isHex = color?.includes('#');
+
+        if (color) {
+          el.style = `--legend-color: ${isHex ? color : `var(--ids-color-palette-${color})`}`;
+        }
+      });
   }
 
   /**
@@ -1088,6 +1107,34 @@ class IdsMonthView extends Base {
 
     // Toggle container CSS class
     this.container.classList.toggle('is-date-picker', boolVal);
+  }
+
+  get legend() {
+    return this.#currentLegend;
+  }
+
+  set legend(val) {
+    if (
+      Array.isArray(val)
+      && val.length > 0
+      && val.every(
+        (obj) => obj.name && obj.color && (obj.dates || obj.dayOfWeek)
+      )
+    ) {
+      this.#currentLegend = deepClone(val);
+      this.#renderMonth();
+    } else {
+      throw new Error('ids-month-view: Invalid legend data provided');
+    }
+  }
+
+  #getLegend(date) {
+    return this.legend.find((legend) => {
+      const ifDayOfWeek = legend.dayOfWeek?.includes(date.getDay());
+      const ifDate = legend.dates?.some((item) => new Date(item).getTime() === date.getTime());
+
+      return ifDayOfWeek || ifDate;
+    });
   }
 }
 

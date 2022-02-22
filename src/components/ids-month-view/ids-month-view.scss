@@ -76,6 +76,7 @@
     text-align: center;
 
     .day-container {
+      @include relative();
       @include rounded-round();
       @include border-transparent();
       @include border-1();
@@ -83,9 +84,26 @@
 
       display: inline-block;
       margin: 5px 0;
+
+      &::after {
+        background-color: var(--legend-color);
+        border-radius: 50%;
+        content: '';
+        display: inline-block;
+        height: 38px;
+        left: 2px;
+        overflow: hidden;
+        position: absolute;
+        top: 2px;
+        width: 38px;
+        opacity: 0.3;
+        transition: 0.2s opacity ease;
+      }
     }
 
     .day-text {
+      @include relative();
+      @include z-1();
       @include cursor-pointer();
       @include rounded-round();
       @include m-2();
@@ -135,16 +153,24 @@
         @include text-white();
         @include bg-azure-60();
       }
+
+      &.has-legend .day-container::after {
+        height: 44px;
+        left: -1px;
+        top: -1px;
+        width: 44px;
+      }
     }
 
-    &:not(.is-selected):hover .day-text,
-    &:not(.is-selected):active .day-text {
+    &:not(.is-selected):not(.has-legend):hover .day-text,
+    &:not(.is-selected):not(.has-legend):active .day-text {
       @include bg-slate-20();
     }
 
-    &:not(.is-selected):not(.alternate):hover .day-text,
-    &:not(.is-selected):not(.alternate):active .day-text {
-      @include text-black();
+    &.has-legend:hover {
+      .day-container::after {
+        opacity: 1;
+      }
     }
   }
 
@@ -336,8 +362,8 @@
       @include text-slate-10();
     }
 
-    td:not(.is-selected):hover .day-text,
-    td:not(.is-selected):active .day-text {
+    td:not(.is-selected):not(.has-legend):hover .day-text,
+    td:not(.is-selected):not(.has-legend):active .day-text {
       @include bg-slate-70();
     }
 
@@ -433,8 +459,8 @@
       @include text-slate-100();
     }
 
-    td:not(.is-selected):hover .day-text,
-    td:not(.is-selected):active .day-text {
+    td:not(.is-selected):not(.has-legend):hover .day-text,
+    td:not(.is-selected):not(.has-legend):active .day-text {
       @include bg-slate-30();
     }
 
