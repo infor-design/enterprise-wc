@@ -6,6 +6,11 @@ import IdsButtom from '../../ids-button/ids-button';
 import IdsIcon from '../../ids-icon/ids-icon';
 import IdsSearchField from '../../ids-search-field/ids-search-field';
 import IdsToolbar from '../../ids-toolbar/ids-toolbar';
+import avatarPlaceholder from '../../../assets/images/avatar-placeholder.jpg';
+
+// Remove comments once img is ready to use.
+const avatarImg = window.document.getElementById('avatar');
+avatarImg.src = avatarPlaceholder
 
 document.addEventListener('DOMContentLoaded', () => {
   const appMenuDrawer = document.querySelector('#app-menu');

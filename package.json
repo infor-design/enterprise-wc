@@ -16,7 +16,7 @@
     "build": "node --max-old-space-size=8192 node_modules/webpack/bin/webpack --config ./webpack.config.dev.js",
     "build:demos:prod": "webpack --config ./webpack.config.dev.js --mode production",
     "build:demos:verbose": "npx webpack --config ./webpack.config.dev.js --progress profile",
-    "start": "webpack serve --open --config ./webpack.config.dev.js",
+    "start": "webpack serve --live-reload --open --config ./webpack.config.dev.js",
     "start:watch": "nodemon --watch webpack.config.dev.js --exec \"npx webpack serve --config ./webpack.config.dev.js\"",
     "lint": "npx eslint src test demos && npx stylelint src/**/**/*.scss --config .stylelintrc.json && npm run mdlint && npx htmlhint 'demos/**/*.html' && npm run typecheck",
     "mdlint": "npx remark . -f",
