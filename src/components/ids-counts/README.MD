@@ -90,10 +90,15 @@ Counts using just the css. Use the anchor tag for normal counts and span for non
 
 - Flows with padding and margin within the width and height of the parent container.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-- 3.x: Counts have all new markup and classes.
-- 4.x: Counts have all new markup and classes for web components.
+**3.x to 4.x**
+- Counts have all new markup and classes.
+
+**4.x to 5.x**
+- The counts component has been changed to a web component and renamed to ids-counts.
+- Text is now contained in an ids-text element `<ids-text></ids-text>`
+- Can now be imported as a single JS file and used with encapsulated styles
 
 ## Accessibility Guidelines
 
