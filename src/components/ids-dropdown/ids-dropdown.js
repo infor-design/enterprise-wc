@@ -44,13 +44,12 @@ export default class IdsDropdown extends Base {
       this.container = document.createElement('ids-trigger-field');
     }
     this.popup = this.shadowRoot?.querySelector('ids-popup');
-    this.inputRoot = this.container;
     this.fieldContainer = this.container?.shadowRoot?.querySelector('.field-container');
     this.trigger = this.shadowRoot?.querySelector('ids-trigger-button');
-    this.input = this.inputRoot?.shadowRoot?.querySelector('input');
+    this.input = this.container?.shadowRoot?.querySelector('input');
     this.triggerContent = this.container?.shadowRoot?.querySelector('.field-container');
     this.listBox = this.querySelector('ids-list-box');
-    this.labelEl = this.inputRoot?.shadowRoot?.querySelector('label');
+    this.labelEl = this.container?.shadowRoot?.querySelector('label');
 
     this
       .#addAria()
@@ -65,13 +64,11 @@ export default class IdsDropdown extends Base {
    */
   static get attributes() {
     return [
-      ...attributes.DISABLED,
+      ...super.attributes,
+      attributes.DISABLED,
       attributes.LABEL,
-      attributes.LANGUAGE,
-      attributes.MODE,
       attributes.READONLY,
-      attributes.VALUE,
-      attributes.VERSION
+      attributes.VALUE
     ];
   }
 
@@ -211,8 +208,8 @@ export default class IdsDropdown extends Base {
         this.removeAttribute('disabled');
         this.container.readonly = true;
         this.container.disabled = false;
-        this.inputRoot.cursor = 'text';
-        this.inputRoot.bgTransparent = false;
+        this.container.cursor = 'text';
+        this.container.bgTransparent = false;
       }
       this.setAttribute('readonly', 'true');
       return;
@@ -221,8 +218,8 @@ export default class IdsDropdown extends Base {
     if (this.input) {
       this.container.readonly = false;
       this.container.disabled = false;
-      this.inputRoot.cursor = 'pointer';
-      this.inputRoot.bgTransparent = true;
+      this.container.cursor = 'pointer';
+      this.container.bgTransparent = true;
     }
     this.removeAttribute('readonly');
   }
@@ -238,12 +235,12 @@ export default class IdsDropdown extends Base {
   set disabled(value) {
     const isDisabled = stringToBool(value);
     if (isDisabled) {
-      if (this.inputRoot) {
+      if (this.container) {
         this.removeAttribute('readonly');
         this.container.disabled = true;
         this.container.readonly = false;
-        this.inputRoot.cursor = 'initial';
-        this.inputRoot.bgTransparent = false;
+        this.container.cursor = 'initial';
+        this.container.bgTransparent = false;
       }
       this.setAttribute('disabled', 'true');
       return;
@@ -251,8 +248,8 @@ export default class IdsDropdown extends Base {
 
     if (this.input) {
       this.container.disabled = false;
-      this.inputRoot.cursor = 'pointer';
-      this.inputRoot.bgTransparent = true;
+      this.container.cursor = 'pointer';
+      this.container.bgTransparent = true;
     }
     this.removeAttribute('disabled');
   }

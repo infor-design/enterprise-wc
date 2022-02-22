@@ -237,7 +237,7 @@ export default class IdsInput extends Base {
    * @returns {HTMLInputElement} the inner `input` element
    */
   get input() {
-    return this.container.querySelector(`input[part="input"]`);
+    return this.container?.querySelector(`input[part="input"]`);
   }
 
   /**
