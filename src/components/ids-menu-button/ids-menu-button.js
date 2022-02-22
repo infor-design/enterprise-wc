@@ -1,6 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { getClosestRootNode, getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { getClosestRootNode } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { attributes } from '../../core/ids-attributes';
 
 import Base from './ids-menu-button-base';
