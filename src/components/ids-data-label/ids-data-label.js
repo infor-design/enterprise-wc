@@ -23,7 +23,7 @@ export default class IdsDataLabel extends Base {
 
   connectedCallback() {
     this.offEvent('languagechange');
-    this.onEvent('languagechange', this.closest('ids-container'), async (e) => {
+    this.onEvent('languagechange', this.closest('ids-container'), (e) => {
       this.language = e.detail.language.name;
     });
     this.language = this.closest('ids-container')?.getAttribute('language');

@@ -271,7 +271,7 @@ Overflow menu items also provide a reference to their corresponding Toolbar elem
 ```js
 const overflowMenuItems = document.querySelector('ids-toolbar-more-actions').overflowMenuItems;
 overflowMenuItems.forEach((item) => {
-    console.log(item.overflowTarget); // <-- Points to the Toolbar button/element/etc
+  console.info(item.overflowTarget); // <-- Points to the Toolbar button/element/etc
 });
 ```
 
@@ -282,7 +282,7 @@ All elements inside the Toolbar will fire a `selected` event when clicked.  The 
 ```js
 const toolbarEl = document.querySelector('#my-toolbar');
 toolbarEl.addEventListener('selected', (e) => {
-    console.log(e.detail); // Provides data about the originating element, and overflow status, if applicable
+  console.info(e.detail); // Provides data about the originating element, and overflow status, if applicable
 }
 ```
 

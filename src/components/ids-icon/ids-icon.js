@@ -53,7 +53,7 @@ export default class IdsIcon extends Base {
    */
   #attachEventHandlers() {
     this.offEvent('languagechange.icon-container');
-    this.onEvent('languagechange.icon-container', this.closest('ids-container'), async () => {
+    this.onEvent('languagechange.icon-container', this.closest('ids-container'), () => {
       if (this.isFlipped(this.icon)) {
         this.container.classList.add('flipped');
       } else {

@@ -207,7 +207,7 @@ export default class IdsButton extends Base {
 
     // Respond to parent changing language
     this.offEvent('languagechange.button');
-    this.onEvent('languagechange.button', this.closest('ids-container'), async () => {
+    this.onEvent('languagechange.button', this.closest('ids-container'), () => {
       this.container.classList[this.locale.isRTL() ? 'add' : 'remove']('rtl');
     });
   }
