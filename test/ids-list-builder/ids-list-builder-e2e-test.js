@@ -1,6 +1,15 @@
 describe('Ids List Builder e2e Tests', () => {
   const url = 'http://localhost:4444/ids-list-builder';
 
+  /**
+   * Create css selector for list item
+   * @param {number} n nth-child(n)
+   * @returns {string} css selector, defaults to nth-child(1)
+   */
+  function createListItemSelector(n) {
+    return `pierce/.ids-list-view-body ids-draggable:nth-child(${n || 1})`;
+  }
+
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
   });
@@ -87,8 +96,10 @@ describe('Ids List Builder e2e Tests', () => {
   });
 
   it('should update inner text on edit keyup', async () => {
+    const firstItemSelector = createListItemSelector(1);
+
     // click first list item
-    await page.click('pierce/.ids-list-view-body ids-draggable');
+    await page.click(firstItemSelector);
 
     // click edit button
     await page.click('pierce/#button-edit');
@@ -96,7 +107,35 @@ describe('Ids List Builder e2e Tests', () => {
     // type something and check for match
     const keyToMatch = 'q';
     await page.keyboard.press(keyToMatch);
-    const idsText = await page.$eval('pierce/.ids-list-view-body ids-text', (el) => el.innerHTML);
+    const idsText = await page.$eval(`${firstItemSelector} ids-text`, (el) => el.innerHTML);
     expect(idsText).toEqual(keyToMatch);
+
+    // deselect list item
+    await page.click(firstItemSelector);
+  });
+
+  it('should navigate list view via keyboard arrows', async () => {
+    const firstItemSelector = `${createListItemSelector(1)} > div[role="listitem"]`;
+    const secondItemSelector = `${createListItemSelector(2)} > div[role="listitem"]`;
+    const thirdItemSelector = `${createListItemSelector(3)} > div[role="listitem"]`;
+    let isSelected;
+
+    // click first list item
+    await page.click(firstItemSelector);
+    isSelected = await page.$eval(firstItemSelector, (el) => el.getAttribute('selected'));
+    expect(isSelected).toBeTruthy();
+
+    // keyboard navigate to third item and select
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('Space');
+    isSelected = await page.$eval(thirdItemSelector, (el) => el.getAttribute('selected'));
+    expect(isSelected).toBeTruthy();
+
+    // keyboard navigate to second item and select
+    await page.keyboard.press('ArrowUp');
+    await page.keyboard.press('Space');
+    isSelected = await page.$eval(secondItemSelector, (el) => el.getAttribute('selected'));
+    expect(isSelected).toBeTruthy();
   });
 });
