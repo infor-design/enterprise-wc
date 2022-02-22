@@ -219,7 +219,7 @@ export default class IdsSlider extends Base {
 
   /** Add event listener for when the language changes to check for RTL */
   #attachRTLListener() {
-    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+    this.onEvent('languagechange.container', this.closest('ids-container'), (e) => {
       const isRTL = this.locale.isRTL(e.detail.language.name);
       this.isRTL = isRTL;
     });
@@ -867,7 +867,6 @@ export default class IdsSlider extends Base {
       const clickedLabel = className.includes('label');
       const clickedTrackArea = className.includes('track-area');
 
-      // console.log(event.clientX + ', ' + event.clientY);
       if (clickedIdsSlider || clickedLabel || clickedTrackArea) {
         if (clickedTrackArea || clickedIdsSlider) {
           this.#calculateUIFromClick(event.clientX, event.clientY);

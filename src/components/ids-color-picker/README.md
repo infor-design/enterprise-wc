@@ -30,9 +30,10 @@ A basic use case of the color picker with a few color options.
 </ids-color-picker>
 ```
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-### Version - 4.x
+**3.x to 4.x**
+- Adjust the markup to use fields and inputs and labels
 ```html
 <div class="field">
   <label for="background-color">Background Color</label>
@@ -40,7 +41,13 @@ A basic use case of the color picker with a few color options.
 </div>
 ```
 
-### Version - 5.x
+**3.x to 5.x**
+- Markup has changed to a custom element `<ids-checkbox></ids-checkbox>`
+- Can now be imported as a single JS file and used with encapsulated styles.
+- If using events, events are now plain JS events (change/input ect)
+
+The IDS Color Picker component is now a WebComponent. The custom colors are the slot items.
+
 ```html
 <ids-color-picker id="color-picker-1" disabled="false" label="Ids Color Picker">
   <ids-color hex="#1A1A1A"></ids-color>
@@ -53,6 +60,7 @@ A basic use case of the color picker with a few color options.
   <ids-color hex="#BDBDBD"></ids-color>
 </ids-color-picker>
 ```
+
 ## Keyboard Guidelines
 
 - <kbd>Tab/Shift+Tab</kbd>

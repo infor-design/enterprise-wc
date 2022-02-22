@@ -5,7 +5,7 @@ describe('Ids Search Field Percy Tests', () => {
 
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0'] });
-    await page.waitFor('pierce/.ids-input.color-variant-alternate .ids-input-field');
+    await page.waitForSelector('pierce/.ids-input.color-variant-alternate .ids-input-field');
     await percySnapshot(page, 'ids-search-field-new-light');
   });
 
@@ -14,7 +14,7 @@ describe('Ids Search Field Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
     });
-    await page.waitFor('pierce/.ids-input.color-variant-alternate .ids-input-field');
+    await page.waitForSelector('pierce/.ids-input.color-variant-alternate .ids-input-field');
     await percySnapshot(page, 'ids-search-field-new-dark');
   });
 
@@ -24,7 +24,7 @@ describe('Ids Search Field Percy Tests', () => {
       document.querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
     });
 
-    await page.waitFor('pierce/.ids-input.color-variant-alternate .ids-input-field');
+    await page.waitForSelector('pierce/.ids-input.color-variant-alternate .ids-input-field');
     await percySnapshot(page, 'ids-search-field-new-contrast');
   });
 });

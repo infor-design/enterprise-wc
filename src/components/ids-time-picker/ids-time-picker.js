@@ -527,7 +527,7 @@ export default class IdsTimePicker extends Base {
 
     // Translate Labels
     this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', this.closest('ids-container'), async () => {
+    this.onEvent('languagechange.container', this.closest('ids-container'), () => {
       const {
         hours,
         minutes,
