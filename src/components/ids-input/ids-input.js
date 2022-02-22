@@ -242,6 +242,14 @@ export default class IdsInput extends Base {
 
   /**
    * @readonly
+   * @returns {HTMLElement} the caps lock indicator icon, if one exists
+   */
+  get capsLockIcon() {
+    return this.container.querySelector('#caps-lock-indicator');
+  }
+
+  /**
+   * @readonly
    * @returns {HTMLElement} the element in this component's Shadow Root
    *  that wraps the input and any triggering elements or icons
    */
@@ -405,9 +413,9 @@ export default class IdsInput extends Base {
       }
     } else {
       this.onEvent(eventName, this.input, () => {
-        setTimeout(() => { // safari has delay
+        requestAnimationFrame(() => { // Safari has delay
           this.input?.select();
-        }, 1);
+        });
       });
     }
   }
@@ -418,23 +426,28 @@ export default class IdsInput extends Base {
    * @returns {void}
    */
   #capsLockEventSetUp(value) {
-    const capsLockIcon = this.container.querySelector('#caps-lock-indicator');
+    const updateCapsLockIcon = (e) => {
+      if (this.capsLockIcon) {
+        this.capsLockIcon.hidden = !e.getModifierState('CapsLock');
+      }
+    };
 
     if (value) {
-      if (!capsLockIcon) {
+      if (!this.capsLockIcon) {
         this.input.insertAdjacentHTML('afterend', this.templateCapsLock());
       }
-      this.onEvent('keypress.capslock', this.input, (event) => {
-        capsLockIcon.hidden = !event.getModifierState('CapsLock');
-      });
-    } else if (capsLockIcon) {
-      this.offEvent('keypress.capslock', this.input);
-      capsLockIcon.remove();
+      this.onEvent('keydown.capslock', this.container, updateCapsLockIcon);
+      this.onEvent('keyup.capslock', this.container, updateCapsLockIcon);
+    } else {
+      this.offEvent('keydown.capslock', this.container);
+      this.offEvent('keyup.capslock', this.container);
+      this.capsLockIcon?.remove();
     }
   }
 
   /**
-   * Establish Internal Event Handlers
+   * Setup event handlers that trigger on the host element during native events from the internal HTMLInputElement
+   * These trigg
    * @private
    * @returns {object} The object for chaining.
    */

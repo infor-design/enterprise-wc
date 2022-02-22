@@ -247,10 +247,10 @@ export default class IdsTextarea extends Base {
       const oldHeight = this.input.offsetHeight;
 
       // Need delay, when initial value more then max on first load
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         this.adjustHeight(oldHeight, maxHeight);
         this.autogrowProcessing = null;
-      }, 1);
+      });
     }
   }
 

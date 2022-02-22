@@ -42,7 +42,7 @@ const IdsFieldHeightMixin = (superclass) => class extends superclass {
   connectedCallback() {
     super.connectedCallback?.();
 
-    if (this.hasAttribute('compact')) {
+    if (this.hasAttribute(attributes.COMPACT)) {
       this.compact = true;
     } else {
       this.container.classList.add(getFieldHeightClass(this.fieldHeight));
@@ -69,7 +69,7 @@ const IdsFieldHeightMixin = (superclass) => class extends superclass {
     }
   }
 
-  get compact() { return this.getAttribute(attributes.COMPACT); }
+  get compact() { return stringToBool(this.getAttribute(attributes.COMPACT)); }
 
   /**
    * Set the fieldHeight (height) of input

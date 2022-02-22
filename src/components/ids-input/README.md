@@ -115,15 +115,6 @@ Set up for displaying the show/hide password button:
 - `validationEvents` {string} set the input validation events, use `space` to add multiple validation rules, it will set `blur` as defaults.
 - `value` {string} set the input value.
 
-## Using external input-controlled labels
-For niche scenarios or for things such as compound form components, it is possible to use externally controlled labels which will preserve the style and functionality for validation with a marker for required fields.
-
-This can be done in a component by:
-1. in your component's `connectedCallback` method, add a call to `input.setLabelElement(myCustomLabelEl)` in order to bind your label to the component.
-1. if you are using `ids-text` for your external label, add a `label` attribute to specify that it should be labeled/themed as a label.
-1. on your `ids-input`, add a `label-hidden` flag in order to mark the label as hidden.
-1. for the sake of accessibility/screen-readers, the `ids-input`'s `label` attribute should still be set with the text content for the label.
-
 ## Keyboard Guidelines
 
 The IDS Input doesn't contain any interactions beyond a standard HTMLInputElement:
