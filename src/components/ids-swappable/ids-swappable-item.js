@@ -23,14 +23,16 @@ export default class IdsSwappableItem extends Base {
   }
 
   connectedCallback() {
-    this.setAttribute('draggable', 'false');
+    this.setAttribute(attributes.DRAGGABLE, 'false');
     this.setAttribute('tabbable', 'true');
     this.attachEventListeners();
   }
 
   static get attributes() {
     return [
+      attributes.DRAGGABLE,
       attributes.DRAGGING,
+      attributes.ORIGINAL_TEXT,
       attributes.OVER,
       attributes.SELECTED,
       attributes.TABBABLE
@@ -41,43 +43,84 @@ export default class IdsSwappableItem extends Base {
     return `<slot></slot>`;
   }
 
+  /**
+   * Set the selected attribute
+   * @param {string} value boolean value
+   * @memberof IdsSwappableItem
+   */
   set selected(value) {
     const isValueTruthy = stringToBool(value);
     if (isValueTruthy) {
       this.setAttribute(attributes.SELECTED, '');
       this.setAttribute('aria-selected', 'selected');
-      this.setAttribute('draggable', 'true');
+      this.setAttribute(attributes.DRAGGABLE, 'true');
     } else {
       this.removeAttribute(attributes.SELECTED);
       this.removeAttribute('aria-selected');
-      this.setAttribute('draggable', 'false');
+      this.setAttribute(attributes.DRAGGABLE, 'false');
     }
   }
 
+  /**
+   * Get the selected attribute
+   * @returns {boolean} selected attribute value
+   * @readonly
+   * @memberof IdsSwappableItem
+   */
   get selected() {
     return stringToBool(this.getAttribute(attributes.SELECTED));
   }
 
+  /**
+   * Get all selected swappable items
+   * @returns {Array} NodeList of selected ids-swappable-item
+   * @readonly
+   * @memberof IdsSwappableItem
+   */
   get selectedItems() {
     return this.parentElement.shadowRoot.querySelectorAll('[selected]');
   }
 
+  /**
+   * Get all swappable items
+   * @returns {Array} NodeList of ids-swappable-item
+   * @readonly
+   * @memberof IdsSwappableItem
+   */
   get allItems() {
     return this.parentElement.querySelectorAll('ids-swappable-item');
   }
 
+  /**
+   * Set the originalText attribute
+   * which is used to reset the text of the dropped items
+   * @param {string} value text value of the item
+   * @memberof IdsSwappableItem
+   */
   set originalText(value) {
     if (value) {
-      this.setAttribute('originalText', value);
+      this.setAttribute(attributes.ORIGINAL_TEXT, value);
     } else {
-      this.removeAttribute('originalText');
+      this.removeAttribute(attributes.ORIGINAL_TEXT);
     }
   }
 
+  /**
+   * Get the originalText attribute
+   * @returns {string} string of text
+   * @readonly
+   * @memberof IdsSwappableItem
+   */
   get originalText() {
-    return this.getAttribute('originalText');
+    return this.getAttribute(attributes.ORIGINAL_TEXT);
   }
 
+  /**
+   * Get the multi-select attribute
+   * @returns {boolean} value of multi-select attribute
+   * @readonly
+   * @memberof IdsSwappableItem
+   */
   get multiSelect() {
     return this.parentElement.getAttribute('multi-select') !== null && true;
   }
@@ -107,17 +150,27 @@ export default class IdsSwappableItem extends Base {
     return stringToBool(this.getAttribute(attributes.TABBABLE) || true);
   }
 
+  /**
+   * Handle the dragstart event
+   * @param {any} event dragstart event
+   */
   #dragStart(event) {
     event.dataTransfer.setData('text/plain', event.target.innerText);
     this.setAttribute(attributes.DRAGGING, '');
   }
 
+  /**
+   * Handle the dragend event
+   */
   #dragEnd() {
     this.removeAttribute(attributes.DRAGGING);
     this.removeAttribute(attributes.SELECTED);
     this.removeAttribute(attributes.OVER);
   }
 
+  /**
+   * Handle the dragover event
+   */
   #dragOver() {
     if (this.hasAttribute(attributes.DRAGGING)) {
       this.removeAttribute(attributes.OVER);
@@ -126,10 +179,17 @@ export default class IdsSwappableItem extends Base {
     }
   }
 
+  /**
+   * Handle the dragleave event
+   */
   #dragLeave() {
     this.removeAttribute(attributes.OVER);
   }
 
+  /**
+   * Toggles the select attribute when
+   * ids-swappable is not multi-select
+   */
   #toggleSelect() {
     if (this.selected) {
       this.removeAttribute(attributes.SELECTED);
@@ -141,6 +201,10 @@ export default class IdsSwappableItem extends Base {
     }
   }
 
+  /**
+   * Toggles the select attribute when
+   * ids-swappable is set to multi-select
+   */
   #toggleMultiSelect() {
     if (this.selected) {
       this.removeAttribute(attributes.SELECTED);
@@ -149,6 +213,9 @@ export default class IdsSwappableItem extends Base {
     }
   }
 
+  /**
+   * Handle the keyboard events
+   */
   #handleKeyEvents() {
     this.listen(['Enter', 'ArrowUp', 'ArrowDown'], this, (e) => {
       e.preventDefault();
@@ -171,6 +238,9 @@ export default class IdsSwappableItem extends Base {
     });
   }
 
+  /**
+   * Handle the click events
+   */
   #handleClickEvents() {
     if (this.multiSelect) {
       this.offEvent('click', this, this.#toggleMultiSelect);
@@ -181,6 +251,9 @@ export default class IdsSwappableItem extends Base {
     }
   }
 
+  /**
+   * Handle the drag events
+   */
   #handleDragEvents() {
     this.removeEventListener('dragstart', this.#dragStart.bind(this));
     this.addEventListener('dragstart', this.#dragStart.bind(this));
@@ -194,6 +267,9 @@ export default class IdsSwappableItem extends Base {
     this.addEventListener('dragleave', this.#dragLeave.bind(this));
   }
 
+  /**
+   * Attach all event listeners
+   */
   attachEventListeners() {
     this.#handleClickEvents();
     this.#handleKeyEvents();

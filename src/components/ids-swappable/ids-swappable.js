@@ -174,15 +174,18 @@ export default class IdsSwappable extends Base {
 
   attachEventListeners() {
     this.removeEventListener('dragstart', this.#dzDragStart.bind(this));
-    this.removeEventListener('drag', this.#dzDrag.bind(this));
-    this.removeEventListener('drop', this.#dzDropHandler.bind(this));
-    this.removeEventListener('dragover', this.#dzDragover.bind(this));
-    this.removeEventListener('dragleave', this.#dzDragLeave.bind(this));
-
     this.addEventListener('dragstart', this.#dzDragStart.bind(this));
+
+    this.removeEventListener('drag', this.#dzDrag.bind(this));
     this.addEventListener('drag', this.#dzDrag.bind(this));
+
+    this.removeEventListener('drop', this.#dzDropHandler.bind(this));
     this.addEventListener('drop', this.#dzDropHandler.bind(this));
+
+    this.removeEventListener('dragover', this.#dzDragover.bind(this));
     this.addEventListener('dragover', this.#dzDragover.bind(this));
+
+    this.removeEventListener('dragleave', this.#dzDragLeave.bind(this));
     this.addEventListener('dragleave', this.#dzDragLeave.bind(this));
   }
 }

@@ -179,6 +179,7 @@ export const attributes = {
   OVERFLOW: 'overflow',
   OVERFLOWED: 'overflowed',
   ORIENTATION: 'orientation',
+  ORIGINAL_TEXT: 'original-text',
   PAGE_COUNT: 'page-count',
   PAGE_NUMBER: 'page-number',
   PAGE_SIZE: 'page-size',
