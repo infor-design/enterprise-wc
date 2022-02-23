@@ -135,7 +135,7 @@ export default class IdsListBuilder extends Base {
    */
   #removeSelectedLiEditor() {
     this.offEvent('keyup', this.#selectedLiEditor);
-    this.#selectedLiEditor.nextElementSibling.style.display = 'list-item';
+    this.#selectedLiEditor.parentNode.classList.remove('is-editing');
     this.#selectedLiEditor.remove();
     this.#selectedLiEditor = null;
   }
@@ -153,7 +153,7 @@ export default class IdsListBuilder extends Base {
         this.selectedLi.insertBefore(i, this.selectedLi.querySelector('ids-text'));
 
         // hide inner text
-        this.selectedLi.querySelector('ids-text').style.display = `none`;
+        this.selectedLi.classList.add('is-editing');
 
         // set the value of input
         this.#selectedLiEditor = i;
