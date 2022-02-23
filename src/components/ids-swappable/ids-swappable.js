@@ -30,7 +30,7 @@ export default class IdsSwappable extends Base {
   static get attributes() {
     return [
       attributes.ACTIVE,
-      'multi-select'
+      attributes.MULTI_SELECT
     ];
   }
 
@@ -38,27 +38,53 @@ export default class IdsSwappable extends Base {
     return `<slot></slot>`;
   }
 
+  /**
+   * Get the item that is dragged over
+   * @returns {HTMLElement} ids-swappable-item[over]
+   * @readonly
+   * @memberof IdsSwappable
+   */
   get overEl() {
     return this.querySelector('ids-swappable-item[over]');
   }
 
+  /**
+   * Get all the selected ids-swappable-items in the current list
+   * @returns {Array} NodeList of ids-swappable-item[selected]
+   * @readonly
+   * @memberof IdsSwappable
+   */
   get selectedItems() {
     return this.querySelectorAll('ids-swappable-item[selected]');
   }
 
+  /**
+   * Set the multi-select attribute
+   * @param {boolean | string} value multi-select value.
+   * @memberof IdsSwappable
+   */
   set multiSelect(value) {
     const isValueTruthy = stringToBool(value);
     if (isValueTruthy) {
-      this.setAttribute('multi-select', '');
+      this.setAttribute(attributes.MULTI_SELECT, '');
     } else {
-      this.removeAttribute('multi-select');
+      this.removeAttribute(attributes.MULTI_SELECT);
     }
   }
 
+  /**
+   * Get the multi-select atrribute
+   * @returns {boolean} multi-select value
+   * @readonly
+   * @memberof IdsSwappable
+   */
   get multiSelect() {
-    return this.getAttribute('multi-select');
+    return this.getAttribute(attributes.MULTI_SELECT);
   }
 
+  /**
+   * Handle functionality for the dragstart event
+   */
   #dzDragStart() {
     if (this.selectedItems.length <= 1) {
       return;
@@ -69,12 +95,23 @@ export default class IdsSwappable extends Base {
     });
   }
 
+  /**
+   * Handle functionality for the drag event
+   * @param {object} event drag event
+   */
   #dzDrag(event) {
     this.selectedItems.forEach((el) => {
       this.#hideSelectedItems(event, el);
     });
   }
 
+  /**
+   * Calculate the position of the dragging element relative to the container
+   * @returns {HTMLElement} closest element being dragged over
+   * @param {*} container ids-swappable container
+   * @param {*} y position of the dragging element
+   * @memberof IdsSwappable
+   */
   getDragAfterElement = (container, y) => {
     const draggableElms = [...container.querySelectorAll('ids-swappable-item:not([dragging])')];
 
@@ -93,7 +130,7 @@ export default class IdsSwappable extends Base {
   };
 
   /**
-   * Functionality for the list container once an item has been dropped
+   * Handle functionality for the list container once an item has been dropped
    * @param {object} event drop
    */
   #dzDropHandler(event) {
@@ -117,6 +154,9 @@ export default class IdsSwappable extends Base {
     this.removeAttribute(attributes.ACTIVE);
   }
 
+  /**
+   * Handle functionality for the dragleave event
+   */
   #dzDragLeave() {
     this.removeAttribute(attributes.ACTIVE);
   }
@@ -147,6 +187,11 @@ export default class IdsSwappable extends Base {
     }
   }
 
+  /**
+   * Hide the selected items during drag event
+   * @param {object} event object
+   * @param {HTMLElement} el all selected elements
+   */
   #hideSelectedItems(event, el) {
     el.setAttribute('aria-grabbed', true);
     el.setAttribute('aria-dropeffect', event.dataTransfer.dropEffect);
@@ -160,6 +205,10 @@ export default class IdsSwappable extends Base {
     }
   }
 
+  /**
+   * Reset the selected items after drop event
+   * @param {HTMLElement} el all selected elements
+   */
   #resetSelectedItems(el) {
     if (el.originalText) {
       el.innerHTML = `<ids-text>${el.originalText}</ids-text>`;
@@ -172,6 +221,10 @@ export default class IdsSwappable extends Base {
     el.removeAttribute('aria-selected');
   }
 
+  /**
+   * Attach all event listeners
+   * @memberof IdsSwappable
+   */
   attachEventListeners() {
     this.removeEventListener('dragstart', this.#dzDragStart.bind(this));
     this.addEventListener('dragstart', this.#dzDragStart.bind(this));

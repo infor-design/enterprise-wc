@@ -151,8 +151,8 @@ export default class IdsSwappableItem extends Base {
   }
 
   /**
-   * Handle the dragstart event
-   * @param {any} event dragstart event
+   * Handle functionality for the dragstart event
+   * @param {object} event dragstart event
    */
   #dragStart(event) {
     event.dataTransfer.setData('text/plain', event.target.innerText);
@@ -160,7 +160,7 @@ export default class IdsSwappableItem extends Base {
   }
 
   /**
-   * Handle the dragend event
+   * Handle functionality for the dragend event
    */
   #dragEnd() {
     this.removeAttribute(attributes.DRAGGING);
@@ -169,7 +169,7 @@ export default class IdsSwappableItem extends Base {
   }
 
   /**
-   * Handle the dragover event
+   * Handle functionality for the dragover event
    */
   #dragOver() {
     if (this.hasAttribute(attributes.DRAGGING)) {
@@ -180,7 +180,7 @@ export default class IdsSwappableItem extends Base {
   }
 
   /**
-   * Handle the dragleave event
+   * Handle functionality for the dragleave event
    */
   #dragLeave() {
     this.removeAttribute(attributes.OVER);
