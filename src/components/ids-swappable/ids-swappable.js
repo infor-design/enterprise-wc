@@ -4,6 +4,7 @@ import {
 } from '../../core/ids-decorators';
 
 import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import Base from './ids-swappable-base';
 import styles from './ids-swappable.scss';
 
@@ -28,7 +29,8 @@ export default class IdsSwappable extends Base {
 
   static get attributes() {
     return [
-      attributes.ACTIVE
+      attributes.ACTIVE,
+      'multi-select'
     ];
   }
 
@@ -42,6 +44,19 @@ export default class IdsSwappable extends Base {
 
   get selectedItems() {
     return this.querySelectorAll('ids-swappable-item[selected]');
+  }
+
+  set multiSelect(value) {
+    const isValueTruthy = stringToBool(value);
+    if (isValueTruthy) {
+      this.setAttribute('multi-select', '');
+    } else {
+      this.removeAttribute('multi-select');
+    }
+  }
+
+  get multiSelect() {
+    return this.getAttribute('multi-select');
   }
 
   #dzDragStart() {
@@ -158,16 +173,16 @@ export default class IdsSwappable extends Base {
   }
 
   attachEventListeners() {
-    this.addEventListener('dragstart', this.#dzDragStart.bind(this));
-    this.addEventListener('drag', this.#dzDrag.bind(this));
-    this.addEventListener('drop', this.#dzDropHandler.bind(this));
-    this.addEventListener('dragover', this.#dzDragover.bind(this));
-    this.addEventListener('dragleave', this.#dzDragLeave.bind(this));
-
     this.removeEventListener('dragstart', this.#dzDragStart.bind(this));
     this.removeEventListener('drag', this.#dzDrag.bind(this));
     this.removeEventListener('drop', this.#dzDropHandler.bind(this));
     this.removeEventListener('dragover', this.#dzDragover.bind(this));
     this.removeEventListener('dragleave', this.#dzDragLeave.bind(this));
+
+    this.addEventListener('dragstart', this.#dzDragStart.bind(this));
+    this.addEventListener('drag', this.#dzDrag.bind(this));
+    this.addEventListener('drop', this.#dzDropHandler.bind(this));
+    this.addEventListener('dragover', this.#dzDragover.bind(this));
+    this.addEventListener('dragleave', this.#dzDragLeave.bind(this));
   }
 }

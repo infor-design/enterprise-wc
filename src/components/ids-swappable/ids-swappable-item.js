@@ -60,6 +60,10 @@ export default class IdsSwappableItem extends Base {
     return this.parentElement.shadowRoot.querySelectorAll('[selected]');
   }
 
+  get allItems() {
+    return this.parentElement.querySelectorAll('ids-swappable-item');
+  }
+
   set originalText(value) {
     if (value) {
       this.setAttribute('originalText', value);
@@ -70,6 +74,10 @@ export default class IdsSwappableItem extends Base {
 
   get originalText() {
     return this.getAttribute('originalText');
+  }
+
+  get multiSelect() {
+    return this.parentElement.getAttribute('multi-select') !== null && true;
   }
 
   #dragStart(event) {
@@ -95,7 +103,18 @@ export default class IdsSwappableItem extends Base {
     this.removeAttribute(attributes.OVER);
   }
 
-  #toggleSelected() {
+  #toggleSelect() {
+    if (this.selected) {
+      this.removeAttribute(attributes.SELECTED);
+    } else {
+      this.allItems.forEach((item) => {
+        item.removeAttribute(attributes.SELECTED);
+      });
+      this.setAttribute(attributes.SELECTED, '');
+    }
+  }
+
+  #toggleMultiSelect() {
     if (this.selected) {
       this.removeAttribute(attributes.SELECTED);
     } else {
@@ -104,7 +123,12 @@ export default class IdsSwappableItem extends Base {
   }
 
   attachEventListeners() {
-    this.onEvent('click', this, this.#toggleSelected);
+    if (this.multiSelect) {
+      this.onEvent('click', this, this.#toggleMultiSelect);
+    } else {
+      this.onEvent('click', this, this.#toggleSelect);
+    }
+
     this.addEventListener('dragstart', this.#dragStart.bind(this));
     this.addEventListener('dragend', this.#dragEnd.bind(this));
     this.addEventListener('drop', this.#dragEnd.bind(this));
