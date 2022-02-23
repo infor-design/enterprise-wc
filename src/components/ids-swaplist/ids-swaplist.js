@@ -187,17 +187,13 @@ export default class IdsSwapList extends Base {
    */
   attachEventHandlers() {
     this.swapButtons.forEach((b) => {
-      this.onEvent('click', b, (e) => {
-        this.#handleItemSwap(e);
-      });
+      this.offEvent('click', b, (e) => this.#handleItemSwap(e));
+      this.onEvent('click', b, (e) => this.#handleItemSwap(e));
 
-      this.onEvent('touchend', b, (e) => {
-        this.#handleItemSwap(e);
-      });
+      this.offEvent('touchend', b, (e) => this.#handleItemSwap(e));
+      this.onEvent('touchend', b, (e) => this.#handleItemSwap(e));
 
-      this.listen('Enter', this.expander, (e) => {
-        this.#handleItemSwap(e);
-      });
+      this.listen('Enter', this.expander, (e) => this.#handleItemSwap(e));
     });
   }
 

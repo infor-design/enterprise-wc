@@ -10,6 +10,21 @@
   margin-inline-start: auto;
 }
 
+ids-swappable-item {
+  @include p-8();
+
+  &.is-hidden {
+    height: 0px;
+    padding: 0;
+    border: none;
+    overflow: hidden;
+  }
+}
+
+ids-swappable-item[over] {
+  border: 1px dotted var(--ids-color-brand-primary-base);
+}
+
 ids-button {
   @include relative();
   @include p-0();

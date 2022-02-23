@@ -14,11 +14,6 @@
     border: 1px dotted #0072ED;
   }
 
-  ids-draggable {
-    width: 100%;
-    background-color: white;
-  }
-
   .ids-list-view-body {
     &:focus {
       @include border-azure-40();
@@ -31,17 +26,7 @@
 
       border: 1px solid transparent;
       border-bottom-color: var(--ids-color-palette-slate-20);
-      contain: content;
       cursor: pointer;
-
-      &[dragging] {
-        background-color: #0072ED;
-        color: #fff;
-      }
-
-      &[over] {
-        border: 1px dotted #0072ED;
-      }
 
       &:focus {
         @include border-azure-40();
@@ -57,12 +42,6 @@
         font-size: 24px;
         content: '⁞';
         cursor: move;
-      }
-
-      &[selected='selected'] {
-        background-color: var(--ids-color-palette-azure-60);
-        color: white;
-        outline: none;
       }
 
       &:focus[selected='selected'] {

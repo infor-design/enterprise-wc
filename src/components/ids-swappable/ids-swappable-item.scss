@@ -3,18 +3,23 @@
 :host {
   font-family: sans-serif;
   display: block;
-  padding: 0.5rem;
   border: 1px dotted transparent;
   cursor: pointer;
   transition: height 0.4s ease, padding 0.4s ease;
 }
 
-:host([selected]) {
-  cursor: move;
-}
-
 :host(:hover) {
   background-color: var(--ids-color-palette-azure-10);
+}
+
+:host(:focus) {
+  border: 1px solid var(--ids-color-palette-azure-40);
+  box-shadow: 0 0 4px 1px rgb(54 138 192 / 0.3);
+  outline: none;
+}
+
+:host([selected]) {
+  cursor: move;
 }
 
 :host([dragging]),

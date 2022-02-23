@@ -24,6 +24,7 @@ export default class IdsSwappableItem extends Base {
 
   connectedCallback() {
     this.setAttribute('draggable', 'false');
+    this.setAttribute('tabbable', 'true');
     this.attachEventListeners();
   }
 
@@ -31,7 +32,8 @@ export default class IdsSwappableItem extends Base {
     return [
       attributes.DRAGGING,
       attributes.OVER,
-      attributes.SELECTED
+      attributes.SELECTED,
+      attributes.TABBABLE
     ];
   }
 
@@ -80,6 +82,31 @@ export default class IdsSwappableItem extends Base {
     return this.parentElement.getAttribute('multi-select') !== null && true;
   }
 
+  /**
+   * Set if the input and buttons are tabbable
+   * @param {boolean|string} value True of false depending if the trigger field is tabbable
+   */
+  set tabbable(value) {
+    if (stringToBool(value) !== this.getAttribute(attributes.TABBABLE)) {
+      const isTabbable = stringToBool(value);
+      if (isTabbable) {
+        this.setAttribute(attributes.TABBABLE, 'true');
+        this.setAttribute(attributes.TABINDEX, '0');
+        return;
+      }
+      this.setAttribute(attributes.TABBABLE, 'false');
+      this.setAttribute(attributes.TABINDEX, '-1');
+    }
+  }
+
+  /**
+   * get whether the input currently allows tabbing.
+   * @returns {boolean} true or false depending on whether the input is currently tabbable
+   */
+  get tabbable() {
+    return stringToBool(this.getAttribute(attributes.TABBABLE) || true);
+  }
+
   #dragStart(event) {
     event.dataTransfer.setData('text/plain', event.target.innerText);
     this.setAttribute(attributes.DRAGGING, '');
@@ -122,17 +149,54 @@ export default class IdsSwappableItem extends Base {
     }
   }
 
-  attachEventListeners() {
+  #handleKeyEvents() {
+    this.listen(['Enter', 'ArrowUp', 'ArrowDown'], this, (e) => {
+      e.preventDefault();
+
+      if (e.key === 'ArrowDown') {
+        e.target.nextElementSibling.focus();
+      }
+
+      if (e.key === 'ArrowUp') {
+        e.target.previousElementSibling.focus();
+      }
+
+      if (e.key === 'Enter') {
+        if (this.multiSelect) {
+          this.#toggleMultiSelect();
+        } else {
+          this.#toggleSelect();
+        }
+      }
+    });
+  }
+
+  #handleClickEvents() {
     if (this.multiSelect) {
+      this.offEvent('click', this, this.#toggleMultiSelect);
       this.onEvent('click', this, this.#toggleMultiSelect);
     } else {
+      this.offEvent('click', this, this.#toggleSelect);
       this.onEvent('click', this, this.#toggleSelect);
     }
+  }
 
+  #handleDragEvents() {
+    this.removeEventListener('dragstart', this.#dragStart.bind(this));
     this.addEventListener('dragstart', this.#dragStart.bind(this));
+    this.removeEventListener('dragend', this.#dragEnd.bind(this));
     this.addEventListener('dragend', this.#dragEnd.bind(this));
+    this.removeEventListener('drop', this.#dragEnd.bind(this));
     this.addEventListener('drop', this.#dragEnd.bind(this));
+    this.removeEventListener('dragover', this.#dragOver.bind(this));
     this.addEventListener('dragover', this.#dragOver.bind(this));
+    this.removeEventListener('dragleave', this.#dragLeave.bind(this));
     this.addEventListener('dragleave', this.#dragLeave.bind(this));
+  }
+
+  attachEventListeners() {
+    this.#handleClickEvents();
+    this.#handleKeyEvents();
+    this.#handleDragEvents();
   }
 }
