@@ -170,7 +170,7 @@
 
     &.has-legend:hover {
       .day-container::after {
-        @include opacity-100();
+        @include opacity-70();
       }
     }
   }
@@ -262,7 +262,7 @@
       }
 
       &:hover::after {
-        @include opacity-100();
+        @include opacity-70();
       }
     }
 
