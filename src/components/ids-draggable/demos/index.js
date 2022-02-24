@@ -1,11 +1,11 @@
 // Supporting components
 import IdsDraggable from '../ids-draggable';
-import './example.scss'
+import css from '../../../assets/css/ids-draggable/ids-draggable.css';
 
+const draggableCss = `<link href="${css}" rel="stylesheet">`
 const draggables = [...document.querySelectorAll('ids-draggable')];
 
-// add event listeners to console log the draggables;
-// temporary way to document these
+document.querySelector('head').insertAdjacentHTML('afterbegin', draggableCss);
 
 draggables.forEach((d) => {
   d.addEventListener('ids-dragstart', (e) => {

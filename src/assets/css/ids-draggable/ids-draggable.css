@@ -1,18 +1,9 @@
-.ids-draggable-demo-box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: visible;
-  width: 100%;
-  height: 100%;
-}
-
 .ids-draggable-demo-content {
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
-  width: 312px;
-  height: 128px;
+  width: 100vh;
+  height: 100vh;
 }
 
 ids-draggable {
@@ -56,10 +47,10 @@ ids-draggable:nth-of-type(5) {
   border: 1px dashed var(--ids-color-palette-ruby-40);
   align-items: center;
   justify-content: center;
+}
 
-  & div:nth-child(2) {
-    padding: 16px 8px;
-  }
+.ids-draggable-handle-example div:nth-child(2) {
+  padding: 16px 8px;
 }
 
 .ids-draggable-handle {
