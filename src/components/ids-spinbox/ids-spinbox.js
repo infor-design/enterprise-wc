@@ -290,7 +290,6 @@ export default class IdsSpinbox extends Base {
   set value(value) {
     if (super.value !== parseInt(value)) {
       let nextValue = parseInt(value);
-      super.value = nextValue;
 
       // corrections on value if not in-step
       const step = parseInt(this.step);
@@ -316,6 +315,8 @@ export default class IdsSpinbox extends Base {
       ) {
         this.#onStepButtonUnpressed();
       }
+
+      super.value = nextValue;
 
       // set properties/updaters
       this.setAttribute('aria-valuenow', nextValue);
