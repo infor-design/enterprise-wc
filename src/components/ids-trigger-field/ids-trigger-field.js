@@ -1,6 +1,7 @@
-import { attributes } from '../../core/ids-attributes';
+import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import Base from './ids-trigger-field-base';
 
@@ -45,7 +46,7 @@ export default class IdsTriggerField extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
-    this.#attachEventHandlers();
+    this.#attachTriggerButtonEvents();
   }
 
   /**
@@ -55,7 +56,6 @@ export default class IdsTriggerField extends Base {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.DISABLE_EVENTS,
       attributes.TABBABLE
     ];
   }
@@ -108,37 +108,25 @@ export default class IdsTriggerField extends Base {
    * @param {boolean|string} value True of false depending if the trigger field is tabbable
    */
   set tabbable(value) {
-    const isTabbable = stringToBool(value);
-    super.tabbable = isTabbable;
+    const currentValue = this.getAttribute(attributes.TABBABLE);
+    const newValue = stringToBool(value);
 
-    this.setAttribute(attributes.TABBABLE, isTabbable);
-    const button = this.querySelector('ids-trigger-button');
-
-    if (button) {
-      button.tabbable = isTabbable;
+    if (currentValue !== newValue) {
+      if (newValue) {
+        this.setAttribute(attributes.TABBABLE, `${stripHTML(`${value}`)}`);
+      } else {
+        this.removeAttribute(attributes.TABBABLE);
+      }
     }
+
+    this.buttons.forEach((button) => {
+      button.tabbable = newValue;
+    });
   }
 
   get tabbable() {
-    return super.tabbable;
+    return stringToBool(this.getAttribute(attributes.TABBABLE));
   }
-
-  /**
-   * Set if the button handles events
-   * @param {boolean|string} value True of false depending if the button handles events
-   */
-  set disableNativeEvents(value) {
-    const isDisabled = stringToBool(value);
-    if (isDisabled) {
-      this.setAttribute(attributes.DISABLE_EVENTS, value.toString());
-      this.#attachEventHandlers();
-      return;
-    }
-
-    this.removeAttribute(attributes.DISABLE_EVENTS);
-  }
-
-  get disableNativeEvents() { return this.getAttribute(attributes.DISABLE_EVENTS); }
 
   /**
    * Sets the disabled attribute
@@ -191,11 +179,7 @@ export default class IdsTriggerField extends Base {
    * @private
    * @returns {object} The object for chaining.
    */
-  #attachEventHandlers() {
-    if (this.disableNativeEvents) {
-      return false;
-    }
-
+  #attachTriggerButtonEvents() {
     const buttons = this.querySelectorAll('ids-trigger-button');
     if (buttons) {
       [...buttons].forEach((button) => this.onEvent('click', button, () => this.trigger()));

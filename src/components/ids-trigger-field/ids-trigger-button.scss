@@ -9,7 +9,6 @@
 
 .ids-trigger-button {
   @include bg-transparent();
-  @include cursor-pointer();
   @include flex();
 
   align-items: center;

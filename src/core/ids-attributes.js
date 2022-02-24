@@ -301,7 +301,12 @@ export const attributes = {
   Y: 'y',
   YEAR: 'year'
 };
+
+// Standard HTMLElement attribute names
 // Please keep constants alphabetized
+export const htmlAttributes = {
+  TABINDEX: 'tabIndex'
+};
 
 export const prefix = {
   PREFIX: 'ids'

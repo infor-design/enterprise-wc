@@ -44,6 +44,9 @@ export default class IdsTriggerButton extends Base {
     if (this.getAttribute(attributes.INLINE)) {
       this.showBorder = true;
     }
+    if (!this.hasAttribute(attributes.TABBABLE)) {
+      this.tabbable = true;
+    }
   }
 
   /**
@@ -63,16 +66,18 @@ export default class IdsTriggerButton extends Base {
   set tabbable(value) {
     const isTabbable = stringToBool(value);
     const button = this.shadowRoot?.querySelector('button');
+
     if (isTabbable) {
-      this.setAttribute(attributes.TABBABLE, 'true');
-      button.setAttribute(attributes.TABINDEX, '0');
+      this.setAttribute(attributes.TABBABLE, '');
+      button.tabIndex = 0;
       return;
     }
-    this.setAttribute(attributes.TABBABLE, 'false');
-    button.setAttribute(attributes.TABINDEX, '-1');
+
+    this.removeAttribute(attributes.TABBABLE);
+    button.tabIndex = -1;
   }
 
-  get tabbable() { return this.getAttribute(attributes.TABBABLE) || true; }
+  get tabbable() { return stringToBool(this.getAttribute(attributes.TABBABLE)); }
 
   /**
    * Set the trigger button to readonly color
@@ -82,19 +87,15 @@ export default class IdsTriggerButton extends Base {
     const isReadonly = stringToBool(value);
     const button = this.shadowRoot?.querySelector('button');
     if (isReadonly) {
-      button.setAttribute(attributes.READONLY, 'true');
-      button.setAttribute(attributes.TABINDEX, '-1');
-      this.setAttribute(attributes.READONLY, 'true');
+      this.setAttribute(attributes.READONLY, '');
+      button.tabIndex = -1;
       return;
     }
-    button.removeAttribute(attributes.READONLY);
-    button.setAttribute(attributes.TABINDEX, this.tabbable ? '0' : '-1');
+    button.tabIndex = this.tabbable ? 0 : -1;
     this.removeAttribute(attributes.READONLY);
   }
 
-  get readonly() {
-    return stringToBool(this.getAttribute(attributes.READONLY)) || false;
-  }
+  get readonly() { return stringToBool(this.getAttribute(attributes.READONLY)); }
 
   /**
    * @readonly

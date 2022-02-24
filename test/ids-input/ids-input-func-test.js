@@ -167,9 +167,9 @@ describe('IdsInput Component', () => {
   it('should render an error on blur for required', async () => {
     expect(input.container.querySelector('.validation-message')).toBeFalsy();
     input.validate = 'required';
-    input.input.focus();
+    input.focus();
     input.value = '';
-    input.input.blur();
+    input.blur();
     await processAnimFrame();
     expect(input.container.querySelector('.validation-message')).toBeTruthy();
   });
@@ -554,7 +554,7 @@ describe('IdsInput Component', () => {
     expect(input.container.classList).toContain(size);
   });
 
-  it('should rendr input sizes', () => {
+  it('should render input sizes', () => {
     const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
     const checkSize = (size) => {
       input.size = size;
@@ -569,7 +569,7 @@ describe('IdsInput Component', () => {
     sizes.forEach((s) => checkSize(s));
   });
 
-  it('should not set wrong field height', () => {
+  it('should not set wrong input field height', () => {
     const className = (h) => `field-height-${h}`;
     input.fieldHeight = 'test';
     expect(input.getAttribute('field-height')).toEqual(null);
@@ -581,7 +581,7 @@ describe('IdsInput Component', () => {
     expect(input.container.classList).toContain(className(fieldHeight));
   });
 
-  it('should rendr input field height', () => {
+  it('should render input field height', () => {
     const heights = ['xs', 'sm', 'md', 'lg'];
     const defaultHeight = 'md';
     const className = (h) => `field-height-${h}`;
@@ -599,6 +599,39 @@ describe('IdsInput Component', () => {
     });
     expect(input.container.classList).toContain(className(defaultHeight));
     heights.forEach((h) => checkHeight(h));
+  });
+
+  it('can set "compact" mode', () => {
+    input.compact = true;
+
+    expect(input.hasAttribute('compact')).toBeTruthy();
+    expect(input.container.classList.contains('compact')).toBeTruthy();
+
+    input.compact = false;
+
+    expect(input.hasAttribute('compact')).toBeFalsy();
+    expect(input.container.classList.contains('compact')).toBeFalsy();
+  });
+
+  it('cannot have both a "compact" and "field-height" setting applied', () => {
+    input.compact = true;
+
+    expect(input.hasAttribute('compact')).toBeTruthy();
+    expect(input.container.classList.contains('compact')).toBeTruthy();
+
+    input.fieldHeight = 'xs';
+
+    expect(input.hasAttribute('compact')).toBeFalsy();
+    expect(input.container.classList.contains('compact')).toBeFalsy();
+    expect(input.getAttribute('field-height')).toEqual('xs');
+    expect(input.container.classList.contains('field-height-xs')).toBeTruthy();
+
+    input.compact = true;
+
+    expect(input.hasAttribute('compact')).toBeTruthy();
+    expect(input.container.classList.contains('compact')).toBeTruthy();
+    expect(input.hasAttribute('field-height')).toBeFalsy();
+    expect(input.container.classList.contains('field-height-xs')).toBeFalsy();
   });
 
   it('supports setting mode', () => {
@@ -628,13 +661,16 @@ describe('IdsInput Component', () => {
     expect(input.hasAttribute('no-margins')).toBeFalsy();
   });
 
-  it('can focus its inner Input element', () => {
+  it('focuses its inner HTMLInputElement when the host element becomes focused', () => {
     input.focus();
     expect(document.activeElement).toEqual(input);
   });
 
-  it('can have tabbablity turned off', () => {
-    input.tabbable = false;
-    expect(input.tabIndex).toEqual(-1);
+  it('focuses its inner HTMLInputElement when its label is clicked', async () => {
+    const labelEl = input.container.querySelector('label');
+    labelEl.click();
+    await processAnimFrame();
+
+    expect(input.input.isEqualNode(input.shadowRoot.activeElement));
   });
 });
