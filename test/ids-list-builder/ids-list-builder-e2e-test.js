@@ -1,6 +1,15 @@
 describe('Ids List Builder e2e Tests', () => {
   const url = 'http://localhost:4444/ids-list-builder';
 
+  /**
+   * Create css selector for list item
+   * @param {number} n nth-child(n)
+   * @returns {string} css selector, defaults to nth-child(1)
+   */
+  function createListItemSelector(n) {
+    return `pierce/ids-draggable:nth-child(${n || 1}) > div[role="listitem"]`;
+  }
+
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
   });
@@ -84,5 +93,54 @@ describe('Ids List Builder e2e Tests', () => {
 
     // random button to trigger default keyboard case
     await page.keyboard.press('Shift');
+  });
+
+  it('should update inner text on edit keyup', async () => {
+    const firstItemSelector = createListItemSelector(1);
+    const editButtonSelector = 'pierce/#button-edit';
+
+    // click first list item, wait for selected state
+    await page.click(firstItemSelector);
+    await page.waitForSelector(`${firstItemSelector}[selected="selected"]`);
+
+    // click edit button, wait for ids-input to be injected into list item
+    await page.click(editButtonSelector);
+    await page.waitForSelector(`${firstItemSelector} ids-input`);
+
+    // type something, wait for ids text to match key pressed
+    const keyPressed = 'q';
+    await page.keyboard.press(keyPressed);
+    await page.waitForFunction(
+      (userInput) => {
+        const listBuilder = document.querySelector('ids-list-builder');
+        const idsText = listBuilder.shadowRoot.querySelector('ids-draggable:nth-child(1) ids-text');
+        return idsText.innerHTML === userInput;
+      },
+      {},
+      keyPressed
+    );
+
+    // deselect list item to reset
+    await page.click(firstItemSelector);
+    await page.waitForSelector(`${firstItemSelector}:not([selected="selected"])`);
+  });
+
+  it('should navigate list view via keyboard arrows', async () => {
+    const firstItemSelector = createListItemSelector(1);
+    const secondItemSelector = createListItemSelector(2);
+
+    // click first list item
+    await page.click(firstItemSelector);
+    await page.waitForSelector(`${firstItemSelector}[selected="selected"]`);
+
+    // keyboard navigate to second item and select
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('Space');
+    await page.waitForSelector(`${secondItemSelector}[selected="selected"]`);
+
+    // keyboard navigate to first item and select
+    await page.keyboard.press('ArrowUp');
+    await page.keyboard.press('Space');
+    await page.waitForSelector(`${firstItemSelector}[selected="selected"]`);
   });
 });
