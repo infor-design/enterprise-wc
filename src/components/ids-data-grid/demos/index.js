@@ -1,3 +1,7 @@
+// Supporting components
+import IdsDataGrid from '../ids-data-grid';
+import booksJSON from '../../../assets/data/books.json';
+
 // Example for populating the DataGrid
 const dataGrid = document.querySelector('#data-grid-1');
 const container = document.querySelector('ids-container');
@@ -7,7 +11,7 @@ const container = document.querySelector('ids-container');
   await container?.setLocale('en-US');
 
   // Do an ajax request
-  const url = '/data/books.json';
+  const url = booksJSON;
   const columns = [];
 
   // Set up columns

@@ -14,6 +14,7 @@ module.exports = {
     chunkFormat: 'module',
     path: path.resolve(__dirname, './build/development'),
     filename: '[name]/[name].[contenthash].js',
+    assetModuleFilename: 'assets/[path][name][ext]',
     clean: true,
     publicPath: '/'
   },
@@ -44,7 +45,7 @@ module.exports = {
       {
         test: /\.(png|jpe?g|gif|svg|json)$/i,
         exclude: [/node_modules/],
-        type: "asset/resource"
+        type: "asset/resource",
       },
       {
         test: /\.js$/,
@@ -95,14 +96,6 @@ module.exports = {
     new BundleAnalyzerPlugin({
       analyzerMode: process.env.npm_lifecycle_event === 'build:dev:stats' ? 'server' : 'disabled',
       reportFilename: 'dev-build-report.html'
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: path.resolve(__dirname, 'demos/data/'),
-          to: path.resolve(__dirname, `build/${isProduction ? 'production' : 'development'}/data/`)
-        }
-      ]
-    }),
+    })
   ].concat(WebpackHtmlExamples)
 };

@@ -9,8 +9,8 @@ import IdsToolbar from '../../ids-toolbar/ids-toolbar';
 import avatarPlaceholder from '../../../assets/images/avatar-placeholder.jpg';
 
 // Remove comments once img is ready to use.
-const avatarImg = window.document.getElementById('avatar');
-avatarImg.src = avatarPlaceholder
+// const avatarImg = window.document.getElementById('avatar');
+// avatarImg.src = avatarPlaceholder
 
 document.addEventListener('DOMContentLoaded', () => {
   const appMenuDrawer = document.querySelector('#app-menu');

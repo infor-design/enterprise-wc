@@ -3,10 +3,9 @@ import IdsEmptyMessage from '../ids-empty-message';
 import IdsCard from '../../ids-card/ids-card';
 import Idstoast from '../../ids-toast/ids-toast';
 import IdsButton from '../../ids-button/ids-button';
+import pathData from 'ids-identity/dist/theme-new/icons/empty/path-data.json';
 
-// import pathData from 'ids-identity/dist/theme-new/icons/empty/path-data.json';
 // import './example.scss';
-
 
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.querySelector('.icon-examples');
