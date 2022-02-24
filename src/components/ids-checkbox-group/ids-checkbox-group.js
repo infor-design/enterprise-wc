@@ -25,6 +25,7 @@ export default class IdsCheckboxGroup extends Base {
    */
   static get attributes() {
     return [
+      ...super.attributes,
       attributes.LABEL,
     ];
   }
@@ -36,7 +37,7 @@ export default class IdsCheckboxGroup extends Base {
   template() {
     return `
       <div class="ids-checkbox-group" part="checkbox-group">
-        <ids-text font-size="16" type="h1">${this.label}</ids-text>
+        <ids-text font-size="16" type="span">${this.label}</ids-text>
         <slot></slot>
       </div>
     `;

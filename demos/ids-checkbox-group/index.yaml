@@ -3,7 +3,7 @@
  link: ids-checkbox-group
  description: Group of checkboxes with label
  category: Form Inputs
- keywords: checkbox, checkboxes
+ keywords: checkbox, checkboxes, groups, checkbox group
  examples:
   - link: index.html
     description: Shows checkbox-group with label

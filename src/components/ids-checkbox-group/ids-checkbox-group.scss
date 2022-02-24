@@ -2,7 +2,7 @@
 
 .ids-checkbox-group {
   ids-text {
-    display: block;
-    margin-bottom: 12px;
+    @include block();
+    @include mb-12();
   }
 }

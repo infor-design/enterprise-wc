@@ -1,4 +1,7 @@
 export default class IdsCheckboxGroup extends HTMLElement {
+  /** Checkbox group label */
+  label: string;
+
   /** Set the theme mode */
   mode: 'light' | 'dark' | 'contrast' | string;
 

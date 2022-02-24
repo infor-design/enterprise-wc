@@ -1,8 +1,8 @@
-#Ids Checkbox Group Component
+# Ids Checkbox Group Component
 
 ## Description
 
-The IDS Checkbox Group Compoment consists of group of checkboxes with label
+The IDS Checkbox Group Component consists of group of checkboxes with label. Its useful if you need to group a set of checkbox under a legend or category.
 
 ## Features (With Code Examples)
 
@@ -18,4 +18,4 @@ Only has `label` property and `ids-checkbox` elements as a slot
 
 ## Settings and Attributes
 
-- `label` {string} Sets the label for checkbox-group
+- `label` {string} Sets the label for the checkbox group
