@@ -987,7 +987,7 @@ export default class IdsSplitter extends Base {
   #attachEventHandlers() {
     // Respond to parent changing language
     this.offEvent('languagechange.splitter');
-    this.onEvent('languagechange.splitter', this.closest('ids-container'), async () => {
+    this.onEvent('languagechange.splitter', this.closest('ids-container'), () => {
       this.#resize();
     });
 

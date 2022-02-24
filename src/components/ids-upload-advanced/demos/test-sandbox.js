@@ -129,36 +129,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Files enter in drag area
   targetElem?.addEventListener('filesdragenter', (e) => {
-    // console.log('Files enter in drag area', e);
+    console.info('Files enter in drag area', e);
   });
 
   // Files drop in to drag area
   targetElem?.addEventListener('filesdrop', (e) => {
-    // console.log('Files drop in to drag area', e);
+    console.info('Files drop in to drag area', e);
   });
 
   // File begin upload
   targetElem?.addEventListener('beginupload', (e) => {
-    // console.log('File begin upload', e);
+    console.info('File begin upload', e);
   });
 
   // File abort
   targetElem?.addEventListener('abort', (e) => {
-    // console.log('File abort', e);
+    console.info('File abort', e);
   });
 
   // File error
   targetElem?.addEventListener('error', (e) => {
-    // console.log('File error', e);
+    console.info('File error', e);
   });
 
   // File complete
   targetElem?.addEventListener('complete', (e) => {
-    // console.log('File complete', e);
+    console.info('File complete', e);
   });
 
   // Click close button
   targetElem?.addEventListener('closebuttonclick', (e) => {
-    // console.log('Clicked on close button', e);
+    console.info('Clicked on close button', e);
   });
 });

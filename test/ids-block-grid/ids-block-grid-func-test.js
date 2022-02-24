@@ -4,6 +4,7 @@
 import IdsBlockgrid from '../../src/components/ids-block-grid/ids-block-grid';
 import IdsBlockgridItem from '../../src/components/ids-block-grid/ids-block-grid-item';
 import IdsCheckbox from '../../src/components/ids-checkbox/ids-checkbox';
+import ResizeObserver from '../helpers/resize-observer-mock';
 
 describe('IdsBlockgrid Component', () => {
   let blockgridEl;
@@ -189,5 +190,99 @@ describe('IdsBlockgridItem Component', () => {
     blockgridItemEl.dispatchEvent(clickEvent);
 
     expect(mockCallback.mock.calls.length).toBe(1);
+  });
+
+  it('should support paging', async () => {
+    const data = [
+      {
+        id: 1,
+        url: '/assets/placeholder-200x200.png',
+        name: 'Sheena Taylor1',
+        title: 'Infor, Developer'
+      },
+      {
+        id: 2,
+        url: '/assets/placeholder-200x200.png',
+        name: 'Sheena Taylor2',
+        title: 'Infor, Developer'
+      },
+      {
+        id: 3,
+        url: '/assets/placeholder-200x200.png',
+        name: 'Sheena Taylor3',
+        title: 'Infor, Developer'
+      },
+      {
+        id: 4,
+        url: '/assets/placeholder-200x200.png',
+        name: 'Sheena Taylor4',
+        title: 'Infor, Developer'
+      },
+      {
+        id: 5,
+        url: '/assets/placeholder-200x200.png',
+        name: 'Sheena Taylor5',
+        title: 'Infor, Developer'
+      },
+      {
+        id: 6,
+        url: '/assets/placeholder-200x200.png',
+        name: 'Sheena Taylor6',
+        title: 'Infor, Developer'
+      },
+      {
+        id: 7,
+        url: '/assets/placeholder-200x200.png',
+        name: 'Sheena Taylor7',
+        title: 'Infor, Developer'
+      },
+      {
+        id: 8,
+        url: '/assets/placeholder-200x200.png',
+        name: 'Sheena Taylor8',
+        title: 'Infor, Developer'
+      },
+      {
+        id: 9,
+        url: '/assets/placeholder-200x200.png',
+        name: 'Sheena Taylor9',
+        title: 'Infor, Developer'
+      },
+      {
+        id: 10,
+        url: '/assets/placeholder-200x200.png',
+        name: 'Sheena Taylor10',
+        title: 'Infor, Developer'
+      },
+      {
+        id: 11,
+        url: '/assets/placeholder-200x200.png',
+        name: 'Sheena Taylor11',
+        title: 'Infor, Developer'
+      }
+    ];
+
+    blockgridEl.align = 'center';
+    blockgridEl.selection = 'multiple';
+    blockgridEl.pagination = 'client-side';
+    blockgridEl.pageNumber = 1;
+    blockgridEl.pageSize = 5;
+    blockgridEl.data = data;
+
+    const pager = blockgridEl.shadowRoot.querySelector('ids-pager');
+    expect(pager.pageNumber).toEqual(1);
+    expect(pager.pageSize).toEqual(5);
+    expect(pager.total).toEqual(11);
+  });
+
+  it('should not error if no data', async () => {
+    expect(blockgridEl.data).toEqual([]);
+    blockgridEl.data = null;
+    expect(blockgridEl.data).toEqual([]);
+
+    const pager = blockgridEl.shadowRoot.querySelector('ids-pager');
+    expect(pager).toBeFalsy();
+    blockgridEl.rerender();
+    expect(pager).toBeFalsy();
   });
 });

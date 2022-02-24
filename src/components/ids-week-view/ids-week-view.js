@@ -90,7 +90,7 @@ export default class IdsWeekView extends Base {
 
     // Respond to parent changing language
     this.offEvent('languagechange.week-view-container');
-    this.onEvent('languagechange.week-view-container', this.closest('ids-container'), async () => {
+    this.onEvent('languagechange.week-view-container', this.closest('ids-container'), () => {
       this.#renderToolbar();
       this.#renderWeek();
       this.#renderTimeline();
@@ -99,7 +99,7 @@ export default class IdsWeekView extends Base {
 
     // Respond to parent changing locale
     this.offEvent('localechange.week-view-container');
-    this.onEvent('localechange.week-view-container', this.closest('ids-container'), async () => {
+    this.onEvent('localechange.week-view-container', this.closest('ids-container'), () => {
       this.#renderWeek();
       this.#renderTimeline();
       this.#attachDatepicker();

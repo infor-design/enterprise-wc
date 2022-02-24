@@ -39,7 +39,7 @@ An alert can be used in a disabled situation so comes with a disabled style
 
 ## Settings (Attributes)
 
-- `icon` {boolean} Set the type of icon / alert to show options include  'alert' | 'success' | 'dirty' | 'error' | 'info' |'pending' | 'new' | 'in-progress' | 'info-field'
+- `icon` {boolean} Set the type of icon / alert to show options include  'alert' | 'success' | 'dirty' | 'error' | 'info' |'pending' | 'new' | 'in-progress'
 - `disabled` {boolean} Set alert to disabled
 
 ## Themeable Parts

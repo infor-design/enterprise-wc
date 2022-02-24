@@ -101,7 +101,7 @@ class IdsMonthView extends Base {
   #attachEventHandlers() {
     // Respond to container changing language
     this.offEvent('languagechange.month-view-container');
-    this.onEvent('languagechange.month-view-container', getClosest(this, 'ids-container'), async () => {
+    this.onEvent('languagechange.month-view-container', getClosest(this, 'ids-container'), () => {
       this.#setDirection();
       this.#renderToolbar();
       this.#renderMonth();
@@ -109,7 +109,7 @@ class IdsMonthView extends Base {
 
     // Respond to container changing locale
     this.offEvent('localechange.month-view-container');
-    this.onEvent('localechange.month-view-container', getClosest(this, 'ids-container'), async () => {
+    this.onEvent('localechange.month-view-container', getClosest(this, 'ids-container'), () => {
       this.#setDirection();
       this.#renderMonth();
       this.#attachDatepicker();

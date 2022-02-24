@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (splitterEvt && btnCollapseExpand) {
     const show = (type, detail, veto) => {
       const showVeto = veto !== 'undefined' ? `veto: ${veto}` : '';
-      console.log(type, detail, showVeto); // eslint-disable-line
+      console.info(type, detail, showVeto);
     };
 
     // event: before collapsed
