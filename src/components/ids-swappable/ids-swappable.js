@@ -101,7 +101,7 @@ export default class IdsSwappable extends Base {
    */
   #dzDrag(event) {
     this.selectedItems.forEach((el) => {
-      this.#hideSelectedItems(event, el);
+      this.#hideDraggingItems(event, el);
     });
   }
 
@@ -137,15 +137,15 @@ export default class IdsSwappable extends Base {
     event.preventDefault();
     const afterElement = this.getDragAfterElement(this, event.clientY);
 
-    if (this.selectedElements.length > 0) {
+    if (this.draggingElements.length > 0) {
       if (afterElement) {
-        this.selectedElements.forEach((draggingEl) => {
-          this.#resetSelectedItems(draggingEl);
+        this.draggingElements.forEach((draggingEl) => {
+          this.#resetDraggingItems(draggingEl);
           this.insertBefore(draggingEl, afterElement);
         });
       } else {
-        this.selectedElements.forEach((draggingEl) => {
-          this.#resetSelectedItems(draggingEl);
+        this.draggingElements.forEach((draggingEl) => {
+          this.#resetDraggingItems(draggingEl);
           this.appendChild(draggingEl);
         });
       }
@@ -183,18 +183,19 @@ export default class IdsSwappable extends Base {
 
     if (found) {
       const theLowestShadowRoot = found.getRootNode();
-      this.selectedElements = theLowestShadowRoot.querySelectorAll('ids-swappable-item[selected]');
+      this.draggingElements = theLowestShadowRoot.querySelectorAll('ids-swappable-item[dragging]');
     }
   }
 
   /**
-   * Hide the selected items during drag event
+   * Hide the dragging items during drag event
    * @param {object} event object
-   * @param {HTMLElement} el all selected elements
+   * @param {HTMLElement} el all dragging elements
    */
-  #hideSelectedItems(event, el) {
+  #hideDraggingItems(event, el) {
     el.setAttribute('aria-grabbed', true);
     el.setAttribute('aria-dropeffect', event.dataTransfer.dropEffect);
+    el.setAttribute('dragging', '');
 
     if (this.selectedItems.length <= 1) {
       return;
@@ -209,11 +210,12 @@ export default class IdsSwappable extends Base {
    * Reset the selected items after drop event
    * @param {HTMLElement} el all selected elements
    */
-  #resetSelectedItems(el) {
+  #resetDraggingItems(el) {
     if (el.originalText) {
       el.innerHTML = `<ids-text>${el.originalText}</ids-text>`;
     }
 
+    el.removeAttribute('dragging');
     el.removeAttribute('aria-grabbed');
     el.removeAttribute('aria-dropeffect');
     el.classList.remove('is-hidden');
