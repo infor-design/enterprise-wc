@@ -2,7 +2,7 @@
 import IdsDraggable from '../ids-draggable';
 import css from '../../../assets/css/ids-draggable/ids-draggable.css';
 
-const draggableCss = `<link href="${css}" rel="stylesheet">`
+const draggableCss = `<link href="${css}" rel="stylesheet">`;
 const draggables = [...document.querySelectorAll('ids-draggable')];
 
 document.querySelector('head').insertAdjacentHTML('afterbegin', draggableCss);

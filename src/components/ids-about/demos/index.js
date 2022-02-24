@@ -1,4 +1,4 @@
-// Supporting components 
+// Supporting components
 import IdsAbout from '../ids-about';
 
 document.addEventListener('DOMContentLoaded', () => {

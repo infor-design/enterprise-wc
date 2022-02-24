@@ -1,9 +1,7 @@
 // Supporting components
-import IdsIcon from '../ids-icon';
-
-// Imports Used in the Examples
 import pathData from 'ids-identity/dist/theme-new/icons/standard/path-data.json';
 import emptyIconPathData from 'ids-identity/dist/theme-new/icons/empty/path-data.json';
+import IdsIcon from '../ids-icon';
 
 // Here we append all the HTML to show off the icons to the icon div section
 const queryString = window.location.search;

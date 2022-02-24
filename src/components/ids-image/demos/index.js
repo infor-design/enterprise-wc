@@ -1,2 +1,2 @@
-// Supporting components 
+// Supporting components
 import IdsImage from '../ids-image';

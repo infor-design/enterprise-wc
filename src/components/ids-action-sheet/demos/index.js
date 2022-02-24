@@ -3,7 +3,6 @@ import IdsActionSheet from '../ids-action-sheet';
 import IdsBlockGrid from '../../ids-block-grid/ids-block-grid';
 import IdsCard from '../../ids-card/ids-card';
 
-
 document.addEventListener('DOMContentLoaded', () => {
   const menuBtnEl = document.querySelector('ids-menu-button');
   const actionSheet = document.querySelector('ids-action-sheet');

@@ -1,5 +1,5 @@
 // Supporting components
-import IdsInput from '../../ids-input/ids-input';
+import IdsInput from '../ids-input';
 import IdsButton from '../../ids-button/ids-button';
 
 document.addEventListener('DOMContentLoaded', () => {
