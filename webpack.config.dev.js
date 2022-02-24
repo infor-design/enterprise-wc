@@ -13,7 +13,7 @@ module.exports = {
     chunkFormat: 'module',
     path: path.resolve(__dirname, './build/development'),
     filename: '[name]/[name].[contenthash].js',
-    assetModuleFilename: 'assets/[path][name][ext]',
+    assetModuleFilename: 'assets/[path][name][contenthash][ext]',
     clean: true,
     publicPath: '/'
   },
@@ -56,19 +56,19 @@ module.exports = {
           }
         ]
       },
-      // {
-      //   test: /\.scss$/,
-      //   exclude: [
-      //     /node_modules/,
-      //     path.resolve(__dirname, 'build')
-      //   ],
-      //   use: [
-      //     'sass-to-string',
-      //     {
-      //       loader: 'sass-loader',
-      //     }
-      //   ],
-      // },
+      {
+        test: /\.scss$/,
+        exclude: [
+          /node_modules/,
+          path.resolve(__dirname, 'build')
+        ],
+        use: [
+          'sass-to-string',
+          {
+            loader: 'sass-loader',
+          }
+        ],
+      },
       {
         test: /\.scss$/,
         exclude: [
@@ -96,8 +96,5 @@ module.exports = {
       analyzerMode: process.env.npm_lifecycle_event === 'build:dev:stats' ? 'server' : 'disabled',
       reportFilename: 'dev-build-report.html'
     }),
-    new MiniCssExtractPlugin({
-      filename: '[name]/[name].css'
-    })
   ].concat(WebpackHtmlExamples)
 };
