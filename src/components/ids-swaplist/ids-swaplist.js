@@ -79,6 +79,12 @@ export default class IdsSwapList extends Base {
     });
   }
 
+  /**
+   * Get all selected ids-swappable-item
+   * @returns {Array} NodeList of ids-swappable-items
+   * @readonly
+   * @memberof IdsSwapList
+   */
   get selectedLi() {
     return this.container.querySelectorAll('ids-swappable-item[selected]');
   }
