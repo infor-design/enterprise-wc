@@ -406,19 +406,19 @@ export default class IdsButton extends Base {
    * @param {string} w 100%, 90px, 50rem etc.
    */
   set width(w) {
-    if (w === null) {
+    if (!w) {
       this.removeAttribute('width');
-      this.style.width = null;
-      this.button.style.width = null;
+      this.style.width = '';
+      this.button.style.width = '';
       return;
     }
 
     // if percentage passed set width to host
     if (w.indexOf('%') !== -1) {
       this.style.width = w;
-      this.button.style.width = null;
+      this.button.style.width = '';
     } else {
-      this.style.width = null;
+      this.style.width = '';
       this.button.style.width = w;
     }
 
