@@ -116,6 +116,7 @@ The following data attributes can be used on the data passed to a chart.
 - `yAxisMin` {number}  Set the minimum value on the y axis  (default: 0)
 - `showVerticalGridLines` {boolean}  Show the vertical axis grid lines (default: false)
 - `showHorizontalGridLines` {boolean}  Show the horizontal axis grid lines (default: true)
+- `animated` {boolean}  Set the animation on/off (default: true)
 
 ## Events
 
@@ -127,6 +128,11 @@ The following data attributes can be used on the data passed to a chart.
  * @part svg - the outside svg element
  * @part marker - the dots/markers in the chart
  * @part line - the lines in the chart
+
+## Animation
+
+All points in the line rise along the y-axis from 0 to the appropriate values. Lines build and load at the same time.
+
 ## States and Variations
 
 - Color

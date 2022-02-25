@@ -1,6 +1,7 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { debounce } from '../../utils/ids-debounce-utils/ids-debounce-utils';
 
 import Base from './ids-axis-chart-base';
 import IdsDataSource from '../../core/ids-data-source';
@@ -55,6 +56,7 @@ export default class IdsAxisChart extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.ANIMATED,
       attributes.DATA,
       attributes.HEIGHT,
       attributes.MARGINS,
@@ -90,11 +92,52 @@ export default class IdsAxisChart extends Base {
   #attachEventHandlers() {
     this.onEvent('localechange.about-container', this.closest('ids-container'), async () => {
       this.rerender();
+      this.shadowRoot.querySelector('ids-empty-message ids-text').textContent = this.locale?.translate('NoData');
     });
 
     this.onEvent('languagechange.about-container', this.closest('ids-container'), async () => {
       this.shadowRoot.querySelector('ids-empty-message ids-text').textContent = this.locale?.translate('NoData');
     });
+
+    // Set observer for resize
+    if (this.resizeToParentHeight || this.resizeToParentWidth) {
+      let width = this.width;
+      let height = this.height;
+      this.#resizeObserver = new ResizeObserver(debounce((entries) => {
+        if ((entries[0].contentRect.width !== width && this.resizeToParentWidth)
+          || (entries[0].contentRect.height !== height && this.resizeToParentHeight)) {
+          this.#resize();
+        }
+        width = this.width;
+        height = this.height;
+      }, 400));
+      this.#resizeObserver.disconnect();
+      this.#resizeObserver.observe(this.parentElement);
+    }
+  }
+
+  /** Holds the resize observer object */
+  #resizeObserver = null;
+
+  /**
+   * Handle Resizing
+   * @private
+   */
+  #resize() {
+    if (!this.initialized) {
+      return;
+    }
+
+    this.initialized = false;
+    if (this.resizeToParentHeight) {
+      this.height = 'inherit';
+    }
+    if (this.resizeToParentWidth) {
+      this.width = 'inherit';
+    }
+    this.initialized = true;
+    this.rerender();
+    this.reanimate();
   }
 
   /**
@@ -102,6 +145,10 @@ export default class IdsAxisChart extends Base {
    * @private
    */
   rerender() {
+    if (!this.initialized) {
+      return;
+    }
+
     if (this.data && this.data.length === 0 && this.initialized) {
       this.#showEmptyMessage();
       return;
@@ -413,8 +460,13 @@ export default class IdsAxisChart extends Base {
    * @param {number} value The height value
    */
   set height(value) {
-    this.setAttribute(attributes.HEIGHT, value);
-    this.svg.setAttribute(attributes.HEIGHT, value);
+    let height = value;
+    if (value === 'inherit') {
+      height = this.#getParentDimensions().height;
+      this.resizeToParentHeight = true;
+    }
+    this.setAttribute(attributes.HEIGHT, height);
+    this.svg.setAttribute(attributes.HEIGHT, height);
     this.rerender();
   }
 
@@ -425,13 +477,35 @@ export default class IdsAxisChart extends Base {
    * @param {number} value The width value
    */
   set width(value) {
-    this.setAttribute(attributes.WIDTH, value);
-    this.svg.setAttribute(attributes.WIDTH, value);
-    this.#setContainerWidth(value);
+    let width = value;
+    if (value === 'inherit') {
+      width = this.#getParentDimensions().width;
+      this.resizeToParentWidth = true;
+    }
+    this.setAttribute(attributes.WIDTH, width);
+    this.svg.setAttribute(attributes.WIDTH, width);
+    this.#setContainerWidth(width);
     this.rerender();
   }
 
   get width() { return parseFloat(this.getAttribute(attributes.WIDTH)) || 800; }
+
+  /**
+   * Get the parent element's width and height
+   * @returns {object} The height and width of the parent element
+   */
+  #getParentDimensions() {
+    const container = document.querySelector('ids-container');
+    const isHidden = false;
+    if (container.hidden) {
+      container.hidden = false;
+    }
+    const dims = { width: this.parentElement.offsetWidth, height: this.parentElement.offsetHeight };
+    if (isHidden) {
+      container.hidden = true;
+    }
+    return dims;
+  }
 
   /**
    * Set the container width (for correct legend and sizing)
@@ -458,7 +532,7 @@ export default class IdsAxisChart extends Base {
   get margins() {
     return this.state?.margins || {
       left: 16,
-      right: this.legendPlacement === 'right' ? 150 : 16, // TODO: Calculate this
+      right: this.legendPlacement === 'right' ? 150 : 4, // TODO: Calculate this
       top: 16,
       bottom: 12,
       leftInner: 8,
@@ -479,7 +553,7 @@ export default class IdsAxisChart extends Base {
 
   get textWidths() {
     return this.state.textWidths || {
-      left: this.legendPlacement === 'left' ? 34 : 68, // TODO: Calculate this
+      left: this.legendPlacement === 'left' ? 34 : 4, // TODO: Calculate this
       right: 0,
       top: 0,
       bottom: 24
@@ -491,11 +565,12 @@ export default class IdsAxisChart extends Base {
    * @param {Array} value The array to use
    */
   set data(value) {
-    this.initialized = true;
     if (value) {
       this.#hideEmptyMessage();
       this.datasource.data = value;
+      this.initialized = true;
       this.rerender();
+      this.reanimate();
       return;
     }
     this.datasource.data = null;
@@ -591,5 +666,50 @@ export default class IdsAxisChart extends Base {
 
   get yAxisFormatter() {
     return this.state.yAxisFormatter;
+  }
+
+  /**
+   * Reanimate the chart
+   */
+  reanimate() {
+    if (!this.animated || !this.initialized) {
+      return;
+    }
+
+    requestAnimationFrame(() => {
+      this.container.querySelectorAll('animate').forEach((elem) => elem.beginElement());
+      this.container.querySelectorAll('animateTransform').forEach((elem) => elem.beginElement());
+    });
+  }
+
+  /**
+   * Get a reusable snippet to ease the animation
+   * @private
+   * @returns {string} The reusable snippet
+   */
+  get cubicBezier() {
+    return 'calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.6s"';
+  }
+
+  /**
+   * Set the animation on/off
+   * @param {boolean} value True if animation is on
+   */
+  set animated(value) {
+    const animated = stringToBool(this.animated);
+    this.setAttribute(attributes.ANIMATED, value);
+    this.rerender();
+
+    if (animated) {
+      this.reanimate();
+    }
+  }
+
+  get animated() {
+    const animated = this.getAttribute(attributes.ANIMATED);
+    if (animated === null) {
+      return true;
+    }
+    return stringToBool(this.getAttribute(attributes.ANIMATED));
   }
 }

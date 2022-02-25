@@ -16,10 +16,22 @@
     fill: none;
     stroke-width: 2;
 
+    // Animation
+    // stroke-dasharray: 2000;
+    // stroke-dashoffset: 2000;
+    // animation: animate-line 2s linear forwards;
+
     @for $i from 1 through 21 {
       .data-line.color-#{$i} {
         stroke: var(--color-#{$i});
       }
     }
+  }
+}
+
+// End animation at the right place
+@keyframes animate-line {
+  to {
+    stroke-dashoffset: 0;
   }
 }

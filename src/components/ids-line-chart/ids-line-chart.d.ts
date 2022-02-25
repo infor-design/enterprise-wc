@@ -22,4 +22,7 @@ export default class IdsLineChart extends HTMLElement {
 
   /** Show or hide the horizontal grid lines */
   showHorizontalLines?: boolean;
+
+  /** Set the animation on/off */
+  animated?: boolean;
 }

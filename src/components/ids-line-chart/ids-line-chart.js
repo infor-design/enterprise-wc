@@ -1,5 +1,6 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import Base from './ids-line-chart-base';
 import styles from './ids-line-chart.scss';
 
@@ -51,16 +52,22 @@ export default class IdsLineChart extends Base {
   lineMarkers() {
     let markerHTML = '';
     let lineHTML = '';
-
     this.markerData.points.forEach((pointGroup, index) => {
       let points = '';
+      let animationPoints = '';
       markerHTML += '<g class="marker-set">';
+
       pointGroup.forEach((point) => {
         points += `${point.left},${point.top} `;
-        markerHTML += `<circle part="marker" class="color-${index + 1}" cx="${point.left}" cy="${point.top}" data-value="${point.value}" r="${this.markerSize}">${point.value}</circle>`;
+        animationPoints += `${point.left},${this.markerData.gridBottom} `;
+        markerHTML += `<circle part="marker" class="color-${index + 1}" cx="${point.left}" cy="${point.top}" data-value="${point.value}" r="${this.markerSize}">
+        ${stringToBool(this.animated) ? `<animate attributeName="cy" ${this.cubicBezier} from="${this.markerData.gridBottom}" to="${point.top}"/>` : ''}
+        </circle>`;
       });
       markerHTML += '</g>';
-      lineHTML += `<polyline part="line" class="data-line color-${index + 1}" points="${points}" stroke="var(${this.color(index)}"/>`;
+      lineHTML += `<polyline part="line" class="data-line color-${index + 1}" points="${points}" stroke="var(${this.color(index)}">
+      ${stringToBool(this.animated) ? `<animate attributeName="points" ${this.cubicBezier} from="${animationPoints}" to="${points}" />` : ''}
+      </polyline>`;
     });
 
     return {

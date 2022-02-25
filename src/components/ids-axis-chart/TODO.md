@@ -17,11 +17,11 @@
 - [x] Themes
 - [x] X and Y Axis Formatters (k, m ect)
 - [x] Locale (translate values) including No Data
-- [ ] Colors (passing them in and range colors)
-- [ ] Take Parent Size
+- [x] Colors (passing them in and range colors)
+- [ ] Take Parent Size in layout grid
 - [ ] Short Names / Responsive
-- [ ] Test round
 - [ ] RTL
+- [ ] Test round
 - [x] Empty Message
 - [ ] Negative Values
 - [ ] Axis and Rotated Labels
@@ -36,8 +36,7 @@
 
 - [ ] When hovering over the dot it should show the tooltip
 - [ ] When clicking the line it should select
-- [ ] Responsive
-- [ ] Animation
+- [x] Animation
 
 ## Chart Types
 

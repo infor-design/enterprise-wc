@@ -145,6 +145,10 @@ To achieve this it is recommended to use the `color` setting and pick one of the
 - `marker` each dots/marker element in the chart
 - `lines` each line element in the chart
 
+## Animation
+
+The line rise along the y-axis from 0 to the appropriate values. The area below the line fills up as the line rises.
+
 ## States and Variations
 
 (See Line Chart and Axis Chart Settings for more information)

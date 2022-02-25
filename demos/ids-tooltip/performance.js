@@ -11,7 +11,7 @@ const appendTestItems = () => {
     <ids-button id="button-${index}" tooltip="Tooltip ${index}" type="secondary">
     Button ${index}
     </ids-button>
-   </ids-layout-grid-cell>`;
+  </ids-layout-grid-cell>`;
     section.insertAdjacentHTML('beforeend', html);
   }
 };

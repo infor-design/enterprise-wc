@@ -44,6 +44,7 @@ export default class IdsAreaChart extends Base {
    */
   #areas() {
     let areaHTML = '';
+
     this.markerData.points.forEach((pointGroup, groupIndex) => {
       let areas = '';
       pointGroup.forEach((point, index) => {
@@ -51,7 +52,9 @@ export default class IdsAreaChart extends Base {
           areas += `M${point.left},${point.top}L${point.left},${this.markerData.gridBottom}L${pointGroup[index + 1]?.left},${this.markerData.gridBottom}L${pointGroup[index + 1]?.left},${pointGroup[index + 1]?.top}`;
         }
       });
-      areaHTML += `<path class="color-${groupIndex + 1}" part="area" d="${areas}Z" fill="var(${this.color(groupIndex)})"}></path>`;
+      areaHTML += `<path class="color-${groupIndex + 1}" part="area" d="${areas}Z" fill="var(${this.color(groupIndex)})"}>
+        <animateTransform attributeName="transform" type="scale" additive="sum" values="1 1.25;1 1" origin="100 200" ${this.cubicBezier}/>
+      </path>`;
     });
     return areaHTML;
   }
