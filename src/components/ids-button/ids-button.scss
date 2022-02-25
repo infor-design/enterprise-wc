@@ -102,6 +102,8 @@ button {
   }
 
   &:not(.formatter-width-percentage) {
+    justify-content: center;
+
     .ids-icon {
       @include absolute();
 
