@@ -333,12 +333,12 @@ export default class IdsDataGrid extends Base {
 
     // Handle the Locale Change
     this.offEvent('languagechange.data-grid-container');
-    this.onEvent('languagechange.data-grid-container', this.closest('ids-container'), async () => {
+    this.onEvent('languagechange.data-grid-container', this.closest('ids-container'), () => {
       this.rerender();
     });
 
     this.offEvent('localechange.data-grid-container');
-    this.onEvent('localechange.data-grid-container', this.closest('ids-container'), async () => {
+    this.onEvent('localechange.data-grid-container', this.closest('ids-container'), () => {
       this.rerender();
     });
   }

@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // display colcole logs
     const show = (type, detail, veto) => {
       const showVeto = typeof veto !== 'undefined' ? `veto: ${veto}` : '';
-      console.log(type, (detail ?? ''), showVeto); // eslint-disable-line
+      console.info(type, (detail ?? ''), showVeto);
     };
 
     // before editor mode

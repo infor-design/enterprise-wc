@@ -39,7 +39,7 @@ Now when the user types into the field, the only input that will be accepted are
 ```js
 input.value = 'x1x2x3x4x5x6x7x8x9x0x';
 
-console.log(input.value);
+console.info(input.value);
 // returns '(123) 456-7890
 ```
 
