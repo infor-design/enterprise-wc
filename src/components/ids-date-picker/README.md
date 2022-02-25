@@ -96,3 +96,15 @@ The Date Picker is a complex control to code for accessibility.
 - Add instructional information like "Use down arrow to select" to the input as an audible label
 - Each calendar item should have an audible label to announce the day of week while arrowing through days
 - For comparison, see a similar <a href="http://oaa-accessibility.org/example/15/" target="_blank">example</a>
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+- This is a new component for 4.x
+
+**4.x to 5.x**
+- Instead of `close` and show now use `popup.visible= false`
+- `disable/readonly/tabbable` are now attributes not methods
+- If using events events are now plain JS events for example: change
+- Markup has changed to a custom element `<ids-date-picker></ids-date-picker`
+- Can now be imported as a single JS file and used with encapsulated styles
