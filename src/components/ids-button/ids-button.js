@@ -81,7 +81,7 @@ export default class IdsButton extends Base {
    * @returns {Array} The attributes in an array
    */
   static get attributes() {
-    return [...super.attributes, ...BUTTON_ATTRIBUTES, attributes.WIDTH];
+    return [...super.attributes, ...BUTTON_ATTRIBUTES];
   }
 
   /**
