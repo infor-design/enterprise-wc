@@ -49,10 +49,11 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     const canRadio = ((!isRadioGroup) || (!!(isRadioGroup && this.querySelector('ids-radio'))));
 
     if (this.labelEl && typeof this.validate === 'string' && canRadio) {
-      const isCheckbox = this.input?.getAttribute('type') === 'checkbox';
-      const defaultEvents = (isCheckbox || isRadioGroup) ? 'change.validationmixin' : 'blur.validationmixin';
+      // const isCheckbox = this.input?.getAttribute('type') === 'checkbox';
+      // const defaultEvents = (isCheckbox || isRadioGroup) ? 'change.validationmixin' : 'blur.validationmixin';
+      // const defaultEvents = 'change.validationmixin';
       const events = (this.validationEvents && typeof this.validationEvents === 'string')
-        ? this.validationEvents : defaultEvents;
+        ? this.validationEvents : 'change.validationmixin blur.validationmixin';
       this.validationEventsList = [...new Set(events.split(' '))];
       const getRule = (id) => ({ id, rule: this.rules[id] });
       let isRulesAdded = false;

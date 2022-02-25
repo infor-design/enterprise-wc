@@ -731,7 +731,8 @@ export default class IdsInput extends Base {
    * @param {string} val the value property
    */
   set value(val) {
-    let v = val || '';
+    let v = typeof val === 'string' && val.length ? val : '';
+    const currentValue = this.getAttribute(attributes.VALUE) || '';
 
     // If a mask is enabled, use the conformed value.
     // If no masking occurs, simply use the provided value.
@@ -739,10 +740,13 @@ export default class IdsInput extends Base {
       v = this.processMaskFromProperty(val) || v;
     }
 
-    this.setAttribute(attributes.VALUE, v);
     if (this.input && this.input?.value !== v) {
       this.input.value = v;
-      this.input.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    if (currentValue !== v) {
+      this.setAttribute(attributes.VALUE, v);
+      this.input?.dispatchEvent(new Event('change', { bubbles: true }));
     }
   }
 

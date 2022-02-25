@@ -305,6 +305,11 @@ export const attributes = {
 // Standard HTMLElement attribute names
 // Please keep constants alphabetized
 export const htmlAttributes = {
+  ARIA_LABEL: 'aria-label',
+  ARIA_VALUEMAX: 'aria-valuemax',
+  ARIA_VALUEMIN: 'aria-valuemin',
+  ARIA_VALUENOW: 'aria-valuenow',
+  ROLE: 'role',
   TABINDEX: 'tabIndex'
 };
 

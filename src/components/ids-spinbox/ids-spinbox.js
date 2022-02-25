@@ -1,5 +1,5 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import { attributes } from '../../core/ids-attributes';
+import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import Base from './ids-spinbox-base';
@@ -118,14 +118,20 @@ export default class IdsSpinbox extends Base {
   connectedCallback() {
     super.connectedCallback();
 
-    // Set Spinbox attributes
-    this.setAttribute('role', 'spinbutton');
-    this.setAttribute('aria-valuenow', this.value);
+    // Set Spinbox ARIA Attributes
+    this.setAttribute(htmlAttributes.ROLE, 'spinbutton');
+
+    // NOTE: aXe requires `aria-label` on all fields with other aria attributes
+    // like `aria-valuenow` that cause it to be interpreted as an "aria input field"
+    // See https://dequeuniversity.com/rules/axe/4.3/aria-input-field-name?application=axe-puppeteer
+    this.setAttribute(htmlAttributes.ARIA_VALUENOW, this.value);
+    this.setAttribute(htmlAttributes.ARIA_LABEL, this.label);
+
     if (stringToBool(this.getAttribute(attributes.MAX))) {
-      this.setAttribute('aria-valuemax', this.max);
+      this.setAttribute(htmlAttributes.ARIA_VALUEMAX, this.max);
     }
     if (stringToBool(this.getAttribute(attributes.MIN))) {
-      this.setAttribute('aria-valuemin', this.min);
+      this.setAttribute(htmlAttributes.ARIA_VALUEMIN, this.min);
     }
 
     // Add slotted elements BEFORE size/tab adjustments
@@ -217,43 +223,68 @@ export default class IdsSpinbox extends Base {
   }
 
   /**
-   * @param {number | string} value maximum value a spinbox can
-   * be set to
+   * Sets the contents of the label and updates relevant ARIA attributes
+   * @param {string} value the new label contents
    */
-  set max(value) {
-    if (parseInt(this.getAttribute(attributes.MAX)) !== parseInt(value)) {
-      this.setAttribute(attributes.MAX, value);
+  set label(value) {
+    super.label = value;
+    const newValue = super.label;
 
-      if (stringToBool(value)) {
-        this.setAttribute('aria-valuemax', value);
+    if (newValue) {
+      this.setAttribute(htmlAttributes.ARIA_LABEL, `${newValue}`);
+    } else {
+      this.removeAttribute(htmlAttributes.ARIA_LABEL);
+    }
+  }
+
+  /**
+   * @returns {string} the text contents of the label
+   */
+  get label() {
+    return super.label;
+  }
+
+  /**
+   * @param {number|null} newValue maximum value of the spinbox
+   */
+  set max(newValue) {
+    const currentValue = this.getAttribute(attributes.MAX);
+    if (currentValue !== newValue) {
+      const numberValue = parseInt(newValue);
+      if (Number.isNaN(numberValue)) {
+        this.removeAttribute(attributes.MAX);
+        this.removeAttribute(htmlAttributes.ARIA_VALUEMAX);
       } else {
-        this.removeAttribute('aria-valuemax');
+        this.setAttribute(attributes.MAX, `${numberValue}`);
+        this.setAttribute(htmlAttributes.ARIA_VALUEMAX, `${numberValue}`);
       }
-
+      this.#configureMask();
       this.#updateDisabledButtonStates();
     }
   }
 
   /**
-   * @returns {number | string} the current max value the spinbox' input
-   * can be set to
+   * @returns {number|null} the current max value of the spinbox' input
    */
   get max() {
-    return this.getAttribute(attributes.MAX);
+    return this.hasAttribute(attributes.MAX)
+      ? parseInt(this.getAttribute(attributes.MAX))
+      : null;
   }
 
   /**
-   * @param {number | string} value minimum value a spinbox can
-   * be set to
+   * @param {number|null} newValue minimum value aof the spinbox
    */
-  set min(value) {
-    if (parseInt(this.getAttribute(attributes.MIN)) !== parseInt(value)) {
-      this.setAttribute(attributes.MIN, value);
-
-      if (stringToBool(value)) {
-        this.setAttribute('aria-valuemax', value);
+  set min(newValue) {
+    const currentValue = this.getAttribute(attributes.MIN);
+    if (currentValue !== newValue) {
+      const numberValue = parseInt(newValue);
+      if (Number.isNaN(numberValue)) {
+        this.removeAttribute(attributes.MIN);
+        this.removeAttribute(htmlAttributes.ARIA_VALUEMIN);
       } else {
-        this.removeAttribute('aria-valuemax');
+        this.setAttribute(attributes.MIN, `${numberValue}`);
+        this.setAttribute(htmlAttributes.ARIA_VALUEMIN, `${numberValue}`);
       }
 
       this.#updateDisabledButtonStates();
@@ -261,11 +292,37 @@ export default class IdsSpinbox extends Base {
   }
 
   /**
-   * @returns {number | string} the current min value the spinbox' input
-   * can be set to
+   * @returns {number|null} the current min value of the spinbox' input
    */
   get min() {
-    return this.getAttribute(attributes.MIN);
+    return this.hasAttribute(attributes.MIN)
+      ? parseInt(this.getAttribute(attributes.MIN))
+      : null;
+  }
+
+  /**
+   * @param {number|null} newValue step value on which the spinbox should count increments/decrements
+   */
+  set step(newValue) {
+    const currentValue = this.getAttribute(attributes.STEP);
+    if (currentValue !== newValue) {
+      let numberValue = parseInt(newValue);
+      if (Number.isNaN(numberValue) || numberValue < 1) {
+        numberValue = 1;
+      }
+
+      this.setAttribute(attributes.STEP, `${numberValue}`);
+      this.#updateDisabledButtonStates();
+    }
+  }
+
+  /**
+   * @returns {number | string} step value on which the spinbox will count increments/decrements
+   */
+  get step() {
+    return this.hasAttribute(attributes.STEP)
+      ? parseInt(this.getAttribute(attributes.STEP))
+      : 1;
   }
 
   /**
@@ -289,37 +346,10 @@ export default class IdsSpinbox extends Base {
    */
   set value(value) {
     if (super.value !== parseInt(value)) {
-      let nextValue = parseInt(value);
-
-      // corrections on value if not in-step
-      const step = parseInt(this.step);
-      const hasValidStep = !Number.isNaN(step);
-      if (hasValidStep && (nextValue % step !== 0)) {
-        nextValue = Math.round(nextValue / step) * step;
-      }
-
-      // corrections on value if not in-range
-      const hasMinValue = !Number.isNaN(parseInt(this.min));
-      const hasMaxValue = !Number.isNaN(parseInt(this.max));
-
-      if (hasMinValue) {
-        nextValue = Math.max(nextValue, parseInt(this.min));
-      }
-
-      if (hasMaxValue) {
-        nextValue = Math.min(nextValue, parseInt(this.max));
-      }
-
-      if ((hasMaxValue && nextValue === parseInt(this.max))
-        || (hasMinValue && nextValue === parseInt(this.min))
-      ) {
-        this.#onStepButtonUnpressed();
-      }
-
-      super.value = nextValue;
+      super.value = this.#setValueWithinLimits(value);
 
       // set properties/updaters
-      this.setAttribute('aria-valuenow', nextValue);
+      this.setAttribute(htmlAttributes.ARIA_VALUENOW, super.value);
       this.#updateDisabledButtonStates();
     }
   }
@@ -329,6 +359,44 @@ export default class IdsSpinbox extends Base {
    */
   get value() {
     return super.value;
+  }
+
+  /**
+   * Takes an incoming value and "corrects" it to match multiples of the step value,
+   * as well as remain within the min/max boundaries, if defined
+   * @param {number | string} value the incoming value
+   * @returns {string} the corrected value, if applicable
+   */
+  #setValueWithinLimits(value) {
+    let nextValue = parseInt(value);
+    if (!Number.isNaN(nextValue)) {
+      // corrections on value if not in-step
+      const step = parseInt(this.step);
+      const hasValidStep = !Number.isNaN(step);
+      if (hasValidStep && (nextValue % step !== 0)) {
+        nextValue = Math.round(nextValue / step) * step;
+      }
+
+      // corrections on value if not in-range
+      const min = this.min;
+      const max = this.max;
+      const hasMinValue = typeof this.min === 'number' && !Number.isNaN(this.min);
+      const hasMaxValue = typeof this.max === 'number' && this.max && !Number.isNaN(this.max);
+      const lessThanMin = hasMinValue && nextValue < min;
+      const greaterThanMax = hasMaxValue && nextValue > max;
+      const isEqualToLimits = (hasMaxValue && nextValue === max) || (hasMinValue && nextValue === min);
+
+      if (lessThanMin) nextValue = Math.max(nextValue, min);
+      if (greaterThanMax) nextValue = Math.min(nextValue, max);
+
+      // Change trigger button states if a limit is met
+      if (isEqualToLimits) this.#onStepButtonUnpressed();
+
+      // IdsInput stores its value as a string
+      nextValue = `${nextValue}`;
+    }
+
+    return nextValue;
   }
 
   /**
@@ -496,10 +564,6 @@ export default class IdsSpinbox extends Base {
       allowDecimal: false,
       allowNegative: true
     };
-    if (this.max) {
-      maskOpts.integerLimit = this.max.toString().length;
-    }
-
     this.mask = 'number';
     this.maskOptions = maskOpts;
   }

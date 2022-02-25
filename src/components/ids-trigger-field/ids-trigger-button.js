@@ -42,10 +42,7 @@ export default class IdsTriggerButton extends Base {
   connectedCallback() {
     super.connectedCallback?.();
     if (this.getAttribute(attributes.INLINE)) {
-      this.showBorder = true;
-    }
-    if (!this.hasAttribute(attributes.TABBABLE)) {
-      this.tabbable = true;
+      this.inline = true;
     }
   }
 
