@@ -18,7 +18,7 @@
     "build:demos:verbose": "npx webpack --config ./webpack.config.dev.js --progress profile",
     "start": "webpack serve --live-reload --open --config ./webpack.config.dev.js",
     "start:watch": "nodemon --watch webpack.config.dev.js --exec \"npx webpack serve --config ./webpack.config.dev.js\"",
-    "lint": "npx eslint src test demos && npx stylelint src/**/**/*.scss --config .stylelintrc.json && npm run mdlint && npx htmlhint 'demos/**/*.html' && npm run typecheck",
+    "lint": "npx eslint src test && npx stylelint src/**/**/*.scss --config .stylelintrc.json && npm run mdlint && npx htmlhint 'src/**/*.html' && npm run typecheck",
     "mdlint": "npx remark . -f",
     "publish:dry-run": "npm run build:dist:prod && cp -f package-dist.json build/dist/production/package.json && cp -f README.md build/dist/production && cp -f LICENSE build/dist/production && cd build/dist/production && npm publish --dry-run",
     "publish:npm": "npm run build:dist:prod && cp -f package-dist.json build/dist/production/package.json && cp -f README.md build/dist/production && cp -f LICENSE build/dist/production && cd build/dist/production && npm publish",

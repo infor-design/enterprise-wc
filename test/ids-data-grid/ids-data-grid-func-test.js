@@ -5,7 +5,7 @@ import '../helpers/resize-observer-mock';
 import IdsDataGrid from '../../src/components/ids-data-grid/ids-data-grid';
 import IdsDataGridFormatters from '../../src/components/ids-data-grid/ids-data-grid-formatters';
 import IdsContainer from '../../src/components/ids-container/ids-container';
-import dataset from '../../demos/data/books.json';
+import dataset from '../../src/assets/data/books.json';
 import processAnimFrame from '../helpers/process-anim-frame';
 
 import createFromTemplate from '../helpers/create-from-template';

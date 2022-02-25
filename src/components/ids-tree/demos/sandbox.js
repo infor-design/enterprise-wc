@@ -1,5 +1,5 @@
 // Supporting components
-import '../ids-radio/ids-radio.js';
+import '../../ids-radio/ids-radio';
 
 // Get some sample data
 const getData = async function getData(callback, url = '/data/tree-basic.json') {

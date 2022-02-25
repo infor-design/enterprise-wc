@@ -1,10 +1,8 @@
-/* global $ */
-import IdsPopup from '../../src/components/ids-popup/ids-popup';
-
 // Supporting Components
-import IdsButton from '../../src/components/ids-button/ids-button';
+import IdsPopup from '../ids-popup';
+import IdsButton from '../../ids-button/ids-button';
 
-import './example.scss';
+// import './example.scss';
 
 document.addEventListener('DOMContentLoaded', () => {
   const triggerId = '#popup-trigger-btn';

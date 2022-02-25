@@ -2,12 +2,12 @@
 // When using the mixin on a real component, the `rl` property exists on the component instance.
 
 // Supporting Components
-import '../ids-popup/ids-popup.js';
-import '../ids-text/ids-text.js';
-import '../ids-button/ids-button.js';
+import IdsPopup from '../../ids-popup/ids-popup';
+import IdsText from '../../ids-text/ids-text';
+import IdsButton from '../../ids-button/ids-button';
 
 // Styles
-import './test-flying-popup.scss';
+// import './test-flying-popup.scss';
 
 // Setup functionality on page load
 document.addEventListener('DOMContentLoaded', () => {

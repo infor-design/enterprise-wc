@@ -1,5 +1,5 @@
 // Supporting components
-import '../ids-button/ids-button.js';
+import IdsButton from '../../ids-button/ids-button';
 
 const appendTestItems = () => {
   const section = document.querySelector('ids-layout-grid[cols="4"]');

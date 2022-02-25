@@ -1,3 +1,4 @@
+// Supporting components
 import IdsScrollView from '../ids-scroll-view';
 
 import camera1 from '../../../assets/images/camera-1.png';

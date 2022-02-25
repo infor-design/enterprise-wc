@@ -1,6 +1,6 @@
-import IdsPopup from '../../src/components/ids-popup/ids-popup';
-import IdsButton from '../../src/components/ids-button/ids-button';
-import IdsInput from '../../src/components/ids-input/ids-input';
+import IdsPopup from '../ids-popup';
+import IdsButton from '../../ids-button/ids-button';
+import IdsInput from '../../ids-input/ids-input';
 
 import './test-sandbox.scss';
 

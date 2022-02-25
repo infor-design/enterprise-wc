@@ -1,6 +1,6 @@
 // IdsSplitter Sandbox
-import '../ids-radio/ids-radio.js';
-import './sandbox.scss';
+import IdsRadio from '../../ids-radio/ids-radio';
+// import './sandbox.scss';
 
 document.addEventListener('DOMContentLoaded', async () => {
   // Disable / Enable

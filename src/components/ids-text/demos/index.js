@@ -1,2 +1,2 @@
 // Supporting components
-import IdsText from "../ids-text";
+import IdsText from '../ids-text';

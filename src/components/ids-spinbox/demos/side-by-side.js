@@ -1,6 +1,6 @@
 /* global $ */
 
-import IdsSpinbox from '../../src/components/ids-spinbox/ids-spinbox';
+import IdsSpinbox from '../ids-spinbox';
 
 // Initialize the 4.x
 $('body').initialize();

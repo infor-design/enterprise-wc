@@ -8,7 +8,7 @@ import IdsLookup from '../../src/components/ids-lookup/ids-lookup';
 import ResizeObserver from '../helpers/resize-observer-mock';
 import createFromTemplate from '../helpers/create-from-template';
 import waitFor from '../helpers/wait-for';
-import dataset from '../../demos/data/books.json';
+import dataset from '../../src/assets/data/books.json';
 
 describe('IdsLookup Component', () => {
   let lookup;

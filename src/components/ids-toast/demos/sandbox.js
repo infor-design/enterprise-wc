@@ -1,6 +1,6 @@
 // Supporting components
-import '../ids-checkbox/ids-checkbox.js';
-import '../ids-radio/ids-radio.js';
+import IdsCheckbox from '../../ids-checkbox/ids-checkbox';
+import IdsRadio from '../../ids-radio/ids-radio';
 
 document.addEventListener('DOMContentLoaded', () => {
   const idsContainer = document.querySelector('ids-container');
