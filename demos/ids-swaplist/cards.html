@@ -5,7 +5,26 @@
 
 <ids-layout-grid cols="2" gap="xl">
   <ids-layout-grid-cell col-span="1">
-
+    <ids-swappable id="swappable-1">
+      <ids-swappable-item>
+        <ids-card>
+          <div slot="card-header">
+            <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Card Title One</ids-text>
+          </div>
+          <div slot="card-content">
+          </div>
+        </ids-card>
+      </ids-swappable-item>
+      <ids-swappable-item>
+        <ids-card>
+          <div slot="card-header">
+            <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Card Title Two</ids-text>
+          </div>
+          <div slot="card-content">
+          </div>
+        </ids-card>
+      </ids-swappable-item>
+    </ids-swappable>
   </ids-layout-grid-cell>
 </ids-layout-grid>
 {{> ../layouts/footer.html }}
