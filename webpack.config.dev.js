@@ -2,7 +2,7 @@ const path = require('path');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const demoEntry = require('./scripts/webpack-dev-entery');
+const demoEntry = require('./scripts/webpack-dev-entry');
 const WebpackHtmlExamples = require('./scripts/webpack-html-templates');
 
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
@@ -44,7 +44,7 @@ module.exports = {
       {
         test: /\.(png|jpe?g|gif|svg|json|css)$/i,
         exclude: [/node_modules/],
-        type: "asset/resource",
+        type: 'asset/resource',
       },
       {
         test: /\.js$/,
