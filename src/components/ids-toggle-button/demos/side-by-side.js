@@ -1,4 +1,3 @@
-/* global $ */
 import IdsToggleButton from '../ids-toggle-button';
 
 document.addEventListener('DOMContentLoaded', () => {

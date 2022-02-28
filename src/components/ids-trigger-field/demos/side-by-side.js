@@ -1,4 +1,3 @@
-/* global $ */
 import IdsTriggerField from '../ids-trigger-field';
 
 // Initialize the 4.x

@@ -1,5 +1,3 @@
-/* global $ */
-
 import IdsCard from '../ids-card';
 
 // Initialize the 4.x

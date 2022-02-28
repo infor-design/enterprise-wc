@@ -1,4 +1,3 @@
-/* global $ */
 import IdsToast from '../ids-toast';
 
 // Initialize Web Component

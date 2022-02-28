@@ -1,5 +1,3 @@
-/* global $ */
-
 import IdsListView from '../ids-list-view';
 import IdsCard from '../../ids-card/ids-card';
 // import './side-by-side.scss';
