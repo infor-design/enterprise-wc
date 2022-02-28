@@ -3,9 +3,8 @@ const sass = require('sass');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const prodEntry = require('./scripts/webpack-prod-entery');
+const prodEntry = require('./scripts/webpack-prod-entry');
 
-console.log(prodEntry())
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
 process.env.NODE_ENV = isProduction ? 'production' : 'development';
 
