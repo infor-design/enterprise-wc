@@ -4,8 +4,6 @@ import { injectTemplate, stringToBool } from '../../utils/ids-string-utils/ids-s
 
 import IdsDataSource from '../../core/ids-data-source';
 import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
-import IdsSwappable from '../ids-swappable/ids-swappable';
-import IdsSwappableItem from '../ids-swappable/ids-swappable-item';
 import Base from './ids-list-view-base';
 
 import styles from './ids-list-view.scss';
@@ -190,18 +188,17 @@ export default class IdsListView extends Base {
 
   listItemTemplateFunc() {
     const func = (item, index) => `
-      ${this.sortable ? `<ids-swappable-item>` : '' }
+      ${this.sortable ? `<ids-draggable axis="y">` : '' }
         <div
           part="list-item"
           role="listitem"
           tabindex="-1"
           index="${index}"
-          draggable="true"
         >
           ${this.sortable ? `<span></span>` : ``}
           ${this.itemTemplate(item)}
         </div>
-      ${this.sortable ? `</ids-swappable-item>` : '' }
+      ${this.sortable ? `</ids-draggable>` : '' }
     `;
 
     return func;
@@ -215,9 +212,7 @@ export default class IdsListView extends Base {
     return `
       <div class="ids-list-view">
         <div class="ids-list-view-body" role="list">
-          ${this.sortable ? `<ids-swappable>` : ``}
-            ${this.data.length > 0 ? this.data?.map(this.listItemTemplateFunc()).join('') : ''}
-          ${this.sortable ? `</ids-swappable>` : '' }
+          ${this.data.length > 0 ? this.data?.map(this.listItemTemplateFunc()).join('') : ''}
         </div>
       </div>
     `;
