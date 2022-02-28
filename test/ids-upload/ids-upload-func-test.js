@@ -108,7 +108,7 @@ describe('IdsUpload Component', () => {
     expect(upload.textInput.getAttribute('disabled')).toEqual('true');
     expect(upload.textInput.getAttribute('text-ellipsis')).toEqual(null);
     expect(upload.textInput.getAttribute('label')).toEqual('test');
-    expect(upload.textInput.getAttribute('readonly')).toEqual(null);
+    expect(upload.textInput.getAttribute('readonly')).toBeTruthy();
     expect(upload.textInput.getAttribute('size')).toEqual('sm');
     expect(upload.textInput.getAttribute('validate')).toEqual('required');
     expect(upload.textInput.value).toEqual('test-value');
@@ -138,24 +138,24 @@ describe('IdsUpload Component', () => {
     expect(upload.textInput.readonly).toBe(true);
     expect(upload.textInput.disabled).toBe(false);
     upload.disabled = true;
-    expect(upload.getAttribute('disabled')).toEqual('true');
-    expect(upload.textInput.readonly).toBe(false);
+    expect(upload.getAttribute('disabled')).toBeTruthy();
+    expect(upload.textInput.readonly).toBe(true);
     expect(upload.textInput.disabled).toBe(true);
     upload.disabled = false;
     expect(upload.getAttribute('disabled')).toEqual(null);
-    expect(upload.textInput.readonly).toBe(true);
+    expect(upload.textInput.readonly).toBe(false);
     expect(upload.textInput.disabled).toBe(false);
   });
 
   it('renders field as readonly', () => {
     expect(upload.getAttribute('readonly')).toEqual(null);
-    expect(upload.textInput.bgTransparent).toBe('true');
+    expect(upload.textInput.bgTransparent).toBeTruthy();
     upload.readonly = true;
-    expect(upload.getAttribute('readonly')).toEqual('true');
+    expect(upload.getAttribute('readonly')).toBeTruthy();
     expect(upload.textInput.bgTransparent).toBe(null);
     upload.readonly = false;
     expect(upload.getAttribute('readonly')).toEqual(null);
-    expect(upload.textInput.bgTransparent).toBe('true');
+    expect(upload.textInput.bgTransparent).toBeTruthy();
   });
 
   it('renders as limit types accept', () => {
@@ -183,20 +183,20 @@ describe('IdsUpload Component', () => {
   it('renders as no-text-ellipsis', () => {
     expect(upload.getAttribute('no-text-ellipsis')).toEqual(null);
     expect(upload.noTextEllipsis).toBe(null);
-    expect(upload.textInput.textEllipsis).toBe('true');
+    expect(upload.textInput.textEllipsis).toBeTruthy();
     upload.noTextEllipsis = true;
-    expect(upload.getAttribute('no-text-ellipsis')).toEqual('true');
-    expect(upload.noTextEllipsis).toBe('true');
+    expect(upload.getAttribute('no-text-ellipsis')).toBeTruthy();
+    expect(upload.noTextEllipsis).toBeTruthy();
     expect(upload.textInput.textEllipsis).toBe(null);
     upload.noTextEllipsis = false;
     expect(upload.getAttribute('no-text-ellipsis')).toEqual(null);
     expect(upload.noTextEllipsis).toBe(null);
-    expect(upload.textInput.textEllipsis).toBe('true');
+    expect(upload.textInput.textEllipsis).toBeTruthy();
   });
 
-  it('should renders validate', () => {
+  it('should render validate', () => {
     expect(upload.getAttribute('validate')).toEqual(null);
-    expect(upload.textInput.validate).toBe('null');
+    expect(upload.textInput.validate).toBe(null);
     upload.validate = 'required';
     expect(upload.getAttribute('validate')).toEqual('required');
     expect(upload.textInput.validate).toBe('required');
@@ -205,7 +205,7 @@ describe('IdsUpload Component', () => {
     expect(upload.textInput.validate).toBe(null);
   });
 
-  it('should renders validation-events', () => {
+  it('should render validation-events', () => {
     expect(upload.getAttribute('validation-events')).toEqual(null);
     expect(upload.textInput.validationEvents).toBe('blur change');
     upload.validationEvents = 'blur';
@@ -216,7 +216,7 @@ describe('IdsUpload Component', () => {
     expect(upload.textInput.validationEvents).toBe('blur change');
   });
 
-  it('should renders value', () => {
+  it('should render value', () => {
     expect(upload.getAttribute('value')).toEqual(null);
     expect(upload.textInput.value).toBe('');
     upload.value = 'test';
@@ -227,7 +227,7 @@ describe('IdsUpload Component', () => {
     expect(upload.textInput.value).toBe('');
   });
 
-  it('should renders label', () => {
+  it('should render label', () => {
     expect(upload.getAttribute('label')).toEqual(null);
     expect(upload.textInput.label).toBe('');
     upload.label = 'test';
@@ -238,7 +238,7 @@ describe('IdsUpload Component', () => {
     expect(upload.textInput.label).toBe('');
   });
 
-  it('should renders label filetype', () => {
+  it('should render label filetype', () => {
     const labelDefault = ', Press Enter to Browse for files';
     expect(upload.getAttribute('label-filetype')).toEqual(null);
     let label = upload.shadowRoot.querySelector('.label-filetype');
@@ -253,7 +253,7 @@ describe('IdsUpload Component', () => {
     expect(label.textContent.trim()).toBe(labelDefault);
   });
 
-  it('should renders label trigger', () => {
+  it('should render label trigger', () => {
     const labelDefault = 'trigger button for fileupload';
     expect(upload.getAttribute('trigger-label')).toEqual(null);
     let label = upload.shadowRoot.querySelector('.trigger-label');
@@ -282,7 +282,7 @@ describe('IdsUpload Component', () => {
     expect(upload.textInput.dirtyTracker).toEqual(null);
   });
 
-  it('should rendr upload sizes', () => {
+  it('should render upload sizes', () => {
     const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
     const checkSize = (size) => {
       upload.size = size;

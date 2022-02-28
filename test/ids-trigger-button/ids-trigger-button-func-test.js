@@ -30,10 +30,6 @@ describe('IdsTriggerButton Component', () => {
     expect(triggerButton.outerHTML).toMatchSnapshot();
   });
 
-  it('defaults tabbable to true', () => {
-    expect(triggerButton.tabbable).toEqual(true);
-  });
-
   it('supports readonly', () => {
     triggerButton.readonly = true;
     expect(triggerButton.readonly).toEqual(true);

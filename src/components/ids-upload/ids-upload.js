@@ -36,6 +36,7 @@ export default class IdsUpload extends Base {
    */
   static get attributes() {
     return [
+      ...super.attributes,
       attributes.ACCEPT,
       attributes.DIRTY_TRACKER,
       attributes.DISABLED,
@@ -49,9 +50,7 @@ export default class IdsUpload extends Base {
       attributes.TRIGGER_LABEL,
       attributes.VALIDATE,
       attributes.VALIDATION_EVENTS,
-      attributes.VALUE,
-      attributes.MODE,
-      attributes.VERSION
+      attributes.VALUE
     ];
   }
 
@@ -99,7 +98,8 @@ export default class IdsUpload extends Base {
         </label>
         <input id="${ID}" type="file" class="ids-upload-filetype" aria-hidden="true" tabindex="-1"${accept}${multiple}${value} />
         <ids-trigger-field
-          ${readonlyBtn}${clearableForced}${bgTransparent}${dirtyTracker}${disabled}${label}${placeholder}${size}${validate}${validationEvents}${textEllipsis}${value}
+          readonly
+          ${clearableForced}${bgTransparent}${dirtyTracker}${disabled}${label}${placeholder}${size}${validate}${validationEvents}${textEllipsis}${value}
           css-class="ids-upload"
           part="input"
         >
@@ -360,14 +360,14 @@ export default class IdsUpload extends Base {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
-      this.textInput.readonly = false;
       this.textInput.disabled = true;
       this.trigger.disabled = true;
     } else {
       this.removeAttribute(attributes.DISABLED);
-      this.textInput.readonly = true;
       this.textInput.disabled = false;
       this.trigger.disabled = false;
+
+      this.textInput.readonly = this.readonly;
     }
   }
 
@@ -462,17 +462,22 @@ export default class IdsUpload extends Base {
    * @param {boolean|string} value If true will set `readonly` attribute
    */
   set readonly(value) {
+    // NOTE: IdsTriggerField is ALWAYS `readonly` when used in IdsUpload
     const val = stringToBool(value);
+    if (this.textInput && !this.textInput?.readonly) {
+      this.textInput.readonly = true;
+    }
+
     if (val) {
       this.setAttribute(attributes.READONLY, val.toString());
+      this.container.classList.add(attributes.READONLY);
       this.textInput.bgTransparent = false;
-      this.trigger.container.disabled = false;
-      this.trigger.container.classList.add('readonly');
+      this.trigger.readonly = true;
     } else {
       this.removeAttribute(attributes.READONLY);
+      this.container.classList.remove(attributes.READONLY);
       this.textInput.bgTransparent = true;
-      this.trigger.container.disabled = false;
-      this.trigger.container.classList.remove('readonly');
+      this.trigger.readonly = false;
     }
   }
 

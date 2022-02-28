@@ -355,7 +355,9 @@ $input-compact-height: $input-field-height-xs;
   }
 
   &.bg-transparent {
-    .field-container {
+    .field-container,
+    &.readonly .field-container,
+    &.disabled .field-container {
       @include bg-transparent();
     }
 

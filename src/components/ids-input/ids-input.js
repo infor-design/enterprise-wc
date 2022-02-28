@@ -563,9 +563,11 @@ export default class IdsInput extends Base {
     const className = 'bg-transparent';
     if (val) {
       this.setAttribute(attributes.BG_TRANSPARENT, val.toString());
+      this.container.classList.add(className);
       this.input?.classList.add(className);
     } else {
       this.removeAttribute(attributes.BG_TRANSPARENT);
+      this.container.classList.remove(className);
       this.input?.classList.remove(className);
     }
   }
