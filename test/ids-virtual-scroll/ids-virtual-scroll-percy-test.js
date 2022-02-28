@@ -6,6 +6,6 @@ describe('Ids Virtual Scroll Percy Tests', () => {
   it('should not have visual regressions (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('.ids-data-grid-row');
-    await percySnapshot(page, 'ids-virtual-scroll');
+    await percySnapshot(page, 'ids-virtual-scroll', { widths: [1280] });
   });
 });
