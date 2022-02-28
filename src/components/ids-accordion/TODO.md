@@ -2,7 +2,7 @@
 
 ## Major
 
-- [ ] Add an allowOnePage setting so only one can be open at once. [see](https://github.com/infor-design/enterprise/blob/main/src/components/accordion/accordion.js#L31)
+- [x] Add an allowOnePage setting so only one can be open at once. [see](https://github.com/infor-design/enterprise/blob/main/src/components/accordion/accordion.js#L31)
 - [ ] Add a way to expand/collapse headers programmatically as setting `$('ids-accordion-header').expanded` does not seem to work.
 - [ ] Add a setting to disable accordion-header similar to the [old version](https://main-enterprise.demo.design.infor.com/components/accordion/example-disabled.html)
 - [ ] Add an example like the [old version](https://main-enterprise.demo.design.infor.com/components/accordion/test-different-header-types.html) showing how to set an icon in the slot and hide the chevron.

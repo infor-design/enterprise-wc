@@ -276,8 +276,6 @@ export default class IdsPopupMenu extends Base {
 
     if (this.hidden) {
       this.showIfAble();
-    } else {
-      this.hide();
     }
     return true;
   }

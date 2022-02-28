@@ -50,8 +50,9 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Badges (ids-badge)
  - [ ] Bar (ids-bar-chart)
  - [x] Block grid (ids-block-grid)
- - [x] Breadcrumb (ids-bread-crumb
- - [ ] Bubble (ids-bubble-chart
+ - [x] Breadcrumb (ids-bread-crumb)
+ - [ ] Bubble (ids-bubble-chart)
+ - [x] Button (ids-button)
  - [ ] Bullet (ids-bullet-chart) skipping for now
  - [ ] Builder (ids-patterns)
  - [x] Loader (ids-loading-indicator) aka Busy Indicator / Loading Indicator
@@ -63,25 +64,26 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Color Picker (ids-color-picker)
  - [ ] Column (ids-column-chart or ids-bar with a orientation setting)
  - [x] Completion Chart (ids-progress-chart)
- - [ ] Contextual Action Panel (ids-contextual-action-panel or ids-modal
+ - [x] Contextual Action Panel (ids-contextual-action-panel)
  - [x] Datagrid (ids-data-grid)
+ - [x] Data Label (ids-data-label)
  - [x] Datepicker (ids-date-picker)
  - [ ] Donut (ids-donut or combined with ids-pie)
  - [x] Drag (ids-draggable)
  - [ ] Dropdown (ids-drop-down)
- - [ ] Editor (ids-editor)
+ - [x] Editor (ids-editor)
  - [ ] Emptymessage (ids-empty-message)
  - [x] Error Page (ids-page-error)
  - [x] Expandable area (ids-expandable-area)
  - [ ] Fieldset (ids-field-set)
  - [x] Fileupload (ids-file-upload)
  - [x] Fileupload Advanced (ids-file-upload-advanced)
- - [ ] Fontpicker (ids-font-picker)
+ - [x] Fontpicker (added as part of editor)
  - [ ] Form  (ids-form)
  - [x] Grid (ids-layout-grid)
  - [x] Header (ids-header)
  - [x] Hierarchy (ids-hierarchy)
- - [ ] Homepage (ids-homepage)
+ - [x] Homepage (ids-homepage)
  - [x] Hyperlinks (ids-hyperlink)
  - [x] Icons (ids-icon)
  - [x] Images (ids-image)
@@ -143,3 +145,29 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Validation (mixin)
  - [x] Week View (ids-week-view)
  - [x] Wizard (ids-wizard)
+
+## A bit about TODO's in this project
+
+We have a series of gaps in this project to close in terms of functionality. Some things we may not add due to wanting to deprecate some functionality to clean things up but some we do need to add. Each folder in src for the component may have a TODO file listing all outstanding tasks and features. This document is a check list on how to look at making this list and generating some issues for the tasks to be fixed.
+
+For each component...
+
+- [ ] Make sure CHECKLIST.md is checked off
+- [ ] Make sure component is on kitchen sink https://main.wc.design.infor.com/ page and in an appropriate section
+- [ ] Run the each example https://main.wc.design.infor.com/<component-name>
+- [ ] Compare to examples to https://main-enterprise.demo.design.infor.com/components/<component-name> and make sure everything is covered
+- [ ] Check old source and see if any events/methods or settings might be needed
+- [ ] Check new settings and types are in `d.ts` and `.md` while testing
+- [ ] Add any breaking changes to README.md or anything we don't want to bring over (Converting from Previous Versions)
+- [ ] Look in https://github.com/infor-design/enterprise/issues for any unfixed issues and add
+- [ ] Fix only super small bugs
+- [ ] Check for if standalone css or side-by-side examples are needed and add a TODO
+- [ ] Check if RTL is needed
+- [ ] Check if themes all work (skip classic ###) - QA Task?
+- [ ] Compare Styling to old version - QA Task?
+- [ ] Check if keyboard all works - QA Task?
+- [ ] Sort the todos in priority and classify as Major/Minor
+- [ ] Make sure the todo.md is formatted like the ids-about one (with the sections)
+- [ ] Make an issue for one or two todos
+- [ ] Make a parent issue for all todos  https://github.com/infor-design/enterprise-wc/issues/499 (estimate as the sum of all sub issues)
+- [ ] Update the Change log to be more generic and point to the README.md

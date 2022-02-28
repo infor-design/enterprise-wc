@@ -59,16 +59,6 @@
     }
   }
 
-  [icon='info-field'],
-  [icon='info-field-solid'] {
-    color: var(--ids-color-status-base);
-    color: var(--ids-color-palette-azure-60);
-
-    &.disabled {
-      color: var(--ids-color-palette-azure-30);
-    }
-  }
-
   [icon='empty-circle'],
   [icon='half-empty-circle'] {
     color: var(--ids-color-palette-slate-80);

@@ -60,6 +60,14 @@ Similar to the Modal, any content not marked for a slot will be present inside t
 </ids-contextual-action-panel>
 ```
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+- Did not exist in 3.X, but any complex modals should be changed to use this.
+
+**4.x to 5.x**
 
 - 5.x: CAP is now a web component, and is functionally similar to [IdsModal](../ids-modal/README.md), using the same API and events.  The construction of the Modal is declarative and done mostly through HTML markup.
+- Markup has changed to a custom element `<ids-contextual-action-panel></ids-contextual-action-panel>`
+- Component is now fully defined in HTML Markup and using slots
+- To hide and show the CAP, use the `visible` property `$('ids-contextual-action-panel').visible = false`

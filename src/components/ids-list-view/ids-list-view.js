@@ -298,7 +298,7 @@ export default class IdsListView extends Base {
     if (this.virtualScroll && this.data?.length > 0) {
       requestAnimationFrame(() => {
         // reattach event listeners and refocus any focused list item
-        this.onEvent('ids-virtual-scroll-afterrender', this.virtualScrollContainer, () => {
+        this.onEvent('aftervirtualscroll', this.virtualScrollContainer, () => {
           this.attachEventListeners();
           if (this.#focusedLiIndex >= 0) this.#refocus();
         });
@@ -320,7 +320,7 @@ export default class IdsListView extends Base {
         if (firstItem) firstItem.setAttribute('tabindex', '0');
 
         // reattach event listeners and refocus any focused list item
-        this.onEvent('ids-virtual-scroll-afterrender', this.virtualScrollContainer, () => {
+        this.onEvent('aftervirtualscroll', this.virtualScrollContainer, () => {
           this.attachEventListeners();
           if (this.#focusedLiIndex >= 0) this.#refocus();
           if (this.selectable) this.#reselect();

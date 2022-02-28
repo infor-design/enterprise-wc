@@ -1015,7 +1015,7 @@ export default class IdsPopup extends Base {
             this.isFlipped = false;
           }
 
-          this.container.classList.remove('visible');
+          this.container.classList.remove('visible', 'open');
           resolve();
         }
       }));

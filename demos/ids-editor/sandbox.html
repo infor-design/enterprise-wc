@@ -1,0 +1,289 @@
+{{> ../layouts/head.html }}
+
+<ids-layout-grid auto="true">
+  <ids-text font-size="12" type="h1">Editor Sandbox</ids-text>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell col-span="9">
+    <ids-editor id="editor-basic" label="Basic">
+      <p>Embrace <a href="http://en.wikipedia.org/wiki/e-commerce" class="hyperlink">e-commerce action-items</a>,
+        reintermediate, ecologies paradigms wireless share life-hacks create innovative harness. Evolve solutions
+        rich-clientAPIs synergies harness relationships virtual vertical facilitate end-to-end, wireless, evolve
+        synergistic synergies.</p>
+      <p>Cross-platform, evolve, ROI scale cultivate eyeballs addelivery, e-services content cross-platform leverage
+        extensible viral incentivize integrateAJAX-enabled sticky evolve magnetic cultivate leverage; cutting-edge.
+        Innovate, end-to-end podcasting, whiteboard streamline e-business social; compelling, "cross-media exploit
+        infomediaries innovative integrate integrateAJAX-enabled." Killer interactive reinvent, cultivate widgets leverage
+        morph.</p>
+    </ids-editor>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell col-span="9">
+    <ids-editor id="editor-readonly" label="Readonly" readonly>
+      <p>Embrace <a href="http://en.wikipedia.org/wiki/e-commerce" class="hyperlink">e-commerce action-items</a>,
+        reintermediate, ecologies paradigms wireless share life-hacks create innovative harness. Evolve solutions
+        rich-clientAPIs synergies harness relationships virtual vertical facilitate end-to-end, wireless, evolve
+        synergistic synergies.</p>
+      <p>Cross-platform, evolve, ROI scale cultivate eyeballs addelivery, e-services content cross-platform leverage
+        extensible viral incentivize integrateAJAX-enabled sticky evolve magnetic cultivate leverage; cutting-edge.
+        Innovate, end-to-end podcasting, whiteboard streamline e-business social; compelling, "cross-media exploit
+        infomediaries innovative integrate integrateAJAX-enabled." Killer interactive reinvent, cultivate widgets leverage
+        morph.</p>
+    </ids-editor>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell col-span="9">
+    <ids-editor id="editor-disabled" label="Disabled" disabled>
+      <p>Embrace <a href="http://en.wikipedia.org/wiki/e-commerce" class="hyperlink">e-commerce action-items</a>,
+        reintermediate, ecologies paradigms wireless share life-hacks create innovative harness. Evolve solutions
+        rich-clientAPIs synergies harness relationships virtual vertical facilitate end-to-end, wireless, evolve
+        synergistic synergies.</p>
+      <p>Cross-platform, evolve, ROI scale cultivate eyeballs addelivery, e-services content cross-platform leverage
+        extensible viral incentivize integrateAJAX-enabled sticky evolve magnetic cultivate leverage; cutting-edge.
+        Innovate, end-to-end podcasting, whiteboard streamline e-business social; compelling, "cross-media exploit
+        infomediaries innovative integrate integrateAJAX-enabled." Killer interactive reinvent, cultivate widgets leverage
+        morph.</p>
+    </ids-editor>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell col-span="9">
+    <ids-editor id="editor-dirty-tracker" label="Dirty Tracking" dirty-tracker>
+      <p>Embrace <a href="http://en.wikipedia.org/wiki/e-commerce" class="hyperlink">e-commerce action-items</a>,
+        reintermediate, ecologies paradigms wireless share life-hacks create innovative harness. Evolve solutions
+        rich-clientAPIs synergies harness relationships virtual vertical facilitate end-to-end, wireless, evolve
+        synergistic synergies.</p>
+      <p>Cross-platform, evolve, ROI scale cultivate eyeballs addelivery, e-services content cross-platform leverage
+        extensible viral incentivize integrateAJAX-enabled sticky evolve magnetic cultivate leverage; cutting-edge.
+        Innovate, end-to-end podcasting, whiteboard streamline e-business social; compelling, "cross-media exploit
+        infomediaries innovative integrate integrateAJAX-enabled." Killer interactive reinvent, cultivate widgets
+        leverage
+        morph.</p>
+    </ids-editor>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell col-span="9">
+    <ids-editor id="editor-validation" label="Validation (required)" validate="required">
+      <p>Test String</p>
+    </ids-editor>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell col-span="9">
+    <ids-editor id="editor-custom-toolbar" label="Custom toolbar">
+      <ids-toolbar slot="toolbar" tabbable="true" type="formatter">
+        <ids-toolbar-section type="buttonset">
+          <ids-menu-button editor-action="formatblock" id="btn-formatblock-custom" role="button" menu="menu-formatblock-custom"
+            tooltip="Choose Font Style" formatter-width="125px" dropdown-icon trigger="click">
+            <span slot="text">Normal Text</span>
+          </ids-menu-button>
+          <ids-popup-menu id="menu-formatblock-custom" target="#btn-formatblock-custom">
+            <ids-menu-group>
+              <ids-menu-item value="p" selected="true">
+                <ids-text>Normal Text</ids-text>
+              </ids-menu-item>
+              <ids-menu-item value="h1">
+                <ids-text font-size="28">Header 1</ids-text>
+              </ids-menu-item>
+              <ids-menu-item value="h2">
+                <ids-text font-size="24">Header 2</ids-text>
+              </ids-menu-item>
+              <ids-menu-item value="h3">
+                <ids-text font-size="20">Header 3</ids-text>
+              </ids-menu-item>
+            </ids-menu-group>
+          </ids-popup-menu>
+
+          <ids-separator vertical></ids-separator>
+
+          <ids-button editor-action="bold" square="true" tooltip="Toggle Bold Text">
+            <span slot="text" class="audible">Bold</span>
+            <ids-icon slot="icon" icon="bold"></ids-icon>
+          </ids-button>
+          <ids-button editor-action="italic" square="true" tooltip="Toggle Italic Text">
+            <span slot="text" class="audible">Italic</span>
+            <ids-icon slot="icon" icon="italic"></ids-icon>
+          </ids-button>
+          <ids-button editor-action="underline" square="true" tooltip="Toggle Underline Text">
+            <span slot="text" class="audible">Underline</span>
+            <ids-icon slot="icon" icon="underline"></ids-icon>
+          </ids-button>
+          <ids-separator vertical></ids-separator>
+          <ids-button editor-action="sourcemode" square="true" tooltip="View Source">
+            <span slot="text" class="audible">View Source</span>
+            <ids-icon slot="icon" icon="html" width="38" viewbox="0 0 54 18"></ids-icon>
+          </ids-button>
+        </ids-toolbar-section>
+      </ids-toolbar>
+      <p>Embrace <a href="http://en.wikipedia.org/wiki/e-commerce" class="hyperlink">e-commerce action-items</a>,
+        reintermediate, ecologies paradigms wireless share life-hacks create innovative harness. Evolve solutions
+        rich-clientAPIs synergies harness relationships virtual vertical facilitate end-to-end, wireless, evolve
+        synergistic synergies.</p>
+      <p>Cross-platform, evolve, ROI scale cultivate eyeballs addelivery, e-services content cross-platform leverage
+        extensible viral incentivize integrateAJAX-enabled sticky evolve magnetic cultivate leverage; cutting-edge.
+        Innovate, end-to-end podcasting, whiteboard streamline e-business social; compelling, "cross-media exploit
+        infomediaries innovative integrate integrateAJAX-enabled." Killer interactive reinvent, cultivate widgets
+        leverage
+        morph.</p>
+    </ids-editor>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell col-span="9">
+    <ids-editor id="editor-modal-elements-value" label="Custom default values in modals (ie. hyperlink modal)">
+      <p>Embrace <a href="http://en.wikipedia.org/wiki/e-commerce" class="hyperlink">e-commerce action-items</a>,
+        reintermediate, ecologies paradigms wireless share life-hacks create innovative harness. Evolve solutions
+        rich-clientAPIs synergies harness relationships virtual vertical facilitate end-to-end, wireless, evolve
+        synergistic synergies.</p>
+      <p>Cross-platform, evolve, ROI scale cultivate eyeballs addelivery, e-services content cross-platform leverage
+        extensible viral incentivize integrateAJAX-enabled sticky evolve magnetic cultivate leverage; cutting-edge.
+        Innovate, end-to-end podcasting, whiteboard streamline e-business social; compelling, "cross-media exploit
+        infomediaries innovative integrate integrateAJAX-enabled." Killer interactive reinvent, cultivate widgets
+        leverage
+        morph.</p>
+    </ids-editor>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell col-span="9">
+    <ids-editor id="editor-placeholder" label="Placeholder" placeholder="Type some comments here...">
+    </ids-editor>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell col-span="9">
+    <ids-editor id="editor-label-hidden" label="Hidden label" label-hidden>
+      <p>Display with (Hidden Label)</p>
+    </ids-editor>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell col-span="9">
+    <ids-editor id="editor-clickable-hyperlink" label="Clickable hyperlink">
+      <p>Embrace <a href="http://en.wikipedia.org/wiki/e-commerce" class="hyperlink" contenteditable="false"
+          target="_blank">e-commerce action-items</a>,
+        reintermediate, ecologies paradigms wireless share life-hacks create innovative harness. Evolve solutions
+        rich-clientAPIs synergies harness relationships virtual vertical facilitate end-to-end, wireless, evolve
+        synergistic synergies.</p>
+      <p>Cross-platform, evolve, ROI scale cultivate eyeballs addelivery, e-services content cross-platform leverage
+        extensible viral incentivize integrateAJAX-enabled sticky evolve magnetic cultivate leverage; cutting-edge.
+        Innovate, end-to-end podcasting, whiteboard streamline e-business social; compelling, "cross-media exploit
+        infomediaries innovative integrate integrateAJAX-enabled." Killer interactive reinvent, cultivate widgets
+        leverage
+        morph.</p>
+    </ids-editor>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell col-span="9">
+    <ids-editor id="editor-source-mode" label="Source mode" view="source">
+      <p>Embrace <a href="http://en.wikipedia.org/wiki/e-commerce" class="hyperlink">e-commerce action-items</a>,
+        reintermediate, ecologies paradigms wireless share life-hacks create innovative harness. Evolve solutions
+        rich-clientAPIs synergies harness relationships virtual vertical facilitate end-to-end, wireless, evolve
+        synergistic synergies.</p>
+      <p>Cross-platform, evolve, ROI scale cultivate eyeballs addelivery, e-services content cross-platform leverage
+        extensible viral incentivize integrateAJAX-enabled sticky evolve magnetic cultivate leverage; cutting-edge.
+        Innovate, end-to-end podcasting, whiteboard streamline e-business social; compelling, "cross-media exploit
+        infomediaries innovative integrate integrateAJAX-enabled." Killer interactive reinvent, cultivate widgets
+        leverage
+        morph.</p>
+    </ids-editor>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell col-span="9">
+    <ids-editor id="editor-source-formatter" label="Use source formatter" view="source" source-formatter>
+      <p>Embrace <a href="http://en.wikipedia.org/wiki/e-commerce" class="hyperlink">e-commerce action-items</a>,
+        reintermediate, ecologies paradigms wireless share life-hacks create innovative harness. Evolve solutions
+        rich-clientAPIs synergies harness relationships virtual vertical facilitate end-to-end, wireless, evolve
+        synergistic synergies.</p>
+      <p>Cross-platform, evolve, ROI scale cultivate eyeballs addelivery, e-services content cross-platform leverage
+        extensible viral incentivize integrateAJAX-enabled sticky evolve magnetic cultivate leverage; cutting-edge.
+        Innovate, end-to-end podcasting, whiteboard streamline e-business social; compelling, "cross-media exploit
+        infomediaries innovative integrate integrateAJAX-enabled." Killer interactive reinvent, cultivate widgets
+        leverage
+        morph.</p>
+    </ids-editor>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid auto="true">
+  <ids-layout-grid-cell>
+    <ids-text font-size="12" type="h2" class="inline">Events</ids-text>
+    <ids-text font-size="14" class="inline">(watch the logs for the events in console)</ids-text><br />
+    <ids-text font-size="14" font-weight="bold" class="inline">&mdash; beforeeditormode:</ids-text>
+    <ids-text font-size="14" class="inline">Fire before change view to editor mode and can prevent by passing boolean value.</ids-text>
+    <br />
+    <ids-radio-group horizontal="true" id="radio-editor-evt-beforeeditormode">
+      <ids-radio value="true" label="True" checked="true"></ids-radio>
+      <ids-radio value="false" label="False"></ids-radio>
+    </ids-radio-group>
+    <ids-text font-size="14" font-weight="bold" class="inline">&mdash; aftereditormode:</ids-text>
+    <ids-text font-size="14" class="inline">Will fire after change view to editor mode.</ids-text><br />
+    <ids-text font-size="14" font-weight="bold" class="inline">&mdash; beforesourcemode:</ids-text>
+    <ids-text font-size="14" class="inline">Fire before change view to source mode and can prevent by passing boolean value.</ids-text>
+    <br />
+    <ids-radio-group horizontal="true" id="radio-editor-evt-beforesourcemode">
+      <ids-radio value="true" label="True" checked="true"></ids-radio>
+      <ids-radio value="false" label="False"></ids-radio>
+    </ids-radio-group>
+    <ids-text font-size="14" font-weight="bold" class="inline">&mdash; aftersourcemode:</ids-text>
+    <ids-text font-size="14" class="inline">Will fire after change view to source mode.</ids-text><br />
+    <ids-text font-size="14" font-weight="bold" class="inline">&mdash; rejectviewchange:</ids-text>
+    <ids-text font-size="14" class="inline">Fires if requested view mode reject.</ids-text><br />
+    <ids-text font-size="14" font-weight="bold" class="inline">&mdash; viewchange:</ids-text>
+    <ids-text font-size="14" class="inline">Will fire after requested view mode changed.</ids-text><br />
+    <ids-text font-size="14" font-weight="bold" class="inline">&mdash; beforepaste:</ids-text>
+    <ids-text font-size="14" class="inline">Fire before paste and can prevent by passing boolean value.
+    </ids-text>
+    <br />
+    <ids-radio-group horizontal="true" id="radio-editor-evt-beforepaste">
+      <ids-radio value="true" label="True" checked="true"></ids-radio>
+      <ids-radio value="false" label="False"></ids-radio>
+    </ids-radio-group>
+    <ids-text font-size="14" font-weight="bold" class="inline">&mdash; rejectpaste:</ids-text>
+    <ids-text font-size="14" class="inline">Fires if paste content reject.</ids-text><br />
+    <ids-text font-size="14" font-weight="bold" class="inline">&mdash; afterpaste:</ids-text>
+    <ids-text font-size="14" class="inline">Will fire after paste.</ids-text><br />
+    <ids-text font-size="14" font-weight="bold" class="inline">&mdash; initialize:</ids-text>
+    <ids-text font-size="14" class="inline">Will fire after initialize.</ids-text><br />
+    <ids-text font-size="14" font-weight="bold" class="inline">&mdash; change:</ids-text>
+    <ids-text font-size="14" class="inline">Will fire after value change.</ids-text><br />
+    <br />
+    <ids-checkbox id="cb-paste-as-plain-text" label="Paste as plain text" checked></ids-checkbox>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell col-span="9">
+    <ids-editor id="editor-events" label="Events">
+      <p>Embrace <a href="http://en.wikipedia.org/wiki/e-commerce" class="hyperlink">e-commerce action-items</a>,
+        reintermediate, ecologies paradigms wireless share life-hacks create innovative harness. Evolve solutions
+        rich-clientAPIs synergies harness relationships virtual vertical facilitate end-to-end, wireless, evolve
+        synergistic synergies.</p>
+      <p>Cross-platform, evolve, ROI scale cultivate eyeballs addelivery, e-services content cross-platform leverage
+        extensible viral incentivize integrateAJAX-enabled sticky evolve magnetic cultivate leverage; cutting-edge.
+        Innovate, end-to-end podcasting, whiteboard streamline e-business social; compelling, "cross-media exploit
+        infomediaries innovative integrate integrateAJAX-enabled." Killer interactive reinvent, cultivate widgets
+        leverage
+        morph.</p>
+    </ids-editor>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+{{> ../layouts/footer.html }}

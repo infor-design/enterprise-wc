@@ -197,16 +197,19 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 - By default, datagrid grows depending on the amount of contents within and will scroll if necessary under the header. It stops growing when it reaches the size of the parent container.
 - `autoFit` property or `auto-fit` attribute can be set manually to make the datagrid size fill and be responsive to the size of the screen, regardless of the amount of contents.
 
-## Converting from Previous Version
+## Converting from Previous Versions (Breaking Changes)
 
+**3.x to 4.x**
+- Counts have all new markup and classes.
+
+**4.x to 5.x**
 - Datagrid has all new markup and a custom element but similarly named options
 - Still uses same columns and data set options. Some column options enhanced and changed.
-- Uses normal native events
+- If using events events are now plain JS events for example: sorted, rendered
 - Some Api Functions have changed
-
-## Proposed Changes
-
-- Remove isList version
+- If using properties/settings these are now attributes or as plain properties for example: data, virtual-scroll
+- Markup has changed to a custom element `<ids-data-grid></ids-data-grid>`
+- Can now be imported as a single JS file and used with encapsulated styles
 
 ## Accessibility Guidelines
 

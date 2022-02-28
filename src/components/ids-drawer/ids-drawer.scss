@@ -80,9 +80,7 @@
   // Type Styles
 
   &.type-action-sheet {
-    @include bg-white();
     @include p-12();
-    @include text-slate-100();
     @include action-sheet-box-shadow();
 
     // temporary
@@ -97,10 +95,6 @@
   }
 
   &.type-app-menu {
-    @include app-menu-off-shadow();
-    @include bg-slate-100();
-    @include text-white();
-
     // temporary
     min-width: 300px;
 
@@ -112,6 +106,44 @@
       @include app-menu-on-shadow();
     }
   }
-}
 
-// Themes
+  // Themes
+  &[mode='light'] {
+    &.type-action-sheet {
+      @include bg-white();
+      @include text-slate-100();
+    }
+
+    &.type-app-menu {
+      @include app-menu-off-shadow();
+      @include bg-slate-100();
+      @include text-white();
+    }
+  }
+
+  &[mode='dark'] {
+    &.type-action-sheet {
+      @include bg-black();
+      @include text-slate-10();
+    }
+
+    &.type-app-menu {
+      @include app-menu-off-shadow();
+      @include bg-black();
+      @include text-slate-10();
+    }
+  }
+
+  &[mode='contrast'] {
+    &.type-action-sheet {
+      @include bg-white();
+      @include text-slate-100();
+    }
+
+    &.type-app-menu {
+      @include app-menu-off-shadow();
+      @include bg-black();
+      @include text-slate-10();
+    }
+  }
+}

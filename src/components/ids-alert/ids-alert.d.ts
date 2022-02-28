@@ -1,6 +1,6 @@
 export default class IdsAlert extends HTMLElement {
   /* Types of alert */
-  icon: 'warning' | 'success' | 'dirty' | 'error' | 'info' | 'pending' | 'new' | 'in-progress' | 'info-field';
+  icon: 'warning' | 'success' | 'dirty' | 'error' | 'info' | 'pending' | 'new' | 'in-progress';
 
   /* Set alert to disabled */
   disabled: boolean | string | null;

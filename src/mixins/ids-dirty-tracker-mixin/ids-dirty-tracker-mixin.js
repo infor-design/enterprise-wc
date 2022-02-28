@@ -25,6 +25,8 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
 
   isCheckbox = false;
 
+  isEditor = false;
+
   isRadioGroup = false;
 
   /**
@@ -33,6 +35,7 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
    */
   handleDirtyTracker() {
     this.isCheckbox = this.input?.getAttribute('type') === 'checkbox';
+    this.isEditor = this.input?.classList.contains('source-textarea');
     this.isRadioGroup = this.input?.classList.contains('ids-radio-group');
 
     if (`${this.dirtyTracker}`.toLowerCase() === 'true') {
@@ -63,6 +66,8 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
       } else if (this.isRadioGroup) {
         const refEl = this.shadowRoot.querySelector('slot');
         this.input?.insertBefore(icon, refEl);
+      } else if (this.isEditor) {
+        this.shadowRoot.querySelector('.editor-content')?.appendChild(icon);
       } else {
         this.input?.parentNode?.insertBefore(icon, this.input);
       }
@@ -129,6 +134,8 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
       r = this.checked;
     } else if (this.isCheckbox) {
       r = `${this.checked}`.toLowerCase() === 'true';
+    } else if (this.isEditor) {
+      r = this.value;
     } else {
       r = el.value;
     }
@@ -165,7 +172,7 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
    */
   dirtyTrackerEvents(option = '') {
     if (this.input) {
-      const eventName = 'change';
+      const eventName = 'change.dirtytrackermixin';
       if (option === 'remove') {
         const handler = this?.handledEvents?.get(eventName);
         if (handler && handler.target === this.input) {
