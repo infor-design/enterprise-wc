@@ -4,6 +4,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const prodEntry = require('./scripts/webpack-prod-entry');
+const prodOutput = require('./scripts/webpack-prod-output');
 
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
 process.env.NODE_ENV = isProduction ? 'production' : 'development';
@@ -11,7 +12,7 @@ process.env.NODE_ENV = isProduction ? 'production' : 'development';
 module.exports = {
   entry: () => prodEntry(),
   output: {
-    filename: (pathData) => (pathData.chunk.name === 'enterprise-wc' ? '[name].js' : '[name]/[name].js'),
+    filename: (pathData) => (pathData.chunk.name === 'enterprise-wc' ? '[name].js' : `${prodOutput(pathData.chunk.name)}/[name].js`),
     chunkFormat: 'module',
     asyncChunks: true,
     path: path.resolve(__dirname, `build/dist/${isProduction ? 'production' : 'development'}`),
