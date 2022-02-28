@@ -90,6 +90,7 @@ describe('IdsSwappable Component', () => {
 
     expect(startingItem.selected).toBe(true);
     expect(startingItem.originalText).toBe('Test Text');
+    expect(idsSwappable.querySelectorAll('[selected]').length).toBe(1);
 
     startingItem.selected = '';
     startingItem.removeAttribute('selected');
@@ -101,6 +102,7 @@ describe('IdsSwappable Component', () => {
 
     expect(startingItem2.selected).toBe(false);
     expect(startingItem2.originalText).toBe(null);
+    expect(idsSwappable.querySelectorAll('[selected]').length).toBe(0);
 
     startingItem2.selected = true;
     startingItem2.originalText = 'Test Text';
@@ -166,7 +168,7 @@ describe('IdsSwappable Component', () => {
     );
 
     startingItem.dispatchEvent(
-      createBubbledEvent('drag', { dragging: true })
+      createBubbledEvent('drag', { selected: true })
     );
 
     idsSwappable.dispatchEvent(
@@ -196,5 +198,18 @@ describe('IdsSwappable Component', () => {
     endingItem.dispatchEvent(
       createBubbledEvent('dragend', {})
     );
+  });
+
+  it('can use keyboard events to navigate items', async () => {
+    idsSwappable = await createElemViaTemplate(HTMLSnippets.SWAPPABLE_COMPONENT);
+    const items = idsSwappable.querySelectorAll('ids-swappable-item');
+    const startingItem = items[0];
+    const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    const event2 = new KeyboardEvent('keydown', { key: 'ArrowUp' });
+    const event3 = new KeyboardEvent('keydown', { key: 'Enter' });
+
+    startingItem.dispatchEvent(event);
+    startingItem.dispatchEvent(event2);
+    startingItem.dispatchEvent(event3);
   });
 });

@@ -221,11 +221,11 @@ export default class IdsSwappableItem extends Base {
       e.preventDefault();
 
       if (e.key === 'ArrowDown') {
-        e.target.nextElementSibling.focus();
+        e.target.nextElementSibling?.focus();
       }
 
       if (e.key === 'ArrowUp') {
-        e.target.previousElementSibling.focus();
+        e.target.previousElementSibling?.focus();
       }
 
       if (e.key === 'Enter') {
