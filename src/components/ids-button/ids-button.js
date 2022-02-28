@@ -199,12 +199,6 @@ export default class IdsButton extends Base {
     }, {
       passive: true
     });
-
-    // Respond to parent changing language
-    this.offEvent('languagechange.button');
-    this.onEvent('languagechange.button', this.closest('ids-container'), () => {
-      this.container.classList[this.locale.isRTL() ? 'add' : 'remove']('rtl');
-    });
   }
 
   /**
