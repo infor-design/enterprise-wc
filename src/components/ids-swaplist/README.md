@@ -23,7 +23,3 @@ A common usecase for swaplists is to select items from a list of available objec
 **Default**
 **Hover**
 **Click**
-### TODO
-**Drag To**: When a user selects a list item and drags it to another area within the swaplist.
-**Drop From**: When a user has selected an item from elsewhere within the swaplist and is going to drop it into the highlighted area.
-Focus

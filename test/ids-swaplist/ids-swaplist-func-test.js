@@ -2,7 +2,8 @@
  * @jest-environment jsdom
  */
 import IdsSwapList from '../../src/components/ids-swaplist/ids-swaplist';
-import IdsListView from '../../src/components/ids-list-view/ids-list-view';
+import IdsSwappable from '../../src/components/ids-swappable/ids-swappable';
+import IdsSwappableItem from '../../src/components/ids-swappable/ids-swappable-item';
 import dataset from '../../demos/data/periods.json';
 
 const HTMLSnippets = {
@@ -13,7 +14,7 @@ const HTMLSnippets = {
 
 describe('IdsSwapList Component', () => {
   let idsSwapList;
-  let listView;
+  let idsSwappable;
 
   const createElemViaTemplate = async (innerHTML) => {
     idsSwapList?.remove?.();
@@ -30,10 +31,15 @@ describe('IdsSwapList Component', () => {
   beforeEach(async () => {
     jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => cb());
 
-    listView = new IdsListView();
-    listView.innerHTML = '<template><ids-text font-size="16" type="h2">${city}</ids-text><ids-text font-size="12" type="span">${location}</ids-text></template></ids-list-view>'; //eslint-disable-line
-    document.body.appendChild(listView);
-    listView.data = dataset;
+    idsSwappable = new IdsSwappable();
+    dataset.forEach((d) => {
+      idsSwappable.innerHTML += `
+        <ids-swappable-item>
+          <ids-text>${d.city}</ids-text>
+        </ids-swappable-item>
+      `;
+    });
+    document.body.appendChild(idsSwappable);
   });
 
   afterEach(async () => {
@@ -69,14 +75,15 @@ describe('IdsSwapList Component', () => {
     expect(idsSwapList.getAttribute('count')).toBe('2');
   });
 
-  it('can swap item to next/previous list', async () => {
-    const listItem = listView.shadowRoot.querySelector('div[part="list-item"]');
+  it('can swap item to next/previous list on click event', async () => {
+    const listItem = idsSwappable.querySelector('ids-swappable-item');
     const event = new MouseEvent('click', {
       target: listItem,
       bubbles: true,
       cancelable: true,
       view: window
     });
+    listItem.offEvent('click', listItem);
     listItem.dispatchEvent(event);
 
     const leftArrowBtn = idsSwapList.shadowRoot.querySelector('.left-arrow');
@@ -86,6 +93,7 @@ describe('IdsSwapList Component', () => {
       cancelable: true,
       view: window
     });
+    leftArrowBtn.offEvent('click', leftArrowBtn);
     leftArrowBtn.dispatchEvent(event2);
 
     const rightArrowBtn = idsSwapList.shadowRoot.querySelector('.right-arrow');
@@ -95,11 +103,71 @@ describe('IdsSwapList Component', () => {
       cancelable: true,
       view: window
     });
+    rightArrowBtn.offEvent('click', rightArrowBtn);
+    rightArrowBtn.dispatchEvent(event3);
+
+    const currentCard1 = leftArrowBtn.parentElement.parentElement.parentElement;
+    const currentList1 = currentCard1.nextSibling.querySelector('ids-swappable');
+    const currentCard2 = rightArrowBtn.parentElement.parentElement.parentElement;
+    const currentList2 = currentCard2.nextSibling.querySelector('ids-swappable');
+
+    setTimeout(() => {
+      expect(listItem.selected).toBe('selected');
+      expect(idsSwappable.length).toBe(1);
+      expect(currentList1.length).toBe(1);
+      expect(currentList2.length).toBe(1);
+    }, 20);
+  });
+
+  it('can swap item to next/previous list on touch event', async () => {
+    const listItem = idsSwappable.querySelector('ids-swappable-item');
+    const event = new TouchEvent('touchend', {
+      touches: [{
+        identifier: '123',
+        pageX: 0,
+        pageY: 0,
+        target: listItem
+      }],
+      bubbles: true,
+      cancpanelable: true,
+      view: window
+    });
+    listItem.offEvent('touchend', listItem);
+    listItem.dispatchEvent(event);
+
+    const leftArrowBtn = idsSwapList.shadowRoot.querySelector('.left-arrow');
+    const event2 = new TouchEvent('touchend', {
+      touches: [{
+        identifier: '123',
+        pageX: 0,
+        pageY: 0,
+        target: leftArrowBtn,
+      }],
+      bubbles: true,
+      cancpanelable: true,
+      view: window
+    });
+    leftArrowBtn.offEvent('touchend', leftArrowBtn);
+    leftArrowBtn.dispatchEvent(event2);
+
+    const rightArrowBtn = idsSwapList.shadowRoot.querySelector('.right-arrow');
+    const event3 = new TouchEvent('touchend', {
+      touches: [{
+        identifier: '123',
+        pageX: 0,
+        pageY: 0,
+        target: rightArrowBtn,
+      }],
+      bubbles: true,
+      cancpanelable: true,
+      view: window
+    });
+    rightArrowBtn.offEvent('touchend', rightArrowBtn);
     rightArrowBtn.dispatchEvent(event3);
 
     setTimeout(() => {
       expect(listItem.selected).toBe('selected');
-      expect(listView.length).toBe(1);
+      expect(idsSwappable.length).toBe(1);
     }, 20);
   });
 });
