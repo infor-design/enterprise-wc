@@ -155,7 +155,7 @@ export default class IdsSwappableItem extends Base {
    * @param {object} event dragstart event
    */
   #dragStart(event) {
-    event.dataTransfer.setData('text/plain', event.target.innerText);
+    event.dataTransfer?.setData('text/plain', event.target.innerText);
     this.setAttribute(attributes.DRAGGING, '');
   }
 

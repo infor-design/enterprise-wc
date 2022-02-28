@@ -137,7 +137,7 @@ export default class IdsSwappable extends Base {
     event.preventDefault();
     const afterElement = this.getDragAfterElement(this, event.clientY);
 
-    if (this.draggingElements.length > 0) {
+    if (this.draggingElements?.length > 0) {
       if (afterElement) {
         this.draggingElements.forEach((draggingEl) => {
           this.#resetDraggingItems(draggingEl);
