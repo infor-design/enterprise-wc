@@ -7,7 +7,6 @@
   @include border-1();
   @include border-slate-20();
   @include border-solid();
-  @include font-bold();
   @include font-sans();
   @include inline-flex();
   @include mb-4();
@@ -15,7 +14,7 @@
   @include px-8();
   @include pb-1();
   @include rounded-lg();
-  @include text-16();
+  @include text-14();
   @include text-slate-100();
 
   contain: content;
@@ -71,11 +70,6 @@
   @include pl-4();
   @include pt-1();
   @include text-slate-100();
-}
-
-::slotted(ids-icon[dir='rtl']) {
-  @include pr-4();
-  @include pl-0();
 }
 
 // Adjust hover state
