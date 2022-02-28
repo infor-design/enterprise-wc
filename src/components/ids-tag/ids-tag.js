@@ -1,5 +1,6 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import Base from './ids-tag-base';
 
@@ -168,6 +169,11 @@ export default class IdsTag extends Base {
         this.#appendIcon('close');
         isChanging = false;
       }
+    });
+
+    this.offEvent('languagechange.container');
+    this.onEvent('languagechange.container', getClosest(this, 'ids-container'), () => {
+      this.setDirection();
     });
 
     return this;
