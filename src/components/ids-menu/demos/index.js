@@ -1,4 +1,4 @@
-// Supporting components 
+// Supporting components
 import IdsMenu from '../ids-menu';
 
 document.addEventListener('DOMContentLoaded', () => {

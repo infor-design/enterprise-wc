@@ -1,4 +1,4 @@
-// Supporting components 
+// Supporting components
 import IdsMenu from '../ids-popup-menu';
 import IdsPopup from '../../ids-popup/ids-popup';
 

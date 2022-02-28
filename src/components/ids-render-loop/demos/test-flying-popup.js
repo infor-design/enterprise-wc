@@ -5,6 +5,8 @@
 import IdsPopup from '../../ids-popup/ids-popup';
 import IdsText from '../../ids-text/ids-text';
 import IdsButton from '../../ids-button/ids-button';
+import IdsRenderLoopItem from '../ids-render-loop-item';
+import renderLoop from '../ids-render-loop';
 
 // Styles
 // import './test-flying-popup.scss';

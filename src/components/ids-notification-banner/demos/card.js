@@ -1,5 +1,5 @@
-import '../ids-card/ids-card.js';
-import '../ids-list-view/ids-list-view.js';
+import IdsCard from '../../ids-card/ids-card';
+import IdsListView from '../../ids-list-view/ids-list-view';
 
 // Example for populating the List View
 const listView = document.querySelector('#list-view-1');

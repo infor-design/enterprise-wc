@@ -1,9 +1,9 @@
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const NodeFsFiles = require('./node-fs-files');
+
 const WebpackHtmlTemplates = NodeFsFiles(`./src/components`, 'html');
 const isWin32 = process.platform === 'win32' ? '\\' : '/';
 const WebpackHtmlExamples = WebpackHtmlTemplates.map((template) => {
-
   const chunkArray = template.split(isWin32);
   chunkArray.splice(0, 2);
   const chunkName = chunkArray[0];

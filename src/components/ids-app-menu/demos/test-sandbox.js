@@ -1,8 +1,8 @@
 // Supporting components
-import '../ids-button/ids-button.js';
-import '../ids-icon/ids-icon.js';
-import '../ids-search-field/ids-search-field.js';
-import '../ids-toolbar/ids-toolbar.js';
+import IdsButton from '../../ids-button/ids-button';
+import IdsIcon from '../../ids-icon/ids-icon';
+import IdsSearchField from '../../ids-search-field/ids-search-field';
+import IdsToolbar from '../../ids-toolbar/ids-toolbar';
 
 document.addEventListener('DOMContentLoaded', () => {
   const appMenuDrawer = document.querySelector('#app-menu');

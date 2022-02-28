@@ -1,8 +1,8 @@
 /* global $ */
 
-import IdsListView from '../../src/components/ids-list-view/ids-list-view';
-import IdsCard from '../../src/components/ids-card/ids-card';
-import './side-by-side.scss';
+import IdsListView from '../ids-list-view';
+import IdsCard from '../../ids-card/ids-card';
+// import './side-by-side.scss';
 
 // Example for populating the List View
 const listView = document.querySelectorAll('ids-list-view');

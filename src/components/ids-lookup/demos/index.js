@@ -1,5 +1,5 @@
 // Supporting components
-import IdsLookup from "../ids-lookup";
+import IdsLookup from '../ids-lookup';
 
 // Example for populating the DataGrid
 const lookup = document.querySelector('#lookup-1');

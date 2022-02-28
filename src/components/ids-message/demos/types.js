@@ -1,11 +1,10 @@
-import IdsMessage from '../../src/components/ids-message/ids-message';
-import IdsModal, { IdsModalButton } from '../../src/components/ids-modal/ids-modal';
-
 // Supporting Components
-import IdsButton from '../../src/components/ids-button/ids-button';
-import IdsHyperlink from '../../src/components/ids-hyperlink/ids-hyperlink';
+import IdsMessage from '../ids-message';
+import IdsModal, { IdsModalButton } from '../../ids-modal/ids-modal';
+import IdsButton from '../../ids-button/ids-button';
+import IdsHyperlink from '../../ids-hyperlink/ids-hyperlink';
 
-import './types.scss';
+// import './types.scss';
 
 // Convenience function for setting up modal/trigger button connection
 const setupMessage = (messageEl, triggerBtnEl) => {

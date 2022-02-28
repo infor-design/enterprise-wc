@@ -1,4 +1,4 @@
-// Supporting components 
+// Supporting components
 import IdsPopup from '../ids-popup';
 
 document.addEventListener('DOMContentLoaded', () => {

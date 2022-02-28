@@ -1,6 +1,7 @@
-import '../ids-modal/ids-modal.js';
-import '../ids-modal-button/ids-modal-button.js';
-import '../ids-button/ids-button.js';
+// Supprt components
+import IdsModal from '../ids-modal';
+import IdsModalButton from '../../ids-modal-button/ids-modal-button';
+import IdsMenuButton from '../../ids-menu-button/ids-menu-button';
 
 document.addEventListener('DOMContentLoaded', () => {
   const triggerId = '#modal-trigger-btn';

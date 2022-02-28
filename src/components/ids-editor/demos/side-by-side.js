@@ -1,7 +1,7 @@
 /* global $ */
 
 // Ids Editor
-import IdsEditor from '../../src/components/ids-editor/ids-editor';
+import IdsEditor from '../ids-editor';
 
 // Initialize the 4.x
 $('body').initialize();

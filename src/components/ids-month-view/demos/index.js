@@ -1,4 +1,4 @@
-// Supporting components 
+// Supporting components
 import IdsMonthView from '../ids-month-view';
 
 document.addEventListener('DOMContentLoaded', () => {

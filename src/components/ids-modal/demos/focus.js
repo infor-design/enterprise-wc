@@ -1,11 +1,11 @@
 // Supporting Components
-import '../ids-checkbox/ids-checkbox.js';
-import '../ids-input/ids-input.js';
-import '../ids-dropdown/ids-dropdown.js';
-import '../ids-modal-button/ids-modal-button.js';
-import '../ids-textarea/ids-textarea.js';
+import IdsCheckbox from '../../ids-checkbox/ids-checkbox';
+import IdsInput from '../../ids-input/ids-input';
+import IdsDropdown from '../../ids-dropdown/ids-dropdown';
+import IdsModalButton from '../../ids-modal-button/ids-modal-button';
+import IdsTextarea from '../../ids-textarea/ids-textarea';
 
-import './focus.scss';
+// import './focus.scss';
 
 document.addEventListener('DOMContentLoaded', () => {
   const triggerId = '#modal-trigger-btn';

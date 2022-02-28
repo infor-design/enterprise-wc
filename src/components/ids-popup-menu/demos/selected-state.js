@@ -1,6 +1,6 @@
-import '../ids-popup-menu/ids-popup-menu.js';
-import '../ids-menu/ids-menu.js';
-import '../ids-popup/ids-popup.js';
+import IdsPopupMenu from '../ids-popup-menu';
+import IdsMenu from '../../ids-menu/ids-menu';
+import IdsPopup from '../../ids-popup/ids-popup';
 
 document.addEventListener('DOMContentLoaded', () => {
   const popupmenuEl = document.querySelector('ids-popup-menu');

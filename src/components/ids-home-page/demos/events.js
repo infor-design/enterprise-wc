@@ -1,5 +1,5 @@
 // home page events
-import IdsHomePage from '../../src/components/ids-home-page/ids-home-page';
+import IdsHomePage from '../ids-home-page';
 
 document.addEventListener('DOMContentLoaded', () => {
   const homePage = document.querySelector('#home-page-event-resized');

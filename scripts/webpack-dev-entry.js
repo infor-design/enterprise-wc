@@ -5,7 +5,7 @@ const demoEntry = () => {
   const entryArray = NodeFsFiles('./src/components', 'js');
   const isWin32 = process.platform === 'win32' ? '\\' : '/';
   const entryDemoFilter = entryArray.filter((item) => (item.includes('demo') && item.includes('index.js')));
-  entryDemoFilter.forEach( (entry) => {
+  entryDemoFilter.forEach((entry) => {
     const pathArray = entry.split(isWin32);
     demoEntryObj[pathArray[2]] = `./${entry}`;
   });

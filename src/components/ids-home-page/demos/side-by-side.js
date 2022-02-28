@@ -1,5 +1,5 @@
 /* global $ */
-import IdsHomePage from '../../src/components/ids-home-page/ids-home-page';
+import IdsHomePage from '../ids-home-page';
 
 // Initialize the 4.x
 $('body').initialize();
