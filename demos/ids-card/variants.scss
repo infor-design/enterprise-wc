@@ -18,7 +18,7 @@
         height: 8px;
         left: 2px;
         border-radius: 50%;
-        top: 7px;
+        top: 4px;
       }
 
       &.success {
@@ -72,4 +72,11 @@
   ids-image {
     padding-right: 16px;
   }
+}
+
+[slot='card-content'] {
+  display: flex;
+  align-items: center;
+  padding: 15px 16px;
+  gap: 16px;
 }

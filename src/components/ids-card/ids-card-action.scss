@@ -1,0 +1,8 @@
+:host {
+  margin-left: auto;
+}
+
+:host([dir='rtl']) {
+  margin-left: 0;
+  margin-right: auto;
+}

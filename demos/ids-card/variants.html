@@ -1,53 +1,61 @@
+{{> ../layouts/head.html }}
+
 <ids-layout-grid auto="true">
   <ids-text font-size="12" type="h1">Cards</ids-text>
 </ids-layout-grid>
 
 <ids-layout-grid cols="3" gap="md">
   <ids-layout-grid-cell>
-    <ids-card auto-fit="true">
-      <div slot="card-content" class="ids-card-content-variant">
-        <div class="content">
-          <div class="content-status success">Action Item</div>
-          <div class="content-title">Submit 360 Review</div>
-          <div class="content-desc">Send review by May 2nd</div>
+    <ids-card auto-height="true">
+      <div slot="card-content">
+        <div>
+          <ids-text labelFontSize="16" color="emerald-60">Action Item</ids-text>
+          <ids-text labelFontSize="16">Submit 360 Review</ids-text>
+          <ids-text labelFontSize="16" color="slate-60">Send review by May 2nd</ids-text>
         </div>
 
-        <ids-menu-button id="icon-btn-more" menu="icon-menu">
-          <ids-icon slot="icon" icon="more" vertical="true"></ids-icon>
-          <span class="audible">Icon More Button</span>
-        </ids-menu-button>
+        <ids-card-action>
+          <ids-menu-button id="icon-btn-more" menu="icon-menu">
+            <ids-icon slot="icon" icon="more" vertical="true"></ids-icon>
+            <span class="audible">Icon More Button</span>
+          </ids-menu-button>
+        </ids-card-action>
       </div>
     </ids-card>
   </ids-layout-grid-cell>
   <ids-layout-grid-cell>
-    <ids-card auto-fit="true">
-      <div slot="card-content" class="ids-card-content-variant">
-        <div class="content">
-          <div class="content-status error">Action Item</div>
-          <div class="content-title">Submit 360 Review</div>
-          <div class="content-desc">Send review by May 2nd</div>
+    <ids-card auto-height="true">
+      <div slot="card-content">
+        <div>
+          <ids-text labelFontSize="16" color="ruby-60">Action Item</ids-text>
+          <ids-text labelFontSize="16">Submit 360 Review</ids-text>
+          <ids-text labelFontSize="16" color="slate-60">Send review by May 2nd</ids-text>
         </div>
 
-        <ids-menu-button id="icon-btn-more" menu="icon-menu">
-          <ids-icon slot="icon" icon="more" vertical="true"></ids-icon>
-          <span class="audible">Icon More Button</span>
-        </ids-menu-button>
+        <ids-card-action>
+          <ids-menu-button id="icon-btn-more" menu="icon-menu">
+            <ids-icon slot="icon" icon="more" vertical="true"></ids-icon>
+            <span class="audible">Icon More Button</span>
+          </ids-menu-button>
+        </ids-card-action>
       </div>
     </ids-card>
   </ids-layout-grid-cell>
   <ids-layout-grid-cell>
-    <ids-card auto-fit="true">
-      <div slot="card-content" class="ids-card-content-variant">
-        <div class="content">
-          <div class="content-status alert">Action Item</div>
-          <div class="content-title">Submit 360 Review</div>
-          <div class="content-desc">Send review by May 2nd</div>
+    <ids-card auto-height="true">
+      <div slot="card-content">
+        <div>
+          <ids-text labelFontSize="16" color="amber-60">Action Item</ids-text>
+          <ids-text labelFontSize="16">Submit 360 Review</ids-text>
+          <ids-text labelFontSize="16" color="slate-60">Send review by May 2nd</ids-text>
         </div>
 
-        <ids-menu-button id="icon-btn-more" menu="icon-menu">
-          <ids-icon slot="icon" icon="more" vertical="true"></ids-icon>
-          <span class="audible">Icon More Button</span>
-        </ids-menu-button>
+        <ids-card-action>
+          <ids-menu-button id="icon-btn-more" menu="icon-menu">
+            <ids-icon slot="icon" icon="more" vertical="true"></ids-icon>
+            <span class="audible">Icon More Button</span>
+          </ids-menu-button>
+        </ids-card-action>
       </div>
     </ids-card>
   </ids-layout-grid-cell>
@@ -55,51 +63,56 @@
 
 <ids-layout-grid cols="3" gap="md">
   <ids-layout-grid-cell>
-    <ids-card auto-fit="true">
-      <div slot="card-content" class="ids-card-content-variant">
+    <ids-card auto-height="true">
+      <div slot="card-content">
         <ids-image
           src="/assets/10.jpg"
           alt="Photo of Evyn"
           round
           tabindex="0"
         ></ids-image>
-        <div class="content">
-          <div class="content-title">John Smith <span class="available">(Available)</span></div>
-          <div class="content-desc">Designer</div>
+
+        <div>
+          <ids-text color="emerald-60">John Smith <span class="available">(Available)</span></ids-text>
+          <ids-text>Designer</ids-text>
         </div>
       </div>
     </ids-card>
   </ids-layout-grid-cell>
   <ids-layout-grid-cell>
-    <ids-card auto-fit="true">
-      <div slot="card-content" class="ids-card-content-variant">
+    <ids-card auto-height="true">
+      <div slot="card-content">
         <ids-image
           src="/assets/10.jpg"
           alt="Photo of Evyn"
           round
           tabindex="0"
         ></ids-image>
-        <div class="content">
-          <div class="content-title">John Smith <span class="busy">(Busy)</span></div>
-          <div class="content-desc">Designer</div>
+
+        <div>
+          <ids-text color="ruby-60">John Smith <span class="available">(Busy)</span></ids-text>
+          <ids-text>Designer</ids-text>
         </div>
       </div>
     </ids-card>
   </ids-layout-grid-cell>
   <ids-layout-grid-cell>
-    <ids-card auto-fit="true">
-      <div slot="card-content" class="ids-card-content-variant">
+    <ids-card auto-height="true">
+      <div slot="card-content">
         <ids-image
           src="/assets/10.jpg"
           alt="Photo of Evyn"
           round
           tabindex="0"
         ></ids-image>
-        <div class="content">
-          <div class="content-title">John Smith <span class="away">(Away)</span></div>
-          <div class="content-desc">Designer</div>
+
+        <div>
+          <ids-text color="amber-60">John Smith <span class="available">(Away)</span></ids-text>
+          <ids-text>Designer</ids-text>
         </div>
       </div>
     </ids-card>
   </ids-layout-grid-cell>
 </ids-layout-grid>
+
+{{> ../layouts/footer.html }}

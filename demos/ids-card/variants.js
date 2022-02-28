@@ -7,3 +7,4 @@ import IdsPopupMenu from '../../src/components/ids-popup-menu/ids-popup-menu';
 import IdsPopup from '../../src/components/ids-popup/ids-popup';
 import IdsMenuItem from '../../src/components/ids-menu/ids-menu-item';
 import IdsMenuGroup from '../../src/components/ids-menu/ids-menu-group';
+import IdsCardAction from '../../src/components/ids-card/ids-card-action';
