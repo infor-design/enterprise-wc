@@ -1,5 +1,6 @@
 import IdsDataGrid from '../ids-data-grid';
 import IdsContainer from '../../ids-container/ids-container';
+import companyJSON from '../../../assets/data/companies.json';
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector('#data-grid-1');
@@ -10,7 +11,7 @@ const container = document.querySelector('ids-container');
   await container.setLocale('en-US');
 
   // Do an ajax request
-  const url = '/data/companies.json';
+  const url = companyJSON;
   const columns = [];
 
   // Set up columns

@@ -1,6 +1,5 @@
 const path = require('path');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const HTMLWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const demoEntry = require('./scripts/webpack-dev-entry');
 const WebpackHtmlExamples = require('./scripts/webpack-html-templates');

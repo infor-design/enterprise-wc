@@ -1,5 +1,6 @@
 // Supporting components
 import IdsLookup from '../ids-lookup';
+import booksJSON from '../../../assets/data/books.json';
 
 // Example for populating the DataGrid
 const lookup = document.querySelector('#lookup-1');
@@ -10,7 +11,7 @@ const container = document.querySelector('ids-container');
   await container.setLocale('en-US');
 
   // Do an ajax request
-  const url = '/data/books.json';
+  const url = booksJSON;
   const columns = [];
 
   // Set up columns

@@ -1,10 +1,11 @@
 import IdsDataGrid from '../ids-data-grid';
+import productsJSON from '../../../assets/data/products.json';
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector('#data-grid-1');
 
 // Do an ajax request
-const url = '/data/products.json';
+const url = productsJSON;
 const columns = [];
 
 // Set up columns

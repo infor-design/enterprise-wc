@@ -4,11 +4,12 @@
   <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 <body>
-  <ids-container>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
     <ids-layout-grid auto="true">
       <ids-text font-size="12" type="h1">Editor Sandbox</ids-text>
     </ids-layout-grid>
-    
+
     <ids-layout-grid>
       <ids-layout-grid-cell col-span="9">
         <ids-editor id="editor-basic" label="Basic">
@@ -24,7 +25,7 @@
         </ids-editor>
       </ids-layout-grid-cell>
     </ids-layout-grid>
-    
+
     <ids-layout-grid>
       <ids-layout-grid-cell col-span="9">
         <ids-editor id="editor-readonly" label="Readonly" readonly>
@@ -40,7 +41,7 @@
         </ids-editor>
       </ids-layout-grid-cell>
     </ids-layout-grid>
-    
+
     <ids-layout-grid>
       <ids-layout-grid-cell col-span="9">
         <ids-editor id="editor-disabled" label="Disabled" disabled>
@@ -56,7 +57,7 @@
         </ids-editor>
       </ids-layout-grid-cell>
     </ids-layout-grid>
-    
+
     <ids-layout-grid>
       <ids-layout-grid-cell col-span="9">
         <ids-editor id="editor-dirty-tracker" label="Dirty Tracking" dirty-tracker>
@@ -73,7 +74,7 @@
         </ids-editor>
       </ids-layout-grid-cell>
     </ids-layout-grid>
-    
+
     <ids-layout-grid>
       <ids-layout-grid-cell col-span="9">
         <ids-editor id="editor-validation" label="Validation (required)" validate="required">
@@ -81,7 +82,7 @@
         </ids-editor>
       </ids-layout-grid-cell>
     </ids-layout-grid>
-    
+
     <ids-layout-grid>
       <ids-layout-grid-cell col-span="9">
         <ids-editor id="editor-custom-toolbar" label="Custom toolbar">
@@ -107,9 +108,9 @@
                   </ids-menu-item>
                 </ids-menu-group>
               </ids-popup-menu>
-    
+
               <ids-separator vertical></ids-separator>
-    
+
               <ids-button editor-action="bold" square="true" tooltip="Toggle Bold Text">
                 <span slot="text" class="audible">Bold</span>
                 <ids-icon slot="icon" icon="bold"></ids-icon>
@@ -142,7 +143,7 @@
         </ids-editor>
       </ids-layout-grid-cell>
     </ids-layout-grid>
-    
+
     <ids-layout-grid>
       <ids-layout-grid-cell col-span="9">
         <ids-editor id="editor-modal-elements-value" label="Custom default values in modals (ie. hyperlink modal)">
@@ -159,14 +160,14 @@
         </ids-editor>
       </ids-layout-grid-cell>
     </ids-layout-grid>
-    
+
     <ids-layout-grid>
       <ids-layout-grid-cell col-span="9">
         <ids-editor id="editor-placeholder" label="Placeholder" placeholder="Type some comments here...">
         </ids-editor>
       </ids-layout-grid-cell>
     </ids-layout-grid>
-    
+
     <ids-layout-grid>
       <ids-layout-grid-cell col-span="9">
         <ids-editor id="editor-label-hidden" label="Hidden label" label-hidden>
@@ -174,7 +175,7 @@
         </ids-editor>
       </ids-layout-grid-cell>
     </ids-layout-grid>
-    
+
     <ids-layout-grid>
       <ids-layout-grid-cell col-span="9">
         <ids-editor id="editor-clickable-hyperlink" label="Clickable hyperlink">
@@ -192,7 +193,7 @@
         </ids-editor>
       </ids-layout-grid-cell>
     </ids-layout-grid>
-    
+
     <ids-layout-grid>
       <ids-layout-grid-cell col-span="9">
         <ids-editor id="editor-source-mode" label="Source mode" view="source">
@@ -209,7 +210,7 @@
         </ids-editor>
       </ids-layout-grid-cell>
     </ids-layout-grid>
-    
+
     <ids-layout-grid>
       <ids-layout-grid-cell col-span="9">
         <ids-editor id="editor-source-formatter" label="Use source formatter" view="source" source-formatter>
@@ -226,7 +227,7 @@
         </ids-editor>
       </ids-layout-grid-cell>
     </ids-layout-grid>
-    
+
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
         <ids-text font-size="12" type="h2" class="inline">Events</ids-text>
@@ -273,7 +274,7 @@
         <ids-checkbox id="cb-paste-as-plain-text" label="Paste as plain text" checked></ids-checkbox>
       </ids-layout-grid-cell>
     </ids-layout-grid>
-    
+
     <ids-layout-grid>
       <ids-layout-grid-cell col-span="9">
         <ids-editor id="editor-events" label="Events">
@@ -319,10 +320,10 @@
     const radioBeforePaste = document.querySelector('#radio-editor-evt-beforepaste');
     const cbPasteAsPlainText = document.querySelector('#cb-paste-as-plain-text');
     if (editorEventsEl) {
-      // display colcole logs
+      // display console logs
       const show = (type, detail, veto) => {
         const showVeto = typeof veto !== 'undefined' ? `veto: ${veto}` : '';
-        console.log(type, (detail ?? ''), showVeto); // eslint-disable-line
+        console.info(type, (detail ?? ''), showVeto);
       };
 
       // before editor mode

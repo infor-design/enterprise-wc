@@ -7,7 +7,7 @@ import IdsPopupMenu from '../../ids-popup-menu/ids-popup-menu';
 
 document.addEventListener('DOMContentLoaded', () => {
   const toolbarEl = document.querySelector('#my-toolbar');
-  toolbarEl.addEventListener('selected', (e) => {
+  toolbarEl?.addEventListener('selected', (e) => {
     const elem = e.detail.elem;
 
     let type;

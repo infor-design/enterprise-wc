@@ -1,3 +1,4 @@
+const fs = require('fs');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const NodeFsFiles = require('./node-fs-files');
 
@@ -12,11 +13,18 @@ const WebpackHtmlExamples = WebpackHtmlTemplates.map((template) => {
   const title = `${chunkName.split('-').map((word) =>
     `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`).join(' ').replace('Ids ', 'IDS ')} Component`;
 
+  let extraChunk = '';
+
+  if (chunkFileName !== 'index.html'
+  && fs.existsSync(`./src/components/${chunkName}/demos/${chunkFileName.replace('.html', '.js')}`)) {
+    extraChunk = `${chunkName}-${chunkFileName.replace('.html', '')}`;
+  }
+
   return new HTMLWebpackPlugin({
     template: `./${template}`,
     title,
     filename: `${chunkName}/${chunkFileName}`,
-    chunks: [chunkName, 'ids-container', 'ids-text', 'ids-icon', 'ids-layout-grid', 'ids-theme-switcher', 'ids-csp'],
+    chunks: [chunkName, 'ids-container', 'ids-text', 'ids-icon', 'ids-layout-grid', 'ids-theme-switcher', 'ids-csp', extraChunk],
     favicon: './src/assets/images/favicon.ico',
   });
 });

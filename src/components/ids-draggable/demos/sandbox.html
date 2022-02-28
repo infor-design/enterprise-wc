@@ -4,7 +4,8 @@
   <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 <body>
-  <ids-container>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
     <ids-layout-grid auto="true">
       <ids-text font-size="12" type="h1">Draggable</ids-text>
     </ids-layout-grid>
@@ -64,7 +65,7 @@
         </div>
       </ids-draggable>
     </ids-layout-grid>
-    
+
     <ids-layout-grid auto="true">
       <ids-draggable handle=".ids-draggable-handle">
         <div class="ids-draggable-handle-example">
