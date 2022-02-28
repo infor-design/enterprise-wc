@@ -1,5 +1,3 @@
-/* global $ */
-
 import IdsUploadAdvanced from '../ids-upload-advanced';
 
 /**

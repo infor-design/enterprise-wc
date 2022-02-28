@@ -1,4 +1,3 @@
-/* global $ */
 import IdsProgressBar from '../ids-progress-bar';
 
 // Supporting components

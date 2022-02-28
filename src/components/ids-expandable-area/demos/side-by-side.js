@@ -1,5 +1,3 @@
-/* global $ */
-
 import IdsExpandableArea from '../ids-expandable-area';
 
 // Supporting components

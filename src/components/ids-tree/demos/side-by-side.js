@@ -1,6 +1,3 @@
-/* global $ */
-
-// Ids Tree
 import IdsTree from '../ids-tree';
 
 // Initialize the 4.x

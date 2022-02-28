@@ -1,5 +1,3 @@
-/* global $ */
-
 import IdsText from '../ids-upload';
 
 // Initialize the 4.x

@@ -1,5 +1,3 @@
-/* global $ */
-
 // Ids Editor
 import IdsEditor from '../ids-editor';
 

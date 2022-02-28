@@ -1,5 +1,3 @@
-/* global $ */
-
 import IdsSpinbox from '../ids-spinbox';
 
 // Initialize the 4.x
