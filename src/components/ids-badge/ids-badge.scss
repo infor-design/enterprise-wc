@@ -56,6 +56,12 @@
     @include border-alert-info();
   }
 
+  &[color='success'] {
+    @include bg-alert-success();
+    @include border-alert-success();
+    @include text-white();
+  }
+
   ::slotted(ids-icon) {
     position: relative;
     top: 3px;

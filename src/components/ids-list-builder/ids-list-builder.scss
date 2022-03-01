@@ -21,6 +21,11 @@
     }
   }
 
+  // Editing State
+  .ids-list-view-body div[part='list-item'].is-editing > ids-text {
+    display: none;
+  }
+
   // Dark theme
   &[mode='dark'] {
     .header {

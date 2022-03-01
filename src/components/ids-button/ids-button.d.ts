@@ -40,4 +40,7 @@ export class IdsButton extends HTMLElement {
 
   /** Set the theme version */
   version: 'new' | 'classic' | string;
+
+  /** Sets width of button. Accepts percent, pixels, rem, etc. */
+  width?: string;
 }
