@@ -9,7 +9,7 @@
   top: -3px;
 
   &.rtl {
-    @include transform(rotate(90deg))
+    @include transform(rotate(90deg));
   }
 }
 
