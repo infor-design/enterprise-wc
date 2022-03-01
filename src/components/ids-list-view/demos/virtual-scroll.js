@@ -1,10 +1,10 @@
-import './index.scss';
+import productsJSON from '../../../assets/data/products.json';
 
 // Example for populating the List View
 const listView = document.querySelectorAll('ids-list-view');
 
 // Do an ajax request and apply the data to the list
-const url = '/data/products.json';
+const url = productsJSON;
 
 const setData = async () => {
   const res = await fetch(url);
