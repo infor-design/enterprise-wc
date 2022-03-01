@@ -1,8 +1,10 @@
 // Supporting components
 import '../../ids-radio/ids-radio';
+import treeBasicJSON from '../../../assets/data/tree-basic.json';
+import treeBadgesJSON from '../../../assets/data/tree-badges.json';
 
 // Get some sample data
-const getData = async function getData(callback, url = '/data/tree-basic.json') {
+const getData = async function getData(callback, url = treeBasicJSON) {
   if (typeof callback === 'function') {
     const res = await fetch(url);
     const data = await res.json();
@@ -56,7 +58,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Badges and pre selected node (selected by data)
   const treeBg = document.querySelector('#tree-badges');
   if (treeBg) {
-    const url = '/data/tree-badges.json';
+    const url = treeBadgesJSON;
     await getData((data) => {
       treeBg.data = data;
     }, url);

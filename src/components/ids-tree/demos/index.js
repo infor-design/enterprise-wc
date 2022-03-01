@@ -1,4 +1,5 @@
 import IdsTree from '../ids-tree';
+import treeBasicJSON from '../../../assets/data/tree-basic.json';
 
 document.addEventListener('DOMContentLoaded', () => {
   const treeDemo = document.querySelector('#tree-demo');
@@ -6,9 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (treeDemo) {
     (async function init() {
       // Do an ajax request
-      const url = '/data/tree-basic.json';
-
-      const res = await fetch(url);
+      const res = await fetch(treeBasicJSON);
       const data = await res.json();
       treeDemo.data = data;
 

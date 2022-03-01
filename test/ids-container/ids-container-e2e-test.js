@@ -1,4 +1,4 @@
-describe('Ids Color e2e Tests', () => {
+describe('Ids Container e2e Tests', () => {
   const url = 'http://localhost:4444/ids-container';
 
   beforeAll(async () => {
