@@ -234,12 +234,19 @@ export default class IdsColorPicker extends Base {
     });
 
     // Respond to Keyup events on swatches and buttons
-    this.onEvent('keydown', this.container, (keyup) => {
-      if (keyup.key === 'Enter') {
-        if (keyup.target.id === `ids-color-picker-menu-button`) {
+    this.onEvent('keydown', this.container, (e) => {
+      const doToggleMenu = e.target.id === `ids-color-picker-menu-button` || e.target.tagName === 'INPUT';
+
+      if (e.key === 'Enter') {
+        if (doToggleMenu) {
           this.#openCloseColorpicker();
+        } else {
+          this.#selectSwatch(e.target);
         }
-        this.#selectSwatch(keyup.target);
+      }
+
+      if (e.key === 'ArrowDown') {
+        if (doToggleMenu) this.#openCloseColorpicker();
       }
     });
   }
