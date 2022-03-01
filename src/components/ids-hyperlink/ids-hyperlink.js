@@ -10,6 +10,7 @@ import styles from './ids-hyperlink.scss';
  * IDS Hyperlink Component
  * @type {IdsHyperlink}
  * @inherits IdsElement
+ * @mixes IdsHitboxMixin
  * @mixes IdsThemeMixin
  * @mixes IdsEventsMixin
  * @part link - the link element
@@ -32,6 +33,7 @@ export default class IdsHyperlink extends Base {
    */
   static get attributes() {
     return [
+      ...super.attributes,
       attributes.COLOR,
       attributes.DISABLED,
       attributes.HREF,

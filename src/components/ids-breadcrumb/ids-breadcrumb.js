@@ -55,6 +55,7 @@ export default class IdsBreadcrumb extends Base {
     breadcrumb.setAttribute('color', 'unset');
     breadcrumb.setAttribute('role', 'listitem');
     breadcrumb.setAttribute('text-decoration', 'hover');
+    breadcrumb.setAttribute('hitbox', 'true');
     if (!(breadcrumb.getAttribute('font-size'))) {
       breadcrumb.setAttribute('font-size', 14);
     }

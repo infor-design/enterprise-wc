@@ -10,6 +10,7 @@
   @include rounded-default();
   @include mb-8();
   @include text-16();
+  @include relative();
 
   border: 1px solid transparent;
   display: inline-block;
@@ -36,6 +37,17 @@
 
   &.bold {
     @include font-bold();
+  }
+
+  &.hitbox::after {
+    content: "";
+    display: block;
+    height: 44px;
+    top: 50%;
+    left: 0;
+    position: absolute;
+    transform: translateY(-50%);
+    width: 100%;
   }
 }
 
