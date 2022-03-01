@@ -126,8 +126,8 @@ export default class IdsSwappableItem extends Base {
   }
 
   /**
-   * Set if the input and buttons are tabbable
-   * @param {boolean|string} value True of false depending if the trigger field is tabbable
+   * Set if the item is tabbable
+   * @param {boolean|string} value True of false depending if the item is tabbable
    */
   set tabbable(value) {
     if (stringToBool(value) !== this.getAttribute(attributes.TABBABLE)) {
@@ -143,8 +143,8 @@ export default class IdsSwappableItem extends Base {
   }
 
   /**
-   * get whether the input currently allows tabbing.
-   * @returns {boolean} true or false depending on whether the input is currently tabbable
+   * Get whether the item currently allows tabbing.
+   * @returns {boolean} true or false depending on whether the item is currently tabbable
    */
   get tabbable() {
     return stringToBool(this.getAttribute(attributes.TABBABLE) || true);
