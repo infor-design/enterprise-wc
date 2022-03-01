@@ -113,15 +113,32 @@ export default class IdsSearchField extends Base {
     const safeVal = stripHTML(val);
 
     if (this.#previousSearchValue !== safeVal) {
+      this.input.value = safeVal;
       this.#previousSearchValue = safeVal;
-      if (this.input) {
-        this.input.value = safeVal;
-      }
+
       if (typeof this.onSearch === 'function') {
         ret = await this.onSearch(safeVal);
       }
     }
     return ret;
+  }
+
+  /**
+   * @param {string} val the new value to set
+   */
+  set value(val) {
+    super.value = val;
+
+    const newValue = super.value;
+    this.#previousSearchValue = newValue;
+
+    if (typeof this.onSearch === 'function') {
+      this.onSearch(newValue);
+    }
+  }
+
+  get value() {
+    return super.value;
   }
 
   /**
@@ -144,13 +161,7 @@ export default class IdsSearchField extends Base {
    */
   #attachEventHandlers() {
     const handleSearchEvent = (e) => {
-      if (this.#previousSearchValue !== e.target.value) {
-        this.value = e.target.value;
-        this.#previousSearchValue = this.value;
-        if (typeof this.onSearch === 'function') {
-          this.onSearch(this.value);
-        }
-      }
+      this.search(e.target.value);
     };
 
     this.onEvent('change', this.input, handleSearchEvent);
