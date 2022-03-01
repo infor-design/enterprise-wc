@@ -69,11 +69,11 @@
   box-shadow: none;
 }
 
-::slotted(*[slot="trigger-start"]:first-of-type) {
+::slotted(*[slot='trigger-start']:first-of-type) {
   @include ml-0();
 }
 
-::slotted(*[slot="trigger-end"]:last-of-type) {
+::slotted(*[slot='trigger-end']:last-of-type) {
   @include mr-0();
 }
 

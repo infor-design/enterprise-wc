@@ -150,7 +150,6 @@ $input-compact-height: $input-field-height-xs;
     @include mb-16();
     @include p-0();
     @include relative();
-
     @include border-1();
     @include border-solid();
     @include rounded-default();
@@ -162,7 +161,6 @@ $input-compact-height: $input-field-height-xs;
     resize: none;
     text-align: left;
     display: flex;
-
     max-width: $input-size-default;
   }
 
@@ -230,7 +228,7 @@ $input-compact-height: $input-field-height-xs;
     }
 
     .ids-input-field {
-      @include mb-0();
+      @include m-0();
     }
 
     .ids-label-text {
@@ -308,14 +306,6 @@ $input-compact-height: $input-field-height-xs;
         margin-bottom: 0;
         height: $input-field-height-xs;
       }
-    }
-  }
-
-  &.no-margins {
-    margin: 0;
-
-    .ids-input-field {
-      margin: 0;
     }
   }
 

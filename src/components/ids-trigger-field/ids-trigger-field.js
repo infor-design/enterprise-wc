@@ -1,4 +1,4 @@
-import { attributes, htmlAttributes } from '../../core/ids-attributes';
+import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
