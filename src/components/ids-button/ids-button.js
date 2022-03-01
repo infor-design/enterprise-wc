@@ -53,6 +53,11 @@ export default class IdsButton extends Base {
         }
         this.tabIndex = Number(newValue);
         break;
+      case 'width':
+        if (oldValue !== newValue) {
+          this.width = newValue;
+        }
+        break;
       default:
         super.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
         break;
@@ -380,6 +385,38 @@ export default class IdsButton extends Base {
    */
   get iconAlign() {
     return this.state.iconAlign;
+  }
+
+  /**
+   * Get width
+   * @returns {string|null} 100%, 90px, 50rem etc.
+   */
+  get width() {
+    return this.getAttribute('width');
+  }
+
+  /**
+   * Set width of button
+   * @param {string} w 100%, 90px, 50rem etc.
+   */
+  set width(w) {
+    if (!w) {
+      this.removeAttribute('width');
+      this.style.width = '';
+      this.button.style.width = '';
+      return;
+    }
+
+    // if percentage passed set width to host
+    if (w.indexOf('%') !== -1) {
+      this.style.width = w;
+      this.button.style.width = '';
+    } else {
+      this.style.width = '';
+      this.button.style.width = w;
+    }
+
+    this.setAttribute('width', w);
   }
 
   /**

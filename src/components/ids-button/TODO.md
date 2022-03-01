@@ -2,7 +2,7 @@
 
 ## Major
 
-- [ ] Add a 100% (responsive button) example like the [old version](https://main-enterprise.demo.design.infor.com/components/button/example-100-percent.html)
+- [x] Add a 100% (responsive button) example like the [old version](https://main-enterprise.demo.design.infor.com/components/button/example-100-percent.html)
 
 ## Minor
 
