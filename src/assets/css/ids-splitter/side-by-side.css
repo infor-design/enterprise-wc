@@ -7,6 +7,6 @@
 
 .demo-splitter-4x {
   bottom: unset;
-  max-height: 300px;
-  margin-left: 20px;
+  max-height: 410px;
+  margin-left: 20px !important;
 }

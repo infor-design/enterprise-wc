@@ -4,7 +4,7 @@ const metaTags = `
   <meta content="width=device-width, initial-scale=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="
-    script-src 'self';
+    script-src 'self' https://unpkg.com/;
     style-src 'self' https://fonts.googleapis.com 'nonce-0a59a005';
     font-src 'self' data: https://fonts.gstatic.com;
   ">

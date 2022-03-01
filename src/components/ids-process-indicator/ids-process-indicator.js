@@ -1,6 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import Base from './ids-process-indicator-base';
 import IdsProcessStep from './ids-process-step/ids-process-step';
+import IdsAlert from '../ids-alert/ids-alert';
 
 import styles from './ids-process-indicator.scss';
 

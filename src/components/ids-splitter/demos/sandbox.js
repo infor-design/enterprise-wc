@@ -1,6 +1,10 @@
 // IdsSplitter Sandbox
 import IdsRadio from '../../ids-radio/ids-radio';
-// import './sandbox.scss';
+
+import css from '../../../assets/css/ids-splitter/sandbox.css';
+
+const cssLink = `<link href="${css}" rel="stylesheet">`;
+document.querySelector('head').insertAdjacentHTML('afterbegin', cssLink);
 
 document.addEventListener('DOMContentLoaded', async () => {
   // Disable / Enable

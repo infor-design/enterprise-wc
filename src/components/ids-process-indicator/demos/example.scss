@@ -1,16 +1,8 @@
-ids-text {
-  &.date::part(text) {
-    margin-top: 4px;
-    font-size: 14px;
-    display: block;
-  }
-}
-
 ids-icon {
   &[icon='success'] {
     color: green;
   }
-  
+
   &[icon='rejected-outline'] {
     color: red;
   }
