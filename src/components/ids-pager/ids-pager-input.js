@@ -54,7 +54,6 @@ export default class IdsPagerInput extends Base {
   connectedCallback() {
     this.input = this.shadowRoot.querySelector('ids-input');
     this.input.label = 'Input for page number';
-    this.input.labelEl.part = 'label';
     this.input.labelState = 'hidden';
 
     this.onEvent('change', this.input, () => {
