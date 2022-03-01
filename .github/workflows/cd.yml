@@ -40,10 +40,15 @@ jobs:
     - name: Build and Compile
       run: npm run build
 
-    - name: Run Tests For Percy Baselines
-      run: npx percy exec -- npm run test:percy
+    - name: Run Tests (including Percy)
+      run: npx percy exec -- npm run test:ci
       env:
         PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Extract branch name
       shell: bash

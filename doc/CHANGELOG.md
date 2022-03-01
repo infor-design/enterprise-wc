@@ -1,9 +1,9 @@
-# v5.0.0
+# 0.0.0
 
-## 5.0.0 Breaking Changes
+## 0.0.0 Breaking Changes
 
-All components in this version are now web components. Each component can now be imported as a single JS file and used with encapsulated styles.
-For more details on breaking changes in each component see the individual README.md files.
+All components in this version are now web components compared to 4.x. Each component can now be imported as a single JS file and used with encapsulated styles.
+For more details on breaking changes see each component in the individual README.md files.
 
 - `[About]`The about component was converted. See the [README](https://github.com/infor-design/enterprise-wc/blob/todo-passthrough/src/components/ids-about/README.md#converting-from-previous-versions-breaking-changes) for details. ([#308](https://github.com/infor-design/enterprise-wc/issues/308))
 - `[Accordion]` The accordion component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-accordion//README.md##converting-from-previous-versions) for details. ([#168](https://github.com/infor-design/enterprise-wc/issues/168))
