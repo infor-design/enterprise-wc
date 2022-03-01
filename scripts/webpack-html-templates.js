@@ -15,7 +15,7 @@ const WebpackHtmlExamples = WebpackHtmlTemplates.map((template) => {
   let extraChunk;
   chunkFileName !== 'index.html' && fs.existsSync(`./src/components/${chunkName}/demos/${chunkFileName.replace('.html', '.js')}`);
   chunkFileName ? extraChunk = `${chunkName}-${chunkFileName.replace('.html', '')}` : extraChunk = '';
-  
+
   return new HTMLWebpackPlugin({
     template: `./${template}`,
     title,

@@ -2,7 +2,7 @@
 
 ## Description
 
-The locale API handles many aspects and i18n use cases including: dates, numbers, calendars (like arabic and gregorian), translation and right to left. The Locale component is used in many other components to handle various localization and i18n use cases. The locale API will be available on the `ids-container` as the root element to set the locale or language. And also on any component that needs the locale information so they can be set separate.
+The locale API handles many aspects and i18n use cases including: dates, numbers, calendars (like `arabic` and `gregorian`), translation and right to left. The Locale component is used in many other components to handle various localization and i18n use cases. The locale API will be available on the `ids-container` as the root element to set the locale or language. And also on any component that needs the locale information so they can be set separate.
 
 The Locale API handles the following functionality
 
@@ -23,7 +23,7 @@ The Locale API handles the following functionality
 
 - Use you need to translate text
 - When you need to format numbers and dates for a particular locale
-- When you need to calculate umalqura calendar dates
+- When you need to calculate `umalqura` calendar dates
 - When you need to format hours
 - Displaying Timezones on Dates
 
@@ -36,7 +36,7 @@ The Locale API handles the following functionality
 
 ## Initialization
 
-You can set the locale or language on the root container. If you do this then all elements in the container will get that locale or language. It is possible to use the translation strings in another language, independently of the locale settings for date and numbers ect. to do this just call the `setLanguage` api function.
+You can set the locale or language on the root container. If you do this then all elements in the container will get that locale or language. It is possible to use the translation strings in another language, independently of the locale settings for date and numbers ect. to do this just call the `setLanguage` api function or set the language attribute on the container. Note that the locale should be set first before setting the language or it will just switch it back.
 
 ```js
 await document.querySelector('ids-container').setLocale('de-DE');
@@ -202,7 +202,7 @@ If coming from 4.x versions we mapped some rules out for converting to the new v
 - `date` - This is now `dateStyle` as per the Intl Api and not that short is two digits year and no padding and medium is four digit year.
 - If passing the `style: 'integer'` option, this should now be `{ minimumFractionDigits: 0, maximumFractionDigits: 0 }`
 - For `{ pattern: month }` format you would now use `{ month: 'long', day: 'numeric' }`
-- For arabic digits now show in Arabic/Persian as is the browser default
+- For `arabic` digits now show in Arabic/Persian as is the browser default
 - For `{ date: 'datetime' }` you would now use `{ dateStyle: 'short', timeStyle: 'short' }`
 - For `{ date: 'timezone' }` you would now use `{ year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZoneName: 'short' }`
 - For `{ date: 'year' }` you would now use `{ month: 'long', year: 'numeric' }`

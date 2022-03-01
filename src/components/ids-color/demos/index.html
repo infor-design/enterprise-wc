@@ -4,8 +4,8 @@
   <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 <body>
-  <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
-  <ids-container padding="8" role="main">
+  <ids-container padding="8" role="main" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
     <ids-layout-grid auto="true">
       <ids-text font-size="12" type="h1">Color</ids-text>
     </ids-layout-grid>

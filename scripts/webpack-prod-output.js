@@ -7,7 +7,7 @@ const prodOutput = (pathData) => {
   const srcFileListFilterItem = srcFileListFilter[0];
   const srcFileListFilterItemArray = srcFileListFilterItem.split(isWin32);
   const isCore = srcFileListFilterItemArray[1] === 'core' ? 1 : 2;
-  srcFileListFilterItemArray.splice(0, isCore)
+  srcFileListFilterItemArray.splice(0, isCore);
   srcFileListFilterItemArray.pop();
   const webpackOutputPath = srcFileListFilterItemArray.join(isWin32);
   return webpackOutputPath;
