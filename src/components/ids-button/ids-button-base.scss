@@ -153,7 +153,7 @@
 
     &.is-active,
     &:focus {
-      @include border-azure-70();
+      @include border-azure-50();
       @include shadow();
     }
 
@@ -177,6 +177,7 @@
       border-color: var(--ids-color-brand-primary-base);
       color: var(--ids-color-brand-primary-contrast);
 
+      &.is-active,
       &:focus {
         @include solid-button-shadow();
       }
@@ -203,6 +204,7 @@
 
       color: var(--ids-color-font-base);
 
+      &.is-active,
       &:focus {
         @include solid-button-shadow();
       }
@@ -221,12 +223,6 @@
       }
     }
 
-    &.is-active,
-    &:focus {
-      border-color: var(--ids-color-palette-azure-50);
-      box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-60);
-    }
-
     // ====================================================
     // Light Mode Alternate Styles
 
@@ -236,6 +232,7 @@
 
       opacity: 0.7;
 
+      &.is-active,
       &:focus {
         @include alternate-button-shadow();
 
@@ -266,6 +263,7 @@
         color: var(--ids-color-brand-primary-contrast);
         opacity: 1;
 
+        &.is-active,
         &:focus {
           @include alternate-button-shadow();
 
@@ -297,6 +295,7 @@
 
         opacity: 1;
 
+        &.is-active,
         &:focus {
           @include alternate-button-shadow();
         }
@@ -322,6 +321,7 @@
     &.color-variant-alternate-formatter {
       opacity: 0.8;
 
+      &.is-active,
       &:focus {
         border-color: var(--ids-color-palette-azure-50);
         box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-60);
@@ -836,6 +836,7 @@
     // Primary Dark Mode
 
     &[mode='dark'] {
+      &.is-active,
       &:focus {
         box-shadow:
           0 0 0 2px var(--ids-color-palette-slate-90),
@@ -844,6 +845,7 @@
       }
 
       &.color-variant-alternate {
+        &.is-active,
         &:focus {
           @include alternate-button-shadow();
         }
@@ -854,6 +856,7 @@
     // Primary High-Contrast Mode
 
     &[mode='contrast'] {
+      &.is-active,
       &:focus {
         box-shadow:
           0 0 0 2px var(--ids-color-palette-slate-10),
@@ -862,6 +865,7 @@
       }
 
       &.color-variant-alternate {
+        &.is-active,
         &:focus {
           @include alternate-button-shadow();
         }
@@ -872,6 +876,7 @@
     // Primary "Classic" Light Mode
 
     &[mode='light'][version='classic'] {
+      &.is-active,
       &:focus {
         box-shadow:
           0 0 0 2px var(--ids-color-palette-graphite-10),
@@ -880,6 +885,7 @@
       }
 
       &.color-variant-alternate {
+        &.is-active,
         &:focus {
           @include alternate-button-shadow();
         }
@@ -890,6 +896,7 @@
     // Primary "Classic" Dark Mode
 
     &[mode='dark'][version='classic'] {
+      &.is-active,
       &:focus {
         box-shadow:
           0 0 0 2px var(--ids-color-palette-classic-slate-80),
@@ -898,6 +905,7 @@
       }
 
       &.color-variant-alternate {
+        &.is-active,
         &:focus {
           @include alternate-button-shadow();
         }
@@ -908,6 +916,7 @@
     // Primary "Classic" High-Contrast Mode
 
     &[mode='contrast'][version='classic'] {
+      &.is-active,
       &:focus {
         box-shadow:
           0 0 0 2px var(--ids-color-palette-graphite-20)
@@ -916,6 +925,7 @@
       }
 
       &.color-variant-alternate {
+        &.is-active,
         &:focus {
           @include alternate-button-shadow();
         }
@@ -927,6 +937,7 @@
     // ====================================================
     // Secondary Dark Mode
     &[mode='dark'] {
+      &.is-active,
       &:focus {
         box-shadow:
           0 0 0 2px var(--ids-color-palette-slate-90),
@@ -935,6 +946,7 @@
       }
 
       &.color-variant-alternate {
+        &.is-active,
         &:focus {
           @include alternate-button-shadow();
         }
@@ -945,6 +957,7 @@
     // Secondary High-Contrast Mode
 
     &[mode='contrast'] {
+      &.is-active,
       &:focus {
         box-shadow:
           0 0 0 2px var(--ids-color-palette-slate-10),
@@ -953,6 +966,7 @@
       }
 
       &.color-variant-alternate {
+        &.is-active,
         &:focus {
           @include alternate-button-shadow();
         }
@@ -963,6 +977,7 @@
     // Secondary "Classic" Light Mode
 
     &[mode='light'][version='classic'] {
+      &.is-active,
       &:focus {
         box-shadow:
           0 0 0 2px var(--ids-color-palette-graphite-10),
@@ -971,6 +986,7 @@
       }
 
       &.color-variant-alternate {
+        &.is-active,
         &:focus {
           @include alternate-button-shadow();
         }
@@ -981,6 +997,7 @@
     // Secondary "Classic" Dark Mode
 
     &[mode='dark'][version='classic'] {
+      &.is-active,
       &:focus {
         box-shadow:
           0 0 0 2px var(--ids-color-palette-classic-slate-80),
@@ -989,6 +1006,7 @@
       }
 
       &.color-variant-alternate {
+        &.is-active,
         &:focus {
           @include alternate-button-shadow();
         }
@@ -999,6 +1017,7 @@
     // Secondary "Classic" High-Contrast Mode
 
     &[mode='contrast'][version='classic'] {
+      &.is-active,
       &:focus {
         box-shadow:
           0 0 0 2px var(--ids-color-palette-graphite-20),
@@ -1007,6 +1026,7 @@
       }
 
       &.color-variant-alternate {
+        &.is-active,
         &:focus {
           @include alternate-button-shadow();
         }
@@ -1023,6 +1043,7 @@
     background-color: var(--ids-color-brand-primary-contrast);
     color: var(--ids-color-brand-primary-base);
 
+    &.is-active,
     &:focus {
       @include modal-button-shadow();
     }
@@ -1051,6 +1072,7 @@
     background-color: var(--ids-color-brand-primary-contrast);
     color: var(--ids-color-brand-secondary-contrast);
 
+    &.is-active,
     &:focus {
       @include modal-button-shadow();
     }
