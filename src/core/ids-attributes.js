@@ -315,4 +315,4 @@ export const breakpoints = {
   xs: '360px'
 };
 
-export const version = '0.0.0-beta.18';
+export const version = '0.0.0-beta.19';
