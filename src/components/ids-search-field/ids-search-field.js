@@ -24,10 +24,6 @@ const DEFAULT_PLACEHOLDER = 'Type to search';
 @customElement('ids-search-field')
 @scss(styles)
 export default class IdsSearchField extends Base {
-  DEFAULT_LABEL = DEFAULT_LABEL;
-
-  DEFAULT_PLACEHOLDER = DEFAULT_PLACEHOLDER;
-
   constructor() {
     super();
   }
@@ -66,6 +62,13 @@ export default class IdsSearchField extends Base {
     this.#attachEventHandlers();
     this.#attachKeyboardListener();
     super.connectedCallback();
+
+    if (!this.placeholder) {
+      this.placeholder = DEFAULT_PLACEHOLDER;
+    }
+    if (!this.label) {
+      this.label = DEFAULT_LABEL;
+    }
   }
 
   template() {
