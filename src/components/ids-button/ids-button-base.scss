@@ -339,6 +339,12 @@
   &[mode='dark'] {
     @include text-slate-20();
 
+    &.is-active,
+    &:focus {
+      @include border-azure-50();
+      @include shadow();
+    }
+
     &:hover {
       @include text-white();
     }
@@ -347,18 +353,51 @@
       @include text-slate-40();
     }
 
-    // Dark Mode Primary Styles
+    .ripple-effect {
+      background-color: var(--ids-color-palette-azure-40);
+    }
+
+    // ====================================================
+    // Dark Mode Primary Button Styles
+
     &.btn-primary {
+      background-color: var(--ids-color-brand-primary-base);
+      border-color: var(--ids-color-brand-primary-base);
+      color: var(--ids-color-palette-white);
+
+      &.is-active,
+      &:focus {
+        @include solid-button-shadow();
+      }
+
+      &:hover {
+        @include bg-azure-80();
+        @include border-azure-80();
+      }
+
       &[disabled] {
+        @include bg-azure-30();
+        @include border-azure-30();
         @include text-white();
+      }
+
+      .ripple-effect {
+        background-color: var(--ids-color-brand-primary-contrast);
       }
     }
 
-    // Dark Mode Secondary Styles
+    // ====================================================
+    // Dark Mode Secondary Button Styles
+
     &.btn-secondary {
       @include border-slate-30();
       @include bg-slate-30();
       @include text-slate-80();
+
+      &.is-active,
+      &:focus {
+        @include solid-button-shadow();
+      }
 
       &:hover {
         @include border-slate-40();
@@ -368,6 +407,10 @@
       &[disabled] {
         @include bg-slate-40();
         @include border-slate-40();
+      }
+
+      .ripple-effect {
+        background-color: var(--ids-color-brand-primary-contrast);
       }
     }
 
