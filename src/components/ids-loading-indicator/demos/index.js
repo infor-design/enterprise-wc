@@ -3,6 +3,11 @@ import IdsLoadingIndicator from '../ids-loading-indicator';
 import IdsTooltip from '../../ids-tooltip/ids-tooltip';
 import IdsSpinbox from '../../ids-spinbox/ids-spinbox';
 
+import css from '../../../assets/css/ids-loading-indicator/index.css';
+
+const cssLink = `<link href="${css}" rel="stylesheet">`;
+document.querySelector('head').insertAdjacentHTML('afterbegin', cssLink);
+
 document.addEventListener('DOMContentLoaded', () => {
   const determinateIndicators = document.querySelectorAll('ids-loading-indicator[progress]');
 
