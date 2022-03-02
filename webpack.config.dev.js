@@ -1,6 +1,7 @@
 const path = require('path');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const demoEntry = require('./scripts/webpack-dev-entry');
 const WebpackHtmlExamples = require('./scripts/webpack-html-templates');
 
@@ -91,6 +92,9 @@ module.exports = {
     ]
   },
   plugins: [
+    new CleanWebpackPlugin({
+      // verbose: true, // For debugging un-comment this
+    }),
     new BundleAnalyzerPlugin({
       analyzerMode: process.env.npm_lifecycle_event === 'build:dev:stats' ? 'server' : 'disabled',
       reportFilename: 'dev-build-report.html'
