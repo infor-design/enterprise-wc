@@ -2,11 +2,13 @@
 import IdsMessage from '../ids-message';
 import IdsButton from '../../ids-button/ids-button';
 
-// import './example.scss';
-
 document.addEventListener('DOMContentLoaded', () => {
   const triggerBtn = document.querySelector('#message-example-error-trigger');
   const message = document.querySelector('#message-example-error');
+
+  if (!message) {
+    return;
+  }
 
   // Link the Message to its trigger button
   message.target = triggerBtn;

@@ -1,8 +1,10 @@
 import IdsPopup from '../ids-popup';
 import IdsButton from '../../ids-button/ids-button';
 import IdsInput from '../../ids-input/ids-input';
+import css from '../../../assets/css/ids-popup/test-sandbox.css';
 
-import './test-sandbox.scss';
+const cssLink = `<link href="${css}" rel="stylesheet">`;
+document.querySelector('head').insertAdjacentHTML('afterbegin', cssLink);
 
 let popupEl;
 let xControlEl;

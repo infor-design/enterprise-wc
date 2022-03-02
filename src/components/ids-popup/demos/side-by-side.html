@@ -1,49 +1,60 @@
-{{> ../layouts/head-side-by-side.html }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
 
-<ids-layout-grid auto="true">
-  <h2 class="ids-text ids-text-px-12">Web Component Popup</h2>
-</ids-layout-grid>
+  <!--Import Old IDS -->
+  <link href="https://unpkg.com/ids-enterprise@4.52.0/dist/css/theme-new-light.css" rel="stylesheet"/>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/ids-enterprise@4.52.0/dist/js/sohoxi.js"></script>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Web Component Popup</ids-text>
+    </ids-layout-grid>
 
-<ids-layout-grid auto="true">
-  <ids-layout-grid-cell>
-    <ids-button id="popup-trigger-btn" type="secondary">
-      <span slot="text">Trigger a Popup</span>
-    </ids-button>
-  </ids-layout-grid-cell>
-</ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-button id="popup-trigger-btn" type="secondary">
+          <span slot="text">Trigger a Popup</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
 
-<ids-popup x="15" y="0" align-target="#popup-trigger-btn" align="right" animated="true" type="menu">
-  <div slot="content">
-    <div class="demo-popup">
-      My Popup Content
-    </div>
-  </div>
-</ids-popup>
+    <ids-popup x="15" y="0" align-target="#popup-trigger-btn" align="right" animated="true" type="menu">
+      <div slot="content">
+        <div class="demo-popup">
+          <ids-text font-size="12" type="span">My Popup Content</ids-text>
+        </div>
+      </div>
+    </ids-popup>
 
-<ids-layout-grid auto="true">
-  <h2 class="ids-text ids-text-px-12">4.x Popup</h2>
-</ids-layout-grid>
-<div class="svg hidden">
-  <div class="svg-icons">
-    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-icons">
-      <symbol id="icon-upload" viewBox="0 0 18 18"><path d="M9.5 18V3.648M4 9l5.5-5.5L15 9m2.5-1.574v-1.91c0-2.81-2.342-5.09-5.23-5.09H.5v7" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
-    </svg>
-  </div>
-</div>
-<div class="row top-padding">
-  <div class="twelve columns">
-
-    <div class="field">
-      <button id="popover-trigger" class="btn-secondary" type="button">
-        <svg class="icon" focusable="false" aria-hidden="true" role="presentation">
-          <use href="#icon-upload"></use>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">4.x Popup</ids-text>
+    </ids-layout-grid>
+    <div class="svg hidden">
+      <div class="svg-icons">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-icons">
+          <symbol id="icon-upload" viewBox="0 0 18 18"><path d="M9.5 18V3.648M4 9l5.5-5.5L15 9m2.5-1.574v-1.91c0-2.81-2.342-5.09-5.23-5.09H.5v7" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
         </svg>
-        <span>Click To Show Popover</span>
-      </button>
+      </div>
     </div>
+    <div class="row">
+      <div class="twelve columns">
 
-  </div>
-</div>
-<div id="popover-contents" class="popover-content-area hidden" data-automation-id="popover-contents-automation-id">My Popup Content</div>
+        <div class="field">
+          <button id="popover-trigger" class="btn-secondary" type="button">
+            <svg class="icon" focusable="false" aria-hidden="true" role="presentation">
+              <use href="#icon-upload"></use>
+            </svg>
+            <span>Click To Show Popover</span>
+          </button>
+        </div>
 
-{{> ../layouts/footer.html }}
+      </div>
+    </div>
+    <div id="popover-contents" class="popover-content-area hidden" data-automation-id="popover-contents-automation-id">My Popup Content</div>
+  </ids-container>
+</body>
+</html>

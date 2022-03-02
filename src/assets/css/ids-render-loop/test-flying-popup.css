@@ -1,7 +1,3 @@
-@import '../../../../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new-mixins';
-
-$target-size: 50px;
-
 html,
 body,
 div[role='main'] {
@@ -18,13 +14,12 @@ div[role='main'] {
 }
 
 .align-target {
-  @include font-bold();
-  @include text-white();
-
-  height: $target-size;
+  color: white;
+  font-weight: 600;
+  height: 50px;
   position: absolute;
   text-align: center;
-  width: $target-size;
+  width: 50px;
 }
 
 #renderloop-countdown {
@@ -33,43 +28,37 @@ div[role='main'] {
 }
 
 #target-1 {
-  @include bg-ruby-80();
-
+  background-color: var(--ids-color-palette-ruby-80);
   left: 33%;
   top: 100px;
 }
 
 #target-2 {
-  @include bg-amber-80();
-
+  background-color: var(--ids-color-palette-amber-80);
   right: 33%;
   top: 100px;
 }
 
 #target-3 {
-  @include bg-emerald-80();
-
+  background-color: var(--ids-color-palette-emerald-80);
   right: 100px;
   top: 50%;
 }
 
 #target-4 {
-  @include bg-turquoise-80();
-
+  background-color: var(--ids-color-palette-turquoise-80);
   bottom: 100px;
   right: 33%;
 }
 
 #target-5 {
-  @include bg-azure-80();
-
+  background-color: var(--ids-color-palette-azure-80);
   bottom: 100px;
   left: 33%;
 }
 
 #target-6 {
-  @include bg-amethyst-80();
-
+  background-color: var(--ids-color-palette-amethyst-80);
   left: 100px;
   top: 50%;
 }

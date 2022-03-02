@@ -2,7 +2,10 @@
 import IdsPopup from '../ids-popup';
 import IdsButton from '../../ids-button/ids-button';
 
-// import './example.scss';
+import css from '../../../assets/css/ids-popup/index.css';
+
+const cssLink = `<link href="${css}" rel="stylesheet">`;
+document.querySelector('head').insertAdjacentHTML('afterbegin', cssLink);
 
 document.addEventListener('DOMContentLoaded', () => {
   const triggerId = '#popup-trigger-btn';
@@ -11,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Toggle the Popup
   triggerBtn.addEventListener('click', () => {
-    popup.visible = !popup.visible;
+    // popup.visible = !popup.visible;
   });
 });
 

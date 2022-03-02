@@ -1,5 +1,3 @@
-import './example.scss';
-import './header-tabs-demo.scss';
 import IdsText from '../../ids-text/ids-text';
 import IdsHeader from '../../ids-header/ids-header';
 

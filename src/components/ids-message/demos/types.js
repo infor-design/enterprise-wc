@@ -4,8 +4,6 @@ import IdsModal, { IdsModalButton } from '../../ids-modal/ids-modal';
 import IdsButton from '../../ids-button/ids-button';
 import IdsHyperlink from '../../ids-hyperlink/ids-hyperlink';
 
-// import './types.scss';
-
 // Convenience function for setting up modal/trigger button connection
 const setupMessage = (messageEl, triggerBtnEl) => {
   // Link the Message to its trigger button

@@ -21,6 +21,10 @@
     @include text-alert-warning();
   }
 
+  &.alert {
+    @include text-alert-warning();
+  }
+
   &.success {
     @include text-alert-success();
   }

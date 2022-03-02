@@ -1,0 +1,20 @@
+#about-example {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: unset;
+}
+
+#about-example .ids-modal-header svg {
+  margin-bottom: 8px;
+}
+
+#about-example .ids-modal-content .ids-text:not(:last-child) {
+  margin-bottom: 16px;
+}
+
+#about-example .ids-modal-icon-button {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+}

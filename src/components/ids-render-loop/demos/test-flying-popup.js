@@ -5,11 +5,14 @@
 import IdsPopup from '../../ids-popup/ids-popup';
 import IdsText from '../../ids-text/ids-text';
 import IdsButton from '../../ids-button/ids-button';
+import renderLoop from '../ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop-item';
-import renderLoop from '../ids-render-loop';
 
 // Styles
-// import './test-flying-popup.scss';
+import css from '../../../assets/css/ids-render-loop/test-flying-popup.css';
+
+const cssLink = `<link href="${css}" rel="stylesheet">`;
+document.querySelector('head').insertAdjacentHTML('afterbegin', cssLink);
 
 // Setup functionality on page load
 document.addEventListener('DOMContentLoaded', () => {

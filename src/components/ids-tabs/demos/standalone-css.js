@@ -1,5 +1,3 @@
-import './standalone-css.scss';
-
 /**
  * Extremely minimal controller for testing
  * standalone-css on selections as items change;

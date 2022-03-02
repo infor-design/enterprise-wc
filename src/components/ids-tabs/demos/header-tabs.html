@@ -4,9 +4,7 @@
   <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 <body>
-  <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
   <ids-container role="main" padding="0" hidden>
-    <ids-text font-size="12" type="h1" audible="true">Ids Tabs (Header Tabs)</ids-text>
     <ids-tabs-context>
       <ids-header>
         <ids-toolbar>
@@ -17,8 +15,8 @@
             </ids-toolbar-section>
           </ids-toolbar-section>
           <ids-toolbar-section type="buttonset" align="end">
+            <ids-theme-switcher mode="light" version="new" color-variant="alternate"></ids-theme-switcher>
           </ids-toolbar-section>
-          <ids-theme-switcher mode="light" version="new" color-variant="alternate"></ids-theme-switcher>
         </ids-toolbar>
         <ids-tabs value="attachments">
           <ids-tab value="contracts">Contracts</ids-tab>
@@ -29,59 +27,32 @@
       </ids-header>
       <div class="ids-tabs-content">
         <ids-tab-content value="contracts">
-          <ids-text font-size="18">
-            I think there's a world market for about 5 computers.
-            (Thomas J. Watson, Chairman of the Board, IBM, circa 1948)
-          </ids-text>
+          <ids-layout-grid auto="true">
+            <ids-text font-size="16" type="p">Facilitate cultivate monetize, seize e-services peer-to-peer content integrateAJAX-enabled user-centric strategize. Mindshare; repurpose integrate global addelivery leading-edge frictionless, harness real-time plug-and-play standards-compliant 24/7 enterprise strategize robust infomediaries: functionalities back-end. Killer disintermediate web-enabled ubiquitous empower relationships, solutions, metrics architectures.</ids-text>
+          </ids-layout-grid>
         </ids-tab-content>
         <ids-tab-content value="opportunities">
           <div class="tab-content">
-            <ids-text font-size="18">
-              Everything that can be invented has been invented.
-              (Charles H. Duell, Commissioner, U.S. Office of Patents, 1899)
-            </ids-text>
+            <ids-layout-grid auto="true">
+              <ids-text font-size="16" type="p">
+                Bricks-and-clicks? Evolve ubiquitous matrix B2B 24/365 vertical 24/365 platforms standards-compliant global leverage dynamic 24/365 intuitive ROI seamless rss-capable. Cutting-edge grow morph web services leverage; ROI, unleash reinvent innovative podcasts citizen-media networking.
+              </ids-text>
+            </ids-layout-grid
           </div>
         </ids-tab-content>
         <ids-tab-content value="attachments">
-          <ids-text type="h2" font-size="20" font-weight="bold">Attachments</ids-text>
-          <ids-tabs-context>
-            <ids-tabs value="b">
-              <ids-tab value="a">A</ids-tab>
-              <ids-tab value="b">B</ids-tab>
-              <ids-tab value="c">C</ids-tab>
-              <ids-tab value="d">D</ids-tab>
-            </ids-tabs>
-            <div class="ids-tabs-content">
-              <ids-tab-content value="a">
-                <ids-text font-size="18">
-                  Attachment A
-                </ids-text>
-              </ids-tab-content>
-              <ids-tab-content value="b">
-                <div class="tab-content">
-                  <ids-text font-size="18">
-                    Attachment B
-                  </ids-text>
-                </div>
-              </ids-tab-content>
-              <ids-tab-content value="c">
-                <ids-text font-size="18">
-                  Attachment C
-                </ids-text>
-              </ids-tab-content>
-              <ids-tab-content value="d">
-                <ids-text font-size="18">
-                  Attachment D
-                </ids-text>
-              </ids-tab-content>
-            </div>
-          </ids-tabs-context>
+          <ids-layout-grid auto="true">
+            <ids-text font-size="16" type="p">
+              Frictionless webservices, killer open-source innovate, best-of-breed, whiteboard interactive back-end optimize capture dynamic front-end. Initiatives ubiquitous 24/7 enhance channels B2B drive frictionless web-readiness generate recontextualize widgets applications. Sexy sticky matrix, user-centred, rich user-centric: peer-to-peer podcasting networking addelivery optimize streamline integrated proactive: granular morph.
+            </ids-text>
+          </ids-layout-grid>
         </ids-tab-content>
         <ids-tab-content value="notes">
-          <ids-text font-size="18">
-            If debugging is the process of removing bugs, then programming must be the process of
-            putting them in. (Edsger W. Dijkstra)
-          </ids-text>
+          <ids-layout-grid auto="true">
+            <ids-text font-size="16" type="p">
+              Bricks-and-clicks? Evolve ubiquitous matrix B2B 24/365 vertical 24/365 platforms standards-compliant global leverage dynamic 24/365 intuitive ROI seamless rss-capable. Cutting-edge grow morph web services leverage; ROI, unleash reinvent innovative podcasts citizen-media networking.
+            </ids-text>
+          </ids-layout-grid>
         </ids-tab-content>
       </div>
     </ids-tabs-context>
