@@ -437,6 +437,7 @@ export default class IdsInput extends Base {
       }
       this.onEvent('keydown.capslock', this.container, updateCapsLockIcon);
       this.onEvent('keyup.capslock', this.container, updateCapsLockIcon);
+      this.capsLockIcon.hidden = true;
     } else {
       this.offEvent('keydown.capslock', this.container);
       this.offEvent('keyup.capslock', this.container);
@@ -500,7 +501,7 @@ export default class IdsInput extends Base {
   #togglePasswordEventSetUp(value) {
     const showHidePasswordElem = this.shadowRoot.querySelector(`.show-hide-password`);
     if (value) {
-      if (!showHidePasswordElem && this.revealablePassword && this.type === TYPES.password) {
+      if (!showHidePasswordElem && this.isPasswordVisible) {
         const showHideButton = document.createElement('ids-button');
         showHideButton.text = this.passwordVisible ? 'HIDE' : 'SHOW';
         showHideButton.id = 'show-hide-password';

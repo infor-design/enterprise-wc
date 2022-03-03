@@ -1,5 +1,11 @@
 @import '../ids-trigger-field/ids-trigger-field';
 
+// Applies to search fields in the app menu, which are
+// typically on top of black or dark color background
+@mixin ids-app-menu-search-field-shadow() {
+  box-shadow: 0 0 3px 2px rgba(255, 255, 255, 0.5);
+}
+
 @mixin ids-search-field-alternate-colors() {
   &.color-variant-alternate {
     .field-container {
@@ -44,10 +50,17 @@
       @include text-slate-20();
     }
 
-    &:focus {
+    &:focus-within {
       // stylelint-disable-next-line
       ids-icon::part(search-icon) {
         @include text-white();
+      }
+    }
+
+    &:focus-within,
+    &.readonly:focus-within {
+      .field-container {
+        @include ids-app-menu-search-field-shadow();
       }
     }
   }
@@ -112,10 +125,17 @@
         @include text-slate-20();
       }
 
-      &:focus {
+      &:focus-within {
         // stylelint-disable-next-line
         ids-icon::part(search-icon) {
           @include text-white();
+        }
+      }
+
+      &:focus-within,
+      &.readonly:focus-within {
+        .field-container {
+          @include ids-app-menu-search-field-shadow();
         }
       }
     }
