@@ -427,6 +427,27 @@ $input-compact-height: $input-field-height-xs;
 
   // Include error styles
   @include ids-input-message-styles();
+
+  &.color-variant-alternate,
+  &.color-variant-app-menu {
+    .field-container {
+      @include text-white();
+    }
+  }
+
+  // Alternate Color Variant (used in IdsHeader)
+  &.color-variant-alternate {
+    .field-container {
+      @include border-transparent();
+
+      background-color: rgba(71 71 76 / 0.3);
+      border-bottom: 1px solid rgba(62 62 66 / 0.7);
+    }
+
+    .ids-input-field::placeholder {
+      color: rgba(255 255 255 / 0.7);
+    }
+  }
 }
 
 .ids-input[version='new'][mode='contrast'] {
@@ -470,6 +491,20 @@ $input-compact-height: $input-field-height-xs;
   &.color-variant-app-menu {
     .field-container {
       @include text-white();
+    }
+  }
+
+  // Alternate Color Variant (used in IdsHeader)
+  &.color-variant-alternate {
+    .field-container {
+      @include border-transparent();
+
+      background-color: rgba(71 71 76 / 0.3);
+      border-bottom: 1px solid rgba(62 62 66 / 0.7);
+    }
+
+    .ids-input-field::placeholder {
+      color: rgba(255 255 255 / 0.7);
     }
   }
 }
