@@ -87,7 +87,7 @@ describe('IdsDrawer Component', () => {
 
     // Click the target to open the drawer
     btn.click();
-    await () => expect(elem.visible).toBeTruthy());
+    await waitFor(() => expect(elem.visible).toBeTruthy());
     elem.hide();
 
     // Disconnect the drawer from the button
