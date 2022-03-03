@@ -7,7 +7,9 @@ import placeHolderImg300350 from '../../../assets/images/placeholder-300x350.png
 import placeholderImg500200 from '../../../assets/images/placeholder-500x200.png';
 
 const idsImgClass10 = window.document.getElementsByClassName('ids-img-10');
-[...idsImgClass10].forEach(element => element.src = IdsImg10);
+[...idsImgClass10].forEach((element) => {
+  element.src = IdsImg10;
+});
 
 const IdsImgClass6060 = window.document.getElementsByClassName('placeholder-60-60')[0];
 IdsImgClass6060.src = placeHolderImg6060;
