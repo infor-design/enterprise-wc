@@ -23,6 +23,10 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
     ];
   }
 
+  dirty = {
+    original: ''
+  };
+
   isCheckbox = false;
 
   isEditor = false;

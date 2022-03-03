@@ -44,10 +44,8 @@ export default class IdsDropdown extends Base {
       this.container = document.createElement('ids-trigger-field');
     }
     this.popup = this.shadowRoot?.querySelector('ids-popup');
-    this.fieldContainer = this.container?.shadowRoot?.querySelector('.field-container');
+    this.fieldContainer = this.container?.fieldContainer;
     this.trigger = this.shadowRoot?.querySelector('ids-trigger-button');
-    this.input = this.container?.shadowRoot?.querySelector('input');
-    this.triggerContent = this.container?.shadowRoot?.querySelector('.field-container');
     this.listBox = this.querySelector('ids-list-box');
     this.labelEl = this.container?.shadowRoot?.querySelector('label');
 
@@ -81,11 +79,13 @@ export default class IdsDropdown extends Base {
     this.size = this.getAttribute(attributes.SIZE) || 'md';
 
     return `<ids-trigger-field
+      ${this.disabled ? ' disabled="true"' : ' readonly="true" bg-transparent="true"'}
+
+      cursor="pointer"
       size="${this.size}"
       label="${this.label}"
       part="trigger-field"
-      ${this.disabled ? ' disabled="true"' : ''}
-      ${this.readonly ? ' readonly="true"' : ''}
+
       ${this.validate ? ` validate="${this.validate}"` : ''}
       ${this.validate && this.validationEvents ? ` validation-events="${this.validationEvents}"` : ''}>
       <ids-trigger-button
@@ -93,7 +93,6 @@ export default class IdsDropdown extends Base {
         part="trigger-button"
         tabbable="false"
         disabled="${this.disabled}"
-        readonly="${this.readonly}"
       >
         <ids-text audible="true">Dropdown Button</ids-text>
         <ids-icon slot="icon" icon="dropdown" part="icon"></ids-icon>
@@ -203,29 +202,29 @@ export default class IdsDropdown extends Base {
    */
   set readonly(value) {
     const isReadonly = stringToBool(value);
-    if (isReadonly) {
-      if (this.input) {
-        this.removeAttribute('disabled');
-        this.container.readonly = true;
-        this.container.disabled = false;
-        this.container.cursor = 'text';
-        this.container.bgTransparent = false;
-      }
-      this.setAttribute('readonly', 'true');
-      return;
+
+    // NOTE: IdsTriggerField is ALWAYS `readonly` when used in IdsDropdown
+    // @TODO: revisit this when we implement filtering
+    if (!this.container.readonly) {
+      this.container.readonly = true;
     }
 
-    if (this.input) {
-      this.container.readonly = false;
+    if (isReadonly) {
+      this.removeAttribute(attributes.DISABLED);
       this.container.disabled = false;
-      this.container.cursor = 'pointer';
-      this.container.bgTransparent = true;
+      this.container.cursor = 'initial';
+      this.container.bgTransparent = false;
+      this.setAttribute(attributes.READONLY, 'true');
+      return;
     }
-    this.removeAttribute('readonly');
+    this.container.disabled = false;
+    this.container.cursor = 'pointer';
+    this.container.bgTransparent = true;
+    this.removeAttribute(attributes.READONLY);
   }
 
   get readonly() {
-    return stringToBool(this.getAttribute('readonly')) || false;
+    return stringToBool(this.getAttribute(attributes.READONLY)) || false;
   }
 
   /**
@@ -235,27 +234,24 @@ export default class IdsDropdown extends Base {
   set disabled(value) {
     const isDisabled = stringToBool(value);
     if (isDisabled) {
-      if (this.container) {
-        this.removeAttribute('readonly');
-        this.container.disabled = true;
-        this.container.readonly = false;
-        this.container.cursor = 'initial';
-        this.container.bgTransparent = false;
-      }
-      this.setAttribute('disabled', 'true');
+      this.container.disabled = true;
+      this.container.readonly = false;
+      this.container.cursor = 'initial';
+      this.container.bgTransparent = false;
+      this.setAttribute(attributes.DISABLED, 'true');
       return;
     }
-
-    if (this.input) {
-      this.container.disabled = false;
-      this.container.cursor = 'pointer';
-      this.container.bgTransparent = true;
+    if (!this.container.readonly) {
+      this.container.readonly = true;
     }
-    this.removeAttribute('disabled');
+    this.container.disabled = false;
+    this.container.cursor = 'pointer';
+    this.container.bgTransparent = true;
+    this.removeAttribute(attributes.DISABLED);
   }
 
   get disabled() {
-    return stringToBool(this.getAttribute('disabled')) || false;
+    return stringToBool(this.getAttribute(attributes.DISABLED)) || false;
   }
 
   /**
@@ -335,7 +331,7 @@ export default class IdsDropdown extends Base {
     }
 
     // Open the popup and add a class
-    this.popup.alignTarget = this.triggerContent;
+    this.popup.alignTarget = this.fieldContainer;
     this.popup.align = 'bottom, left';
     this.popup.arrow = 'none';
     this.popup.y = -1;
@@ -343,7 +339,7 @@ export default class IdsDropdown extends Base {
     this.popup.type = 'dropdown';
     this.addOpenEvents();
     this.container.classList.add('is-active');
-    this.input.setAttribute('aria-expanded', 'true');
+    this.setAttribute('aria-expanded', 'true');
 
     // Add aria for the open state
     this.listBox?.setAttribute('aria-activedescendant', this.selectedOption?.id || this.selectedIndex);
@@ -399,7 +395,7 @@ export default class IdsDropdown extends Base {
   close(noFocus) {
     this.popup.visible = false;
     this.container.classList.remove('is-active');
-    this.input.setAttribute('aria-expanded', 'false');
+    this.setAttribute('aria-expanded', 'false');
     const selected = this.querySelector('ids-list-box-option.is-selected');
 
     if (selected) {
@@ -410,7 +406,7 @@ export default class IdsDropdown extends Base {
     this.removeOpenEvents();
 
     if (!noFocus) {
-      this.input.focus();
+      this.container.focus();
     }
   }
 
@@ -433,18 +429,13 @@ export default class IdsDropdown extends Base {
    */
   #attachEventHandlers() {
     // Handle Clicking to open
-    this.onEvent('mouseup', this.input, () => {
+    this.onEvent('mouseup', this.fieldContainer, () => {
       this.toggle();
     });
 
     // Handle Key Typeahead
     this.onEvent('keydownend', this, (e) => {
       this.#typeAhead(e.detail.keys);
-    });
-
-    // Handle Clicking to open over the trigger part
-    this.onEvent('mouseup', this.trigger, () => {
-      this.toggle();
     });
 
     // Handle Clicking with the mouse on options
@@ -535,7 +526,7 @@ export default class IdsDropdown extends Base {
       }
 
       if (e.shiftKey) {
-        this.input.focus();
+        this.container.focus();
       }
 
       const selected = this.querySelector('ids-list-box-option.is-selected');
