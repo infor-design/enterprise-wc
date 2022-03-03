@@ -1,53 +1,58 @@
-{{> ../layouts/head-side-by-side.html }}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <!--Import Old IDS -->
+    <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet" nonce="0a59a005"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/ids-enterprise@4.60.0/dist/js/sohoxi.js"></script>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Web Component Fieldset</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <form>
+        <ids-fieldset>
+          <ids-input type="text" label="Company Name" id="company-name"></ids-input>
+          <ids-input type="text" label="Company Type" id="type"></ids-input>
+          <ids-input type="text" label="Company Address" id="company-address"></ids-input>
+          <ids-checkbox label="Checked" checked="true"></ids-checkbox>
+          <ids-button type="primary">Submit</ids-button>
+        </ids-fieldset>
+      </form>
+    </ids-layout-grid>
 
-<ids-layout-grid auto="true">
-  <h2 class="ids-text ids-text-px-12">Web Component Fieldset</h2>
-</ids-layout-grid>
-<ids-layout-grid auto="true">
-  <form>
-    <ids-fieldset>
-      <ids-input type="text" label="Company Name" id="company-name"></ids-input>
-      <ids-input type="text" label="Company Type" id="type"></ids-input>
-      <ids-input type="text" label="Company Address" id="company-address"></ids-input>
-      <ids-checkbox label="Checked" checked="true"></ids-checkbox>
-      <ids-button type="primary">Submit</ids-button>
-    </ids-fieldset>
-  </form>
-</ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">4.x Fieldset</ids-text>
+    </ids-layout-grid>
+    <div class="row">
+      <div class="six columns">
+        <fieldset role="region">
 
-<ids-layout-grid auto="true">
-  <h2 class="ids-text ids-text-px-12">4.x Fieldset</h2>
-</ids-layout-grid>
-<div class="row">
-  <div class="six columns">
+          <div class="field">
+            <label for="example-fs-company-name">Company Name</label>
+            <input type="text" id="example-fs-company-name" name="example-fs-company-name"/>
+          </div>
 
-    <form action="#" method="post">
-      <fieldset role="region">
+          <div class="field">
+            <label for="example-fs-company-type">Company Type</label>
+            <input type="password" id="example-fs-company-type" name="example-fs-company-type"/>
+          </div>
 
-        <div class="field">
-          <label for="example-fs-company-name">Company Name</label>
-          <input type="text" id="example-fs-company-name" name="example-fs-company-name"/>
-        </div>
+          <div class="field">
+            <label for="example-fs-company-address">Company Address</label>
+            <input type="password" id="example-fs-company-address" name="example-fs-company-address"/>
+          </div>
 
-        <div class="field">
-          <label for="example-fs-company-type">Company Type</label>
-          <input type="password" id="example-fs-company-type" name="example-fs-company-type"/>
-        </div>
+          <button class="btn-primary" type="submit">Submit</button>
+        </fieldset>
+      </div>
+    </div>
 
-        <div class="field">
-          <label for="example-fs-company-address">Company Address</label>
-          <input type="password" id="example-fs-company-address" name="example-fs-company-address"/>
-        </div>
-
-        <button class="btn-primary" type="submit">Submit</button>
-      </fieldset>
-    </form>
-
-  </div>
-</div>
-
-<script>
-  $('body').initialize();
-</script>
-
-{{> ../layouts/footer.html }}
+  <script>
+    $('body').initialize();
+  </script>
+</ids-container>
+</body>
+</html>

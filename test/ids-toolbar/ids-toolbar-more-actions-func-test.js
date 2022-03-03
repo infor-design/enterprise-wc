@@ -119,13 +119,13 @@ describe('IdsToolbarMoreActions Component', () => {
   it('can activate/deactivate display of overflowed menu items', async () => {
     sectionMore.overflow = true;
 
-    waitFor(() => expect(sectionMore.querySelector('[more-actions]')).toBeDefined());
-    waitFor(() => expect(sectionMore.overflowItems.length).toBe(4));
+    await waitFor(() => expect(sectionMore.querySelector('[more-actions]')).toBeDefined());
+    await waitFor(() => expect(sectionMore.overflowItems.length).toBe(4));
 
     sectionMore.overflow = false;
 
-    waitFor(() => expect(sectionMore.querySelector('[more-actions]')).not.toBeDefined());
-    waitFor(() => expect(sectionMore.overflowItems.length).toBe(0));
+    await waitFor(() => expect(sectionMore.querySelector('[more-actions]')).not.toBeDefined());
+    await waitFor(() => expect(sectionMore.overflowItems.length).toBe(0));
   });
 
   it('always returns a "more" type', () => {
@@ -153,12 +153,12 @@ describe('IdsToolbarMoreActions Component', () => {
   it('can programatically open/close its menu', async () => {
     sectionMore.visible = true;
 
-    waitFor(() => expect(sectionMore.hasAttribute('visible').toBeTruthy()));
+    await waitFor(() => expect(sectionMore.hasAttribute('visible').toBeTruthy()));
     expect(sectionMore.visible).toBeTruthy();
 
     sectionMore.visible = false;
 
-    waitFor(() => expect(sectionMore.hasAttribute('visible').toBeFalsy()));
+    await waitFor(() => expect(sectionMore.hasAttribute('visible').toBeFalsy()));
     expect(sectionMore.visible).toBeFalsy();
   });
 });
@@ -190,6 +190,6 @@ describe.skip('IdsToolbarMoreActions Component (initialized with overflow)', () 
     const overflowItemButton1 = sectionMore.overflowMenuItems[1];
     document.querySelector('#my-toolbar').triggerSelectedEvent(overflowItemButton1);
 
-    waitFor(() => expect(selectedEventListener).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(selectedEventListener).toHaveBeenCalledTimes(1));
   });
 });

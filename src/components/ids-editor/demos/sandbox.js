@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const radioBeforePaste = document.querySelector('#radio-editor-evt-beforepaste');
   const cbPasteAsPlainText = document.querySelector('#cb-paste-as-plain-text');
   if (editorEventsEl) {
-    // display colcole logs
+    // display console logs
     const show = (type, detail, veto) => {
       const showVeto = typeof veto !== 'undefined' ? `veto: ${veto}` : '';
       console.info(type, (detail ?? ''), showVeto);

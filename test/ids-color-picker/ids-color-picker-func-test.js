@@ -81,22 +81,22 @@ describe('Ids Color Picker Component', () => {
     expect(colorpicker.getAttribute('label')).toEqual('Ids Color Picker');
   });
 
-  it('should close on outside click', () => {
+  it('should close on outside click', async () => {
     expect(colorpicker.popup.visible).toEqual(false);
     colorpicker.triggerEvent('click', colorpicker.container);
-    waitFor(() => expect(colorpicker.popup.visible).toBeTruthy());
+    await waitFor(() => expect(colorpicker.popup.visible).toBeTruthy());
     colorpicker.onOutsideClick();
-    waitFor(() => expect(colorpicker.popup.visible).toBeFalsy());
+    await waitFor(() => expect(colorpicker.popup.visible).toBeFalsy());
   });
 
-  it('should not close on click outside if no onOutsideClick', () => {
+  it('should not close on click outside if no onOutsideClick', async () => {
     expect(colorpicker.popup.visible).toEqual(false);
     colorpicker.triggerEvent('click', colorpicker.container);
-    waitFor(() => expect(colorpicker.popup.visible).toBeTruthy());
+    await waitFor(() => expect(colorpicker.popup.visible).toBeTruthy());
     colorpicker.addOpenEvents();
     colorpicker.onOutsideClick = null;
     colorpicker.triggerEvent('click', document.body);
-    waitFor(() => expect(colorpicker.popup.visible).toBeTruthy());
+    await waitFor(() => expect(colorpicker.popup.visible).toBeTruthy());
   });
 
   it('should not open if readnly', () => {

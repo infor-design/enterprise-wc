@@ -86,43 +86,43 @@ describe('IdsAppMenu Component', () => {
 
   it('should convert inner accordions to use the "app-menu" color variant', async () => {
     const acc = appMenuElem.querySelector('ids-accordion');
-    waitFor(() => expect(acc.colorVariant).toBe('app-menu'));
+    await waitFor(() => expect(acc.colorVariant).toBe('app-menu'));
   });
 
-  it('can close by pressing the escape key', () => {
+  it('can close by pressing the escape key', async () => {
     const closeEvent = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true });
 
     // Open the Menu
     appMenuElem.show();
-    waitFor(() => expect(appMenuElem.visible).toBeTruthy());
+    await waitFor(() => expect(appMenuElem.visible).toBeTruthy());
 
     // Focus the first header and "Press Escape"
     const header1 = document.querySelector('#h1');
     header1.focus();
     header1.dispatchEvent(closeEvent);
-    waitFor(() => expect(appMenuElem.visible).toBeFalsy());
+    await waitFor(() => expect(appMenuElem.visible).toBeFalsy());
 
     // Dispatch again while closed (coverage)
     header1.dispatchEvent(closeEvent);
-    waitFor(() => expect(appMenuElem.visible).toBeFalsy());
+    await waitFor(() => expect(appMenuElem.visible).toBeFalsy());
   });
 
-  it('wont close by pressing any key but escape', () => {
+  it('wont close by pressing any key but escape', async () => {
     const closeEvent = new KeyboardEvent('keydown', { key: 'a', bubbles: true });
 
     // Open the Menu
     appMenuElem.show();
-    waitFor(() => expect(appMenuElem.visible).toBeTruthy());
+    await waitFor(() => expect(appMenuElem.visible).toBeTruthy());
 
     // Focus the first header and "Press Escape"
     const header1 = document.querySelector('#h1');
     header1.focus();
     header1.dispatchEvent(closeEvent);
-    waitFor(() => expect(appMenuElem.visible).toBeTruthy());
+    await waitFor(() => expect(appMenuElem.visible).toBeTruthy());
 
     // Dispatch again while closed (coverage)
     header1.dispatchEvent(closeEvent);
-    waitFor(() => expect(appMenuElem.visible).toBeTruthy());
+    await waitFor(() => expect(appMenuElem.visible).toBeTruthy());
   });
 
   it('provides an API for its accordion element', async () => {
