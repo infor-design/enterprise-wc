@@ -42,7 +42,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(png|jpe?g|gif|svg|json|css)$/i,
+        test: /\.(png|jpeg|gif|svg|json|css)$/i,
         exclude: [/node_modules/],
         type: 'asset/resource',
       },
@@ -92,9 +92,9 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin({
-      // verbose: true, // For debugging un-comment this
-    }),
+    // new CleanWebpackPlugin({
+    //   // verbose: true, // For debugging un-comment this
+    // }),
     new BundleAnalyzerPlugin({
       analyzerMode: process.env.npm_lifecycle_event === 'build:dev:stats' ? 'server' : 'disabled',
       reportFilename: 'dev-build-report.html'
