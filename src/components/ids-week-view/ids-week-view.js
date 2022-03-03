@@ -22,7 +22,7 @@ import IdsToolbar from '../ids-toolbar/ids-toolbar';
 import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 
-import * as styles from './ids-week-view.scss';
+import styles from './ids-week-view.scss';
 
 /**
  * IDS Week View Component
