@@ -42,7 +42,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(png|jpeg|gif|svg|json|css)$/i,
+        test: /\.(png|jpe?g|gif|svg|json|css)$/i,
         exclude: [/node_modules/],
         type: 'asset/resource',
       },
