@@ -1,49 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title><%= htmlWebpackPlugin.options.title %></title>
-  <!--Import Old IDS -->
-  <link href="https://unpkg.com/ids-enterprise@4.52.0/dist/css/theme-new-light.css" rel="stylesheet" nonce="0a59a005"/>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://unpkg.com/ids-enterprise@4.52.0/dist/js/sohoxi.js"></script>
-</head>
+  <head>
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <!--Import Old IDS -->
+    <link href="https://unpkg.com/ids-enterprise@4.52.0/dist/css/theme-new-light.css" rel="stylesheet" nonce="0a59a005"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/ids-enterprise@4.52.0/dist/js/sohoxi.js"></script>
 <body>
+  <ids-container role="main" padding="8" hidden>
 
-  <ids-layout-grid auto="true">
-    <ids-text font-size="12">Web Component Splitter</ids-text>
-  </ids-layout-grid>
-  <ids-layout-grid auto="true">
-    <div class="demo-splitter">
-      <ids-splitter>
-        <ids-splitter-pane></ids-splitter-pane>
-        <ids-splitter-pane></ids-splitter-pane>
-      </ids-splitter>
-    </div>
-  </ids-layout-grid>
-
-  <ids-layout-grid auto="true">
-    <ids-text font-size="12">4.x Splitter</ids-text>
-  </ids-layout-grid>
-  <div class="svg hidden">
-    <div class="svg-icons">
-      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-icons">
-        <symbol id="icon-drag" viewBox="0 0 18 18">
-          <path clip-rule="evenodd" d="M8 18h2v-2H8v2zM8 13h2v-2H8v2zM8 7h2V5H8v2zM8 2h2V0H8v2z" fill="currentColor" fill-rule="evenodd" stroke="none"></path>
-        </symbol>
-      </svg>
-    </div>
-  </div>
-
-  <div class="page-container two-column fixed splitter-container demo-splitter demo-splitter-4x">
-    <section class="main">
-      <div class="content scrollable">
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12">Web Component Splitter</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <div class="demo-splitter">
+        <ids-splitter>
+          <ids-splitter-pane></ids-splitter-pane>
+          <ids-splitter-pane></ids-splitter-pane>
+        </ids-splitter>
       </div>
-    </section>
-    <nav class="sidebar scrollable">
-      <div class="content">
-        <div id="splitter" class="splitter"></div>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12">4.x Splitter</ids-text>
+    </ids-layout-grid>
+    <div class="svg hidden">
+      <div class="svg-icons">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-icons">
+          <symbol id="icon-drag" viewBox="0 0 18 18">
+            <path clip-rule="evenodd" d="M8 18h2v-2H8v2zM8 13h2v-2H8v2zM8 7h2V5H8v2zM8 2h2V0H8v2z" fill="currentColor" fill-rule="evenodd" stroke="none"></path>
+          </symbol>
+        </svg>
       </div>
-    </nav>
-  </div>
+    </div>
+
+    <div class="page-container two-column fixed splitter-container demo-splitter demo-splitter-4x">
+      <section class="main">
+        <div class="content scrollable">
+        </div>
+      </section>
+      <nav class="sidebar scrollable">
+        <div class="content">
+          <div id="splitter" class="splitter"></div>
+        </div>
+      </nav>
+    </div>
+  </ids-container>
 </body>
 </html>

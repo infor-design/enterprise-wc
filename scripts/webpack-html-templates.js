@@ -10,6 +10,7 @@ const WebpackHtmlExamples = WebpackHtmlTemplates.map((template) => {
   const chunkName = chunkArray[0];
   const chunkFileNameArray = template.split(isWin32);
   const chunkFileName = chunkFileNameArray.slice(-1)[0];
+  const noCSP = !!chunkFileName.includes('side-by-side');
   const title = `${chunkName.split('-').map((word) =>
     `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`).join(' ').replace('Ids ', 'IDS ')} Component`;
   let extraChunk;
@@ -20,7 +21,7 @@ const WebpackHtmlExamples = WebpackHtmlTemplates.map((template) => {
     template: `./${template}`,
     title,
     filename: `${chunkName}/${chunkFileName}`,
-    chunks: [chunkName, 'ids-container', 'ids-text', 'ids-icon', 'ids-layout-grid', 'ids-theme-switcher', 'ids-csp', extraChunk],
+    chunks: [chunkName, 'ids-container', 'ids-text', 'ids-icon', 'ids-layout-grid', 'ids-theme-switcher', noCSP ? '' : 'ids-csp', extraChunk],
     favicon: './src/assets/images/favicon.ico',
   });
 });
