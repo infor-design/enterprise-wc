@@ -50,6 +50,15 @@ const IdsFieldHeightMixin = (superclass) => class extends superclass {
   }
 
   /**
+   * @returns {string} that can be applied to an HTML element
+   * inside a template for determining the current Field Height class
+   */
+  templateFieldHeight() {
+    if (this.compact) return '';
+    return this.fieldHeight ? `${getFieldHeightClass(this.fieldHeight)}` : '';
+  }
+
+  /**
    *  Set the compact height
    * @param {boolean|string} value If true will set `compact` attribute
    */
@@ -73,7 +82,7 @@ const IdsFieldHeightMixin = (superclass) => class extends superclass {
 
   /**
    * Set the fieldHeight (height) of input
-   * @param {string} value [xs, sm, mm, md, lg]
+   * @param {string} value [xs, sm, md, lg]
    */
   set fieldHeight(value) {
     if (!value) {
@@ -98,11 +107,19 @@ const IdsFieldHeightMixin = (superclass) => class extends superclass {
     return this.getAttribute(attributes.FIELD_HEIGHT);
   }
 
+  /**
+   * Clears all existing field height classes defined on this component
+   * @returns {void}
+   */
   clearHeightClasses() {
     const heightClasses = Object.values(FIELD_HEIGHTS).map((h) => getFieldHeightClass(h));
     this.container?.classList.remove(...heightClasses);
   }
 
+  /**
+   * Runs optional `onFieldHeightChange` callback, if possible
+   * @param {string} fieldHeight the incoming `fieldHeight` or `compact` setting
+   */
   #doFieldHeightChange(fieldHeight) {
     if (typeof this.onFieldHeightChange === 'function') {
       this.onFieldHeightChange(fieldHeight);

@@ -166,8 +166,7 @@ export default class IdsInput extends Base {
     let inputState = stringToBool(this.readonly) ? ' readonly' : '';
     inputState = stringToBool(this.disabled) ? ' disabled' : inputState;
 
-    const fieldHeightState = this.fieldHeight ? `${this.fieldHeight}` : '';
-    let containerClass = `ids-input${inputState} ${this.size} ${fieldHeightState}`;
+    let containerClass = `ids-input${inputState} ${this.size}`;
     containerClass += stringToBool(this.compact) ? ' compact' : '';
     containerClass += stringToBool(this.noMargins) ? ' no-margins' : '';
 
@@ -437,7 +436,9 @@ export default class IdsInput extends Base {
       }
       this.onEvent('keydown.capslock', this.container, updateCapsLockIcon);
       this.onEvent('keyup.capslock', this.container, updateCapsLockIcon);
-      this.capsLockIcon.hidden = true;
+      if (this.capsLockIcon) {
+        this.capsLockIcon.hidden = true;
+      }
     } else {
       this.offEvent('keydown.capslock', this.container);
       this.offEvent('keyup.capslock', this.container);
@@ -691,10 +692,10 @@ export default class IdsInput extends Base {
    * @param {string} value [xs, sm, mm, md, lg, full]
    */
   set size(value) {
-    const size = SIZES[value];
-    this.setAttribute(attributes.SIZE, size || SIZES.default);
+    const size = SIZES[value] || SIZES.default;
+    this.setAttribute(attributes.SIZE, size);
     this.container?.classList.remove(...Object.values(SIZES));
-    this.container?.classList.add(size || SIZES.default);
+    this.container?.classList.add(size);
   }
 
   get size() { return this.getAttribute(attributes.SIZE) || SIZES.default; }
