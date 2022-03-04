@@ -17,3 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
     cbIndeterminate.indeterminate = false;
   });
 });
+
+document.addEventListener('click', (event) => {
+  console.log(event);
+});
+
+document.addEventListener('change', (event) => {
+  console.log(event);
+});

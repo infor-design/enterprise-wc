@@ -88,3 +88,8 @@
 :host([version='classic'][mode='contrast']:hover:not(.is-selected)) {
   @include bg-graphite-20();
 }
+
+::slotted(ids-check-box){
+  //background-color: plum;
+  line-height: normal;
+}

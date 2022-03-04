@@ -216,14 +216,14 @@ export default class IdsTag extends Base {
     const response = (veto) => {
       canDismiss = !!veto;
     };
-    this.triggerEvent('beforetagremove', this, { detail: { elem: this, response } });
+    this.triggerEvent('beforetagremove', this, { bubbles: true, detail: { elem: this, response } });
 
     if (!canDismiss) {
       return;
     }
 
-    this.triggerEvent('tagremove', this, { detail: { elem: this } });
+    this.triggerEvent('tagremove', this, { bubbles: true, detail: { elem: this } });
     this.remove();
-    this.triggerEvent('aftertagremove', this, { detail: { elem: this } });
+    this.triggerEvent('aftertagremove', this, { bubbles: true, detail: { elem: this } });
   }
 }

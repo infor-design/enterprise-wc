@@ -32,7 +32,7 @@ class IdsMultiselect extends Base {
    * Invoked each time the custom element is add into a document-connected element
    */
   connectedCallback() {
-    this.#attachEventHandlers();
+    //this.#attachEventHandlers();
     //super.connectedCallback();
     this.#populateSelected();
     console.log(Base.prototype);
@@ -50,6 +50,17 @@ class IdsMultiselect extends Base {
       attributes.MAX
     ];
   }
+
+  /*set disabled(value){
+
+    if(this.tag){
+      this.querySelectorAll('ids-tag').forEach((element) => {
+        element.setAttribute('disabled', 'true');
+      });
+    }
+
+    super.disabled = value;
+  }*/
 
   set tags(value) {
     const valueSafe = stringToBool(value);
@@ -98,15 +109,9 @@ class IdsMultiselect extends Base {
     this.selectTooltip(elem);
 
     this.shadowRoot.querySelector('ids-input').value = '';
+    console.log("update display/list - value set");
     this.#updateDisplay();
     this.#updateList(true);
-    /* this.#selectedList.forEach((selectedValue, index) => {
-      const matchedElem = this.options.querySelector(`ids-list-box-option[value="${selectedValue}"]`);
-      if (index > 0) {
-        this.shadowRoot.querySelector('ids-input').value += ', ';
-      }
-      this.shadowRoot.querySelector('ids-input').value += matchedElem.querySelector('ids-checkbox').label;
-    }); */
 
     this.state.selectedIndex = [...elem.parentElement.children].indexOf(elem);
     // Send the change event
@@ -136,45 +141,40 @@ class IdsMultiselect extends Base {
   } */
 
   /**
-   * Create the template for the contents
-   * @returns {string} The template
-   */
-  /* template() {
-    const baseTemplate = super.template();
-
-  } */
-
-  /**
    * Establish internal event handlers
    * @private
    * @returns {object} The object for chaining
    */
-  #attachEventHandlers() {
-    // super.attachEventHandlers();
+  /*#attachEventHandlers() {
+    //super.attachEventHandlers();
     // console.log(Base.prototype);
     // Base.prototype.attachEventHandlers.apply(this);
     return this;
-  }
+  }*/
 
   attachClickEvent() {
     this.offEvent('click');
     this.onEvent('click', this, (e) => {
+      console.log('click event called target to follow');
+
       if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
         const targetOption = e.target;
         if (this.#selectedList.find((value) => value === targetOption.getAttribute('value'))) {
           if (targetOption.querySelector('ids-checkbox')?.checked) {
-            targetOption.querySelector('ids-checkbox').setAttribute('checked', 'false');
+            //targetOption.querySelector('ids-checkbox').setAttribute('checked', 'false');
           }
           this.#selectedList = this.#selectedList.filter((item) => item !== targetOption.getAttribute('value'));
           console.log(`list should be shorter`);
           console.log(this.#selectedList);
+          console.log("update display/list - click event list box option, found in selected list");
           this.#updateDisplay();
           this.#updateList(false);
         } else if (this.max !== this.value.length) {
           if (!e.target.querySelector('ids-checkbox')?.checked) {
-            e.target.querySelector('ids-checkbox').setAttribute('checked', 'true');
+            //e.target.querySelector('ids-checkbox').setAttribute('checked', 'true');
           }
           this.#selectedList.push(e.target.getAttribute('value'));
+          console.log("update display/list - click event, list box option, not found in selected list");
           this.#updateDisplay();
           this.#updateList(true);
           console.log("boop");
@@ -182,22 +182,23 @@ class IdsMultiselect extends Base {
         }
       }
 
-      console.log(e.target);
-      console.log(e.target.closest('ids-list-box-option'));
+
       if (e.target.closest('ids-list-box-option')) {
         const targetOption = e.target.closest('ids-list-box-option');
         if (this.#selectedList.find((value) => value === targetOption.getAttribute('value'))) {
           if (targetOption.querySelector('ids-checkbox')?.checked) {
-            targetOption.querySelector('ids-checkbox').setAttribute('checked', 'false');
+            //targetOption.querySelector('ids-checkbox').setAttribute('checked', 'false');
           }
           this.#selectedList = this.#selectedList.filter((item) => item !== targetOption.getAttribute('value'));
+          console.log("update display/list - click, closest list box, found selected list");
           this.#updateDisplay();
           this.#updateList(false);
         } else if (this.max !== this.value.length) {
           if (!targetOption.querySelector('ids-checkbox')?.checked) {
-            targetOption.querySelector('ids-checkbox').setAttribute('checked', 'true');
+            //targetOption.querySelector('ids-checkbox').setAttribute('checked', 'true');
           }
           this.#selectedList.push(targetOption.getAttribute('value'));
+          console.log("update display/list - click, closest list box, not found in selected list");
           this.#updateDisplay();
           this.#updateList(true);
           console.log("bonk");
@@ -206,15 +207,18 @@ class IdsMultiselect extends Base {
     });
 
     if (this.tags) {
-      this.onEvent('click', this.shadowRoot.querySelector('ids-trigger-field').container, (e) => {
+      this.onEvent('beforetagremove', this.shadowRoot.querySelector('ids-trigger-field'), (e) => {
         console.log('tag clicked');
         console.log(e.target.nodeName);
         if (e.target.nodeName == "IDS-ICON") {
-          const tag = e.target.closest("ids-tag");
-          console.log('got the tag');
-          console.log(tag.childNodes);
-          const removedSelection = this.#selectedList.indexOf((item) => item === e.target.closest('ids-tag').id);
-          console.log(removedSelection);
+          const removedSelection = this.#selectedList.indexOf(e.target.closest('ids-tag').id);
+          if(removedSelection > -1) {
+            this.#selectedList.splice(removedSelection, 1);
+          }
+          console.log('final selected list');
+          console.log(this.#selectedList);
+          console.log("update display/list - beforetag remove");
+          this.#updateList(false);
         }
       });
     }
@@ -226,12 +230,19 @@ class IdsMultiselect extends Base {
   } */
 
   #updateDisplay() {
+    let triggerField;
     this.shadowRoot.querySelector('ids-input').value = '';
     console.log(this.#selectedList);
+    if (this.tags) {
+      triggerField = this.shadowRoot.querySelector('ids-trigger-field')
+      triggerField.querySelectorAll('ids-tag').forEach(item => item.remove());
+    }
     this.#selectedList.forEach((selectedValue, index) => {
       const matchedElem = this.querySelector(`ids-list-box-option[value="${selectedValue}"]`);
+
       if(this.tags){
-        this.shadowRoot.querySelector('ids-trigger-field').insertAdjacentHTML('afterbegin', `<ids-tag id="${selectedValue}" dismissible="true">${matchedElem.querySelector('ids-checkbox').label}</ids-tag>`);
+        const disabled = this.disabled ? ``:`disabled="true"`
+        triggerField.insertAdjacentHTML('afterbegin', `<ids-tag id="${selectedValue}" dismissible="true" ${disabled}>${matchedElem.querySelector('ids-checkbox').label}</ids-tag>`);
       } else {
         if (index > 0) {
           this.shadowRoot.querySelector('ids-input').value += ', ';
@@ -242,22 +253,35 @@ class IdsMultiselect extends Base {
 
   }
   #updateList(addItem){
+      console.log('updateList start');
       const selectedOptions = this.querySelectorAll('.selected-options ids-list-box-option');
       console.log(this.querySelectorAll('ids-list-box.selected-options ids-list-box-option'));
-      const unselectedOptions = this.querySelectorAll('ids-list-box.options ids-list-box-option')
+      let unselectedOptions;
       const optionsContainer = this.querySelector('.options');
-      const selectedOptionsContainer = this.querySelector('.selected-options');
+      let selectedOptionsContainer = this.querySelector('.selected-options');
       if(addItem){
+        console.log('add item start');
+        if (!selectedOptionsContainer) {
+          this.insertAdjacentHTML('afterbegin', `<ids-listbox class="selected-options" id="selected-options">
+          </ids-listbox>`);
+          selectedOptionsContainer = this.querySelector('.selected-options');
+        }
+        unselectedOptions = this.querySelectorAll('ids-list-box.options ids-list-box-option');
         unselectedOptions.forEach((option, index) => {
           if(this.#selectedList.includes(option.getAttribute('value'))){
+            console.log('found in selected list - goal add, checked true');
+            //option.querySelector('ids-checkbox').checked = "true";
             selectedOptionsContainer.insertBefore(option, selectedOptionsContainer.children[selectedOptionsContainer.children.length]);
           }
         });
       } else {
+        console.log('remove item start');
         selectedOptions.forEach((option, index) => {
           console.log(!this.#selectedList.includes(option.getAttribute('value')));
           console.log(this.#selectedList);
           if (!this.#selectedList.includes(option.getAttribute('value'))) {
+            console.log('found in selected list - goal remove, checked false');
+            //option.querySelector('ids-checkbox').checked = "false";
             optionsContainer.insertBefore(option, optionsContainer.children[optionsContainer.children.length]);
           }
         });
@@ -286,6 +310,7 @@ class IdsMultiselect extends Base {
       if(element.querySelector('ids-checkbox').checked){
         this.#selectedList.push(element.getAttribute('value'));
         this.#updateDisplay();
+        console.log("update display/list - populate selected, checked option");
         this.#updateList(true);
       }
     })

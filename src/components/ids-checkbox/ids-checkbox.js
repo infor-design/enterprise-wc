@@ -126,6 +126,8 @@ export default class IdsCheckbox extends Base {
    */
   attachCheckboxChangeEvent() {
     this.onEvent('change', this.input, (e) => {
+      console.log('checkbox change event occurs');
+      console.log(e);
       this.indeterminate = false;
       this.checked = this.input.checked;
       this.triggerEvent(e.type, this, {
@@ -146,6 +148,11 @@ export default class IdsCheckbox extends Base {
    */
   attachNativeEvents() {
     const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
+
+    this.onEvent('click', this.input, (e) => {
+      e.stopPropagation();
+    });
+
     events.forEach((evt) => {
       this.onEvent(evt, this.input, (e) => {
         this.triggerEvent(e.type, this, {
@@ -326,6 +333,8 @@ export default class IdsCheckbox extends Base {
    * @param {string} val the value property
    */
   set value(val) {
+    console.log('value change');
+    console.log(val);
     if (val) {
       this.setAttribute(attributes.VALUE, val);
     } else {

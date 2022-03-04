@@ -4,17 +4,44 @@
 
 <ids-layout-grid auto="true">
   <ids-layout-grid-cell>
-    <ids-multiselect id="dropdown-1" tags="true" label="Test Dropdown" max="3" dirty-tracker="true">
+    <ids-multiselect id="dropdown-1" tags="true" disabled="true" label="Test Dropdown" max="3" dirty-tracker="true">
       <ids-listbox class="selected-options" id="selected-options">
         <ids-list-box-option id="nj" value="nj"><ids-checkbox checked="true" label="New Jersey"></ids-checkbox></ids-list-box-option>
       </ids-listbox>
       <ids-list-box class="options" id="options">
-        <ids-list-box-option id="al" value="al"><ids-checkbox label="Alabama"></ids-checkbox></ids-list-box-option>
-        <ids-list-box-option id="ak" value="ak"><ids-checkbox label="Alaska"></ids-checkbox></ids-list-box-option>
-        <ids-list-box-option id="az" value="az"><ids-checkbox label="Arizona"></ids-checkbox></ids-list-box-option>
-        <ids-list-box-option id="ar" value="ar"><ids-checkbox label="Arkansas"></ids-checkbox></ids-list-box-option>
-        <ids-list-box-option id="ca" value="ca"><ids-checkbox label="California"></ids-checkbox></ids-list-box-option>
-        <ids-list-box-option id="co" value="co"><ids-checkbox label="Colorado"></ids-checkbox></ids-list-box-option>
+        <ids-list-box-option id="al" value="al"><ids-checkbox label="Alabama" class="justify-center"></ids-checkbox></ids-list-box-option>
+        <ids-list-box-option id="ak" value="ak"><ids-checkbox label="Alaska" class="justify-center"></ids-checkbox></ids-list-box-option>
+        <ids-list-box-option id="az" value="az"><ids-checkbox label="Arizona" class="justify-center"></ids-checkbox></ids-list-box-option>
+        <ids-list-box-option id="ar" value="ar"><ids-checkbox label="Arkansas" class="justify-center"></ids-checkbox></ids-list-box-option>
+        <ids-list-box-option id="ca" value="ca"><ids-checkbox label="California" class="justify-center"></ids-checkbox></ids-list-box-option>
+        <ids-list-box-option id="co" value="co"><ids-checkbox label="Colorado" class="justify-center"></ids-checkbox></ids-list-box-option>
+      </ids-list-box>
+    </ids-multiselect>
+
+    <ids-multiselect id="dropdown-1" label="Test Dropdown" max="3" dirty-tracker="true">
+      <ids-listbox class="selected-options" id="selected-options">
+        <ids-list-box-option id="nj" value="nj"><ids-checkbox checked="true" label="New Jersey"></ids-checkbox></ids-list-box-option>
+      </ids-listbox>
+      <ids-list-box class="options" id="options">
+        <ids-list-box-option id="al" value="al"><ids-checkbox label="Alabama" class="justify-center"></ids-checkbox></ids-list-box-option>
+        <ids-list-box-option id="ak" value="ak"><ids-checkbox label="Alaska" class="justify-center"></ids-checkbox></ids-list-box-option>
+        <ids-list-box-option id="az" value="az"><ids-checkbox label="Arizona" class="justify-center"></ids-checkbox></ids-list-box-option>
+        <ids-list-box-option id="ar" value="ar"><ids-checkbox label="Arkansas" class="justify-center"></ids-checkbox></ids-list-box-option>
+        <ids-list-box-option id="ca" value="ca"><ids-checkbox label="California" class="justify-center"></ids-checkbox></ids-list-box-option>
+        <ids-list-box-option id="co" value="co"><ids-checkbox label="Colorado" class="justify-center"></ids-checkbox></ids-list-box-option>
+      </ids-list-box>
+    </ids-multiselect>
+
+    <ids-multiselect id="dropdown-1" label="Test Dropdown" max="3" dirty-tracker="true">
+      <!--<ids-listbox class="selected-options" id="selected-options">
+      </ids-listbox>-->
+      <ids-list-box class="options" id="options">
+        <ids-list-box-option id="al" value="al"><ids-checkbox label="Alabama" class="justify-center"></ids-checkbox></ids-list-box-option>
+        <ids-list-box-option id="ak" value="ak"><ids-checkbox label="Alaska" class="justify-center"></ids-checkbox></ids-list-box-option>
+        <ids-list-box-option id="az" value="az"><ids-checkbox label="Arizona" class="justify-center"></ids-checkbox></ids-list-box-option>
+        <ids-list-box-option id="ar" value="ar"><ids-checkbox label="Arkansas" class="justify-center"></ids-checkbox></ids-list-box-option>
+        <ids-list-box-option id="ca" value="ca"><ids-checkbox label="California" class="justify-center"></ids-checkbox></ids-list-box-option>
+        <ids-list-box-option id="co" value="co"><ids-checkbox label="Colorado" class="justify-center"></ids-checkbox></ids-list-box-option>
       </ids-list-box>
     </ids-multiselect>
   </ids-layout-grid-cell>

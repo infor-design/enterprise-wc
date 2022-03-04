@@ -4,3 +4,32 @@
   border-top: 1px solid #B7B7BA;
   padding-top: 4px;
 }
+
+ids-trigger-field{
+  ids-tag{
+    display: flex;
+    align-self: center;
+    margin-top: 4px;
+    margin-left: 4px;
+  }
+}
+
+ids-list-box{
+  ::slotted(ids-list-box-option){
+    ::slotted(ids-checkbox){
+      background-color: pink;
+    }
+  }
+}
+
+ids-checkbox{
+  &::part(label){
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: purple;
+  }
+
+  background-color: red;
+}
+
