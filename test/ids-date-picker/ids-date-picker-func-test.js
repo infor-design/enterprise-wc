@@ -152,21 +152,21 @@ describe('IdsDatePicker Component Tests', () => {
       const container = new IdsContainer();
       document.body.appendChild(container);
       container.insertAdjacentHTML('beforeend', `
-        <ids-date-picker
-          label="${name}"
-          id="${name}"
-          placeholder="${name}"
-          tabbable="false"
-          value="2021-10-18"
-          format="yyyy-MM-dd"
-          size="lg"
-          first-day-of-week="1"
-          show-today="false"
-          month="9"
-          year="2021"
-          day="18"
-        ></ids-date-picker>
-      `);
+         <ids-date-picker
+           label="${name}"
+           id="${name}"
+           placeholder="${name}"
+           tabbable="false"
+           value="2021-10-18"
+           format="yyyy-MM-dd"
+           size="lg"
+           first-day-of-week="1"
+           show-today="false"
+           month="9"
+           year="2021"
+           day="18"
+         ></ids-date-picker>
+       `);
 
       component = document.querySelector(name);
     });
