@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsAccordion, {
+ import IdsAccordion, {
   IdsAccordionHeader,
   IdsAccordionPanel
 } from '../../src/components/ids-accordion/ids-accordion';
@@ -229,7 +229,7 @@ describe('IdsAccordion Component', () => {
   it('supports color variants', async () => {
     elemBuilder.clearElement();
     accordion = await createAccordion('app-menu');
-    await waitFor(() => expect(accordion.colorVariant).toBe('app-menu'));
+    waitFor(() => expect(accordion.colorVariant).toBe('app-menu'));
     expect(accordion.panels[0].colorVariant).toBe(null);
   });
 
@@ -300,7 +300,7 @@ describe('IdsAccordion Component', () => {
 
   it('has headers that are aware of their expanded status', async () => {
     panel.expanded = true;
-    await waitFor(() => expect(header.expanded).toBeTruthy());
+    waitFor(() => expect(header.expanded).toBeTruthy());
   });
 
   it('can select headers', () => {
@@ -362,23 +362,5 @@ describe('IdsAccordion Component', () => {
     expect(panel.expanded).toBeFalsy();
     expect(panel2.expanded).toBeTruthy();
     expect(panel3.expanded).toBeFalsy();
-  });
-
-  it('should be able to set expanded', async () => {
-    header.expanded = true;
-    expect(header.expanded).toBeTruthy();
-    await waitFor(() => expect(header.container.classList.contains('expanded')).toBeTruthy());
-    header.expanded = false;
-    expect(header.expanded).toBeFalsy();
-    await waitFor(() => expect(header.container.classList.contains('expanded')).toBeFalsy());
-  });
-
-  it('should be able to set expander type', async () => {
-    header.expanderType = 'plus-minus';
-    expect(header.expanderType).toEqual('plus-minus');
-    await waitFor(() => expect(header.container.classList.contains('expander-type-plus-minus')).toBeTruthy());
-    header.expanderType = 'caret';
-    expect(header.expanderType).toEqual('caret');
-    await waitFor(() => expect(header.container.classList.contains('expander-type-caret')).toBeTruthy());
   });
 });
