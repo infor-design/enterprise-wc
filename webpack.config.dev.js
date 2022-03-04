@@ -11,7 +11,7 @@ module.exports = {
     chunkFormat: 'module',
     path: path.resolve(__dirname, './build/development'),
     filename: '[name]/[name].js',
-    assetModuleFilename: '[path][name][contenthash][ext]',
+    assetModuleFilename: '[path][name][ext]',
     clean: true,
     publicPath: '/'
   },
@@ -40,7 +40,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(png|jpe?g|gif|svg|json|css)$/i,
+        test: /\.(png|jpe?g|gif|svg|json|css|pdf|csv|xml)$/i,
         exclude: [/node_modules/],
         type: 'asset/resource',
       },
