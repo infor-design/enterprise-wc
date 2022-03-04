@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
- import IdsAccordion, {
+import IdsAccordion, {
   IdsAccordionHeader,
   IdsAccordionPanel
 } from '../../src/components/ids-accordion/ids-accordion';
