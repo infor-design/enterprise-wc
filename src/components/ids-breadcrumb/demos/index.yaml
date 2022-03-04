@@ -13,3 +13,5 @@
     description: Showing a breadcrumb with a 4.x breadcrumb
   - link: standalone-css.html
     description: Showing a breadcrumb that works with css only
+  - link: truncated.html
+    description: Showing a breadcrumb truncated
