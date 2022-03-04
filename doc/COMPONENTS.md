@@ -20,7 +20,7 @@ Some the components by design and functionality should inherit from another one.
 
 Utils are sets of [pure functions](https://www.geeksforgeeks.org/pure-functions-in-javascript/) that provide a simple shared function for some functionality. Usually some sort of input/output processing.
 
-Current mixins are documented here `src/utils/README.md`. Some commonly used ones include IdStringUtils, IdsXssUtils.
+Current mixins are documented here `src/utils/README.md`. Some commonly used ones include `IdStringUtils`, `IdsXssUtils`.
 
 ### Mixins
 
