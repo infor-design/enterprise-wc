@@ -43,11 +43,9 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
     this.isRadioGroup = this.input?.classList.contains('ids-radio-group');
 
     if (`${this.dirtyTracker}`.toLowerCase() === 'true') {
-      if (this.input) {
-        const val = this.valMethod(this.input);
-        this.dirty = { original: val };
-        this.dirtyTrackerEvents();
-      }
+      const val = this.valMethod(this.input);
+      this.dirty = { original: val };
+      this.dirtyTrackerEvents();
     } else {
       this.destroyDirtyTracker();
     }
@@ -116,7 +114,7 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
     if (msg) {
       msg.remove();
     }
-    msg = this.shadowRoot.querySelector('ids-input')?.shadowRoot?.querySelector('.icon-dirty');
+    msg = this.input?.shadowRoot?.querySelector('.icon-dirty');
     if (msg) {
       msg.remove();
     }

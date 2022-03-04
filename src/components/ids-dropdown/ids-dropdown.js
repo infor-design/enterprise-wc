@@ -125,6 +125,13 @@ export default class IdsDropdown extends Base {
   }
 
   /**
+   * @returns {HTMLInputElement} Reference to the HTMLInputElement inside the IdsTriggerField
+   */
+  get input() {
+    return this.container.input;
+  }
+
+  /**
    * Set the `label` text
    * @param {string} value of the `label` text property
    */
