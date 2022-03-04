@@ -11,8 +11,8 @@ module.exports = {
   output: {
     chunkFormat: 'module',
     path: path.resolve(__dirname, './build/development'),
-    filename: '[name]/[name].[contenthash].js',
-    assetModuleFilename: '[path][name][contenthash][ext]',
+    filename: '[name]/[name]].js',
+    assetModuleFilename: '[path][name][ext]',
     clean: true,
     publicPath: '/'
   },
