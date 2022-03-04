@@ -1,5 +1,3 @@
-import './variants.scss';
-
 import IdsCard from '../../src/components/ids-card/ids-card';
 import IdsImage from '../../src/components/ids-image/ids-image';
 import IdsMenuButton from '../../src/components/ids-menu-button/ids-menu-button';

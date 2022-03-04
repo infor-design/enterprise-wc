@@ -6,9 +6,6 @@ import styles from './ids-card-action.scss';
  * IDS Card Action Component
  * @type {IdsCardAction}
  * @inherits IdsElement
- * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
- * @mixes IdsLocaleMixin
  */
 @customElement('ids-card-action')
 @scss(styles)

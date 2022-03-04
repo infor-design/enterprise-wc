@@ -19,5 +19,5 @@
     description: Showing cards with multiple selection
   - link: toolbar.html
     description: Showing cards with secondary toolbar
-  - link: variants.html
-    description: Showing cards with variation examples
+  - link: info.html
+    description: Showing cards with various info examples

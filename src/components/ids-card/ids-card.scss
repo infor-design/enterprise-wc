@@ -101,6 +101,15 @@
   }
 }
 
+:host([flex-content]) {
+  ::slotted([slot='card-content']) {
+    display: flex;
+    align-items: center;
+    padding: 15px 16px;
+    gap: 16px;
+  }
+}
+
 // Handle the themes for Actionable
 .ids-card ids-button {
   &::part(button) {
