@@ -24,7 +24,7 @@ export default class IdsProcessIndicator extends Base {
     // set the active step label for xs heading
     requestAnimationFrame(() => {
       let activeStepLabel = 'None';
-
+      debugger;
       const steps = this.querySelectorAll('ids-process-step');
       if (steps.length > 1) {
         let i = 0;

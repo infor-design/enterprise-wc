@@ -11,7 +11,7 @@
 <body>
 
   <ids-layout-grid auto="true">
-    <h2 class="ids-text ids-text-px-12">Web Component Badge</h2>
+    <ids-text font-size="12" type="h1">Web Component Badge</ids-text>
   </ids-layout-grid>
   <ids-layout-grid auto="true">
     <ids-layout-grid-cell>
@@ -28,28 +28,23 @@
   </ids-layout-grid>
 
   <ids-layout-grid auto="true">
-    <h2 class="ids-text ids-text-px-12">4.x Badge</h2>
+    <ids-text font-size="12" type="h2">4.x Badge</ids-text>
   </ids-layout-grid>
-  <div class="row">
-    <div class="twelve columns">
+  <ids-layout-grid auto="true">
+    <ids-layout-grid-cell>
       <span class="round info badge ">5</span>
-      <span class="round info badge">15</span>
       <span class="info badge">912</span>
       <span class="info badge">1k+</span>
-      <br/>
-      <br/>
       <span class="round error badge">12</span>
       <span class="round alert badge">8</span>
       <span class="round good badge">1</span>
-      <br/>
-      <br/>
       <span class="error badge">12 <span class="audible">In Error Condition</span></span>
       <span class="good badge">2 <span class="audible">In Good</span></span>
       <span class="info badge">2</span>
       <span class="alert badge">12  <span class="audible">Alerts</span></span>
       <span class="alert badge pending">  <span class="audible">Pending</span></span>
-    </div>
-  </div>
+    </ids-layout-grid-cell>
+  </ids-layout-grid>
 
   <script>
     $('body').initialize();

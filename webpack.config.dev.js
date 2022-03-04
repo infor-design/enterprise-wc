@@ -3,6 +3,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const demoEntry = require('./scripts/webpack-dev-entry');
 const WebpackHtmlExamples = require('./scripts/webpack-html-templates');
+
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
 
 module.exports = {
@@ -10,8 +11,8 @@ module.exports = {
   output: {
     chunkFormat: 'module',
     path: path.resolve(__dirname, './build/development'),
-    filename: '[name]/[name].js',
-    assetModuleFilename: '[path][name][ext]',
+    filename: '[name]/[name].[contenthash].js',
+    assetModuleFilename: '[path][name][contenthash][ext]',
     clean: true,
     publicPath: '/'
   },
