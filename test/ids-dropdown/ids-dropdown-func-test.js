@@ -3,6 +3,7 @@
  */
 import '../helpers/resize-observer-mock';
 import waitFor from '../helpers/wait-for';
+import wait from '../helpers/wait';
 import processAnimFrame from '../helpers/process-anim-frame';
 
 import IdsDropdown from '../../src/components/ids-dropdown/ids-dropdown';
@@ -382,11 +383,9 @@ describe('IdsDropdown Component', () => {
   });
 
   it('supports clicking trigger to open', async () => {
-    expect(dropdown.popup.visible).toEqual(false);
     await waitFor(() => expect(dropdown.trigger).toBeTruthy());
 
     dropdown.trigger.click();
-    dropdown.triggerEvent('mouseup', dropdown.trigger);
     expect(dropdown.popup.visible).toEqual(true);
   });
 
@@ -394,19 +393,17 @@ describe('IdsDropdown Component', () => {
     await waitFor(() => expect(dropdown.container).toBeTruthy());
 
     dropdown.container.click();
-    dropdown.triggerEvent('mouseup', dropdown.container);
     expect(dropdown.popup.visible).toEqual(true);
   });
 
   it('supports clicking to select', async () => {
     expect(dropdown.value).toEqual('opt2');
-
-    await waitFor(() => expect(dropdown.trigger).toBeTruthy());
     dropdown.trigger.click();
-    dropdown.triggerEvent('mouseup', dropdown.trigger);
 
-    await waitFor(() => expect(dropdown.popup.visible).toEqual(true));
+    await wait(80);
     dropdown.querySelectorAll('ids-list-box-option')[4].click();
+
+    await wait(80);
     expect(dropdown.value).toEqual('opt5');
   });
 

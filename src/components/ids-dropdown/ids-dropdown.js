@@ -435,11 +435,6 @@ export default class IdsDropdown extends Base {
    * @returns {object} The object for chaining.
    */
   #attachEventHandlers() {
-    // Handle Clicking to open
-    this.onEvent('mouseup', this.fieldContainer, () => {
-      this.toggle();
-    });
-
     // Handle Key Typeahead
     this.onEvent('keydownend', this, (e) => {
       this.#typeAhead(e.detail.keys);
@@ -454,6 +449,10 @@ export default class IdsDropdown extends Base {
 
       if (e.target.closest('ids-list-box-option')) {
         this.value = e.target.closest('ids-list-box-option').getAttribute('value');
+      }
+
+      if (e.target.isEqualNode(this)) {
+        this.toggle();
       }
     });
 
@@ -587,7 +586,7 @@ export default class IdsDropdown extends Base {
   get dirtyTracker() { return this.getAttribute(attributes.DIRTY_TRACKER); }
 
   /**
-   * Sets the validation check to use
+   * Pass down `validate` attribute into IdsTriggerField
    * @param {string} value The `validate` attribute
    */
   set validate(value) {
@@ -598,13 +597,12 @@ export default class IdsDropdown extends Base {
       this.removeAttribute(attributes.VALIDATE);
       this.container.removeAttribute(attributes.VALIDATE);
     }
-    this.handleValidation();
   }
 
   get validate() { return this.getAttribute(attributes.VALIDATE); }
 
   /**
-   * Set `validation-events` attribute
+   * Pass down `validation-events` attribute into IdsTriggerField
    * @param {string} value The `validation-events` attribute
    */
   set validationEvents(value) {
@@ -615,7 +613,6 @@ export default class IdsDropdown extends Base {
       this.removeAttribute(attributes.VALIDATION_EVENTS);
       this.container.removeAttribute(attributes.VALIDATION_EVENTS);
     }
-    this.handleValidation();
   }
 
   get validationEvents() { return this.getAttribute(attributes.VALIDATION_EVENTS) || 'change'; }

@@ -43,9 +43,11 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
     this.isRadioGroup = this.input?.classList.contains('ids-radio-group');
 
     if (`${this.dirtyTracker}`.toLowerCase() === 'true') {
-      const val = this.valMethod(this.input);
-      this.dirty = { original: val };
-      this.dirtyTrackerEvents();
+      if (this.input) {
+        const val = this.valMethod(this.input);
+        this.dirty = { original: val };
+        this.dirtyTrackerEvents();
+      }
     } else {
       this.destroyDirtyTracker();
     }
