@@ -71,6 +71,7 @@ export default class IdsInput extends Base {
       attributes.PASSWORD_VISIBLE,
       attributes.SIZE,
       attributes.READONLY,
+      attributes.READONLY_BACKGROUND,
       attributes.REVEALABLE_PASSWORD,
       attributes.TABBABLE,
       attributes.TEXT_ALIGN,
@@ -160,6 +161,7 @@ export default class IdsInput extends Base {
     const capsLock = this.templateCapsLock();
 
     inputClass += stringToBool(this.bgTransparent) ? ' bg-transparent' : '';
+    inputClass += stringToBool(this.readonlyBackground) ? '' : ' readonly-background';
     inputClass += stringToBool(this.textEllipsis) ? ' text-ellipsis' : '';
     inputClass = ` class="${inputClass}"`;
 
@@ -686,6 +688,29 @@ export default class IdsInput extends Base {
   }
 
   get readonly() { return stringToBool(this.getAttribute(attributes.READONLY)); }
+
+  /**
+   * @param {boolean|string} value If true, causes an IdsInput set to `readonly` to appear
+   * to use its standard field background color instead of the "readonly" state color
+   */
+  set readonlyBackground(value) {
+    const val = stringToBool(value);
+    if (val) {
+      this.setAttribute(attributes.READONLY_BACKGROUND, val.toString());
+      this.container.classList.add(attributes.READONLY_BACKGROUND);
+    } else {
+      this.removeAttribute(attributes.READONLY_BACKGROUND);
+      this.container.classList.remove(attributes.READONLY_BACKGROUND);
+    }
+  }
+
+  /**
+   * @returns {boolean} true if this IdsInput should appear to use its standard
+   * field background color instead of the "readonly" state color when set to `readonly`
+   */
+  get readonlyBackground() {
+    return stringToBool(this.getAttribute(attributes.READONLY_BACKGROUND));
+  }
 
   /**
    * Set the size (width) of input

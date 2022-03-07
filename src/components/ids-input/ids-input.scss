@@ -329,9 +329,16 @@ $input-compact-height: $input-field-height-xs;
     .field-container,
     &.hover .field-container,
     &.focus-within .field-container {
-      @include bg-slate-20();
       @include border-slate-40();
       @include text-black();
+    }
+
+    &:not(.readonly-background):not(.bg-transparent) {
+      .field-container,
+      &.hover .field-container,
+      &.focus-within .field-container {
+        @include bg-slate-20();
+      }
     }
   }
 
@@ -407,9 +414,16 @@ $input-compact-height: $input-field-height-xs;
 
   &.readonly {
     .field-container {
-      @include bg-slate-70();
       @include border-slate-40();
       @include text-slate-10();
+    }
+
+    &:not(.readonly-background):not(.bg-transparent) {
+      .field-container,
+      &.hover .field-container,
+      &.focus-within .field-container {
+        @include bg-slate-70();
+      }
     }
   }
 
@@ -466,9 +480,16 @@ $input-compact-height: $input-field-height-xs;
 
   &.readonly {
     .field-container {
-      @include bg-slate-20();
       @include border-slate-40();
       @include text-slate-100();
+    }
+
+    &:not(.readonly-background):not(.bg-transparent) {
+      .field-container,
+      &.hover .field-container,
+      &.focus-within .field-container {
+        @include bg-slate-20();
+      }
     }
   }
 

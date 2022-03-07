@@ -79,7 +79,8 @@ export default class IdsDropdown extends Base {
     this.size = this.getAttribute(attributes.SIZE) || 'md';
 
     return `<ids-trigger-field
-      ${this.disabled ? ' disabled="true"' : ' readonly="true" bg-transparent="true"'}
+      ${this.disabled ? ' disabled="true"' : ' readonly="true"'}
+      ${this.readonly ? '' : ' readonly-background'}
 
       cursor="pointer"
       size="${this.size}"
@@ -220,13 +221,13 @@ export default class IdsDropdown extends Base {
       this.removeAttribute(attributes.DISABLED);
       this.container.disabled = false;
       this.container.cursor = 'initial';
-      this.container.bgTransparent = false;
+      this.container.readonlyBackground = false;
       this.setAttribute(attributes.READONLY, 'true');
       return;
     }
     this.container.disabled = false;
     this.container.cursor = 'pointer';
-    this.container.bgTransparent = true;
+    this.container.readonlyBackground = true;
     this.removeAttribute(attributes.READONLY);
   }
 

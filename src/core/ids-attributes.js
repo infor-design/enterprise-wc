@@ -211,6 +211,7 @@ export const attributes = {
   PROGRESS_BAR: 'progress-bar',
   PROGRESS_COLOR: 'progress-color',
   READONLY: 'readonly',
+  READONLY_BACKGROUND: 'readonly-background',
   REQUIRED: 'required',
   RESET: 'reset',
   RESIZABLE: 'resizable',

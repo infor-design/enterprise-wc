@@ -77,12 +77,12 @@ export default class IdsUpload extends Base {
     const accept = this.accept ? ` accept="${this.accept}"` : '';
     const dirtyTracker = trueVal(this.dirtyTracker) ? ` dirty-tracker="${this.dirtyTracker}"` : '';
     const disabled = trueVal(this.disabled) ? ` disabled="${this.disabled}"` : '';
+    const readonlyBG = trueVal(this.readonly) ? '' : ' readonly-background';
     const textEllipsis = trueVal(this.noTextEllipsis) ? '' : ' text-ellipsis="true"';
     const label = this.label ? ` label="${this.label}"` : '';
     const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
     const multiple = trueVal(this.multiple) ? ` multiple="multiple"` : '';
     const readonlyBtn = trueVal(this.readonly) ? ` readonly="true"` : '';
-    const bgTransparent = ` bg-transparent="${!trueVal(this.readonly)}"`;
     const clearableForced = ` clearable-forced="${this.hasAccess}"`;
     const size = this.size ? ` size="${this.size}"` : '';
     const triggerLabel = this.triggerLabel || this.triggerLabelDefault;
@@ -99,7 +99,8 @@ export default class IdsUpload extends Base {
         <input id="${ID}" type="file" class="ids-upload-filetype" aria-hidden="true" tabindex="-1"${accept}${multiple}${value} />
         <ids-trigger-field
           readonly
-          ${clearableForced}${bgTransparent}${dirtyTracker}${disabled}${label}${placeholder}${size}${validate}${validationEvents}${textEllipsis}${value}
+          ${readonlyBG}
+          ${clearableForced}${dirtyTracker}${disabled}${label}${placeholder}${size}${validate}${validationEvents}${textEllipsis}${value}
           css-class="ids-upload"
           part="input"
         >
@@ -471,12 +472,12 @@ export default class IdsUpload extends Base {
     if (val) {
       this.setAttribute(attributes.READONLY, val.toString());
       this.container.classList.add(attributes.READONLY);
-      this.textInput.bgTransparent = false;
+      this.textInput.readonlyBackground = false;
       this.trigger.readonly = true;
     } else {
       this.removeAttribute(attributes.READONLY);
       this.container.classList.remove(attributes.READONLY);
-      this.textInput.bgTransparent = true;
+      this.textInput.readonlyBackground = true;
       this.trigger.readonly = false;
     }
   }
