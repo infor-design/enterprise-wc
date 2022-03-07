@@ -2,35 +2,35 @@
 <html lang="en">
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
+  <script src="https://unpkg.com/ids-enterprise@4.60.0/dist/js/sohoxi.js" defer></script>
+  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
 </head>
 <body>
-  <div>
+  <ids-container role="main" padding="8" hidden>
     <ids-layout-grid auto="true">
-      <h2 class="ids-text ids-text-px-12">Web Component Editor</h2>
+      <ids-text font-size="12" type="h1">Web Component Editor</ids-text>
     </ids-layout-grid>
-    
+
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
-    
+
         <ids-editor id="editor-wc" label="Comments">
           <p>Embrace <a href="http://en.wikipedia.org/wiki/e-commerce" class="hyperlink">e-commerce action-items</a>, reintermediate, ecologies paradigms wireless share life-hacks create innovative harness. Evolve solutions rich-clientAPIs synergies harness relationships virtual vertical facilitate end-to-end, wireless, evolve synergistic synergies.</p>
           <p>Cross-platform, evolve, ROI scale cultivate eyeballs addelivery, e-services content cross-platform leverage extensible viral incentivize integrateAJAX-enabled sticky evolve magnetic cultivate leverage; cutting-edge. Innovate, end-to-end podcasting, whiteboard streamline e-business social; compelling, "cross-media exploit infomediaries innovative integrate integrateAJAX-enabled." Killer interactive reinvent, cultivate widgets leverage morph.</p>
         </ids-editor>
-    
+
       </ids-layout-grid-cell>
     </ids-layout-grid>
-    
-    <!--
-      Begin 4.x
-     -->
+
     <ids-layout-grid auto="true">
-      <h2 class="ids-text ids-text-px-12">4.x Editor</h2>
+      <ids-text font-size="12" type="h2">4.x Editor</ids-text>
     </ids-layout-grid>
-    
+
     <div class="svg hidden">
       <div class="svg-icons">
         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-icons">
-    
+
           <symbol id="icon-dropdown" viewBox="0 0 18 18">
             <path clip-rule="evenodd" d="M4 6l5 6 5-6H4z" fill="currentColor" fill-rule="evenodd" stroke="none"></path>
           </symbol>
@@ -85,14 +85,14 @@
           <symbol id="icon-visual" viewBox="0 0 73 18">
             <path clip-rule="evenodd" d="M0 1h2.234l2.674 8.65c.582 1.881.98 3.407 1.596 5.284h.1c.613-1.877 1.021-3.403 1.595-5.285L10.853 1H13L7.737 17H5.293L0 1zm16 16h2V1h-2v16zm5-2.291l1.213-1.348c1.147 1.153 2.739 1.913 4.394 1.913 2.09 0 3.33-1.01 3.33-2.509 0-1.576-1.154-2.08-2.657-2.715l-2.288-.979c-1.484-.614-3.225-1.704-3.225-3.973 0-2.36 2.12-4.098 5.014-4.098 1.887 0 3.57.792 4.69 1.912l-1.074 1.262c-.977-.893-2.144-1.447-3.616-1.447-1.786 0-2.97.872-2.97 2.253 0 1.487 1.389 2.043 2.637 2.555l2.271.951C30.562 9.254 32 10.319 32 12.614 32 15.052 29.92 17 26.572 17c-2.235 0-4.18-.884-5.572-2.291zM35 1h2v9.224c0 3.776 1.503 5.018 3.503 5.018C42.532 15.242 44 14 44 10.224V1h2v9.224C46 15.266 43.628 17 40.503 17 37.377 17 35 15.266 35 10.224V1zm26 16h-2.3l-1.624-4.874h-6.225L49.211 17H47l5.774-16h2.452L61 17zm-8.78-8.936l-.821 2.437h5.136l-.812-2.437a130.17 130.17 0 01-1.708-5.39h-.105a105.116 105.116 0 01-1.69 5.39zM63 1h2v14h8v2H63V1z" fill="currentColor" fill-rule="evenodd" stroke="none"></path>
           </symbol>
-    
+
         </svg>
       </div>
     </div>
-    
+
     <div class="row">
       <div class="twelve columns">
-    
+
         <div class="field">
           <span id="editor-4x-label" class="label">Comments</span>
           <div id="editor-4x" class="editor" aria-label="Comments">
@@ -100,9 +100,9 @@
             <p>Cross-platform, evolve, ROI scale cultivate eyeballs addelivery, e-services content cross-platform leverage extensible viral incentivize integrateAJAX-enabled sticky evolve magnetic cultivate leverage; cutting-edge. Innovate, end-to-end podcasting, whiteboard streamline e-business social; compelling, "cross-media exploit infomediaries innovative integrate integrateAJAX-enabled." Killer interactive reinvent, cultivate widgets leverage morph.</p>
           </div>
         </div>
-    
+
       </div>
     </div>
-  </div>
+  </ids-container>
 </body>
 </html>

@@ -4,6 +4,10 @@ import IdsMenu from '../ids-menu';
 document.addEventListener('DOMContentLoaded', () => {
   // Add a `beforeselected` veto to one of the menu items
   const nonSelectableItem = document.querySelector('#no-select');
+  if (!nonSelectableItem) {
+    return;
+  }
+
   nonSelectableItem.addEventListener('beforeselected', (e) => {
     // eslint-disable-next-line
     console.info('%c You cannot select this item', 'color: #ff0000;', e.detail.elem);

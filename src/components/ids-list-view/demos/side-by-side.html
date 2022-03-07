@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
-  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://unpkg.com/ids-enterprise@4.60.0/dist/js/sohoxi.js"></script>
+  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
 </head>
 <body>
   <ids-container role="main" padding="8" hidden>
-  <ids-layout-grid auto="true">
-      <h2 class="ids-text ids-text-px-12">Web Component List View</h2>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Web Component List View</ids-text>
     </ids-layout-grid>
     <ids-layout-grid cols="3">
       <ids-layout-grid-cell col-span="1">
@@ -33,7 +33,7 @@
     </ids-layout-grid>
 
     <ids-layout-grid auto="true">
-      <h2 class="ids-text ids-text-px-12">4.x List View</h2>
+      <ids-text font-size="12" type="h1">4.x List View</ids-text>
     </ids-layout-grid>
     <div class="svg hidden">
       <div class="svg-icons">
@@ -55,7 +55,7 @@
             </button>
           </div>
           <div class="card-content">
-            <div class="listview disable-hover" id="task-listview" data-options="{'source': '//main-enterprise.demo.design.infor.com/data/inventory-tasks', 'template': 'task-tmpl', 'selectable': 'false', 'attributes': [ { 'name': 'data-automation-id', 'value': 'test' } ] }" tabindex="-1" x-ms-format-detection="none" data-automation-id="test-listview">
+            <div class="listview disable-hover" id="task-listview" tabindex="-1" x-ms-format-detection="none" data-automation-id="test-listview">
               <ul role="listbox" aria-label="Tasks">
                 <li tabindex="0" role="option" data-automation-id="test-listview-item-0" aria-posinset="1" aria-setsize="12">
                   <p class="listview-heading">Task #Task 191/2001</p>
@@ -110,6 +110,6 @@
         </div>
       </div>
     </div>
-  </div>
+  </ids-container>
 </body>
 </html>

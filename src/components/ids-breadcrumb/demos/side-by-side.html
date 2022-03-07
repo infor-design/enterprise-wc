@@ -2,52 +2,53 @@
 <html lang="en">
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
-
-  <!--Import Old IDS -->
-  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
+  <title><%= htmlWebpackPlugin.options.title %></title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://unpkg.com/ids-enterprise@4.60.0/dist/js/sohoxi.js"></script>
+  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
 </head>
 <body>
+  <ids-container role="main" padding="8" hidden>
 
-  <ids-layout-grid auto="true">
-    <ids-text font-size="12" type="h1">Web Component Breadcrumb</ids-text>
-  </ids-layout-grid>
-  <ids-layout-grid auto="true">
-    <ids-breadcrumb>
-      <ids-hyperlink font-size="14" color="unset" href="#">First Item</ids-hyperlink>
-      <ids-hyperlink font-size="14" color="unset" href="#">Second Item</ids-hyperlink>
-      <ids-hyperlink font-size="14" color="unset" disabled>Disabled Item</ids-hyperlink>
-      <ids-hyperlink font-size="14" color="unset">Current Item</ids-hyperlink>
-    </ids-breadcrumb>
-  </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Web Component Breadcrumb</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-breadcrumb>
+        <ids-hyperlink font-size="14" color="unset" href="#">First Item</ids-hyperlink>
+        <ids-hyperlink font-size="14" color="unset" href="#">Second Item</ids-hyperlink>
+        <ids-hyperlink font-size="14" color="unset" disabled>Disabled Item</ids-hyperlink>
+        <ids-hyperlink font-size="14" color="unset">Current Item</ids-hyperlink>
+      </ids-breadcrumb>
+    </ids-layout-grid>
 
-  <ids-layout-grid auto="true">
-    <ids-text font-size="12" type="h1">4.x Breadcrumb</ids-text>
-  </ids-layout-grid>
-  <div class="row">
-    <div class="twelve columns">
-      <nav class="breadcrumb">
-        <ol class="breadcrumb-list" aria-label="breadcrumb">
-          <li>
-            <a href="#" id="home" data-automation-id="test-breadcrumb-home" class="hyperlink hide-focus">Home</a>
-          </li>
-          <li>
-            <a href="#" id="second-item" data-automation-id="test-breadcrumb-second" class="hyperlink hide-focus">Second Item</a>
-          </li>
-          <li>
-            <a href="#" id="third-item" data-automation-id="test-breadcrumb-third" class="hyperlink hide-focus">Third Item</a>
-          </li>
-          <li class="current">
-            <span>Fourth Item <span class="audible">Current</span></span>
-          </li>
-        </ol>
-      </nav>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">4.x Breadcrumb</ids-text>
+    </ids-layout-grid>
+    <div class="row">
+      <div class="twelve columns">
+        <nav class="breadcrumb">
+          <ol class="breadcrumb-list" aria-label="breadcrumb">
+            <li>
+              <a href="#" id="home" data-automation-id="test-breadcrumb-home" class="hyperlink hide-focus">Home</a>
+            </li>
+            <li>
+              <a href="#" id="second-item" data-automation-id="test-breadcrumb-second" class="hyperlink hide-focus">Second Item</a>
+            </li>
+            <li>
+              <a href="#" id="third-item" data-automation-id="test-breadcrumb-third" class="hyperlink hide-focus">Third Item</a>
+            </li>
+            <li class="current">
+              <span>Fourth Item <span class="audible">Current</span></span>
+            </li>
+          </ol>
+        </nav>
+      </div>
     </div>
-  </div>
 
-  <script>
-    $('body').initialize();
-  </script>
+    <script>
+      $('body').initialize();
+    </script>
+  </ids-container>
 </body>
 </html>

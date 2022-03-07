@@ -25,6 +25,10 @@ module.exports = {
   infrastructureLogging: {
     level: 'error' // or 'verbose' if any debug info is needed
   },
+  watchOptions: {
+    aggregateTimeout: 2000,
+    poll: 2000
+  },
   devServer: {
     hot: false,
     liveReload: false,

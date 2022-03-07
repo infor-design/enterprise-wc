@@ -21,8 +21,7 @@ const WebpackHtmlExamples = WebpackHtmlTemplates.map((template) => {
     template: `./${template}`,
     title,
     filename: `${chunkName}/${chunkFileName}`,
-    inject: 'body',
-    chunks: [chunkName, 'ids-container', 'ids-text', 'ids-icon', 'ids-layout-grid', 'ids-theme-switcher', noCSP ? '' : 'ids-csp', extraChunk],
+    chunks: [chunkName, 'ids-container', 'ids-text', 'ids-icon', 'ids-layout-grid', 'ids-theme-switcher', noCSP ? 'ids-csp-side-by-side' : 'ids-csp', extraChunk],
     favicon: './src/assets/images/favicon.ico',
   });
 });

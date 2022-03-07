@@ -1,59 +1,63 @@
-{{> ../layouts/head-visible.html }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <link rel="stylesheet" href="../ids-tabs/ids-tabs.css" />
+  <link rel="stylesheet" href="../ids-tabs/ids-tab.css" />
+  <link rel="stylesheet" href="../ids-container/ids-container.css" />
+  <link rel="stylesheet" href="../ids-popup-menu/ids-popup-menu.css" />
+  <link rel="stylesheet" href="../ids-popup/ids-popup.css" />
+  <link rel="stylesheet" href="../ids-menu/ids-menu-group.css" />
+  <link rel="stylesheet" href="../ids-menu/ids-menu-header.css" />
+  <link rel="stylesheet" href="../ids-menu/ids-menu-item.css" />
+  <link rel="stylesheet" href="../ids-separator/ids-separator.css" />
+  <link rel="stylesheet" href="../ids-button/ids-button.css" />
+  <link rel="stylesheet" href="../ids-text/ids-text.css" />
 
-<link rel="stylesheet" href="../ids-tabs/ids-tabs.css" />
-<link rel="stylesheet" href="../ids-tabs/ids-tab.css" />
-<link rel="stylesheet" href="../ids-container/ids-container.css" />
-<link rel="stylesheet" href="../ids-popup-menu/ids-popup-menu.css" />
-<link rel="stylesheet" href="../ids-popup/ids-popup.css" />
-<link rel="stylesheet" href="../ids-menu/ids-menu-group.css" />
-<link rel="stylesheet" href="../ids-menu/ids-menu-header.css" />
-<link rel="stylesheet" href="../ids-menu/ids-menu-item.css" />
-<link rel="stylesheet" href="../ids-separator/ids-separator.css" />
-<link rel="stylesheet" href="../ids-button/ids-button.css" />
-<link rel="stylesheet" href="../ids-text/ids-text.css" />
+  <div class="ids-layout-grid">
+    <h1 class="ids-text ids-text-12">Tabs Standalone CSS</h1>
+  </div>
 
-<div class="ids-layout-grid">
-  <h1 class="ids-text ids-text-12">Tabs Standalone CSS</h1>
-</div>
-
-<div class="ids-tabs-container" mode="light" version="new">
-  <div class="ids-tab-container">
-    <div class="ids-tab selected ids-text" tabindex="0">
-      Contracts
-      <div class="selection-underline"></div>
+  <div class="ids-tabs-container" mode="light" version="new">
+    <div class="ids-tab-container">
+      <div class="ids-tab selected ids-text" tabindex="0">
+        Contracts
+        <div class="selection-underline"></div>
+      </div>
+    </div>
+    <div class="ids-tab-container">
+      <div class="ids-tab ids-text" tabindex="0">Opportunities</div>
+    </div>
+    <div class="ids-tab-container">
+      <div class="ids-tab ids-text" tabindex="0">Attachments</div>
+    </div>
+    <div class="ids-tab-container">
+      <div class="ids-tab ids-text" tabindex="0">Notes</div>
     </div>
   </div>
-  <div class="ids-tab-container">
-    <div class="ids-tab ids-text" tabindex="0">Opportunities</div>
-  </div>
-  <div class="ids-tab-container">
-    <div class="ids-tab ids-text" tabindex="0">Attachments</div>
-  </div>
-  <div class="ids-tab-container">
-    <div class="ids-tab ids-text" tabindex="0">Notes</div>
-  </div>
-</div>
 
-<div class="ids-layout-grid">
-  <h1 class="ids-text ids-text-12">Tabs Standalone CSS (Vertical)</h1>
-</div>
+  <div class="ids-layout-grid">
+    <h1 class="ids-text ids-text-12">Tabs Standalone CSS (Vertical)</h1>
+  </div>
 
-<div class="ids-tabs-container" mode="light" version="new" orientation="vertical">
-  <div class="ids-tab-container" orientation="vertical">
-    <div class="ids-tab selected ids-text vertical" tabindex="0">
-      Contracts
-      <div class="selection-underline"></div>
+  <div class="ids-tabs-container" mode="light" version="new" orientation="vertical">
+    <div class="ids-tab-container" orientation="vertical">
+      <div class="ids-tab selected ids-text vertical" tabindex="0">
+        Contracts
+        <div class="selection-underline"></div>
+      </div>
+    </div>
+    <div class="ids-tab-container" orientation="vertical">
+      <div class="ids-tab ids-text vertical" tabindex="0">Opportunities</div>
+    </div>
+    <div class="ids-tab-container vertical" orientation="vertical">
+      <div class="ids-tab ids-text vertical" tabindex="0">Attachments</div>
+    </div>
+    <div class="ids-tab-container vertical" orientation="vertical">
+      <div class="ids-tab ids-text vertical" tabindex="0">Notes</div>
     </div>
   </div>
-  <div class="ids-tab-container" orientation="vertical">
-    <div class="ids-tab ids-text vertical" tabindex="0">Opportunities</div>
-  </div>
-  <div class="ids-tab-container vertical" orientation="vertical">
-    <div class="ids-tab ids-text vertical" tabindex="0">Attachments</div>
-  </div>
-  <div class="ids-tab-container vertical" orientation="vertical">
-    <div class="ids-tab ids-text vertical" tabindex="0">Notes</div>
-  </div>
-</div>
-
-{{> ../layouts/footer.html }}
+</body>
+</html>

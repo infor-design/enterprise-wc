@@ -10,10 +10,12 @@ document.querySelector('#dropdown-1')?.addEventListener('focus', (e) => {
 });
 
 const dropdownAsync = document.querySelector('#dropdown-7');
-dropdownAsync.beforeShow = async function beforeShow() {
-  const url = '/data/states.json';
+if (dropdownAsync) {
+  dropdownAsync.beforeShow = async function beforeShow() {
+    const url = '/data/states.json';
 
-  const res = await fetch(url);
-  const data = await res.json();
-  return data;
-};
+    const res = await fetch(url);
+    const data = await res.json();
+    return data;
+  };
+}

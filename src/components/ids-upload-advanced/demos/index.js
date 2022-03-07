@@ -25,5 +25,7 @@ function customSendMethodXhr(formData, uiElem) {
 
 document.addEventListener('DOMContentLoaded', () => {
   const uploadEl = document.querySelector('#elem-upload-advanced-send');
-  uploadEl.send = customSendMethodXhr;
+  if (uploadEl) {
+    uploadEl.send = customSendMethodXhr;
+  }
 });

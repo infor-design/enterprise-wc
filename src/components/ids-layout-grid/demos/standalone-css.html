@@ -1,18 +1,23 @@
-{{> ../layouts/head-visible.html }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <link rel="stylesheet" href="../ids-layout-grid/ids-layout-grid.css"/>
+  <link rel="stylesheet" href="../ids-text/ids-text.css"/>
 
-<link rel="stylesheet" href="../ids-layout-grid/ids-layout-grid.css"/>
-<link rel="stylesheet" href="../ids-text/ids-text.css"/>
-
-<ids-layout-grid auto="true">
-  <h1 class="ids-text ids-text-12">Layout Standalone CSS</h1>
-</ids-layout-grid>
-<div class="ids-layout-grid ids-layout-grid-cols-4 ids-layout-grid-gap-md">
-  <div class="ids-layout-grid-cell ids-layout-grid-col-span-2 ids-background-fill"><ids-text font-size="12">A</ids-text></div>
-  <div class="ids-layout-grid-cell ids-background-fill"><ids-text font-size="12">B</ids-text></div>
-  <div class="ids-layout-grid-cell ids-background-fill"><ids-text font-size="12">C</ids-text></div>
-  <div class="ids-layout-grid-cell ids-background-fill"><ids-text font-size="12">D</ids-text></div>
-  <div class="ids-layout-grid-cell ids-background-fill"><ids-text font-size="12">E</ids-text></div>
-  <div class="ids-layout-grid-cell ids-background-fill"><ids-text font-size="12">F</ids-text></div>
-  <div class="ids-layout-grid-cell ids-background-fill"><ids-text font-size="12">G</ids-text></div>
-</div>
-{{> ../layouts/footer.html }}
+  <ids-layout-grid auto="true">
+    <h1 class="ids-text ids-text-12">Layout Standalone CSS</h1>
+  </ids-layout-grid>
+  <div class="ids-layout-grid ids-layout-grid-cols-4 ids-layout-grid-gap-md">
+    <div class="ids-layout-grid-cell ids-layout-grid-col-span-2 ids-background-fill"><ids-text font-size="12">A</ids-text></div>
+    <div class="ids-layout-grid-cell ids-background-fill"><ids-text font-size="12">B</ids-text></div>
+    <div class="ids-layout-grid-cell ids-background-fill"><ids-text font-size="12">C</ids-text></div>
+    <div class="ids-layout-grid-cell ids-background-fill"><ids-text font-size="12">D</ids-text></div>
+    <div class="ids-layout-grid-cell ids-background-fill"><ids-text font-size="12">E</ids-text></div>
+    <div class="ids-layout-grid-cell ids-background-fill"><ids-text font-size="12">F</ids-text></div>
+    <div class="ids-layout-grid-cell ids-background-fill"><ids-text font-size="12">G</ids-text></div>
+  </div>
+</body>
+</html>

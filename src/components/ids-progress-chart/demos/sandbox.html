@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">README.md Examples</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="4" gap="xl">
+      <!-- README examples -->
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Basic Example: </ids-text>
+        <ids-progress-chart label="Basic" progress="50" color="azure-60"></ids-progress-chart>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Color Examples: </ids-text>
+        <ids-progress-chart label="#A876EB" color="#A876EB" progress="50"></ids-progress-chart>
+        <ids-progress-chart label="Amethyst-40" color="amethyst-40" progress="50"></ids-progress-chart>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Decimals: </ids-text>
+        <ids-progress-chart label="Decimals" progress="0.7" total="1"></ids-progress-chart>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Labels: </ids-text>
+        <ids-progress-chart label="Decimals with labels" label-progress="0.7" progress="0.7" label-total="1" total="1"></ids-progress-chart>
+        <ids-progress-chart label="Sprint progress" label-progress="1 week" progress="1" label-total="2 wks" total="2"></ids-progress-chart>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Important Statuses: </ids-text>
+        <ids-progress-chart label="Error" color="error" progress="50" label-progress="50%"></ids-progress-chart>
+        <ids-progress-chart label="Warning" color="warning" progress="50" label-progress="50%"></ids-progress-chart>
+        <ids-progress-chart label="Caution" color="caution" progress="50" label-progress="50%"></ids-progress-chart>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Icon Example: </ids-text>
+        <ids-progress-chart icon="error" label="Error with icon" color="error" progress="50" label-progress="50%"></ids-progress-chart>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Size Example: </ids-text>
+        <ids-progress-chart label="Compact" size="small" progress="50"></ids-progress-chart>
+        <ids-progress-chart icon="alert" label="Compact w/ icon" size="small" progress="50"></ids-progress-chart>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Web Component: </ids-text>
+        <ids-progress-chart label="New Progress Chart" progress="13" label-progress="13h" color="#D66221"></ids-progress-chart>
+      </ids-layout-grid-cell>
+
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

@@ -1,54 +1,70 @@
-{{> ../layouts/head-side-by-side.html }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/ids-enterprise@4.60.0/dist/js/sohoxi.js"></script>
+  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Web Component Input</ids-text>
+    </ids-layout-grid>
 
-<ids-layout-grid auto="true">
-  <h2 class="ids-text ids-text-px-12">Web Component Input</h2>
-</ids-layout-grid>
+    <ids-layout-grid cols="1" gap="md">
+      <ids-layout-grid-cell>
+        <ids-input type="text" label="First Name" placeholder="Normal text Field"></ids-input>
+        <ids-input type="text" label="Last Name" validate="required"></ids-input>
+        <ids-input type="text" label="Disabled" disabled="true" value="Field not editable"></ids-input>
+        <ids-input type="text" label="Readonly" readonly="true" value="02006"></ids-input>
+        <ids-input type="text" label="Dirty Tracking" dirty-tracker="true" placeholder="Dirty Tracking"></ids-input>
+        <ids-input type="text" label="Clearable" placeholder="Clearable text Field" clearable="true"></ids-input>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
 
-<ids-layout-grid cols="1" gap="md">
-  <ids-layout-grid-cell>
-    <ids-input type="text" label="First Name" placeholder="Normal text Field"></ids-input>
-    <ids-input type="text" label="Last Name" validate="required"></ids-input>
-    <ids-input type="text" label="Disabled" disabled="true" value="Field not editable"></ids-input>
-    <ids-input type="text" label="Readonly" readonly="true" value="02006"></ids-input>
-    <ids-input type="text" label="Dirty Tracking" dirty-tracker="true" placeholder="Dirty Tracking"></ids-input>
-    <ids-input type="text" label="Clearable" placeholder="Clearable text Field" clearable="true"></ids-input>
-  </ids-layout-grid-cell>
-</ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">4.x Input</ids-text>
+    </ids-layout-grid>
+    <div class="row">
+      <div class="one-half column">
+        <div class="svg hidden">
+          <div class="svg-icons">
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-icons">
+               <symbol id="icon-error" viewBox="0 0 18 18"><path d="M9 .5A8.5 8.5 0 0117.5 9 8.5 8.5 0 019 17.5 8.5 8.5 0 01.5 9 8.5 8.5 0 019 .5zm0 4.577v5.23m0 1.308v1.308" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+             </svg>
+          </div>
+        </div>
+        <div class="field">
+          <label for="first-name">First Name</label>
+          <input type="text" id="first-name" data-automation-id="input-first-name" name="first-name" placeholder="Normal text Field"/>
+        </div>
 
-<ids-layout-grid auto="true">
-  <h2 class="ids-text ids-text-px-12">4.x Input</h2>
-</ids-layout-grid>
-<div class="row">
-  <div class="one-half column">
+        <div class="field">
+          <label class="required" for="last-name">Last Name</label>
+          <input type="text" id="last-name" data-automation-id="input-last-name" aria-required="true" name="last-name" data-validate="required" class="required"/>
+        </div>
 
-    <div class="field">
-      <label for="first-name">First Name</label>
-      <input type="text" id="first-name" data-automation-id="input-first-name" name="first-name" placeholder="Normal text Field"/>
+        <div class="field is-disabled">
+          <label for="department">Disabled</label>
+          <input type="text" disabled="" value="Field not editable" id="department" data-automation-id="input-department" name="department"/>
+        </div>
+
+        <div class="field">
+          <label for="department-code">Readonly</label>
+          <input type="text" readonly="" value="02006" id="department-code" data-automation-id="input-department-code" name="department-code"/>
+        </div>
+
+        <div class="field">
+          <label for="department-code-trackdirty">Dirty Tracking</label>
+          <input type="text" placeholder="Dirty Tracking" data-trackdirty="true" id="department-code-trackdirty" data-automation-id="department-code-trackdirty" name="department-code-trackdirty"/>
+        </div>
+      </div>
     </div>
 
-    <div class="field">
-      <label class="required" for="last-name">Last Name</label>
-      <input type="text" id="last-name" data-automation-id="input-last-name" aria-required="true" name="last-name" data-validate="required" class="required"/>
-    </div>
-
-    <div class="field is-disabled">
-      <label for="department">Disabled</label>
-      <input type="text" disabled="" value="Field not editable" id="department" data-automation-id="input-department" name="department"/>
-    </div>
-
-    <div class="field">
-      <label for="department-code">Readonly</label>
-      <input type="text" readonly="" value="02006" id="department-code" data-automation-id="input-department-code" name="department-code"/>
-    </div>
-
-    <div class="field">
-      <label for="department-code-trackdirty">Dirty Tracking</label>
-      <input type="text" placeholder="Dirty Tracking" data-trackdirty="true" id="department-code-trackdirty" data-automation-id="department-code-trackdirty" name="department-code-trackdirty"/>
-    </div>
-  </div>
-</div>
-
-<script>
-  $('body').initialize();
-</script>
-{{> ../layouts/footer.html }}
+    <script>
+      $('body').initialize();
+    </script>
+  </ids-container>
+</body>
+</html>

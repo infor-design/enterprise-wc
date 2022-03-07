@@ -2,13 +2,16 @@
 <html lang="en">
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/ids-enterprise@4.60.0/dist/js/sohoxi.js"></script>
+  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
 </head>
 <body>
-  <div>
-    <ids-layout-grid>
-      <h2 class="ids-text ids-text-px-12">Web Component Dropdown</h2>
+  <ids-container role="main" padding="8" hidden>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Web Component Dropdown</ids-text>
     </ids-layout-grid>
-    <ids-layout-grid>
+    <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
         <ids-dropdown id="dropdown-1" label="Normal Dropdown" value="opt2" dirty-tracker="true">
           <ids-list-box>
@@ -22,10 +25,10 @@
         </ids-dropdown>
       </ids-layout-grid-cell>
     </ids-layout-grid>
-    
-    
+
+
     <ids-layout-grid>
-      <h2 class="ids-text ids-text-px-12">4.x Dropdown</h2>
+      <ids-text font-size="12" type="h2">4.x Dropdown</ids-text>
     </ids-layout-grid>
     <div class="svg hidden">
       <div class="svg-icons">
@@ -94,10 +97,10 @@
         </div>
       </div>
     </div>
-    
+
     <script>
       $('.dropdown').dropdown();
     </script>
-  </div>
+  </ids-container>
 </body>
 </html>

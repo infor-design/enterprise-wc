@@ -2,228 +2,225 @@
 <html lang="en">
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
-
-  <!--Import Old IDS -->
-  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://unpkg.com/ids-enterprise@4.60.0/dist/js/sohoxi.js"></script>
+  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
 </head>
 <body>
+  <ids-container role="main" padding="8" hidden>
 
-  <ids-layout-grid auto="true">
-    <h2 class="ids-text ids-text-px-12">Web Component Alert</h2>
-  </ids-layout-grid>
-  <ids-layout-grid cols="2" gap="md">
-    <ids-layout-grid-cell>
-      <ids-alert icon="alert" mode="light" version="new"></ids-alert>
-      <ids-alert icon="success" mode="light" version="new"></ids-alert>
-      <ids-alert icon="empty-circle" mode="light" version="new"></ids-alert>
-      <ids-alert icon="half-empty-circle" mode="light" version="new"></ids-alert>
-      <ids-alert icon="error" mode="light" version="new"></ids-alert>
-      <ids-alert icon="info" mode="light" version="new"></ids-alert>
-      <ids-alert icon="alert" mode="light" version="new"></ids-alert>
-      <ids-alert icon="new" mode="light" version="new"></ids-alert>
-      <ids-alert icon="in-progress" mode="light" version="new"></ids-alert>
-      <ids-alert icon="error" mode="light" version="new"></ids-alert>
-      <ids-alert icon="success-solid" mode="light" version="new"></ids-alert>
-      <ids-alert icon="alert-solid" mode="light" version="new"></ids-alert>
-      <ids-alert icon="error-solid" mode="light" version="new"></ids-alert>
-      <ids-alert icon="info-solid" mode="light" version="new"></ids-alert>
-      <ids-alert icon="alert-solid" mode="light" version="new"></ids-alert>
-      <ids-alert icon="new-solid" mode="light" version="new"></ids-alert>
-      <ids-alert icon="in-progress-solid" mode="light" version="new"></ids-alert>
-      <ids-alert icon="info-field-solid" mode="light" version="new"></ids-alert>
-    </ids-layout-grid-cell>
-  </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Web Component Alerts</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true" id="ids-alert-list" gap="md">
+      <ids-layout-grid-cell><ids-alert icon="success"></ids-alert></ids-layout-grid-cell>
+      <ids-layout-grid-cell><ids-alert icon="empty-circle"></ids-alert></ids-layout-grid-cell>
+      <ids-layout-grid-cell><ids-alert icon="half-empty-circle"></ids-alert></ids-layout-grid-cell>
+      <ids-layout-grid-cell><ids-alert icon="error"></ids-alert></ids-layout-grid-cell>
+      <ids-layout-grid-cell><ids-alert icon="info"></ids-alert></ids-layout-grid-cell>
+      <ids-layout-grid-cell><ids-alert icon="alert"></ids-alert></ids-layout-grid-cell>
+      <ids-layout-grid-cell><ids-alert icon="new"></ids-alert></ids-layout-grid-cell>
+      <ids-layout-grid-cell><ids-alert icon="in-progress"></ids-alert></ids-layout-grid-cell>
+      <ids-layout-grid-cell><ids-alert icon="error"></ids-alert></ids-layout-grid-cell>
+      <ids-layout-grid-cell><ids-alert icon="success-solid"></ids-alert></ids-layout-grid-cell>
+      <ids-layout-grid-cell><ids-alert icon="alert-solid"></ids-alert></ids-layout-grid-cell>
+      <ids-layout-grid-cell><ids-alert icon="error-solid"></ids-alert></ids-layout-grid-cell>
+      <ids-layout-grid-cell><ids-alert icon="info-solid"></ids-alert></ids-layout-grid-cell>
+      <ids-layout-grid-cell><ids-alert icon="alert-solid"></ids-alert></ids-layout-grid-cell>
+      <ids-layout-grid-cell><ids-alert icon="new-solid"></ids-alert></ids-layout-grid-cell>
+      <ids-layout-grid-cell><ids-alert icon="in-progress-solid"></ids-alert></ids-layout-grid-cell>
+      <ids-layout-grid-cell><ids-alert icon="info-field-solid"></ids-alert></ids-layout-grid-cell>
+    </ids-layout-grid>
 
-  <ids-layout-grid auto="true">
-    <h2 class="ids-text ids-text-px-12">4.x Alert</h2>
-  </ids-layout-grid>
-  <div class="svg hidden">
-    <div class="svg-icons">
-      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-icons">
-        <symbol id="icon-alert" viewBox="0 0 18 18"><path d="M9 2L1 16.5h16L9 2zm0 6v4m0 1v1" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
-        <symbol id="icon-alert-alert" viewBox="0 0 18 18"><g fill-rule="evenodd"><path fill="currentColor" d="M9 1L0 17.615h18z" stroke="none"></path><path d="M9 8v4m0 1v1" stroke="#FFF" vector-effect="non-scaling-stroke"></path></g></symbol>
-        <symbol id="icon-empty-circle" viewBox="0 0 18 18"><path d="M17.5 9A8.5 8.5 0 019 17.5 8.5 8.5 0 01.5 9 8.5 8.5 0 019 .5 8.5 8.5 0 0117.5 9z" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
-        <symbol id="icon-error" viewBox="0 0 18 18"><path d="M9 .5A8.5 8.5 0 0117.5 9 8.5 8.5 0 019 17.5 8.5 8.5 0 01.5 9 8.5 8.5 0 019 .5zm0 4.577v5.23m0 1.308v1.308" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
-        <symbol id="icon-error-alert" viewBox="0 0 18 18"><g fill-rule="evenodd"><path d="M9 0a9 9 0 00-9 9 9 9 0 009 9 9 9 0 009-9 9 9 0 00-9-9z" fill="currentColor" stroke="none"></path><path d="M9 11.615v1.308m0-7.846v5.23" stroke="#FFF" vector-effect="non-scaling-stroke"></path></g></symbol>
-        <symbol id="icon-flag" viewBox="0 0 18 18"><path d="M.5 0v18m16-7.5h-14V.5h14l-5 5 5 5z" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
-        <symbol id="icon-half-empty-circle" viewBox="0 0 18 18"><g fill-rule="evenodd"><path d="M17.5 9a8.5 8.5 0 11-17 0 8.5 8.5 0 0117 0z" stroke="currentColor" vector-effect="non-scaling-stroke"></path><path d="M9 .5a8.5 8.5 0 110 17V.5z" fill="currentColor" stroke="none"></path></g></symbol>
-        <symbol id="icon-in-progress" viewBox="0 0 18 18"><path d="M16.762 5.562C15.435 2.579 12.46.5 9 .5 4.306.5.5 4.329.5 9.052M17 .5v5h-5M.5 9.052c0 1.473.37 2.86 1.023 4.07M3.907 15.9A8.43 8.43 0 007.673 17.5m3.855-.281a8.486 8.486 0 003.42-2.057m2.034-3.164c.335-.919.518-1.91.518-2.946" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
-        <symbol id="icon-in-progress-alert" viewBox="0 0 18 18"><g fill-rule="evenodd"><path d="M18 9a9 9 0 01-9 9 9 9 0 01-9-9 9 9 0 019-9 9 9 0 019 9" fill="currentColor" stroke="none"></path><path d="M14.383 11.027A5.753 5.753 0 0014.75 9m-4.075 5.502A5.743 5.743 0 0013 13.13m-7.432.484a5.703 5.703 0 002.525 1.064M14.172 6.5A5.746 5.746 0 003.25 9a5.72 5.72 0 00.714 2.776M11 6.5h3.5V3" stroke="#FFF" vector-effect="non-scaling-stroke"></path></g></symbol>
-        <symbol id="icon-info" viewBox="0 0 18 18"><path d="M9 17.5A8.5 8.5 0 0017.5 9 8.5 8.5 0 009 .5 8.5 8.5 0 00.5 9 8.5 8.5 0 009 17.5zm0-4.577v-5M9 6V5" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
-        <symbol id="icon-info-alert" viewBox="0 0 18 18"><g fill-rule="evenodd"><path d="M9 0a9 9 0 00-9 9 9 9 0 009 9 9 9 0 009-9 9 9 0 00-9-9z" fill="currentColor" stroke="none"></path><path d="M9 12.923v-5M9 6V5" stroke="#FFF" vector-effect="non-scaling-stroke"></path></g></symbol>
-        <symbol id="icon-info-field" viewBox="0 0 18 18"><path d="M9 17.5A8.5 8.5 0 0017.5 9 8.5 8.5 0 009 .5 8.5 8.5 0 00.5 9 8.5 8.5 0 009 17.5zm0-4.577v-5M9 6V5" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
-        <symbol id="icon-info-field-alert" viewBox="0 0 18 18"><g fill-rule="evenodd"><path d="M9 0a9 9 0 00-9 9 9 9 0 009 9 9 9 0 009-9 9 9 0 00-9-9z" fill="currentColor" stroke="none"></path><path d="M9 12.923v-5M9 6V5" stroke="#FFF" vector-effect="non-scaling-stroke"></path></g></symbol>
-        <symbol id="icon-new" viewBox="0 0 18 18"><path d="M17.5 9A8.5 8.5 0 019 17.5 8.5 8.5 0 01.5 9 8.5 8.5 0 019 .5 8.5 8.5 0 0117.5 9zm-5.722 4.5L9 11.735 6.222 13.5 6.5 9.97 4 7.619l3.333-.589L9 3.5l1.667 3.53L14 7.617 11.5 9.97l.278 3.529z" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
-        <symbol id="icon-new-alert" viewBox="0 0 18 18"><g fill-rule="evenodd"><path d="M9 0a9 9 0 100 18A9 9 0 009 0z" fill="currentColor" stroke="none"></path><path fill="#FFF" d="M12.214 14.143L9 12.214l-3.214 1.929.321-3.857-2.893-2.572 3.857-.643L9 3.214l1.929 3.857 3.857.643-2.893 2.572z" stroke="none"></path></g></symbol>
-        <symbol id="icon-pending" viewBox="0 0 18 18"><path d="M17.5 9A8.5 8.5 0 019 17.5 8.5 8.5 0 01.5 9 8.5 8.5 0 019 .5 8.5 8.5 0 0117.5 9zm-9-4.577v6.539l3.923-1.417" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
-        <symbol id="icon-pending-alert" viewBox="0 0 18 18"><g fill-rule="evenodd"><path d="M18 9a9 9 0 01-9 9 9 9 0 01-9-9 9 9 0 019-9 9 9 0 019 9z" fill="currentColor" stroke="none"></path><path stroke="#FFF" d="M8.5 4.423v6.539l3.923-1.417" vector-effect="non-scaling-stroke"></path></g></symbol>
-        <symbol id="icon-rejected-outline" viewBox="0 0 18 18"><path d="M17.5 9A8.5 8.5 0 019 17.5 8.5 8.5 0 01.5 9 8.5 8.5 0 019 .5 8.5 8.5 0 0117.5 9zm-4.577 3.923L5.077 5.077m0 7.846l7.846-7.846" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
-        <symbol id="icon-rejected-solid" viewBox="0 0 18 18"><path d="M9 0a9 9 0 019 9 9 9 0 01-9 9 9 9 0 01-9-9 9 9 0 019-9zm3.57 4.723L9 8.293l-3.57-3.57-.707.707L8.293 9l-3.57 3.57.707.707L9 9.707l3.57 3.57.707-.707L9.707 9l3.57-3.57-.707-.707z" fill="currentColor" fill-rule="nonzero" stroke="none"></path></symbol>
-        <symbol id="icon-success" viewBox="0 0 18 18"><path d="M17.5 9A8.5 8.5 0 019 17.5 8.5 8.5 0 01.5 9 8.5 8.5 0 019 .5 8.5 8.5 0 0117.5 9zm-13.077.654l2.615 3.27 6.539-7.193" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
-        <symbol id="icon-success-alert" viewBox="0 0 18 18"><g fill-rule="evenodd"><path d="M9 0a9 9 0 00-9 9 9 9 0 009 9c4.972 0 9-4.028 9-9a9 9 0 00-9-9z" fill="currentColor" stroke="none"></path><path stroke="#FFF" d="M4.423 9.654l2.615 3.27 6.539-7.193" vector-effect="non-scaling-stroke"></path></g></symbol>
-      </svg>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">4.x Alerts</ids-text>
+    </ids-layout-grid>
+    <div class="svg hidden">
+      <div class="svg-icons">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-icons">
+          <symbol id="icon-alert" viewBox="0 0 18 18"><path d="M9 2L1 16.5h16L9 2zm0 6v4m0 1v1" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+          <symbol id="icon-alert-alert" viewBox="0 0 18 18"><g fill-rule="evenodd"><path fill="currentColor" d="M9 1L0 17.615h18z" stroke="none"></path><path d="M9 8v4m0 1v1" stroke="#FFF" vector-effect="non-scaling-stroke"></path></g></symbol>
+          <symbol id="icon-empty-circle" viewBox="0 0 18 18"><path d="M17.5 9A8.5 8.5 0 019 17.5 8.5 8.5 0 01.5 9 8.5 8.5 0 019 .5 8.5 8.5 0 0117.5 9z" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+          <symbol id="icon-error" viewBox="0 0 18 18"><path d="M9 .5A8.5 8.5 0 0117.5 9 8.5 8.5 0 019 17.5 8.5 8.5 0 01.5 9 8.5 8.5 0 019 .5zm0 4.577v5.23m0 1.308v1.308" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+          <symbol id="icon-error-alert" viewBox="0 0 18 18"><g fill-rule="evenodd"><path d="M9 0a9 9 0 00-9 9 9 9 0 009 9 9 9 0 009-9 9 9 0 00-9-9z" fill="currentColor" stroke="none"></path><path d="M9 11.615v1.308m0-7.846v5.23" stroke="#FFF" vector-effect="non-scaling-stroke"></path></g></symbol>
+          <symbol id="icon-flag" viewBox="0 0 18 18"><path d="M.5 0v18m16-7.5h-14V.5h14l-5 5 5 5z" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+          <symbol id="icon-half-empty-circle" viewBox="0 0 18 18"><g fill-rule="evenodd"><path d="M17.5 9a8.5 8.5 0 11-17 0 8.5 8.5 0 0117 0z" stroke="currentColor" vector-effect="non-scaling-stroke"></path><path d="M9 .5a8.5 8.5 0 110 17V.5z" fill="currentColor" stroke="none"></path></g></symbol>
+          <symbol id="icon-in-progress" viewBox="0 0 18 18"><path d="M16.762 5.562C15.435 2.579 12.46.5 9 .5 4.306.5.5 4.329.5 9.052M17 .5v5h-5M.5 9.052c0 1.473.37 2.86 1.023 4.07M3.907 15.9A8.43 8.43 0 007.673 17.5m3.855-.281a8.486 8.486 0 003.42-2.057m2.034-3.164c.335-.919.518-1.91.518-2.946" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+          <symbol id="icon-in-progress-alert" viewBox="0 0 18 18"><g fill-rule="evenodd"><path d="M18 9a9 9 0 01-9 9 9 9 0 01-9-9 9 9 0 019-9 9 9 0 019 9" fill="currentColor" stroke="none"></path><path d="M14.383 11.027A5.753 5.753 0 0014.75 9m-4.075 5.502A5.743 5.743 0 0013 13.13m-7.432.484a5.703 5.703 0 002.525 1.064M14.172 6.5A5.746 5.746 0 003.25 9a5.72 5.72 0 00.714 2.776M11 6.5h3.5V3" stroke="#FFF" vector-effect="non-scaling-stroke"></path></g></symbol>
+          <symbol id="icon-info" viewBox="0 0 18 18"><path d="M9 17.5A8.5 8.5 0 0017.5 9 8.5 8.5 0 009 .5 8.5 8.5 0 00.5 9 8.5 8.5 0 009 17.5zm0-4.577v-5M9 6V5" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+          <symbol id="icon-info-alert" viewBox="0 0 18 18"><g fill-rule="evenodd"><path d="M9 0a9 9 0 00-9 9 9 9 0 009 9 9 9 0 009-9 9 9 0 00-9-9z" fill="currentColor" stroke="none"></path><path d="M9 12.923v-5M9 6V5" stroke="#FFF" vector-effect="non-scaling-stroke"></path></g></symbol>
+          <symbol id="icon-info-field" viewBox="0 0 18 18"><path d="M9 17.5A8.5 8.5 0 0017.5 9 8.5 8.5 0 009 .5 8.5 8.5 0 00.5 9 8.5 8.5 0 009 17.5zm0-4.577v-5M9 6V5" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+          <symbol id="icon-info-field-alert" viewBox="0 0 18 18"><g fill-rule="evenodd"><path d="M9 0a9 9 0 00-9 9 9 9 0 009 9 9 9 0 009-9 9 9 0 00-9-9z" fill="currentColor" stroke="none"></path><path d="M9 12.923v-5M9 6V5" stroke="#FFF" vector-effect="non-scaling-stroke"></path></g></symbol>
+          <symbol id="icon-new" viewBox="0 0 18 18"><path d="M17.5 9A8.5 8.5 0 019 17.5 8.5 8.5 0 01.5 9 8.5 8.5 0 019 .5 8.5 8.5 0 0117.5 9zm-5.722 4.5L9 11.735 6.222 13.5 6.5 9.97 4 7.619l3.333-.589L9 3.5l1.667 3.53L14 7.617 11.5 9.97l.278 3.529z" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+          <symbol id="icon-new-alert" viewBox="0 0 18 18"><g fill-rule="evenodd"><path d="M9 0a9 9 0 100 18A9 9 0 009 0z" fill="currentColor" stroke="none"></path><path fill="#FFF" d="M12.214 14.143L9 12.214l-3.214 1.929.321-3.857-2.893-2.572 3.857-.643L9 3.214l1.929 3.857 3.857.643-2.893 2.572z" stroke="none"></path></g></symbol>
+          <symbol id="icon-pending" viewBox="0 0 18 18"><path d="M17.5 9A8.5 8.5 0 019 17.5 8.5 8.5 0 01.5 9 8.5 8.5 0 019 .5 8.5 8.5 0 0117.5 9zm-9-4.577v6.539l3.923-1.417" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+          <symbol id="icon-pending-alert" viewBox="0 0 18 18"><g fill-rule="evenodd"><path d="M18 9a9 9 0 01-9 9 9 9 0 01-9-9 9 9 0 019-9 9 9 0 019 9z" fill="currentColor" stroke="none"></path><path stroke="#FFF" d="M8.5 4.423v6.539l3.923-1.417" vector-effect="non-scaling-stroke"></path></g></symbol>
+          <symbol id="icon-rejected-outline" viewBox="0 0 18 18"><path d="M17.5 9A8.5 8.5 0 019 17.5 8.5 8.5 0 01.5 9 8.5 8.5 0 019 .5 8.5 8.5 0 0117.5 9zm-4.577 3.923L5.077 5.077m0 7.846l7.846-7.846" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+          <symbol id="icon-rejected-solid" viewBox="0 0 18 18"><path d="M9 0a9 9 0 019 9 9 9 0 01-9 9 9 9 0 01-9-9 9 9 0 019-9zm3.57 4.723L9 8.293l-3.57-3.57-.707.707L8.293 9l-3.57 3.57.707.707L9 9.707l3.57 3.57.707-.707L9.707 9l3.57-3.57-.707-.707z" fill="currentColor" fill-rule="nonzero" stroke="none"></path></symbol>
+          <symbol id="icon-success" viewBox="0 0 18 18"><path d="M17.5 9A8.5 8.5 0 019 17.5 8.5 8.5 0 01.5 9 8.5 8.5 0 019 .5 8.5 8.5 0 0117.5 9zm-13.077.654l2.615 3.27 6.539-7.193" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+          <symbol id="icon-success-alert" viewBox="0 0 18 18"><g fill-rule="evenodd"><path d="M9 0a9 9 0 00-9 9 9 9 0 009 9c4.972 0 9-4.028 9-9a9 9 0 00-9-9z" fill="currentColor" stroke="none"></path><path stroke="#FFF" d="M4.423 9.654l2.615 3.27 6.539-7.193" vector-effect="non-scaling-stroke"></path></g></symbol>
+        </svg>
+      </div>
     </div>
-  </div>
-  <div class="row demo">
-    <div class="twelve columns">
-      <span>
-        <svg class="icon icon-alert" focusable="false" aria-hidden="true" role="presentation">
-          <use href="#icon-alert"></use>
-        </svg>
-        <span class="audible">Alert</span>&nbsp;
-      </span>&nbsp;
+    <div class="row demo">
+      <div class="twelve columns">
+        <span>
+          <svg class="icon icon-alert" focusable="false" aria-hidden="true" role="presentation">
+            <use href="#icon-alert"></use>
+          </svg>
+          <span class="audible">Alert</span>&nbsp;
+        </span>&nbsp;
 
-      <span>
-        <svg class="icon icon-success" focusable="false" aria-hidden="true" role="presentation">
-          <use href="#icon-success"></use>
-        </svg>
-        <span class="audible">OK</span>&nbsp;
-      </span>&nbsp;
+        <span>
+          <svg class="icon icon-success" focusable="false" aria-hidden="true" role="presentation">
+            <use href="#icon-success"></use>
+          </svg>
+          <span class="audible">OK</span>&nbsp;
+        </span>&nbsp;
 
-      <span>
-        <svg class="icon icon-empty-circle" focusable="false" aria-hidden="true" role="presentation">
-          <use href="#icon-empty-circle"></use>
-        </svg>
-        <span class="audible">Not Selected</span>&nbsp;
-      </span>&nbsp;
+        <span>
+          <svg class="icon icon-empty-circle" focusable="false" aria-hidden="true" role="presentation">
+            <use href="#icon-empty-circle"></use>
+          </svg>
+          <span class="audible">Not Selected</span>&nbsp;
+        </span>&nbsp;
 
-      <span>
-        <svg class="icon icon-half-empty-circle" focusable="false" aria-hidden="true" role="presentation">
-          <use href="#icon-half-empty-circle"></use>
-        </svg>
-        <span class="audible">Halfway</span>&nbsp;
-      </span>&nbsp;
+        <span>
+          <svg class="icon icon-half-empty-circle" focusable="false" aria-hidden="true" role="presentation">
+            <use href="#icon-half-empty-circle"></use>
+          </svg>
+          <span class="audible">Halfway</span>&nbsp;
+        </span>&nbsp;
 
-      <span>
-        <svg class="icon icon-error" focusable="false" aria-hidden="true" role="presentation">
-          <use href="#icon-error"></use>
-        </svg>
-        <span class="audible">Error</span>&nbsp;
-      </span>&nbsp;
+        <span>
+          <svg class="icon icon-error" focusable="false" aria-hidden="true" role="presentation">
+            <use href="#icon-error"></use>
+          </svg>
+          <span class="audible">Error</span>&nbsp;
+        </span>&nbsp;
 
-      <span>
-        <svg class="icon icon-info" focusable="false" aria-hidden="true" role="presentation">
-          <use href="#icon-info"></use>
-        </svg>
-        <span class="audible">Information</span>&nbsp;
-      </span>&nbsp;
+        <span>
+          <svg class="icon icon-info" focusable="false" aria-hidden="true" role="presentation">
+            <use href="#icon-info"></use>
+          </svg>
+          <span class="audible">Information</span>&nbsp;
+        </span>&nbsp;
 
-      <span>
-        <svg class="icon icon-pending" focusable="false" aria-hidden="true" role="presentation">
-          <use href="#icon-pending"></use>
-        </svg>
-        <span class="audible">Pending</span>&nbsp;
-      </span>&nbsp;
+        <span>
+          <svg class="icon icon-pending" focusable="false" aria-hidden="true" role="presentation">
+            <use href="#icon-pending"></use>
+          </svg>
+          <span class="audible">Pending</span>&nbsp;
+        </span>&nbsp;
 
-      <span>
-        <svg class="icon icon-new" focusable="false" aria-hidden="true" role="presentation">
-          <use href="#icon-new"></use>
-        </svg>
-        <span class="audible">New</span>&nbsp;
-      </span>&nbsp;
+        <span>
+          <svg class="icon icon-new" focusable="false" aria-hidden="true" role="presentation">
+            <use href="#icon-new"></use>
+          </svg>
+          <span class="audible">New</span>&nbsp;
+        </span>&nbsp;
 
-      <span>
-        <svg class="icon icon-in-progress" focusable="false" aria-hidden="true" role="presentation">
-          <use href="#icon-in-progress"></use>
-        </svg>
-        <span class="audible">In Progress</span>&nbsp;
-      </span>&nbsp;
+        <span>
+          <svg class="icon icon-in-progress" focusable="false" aria-hidden="true" role="presentation">
+            <use href="#icon-in-progress"></use>
+          </svg>
+          <span class="audible">In Progress</span>&nbsp;
+        </span>&nbsp;
 
-      <span>
-        <svg class="icon icon-info-field" focusable="false" aria-hidden="true" role="presentation">
-          <use href="#icon-info-field"></use>
-        </svg>
-        <span class="audible">Information</span>&nbsp;
-      </span>&nbsp;
+        <span>
+          <svg class="icon icon-info-field" focusable="false" aria-hidden="true" role="presentation">
+            <use href="#icon-info-field"></use>
+          </svg>
+          <span class="audible">Information</span>&nbsp;
+        </span>&nbsp;
 
-      <span>
-        <svg class="icon icon-error" focusable="false" aria-hidden="true" role="presentation">
-          <use href="#icon-flag"></use>
-        </svg>
-        <span class="audible">You have been flagged</span>&nbsp;
-      </span>&nbsp;
+        <span>
+          <svg class="icon icon-error" focusable="false" aria-hidden="true" role="presentation">
+            <use href="#icon-flag"></use>
+          </svg>
+          <span class="audible">You have been flagged</span>&nbsp;
+        </span>&nbsp;
 
+      </div>
     </div>
-  </div>
 
-  <div class="row demo top-padding">
-    <div class="twelve columns">
-      <span>
-        <svg class="icon icon-alert" focusable="false" aria-hidden="true" role="presentation">
-          <use href="#icon-alert-alert"></use>
-        </svg>
-        <span class="audible">Alert</span>&nbsp;
-      </span>&nbsp;
+    <div class="row demo top-padding">
+      <div class="twelve columns">
+        <span>
+          <svg class="icon icon-alert" focusable="false" aria-hidden="true" role="presentation">
+            <use href="#icon-alert-alert"></use>
+          </svg>
+          <span class="audible">Alert</span>&nbsp;
+        </span>&nbsp;
 
-      <span>
-        <svg class="icon icon-success" focusable="false" aria-hidden="true" role="presentation">
-          <use href="#icon-success-alert"></use>
-        </svg>
-        <span class="audible">OK</span>&nbsp;
-      </span>&nbsp;
+        <span>
+          <svg class="icon icon-success" focusable="false" aria-hidden="true" role="presentation">
+            <use href="#icon-success-alert"></use>
+          </svg>
+          <span class="audible">OK</span>&nbsp;
+        </span>&nbsp;
 
-      <span>
-        <svg class="icon icon-error" focusable="false" aria-hidden="true" role="presentation">
-          <use href="#icon-error-alert"></use>
-        </svg>
-        <span class="audible">Error</span>&nbsp;
-      </span>&nbsp;
+        <span>
+          <svg class="icon icon-error" focusable="false" aria-hidden="true" role="presentation">
+            <use href="#icon-error-alert"></use>
+          </svg>
+          <span class="audible">Error</span>&nbsp;
+        </span>&nbsp;
 
-      <span>
-        <svg class="icon icon-info" focusable="false" aria-hidden="true" role="presentation">
-          <use href="#icon-info-alert"></use>
-        </svg>
-        <span class="audible">Information</span>&nbsp;
-      </span>&nbsp;
+        <span>
+          <svg class="icon icon-info" focusable="false" aria-hidden="true" role="presentation">
+            <use href="#icon-info-alert"></use>
+          </svg>
+          <span class="audible">Information</span>&nbsp;
+        </span>&nbsp;
 
-      <span>
-        <svg class="icon icon-pending" focusable="false" aria-hidden="true" role="presentation">
-          <use href="#icon-pending-alert"></use>
-        </svg>
-        <span class="audible">Pending</span>&nbsp;
-      </span>&nbsp;
+        <span>
+          <svg class="icon icon-pending" focusable="false" aria-hidden="true" role="presentation">
+            <use href="#icon-pending-alert"></use>
+          </svg>
+          <span class="audible">Pending</span>&nbsp;
+        </span>&nbsp;
 
-      <span>
-        <svg class="icon icon-new" focusable="false" aria-hidden="true" role="presentation">
-          <use href="#icon-new-alert"></use>
-        </svg>
-        <span class="audible">New</span>&nbsp;
-      </span>&nbsp;
+        <span>
+          <svg class="icon icon-new" focusable="false" aria-hidden="true" role="presentation">
+            <use href="#icon-new-alert"></use>
+          </svg>
+          <span class="audible">New</span>&nbsp;
+        </span>&nbsp;
 
-      <span>
-        <svg class="icon icon-in-progress" focusable="false" aria-hidden="true" role="presentation">
-          <use href="#icon-in-progress-alert"></use>
-        </svg>
-        <span class="audible">In Progress</span>&nbsp;
-      </span>&nbsp;
+        <span>
+          <svg class="icon icon-in-progress" focusable="false" aria-hidden="true" role="presentation">
+            <use href="#icon-in-progress-alert"></use>
+          </svg>
+          <span class="audible">In Progress</span>&nbsp;
+        </span>&nbsp;
 
-      <span>
-        <svg class="icon icon-info-field" focusable="false" aria-hidden="true" role="presentation">
-          <use href="#icon-info-field-alert"></use>
-        </svg>
-        <span class="audible">Information</span>&nbsp;
-      </span>&nbsp;
+        <span>
+          <svg class="icon icon-info-field" focusable="false" aria-hidden="true" role="presentation">
+            <use href="#icon-info-field-alert"></use>
+          </svg>
+          <span class="audible">Information</span>&nbsp;
+        </span>&nbsp;
 
-      <span>
-        <svg class="icon icon-rejected-solid" focusable="false" aria-hidden="true" role="presentation">
-          <use href="#icon-rejected-solid"></use>
-        </svg>
-        <span class="audible">Rejected</span>&nbsp;
-      </span>&nbsp;
+        <span>
+          <svg class="icon icon-rejected-solid" focusable="false" aria-hidden="true" role="presentation">
+            <use href="#icon-rejected-solid"></use>
+          </svg>
+          <span class="audible">Rejected</span>&nbsp;
+        </span>&nbsp;
 
-      <span>
-        <svg class="icon icon-rejected-outline" focusable="false" aria-hidden="true" role="presentation">
-          <use href="#icon-rejected-outline"></use>
-        </svg>
-        <span class="audible">Rejected</span>&nbsp;
-      </span>&nbsp;
+        <span>
+          <svg class="icon icon-rejected-outline" focusable="false" aria-hidden="true" role="presentation">
+            <use href="#icon-rejected-outline"></use>
+          </svg>
+          <span class="audible">Rejected</span>&nbsp;
+        </span>&nbsp;
+      </div>
     </div>
-  </div>
 
-  <script>
-    $('body').initialize();
-  </script>
+    <script>
+      $('body').initialize();
+    </script>
+  </ids-container>
 </body>
 </html>

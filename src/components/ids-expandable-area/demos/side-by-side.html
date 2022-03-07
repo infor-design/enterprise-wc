@@ -2,10 +2,10 @@
 <html lang="en">
   <head>
     <title><%= htmlWebpackPlugin.options.title %></title>
-    <!--Import Old IDS -->
-    <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet" nonce="0a59a005"/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://unpkg.com/ids-enterprise@4.60.0/dist/js/sohoxi.js"></script>
+    <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
+  </head>
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-layout-grid auto="true">
@@ -17,27 +17,19 @@
           <ids-text slot="header" font-size="16">Design &amp; Definition</ids-text>
           <ids-layout-grid slot="pane" cols="2" no-margins="true">
             <ids-layout-grid-cell>
-              <ids-text font-size="12">Company Name</ids-text>
-              <ids-text font-size="14">Building Suppliers</ids-text>
+              <ids-data-label label="Company Name">Building Suppliers</ids-data-label>
               <br/>
-              <ids-text font-size="12">Company Type</ids-text>
-              <ids-text font-size="14">Contractor</ids-text>
+              <ids-data-label label="Company Type">Contractor</ids-data-label>
               <br/>
-              <ids-text font-size="12">Company Address</ids-text>
-              <ids-text font-size="14">
-                4209 Industrial Avenue<br/>
-                Los Angeles, California 90001 USA
-              </ids-text>
+              <ids-data-label label="Company Address">4209 Industrial Avenue<br/>
+                Los Angeles, California 90001 USA</ids-data-label>
             </ids-layout-grid-cell>
             <ids-layout-grid-cell>
-              <ids-text font-size="12">Phone Number</ids-text>
-              <ids-text font-size="14">(999) 810-2604</ids-text>
+              <ids-data-label label="Phone Number">(999) 810-2604</ids-data-label>
               <br/>
-              <ids-text font-size="12">Website</ids-text>
-              <ids-text font-size="14">www.buildings.com</ids-text>
+              <ids-data-label label="Website">www.buildings.com</ids-data-label>
               <br/>
-              <ids-text font-size="12">Estimated Delivery</ids-text>
-              <ids-text font-size="14">June 21, 2015 (4 days)</ids-text>
+              <ids-data-label label="Estimated Delivery">June 21, 2015 (4 days)</ids-data-label>
             </ids-layout-grid-cell>
           </ids-layout-grid>
           <ids-hyperlink slot="expander-default">Show More</ids-hyperlink>
@@ -63,7 +55,7 @@
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
-    <ids-layout-grid>
+    <ids-layout-grid auto="true">
       <ids-text font-size="12">4.x Expandable Area</ids-text>
     </ids-layout-grid>
     <div class="row">

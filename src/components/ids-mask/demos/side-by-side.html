@@ -2,50 +2,48 @@
 <html lang="en">
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
-
-  <!--Import Old IDS -->
-  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://unpkg.com/ids-enterprise@4.60.0/dist/js/sohoxi.js"></script>
+  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
 </head>
 <body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Web Component Mask</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid cols="3" gap="md">
+      <ids-layout-grid-cell>
+        <ids-input id="mask-phone-number" label="Phone Number"
+          placeholder="(###) ###-####"></ids-input>
+        <ids-input id="mask-date" label="Date/Time"
+          placeholder="M/d/yyyy HH:mm a"></ids-input>
+        <ids-input id="mask-number" label="Formatted Number"
+          placeholder="-1,000,000.00"></ids-input>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
 
-  <ids-layout-grid auto="true">
-    <ids-text font-size="12" type="h1">Web Component Mask</ids-text>
-  </ids-layout-grid>
-  <ids-layout-grid cols="3" gap="md">
-    <ids-layout-grid-cell>
-      <ids-input id="mask-phone-number" label="Phone Number"
-        placeholder="(###) ###-####"></ids-input>
-      <ids-input id="mask-date" label="Date/Time"
-        placeholder="M/d/yyyy HH:mm a"></ids-input>
-      <ids-input id="mask-number" label="Formatted Number"
-        placeholder="-1,000,000.00"></ids-input>
-    </ids-layout-grid-cell>
-  </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h2">Web Component Mask</ids-text>
+    </ids-layout-grid>
+    <div class="row">
+      <div class="one-half column">
+        <div class="field">
+          <label for="decimal-field">Currency Field</label>
+          <input id="decimal-field" name="decimal-field" type="text" inputmode="numeric" placeholder="0.00" class="new-mask" data-options="{ 'process': 'number', 'patternOptions': { 'allowDecimal': true, 'integerLimit': 3, 'decimalLimit': 2, 'prefix' : '$', 'symbols': { 'decimal': '.' } } }" />
+        </div>
 
-  <ids-layout-grid auto="true">
-    <ids-text font-size="12" type="h2">Web Component Mask</ids-text>
-  </ids-layout-grid>
-  <div class="row">
-    <div class="one-half column">
-      <div class="field">
-        <label for="decimal-field">Currency Field</label>
-        <input id="decimal-field" name="decimal-field" type="text" inputmode="numeric" placeholder="0.00" class="new-mask" data-options="{ 'process': 'number', 'patternOptions': { 'allowDecimal': true, 'integerLimit': 3, 'decimalLimit': 2, 'prefix' : '$', 'symbols': { 'decimal': '.' } } }" />
-      </div>
+        <div class="field">
+          <label for="phone-number">Phone Number</label>
+          <input id="phone-number" name="phone-number" type="text" placeholder="(123) 456-7890" class="new-mask" data-options="{ 'pattern' : '(###) ###-####' }" />
+        </div>
 
-      <div class="field">
-        <label for="phone-number">Phone Number</label>
-        <input id="phone-number" name="phone-number" type="text" placeholder="(123) 456-7890" class="new-mask" data-options="{ 'pattern' : '(###) ###-####' }" />
-      </div>
-
-      <div class="field">
-        <label for="datetime-input">Date Input with Time</label>
-        <input id="datetime-input" name="datetime-input" type="text" class="new-mask" placeholder="M/d/yyyy h:mm am" data-options="{ 'process': 'date', 'patternOptions': { 'format': 'M/d/yyyy h:mm a' } }" data-validate="date"/>
+        <div class="field">
+          <label for="datetime-input">Date Input with Time</label>
+          <input id="datetime-input" name="datetime-input" type="text" class="new-mask" placeholder="M/d/yyyy h:mm am" data-options="{ 'process': 'date', 'patternOptions': { 'format': 'M/d/yyyy h:mm a' } }" data-validate="date"/>
+        </div>
       </div>
     </div>
-  </div>
-
+  </ids-container>
   <script>
     $('body').initialize();
   </script>

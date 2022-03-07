@@ -1,59 +1,63 @@
-{{> ../layouts/head-visible.html }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <div class="ids-layout-grid">
+    <h1 class="ids-text ids-text-12">ListView Standalone CSS</h1>
+  </div>
+  <div class="ids-layout-grid ids-layout-grid-cols-2 ids-layout-grid-gap-md">
+    <div class="ids-layout-grid-cell">
 
-<div class="ids-layout-grid">
-  <h1 class="ids-text ids-text-12">ListView Standalone CSS</h1>
-</div>
-<div class="ids-layout-grid ids-layout-grid-cols-2 ids-layout-grid-gap-md">
-  <div class="ids-layout-grid-cell">
-
-    <div class="ids-card">
-      <div class="ids-card-header">
-        <h2  class="ids-text ids-text-20">Card Title Two</h2>
-      </div>
-      <div class="ids-card-content">
-        <div class="ids-list-view">
-          <ul>
-            <li tabindex="0">
-              <span class="ids-text ids-text-16">Steampan Lid</span>
-              <span class="ids-text ids-text-12">Count: 9</span>
-              <span class="ids-text ids-text-12">Price: $ 23</span>
-            </li>
-            <li>
-              <span class="ids-text ids-text-16">Pasta - Fusili Tri - Coloured</span>
-              <span class="ids-text ids-text-12">Count: 10</span>
-              <span class="ids-text ids-text-12">Price: $ 18</span>
-            </li>
-            <li>
-              <span class="ids-text ids-text-16">Doilies - 12, Paper</span>
-              <span class="ids-text ids-text-12">Count: 45622</span>
-              <span class="ids-text ids-text-12">Price: $ 50</span>
-            </li>
-            <li>
-              <span class="ids-text ids-text-16">Mushroom - Shitake, Dry</span>
-              <span class="ids-text ids-text-12">Count: 77619</span>
-              <span class="ids-text ids-text-12">Price: $ 99</span>
-            </li>
-            <li>
-              <span class="ids-text ids-text-16">Cabbage - Savoy</span>
-              <span class="ids-text ids-text-12">Count: 691</span>
-              <span class="ids-text ids-text-12">Price: $ 69</span>
-            </li>
-            <li>
-              <span class="ids-text ids-text-16">Shrimp - Baby, Warm Water</span>
-              <span class="ids-text ids-text-12">Count: 997</span>
-              <span class="ids-text ids-text-12">Price: $ 21</span>
-            </li>
-          </ul>
+      <div class="ids-card">
+        <div class="ids-card-header">
+          <h2  class="ids-text ids-text-20">Card Title Two</h2>
+        </div>
+        <div class="ids-card-content">
+          <div class="ids-list-view">
+            <ul>
+              <li tabindex="0">
+                <span class="ids-text ids-text-16">Steampan Lid</span>
+                <span class="ids-text ids-text-12">Count: 9</span>
+                <span class="ids-text ids-text-12">Price: $ 23</span>
+              </li>
+              <li>
+                <span class="ids-text ids-text-16">Pasta - Fusili Tri - Coloured</span>
+                <span class="ids-text ids-text-12">Count: 10</span>
+                <span class="ids-text ids-text-12">Price: $ 18</span>
+              </li>
+              <li>
+                <span class="ids-text ids-text-16">Doilies - 12, Paper</span>
+                <span class="ids-text ids-text-12">Count: 45622</span>
+                <span class="ids-text ids-text-12">Price: $ 50</span>
+              </li>
+              <li>
+                <span class="ids-text ids-text-16">Mushroom - Shitake, Dry</span>
+                <span class="ids-text ids-text-12">Count: 77619</span>
+                <span class="ids-text ids-text-12">Price: $ 99</span>
+              </li>
+              <li>
+                <span class="ids-text ids-text-16">Cabbage - Savoy</span>
+                <span class="ids-text ids-text-12">Count: 691</span>
+                <span class="ids-text ids-text-12">Price: $ 69</span>
+              </li>
+              <li>
+                <span class="ids-text ids-text-16">Shrimp - Baby, Warm Water</span>
+                <span class="ids-text ids-text-12">Count: 997</span>
+                <span class="ids-text ids-text-12">Price: $ 21</span>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
+
     </div>
-
   </div>
-</div>
 
-<link rel="stylesheet" href="ids-list-view.css" />
-<link rel="stylesheet" href="../ids-layout-grid/ids-layout-grid.css" />
-<link rel="stylesheet" href="../ids-text/ids-text.css" />
-<link rel="stylesheet" href="../ids-card/ids-card.css" />
-
-{{> ../layouts/footer.html }}
+  <link rel="stylesheet" href="ids-list-view.css" />
+  <link rel="stylesheet" href="../ids-layout-grid/ids-layout-grid.css" />
+  <link rel="stylesheet" href="../ids-text/ids-text.css" />
+  <link rel="stylesheet" href="../ids-card/ids-card.css" />
+</body>
+</html>

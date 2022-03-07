@@ -1,4 +1,5 @@
 import IdsExpandableArea from '../ids-expandable-area';
+import IdsDataLabel from '../../ids-data-label/ids-data-label';
 
 // Supporting components
 import IdsInput from '../../ids-input/ids-input';

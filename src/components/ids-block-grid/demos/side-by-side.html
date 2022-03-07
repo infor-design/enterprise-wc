@@ -2,76 +2,75 @@
 <html lang="en">
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
-
-  <!--Import Old IDS -->
-  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://unpkg.com/ids-enterprise@4.60.0/dist/js/sohoxi.js"></script>
+  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
 </head>
 <body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Web Component Block Grid</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-block-grid align="center">
+          <ids-block-grid-item>
+            <img src="https://via.placeholder.com/200/888888/ffffff/?text=200 x 200" alt="Placeholder 200x200" />
+            <ids-text type="p">consectetur adipisicing elit. Praesentium error, ea earum quod eligendi nobis dolorem,
+              cupiditate sint optio quos quae quisquam necessitatibus incidunt.</ids-text>
+          </ids-block-grid-item>
+          <ids-block-grid-item>
+            <img src="https://via.placeholder.com/200/888888/ffffff/?text=200 x 200" alt="Placeholder 200x200" />
+            <ids-text type="p">consectetur adipisicing elit. Praesentium error, ea earum quod eligendi nobis dolorem,
+              cupiditate sint optio quos quae quisquam necessitatibus incidunt.</ids-text>
+          </ids-block-grid-item>
+          <ids-block-grid-item>
+            <img src="https://via.placeholder.com/200/888888/ffffff/?text=200 x 200" alt="Placeholder 200x200" />
+            <ids-text type="p">consectetur adipisicing elit. Praesentium error, ea earum quod eligendi nobis dolorem,
+              cupiditate sint optio quos quae quisquam necessitatibus incidunt.</ids-text>
+          </ids-block-grid-item>
+          <ids-block-grid-item>
+            <img src="https://via.placeholder.com/200/888888/ffffff/?text=200 x 200" alt="Placeholder 200x200" />
+            <ids-text type="p">consectetur adipisicing elit. Praesentium error, ea earum quod eligendi nobis dolorem,
+              cupiditate sint optio quos quae quisquam necessitatibus incidunt.</ids-text>
+          </ids-block-grid-item>
+          <ids-block-grid-item>
+            <img src="https://via.placeholder.com/200/888888/ffffff/?text=200 x 200" alt="Placeholder 200x200" />
+            <ids-text type="p">consectetur adipisicing elit. Praesentium error, ea earum quod eligendi nobis dolorem,
+              cupiditate sint optio quos quae quisquam necessitatibus incidunt.</ids-text>
+          </ids-block-grid-item>
+        </ids-block-grid>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
 
-  <ids-layout-grid auto="true">
-    <h2 class="ids-text ids-text-px-12">Web Component Block Grid</h2>
-  </ids-layout-grid>
-  <ids-layout-grid auto="true">
-    <ids-layout-grid-cell>
-      <ids-block-grid align="center">
-        <ids-block-grid-item>
-          <img src="https://via.placeholder.com/200/888888/ffffff/?text=200 x 200" alt="Placeholder 200x200" />
-          <ids-text type="p">consectetur adipisicing elit. Praesentium error, ea earum quod eligendi nobis dolorem,
-            cupiditate sint optio quos quae quisquam necessitatibus incidunt.</ids-text>
-        </ids-block-grid-item>
-        <ids-block-grid-item>
-          <img src="https://via.placeholder.com/200/888888/ffffff/?text=200 x 200" alt="Placeholder 200x200" />
-          <ids-text type="p">consectetur adipisicing elit. Praesentium error, ea earum quod eligendi nobis dolorem,
-            cupiditate sint optio quos quae quisquam necessitatibus incidunt.</ids-text>
-        </ids-block-grid-item>
-        <ids-block-grid-item>
-          <img src="https://via.placeholder.com/200/888888/ffffff/?text=200 x 200" alt="Placeholder 200x200" />
-          <ids-text type="p">consectetur adipisicing elit. Praesentium error, ea earum quod eligendi nobis dolorem,
-            cupiditate sint optio quos quae quisquam necessitatibus incidunt.</ids-text>
-        </ids-block-grid-item>
-        <ids-block-grid-item>
-          <img src="https://via.placeholder.com/200/888888/ffffff/?text=200 x 200" alt="Placeholder 200x200" />
-          <ids-text type="p">consectetur adipisicing elit. Praesentium error, ea earum quod eligendi nobis dolorem,
-            cupiditate sint optio quos quae quisquam necessitatibus incidunt.</ids-text>
-        </ids-block-grid-item>
-        <ids-block-grid-item>
-          <img src="https://via.placeholder.com/200/888888/ffffff/?text=200 x 200" alt="Placeholder 200x200" />
-          <ids-text type="p">consectetur adipisicing elit. Praesentium error, ea earum quod eligendi nobis dolorem,
-            cupiditate sint optio quos quae quisquam necessitatibus incidunt.</ids-text>
-        </ids-block-grid-item>
-      </ids-block-grid>
-    </ids-layout-grid-cell>
-  </ids-layout-grid>
-
-  <ids-layout-grid auto="true">
-    <h2 class="ids-text ids-text-px-12">4.x Block Grid</h2>
-  </ids-layout-grid>
-  <div class="row">
-    <div class="twelve columns">
-      <div class="row blockgrid l-center">
-        <div class="block">
-          <img alt="Placeholder Image" src="//main-enterprise.demo.design.infor.com/images/placeholder-200x200.png"/>
-        </div>
-        <div class="block">
-          <img alt="Placeholder Image" src="//main-enterprise.demo.design.infor.com/images/placeholder-200x200.png"/>
-        </div>
-        <div class="block">
-          <img alt="Placeholder Image" src="//main-enterprise.demo.design.infor.com/images/placeholder-200x200.png"/>
-        </div>
-        <div class="block">
-          <img alt="Placeholder Image" src="//main-enterprise.demo.design.infor.com/images/placeholder-200x200.png"/>
-        </div>
-        <div class="block">
-          <img alt="Placeholder Image" src="//main-enterprise.demo.design.infor.com/images/placeholder-200x200.png"/>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">4.x Block Grid</ids-text>
+    </ids-layout-grid>
+    <div class="row">
+      <div class="twelve columns">
+        <div class="row blockgrid l-center">
+          <div class="block">
+            <img alt="Placeholder Image" src="//main-enterprise.demo.design.infor.com/images/placeholder-200x200.png"/>
+          </div>
+          <div class="block">
+            <img alt="Placeholder Image" src="//main-enterprise.demo.design.infor.com/images/placeholder-200x200.png"/>
+          </div>
+          <div class="block">
+            <img alt="Placeholder Image" src="//main-enterprise.demo.design.infor.com/images/placeholder-200x200.png"/>
+          </div>
+          <div class="block">
+            <img alt="Placeholder Image" src="//main-enterprise.demo.design.infor.com/images/placeholder-200x200.png"/>
+          </div>
+          <div class="block">
+            <img alt="Placeholder Image" src="//main-enterprise.demo.design.infor.com/images/placeholder-200x200.png"/>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <script>
-    $('body').initialize();
-  </script>
+    <script>
+      $('body').initialize();
+    </script>
+ </ids-container>
 </body>
 </html>

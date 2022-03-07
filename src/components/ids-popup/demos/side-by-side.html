@@ -2,11 +2,9 @@
 <html lang="en">
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
-
-  <!--Import Old IDS -->
-  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://unpkg.com/ids-enterprise@4.60.0/dist/js/sohoxi.js"></script>
+  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
 </head>
 <body>
   <ids-container role="main" padding="8" hidden>
@@ -45,10 +43,7 @@
 
         <div class="field">
           <button id="popover-trigger" class="btn-secondary" type="button">
-            <svg class="icon" focusable="false" aria-hidden="true" role="presentation">
-              <use href="#icon-upload"></use>
-            </svg>
-            <span>Click To Show Popover</span>
+            <span>Trigger a Popup</span>
           </button>
         </div>
 
