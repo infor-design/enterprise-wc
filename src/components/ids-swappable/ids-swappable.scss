@@ -2,11 +2,11 @@
 
 :host {
   display: block;
-  border: 1px dotted transparent;
+  border: 1px dashed transparent;
   min-height: 400px;
   margin-bottom: 20px;
 }
 
 :host([active]) {
-  border-color: var(--ids-color-brand-primary-base);
+  border-color: var(--ids-color-palette-slate-80);
 }

@@ -12,6 +12,9 @@
 
 ids-swappable-item {
   @include p-8();
+  @include pl-20();
+  @include relative();
+  @include mb-1();
 
   &.is-hidden {
     height: 0;
@@ -19,10 +22,19 @@ ids-swappable-item {
     border: none;
     overflow: hidden;
   }
+
+  &:hover::before {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translate(5px, -47%);
+    font-size: 24px;
+    content: '⁞';
+  }
 }
 
 ids-swappable-item[over] {
-  border: 1px dotted var(--ids-color-brand-primary-base);
+  border: 1px dashed var(--ids-color-palette-slate-80);
 }
 
 ids-button {

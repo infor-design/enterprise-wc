@@ -216,7 +216,7 @@ export default class IdsSwappable extends Base {
     this.offEvent('dragover', this, (e) => this.#dzDragover(e));
     this.onEvent('dragover', this, (e) => this.#dzDragover(e));
 
-    this.offEvent('dragleave', this, this.#dzDragLeave());
-    this.onEvent('dragleave', this, this.#dzDragLeave());
+    this.offEvent('dragleave', this, () => this.#dzDragLeave());
+    this.onEvent('dragleave', this, () => this.#dzDragLeave());
   }
 }

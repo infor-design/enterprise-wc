@@ -3,7 +3,7 @@
 :host {
   font-family: sans-serif;
   display: block;
-  border: 1px dotted transparent;
+  border: 1px dashed transparent;
   cursor: pointer;
   transition: height 0.4s ease, padding 0.4s ease;
 }
@@ -29,7 +29,7 @@
 }
 
 :host([over]) {
-  border: 1px dotted var(--ids-color-brand-primary-base);
+  border: 1px dashed var(--ids-color-palette-slate-80);
 }
 
 :host(.is-hidden) {
