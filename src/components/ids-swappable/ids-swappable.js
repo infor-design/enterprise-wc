@@ -204,19 +204,19 @@ export default class IdsSwappable extends Base {
    * @memberof IdsSwappable
    */
   attachEventListeners() {
-    this.removeEventListener('dragstart', this.#dzDragStart.bind(this));
-    this.addEventListener('dragstart', this.#dzDragStart.bind(this));
+    this.offEvent('dragstart', this, () => this.#dzDragStart());
+    this.onEvent('dragstart', this, () => this.#dzDragStart());
 
-    this.removeEventListener('drag', this.#dzDrag.bind(this));
-    this.addEventListener('drag', this.#dzDrag.bind(this));
+    this.offEvent('drag', this, (e) => this.#dzDrag(e));
+    this.onEvent('drag', this, (e) => this.#dzDrag(e));
 
-    this.removeEventListener('drop', this.#dzDropHandler.bind(this));
-    this.addEventListener('drop', this.#dzDropHandler.bind(this));
+    this.offEvent('drop', this, (e) => this.#dzDropHandler(e));
+    this.onEvent('drop', this, (e) => this.#dzDropHandler(e));
 
-    this.removeEventListener('dragover', this.#dzDragover.bind(this));
-    this.addEventListener('dragover', this.#dzDragover.bind(this));
+    this.offEvent('dragover', this, (e) => this.#dzDragover(e));
+    this.onEvent('dragover', this, (e) => this.#dzDragover(e));
 
-    this.removeEventListener('dragleave', this.#dzDragLeave.bind(this));
-    this.addEventListener('dragleave', this.#dzDragLeave.bind(this));
+    this.offEvent('dragleave', this, this.#dzDragLeave());
+    this.onEvent('dragleave', this, this.#dzDragLeave());
   }
 }

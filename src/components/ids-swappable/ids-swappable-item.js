@@ -256,16 +256,20 @@ export default class IdsSwappableItem extends Base {
    * Handle the drag events
    */
   #handleDragEvents() {
-    this.removeEventListener('dragstart', this.#dragStart.bind(this));
-    this.addEventListener('dragstart', this.#dragStart.bind(this));
-    this.removeEventListener('dragend', this.#dragEnd.bind(this));
-    this.addEventListener('dragend', this.#dragEnd.bind(this));
-    this.removeEventListener('drop', this.#dragEnd.bind(this));
-    this.addEventListener('drop', this.#dragEnd.bind(this));
-    this.removeEventListener('dragover', this.#dragOver.bind(this));
-    this.addEventListener('dragover', this.#dragOver.bind(this));
-    this.removeEventListener('dragleave', this.#dragLeave.bind(this));
-    this.addEventListener('dragleave', this.#dragLeave.bind(this));
+    this.offEvent('dragstart', this, (e) => this.#dragStart(e));
+    this.onEvent('dragstart', this, (e) => this.#dragStart(e));
+
+    this.offEvent('dragend', this, () => this.#dragEnd());
+    this.onEvent('dragend', this, () => this.#dragEnd());
+
+    this.offEvent('drop', this, () => this.#dragEnd());
+    this.onEvent('drop', this, () => this.#dragEnd());
+
+    this.offEvent('dragover', this, () => this.#dragOver());
+    this.onEvent('dragover', this, () => this.#dragOver());
+
+    this.offEvent('dragleave', this, () => this.#dragLeave());
+    this.onEvent('dragleave', this, () => this.#dragLeave());
   }
 
   /**
