@@ -5,6 +5,7 @@ import {
 
 import { attributes } from '../../core/ids-attributes';
 import Base from './ids-swaplist-base';
+import IdsDataSource from '../../core/ids-data-source';
 import IdsCard from '../ids-card/ids-card';
 import IdsButton from '../ids-button/ids-button';
 import IdsListView from '../ids-list-view/ids-list-view';
@@ -26,8 +27,9 @@ const DEFAULT_COUNT = 2;
 export default class IdsSwapList extends Base {
   constructor() {
     super();
-    this.swapButtons = this.container.querySelectorAll('.swap-buttons');
   }
+
+  datasource = new IdsDataSource();
 
   connectedCallback() {
     super.connectedCallback();
@@ -44,6 +46,19 @@ export default class IdsSwapList extends Base {
       attributes.COUNT
     ];
   }
+
+  /**
+   * Set the data array of the listview
+   * @param {Array | null} value The array to use
+   */
+  set data(value) {
+    if (this.datasource) {
+      this.datasource.data = value || [];
+      this.render(true);
+    }
+  }
+
+  get data() { return this?.datasource?.data || []; }
 
   /**
    * Swap the list item to the next list
@@ -192,15 +207,13 @@ export default class IdsSwapList extends Base {
    * @memberof IdsSwapList
    */
   attachEventHandlers() {
-    this.swapButtons.forEach((b) => {
-      this.offEvent('click', b, (e) => this.#handleItemSwap(e));
-      this.onEvent('click', b, (e) => this.#handleItemSwap(e));
+    this.offEvent('click', this.container, (e) => this.#handleItemSwap(e));
+    this.onEvent('click', this.container, (e) => this.#handleItemSwap(e), 0);
 
-      this.offEvent('touchend', b, (e) => this.#handleItemSwap(e));
-      this.onEvent('touchend', b, (e) => this.#handleItemSwap(e));
+    this.offEvent('touchend', this.container, (e) => this.#handleItemSwap(e));
+    this.onEvent('touchend', this.container, (e) => this.#handleItemSwap(e));
 
-      this.listen('Enter', this.expander, (e) => this.#handleItemSwap(e));
-    });
+    this.listen('Enter', this.container, (e) => this.#handleItemSwap(e));
   }
 
   /**
