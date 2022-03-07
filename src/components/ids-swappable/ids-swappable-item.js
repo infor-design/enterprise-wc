@@ -9,7 +9,7 @@ import styles from './ids-swappable-item.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 /**
- * IDS SwapList Component
+ * IDS Swappable Item Component
  * @type {IdsSwappableItem}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
@@ -30,6 +30,7 @@ export default class IdsSwappableItem extends Base {
 
   static get attributes() {
     return [
+      ...super.attributes,
       attributes.DRAGGABLE,
       attributes.DRAGGING,
       attributes.ORIGINAL_TEXT,
@@ -116,13 +117,13 @@ export default class IdsSwappableItem extends Base {
   }
 
   /**
-   * Get the multi-select attribute
-   * @returns {boolean} value of multi-select attribute
+   * Get the selection attribute
+   * @returns {boolean} value of selection attribute
    * @readonly
    * @memberof IdsSwappableItem
    */
-  get multiSelect() {
-    return this.parentElement.getAttribute('multi-select') !== null && true;
+  get selection() {
+    return this.parentElement.getAttribute(attributes.SELECTION);
   }
 
   /**
@@ -188,7 +189,7 @@ export default class IdsSwappableItem extends Base {
 
   /**
    * Toggles the select attribute when
-   * ids-swappable is not multi-select
+   * ids-swappable is not set to selection
    */
   #toggleSelect() {
     if (this.selected) {
@@ -203,7 +204,7 @@ export default class IdsSwappableItem extends Base {
 
   /**
    * Toggles the select attribute when
-   * ids-swappable is set to multi-select
+   * ids-swappable is set to selection
    */
   #toggleMultiSelect() {
     if (this.selected) {
@@ -229,7 +230,7 @@ export default class IdsSwappableItem extends Base {
       }
 
       if (e.key === 'Enter') {
-        if (this.multiSelect) {
+        if (this.selection === 'multiple') {
           this.#toggleMultiSelect();
         } else {
           this.#toggleSelect();
@@ -242,7 +243,7 @@ export default class IdsSwappableItem extends Base {
    * Handle the click events
    */
   #handleClickEvents() {
-    if (this.multiSelect) {
+    if (this.selection === 'multiple') {
       this.offEvent('click', this, this.#toggleMultiSelect);
       this.onEvent('click', this, this.#toggleMultiSelect);
     } else {

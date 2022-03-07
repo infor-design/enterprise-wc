@@ -164,7 +164,7 @@ export default class IdsSwapList extends Base {
           </div>
         </div>
         <div slot="card-content">
-          <ids-swappable multi-select></ids-swappable>
+          <ids-swappable selection="multiple"></ids-swappable>
         </div>
       </ids-card>
     `.trim()).join('');

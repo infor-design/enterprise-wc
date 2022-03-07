@@ -11,8 +11,8 @@ export default class IdsSwappableItem extends HTMLElement {
   /* Sets the text of the originalText property */
   originalText?: string;
 
-  /** Reference to multi-select setting on the IdsSwappable component */
-  readonly multiSelect: boolean;
+  /** Reference to selection setting on the IdsSwappable component */
+  readonly selection: 'multiple' | 'single' | 'mixed' | string;
 
   /* Sets the tabbable property */
   tabbable?: boolean;

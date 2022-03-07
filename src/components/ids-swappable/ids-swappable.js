@@ -4,12 +4,11 @@ import {
 } from '../../core/ids-decorators';
 
 import { attributes } from '../../core/ids-attributes';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import Base from './ids-swappable-base';
 import styles from './ids-swappable.scss';
 
 /**
- * IDS SwapList Component
+ * IDS Swappable Component
  * @type {IdsSwappable}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
@@ -29,8 +28,9 @@ export default class IdsSwappable extends Base {
 
   static get attributes() {
     return [
+      ...super.attributes,
       attributes.ACTIVE,
-      attributes.MULTI_SELECT
+      attributes.SELECTION
     ];
   }
 
@@ -44,7 +44,7 @@ export default class IdsSwappable extends Base {
    * @readonly
    * @memberof IdsSwappable
    */
-  get overEl() {
+  get overElement() {
     return this.querySelector('ids-swappable-item[over]');
   }
 
@@ -56,30 +56,6 @@ export default class IdsSwappable extends Base {
    */
   get selectedItems() {
     return this.querySelectorAll('ids-swappable-item[selected]');
-  }
-
-  /**
-   * Set the multi-select attribute
-   * @param {boolean | string} value multi-select value.
-   * @memberof IdsSwappable
-   */
-  set multiSelect(value) {
-    const isValueTruthy = stringToBool(value);
-    if (isValueTruthy) {
-      this.setAttribute(attributes.MULTI_SELECT, '');
-    } else {
-      this.removeAttribute(attributes.MULTI_SELECT);
-    }
-  }
-
-  /**
-   * Get the multi-select atrribute
-   * @returns {boolean} multi-select value
-   * @readonly
-   * @memberof IdsSwappable
-   */
-  get multiSelect() {
-    return this.getAttribute(attributes.MULTI_SELECT);
   }
 
   /**
@@ -168,7 +144,7 @@ export default class IdsSwappable extends Base {
   #dzDragover(event) {
     event.preventDefault();
 
-    if (!this.overEl) {
+    if (!this.overElement) {
       this.setAttribute(attributes.ACTIVE, '');
     } else {
       this.removeAttribute(attributes.ACTIVE);

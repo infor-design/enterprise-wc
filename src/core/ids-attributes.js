@@ -174,7 +174,6 @@ export const attributes = {
   MONTH: 'month',
   MORE_ACTIONS: 'more-actions',
   MULTIPLE: 'multiple',
-  MULTI_SELECT: 'multi-select',
   NAME: 'name',
   NAV_DISABLED: 'nav-disabled',
   NEXT: 'next',
