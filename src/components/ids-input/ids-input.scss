@@ -9,6 +9,20 @@ $input-size-default: $input-size-md;
 $input-field-height-default: $input-field-height-md;
 $input-compact-height: $input-field-height-xs;
 
+// These input field sizes come from the design tokens and are adjusted
+// here to account for 1px border size on top/bottom or left/right in some calculations.
+$border-input-size-xs: $input-size-xs - 2;
+$border-input-size-sm: $input-size-sm - 2;
+$border-input-size-md: $input-size-md - 2;
+$border-input-size-mm: $input-size-mm - 2;
+$border-input-size-lg: $input-size-lg - 2;
+$border-input-size-full: $input-size-full - 2;
+$border-input-field-height-compact: $input-compact-height - 2;
+$border-input-field-height-xs: $input-field-height-xs - 2;
+$border-input-field-height-sm: $input-field-height-sm - 2;
+$border-input-field-height-md: $input-field-height-md - 2;
+$border-input-field-height-lg: $input-field-height-lg - 2;
+
 // Mixin for message styles: [alert, error, info, success]
 @mixin ids-input-message-styles {
   .alert,
@@ -125,7 +139,7 @@ $input-compact-height: $input-field-height-xs;
   }
 }
 
-@mixin input-extra-small-height($h: $input-field-height-xs) {
+@mixin input-extra-small-height($h: $border-input-field-height-xs) {
   @include mb-12();
 
   .ids-label-text {
@@ -143,11 +157,11 @@ $input-compact-height: $input-field-height-xs;
 
 .ids-input {
   @include block();
+  @include mb-16();
 
   // Applied to the wrapper element that wraps the input and other interactable elements
   .field-container {
     @include m-0();
-    @include mb-16();
     @include p-0();
     @include relative();
     @include border-1();
@@ -217,6 +231,12 @@ $input-compact-height: $input-field-height-xs;
     }
   }
 
+  // Validation Messages are appended beneath the `.field-container`
+  .validation-message {
+    @include mt-4();
+    @include mt-0();
+  }
+
   // If `no-margins` is used:
   // - margins are removed from component top/bottom
   // - labels are visually hidden instead of displaying blank content for spacing
@@ -229,6 +249,12 @@ $input-compact-height: $input-field-height-xs;
 
     .ids-input-field {
       @include m-0();
+    }
+
+    // Reverse the margins on `ids-input[no-margins]` fields to have the bottom margin on top
+    .validation-message {
+      @include mb-0();
+      @include mt-4();
     }
 
     .ids-label-text {
@@ -244,27 +270,27 @@ $input-compact-height: $input-field-height-xs;
   // input sizes: [xs, sm, mm, md, lg, full]
   // Subtracting 2 takes into account that the width includes the `.field-container` border on both sides.
   &.xs .field-container {
-    max-width: $input-size-xs - 2;
+    max-width: $border-input-size-xs;
   }
 
   &.sm .field-container {
-    max-width: $input-size-sm - 2;
+    max-width: $border-input-size-sm;
   }
 
   &.mm .field-container {
-    max-width: $input-size-mm - 2;
+    max-width: $border-input-size-mm;
   }
 
   &.md .field-container {
-    max-width: $input-size-md - 2;
+    max-width: $border-input-size-md;
   }
 
   &.lg .field-container {
-    max-width: $input-size-lg - 2;
+    max-width: $border-input-size-lg;
   }
 
   &.full .field-container {
-    max-width: $input-size-full - 2;
+    max-width: $border-input-size-full;
   }
 
   // input field-heights: [xs, sm, md, lg]
@@ -283,20 +309,20 @@ $input-compact-height: $input-field-height-xs;
   }
 
   &.field-height-sm .ids-input-field {
-    height: $input-field-height-sm - 2;
+    height: $border-input-field-height-sm;
   }
 
   &.field-height-md .ids-input-field {
-    height: $input-field-height-md - 2;
+    height: $border-input-field-height-md;
   }
 
   &.field-height-lg .ids-input-field {
-    height: $input-field-height-lg - 2;
+    height: $border-input-field-height-lg;
   }
 
   // input compact
   &.compact {
-    @include input-extra-small-height($input-compact-height);
+    @include input-extra-small-height($border-input-field-height-compact);
 
     &.no-margin-bottom {
       margin-bottom: 0;
@@ -304,14 +330,9 @@ $input-compact-height: $input-field-height-xs;
       .field-container,
       .ids-input-field {
         margin-bottom: 0;
-        height: $input-field-height-xs;
+        height: $border-input-field-height-compact;
       }
     }
-  }
-
-  .validation-message {
-    margin-bottom: 12px;
-    margin-top: -10px;
   }
 }
 

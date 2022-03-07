@@ -8,9 +8,3 @@
 ::slotted(*[slot='trigger-end']:last-of-type:not([inline])) {
   @include mr-4();
 }
-
-// Not sure why we need to do this
-.validation-message {
-  margin-bottom: 12px;
-  margin-top: -12px;
-}
