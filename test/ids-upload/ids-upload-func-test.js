@@ -149,13 +149,13 @@ describe('IdsUpload Component', () => {
 
   it('renders field as readonly', () => {
     expect(upload.getAttribute('readonly')).toEqual(null);
-    expect(upload.textInput.bgTransparent).toBeTruthy();
+    expect(upload.textInput.readonlyBackground).toBeTruthy();
     upload.readonly = true;
     expect(upload.getAttribute('readonly')).toBeTruthy();
-    expect(upload.textInput.bgTransparent).toBe(null);
+    expect(upload.textInput.readonlyBackground).toBeFalsy();
     upload.readonly = false;
     expect(upload.getAttribute('readonly')).toEqual(null);
-    expect(upload.textInput.bgTransparent).toBeTruthy();
+    expect(upload.textInput.readonlyBackground).toBeTruthy();
   });
 
   it('renders as limit types accept', () => {
