@@ -118,7 +118,8 @@ a.ids-hyperlink {
   @include text-slate-30();
 }
 
-::slotted(ids-hyperlink[version='new'][mode='dark']) {
+::slotted(ids-hyperlink[version='new'][mode='dark']),
+::slotted(ids-hyperlink[version='new'][mode='dark'])::before {
   @include text-slate-40();
 }
 
@@ -142,7 +143,8 @@ a.ids-hyperlink {
   @include text-graphite-30();
 }
 
-::slotted(ids-hyperlink[version='classic'][mode='dark']) {
+::slotted(ids-hyperlink[version='classic'][mode='dark']),
+::slotted(ids-hyperlink[version='classic'][mode='dark'])::before {
   @include text-slate-40();
 }
 
