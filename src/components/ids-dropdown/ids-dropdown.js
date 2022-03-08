@@ -346,7 +346,7 @@ export default class IdsDropdown extends Base {
     this.popup.visible = true;
     this.popup.type = 'dropdown';
     this.addOpenEvents();
-    this.container.classList.add('is-active');
+    this.container.active = true;
     this.setAttribute('aria-expanded', 'true');
 
     // Add aria for the open state
@@ -393,7 +393,7 @@ export default class IdsDropdown extends Base {
    * @returns {void}
    */
   onOutsideClick() {
-    this.close();
+    this.close(true);
   }
 
   /**
@@ -402,7 +402,7 @@ export default class IdsDropdown extends Base {
    */
   close(noFocus) {
     this.popup.visible = false;
-    this.container.classList.remove('is-active');
+    this.container.active = false;
     this.setAttribute('aria-expanded', 'false');
     const selected = this.querySelector('ids-list-box-option.is-selected');
 

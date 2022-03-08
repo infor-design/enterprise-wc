@@ -58,6 +58,7 @@ export default class IdsInput extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.ACTIVE,
       attributes.AUTOSELECT,
       attributes.BG_TRANSPARENT,
       attributes.CAPS_LOCK,
@@ -267,6 +268,8 @@ export default class IdsInput extends Base {
       || this.shadowRoot?.querySelector(`[for="${this.id}-input"]`)
     );
   }
+
+  /*
 
   /**
    * @returns {boolean} indicates whether password reveal functionality is on or off
@@ -541,6 +544,24 @@ export default class IdsInput extends Base {
       }
     }
   }
+
+  /**
+   * When set the input will add a CSS class `is-active` that simulates the text input being "focused".
+   * @param {boolean|string} value If true will set `text-ellipsis` attribute
+   */
+  set active(value) {
+    const val = stringToBool(value);
+    const className = 'is-active';
+    if (val) {
+      this.setAttribute(attributes.ACTIVE, val.toString());
+      this.container.classList.add(className);
+    } else {
+      this.removeAttribute(attributes.ACTIVE);
+      this.container.classList.remove(className);
+    }
+  }
+
+  get active() { return this.getAttribute(attributes.ACTIVE); }
 
   /**
    * When set the input will select all text on focus

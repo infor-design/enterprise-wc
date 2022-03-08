@@ -30,7 +30,8 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     @include border-alert-warning();
     @include text-alert-warning();
 
-    &:focus-within {
+    &:focus-within,
+    &.is-active {
       @include border-alert-warning();
 
       box-shadow: rgba(249 131 0 / 0.3) 0 0 3px 2px;
@@ -47,7 +48,8 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     @include border-alert-error();
     @include text-alert-error();
 
-    &:focus-within {
+    &:focus-within,
+    &.is-active {
       @include border-alert-error();
       @include shadow-error();
     }
@@ -63,7 +65,8 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     @include border-alert-info();
     @include text-alert-info();
 
-    &:focus-within {
+    &:focus-within,
+    &.is-active {
       @include border-alert-info();
 
       box-shadow: rgba(0 102 212 / 0.3) 0 0 3px 2px;
@@ -80,7 +83,8 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     @include border-alert-success();
     @include text-alert-success();
 
-    &:focus-within {
+    &:focus-within,
+    &.is-active {
       @include border-alert-success();
 
       box-shadow: rgba(42 195 113 / 0.3) 0 0 3px 2px;
@@ -179,7 +183,8 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   }
 
   &:focus-within,
-  &.readonly:focus-within {
+  &.readonly:focus-within,
+  &.is-active {
     .ids-input-field {
       outline: none;
       outline-color: transparent;
@@ -393,7 +398,8 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   }
 
   &:focus-within,
-  &.readonly:focus-within {
+  &.readonly:focus-within,
+  &.is-active {
     .field-container {
       @include border-azure-60();
       @include shadow();
@@ -454,7 +460,8 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     }
   }
 
-  &:focus-within {
+  &:focus-within,
+  &.is-active {
     .field-container {
       @include border-azure-60();
     }
@@ -520,7 +527,8 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     }
   }
 
-  &:focus-within {
+  &:focus-within,
+  &.is-active {
     .field-container {
       @include border-azure-90();
     }
@@ -579,7 +587,8 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     }
   }
 
-  &:focus-within {
+  &:focus-within,
+  &.is-active {
     .field-container {
       @include border-azure-60();
     }
@@ -624,7 +633,8 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     }
   }
 
-  &:focus-within {
+  &:focus-within,
+  &.is-active {
     .field-container {
       @include border-azure-60();
     }
@@ -664,7 +674,8 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   }
 
   &:focus-within,
-  &:focus-within[readonly] {
+  &:focus-within[readonly],
+  &.is-active {
     .field-container {
       @include border-azure-60();
     }
