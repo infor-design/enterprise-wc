@@ -33,7 +33,7 @@
   nav {
     @include relative();
   
-    &::before {
+    &.truncate::before {
       transition: width 200ms cubic-bezier(0.17, 0.04, 0.03, 0.94);
       background-color: transparent;
       content: '';
@@ -164,4 +164,8 @@ a.ids-hyperlink {
 
 ::slotted(ids-hyperlink:not([mode]), ids-hyperlink[version='classic'][disabled]) {
   @include text-slate-60();
+}
+
+.hidden {
+  display: none !important;
 }

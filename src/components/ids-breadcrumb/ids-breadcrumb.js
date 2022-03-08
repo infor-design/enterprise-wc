@@ -1,6 +1,8 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import Base from './ids-breadcrumb-base';
 import styles from './ids-breadcrumb.scss';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsMenuButton from '../ids-menu-button/ids-menu-button';
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
@@ -29,11 +31,18 @@ export default class IdsBreadcrumb extends Base {
   }
 
   connectedCallback() {
-    // Set observer for resize
-    this.#resizeObserver.disconnect();
-    this.#resizeObserver.observe(this.container);
-
     super.connectedCallback();
+  }
+
+  /**
+   * Return the attributes we handle as getters/setters
+   * @returns {Array} The attributes in an array
+   */
+  static get attributes() {
+    return [
+      ...super.attributes,
+      attributes.TRUNCATE
+    ];
   }
 
   #itemsCollapsed = [];
@@ -108,16 +117,13 @@ export default class IdsBreadcrumb extends Base {
   template() {
     return `
       <div class="ids-breadcrumb">
-        <div class="ids-breadcrumb-menu">
+        <div class="ids-breadcrumb-menu hidden">
           <ids-menu-button id="icon-button" menu="icon-menu">
             <ids-icon slot="icon" icon="more"></ids-icon>
             <span class="audible">Icon Only Button</span>
           </ids-menu-button>
           <ids-popup-menu id="icon-menu" target="icon-button" trigger="click">
             <ids-menu-group>
-              <ids-menu-item>Option One</ids-menu-item>
-              <ids-menu-item>Option Two</ids-menu-item>
-              <ids-menu-item>Option Three</ids-menu-item>
             </ids-menu-group>
           </ids-popup-menu>
         </div>
@@ -161,4 +167,27 @@ export default class IdsBreadcrumb extends Base {
     }
     return null;
   }
+
+  /**
+   * Set if breadcrumb will be truncated if there isn't enough space
+   * @param {boolean|null} value truncate if true
+   */
+  set truncate(value) {
+    const val = stringToBool(value);
+    if (val === true) {
+      // Set observer for resize
+      this.#resizeObserver.disconnect();
+      this.#resizeObserver.observe(this.container);
+      this.container.querySelector('.ids-breadcrumb-menu').classList.remove('hidden');
+      this.container.querySelector('nav').classList.add('truncate');
+      this.setAttribute(attributes.TRUNCATE, value);
+    } else {
+      this.#resizeObserver.disconnect();
+      this.container.querySelector('.ids-breadcrumb-menu').classList.add('hidden');
+      this.container.querySelector('nav').classList.remove('truncate');
+      this.removeAttribute(attributes.TRUNCATE);
+    }
+  }
+
+  get truncate() { return this.getAttribute(attributes.TRUNCATE); }
 }

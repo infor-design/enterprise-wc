@@ -15,3 +15,5 @@
     description: Showing a breadcrumb that works with css only
   - link: truncated.html
     description: Showing a breadcrumb truncated
+  - link: toolbar.html
+    description: Showing a breadcrumb in a toolbar
