@@ -2,9 +2,9 @@
 
 exports[`IdsSwappable Component renders correctly 1`] = `
 "<ids-swappable id=\\"swappable-1\\" selection=\\"multiple\\" dropzone=\\"move\\">
-      <ids-swappable-item draggable=\\"true\\" tabbable=\\"true\\" tabindex=\\"0\\"></ids-swappable-item>
-      <ids-swappable-item draggable=\\"true\\" tabbable=\\"true\\" tabindex=\\"0\\"></ids-swappable-item>
-      <ids-swappable-item draggable=\\"true\\" tabbable=\\"true\\" tabindex=\\"0\\"></ids-swappable-item>
-      <ids-swappable-item draggable=\\"true\\" tabbable=\\"true\\" tabindex=\\"0\\"></ids-swappable-item>
+      <ids-swappable-item tabbable=\\"true\\" tabindex=\\"0\\"></ids-swappable-item>
+      <ids-swappable-item tabbable=\\"true\\" tabindex=\\"0\\"></ids-swappable-item>
+      <ids-swappable-item tabbable=\\"true\\" tabindex=\\"0\\"></ids-swappable-item>
+      <ids-swappable-item tabbable=\\"true\\" tabindex=\\"0\\"></ids-swappable-item>
     </ids-swappable>"
 `;
