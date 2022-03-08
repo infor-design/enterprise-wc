@@ -6,7 +6,7 @@ import IdsSwappableItem from '../../src/components/ids-swappable/ids-swappable-i
 
 const HTMLSnippets = {
   SWAPPABLE_COMPONENT: (
-    `<ids-swappable id="swappable-1" multi-select="true">
+    `<ids-swappable id="swappable-1" selection="multiple">
       <ids-swappable-item></ids-swappable-item>
       <ids-swappable-item></ids-swappable-item>
       <ids-swappable-item></ids-swappable-item>
@@ -66,15 +66,6 @@ describe('IdsSwappable Component', () => {
     idsSwappable = await createElemViaTemplate(HTMLSnippets.SWAPPABLE_COMPONENT);
     idsSwappable.template();
     expect(idsSwappable.outerHTML).toMatchSnapshot();
-  });
-
-  it('can set the multi-select attribute', async () => {
-    expect(idsSwappable.multiSelect).toBe(null);
-    expect(idsSwappable.getAttribute('multi-select')).toBe(null);
-
-    idsSwappable.multiSelect = true;
-    expect(idsSwappable.multiSelect).toEqual('');
-    expect(idsSwappable.getAttribute('multi-select')).toBe('');
   });
 
   it('can select ids-swappable-item', async () => {
