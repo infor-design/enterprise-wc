@@ -71,8 +71,9 @@ export default class IdsSwapList extends Base {
     const currentCard = button.parentElement.parentElement.parentElement;
     const nextCard = currentCard.nextSibling;
     const nextList = nextCard.querySelector('ids-swappable');
+    const selectedItems = currentCard.querySelectorAll('ids-swappable-item[selected]');
 
-    this.selectedItems.forEach((x) => {
+    selectedItems.forEach((x) => {
       nextList.appendChild(x);
       x.removeAttribute(attributes.SELECTED);
     });
@@ -88,8 +89,9 @@ export default class IdsSwapList extends Base {
     const currentCard = button.parentElement.parentElement.parentElement;
     const prevCard = currentCard.previousSibling;
     const prevList = prevCard.querySelector('ids-swappable');
+    const selectedItems = currentCard.querySelectorAll('ids-swappable-item[selected]');
 
-    this.selectedItems.forEach((x) => {
+    selectedItems.forEach((x) => {
       prevList.appendChild(x);
       x.removeAttribute(attributes.SELECTED);
     });
