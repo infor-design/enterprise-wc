@@ -3,14 +3,12 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsColor from '../ids-color/ids-color';
-import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
-import IdsPopup from '../ids-popup/ids-popup';
 import Base from './ids-color-picker-base';
 
 import styles from './ids-color-picker.scss';
 
 /**
- * IDS ColorPicker
+ * IDS Color Picker
  * @type {IdsColorPicker}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
@@ -23,101 +21,98 @@ export default class IdsColorPicker extends Base {
     super();
   }
 
-  // Reference to the root
-  root = this.shadowRoot;
-
   // Reference to internal Popup
-  popup = this.root.querySelector('ids-popup');
+  popup = this.container.querySelector('ids-popup');
 
   // Reference to swatch input
-  swatchInput = this.root.querySelector('.color-input');
+  // (Used in the advanced color picker to retain `input[type="color"]` state)
+  get swatchInput() {
+    return this.container.querySelector('.color-input');
+  }
+
+  // Reference to the wrapper element containing the input field, icons, and trigger button slots
+  fieldContainer = this.container.querySelector('.field-container');
 
   // Reference to the color picker input
-  colorPickerInput = this.root.querySelector(this.label === '' ? '.color-input-value-no-label' : '.color-input-value');
-
-  // Reference to the trigger color picker input
-  triggerColorPickerInput = this.root.querySelector('ids-trigger-button').querySelector('input');
+  colorPickerInput = this.container.querySelector('ids-trigger-field');
 
   // Reference to the color picker's trigger button
-  triggerBtn = this.root.querySelector('ids-trigger-button');
+  triggerBtn = this.container.querySelector('ids-trigger-button');
 
   // Reference to the color preview
-  colorPreview = this.root.querySelector('.color-preview');
+  colorPreview = this.container.querySelector('.color-preview');
 
   // Reference to the colors
   idsColorsArr = document.querySelectorAll('ids-color');
 
   connectedCallback() {
-    // TODO: Need to do this and not sure why or the setters/getters do not work
-    // eslint-disable-next-line no-self-assign
-    this.value = this.value;
-    // eslint-disable-next-line no-self-assign
-    this.disabled = this.disabled;
-    // eslint-disable-next-line no-self-assign
-    this.advanced = this.advanced;
-    // eslint-disable-next-line no-self-assign
-    this.label = this.label;
-
-    this.triggerField = this.container.querySelector('ids-trigger-field');
+    super.connectedCallback?.();
+    this.#updateColorPickerValues();
     this.#attachEventHandlers();
   }
 
   static get attributes() {
     return [
+      ...super.attributes,
       attributes.ADVANCED,
-      attributes.DISABLED,
-      attributes.LABEL,
-      attributes.MODE,
-      attributes.READONLY,
-      attributes.ADVANCED,
-      attributes.VALUE,
-      attributes.VERSION
     ];
   }
 
   template() {
-    const id = this.id || 'ids-color';
-    const colorInputHtml = `<label class="color-preview">
-      <input tabindex="-1" class="color-input" type="color" ${!this.advanced || this.disabled || this.readonly ? ' disabled="true"' : ''}></input>
+    this.templateHostAttributes();
+    const {
+      ariaLabel,
+      containerClass,
+      inputClass,
+      inputState,
+      labelHtml,
+      placeholder,
+      type,
+      value
+    } = this.templateVariables();
+
+    // Color Picker Icon
+    const colorPreviewHtml = `<label class="color-preview">
+      <input tabindex="-1" class="color-input" type="color" ${!this.advanced || this.disabled || this.readonly ? ' disabled="true"' : ''} />
       <ids-text audible="true">Pick Custom Color</ids-text>
     </label>`;
 
-    const template = `
-      <div class="ids-color-picker">
-        <ids-trigger-field
-          size="sm"
-          id="${this.id}"
-          tabbable="false"
-          label="${this.label}"
-          ${this.disabled ? ' disabled="true"' : ''}
-          ${this.readonly ? ' readonly="true"' : ''}
-        >
-          ${colorInputHtml}
-          <ids-input
-            value="${this.value.toLowerCase()}"
-            dirty-tracker="true"
-            class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}"
-            label="${this.label}"
-            label-hidden="true"
-            triggerfield="true"
-            ${this.disabled ? ' disabled="true"' : ''}
-            ${this.readonly ? ' readonly="true"' : ''}
-          ></ids-input>
-          <ids-trigger-button
-            class="color-picker-trigger-btn"
-            id="${id}-button" title="${id}"
-            tabbable="false" ${this.disabled ? ' disabled="true"' : ''} ${this.readonly ? ' readonly="true"' : ''}
-          >
-            ${this.advanced ? colorInputHtml : ''}
-            <ids-text audible="true">color picker trigger</ids-text>
-            <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
-          </ids-trigger-button>
-        </ids-trigger-field>
-        <ids-popup type="menu">
-          <slot slot="content" class="color-popup"></slot>
-        </ids-popup>
-      </div>`;
-    return template;
+    // Color Picker Menu Button and Menu Container
+    // Contains default slot for color elements
+    const colorPopupHtml = `<ids-trigger-button
+      class="color-picker-trigger-btn"
+      id="ids-color-picker-menu-button"
+      tabbable="false" ${this.disabled ? ' disabled="true"' : ''} ${this.readonly ? ' readonly="true"' : ''}>
+      <ids-text audible="true">color picker trigger</ids-text>
+      <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
+    </ids-trigger-button>
+    <ids-popup type="menu">
+      <slot slot="content" class="color-popup"></slot>
+    </ids-popup>`;
+
+    return `<div id="ids-color-picker" class="ids-color-picker ids-trigger-field ${containerClass}" part="container">
+      ${labelHtml}
+      <div class="field-container" part="field-container">
+        <slot name="trigger-start"></slot>
+        ${colorPreviewHtml}
+        <input
+          part="input"
+          id="ids-color-picker-input"
+          ${type}${inputClass}${placeholder}${inputState}
+          ${ariaLabel}
+          ${value}
+          ></input>
+        ${colorPopupHtml}
+        <slot name="trigger-end"></slot>
+      </div>
+    </div>`;
+  }
+
+  /**
+   * @returns {Array<IdsColor>} available colors within this picker
+   */
+  get swatches() {
+    return [...this.querySelectorAll('ids-color')];
   }
 
   /**
@@ -125,14 +120,17 @@ export default class IdsColorPicker extends Base {
    * @param {string} v string value from the value attribute
    */
   set value(v) {
-    if (v) {
-      this.#updateColorPickerValues(v);
-      this.setAttribute('value', v.toString().toLowerCase());
+    super.value = v;
+
+    const value = super.value;
+    if (value) {
+      this.#updateColorPickerValues(value);
+      this.#updateColorCheck(this.querySelector(`ids-color[hex="${value}"]`));
     }
   }
 
   get value() {
-    return this.getAttribute('value') || '#b94e4e';
+    return super.value || '#b94e4e';
   }
 
   /**
@@ -141,25 +139,21 @@ export default class IdsColorPicker extends Base {
    */
   set readonly(value) {
     value = stringToBool(value);
+    super.readonly = value;
+
     if (value) {
-      this.setAttribute(attributes.READONLY, 'true');
-      this.triggerField?.setAttribute(attributes.READONLY, 'true');
-      this.colorPickerInput?.setAttribute(attributes.READONLY, 'true');
-      this.removeAttribute(attributes.DISABLED);
-      this.triggerField?.removeAttribute(attributes.DISABLED);
+      this.colorPickerInput?.setAttribute(attributes.READONLY, '');
+      this.triggerBtn.setAttribute(attributes.DISABLED, '');
       this.colorPickerInput?.removeAttribute(attributes.DISABLED);
       return;
     }
-    this.removeAttribute(attributes.READONLY);
-    this.triggerField?.removeAttribute(attributes.READONLY);
     this.colorPickerInput?.removeAttribute(attributes.READONLY);
-    this.removeAttribute(attributes.DISABLED);
-    this.triggerField?.removeAttribute(attributes.DISABLED);
+    this.triggerBtn.removeAttribute(attributes.DISABLED);
     this.colorPickerInput?.removeAttribute(attributes.DISABLED);
   }
 
   get readonly() {
-    return stringToBool(this.getAttribute(attributes.READONLY)) || false;
+    return stringToBool(this.getAttribute(attributes.READONLY));
   }
 
   /**
@@ -168,46 +162,37 @@ export default class IdsColorPicker extends Base {
    */
   set disabled(value) {
     value = stringToBool(value);
+    super.disabled = value;
+
     if (value) {
-      this.setAttribute(attributes.DISABLED, value.toString());
-      this.triggerBtn.setAttribute(attributes.TABBABLE, false);
+      this.colorPickerInput?.setAttribute(attributes.DISABLED, '');
+      this.triggerBtn.setAttribute(attributes.DISABLED, '');
+      this.triggerBtn.setAttribute(attributes.TABBABLE, 'false');
       return;
     }
-    this.removeAttribute(attributes.DISABLED);
-    this.triggerField?.removeAttribute(attributes.DISABLED);
     this.colorPickerInput?.removeAttribute(attributes.DISABLED);
+    this.triggerBtn.removeAttribute(attributes.DISABLED);
+    this.triggerBtn.setAttribute(attributes.TABBABLE, this.tabbable);
   }
 
   get disabled() {
-    return stringToBool(this.getAttribute('disabled')) || false;
+    return super.disabled;
   }
 
   /**
    * Sets the advanced attribute
-   * @param {string} value string value from the advanced attribute
+   * @param {boolean} value true if the "advanced" color picker type should be used
    */
   set advanced(value) {
     if (stringToBool(value)) {
-      this.setAttribute('advanced', 'true');
+      this.setAttribute(attributes.ADVANCED, '');
       return;
     }
-    this.removeAttribute('advanced');
+    this.removeAttribute(attributes.ADVANCED);
   }
 
   get advanced() {
-    return stringToBool(this.getAttribute('advanced')) || false;
-  }
-
-  /**
-   * Set the `label` text
-   * @param {string} value of the `label` text property
-   */
-  set label(value) {
-    this.setAttribute('label', value.toString());
-  }
-
-  get label() {
-    return this.getAttribute('label') || '';
+    return stringToBool(this.getAttribute(attributes.ADVANCED)) || false;
   }
 
   /**
@@ -217,9 +202,10 @@ export default class IdsColorPicker extends Base {
    */
   #attachEventHandlers() {
     this.idsColorsArr.forEach((element) => {
-      element.style.backgroundColor = element.getAttribute('hex');
+      element.style.backgroundColor = element.getAttribute(attributes.HEX);
     });
 
+    // Respond to clicks on Color Picker swatches
     this.onEvent('click', this.container, (event) => {
       const isEditable = !stringToBool(this.readonly)
       && !stringToBool(this.disabled);
@@ -229,46 +215,48 @@ export default class IdsColorPicker extends Base {
       }
 
       const target = event.target;
-      let openColorCondition = (target.classList.contains('colorpicker-icon') || target.classList.contains('ids-dropdown')
-      || target.classList.contains('color-preview') || target.classList.contains('color-picker-trigger-btn'));
-      let openAdvanced = target.classList.contains('color-input');
-
-      if (target.classList.contains('ids-dropdown') && this.advanced) {
-        openAdvanced = true;
-        openColorCondition = false;
-      }
-
-      if (!this.advanced && openAdvanced) {
-        openColorCondition = true;
-      }
-
-      if (openColorCondition) {
+      if (target.closest('.color-picker-trigger-btn') || target.closest('.color-preview')) {
         this.#openCloseColorpicker();
       }
+      this.#selectSwatch(target);
+    });
 
-      if (target.hasAttribute('hex')) {
-        this.#updateColorCheck(target);
-        this.setAttribute('value', target.getAttribute('hex').toLowerCase());
+    // Respond to change events from the swatch input
+    this.onEvent('input', this.swatchInput, (e) => {
+      this.value = e.target.value;
+    });
+
+    // Respond to click events on the swatch
+    this.onEvent('click', this.swatchInput, () => {
+      if (!this.advanced) {
         this.#openCloseColorpicker();
       }
     });
 
-    this.onEvent('keydown', this.container, (keyup) => {
-      if (keyup.key === 'Enter') {
-        if (keyup.target.id === `${this.id}-button`) {
+    // Respond to Keyup events on swatches and buttons
+    this.onEvent('keydown', this.container, (e) => {
+      const doToggleMenu = e.target.id === `ids-color-picker-menu-button` || e.target.tagName === 'INPUT';
+
+      if (e.key === 'Enter') {
+        if (doToggleMenu) {
           this.#openCloseColorpicker();
-        }
-        if (keyup.target.hasAttribute('hex')) {
-          this.setAttribute('value', keyup.target.getAttribute('hex').toLowerCase());
-          this.#openCloseColorpicker();
-          this.#updateColorCheck(keyup.target);
+        } else {
+          this.#selectSwatch(e.target);
         }
       }
-    });
 
-    this.onEvent('change', this.swatchInput, () => this.setAttribute('value', this.swatchInput.value.toLowerCase()));
-    this.onEvent('change', this.colorPickerInput, () => this.setAttribute('value', this.colorPickerInput.value.toLowerCase()));
-    this.onEvent('change', this.triggerColorPickerInput, () => this.setAttribute('value', this.triggerColorPickerInput.value.toLowerCase()));
+      if (e.key === 'ArrowDown') {
+        if (doToggleMenu) this.#openCloseColorpicker();
+      }
+    });
+  }
+
+  #selectSwatch(swatchEl) {
+    if (swatchEl.hasAttribute(attributes.HEX)) {
+      this.#updateColorCheck(swatchEl);
+      this.setAttribute(attributes.VALUE, swatchEl.getAttribute(attributes.HEX));
+      this.#openCloseColorpicker();
+    }
   }
 
   /**
@@ -276,9 +264,23 @@ export default class IdsColorPicker extends Base {
    * @param {string} colorValue the value to update
    */
   #updateColorPickerValues(colorValue) {
-    this.swatchInput.value = colorValue;
-    this.colorPreview.style.backgroundColor = colorValue;
-    this.colorPickerInput.value = colorValue;
+    const targetColorValue = colorValue || this.#getSelectedSwatchValue();
+    if (targetColorValue) {
+      this.swatchInput.value = targetColorValue;
+      this.colorPreview.style.backgroundColor = targetColorValue;
+    }
+  }
+
+  /**
+   * Returns the value of the currently-selected color picker swatch
+   * @returns {string} containing a color value
+   */
+  #getSelectedSwatchValue() {
+    if (this.advanced) {
+      return this.swatchInput.value;
+    }
+    const checked = this.querySelectorAll('ids-color[checked]')?.[0];
+    return checked?.hex;
   }
 
   /**
@@ -286,8 +288,15 @@ export default class IdsColorPicker extends Base {
    * @private
    */
   #openCloseColorpicker() {
+    if (this.advanced) {
+      this.swatchInput.click();
+      return;
+    }
+
     if (!this.popup.visible) {
-      this.show();
+      if (this.swatches.length) {
+        this.show();
+      }
     } else {
       this.hide();
     }
@@ -307,8 +316,9 @@ export default class IdsColorPicker extends Base {
    * @returns {void}
    */
   show() {
-    this.popup.alignTarget = this.container.querySelector('ids-icon');
-    this.popup.align = 'bottom, center';
+    this.popup.alignTarget = this.fieldContainer;
+    this.popup.align = 'bottom, left';
+    this.popup.arrowTarget = this.triggerBtn;
     this.popup.arrow = 'bottom';
     this.popup.y = 12;
     this.popup.visible = true;
@@ -329,10 +339,12 @@ export default class IdsColorPicker extends Base {
    * @param {any} target event target
    */
   #updateColorCheck(target) {
-    const checkedColor = target.parentElement.querySelector('[checked="true"]');
+    const checkedColor = this.querySelector('[checked]');
     if (checkedColor) {
-      checkedColor.removeAttribute('checked');
+      checkedColor.removeAttribute(attributes.CHECKED);
     }
-    target.setAttribute('checked', 'true');
+    if (target) {
+      target.setAttribute(attributes.CHECKED, '');
+    }
   }
 }

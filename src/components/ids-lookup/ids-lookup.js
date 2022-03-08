@@ -33,14 +33,15 @@ export default class IdsLookup extends Base {
     super();
   }
 
+  triggerField = this.shadowRoot?.querySelector('ids-trigger-field');
+
+  triggerButton = this.shadowRoot?.querySelector('ids-trigger-button');
+
   /**
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
     // Setup some internal refs
-    this.input = this.shadowRoot?.querySelector('ids-input');
-    this.triggerField = this.shadowRoot?.querySelector('ids-trigger-field');
-    this.triggerButton = this.shadowRoot?.querySelector('ids-trigger-button');
     this.state = {};
 
     // Setup Attached Datagrid
@@ -93,11 +94,8 @@ export default class IdsLookup extends Base {
       ${this.readonly ? ' readonly="true"' : ''}
       ${this.validate ? ` validate="${this.validate}"` : ''}
       ${this.validate && this.validationEvents ? ` validation-events="${this.validationEvents}"` : ''}>
-      <ids-input
-        part="input"
-        disabled="${this.disabled}"
-        triggerfield="true"></ids-input>
       <ids-trigger-button
+        slot="trigger-end"
         part="trigger-button"
         tabbable="${this.tabbable}"
         disabled="${this.disabled}"
@@ -132,8 +130,8 @@ export default class IdsLookup extends Base {
    * @param {boolean|string} value The value/id to use
    */
   set value(value) {
-    this.shadowRoot.querySelector('ids-input').value = value;
     this.setAttribute('value', value);
+    this.triggerField.value = value;
 
     if (this.value === value) {
       // Send the change event{
@@ -154,8 +152,7 @@ export default class IdsLookup extends Base {
    */
   set label(value) {
     this.setAttribute('label', value);
-    this.shadowRoot.querySelector('ids-input').setAttribute('label', value);
-    this.shadowRoot.querySelector('ids-trigger-field').setAttribute('label', value);
+    this.triggerField.setAttribute('label', value);
   }
 
   get label() { return this.getAttribute('label') || ''; }
@@ -173,13 +170,11 @@ export default class IdsLookup extends Base {
     if (isReadonly) {
       this.removeAttribute('disabled');
       this.triggerField.readonly = true;
-      this.triggerField.disabled = false;
       this.setAttribute('readonly', 'true');
       return;
     }
 
     this.triggerField.readonly = false;
-    this.triggerField.disabled = false;
     this.removeAttribute('readonly');
   }
 
@@ -201,7 +196,6 @@ export default class IdsLookup extends Base {
       this.removeAttribute('readonly');
 
       this.triggerField.disabled = true;
-      this.triggerField.readonly = false;
       this.setAttribute('disabled', 'true');
       return;
     }
@@ -308,13 +302,11 @@ export default class IdsLookup extends Base {
       this.triggerField.setAttribute(attributes.VALIDATE, value.toString());
       this.triggerField.setAttribute(attributes.VALIDATION_EVENTS, this.validationEvents);
       this.triggerField.handleValidation();
-      this.input.setLabelElement(this.triggerField.shadowRoot?.querySelector('[slot="ids-trigger-field-label"]'));
     } else {
       this.removeAttribute(attributes.VALIDATE);
       this.triggerField.removeAttribute(attributes.VALIDATE);
       this.triggerField.removeAttribute(attributes.VALIDATION_EVENTS);
       this.triggerField.handleValidation();
-      this.input.setLabelElement(undefined);
     }
   }
 
@@ -327,10 +319,10 @@ export default class IdsLookup extends Base {
   set validationEvents(value) {
     if (value) {
       this.setAttribute(attributes.VALIDATION_EVENTS, value.toString());
-      this.input.setAttribute(attributes.VALIDATION_EVENTS, value.toString());
+      this.triggerField.setAttribute(attributes.VALIDATION_EVENTS, value.toString());
     } else {
       this.removeAttribute(attributes.VALIDATION_EVENTS);
-      this.input.removeAttribute(attributes.VALIDATION_EVENTS);
+      this.triggerField.removeAttribute(attributes.VALIDATION_EVENTS);
     }
   }
 
@@ -344,7 +336,7 @@ export default class IdsLookup extends Base {
     if (value) {
       this.setAttribute(attributes.TITLE, value);
       this.modal.querySelector('[slot="title"]').innerText = value;
-      this.input.setAttribute(attributes.TITLE, value);
+      this.triggerField.setAttribute(attributes.TITLE, value);
     }
   }
 

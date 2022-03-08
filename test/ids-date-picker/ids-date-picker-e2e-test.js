@@ -52,7 +52,7 @@ describe('Ids Date Picker e2e Tests', () => {
     expect(isOpen).toBeFalsy();
 
     // Keyboard
-    const input = await page.evaluateHandle('document.querySelector("#e2e-datepicker-value").shadowRoot.querySelector("ids-input")');
+    const input = await page.evaluateHandle('document.querySelector("#e2e-datepicker-value")');
     await input?.focus();
     await page.keyboard.press('ArrowDown');
 

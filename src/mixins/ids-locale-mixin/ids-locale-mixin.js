@@ -49,8 +49,10 @@ const IdsLocaleMixin = (superclass) => class extends superclass {
   setDirection() {
     if (this.locale?.isRTL()) {
       this.setAttribute('dir', 'rtl');
+      this.container.classList.add('rtl');
     } else {
       this.removeAttribute('dir');
+      this.container.classList.remove('rtl');
     }
   }
 

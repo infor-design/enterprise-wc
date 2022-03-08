@@ -28,6 +28,7 @@
   // Button elements should fill the space inside shadow root
   button {
     justify-content: center;
+    height: 100%;
     width: 100%;
   }
 }
@@ -147,6 +148,10 @@ button {
   .ripple-effect {
     height: 70px;
     width: 70px;
+  }
+
+  &.no-margins {
+    @include mx-0();
   }
 }
 

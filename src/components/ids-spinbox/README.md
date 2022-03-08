@@ -44,7 +44,7 @@ Spinbox which shows a marker with changes, and no range limits
 <ids-spinbox
   value="0"
   label="Unbounded Spinbox"
-  dirty-marker="true"
+  dirty-tracker="true"
 ></ids-spinbox>
 ```
 
@@ -68,7 +68,7 @@ Spinbox which is required to have a value set when tabbed off.
 
 `label` `{string}` label shown above the spinbox
 
-`labelHidden` `{string}` label whether a label's text has been flagged as hidden.
+`labelState` `{string}` label whether a label's text has been flagged as hidden.
 (a label is still required for the sake of accessibility and will be applied on the input element)
 
 `placeholder` `{string}` text shown as a hint when user clears text on the input

@@ -1,6 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import Base from './ids-input-base';
 
@@ -10,7 +11,6 @@ import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import {
   TYPES,
   SIZES,
-  FIELD_HEIGHTS,
   TEXT_ALIGN
 } from './ids-input-attributes';
 
@@ -58,34 +58,27 @@ export default class IdsInput extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.ACTIVE,
       attributes.AUTOSELECT,
       attributes.BG_TRANSPARENT,
       attributes.CAPS_LOCK,
-      attributes.CLEARABLE,
-      attributes.CLEARABLE_FORCED,
-      attributes.COMPACT,
       attributes.CURSOR,
       attributes.DISABLED,
-      attributes.FIELD_HEIGHT,
       attributes.LABEL,
-      attributes.LABEL_HIDDEN,
       attributes.LABEL_REQUIRED,
       attributes.ID,
-      attributes.MODE,
       attributes.NO_MARGINS,
       attributes.PLACEHOLDER,
       attributes.PASSWORD_VISIBLE,
       attributes.SIZE,
       attributes.READONLY,
+      attributes.READONLY_BACKGROUND,
       attributes.REVEALABLE_PASSWORD,
       attributes.TABBABLE,
-      attributes.TABINDEX,
       attributes.TEXT_ALIGN,
       attributes.TEXT_ELLIPSIS,
-      attributes.TRIGGERFIELD,
       attributes.TYPE,
       attributes.VALUE,
-      attributes.VERSION,
     ];
   }
 
@@ -94,12 +87,13 @@ export default class IdsInput extends Base {
    * @returns {void}
    */
   connectedCallback() {
+    super.connectedCallback();
+
     this.#attachEventHandlers();
 
     if (this.hasAttribute(attributes.AUTOSELECT)) {
       this.handleAutoselect();
     }
-    super.connectedCallback();
   }
 
   /**
@@ -107,52 +101,127 @@ export default class IdsInput extends Base {
    * @returns {string} The template
    */
   template() {
+    this.templateHostAttributes();
+    const {
+      ariaLabel,
+      capsLock,
+      containerClass,
+      inputClass,
+      inputState,
+      labelHtml,
+      placeholder,
+      showHide,
+      type,
+      value
+    } = this.templateVariables();
+
+    return `<div class="${containerClass}" part="container">
+      ${labelHtml}
+      <div class="field-container" part="field-container">
+        <input
+          part="input"
+          id="${this.id}-input"
+          ${type}${inputClass}${placeholder}${inputState}
+          ${ariaLabel}
+          ${value}
+          ></input>
+        ${showHide}
+        ${capsLock}
+      </div>
+    </div>`;
+  }
+
+  /**
+   * Uses current IdsInput state to set some attributes on its host element
+   * @returns {void}
+   */
+  templateHostAttributes() {
     if (!this.id) {
       this.setAttribute?.(attributes.ID, `ids-input-${++instanceCounter}`);
     }
+  }
 
-    // Input
+  /**
+   * Uses current IdsInput state to generate strings used in its template.
+   * @returns {object} containing template strings used for generating an IdsInput template
+   */
+  templateVariables() {
+    const attrs = {
+      readonly: this.readonly ? 'readonly' : '',
+      disabled: this.disabled ? 'disabled' : '',
+      required: this.validate ? 'required' : '',
+      noMargins: this.noMargins ? 'no-margins' : '',
+    };
+
     const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
-    let type = ` type="${this.type || TYPES.default}"`;
+    const type = ` type="${this.isPasswordVisible ? 'text' : this.type || TYPES.default}"`;
     let inputClass = `ids-input-field ${this.textAlign}`;
-    let showHide = ``;
-    if (this.revealablePassword && this.type === TYPES.password) {
-      showHide = `<ids-button text="${this.passwordVisible ? 'HIDE' : 'SHOW'}" id="show-hide-password" class="show-hide-password"></ids-button>`;
-      type = `  type="${this.passwordVisible ? 'text' : this.type}"`;
-    }
-    inputClass += stringToBool(this.triggerfield) ? ' has-triggerfield' : '';
+
+    // Handle Password Fields
+    const showHide = this.templateShowHide();
+    const capsLock = this.templateCapsLock();
+
     inputClass += stringToBool(this.bgTransparent) ? ' bg-transparent' : '';
+    inputClass += stringToBool(this.readonlyBackground) ? '' : ' readonly-background';
     inputClass += stringToBool(this.textEllipsis) ? ' text-ellipsis' : '';
     inputClass = ` class="${inputClass}"`;
+
     let inputState = stringToBool(this.readonly) ? ' readonly' : '';
     inputState = stringToBool(this.disabled) ? ' disabled' : inputState;
-    let containerClass = `ids-input${inputState} ${this.size} ${this.fieldHeight}`;
+
+    let containerClass = `ids-input${inputState} ${this.size}`;
     containerClass += stringToBool(this.compact) ? ' compact' : '';
+    containerClass += stringToBool(this.noMargins) ? ' no-margins' : '';
 
-    const labelHtml = !this.label || this.getAttribute(attributes.LABEL_HIDDEN) ? '' : (
-      `<label for="${this.id}-input" class="ids-label-text">
-        <ids-text part="label" label="true" color-unset>${this.label}</ids-text>
-      </label>`
-    );
+    const ariaLabel = this.hasAttribute(attributes.LABEL_STATE) && this.label ? `aria-label="${this.label}"` : '';
+    const hiddenLabelCss = !this.label || this.hasAttribute(attributes.LABEL_HIDDEN) ? ' empty' : '';
+    const labelHtml = `<label
+      class="ids-label-text${hiddenLabelCss}"
+      for="${this.id}-input"
+      part="label"
+      ${attrs.readonly}
+      ${attrs.disabled}
+      ${attrs.required}
+    >
+      <ids-text part="label" label ${attrs.disabled} color-unset>
+        ${this.label}
+      </ids-text>
+    </label>`;
 
-    return (
-      `<div class="${containerClass}" part="container">
-        ${labelHtml}
-        <div class="field-container" part="field-container">
-          <input
-            part="input"
-            id="${this.id}-input"
-            ${type}${inputClass}${placeholder}${inputState}
-            ${this.getAttribute(attributes.LABEL_HIDDEN) && this.label ? `aria-label="${this.label}"` : ''}
-            ${this.hasAttribute(attributes.VALUE) ? ` value="${this.getAttribute(attributes.VALUE)}" ` : ''}
-            ></input>
-            <div class="inline-indicators">
-              ${showHide}
-            </div>
-        </div>
+    const value = this.hasAttribute(attributes.VALUE) ? ` value="${this.getAttribute(attributes.VALUE)}" ` : '';
 
-      </div>`
-    );
+    return {
+      ariaLabel,
+      capsLock,
+      containerClass,
+      inputClass,
+      inputState,
+      labelHtml,
+      placeholder,
+      showHide,
+      type,
+      value
+    };
+  }
+
+  /**
+   * @readonly
+   * @returns {boolean} true if this is a password field and the password should be shown as plain text
+   */
+  get isPasswordVisible() {
+    return this.revealablePassword && this.type === TYPES.password;
+  }
+
+  templateShowHide() {
+    return this.isPasswordVisible
+      ? `<ids-button id="show-hide-password" class="show-hide-password" no-padding text="${this.passwordVisible ? 'HIDE' : 'SHOW'}"></ids-button>`
+      : '';
+  }
+
+  templateCapsLock() {
+    return this.isPasswordVisible
+      ? `<ids-icon id="caps-lock-indicator" class="caps-lock-indicator" icon="capslock"></ids-icon>`
+      : '';
   }
 
   set colorVariant(value) {
@@ -169,13 +238,29 @@ export default class IdsInput extends Base {
    * @returns {HTMLInputElement} the inner `input` element
    */
   get input() {
-    return this.shadowRoot?.querySelector(`#${this.id}-input`);
+    return this.container?.querySelector(`input[part="input"]`);
   }
 
   /**
    * @readonly
-   * @returns {HTMLLabelElement} the inner `label` element or
-   * reference to what was last provided by setLabelElement
+   * @returns {HTMLElement} the caps lock indicator icon, if one exists
+   */
+  get capsLockIcon() {
+    return this.container.querySelector('#caps-lock-indicator');
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLElement} the element in this component's Shadow Root
+   *  that wraps the input and any triggering elements or icons
+   */
+  get fieldContainer() {
+    return this.container.querySelector('.field-container');
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLLabelElement} the inner `label` element
    */
   get labelEl() {
     return (
@@ -183,6 +268,8 @@ export default class IdsInput extends Base {
       || this.shadowRoot?.querySelector(`[for="${this.id}-input"]`)
     );
   }
+
+  /*
 
   /**
    * @returns {boolean} indicates whether password reveal functionality is on or off
@@ -223,11 +310,11 @@ export default class IdsInput extends Base {
    */
   set capsLock(value) {
     if (stringToBool(value)) {
-      this.#capsLockEventSetUp(true);
       this.setAttribute(attributes.CAPS_LOCK, 'true');
+      this.#capsLockEventSetUp(true);
     } else {
-      this.#capsLockEventSetUp(false);
       this.removeAttribute(attributes.CAPS_LOCK);
+      this.#capsLockEventSetUp(false);
     }
   }
 
@@ -251,15 +338,6 @@ export default class IdsInput extends Base {
     }
 
     this.#passwordVisibilityHandler();
-  }
-
-  /**
-   * setter for label element; since reflected attributes
-   * cannot be non serializable refs
-   * @param {HTMLElement} el element representing the label
-   */
-  setLabelElement(el) {
-    this.#labelEl = el;
   }
 
   /**
@@ -303,65 +381,11 @@ export default class IdsInput extends Base {
    * @returns {void}
    */
   setLabelText(value) {
-    if (this.#labelEl) {
-      this.#labelEl.innerHTML = value || '';
-      return;
-    }
-
-    const labelEl = this.shadowRoot.querySelector(`[for="${this.id}-input"] ids-text`);
+    const labelEl = this.#labelEl || this.shadowRoot.querySelector(`[for="${this.id}-input"]`);
     if (labelEl) {
-      labelEl.innerHTML = value || '';
+      labelEl.querySelector('ids-text').innerHTML = value || '';
+      labelEl.classList[value ? 'remove' : 'add']('empty');
     }
-  }
-
-  /**
-   * @param {boolean} value Flags a label's text as not displayed explicitly in the label element
-   * */
-  set labelHidden(value) {
-    if (stringToBool(value)) {
-      this?.setAttribute(attributes.LABEL_HIDDEN, true);
-      const existingLabel = this.shadowRoot.querySelector('label');
-      if (existingLabel) {
-        existingLabel.remove();
-      }
-
-      this.input?.setAttribute?.('aria-label', this.label);
-    } else {
-      this?.removeAttribute(attributes.LABEL_HIDDEN);
-
-      if (this.input) {
-        this.input?.removeAttribute('aria-label');
-
-        const labelTemplate = document.createElement('template');
-        labelTemplate.innerHTML = (
-          `<label for="${this.id}-input" class="ids-label-text">
-            <ids-text part="label" label="true" color-unset>${this.label}</ids-text>
-          </label>`
-        );
-        this.container.insertBefore(
-          labelTemplate.content.childNodes[0],
-          this.container.querySelector('.field-container')
-        );
-      }
-    }
-  }
-
-  /**
-   * @returns {boolean} Flag indicating whether a label's text is not displayed
-   * explicitly in the component
-   */
-  get labelHidden() {
-    return this.getAttribute(attributes.LABEL_HIDDEN);
-  }
-
-  /**
-   * Get field height css class name with prefix
-   * @private
-   * @param {string} val The given value
-   * @returns {string} css class name with prefix
-   */
-  fieldHeightClass(val) {
-    return `field-height-${val || FIELD_HEIGHTS.default}`;
   }
 
   /**
@@ -392,9 +416,9 @@ export default class IdsInput extends Base {
       }
     } else {
       this.onEvent(eventName, this.input, () => {
-        setTimeout(() => { // safari has delay
+        requestAnimationFrame(() => { // Safari has delay
           this.input?.select();
-        }, 1);
+        });
       });
     }
   }
@@ -405,40 +429,31 @@ export default class IdsInput extends Base {
    * @returns {void}
    */
   #capsLockEventSetUp(value) {
-    const indicatorDiv = this.shadowRoot.querySelector('.inline-indicators');
-    let capsLockIndicator = indicatorDiv.querySelector('#caps-lock-indicator');
+    const updateCapsLockIcon = (e) => {
+      if (this.capsLockIcon) {
+        this.capsLockIcon.hidden = !e.getModifierState('CapsLock');
+      }
+    };
+
     if (value) {
-      this.offEvent('keyup.capslock', this.input);
-      this.onEvent('keyup.capslock', this.input, (event) => {
-        capsLockIndicator = indicatorDiv.querySelector('#caps-lock-indicator');
-        if (event.getModifierState('CapsLock') && !capsLockIndicator) {
-          indicatorDiv.innerHTML += '<ids-icon id="caps-lock-indicator" class="caps-lock-indicator" icon="capslock"></ids-icon>';
-        } else if (event.getModifierState('CapsLock') && capsLockIndicator) {
-          capsLockIndicator.style.display = '';
-        } else if (capsLockIndicator && !event.getModifierState('CapsLock')) {
-          capsLockIndicator.style.display = 'none';
-        }
-      });
+      if (!this.capsLockIcon) {
+        this.input.insertAdjacentHTML('afterend', this.templateCapsLock());
+      }
+      this.onEvent('keydown.capslock', this.container, updateCapsLockIcon);
+      this.onEvent('keyup.capslock', this.container, updateCapsLockIcon);
+      if (this.capsLockIcon) {
+        this.capsLockIcon.hidden = true;
+      }
     } else {
-      this.offEvent('keyup.capslock', this.input);
-      capsLockIndicator?.remove();
+      this.offEvent('keydown.capslock', this.container);
+      this.offEvent('keyup.capslock', this.container);
+      this.capsLockIcon?.remove();
     }
   }
 
   /**
-   * Handle input change event
-   * @private
-   * @returns {void}
-   */
-  #attachInputChangeEvent() {
-    const eventName = 'change.input';
-    this.onEvent(eventName, this.input, () => {
-      this.value = this.input.value;
-    });
-  }
-
-  /**
-   * Establish Internal Event Handlers
+   * Setup event handlers that trigger on the host element during native events from the internal HTMLInputElement
+   * These trigg
    * @private
    * @returns {object} The object for chaining.
    */
@@ -476,7 +491,11 @@ export default class IdsInput extends Base {
    */
   #attachEventHandlers() {
     this.#attachNativeEvents();
-    this.#attachInputChangeEvent();
+
+    // If the internal input value is updated, reflect the change on the WebComponent
+    this.onEvent('change.input', this.input, () => {
+      this.value = this.input.value;
+    });
   }
 
   /**
@@ -487,14 +506,14 @@ export default class IdsInput extends Base {
    */
   #togglePasswordEventSetUp(value) {
     const showHidePasswordElem = this.shadowRoot.querySelector(`.show-hide-password`);
-    const inputContainer = this.shadowRoot.querySelector('.inline-indicators');
     if (value) {
-      if (!showHidePasswordElem && this.revealablePassword && this.type === TYPES.password) {
+      if (!showHidePasswordElem && this.isPasswordVisible) {
         const showHideButton = document.createElement('ids-button');
         showHideButton.text = this.passwordVisible ? 'HIDE' : 'SHOW';
         showHideButton.id = 'show-hide-password';
         showHideButton.classList.add('show-hide-password');
-        inputContainer.prepend(showHideButton);
+        showHideButton.noPadding = true;
+        this.input.insertAdjacentElement('afterend', showHideButton);
         this.input.type = `${this.passwordVisible ? 'text' : this.type}`;
       }
       this.onEvent('click.showhidepassword', showHidePasswordElem, () => {
@@ -527,12 +546,22 @@ export default class IdsInput extends Base {
   }
 
   /**
-   * @readonly
-   * @returns {boolean} true if this input resides inside trigger-field
+   * When set the input will add a CSS class `is-active` that simulates the text input being "focused".
+   * @param {boolean|string} value If true will set `text-ellipsis` attribute
    */
-  get hasParentTriggerField() {
-    return this.parentElement?.tagName === 'IDS-TRIGGER-FIELD';
+  set active(value) {
+    const val = stringToBool(value);
+    const className = 'is-active';
+    if (val) {
+      this.setAttribute(attributes.ACTIVE, val.toString());
+      this.container.classList.add(className);
+    } else {
+      this.removeAttribute(attributes.ACTIVE);
+      this.container.classList.remove(className);
+    }
   }
+
+  get active() { return this.getAttribute(attributes.ACTIVE); }
 
   /**
    * When set the input will select all text on focus
@@ -559,9 +588,11 @@ export default class IdsInput extends Base {
     const className = 'bg-transparent';
     if (val) {
       this.setAttribute(attributes.BG_TRANSPARENT, val.toString());
+      this.container.classList.add(className);
       this.input?.classList.add(className);
     } else {
       this.removeAttribute(attributes.BG_TRANSPARENT);
+      this.container.classList.remove(className);
       this.input?.classList.remove(className);
     }
   }
@@ -585,61 +616,6 @@ export default class IdsInput extends Base {
   }
 
   get textEllipsis() { return this.getAttribute(attributes.TEXT_ELLIPSIS); }
-
-  /**
-   * When set the input will add a clearable x button
-   * @param {boolean|string} value If true will set `clearable` attribute
-   */
-  set clearable(value) {
-    const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.CLEARABLE, val.toString());
-    } else {
-      this.removeAttribute(attributes.CLEARABLE);
-    }
-    this.handleClearable();
-  }
-
-  get clearable() { return this.getAttribute(attributes.CLEARABLE); }
-
-  /**
-   * When set the input will force to add a clearable x button on readonly and disabled
-   * @param {boolean|string} value If true will set `clearable-forced` attribute
-   */
-  set clearableForced(value) {
-    const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.CLEARABLE_FORCED, val.toString());
-    } else {
-      this.removeAttribute(attributes.CLEARABLE_FORCED);
-    }
-    this.handleClearable();
-  }
-
-  get clearableForced() { return this.getAttribute(attributes.CLEARABLE_FORCED); }
-
-  /**
-   *  Set the compact height
-   * @param {boolean|string} value If true will set `compact` attribute
-   */
-  set compact(value) {
-    const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.COMPACT, val.toString());
-      this.container?.classList.add(attributes.COMPACT);
-    } else {
-      this.removeAttribute(attributes.COMPACT);
-      this.container?.classList.remove(attributes.COMPACT);
-    }
-
-    if (this.hasParentTriggerField) {
-      this.container?.classList.add('no-margin-bottom');
-    } else {
-      this.container?.classList.remove('no-margin-bottom');
-    }
-  }
-
-  get compact() { return this.getAttribute(attributes.COMPACT); }
 
   /**
    * Sets input to disabled
@@ -667,12 +643,17 @@ export default class IdsInput extends Base {
    * @param {string} value of the `label` text property
    */
   set label(value) {
-    if (value) {
-      this.setAttribute(attributes.LABEL, value.toString());
-    } else {
-      this.removeAttribute(attributes.LABEL);
+    const newValue = stripHTML(value);
+    const currentValue = this.label;
+
+    if (newValue !== currentValue) {
+      if (value) {
+        this.setAttribute(attributes.LABEL, value.toString());
+      } else {
+        this.removeAttribute(attributes.LABEL);
+      }
+      this.setLabelText(value);
     }
-    this.setLabelText(value);
   }
 
   get label() { return this.getAttribute(attributes.LABEL) || ''; }
@@ -730,38 +711,37 @@ export default class IdsInput extends Base {
   get readonly() { return stringToBool(this.getAttribute(attributes.READONLY)); }
 
   /**
-   * Set the fieldHeight (height) of input
-   * @param {string} value [xs, sm, mm, md, lg]
+   * @param {boolean|string} value If true, causes an IdsInput set to `readonly` to appear
+   * to use its standard field background color instead of the "readonly" state color
    */
-  set fieldHeight(value) {
-    const fieldHeight = FIELD_HEIGHTS[value];
-    const heightClasses = Object.values(FIELD_HEIGHTS).map((h) => this.fieldHeightClass(h));
-    this.container?.classList.remove(...heightClasses);
-    if (fieldHeight) {
-      this.setAttribute(attributes.FIELD_HEIGHT, fieldHeight);
-      this.container?.classList.add(this.fieldHeightClass(fieldHeight));
+  set readonlyBackground(value) {
+    const val = stringToBool(value);
+    if (val) {
+      this.setAttribute(attributes.READONLY_BACKGROUND, val.toString());
+      this.container.classList.add(attributes.READONLY_BACKGROUND);
     } else {
-      this.removeAttribute(attributes.FIELD_HEIGHT);
-    }
-
-    if (this.hasParentTriggerField) {
-      this.container?.classList.add('no-margin-bottom');
-    } else {
-      this.container?.classList.remove('no-margin-bottom');
+      this.removeAttribute(attributes.READONLY_BACKGROUND);
+      this.container.classList.remove(attributes.READONLY_BACKGROUND);
     }
   }
 
-  get fieldHeight() { return this.fieldHeightClass(this.getAttribute(attributes.FIELD_HEIGHT)); }
+  /**
+   * @returns {boolean} true if this IdsInput should appear to use its standard
+   * field background color instead of the "readonly" state color when set to `readonly`
+   */
+  get readonlyBackground() {
+    return stringToBool(this.getAttribute(attributes.READONLY_BACKGROUND));
+  }
 
   /**
    * Set the size (width) of input
    * @param {string} value [xs, sm, mm, md, lg, full]
    */
   set size(value) {
-    const size = SIZES[value];
-    this.setAttribute(attributes.SIZE, size || SIZES.default);
+    const size = SIZES[value] || SIZES.default;
+    this.setAttribute(attributes.SIZE, size);
     this.container?.classList.remove(...Object.values(SIZES));
-    this.container?.classList.add(size || SIZES.default);
+    this.container?.classList.add(size);
   }
 
   get size() { return this.getAttribute(attributes.SIZE) || SIZES.default; }
@@ -778,22 +758,6 @@ export default class IdsInput extends Base {
   }
 
   get textAlign() { return this.getAttribute(attributes.TEXT_ALIGN) || TEXT_ALIGN.default; }
-
-  /**
-   * Set to true if the input is a triggr field
-   * @param {boolean|string} value If true will set `triggerfield` attribute
-   */
-  set triggerfield(value) {
-    const val = stringToBool(stringToBool(value));
-    if (val) {
-      this.setAttribute(attributes.TRIGGERFIELD, val.toString());
-    } else {
-      this.removeAttribute(attributes.TRIGGERFIELD);
-    }
-    this.input?.classList[this.triggerfield ? 'add' : 'remove']('has-triggerfield');
-  }
-
-  get triggerfield() { return this.getAttribute(attributes.TRIGGERFIELD); }
 
   /**
    * Sets the input type
@@ -817,7 +781,8 @@ export default class IdsInput extends Base {
    * @param {string} val the value property
    */
   set value(val) {
-    let v = val || '';
+    let v = typeof val === 'string' && val.length ? val : '';
+    const currentValue = this.getAttribute(attributes.VALUE) || '';
 
     // If a mask is enabled, use the conformed value.
     // If no masking occurs, simply use the provided value.
@@ -825,10 +790,13 @@ export default class IdsInput extends Base {
       v = this.processMaskFromProperty(val) || v;
     }
 
-    this.setAttribute(attributes.VALUE, v);
     if (this.input && this.input?.value !== v) {
       this.input.value = v;
-      this.input.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    if (currentValue !== v) {
+      this.setAttribute(attributes.VALUE, v);
+      this.input?.dispatchEvent(new Event('change', { bubbles: true }));
     }
   }
 
@@ -872,12 +840,12 @@ export default class IdsInput extends Base {
    */
   set noMargins(n) {
     if (stringToBool(n)) {
-      this.setAttribute(attributes.NO_MARGINS, 'true');
-      this.container.querySelector('input').classList.add('no-margin');
+      this.setAttribute(attributes.NO_MARGINS, '');
+      this.container.classList.add('no-margins');
       return;
     }
     this.removeAttribute(attributes.NO_MARGINS);
-    this.container.querySelector('input').classList.remove('no-margin');
+    this.container.classList.remove('no-margins');
   }
 
   get noMargins() {
@@ -885,33 +853,10 @@ export default class IdsInput extends Base {
   }
 
   /**
-   * Set if the input and buttons are tabbable
-   * @param {boolean|string} value True of false depending if the trigger field is tabbable
+   * Overrides the standard "blur" behavior to instead tell the inner HTMLInput element to blur.
    */
-  set tabbable(value) {
-    if (stringToBool(value) !== this.getAttribute(attributes.TABBABLE)) {
-      const isTabbable = stringToBool(value);
-      const inputs = this.shadowRoot?.querySelectorAll(`#${this.id}-input, ids-button, ids-trigger-button`);
-      if (isTabbable) {
-        this.setAttribute(attributes.TABBABLE, 'true');
-        inputs.forEach((input) => {
-          input.setAttribute(attributes.TABINDEX, '0');
-        });
-        return;
-      }
-      this.setAttribute(attributes.TABBABLE, 'false');
-      inputs.forEach((input) => {
-        input.setAttribute(attributes.TABINDEX, '-1');
-      });
-    }
-  }
-
-  /**
-   * get whether the input currently allows tabbing.
-   * @returns {boolean} true or false depending on whether the input is currently tabbable
-   */
-  get tabbable() {
-    return stringToBool(this.getAttribute(attributes.TABBABLE) || true);
+  blur() {
+    this.input.blur();
   }
 
   /**

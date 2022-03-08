@@ -5,20 +5,14 @@ interface IdsTriggerFieldEventDetail extends Event {
 }
 
 export default class IdsTriggerField extends HTMLElement {
-  /** Set if the trigger field is tabbable */
-  tabbable: boolean;
-
-  /** Set the appearance of the trigger field */
-  appearance: 'normal' | 'compact' | string;
-
   /** Set the theme mode */
   mode: 'light' | 'dark' | 'contrast' | string;
 
+  /** Set if the trigger field is tabbable */
+  tabbable: boolean;
+
   /** Set the theme version */
   version: 'new' | 'classic' | string;
-
-  /** Sets the appearance of the ids-trigger-field-content container */
-  contentBorders: boolean;
 
   /** Fire the trigger event and action */
   trigger(): void;
