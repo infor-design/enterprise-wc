@@ -23,6 +23,10 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
     ];
   }
 
+  dirty = {
+    original: ''
+  };
+
   isCheckbox = false;
 
   isEditor = false;
@@ -69,7 +73,7 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
       } else if (this.isEditor) {
         this.shadowRoot.querySelector('.editor-content')?.appendChild(icon);
       } else {
-        this.input?.parentNode?.insertBefore(icon, this.input);
+        this.fieldContainer?.prepend(icon);
       }
     }
   }
@@ -80,11 +84,7 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   removeDirtyTrackerIcon() {
-    let icon = this.shadowRoot.querySelector('.icon-dirty');
-    if (icon) {
-      icon.remove();
-    }
-    icon = this.shadowRoot.querySelector('ids-input')?.shadowRoot?.querySelector('.icon-dirty');
+    const icon = this.shadowRoot.querySelector('.icon-dirty');
     if (icon) {
       icon.remove();
     }
@@ -116,7 +116,7 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
     if (msg) {
       msg.remove();
     }
-    msg = this.shadowRoot.querySelector('ids-input')?.shadowRoot?.querySelector('.icon-dirty');
+    msg = this.input?.shadowRoot?.querySelector('.icon-dirty');
     if (msg) {
       msg.remove();
     }

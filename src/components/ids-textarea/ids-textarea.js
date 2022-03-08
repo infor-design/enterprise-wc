@@ -1,6 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import Base from './ids-textarea-base';
 
@@ -89,9 +90,6 @@ export default class IdsTextarea extends Base {
    * @returns {void}
    */
   connectedCallback() {
-    this.input = this.shadowRoot.querySelector(`#${ID}`);
-    this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
-
     this.#attachEventHandlers();
     super.connectedCallback();
   }
@@ -130,6 +128,22 @@ export default class IdsTextarea extends Base {
         ${counter}
       </div>
     `;
+  }
+
+  /**
+   * @returns {HTMLTextAreaElement} reference to this component's inner text input element
+   */
+  get input() {
+    return this.container.querySelector('textarea');
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLElement} the element in this component's Shadow Root
+   *  that wraps the input and any triggering elements or icons
+   */
+  get fieldContainer() {
+    return this.container.querySelector('.field-container');
   }
 
   /**
@@ -247,10 +261,10 @@ export default class IdsTextarea extends Base {
       const oldHeight = this.input.offsetHeight;
 
       // Need delay, when initial value more then max on first load
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         this.adjustHeight(oldHeight, maxHeight);
         this.autogrowProcessing = null;
-      }, 1);
+      });
     }
   }
 
@@ -572,19 +586,40 @@ export default class IdsTextarea extends Base {
   get disabled() { return this.getAttribute(attributes.DISABLED); }
 
   /**
-   * Set the `label` text of textarea label
+   * internal reference to a label element a user provides
+   */
+  #labelEl;
+
+  /**
+   * Set the `label` text
    * @param {string} value of the `label` text property
    */
   set label(value) {
-    if (value) {
-      this.setAttribute(attributes.LABEL, value.toString());
-    } else {
-      this.removeAttribute(attributes.LABEL);
+    const newValue = stripHTML(value);
+    const currentValue = this.label;
+
+    if (newValue !== currentValue) {
+      if (value) {
+        this.setAttribute(attributes.LABEL, value.toString());
+      } else {
+        this.removeAttribute(attributes.LABEL);
+      }
+      this.setLabelText(value);
     }
-    this.setLabelText(value);
   }
 
   get label() { return this.getAttribute(attributes.LABEL) || ''; }
+
+  /**
+   * @readonly
+   * @returns {HTMLLabelElement} the inner `label` element
+   */
+  get labelEl() {
+    return (
+      this.#labelEl
+      || this.shadowRoot?.querySelector(`[for="${ID}"]`)
+    );
+  }
 
   /**
    * Set `label-required` attribute

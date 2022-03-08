@@ -31,12 +31,11 @@ We include a trigger field component that helps layout an input next to a button
 
 ## Features (With Code Examples)
 
-Add an ids-trigger-field to the page and inside its slot add an ids-input and ids-trigger-button.
+Add an IdsTriggerField to the page and inside its slot add one or more ids-trigger-buttons.  The `slot` attribute can be applied the IdsTriggerButton to control its placement, but by default they will appear at the "end" side of the trigger field:
 
 ```html
-<ids-trigger-field size="sm" label="Date Field" tabbable="false">
-  <ids-input></ids-input>
-  <ids-trigger-button>
+<ids-trigger-field size="sm" label="Date Field">
+  <ids-trigger-button slot="end">
     <ids-text audible="true">Date Field trigger</ids-text>
     <ids-icon slot="icon" icon="schedule"></ids-icon>
   </ids-trigger-button>
@@ -49,15 +48,13 @@ Example usage with buttons on both sides of input.
 <ids-trigger-field
     id="trigger-field-1"
     label="Trigger field label"
-    tabbable="false"
 >
-  <ids-trigger-button class="color-preview">
-    <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
-    <ids-text audible="true">Call to action</ids-text>
+  <ids-trigger-button slot="start">
+    <ids-icon class="ids-settings" icon="settings" size="medium"></ids-icon>
+    <ids-text audible="true">Call to action Button</ids-text>
   </ids-trigger-button>
-  <ids-input placeholder="Enter Product"></ids-input>
-  <ids-trigger-button>
-    <ids-text audible="true">color picker trigger</ids-text>
+  <ids-trigger-button slot="end">
+    <ids-text audible="true">Popup Activator Button</ids-text>
     <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
   </ids-trigger-button>
 </ids-trigger-field>
@@ -65,7 +62,6 @@ Example usage with buttons on both sides of input.
 
 ## Settings and Attributes
 
-- `appearance` {string} Turns on the functionality to have more compact field size (TODO)
 - `disabled` {boolean} set disabled state.
 - `label` {string} This adds a label to the trigger field
 - `size` {string} set the input size, it will set `md` as defaults

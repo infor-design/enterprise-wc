@@ -1,4 +1,3 @@
-@import '../../core/ids-base';
 @import '../ids-input/ids-input';
 
 .ids-color-picker {
@@ -53,9 +52,10 @@ ids-trigger-button .color-preview {
 
 .color-input {
   display: block;
-  height: 100%;
+  height: calc(100% + 12px);
+  margin: 0;
+  padding: 0;
   opacity: 0;
-  width: 100%;
 }
 
 .color-input-value {
@@ -80,4 +80,11 @@ ids-trigger-button .color-preview {
   align-items: center;
   display: flex;
   justify-content: center;
+}
+
+// Adjust position of dirty tracker icon to push it out slightly further from the corner
+// (Creates a border between the icon and the color swatch)
+.field-container .icon-dirty {
+  left: -2px;
+  top: -2px;
 }

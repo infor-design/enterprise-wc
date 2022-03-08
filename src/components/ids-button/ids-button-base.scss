@@ -120,6 +120,10 @@
       align-self: flex-end;
     }
   }
+
+  &.no-margins {
+    @include mx-0();
+  }
 }
 
 /**
@@ -140,136 +144,51 @@
   @include inline-flex();
   @include rounded-default();
 
-  // ====================================================
-  // Default/Tertiary/Destructive Button styles
+  &[mode='light'] {
+    // ====================================================
+    // Default/Tertiary/Destructive Button styles
 
-  @include border-transparent();
-  @include text-slate-60();
-
-  &:focus {
-    @include border-azure-70();
-    @include shadow();
-  }
-
-  &:hover {
-    @include text-black();
-  }
-
-  &[disabled] {
-    @include text-slate-30();
-  }
-
-  .ripple-effect {
-    background-color: var(--ids-color-palette-azure-70);
-  }
-
-  // ====================================================
-  // Primary Button Styles
-
-  &.btn-primary {
-    background-color: var(--ids-color-brand-primary-base);
-    border-color: var(--ids-color-brand-primary-base);
-    color: var(--ids-color-brand-primary-contrast);
-
-    &:focus {
-      @include solid-button-shadow();
-    }
-
-    &:hover {
-      @include bg-azure-80();
-    }
-
-    &[disabled] {
-      @include bg-azure-30();
-      @include border-azure-30();
-    }
-
-    .ripple-effect {
-      background-color: var(--ids-color-brand-primary-contrast);
-    }
-  }
-
-  // ====================================================
-  // Secondary Button Styles
-
-  &.btn-secondary {
-    @include bg-slate-30();
-
-    color: var(--ids-color-font-base);
-
-    &:focus {
-      @include solid-button-shadow();
-    }
-
-    &:hover {
-      @include bg-slate-40();
-    }
-
-    &[disabled] {
-      @include bg-slate-20();
-      @include border-slate-20();
-    }
-
-    .ripple-effect {
-      background-color: var(--ids-color-brand-primary-contrast);
-    }
-  }
-
-  // ====================================================
-  // Light Mode Alternate Styles
-
-  &.color-variant-alternate,
-  &.color-variant-alternate-formatter {
-    @include text-white();
-
-    opacity: 0.7;
+    @include border-transparent();
+    @include text-slate-60();
 
     &.is-active,
     &:focus {
-      @include alternate-button-shadow();
-
-      border-color: var(--ids-color-palette-white);
-      opacity: 1;
+      @include border-azure-50();
+      @include shadow();
     }
 
     &:hover {
-      @include text-white();
-
-      opacity: 1;
+      @include text-black();
     }
 
     &[disabled] {
-      opacity: 0.3;
+      @include text-slate-30();
     }
 
     .ripple-effect {
-      background-color: var(--ids-color-palette-white);
+      background-color: var(--ids-color-palette-azure-70);
     }
 
     // ====================================================
-    // Light Mode Alternate Primary Styles
+    // Primary Button Styles
 
     &.btn-primary {
-      background-color: var(--ids-color-palette-azure-40);
-      border-color: var(--ids-color-palette-azure-40);
+      background-color: var(--ids-color-brand-primary-base);
+      border-color: var(--ids-color-brand-primary-base);
       color: var(--ids-color-brand-primary-contrast);
-      opacity: 1;
 
+      &.is-active,
       &:focus {
-        @include alternate-button-shadow();
-
-        border-color: var(--ids-color-palette-white);
+        @include solid-button-shadow();
       }
 
       &:hover {
-        @include bg-azure-30();
+        @include bg-azure-80();
       }
 
       &[disabled] {
         @include bg-azure-30();
         @include border-azure-30();
-
-        opacity: 0.7;
       }
 
       .ripple-effect {
@@ -278,47 +197,139 @@
     }
 
     // ====================================================
-    // Light Mode Alternate Secondary Styles
+    // Secondary Button Styles
 
     &.btn-secondary {
       @include bg-slate-30();
-      @include text-slate-100();
 
-      opacity: 1;
+      color: var(--ids-color-font-base);
 
+      &.is-active,
       &:focus {
-        @include alternate-button-shadow();
+        @include solid-button-shadow();
       }
 
       &:hover {
         @include bg-slate-40();
-        @include text-slate-100();
       }
 
       &[disabled] {
         @include bg-slate-20();
         @include border-slate-20();
-
-        opacity: 0.7;
       }
 
       .ripple-effect {
         background-color: var(--ids-color-brand-primary-contrast);
       }
     }
-  }
 
-  &.color-variant-alternate-formatter {
-    opacity: 0.8;
+    // ====================================================
+    // Light Mode Alternate Styles
 
-    &.is-active,
-    &:focus {
-      border-color: var(--ids-color-palette-azure-50);
-      box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-60);
+    &.color-variant-alternate,
+    &.color-variant-alternate-formatter {
+      @include text-white();
+
+      opacity: 0.7;
+
+      &.is-active,
+      &:focus {
+        @include alternate-button-shadow();
+
+        border-color: var(--ids-color-palette-white);
+        opacity: 1;
+      }
+
+      &:hover {
+        @include text-white();
+
+        opacity: 1;
+      }
+
+      &[disabled] {
+        opacity: 0.3;
+      }
+
+      .ripple-effect {
+        background-color: var(--ids-color-palette-white);
+      }
+
+      // ====================================================
+      // Light Mode Alternate Primary Styles
+
+      &.btn-primary {
+        background-color: var(--ids-color-palette-azure-40);
+        border-color: var(--ids-color-palette-azure-40);
+        color: var(--ids-color-brand-primary-contrast);
+        opacity: 1;
+
+        &.is-active,
+        &:focus {
+          @include alternate-button-shadow();
+
+          border-color: var(--ids-color-palette-white);
+        }
+
+        &:hover {
+          @include bg-azure-30();
+        }
+
+        &[disabled] {
+          @include bg-azure-30();
+          @include border-azure-30();
+
+          opacity: 0.7;
+        }
+
+        .ripple-effect {
+          background-color: var(--ids-color-brand-primary-contrast);
+        }
+      }
+
+      // ====================================================
+      // Light Mode Alternate Secondary Styles
+
+      &.btn-secondary {
+        @include bg-slate-30();
+        @include text-slate-100();
+
+        opacity: 1;
+
+        &.is-active,
+        &:focus {
+          @include alternate-button-shadow();
+        }
+
+        &:hover {
+          @include bg-slate-40();
+          @include text-slate-100();
+        }
+
+        &[disabled] {
+          @include bg-slate-20();
+          @include border-slate-20();
+
+          opacity: 0.7;
+        }
+
+        .ripple-effect {
+          background-color: var(--ids-color-brand-primary-contrast);
+        }
+      }
     }
 
-    .ripple-effect {
-      background-color: var(--ids-color-palette-azure-40);
+    &.color-variant-alternate-formatter {
+      opacity: 0.8;
+
+      &.is-active,
+      &:focus {
+        border-color: var(--ids-color-palette-azure-50);
+        box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-60);
+      }
+
+      .ripple-effect {
+        background-color: var(--ids-color-palette-azure-40);
+      }
     }
   }
 
@@ -328,6 +339,12 @@
   &[mode='dark'] {
     @include text-slate-20();
 
+    &.is-active,
+    &:focus {
+      @include border-azure-50();
+      @include shadow();
+    }
+
     &:hover {
       @include text-white();
     }
@@ -336,18 +353,51 @@
       @include text-slate-40();
     }
 
-    // Dark Mode Primary Styles
+    .ripple-effect {
+      background-color: var(--ids-color-palette-azure-40);
+    }
+
+    // ====================================================
+    // Dark Mode Primary Button Styles
+
     &.btn-primary {
+      background-color: var(--ids-color-brand-primary-base);
+      border-color: var(--ids-color-brand-primary-base);
+      color: var(--ids-color-palette-white);
+
+      &.is-active,
+      &:focus {
+        @include solid-button-shadow();
+      }
+
+      &:hover {
+        @include bg-azure-80();
+        @include border-azure-80();
+      }
+
       &[disabled] {
+        @include bg-azure-30();
+        @include border-azure-30();
         @include text-white();
+      }
+
+      .ripple-effect {
+        background-color: var(--ids-color-brand-primary-contrast);
       }
     }
 
-    // Dark Mode Secondary Styles
+    // ====================================================
+    // Dark Mode Secondary Button Styles
+
     &.btn-secondary {
       @include border-slate-30();
       @include bg-slate-30();
       @include text-slate-80();
+
+      &.is-active,
+      &:focus {
+        @include solid-button-shadow();
+      }
 
       &:hover {
         @include border-slate-40();
@@ -357,6 +407,10 @@
       &[disabled] {
         @include bg-slate-40();
         @include border-slate-40();
+      }
+
+      .ripple-effect {
+        background-color: var(--ids-color-brand-primary-contrast);
       }
     }
 
@@ -825,6 +879,7 @@
     // Primary Dark Mode
 
     &[mode='dark'] {
+      &.is-active,
       &:focus {
         box-shadow:
           0 0 0 2px var(--ids-color-palette-slate-90),
@@ -833,6 +888,7 @@
       }
 
       &.color-variant-alternate {
+        &.is-active,
         &:focus {
           @include alternate-button-shadow();
         }
@@ -843,6 +899,7 @@
     // Primary High-Contrast Mode
 
     &[mode='contrast'] {
+      &.is-active,
       &:focus {
         box-shadow:
           0 0 0 2px var(--ids-color-palette-slate-10),
@@ -851,6 +908,7 @@
       }
 
       &.color-variant-alternate {
+        &.is-active,
         &:focus {
           @include alternate-button-shadow();
         }
@@ -861,6 +919,7 @@
     // Primary "Classic" Light Mode
 
     &[mode='light'][version='classic'] {
+      &.is-active,
       &:focus {
         box-shadow:
           0 0 0 2px var(--ids-color-palette-graphite-10),
@@ -869,6 +928,7 @@
       }
 
       &.color-variant-alternate {
+        &.is-active,
         &:focus {
           @include alternate-button-shadow();
         }
@@ -879,6 +939,7 @@
     // Primary "Classic" Dark Mode
 
     &[mode='dark'][version='classic'] {
+      &.is-active,
       &:focus {
         box-shadow:
           0 0 0 2px var(--ids-color-palette-classic-slate-80),
@@ -887,6 +948,7 @@
       }
 
       &.color-variant-alternate {
+        &.is-active,
         &:focus {
           @include alternate-button-shadow();
         }
@@ -897,6 +959,7 @@
     // Primary "Classic" High-Contrast Mode
 
     &[mode='contrast'][version='classic'] {
+      &.is-active,
       &:focus {
         box-shadow:
           0 0 0 2px var(--ids-color-palette-graphite-20)
@@ -905,6 +968,7 @@
       }
 
       &.color-variant-alternate {
+        &.is-active,
         &:focus {
           @include alternate-button-shadow();
         }
@@ -916,6 +980,7 @@
     // ====================================================
     // Secondary Dark Mode
     &[mode='dark'] {
+      &.is-active,
       &:focus {
         box-shadow:
           0 0 0 2px var(--ids-color-palette-slate-90),
@@ -924,6 +989,7 @@
       }
 
       &.color-variant-alternate {
+        &.is-active,
         &:focus {
           @include alternate-button-shadow();
         }
@@ -934,6 +1000,7 @@
     // Secondary High-Contrast Mode
 
     &[mode='contrast'] {
+      &.is-active,
       &:focus {
         box-shadow:
           0 0 0 2px var(--ids-color-palette-slate-10),
@@ -942,6 +1009,7 @@
       }
 
       &.color-variant-alternate {
+        &.is-active,
         &:focus {
           @include alternate-button-shadow();
         }
@@ -952,6 +1020,7 @@
     // Secondary "Classic" Light Mode
 
     &[mode='light'][version='classic'] {
+      &.is-active,
       &:focus {
         box-shadow:
           0 0 0 2px var(--ids-color-palette-graphite-10),
@@ -960,6 +1029,7 @@
       }
 
       &.color-variant-alternate {
+        &.is-active,
         &:focus {
           @include alternate-button-shadow();
         }
@@ -970,6 +1040,7 @@
     // Secondary "Classic" Dark Mode
 
     &[mode='dark'][version='classic'] {
+      &.is-active,
       &:focus {
         box-shadow:
           0 0 0 2px var(--ids-color-palette-classic-slate-80),
@@ -978,6 +1049,7 @@
       }
 
       &.color-variant-alternate {
+        &.is-active,
         &:focus {
           @include alternate-button-shadow();
         }
@@ -988,6 +1060,7 @@
     // Secondary "Classic" High-Contrast Mode
 
     &[mode='contrast'][version='classic'] {
+      &.is-active,
       &:focus {
         box-shadow:
           0 0 0 2px var(--ids-color-palette-graphite-20),
@@ -996,6 +1069,7 @@
       }
 
       &.color-variant-alternate {
+        &.is-active,
         &:focus {
           @include alternate-button-shadow();
         }
@@ -1012,6 +1086,7 @@
     background-color: var(--ids-color-brand-primary-contrast);
     color: var(--ids-color-brand-primary-base);
 
+    &.is-active,
     &:focus {
       @include modal-button-shadow();
     }
@@ -1040,6 +1115,7 @@
     background-color: var(--ids-color-brand-primary-contrast);
     color: var(--ids-color-brand-secondary-contrast);
 
+    &.is-active,
     &:focus {
       @include modal-button-shadow();
     }

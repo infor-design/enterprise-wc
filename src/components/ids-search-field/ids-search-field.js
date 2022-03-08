@@ -1,10 +1,8 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import Base from './ids-search-field-base';
-import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import IdsInput from '../ids-input/ids-input';
 import IdsIcon from '../ids-icon/ids-icon';
@@ -26,14 +24,6 @@ const DEFAULT_PLACEHOLDER = 'Type to search';
 @customElement('ids-search-field')
 @scss(styles)
 export default class IdsSearchField extends Base {
-  DEFAULT_LABEL = DEFAULT_LABEL;
-
-  DEFAULT_PLACEHOLDER = DEFAULT_PLACEHOLDER;
-
-  input;
-
-  triggerField;
-
   constructor() {
     super();
   }
@@ -44,146 +34,73 @@ export default class IdsSearchField extends Base {
    */
   colorVariants = ['alternate', 'app-menu'];
 
+  /**
+   * Inherited from `IdsColorVariantMixin`. If the Color Variant on Search Fields are changed,
+   * switch trigger buttons to the "alternate" style instead of an `app-menu` style.
+   * @param {string} variantName the new color variant being applied to the Search Field
+   */
+  onColorVariantRefresh(variantName) {
+    let btnVariantName = variantName;
+    if (variantName === 'app-menu') {
+      btnVariantName = 'alternate';
+    }
+    const adjustBtnVariant = (btn) => {
+      btn.setAttribute(attributes.COLOR_VARIANT, btnVariantName);
+    };
+
+    this.buttons.forEach(adjustBtnVariant);
+    [...this.fieldContainer.querySelectorAll('ids-trigger-button')].forEach(adjustBtnVariant);
+  }
+
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.DISABLED,
-      attributes.LABEL,
-      attributes.PLACEHOLDER,
-      attributes.READONLY,
-      attributes.VALUE,
     ];
   }
 
   connectedCallback() {
-    this.input = this.container.querySelector('ids-input');
-    this.triggerField = this.container.querySelector('ids-trigger-field');
-
     this.#attachEventHandlers();
     this.#attachKeyboardListener();
     super.connectedCallback();
+
+    if (!this.placeholder) {
+      this.placeholder = DEFAULT_PLACEHOLDER;
+    }
+    if (!this.label) {
+      this.label = DEFAULT_LABEL;
+    }
   }
 
   template() {
-    return `
-      <div
-        class="ids-search-field"
-        id="ids-search-field"
-      >
-        <ids-trigger-field
-          tabbable="false"
-          label="${this.label}"
-          ${this.disabled && 'disabled'}
-          ${this.readonly && 'readonly'}
-          no-margins
-        >
-          <ids-icon part="search-icon" class="search-icon" size="medium" icon="search"></ids-icon>
-          <ids-input
-            color-variant="${this.colorVariant}"
-            ${!this.readonly && !this.disabled && 'clearable'}
-            ${this.readonly && 'readonly'}
-            value="${this.value}"
-            placeholder="${this.placeholder}"
-          >
-          </ids-input>
-      </div>
-    `;
-  }
+    this.templateHostAttributes();
+    const {
+      ariaLabel,
+      containerClass,
+      inputClass,
+      inputState,
+      labelHtml,
+      placeholder,
+      type,
+      value
+    } = this.templateVariables();
 
-  /**
-   * Set the color variant to alternate or default style
-   */
-  set colorVariant(value) {
-    if (value) {
-      super.colorVariant = value;
-      this.container.querySelector('ids-input').colorVariant = value;
-    }
-  }
-
-  get colorVariant() {
-    return super.colorVariant;
-  }
-
-  /**
-   * Sets the value inside the input
-   * @param {string} value The input value
-   */
-  set value(value) {
-    this.setAttribute(attributes.VALUE, value);
-    this.search(value);
-  }
-
-  get value() {
-    return this.getAttribute(attributes.VALUE) || '';
-  }
-
-  /**
-   * Set the placeholder text inside the input
-   * @param {string} value The placeholder text
-   */
-  set placeholder(value) {
-    this.setAttribute(attributes.PLACEHOLDER, value);
-
-    if (this.input) {
-      this.input.placeholder = value;
-    }
-  }
-
-  get placeholder() {
-    const a = this.getAttribute(attributes.PLACEHOLDER);
-    if (typeof a === 'string') {
-      return this.getAttribute(attributes.PLACEHOLDER);
-    }
-    return DEFAULT_PLACEHOLDER;
-  }
-
-  /**
-   * Set the label text that rests above the input field
-   * @param {string} value The name for the label
-   */
-  set label(value) {
-    this.setAttribute(attributes.LABEL, value);
-
-    if (this.input) {
-      this.triggerField.label = value;
-    }
-  }
-
-  get label() {
-    const a = this.getAttribute(attributes.LABEL);
-    if (typeof a === 'string') {
-      return this.getAttribute(attributes.LABEL);
-    }
-    return DEFAULT_LABEL;
-  }
-
-  /**
-   * Sets the input state to disabled so the field is uneditable or accessible through tabbing
-   * @param {boolean} value True or False
-   */
-  set disabled(value) {
-    const val = stringToBool(value);
-    this.setAttribute(attributes.DISABLED, val);
-    this.triggerField.disabled = val;
-    this.input.disabled = val;
-  }
-
-  get disabled() {
-    return stringToBool(this.getAttribute(attributes.DISABLED));
-  }
-
-  /**
-   * Sets the input state to readonly so the field is uneditable but accessible through tabbing
-   */
-  set readonly(value) {
-    const val = stringToBool(value);
-    this.setAttribute(attributes.READONLY, val);
-    this.input.readonly = val;
-    this.triggerField.readonly = val;
-  }
-
-  get readonly() {
-    return stringToBool(this.getAttribute(attributes.READONLY));
+    return (
+      `<div id="ids-search-field" class="ids-search-field ids-trigger-field ${containerClass}" part="container">
+        ${labelHtml}
+        <div class="field-container" part="field-container">
+          <ids-icon class="ids-icon search-icon starting-icon" size="medium" icon="search"></ids-icon>
+          <slot name="trigger-start"></slot>
+          <input
+            part="input"
+            id="${this.id}-input"
+            ${type}${inputClass}${placeholder}${inputState}
+            ${ariaLabel}
+            ${value}
+            ></input>
+          <slot name="trigger-end"></slot>
+        </div>
+      </div>`
+    );
   }
 
   /**
@@ -196,15 +113,32 @@ export default class IdsSearchField extends Base {
     const safeVal = stripHTML(val);
 
     if (this.#previousSearchValue !== safeVal) {
+      this.input.value = safeVal;
       this.#previousSearchValue = safeVal;
-      if (this.input) {
-        this.input.value = safeVal;
-      }
+
       if (typeof this.onSearch === 'function') {
         ret = await this.onSearch(safeVal);
       }
     }
     return ret;
+  }
+
+  /**
+   * @param {string} val the new value to set
+   */
+  set value(val) {
+    super.value = val;
+
+    const newValue = super.value;
+    this.#previousSearchValue = newValue;
+
+    if (typeof this.onSearch === 'function') {
+      this.onSearch(newValue);
+    }
+  }
+
+  get value() {
+    return super.value;
   }
 
   /**
@@ -227,13 +161,7 @@ export default class IdsSearchField extends Base {
    */
   #attachEventHandlers() {
     const handleSearchEvent = (e) => {
-      if (this.#previousSearchValue !== e.target.value) {
-        this.value = e.target.value;
-        this.#previousSearchValue = this.value;
-        if (typeof this.onSearch === 'function') {
-          this.onSearch(this.value);
-        }
-      }
+      this.search(e.target.value);
     };
 
     this.onEvent('change', this.input, handleSearchEvent);
