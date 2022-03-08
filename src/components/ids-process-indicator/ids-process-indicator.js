@@ -21,22 +21,27 @@ export default class IdsProcessIndicator extends Base {
   #activeStepLabel;
 
   connectedCallback() {
-    // set the active step label for xs heading
-    requestAnimationFrame(() => {
-      let activeStepLabel = 'None';
-      const steps = this.querySelectorAll('ids-process-step');
-      if (steps.length > 1) {
-        let i = 0;
-        for (const step of steps) {
-          if (step.status === 'started') {
-            activeStepLabel = step.label === 'empty label' ? `${i + 1}` : step.label;
-            break;
-          }
-          i++;
+    this.setActiveStepLabel();
+  }
+
+  /**
+   * Set the active step label for xs heading
+   * @private
+   */
+  setActiveStepLabel() {
+    let activeStepLabel = 'None';
+    const steps = this.querySelectorAll('ids-process-step');
+    if (steps.length > 1) {
+      let i = 0;
+      for (const step of steps) {
+        if (step.status === 'started') {
+          activeStepLabel = step.label === 'empty label' ? `${i + 1}` : step.label;
+          break;
         }
-        this.container.querySelector('.xs-header .label').innerHTML = activeStepLabel;
+        i++;
       }
-    });
+      this.container.querySelector('.xs-header .label').innerHTML = activeStepLabel;
+    }
   }
 
   static get attributes() {
