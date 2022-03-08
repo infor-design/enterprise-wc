@@ -83,6 +83,8 @@ export default class IdsDropdown extends Base {
   template() {
     this.hasIcons = this.querySelector('ids-list-box-option ids-icon') !== null;
     this.size = this.getAttribute(attributes.SIZE) || 'md';
+    console.log('is disabled true');
+    console.log(this.disabled);
 
     return `
     <ids-trigger-field
@@ -250,6 +252,8 @@ export default class IdsDropdown extends Base {
    */
   set disabled(value) {
     const isDisabled = stringToBool(value);
+    console.log('dropdown set disabled');
+    console.log(isDisabled);
     if (isDisabled) {
       if (this.inputRoot) {
         this.removeAttribute('readonly');

@@ -32,7 +32,7 @@ describe('IdsCheckbox Component', () => {
   it('should renders checked', () => {
     cb.checked = 'true';
     expect(cb.getAttribute('checked')).toEqual('true');
-    expect(cb.checked).toEqual('true');
+    expect(cb.checked).toEqual(true);
   });
 
   it('should dirty tracking', () => {
@@ -223,7 +223,7 @@ describe('IdsCheckbox Component', () => {
   });
 
   it('should dispatch native events', () => {
-    const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
+    const events = ['focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       let response = null;
       cb.addEventListener(evt, () => {
@@ -244,7 +244,7 @@ describe('IdsCheckbox Component', () => {
 
     cb.attachCheckboxChangeEvent('remove');
     cb.attachNativeEvents('remove');
-    const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
+    const events = ['focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       let response = null;
       cb.addEventListener(`trigger${evt}`, () => {
@@ -272,7 +272,7 @@ describe('IdsCheckbox Component', () => {
     expect(rootEl.classList).toContain('horizontal');
     expect(cb.getAttribute('horizontal')).toEqual('true');
     expect(cb.getAttribute('checked')).toEqual('true');
-    expect(cb.checked).toEqual('true');
+    expect(cb.checked).toEqual(true);
     expect(cb.getAttribute('indeterminate')).toEqual('true');
   });
 

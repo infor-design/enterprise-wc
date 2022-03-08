@@ -114,11 +114,11 @@ describe('IdsCard Component', () => {
     // when user click card container
     card.dispatchEvent(clickEvent);
     expect(card.selected).toBe('true');
-    expect(checkboxElem.checked).toBe('true');
+    expect(checkboxElem.checked).toBe(true);
 
     card.dispatchEvent(clickEvent);
     expect(card.selected).toBe('false');
-    expect(checkboxElem.checked).toBeNull();
+    expect(checkboxElem.checked).toBe(false);
   });
 
   it('should fire selectionchanged event', async () => {

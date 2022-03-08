@@ -53,6 +53,12 @@ export default class IdsCheckbox extends Base {
       attributes.VERSION
     ];
   }
+  /**
+   * Internal change event detection trigger.
+   * @private
+   * @type {boolean}
+   */
+  #triggeredChange = false;
 
   /**
    * Custom Element `attributeChangedCallback` implementation
@@ -125,10 +131,11 @@ export default class IdsCheckbox extends Base {
    * @returns {void}
    */
   attachCheckboxChangeEvent() {
-    this.onEvent('change', this.input, (e) => {
+    this.onEvent('change', this.container, (e) => {
       console.log('checkbox change event occurs');
       console.log(e);
       this.indeterminate = false;
+      this.#triggeredChange = true;
       this.checked = this.input.checked;
       this.triggerEvent(e.type, this, {
         detail: {
@@ -147,14 +154,11 @@ export default class IdsCheckbox extends Base {
    * @returns {void}
    */
   attachNativeEvents() {
-    const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
-
-    this.onEvent('click', this.input, (e) => {
-      e.stopPropagation();
-    });
+    const events = ['focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
 
     events.forEach((evt) => {
       this.onEvent(evt, this.input, (e) => {
+        e.stopPropagation();
         this.triggerEvent(e.type, this, {
           detail: {
             elem: this,
@@ -184,6 +188,10 @@ export default class IdsCheckbox extends Base {
   set checked(value) {
     const checkmark = this.shadowRoot.querySelector('.checkmark');
     const val = stringToBool(value);
+    if (this.checked === val) {
+      return;
+    }
+    console.log('checked property of checkbox changed');
     if (val) {
       this.setAttribute(attributes.CHECKED, val.toString());
       this.input?.setAttribute(attributes.CHECKED, val.toString());
@@ -193,9 +201,14 @@ export default class IdsCheckbox extends Base {
       this.input?.removeAttribute(attributes.CHECKED);
       checkmark?.classList.remove(attributes.CHECKED);
     }
+
+    if (!this.#triggeredChange) {
+      this.triggerEvent('change', this.input, { bubbles: true });
+    }
+    this.#triggeredChange = false;
   }
 
-  get checked() { return this.getAttribute(attributes.CHECKED); }
+  get checked() { return stringToBool(this.getAttribute(attributes.CHECKED)); }
 
   /**
    *  Sets the checkbox color to one of the colors in our color palette for example emerald07

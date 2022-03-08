@@ -11,25 +11,9 @@ ids-trigger-field{
     align-self: center;
     margin-top: 4px;
     margin-left: 4px;
-  }
-}
 
-ids-list-box{
-  ::slotted(ids-list-box-option){
-    ::slotted(ids-checkbox){
-      background-color: pink;
+    &:disabled{
+
     }
   }
 }
-
-ids-checkbox{
-  &::part(label){
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    background-color: purple;
-  }
-
-  background-color: red;
-}
-

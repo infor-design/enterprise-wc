@@ -51,8 +51,10 @@ class IdsMultiselect extends Base {
     ];
   }
 
-  /*set disabled(value){
+  set disabled(value){
 
+    onsole.log('multiselect set disabled');
+    console.log(isDisabled);
     if(this.tag){
       this.querySelectorAll('ids-tag').forEach((element) => {
         element.setAttribute('disabled', 'true');
@@ -60,7 +62,11 @@ class IdsMultiselect extends Base {
     }
 
     super.disabled = value;
-  }*/
+  }
+
+  get disabled(){
+    return super.disabled;
+  }
 
   set tags(value) {
     const valueSafe = stringToBool(value);
@@ -161,6 +167,7 @@ class IdsMultiselect extends Base {
         const targetOption = e.target;
         if (this.#selectedList.find((value) => value === targetOption.getAttribute('value'))) {
           if (targetOption.querySelector('ids-checkbox')?.checked) {
+            //check change
             //targetOption.querySelector('ids-checkbox').setAttribute('checked', 'false');
           }
           this.#selectedList = this.#selectedList.filter((item) => item !== targetOption.getAttribute('value'));
@@ -171,6 +178,7 @@ class IdsMultiselect extends Base {
           this.#updateList(false);
         } else if (this.max !== this.value.length) {
           if (!e.target.querySelector('ids-checkbox')?.checked) {
+            //check change
             //e.target.querySelector('ids-checkbox').setAttribute('checked', 'true');
           }
           this.#selectedList.push(e.target.getAttribute('value'));
@@ -269,9 +277,16 @@ class IdsMultiselect extends Base {
         unselectedOptions = this.querySelectorAll('ids-list-box.options ids-list-box-option');
         unselectedOptions.forEach((option, index) => {
           if(this.#selectedList.includes(option.getAttribute('value'))){
-            console.log('found in selected list - goal add, checked true');
+
+            window.requestAnimationFrame(() => {
+              console.log('found in selected list - goal add, checked true');
+              //check change
+              selectedOptionsContainer.insertBefore(option, selectedOptionsContainer.children[selectedOptionsContainer.children.length]);
+              option.querySelector('ids-checkbox').checked = true;
+           });
+
             //option.querySelector('ids-checkbox').checked = "true";
-            selectedOptionsContainer.insertBefore(option, selectedOptionsContainer.children[selectedOptionsContainer.children.length]);
+            //selectedOptionsContainer.insertBefore(option, selectedOptionsContainer.children[selectedOptionsContainer.children.length]);
           }
         });
       } else {
@@ -281,8 +296,11 @@ class IdsMultiselect extends Base {
           console.log(this.#selectedList);
           if (!this.#selectedList.includes(option.getAttribute('value'))) {
             console.log('found in selected list - goal remove, checked false');
-            //option.querySelector('ids-checkbox').checked = "false";
-            optionsContainer.insertBefore(option, optionsContainer.children[optionsContainer.children.length]);
+            //check change
+            window.requestAnimationFrame(() => {
+              option.querySelector('ids-checkbox').checked = "false";
+              optionsContainer.insertBefore(option, optionsContainer.children[optionsContainer.children.length]);
+            });
           }
         });
       }
