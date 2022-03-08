@@ -32,7 +32,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: node_modules
-        key: ids-enterprise-wc-030
+        key: ids-enterprise-wc-031
 
     - name: Install Dependencies
       run: npm ci
