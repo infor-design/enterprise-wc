@@ -2,12 +2,7 @@
 
 <ids-layout-grid cols="3" gap="md">
   <ids-layout-grid-cell>
-    <ids-trigger-field
-      id="trigger-field-1"
-      placeholder="This trigger field's label is visible"
-      size="md"
-      label="Regular Trigger Field"
-    >
+    <ids-trigger-field id="trigger-field-1" placeholder="This trigger field's label is visible" size="md" label="Regular Trigger Field">
       <ids-trigger-button slot="trigger-end">
         <ids-text audible="true">Trigger button on hidden-label trigger field</ids-text>
         <ids-icon slot="icon" icon="launch"></ids-icon>
@@ -16,12 +11,7 @@
   </ids-layout-grid-cell>
 
   <ids-layout-grid-cell>
-    <ids-trigger-field
-      id="trigger-field-2"
-      placeholder="This trigger field's label is 'hidden'"
-      size="md"
-      label="Trigger field with hidden label"
-      label-state="hidden">
+    <ids-trigger-field id="trigger-field-2" placeholder="This trigger field's label is 'hidden'" size="md" label="Trigger field with hidden label" label-state="hidden">
       <ids-trigger-button slot="trigger-end">
         <ids-text audible="true">Trigger button on hidden-label trigger field</ids-text>
         <ids-icon slot="icon" icon="launch"></ids-icon>
@@ -29,20 +19,14 @@
     </ids-trigger-field>
   </ids-layout-grid-cell>
 
-    <ids-layout-grid-cell>
-      <ids-trigger-field
-        id="trigger-field-3"
-        placeholder="This trigger field's label is 'collapsed'"
-        size="md"
-        label="Trigger field with collapsed label"
-        label-state="collapsed"
-      >
-        <ids-trigger-button slot="trigger-end">
-          <ids-text audible="true">Trigger button on collapsed-label trigger field</ids-text>
-          <ids-icon slot="icon" icon="launch"></ids-icon>
-        </ids-trigger-button>
-      </ids-trigger-field>
-    </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-trigger-field id="trigger-field-3" placeholder="This trigger field's label is 'collapsed'" size="md" label="Trigger field with collapsed label" label-state="collapsed">
+      <ids-trigger-button slot="trigger-end">
+        <ids-text audible="true">Trigger button on collapsed-label trigger field</ids-text>
+        <ids-icon slot="icon" icon="launch"></ids-icon>
+      </ids-trigger-button>
+    </ids-trigger-field>
+  </ids-layout-grid-cell>
 </ids-layout-grid>
 
 {{> ../layouts/footer.html }}
