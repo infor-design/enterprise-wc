@@ -23,8 +23,10 @@ export default class IdsSwappableItem extends Base {
   }
 
   connectedCallback() {
-    this.setAttribute(attributes.DRAGGABLE, 'false');
+    super.connectedCallback();
     this.setAttribute('tabbable', 'true');
+    // this.setAttribute('draggable', 'false');
+    this.removeAttribute('draggable');
     this.attachEventListeners();
   }
 

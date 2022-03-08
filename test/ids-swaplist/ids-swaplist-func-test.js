@@ -76,6 +76,14 @@ describe('IdsSwapList Component', () => {
   });
 
   it('can swap item to next/previous list on click event', async () => {
+    const event0 = new MouseEvent('click', {
+      target: idsSwapList.container,
+      bubbles: true,
+      cancelable: true,
+      view: window
+    });
+    idsSwapList.container.dispatchEvent(event0);
+
     const listItem = idsSwappable.querySelector('ids-swappable-item');
     const event = new MouseEvent('click', {
       target: listItem,

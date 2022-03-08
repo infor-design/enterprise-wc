@@ -7,7 +7,13 @@
 
     <div id="status"></div>
 
-    <ids-swaplist id="swaplist-1" count="3"></ids-swaplist>
+    <ids-swaplist id="swaplist-1" count="3">
+      <template>
+        <ids-swappable-item>
+          <ids-text>${city}</ids-text>
+        </ids-swappable-item>
+      </template>
+    </ids-swaplist>
 
   </ids-layout-grid-cell>
 </ids-layout-grid>

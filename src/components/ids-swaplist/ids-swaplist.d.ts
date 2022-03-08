@@ -5,5 +5,5 @@ export default class IdsSwapList extends HTMLElement {
   count: string | number;
 
   /** Reference to all inner IdsSwappableItem with selected attribute */
-  readonly selectedLi: Array<IdsSwappableItem>;
+  readonly selectedItems: Array<IdsSwappableItem>;
 }
