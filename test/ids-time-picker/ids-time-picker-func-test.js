@@ -26,7 +26,6 @@ describe('IdsTimePicker Component', () => {
 
     const {
       dropdowns,
-      input,
       popup,
       setTimeButton,
       triggerButton,
@@ -37,7 +36,6 @@ describe('IdsTimePicker Component', () => {
     expect(dropdowns.minutes).toBeDefined();
     expect(dropdowns.seconds).toBeDefined();
     expect(dropdowns.period).toBeDefined();
-    expect(input).toBeDefined();
     expect(popup).toBeDefined();
     expect(setTimeButton).toBeDefined();
     expect(triggerButton).toBeDefined();
@@ -56,18 +54,18 @@ describe('IdsTimePicker Component', () => {
   });
 
   it('renders placeholder', () => {
-    const { input } = timepicker.elements;
+    const { triggerField } = timepicker.elements;
     expect(timepicker.placeholder).toBe('');
 
     const text = 'Placeholder text here';
     timepicker.setAttribute(attributes.PLACEHOLDER, text);
     expect(timepicker.placeholder).toContain(text);
-    expect(input.getAttribute(attributes.PLACEHOLDER)).toContain(text);
+    expect(triggerField.getAttribute(attributes.PLACEHOLDER)).toContain(text);
 
     const text2 = 'Another placeholder';
     timepicker.placeholder = text2;
     expect(timepicker.getAttribute(attributes.PLACEHOLDER)).toContain(text2);
-    expect(input.getAttribute(attributes.PLACEHOLDER)).toContain(text2);
+    expect(triggerField.getAttribute(attributes.PLACEHOLDER)).toContain(text2);
   });
 
   it('renders label', () => {
@@ -224,7 +222,7 @@ describe('IdsTimePicker Component', () => {
   });
 
   it('with autoselect attribute, can auto show the popup', () => {
-    const { input } = timepicker.elements;
+    const { triggerField } = timepicker.elements;
     expect(timepicker.autoselect).toBe(false);
     expect(timepicker.getAttribute(attributes.AUTOSELECT)).toBeFalsy();
     expect(timepicker.isOpen).toBe(false);
@@ -233,7 +231,7 @@ describe('IdsTimePicker Component', () => {
     expect(timepicker.autoselect).toBeTruthy();
     expect(timepicker.getAttribute(attributes.AUTOSELECT)).toBeTruthy();
 
-    input.focus();
+    triggerField.focus();
     expect(timepicker.isOpen).toBe(true);
 
     timepicker.autoselect = false;

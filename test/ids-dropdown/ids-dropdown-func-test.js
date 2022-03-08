@@ -3,12 +3,12 @@
  */
 import '../helpers/resize-observer-mock';
 import waitFor from '../helpers/wait-for';
+import wait from '../helpers/wait';
 import processAnimFrame from '../helpers/process-anim-frame';
 
 import IdsDropdown from '../../src/components/ids-dropdown/ids-dropdown';
 import IdsListBox from '../../src/components/ids-list-box/ids-list-box';
 import IdsListBoxOption from '../../src/components/ids-list-box/ids-list-box-option';
-import IdsInput from '../../src/components/ids-input/ids-input';
 import IdsTriggerField from '../../src/components/ids-trigger-field/ids-trigger-field';
 import states from '../../demos/data/states.json';
 import IdsContainer from '../../src/components/ids-container/ids-container';
@@ -83,12 +83,11 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.readonly).toEqual(false);
     expect(dropdown.getAttribute('readonly')).toBeFalsy();
 
-    dropdown.readonly = true;
+    dropdown.setAttribute('readonly', 'true');
     expect(dropdown.readonly).toEqual(true);
     expect(dropdown.getAttribute('readonly')).toBeTruthy();
 
-    dropdown.input = null; // Sometimes happens in a start up state
-    dropdown.readonly = false;
+    dropdown.removeAttribute('readonly');
     expect(dropdown.readonly).toEqual(false);
     expect(dropdown.getAttribute('readonly')).toBeFalsy();
   });
@@ -102,19 +101,13 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.disabled).toEqual(false);
     expect(dropdown.getAttribute('disabled')).toBeFalsy();
 
-    dropdown.disabled = true;
+    dropdown.setAttribute('disabled', 'true');
     expect(dropdown.disabled).toEqual(true);
     expect(dropdown.getAttribute('disabled')).toBeTruthy();
 
-    dropdown.input = null; // Sometimes happens in a start up state
-    dropdown.disabled = false;
+    dropdown.removeAttribute('disabled');
     expect(dropdown.disabled).toEqual(false);
     expect(dropdown.getAttribute('disabled')).toBeFalsy();
-
-    dropdown.inputRoot = null; // Sometimes happens in a start up state
-    dropdown.disabled = true;
-    expect(dropdown.disabled).toEqual(true);
-    expect(dropdown.getAttribute('disabled')).toBeTruthy();
   });
 
   it('renders with validation', () => {
@@ -211,19 +204,19 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.getAttribute('disabled')).toEqual('true');
     expect(dropdown.getAttribute('readonly')).toBeFalsy();
     expect(dropdown.disabled).toEqual(true);
-    expect(dropdown.inputRoot.disabled).toEqual(true);
+    expect(dropdown.container.disabled).toEqual(true);
   });
 
   it('handles setting readonly', () => {
     dropdown.readonly = true;
     expect(dropdown.getAttribute('readonly')).toEqual('true');
     expect(dropdown.readonly).toEqual(true);
-    expect(dropdown.inputRoot.disabled).toEqual(false);
+    expect(dropdown.container.disabled).toEqual(false);
   });
 
   it('can change the label', () => {
     dropdown.label = 'Changed Label';
-    expect(dropdown.shadowRoot.querySelector('ids-input').label).toEqual('Changed Label');
+    expect(dropdown.label).toEqual('Changed Label');
   });
 
   it('should show dirty indicator on change', () => {
@@ -231,7 +224,7 @@ describe('IdsDropdown Component', () => {
     dropdown.dirtyTracker = true;
     dropdown.value = 'opt3';
     expect(dropdown.dirty).toEqual({ original: 'Option Two' });
-    expect(dropdown.inputRoot.shadowRoot.querySelector('.icon-dirty')).toBeTruthy();
+    expect(dropdown.container.shadowRoot.querySelector('.icon-dirty')).toBeTruthy();
   });
 
   it('should be able to reset dirty indicator', () => {
@@ -244,7 +237,7 @@ describe('IdsDropdown Component', () => {
   it('should be able to set value', () => {
     dropdown.value = 'opt3';
     expect(dropdown.value).toEqual('opt3');
-    expect(dropdown.inputRoot.value).toEqual('Option Three');
+    expect(dropdown.container.value).toEqual('Option Three');
   });
 
   it('should be able to set value with selectedIndex', () => {
@@ -253,12 +246,12 @@ describe('IdsDropdown Component', () => {
     dropdown.selectedIndex = 2;
     expect(dropdown.selectedIndex).toEqual(2);
     expect(dropdown.value).toEqual('opt3');
-    expect(dropdown.inputRoot.value).toEqual('Option Three');
+    expect(dropdown.container.value).toEqual('Option Three');
 
     dropdown.selectedIndex = 'x'; // ignored
     expect(dropdown.selectedIndex).toEqual(2);
     expect(dropdown.value).toEqual('opt3');
-    expect(dropdown.inputRoot.value).toEqual('Option Three');
+    expect(dropdown.container.value).toEqual('Option Three');
   });
 
   it('should ignore null / bad selectedIndex', () => {
@@ -266,19 +259,19 @@ describe('IdsDropdown Component', () => {
     dropdown.selectedIndex = 'x'; // ignored
     expect(dropdown.selectedIndex).toEqual(1);
     expect(dropdown.value).toEqual('opt2');
-    expect(dropdown.inputRoot.value).toEqual('Option Two');
+    expect(dropdown.container.value).toEqual('Option Two');
   });
 
   it('should ignore null / bad value', () => {
     dropdown.value = 'opt3';
     expect(dropdown.value).toEqual('opt3');
-    expect(dropdown.inputRoot.value).toEqual('Option Three');
+    expect(dropdown.container.value).toEqual('Option Three');
 
     dropdown.value = null;
-    expect(dropdown.inputRoot.value).toEqual('Option Three');
+    expect(dropdown.container.value).toEqual('Option Three');
 
     dropdown.value = 'optx';
-    expect(dropdown.inputRoot.value).toEqual('Option Three');
+    expect(dropdown.container.value).toEqual('Option Three');
   });
 
   it('supports opening the list with open', async () => {
@@ -353,14 +346,14 @@ describe('IdsDropdown Component', () => {
   it('supports type ahead to select', async () => {
     expect(dropdown.popup.visible).toEqual(false);
     expect(dropdown.value).toEqual('opt2');
-    await waitFor(() => expect(dropdown.shadowRoot.querySelector('ids-input')).toBeTruthy());
+    await waitFor(() => expect(dropdown.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
     dropdown.triggerEvent('keydownend', dropdown, { detail: { keys: 'option thr' } });
 
     expect(dropdown.value).toEqual('opt3');
   });
 
   it('supports type ahead when open', async () => {
-    await waitFor(() => expect(dropdown.shadowRoot.querySelector('ids-input')).toBeTruthy());
+    await waitFor(() => expect(dropdown.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
     dropdown.open();
     dropdown.triggerEvent('keydownend', dropdown, { detail: { keys: 'option four' } });
     const event = new KeyboardEvent('keydown', { key: 'Enter' });
@@ -372,8 +365,6 @@ describe('IdsDropdown Component', () => {
   });
 
   it('ignores type ahead to open when no matches', async () => {
-    expect(dropdown.popup.visible).toEqual(false);
-    await waitFor(() => expect(dropdown.shadowRoot.querySelector('ids-input')).toBeTruthy());
     dropdown.triggerEvent('keydownend', dropdown, { detail: { keys: 'xxxxx' } });
 
     await waitFor(() => expect(dropdown.popup.visible).toEqual(false));
@@ -381,8 +372,6 @@ describe('IdsDropdown Component', () => {
   });
 
   it('ignores type ahead when readonly', async () => {
-    expect(dropdown.popup.visible).toEqual(false);
-    await waitFor(() => expect(dropdown.shadowRoot.querySelector('ids-input')).toBeTruthy());
     dropdown.readonly = true;
     dropdown.triggerEvent('keydownend', dropdown, { detail: { keys: 'option thr' } });
 
@@ -394,40 +383,27 @@ describe('IdsDropdown Component', () => {
   });
 
   it('supports clicking trigger to open', async () => {
-    expect(dropdown.popup.visible).toEqual(false);
     await waitFor(() => expect(dropdown.trigger).toBeTruthy());
 
     dropdown.trigger.click();
-    dropdown.triggerEvent('mouseup', dropdown.trigger);
     expect(dropdown.popup.visible).toEqual(true);
   });
 
-  it('should not error if no container ready', async () => {
-    const errors = jest.spyOn(global.console, 'error');
-    dropdown.container = null;
-    dropdown.connectedCallback();
-    dropdown.container = dropdown.triggerField;
-    dropdown.connectedCallback();
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('supports clicking input to open', async () => {
-    await waitFor(() => expect(dropdown.input).toBeTruthy());
+    await waitFor(() => expect(dropdown.container).toBeTruthy());
 
-    dropdown.input.click();
-    dropdown.triggerEvent('mouseup', dropdown.input);
+    dropdown.container.click();
     expect(dropdown.popup.visible).toEqual(true);
   });
 
   it('supports clicking to select', async () => {
     expect(dropdown.value).toEqual('opt2');
-
-    await waitFor(() => expect(dropdown.trigger).toBeTruthy());
     dropdown.trigger.click();
-    dropdown.triggerEvent('mouseup', dropdown.trigger);
 
-    await waitFor(() => expect(dropdown.popup.visible).toEqual(true));
+    await wait(80);
     dropdown.querySelectorAll('ids-list-box-option')[4].click();
+
+    await wait(80);
     expect(dropdown.value).toEqual('opt5');
   });
 
@@ -601,7 +577,7 @@ describe('IdsDropdown Component', () => {
   });
 
   it('tab works correcty', async () => {
-    dropdown.input.focus();
+    dropdown.container.focus();
     expect(document.activeElement.id).toEqual('dropdown-1');
     const event = new KeyboardEvent('keydown', { key: 'Tab' });
     dropdown.dispatchEvent(event);

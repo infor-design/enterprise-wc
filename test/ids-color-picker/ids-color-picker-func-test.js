@@ -57,7 +57,7 @@ describe('Ids Color Picker Component', () => {
     colorpicker.value = '#000000';
     expect(colorpicker.getAttribute('value')).toEqual('#000000');
     colorpicker.value = '';
-    expect(colorpicker.getAttribute('value')).toEqual('#000000');
+    expect(colorpicker.getAttribute('value')).toEqual('');
   });
 
   it('has a disabled attribute', () => {

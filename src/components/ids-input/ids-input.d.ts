@@ -59,8 +59,8 @@ export default class IdsInput extends HTMLElement {
   /** Sets the input label text * */
   label: string;
 
-  /** specifies that the label should not be shown (either for presentational purposes or for an external label) * */
-  labelHidden: boolean;
+  /** Determines the visibility state of this component's inner input field's label */
+  labelState: null | 'hidden' | 'collapsed';
 
   /** Sets the input placeholder text * */
   placeholder: string;
