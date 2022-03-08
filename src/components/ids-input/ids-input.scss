@@ -234,7 +234,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   // Validation Messages are appended beneath the `.field-container`
   .validation-message {
     @include mt-4();
-    @include mt-0();
+    @include mb-0();
   }
 
   // If `no-margins` is used:
