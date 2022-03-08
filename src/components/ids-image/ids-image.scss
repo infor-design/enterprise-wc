@@ -7,14 +7,6 @@ $image-sizes: (
   'lg': (300px, 350px),
 );
 
-$user-statuses: (
-  'available': var(--ids-color-status-success),
-  'away': var(--ids-color-status-caution),
-  'busy': var(--ids-color-status-danger),
-  'do-not-disturb': var(--ids-color-status-danger),
-  'unknown': var(--ids-color-palette-slate-30)
-);
-
 :host {
   display: inline-block;
   max-width: 100%;
@@ -160,11 +152,22 @@ $user-statuses: (
   right: -1px;
   bottom: -3px;
 
-  // icon color
-  @each $key, $value in $user-statuses {
-    &.#{$key} {
-      color: $value;
-    }
+  // icon colors
+  &.available {
+    @include text-alert-success();
+  }
+
+  &.busy,
+  &.do-not-disturb {
+    @include text-alert-error();
+  }
+
+  &.away {
+    @include text-alert-warning();
+  }
+
+  &.unknown {
+    color: var(--ids-color-palette-slate-30);
   }
 
   // background for svg

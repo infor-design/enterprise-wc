@@ -1,10 +1,5 @@
 @import '../../core/ids-base';
 
-// Temporary workaround till ids-identity border-r-2 fix
-@mixin border-r-1 {
-  border-right: 1px solid;
-}
-
 :host {
   contain: content;
 }
@@ -24,26 +19,6 @@
 
     height: 50px;
     flex-shrink: 0;
-  }
-
-  // Datepicker
-  .datepicker {
-    @include flex();
-    @include border-solid();
-    @include border-1();
-    @include border-transparent();
-
-    align-items: center;
-    outline: none;
-    outline-color: transparent;
-
-    &-text {
-      @include leading-none();
-    }
-
-    &-icon {
-      @include mb-2();
-    }
   }
 
   .month-view-today-text {
@@ -72,6 +47,16 @@
     border-spacing: 0;
     border-collapse: collapse;
   }
+
+  .datepicker-section {
+    @include flex();
+
+    align-items: center;
+  }
+
+  .trigger-icon {
+    @include text-azure-60();
+  }
 }
 
 // Compact view
@@ -83,18 +68,6 @@
 
   .month-view-table {
     margin-top: 10px;
-  }
-
-  .datepicker {
-    @include pr-8();
-
-    &-text {
-      @include ml-2();
-    }
-
-    &-icon {
-      @include text-azure-60();
-    }
   }
 
   td {
@@ -193,21 +166,6 @@
     @include border-slate-20();
   }
 
-  .datepicker {
-    @include pl-8();
-    @include ml-4();
-
-    &-text {
-      @include mr-2();
-    }
-
-    &:focus {
-      @include border-azure-60();
-
-      box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
-    }
-  }
-
   td {
     @include border-b-1();
     @include border-r-1();
@@ -296,6 +254,42 @@
   }
 }
 
+// Used in a day picker
+.ids-month-view.is-date-picker {
+  .month-view-header {
+    @include border-b-1();
+    @include border-slate-30();
+    @include pr-1();
+    @include pl-16();
+
+    height: 43px;
+  }
+
+  .month-view-container {
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 310px;
+  }
+
+  .btn-today::part(button) {
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+
+  .btn-previous,
+  .btn-next {
+    @include pl-0();
+  }
+
+  .month-view-table {
+    @include mt-20();
+  }
+
+  td .day-container {
+    @include m-0();
+  }
+}
+
 // Themes
 .ids-month-view[mode='dark'] {
   @include bg-slate-80();
@@ -306,19 +300,16 @@
     @include bg-slate-80();
   }
 
+  &.is-date-picker .month-view-header {
+    @include border-slate-50();
+  }
+
   .month-view-container {
     @include bg-slate-80();
   }
 
-  .month-view-today-text,
-  &.is-compact .datepicker-icon {
+  .month-view-today-text {
     @include text-azure-60();
-  }
-
-  .datepicker:focus {
-    @include border-azure-60();
-
-    box-shadow: 0 0 4px 2px rgba(141 201 230 / 0.3);
   }
 
   // Compact view dark theme
@@ -399,19 +390,17 @@
     @include bg-white();
   }
 
+  &.is-date-picker .month-view-header {
+    @include border-slate-30();
+  }
+
   .month-view-container {
     @include bg-white();
   }
 
   .month-view-today-text,
-  &.is-compact .datepicker-icon {
+  &.is-compact .trigger-icon {
     @include text-azure-90();
-  }
-
-  .datepicker:focus {
-    @include border-azure-90();
-
-    box-shadow: 0 0 4px 2px rgba(41 41 41 / 0.3);
   }
 
   // Compact view contrast theme

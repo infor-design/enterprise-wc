@@ -53,6 +53,11 @@ export default class IdsButton extends Base {
         }
         this.tabIndex = Number(newValue);
         break;
+      case 'width':
+        if (oldValue !== newValue) {
+          this.width = newValue;
+        }
+        break;
       default:
         super.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
         break;
@@ -199,12 +204,6 @@ export default class IdsButton extends Base {
     }, {
       passive: true
     });
-
-    // Respond to parent changing language
-    this.offEvent('languagechange.button');
-    this.onEvent('languagechange.button', this.closest('ids-container'), async () => {
-      this.container.classList[this.locale.isRTL() ? 'add' : 'remove']('rtl');
-    });
   }
 
   /**
@@ -284,6 +283,33 @@ export default class IdsButton extends Base {
   }
 
   /**
+   * @param {boolean} val true if the button component should be hidden from view
+   */
+  set hidden(val) {
+    const isValueTruthy = stringToBool(val);
+    this.shouldUpdate = false;
+    if (isValueTruthy) {
+      this.setAttribute(attributes.HIDDEN, '');
+    } else {
+      this.removeAttribute(attributes.HIDDEN);
+    }
+
+    this.shouldUpdate = true;
+    this.state.hidden = isValueTruthy;
+
+    if (this.button) {
+      this.button.hidden = isValueTruthy;
+    }
+  }
+
+  /**
+   * @returns {boolean} true if the button component is hidden from view
+   */
+  get hidden() {
+    return this.state.hidden;
+  }
+
+  /**
    * Passes a tabIndex attribute from the custom element to the button
    * @param {number} val the tabIndex value
    * @returns {void}
@@ -334,6 +360,14 @@ export default class IdsButton extends Base {
   }
 
   /**
+   * Gets the current icon element
+   * @returns {HTMLElement|null} a defined IdsIcon, if one is present
+   */
+  get iconEl() {
+    return this.querySelector('ids-icon');
+  }
+
+  /**
    * Sets the alignment of an existing icon to the 'start' or 'end' of the text
    * @param {string} val the alignment type to set.
    */
@@ -351,6 +385,38 @@ export default class IdsButton extends Base {
    */
   get iconAlign() {
     return this.state.iconAlign;
+  }
+
+  /**
+   * Get width
+   * @returns {string|null} 100%, 90px, 50rem etc.
+   */
+  get width() {
+    return this.getAttribute('width');
+  }
+
+  /**
+   * Set width of button
+   * @param {string} w 100%, 90px, 50rem etc.
+   */
+  set width(w) {
+    if (!w) {
+      this.removeAttribute('width');
+      this.style.width = '';
+      this.button.style.width = '';
+      return;
+    }
+
+    // if percentage passed set width to host
+    if (w.indexOf('%') !== -1) {
+      this.style.width = w;
+      this.button.style.width = '';
+    } else {
+      this.style.width = '';
+      this.button.style.width = w;
+    }
+
+    this.setAttribute('width', w);
   }
 
   /**
@@ -595,7 +661,7 @@ export default class IdsButton extends Base {
    */
   getRippleOffsets(x, y) {
     const btnRect = this.getBoundingClientRect();
-    const halfRippleSize = this.button.classList.contains('ids-icon-button') ? 35 : 125;
+    const halfRippleSize = this.button.classList.contains('ids-icon-button') ? 35 : 50;
     let btnX;
     let btnY;
 

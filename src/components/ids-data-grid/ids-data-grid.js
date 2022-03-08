@@ -38,6 +38,15 @@ const rowHeights = {
 export default class IdsDataGrid extends Base {
   constructor() {
     super();
+    this.initialized = false;
+  }
+
+  get elements() {
+    return {
+      header: this.container.querySelector('.ids-data-grid-header'),
+      labels: this.container.querySelectorAll('.ids-data-grid-header-cell.is-sortable'),
+      body: this.container.querySelector('.ids-data-grid-body'),
+    };
   }
 
   connectedCallback() {
@@ -57,6 +66,7 @@ export default class IdsDataGrid extends Base {
    */
   static get attributes() {
     return [
+      ...super.attributes,
       attributes.ALTERNATE_ROW_SHADING,
       attributes.AUTO_FIT,
       attributes.LABEL,
@@ -83,23 +93,20 @@ export default class IdsDataGrid extends Base {
       return ``;
     }
 
-    const cssClasses = [
-      `${this.alternateRowShading ? `alt-row-shading` : ``}`,
-      `${this.listStyle ? `is-list-style` : ``}`
-    ];
+    let cssClasses = `${this.alternateRowShading ? ' alt-row-shading' : ''}`;
+    cssClasses += `${this.listStyle ? ' is-list-style' : ''}`;
 
     const html = `
       <div
-        class="ids-data-grid ${cssClasses.join(' ')}"
+        class="ids-data-grid${cssClasses}"
         role="table" part="table" aria-label="${this.label}"
         data-row-height="${this.rowHeight}"
         mode="${this.mode}"
-        version="${this.version}"
-      >
+        version="${this.version}">
       ${this.headerTemplate()}
       ${this.virtualScroll
       ? `<ids-virtual-scroll>
-          <div class="ids-data-grid-body" part="body" role="rowgroup"></div>
+          <div class="ids-data-grid-body" part="contents" role="rowgroup"></div>
         </ids-virtual-scroll>`
       : `${this.bodyTemplate()}`
       }
@@ -114,7 +121,7 @@ export default class IdsDataGrid extends Base {
    * @private
    */
   rerender() {
-    if (this.columns.length === 0 && this.data.length === 0) {
+    if ((this.columns.length === 0 && this.data.length === 0) || !this.initialized) {
       return;
     }
 
@@ -130,13 +137,14 @@ export default class IdsDataGrid extends Base {
     template.innerHTML = html;
     this.shadowRoot.appendChild(template.content.cloneNode(true));
     this.container = this.shadowRoot.querySelector('.ids-data-grid');
+    super.rerender();
 
     // Setup virtual scrolling
     if (this.virtualScroll && this.data.length > 0) {
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
       this.virtualScrollContainer.scrollTarget = this.container;
 
-      this.virtualScrollContainer.itemTemplate = (row, index) => this.rowTemplate(row, index); //eslint-disable-line
+      this.virtualScrollContainer.itemTemplate = (row, index) => this.rowTemplate(row, index);
       this.virtualScrollContainer.itemHeight = this.rowPixelHeight;
       this.virtualScrollContainer.data = this.data;
     }
@@ -234,7 +242,7 @@ export default class IdsDataGrid extends Base {
    */
   bodyTemplate() {
     return `
-      <div class="ids-data-grid-body" part="body" role="rowgroup">
+      <div class="ids-data-grid-body" part="contents" role="rowgroup">
         ${this.data.map((row, index) => this.rowTemplate(row, index)).join('')}
       </div>
     `;
@@ -248,16 +256,14 @@ export default class IdsDataGrid extends Base {
    * @returns {string} The html string for the row
    */
   rowTemplate(row, index) {
-    const rowClasses = [
-      `${row?.rowSelected ? 'selected' : ''}`,
-      `${row?.rowSelected && this.rowSelected === 'mixed' ? 'mixed' : ''}`,
-      `${row?.rowActivated ? 'activated' : ''}`,
-    ];
+    let rowClasses = `${row?.rowSelected ? ' selected' : ''}`;
+    rowClasses += `${row?.rowSelected && this.rowSelected === 'mixed' ? ' mixed' : ''}`;
+    rowClasses += `${row?.rowActivated ? ' activated' : ''}`;
 
     return `
-      <div role="row" part="row" aria-rowindex="${index + 1}" class="ids-data-grid-row ${rowClasses.join(' ')}">
+      <div role="row" part="row" aria-rowindex="${index + 1}" class="ids-data-grid-row${rowClasses}">
         ${this.columns.map((column, j) => `
-          <span role="cell" part="cell" class="ids-data-grid-cell ${column?.readonly ? `readonly` : ``}" aria-colindex="${j + 1}">
+          <span role="cell" part="cell" class="ids-data-grid-cell${column?.readonly ? ` readonly` : ``}" aria-colindex="${j + 1}">
             ${this.cellTemplate(row, column, index + 1, this)}
           </span>
         `).join('')}
@@ -327,12 +333,12 @@ export default class IdsDataGrid extends Base {
 
     // Handle the Locale Change
     this.offEvent('languagechange.data-grid-container');
-    this.onEvent('languagechange.data-grid-container', this.closest('ids-container'), async () => {
+    this.onEvent('languagechange.data-grid-container', this.closest('ids-container'), () => {
       this.rerender();
     });
 
     this.offEvent('localechange.data-grid-container');
-    this.onEvent('localechange.data-grid-container', this.closest('ids-container'), async () => {
+    this.onEvent('localechange.data-grid-container', this.closest('ids-container'), () => {
       this.rerender();
     });
   }
@@ -476,6 +482,7 @@ export default class IdsDataGrid extends Base {
   set data(value) {
     if (value) {
       this.datasource.data = value;
+      this.initialized = true;
       this.rerender();
       return;
     }

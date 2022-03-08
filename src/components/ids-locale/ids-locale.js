@@ -68,7 +68,7 @@ class IdsLocale {
    * @param {string} value The language string value
    */
   set language(value) {
-    const lang = this.#correctLanguage(value);
+    const lang = this.correctLanguage(value);
     if (value && lang !== this.state.language) {
       this.setLanguage(lang);
     }
@@ -90,7 +90,7 @@ class IdsLocale {
    * @param {string} value The language string value
    */
   async setLanguage(value) {
-    const lang = this.#correctLanguage(value);
+    const lang = this.correctLanguage(value);
     if (this.state.language !== lang) {
       this.state.language = lang;
       this.html = document.querySelector('html');
@@ -109,7 +109,7 @@ class IdsLocale {
    * @param {string} value the starting language string
    * @returns {string} the updated language string
    */
-  #correctLanguage(value) {
+  correctLanguage(value) {
     let lang = value?.replace('-messages', '');
     // Locales that dont have a default if a two digit locale
     const translated = new Set(['fr-CA', 'fr-FR', 'pt-BR', 'pt-PT', 'zh-CN', 'zh-Hans', 'zh-Hant', 'zh-TW']);
@@ -509,7 +509,7 @@ class IdsLocale {
    * @returns {boolean} Whether or not this locale is "right-to-left"
    */
   isRTL(language) {
-    const lang = this.#correctLanguage(language || this.language.name);
+    const lang = this.correctLanguage(language || this.language.name);
     return lang === 'ar' || lang === 'hi';
   }
 
@@ -614,7 +614,6 @@ class IdsLocale {
     if (dateFormat.indexOf('.') > -1) {
       return '.';
     }
-    return '';
   }
 
   /**

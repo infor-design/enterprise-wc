@@ -34,12 +34,12 @@
   @include flex();
   @include rounded-default();
   @include text-16();
-  @include text-black();
 
   align-items: center;
   appearance: none;
   border-collapse: separate;
   border-radius: 2px;
+  color: currentColor;
   height: $input-field-height-md;
   width: 100%;
 
@@ -85,11 +85,11 @@
 
   &.error,
   &.error:hover {
-    @include border-alert-danger();
-    @include text-alert-danger();
+    @include border-alert-error();
+    @include text-alert-error();
 
     &:focus-within {
-      @include border-alert-danger();
+      @include border-alert-error();
       @include shadow-error();
     }
 

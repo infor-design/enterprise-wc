@@ -2,7 +2,7 @@
 
 ## Description
 
-The IDS Accordion component is a UI pattern that is comprised of a stacked list of elements. A basic accordion will consist of a `ids-accordion-header` which shows a title or summary of the `ids-accordion-panel` and acts as a control for expanding and collapsing.
+The IDS Accordion component is a UI pattern that is comprised of a stacked list of elements. A basic accordion will consist of a `ids-accordion-header` which shows a title or summary of the `ids-accordion-panel` and acts as a control for expanding and collapsing. Note: Standalone Css is not available for this component.
 
 ## Use Cases
 
@@ -118,6 +118,15 @@ In the example below, the "My Benefits", "Dependents and Beneficiaries", "Life E
 </ids-accordion>
 ```
 
+## Settings and Attributes
+
+When used as an attribute the settings are kebab case, when used in the JS they are camel case.
+
+- `headers` {Array<IdsAccordionHeader>} Reference to all inner Accordion Headers.
+- `panels` {Array<IdsAccordionPanel>} Reference to all inner Accordion Panels.
+- `focused` {HTMLElement} Reference to the currently-focused element within the accordion, if applicable.
+- `allowOnePane` {boolean} Sets Accordion to allow only one inner Accordion Panel to be expanded at a time.
+
 ## States and Variations
 
 The Accordion's headers support the following states:
@@ -138,3 +147,22 @@ The Accordion's headers support the following states:
 ## Accessibility
 
 The IDS Accordion component has a `role="region"` and a unique `title` is generated for each instance.
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+- Replace `.inforAboutDialog()` with `.about()` and notice that many of the names of the settings (e.g. productName to appName) to have changed so must be updated to the new settings.
+- The initial markup is changed considerably from the previous version. Sync the markup using the markup above
+- Initialize the accordion plugin with .accordion() as opposed to `.inforAccordion()` or by using the page initializer
+onExpanded and onCollapsed option are done with events (expanded and collapsed)
+
+**4.x to 5.x**
+- Accordion now uses all new markup and classes for web components (see above)
+- Now called IdsAccordion with a namespace
+- The "Panels" examples are removed and deprecated as they should rarely be used.
+- The deprecated `displayChevron` setting is removed.
+- The `enableTooltips` removed and deprecated as not added as it seems no longer relevant.
+- The `expanderDisplay` option was removed and deprecated as it was used only by IdsAppMenu and is no longer needed.
+- The `rerouteOnLinkClick` option was removed and deprecated as is no longer needed as there are no links in the markup now.
+- The `source` option was removed and deprecated as it was used only by IdsAppMenu and is no longer needed in accordion but will be added to IdsAppMenu.
+- The `destroy` method has been removed since everything is now cleaned up when removing the DOM element

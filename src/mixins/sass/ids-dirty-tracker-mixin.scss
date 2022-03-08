@@ -3,8 +3,8 @@
 .icon-dirty {
   @include absolute();
   @include m-2();
-  @include text-alert-caution();
 
+  color: var(--ids-color-palette-amber-30);
   left: -3px;
   top: -3px;
 }
@@ -46,6 +46,11 @@
       top: -2px;
     }
   }
+}
+
+// Editor
+.ids-editor .icon-dirty {
+  left: -2px;
 }
 
 // Color Picker / trigger

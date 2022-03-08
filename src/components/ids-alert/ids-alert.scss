@@ -34,7 +34,7 @@
 
   [icon='error'],
   [icon='error-solid'] {
-    @include text-alert-danger();
+    @include text-alert-error();
 
     &.disabled {
       color: var(--ids-color-palette-ruby-30);
@@ -56,16 +56,6 @@
 
     &.disabled {
       color: var(--ids-color-palette-amethyst-30);
-    }
-  }
-
-  [icon='info-field'],
-  [icon='info-field-solid'] {
-    color: var(--ids-color-status-base);
-    color: var(--ids-color-palette-azure-60);
-
-    &.disabled {
-      color: var(--ids-color-palette-azure-30);
     }
   }
 

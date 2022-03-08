@@ -45,10 +45,10 @@ export default class IdsAccordionHeader extends Base {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.MODE,
-      attributes.VERSION,
+      attributes.CHILD_FILTER_MATCH,
       attributes.EXPANDED,
       attributes.EXPANDER_TYPE,
+      attributes.HIDDEN_BY_FILTER,
       attributes.ICON,
       attributes.SELECTED
     ];
@@ -279,5 +279,48 @@ export default class IdsAccordionHeader extends Base {
       iconType = this.expanded ? ICON_PLUS : ICON_MINUS;
     }
     icon.setAttribute('icon', iconType);
+  }
+
+  /**
+   * @param {boolean} val true if this accordion header should appear to be "filtered",
+   *  which usually means "hidden"
+   */
+  set hiddenByFilter(val) {
+    if (stringToBool(val)) {
+      this.setAttribute(attributes.HIDDEN_BY_FILTER, '');
+      this.container.classList.add(attributes.HIDDEN_BY_FILTER);
+    } else {
+      this.removeAttribute(attributes.HIDDEN_BY_FILTER);
+      this.container.classList.remove(attributes.HIDDEN_BY_FILTER);
+    }
+  }
+
+  /**
+   * @returns {boolean} true if this accordion header is currently displayed as "filtered"
+   */
+  get hiddenByFilter() {
+    return this.hasAttribute(attributes.HIDDEN_BY_FILTER);
+  }
+
+  /**
+   * @param {boolean} val true if this accordion header's panel contains a child panel
+   * that matches the specified filter term, and should be displayed accordingly
+   */
+  set childFilterMatch(val) {
+    if (stringToBool(val)) {
+      this.setAttribute(attributes.CHILD_FILTER_MATCH, '');
+      this.container.classList.add(attributes.CHILD_FILTER_MATCH);
+    } else {
+      this.removeAttribute(attributes.CHILD_FILTER_MATCH);
+      this.container.classList.remove(attributes.CHILD_FILTER_MATCH);
+    }
+  }
+
+  /**
+   * @returns {boolean} true if this accordion header's panel contains a child panel
+   * that matches the specified filter term, and should be displayed accordingly
+   */
+  get childFilterMatch() {
+    return this.hasAttribute(attributes.HIDDEN_BY_FILTER);
   }
 }

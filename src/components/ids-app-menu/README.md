@@ -105,6 +105,42 @@ App Menus reserve two slots for specific user information:
 </ids-app-menu>
 ```
 
+### Search Field
+
+App Menus can apply filtering capability to their navigation accordion elements by adding an [IdsSearchField](../ids-search-field/README.md) component with `slot="search"` applied:
+
+```html
+<ids-app-menu id="app-menu">
+    <!-- Search Area -->
+    <ids-search-field id="search" slot="search" label=""></ids-search-field>
+
+    <!-- Accordion Nav -->
+    <ids-accordion>
+        <ids-accordion-panel>
+            <ids-accordion-header slot="header" icon="user">
+                <ids-text font-size="16">Employee</ids-text>
+            </ids-accordion-header>
+        </ids-accordion-panel>
+        <ids-accordion-panel>
+            <ids-accordion-header slot="header" icon="distribution">
+                <ids-text font-size="16">Manager</ids-text>
+            </ids-accordion-header>
+        </ids-accordion-panel>
+        <ids-accordion-panel>
+            <ids-accordion-header slot="header" icon="roles">
+                <ids-text font-size="16">Recruiter</ids-text>
+            </ids-accordion-header>
+        </ids-accordion-panel>
+    </ids-accordion>
+</ids-app-menu>
+```
+
+In the previous example, when typing "Re" into the search field, the "Employee" and "Manager" accordion headers will be visually hidden.  Removing the search field's value causes the filter to be reset, and all headers will be visible again.
+
+While a filter is applied, accordion headers that do not match the filter are tagged with a `hidden-by-filter` attribute.
+
+This feature is also applied to nested accordion navigation.  While filtered, headers that don't match the filter will be completely hidden if they have no matching children, but will appear "faded out" if they do contain at least one matching child.  These headers are also tagged with a `child-filter-match` attribute.
+
 ## States and Variations
 
 The App Menu doesn't contain any states or variants of its own, but applies the following to its extensions and sub-components:
@@ -117,3 +153,11 @@ The App Menu doesn't contain any states or variants of its own, but applies the 
 ## Keyboard Guidelines
 
 - **Escape**: When focus is on an element inside an open App Menu, the App Menu will close.
+
+## Converting from Previous Versions (Breaking Changes)
+
+**4.x to 5.x**
+- Markup has changed to a custom element `<ids-app-menu></ids-app-menu`>
+Sections are now slotted for easier use.  Accordion is the main slot, and other areas (toolbars, user info, etc) are named slots.
+- Can now be imported as a single JS file and used with encapsulated styles
+- The names of some alerts (icon setting) have changed

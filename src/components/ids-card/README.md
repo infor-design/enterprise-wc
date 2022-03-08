@@ -36,9 +36,20 @@ A card is created by using the custom `ids-card` element. A card has two content
 </ids-card>
 ```
 
+A card can be an actionable with the behavior of a button.
+
+```html
+<ids-card actionable="true">
+  <div slot="actionable-text">
+    <ids-text font-size="16" type="p">Actionable Button Card</ids-text>
+  </div>
+</ids-card>
+```
+
 ## Settings and Attributes
 
 - `autoHeight` {boolean} Makes the card the same height as its inner content
+- `actionable` {boolean} It will make the card act as a button
 
 ## States and Variations (With Code Examples)
 
@@ -57,27 +68,9 @@ A card is created by using the custom `ids-card` element. A card has two content
 
 - Depending on the container in the responsive grid, the width of the card follows the layout of the grid. However, when using in a home page a special algorithm is used to both keep the tab order and fill in the gaps most efficiently depending on the card dimensions.
 
-## Converting from Previous Versions
-
-- 3.x: Cards have all new markup and classes.
-- 4.x: Cards have all new markup and classes from 3.x.
-- 5.x: Cards have all new markup and classes custom elements for web components.
-
 ## Designs
 
 [Figma Design Specs](https://www.figma.com/files/project/2768042/Infor-Design-System)
-
-## Proposed Changes
-
-- Reduce the border radius from 6 to 4px
-
-## Test Plan
-
-- [ ] Accessibility - Axe
-- [ ] Accessibility - Keyboard
-- [ ] Visual Regression Tests
-- [ ] Heights
-- [ ] Group Actions
 
 ## Accessibility Guidelines
 
@@ -87,3 +80,14 @@ A card is created by using the custom `ids-card` element. A card has two content
 ## Regional Considerations
 
 Titles should be localized in the current language. All elements will flip to the alternate side in Right To Left mode. Consider that in some languages text may be a lot longer (German). And in some cases it cant be wrapped (Thai). For some of these cases text-ellipsis is supported.
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+- Cards have all new markup and classes.
+
+**4.x to 5.x**
+- Markup has changed to a custom element `<ids-card></ids-card>` and has slots for the header and body content
+- Can now be imported as a single JS file and used with encapsulated styles.
+- The Card/Widget component has been changed to a web component and renamed to ids-card.
+- The expandable card feature is deprecated

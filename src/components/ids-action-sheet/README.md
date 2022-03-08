@@ -11,7 +11,7 @@ The main use case for the IDS Action Sheet component is to display a mobile-frie
 ## Terminology
 
 - **ids-action-sheet**: The action sheet container. Consists of an `ids-overlay` and an unnamed `slot` which will contain the menu.
-- **cancel-btn**: The cancel btn will close the action sheet. The default text of the button is "Cancel", but can be override with the `btnText` attribute.
+- **cancel-button**: The cancel button will close the action sheet. The default text of the button is "Cancel", but can be override with the `btnText` attribute.
 
 ## Features (With Code Examples)
 
@@ -34,3 +34,10 @@ The main use case for the IDS Action Sheet component is to display a mobile-frie
 ## Keyboard Guidelines
 
 - **Enter or Space**: The menu items as well as the cancel btn are actionable via the `Enter` and `Space` keys
+
+## Converting from Previous Versions (Breaking Changes)
+
+**4.x to 5.x**
+- Action Sheet now uses all new markup and classes for web components (see above)
+- Now called IdsActionSheet with a namespace
+- The tray feature has not been added it is now replaced by a floating action button.

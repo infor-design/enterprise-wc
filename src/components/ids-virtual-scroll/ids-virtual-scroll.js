@@ -25,7 +25,8 @@ export default class IdsVirtualScroll extends Base {
 
   connectedCallback() {
     this.datasource = new IdsDataSource();
-    this.stringTemplate = '<div class="ids-virtual-scroll-item" part="list-item">${productName}</div>'; //eslint-disable-line
+    // eslint-disable-next-line no-template-curly-in-string
+    this.stringTemplate = '<div class="ids-virtual-scroll-item" part="list-item">${productName}</div>';
     this.applyHeight();
     this.renderItems(false);
     this.#attachEventHandlers();
@@ -88,10 +89,10 @@ export default class IdsVirtualScroll extends Base {
       offset.style.transform = `translateY(${this.offsetY}px)`;
 
       // work-around for outside components to style contents inside this shadowroot
-      const wrapper = this.querySelector('[part="contents"]') ?? offset;
+      const wrapper = this.querySelector('[part="contents"]');
       wrapper.innerHTML = html;
 
-      this.triggerEvent('ids-virtual-scroll-afterrender', this, { detail: { elem: this, startIndex, endIndex } });
+      this.triggerEvent('aftervirtualscroll', this, { detail: { elem: this, startIndex, endIndex } });
     });
   }
 

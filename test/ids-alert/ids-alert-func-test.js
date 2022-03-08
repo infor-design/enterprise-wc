@@ -67,13 +67,13 @@ describe('IdsAlert Component', () => {
     expect(el.icon).toEqual(null);
   });
 
-  it('renders icon info-field then removes it', () => {
+  it('renders a new icon type and then removes it', () => {
     el = new IdsAlert();
     document.body.appendChild(el);
-    el.icon = 'info-field';
-    expect(el.icon).toEqual('info-field');
+    el.icon = 'add';
+    expect(el.icon).toEqual('add');
     rootEl = el.shadowRoot.querySelector('ids-icon');
-    expect(rootEl.icon).toBe('info-field');
+    expect(rootEl.icon).toBe('add');
     el.icon = null;
     expect(el.icon).toEqual(null);
   });

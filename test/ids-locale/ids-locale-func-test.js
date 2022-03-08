@@ -281,6 +281,14 @@ describe('IdsLocale API', () => {
       expect(locale.calendar().dateFormat.timestamp).toEqual('HH:mm:ss');
       expect(locale.calendar().dateFormat.datetime).toEqual('d. MM. yyyy HH:mm');
     });
+
+    it('should be able to get calendar by name', async () => {
+      await locale.setLocale('de-DE');
+      await locale.setLocale('en-US');
+      expect(locale.calendar('de-DE').timeFormat).toEqual('HH:mm');
+      expect(locale.calendar('de-DE').dateFormat.timestamp).toEqual('HH:mm:ss');
+      expect(locale.calendar('de-DE').dateFormat.datetime).toEqual('dd.MM.yyyy HH:mm');
+    });
   });
 
   describe('Translations', () => {
@@ -1323,7 +1331,6 @@ describe('IdsLocale API', () => {
       expect(locale.formatDate(new Date(2019, 12, 1), { dateStyle: 'short' })).toEqual('2020/1/1');
       expect(locale.formatDate(new Date(2019, 10, 8), { dateStyle: 'medium' })).toEqual('2019年11月8日');
       expect(locale.formatDate(new Date(2019, 10, 8), { dateStyle: 'long' })).toEqual('2019年11月8日');
-      expect(locale.formatDate(new Date(2019, 10, 8), { dateStyle: 'short', timeStyle: 'short' })).toEqual('2019/11/8 上午12:00');
     });
 
     it('should format year in es-ES', async () => {
@@ -1334,7 +1341,6 @@ describe('IdsLocale API', () => {
     it('should format datetime in es-419', async () => {
       await locale.setLocale('es-419');
       expect(locale.formatDate(new Date(2018, 10, 10))).toEqual('10/11/2018');
-      expect(locale.formatDate(new Date(2018, 10, 10), { dateStyle: 'medium' })).toEqual('10 nov. 2018');
       expect(locale.formatDate(new Date(2018, 10, 10), { dateStyle: 'long' })).toEqual('10 de noviembre de 2018');
       expect(locale.formatDate(new Date(2018, 10, 10), { dateStyle: 'full' })).toEqual('sábado, 10 de noviembre de 2018');
       expect(locale.formatDate(new Date(2018, 10, 10), { month: 'long', day: 'numeric' })).toEqual('10 de noviembre');

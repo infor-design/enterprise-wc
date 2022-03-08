@@ -19,15 +19,15 @@ describe('Ids Treemap e2e Tests', () => {
     await page.setViewport({ width: 589, height: 9999, deviceScaleFactor: 1 });
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForTimeout(400);
-    let containerWidth = await page.evaluate(`document.querySelector("ids-treemap").container.offsetWidth`);
     let treemapWidth = await page.evaluate(`document.querySelector("ids-treemap").width`);
+    let containerWidth = await page.evaluate(`document.querySelector("ids-treemap").container.offsetWidth`);
     expect(treemapWidth).toEqual(containerWidth);
 
     await page.setViewport({ width: 989, height: 9999, deviceScaleFactor: 1 });
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForTimeout(400);
-    containerWidth = await page.evaluate(`document.querySelector("ids-treemap").container.offsetWidth`);
     treemapWidth = await page.evaluate(`document.querySelector("ids-treemap").width`);
+    containerWidth = await page.evaluate(`document.querySelector("ids-treemap").container.offsetWidth`);
     expect(treemapWidth).toEqual(containerWidth);
   });
 });

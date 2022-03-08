@@ -262,6 +262,10 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     left: 0;
     top: 0;
 
+    &::after {
+      @include radio-unchecked-after();
+    }
+
     &.checked {
       @include radio-checked();
 
@@ -359,7 +363,6 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   }
 }
 
-/// Handle Themes
 // Dark Theme
 .ids-data-grid[mode='dark'] {
   @include bg-slate-90();
@@ -467,7 +470,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   }
 }
 
-// Handle Contrast Theme
+// Contrast Theme
 .ids-data-grid[mode='contrast'] {
   @include bg-white();
 
@@ -565,7 +568,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   }
 }
 
-// Handle Classic - Light Theme
+// Classic - Light Theme
 .ids-data-grid[version='classic'][mode='light'] {
   @include bg-white();
 

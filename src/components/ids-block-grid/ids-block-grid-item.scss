@@ -1,7 +1,129 @@
 @import '../../core/ids-base';
 
 ::slotted(img) {
-  border: 1px solid transparent;
   contain: content;
   margin-bottom: 10px;
+}
+
+:host {
+  width: 200px;
+}
+
+// For mixed/single/multiple selection
+:host([selection='single']),
+:host([selection='mixed']),
+:host([selection='multiple']) {
+  width: auto;
+  max-width: 300px;
+  box-sizing: border-box;
+
+  .ids-block-grid-item {
+    &-container {
+      padding: 24px 36px;
+    }
+  }
+}
+
+// For text multiple selection
+:host([selection='multiple'][type='block']) {
+  width: 100%;
+
+  ::slotted(ids-text) {
+    text-align: left;
+  }
+
+  .ids-block-grid-item {
+    &-container {
+      padding: 24px 24px 24px 45px;
+    }
+
+    &-checkbox {
+      top: calc(50% - 10px);
+      left: 30px;
+      right: unset;
+    }
+  }
+}
+
+.ids-block-grid-item {
+  &-container {
+    &:focus-visible {
+      outline: none;
+    }
+
+    &.is-selectable {
+      @include cursor-pointer();
+
+      border-radius: 3px;
+
+      ::slotted(img) {
+        border-radius: 50%;
+      }
+
+      &:hover {
+        background-color: var(--ids-color-palette-azure-10);
+        cursor: pointer;
+      }
+
+      &:focus {
+        outline: 1px solid var(--ids-color-palette-azure-60);
+        box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
+      }
+    }
+
+    &.is-selected:not(:focus) {
+      border-radius: 3px;
+      background-color: transparent;
+      outline: 2px solid var(--ids-color-palette-azure-60);
+    }
+
+    &.is-selected,
+    &.is-selectable:hover,
+    &.is-selectable:focus {
+      .ids-block-grid-item-checkbox {
+        visibility: visible;
+      }
+    }
+
+    &.pre-selected {
+      background-color: rgba(230 241 253 / 0.7);
+      cursor: pointer;
+    }
+  }
+
+  &-checkbox {
+    @include absolute();
+
+    top: 20px;
+    right: 20px;
+    visibility: hidden;
+  }
+}
+
+:host([mode='dark']) {
+  .ids-block-grid-item {
+    &-container {
+      &.is-selectable:hover {
+        background-color: var(--ids-color-palette-slate-80);
+      }
+    }
+  }
+}
+
+:host([mode='contrast']) {
+  .ids-block-grid-item {
+    &-container {
+      &.is-selectable:hover {
+        background-color: var(--ids-color-palette-slate-10);
+      }
+
+      &.is-selectable:focus {
+        outline: 1px solid var(--ids-color-palette-azure-90);
+      }
+
+      &.is-selected:not(:focus) {
+        outline: 2px solid var(--ids-color-palette-azure-90);
+      }
+    }
+  }
 }

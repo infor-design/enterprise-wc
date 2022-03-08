@@ -18,8 +18,7 @@ export default class IdsRadio extends HTMLElement {
   label: string;
 
   /** The component label's font-size */
-  labelFontSize: 10 | 12 | 14 | 16 | 20 | 24 | 28 | 32 | 40 | 48 | 60 | 72 |
-    'xs' | 'sm ' | 'lg' | 'xl' | string | number;
+  labelFontSize: 10 | 12 | 14 | 16 | 20 | 24 | 28 | 32 | 40 | 48 | 60 | 72 | string | number;
 
   /** Set the theme mode */
   mode: 'light' | 'dark' | 'contrast' | string;

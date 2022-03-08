@@ -133,6 +133,7 @@ In the absence of the property, icons will align to `start` by default.
 - `tooltip` {string} Sets up a string based tooltip
 - `noRipple` {boolean} Disable the ripple animation effect
 - `square` {boolean} whether the corners of the button as an icon-button are angled/90°
+- `width` {string} Sets width of button. Accepts percent, pixels, rem, etc.
 
 ## Keyboard Guidelines
 
@@ -167,20 +168,6 @@ The IDS Button component is now a WebComponent.  Instead of using classes to def
 </ids-button>
 ```
 
-## Designs
-
-## Alternate Designs
-
-## Proposed Changes
-
-## Test Plan
-
-1. Accessibility - Axe
-1. Visual Regression Test
-1. Repeat Tests in All Supported Browsers
-1. Some of these as test cases from the [WC gold standard](https://github.com/webcomponents/gold-standard/wiki#api)
-1. Can be consumed in NG/Vue/React (pull it in standalone/built see it works standalone)
-
 ## Accessibility Guidelines
 
 - All buttons, including icon-only buttons, should have some kind of text description inside the button for explaining its action to a visually-impaired user. This text can be hidden visually by way of using an `audible` CSS class on the text content.
@@ -188,3 +175,15 @@ The IDS Button component is now a WebComponent.  Instead of using classes to def
 ## Regional Considerations
 
 Be conscious of the layout of content within your buttons when they are present in RTL situations.
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+- Change class `inforFormButton` default to `btn-primary`
+- Change class `inforFormButton` to `btn-secondary`
+
+**4.x to 5.x**
+- Markup has changed to a custom element `<ids-button id="my-button" type="primary"></ids-button>`
+- Can now be imported as a single JS file and used with encapsulated styles.
+- Some button properties are now attributes - "type", "text", "icon", "disabled", "focusable", etc.
+- Separate components `ids-toggle-button` and `ids-menu-button` ect..

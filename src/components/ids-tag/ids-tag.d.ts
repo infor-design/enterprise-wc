@@ -27,9 +27,6 @@ export default class IdsTag extends HTMLElement {
   /** Set the theme mode */
   mode: 'light' | 'dark' | 'contrast' | string;
 
-  /** Set the theme version */
-  version: 'new' | 'classic' | string;
-
   /** Fires before the tag is removed, you can return false in the response to veto. */
   on(event: 'beforetagremove', listener: (detail: IdsTagEventVetoable) => void): this;
 

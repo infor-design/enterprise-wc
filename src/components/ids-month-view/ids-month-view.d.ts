@@ -30,6 +30,9 @@ export default class IdsMonthView extends HTMLElement {
   /** Whether or not the component should be compact view */
   compact: 'true' | 'false' | boolean | null;
 
+  /** Set whether or not the component is used in datepicker popup */
+  isDatePicker: 'true' | 'false' | boolean | null;
+
   /** Fires when a day selected */
   on(event: 'dayselected', listener: (event: dayselected) => void): this;
 }

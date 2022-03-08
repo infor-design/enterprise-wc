@@ -1,12 +1,13 @@
+import fontSizes from 'ids-identity/dist/theme-new/tokens/web/ui.config.font-sizes';
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import Base from './ids-text-base';
 
 import styles from './ids-text.scss';
 
-const fontSizes = ['xs', 'sm', 'base', 'lg', 'xl', 10, 12, 14, 16, 20, 24, 28, 32, 40, 48, 60, 72];
 const fontWeightClasses = ['bold', 'lighter'];
 
 // These types will have a CSS style class appended to them
@@ -97,7 +98,7 @@ export default class IdsText extends Base {
   #attachEventHandlers() {
     if (this.translateText) {
       this.offEvent('languagechange.text-container');
-      this.onEvent('languagechange.text-container', this.closest('ids-container'), async () => {
+      this.onEvent('languagechange.text-container', getClosest(this, 'ids-container'), () => {
         this.#translateAsync();
       });
     }
@@ -106,10 +107,12 @@ export default class IdsText extends Base {
   /**
    * Set the font size/style of the text with a class.
    * @param {string | null} value The font size in the font scheme
-   * i.e. 10, 12, 16 or xs, sm, base, lg, xl
+   * i.e. 10, 12, 16 ect increasing by increments of 4
    */
   set fontSize(value) {
-    fontSizes.forEach((size) => this.container?.classList.remove(`ids-text-${size}`));
+    fontSizes?.forEach((size) => {
+      this.container?.classList.remove(`ids-text-${Object.keys(size)}`);
+    });
 
     if (value) {
       this.setAttribute(attributes.FONT_SIZE, value);

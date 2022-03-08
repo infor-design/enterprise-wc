@@ -106,7 +106,6 @@ describe('IdsButton Component', () => {
     await container.setLanguage('ar');
     await processAnimFrame();
     expect(btn.locale.isRTL()).toEqual(true);
-    expect(btn.container.classList.contains('rtl')).toBeTruthy();
   });
 
   it('can be focusable or not', () => {
@@ -295,6 +294,22 @@ describe('IdsButton Component', () => {
     expect(btn.text).toEqual('New');
   });
 
+  it('can set width', () => {
+    // with pixels
+    const pixelWidth = '200px';
+    btn.width = pixelWidth;
+    expect(btn.width).toEqual(pixelWidth);
+    expect(btn.style.width).toEqual('');
+    expect(btn.button.style.width).toEqual(pixelWidth);
+
+    // with percentage
+    const percentWidth = '90%';
+    btn.width = percentWidth;
+    expect(btn.width).toEqual(percentWidth);
+    expect(btn.style.width).toEqual(percentWidth);
+    expect(btn.button.style.width).toEqual('');
+  });
+
   describe('Ripple effect tests', () => {
     beforeEach(async () => {
       const elem = new IdsButton();
@@ -419,14 +434,14 @@ describe('IdsButton Component', () => {
       // Passing { x: 0, y: 0 } causes the ripple effect to center itself inside the button
       let rippleOffsets = btn.getRippleOffsets(0, 0);
 
-      expect(rippleOffsets.x).toEqual(-125);
-      expect(rippleOffsets.y).toEqual(-125);
+      expect(rippleOffsets.x).toEqual(-50);
+      expect(rippleOffsets.y).toEqual(-50);
 
       // Center of the ripple will be at { x: 1 y: 1 } inside the button
       rippleOffsets = btn.getRippleOffsets(1, 1);
 
-      expect(rippleOffsets.x).toEqual(-124);
-      expect(rippleOffsets.y).toEqual(-124);
+      expect(rippleOffsets.x).toEqual(-49);
+      expect(rippleOffsets.y).toEqual(-49);
     });
 
     it('removes the ripple effect HTML when it completes', (done) => {

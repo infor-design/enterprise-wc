@@ -24,49 +24,49 @@ const HTMLSnippets = {
   ),
   NAV_BUTTONS_AND_INPUT: (
     `<ids-pager page-size="20" page-number="10" total="200">
-      <ids-pager-section>
+      <section>
         <ids-pager-button first></ids-pager-button>
         <ids-pager-button previous></ids-pager-button>
         <ids-pager-input></ids-pager-input>
         <ids-pager-button next></ids-pager-button>
         <ids-pager-button last></ids-pager-button>
-      </ids-pager-section>
+      </section>
     </ids-pager>`
   ),
   NUMBER_LIST_NAV: (
   `<ids-pager page-size="20" page-number="10" total="150">
-      <ids-pager-section>
+      <section>
         <ids-pager-button previous></ids-pager-button>
         <ids-pager-number-list></ids-pager-number-list>
         <ids-pager-button next></ids-pager-button>
-      </ids-pager-section>
+      </section>
   </ids-pager>`
   ),
   RIGHT_ALIGNED_CONTENT: (
     `<ids-pager page-size="20" page-number="10" total="150">
-      <ids-pager-section>
+      <section>
         <ids-pager-button previous></ids-pager-button>
         <ids-pager-number-list></ids-pager-number-list>
         <ids-pager-button next></ids-pager-button>
-      </ids-pager-section>
-      <ids-pager-section>
+      </section>
+      <section slot="end">
         Right-Aligned Content
-      </ids-pager-section>
+      </section>
     </ids-pager>`
   ),
   DOUBLE_SIDED_CONTENT: (
     `<ids-pager page-size="20" page-number="10" total="150">
-      <ids-pager-section>
+      <section slot="start">
         Left-Aligned-Content
-      </ids-pager-section>
-      <ids-pager-section>
+      </section>
+      <section>
         <ids-pager-button previous></ids-pager-button>
         <ids-pager-number-list></ids-pager-number-list>
         <ids-pager-button next></ids-pager-button>
-      </ids-pager-section>
-      <ids-pager-section>
+      </section>
+      <section slot="end">
         Right-Aligned-Content
-      </ids-pager-section>
+      </section>
     </ids-pager>`
   )
 };
@@ -117,6 +117,14 @@ describe('IdsPager Component', () => {
     const errors = jest.spyOn(global.console, 'error');
     expect(document.querySelectorAll('ids-pager').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
+  });
+
+  it('has slots: start, middle, end', async () => {
+    elem = await createElemViaTemplate(HTMLSnippets.DOUBLE_SIDED_CONTENT);
+    const { slots } = elem.elements;
+    expect(slots.start).toBeDefined();
+    expect(slots.middle).toBeDefined();
+    expect(slots.end).toBeDefined();
   });
 
   it('renders with content on both sides with no errors', async () => {
@@ -412,10 +420,6 @@ describe('IdsPager Component', () => {
     expect(elem.hasAttribute('previous')).toBeTruthy();
   });
 
-  // --------------------- //
-  // ids-pager-number-list //
-  // ===================== //
-
   it('updates the input on ids-pager-input and pager pageNumber updates', async () => {
     elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
     const idsPagerInput = elem.querySelector('ids-pager-input');
@@ -427,6 +431,10 @@ describe('IdsPager Component', () => {
     expect(elem.pageNumber).toEqual(10);
   });
 
+  // --------------------- //
+  // ids-pager-number-list //
+  // ===================== //
+
   it('creates ids-pager-number-list and it has the correct number of entries based on page size and total', async () => {
     const pageSize = 10;
     const total = 100;
@@ -435,7 +443,7 @@ describe('IdsPager Component', () => {
       `<ids-pager-number-list page-number="10" page-size="${pageSize}" total="${total}" last></ids-pager-number-list>`
     );
 
-    const pageCount = Math.floor(total / pageSize);
+    const pageCount = Math.ceil(total / pageSize);
     const pageNumberButtons = elem.shadowRoot.querySelectorAll('ids-button');
 
     expect(pageNumberButtons.length).toEqual(pageCount);
@@ -484,7 +492,7 @@ describe('IdsPager Component', () => {
       `<ids-pager-input page-number="10" page-size="2" first></ids-pager-input>`
     );
 
-    expect(elem.pageCount).toEqual(null);
+    expect(elem.pageCount).toEqual(1);
   });
 
   it('sets total on ids-pager-input to non-numeric value and gets page-number reset to 1', async () => {
@@ -558,7 +566,7 @@ describe('IdsPager Component', () => {
 
   it('it sets the pageSize on ids-pager-number-list to non numeric and it is reset to 1', async () => {
     elem = await createElemViaTemplate(
-      `<ids-pager-number-list page-number="1" page-size="z2z" total="100" first></ids-pager-input>`
+      `<ids-pager-number-list page-number="1" page-size="z2z" total="100" first></ids-pager-number-list>`
     );
 
     expect(elem.pageSize).toEqual(1);
@@ -566,7 +574,7 @@ describe('IdsPager Component', () => {
 
   it('it sets the pageNumber on ids-pager-number-list to invalid sizes and it is reset to 1', async () => {
     elem = await createElemViaTemplate(
-      `<ids-pager-number-list page-number="zz" page-size="2" total="100" first></ids-pager-input>`
+      `<ids-pager-number-list page-number="zz" page-size="2" total="100" first></ids-pager-number-list>`
     );
 
     expect(elem.pageNumber).toEqual(1);
@@ -577,7 +585,7 @@ describe('IdsPager Component', () => {
 
   it('it sets the total on ids-pager-number-list to invalid sizes and it is reset to 1', async () => {
     elem = await createElemViaTemplate(
-      `<ids-pager-number-list page-number="1" page-size="2" total="z2z" first></ids-pager-input>`
+      `<ids-pager-number-list page-number="1" page-size="2" total="z2z" first></ids-pager-number-list>`
     );
 
     expect(elem.total).toEqual(1);
@@ -624,25 +632,6 @@ describe('IdsPager Component', () => {
     elem.parentDisabled = false;
     expect(elem.parentDisabled).toEqual(false);
     expect(elem.hasAttribute('parent-disabled')).toEqual(false);
-  });
-
-  it('can trigger align setters on ids-pager-section predictably', async () => {
-    elem = await createElemViaTemplate(`<ids-pager-section></ids-pager-section>`);
-
-    expect(elem.align).toEqual(undefined);
-    expect(elem.getAttribute('align')).toEqual(null);
-
-    elem.align = 'end';
-    expect(elem.getAttribute('align')).toEqual('end');
-
-    elem.align = 'start';
-    expect(elem.getAttribute('align')).toEqual('start');
-
-    elem.setAttribute('align', 'end');
-    expect(elem.getAttribute('align')).toEqual('end');
-
-    elem.align = null;
-    expect(elem.attribute).toEqual(undefined);
   });
 
   it('can change child languages', async () => {

@@ -31,6 +31,9 @@
     "scss/dollar-variable-empty-line-before": null,
     "alpha-value-notation": "number",
     "keyframes-name-pattern": null,
-    "max-line-length": 120
+    "max-line-length": 120,
+    "value-keyword-case": ["lower", {
+      "ignoreKeywords": ["currentColor"]
+    }]
   }
 }

@@ -12,8 +12,7 @@ export default class IdsRadioGroup extends HTMLElement {
   label: string;
 
   /** Sets the checkbox label font size (rarely used) * */
-  labelFontSize: 10 | 12 | 14 | 16 | 20 | 24 | 28 | 32 | 40 | 48 | 60 | 72 |
-    'xs' | 'sm ' | 'lg' | 'xl' | string | number;
+  labelFontSize: 10 | 12 | 14 | 16 | 20 | 24 | 28 | 32 | 40 | 48 | 60 | 72 | string | number;
 
   /** Sets the checkbox to required * */
   labelRequired: boolean;
