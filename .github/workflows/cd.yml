@@ -38,7 +38,7 @@ jobs:
       run: npm ci
 
     - name: Build and Compile
-      run: npm run build
+      run: npm run build:coverage
 
     - name: Run Tests (including Percy)
       run: npx percy exec -- npm run test:ci

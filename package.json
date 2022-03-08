@@ -14,6 +14,7 @@
     "build:stats": "npx rimraf build/dist/production && npx webpack --config ./webpack.config.dist.js --mode production",
     "build:dist:prod": "npx rimraf build/dist/production && npx webpack --config ./webpack.config.prod.js --mode production",
     "build": "npx rimraf build/dist/development && node --max-old-space-size=16384 node_modules/webpack/bin/webpack --config ./webpack.config.dev.js",
+    "build:coverage": "npx rimraf build/dist/development && node --max-old-space-size=16384 node_modules/webpack/bin/webpack --config ./webpack.config.dev.js --env coverage",
     "build:demos:prod": "webpack --config ./webpack.config.dev.js --mode production",
     "build:demos:verbose": "npx webpack --config ./webpack.config.dev.js --progress profile",
     "start": "npx rimraf build/development && node --max-old-space-size=16384 node_modules/webpack/bin/webpack serve --live-reload --open --config ./webpack.config.dev.js",
