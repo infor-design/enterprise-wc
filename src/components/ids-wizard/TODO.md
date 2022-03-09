@@ -1,6 +1,8 @@
 # TODO for Ids-Wizard
 
-Major
+Keep this file in sync with #570
+
+## Major
 
 - [ ] Re-evaluate current solution and try to simplify existing features
 - [ ] Add `onStepChange` callback for step changes by user interaction or programmatically
@@ -10,8 +12,6 @@ Major
 - [ ] Add theme support (move current colors into `&[mode="light"]` theme, add dark/contrast colors, and implement Theme Mixin)
 - [ ] Add standalone CSS examples and related styles
 
-Minor
+## Minor
 
 - [ ] Do not use wait() in wizard test logic for rendered() in Jest
-
-Original issue: #126

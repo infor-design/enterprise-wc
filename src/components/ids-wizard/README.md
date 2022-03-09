@@ -50,8 +50,6 @@ The current step number a wizard is showing has been traversed is denoted now on
 - The wizard component's width should not exceed the width of the page.
 - The labels chosen and number of steps should fit within the page; or at least be obvious enough that a user can discern what labels achieve what function.
 
-## Converting from Previous Versions
-
 ## Designs
 
 ## Accessibility Guidelines
@@ -61,3 +59,12 @@ The current step number a wizard is showing has been traversed is denoted now on
 ## Regional Considerations
 
 Label text should be localized in the current language. All elements will flip to the alternate side in Right To Left mode. Consider that in some languages text may be a lot longer (German). And in some cases it cant be wrapped (Thai). For some of these cases text-ellipsis is supported.
+
+## Converting from Previous Versions (Breaking Changes)
+
+**4.x to 5.x**
+
+- Wizard is now a custom element `<ids-wizard></ids-wizard>`
+- "Ticks" are now called "Steps", and are codified as custom elements `<ids-wizard-step>MY-LABEL</ids-wizard-step>`
+- Setting the step number is done via `ids-wizard`'s `step-number` attribute.
+- `clickable` property is available on both any `ids-wizard-step` and `ids-wizard` overall.

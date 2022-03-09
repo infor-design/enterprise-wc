@@ -241,11 +241,15 @@ The Ids Upload Advanced doesn't contain any interactions beyond a standard keys:
 
 - Its set as `block` element with `100%` width, so set the desired width on parent container in order to set the width.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-### Converting from 4.x
+**4.x to 5.x**
 
-The IDS Upload Advanced component is now a WebComponent. Instead of using classes to define, it is now via the web component structure.
+- Markup has changed to a custom element `<ids-upload-advanced></ids-upload-advanced>`
+- Each file's UI sections are represented by their own custom elements `<ids-upload-advanced-file></ids-upload-advanced-file>`
+- Each file's status can be observed by simple component properties, like `value`, `error`, or `size`.
+- If using events, events are now plain JS events.
+- Can now be imported as a single JS file and used with encapsulated styles.
 
 ```html
 <!-- 4.x fileupload-advanced example -->
