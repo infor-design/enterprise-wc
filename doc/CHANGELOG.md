@@ -1,9 +1,9 @@
-# v5.0.0
+# 0.0.0
 
-## 5.0.0 Breaking Changes
+## 0.0.0 Breaking Changes
 
-All components in this version are now web components. Each component can now be imported as a single JS file and used with encapsulated styles.
-For more details on breaking changes in each component see the individual README.md files.
+All components in this version are now web components compared to 4.x. Each component can now be imported as a single JS file and used with encapsulated styles.
+For more details on breaking changes see each component in the individual README.md files.
 
 - `[About]`The about component was converted. See the [README](https://github.com/infor-design/enterprise-wc/blob/todo-passthrough/src/components/ids-about/README.md#converting-from-previous-versions-breaking-changes) for details. ([#308](https://github.com/infor-design/enterprise-wc/issues/308))
 - `[Accordion]` The accordion component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-accordion//README.md##converting-from-previous-versions) for details. ([#168](https://github.com/infor-design/enterprise-wc/issues/168))
@@ -19,8 +19,9 @@ For more details on breaking changes in each component see the individual README
 - `[Colorpicker]` The card component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-color-picker/README.md#converting-from-previous-versions for details. ([#223](https://github.com/infor-design/enterprise-wc/issues/223))
 - `[IdsContainer]` Added a new component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-containerr/README.md) for details.
 - `[Contextual Action Panel]` The contextual action panel component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-contextual-action-panel/README.md#converting-from-previous-versions for details. ([#330](https://github.com/infor-design/enterprise-wc/issues/330))
-- `[Counts]` The counts component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-counts/README.md#converting-from-previous-versions for details. ([#330](https://github.com/infor-design/enterprise-wc/issues/123))
-- `[Counts]` The counts component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-data-gridREADME.md#converting-from-previous-versions for details. ([#330](https://github.com/infor-design/enterprise-wc/issues/183))
+- `[Counts]` The counts component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-counts/README.md#converting-from-previous-versions for details. ([#123](https://github.com/infor-design/enterprise-wc/issues/123))
+- `[Counts]` The counts component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-data-grid/README.md#converting-from-previous-versions for details. ([#150](https://github.com/infor-design/enterprise-wc/issues/150))
+- `[Datepicker]` The date picker component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-date-picker/README.md#converting-from-previous-versions for details. ([#330](https://github.com/infor-design/enterprise-wc/issues/183))
 - `[Draggable]` The drag component is now a web component called `ids-draggable` ([#253](https://github.com/infor-design/enterprise-wc/issues/253))
   - Markup has changed to a custom element that wraps draggable content; `<ids-draggable>content</ids-draggable>`.
   - Bounding drag movement to a specific axis is done by passing the axis attribute as `x` or `y`.

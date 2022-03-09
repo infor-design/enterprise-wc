@@ -35,16 +35,16 @@ jobs:
       uses: actions/cache@v2
       with:
         path: node_modules
-        key: ids-enterprise-wc-029
+        key: ids-enterprise-wc-032
 
     - name: Install Dependencies
       run: npm ci
 
-    - name: Build and Compile
-      run: npm run build
-
     - name: Run Lint Checks
       run: npm run lint
+
+    - name: Build and Compile
+      run: npm run build:coverage
 
     - name: Run Tests (including Percy)
       run: npx percy exec -- npm run test:ci

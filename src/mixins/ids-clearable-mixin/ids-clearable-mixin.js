@@ -2,7 +2,7 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 /**
- * Clearable (Shows an x-icon button to clear).
+ * IdsClearableMixin attaches a button to input fields and text areas allowing their contents to be cleared.
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
@@ -17,7 +17,8 @@ const IdsClearableMixin = (superclass) => class extends superclass {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.CLEARABLE
+      attributes.CLEARABLE,
+      attributes.CLEARABLE_FORCED,
     ];
   }
 
@@ -53,18 +54,19 @@ const IdsClearableMixin = (superclass) => class extends superclass {
     icon.setAttribute('icon', 'close');
     icon.setAttribute('size', 'small');
     icon.setAttribute('slot', 'icon');
-    if (this.colorVariant === 'alternate') {
-      icon.style.color = 'white';
-      const triggerBtn = xButton.shadowRoot.querySelector('button');
-      triggerBtn.classList.add('color-variant-alternate');
-    }
     text.setAttribute('audible', 'true');
     text.textContent = 'clear';
-    xButton.setAttribute('part', 'clearable-button');
-    xButton.className = 'btn-clear';
+
     xButton.appendChild(text);
     xButton.appendChild(icon);
     xButton.refreshProtoClasses();
+
+    if (this.colorVariant) {
+      xButton.colorVariant = this.colorVariant === 'app-menu' ? 'alternate' : this.colorVariant;
+    }
+    xButton.setAttribute('part', 'clearable-button');
+    xButton.className = 'btn-clear';
+    xButton.noMargins = true;
 
     return xButton;
   }
@@ -79,14 +81,17 @@ const IdsClearableMixin = (superclass) => class extends superclass {
     if (!xButton) {
       xButton = this.#initClearableButton();
       let parent = this.shadowRoot.querySelector('.ids-input, .ids-textarea');
+
       parent = parent?.querySelector('.field-container');
       parent?.appendChild(xButton);
-      this.input?.classList.add('has-clearable');
-      if (this.closest('.ids-search-field')) {
-        this.input?.classList.add('has-no-trigger-button');
-      }
+
+      const input = this.shadowRoot.querySelector('.ids-input-field, .ids-textarea-field');
+      input.after(xButton);
+
       this.attachClearableEvents();
     }
+
+    this.container.classList.add('has-clearable');
   }
 
   /**
@@ -98,7 +103,9 @@ const IdsClearableMixin = (superclass) => class extends superclass {
     const xButton = this.shadowRoot.querySelector('.btn-clear');
     if (xButton) {
       xButton.remove();
+      this.container.classList.remove('has-clearable');
     }
+    // @TODO: remove event handlers
   }
 
   /**

@@ -133,6 +133,7 @@ In the absence of the property, icons will align to `start` by default.
 - `tooltip` {string} Sets up a string based tooltip
 - `noRipple` {boolean} Disable the ripple animation effect
 - `square` {boolean} whether the corners of the button as an icon-button are angled/90°
+- `width` {string} Sets width of button. Accepts percent, pixels, rem, etc.
 
 ## Keyboard Guidelines
 

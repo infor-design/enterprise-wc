@@ -1,12 +1,101 @@
 @import '../../core/ids-base';
 @import '../../mixins/sass/ids-clearable-mixin';
 @import '../../mixins/sass/ids-dirty-tracker-mixin';
+@import '../../mixins/sass/ids-label-state-mixin';
 @import '../../mixins/sass/ids-validation-mixin';
 
 // Set default
 $input-size-default: $input-size-md;
 $input-field-height-default: $input-field-height-md;
 $input-compact-height: $input-field-height-xs;
+
+// These input field sizes come from the design tokens and are adjusted
+// here to account for 1px border size on top/bottom or left/right in some calculations.
+$border-input-size-xs: $input-size-xs - 2;
+$border-input-size-sm: $input-size-sm - 2;
+$border-input-size-md: $input-size-md - 2;
+$border-input-size-mm: $input-size-mm - 2;
+$border-input-size-lg: $input-size-lg - 2;
+$border-input-size-full: $input-size-full - 2;
+$border-input-field-height-compact: $input-compact-height - 2;
+$border-input-field-height-xs: $input-field-height-xs - 2;
+$border-input-field-height-sm: $input-field-height-sm - 2;
+$border-input-field-height-md: $input-field-height-md - 2;
+$border-input-field-height-lg: $input-field-height-lg - 2;
+
+// Mixin for message styles: [alert, error, info, success]
+@mixin ids-input-message-styles {
+  .alert,
+  .alert:hover {
+    @include border-alert-warning();
+    @include text-alert-warning();
+
+    &:focus-within,
+    &.is-active {
+      @include border-alert-warning();
+
+      box-shadow: rgba(249 131 0 / 0.3) 0 0 3px 2px;
+    }
+
+    &[disabled] {
+      @include border-amber-30();
+      @include text-amber-30();
+    }
+  }
+
+  .error,
+  .error:hover {
+    @include border-alert-error();
+    @include text-alert-error();
+
+    &:focus-within,
+    &.is-active {
+      @include border-alert-error();
+      @include shadow-error();
+    }
+
+    &[disabled] {
+      @include border-ruby-30();
+      @include text-ruby-30();
+    }
+  }
+
+  .info,
+  .info:hover {
+    @include border-alert-info();
+    @include text-alert-info();
+
+    &:focus-within,
+    &.is-active {
+      @include border-alert-info();
+
+      box-shadow: rgba(0 102 212 / 0.3) 0 0 3px 2px;
+    }
+
+    &[disabled] {
+      @include border-azure-30();
+      @include text-azure-30();
+    }
+  }
+
+  .success,
+  .success:hover {
+    @include border-alert-success();
+    @include text-alert-success();
+
+    &:focus-within,
+    &.is-active {
+      @include border-alert-success();
+
+      box-shadow: rgba(42 195 113 / 0.3) 0 0 3px 2px;
+    }
+
+    &[disabled] {
+      @include border-emerald-30();
+      @include text-emerald-30();
+    }
+  }
+}
 
 /* in case of external label in compound component */
 .ids-label-text {
@@ -17,6 +106,13 @@ $input-compact-height: $input-field-height-xs;
 
   align-items: baseline;
   display: flex;
+
+  // Simulate standard label text size while empty with a non-breaking space
+  &.empty {
+    &::before {
+      content: '\00a0';
+    }
+  }
 
   &.required {
     &::after {
@@ -47,19 +143,14 @@ $input-compact-height: $input-field-height-xs;
   }
 }
 
-@mixin input-extra-small-height($h: $input-field-height-xs) {
+@mixin input-extra-small-height($h: $border-input-field-height-xs) {
   @include mb-12();
 
   .ids-label-text {
     @include text-14();
   }
 
-  .field-container {
-    @include mb-1();
-  }
-
   .ids-input-field {
-    @include mb-2();
     @include px-4();
     @include py-0();
     @include text-14();
@@ -70,88 +161,62 @@ $input-compact-height: $input-field-height-xs;
 
 .ids-input {
   @include block();
+  @include mb-16();
 
-  // alternate colors for header placement
-  &.color-variant-alternate {
-    .ids-input-field {
-      @include text-white();
-
-      &::placeholder {
-        color: rgba(255 255 255 / 0.7);
-      }
-    }
-  }
-
+  // Applied to the wrapper element that wraps the input and other interactable elements
   .field-container {
     @include m-0();
     @include p-0();
     @include relative();
+    @include border-1();
+    @include border-solid();
+    @include rounded-default();
 
     align-items: center;
+    border-collapse: separate;
+    border-radius: 2px;
+    color: inherit;
+    resize: none;
+    text-align: left;
     display: flex;
     max-width: $input-size-default;
   }
 
-  .ids-input-field {
-    @include antialiased();
-    @include bg-white();
-    @include box-border();
-    @include border-1();
-    @include border-slate-40();
-    @include border-solid();
-    @include font-sans();
-    @include p-8();
-    @include rounded-default();
-    @include text-16();
-    @include w-full();
-    @include mb-16();
-
-    appearance: none;
-    border-collapse: separate;
-    border-radius: 2px;
-    color: inherit;
-    display: inline-block;
-    height: $input-field-height-default;
-    resize: none;
-    text-align: left;
-
-    &:hover {
-      @include border-slate-90();
-    }
-
-    &:focus,
-    &:focus[readonly] {
-      @include border-azure-60();
-      @include shadow();
-
+  &:focus-within,
+  &.readonly:focus-within,
+  &.is-active {
+    .ids-input-field {
       outline: none;
       outline-color: transparent;
     }
+  }
 
-    &[disabled] {
-      @include border-slate-30();
-      @include text-slate-30();
-    }
+  .ids-icon.starting-icon {
+    @include ml-8();
+  }
 
-    &[readonly] {
-      @include bg-slate-20();
-      @include border-1();
-      @include border-solid();
-      @include border-slate-40();
-      @include rounded-default();
-      @include text-black();
+  .ids-icon.ending-icon {
+    @include mr-8();
+  }
 
-      padding-bottom: 9px;
-      padding-top: 9px;
-    }
+  // Applied to the shadow root's HTMLInputElement
+  .ids-input-field {
+    @include antialiased();
+    @include bg-transparent();
+    @include box-border();
+    @include border-none();
+    @include font-sans();
+    @include py-4();
+    @include px-8();
+    @include text-16();
+    @include w-full();
 
-    &.bg-transparent {
-      @include bg-transparent();
-    }
-
-    &.bg-transparent:focus {
-      @include border-azure-60();
-    }
+    appearance: none;
+    color: currentColor;
+    display: inline-block;
+    height: fit-content;
+    resize: none;
+    text-align: left;
 
     &.text-ellipsis {
       @include ellipsis();
@@ -169,115 +234,72 @@ $input-compact-height: $input-field-height-xs;
     &.right {
       text-align: end;
     }
+  }
 
-    // input message: [alert, error, info, success]
-    &.alert,
-    &.alert:hover {
-      @include border-alert-warning();
-      @include text-alert-warning();
+  // Validation Messages are appended beneath the `.field-container`
+  .validation-message {
+    @include mt-4();
+    @include mb-0();
+  }
 
-      &:focus {
-        @include border-alert-warning();
+  // If `no-margins` is used:
+  // - margins are removed from component top/bottom
+  // - labels are visually hidden instead of displaying blank content for spacing
+  &.no-margins {
+    margin: 0;
 
-        box-shadow: rgba(249 131 0 / 0.3) 0 0 3px 2px;
-      }
-
-      &[disabled] {
-        @include border-amber-30();
-        @include text-amber-30();
-      }
-    }
-
-    &.error,
-    &.error:hover {
-      @include border-alert-error();
-      @include text-alert-error();
-
-      &:focus {
-        @include border-alert-error();
-        @include shadow-error();
-      }
-
-      &[disabled] {
-        @include border-ruby-30();
-        @include text-ruby-30();
-      }
-    }
-
-    &.info,
-    &.info:hover {
-      @include border-alert-info();
-      @include text-alert-info();
-
-      &:focus {
-        @include border-alert-info();
-
-        box-shadow: rgba(0 102 212 / 0.3) 0 0 3px 2px;
-      }
-
-      &[disabled] {
-        @include border-azure-30();
-        @include text-azure-30();
-      }
-    }
-
-    &.success,
-    &.success:hover {
-      @include border-alert-success();
-      @include text-alert-success();
-
-      &:focus {
-        @include border-alert-success();
-
-        box-shadow: rgba(42 195 113 / 0.3) 0 0 3px 2px;
-      }
-
-      &[disabled] {
-        @include border-emerald-30();
-        @include text-emerald-30();
-      }
-    }
-
-    &.has-triggerfield {
-      border: none;
-      margin-bottom: 0;
-
-      &:focus {
-        box-shadow: none;
-      }
-    }
-
-    &.no-margin {
+    .field-container {
       @include mb-0();
+    }
+
+    .ids-input-field {
+      @include m-0();
+    }
+
+    // Reverse the margins on `ids-input[no-margins]` fields to have the bottom margin on top
+    .validation-message {
+      @include mb-0();
+      @include mt-4();
+    }
+
+    .ids-label-text {
+      &.empty {
+        @include m-0();
+
+        visibility: hidden;
+        height: 0;
+      }
     }
   }
 
   // input sizes: [xs, sm, mm, md, lg, full]
+  // Subtracting 2 takes into account that the width includes the `.field-container` border on both sides.
   &.xs .field-container {
-    max-width: $input-size-xs;
+    max-width: $border-input-size-xs;
   }
 
   &.sm .field-container {
-    max-width: $input-size-sm;
+    max-width: $border-input-size-sm;
   }
 
   &.mm .field-container {
-    max-width: $input-size-mm;
+    max-width: $border-input-size-mm;
   }
 
   &.md .field-container {
-    max-width: $input-size-md;
+    max-width: $border-input-size-md;
   }
 
   &.lg .field-container {
-    max-width: $input-size-lg;
+    max-width: $border-input-size-lg;
   }
 
   &.full .field-container {
-    max-width: $input-size-full;
+    max-width: $border-input-size-full;
   }
 
   // input field-heights: [xs, sm, md, lg]
+  // Subtracting 2 takes into account that the width includes the `.field-container` border on both sides.
   &.field-height-xs {
     @include input-extra-small-height();
 
@@ -292,24 +314,20 @@ $input-compact-height: $input-field-height-xs;
   }
 
   &.field-height-sm .ids-input-field {
-    height: $input-field-height-sm;
+    height: $border-input-field-height-sm;
   }
 
   &.field-height-md .ids-input-field {
-    height: $input-field-height-md;
-
-    &.has-triggerfield {
-      height: $input-field-height-md - 2;
-    }
+    height: $border-input-field-height-md;
   }
 
   &.field-height-lg .ids-input-field {
-    height: $input-field-height-lg;
+    height: $border-input-field-height-lg;
   }
 
   // input compact
   &.compact {
-    @include input-extra-small-height($input-compact-height);
+    @include input-extra-small-height($border-input-field-height-compact);
 
     &.no-margin-bottom {
       margin-bottom: 0;
@@ -317,192 +335,363 @@ $input-compact-height: $input-field-height-xs;
       .field-container,
       .ids-input-field {
         margin-bottom: 0;
-        height: $input-field-height-xs;
+        height: $border-input-field-height-compact;
+      }
+    }
+  }
+}
+
+// =======================================================
+// Handle Themes
+
+.ids-input[version='new'][mode='light'] {
+  .field-container {
+    @include bg-white();
+    @include border-slate-40();
+    @include text-black();
+  }
+
+  &.readonly {
+    .field-container,
+    &.hover .field-container,
+    &.focus-within .field-container {
+      @include border-slate-40();
+      @include text-black();
+    }
+
+    &:not(.readonly-background):not(.bg-transparent) {
+      .field-container,
+      &.hover .field-container,
+      &.focus-within .field-container {
+        @include bg-slate-20();
       }
     }
   }
 
-  &.no-margins {
-    margin: 0;
-
-    .ids-input-field {
-      margin: 0;
-    }
-  }
-
-  .validation-message {
-    margin-bottom: 12px;
-    margin-top: -10px;
-  }
-}
-
-// Handle Themes
-.ids-input[mode='dark'] .ids-input-field {
-  @include bg-transparent();
-  @include border-slate-40();
-  @include text-white();
-
-  &[disabled] {
-    @include border-slate-60();
-    @include text-slate-60();
-  }
-
-  &[readonly] {
-    @include bg-slate-70();
-    @include border-slate-40();
-    @include text-slate-10();
-  }
-
-  &.bg-transparent {
-    @include bg-transparent();
-  }
-
-  &:focus {
-    @include border-azure-60();
-  }
-}
-
-.ids-input[mode='contrast'] {
-  .ids-input-field {
-    @include bg-white();
-    @include border-slate-40();
-    @include text-black();
-
-    &[disabled] {
+  &.disabled {
+    .field-container,
+    &:hover .field-container,
+    &:focus-within .field-container {
       @include border-slate-30();
       @include text-slate-30();
     }
+  }
 
-    &[readonly] {
-      @include bg-slate-20();
+  &.bg-transparent {
+    .field-container,
+    &.readonly .field-container,
+    &.disabled .field-container {
+      @include bg-transparent();
+    }
+
+    &:focus-within {
+      .field-container {
+        @include bg-transparent();
+      }
+    }
+  }
+
+  &:hover {
+    .field-container {
+      @include border-slate-90();
+    }
+  }
+
+  &:focus-within,
+  &.readonly:focus-within,
+  &.is-active {
+    .field-container {
+      @include border-azure-60();
+      @include shadow();
+    }
+  }
+
+  // Include error styles
+  @include ids-input-message-styles();
+
+  // Alternate Color Variant (used in IdsHeader)
+  &.color-variant-alternate {
+    .field-container {
+      @include border-transparent();
+      @include text-white();
+
+      background-color: rgba(71 71 76 / 0.3);
+      border-bottom: 1px solid rgba(62 62 66 / 0.7);
+    }
+
+    .ids-input-field::placeholder {
+      color: rgba(255 255 255 / 0.7);
+    }
+  }
+}
+
+.ids-input[version='new'][mode='dark'] {
+  .field-container {
+    @include bg-transparent();
+    @include border-slate-40();
+    @include text-white();
+  }
+
+  &.disabled {
+    .field-container {
+      @include border-slate-60();
+      @include text-slate-60();
+    }
+  }
+
+  &.readonly {
+    .field-container {
+      @include border-slate-40();
+      @include text-slate-10();
+    }
+
+    &:not(.readonly-background):not(.bg-transparent) {
+      .field-container,
+      &.hover .field-container,
+      &.focus-within .field-container {
+        @include bg-slate-70();
+      }
+    }
+  }
+
+  &.bg-transparent {
+    .field-container {
+      @include bg-transparent();
+    }
+  }
+
+  &:focus-within,
+  &.is-active {
+    .field-container {
+      @include border-azure-60();
+    }
+  }
+
+  // Include error styles
+  @include ids-input-message-styles();
+
+  &.color-variant-alternate,
+  &.color-variant-app-menu {
+    .field-container {
+      @include text-white();
+    }
+  }
+
+  // Alternate Color Variant (used in IdsHeader)
+  &.color-variant-alternate {
+    .field-container {
+      @include border-transparent();
+
+      background-color: rgba(71 71 76 / 0.3);
+      border-bottom: 1px solid rgba(62 62 66 / 0.7);
+    }
+
+    .ids-input-field::placeholder {
+      color: rgba(255 255 255 / 0.7);
+    }
+  }
+}
+
+.ids-input[version='new'][mode='contrast'] {
+  .field-container {
+    @include bg-white();
+    @include border-slate-40();
+    @include text-black();
+  }
+
+  &.disabled {
+    .field-container {
+      @include border-slate-30();
+      @include text-slate-30();
+    }
+  }
+
+  &.readonly {
+    .field-container {
       @include border-slate-40();
       @include text-slate-100();
     }
 
-    &.bg-transparent {
+    &:not(.readonly-background):not(.bg-transparent) {
+      .field-container,
+      &.hover .field-container,
+      &.focus-within .field-container {
+        @include bg-slate-20();
+      }
+    }
+  }
+
+  &.bg-transparent {
+    .field-container {
       @include bg-transparent();
     }
+  }
 
-    &:focus {
+  &:focus-within,
+  &.is-active {
+    .field-container {
       @include border-azure-90();
     }
   }
 
+  // Include error styles
+  @include ids-input-message-styles();
+
   &.color-variant-alternate,
   &.color-variant-app-menu {
-    .ids-input-field {
+    .field-container {
       @include text-white();
+    }
+  }
+
+  // Alternate Color Variant (used in IdsHeader)
+  &.color-variant-alternate {
+    .field-container {
+      @include border-transparent();
+
+      background-color: rgba(71 71 76 / 0.3);
+      border-bottom: 1px solid rgba(62 62 66 / 0.7);
+    }
+
+    .ids-input-field::placeholder {
+      color: rgba(255 255 255 / 0.7);
     }
   }
 }
 
 .ids-input[version='classic'][mode='light'] {
-  .ids-input-field {
+  .field-container {
     @include bg-transparent();
     @include border-graphite-40();
     @include text-graphite-100();
+  }
 
-    &[disabled] {
+  &.disabled {
+    .field-container {
       @include border-graphite-30();
       @include text-graphite-40();
     }
+  }
 
-    &[readonly] {
+  &.readonly {
+    .field-container {
       @include bg-graphite-20();
       @include border-graphite-40();
       @include text-classic-slate-100();
     }
+  }
 
-    &.bg-transparent {
+  &.bg-transparent {
+    .field-container {
       @include bg-transparent();
     }
+  }
 
-    &:focus {
+  &:focus-within,
+  &.is-active {
+    .field-container {
       @include border-azure-60();
     }
   }
 
+  // Include error styles
+  @include ids-input-message-styles();
+
+  // Alternate Color Variant
   &.color-variant-alternate {
-    .ids-input-field {
+    .field-container {
       @include text-white();
     }
   }
 }
 
-.ids-input[version='classic'][mode='dark'] .ids-input-field {
-  @include bg-transparent();
-  @include border-slate-40();
-  @include text-white();
-
-  &[disabled] {
-    @include border-classic-slate-40();
-    @include text-classic-slate-50();
-  }
-
-  &[readonly] {
-    @include bg-classic-slate-60();
-    @include border-classic-slate-40();
+.ids-input[version='classic'][mode='dark'] {
+  .field-container {
+    @include bg-transparent();
+    @include border-slate-40();
     @include text-white();
   }
 
-  &.bg-transparent {
-    @include bg-transparent();
+  &.disabled {
+    .field-container {
+      @include border-classic-slate-40();
+      @include text-classic-slate-50();
+    }
   }
 
-  &:focus {
-    @include border-azure-60();
-  }
-}
-
-.ids-input[version='classic'][mode='contrast'] {
-  &.color-variant-alternate {
-    .ids-input-field {
+  &.readonly {
+    .field-container {
+      @include bg-classic-slate-60();
+      @include border-classic-slate-40();
       @include text-white();
     }
   }
 
-  .ids-input-field {
+  &.bg-transparent {
+    .field-container {
+      @include bg-transparent();
+    }
+  }
+
+  &:focus-within,
+  &.is-active {
+    .field-container {
+      @include border-azure-60();
+    }
+  }
+
+  // Include error styles
+  @include ids-input-message-styles();
+}
+
+.ids-input[version='classic'][mode='contrast'] {
+  .field-container {
     @include bg-white();
     @include border-graphite-80();
     @include text-graphite-100();
+  }
 
-    &[disabled] {
+  &.disabled {
+    .field-container {
       @include bg-transparent();
       @include border-slate-50();
       @include text-graphite-80();
     }
+  }
 
-    &[readonly] {
+  &.readonly {
+    .field-container {
       @include bg-slate-30();
       @include border-slate-80();
       @include text-graphite-100();
     }
+  }
 
-    &.bg-transparent {
+  &.bg-transparent {
+    .field-container {
       @include bg-transparent();
     }
+  }
 
-    &:focus,
-    &:focus[readonly] {
+  &:focus-within,
+  &:focus-within[readonly],
+  &.is-active {
+    .field-container {
       @include border-azure-60();
+    }
+  }
+
+  // Include error styles
+  @include ids-input-message-styles();
+
+  // Alternate Color Variant
+  &.color-variant-alternate {
+    .field-container {
+      @include text-white();
     }
   }
 }
 
-.inline-indicators {
-  position: absolute;
-  display: flex;
-  outline: 0;
-  right: 8px;
-  margin-top: -15px;
-
-  .show-hide-password {
-    &::part(button) {
-      padding: 0;
-    }
-  }
-
-  .caps-lock-indicator {
-    padding-left: 8px;
-  }
+.caps-lock-indicator {
+  @include px-8();
 }

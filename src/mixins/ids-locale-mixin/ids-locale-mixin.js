@@ -1,4 +1,5 @@
 import { attributes } from '../../core/ids-attributes';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 const IdsLocaleMixin = (superclass) => class extends superclass {
   constructor() {
@@ -10,7 +11,11 @@ const IdsLocaleMixin = (superclass) => class extends superclass {
 
   connectedCallback() {
     this.offEvent('languagechange.mixin');
-    this.onEvent('languagechange.mixin', this.closest('ids-container'), () => {
+    this.onEvent('languagechange.mixin', getClosest(this, 'ids-container'), () => {
+      this.setDirection();
+    });
+    this.offEvent('localechange.mixin');
+    this.onEvent('localechange.mixin', getClosest(this, 'ids-container'), () => {
       this.setDirection();
     });
     super.connectedCallback?.();
@@ -44,8 +49,10 @@ const IdsLocaleMixin = (superclass) => class extends superclass {
   setDirection() {
     if (this.locale?.isRTL()) {
       this.setAttribute('dir', 'rtl');
+      this.container.classList.add('rtl');
     } else {
       this.removeAttribute('dir');
+      this.container.classList.remove('rtl');
     }
   }
 

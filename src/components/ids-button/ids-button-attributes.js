@@ -23,18 +23,19 @@ const BUTTON_DEFAULTS = {
 // Definable attributes
 const BUTTON_ATTRIBUTES = [
   attributes.CSS_CLASS,
-  attributes.COLOR_VARIANT,
   attributes.DISABLED,
   attributes.HIDDEN,
   attributes.ICON,
   attributes.ICON_ALIGN,
   attributes.ID,
   attributes.NO_PADDING,
+  attributes.NO_MARGINS,
   attributes.NO_RIPPLE,
   attributes.SQUARE,
   attributes.TEXT,
   attributes.TYPE,
-  attributes.TABINDEX
+  attributes.TABINDEX,
+  attributes.WIDTH
 ];
 
 // Icon alignments

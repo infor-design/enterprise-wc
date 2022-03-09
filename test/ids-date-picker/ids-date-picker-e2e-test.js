@@ -15,7 +15,7 @@ describe('Ids Date Picker e2e Tests', () => {
     await expect(page).toPassAxeTests();
   });
 
-  it('should handle calendar popup events', async () => {
+  it.only('should handle calendar popup events', async () => {
     // Closed before
     let isOpen = await page.$eval('#e2e-datepicker-value', (el) =>
       el.shadowRoot.querySelector('ids-popup')?.visible);
@@ -29,7 +29,6 @@ describe('Ids Date Picker e2e Tests', () => {
     isOpen = await page.$eval('#e2e-datepicker-value', (el) =>
       el.shadowRoot.querySelector('ids-popup')?.visible);
 
-    await page.waitForTimeout(200);
     expect(isOpen).toBeTruthy();
 
     // Click to itself
@@ -52,7 +51,7 @@ describe('Ids Date Picker e2e Tests', () => {
     expect(isOpen).toBeFalsy();
 
     // Keyboard
-    const input = await page.evaluateHandle('document.querySelector("#e2e-datepicker-value").shadowRoot.querySelector("ids-input")');
+    const input = await page.evaluateHandle('document.querySelector("#e2e-datepicker-value")');
     await input?.focus();
     await page.keyboard.press('ArrowDown');
 

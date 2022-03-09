@@ -137,6 +137,7 @@ export const attributes = {
   LABEL_FILETYPE: 'label-filetype',
   LABEL_HIDDEN: 'label-hidden',
   LABEL_POSITION: 'label-position',
+  LABEL_STATE: 'label-state',
   LABEL_PROGRESS: 'label-progress',
   LABEL_REQUIRED: 'label-required',
   LABEL_TOTAL: 'label-total',
@@ -213,6 +214,7 @@ export const attributes = {
   PROGRESS_BAR: 'progress-bar',
   PROGRESS_COLOR: 'progress-color',
   READONLY: 'readonly',
+  READONLY_BACKGROUND: 'readonly-background',
   REQUIRED: 'required',
   RESET: 'reset',
   RESIZABLE: 'resizable',
@@ -308,7 +310,17 @@ export const attributes = {
   Y_AXIS_MIN: 'y-axis-min',
   YEAR: 'year'
 };
+
+// Standard HTMLElement attribute names
 // Please keep constants alphabetized
+export const htmlAttributes = {
+  ARIA_LABEL: 'aria-label',
+  ARIA_VALUEMAX: 'aria-valuemax',
+  ARIA_VALUEMIN: 'aria-valuemin',
+  ARIA_VALUENOW: 'aria-valuenow',
+  ROLE: 'role',
+  TABINDEX: 'tabIndex'
+};
 
 export const prefix = {
   PREFIX: 'ids'
@@ -323,4 +335,4 @@ export const breakpoints = {
   xs: '360px'
 };
 
-export const version = '0.0.0-beta.18';
+export const version = '0.0.0-beta.19';

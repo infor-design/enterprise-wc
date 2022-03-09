@@ -103,7 +103,7 @@ describe('IdsInput Component', () => {
     expect(input.getAttribute('caps-lock')).toBe('true');
     const capslockEvent = new KeyboardEvent('keyup', { key: 'w', modifierCapsLock: true });
     input.input.dispatchEvent(capslockEvent);
-    expect(input.shadowRoot.querySelector('#caps-lock-indicator')).toBeTruthy();
+    expect(input.capsLockIcon).toBeDefined();
   });
 
   it('renders field type of number', () => {
@@ -114,13 +114,15 @@ describe('IdsInput Component', () => {
 
   it('should set compact mode', () => {
     const className = 'compact';
-    expect(input.compact).toEqual(null);
+    expect(input.hasAttribute('compact')).toBeFalsy();
     expect(input.container.classList).not.toContain(className);
+
     input.compact = true;
-    expect(input.compact).toEqual('true');
+    expect(input.hasAttribute('compact')).toBeTruthy();
     expect(input.container.classList).toContain(className);
+
     input.compact = false;
-    expect(input.compact).toEqual(null);
+    expect(input.hasAttribute('compact')).toBeFalsy();
     expect(input.container.classList).not.toContain(className);
   });
 
@@ -132,8 +134,6 @@ describe('IdsInput Component', () => {
     const template = document.createElement('template');
     template.innerHTML = '<ids-input label="Hello World"></ids-input>';
     const elem = template.content.childNodes[0];
-    document.body.appendChild(elem);
-
     document.body.appendChild(elem);
     input = document.querySelector('ids-input');
     expect(input.labelEl.textContent.trim()).toBe('Hello World');
@@ -167,35 +167,39 @@ describe('IdsInput Component', () => {
   it('should render an error on blur for required', async () => {
     expect(input.container.querySelector('.validation-message')).toBeFalsy();
     input.validate = 'required';
-    input.input.focus();
+    input.focus();
     input.value = '';
-    input.input.blur();
+    input.blur();
     await processAnimFrame();
     expect(input.container.querySelector('.validation-message')).toBeTruthy();
   });
 
-  it('should have an input with "aria-label" set when label-hidden '
+  it('should have an input with "aria-label" set when label-state="hidden" or "collapsed" '
   + 'is flagged and a label exists, then toggles this by unsetting it', async () => {
-    input.labelHidden = true;
-    expect(input.labelHidden).toBeTruthy();
+    input.labelState = 'hidden';
+    expect(input.labelState).toBeTruthy();
     await processAnimFrame();
 
-    expect(input.shadowRoot.querySelector('label')).toBeFalsy();
     expect(input.input.getAttribute('aria-label')?.length).toBeGreaterThan(0);
 
-    input.labelHidden = false;
-    expect(input.labelHidden).toBeFalsy();
+    input.labelState = null;
+    expect(input.labelState).toBeFalsy();
     await processAnimFrame();
 
-    expect(input.shadowRoot.querySelector('label')).toBeTruthy();
     expect(input.input.hasAttribute('aria-label')).toBeFalsy();
+
+    input.labelState = 'collapsed';
+    expect(input.labelState).toBeTruthy();
+    await processAnimFrame();
+
+    expect(input.input.getAttribute('aria-label')?.length).toBeGreaterThan(0);
   });
 
-  it('renders label-hidden from a template with no issues', async () => {
+  it('renders label-state from a template with no issues', async () => {
     const errors = jest.spyOn(global.console, 'error');
 
     const template = document.createElement('template');
-    template.innerHTML = '<ids-input label="testing input" label-hidden="true"></ids-input>';
+    template.innerHTML = '<ids-input label="testing input" label-state="hidden"></ids-input>';
 
     input = template.content.childNodes[0];
     document.body.appendChild(input);
@@ -203,45 +207,13 @@ describe('IdsInput Component', () => {
 
     expect(errors).not.toHaveBeenCalled();
 
-    template.innerHTML = '<ids-input label-hidden="true"></ids-input>';
+    template.innerHTML = '<ids-input label="testing input" label-state="collapsed"></ids-input>';
 
     input = template.content.childNodes[0];
     document.body.appendChild(input);
     await processAnimFrame();
 
     expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('should be able to assign an external label element via setLabelElement '
-  + 'setter', async () => {
-    input.label = undefined;
-    input.render();
-    await processAnimFrame();
-
-    const newLabelTemplate = document.createElement('template');
-    newLabelTemplate.innerHTML = '<label>random external label</label>';
-    const newLabel = newLabelTemplate.content.childNodes[0];
-    input.setLabelElement(newLabel);
-    await processAnimFrame();
-
-    expect(input.shadowRoot.querySelector('label')).toBeFalsy();
-  });
-
-  it('sets the label text of an external label element', async () => {
-    input.label = undefined;
-    input.render();
-    await processAnimFrame();
-
-    const newLabelTemplate = document.createElement('template');
-    newLabelTemplate.innerHTML = '<label>random external label</label>';
-    const newLabel = newLabelTemplate.content.childNodes[0];
-    input.setLabelElement(newLabel);
-    input.setLabelText('a new label');
-    await processAnimFrame();
-    expect(newLabel.innerHTML).toEqual('a new label');
-    input.setLabelText(undefined);
-    await processAnimFrame();
-    expect(newLabel.innerHTML).toEqual('');
   });
 
   it('should set value', () => {
@@ -452,7 +424,7 @@ describe('IdsInput Component', () => {
   it('should render clearable icon', () => {
     input.clearable = true;
     expect(input.getAttribute('clearable')).toEqual('true');
-    expect(input.input.classList).toContain('has-clearable');
+    expect(input.container.classList).toContain('has-clearable');
     expect(input.shadowRoot.querySelector('.btn-clear').classList).toContain('is-empty');
     input.input.focus();
     input.value = 'test';
@@ -463,15 +435,15 @@ describe('IdsInput Component', () => {
     expect(input.value).toEqual('');
     input.clearable = false;
     expect(input.getAttribute('clearable')).toEqual(null);
-    expect(input.input.classList).not.toContain('has-clearable');
+    expect(input.container.classList).not.toContain('has-clearable');
   });
 
   it('should render clearable-forced icon', () => {
     expect(input.getAttribute('clearable-forced')).toEqual(null);
-    expect(input.input.classList).not.toContain('has-clearable');
+    expect(input.container.classList).not.toContain('has-clearable');
     input.clearableForced = true;
     expect(input.getAttribute('clearable-forced')).toEqual('true');
-    expect(input.input.classList).toContain('has-clearable');
+    expect(input.container.classList).toContain('has-clearable');
     expect(input.shadowRoot.querySelector('.btn-clear').classList).toContain('is-empty');
     input.input.focus();
     input.value = 'test';
@@ -487,7 +459,7 @@ describe('IdsInput Component', () => {
     expect(input.value).toEqual('');
     input.clearableForced = false;
     expect(input.getAttribute('clearable-forced')).toEqual(null);
-    expect(input.input.classList).not.toContain('has-clearable');
+    expect(input.container.classList).not.toContain('has-clearable');
   });
 
   it('should clear on click', () => {
@@ -513,16 +485,6 @@ describe('IdsInput Component', () => {
     input.removeClearableButton();
     input.clearable = false;
     expect(input.shadowRoot.querySelector('.btn-clear')).toBeFalsy();
-  });
-
-  it('should renders triggerfield', () => {
-    input.triggerfield = true;
-    input.value = 'test';
-    expect(input.getAttribute('triggerfield')).toEqual('true');
-    expect(input.input.classList).toContain('has-triggerfield');
-    input.triggerfield = false;
-    expect(input.getAttribute('triggerfield')).toEqual(null);
-    expect(input.input.classList).not.toContain('has-triggerfield');
   });
 
   it('should clear field', () => {
@@ -592,7 +554,7 @@ describe('IdsInput Component', () => {
     expect(input.container.classList).toContain(size);
   });
 
-  it('should rendr input sizes', () => {
+  it('should render input sizes', () => {
     const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
     const checkSize = (size) => {
       input.size = size;
@@ -607,7 +569,7 @@ describe('IdsInput Component', () => {
     sizes.forEach((s) => checkSize(s));
   });
 
-  it('should not set wrong field height', () => {
+  it('should not set wrong input field height', () => {
     const className = (h) => `field-height-${h}`;
     input.fieldHeight = 'test';
     expect(input.getAttribute('field-height')).toEqual(null);
@@ -619,7 +581,7 @@ describe('IdsInput Component', () => {
     expect(input.container.classList).toContain(className(fieldHeight));
   });
 
-  it('should rendr input field height', () => {
+  it('should render input field height', () => {
     const heights = ['xs', 'sm', 'md', 'lg'];
     const defaultHeight = 'md';
     const className = (h) => `field-height-${h}`;
@@ -637,6 +599,39 @@ describe('IdsInput Component', () => {
     });
     expect(input.container.classList).toContain(className(defaultHeight));
     heights.forEach((h) => checkHeight(h));
+  });
+
+  it('can set "compact" mode', () => {
+    input.compact = true;
+
+    expect(input.hasAttribute('compact')).toBeTruthy();
+    expect(input.container.classList.contains('compact')).toBeTruthy();
+
+    input.compact = false;
+
+    expect(input.hasAttribute('compact')).toBeFalsy();
+    expect(input.container.classList.contains('compact')).toBeFalsy();
+  });
+
+  it('cannot have both a "compact" and "field-height" setting applied', () => {
+    input.compact = true;
+
+    expect(input.hasAttribute('compact')).toBeTruthy();
+    expect(input.container.classList.contains('compact')).toBeTruthy();
+
+    input.fieldHeight = 'xs';
+
+    expect(input.hasAttribute('compact')).toBeFalsy();
+    expect(input.container.classList.contains('compact')).toBeFalsy();
+    expect(input.getAttribute('field-height')).toEqual('xs');
+    expect(input.container.classList.contains('field-height-xs')).toBeTruthy();
+
+    input.compact = true;
+
+    expect(input.hasAttribute('compact')).toBeTruthy();
+    expect(input.container.classList.contains('compact')).toBeTruthy();
+    expect(input.hasAttribute('field-height')).toBeFalsy();
+    expect(input.container.classList.contains('field-height-xs')).toBeFalsy();
   });
 
   it('supports setting mode', () => {
@@ -658,21 +653,24 @@ describe('IdsInput Component', () => {
   it('supports setting noMargins', () => {
     input.noMargins = true;
     expect(input.noMargins).toEqual(true);
-    expect(input.container.querySelector('input').classList.contains('no-margin')).toEqual(true);
-    expect(input.getAttribute('no-margins')).toEqual('true');
+    expect(input.container.classList.contains('no-margins')).toEqual(true);
+    expect(input.hasAttribute('no-margins')).toBeTruthy();
 
     input.noMargins = false;
     expect(input.noMargins).toEqual(false);
-    expect(input.getAttribute('no-margins')).toBeFalsy();
+    expect(input.hasAttribute('no-margins')).toBeFalsy();
   });
 
-  it('can focus its inner Input element', () => {
+  it('focuses its inner HTMLInputElement when the host element becomes focused', () => {
     input.focus();
     expect(document.activeElement).toEqual(input);
   });
 
-  it('can have tabbablity turned off', () => {
-    input.tabbable = false;
-    expect(input.tabIndex).toEqual(-1);
+  it('focuses its inner HTMLInputElement when its label is clicked', async () => {
+    const labelEl = input.container.querySelector('label');
+    labelEl.click();
+    await processAnimFrame();
+
+    expect(input.input.isEqualNode(input.shadowRoot.activeElement));
   });
 });

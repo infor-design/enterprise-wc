@@ -1,0 +1,27 @@
+---
+ component: Button
+ link: ids-button
+ description: Simple HTMLButtonElement
+ category: Navigation and Interaction
+ keywords: HTMLButtonElement, Button, Click
+ examples:
+  - link: index.html
+    description: Shows most available buttons
+  - link: button.html
+    description: Shows form buttons
+  - link: disabled-button.html
+    description: Shows disabled buttons
+  - link: icon-button-align-right.html
+    description: Shows an icon aligned to the right of text
+  - link: icon-button.html
+    description: Shows icon buttons
+  - link: performance.html
+    description: Test performance of many buttons
+  - link: side-by-side.html
+    description: Showing an button with a 4.x button
+  - link: standalone-css.html
+    description: Showing a button that works with css only
+  - link: test-fallback-slot.html
+    description: Showing a button with an unamed slot working
+  - link: responsive.html
+    description: Showing a button width setting

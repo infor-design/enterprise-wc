@@ -3,7 +3,7 @@
  */
 import IdsSwapList from '../../src/components/ids-swaplist/ids-swaplist';
 import IdsListView from '../../src/components/ids-list-view/ids-list-view';
-import dataset from '../../demos/data/periods.json';
+import dataset from '../../src/assets/data/periods.json';
 
 const HTMLSnippets = {
   SWAPLIST_COMPONENT: (

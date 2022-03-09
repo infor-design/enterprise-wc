@@ -106,7 +106,6 @@ describe('IdsButton Component', () => {
     await container.setLanguage('ar');
     await processAnimFrame();
     expect(btn.locale.isRTL()).toEqual(true);
-    expect(btn.container.classList.contains('rtl')).toBeTruthy();
   });
 
   it('can be focusable or not', () => {
@@ -293,6 +292,22 @@ describe('IdsButton Component', () => {
     btn.iconAlign = 'end';
 
     expect(btn.text).toEqual('New');
+  });
+
+  it('can set width', () => {
+    // with pixels
+    const pixelWidth = '200px';
+    btn.width = pixelWidth;
+    expect(btn.width).toEqual(pixelWidth);
+    expect(btn.style.width).toEqual('');
+    expect(btn.button.style.width).toEqual(pixelWidth);
+
+    // with percentage
+    const percentWidth = '90%';
+    btn.width = percentWidth;
+    expect(btn.width).toEqual(percentWidth);
+    expect(btn.style.width).toEqual(percentWidth);
+    expect(btn.button.style.width).toEqual('');
   });
 
   describe('Ripple effect tests', () => {

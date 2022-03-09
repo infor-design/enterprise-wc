@@ -54,8 +54,6 @@ class IdsDatePicker extends Base {
    * Elements for internal usage
    * @private
    */
-  #input = this.container.querySelector('ids-input');
-
   #monthView = this.container.querySelector('ids-month-view');
 
   #popup = this.container.querySelector('ids-popup');
@@ -109,6 +107,8 @@ class IdsDatePicker extends Base {
       this.isDropdown && 'is-dropdown'
     );
 
+    // <ids-text audible="true" translate-text="true">UseArrow</ids-text>
+
     return `
       <div ${classAttr} ${this.isCalendarToolbar ? ' tabindex="0"' : ''} part="container">
         ${this.isCalendarToolbar ? `
@@ -130,20 +130,15 @@ class IdsDatePicker extends Base {
         ${(!(this.isDropdown || this.isCalendarToolbar)) ? `
           <ids-trigger-field
             part="trigger-field"
+            mask="date"
             ${this.id ? `id="${this.id}"` : ''}
             ${this.label ? `label="${this.label}"` : ''}
+            placeholder="${this.placeholder}"
             size="${this.size}"
             ${this.validate ? `validate="${this.validate}"` : ''}
+            value="${this.value}"
           >
-            <ids-text audible="true" translate-text="true">UseArrow</ids-text>
-            <ids-input
-              part="input"
-              type="text"
-              value="${this.value}"
-              placeholder="${this.placeholder}"
-              mask="date"
-            ></ids-input>
-            <ids-trigger-button part="trigger-button">
+            <ids-trigger-button slot="trigger-end" part="trigger-button">
               <ids-text audible="true" translate-text="true">DatePickerTriggerButton</ids-text>
               <ids-icon part="icon" slot="icon" icon="schedule"></ids-icon>
             </ids-trigger-button>
@@ -184,6 +179,13 @@ class IdsDatePicker extends Base {
   }
 
   /**
+   * @returns {IdsPopup} reference to the Popup component
+   */
+  get popup() {
+    return this.#popup;
+  }
+
+  /**
    * Click event is propagated to the window.
    * @param {PointerEvent} e native pointer event
    * @returns {void}
@@ -221,7 +223,7 @@ class IdsDatePicker extends Base {
       this.onEvent('dayselected.date-picker', this.#monthView, (e) => {
         if (!this.isCalendarToolbar) {
           this.value = this.locale.formatDate(e.detail.date);
-          this.#input?.focus();
+          this.#triggerField?.focus();
         }
 
         this.#togglePopup(false);
@@ -234,7 +236,7 @@ class IdsDatePicker extends Base {
 
         if (!this.isCalendarToolbar) {
           this.value = '';
-          this.#input?.focus();
+          this.#triggerField?.focus();
           this.#triggerSelectedEvent();
         }
 
@@ -249,7 +251,7 @@ class IdsDatePicker extends Base {
 
         this.value = this.locale.formatDate(new Date(year, month, day));
         this.#togglePopup(false);
-        this.#input?.focus();
+        this.#triggerField?.focus();
         this.#triggerSelectedEvent();
       });
     }
@@ -285,7 +287,7 @@ class IdsDatePicker extends Base {
       this.#attachMonthView();
 
       this.#popup.visible = true;
-      this.#popup.alignTarget = this.isCalendarToolbar ? this.container : this.#input;
+      this.#popup.alignTarget = this.isCalendarToolbar ? this.container : this.#triggerField;
       this.#popup.arrowTarget = this.#triggerButton;
       this.#popup.align = 'bottom, left';
       this.#popup.arrow = 'bottom';
@@ -342,9 +344,9 @@ class IdsDatePicker extends Base {
   #applyMask() {
     const format = this.format === 'locale' ? this.locale.calendar().dateFormat.short : this.format;
 
-    if (this.#input) {
-      this.#input.maskOptions = { format };
-      this.#input.value = this.value;
+    if (this.#triggerField) {
+      this.#triggerField.maskOptions = { format };
+      this.#triggerField.value = this.value;
     }
   }
 
@@ -368,7 +370,7 @@ class IdsDatePicker extends Base {
 
     if (!this.disabled && !this.readonly) {
       this.setAttribute(attributes.VALUE, val);
-      this.#input?.setAttribute(attributes.VALUE, val);
+      this.#triggerField?.setAttribute(attributes.VALUE, val);
 
       if (textEl) {
         textEl.innerText = val;
@@ -395,10 +397,10 @@ class IdsDatePicker extends Base {
   set placeholder(val) {
     if (val) {
       this.setAttribute(attributes.PLACEHOLDER, val);
-      this.#input?.setAttribute(attributes.PLACEHOLDER, val);
+      this.#triggerField?.setAttribute(attributes.PLACEHOLDER, val);
     } else {
       this.removeAttribute(attributes.PLACEHOLDER);
-      this.#input?.removeAttribute(attributes.PLACEHOLDER);
+      this.#triggerField?.removeAttribute(attributes.PLACEHOLDER);
     }
   }
 
@@ -470,11 +472,9 @@ class IdsDatePicker extends Base {
     if (boolVal) {
       this.setAttribute(attributes.READONLY, boolVal);
       this.#triggerField?.setAttribute(attributes.READONLY, boolVal);
-      this.#input?.setAttribute(attributes.READONLY, boolVal);
     } else {
       this.removeAttribute(attributes.READONLY);
       this.#triggerField?.removeAttribute(attributes.READONLY);
-      this.#input?.removeAttribute(attributes.READONLY);
     }
   }
 
@@ -510,7 +510,7 @@ class IdsDatePicker extends Base {
    */
   set tabbable(val) {
     this.setAttribute(attributes.TABBABLE, val);
-    this.#triggerField?.setAttribute(attributes.TABBABLE, val);
+    this.#triggerButton?.setAttribute(attributes.TABBABLE, val);
   }
 
   /**
@@ -570,10 +570,10 @@ class IdsDatePicker extends Base {
   set validationEvents(val) {
     if (val) {
       this.setAttribute(attributes.VALIDATION_EVENTS, val);
-      this.#input?.setAttribute(attributes.VALIDATION_EVENTS, val);
+      this.#triggerField?.setAttribute(attributes.VALIDATION_EVENTS, val);
     } else {
       this.removeAttribute(attributes.VALIDATION_EVENTS);
-      this.#input?.removeAttribute(attributes.VALIDATION_EVENTS);
+      this.#triggerField?.removeAttribute(attributes.VALIDATION_EVENTS);
     }
   }
 
@@ -756,6 +756,13 @@ class IdsDatePicker extends Base {
     } else {
       this.removeAttribute(attributes.DAY);
     }
+  }
+
+  /**
+   * Overrides the standard "focus" behavior to instead pass focus to the inner IdsTriggerField element.
+   */
+  focus() {
+    this.#triggerField.focus();
   }
 
   /**

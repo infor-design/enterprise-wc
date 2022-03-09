@@ -88,7 +88,7 @@ const IdsColorVariantMixin = (superclass) => class extends superclass {
 
     // Fire optional callback
     if (typeof this.onColorVariantRefresh === 'function') {
-      this.onColorVariantRefresh();
+      this.onColorVariantRefresh(newVariantName);
     }
   }
 };

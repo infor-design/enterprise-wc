@@ -112,4 +112,12 @@ describe('IdsAlert Component', () => {
     el.version = 'classic';
     expect(el.container.getAttribute('version')).toEqual('classic');
   });
+
+  it('supports setting size', () => {
+    expect(el.size).toEqual('normal');
+    el.size = 'small';
+    expect(el.size).toEqual('small');
+    el.size = '';
+    expect(el.size).toEqual('normal');
+  });
 });

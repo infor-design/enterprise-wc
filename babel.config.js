@@ -10,7 +10,9 @@ module.exports = (api) => {
   ];
 
   // Instrument code for e2e test coverage
-  if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+  const argv = process.argv.findIndex((el) => el.includes('coverage'));
+  if (argv !== -1) {
+    console.info('Instrumenting For Code Coverage');
     plugins.push(['istanbul', {
       coverageGlobalScopeFunc: false,
       coverageGlobalScope: 'window'

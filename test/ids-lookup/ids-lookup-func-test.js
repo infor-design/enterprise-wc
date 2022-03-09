@@ -8,7 +8,7 @@ import IdsLookup from '../../src/components/ids-lookup/ids-lookup';
 import ResizeObserver from '../helpers/resize-observer-mock';
 import createFromTemplate from '../helpers/create-from-template';
 import waitFor from '../helpers/wait-for';
-import dataset from '../../demos/data/books.json';
+import dataset from '../../src/assets/data/books.json';
 
 describe('IdsLookup Component', () => {
   let lookup;
@@ -107,20 +107,20 @@ describe('IdsLookup Component', () => {
   });
 
   it('should be able to set label', () => {
-    expect(lookup.shadowRoot.querySelector('ids-input').getAttribute('label')).toEqual('Normal Lookup');
+    expect(lookup.triggerField.label).toEqual('Normal Lookup');
     expect(lookup.label).toEqual('Normal Lookup');
     lookup.label = 'Test New Label';
-    expect(lookup.shadowRoot.querySelector('ids-input').getAttribute('label')).toEqual('Test New Label');
+    expect(lookup.triggerField.label).toEqual('Test New Label');
     expect(lookup.label).toEqual('Test New Label');
     lookup.label = '';
-    expect(lookup.shadowRoot.querySelector('ids-input').getAttribute('label')).toEqual(null);
+    expect(lookup.triggerField.label).toEqual('');
     expect(lookup.label).toEqual('');
   });
 
   it('should be able to set value', () => {
     lookup.value = '218901';
     expect(lookup.value).toEqual('218901');
-    expect(lookup.input.value).toEqual('218901');
+    expect(lookup.triggerField.value).toEqual('218901');
   });
 
   it('should be able to set readonly with the property', () => {
@@ -213,7 +213,7 @@ describe('IdsLookup Component', () => {
       expect(e.detail.value).toEqual('218902');
     });
     lookup.value = '218902';
-    expect(lookup.input.value).toEqual('218902');
+    expect(lookup.triggerField.value).toEqual('218902');
   });
 
   it('should open on click and close on the modal buttons', async () => {
@@ -310,15 +310,14 @@ describe('IdsLookup Component', () => {
 
     document.querySelector('ids-lookup').validate = 'required';
     const triggerElem = lookup.shadowRoot.querySelector('ids-trigger-field');
-    const inputElem = lookup.shadowRoot.querySelector('ids-input');
     expect(triggerElem.getAttribute('validate')).toEqual('required');
     expect(triggerElem.getAttribute('validation-events')).toEqual('change blur');
-    expect(inputElem.labelEl).not.toEqual(undefined);
+    expect(triggerElem.labelEl).not.toEqual(undefined);
 
     document.querySelector('ids-lookup').validate = '';
     expect(triggerElem.getAttribute('validate')).toEqual(null);
     expect(triggerElem.getAttribute('validation-events')).toEqual(null);
-    expect(inputElem.labelEl).not.toEqual(undefined);
+    expect(triggerElem.labelEl).not.toEqual(undefined);
 
     expect(lookup.getAttribute('validate')).toEqual(null);
   });
