@@ -3,6 +3,7 @@
 .ids-swaplist {
   @include flex();
 
+  box-shadow: rgba(0 0 0 / 0.1) 3px 0 8px;
   flex-direction: row;
 }
 
@@ -115,7 +116,7 @@ ids-card {
 
       border-left: 1px solid var(--ids-color-palette-slate-30);
       border-right: none;
-      box-shadow: rgba(0 0 0 / 0.1) 3px 0 8px;
+      box-shadow: none;
     }
   }
 
