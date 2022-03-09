@@ -104,10 +104,18 @@ ids-button {
 }
 
 ids-card {
-  width: 33.33%;
+  flex: 1;
 
   &::part(card) {
     @include mb-0();
+  }
+
+  &::part(header) {
+    border-bottom: 1px solid var(--ids-color-palette-slate-30);
+  }
+
+  div[slot='card-content'] {
+    height: calc(100% - 11px);
   }
 
   &.card {
@@ -135,13 +143,5 @@ ids-card {
 
       border: 1px solid var(--ids-color-palette-slate-30);
     }
-  }
-
-  &::part(header) {
-    border-bottom: 1px solid var(--ids-color-palette-slate-30);
-  }
-
-  div[slot='card-content'] {
-    height: calc(100% - 11px);
   }
 }
