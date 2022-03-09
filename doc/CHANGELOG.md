@@ -22,13 +22,7 @@ For more details on breaking changes see each component in the individual README
 - `[Counts]` The counts component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-counts/README.md#converting-from-previous-versions for details. ([#123](https://github.com/infor-design/enterprise-wc/issues/123))
 - `[Counts]` The counts component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-data-grid/README.md#converting-from-previous-versions for details. ([#150](https://github.com/infor-design/enterprise-wc/issues/150))
 - `[Datepicker]` The date picker component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-date-picker/README.md#converting-from-previous-versions for details. ([#330](https://github.com/infor-design/enterprise-wc/issues/183))
-- `[Draggable]` The drag component is now a web component called `ids-draggable` ([#253](https://github.com/infor-design/enterprise-wc/issues/253))
-  - Markup has changed to a custom element that wraps draggable content; `<ids-draggable>content</ids-draggable>`.
-  - Bounding drag movement to a specific axis is done by passing the axis attribute as `x` or `y`.
-  - The Draggable can be contained to the first measurable parent's rectangle bounds by adding the
-  flag `parent-container`.
-  - A handle within the draggable content can be set by using the attribute `handle` as a query selector e.g. `handle=".custom-handle-class"`.
-  - Draggable events to listen for are now `ids-dragstart`, `ids-drag`, and `ids-dragend`.
+- `[Draggable]` The drag component is now a web component called `ids-draggable`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-draggable/README.md#converting-from-previous-versions for details. ([#253](https://github.com/infor-design/enterprise-wc/issues/253))
 - `[Editor]` The Editor component has been changed to a web component and renamed to ids-editor.
   - Markup has changed to a custom element `<ids-editor><div slot="content"><p>Some sample text</p></div></ids-editor>`
   - If using events, events are now plain JS events.
@@ -127,6 +121,7 @@ For more details on breaking changes see each component in the individual README
   - Splitter orientation can be set by use of `axis` settings.
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
+- `[Swappable/Arange]` The arrange component was converted to a web component and renamed to ids-swappable. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-swappable/README.mds) for details. ([#487](https://github.com/infor-design/enterprise-wc/issues/#487))
 - `[SwapList]` The swaplist component has been changed to a web component and renamed to ids-swaplist.
 - `[Switch]` The Switch component has been changed to a web component and renamed to ids-switch.
   - Markup has changed to a custom element `<ids-switch></ids-switch>`
