@@ -4,7 +4,7 @@
   <ids-layout-grid-cell>
     <ids-card auto-fit="true">
       <div slot="card-header">
-        <ids-toolbar class="primary-toolbar">
+        <ids-toolbar>
           <ids-toolbar-section type="title" favor>
             <ids-text font-size="20">Tasks</ids-text>
           </ids-toolbar-section>
@@ -17,7 +17,7 @@
         </ids-toolbar>
       </div>
       <div slot="card-content">
-        <ids-toolbar class="secondary-toolbar">
+        <ids-toolbar class="secondary with-padding">
           <ids-toolbar-section type="title" favor>
             <ids-text font-size="16">Card group action</ids-text>
           </ids-toolbar-section>
@@ -29,7 +29,7 @@
           </ids-toolbar-section>
         </ids-toolbar>
 
-        <div class="parent-container">
+        <div class="list-container">
           <ids-list-view item-height="76">
             <template>
               <ids-text font-size="16" type="h2">${subject}</ids-text>

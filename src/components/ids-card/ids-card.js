@@ -38,7 +38,6 @@ export default class IdsCard extends Base {
       attributes.ACTIONABLE,
       attributes.AUTO_FIT,
       attributes.AUTO_HEIGHT,
-      attributes.FLEX_CONTENT,
       attributes.OVERFLOW
     ];
   }

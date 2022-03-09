@@ -99,7 +99,6 @@ export const attributes = {
   FIRST: 'first',
   FIRST_DAY_OF_WEEK: 'first-day-of-week',
   FIXED: 'fixed',
-  FLEX_CONTENT: 'flex-content',
   FOCUSABLE: 'focusable',
   FONT_SIZE: 'font-size',
   FONT_WEIGHT: 'font-weight',
