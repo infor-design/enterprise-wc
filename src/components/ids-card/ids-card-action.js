@@ -14,10 +14,6 @@ export default class IdsCardAction extends Base {
     super();
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-  }
-
   /**
    * Create the Template for the contents
    * @returns {string} The Template
