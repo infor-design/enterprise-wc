@@ -79,7 +79,7 @@ export default class IdsBreadcrumb extends Base {
     elementsToRemove.forEach((elem) => this.removeChild(elem));
 
     // check if there is any element to show
-    while (totalWidth < widthLimit || this.#itemsCollapsed.length) {
+    while (totalWidth < widthLimit && this.#itemsCollapsed.length) {
       const breadCrumb = this.#itemsCollapsed.pop();
       if (totalWidth + breadCrumb.width < widthLimit) {
         totalWidth += breadCrumb.width;
@@ -95,6 +95,13 @@ export default class IdsBreadcrumb extends Base {
       .reduce((prev, cur) => `${prev}<ids-menu-item>${cur}</ids-menu-item>`, '');
 
     this.container.querySelector('ids-menu-group').innerHTML = menuStr;
+
+    if (this.#itemsCollapsed.length) {
+      this.#showBreadCrumbMenu();
+    } else {
+      this.#hideBreadCrumbMenu();
+    }
+
     return this;
   }
 
@@ -175,6 +182,16 @@ export default class IdsBreadcrumb extends Base {
     return null;
   }
 
+  #showBreadCrumbMenu() {
+    this.container.querySelector('.ids-breadcrumb-menu').classList.remove('hidden');
+    this.container.querySelector('nav').classList.add('truncate');
+  }
+
+  #hideBreadCrumbMenu() {
+    this.container.querySelector('.ids-breadcrumb-menu').classList.add('hidden');
+    this.container.querySelector('nav').classList.remove('truncate');
+  }
+
   /**
    * Set if breadcrumb will be truncated if there isn't enough space
    * @param {boolean|null} value truncate if true
@@ -185,13 +202,11 @@ export default class IdsBreadcrumb extends Base {
       // Set observer for resize
       this.#resizeObserver.disconnect();
       this.#resizeObserver.observe(this.container);
-      this.container.querySelector('.ids-breadcrumb-menu').classList.remove('hidden');
-      this.container.querySelector('nav').classList.add('truncate');
+      this.#showBreadCrumbMenu();
       this.setAttribute(attributes.TRUNCATE, value);
     } else {
       this.#resizeObserver.disconnect();
-      this.container.querySelector('.ids-breadcrumb-menu').classList.add('hidden');
-      this.container.querySelector('nav').classList.remove('truncate');
+      this.#hideBreadCrumbMenu();
       this.removeAttribute(attributes.TRUNCATE);
     }
   }
