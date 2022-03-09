@@ -20,6 +20,7 @@ describe('Ids Date Picker e2e Tests', () => {
     let isOpen = await page.$eval('#e2e-datepicker-value', (el) =>
       el.shadowRoot.querySelector('ids-popup')?.visible);
 
+    await page.waitForTimeout(200);
     expect(isOpen).toBeFalsy();
 
     // Open popup
