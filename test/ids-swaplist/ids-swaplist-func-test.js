@@ -2,9 +2,10 @@
  * @jest-environment jsdom
  */
 import IdsSwapList from '../../src/components/ids-swaplist/ids-swaplist';
-import IdsSwappable from '../../src/components/ids-swappable/ids-swappable';
 import IdsSwappableItem from '../../src/components/ids-swappable/ids-swappable-item';
-import dataset from '../../demos/data/periods.json';
+import IdsListView from '../../src/components/ids-list-view/ids-list-view';
+import IdsSwappable from '../../src/components/ids-swappable/ids-swappable';
+import dataset from '../../src/assets/data/periods.json';
 
 const HTMLSnippets = {
   SWAPLIST_COMPONENT: (

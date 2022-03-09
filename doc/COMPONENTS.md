@@ -222,23 +222,7 @@ Note that when first adding new HTML files or renaming, a restart on the webpack
 </ids-layout-grid>
 ```
 
-- [ ] Add an `index.html`, which is the main layout template found at `app/ids-[component]`.
-- [ ] `index.html` will contain the contents of `example.html` but also includes the dev server's header and footer partials.  It looks like the following:
-
-```handlebars
-{{> ../layouts/head.html }}
-{{> example.html }}
-{{> ../layouts/footer.html }}
-```
-
-We have several head layouts available:
-
-`head.html` - The default and most common one. Has a theme switcher and the container has 8px padding. The container is hidden initially to avoid FOUC.
-`head-no-padding.html` - The default and most common one. Has a theme switcher and the container has 0 padding, to demo full page components. The container is hidden initially to avoid FOUC.
-`head-side-by-side.html` - Used for the side-by-side examples and adds the 4.x version in for testing side by side. It has no container.
-`head-themeless.html` - Has no theme switcher and the container has 8px padding. The container is hidden initially to avoid FOUC.
-`head-visible.html` - The container is visible initially and has 8px padding.
-
+- [ ] Add an `index.html`, which is the main example `app/ids-[component]`. See other files for the general html structure.
 - [ ] Add an `index.js` for loading and building the component, this should just contain what is needed for the component itself to run. This is also going to be used to create the usable component in the final build.
 - [ ] In the root `index.js`, import the WebComponent's source file that you've created using a relative path, where the root component is the default export along with any sub components beyond that.
 

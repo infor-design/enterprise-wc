@@ -13,7 +13,7 @@ import IdsPopupMenu, {
 import IdsPopup from '../../src/components/ids-popup/ids-popup';
 
 // Pull in menu contents
-import dataset from '../../demos/data/menu-contents.json';
+import dataset from '../../src/assets/data/menu-contents.json';
 
 describe('IdsPopupMenu Component', () => {
   let menu;

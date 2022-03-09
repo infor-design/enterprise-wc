@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-contextual-action-panel id="cap-company-info"></ids-contextual-action-panel>
+
+    <ids-layout-grid>
+      <ids-layout-grid-column>
+        <ids-button type="secondary" id="cap-trigger-btn">Open Contextual Action Panel</ids-button>
+      </ids-layout-grid-column>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

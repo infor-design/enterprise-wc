@@ -25,7 +25,8 @@ module.exports = {
     expect: true,
     test: true,
     Ids: true,
-    ResizeObserver: true
+    ResizeObserver: true,
+    $: true
   },
   parser: '@babel/eslint-parser',
   plugins: [

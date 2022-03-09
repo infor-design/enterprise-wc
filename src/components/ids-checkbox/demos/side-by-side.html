@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/ids-enterprise@4.60.0/dist/js/sohoxi.js"></script>
+  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Web Component Checkbox</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid cols="3" gap="md">
+      <ids-layout-grid-cell>
+        <ids-checkbox label="Unchecked"></ids-checkbox>
+        <ids-checkbox label="Checked" checked="true"></ids-checkbox>
+        <ids-checkbox label="Dirty tracking" dirty-tracker="true"></ids-checkbox>
+        <ids-checkbox label="Disabled and unchecked" disabled="true"></ids-checkbox>
+        <ids-checkbox label="Disabled and checked" checked="true" disabled="true"></ids-checkbox>
+        <ids-checkbox label="Required" validate="required"></ids-checkbox>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">4.x Checkbox</ids-text>
+    </ids-layout-grid>
+    <div class="row">
+      <div class="six columns">
+          <form id="test-form">
+            <div class="field field-checkbox">
+              <input type="checkbox" class="checkbox hide-focus" name="checkbox1" id="checkbox1"/>
+              <label for="checkbox1" class="checkbox-label">Unchecked</label>
+            </div>
+
+            <div class="field field-checkbox">
+              <input type="checkbox" class="checkbox hide-focus" id="checkbox2" checked="true"/>
+              <label for="checkbox2" class="checkbox-label">Checked</label>
+            </div>
+
+            <div class="field field-checkbox">
+              <input type="checkbox" data-trackdirty="true" class="checkbox hide-focus" id="checkbox3"/>
+              <label for="checkbox3" class="checkbox-label" checked="">Dirty tracking</label>
+            </div>
+
+            <div class="field field-checkbox">
+              <input type="checkbox" class="checkbox hide-focus" id="checkbox4" disabled="true"/>
+              <label for="checkbox4" class="checkbox-label">Disabled and unchecked</label>
+            </div>
+
+            <div class="field field-checkbox">
+              <input type="checkbox" class="checkbox hide-focus" id="checkbox5" disabled="true" checked="true"/>
+              <label for="checkbox5" class="checkbox-label">Disabled and checked</label>
+            </div>
+
+            <div class="field field-checkbox">
+              <input type="checkbox" aria-checked="mixed" class="checkbox partial hide-focus" checked="true" id="checkbox8"/>
+              <label for="checkbox8" class="checkbox-label"><span class="audible">Partial (not accessible)</span>Partial</label>
+            </div>
+
+            <div class="field field-checkbox">
+              <input type="checkbox" class="checkbox error hide-focus" id="checkbox9"/>
+              <label for="checkbox9" class="checkbox-label">Error</label>
+            </div>
+
+
+          <div class="field field-checkbox">
+            <input type="checkbox" class="checkbox hide-focus required" name="checkbox10" id="checkbox10" data-validate="required" aria-required="true"/>
+            <label for="checkbox10" class="checkbox-label">Required<span class="required" aria-hidden="true"></span></label>
+          </div>
+
+          <div class="field field-checkbox">
+            <input type="checkbox" class="checkbox hide-focus required" name="checkbox11" id="checkbox11" data-validate="required" aria-required="true"/>
+            <label for="checkbox11" class="checkbox-label required">Required (No indicator)</label>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+    <script>
+      $('body').initialize();
+    </script>
+  </ids-container>
+</body>
+</html>

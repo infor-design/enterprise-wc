@@ -37,12 +37,12 @@ A datagrid is created by adding an `ids-data-grid` html element in the page and 
 
 ```html
 <ids-data-grid id="data-grid-1" data-automation-id="data-grid-1-automation" alternate-row-shading="true"></ids-data-grid>
+```
 
-<script>
-  const dataGrid = document.querySelector('#data-grid-1');
-  dataGrid.data = dataset;
-  dataGrid.columns = columns;
-</script>
+```js
+const dataGrid = document.querySelector('#data-grid-1');
+dataGrid.data = dataset;
+dataGrid.columns = columns;
 ```
 
 ### Selection

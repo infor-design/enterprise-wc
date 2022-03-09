@@ -1,0 +1,64 @@
+html,
+body,
+div[role='main'] {
+  border: 0;
+  box-sizing: border-box;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+div[role='main'] {
+  position: relative;
+}
+
+.align-target {
+  color: white;
+  font-weight: 600;
+  height: 50px;
+  position: absolute;
+  text-align: center;
+  width: 50px;
+}
+
+#renderloop-countdown {
+  display: inline-block;
+  min-width: 150px;
+}
+
+#target-1 {
+  background-color: var(--ids-color-palette-ruby-80);
+  left: 33%;
+  top: 100px;
+}
+
+#target-2 {
+  background-color: var(--ids-color-palette-amber-80);
+  right: 33%;
+  top: 100px;
+}
+
+#target-3 {
+  background-color: var(--ids-color-palette-emerald-80);
+  right: 100px;
+  top: 50%;
+}
+
+#target-4 {
+  background-color: var(--ids-color-palette-turquoise-80);
+  bottom: 100px;
+  right: 33%;
+}
+
+#target-5 {
+  background-color: var(--ids-color-palette-azure-80);
+  bottom: 100px;
+  left: 33%;
+}
+
+#target-6 {
+  background-color: var(--ids-color-palette-amethyst-80);
+  left: 100px;
+  top: 50%;
+}

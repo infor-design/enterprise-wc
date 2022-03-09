@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/ids-enterprise@4.60.0/dist/js/sohoxi.js"></script>
+  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Web Component Home Page</ids-text>
+    </ids-layout-grid>
+
+    <ids-home-page>
+      <ids-card slot="card" colspan="3">
+        <div slot="card-header">
+          <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Card 3x1 (Dom Order 1) - A</ids-text>
+        </div>
+        <div slot="card-content"></div>
+      </ids-card>
+      <ids-card slot="card">
+        <div slot="card-header">
+          <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Card 1x1 (Dom Order 2) - B</ids-text>
+        </div>
+        <div slot="card-content"></div>
+      </ids-card>
+      <ids-card slot="card">
+        <div slot="card-header">
+          <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Card 1x1 (Dom Order 3) - C</ids-text>
+        </div>
+        <div slot="card-content"></div>
+      </ids-card>
+      <ids-card slot="card">
+        <div slot="card-header">
+          <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Card 1x1 (Dom Order 4) - D</ids-text>
+        </div>
+        <div slot="card-content"></div>
+      </ids-card>
+    </ids-home-page>
+
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">4.x Home Page</ids-text>
+    </ids-layout-grid>
+    </ids-layout-grid>
+    <div class="svg hidden">
+      <div class="svg-icons">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-icons">
+          <symbol id="icon-more" viewBox="0 0 18 18"><path d="M16.5 7a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM9 7a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM1.5 7a1.5 1.5 0 110 3 1.5 1.5 0 010-3z" fill="currentColor" fill-rule="evenodd" stroke="none"></path></symbol>
+        </svg>
+      </div>
+    </div>
+
+    <div class="homepage" data-columns="3">
+      <div class="content">
+        <div class="widget triple-width">
+          <div class="widget-header">
+            <h2 class="widget-title">Card 3x1 (Dom Order 1) - A</h2>
+          </div>
+          <div class="widget-content"></div>
+        </div>
+        <div class="widget">
+          <div class="widget-header">
+            <h2 class="widget-title">Card 1x1 (Dom Order 2) - B</h2>
+          </div>
+          <div class="widget-content"></div>
+        </div>
+        <div class="widget">
+          <div class="widget-header">
+            <h2 class="widget-title">Card 1x1 (Dom Order 3) - C</h2>
+          </div>
+          <div class="widget-content"></div>
+        </div>
+        <div class="widget">
+          <div class="widget-header">
+            <h2 class="widget-title">Card 1x1 (Dom Order 4) - D</h2>
+          </div>
+          <div class="widget-content"></div>
+        </div>
+      </div>
+    </div>
+  </ids-container>
+</body>
+</html>

@@ -9,6 +9,7 @@
 
 ids-alert {
   @include flex();
+  @include mx-8();
 }
 
 ids-text::part(text) {

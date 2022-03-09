@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Hyperlink with Multiple Text Elements</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none">
+          <ids-text font-size="20" color="unset">Part One</ids-text>
+          <ids-text font-size="14" color="unset">Part Two</ids-text>
+        </ids-hyperlink>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/ids-enterprise@4.60.0/dist/js/sohoxi.js"></script>
+  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Web Component Badge</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-badge>5</ids-badge>
+        <ids-badge color="alert" shape="round">10</ids-badge>
+        <ids-badge color="alert" shape="normal">10</ids-badge>
+        <ids-badge color="error">1500</ids-badge>
+        <ids-badge color="info">25k+</ids-badge>
+        <ids-badge color="warning" shape="round">16</ids-badge>
+        <ids-badge color="success">5</ids-badge>
+        <ids-badge color="error">404 <ids-text audible="true">In Error Condition</ids-text></ids-badge>
+        <ids-badge color="alert" shape="round"><ids-icon icon="pending" size="normal"></ids-icon></ids-badge>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h2">4.x Badge</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <span class="round info badge ">5</span>
+        <span class="info badge">912</span>
+        <span class="info badge">1k+</span>
+        <span class="round error badge">12</span>
+        <span class="round alert badge">8</span>
+        <span class="round good badge">1</span>
+        <span class="error badge">12 <span class="audible">In Error Condition</span></span>
+        <span class="good badge">2 <span class="audible">In Good</span></span>
+        <span class="info badge">2</span>
+        <span class="alert badge">12  <span class="audible">Alerts</span></span>
+        <span class="alert badge pending">  <span class="audible">Pending</span></span>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <script>
+      $('body').initialize();
+    </script>
+  </ids-container>
+</body>
+</html>

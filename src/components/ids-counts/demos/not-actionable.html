@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Counts: Not Actionable</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid cols="5" gap="md">
+      <ids-layout-grid-cell>
+        <ids-counts>
+          <ids-text count-text>Active <br /> Opportunities</ids-text>
+          <ids-text count-value>7</ids-text>
+        </ids-counts>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-counts>
+          <ids-text count-text>Open <br /> Incidents</ids-text>
+          <ids-text count-value>2</ids-text>
+        </ids-counts>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-counts>
+          <ids-text count-text>Escalated <br /> Incidents</ids-text>
+          <ids-text count-value>4</ids-text>
+        </ids-counts>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-counts>
+          <ids-text count-text>Open <br /> Projects</ids-text>
+          <ids-text count-value>7</ids-text>
+        </ids-counts>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-counts>
+          <ids-text count-text>Active <br /> Contacts</ids-text>
+          <ids-text count-value>7</ids-text>
+        </ids-counts>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>
