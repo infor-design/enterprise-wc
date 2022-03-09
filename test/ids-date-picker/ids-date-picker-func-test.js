@@ -207,12 +207,6 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.day).toEqual('18');
     });
 
-    it('can set visible and get the popup', () => {
-      expect(component.container.querySelector('ids-popup').hasAttribute('visible')).toBeFalsy();
-      component.popup.visible = true;
-      expect(component.container.querySelector('ids-popup').hasAttribute('visible')).toBeTruthy();
-    });
-
     it('should change attributes', () => {
       component.setAttribute('tabbable', true);
       component.setAttribute('show-today', true);
