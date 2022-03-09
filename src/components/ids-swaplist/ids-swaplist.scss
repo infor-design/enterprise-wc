@@ -105,6 +105,10 @@ ids-button {
 ids-card {
   width: 33.33%;
 
+  &::part(card) {
+    @include mb-0();
+  }
+
   &.card {
     &::part(card) {
       @include rounded-none();
@@ -134,5 +138,9 @@ ids-card {
 
   &::part(header) {
     border-bottom: 1px solid var(--ids-color-palette-slate-30);
+  }
+
+  div[slot='card-content'] {
+    height: calc(100% - 11px);
   }
 }
