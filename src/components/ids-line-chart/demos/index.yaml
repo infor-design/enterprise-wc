@@ -1,0 +1,13 @@
+---
+ component: Line Chart
+ link: ids-line-chart
+ description: Chart used to track changes over time with lines
+ category: Charts and Visualizations
+ keywords: line chart, chart, visualization, track changes over time
+ examples:
+  - link: index.html
+    description: Shows a basic line chart
+  - link: colors.html
+    description: Shows configuring custom colors
+  - link: side-by-side.html
+    description: Shows chart side by side with a 4.x chart
