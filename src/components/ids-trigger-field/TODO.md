@@ -10,4 +10,3 @@ Keep this file in sync with #585
 ## Minor
 
 - [ ] Standalone CSS Examples
-

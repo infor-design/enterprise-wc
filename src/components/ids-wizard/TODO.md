@@ -10,8 +10,8 @@ Keep this file in sync with #570
 - [ ] Add an attribute for disabling URI-hash changes when steps are clicked (`no-link`?)
 - [ ] Test screen reader/accessibility (should be similar to tabs) and fix/create ARIA attributes
 - [ ] Add theme support (move current colors into `&[mode="light"]` theme, add dark/contrast colors, and implement Theme Mixin)
-- [ ] Add standalone CSS examples and related styles
 
 ## Minor
 
 - [ ] Do not use wait() in wizard test logic for rendered() in Jest
+- [ ] Add standalone CSS examples and related styles
