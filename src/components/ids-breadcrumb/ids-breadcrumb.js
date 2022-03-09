@@ -150,6 +150,13 @@ export default class IdsBreadcrumb extends Base {
     if (!(breadcrumb.getAttribute('font-size'))) {
       breadcrumb.setAttribute('font-size', 14);
     }
+
+    if (breadcrumb.getAttribute('href')) {
+      this.onEvent('click.link', breadcrumb, (e) => {
+        console.log(`${e.target.innerHTML} Clicked!`);
+      });
+    }
+
     this.appendChild(breadcrumb);
   }
 
