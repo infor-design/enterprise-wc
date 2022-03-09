@@ -73,6 +73,10 @@
     @include border-white();
   }
 
+  &.color-variant-alternate:hover::after {
+    @include bg-white();
+  }
+
   &.selected.orientation-vertical:focus::before {
     position: absolute;
     top: 1px;

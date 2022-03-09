@@ -9,6 +9,7 @@
   @include p-4();
   @include rounded-default();
   @include mb-8();
+  @include text-16();
 
   border: 1px solid transparent;
   display: inline-block;

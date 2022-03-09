@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/ids-enterprise@4.60.0/dist/js/sohoxi.js"></script>
+  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Web Component Upload</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true" gap="md">
+      <ids-layout-grid-cell>
+
+        <ids-upload label="Single File"></ids-upload>
+        <ids-upload label="Multiple Files" multiple="true"></ids-upload>
+        <ids-upload label="Readonly" readonly="true"></ids-upload>
+        <ids-upload label="Disabled" disabled="true" value="Readme.txt"></ids-upload>
+
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">4.x Upload</ids-text>
+    </ids-layout-grid>
+    <div class="svg hidden">
+      <div class="svg-icons">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-icons">
+          <symbol id="icon-folder" viewBox="0 0 18 18"><path d="M.5 16.5h11.77c2.888 0 5.23-2.442 5.23-5.455V4.5h-5.885l-5.884-3H.5v15zm0-12h11.214" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+        </svg>
+      </div>
+    </div>
+    <div class="row">
+      <div class="twelve columns">
+
+        <div class="field">
+          <label for="fileupload">File Upload</label>
+          <input type="file" class="fileupload" id="fileupload" name="fileupload" data-init="false"/>
+        </div>
+
+        <div class="field">
+          <label for="fileupload-readonly">File Upload (Readonly)</label>
+          <input type="file" class="fileupload" id="fileupload-readonly" readonly="true" name="fileupload" value="Readme.txt" data-init="false"/>
+        </div>
+
+        <div class="field">
+          <label for="fileupload-disabled">File Upload (Disabled)</label>
+          <input type="file" class="fileupload" id="fileupload-disabled" disabled="true" name="fileupload" value="Readme.txt"/>
+        </div>
+
+      </div>
+    </div>
+  </ids-container>
+</body>
+</html>

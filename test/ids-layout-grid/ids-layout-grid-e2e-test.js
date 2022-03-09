@@ -1,4 +1,4 @@
-describe('Ids Layout Grid Percy Tests', () => {
+describe('Ids Layout Grid e2e Tests', () => {
   const url = 'http://localhost:4444/ids-layout-grid';
 
   beforeAll(async () => {

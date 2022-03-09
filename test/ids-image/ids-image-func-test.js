@@ -5,8 +5,8 @@ import IdsImage from '../../src/components/ids-image/ids-image';
 
 const name = 'ids-image';
 const alt = 'example alt';
-const src = '/assets/placeholder-60x60.png';
-const newSrc = '/assets/placeholder-154x120.png';
+const src = '../assets/images/placeholder-60x60.png';
+const newSrc = '../assets/images/placeholder-154x120.png';
 const size = 'sm';
 
 describe('IdsImage Component (using properties)', () => {

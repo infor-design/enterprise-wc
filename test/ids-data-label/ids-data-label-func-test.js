@@ -2,16 +2,24 @@
  * @jest-environment jsdom
  */
 import IdsDataLabel from '../../src/components/ids-data-label/ids-data-label';
+import IdsContainer from '../../src/components/ids-container/ids-container';
 import waitFor from '../helpers/wait-for';
+import processAnimFrame from '../helpers/process-anim-frame';
 
 describe('IdsDataLabel Component', () => {
   let dataLabel;
+  let container;
 
   beforeEach(async () => {
+    container = new IdsContainer();
     const elem = new IdsDataLabel();
     elem.innerHTML = `Los Angeles, California 90001 USA`;
-    document.body.appendChild(elem);
+    elem.label = 'Address';
+    container.appendChild(elem);
+    document.body.appendChild(container);
+    await container.setLanguage('en');
     dataLabel = document.querySelector('ids-data-label');
+    container = document.querySelector('ids-container');
   });
 
   afterEach(async () => {
@@ -31,30 +39,38 @@ describe('IdsDataLabel Component', () => {
     expect(dataLabel.outerHTML).toMatchSnapshot();
   });
 
-  it('renders with label-position', () => {
+  it('renders with label-position', async () => {
     expect(dataLabel.container.classList).toContain('top-positioned');
 
     dataLabel.labelPosition = 'left';
-    waitFor(() => expect(dataLabel.container.classList[0]).toEqual('left-positioned'));
+    await waitFor(() => expect(dataLabel.container.classList[0]).toEqual('left-positioned'));
+    expect(dataLabel.labelClass).toEqual('left-positioned');
 
     dataLabel.labelPosition = 'top';
-    waitFor(() => expect(dataLabel.container.classList[0]).toEqual('top-positioned'));
+    await waitFor(() => expect(dataLabel.container.classList[0]).toEqual('top-positioned'));
+    expect(dataLabel.labelClass).toEqual('top-positioned');
+
+    dataLabel.labelPosition = '';
+    await waitFor(() => expect(dataLabel.container.classList[0]).toEqual('top-positioned'));
+    expect(dataLabel.labelClass).toEqual('top-positioned');
   });
 
-  it('renders for french', () => {
+  it('can set the label', () => {
+    expect(dataLabel.label).toEqual('Address');
+    dataLabel.label = 'test';
+    expect(dataLabel.label).toEqual('test');
+    expect(dataLabel.container.querySelector('.label').innerHTML).toEqual('test<span class="colon"></span>');
+    dataLabel.label = '';
+    expect(dataLabel.label).toEqual('test');
+  });
+
+  it('renders for french', async () => {
+    await container.setLanguage('fr');
     dataLabel.label = 'Shipping To';
     dataLabel.labelPosition = 'left';
-    waitFor(() => {
-      const colonElements = dataLabel.container.querySelector('.label').getElementsByClassName('colon');
-      expect(colonElements.length).toEqual(1);
-      expect(colonElements[0].style.paddingLeft).toEqual('');
-    });
-
-    dataLabel.language = 'fr';
-    waitFor(() => {
-      const colonElements = dataLabel.container.querySelector('.label').getElementsByClassName('colon');
-      expect(colonElements.length).toEqual(1);
-      expect(colonElements[0].style.paddingLeft).toEqual('8px');
-    });
+    await processAnimFrame();
+    const colonElements = dataLabel.container.querySelector('.label').getElementsByClassName('colon');
+    expect(colonElements.length).toEqual(1);
+    expect(dataLabel.getAttribute('language')).toEqual('fr');
   });
 });
