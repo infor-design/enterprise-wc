@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/ids-enterprise@4.60.0/dist/js/sohoxi.js"></script>
+  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Web Component Tooltip</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-button id="new-button" type="secondary">New Button</ids-button>
+        <ids-tooltip target="#new-button" id="new-tooltip">Additional Information</ids-tooltip>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h2">4.x Tooltip</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <button id="old-button" class="btn-secondary" type="button" title=" Additional Information" data-options="{ 'attributes': [ { 'name': 'id', 'value': 'old-tooltip' } ]}">
+          Old Button
+        </button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <script>
+      $('body').initialize();
+    </script>
+  </ids-container>
+</body>
+</html>

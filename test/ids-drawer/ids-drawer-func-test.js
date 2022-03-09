@@ -87,7 +87,7 @@ describe('IdsDrawer Component', () => {
 
     // Click the target to open the drawer
     btn.click();
-    waitFor(() => expect(elem.visible).toBeTruthy());
+    await waitFor(() => expect(elem.visible).toBeTruthy());
     elem.hide();
 
     // Disconnect the drawer from the button
@@ -96,7 +96,7 @@ describe('IdsDrawer Component', () => {
 
     // Click the target again.  It shouldn't open the drawer
     btn.click();
-    waitFor(() => expect(elem.visible).toBeFalsy());
+    await waitFor(() => expect(elem.visible).toBeFalsy());
 
     // Try setting to null a second time (addresses coverage)
     elem.target = null;
@@ -130,7 +130,7 @@ describe('IdsDrawer Component', () => {
       e.detail.response(false);
     });
     elem.show();
-    waitFor(() => expect(elem.visible).toBeTruthy());
+    await waitFor(() => expect(elem.visible).toBeTruthy());
     elem.hide();
 
     expect(elem.visible).toBeTruthy();

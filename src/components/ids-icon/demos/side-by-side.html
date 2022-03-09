@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/ids-enterprise@4.60.0/dist/js/sohoxi.js"></script>
+  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Web Component Icons</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid cols="4" min-col-width="50px">
+      <ids-layout-grid-cell>
+        <span class="ids-icon-container">
+          <ids-text font-size="10" mode="light" version="new">icon-caret-down</ids-text><br/>
+          <ids-icon icon="caret-down"></ids-icon>
+        </span>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <span class="ids-icon-container"><ids-text font-size="10" mode="light" version="new">icon-more</ids-text><br/>
+          <ids-icon icon="more"></ids-icon>
+        </span>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <span class="ids-icon-container"><ids-text font-size="10" mode="light" version="new">icon-print</ids-text><br/>
+          <ids-icon icon="print"></ids-icon>
+        </span>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <span class="ids-icon-container"><ids-text font-size="10" mode="light" version="new">icon-info</ids-text><br/>
+          <ids-icon icon="info"></ids-icon>
+        </span>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">4.x Icons</ids-text>
+    </ids-layout-grid>
+    <div class="svg hidden">
+      <div class="svg-icons">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-icons">
+          <symbol id="icon-caret-down" viewBox="0 0 18 18"><path d="M17.5 5L9 13.5.5 5" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+          <symbol id="icon-more" viewBox="0 0 18 18"><path d="M16.5 7a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM9 7a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM1.5 7a1.5 1.5 0 110 3 1.5 1.5 0 010-3z" fill="currentColor" fill-rule="evenodd" stroke="none"></path></symbol>
+          <symbol id="icon-print" viewBox="0 0 18 18"><path d="M3.115 12.5H.5v-7h17v7h-2.615m-4.847 4H3.5V9.485h11v2.135c0 2.94-1.573 4.88-4.462 4.88zM3.5 5.5h11v-4h-11v4z" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+          <symbol id="icon-info" viewBox="0 0 18 18"><path d="M9 17.5A8.5 8.5 0 0017.5 9 8.5 8.5 0 009 .5 8.5 8.5 0 00.5 9 8.5 8.5 0 009 17.5zm0-4.577v-5M9 6V5" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+        </svg>
+      </div>
+    </div>
+    <ids-layout-grid cols="4" min-col-width="50px">
+      <ids-layout-grid-cell>
+        <svg class="icon" focusable="false" aria-hidden="true" role="presentation">
+          <use href="#icon-caret-down"></use>
+        </svg>
+        <span class="audible">caret-down</span>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <svg class="icon" focusable="false" aria-hidden="true" role="presentation">
+          <use href="#icon-more"></use>
+        </svg>
+        <span class="audible">more</span>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <svg class="icon" focusable="false" aria-hidden="true" role="presentation">
+          <use href="#icon-print"></use>
+        </svg>
+        <span class="audible">print</span>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <svg class="icon" focusable="false" aria-hidden="true" role="presentation">
+          <use href="#icon-info"></use>
+        </svg>
+        <span class="audible">info</span>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

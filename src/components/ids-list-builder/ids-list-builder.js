@@ -1,5 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import IdsInput from '../ids-input/ids-input';
+import IdsToolbar from '../ids-toolbar/ids-toolbar';
+import IdsDraggable from '../ids-draggable/ids-draggable';
 import Base from './ids-list-builder-base';
 import styles from './ids-list-builder.scss';
 

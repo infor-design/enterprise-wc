@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-tabs value="pending" id="ids-tabs-counts">
+      <ids-tab value="pending" count="0">Pending</ids-tab>
+      <ids-tab-divider></ids-tab-divider>
+      <ids-tab value="unreleased" count="12">Unreleased</ids-tab>
+      <ids-tab value="not confirmed" count="100">Not Confirmed</ids-tab>
+      <ids-tab-divider></ids-tab-divider>
+      <ids-tab value="requests" count="0">Requests</ids-tab>
+      <ids-tab value="purchase-orders" count="99">Purchase Orders</ids-tab>
+      <ids-tab value="receipts" count="12">Receipts</ids-tab>
+      <ids-tab value="feedback" count="1">Feedback</ids-tab>
+      <ids-tab value="invoices" count="200">Invoices</ids-tab>
+    </ids-tabs>
+  </ids-container>
+</body>
+</html>

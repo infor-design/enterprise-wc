@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-text font-size="12" type="h1" audible="true">Ids Header with Toolbar Buttons</ids-text>
+
+    <ids-header>
+      <ids-toolbar>
+        <ids-toolbar-section>
+          <ids-button icon="menu" role="button" color-variant="alternate">
+            <span slot="text" class="audible">Application Menu Trigger</span>
+          </ids-button>
+        </ids-toolbar-section>
+        <ids-toolbar-section type="title">
+          <ids-text font-size="20" color-variant="alternate">My Header</ids-text>
+          <ids-text font-size="14" color-variant="alternate">With some extra information below</ids-text>
+        </ids-toolbar-section>
+        <ids-toolbar-section type="buttonset" align="end">
+          <ids-button id="button-1" role="button" color-variant="alternate">
+            <span slot="text">Text</span>
+          </ids-button>
+
+          <ids-menu-button role="button" id="button-2" menu="button-2-menu" dropdown-icon color-variant="alternate">
+            <span slot="text">Menu</span>
+          </ids-menu-button>
+          <ids-popup-menu id="button-2-menu" target="#button-2">
+            <ids-menu-group>
+              <ids-menu-item value="1">Item One</ids-menu-item>
+              <ids-menu-item value="2">Item Two</ids-menu-item>
+              <ids-menu-item value="3">Item Three</ids-menu-item>
+              <ids-menu-item>More Items
+                <ids-popup-menu>
+                  <ids-menu-group>
+                    <ids-menu-item value="4">Item Four</ids-menu-item>
+                    <ids-menu-item value="4">Item Five</ids-menu-item>
+                    <ids-menu-item value="4">Item Six</ids-menu-item>
+                  </ids-menu-group>
+                </ids-popup-menu>
+              </ids-menu-item>
+            </ids-menu-group>
+          </ids-popup-menu>
+
+          <ids-button id="button-3" disabled color-variant="alternate">
+            <span slot="text" class="audible">Settings</span>
+            <ids-icon slot="icon" icon="settings"></ids-icon>
+          </ids-button>
+
+          <ids-button id="button-4" color-variant="alternate">
+            <span slot="text" class="audible">Trash</span>
+            <ids-icon slot="icon" icon="delete"></ids-icon>
+          </ids-button>
+        </ids-toolbar-section>
+        <ids-theme-switcher mode="light" version="new" color-variant="alternate"></ids-theme-switcher>
+      </ids-toolbar>
+    </ids-header>
+  </ids-container>
+</body>
+</html>

@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import IdsListBuilder from '../../src/components/ids-list-builder/ids-list-builder';
+import ResizeObserver from '../helpers/resize-observer-mock';
 
 const sampleData = [
   {

@@ -13,4 +13,18 @@ describe('Ids Process Indicator e2e Tests', () => {
     await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
     await expect(page).toPassAxeTests({ disabledRules: ['color-contrast'] });
   });
+
+  it('should show hide details on resize', async () => {
+    await page.setViewport({
+      width: 375,
+      height: 1080
+    });
+
+    await page.goto(exampleUrl, { waitUntil: ['domcontentloaded', 'networkidle0'] });
+    await page.waitForSelector('ids-process-step [slot="detail"]', {
+      visible: false,
+    });
+    const size = await page.evaluate('document.querySelector("ids-process-step [slot=\'detail\']").style.width');
+    expect(Number(size.replace('px', ''))).toBe(0);
+  });
 });

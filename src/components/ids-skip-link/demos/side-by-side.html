@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/ids-enterprise@4.60.0/dist/js/sohoxi.js"></script>
+  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Web Component Skiplink (tab once)</ids-text>
+    </ids-layout-grid>
+    <ids-skip-link href="#main-content">Skip to Main Content</ids-skip-link>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">4.x Skiplink (tab twice)</ids-text>
+     </ids-layout-grid-cell>
+    </ids-layout-grid>
+    <a class="skip-link" href="#maincontent">Skip to Main Content</a>
+
+    <script>
+      $('body').initialize();
+    </script>
+  </ids-container>
+</body>
+</html>

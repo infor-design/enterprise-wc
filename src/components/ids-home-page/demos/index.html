@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Home Page</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+    
+    <ids-home-page>
+      <ids-card slot="card" colspan="3">
+        <div slot="card-header">
+          <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Card 3x1 (Dom Order 1) - A</ids-text>
+        </div>
+        <div slot="card-content"></div>
+      </ids-card>
+      <ids-card slot="card">
+        <div slot="card-header">
+          <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Card 1x1 (Dom Order 2) - B</ids-text>
+        </div>
+        <div slot="card-content"></div>
+      </ids-card>
+      <ids-card slot="card">
+        <div slot="card-header">
+          <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Card 1x1 (Dom Order 3) - C</ids-text>
+        </div>
+        <div slot="card-content"></div>
+      </ids-card>
+      <ids-card slot="card">
+        <div slot="card-header">
+          <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Card 1x1 (Dom Order 4) - D</ids-text>
+        </div>
+        <div slot="card-content"></div>
+      </ids-card>
+    </ids-home-page>    
+  </ids-container>
+</body>
+</html>

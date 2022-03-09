@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Button with an unnamed slot (converts to text-only button)</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid cols="4" gap="md">
+      <ids-layout-grid-cell>
+        <ids-button id="btn-one">
+          <span>My Button Text</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-button id="btn-two">
+          <ids-icon icon="settings"></ids-icon>
+          <span>My Button Text</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-button id="btn-three">
+          <span>My Button Text</span>
+          <ids-icon icon="settings"></ids-icon>
+        </ids-button>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-button id="btn-four">
+          <ids-icon icon="settings"></ids-icon>
+          <span class="audible">My Button Text</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Button containing icon + audible span + span</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid cols="4" gap="md">
+      <ids-layout-grid-cell>
+        <ids-button id="btn-five">
+          <ids-icon icon="settings"></ids-icon>
+          <span class="audible">This text isn't visible.</span>
+          <span>This text IS visible!</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

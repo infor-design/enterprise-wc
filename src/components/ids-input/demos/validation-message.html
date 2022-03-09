@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Input - Ids Validation Message</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true" gap="md">
+      <ids-layout-grid-cell>
+
+        <ids-button id="btn-add-message" type="secondary">
+          <span slot="text">Add Message</span>
+        </ids-button>
+        <ids-button id="btn-remove-message" type="secondary">
+          <span slot="text">Remove Message</span>
+        </ids-button>
+        <br/><br/>
+
+        <ids-input label="Test Error" id="input-validation-error" value="Some text"></ids-input>
+        <ids-input label="Test Alert (Warning)" id="input-validation-alert" value="Some text"></ids-input>
+        <ids-input label="Test Confirmation" id="input-validation-success" value="Some text"></ids-input>
+        <ids-input label="Test Information" id="input-validation-info" value="Some text"></ids-input>
+        <ids-input label="Test Icon (default icon)" id="input-validation-icon-default" value="Some text"></ids-input>
+        <ids-input label="Test Icon (custom icon)" id="input-validation-icon-custom" value="Some text"></ids-input>
+
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/ids-enterprise@4.60.0/dist/js/sohoxi.js"></script>
+  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Web Component Pager</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid cols="3" gap="md">
+      <ids-layout-grid-cell>
+        <ids-pager page-size="1" page-number="1" total="1" id="ids-pager-example">
+          <ids-pager-button first></ids-pager-button>
+          <ids-pager-button previous></ids-pager-button>
+          <ids-pager-input></ids-pager-input>
+          <ids-pager-button next></ids-pager-button>
+          <ids-pager-button last></ids-pager-button>
+        </ids-pager>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">4.x Pager</ids-text>
+    </ids-layout-grid>
+    <div class="row">
+      <div class="svg hidden">
+        <div class="svg-icons">
+          <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-icons">
+            <symbol id="icon-first-page" viewBox="0 0 18 18"><path d="M15.5 17.5L7 9 15.5.5M1.5 0v18" stroke="currentColor" vector-effect="non-scaling-stroke"></path></symbol>
+            <symbol id="icon-next-page" viewBox="0 0 18 18"><path clip-rule="evenodd" d="M4.5 16.5L13 9 4.5 1.5v15z" fill-rule="evenodd" stroke="currentColor" vector-effect="non-scaling-stroke"></path></symbol>
+            <symbol id="icon-previous-page" viewBox="0 0 18 18"><path clip-rule="evenodd" d="M13.5 16.5L5 9l8.5-7.5v15z" fill-rule="evenodd" stroke="currentColor" vector-effect="non-scaling-stroke"></path></symbol>
+            <symbol id="icon-last-page" viewBox="0 0 18 18"><path d="M1.5.5L10 9l-8.5 8.5m14 .5V0" stroke="currentColor" vector-effect="non-scaling-stroke"></path></symbol>
+           </svg>
+        </div>
+      </div>
+      <div class="six columns">
+        <div class="pager-container"></div>
+      </div>
+    </div>
+
+    <script>
+      Soho.Locale.set('en-US').done(() => {
+        $('.pager-container').pager({
+          type: 'standalone',
+          pagesize: 10,
+          showPageSizeSelector: false,
+          showFirstButton: true,
+          enableFirstButton: true,
+          showPreviousButton: true,
+          enablePreviousButton: true,
+          showNextButton: true,
+          enableNextButton: false,
+          showLastButton: true,
+          enableLastButton: false,
+          showPageSelectorInput: true
+        });
+      });
+    </script>
+  </ids-container>
+</body>
+</html>
