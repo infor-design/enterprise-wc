@@ -32,7 +32,7 @@ const DEFAULT_HIERARCHY_LEGEND_HTML = (
 const DEFAULT_HIERARCHY_HTML = (
   `<ids-hierarchy root-item>
       <ids-hierarchy-item id="item-1" color-variant="full-time">
-      <img src="../assets/placeholder-200x200.png" alt="item-1" slot="avatar">
+      <img src="..../assets/images/images/placeholder-200x200.png" alt="item-1" slot="avatar">
       <ids-text slot="heading">Tony Cleveland</ids-text>
       <ids-text slot="subheading">Director</ids-text>
       <ids-text slot="micro">FT</ids-text>

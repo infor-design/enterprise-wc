@@ -1,5 +1,5 @@
-const imgSrcExists = '/assets/placeholdeer-60x60.png';
-const imgSrcNotFound = '/assets/non-existant.jpg';
+const imgSrcExists = '../assets/images/placeholdeer-60x60.png';
+const imgSrcNotFound = '../assets/images/non-existant.jpg';
 const imageEl = '#e2e-image';
 const placeholderEl = '#e2e-placeholder';
 const fallbackEl = '#e2e-fallback';

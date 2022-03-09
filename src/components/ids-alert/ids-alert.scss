@@ -1,8 +1,6 @@
 @import '../../core/ids-base';
 
 :host {
-  @include mx-8();
-
   contain: content;
 
   [icon='success'],

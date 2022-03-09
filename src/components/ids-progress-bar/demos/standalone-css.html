@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <link rel="stylesheet" href="ids-progress-bar.css"/>
+    <link rel="stylesheet" href="../ids-layout-grid/ids-layout-grid.css"/>
+    <link rel="stylesheet" href="../ids-text/ids-text.css"/>
+
+    <div class="ids-layout-grid">
+      <div class="ids-layout-grid-cell">
+        <h1 class="ids-text ids-text-12">IDS Progress Bar - Standalone CSS</h1>
+      </div>
+    </div>
+
+    <div class="ids-layout-grid ids-layout-grid-cols-3 ids-layout-grid-gap-md">
+      <div class="ids-layout-grid-cell">
+
+        <div class="ids-progress-bar">
+          <label for="progress-basic" class="progress-label">
+            <span class="ids-text label-text">Basic</span>
+          </label>
+          <progress class="progress-bar" id="progress-basic" max="100" value="30">30%</progress>
+        </div>
+
+        <div class="ids-progress-bar disabled">
+          <label for="progress-disabled" class="progress-label">
+            <span class="ids-text label-text">Disabled</span>
+          </label>
+          <progress class="progress-bar" id="progress-disabled" max="100" value="45">45%</progress>
+        </div>
+
+        <div class="ids-progress-bar">
+          <label for="progress-max-val" class="progress-label">
+            <span class="ids-text label-text">Progress Bar (max:1, value: 0.7)</span>
+          </label>
+          <progress class="progress-bar" id="progress-max-val" max="1" value="0.7">70%</progress>
+        </div>
+      </div>
+    </div>
+
+    <div class="ids-layout-grid ids-layout-grid-cols-3 ids-layout-grid-gap-md">
+      <div class="ids-layout-grid-cell">
+        <h2 class="ids-text ids-text-12">IDS Progress Bar - Audible label</h2>
+
+        <div class="ids-progress-bar">
+          <label for="progress-audible-label" class="progress-label">
+            <span class="ids-text label-text audible">Audible label</span>
+          </label>
+          <progress class="progress-bar" id="progress-audible-label" max="100" value="40">40%</progress>
+        </div>
+      </div>
+    </div>
+  </ids-container>
+</body>
+</html>

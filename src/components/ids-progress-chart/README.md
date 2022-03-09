@@ -118,10 +118,11 @@ The IDS Progress Chart component is now a WebComponent. Instead of using classes
 ```html
 <!-- 4.x progress chart example -->
 <div class="field">
-  <div id="example-8c" class="chart-container"></div>  
+  <div id="example-8c" class="chart-container"></div>
 </div>
+```
 
-<script>
+```js
   $('body').on('initialized', function() {
     var dataset8 = [{
       data: [{
@@ -133,8 +134,9 @@ The IDS Progress Chart component is now a WebComponent. Instead of using classes
 
     var api8c = $('#example-8c').chart({dataset: dataset8, type: 'completion-target'}).data('chart');
   });
-</script>
+```
 
 <!-- this is the same progress chart using the WebComponent -->
+```html
 <ids-progress-chart label="New Progress Chart" progress="13" label-progress="13h" color="#D66221"></ids-progress-chart>
 ```

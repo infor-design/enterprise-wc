@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Ids Icon with notification badge</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h2">Position Options</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+
+      <ids-layout-grid-cell>
+        <div class="notification-example">
+          <ids-text font-size="10">top-left</ids-text>
+          <ids-icon icon="server" size="large" badge-position="top-left"></ids-icon>
+        </div>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <div class="notification-example">
+          <ids-text font-size="10">top-right</ids-text>
+          <ids-icon icon="server" size="large" badge-position="top-right"></ids-icon>
+        </div>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <div class="notification-example">
+          <ids-text font-size="10">bottom-left</ids-text>
+          <ids-icon icon="server" size="large" badge-position="bottom-left"></ids-icon>
+        </div>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <div class="notification-example">
+          <ids-text font-size="10">bottom-right</ids-text>
+          <ids-icon icon="server" size="large" badge-position="bottom-right"></ids-icon>
+        </div>
+      </ids-layout-grid-cell>
+
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h2">Color Options</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <div class="notification-example">
+          <ids-text font-size="10">Success</ids-text>
+          <ids-icon icon="apply-rule" size="large" badge-position="top-right" badge-color="success"></ids-icon>
+        </div>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <div class="notification-example">
+          <ids-text font-size="10">Info</ids-text>
+          <ids-icon icon="mail"size="large"  badge-position="top-right" badge-color="info"></ids-icon>
+        </div>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <div class="notification-example">
+          <ids-text font-size="10">Warning</ids-text>
+          <ids-icon icon="phone-linear" size="large" badge-position="top-right" badge-color="warning"></ids-icon>
+        </div>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <div class="notification-example">
+          <ids-text font-size="10">Error</ids-text>
+          <ids-icon id="test" icon="stop" size="large" badge-position="top-right" badge-color="error"></ids-icon>
+        </div>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

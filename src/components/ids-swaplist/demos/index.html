@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid>
+      <ids-text font-size="12" type="h1">SwapList</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-swaplist id="swaplist-1" count="2">
+          <template>
+            <ids-text font-size="16" type="h2">${city}</ids-text>
+            <ids-text font-size="12" type="span">${location}</ids-text>
+          </template>
+        </ids-swaplist>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-swaplist id="swaplist-2" count="3">
+          <template>
+            <ids-text font-size="16" type="h2">${city}</ids-text>
+            <ids-text font-size="12" type="span">${location}</ids-text>
+          </template>
+        </ids-swaplist>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

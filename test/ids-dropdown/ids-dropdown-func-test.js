@@ -10,7 +10,7 @@ import IdsDropdown from '../../src/components/ids-dropdown/ids-dropdown';
 import IdsListBox from '../../src/components/ids-list-box/ids-list-box';
 import IdsListBoxOption from '../../src/components/ids-list-box/ids-list-box-option';
 import IdsTriggerField from '../../src/components/ids-trigger-field/ids-trigger-field';
-import states from '../../demos/data/states.json';
+import states from '../../src/assets/data/states.json';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 
 describe('IdsDropdown Component', () => {

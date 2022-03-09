@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/ids-enterprise@4.60.0/dist/js/sohoxi.js"></script>
+  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Web Component Modal</ids-text>
+    </ids-layout-grid>
+
+    <ids-modal id="my-modal" aria-labelledby="my-modal-title">
+      <ids-layout-grid auto="true">
+        <ids-text font-size="24" type="h2" id="my-modal-title">Active IDS Modal</ids-text>
+      </ids-layout-grid>
+      <ids-layout-grid auto="true">
+        <p>This is an active IDS Modal component</p>
+      </ids-layout-grid>
+      <ids-layout-grid auto="true">
+        <ids-layout-grid-cell>
+          <ids-button id="modal-close-btn" type="secondary">
+            <span slot="text">OK</span>
+          </ids-button>
+        </ids-layout-grid-cell>
+      </ids-layout-grid>
+    </ids-modal>
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-button id="modal-trigger-btn" type="secondary">
+          <span slot="text">Trigger a Modal</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h2">4.x Modal</ids-text>
+    </ids-layout-grid>
+    <div class="row">
+      <div class="twelve columns">
+
+        <button class="btn-secondary" type="button" id="add-context">Show Modal</button><br/><br/>
+
+        <!-- Modal Example -->
+        <div id="modal-add-context" class="hidden">
+          <div class="field">
+            <label for="subject">Problem</label>
+            <input type="text" id="subject" name="subject" />
+          </div>
+
+          <div class="field">
+            <label for="location" class="label">Location</label>
+            <select id="location" name="location" class="dropdown">
+              <option value="N">North</option>
+              <option value="S">South</option>
+              <option value="E">East</option>
+              <option value="W">West</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="notes-max">Notes (maxlength)</label>
+            <textarea id="notes-max" class="textarea" maxlength="90" name="notes-max">Line One</textarea>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </ids-container>
+</body>
+</html>
