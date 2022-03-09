@@ -76,8 +76,8 @@ To achieve this it is recommended to use the `color` setting and pick one of the
  }, {
    "data": [],
    "name": "Component B",
-   "legendShortName": "Comp B",
-   "legendAbbrName": "B",
+   "shortName": "Comp B",
+   "abbreviatedName": "B",
    "color": "var(--ids-color-palette-azure-40)"
  }, {
    "data": [{
@@ -158,8 +158,8 @@ All points in the line rise along the y-axis from 0 to the appropriate values. L
 - Line Chart now uses all new markup and classes for web components (see above)
 - Now called IdsAccordion with a namespace
 - The data object is the same format except for two changes.
-    - `legendShortName` is now `shortName`
-    - `legendAbbrName` is now `abbrName`
+    - `shortName` is now `shortName`
+    - `abbreviatedName` is now `abbrName`
 
 ## Designs
 

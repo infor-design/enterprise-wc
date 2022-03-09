@@ -19,8 +19,8 @@
      "value": 6500
    }],
    "name": "Component A",
-   "legendShortName": "Comp A",
-   "legendAbbrName": "A"
+   "shortName": "Comp A",
+   "abbreviatedName": "A"
  }, {
    "data": [{
      "name": "Jan",
@@ -42,8 +42,8 @@
      "value": 2811
    }],
    "name": "Component B",
-   "legendShortName": "Comp B",
-   "legendAbbrName": "B"
+   "shortName": "Comp B",
+   "abbreviatedName": "B"
  }, {
    "data": [{
      "name": "Jan",
@@ -62,6 +62,6 @@
      "value": 8000
    }],
    "name": "Component C",
-   "legendShortName": "Comp C",
-   "legendAbbrName": "C"
+   "shortName": "Comp C",
+   "abbreviatedName": "C"
  }]

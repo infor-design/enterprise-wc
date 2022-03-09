@@ -5,6 +5,7 @@ import IdsAxisChart from '../../src/components/ids-axis-chart/ids-axis-chart';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsEmptyMessage from '../../src/components/ids-empty-message/ids-empty-message';
 import IdsText from '../../src/components/ids-text/ids-text';
+import ResizeObserver from '../helpers/resize-observer-mock';
 import badDataset from '../../demos/data/products.json';
 import dataset from '../../demos/data/components.json';
 import processAnimFrame from '../helpers/process-anim-frame';
@@ -46,6 +47,14 @@ describe('IdsAxisChart Component', () => {
     expect(axisChart.shadowRoot.querySelector('title').textContent).toEqual('Test Title');
   });
 
+  it('supports setting animated', () => {
+    expect(axisChart.shadowRoot.querySelector('animated')).toBeTruthy();
+    expect(axisChart.animated).toEqual(true);
+    axisChart.animated = 'false';
+    expect(axisChart.animated).toEqual(false);
+    expect(axisChart.shadowRoot.querySelector('animated')).toBeFalsy();
+  });
+
   it('supports setting width', () => {
     expect(axisChart.width).toEqual(800);
     axisChart.width = 400;
@@ -53,16 +62,25 @@ describe('IdsAxisChart Component', () => {
     expect(axisChart.shadowRoot.querySelector('svg').getAttribute('width')).toEqual('400');
   });
 
-  it('supports setting height', () => {
-    expect(axisChart.height).toEqual(500);
-    axisChart.height = 400;
+  it('supports setting width to parent', () => {
+    axisChart.parentNode.style.width = '300px';
+    axisChart.width = 'inherit';
+    axisChart.rerender();
+    expect(axisChart.width).toEqual(800);
+    expect(axisChart.shadowRoot.querySelector('svg').getAttribute('width')).toEqual('800');
+  });
+
+  it('supports setting height to parent', () => {
+    axisChart.parentNode.style.height = '300px';
+    axisChart.height = 'inherit';
+    axisChart.rerender();
     expect(axisChart.height).toEqual(400);
     expect(axisChart.shadowRoot.querySelector('svg').getAttribute('height')).toEqual('400');
   });
 
   it('supports setting margins', () => {
     expect(axisChart.margins.left).toEqual(16);
-    expect(axisChart.margins.right).toEqual(16);
+    expect(axisChart.margins.right).toEqual(4);
     const newMargins = {
       left: 32,
       right: 32,
@@ -79,7 +97,7 @@ describe('IdsAxisChart Component', () => {
   });
 
   it('supports setting textWidths', () => {
-    expect(axisChart.textWidths.left).toEqual(68);
+    expect(axisChart.textWidths.left).toEqual(4);
     expect(axisChart.textWidths.right).toEqual(0);
     const newTextWidths = {
       left: 40, right: 40, top: 40, bottom: 40

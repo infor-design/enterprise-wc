@@ -109,3 +109,26 @@ export function getEditableRect(rect) {
     bottom, left, right, top, height, width, x, y
   };
 }
+
+/**
+ * Determines if the passed element is overflowing its bounds
+ * @param {HTMLElement} el The element to check
+ * @returns {boolean} true if overflowing, false otherwise
+ */
+export function checkOverflow(el) {
+  if (!el) return false;
+
+  const curOverflow = el.style.overflow;
+  let changedOverflow = false;
+  if (!curOverflow || curOverflow === 'visible') {
+    el.style.overflow = 'hidden';
+    changedOverflow = true;
+  }
+
+  const isOverflowing = el.clientWidth < el.scrollWidth || el.clientHeight < el.scrollHeight;
+  if (changedOverflow) {
+    el.style.overflow = curOverflow;
+  }
+
+  return isOverflowing;
+}

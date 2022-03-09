@@ -20,8 +20,8 @@ const lineData2 = [{
     value: 10
   }],
   name: 'Component A',
-  legendShortName: 'Comp A',
-  legendAbbrName: 'A',
+  shortName: 'Comp A',
+  abbreviatedName: 'A',
 }, {
   data: [{
     name: 'Jan',
@@ -43,8 +43,8 @@ const lineData2 = [{
     value: 110
   }],
   name: 'Component B',
-  legendShortName: 'Comp B',
-  legendAbbrName: 'B',
+  shortName: 'Comp B',
+  abbreviatedName: 'B',
 }];
 
 const url = '/data/components.json';

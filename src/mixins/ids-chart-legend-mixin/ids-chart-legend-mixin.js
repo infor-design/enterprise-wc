@@ -1,4 +1,5 @@
 import { attributes } from '../../core/ids-attributes';
+import { checkOverflow } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 /**
  * A mixin that adds selection functionality to components
@@ -39,15 +40,30 @@ const IdsChartLegend = (superclass) => class extends superclass {
 
   /**
    * Calculate the legend markup and return it
+   * @param {string} setting The setting to use between name,shortName and abbreviatedName
    * @returns {string} The legend markup.
    */
-  legendTemplate() {
+  legendTemplate(setting = 'name') {
     let legend = `<div class="chart-legend">`;
     this.data.forEach((group, index) => {
-      legend += `<a href="#"><div class="swatch color-${index + 1}"></div>${group.name}</a>`;
+      legend += `<a href="#"><div class="swatch color-${index + 1}"></div>${group[setting] ? group[setting] : group.name}</a>`;
     });
     legend += `</div>`;
     return legend;
+  }
+
+  /**
+   * Set the labels between name, shortName and abbreviatedName depending which fits best
+   */
+  adjustLabels() {
+    let legend = this.shadowRoot.querySelector('.chart-legend');
+    if (checkOverflow(this.shadowRoot.querySelector('.chart-legend'))) {
+      legend.outerHTML = this.legendTemplate('shortName');
+    }
+    legend = this.shadowRoot.querySelector('.chart-legend');
+    if (checkOverflow(legend)) {
+      legend.outerHTML = this.legendTemplate('abbreviatedName');
+    }
   }
 };
 

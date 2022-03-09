@@ -99,8 +99,8 @@ To achieve this it is recommended to use the `color` setting and pick one of the
  }, {
    "data": [],
    "name": "Component B",
-   "legendShortName": "Comp B",
-   "legendAbbrName": "B",
+   "shortName": "Comp B",
+   "abbreviatedName": "B",
    "color": "var(--ids-color-palette-azure-40)"
  }, {
    "data": [{

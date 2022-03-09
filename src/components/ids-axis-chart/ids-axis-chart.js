@@ -98,9 +98,18 @@ export default class IdsAxisChart extends Base {
     this.onEvent('languagechange.about-container', this.closest('ids-container'), async () => {
       this.shadowRoot.querySelector('ids-empty-message ids-text').textContent = this.locale?.translate('NoData');
     });
+  }
 
+  /** Holds the resize observer object */
+  #resizeObserver = null;
+
+  /**
+   * Attach the resize observer
+   * @private
+   */
+  #attachResizeObserver() {
     // Set observer for resize
-    if (this.resizeToParentHeight || this.resizeToParentWidth) {
+    if ((this.resizeToParentHeight || this.resizeToParentWidth) && !this.#resizeObserver) {
       let width = this.width;
       let height = this.height;
       this.#resizeObserver = new ResizeObserver(debounce((entries) => {
@@ -115,9 +124,6 @@ export default class IdsAxisChart extends Base {
       this.#resizeObserver.observe(this.parentElement);
     }
   }
-
-  /** Holds the resize observer object */
-  #resizeObserver = null;
 
   /**
    * Handle Resizing
@@ -157,6 +163,7 @@ export default class IdsAxisChart extends Base {
     this.#addColorVariables();
     this.svg.innerHTML = this.#axisTemplate();
     this.legend.innerHTML = this.legendTemplate();
+    this.adjustLabels();
     this.triggerEvent('rendered', this, { svg: this.svg, data: this.data, markerData: this.markerData });
   }
 
@@ -464,6 +471,7 @@ export default class IdsAxisChart extends Base {
     if (value === 'inherit') {
       height = this.#getParentDimensions().height;
       this.resizeToParentHeight = true;
+      this.#attachResizeObserver();
     }
     this.setAttribute(attributes.HEIGHT, height);
     this.svg.setAttribute(attributes.HEIGHT, height);
@@ -481,6 +489,7 @@ export default class IdsAxisChart extends Base {
     if (value === 'inherit') {
       width = this.#getParentDimensions().width;
       this.resizeToParentWidth = true;
+      this.#attachResizeObserver();
     }
     this.setAttribute(attributes.WIDTH, width);
     this.svg.setAttribute(attributes.WIDTH, width);

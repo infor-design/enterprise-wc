@@ -19,8 +19,8 @@
      "value": 6500
    }],
    "name": "Component A",
-   "legendShortName": "Comp A",
-   "legendAbbrName": "A",
+   "shortName": "Comp A",
+   "abbreviatedName": "A",
    "color": "#0054B1"
  }, {
    "data": [{
@@ -43,8 +43,8 @@
      "value": 2811
    }],
    "name": "Component B",
-   "legendShortName": "Comp B",
-   "legendAbbrName": "B",
+   "shortName": "Comp B",
+   "abbreviatedName": "B",
    "color": "#1C86EF"
  }, {
    "data": [{
@@ -64,7 +64,7 @@
      "value": 8000
    }],
    "name": "Component C",
-   "legendShortName": "Comp C",
-   "legendAbbrName": "C",
+   "shortName": "Comp C",
+   "abbreviatedName": "C",
    "color": "var(--ids-color-palette-azure-20)"
  }]
