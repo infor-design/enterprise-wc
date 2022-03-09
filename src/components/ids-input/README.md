@@ -95,13 +95,14 @@ Set up for displaying the show/hide password button:
 
 - `autoselect` {boolean} set auto select text on focus to input.
 - `bgTransparent` {boolean} set the transparent background to readonly input.
-- `clearable` {boolean} set (x) button to clear text on click/key to input.
+- `clearable` {boolean} set (x) button to clear text on click/key to input. See [Ids Clearable Mixin](../../mixins/ids-clearable-mixin/README.md) for more information.
 - `clearableForced` {boolean} set (x) button to clear text on click/key to input, forced to be on readonly.
 - `caps-lock` {boolean} sets whether the capslock indicator appears when caps lock is on.
-- `dirty-tracker` {boolean} set dirty tracker to input.
+- `dirty-tracker` {boolean} set dirty tracker to input. See [Ids Dirty Tracker Mixin](../../mixins/ids-dirty-tracker-mixin/README.md) for more information.
 - `disabled` {boolean} set disabled state.
+- `fieldHeight` {string} defines the height of the input field. See [Ids Field Height Mixin](../../mixins/ids-field-height-mixin/README.md) for more information.
 - `label` {string} set the label text.
-- `labelHidden` {string} indicates that a label is hidden (note that for accessibility reasons, `label` should still be specified).
+- `labelState` {string} indicates that a label is hidden (note that for accessibility reasons, `label` should still be specified). See [Ids Label State Mixin](../../mixins/ids-label-state-mixin/README.md) for more information.
 - `mask` {array|function} defines how to mask the input.  See [Ids Mask Mixin](../ids-mask/README.md) for more information.
 - `password-visible` {boolean} sets whether the password is currently visible must be paired with revealable-text = 'true' and type = 'password'.
 - `placeholder` {string} set the placeholder text to input.
@@ -109,20 +110,10 @@ Set up for displaying the show/hide password button:
 - `revealable-text` {boolean} sets whether the show/hide button is availble for password fields must be paired with type='password'
 - `readonly` {boolean} set readonly state.
 - `text-align` {string} set text-align to input, it will set `left` as defaults.
-- `triggerfield` {boolean} if true will add css class/style `has-triggerfield`.
 - `type` {string} set the input type, it will set `text` as defaults.
 - `validate` {string} set the input validation rules, use `space` to add multiple validation rules.
 - `validationEvents` {string} set the input validation events, use `space` to add multiple validation rules, it will set `blur` as defaults.
 - `value` {string} set the input value.
-
-## Using external input-controlled labels
-For niche scenarios or for things such as compound form components, it is possible to use externally controlled labels which will preserve the style and functionality for validation with a marker for required fields.
-
-This can be done in a component by:
-1. in your component's `connectedCallback` method, add a call to `input.setLabelElement(myCustomLabelEl)` in order to bind your label to the component.
-1. if you are using `ids-text` for your external label, add a `label` attribute to specify that it should be labeled/themed as a label.
-1. on your `ids-input`, add a `label-hidden` flag in order to mark the label as hidden.
-1. for the sake of accessibility/screen-readers, the `ids-input`'s `label` attribute should still be set with the text content for the label.
 
 ## Keyboard Guidelines
 

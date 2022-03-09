@@ -117,7 +117,8 @@ Set the sizes, available sizes are `'sm'|'md'|'lg'|'full'` and default type is `
 - `charMaxText` {string} set text that will be used in place of the `max` text.
 - `charRemainingText` {string} set text that will be used in place of the `remaining` text.
 - `characterCounter` {boolean} set a counter that counts down from the maximum character.
-- `dirty-tracker` {boolean} set dirty tracker to textarea.
+- `clearable` {boolean} set clearable icon on the textarea. See [Ids Clearable Mixin](../../mixins/ids-clearable-mixin/README.md) for more information.
+- `dirty-tracker` {boolean} set dirty tracker to textarea. See [Ids Dirty Tracker Mixin](../../mixins/ids-dirty-tracker-mixin/README.md) for more information.
 - `disabled` {boolean} set disabled state.
 - `label` {string} set the label text.
 - `labelRequired` {boolean} set the required indicator on label text.
@@ -129,7 +130,6 @@ Set the sizes, available sizes are `'sm'|'md'|'lg'|'full'` and default type is `
 - `resizable` {boolean} set to resize the height of the textarea.
 - `rows` {number|string} set to visible height of a textarea in lines.
 - `text-align` {string} set text-align to textarea, it will set `left` as defaults.
-- `triggerfield` {boolean} if true will add css class/style `has-triggerfield`.
 - `type` {string} set the textarea type, it will set `text` as defaults.
 - `validate` {string} set the textarea validation rules, use `space` to add multiple validation rules.
 - `validationEvents` {string} set the textarea validation events, use `space` to add multiple validation rules, it will set `blur` as defaults.

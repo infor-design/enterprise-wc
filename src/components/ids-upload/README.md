@@ -60,7 +60,7 @@ Upload field with required validation
 ## Settings (Attributes)
 
 - `accept` {string} sets limit the file types to be uploaded.
-- `dirty-tracker` {boolean} sets the dirty tracking feature on to indicate a changed field.
+- `dirty-tracker` {boolean} sets the dirty tracking feature on to indicate a changed field. See [Ids Dirty Tracker Mixin](../../mixins/ids-dirty-tracker-mixin/README.md) for more information.
 - `disabled` {boolean} sets to disabled state.
 - `label` {string} sets the label text for text input.
 - `labelFiletype` {string} sets the label text for file input.

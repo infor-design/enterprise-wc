@@ -33,9 +33,27 @@ export default class IdsTriggerButton extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.INLINE,
       attributes.READONLY,
-      attributes.TABBABLE
+      attributes.TABBABLE,
     ];
+  }
+
+  connectedCallback() {
+    super.connectedCallback?.();
+    if (this.getAttribute(attributes.INLINE)) {
+      this.inline = true;
+    }
+  }
+
+  /**
+   * Figure out the classes
+   * @private
+   * @readonly
+   * @returns {Array} containing classes used to identify this button prototype
+   */
+  get protoClasses() {
+    return ['ids-trigger-button'].concat(super.protoClasses);
   }
 
   /**
@@ -45,16 +63,18 @@ export default class IdsTriggerButton extends Base {
   set tabbable(value) {
     const isTabbable = stringToBool(value);
     const button = this.shadowRoot?.querySelector('button');
+
     if (isTabbable) {
-      this.setAttribute(attributes.TABBABLE, 'true');
-      button.setAttribute(attributes.TABINDEX, '0');
+      this.setAttribute(attributes.TABBABLE, '');
+      button.tabIndex = 0;
       return;
     }
-    this.setAttribute(attributes.TABBABLE, 'false');
-    button.setAttribute(attributes.TABINDEX, '-1');
+
+    this.removeAttribute(attributes.TABBABLE);
+    button.tabIndex = -1;
   }
 
-  get tabbable() { return this.getAttribute(attributes.TABBABLE) || true; }
+  get tabbable() { return stringToBool(this.getAttribute(attributes.TABBABLE)); }
 
   /**
    * Set the trigger button to readonly color
@@ -64,17 +84,48 @@ export default class IdsTriggerButton extends Base {
     const isReadonly = stringToBool(value);
     const button = this.shadowRoot?.querySelector('button');
     if (isReadonly) {
-      button.setAttribute(attributes.READONLY, 'true');
-      button.setAttribute(attributes.TABINDEX, '-1');
-      this.setAttribute(attributes.READONLY, 'true');
+      this.setAttribute(attributes.READONLY, '');
+      button.tabIndex = -1;
       return;
     }
-    button.removeAttribute(attributes.READONLY);
-    button.setAttribute(attributes.TABINDEX, this.tabbable ? '0' : '-1');
+    button.tabIndex = this.tabbable ? 0 : -1;
     this.removeAttribute(attributes.READONLY);
   }
 
-  get readonly() {
-    return stringToBool(this.getAttribute(attributes.READONLY)) || false;
+  get readonly() { return stringToBool(this.getAttribute(attributes.READONLY)); }
+
+  /**
+   * @readonly
+   * @returns {string} containing an optional "border" class to apply to this button
+   */
+  get inlineCssClass() {
+    return this?.slot === 'trigger-start' ? 'inline-start' : 'inline-end';
+  }
+
+  /**
+   * @param {boolean} val true if this trigger button should display "inline" instead of having its own full border
+   */
+  set inline(val) {
+    const showsBorder = stringToBool(val);
+    if (showsBorder) {
+      this.setAttribute(attributes.INLINE, '');
+      this.#setBorderClass();
+    } else {
+      this.removeAttribute(attributes.INLINE);
+      this.#removeBorderClass();
+    }
+  }
+
+  /**
+   * @returns {boolean} true if this trigger button displays "inline" instead of having its own full border
+   */
+  get inline() { return this.getAttribute(attributes.INLINE); }
+
+  #setBorderClass() {
+    this.button.classList.add('style-inline', this.inlineCssClass);
+  }
+
+  #removeBorderClass() {
+    this.button.classList.remove('style-inline', this.inlineCssClass);
   }
 }

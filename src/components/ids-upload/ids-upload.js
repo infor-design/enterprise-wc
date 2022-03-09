@@ -36,6 +36,7 @@ export default class IdsUpload extends Base {
    */
   static get attributes() {
     return [
+      ...super.attributes,
       attributes.ACCEPT,
       attributes.DIRTY_TRACKER,
       attributes.DISABLED,
@@ -49,9 +50,7 @@ export default class IdsUpload extends Base {
       attributes.TRIGGER_LABEL,
       attributes.VALIDATE,
       attributes.VALIDATION_EVENTS,
-      attributes.VALUE,
-      attributes.MODE,
-      attributes.VERSION
+      attributes.VALUE
     ];
   }
 
@@ -62,7 +61,7 @@ export default class IdsUpload extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.trigger = this.shadowRoot.querySelector('.trigger');
-    this.textInput = this.shadowRoot.querySelector('ids-input');
+    this.textInput = this.shadowRoot.querySelector('ids-trigger-field');
     this.fileInput = this.shadowRoot.querySelector(`#${ID}`);
 
     this.files = this.fileInput.files;
@@ -78,12 +77,12 @@ export default class IdsUpload extends Base {
     const accept = this.accept ? ` accept="${this.accept}"` : '';
     const dirtyTracker = trueVal(this.dirtyTracker) ? ` dirty-tracker="${this.dirtyTracker}"` : '';
     const disabled = trueVal(this.disabled) ? ` disabled="${this.disabled}"` : '';
+    const readonlyBG = trueVal(this.readonly) ? '' : ' readonly-background';
     const textEllipsis = trueVal(this.noTextEllipsis) ? '' : ' text-ellipsis="true"';
     const label = this.label ? ` label="${this.label}"` : '';
     const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
     const multiple = trueVal(this.multiple) ? ` multiple="multiple"` : '';
     const readonlyBtn = trueVal(this.readonly) ? ` readonly="true"` : '';
-    const bgTransparent = ` bg-transparent="${!trueVal(this.readonly)}"`;
     const clearableForced = ` clearable-forced="${this.hasAccess}"`;
     const size = this.size ? ` size="${this.size}"` : '';
     const triggerLabel = this.triggerLabel || this.triggerLabelDefault;
@@ -99,16 +98,13 @@ export default class IdsUpload extends Base {
         </label>
         <input id="${ID}" type="file" class="ids-upload-filetype" aria-hidden="true" tabindex="-1"${accept}${multiple}${value} />
         <ids-trigger-field
-          ${label}${disabled}${readonlyBtn}${validate}
+          readonly
+          ${readonlyBG}
+          ${clearableForced}${dirtyTracker}${disabled}${label}${placeholder}${size}${validate}${validationEvents}${textEllipsis}${value}
           css-class="ids-upload"
+          part="input"
         >
-          <ids-input
-            part="input"
-            readonly="true"
-            triggerfield="true"
-            ${clearableForced}${bgTransparent}${dirtyTracker}${disabled}${label}${placeholder}${size}${validate}${validationEvents}${textEllipsis}${value}
-          ></ids-input>
-          <ids-trigger-button part="button" class="trigger"${disabled}${readonlyBtn}>
+          <ids-trigger-button slot="trigger-end" part="button" class="trigger"${disabled}${readonlyBtn}>
             <ids-text slot="text" audible="true" class="trigger-label">${triggerLabel}</ids-text>
             <ids-icon slot="icon" icon="folder"></ids-icon>
           </ids-trigger-button>
@@ -365,14 +361,14 @@ export default class IdsUpload extends Base {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
-      this.textInput.readonly = false;
       this.textInput.disabled = true;
       this.trigger.disabled = true;
     } else {
       this.removeAttribute(attributes.DISABLED);
-      this.textInput.readonly = true;
       this.textInput.disabled = false;
       this.trigger.disabled = false;
+
+      this.textInput.readonly = this.readonly;
     }
   }
 
@@ -467,17 +463,22 @@ export default class IdsUpload extends Base {
    * @param {boolean|string} value If true will set `readonly` attribute
    */
   set readonly(value) {
+    // NOTE: IdsTriggerField is ALWAYS `readonly` when used in IdsUpload
     const val = stringToBool(value);
+    if (this.textInput && !this.textInput?.readonly) {
+      this.textInput.readonly = true;
+    }
+
     if (val) {
       this.setAttribute(attributes.READONLY, val.toString());
-      this.textInput.bgTransparent = false;
-      this.trigger.container.disabled = false;
-      this.trigger.container.classList.add('readonly');
+      this.container.classList.add(attributes.READONLY);
+      this.textInput.readonlyBackground = false;
+      this.trigger.readonly = true;
     } else {
       this.removeAttribute(attributes.READONLY);
-      this.textInput.bgTransparent = true;
-      this.trigger.container.disabled = false;
-      this.trigger.container.classList.remove('readonly');
+      this.container.classList.remove(attributes.READONLY);
+      this.textInput.readonlyBackground = true;
+      this.trigger.readonly = false;
     }
   }
 

@@ -93,6 +93,7 @@ It's also possible to control the intervals of minutes and seconds available for
 
 - `autoselect` {boolean} Automatically opens the popup on focus.
 - `autoupdate` {boolean} Automatically upates the timestring value and hides the "Set Time" button.
+- `dirty-tracker` {boolean} sets the dirty tracking feature on to indicate a changed field. See [Ids Dirty Tracker Mixin](../../mixins/ids-dirty-tracker-mixin/README.md) for more information.
 - `disabled` {boolean} Disables the timepicker
 - `readonly` {boolean} Makes the timepicker readonly
 - `label` {string} Set the timepicker's label
