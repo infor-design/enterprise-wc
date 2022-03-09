@@ -62,6 +62,10 @@ Label text should be localized in the current language. All elements will flip t
 
 ## Converting from Previous Versions (Breaking Changes)
 
+**3.x to 4.x**
+
+- Wizard was a new component created in v4.0.0
+
 **4.x to 5.x**
 
 - Wizard is now a custom element `<ids-wizard></ids-wizard>`

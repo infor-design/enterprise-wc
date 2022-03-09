@@ -243,6 +243,10 @@ The Ids Upload Advanced doesn't contain any interactions beyond a standard keys:
 
 ## Converting from Previous Versions (Breaking Changes)
 
+**3.x to 4.x**
+
+- FileUploadAdvanced was a new component created in v4.2.0
+
 **4.x to 5.x**
 
 - Markup has changed to a custom element `<ids-upload-advanced></ids-upload-advanced>`

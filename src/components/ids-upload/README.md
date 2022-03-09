@@ -82,6 +82,13 @@ Upload field with required validation
 
 ## Converting from Previous Versions (Breaking Changes)
 
+**3.x to 4.x**
+
+- Replace any calls to `inforFileField()` with `.fileupload()`
+- Replace class `inforLabel` with `label`
+- Replace class `inforFileField` with `fileupload`
+- Make sure the `<label>` wraps the `<input>` element
+
 **4.x to 5.x**
 
 - Markup has changed to a custom element `<ids-upload></ids-upload>`
