@@ -32,6 +32,10 @@
   border: 1px dashed var(--ids-color-palette-slate-80);
 }
 
+:host(.p-8) {
+  @include p-8();
+}
+
 :host(.is-hidden) {
   height: 0;
   padding: 0;

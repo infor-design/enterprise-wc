@@ -25,15 +25,13 @@ export default class IdsSwappableItem extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.setAttribute('tabbable', 'true');
-    // this.setAttribute('draggable', 'false');
-    this.removeAttribute('draggable');
+    this.setAttribute('draggable', 'false');
     this.attachEventListeners();
   }
 
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.DRAGGABLE,
       attributes.DRAGGING,
       attributes.ORIGINAL_TEXT,
       attributes.OVER,
@@ -56,11 +54,11 @@ export default class IdsSwappableItem extends Base {
     if (isValueTruthy) {
       this.setAttribute(attributes.SELECTED, '');
       this.setAttribute('aria-selected', 'selected');
-      this.setAttribute(attributes.DRAGGABLE, 'true');
+      this.setAttribute('draggable', 'true');
     } else {
       this.removeAttribute(attributes.SELECTED);
       this.removeAttribute('aria-selected');
-      this.setAttribute(attributes.DRAGGABLE, 'false');
+      this.setAttribute('draggable', 'false');
     }
   }
 
@@ -166,6 +164,7 @@ export default class IdsSwappableItem extends Base {
    * Handle functionality for the dragend event
    */
   #dragEnd() {
+    this.setAttribute(attributes.DRAGGABLE, 'false');
     this.removeAttribute(attributes.DRAGGING);
     this.removeAttribute(attributes.SELECTED);
     this.removeAttribute(attributes.OVER);
