@@ -1,10 +1,13 @@
 import IdsAxisChart from '../ids-axis-chart';
+import componentsJSON from '../../../assets/data/components.json';
 
-const url = '/data/components.json';
 const setData = async () => {
-  const res = await fetch(url);
+  const res = await fetch(componentsJSON);
   const data = await res.json();
-  document.querySelector('ids-axis-chart').data = data;
+  const chart = document.querySelector('#index-example');
+  if (chart) {
+    chart.data = data;
+  }
 };
 
 setData();

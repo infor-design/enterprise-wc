@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import IdsLineChart from '../../src/components/ids-line-chart/ids-line-chart';
-import dataset from '../../demos/data/components.json';
+import dataset from '../../src/assets/data/components.json';
 
 describe('IdsLineChart Component', () => {
   let lineChart;

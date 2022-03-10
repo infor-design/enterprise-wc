@@ -46,6 +46,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Alerts (ids-alert)
  - [x] Application menu (ids-application-menu)
  - [x] Area (ids-area-chart)
+ - [x] Arrange (ids-swappable)
  - [ ] Autocomplete (ids-autocomplete)
  - [x] Badges (ids-badge)
  - [ ] Bar (ids-bar-chart)

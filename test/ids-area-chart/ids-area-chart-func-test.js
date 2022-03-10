@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import IdsAreaChart from '../../src/components/ids-area-chart/ids-area-chart';
-import dataset from '../../demos/data/components.json';
+import dataset from '../../src/assets/data/components.json';
 
 describe('IdsAreaChart Component', () => {
   let areaChart;

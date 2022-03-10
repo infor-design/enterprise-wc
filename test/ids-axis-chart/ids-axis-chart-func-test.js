@@ -6,8 +6,8 @@ import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsEmptyMessage from '../../src/components/ids-empty-message/ids-empty-message';
 import IdsText from '../../src/components/ids-text/ids-text';
 import ResizeObserver from '../helpers/resize-observer-mock';
-import badDataset from '../../demos/data/products.json';
-import dataset from '../../demos/data/components.json';
+import badDataset from '../../src/assets/data/products.json';
+import dataset from '../../src/assets/data/components.json';
 import processAnimFrame from '../helpers/process-anim-frame';
 
 describe('IdsAxisChart Component', () => {

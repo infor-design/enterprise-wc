@@ -53,7 +53,10 @@ const lineData2 = [{
 const setData = async () => {
   const res = await fetch(componentsJSON);
   const data = await res.json();
-  document.querySelector('ids-line-chart').data = data;
+  const chart = document.querySelector('#index-example');
+  if (chart) {
+    chart.data = data;
+  }
 };
 
 setData();

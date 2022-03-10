@@ -1,8 +1,7 @@
-import IdsLineChart from '../ids-line-chart';
-import componentsJSON from '../../../assets/data/components.json';
+import componentsColorsJSON from '../../../assets/data/components-colors.json';
 
 const setData = async () => {
-  const res = await fetch(componentsJSON);
+  const res = await fetch(componentsColorsJSON);
   const data = await res.json();
   document.querySelector('ids-line-chart').data = data;
 };

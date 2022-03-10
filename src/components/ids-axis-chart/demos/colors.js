@@ -1,9 +1,8 @@
 import IdsAxisChart from '../ids-axis-chart';
-import componentsJSON from '../../../assets/data/components.json';
+import componentsColorsJSON from '../../../assets/data/components-colors.json';
 
-const url = componentsJSON;
 const setData = async () => {
-  const res = await fetch(url);
+  const res = await fetch(componentsColorsJSON);
   const data = await res.json();
   document.querySelector('ids-axis-chart').data = data;
 };
