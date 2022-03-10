@@ -53,6 +53,6 @@ drawer.show();
 drawer.hide();
 ```
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
 In the 4.x IDS Components there was no Drawer component.  This component represents part of the functionality provided by the 4.x Application Menu, and has been made more general to be shared.
