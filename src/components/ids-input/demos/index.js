@@ -23,4 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
   btnReadonly?.addEventListener('click', () => {
     input.readonly = true;
   });
+
+  const testInput = document.querySelector('#test-input');
+  testInput.addEventListener('change', (e) => {
+    console.info('Test Input Change Event: ', e.target.value);
+  });
 });
