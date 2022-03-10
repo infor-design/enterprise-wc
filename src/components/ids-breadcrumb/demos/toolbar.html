@@ -1,21 +1,29 @@
-{{> ../layouts/head.html }}
-
-<ids-layout-grid auto="true">
-  <ids-text font-size="12" type="h1">Breadcrumb</ids-text>
-</ids-layout-grid>
-
-<ids-layout-grid auto="true">
-  <ids-toolbar>
-    <ids-toolbar-section>
-      <ids-breadcrumb>
-        <ids-hyperlink font-size="14" color="unset" href="#">First Item</ids-hyperlink>
-        <ids-hyperlink font-size="14" color="unset" href="#">Second Item</ids-hyperlink>
-        <ids-hyperlink font-size="14" color="unset" href="#">Disabled Item</ids-hyperlink>
-        <ids-hyperlink font-size="14" color="unset">Current Item</ids-hyperlink>
-      </ids-breadcrumb>
-    </ids-toolbar-section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
-  </ids-toolbar>
-</ids-layout-grid>
 
-{{> ../layouts/footer.html }}
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Breadcrumb</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-toolbar>
+        <ids-toolbar-section favor>
+          <ids-breadcrumb>
+            <ids-hyperlink font-size="14" color="unset" href="#">First Item</ids-hyperlink>
+            <ids-hyperlink font-size="14" color="unset" href="#">Second Item</ids-hyperlink>
+            <ids-hyperlink font-size="14" color="unset" href="#">Disabled Item</ids-hyperlink>
+            <ids-hyperlink font-size="14" color="unset">Current Item</ids-hyperlink>
+          </ids-breadcrumb>
+        </ids-toolbar-section>
+        <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+      </ids-toolbar>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>
