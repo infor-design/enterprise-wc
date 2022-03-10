@@ -89,3 +89,13 @@ weekView.showTimeline = false;
 // Change timeline interval to 1 second
 weekView.timelineInterval = 1000;
 ```
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- Week View was a new component created in v4.23.0
+
+**4.x to 5.x**
+
+- Week View is now a custom element `<ids-week-view></ids-week-view>`
+- Most settings that were previously jQuery-based are now attributes (for example, `first-day-of-week` or `end-hour`)
