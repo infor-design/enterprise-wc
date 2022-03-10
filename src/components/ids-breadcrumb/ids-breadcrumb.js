@@ -160,6 +160,7 @@ export default class IdsBreadcrumb extends Base {
 
     if (breadcrumb.getAttribute('href')) {
       this.onEvent('click.link', breadcrumb, (e) => {
+        // eslint-disable-next-line no-console
         console.log(`${e.target.innerHTML} Clicked!`);
       });
     }
