@@ -72,11 +72,11 @@ Example usage with buttons on both sides of input.
 
 **3.x to 4.x**
 
-No separate Trigger Field component is present in 4.x
+- No separate Trigger Field component is present in 4.x
 
 **4.x to 5.x**
 
-IdsTriggerField is a new component for 5.x
+- IdsTriggerField is a new component for 5.x
 
 ## Regional Considerations
 
