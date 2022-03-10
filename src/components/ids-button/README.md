@@ -131,7 +131,6 @@ In the absence of the property, icons will align to `start` by default.
 - `text` {string} API-level method of setting a button's text content. This will become the content of the Shadow Root button's `text` slot when set
 - `text` {string} The type/purpose of the button to display
 - `tooltip` {string} Sets up a string based tooltip
-- `noRipple` {boolean} Disable the ripple animation effect
 - `square` {boolean} whether the corners of the button as an icon-button are angled/90°
 - `width` {string} Sets width of button. Accepts percent, pixels, rem, etc.
 

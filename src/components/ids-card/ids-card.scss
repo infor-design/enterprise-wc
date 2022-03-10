@@ -1,4 +1,5 @@
 @import '../../core/ids-base';
+@import '../../mixins/sass/ids-ripple-mixin';
 
 .ids-card {
   @include bg-white();

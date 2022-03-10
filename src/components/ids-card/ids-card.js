@@ -12,6 +12,7 @@ import styles from './ids-card.scss';
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
+ * @mixes IdsRippleMixin
  * @part card - the card element
  * @part header - the header element
  * @part content - the card content element
@@ -127,6 +128,11 @@ export default class IdsCard extends Base {
         e.preventDefault();
         this.#handleMultipleSelectionChange(e);
       });
+    }
+
+    // If actionable link, setup ripple
+    if (this.actionable && this.href) {
+      this.setupRipple();
     }
 
     return this;
