@@ -80,24 +80,39 @@
     .ids-card-content {
       height: auto;
     }
+
+    ids-button,
+    ids-hyperlink {
+      height: auto;
+    }
+
+    ids-button::part(button),
+    ids-hyperlink::part(link) {
+      height: auto;
+    }
   }
 }
 
-// Actionable Button Card styles
-:host([actionable]) {
-  .ids-card {
-    contain: unset;
-    height: auto;
+// Actionable Link Card Styles
+:host([actionable]) ids-hyperlink {
+  height: 50px;
 
-    ids-button {
-      align-items: center;
-      height: 50px;
-      width: 100%;
+  &::part(link) {
+    @include box-border();
+    @include flex();
+    @include m-0();
+    @include p-0();
+    @include text-slate-60();
+    @include w-full();
+
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    white-space: normal;
+
+    &:hover {
+      @include text-black();
     }
-  }
-
-  ::slotted([slot='card-content']) {
-    width: 100%;
   }
 }
 
@@ -112,8 +127,22 @@
 }
 
 // Handle the themes for Actionable
-.ids-card ids-button {
-  &::part(button) {
+:host([actionable]) .ids-card {
+  contain: unset;
+  height: auto;
+
+  ::slotted([slot='card-content']) {
+    width: 100%;
+  }
+
+  ids-button {
+    align-items: center;
+    height: 50px;
+    width: 100%;
+  }
+
+  ids-hyperlink::part(link),
+  ids-button::part(button) {
     align-items: center;
     height: 50px;
 
@@ -129,7 +158,9 @@
     }
   }
 
-  &[mode='dark']::part(button):focus {
+  // Dark Theme
+  ids-hyperlink[mode='dark']::part(link):focus,
+  ids-button[mode='dark']::part(button):focus {
     @include border-slate-70();
 
     box-shadow:
@@ -138,7 +169,17 @@
       0 0 4px 2px rgba(141 201 230 / 0.3);
   }
 
-  &[mode='contrast']::part(button):focus {
+  ids-hyperlink[mode='dark']::part(link) {
+    @include text-slate-20();
+
+    &:hover {
+      @include text-white();
+    }
+  }
+
+  // Contrast Theme
+  ids-hyperlink[mode='contrast']::part(link):focus,
+  ids-button[mode='contrast']::part(button):focus {
     @include border-slate-60();
 
     box-shadow:
@@ -147,7 +188,17 @@
       0 0 4px 2px rgba(41 41 41 / 0.3);
   }
 
-  &[mode='light'][version='classic']::part(button):focus {
+  ids-hyperlink[mode='contrast']::part(link) {
+    @include text-slate-100();
+
+    &:hover {
+      @include text-black();
+    }
+  }
+
+  // Classic Light Theme
+  ids-hyperlink[mode='light'][version='classic']::part(link):focus,
+  ids-button[mode='light'][version='classic']::part(button):focus {
     @include border-graphite-30();
 
     box-shadow:
@@ -156,13 +207,31 @@
       0 0 4px 2px rgba(54 138 92 / 0.3);
   }
 
-  &[mode='dark'][version='classic']::part(button):focus {
+  ids-hyperlink[mode='light'][version='classic']::part(link) {
+    @include text-graphite-100();
+
+    &:hover {
+      @include text-black();
+    }
+  }
+
+  // Classic Dark Theme
+  ids-hyperlink[mode='dark'][version='classic']::part(link):focus,
+  ids-button[mode='dark'][version='classic']::part(button):focus {
     @include border-slate-60();
 
     box-shadow:
       0 0 0 2px var(--ids-color-palette-classic-slate-80),
       0 0 0 3px var(--ids-color-palette-azure-50),
       0 0 4px 2px rgba(141 201 230 / 0.3);
+  }
+
+  ids-hyperlink[mode='dark'][version='classic']::part(link) {
+    @include text-classic-slate-10();
+
+    &:hover {
+      @include text-white();
+    }
   }
 }
 
