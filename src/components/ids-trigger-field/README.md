@@ -68,10 +68,15 @@ Example usage with buttons on both sides of input.
 - `tabbable` {boolean} Turns on the functionality allow the trigger to be tabbable. For accessibility reasons this should be on in most cases and this is the default.
 - `delimiter` {string} The delimiter to use when multiple values are selected.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-- 3.x: There was no separate trigger field component.
-- 4.x: There was no separate trigger field component.
+**3.x to 4.x**
+
+- No separate Trigger Field component is present in 4.x
+
+**4.x to 5.x**
+
+- IdsTriggerField is a new component for 5.x
 
 ## Regional Considerations
 
