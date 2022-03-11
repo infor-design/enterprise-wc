@@ -110,16 +110,16 @@ export default class IdsAxisChart extends Base {
   #attachResizeObserver() {
     // Set observer for resize
     if ((this.resizeToParentHeight || this.resizeToParentWidth) && !this.#resizeObserver) {
-      let width = this.width;
-      let height = this.height;
+      let width = this.parentElement.offsetWidth;
+      let height = this.parentElement.offsetHeight;
       this.#resizeObserver = new ResizeObserver(debounce((entries) => {
         if ((entries[0].contentRect.width !== width && this.resizeToParentWidth)
           || (entries[0].contentRect.height !== height && this.resizeToParentHeight)) {
-          this.#resize();
+          this.resize();
         }
         width = this.width;
         height = this.height;
-      }, 400));
+      }, 350));
       this.#resizeObserver.disconnect();
       this.#resizeObserver.observe(this.parentElement);
     }
@@ -129,7 +129,7 @@ export default class IdsAxisChart extends Base {
    * Handle Resizing
    * @private
    */
-  #resize() {
+  resize() {
     if (!this.initialized) {
       return;
     }
@@ -159,6 +159,7 @@ export default class IdsAxisChart extends Base {
       this.#showEmptyMessage();
       return;
     }
+
     this.#calculate();
     this.#addColorVariables();
     this.svg.innerHTML = this.#axisTemplate();
@@ -250,12 +251,9 @@ export default class IdsAxisChart extends Base {
     });
 
     const styleSheet = this.shadowRoot.styleSheets[0];
-    if (colorSheet) {
-      styleSheet.deleteRule(0);
-      styleSheet.insertRule(`:host {
-        ${colorSheet}
-      }`);
-    }
+    styleSheet.insertRule(`:host {
+      ${colorSheet}
+    }`);
   }
 
   /**
@@ -505,11 +503,16 @@ export default class IdsAxisChart extends Base {
    */
   #getParentDimensions() {
     const container = document.querySelector('ids-container');
-    const isHidden = false;
+    let isHidden = false;
     if (container.hidden) {
       container.hidden = false;
+      isHidden = true;
     }
-    const dims = { width: this.parentElement.offsetWidth, height: this.parentElement.offsetHeight };
+    const dims = {
+      width: this.parentElement.offsetWidth || parseInt(this.parentElement.style.width),
+      height: this.parentElement.offsetHeight || parseInt(this.parentElement.style.height)
+    };
+
     if (isHidden) {
       container.hidden = true;
     }
@@ -641,13 +644,12 @@ export default class IdsAxisChart extends Base {
   }
 
   /**
-   * Get the color to use based on the index
+   * Get the color to use based on the index for sequential and custom colors
    * @param {number} index The current index
    * @returns {number} The value to use (integer)
    * @private
    */
   color(index) {
-    // Sequential and custom colors
     return this.data[index].color ? `color-${index + 1}` : this.colors[index];
   }
 

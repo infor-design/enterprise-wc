@@ -26,6 +26,17 @@ describe('Ids Line Chart Percy Tests', () => {
 
   it('should not have visual regressions with custom colors', async () => {
     await page.goto('http://localhost:4444/ids-line-chart/colors.html', { waitUntil: ['networkidle2', 'load'] });
+    await page.evaluate('document.querySelector("ids-line-chart").animate = false');
     await percySnapshot(page, 'ids-line-chart-colors');
+  });
+
+  it('should not have visual regressions when responsive', async () => {
+    await page.setViewport({
+      width: 375,
+      height: 1080
+    });
+    await page.goto('http://localhost:4444/ids-line-chart/responsive.html', { waitUntil: ['networkidle2', 'load'] });
+    await page.evaluate('document.querySelector("ids-line-chart").animate = false');
+    await percySnapshot(page, 'ids-line-chart-responsive');
   });
 });

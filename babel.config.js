@@ -11,8 +11,10 @@ module.exports = (api) => {
 
   // Instrument code for e2e test coverage
   const argv = process.argv.findIndex((el) => el.includes('coverage'));
-  if (argv !== -1) {
-    console.info('Instrumenting For Code Coverage');
+  const webpack = process.argv.findIndex((el) => el.includes('webpack'));
+
+  if (argv !== -1 && webpack === 1) {
+    console.info('Adding instrumentation for code coverage...');
     plugins.push(['istanbul', {
       coverageGlobalScopeFunc: false,
       coverageGlobalScope: 'window'

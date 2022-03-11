@@ -48,11 +48,10 @@ describe('IdsAxisChart Component', () => {
   });
 
   it('supports setting animated', () => {
-    expect(axisChart.shadowRoot.querySelector('animated')).toBeTruthy();
     expect(axisChart.animated).toEqual(true);
     axisChart.animated = 'false';
     expect(axisChart.animated).toEqual(false);
-    expect(axisChart.shadowRoot.querySelector('animated')).toBeFalsy();
+    expect(axisChart.getAttribute('animated')).toEqual('false');
   });
 
   it('supports setting width', () => {
@@ -65,17 +64,37 @@ describe('IdsAxisChart Component', () => {
   it('supports setting width to parent', () => {
     axisChart.parentNode.style.width = '300px';
     axisChart.width = 'inherit';
-    axisChart.rerender();
-    expect(axisChart.width).toEqual(800);
-    expect(axisChart.shadowRoot.querySelector('svg').getAttribute('width')).toEqual('800');
+    axisChart.resize();
+    expect(axisChart.width).toEqual(300);
+    expect(axisChart.shadowRoot.querySelector('svg').getAttribute('width')).toEqual('300');
   });
 
-  it('supports setting height to parent', () => {
+  it('skips resize when not initialized', () => {
+    axisChart.initialized = false;
+    axisChart.width = 'inherit';
+    axisChart.parentNode.style.width = '300px';
+    axisChart.resize();
+    expect(axisChart.width).toEqual(800);
+  });
+
+  it('supports setting height to parent', async () => {
     axisChart.parentNode.style.height = '300px';
     axisChart.height = 'inherit';
-    axisChart.rerender();
-    expect(axisChart.height).toEqual(400);
-    expect(axisChart.shadowRoot.querySelector('svg').getAttribute('height')).toEqual('400');
+    axisChart.resize();
+    await processAnimFrame();
+    expect(axisChart.height).toEqual(300);
+    expect(axisChart.shadowRoot.querySelector('svg').getAttribute('height')).toEqual('300');
+  });
+
+  it('supports setting height to parent even when hidden', async () => {
+    container.hidden = true;
+    axisChart.parentNode.style.height = '300px';
+    axisChart.height = 'inherit';
+    axisChart.resize();
+    await processAnimFrame();
+    expect(axisChart.height).toEqual(300);
+    container.hidden = false;
+    expect(axisChart.shadowRoot.querySelector('svg').getAttribute('height')).toEqual('300');
   });
 
   it('supports setting margins', () => {

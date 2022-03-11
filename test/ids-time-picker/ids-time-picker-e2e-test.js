@@ -15,7 +15,7 @@ describe('Ids Time Picker e2e Tests', () => {
     await expect(page).toPassAxeTests({ disabledRules: ['color-contrast', 'aria-required-children', 'aria-required-parent', 'nested-interactive'] });
   });
 
-  it.skip('can interact wit.skiph dropdowns (hours, minutes, seconds period)', () => {});
+  it.skip('can interact with dropdowns (hours, minutes, seconds period)', () => {});
   it.skip('can hide seconds dropdown', () => {});
   it.skip('can hide period (am/pm) dropdown', () => {});
   it.skip('can be disabled', () => {});

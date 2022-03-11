@@ -160,6 +160,7 @@ All points in the line rise along the y-axis from 0 to the appropriate values. L
 - The data object is the same format except for two changes.
     - `shortName` is now `shortName`
     - `abbreviatedName` is now `abbrName`
+- If using side by side the old line chart requires the height and width of the parent to be visible. So you may need to toggle the visibility of `ids-container` or some new element if its nested in it.
 
 ## Designs
 
