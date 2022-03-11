@@ -5,8 +5,9 @@ import { camelCase, stringToBool } from '../../utils/ids-string-utils/ids-string
 import {
   getClosest,
   getClosestRootNode,
+  getEditableRect,
+  processAnimationFrame,
   waitForTransitionEnd,
-  getEditableRect
 } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import Base from './ids-popup-base';
@@ -25,9 +26,6 @@ import {
   POPUP_PROPERTIES,
   formatAlignAttribute
 } from './ids-popup-attributes';
-
-import renderLoop from '../ids-render-loop/ids-render-loop-global';
-import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 
 import styles from './ids-popup.scss';
 
@@ -931,51 +929,43 @@ export default class IdsPopup extends Base {
   /**
    * Shows the Popup
    * @async
-   * @returns {Promise} resolved once showing and animating the Popup is completed.
+   * @returns {void}
    */
   async show() {
-    return new Promise((resolve, reject) => {
-      if (!this.visible) {
-        reject(new Error('Cannot show the modal if the `visible` setting is false'));
-        return;
+    if (!this.visible) {
+      return;
+    }
+
+    // Change `display: none;` to `display: block;`
+    this.container.classList.add('visible');
+    if (this.isFlipped) {
+      this.container.classList.add('flipped');
+    }
+
+    await processAnimationFrame();
+
+    // Change transparency/visibility
+    this.container.classList.add('open');
+
+    if (this.animated) {
+      await waitForTransitionEnd(this.container, 'opacity');
+    }
+
+    this.triggerEvent('show', this, {
+      bubbles: true,
+      detail: {
+        elem: this
       }
-
-      this.container.classList.add('visible');
-
-      // Adds a RenderLoop-staggered check for whether to show the Popup.
-      if (this.openCheck) {
-        this.openCheck.destroy(true);
-      }
-
-      this.openCheck = renderLoop.register(new IdsRenderLoopItem({
-        duration: 70,
-        timeoutCallback: () => {
-          // Always fire the 'show' event
-          this.triggerEvent('show', this, {
-            bubbles: true,
-            detail: {
-              elem: this
-            }
-          });
-          this.container.classList.add('open');
-          if (this.isFlipped) {
-            this.container.classList.add('flipped');
-          }
-          this.place().then(async () => {
-            // If an arrow is displayed, place it correctly.
-            this.#setArrowDirection('', this.arrow);
-            this.placeArrow();
-
-            if (this.animated) {
-              await waitForTransitionEnd(this.container);
-            }
-            this.#correct3dMatrix();
-            this.open = true;
-            resolve();
-          });
-        }
-      }));
     });
+
+    await this.place();
+
+    // If an arrow is displayed, place it correctly.
+    this.#setArrowDirection('', this.arrow);
+    this.placeArrow();
+
+    this.#correct3dMatrix();
+    this.open = true;
   }
 
   /**
@@ -984,42 +974,32 @@ export default class IdsPopup extends Base {
    * @returns {Promise} resolved once hiding and animating the Popup is completed.
    */
   async hide() {
-    return new Promise((resolve, reject) => {
-      if (this.visible) {
-        reject(new Error('Cannot hide the modal if the `visible` setting is true'));
-        return;
+    if (this.visible) {
+      return;
+    }
+
+    this.open = false;
+    this.#remove3dMatrix();
+    this.container.classList.remove('open');
+
+    if (this.animated) {
+      await waitForTransitionEnd(this.container, 'opacity');
+    }
+
+    // Always fire the 'hide' event
+    this.triggerEvent('hide', this, {
+      bubbles: true,
+      detail: {
+        elem: this
       }
-
-      this.open = false;
-      this.#remove3dMatrix();
-      this.container.classList.remove('open');
-
-      // Adds another RenderLoop-staggered check for whether to hide the Popup.
-      if (this.closedCheck) {
-        this.closedCheck.destroy(true);
-      }
-      this.closedCheck = renderLoop.register(new IdsRenderLoopItem({
-        duration: 200,
-        timeoutCallback: () => {
-          // Always fire the 'hide' event
-          this.triggerEvent('hide', this, {
-            bubbles: true,
-            detail: {
-              elem: this
-            }
-          });
-
-          // Remove the `flipped` class if its there
-          if (this.isFlipped) {
-            this.container.classList.remove('flipped');
-            this.isFlipped = false;
-          }
-
-          this.container.classList.remove('visible', 'open');
-          resolve();
-        }
-      }));
     });
+
+    if (this.isFlipped) {
+      this.container.classList.remove('flipped');
+      this.isFlipped = false;
+    }
+
+    this.container.classList.remove('visible');
   }
 
   /**

@@ -59,6 +59,14 @@ export function getClosest(node, selector) {
 }
 
 /**
+ * Promise-based function that waits for a single paint cycle to complete
+ * @returns {Promise} resolved one paint cycle after it's fired
+ */
+export const processAnimationFrame = () => new Promise((resolve) => {
+  requestAnimationFrame(resolve);
+});
+
+/**
  * Changes a CSS property with a transition,
  * @param {HTMLElement} el the element to act on
  * @param {string} property the CSS property with an attached transition to manipulate
@@ -69,7 +77,7 @@ export function transitionToPromise(el, property, value) {
   return new Promise((resolve) => {
     el.style[property] = value;
     const transitionEnded = (e) => {
-      if (e.propertyName !== property) return;
+      if (e.propertyName !== property) resolve();
       el.removeEventListener('transitionend', transitionEnded);
       resolve();
     };
@@ -87,7 +95,7 @@ export function transitionToPromise(el, property, value) {
 export function waitForTransitionEnd(el, property) {
   return new Promise((resolve) => {
     const transitionEnded = (e) => {
-      if (e.propertyName !== property) return;
+      if (e.propertyName !== property) resolve();
       el.removeEventListener('transitionend', transitionEnded);
       resolve();
     };
