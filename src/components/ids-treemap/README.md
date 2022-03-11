@@ -105,3 +105,13 @@ This chart has no keyboard functionality
 ## Responsive Information
 
 As you resize the chart will redraw with in the width of the container width. The nodes in the treemap are sized in proportion.
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- Treemap was a new component created in v4.6.0
+
+**4.x to 5.x**
+
+- Treemap is now a custom element `<ids-treemap></ids-treemap>`

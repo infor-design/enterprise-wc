@@ -1,3 +1,11 @@
-## TODO
+# Ids Upload Advanced TODO
 
-- [] Need to add feature that let NOT auto start uploading after files dropped/browsed
+Keep this file in sync with #582
+
+## Major
+
+- [ ] Add a feature for NOT allowing automatic start of upload after files have been dropped or added via browser
+
+## Minor
+
+- [ ] Standalone CSS examples
