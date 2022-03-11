@@ -174,4 +174,12 @@ describe('IdsMenuButton Component', () => {
     buttonEl.formatterWidth = 'test';
     expect(buttonEl.getAttribute('formatter-width')).toEqual(null);
   });
+
+  it('can toggle active state', () => {
+    buttonEl.toggleActive(true);
+    expect(buttonEl.button.classList.contains('is-active')).toBeTruthy();
+
+    buttonEl.toggleActive(false);
+    expect(buttonEl.button.classList.contains('is-active')).toBeFalsy();
+  });
 });

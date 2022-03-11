@@ -145,8 +145,29 @@ export default class IdsMenuButton extends Base {
     if (!hasBeforeShow) {
       // On the Popup Menu's `beforeshow` event, set the menu's size to the Menu Button's
       this.onEvent('beforeshow', this.menuEl, () => {
+        this.toggleActive(true);
         this.resizeMenu();
       });
+    }
+
+    const hasHideHandler = this?.handledEvents?.get('hide');
+    if (!hasHideHandler) {
+      this.onEvent('hide', this.menuEl, () => {
+        this.toggleActive(false);
+      });
+    }
+  }
+
+  /**
+   * Toggles button's active state when menu is opened
+   * @param {boolean} value true if menu is open
+   */
+  toggleActive(value) {
+    if (value) {
+      this.button.classList.add('is-active');
+    } else {
+      this.button.classList.remove('is-active');
+      this.button.blur();
     }
   }
 
