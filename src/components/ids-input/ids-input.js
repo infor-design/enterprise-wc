@@ -462,7 +462,7 @@ export default class IdsInput extends Base {
       return this;
     }
 
-    const events = ['change.input', 'focus', 'select', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
+    const events = ['focus', 'select', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       this.onEvent(evt, this.input, (e) => {
         /**
@@ -492,9 +492,19 @@ export default class IdsInput extends Base {
   #attachEventHandlers() {
     this.#attachNativeEvents();
 
-    // If the internal input value is updated, reflect the change on the WebComponent
-    this.onEvent('change.input', this.input, () => {
+    // If the internal input value is updated and a change event is triggered,
+    // reflect that change on the WebComponent host element.
+    this.onEvent('change.input', this.container, (e) => {
+      this.triggeredByChange = true;
       this.value = this.input.value;
+      this.triggerEvent('change', this, {
+        bubbles: true,
+        detail: {
+          elem: this,
+          nativeEvent: e,
+          value: this.value
+        }
+      });
     });
   }
 
@@ -792,11 +802,14 @@ export default class IdsInput extends Base {
 
     if (this.input && this.input?.value !== v) {
       this.input.value = v;
+      if (!this.triggeredByChange) {
+        this.input?.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      this.triggeredByChange = false;
     }
 
     if (currentValue !== v) {
       this.setAttribute(attributes.VALUE, v);
-      this.input?.dispatchEvent(new Event('change', { bubbles: true }));
     }
   }
 
