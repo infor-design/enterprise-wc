@@ -1,0 +1,44 @@
+@import '../../core/ids-base';
+
+:host {
+  font-family: sans-serif;
+  display: block;
+  border: 1px dashed transparent;
+  cursor: pointer;
+  transition: height 0.4s ease, padding 0.4s ease;
+}
+
+:host(:hover) {
+  background-color: var(--ids-color-palette-azure-10);
+}
+
+:host(:focus) {
+  border: 1px solid var(--ids-color-palette-azure-40);
+  box-shadow: 0 0 4px 1px rgb(54 138 192 / 0.3);
+  outline: none;
+}
+
+:host([selected]) {
+  cursor: move;
+}
+
+:host([dragging]),
+:host([selected]) {
+  background-color: var(--ids-color-brand-primary-base);
+  color: var(--ids-color-palette-white);
+}
+
+:host([over]) {
+  border: 1px dashed var(--ids-color-palette-slate-80);
+}
+
+:host(.p-8) {
+  @include p-8();
+}
+
+:host(.is-hidden) {
+  height: 0;
+  padding: 0;
+  border: none;
+  overflow: hidden;
+}
