@@ -61,26 +61,33 @@ describe('IdsAxisChart Component', () => {
     expect(axisChart.shadowRoot.querySelector('svg').getAttribute('width')).toEqual('400');
   });
 
-  it('supports setting width to parent', () => {
+  it('supports setting width to parent', async () => {
     axisChart.parentNode.style.width = '300px';
     axisChart.width = 'inherit';
-    axisChart.resize();
+    await processAnimFrame();
+
+    axisChart.parentWidth = 400;
+    axisChart.resizeToParentWidth = true;
+    axisChart.resize([{ contentRect: { height: 500, width: 300 } }]);
     expect(axisChart.width).toEqual(300);
     expect(axisChart.shadowRoot.querySelector('svg').getAttribute('width')).toEqual('300');
   });
 
-  it('skips resize when not initialized', () => {
+  it('skips resize when not initialized', async () => {
     axisChart.initialized = false;
     axisChart.width = 'inherit';
+    await processAnimFrame();
+    axisChart.resize([{ contentRect: { height: 500, width: 300 } }]);
     axisChart.parentNode.style.width = '300px';
-    axisChart.resize();
     expect(axisChart.width).toEqual(800);
   });
 
   it('supports setting height to parent', async () => {
     axisChart.parentNode.style.height = '300px';
     axisChart.height = 'inherit';
-    axisChart.resize();
+    axisChart.parentHeight = 400;
+    axisChart.resizeToParentHeight = true;
+    axisChart.resize([{ contentRect: { height: 300, width: 800 } }]);
     await processAnimFrame();
     expect(axisChart.height).toEqual(300);
     expect(axisChart.shadowRoot.querySelector('svg').getAttribute('height')).toEqual('300');
@@ -90,7 +97,6 @@ describe('IdsAxisChart Component', () => {
     container.hidden = true;
     axisChart.parentNode.style.height = '300px';
     axisChart.height = 'inherit';
-    axisChart.resize();
     await processAnimFrame();
     expect(axisChart.height).toEqual(300);
     container.hidden = false;

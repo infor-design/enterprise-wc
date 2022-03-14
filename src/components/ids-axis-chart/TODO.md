@@ -23,7 +23,6 @@
 - [x] Take Parent Size in layout grid
 - [x] Short Names / Responsive
 - [x] Empty Message
-- [ ] Test round and Merge - add e2e test for short labels and resize
 - [ ] RTL
 - [ ] Negative Values
 - [ ] Axis and Rotated Labels

@@ -1,0 +1,9 @@
+/* Ids Line Chart Component */
+@import '../../components/ids-axis-chart/ids-axis-chart';
+@import '../../components/ids-line-chart/ids-line-chart';
+
+.ids-axis-chart {
+  .labels.x-labels {
+    text-anchor: start;
+  }
+}

@@ -29,11 +29,9 @@ const IdsChartLegend = (superclass) => class extends superclass {
   set legendPlacement(value) {
     const chartContainer = this.shadowRoot.querySelector('.ids-chart-container');
 
-    if (value === 'top' || value === 'bottom' || value === 'left' || value === 'right') {
-      this.setAttribute(attributes.LEGEND_PLACEMENT, value);
-      chartContainer?.classList.remove('legend-top', 'legend-bottom', 'legend-left', 'legend-right');
-      chartContainer?.classList.add(`legend-${value}`);
-    }
+    this.setAttribute(attributes.LEGEND_PLACEMENT, value);
+    chartContainer?.classList.remove('legend-top', 'legend-bottom', 'legend-left', 'legend-right');
+    chartContainer?.classList.add(`legend-${value}`);
   }
 
   get legendPlacement() { return this.getAttribute(attributes.LEGEND_PLACEMENT) || 'bottom'; }

@@ -30,13 +30,23 @@ describe('Ids Line Chart Percy Tests', () => {
     await percySnapshot(page, 'ids-line-chart-colors');
   });
 
-  it('should not have visual regressions when responsive', async () => {
+  it('should not have visual regressions when responsive short', async () => {
     await page.setViewport({
       width: 375,
       height: 1080
     });
     await page.goto('http://localhost:4444/ids-line-chart/responsive.html', { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate('document.querySelector("ids-line-chart").animate = false');
-    await percySnapshot(page, 'ids-line-chart-responsive');
+    await percySnapshot(page, 'ids-line-chart-responsive-short');
+  });
+
+  it('should not have visual regressions when responsive abbreviated', async () => {
+    await page.setViewport({
+      width: 270,
+      height: 1080
+    });
+    await page.goto('http://localhost:4444/ids-line-chart/responsive.html', { waitUntil: ['networkidle2', 'load'] });
+    await page.evaluate('document.querySelector("ids-line-chart").animate = false');
+    await percySnapshot(page, 'ids-line-chart-responsive-abbreviated');
   });
 });

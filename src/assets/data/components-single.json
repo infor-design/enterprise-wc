@@ -1,0 +1,24 @@
+[{
+   "data": [{
+     "name": "Jan",
+     "value": 100
+   }, {
+     "name": "Feb",
+     "value": 3111
+   }, {
+     "name": "Mar",
+     "value": 3411
+   }, {
+     "name": "Apr",
+     "value": 500
+   }, {
+     "name": "May",
+     "value": 3411
+   }, {
+     "name": "Jun",
+     "value": 6500
+   }],
+   "name": "Component A",
+   "shortName": "Comp A",
+   "abbreviatedName": "A"
+ }]

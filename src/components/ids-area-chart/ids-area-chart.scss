@@ -9,6 +9,7 @@
 
     @for $i from 1 through 21 {
       path.color-#{$i} {
+        /* stylelint-disable-next-line custom-property-pattern */
         fill: var(--color-#{$i});
       }
     }

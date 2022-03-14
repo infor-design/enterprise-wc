@@ -78,10 +78,8 @@ export default class IdsStepChart extends Base {
    * @param {string} value set the text for the secondary label
    */
   set completedLabel(value) {
-    if (this.getAttribute(attributes.COMPLETED_LABEL) !== value) {
-      this.setAttribute('completed-label', value);
-      this.container.querySelector('.completed-label').innerHTML = `${value}`;
-    }
+    this.setAttribute('completed-label', value);
+    this.container.querySelector('.completed-label').innerHTML = `${value}`;
   }
 
   /**
@@ -93,10 +91,8 @@ export default class IdsStepChart extends Base {
    * @param {string} value set the primary label for the step chart
    */
   set label(value) {
-    if (this.getAttribute(attributes.LABEL) !== value) {
-      this.setAttribute('label', value);
-      this.container.querySelector('.label').innerHTML = `${value}`;
-    }
+    this.setAttribute('label', value);
+    this.container.querySelector('.label').innerHTML = `${value}`;
   }
 
   /**
@@ -109,12 +105,10 @@ export default class IdsStepChart extends Base {
    * @param {string} value sets the ids color variable that in progress steps use
    */
   set progressColor(value) {
-    if (this.getAttribute(attributes.PROGRESS_COLOR) !== value) {
-      this.setAttribute('progress-color', value);
-      this.container.querySelectorAll(`.in-progress`).forEach((element) => {
-        element.setAttribute('color', value);
-      });
-    }
+    this.setAttribute('progress-color', value);
+    this.container.querySelectorAll(`.in-progress`).forEach((element) => {
+      element.setAttribute('color', value);
+    });
   }
 
   /**
@@ -126,11 +120,9 @@ export default class IdsStepChart extends Base {
    * @param {string|number} value sets the number of steps in the step chart
    */
   set stepNumber(value) {
-    if (this.getAttribute(attributes.STEP_NUMBER) !== value) {
-      this.setAttribute('step-number', value);
-      this.container.innerHTML = this.template();
-      this.#updateColor();
-    }
+    this.setAttribute('step-number', value);
+    this.container.innerHTML = this.template();
+    this.#updateColor();
   }
 
   /**
@@ -158,10 +150,8 @@ export default class IdsStepChart extends Base {
    * @param {string} value sets the number of the last step in the array to be filled in
    */
   set value(value) {
-    if (this.getAttribute(attributes.VALUE) !== this.value) {
-      this.setAttribute('value', value);
-      this.#updateColor();
-    }
+    this.setAttribute('value', value);
+    this.#updateColor();
   }
 
   // eslint-disable-next-line jsdoc/require-returns

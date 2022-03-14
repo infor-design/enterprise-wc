@@ -110,15 +110,10 @@ export default class IdsAxisChart extends Base {
   #attachResizeObserver() {
     // Set observer for resize
     if ((this.resizeToParentHeight || this.resizeToParentWidth) && !this.#resizeObserver) {
-      let width = this.parentElement.offsetWidth;
-      let height = this.parentElement.offsetHeight;
+      this.parentWidth = this.parentElement.offsetWidth;
+      this.parentHeight = this.parentElement.offsetHeight;
       this.#resizeObserver = new ResizeObserver(debounce((entries) => {
-        if ((entries[0].contentRect.width !== width && this.resizeToParentWidth)
-          || (entries[0].contentRect.height !== height && this.resizeToParentHeight)) {
-          this.resize();
-        }
-        width = this.width;
-        height = this.height;
+        this.resize(entries);
       }, 350));
       this.#resizeObserver.disconnect();
       this.#resizeObserver.observe(this.parentElement);
@@ -128,22 +123,29 @@ export default class IdsAxisChart extends Base {
   /**
    * Handle Resizing
    * @private
+   * @param {object} entries The resize observer entries
    */
-  resize() {
+  resize(entries) {
     if (!this.initialized) {
       return;
     }
 
-    this.initialized = false;
-    if (this.resizeToParentHeight) {
-      this.height = 'inherit';
+    if ((entries[0].contentRect.width !== this.parentWidth && this.resizeToParentWidth && this.parentWidth > 0)
+      || (entries[0].contentRect.height !== this.parentHeight && this.resizeToParentHeight && this.parentHeight > 0)) {
+      this.initialized = false;
+      if (this.resizeToParentHeight) {
+        this.height = 'inherit';
+      }
+      if (this.resizeToParentWidth) {
+        this.width = 'inherit';
+      }
+      this.initialized = true;
+      this.rerender();
+      this.reanimate();
     }
-    if (this.resizeToParentWidth) {
-      this.width = 'inherit';
-    }
-    this.initialized = true;
-    this.rerender();
-    this.reanimate();
+
+    this.parentWidth = this.parentElement.offsetWidth;
+    this.parentHeight = this.parentElement.offsetHeight;
   }
 
   /**
@@ -165,7 +167,12 @@ export default class IdsAxisChart extends Base {
     this.svg.innerHTML = this.#axisTemplate();
     this.legend.innerHTML = this.legendTemplate();
     this.adjustLabels();
+
+    // Completed Event and Callback
     this.triggerEvent('rendered', this, { svg: this.svg, data: this.data, markerData: this.markerData });
+    if (this.rendered) {
+      this?.rendered();
+    }
   }
 
   /**
@@ -225,6 +232,9 @@ export default class IdsAxisChart extends Base {
         const value = dataPoints.data[index]?.value || 0;
         this.markerData.gridTop = this.margins.top + this.textWidths.top;
         this.markerData.gridBottom = this.height - this.margins.bottom - this.textWidths.bottom;
+        this.markerData.gridLeft = this.textWidths.left + this.margins.left
+          + (this.margins.leftInner * 2) + this.margins.rightInner;
+        this.markerData.gridRight = this.width - this.margins.right - this.textWidths.right;
 
         // y = (value - min) / (max - min)
         const cyPerc = ((value - this.markerData.scale.niceMin)
@@ -603,7 +613,7 @@ export default class IdsAxisChart extends Base {
 
   /**
    * Show the vertical axis grid lines
-   * @param {number} value True or false to show the grid lines
+   * @param {boolean} value True or false to show the grid lines
    */
   set showVerticalGridLines(value) {
     this.setAttribute(attributes.SHOW_VERTICAL_GRID_LINES, value);

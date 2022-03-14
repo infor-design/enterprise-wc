@@ -25,4 +25,7 @@ export default class IdsLineChart extends HTMLElement {
 
   /** Set the animation on/off */
   animated?: boolean;
+
+  /** Set the size of the markers (dots) */
+  marrkerrSize?: number;
 }

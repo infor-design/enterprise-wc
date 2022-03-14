@@ -36,6 +36,13 @@ describe('IdsLineChart Component', () => {
     expect(lineChart.markerSize).toEqual(8);
   });
 
+  it('supports disabling animation', () => {
+    expect(lineChart.shadowRoot.querySelectorAll('animate').length).toBe(21);
+    lineChart.animated = false;
+    lineChart.rerender();
+    expect(lineChart.shadowRoot.querySelectorAll('animate').length).toEqual(0);
+  });
+
   it('can set custom colors', async () => {
     lineChart.data = [{
       data: [{

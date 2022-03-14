@@ -2,8 +2,7 @@
 
 ## Description
 
-The axis chart is a chart with an x-axis and y-axis. This is the base chart object used to make line, area, column and other charts.
-Generally it should not be used on its own but if you have a case of making some other chart it could be used.
+The axis chart is a chart with an x-axis and y-axis. This is the base chart object used to make line, area, column and other charts. Generally it should not be used on its own but if you have a case of making some other chart it could be used.
 
 ## Use Cases
 
@@ -24,7 +23,7 @@ Generally it should not be used on its own but if you have a case of making some
 
 ## Features (With Code Examples)
 
-A line chart is defined with a custom element with a width and height.
+A axis chart is defined with a custom element with a width and height.
 
 ```html
 <ids-axis-chart title="A line chart showing component usage" width="800" height="500"></ids-axis-chart>

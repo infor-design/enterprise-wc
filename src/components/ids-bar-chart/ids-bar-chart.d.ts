@@ -1,4 +1,4 @@
-export default class IdsAreaChart extends HTMLElement {
+export default class IdsBarChart extends HTMLElement {
   /** Set the theme mode */
   mode: 'light' | 'dark' | 'contrast' | string;
 
@@ -25,7 +25,4 @@ export default class IdsAreaChart extends HTMLElement {
 
   /** Set the animation on/off */
   animated?: boolean;
-
-  /** Set the size of the markers (dots) */
-  marrkerrSize?: number;
 }
