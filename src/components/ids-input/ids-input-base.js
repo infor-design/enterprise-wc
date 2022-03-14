@@ -8,6 +8,7 @@ import IdsMaskMixin from '../../mixins/ids-mask-mixin/ids-mask-mixin';
 import IdsValidationMixin from '../../mixins/ids-validation-mixin/ids-validation-mixin';
 import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
 import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsAutoCompleteMixin from '../../mixins/ids-autocomplete-mixin/ids-autocomplete-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
 
@@ -21,8 +22,10 @@ const Base = IdsTooltipMixin(
               IdsValidationMixin(
                 IdsKeyboardMixin(
                   IdsThemeMixin(
-                    IdsEventsMixin(
-                      IdsElement
+                    IdsAutoCompleteMixin(
+                      IdsEventsMixin(
+                        IdsElement
+                      )
                     )
                   )
                 )

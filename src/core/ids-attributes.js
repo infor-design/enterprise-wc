@@ -20,6 +20,7 @@ export const attributes = {
   ARROW_TARGET: 'arrow-target',
   AUDIBLE: 'audible',
   AUTO: 'auto',
+  AUTOCOMPLETE: 'autocomplete',
   AUTOGROW: 'autogrow',
   AUTOGROW_MAX_HEIGHT: 'autogrow-max-height',
   AUTOSELECT: 'autoselect',
