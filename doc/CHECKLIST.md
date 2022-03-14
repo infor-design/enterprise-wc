@@ -71,7 +71,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Datepicker (ids-date-picker)
  - [ ] Donut (ids-donut or combined with ids-pie)
  - [x] Drag (ids-draggable)
- - [ ] Dropdown (ids-drop-down)
+ - [x] Dropdown (ids-drop-down)
  - [x] Editor (ids-editor)
  - [ ] Emptymessage (ids-empty-message)
  - [x] Error Page (ids-page-error)
