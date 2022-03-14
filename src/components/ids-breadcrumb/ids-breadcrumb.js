@@ -41,6 +41,7 @@ export default class IdsBreadcrumb extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.PADDING,
       attributes.TRUNCATE
     ];
   }
@@ -213,4 +214,17 @@ export default class IdsBreadcrumb extends Base {
   }
 
   get truncate() { return this.getAttribute(attributes.TRUNCATE); }
+
+  /**
+   * If set to number the breadcrumb container will have padding added (in pixels)
+   * @param {string} value sets the padding to the container
+   */
+  set padding(value) {
+    this.container.style.padding = `0 ${value}px`;
+    this.setAttribute(attributes.PADDING, value.toString());
+  }
+
+  get padding() {
+    return this.getAttribute(attributes.PADDING);
+  }
 }
