@@ -133,9 +133,8 @@ export default class IdsPopup extends Base {
    * CSS property, if applicable.
    */
   #fixPlacementOnResize() {
-    this.place().then(() => {
-      this.#fix3dMatrixOnResize();
-    });
+    this.place();
+    this.#fix3dMatrixOnResize();
   }
 
   /**
@@ -846,17 +845,16 @@ export default class IdsPopup extends Base {
   /**
    * Runs the show/hide routines of the Popup based on current visiblity state.
    * @async
-   * @returns {Promise} from the show/hide process
+   * @returns {void}
    */
   async refreshVisibility() {
     const cl = this.container.classList;
     if (this.#visible && !cl.contains('open')) {
-      return this.show();
+      await this.show();
     }
     if (!this.#visible && cl.contains('visible')) {
-      return this.hide();
+      await this.hide();
     }
-    return new Promise((resolve) => { resolve(); });
   }
 
   /**
@@ -913,17 +911,16 @@ export default class IdsPopup extends Base {
 
   /**
    * Sets an X/Y position and optionally shows/places the Popup
-   * @async
    * @param {number} x the x coordinate/offset value
    * @param {number} y the y coordinate/offset value
    * @param {boolean} doShow true if the Popup should be displayed before placing
    * @param {boolean} doPlacement true if the component should run its placement routine
    */
-  async setPosition(x = null, y = null, doShow = null, doPlacement = null) {
+  setPosition(x = null, y = null, doShow = null, doPlacement = null) {
     if (!Number.isNaN(x)) this.x = x;
     if (!Number.isNaN(y)) this.y = y;
     if (doShow) this.visible = true;
-    if (doPlacement) await this.place();
+    if (doPlacement) this.place();
   }
 
   /**
@@ -958,7 +955,7 @@ export default class IdsPopup extends Base {
       }
     });
 
-    await this.place();
+    this.place();
 
     // If an arrow is displayed, place it correctly.
     this.#setArrowDirection('', this.arrow);
@@ -1004,26 +1001,21 @@ export default class IdsPopup extends Base {
 
   /**
    * Runs the configured placement routine for the Popup
-   * @async
-   * @returns {Promise} resolved once placement has finished
+   * @returns {void}
    */
-  async place() {
-    return new Promise((resolve) => {
-      if (this.visible) {
-        this.#clearPlacement();
-        if (this.positionStyle === 'viewport') {
-          this.#placeInViewport();
+  place() {
+    if (this.visible) {
+      if (this.positionStyle === 'viewport') {
+        this.#placeInViewport();
+      } else {
+        const { alignTarget } = this;
+        if (!alignTarget) {
+          this.#placeAtCoords();
         } else {
-          const { alignTarget } = this;
-          if (!alignTarget) {
-            this.#placeAtCoords();
-          } else {
-            this.#placeAgainstTarget();
-          }
+          this.#placeAgainstTarget();
         }
-        resolve();
       }
-    });
+    }
   }
 
   /**
