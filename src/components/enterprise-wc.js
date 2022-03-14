@@ -56,6 +56,8 @@ import IdsSplitter from './ids-splitter/ids-splitter';
 import IdsStepChart from './ids-step-chart/ids-step-chart';
 import IdsSummaryField from './ids-summary-field/ids-summary-field';
 import IdsSwipeAction from './ids-swipe-action/ids-swipe-action';
+import IdsSwappable from './ids-swappable/ids-swappable';
+import IdsSwapList from './ids-swaplist/ids-swaplist';
 import IdsSwitch from './ids-switch/ids-switch';
 import IdsTabs from './ids-tabs/ids-tabs';
 import IdsTag from './ids-tag/ids-tag';
