@@ -54,10 +54,10 @@ export default class IdsIcon extends Base {
   #attachEventHandlers() {
     this.offEvent('languagechange.icon-container');
     this.onEvent('languagechange.icon-container', this.closest('ids-container'), () => {
-      if (this.isFlipped(this.icon)) {
-        this.container.classList.add('flipped');
+      if (this.isMirrored(this.icon)) {
+        this.container.classList.add('mirrored');
       } else {
-        this.container.classList.remove('flipped');
+        this.container.classList.remove('mirrored');
       }
     });
   }
@@ -79,7 +79,7 @@ export default class IdsIcon extends Base {
     } else {
       viewBox = '0 0 18 18';
     }
-    let template = `<svg part="svg" xmlns="http://www.w3.org/2000/svg"${this.isFlipped(this.icon) ? ` class="flipped"` : ''} stroke="currentColor" fill="none" height="${height}" width="${width}" viewBox="${viewBox}" aria-hidden="true">
+    let template = `<svg part="svg" xmlns="http://www.w3.org/2000/svg"${this.isMirrored(this.icon) ? ` class="mirrored"` : ''} stroke="currentColor" fill="none" height="${height}" width="${width}" viewBox="${viewBox}" aria-hidden="true">
       ${this.iconData()}
     </svg>`;
     if (this.badgePosition || this.badgeColor) {
@@ -109,12 +109,12 @@ export default class IdsIcon extends Base {
   }
 
   /**
-   * Some icons are flipped in RTL Mode
+   * Some icons are mirrored in RTL Mode
    * @param {string} iconName icon name to check
-   * @returns {boolean} true if flipped / rtl
+   * @returns {boolean} true if mirrored / rtl
    */
-  isFlipped(iconName) {
-    const flippedIcons = [
+  isMirrored(iconName) {
+    const mirroredIcons = [
       'add-grid-record',
       'add-grid-row',
       'attach',
@@ -146,14 +146,12 @@ export default class IdsIcon extends Base {
       'document',
       'drilldown',
       'duplicate',
-      'employee-directory',
       'expand-app-tray',
       'export',
       'export-2',
       'export-to-pdf',
       'first-page',
       'folder',
-      'generate-key',
       'get-more-rows',
       'group-selection',
       'headphones',
@@ -162,7 +160,6 @@ export default class IdsIcon extends Base {
       'history',
       'import',
       'invoice-released',
-      'key',
       'language',
       'last-page',
       'launch',
@@ -181,7 +178,6 @@ export default class IdsIcon extends Base {
       'paste',
       'phone',
       'previous-page',
-      'queries',
       'quick-access',
       'redo',
       'refresh',
@@ -194,29 +190,20 @@ export default class IdsIcon extends Base {
       'save',
       'save-close',
       'save-new',
-      'search',
-      'search-folder',
-      'search-list',
       'search-results-history',
-      'select',
       'send',
       'send-submit',
       'show-last-x-days',
       'special-item',
       'stacked',
-      'tack',
       'timesheet',
       'tree-collapse',
       'tree-expand',
       'undo',
       'unsubscribe',
-      'update-preview',
-      'zoom-100',
-      'zoom-in',
-      'zoom-out'
     ];
 
-    if (this.locale?.isRTL() && flippedIcons.includes(iconName)) {
+    if (this.locale?.isRTL() && mirroredIcons.includes(iconName)) {
       return true;
     }
     return false;
