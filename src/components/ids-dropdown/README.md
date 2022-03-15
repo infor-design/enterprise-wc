@@ -177,11 +177,17 @@ The promise should resolve and return data with id, value and label info.
 
 - The dropdown `<input>` should size to the parent container and the `<label>` should remain on the top.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-- 3.x: Dropdown have all new markup and classes.
-- 4.x: Dropdown have all new markup and classes for web components.
-- 5.x: Dropdown is now a custom web element with all new classes
+**3.x to 4.x**
+- Dropdown have all new markup and classes.
+
+**4.x to 5.x**
+- The dropdown component has been changed to a web component and renamed to ids-editor.
+- Markup has changed to a custom element `<ids-dropdown></ids-dropdown>`
+- If using events, events are now plain JS events (change event when changed)
+- API is significantly different
+- No longer uses a select element
 
 ## Designs
 
