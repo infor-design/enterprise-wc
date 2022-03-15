@@ -73,7 +73,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Drag (ids-draggable)
  - [x] Dropdown (ids-drop-down)
  - [x] Editor (ids-editor)
- - [ ] Emptymessage (ids-empty-message)
+ - [x] Emptymessage (ids-empty-message)
  - [x] Error Page (ids-page-error)
  - [x] Expandable area (ids-expandable-area)
  - [ ] Fieldset (ids-field-set)

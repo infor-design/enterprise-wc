@@ -24,8 +24,8 @@ For more details on breaking changes see each component in the individual README
 - `[Draggable]` The drag component is now a web component called `ids-draggable`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-draggable/README.md#converting-from-previous-versions for details. ([#253](https://github.com/infor-design/enterprise-wc/issues/253))
 - `[Dropdown]` The dropdown component is now a web component called `ids-dropdown`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-dropdown/README.md#converting-from-previous-versions for details. ([#132](https://github.com/infor-design/enterprise-wc/issues/132))
 - `[Editor]` The Editor component is now a web component called `ids-editor`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-editor/README.md#converting-from-previous-versions for details. ([#350](https://github.com/infor-design/enterprise-wc/issues/350))
-- `[ErrorPage]` The Error Page component has been changed to a web component and use with `ids-error-page`.
-  - the icon, label, description and button-text are set via properties/attributes.
+- `[EmptyMessage]` The EmptyMessage component is now a web component called `ids-empty-message`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-empty-message`/README.md#converting-from-previous-versions for details. ([#281](https://github.com/infor-design/enterprise-wc/issues/281))
+- `[ErrorPage]` The ErrorPage component is now a web component called `ids-error-page`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-error-page/README.md#converting-from-previous-versions for details. ([#352](https://github.com/infor-design/enterprise-wc/issues/352))
 - `[Fieldset]` The fieldset component has been changed to a web component `ids-fieldset` ([#138](https://github.com/infor-design/enterprise-wc/issues/138))
   - Markup has changed to a custom element `<ids-fieldset></ids-fieldset>`
   - Can now be imported as a single JS file and used with encapsulated styles.
