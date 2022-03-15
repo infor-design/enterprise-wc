@@ -21,7 +21,13 @@
             <ids-hyperlink font-size="14" color="unset">Current Item</ids-hyperlink>
           </ids-breadcrumb>
         </ids-toolbar-section>
-        <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+        
+        <ids-toolbar-section type="buttonset" align="end">
+          <ids-button id="button-6">
+            <span slot="text" class="audible">Trash</span>
+            <ids-icon slot="icon" icon="delete"></ids-icon>
+          </ids-button>
+        </ids-toolbar-section>
       </ids-toolbar>
     </ids-layout-grid>
   </ids-container>
