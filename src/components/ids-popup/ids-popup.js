@@ -6,7 +6,6 @@ import {
   getClosest,
   getClosestRootNode,
   getEditableRect,
-  processAnimationFrame,
   waitForTransitionEnd,
 } from '../../utils/ids-dom-utils/ids-dom-utils';
 
@@ -852,7 +851,7 @@ export default class IdsPopup extends Base {
     if (this.#visible && !cl.contains('open')) {
       await this.show();
     }
-    if (!this.#visible && cl.contains('visible')) {
+    if (!this.#visible && !this.hasAttribute('aria-hidden')) {
       await this.hide();
     }
   }
@@ -933,13 +932,11 @@ export default class IdsPopup extends Base {
       return;
     }
 
-    // Change `display: none;` to `display: block;`
-    this.container.classList.add('visible');
+    this.removeAttribute('aria-hidden');
+
     if (this.isFlipped) {
       this.container.classList.add('flipped');
     }
-
-    await processAnimationFrame();
 
     // Change transparency/visibility
     this.container.classList.add('open');
@@ -996,7 +993,7 @@ export default class IdsPopup extends Base {
       this.isFlipped = false;
     }
 
-    this.container.classList.remove('visible');
+    this.setAttribute('aria-hidden', 'true');
   }
 
   /**

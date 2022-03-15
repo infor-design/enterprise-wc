@@ -16,7 +16,6 @@
   @include antialiased();
   @include z-3000();
 
-  display: none;
   position: relative;
 
   // Arrow definition
@@ -98,11 +97,6 @@
         top: -9px;
       }
     }
-  }
-
-  // Actually renders the popup, but doesn't "unhide" it
-  &.visible {
-    display: block;
   }
 
   // Animates X/Y movement, fade in/out of the popup.

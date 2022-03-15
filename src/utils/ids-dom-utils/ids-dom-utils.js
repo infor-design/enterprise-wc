@@ -59,14 +59,6 @@ export function getClosest(node, selector) {
 }
 
 /**
- * Promise-based function that waits for a single paint cycle to complete
- * @returns {Promise} resolved one paint cycle after it's fired
- */
-export const processAnimationFrame = () => new Promise((resolve) => {
-  requestAnimationFrame(resolve);
-});
-
-/**
  * Changes a CSS property with a transition,
  * @param {HTMLElement} el the element to act on
  * @param {string} property the CSS property with an attached transition to manipulate
