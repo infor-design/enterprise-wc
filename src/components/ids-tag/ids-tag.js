@@ -42,6 +42,7 @@ export default class IdsTag extends Base {
       attributes.COLOR,
       attributes.CLICKABLE,
       attributes.DISMISSIBLE,
+      attributes.DISABLED,
       attributes.MODE,
       attributes.VERSION
     ];
@@ -80,6 +81,14 @@ export default class IdsTag extends Base {
   }
 
   get color() { return this.getAttribute('color'); }
+
+  set disabled(value) {
+    this.setAttribute('disabled', value);
+  }
+
+  get disabled() {
+    return this.getAttribute('disabled');
+  }
 
   /**
    * Check if an icon exists if not add it
@@ -157,7 +166,11 @@ export default class IdsTag extends Base {
     // Handle Clicking the x for dismissible
     const closeIcon = this.querySelector('ids-icon[icon="close"]');
     if (closeIcon) {
-      this.onEvent('click', closeIcon, () => this.dismiss());
+      this.onEvent('click', closeIcon, () => {
+        if (!this.disabled) {
+          this.dismiss();
+        }
+      });
     }
 
     // Ensure icon is always last
@@ -185,13 +198,13 @@ export default class IdsTag extends Base {
    * @returns {object} This API object for chaining
    */
   #attachKeyboardListeners() {
-    if (this.dismissible) {
+    if (this.dismissible && !this.disabled) {
       this.listen(['Delete', 'Backspace'], this, () => {
         this.dismiss();
       });
     }
 
-    if (this.clickable) {
+    if (this.clickable && !this.disabled) {
       this.listen('Enter', this, () => {
         this.click();
       });
