@@ -3,7 +3,7 @@
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsKeyboardMixin = (superclass) => class extends superclass {
+const IdsKeyboardMixin = (superclass: any) => class extends superclass {
   constructor() {
     super();
     this.initKeyboardHandlers();
@@ -23,13 +23,13 @@ const IdsKeyboardMixin = (superclass) => class extends superclass {
     this.hotkeys = new Map();
     this.pressedKeys = new Map();
 
-    this.keyDownHandler = (e) => {
+    this.keyDownHandler = (e: KeyboardEvent) => {
       this.press(e.key);
       this.dispatchHotkeys(e);
     };
     this.onEvent('keydown.keyboard', this, this.keyDownHandler);
 
-    this.keyUpHandler = (e) => {
+    this.keyUpHandler = (e: KeyboardEvent) => {
       this.unpress(e.key);
     };
     this.onEvent('keyup.keyboard', this, this.keyUpHandler);
@@ -51,7 +51,7 @@ const IdsKeyboardMixin = (superclass) => class extends superclass {
    * @param {HTMLElement} elem The object with the listener attached
    * @param {Function} callback The call back when this combination is met
    */
-  listen(keycode: Array<string>|string, elem: HTMLElement, callback) {
+  listen(keycode: Array<string>|string, elem: HTMLElement, callback: unknown) {
     const keycodes = Array.isArray(keycode) ? keycode : [keycode];
 
     for (const c of keycodes) {
@@ -84,8 +84,8 @@ const IdsKeyboardMixin = (superclass) => class extends superclass {
    * @param {object} e a string representing a {KeyboardEvent.key} that is no longer active
    * @returns {void}
    */
-  dispatchHotkeys(e) {
-    this.hotkeys.forEach((value, key) => {
+  dispatchHotkeys(e: KeyboardEvent) {
+    this.hotkeys.forEach((value: any, key: any) => {
       if (key.split(',').indexOf(e.key) > -1) {
         value(e);
       }

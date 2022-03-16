@@ -58,9 +58,8 @@ export function stringToNumber(val: string): number {
  * Inject template variables in a string
  * @param {string} str The string to inject into
  * @param {string} obj The string to inject into
- * @returns {obj} The dataset row / item
  */
-export function injectTemplate(str, obj) {
+export function injectTemplate(str: string, obj: string): string {
   return str.replace(/\${(.*?)}/g, (_x, g) => obj[g]);
 }
 
@@ -70,8 +69,8 @@ export function injectTemplate(str, obj) {
  * @param  {...any} classes classes/expressions
  * @returns {string} ` class="c1 c2..."` || ""
  */
-export function buildClassAttrib(...classes) {
-  const classAttrib = classes.reduce((attribStr, c) => {
+export function buildClassAttrib(...classes: Record<string, unknown>[]): string {
+  const classAttrib = classes.reduce((attribStr: any, c) => {
     if (attribStr && c) { return `${attribStr} ${c}`; }
 
     if (!attribStr && c) { return c; }
@@ -87,7 +86,7 @@ export function buildClassAttrib(...classes) {
  * @param {number} e the event to inspect
  * @returns {boolean} Returns true if the key is a printable one.
  */
-export function isPrintable(e) {
+export function isPrintable(e: KeyboardEvent): boolean {
   const controlKeys = ['Alt', 'Shift', 'Control', 'Meta', 'CapsLock', 'Enter', 'Escape', 'Tab'];
   if (controlKeys.indexOf(e.key) > -1 || e.key.indexOf('Arrow') > -1) {
     return false;

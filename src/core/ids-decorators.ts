@@ -1,10 +1,10 @@
 /**
  * Custom Element Decorator
- * @param  {string} name The custom element name
+ * @param {string} name The custom element name
  * @returns {Function} The function that did the decorating
  */
-export function customElement(name) {
-  return (target) => {
+export function customElement(name: string) {
+  return (target: any) => {
     if (!customElements.get(name)) {
       customElements.define(name, target);
     }
@@ -16,8 +16,8 @@ export function customElement(name) {
  * @param {string} cssStyles The css stringified stylesheet
  * @returns {Function} The function that did the decorating
  */
-export function scss(cssStyles) {
-  return (target) => {
+export function scss(cssStyles: string) {
+  return (target: any) => {
     target.prototype.cssStyles = cssStyles;
   };
 }
@@ -27,7 +27,7 @@ export function scss(cssStyles) {
  * @returns {Function} The function that did the decorating
  */
 export function appendIds() {
-  return (target) => {
+  return (target: any) => {
     target.prototype.appendIds = true;
   };
 }

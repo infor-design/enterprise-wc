@@ -8,7 +8,7 @@ import { stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsColorVariantMixin = (superclass) => class extends superclass {
+const IdsColorVariantMixin = (superclass: any) => class extends superclass {
   constructor() {
     super();
 

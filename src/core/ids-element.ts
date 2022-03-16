@@ -69,41 +69,13 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   }
 
   /**
-   * Copy down the id's and data-**-id to the different parts in the component
-   * @param  {Array} parts The array of parts
-   * @param  {string} name The id name
-   * @param  {string} value The id value
-   * @private
-   */
-  appendIdtoPart(parts, name, value) {
-    if (!this.shadowRoot) {
-      return;
-    }
-    for (let i = 0; i < parts.length; i++) {
-      let label;
-      const newId = `${value}-${parts[i].getAttribute('part')}`;
-
-      if (name === 'id' && parts[i].id) {
-        label = this.shadowRoot.querySelector(`[for="${parts[i].id}"]`);
-      }
-      parts[i].setAttribute(name, newId);
-      if (label) {
-        label.setAttribute('for', newId);
-      }
-      if (name === 'id' && this.state?.id) {
-        this.state.id = newId;
-      }
-    }
-  }
-
-  /**
    * Handle Setting changes of the value has changed by calling the getter
    * in the extending class.
-   * @param  {string} name The property name
-   * @param  {string} oldValue The property old value
-   * @param  {string} newValue The property new value
+   * @param {string} name The property name
+   * @param {string} oldValue The property old value
+   * @param {string} newValue The property new value
    */
-  attributeChangedCallback(name, oldValue, newValue) {
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     if (oldValue !== newValue) {
       if (!attribPropNameDict[name]) {
         attribPropNameDict[name] = camelCase(name);

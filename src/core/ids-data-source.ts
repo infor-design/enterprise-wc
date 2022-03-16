@@ -38,13 +38,13 @@ class IdsDataSource {
    * Page-size used for pagination
    * @private
    */
-  #pageSize;
+  #pageSize = 0;
 
   /**
    * An override for the total number of items in data
    * @private
    */
-  #total;
+  #total = 0;
 
   /**
    * Sets the data array on the data source object
@@ -72,7 +72,7 @@ class IdsDataSource {
    * Get the total number of items in data
    * @returns {number} - the current page-total
    */
-  get total() { return this.#total; }
+  get total(): number { return this.#total; }
 
   /**
    * Override the total number of items in data
@@ -102,7 +102,7 @@ class IdsDataSource {
    * Get the current page-size
    * @returns {number} - the current page-size
    */
-  get pageSize() { return this.#pageSize; }
+  get pageSize(): number { return this.#pageSize; }
 
   /**
    * @param {number} pageNumber - a page number to start with
@@ -122,32 +122,32 @@ class IdsDataSource {
    * Executes a provided function once for each array element in the current data
    * @param {Function} fn An optional function to iterate the array
    */
-  forEach(fn) {
+  forEach(fn: any) {
     this.#currentData.forEach(fn);
   }
 
   /**
    * Sort the dataset
-   * @param  {string} field The dataset field
-   * @param  {boolean} reverse Sort ascending or descending
-   * @param  {Function|null} primer Optional primer function
+   * @param {string} field The dataset field
+   * @param {boolean} reverse Sort ascending or descending
+   * @param {Function|null} primer Optional primer function
    */
-  sort(field, reverse, primer) {
+  sort(field: string, reverse: boolean, primer: any) {
     const sort = this.sortFunction(field, reverse, primer);
     this.#currentData.sort(sort);
   }
 
   /**
    * An overridable array sort function
-   * @param  {string} field The dataset field
-   * @param  {boolean} reverse Sort ascending or descending
-   * @param  {Function} primer Primer function
+   * @param {string} field The dataset field
+   * @param {boolean} reverse Sort ascending or descending
+   * @param {Function} primer Primer function
    * @returns {object} The sorted dataset or it uses
    */
-  sortFunction(field, reverse, primer) {
-    const key = (x) => (primer ? primer(x[field]) : x[field]);
+  sortFunction(field: string, reverse: boolean, primer: any) {
+    const key = (x: any) => (primer ? primer(x[field]) : x[field]);
 
-    return (a, b) => {
+    return (a: any, b: any) => {
       const A = key(a);
       const B = key(b);
       return ((A < B) ? -1 : ((A > B) ? 1 : 0)) * [-1, 1][+!!reverse]; // eslint-disable-line

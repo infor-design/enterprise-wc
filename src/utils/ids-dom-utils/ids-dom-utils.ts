@@ -3,7 +3,7 @@
  * @param {HTMLElement} node the node to check
  * @returns {ShadowRoot|undefined} the node.
  */
- export function getClosestShadow(node) {
+ export function getClosestShadow(node: HTMLElement): any {
   let parent = (node && node.parentNode);
   while (parent) {
     if (parent.toString() === '[object ShadowRoot]') {
@@ -19,7 +19,7 @@
  * @param {HTMLElement} node the node to check
  * @returns {Node} the parent node
  */
-export function getClosestContainerNode(node) {
+export function getClosestContainerNode(node: HTMLElement) {
   return getClosestShadow(node) || document;
 }
 
@@ -30,7 +30,7 @@ export function getClosestContainerNode(node) {
  * @param {HTMLElement} node the node to check
  * @returns {Node} the parent node.
  */
-export function getClosestRootNode(node) {
+export function getClosestRootNode(node: any) {
   return getClosestShadow(node)?.host?.parentNode || document;
 }
 
@@ -41,7 +41,7 @@ export function getClosestRootNode(node) {
  * @param {string} selector containing a CSS selector to be used for matching
  * @returns {Node|undefined} the node if found, otherwise undefined
  */
-export function getClosest(node, selector) {
+export function getClosest(node: any, selector: string) {
   let parent = (node && node.parentNode);
   while (parent) {
     if (parent.toString() === '[object ShadowRoot]') {
@@ -65,10 +65,10 @@ export function getClosest(node, selector) {
  * @param {any} value the target CSS value
  * @returns {Promise} fulfulled when the CSS transition completes
  */
-export function transitionToPromise(el, property, value) {
+export function transitionToPromise(el: HTMLElement, property: any, value: any) {
   return new Promise((resolve) => {
     el.style[property] = value;
-    const transitionEnded = (e) => {
+    const transitionEnded = (e: TransitionEvent) => {
       if (e.propertyName !== property) return;
       el.removeEventListener('transitionend', transitionEnded);
       resolve(true);
@@ -84,9 +84,9 @@ export function transitionToPromise(el, property, value) {
  * @param {string} property the CSS property used to qualify the correct transitionend event
  * @returns {Promise} fulfulled when the CSS transition completes
  */
-export function waitForTransitionEnd(el, property) {
+export function waitForTransitionEnd(el: HTMLElement, property: string) {
   return new Promise((resolve) => {
-    const transitionEnded = (e) => {
+    const transitionEnded = (e: TransitionEvent) => {
       if (e.propertyName !== property) return;
       el.removeEventListener('transitionend', transitionEnded);
       resolve(true);
@@ -100,7 +100,7 @@ export function waitForTransitionEnd(el, property) {
  * @param {DOMRect} rect a readonly DOMRect measurement.
  * @returns {object} with all the same properties, but editable
  */
-export function getEditableRect(rect) {
+export function getEditableRect(rect: DOMRect) {
   const {
     bottom, left, right, top, height, width, x, y
   } = rect;

@@ -47,7 +47,7 @@ export function sanitizeHTML(html: string) {
  * @param {string} str The string to parse
  * @returns {string} The string minus html tags.
  */
-export function stripHTML(str) {
+export function stripHTML(str: string) {
   let newStr = str;
   if (!newStr) {
     return '';
@@ -100,7 +100,7 @@ export function unescapeHTML(value: string): string {
     return '';
   }
 
-  const match = (regx) => {
+  const match = (regx: RegExp) => {
     const test = value.match(regx)
     if (test)
       return test[0];
@@ -122,7 +122,7 @@ export function unescapeHTML(value: string): string {
  * @param {string} string string to process
  * @returns {string} the processed value
  */
-export function htmlEntities(string) {
+export function htmlEntities(string: string): string {
   return String(string)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')

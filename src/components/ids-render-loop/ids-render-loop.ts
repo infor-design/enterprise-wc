@@ -72,8 +72,8 @@ export default class IdsRenderLoop {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
     let last = timestamp();
-    let now;
-    let deltaTime;
+    let now: number;
+    let deltaTime: number;
 
     /**
      * Actually performs a renderloop `tick()`
@@ -163,7 +163,7 @@ export default class IdsRenderLoop {
    * @param {IdsRenderLoopItem} loopItem the pre-constructed loop item.
    * @returns {IdsRenderLoopItem} The IdsRenderLoopItem as just rendered
    */
-  register(loopItem) {
+  register(loopItem: IdsRenderLoopItem) {
     this.items.push(loopItem);
     return loopItem;
   }
@@ -176,7 +176,7 @@ export default class IdsRenderLoop {
    * @param {IdsRenderLoopItem|string} obj the renderLoopItem, or its ID string
    * @returns {IdsRenderLoopItem | undefined} reference to the removed renderLoopItem
    */
-  remove(obj) {
+  remove(obj: IdsRenderLoopItem|string): IdsRenderLoopItem | undefined {
     let removedItem;
 
     // Remove directly

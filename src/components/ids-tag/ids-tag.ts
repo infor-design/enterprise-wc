@@ -86,7 +86,7 @@ export default class IdsTag extends Base {
    * @param {string} iconName The icon name to check
    * @private
    */
-  #appendIcon(iconName) {
+  #appendIcon(iconName: string) {
     const icon = this.querySelector(`[icon="${iconName}"]`);
     if (!icon) {
       this.insertAdjacentHTML(
@@ -212,7 +212,7 @@ export default class IdsTag extends Base {
     }
 
     let canDismiss = true;
-    const response = (veto) => {
+    const response = (veto: boolean) => {
       canDismiss = !!veto;
     };
     this.triggerEvent('beforetagremove', this, { detail: { elem: this, response } });

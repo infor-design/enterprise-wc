@@ -2,8 +2,8 @@ import { timestamp } from './ids-render-loop-common';
 
 interface RenderLoopItemSettings {
   id?: string;
-  duration?: number;
-  updateDuration?: number;
+  duration?: number | unknown;
+  updateDuration?: number | unknown;
   updateCallback?: (args: CallableFunction) => void;
   timeoutCallback?: (args: CallableFunction) => void;
 }
@@ -16,7 +16,7 @@ interface RenderLoopItemSettings {
 export default class IdsRenderLoopItem extends Object {
 
   id?: string;
-  duration?: number;
+  duration?: number | unknown;
   updateDuration?: number;
   updateCallback?: CallableFunction;
   timeoutCallback?: CallableFunction;

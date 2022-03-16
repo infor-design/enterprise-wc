@@ -5,7 +5,7 @@ import { attributes } from '../../core/ids-attributes';
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsThemeMixin = (superclass) => class extends superclass {
+const IdsThemeMixin = (superclass: any) => class extends superclass {
   constructor() {
     super();
   }

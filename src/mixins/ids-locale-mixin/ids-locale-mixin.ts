@@ -1,7 +1,7 @@
 import { attributes } from '../../core/ids-attributes';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
-const IdsLocaleMixin = (superclass) => class extends superclass {
+const IdsLocaleMixin = (superclass: any) => class extends superclass {
   constructor() {
     super();
   }
