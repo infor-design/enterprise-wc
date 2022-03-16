@@ -37,7 +37,7 @@ export default class IdsTag extends Base {
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<any> {
     return [
       attributes.COLOR,
       attributes.CLICKABLE,
@@ -51,7 +51,7 @@ export default class IdsTag extends Base {
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return '<span class="ids-tag" part="tag"><slot></slot></span>';
   }
 
@@ -86,7 +86,7 @@ export default class IdsTag extends Base {
    * @param {string} iconName The icon name to check
    * @private
    */
-  #appendIcon(iconName) {
+  #appendIcon(iconName: string) {
     const icon = this.querySelector(`[icon="${iconName}"]`);
     if (!icon) {
       this.insertAdjacentHTML(
@@ -187,7 +187,7 @@ export default class IdsTag extends Base {
    * @private
    * @returns {object} This API object for chaining
    */
-  #attachKeyboardListeners() {
+  #attachKeyboardListeners(): object {
     if (this.dismissible) {
       this.listen(['Delete', 'Backspace'], this, () => {
         this.dismiss();
@@ -212,7 +212,7 @@ export default class IdsTag extends Base {
     }
 
     let canDismiss = true;
-    const response = (veto) => {
+    const response = (veto: any) => {
       canDismiss = !!veto;
     };
     this.triggerEvent('beforetagremove', this, { detail: { elem: this, response } });
