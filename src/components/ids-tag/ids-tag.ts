@@ -37,7 +37,7 @@ export default class IdsTag extends Base {
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       attributes.COLOR,
       attributes.CLICKABLE,
@@ -51,7 +51,7 @@ export default class IdsTag extends Base {
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return '<span class="ids-tag" part="tag"><slot></slot></span>';
   }
 
@@ -79,7 +79,7 @@ export default class IdsTag extends Base {
     this.container.style.color = '';
   }
 
-  get color() { return this.getAttribute('color'); }
+  get color(): string { return this.getAttribute('color'); }
 
   /**
    * Check if an icon exists if not add it
@@ -129,7 +129,7 @@ export default class IdsTag extends Base {
     this.container.classList.remove('focusable');
   }
 
-  get dismissible() { return this.getAttribute('dismissible'); }
+  get dismissible(): boolean { return this.getAttribute('dismissible'); }
 
   /**
    * If set to true the tag has focus state and becomes a clickable linnk
@@ -149,7 +149,7 @@ export default class IdsTag extends Base {
     this.container.classList.remove('focusable');
   }
 
-  get clickable() { return this.getAttribute('clickable'); }
+  get clickable(): boolean { return this.getAttribute('clickable'); }
 
   /**
    * Establish Internal Event Handlers
@@ -187,7 +187,7 @@ export default class IdsTag extends Base {
    * @private
    * @returns {object} This API object for chaining
    */
-  #attachKeyboardListeners() {
+  #attachKeyboardListeners(): object {
     if (this.dismissible) {
       this.listen(['Delete', 'Backspace'], this, () => {
         this.dismiss();
@@ -212,7 +212,7 @@ export default class IdsTag extends Base {
     }
 
     let canDismiss = true;
-    const response = (veto: boolean) => {
+    const response = (veto: any) => {
       canDismiss = !!veto;
     };
     this.triggerEvent('beforetagremove', this, { detail: { elem: this, response } });
