@@ -156,7 +156,7 @@ export default class IdsTag extends Base {
    * @private
    * @returns {object} The object for chaining.
    */
-  #attachEventHandlers() {
+  #attachEventHandlers(): this {
     // Handle Clicking the x for dismissible
     const closeIcon = this.querySelector('ids-icon[icon="close"]');
     if (closeIcon) {
