@@ -720,7 +720,7 @@ class IdsDatePicker extends Base {
   #parseInputDate() {
     if (this.isCalendarToolbar) return;
 
-    const date = new Date(this.#input?.value);
+    const date = new Date(this.#triggerField?.value);
     const month = date.getMonth();
     const year = date.getFullYear();
     const day = date.getDate();
@@ -755,7 +755,7 @@ class IdsDatePicker extends Base {
    * @param {string} type of event
    */
   #changeDate(type) {
-    const date = this.#input?.value ? new Date(this.#input.value) : new Date();
+    const date = this.#triggerField?.value ? new Date(this.#triggerField.value) : new Date();
 
     if (type === 'today') {
       const now = new Date();
@@ -777,7 +777,7 @@ class IdsDatePicker extends Base {
    * @returns {void}
    */
   focus() {
-    this.#input?.focus();
+    this.#triggerField?.focus();
     this.container.querySelector('ids-toggle-button')?.container?.focus();
 
     if (this.isCalendarToolbar) {
@@ -790,7 +790,7 @@ class IdsDatePicker extends Base {
    * @returns {boolean} whether or not an element has focus
    */
   get hasFocus() {
-    const input = this.#input?.container.querySelector('input');
+    const input = this.#triggerField?.container.querySelector('input');
     const dropdown = this.container.querySelector('.dropdown-btn')?.shadowRoot.querySelector('button');
 
     return input?.matches(':focus') || dropdown?.matches(':focus');
