@@ -11,6 +11,7 @@ import IdsPopupMenu, {
   IdsMenuItem,
   IdsSeparator
 } from '../../src/components/ids-popup-menu/ids-popup-menu';
+import waitFor from '../helpers/wait-for';
 
 describe('IdsMenuButton Component', () => {
   let buttonEl;
@@ -97,6 +98,24 @@ describe('IdsMenuButton Component', () => {
     buttonEl.dropdownIcon = null;
   });
 
+  it('can set active state', () => {
+    buttonEl.setActiveState(true);
+    expect(buttonEl.button.classList.contains('is-active')).toBeTruthy();
+
+    buttonEl.setActiveState(false);
+    expect(buttonEl.button.classList.contains('is-active')).toBeFalsy();
+  });
+
+  it('should have active state when menu is open', async () => {
+    const waitForOpts = { timeout: 2000 };
+
+    menuEl.show();
+    await waitFor(() => expect(buttonEl.button.classList.contains('is-active')).toBeTruthy(), waitForOpts);
+
+    menuEl.hide();
+    await waitFor(() => expect(buttonEl.button.classList.contains('is-active')).toBeFalsy(), waitForOpts);
+  });
+
   it('shows/hides the menu when the button is clicked', (done) => {
     const clickEvent = new MouseEvent('click', { bubbles: true });
     buttonEl.dispatchEvent(clickEvent);
@@ -173,5 +192,33 @@ describe('IdsMenuButton Component', () => {
     expect(buttonEl.getAttribute('formatter-width')).toEqual('100%');
     buttonEl.formatterWidth = 'test';
     expect(buttonEl.getAttribute('formatter-width')).toEqual(null);
+  });
+
+  it('can set/get data of menu', () => {
+    const menuGroupHTML = `
+      <ids-menu-group select="multiple">
+        <ids-menu-item id="item1" value="1">Item 1</ids-menu-item>
+        <ids-menu-item id="item2" value="2">Item 2</ids-menu-item>
+        <ids-menu-item id="item3" value="3" selected="true">Item 3</ids-menu-item>
+      </ids-menu-group>
+    `;
+    menuEl.insertAdjacentHTML('afterbegin', menuGroupHTML);
+
+    // check default values
+    const initialExpected = ['3'];
+    let menuValues = menuEl.getSelectedValues();
+    expect(menuValues.length).toBe(1);
+    expect(menuValues).toEqual(initialExpected);
+
+    // set new values from button
+    const expected = ['1', '3'];
+    buttonEl.value = expected;
+
+    // check value getter in button and menu match
+    const buttonValues = buttonEl.value;
+    menuValues = menuEl.getSelectedValues();
+    expect(menuValues.length).toBe(2);
+    expect(menuValues).toEqual(expected);
+    expect(buttonValues).toEqual(menuValues);
   });
 });

@@ -10,6 +10,9 @@ export default class IdsMenuButton extends IdsButton {
   /** Set the width and formatter style for menu button */
   formatterWidth: string | number;
 
+  /** Sets the selected menu items by value */
+  value: Array<unknown> | string;
+
   /** */
   readonly dropdownIconEl: IdsIcon | null;
 
