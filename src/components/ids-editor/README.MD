@@ -148,7 +148,7 @@ const modals = {
     showIsClickable: true
   },
   insertimage: {
-    url: '/assets/placeholder-154x120.png',
+    url: '../assets/images/placeholder-154x120.png',
     alt: ''
   }
 };
@@ -240,10 +240,16 @@ editorEl.modalElementsValue(modals);
 
 - Flows with padding and margin within the width and height of the parent container.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-- 3.x: Editor have all new markup and classes.
-- 4.x: Editor have all new markup and classes for web components.
+**3.x to 4.x**
+- Editor have all new markup and classes.
+
+**4.x to 5.x**
+- The Editor component has been changed to a web component and renamed to ids-editor.
+- Markup has changed to a custom element `<ids-editor><div slot="content"><p>Some sample text</p></div></ids-editor>`
+- If using events, events are now plain JS events.
+- Can now be imported as a single JS file and used with encapsulated styles
 
 ## Designs
 

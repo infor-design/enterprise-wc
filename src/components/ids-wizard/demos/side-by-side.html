@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/ids-enterprise@4.60.0/dist/js/sohoxi.js"></script>
+  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Web Component Wizard</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid cols="4">
+      <ids-layout-grid-cell col-span="2" id="ex-ids-wizard-parent-clickable">
+        <ids-wizard step-number="3">
+          <ids-wizard-step>Step One</ids-wizard-step>
+          <ids-wizard-step>Step Two</ids-wizard-step>
+          <ids-wizard-step>Step Three</ids-wizard-step>
+          <ids-wizard-step>Step Four</ids-wizard-step>
+        </ids-wizard>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <div class="row no-top-margins">
+      <div class="twelve columns">
+        <ids-text font-size="12" type="h1">4.x Wizard</ids-text>
+        <div class="wizard">
+          <div class="wizard-header">
+            <div class="bar">
+              <div class="completed-range"></div>
+              <a id="context-apps" data-automation-id="context-apps-automation" href="#" class="tick complete">
+                <span class="label">Step One</span>
+              </a>
+              <a id="util-apps" data-automation-id="util-app" href="#" class="tick complete">
+                <span class="label">Step TWo</span>
+              </a>
+              <a id="inbound-config" data-automation-id="inbound-config" href="#" class="tick current">
+                <span class="label">Step Three</span>
+              </a>
+              <a id="oid-mapping" data-automation-id="oid-mapping" href="#" class="tick">
+                <span class="label">Step Four</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <script>
+      $('body').initialize();
+    </script>
+  </ids-container>
+</body>
+</html>

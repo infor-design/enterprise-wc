@@ -53,6 +53,11 @@ export default class IdsButton extends Base {
         }
         this.tabIndex = Number(newValue);
         break;
+      case 'width':
+        if (oldValue !== newValue) {
+          this.width = newValue;
+        }
+        break;
       default:
         super.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
         break;
@@ -198,12 +203,6 @@ export default class IdsButton extends Base {
       }
     }, {
       passive: true
-    });
-
-    // Respond to parent changing language
-    this.offEvent('languagechange.button');
-    this.onEvent('languagechange.button', this.closest('ids-container'), () => {
-      this.container.classList[this.locale.isRTL() ? 'add' : 'remove']('rtl');
     });
   }
 
@@ -389,6 +388,38 @@ export default class IdsButton extends Base {
   }
 
   /**
+   * Get width
+   * @returns {string|null} 100%, 90px, 50rem etc.
+   */
+  get width() {
+    return this.getAttribute('width');
+  }
+
+  /**
+   * Set width of button
+   * @param {string} w 100%, 90px, 50rem etc.
+   */
+  set width(w) {
+    if (!w) {
+      this.removeAttribute('width');
+      this.style.width = '';
+      this.button.style.width = '';
+      return;
+    }
+
+    // if percentage passed set width to host
+    if (w.indexOf('%') !== -1) {
+      this.style.width = w;
+      this.button.style.width = '';
+    } else {
+      this.style.width = '';
+      this.button.style.width = w;
+    }
+
+    this.setAttribute('width', w);
+  }
+
+  /**
    * Check if an icon exists, and adds the icon if it's missing
    * @param {string} iconName The icon name to check
    * @private
@@ -549,6 +580,24 @@ export default class IdsButton extends Base {
    */
   get noRipple() {
     return this.state.noRipple || false;
+  }
+
+  /**
+   * Sets the no margins attribute
+   * @param {string} n string value from the no margins attribute
+   */
+  set noMargins(n) {
+    if (stringToBool(n)) {
+      this.setAttribute(attributes.NO_MARGINS, '');
+      this.container.classList.add(attributes.NO_MARGINS);
+      return;
+    }
+    this.removeAttribute(attributes.NO_MARGINS);
+    this.container.classList.remove(attributes.NO_MARGINS);
+  }
+
+  get noMargins() {
+    return stringToBool(this.getAttribute(attributes.NO_MARGINS));
   }
 
   /**

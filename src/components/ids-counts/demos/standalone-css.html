@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <link rel="stylesheet" href="ids-counts.css"/>
+    <link rel="stylesheet" href="../ids-layout-grid/ids-layout-grid.css"/>
+    <link rel="stylesheet" href="../ids-text/ids-text.css"/>
+
+    <div class="ids-layout-grid">
+      <h1 class="ids-text ids-text-12">Count Standalone CSS</h1>
+    </div>
+    <div class="ids-layout-grid">
+      <div class="ids-layout-grid-cell">
+        <a class="ids-counts">
+          <div count-text>7</div>
+          <div count-value>Active<br/>Opportunities</div>
+        </a>
+      </div>
+    </div>
+  </ids-container>
+</body>
+</html>

@@ -28,26 +28,24 @@ describe('Ids Color Picker e2e Tests', () => {
     const elem = await page.$('#color-picker-1');
     let value = await page.evaluate((el) => el.value, elem);
 
-    expect(value).toEqual('#b94e4e');
+    expect(value).toEqual('#B94E4E');
     await page.evaluate((el) => {
       el.popup.visible = true;
       document.querySelector('#color-picker-1 > ids-color[hex]').click();
     }, elem);
     value = await page.evaluate((el) => el.value, elem);
-    expect(value).toEqual('#1a1a1a');
+    expect(value).toEqual('#1A1A1A');
   });
 
-  it('should open on enter on the trigger', async () => {
+  it('should open when pressing the down arrow', async () => {
     let isVisible = await page.evaluate(`document.querySelector("#color-picker-1").popup.visible`);
     expect(isVisible).toEqual(false);
 
-    const input = await page.evaluateHandle('document.querySelector("#color-picker-1").shadowRoot.querySelector("#color-picker-1-button")');
+    const input = await page.evaluateHandle('document.querySelector("#color-picker-1")');
     await input.focus();
     await page.keyboard.press('ArrowDown');
-    await page.keyboard.press('Enter');
 
     isVisible = await page.evaluate(`document.querySelector("#color-picker-1").popup.visible`);
-    expect(isVisible).toEqual(false);
-    await page.evaluate(`document.querySelector("#color-picker-1").popup.visible = false;`);
+    expect(isVisible).toEqual(true);
   });
 });

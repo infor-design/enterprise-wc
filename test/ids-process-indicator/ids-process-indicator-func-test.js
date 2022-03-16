@@ -11,6 +11,11 @@ const HTMLSnippets = {
   <ids-process-step status="started" label="Delivered"></ids-process-step>
   </ids-process-indicator>`
   ),
+  STARTED_PROCESS_INDICATOR: (
+  `<ids-process-indicator>
+   <ids-process-step status="done" label="Prepare"></ids-process-step>
+   <ids-process-step label="3rd Level - Multiple Approvers" status="started"></ids-process-step>
+   </ids-process-indicator>`),
   CANCELLED_PROCESS_INDICATOR: (
   `<ids-process-indicator>
   <ids-process-step status="done" label="Prepare"></ids-process-step>
@@ -24,6 +29,10 @@ const HTMLSnippets = {
   <ids-process-step status="" label=""></ids-process-step>
   <ids-process-step></ids-process-step>
   </ids-process-indicator>`
+  ),
+  NO_STEPS_PROCESS_INDICATOR: (
+    `<ids-process-indicator>
+    </ids-process-indicator>`
   ),
 };
 
@@ -101,5 +110,15 @@ describe('IdsProcessIndicator Component', () => {
     expect(step.container.querySelector('ids-icon')).toBeTruthy();
     step.status = 'done';
     expect(step.container.querySelector('ids-icon')).toBe(null);
+  });
+
+  it('handles no steps correctly', async () => {
+    processIndicator = await createElemViaTemplate(HTMLSnippets.NO_STEPS_PROCESS_INDICATOR);
+    expect(processIndicator.shadowRoot.innerHTML).toMatchSnapshot();
+  });
+
+  it('sets the xl-label corrrectly', async () => {
+    processIndicator = await createElemViaTemplate(HTMLSnippets.STARTED_PROCESS_INDICATOR);
+    expect(processIndicator.container.querySelector('.xs-header .label').innerHTML).toEqual('None');
   });
 });

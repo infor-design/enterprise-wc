@@ -16,3 +16,13 @@ ids-input::part(input) {
 
   min-width: 40px;
 }
+
+ids-input::part(label) {
+  @include mb-0();
+
+  height: 0;
+}
+
+ids-input::part(field-container) {
+  @include mb-0();
+}

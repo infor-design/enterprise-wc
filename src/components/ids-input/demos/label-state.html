@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid cols="3" gap="md">
+      <ids-layout-grid-cell>
+        <ids-input id="input-1" placeholder="This input's label is visible" size="md" label="Regular Input"></ids-input>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-input id="input-2" placeholder="This input's label is 'hidden'" size="md" label="Input with hidden label" label-state="hidden"></ids-input>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-input id="input-3" placeholder="This input's label is 'collapsed'" size="md" label="Input with collapsed label" label-state="collapsed"></ids-input>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

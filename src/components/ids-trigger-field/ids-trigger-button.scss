@@ -1,121 +1,74 @@
-@import '../../core/ids-base';
+@import '../ids-button/ids-button';
 
-.ids-icon-button {
+:host {
+  button {
+    height: auto;
+    width: auto;
+  }
+}
+
+.ids-trigger-button {
   @include bg-transparent();
-  @include border-1();
-  @include border-transparent();
-  @include cursor-pointer();
   @include flex();
-  @include p-0();
-  @include rounded-round();
-  @include mx-4;
 
   align-items: center;
   color: currentColor;
   justify-content: center;
-  height: 28px;
-  width: 28px;
 
-  &:focus {
-    @include outline-none();
-
-    box-shadow: 0 0 0 2px transparent, 0 0 0 1px var(--ids-color-palette-azure-60), 0 0 4px 2px rgb(141 201 230 / 0.3);
+  &.ids-icon-button {
+    @include p-4();
   }
 
-  &[disabled] {
-    @include cursor-default();
-    @include text-slate-30();
+  // ===================================================
+  // Inline Style: Show a border on the trigger button's inner-edge
+  &.style-inline {
+    @include border-0();
+    @include p-0();
+    @include m-0();
+    @include rounded-none();
+
+    &.ids-icon-button {
+      @include p-0();
+    }
   }
 
-  &[readonly] {
-    @include cursor-text();
-    @include text-slate-40();
-  }
-}
-
-// Handle Themes
-.ids-icon-button[mode='dark'] {
-  @include text-slate-20();
-
-  &:focus {
-    box-shadow: 0 0 0 2px transparent, 0 0 0 1px var(--ids-color-palette-azure-60), 0 0 4px 2px rgb(141 201 230 / 0.3);
+  &.inline-end {
+    @include border-l-1();
   }
 
-  &:hover {
-    @include text-white();
+  &.inline-start {
+    @include border-r-1();
   }
 
-  &[disabled] {
-    @include text-slate-60();
+  // ===================================================
+  // Field Heights
+
+  &.field-height-xs {
+    &.style-inline {
+      height: $input-field-height-xs - 2px;
+      width: $input-field-height-xs - 2px;
+    }
   }
 
-  &[readonly] {
-    @include text-slate-40();
-  }
-}
-
-.ids-icon-button[mode='contrast'] {
-  @include text-slate-90();
-
-  &:focus {
-    box-shadow: 0 0 0 2px transparent, 0 0 0 1px var(--ids-color-palette-azure-90), 0 0 4px 2px rgb(41 41 41 / 0.3);
+  &.field-height-sm {
+    &.style-inline {
+      height: $input-field-height-sm - 2px;
+      width: $input-field-height-sm - 2px;
+    }
   }
 
-  &:hover {
-    @include text-slate-60();
+  &.field-height-md,
+  &.compact {
+    &.style-inline {
+      height: $input-field-height-md - 2px;
+      width: $input-field-height-md - 2px;
+    }
   }
 
-  &[readonly] {
-    @include text-slate-40();
-  }
-}
-
-.ids-icon-button[version='classic'][mode='light'] {
-  @include text-graphite-60();
-
-  &:hover {
-    @include text-slate-100();
-  }
-
-  &[readonly] {
-    @include text-graphite-40();
-  }
-}
-
-.ids-icon-button[version='classic'][mode='dark'] {
-  @include text-classic-slate-30();
-
-  &:hover {
-    @include text-white();
-  }
-
-  &[readonly] {
-    @include text-classic-slate-40();
-  }
-}
-
-.ids-icon-button[version='classic'][mode='contrast'] {
-  @include text-graphite-90();
-
-  &:hover {
-    @include text-graphite-60();
-  }
-
-  &[readonly] {
-    @include text-graphite-80();
-  }
-}
-
-.ids-icon-button.color-variant-alternate {
-  @include bg-opacity-70();
-
-  &:focus {
-    @include bg-opacity-70();
-
-    box-shadow: 0 0 0 2px transparent, 0 0 0 1px white, 0 0 4px 3px rgb(255 255 255 / 0.3);
-  }
-
-  &:hover {
-    @include bg-opacity-100();
+  &.field-height-lg {
+    &.style-inline {
+      height: $input-field-height-lg - 2px;
+      width: $input-field-height-lg - 2px;
+    }
   }
 }

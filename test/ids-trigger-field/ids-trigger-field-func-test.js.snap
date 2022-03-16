@@ -1,5 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IdsTriggerField Component renders correctly 1`] = `"<ids-trigger-field><ids-input id=\\"ids-input-2\\" triggerfield=\\"true\\" size=\\"md\\" validate=\\"null\\" label-hidden=\\"true\\" bg-transparent=\\"true\\"></ids-input><ids-trigger-button></ids-trigger-button></ids-trigger-field>"`;
+exports[`IdsTriggerField Component renders correctly 1`] = `
+"<ids-trigger-field id=\\"trigger-field-1\\" size=\\"sm\\" label=\\"Date Field\\">
+      <ids-trigger-button slot=\\"trigger-end\\">
+        <ids-text audible=\\"true\\">Date Field trigger</ids-text>
+        <ids-icon slot=\\"icon\\" icon=\\"schedule\\"></ids-icon>
+      </ids-trigger-button>
+    </ids-trigger-field>"
+`;
 
-exports[`IdsTriggerField Component renders correctly 2`] = `"<ids-trigger-field><ids-input id=\\"ids-input-2\\" triggerfield=\\"true\\" size=\\"md\\" validate=\\"null\\" label-hidden=\\"true\\" bg-transparent=\\"true\\"></ids-input><ids-trigger-button></ids-trigger-button></ids-trigger-field>"`;
+exports[`IdsTriggerField Component renders correctly 2`] = `
+"<ids-trigger-field id=\\"trigger-field-1\\" size=\\"sm\\" label=\\"Date Field\\">
+      <ids-trigger-button slot=\\"trigger-end\\">
+        <ids-text audible=\\"true\\">Date Field trigger</ids-text>
+        <ids-icon slot=\\"icon\\" icon=\\"schedule\\"></ids-icon>
+      </ids-trigger-button>
+    </ids-trigger-field>"
+`;

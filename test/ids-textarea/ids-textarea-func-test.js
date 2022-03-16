@@ -27,12 +27,7 @@ describe('IdsTextarea Component', () => {
   });
 
   it('renders placeholder', () => {
-    document.body.innerHTML = '';
-    const elem = new IdsTextarea();
-    elem.placeholder = 'Placeholder Text';
-    elem.template();
-    document.body.appendChild(elem);
-    textarea = document.querySelector('ids-textarea');
+    textarea.placeholder = 'Placeholder Text';
     expect(textarea.getAttribute('placeholder')).toEqual('Placeholder Text');
     expect(textarea.placeholder).toEqual('Placeholder Text');
     textarea.placeholder = null;
@@ -41,15 +36,6 @@ describe('IdsTextarea Component', () => {
   });
 
   it('should set label text', () => {
-    let label = textarea.labelEl.querySelector('ids-text');
-    label.remove();
-    textarea.label = 'test';
-
-    document.body.innerHTML = '';
-    const elem = new IdsTextarea();
-    document.body.appendChild(elem);
-    textarea = document.querySelector('ids-textarea');
-    label = textarea.labelEl.querySelector('ids-text');
     expect(textarea.labelEl.textContent.trim()).toBe('');
     textarea.label = 'test';
     expect(textarea.labelEl.textContent.trim()).toBe('test');
@@ -94,12 +80,7 @@ describe('IdsTextarea Component', () => {
   });
 
   it('should set value', () => {
-    textarea.input.remove();
     textarea.value = '';
-    document.body.innerHTML = '';
-    const elem = new IdsTextarea();
-    document.body.appendChild(elem);
-    textarea = document.querySelector('ids-textarea');
     expect(textarea.input.value).toEqual('');
     textarea.value = 'test';
     expect(textarea.input.value).toEqual('test');
@@ -178,25 +159,14 @@ describe('IdsTextarea Component', () => {
   it('renders autogrow to field', () => {
     textarea.autogrow = true;
     expect(textarea.getAttribute('autogrow')).toEqual('true');
-    textarea.input.remove();
-    textarea.input = null;
-    textarea.handleAutogrow();
-    document.body.innerHTML = '';
-    const elem = new IdsTextarea();
-    document.body.appendChild(elem);
-    textarea = document.querySelector('ids-textarea');
-    expect(textarea.getAttribute('autogrow')).toEqual(null);
-    textarea.autogrow = true;
-    expect(textarea.getAttribute('autogrow')).toEqual('true');
+
     textarea.autogrow = false;
     expect(textarea.getAttribute('autogrow')).toEqual(null);
   });
 
   it('set autogrow to field', () => {
-    expect(textarea.getAttribute('autogrow')).toEqual(null);
     textarea.autogrow = true;
     expect(textarea.getAttribute('autogrow')).toEqual('true');
-    // textarea.input = document.createElement('textarea');
     textarea.autogrowMaxHeight = 200;
     Object.defineProperty(HTMLElement.prototype, 'scrollHeight', { configurable: true, value: 250 });
     Object.defineProperty(HTMLElement.prototype, 'offsetHeight', { configurable: true, value: 200 });
@@ -210,10 +180,6 @@ describe('IdsTextarea Component', () => {
   });
 
   it('should set value with slotchange', (done) => {
-    document.body.innerHTML = '';
-    const elem = document.createElement('ids-textarea');
-    document.body.appendChild(elem);
-    textarea = document.querySelector('ids-textarea');
     textarea.textContent = 'test';
     expect(textarea.textContent).toEqual('test');
     setTimeout(() => {
@@ -236,10 +202,10 @@ describe('IdsTextarea Component', () => {
     expect(textarea.input.classList).not.toContain('has-clearable');
     textarea.clearable = true;
     expect(textarea.getAttribute('clearable')).toEqual('true');
-    expect(textarea.input.classList).toContain('has-clearable');
+    expect(textarea.container.classList).toContain('has-clearable');
     textarea.clearable = false;
     expect(textarea.getAttribute('clearable')).toEqual(null);
-    expect(textarea.input.classList).not.toContain('has-clearable');
+    expect(textarea.container.classList).not.toContain('has-clearable');
   });
 
   it('renders resizable to field', () => {
@@ -434,39 +400,6 @@ describe('IdsTextarea Component', () => {
     expect(textarea.isSafari).toEqual(true);
   });
 
-  it('should setup dirty tracking', () => {
-    textarea.dirtyTracker = true;
-    textarea.resetDirtyTracker();
-    textarea.input.remove();
-    textarea.input = null;
-    textarea.dirtyTrackerEvents();
-    expect(textarea.dirty).toEqual({ original: '' });
-    document.body.innerHTML = '';
-    let elem = new IdsTextarea();
-    document.body.appendChild(elem);
-    textarea = document.querySelector('ids-textarea');
-    textarea.dirtyTracker = true;
-    textarea.input.remove();
-    textarea.input = null;
-    textarea.handleDirtyTracker();
-    expect(textarea.dirty).toEqual({ original: '' });
-    document.body.innerHTML = '';
-    elem = new IdsTextarea();
-    document.body.appendChild(elem);
-    textarea = document.querySelector('ids-textarea');
-    expect(textarea.getAttribute('dirty-tracker')).toEqual(null);
-    expect(textarea.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
-    expect(textarea.labelEl.querySelector('.msg-dirty')).toBeFalsy();
-    textarea.dirtyTracker = true;
-    textarea.setDirtyTracker();
-    expect(textarea.dirtyTracker).toEqual('true');
-    textarea.input.value = 'test';
-    const event = new Event('change', { bubbles: true });
-    textarea.input.dispatchEvent(event);
-    expect(textarea.shadowRoot.querySelector('.icon-dirty')).toBeTruthy();
-    expect(textarea.labelEl.querySelector('.msg-dirty')).toBeTruthy();
-  });
-
   it('should destroy dirty tracking', () => {
     expect(textarea.getAttribute('dirty-tracker')).toEqual(null);
     expect(textarea.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
@@ -483,7 +416,7 @@ describe('IdsTextarea Component', () => {
     expect(textarea.labelEl.querySelector('.msg-dirty')).toBeFalsy();
   });
 
-  it('should dirty tracking', () => {
+  it('can have dirty tracking', () => {
     expect(textarea.getAttribute('dirty-tracker')).toEqual(null);
     expect(textarea.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
     expect(textarea.labelEl.querySelector('.msg-dirty')).toBeFalsy();
@@ -518,13 +451,6 @@ describe('IdsTextarea Component', () => {
   });
 
   it('should autoselect', (done) => {
-    textarea.input.remove();
-    textarea.input = null;
-    textarea.autoselect = true;
-    document.body.innerHTML = '';
-    const elem = new IdsTextarea();
-    document.body.appendChild(elem);
-    textarea = document.querySelector('ids-textarea');
     textarea.autoselect = true;
     textarea.value = 'test';
     expect(textarea.getAttribute('autoselect')).toEqual('true');
@@ -537,16 +463,10 @@ describe('IdsTextarea Component', () => {
   });
 
   it('should not set wrong text-align', () => {
-    textarea.input.remove();
-    textarea.input = null;
     textarea.textAlign = 'test';
-    document.body.innerHTML = '';
-    const elem = new IdsTextarea();
-    document.body.appendChild(elem);
-    textarea = document.querySelector('ids-textarea');
-    textarea.textAlign = 'test2';
     expect(textarea.getAttribute('text-align')).toEqual('left');
     expect(textarea.input.classList).not.toContain('test');
+
     const textAlign = 'right';
     textarea.textAlign = textAlign;
     expect(textarea.getAttribute('text-align')).toEqual(textAlign);
@@ -569,13 +489,6 @@ describe('IdsTextarea Component', () => {
   });
 
   it('should dispatch native events', () => {
-    textarea.input.remove();
-    textarea.input = null;
-    textarea.handleNativeEvents();
-    document.body.innerHTML = '';
-    const elem = new IdsTextarea();
-    document.body.appendChild(elem);
-    textarea = document.querySelector('ids-textarea');
     const events = ['change', 'input', 'propertychange', 'focus', 'select'];
     events.forEach((evt) => {
       let response = null;

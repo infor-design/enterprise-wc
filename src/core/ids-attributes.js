@@ -80,6 +80,7 @@ export const attributes = {
   DISABLE_EVENTS: 'disable-native-events',
   DISMISSIBLE: 'dismissible',
   DISPLAY: 'display',
+  DRAGGING: 'dragging',
   DRAGGABLE: 'draggable',
   DROPDOWN_ICON: 'dropdown-icon',
   EDGE: 'edge',
@@ -137,6 +138,7 @@ export const attributes = {
   LABEL_FILETYPE: 'label-filetype',
   LABEL_HIDDEN: 'label-hidden',
   LABEL_POSITION: 'label-position',
+  LABEL_STATE: 'label-state',
   LABEL_PROGRESS: 'label-progress',
   LABEL_REQUIRED: 'label-required',
   LABEL_TOTAL: 'label-total',
@@ -181,9 +183,11 @@ export const attributes = {
   NO_RIPPLE: 'no-ripple',
   NO_TEXT_ELLIPSIS: 'no-text-ellipsis',
   OPACITY: 'opacity',
-  ORIENTATION: 'orientation',
+  OVER: 'over',
   OVERFLOW: 'overflow',
   OVERFLOWED: 'overflowed',
+  ORIENTATION: 'orientation',
+  ORIGINAL_TEXT: 'original-text',
   PADDING: 'padding',
   PAGE_COUNT: 'page-count',
   PAGE_NUMBER: 'page-number',
@@ -210,6 +214,7 @@ export const attributes = {
   PROGRESS_BAR: 'progress-bar',
   PROGRESS_COLOR: 'progress-color',
   READONLY: 'readonly',
+  READONLY_BACKGROUND: 'readonly-background',
   REQUIRED: 'required',
   RESET: 'reset',
   RESIZABLE: 'resizable',
@@ -300,7 +305,17 @@ export const attributes = {
   Y: 'y',
   YEAR: 'year'
 };
+
+// Standard HTMLElement attribute names
 // Please keep constants alphabetized
+export const htmlAttributes = {
+  ARIA_LABEL: 'aria-label',
+  ARIA_VALUEMAX: 'aria-valuemax',
+  ARIA_VALUEMIN: 'aria-valuemin',
+  ARIA_VALUENOW: 'aria-valuenow',
+  ROLE: 'role',
+  TABINDEX: 'tabIndex'
+};
 
 export const prefix = {
   PREFIX: 'ids'
@@ -315,4 +330,4 @@ export const breakpoints = {
   xs: '360px'
 };
 
-export const version = '0.0.0-beta.18';
+export const version = '0.0.0-beta.19';

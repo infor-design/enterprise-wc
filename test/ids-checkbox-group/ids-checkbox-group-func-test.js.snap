@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IdsCheckboxGroup Component renders correctly 1`] = `"<ids-checkbox-group></ids-checkbox-group>"`;
+
+exports[`IdsCheckboxGroup Component renders correctly 2`] = `"<ids-checkbox-group label=\\"Label Test\\"></ids-checkbox-group>"`;
+
+exports[`IdsCheckboxGroup Component renders correctly 3`] = `"<ids-checkbox-group label=\\"Label Test\\"><ids-checkbox label=\\"Option 1\\"></ids-checkbox></ids-checkbox-group>"`;

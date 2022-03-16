@@ -19,15 +19,6 @@ const SIZES = {
   full: 'full'
 };
 
-// Setting defaults field-heights
-const FIELD_HEIGHTS = {
-  default: 'md',
-  xs: 'xs',
-  sm: 'sm',
-  md: 'md',
-  lg: 'lg'
-};
-
 // Setting defaults text-align
 const TEXT_ALIGN = {
   default: 'left',
@@ -41,7 +32,6 @@ const instanceCounter = 0;
 export {
   TYPES,
   SIZES,
-  FIELD_HEIGHTS,
   TEXT_ALIGN,
   instanceCounter
 };

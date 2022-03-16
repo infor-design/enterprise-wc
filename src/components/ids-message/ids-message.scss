@@ -21,6 +21,10 @@
     @include text-alert-warning();
   }
 
+  &.alert {
+    @include text-alert-warning();
+  }
+
   &.success {
     @include text-alert-success();
   }
@@ -28,4 +32,8 @@
   &.info {
     @include text-alert-info();
   }
+}
+
+.ids-message-content {
+  max-width: 400px;
 }

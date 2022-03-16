@@ -107,6 +107,8 @@ export default class IdsAppMenu extends Base {
         this.clearFilterAccordion();
         return [];
       };
+      this.offEvent('cleared.search');
+      this.onEvent('cleared.search', searchfield, () => this.clearFilterAccordion());
     }
   }
 

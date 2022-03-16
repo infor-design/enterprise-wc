@@ -169,8 +169,10 @@ export default class IdsContainer extends Base {
   async setLocale(value) {
     if (value) {
       await this.state.locale.setLocale(value);
+      const lang = this.state.locale.correctLanguage(value);
       this.setAttribute('locale', value);
-      this.state.locale.updateLangTag(this, value.substr(0, 2));
+      this.setAttribute('language', lang);
+      this.state.locale.updateLangTag(this, lang);
       this.triggerEvent('localechange', this, { detail: { elem: this, language: this.language, locale: this.state.locale } });
     }
   }
@@ -182,7 +184,10 @@ export default class IdsContainer extends Base {
   set locale(value) {
     if (value) {
       this.state.locale.setLocale(value);
+      const lang = this.state.locale.correctLanguage(value);
       this.setAttribute('locale', value);
+      this.setAttribute('language', lang);
+      this.state.locale.updateLangTag(this, lang);
 
       requestAnimationFrame(() => {
         this.triggerEvent('localechange', this, { detail: { elem: this, language: this.language, locale: this.state.locale } });

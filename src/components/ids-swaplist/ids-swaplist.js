@@ -5,9 +5,12 @@ import {
 
 import { attributes } from '../../core/ids-attributes';
 import Base from './ids-swaplist-base';
+import IdsDataSource from '../../core/ids-data-source';
+import { injectTemplate } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsCard from '../ids-card/ids-card';
 import IdsButton from '../ids-button/ids-button';
 import IdsListView from '../ids-list-view/ids-list-view';
+import IdsSwappable from '../ids-swappable/ids-swappable';
 
 import styles from './ids-swaplist.scss';
 
@@ -25,12 +28,12 @@ const DEFAULT_COUNT = 2;
 export default class IdsSwapList extends Base {
   constructor() {
     super();
-    this.swapButtons = this.container.querySelectorAll('.swap-buttons');
   }
 
+  datasource = new IdsDataSource();
+
   connectedCallback() {
-    super.connectedCallback();
-    this.setupTemplate();
+    this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
     this.attachEventHandlers();
   }
 
@@ -46,6 +49,19 @@ export default class IdsSwapList extends Base {
   }
 
   /**
+   * Set the data array of the swaplist
+   * @param {Array | null} value The array to use
+   */
+  set data(value) {
+    if (this.datasource) {
+      this.datasource.data = value || [];
+      this.render(true);
+    }
+  }
+
+  get data() { return this?.datasource?.data || []; }
+
+  /**
    * Swap the list item to the next list
    * @param {*} button htmlElement
    * @private
@@ -53,11 +69,11 @@ export default class IdsSwapList extends Base {
    */
   #swapToNextList(button) {
     const currentCard = button.parentElement.parentElement.parentElement;
-    const currentList = currentCard.querySelector('ids-list-view');
     const nextCard = currentCard.nextSibling;
-    const nextList = nextCard.querySelector('ids-list-view').shadowRoot.querySelector('.ids-list-view-body');
+    const nextList = nextCard.querySelector('ids-swappable');
+    const selectedItems = currentCard.querySelectorAll('ids-swappable-item[selected]');
 
-    currentList.selectedLi.forEach((x) => {
+    selectedItems.forEach((x) => {
       nextList.appendChild(x);
       x.removeAttribute(attributes.SELECTED);
     });
@@ -71,23 +87,24 @@ export default class IdsSwapList extends Base {
    */
   #swapToPreviousList(button) {
     const currentCard = button.parentElement.parentElement.parentElement;
-    const currentList = currentCard.querySelector('ids-list-view');
     const prevCard = currentCard.previousSibling;
-    const prevList = prevCard.querySelector('ids-list-view').shadowRoot.querySelector('.ids-list-view-body');
+    const prevList = prevCard.querySelector('ids-swappable');
+    const selectedItems = currentCard.querySelectorAll('ids-swappable-item[selected]');
 
-    currentList.selectedLi.forEach((x) => {
+    selectedItems.forEach((x) => {
       prevList.appendChild(x);
       x.removeAttribute(attributes.SELECTED);
     });
   }
 
   /**
-   * Get all lists present on the page
-   * @returns {*} nodeList
+   * Get all selected ids-swappable-item
+   * @returns {Array} NodeList of ids-swappable-items
+   * @readonly
    * @memberof IdsSwapList
    */
-  getAllLists() {
-    return this.container.querySelectorAll('ids-list-view');
+  get selectedItems() {
+    return this.container.querySelectorAll('ids-swappable-item[selected]');
   }
 
   /**
@@ -148,6 +165,25 @@ export default class IdsSwapList extends Base {
   }
 
   /**
+   * Item template function that will generate the swappable items
+   * @returns {object} function
+   * @memberof IdsSwapList
+   */
+  itemTemplateFunc() {
+    const func = (item) => this.itemTemplate(item);
+    return func;
+  }
+
+  /**
+   * Return an item's html injecting any values from the dataset as needed.
+   * @param  {object} item The item to generate
+   * @returns {string} The html for this item
+   */
+  itemTemplate(item) {
+    return injectTemplate(this.defaultTemplate, item);
+  }
+
+  /**
    * Set up the list view template
    * @returns {*} html element
    * @memberof IdsSwapList
@@ -165,24 +201,14 @@ export default class IdsSwapList extends Base {
           </div>
         </div>
         <div slot="card-content">
-          <ids-list-view selectable="multiple">
-          </ids-list-view>
+          <ids-swappable selection="multiple">
+            ${this.data.length > 0 ? this.data?.map(this.itemTemplateFunc()).join('') : ''}
+          </ids-swappable>
         </div>
       </ids-card>
     `.trim()).join('');
 
     return html;
-  }
-
-  /**
-   * Setup the default template
-   * @memberof IdsSwapList
-   */
-  setupTemplate() {
-    this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
-    this.getAllLists().forEach((l) => {
-      l.defaultTemplate = this.defaultTemplate;
-    });
   }
 
   /**
@@ -205,19 +231,24 @@ export default class IdsSwapList extends Base {
    * @memberof IdsSwapList
    */
   attachEventHandlers() {
-    this.swapButtons.forEach((b) => {
-      this.onEvent('click', b, (e) => {
-        this.#handleItemSwap(e);
-      });
+    this.offEvent('click', this.container, (e) => this.#handleItemSwap(e));
+    this.onEvent('click', this.container, (e) => this.#handleItemSwap(e));
 
-      this.onEvent('touchend', b, (e) => {
-        this.#handleItemSwap(e);
-      });
+    this.offEvent('touchend', this.container, (e) => this.#handleItemSwap(e));
+    this.onEvent('touchend', this.container, (e) => this.#handleItemSwap(e));
 
-      this.listen('Enter', this.expander, (e) => {
-        this.#handleItemSwap(e);
-      });
-    });
+    this.listen('Enter', this.container, (e) => this.#handleItemSwap(e));
+  }
+
+  /**
+   * Render the swaplist and attach event handlers
+   */
+  render() {
+    super.render();
+
+    if (this.data?.length > 0) {
+      this.attachEventHandlers();
+    }
   }
 
   /**

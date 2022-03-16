@@ -1,0 +1,9 @@
+---
+ component: Container
+ link: ids-container
+ description: Main container for themes / locale
+ category: Layouts
+ keywords: layout, container, locale, theme
+ examples:
+  - link: index.html
+    description: hows a single empty container
