@@ -528,7 +528,7 @@ describe('IdsInput Component', () => {
   });
 
   it('should dispatch native events', () => {
-    const events = ['change', 'focus', 'select', 'keydown', 'keypress', 'click', 'dbclick'];
+    const events = ['focus', 'select', 'keydown', 'keypress', 'click', 'dbclick'];
     events.forEach((evt) => {
       let response = null;
       input.addEventListener(evt, () => {
@@ -542,6 +542,33 @@ describe('IdsInput Component', () => {
       }
       expect(response).toEqual('triggered');
     });
+  });
+
+  it('should trigger a change event once when the input value is changed programmatically', () => {
+    let callCount = 0;
+    document.addEventListener('change', () => {
+      callCount++;
+    });
+
+    // Set value directly on the host element
+    input.value = 'Awesome';
+
+    expect(callCount).toEqual(1);
+  });
+
+  it('should trigger a change event once when the internal HTMLInputElement\'s change event is fired', () => {
+    let callCount = 0;
+    document.addEventListener('change', () => {
+      callCount++;
+    });
+
+    // Simulate an internal, programmatic change to the HTMLInputElement
+    // (doesn't automatically fire a change event)
+    // DO NOT SET IDS-INPUT VALUES THIS WAY IN APPLICATION CODE
+    input.input.value = 'Awesome';
+    input.input.dispatchEvent(new Event('change', { bubbles: true }));
+
+    expect(callCount).toEqual(1);
   });
 
   it('should not set wrong size', () => {

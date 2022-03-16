@@ -22,12 +22,10 @@ For more details on breaking changes see each component in the individual README
 - `[Counts]` The counts component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-counts/README.md#converting-from-previous-versions for details. ([#330](https://github.com/infor-design/enterprise-wc/issues/123))
 - `[Datepicker]` The date picker component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-date-picker/README.md#converting-from-previous-versions for details. ([#330](https://github.com/infor-design/enterprise-wc/issues/183))
 - `[Draggable]` The drag component is now a web component called `ids-draggable`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-draggable/README.md#converting-from-previous-versions for details. ([#253](https://github.com/infor-design/enterprise-wc/issues/253))
-- `[Editor]` The Editor component has been changed to a web component and renamed to ids-editor.
-  - Markup has changed to a custom element `<ids-editor><div slot="content"><p>Some sample text</p></div></ids-editor>`
-  - If using events, events are now plain JS events.
-  - Can now be imported as a single JS file and used with encapsulated styles
-- `[ErrorPage]` The Error Page component has been changed to a web component and use with `ids-error-page`.
-  - the icon, label, description and button-text are set via properties/attributes.
+- `[Dropdown]` The dropdown component is now a web component called `ids-dropdown`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-dropdown/README.md#converting-from-previous-versions for details. ([#132](https://github.com/infor-design/enterprise-wc/issues/132))
+- `[Editor]` The Editor component is now a web component called `ids-editor`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-editor/README.md#converting-from-previous-versions for details. ([#350](https://github.com/infor-design/enterprise-wc/issues/350))
+- `[EmptyMessage]` The EmptyMessage component is now a web component called `ids-empty-message`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-empty-message`/README.md#converting-from-previous-versions for details. ([#281](https://github.com/infor-design/enterprise-wc/issues/281))
+- `[ErrorPage]` The ErrorPage component is now a web component called `ids-error-page`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-error-page/README.md#converting-from-previous-versions for details. ([#352](https://github.com/infor-design/enterprise-wc/issues/352))
 - `[Fieldset]` The fieldset component has been changed to a web component `ids-fieldset` ([#138](https://github.com/infor-design/enterprise-wc/issues/138))
   - Markup has changed to a custom element `<ids-fieldset></ids-fieldset>`
   - Can now be imported as a single JS file and used with encapsulated styles.
@@ -164,20 +162,9 @@ For more details on breaking changes see each component in the individual README
   - Markup has changed to a custom element `<ids-tree><ids-tree-node></ids-tree-node></ids-tree>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
-- `[Treemap]` The Treemap component has been changed to a web component and used with ids-treemap
-- `[Wizard]` The Wizard component has been changed to a web component. ([#5026](https://github.com/infor-design/enterprise/issues/5026))
-  - Wizard is now a custom element `<ids-wizard></ids-wizard>`
-  - Steps are now codified as custom elements `<ids-wizard-step>MY-LABEL</ids-wizard-step>`
-  - Setting the step number is done via `ids-wizard`'s `step-number` attribute.
-  - `clickable` property is available on both any `ids-wizard-step` and `ids-wizard` overall.
-- `[Upload]` The file upload component has been changed to a web component and renamed to ids-upload.
-  - Markup has changed to a custom element `<ids-upload></ids-upload>`
-  - If using events, events are now plain JS events.
-  - Can now be imported as a single JS file and used with encapsulated styles
-  - Shows percent progress on file
-- `[Upload Advanced]` The file upload advanced component has been changed to a web component and renamed to ids-upload-advanced.
-  - Markup has changed to a custom element `<ids-upload-advanced></ids-upload-advanced>`
-  - Each file ui sections now use as components `<ids-upload-advanced-file></ids-upload-advanced-file>`
-  - Can get each file status, can get by simple component properties
-  - If using events, events are now plain JS events.
-  - Can now be imported as a single JS file and used with encapsulated styles
+- `[Treemap]` The Treemap component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-treemap/README.md#converting-from-previous-versions-breaking-changes) for details. ([#369](https://github.com/infor-design/enterprise-wc/issues/369))
+- `[Trigger Field]` A new trigger field component has been added. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-trigger-field/README.md) for details. ([#178](https://github.com/infor-design/enterprise-wc/issues/178))
+- `[Upload]` The file upload component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-upload/README.md#converting-from-previous-versions-breaking-changes) for details. ([#166](https://github.com/infor-design/enterprise-wc/issues/166))
+- `[Upload Advanced]` The file upload advanced component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-upload-advanced/README.md#converting-from-previous-versions-breaking-changes) for details. ([#161](https://github.com/infor-design/enterprise-wc/issues/161))
+- `[Week View]` The week view component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-week-view/README.md#converting-from-previous-versions-breaking-changes) for details. ([#371](https://github.com/infor-design/enterprise-wc/issues/371))
+- `[Wizard]` The wizard component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-wizard/README.md#converting-from-previous-versions-breaking-changes) for details. ([#126](https://github.com/infor-design/enterprise-wc/issues/126))

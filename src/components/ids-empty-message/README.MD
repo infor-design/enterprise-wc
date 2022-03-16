@@ -53,3 +53,14 @@ When making use of the `icon` property, it is important to remember that only em
 ## Accessibility
 
 It is important to remember to always include a label or description with an Icon for screen reader users.
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+- This is a new concept that did not exist in 3.x
+
+**4.x to 5.x**
+- The EmptyMessage component has been changed to a web component and renamed to `<ids-empty-message>`.
+- Markup has changed to a custom element `<ids-empty-message>` (see examples above)
+- Can now be imported as a single JS file and used with encapsulated styles
+- The icon, label, description and button-text are set via properties/attributes.

@@ -80,11 +80,21 @@ Upload field with required validation
 - <kbd>Enter</kbd>, <kbd>Space</kbd> Open the file upload dialog box.
 - <kbd>Backspace</kbd> Clear the selected value.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-### Converting from 4.x
+**3.x to 4.x**
 
-The IDS Upload component is now a WebComponent. Instead of using classes to define, it is done directly:
+- Replace any calls to `inforFileField()` with `.fileupload()`
+- Replace class `inforLabel` with `label`
+- Replace class `inforFileField` with `fileupload`
+- Make sure the `<label>` wraps the `<input>` element
+
+**4.x to 5.x**
+
+- Markup has changed to a custom element `<ids-upload></ids-upload>`
+- If using events, events are now plain JS events.
+- Can now be imported as a single JS file and used with encapsulated styles
+- Shows percent progress on file
 
 ```html
 <!-- 4.x fileupload example -->

@@ -232,6 +232,41 @@ describe('IdsMenu Component', () => {
     expect(item4.selected).toBeFalsy();
   });
 
+  it('can select items by value (single)', () => {
+    group1.select = 'single';
+
+    // can set selected by passing value as string
+    menu.setSelectedValues('2', group1);
+    let values = menu.getSelectedValues(group1);
+    expect(values.length).toBe(1);
+    expect(values).toEqual(['2']);
+
+    // can set selected by passing values as array
+    menu.setSelectedValues(['3'], group1);
+    values = menu.getSelectedValues();
+    expect(values.length).toBe(1);
+    expect(values).toEqual(['3']);
+    expect(item2.selected).toBeFalsy();
+  });
+
+  it('can select items by value (multiple)', () => {
+    group2.select = 'multiple';
+
+    const expected = ['4', '5'];
+    menu.setSelectedValues(expected, group2);
+
+    let values = menu.getSelectedValues(group2);
+    expect(values.length).toBe(2);
+    expect(values).toEqual(expected);
+
+    // ignores values that don't exist
+    const notExpected = [...expected, 'foobar', 'lorem-ipsum'];
+    menu.setSelectedValues(notExpected, group2);
+    values = menu.getSelectedValues(group2);
+    expect(values.length).toBe(2);
+    expect(values).toEqual(expected);
+  });
+
   it('can get/clear selected items in a specific group', () => {
     group2.select = 'multiple';
     menu.selectItem(item1);

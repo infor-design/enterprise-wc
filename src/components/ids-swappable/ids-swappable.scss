@@ -1,0 +1,11 @@
+@import '../../core/ids-base';
+
+:host {
+  display: block;
+  border: 1px dashed transparent;
+  height: 100%;
+}
+
+:host([active]) {
+  border-color: var(--ids-color-palette-slate-80);
+}

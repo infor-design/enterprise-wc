@@ -528,6 +528,34 @@ export default class IdsMenu extends Base {
   }
 
   /**
+   * Selects menu items containing the value(s) provided
+   * @param {Array<any>|string} values array|string of menu item value(s)
+   * @param {string|IdsMenuGroup} [menuGroup] a string representing an ID, or an IdsMenuGroup
+   * @returns {void}
+   */
+  setSelectedValues(values, menuGroup) {
+    if (!values?.length) return;
+
+    // if group specified and not found, do nothing
+    const group = isValidGroup(menuGroup, this);
+    if (!group && menuGroup !== undefined) return;
+
+    const items = group ? group.items : this.items;
+    const valueArr = Array.isArray(values) ? values : [values];
+
+    items.forEach((item) => {
+      if (valueArr.indexOf(item.value) === -1) {
+        item.deselect();
+        return;
+      }
+
+      if (!item.selected) {
+        this.selectItem(item);
+      }
+    });
+  }
+
+  /**
    * Selects a menu item contained by this menu.
    * @param {IdsMenuItem} menuItem the item to be selected
    * @returns {void}
