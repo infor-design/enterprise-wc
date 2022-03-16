@@ -3,11 +3,10 @@
  * @param  {string} str [description]
  * @returns {string} The return string
  */
-export function camelCase(str) {
+export function camelCase(str: string): string {
   return (str.slice(0, 1).toLowerCase() + str.slice(1))
     .replace(/([-_ ]){1,}/g, ' ')
     .split(/[-_ ]/)
-    // eslint-disable-next-line no-unsafe-optional-chaining
     .reduce((cur, acc) => cur + acc[0]?.toUpperCase() + acc.substring(1));
 }
 
@@ -18,7 +17,7 @@ export function camelCase(str) {
  * @param {string} str The string to process
  * @returns {string} The processed string
  */
-export function removeDuplicates(str) {
+export function removeDuplicates(str: string): string {
   return str
     .split('')
     .filter((item, pos, self) => self.indexOf(item) === pos)
@@ -30,7 +29,7 @@ export function removeDuplicates(str) {
  * @param {string} str the incoming string to format
  * @returns {string} the string with newline characters replaced
  */
-export function removeNewLines(str = '') {
+export function removeNewLines(str: string): string {
   return str.replace(/\r?\n|\r/g, ' ');
 }
 
@@ -39,7 +38,7 @@ export function removeNewLines(str = '') {
  * @param {string|boolean|any} val string value from the component attribute
  * @returns {boolean} The return boolean
  */
-export function stringToBool(val) {
+export function stringToBool(val: string | boolean): boolean {
   if ((typeof val === 'string' && val.toLowerCase() === 'false') || val === false) {
     return false;
   }
@@ -51,7 +50,7 @@ export function stringToBool(val) {
  * @param {string|number|any} val string value from the component attribute
  * @returns {number} The return boolean
  */
-export function stringToNumber(val) {
+export function stringToNumber(val: string): number {
   return parseFloat(val); // eslint-disable-line
 }
 

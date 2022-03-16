@@ -36,7 +36,7 @@ const IdsThemeMixin = (superclass) => class extends superclass {
     this.mode = this.switcher.mode;
     this.version = this.switcher.version;
 
-    this.onEvent('themechanged', this.switcher, (e) => {
+    this.onEvent('themechanged', this.switcher, (e: CustomEvent) => {
       this.mode = e.detail.mode;
       this.version = e.detail.version;
     });
@@ -46,23 +46,23 @@ const IdsThemeMixin = (superclass) => class extends superclass {
    * Set the mode of the current theme
    * @param {string} value The mode value for example: light, dark, or contrast
    */
-  set mode(value) {
+  set mode(value: string) {
     this.setAttribute('mode', value);
     this.container.setAttribute('mode', value);
   }
 
-  get mode() { return this.getAttribute('mode') || 'light'; }
+  get mode(): string { return this.getAttribute('mode') || 'light'; }
 
   /**
    * Set the theme to a particular theme version
    * @param {string} value The version value for example: classic or new
    */
-  set version(value) {
+  set version(value: string) {
     this.setAttribute('version', value);
     this.container.setAttribute('version', value);
   }
 
-  get version() { return this.getAttribute('version') || 'new'; }
+  get version(): string { return this.getAttribute('version') || 'new'; }
 };
 
 export default IdsThemeMixin;

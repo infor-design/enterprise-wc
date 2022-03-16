@@ -41,7 +41,7 @@ const IdsKeyboardMixin = (superclass) => class extends superclass {
    * @param {string} key a string representing a {KeyboardEvent.key} that was pressed
    * @returns {Map} the current set of pressed keys
    */
-  press(key) {
+  press(key: string) {
     return this.pressedKeys.set(`${key}`, true);
   }
 
@@ -51,7 +51,7 @@ const IdsKeyboardMixin = (superclass) => class extends superclass {
    * @param {HTMLElement} elem The object with the listener attached
    * @param {Function} callback The call back when this combination is met
    */
-  listen(keycode, elem, callback) {
+  listen(keycode: Array<string>|string, elem: HTMLElement, callback) {
     const keycodes = Array.isArray(keycode) ? keycode : [keycode];
 
     for (const c of keycodes) {
@@ -64,7 +64,7 @@ const IdsKeyboardMixin = (superclass) => class extends superclass {
    * @param {string} key An array of all matching keycodes
    * @returns {Map} the current set of hotkeys
    */
-  unlisten(key) {
+  unlisten(key: string) {
     return this.hotkeys.delete(`${key}`);
   }
 
@@ -74,7 +74,7 @@ const IdsKeyboardMixin = (superclass) => class extends superclass {
    * @param {string} key a string representing a {KeyboardEvent.key} that is no longer active
    * @returns {boolean} whether or not the key had been previously logged as "pressed"
    */
-  unpress(key) {
+  unpress(key: string) {
     return this.pressedKeys.delete(`${key}`);
   }
 

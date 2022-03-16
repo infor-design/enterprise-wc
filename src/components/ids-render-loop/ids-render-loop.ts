@@ -7,6 +7,13 @@ import IdsRenderLoopItem from './ids-render-loop-item';
  * routines for a specified duration.
  */
 export default class IdsRenderLoop {
+  items: Array<IdsRenderLoopItem>;
+  doLoop = false;
+  totalStoppedTime = 0
+  startTime = 0
+  lastStopTime? = 0;
+  resumeTime = 0;
+
   /**
    * @param {object} [settings] incoming settings
    * @param {boolean} [settings.autoStart = true] causes the loop to start immediately
@@ -62,6 +69,7 @@ export default class IdsRenderLoop {
       delete this.lastStopTime;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
     let last = timestamp();
     let now;

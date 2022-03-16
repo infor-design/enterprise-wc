@@ -3,6 +3,6 @@
  * @private
  * @returns {number} a current timestamp
  */
-export function timestamp() {
+export function timestamp(): number {
   return window.performance.now();
 }

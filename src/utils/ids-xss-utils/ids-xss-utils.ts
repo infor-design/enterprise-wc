@@ -4,7 +4,7 @@
  * @param {string} html HTML in string form
  * @returns {string} the modified value
  */
-export function sanitizeConsoleMethods(html) {
+export function sanitizeConsoleMethods(html: string) {
   const methods = ['assert', 'clear', 'count', 'debug', 'dirxml', 'dir', 'error', 'exception', 'groupCollapsed', 'groupEnd', 'group', 'info', 'log', 'markTimeline', 'profileEnd', 'profile', 'table', 'timeEnd', 'timeStamp', 'time', 'trace', 'warn'];
   const expr = new RegExp(`console\\.(${methods.join('|')})((\\s+)?\\(([^)]+)\\);?)?`, 'igm');
 
@@ -17,7 +17,7 @@ export function sanitizeConsoleMethods(html) {
  * @param {string} html HTML in string form
  * @returns {string} the modified value
  */
-export function sanitizeHTML(html) {
+export function sanitizeHTML(html: string) {
   let santizedHtml = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/g, '');
   santizedHtml = santizedHtml.replace(/<[^>]+/g, (match) => {
     const expr = /(\/|\s)on\w+=('|")?/g;
@@ -64,7 +64,7 @@ export function stripHTML(str) {
  * @param {string} allowed Comma seperated string of allowed tags e.g. '<b><i><p>''
  * @returns {string} the modified value
  */
-export function stripTags(html, allowed) {
+export function stripTags(html: string, allowed: string) {
   if (!html) {
     return '';
   }
@@ -95,18 +95,21 @@ export function stripTags(html, allowed) {
  * @param {string} value HTML in string form
  * @returns {string} the modified value
  */
-export function unescapeHTML(value) {
+export function unescapeHTML(value: string): string {
   if (value === '') {
     return '';
   }
 
-  if (typeof value === 'string') {
-    const match = (regx) => value.match(regx)[0];
-    const doc = new DOMParser().parseFromString(value, 'text/html');
+  const match = (regx) => {
+    const test = value.match(regx)
+    if (test)
+      return test[0];
+    return null;
+  };
+  const doc = new DOMParser().parseFromString(value, 'text/html');
 
-    // Keep leading/trailing spaces
-    return `${match(/^\s*/)}${doc.documentElement.textContent.trim()}${match(/\s*$/)}`;
-  }
+  // Keep leading/trailing spaces
+  return `${match(/^\s*/)}${doc.documentElement?.textContent?.trim()}${match(/\s*$/)}`;
   return value;
 }
 

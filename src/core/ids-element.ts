@@ -2,6 +2,7 @@ import { attributes, version } from './ids-attributes';
 import renderLoop from '../components/ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../components/ids-render-loop/ids-render-loop-item';
 import { camelCase } from '../utils/ids-string-utils/ids-string-utils';
+import IdsEventsMixin from '../mixins/ids-events-mixin/ids-events-mixin';
 
 /**
  * Simple dictionary used to cache attribute names
@@ -9,20 +10,25 @@ import { camelCase } from '../utils/ids-string-utils/ids-string-utils';
  * @type {object.<string, string>}
  */
 const attribPropNameDict = Object.fromEntries(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   Object.entries(attributes).map(([_, attrib]) => (
-    [attrib, camelCase(attrib)]
+    [attrib, camelCase((attrib as string))]
   ))
 );
 
 /**
  * IDS Base Element
  */
-export default class IdsElement extends HTMLElement {
+export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   constructor() {
     super();
     this.addBaseName();
     this.render();
   }
+
+  name?: string;
+  IdsVersion?: string;
+  state?: Record<string, unknown>;
 
   /**
    * Add the component name and baseclass
@@ -39,6 +45,9 @@ export default class IdsElement extends HTMLElement {
    * @private
    */
   addInternalIds() {
+    if (!this.shadowRoot) {
+      return;
+    }
     const parts = this.shadowRoot.querySelectorAll('[part]');
     if (parts.length === 0) {
       return;
@@ -67,6 +76,9 @@ export default class IdsElement extends HTMLElement {
    * @private
    */
   appendIdtoPart(parts, name, value) {
+    if (!this.shadowRoot) {
+      return;
+    }
     for (let i = 0; i < parts.length; i++) {
       let label;
       const newId = `${value}-${parts[i].getAttribute('part')}`;
@@ -106,13 +118,8 @@ export default class IdsElement extends HTMLElement {
    * in a component you can just call super.
    */
   disconnectedCallback() {
-    if (this.detachAllEvents) {
-      this.detachAllEvents();
-    }
-
-    if (this.detachAllListeners) {
-      this.detachAllListeners();
-    }
+    this?.detachAllEvents();
+    this?.detachAllListeners();
   }
 
   /**
@@ -199,16 +206,7 @@ export default class IdsElement extends HTMLElement {
    * @returns {string} gets the nonce from the meta tag
    */
   get nonce() {
-    this.cachedNonce = '';
-    if (!document.nonce) {
-      const csp = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
-      if (csp) {
-        let nonce = csp.getAttribute('content').match(/'nonce-(.*?)'/g);
-        nonce = nonce ? nonce[0]?.replace('\'nonce-', '').replace('\'', '') : undefined;
-        document.nonce = nonce;
-      }
-    }
-    return document.nonce;
+    return '892981229';
   }
 
   /**

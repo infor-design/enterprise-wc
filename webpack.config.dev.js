@@ -7,7 +7,7 @@ const WebpackHtmlExamples = require('./scripts/webpack-html-templates');
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
 
 module.exports = {
-  entry: () => demoEntry(),
+  entry: demoEntry(),
   output: {
     chunkFormat: 'module',
     path: path.resolve(__dirname, './build/development'),
@@ -45,19 +45,14 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(ts|js)$/i,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+      {
         test: /\.(png|jpe?g|gif|svg|json|css|pdf|csv|xml)$/i,
         exclude: [/node_modules/],
         type: 'asset/resource',
-      },
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            // Options are all in babel.config.js
-            loader: 'babel-loader'
-          }
-        ]
       },
       {
         test: /\.scss$/,

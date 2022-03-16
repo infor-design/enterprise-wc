@@ -1,15 +1,38 @@
 import { timestamp } from './ids-render-loop-common';
 
+interface RenderLoopItemSettings {
+  id?: string;
+  duration?: number;
+  updateDuration?: number;
+  updateCallback?: (args: CallableFunction) => void;
+  timeoutCallback?: (args: CallableFunction) => void;
+}
+
 /**
  * An IDS RenderLoop Queue Item
  * @type {IdsRenderLoopItem}
  * @param {object} settings incoming item options
  */
 export default class IdsRenderLoopItem extends Object {
+
+  id?: string;
+  duration?: number;
+  updateDuration?: number;
+  updateCallback?: CallableFunction;
+  timeoutCallback?: CallableFunction;
+  paused: boolean;
+  startTime: number;
+  totalStoppedTime: number;
+  nextUpdateTime?: number;
+  lastPauseTime?: number;
+  resumeTime?: number;
+  noTimeout?: boolean ;
+  doRemoveOnNextTick?: boolean;
+
   /**
    * @param {object} settings incoming item options
    */
-  constructor(settings = {}) {
+  constructor(settings: RenderLoopItemSettings = { }) {
     super();
 
     // This can be referenced by the RenderLoopAPI to change this item's settings
@@ -18,28 +41,20 @@ export default class IdsRenderLoopItem extends Object {
     // Setting a duration greater than '-1' causes the RenderLoopItem to automatically
     // remove itself from the queue after that duration.
     this.duration = -1;
+    this.duration = settings.duration;
     if (typeof settings.duration === 'number') {
-      this.duration = parseInt(settings.duration, 10);
-    }
-
-    // Either ID or a duration is required.
-    if (this.duration < 1 && (typeof this.id !== 'string' || !this.id.length)) {
-      throw new Error('cannot build a RenderLoopItem with no duration and no namespace');
+      this.duration = settings.duration;
     }
 
     // Number of frames this loop item will step before running its
     // `updateCallback()`, if defined
     this.updateDuration = 1;
     if (typeof settings.updateDuration === 'number') {
-      this.updateDuration = parseInt(settings.updateDuration, 10);
+      this.updateDuration = settings.updateDuration;
     }
     this.setNextUpdateTime();
 
     // handles the setting of user-defined callback functions
-    if (typeof settings.updateCallback !== 'function' && typeof settings.timeoutCallback !== 'function') {
-      throw new Error('cannot register callback to RenderLoop because callback is not a function');
-    }
-
     if (typeof settings.updateCallback === 'function') {
       this.updateCallback = settings.updateCallback.bind(this);
     }
@@ -60,7 +75,7 @@ export default class IdsRenderLoopItem extends Object {
    * @returns {void}
    */
   setNextUpdateTime() {
-    this.nextUpdateTime = timestamp() + this.updateDuration;
+    this.nextUpdateTime = timestamp() + (this.updateDuration || 0);
   }
 
   /**
@@ -78,7 +93,7 @@ export default class IdsRenderLoopItem extends Object {
    */
   resume() {
     this.resumeTime = timestamp();
-    this.totalStoppedTime += this.resumeTime - (this.lastPauseTime || 0);
+    this.totalStoppedTime += this.resumeTime - (this.lastPauseTime || 0)
     delete this.lastPauseTime;
     this.paused = false;
   }
@@ -88,7 +103,7 @@ export default class IdsRenderLoopItem extends Object {
    * @returns {number} the elapsed time this RenderLoop item has existed for
    */
   get elapsedTime() {
-    return timestamp() - (this.startTime + this.totalStoppedTime);
+    return timestamp() - (this.startTime + ( this.totalStoppedTime || 0));
   }
 
   /**
@@ -106,7 +121,7 @@ export default class IdsRenderLoopItem extends Object {
    *  to an `updateCallback()` method.
    * @returns {void}
    */
-  update(timeInfo, ...callbackArgs) {
+  update(timeInfo: { last: number, delta: number, now: number}, ...callbackArgs: Array<unknown>) {
     if (typeof this.updateCallback !== 'function' || !this.canUpdate) {
       return;
     }
@@ -134,7 +149,7 @@ export default class IdsRenderLoopItem extends Object {
    * triggering the `timeoutCallback` function
    * @returns {void}
    */
-  destroy(noTimeout) {
+  destroy(noTimeout?: boolean) {
     if (noTimeout) {
       this.noTimeout = true;
     }

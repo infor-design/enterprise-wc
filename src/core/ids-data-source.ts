@@ -20,7 +20,7 @@ class IdsDataSource {
    * Holds a reference to the original data
    * @private
    */
-  #originalData = [];
+  originalData = [];
 
   /**
    * Holds the data in its current state
@@ -52,7 +52,7 @@ class IdsDataSource {
    */
   set data(value) {
     this.#currentData = deepClone(value);
-    this.#originalData = value;
+    this.originalData = value;
     this.#total = this.#currentData?.length || 0;
   }
 
@@ -110,8 +110,8 @@ class IdsDataSource {
    * @returns {Array} the paginated data
    */
   pager(pageNumber = 1, pageSize = 10) {
-    pageNumber = Math.max(parseInt(pageNumber) || 1, 1);
-    pageSize = parseInt(pageSize) || 1;
+    pageNumber = Math.max(pageNumber || 1, 1);
+    pageSize = pageSize || 1;
 
     const last = pageNumber * pageSize;
     const start = last - pageSize;

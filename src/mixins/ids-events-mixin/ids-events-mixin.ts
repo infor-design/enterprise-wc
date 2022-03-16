@@ -30,12 +30,12 @@ const IdsEventsMixin = (superclass) => class extends superclass {
 
   /**
    * Add and keep track of an event listener.
-   * @param {string|any} eventName The event name with optional namespace
+   * @param {string} eventName The event name with optional namespace
    * @param {HTMLElement} target The DOM element to register
    * @param {Function|any} callback The callback code to execute
    * @param {object} options Additional event settings (passive, once, bubbles ect)
    */
-  onEvent(eventName, target, callback, options) {
+  onEvent(eventName: string, target: HTMLElement, callback?: unknown, options?: Record<string, unknown> | boolean) {
     if (!target) {
       return;
     }
@@ -44,7 +44,7 @@ const IdsEventsMixin = (superclass) => class extends superclass {
       this.#addLongPressListener(eventName, target, options);
     }
     if (eventName.indexOf('keyboardfocus') === 0) {
-      this.#addKeyboardFocusListener(eventName, target, options);
+      this.#addKeyboardFocusListener(eventName, target);
     }
     if (eventName.indexOf('hoverend') === 0) {
       this.#addHoverEndListener(eventName, target, options);
@@ -55,7 +55,7 @@ const IdsEventsMixin = (superclass) => class extends superclass {
     if (eventName.indexOf('swipe') === 0) {
       this.#addSwipeListener(eventName, target, options);
     }
-    target.addEventListener(eventName.split('.')[0], callback, options);
+    target.addEventListener(eventName.split('.')[0], (callback as any), options);
     this.handledEvents.set(eventName, { target, callback, options });
   }
 
@@ -124,9 +124,9 @@ const IdsEventsMixin = (superclass) => class extends superclass {
    * @param {any} data extra data to send with vetoable event
    * @returns {boolean} true if the event works
    */
-  triggerVetoableEvent(eventType, data) {
+  triggerVetoableEvent(eventType: string, data) {
     if (this.vetoableEventTypes.length > 0
-      && !this.vetoableEventTypes.includes(eventType)) {
+      && !this.vetoableEventTypes.includes((eventType as never))) {
       return false;
     }
 
@@ -186,7 +186,7 @@ const IdsEventsMixin = (superclass) => class extends superclass {
     }
 
     // Setup events
-    this.onEvent('touchstart.longpress', target, (e) => {
+    this.onEvent('touchstart.longpress', target, (e: Event) => {
       e.preventDefault();
       if (!this.timer) {
         this.timer = renderLoop.register(new IdsRenderLoopItem({
@@ -322,10 +322,11 @@ const IdsEventsMixin = (superclass) => class extends superclass {
   /**
    * Setup a custom keypress focus event
    * @private
-   * @param {string|any} eventName The event name with optional namespace
+   * @param {string} eventName The event name with optional namespace
    * @param {HTMLElement} target The DOM element to register
+   * @param {object} options The options to pass through to the event
    */
-  #addKeyboardFocusListener(eventName, target) {
+  #addKeyboardFocusListener(eventName: string, target: HTMLElement) {
     if (this.keyboardFocusOn) {
       return;
     }

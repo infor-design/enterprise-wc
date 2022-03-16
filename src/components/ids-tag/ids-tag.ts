@@ -5,6 +5,7 @@ import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 import Base from './ids-tag-base';
 
 import styles from './ids-tag.scss';
+console.log('in ids tag')
 
 /**
  * IDS Tag Component
@@ -21,6 +22,7 @@ import styles from './ids-tag.scss';
 export default class IdsTag extends Base {
   constructor() {
     super();
+    console.log(Base);
   }
 
   /**
@@ -60,7 +62,7 @@ export default class IdsTag extends Base {
    * @param {string} value The color value, this can be not provided,
    * secondary (white), error, success, danger, caution or a hex code with the #
    */
-  set color(value) {
+  set color(value: string) {
     if (value) {
       this.setAttribute('color', value);
       if (value.substring(0, 1) === '#') {
@@ -89,7 +91,10 @@ export default class IdsTag extends Base {
   #appendIcon(iconName) {
     const icon = this.querySelector(`[icon="${iconName}"]`);
     if (!icon) {
-      this.insertAdjacentHTML('beforeend', `<ids-icon part="icon" icon="${iconName}" size="xsmall" class="ids-icon"></ids-icon>`);
+      this.insertAdjacentHTML(
+        'beforeend',
+        `<ids-icon part="icon" icon="${iconName}" size="xsmall" class="ids-icon"></ids-icon>`
+      );
       this.#attachEventHandlers();
     }
   }
@@ -99,7 +104,7 @@ export default class IdsTag extends Base {
    * @param {string} iconName The icon name to check
    * @private
    */
-  #removeIcon(iconName) {
+  #removeIcon(iconName: string) {
     const icon = this.querySelector(`[icon="${iconName}"]`);
     if (icon) {
       icon.remove();
@@ -110,7 +115,7 @@ export default class IdsTag extends Base {
    * If set to true the tag has an x to dismiss
    * @param {boolean|string} value true of false depending if the tag is dismissed
    */
-  set dismissible(value) {
+  set dismissible(value: boolean) {
     if (value) {
       this.setAttribute('dismissible', value.toString());
       this.container.classList.add('focusable');
@@ -132,7 +137,7 @@ export default class IdsTag extends Base {
    * If set to true the tag has focus state and becomes a clickable linnk
    * @param {boolean|string} value true of false depending if the tag is clickable
    */
-  set clickable(value) {
+  set clickable(value: boolean) {
     if (value) {
       this.setAttribute('clickable', value.toString());
       this.container.classList.add('focusable');

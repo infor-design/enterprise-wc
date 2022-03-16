@@ -1,22 +1,27 @@
 {
+  "compileOnSave": true,
   "compilerOptions": {
     "allowJs": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "checkJs": false,
-    "noEmit": true,
-    // We'd like to use noImplicitAny: true, but we often need to access
-    // arbitrary data on elements, and have not yet worked out an easy way to
-    // declare that properly.
     "noImplicitAny": false,
     "noImplicitReturns": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "strict": true,
-    "target": "ES2019",
+    "target": "es2020",
+    "module": "es6",
     "types": [],
     "moduleResolution": "node",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "outDir": "./build/ts"
   },
-  "include": ["src/**/**/*.js", "src/**/**/*.d.ts"],
-  "exclude": ["node_modules", "test"]
+  "include": [
+    "src/**/**/*.ts",
+    "src/**/**/*.js",
+    "src/**/**/*.d.ts",
+    "./declaration.d.ts"
+  ],
+  "exclude": ["node_modules", "test", "build", "dist"],
 }

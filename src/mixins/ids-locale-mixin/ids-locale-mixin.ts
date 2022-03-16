@@ -62,7 +62,7 @@ const IdsLocaleMixin = (superclass) => class extends superclass {
   attachLocale() {
     if (this.tagName !== 'IDS-CONTAINER' && !this.state?.locale) {
       this.state = this.state || {};
-      this.state.locale = document.querySelector('ids-container')?.state?.locale;
+      this.state.locale = (document.querySelector('ids-container') as any).state ?.locale;
     }
   }
 };
