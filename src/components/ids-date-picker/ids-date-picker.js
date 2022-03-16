@@ -1250,14 +1250,8 @@ class IdsDatePicker extends Base {
   }
 
   /**
-   * Overrides the standard "focus" behavior to instead pass focus to the inner IdsTriggerField element.
-   */
-  focus() {
-    this.#triggerField.focus();
-  }
-
-  /**
-   * Set the direction attribute
+   * expanded attribute
+   * @returns {boolean} whether expanded or not
    */
   get expanded() {
     return stringToBool(this.getAttribute(attributes.EXPANDED));

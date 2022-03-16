@@ -376,6 +376,29 @@ class IdsMonthView extends Base {
   }
 
   /**
+   * Add/remove legend HTML to the container
+   */
+  #renderLegend() {
+    const template = this.legend.length > 0 ? `
+      <div class="month-view-legend">
+        ${this.legend.map((item) => `
+          <div class="month-view-legend-item">
+            <span class="month-view-legend-swatch" data-color="${item.color}"></span>
+            <ids-text class="month-view-legend-text">${item.name}</ids-text>
+          </div>
+        `).join('')}
+      </div>
+    ` : '';
+
+    // Clear/add HTML
+    this.container.querySelector('.month-view-legend')?.remove();
+    this.container.querySelector('.month-view-container')
+      .insertAdjacentHTML('beforeend', template);
+
+    this.#colorToVar();
+  }
+
+  /**
    * Helper to format datepicker text in the toolbar
    * @returns {string} locale formatted month year
    */
@@ -725,8 +748,8 @@ class IdsMonthView extends Base {
     this.container.querySelectorAll('tbody tr').forEach((el) => el.remove());
     this.container.querySelector('tbody').insertAdjacentHTML('beforeend', rowsTemplate);
 
-    this.#colorToVar();
     this.#renderWeekDays();
+    this.#colorToVar();
   }
 
   /**
@@ -778,7 +801,8 @@ class IdsMonthView extends Base {
   }
 
   #colorToVar() {
-    this.container.querySelectorAll('td')
+    [...this.container.querySelectorAll('td'),
+      ...this.container.querySelectorAll('.month-view-legend-swatch')]
       .forEach((el) => {
         const color = el.dataset.color;
         const isHex = color?.includes('#');
@@ -1114,6 +1138,17 @@ class IdsMonthView extends Base {
   }
 
   set legend(val) {
+    // Remove legend by setting null
+    if (val === null) {
+      this.#currentLegend = [];
+      this.#renderMonth();
+      this.#renderLegend();
+      this.container.classList.remove('has-legend');
+
+      return;
+    }
+
+    // Check if legend validates
     if (
       Array.isArray(val)
       && val.length > 0
@@ -1123,6 +1158,8 @@ class IdsMonthView extends Base {
     ) {
       this.#currentLegend = deepClone(val);
       this.#renderMonth();
+      this.#renderLegend();
+      this.container.classList.add('has-legend');
     } else {
       throw new Error('ids-month-view: Invalid legend data provided');
     }

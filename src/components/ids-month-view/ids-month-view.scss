@@ -57,6 +57,31 @@
   .trigger-icon {
     @include text-azure-60();
   }
+
+  // Legend mutual
+  .month-view-legend {
+    margin: 0 auto;
+    padding: 10px 5px 0;
+  }
+
+  .month-view-legend-swatch,
+  .month-view-legend-item,
+  .month-view-legend-text {
+    display: inline-block;
+  }
+
+  .month-view-legend-swatch {
+    background-color: var(--legend-color);
+    opacity: 0.3;
+  }
+
+  .month-view-legend-text {
+    @include relative();
+    @include text-slate-80();
+
+    padding: 0 17px 0 8px;
+    top: -2px;
+  }
 }
 
 // Compact view
@@ -178,6 +203,12 @@
   th,
   td {
     @include p-0();
+  }
+
+  // Legend in compact mode
+  .month-view-legend-swatch {
+    width: 16px;
+    height: 16px;
   }
 }
 
@@ -303,6 +334,27 @@
     @include p-0();
     @include border-b-1();
     @include border-slate-20();
+  }
+
+  // Legend in full size mode
+  .month-view-legend-swatch {
+    width: 12px;
+    height: 12px;
+  }
+
+  .month-view-legend-text::part(text) {
+    font-size: 11px;
+  }
+
+  .month-view-legend {
+    max-width: 300px;
+    text-align: center;
+  }
+
+  &.has-legend .month-view-container {
+    @include border-b-1();
+
+    border-bottom-color: var(--ids-color-palette-slate-20);
   }
 }
 
@@ -434,6 +486,14 @@
         @include bg-slate-80();
       }
     }
+
+    &.has-legend .month-view-container {
+      border-color: var(--ids-color-palette-slate-70);
+    }
+  }
+
+  .month-view-legend-text {
+    @include text-slate-30();
   }
 }
 
@@ -527,6 +587,14 @@
         box-shadow: 0 0 2px 2px rgb(41 41 41 / 0.3), inset 0 5px 0 0 var(--ids-color-palette-azure-90);
       }
     }
+
+    &.has-legend .month-view-container {
+      border-color: var(--ids-color-palette-slate-30);
+    }
+  }
+
+  .month-view-legend-text {
+    @include text-black();
   }
 }
 
