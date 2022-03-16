@@ -9,7 +9,12 @@
     "console": true,
     "module": true,
     "require": true,
-    "__dirname": true
+    "__dirname": true,
+    "describe": true,
+    "it": true,
+    "before": true,
+    "beforeEach": true,
+    "expect": true
   },
   "extends": [
     "eslint:recommended",
@@ -21,6 +26,7 @@
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": ["error", {
       "varsIgnorePattern": "^Ids"
-    }]
+    }],
+    "@typescript-eslint/no-var-requires": "off"
   }
 }

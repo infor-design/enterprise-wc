@@ -4,9 +4,7 @@
  * @returns {Function} The function that did the decorating
  */
 export function customElement(name) {
-  console.log(name);
   return (target) => {
-    console.log(target);
     if (!customElements.get(name)) {
       customElements.define(name, target);
     }
@@ -19,7 +17,6 @@ export function customElement(name) {
  * @returns {Function} The function that did the decorating
  */
 export function scss(cssStyles) {
-  console.log(cssStyles);
   return (target) => {
     target.prototype.cssStyles = cssStyles;
   };

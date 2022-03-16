@@ -5,7 +5,6 @@ import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 import Base from './ids-tag-base';
 
 import styles from './ids-tag.scss';
-console.log('in ids tag')
 
 /**
  * IDS Tag Component
@@ -22,7 +21,6 @@ console.log('in ids tag')
 export default class IdsTag extends Base {
   constructor() {
     super();
-    console.log(Base);
   }
 
   /**

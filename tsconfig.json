@@ -1,7 +1,7 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
-    "allowJs": true,
+    "allowJs": false,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "checkJs": false,
@@ -10,7 +10,7 @@
     "noUnusedLocals": false,
     "strict": true,
     "target": "es2020",
-    "module": "es6",
+    "module": "es2020",
     "types": [],
     "moduleResolution": "node",
     "resolveJsonModule": true,
@@ -18,10 +18,10 @@
     "outDir": "./build/ts"
   },
   "include": [
+    "src/**/*.ts",
     "src/**/**/*.ts",
-    "src/**/**/*.js",
-    "src/**/**/*.d.ts",
+    "src/**/*.d.ts",
     "./declaration.d.ts"
   ],
-  "exclude": ["node_modules", "test", "build", "dist"],
+  "exclude": ["node_modules", "test", "build", "dist"]
 }

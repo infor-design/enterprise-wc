@@ -22,6 +22,10 @@ module.exports = {
       chunks: 'async'
     },
   },
+  resolve: {
+    extensions: ['.js', '.ts'],
+    modules: ['node_modules']
+  },
   infrastructureLogging: {
     level: 'error' // or 'verbose' if any debug info is needed
   },
@@ -45,9 +49,9 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(ts|js)$/i,
+        test: /\.ts?$/,
         use: 'ts-loader',
-        exclude: /node_modules/,
+        exclude: [/node_modules/]
       },
       {
         test: /\.(png|jpe?g|gif|svg|json|css|pdf|csv|xml)$/i,
@@ -78,7 +82,6 @@ module.exports = {
             loader: MiniCssExtractPlugin.loader,
             options: {
               attributes: {
-                id: 'demo-styles',
                 nonce: '0a59a005' // @TODO needs to match a global nonce instance
               }
             }
