@@ -50,7 +50,6 @@ export default class IdsTimePicker extends Base {
         seconds: this.container.querySelector('ids-dropdown#seconds'),
         period: this.container.querySelector('ids-dropdown#period'),
       },
-      input: this.container.querySelector('ids-input'),
       popup: this.container.querySelector('ids-popup'),
       triggerButton: this.container.querySelector('ids-trigger-button'),
       triggerField: this.container.querySelector('ids-trigger-field'),
@@ -167,7 +166,7 @@ export default class IdsTimePicker extends Base {
   set value(value) {
     if (!this.disabled && !this.readonly) {
       this.setAttribute(attributes.VALUE, value);
-      this.elements.input.value = value;
+      this.elements.triggerField.value = value;
     }
   }
 
@@ -214,7 +213,6 @@ export default class IdsTimePicker extends Base {
     this.setAttribute(attributes.DISABLED, disabled);
     this.elements.triggerField.disabled = disabled;
     this.elements.triggerButton.disabled = disabled;
-    this.elements.input.disabled = disabled;
   }
 
   /**
@@ -232,7 +230,6 @@ export default class IdsTimePicker extends Base {
     this.setAttribute(attributes.READONLY, readonly);
     this.elements.triggerField.readonly = readonly;
     this.elements.triggerButton.readonly = readonly;
-    this.elements.input.readonly = readonly;
   }
 
   /**
@@ -262,7 +259,7 @@ export default class IdsTimePicker extends Base {
    */
   set placeholder(value) {
     this.setAttribute(attributes.PLACEHOLDER, value);
-    this.elements.input.placeholder = value;
+    this.elements.triggerField.placeholder = value;
   }
 
   /**
@@ -312,16 +309,11 @@ export default class IdsTimePicker extends Base {
         <ids-trigger-field
           label="${this.label}"
           size="${this.size}"
-        >
+          placeholder="${this.placeholder}"
+          value="${this.value}"
+          disabled="${this.disabled}">
           <ids-text audible="true" translate-text="true">UseArrow</ids-text>
-          <ids-input
-            type="text"
-            placeholder="${this.placeholder}"
-            value="${this.value}"
-            disabled="${this.disabled}"
-          >
-          </ids-input>
-          <ids-trigger-button>
+          <ids-trigger-button slot="trigger-end">
             <ids-text audible="true" translate-text="true">TimepickerTriggerButton</ids-text>
             <ids-icon slot="icon" icon="clock"></ids-icon>
           </ids-trigger-button>
@@ -331,9 +323,8 @@ export default class IdsTimePicker extends Base {
           align-target="ids-trigger-field"
           align="bottom, left"
           arrow="bottom"
-          animated="true"
-        >
-          <section slot="content"">
+          animated="true">
+          <section slot="content">
             <div id="dropdowns">${this.dropdowns()}</div>
             <ids-button id="set-time" class="${this.autoupdate ? 'hidden' : ''}">
               Set Time
@@ -404,18 +395,17 @@ export default class IdsTimePicker extends Base {
    * Open the timepicker's popup window
    */
   openTimePopup() {
-    const { input, popup, triggerButton } = this.elements;
+    const { triggerField, popup, triggerButton } = this.elements;
 
     if (!this.isOpen) {
       popup.visible = true;
       const { bottom } = triggerButton.getBoundingClientRect();
       const positionBottom = (bottom + 100) < window.innerHeight;
 
-      popup.alignTarget = input;
+      popup.alignTarget = triggerField;
       popup.arrowTarget = triggerButton;
       popup.align = positionBottom ? 'bottom, left' : 'top, left';
       popup.arrow = positionBottom ? 'bottom' : 'top';
-      popup.y = positionBottom ? 10 : -10;
 
       this.addOpenEvents();
     }
@@ -495,7 +485,7 @@ export default class IdsTimePicker extends Base {
   #attachEventHandlers() {
     const {
       dropdowns,
-      input,
+      triggerField,
       triggerButton,
       setTimeButton,
     } = this.elements;
@@ -523,7 +513,7 @@ export default class IdsTimePicker extends Base {
 
     // using on mouseup, because on click interferes with on Enter
     this.onEvent('mouseup', triggerButton, () => this.toggleTimePopup());
-    this.onEvent('focus', input, () => this.autoselect && this.openTimePopup());
+    this.onEvent('focus', triggerField, () => this.autoselect && this.openTimePopup());
 
     // Translate Labels
     this.offEvent('languagechange.container');

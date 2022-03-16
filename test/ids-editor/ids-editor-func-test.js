@@ -448,7 +448,7 @@ describe('IdsEditor Component', () => {
     expect(elems.linkUrl.value).toEqual('http://www.example.com');
     expect(elems.linkClasses.value).toEqual('hyperlink');
     expect(elems.linkCbClickable.checked).toEqual(null);
-    expect(elems.imgUrl.value).toEqual('/assets/placeholder-154x120.png');
+    expect(elems.imgUrl.value).toEqual('../assets/images/placeholder-154x120.png');
     expect(elems.imgAlt.value).toEqual('');
 
     editor.modalElementsValue(modals);

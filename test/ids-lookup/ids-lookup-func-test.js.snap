@@ -4,9 +4,8 @@ exports[`IdsLookup Component renders correctly 1`] = `"<ids-lookup id=\\"lookup-
 
 exports[`IdsLookup Component renders correctly 2`] = `
 "<style nonce=\\"undefined\\">:host { background-color: transparent; }</style>
-    <ids-trigger-field label=\\"Normal Lookup\\" part=\\"trigger-field\\" size=\\"md\\">
-      <ids-input part=\\"input\\" triggerfield=\\"true\\" label=\\"Normal Lookup\\" size=\\"md\\" validate=\\"null\\" label-hidden=\\"true\\" bg-transparent=\\"true\\" id=\\"ids-input-3\\"></ids-input>
-      <ids-trigger-button part=\\"trigger-button\\" tabbable=\\"true\\" readonly=\\"false\\">
+    <ids-trigger-field label=\\"Normal Lookup\\" part=\\"trigger-field\\" size=\\"md\\" id=\\"ids-input-3\\">
+      <ids-trigger-button slot=\\"trigger-end\\" part=\\"trigger-button\\" tabbable=\\"\\" readonly=\\"false\\">
         <ids-text audible=\\"true\\">LookupTriggerButton</ids-text>
         <ids-icon slot=\\"icon\\" icon=\\"search-list\\" part=\\"icon\\"></ids-icon>
       </ids-trigger-button>

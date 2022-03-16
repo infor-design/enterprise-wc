@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-
+import createFromTemplate from '../helpers/create-from-template';
 import IdsSearchField from '../../src/components/ids-search-field/ids-search-field';
 
 const HTMLSnippets = {
@@ -30,20 +30,8 @@ describe('IdsSearchField Component', () => {
     return event;
   };
 
-  const createElemViaTemplate = async (innerHTML) => {
-    s?.remove?.();
-
-    const template = document.createElement('template');
-    template.innerHTML = innerHTML;
-    s = template.content.childNodes[0];
-
-    document.body.appendChild(s);
-
-    return s;
-  };
-
   beforeEach(async () => {
-    s = await createElemViaTemplate(HTMLSnippets.VANILLA_SEARCH_FIELD);
+    s = await createFromTemplate(s, HTMLSnippets.VANILLA_SEARCH_FIELD);
   });
 
   afterEach(async () => {
@@ -52,21 +40,21 @@ describe('IdsSearchField Component', () => {
   });
 
   it('renders with no errors', async () => {
-    s = await createElemViaTemplate(HTMLSnippets.VANILLA_SEARCH_FIELD);
+    s = await createFromTemplate(s, HTMLSnippets.VANILLA_SEARCH_FIELD);
 
     const errors = jest.spyOn(global.console, 'error');
     expect(document.querySelectorAll('ids-search-field').length).toEqual(1);
 
     s.remove();
 
-    s = await createElemViaTemplate(HTMLSnippets.VANILLA_SEARCH_FIELD);
+    s = await createFromTemplate(s, HTMLSnippets.VANILLA_SEARCH_FIELD);
     document.body.appendChild(s);
 
     expect(errors).not.toHaveBeenCalled();
   });
 
   it('renders correctly', async () => {
-    const elem = await createElemViaTemplate(HTMLSnippets.VANILLA_SEARCH_FIELD);
+    const elem = await createFromTemplate(s, HTMLSnippets.VANILLA_SEARCH_FIELD);
     elem.label = 'Test Search Field Label';
     elem.value = 'Eevee';
     elem.placeholder = 'Please type a Pokemon';
@@ -76,7 +64,7 @@ describe('IdsSearchField Component', () => {
   });
 
   it('sets the label correctly', () => {
-    expect(s.label).toBe(s.DEFAULT_LABEL);
+    expect(s.label).toBe('Search');
 
     const customLabels = ['Grocery Items', 'Dog Breeds', 'Book Titles'];
 
@@ -98,7 +86,7 @@ describe('IdsSearchField Component', () => {
   });
 
   it('sets the placeholder correctly', () => {
-    expect(s.placeholder).toBe(s.DEFAULT_PLACEHOLDER);
+    expect(s.placeholder).toBe('Type to search');
 
     const customPlaceholders = ['Enter a vegetable name', 'Try typing "poodle"', 'Looking for a book?'];
 
@@ -109,8 +97,8 @@ describe('IdsSearchField Component', () => {
   });
 
   it('inits readonly and disabled state correctly', async () => {
-    s = await createElemViaTemplate(HTMLSnippets.DISABLED_SEARCH_FIELD);
-    s = await createElemViaTemplate(HTMLSnippets.READONLY_SEARCH_FIELD);
+    s = await createFromTemplate(s, HTMLSnippets.DISABLED_SEARCH_FIELD);
+    s = await createFromTemplate(s, HTMLSnippets.READONLY_SEARCH_FIELD);
   });
 
   it('sets the disabled state correctly', () => {

@@ -23,7 +23,7 @@ The main use case for the IDS Hierarchy component is to create an organizational
 ```html
 <ids-hierarchy>
   <ids-hierarchy-item id="item-1" root-item expanded color-variant="full-time">
-    <img src="../assets/headshot-1.jpg" alt="item-1" slot="avatar" />
+    <img src="..../assets/images/images/headshot-1.jpg" alt="item-1" slot="avatar" />
     <ids-text slot="heading">Tony Cleveland</ids-text>
     <ids-text slot="subheading">Director</ids-text>
     <ids-text slot="micro">FT</ids-text>
@@ -78,7 +78,7 @@ Example with legend
 
 <ids-hierarchy>
   <ids-hierarchy-item id="item-1" root-item expanded color-variant="full-time">
-    <img src="../assets/headshot-1.jpg" alt="item-1" slot="avatar" />
+    <img src="..../assets/images/images/headshot-1.jpg" alt="item-1" slot="avatar" />
     <ids-text slot="heading">Tony Cleveland</ids-text>
     <ids-text slot="subheading">Director</ids-text>
     <ids-text slot="micro">FT</ids-text>
@@ -115,7 +115,7 @@ The `ids-hierarchy-item` and `ids-hierarchy-legend-item` make use of the [IdsCol
 
 ```html
 <ids-hierarchy-item id="item-1" color-variant="full-time">
-    <img src="../assets/headshot-1.jpg" alt="item-1" slot="avatar" />
+    <img src="..../assets/images/images/headshot-1.jpg" alt="item-1" slot="avatar" />
     <ids-text slot="heading">Tony Cleveland</ids-text>
     <ids-text slot="subheading">Director</ids-text>
     <ids-text slot="micro">FT</ids-text>

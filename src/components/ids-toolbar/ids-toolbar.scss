@@ -2,6 +2,8 @@
 
 :host {
   @include block();
+  @include w-full();
+  @include box-border();
   @include ids-toolbar-section-host-size-styles();
 
   &[disabled] {
@@ -9,6 +11,15 @@
       color: text-slate-30();
     }
   }
+}
+
+:host(.secondary) {
+  border-top: 1px solid var(--ids-color-palette-slate-20);
+  border-bottom: 1px solid var(--ids-color-palette-slate-20);
+}
+
+:host(.with-padding) {
+  padding: 0 16px;
 }
 
 .ids-toolbar {

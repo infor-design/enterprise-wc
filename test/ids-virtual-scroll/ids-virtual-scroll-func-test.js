@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import IdsVirtualScroll from '../../src/components/ids-virtual-scroll/ids-virtual-scroll';
-import dataset from '../../demos/data/bikes.json';
+import dataset from '../../src/assets/data/bikes.json';
 
 describe('IdsVirtualScroll Component', () => {
   let virtualScroll;

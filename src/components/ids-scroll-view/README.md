@@ -20,12 +20,12 @@ A scrollview with images. You just need to add each element to the scroll view. 
 
 ```html
 <ids-scroll-view>
-    <img slot="scroll-view-item" src="/assets/camera-1.png" alt="Slide 1, Sony Camera, Front"/>
-    <img slot="scroll-view-item" src="/assets/camera-2.png" alt="Slide 3, Sony Camera, Back Display"/>
-    <img slot="scroll-view-item" src="/assets/camera-3.png" alt="Slide 3, Sony Camera, From Top"/>
-    <img slot="scroll-view-item" src="/assets/camera-4.png" alt="Slide 4, Olympus Camera, Front"/>
-    <img slot="scroll-view-item" src="/assets/camera-5.png" alt="Slide 5, Olympus Camera, Exposed to water"/>
-    <img slot="scroll-view-item" src="/assets/camera-6.png" alt="Slide 6, Sony E-mount Camera, Front"/>
+    <img slot="scroll-view-item" src="../assets/images/camera-1.png" alt="Slide 1, Sony Camera, Front"/>
+    <img slot="scroll-view-item" src="../assets/images/camera-2.png" alt="Slide 3, Sony Camera, Back Display"/>
+    <img slot="scroll-view-item" src="../assets/images/camera-3.png" alt="Slide 3, Sony Camera, From Top"/>
+    <img slot="scroll-view-item" src="../assets/images/camera-4.png" alt="Slide 4, Olympus Camera, Front"/>
+    <img slot="scroll-view-item" src="../assets/images/camera-5.png" alt="Slide 5, Olympus Camera, Exposed to water"/>
+    <img slot="scroll-view-item" src="../assets/images/camera-6.png" alt="Slide 6, Sony E-mount Camera, Front"/>
 </ids-scroll-view>
 ```
 

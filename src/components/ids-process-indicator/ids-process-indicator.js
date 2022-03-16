@@ -1,6 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import Base from './ids-process-indicator-base';
 import IdsProcessStep from './ids-process-step/ids-process-step';
+import IdsAlert from '../ids-alert/ids-alert';
 
 import styles from './ids-process-indicator.scss';
 
@@ -20,23 +21,27 @@ export default class IdsProcessIndicator extends Base {
   #activeStepLabel;
 
   connectedCallback() {
-    // set the active step label for xs heading
-    requestAnimationFrame(() => {
-      let activeStepLabel = 'None';
+    this.setActiveStepLabel();
+  }
 
-      const steps = this.querySelectorAll('ids-process-step');
-      if (steps.length > 1) {
-        let i = 0;
-        for (const step of steps) {
-          if (step.status === 'started') {
-            activeStepLabel = step.label === 'empty label' ? `${i + 1}` : step.label;
-            break;
-          }
-          i++;
+  /**
+   * Set the active step label for xs heading
+   * @private
+   */
+  setActiveStepLabel() {
+    let activeStepLabel = 'None';
+    const steps = this.querySelectorAll('ids-process-step');
+    if (steps.length > 1) {
+      let i = 0;
+      for (const step of steps) {
+        if (step.status === 'started') {
+          activeStepLabel = step.label === 'empty label' ? `${i + 1}` : step.label;
+          break;
         }
-        this.container.querySelector('.xs-header .label').innerHTML = activeStepLabel;
+        i++;
       }
-    });
+      this.container.querySelector('.xs-header .label').innerHTML = activeStepLabel;
+    }
   }
 
   static get attributes() {

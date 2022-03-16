@@ -2,6 +2,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { sizes } from '../ids-icon/ids-icon-attributes';
 
 import Base from './ids-alert-base';
 import IdsIcon from '../ids-icon/ids-icon';
@@ -32,7 +33,12 @@ export default class IdsAlert extends Base {
    * @returns {Array} The propertires in an array
    */
   static get attributes() {
-    return [attributes.ICON, attributes.DISABLED, attributes.MODE, attributes.VERSION];
+    return [
+      ...super.attributes,
+      attributes.DISABLED,
+      attributes.ICON,
+      attributes.SIZE
+    ];
   }
 
   /**
@@ -42,7 +48,7 @@ export default class IdsAlert extends Base {
    */
   template() {
     const cssClass = stringToBool(this.disabled) ? ' class="disabled"' : '';
-    return `<ids-icon size="normal"${cssClass} part="icon"></ids-icon>`;
+    return `<ids-icon size="${this.size}"${cssClass} part="icon"></ids-icon>`;
   }
 
   /**
@@ -86,6 +92,22 @@ export default class IdsAlert extends Base {
       this.shadowRoot?.querySelector('ids-icon')?.setAttribute(attributes.ICON, icon);
     } else {
       this.removeAttribute(attributes.ICON);
+    }
+  }
+
+  /**
+   * Return the size. May be large, normal/medium or small
+   * @returns {string} the size
+   */
+  get size() { return this.getAttribute(attributes.SIZE) || 'normal'; }
+
+  set size(value) {
+    if (value && sizes[value]) {
+      this.setAttribute(attributes.SIZE, value);
+      this.container.querySelector('ids-icon')?.setAttribute(attributes.SIZE);
+    } else {
+      this.removeAttribute(attributes.SIZE);
+      this.container.querySelector('ids-icon')?.removeAttribute(attributes.SIZE);
     }
   }
 }

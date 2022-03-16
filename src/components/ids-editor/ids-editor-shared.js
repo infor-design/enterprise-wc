@@ -34,7 +34,7 @@ export const EDITOR_DEFAULTS = {
       showIsClickable: true
     },
     insertimage: {
-      url: '/assets/placeholder-154x120.png',
+      url: '../assets/images/placeholder-154x120.png',
       alt: ''
     }
   },

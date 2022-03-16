@@ -1,10 +1,10 @@
-# Ids ListBuilder 
+# Ids ListBuilder
 
 ## Description
 
 An interactive list where you can add, move up/down, edit, and delete items which supports both mouse and keyboard navigation for accessibility.
 
-Selecting an item can be toggled by a mouse click or by tabbing to the list item and hitting 'Space'. 
+Selecting an item can be toggled by a mouse click or by tabbing to the list item and hitting 'Space'.
 
 Moving a selected list item up/down can be done by clicking and dragging list items up/down or by toggling the toolbar up/down buttons with mouse or keyboard.
 
@@ -38,8 +38,7 @@ Adding a new list item can be done by toggling the toolbar add button with mouse
 
 To inject data you would do something like:
 
-```html
-<script>
+```js
   document.querySelector('ids-list-builder').data = [
     {
       id: 1,
@@ -67,9 +66,8 @@ To inject data you would do something like:
       units: '68',
       unitPrice: 58,
       color: 'Green'
-    }, 
+    },
   ]
-</script>
 ```
 
 and if you want to display more data you could modify the template like so:

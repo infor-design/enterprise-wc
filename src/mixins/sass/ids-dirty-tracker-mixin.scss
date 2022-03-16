@@ -7,6 +7,10 @@
   color: var(--ids-color-palette-amber-30);
   left: -3px;
   top: -3px;
+
+  &.rtl {
+    @include transform(rotate(90deg));
+  }
 }
 
 // Radio
@@ -48,13 +52,31 @@
   }
 }
 
-// Editor
-.ids-editor .icon-dirty {
-  left: -2px;
-}
-
-// Color Picker / trigger
+// General Dirty-Tracker icon placement
 .field-container .icon-dirty {
   left: -2px;
   top: -2px;
+}
+
+.ids-color-picker {
+  .icon-dirty {
+    top: -2;
+  }
+
+  &:not(.rtl) {
+    .icon-dirty {
+      left: 34px;
+    }
+  }
+
+  &.rtl {
+    .icon-dirty {
+      right: 34px;
+    }
+  }
+}
+
+// Editor
+.ids-editor .icon-dirty {
+  left: -2px;
 }

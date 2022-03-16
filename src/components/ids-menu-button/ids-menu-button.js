@@ -6,6 +6,8 @@ import { attributes } from '../../core/ids-attributes';
 import Base from './ids-menu-button-base';
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
+import IdsMenuGroup from '../ids-menu/ids-menu-group';
+import IdsMenuItem from '../ids-menu/ids-menu-item';
 
 import styles from '../ids-button/ids-button.scss';
 
@@ -116,6 +118,25 @@ export default class IdsMenuButton extends Base {
   }
 
   /**
+   * Retrieves a list of selected items from menu.
+   * @returns {Array<any>} list of the values contained by selected menu items
+   */
+  get value() {
+    return this.menuEl?.getSelectedValues();
+  }
+
+  /**
+   * Set menu's selected items by value
+   * @param {Array<any>|string} values array|string of value(s) contained in menu items
+   * @returns {void}
+   */
+  set value(values) {
+    if (typeof (this.menuEl?.setSelectedValues) === 'function') {
+      this.menuEl.setSelectedValues(values);
+    }
+  }
+
+  /**
    * @readonly
    * @returns {IdsPopupMenu | null} element if one is present
    */
@@ -145,8 +166,28 @@ export default class IdsMenuButton extends Base {
     if (!hasBeforeShow) {
       // On the Popup Menu's `beforeshow` event, set the menu's size to the Menu Button's
       this.onEvent('beforeshow', this.menuEl, () => {
+        this.setActiveState(true);
         this.resizeMenu();
       });
+    }
+
+    const hasHideHandler = this?.handledEvents?.get('hide');
+    if (!hasHideHandler) {
+      this.onEvent('hide', this.menuEl, () => {
+        this.setActiveState(false);
+      });
+    }
+  }
+
+  /**
+   * Set button's active state
+   * @param {boolean} isActive true when menu is open
+   */
+  setActiveState(isActive) {
+    if (isActive) {
+      this.button.classList.add('is-active');
+    } else {
+      this.button.classList.remove('is-active');
     }
   }
 

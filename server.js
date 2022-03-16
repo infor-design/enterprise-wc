@@ -5,7 +5,7 @@ const log = require('loglevel');
 const app = express();
 const port = process.env.PORT || 4444;
 
-app.use('/', express.static(`${__dirname}/demo-dist`));
+app.use('/', express.static(`${__dirname}/build/development`));
 
 // Listen on port 4444
 app.listen(port, () => {

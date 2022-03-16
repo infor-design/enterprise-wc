@@ -7,13 +7,8 @@
 .ids-textarea {
   .ids-input-field,
   .ids-textarea-field {
-    ~ .btn-clear {
+    .btn-clear {
       @include outline-none();
-
-      color: inherit;
-      position: absolute;
-      right: 0;
-      margin-top: -15px;
 
       &.is-empty {
         display: none;
@@ -25,21 +20,29 @@
         color: inherit;
       }
     }
+  }
 
-    &.has-clearable {
-      @include pr-32();
+  &.has-clearable {
+    .btn-clear {
+      @include mr-4();
 
-      &.has-triggerfield {
-        padding-right: 55px;
+      &.is-empty {
+        display: initial;
+        visibility: hidden;
+        pointer-events: none;
       }
+    }
+  }
+}
 
-      &.has-triggerfield ~ .btn-clear {
+.ids-trigger-field {
+  .ids-input-field {
+    &.has-clearable {
+      padding-inline-end: 55px;
+
+      ~ .btn-clear {
         margin-top: 0;
         right: -8px;
-      }
-
-      &.has-no-trigger-button ~ .btn-clear {
-        right: 0;
       }
     }
   }

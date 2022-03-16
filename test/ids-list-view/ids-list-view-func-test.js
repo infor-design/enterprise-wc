@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import IdsListView from '../../src/components/ids-list-view/ids-list-view';
-import dataset from '../../demos/data/products.json';
+import dataset from '../../src/assets/data/products.json';
 
 describe('IdsListView Component', () => {
   let listView;

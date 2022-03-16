@@ -45,6 +45,7 @@
   a {
     @include px-8();
     @include py-8();
+    @include text-16();
 
     display: grid;
     grid-template-columns: 0 min-content;

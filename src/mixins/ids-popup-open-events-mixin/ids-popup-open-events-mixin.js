@@ -10,6 +10,10 @@ const IdsPopupOpenEventsMixin = (superclass) => class extends superclass {
     super();
   }
 
+  static get attributes() {
+    return [...super.attributes];
+  }
+
   /**
    * @property {boolean} hasOpenEvents true if "open" events are currently applied to this component
    */
