@@ -35,7 +35,7 @@ export default class IdsAccordion extends Base {
     // Assign depth-dependent styles, and re-apply them on changes
     requestAnimationFrame(() => {
       this.#assignDepthDependentStyles();
-      this.#contentObserver.observe(this, {
+      this.#contentObserver.observe(this.container, {
         childList: true
       });
     });
@@ -70,7 +70,7 @@ export default class IdsAccordion extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `
       <div class="ids-accordion" part="accordion">
         <slot></slot>
@@ -93,7 +93,7 @@ export default class IdsAccordion extends Base {
    * @readonly
    * @returns {Array<IdsAccordionHeader>} all accordion headers in a flattened array
    */
-  get headers() {
+  get headers(): Array<IdsAccordionHeader> {
     return [...this.querySelectorAll('ids-accordion-header')];
   }
 
@@ -101,7 +101,7 @@ export default class IdsAccordion extends Base {
    * @readonly
    * @returns {Array<IdsAccordionPanel>} all accordion panels in a flattened array
    */
-  get panels() {
+  get panels(): Array<IdsAccordionPanel> {
     return [...this.querySelectorAll('ids-accordion-panel')];
   }
 
@@ -109,9 +109,9 @@ export default class IdsAccordion extends Base {
    * @readonly
    * @returns {any} the currently focused menu item, if one exists
    */
-  get focused() {
+  get focused(): any {
     if (this.contains(document.activeElement)) {
-      return document.activeElement.closest('ids-accordion-panel');
+      return document.activeElement?.closest('ids-accordion-panel');
     }
     return undefined;
   }
@@ -129,7 +129,7 @@ export default class IdsAccordion extends Base {
    * Sets allowOnePane property
    * @param {boolean|string} allow true/false
    */
-  set allowOnePane(allow) {
+  set allowOnePane(allow: boolean | string) {
     const toAllow = stringToBool(allow);
 
     if (toAllow) {
@@ -191,7 +191,11 @@ export default class IdsAccordion extends Base {
         if (doDisplayIconType) {
           const displayIconType = this.header.icon;
           if (typeof displayIconType === 'string' && displayIconType.length && !element.contentAlignment) {
-            this.#markAdjacentPanesForIcons(element, true);
+            this.#markAdjacentPanesForIcons(
+              /* @ts-ignore */
+              element, 
+              true
+            );
           }
         }
       }
@@ -220,9 +224,9 @@ export default class IdsAccordion extends Base {
   /**
    * @returns {void}
    */
-  #handleEvents() {
+  #handleEvents(): void {
     this.offEvent('languagechange.accordion-container');
-    this.onEvent('languagechange.accordion-container', this.closest('ids-container'), (e) => {
+    this.onEvent('languagechange.accordion-container', this.closest('ids-container'), (e: { detail: { language: { name: any; }; }; }) => {
       if (this.header) {
         this.header.language = e.detail.language.name;
       }
@@ -230,7 +234,7 @@ export default class IdsAccordion extends Base {
     });
 
     // Responds to `selected` events triggered by children
-    this.onEvent('selected', this, (e) => {
+    this.onEvent('selected', this, (e: { target: { isEqualNode: (arg0: IdsAccordionHeader) => any; }; }) => {
       this.#deselectOtherHeaders(e.target);
     });
   }
@@ -239,7 +243,7 @@ export default class IdsAccordion extends Base {
    * Makes accordion headers appear to be deselected, except for the provided one.
    * @param {HTMLElement} target a header to ignore
    */
-  #deselectOtherHeaders(target) {
+  #deselectOtherHeaders(target: { isEqualNode: (arg0: IdsAccordionHeader) => any; }) {
     this.headers.forEach((header) => {
       if (header.selected && !target.isEqualNode(header)) {
         header.selected = false;
@@ -251,16 +255,16 @@ export default class IdsAccordion extends Base {
    * Sets up keyboard navigation among accordion elements
    * @returns {void}
    */
-  #handleKeys() {
+  #handleKeys(): void {
     // Arrow Up navigates focus backward
-    this.listen(['ArrowUp'], this, (e) => {
+    this.listen(['ArrowUp'], this, (e: { preventDefault: () => void; stopPropagation: () => void; }) => {
       e.preventDefault();
       e.stopPropagation();
       this.#prevPanel();
     });
 
     // Arrow Down navigates focus forward
-    this.listen(['ArrowDown'], this, (e) => {
+    this.listen(['ArrowDown'], this, (e: { preventDefault: () => void; stopPropagation: () => void; }) => {
       e.preventDefault();
       e.stopPropagation();
       this.#nextPanel();
@@ -272,7 +276,7 @@ export default class IdsAccordion extends Base {
    * @param {number} amt the amount of steps to take
    * @returns {IdsAccordionPanel} the newly-focused accordion pane
    */
-  navigate(amt = 0) {
+  navigate(amt: number = 0): IdsAccordionPanel {
     if (typeof amt !== 'number') {
       return this.focused;
     }
@@ -295,7 +299,7 @@ export default class IdsAccordion extends Base {
    * looping focus to the first panel if applicable.
    * @returns {void}
    */
-  #nextPanel() {
+  #nextPanel(): void {
     const currentItem = this.focused;
     let next;
 
@@ -326,7 +330,7 @@ export default class IdsAccordion extends Base {
    * looping focus to the last panel if applicable.
    * @returns {void}
    */
-  #prevPanel() {
+  #prevPanel(): void {
     const currentItem = this.focused;
     const getLastPanel = () => {
       const prevChildren = currentItem.parentElement.querySelectorAll('ids-accordion-panel:last-child');
@@ -376,7 +380,7 @@ export default class IdsAccordion extends Base {
    * @param {*} status true if other adjacent accordion panels
    *   should appear to be aligned with this panel's icon
    */
-  #markAdjacentPanesForIcons(panel, status) {
+  #markAdjacentPanesForIcons(panel: { parentElement: any; }, status: any) {
     const parent = panel.parentElement;
     [...parent.children].forEach((node) => {
       if (node.tagName === 'IDS-ACCORDION-PANEL') {

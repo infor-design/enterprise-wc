@@ -42,7 +42,7 @@ export default class IdsAccordionHeader extends Base {
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<any> {
     return [
       ...super.attributes,
       attributes.CHILD_FILTER_MATCH,
@@ -63,7 +63,7 @@ export default class IdsAccordionHeader extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `
       <div class="ids-accordion-header" tabindex="0" part="header">
         <ids-icon class="ids-accordion-display-icon" part="display-icon"></ids-icon>
@@ -77,7 +77,7 @@ export default class IdsAccordionHeader extends Base {
    * Expander Icon template contents
    * @returns {string} the Expander Icon template
    */
-  templateExpanderIcon() {
+  templateExpanderIcon(): string {
     return `
       <ids-icon class="ids-accordion-expander-icon" icon=${DEFAULT_ICON_OFF} part="expander-icon"></ids-icon>
     `;
@@ -87,28 +87,29 @@ export default class IdsAccordionHeader extends Base {
    * @readonly
    * @returns {HTMLElement} this header's panel
    */
-  get panel() {
+  get panel(): HTMLElement {
     return this.parentElement;
   }
 
   /**
    * @param {string} thisAlignment the type of alignment to apply
    */
-  refreshContentAlignment(thisAlignment) {
+  refreshContentAlignment(thisAlignment: any) {
     applyContentAlignmentClass(this.container.classList, thisAlignment);
   }
 
   /**
    * @returns {boolean} true if this header's pane wrapper is expanded
    */
-  get expanded() {
+  get expanded(): boolean {
+    /* @ts-ignore */
     return this.panel.expanded;
   }
 
   /**
    * @param {boolean} val true if this header should appear expanded
    */
-  set expanded(val) {
+  set expanded(val: boolean) {
     const trueVal = stringToBool(val);
     this.container.classList[trueVal ? 'add' : 'remove']('expanded');
     this.#refreshExpanderIconType();
@@ -117,14 +118,14 @@ export default class IdsAccordionHeader extends Base {
   /**
    * @returns {string} the current expander type
    */
-  get expanderType() {
+  get expanderType(): string {
     return this.getAttribute(attributes.EXPANDER_TYPE);
   }
 
   /**
    * @param {string} val the type of expander to use
    */
-  set expanderType(val) {
+  set expanderType(val: string) {
     const currentVal = this.expanderType;
     let trueVal = EXPANDER_TYPES[0];
     if (EXPANDER_TYPES.includes(val)) {
@@ -138,7 +139,7 @@ export default class IdsAccordionHeader extends Base {
     }
   }
 
-  #refreshExpanderIconClass(oldType, newType) {
+  #refreshExpanderIconClass(oldType: any, newType: any) {
     const cl = this.container.classList;
     const oldTypeClass = `expander-type-${oldType}`;
     const newTypeClass = `expander-type-${newType}`;
@@ -150,7 +151,7 @@ export default class IdsAccordionHeader extends Base {
    * Focuses this accordion header
    * @returns {void}
    */
-  focus() {
+  focus(): void {
     this.container.focus();
   }
 
@@ -164,7 +165,7 @@ export default class IdsAccordionHeader extends Base {
   /**
    * @param {string} val the type of display icon to show
    */
-  set icon(val) {
+  set icon(val: string) {
     if (this.icon !== val) {
       if (typeof val !== 'string' || !val.length) {
         this.removeAttribute('icon');
@@ -178,7 +179,7 @@ export default class IdsAccordionHeader extends Base {
   /**
    * @param {string} val the icon definition to apply
    */
-  #refreshIconDisplay(val) {
+  #refreshIconDisplay(val: string | any[]) {
     const iconDef = typeof val === 'string' && val.length ? val : null;
     this.container.querySelector('.ids-accordion-display-icon').icon = iconDef;
   }
@@ -186,14 +187,14 @@ export default class IdsAccordionHeader extends Base {
   /**
    * @returns {boolean} true if this accordion header should appear "selected"
    */
-  get selected() {
+  get selected(): boolean {
     return stringToBool(this.getAttribute(attributes.SELECTED));
   }
 
   /**
    * @param {boolean} val true if this accordion header should appear "selected"
    */
-  set selected(val) {
+  set selected(val: boolean) {
     const currentValue = this.selected;
     const isValueTruthy = stringToBool(val);
 
@@ -215,7 +216,7 @@ export default class IdsAccordionHeader extends Base {
    * Refreshes the visual "Selected" state
    * @param {boolean} isSelected true if the Accordion Header should appear "Selected"
    */
-  #refreshSelected(isSelected) {
+  #refreshSelected(isSelected: any) {
     this.container.classList[isSelected ? 'add' : 'remove']('selected');
 
     const textNode = this.querySelector('ids-text, span');
@@ -228,7 +229,8 @@ export default class IdsAccordionHeader extends Base {
    * Toggles the display of an expander icon
    * @param {boolean} val true if the expander icon should be displayed
    */
-  toggleExpanderIcon(val) {
+  toggleExpanderIcon(val: string | boolean) {
+    /* @ts-ignore */
     if (this.panel.isExpandable && stringToBool(val)) {
       this.#showExpanderIcon();
     } else {
@@ -240,7 +242,8 @@ export default class IdsAccordionHeader extends Base {
    * Renders the expander icon, either adding it to the DOM or updating if it exists.
    * @returns {void}
    */
-  #showExpanderIcon() {
+  #showExpanderIcon(): void {
+    /* @ts-ignore */
     const appendLocation = this.panel.hasParentPanel ? 'afterbegin' : 'beforeend';
     const expander = this.container.querySelector('.ids-accordion-expander-icon');
 
@@ -260,7 +263,7 @@ export default class IdsAccordionHeader extends Base {
    * Removes the expander icon from the DOM.
    * @returns {void}
    */
-  #hideExpanderIcon() {
+  #hideExpanderIcon(): void {
     this.container.querySelector('.ids-accordion-expander-icon')?.remove();
   }
 
@@ -268,7 +271,7 @@ export default class IdsAccordionHeader extends Base {
    * Changes the visual style of the expander icon
    * @returns {void}
    */
-  #refreshExpanderIconType() {
+  #refreshExpanderIconType(): void {
     const icon = this.container.querySelector('.ids-accordion-expander-icon');
     if (!icon) {
       return;
@@ -285,7 +288,7 @@ export default class IdsAccordionHeader extends Base {
    * @param {boolean} val true if this accordion header should appear to be "filtered",
    *  which usually means "hidden"
    */
-  set hiddenByFilter(val) {
+  set hiddenByFilter(val: boolean) {
     if (stringToBool(val)) {
       this.setAttribute(attributes.HIDDEN_BY_FILTER, '');
       this.container.classList.add(attributes.HIDDEN_BY_FILTER);
@@ -298,7 +301,7 @@ export default class IdsAccordionHeader extends Base {
   /**
    * @returns {boolean} true if this accordion header is currently displayed as "filtered"
    */
-  get hiddenByFilter() {
+  get hiddenByFilter(): boolean {
     return this.hasAttribute(attributes.HIDDEN_BY_FILTER);
   }
 
@@ -306,7 +309,7 @@ export default class IdsAccordionHeader extends Base {
    * @param {boolean} val true if this accordion header's panel contains a child panel
    * that matches the specified filter term, and should be displayed accordingly
    */
-  set childFilterMatch(val) {
+  set childFilterMatch(val: boolean) {
     if (stringToBool(val)) {
       this.setAttribute(attributes.CHILD_FILTER_MATCH, '');
       this.container.classList.add(attributes.CHILD_FILTER_MATCH);
@@ -320,7 +323,7 @@ export default class IdsAccordionHeader extends Base {
    * @returns {boolean} true if this accordion header's panel contains a child panel
    * that matches the specified filter term, and should be displayed accordingly
    */
-  get childFilterMatch() {
+  get childFilterMatch(): boolean {
     return this.hasAttribute(attributes.HIDDEN_BY_FILTER);
   }
 }

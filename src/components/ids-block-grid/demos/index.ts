@@ -1,5 +1,6 @@
 // Supporting components
-import IdsBlockGrid from '../ids-block-grid';
+import '../ids-block-grid';
+// @ts-ignore
 import placeHolderImg from '../../../assets/images/placeholder-200x200.png';
 
 const images = document.querySelectorAll('img');
