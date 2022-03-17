@@ -42,27 +42,8 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
       return;
     }
 
-    this.parentElement.appendChild(this.#popup);
-    this.popup.visible = true;
-    this.popup.type = 'dropdown';
-    this.popup.alignTarget = '#input-autocomplete';
-    this.popup.align = 'bottom, left';
-    this.popup.y = -1;
-    this.popup.open = true;
-    this.contentSlot.appendChild(this.#listBox);
-
+    this.#attachPopup();
     this.#attachEventListeners();
-  }
-
-  findMatches(term, data) {
-    return data.filter((res) => {
-      const regex = new RegExp(term, 'gi');
-      return res.label.match(regex);
-    });
-  }
-
-  get input() {
-    return this.container.querySelector('input');
   }
 
   set autocomplete(value) {
@@ -97,16 +78,33 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
     super.rerender?.();
   }
 
-  #attachEventListeners() {
-    this.onEvent('keyup', this, () => {
-      const resultsArr = this.findMatches(this.value, this.data);
-      const results = resultsArr.map((res) => `<ids-list-box-option>${res.label}</ids-list-box-option>`).join('');
-      this.#listBox.innerHTML = results;
-    });
+  #attachPopup() {
+    this.parentElement.appendChild(this.#popup);
+    this.popup.visible = true;
+    this.popup.type = 'dropdown';
+    this.popup.alignTarget = this.fieldContainer;
+    this.popup.align = 'bottom, left';
+    this.popup.y = -1;
+    this.popup.open = true;
+    this.contentSlot.appendChild(this.#listBox);
+  }
 
-    this.onEvent('change', this, () => {
-      console.log('change');
+  #findMatches(term, data) {
+    return data.filter((res) => {
+      const regex = new RegExp(term, 'gi');
+      return res.label.match(regex);
     });
+  }
+
+  #displayMatches() {
+    const resultsArr = this.#findMatches(this.value, this.data);
+    const results = resultsArr.map((res) => `<ids-list-box-option>${res.label}</ids-list-box-option>`).join('');
+    this.#listBox.innerHTML = results;
+  }
+
+  #attachEventListeners() {
+    this.onEvent('keyup', this, this.#displayMatches);
+    this.onEvent('change', this, this.#displayMatches);
   }
 };
 
