@@ -3,6 +3,7 @@
  */
 import IdsBreadcrumb from '../../src/components/ids-breadcrumb/ids-breadcrumb';
 import IdsHyperlink from '../../src/components/ids-hyperlink/ids-hyperlink';
+import ResizeObserver from '../helpers/resize-observer-mock';
 
 describe('IdsBreadcrumb Component', () => {
   let breadcrumb;
