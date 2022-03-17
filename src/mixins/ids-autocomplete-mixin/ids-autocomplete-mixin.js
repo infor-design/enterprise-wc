@@ -2,9 +2,22 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsListBox from '../../components/ids-list-box/ids-list-box';
 import IdsListBoxOption from '../../components/ids-list-box/ids-list-box-option';
+import IdsPopup from '../../components/ids-popup/ids-popup';
 import IdsDataSource from '../../core/ids-data-source';
 
 const IdsAutoCompleteMixin = (superclass) => class extends superclass {
+  #listBox = new IdsListBox();
+
+  get listBox() { return this.#listBox; }
+
+  #popup = new IdsPopup();
+
+  get popup() { return this.#popup; }
+
+  get contentSlot() {
+    return this.popup.container.querySelector('slot[name="content"]') || undefined;
+  }
+
   /**
    * Gets the internal IdsDataSource object
    * @returns {IdsDataSource} object
@@ -24,6 +37,32 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
 
   connectedCallback() {
     super.connectedCallback?.();
+
+    if (!this.autocomplete) {
+      return;
+    }
+
+    this.parentElement.appendChild(this.#popup);
+    this.popup.visible = true;
+    this.popup.type = 'dropdown';
+    this.popup.alignTarget = '#input-autocomplete';
+    this.popup.align = 'bottom, left';
+    this.popup.y = -1;
+    this.popup.open = true;
+    this.contentSlot.appendChild(this.#listBox);
+
+    this.#attachEventListeners();
+  }
+
+  findMatches(term, data) {
+    return data.filter((res) => {
+      const regex = new RegExp(term, 'gi');
+      return res.label.match(regex);
+    });
+  }
+
+  get input() {
+    return this.container.querySelector('input');
   }
 
   set autocomplete(value) {
@@ -42,12 +81,32 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
   set data(value) {
     if (this.datasource) {
       this.datasource.data = value || [];
-      this.render(true);
+      this.rerender();
     }
   }
 
   get data() {
     return this?.datasource?.data || [];
+  }
+
+  /**
+   * Rerenders the IdsInput component
+   * @private
+   */
+  rerender() {
+    super.rerender?.();
+  }
+
+  #attachEventListeners() {
+    this.onEvent('keyup', this, () => {
+      const resultsArr = this.findMatches(this.value, this.data);
+      const results = resultsArr.map((res) => `<ids-list-box-option>${res.label}</ids-list-box-option>`).join('');
+      this.#listBox.innerHTML = results;
+    });
+
+    this.onEvent('change', this, () => {
+      console.log('change');
+    });
   }
 };
 
