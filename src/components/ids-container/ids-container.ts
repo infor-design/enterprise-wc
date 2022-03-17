@@ -64,7 +64,7 @@ export default class IdsContainer extends Base {
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `<div class="ids-container" part="container"${this.scrollable === 'true' ? ' tabindex="0"' : ''}><slot></slot></div>`;
   }
 
@@ -78,12 +78,12 @@ export default class IdsContainer extends Base {
    * If set to number the container will have padding added (in pixels)
    * @param {string} value sets the padding to the container
    */
-  set padding(value) {
+  set padding(value: string) {
     this.container.style.padding = `${value}px`;
     this.setAttribute(attributes.PADDING, value.toString());
   }
 
-  get padding() {
+  get padding(): string {
     return this.getAttribute(attributes.PADDING);
   }
 
@@ -91,7 +91,7 @@ export default class IdsContainer extends Base {
    * If set to true the container is scrollable
    * @param {boolean|string} value true of false depending if the tag is scrollable
    */
-  set scrollable(value) {
+  set scrollable(value: boolean | string) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.SCROLLABLE, 'true');
       this.container.setAttribute(attributes.SCROLLABLE, 'true');
@@ -111,7 +111,10 @@ export default class IdsContainer extends Base {
    * @private
    */
   #addReset() {
-    document.querySelector('body').style.margin = '0';
+    const body = document.querySelector('body');
+    if (body) {
+      body.style.margin = '0';
+    }
   }
 
   /**
@@ -124,7 +127,11 @@ export default class IdsContainer extends Base {
       return;
     }
     this.removeAttribute(attributes.RESET);
-    document.querySelector('body').style.margin = '';
+
+    const body = document.querySelector('body');
+    if (body) {
+      body.style.margin = '';
+    }
   }
 
   get reset() { return this.getAttribute(attributes.RESET) || 'true'; }
@@ -133,7 +140,7 @@ export default class IdsContainer extends Base {
    * Set the language for a component and wait for it to finish (async)
    * @param {string} value The language string value
    */
-  async setLanguage(value) {
+  async setLanguage(value: string) {
     await this.state.locale.setLanguage(value);
     this.language = value;
     this.triggerEvent('languagechange', this, { detail: { elem: this, language: this.language, locale: this.state.locale } });
@@ -143,7 +150,7 @@ export default class IdsContainer extends Base {
    * Set the language for a component
    * @param {string} value The language string value
    */
-  set language(value) {
+  set language(value: string) {
     if (value) {
       this.state.locale.setLanguage(value);
       this.state.locale.updateLangTag(this, value);
@@ -166,7 +173,7 @@ export default class IdsContainer extends Base {
    * Set the locale for a component and wait for it to finish (async)
    * @param {string} value The locale string value
    */
-  async setLocale(value) {
+  async setLocale(value: any) {
     if (value) {
       await this.state.locale.setLocale(value);
       const lang = this.state.locale.correctLanguage(value);

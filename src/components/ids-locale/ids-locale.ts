@@ -4,6 +4,12 @@
  * @returns {any} The extended object
  */
 class IdsLocale {
+  loadedLocales = new Map();
+  loadedLanguages = new Map();
+  state?: any;
+  html?: HTMLHtmlElement | null;
+  dateFormatter?: Intl.DateTimeFormat;
+
   constructor() {
     this.loadedLocales = new Map();
     this.loadedLanguages = new Map();
@@ -41,7 +47,7 @@ class IdsLocale {
    * @param {string} value The script file name
    * @returns {Promise} A promise that will resolve when complete
    */
-  loadLanguageScript(value) {
+  loadLanguageScript(value: string) {
     const promise = import(`./cultures/${value}-messages.js`);
     promise.then((module) => {
       // do something with the translations
@@ -55,7 +61,7 @@ class IdsLocale {
    * @param {HTMLElement} elem The element to set it on.
    * @param {string} value The value to check
    */
-  updateLangTag(elem, value) {
+  updateLangTag(elem: HTMLElement, value: string) {
     if (this.isRTL(value)) {
       elem.setAttribute('dir', 'rtl');
       return;
@@ -67,7 +73,7 @@ class IdsLocale {
    * Set the language for a component
    * @param {string} value The language string value
    */
-  set language(value) {
+  set language(value: string | any) {
     const lang = this.correctLanguage(value);
     if (value && lang !== this.state.language) {
       this.setLanguage(lang);
@@ -78,7 +84,7 @@ class IdsLocale {
    * Get the language data
    * @returns {object} The language data
    */
-  get language() {
+  get language(): any {
     return {
       name: this.state.language,
       messages: this.loadedLanguages.get(this.state.language) || {}
@@ -89,12 +95,12 @@ class IdsLocale {
    * Set the language for a component and wait for it to finish (async)
    * @param {string} value The language string value
    */
-  async setLanguage(value) {
+  async setLanguage(value: string) {
     const lang = this.correctLanguage(value);
     if (this.state.language !== lang) {
       this.state.language = lang;
       this.html = document.querySelector('html');
-      this.html.setAttribute('lang', lang);
+      this.html?.setAttribute('lang', lang);
     }
 
     if (this.state.language === lang && this.loadedLanguages.get(this.state.language)) {
@@ -109,7 +115,7 @@ class IdsLocale {
    * @param {string} value the starting language string
    * @returns {string} the updated language string
    */
-  correctLanguage(value) {
+  correctLanguage(value: string) {
     let lang = value?.replace('-messages', '');
     // Locales that dont have a default if a two digit locale
     const translated = new Set(['fr-CA', 'fr-FR', 'pt-BR', 'pt-PT', 'zh-CN', 'zh-Hans', 'zh-Hant', 'zh-TW']);
@@ -136,7 +142,7 @@ class IdsLocale {
    * @param {object} [options] Supports showBrackets and maybe more in the future
    * @returns {string|undefined} a translated string, or nothing, depending on configuration
    */
-  translate(key, options = { showAsUndefined: false, showBrackets: true }) {
+  translate(key: string, options: any = { showAsUndefined: false, showBrackets: true }) {
     if (key === '&nsbp;') {
       return '';
     }
@@ -171,7 +177,7 @@ class IdsLocale {
    * @param {string} lang The language to add them to.
    * @param  {object} messages Strings in the form of
    */
-  extendTranslations(lang, messages) {
+  extendTranslations(lang: string, messages: any) {
     if (!this.loadedLanguages.has(lang)) {
       return;
     }
@@ -189,7 +195,7 @@ class IdsLocale {
    * @param {string} value The script file name
    * @returns {Promise} A promise that will resolve when complete
    */
-  loadLocaleScript(value) {
+  loadLocaleScript(value: string) {
     const promise = import(`./cultures/${value}.js`);
     promise.then((module) => {
       // do something with the locale data
@@ -202,7 +208,7 @@ class IdsLocale {
    * Set the locale for a component
    * @param {string} value The locale string value
    */
-  set locale(value) {
+  set locale(value: string) {
     const locale = this.#correctLocale(value);
     if (value && locale !== this.state.localeName) {
       this.setLocale(locale);
@@ -213,7 +219,7 @@ class IdsLocale {
    * Get the locale data
    * @returns {object} The language data
    */
-  get locale() {
+  get locale(): any {
     return {
       name: this.state.localeName,
       options: this.loadedLocales.get(this.state.localeName) || {}
@@ -224,7 +230,7 @@ class IdsLocale {
    * Set the locale for a component and wait for it to finish (async)
    * @param {string} value The locale string value
    */
-  async setLocale(value) {
+  async setLocale(value: string) {
     if (!value) {
       return;
     }
@@ -247,7 +253,7 @@ class IdsLocale {
    * @param {string} value the starting locale string
    * @returns {string} the updated locale string
    */
-  #correctLocale(value) {
+  #correctLocale(value: string) {
     let locale = value;
     // Map incorrect java locale to correct locale
     if (locale === 'in-ID') {
@@ -265,7 +271,7 @@ class IdsLocale {
    * @param {object} [options] the objects to use for formatting
    * @returns {string} the formatted number
    */
-  formatNumber(value, options) {
+  formatNumber(value: any, options: any): string {
     // Set some options to map it closer to our old defaults
     let opts = options;
     let val = value;
@@ -321,10 +327,10 @@ class IdsLocale {
    * @returns {number} The number as an actual Number type unless the number
    * is a big int (19 significant digits), in this case a string will be returned
    */
-  parseNumber(input, options) {
+  parseNumber(input: string, options: any): number | string {
     const localeData = this.loadedLocales.get(options?.locale || this.locale.name);
     const numSettings = localeData.numbers;
-    let numString = input;
+    let numString: string | number = input;
 
     if (!numString) {
       return NaN;
@@ -359,14 +365,14 @@ class IdsLocale {
    * @param  {string} string The string number in arabic/chinese or hindi
    * @returns {number} The english number.
    */
-  convertNumberToEnglish(string) {
+  convertNumberToEnglish(string: string): number {
     const arabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
     const devanagari = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९']; // Hindi
     const chineseFinancialTraditional = ['零', '壹', '貳', '叄', '肆', '伍', '陸', '柒', '捌', '玖'];
     const chineseFinancialSimplified = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
     const chinese = ['〇', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
 
-    for (let i = 0; i <= 9; i++) {
+    for (let i: any = 0; i <= 9; i++) {
       string = string.replace(arabic[i], i);
       string = string.replace('٬', '');
       string = string.replace(',', '');
@@ -389,7 +395,7 @@ class IdsLocale {
    * @param {object} options Additional date formatting settings.
    * @returns {string} the formatted date.
    */
-  formatDate(value, options) {
+  formatDate(value: any, options: any): string {
     const usedOptions = options;
     const usedLocale = usedOptions?.locale || this.locale.name;
     let sourceDate = value;
@@ -427,7 +433,7 @@ class IdsLocale {
    * @param  {number} twoDigitYear The two digit year.
    * @returns {number} Converted 3 digit year.
    */
-  twoToFourDigitYear(twoDigitYear) {
+  twoToFourDigitYear(twoDigitYear: any) {
     if (twoDigitYear.length === 2) {
       return parseInt((twoDigitYear > 39 ? '19' : '20') + twoDigitYear, 10);
     }
@@ -443,7 +449,7 @@ class IdsLocale {
    * @param {object} options Additional date formatting settings
    * @returns {string} the hours in either 24 h or 12 h format
    */
-  formatHour(hour, options) {
+  formatHour(hour: any, options: any) {
     let timeSeparator = this.calendar(options?.locale || this.locale.name).dateFormat.timeSeparator;
     if (typeof hour === 'string' && hour.indexOf(timeSeparator) === -1) {
       timeSeparator = ':';
@@ -452,7 +458,7 @@ class IdsLocale {
     const date = new Date();
     if (typeof hour === 'number') {
       const split = hour.toString().split('.');
-      date.setHours(split[0]);
+      date.setHours(parseInt(split[0]));
       date.setMinutes(split[1] ? (parseFloat(`0.${split[1]}`) * 60) : 0);
     } else {
       const parts = hour.split(timeSeparator);
@@ -469,7 +475,7 @@ class IdsLocale {
    * @param {object} options Additional date formatting settings.
    * @returns {string} the hours in either 24 h or 12 h format
    */
-  formatHourRange(startHour, endHour, options) {
+  formatHourRange(startHour: number, endHour: number, options: any): string {
     const dayPeriods = this.calendar(options?.locale || this.locale.name).dayPeriods;
     let removePeriod = false;
     let range = `${this.formatHour(startHour, options)} - ${this.formatHour(endHour, options)}`;
@@ -498,7 +504,7 @@ class IdsLocale {
    * @param {string} locale The locale to check if not the current
    * @returns {boolean} True if this locale uses islamic as the primary calendar
    */
-  isIslamic(locale) {
+  isIslamic(locale?: string): boolean {
     const testLocale = locale || this.locale.name;
     return testLocale === 'ar-SA';
   }
@@ -508,7 +514,7 @@ class IdsLocale {
    * @param {string} language The language to check if not the current
    * @returns {boolean} Whether or not this locale is "right-to-left"
    */
-  isRTL(language) {
+  isRTL(language: string) {
     const lang = this.correctLanguage(language || this.language.name);
     return lang === 'ar' || lang === 'hi';
   }
@@ -519,7 +525,7 @@ class IdsLocale {
    * @param {string|object} options  Additional options like locale and dateFormat
    * @returns {Date | Array | undefined} The date object it could calculate from the string
    */
-  parseDate(dateString, options) {
+  parseDate(dateString: string, options: any) {
     const localeData = this.loadedLocales.get(options?.locale || this.locale.name);
     let sourceFormat = options?.dateFormat || localeData.calendars[0]?.dateFormat.datetime;
     sourceFormat = sourceFormat.replace('. ', '.').replace('. ', '.');
@@ -578,7 +584,7 @@ class IdsLocale {
     if (this.isIslamic()) {
       return [
         Number(this.twoToFourDigitYear(year)),
-        (month - 1),
+        (Number(month) - 1),
         Number(day),
         Number(timePieces && timePieces[0] ? timePieces[0] : 0),
         Number(timePieces && timePieces[1] ? timePieces[1] : 0),
@@ -588,11 +594,11 @@ class IdsLocale {
 
     return (new Date(
       this.twoToFourDigitYear(year),
-      (month - 1),
-      day,
-      (timePieces && timePieces[0] ? timePieces[0] : 0),
-      (timePieces && timePieces[1] ? timePieces[1] : 0),
-      (timePieces && timePieces[2] ? timePieces[2] : 0),
+      (Number(month) - 1),
+      Number(day),
+      Number(timePieces && timePieces[0] ? timePieces[0] : 0),
+      Number(timePieces && timePieces[1] ? timePieces[1] : 0),
+      Number(timePieces && timePieces[2] ? timePieces[2] : 0),
     ));
   }
 
@@ -601,7 +607,7 @@ class IdsLocale {
    * @param {string} dateFormat The source format to check
    * @returns {string} The format used.
    */
-  #determineSeparator(dateFormat) {
+  #determineSeparator(dateFormat: string): string {
     if (dateFormat.indexOf('/') > -1) {
       return '/';
     }
@@ -614,6 +620,7 @@ class IdsLocale {
     if (dateFormat.indexOf('.') > -1) {
       return '.';
     }
+    return '/';
   }
 
   /**
@@ -628,8 +635,8 @@ class IdsLocale {
    * @param  {string} filter5 The fifth option to filter.
    * @returns {string} The filtered out date part.
    */
-  #determineDatePart(formatParts, dateStringParts, filter1, filter2, filter3, filter4, filter5) {
-    let ret = 0;
+  #determineDatePart(formatParts: Array<any>, dateStringParts: Array<any>, filter1?: string, filter2?: string, filter3?: string, filter4?: string, filter5?: string): string {
+    let ret = '';
     for (let i = 0; i < dateStringParts.length; i++) {
       if (filter1 === formatParts[i]
           || filter2 === formatParts[i]
@@ -648,7 +655,7 @@ class IdsLocale {
    * @param {string} name the name of the calendar (fx: "gregorian", "islamic-umalqura")
    * @returns {object} containing calendar data
    */
-  calendar(locale, name) {
+  calendar(locale: string, name?: string): any {
     const localeData = this.loadedLocales.get(locale || this.locale.name);
     const calendars = localeData?.calendars;
     if (name && calendars) {

@@ -103,6 +103,9 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
 
   /**
    * Create and trigger a custom event
+   * @param {string} eventName The event id with optional namespace
+   * @param {HTMLElement} target The DOM element to register
+   * @param {object} [options = {}] The custom data to send
    */
   triggerEvent(eventName: string, target: any, options = {}) {
     const event = new CustomEvent(eventName.split('.')[0], options);

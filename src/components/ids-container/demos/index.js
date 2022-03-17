@@ -1,2 +1,2 @@
 // Supporting components
-import IdsContainer from '../ids-container';
+import '../ids-container';
