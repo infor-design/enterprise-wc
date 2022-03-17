@@ -1251,7 +1251,7 @@ class IdsDatePicker extends Base {
 
   /**
    * expanded attribute
-   * @returns {boolean} whether expanded or not
+   * @returns {boolean} whether the month/year picker expanded or not
    */
   get expanded() {
     return stringToBool(this.getAttribute(attributes.EXPANDED));
@@ -1290,6 +1290,16 @@ class IdsDatePicker extends Base {
     } else {
       this.#unselectPicklist('all');
       this.removeAttribute(attributes.EXPANDED);
+    }
+  }
+
+  get legend() {
+    return this.#monthView?.legend;
+  }
+
+  set legend(val) {
+    if (this.#monthView) {
+      this.#monthView.legend = val;
     }
   }
 }

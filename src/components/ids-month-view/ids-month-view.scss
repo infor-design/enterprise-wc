@@ -337,20 +337,6 @@
   }
 
   // Legend in full size mode
-  .month-view-legend-swatch {
-    width: 12px;
-    height: 12px;
-  }
-
-  .month-view-legend-text::part(text) {
-    font-size: 11px;
-  }
-
-  .month-view-legend {
-    max-width: 300px;
-    text-align: center;
-  }
-
   &.has-legend .month-view-container {
     @include border-b-1();
 
@@ -360,6 +346,8 @@
 
 // Used in a day picker
 .ids-month-view.is-date-picker {
+  overflow: visible;
+
   .month-view-header {
     @include border-b-1();
     @include border-slate-30();
@@ -386,18 +374,42 @@
 
   .month-view-table {
     @include mt-20();
-
-    margin-bottom: 10px;
   }
 
   td .day-container {
     @include m-0();
+
+    &::after {
+      height: 42px;
+      left: 0;
+      top: 0;
+      width: 42px;
+    }
   }
 
   ids-date-picker {
     margin-left: 12px;
   }
 }
+
+// Legend for full size view and if it's in a datepicker
+.ids-month-view.is-date-picker,
+.ids-month-view.is-fullsize {
+  .month-view-legend-swatch {
+    width: 12px;
+    height: 12px;
+  }
+
+  .month-view-legend-text::part(text) {
+    font-size: 11px;
+  }
+
+  .month-view-legend {
+    max-width: 300px;
+    text-align: center;
+  }
+}
+
 
 // Themes
 .ids-month-view[mode='dark'] {
