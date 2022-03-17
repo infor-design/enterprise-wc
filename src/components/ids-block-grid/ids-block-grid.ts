@@ -14,6 +14,18 @@ import styles from './ids-block-grid.scss';
 @customElement('ids-block-grid')
 @scss(styles)
 export default class IdsBlockgrid extends Base {
+  style: any;
+  removeAttribute(ALIGN: string) {
+    throw new Error('Method not implemented.');
+  }
+  setAttribute(ALIGN: string, value: string) {
+    throw new Error('Method not implemented.');
+  }
+  getAttribute(ALIGN: string): string | null {
+    throw new Error('Method not implemented.');
+  }
+  shadowRoot: any;
+  hasStyles: boolean | undefined;
   constructor() {
     super();
   }
@@ -32,7 +44,7 @@ export default class IdsBlockgrid extends Base {
    * Create the Template for the contents
    * @returns {string} The Template
    */
-  template() {
+  template(): string {
     return `<div class="ids-block-grid-wrapper"><slot></slot></div>`;
   }
 
@@ -55,13 +67,15 @@ export default class IdsBlockgrid extends Base {
     template.innerHTML = html;
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
-    this.querySelectorAll('ids-block-grid-item').forEach((item) => item?.remove());
+    // @ts-ignore
+    this.querySelectorAll('ids-block-grid-item').forEach((item: { remove: () => any; }) => item?.remove());
     this.data.forEach((d) => {
       const settings = {};
       if (this.selection) {
+        // @ts-ignore
         settings.selection = this.selection;
       }
-
+      
       const gridItem = new IdsBlockGridItem(settings);
       gridItem.innerHTML = `
         <img src="${d.url}" alt="Placeholder 200x200" />
@@ -74,18 +88,29 @@ export default class IdsBlockgrid extends Base {
     });
     super.rerender();
   }
+  appendChild(gridItem: IdsBlockGridItem) {
+    throw new Error('Method not implemented.');
+  }
+  querySelectorAll(arg0: string) {
+    throw new Error('Method not implemented.');
+  }
+  appendStyles() {
+    throw new Error('Method not implemented.');
+  }
 
   /**
    * Set the data array of the blockgrid
    * @param {Array} value The array to use
    */
-  set data(value) {
+  set data(value: Array<any>) {
     if (value) {
+      // @ts-ignore
       this.datasource.data = value;
       this.rerender();
       return;
     }
 
+    // @ts-ignore
     this.datasource.data = null;
   }
 
@@ -95,13 +120,13 @@ export default class IdsBlockgrid extends Base {
    * Return the alignment of blockgrid
    * @returns {string|null} The path data
    */
-  get align() { return this.getAttribute(attributes.ALIGN); }
+  get align(): string | null { return this.getAttribute(attributes.ALIGN); }
 
   /**
    * Set the alignment of blockgrid
    * @param {string|null} value The Blockgrid Alignment
    */
-  set align(value) {
+  set align(value: string | null) {
     if (value) {
       this.setAttribute(attributes.ALIGN, value);
       this.style.textAlign = `${value}`;
@@ -115,11 +140,12 @@ export default class IdsBlockgrid extends Base {
    * Set the selection to a block-grid and it will add selection to all items
    * @param {string} value The selection value
    */
-  set selection(value) {
+  set selection(value: string) {
     this.syncSelectionOnItems();
   }
 
   get selection() {
+    // @ts-ignore
     return this.getAttribute(attributes.SELECTION);
   }
 
@@ -127,6 +153,7 @@ export default class IdsBlockgrid extends Base {
    * Add selection value to all block-grid-items
    */
   syncSelectionOnItems() {
+    // @ts-ignore
     this.querySelectorAll('ids-block-grid-item').forEach((item) => item.setAttribute(attributes.SELECTION, this.selection));
   }
 }
