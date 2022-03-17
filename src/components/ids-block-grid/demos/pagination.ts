@@ -1,5 +1,5 @@
 // Example for populating the BlockGrid
-import IdsBlockGrid from '../ids-block-grid';
+import '../ids-block-grid';
 
 const blockGrid = document.querySelector('ids-block-grid');
 

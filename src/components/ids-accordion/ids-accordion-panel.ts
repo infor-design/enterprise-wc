@@ -91,7 +91,8 @@ export default class IdsAccordionPanel extends Base {
     if (this.state.contentAlignment !== thisAlignment) {
       this.state.contentAlignment = thisAlignment;
       this.#refreshContentAlignment(thisAlignment);
-      this.header.refreshContentAlignment(thisAlignment);
+      /* @ts-ignore */
+      this.header?.refreshContentAlignment(thisAlignment);
     }
   }
 
@@ -114,7 +115,7 @@ export default class IdsAccordionPanel extends Base {
    * @readonly
    * @returns {HTMLElement} the parent accordion component
    */
-  get accordion() {
+  get accordion(): HTMLElement {
     return this.closest('ids-accordion');
   }
 
@@ -122,7 +123,7 @@ export default class IdsAccordionPanel extends Base {
    * @readonly
    * @returns {HTMLElement|null} the provided header, if applicable
    */
-  get header() {
+  get header(): HTMLElement | null {
     return this.querySelector('[slot="header"]');
   }
 
@@ -130,7 +131,7 @@ export default class IdsAccordionPanel extends Base {
    * @readonly
    * @returns {HTMLElement|null} the expander button
    */
-  get expander() {
+  get expander(): HTMLElement | null {
     return this.container.querySelector('.ids-accordion-panel-expander');
   }
 
@@ -138,7 +139,7 @@ export default class IdsAccordionPanel extends Base {
    * @readonly
    * @returns {HTMLElement|null} the inner expand/collapse pane element
    */
-  get pane() {
+  get pane(): HTMLElement | null {
     return this.container.querySelector('.ids-accordion-pane');
   }
 
@@ -146,7 +147,7 @@ export default class IdsAccordionPanel extends Base {
    * @readonly
    * @returns {boolean} true if this pane resides inside another pane
    */
-  get hasParentPanel() {
+  get hasParentPanel(): boolean {
     return this.parentElement.tagName === 'IDS-ACCORDION-PANEL';
   }
 
@@ -154,7 +155,7 @@ export default class IdsAccordionPanel extends Base {
    * @readonly
    * @returns {boolean} true if this pane resides in an expanded parent pane
    */
-  get parentExpanded() {
+  get parentExpanded(): boolean {
     return this.hasParentPanel && this.parentElement.expanded;
   }
 
@@ -163,7 +164,7 @@ export default class IdsAccordionPanel extends Base {
    * @returns {boolean} true if this accordion panel has child content
    * (aside from its header) and can be expanded/collapsed
    */
-  get isExpandable() {
+  get isExpandable(): boolean {
     return [...this.children].length > 1;
   }
 
@@ -171,7 +172,7 @@ export default class IdsAccordionPanel extends Base {
    * Set the expanded property
    * @param {string} value true/false
    */
-  set expanded(value) {
+  set expanded(value: string) {
     const isValueTruthy = stringToBool(value);
     const currentValue = this.expanded;
 
@@ -180,7 +181,7 @@ export default class IdsAccordionPanel extends Base {
     } else {
       this.removeAttribute(attributes.EXPANDED);
     }
-
+    /* @ts-ignore */
     if (isValueTruthy !== currentValue) {
       this.#toggleExpanded(isValueTruthy);
     }
@@ -190,7 +191,8 @@ export default class IdsAccordionPanel extends Base {
    * Get the expanded property
    * @returns {string} the expanded property
    */
-  get expanded() {
+  get expanded(): string {
+    /* @ts-ignore */
     return stringToBool(this.getAttribute(attributes.EXPANDED));
   }
 
@@ -201,14 +203,14 @@ export default class IdsAccordionPanel extends Base {
    * @returns {void}
    * @private
    */
-  #toggleExpanded(isExpanded) {
+  #toggleExpanded(isExpanded: any): void {
     this.header?.setAttribute('aria-expanded', `${isExpanded}`);
 
     if (!isExpanded) {
       this.collapsePane();
     } else {
       this.expandPane();
-
+      /* @ts-ignore */
       if (this.accordion.allowOnePane) {
         this.#collapseSiblingPanels();
       }
@@ -220,7 +222,7 @@ export default class IdsAccordionPanel extends Base {
    * @returns {void}
    * @private
    */
-  #collapseSiblingPanels() {
+  #collapseSiblingPanels(): void {
     const panels = [...this.parentElement.querySelectorAll(':scope > ids-accordion-panel')];
 
     panels.forEach((panel) => {
@@ -234,7 +236,8 @@ export default class IdsAccordionPanel extends Base {
    * Toggles expansion on this pane, and selects its header
    * @returns {void}
    */
-  #selectAndToggle() {
+  #selectAndToggle(): void {
+    /* @ts-ignore */
     this.expanded = !this.expanded;
     this.select(this);
   }
@@ -243,7 +246,7 @@ export default class IdsAccordionPanel extends Base {
    * Hides/Shows an Accordion Header's expander icon
    * @returns {void}
    */
-  #toggleExpanderDisplay() {
+  #toggleExpanderDisplay(): void {
     if (this.header instanceof IdsAccordionHeader) {
       this.header.toggleExpanderIcon(this.isExpandable);
     }
@@ -252,14 +255,14 @@ export default class IdsAccordionPanel extends Base {
   /**
    * @returns {boolean} true if this panel appears "nested"
    */
-  get nested() {
+  get nested(): boolean {
     return this.container.classList.contains('nested');
   }
 
   /**
    * @param {boolean} val true if this panel should appear "nested"
    */
-  set nested(val) {
+  set nested(val: boolean) {
     this.container.classList[stringToBool(val) ? 'add' : 'remove']('nested');
   }
 
@@ -268,7 +271,7 @@ export default class IdsAccordionPanel extends Base {
    * @private
    * @returns {void}
    */
-  collapsePane() {
+  collapsePane(): void {
     requestAnimationFrame(() => {
       if (!this.pane) {
         return;
@@ -284,6 +287,7 @@ export default class IdsAccordionPanel extends Base {
       this.container.classList.remove('expanded');
 
       if (this.header) {
+        /* @ts-ignore */
         this.header.expanded = false;
       }
 
@@ -295,6 +299,7 @@ export default class IdsAccordionPanel extends Base {
         // Setting height to "0" kicks off animation
         this.pane.style.height = `0px`;
         this.paneCloseListener = () => {
+          /* @ts-ignore */
           this.pane.style.display = 'none';
         };
         this.pane.addEventListener('transitionend', this.paneCloseListener, { once: true });
@@ -307,7 +312,7 @@ export default class IdsAccordionPanel extends Base {
    * @private
    * @returns {void}
    */
-  expandPane() {
+  expandPane(): void {
     if (!this.pane || !this.isExpandable) {
       return;
     }
@@ -324,16 +329,20 @@ export default class IdsAccordionPanel extends Base {
       this.container.classList.add('expanded');
 
       if (this.header) {
+        /* @ts-ignore */
         this.header.expanded = true;
       }
 
       // Setting height kicks off animation
+      /* @ts-ignore */
       this.pane.style.height = `${this.pane.scrollHeight}px`;
       this.paneOpenListener = () => {
         // NOTE: `auto` height allows for nested accordions to expand
         // when their content is displayed
+        /* @ts-ignore */
         this.pane.style.height = 'auto';
       };
+      /* @ts-ignore */
       this.pane.addEventListener('transitionend', this.paneOpenListener, { once: true });
     });
   }
@@ -343,22 +352,22 @@ export default class IdsAccordionPanel extends Base {
    * @private
    * @returns {void}
    */
-  #attachEventHandlers() {
+  #attachEventHandlers(): void {
     this.onEvent('click', this.expander, () => {
       this.#selectAndToggle();
     });
 
-    this.listen('Enter', this.expander, (e) => {
+    this.listen('Enter', this.expander, (e: { stopPropagation: () => void; }) => {
       e.stopPropagation();
       this.#selectAndToggle();
     });
 
-    this.listen(' ', this.expander, (e) => {
+    this.listen(' ', this.expander, (e: { stopPropagation: () => void; }) => {
       e.stopPropagation();
       this.#selectAndToggle();
     });
 
-    this.onEvent('touchend', this.expander, (e) => {
+    this.onEvent('touchend', this.expander, (e: { touches: string | any[]; }) => {
       if (e.touches && e.touches.length > 0) {
         this.#selectAndToggle();
       }
@@ -376,8 +385,9 @@ export default class IdsAccordionPanel extends Base {
    * @param {IdsAccordionPanel} panel The panel to be selected
    * @returns {void}
    */
-  select(panel) {
+  select(panel: this): void {
     if (panel?.tagName === 'IDS-ACCORDION-PANEL') {
+      /* @ts-ignore */
       this.header.selected = true;
       panel.focus();
     }
@@ -387,7 +397,8 @@ export default class IdsAccordionPanel extends Base {
    * Passes focus from the Panel to its Header component
    * @returns {void}
    */
-  focus() {
+  focus(): void {
+    /* @ts-ignore */
     this.header.focus();
   }
 
@@ -395,7 +406,7 @@ export default class IdsAccordionPanel extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `
       <div class="ids-accordion-panel">
         <div class="ids-accordion-panel-expander">
