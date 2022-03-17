@@ -1293,10 +1293,18 @@ class IdsDatePicker extends Base {
     }
   }
 
+  /**
+   * @returns {Array} array of legend items
+   */
   get legend() {
     return this.#monthView?.legend;
   }
 
+  /**
+   * Set array of legend items to month view component
+   * Validation of data is provided by the month view component
+   * @param {Array|null} val array of legend items
+   */
   set legend(val) {
     if (this.#monthView) {
       this.#monthView.legend = val;

@@ -26,9 +26,16 @@ The `ids-date-picker` is a web component to support date entry
 - `year` `{string|number|null}` - Specifies a year for the popup calendar (`ids-month-view` attribute)
 - `first-day-of-week` `{string|number|null}` - Specifies first day of the week for the popup calendar, if not set the information comes from the locale (`ids-month-view` attribute)
 - `show-today` `{true|false}` - Whether or not to show the today button in the popup calendar (`ids-month-view` attribute)
+- `expanded` `{true|false}` - When the date picker is month/year picker it specifies whether or not the picker is expanded
+- `legend` - Set array of legend items:
+  - `name` `{string}` - The name of the legend (required)
+  - `color` `{string}` - The color of the legend, either hex or IDS variable excluding `--ids-color-palette-` part i.e. `emerald-60` (required)
+  - `dates` `{Array}` - Array of dates (either dates or dayOfWeek is required)
+  - `dayOfWeek` `{Array}` - Array of days of week where 0 is Sunday (either dates or dayOfWeek is required)
 
 ## Events
 - `dayselected` - Fires when a day is selected
+- `expanded` - Fires when a month/year picker is opened/closed
 
 ## Themeable Parts
 - `container` allows you to further style the container element of the component

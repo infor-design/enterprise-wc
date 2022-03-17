@@ -23,6 +23,11 @@ If both start and end dates are set calendar toolbar will not be displayed.
 - `show-today` `{true|false}` - Specifies whether or not to show the today button in the toolbar
 - `compact` `{true|false}` - Specifies whether or not the component should be compact view
 - `is-date-picker` `{true|false}` - Specifies whether or not the component is used in a date picker component popup
+- `legend` - Set array of legend items:
+  - `name` `{string}` - The name of the legend (required)
+  - `color` `{string}` - The color of the legend, either hex or IDS variable excluding `--ids-color-palette-` part i.e. `emerald-60` (required)
+  - `dates` `{Array}` - Array of dates (either dates or dayOfWeek is required)
+  - `dayOfWeek` `{Array}` - Array of days of week where 0 is Sunday (either dates or dayOfWeek is required)
 
 ## Events
 - `dayselected` - Fires when a day is selected

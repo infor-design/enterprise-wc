@@ -682,7 +682,7 @@ class IdsMonthView extends Base {
       const isSelected = day === this.day && year === this.year && month === this.month;
       const isDisabled = this.#isRange() && (date < this.startDate || date > this.endDate);
       const isAlternate = !this.#isRange() && (date < firstDayOfRange || date > lastDayOfRange);
-      const legend = this.#getLegend(date);
+      const legend = this.#getLegendByDate(date);
       const classAttr = buildClassAttrib(
         isAlternate && 'alternate',
         legend && 'has-legend',
@@ -800,19 +800,6 @@ class IdsMonthView extends Base {
     return this.startDate && this.endDate && this.endDate >= this.startDate;
   }
 
-  #colorToVar() {
-    [...this.container.querySelectorAll('td'),
-      ...this.container.querySelectorAll('.month-view-legend-swatch')]
-      .forEach((el) => {
-        const color = el.dataset.color;
-        const isHex = color?.includes('#');
-
-        if (color) {
-          el.style = `--legend-color: ${isHex ? color : `var(--ids-color-palette-${color})`}`;
-        }
-      });
-  }
-
   /**
    * Helper to check if the month has a day
    * @param {number} day to check
@@ -822,6 +809,35 @@ class IdsMonthView extends Base {
     const numberOfDays = daysInMonth(this.year, this.month);
 
     return day > numberOfDays ? 1 : day;
+  }
+
+  /**
+   * Find legend object by date provided
+   * @param {Date} date to check if has any legend
+   * @returns {object} legend object for a specific date
+   */
+  #getLegendByDate(date) {
+    return this.legend.find((legend) => {
+      const ifDayOfWeek = legend.dayOfWeek?.includes(date.getDay());
+      const ifDate = legend.dates?.some((item) => new Date(item).getTime() === date.getTime());
+
+      return ifDayOfWeek || ifDate;
+    });
+  }
+
+  /**
+   * Iterate legend items with color data and add color css variable
+   */
+  #colorToVar() {
+    this.container.querySelectorAll('[data-color]')
+      .forEach((el) => {
+        const color = el.dataset.color;
+        const isHex = color?.includes('#');
+
+        if (color) {
+          el.style = `--legend-color: ${isHex ? color : `var(--ids-color-palette-${color})`}`;
+        }
+      });
   }
 
   /**
@@ -1133,10 +1149,18 @@ class IdsMonthView extends Base {
     this.container.classList.toggle('is-date-picker', boolVal);
   }
 
+  /**
+   * @returns {Array} array of legend items
+   */
   get legend() {
     return this.#currentLegend;
   }
 
+  /**
+   * Set and validate array of legend items
+   * Not an empty array of object with name, color, dates or dayOfWeek properties
+   * @param {Array|null} val array of legend items
+   */
   set legend(val) {
     // Remove legend by setting null
     if (val === null) {
@@ -1153,7 +1177,7 @@ class IdsMonthView extends Base {
       Array.isArray(val)
       && val.length > 0
       && val.every(
-        (obj) => obj.name && obj.color && (obj.dates || obj.dayOfWeek)
+        (item) => item.name && item.color && (item.dates || item.dayOfWeek)
       )
     ) {
       this.#currentLegend = deepClone(val);
@@ -1163,15 +1187,6 @@ class IdsMonthView extends Base {
     } else {
       throw new Error('ids-month-view: Invalid legend data provided');
     }
-  }
-
-  #getLegend(date) {
-    return this.legend.find((legend) => {
-      const ifDayOfWeek = legend.dayOfWeek?.includes(date.getDay());
-      const ifDate = legend.dates?.some((item) => new Date(item).getTime() === date.getTime());
-
-      return ifDayOfWeek || ifDate;
-    });
   }
 }
 

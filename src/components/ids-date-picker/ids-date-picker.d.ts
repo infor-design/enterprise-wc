@@ -5,6 +5,13 @@ interface dayselected extends Event {
   }
 }
 
+interface expanded extends Event {
+  detail: {
+    elem: IdsDatePicker,
+    expanded: boolean
+  }
+}
+
 export default class IdsDatePicker extends HTMLElement {
   /** Set input value */
   value: string | null;
@@ -68,4 +75,7 @@ export default class IdsDatePicker extends HTMLElement {
 
   /** Fires when month view day is selected */
   on(event: 'dayselected', listener: (event: dayselected) => void): this;
+
+  /** Fires when month/year picker is opened/closed */
+  on(event: 'expanded', listener: (event: expanded) => void): this;
 }
