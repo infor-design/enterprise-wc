@@ -1,159 +1,194 @@
 import { customElement, scss } from '../../core/ids-decorators';
+import Base from './ids-block-grid-item-base';
+import styles from './ids-block-grid-item.scss';
 import { attributes } from '../../core/ids-attributes';
-import IdsDataSource from '../../core/ids-data-source';
-import IdsBlockGridItem from './ids-block-grid-item';
-import Base from './ids-block-grid-base';
 
-import styles from './ids-block-grid.scss';
+import '../ids-checkbox/ids-checkbox';
 
 /**
- * IDS Block Grid Component
- * @type {IdsBlockgrid}
+ * IDS Block Grid Item Component
+ * @type {IdsBlockgridItem}
+ * @mixes IdsKeyboardMixin
+ * @mixes IdsSelectionMixin
+ * @mixes IdsEventsMixin
+ * @mixes IdsThemeMixin
  * @inherits IdsElement
  */
-@customElement('ids-block-grid')
+@customElement('ids-block-grid-item')
 @scss(styles)
-export default class IdsBlockgrid extends Base {
-  style: any;
-  removeAttribute(ALIGN: string) {
-    throw new Error('Method not implemented.');
-  }
-  setAttribute(ALIGN: string, value: string) {
-    throw new Error('Method not implemented.');
-  }
-  getAttribute(ALIGN: string): string | null {
-    throw new Error('Method not implemented.');
-  }
-  shadowRoot: any;
-  hasStyles: boolean | undefined;
-  constructor() {
+export default class IdsBlockgridItem extends Base {
+  constructor(settings: any = {}) {
     super();
+    this.state = {
+      checkboxHasFocus: false,
+    };
+
+    if (settings.selection) {
+      this.selection = settings.selection;
+    }
   }
 
-  static get attributes() {
-    return [
-      attributes.ALIGN,
-      attributes.SELECTION,
-    ];
+  connectedCallback() {
+    this
+      .#handleEvents()
+      .#attachKeyboardListeners();
+    super.connectedCallback();
   }
 
-  /** Reference to datasource API */
-  datasource = new IdsDataSource();
+  template() {
+    return `
+      <div class="ids-block-grid-item-container" tabindex="0">
+        <div class="ids-block-grid-item-checkbox">
+          <ids-checkbox></ids-checkbox>
+        </div>
+        <slot></slot>
+      </div>
+    `;
+  }
 
   /**
-   * Create the Template for the contents
-   * @returns {string} The Template
+   * Establish Internal Event Handlers
+   * @private
+   * @returns {object} The object for chaining.
    */
-  template(): string {
-    return `<div class="ids-block-grid-wrapper"><slot></slot></div>`;
+  #handleEvents() {
+    this.onEvent('click', this, this.#handleSelectionChange);
+
+    const checkbox = this.container.querySelector('ids-checkbox');
+    this.onEvent('click.checkbox', checkbox, (e: Event) => {
+      e.stopPropagation();
+      e.preventDefault();
+
+      if (this.selection === 'single') {
+        this.#handleSingleSelectionChange(e);
+      } else {
+        this.#handleMultiMixedSelectionChange(e);
+      }
+    });
+
+    return this;
   }
 
   /**
-   * Rerender the list by re applying the template
+   * Establish Internal Keyboard shortcuts
+   * @private
+   * @returns {object} This API object for chaining
+   */
+  #attachKeyboardListeners(): object {
+    this.listen(['Tab'], this, (e: KeyboardEvent) => {
+      if (!this.checkboxHasFocus && this.selection === 'mixed') {
+        e.preventDefault();
+        e.stopPropagation();
+        this.checkboxHasFocus = true;
+        this.container.querySelector('ids-checkbox').container.classList.add('has-focus');
+      } else {
+        if (this.nextElementSibling && !e.shiftKey) {
+          e.preventDefault();
+          e.stopPropagation();
+          this.nextElementSibling.container.focus();
+        } else if (this.previousElementSibling && e.shiftKey) {
+          e.preventDefault();
+          e.stopPropagation();
+          this.previousElementSibling.container.focus();
+        }
+
+        this.checkboxHasFocus = false;
+        this.container.querySelector('ids-checkbox').container.classList.remove('has-focus');
+      }
+    });
+
+    this.listen([' '], this, () => {
+      if (this.checkboxHasFocus && this.selection === 'mixed') {
+        this.container.querySelector('ids-checkbox').dispatchEvent(new Event('click'));
+      } else {
+        this.dispatchEvent(new Event('click'));
+      }
+    });
+
+    return this;
+  }
+
+  /**
+   * Handle single/multiple selection change
+   * @private
+   * @param  {object} e Actual event object
+   */
+  #handleSelectionChange(e: Event) {
+    this.container.focus();
+    if (this.selection === 'single') {
+      this.#handleSingleSelectionChange(e);
+    } else if (this.selection === 'multiple') {
+      this.#handleMultiMixedSelectionChange(e);
+    } else {
+      this.#handlePreSelectionChange();
+    }
+  }
+
+  /**
+   * Change single selection for block item
+   * @private
+   * @param  {object} e Actual event
+   */
+  #handleSingleSelectionChange(e: Event) {
+    if (this.selected === 'true') {
+      this.setAttribute(attributes.SELECTED, false);
+      this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, false);
+    } else {
+      const blockElements = this.parentElement.querySelectorAll('ids-block-grid-item[selection="single"]');
+      [...blockElements].forEach((elem) => {
+        elem.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, false);
+        elem.setAttribute(attributes.SELECTED, false);
+      });
+      this.setAttribute(attributes.SELECTED, true);
+      this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, true);
+    }
+
+    const eventData = {
+      detail: {
+        elem: this,
+        nativeEvent: e,
+        selected: this.selected,
+        selection: this.selection,
+      }
+    };
+
+    this.triggerEvent('selectionchanged', this, eventData);
+  }
+
+  /**
+   * Change multiple selection for block item
+   * @private
+   * @param  {object} e Actual event
+   */
+  #handleMultiMixedSelectionChange(e: Event) {
+    this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, this.selected !== 'true');
+    this.setAttribute(attributes.SELECTED, this.selected !== 'true');
+
+    const eventData = {
+      detail: {
+        elem: this,
+        nativeEvent: e,
+        selected: this.selected,
+        selection: this.selection,
+      }
+    };
+
+    this.triggerEvent('selectionchanged', this, eventData);
+  }
+
+  /**
+   * Change single selection for block item
    * @private
    */
-  rerender() {
-    if (this.data.length === 0) {
-      return;
-    }
-
-    const template = document.createElement('template');
-    const html = this.template();
-
-    // Render and append styles
-    this.shadowRoot.innerHTML = '';
-    this.hasStyles = false;
-    this.appendStyles();
-    template.innerHTML = html;
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
-
-    // @ts-ignore
-    this.querySelectorAll('ids-block-grid-item').forEach((item: { remove: () => any; }) => item?.remove());
-    this.data.forEach((d) => {
-      const settings = {};
-      if (this.selection) {
-        // @ts-ignore
-        settings.selection = this.selection;
-      }
-      
-      const gridItem = new IdsBlockGridItem(settings);
-      gridItem.innerHTML = `
-        <img src="${d.url}" alt="Placeholder 200x200" />
-        <ids-text type="p">
-          ${d.name}<br/>
-          ${d.title}
-        </ids-text>
-      `;
-      this.appendChild(gridItem);
-    });
-    super.rerender();
-  }
-  appendChild(gridItem: IdsBlockGridItem) {
-    throw new Error('Method not implemented.');
-  }
-  querySelectorAll(arg0: string) {
-    throw new Error('Method not implemented.');
-  }
-  appendStyles() {
-    throw new Error('Method not implemented.');
-  }
-
-  /**
-   * Set the data array of the blockgrid
-   * @param {Array} value The array to use
-   */
-  set data(value: Array<any>) {
-    if (value) {
-      // @ts-ignore
-      this.datasource.data = value;
-      this.rerender();
-      return;
-    }
-
-    // @ts-ignore
-    this.datasource.data = null;
-  }
-
-  get data() { return this?.datasource?.data || []; }
-
-  /**
-   * Return the alignment of blockgrid
-   * @returns {string|null} The path data
-   */
-  get align(): string | null { return this.getAttribute(attributes.ALIGN); }
-
-  /**
-   * Set the alignment of blockgrid
-   * @param {string|null} value The Blockgrid Alignment
-   */
-  set align(value: string | null) {
-    if (value) {
-      this.setAttribute(attributes.ALIGN, value);
-      this.style.textAlign = `${value}`;
+  #handlePreSelectionChange() {
+    if (this.preSelected === 'true') {
+      this.setAttribute(attributes.PRE_SELECTED, false);
     } else {
-      this.removeAttribute(attributes.ALIGN);
-      this.style.removeProperty('text-align');
+      const blockElements = this.parentElement.querySelectorAll('ids-block-grid-item[selection="mixed"]');
+      [...blockElements].forEach((elem) => {
+        elem.setAttribute(attributes.PRE_SELECTED, false);
+      });
+      this.setAttribute(attributes.PRE_SELECTED, true);
     }
-  }
-
-  /**
-   * Set the selection to a block-grid and it will add selection to all items
-   * @param {string} value The selection value
-   */
-  set selection(value: string) {
-    this.syncSelectionOnItems();
-  }
-
-  get selection() {
-    // @ts-ignore
-    return this.getAttribute(attributes.SELECTION);
-  }
-
-  /**
-   * Add selection value to all block-grid-items
-   */
-  syncSelectionOnItems() {
-    // @ts-ignore
-    this.querySelectorAll('ids-block-grid-item').forEach((item) => item.setAttribute(attributes.SELECTION, this.selection));
   }
 }

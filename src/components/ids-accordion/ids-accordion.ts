@@ -150,7 +150,7 @@ export default class IdsAccordion extends Base {
    * @param {boolean} doRTL if true, modifies RTL styles
    */
   #assignDepthDependentStyles(
-    element = this,
+    element: any = this,
     depth = 0,
     doColorVariant = true,
     doExpanderType = true,
@@ -192,8 +192,7 @@ export default class IdsAccordion extends Base {
           const displayIconType = this.header.icon;
           if (typeof displayIconType === 'string' && displayIconType.length && !element.contentAlignment) {
             this.#markAdjacentPanesForIcons(
-              /* @ts-ignore */
-              element, 
+              element,
               true
             );
           }
@@ -276,7 +275,7 @@ export default class IdsAccordion extends Base {
    * @param {number} amt the amount of steps to take
    * @returns {IdsAccordionPanel} the newly-focused accordion pane
    */
-  navigate(amt: number = 0): IdsAccordionPanel {
+  navigate(amt = 0): IdsAccordionPanel {
     if (typeof amt !== 'number') {
       return this.focused;
     }

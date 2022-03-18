@@ -35,7 +35,7 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
    * @param {Function|any} callback The callback code to execute
    * @param {object} options Additional event settings (passive, once, bubbles ect)
    */
-  onEvent(eventName: string, target: HTMLElement, callback?: unknown, options?: Record<string, unknown>) {
+  onEvent(eventName: string, target: any, callback?: unknown, options?: Record<string, unknown>) {
     if (!target) {
       return;
     }
@@ -104,7 +104,7 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
   /**
    * Create and trigger a custom event
    * @param {string} eventName The event id with optional namespace
-   * @param {HTMLElement} target The DOM element to register
+   * @param {any} target The DOM element to register
    * @param {object} [options = {}] The custom data to send
    */
   triggerEvent(eventName: string, target: any, options = {}) {
@@ -125,6 +125,7 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
    * @returns {boolean} true if the event works
    */
   triggerVetoableEvent(eventType: string, data: Record<string, unknown>) {
+    this.triggerEvent(`${eventType}.vetoable`, this, data);
     if (this.vetoableEventTypes.length > 0
       && !this.vetoableEventTypes.includes((eventType as never))) {
       return false;

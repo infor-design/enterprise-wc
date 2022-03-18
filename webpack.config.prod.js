@@ -19,6 +19,10 @@ module.exports = {
     publicPath: '',
     clean: true
   },
+  resolve: {
+    extensions: ['.js', '.ts'],
+    modules: ['node_modules']
+  },
   infrastructureLogging: {
     level: 'error' // or 'verbose' if any debug info is needed
   },
@@ -74,14 +78,9 @@ module.exports = {
         ]
       },
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            // Options are all in babel.config.js
-            loader: 'babel-loader',
-          }
-        ]
+        test: /\.ts?$/,
+        use: 'ts-loader',
+        exclude: [/node_modules/]
       }
     ]
   },

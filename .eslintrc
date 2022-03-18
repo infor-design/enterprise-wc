@@ -1,6 +1,9 @@
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
   "plugins": [
     "@typescript-eslint"
   ],
@@ -28,6 +31,7 @@
       "varsIgnorePattern": "^Ids"
     }],
     "@typescript-eslint/no-var-requires": "off",
-    "@typescript-eslint/no-explicit-any": "off"
+    "@typescript-eslint/no-explicit-any": "off",
+    "no-prototype-builtins": "off"
   }
 }

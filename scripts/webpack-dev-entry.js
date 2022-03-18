@@ -12,5 +12,4 @@ const demoEntry = () => {
   });
   return demoEntryObj;
 };
-
 module.exports = demoEntry;

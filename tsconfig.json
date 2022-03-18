@@ -2,26 +2,32 @@
   "compileOnSave": true,
   "compilerOptions": {
     "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "checkJs": false,
+    "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "checkJs": false,
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "strict": true,
     "target": "es2020",
     "module": "es2020",
-    "types": [],
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "sourceMap": true,
-    "outDir": "./build/ts"
+    "declaration": true,
+    "outDir": "./build/development"
   },
   "include": [
     "src/**/*.ts",
     "src/**/**/*.ts",
-    "src/**/*.d.ts",
-    "./declaration.d.ts"
+     "./declaration.d.ts"
   ],
-  "exclude": ["node_modules", "test", "build", "dist"]
+  "exclude": [
+    "node_modules",
+    "test",
+    "build",
+    "dist"
+  ]
 }

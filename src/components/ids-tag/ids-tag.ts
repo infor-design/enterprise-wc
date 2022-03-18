@@ -133,7 +133,7 @@ export default class IdsTag extends Base {
 
   /**
    * If set to true the tag has focus state and becomes a clickable linnk
-   * @param {boolean|string} value true of false depending if the tag is clickable
+   * @param {boolean} value true of false depending if the tag is clickable
    */
   set clickable(value: boolean) {
     if (value) {

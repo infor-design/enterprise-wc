@@ -16,22 +16,23 @@ import { attributes } from '../../core/ids-attributes';
 @customElement('ids-block-grid-item')
 @scss(styles)
 export default class IdsBlockgridItem extends Base {
-  constructor(settings = {}) {
+  constructor(settings = {
+    selection: null
+  }) {
     super();
     this.state = {
       checkboxHasFocus: false,
     };
 
-    // @ts-ignore
     if (settings.selection) {
-      // @ts-ignore
       this.selection = settings.selection;
     }
   }
 
   connectedCallback() {
-    this.#handleEvents()
-      this.#attachKeyboardListeners()
+    this
+      .#handleEvents()
+      .#attachKeyboardListeners();
     super.connectedCallback();
   }
 
@@ -51,14 +52,12 @@ export default class IdsBlockgridItem extends Base {
    * @private
    * @returns {object} The object for chaining.
    */
-  #handleEvents(): object {
+  #handleEvents() {
     this.onEvent('click', this, this.#handleSelectionChange);
 
     const checkbox = this.container.querySelector('ids-checkbox');
-    this.onEvent('click.checkbox', checkbox, (e: object) => {
-      // @ts-ignore
+    this.onEvent('click.checkbox', checkbox, (e: Event) => {
       e.stopPropagation();
-      // @ts-ignore
       e.preventDefault();
 
       if (this.selection === 'single') {
@@ -76,9 +75,8 @@ export default class IdsBlockgridItem extends Base {
    * @private
    * @returns {object} This API object for chaining
    */
-  #attachKeyboardListeners(): object {
-    // @ts-ignore
-    this.listen(['Tab'], this, (e: { preventDefault: () => void; stopPropagation: () => void; shiftKey: any; }) => {
+  #attachKeyboardListeners() {
+    this.listen(['Tab'], this, (e: KeyboardEvent) => {
       if (!this.checkboxHasFocus && this.selection === 'mixed') {
         e.preventDefault();
         e.stopPropagation();
@@ -100,7 +98,6 @@ export default class IdsBlockgridItem extends Base {
       }
     });
 
-    // @ts-ignore
     this.listen([' '], this, () => {
       if (this.checkboxHasFocus && this.selection === 'mixed') {
         this.container.querySelector('ids-checkbox').dispatchEvent(new Event('click'));
@@ -117,7 +114,7 @@ export default class IdsBlockgridItem extends Base {
    * @private
    * @param  {object} e Actual event
    */
-  #handleSelectionChange(e: object) {
+  #handleSelectionChange(e: Event) {
     this.container.focus();
     if (this.selection === 'single') {
       this.#handleSingleSelectionChange(e);
@@ -133,7 +130,7 @@ export default class IdsBlockgridItem extends Base {
    * @private
    * @param  {object} e Actual event
    */
-  #handleSingleSelectionChange(e: object) {
+  #handleSingleSelectionChange(e: Event) {
     if (this.selected === 'true') {
       this.setAttribute(attributes.SELECTED, false);
       this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, false);
@@ -162,9 +159,9 @@ export default class IdsBlockgridItem extends Base {
   /**
    * Change multiple selection for block item
    * @private
-   * @param  {object} e Actual event
+   * @param {object} e Actual event
    */
-  #handleMultiMixedSelectionChange(e: object) {
+  #handleMultiMixedSelectionChange(e: Event) {
     this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, this.selected !== 'true');
     this.setAttribute(attributes.SELECTED, this.selected !== 'true');
 

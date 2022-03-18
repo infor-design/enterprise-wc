@@ -1,7 +1,6 @@
 // Example for populating the BlockGrid
 import '../ids-block-grid';
-
-const blockGrid = document.querySelector('ids-block-grid');
+const blockGrid: any = document.querySelector('ids-block-grid');
 
 (async function init() {
   // Do an ajax request
@@ -78,15 +77,11 @@ const blockGrid = document.querySelector('ids-block-grid');
     }
   ];
 
-  // @ts-ignore
   blockGrid.data = data;
 
-  // @ts-ignore
   blockGrid.pager.addEventListener('pagenumberchange', async (e: { detail: { value: any; }; }) => {
     console.info(`standalone page # ${e.detail.value}`);
   });
 
   console.info('Loading Time:', window.performance.now());
-  // @ts-ignore
-  console.info('Page Memory:', window.performance.memory);
 }());

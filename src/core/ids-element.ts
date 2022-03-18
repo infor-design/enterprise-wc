@@ -90,8 +90,9 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
    * in a component you can just call super.
    */
   disconnectedCallback() {
-    this?.detachAllEvents();
-    this?.detachAllListeners();
+    this.detachAllEvents();
+    if (this.detachAllListeners)
+      this?.detachAllListeners();
   }
 
   /**

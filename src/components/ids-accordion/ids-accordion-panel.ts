@@ -91,7 +91,6 @@ export default class IdsAccordionPanel extends Base {
     if (this.state.contentAlignment !== thisAlignment) {
       this.state.contentAlignment = thisAlignment;
       this.#refreshContentAlignment(thisAlignment);
-      /* @ts-ignore */
       this.header?.refreshContentAlignment(thisAlignment);
     }
   }
@@ -115,7 +114,7 @@ export default class IdsAccordionPanel extends Base {
    * @readonly
    * @returns {HTMLElement} the parent accordion component
    */
-  get accordion(): HTMLElement {
+  get accordion(): any {
     return this.closest('ids-accordion');
   }
 
@@ -123,7 +122,7 @@ export default class IdsAccordionPanel extends Base {
    * @readonly
    * @returns {HTMLElement|null} the provided header, if applicable
    */
-  get header(): HTMLElement | null {
+  get header(): any {
     return this.querySelector('[slot="header"]');
   }
 
@@ -170,29 +169,24 @@ export default class IdsAccordionPanel extends Base {
 
   /**
    * Set the expanded property
-   * @param {string} value true/false
+   * @param {boolean} value true/false
    */
-  set expanded(value: string) {
+  set expanded(value: boolean) {
     const isValueTruthy = stringToBool(value);
-    const currentValue = this.expanded;
 
     if (isValueTruthy) {
       this.setAttribute(attributes.EXPANDED, `${value}`);
     } else {
       this.removeAttribute(attributes.EXPANDED);
     }
-    /* @ts-ignore */
-    if (isValueTruthy !== currentValue) {
-      this.#toggleExpanded(isValueTruthy);
-    }
+    this.#toggleExpanded(isValueTruthy);
   }
 
   /**
    * Get the expanded property
-   * @returns {string} the expanded property
+   * @returns {boolean} the expanded property
    */
-  get expanded(): string {
-    /* @ts-ignore */
+  get expanded(): boolean {
     return stringToBool(this.getAttribute(attributes.EXPANDED));
   }
 
@@ -210,7 +204,6 @@ export default class IdsAccordionPanel extends Base {
       this.collapsePane();
     } else {
       this.expandPane();
-      /* @ts-ignore */
       if (this.accordion.allowOnePane) {
         this.#collapseSiblingPanels();
       }
@@ -237,7 +230,6 @@ export default class IdsAccordionPanel extends Base {
    * @returns {void}
    */
   #selectAndToggle(): void {
-    /* @ts-ignore */
     this.expanded = !this.expanded;
     this.select(this);
   }
@@ -287,8 +279,7 @@ export default class IdsAccordionPanel extends Base {
       this.container.classList.remove('expanded');
 
       if (this.header) {
-        /* @ts-ignore */
-        this.header.expanded = false;
+          this.header.expanded = false;
       }
 
       requestAnimationFrame(() => {
@@ -299,8 +290,9 @@ export default class IdsAccordionPanel extends Base {
         // Setting height to "0" kicks off animation
         this.pane.style.height = `0px`;
         this.paneCloseListener = () => {
-          /* @ts-ignore */
-          this.pane.style.display = 'none';
+          if (this.pane) {
+            this.pane.style.display = 'none';
+          }
         };
         this.pane.addEventListener('transitionend', this.paneCloseListener, { once: true });
       });
@@ -329,21 +321,21 @@ export default class IdsAccordionPanel extends Base {
       this.container.classList.add('expanded');
 
       if (this.header) {
-        /* @ts-ignore */
-        this.header.expanded = true;
+          this.header.expanded = true;
       }
 
       // Setting height kicks off animation
-      /* @ts-ignore */
-      this.pane.style.height = `${this.pane.scrollHeight}px`;
-      this.paneOpenListener = () => {
-        // NOTE: `auto` height allows for nested accordions to expand
-        // when their content is displayed
-        /* @ts-ignore */
-        this.pane.style.height = 'auto';
-      };
-      /* @ts-ignore */
-      this.pane.addEventListener('transitionend', this.paneOpenListener, { once: true });
+      if (this.pane) {
+        this.pane.style.height = `${this.pane.scrollHeight}px`;
+        this.paneOpenListener = () => {
+          // NOTE: `auto` height allows for nested accordions to expand
+          // when their content is displayed
+          if (this.pane) {
+            this.pane.style.height = 'auto';
+          }
+        };
+        this.pane.addEventListener('transitionend', this.paneOpenListener, { once: true });
+      }
     });
   }
 
@@ -387,7 +379,6 @@ export default class IdsAccordionPanel extends Base {
    */
   select(panel: this): void {
     if (panel?.tagName === 'IDS-ACCORDION-PANEL') {
-      /* @ts-ignore */
       this.header.selected = true;
       panel.focus();
     }
@@ -398,7 +389,6 @@ export default class IdsAccordionPanel extends Base {
    * @returns {void}
    */
   focus(): void {
-    /* @ts-ignore */
     this.header.focus();
   }
 

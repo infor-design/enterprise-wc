@@ -51,7 +51,7 @@ const IdsKeyboardMixin = (superclass: any) => class extends superclass {
    * @param {HTMLElement} elem The object with the listener attached
    * @param {Function} callback The call back when this combination is met
    */
-  listen(keycode: Array<string>|string, elem: HTMLElement, callback: unknown) {
+  listen(keycode: Array<string>|string, elem: HTMLElement | any, callback: unknown) {
     const keycodes = Array.isArray(keycode) ? keycode : [keycode];
 
     for (const c of keycodes) {

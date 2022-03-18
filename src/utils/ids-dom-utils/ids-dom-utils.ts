@@ -19,7 +19,7 @@
  * @param {HTMLElement} node the node to check
  * @returns {Node} the parent node
  */
-export function getClosestContainerNode(node: HTMLElement) {
+export function getClosestContainerNode(node: HTMLElement | any) {
   return getClosestShadow(node) || document;
 }
 

@@ -87,7 +87,7 @@ export default class IdsAccordionHeader extends Base {
    * @readonly
    * @returns {HTMLElement} this header's panel
    */
-  get panel(): HTMLElement {
+  get panel(): any {
     return this.parentElement;
   }
 
@@ -102,7 +102,6 @@ export default class IdsAccordionHeader extends Base {
    * @returns {boolean} true if this header's pane wrapper is expanded
    */
   get expanded(): boolean {
-    /* @ts-ignore */
     return this.panel.expanded;
   }
 
@@ -230,7 +229,6 @@ export default class IdsAccordionHeader extends Base {
    * @param {boolean} val true if the expander icon should be displayed
    */
   toggleExpanderIcon(val: string | boolean) {
-    /* @ts-ignore */
     if (this.panel.isExpandable && stringToBool(val)) {
       this.#showExpanderIcon();
     } else {
@@ -243,7 +241,6 @@ export default class IdsAccordionHeader extends Base {
    * @returns {void}
    */
   #showExpanderIcon(): void {
-    /* @ts-ignore */
     const appendLocation = this.panel.hasParentPanel ? 'afterbegin' : 'beforeend';
     const expander = this.container.querySelector('.ids-accordion-expander-icon');
 

@@ -1,2 +1,3 @@
 // Supporting components
-import IdsMenuButton from '../../ids-menu-button/ids-menu-button';
+import '../../ids-menu-button/ids-menu-button';
+//# sourceMappingURL=index.js.map
