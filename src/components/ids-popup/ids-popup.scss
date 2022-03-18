@@ -12,11 +12,24 @@
   position: static;
 }
 
+// When a popup is not visible, `aria-hidden="true"` is applied to the host element.
+// The element is still in document flow in this case, so we need to prevent clicks
+// from occuring inside the "invisible" Popup
+:host([aria-hidden="true"]) {
+  pointer-events: none;
+}
+
 .ids-popup {
   @include antialiased();
   @include z-3000();
 
   position: relative;
+
+  // This style is always applied when IdsPopup is not visible
+  // (goes hand-in-hand with `aria-hidden="true"` on the host element
+  &:not(.open) {
+    pointer-events: none;
+  }
 
   // Arrow definition
   .arrow {

@@ -56,12 +56,6 @@ export default class IdsPopup extends Base {
     this.#setInitialState();
     this.shouldUpdate = true;
     this.#attachEventHandlers();
-
-    // Stagger visibility and initial placement, if applicable
-    window.requestAnimationFrame(() => {
-      this.refreshVisibility();
-      this.place();
-    });
   }
 
   disconnectedCallback() {
@@ -965,7 +959,7 @@ export default class IdsPopup extends Base {
   /**
    * Hides the Popup
    * @async
-   * @returns {Promise} resolved once hiding and animating the Popup is completed.
+   * @returns {void}
    */
   async hide() {
     if (this.visible) {

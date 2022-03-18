@@ -53,7 +53,9 @@ export default class IdsDropdown extends Base {
       .#addAria()
       .#attachEventHandlers()
       .#attachKeyboardListeners();
+
     super.connectedCallback();
+    this.#configurePopup();
   }
 
   /**
@@ -324,6 +326,14 @@ export default class IdsDropdown extends Base {
     }
   }
 
+  #configurePopup() {
+    this.popup.alignTarget = this.fieldContainer;
+    this.popup.align = 'bottom, left';
+    this.popup.arrow = 'none';
+    this.popup.y = -1;
+    this.popup.type = 'dropdown';
+  }
+
   /**
    * Open the dropdown list
    */
@@ -339,12 +349,7 @@ export default class IdsDropdown extends Base {
     }
 
     // Open the popup and add a class
-    this.popup.alignTarget = this.fieldContainer;
-    this.popup.align = 'bottom, left';
-    this.popup.arrow = 'none';
-    this.popup.y = -1;
     this.popup.visible = true;
-    this.popup.type = 'dropdown';
     this.addOpenEvents();
     this.container.active = true;
     this.setAttribute('aria-expanded', 'true');
