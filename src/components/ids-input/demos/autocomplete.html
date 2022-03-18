@@ -14,7 +14,13 @@
           size="md"
           label="Autocomplete Input"
           autocomplete="true"
-        ></ids-input>
+        >
+          <template slot="autocomplete-template">
+            <ids-list-box-option>
+              ${label}
+            </ids-list-box-option>
+          </template>
+        </ids-input>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>

@@ -1,5 +1,5 @@
 import { attributes } from '../../core/ids-attributes';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { stringToBool, injectTemplate } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsListBox from '../../components/ids-list-box/ids-list-box';
 import IdsListBoxOption from '../../components/ids-list-box/ids-list-box-option';
 import IdsPopup from '../../components/ids-popup/ids-popup';
@@ -15,7 +15,7 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
   get popup() { return this.#popup; }
 
   get popupContent() {
-    return this.popup.container.querySelector('slot[name="content"]') || undefined;
+    return this.popup.container.querySelector('slot[name="content"]');
   }
 
   /**
@@ -42,6 +42,7 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
       return;
     }
 
+    this.#attachTemplateSlot();
     this.#attachPopup();
     this.#attachEventListeners();
   }
@@ -82,12 +83,38 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
     super.rerender?.();
   }
 
+  #attachTemplateSlot() {
+    const slot = document.createElement('slot');
+    slot.setAttribute('name', 'autocomplete-template');
+    this.container.appendChild(slot);
+    this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
+  }
+
+  /**
+   * Item template function that will generate the list box options
+   * TODO: Make this a util
+   * @returns {object} function
+   * @memberof IdsSwapList
+   */
+  itemTemplateFunc() {
+    const func = (item) => this.itemTemplate(item);
+    return func;
+  }
+
+  /**
+   * Return an item's html injecting any values from the dataset as needed.
+   * TODO: Make this a util
+   * @param  {object} item The item to generate
+   * @returns {string} The html for this item
+   */
+  itemTemplate(item) {
+    return injectTemplate(this.defaultTemplate, item);
+  }
+
   #attachPopup() {
     this.popup.type = 'dropdown';
     this.popup.align = 'bottom, left';
     this.popup.alignTarget = this.fieldContainer;
-    this.popup.open = false;
-    this.popup.visible = false;
     this.popup.y = -1;
 
     this.rootNode?.appendChild(this.#popup);
@@ -113,7 +140,7 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
 
   #displayMatches() {
     const resultsArr = this.#findMatches(this.value, this.data);
-    const results = resultsArr.map((res) => `<ids-list-box-option>${res.label}</ids-list-box-option>`).join('');
+    const results = resultsArr.map(this.itemTemplateFunc()).join('');
     this.#openPopup();
     this.#listBox.innerHTML = results;
   }
