@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const popupmenuEl = document.querySelector('ids-popup-menu');
+  const popupmenuEl: any = document.querySelector('ids-popup-menu');
   const popupEl = popupmenuEl.popup;
 
   // Preconfigure the Popup
@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   popupEl.y = 120;
 
   // Log to the console on `selected`
-  popupmenuEl.addEventListener('selected', (e) => {
+  popupmenuEl.addEventListener('selected', (e: any) => {
     console.info(`Item "${e.detail.elem.text}" was selected`);
   });
 

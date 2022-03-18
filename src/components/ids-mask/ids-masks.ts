@@ -38,7 +38,7 @@ export const DEFAULT_NUMBER_MASK_OPTIONS = {
  * @param {string} strNumber incoming string
  * @returns {Array<string|RegExp>} with strings representing character literals and regex patterns
  */
-function convertToMask(strNumber) {
+function convertToMask(strNumber: string) {
   return strNumber
     .split(EMPTY_STRING)
     .map((char) => (DIGITS_REGEX.test(char) ? DIGITS_REGEX : char));
@@ -53,7 +53,7 @@ function convertToMask(strNumber) {
  * @param {object} [localeStringOpts] - settings for `toLocaleString`.
  * @returns {string} the incoming string formatted with a thousands separator.
  */
-function addThousandsSeparator(n, thousands, options = {}, localeStringOpts = {}) { // eslint-disable-line
+function addThousandsSeparator(n: any, thousands: any, options = {}, localeStringOpts = {}) { // eslint-disable-line
   return n;
 
   /*
@@ -87,8 +87,8 @@ function addThousandsSeparator(n, thousands, options = {}, localeStringOpts = {}
  * @param {string} type 'any', 'digits', or 'alphas'
  * @returns {Array<RegExp>} regex representing the part that was passed in.
  */
-function getRegexForPart(part, type) {
-  const types = {
+function getRegexForPart(part: string, type: string) {
+  const types: any = {
     any: ANY_REGEX,
     digits: DIGITS_REGEX,
     alphas: ALPHAS_REGEX
@@ -115,7 +115,7 @@ function getRegexForPart(part, type) {
  * @param {object} options masking options
  * @returns {object} containing a mask that will match a formatted number.
  */
-export function numberMask(rawValue, options) {
+export function numberMask(rawValue: string, options: any) {
   let thisOptions = deepClone(DEFAULT_NUMBER_MASK_OPTIONS);
   thisOptions = Object.assign(thisOptions, options);
 
@@ -282,7 +282,7 @@ const DATE_MAX_VALUES = {
  * @param {string} splitterStr string representing all character literals present in a mask
  * @returns {RegExp} that will match all literal characters
  */
-function getSplitterRegex(splitterStr) {
+function getSplitterRegex(splitterStr: string) {
   const arr = splitterStr.split('');
   const fixedArr = arr.map((c) => {
     if (c === ' ') { // convert space characters into white space matcher
@@ -307,7 +307,7 @@ export function dateMask(rawValue = '', options = {}) {
   let thisOptions = deepClone(DEFAULT_DATETIME_MASK_OPTIONS);
   thisOptions = Object.assign(thisOptions, options);
 
-  let mask = [];
+  let mask:any = [];
   let thisRawValue = rawValue;
   if (typeof rawValue !== 'string') {
     thisRawValue = '';
@@ -320,9 +320,9 @@ export function dateMask(rawValue = '', options = {}) {
   const splitterRegex = getSplitterRegex(splitterStr);
   const formatArray = format.match(/(d{1,2}|M{1,4}|y{1,4}|H{1,2}|h{1,2}|m{1,2}|s{1,2}|a{1}|z{1, 4}|E{1, 4})/g);
   const rawValueArray = thisRawValue.split(splitterRegex);
-  const maxValue = DATE_MAX_VALUES;
+  const maxValue: any = DATE_MAX_VALUES;
 
-  formatArray.forEach((part, i) => {
+  formatArray.forEach((part: string, i: number) => {
     const value = maxValue[part];
     let size;
 
@@ -417,18 +417,18 @@ export function dateMask(rawValue = '', options = {}) {
  * @param {object} options settings for the date pipe function
  * @returns {object} the result of the piping function's changes
  */
-export function autoCorrectedDatePipe(processResult, options) {
+export function autoCorrectedDatePipe(processResult: { conformedValue: string; placeholderChar: any; placeholder: string; }, options: { dateFormat: string; }) {
   options.dateFormat = 'M/d/yyyy'; // Locale.calendar().dateFormat.short;
-  const conformedValueArr = processResult.conformedValue.split('');
-  const indexesOfPipedChars = [];
+  const conformedValueArr: any = processResult.conformedValue.split('');
+  const indexesOfPipedChars: number[] = [];
   const dateFormatArray = options.dateFormat.split(/[^dMy]+/);
-  const maxValue = {
+  const maxValue: any = {
     d: 31,
     M: 12,
     yy: 99,
     yyyy: 9999
   };
-  const minValue = {
+  const minValue: any = {
     d: 1,
     M: 1,
     yy: 0,
@@ -436,7 +436,7 @@ export function autoCorrectedDatePipe(processResult, options) {
   };
 
   // Check first digit
-  dateFormatArray.forEach((format) => {
+  dateFormatArray.forEach((format: any) => {
     const position = options.dateFormat.indexOf(format);
     const maxFirstDigit = parseInt(maxValue[format].toString().substr(0, 1), 10);
 

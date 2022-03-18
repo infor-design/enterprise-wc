@@ -1,1 +1,1 @@
-import IdsTriggerField from '../ids-trigger-field';
+import '../ids-trigger-field';

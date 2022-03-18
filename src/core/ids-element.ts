@@ -178,10 +178,19 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   /**
    * @returns {string} gets the nonce from the meta tag
    */
-  get nonce() {
-    return '892981229';
+   get nonce() {
+    this.cachedNonce = '';
+    const documentElement: any = document;
+    if (!documentElement.nonce) {
+      const csp: any = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
+      if (csp) {
+        let nonce = csp.getAttribute('content').match(/'nonce-(.*?)'/g);
+        nonce = nonce ? nonce[0]?.replace('\'nonce-', '').replace('\'', '') : undefined;
+        documentElement.nonce = nonce;
+      }
+    }
+    return documentElement.nonce;
   }
-
   /**
    * Append Styles if present
    * @private

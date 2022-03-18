@@ -13,7 +13,7 @@ const FOCUS_CAPTURE_EVENTNAME = 'keydown.focus-capture';
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsFocusCaptureMixin = (superclass) => class extends superclass {
+const IdsFocusCaptureMixin = (superclass: any) => class extends superclass {
   constructor() {
     super();
   }
@@ -30,7 +30,7 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
    * @property {Node} hostNode the top-level node responsible for hosting focus.
    * This is normally `document` but can also be another component's Shadow Root.
    */
-  #hostNode = document;
+  #hostNode: any = document;
 
   connectedCallback() {
     super.connectedCallback?.();
@@ -87,7 +87,7 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   #attachFocusEvents() {
-    const keydownEventHandler = (e) => {
+    const keydownEventHandler = (e: any) => {
       const isOnFirst = this.#hostNode.activeElement.isEqualNode(this.firstFocusableElement);
       const isOnLast = this.#hostNode.activeElement.isEqualNode(this.lastFocusableElement);
 
@@ -96,14 +96,14 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
         if (isOnFirst && e.shiftKey) {
           e.preventDefault();
           requestAnimationFrame(() => {
-            const targetElem = this.cyclesFocus ? this.lastFocusableElement : this.firstFocusableElement;
+            const targetElem: any = this.cyclesFocus ? this.lastFocusableElement : this.firstFocusableElement;
             targetElem.focus();
           });
         }
         if (isOnLast && !e.shiftKey) {
           e.preventDefault();
           requestAnimationFrame(() => {
-            const targetElem = this.cyclesFocus ? this.firstFocusableElement : this.lastFocusableElement;
+            const targetElem: any = this.cyclesFocus ? this.firstFocusableElement : this.lastFocusableElement;
             targetElem.focus();
           });
         }
@@ -170,7 +170,7 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
   /**
    * @property {Array<HTMLElement>} focusable reference to all focusable elements on the document
    */
-  #focusableElementsInDocument = [];
+  #focusableElementsInDocument: any = [];
 
   /**
    * @readonly
@@ -189,7 +189,7 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
    * @returns {Array<HTMLElement>} focusable elements inside of this WebComponent's Light DOM
    */
   get focusableElements() {
-    return this.focusableElementsInDocument.filter((i) => this.contains(i));
+    return this.focusableElementsInDocument.filter((i: any) => this.contains(i));
   }
 
   /**
@@ -247,7 +247,7 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
    * @param {number|string} index the desired focusable element index to use
    * @returns {void}
    */
-  setFocus(index = 0) {
+  setFocus(index: number | string = 0) {
     const focusable = this.focusableElements;
     const focusedEl = this.#hostNode.activeElement;
     const focusedIndex = this.focusableElements.indexOf(focusedEl);
@@ -262,7 +262,7 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
       case '': // Leave at 0
         break;
       default: // undefined
-        safeIndex = parseInt(index);
+        safeIndex = typeof index === 'string' ? parseInt(index) : index;
         break;
       }
       requestAnimationFrame(() => {

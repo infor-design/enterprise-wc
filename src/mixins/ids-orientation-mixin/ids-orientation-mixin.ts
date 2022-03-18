@@ -5,7 +5,7 @@ import { stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsOrientationMixin = (superclass) => class extends superclass {
+const IdsOrientationMixin = (superclass: any) => class extends superclass {
   constructor() {
     super();
 
@@ -50,7 +50,7 @@ const IdsOrientationMixin = (superclass) => class extends superclass {
    * @param {string|null} val the name of the orientation to be applied
    */
   set orientation(val) {
-    let safeValue = null;
+    let safeValue: any = null;
     if (typeof val === 'string') {
       safeValue = stripTags(val, '');
     }
@@ -77,7 +77,7 @@ const IdsOrientationMixin = (superclass) => class extends superclass {
    * @param {string} newVariantName the orientation variant name to "add" to the style
    * @returns {void}
    */
-  #refreshOrientation(oldVariantName, newVariantName) {
+  #refreshOrientation(oldVariantName?: string, newVariantName?: string) {
     const cl = this.container.classList;
 
     if (oldVariantName) cl.remove(`orientation-${oldVariantName}`);

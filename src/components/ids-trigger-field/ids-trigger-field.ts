@@ -5,7 +5,7 @@ import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import Base from './ids-trigger-field-base';
 
-import IdsTriggerButton from './ids-trigger-button';
+import './ids-trigger-button';
 
 import styles from './ids-trigger-field.scss';
 
@@ -192,7 +192,7 @@ export default class IdsTriggerField extends Base {
    * Updates trigger buttons when the trigger field's fieldHeight property is updated
    * @param {string} val the new field height setting
    */
-  onFieldHeightChange(val) {
+  onFieldHeightChange(val: string) {
     this.buttons.forEach((btn) => {
       btn.fieldHeight = val;
     });
@@ -203,7 +203,7 @@ export default class IdsTriggerField extends Base {
    */
   trigger() {
     let canTrigger = true;
-    const response = (veto) => {
+    const response = (veto: any) => {
       canTrigger = !!veto;
     };
     this.triggerEvent('beforetriggerclicked', this, { detail: { elem: this, response } });
