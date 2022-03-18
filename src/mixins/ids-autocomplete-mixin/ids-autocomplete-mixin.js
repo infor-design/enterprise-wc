@@ -14,7 +14,7 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
 
   get popup() { return this.#popup; }
 
-  get contentSlot() {
+  get popupContent() {
     return this.popup.container.querySelector('slot[name="content"]') || undefined;
   }
 
@@ -70,6 +70,10 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
     return this?.datasource?.data || [];
   }
 
+  get rootNode() {
+    return this.getRootNode().body.querySelector('ids-container') || window.document.body;
+  }
+
   /**
    * Rerenders the IdsInput component
    * @private
@@ -79,14 +83,25 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
   }
 
   #attachPopup() {
-    this.parentElement.appendChild(this.#popup);
-    this.popup.visible = true;
     this.popup.type = 'dropdown';
-    this.popup.alignTarget = this.fieldContainer;
     this.popup.align = 'bottom, left';
+    this.popup.alignTarget = this.fieldContainer;
+    this.popup.open = false;
+    this.popup.visible = false;
     this.popup.y = -1;
+
+    this.rootNode?.appendChild(this.#popup);
+    this.popupContent.appendChild(this.#listBox);
+  }
+
+  #closePopup() {
+    this.popup.open = false;
+    this.popup.visible = false;
+  }
+
+  #openPopup() {
     this.popup.open = true;
-    this.contentSlot.appendChild(this.#listBox);
+    this.popup.visible = true;
   }
 
   #findMatches(term, data) {
@@ -99,12 +114,14 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
   #displayMatches() {
     const resultsArr = this.#findMatches(this.value, this.data);
     const results = resultsArr.map((res) => `<ids-list-box-option>${res.label}</ids-list-box-option>`).join('');
+    this.#openPopup();
     this.#listBox.innerHTML = results;
   }
 
   #attachEventListeners() {
     this.onEvent('keyup', this, this.#displayMatches);
     this.onEvent('change', this, this.#displayMatches);
+    this.onEvent('blur', this, this.#closePopup);
   }
 };
 
