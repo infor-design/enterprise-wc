@@ -167,6 +167,7 @@
 
       &:focus .day-container {
         @include border-azure-60();
+        @include z-1();
 
         box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
       }
@@ -188,8 +189,8 @@
       }
     }
 
-    &:not(.is-selected):not(.has-legend):hover .day-text,
-    &:not(.is-selected):not(.has-legend):active .day-text {
+    &:not(.is-selected):not(.has-legend):not(.range-selection):hover .day-text,
+    &:not(.is-selected):not(.has-legend):not(.range-selection):active .day-text {
       @include bg-slate-20();
     }
 
@@ -197,6 +198,57 @@
       .day-container::after {
         @include opacity-70();
       }
+    }
+
+    // Range selection
+    &.range-selection:not(:first-of-type),
+    &.range-next:not(:first-of-type),
+    &.range-prev:not(:last-of-type) {
+      @include relative();
+
+      &::before {
+        @include absolute();
+        @include w-full();
+        @include z-0();
+
+        content: '';
+        display: inline-block;
+        height: 38px;
+        top: 0;
+        bottom: 0;
+        margin-top: auto;
+        margin-bottom: auto;
+      }
+    }
+
+    &.range-prev .day-text,
+    &.range-next .day-text,
+    &.range-next:not(:first-of-type)::before,
+    &.range-prev:not(:last-of-type)::before {
+      @include bg-slate-20();
+    }
+
+    &.range-selection:not(:first-of-type)::before,
+    &.range-selection .day-text {
+      @include text-white();
+      @include bg-azure-60();
+    }
+
+    &.range-selection:not(:first-of-type)::before,
+    &.range-next:not(:first-of-type)::before {
+      left: -50%;
+    }
+
+    &.range-prev:not(:last-of-type)::before {
+      left: 50%;
+    }
+
+    &.range-selection .day-text,
+    &.range-prev .day-text,
+    &.range-next .day-text {
+      @include rounded-round();
+
+      transition: none;
     }
   }
 

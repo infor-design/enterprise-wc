@@ -65,6 +65,17 @@ class IdsMonthView extends Base {
 
   #currentLegend = [];
 
+  #rangeSettings = {
+    start: null,
+    end: null,
+    separator: ' - ',
+    minDays: 0,
+    maxDays: 0,
+    selectForward: false,
+    selectBackward: false,
+    includeDisabled: false
+  };
+
   /**
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
@@ -80,7 +91,8 @@ class IdsMonthView extends Base {
       attributes.MONTH,
       attributes.SHOW_TODAY,
       attributes.START_DATE,
-      attributes.YEAR
+      attributes.USE_RANGE,
+      attributes.YEAR,
     ];
   }
 
@@ -126,6 +138,43 @@ class IdsMonthView extends Base {
     this.offEvent('click.month-view-dayselect');
     this.onEvent('click.month-view-dayselect', this.container.querySelector('tbody'), (e) => {
       this.#daySelectClick(e.target.closest('td'));
+    });
+
+    // Range selection event
+    this.offEvent('mouseover.month-view-range');
+    this.onEvent('mouseover.month-view-range', this.container.querySelector('tbody'), (e) => {
+      if (e.target.closest('td') && !this.rangeSettings.end) {
+        const { year, month, day } = e.target.closest('td').dataset;
+        const endRange = new Date(year, month, day);
+        const startRange = new Date(this.year, this.month, this.day);
+        const days = daysDiff(startRange, endRange);
+
+        this.#clearRangeClasses();
+
+        if (days !== 0) {
+          Array.from({ length: Math.abs(days) }).forEach((_, index) => {
+            const rangeDay = days > 0
+              ? addDate(startRange, index + 1, 'days')
+              : subtractDate(startRange, index + 1, 'days');
+            const selectedQuery = [
+              'td',
+              `[data-year="${rangeDay.getFullYear()}"]`,
+              `[data-month="${rangeDay.getMonth()}"]`,
+              `[data-day="${rangeDay.getDate()}"]`
+            ].join('');
+
+            this.container.querySelector(selectedQuery)
+              ?.classList.add(days > 0 ? 'range-next' : 'range-prev');
+          });
+        }
+      }
+    });
+
+    // Clear range when hover outside
+    this.offEvent('mouseleave.month-view-range');
+    this.onEvent('mouseleave.month-view-range', this.container.querySelector('tbody'), (e) => {
+      this.container.querySelectorAll('td')
+        .forEach((item) => item.classList.remove('range-next', 'range-prev'));
     });
 
     return this;
@@ -628,10 +677,55 @@ class IdsMonthView extends Base {
         this.year = year;
       }
 
-      this.#selectDay(year, month, day);
+      this.#setRangeSelection(year, month, day);
       this.focus();
       this.#triggerSelectedEvent();
     }
+  }
+
+  #setRangeSelection(year, month, day) {
+    const dateTime = new Date(year, month, day).getTime();
+
+    // Start is set
+    if (this.rangeSettings.start && !this.rangeSettings.end) {
+      this.rangeSettings.end = dateTime >= this.rangeSettings.start ? dateTime : this.rangeSettings.start;
+      this.rangeSettings.start = dateTime <= this.rangeSettings.start ? dateTime : this.rangeSettings.start;
+
+      this.#renderRangeSelection();
+
+    // Start not set or both not set
+    } else {
+      this.rangeSettings.start = dateTime;
+      this.rangeSettings.end = null;
+
+      this.#clearRangeClasses();
+    }
+  }
+
+  #clearRangeClasses() {
+    this.container.querySelectorAll('td')
+      .forEach((item) => item.classList.remove('range-next', 'range-prev', 'range-selection'));
+  }
+
+  #renderRangeSelection() {
+    const startRange = new Date(this.rangeSettings.start);
+    const endRange = new Date(this.rangeSettings.end);
+    const days = daysDiff(startRange, endRange);
+
+    this.#clearRangeClasses();
+
+    Array.from({ length: days }).forEach((_, index) => {
+      const rangeDay = addDate(startRange, index + 1, 'days');
+      const selectedQuery = [
+        'td',
+        `[data-year="${rangeDay.getFullYear()}"]`,
+        `[data-month="${rangeDay.getMonth()}"]`,
+        `[data-day="${rangeDay.getDate()}"]`
+      ].join('');
+
+      this.container.querySelector(selectedQuery)
+        ?.classList.add('range-selection');
+    });
   }
 
   /**
@@ -774,13 +868,15 @@ class IdsMonthView extends Base {
    * @param {number} day a given day
    */
   #selectDay(year, month, day) {
-    const clearable = this.container.querySelector('td.is-selected');
-
     // Clear before
-    clearable?.removeAttribute('aria-selected');
-    clearable?.removeAttribute('tabindex');
-    clearable?.setAttribute('role', 'link');
-    clearable?.classList.remove('is-selected');
+    if (!this.rangeSettings.start || (this.rangeSettings.start && this.rangeSettings.end)) {
+      this.container.querySelectorAll('td.is-selected')?.forEach((item) => {
+        item?.removeAttribute('aria-selected');
+        item?.removeAttribute('tabindex');
+        item?.setAttribute('role', 'link');
+        item?.classList.remove('is-selected');
+      });
+    }
 
     const selectedQuery = `td[data-year="${year}"][data-month="${month}"][data-day="${day}"]`;
     const selected = this.container.querySelector(selectedQuery);
@@ -1186,6 +1282,33 @@ class IdsMonthView extends Base {
       this.container.classList.add('has-legend');
     } else {
       throw new Error('ids-month-view: Invalid legend data provided');
+    }
+  }
+
+  get rangeSettings() {
+    return this.#rangeSettings;
+  }
+
+  set rangeSettings(val) {
+    this.#rangeSettings = {
+      ...this.#rangeSettings,
+      ...deepClone(val)
+    };
+  }
+
+  get useRange() {
+    const attrVal = this.getAttribute(attributes.USE_RANGE);
+
+    return stringToBool(attrVal);
+  }
+
+  set useRange(val) {
+    const boolVal = stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.USE_RANGE, boolVal);
+    } else {
+      this.removeAttribute(attributes.USE_RANGE);
     }
   }
 }
