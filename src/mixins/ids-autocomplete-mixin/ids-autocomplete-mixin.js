@@ -114,24 +114,6 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
   }
 
-  /**
-   * Item template function that will generate the list box options
-   * @returns {object} function
-   */
-  #itemTemplateFunc() {
-    const func = (item) => this.#itemTemplate(item);
-    return func;
-  }
-
-  /**
-   * Return an item's html injecting any values from the dataset as needed.
-   * @param  {object} item The item to generate
-   * @returns {string} The html for this item
-   */
-  #itemTemplate(item) {
-    return injectTemplate(this.defaultTemplate, item);
-  }
-
   #attachPopup() {
     this.popup.type = 'dropdown';
     this.popup.align = 'bottom, left';
@@ -153,7 +135,7 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
   }
 
   #populateListbox() {
-    this.#listBox.innerHTML = this.data.map(this.#itemTemplateFunc()).join('');
+    this.#listBox.innerHTML = this.data.map((d) => `<ids-list-box-option>${d[this.searchKey]}</ids-list-box-option>`).join('');
   }
 
   #findMatches(value, list) {
