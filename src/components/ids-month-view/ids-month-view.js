@@ -68,7 +68,6 @@ class IdsMonthView extends Base {
   #rangeSettings = {
     start: null,
     end: null,
-    separator: ' - ',
     minDays: 0,
     maxDays: 0,
     selectForward: false,
@@ -143,7 +142,13 @@ class IdsMonthView extends Base {
     // Range selection event
     this.offEvent('mouseover.month-view-range');
     this.onEvent('mouseover.month-view-range', this.container.querySelector('tbody'), (e) => {
-      this.#rangeHover(e.target.closest('td'));
+      const element = e.target.closest('td');
+
+      if (!element) return;
+
+      const { year, month, day } = element.dataset;
+
+      this.#rangePropagation(year, month, day);
     });
 
     // Clear range when hover outside
@@ -176,6 +181,54 @@ class IdsMonthView extends Base {
           e.stopPropagation();
           e.stopImmediatePropagation();
           e.preventDefault();
+        }
+
+        // When range selection is started
+        if (this.useRange) {
+          if (this.rangeSettings.start) {
+          // Escape resets range selection if started
+            if (key === 27) {
+              this.rangeSettings.start = null;
+              this.#clearRangeClasses();
+              this.#selectDay(this.year, this.month, this.day);
+              this.focus();
+            }
+
+            // Arrow Up includes range start and same day previous week
+            if (key === 38) {
+              this.#changeDate('previous-week', true);
+              this.#rangePropagation(this.year, this.month, this.day);
+            }
+
+            // Arrow Down includes range start and same day next week
+            if (key === 40) {
+              this.#changeDate('next-week', true);
+              this.#rangePropagation(this.year, this.month, this.day);
+            }
+
+            // Arrow Right or + key includes next day to range selection
+            if (key === 39 || (key === 187 && e.shiftKey)) {
+              this.#changeDate('next-day', true);
+              this.#rangePropagation(this.year, this.month, this.day);
+            }
+
+            // Arrow Left or - key includes previous day to range selection
+            if (key === 37 || (key === 189 && !e.shiftKey)) {
+              this.#changeDate('previous-day', true);
+              this.#rangePropagation(this.year, this.month, this.day);
+            }
+
+            // Enter or space key complete the range selection
+            if (key === 13 || key === 32) {
+              this.#setRangeSelection(this.year, this.month, this.day);
+              this.#triggerSelectedEvent();
+            }
+          } else if (key === 13 || key === 32) {
+            this.#setRangeSelection(this.year, this.month, this.day);
+            this.focus();
+          }
+
+          return;
         }
 
         // Arrow Up selects same day previous week
@@ -451,8 +504,9 @@ class IdsMonthView extends Base {
   /**
    * Change month/year/day by event type
    * @param {string} type of event to be called
+   * @param {boolean} limitMonth date changing is limited only to the current month
    */
-  #changeDate(type) {
+  #changeDate(type, limitMonth = false) {
     if (type === 'next-month') {
       if (this.locale?.isIslamic()) {
         const umalqura = gregorianToUmalqura(this.activeDate);
@@ -490,6 +544,8 @@ class IdsMonthView extends Base {
     if (type === 'next-day') {
       const lastDayOfMonth = lastDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
 
+      if (lastDayOfMonth.getDate() === this.day && limitMonth) return;
+
       if (this.locale?.isIslamic()) {
         const nextDate = addDate(this.activeDate, 1, 'days');
 
@@ -515,6 +571,8 @@ class IdsMonthView extends Base {
 
     if (type === 'previous-day') {
       const firstDayOfMonth = firstDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
+
+      if (firstDayOfMonth.getDate() === this.day && limitMonth) return;
 
       if (this.locale?.isIslamic()) {
         const prevDate = subtractDate(this.activeDate, 1, 'days');
@@ -587,6 +645,8 @@ class IdsMonthView extends Base {
       const nextWeek = addDate(this.activeDate, WEEK_LENGTH, 'days');
       const lastDayOfMonth = lastDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
 
+      if (nextWeek > lastDayOfMonth && limitMonth) return;
+
       this.day = nextWeek.getDate();
 
       if (nextWeek > lastDayOfMonth || this.locale?.isIslamic()) {
@@ -598,6 +658,8 @@ class IdsMonthView extends Base {
     if (type === 'previous-week') {
       const prevWeek = subtractDate(this.activeDate, WEEK_LENGTH, 'days');
       const firstDayOfMonth = firstDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
+
+      if (prevWeek < firstDayOfMonth && limitMonth) return;
 
       this.day = prevWeek.getDate();
 
@@ -691,6 +753,7 @@ class IdsMonthView extends Base {
   }
 
   #renderRangeSelection() {
+    if (!this.useRange) return;
     const startRange = new Date(this.rangeSettings.start);
     const endRange = new Date(this.rangeSettings.end);
     const days = this.rangeSettings.end ? daysDiff(startRange, endRange) : 0;
@@ -725,11 +788,10 @@ class IdsMonthView extends Base {
       && date.getTime() <= endRange.getTime();
   }
 
-  #rangeHover(element) {
-    if (!element || !this.useRange) return;
+  #rangePropagation(year, month, day) {
+    if (!this.useRange) return;
 
     if (this.rangeSettings.start && !(this.rangeSettings.end && this.rangeSettings.start)) {
-      const { year, month, day } = element.dataset;
       const startRange = new Date(this.rangeSettings.start);
       const endRange = new Date(year, month, day);
       const days = daysDiff(startRange, endRange);
@@ -800,21 +862,23 @@ class IdsMonthView extends Base {
       const day = date.getDate();
       const month = date.getMonth();
       const year = date.getFullYear();
-      const isSelected = (this.useRange && !this.rangeSettings.start)
-        && (day === this.day && year === this.year && month === this.month);
-      const isDisabled = this.#isRange() && (date < this.startDate || date > this.endDate);
-      const isAlternate = !this.#isRange() && (date < firstDayOfRange || date > lastDayOfRange);
+      const dateMatch = day === this.day && year === this.year && month === this.month;
+      const isSelected = !this.useRange && dateMatch;
+      const isSelectedWithRange = this.useRange && !this.rangeSettings.start && dateMatch;
+      const isDisabled = this.#isDisplayRange() && (date < this.startDate || date > this.endDate);
+      const isAlternate = !this.#isDisplayRange() && (date < firstDayOfRange || date > lastDayOfRange);
       const legend = this.#getLegendByDate(date);
       const isRangeSelection = this.#isRangeByDate(date);
       const classAttr = buildClassAttrib(
         isAlternate && 'alternate',
         legend && 'has-legend',
         isDisabled && 'is-disabled',
-        isSelected && 'is-selected',
+        (isSelected || isSelectedWithRange) && 'is-selected',
         monthFormat && 'month-label',
         isRangeSelection && 'range-selection'
       );
-      const selectedAttr = isSelected ? 'aria-selected="true" tabindex="0" role="gridcell"' : 'role="link"';
+      const selectedAttr = isSelected || isSelectedWithRange
+        ? 'aria-selected="true" tabindex="0" role="gridcell"' : 'role="link"';
       const dataAttr = [`data-year="${year}"`, `data-month="${month}"`, `data-day="${day}"`].join(' ');
       const colorAttr = legend ? `data-color="${legend.color}"` : '';
 
