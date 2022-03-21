@@ -884,11 +884,18 @@ class IdsMonthView extends Base {
     const args = {
       detail: {
         elem: this,
-        date: this.activeDate
+        date: this.activeDate,
+        useRange: this.useRange,
+        rangeStart: new Date(this.rangeSettings.start),
+        rangeEnd: new Date(this.rangeSettings.end)
       }
     };
 
-    this.triggerEvent('dayselected', this, args);
+    // Fires on any day selected in regular mode and
+    // only when start/end of range is set in range mode
+    if (!this.useRange || (this.rangeSettings.start && this.rangeSettings.end)) {
+      this.triggerEvent('dayselected', this, args);
+    }
   }
 
   /**
