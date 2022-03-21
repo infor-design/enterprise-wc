@@ -165,7 +165,7 @@ class IdsMonthView extends Base {
     const keys = [33, 34, 35, 36, 37, 38, 39, 40, 187, 189];
 
     // Range calendar doesn't have keyboard shortcuts
-    if (this.#isRange()) {
+    if (this.#isDisplayRange()) {
       this.offEvent('keydown.month-view-keyboard');
     } else {
       this.offEvent('keydown.month-view-keyboard');
@@ -251,7 +251,7 @@ class IdsMonthView extends Base {
    * Add/Remove toolbar HTML to container
    */
   #renderToolbar() {
-    if (this.#isRange()) {
+    if (this.#isDisplayRange()) {
       this.container.querySelector('ids-toolbar')?.remove();
       this.#detachToolbarEvents();
 
@@ -438,7 +438,7 @@ class IdsMonthView extends Base {
     const text = this.#formatMonthText();
     const datepicker = this.container.querySelector('ids-date-picker');
 
-    if (!this.#isRange() && datepicker) {
+    if (!this.#isDisplayRange() && datepicker) {
       datepicker.value = text;
       datepicker.month = this.month;
       datepicker.year = this.year;
@@ -767,7 +767,7 @@ class IdsMonthView extends Base {
       ? gregorianToUmalqura(date).day === 1
       : date.getDate() === 1;
 
-    if (this.#isRange() && (isFirstDayOfRange || isFirstDayOfMonth)) {
+    if (this.#isDisplayRange() && (isFirstDayOfRange || isFirstDayOfMonth)) {
       return 'short';
     }
 
@@ -780,10 +780,10 @@ class IdsMonthView extends Base {
    * @returns {string} table cell HTML template
    */
   #getCellTemplate(weekIndex) {
-    const firstDayOfRange = this.#isRange()
+    const firstDayOfRange = this.#isDisplayRange()
       ? this.startDate
       : firstDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
-    const lastDayOfRange = this.#isRange()
+    const lastDayOfRange = this.#isDisplayRange()
       ? this.endDate
       : lastDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
     const rangeStartsOn = firstDayOfWeekDate(firstDayOfRange, this.firstDayOfWeek);
@@ -861,7 +861,7 @@ class IdsMonthView extends Base {
    * Add month HTML to the table
    */
   #renderMonth() {
-    const weeksCount = this.#isRange()
+    const weeksCount = this.#isDisplayRange()
       ? weeksInRange(this.startDate, this.endDate, this.firstDayOfWeek)
       : weeksInMonth(this.year, this.month, this.day, this.firstDayOfWeek, this.locale?.isIslamic());
 
@@ -926,7 +926,7 @@ class IdsMonthView extends Base {
    * Whether or not it should show range of dates instead of one month view
    * @returns {boolean} startDate and endDate are set
    */
-  #isRange() {
+  #isDisplayRange() {
     return this.startDate && this.endDate && this.endDate >= this.startDate;
   }
 
@@ -1044,7 +1044,7 @@ class IdsMonthView extends Base {
     }
 
     // Month change in range calendar doesn't trigger a rerender, just selects a day
-    if (this.#isRange()) {
+    if (this.#isDisplayRange()) {
       this.#selectDay(this.year, this.month, this.day);
     } else {
       this.#renderMonth();
@@ -1083,7 +1083,7 @@ class IdsMonthView extends Base {
     }
 
     // Year change in range calendar doesn't trigger a rerender, just selects a day
-    if (this.#isRange()) {
+    if (this.#isDisplayRange()) {
       this.#selectDay(this.year, this.month, this.day);
     } else {
       this.#renderMonth();
@@ -1126,7 +1126,7 @@ class IdsMonthView extends Base {
       this.#selectDay(this.year, this.month, validates ? numberVal : this.day);
     }
 
-    if (!this.#isRange()) {
+    if (!this.#isDisplayRange()) {
       this.#attachDatepicker();
     }
   }
