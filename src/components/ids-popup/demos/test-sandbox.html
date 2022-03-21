@@ -4,125 +4,85 @@
   <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 <body>
+  <ids-container id="test-ids-container" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
 
-  <div id="test-container">
-    <p>Test Container</p>
-  </div>
-
-  <section id="other-test-section">
-    <span class="align-target" id="second-target">Secondary Target</span>
-  </section>
-
-  <section id="another-test-section">
-    <span class="align-target" id="third-target">Third Target</span>
-  </section>
-
-  <section id="test-section">
-    <span class="align-target" id="center-point">Center Point</span>
-  </section>
-
-  <ids-popup id="test-popup" x="0" y="0" align-target="#center-point" align="bottom" animated="true" visible="true" type="menu">
-    <div slot="content">
-      <div class="demo-popup">
-        My Popup Contents<br />
-        are two lines big
-      </div>
+    <div id="test-container">
+      <ids-text font-size="12">Test Container</ids-text>
     </div>
-  </ids-popup>
 
-  <section id="test-controls" class="fixed-bottom">
-    <ids-layout-grid auto="true">
-      <ids-layout-grid-cell>
-        <fieldset id="align-targets" class="radio-group">
-          <legend>Alignment Targets:</legend>
-          <input type="radio" class="radio" name="align-targets" id="align-targets-option1" value="" />
-          <label for="align-targets-option1" class="radio-label">None (Use Coordinates)</label>
-          <br/>
-          <input type="radio" class="radio" name="align-targets" id="align-targets-option2" value="#center-point" checked="true" />
-          <label for="align-targets-option2" class="radio-label">`#center-point`</label>
-          <br/>
-          <input type="radio" class="radio" name="align-targets" id="align-targets-option3" value="#second-target" />
-          <label for="align-targets-option3" class="radio-label">`#second-target`</label>
-          <br/>
-          <input type="radio" class="radio" name="align-targets" id="align-targets-option4" value="#third-target" />
-          <label for="align-targets-option4" class="radio-label">`#third-target`</label>
-        </fieldset>
-        <fieldset id="containment" class="radio-group">
-          <legend>Containment:</legend>
-          <input type="radio" class="radio" name="containment" id="containment-option1" value="" checked="true" />
-          <label for="containment-option1" class="radio-label">Body (default)</label>
-          <br />
-          <input type="radio" class="radio" name="containment" id="containment-option2" value="ids-container"/>
-          <label for="containment-option2" class="radio-label">Ids Container</label>
-          <br />
-          <input type="radio" class="radio" name="containment" id="containment-option3" value="test-container" />
-          <label for="containment-option3" class="radio-label">Test Container</label>
-          <br />
-        </fieldset>
-      </ids-layout-grid-cell>
-      <ids-layout-grid-cell>
-        <fieldset id="alignment">
-          <legend>Alignment</legend>
-          <ids-text id="alignment-display" font-size="14">Edge order: "center, bottom"</ids-text>
+    <section id="other-test-section">
+      <ids-text font-size="12" class="align-target" id="second-target">Secondary Target</ids-text>
+    </section>
+
+    <section id="another-test-section">
+      <ids-text font-size="12" class="align-target" id="test-container-target">Test Container Target</ids-text>
+    </section>
+
+    <section id="test-section">
+      <ids-text font-size="12" class="align-target" id="center-point">Center Point</ids-text>
+    </section>
+
+    <ids-popup id="test-popup" x="0" y="0" align-target="#center-point" align="bottom" animated="true" visible="true" type="menu">
+      <div slot="content">
+        <div class="demo-popup">
+          <ids-text font-size="14" font-weight="bold">My Test Popup</ids-text>
+          <ids-button type="primary">This is Focusable</ids-button>
+        </div>
+      </div>
+    </ids-popup>
+
+    <section id="test-controls" class="fixed-bottom">
+      <ids-layout-grid auto="true">
+        <ids-layout-grid-cell>
+          <ids-radio-group id="align-targets" label="Alignment Targets:">
+            <ids-radio value="none" id="align-targets-option1" label="None (Use Coordinates)"></ids-radio>
+            <ids-radio value="#center-point" id="align-targets-option2" label="Center Point" checked="true"></ids-radio>
+            <ids-radio value="#second-target" id="align-targets-option3" label="Secondary Target"></ids-radio>
+            <ids-radio value="#test-container-target" id="align-targets-option4" label="Test Container Target"></ids-radio>
+          </ids-radio-group>
+          <ids-radio-group id="containment" label="Containment:">
+            <ids-radio value="none" id="containment-option1" label="Body Tag (default)" checked="true"></ids-radio>
+            <ids-radio value="ids-container" id="containment-option2" label="IdsContainer"></ids-radio>
+            <ids-radio value="test-container" id="containment-option3" label="Test Container"></ids-radio>
+          </ids-radio-group>
+        </ids-layout-grid-cell>
+
+        <ids-layout-grid-cell>
+          <ids-text>Alignment Edge Order: <span id="alignment-display">"center, bottom"</span></ids-text>
           <ids-layout-grid auto="true">
             <ids-layout-grid-cell>
-              <div id="x-alignments" class="radio-group">
-                <ids-text font-size="10">X Alignment</ids-text>
-                <input type="radio" class="radio" name="x-alignments" id="x-alignments-option1" value="left"/>
-                <label for="x-alignments-option1" class="radio-label">Left</label>
-                <br/>
-                <input type="radio" class="radio" name="x-alignments" id="x-alignments-option2" value="center" checked="true"/>
-                <label for="x-alignments-option2" class="radio-label">Center</label>
-                <br/>
-                <input type="radio" class="radio" name="x-alignments" id="x-alignments-option3" value="right" />
-                <label for="x-alignments-option3" class="radio-label">Right</label>
-              </div>
+              <ids-radio-group id="x-alignments" label="X Alignment:">
+                <ids-radio value="left" id="x-alignments-option1" label="Left"></ids-radio>
+                <ids-radio value="center" id="x-alignments-option2" label="Center" checked="true"></ids-radio>
+                <ids-radio value="right" id="x-alignments-option3" label="Right"></ids-radio>
+              </ids-radio-group>
             </ids-layout-grid-cell>
             <ids-layout-grid-cell>
-              <div id="y-alignments" class="radio-group">
-                <ids-text font-size="10">Y Alignment</ids-text>
-                <input type="radio" class="radio" name="y-alignments" id="y-alignments-option1" value="top"/>
-                <label for="y-alignments-option1" class="radio-label">Top</label>
-                <br/>
-                <input type="radio" class="radio" name="y-alignments" id="y-alignments-option2" value="center"/>
-                <label for="y-alignments-option2" class="radio-label">Center</label>
-                <br/>
-                <input type="radio" class="radio" name="y-alignments" id="y-alignments-option3" value="bottom" checked="true"/>
-                <label for="y-alignments-option3" class="radio-label">Bottom</label>
-              </div>
+              <ids-radio-group id="y-alignments" label="Y Alignment:">
+                <ids-radio value="top" id="y-alignments-option1" label="Top"></ids-radio>
+                <ids-radio value="center" id="y-alignments-option2" label="Center"></ids-radio>
+                <ids-radio value="bottom" id="y-alignments-option3" label="Bottom" checked="true"></ids-radio>
+              </ids-radio-group>
             </ids-layout-grid-cell>
           </ids-layout-grid>
-        </fieldset>
 
-      </ids-layout-grid-cell>
-      <ids-layout-grid-cell>
-        <fieldset id="xy-controls" class="radio-group">
-          <legend>Offsets</legend>
-          <label for="x-control">X: </label>
-          <input class="ids-input" id="x-control" value="0" />
-          <br />
-          <label for="y-control">Y: </label>
-          <input class="ids-input" id="y-control" value="0" />
-          <br />
-          <input type="checkbox" class="checkbox" name="xy-click-to-set" id="xy-click-to-set-option" checked="true" disabled/>
-          <label for="xy-click-to-set-option" class="radio-label">Click page to set coords</label>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell>
+          <ids-text id="xy-controls">Offsets</ids-text><br />
+          <ids-input id="x-control" value="0" label="X:" compact></ids-input>
+          <ids-input id="y-control" value="0" label="Y:" compact></ids-input>
+          <ids-checkbox id="xy-click-to-set-option" label="Click page to set coords" checked="true" disabled></ids-checkbox>
           <ids-button type="secondary" id="xy-controls-reset">Reset</ids-button>
-        </fieldset>
-      </ids-layout-grid-cell>
-      <ids-layout-grid-cell>
-        <fieldset id="other-controls" class="radio-group">
-          <legend>Other</legend>
-          <input type="checkbox" class="checkbox" name="animated" id="animated-option" checked="true" />
-          <label for="animated-option" class="checkbox-label">Animated</label>
-          <br />
-          <input type="checkbox" class="checkbox" name="visible" id="visible-option" checked="true"/>
-          <label for="visible-option" class="checkbox-label">Visible</label>
-          <br />
-          <input type="checkbox" class="checkbox" name="bleeds" id="bleeds-option" />
-          <label for="bleeds-option" class="checkbox-label">Allow Bleeds</label>
-        </fieldset>
-      </ids-layout-grid-cell>
-    </ids-layout-grid>
-  </section>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell>
+          <ids-text id="other-controls">Other</ids-text><br />
+          <ids-checkbox id="animated-option" label="Animated" checked="true"></ids-checkbox>
+          <ids-checkbox id="visible-option" label="Visible" checked="true"></ids-checkbox>
+          <ids-checkbox id="bleeds-option" label="Allow Bleeds"></ids-checkbox>
+        </ids-layout-grid-cell>
+      </ids-layout-grid>
+    </section>
+  </ids-container>
 </body>
 </html>

@@ -1,5 +1,8 @@
 import IdsPopup from '../ids-popup';
 import IdsButton from '../../ids-button/ids-button';
+import IdsCheckbox from '../../ids-checkbox/ids-checkbox';
+import IdsFieldSet from '../../ids-fieldset/ids-fieldset';
+import IdsRadio from '../../ids-radio/ids-radio';
 import IdsInput from '../../ids-input/ids-input';
 import css from '../../../assets/css/ids-popup/test-sandbox.css';
 
@@ -17,11 +20,12 @@ let alignmentDisplayEl;
  * @param {Event} e the change event object
  */
 function targetChangeHandler(e) {
-  popupEl.alignTarget = e.target.value;
-  if (!e.target.value) {
+  if (e.target.value === 'none') {
+    popupEl.alignTarget = null;
     xyControlFieldsetLabelEl.textContent = 'Coordinates';
     xyClickToSetEl.disabled = false;
   } else {
+    popupEl.alignTarget = e.target.value;
     xyControlFieldsetLabelEl.textContent = 'Offsets';
     xyClickToSetEl.disabled = true;
   }
@@ -50,13 +54,11 @@ function containmentChangeHandler(e) {
  * @param {Event} e the change event object
  */
 function xAlignChangeHandler(e) {
-  const currentVal = popupEl.alignX;
   const newVal = e.target.value;
-
-  if (currentVal !== newVal) {
-    popupEl.alignX = newVal;
-  } else {
+  if (newVal !== 'center' && newVal !== popupEl.alignEdge) {
     popupEl.alignEdge = newVal;
+  } else {
+    popupEl.alignX = newVal;
   }
 }
 
@@ -64,35 +66,19 @@ function xAlignChangeHandler(e) {
  * @param {Event} e the change event object
  */
 function yAlignChangeHandler(e) {
-  const currentVal = popupEl.alignY;
   const newVal = e.target.value;
-
-  if (currentVal !== newVal) {
-    popupEl.alignY = newVal;
-  } else {
+  if (newVal !== 'center' && newVal !== popupEl.alignEdge) {
     popupEl.alignEdge = newVal;
+  } else {
+    popupEl.alignY = newVal;
   }
-}
-
-/**
- * @param {Event} e the change event object
- */
-function xPosChangeHandler(e) {
-  popupEl.setPosition(e.target.value, null, null, true);
-}
-
-/**
- * @param {Event} e the change event object
- */
-function yPosChangeHandler(e) {
-  popupEl.setPosition(null, e.target.value, null, true);
 }
 
 /**
  */
 function xyResetHandler() {
-  xControlEl.value = 0;
-  yControlEl.value = 0;
+  xControlEl.value = '0';
+  yControlEl.value = '0';
   popupEl.setPosition(0, 0, null, true);
 }
 
@@ -121,13 +107,13 @@ function bleedsChangeHandler(e) {
 // that can be modified by changing the attribute (tests the MutationObserver/ResizeObserver)
 document.addEventListener('DOMContentLoaded', () => {
   popupEl = document.querySelector('#test-popup');
-  xyControlFieldsetLabelEl = document.querySelector('#xy-controls legend');
+  xyControlFieldsetLabelEl = document.querySelector('#xy-controls');
   xyClickToSetEl = document.querySelector('#xy-click-to-set-option');
   alignmentDisplayEl = document.querySelector('#alignment-display');
 
   // const centerTargetEl = document.querySelector('#center-point');
   const secondTargetEl = document.querySelector('#second-target');
-  const thirdTargetEl = document.querySelector('#third-target');
+  const thirdTargetEl = document.querySelector('#test-container-target');
 
   // This one is centered on the page, but needs a 100px top margin to shift it around
   // centerTargetEl.style.marginTop = '';
@@ -139,47 +125,39 @@ document.addEventListener('DOMContentLoaded', () => {
   // This one is aligned 300px from the top and left viewport edges,
   // as well as allows the size to be controlled (tests some other math)
   thirdTargetEl.style.top = '300px';
-  thirdTargetEl.style.left = '300px';
+  thirdTargetEl.style.left = '350px';
   thirdTargetEl.style.height = '50px';
-  thirdTargetEl.style.width = '50px';
+  thirdTargetEl.style.width = '60px';
+
+  const posChangeHandler = () => {
+    popupEl.setPosition(xControlEl.value, yControlEl.value, null, true);
+  };
 
   // Setup X/Y coordinates/offsets controls
   xControlEl = document.querySelector('#x-control');
-  xControlEl.addEventListener('change', xPosChangeHandler);
+  xControlEl.addEventListener('change', posChangeHandler);
 
   yControlEl = document.querySelector('#y-control');
-  yControlEl.addEventListener('change', yPosChangeHandler);
+  yControlEl.addEventListener('change', posChangeHandler);
 
   const xyResetEl = document.querySelector('#xy-controls-reset');
   xyResetEl.addEventListener('click', xyResetHandler);
 
   // Setup align-target controls
   const alignTargetGroupEl = document.querySelector('#align-targets');
-  const targetRadioEls = alignTargetGroupEl.querySelectorAll('input[type="radio"]');
-  targetRadioEls.forEach((radioEl) => {
-    radioEl.addEventListener('change', targetChangeHandler);
-  });
+  alignTargetGroupEl.addEventListener('change', targetChangeHandler);
 
   // Setup containment controls
   const containmentGroupEl = document.querySelector('#containment');
-  const containmentRadioEls = containmentGroupEl.querySelectorAll('input[type="radio"]');
-  containmentRadioEls.forEach((radioEl) => {
-    radioEl.addEventListener('change', containmentChangeHandler);
-  });
+  containmentGroupEl.addEventListener('change', containmentChangeHandler);
 
   // Setup x-alignment controls
   const xAlignGroupEl = document.querySelector('#x-alignments');
-  const xAlignRadioEls = xAlignGroupEl.querySelectorAll('input[type="radio"]');
-  xAlignRadioEls.forEach((radioEl) => {
-    radioEl.addEventListener('click', xAlignChangeHandler);
-  });
+  xAlignGroupEl.addEventListener('click', xAlignChangeHandler);
 
   // Setup y-alignment controls
   const yAlignGroupEl = document.querySelector('#y-alignments');
-  const yAlignRadioEls = yAlignGroupEl.querySelectorAll('input[type="radio"]');
-  yAlignRadioEls.forEach((radioEl) => {
-    radioEl.addEventListener('click', yAlignChangeHandler);
-  });
+  yAlignGroupEl.addEventListener('click', yAlignChangeHandler);
 
   // Setup toggles
   const animatedControlEl = document.querySelector('#animated-option');
@@ -199,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (changedOnce || mutation.type !== 'attributes') {
         return;
       }
-      alignmentDisplayEl.textContent = `Edge order: "${popupEl.align}"`;
+      alignmentDisplayEl.textContent = `"${popupEl.align}"`;
       changedOnce = true;
     });
   });
@@ -218,14 +196,22 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      const withinFieldset = e.target.closest('fieldset');
+      const withinFieldset = e.target.closest('ids-radio-group');
       if (withinFieldset) {
         return;
       }
 
-      xControlEl.value = e.clientX;
-      yControlEl.value = e.clientY;
+      xControlEl.value = `${e.clientX}`;
+      yControlEl.value = `${e.clientY}`;
       popupEl.setPosition(e.clientX, e.clientY, null, true);
     });
+  });
+
+  // After all things on the page are done setting up,
+  // set the initial position of IdsPopup based on form control values.
+  requestAnimationFrame(() => {
+    popupEl.alignTarget = alignTargetGroupEl.value === 'none' ? null : alignTargetGroupEl.value;
+    popupEl.align = `${yAlignGroupEl.value}, ${xAlignGroupEl.value}`;
+    popupEl.setPosition(xControlEl.value, yControlEl.value, null, true);
   });
 });
