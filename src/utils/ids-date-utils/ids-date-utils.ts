@@ -6,7 +6,7 @@ import { stringToNumber } from '../ids-string-utils/ids-string-utils';
  * @param {Date} date The date to check.
  * @returns {boolean} Returns true or false if the compared date is today.
  */
-export function isTodaysDate(date) {
+export function isTodaysDate(date: Date) {
   const today = new Date();
   return (
     date.getDate() === today.getDate()
@@ -22,7 +22,7 @@ export function isTodaysDate(date) {
  * @param {boolean} showRange If calendar is showing range view, day of the week should not be counted backwards
  * @returns {Date} Returns first day of the week date.
  */
-export function firstDayOfWeekDate(date, startsOn = 0, showRange = false) {
+export function firstDayOfWeekDate(date: Date, startsOn = 0, showRange = false): Date {
   const dayOfWeek = date.getDay();
   const firstDay = new Date(date);
   const diff = dayOfWeek >= startsOn || showRange ? dayOfWeek - startsOn : 6 - dayOfWeek;
@@ -39,7 +39,7 @@ export function firstDayOfWeekDate(date, startsOn = 0, showRange = false) {
  * @param {number} startsOn Day of the week to start on. Sunday is 0, Monday is 1, and so on.
  * @returns {Date} Returns last day of the week date.
  */
-export function lastDayOfWeekDate(date, startsOn = 0) {
+export function lastDayOfWeekDate(date: Date, startsOn = 0): Date {
   const lastDay = firstDayOfWeekDate(date, startsOn);
   lastDay.setDate(lastDay.getDate() + 6);
   lastDay.setHours(23, 59, 59, 999);
@@ -54,7 +54,7 @@ export function lastDayOfWeekDate(date, startsOn = 0) {
  * @param {boolean} useHours The different in hours if true, otherways days.
  * @returns {number} The difference between the two dates.
  */
-export function dateDiff(first, second, useHours) {
+export function dateDiff(first: any, second: any, useHours: boolean): number {
   // Take the difference between the dates and divide by milliseconds per day.
   // Round to nearest whole number to deal with DST.
   const dtoday = new Date();
@@ -69,7 +69,7 @@ export function dateDiff(first, second, useHours) {
  * @param {Date} second The second date.
  * @returns {number} The difference between the two dates.
  */
-export function monthDiff(first, second) {
+export function monthDiff(first: Date, second: Date): number {
   let months;
 
   months = (second.getFullYear() - first.getFullYear()) * 12;
@@ -85,7 +85,7 @@ export function monthDiff(first, second) {
  * @param {Date} endDate the end of the interval
  * @returns {number} number of days
  */
-export function daysDiff(startDate, endDate) {
+export function daysDiff(startDate: any, endDate: any): number {
   return Math.round((endDate - startDate) / (1000 * 60 * 60 * 24));
 }
 
@@ -96,7 +96,7 @@ export function daysDiff(startDate, endDate) {
  * @param {string} unit days
  * @returns {Date} new date after addition.
  */
-export function addDate(date, number, unit) {
+export function addDate(date: Date, number: number, unit: string): any {
   let newDate = null;
   const originalDate = date instanceof Date ? new Date(date.toISOString()) : new Date(date);
   switch (unit) {
@@ -116,7 +116,7 @@ export function addDate(date, number, unit) {
  * @param {string} unit days
  * @returns {Date} new date after subtraction.
  */
-export function subtractDate(date, number, unit) {
+export function subtractDate(date: Date, number: number, unit: string): any {
   let newDate = null;
   const originalDate = date instanceof Date ? new Date(date.toISOString()) : new Date(date);
   switch (unit) {
@@ -134,7 +134,7 @@ export function subtractDate(date, number, unit) {
  * @param {Date} date original date.
  * @returns {boolean} true if given date is using daylight saving time, false otherwise.
  */
-export function isDaylightSavingTime(date) {
+export function isDaylightSavingTime(date: Date) {
   const jan = new Date(date.getFullYear(), 0, 1).getTimezoneOffset();
   const jul = new Date(date.getFullYear(), 6, 1).getTimezoneOffset();
   return Math.max(jan, jul) !== date.getTimezoneOffset();
@@ -145,7 +145,7 @@ export function isDaylightSavingTime(date) {
  * @param {Date} date date to check.
  * @returns {boolean} true if valid, false otherwise.
  */
-export function isValidDate(date) {
+export function isValidDate(date: Date) {
   return date instanceof Date && !Number.isNaN(date);
 }
 
@@ -160,9 +160,9 @@ export function isValidDate(date) {
  * @param {number} mills milliseconds
  * @returns {Date} Gregorian calendar date
  */
-export function umalquraToGregorian(year, month, day, hours = 0, mins = 0, secs = 0, mills = 0) {
+export function umalquraToGregorian(year: number, month: number, day: number, hours = 0, mins = 0, secs = 0, mills = 0) {
   // Modified version of Amro Osama's code. From at https://github.com/kbwood/calendars/blob/master/src/js/jquery.calendars.ummalqura.js
-  const getJd = (y, m, d) => {
+  const getJd = (y: number, m: number, d: number) => {
     const index = (12 * (y - 1)) + m - 15292;
     const mcjdn = d + ummalquraData[index - 1] - 1;
 
@@ -170,7 +170,7 @@ export function umalquraToGregorian(year, month, day, hours = 0, mins = 0, secs 
   };
   const jd = getJd(year, month + 1, day);
 
-  const julianToGregorian = (julianDate) => {
+  const julianToGregorian = (julianDate: number) => {
     const z = Math.floor(julianDate + 0.5);
     let a = Math.floor((z - 1867216.25) / 36524.25);
     a = z + 1 + a - Math.floor(a / 4);
@@ -204,8 +204,8 @@ export function umalquraToGregorian(year, month, day, hours = 0, mins = 0, secs 
  * @param {Date} date Gregorian calendar date
  * @returns {object} Umm al-Qura calendar year, month, day
  */
-export function gregorianToUmalqura(date) {
-  const umalquraParts = new Intl.DateTimeFormat('en-US', { calendar: 'islamic-umalqura' })
+export function gregorianToUmalqura(date: Date): any {
+  const umalquraParts: any = new Intl.DateTimeFormat('en-US', { calendar: 'islamic-umalqura' })
     // set a current date if argument is not valid
     .formatToParts(isValidDate(date) ? date : new Date())
     .reduce((acc, item) => ({ ...acc, [item.type]: stringToNumber(item.value) }), {});
@@ -225,7 +225,7 @@ export function gregorianToUmalqura(date) {
  * @param {boolean} isIslamic if set to true the calculation is based on the Umm al-Qura Calendar
  * @returns {Date} Gregorian calendar date
  */
-export function firstDayOfMonthDate(year, month, day, isIslamic = false) {
+export function firstDayOfMonthDate(year: number, month: number, day: number | undefined, isIslamic = false) {
   if (isIslamic) {
     const umalqura = gregorianToUmalqura(new Date(year, month, day));
 
@@ -243,7 +243,7 @@ export function firstDayOfMonthDate(year, month, day, isIslamic = false) {
  * @param {boolean} isIslamic if set to true the calculation is based on the Umm al-Qura Calendar
  * @returns {Date} Gregorian calendar date
  */
-export function lastDayOfMonthDate(year, month, day, isIslamic = false) {
+export function lastDayOfMonthDate(year: number, month: number, day: number | undefined, isIslamic = false) {
   if (isIslamic) {
     const umalqura = gregorianToUmalqura(new Date(year, month, day));
 
@@ -261,7 +261,7 @@ export function lastDayOfMonthDate(year, month, day, isIslamic = false) {
  * @param {boolean} isIslamic if set to true the calculation is base the Umm al-Qura Calendar
  * @returns {number} number of days in a given month.
  */
-export function daysInMonth(year, month, day, isIslamic = false) {
+export function daysInMonth(year: number, month: number, day: number | undefined, isIslamic = false) {
   const lastDayOfMonth = lastDayOfMonthDate(year, month, day, isIslamic);
 
   if (isIslamic) {
@@ -282,7 +282,7 @@ export function daysInMonth(year, month, day, isIslamic = false) {
  * @param {boolean} isIslamic if set to true the calculation is base the Umm al-Qura Calendar
  * @returns {number} number of weeks in a given month
  */
-export function weeksInMonth(year, month, day, startsOn = 0, isIslamic = false) {
+export function weeksInMonth(year: number, month: number, day: number | undefined, startsOn = 0, isIslamic = false) {
   const firstDayOfMonth = firstDayOfMonthDate(year, month, day, isIslamic);
   const numberOfDaysInMonth = daysInMonth(year, month, day, isIslamic);
   const firstDayOfWeekIndex = (firstDayOfMonth.getDay() - startsOn + 7) % 7;
@@ -297,7 +297,7 @@ export function weeksInMonth(year, month, day, startsOn = 0, isIslamic = false) 
  * @param {number} startsOn day of the week to start on. Sunday is 0, Monday is 1, and so on
  * @returns {number} number of weeks in a given range of dates
  */
-export function weeksInRange(startDate, endDate, startsOn = 0) {
+export function weeksInRange(startDate: { getDay: () => number; }, endDate: any, startsOn = 0) {
   const daysInRange = daysDiff(startDate, endDate);
   const firstDayOfWeekIndex = (startDate.getDay() - startsOn + 7) % 7;
 

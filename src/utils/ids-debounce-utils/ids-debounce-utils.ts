@@ -6,10 +6,11 @@
  *  instead of waiting for the threshold to complete.
  * @returns {void}
  */
-export function debounce(func, threshold, execAsap) {
-  let timeout;
+export function debounce(func: { apply: (arg0: any, arg1: any[]) => void; }, threshold: any, execAsap: any) {
+  let timeout: any;
 
-  return function debounced(...args) {
+  return function debounced(this: any, ...args: any[]) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const obj = this;
     const delayed = () => {
       if (!execAsap) {

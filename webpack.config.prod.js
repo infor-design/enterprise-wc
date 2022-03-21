@@ -19,12 +19,12 @@ module.exports = {
     publicPath: '',
     clean: true
   },
+  infrastructureLogging: {
+    level: 'verbose' // or 'verbose' if any debug info is needed
+  },
   resolve: {
     extensions: ['.js', '.ts'],
     modules: ['node_modules']
-  },
-  infrastructureLogging: {
-    level: 'error' // or 'verbose' if any debug info is needed
   },
   optimization: {
     splitChunks: {

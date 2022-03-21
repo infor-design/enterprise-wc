@@ -10,9 +10,9 @@ import './ids-button/ids-button';
 import './ids-card/ids-card';
 import './ids-checkbox/ids-checkbox';
 import './ids-color/ids-color';
-import './ids-color-picker/ids-color-picker'; */
+import './ids-color-picker/ids-color-picker';
 import './ids-container/ids-container';
-/* import './ids-contextual-action-panel/ids-contextual-action-panel';
+import './ids-contextual-action-panel/ids-contextual-action-panel';
 import './ids-counts/ids-counts';
 import './ids-data-grid/ids-data-grid';
 import './ids-data-label/ids-data-label';
@@ -26,9 +26,8 @@ import './ids-hidden/ids-hidden';
 import './ids-hierarchy/ids-hierarchy';
 import './ids-home-page/ids-home-page';
 import './ids-hyperlink/ids-hyperlink';
-*/
 import './ids-icon/ids-icon';
-/* import './ids-image/ids-image';
+import './ids-image/ids-image';
 import './ids-input/ids-input';
 import './ids-layout-grid/ids-layout-grid';
 import './ids-list-box/ids-list-box';

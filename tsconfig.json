@@ -1,5 +1,5 @@
 {
-  "compileOnSave": true,
+  "compileOnSave": false,
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
@@ -16,7 +16,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "sourceMap": true,
-    "declaration": false,
+    "declaration": true,
     "outDir": "./build/development"
   },
   "include": [
@@ -25,6 +25,7 @@
      "./declaration.d.ts"
   ],
   "exclude": [
+    "src/**/*.d.ts",
     "node_modules",
     "test",
     "build",

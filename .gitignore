@@ -18,4 +18,3 @@ report.*.json
 
 # AWS
 .aws-sam/
-.d.ts

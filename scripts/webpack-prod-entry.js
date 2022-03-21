@@ -12,8 +12,6 @@ const prodEntry = () => {
     const chunk = fileName.split('.');
     prodEntryObj[chunk[0]] = `./${entry}`;
   }));
-  console.log(prodEntryObj);
-
   return prodEntryObj;
 };
 

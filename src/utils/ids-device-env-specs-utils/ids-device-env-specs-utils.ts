@@ -8,7 +8,8 @@ import { version } from '../../core/ids-attributes';
 export function getSpecs() {
   const nUAgent = navigator.userAgent;
   let appVersion = ` ${parseFloat(navigator.appVersion)}`;
-  const platform = navigator.userAgentData?.platform || navigator.platform;
+  const navigatorElem: any = navigator;
+  const platform = navigatorElem.userAgentData?.platform || navigatorElem.platform;
   const isMobile = window.matchMedia ? window.matchMedia('only screen and (max-width: 760px)').matches : false;
   let nameOffset;
   let verOffset;
