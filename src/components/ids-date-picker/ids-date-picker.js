@@ -136,7 +136,7 @@ class IdsDatePicker extends Base {
         ${(!(this.isDropdown || this.isCalendarToolbar)) ? `
           <ids-trigger-field
             part="trigger-field"
-            mask="date"
+            ${this.useRange ? '' : 'mask="date"'}
             ${this.id ? `id="${this.id}"` : ''}
             ${this.label ? `label="${this.label}"` : ''}
             placeholder="${this.placeholder}"
@@ -164,6 +164,7 @@ class IdsDatePicker extends Base {
                 year="${this.year}"
                 month="${this.month}"
                 day="${this.day}"
+                use-range="${this.useRange}"
               ></ids-month-view>
               <div class="popup-footer" part="footer">
                 <ids-button class="popup-btn popup-btn-start" part="start-button">
@@ -760,14 +761,16 @@ class IdsDatePicker extends Base {
     if (type === 'today') {
       const now = new Date();
 
-      this.value = this.locale.formatDate(now);
+      this.value = this.useRange
+        ? `${this.locale.formatDate(now)}${this.rangeSettings.separator}${this.locale.formatDate(now)}`
+        : this.locale.formatDate(now);
     }
 
-    if (type === 'next-day') {
+    if (type === 'next-day' && !this.useRange) {
       this.value = this.locale.formatDate(addDate(date, 1, 'days'));
     }
 
-    if (type === 'previous-day') {
+    if (type === 'previous-day' && !this.useRange) {
       this.value = this.locale.formatDate(subtractDate(date, 1, 'days'));
     }
   }
@@ -1308,6 +1311,34 @@ class IdsDatePicker extends Base {
   set legend(val) {
     if (this.#monthView) {
       this.#monthView.legend = val;
+    }
+  }
+
+  get rangeSettings() {
+    return this.#monthView?.rangeSettings;
+  }
+
+  set rangeSettings(val) {
+    if (this.#monthView) {
+      this.#monthView.rangeSettings = val;
+    }
+  }
+
+  get useRange() {
+    const attrVal = this.getAttribute(attributes.USE_RANGE);
+
+    return stringToBool(attrVal);
+  }
+
+  set useRange(val) {
+    const boolVal = stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.USE_RANGE, boolVal);
+      this.#monthView?.setAttribute(attributes.USE_RANGE, boolVal);
+    } else {
+      this.removeAttribute(attributes.USE_RANGE);
+      this.#monthView?.removeAttribute(attributes.USE_RANGE);
     }
   }
 }

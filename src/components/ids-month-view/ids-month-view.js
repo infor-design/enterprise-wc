@@ -68,6 +68,7 @@ class IdsMonthView extends Base {
   #rangeSettings = {
     start: null,
     end: null,
+    separator: ' - ',
     minDays: 0,
     maxDays: 0,
     selectForward: false,
