@@ -16,6 +16,7 @@
   user-select: none;
   min-width: $input-size-xs - 2;
   width: 298px;
+  text-transform: capitalize;
 }
 
 :host(.is-selected) {

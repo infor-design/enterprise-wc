@@ -234,6 +234,7 @@ export const attributes = {
   SAVE_POSITION: 'save-position',
   SCROLLABLE: 'scrollable',
   SCROLL_TOP: 'scroll-top',
+  SEARCH_KEY: 'search-key',
   SECOND_INTERVAL: 'second-interval',
   SELECT: 'select',
   SELECTABLE: 'selectable',

@@ -100,6 +100,11 @@ export function isPrintable(e) {
   return true;
 }
 
+/**
+ * Extracts the template literals from html <template>
+ * @param {*} string the markup of the template
+ * @returns {string} tokens
+ */
 export function extractTemplateLiteralsFromHTML(string) {
   const arr = string.split('${');
   arr.shift();

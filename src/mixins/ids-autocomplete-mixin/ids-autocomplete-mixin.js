@@ -6,24 +6,6 @@ import IdsPopup from '../../components/ids-popup/ids-popup';
 import IdsDataSource from '../../core/ids-data-source';
 
 const IdsAutoCompleteMixin = (superclass) => class extends superclass {
-  #listBox = new IdsListBox();
-
-  get listBox() { return this.#listBox; }
-
-  #popup = new IdsPopup();
-
-  get popup() { return this.#popup; }
-
-  get popupContent() {
-    return this.popup.container.querySelector('slot[name="content"]');
-  }
-
-  /**
-   * Gets the internal IdsDataSource object
-   * @returns {IdsDataSource} object
-   */
-  datasource = new IdsDataSource();
-
   constructor() {
     super();
   }
@@ -32,7 +14,7 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
     return [
       ...super.attributes,
       attributes.AUTOCOMPLETE,
-      'search-key'
+      attributes.SEARCH_KEY
     ];
   }
 
@@ -48,12 +30,32 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
     this.#attachEventListeners();
   }
 
+  /**
+   * Gets the internal IdsDataSource object
+   * @returns {IdsDataSource} object
+   */
+  datasource = new IdsDataSource();
+
+  #listBox = new IdsListBox();
+
+  #popup = new IdsPopup();
+
+  get listBox() { return this.#listBox; }
+
+  get popup() { return this.#popup; }
+
+  get popupContent() {
+    return this.popup.container.querySelector('slot[name="content"]');
+  }
+
   set autocomplete(value) {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.AUTOCOMPLETE, val);
+      this.container.classList.add('autocomplete');
     } else {
       this.removeAttribute(attributes.AUTOCOMPLETE);
+      this.container.classList.remove('autocomplete');
     }
   }
 
@@ -86,14 +88,14 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
 
   set searchKey(value) {
     if (value) {
-      this.setAttribute('search-key', value);
+      this.setAttribute(attributes.SEARCH_KEY, value);
     } else {
-      this.removeAttribute('search-key');
+      this.removeAttribute(attributes.SEARCH_KEY);
     }
   }
 
   get searchKey() {
-    return this.getAttribute('search-key');
+    return this.getAttribute(attributes.SEARCH_KEY) || this.templateKeys[0];
   }
 
   /**
@@ -114,22 +116,19 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
 
   /**
    * Item template function that will generate the list box options
-   * TODO: Make this a util
    * @returns {object} function
-   * @memberof IdsSwapList
    */
-  itemTemplateFunc() {
-    const func = (item) => this.itemTemplate(item);
+  #itemTemplateFunc() {
+    const func = (item) => this.#itemTemplate(item);
     return func;
   }
 
   /**
    * Return an item's html injecting any values from the dataset as needed.
-   * TODO: Make this a util
    * @param  {object} item The item to generate
    * @returns {string} The html for this item
    */
-  itemTemplate(item) {
+  #itemTemplate(item) {
     return injectTemplate(this.defaultTemplate, item);
   }
 
@@ -154,27 +153,24 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
   }
 
   #populateListbox() {
-    this.#listBox.innerHTML = this.data.map(this.itemTemplateFunc()).join('');
+    this.#listBox.innerHTML = this.data.map(this.#itemTemplateFunc()).join('');
   }
 
   #findMatches(value, list) {
-    let key;
-
-    if (this.searchKey) {
-      key = this.templateKeys.find((templateKey) => templateKey === this.searchField);
-    } else {
-      key = this.templateKeys[0];
-    }
-
     return list.filter((option) => {
       const regex = new RegExp(value, 'gi');
-      return option[key].match(regex);
+      return option[this.searchKey].match(regex);
     });
   }
 
   #displayMatches() {
     const resultsArr = this.#findMatches(this.value, this.data);
-    const results = resultsArr.map(this.itemTemplateFunc()).join('');
+    const results = resultsArr.map((result) => {
+      const regex = new RegExp(this.value, 'gi');
+      const optionText = result[this.searchKey].replace(regex, `<span class="highlight">${this.value.toLowerCase()}</span>`);
+      return `<ids-list-box-option>${optionText}</ids-list-box-option>`;
+    }).join('');
+
     this.#openPopup();
     this.#listBox.innerHTML = results;
   }

@@ -186,3 +186,7 @@ $input-field-height-lg: 48px;
     @content;
   }
 }
+
+.highlight {
+  font-weight: var(--ids-number-font-weight-bold);
+}
