@@ -23,7 +23,7 @@
       <ids-text font-size="12" class="align-target" id="center-point">Center Point</ids-text>
     </section>
 
-    <ids-popup id="test-popup" x="0" y="0" align-target="#center-point" align="bottom" animated="true" visible="true" type="menu">
+    <ids-popup id="test-popup" x="0" y="0" align="top, left" animated="true" visible="true" type="menu">
       <div slot="content">
         <div class="demo-popup">
           <ids-text font-size="14" font-weight="bold">My Test Popup</ids-text>
@@ -36,8 +36,8 @@
       <ids-layout-grid auto="true">
         <ids-layout-grid-cell>
           <ids-radio-group id="align-targets" label="Alignment Targets:">
-            <ids-radio value="none" id="align-targets-option1" label="None (Use Coordinates)"></ids-radio>
-            <ids-radio value="#center-point" id="align-targets-option2" label="Center Point" checked="true"></ids-radio>
+            <ids-radio value="none" id="align-targets-option1" label="None (Use Coordinates)" checked="true"></ids-radio>
+            <ids-radio value="#center-point" id="align-targets-option2" label="Center Point"></ids-radio>
             <ids-radio value="#second-target" id="align-targets-option3" label="Secondary Target"></ids-radio>
             <ids-radio value="#test-container-target" id="align-targets-option4" label="Test Container Target"></ids-radio>
           </ids-radio-group>
@@ -53,26 +53,26 @@
           <ids-layout-grid auto="true">
             <ids-layout-grid-cell>
               <ids-radio-group id="x-alignments" label="X Alignment:">
-                <ids-radio value="left" id="x-alignments-option1" label="Left"></ids-radio>
-                <ids-radio value="center" id="x-alignments-option2" label="Center" checked="true"></ids-radio>
+                <ids-radio value="left" id="x-alignments-option1" label="Left" checked="true"></ids-radio>
+                <ids-radio value="center" id="x-alignments-option2" label="Center"></ids-radio>
                 <ids-radio value="right" id="x-alignments-option3" label="Right"></ids-radio>
               </ids-radio-group>
             </ids-layout-grid-cell>
             <ids-layout-grid-cell>
               <ids-radio-group id="y-alignments" label="Y Alignment:">
-                <ids-radio value="top" id="y-alignments-option1" label="Top"></ids-radio>
+                <ids-radio value="top" id="y-alignments-option1" label="Top" checked="true"></ids-radio>
                 <ids-radio value="center" id="y-alignments-option2" label="Center"></ids-radio>
-                <ids-radio value="bottom" id="y-alignments-option3" label="Bottom" checked="true"></ids-radio>
+                <ids-radio value="bottom" id="y-alignments-option3" label="Bottom"></ids-radio>
               </ids-radio-group>
             </ids-layout-grid-cell>
           </ids-layout-grid>
 
         </ids-layout-grid-cell>
         <ids-layout-grid-cell>
-          <ids-text id="xy-controls">Offsets</ids-text><br />
-          <ids-input id="x-control" value="0" label="X:" compact></ids-input>
-          <ids-input id="y-control" value="0" label="Y:" compact></ids-input>
-          <ids-checkbox id="xy-click-to-set-option" label="Click page to set coords" checked="true" disabled></ids-checkbox>
+          <ids-text id="xy-controls">Coordinates</ids-text><br />
+          <ids-input id="x-control" value="0" label="X:" size="sm" compact></ids-input>
+          <ids-input id="y-control" value="0" label="Y:" size="sm" compact></ids-input>
+          <ids-checkbox id="xy-click-to-set-option" label="Click page to set coords" checked="true"></ids-checkbox>
           <ids-button type="secondary" id="xy-controls-reset">Reset</ids-button>
         </ids-layout-grid-cell>
         <ids-layout-grid-cell>

@@ -15,7 +15,7 @@
 // When a popup is not visible, `aria-hidden="true"` is applied to the host element.
 // The element is still in document flow in this case, so we need to prevent clicks
 // from occuring inside the "invisible" Popup
-:host([aria-hidden="true"]) {
+:host([aria-hidden='true']) {
   pointer-events: none;
 }
 

@@ -206,12 +206,4 @@ document.addEventListener('DOMContentLoaded', () => {
       popupEl.setPosition(e.clientX, e.clientY, null, true);
     });
   });
-
-  // After all things on the page are done setting up,
-  // set the initial position of IdsPopup based on form control values.
-  requestAnimationFrame(() => {
-    popupEl.alignTarget = alignTargetGroupEl.value === 'none' ? null : alignTargetGroupEl.value;
-    popupEl.align = `${yAlignGroupEl.value}, ${xAlignGroupEl.value}`;
-    popupEl.setPosition(xControlEl.value, yControlEl.value, null, true);
-  });
 });

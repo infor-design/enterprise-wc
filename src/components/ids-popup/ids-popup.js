@@ -926,6 +926,13 @@ export default class IdsPopup extends Base {
       return;
     }
 
+    // Fix location first
+    this.place();
+
+    // If an arrow is displayed, place it correctly
+    this.#setArrowDirection('', this.arrow);
+    this.placeArrow();
+
     this.removeAttribute('aria-hidden');
 
     if (this.isFlipped) {
@@ -939,6 +946,9 @@ export default class IdsPopup extends Base {
       await waitForTransitionEnd(this.container, 'opacity');
     }
 
+    // Unblur if needed
+    this.#correct3dMatrix();
+
     this.triggerEvent('show', this, {
       bubbles: true,
       detail: {
@@ -946,13 +956,6 @@ export default class IdsPopup extends Base {
       }
     });
 
-    this.place();
-
-    // If an arrow is displayed, place it correctly.
-    this.#setArrowDirection('', this.arrow);
-    this.placeArrow();
-
-    this.#correct3dMatrix();
     this.open = true;
   }
 
