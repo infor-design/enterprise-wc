@@ -112,7 +112,7 @@ module.exports = {
           }
         },
         {
-          from: './src/**/**/*.d.ts',
+          from: './build/types/**/ids*.d.ts',
           to({ absoluteFilename }) {
             const baseName = path.basename(absoluteFilename);
             const folders = path.dirname(absoluteFilename).split(path.sep);
@@ -121,7 +121,7 @@ module.exports = {
 
             if (filePath.includes('core/')) {
               filePath = filePath.replace('core/', '').replace('.d.ts', '');
-              return `${filePath}/${filePath}.d.ts`;
+              return `core/${filePath}.d.ts`;
             }
             return filePath;
           }

@@ -51,7 +51,7 @@ export default class IdsAccordionPanel extends Base {
   /**
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants = ['app-menu', 'sub-app-menu'];
+  colorVariants: any = ['app-menu', 'sub-app-menu'];
 
   /**
    * Create a unique title for each accordion pane
@@ -66,7 +66,7 @@ export default class IdsAccordionPanel extends Base {
    * Overrides the setter from `IdsColorVariantMixin` to include a check on the expander icon
    * @param {string} val the desired color variant
    */
-  set colorVariant(val) {
+  set colorVariant(val: string) {
     super.colorVariant = val;
     this.#toggleExpanderDisplay();
   }
@@ -74,7 +74,7 @@ export default class IdsAccordionPanel extends Base {
   /**
    * @returns {string} the current color variant
    */
-  get colorVariant() {
+  get colorVariant(): string {
     return super.colorVariant;
   }
 
@@ -279,7 +279,7 @@ export default class IdsAccordionPanel extends Base {
       this.container.classList.remove('expanded');
 
       if (this.header) {
-          this.header.expanded = false;
+        this.header.expanded = false;
       }
 
       requestAnimationFrame(() => {
@@ -321,7 +321,7 @@ export default class IdsAccordionPanel extends Base {
       this.container.classList.add('expanded');
 
       if (this.header) {
-          this.header.expanded = true;
+        this.header.expanded = true;
       }
 
       // Setting height kicks off animation

@@ -17,7 +17,7 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "declaration": true,
-    "outDir": "./build/development"
+    "outDir": "./build/types"
   },
   "include": [
     "src/**/*.ts",

@@ -1,6 +1,7 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-tag-base';
 
@@ -69,6 +70,7 @@ export default class IdsTag extends Base {
         return;
       }
 
+      this.container.classList.remove('secondary', 'info', 'success', 'warning', 'error');
       this.container.classList.add(value);
       return;
     }
@@ -114,7 +116,8 @@ export default class IdsTag extends Base {
    * @param {boolean|string} value true of false depending if the tag is dismissed
    */
   set dismissible(value: boolean) {
-    if (value) {
+    const isDismissible = stringToBool(value);
+    if (isDismissible) {
       this.setAttribute('dismissible', value.toString());
       this.container.classList.add('focusable');
       this.container.setAttribute('tabindex', '0');
@@ -136,7 +139,8 @@ export default class IdsTag extends Base {
    * @param {boolean} value true of false depending if the tag is clickable
    */
   set clickable(value: boolean) {
-    if (value) {
+    const isClickable = stringToBool(value);
+    if (isClickable) {
       this.setAttribute('clickable', value.toString());
       this.container.classList.add('focusable');
       this.container.setAttribute('tabindex', '0');

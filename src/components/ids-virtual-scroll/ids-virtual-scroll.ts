@@ -52,6 +52,7 @@ export default class IdsVirtualScroll extends Base {
       cancelAnimationFrame(this.timeout);
     }
 
+    // eslint-disable-next-line prefer-destructuring
     const target = e.target;
     this.timeout = requestAnimationFrame(() => {
       if (target) {

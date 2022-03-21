@@ -1,37 +1,99 @@
 {
   "root": true,
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  },
-  "plugins": [
-    "@typescript-eslint"
+  "extends": [
+    "eslint:recommended",
+    "airbnb-base",
+    "plugin:jsdoc/recommended"
   ],
+  "env": {
+    "browser": true,
+    "es2022": true
+  },
   "globals": {
+    "page": true,
+    "browser": true,
+    "context": true,
+    "jestPuppeteer": true,
+    "jest": true,
+    "it": true,
+    "describe": true,
+    "beforeAll": true,
+    "afterAll": true,
+    "afterEach": true,
+    "beforeEach": true,
+    "expect": true,
+    "test": true,
+    "Ids": true,
+    "ResizeObserver": true,
+    "$": true,
     "process": true,
     "console": true,
     "module": true,
     "require": true,
     "__dirname": true,
-    "describe": true,
-    "it": true,
-    "before": true,
-    "beforeEach": true,
-    "expect": true
+    "before": true
   },
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
-  ],
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module"
+  },
   "rules": {
-    // disable the base rule as it can report incorrect errors
-    "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": ["error", {
-      "varsIgnorePattern": "^Ids"
+    // Allow single quotes only or template literals
+    "quotes": ["error", "single", { "allowTemplateLiterals": true }],
+    // Allow assignment of properties from items in `forEach` loops
+    "no-param-reassign": ["off", { "props": false }],
+    // require trailing commas in multiline object literals
+    "comma-dangle": ["off", {
+      "arrays": "never",
+      "objects": "never",
+      "imports": "never",
+      "exports": "never",
+      "functions": "never"
     }],
-    "@typescript-eslint/no-var-requires": "off",
-    "@typescript-eslint/no-explicit-any": "off",
-    "no-prototype-builtins": "off"
-  }
+    // Allow ternary operators
+    "no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTernary": true }],
+    // Forbid the import of external modules that are not declared
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
+  },
+  "overrides": [{
+    "files": ["*.ts"],
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "airbnb-base",
+      "airbnb-typescript/base"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "project": ["./tsconfig.json"]
+    },
+    "rules": {
+      "@typescript-eslint/no-var-requires": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "no-useless-constructor": "off",
+      "@typescript-eslint/no-useless-constructor": ["off"],
+      "class-methods-use-this": "off",
+      "no-prototype-builtins": "off",
+      "prefer-destructuring": ["off"],
+      "max-len": ["error", 120, 2, {
+        "ignoreUrls": true,
+        "ignoreComments": false,
+        "ignoreRegExpLiterals": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true
+      }],
+      "@typescript-eslint/comma-dangle": ["off", {
+        "arrays": "never",
+        "objects": "never",
+        "imports": "never",
+        "exports": "never",
+        "functions": "never"
+      }],
+      "@typescript-eslint/quotes": ["error", "single", { "allowTemplateLiterals": true }],
+      "no-param-reassign": ["off", { "props": false }]
+    }
+  }]
 }
