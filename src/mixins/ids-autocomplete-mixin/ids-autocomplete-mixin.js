@@ -1,5 +1,5 @@
 import { attributes } from '../../core/ids-attributes';
-import { stringToBool, injectTemplate, extractTemplateLiteralsFromHTML } from '../../utils/ids-string-utils/ids-string-utils';
+import { stringToBool, extractTemplateLiteralsFromHTML } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsListBox from '../../components/ids-list-box/ids-list-box';
 import IdsListBoxOption from '../../components/ids-list-box/ids-list-box-option';
 import IdsPopup from '../../components/ids-popup/ids-popup';
