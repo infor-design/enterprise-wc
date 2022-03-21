@@ -176,7 +176,7 @@
         font-weight: 600;
       }
 
-      .day-text {
+      &:not(.range-selection) .day-text {
         @include text-white();
         @include bg-azure-60();
       }
@@ -201,7 +201,7 @@
     }
 
     // Range selection
-    &.range-selection:not(:first-of-type),
+    &.range-selection + .range-selection,
     &.range-next:not(:first-of-type),
     &.range-prev:not(:last-of-type) {
       @include relative();
@@ -230,8 +230,11 @@
 
     &.range-selection:not(:first-of-type)::before,
     &.range-selection .day-text {
-      @include text-white();
       @include bg-azure-60();
+    }
+
+    &.range-selection:not(.alternate) .day-text {
+      @include text-white();
     }
 
     &.range-selection:not(:first-of-type)::before,
@@ -495,7 +498,7 @@
       @include text-slate-50();
     }
 
-    td.is-selected .day-text {
+    td.is-selected:not(.alternate) .day-text {
       @include text-white();
     }
 
@@ -504,14 +507,21 @@
       @include text-slate-10();
     }
 
-    td:not(.is-selected):not(.has-legend):hover .day-text,
-    td:not(.is-selected):not(.has-legend):active .day-text {
+    td:not(.is-selected):not(.has-legend):not(.range-selection):hover .day-text,
+    td:not(.is-selected):not(.has-legend):not(.range-selection):active .day-text {
       @include bg-slate-70();
     }
 
     td:not(.is-selected):not(.alternate):hover .day-text,
     td:not(.is-selected):not(.alternate):active .day-text {
       @include text-white();
+    }
+
+    td.range-prev .day-text,
+    td.range-next .day-text,
+    td.range-next:not(:first-of-type)::before,
+    td.range-prev:not(:last-of-type)::before {
+      @include bg-slate-70();
     }
   }
 
@@ -593,7 +603,7 @@
       @include text-slate-50();
     }
 
-    td.is-selected .day-text {
+    td.is-selected:not(.alternate) .day-text {
       @include bg-azure-90();
       @include text-white();
     }
@@ -609,14 +619,26 @@
       @include text-slate-100();
     }
 
-    td:not(.is-selected):not(.has-legend):hover .day-text,
-    td:not(.is-selected):not(.has-legend):active .day-text {
+    td:not(.is-selected):not(.has-legend):not(.range-selection):hover .day-text,
+    td:not(.is-selected):not(.has-legend):not(.range-selection):active .day-text {
       @include bg-slate-30();
     }
 
-    td:not(.is-selected):not(.alternate):hover .day-text,
-    td:not(.is-selected):not(.alternate):active .day-text {
+    td:not(.is-selected):not(.alternate):not(.range-selection):hover .day-text,
+    td:not(.is-selected):not(.alternate):not(.range-selection):active .day-text {
       @include text-black();
+    }
+
+    td.range-prev .day-text,
+    td.range-next .day-text,
+    td.range-next:not(:first-of-type)::before,
+    td.range-prev:not(:last-of-type)::before {
+      @include bg-slate-30();
+    }
+
+    td.range-selection:not(:first-of-type)::before,
+    td.range-selection .day-text {
+      @include bg-azure-90();
     }
   }
 
