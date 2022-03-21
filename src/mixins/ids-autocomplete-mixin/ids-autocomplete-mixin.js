@@ -1,5 +1,5 @@
 import { attributes } from '../../core/ids-attributes';
-import { stringToBool, injectTemplate } from '../../utils/ids-string-utils/ids-string-utils';
+import { stringToBool, injectTemplate, extractTemplateLiteralsFromHTML } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsListBox from '../../components/ids-list-box/ids-list-box';
 import IdsListBoxOption from '../../components/ids-list-box/ids-list-box-option';
 import IdsPopup from '../../components/ids-popup/ids-popup';
@@ -31,7 +31,8 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.AUTOCOMPLETE
+      attributes.AUTOCOMPLETE,
+      'search-key'
     ];
   }
 
@@ -75,12 +76,33 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
     return this.getRootNode().body.querySelector('ids-container') || window.document.body;
   }
 
+  get listBoxOptions() {
+    return this.#popup.shadowRoot.querySelectorAll('ids-list-box-option');
+  }
+
+  get templateKeys() {
+    return extractTemplateLiteralsFromHTML(this.defaultTemplate);
+  }
+
+  set searchKey(value) {
+    if (value) {
+      this.setAttribute('search-key', value);
+    } else {
+      this.removeAttribute('search-key');
+    }
+  }
+
+  get searchKey() {
+    return this.getAttribute('search-key');
+  }
+
   /**
    * Rerenders the IdsInput component
    * @private
    */
   rerender() {
     super.rerender?.();
+    this.#populateListbox();
   }
 
   #attachTemplateSlot() {
@@ -131,10 +153,22 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
     this.popup.visible = true;
   }
 
-  #findMatches(term, data) {
-    return data.filter((res) => {
-      const regex = new RegExp(term, 'gi');
-      return res.label.match(regex);
+  #populateListbox() {
+    this.#listBox.innerHTML = this.data.map(this.itemTemplateFunc()).join('');
+  }
+
+  #findMatches(value, list) {
+    let key;
+
+    if (this.searchKey) {
+      key = this.templateKeys.find((templateKey) => templateKey === this.searchField);
+    } else {
+      key = this.templateKeys[0];
+    }
+
+    return list.filter((option) => {
+      const regex = new RegExp(value, 'gi');
+      return option[key].match(regex);
     });
   }
 

@@ -99,3 +99,10 @@ export function isPrintable(e) {
   }
   return true;
 }
+
+export function extractTemplateLiteralsFromHTML(string) {
+  const arr = string.split('${');
+  arr.shift();
+  const tokens = arr.map((x) => x.split('}')[0]);
+  return tokens;
+}
