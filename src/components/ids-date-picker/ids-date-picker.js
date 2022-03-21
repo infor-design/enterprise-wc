@@ -228,7 +228,15 @@ class IdsDatePicker extends Base {
       this.offEvent('dayselected.date-picker-calendar');
       this.onEvent('dayselected.date-picker-calendar', this.#monthView, (e) => {
         if (!this.isCalendarToolbar) {
-          this.value = this.locale.formatDate(e.detail.date);
+          if (this.useRange) {
+            this.value = [
+              this.locale.formatDate(e.detail.rangeStart),
+              this.rangeSettings.separator,
+              e.detail.rangeEnd && this.locale.formatDate(e.detail.rangeEnd)
+            ].filter(Boolean).join('');
+          } else {
+            this.value = this.locale.formatDate(e.detail.date);
+          }
           this.#triggerField?.focus();
         }
 
@@ -721,22 +729,42 @@ class IdsDatePicker extends Base {
   #parseInputDate() {
     if (this.isCalendarToolbar) return;
 
+    const setDateParams = (date) => {
+      const month = date.getMonth();
+      const year = date.getFullYear();
+      const day = date.getDate();
+
+      if (this.year !== year) {
+        this.year = year;
+      }
+
+      if (this.month !== month) {
+        this.month = month;
+      }
+
+      if (this.day !== day) {
+        this.day = day;
+      }
+    };
+
+    if (this.useRange && this.#triggerField?.value) {
+      const rangeParts = this.#triggerField.value.split(this.rangeSettings.separator);
+      const rangeStart = new Date(rangeParts[0]);
+      const rangeEnd = new Date(rangeParts[1]);
+
+      this.rangeSettings = {
+        start: rangeStart,
+        end: rangeEnd
+      };
+
+      setDateParams(rangeStart);
+
+      return;
+    }
+
     const date = new Date(this.#triggerField?.value);
-    const month = date.getMonth();
-    const year = date.getFullYear();
-    const day = date.getDate();
 
-    if (this.year !== year) {
-      this.year = year;
-    }
-
-    if (this.month !== month) {
-      this.month = month;
-    }
-
-    if (this.day !== day) {
-      this.day = day;
-    }
+    setDateParams(date);
   }
 
   /**
@@ -1321,6 +1349,10 @@ class IdsDatePicker extends Base {
   set rangeSettings(val) {
     if (this.#monthView) {
       this.#monthView.rangeSettings = val;
+
+      if (val?.start && val?.end) {
+        this.value = `${this.locale.formatDate(val.start)}${this.rangeSettings.separator}${this.locale.formatDate(val.end)}`;
+      }
     }
   }
 
