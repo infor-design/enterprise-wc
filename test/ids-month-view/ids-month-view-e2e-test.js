@@ -288,21 +288,6 @@ describe('Ids Month View e2e Tests', () => {
   it('should handle keyboard shortcuts (gregorian calendar)', async () => {
     await page.reload({ waitUntil: 'networkidle0' });
     await page.setRequestInterception(false);
-    // Reset
-    // await page.evaluate((el) => {
-    //   const component = document.querySelector(el);
-    //   const container = document.querySelector('ids-container');
-
-    //   container.setLocale('en-US');
-    //   container.setLanguage('en');
-
-    //   component.year = 2021;
-    //   component.month = 10;
-    //   component.day = 15;
-    //   component.startDate = null;
-    //   component.endDate = null;
-    //   component.compact = false;
-    // }, name);
 
     await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected')?.click());
 
@@ -458,106 +443,104 @@ describe('Ids Month View e2e Tests', () => {
     expect(year).toEqual(now.getFullYear());
   });
 
-  // it('should handle keyboard shortcuts (umalqura calendar)', async () => {
-  //   await page.reload({ waitUntil: 'networkidle0' });
-  //   await page.setRequestInterception(false);
-  //   // Reset and get calendar months
-  //   const months = await page.evaluate(() => {
-  //     // const component = document.querySelector(el);
-  //     const container = document.querySelector('ids-container');
+  it('should handle keyboard shortcuts (umalqura calendar)', async () => {
+    await page.reload({ waitUntil: 'networkidle0' });
+    await page.setRequestInterception(false);
 
-  //     container.setLocale('ar-SA');
-  //     container.setLanguage('ar');
+    // Reset and get calendar months
+    await page.evaluate(() => {
+      document.querySelector('ids-container').setLocale('ar-SA');
+      document.querySelector('ids-container').setLanguage('ar');
+    });
 
-  //     // component.year = 2021;
-  //     // component.month = 10;
-  //     // component.day = 15;
+    // Wait till calendars load
+    await page.waitForFunction(() =>
+      document.querySelector('ids-container')?.locale?.calendar().name === 'islamic-umalqura');
 
-  //     return container.locale.calendar().months.wide;
-  //   });
+    const months = await page.$eval(name, (el) => el.locale?.calendar()?.months.wide);
 
-  //   await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected')?.click());
+    await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected')?.click());
 
-  //   // Arrow Left - previous day
-  //   await page.keyboard.press('ArrowLeft');
+    // Arrow Left - previous day
+    await page.keyboard.press('ArrowLeft');
 
-  //   let day = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').textContent);
+    let day = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').textContent);
 
-  //   expect(+day).toEqual(9);
+    expect(+day).toEqual(9);
 
-  //   // Arrow Right and '+' - next day after initial
-  //   await page.keyboard.press('ArrowRight');
-  //   await page.keyboard.down('ShiftLeft');
-  //   await page.keyboard.press('Equal');
-  //   await page.keyboard.up('ShiftLeft');
+    // Arrow Right and '+' - next day after initial
+    await page.keyboard.press('ArrowRight');
+    await page.keyboard.down('ShiftLeft');
+    await page.keyboard.press('Equal');
+    await page.keyboard.up('ShiftLeft');
 
-  //   day = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').textContent);
+    day = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').textContent);
 
-  //   expect(+day).toEqual(11);
+    expect(+day).toEqual(11);
 
-  //   // Arrow Up - prev week and up to prev month
-  //   await page.keyboard.press('ArrowUp');
-  //   await page.keyboard.press('ArrowUp');
+    // Arrow Up - prev week and up to prev month
+    await page.keyboard.press('ArrowUp');
+    await page.keyboard.press('ArrowUp');
 
-  //   day = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').textContent);
-  //   let dateLabel = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').ariaLabel);
+    day = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').textContent);
+    let dateLabel = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').ariaLabel);
 
-  //   expect(+day).toEqual(27);
-  //   // Indicates month change
-  //   expect(dateLabel).toContain(months[2]);
+    expect(+day).toEqual(27);
+    // Indicates month change
+    expect(dateLabel).toContain(months[2]);
 
-  //   // End - last day of the month
-  //   await page.keyboard.press('End');
+    // End - last day of the month
+    await page.keyboard.press('End');
 
-  //   day = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').textContent);
+    day = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').textContent);
 
-  //   expect(+day).toEqual(30);
+    expect(+day).toEqual(30);
 
-  //   // Home - first day of the month
-  //   await page.keyboard.press('Home');
+    // Home - first day of the month
+    await page.keyboard.press('Home');
 
-  //   day = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').textContent);
+    day = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').textContent);
 
-  //   expect(+day).toEqual(1);
+    expect(+day).toEqual(1);
 
-  //   // '-' key - prev day and to the last day of previous month
-  //   await page.keyboard.press('Minus');
+    // '-' key - prev day and to the last day of previous month
+    await page.keyboard.press('Minus');
 
-  //   day = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').textContent);
-  //   dateLabel = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').ariaLabel);
+    day = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').textContent);
+    dateLabel = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').ariaLabel);
 
-  //   expect(+day).toEqual(29);
-  //   expect(dateLabel).toContain(months[1]);
+    expect(+day).toEqual(29);
+    expect(dateLabel).toContain(months[1]);
 
-  //   // Page Down - next month
-  //   await page.keyboard.press('PageDown');
+    // Page Down - next month
+    await page.keyboard.press('PageDown');
 
-  //   day = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').textContent);
-  //   dateLabel = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').ariaLabel);
+    day = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').textContent);
+    dateLabel = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').ariaLabel);
 
-  //   expect(+day).toEqual(29);
-  //   expect(dateLabel).toContain(months[2]);
+    expect(+day).toEqual(29);
+    expect(dateLabel).toContain(months[2]);
 
-  //   // Prev year
-  //   await page.keyboard.down('Control');
-  //   await page.keyboard.press('PageUp');
-  //   await page.keyboard.up('Control');
+    // Prev year
+    await page.keyboard.down('Control');
+    await page.keyboard.press('PageUp');
+    await page.keyboard.up('Control');
 
-  //   day = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').textContent);
-  //   dateLabel = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').ariaLabel);
+    day = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').textContent);
+    dateLabel = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').ariaLabel);
 
-  //   expect(+day).toEqual(29);
-  //   expect(dateLabel).toContain(months[2]);
+    expect(+day).toEqual(29);
+    expect(dateLabel).toContain(months[2]);
 
-  //   // Next year
-  //   await page.keyboard.down('Control');
-  //   await page.keyboard.press('PageDown');
-  //   await page.keyboard.up('Control');
+    // Next year
+    await page.keyboard.down('Control');
+    await page.keyboard.press('PageDown');
+    await page.keyboard.up('Control');
 
-  //   day = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').textContent);
-  //   dateLabel = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').ariaLabel);
+    day = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').textContent);
+    dateLabel = await page.$eval(name, (el) => el.shadowRoot.querySelector('td.is-selected').ariaLabel);
 
-  //   expect(+day).toEqual(29);
-  //   expect(dateLabel).toContain(months[2]);
-  // });
+    expect(+day).toEqual(29);
+    expect(dateLabel).toContain(months[2]);
+  });
 });
