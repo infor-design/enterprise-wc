@@ -17,18 +17,22 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "declaration": true,
+    "declarationMap": true,
     "outDir": "./build/types"
   },
   "include": [
-    "src/**/*.ts",
+    "test/**/*.ts",
     "src/**/**/*.ts",
      "./declaration.d.ts"
   ],
   "exclude": [
     "src/**/*.d.ts",
     "node_modules",
-    "test",
     "build",
     "dist"
+  ],
+  "types": [
+    "@types/jest",
+    "@types/puppeteer"
   ]
 }

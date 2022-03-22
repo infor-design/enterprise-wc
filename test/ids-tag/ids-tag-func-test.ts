@@ -4,10 +4,10 @@
 import IdsTag from '../../src/components/ids-tag/ids-tag';
 
 describe('IdsTag Component', () => {
-  let tag;
+  let tag: any;
 
   beforeEach(async () => {
-    const elem = new IdsTag();
+    const elem: any = new IdsTag();
     document.body.appendChild(elem);
     tag = document.querySelector('ids-tag');
   });
@@ -18,7 +18,7 @@ describe('IdsTag Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsTag();
+    const elem: any = new IdsTag();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-tag').length).toEqual(1);
@@ -121,7 +121,7 @@ describe('IdsTag Component', () => {
 
   it('fires beforetagremove on dismiss', () => {
     tag.dismissible = true;
-    tag.addEventListener('beforetagremove', (e) => {
+    tag.addEventListener('beforetagremove', (e: CustomEvent) => {
       e.detail.response(false);
     });
     tag.dismiss();

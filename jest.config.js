@@ -1,7 +1,11 @@
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
+const tsPreset = require('ts-jest/jest-preset');
+const puppeteerPreset = require('jest-puppeteer/jest-preset');
 
 module.exports = {
+  ...tsPreset,
+  ...puppeteerPreset,
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
@@ -22,14 +26,21 @@ module.exports = {
 
   // An array of glob patterns indicating a set of files for which coverage
   // information should be collected
-  collectCoverageFrom: ['src/**/**/*.js', '!src/**/**/index.js', '!src/**/demos/*.js', '!src/assets/scripts/*.js'],
+  collectCoverageFrom: [
+    'src/**/**/*.ts',
+    '!src/**/**/index.ts',
+    '!src/**/demos/*.ts',
+    '!src/assets/scripts/*.ts',
+    '!*.js'
+  ],
 
   // The directory where Jest should output its coverage files
   coverageDirectory: 'coverage',
 
   // An array of regexp pattern strings used to skip coverage collection
   coveragePathIgnorePatterns: [
-    '/node_modules/'
+    '/node_modules/',
+    '/build/'
   ],
 
   // Indicates which provider should be used to instrument code for coverage
@@ -99,7 +110,7 @@ module.exports = {
   // notifyMode: "failure-change",
 
   // A preset that is used as a base for Jest's configuration
-  preset: 'jest-puppeteer',
+  // preset: ['ts-jest', 'jest-puppeteer'],
 
   // Run tests from one or more projects
   // projects: undefined,
@@ -155,9 +166,8 @@ module.exports = {
 
   // The glob patterns Jest uses to detect test files
   testMatch: [
-    '**/test/ids*/*.[jt]s?(x)',
-    '**/test/core/*.[jt]s?(x)',
-    '**/test/mixins/*.[jt]s?(x)'
+    '**/test/**/*.ts',
+    '!**/build/**'
   ],
 
   // An array of regexp pattern strings that are matched against all test paths,
@@ -188,7 +198,8 @@ module.exports = {
   // An array of regexp pattern strings that are matched against all source file paths,
   // matched files will skip transformation
   transformIgnorePatterns: [
-    'node_modules/(?!ids-identity)'
+    'node_modules/(?!ids-identity)',
+    'build'
   ],
 
   // An array of regexp pattern strings that are matched against all modules before
