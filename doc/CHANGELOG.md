@@ -141,12 +141,7 @@ For more details on breaking changes see each component in the individual README
   - Markup is now a custom element `<ids-toast></ids-toast>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
-- `[Toolbar]` The Toolbar component has been changed to a web component.
-  - Markup is now a custom element `<ids-toolbar></ids-toolbar>`
-  - There is no longer a "Toolbar Item" component, instead use standard components directly.
-  - Toolbar Sections are now codified as components `<ids-toolbar-section>`
-  - The More Actions Button is now a codified component `<ids-toolbar-more-actions>`
-  - Toolbar can be tabbable or not
+- `[Toolbar]` The Toolbar component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-toolbar/README.md#converting-from-previous-versions-breaking-changes) for details. ([#163](https://github.com/infor-design/enterprise-wc/issues/163))
 - `[Tooltip]` The Tooltip component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-tooltip/README.md#converting-from-previous-versions-breaking-changes) for details. ([#124](https://github.com/infor-design/enterprise-wc/issues/124))
 - `[Tree]` The Tree component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-treemap/README.md#converting-from-previous-versions-breaking-changes) for details. ([#235](https://github.com/infor-design/enterprise-wc/issues/235))
 - `[Treemap]` The Treemap component was converted. See the [README](https://github.com/infor-design/enterprise-wc/treemap/main/src/components/ids-treemap/README.md#converting-from-previous-versions-breaking-changes) for details. ([#369](https://github.com/infor-design/enterprise-wc/issues/369))
