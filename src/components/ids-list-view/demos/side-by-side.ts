@@ -1,7 +1,5 @@
 import '../ids-list-view';
 import '../../ids-card/ids-card';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import productsJSON from '../../../assets/data/products.json';
 import css from '../../../assets/css/ids-list-view/side-by-side.css';
 

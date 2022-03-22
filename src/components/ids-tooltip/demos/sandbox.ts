@@ -1,6 +1,4 @@
 import '../../ids-input/ids-input';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import bikesJSON from '../../../assets/data/bikes.json';
 import css from '../../../assets/css/ids-tooltip/sandbox.css';
 

@@ -59,7 +59,15 @@
     // Allow ternary operators
     "no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTernary": true }],
     // Forbid the import of external modules that are not declared
-    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    // Enforce line length
+    "max-len": ["error", 120, 2, {
+      "ignoreUrls": true,
+      "ignoreComments": false,
+      "ignoreRegExpLiterals": true,
+      "ignoreStrings": true,
+      "ignoreTemplateLiterals": true
+    }]
   },
   "overrides": [{
     "files": ["*.ts"],
@@ -110,7 +118,9 @@
       // Allow to update parameters
       "no-param-reassign": ["off", { "props": false }],
       // Allow imports from node_modules (ids-identity)
-      "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
+      "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+      // Allow console.info
+      "no-console": ["error", { "allow": ["error", "info"] }]
     }
   }]
 }

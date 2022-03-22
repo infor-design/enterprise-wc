@@ -4,10 +4,10 @@
 import IdsHyperlink from '../../src/components/ids-hyperlink/ids-hyperlink';
 
 describe('IdsHyperlink Component', () => {
-  let elem;
+  let elem: any;
 
   beforeEach(async () => {
-    const link = new IdsHyperlink();
+    const link: any = new IdsHyperlink();
     document.body.appendChild(link);
     elem = document.querySelector('ids-hyperlink');
   });

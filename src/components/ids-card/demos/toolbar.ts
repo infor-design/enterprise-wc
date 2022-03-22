@@ -6,8 +6,6 @@ import '../../ids-toolbar/ids-toolbar';
 import '../../ids-menu-button/ids-menu-button';
 import '../../ids-popup-menu/ids-popup-menu';
 import '../../ids-text/ids-text';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import eventsJSON from '../../../assets/data/events.json';
 
 // Import Css

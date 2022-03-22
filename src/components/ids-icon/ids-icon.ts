@@ -1,6 +1,4 @@
 import pathImport from 'ids-identity/dist/theme-new/icons/standard/path-data.json';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import emptyPathImport from 'ids-identity/dist/theme-new/icons/empty/path-data.json';
 
 import { attributes } from '../../core/ids-attributes';

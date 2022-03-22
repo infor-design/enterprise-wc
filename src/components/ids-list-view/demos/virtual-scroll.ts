@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import productsJSON from '../../../assets/data/products.json';
 
 // Example for populating the List View

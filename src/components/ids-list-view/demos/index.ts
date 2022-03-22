@@ -2,8 +2,6 @@
 import '../ids-list-view';
 import '../../ids-card/ids-card';
 import '../../ids-draggable/ids-draggable';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import eventsJSON from '../../../assets/data/events.json';
 import css from '../../../assets/css/ids-list-view/index.css';
 

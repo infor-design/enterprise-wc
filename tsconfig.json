@@ -18,7 +18,13 @@
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
+    "forceConsistentCasingInFileNames": true,
     "outDir": "./build/types"
+  },
+  "ts-node": {
+    "moduleTypes": {
+      "jest.config.ts": "cjs"
+    }
   },
   "include": [
     "test/**/*.ts",
@@ -33,6 +39,7 @@
   ],
   "types": [
     "@types/jest",
-    "@types/puppeteer"
+    "@types/puppeteer",
+    "@types/jest-axe"
   ]
 }

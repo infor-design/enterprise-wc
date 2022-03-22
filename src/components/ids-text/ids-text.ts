@@ -133,12 +133,12 @@ export default class IdsText extends Base {
     let hasValue = false;
 
     switch (value) {
-    case 'bold':
-    case 'lighter':
-      hasValue = true;
-      break;
-    default:
-      break;
+      case 'bold':
+      case 'lighter':
+        hasValue = true;
+        break;
+      default:
+        break;
     }
 
     this.container?.classList.remove(...fontWeightClasses);
