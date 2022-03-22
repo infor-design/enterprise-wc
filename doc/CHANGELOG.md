@@ -147,16 +147,7 @@ For more details on breaking changes see each component in the individual README
   - Toolbar Sections are now codified as components `<ids-toolbar-section>`
   - The More Actions Button is now a codified component `<ids-toolbar-more-actions>`
   - Toolbar can be tabbable or not
-- `[Tooltip]` The Tooltip component has been changed to a web component.
-  - Markup is now a custom element `<ids-tooltip></ids-tooltip>`
-  - There is no longer a "KeepOpen" setting, instead add a component to the page and use `visible=true`
-  - Tooltip can be used as a mixin or standalone component
-  - Tooltip is no longer shared with popups so all options related to that are removed
-  - Error Tooltips are removed/not needed at this time
-  - attachToBody option is removed/not needed at this time
-  - Content can now be set with `tooltipElem.textContent`
-  - Instead of open and close use `tooltipElem.visible=true`
-  - After show event was not needed as its the same as show so this is removed
+- `[Tooltip]` The Tooltip component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-tooltip/README.md#converting-from-previous-versions-breaking-changes) for details. ([#124](https://github.com/infor-design/enterprise-wc/issues/124))
 - `[Tree]` The Tree component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-treemap/README.md#converting-from-previous-versions-breaking-changes) for details. ([#235](https://github.com/infor-design/enterprise-wc/issues/235))
 - `[Treemap]` The Treemap component was converted. See the [README](https://github.com/infor-design/enterprise-wc/treemap/main/src/components/ids-treemap/README.md#converting-from-previous-versions-breaking-changes) for details. ([#369](https://github.com/infor-design/enterprise-wc/issues/369))
 - `[Trigger Field]` A new trigger field component has been added. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-trigger-field/README.md) for details. ([#178](https://github.com/infor-design/enterprise-wc/issues/178))
