@@ -3,8 +3,6 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-button-base';
-import renderLoop from '../ids-render-loop/ids-render-loop-global';
-import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 import {
   BUTTON_TYPES, BUTTON_DEFAULTS, BUTTON_ATTRIBUTES, ICON_ALIGN, baseProtoClasses
 } from './ids-button-attributes';
@@ -27,24 +25,23 @@ import styles from './ids-button.scss';
 @customElement('ids-button')
 @scss(styles)
 export default class IdsButton extends Base {
-  state: any;
-
   constructor() {
     super();
     this.state = {};
-    Object.keys(BUTTON_DEFAULTS).forEach((prop: string) => {
+    Object.keys(BUTTON_DEFAULTS).forEach((prop) => {
       this.state[prop] = BUTTON_DEFAULTS[prop];
     });
+    this.shouldUpdate = true;
   }
 
   /**
    * Override `attributeChangedCallback` from IdsElement to wrap its normal operation in a
    * check for a true `shouldUpdate` property.
-   * @param {string} name The property name
-   * @param {string} oldValue The property old value
-   * @param {string} newValue The property new value
+   * @param  {string} name The property name
+   * @param  {string} oldValue The property old value
+   * @param  {string} newValue The property new value
    */
-  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+  attributeChangedCallback(name, oldValue, newValue) {
     if (this.shouldUpdate) {
       switch (name) {
       // Convert "tabindex" to "tabIndex"
@@ -71,7 +68,8 @@ export default class IdsButton extends Base {
    * @returns {void}
    */
   connectedCallback() {
-    this.attachEventHandlers();
+    const isIconButton = this.button.classList.contains('ids-icon-button');
+    this.setupRipple(this.button, isIconButton ? 35 : 50);
     this.setIconAlignment();
     this.shouldUpdate = true;
     super.connectedCallback();
@@ -172,42 +170,6 @@ export default class IdsButton extends Base {
   }
 
   /**
-   * Sets up event listeners
-   * @private
-   * @returns {void}
-   */
-  attachEventHandlers() {
-    let x;
-    let y;
-    let preceededByTouchstart = false;
-    if (this.noRipple) {
-      return;
-    }
-
-    this.onEvent('click.ripple', this.button, (e: MouseEvent) => {
-      if (preceededByTouchstart) {
-        preceededByTouchstart = false;
-        return;
-      }
-      x = e.clientX !== 0 ? e.clientX : undefined;
-      y = e.clientY !== 0 ? e.clientY : undefined;
-      this.createRipple(x, y);
-    });
-
-    this.onEvent('touchstart.ripple', this.button, (e: TouchEvent) => {
-      if (e.touches && e.touches.length > 0) {
-        const touch = e.touches[0];
-        x = touch.clientX !== 0 ? touch.clientX : undefined;
-        y = touch.clientY !== 0 ? touch.clientY : undefined;
-        this.createRipple(x, y);
-        preceededByTouchstart = true;
-      }
-    }, {
-      passive: true
-    });
-  }
-
-  /**
    * @readonly
    * @returns {HTMLButtonElement} reference to the true button element used in the Shadow Root
    */
@@ -221,7 +183,7 @@ export default class IdsButton extends Base {
    */
   set cssClass(val) {
     let attr = val;
-    let newCl: any = [];
+    let newCl = [];
     // @TODO replace with clone utils method
     const prevClasses = [].concat(this.state.cssClass);
 
@@ -247,7 +209,7 @@ export default class IdsButton extends Base {
         buttonCl.remove(cssClass);
       }
     });
-    newCl.forEach((newCssClass: any) => {
+    newCl.forEach((newCssClass) => {
       if (!buttonClArr.includes(newCssClass)) {
         buttonCl.add(newCssClass);
       }
@@ -425,7 +387,7 @@ export default class IdsButton extends Base {
    * @param {string} iconName The icon name to check
    * @private
    */
-  appendIcon(iconName: string) {
+  appendIcon(iconName) {
     // First look specifically for an icon slot.
     const icon = this.querySelector(`ids-icon`); // @TODO check for dropdown/expander icons here
 
@@ -514,7 +476,7 @@ export default class IdsButton extends Base {
    * @param {string} val New text contents
    * @private
    */
-  appendText(val: string) {
+  appendText(val) {
     const text = this.querySelector(`span:not(.audible)`);
     if (text) {
       text.textContent = val;
@@ -558,29 +520,6 @@ export default class IdsButton extends Base {
    */
   get type() {
     return this.state.type;
-  }
-
-  /**
-   * If set to true the ripple effect will be disabled.
-   * @param {boolean} val The ripple value
-   */
-  set noRipple(val) {
-    if (stringToBool(val)) {
-      this.setAttribute(attributes.NO_RIPPLE, true);
-      this.state.noRipple = true;
-      this.offEvent('click.ripple');
-      this.offEvent('touchstart.ripple');
-      return;
-    }
-    this.removeAttribute(attributes.NO_RIPPLE);
-    this.state.noRipple = false;
-  }
-
-  /**
-   * @returns {string} the currently set type
-   */
-  get noRipple() {
-    return this.state.noRipple || false;
   }
 
   /**
@@ -656,7 +595,7 @@ export default class IdsButton extends Base {
    * @private
    * @param {string} val desired type class
    */
-  setTypeClass(val: string) {
+  setTypeClass(val) {
     BUTTON_TYPES.forEach((type) => {
       const typeClassName = `btn-${type}`;
       if (val === type) {
@@ -669,89 +608,6 @@ export default class IdsButton extends Base {
         this.button.classList.remove(typeClassName);
       }
     });
-  }
-
-  /**
-   * The math used for getting the ripple offsets
-   * @private
-   * @param {number} x the X coordinate
-   * @param {number} y the Y coordinate
-   * @returns {object} containing x/y coordinates of the ripple
-   */
-  getRippleOffsets(x: number | undefined, y: number | undefined,): object {
-    const btnRect = this.getBoundingClientRect();
-    const halfRippleSize = this.button.classList.contains('ids-icon-button') ? 35 : 50;
-    let btnX;
-    let btnY;
-
-    // If "X" is defined, assume it's page coordinates and subtract the
-    // custom element's offsets from its location in the page.
-    // Otherwise, simply set the offset to the center of the button.
-    if (!x) {
-      btnX = (btnRect.width / 2);
-    } else {
-      btnX = x - btnRect.left;
-    }
-
-    // If "Y" is defined, assume it's page coordinates and subtract the
-    // custom element's offsets from its location in the page.
-    // Otherwise, simply set the offset to the center of the button.
-    if (!y) {
-      btnY = (btnRect.height / 2);
-    } else {
-      btnY = y - btnRect.top;
-    }
-
-    // Subtract half the ripple size from each dimension.
-    btnX -= halfRippleSize;
-    btnY -= halfRippleSize;
-
-    return { x: btnX, y: btnY };
-  }
-
-  /**
-   * Generates a "ripple" effect on a specified location inside the button's boundaries.
-   * The coordinates defined are actual page coordinates, using the top/left of the page as [0,0],
-   * which allows this to connect easily to mouse/touch events.
-   * @private
-   * @param {number | undefined} x the X coordinate
-   * @param {number | undefined} y the Y coordinate
-   * @returns {void}
-   */
-  createRipple(x: number | undefined, y: number| undefined): void {
-    if (this.disabled) {
-      return;
-    }
-
-    // Remove pre-existing ripples
-    const otherRippleEls = this.button.querySelectorAll('.ripple-effect');
-    otherRippleEls.forEach((rippleEl: any) => {
-      rippleEl.remove();
-    });
-
-    // Make/Place a new ripple
-    const rippleEl = document.createElement('span');
-    const btnOffsets: any = this.getRippleOffsets(x, y);
-    rippleEl.classList.add('ripple-effect');
-    rippleEl.setAttribute('aria-hidden', 'true');
-    rippleEl.setAttribute('focusable', 'false');
-
-    this.button.prepend(rippleEl);
-    rippleEl.style.left = `${btnOffsets.x}px`;
-    rippleEl.style.top = `${btnOffsets.y}px`;
-    rippleEl.classList.add('animating');
-
-    // After a short time, remove the ripple effect
-    if (this.rippleTimeout) {
-      this.rippleTimeout.destroy(true);
-    }
-
-    this.rippleTimeout = renderLoop.register(new IdsRenderLoopItem({
-      duration: 1200,
-      timeoutCallback() {
-        rippleEl.remove();
-      }
-    }));
   }
 
   /**
@@ -769,7 +625,7 @@ export default class IdsButton extends Base {
   onColorVariantRefresh() {
     const icons = this.querySelectorAll('ids-icon');
     const texts = this.querySelectorAll('ids-text');
-    const iterator = (el: any) => {
+    const iterator = (el) => {
       el.colorVariant = this.colorVariant;
     };
     [...icons, ...texts].forEach(iterator);

@@ -12,6 +12,7 @@ import styles from './ids-card.scss';
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
+ * @mixes IdsRippleMixin
  * @part card - the card element
  * @part header - the header element
  * @part content - the card content element
@@ -38,7 +39,9 @@ export default class IdsCard extends Base {
       attributes.ACTIONABLE,
       attributes.AUTO_FIT,
       attributes.AUTO_HEIGHT,
-      attributes.OVERFLOW
+      attributes.HREF,
+      attributes.OVERFLOW,
+      attributes.TARGET
     ];
   }
 
@@ -83,13 +86,31 @@ export default class IdsCard extends Base {
   }
 
   /**
+   * Method for actionable link card template
+   * @returns {string} html
+   */
+  actionableLinkTemplate() {
+    const html = `
+      <div class="ids-card" part="card">
+        <ids-hyperlink href="${this.href}" target="${this.target}">
+          <slot name="card-content"></slot>
+        </ids-hyperlink>
+      </div>
+    `;
+
+    return html;
+  }
+
+  /**
    * Inner template contents
    * @returns {string} The template
    */
   template() {
-    return `
-      ${this.actionable ? this.actionableButtonTemplate() : this.cardTemplate()}
-    `;
+    if (this.actionable) {
+      return this.href ? this.actionableLinkTemplate() : this.actionableButtonTemplate();
+    }
+
+    return this.cardTemplate();
   }
 
   /**
@@ -107,6 +128,11 @@ export default class IdsCard extends Base {
         e.preventDefault();
         this.#handleMultipleSelectionChange(e);
       });
+    }
+
+    // If actionable link, setup ripple
+    if (this.actionable && this.href) {
+      this.setupRipple();
     }
 
     return this;
@@ -223,4 +249,44 @@ export default class IdsCard extends Base {
   }
 
   get overflow() { return this.getAttribute(attributes.OVERFLOW); }
+
+  /**
+   * Get href for actionable link card
+   * @returns {string} href for ids-hyperlink
+   */
+  get href() { return this.getAttribute('href'); }
+
+  /**
+   * Set href for actionable link card
+   * @param {string} url href for ids-hyperlink
+   */
+  set href(url) {
+    if (url) {
+      this.setAttribute('href', url);
+      this.container.querySelector('ids-hyperlink')?.setAttribute('href', url);
+    } else {
+      this.removeAttribute('href');
+      this.container.querySelector('ids-hyperlink')?.removeAttribute('href');
+    }
+  }
+
+  /**
+   * Get target for actionable link card
+   * @returns {string} target for ids-hyperlink
+   */
+  get target() { return this.getAttribute('target'); }
+
+  /**
+   * Set target for actionable link card
+   * @param {string} value target value for ids-hyperlink
+   */
+  set target(value) {
+    if (value) {
+      this.setAttribute('target', value);
+      this.container.querySelector('ids-hyperlink')?.setAttribute('target', value);
+    } else {
+      this.removeAttribute('target');
+      this.container.querySelector('ids-hyperlink')?.removeAttribute('target');
+    }
+  }
 }

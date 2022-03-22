@@ -30,7 +30,6 @@ const BUTTON_ATTRIBUTES: string[] = [
   attributes.ID,
   attributes.NO_PADDING,
   attributes.NO_MARGINS,
-  attributes.NO_RIPPLE,
   attributes.SQUARE,
   attributes.TEXT,
   attributes.TYPE,
