@@ -41,7 +41,7 @@ export default class IdsButton extends Base {
    * @param  {string} oldValue The property old value
    * @param  {string} newValue The property new value
    */
-  attributeChangedCallback(name, oldValue, newValue) {
+  attributeChangedCallback(name: any, oldValue: any, newValue: string) {
     if (this.shouldUpdate) {
       switch (name) {
       // Convert "tabindex" to "tabIndex"
@@ -183,7 +183,7 @@ export default class IdsButton extends Base {
    */
   set cssClass(val) {
     let attr = val;
-    let newCl = [];
+    let newCl: any[] = [];
     // @TODO replace with clone utils method
     const prevClasses = [].concat(this.state.cssClass);
 
@@ -387,7 +387,7 @@ export default class IdsButton extends Base {
    * @param {string} iconName The icon name to check
    * @private
    */
-  appendIcon(iconName) {
+  appendIcon(iconName: string) {
     // First look specifically for an icon slot.
     const icon = this.querySelector(`ids-icon`); // @TODO check for dropdown/expander icons here
 
@@ -476,7 +476,7 @@ export default class IdsButton extends Base {
    * @param {string} val New text contents
    * @private
    */
-  appendText(val) {
+  appendText(val: string) {
     const text = this.querySelector(`span:not(.audible)`);
     if (text) {
       text.textContent = val;
@@ -595,7 +595,7 @@ export default class IdsButton extends Base {
    * @private
    * @param {string} val desired type class
    */
-  setTypeClass(val) {
+  setTypeClass(val: string) {
     BUTTON_TYPES.forEach((type) => {
       const typeClassName = `btn-${type}`;
       if (val === type) {
@@ -625,7 +625,7 @@ export default class IdsButton extends Base {
   onColorVariantRefresh() {
     const icons = this.querySelectorAll('ids-icon');
     const texts = this.querySelectorAll('ids-text');
-    const iterator = (el) => {
+    const iterator = (el: { colorVariant: any; }) => {
       el.colorVariant = this.colorVariant;
     };
     [...icons, ...texts].forEach(iterator);

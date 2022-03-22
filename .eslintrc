@@ -77,13 +77,19 @@
       "project": ["./tsconfig.json"]
     },
     "rules": {
-      "@typescript-eslint/no-var-requires": "off",
+     // Allow var requires
+     "@typescript-eslint/no-var-requires": "off",
+      // Allow any
       "@typescript-eslint/no-explicit-any": "off",
+      // Allow empty constructors
       "no-useless-constructor": "off",
       "@typescript-eslint/no-useless-constructor": ["off"],
+      // Allow the use of this
       "class-methods-use-this": "off",
       "no-prototype-builtins": "off",
+      // Dont suggest confusing destructuring
       "prefer-destructuring": ["off"],
+      // Enforce line length
       "max-len": ["error", 120, 2, {
         "ignoreUrls": true,
         "ignoreComments": false,
@@ -91,15 +97,20 @@
         "ignoreStrings": true,
         "ignoreTemplateLiterals": true
       }],
-      "@typescript-eslint/comma-dangle": ["off", {
+     // Enforce where commas can be used
+     "@typescript-eslint/comma-dangle": ["off", {
         "arrays": "never",
         "objects": "never",
         "imports": "never",
         "exports": "never",
         "functions": "never"
       }],
+      // Enforce single quotes
       "@typescript-eslint/quotes": ["error", "single", { "allowTemplateLiterals": true }],
-      "no-param-reassign": ["off", { "props": false }]
+      // Allow to update parameters
+      "no-param-reassign": ["off", { "props": false }],
+      // Allow imports from node_modules (ids-identity)
+      "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
     }
   }]
 }
