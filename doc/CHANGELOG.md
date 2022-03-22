@@ -157,11 +157,8 @@ For more details on breaking changes see each component in the individual README
   - Content can now be set with `tooltipElem.textContent`
   - Instead of open and close use `tooltipElem.visible=true`
   - After show event was not needed as its the same as show so this is removed
-- `[Tree]` The Tree component has been changed to a web component and use with ids-tree and ids-tree-node.
-  - Markup has changed to a custom element `<ids-tree><ids-tree-node></ids-tree-node></ids-tree>`
-  - If using events, events are now plain JS events.
-  - Can now be imported as a single JS file and used with encapsulated styles
-- `[Treemap]` The Treemap component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-treemap/README.md#converting-from-previous-versions-breaking-changes) for details. ([#369](https://github.com/infor-design/enterprise-wc/issues/369))
+- `[Tree]` The Tree component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-treemap/README.md#converting-from-previous-versions-breaking-changes) for details. ([#235](https://github.com/infor-design/enterprise-wc/issues/235))
+- `[Treemap]` The Treemap component was converted. See the [README](https://github.com/infor-design/enterprise-wc/treemap/main/src/components/ids-treemap/README.md#converting-from-previous-versions-breaking-changes) for details. ([#369](https://github.com/infor-design/enterprise-wc/issues/369))
 - `[Trigger Field]` A new trigger field component has been added. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-trigger-field/README.md) for details. ([#178](https://github.com/infor-design/enterprise-wc/issues/178))
 - `[Upload]` The file upload component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-upload/README.md#converting-from-previous-versions-breaking-changes) for details. ([#166](https://github.com/infor-design/enterprise-wc/issues/166))
 - `[Upload Advanced]` The file upload advanced component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-upload-advanced/README.md#converting-from-previous-versions-breaking-changes) for details. ([#161](https://github.com/infor-design/enterprise-wc/issues/161))
