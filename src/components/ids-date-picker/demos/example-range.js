@@ -9,4 +9,8 @@ if (rangePickerSettings) {
     start: '2/5/2018',
     end: '2/28/2018'
   };
+
+  rangePickerSettings.addEventListener('dayselected', (e) => {
+    console.info('Range Selected', e.detail.rangeStart, e.detail.rangeEnd);
+  });
 }

@@ -65,6 +65,7 @@ class IdsMonthView extends Base {
 
   #currentLegend = [];
 
+  // Range picker default settings
   #rangeSettings = {
     start: null,
     end: null,
@@ -152,7 +153,7 @@ class IdsMonthView extends Base {
       this.#rangePropagation(year, month, day);
     });
 
-    // Clear range when hover outside
+    // Clear range selection when hover outside
     this.offEvent('mouseleave.month-view-range');
     this.onEvent('mouseleave.month-view-range', this.container.querySelector('tbody'), () => {
       this.container.querySelectorAll('td')
@@ -187,7 +188,7 @@ class IdsMonthView extends Base {
         // When range selection is started
         if (this.useRange) {
           if (this.rangeSettings.start) {
-          // Escape resets range selection if started
+            // Escape resets range selection
             if (key === 27) {
               this.rangeSettings.start = null;
               this.#clearRangeClasses();
@@ -219,17 +220,20 @@ class IdsMonthView extends Base {
               this.#rangePropagation(this.year, this.month, this.day);
             }
 
-            // Enter or space key complete the range selection
+            // Enter or space key completes range selection if started
             if (key === 13 || key === 32) {
               this.#setRangeSelection(this.year, this.month, this.day);
               this.#triggerSelectedEvent();
             }
-          } else if (key === 13 || key === 32) {
+
+            return;
+          }
+
+          // Enter or space key starts range selection
+          if (key === 13 || key === 32) {
             this.#setRangeSelection(this.year, this.month, this.day);
             this.focus();
           }
-
-          return;
         }
 
         // Arrow Up selects same day previous week
@@ -640,6 +644,11 @@ class IdsMonthView extends Base {
       this.day = now.getDate();
       this.year = now.getFullYear();
       this.month = now.getMonth();
+
+      if (this.useRange) {
+        this.rangeSettings.start = now.getTime();
+        this.rangeSettings.end = now.getTime();
+      }
     }
 
     if (type === 'next-week') {
@@ -723,6 +732,12 @@ class IdsMonthView extends Base {
     }
   }
 
+  /**
+   * Add given year, month, day to the range selection
+   * @param {number} year to add to the range selection
+   * @param {number} month to add to the range selection
+   * @param {number} day to add to the range selection
+   */
   #setRangeSelection(year, month, day) {
     if (!this.useRange) return;
 
@@ -748,11 +763,17 @@ class IdsMonthView extends Base {
     }
   }
 
+  /**
+   * Helper to clear range selection CSS classes
+   */
   #clearRangeClasses() {
     this.container.querySelectorAll('td')
       .forEach((item) => item.classList.remove('range-next', 'range-prev', 'range-selection'));
   }
 
+  /**
+   * Add CSS classes and selected attrs to tables cells when range selection is completed
+   */
   #renderRangeSelection() {
     if (!this.useRange) return;
     const startRange = new Date(this.rangeSettings.start);
@@ -781,6 +802,11 @@ class IdsMonthView extends Base {
     });
   }
 
+  /**
+   * Helper to check if date is in the range selection
+   * @param {Date} date to check if in range selection
+   * @returns {boolean} whether the date in range selection
+   */
   #isRangeByDate(date) {
     const startRange = new Date(this.rangeSettings.start);
     const endRange = new Date(this.rangeSettings.end);
@@ -789,6 +815,13 @@ class IdsMonthView extends Base {
       && date.getTime() <= endRange.getTime();
   }
 
+  /**
+   * Add CSS classes to table cells when range selection is in progress
+   * Starting from the range settings start
+   * @param {number} year to add to the range selection
+   * @param {number} month to add to the range selection
+   * @param {number} day to add to the range selection
+   */
   #rangePropagation(year, month, day) {
     if (!this.useRange) return;
 
@@ -819,9 +852,9 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * Helper to get month format for first day of a month or first day of the range
+   * Helper to get month format for first day of a month or first day of the display range
    * @param {Date} date date to check
-   * @param {Date} rangeStartsOn very first day of the range
+   * @param {Date} rangeStartsOn very first day of the display range
    * @returns {string|undefined} Intl.DateTimeFormat options month format (numeric, long, short)
    */
   #monthInDayFormat(date, rangeStartsOn) {
@@ -1389,10 +1422,17 @@ class IdsMonthView extends Base {
     }
   }
 
+  /**
+   * @returns {object} range settings object
+   */
   get rangeSettings() {
     return this.#rangeSettings;
   }
 
+  /**
+   * Set range selection settings
+   * @param {object} val settings to be assigned to default range settings
+   */
   set rangeSettings(val) {
     this.#rangeSettings = {
       ...this.#rangeSettings,
@@ -1406,12 +1446,20 @@ class IdsMonthView extends Base {
     this.#renderRangeSelection();
   }
 
+  /**
+   * use-range attribute
+   * @returns {boolean} useRange param converted to boolean from attribute value
+   */
   get useRange() {
     const attrVal = this.getAttribute(attributes.USE_RANGE);
 
     return stringToBool(attrVal);
   }
 
+  /**
+   * Set whether or not the component should be a range picker
+   * @param {string|boolean|null} val useRange param value
+   */
   set useRange(val) {
     const boolVal = stringToBool(val);
 

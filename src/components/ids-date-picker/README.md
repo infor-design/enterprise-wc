@@ -32,9 +32,19 @@ The `ids-date-picker` is a web component to support date entry
   - `color` `{string}` - The color of the legend, either hex or IDS variable excluding `--ids-color-palette-` part i.e. `emerald-60` (required)
   - `dates` `{Array}` - Array of dates (either dates or dayOfWeek is required)
   - `dayOfWeek` `{Array}` - Array of days of week where 0 is Sunday (either dates or dayOfWeek is required)
+- `use-range` `{true|false}` - Whether or not the component should be a range picker. If set without settings default settings will apply.
+- `rangeSettings` `{Object}` - Range selection settings:
+  - `start` `{string}` - start date of the range selection. Default is `null` not set
+  - `end` `{string}` - end date of the range selection. Default is `null` not set
+  - `separator` `{string}` - separator symbol for the input value i.e. `2/7/2018 - 2/22/2018` if separator is ` - `. Default is ` - `
+  - `minDays` `{number}` - minimum number of days to select. Default is `0` not set
+  - `maxDays` `{number}` - maximum number of days to select. Default is `0` not set
+  - `selectForward` `{boolean}` - Whether or not the selection should be in forward direction. Default is `false`
+  - `selectBackward` `{boolean}` - Whether or not the selection should be in backward direction. Default is `false`
+  - `includeDisabled` `{boolean}` - Whether or not the selection should include disabled dates visually
 
 ## Events
-- `dayselected` - Fires when a day is selected
+- `dayselected` - Fires when a day is selected or range selection is completed
 - `expanded` - Fires when a month/year picker is opened/closed
 
 ## Themeable Parts
@@ -92,6 +102,57 @@ When used in calendar toolbar.
   show-today="false"
   first-day-of-week="1"
 ></ids-date-picker>
+```
+
+Enable range selection with default settings.
+
+```html
+<ids-date-picker
+  use-range="true"
+></ids-date-picker>
+```
+
+The component can be controlled dynamically
+
+```js
+const datePicker = document.querySelector('ids-date-picker');
+
+// Set legend
+datePicker.legend = [
+  {
+    name: 'Public Holiday',
+    color: 'emerald-60',
+    dates: ['12/31/2021', '12/24/2021', '1/1/2022'],
+  },
+  { name: 'Weekends', color: 'amber-60', dayOfWeek: [0, 6] },
+  {
+    name: 'Other',
+    color: 'ruby-30',
+    dates: ['1/8/2022', '1/9/2022', '1/23/2022'],
+  },
+  {
+    name: 'Half Days',
+    color: 'amethyst-60',
+    dates: ['1/21/2022', '1/22/2022'],
+  },
+  {
+    name: 'Full Days', color: 'azure-30',
+    dates: ['1/24/2022', '1/25/2022'],
+  }
+];
+
+// Unset legend
+datePicker.legend = null;
+
+// Enable range selection and set range settings
+datePicker.useRange = true;
+datePicker.rangeSettings = {
+  start: '12/24/2021',
+  end: '1/25/2022'
+};
+
+// Disable range selection
+datePicker.useRange = false;
 ```
 
 ## Keyboard Guidelines

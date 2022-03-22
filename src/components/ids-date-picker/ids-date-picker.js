@@ -96,10 +96,11 @@ class IdsDatePicker extends Base {
       attributes.SHOW_TODAY,
       attributes.SIZE,
       attributes.TABBABLE,
+      attributes.USE_RANGE,
       attributes.VALIDATE,
       attributes.VALIDATION_EVENTS,
       attributes.VALUE,
-      attributes.YEAR,
+      attributes.YEAR
     ];
   }
 
@@ -259,6 +260,10 @@ class IdsDatePicker extends Base {
 
         if (!this.isCalendarToolbar) {
           this.value = '';
+          this.rangeSettings = {
+            start: null,
+            end: null
+          };
           this.#triggerField?.focus();
           this.#triggerSelectedEvent();
         }
@@ -279,6 +284,27 @@ class IdsDatePicker extends Base {
           this.#monthView.month = month;
 
           picklist.expanded = false;
+
+          return;
+        }
+
+        if (this.useRange) {
+          if (this.rangeSettings.end || (this.rangeSettings.start && !this.rangeSettings.end)) {
+            this.value = [
+              this.locale.formatDate(this.rangeSettings.start),
+              this.rangeSettings.separator,
+              this.locale.formatDate(this.rangeSettings.end ?? this.#monthView.activeDate),
+            ].filter(Boolean).join('');
+
+            this.#togglePopup(false);
+            this.#triggerField?.focus();
+            this.#triggerSelectedEvent();
+          } else {
+            this.value = this.locale.formatDate(this.rangeSettings.start ?? this.#monthView.activeDate);
+            this.rangeSettings = {
+              start: this.#monthView.activeDate
+            };
+          }
 
           return;
         }
@@ -318,9 +344,7 @@ class IdsDatePicker extends Base {
           e.stopPropagation();
 
           this.#unselectPicklist('month');
-
           this.#selectPicklistEl(monthItem);
-
           monthItem.focus();
 
           this.month = monthItem.dataset.month;
@@ -330,9 +354,7 @@ class IdsDatePicker extends Base {
           e.stopPropagation();
 
           this.#unselectPicklist('year');
-
           this.#selectPicklistEl(yearItem);
-
           yearItem.focus();
 
           this.year = yearItem.dataset.year;
@@ -700,11 +722,18 @@ class IdsDatePicker extends Base {
     const args = {
       detail: {
         elem: this,
-        date: this.#monthView.activeDate
+        date: this.#monthView.activeDate,
+        useRange: this.useRange,
+        rangeStart: new Date(this.rangeSettings.start),
+        rangeEnd: new Date(this.rangeSettings.end)
       }
     };
 
-    this.triggerEvent('dayselected', this, args);
+    // Fires on any day selected in regular mode and
+    // only when start/end of range is set in range mode
+    if (!this.useRange || (this.rangeSettings.start && this.rangeSettings.end)) {
+      this.triggerEvent('dayselected', this, args);
+    }
   }
 
   /**
@@ -729,6 +758,8 @@ class IdsDatePicker extends Base {
   #parseInputDate() {
     if (this.isCalendarToolbar) return;
 
+    const inputDate = new Date(this.#triggerField?.value);
+
     const setDateParams = (date) => {
       const month = date.getMonth();
       const year = date.getFullYear();
@@ -749,22 +780,20 @@ class IdsDatePicker extends Base {
 
     if (this.useRange && this.#triggerField?.value) {
       const rangeParts = this.#triggerField.value.split(this.rangeSettings.separator);
-      const rangeStart = new Date(rangeParts[0]);
-      const rangeEnd = new Date(rangeParts[1]);
+      const rangeStart = rangeParts[0] ? new Date(rangeParts[0]) : null;
+      const rangeEnd = rangeParts[1] ? new Date(rangeParts[1]) : null;
 
       this.rangeSettings = {
         start: rangeStart,
         end: rangeEnd
       };
 
-      setDateParams(rangeStart);
+      setDateParams(rangeStart ?? inputDate);
 
       return;
     }
 
-    const date = new Date(this.#triggerField?.value);
-
-    setDateParams(date);
+    setDateParams(inputDate);
   }
 
   /**
@@ -1342,10 +1371,19 @@ class IdsDatePicker extends Base {
     }
   }
 
+  /**
+   * Get range settings for month view component
+   * @returns {object} month view range settings
+   */
   get rangeSettings() {
     return this.#monthView?.rangeSettings;
   }
 
+  /**
+   * Pass range selection settings for month view component
+   * and update input value if passed settings contain start/end
+   * @param {object} val settings to be assigned to default range settings
+   */
   set rangeSettings(val) {
     if (this.#monthView) {
       this.#monthView.rangeSettings = val;
@@ -1356,12 +1394,20 @@ class IdsDatePicker extends Base {
     }
   }
 
+  /**
+   * use-range attribute
+   * @returns {boolean} useRange param converted to boolean from attribute value
+   */
   get useRange() {
     const attrVal = this.getAttribute(attributes.USE_RANGE);
 
     return stringToBool(attrVal);
   }
 
+  /**
+   * Set whether or not the component should be a range picker
+   * @param {string|boolean|null} val useRange param value
+   */
   set useRange(val) {
     const boolVal = stringToBool(val);
 
