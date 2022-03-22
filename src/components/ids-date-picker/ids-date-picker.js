@@ -562,12 +562,12 @@ class IdsDatePicker extends Base {
     if (isOpen && !this.readonly) {
       this.addOpenEvents();
 
-      this.#popup.visible = true;
       this.#popup.alignTarget = this.isCalendarToolbar ? this.container : this.#triggerField;
       this.#popup.arrowTarget = this.#triggerButton;
       this.#popup.align = `bottom, ${this.locale.isRTL() ? 'right' : 'left'}`;
       this.#popup.arrow = 'bottom';
       this.#popup.y = 16;
+      this.#popup.visible = true;
 
       this.container.classList.add('is-open');
       this.#parseInputDate();
