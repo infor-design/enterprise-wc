@@ -15,7 +15,7 @@ describe('Ids Date Picker e2e Tests', () => {
     await expect(page).toPassAxeTests();
   });
 
-  it.only('should handle calendar popup events', async () => {
+  it('should handle calendar popup events', async () => {
     // Closed before
     let isOpen = await page.$eval('#e2e-datepicker-value', (el) =>
       el.shadowRoot.querySelector('ids-popup')?.visible);
@@ -378,5 +378,121 @@ describe('Ids Date Picker e2e Tests', () => {
     value = await page.$eval('#e2e-datepicker-value', (el) => el.value);
 
     expect(value).toEqual('2021-10-18');
+  });
+
+  it('should handle month year picker events', async () => {
+    await page.evaluate(() => {
+      document.querySelector('ids-container').insertAdjacentHTML(
+        'afterbegin',
+        '<ids-date-picker id="e2e-monthyear-picker" is-dropdown="true" value="January 2021" month="0" year="2021"></ids-date-picker>'
+      );
+    });
+
+    const value = await page.$eval('#e2e-monthyear-picker', (el) => el?.value);
+    const month = await page.$eval('#e2e-monthyear-picker', (el) => el?.month);
+    const year = await page.$eval('#e2e-monthyear-picker', (el) => el?.year);
+    let expanded = await page.$eval('#e2e-monthyear-picker', (el) => el?.expanded && el?.classList.contains('is-expaned'));
+
+    // Check initial values
+    expect(value).toEqual('January 2021');
+    expect(month).toEqual(0);
+    expect(year).toEqual(2021);
+    expect(expanded).toBeFalsy();
+
+    // Open/close picker with click to toggle button
+    await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('ids-toggle-button')?.click());
+
+    expanded = await page.$eval('#e2e-monthyear-picker', (el) => el.expanded);
+
+    expect(expanded).toBeTruthy();
+
+    await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('ids-toggle-button')?.click());
+
+    expanded = await page.$eval('#e2e-monthyear-picker', (el) => el.expanded);
+
+    expect(expanded).toBeFalsy();
+
+    // Open with expanded property
+    await page.evaluate(() => {
+      document.querySelector('#e2e-monthyear-picker').expanded = true;
+    });
+
+    expanded = await page.$eval('#e2e-monthyear-picker', (el) => el.expanded);
+
+    expect(expanded).toBeTruthy();
+
+    // Check month/year default selected in the list
+    let monthSelectedIndex = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.dataset.month);
+    let monthSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.textContent);
+    let yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+
+    expect(+monthSelectedIndex).toEqual(0);
+    expect(monthSelectedText).toEqual('January');
+    expect(yearSelectedText).toEqual('2021');
+
+    // Changing month with keyboard
+    await page.keyboard.press('ArrowUp');
+
+    monthSelectedIndex = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.dataset.month);
+    monthSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.textContent);
+
+    expect(+monthSelectedIndex).toEqual(11);
+    expect(monthSelectedText).toEqual('December');
+
+    await page.keyboard.press('ArrowDown');
+
+    monthSelectedIndex = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.dataset.month);
+    monthSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.textContent);
+
+    expect(+monthSelectedIndex).toEqual(0);
+    expect(monthSelectedText).toEqual('January');
+
+    // Changing year with keyboard
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Enter');
+
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    expect(yearSelectedText).toEqual('2011');
+
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('ArrowDown');
+
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    expect(yearSelectedText).toEqual('2012');
+
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Enter');
+
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+
+    expect(yearSelectedText).toEqual('2021');
+
+    await page.keyboard.press('ArrowUp');
+
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+
+    expect(yearSelectedText).toEqual('2026');
+
+    // Changing month/year by clicking to list items
+    await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-month')?.click());
+    await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year')?.click());
+
+    monthSelectedIndex = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.dataset.month);
+    monthSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.textContent);
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+
+    expect(+monthSelectedIndex).toEqual(0);
+    expect(monthSelectedText).toEqual('January');
+    expect(yearSelectedText).toEqual('2017');
+
+    await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-btn-up')?.click());
+
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    expect(yearSelectedText).toEqual('2011');
+
+    await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-btn-down')?.click());
+
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    expect(yearSelectedText).toEqual('2021');
   });
 });
