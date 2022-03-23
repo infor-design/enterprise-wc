@@ -2,7 +2,7 @@
 
 ## Description
 
-The IDS Hidden `ids-hidden` is a wrapper component that can be used to responsively hide children components based on selected breakpooints.
+The IDS Hidden `ids-hidden` is a wrapper component that can be used to responsively hide children components based on selected breakpoints.
 
 ## Use Cases
 

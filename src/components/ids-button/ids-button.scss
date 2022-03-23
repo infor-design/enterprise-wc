@@ -46,19 +46,6 @@ button {
   display: block;
 }
 
-.ripple-effect {
-  @include block();
-  @include rounded-round();
-
-  opacity: 0;
-  position: absolute;
-  transform: scale(0);
-
-  &.animating {
-    @include animation(ripple-animation 1.2s ease-out);
-  }
-}
-
 // Applies to all non-icon button types
 .ids-button,
 .ids-toggle-button,
@@ -69,11 +56,6 @@ button {
 
     place-self: center;
     vertical-align: middle;
-  }
-
-  .ripple-effect {
-    height: 100px;
-    width: 100px;
   }
 }
 
@@ -179,18 +161,6 @@ button {
 // Adjusting hitbox for the modal close icon
 .ids-modal-icon-button {
   @include p-8();
-}
-
-@include keyframes(ripple-animation) {
-  from {
-    opacity: 0.3;
-    transform: scale(0);
-  }
-
-  to {
-    opacity: 0;
-    transform: scale(2);
-  }
 }
 
 // ====================================================

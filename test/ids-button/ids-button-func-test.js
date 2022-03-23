@@ -310,187 +310,22 @@ describe('IdsButton Component', () => {
     expect(btn.button.style.width).toEqual('');
   });
 
-  describe('Ripple effect tests', () => {
-    beforeEach(async () => {
-      const elem = new IdsButton();
-      elem.id = 'test-button';
-      elem.text = 'Test Button';
-      document.body.appendChild(elem);
-      btn = document.querySelector('ids-button');
-    });
+  it('supports setting mode', () => {
+    btn.mode = 'dark';
+    expect(btn.container.getAttribute('mode')).toEqual('dark');
+  });
 
-    afterEach(async () => {
-      document.body.innerHTML = '';
-      btn = null;
-    });
+  it('supports setting version', () => {
+    btn.version = 'classic';
+    expect(btn.container.getAttribute('version')).toEqual('classic');
+  });
 
-    it('creates a ripple when clicked (keyboard)', () => {
-      const event = new KeyboardEvent('keydown', { key: 'Enter' });
-      btn.button.dispatchEvent(event);
-
-      expect(btn.button.querySelector('.ripple-effect')).toBeDefined();
-    });
-
-    it('creates a ripple when clicked (mouse)', () => {
-      const event = new MouseEvent('click', {
-        button: 1,
-        pageX: 0,
-        pageY: 0,
-        target: btn.button,
-        bubbles: true,
-        cancelable: true,
-        view: window
-      });
-      btn.button.dispatchEvent(event);
-
-      expect(btn.button.querySelector('.ripple-effect')).toBeDefined();
-    });
-
-    it('can disable the ripple when added', () => {
-      const elem = new IdsButton();
-      elem.noRipple = true;
-      elem.text = 'Test Button';
-      document.body.appendChild(elem);
-      btn = document.querySelector('ids-button');
-      expect(btn.button.querySelector('.ripple-effect')).toBe(null);
-    });
-
-    it('creates a ripple when touched', () => {
-      const event = new TouchEvent('touchstart', {
-        touches: [{
-          identifier: '123',
-          pageX: 0,
-          pageY: 0,
-          target: btn
-        }],
-        bubbles: true,
-        cancelable: true,
-        view: window
-      });
-      btn.button.dispatchEvent(event);
-
-      expect(btn.button.querySelector('.ripple-effect')).toBeDefined();
-    });
-
-    it('cannot create ripples when disabled', () => {
-      btn.disabled = true;
-      btn.createRipple(0, 0);
-
-      expect(btn.button.querySelector('.ripple-effect')).toBe(null);
-    });
-
-    it('only creates one ripple at a time', () => {
-      btn.createRipple(0, 0);
-      btn.createRipple(0, 0);
-
-      expect(btn.button.querySelectorAll('.ripple-effect').length).toEqual(1);
-    });
-
-    it('only creates one ripple if a touch event is followed by a click event', () => {
-      // Touch event will always occur first
-      const touchEvent = new TouchEvent('touchstart', {
-        touches: [{
-          identifier: '123',
-          pageX: 0,
-          pageY: 0,
-          target: btn
-        }],
-        bubbles: true,
-        cancelable: true,
-        view: window
-      });
-      btn.button.dispatchEvent(touchEvent);
-
-      // Click Event occurs second
-      const clickEvent = new MouseEvent('click', {
-        button: 1,
-        pageX: 0,
-        pageY: 0,
-        target: btn.button,
-        bubbles: true,
-        cancelable: true,
-        view: window
-      });
-      btn.button.dispatchEvent(clickEvent);
-
-      expect(btn.button.querySelectorAll('.ripple-effect').length).toEqual(1);
-    });
-
-    it('can get ripple offsets from its physical dimensions', () => {
-      const c = btn.button;
-
-      // 150x40 are roughly the dimensions of a standard IDS Button with some text and an icon
-      c.getBoundingClientRect = jest.fn(() => ({
-        x: 0,
-        y: 0,
-        left: 0,
-        right: 150,
-        top: 0,
-        bottom: 40,
-        width: 150,
-        height: 140
-      }));
-
-      // Passing { x: 0, y: 0 } causes the ripple effect to center itself inside the button
-      let rippleOffsets = btn.getRippleOffsets(0, 0);
-
-      expect(rippleOffsets.x).toEqual(-50);
-      expect(rippleOffsets.y).toEqual(-50);
-
-      // Center of the ripple will be at { x: 1 y: 1 } inside the button
-      rippleOffsets = btn.getRippleOffsets(1, 1);
-
-      expect(rippleOffsets.x).toEqual(-49);
-      expect(rippleOffsets.y).toEqual(-49);
-    });
-
-    it('removes the ripple effect HTML when it completes', (done) => {
-      const event = new MouseEvent('click', {
-        button: 1,
-        pageX: 0,
-        pageY: 0,
-        target: btn.button,
-        bubbles: true,
-        cancelable: true,
-        view: window
-      });
-      btn.button.dispatchEvent(event);
-
-      expect(btn.button.querySelector('.ripple-effect')).toBeDefined();
-
-      setTimeout(() => {
-        expect(btn.button.querySelector('.ripple-effect')).toBe(null);
-        done();
-      }, 2000);
-    });
-
-    it('supports setting mode', () => {
-      btn.mode = 'dark';
-      expect(btn.container.getAttribute('mode')).toEqual('dark');
-    });
-
-    it('supports setting version', () => {
-      btn.version = 'classic';
-      expect(btn.container.getAttribute('version')).toEqual('classic');
-    });
-
-    it('removes the color attribute when reset', () => {
-      btn.noRipple = true;
-      expect(btn.getAttribute('no-ripple')).toEqual('true');
-      expect(btn.noRipple).toEqual(true);
-
-      btn.noRipple = false;
-      expect(btn.getAttribute('no-ripple')).toEqual(null);
-      expect(btn.noRipple).toEqual(false);
-    });
-
-    it('supports setting color variants', async () => {
-      await expectEnumAttributeBehavior({
-        elem: btn,
-        attribute: 'color-variant',
-        values: ['alternate'],
-        defaultValue: null
-      });
+  it('supports setting color variants', async () => {
+    await expectEnumAttributeBehavior({
+      elem: btn,
+      attribute: 'color-variant',
+      values: ['alternate'],
+      defaultValue: null
     });
   });
 });

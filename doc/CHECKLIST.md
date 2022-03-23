@@ -76,7 +76,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Emptymessage (ids-empty-message)
  - [x] Error Page (ids-page-error)
  - [x] Expandable area (ids-expandable-area)
- - [ ] Fieldset (ids-field-set)
+ - [x] Fieldset (ids-field-set)
  - [x] Fontpicker (added as part of editor)
  - [ ] Form  (ids-form)
  - [x] Grid (ids-layout-grid)

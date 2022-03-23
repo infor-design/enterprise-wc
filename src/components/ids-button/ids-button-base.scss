@@ -3,6 +3,7 @@
  * Use these mixins inside Ids Button CSS classes to define their base styles.
  */
 @import '../../core/ids-base';
+@import '../../mixins/sass/ids-ripple-mixin';
 
 // Mixin for a "blank" shadow (same as the standard one with a completely transparent alpha)
 @mixin blank-shadow() {
@@ -25,24 +26,6 @@
 @mixin alternate-button-shadow() {
   border-color: var(--ids-color-palette-white);
   box-shadow: 0 0 3px 2px rgba(255 255 255 / 0.7);
-}
-
-// Used to include a basic set of ripple-effect styles
-@mixin ids-base-ripple-styles() {
-  .ripple-effect {
-    @include block();
-    @include rounded-round();
-
-    height: 250px;
-    opacity: 0;
-    position: absolute;
-    transform: scale(0);
-    width: 250px;
-
-    &.animating {
-      @include animation(ripple-animation 1.2s ease-out);
-    }
-  }
 }
 
 // Used to include a basic set of button styles within each individual button prototype.
