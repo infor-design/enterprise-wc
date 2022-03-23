@@ -118,13 +118,13 @@ export default class IdsDropdown extends Base {
       'aria-expanded': 'false',
       'aria-autocomplete': 'list',
       'aria-haspopup': 'listbox',
-      'aria-label': this.locale?.translate('PressDown'),
+      'aria-description': this.locale?.translate('PressDown'),
       'aria-controls': this.listBox?.getAttribute('id') || `ids-list-box-${this.id}`
     };
 
     if (this.listBox) {
       this.listBox.setAttribute('id', `ids-list-box-${this.id}`);
-      this.listBox.setAttribute('aria-labelledby', this.id);
+      this.listBox.setAttribute('aria-label', `Listbox`);
     }
     Object.keys(attrs).forEach((key) => this.setAttribute(key, attrs[key]));
     return this;
@@ -135,7 +135,7 @@ export default class IdsDropdown extends Base {
 
     // Add aria for the open state
     const selected = this.selectedOption;
-    this.listBox.setAttribute('tabindex', '0');
+    this.listBox?.setAttribute('tabindex', '0');
     this.listBox?.setAttribute('aria-activedescendant', selected?.id || this.selectedIndex);
     if (selected) {
       selected.setAttribute('tabindex', '0');
@@ -145,7 +145,7 @@ export default class IdsDropdown extends Base {
 
   #setAriaOnMenuClose() {
     this.setAttribute('aria-expanded', 'false');
-    this.listBox.removeAttribute('tabindex');
+    this.listBox?.removeAttribute('tabindex');
 
     const selected = this.selected;
     if (selected) {

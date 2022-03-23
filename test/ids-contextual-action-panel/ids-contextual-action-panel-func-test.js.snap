@@ -2,6 +2,6 @@
 
 exports[`IdsContextualActionPanel Component renders correctly 1`] = `"<ids-contextual-action-panel role=\\"dialog\\"></ids-contextual-action-panel>"`;
 
-exports[`IdsContextualActionPanel Component renders correctly 2`] = `"<ids-contextual-action-panel role=\\"dialog\\" visible=\\"\\" style=\\"z-index: 1020;\\"></ids-contextual-action-panel>"`;
+exports[`IdsContextualActionPanel Component renders correctly 2`] = `"<ids-contextual-action-panel role=\\"dialog\\" visible=\\"\\" style=\\"z-index: 1020;\\" captures-focus=\\"true\\"></ids-contextual-action-panel>"`;
 
-exports[`IdsContextualActionPanel Component renders correctly 3`] = `"<ids-contextual-action-panel role=\\"dialog\\" style=\\"z-index: 1020;\\"></ids-contextual-action-panel>"`;
+exports[`IdsContextualActionPanel Component renders correctly 3`] = `"<ids-contextual-action-panel role=\\"dialog\\" style=\\"z-index: 1020;\\" captures-focus=\\"true\\"></ids-contextual-action-panel>"`;
