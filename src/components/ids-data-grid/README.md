@@ -154,6 +154,365 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 - `rowdeselected` Fires for each row that is deselected.
 - `rowactivated` Fires for each row that is activated.
 - `rowdeactivated` Fires for each row that is deactivated.
+- `filtered` Fires after a filter action occurs, clear or apply filter condition.
+- `filteroperatorchanged` Fires once a filter operator changed.
+- `openfilterrow` Fires after the filter row is opened by the user.
+- `closefilterrow` Fires after the filter row is closed by the user.
+
+## Filters
+
+Data rows can be easily filter based on one or several criteria. Whole filter row can turn on/off by api setting `filterable` and can be disabled by api setting `filter-row-disabled`. The filter conditions apply thru the UI or programmatically. Each column can have its own filter type and turn on/off by columns setting.
+
+### Filter Columns Setting
+
+All the filter settings can be passed thru columns data.
+
+|Setting|Type|Description|
+|---|---|---|
+|`filterType` | Function | Data grid built-in filter method, see the dedicated section below. |
+|`filterTerms` | Array | List of items to be use as operators in menu-button or options in dropdown. |
+|`filterFunction` | Function | User defined filter method, it must return a boolean. |
+|`filterOptions` | Object | Setting for components are in use, for example: `label, placeholder, disabled`. |
+|`isChecked` | Function | User defined filter method, it must return a boolean. This method use along built-in `checkbox` only, when filter data value is not boolean type. |
+
+### Built-in Filter Methods
+
+|Method|Description|
+|---|---|
+|`text` | It filter as text comparison. Contains input and menu-button with list of default operators. |
+|`integer` | It filter as integer comparison. Contains input and menu-button with list of default operators. |
+|`decimal` | It filter as decimal comparison. Contains input and menu-button with list of default operators. |
+|`contents` | It filter as text comparison. Contains dropdown and auto generate list of items based on column data. |
+|`dropdown` | It filter as text comparison. Contains dropdown and must pass list of item by setting `filterTerms`. |
+|`checkbox` | It filter as boolean comparison. Contains menu-button with list of default operators. |
+|`date` | It filter as date comparison. Contains date-picker and menu-button with list of default operators. |
+|`time` | It filter as time comparison. Contains time-picker and menu-button with list of default operators. |
+
+### Custom Filter
+
+If the built-in filters are not enough, creating a custom filter is an option. There are two parts you can create both parts custom or mix-match with built-in.
+
+1. `UI Only` In order to do custom UI part of filter, add as html markup thru a slot. It must use slot and column-id attributes for example: `<div slot="filter-n" column-id="n">...</div>` where n is the columnId same passed in the columns.
+1. `filterFunction` This is a user defined filter method which must return a boolean. It determines if a cell value should be considered as a valid filtered value.
+
+### Filter Code Examples
+
+Basic text filters
+
+```html
+<ids-data-grid id="data-grid-1" label="Books" filterable="true">
+</ids-data-grid>
+```
+
+```js
+const columns = [];
+columns.push({
+  id: 'text',
+  name: 'Text',
+  field: 'description',
+  formatter: dataGrid.formatters.text,
+  filterType: dataGrid.filters.text
+});
+```
+
+No filters
+
+```html
+<ids-data-grid id="data-grid-1" label="Books" filterable="false">
+</ids-data-grid>
+```
+
+```js
+const columns = [];
+columns.push({
+  id: 'text',
+  name: 'Text',
+  field: 'description',
+  formatter: dataGrid.formatters.text,
+  filterType: dataGrid.filters.text
+});
+```
+
+Disabled filter row, will disabled all attached filters.
+
+```html
+<ids-data-grid id="data-grid-1" label="Books" filterable="true" filter-row-disabled="true">
+</ids-data-grid>
+```
+
+```js
+const columns = [];
+columns.push({
+  id: 'text',
+  name: 'Text',
+  field: 'description',
+  formatter: dataGrid.formatters.text,
+  filterType: dataGrid.filters.text
+});
+```
+
+Hyperlink, integer, decimal, date and time filters
+
+```html
+<ids-data-grid id="data-grid-1" label="Books" filterable="true">
+</ids-data-grid>
+```
+
+```js
+const columns = [];
+columns.push({
+  id: 'hyperlink',
+  name: 'Hyperlink',
+  field: 'description',
+  href: '#',
+  formatter: dataGrid.formatters.text,
+  filterType: dataGrid.filters.hyperlink
+});
+columns.push({
+  id: 'integer',
+  name: 'Integer',
+  field: 'price',
+  filterType: dataGrid.filters.integer,
+  formatter: dataGrid.formatters.integer,
+  formatOptions: { locale: 'en-US' }
+});
+columns.push({
+  id: 'decimal',
+  name: 'Decimal',
+  field: 'price',
+  filterType: dataGrid.filters.decimal,
+  formatter: dataGrid.formatters.decimal,
+  formatOptions: { locale: 'en-US' }
+});
+columns.push({
+  id: 'date',
+  name: 'Date',
+  field: 'publishDate',
+  filterType: dataGrid.filters.date,
+  formatter: dataGrid.formatters.date
+});
+columns.push({
+  id: 'time',
+  name: 'Time',
+  field: 'publishDate',
+  filterType: dataGrid.filters.time,
+  formatter: dataGrid.formatters.time
+});
+```
+
+Some filter options label, placeholder, disabled.
+
+```html
+<ids-data-grid id="data-grid-1" label="Books" filterable="true">
+</ids-data-grid>
+```
+
+```js
+const columns = [];
+columns.push({
+  id: 'description',
+  name: 'Description',
+  field: 'description',
+  formatter: dataGrid.formatters.text,
+  filterType: dataGrid.filters.text,
+  filterOptions: {
+    label: 'Label text for description input',
+    placeholder: 'Placeholder text for description input',
+    disabled: true
+  }
+});
+```
+
+Custom operators items for menu-button.
+
+```html
+<ids-data-grid id="data-grid-1" label="Books" filterable="true">
+</ids-data-grid>
+```
+
+```js
+const columns = [];
+columns.push({
+  id: 'description',
+  name: 'Description',
+  field: 'description',
+  formatter: dataGrid.formatters.text,
+  filterType: dataGrid.filters.text,
+  filterTerms: [{
+    value: 'contains',
+    label: 'Contains',
+    icon: 'filter-contains'
+  },
+  {
+    value: 'equals',
+    label: 'Equals',
+    icon: 'filter-equals',
+    selected: true
+  }]
+});
+```
+
+Contents and dropdown type filters.
+
+```html
+<ids-data-grid id="data-grid-1" label="Books" filterable="true">
+</ids-data-grid>
+```
+
+```js
+const columns = [];
+columns.push({
+  id: 'location',
+  name: 'Location',
+  field: 'location',
+  formatter: dataGrid.formatters.text,
+  filterType: dataGrid.filters.contents,
+  filterOptions: {
+    notFilteredItem: { value: 'not-filtered', label: 'Not Filtered' }
+  }
+});
+columns.push({
+  id: 'useForEmployee',
+  name: 'NotFilterdItem (shown as blank)',
+  field: 'useForEmployee',
+  formatter: dataGrid.formatters.text,
+  filterType: dataGrid.filters.dropdown,
+  filterTerms: [
+    { value: 'Yes', label: 'Yes' },
+    { value: 'No', label: 'No' }
+  ]
+});
+columns.push({
+  id: 'useForEmployeeCustomNotFilterdItem',
+  name: 'NotFilterdItem (show as custom text)',
+  field: 'useForEmployee',
+  formatter: dataGrid.formatters.text,
+  filterType: dataGrid.filters.dropdown,
+  filterTerms: [
+    { value: 'not-filtered', label: 'Not Filtered' },
+    { value: 'Yes', label: 'Yes' },
+    { value: 'No', label: 'No' }
+  ]
+});
+```
+
+Checkbox type filters.
+
+```html
+<ids-data-grid id="data-grid-1" label="Books" filterable="true">
+</ids-data-grid>
+```
+
+```js
+const columns = [];
+columns.push({
+  id: 'checkbox',
+  name: 'Checkbox',
+  field: 'inStock',
+  formatter: dataGrid.formatters.text,
+  filterType: dataGrid.filters.checkbox
+});
+columns.push({
+  id: 'customCheckMethod',
+  name: 'Custom check method',
+  field: 'active',
+  formatter: dataGrid.formatters.text,
+  filterType: dataGrid.filters.checkbox,
+  isChecked: (value) => value === 'Yes'
+});
+```
+
+Custom filter method.
+
+```html
+<ids-data-grid id="data-grid-1" label="Books" filterable="true">
+</ids-data-grid>
+```
+
+```js
+// Custom filter checking
+const myCustomFilter = (opt) => {
+  const { operator, columnId, value } = opt.condition;
+  const val = {
+    condition: Number.parseInt(value, 10),
+    data: Number.parseInt(opt.data[columnId], 10)
+  };
+  let isMatch = false;
+  if (Number.isNaN(val.condition) || Number.isNaN(val.data)) return isMatch;
+
+  if (operator === 'equals') isMatch = (val.data === val.condition);
+  if (operator === 'greater-than') isMatch = (val.data > val.condition);
+  if (operator === 'greater-equals') isMatch = (val.data >= val.condition);
+  if (operator === 'less-than') isMatch = (val.data < val.condition);
+  if (operator === 'less-equals') isMatch = (val.data <= val.condition);
+
+  return isMatch;
+};
+
+const columns = [];
+columns.push({
+  id: 'customFilterMethod',
+  name: 'Custom Filter Method',
+  field: 'price',
+  filterFunction: myCustomFilter,
+  formatter: dataGrid.formatters.integer,
+  formatOptions: { locale: 'en-US' }
+});
+```
+
+Custom filter UI part.
+
+```html
+<ids-data-grid id="data-grid-1" label="Books" filterable="true">
+  <div slot="filter-description" column-id="description">
+    <ids-menu-button id="btn-filter-description" icon="filter-greater-equals" menu="menu-filter-description" dropdown-icon>
+      <span slot="text" class="audible">Greater Than Or Equals</span>
+    </ids-menu-button>
+    <ids-popup-menu id="menu-filter-description" target="#btn-filter-description">
+      <ids-menu-group select="single">
+        <ids-menu-item value="equals" icon="filter-equals">Equals</ids-menu-item>
+        <ids-menu-item value="greater-than" icon="filter-greater-than">Greater Than</ids-menu-item>
+        <ids-menu-item value="greater-equals" icon="filter-greater-equals" selected="true">Greater Than Or Equals</ids-menu-item>
+        <ids-menu-item value="less-than" icon="filter-less-than">Less Than</ids-menu-item>
+        <ids-menu-item value="less-equals" icon="filter-less-equals">Less Than Or Equals</ids-menu-item>
+      </ids-menu-group>
+    </ids-popup-menu>
+    <ids-input id="input-filter-description" type="text" size="full" placeholder="Slotted description" label="Slotted description input">
+    </ids-input>
+  </div>
+</ids-data-grid>
+```
+
+```js
+const columns = [];
+columns.push({
+  id: 'text',
+  name: 'Text',
+  field: 'description',
+  formatter: dataGrid.formatters.text,
+  filterType: dataGrid.filters.text
+});
+```
+
+### Filter rows programmatically
+
+```js
+// Filter rows
+const conditions = [{ columnId: 'description', operator: 'contains', value: '5' }];
+dataGrid.applyFilter(conditions);
+
+// Reset all filters
+dataGrid.applyFilter([]);
+```
+
+### Filter Events
+
+The following events are relevant to data-grid filters.
+
+- `filtered` Fires after a filter action occurs, clear or apply filter condition.
+- `filteroperatorchanged` Fires once a filter operator changed.
+- `openfilterrow` Fires after the filter row is opened by the user.
+- `closefilterrow` Fires after the filter row is closed by the user.
 
 ## States and Variations
 

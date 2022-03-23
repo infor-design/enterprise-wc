@@ -1,0 +1,22 @@
+@import '../../core/ids-base';
+
+.ids-data-grid {
+  ::slotted([slot^='filter-']) {
+    @include flex();
+
+    align-items: center;
+  }
+
+  .ids-data-grid-header-cell-filter-wrapper {
+    @include flex();
+    @include pb-8();
+    @include pl-8();
+    @include pr-12();
+
+    align-items: center;
+
+    &.hidden {
+      @include hidden();
+    }
+  }
+}

@@ -313,6 +313,11 @@
       .ripple-effect {
         background-color: var(--ids-color-palette-azure-40);
       }
+
+      &.ids-menu-button.compact {
+        @include p-4();
+        @include pl-8();
+      }
     }
   }
 

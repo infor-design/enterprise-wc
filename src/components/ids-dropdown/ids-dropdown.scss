@@ -15,6 +15,10 @@ ids-trigger-button {
   top: 2px;
 }
 
+:host([size='full']) {
+  @include w-full();
+}
+
 :host([dir='rtl']) .icon-container {
   margin: 0 8px 0 0;
 }
