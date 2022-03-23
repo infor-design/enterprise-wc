@@ -22,6 +22,7 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
     super.connectedCallback?.();
 
     if (!this.autocomplete) {
+      this.destroyAutocomplete();
       return;
     }
 
@@ -34,24 +35,16 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
    * Gets the internal IdsDataSource object
    * @returns {IdsDataSource} object
    */
-  datasource = new IdsDataSource();
+  datasource = this.autocomplete && new IdsDataSource();
 
-  #listBox = new IdsListBox();
+  #listBox = this.autocomplete && new IdsListBox();
 
-  #popup = new IdsPopup();
-
-  get listBox() { return this.#listBox; }
-
-  get popup() { return this.#popup; }
-
-  get popupContent() {
-    return this.popup.container.querySelector('slot[name="content"]');
-  }
+  #popup = this.autocomplete && new IdsPopup();
 
   set autocomplete(value) {
     const val = stringToBool(value);
     if (val) {
-      this.setAttribute(attributes.AUTOCOMPLETE, val);
+      this.setAttribute(attributes.AUTOCOMPLETE, '');
       this.container.classList.add('autocomplete');
     } else {
       this.removeAttribute(attributes.AUTOCOMPLETE);
@@ -74,12 +67,18 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
     return this?.datasource?.data || [];
   }
 
-  get rootNode() {
-    return this.getRootNode().body.querySelector('ids-container') || window.document.body;
-  }
-
-  get listBoxOptions() {
-    return this.#popup.shadowRoot.querySelectorAll('ids-list-box-option');
+  /**
+   * Get a list of element dependencies for this component
+   * @returns {object} of elements
+   */
+  get elements() {
+    return {
+      popup: this.#popup,
+      listBox: this.#listBox,
+      popupContent: this.#popup.container.querySelector('slot[name="content"]'),
+      listBoxOptions: this.#popup.shadowRoot.querySelectorAll('ids-list-box-option'),
+      rootNode: this.getRootNode().body.querySelector('ids-container') || window.document.body,
+    };
   }
 
   get templateKeys() {
@@ -107,6 +106,39 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
     this.#populateListbox();
   }
 
+  findMatches(value, list) {
+    return list.filter((option) => {
+      const regex = new RegExp(value, 'gi');
+      return option[this.searchKey].match(regex);
+    });
+  }
+
+  displayMatches() {
+    const resultsArr = this.findMatches(this.value, this.data);
+    const results = resultsArr.map((result) => {
+      const regex = new RegExp(this.value, 'gi');
+      const optionText = result[this.searchKey].replace(regex, `<span class="highlight">${this.value.toLowerCase()}</span>`);
+      return `<ids-list-box-option>${optionText}</ids-list-box-option>`;
+    }).join('');
+
+    this.openPopup();
+    this.elements.listBox.innerHTML = results;
+  }
+
+  closePopup() {
+    this.elements.popup.open = false;
+    this.elements.popup.visible = false;
+  }
+
+  openPopup() {
+    this.elements.popup.open = true;
+    this.elements.popup.visible = true;
+  }
+
+  #populateListbox() {
+    this.elements.listBox.innerHTML = this.data.map((d) => `<ids-list-box-option>${d[this.searchKey]}</ids-list-box-option>`).join('');
+  }
+
   #attachTemplateSlot() {
     const slot = document.createElement('slot');
     slot.setAttribute('name', 'autocomplete-template');
@@ -115,52 +147,29 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
   }
 
   #attachPopup() {
-    this.popup.type = 'dropdown';
-    this.popup.align = 'bottom, left';
-    this.popup.alignTarget = this.fieldContainer;
-    this.popup.y = -1;
+    this.elements.popup.type = 'dropdown';
+    this.elements.popup.align = 'bottom, left';
+    this.elements.popup.alignTarget = this.fieldContainer;
+    this.elements.popup.y = -1;
 
-    this.rootNode?.appendChild(this.#popup);
-    this.popupContent.appendChild(this.#listBox);
-  }
-
-  #closePopup() {
-    this.popup.open = false;
-    this.popup.visible = false;
-  }
-
-  #openPopup() {
-    this.popup.open = true;
-    this.popup.visible = true;
-  }
-
-  #populateListbox() {
-    this.#listBox.innerHTML = this.data.map((d) => `<ids-list-box-option>${d[this.searchKey]}</ids-list-box-option>`).join('');
-  }
-
-  #findMatches(value, list) {
-    return list.filter((option) => {
-      const regex = new RegExp(value, 'gi');
-      return option[this.searchKey].match(regex);
-    });
-  }
-
-  #displayMatches() {
-    const resultsArr = this.#findMatches(this.value, this.data);
-    const results = resultsArr.map((result) => {
-      const regex = new RegExp(this.value, 'gi');
-      const optionText = result[this.searchKey].replace(regex, `<span class="highlight">${this.value.toLowerCase()}</span>`);
-      return `<ids-list-box-option>${optionText}</ids-list-box-option>`;
-    }).join('');
-
-    this.#openPopup();
-    this.#listBox.innerHTML = results;
+    this.elements.rootNode?.appendChild(this.#popup);
+    this.elements.popupContent.appendChild(this.#listBox);
   }
 
   #attachEventListeners() {
-    this.onEvent('keyup', this, this.#displayMatches);
-    this.onEvent('change', this, this.#displayMatches);
-    this.onEvent('blur', this, this.#closePopup);
+    this.onEvent('keyup', this, this.displayMatches);
+    this.onEvent('change', this, this.displayMatches);
+    this.onEvent('blur', this, this.closePopup);
+  }
+
+  #removeEventListeners() {
+    this.offEvent('keyup', this, this.displayMatches);
+    this.offEvent('change', this, this.displayMatches);
+    this.offEvent('blur', this, this.closePopup);
+  }
+
+  destroyAutocomplete() {
+    this.#removeEventListeners();
   }
 };
 
