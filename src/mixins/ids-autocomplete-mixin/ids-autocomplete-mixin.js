@@ -50,6 +50,10 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
    */
   #popup;
 
+  /**
+   * Set autocomplete attribute
+   * @param {string | null} value autocomplete value
+   */
   set autocomplete(value) {
     const val = stringToBool(value);
     if (val) {
@@ -61,10 +65,18 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
     }
   }
 
+  /**
+   * Get the autocomplete attribute
+   * @returns {boolean} autocomplete attribute value
+   */
   get autocomplete() {
     return this.hasAttribute(attributes.AUTOCOMPLETE);
   }
 
+  /**
+   * Set the data array of the autocomplete input
+   * @param {Array} value The array to use
+   */
   set data(value) {
     if (this.datasource) {
       this.datasource.data = value || [];
@@ -72,6 +84,10 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
     }
   }
 
+  /**
+   * Get the data of the autocomplete
+   * @returns {Array<any>|object} containing the dataset
+   */
   get data() {
     return this?.datasource?.data || [];
   }
@@ -90,10 +106,20 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
     };
   }
 
+  /**
+   * Get the template keys from the <template>
+   * Ex: <template>${label}</template
+   * @returns {Array<any>|object} containing the keys of the dataset.
+   */
   get templateKeys() {
     return extractTemplateLiteralsFromHTML(this.defaultTemplate);
   }
 
+  /**
+   * Set searchKey attribute
+   * Used as the target term to find matches in the dataset.
+   * @param {string | null} value search key value
+   */
   set searchKey(value) {
     if (value) {
       this.setAttribute(attributes.SEARCH_KEY, value);
@@ -102,6 +128,10 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
     }
   }
 
+  /**
+   * Get searchKey
+   * @returns {string | null} containing the searchKey
+   */
   get searchKey() {
     return this.getAttribute(attributes.SEARCH_KEY) || this.templateKeys[0];
   }
@@ -115,6 +145,12 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
     this.#populateListbox();
   }
 
+  /**
+   * Find matches between the input value, searchKey and dataset
+   * @param {string | null} value value in the input field
+   * @param {Array} list the dataset
+   * @returns {Array<any> | null} containing matched values.
+   */
   findMatches(value, list) {
     return list.filter((option) => {
       const regex = new RegExp(value, 'gi');
@@ -122,6 +158,10 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
     });
   }
 
+  /**
+   * Display matches from the dataset
+   * @returns {void}
+   */
   displayMatches() {
     const resultsArr = this.findMatches(this.value, this.data);
     const results = resultsArr.map((result) => {
@@ -148,16 +188,29 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
     this.elements.popup.visible = true;
   }
 
+  /**
+   * Populate the IdsListBox element with
+   * IdsListBoxOptions containing the dataset
+   * @returns {void}
+   */
   #populateListbox() {
     this.elements.listBox.innerHTML = this.data.map((d) => `<ids-list-box-option>${d[this.searchKey]}</ids-list-box-option>`).join('');
   }
 
+  /**
+   * Attach internal properties
+   * @returns {void}
+   */
   #attachProperties() {
     this.datasource = new IdsDataSource();
     this.#listBox = new IdsListBox();
     this.#popup = new IdsPopup();
   }
 
+  /**
+   * Attach template slot to establish internal list options
+   * @returns {void}
+   */
   #attachTemplateSlot() {
     const slot = document.createElement('slot');
     slot.setAttribute('name', 'autocomplete-template');
@@ -165,6 +218,10 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
   }
 
+  /**
+   * Configure and attach internal IdsPopup element.
+   * @returns {void}
+   */
   #attachPopup() {
     this.elements.popup.type = 'dropdown';
     this.elements.popup.align = 'bottom, left';
@@ -175,18 +232,30 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
     this.elements.popupContent.appendChild(this.#listBox);
   }
 
+  /**
+   * Attach internal event handlers
+   * @returns {void}
+   */
   #attachEventListeners() {
     this.onEvent('keyup', this, this.displayMatches);
     this.onEvent('change', this, this.displayMatches);
     this.onEvent('blur', this, this.closePopup);
   }
 
+  /**
+   * Remove internal event handlers
+   * @returns {void}
+   */
   #removeEventListeners() {
     this.offEvent('keyup', this, this.displayMatches);
     this.offEvent('change', this, this.displayMatches);
     this.offEvent('blur', this, this.closePopup);
   }
 
+  /**
+   * Destroy autocomplete functionality
+   * @returns {void}
+   */
   destroyAutocomplete() {
     this.#removeEventListeners();
   }
