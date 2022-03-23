@@ -131,7 +131,7 @@ export default class IdsTag extends Base {
     this.container.classList.remove('focusable');
   }
 
-  get dismissible(): boolean { return this.getAttribute('dismissible'); }
+  get dismissible(): boolean { return stringToBool(this.getAttribute('dismissible')); }
 
   /**
    * If set to true the tag has focus state and becomes a clickable linnk

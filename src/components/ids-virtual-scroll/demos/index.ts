@@ -1,7 +1,5 @@
 import '../ids-virtual-scroll';
 import '../../ids-card/ids-card';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import productsJSON from '../../../assets/data/products.json';
 import css from '../../../assets/css/ids-virtual-scroll/index.css';
 

@@ -325,7 +325,6 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
    * @private
    * @param {string} eventName The event name with optional namespace
    * @param {HTMLElement} target The DOM element to register
-   * @param {object} options The options to pass through to the event
    */
   #addKeyboardFocusListener(eventName: string, target: HTMLElement) {
     if (this.keyboardFocusOn) {

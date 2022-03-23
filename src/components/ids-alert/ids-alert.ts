@@ -1,11 +1,10 @@
-/* eslint-disable no-nested-ternary */
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { sizes } from '../ids-icon/ids-icon-attributes';
 
 import Base from './ids-alert-base';
-import IdsIcon from '../ids-icon/ids-icon';
+import '../ids-icon/ids-icon';
 
 import styles from './ids-alert.scss';
 
@@ -53,9 +52,9 @@ export default class IdsAlert extends Base {
 
   /**
    * Sets to disabled
-   * @param {boolean|string?} value If true will set `disabled` attribute
+   * @param {boolean|string} value If true will set `disabled` attribute
    */
-  set disabled(value) {
+  set disabled(value: boolean | string) {
     const icon = this.shadowRoot?.querySelector('ids-icon');
     const val = stringToBool(value);
     if (val) {
@@ -67,19 +66,19 @@ export default class IdsAlert extends Base {
     }
   }
 
-  get disabled() { return this.getAttribute(attributes.DISABLED); }
+  get disabled(): boolean | string { return this.getAttribute(attributes.DISABLED); }
 
   /**
    * Return the icon of the alert.
    * @returns {string | null} the path data
    */
-  get icon() { return this.getAttribute(attributes.ICON); }
+  get icon(): string { return this.getAttribute(attributes.ICON); }
 
   /**
    * Set the icon
    * @param {string | null} value The Icon Type [success, info, error, warning]
    */
-  set icon(value) {
+  set icon(value: string | null) {
     let icon = value;
     if (value) {
       this.setAttribute(attributes.ICON, value);
@@ -99,9 +98,9 @@ export default class IdsAlert extends Base {
    * Return the size. May be large, normal/medium or small
    * @returns {string} the size
    */
-  get size() { return this.getAttribute(attributes.SIZE) || 'normal'; }
+  get size(): string | null { return this.getAttribute(attributes.SIZE) || 'normal'; }
 
-  set size(value) {
+  set size(value: string | null) {
     if (value && sizes[value]) {
       this.setAttribute(attributes.SIZE, value);
       this.container.querySelector('ids-icon')?.setAttribute(attributes.SIZE);

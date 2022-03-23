@@ -26,8 +26,13 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
     this.render();
   }
 
+  /** Component's name */
   name?: string;
+
+  /** Ids Version No */
   IdsVersion?: string;
+
+  /** State object for current states */
   state?: Record<string, unknown>;
 
   /**
@@ -91,8 +96,9 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
    */
   disconnectedCallback() {
     this.detachAllEvents();
-    if (this.detachAllListeners)
-      this?.detachAllListeners();
+    if (this.detachAllListeners) {
+      this.detachAllListeners();
+    }
   }
 
   /**
@@ -178,7 +184,7 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   /**
    * @returns {string} gets the nonce from the meta tag
    */
-   get nonce() {
+  get nonce() {
     this.cachedNonce = '';
     const documentElement: any = document;
     if (!documentElement.nonce) {
@@ -191,6 +197,7 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
     }
     return documentElement.nonce;
   }
+
   /**
    * Append Styles if present
    * @private

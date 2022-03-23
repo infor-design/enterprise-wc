@@ -67,7 +67,9 @@
       "ignoreRegExpLiterals": true,
       "ignoreStrings": true,
       "ignoreTemplateLiterals": true
-    }]
+    }],
+    // Allow i++
+    "no-plusplus": ["off", { }]
   },
   "overrides": [{
     "files": ["*.ts"],
@@ -120,7 +122,11 @@
       // Allow imports from node_modules (ids-identity)
       "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
       // Allow console.info
-      "no-console": ["error", { "allow": ["error", "info"] }]
+      "no-console": ["error", { "allow": ["error", "info"] }],
+      // Allow i++
+      "no-plusplus": ["off", { }],
+      // Allow functions with no this in them
+      "no-restricted-syntax": ["off", { }]
     }
   }]
 }

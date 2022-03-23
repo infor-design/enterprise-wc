@@ -4,11 +4,11 @@
 import IdsAlert from '../../src/components/ids-alert/ids-alert';
 
 describe('IdsAlert Component', () => {
-  let el;
+  let el: any;
   let rootEl;
 
   beforeEach(async () => {
-    const alert = new IdsAlert();
+    const alert: any = new IdsAlert();
 
     alert.icon = 'success';
     document.body.appendChild(alert);
@@ -82,7 +82,7 @@ describe('IdsAlert Component', () => {
     el.disabled = 'true';
     el.template();
     document.body.innerHTML = '';
-    const alert = new IdsAlert();
+    const alert: any = new IdsAlert();
     alert.icon = 'success';
     document.body.appendChild(alert);
     el = document.querySelector('ids-alert');

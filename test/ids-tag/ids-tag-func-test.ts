@@ -84,11 +84,11 @@ describe('IdsTag Component', () => {
   it('removes the dismissible attribute when reset', () => {
     tag.dismissible = true;
     expect(tag.getAttribute('dismissible')).toEqual('true');
-    expect(tag.dismissible).toEqual('true');
+    expect(tag.dismissible).toEqual(true);
 
     tag.dismissible = false;
     expect(tag.getAttribute('dismissible')).toEqual(null);
-    expect(tag.dismissible).toEqual(null);
+    expect(tag.dismissible).toEqual(false);
   });
 
   it('dismisses on click', () => {

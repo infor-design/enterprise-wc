@@ -483,14 +483,14 @@ export default class IdsPopup extends Base {
    */
   get oppositeAlignEdge() {
     switch (this.alignEdge) {
-    case 'left':
-      return 'right';
-    case 'right':
-      return 'left';
-    case 'top':
-      return 'bottom';
-    default: // bottom
-      return 'top';
+      case 'left':
+        return 'right';
+      case 'right':
+        return 'left';
+      case 'top':
+        return 'bottom';
+      default: // bottom
+        return 'top';
     }
   }
 
@@ -1056,25 +1056,25 @@ export default class IdsPopup extends Base {
     let y = this.y;
 
     switch (this.alignX) {
-    case 'right':
-      x -= popupRect.width;
-      break;
-    case 'center':
-      x -= popupRect.width / 2;
-      break;
-    default: // left
-      break;
+      case 'right':
+        x -= popupRect.width;
+        break;
+      case 'center':
+        x -= popupRect.width / 2;
+        break;
+      default: // left
+        break;
     }
 
     switch (this.alignY) {
-    case 'bottom':
-      y -= popupRect.height;
-      break;
-    case 'center':
-      y -= popupRect.height / 2;
-      break;
-    default: // top
-      break;
+      case 'bottom':
+        y -= popupRect.height;
+        break;
+      case 'center':
+        y -= popupRect.height / 2;
+        break;
+      default: // top
+        break;
     }
 
     // Update the DOMRect to reflect new x/y values
@@ -1117,27 +1117,27 @@ export default class IdsPopup extends Base {
     // and use the defined X coordinate as a X offset.
     if (ALIGNMENTS_Y.includes(alignEdge)) {
       switch (alignEdge) {
-      case 'top':
-        y = targetRect.top - popupRect.height - y;
-        break;
-      case 'bottom':
-        y = targetRect.bottom + y;
-        break;
-      default: // center
-        y = (targetRect.top + targetRect.height / 2) - (popupRect.height / 2) + y;
-        alignYCentered = true;
+        case 'top':
+          y = targetRect.top - popupRect.height - y;
+          break;
+        case 'bottom':
+          y = targetRect.bottom + y;
+          break;
+        default: // center
+          y = (targetRect.top + targetRect.height / 2) - (popupRect.height / 2) + y;
+          alignYCentered = true;
       }
 
       switch (this.alignX) {
-      case 'left':
-        x = targetRect.left + x;
-        break;
-      case 'right':
-        x = targetRect.right - popupRect.width - x;
-        break;
-      default: // center
-        x = (targetRect.left + targetRect.width / 2) - popupRect.width / 2 + x;
-        alignXCentered = true;
+        case 'left':
+          x = targetRect.left + x;
+          break;
+        case 'right':
+          x = targetRect.right - popupRect.width - x;
+          break;
+        default: // center
+          x = (targetRect.left + targetRect.width / 2) - popupRect.width / 2 + x;
+          alignXCentered = true;
       }
     }
 
@@ -1146,31 +1146,31 @@ export default class IdsPopup extends Base {
     // and use the defined Y coordinate as a Y offset.
     if (ALIGNMENTS_X.includes(alignEdge)) {
       switch (alignEdge) {
-      case 'left':
-        x = targetRect.left - popupRect.width - x;
-        break;
-      case 'right':
-        x = targetRect.right + x;
-        break;
-      default: // center
-        if (alignXCentered) {
+        case 'left':
+          x = targetRect.left - popupRect.width - x;
           break;
-        }
-        x = (targetRect.left + targetRect.width / 2) - popupRect.width / 2 + x;
+        case 'right':
+          x = targetRect.right + x;
+          break;
+        default: // center
+          if (alignXCentered) {
+            break;
+          }
+          x = (targetRect.left + targetRect.width / 2) - popupRect.width / 2 + x;
       }
 
       switch (this.alignY) {
-      case 'top':
-        y = targetRect.top + y;
-        break;
-      case 'bottom':
-        y = targetRect.bottom - popupRect.height + y;
-        break;
-      default: // center
-        if (alignYCentered) {
+        case 'top':
+          y = targetRect.top + y;
           break;
-        }
-        y = (targetRect.top + targetRect.height / 2) - (popupRect.height / 2) + y;
+        case 'bottom':
+          y = targetRect.bottom - popupRect.height + y;
+          break;
+        default: // center
+          if (alignYCentered) {
+            break;
+          }
+          y = (targetRect.top + targetRect.height / 2) - (popupRect.height / 2) + y;
       }
     }
 
@@ -1268,18 +1268,18 @@ export default class IdsPopup extends Base {
       let d = 0;
 
       switch (dir) {
-      case 'left':
-        d = (bleed ? 0 : containerRect.left) - scrollX - targetRect.left + this.x;
-        break;
-      case 'right':
-        d = (bleed ? viewportWidth : containerRect.right) - scrollX - targetRect.right - this.x;
-        break;
-      case 'top':
-        d = (bleed ? 0 : containerRect.top) - scrollY - targetRect.top + this.y;
-        break;
-      default: // bottom
-        d = (bleed ? viewportHeight : containerRect.bottom) - scrollY - targetRect.bottom - this.y;
-        break;
+        case 'left':
+          d = (bleed ? 0 : containerRect.left) - scrollX - targetRect.left + this.x;
+          break;
+        case 'right':
+          d = (bleed ? viewportWidth : containerRect.right) - scrollX - targetRect.right - this.x;
+          break;
+        case 'top':
+          d = (bleed ? 0 : containerRect.top) - scrollY - targetRect.top + this.y;
+          break;
+        default: // bottom
+          d = (bleed ? viewportHeight : containerRect.bottom) - scrollY - targetRect.bottom - this.y;
+          break;
       }
 
       return Math.abs(d);
