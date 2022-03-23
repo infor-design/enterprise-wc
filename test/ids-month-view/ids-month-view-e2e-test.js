@@ -543,4 +543,115 @@ describe('Ids Month View e2e Tests', () => {
     expect(+day).toEqual(29);
     expect(dateLabel).toContain(months[2]);
   });
+
+  it('should throw error when invalid legend format is provided', async () => {
+    await page.reload({ waitUntil: 'networkidle0' });
+    await page.setRequestInterception(false);
+
+    let hasError = false;
+
+    page.on('error', () => {});
+    page.on('pageerror', () => {});
+
+    // Add empty erray as legend - throws the error
+    try {
+      await page.evaluate((el) => {
+        const element = document.querySelector(el);
+
+        if (element) {
+          element.legend = [];
+        }
+      }, name);
+    } catch (err) {
+      hasError = true;
+    }
+
+    expect(hasError).toBeTruthy();
+  });
+
+  it('should handle legend items', async () => {
+    await page.reload({ waitUntil: 'networkidle0' });
+    await page.setRequestInterception(false);
+    const legend = [
+      {
+        name: 'Public Holiday',
+        color: 'emerald-60',
+        dates: ['11/15/2021', '11/16/2021', '11/17/2021'],
+      },
+      { name: 'Weekends', color: 'amber-60', dayOfWeek: [0] },
+      {
+        name: 'Full Days',
+        color: '#1677ee',
+        dates: ['11/24/2021', '11/25/2021'],
+      }
+    ];
+
+    await page.evaluate((el, data) => {
+      const element = document.querySelector(el);
+
+      if (element) {
+        element.legend = data;
+      }
+    }, name, legend);
+
+    let containerHasClass = await page.$eval(name, (el) => el.container?.classList.contains('has-legend'));
+    let numberOfItems = await page.$eval(name, (el) => el.container?.querySelectorAll('.month-view-legend-item')?.length);
+    const legendColorFirstItem = await page.$eval(name, (el) => el.container?.querySelector('.month-view-legend-item:first-child .month-view-legend-swatch').getAttribute('style'));
+    const legendTextFirstItem = await page.$eval(name, (el) => el.container?.querySelector('.month-view-legend-item:first-child .month-view-legend-text').textContent);
+    const legendColorLastItem = await page.$eval(name, (el) => el.container?.querySelector('.month-view-legend-item:last-child .month-view-legend-swatch').getAttribute('style'));
+    const legendTextLastItem = await page.$eval(name, (el) => el.container?.querySelector('.month-view-legend-item:last-child .month-view-legend-text').textContent);
+
+    expect(containerHasClass).toBeTruthy();
+    expect(numberOfItems).toBe(legend.length);
+    expect(legendColorFirstItem).toEqual('--legend-color: var(--ids-color-palette-emerald-60);');
+    expect(legendTextFirstItem).toEqual('Public Holiday');
+    expect(legendColorLastItem).toEqual('--legend-color: #1677ee;');
+    expect(legendTextLastItem).toEqual('Full Days');
+
+    // Check dates
+    const holidayByDate = await page.$eval(name, (el) => {
+      const day = el.container?.querySelector('td[data-year="2021"][data-month="10"][data-day="15"]');
+      const hasClass = day?.classList.contains('has-legend');
+      const hasStyle = day?.getAttribute('style') === '--legend-color: var(--ids-color-palette-emerald-60);';
+
+      return hasClass && hasStyle;
+    });
+
+    expect(holidayByDate).toBeTruthy();
+
+    const fullDayByDate = await page.$eval(name, (el) => {
+      const day = el.container?.querySelector('td[data-year="2021"][data-month="10"][data-day="24"]');
+      const hasClass = day?.classList.contains('has-legend');
+      const hasStyle = day?.getAttribute('style') === '--legend-color: #1677ee;';
+
+      return hasClass && hasStyle;
+    });
+
+    expect(fullDayByDate).toBeTruthy();
+
+    const weekendByDay = await page.$eval(name, (el) => {
+      const days = el?.container.querySelectorAll('tr td:first-child');
+
+      return Array.from(days)?.every((item) =>
+        item.classList.contains('has-legend')
+        && item.getAttribute('style') === '--legend-color: var(--ids-color-palette-amber-60);');
+    });
+
+    expect(weekendByDay).toBeTruthy();
+
+    // Remove legend
+    await page.evaluate((el) => {
+      const element = document.querySelector(el);
+
+      if (element) {
+        element.legend = null;
+      }
+    }, name);
+
+    containerHasClass = await page.$eval(name, (el) => el.container?.classList.contains('has-legend'));
+    numberOfItems = await page.$eval(name, (el) => el.container?.querySelectorAll('.month-view-legend-item')?.length);
+
+    expect(containerHasClass).toBeFalsy();
+    expect(numberOfItems).toEqual(0);
+  });
 });

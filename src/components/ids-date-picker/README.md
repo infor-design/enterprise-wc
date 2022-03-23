@@ -136,7 +136,8 @@ datePicker.legend = [
     dates: ['1/21/2022', '1/22/2022'],
   },
   {
-    name: 'Full Days', color: 'azure-30',
+    name: 'Full Days',
+    color: '#1677ee',
     dates: ['1/24/2022', '1/25/2022'],
   }
 ];
