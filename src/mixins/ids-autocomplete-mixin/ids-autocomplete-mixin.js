@@ -178,11 +178,19 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
     }
   }
 
+  /**
+   * Close popup
+   * @returns {void}
+   */
   closePopup() {
     this.elements.popup.open = false;
     this.elements.popup.visible = false;
   }
 
+  /**
+   * Open popup
+   * @returns {void}
+   */
   openPopup() {
     this.elements.popup.open = true;
     this.elements.popup.visible = true;
