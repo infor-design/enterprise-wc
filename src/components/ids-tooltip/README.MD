@@ -87,10 +87,24 @@ document.querySelector('#button-1').visible = true;
 
 - Tooltips do not work well in mobile or in responsive situations and should be avoided. But the tooltip will attempt to adjust to fit the page as the popup menu allows.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-- 3.x: Tags have all new markup and classes.
-- 4.x: Tags have all new markup and classes for web components.
+**3.x to 4.x**
+
+- Tooltips were implemented in v4.0.0
+- Tooltips have all new markup and classes, and can be invoked with `$('#my-element').tooltip()`.
+
+**4.x to 5.x**
+
+- Tooltip is now a custom element `<ids-tooltip></ids-tooltip>`
+- There is no longer a "KeepOpen" setting, instead add a component to the page and use `visible=true`
+- Tooltip can be used as a mixin or standalone component
+- Tooltip is no longer shared with popups so all options related to that are removed
+- Error Tooltips are removed/not needed at this time
+- attachToBody option is removed/not needed at this time
+- Content can now be set with `tooltipElem.textContent`
+- Instead of open and close use `tooltipElem.visible=true`
+- `aftershow` event was not needed as its the same as `show`, so this has been removed
 
 ## Accessibility Guidelines
 

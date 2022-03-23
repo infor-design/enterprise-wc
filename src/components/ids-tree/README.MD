@@ -301,11 +301,6 @@ treeDemo?.data = dataset;
 
 - Flows with padding and margin within the width and height of the parent container.
 
-## Converting from Previous Versions
-
-- 3.x: Tree have all new markup and classes.
-- 4.x: Tree have all new markup and classes for web components.
-
 ## Designs
 
 [Design Specs](https://www.figma.com/file/ri2Knf3KchdfdzRAeds0Ab/IDS-Mobility-v4.6?node-id=1%3A5740)
@@ -321,3 +316,18 @@ treeDemo?.data = dataset;
 ## Regional Considerations
 
 In Right To Left Languages the icons, text and alignment will flow to the other side. Labels should be localized in the current language.
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- Tree was introduced in v4.2.0
+- Tree is comprised of new HTML markup and classes, and is invoked with `$('#my-element').tree()`.
+
+**4.x to 5.x**
+
+- Tree is now a custom element. `<ids-tree></ids-tree>`
+- Individual Tree nodes are now also custom elements. `<ids-tree-node></ids-tree-node>`
+- Tree nodes can contain other tree nodes (nesting).
+- If using events, events are now plain JS events.
+- Can now be imported as a single JS file and used with encapsulated styles.
