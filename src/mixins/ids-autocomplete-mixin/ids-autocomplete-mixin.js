@@ -26,6 +26,7 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
       return;
     }
 
+    this.#attachProperties();
     this.#attachTemplateSlot();
     this.#attachPopup();
     this.#attachEventListeners();
@@ -35,11 +36,19 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
    * Gets the internal IdsDataSource object
    * @returns {IdsDataSource} object
    */
-  datasource = this.autocomplete && new IdsDataSource();
+  datasource;
 
-  #listBox = this.autocomplete && new IdsListBox();
+  /**
+   * The internal IdsListBox component
+   * @private
+   */
+  #listBox;
 
-  #popup = this.autocomplete && new IdsPopup();
+  /**
+   * The internal IdsPopup component
+   * @private
+   */
+  #popup;
 
   set autocomplete(value) {
     const val = stringToBool(value);
@@ -137,6 +146,12 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
 
   #populateListbox() {
     this.elements.listBox.innerHTML = this.data.map((d) => `<ids-list-box-option>${d[this.searchKey]}</ids-list-box-option>`).join('');
+  }
+
+  #attachProperties() {
+    this.datasource = new IdsDataSource();
+    this.#listBox = new IdsListBox();
+    this.#popup = new IdsPopup();
   }
 
   #attachTemplateSlot() {
