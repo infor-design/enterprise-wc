@@ -4,8 +4,8 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { getSpecs } from '../../utils/ids-device-env-specs-utils/ids-device-env-specs-utils';
 
 import Base from './ids-about-base';
-import IdsModal from '../ids-modal/ids-modal';
-import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
+import '../ids-modal/ids-modal';
+import '../ids-hyperlink/ids-hyperlink';
 
 import styles from './ids-about.scss';
 
@@ -35,9 +35,6 @@ export default class IdsAbout extends Base {
     ];
   }
 
-  /**
-   * @returns {void}
-   */
   connectedCallback() {
     super.connectedCallback?.();
   }
@@ -46,7 +43,7 @@ export default class IdsAbout extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `<ids-popup part="modal" class="ids-modal ids-about" type="custom" position-style="viewport">
       <div class="ids-modal-container" slot="content">
         <div class="ids-modal-header">
@@ -70,7 +67,7 @@ export default class IdsAbout extends Base {
    * Establish internal event handlers
    * @returns {object} The object for chaining
    */
-  attachEventHandlers() {
+  attachEventHandlers(): object {
     super.attachEventHandlers();
     this.#refreshProduct();
     this.#attachCloseButton();
@@ -95,7 +92,6 @@ export default class IdsAbout extends Base {
   /**
    * Add button with icon to the modal
    * Reusing ids-modal-button component with cancel attribute and extra css class to change appearance
-   * @returns {void}
    */
   #attachCloseButton() {
     const element = `<ids-modal-button cancel slot="buttons" type="tertiary" css-class="ids-icon-button ids-modal-icon-button"><span class="audible">Close modal</span><ids-icon slot="icon" icon="close"></ids-icon></ids-modal-button>`;
@@ -108,7 +104,7 @@ export default class IdsAbout extends Base {
    * @readonly
    * @returns {string} concatenating the application name, product name and product version.
    */
-  get ariaLabelContent() {
+  get ariaLabelContent(): string {
     const appName = this.querySelector('[slot="appName"')?.innerText;
 
     return `${appName || ''} ${this.productName || ''} ${this.productVersion || ''}`;
@@ -117,7 +113,7 @@ export default class IdsAbout extends Base {
   /**
    * @returns {string} productName attribute value
    */
-  get productName() {
+  get productName(): string {
     return this.getAttribute(attributes.PRODUCT_NAME);
   }
 
@@ -125,7 +121,7 @@ export default class IdsAbout extends Base {
    * Set the product name property
    * @param {string} val productName attribute value
    */
-  set productName(val) {
+  set productName(val: string) {
     this.setAttribute(attributes.PRODUCT_NAME, val);
 
     this.#refreshProduct();
@@ -134,7 +130,7 @@ export default class IdsAbout extends Base {
   /**
    * @returns {string} productVersion attribute value
    */
-  get productVersion() {
+  get productVersion(): string {
     return this.getAttribute(attributes.PRODUCT_VERSION);
   }
 
@@ -142,7 +138,7 @@ export default class IdsAbout extends Base {
    * Set the product version property
    * @param {string} val productVersion attribute value
    */
-  set productVersion(val) {
+  set productVersion(val: string) {
     this.setAttribute(attributes.PRODUCT_VERSION, val);
 
     this.#refreshProduct();
@@ -150,14 +146,13 @@ export default class IdsAbout extends Base {
 
   /**
    * Refreshes the product info with product name / version attributes value
-   * @returns {void}
    */
   #refreshProduct() {
     const slot = this.querySelectorAll('[slot="product"]');
     const element = `<ids-text slot="product" type="p">${this.productName ? `${this.productName} ` : ''}${this.productVersion || ''}</ids-text>`;
 
     // Clear slot before rerender
-    slot.forEach((item) => item.remove());
+    slot.forEach((item: HTMLElement) => item.remove());
 
     if (this.productName || this.productVersion) {
       this.insertAdjacentHTML('beforeend', element);
@@ -167,7 +162,7 @@ export default class IdsAbout extends Base {
   /**
    * @returns {boolean} deviceSpecs attribute value
    */
-  get deviceSpecs() {
+  get deviceSpecs(): boolean {
     const attrVal = this.getAttribute(attributes.DEVICE_SPECS);
 
     if (attrVal) {
@@ -181,7 +176,7 @@ export default class IdsAbout extends Base {
    * Sets whether or not to display device information.
    * @param {string|boolean} val deviceSpecs attribute value
    */
-  set deviceSpecs(val) {
+  set deviceSpecs(val: string | boolean) {
     const boolVal = stringToBool(val);
 
     this.setAttribute(attributes.DEVICE_SPECS, boolVal);
@@ -191,13 +186,12 @@ export default class IdsAbout extends Base {
   /**
    * Refreshes the device specs content
    * @private
-   * @returns {void}
    */
   #refreshDeviceSpecs() {
     const slot = this.querySelectorAll('[slot="device"]');
 
     // Clear slot before rerender
-    slot.forEach((item) => item.remove());
+    slot.forEach((item: HTMLElement) => item.remove());
 
     if (this.deviceSpecs) {
       const specs = getSpecs();
@@ -218,7 +212,7 @@ export default class IdsAbout extends Base {
   /**
    * @returns {string} copyrightYear attribute value
    */
-  get copyrightYear() {
+  get copyrightYear(): string {
     return this.getAttribute(attributes.COPYRIGHT_YEAR) || new Date().getFullYear();
   }
 
@@ -226,7 +220,7 @@ export default class IdsAbout extends Base {
    * Set the copyright year property
    * @param {string} val copyrightYear attribute value
    */
-  set copyrightYear(val) {
+  set copyrightYear(val: string) {
     this.setAttribute(attributes.COPYRIGHT_YEAR, val);
 
     this.#refreshCopyright();
@@ -235,7 +229,7 @@ export default class IdsAbout extends Base {
   /**
    * @returns {boolean} useDefaultCopyright attribute value
    */
-  get useDefaultCopyright() {
+  get useDefaultCopyright(): boolean {
     const attrVal = this.getAttribute(attributes.USE_DEFAULT_COPYRIGHT);
 
     if (attrVal) {
@@ -249,18 +243,16 @@ export default class IdsAbout extends Base {
    * Sets whether or not to display Legal Approved Infor Copyright Text
    * @param {string|boolean} val useDefaultCopyright attribute value
    */
-  set useDefaultCopyright(val) {
+  set useDefaultCopyright(val: string | boolean) {
     const boolVal = stringToBool(val);
 
     this.setAttribute(attributes.USE_DEFAULT_COPYRIGHT, boolVal);
-
     this.#refreshCopyright();
   }
 
   /**
    * Refreshes the copyright content
    * @private
-   * @returns {void}
    */
   #refreshCopyright() {
     const slot = this.querySelectorAll('[slot="copyright"]');
@@ -268,7 +260,7 @@ export default class IdsAbout extends Base {
     const element = `<ids-text slot="copyright" type="p">${copyrightText} <ids-hyperlink target="_blank" text-decoration="underline" href="https://www.infor.com">www.infor.com</ids-hyperlink>.</ids-text>`;
 
     // Clear slot before rerender
-    slot.forEach((item) => item.remove());
+    slot.forEach((item: HTMLElement) => item.remove());
 
     if (this.useDefaultCopyright) {
       this.insertAdjacentHTML('beforeend', element);

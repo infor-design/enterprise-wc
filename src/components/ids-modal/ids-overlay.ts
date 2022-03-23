@@ -38,21 +38,21 @@ export default class IdsOverlay extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `<div class="ids-overlay" part="overlay"><slot></slot></div>`;
   }
 
   /**
    * @returns {boolean} true if the overlay is visible
    */
-  get visible() {
+  get visible(): boolean {
     return this.state.visible;
   }
 
   /**
    * @param {boolean} val true if the overlay should be made visible
    */
-  set visible(val) {
+  set visible(val: boolean) {
     const trueVal = stringToBool(val);
 
     this.state.visible = trueVal;
@@ -62,14 +62,14 @@ export default class IdsOverlay extends Base {
   /**
    * @returns {number} the percent opacity
    */
-  get opacity() {
+  get opacity(): number {
     return this.state.opacity;
   }
 
   /**
    * @param {number} val a percentage number for setting overlay transparency
    */
-  set opacity(val) {
+  set opacity(val: number) {
     let trueVal = Number(val);
     if (Number.isNaN(trueVal)) {
       return;
@@ -92,7 +92,7 @@ export default class IdsOverlay extends Base {
    * @param {number} val the opacity value to set on the overlay
    * @returns {Promise} fulfilled after a CSS transition completes.
    */
-  async #changeOpacity(val) {
+  async #changeOpacity(val: any): Promise<any> {
     return transitionToPromise(this.container, 'opacity', `${val}`);
   }
 
@@ -100,7 +100,7 @@ export default class IdsOverlay extends Base {
    * Animates in/out the visibility of the overlay
    * @param {boolean} val if true, shows the overlay.  If false, hides the overlay.
    */
-  async #smoothlyAnimateVisibility(val) {
+  async #smoothlyAnimateVisibility(val: any) {
     const cl = this.container.classList;
 
     if (val && !cl.contains('visible')) {

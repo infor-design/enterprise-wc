@@ -114,8 +114,6 @@ export default class IdsMenuGroup extends Base {
    * @private
    * @returns {void}
    */
-  // @TODO: TypeScript Compiler complains about this because the method is actually called from
-  // the menu item.
   updateIconAlignment() {
     this.items.forEach((item) => {
       // NOTE: Sometimes the group invokes before the items, making item methods inaccessible.
@@ -153,11 +151,11 @@ export default class IdsMenuGroup extends Base {
 
     // Sync the attribute
     switch (trueVal) {
-    case 'none':
-      this.removeAttribute(attributes.SELECT);
-      break;
-    default:
-      this.setAttribute(attributes.SELECT, trueVal);
+      case 'none':
+        this.removeAttribute(attributes.SELECT);
+        break;
+      default:
+        this.setAttribute(attributes.SELECT, trueVal);
     }
 
     this.updateSelectability();

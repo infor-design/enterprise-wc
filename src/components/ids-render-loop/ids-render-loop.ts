@@ -8,10 +8,15 @@ import IdsRenderLoopItem from './ids-render-loop-item';
  */
 export default class IdsRenderLoop {
   items: Array<IdsRenderLoopItem>;
+
   doLoop = false;
-  totalStoppedTime = 0
-  startTime = 0
+
+  totalStoppedTime = 0;
+
+  startTime = 0;
+
   lastStopTime? = 0;
+
   resumeTime = 0;
 
   /**
@@ -69,7 +74,6 @@ export default class IdsRenderLoop {
       delete this.lastStopTime;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
     let last = timestamp();
     let now: number;
@@ -176,7 +180,7 @@ export default class IdsRenderLoop {
    * @param {IdsRenderLoopItem|string} obj the renderLoopItem, or its ID string
    * @returns {IdsRenderLoopItem | undefined} reference to the removed renderLoopItem
    */
-  remove(obj: IdsRenderLoopItem|string): IdsRenderLoopItem | undefined {
+  remove(obj: IdsRenderLoopItem | string): IdsRenderLoopItem | undefined {
     let removedItem;
 
     // Remove directly

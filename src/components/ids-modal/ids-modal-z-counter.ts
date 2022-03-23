@@ -2,6 +2,8 @@
  * Provides a global way to display
  */
 class IdsModalZCounter {
+  zCounter: number;
+
   constructor() {
     this.zCounter = 1020;
   }

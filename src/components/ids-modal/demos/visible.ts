@@ -1,13 +1,14 @@
-// Supporting Components
-import IdsModal from '../ids-modal';
-import IdsModalButton from '../../ids-modal-button/ids-modal-button';
+// Supprt components
+import '../ids-modal';
+import '../../ids-modal-button/ids-modal-button';
+import '../../ids-menu-button/ids-menu-button';
 
 document.addEventListener('DOMContentLoaded', () => {
   const triggerId = '#modal-trigger-btn';
-  const triggerBtn = document.querySelector(triggerId);
-  const modal = document.querySelector('ids-modal');
+  const triggerBtn: any = document.querySelector(triggerId);
+  const modal: any = document.querySelector('ids-modal');
 
-  // Links the Modal to its trigger button (sets up click/focus events)
+  // Links the Modal to its trigger button
   modal.target = triggerBtn;
   modal.trigger = 'click';
 

@@ -15,3 +15,6 @@ declare const $: any;
 
 // For Tests
 declare const page: any;
+
+// For Components
+declare module 'Ids*';

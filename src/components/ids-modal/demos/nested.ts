@@ -1,14 +1,14 @@
-import IdsModal from '../ids-modal';
-import IdsButton from '../../ids-button/ids-button';
+import '../ids-modal';
+import '../../ids-button/ids-button';
 
 document.addEventListener('DOMContentLoaded', () => {
   const parentTriggerId = '#parent-modal-trigger-btn';
-  const parentTriggerBtn = document.querySelector(parentTriggerId);
-  const parentModal = document.querySelector('#parent-modal');
+  const parentTriggerBtn: any = document.querySelector(parentTriggerId);
+  const parentModal: any = document.querySelector('#parent-modal');
 
   const nestedTriggerId = '#nested-modal-trigger-btn';
-  const nestedTriggerBtn = document.querySelector(nestedTriggerId);
-  const nestedModal = document.querySelector('#nested-modal');
+  const nestedTriggerBtn: any = document.querySelector(nestedTriggerId);
+  const nestedModal: any = document.querySelector('#nested-modal');
 
   // Links the Modals to their trigger buttons
   parentModal.target = parentTriggerBtn;
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Close the modals when their "close" buttons are clicked
-  parentModal.onButtonClick = (buttonEl) => {
+  parentModal.onButtonClick = (buttonEl: any) => {
     if (buttonEl.cancel) {
       parentModal.hide();
     }

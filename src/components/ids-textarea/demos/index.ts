@@ -1,11 +1,11 @@
 // Supporting components
-import IdsTextarea from '../ids-textarea';
-import IdsButton from '../../ids-button/ids-button';
+import '../ids-textarea';
+import '../../ids-button/ids-button';
 
 document.addEventListener('DOMContentLoaded', () => {
   const btnUpdateValue = document.querySelector('#btn-textarea-update-value');
   const btnResetValue = document.querySelector('#btn-textarea-reset-value');
-  const textareaUpdateValue = document.querySelector('#textarea-update-value') || {};
+  const textareaUpdateValue: any = document.querySelector('#textarea-update-value') || {};
   const orgVal = textareaUpdateValue?.value || '';
   const newVal = 'New value updated';
 
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnEnable = document.querySelector('#btn-textarea-enable');
   const btnDisable = document.querySelector('#btn-textarea-disable');
   const btnReadonly = document.querySelector('#btn-textarea-readonly');
-  const textareaToggleState = document.querySelector('#textarea-toggle-state') || {};
+  const textareaToggleState: any = document.querySelector('#textarea-toggle-state') || {};
 
   // Enable
   btnEnable?.addEventListener('click', () => {

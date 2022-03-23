@@ -34,7 +34,7 @@ Current mixins are documented here `src/mixins/README.md`. Some commonly used on
 
 - [ ] Create a folder `/src/ids-[component]`, which will contain all your new component source code.
 - [ ] Add an `ids-[component].js`, which is the WebComponent interaction code.
-- [ ] Add an `ids-[component].d.ts` for this WebComponent's TypeScript definitions.
+- [ ] Note that `ids-[component].d.ts` will be generated automatically by the TypeScript compiler.
 - [ ] Add an `ids-[component].scss`, which holds all scoped styles for this WebComponent.
 - [ ] Add a `README.md` for documentation, specification, etc.
 - [ ] Add a `index.js` that imports whats needed (and only whats needed) to use the component.

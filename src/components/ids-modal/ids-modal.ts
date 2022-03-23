@@ -9,9 +9,9 @@ import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 
 import zCounter from './ids-modal-z-counter';
-import IdsPopup from '../ids-popup/ids-popup';
+import '../ids-popup/ids-popup';
 import IdsOverlay from './ids-overlay';
-import IdsModalButton from '../ids-modal-button/ids-modal-button';
+import '../ids-modal-button/ids-modal-button';
 
 // Import Styles
 import styles from './ids-modal.scss';
@@ -67,7 +67,7 @@ export default class IdsModal extends Base {
    * @param {string} oldValue The property old value
    * @param {string} newValue The property new value
    */
-  attributeChangedCallback(name, oldValue, newValue) {
+  attributeChangedCallback(name: any, oldValue: any, newValue: any) {
     if (this.shouldUpdate) {
       super.attributeChangedCallback(name, oldValue, newValue);
     }
@@ -101,7 +101,7 @@ export default class IdsModal extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     const extraClass = this.name !== 'ids-modal' ? this.name : '';
     const extraContentClass = extraClass ? ` ${extraClass}-content` : '';
     const extraHeaderClass = extraClass ? ` ${extraClass}-header` : '';
@@ -128,7 +128,7 @@ export default class IdsModal extends Base {
    * @readonly
    * @returns {string} concatenating the status and title together.
    */
-  get ariaLabelContent() {
+  get ariaLabelContent(): string {
     return this.messageTitle;
   }
 
@@ -136,21 +136,21 @@ export default class IdsModal extends Base {
    * @readonly
    * @returns {NodeList} currently slotted buttons
    */
-  get buttons() {
+  get buttons(): NodeList {
     return this.querySelectorAll('[slot="buttons"]');
   }
 
   /**
    * @returns {IdsOverlay|undefined} either an external overlay element, or none
    */
-  get overlay() {
+  get overlay(): any {
     return this.state.overlay || this.shadowRoot.querySelector('ids-overlay');
   }
 
   /**
    * @param {IdsOverlay|undefined} val an overlay element
    */
-  set overlay(val) {
+  set overlay(val: any) {
     if (val instanceof IdsOverlay) {
       this.state.overlay = val;
     } else {
@@ -161,16 +161,16 @@ export default class IdsModal extends Base {
 
   /**
    * @readonly
-   * @returns {IdsPopup} the inner Popup
+   * @returns {HTMLElement} the inner Popup
    */
-  get popup() {
+  get popup(): any {
     return this.shadowRoot.querySelector('ids-popup');
   }
 
   /**
    * @returns {string} the content of the message's title
    */
-  get messageTitle() {
+  get messageTitle(): string {
     const titleEl = this.querySelector('[slot="title"]');
 
     return titleEl?.textContent || this.state.messageTitle;
@@ -179,7 +179,7 @@ export default class IdsModal extends Base {
   /**
    * @param {string} val the new content to be used as the message's title
    */
-  set messageTitle(val) {
+  set messageTitle(val: string) {
     const trueVal = this.xssSanitize(val);
     const currentVal = this.state.messageTitle;
 
@@ -201,7 +201,7 @@ export default class IdsModal extends Base {
    * @param {boolean} hasTitle true if the title should be rendered
    * @returns {void}
    */
-  #refreshModalHeader(hasTitle) {
+  #refreshModalHeader(hasTitle: boolean): void {
     let titleEls = [...this.querySelectorAll('[slot="title"]')];
 
     if (hasTitle) {
@@ -232,7 +232,7 @@ export default class IdsModal extends Base {
    * Renders or Removes a correct `aria-label` attribute on the Modal about its contents.
    * @returns {void}
    */
-  refreshAriaLabel() {
+  refreshAriaLabel(): void {
     const title = this.ariaLabelContent;
     if (title) {
       this.setAttribute('aria-label', title);
@@ -245,7 +245,7 @@ export default class IdsModal extends Base {
    * Refreshes the state of the Modal footer, hiding/showing it
    * @returns {void}
    */
-  #refreshModalFooter() {
+  #refreshModalFooter(): void {
     const footerEl = this.container.querySelector('.ids-modal-footer');
 
     if (this.buttons.length) {
@@ -263,14 +263,14 @@ export default class IdsModal extends Base {
   /**
    * @returns {boolean} true if the Modal is visible.
    */
-  get visible() {
+  get visible(): boolean {
     return this.#visible;
   }
 
   /**
    * @param {boolean} val true if the Modal is visible.
    */
-  set visible(val) {
+  set visible(val: boolean) {
     const trueVal = stringToBool(val);
     if (this.#visible !== trueVal) {
       this.#visible = trueVal;
@@ -287,7 +287,6 @@ export default class IdsModal extends Base {
 
   /**
    * Shows the modal
-   * @returns {void}
    */
   async show() {
     // Trigger a veto-able `beforeshow` event.
@@ -326,7 +325,6 @@ export default class IdsModal extends Base {
 
   /**
    * Hides the modal
-   * @returns {void}
    */
   async hide() {
     // Trigger a veto-able `beforehide` event.
@@ -375,14 +373,14 @@ export default class IdsModal extends Base {
 
     // Adds a global event listener for the Keydown event on the body to capture close via Escape
     // (NOTE cannot use IdsEventsMixin here due to scoping)
-    this.globalKeydownListener = (e) => {
+    this.globalKeydownListener = (e: KeyboardEvent) => {
       switch (e.key) {
-      case 'Escape':
-        e.stopImmediatePropagation();
-        this.hide();
-        break;
-      default:
-        break;
+        case 'Escape':
+          e.stopImmediatePropagation();
+          this.hide();
+          break;
+        default:
+          break;
       }
     };
     document.addEventListener('keydown', this.globalKeydownListener);
@@ -390,7 +388,7 @@ export default class IdsModal extends Base {
     // If a Modal Button is clicked, fire an optional callback
     const buttonSlot = this.container.querySelector('slot[name="buttons"]');
 
-    this.onEvent('click.buttons', buttonSlot, (e) => {
+    this.onEvent('click.buttons', buttonSlot, (e: MouseEvent) => {
       this.handleButtonClick(e);
     });
   }
@@ -412,7 +410,7 @@ export default class IdsModal extends Base {
    * @param {boolean} val if true, uses an external overlay
    * @returns {void}
    */
-  #refreshOverlay(val) {
+  #refreshOverlay(val: boolean): void {
     let overlay;
 
     if (!val) {
@@ -428,9 +426,8 @@ export default class IdsModal extends Base {
 
   /**
    * @param {boolean} val if true, makes the Modal visible to the user
-   * @returns {void}
    */
-  async #refreshVisibility(val) {
+  async #refreshVisibility(val: boolean) {
     if (val) {
       await this.show();
     } else {
@@ -439,37 +436,10 @@ export default class IdsModal extends Base {
   }
 
   /**
-   * Focuses the first-possible element within the Modal
-   * @returns {void}
-   */
-  #setModalFocus() {
-    const focusableSelectors = [
-      'button',
-      'ids-button',
-      'ids-menu-button',
-      'ids-modal-button',
-      'ids-toggle-button',
-      '[href]',
-      'input',
-      'ids-input',
-      'select',
-      'textarea',
-      'ids-textarea',
-      '[tabindex]:not([tabindex="-1"]'
-    ];
-    const selectorStr = focusableSelectors.join(', ');
-
-    const focusable = [...this.querySelectorAll(selectorStr)];
-    if (focusable.length) {
-      focusable[0].focus();
-    }
-  }
-
-  /**
    * Focuses the defined target element, if applicable
    * @returns {void}
    */
-  #setTargetFocus() {
+  #setTargetFocus(): void {
     if (this.target) {
       this.target.focus();
     }
@@ -512,16 +482,16 @@ export default class IdsModal extends Base {
 
   /**
    * Handles when Modal Button is clicked.
-   * @param {*} e the original event object
+   * @param {MouseEvent} e the original event object
    */
-  handleButtonClick(e) {
+  handleButtonClick(e: MouseEvent) {
     const timeoutCallback = () => {
       if (typeof this.onButtonClick === 'function') {
         this.onButtonClick(e.target);
       }
       // If this IdsModalButton has a `cancel` prop, treat
       // it as a `cancel` button and hide.
-      const modalBtn = e.target.closest('ids-modal-button');
+      const modalBtn: any = (e.target as HTMLButtonElement).closest('ids-modal-button');
       if (modalBtn?.cancel) {
         this.hide();
       }
@@ -538,7 +508,7 @@ export default class IdsModal extends Base {
    * Handle `onTriggerClick` from IdsPopupInteractionsMixin
    * @returns {void}
    */
-  onTriggerClick() {
+  onTriggerClick(): void {
     this.show();
   }
 
@@ -547,12 +517,12 @@ export default class IdsModal extends Base {
    * @param {MouseEvent} e the original click event
    * @returns {void}
    */
-  onOutsideClick(e) {
+  onOutsideClick(e: MouseEvent): void {
     if (!e || !e?.target) {
       return;
     }
 
-    const isOverlay = e.target.tagName.toUpperCase() === 'IDS-OVERLAY';
+    const isOverlay = (e.target as HTMLButtonElement).tagName.toUpperCase() === 'IDS-OVERLAY';
     if (this.isEqualNode(e.target) || isOverlay) {
       return;
     }

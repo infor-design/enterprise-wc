@@ -20,7 +20,6 @@ export default class IdsModalButton extends Base {
 
   /**
    * Toggle-Button-level `connectedCallback` implementation (adds an icon refresh)
-   * @returns {void}
    */
   connectedCallback() {
     super.connectedCallback?.();
@@ -42,21 +41,21 @@ export default class IdsModalButton extends Base {
    * @readonly
    * @returns {Array} containing classes used to identify this button prototype
    */
-  get protoClasses() {
+  get protoClasses(): Array<string> {
     return ['ids-modal-button'];
   }
 
   /**
    * @returns {boolean} true if the button is a cancel button
    */
-  get cancel() {
+  get cancel(): boolean {
     return this.hasAttribute(attributes.CANCEL);
   }
 
   /**
    * @param {boolean} val true if the button should be able to cancel the Modal
    */
-  set cancel(val) {
+  set cancel(val: boolean) {
     const isValueTruthy = stringToBool(val);
     if (isValueTruthy) {
       this.setAttribute(attributes.CANCEL, `${val}`);

@@ -1,11 +1,11 @@
 // Supporting Components
-import IdsModal from '../ids-modal';
-import IdsButton from '../../ids-button/ids-button';
+import '../ids-modal';
+import '../../ids-button/ids-button';
 
 document.addEventListener('DOMContentLoaded', () => {
   const triggerId = '#modal-trigger-btn';
-  const triggerBtn = document.querySelector(triggerId);
-  const modal = document.querySelector('ids-modal');
+  const triggerBtn: any = document.querySelector(triggerId);
+  const modal: any = document.querySelector('ids-modal');
   const modalCloseBtn = modal.querySelector('ids-button');
 
   // Links the Modal to its trigger button (sets up click/focus events)
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Initialize the 4.x
 $('body').initialize();
-const modals = {
+const modals: any = {
   'add-context': {
     title: 'Add Context',
     id: 'my-id',
@@ -39,19 +39,19 @@ const modals = {
   }
 };
 
-const setModal = function modalContent(opt) {
+const setModal = function modalContent(opt: any) {
   /* eslint-disable no-param-reassign */
   opt = $.extend({
     buttons: [{
       text: 'Cancel',
       //  id: 'modal-button-1',
-      click(e, modal) {
+      click(e: Event, modal: any) {
         modal.close();
       }
     }, {
       text: 'Save',
       //  id: 'modal-button-2',
-      click(e, modal) {
+      click(e: Event, modal: any) {
         modal.close();
       },
       validate: false,
@@ -63,7 +63,7 @@ const setModal = function modalContent(opt) {
   $('body').modal(opt);
 };
 
-$('#add-context').on('click', function addContext() {
+$('#add-context').on('click', function addContext(this: any) {
   $(this).focus();
   setModal(modals[this.id]);
 });

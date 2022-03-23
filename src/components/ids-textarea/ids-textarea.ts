@@ -5,9 +5,9 @@ import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import Base from './ids-textarea-base';
 
-import IdsIcon from '../ids-icon/ids-icon';
-import IdsText from '../ids-text/ids-text';
-import IdsTriggerButton from '../ids-trigger-field/ids-trigger-field';
+import '../ids-icon/ids-icon';
+import '../ids-text/ids-text';
+import '../ids-trigger-field/ids-trigger-field';
 
 import styles from './ids-textarea.scss';
 
@@ -15,7 +15,7 @@ import styles from './ids-textarea.scss';
 const ID = 'ids-textarea-id';
 
 // Setting defaults sizes
-const SIZES = {
+const SIZES: Record<string, string> = {
   default: 'md',
   sm: 'sm',
   md: 'md',
@@ -24,7 +24,7 @@ const SIZES = {
 };
 
 // Setting defaults text-align
-const TEXT_ALIGN = {
+const TEXT_ALIGN: Record<string, string> = {
   default: 'left',
   left: 'left',
   center: 'center',
@@ -152,7 +152,7 @@ export default class IdsTextarea extends Base {
    * @param {string} prop The property.
    * @returns {void}
    */
-  setTextareaState(prop) {
+  setTextareaState(prop: string) {
     if (prop === attributes.READONLY || prop === attributes.DISABLED) {
       const msgNodes = [].slice.call(this.shadowRoot.querySelectorAll('.validation-message'));
       const options = {
@@ -164,17 +164,17 @@ export default class IdsTextarea extends Base {
         this.input?.removeAttribute(options.prop2);
         this.container.classList.remove(options.prop2);
         this.container.querySelector('ids-text').removeAttribute(options.prop2);
-        msgNodes.forEach((x) => x.classList.remove(options.prop2));
+        msgNodes.forEach((x: HTMLElement) => x.classList.remove(options.prop2));
 
         this.input?.setAttribute(options.prop1, 'true');
         this.container.classList.add(options.prop1);
         this.container.querySelector('ids-text').setAttribute(options.prop1, 'true');
-        msgNodes.forEach((x) => x.classList.add(options.prop1));
+        msgNodes.forEach((x: HTMLElement) => x.classList.add(options.prop1));
       } else {
         this.input?.removeAttribute(options.prop1);
         this.container.classList.remove(options.prop1);
         this.container.querySelector('ids-text').removeAttribute(options.prop1);
-        msgNodes.forEach((x) => x.classList.remove(options.prop1));
+        msgNodes.forEach((x: HTMLElement) => x.classList.remove(options.prop1));
       }
     }
   }
@@ -220,8 +220,8 @@ export default class IdsTextarea extends Base {
    * @returns {void}
    */
   setBrowser() {
-    const ua = navigator.userAgent || navigator.vendor || window.opera;
-    const browser = (s) => ua.toLowerCase().indexOf(s) > -1;
+    const ua = navigator.userAgent || navigator.vendor || (window as any).opera;
+    const browser = (s: string) => ua.toLowerCase().indexOf(s) > -1;
     this.isSafari = browser('safari') && !browser('chrome') && !browser('android');
   }
 
@@ -231,7 +231,7 @@ export default class IdsTextarea extends Base {
    * @param {string} value of textarea
    * @returns {string} max value
    */
-  getMaxValue(value) {
+  getMaxValue(value: string): string {
     const max = parseInt(this.maxlength, 10);
     return value && max > 0 ? value.substr(0, max) : value;
   }
@@ -242,7 +242,7 @@ export default class IdsTextarea extends Base {
    * @param {string} value of label
    * @returns {void}
    */
-  setLabelText(value) {
+  setLabelText(value: string): void {
     const labelText = this.shadowRoot.querySelector(`[for="${ID}"] ids-text`);
     if (labelText) {
       labelText.innerHTML = value || '';
@@ -276,7 +276,7 @@ export default class IdsTextarea extends Base {
    * @param {HTMLElement|null} input The textarea input element
    * @returns {void}
    */
-  adjustHeight(oldHeight, maxHeight, input = null) {
+  adjustHeight(oldHeight: number, maxHeight: number, input = null) {
     const elem = input || this.input;
     const newHeight = elem?.scrollHeight;
     if (elem && (oldHeight !== newHeight)) {
@@ -295,9 +295,8 @@ export default class IdsTextarea extends Base {
    * Handle character-counter
    * @private
    * @param {boolean|string} value of character-counter
-   * @returns {void}
    */
-  handleCharacterCounter(value) {
+  handleCharacterCounter(value: boolean | string) {
     let elem = this.shadowRoot.querySelector('.textarea-character-counter');
     if ((stringToBool(this.characterCounter) || value === null) && this.maxlength) {
       if (!elem) {
@@ -317,7 +316,7 @@ export default class IdsTextarea extends Base {
    * @param {boolean|string} value of printable
    * @returns {void}
    */
-  handlePrintable(value) {
+  handlePrintable(value: boolean | string) {
     let elem = this.shadowRoot.querySelector('.textarea-print');
     if (stringToBool(this.printable) || value === null) {
       if (!elem) {
@@ -391,7 +390,7 @@ export default class IdsTextarea extends Base {
     if (this.input) {
       const events = ['change', 'input', 'propertychange', 'focus', 'select'];
       events.forEach((evt) => {
-        this.onEvent(evt, this.input, (e) => {
+        this.onEvent(evt, this.input, (e: Event) => {
           /**
            * Trigger event on parent and compose the args
            * will fire nativeEvents.
@@ -440,7 +439,7 @@ export default class IdsTextarea extends Base {
    * @param {string} s The string to test.
    * @returns {number} The number of found line countLinebreaks
    */
-  countLinebreaks(s) {
+  countLinebreaks(s: string) {
     return (s.match(/\n/g) || []).length;
   }
 
@@ -588,7 +587,7 @@ export default class IdsTextarea extends Base {
   /**
    * internal reference to a label element a user provides
    */
-  #labelEl;
+  #labelEl?: HTMLLabelElement;
 
   /**
    * Set the `label` text

@@ -22,9 +22,9 @@ export default class IdsListBoxOption extends Base {
 
   /**
    * Return the attributes we handle as getters/setters
-   * @returns {Array} The attributes in an array
+   * @returns {Array<any>} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<any> {
     return [
       ...super.attributes,
       attributes.TOOLTIP
@@ -40,7 +40,7 @@ export default class IdsListBoxOption extends Base {
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `<slot></slot>`;
   }
 }

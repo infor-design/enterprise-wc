@@ -1,9 +1,14 @@
 // Supporting components
-import IdsAbout from '../ids-about';
+import '../../ids-button/ids-button';
+import '../ids-about';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const triggerBtn = document.querySelector('#about-example-trigger');
-  const about = document.querySelector('#about-example');
+  const triggerBtn: any = (document.querySelector('#about-example-trigger') as unknown as HTMLElement);
+  const about:any = (document.querySelector('#about-example') as unknown as HTMLElement);
+
+  if (!triggerBtn || !about) {
+    return;
+  }
 
   // Link the About to its trigger button
   about.target = triggerBtn;

@@ -1,6 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import Base from './ids-list-box-base';
-import IdsListBoxOption from './ids-list-box-option';
+import './ids-list-box-option';
 
 import styles from './ids-list-box.scss';
 
@@ -25,7 +25,7 @@ export default class IdsListBox extends Base {
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `<slot></slot>`;
   }
 }

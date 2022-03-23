@@ -10,7 +10,13 @@ A curated list of resources related to this project and web components.
 - [Standards Checklist](https://developers.google.com/web/fundamentals/web-components/best-practices)
 - [Mixins](https://justinfagnani.com/2015/12/21/real-mixins-with-javascript-classes/)
 - [Accessibility for Web Components](https://developer.salesforce.com/blogs/2020/01/accessibility-for-web-components)
-- [Execution Context](https://www.youtube.com/watch?v=Nt-qa_LlUH0) 
+- [Execution Context](https://www.youtube.com/watch?v=Nt-qa_LlUH0)
+
+## Typescript
+
+https://www.typescriptlang.org/docs/handbook/migrating-from-javascript.html
+https://webpack.js.org/guides/typescript/
+https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html
 
 ## Css
 
