@@ -130,8 +130,12 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
       return `<ids-list-box-option>${optionText}</ids-list-box-option>`;
     }).join('');
 
-    this.openPopup();
-    this.elements.listBox.innerHTML = results;
+    if (this.value) {
+      this.elements.listBox.innerHTML = results;
+      this.openPopup();
+    } else {
+      this.closePopup();
+    }
   }
 
   closePopup() {
