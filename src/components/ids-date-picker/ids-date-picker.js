@@ -327,12 +327,12 @@ class IdsDatePicker extends Base {
       this.addOpenEvents();
       this.#attachMonthView();
 
-      this.#popup.visible = true;
       this.#popup.alignTarget = this.isCalendarToolbar ? this.container : this.#triggerField;
       this.#popup.arrowTarget = this.#triggerButton;
       this.#popup.align = 'bottom, left';
       this.#popup.arrow = 'bottom';
       this.#popup.y = 16;
+      this.#popup.visible = true;
 
       this.container.classList.add('is-open');
     } else {

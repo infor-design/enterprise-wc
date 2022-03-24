@@ -306,13 +306,11 @@ export default class IdsModal extends Base {
     this.overlay.visible = true;
     this.popup.visible = true;
 
-    if (this.popup.animated) {
-      await waitForTransitionEnd(this.popup.container, 'opacity');
-    }
     this.removeAttribute('aria-hidden');
 
     // Focus the correct element
     this.capturesFocus = true;
+    this.#setModalFocus();
 
     this.addOpenEvents();
     this.triggerEvent('show', this, {
@@ -430,11 +428,11 @@ export default class IdsModal extends Base {
    * @param {boolean} val if true, makes the Modal visible to the user
    * @returns {void}
    */
-  async #refreshVisibility(val) {
+  #refreshVisibility(val) {
     if (val) {
-      await this.show();
+      this.show();
     } else {
-      await this.hide();
+      this.hide();
     }
   }
 
@@ -480,6 +478,16 @@ export default class IdsModal extends Base {
    */
   #onDOMContentLoaded = () => {
     this.visible = this.getAttribute('visible');
+    if (this.visible) {
+      // Fixes a Chrome Bug where time staggering is needed for focus to occur
+      const timeoutCallback = () => {
+        this.#setModalFocus();
+      };
+      renderLoop.register(new IdsRenderLoopItem({
+        duration: 30,
+        timeoutCallback
+      }));
+    }
   };
 
   /**
@@ -502,6 +510,10 @@ export default class IdsModal extends Base {
       this.onEvent('slotchange.buttonset', buttonSlot, () => {
         this.#refreshModalFooter();
       });
+
+      if (this.visible) {
+        this.addOpenEvents();
+      }
     });
 
     window.addEventListener('DOMContentLoaded', this.#onDOMContentLoaded);

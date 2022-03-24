@@ -5,8 +5,8 @@ import { camelCase, stringToBool } from '../../utils/ids-string-utils/ids-string
 import {
   getClosest,
   getClosestRootNode,
+  getEditableRect,
   waitForTransitionEnd,
-  getEditableRect
 } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import Base from './ids-popup-base';
@@ -25,9 +25,6 @@ import {
   POPUP_PROPERTIES,
   formatAlignAttribute
 } from './ids-popup-attributes';
-
-import renderLoop from '../ids-render-loop/ids-render-loop-global';
-import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 
 import styles from './ids-popup.scss';
 
@@ -59,12 +56,6 @@ export default class IdsPopup extends Base {
     this.#setInitialState();
     this.shouldUpdate = true;
     this.#attachEventHandlers();
-
-    // Stagger visibility and initial placement, if applicable
-    window.requestAnimationFrame(() => {
-      this.refreshVisibility();
-      this.place();
-    });
   }
 
   disconnectedCallback() {
@@ -135,9 +126,8 @@ export default class IdsPopup extends Base {
    * CSS property, if applicable.
    */
   #fixPlacementOnResize() {
-    this.place().then(() => {
-      this.#fix3dMatrixOnResize();
-    });
+    this.place();
+    this.#fix3dMatrixOnResize();
   }
 
   /**
@@ -848,17 +838,16 @@ export default class IdsPopup extends Base {
   /**
    * Runs the show/hide routines of the Popup based on current visiblity state.
    * @async
-   * @returns {Promise} from the show/hide process
+   * @returns {void}
    */
   async refreshVisibility() {
     const cl = this.container.classList;
     if (this.#visible && !cl.contains('open')) {
-      return this.show();
+      await this.show();
     }
-    if (!this.#visible && cl.contains('visible')) {
-      return this.hide();
+    if (!this.#visible && !this.hasAttribute('aria-hidden')) {
+      await this.hide();
     }
-    return new Promise((resolve) => { resolve(); });
   }
 
   /**
@@ -915,135 +904,112 @@ export default class IdsPopup extends Base {
 
   /**
    * Sets an X/Y position and optionally shows/places the Popup
-   * @async
    * @param {number} x the x coordinate/offset value
    * @param {number} y the y coordinate/offset value
    * @param {boolean} doShow true if the Popup should be displayed before placing
    * @param {boolean} doPlacement true if the component should run its placement routine
    */
-  async setPosition(x = null, y = null, doShow = null, doPlacement = null) {
+  setPosition(x = null, y = null, doShow = null, doPlacement = null) {
     if (!Number.isNaN(x)) this.x = x;
     if (!Number.isNaN(y)) this.y = y;
     if (doShow) this.visible = true;
-    if (doPlacement) await this.place();
+    if (doPlacement) this.place();
   }
 
   /**
    * Shows the Popup
    * @async
-   * @returns {Promise} resolved once showing and animating the Popup is completed.
+   * @returns {void}
    */
   async show() {
-    return new Promise((resolve, reject) => {
-      if (!this.visible) {
-        reject(new Error('Cannot show the modal if the `visible` setting is false'));
-        return;
+    if (!this.visible) {
+      return;
+    }
+
+    // Fix location first
+    this.place();
+
+    // If an arrow is displayed, place it correctly
+    this.#setArrowDirection('', this.arrow);
+    this.placeArrow();
+
+    this.removeAttribute('aria-hidden');
+
+    if (this.isFlipped) {
+      this.container.classList.add('flipped');
+    }
+
+    // Change transparency/visibility
+    this.container.classList.add('open');
+
+    if (this.animated) {
+      await waitForTransitionEnd(this.container, 'opacity');
+    }
+
+    // Unblur if needed
+    this.#correct3dMatrix();
+
+    this.triggerEvent('show', this, {
+      bubbles: true,
+      detail: {
+        elem: this
       }
-
-      this.container.classList.add('visible');
-
-      // Adds a RenderLoop-staggered check for whether to show the Popup.
-      if (this.openCheck) {
-        this.openCheck.destroy(true);
-      }
-
-      this.openCheck = renderLoop.register(new IdsRenderLoopItem({
-        duration: 70,
-        timeoutCallback: () => {
-          // Always fire the 'show' event
-          this.triggerEvent('show', this, {
-            bubbles: true,
-            detail: {
-              elem: this
-            }
-          });
-          this.container.classList.add('open');
-          if (this.isFlipped) {
-            this.container.classList.add('flipped');
-          }
-          this.place().then(async () => {
-            // If an arrow is displayed, place it correctly.
-            this.#setArrowDirection('', this.arrow);
-            this.placeArrow();
-
-            if (this.animated) {
-              await waitForTransitionEnd(this.container);
-            }
-            this.#correct3dMatrix();
-            this.open = true;
-            resolve();
-          });
-        }
-      }));
     });
+
+    this.open = true;
   }
 
   /**
    * Hides the Popup
    * @async
-   * @returns {Promise} resolved once hiding and animating the Popup is completed.
+   * @returns {void}
    */
   async hide() {
-    return new Promise((resolve, reject) => {
-      if (this.visible) {
-        reject(new Error('Cannot hide the modal if the `visible` setting is true'));
-        return;
+    if (this.visible) {
+      return;
+    }
+
+    this.open = false;
+    this.#remove3dMatrix();
+    this.container.classList.remove('open');
+
+    if (this.animated) {
+      await waitForTransitionEnd(this.container, 'opacity');
+    }
+
+    // Always fire the 'hide' event
+    this.triggerEvent('hide', this, {
+      bubbles: true,
+      detail: {
+        elem: this
       }
-
-      this.open = false;
-      this.#remove3dMatrix();
-      this.container.classList.remove('open');
-
-      // Adds another RenderLoop-staggered check for whether to hide the Popup.
-      if (this.closedCheck) {
-        this.closedCheck.destroy(true);
-      }
-      this.closedCheck = renderLoop.register(new IdsRenderLoopItem({
-        duration: 200,
-        timeoutCallback: () => {
-          // Always fire the 'hide' event
-          this.triggerEvent('hide', this, {
-            bubbles: true,
-            detail: {
-              elem: this
-            }
-          });
-
-          // Remove the `flipped` class if its there
-          if (this.isFlipped) {
-            this.container.classList.remove('flipped');
-            this.isFlipped = false;
-          }
-
-          this.container.classList.remove('visible', 'open');
-          resolve();
-        }
-      }));
     });
+
+    if (this.isFlipped) {
+      this.container.classList.remove('flipped');
+      this.isFlipped = false;
+    }
+
+    this.setAttribute('aria-hidden', 'true');
   }
 
   /**
    * Runs the configured placement routine for the Popup
-   * @async
-   * @returns {Promise} resolved once placement has finished
+   * @returns {void}
    */
-  async place() {
-    return new Promise((resolve) => {
-      if (this.visible) {
-        this.#clearPlacement();
-        if (this.positionStyle === 'viewport') {
-          this.#placeInViewport();
+  place() {
+    if (this.visible) {
+      if (this.positionStyle === 'viewport') {
+        this.#placeInViewport();
+      } else {
+        const { alignTarget } = this;
+        if (!alignTarget) {
+          this.#placeAtCoords();
         } else {
-          const { alignTarget } = this;
-          if (!alignTarget) {
-            this.#placeAtCoords();
-          } else {
-            this.#placeAgainstTarget();
-          }
+          this.#placeAgainstTarget();
         }
-        resolve();
       }
-    });
+    }
   }
 
   /**
