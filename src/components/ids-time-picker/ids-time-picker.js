@@ -398,7 +398,6 @@ export default class IdsTimePicker extends Base {
     const { triggerField, popup, triggerButton } = this.elements;
 
     if (!this.isOpen) {
-      popup.visible = true;
       const { bottom } = triggerButton.getBoundingClientRect();
       const positionBottom = (bottom + 100) < window.innerHeight;
 
@@ -406,6 +405,7 @@ export default class IdsTimePicker extends Base {
       popup.arrowTarget = triggerButton;
       popup.align = positionBottom ? 'bottom, left' : 'top, left';
       popup.arrow = positionBottom ? 'bottom' : 'top';
+      popup.visible = true;
 
       this.addOpenEvents();
     }
