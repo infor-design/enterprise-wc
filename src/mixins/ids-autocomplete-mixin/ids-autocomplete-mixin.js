@@ -39,16 +39,16 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
   datasource;
 
   /**
-   * The internal IdsListBox component
-   * @private
-   */
-  #listBox;
-
-  /**
    * The internal IdsPopup component
    * @private
    */
   #popup;
+
+  /**
+   * The internal IdsListBox component
+   * @private
+   */
+  #listBox;
 
   /**
    * Set autocomplete attribute
@@ -80,7 +80,6 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
   set data(value) {
     if (this.datasource) {
       this.datasource.data = value || [];
-      this.rerender();
     }
   }
 
@@ -98,10 +97,10 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
    */
   get elements() {
     return {
-      popup: this.#popup,
       listBox: this.#listBox,
-      popupContent: this.#popup.container.querySelector('slot[name="content"]'),
-      listBoxOptions: this.#popup.shadowRoot.querySelectorAll('ids-list-box-option'),
+      popup: this.#popup,
+      popupContent: this.#popup?.container.querySelector('slot[name="content"]'),
+      listBoxOptions: this.#popup?.shadowRoot.querySelectorAll('ids-list-box-option'),
       rootNode: this.getRootNode().body.querySelector('ids-container') || window.document.body,
     };
   }
@@ -134,15 +133,6 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
    */
   get searchKey() {
     return this.getAttribute(attributes.SEARCH_KEY) || this.templateKeys[0];
-  }
-
-  /**
-   * Rerenders the IdsInput component
-   * @private
-   */
-  rerender() {
-    super.rerender?.();
-    this.#populateListbox();
   }
 
   /**
@@ -197,22 +187,13 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
   }
 
   /**
-   * Populate the IdsListBox element with
-   * IdsListBoxOptions containing the dataset
-   * @returns {void}
-   */
-  #populateListbox() {
-    this.elements.listBox.innerHTML = this.data.map((d) => `<ids-list-box-option>${d[this.searchKey]}</ids-list-box-option>`).join('');
-  }
-
-  /**
    * Attach internal properties
    * @returns {void}
    */
   #attachProperties() {
     this.datasource = new IdsDataSource();
     this.#listBox = new IdsListBox();
-    this.#popup = new IdsPopup();
+    this.#popup = document.createElement('ids-popup');
   }
 
   /**

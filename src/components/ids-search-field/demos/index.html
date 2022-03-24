@@ -26,6 +26,20 @@
         <ids-search-field disabled label="Disabled Search Bar" value="Anti-virus Software"></ids-search-field>
         <ids-search-field clearable color-variant="alternate" label="Alternate Color Search Bar" value="Cellphone">
         </ids-search-field>
+
+        <ids-search-field
+          id="searchfield-autocomplete"
+          placeholder="This input's label is visible"
+          size="md"
+          label="Autocomplete Search Input"
+          autocomplete
+        >
+          <template slot="autocomplete-template">
+            <ids-list-box-option>
+              ${label}
+            </ids-list-box-option>
+          </template>
+        </ids-search-field>
       </ids-layout-grid-cell>
     </ids-layout-grid>
 

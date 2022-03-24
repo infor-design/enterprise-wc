@@ -34,6 +34,7 @@ export default class IdsTriggerField extends Base {
    */
   get elements() {
     return {
+      ...super.elements,
       content: this.container.querySelector('.ids-trigger-field-content'),
       label: this.container.querySelector('label'),
       text: this.container.querySelector('ids-text'),
