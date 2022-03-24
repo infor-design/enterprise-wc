@@ -144,7 +144,8 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Typography (ids-text)
  - [x] Upload (ids-upload)
  - [x] Upload Advanced (ids-upload-advanced)
- - [x] Validation (mixin)
+ - [x] Validation (ids-validation-mixin)
+ - [x] Visibility (ids-hidden)
  - [x] Week View (ids-week-view)
  - [x] Wizard (ids-wizard)
 
