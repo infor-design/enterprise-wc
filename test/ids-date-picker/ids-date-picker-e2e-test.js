@@ -11,7 +11,7 @@ describe('Ids Date Picker e2e Tests', () => {
 
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
-    // await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await expect(page).toPassAxeTests();
   });
 
@@ -541,5 +541,23 @@ describe('Ids Date Picker e2e Tests', () => {
     );
 
     expect(datePickerValue).toEqual('1/15/2022');
+  });
+
+  it('should handle range selection', async () => {
+    await page.evaluate(() => {
+      document.querySelector('ids-container').insertAdjacentHTML(
+        'afterbegin',
+        '<ids-date-picker id="e2e-range-picker" use-range="true" value="2/7/2018 - 2/22/2018"></ids-date-picker>'
+      );
+
+      document.querySelector('#e2e-range-picker').rangeSettings = {
+        start: '2/3/2019',
+        end: '3/15/2019'
+      };
+    });
+
+    const value = await page.$eval('#e2e-range-picker', (el) => el?.value);
+
+    expect(value).toEqual('2/3/2019 - 3/15/2019');
   });
 });

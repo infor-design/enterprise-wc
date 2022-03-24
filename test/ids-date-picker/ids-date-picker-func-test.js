@@ -153,6 +153,14 @@ describe('IdsDatePicker Component Tests', () => {
 
       expect(component.legend).toEqual(legend);
     });
+
+    it('should set/unset useRange property', () => {
+      expect(component.useRange).toBeFalsy();
+
+      component.useRange = true;
+
+      expect(component.useRange).toBeTruthy();
+    });
   });
 
   describe('Using attributes', () => {
@@ -275,6 +283,14 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.month).toEqual((new Date()).getMonth());
       expect(component.year).toEqual((new Date()).getFullYear());
       expect(component.day).toEqual((new Date()).getDate());
+    });
+
+    it('should set/unset useRange property', () => {
+      expect(component.getAttribute('use-range')).toBeNull();
+
+      component.setAttribute('use-range', true);
+
+      expect(component.useRange).toBeTruthy();
     });
   });
 
