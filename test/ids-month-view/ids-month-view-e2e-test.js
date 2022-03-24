@@ -689,4 +689,149 @@ describe('Ids Month View e2e Tests', () => {
     expect(containerHasClass).toBeFalsy();
     expect(numberOfItems).toEqual(0);
   });
+
+  it('should handle range selection', async () => {
+    await page.reload({ waitUntil: 'networkidle0' });
+    await page.setRequestInterception(false);
+
+    await page.evaluate((el) => {
+      const element = document.querySelector(el);
+
+      if (element) {
+        element.compact = true;
+        element.useRange = true;
+      }
+    }, name);
+
+    // Select a day and start the range selection
+    await page.$eval(name, (el) =>
+      el?.container.querySelector('td[data-month="10"][data-year="2021"][data-day="1"]')?.click());
+
+    let start = await page.$eval(name, (el) => el?.rangeSettings.start);
+
+    expect(start).not.toBeNull();
+
+    await page.$eval(name, (el) =>
+      el?.container.querySelector('td[data-month="10"][data-year="2021"][data-day="4"]')?.click());
+
+    let end = await page.$eval(name, (el) => el?.rangeSettings.end);
+
+    expect(end).not.toBeNull();
+
+    let selected = await page.$eval(name, (el) => el?.container.querySelectorAll('.range-selection')?.length);
+
+    expect(selected).toEqual(4);
+
+    await page.$eval(name, (el) =>
+      el?.container.querySelector('td[data-month="10"][data-year="2021"][data-day="16"]')?.click());
+
+    end = await page.$eval(name, (el) => el?.rangeSettings.end);
+    selected = await page.$eval(name, (el) => el?.container.querySelectorAll('.range-selection')?.length);
+
+    expect(end).toBeNull();
+    expect(selected).toEqual(0);
+
+    await page.keyboard.press('ArrowRight');
+    await page.keyboard.press('ArrowRight');
+    await page.keyboard.press('Enter');
+
+    end = await page.$eval(name, (el) => el?.rangeSettings.end);
+    selected = await page.$eval(name, (el) => el?.container.querySelectorAll('.range-selection')?.length);
+
+    expect(end).not.toBeNull();
+    expect(selected).toEqual(3);
+
+    await page.$eval(name, (el) =>
+      el?.container.querySelector('td[data-month="10"][data-year="2021"][data-day="16"]')?.click());
+
+    await page.keyboard.press('ArrowLeft');
+    await page.keyboard.press('ArrowLeft');
+    await page.keyboard.press('Enter');
+
+    end = await page.$eval(name, (el) => el?.rangeSettings.end);
+    selected = await page.$eval(name, (el) => el?.container.querySelectorAll('.range-selection')?.length);
+
+    expect(end).not.toBeNull();
+    expect(selected).toEqual(3);
+
+    await page.$eval(name, (el) =>
+      el?.container.querySelector('td[data-month="10"][data-year="2021"][data-day="16"]')?.click());
+
+    await page.keyboard.press('ArrowUp');
+    await page.keyboard.press('Enter');
+
+    end = await page.$eval(name, (el) => el?.rangeSettings.end);
+    selected = await page.$eval(name, (el) => el?.container.querySelectorAll('.range-selection')?.length);
+
+    expect(end).not.toBeNull();
+    expect(selected).toEqual(8);
+
+    await page.$eval(name, (el) =>
+      el?.container.querySelector('td[data-month="10"][data-year="2021"][data-day="16"]')?.click());
+
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('Enter');
+
+    end = await page.$eval(name, (el) => el?.rangeSettings.end);
+    selected = await page.$eval(name, (el) => el?.container.querySelectorAll('.range-selection')?.length);
+
+    expect(end).not.toBeNull();
+    expect(selected).toEqual(8);
+
+    await page.$eval(name, (el) =>
+      el?.container.querySelector('td[data-month="10"][data-year="2021"][data-day="2"]')?.click());
+
+    await page.keyboard.press('ArrowLeft');
+    await page.keyboard.press('ArrowLeft');
+
+    let rangeDay = await page.$eval(name, (el) =>
+      el?.container.querySelector('.range-prev')?.dataset.day);
+
+    expect(+rangeDay).toEqual(1);
+
+    await page.keyboard.press('Escape');
+
+    start = await page.$eval(name, (el) => el?.rangeSettings.start);
+
+    expect(start).toBeNull();
+
+    await page.$eval(name, (el) =>
+      el?.container.querySelector('td[data-month="10"][data-year="2021"][data-day="29"]')?.click());
+
+    await page.keyboard.press('ArrowRight');
+    await page.keyboard.press('ArrowRight');
+
+    rangeDay = await page.$eval(name, (el) =>
+      el?.container.querySelector('.range-next')?.dataset.day);
+
+    expect(+rangeDay).toEqual(30);
+
+    // Range selection from settings
+    await page.evaluate((el) => {
+      const element = document.querySelector(el);
+
+      if (element) {
+        element.rangeSettings = {
+          start: '11/1/2021',
+          end: '11/4/2021'
+        };
+      }
+    }, name);
+
+    start = await page.$eval(name, (el) => el?.rangeSettings.start);
+    end = await page.$eval(name, (el) => el?.rangeSettings.end);
+    selected = await page.$eval(name, (el) => el?.container.querySelectorAll('.range-selection')?.length);
+
+    expect(start).not.toBeNull();
+    expect(end).not.toBeNull();
+    expect(selected).toEqual(4);
+
+    // Range selection off
+    await page.evaluate((el) => {
+      document.querySelector(el)?.setAttribute('use-range', false);
+    }, name);
+
+    selected = await page.$eval(name, (el) => el?.container.querySelectorAll('.range-selection')?.length);
+    expect(selected).toEqual(0);
+  });
 });
