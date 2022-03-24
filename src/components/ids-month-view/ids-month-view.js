@@ -741,12 +741,18 @@ class IdsMonthView extends Base {
   #setRangeSelection(year, month, day) {
     if (!this.useRange) return;
 
-    const dateTime = new Date(year, month, day).getTime();
+    const date = new Date(year, month, day);
+    const dateTime = date.getTime();
+    const diff = this.rangeSettings.start ? daysDiff(this.rangeSettings.start, date) : 0;
+    const rangeStarted = this.rangeSettings.start && !this.rangeSettings.end;
+    const canSelectBoth = !(this.rangeSettings.selectBackward || this.rangeSettings.selectForward);
+    const selectBackward = this.rangeSettings.selectBackward && diff < 0;
+    const selectForward = this.rangeSettings.selectForward && diff > 0;
 
     this.#selectDay(year, month, day);
 
     // Start is set
-    if (this.rangeSettings.start && !this.rangeSettings.end) {
+    if (rangeStarted && (canSelectBoth || selectBackward || selectForward)) {
       const startRange = new Date(this.rangeSettings.start).getTime();
 
       this.rangeSettings.end = dateTime >= startRange ? dateTime : this.rangeSettings.start;
@@ -828,13 +834,17 @@ class IdsMonthView extends Base {
     if (this.rangeSettings.start && !(this.rangeSettings.end && this.rangeSettings.start)) {
       const startRange = new Date(this.rangeSettings.start);
       const endRange = new Date(year, month, day);
-      const days = daysDiff(startRange, endRange);
+      const diff = daysDiff(startRange, endRange);
 
       this.#clearRangeClasses();
 
-      if (days !== 0) {
-        Array.from({ length: Math.abs(days) }).forEach((_, index) => {
-          const rangeDay = days > 0
+      const canSelectBoth = !(this.rangeSettings.selectBackward || this.rangeSettings.selectForward);
+      const selectBackward = this.rangeSettings.selectBackward && diff < 0;
+      const selectForward = this.rangeSettings.selectForward && diff > 0;
+
+      if (diff !== 0 && (canSelectBoth || selectBackward || selectForward)) {
+        Array.from({ length: Math.abs(diff) }).forEach((_, index) => {
+          const rangeDay = diff > 0
             ? addDate(startRange, index + 1, 'days')
             : subtractDate(startRange, index + 1, 'days');
           const selectedQuery = [
@@ -845,7 +855,7 @@ class IdsMonthView extends Base {
           ].join('');
 
           this.container.querySelector(selectedQuery)
-            ?.classList.add(days > 0 ? 'range-next' : 'range-prev');
+            ?.classList.add(diff > 0 ? 'range-next' : 'range-prev');
         });
       }
     }

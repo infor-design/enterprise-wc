@@ -443,6 +443,41 @@ describe('Ids Month View e2e Tests', () => {
     expect(year).toEqual(now.getFullYear());
   });
 
+  it('should handle month/year picklist when compact', async () => {
+    await page.evaluate((el) => {
+      const component = document.querySelector(el);
+
+      if (component) {
+        component.compact = true;
+        component.month = 10;
+        component.year = 2021;
+        component.day = 15;
+        component.shadowRoot.querySelector('ids-date-picker')?.setAttribute('month', 0);
+        component.shadowRoot.querySelector('ids-date-picker')?.setAttribute('year', 2022);
+        component.shadowRoot.querySelector('ids-date-picker')?.setAttribute('expanded', true);
+      }
+    }, name);
+
+    const btnTodayHidden = await page.$eval(name, (el) => el?.container.querySelector('.btn-today').hasAttribute('hidden'));
+    const btnPrevHidden = await page.$eval(name, (el) => el?.container.querySelector('.btn-previous').hasAttribute('hidden'));
+    const btnNextHidden = await page.$eval(name, (el) => el?.container.querySelector('.btn-next').hasAttribute('hidden'));
+    const btnApplyHidden = await page.$eval(name, (el) => el?.container.querySelector('.btn-apply').hasAttribute('hidden'));
+
+    expect(btnTodayHidden).toBeTruthy();
+    expect(btnPrevHidden).toBeTruthy();
+    expect(btnNextHidden).toBeTruthy();
+    expect(btnApplyHidden).toBeFalsy();
+
+    // Apply picklist date to month view
+    await page.$eval(name, (el) => el?.container.querySelector('.btn-apply')?.click());
+
+    const month = await page.$eval(name, (el) => el?.month);
+    const year = await page.$eval(name, (el) => el?.year);
+
+    expect(+month).toEqual(0);
+    expect(+year).toEqual(2022);
+  });
+
   it('should handle keyboard shortcuts (umalqura calendar)', async () => {
     await page.reload({ waitUntil: 'networkidle0' });
     await page.setRequestInterception(false);

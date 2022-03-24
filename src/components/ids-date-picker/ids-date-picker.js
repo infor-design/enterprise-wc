@@ -369,18 +369,14 @@ class IdsDatePicker extends Base {
    * Expanded/collapsed event for date picker (picklist) in calendar popup
    */
   #attachExpandedListener() {
-    if (this.isDropdown) {
-      this.offEvent('expanded.date-picker-expand');
-    } else {
-      this.offEvent('expanded.date-picker-expand');
-      this.onEvent('expanded.date-picker-expand', this.#monthView?.container?.querySelector('ids-date-picker'), (e) => {
-        const btnText = this.container.querySelector('.popup-btn-start ids-text');
+    this.offEvent('expanded.date-picker-expand');
+    this.onEvent('expanded.date-picker-expand', this.#monthView?.container?.querySelector('ids-date-picker'), (e) => {
+      const btnText = this.container.querySelector('.popup-btn-start ids-text');
 
-        if (btnText && !this.isCalendarToolbar) {
-          btnText.textContent = this.locale?.translate(e.detail.expanded ? 'Cancel' : 'Clear');
-        }
-      });
-    }
+      if (btnText && !this.isCalendarToolbar) {
+        btnText.textContent = this.locale?.translate(e.detail.expanded ? 'Cancel' : 'Clear');
+      }
+    });
   }
 
   /**
@@ -583,6 +579,7 @@ class IdsDatePicker extends Base {
 
     if (isOpen && !this.readonly) {
       this.addOpenEvents();
+      this.#attachExpandedListener();
 
       this.#popup.alignTarget = this.isCalendarToolbar ? this.container : this.#triggerField;
       this.#popup.arrowTarget = this.#triggerButton;

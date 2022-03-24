@@ -494,5 +494,52 @@ describe('Ids Date Picker e2e Tests', () => {
 
     yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
     expect(yearSelectedText).toEqual('2021');
+
+    // Picklist inside of a popup
+    await page.evaluate(() => {
+      const datePicker = document.querySelector('#e2e-datepicker-legend');
+      const monthView = datePicker?.container.querySelector('ids-month-view');
+
+      datePicker?.container.querySelector('ids-trigger-button')?.click();
+
+      monthView?.container.querySelector('ids-date-picker')?.setAttribute('month', 0);
+      monthView?.container.querySelector('ids-date-picker')?.setAttribute('year', 2022);
+      monthView?.container.querySelector('ids-date-picker')?.setAttribute('expanded', true);
+    });
+
+    const btnStartText = await page.$eval(
+      '#e2e-datepicker-legend',
+      (el) => el?.container.querySelector('.popup-btn-start ids-text')?.textContent
+    );
+
+    expect(btnStartText).toEqual('Cancel');
+
+    await page.$eval(
+      '#e2e-datepicker-legend',
+      (el) => el?.container.querySelector('.popup-btn-end')?.click()
+    );
+
+    const appliedToMonthView = await page.$eval(
+      '#e2e-datepicker-legend',
+      (el) => {
+        const monthView = el?.container.querySelector('ids-month-view');
+
+        return monthView?.month === 0 && monthView?.year === 2022;
+      }
+    );
+
+    expect(appliedToMonthView).toBeTruthy();
+
+    await page.$eval(
+      '#e2e-datepicker-legend',
+      (el) => el?.container.querySelector('.popup-btn-end')?.click()
+    );
+
+    const datePickerValue = await page.$eval(
+      '#e2e-datepicker-legend',
+      (el) => el?.value
+    );
+
+    expect(datePickerValue).toEqual('1/15/2022');
   });
 });
