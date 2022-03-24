@@ -161,7 +161,7 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 
 ## Filters
 
-Data rows can be easily filter based on one or several criteria. Whole filter row can turn on/off by api setting `filterable` and can be disabled by api setting `filter-row-disabled`. The filter conditions apply thru the UI or programmatically. Each column can have its own filter type and turn on/off by columns setting.
+Data rows can be filter based on one or several criteria. Whole filter row can turned on/off by the api setting `filterable` and can be disabled by the api setting `filter-row-disabled`. The filter conditions can be applied thru the UI or programmatically. Each column can have its own filter type and turn on/off by columns setting.
 
 ### Filter Columns Setting
 
