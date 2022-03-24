@@ -11,7 +11,7 @@ describe('Ids Toolbar Percy Tests', () => {
   it('should not have visual regressions in new dark theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
+      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');
     });
     await percySnapshot(page, 'ids-toolbar-new-dark');
   });
@@ -19,7 +19,7 @@ describe('Ids Toolbar Percy Tests', () => {
   it('should not have visual regressions in new contrast theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
+      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'contrast');
     });
     await percySnapshot(page, 'ids-toolbar-new-contrast');
   });
@@ -45,7 +45,7 @@ describe('Ids Toolbar Formatter Percy Tests', () => {
   it('should not have visual regressions in new dark theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
+      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');
     });
     await percySnapshot(page, 'ids-toolbar-formatter-new-dark');
   });
@@ -53,7 +53,7 @@ describe('Ids Toolbar Formatter Percy Tests', () => {
   it('should not have visual regressions in new contrast theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
+      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'contrast');
     });
     await percySnapshot(page, 'ids-toolbar-formatter-new-contrast');
   });

@@ -95,8 +95,8 @@ module.exports = {
   // names that allow to stub out resources with a single module
   // See https://jestjs.io/docs/en/webpack.html for more info
   moduleNameMapper: {
-    '^.+\\.scss$': '<rootDir>/test/helpers/style-mock.js',
-    'ui.config.font-sizes.js': 'ids-identity/dist/theme-new/tokens/web/ui.config.font-sizes.js'
+    '^.+\\.scss$': '<rootDir>/test/helpers/style-mock.ts',
+    'ui.config.font-sizes.ts': 'ids-identity/dist/theme-new/tokens/web/ui.config.font-sizes.ts'
   },
 
   // An array of regexp pattern strings, matched against all module
@@ -153,7 +153,7 @@ module.exports = {
   ],
 
   // Change the name convention of the snapshot to be next to the test
-  snapshotResolver: '<rootDir>/test/helpers/snapshot-resolver.js',
+  snapshotResolver: '<rootDir>/test/helpers/snapshot-resolver.ts',
 
   // The test environment that will be used for testing
   // testEnvironment: 'node',

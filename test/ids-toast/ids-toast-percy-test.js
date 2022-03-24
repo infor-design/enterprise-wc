@@ -15,7 +15,7 @@ describe('Ids Toast Percy Tests', () => {
   it('should not have visual regressions in new dark theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
+      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');
       document.querySelector('#btn-toast-demo').click();
     });
     await page.waitForTimeout(200); // approx. time for a Modal to show
@@ -25,7 +25,7 @@ describe('Ids Toast Percy Tests', () => {
   it('should not have visual regressions in new contrast theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
+      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'contrast');
       document.querySelector('#btn-toast-demo').click();
     });
     await page.waitForTimeout(200); // approx. time for a Modal to show

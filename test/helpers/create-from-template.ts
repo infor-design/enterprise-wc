@@ -4,7 +4,7 @@
  * @param {string} innerHTML the template
  * @returns {HTMLElement} the new root dom element
  */
-const createFromTemplate = (elem, innerHTML) => {
+const createFromTemplate = (elem: any, innerHTML: string) => {
   elem?.remove();
   const template = document.createElement('template');
   template.innerHTML = innerHTML;

@@ -1,12 +1,9 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-
 import Base from './ids-accordion-base';
-
-import IdsAccordionHeader from './ids-accordion-header';
-import IdsAccordionPanel from './ids-accordion-panel';
-
+import './ids-accordion-header';
+import './ids-accordion-panel';
 import styles from './ids-accordion.scss';
 
 /**
@@ -35,7 +32,7 @@ export default class IdsAccordion extends Base {
     // Assign depth-dependent styles, and re-apply them on changes
     requestAnimationFrame(() => {
       this.#assignDepthDependentStyles();
-      this.#contentObserver.observe(this.container, {
+      this.#contentObserver.observe((this as any), {
         childList: true
       });
     });
@@ -70,7 +67,7 @@ export default class IdsAccordion extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template(): string {
+  template() {
     return `
       <div class="ids-accordion" part="accordion">
         <slot></slot>
@@ -91,17 +88,17 @@ export default class IdsAccordion extends Base {
 
   /**
    * @readonly
-   * @returns {Array<IdsAccordionHeader>} all accordion headers in a flattened array
+   * @returns {Array<HTMLElement>} all accordion headers in a flattened array
    */
-  get headers(): Array<IdsAccordionHeader> {
+  get headers(): Array<HTMLElement> {
     return [...this.querySelectorAll('ids-accordion-header')];
   }
 
   /**
    * @readonly
-   * @returns {Array<IdsAccordionPanel>} all accordion panels in a flattened array
+   * @returns {Array<HTMLElement>} all accordion panels in a flattened array
    */
-  get panels(): Array<IdsAccordionPanel> {
+  get panels(): Array<HTMLElement> {
     return [...this.querySelectorAll('ids-accordion-panel')];
   }
 
@@ -111,7 +108,7 @@ export default class IdsAccordion extends Base {
    */
   get focused(): any {
     if (this.contains(document.activeElement)) {
-      return document.activeElement?.closest('ids-accordion-panel');
+      return (document.activeElement as any).closest('ids-accordion-panel');
     }
     return undefined;
   }
@@ -121,7 +118,7 @@ export default class IdsAccordion extends Base {
    * @readonly
    * @returns {boolean} true if accordion set to allowOnePane
    */
-  get allowOnePane() {
+  get allowOnePane(): boolean {
     return stringToBool(this.getAttribute(attributes.ALLOW_ONE_PANE));
   }
 
@@ -150,7 +147,7 @@ export default class IdsAccordion extends Base {
    * @param {boolean} doRTL if true, modifies RTL styles
    */
   #assignDepthDependentStyles(
-    element: any = this,
+    element = this,
     depth = 0,
     doColorVariant = true,
     doExpanderType = true,
@@ -191,10 +188,7 @@ export default class IdsAccordion extends Base {
         if (doDisplayIconType) {
           const displayIconType = this.header.icon;
           if (typeof displayIconType === 'string' && displayIconType.length && !element.contentAlignment) {
-            this.#markAdjacentPanesForIcons(
-              element,
-              true
-            );
+            this.#markAdjacentPanesForIcons(element, true);
           }
         }
       }
@@ -223,9 +217,9 @@ export default class IdsAccordion extends Base {
   /**
    * @returns {void}
    */
-  #handleEvents(): void {
+  #handleEvents() {
     this.offEvent('languagechange.accordion-container');
-    this.onEvent('languagechange.accordion-container', this.closest('ids-container'), (e: { detail: { language: { name: any; }; }; }) => {
+    this.onEvent('languagechange.accordion-container', this.closest('ids-container'), (e: CustomEvent) => {
       if (this.header) {
         this.header.language = e.detail.language.name;
       }
@@ -233,8 +227,8 @@ export default class IdsAccordion extends Base {
     });
 
     // Responds to `selected` events triggered by children
-    this.onEvent('selected', this, (e: { target: { isEqualNode: (arg0: IdsAccordionHeader) => any; }; }) => {
-      this.#deselectOtherHeaders(e.target);
+    this.onEvent('selected', this, (e: CustomEvent) => {
+      this.#deselectOtherHeaders((e.target as HTMLElement));
     });
   }
 
@@ -242,8 +236,8 @@ export default class IdsAccordion extends Base {
    * Makes accordion headers appear to be deselected, except for the provided one.
    * @param {HTMLElement} target a header to ignore
    */
-  #deselectOtherHeaders(target: { isEqualNode: (arg0: IdsAccordionHeader) => any; }) {
-    this.headers.forEach((header) => {
+  #deselectOtherHeaders(target: HTMLElement) {
+    this.headers.forEach((header: any) => {
       if (header.selected && !target.isEqualNode(header)) {
         header.selected = false;
       }
@@ -254,16 +248,16 @@ export default class IdsAccordion extends Base {
    * Sets up keyboard navigation among accordion elements
    * @returns {void}
    */
-  #handleKeys(): void {
+  #handleKeys() {
     // Arrow Up navigates focus backward
-    this.listen(['ArrowUp'], this, (e: { preventDefault: () => void; stopPropagation: () => void; }) => {
+    this.listen(['ArrowUp'], this, (e: KeyboardEvent) => {
       e.preventDefault();
       e.stopPropagation();
       this.#prevPanel();
     });
 
     // Arrow Down navigates focus forward
-    this.listen(['ArrowDown'], this, (e: { preventDefault: () => void; stopPropagation: () => void; }) => {
+    this.listen(['ArrowDown'], this, (e: KeyboardEvent) => {
       e.preventDefault();
       e.stopPropagation();
       this.#nextPanel();
@@ -273,9 +267,9 @@ export default class IdsAccordion extends Base {
   /**
    * Traverses the Accordion a specified number of steps
    * @param {number} amt the amount of steps to take
-   * @returns {IdsAccordionPanel} the newly-focused accordion pane
+   * @returns {HTMLElement} the newly-focused accordion pane
    */
-  navigate(amt = 0): IdsAccordionPanel {
+  navigate(amt = 0) {
     if (typeof amt !== 'number') {
       return this.focused;
     }
@@ -298,7 +292,7 @@ export default class IdsAccordion extends Base {
    * looping focus to the first panel if applicable.
    * @returns {void}
    */
-  #nextPanel(): void {
+  #nextPanel() {
     const currentItem = this.focused;
     let next;
 
@@ -329,7 +323,7 @@ export default class IdsAccordion extends Base {
    * looping focus to the last panel if applicable.
    * @returns {void}
    */
-  #prevPanel(): void {
+  #prevPanel() {
     const currentItem = this.focused;
     const getLastPanel = () => {
       const prevChildren = currentItem.parentElement.querySelectorAll('ids-accordion-panel:last-child');
@@ -375,11 +369,11 @@ export default class IdsAccordion extends Base {
   /**
    * Assigns CSS classes to panes/headers that will correctly align their contents
    * for either having an icon, or not having an icon
-   * @param {*} panel the accordion panel that contains icons
-   * @param {*} status true if other adjacent accordion panels
+   * @param {any} panel the accordion panel that contains icons
+   * @param {boolean} status true if other adjacent accordion panels
    *   should appear to be aligned with this panel's icon
    */
-  #markAdjacentPanesForIcons(panel: { parentElement: any; }, status: any) {
+  #markAdjacentPanesForIcons(panel: any, status: boolean) {
     const parent = panel.parentElement;
     [...parent.children].forEach((node) => {
       if (node.tagName === 'IDS-ACCORDION-PANEL') {

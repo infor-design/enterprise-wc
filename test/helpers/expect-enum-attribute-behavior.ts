@@ -16,14 +16,14 @@ const RANDOM_VALUE = 'rando_val_23';
  * assume that the attribute should be removed when it has invalid value.
  */
 export default function expectEnumAttributeBehavior({
-  elem,
-  attribute,
-  values,
-  defaultValue,
-}) {
+  elem = null,
+  attribute = '',
+  values = [],
+  defaultValue = null,
+}: any) {
   const camelCasedAttrib = camelCase(attribute);
 
-  values.forEach((v) => {
+  values.forEach((v: any) => {
     elem.setAttribute(attribute, v);
     expect(elem.getAttribute(attribute)).toEqual(v);
   });
@@ -47,7 +47,7 @@ export default function expectEnumAttributeBehavior({
     expect(elem.hasAttribute(attribute)).toBeFalsy();
   }
 
-  values.reverse().forEach((v) => {
+  values.reverse().forEach((v: any) => {
     elem.setAttribute(attribute, v);
     expect(elem.getAttribute(attribute)).toEqual(v);
     expect(elem[camelCasedAttrib]).toEqual(v);

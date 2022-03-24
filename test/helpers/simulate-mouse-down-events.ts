@@ -14,7 +14,7 @@ export default async function simulateMouseDownEvents({
   element,
   buttons = MOUSE_LEFT,
   mouseDownTime = 0
-}) {
+}: any) {
   const downEvent = new MouseEvent('mousedown', { view: window, buttons });
   const upEvent = new MouseEvent('mouseup', { view: window });
 

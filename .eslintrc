@@ -69,7 +69,9 @@
       "ignoreTemplateLiterals": true
     }],
     // Allow i++
-    "no-plusplus": ["off", { }]
+    "no-plusplus": ["off", { }],
+    // Allow continue in loops
+    "no-continue": ["off"]
   },
   "overrides": [{
     "files": ["*.ts"],
@@ -100,7 +102,7 @@
       // Dont suggest confusing destructuring
       "prefer-destructuring": ["off"],
       // Enforce line length
-      "max-len": ["error", 120, 2, {
+      "max-len": ["error", 125, 2, {
         "ignoreUrls": true,
         "ignoreComments": false,
         "ignoreRegExpLiterals": true,
@@ -128,7 +130,12 @@
       // Allow functions with no this in them
       "no-restricted-syntax": ["off", { }],
       // Allow this to be aliased
-      "@typescript-eslint/no-this-alias": ["off"]
+      "@typescript-eslint/no-this-alias": ["off"],
+      // Allow continue in loops
+      "no-continue": ["off"],
+      // we aren't doing special math with binary/hex radix numbers often,
+      // so this removes need for parseInt(number, 10);
+      "radix": 0
     }
   }]
 }

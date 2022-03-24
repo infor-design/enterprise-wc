@@ -7,9 +7,9 @@ import processAnimFrame from '../helpers/process-anim-frame';
 import IdsAbout from '../../src/components/ids-about/ids-about';
 
 // Supporing components
-import IdsContainer from '../../src/components/ids-container/ids-container';
-import IdsText from '../../src/components/ids-text/ids-text';
-import IdsHyperlink from '../../src/components/ids-hyperlink/ids-hyperlink';
+import '../../src/components/ids-container/ids-container';
+import '../../src/components/ids-text/ids-text';
+import '../../src/components/ids-hyperlink/ids-hyperlink';
 
 // locale messages
 import { messages as esMessages } from '../../src/components/ids-locale/cultures/es-messages';
@@ -24,10 +24,10 @@ const deviceSpecs = true;
 const useDefaultCopyright = true;
 
 describe('IdsAbout Component (using properties)', () => {
-  let component;
+  let component: any;
 
   beforeEach(async () => {
-    const container = document.createElement('ids-container');
+    const container: any = document.createElement('ids-container');
     document.body.appendChild(container);
     await container.setLanguage('en');
 
@@ -138,7 +138,7 @@ describe('IdsAbout Component (using properties)', () => {
 });
 
 describe('IdsAbout Component (using attributes)', () => {
-  let component;
+  let component: any;
 
   beforeEach(async () => {
     document.body.insertAdjacentHTML('beforeend', `<ids-about id="about-example" product-name="Controls" product-version="4.0.0">
@@ -197,7 +197,7 @@ describe('IdsAbout Component (using attributes)', () => {
 });
 
 describe('IdsAbout Component (empty)', () => {
-  let component;
+  let component: any;
 
   beforeEach(async () => {
     document.body.insertAdjacentHTML('beforeend', `<ids-about id="${id}"></ids-about>`);
@@ -270,8 +270,8 @@ describe('IdsAbout Component (empty)', () => {
 });
 
 describe('IdsAbout Component locale', () => {
-  let component;
-  let container;
+  let component: any;
+  let container: any;
 
   beforeEach(async () => {
     container = document.createElement('ids-container');
@@ -305,11 +305,11 @@ describe('IdsAbout Component locale', () => {
     let copyrightOriginal = esMessages.AboutText.value
       .replace('&copy; {0}', `© ${copyrightYear}`)
       .concat(' www.infor.com.');
-    let copyrightReceived = document.querySelector('[slot="copyright"]').textContent;
+    let copyrightReceived = document.querySelector('[slot="copyright"]')?.textContent;
     expect(copyrightOriginal).toEqual(copyrightReceived);
 
     // if device specs translates
-    let deviceSpecsText = document.querySelector('[slot="device"]').textContent;
+    let deviceSpecsText = document.querySelector('[slot="device"]')?.textContent;
 
     expect(deviceSpecsText).toContain(esMessages.Platform.value);
 
@@ -320,12 +320,12 @@ describe('IdsAbout Component locale', () => {
     copyrightOriginal = jaMessages.AboutText.value
       .replace('&copy; {0}', `© ${copyrightYear}`)
       .concat(' www.infor.com.');
-    copyrightReceived = document.querySelector('[slot="copyright"]').textContent;
+    copyrightReceived = document.querySelector('[slot="copyright"]')?.textContent;
 
     expect(copyrightOriginal).toEqual(copyrightReceived);
 
     // if device specs translates
-    deviceSpecsText = document.querySelector('[slot="device"]').textContent;
+    deviceSpecsText = document.querySelector('[slot="device"]')?.textContent;
 
     expect(deviceSpecsText).toContain(jaMessages.Platform.value);
   });

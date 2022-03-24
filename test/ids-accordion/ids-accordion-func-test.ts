@@ -1,60 +1,57 @@
 /**
  * @jest-environment jsdom
  */
-import IdsAccordion, {
-  IdsAccordionHeader,
-  IdsAccordionPanel
-} from '../../src/components/ids-accordion/ids-accordion';
+import '../../src/components/ids-accordion/ids-accordion';
+import IdsAccordionHeader from '../../src/components/ids-accordion/ids-accordion-header';
 import IdsContainer from '../../src/components/ids-container/ids-container';
-
-import elemBuilderFactory from '../helpers/elem-builder-factory';
 import waitFor from '../helpers/wait-for';
 
-const elemBuilder = elemBuilderFactory();
+import createFromTemplate from '../helpers/create-from-template';
 
-const createAccordion = async (variant) => {
+const createAccordion = async (accordion: any, variant?: string | null) => {
   const variantProp = variant ? ` colorVariant="${variant}"` : '';
-  return elemBuilder.createElemFromTemplate(`<ids-accordion${variantProp}>
-    <ids-accordion-panel id="p1">
-      <ids-accordion-header id="h1" slot="header">
-        <ids-text>Header 1</ids-text>
-      </ids-accordion-header>
-    </ids-accordion-panel>
-    <ids-accordion-panel id="p2">
-      <ids-accordion-header id="h2" slot="header">
-        <ids-text>Header 2</ids-text>
-      </ids-accordion-header>
-    </ids-accordion-panel>
-    <ids-accordion-panel id="p3">
-      <ids-accordion-header id="h3" slot="header">
-        <ids-text>Header 3</ids-text>
-      </ids-accordion-header>
-    </ids-accordion-panel>
-  </ids-accordion>`);
+  accordion = await createFromTemplate(accordion, `<ids-accordion${variantProp}>
+  <ids-accordion-panel id="p1">
+    <ids-accordion-header id="h1" slot="header">
+      <ids-text>Header 1</ids-text>
+    </ids-accordion-header>
+  </ids-accordion-panel>
+  <ids-accordion-panel id="p2">
+    <ids-accordion-header id="h2" slot="header">
+      <ids-text>Header 2</ids-text>
+    </ids-accordion-header>
+  </ids-accordion-panel>
+  <ids-accordion-panel id="p3">
+    <ids-accordion-header id="h3" slot="header">
+      <ids-text>Header 3</ids-text>
+    </ids-accordion-header>
+  </ids-accordion-panel>
+</ids-accordion>`);
+  return accordion;
 };
 
 describe('IdsAccordion Component', () => {
-  let accordion;
-  let panel;
-  let panel2;
-  let panel3;
-  let header;
-  let header2;
+  let accordion: any;
+  let panel: any;
+  let panel2: any;
+  let panel3: any;
+  let header: any;
+  let header2: any;
 
   beforeEach(async () => {
-    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => cb());
+    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb: any) => cb());
 
-    accordion = await createAccordion();
+    accordion = await createAccordion(accordion);
 
     panel = document.querySelector('#p1');
     panel2 = document.querySelector('#p2');
     panel3 = document.querySelector('#p3');
-    header = document.querySelector('#h1');
-    header2 = document.querySelector('#h2');
+    header = (document.querySelector('#h1') as unknown as IdsAccordionHeader);
+    header2 = (document.querySelector('#h2') as unknown as IdsAccordionHeader);
   });
 
   afterEach(async () => {
-    elemBuilder.clearElement();
+    accordion.remove();
     accordion = null;
     panel = null;
     panel2 = null;
@@ -74,7 +71,7 @@ describe('IdsAccordion Component', () => {
   it('renders with no errors', async () => {
     const errors = jest.spyOn(global.console, 'error');
     accordion.remove();
-    accordion = await createAccordion();
+    accordion = await createAccordion(accordion);
 
     expect(document.querySelectorAll('ids-accordion').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
@@ -106,12 +103,13 @@ describe('IdsAccordion Component', () => {
   });
 
   it('can be expanded/collapsed when clicked (mouse)', () => {
-    const event = new MouseEvent('click', {
+    const args: any = {
       target: panel.expander,
       bubbles: true,
       cancelable: true,
       view: window
-    });
+    };
+    const event = new MouseEvent('click', args);
 
     // Expand
     panel.expander.dispatchEvent(event);
@@ -123,9 +121,8 @@ describe('IdsAccordion Component', () => {
   });
 
   it('can be expanded/collapsed when touched', () => {
-    const event = new TouchEvent('touchend', {
+    const args: any = {
       touches: [{
-        identifier: '123',
         pageX: 0,
         pageY: 0,
         target: panel.expander
@@ -133,7 +130,8 @@ describe('IdsAccordion Component', () => {
       bubbles: true,
       cancpanelable: true,
       view: window
-    });
+    };
+    const event: any = new TouchEvent('touchend', args);
 
     // Expand
     panel.expander.dispatchEvent(event);
@@ -227,10 +225,8 @@ describe('IdsAccordion Component', () => {
   });
 
   it('supports color variants', async () => {
-    elemBuilder.clearElement();
-    accordion = await createAccordion('app-menu');
+    accordion = await createAccordion(accordion, 'app-menu');
     waitFor(() => expect(accordion.colorVariant).toBe('app-menu'));
-    expect(accordion.panels[0].colorVariant).toBe(null);
   });
 
   it('has a reference to its panels', () => {
@@ -251,7 +247,7 @@ describe('IdsAccordion Component', () => {
   it('has a reference to its focused panel', () => {
     panel2.focus();
 
-    expect(document.activeElement.isEqualNode(header2)).toBeTruthy();
+    expect((document.activeElement as any).isEqualNode(header2)).toBeTruthy();
     expect(accordion.focused.isEqualNode(panel2)).toBeTruthy();
 
     // Create another element outside the app menu and focus it
@@ -335,7 +331,7 @@ describe('IdsAccordion Component', () => {
   });
 
   it('should update with container language change', () => {
-    const container = new IdsContainer();
+    const container: any = new IdsContainer();
     document.body.appendChild(container);
     container.appendChild(accordion);
 

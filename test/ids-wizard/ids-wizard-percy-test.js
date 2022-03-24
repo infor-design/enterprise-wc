@@ -12,7 +12,7 @@ describe('Ids Wizard Percy Tests', () => {
   it('should not have visual regressions in new dark theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle0', 'domcontentloaded'] });
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
+      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');
     });
     await page._client.send('Animation.setPlaybackRate', { playbackRate: 3 });
     await percySnapshot(page, 'ids-wizard-new-dark', { widths: [1280] });
@@ -21,7 +21,7 @@ describe('Ids Wizard Percy Tests', () => {
   it('should not have visual regressions in new contrast theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle0', 'domcontentloaded'] });
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
+      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'contrast');
     });
     await page._client.send('Animation.setPlaybackRate', { playbackRate: 3 });
     await percySnapshot(page, 'ids-wizard-new-contrast', { widths: [1280] });

@@ -13,7 +13,7 @@ describe('Ids Data Grid Percy Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('ids-layout-grid-cell');
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
+      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');
     });
     await percySnapshot(page, 'ids-data-grid-new-dark');
   });
@@ -22,7 +22,7 @@ describe('Ids Data Grid Percy Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('ids-layout-grid-cell');
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
+      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'contrast');
     });
     await percySnapshot(page, 'ids-data-grid-new-contrast');
   });
@@ -41,7 +41,7 @@ describe('Ids Data Grid List Style Percy Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('ids-layout-grid-cell');
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
+      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');
     });
     await percySnapshot(page, 'ids-data-grid-list-style-new-dark');
   });
@@ -50,7 +50,7 @@ describe('Ids Data Grid List Style Percy Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('ids-layout-grid-cell');
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
+      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'contrast');
     });
     await percySnapshot(page, 'ids-data-grid-list-style-new-contrast');
   });

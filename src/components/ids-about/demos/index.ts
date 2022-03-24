@@ -2,9 +2,13 @@
 import '../../ids-button/ids-button';
 import '../ids-about';
 
+import IdsButton from '../../ids-button/ids-button';
+import IdsAbout from '../ids-about';
+
 document.addEventListener('DOMContentLoaded', () => {
-  const triggerBtn: any = (document.querySelector('#about-example-trigger') as unknown as HTMLElement);
-  const about:any = (document.querySelector('#about-example') as unknown as HTMLElement);
+  const aboutElem: any = document.querySelector('#about-example');
+  const triggerBtn: IdsButton = (document.querySelector('#about-example-trigger') as unknown as IdsButton);
+  const about = <IdsAbout>aboutElem;
 
   if (!triggerBtn || !about) {
     return;

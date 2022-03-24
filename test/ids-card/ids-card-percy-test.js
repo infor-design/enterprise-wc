@@ -11,7 +11,7 @@ describe('Ids Card e2e Tests', () => {
   it('should not have visual regressions in new dark theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
+      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');
     });
     await percySnapshot(page, 'ids-card-new-dark');
   });
@@ -19,7 +19,7 @@ describe('Ids Card e2e Tests', () => {
   it('should not have visual regressions in new contrast theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
+      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'contrast');
     });
     await percySnapshot(page, 'ids-card-new-contrast');
   });

@@ -17,7 +17,7 @@ import processAnimFrame from './process-anim-frame';
  * @returns {ElemBuilder} factory instance that manages a shared HTML element
  */
 export default function templateElemBuilderFactory() {
-  let elem;
+  let elem: any;
 
   const clearElement = async () => {
     elem?.remove?.();
@@ -26,9 +26,9 @@ export default function templateElemBuilderFactory() {
 
   return {
     clearElement,
-    createElemFromTemplate: async (innerHTML, parentEl) => {
+    createElemFromTemplate: async (innerHTML?: string, parentEl?: HTMLElement) => {
       clearElement();
-      const template = document.createElement('template');
+      const template: any = document.createElement('template');
       template.innerHTML = innerHTML;
       elem = template.content.childNodes[0];
 

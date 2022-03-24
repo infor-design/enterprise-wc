@@ -3,8 +3,8 @@ import { attributes, breakpoints } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-action-sheet-base';
-import IdsOverlay from '../ids-modal/ids-overlay';
-import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
+import '../ids-modal/ids-overlay';
+import '../ids-popup-menu/ids-popup-menu';
 
 import styles from './ids-action-sheet.scss';
 
@@ -45,7 +45,7 @@ export default class IdsActionSheet extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `
       <div class="ids-action-sheet">
         <ids-overlay opacity=".7"></ids-overlay>
@@ -63,9 +63,9 @@ export default class IdsActionSheet extends Base {
 
   /**
    * Set the visible attribute
-   * @param {boolean} val true if the action sheet should appear
+   * @param {boolean | string} val true if the action sheet should appear
    */
-  set visible(val) {
+  set visible(val: boolean | string) {
     const isValTruthy = stringToBool(val);
     if (isValTruthy && !this.hidden) {
       this.setAttribute(attributes.VISIBLE, true);
@@ -79,15 +79,15 @@ export default class IdsActionSheet extends Base {
   /**
    * @returns {boolean} the current visible state
    */
-  get visible() {
-    return this.getAttribute(attributes.VISIBLE);
+  get visible(): boolean {
+    return stringToBool(this.getAttribute(attributes.VISIBLE));
   }
 
   /**
    * Set the btn text attribute
    * @param {string} val the inner text of the cancel btn
    */
-  set btnText(val) {
+  set btnText(val: string) {
     if (val) {
       this.setAttribute(attributes.BTN_TEXT, val);
     } else {
@@ -98,13 +98,12 @@ export default class IdsActionSheet extends Base {
   /**
    * @returns {string} the inner text of the cancel btn
    */
-  get btnText() {
+  get btnText(): string {
     return this.getAttribute(attributes.BTN_TEXT);
   }
 
   /**
    * Handle `onOutsideClick` on overlay
-   * @returns {void}
    */
   onOutsideClick() {
     this.onEvent('click', this.overlay, () => this.dismiss());
@@ -113,7 +112,6 @@ export default class IdsActionSheet extends Base {
 
   /**
    * Handle cancel btn click
-   * @returns {void}
    */
   onCancelClick() {
     this.onEvent('click', this.cancelBtn, () => this.dismiss());
@@ -122,7 +120,6 @@ export default class IdsActionSheet extends Base {
 
   /**
    * Remove the action sheet from the page
-   * @returns {void}
    */
   dismiss() {
     this.removeAttribute(attributes.VISIBLE);
@@ -131,7 +128,6 @@ export default class IdsActionSheet extends Base {
 
   /**
    * Hide the action sheet on desktop devices
-   * @returns {void}
    */
   #hideOnDesktop() {
     const mq = window.matchMedia(`(min-width: ${breakpoints.sm})`);
@@ -144,9 +140,8 @@ export default class IdsActionSheet extends Base {
   /**
    * Set the action and overlay to hidden is media query is hit
    * @param {object} mq the media query to check
-   * @returns {void}
    */
-  #setVisibility(mq) {
+  #setVisibility(mq: MediaQueryList) {
     if (mq.matches) {
       this.hidden = true;
       this.overlay.hidden = true;

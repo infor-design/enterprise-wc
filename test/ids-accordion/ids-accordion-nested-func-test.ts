@@ -1,21 +1,16 @@
 /**
  * @jest-environment jsdom
  */
-import IdsAccordion, {
-  IdsAccordionHeader,
-  IdsAccordionPanel
-} from '../../src/components/ids-accordion/ids-accordion';
-import IdsIcon from '../../src/components/ids-icon/ids-icon';
-import IdsText from '../../src/components/ids-text/ids-text';
+import '../../src/components/ids-accordion/ids-accordion';
+import '../../src/components/ids-icon/ids-icon';
+import '../../src/components/ids-text/ids-text';
 
-import elemBuilderFactory from '../helpers/elem-builder-factory';
+import createFromTemplate from '../helpers/create-from-template';
 import processAnimFrame from '../helpers/process-anim-frame';
 
-const elemBuilder = elemBuilderFactory();
-
-const createAccordion = async (variant) => {
+const createAccordion = async (accordion: any, variant?: string) => {
   const variantProp = variant ? ` colorVariant="${variant}"` : '';
-  return elemBuilder.createElemFromTemplate(`<ids-accordion${variantProp}>
+  accordion = await createFromTemplate(accordion, `<ids-accordion${variantProp}>
     <ids-accordion-panel id="employee">
       <ids-accordion-header slot="header">
         <ids-icon icon="user" size="medium"></ids-icon>
@@ -88,19 +83,20 @@ const createAccordion = async (variant) => {
       </ids-accordion-panel>
     </ids-accordion-panel>
   </ids-accordion>`);
+  return accordion;
 };
 
 describe('IdsAccordion Component (nested)', () => {
-  let accordion;
+  let accordion: any;
 
   beforeEach(async () => {
-    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => cb());
-    accordion = await createAccordion();
+    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb: any) => cb());
+    accordion = await createAccordion(accordion);
     await processAnimFrame();
   });
 
   afterEach(async () => {
-    elemBuilder.clearElement();
+    accordion.remove();
     accordion = null;
     await processAnimFrame();
   });
@@ -108,7 +104,7 @@ describe('IdsAccordion Component (nested)', () => {
   it('renders with no errors', async () => {
     const errors = jest.spyOn(global.console, 'error');
     accordion.remove();
-    accordion = await createAccordion();
+    accordion = await createAccordion(accordion);
 
     expect(document.querySelectorAll('ids-accordion').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();

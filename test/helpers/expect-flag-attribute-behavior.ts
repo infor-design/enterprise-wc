@@ -10,7 +10,7 @@ import { camelCase, stringToBool } from '../../src/utils/ids-string-utils/ids-st
  * @param {HTMLElement} param0.elem Element to test
  * @param {string} param0.attribute string-attribute-namespace
  */
-export default function expectFlagAttributeBehavior({ elem, attribute }) {
+export default function expectFlagAttributeBehavior({ elem, attribute }: any) {
   const initialValue = stringToBool(elem.getAttribute(attribute));
   const camelCasedAttrib = camelCase(attribute);
 

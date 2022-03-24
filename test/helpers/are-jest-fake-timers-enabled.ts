@@ -6,7 +6,7 @@
 export default function areJestFakeTimersEnabled() {
   if (typeof jest !== 'undefined' && jest !== null) {
     return (
-      setTimeout._isMockFunction === true
+      (setTimeout as any)._isMockFunction === true
       || Object.prototype.hasOwnProperty.call(setTimeout, 'clock')
     );
   }

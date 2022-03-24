@@ -4,10 +4,19 @@
  * @returns {any} The extended object
  */
 class IdsLocale {
+  // The Locale files that have been loaded up
   loadedLocales = new Map();
+
+  // The lang files that have been loaded up
   loadedLanguages = new Map();
+
+  // State object
   state?: any;
+
+  // Holds a reference to the document
   html?: HTMLHtmlElement | null;
+
+  // Holds a single instance of Intl
   dateFormatter?: Intl.DateTimeFormat;
 
   constructor() {
@@ -48,7 +57,7 @@ class IdsLocale {
    * @returns {Promise} A promise that will resolve when complete
    */
   loadLanguageScript(value: string) {
-    const promise = import(`./cultures/${value}-messages.js`);
+    const promise = import(`./cultures/${value}-messages.ts`);
     promise.then((module) => {
       // do something with the translations
       this.loadedLanguages.set(value, module.messages);
@@ -196,7 +205,7 @@ class IdsLocale {
    * @returns {Promise} A promise that will resolve when complete
    */
   loadLocaleScript(value: string) {
-    const promise = import(`./cultures/${value}.js`);
+    const promise = import(`./cultures/${value}.ts`);
     promise.then((module) => {
       // do something with the locale data
       this.loadedLocales.set(value, module.locale);
@@ -414,11 +423,11 @@ class IdsLocale {
     }
 
     // Use 4 digit year
-    // eslint-disable-next-line no-shadow
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     let formattedDate = this.dateFormatter.formatToParts(sourceDate).map(({ type, value }) => {
       switch (type) {
-      case 'year': return `${this.twoToFourDigitYear(value)}`;
-      default: return value;
+        case 'year': return `${this.twoToFourDigitYear(value)}`;
+        default: return value;
       }
     }).join('');
 
@@ -635,7 +644,15 @@ class IdsLocale {
    * @param  {string} filter5 The fifth option to filter.
    * @returns {string} The filtered out date part.
    */
-  #determineDatePart(formatParts: Array<any>, dateStringParts: Array<any>, filter1?: string, filter2?: string, filter3?: string, filter4?: string, filter5?: string): string {
+  #determineDatePart(
+    formatParts: Array<any>,
+    dateStringParts: Array<any>,
+    filter1?: string,
+    filter2?: string,
+    filter3?: string,
+    filter4?: string,
+    filter5?: string
+  ): string {
     let ret = '';
     for (let i = 0; i < dateStringParts.length; i++) {
       if (filter1 === formatParts[i]

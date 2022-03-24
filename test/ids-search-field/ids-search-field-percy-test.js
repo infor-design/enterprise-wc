@@ -12,7 +12,7 @@ describe('Ids Search Field Percy Tests', () => {
   it('should not have visual regressions in new dark theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0'] });
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
+      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');
     });
     await page.waitForSelector('pierce/.ids-input.color-variant-alternate .ids-input-field');
     await percySnapshot(page, 'ids-search-field-new-dark');
@@ -21,7 +21,7 @@ describe('Ids Search Field Percy Tests', () => {
   it('should not have visual regressions in new contrast theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0'] });
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
+      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'contrast');
     });
 
     await page.waitForSelector('pierce/.ids-input.color-variant-alternate .ids-input-field');

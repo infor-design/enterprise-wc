@@ -15,6 +15,7 @@ declare const $: any;
 
 // For Tests
 declare const page: any;
+declare module 'mutationobserver-shim';
 
 // For Components
 declare module 'Ids*';
