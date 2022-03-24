@@ -14,7 +14,7 @@ describe('Ids Editor e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await expect(page).toPassAxeTests({ disabledRules: ['nested-interactive'] });
+    await expect(page).toPassAxeTests({ disabledRules: ['aria-valid-attr', 'nested-interactive'] });
   });
 
   it('should make text bold, italic, underline, strikethrough and clearformatting', async () => {

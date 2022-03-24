@@ -69,7 +69,7 @@ export function transitionToPromise(el, property, value) {
   return new Promise((resolve) => {
     el.style[property] = value;
     const transitionEnded = (e) => {
-      if (e.propertyName !== property) return;
+      if (e.propertyName !== property) resolve();
       el.removeEventListener('transitionend', transitionEnded);
       resolve();
     };
@@ -87,7 +87,7 @@ export function transitionToPromise(el, property, value) {
 export function waitForTransitionEnd(el, property) {
   return new Promise((resolve) => {
     const transitionEnded = (e) => {
-      if (e.propertyName !== property) return;
+      if (e.propertyName !== property) resolve();
       el.removeEventListener('transitionend', transitionEnded);
       resolve();
     };
