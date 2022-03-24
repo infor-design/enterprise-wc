@@ -1054,6 +1054,11 @@ export default class IdsPopup extends Base {
     // Account for absolute-positioned parents
     popupRect = this.#removeAbsoluteParentDistance(this.parentNode, popupRect);
 
+    // Make user-defined adjustments, if applicable
+    if (typeof this.onPlace === 'function') {
+      popupRect = this.onPlace(popupRect);
+    }
+
     this.#renderPlacementInPixels(popupRect);
   }
 
@@ -1164,6 +1169,11 @@ export default class IdsPopup extends Base {
     // Account for absolute-positioned parents
     popupRect = this.#removeAbsoluteParentDistance(this.parentNode, popupRect);
 
+    // Make user-defined adjustments, if applicable
+    if (typeof this.onPlace === 'function') {
+      popupRect = this.onPlace(popupRect);
+    }
+
     this.#renderPlacementInPixels(popupRect);
   }
 
@@ -1173,6 +1183,16 @@ export default class IdsPopup extends Base {
    */
   #placeInViewport() {
     this.#renderPlacementWithTransform();
+  }
+
+  /**
+   * Optional callback that can be used to adjust the Popup's placement
+   * after all internal adjustments are made.
+   * @param {DOMRect} popupRect a Rect object representing the current state of the popup.
+   * @returns {object} an adjusted Rect object with "nudged" coordinates.
+   */
+  onPlace(popupRect) {
+    return popupRect;
   }
 
   /**
