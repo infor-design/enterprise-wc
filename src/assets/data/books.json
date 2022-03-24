@@ -1,14 +1,14 @@
 [
-	{
-		"book": 101,
-		"description": "101",
-		"ledger": "",
-		"bookCurrency": "USD",
-		"transactionCurrency": "Book",
-		"postHistory": "No",
-		"active": "Yes",
+  {
+    "book": 101,
+    "description": "101",
+    "ledger": "",
+    "bookCurrency": "USD",
+    "transactionCurrency": "Book",
+    "postHistory": "No",
+    "active": "Yes",
     "inStock": true,
-		"convention": "Full Month",
+    "convention": "Full Month",
     "methodSwitch": "Yes",
     "trackDeprecationHistory": "Yes",
     "useForEmployee": "No",
@@ -16,7 +16,7 @@
     "publishDate": "2021-04-23T18:25:43.511Z",
     "price": "12.99",
     "location": "United States"
-	},
+  },
   {
     "book": 102,
     "description": "102",
