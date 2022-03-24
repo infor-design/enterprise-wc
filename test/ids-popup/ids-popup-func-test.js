@@ -619,12 +619,14 @@ describe('IdsPopup Component', () => {
     popup.visible = true;
     popup.show();
     await wait(200);
-    expect(popup.container.classList.contains('visible')).toBeTruthy();
+    expect(popup.hasAttribute('aria-hidden')).toBeFalsy();
+    expect(popup.hasAttribute('visible')).toBeTruthy();
 
     popup.visible = false;
     popup.hide();
     await wait(300);
-    expect(popup.container.classList.contains('visible')).toBeFalsy();
+    expect(popup.hasAttribute('aria-hidden')).toBeTruthy();
+    expect(popup.hasAttribute('visible')).toBeFalsy();
   });
 
   it('can enable/disable container bleed', () => {

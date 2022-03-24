@@ -3,7 +3,7 @@
  * @param {HTMLElement} node the node to check
  * @returns {ShadowRoot|undefined} the node.
  */
- export function getClosestShadow(node: HTMLElement): any {
+export function getClosestShadow(node: HTMLElement) {
   let parent = (node && node.parentNode);
   while (parent) {
     if (parent.toString() === '[object ShadowRoot]') {
@@ -19,7 +19,7 @@
  * @param {HTMLElement} node the node to check
  * @returns {Node} the parent node
  */
-export function getClosestContainerNode(node: HTMLElement | any) {
+export function getClosestContainerNode(node: HTMLElement) {
   return getClosestShadow(node) || document;
 }
 
@@ -30,8 +30,8 @@ export function getClosestContainerNode(node: HTMLElement | any) {
  * @param {HTMLElement} node the node to check
  * @returns {Node} the parent node.
  */
-export function getClosestRootNode(node: any) {
-  return getClosestShadow(node)?.host?.parentNode || document;
+export function getClosestRootNode(node: HTMLElement) {
+  return (getClosestShadow(node) as any)?.host?.parentNode || document;
 }
 
 /**
@@ -41,8 +41,8 @@ export function getClosestRootNode(node: any) {
  * @param {string} selector containing a CSS selector to be used for matching
  * @returns {Node|undefined} the node if found, otherwise undefined
  */
-export function getClosest(node: any, selector: string) {
-  let parent = (node && node.parentNode);
+export function getClosest(node: HTMLElement, selector: string) {
+  let parent: any = (node && node.parentNode);
   while (parent) {
     if (parent.toString() === '[object ShadowRoot]') {
       parent = parent.host;
@@ -65,11 +65,11 @@ export function getClosest(node: any, selector: string) {
  * @param {any} value the target CSS value
  * @returns {Promise} fulfulled when the CSS transition completes
  */
-export function transitionToPromise(el: HTMLElement, property: any, value: any) {
+export function transitionToPromise(el: any, property: string, value: any) {
   return new Promise((resolve) => {
     el.style[property] = value;
-    const transitionEnded = (e: TransitionEvent) => {
-      if (e.propertyName !== property) return;
+    const transitionEnded = (e: any) => {
+      if (e.propertyName !== property) resolve(true);
       el.removeEventListener('transitionend', transitionEnded);
       resolve(true);
     };
@@ -86,8 +86,8 @@ export function transitionToPromise(el: HTMLElement, property: any, value: any) 
  */
 export function waitForTransitionEnd(el: HTMLElement, property: string) {
   return new Promise((resolve) => {
-    const transitionEnded = (e: TransitionEvent) => {
-      if (e.propertyName !== property) return;
+    const transitionEnded = (e: any) => {
+      if (e.propertyName !== property) resolve(true);
       el.removeEventListener('transitionend', transitionEnded);
       resolve(true);
     };

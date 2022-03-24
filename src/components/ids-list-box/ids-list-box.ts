@@ -18,7 +18,6 @@ export default class IdsListBox extends Base {
 
   connectedCallback() {
     this.setAttribute('role', 'listbox');
-    this.setAttribute('tabindex', '0');
   }
 
   /**

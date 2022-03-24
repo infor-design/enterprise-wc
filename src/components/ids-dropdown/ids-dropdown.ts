@@ -53,7 +53,9 @@ export default class IdsDropdown extends Base {
       .#addAria()
       .#attachEventHandlers()
       .#attachKeyboardListeners();
+
     super.connectedCallback();
+    this.#configurePopup();
   }
 
   /**
@@ -120,9 +122,37 @@ export default class IdsDropdown extends Base {
       'aria-controls': this.listBox?.getAttribute('id') || `ids-list-box-${this.id}`
     };
 
-    this.listBox?.setAttribute('id', `ids-list-box-${this.id}`);
+    if (this.listBox) {
+      this.listBox.setAttribute('id', `ids-list-box-${this.id}`);
+      this.listBox.setAttribute('aria-label', `Listbox`);
+    }
     Object.keys(attrs).forEach((key) => this.setAttribute(key, attrs[key]));
     return this;
+  }
+
+  #setAriaOnMenuOpen() {
+    this.setAttribute('aria-expanded', 'true');
+
+    // Add aria for the open state
+    const selected = this.selectedOption;
+    this.listBox?.setAttribute('tabindex', '0');
+    this.listBox?.setAttribute('aria-activedescendant', selected?.id || this.selectedIndex);
+    if (selected) {
+      selected.setAttribute('tabindex', '0');
+      selected.focus();
+    }
+  }
+
+  #setAriaOnMenuClose() {
+    this.setAttribute('aria-expanded', 'false');
+    this.listBox?.removeAttribute('tabindex');
+
+    const selected = this.selected;
+    if (selected) {
+      selected.classList.remove('is-selected');
+      selected.setAttribute('tabindex', '-1');
+      this.selectedOption.classList.add('is-selected');
+    }
   }
 
   /**
@@ -175,11 +205,21 @@ export default class IdsDropdown extends Base {
   get value() { return this.getAttribute('value'); }
 
   /**
-   * Returns the selected option DOM element
+   * Returns the selected Listbox option based on the Dropdown's value.
    * @returns {HTMLElement} the selected option
    */
   get selectedOption(): HTMLElement {
     return this.querySelector(`ids-list-box-option[value="${this.value}"]`);
+  }
+
+  /**
+   * Returns the currently-selected Listbox option
+   * (may be different from the Dropdown's value because of user input)
+   * @readonly
+   * @returns {HTMLElement|null} Reference to a selected Listbox option if one is present
+   */
+  get selected() {
+    return this.querySelector('ids-list-box-option.is-selected');
   }
 
   /**
@@ -324,6 +364,19 @@ export default class IdsDropdown extends Base {
     }
   }
 
+  #configurePopup() {
+    this.popup.alignTarget = this.fieldContainer;
+    this.popup.align = 'bottom, left';
+    this.popup.arrow = 'none';
+    this.popup.y = -1;
+    this.popup.type = 'dropdown';
+
+    // Fix aria if the menu is closed
+    if (!this.popup.visible) {
+      this.#setAriaOnMenuClose();
+    }
+  }
+
   /**
    * Open the dropdown list
    */
@@ -339,23 +392,10 @@ export default class IdsDropdown extends Base {
     }
 
     // Open the popup and add a class
-    this.popup.alignTarget = this.fieldContainer;
-    this.popup.align = 'bottom, left';
-    this.popup.arrow = 'none';
-    this.popup.y = -1;
     this.popup.visible = true;
-    this.popup.type = 'dropdown';
     this.addOpenEvents();
     this.container.active = true;
-    this.setAttribute('aria-expanded', 'true');
-
-    // Add aria for the open state
-    this.listBox?.setAttribute('aria-activedescendant', this.selectedOption?.id || this.selectedIndex);
-    const selected = this.listBox?.querySelector('.is-selected');
-    if (selected) {
-      selected.setAttribute('tabindex', 0);
-      selected.focus();
-    }
+    this.#setAriaOnMenuOpen();
   }
 
   /**
@@ -403,14 +443,7 @@ export default class IdsDropdown extends Base {
   close(noFocus?: boolean) {
     this.popup.visible = false;
     this.container.active = false;
-    this.setAttribute('aria-expanded', 'false');
-    const selected = this.querySelector('ids-list-box-option.is-selected');
-
-    if (selected) {
-      selected.classList.remove('is-selected');
-      this.selectedOption.classList.add('is-selected');
-    }
-
+    this.#setAriaOnMenuClose();
     this.removeOpenEvents();
 
     if (!noFocus) {
@@ -472,6 +505,16 @@ export default class IdsDropdown extends Base {
     this.onEvent('languagechange.data-grid-container', this.closest('ids-container'), () => {
       this.#addAria();
     });
+
+    // Listen to IdsPopup's `hide/show` events and control some attributes
+    // on ListBox items for accessibility purposes.
+    this.onEvent('hide', this.popup, () => {
+
+    });
+    this.onEvent('show', this.popup, () => {
+
+    });
+
     return this;
   }
 
@@ -491,7 +534,7 @@ export default class IdsDropdown extends Base {
       e.stopImmediatePropagation();
       e.preventDefault();
 
-      const selected = this.querySelector('ids-list-box-option.is-selected');
+      const selected = this.selected;
       if (e.key === 'ArrowUp' && e.altKey) {
         this.value = selected.getAttribute('value');
         this.close();
@@ -526,7 +569,7 @@ export default class IdsDropdown extends Base {
         return;
       }
 
-      const selected = this.querySelector('ids-list-box-option.is-selected');
+      const selected = this.selected;
       this.value = selected.getAttribute('value');
       this.close();
     });
@@ -541,7 +584,7 @@ export default class IdsDropdown extends Base {
         this.container.focus();
       }
 
-      const selected = this.querySelector('ids-list-box-option.is-selected');
+      const selected = this.selected;
       this.value = selected.getAttribute('value');
       this.close(true);
     });
@@ -561,7 +604,7 @@ export default class IdsDropdown extends Base {
       .filter((a: any) => a.textContent.toLowerCase().indexOf(keyString.toLowerCase()) === 0);
 
     if (matches[0]) {
-      const selected = this.querySelector('ids-list-box-option.is-selected');
+      const selected = this.selected;
       selected?.classList.remove('is-selected');
       selected?.setAttribute('tabindex', '-1');
       matches[0].classList.add('is-selected');
