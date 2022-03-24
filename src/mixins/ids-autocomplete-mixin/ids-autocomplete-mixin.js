@@ -135,6 +135,10 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
     return this.getAttribute(attributes.SEARCH_KEY) || this.templateKeys[0];
   }
 
+  get inputValue() {
+    return this.nodeName === 'IDS-LOOKUP' ? this.container.value : this.value;
+  }
+
   /**
    * Find matches between the input value, searchKey and dataset
    * @param {string | null} value value in the input field
@@ -144,7 +148,7 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
   findMatches(value, list) {
     return list.filter((option) => {
       const regex = new RegExp(value, 'gi');
-      return option[this.searchKey].match(regex);
+      return option[this.searchKey].toString()?.match(regex);
     });
   }
 
@@ -153,14 +157,14 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   displayMatches() {
-    const resultsArr = this.findMatches(this.value, this.data);
+    const resultsArr = this.findMatches(this.inputValue, this.data);
     const results = resultsArr.map((result) => {
       const regex = new RegExp(this.value, 'gi');
-      const optionText = result[this.searchKey].replace(regex, `<span class="highlight">${this.value.toLowerCase()}</span>`);
+      const optionText = result[this.searchKey].toString()?.replace(regex, `<span class="highlight">${this.inputValue.toLowerCase()}</span>`);
       return `<ids-list-box-option>${optionText}</ids-list-box-option>`;
     }).join('');
 
-    if (this.value) {
+    if (this.inputValue) {
       this.elements.listBox.innerHTML = results;
       this.openPopup();
     } else {
@@ -214,7 +218,7 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
   #attachPopup() {
     this.elements.popup.type = 'dropdown';
     this.elements.popup.align = 'bottom, left';
-    this.elements.popup.alignTarget = this.fieldContainer;
+    this.elements.popup.alignTarget = this.fieldContainer || this.container.fieldContainer;
     this.elements.popup.y = -1;
 
     this.elements.rootNode?.appendChild(this.#popup);
