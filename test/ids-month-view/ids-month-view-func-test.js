@@ -87,6 +87,16 @@ describe('IdsMonthView Component (using properties)', () => {
     expect(component.firstDayOfWeek).toEqual(0);
     expect(component.showToday).toBeFalsy();
   });
+
+  it('should set/unset legend property', () => {
+    expect(component.legend.length).toEqual(0);
+
+    const legend = [{ name: 'Weekends', color: 'amber-60', dayOfWeek: [0, 6] }];
+
+    component.legend = legend;
+
+    expect(component.legend).toEqual(legend);
+  });
 });
 
 describe('IdsMonthView Component (using attributes)', () => {
