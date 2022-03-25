@@ -49,6 +49,9 @@ Create responsive layouts or hide/show components based on selected breakpoints
 - **visible**: The state where `ids-hidden` is visible. Is set set by the `visible` attribute.
 - **hidden**: The state where `ids-hidden` is hidden.
 
-## Keyboard Guidelines
+## Converting from Previous Versions (Breaking Changes)
 
-n/a
+**4.x to 5.x**
+- The hidden component replaces the visibility functionality https://main-enterprise.demo.design.infor.com/components/visibility/list
+- Markup has changed to a custom element `<ids-hidden>` (see examples above)
+- Can now be imported as a single JS file and used with encapsulated styles
