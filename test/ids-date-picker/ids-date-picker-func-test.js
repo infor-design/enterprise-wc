@@ -160,6 +160,10 @@ describe('IdsDatePicker Component Tests', () => {
       component.useRange = true;
 
       expect(component.useRange).toBeTruthy();
+
+      component.useRange = false;
+
+      expect(component.useRange).toBeFalsy();
     });
   });
 

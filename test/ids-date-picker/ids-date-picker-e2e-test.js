@@ -465,8 +465,20 @@ describe('Ids Date Picker e2e Tests', () => {
     yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
     expect(yearSelectedText).toEqual('2026');
 
-    await page.keyboard.press('Tab');
     await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('Enter');
+
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    expect(yearSelectedText).toEqual('2031');
+
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('ArrowDown');
+
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    expect(yearSelectedText).toEqual('2027');
+
+    await page.keyboard.press('ArrowUp');
+    await page.keyboard.press('Enter');
     await page.keyboard.press('Enter');
 
     yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
@@ -522,7 +534,16 @@ describe('Ids Date Picker e2e Tests', () => {
 
     const legend = await page.$eval('#e2e-monthyear-picker', (el) => el?.legend);
 
-    expect(legend?.length).not.toBeDefined();
+    expect(legend).not.toBeDefined();
+
+    // Range settings don't apply if dropdown
+    await page.evaluate(() => {
+      document.querySelector('#e2e-monthyear-picker').rangeSettings = { maxDays: 5 };
+    });
+
+    const rangeSettings = await page.$eval('#e2e-monthyear-picker', (el) => el?.rangeSettings);
+
+    expect(rangeSettings).not.toBeDefined();
 
     // Picklist inside of a popup
     await page.evaluate(() => {
@@ -602,7 +623,7 @@ describe('Ids Date Picker e2e Tests', () => {
     expect(start).toEqual(new Date('3/4/2021').getTime());
     expect(end).toEqual(new Date('3/22/2021').getTime());
 
-    // Today btn
+    // Today button
     const todayFormatted = await page.evaluate(() => {
       const container = document.querySelector('ids-container');
       const formatted = container?.locale.formatDate(new Date());
@@ -618,5 +639,44 @@ describe('Ids Date Picker e2e Tests', () => {
     value = await page.$eval('#e2e-range-picker', (el) => el?.value);
 
     expect(value).toEqual(todayFormatted);
+
+    // Apply button
+    await page.evaluate(() => {
+      const component = document.querySelector('#e2e-range-picker');
+
+      if (component) {
+        component.container.querySelector('ids-trigger-button')?.click();
+        component.rangeSettings = {
+          start: null,
+          end: null
+        };
+        component.container.querySelector('ids-month-view').month = 2;
+        component.container.querySelector('ids-month-view').year = 2021;
+        component.container.querySelector('ids-month-view').day = 22;
+        component.rangeSettings = {
+          start: '3/22/2021'
+        };
+        component.container.querySelector('.popup-btn-end')?.click();
+      }
+    });
+
+    value = await page.$eval('#e2e-range-picker', (el) => el?.value);
+    expect(value).toEqual('3/22/2021 - 3/22/2021');
+
+    await page.evaluate(() => {
+      const component = document.querySelector('#e2e-range-picker');
+
+      if (component) {
+        component.container.querySelector('ids-trigger-button')?.click();
+        component.container.querySelector('ids-month-view').rangeSettings = {
+          start: '1/2/2021',
+          end: '1/25/2021'
+        };
+        component.container.querySelector('.popup-btn-end')?.click();
+      }
+    });
+
+    value = await page.$eval('#e2e-range-picker', (el) => el?.value);
+    expect(value).toEqual('1/2/2021 - 1/25/2021');
   });
 });

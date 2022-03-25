@@ -88,7 +88,7 @@ describe('IdsMonthView Component (using properties)', () => {
     expect(component.showToday).toBeFalsy();
   });
 
-  it('should set/unset legend property', () => {
+  it('should change legend property', () => {
     expect(component.legend.length).toEqual(0);
 
     const legend = [{ name: 'Weekends', color: 'amber-60', dayOfWeek: [0, 6] }];
@@ -96,6 +96,18 @@ describe('IdsMonthView Component (using properties)', () => {
     component.legend = legend;
 
     expect(component.legend).toEqual(legend);
+  });
+
+  it('should change useRange', () => {
+    expect(component.useRange).toBeFalsy();
+
+    component.useRange = true;
+
+    expect(component.useRange).toBeTruthy();
+
+    component.useRange = false;
+
+    expect(component.useRange).toBeFalsy();
   });
 });
 
