@@ -748,18 +748,33 @@ class IdsMonthView extends Base {
     const canSelectBoth = !(this.rangeSettings.selectBackward || this.rangeSettings.selectForward);
     const selectBackward = this.rangeSettings.selectBackward && diff < 0;
     const selectForward = this.rangeSettings.selectForward && diff > 0;
+    const startDate = new Date(this.rangeSettings.start);
+    const startTime = startDate.getTime();
+    const minDays = this.rangeSettings.minDays;
+    const maxDays = this.rangeSettings.maxDays;
+    const minRangeExceeded = minDays > 0 && Math.abs(diff) < minDays;
+    const maxRangeExceeded = maxDays > 0 && Math.abs(diff) > maxDays;
+    const minRangeDate = diff > 0
+      ? addDate(startDate, minDays, 'days')
+      : subtractDate(startDate, minDays, 'days');
 
     this.#selectDay(year, month, day);
 
     // Start is set
-    if (rangeStarted && (canSelectBoth || selectBackward || selectForward)) {
-      const startRange = new Date(this.rangeSettings.start).getTime();
+    if (rangeStarted && !maxRangeExceeded && (canSelectBoth || selectBackward || selectForward)) {
+      if (minRangeExceeded) {
+        this.rangeSettings.end = dateTime >= startTime ? minRangeDate.getTime() : this.rangeSettings.start;
+        this.rangeSettings.start = dateTime <= startTime ? minRangeDate.getTime() : this.rangeSettings.start;
 
-      this.rangeSettings.end = dateTime >= startRange ? dateTime : this.rangeSettings.start;
-      this.rangeSettings.start = dateTime <= startRange ? dateTime : this.rangeSettings.start;
+        this.#renderRangeSelection();
+
+        return;
+      }
+
+      this.rangeSettings.end = dateTime >= startTime ? dateTime : this.rangeSettings.start;
+      this.rangeSettings.start = dateTime <= startTime ? dateTime : this.rangeSettings.start;
 
       this.#renderRangeSelection();
-
     // Start not set or both not set
     } else {
       this.rangeSettings.start = dateTime;
@@ -841,8 +856,10 @@ class IdsMonthView extends Base {
       const canSelectBoth = !(this.rangeSettings.selectBackward || this.rangeSettings.selectForward);
       const selectBackward = this.rangeSettings.selectBackward && diff < 0;
       const selectForward = this.rangeSettings.selectForward && diff > 0;
+      const maxDays = this.rangeSettings.maxDays;
+      const maxRangeExceeded = maxDays > 0 && Math.abs(diff) > maxDays;
 
-      if (diff !== 0 && (canSelectBoth || selectBackward || selectForward)) {
+      if (diff !== 0 && !maxRangeExceeded && (canSelectBoth || selectBackward || selectForward)) {
         Array.from({ length: Math.abs(diff) }).forEach((_, index) => {
           const rangeDay = diff > 0
             ? addDate(startRange, index + 1, 'days')
