@@ -90,6 +90,7 @@ export default class IdsLookup extends Base {
       label="${this.label}"
       part="trigger-field"
       size="md"
+      ${this.autocomplete ? ` autocomplete search-key=${this.field}` : ''}
       ${this.disabled ? ' disabled="true"' : ''}
       ${this.readonly ? ' readonly="true"' : ''}
       ${this.validate ? ` validate="${this.validate}"` : ''}
@@ -123,6 +124,29 @@ export default class IdsLookup extends Base {
       </ids-modal>
     </slot>
     `;
+  }
+
+  /**
+   * Set autocomplete attribute
+   * @param {string | null} value autocomplete value
+   */
+  set autocomplete(value) {
+    const val = stringToBool(value);
+    if (val) {
+      this.setAttribute(attributes.AUTOCOMPLETE, '');
+      this.container.classList.add('autocomplete');
+    } else {
+      this.removeAttribute(attributes.AUTOCOMPLETE);
+      this.container.classList.remove('autocomplete');
+    }
+  }
+
+  /**
+   * Get the autocomplete attribute
+   * @returns {boolean} autocomplete attribute value
+   */
+  get autocomplete() {
+    return this.hasAttribute(attributes.AUTOCOMPLETE);
   }
 
   /**

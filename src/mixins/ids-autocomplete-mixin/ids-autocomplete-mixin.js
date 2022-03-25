@@ -1,5 +1,5 @@
 import { attributes } from '../../core/ids-attributes';
-import { stringToBool, extractTemplateLiteralsFromHTML } from '../../utils/ids-string-utils/ids-string-utils';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsListBox from '../../components/ids-list-box/ids-list-box';
 import IdsListBoxOption from '../../components/ids-list-box/ids-list-box-option';
 import IdsPopup from '../../components/ids-popup/ids-popup';
@@ -27,7 +27,6 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
     }
 
     this.#attachProperties();
-    this.#attachTemplateSlot();
     this.#attachPopup();
     this.#attachEventListeners();
   }
@@ -106,15 +105,6 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
   }
 
   /**
-   * Get the template keys from the <template>
-   * Ex: <template>${label}</template
-   * @returns {Array<any>|object} containing the keys of the dataset.
-   */
-  get templateKeys() {
-    return extractTemplateLiteralsFromHTML(this.defaultTemplate);
-  }
-
-  /**
    * Set searchKey attribute
    * Used as the target term to find matches in the dataset.
    * @param {string | null} value search key value
@@ -132,9 +122,14 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
    * @returns {string | null} containing the searchKey
    */
   get searchKey() {
-    return this.getAttribute(attributes.SEARCH_KEY) || this.templateKeys[0];
+    const fields = Object.keys(this.data[0]);
+    return this.getAttribute(attributes.SEARCH_KEY) || fields[0];
   }
 
+  /**
+   * Get inputValue
+   * @returns {string | null} containing the inputValue
+   */
   get inputValue() {
     return this.nodeName === 'IDS-LOOKUP' ? this.container.value : this.value;
   }
@@ -201,17 +196,6 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
   }
 
   /**
-   * Attach template slot to establish internal list options
-   * @returns {void}
-   */
-  #attachTemplateSlot() {
-    const slot = document.createElement('slot');
-    slot.setAttribute('name', 'autocomplete-template');
-    this.container.appendChild(slot);
-    this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
-  }
-
-  /**
    * Configure and attach internal IdsPopup element.
    * @returns {void}
    */
@@ -251,6 +235,8 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
    */
   destroyAutocomplete() {
     this.#removeEventListeners();
+    this.#popup?.remove();
+    this.#listBox?.remove();
   }
 };
 

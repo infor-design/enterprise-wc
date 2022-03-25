@@ -6,6 +6,7 @@ import booksJSON from '../../../assets/data/books.json';
 const lookup = document.querySelector('#lookup-1');
 const container = document.querySelector('ids-container');
 const lookupAutocomplete = document.querySelector('#lookup-6');
+const lookupAutocompleteInput = lookupAutocomplete.shadowRoot.querySelector('ids-trigger-field');
 
 (async function init() {
   // Set a Locale and wait for it to load
@@ -84,7 +85,7 @@ const lookupAutocomplete = document.querySelector('#lookup-6');
     const res = await fetch(url);
     const data = await res.json();
     lookup.data = data;
-    lookupAutocomplete.data = data;
+    lookupAutocompleteInput.data = data;
   };
 
   setData();
