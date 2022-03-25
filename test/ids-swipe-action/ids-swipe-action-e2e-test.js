@@ -12,6 +12,6 @@ describe('Ids Swipe Action e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await expect(page).toPassAxeTests({ disabledRules: ['aria-hidden-focus'] });
+    await (expect(page) as any).toPassAxeTests({ disabledRules: ['aria-hidden-focus'] });
   });
 });

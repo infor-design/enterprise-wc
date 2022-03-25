@@ -2,13 +2,13 @@
  * @jest-environment jsdom
  */
 import IdsBadge from '../../src/components/ids-badge/ids-badge';
-import IdsIcon from '../../src/components/ids-icon/ids-icon';
+import '../../src/components/ids-icon/ids-icon';
 
 describe('IdsBadge Component', () => {
-  let badge;
+  let badge: any;
 
   beforeEach(async () => {
-    const elem = new IdsBadge();
+    const elem: any = new IdsBadge();
     document.body.appendChild(elem);
     badge = document.querySelector('ids-badge');
   });
@@ -19,7 +19,7 @@ describe('IdsBadge Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsBadge();
+    const elem: any = new IdsBadge();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-badge').length).toEqual(1);

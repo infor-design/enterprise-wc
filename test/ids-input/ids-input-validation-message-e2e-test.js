@@ -13,6 +13,6 @@ describe('Ids Input Validation Message e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await expect(page).toPassAxeTests({ disabledRules: ['color-contrast'] });
+    await (expect(page) as any).toPassAxeTests({ disabledRules: ['color-contrast'] });
   });
 });

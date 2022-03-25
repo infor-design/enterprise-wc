@@ -5,10 +5,10 @@ import IdsBreadcrumb from '../../src/components/ids-breadcrumb/ids-breadcrumb';
 import IdsHyperlink from '../../src/components/ids-hyperlink/ids-hyperlink';
 
 describe('IdsBreadcrumb Component', () => {
-  let breadcrumb;
+  let breadcrumb: any;
 
   beforeEach(async () => {
-    const elem = new IdsBreadcrumb();
+    const elem: any = new IdsBreadcrumb();
     document.body.appendChild(elem);
     breadcrumb = document.querySelector('ids-breadcrumb');
   });
@@ -19,7 +19,7 @@ describe('IdsBreadcrumb Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsBreadcrumb();
+    const elem: any = new IdsBreadcrumb();
     expect(document.querySelectorAll('ids-breadcrumb').length).toEqual(1);
     document.body.appendChild(elem);
     elem.remove();
@@ -51,6 +51,10 @@ describe('IdsBreadcrumb Component', () => {
   });
 
   it('renders correctly', () => {
+    expect(breadcrumb.outerHTML).toMatchSnapshot();
+  });
+
+  it('styles links correctly', () => {
     expect(breadcrumb.outerHTML).toMatchSnapshot();
   });
 });

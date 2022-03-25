@@ -151,7 +151,7 @@ describe('Ids Draggable e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(exampleUrl, { waitUntil: ['domcontentloaded', 'networkidle0'] });
-    await expect(page).toPassAxeTests({ disabledRules: ['color-contrast', 'region'] });
+    await (expect(page) as any).toPassAxeTests({ disabledRules: ['color-contrast', 'region'] });
   });
 });
 
@@ -161,6 +161,6 @@ describe('Ids Draggable Sandbox e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(sandboxUrl, { waitUntil: ['domcontentloaded', 'networkidle0'] });
-    await expect(page).toPassAxeTests({ disabledRules: ['color-contrast', 'region'] });
+    await (expect(page) as any).toPassAxeTests({ disabledRules: ['color-contrast', 'region'] });
   });
 });

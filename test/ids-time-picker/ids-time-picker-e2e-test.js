@@ -12,7 +12,7 @@ describe('Ids Time Picker e2e Tests', () => {
   it.skip('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await expect(page).toPassAxeTests({ disabledRules: ['color-contrast', 'aria-required-children', 'aria-required-parent', 'nested-interactive'] });
+    await (expect(page) as any).toPassAxeTests({ disabledRules: ['color-contrast', 'aria-required-children', 'aria-required-parent', 'nested-interactive'] });
   });
 
   it.skip('can interact wit.skiph dropdowns (hours, minutes, seconds period)', () => {});

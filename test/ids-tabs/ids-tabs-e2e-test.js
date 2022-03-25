@@ -12,7 +12,7 @@ describe('Ids Tabs e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0'] });
-    await expect(page).toPassAxeTests({ disabledRules: ['nested-interactive'] });
+    await (expect(page) as any).toPassAxeTests({ disabledRules: ['nested-interactive'] });
   });
 
   it('should update via resize observer', async () => {

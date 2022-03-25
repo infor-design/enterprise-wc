@@ -1,194 +1,132 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import Base from './ids-block-grid-item-base';
-import styles from './ids-block-grid-item.scss';
 import { attributes } from '../../core/ids-attributes';
+import IdsDataSource from '../../core/ids-data-source';
+import IdsBlockGridItem from './ids-block-grid-item';
+import Base from './ids-block-grid-base';
 
-import '../ids-checkbox/ids-checkbox';
+import styles from './ids-block-grid.scss';
 
 /**
- * IDS Block Grid Item Component
- * @type {IdsBlockgridItem}
- * @mixes IdsKeyboardMixin
- * @mixes IdsSelectionMixin
- * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
+ * IDS Block Grid Component
+ * @type {IdsBlockgrid}
  * @inherits IdsElement
  */
-@customElement('ids-block-grid-item')
+@customElement('ids-block-grid')
 @scss(styles)
-export default class IdsBlockgridItem extends Base {
-  constructor(settings: any = {}) {
+export default class IdsBlockgrid extends Base {
+  constructor() {
     super();
-    this.state = {
-      checkboxHasFocus: false,
-    };
-
-    if (settings.selection) {
-      this.selection = settings.selection;
-    }
   }
 
-  connectedCallback() {
-    this
-      .#handleEvents()
-      .#attachKeyboardListeners();
-    super.connectedCallback();
+  static get attributes() {
+    return [
+      attributes.ALIGN,
+      attributes.SELECTION,
+    ];
   }
 
+  /** Reference to datasource API */
+  datasource: any = new IdsDataSource();
+
+  /**
+   * Create the Template for the contents
+   * @returns {string} The Template
+   */
   template() {
-    return `
-      <div class="ids-block-grid-item-container" tabindex="0">
-        <div class="ids-block-grid-item-checkbox">
-          <ids-checkbox></ids-checkbox>
-        </div>
-        <slot></slot>
-      </div>
-    `;
+    return `<div class="ids-block-grid-wrapper"><slot></slot></div>`;
   }
 
   /**
-   * Establish Internal Event Handlers
+   * Rerender the list by re applying the template
    * @private
-   * @returns {object} The object for chaining.
    */
-  #handleEvents() {
-    this.onEvent('click', this, this.#handleSelectionChange);
+  rerender() {
+    if (this.data.length === 0) {
+      return;
+    }
 
-    const checkbox = this.container.querySelector('ids-checkbox');
-    this.onEvent('click.checkbox', checkbox, (e: Event) => {
-      e.stopPropagation();
-      e.preventDefault();
+    const template = document.createElement('template');
+    const html = this.template();
 
-      if (this.selection === 'single') {
-        this.#handleSingleSelectionChange(e);
-      } else {
-        this.#handleMultiMixedSelectionChange(e);
+    // Render and append styles
+    this.shadowRoot.innerHTML = '';
+    this.hasStyles = false;
+    this.appendStyles();
+    template.innerHTML = html;
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
+
+    this.querySelectorAll('ids-block-grid-item').forEach((item: any) => item?.remove());
+    this.data.forEach((d: any) => {
+      const settings: any = {};
+      if (this.selection) {
+        settings.selection = this.selection;
       }
-    });
 
-    return this;
+      const gridItem = new IdsBlockGridItem(settings);
+      gridItem.innerHTML = `
+        <img src="${d.url}" alt="Placeholder 200x200" />
+        <ids-text type="p">
+          ${d.name}<br/>
+          ${d.title}
+        </ids-text>
+      `;
+      this.appendChild(gridItem);
+    });
+    super.rerender();
   }
 
   /**
-   * Establish Internal Keyboard shortcuts
-   * @private
-   * @returns {object} This API object for chaining
+   * Set the data array of the blockgrid
+   * @param {Array} value The array to use
    */
-  #attachKeyboardListeners(): object {
-    this.listen(['Tab'], this, (e: KeyboardEvent) => {
-      if (!this.checkboxHasFocus && this.selection === 'mixed') {
-        e.preventDefault();
-        e.stopPropagation();
-        this.checkboxHasFocus = true;
-        this.container.querySelector('ids-checkbox').container.classList.add('has-focus');
-      } else {
-        if (this.nextElementSibling && !e.shiftKey) {
-          e.preventDefault();
-          e.stopPropagation();
-          this.nextElementSibling.container.focus();
-        } else if (this.previousElementSibling && e.shiftKey) {
-          e.preventDefault();
-          e.stopPropagation();
-          this.previousElementSibling.container.focus();
-        }
+  set data(value) {
+    if (value) {
+      this.datasource.data = value;
+      this.rerender();
+      return;
+    }
 
-        this.checkboxHasFocus = false;
-        this.container.querySelector('ids-checkbox').container.classList.remove('has-focus');
-      }
-    });
-
-    this.listen([' '], this, () => {
-      if (this.checkboxHasFocus && this.selection === 'mixed') {
-        this.container.querySelector('ids-checkbox').dispatchEvent(new Event('click'));
-      } else {
-        this.dispatchEvent(new Event('click'));
-      }
-    });
-
-    return this;
+    this.datasource.data = null;
   }
 
+  get data() { return this?.datasource?.data || []; }
+
   /**
-   * Handle single/multiple selection change
-   * @private
-   * @param  {object} e Actual event object
+   * Return the alignment of blockgrid
+   * @returns {string|null} The path data
    */
-  #handleSelectionChange(e: Event) {
-    this.container.focus();
-    if (this.selection === 'single') {
-      this.#handleSingleSelectionChange(e);
-    } else if (this.selection === 'multiple') {
-      this.#handleMultiMixedSelectionChange(e);
+  get align() { return this.getAttribute(attributes.ALIGN); }
+
+  /**
+   * Set the alignment of blockgrid
+   * @param {string|null} value The Blockgrid Alignment
+   */
+  set align(value) {
+    if (value) {
+      this.setAttribute(attributes.ALIGN, value);
+      this.style.textAlign = `${value}`;
     } else {
-      this.#handlePreSelectionChange();
+      this.removeAttribute(attributes.ALIGN);
+      this.style.removeProperty('text-align');
     }
   }
 
   /**
-   * Change single selection for block item
-   * @private
-   * @param  {object} e Actual event
+   * Set the selection to a block-grid and it will add selection to all items
+   * @param {string} value The selection value
    */
-  #handleSingleSelectionChange(e: Event) {
-    if (this.selected === 'true') {
-      this.setAttribute(attributes.SELECTED, false);
-      this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, false);
-    } else {
-      const blockElements = this.parentElement.querySelectorAll('ids-block-grid-item[selection="single"]');
-      [...blockElements].forEach((elem) => {
-        elem.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, false);
-        elem.setAttribute(attributes.SELECTED, false);
-      });
-      this.setAttribute(attributes.SELECTED, true);
-      this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, true);
-    }
+  set selection(value) {
+    this.syncSelectionOnItems();
+  }
 
-    const eventData = {
-      detail: {
-        elem: this,
-        nativeEvent: e,
-        selected: this.selected,
-        selection: this.selection,
-      }
-    };
-
-    this.triggerEvent('selectionchanged', this, eventData);
+  get selection() {
+    return this.getAttribute(attributes.SELECTION);
   }
 
   /**
-   * Change multiple selection for block item
-   * @private
-   * @param  {object} e Actual event
+   * Add selection value to all block-grid-items
    */
-  #handleMultiMixedSelectionChange(e: Event) {
-    this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, this.selected !== 'true');
-    this.setAttribute(attributes.SELECTED, this.selected !== 'true');
-
-    const eventData = {
-      detail: {
-        elem: this,
-        nativeEvent: e,
-        selected: this.selected,
-        selection: this.selection,
-      }
-    };
-
-    this.triggerEvent('selectionchanged', this, eventData);
-  }
-
-  /**
-   * Change single selection for block item
-   * @private
-   */
-  #handlePreSelectionChange() {
-    if (this.preSelected === 'true') {
-      this.setAttribute(attributes.PRE_SELECTED, false);
-    } else {
-      const blockElements = this.parentElement.querySelectorAll('ids-block-grid-item[selection="mixed"]');
-      [...blockElements].forEach((elem) => {
-        elem.setAttribute(attributes.PRE_SELECTED, false);
-      });
-      this.setAttribute(attributes.PRE_SELECTED, true);
-    }
+  syncSelectionOnItems() {
+    this.querySelectorAll('ids-block-grid-item').forEach((item: any) => item.setAttribute(attributes.SELECTION, this.selection));
   }
 }

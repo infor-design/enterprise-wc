@@ -1,5 +1,6 @@
 // Example for populating the BlockGrid
 import '../ids-block-grid';
+
 const blockGrid: any = document.querySelector('ids-block-grid');
 
 (async function init() {

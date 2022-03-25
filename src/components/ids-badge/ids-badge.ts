@@ -24,7 +24,11 @@ export default class IdsBadge extends Base {
    * @returns {Array} The attributes in an array
    */
   static get attributes() {
-    return [attributes.COLOR, attributes.MODE, attributes.SHAPE];
+    return [
+      attributes.COLOR,
+      attributes.MODE,
+      attributes.SHAPE
+    ];
   }
 
   /**
@@ -33,7 +37,6 @@ export default class IdsBadge extends Base {
    */
   template() {
     const shape = this.shape;
-
     return `<span class="ids-badge ${shape}" part="badge"><slot></slot></span>`;
   }
 
@@ -41,13 +44,13 @@ export default class IdsBadge extends Base {
    * Return the badge shape between normal and round
    * @returns {string} The path data
    */
-  get shape() { return this.getAttribute('shape') || 'normal'; }
+  get shape(): string | null { return this.getAttribute('shape') || 'normal'; }
 
   /**
    * Set the shape of the badge
    * @param {string} value The Badge Shape
    */
-  set shape(value) {
+  set shape(value: string | null) {
     if (value) {
       this.setAttribute('shape', value.toString());
     } else {
@@ -60,13 +63,13 @@ export default class IdsBadge extends Base {
    * Return the badge color
    * @returns {string | null} the path data
    */
-  get color() { return this.getAttribute('color'); }
+  get color(): string | null { return this.getAttribute('color'); }
 
   /**
    * Set the color
    * @param {string | null} value The Badge Color [base, error, info, success and warning]
    */
-  set color(value) {
+  set color(value: string | null) {
     if (value) {
       this.setAttribute('color', value);
       this.container.setAttribute('color', value);

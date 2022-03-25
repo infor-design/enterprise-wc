@@ -1,3 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`IdsBreadcrumb Component renders correctly 1`] = `"<ids-breadcrumb role=\\"list\\"></ids-breadcrumb>"`;
+
+exports[`IdsBreadcrumb Component styles links correctly 1`] = `"<ids-breadcrumb role=\\"list\\"></ids-breadcrumb>"`;

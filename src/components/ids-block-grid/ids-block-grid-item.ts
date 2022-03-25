@@ -16,9 +16,7 @@ import { attributes } from '../../core/ids-attributes';
 @customElement('ids-block-grid-item')
 @scss(styles)
 export default class IdsBlockgridItem extends Base {
-  constructor(settings = {
-    selection: null
-  }) {
+  constructor(settings: any = {}) {
     super();
     this.state = {
       checkboxHasFocus: false,
@@ -56,7 +54,7 @@ export default class IdsBlockgridItem extends Base {
     this.onEvent('click', this, this.#handleSelectionChange);
 
     const checkbox = this.container.querySelector('ids-checkbox');
-    this.onEvent('click.checkbox', checkbox, (e: Event) => {
+    this.onEvent('click.checkbox', checkbox, (e: any) => {
       e.stopPropagation();
       e.preventDefault();
 
@@ -76,7 +74,7 @@ export default class IdsBlockgridItem extends Base {
    * @returns {object} This API object for chaining
    */
   #attachKeyboardListeners() {
-    this.listen(['Tab'], this, (e: KeyboardEvent) => {
+    this.listen(['Tab'], this, (e: any) => {
       if (!this.checkboxHasFocus && this.selection === 'mixed') {
         e.preventDefault();
         e.stopPropagation();
@@ -114,7 +112,7 @@ export default class IdsBlockgridItem extends Base {
    * @private
    * @param  {object} e Actual event
    */
-  #handleSelectionChange(e: Event) {
+  #handleSelectionChange(e: any) {
     this.container.focus();
     if (this.selection === 'single') {
       this.#handleSingleSelectionChange(e);
@@ -130,7 +128,7 @@ export default class IdsBlockgridItem extends Base {
    * @private
    * @param  {object} e Actual event
    */
-  #handleSingleSelectionChange(e: Event) {
+  #handleSingleSelectionChange(e: any) {
     if (this.selected === 'true') {
       this.setAttribute(attributes.SELECTED, false);
       this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, false);
@@ -159,9 +157,9 @@ export default class IdsBlockgridItem extends Base {
   /**
    * Change multiple selection for block item
    * @private
-   * @param {object} e Actual event
+   * @param  {object} e Actual event
    */
-  #handleMultiMixedSelectionChange(e: Event) {
+  #handleMultiMixedSelectionChange(e: any) {
     this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, this.selected !== 'true');
     this.setAttribute(attributes.SELECTED, this.selected !== 'true');
 

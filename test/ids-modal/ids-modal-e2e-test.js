@@ -9,7 +9,7 @@ describe('Ids Modal e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: 'load' });
-    await expect(page).toPassAxeTests({ disabledRules: ['color-contrast'] });
+    await (expect(page) as any).toPassAxeTests({ disabledRules: ['color-contrast'] });
   });
 
   it('should have its "OK" button focused when it opens', async () => {

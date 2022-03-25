@@ -3,7 +3,7 @@ import Base from './ids-breadcrumb-base';
 import styles from './ids-breadcrumb.scss';
 
 /**
- *  IDS Breadcrumb Component
+ * IDS Breadcrumb Component
  * @type {IdsBreadcrumb}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
@@ -25,16 +25,13 @@ export default class IdsBreadcrumb extends Base {
    */
   #init() {
     this.setAttribute('role', 'list');
-    const stack = [];
-    while (this.lastElementChild) { stack.push(this.delete()); }
-    while (stack.length) { this.add(stack.pop()); }
   }
 
   /**
    * Returns the Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `
       <div class="ids-breadcrumb">
         <nav part="breadcrumb">
@@ -45,18 +42,18 @@ export default class IdsBreadcrumb extends Base {
 
   /**
    * Adds an individual breadcrumb to the end of the bread crumb list
-   * @param {Element} breadcrumb The HTML element to add
+   * @param {HTMLElement} breadcrumb The HTML element to add
    */
-  add(breadcrumb) {
+  add(breadcrumb: HTMLElement | null) {
     if (this.lastElementChild) {
       this.lastElementChild.setAttribute('font-weight', '');
     }
-    breadcrumb.setAttribute('font-weight', 'bold');
-    breadcrumb.setAttribute('color', 'unset');
-    breadcrumb.setAttribute('role', 'listitem');
-    breadcrumb.setAttribute('text-decoration', 'hover');
-    if (!(breadcrumb.getAttribute('font-size'))) {
-      breadcrumb.setAttribute('font-size', 14);
+    breadcrumb?.setAttribute('font-weight', 'bold');
+    breadcrumb?.setAttribute('color', 'unset');
+    breadcrumb?.setAttribute('role', 'listitem');
+    breadcrumb?.setAttribute('text-decoration', 'hover');
+    if (!(breadcrumb?.getAttribute('font-size'))) {
+      breadcrumb?.setAttribute('font-size', '14');
     }
     this.appendChild(breadcrumb);
   }
@@ -65,7 +62,7 @@ export default class IdsBreadcrumb extends Base {
    * Removes the last breadcrumb from the bread crumb list
    * @returns {Element | null} The removed element
    */
-  delete() {
+  delete(): HTMLElement | null {
     if (this.lastElementChild) {
       const breadcrumb = this.removeChild(this.lastElementChild);
       if (this.lastElementChild) {

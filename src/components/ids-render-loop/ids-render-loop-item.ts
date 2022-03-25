@@ -14,19 +14,30 @@ interface RenderLoopItemSettings {
  * @param {object} settings incoming item options
  */
 export default class IdsRenderLoopItem extends Object {
-
   id?: string;
+
   duration?: number | unknown;
+
   updateDuration?: number;
+
   updateCallback?: CallableFunction;
+
   timeoutCallback?: CallableFunction;
+
   paused: boolean;
+
   startTime: number;
+
   totalStoppedTime: number;
+
   nextUpdateTime?: number;
+
   lastPauseTime?: number;
+
   resumeTime?: number;
-  noTimeout?: boolean ;
+
+  noTimeout?: boolean;
+
   doRemoveOnNextTick?: boolean;
 
   /**
@@ -93,7 +104,7 @@ export default class IdsRenderLoopItem extends Object {
    */
   resume() {
     this.resumeTime = timestamp();
-    this.totalStoppedTime += this.resumeTime - (this.lastPauseTime || 0)
+    this.totalStoppedTime += this.resumeTime - (this.lastPauseTime || 0);
     delete this.lastPauseTime;
     this.paused = false;
   }
@@ -103,7 +114,7 @@ export default class IdsRenderLoopItem extends Object {
    * @returns {number} the elapsed time this RenderLoop item has existed for
    */
   get elapsedTime() {
-    return timestamp() - (this.startTime + ( this.totalStoppedTime || 0));
+    return timestamp() - (this.startTime + (this.totalStoppedTime || 0));
   }
 
   /**
@@ -114,14 +125,7 @@ export default class IdsRenderLoopItem extends Object {
     return typeof this.nextUpdateTime === 'number' && timestamp() > this.nextUpdateTime;
   }
 
-  /**
-   * Fires a defined `updateCallback()` under the right conditions
-   * @param {object} timeInfo containing raw time information from the loop (last, delta, now)
-   * @param {...Array<any>} [callbackArgs] user-defined parameters that get passed
-   *  to an `updateCallback()` method.
-   * @returns {void}
-   */
-  update(timeInfo: { last: number, delta: number, now: number}, ...callbackArgs: Array<unknown>) {
+  update(timeInfo: { last: number, delta: number, now: number }, ...callbackArgs: Array<unknown>) {
     if (typeof this.updateCallback !== 'function' || !this.canUpdate) {
       return;
     }

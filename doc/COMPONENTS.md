@@ -493,7 +493,7 @@ it('should pass Axe accessibility tests', async () => {
 Note that you can ignore some rules if they do not make sense. For example some designs might not be accessible for color contrast.
 
 ```js
-await expect(page).toPassAxeTests({ disabledRules: ['color-contrast', 'aria-required-children', 'aria-required-parent'] });
+await (expect(page) as any).toPassAxeTests({ disabledRules: ['color-contrast', 'aria-required-children', 'aria-required-parent'] });
 ```
 
 In the future we will add many more e2e tests, including tests for BDD (test steps for QA).

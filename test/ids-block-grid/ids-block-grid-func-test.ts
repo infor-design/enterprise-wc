@@ -3,20 +3,18 @@
  */
 import IdsBlockgrid from '../../src/components/ids-block-grid/ids-block-grid';
 import IdsBlockgridItem from '../../src/components/ids-block-grid/ids-block-grid-item';
-import IdsCheckbox from '../../src/components/ids-checkbox/ids-checkbox';
-import ResizeObserver from '../helpers/resize-observer-mock';
+import '../../src/components/ids-checkbox/ids-checkbox';
+import '../helpers/resize-observer-mock';
 
 describe('IdsBlockgrid Component', () => {
-  let blockgridEl;
+  let blockgridEl: any;
 
   beforeEach(async () => {
-    const blockgrid = new IdsBlockgrid();
-    const blockgridItem = new IdsBlockgridItem();
+    const blockgrid: any = new IdsBlockgrid();
+    const blockgridItem: any = new IdsBlockgridItem();
 
     document.body.appendChild(blockgrid);
-
     blockgrid.appendChild(blockgridItem);
-
     blockgridEl = document.querySelector('ids-block-grid');
   });
 
@@ -26,7 +24,7 @@ describe('IdsBlockgrid Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    let elem = new IdsBlockgrid();
+    let elem: any = new IdsBlockgrid();
     document.body.appendChild(elem);
     elem.remove();
 
@@ -53,7 +51,7 @@ describe('IdsBlockgrid Component', () => {
   });
 
   it('renders blockgrid left correctly then removes it', () => {
-    const elem = new IdsBlockgrid();
+    const elem: any = new IdsBlockgrid();
     document.body.appendChild(elem);
     elem.align = 'center';
     expect(elem.align).toEqual('center');
@@ -67,12 +65,12 @@ describe('IdsBlockgrid Component', () => {
 });
 
 describe('IdsBlockgridItem Component', () => {
-  let blockgridEl;
-  let blockgridItemEl;
+  let blockgridEl: any;
+  let blockgridItemEl: any;
 
   beforeEach(async () => {
-    const blockgrid = new IdsBlockgrid();
-    const blockgridItem = new IdsBlockgridItem();
+    const blockgrid: any = new IdsBlockgrid();
+    const blockgridItem: any = new IdsBlockgridItem();
 
     document.body.appendChild(blockgrid);
 
@@ -95,7 +93,7 @@ describe('IdsBlockgridItem Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsBlockgridItem();
+    const elem: any = new IdsBlockgridItem();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-block-grid-item').length).toEqual(1);
@@ -157,6 +155,7 @@ describe('IdsBlockgridItem Component', () => {
 
   it('support block grid selection mixed 1', async () => {
     const blockgridItemEl2 = new IdsBlockgridItem({ selection: 'mixed' });
+    blockgridItemEl2.selection = 'mixed';
     blockgridEl.appendChild(blockgridItemEl2);
 
     const clickEvent = new MouseEvent('click', { bubbles: true });
@@ -168,6 +167,7 @@ describe('IdsBlockgridItem Component', () => {
 
   it('support block grid selection mixed 2', async () => {
     const blockgridItemEl2 = new IdsBlockgridItem({ selection: 'mixed' });
+    blockgridItemEl2.selection = 'mixed';
     blockgridEl.appendChild(blockgridItemEl2);
     const checkboxEl2 = blockgridItemEl2.shadowRoot.querySelector('ids-checkbox');
 
