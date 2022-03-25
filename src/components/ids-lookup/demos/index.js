@@ -85,6 +85,7 @@ const lookupAutocompleteInput = lookupAutocomplete.shadowRoot.querySelector('ids
     const res = await fetch(url);
     const data = await res.json();
     lookup.data = data;
+    lookupAutocomplete.data = data;
     lookupAutocompleteInput.data = data;
   };
 

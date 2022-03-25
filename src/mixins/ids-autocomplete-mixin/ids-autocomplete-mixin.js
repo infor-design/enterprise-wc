@@ -127,14 +127,6 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
   }
 
   /**
-   * Get inputValue
-   * @returns {string | null} containing the inputValue
-   */
-  get inputValue() {
-    return this.nodeName === 'IDS-LOOKUP' ? this.container.value : this.value;
-  }
-
-  /**
    * Find matches between the input value, searchKey and dataset
    * @param {string | null} value value in the input field
    * @param {Array} list the dataset
@@ -152,14 +144,14 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   displayMatches() {
-    const resultsArr = this.findMatches(this.inputValue, this.data);
+    const resultsArr = this.findMatches(this.value, this.data);
     const results = resultsArr.map((result) => {
-      const regex = new RegExp(this.inputValue, 'gi');
-      const optionText = result[this.searchKey].toString()?.replace(regex, `<span class="highlight">${this.inputValue.toLowerCase()}</span>`);
+      const regex = new RegExp(this.value, 'gi');
+      const optionText = result[this.searchKey].toString()?.replace(regex, `<span class="highlight">${this.value.toLowerCase()}</span>`);
       return `<ids-list-box-option>${optionText}</ids-list-box-option>`;
     }).join('');
 
-    if (this.inputValue) {
+    if (this.value) {
       this.elements.listBox.innerHTML = results;
       this.openPopup();
     } else {
