@@ -101,7 +101,7 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
       popup: this.#popup,
       popupContent: this.#popup?.container.querySelector('slot[name="content"]'),
       listBoxOptions: this.#popup?.shadowRoot.querySelectorAll('ids-list-box-option'),
-      rootNode: this.getRootNode().body.querySelector('ids-container') || window.document.body,
+      rootNode: this.getRootNode().body?.querySelector('ids-container') || window.document.body,
     };
   }
 
@@ -159,7 +159,7 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
   displayMatches() {
     const resultsArr = this.findMatches(this.inputValue, this.data);
     const results = resultsArr.map((result) => {
-      const regex = new RegExp(this.value, 'gi');
+      const regex = new RegExp(this.inputValue, 'gi');
       const optionText = result[this.searchKey].toString()?.replace(regex, `<span class="highlight">${this.inputValue.toLowerCase()}</span>`);
       return `<ids-list-box-option>${optionText}</ids-list-box-option>`;
     }).join('');
