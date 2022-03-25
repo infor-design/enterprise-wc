@@ -522,7 +522,7 @@ describe('Ids Date Picker e2e Tests', () => {
 
     const legend = await page.$eval('#e2e-monthyear-picker', (el) => el?.legend);
 
-    expect(legend?.length).toEqual(0);
+    expect(legend?.length).not.toBeDefined();
 
     // Picklist inside of a popup
     await page.evaluate(() => {
