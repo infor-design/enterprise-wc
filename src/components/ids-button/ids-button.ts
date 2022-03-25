@@ -45,20 +45,20 @@ export default class IdsButton extends Base {
     if (this.shouldUpdate) {
       switch (name) {
       // Convert "tabindex" to "tabIndex"
-      case 'tabindex':
-        if (Number.isNaN(Number.parseInt(newValue))) {
-          this.tabIndex = null;
-        }
-        this.tabIndex = Number(newValue);
-        break;
-      case 'width':
-        if (oldValue !== newValue) {
-          this.width = newValue;
-        }
-        break;
-      default:
-        super.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
-        break;
+        case 'tabindex':
+          if (Number.isNaN(Number.parseInt(newValue))) {
+            this.tabIndex = null;
+          }
+          this.tabIndex = Number(newValue);
+          break;
+        case 'width':
+          if (oldValue !== newValue) {
+            this.width = newValue;
+          }
+          break;
+        default:
+          super.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
+          break;
       }
     }
   }
@@ -524,9 +524,9 @@ export default class IdsButton extends Base {
 
   /**
    * Sets the no margins attribute
-   * @param {string} n string value from the no margins attribute
+   * @param {boolean | string} n string value from the no margins attribute
    */
-  set noMargins(n) {
+  set noMargins(n: boolean | string) {
     if (stringToBool(n)) {
       this.setAttribute(attributes.NO_MARGINS, '');
       this.container.classList.add(attributes.NO_MARGINS);
@@ -541,9 +541,9 @@ export default class IdsButton extends Base {
   }
 
   /**
-   * @param {boolean} val true if the button should not have standard padding rules applied
+   * @param {boolean | string} val true if the button should not have standard padding rules applied
    */
-  set noPadding(val) {
+  set noPadding(val: boolean | string) {
     const isTruthy = this.noPadding;
     const trueVal = stringToBool(val);
     if (isTruthy !== trueVal) {
@@ -558,16 +558,16 @@ export default class IdsButton extends Base {
   }
 
   /**
-   * @returns {boolean} true if the button does not currently have standard padding rules applied
+   * @returns {boolean | string} true if the button does not currently have standard padding rules applied
    */
-  get noPadding() {
+  get noPadding(): boolean | string {
     return this.container.classList.contains('no-padding');
   }
 
   /**
    * @param {boolean} value whether the corners of the button as an icon-button should be angled/90°
    */
-  set square(value) {
+  set square(value: boolean) {
     const isTruthy = stringToBool(value);
 
     if (isTruthy && !this.button.classList.contains('square')) {
@@ -586,7 +586,7 @@ export default class IdsButton extends Base {
   /**
    * @returns {boolean} whether the corners of the button as an icon-button are angled/90°
    */
-  get square() {
+  get square(): boolean {
     return this.hasAttribute(attributes.SQUARE);
   }
 

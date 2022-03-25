@@ -43,7 +43,7 @@ export default function expectEnumAttributeBehavior({
 
   if (defaultValue === null) {
     elem[camelCasedAttrib] = RANDOM_VALUE;
-    expect(elem[camelCasedAttrib]).toEqual(defaultValue);
+    expect(elem[camelCasedAttrib]).toEqual('');
     expect(elem.hasAttribute(attribute)).toBeFalsy();
   }
 

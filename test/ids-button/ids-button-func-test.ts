@@ -7,10 +7,10 @@ import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavi
 import processAnimFrame from '../helpers/process-anim-frame';
 
 describe('IdsButton Component', () => {
-  let btn;
+  let btn: any;
 
   beforeEach(async () => {
-    const elem = new IdsButton();
+    const elem: any = new IdsButton();
     elem.id = 'test-button';
     elem.text = 'Test Button';
     document.body.appendChild(elem);
@@ -35,7 +35,7 @@ describe('IdsButton Component', () => {
   });
 
   it('renders correctly', () => {
-    const elem = new IdsButton();
+    const elem: any = new IdsButton();
     elem.cssClass = 'test-class';
     elem.disabled = true;
     elem.icon = 'add';
@@ -47,7 +47,7 @@ describe('IdsButton Component', () => {
   });
 
   it('renders icons on the opposite side correctly', () => {
-    const elem = new IdsButton();
+    const elem: any = new IdsButton();
     elem.id = 'test-button';
     elem.icon = 'settings';
     elem.iconAlign = 'end';
@@ -97,7 +97,7 @@ describe('IdsButton Component', () => {
   });
 
   it('can set rtl correctly', async () => {
-    const container = new IdsContainer();
+    const container: any = new IdsContainer();
     btn = new IdsButton();
     btn.text = 'test';
     container.appendChild(btn);
@@ -308,6 +308,36 @@ describe('IdsButton Component', () => {
     expect(btn.width).toEqual(percentWidth);
     expect(btn.style.width).toEqual(percentWidth);
     expect(btn.button.style.width).toEqual('');
+
+    // reset
+    btn.width = '';
+    expect(btn.button.style.width).toEqual('');
+  });
+
+  it('can set hidden', () => {
+    expect(btn.hidden).toEqual(false);
+    expect(btn.getAttribute('hidden')).toBeFalsy();
+    btn.hidden = true;
+    expect(btn.getAttribute('hidden')).toEqual('');
+    expect(btn.hidden).toEqual(true);
+    btn.hidden = false;
+    expect(btn.getAttribute('hidden')).toBeFalsy();
+    expect(btn.hidden).toEqual(false);
+  });
+
+  it('can set noMargins', () => {
+    expect(btn.noMargins).toBeFalsy();
+    btn.noMargins = true;
+    expect(btn.getAttribute('no-margins')).toEqual('');
+    expect(btn.noMargins).toEqual(true);
+    btn.noMargins = false;
+    expect(btn.getAttribute('no-margins')).toBeFalsy();
+    expect(btn.noMargins).toEqual(false);
+  });
+
+  it('can get the icon element', () => {
+    btn.icon = 'add';
+    expect(btn.iconEl.nodeName).toEqual('IDS-ICON');
   });
 
   it('supports setting mode', () => {

@@ -4,10 +4,10 @@
 import IdsToggleButton from '../../src/components/ids-toggle-button/ids-toggle-button';
 
 describe('IdsToggleButton Component', () => {
-  let btn;
+  let btn: any;
 
   beforeEach(async () => {
-    const elem = new IdsToggleButton();
+    const elem: any = new IdsToggleButton();
     elem.id = 'test-button';
     elem.textOn = 'Test Button (On)';
     elem.iconOff = 'star-filled';

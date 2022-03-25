@@ -2,7 +2,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import Base from './ids-toggle-button-base';
 
 import { BUTTON_ATTRIBUTES, BUTTON_TYPES } from '../ids-button/ids-button-attributes';
-import IdsIcon from '../ids-icon/ids-icon';
+import '../ids-icon/ids-icon';
 
 import styles from '../ids-button/ids-button.scss';
 
@@ -79,10 +79,10 @@ export default class IdsToggleButton extends Base {
 
   /**
    * Override setting the "type" on Toggle Buttons, since they can only be the default style
-   * @param {string} _val a valid
+   * @param {string} val a valid type
    * @returns {void}
    */
-  set type(_val) {
+  set type(val: string) {
     this.state.type = BUTTON_TYPES[0];
 
     if (this.hasAttribute('type')) {
@@ -98,7 +98,7 @@ export default class IdsToggleButton extends Base {
    * @param {string} val corresponds to an IdsIcon's `icon` property
    * @returns {void}
    */
-  set iconOff(val) {
+  set iconOff(val: string) {
     let isValid = false;
     if (typeof val === 'string' && val.length) {
       isValid = true;
@@ -117,7 +117,7 @@ export default class IdsToggleButton extends Base {
   /**
    * @returns {string} the current icon representing the `unpressed/off` state
    */
-  get iconOff() {
+  get iconOff(): string {
     return this.icons.off;
   }
 
@@ -126,7 +126,7 @@ export default class IdsToggleButton extends Base {
    * @param {string} val corresponds to an IdsIcon's `icon` property
    * @returns {void}
    */
-  set iconOn(val) {
+  set iconOn(val: string) {
     let isValid = false;
     if (typeof val === 'string' && val.length) {
       isValid = true;
@@ -144,7 +144,7 @@ export default class IdsToggleButton extends Base {
   /**
    * @returns {string} the current icon representing the `pressed/on` state
    */
-  get iconOn() {
+  get iconOn(): string {
     return this.icons.on;
   }
 
@@ -153,7 +153,7 @@ export default class IdsToggleButton extends Base {
    * @param {string} val `unpressed/off` description text
    * @returns {void}
    */
-  set textOff(val) {
+  set textOff(val: string) {
     if (typeof val !== 'string' || !val.length) {
       this.texts.off = '';
       this.removeAttribute('text-off');
@@ -167,7 +167,7 @@ export default class IdsToggleButton extends Base {
   /**
    * @returns {string} the current icon representing the `unpressed/off` state
    */
-  get textOff() {
+  get textOff(): string {
     return this.texts.off;
   }
 
@@ -176,7 +176,7 @@ export default class IdsToggleButton extends Base {
    * @param {string} val corresponds to an IdsIcon's `icon` property
    * @returns {void}
    */
-  set textOn(val) {
+  set textOn(val: string) {
     if (typeof val !== 'string' || !val.length) {
       this.texts.on = '';
       this.removeAttribute('text-on');
@@ -190,7 +190,7 @@ export default class IdsToggleButton extends Base {
   /**
    * @returns {string} the current icon representing the `pressed/on` state
    */
-  get textOn() {
+  get textOn(): string {
     return this.texts.on;
   }
 
