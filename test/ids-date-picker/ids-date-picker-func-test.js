@@ -340,10 +340,18 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.validationEvents).toEqual('change blur');
       expect(component.format).toEqual('locale');
       expect(component.isCalendarToolbar).toBeFalsy();
-      expect(component.isDropdown).toBeFalsy();
       expect(component.month).toEqual((new Date()).getMonth());
       expect(component.year).toEqual((new Date()).getFullYear());
       expect(component.day).toEqual((new Date()).getDate());
+    });
+
+    it('should not expand if not dropdown', () => {
+      expect(component.isDropdown).toBeFalsy();
+      expect(component.expanded).toBeFalsy();
+
+      component.expanded = true;
+
+      expect(component.expanded).toBeFalsy();
     });
 
     it('should handle is-dropdown is-calendar-toolbar attributes', () => {
