@@ -627,14 +627,12 @@ class IdsDatePicker extends Base {
     const startYear = this.year - 4;
     const months = calendarMonths?.map((item, index) =>
       `<li
-        role="link"
         data-month="${index}"
         class="picklist-item is-month"
       ><ids-text>${item}</ids-text></li>`).join('');
     const years = Array.from({ length: 10 }).map((_, index) =>
       `<li
         data-year="${startYear + index}"
-        role="link"
         class="picklist-item is-year${index === 9 ? ' is-last' : ''}"
       ><ids-text>${startYear + index}</ids-text></li>`).join('');
 
@@ -644,12 +642,12 @@ class IdsDatePicker extends Base {
       </div>
       <div class="picklist-section">
         <ul class="picklist-list">
-          <li role="button" class="picklist-item is-btn-up">
+          <li class="picklist-item is-btn-up">
             <ids-text audible="true" translate-text="true">PreviousYear</ids-text>
             <ids-icon icon="chevron-up"></ids-icon>
           </li>
           ${years}
-          <li role="button" class="picklist-item is-btn-down">
+          <li class="picklist-item is-btn-down">
             <ids-text audible="true" translate-text="true">NextYear</ids-text>
             <ids-icon icon="chevron-down"></ids-icon>
           </li>
