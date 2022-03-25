@@ -13,6 +13,14 @@ const container = document.querySelector('ids-container');
 
   // Set up columns
   columns.push({
+    id: 'selectionCheckbox',
+    name: 'selection',
+    sortable: false,
+    resizable: false,
+    formatter: dataGrid.formatters.selectionCheckbox,
+    align: 'center'
+  });
+  columns.push({
     id: 'publishDate',
     name: 'Pub. Date',
     field: 'publishDate',

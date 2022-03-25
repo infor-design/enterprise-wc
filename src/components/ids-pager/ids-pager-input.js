@@ -32,7 +32,10 @@ export default class IdsPagerInput extends Base {
      `<ids-text ${idsTextAttribs}>Page</ids-text>&nbsp;
       <ids-input
         value="${parseInt(this.pageNumber)}"
+        label="Input for page number"
+        label-state="hidden"
         text-align="center"
+        size="xs"
         ${this.disabled ? 'disabled' : ''}
       ></ids-input>
       <ids-text ${idsTextAttribs}>&nbsp;of&nbsp;
@@ -53,8 +56,6 @@ export default class IdsPagerInput extends Base {
 
   connectedCallback() {
     this.input = this.shadowRoot.querySelector('ids-input');
-    this.input.label = 'Input for page number';
-    this.input.labelState = 'hidden';
 
     this.onEvent('change', this.input, () => {
       const inputPageNumber = Math.min(parseInt(this.input.input.value), this.pageCount);

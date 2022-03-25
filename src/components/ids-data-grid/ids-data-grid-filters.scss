@@ -7,6 +7,12 @@
     align-items: center;
   }
 
+  .ids-data-grid-header-cell-content-wrapper.vertical-align-center {
+    @include relative();
+
+    top: calc(50% - 16px);
+  }
+
   .ids-data-grid-header-cell-filter-wrapper {
     @include flex();
     @include pb-8();

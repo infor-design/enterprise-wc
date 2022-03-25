@@ -577,7 +577,7 @@ export default class IdsDataGridFilters {
     };
 
     this.root.datasource.filter(checkRow);
-    this.root.syncAndRerender();
+    this.root.syncAndRerenderBody();
 
     // Fires after filter action occurs
     if (isCleared || isFilterApply) {
@@ -637,38 +637,51 @@ export default class IdsDataGridFilters {
       if (!node) return;
       const input = node.querySelector('ids-input');
       const type = input?.getAttribute('data-filter-type');
+      const dropdown = node.querySelector('ids-dropdown');
+      const datePicker = node.querySelector('ids-date-picker');
+      const timePicker = node.querySelector('ids-time-picker');
+      const btn = node.querySelector('ids-menu-button');
+
+      // Adjust popup place poistion
+      // @TODO readjust or remove `onPlace` related stuff
+      // after fix https://github.com/infor-design/enterprise-wc/issues/565
+      const onPlace = (el, popupEl) => {
+        if (!el || !popupEl) return;
+        popupEl.onPlace = (popupRect) => {
+          popupRect.y = el.offsetTop + 40;
+          return popupRect;
+        };
+      };
+      onPlace(dropdown, dropdown?.popup);
+      onPlace(datePicker, datePicker?.popup);
+      onPlace(timePicker, timePicker?.elements?.popup);
+      onPlace(btn, btn?.menuEl?.popup);
 
       // Slotted filter only
-      if (slot) {
+      if (slot && (input || dropdown || datePicker || timePicker || btn)) {
         const headerElem = n.closest('.ids-data-grid-header-cell');
         const column = this.root.columnDataByHeaderElem(headerElem);
-        const dropdown = node.querySelector('ids-dropdown');
-        const datePicker = node.querySelector('ids-date-picker');
-        const timePicker = node.querySelector('ids-time-picker');
-        const btn = node.querySelector('ids-menu-button');
 
-        if (input || dropdown || datePicker || timePicker || btn) {
-          // Slotted initial
-          this.#initial[column.id] = this.#initial[column.id] || {};
-          const initial = this.#initial[column.id];
-          if (input && !initial.input) initial.input = { value: input.value };
-          if (dropdown && !initial.dropdown) initial.dropdown = { value: dropdown.value };
-          if (datePicker && !initial.datePicker) initial.datePicker = { value: datePicker.value };
-          if (timePicker && !initial.timePicker) initial.timePicker = { value: timePicker.value };
-          if (btn && !initial.btn) initial.btn = { value: btn.menuEl?.getSelectedValues()[0] };
+        // Slotted initial
+        this.#initial[column.id] = this.#initial[column.id] || {};
+        const initial = this.#initial[column.id];
+        if (input && !initial.input) initial.input = { value: input.value };
+        if (dropdown && !initial.dropdown) initial.dropdown = { value: dropdown.value };
+        if (datePicker && !initial.datePicker) initial.datePicker = { value: datePicker.value };
+        if (timePicker && !initial.timePicker) initial.timePicker = { value: timePicker.value };
+        if (btn && !initial.btn) initial.btn = { value: btn.menuEl?.getSelectedValues()[0] };
 
-          // Slotted attributes
-          setCompulsoryAttributes(input);
-          setCompulsoryAttributes(dropdown);
-          setCompulsoryAttributes(datePicker);
-          setCompulsoryAttributes(timePicker);
-          if (btn) {
-            btn.cssClass = [...new Set([...btn.cssClass, 'compact'])];
-            btn.setAttribute('color-variant', 'alternate-formatter');
-            btn.setAttribute('column-id', column.id);
-            btn.setAttribute('trigger', 'click');
-            btn.setAttribute('square', 'true');
-          }
+        // Slotted attributes
+        setCompulsoryAttributes(input);
+        setCompulsoryAttributes(dropdown);
+        setCompulsoryAttributes(datePicker);
+        setCompulsoryAttributes(timePicker);
+        if (btn) {
+          btn.cssClass = [...new Set([...btn.cssClass, 'compact'])];
+          btn.setAttribute('color-variant', 'alternate-formatter');
+          btn.setAttribute('column-id', column.id);
+          btn.setAttribute('trigger', 'click');
+          btn.setAttribute('square', 'true');
         }
       }
 
@@ -691,17 +704,7 @@ export default class IdsDataGridFilters {
       }
     });
 
-    // Reset focus
-    // @TODO: find a way to work without it
-    if (this.#focused) {
-      this.#focused.blur();
-      window.requestAnimationFrame(() => {
-        this.#focused?.focus();
-        window.requestAnimationFrame(() => {
-          this.#focused = null;
-        });
-      });
-    }
+    this.root.headerCheckbox?.closest('.ids-data-grid-header-cell-content-wrapper')?.classList?.add('vertical-align-center');
   }
 
   /**
@@ -751,15 +754,6 @@ export default class IdsDataGridFilters {
 
     // Set filter event when typing for input
     this.setFilterWhenTyping();
-
-    // Popup top position not aligned
-    this.root.onEvent(`show.${this.#id()}`, this.root.elements?.header, (e) => {
-      const popupEl = e?.detail?.elem;
-      if (popupEl?.classList?.contains('ids-popup-menu')) {
-        const style = popupEl.container?.style;
-        if (style) style.top = `${parseInt(style.top, 10) - 90}px`;
-      }
-    });
   }
 
   /**

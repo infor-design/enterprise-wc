@@ -32,6 +32,14 @@ const myCustomFilter = (opt) => {
 
   // Set up columns
   columns.push({
+    id: 'selectionCheckbox',
+    name: 'selection',
+    sortable: false,
+    resizable: false,
+    formatter: dataGrid.formatters.selectionCheckbox,
+    align: 'center'
+  });
+  columns.push({
     id: 'id',
     name: 'ID',
     field: 'id',
@@ -48,13 +56,13 @@ const myCustomFilter = (opt) => {
     filterType: dataGrid.filters.text
   });
   columns.push({
-    id: 'green',
-    name: 'Green',
-    field: 'color',
+    id: 'inStock',
+    name: 'In Stock',
+    field: 'inStock',
     sortable: true,
     formatter: dataGrid.formatters.text,
     filterType: dataGrid.filters.checkbox,
-    isChecked: (value) => value === 'Green'
+    isChecked: (value) => value === true
   });
   columns.push({
     id: 'productId',

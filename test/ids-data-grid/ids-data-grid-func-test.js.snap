@@ -16,7 +16,7 @@ exports[`IdsDataGrid Component IdsPagerMixin Tests renders pager 2`] = `
           
       <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"selectionCheckbox\\" role=\\"columnheader\\">
         
-      <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
+      <span class=\\"ids-data-grid-header-cell-content-wrapper vertical-align-center\\">
         <span class=\\"ids-data-grid-header-text\\">
           <span class=\\"ids-datagrid-checkbox-container\\">
         <span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-datagrid-checkbox\\">

@@ -111,12 +111,7 @@ export default class IdsDataGrid extends Base {
         mode="${this.mode}"
         version="${this.version}">
       ${this.headerTemplate()}
-      ${this.virtualScroll
-      ? `<ids-virtual-scroll>
-          <div class="ids-data-grid-body" part="contents" role="rowgroup"></div>
-        </ids-virtual-scroll>`
-      : `${this.bodyTemplate()}`
-      }
+      ${this.bodyTemplate()}
       </div>
     `;
 
@@ -133,13 +128,43 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
-   * Sync and then rerender
+   * Sync and then rerender body rows
    * @returns {void}
    */
-  syncAndRerender() {
+  syncAndRerenderBody() {
     this.#syncSelectedRows();
     this.#syncActivatedRow();
-    this.rerender();
+    this.#rerenderBody();
+  }
+
+  /**
+   * Rerender body rows
+   * @private
+   * @returns {void}
+   */
+  #rerenderBody() {
+    if ((this.columns.length === 0 && this.data.length === 0) || !this.initialized) {
+      return;
+    }
+    const template = document.createElement('template');
+    template.innerHTML = this.bodyTemplate();
+    const elem = this.virtualScroll ? this.virtualScrollContainer : this.elements.body;
+    elem.remove();
+    this.container.appendChild(template.content.cloneNode(true));
+
+    this.#syncPager();
+    this.#attachEventHandlers();
+    this.#setHeaderCheckbox();
+  }
+
+  /**
+   * Sync pager to refresh updated dataset
+   * @private
+   * @returns {void}
+   */
+  #syncPager() {
+    this.pager.total = this.datasource.total;
+    this.pager.pageNumber = this.datasource.pageNumber;
   }
 
   /**
@@ -281,6 +306,13 @@ export default class IdsDataGrid extends Base {
    * @returns {string} The template
    */
   bodyTemplate() {
+    if (this.virtualScroll) {
+      return `
+        <ids-virtual-scroll>
+          <div class="ids-data-grid-body" part="contents" role="rowgroup"></div>
+        </ids-virtual-scroll>
+      `;
+    }
     return `
       <div class="ids-data-grid-body" part="contents" role="rowgroup">
         ${this.data.map((row, index) => this.rowTemplate(row, index)).join('')}
