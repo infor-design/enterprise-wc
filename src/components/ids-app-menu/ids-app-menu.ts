@@ -1,12 +1,12 @@
 import { customElement, scss } from '../../core/ids-decorators';
 
 import Base from './ids-app-base';
-import IdsDrawer from '../ids-drawer/ids-drawer';
-import IdsAccordion from '../ids-accordion/ids-accordion';
-import IdsButton from '../ids-button/ids-button';
-import IdsIcon from '../ids-icon/ids-icon';
-import IdsText from '../ids-text/ids-text';
-import IdsToolbar from '../ids-toolbar/ids-toolbar';
+import '../ids-drawer/ids-drawer';
+import '../ids-accordion/ids-accordion';
+import '../ids-button/ids-button';
+import '../ids-icon/ids-icon';
+import '../ids-text/ids-text';
+import '../ids-toolbar/ids-toolbar';
 
 import styles from './ids-app-menu.scss';
 
@@ -69,9 +69,9 @@ export default class IdsAppMenu extends Base {
 
   /**
    * @readonly
-   * @returns {IdsAccordion} reference to an optionally-slotted IdsAccordion element
+   * @returns {HTMLElement} reference to an optionally-slotted IdsAccordion element
    */
-  get accordion() {
+  get accordion(): HTMLElement {
     return this.querySelector(`ids-accordion:not([slot])`);
   }
 
@@ -99,7 +99,7 @@ export default class IdsAppMenu extends Base {
   #connectSearchField() {
     const searchfield = this.querySelector('ids-search-field[slot="search"]');
     if (searchfield) {
-      searchfield.onSearch = (value) => {
+      searchfield.onSearch = (value: string) => {
         if (value !== '') {
           return this.filterAccordion(value);
         }
@@ -133,7 +133,7 @@ export default class IdsAppMenu extends Base {
     // Check each accordion panel for a match.
     // Accordion panels are shown/hidden as needed
     const valueRegex = new RegExp(value, 'gi');
-    const markParentPanel = (thisPanel) => {
+    const markParentPanel = (thisPanel: any) => {
       if (thisPanel.hasParentPanel) {
         const parentPanel = thisPanel.parentElement;
         const parentHeader = parentPanel.header;
@@ -147,7 +147,7 @@ export default class IdsAppMenu extends Base {
       }
     };
 
-    return panels.filter((panel) => {
+    return panels.filter((panel: any) => {
       const header = panel.header;
       const textContent = header.textContent.trim();
       const hasTextMatch = textContent.match(valueRegex);
@@ -172,11 +172,10 @@ export default class IdsAppMenu extends Base {
   /**
    * Clears a navigation accordion's previous filter result
    * @private
-   * @returns {void}
    */
   clearFilterAccordion() {
-    const filteredHeaders = [...this.accordion.querySelectorAll('ids-accordion-header[hidden-by-filter]')];
-    filteredHeaders.map((header) => {
+    const filteredHeaders: any = [...this.accordion.querySelectorAll('ids-accordion-header[hidden-by-filter]')];
+    filteredHeaders.map((header: any) => {
       header.hiddenByFilter = false;
       return header;
     });
@@ -191,8 +190,8 @@ export default class IdsAppMenu extends Base {
    * @returns {void}
    */
   #clearChildFilter() {
-    const childFilterMatches = [...this.accordion.querySelectorAll('[child-filter-match]')];
-    childFilterMatches.map((header) => {
+    const childFilterMatches: any = [...this.accordion.querySelectorAll('[child-filter-match]')];
+    childFilterMatches.map((header: any) => {
       header.childFilterMatch = false;
       return header;
     });
@@ -201,12 +200,11 @@ export default class IdsAppMenu extends Base {
   /**
    * Overrides `addOpenEvents` from IdsPopupOpenEventsMixin to add a global handler
    * for App Menu keyboard events that can cause the menu to close
-   * @returns {void}
    */
   addOpenEvents() {
     super.addOpenEvents();
 
-    this.globalKeydownListener = (e) => {
+    this.globalKeydownListener = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         e.stopImmediatePropagation();
         this.hide();
@@ -217,7 +215,6 @@ export default class IdsAppMenu extends Base {
 
   /**
    * Overrides `removeOpenEvents` from IdsPopupOpenEventsMixin
-   * @returns {void}
    */
   removeOpenEvents() {
     super.removeOpenEvents();

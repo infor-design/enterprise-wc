@@ -120,4 +120,11 @@ describe('IdsAlert Component', () => {
     el.size = '';
     expect(el.size).toEqual('normal');
   });
+
+  it('supports remaping some icons', () => {
+    el.icon = 'warning';
+    expect(el.shadowRoot?.querySelector('ids-icon')?.getAttribute('icon')).toEqual('alert');
+    el.icon = 'warning-solid';
+    expect(el.shadowRoot?.querySelector('ids-icon')?.getAttribute('icon')).toEqual('alert-solid');
+  });
 });

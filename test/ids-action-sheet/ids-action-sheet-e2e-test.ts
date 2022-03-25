@@ -12,7 +12,7 @@ describe('Ids Action Sheet e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await expect(page).toPassAxeTests();
+    await (expect(page) as any).toPassAxeTests();
   });
 
   it('should open popup when clicking the trigger button on desktop', async () => {
@@ -32,10 +32,10 @@ describe('Ids Action Sheet e2e Tests', () => {
     await mobilePage.goto(url);
     let isVisible = await mobilePage.evaluate(`document.querySelector("ids-action-sheet").visible`);
     const popupHidden = await mobilePage.evaluate(`document.querySelector("ids-popup-menu").hidden`);
-    expect(isVisible).toEqual(null);
+    expect(isVisible).toEqual(false);
     expect(popupHidden).toEqual(true);
     await mobilePage.evaluate(`document.querySelector("ids-menu-button").click()`);
     isVisible = await mobilePage.evaluate(`document.querySelector("ids-action-sheet").visible`);
-    expect(isVisible).toEqual('true');
+    expect(isVisible).toEqual(true);
   });
 });

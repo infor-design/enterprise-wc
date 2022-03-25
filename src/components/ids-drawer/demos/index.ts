@@ -1,12 +1,12 @@
 // Supporting components
-import IdsDrawer from '../ids-drawer';
-import IdsButton from '../../ids-button/ids-button';
+import '../ids-drawer';
+import '../../ids-button/ids-button';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const appMenuDrawer = document.querySelector('#drawer-app-menu');
-  const actionSheetDrawer = document.querySelector('#drawer-action-sheet');
-  const appMenuTriggerBtn = document.querySelector('#app-menu-trigger');
-  const actionSheetTriggerBtn = document.querySelector('#action-sheet-trigger');
+  const appMenuDrawer: any = document.querySelector('#drawer-app-menu');
+  const actionSheetDrawer: any = document.querySelector('#drawer-action-sheet');
+  const appMenuTriggerBtn: any = document.querySelector('#app-menu-trigger');
+  const actionSheetTriggerBtn: any = document.querySelector('#action-sheet-trigger');
 
   appMenuDrawer.target = appMenuTriggerBtn;
   appMenuTriggerBtn.addEventListener('click', () => {

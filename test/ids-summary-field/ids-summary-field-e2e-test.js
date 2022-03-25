@@ -10,6 +10,6 @@ describe('Ids Summary Field e2e Tests', () => {
     await page.setBypassCSP(true);
     await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
 
-    await expect(page).toPassAxeTests();
+    await (expect(page) as any).toPassAxeTests();
   });
 });

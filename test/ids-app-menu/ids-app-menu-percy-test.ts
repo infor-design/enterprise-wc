@@ -6,7 +6,7 @@ describe('Ids App Menu Percy Tests', () => {
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
-      document.querySelector('#app-menu-trigger').click();
+      (document.querySelector('#app-menu-trigger') as any).click();
     });
     await page.waitForSelector('ids-app-menu[visible]');
     await percySnapshot(page, 'ids-app-menu-new-light');
@@ -18,7 +18,7 @@ describe('Ids App Menu Percy Tests', () => {
       document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');
     });
     await page.evaluate(() => {
-      document.querySelector('#app-menu-trigger').click();
+      (document.querySelector('#app-menu-trigger') as any).click();
     });
     await page.waitForSelector('ids-app-menu[visible]');
     await percySnapshot(page, 'ids-app-menu-new-dark');
@@ -30,7 +30,7 @@ describe('Ids App Menu Percy Tests', () => {
       document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'contrast');
     });
     await page.evaluate(() => {
-      document.querySelector('#app-menu-trigger').click();
+      (document.querySelector('#app-menu-trigger') as any).click();
     });
     await page.waitForSelector('ids-app-menu[visible]');
     await percySnapshot(page, 'ids-app-menu-new-contrast');

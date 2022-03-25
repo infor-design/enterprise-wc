@@ -12,7 +12,7 @@ describe('Ids Action Sheet e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await expect(page).toPassAxeTests();
+    await (expect(page) as any).toPassAxeTests();
   });
 
   it('should show hidden-1 el when on medium screens and down', async () => {

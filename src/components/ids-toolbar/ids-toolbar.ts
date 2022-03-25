@@ -223,7 +223,7 @@ export default class IdsToolbar extends Base {
   get focused() {
     // @TODO clean this up / document why/how it works
     return this.items.find((item: any) => {
-      const container = getClosestContainerNode(item);
+      const container: any = getClosestContainerNode(item);
       const focused = container.activeElement;
       const isEqualNode = focused?.isEqualNode(item);
       return isEqualNode;

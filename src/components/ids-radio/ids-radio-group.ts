@@ -1,7 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import IdsText from '../ids-text/ids-text';
+import '../ids-text/ids-text';
 import Base from './ids-radio-group-base';
 
 import styles from './ids-radio-group.scss';
@@ -97,7 +97,7 @@ export default class IdsRadioGroup extends Base {
    * @returns {void}
    */
   setValue() {
-    const radioArr = [].slice.call(this.querySelectorAll('ids-radio[checked="true"]'));
+    const radioArr: any = [].slice.call(this.querySelectorAll('ids-radio[checked="true"]'));
     const len = radioArr.length;
     const value = radioArr[len - 1]?.getAttribute(attributes.VALUE);
     if (value) {
@@ -108,7 +108,7 @@ export default class IdsRadioGroup extends Base {
       rootEl?.setAttribute('tabindex', '0');
     } else if (len > 1) {
       radioArr.pop();
-      radioArr.forEach((r) => r.removeAttribute(attributes.CHECKED));
+      radioArr.forEach((r: any) => r.removeAttribute(attributes.CHECKED));
     }
   }
 
@@ -136,11 +136,11 @@ export default class IdsRadioGroup extends Base {
     if (stringToBool(this.disabled)) {
       this.labelEl?.setAttribute('aria-disabled', 'true');
       rootEl?.classList.add(attributes.DISABLED);
-      radioArr.forEach((r) => r.setAttribute(attributes.GROUP_DISABLED, true));
+      radioArr.forEach((r: any) => r.setAttribute(attributes.GROUP_DISABLED, true));
     } else {
       this.labelEl?.removeAttribute('aria-disabled');
       rootEl?.classList.remove(attributes.DISABLED);
-      radioArr.forEach((r) => r.removeAttribute(attributes.GROUP_DISABLED));
+      radioArr.forEach((r: any) => r.removeAttribute(attributes.GROUP_DISABLED));
     }
   }
 
@@ -153,10 +153,10 @@ export default class IdsRadioGroup extends Base {
     const rootEl = this.shadowRoot.querySelector('.ids-radio-group');
     if (stringToBool(this.horizontal)) {
       rootEl?.classList.add(attributes.HORIZONTAL);
-      radioArr.forEach((r) => r.setAttribute(attributes.HORIZONTAL, true));
+      radioArr.forEach((r: any) => r.setAttribute(attributes.HORIZONTAL, true));
     } else {
       rootEl?.classList.remove(attributes.HORIZONTAL);
-      radioArr.forEach((r) => r.removeAttribute(attributes.HORIZONTAL));
+      radioArr.forEach((r: any) => r.removeAttribute(attributes.HORIZONTAL));
     }
   }
 
@@ -167,10 +167,10 @@ export default class IdsRadioGroup extends Base {
    * @param {boolean} isFocus if true will set focus
    * @returns {void}
    */
-  makeChecked(radio, isFocus) {
+  makeChecked(radio: any, isFocus: boolean) {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
     const targetEl = radioArr.filter((r) => r !== radio);
-    targetEl.forEach((r) => r.removeAttribute(attributes.CHECKED));
+    targetEl.forEach((r: any) => r.removeAttribute(attributes.CHECKED));
     this.checked = radio;
     const val = radio.value;
     if (val) {
@@ -217,7 +217,7 @@ export default class IdsRadioGroup extends Base {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio:not([disabled="true"])'));
     const len = radioArr.length;
     radioArr.forEach((r, i) => {
-      this.onEvent('keydown', r, (e) => {
+      this.onEvent('keydown', r, (e: KeyboardEvent) => {
         const allow = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Space'];
         const key = e.code;
         if (allow.indexOf(key) > -1) {
@@ -369,13 +369,13 @@ export default class IdsRadioGroup extends Base {
   set value(val) {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
     if (val) {
-      const state = { on: [], off: [] };
-      radioArr.forEach((r) => {
-        const rVal = r.getAttribute(attributes.VALUE);
+      const state: any = { on: [], off: [] };
+      radioArr.forEach((r: any) => {
+        const rVal: any = r.getAttribute(attributes.VALUE);
         state[rVal === val ? 'on' : 'off'].push(r);
       });
-      state.off.forEach((r) => r.removeAttribute(attributes.CHECKED));
-      const r = state.on[state.on.length - 1];
+      state.off.forEach((r: any) => r.removeAttribute(attributes.CHECKED));
+      const r: any = state.on[state.on.length - 1];
       if (r) {
         r.setAttribute(attributes.CHECKED, 'true');
         this.setAttribute(attributes.VALUE, val);
@@ -385,7 +385,7 @@ export default class IdsRadioGroup extends Base {
       }
     } else {
       this.removeAttribute(attributes.VALUE);
-      radioArr.forEach((r) => r.removeAttribute(attributes.CHECKED));
+      radioArr.forEach((r: any) => r.removeAttribute(attributes.CHECKED));
     }
   }
 

@@ -135,14 +135,14 @@ export default class IdsMenuItem extends Base {
     if (this.shouldUpdate) {
       switch (name) {
       // Convert "tabindex" to "tabIndex"
-      case 'tabindex':
-        if (oldValue !== newValue) {
-          this.tabIndex = Number(newValue);
-        }
-        break;
-      default:
-        super.attributeChangedCallback(name, oldValue, newValue);
-        break;
+        case 'tabindex':
+          if (oldValue !== newValue) {
+            this.tabIndex = Number(newValue);
+          }
+          break;
+        default:
+          super.attributeChangedCallback(name, oldValue, newValue);
+          break;
       }
     }
   }

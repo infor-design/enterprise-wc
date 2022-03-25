@@ -53,14 +53,14 @@ export default class IdsDrawer extends Base {
   /**
    * @returns {string} the current Edge that the Drawer is displayed against
    */
-  get edge() {
+  get edge(): string {
     return this.state.edge;
   }
 
   /**
    * @param {string} val changes the Edge that the Drawer is displayed against
    */
-  set edge(val) {
+  set edge(val: string) {
     let trueVal = EDGES[0];
     if (typeof val === 'string' && EDGES.includes(val)) {
       trueVal = val;
@@ -93,14 +93,14 @@ export default class IdsDrawer extends Base {
   /**
    * @returns {HTMLElement} the target element's reference
    */
-  get target() {
+  get target(): HTMLElement {
     return this.state.target;
   }
 
   /**
    * @param {HTMLElement} val a target element's reference
    */
-  set target(val) {
+  set target(val: HTMLElement) {
     // @TODO replace this with a selector/standardized element ref
     if (val !== this.state.target) {
       this.removeTriggerEvents();
@@ -114,7 +114,6 @@ export default class IdsDrawer extends Base {
 
   /**
    * Removes events from a trigger element
-   * @returns {void}
    */
   removeTriggerEvents() {
     const removeEventTargets = ['click.trigger'];
@@ -129,7 +128,6 @@ export default class IdsDrawer extends Base {
 
   /**
    * Attaches events to the trigger element
-   * @returns {void}
    */
   refreshTriggerEvents() {
     if (!this.target) {
@@ -143,14 +141,14 @@ export default class IdsDrawer extends Base {
   /**
    * @returns {string} the current display type of the Drawer
    */
-  get type() {
+  get type(): string {
     return this.state.type;
   }
 
   /**
    * @param {string} val changes the display type of the Drawer
    */
-  set type(val) {
+  set type(val: string) {
     let trueVal = null;
     if (typeof val === 'string' && TYPES.includes(val)) {
       trueVal = val;
@@ -187,14 +185,14 @@ export default class IdsDrawer extends Base {
   /**
    * @returns {boolean} true if the Drawer is currently visible
    */
-  get visible() {
-    return this.state.visible;
+  get visible(): boolean {
+    return stringToBool(this.state.visible);
   }
 
   /**
-   * @param {boolean} val true if the Drawer should become visible
+   * @param {boolean | string} val true if the Drawer should become visible
    */
-  set visible(val) {
+  set visible(val: boolean | string) {
     const trueVal = stringToBool(val);
     if (trueVal) {
       this.setAttribute(attributes.VISIBLE, stripHTML(`${val}`));
@@ -237,7 +235,6 @@ export default class IdsDrawer extends Base {
 
   /**
    * Shows the drawer
-   * @returns {void}
    */
   show() {
     // Trigger a veto-able `beforeshow` event.
@@ -250,7 +247,6 @@ export default class IdsDrawer extends Base {
 
   /**
    * Hides the drawer
-   * @returns {void}
    */
   hide() {
     // Trigger a veto-able `beforehide` event.
@@ -265,7 +261,7 @@ export default class IdsDrawer extends Base {
    * Handle `onOutsideClick` from IdsPopupOpenEventsMixin
    * @param {MouseEvent} e the original click event
    */
-  onOutsideClick(e) {
+  onOutsideClick(e: MouseEvent) {
     if (this.isEqualNode(e.target) || this.contains(e.target)) {
       return;
     }

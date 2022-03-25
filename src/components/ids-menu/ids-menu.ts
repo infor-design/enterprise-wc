@@ -147,17 +147,17 @@ export default class IdsMenu extends Base {
       let html = '';
       submenuContents.forEach((elem: any) => {
         switch (elem.type) {
-        case 'header':
-          html += renderHeader(elem);
-          break;
-        case 'separator':
-          html += renderSeparator();
-          break;
-        case 'group':
-        default: // Assume "Group"
+          case 'header':
+            html += renderHeader(elem);
+            break;
+          case 'separator':
+            html += renderSeparator();
+            break;
+          case 'group':
+          default: // Assume "Group"
           // eslint-disable-next-line
           html += renderGroup(elem);
-          break;
+            break;
         }
       });
       return html;
@@ -310,7 +310,7 @@ export default class IdsMenu extends Base {
 
   /**
    * @readonly
-   * @returns {Array<IdsMenuItem>} all available menu items
+   * @returns {Array<HTMLElement>} all available menu items
    */
   get items() {
     let i: any = [];
@@ -322,18 +322,18 @@ export default class IdsMenu extends Base {
 
   /**
    * @readonly
-   * @returns {IdsMenuItem|undefined} the currently focused menu item, if one exists
+   * @returns {HTMLElement|undefined} the currently focused menu item, if one exists
    */
   get focused() {
     return this.items.find((item: any) => {
-      const containerNode = getClosestContainerNode(this);
-      return containerNode?.activeElement?.isEqualNode(item);
+      const containerNode = getClosestContainerNode((this as any));
+      return ((containerNode as any)?.activeElement as any)?.isEqualNode(item);
     });
   }
 
   /**
    * @readonly
-   * @returns {IdsMenuItem} the next focusable item that is/was:
+   * @returns {HTMLElement} the next focusable item that is/was:
    * - last hovered by the mouse (if applicable)
    * - currently/previously selected (if applicable)
    * - the first available menu item closest to the top of the menu that is not disabled or hidden.
@@ -353,7 +353,7 @@ export default class IdsMenu extends Base {
 
   /**
    * @readonly
-   * @returns {Array<IdsMenuItem>} all menu items that are currently highlighted
+   * @returns {Array<HTMLElement>} all menu items that are currently highlighted
    */
   get highlighted() {
     return this.items.filter((item: any) => item.highlighted);
@@ -369,7 +369,7 @@ export default class IdsMenu extends Base {
 
   /**
    * @readonly
-   * @returns {IdsMenuItem} parent menu item, if this menu is a submenu
+   * @returns {HTMLElement} parent menu item, if this menu is a submenu
    */
   get parentMenuItem() {
     return this.parentElement?.closest('ids-menu-item');
@@ -392,7 +392,7 @@ export default class IdsMenu extends Base {
 
   /**
    * Unhighlights all menu items, then highlights a specified item.
-   * @param {IdsMenuItem} menuItem reference to the menu item that will be highlighted
+   * @param {HTMLElement} menuItem reference to the menu item that will be highlighted
    * @returns {void}
    */
   highlightItem(menuItem: any) {
@@ -413,7 +413,7 @@ export default class IdsMenu extends Base {
    * of steps to another menu item, highlighting it.
    * @param {number} [amt] the amount of items to navigate
    * @param {boolean} [doFocus] if true, causes the new item to become focused.
-   * @returns {IdsMenuItem} the item that will be highlighted
+   * @returns {HTMLElement} the item that will be highlighted
    */
   navigate(amt = 0, doFocus = false) {
     const items = this.items;
@@ -485,7 +485,7 @@ export default class IdsMenu extends Base {
   }
 
   /**
-   * @returns {IdsMenuItem | undefined} the first available item, closest to the top of the menu.
+   * @returns {HTMLElement | undefined} the first available item, closest to the top of the menu.
    */
   getFirstAvailableItem() {
     const items = this.items;
@@ -504,9 +504,9 @@ export default class IdsMenu extends Base {
 
   /**
    * Retrieves a list of selected items in this menu.
-   * @param {string|IdsMenuGroup} [menuGroup] a string representing an ID, or an IdsMenuGroup
+   * @param {string|HTMLElement} [menuGroup] a string representing an ID, or an IdsMenuGroup
    * directly, that optionally limits results to within a specified menu group.
-   * @returns {Array<IdsMenuItem>} list of selected menu items
+   * @returns {Array<HTMLElement>} list of selected menu items
    */
   getSelectedItems(menuGroup?: any) {
     const group = isValidGroup(menuGroup, this);
@@ -519,7 +519,7 @@ export default class IdsMenu extends Base {
   }
 
   /**
-   * @param {string|IdsMenuGroup} [menuGroup] a string representing an ID, or an IdsMenuGroup
+   * @param {string|HTMLElement} [menuGroup] a string representing an ID, or an IdsMenuGroup
    * directly, that optionally limits results to within a specified menu group.
    * @returns {Array<any>} list of the values contained by selected menu items
    */
@@ -530,7 +530,7 @@ export default class IdsMenu extends Base {
   /**
    * Selects menu items containing the value(s) provided
    * @param {Array<any>|string} values array|string of menu item value(s)
-   * @param {string|IdsMenuGroup} [menuGroup] a string representing an ID, or an IdsMenuGroup
+   * @param {string|HTMLElement} [menuGroup] a string representing an ID, or an IdsMenuGroup
    * @returns {void}
    */
   setSelectedValues(values: any, menuGroup: any) {
@@ -557,7 +557,7 @@ export default class IdsMenu extends Base {
 
   /**
    * Selects a menu item contained by this menu.
-   * @param {IdsMenuItem} menuItem the item to be selected
+   * @param {HTMLElement} menuItem the item to be selected
    * @returns {void}
    */
   selectItem(menuItem: any) {
@@ -574,22 +574,22 @@ export default class IdsMenu extends Base {
 
     const group = menuItem.group;
     switch (group.select) {
-    case 'multiple':
+      case 'multiple':
       // Multiple-select mode (Toggles selection, ignores others)
-      menuItem[menuItem.selected ? 'deselect' : 'select']();
-      break;
-    default:
+        menuItem[menuItem.selected ? 'deselect' : 'select']();
+        break;
+      default:
       // "none" and "single" select mode.
       // In "single" mode, deselection of other items is handled by event
       // at the menu group level.
-      menuItem.select();
-      break;
+        menuItem.select();
+        break;
     }
   }
 
   /**
    * Clears any selected items in the menu, or specified group
-   * @param {string|IdsMenuGroup} [menuGroup] a string representing an ID, or an IdsMenuGroup
+   * @param {string|HTMLElement} [menuGroup] a string representing an ID, or an IdsMenuGroup
    * directly, that optionally limits results to within a specified menu group.
    * @returns {void}
    */

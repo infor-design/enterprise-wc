@@ -195,7 +195,7 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
         documentElement.nonce = nonce;
       }
     }
-    return documentElement.nonce;
+    return documentElement.nonce || '0a59a005';
   }
 
   /**

@@ -135,7 +135,13 @@
       "no-continue": ["off"],
       // we aren't doing special math with binary/hex radix numbers often,
       // so this removes need for parseInt(number, 10);
-      "radix": 0
+      "radix": 0,
+      // allow inconsistent return values (allows empty return values on array functions, etc)
+      "consistent-return": ["off"],
+      // Allow array methods to not require an explicit return value (for no return values in `.filter()`, `.map()`, etc)
+      "array-callback-return": ["off", {
+        "allowImplicit": true
+      }]
     }
   }]
 }

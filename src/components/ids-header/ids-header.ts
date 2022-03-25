@@ -3,7 +3,7 @@ import { attributes } from '../../core/ids-attributes';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import Base from './ids-header-base';
-import IdsInput from '../ids-input/ids-input';
+import '../ids-input/ids-input';
 
 import styles from './ids-header.scss';
 
@@ -66,7 +66,7 @@ export default class IdsHeader extends Base {
    * Sets the color attribute
    * @param {string} c string value for color
    */
-  set color(c) {
+  set color(c: string) {
     if (typeof c !== 'string' || !c.length) {
       return;
     }
@@ -75,7 +75,7 @@ export default class IdsHeader extends Base {
     this.setAttribute('color', sanitzedVal);
   }
 
-  get color() {
+  get color(): string {
     return this.getAttribute('color') || '#0072ed';
   }
 }

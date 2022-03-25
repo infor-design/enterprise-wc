@@ -39,6 +39,6 @@ describe('Ids Tooltip e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: 'load' });
-    await expect(page).toPassAxeTests();
+    await (expect(page) as any).toPassAxeTests();
   });
 });

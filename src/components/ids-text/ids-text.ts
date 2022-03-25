@@ -98,7 +98,7 @@ export default class IdsText extends Base {
   #attachEventHandlers() {
     if (this.translateText) {
       this.offEvent('languagechange.text-container');
-      this.onEvent('languagechange.text-container', getClosest(this, 'ids-container'), () => {
+      this.onEvent('languagechange.text-container', getClosest((this as any), 'ids-container'), () => {
         this.#translateAsync();
       });
     }

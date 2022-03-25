@@ -3,8 +3,8 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import Base from './ids-radio-base';
 
-import IdsText from '../ids-text/ids-text';
-import IdsRadioGroup from './ids-radio-group';
+import '../ids-text/ids-text';
+import './ids-radio-group';
 
 import styles from './ids-radio.scss';
 
@@ -66,9 +66,9 @@ export default class IdsRadio extends Base {
    * @returns {void}
    */
   attributeChangedCallback(
-    name,
-    oldValue,
-    newValue
+    name: string,
+    oldValue: any,
+    newValue: any
   ) {
     if (oldValue !== newValue) {
       attribs.forEach((attribute) => {
@@ -152,7 +152,7 @@ export default class IdsRadio extends Base {
   #attachNativeEvents() {
     const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
-      this.onEvent(evt, this.input, (e) => {
+      this.onEvent(evt, this.input, (e: KeyboardEvent) => {
         /**
          * Trigger event on parent and compose the args
          * will fire nativeEvents.

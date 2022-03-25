@@ -50,7 +50,7 @@ export default class IdsPopup extends Base {
     super.connectedCallback?.();
 
     // Always setup link to containing element first
-    this.containingElem = getClosest(this, 'ids-container') || document.body;
+    this.containingElem = getClosest((this as any), 'ids-container') || document.body;
 
     // Set inital state and events
     this.#setInitialState();
@@ -163,7 +163,7 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   #attachEventHandlers() {
-    const containerNode = getClosest(this, 'ids-container');
+    const containerNode = getClosest((this as any), 'ids-container');
     // Setup Resize Observer
     this.#ro.observe(this.container);
     if (containerNode) {
@@ -211,7 +211,7 @@ export default class IdsPopup extends Base {
     let elem;
     if (isString) {
       // @TODO Harden for security (XSS)
-      const rootNode = getClosestRootNode(this);
+      const rootNode = getClosestRootNode((this as any));
       elem = rootNode.querySelector(val);
       if (!(elem instanceof HTMLElement)) {
         return;
@@ -702,7 +702,7 @@ export default class IdsPopup extends Base {
     let elem;
     if (isString) {
       // @TODO Harden for security (XSS)
-      const rootNode = getClosestRootNode(this);
+      const rootNode = getClosestRootNode((this as any));
       elem = rootNode.querySelector(val);
       if (!(elem instanceof HTMLElement)) {
         return;

@@ -19,7 +19,7 @@ describe('Ids Wizard e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0'] });
-    await expect(page).toPassAxeTests();
+    await (expect(page) as any).toPassAxeTests();
   });
 
   it('should be able to focus and enter on a step', async () => {

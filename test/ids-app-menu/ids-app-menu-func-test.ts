@@ -2,22 +2,18 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
-import IdsAppMenu from '../../src/components/ids-app-menu/ids-app-menu';
-import IdsAccordion, {
-  IdsAccordionHeader,
-  IdsAccordionPanel
-} from '../../src/components/ids-accordion/ids-accordion';
-import IdsButton from '../../src/components/ids-button/ids-button';
-import IdsSearchField from '../../src/components/ids-search-field/ids-search-field';
-import IdsToolbar, { IdsToolbarSection } from '../../src/components/ids-toolbar/ids-toolbar';
-import IdsText from '../../src/components/ids-text/ids-text';
+import '../../src/components/ids-app-menu/ids-app-menu';
+import '../../src/components/ids-accordion/ids-accordion';
+import '../../src/components/ids-button/ids-button';
+import '../../src/components/ids-search-field/ids-search-field';
+import '../../src/components/ids-toolbar/ids-toolbar';
+import '../../src/components/ids-text/ids-text';
 
-import elemBuilderFactory from '../helpers/elem-builder-factory';
+import createFromTemplate from '../helpers/create-from-template';
 import waitFor from '../helpers/wait-for';
 
-const elemBuilder = elemBuilderFactory();
-
-const createAppMenu = async () => elemBuilder.createElemFromTemplate(`<ids-app-menu id="app-menu">
+const createAppMenu = async (appMenu: any) => {
+  appMenu = await createFromTemplate(appMenu, `<ids-app-menu id="app-menu">
    <img slot="avatar" src="/assets/avatar-placeholder.jpg" alt="Picture of Richard Fairbanks" />
    <ids-text slot="username" font-size="24" font-weight="bold">Richard Fairbanks</ids-text>
    <ids-search-field id="search" slot="search" label=""></ids-search-field>
@@ -54,29 +50,30 @@ const createAppMenu = async () => elemBuilder.createElemFromTemplate(`<ids-app-m
      </ids-accordion-panel>
    </ids-accordion>
  </ids-app-menu>`);
+  return appMenu;
+};
 
 describe('IdsAppMenu Component (rendering)', () => {
+  let appMenuElem: any;
+
   it('renders with no errors', async () => {
     const errors = jest.spyOn(global.console, 'error');
 
     // Build and destroy an App Menu
-    createAppMenu();
-    await elemBuilder.clearElement();
-
+    appMenuElem = await createAppMenu(appMenuElem);
     expect(errors).not.toHaveBeenCalled();
   });
 });
 
 describe('IdsAppMenu Component', () => {
-  let appMenuElem;
+  let appMenuElem: any;
 
   beforeEach(async () => {
-    appMenuElem = await createAppMenu();
+    appMenuElem = await createAppMenu(appMenuElem);
   });
 
   afterEach(async () => {
-    elemBuilder.clearElement();
-    appMenuElem = null;
+    document.body.innerHTML = '';
   });
 
   it('has default settings', async () => {
@@ -97,7 +94,7 @@ describe('IdsAppMenu Component', () => {
     waitFor(() => expect(appMenuElem.visible).toBeTruthy());
 
     // Focus the first header and "Press Escape"
-    const header1 = document.querySelector('#h1');
+    const header1: any = document.querySelector('#h1');
     header1.focus();
     header1.dispatchEvent(closeEvent);
     waitFor(() => expect(appMenuElem.visible).toBeFalsy());
@@ -115,7 +112,7 @@ describe('IdsAppMenu Component', () => {
     waitFor(() => expect(appMenuElem.visible).toBeTruthy());
 
     // Focus the first header and "Press Escape"
-    const header1 = document.querySelector('#h1');
+    const header1: any = document.querySelector('#h1');
     header1.focus();
     header1.dispatchEvent(closeEvent);
     waitFor(() => expect(appMenuElem.visible).toBeTruthy());
@@ -153,7 +150,7 @@ describe('IdsAppMenu Component', () => {
     // ...one header should be tagged as having a child match
     hiddenEls = appMenuElem.querySelectorAll('[hidden-by-filter]');
     expect(hiddenEls.length).toBe(3);
-    expect(document.querySelector('#h3').hasAttribute('child-filter-match')).toBeTruthy();
+    expect(document.querySelector('#h3')?.hasAttribute('child-filter-match')).toBeTruthy();
   });
 
   it('filters its navigation using its API', async () => {
@@ -180,6 +177,14 @@ describe('IdsAppMenu Component', () => {
     // ...one header should be tagged as having a child match
     hiddenEls = appMenuElem.querySelectorAll('[hidden-by-filter]');
     expect(hiddenEls.length).toBe(3);
-    expect(document.querySelector('#h3').hasAttribute('child-filter-match')).toBeTruthy();
+    expect((document.querySelector('#h3') as any).hasAttribute('child-filter-match')).toBeTruthy();
+
+    // Edge cases
+    appMenuElem.querySelectorAll('ids-accordion-panel').forEach((panel: any) => {
+      panel.remove();
+    });
+    appMenuElem.filterAccordion('');
+    appMenuElem.accordion.remove();
+    appMenuElem.filterAccordion('');
   });
 });

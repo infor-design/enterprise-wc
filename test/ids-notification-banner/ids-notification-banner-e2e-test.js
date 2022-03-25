@@ -9,6 +9,6 @@ describe('Ids Notification Banner e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
-    await expect(page).toPassAxeTests();
+    await (expect(page) as any).toPassAxeTests();
   });
 });

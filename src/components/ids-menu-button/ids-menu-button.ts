@@ -96,7 +96,7 @@ export default class IdsMenuButton extends Base {
   }
 
   /**
-   * @returns {IdsIcon|null} the decorative dropdown icon element
+   * @returns {HTMLElement |null} the decorative dropdown icon element
    */
   get dropdownIconEl() {
     return this.container.querySelector('ids-icon:not([slot])');
@@ -138,12 +138,12 @@ export default class IdsMenuButton extends Base {
 
   /**
    * @readonly
-   * @returns {IdsPopupMenu | null} element if one is present
+   * @returns {HTMLElement |null} element if one is present
    */
   get menuEl() {
     // Check for a Shadow Root parent.
     // If none, use `document`
-    const target = getClosestRootNode(this);
+    const target = getClosestRootNode((this as any));
     return target.querySelector(`ids-popup-menu[id="${this.menu}"]`) || target.querySelector(`ids-action-sheet[id="${this.menu}"]`);
   }
 

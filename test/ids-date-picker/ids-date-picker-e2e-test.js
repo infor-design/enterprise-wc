@@ -12,7 +12,7 @@ describe('Ids Date Picker e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0'] });
-    await expect(page).toPassAxeTests();
+    await (expect(page) as any).toPassAxeTests();
   });
 
   it.only('should handle calendar popup events', async () => {

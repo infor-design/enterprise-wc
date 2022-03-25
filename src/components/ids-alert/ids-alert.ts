@@ -45,7 +45,7 @@ export default class IdsAlert extends Base {
    *
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     const cssClass = stringToBool(this.disabled) ? ' class="disabled"' : '';
     return `<ids-icon size="${this.size}"${cssClass} part="icon"></ids-icon>`;
   }
@@ -72,7 +72,7 @@ export default class IdsAlert extends Base {
    * Return the icon of the alert.
    * @returns {string | null} the path data
    */
-  get icon(): string { return this.getAttribute(attributes.ICON); }
+  get icon(): string | null { return this.getAttribute(attributes.ICON); }
 
   /**
    * Set the icon

@@ -19,7 +19,7 @@ export function getClosestShadow(node: HTMLElement) {
  * @param {HTMLElement} node the node to check
  * @returns {Node} the parent node
  */
-export function getClosestContainerNode(node: HTMLElement) {
+export function getClosestContainerNode(node: any) {
   return getClosestShadow(node) || document;
 }
 
@@ -41,7 +41,7 @@ export function getClosestRootNode(node: HTMLElement) {
  * @param {string} selector containing a CSS selector to be used for matching
  * @returns {Node|undefined} the node if found, otherwise undefined
  */
-export function getClosest(node: HTMLElement, selector: string) {
+export function getClosest(node: any, selector: string) {
   let parent: any = (node && node.parentNode);
   while (parent) {
     if (parent.toString() === '[object ShadowRoot]') {

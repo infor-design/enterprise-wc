@@ -3,9 +3,9 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import Base from './ids-search-field-base';
-import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
-import IdsInput from '../ids-input/ids-input';
-import IdsIcon from '../ids-icon/ids-icon';
+import '../ids-trigger-field/ids-trigger-button';
+import '../ids-input/ids-input';
+import '../ids-icon/ids-icon';
 
 import styles from './ids-search-field.scss';
 
@@ -39,12 +39,12 @@ export default class IdsSearchField extends Base {
    * switch trigger buttons to the "alternate" style instead of an `app-menu` style.
    * @param {string} variantName the new color variant being applied to the Search Field
    */
-  onColorVariantRefresh(variantName) {
+  onColorVariantRefresh(variantName: string) {
     let btnVariantName = variantName;
     if (variantName === 'app-menu') {
       btnVariantName = 'alternate';
     }
-    const adjustBtnVariant = (btn) => {
+    const adjustBtnVariant = (btn: HTMLButtonElement) => {
       btn.setAttribute(attributes.COLOR_VARIANT, btnVariantName);
     };
 
@@ -108,9 +108,9 @@ export default class IdsSearchField extends Base {
    * @param {any} val the incoming value to search for
    * @returns {Array<any>} containing search results, if applicable
    */
-  async search(val) {
-    let ret = [];
-    const safeVal = stripHTML(val);
+  async search(val: any) {
+    let ret: any = [];
+    const safeVal: any = stripHTML(val);
 
     if (this.#previousSearchValue !== safeVal) {
       this.input.value = safeVal;
@@ -147,20 +147,20 @@ export default class IdsSearchField extends Base {
    * @param {any} [val] the value to be searched for
    * @returns {Array<any>} containing matching search results
    */
-  onSearch(val = undefined) {
+  onSearch(val: any = undefined) {
     return [`${stripHTML(val)}`];
   }
 
   /**
    * @param {any} value
    */
-  #previousSearchValue = null;
+  #previousSearchValue: any = null;
 
   /**
    * Adds Search Field specific event handlers
    */
   #attachEventHandlers() {
-    const handleSearchEvent = (e) => {
+    const handleSearchEvent = (e: any) => {
       this.search(e.target.value);
     };
 
@@ -172,20 +172,20 @@ export default class IdsSearchField extends Base {
    * Listen for enter key to perform search function
    */
   #attachKeyboardListener() {
-    this.onEvent('keydown', this.input, (event) => {
+    this.onEvent('keydown', this.input, (event: any) => {
       const shouldSearchOnReturn = !event?.path?.length || !event.path[0].classList || !event.path[0].classList.contains('ids-icon-button');
       if (['Enter'].indexOf(event.code) > -1 && shouldSearchOnReturn) {
         event.preventDefault();
       }
 
       switch (event.key) {
-      case 'Enter':
-        if (shouldSearchOnReturn) {
-          this.onSearch(this.input.value);
-        }
-        break;
-      default:
-        break;
+        case 'Enter':
+          if (shouldSearchOnReturn) {
+            this.onSearch(this.input.value);
+          }
+          break;
+        default:
+          break;
       }
     });
   }

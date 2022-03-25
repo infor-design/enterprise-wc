@@ -18,8 +18,8 @@ const DEFAULT_ACTIONSHEET_HTML = (
 );
 
 describe('IdsActionSheet Component', () => {
-  let el;
-  let container;
+  let el: any;
+  let container: any;
 
   beforeAll(() => {
     Object.defineProperty(window, 'matchMedia', {
@@ -38,8 +38,8 @@ describe('IdsActionSheet Component', () => {
   });
 
   beforeEach(async () => {
-    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => cb());
-    const elem = new IdsActionSheet();
+    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb: any) => cb());
+    const elem: any = new IdsActionSheet();
     document.body.appendChild(elem);
     el = document.querySelector('ids-action-sheet');
   });
@@ -47,10 +47,10 @@ describe('IdsActionSheet Component', () => {
   afterEach(async () => {
     document.body.innerHTML = '';
     el = null;
-    window.requestAnimationFrame.mockRestore();
+    (window.requestAnimationFrame as any).mockRestore();
   });
 
-  const createElemViaTemplate = async (innerHTML) => {
+  const createElemViaTemplate = async (innerHTML: any) => {
     el?.remove?.();
     container = new IdsContainer();
 
@@ -107,8 +107,42 @@ describe('IdsActionSheet Component', () => {
   });
 
   it('can be dismissed on overlay click', () => {
-    const event = new MouseEvent('click', {
+    const args: any = {
       target: el.overlay,
+      bubbles: true,
+      cancelable: true,
+      view: window
+    };
+    const event = new MouseEvent('click', args);
+
+    // dismiss
+    el.overlay.dispatchEvent(event);
+    expect(el.getAttribute('visible')).toBe(null);
+  });
+
+  it('can be dismissed on cancelBtn click', () => {
+    const args = {
+      target: el.cancelBtn,
+      bubbles: true,
+      cancelable: true,
+      view: window
+    };
+    const event = new MouseEvent('click', args);
+
+    // dismiss
+    el.cancelBtn.dispatchEvent(event);
+    expect(el.getAttribute('visible')).toBe(null);
+  });
+
+  it('can be dismissed on overlay touchstart', () => {
+    const args: any = {
+      identifier: '123',
+      pageX: 0,
+      pageY: 0,
+      target: el.overlay
+    };
+    const event = new TouchEvent('touchstart', {
+      touches: [args],
       bubbles: true,
       cancelable: true,
       view: window
@@ -119,9 +153,15 @@ describe('IdsActionSheet Component', () => {
     expect(el.getAttribute('visible')).toBe(null);
   });
 
-  it('can be dismissed on cancelBtn click', () => {
-    const event = new MouseEvent('click', {
-      target: el.cancelBtn,
+  it('can be dismissed on overlay touchstart', () => {
+    const args: any = {
+      identifier: '123',
+      pageX: 0,
+      pageY: 0,
+      target: el.cancelBtn
+    };
+    const event = new TouchEvent('touchstart', {
+      touches: [args],
       bubbles: true,
       cancelable: true,
       view: window
@@ -132,32 +172,15 @@ describe('IdsActionSheet Component', () => {
     expect(el.getAttribute('visible')).toBe(null);
   });
 
-  it('can be dismissed on overlay touchstart', () => {
+  it('will hide on desktop', () => {
+    const args: any = {
+      identifier: '123',
+      pageX: 0,
+      pageY: 0,
+      target: el.cancelBtn
+    };
     const event = new TouchEvent('touchstart', {
-      touches: [{
-        identifier: '123',
-        pageX: 0,
-        pageY: 0,
-        target: el.overlay
-      }],
-      bubbles: true,
-      cancelable: true,
-      view: window
-    });
-
-    // dismiss
-    el.overlay.dispatchEvent(event);
-    expect(el.getAttribute('visible')).toBe(null);
-  });
-
-  it('can be dismissed on overlay touchstart', () => {
-    const event = new TouchEvent('touchstart', {
-      touches: [{
-        identifier: '123',
-        pageX: 0,
-        pageY: 0,
-        target: el.cancelBtn
-      }],
+      touches: [args],
       bubbles: true,
       cancelable: true,
       view: window

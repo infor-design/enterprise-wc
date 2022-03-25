@@ -12,6 +12,6 @@ describe('Ids Step Chart e2e Tests', () => {
   it('Should pass an Axe accessibility test', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await expect(page).toPassAxeTests();
+    await (expect(page) as any).toPassAxeTests();
   });
 });

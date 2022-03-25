@@ -148,7 +148,6 @@ export default class IdsAccordionHeader extends Base {
 
   /**
    * Focuses this accordion header
-   * @returns {void}
    */
   focus(): void {
     this.container.focus();
@@ -238,7 +237,6 @@ export default class IdsAccordionHeader extends Base {
 
   /**
    * Renders the expander icon, either adding it to the DOM or updating if it exists.
-   * @returns {void}
    */
   #showExpanderIcon(): void {
     const appendLocation = this.panel.hasParentPanel ? 'afterbegin' : 'beforeend';

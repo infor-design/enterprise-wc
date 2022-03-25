@@ -49,9 +49,11 @@ const IdsFocusCaptureMixin = (superclass: any) => class extends superclass {
     const newVal = stringToBool(val);
     if (currentVal !== newVal) {
       this.#capturesFocus = newVal;
-      newVal
-        ? this.setAttribute(attributes.CAPTURES_FOCUS, `${newVal}`)
-        : this.removeAttribute(attributes.CAPTURES_FOCUS);
+      if (newVal) {
+        this.setAttribute(attributes.CAPTURES_FOCUS, `${newVal}`);
+      } else {
+        this.removeAttribute(attributes.CAPTURES_FOCUS);
+      }
       this.#updateFocusEvents();
     }
   }
@@ -71,9 +73,11 @@ const IdsFocusCaptureMixin = (superclass: any) => class extends superclass {
     const newVal = stringToBool(val);
     if (currentVal !== newVal) {
       this.#cyclesFocus = newVal;
-      newVal
-        ? this.setAttribute(attributes.CYCLES_FOCUS, `${newVal}`)
-        : this.removeAttribute(attributes.CYCLES_FOCUS);
+      if (newVal) {
+        this.setAttribute(attributes.CYCLES_FOCUS, `${newVal}`);
+      } else {
+        this.removeAttribute(attributes.CYCLES_FOCUS);
+      }
       this.gainFocus();
     }
   }
@@ -92,24 +96,24 @@ const IdsFocusCaptureMixin = (superclass: any) => class extends superclass {
       const isOnLast = this.#hostNode.activeElement.isEqualNode(this.lastFocusableElement);
 
       switch (e.key) {
-      case 'Tab':
-        if (isOnFirst && e.shiftKey) {
-          e.preventDefault();
-          requestAnimationFrame(() => {
-            const targetElem: any = this.cyclesFocus ? this.lastFocusableElement : this.firstFocusableElement;
-            targetElem.focus();
-          });
-        }
-        if (isOnLast && !e.shiftKey) {
-          e.preventDefault();
-          requestAnimationFrame(() => {
-            const targetElem: any = this.cyclesFocus ? this.firstFocusableElement : this.lastFocusableElement;
-            targetElem.focus();
-          });
-        }
-        break;
-      default:
-        break;
+        case 'Tab':
+          if (isOnFirst && e.shiftKey) {
+            e.preventDefault();
+            requestAnimationFrame(() => {
+              const targetElem: any = this.cyclesFocus ? this.lastFocusableElement : this.firstFocusableElement;
+              targetElem.focus();
+            });
+          }
+          if (isOnLast && !e.shiftKey) {
+            e.preventDefault();
+            requestAnimationFrame(() => {
+              const targetElem: any = this.cyclesFocus ? this.firstFocusableElement : this.lastFocusableElement;
+              targetElem.focus();
+            });
+          }
+          break;
+        default:
+          break;
       }
       return true;
     };
@@ -255,15 +259,15 @@ const IdsFocusCaptureMixin = (superclass: any) => class extends superclass {
 
     if (focusable.length) {
       switch (index) {
-      case 'last':
-        safeIndex = focusable.length - 1;
-        break;
-      case 'first':
-      case '': // Leave at 0
-        break;
-      default: // undefined
-        safeIndex = typeof index === 'string' ? parseInt(index) : index;
-        break;
+        case 'last':
+          safeIndex = focusable.length - 1;
+          break;
+        case 'first':
+        case '': // Leave at 0
+          break;
+        default: // undefined
+          safeIndex = typeof index === 'string' ? parseInt(index) : index;
+          break;
       }
       requestAnimationFrame(() => {
         focusable[safeIndex].focus();
