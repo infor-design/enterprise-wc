@@ -7,5 +7,5 @@
  examples:
   - link: index.html
     description: Showing date picker variations
-  - link: example-range.html
+  - link: range.html
     description: Showing range picker variations
