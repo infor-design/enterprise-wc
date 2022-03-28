@@ -116,7 +116,7 @@ module.exports = {
   // projects: undefined,
 
   // Use this configuration option to add custom reporters to Jest
-  reporters: ['default', 'jest-puppeteer-istanbul/lib/reporter'],
+  reporters: ['default'],
 
   // Automatically reset mock state between every test
   // resetMocks: false,
@@ -148,7 +148,6 @@ module.exports = {
   // A list of paths to modules that run some code to configure
   // or set up the testing framework before each test
   setupFilesAfterEnv: [
-    'jest-puppeteer-istanbul/lib/setup',
     '@wordpress/jest-puppeteer-axe'
   ],
 

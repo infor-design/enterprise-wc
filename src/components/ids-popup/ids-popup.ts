@@ -1192,7 +1192,7 @@ export default class IdsPopup extends Base {
    * @param {DOMRect} popupRect a Rect object representing the current state of the popup.
    * @returns {object} an adjusted Rect object with "nudged" coordinates.
    */
-  onPlace(popupRect) {
+  onPlace(popupRect: DOMRect): DOMRect {
     return popupRect;
   }
 

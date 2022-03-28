@@ -2,12 +2,13 @@
  * @jest-environment jsdom
  */
 import IdsCard from '../../src/components/ids-card/ids-card';
+import IdsCardAction from '../../src/components/ids-card/ids-card-action';
 
 describe('IdsCard Component', () => {
-  let card;
+  let card: any;
 
   beforeEach(async () => {
-    const elem = new IdsCard();
+    const elem: any = new IdsCard();
     elem.innerHTML = `<div slot="card-header">
             <ids-text font-size="20" type="h2">Card Title Two</ids-text>
           </div>
@@ -23,7 +24,7 @@ describe('IdsCard Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsCard();
+    const elem: any = new IdsCard();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-card').length).toEqual(1);
@@ -138,7 +139,7 @@ describe('IdsCard Component', () => {
   });
 
   describe('Actionable Ids Card', () => {
-    let actionableCard;
+    let actionableCard: any;
 
     beforeEach(() => {
       const html = `
@@ -154,6 +155,41 @@ describe('IdsCard Component', () => {
 
     afterEach(() => {
       document.body.innerHTML = '';
+    });
+
+    it('should allow setting href', () => {
+      const expectedHref = '#section';
+      actionableCard.href = expectedHref;
+      expect(actionableCard.href).toEqual(expectedHref);
+
+      actionableCard.href = '';
+      expect(actionableCard.href).toBeNull();
+    });
+
+    it('renders with no errors', () => {
+      const errors = jest.spyOn(global.console, 'error');
+      const elem: any = new IdsCardAction();
+      document.body.appendChild(elem);
+      expect(document.querySelectorAll('ids-card-action').length).toEqual(1);
+      expect(errors).not.toHaveBeenCalled();
+    });
+
+    it('renders card action correctly', () => {
+      const elem: any = new IdsCardAction();
+      document.body.appendChild(elem);
+      expect(elem.outerHTML).toMatchSnapshot();
+    });
+
+    it('renders card action markup correctly', () => {
+      card.href = '/something';
+      expect(card.actionableButtonTemplate()).toMatchSnapshot();
+    });
+
+    it('should allow setting actionable', () => {
+      card.actionable = true;
+      expect(card.getAttribute('actionable')).toEqual('true');
+      card.actionable = false;
+      expect(card.getAttribute('actionable')).toBeFalsy();
     });
 
     it('should allow setting href', () => {
