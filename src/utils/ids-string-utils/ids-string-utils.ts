@@ -29,7 +29,7 @@ export function removeDuplicates(str: string): string {
  * @param {string} str the incoming string to format
  * @returns {string} the string with newline characters replaced
  */
-export function removeNewLines(str: string): string {
+export function removeNewLines(str: string): string | null {
   return str.replace(/\r?\n|\r/g, ' ');
 }
 
@@ -58,6 +58,7 @@ export function stringToNumber(val: string): number {
  * Inject template variables in a string
  * @param {string} str The string to inject into
  * @param {string} obj The string to inject into
+ * @returns {string} The return string
  */
 export function injectTemplate(str: string, obj: string): string {
   return str.replace(/\${(.*?)}/g, (_x, g) => obj[g]);

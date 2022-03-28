@@ -29,10 +29,13 @@ export default class IdsPagerInput extends Base {
     const idsTextAttribs = `label ${this.disabledOverall ? ' disabled' : ''}`;
 
     return (
-     `<ids-text ${idsTextAttribs}>Page</ids-text>&nbsp;
+      `<ids-text ${idsTextAttribs}>Page</ids-text>&nbsp;
       <ids-input
         value="${this.pageNumber}"
+        label="Input for page number"
+        label-state="hidden"
         text-align="center"
+        size="xs"
         ${this.disabled ? 'disabled' : ''}
       ></ids-input>
       <ids-text ${idsTextAttribs}>&nbsp;of&nbsp;
@@ -53,8 +56,6 @@ export default class IdsPagerInput extends Base {
 
   connectedCallback() {
     this.input = this.shadowRoot.querySelector('ids-input');
-    this.input.label = 'Input for page number';
-    this.input.labelState = 'hidden';
 
     this.onEvent('change', this.input, () => {
       const inputPageNumber = Math.min(parseInt(this.input.input.value), this.pageCount);
@@ -114,13 +115,13 @@ export default class IdsPagerInput extends Base {
     this.#updatePageCountShown();
   }
 
-  /** @returns {number} The number of items shown per page */
-  get pageSize(): number {
+  /** @returns {string|number} The number of items shown per page */
+  get pageSize() {
     return parseInt(this.getAttribute(attributes.PAGE_SIZE));
   }
 
-  /** @param {number} value A 1-based page number shown */
-  set pageNumber(value: number) {
+  /** @param {string|number} value A 1-based page number shown */
+  set pageNumber(value: string | number) {
     const pagerInputWebComponent = this.input;
     const pagerInputField = pagerInputWebComponent?.input;
     const currentPageNumber = pagerInputField?.value || 1;

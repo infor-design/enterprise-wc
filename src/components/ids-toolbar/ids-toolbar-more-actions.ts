@@ -85,7 +85,7 @@ export default class IdsToolbarMoreActions extends Base {
     // Cycle through toolbar items, if present, and render a menu item that represents them
     const renderToolbarItems = () => this.toolbar?.items?.map((i: HTMLElement) => this.#moreActionsItemTemplate(i)).join('') || '';
     return `<ids-menu-group ${attributes.MORE_ACTIONS}>
-      ${renderToolbarItems() }
+      ${renderToolbarItems()}
     </ids-menu-group>`;
   }
 
@@ -135,7 +135,7 @@ export default class IdsToolbarMoreActions extends Base {
     };
 
     // These represent menu items in top-level menu buttons, which can be hidden.
-    const handleMenuItem = (thisItem?: any) => {
+    const handleMenuItem = (thisItem: any) => {
       if (thisItem.disabled) disabled = ' disabled';
       if (thisItem.icon) icon = ` icon="${thisItem.icon}"`;
       if (thisItem.hidden) hidden = ` hidden`;
@@ -147,23 +147,23 @@ export default class IdsToolbarMoreActions extends Base {
     };
 
     switch (item.tagName) {
-    case 'IDS-MENU-BUTTON':
-      handleButton(item);
-      handleSubmenu(item);
-      break;
-    case 'IDS-MENU-ITEM':
-      handleMenuItem(item);
-      break;
-    case 'IDS-BUTTON':
-      handleButton(item);
-      break;
-    default:
-      text = item.textContent;
-      break;
+      case 'IDS-MENU-BUTTON':
+        handleButton(item);
+        handleSubmenu(item);
+        break;
+      case 'IDS-MENU-ITEM':
+        handleMenuItem(item);
+        break;
+      case 'IDS-BUTTON':
+        handleButton(item);
+        break;
+      default:
+        text = item.textContent;
+        break;
     }
 
     // Sanitize text from Toolbar elements to fit menu items
-    text = removeNewLines(text).trim();
+    text = removeNewLines(text)?.trim();
 
     return `<ids-menu-item${disabled}${icon}${viewbox}${hidden || overflowed}>
       ${text}
@@ -173,7 +173,7 @@ export default class IdsToolbarMoreActions extends Base {
 
   /**
    * @readonly
-   * @returns {IdsMenuButton} the inner menu button
+   * @returns {HTMLElement} the inner menu button
    */
   get button() {
     return this.shadowRoot.querySelector('ids-menu-button');
@@ -181,7 +181,7 @@ export default class IdsToolbarMoreActions extends Base {
 
   /**
    * @readonly
-   * @returns {IdsPopupMenu} the inner popup menu
+   * @returns {HTMLElement} the inner popup menu
    */
   get menu() {
     return this.shadowRoot.querySelector('ids-popup-menu');
@@ -320,7 +320,7 @@ export default class IdsToolbarMoreActions extends Base {
    * @returns {void}
    */
   #attachEventHandlers() {
-    this.onEvent('beforeshow', this.menu, (e: CustomEvent) => {
+    this.onEvent('beforeshow', this.menu, (e: any) => {
       // Reflect this event to the host element
       this.triggerEvent('beforeshow', this, {
         bubbles: e.bubbles,
@@ -333,7 +333,7 @@ export default class IdsToolbarMoreActions extends Base {
     // Forward `selected` events from the More Actions Menu to their
     // Toolbar Item counterparts.  This is needed for firing Toolbar Actions that
     // are only visible inside the overflow menu.
-    this.onEvent('selected', this.menu, (e: CustomEvent) => {
+    this.onEvent('selected', this.menu, (e: any) => {
       const menuItem = e.detail.elem;
       if (menuItem.overflowTarget) {
         e.preventDefault();
@@ -399,6 +399,7 @@ export default class IdsToolbarMoreActions extends Base {
     // Connects Overflow Menu subitems with corresponding menu items in the Toolbar
     // (generally by way of IdsMenuButtons or other menu-driven components)
     const handleSubmenu = (thisItem: any, overflowTargetMenu: any) => {
+      if (!overflowTargetMenu) return;
       [...thisItem.submenu.children].forEach((item, i) => {
         item.overflowTarget = overflowTargetMenu.items[i];
         if (item.submenu) {
@@ -443,7 +444,7 @@ export default class IdsToolbarMoreActions extends Base {
    * @param {HTMLElement} item reference to the toolbar item to be checked for overflow
    * @returns {boolean} true if the item is a toolbar member and should be displayed by overflow
    */
-  isOverflowed(item: HTMLElement) {
+  isOverflowed(item: any) {
     if (!this.toolbar.contains(item)) {
       return false;
     }
@@ -453,9 +454,6 @@ export default class IdsToolbarMoreActions extends Base {
 
     const itemRect = item.getBoundingClientRect();
     const section = item.parentElement;
-    if (!section) {
-      return false;
-    }
     const sectionRect = section.getBoundingClientRect();
 
     const isBeyondRightEdge = itemRect.right > sectionRect.right;

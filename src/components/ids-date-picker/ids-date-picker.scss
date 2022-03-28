@@ -1,5 +1,9 @@
 @import '../../core/ids-base';
 
+:host([size='full']) {
+  @include w-full();
+}
+
 .ids-date-picker {
   // Fixes input doesn't stretch to lg size and up
   ids-input {

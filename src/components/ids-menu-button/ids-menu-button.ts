@@ -53,7 +53,7 @@ export default class IdsMenuButton extends Base {
    * @returns {void}
    */
   attachEventHandlers() {
-    super.attachEventHandlers?.();
+    super.attachEventHandlers?.(this);
   }
 
   /**
@@ -96,7 +96,7 @@ export default class IdsMenuButton extends Base {
   }
 
   /**
-   * @returns {HTMLElement |null} the decorative dropdown icon element
+   * @returns {HTMLElement|null} the decorative dropdown icon element
    */
   get dropdownIconEl() {
     return this.container.querySelector('ids-icon:not([slot])');
@@ -138,13 +138,16 @@ export default class IdsMenuButton extends Base {
 
   /**
    * @readonly
-   * @returns {HTMLElement |null} element if one is present
+   * @returns {HTMLElement | null} element if one is present
    */
   get menuEl() {
-    // Check for a Shadow Root parent.
-    // If none, use `document`
-    const target = getClosestRootNode((this as any));
-    return target.querySelector(`ids-popup-menu[id="${this.menu}"]`) || target.querySelector(`ids-action-sheet[id="${this.menu}"]`);
+    const findPopup = (root: any) => root?.querySelector(`ids-popup-menu[id="${this.menu}"]`)
+      || root?.querySelector(`ids-action-sheet[id="${this.menu}"]`);
+
+    let el = findPopup(this.shadowRoot?.host?.parentNode);
+    const thisElem: any = this;
+    if (!el) el = findPopup(getClosestRootNode(thisElem));
+    return el;
   }
 
   /**
@@ -216,7 +219,7 @@ export default class IdsMenuButton extends Base {
    * Set the formatter width for menu button
    * @param {string | number} value The formatter width value
    */
-  set formatterWidth(value: string | null) {
+  set formatterWidth(value: string | number) {
     let val = null;
     if (typeof value === 'number' && !Number.isNaN(value)) {
       val = `${value}px`;

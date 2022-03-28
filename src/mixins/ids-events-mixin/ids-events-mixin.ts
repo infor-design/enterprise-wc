@@ -30,7 +30,7 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
 
   /**
    * Add and keep track of an event listener.
-   * @param {string} eventName The event name with optional namespace
+   * @param {string|any} eventName The event name with optional namespace
    * @param {HTMLElement} target The DOM element to register
    * @param {Function|any} callback The callback code to execute
    * @param {object} options Additional event settings (passive, once, bubbles ect)
@@ -55,7 +55,7 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
     if (eventName.indexOf('swipe') === 0) {
       this.#addSwipeListener(eventName, target, options);
     }
-    target.addEventListener(eventName.split('.')[0], (callback as any), options);
+    target.addEventListener(eventName.split('.')[0], callback, options);
     this.handledEvents.set(eventName, { target, callback, options });
   }
 
@@ -104,7 +104,7 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
   /**
    * Create and trigger a custom event
    * @param {string} eventName The event id with optional namespace
-   * @param {any} target The DOM element to register
+   * @param {HTMLElement} target The DOM element to register
    * @param {object} [options = {}] The custom data to send
    */
   triggerEvent(eventName: string, target: any, options = {}) {
@@ -125,7 +125,6 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
    * @returns {boolean} true if the event works
    */
   triggerVetoableEvent(eventType: string, data: Record<string, unknown>) {
-    this.triggerEvent(`${eventType}.vetoable`, this, data);
     if (this.vetoableEventTypes.length > 0
       && !this.vetoableEventTypes.includes((eventType as never))) {
       return false;
@@ -226,7 +225,7 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
   /**
    * Setup a custom swipe event (just one)
    * @private
-   * @param {string} eventName The event name with optional namespace
+   * @param {string|any} eventName The event name with optional namespace
    * @param {HTMLElement} target The DOM element to register
    * @param {object} options Additional event settings (passive, once, bubbles ect)
    */
@@ -323,7 +322,7 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
   /**
    * Setup a custom keypress focus event
    * @private
-   * @param {string} eventName The event name with optional namespace
+   * @param {string|any} eventName The event name with optional namespace
    * @param {HTMLElement} target The DOM element to register
    */
   #addKeyboardFocusListener(eventName: string, target: HTMLElement) {
@@ -373,7 +372,7 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
    */
   #addHoverEndListener(eventName: string, target: HTMLElement, options?:Record<string, unknown>) {
     // Setup events
-    this.onEvent('mouseenter.eventsmixin', target, (e: Event) => {
+    this.onEvent('mouseenter.eventsmixin', target, (e: KeyboardEvent) => {
       if (!this.timer) {
         this.timer = renderLoop.register(new IdsRenderLoopItem({
           duration: options?.delay || 500,
@@ -399,14 +398,15 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
   /**
    * Setup a custom keydown event that fires after typing a birst of keys
    * @private
-   * @param {string} eventName The event name with optional namespace
+   * @param {string|any} eventName The event name with optional namespace
    * @param {HTMLElement} target The DOM element to register
    * @param {object} options Additional event settings (passive, once, bubbles ect)
    */
   #addKeyDownEndListener(eventName: string, target: HTMLElement, options?: Record<string, unknown>) {
     let keys = '';
 
-    this.onEvent('keydown.eventsmixin', target, (e: KeyboardEvent) => {
+    this.onEvent('keydown.eventsmixin', target, (e: any) => {
+      if (typeof e.key === 'undefined' && e.detail?.nativeEvent) e = e.detail.nativeEvent;
       if (!isPrintable(e)) {
         return;
       }

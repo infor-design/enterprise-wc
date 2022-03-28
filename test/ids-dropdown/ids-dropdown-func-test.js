@@ -75,6 +75,7 @@ describe('IdsDropdown Component', () => {
   });
 
   it('can set readonly', () => {
+    dropdown.container.readonly = false;
     dropdown.readonly = true;
     expect(dropdown.readonly).toEqual(true);
     expect(dropdown.getAttribute('readonly')).toBeTruthy();
@@ -584,5 +585,101 @@ describe('IdsDropdown Component', () => {
 
     // Not working right, not sure why?
     expect(document.activeElement.id).toEqual('dropdown-1');
+  });
+
+  it('should render field height', () => {
+    const heights = ['xs', 'sm', 'md', 'lg'];
+    const defaultHeight = 'md';
+    const className = (h) => `field-height-${h}`;
+    const checkHeight = (height) => {
+      dropdown.fieldHeight = height;
+
+      expect(dropdown.container.getAttribute('field-height')).toEqual(height);
+      expect(dropdown.container.classList).toContain(className(height));
+      heights.filter((h) => h !== height).forEach((h) => {
+        expect(dropdown.container.classList).not.toContain(className(h));
+      });
+    };
+
+    expect(dropdown.getAttribute('field-height')).toEqual(null);
+    heights.filter((h) => h !== defaultHeight).forEach((h) => {
+      expect(dropdown.container.classList).not.toContain(className(h));
+    });
+
+    expect(dropdown.container.classList).toContain(className(defaultHeight));
+    heights.forEach((h) => checkHeight(h));
+    dropdown.removeAttribute('field-height');
+    dropdown.removeAttribute('compact');
+
+    expect(dropdown.getAttribute('field-height')).toEqual(null);
+    heights.filter((h) => h !== defaultHeight).forEach((h) => {
+      expect(dropdown.container.classList).not.toContain(className(h));
+    });
+    dropdown.onFieldHeightChange();
+
+    expect(dropdown.container.classList).toContain(className(defaultHeight));
+  });
+
+  it('should set compact height', () => {
+    dropdown.compact = true;
+
+    expect(dropdown.hasAttribute('compact')).toBeTruthy();
+    expect(dropdown.container.classList.contains('compact')).toBeTruthy();
+    dropdown.compact = false;
+
+    expect(dropdown.hasAttribute('compact')).toBeFalsy();
+    expect(dropdown.container.classList.contains('compact')).toBeFalsy();
+  });
+
+  it('should set size', () => {
+    const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
+    const defaultSize = 'md';
+    const checkSize = (size) => {
+      dropdown.size = size;
+
+      expect(dropdown.getAttribute('size')).toEqual(size);
+      expect(dropdown.container.getAttribute('size')).toEqual(size);
+    };
+
+    expect(dropdown.getAttribute('size')).toEqual(null);
+    expect(dropdown.container.getAttribute('size')).toEqual(defaultSize);
+    sizes.forEach((s) => checkSize(s));
+    dropdown.size = null;
+
+    expect(dropdown.getAttribute('size')).toEqual(null);
+    expect(dropdown.container.getAttribute('size')).toEqual(defaultSize);
+  });
+
+  it('should set no margins', () => {
+    expect(dropdown.getAttribute('no-margins')).toEqual(null);
+    expect(dropdown.noMargins).toEqual(false);
+    expect(dropdown.container.getAttribute('no-margins')).toEqual(null);
+    dropdown.noMargins = true;
+
+    expect(dropdown.getAttribute('no-margins')).toEqual('');
+    expect(dropdown.noMargins).toEqual(true);
+    expect(dropdown.container.getAttribute('no-margins')).toEqual('');
+    dropdown.noMargins = false;
+
+    expect(dropdown.getAttribute('no-margins')).toEqual(null);
+    expect(dropdown.noMargins).toEqual(false);
+    expect(dropdown.container.getAttribute('no-margins')).toEqual(null);
+  });
+
+  it('should set values thru template', () => {
+    expect(dropdown.colorVariant).toEqual(null);
+    expect(dropdown.labelState).toEqual(null);
+    expect(dropdown.compact).toEqual(false);
+    expect(dropdown.noMargins).toEqual(false);
+    dropdown.colorVariant = 'alternate-formatter';
+    dropdown.labelState = 'collapsed';
+    dropdown.compact = true;
+    dropdown.noMargins = true;
+    dropdown.template();
+
+    expect(dropdown.colorVariant).toEqual('alternate-formatter');
+    expect(dropdown.labelState).toEqual('collapsed');
+    expect(dropdown.compact).toEqual(true);
+    expect(dropdown.noMargins).toEqual(true);
   });
 });

@@ -143,6 +143,115 @@ describe('IdsDatePicker Component Tests', () => {
 
       expect(component.value).toEqual('changed');
     });
+
+    it('should render field height', () => {
+      const heights = ['xs', 'sm', 'md', 'lg'];
+      const defaultHeight = 'md';
+      const className = (h) => `field-height-${h}`;
+      const checkHeight = (height) => {
+        component.fieldHeight = height;
+
+        const triggerField = component.container.querySelector('ids-trigger-field');
+        expect(triggerField.getAttribute('field-height')).toEqual(height);
+        expect(component.container.classList).toContain(className(height));
+        heights.filter((h) => h !== height).forEach((h) => {
+          expect(component.container.classList).not.toContain(className(h));
+        });
+      };
+
+      expect(component.getAttribute('field-height')).toEqual(null);
+      heights.filter((h) => h !== defaultHeight).forEach((h) => {
+        expect(component.container.classList).not.toContain(className(h));
+      });
+
+      expect(component.container.classList).toContain(className(defaultHeight));
+      heights.forEach((h) => checkHeight(h));
+      component.removeAttribute('field-height');
+      component.removeAttribute('compact');
+
+      expect(component.getAttribute('field-height')).toEqual(null);
+      heights.filter((h) => h !== defaultHeight).forEach((h) => {
+        expect(component.container.classList).not.toContain(className(h));
+      });
+      component.onFieldHeightChange();
+
+      expect(component.container.classList).toContain(className(defaultHeight));
+    });
+
+    it('should set compact height', () => {
+      component.compact = true;
+
+      expect(component.hasAttribute('compact')).toBeTruthy();
+      expect(component.container.classList.contains('compact')).toBeTruthy();
+      component.compact = false;
+
+      expect(component.hasAttribute('compact')).toBeFalsy();
+      expect(component.container.classList.contains('compact')).toBeFalsy();
+    });
+
+    it('should set size', () => {
+      const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
+      const defaultSize = 'lg';
+      const checkSize = (size) => {
+        component.size = size;
+
+        expect(component.getAttribute('size')).toEqual(size);
+        const triggerField = component.container.querySelector('ids-trigger-field');
+
+        expect(triggerField.getAttribute('size')).toEqual(size);
+      };
+
+      expect(component.getAttribute('size')).toEqual(defaultSize);
+      let triggerField = component.container.querySelector('ids-trigger-field');
+
+      expect(triggerField.getAttribute('size')).toEqual(defaultSize);
+      sizes.forEach((s) => checkSize(s));
+      component.size = null;
+
+      expect(component.getAttribute('size')).toEqual('null');
+      triggerField = component.container.querySelector('ids-trigger-field');
+
+      expect(triggerField.getAttribute('size')).toEqual('md');
+    });
+
+    it('should set no margins', () => {
+      expect(component.getAttribute('no-margins')).toEqual(null);
+      expect(component.noMargins).toEqual(false);
+      let triggerField = component.container.querySelector('ids-trigger-field');
+
+      expect(triggerField.getAttribute('no-margins')).toEqual(null);
+      component.noMargins = true;
+
+      expect(component.getAttribute('no-margins')).toEqual('');
+      expect(component.noMargins).toEqual(true);
+      triggerField = component.container.querySelector('ids-trigger-field');
+
+      expect(triggerField.getAttribute('no-margins')).toEqual('');
+      component.noMargins = false;
+
+      expect(component.getAttribute('no-margins')).toEqual(null);
+      expect(component.noMargins).toEqual(false);
+      triggerField = component.container.querySelector('ids-trigger-field');
+
+      expect(triggerField.getAttribute('no-margins')).toEqual(null);
+    });
+
+    it('should set values thru template', () => {
+      expect(component.colorVariant).toEqual(null);
+      expect(component.labelState).toEqual(null);
+      expect(component.compact).toEqual(false);
+      expect(component.noMargins).toEqual(false);
+      component.colorVariant = 'alternate-formatter';
+      component.labelState = 'collapsed';
+      component.compact = true;
+      component.noMargins = true;
+      component.template();
+
+      expect(component.colorVariant).toEqual('alternate-formatter');
+      expect(component.labelState).toEqual('collapsed');
+      expect(component.compact).toEqual(true);
+      expect(component.noMargins).toEqual(true);
+    });
   });
 
   describe('Using attributes', () => {
