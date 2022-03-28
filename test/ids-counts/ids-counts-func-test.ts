@@ -17,10 +17,10 @@ const compact = `
 </ids-counts>`;
 
 describe('IdsCounts Component', () => {
-  let count;
+  let count: any;
 
   beforeEach(async () => {
-    const elem = new IdsCounts();
+    const elem: any = new IdsCounts();
     const countValue = new IdsText();
     const countText = new IdsText();
     countValue.setAttribute('count-value', '');
@@ -39,7 +39,7 @@ describe('IdsCounts Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsCounts();
+    const elem: any = new IdsCounts();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-counts').length).toEqual(1);

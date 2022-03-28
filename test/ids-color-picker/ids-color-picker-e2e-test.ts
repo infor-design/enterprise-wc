@@ -26,14 +26,14 @@ describe('Ids Color Picker e2e Tests', () => {
 
   it('should select when clicking the hex', async () => {
     const elem = await page.$('#color-picker-1');
-    let value = await page.evaluate((el) => el.value, elem);
+    let value = await page.evaluate((el: any) => el.value, elem);
 
     expect(value).toEqual('#B94E4E');
-    await page.evaluate((el) => {
+    await page.evaluate((el: any) => {
       el.popup.visible = true;
-      document.querySelector('#color-picker-1 > ids-color[hex]').click();
+      (document.querySelector('#color-picker-1 > ids-color[hex]') as any).click();
     }, elem);
-    value = await page.evaluate((el) => el.value, elem);
+    value = await page.evaluate((el: any) => el.value, elem);
     expect(value).toEqual('#1A1A1A');
   });
 

@@ -7,12 +7,12 @@ import waitFor from '../helpers/wait-for';
 import processAnimFrame from '../helpers/process-anim-frame';
 
 describe('IdsDataLabel Component', () => {
-  let dataLabel;
-  let container;
+  let dataLabel: any;
+  let container: any;
 
   beforeEach(async () => {
     container = new IdsContainer();
-    const elem = new IdsDataLabel();
+    const elem: any = new IdsDataLabel();
     elem.innerHTML = `Los Angeles, California 90001 USA`;
     elem.label = 'Address';
     container.appendChild(elem);
@@ -28,7 +28,7 @@ describe('IdsDataLabel Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsDataLabel();
+    const elem: any = new IdsDataLabel();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-data-label').length).toEqual(1);

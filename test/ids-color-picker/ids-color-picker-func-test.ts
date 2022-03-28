@@ -4,12 +4,12 @@
 import '../helpers/resize-observer-mock';
 import waitFor from '../helpers/wait-for';
 import IdsColorPicker from '../../src/components/ids-color-picker/ids-color-picker';
-import IdsColor from '../../src/components/ids-color/ids-color';
+import '../../src/components/ids-color/ids-color';
 
 describe('Ids Color Picker Component', () => {
-  let colorpicker;
+  let colorpicker: any;
 
-  const createFromTemplate = (innerHTML) => {
+  const createFromTemplate = (innerHTML: any) => {
     colorpicker?.remove();
     const template = document.createElement('template');
     template.innerHTML = innerHTML;
@@ -31,7 +31,7 @@ describe('Ids Color Picker Component', () => {
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
     colorpicker.remove();
-    const elem = new IdsColorPicker();
+    const elem: any = new IdsColorPicker();
     document.body.appendChild(elem);
     expect(document.querySelectorAll('ids-color-picker').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
@@ -51,6 +51,8 @@ describe('Ids Color Picker Component', () => {
   it('renders with advanced', () => {
     colorpicker = createFromTemplate(`<ids-color-picker id="color-picker-1" advanced="true" value="#941E1E" label="Readonly Color Picker"></ids-color-picker>`);
     expect(colorpicker.advanced).toBeTruthy();
+    colorpicker.advanced = false;
+    expect(colorpicker.getAttribute('advanced')).toBeFalsy();
   });
 
   it('has a value attribute', () => {
@@ -106,13 +108,19 @@ describe('Ids Color Picker Component', () => {
     expect(colorpicker.popup.visible).toEqual(false);
   });
 
+  it('should be able to open with show', () => {
+    colorpicker.show();
+    expect(colorpicker.popup.visible).toEqual(true);
+    expect(colorpicker.swatches).toBeTruthy();
+  });
+
   it('should select on enter', () => {
     colorpicker = createFromTemplate(`<ids-color-picker id="color-picker-1" readonly="true" value="#941E1E" label="Readonly Color Picker"><ids-color hex="#383838"></ids-color></ids-color-picker>`);
     colorpicker.popup.visible = true;
-    document.querySelector('#color-picker-1 > ids-color[hex="#383838"]').focus();
-    const hex = document.querySelector('#color-picker-1 > ids-color[hex="#383838"]');
+    (document.querySelector('#color-picker-1 > ids-color[hex="#383838"]') as any).focus();
+    const hex: any = document.querySelector('#color-picker-1 > ids-color[hex="#383838"]');
 
-    const enterKeyEvent = new KeyboardEvent('keydown', { key: 'Enter', target: hex, bubbles: true });
+    const enterKeyEvent = new KeyboardEvent('keydown', ({ key: 'Enter', target: hex, bubbles: true } as any));
     hex.dispatchEvent(enterKeyEvent);
     expect(colorpicker.value).toEqual('#383838');
   });
@@ -120,10 +128,10 @@ describe('Ids Color Picker Component', () => {
   it('should select on enter when checked', () => {
     colorpicker = createFromTemplate(`<ids-color-picker id="color-picker-1" readonly="true" value="#941E1E" label="Readonly Color Picker"><ids-color hex="#999999" checked="true"></ids-color></ids-color-picker>`);
     colorpicker.popup.visible = true;
-    document.querySelector('#color-picker-1 > ids-color[hex="#999999"]').focus();
-    const hex = document.querySelector('#color-picker-1 > ids-color[hex="#999999"]');
+    (document.querySelector('#color-picker-1 > ids-color[hex="#999999"]') as any).focus();
+    const hex: any = document.querySelector('#color-picker-1 > ids-color[hex="#999999"]');
 
-    const enterKeyEvent = new KeyboardEvent('keydown', { key: 'Enter', target: hex, bubbles: true });
+    const enterKeyEvent = new KeyboardEvent('keydown', ({ key: 'Enter', target: hex, bubbles: true } as any));
     hex.dispatchEvent(enterKeyEvent);
     expect(colorpicker.value).toEqual('#999999');
   });

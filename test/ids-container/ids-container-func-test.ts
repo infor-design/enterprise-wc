@@ -4,7 +4,7 @@
 import IdsContainer from '../../src/components/ids-container/ids-container';
 
 describe('IdsContainer Component', () => {
-  let container;
+  let container: any;
 
   beforeEach(async () => {
     container = new IdsContainer();
@@ -17,7 +17,7 @@ describe('IdsContainer Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsContainer();
+    const elem: any = new IdsContainer();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-container').length).toEqual(1);
@@ -93,9 +93,16 @@ describe('IdsContainer Component', () => {
   it('has a reset attribute', () => {
     expect(container.reset).toEqual('true');
     container.reset = false;
-    expect(document.querySelector('body').style.margin).toEqual('');
+    expect(document.querySelector('body')?.style.margin).toEqual('');
     expect(container.getAttribute('reset')).toBeFalsy();
     container.reset = true;
-    expect(document.querySelector('body').style.margin).toEqual('0px');
+    expect(document.querySelector('body')?.style.margin).toEqual('0px');
+  });
+
+  it('should remove hidden on window elem', () => {
+    container.hidden = true;
+    const event = new KeyboardEvent('load', { });
+    window.dispatchEvent(event);
+    expect(container.hidden).toEqual(false);
   });
 });

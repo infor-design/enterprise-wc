@@ -2,13 +2,13 @@
  * @jest-environment jsdom
  */
 import IdsCheckboxGroup from '../../src/components/ids-checkbox-group/ids-checkbox-group';
-import IdsCheckbox from '../../src/components/ids-checkbox/ids-checkbox';
+import '../../src/components/ids-checkbox/ids-checkbox';
 
 describe('IdsCheckboxGroup Component', () => {
-  let checkboxGroup;
+  let checkboxGroup: any;
 
   beforeEach(async () => {
-    const elem = new IdsCheckboxGroup();
+    const elem: any = new IdsCheckboxGroup();
     document.body.appendChild(elem);
     checkboxGroup = document.querySelector('ids-checkbox-group');
   });
@@ -19,7 +19,7 @@ describe('IdsCheckboxGroup Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsCheckboxGroup();
+    const elem: any = new IdsCheckboxGroup();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-checkbox-group').length).toEqual(1);
@@ -37,6 +37,8 @@ describe('IdsCheckboxGroup Component', () => {
   it('renders label correctly', () => {
     checkboxGroup.label = 'Label Test';
     expect(checkboxGroup.container.querySelector('ids-text').innerHTML).toEqual('Label Test');
+    checkboxGroup.label = '';
+    expect(checkboxGroup.getAttribute('label')).toBeFalsy();
   });
 
   it('renders checkboxes correctly', () => {

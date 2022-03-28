@@ -34,7 +34,7 @@ export default class IdsCheckboxGroup extends Base {
    * Create the Template for the contents
    * @returns {string} The Template
    */
-  template() {
+  template(): string {
     return `
       <div class="ids-checkbox-group" part="checkbox-group">
         <ids-text font-size="16" type="span">${this.label}</ids-text>
@@ -47,13 +47,13 @@ export default class IdsCheckboxGroup extends Base {
    * Return the label of checkbox-group
    * @returns {string} label
    */
-  get label() { return this.getAttribute('label') || ''; }
+  get label(): string { return this.getAttribute('label') || ''; }
 
   /**
    * Set the label of checkbox-group
    * @param {string} value label
    */
-  set label(value) {
+  set label(value: string) {
     if (value) {
       this.setAttribute('label', value.toString());
     } else {

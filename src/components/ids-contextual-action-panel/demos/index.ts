@@ -1,17 +1,17 @@
 // Supporting components
-import IdsContextualActionPanel from '../ids-contextual-action-panel';
-import IdsCheckbox from '../../ids-checkbox/ids-checkbox';
-import IdsDropdown from '../../ids-dropdown/ids-dropdown';
-import IdsPopupMenu from '../../ids-popup-menu/ids-popup-menu';
-import IdsTextarea from '../../ids-textarea/ids-textarea';
-import IdsToolbar from '../../ids-toolbar/ids-toolbar';
-import IdsButton from '../../ids-button/ids-button';
-import IdsSeparator from '../../ids-separator/ids-separator';
+import '../ids-contextual-action-panel';
+import '../../ids-checkbox/ids-checkbox';
+import '../../ids-dropdown/ids-dropdown';
+import '../../ids-popup-menu/ids-popup-menu';
+import '../../ids-textarea/ids-textarea';
+import '../../ids-toolbar/ids-toolbar';
+import '../../ids-button/ids-button';
+import '../../ids-separator/ids-separator';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const triggerId = '#cap-trigger-btn';
-  const triggerBtn = document.querySelector(triggerId);
-  const cap = document.querySelector('ids-contextual-action-panel');
+  const triggerId: any = '#cap-trigger-btn';
+  const triggerBtn: any = document.querySelector(triggerId);
+  const cap: any = document.querySelector('ids-contextual-action-panel');
 
   // Links the CAP to its trigger button (sets up click/focus events)
   cap.target = triggerBtn;

@@ -1,6 +1,5 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import IdsElement from '../../core/ids-element';
 import Base from './ids-color-base';
 
 import styles from './ids-color.scss';
@@ -35,7 +34,7 @@ export default class IdsColor extends Base {
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `
       <div class="ids-color" tabindex="0" part="color">
         <ids-icon class="color-check" icon="check" size="xsmall" part="hex"></ids-icon>
@@ -43,13 +42,13 @@ export default class IdsColor extends Base {
   }
 
   /** @param {string} h The hex code color to use */
-  set hex(h) {
+  set hex(h: string) {
     this.setAttribute('hex', h.toString());
     this.container.style.backgroundColor = h.toString();
   }
 
   /** @returns {string} The hex code being used */
-  get hex() {
+  get hex(): string {
     return this.getAttribute('hex') || '#000000';
   }
 }

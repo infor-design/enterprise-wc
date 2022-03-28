@@ -1,7 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 
 import Base from './ids-contextual-action-panel-base';
-import IdsToolbar from '../ids-toolbar/ids-toolbar';
+import '../ids-toolbar/ids-toolbar';
 
 import styles from './ids-contextual-action-panel.scss';
 
@@ -24,7 +24,7 @@ export default class IdsContextualActionPanel extends Base {
     this.popup.animationStyle = 'slide-from-bottom';
   }
 
-  get toolbar() {
+  get toolbar(): HTMLElement | undefined {
     return this.querySelector('[slot="toolbar"]');
   }
 
@@ -32,7 +32,7 @@ export default class IdsContextualActionPanel extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     const toolbarHidden = this.toolbar !== undefined ? '' : 'hidden';
     const footerHidden = this.buttons !== undefined ? '' : ' hidden';
 
@@ -60,12 +60,12 @@ export default class IdsContextualActionPanel extends Base {
    * a way to tie in Toolbar buttons to the Modal's standard `onButtonClick` callback
    * @returns {void}
    */
-  addOpenEvents() {
+  addOpenEvents(): void {
     super.addOpenEvents();
 
     // If a Modal Button is clicked, fire an optional callback
     const toolbarSlot = this.container.querySelector('slot[name="toolbar"]');
-    this.onEvent('click.toolbar', toolbarSlot, (e) => {
+    this.onEvent('click.toolbar', toolbarSlot, (e: MouseEvent) => {
       this.handleButtonClick(e);
     });
   }
@@ -75,7 +75,7 @@ export default class IdsContextualActionPanel extends Base {
    * a way to tie in Toolbar buttons to the Modal's standard `onButtonClick` callback
    * @returns {void}
    */
-  removeOpenEvents() {
+  removeOpenEvents(): void {
     super.removeOpenEvents();
     this.offEvent('click.toolbar');
   }

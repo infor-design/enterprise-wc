@@ -5,14 +5,14 @@ import '../helpers/resize-observer-mock';
 import wait from '../helpers/wait';
 
 import IdsContextualActionPanel from '../../src/components/ids-contextual-action-panel/ids-contextual-action-panel';
-import IdsButton from '../../src/components/ids-button/ids-button';
-import IdsToolbar from '../../src/components/ids-toolbar/ids-toolbar';
+import '../../src/components/ids-button/ids-button';
+import '../../src/components/ids-toolbar/ids-toolbar';
 
 describe('IdsContextualActionPanel Component', () => {
-  let cap;
+  let cap: any;
 
   beforeEach(async () => {
-    const elem = new IdsContextualActionPanel();
+    const elem: any = new IdsContextualActionPanel();
     document.body.appendChild(elem);
     cap = document.querySelector('ids-contextual-action-panel');
   });
@@ -24,20 +24,19 @@ describe('IdsContextualActionPanel Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsContextualActionPanel();
+    const elem: any = new IdsContextualActionPanel();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-contextual-action-panel').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    expect(cap.outerHTML).toMatchSnapshot();
-    cap.show();
-    expect(cap.outerHTML).toMatchSnapshot();
-
-    cap.hide();
-    expect(cap.outerHTML).toMatchSnapshot();
+  it('renders hidden if no toolbar or buttons', () => {
+    cap.querySelector('[slot="toolbar"]').remove();
+    expect(cap.toolbar).toBe(undefined);
+    cap.querySelector('[slot="buttons"]').remove();
+    expect(cap.buttons).toBe(undefined);
+    expect(cap.template()).toMatchSnapshot();
   });
 
   it('responds to its normal buttons\' clicks', async () => {

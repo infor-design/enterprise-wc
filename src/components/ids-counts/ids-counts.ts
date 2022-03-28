@@ -1,10 +1,10 @@
-import { IdsElement, customElement, scss, } from '../../core/ids-decorators';
+import { customElement, scss, } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-count-base';
-import IdsText from '../ids-text/ids-text';
-import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
+import '../ids-text/ids-text';
+import '../ids-hyperlink/ids-hyperlink';
 
 import styles from './ids-counts.scss';
 
@@ -28,8 +28,8 @@ export default class IdsCounts extends Base {
   }
 
   #textProperties() {
-    this.querySelectorAll('[count-value]').forEach((value) => { value.fontSize = stringToBool(this.compact) ? 40 : 48; });
-    this.querySelectorAll('[count-text]').forEach((text) => { text.fontSize = 16; });
+    this.querySelectorAll('[count-value]').forEach((value: any) => { value.fontSize = stringToBool(this.compact) ? 40 : 48; });
+    this.querySelectorAll('[count-text]').forEach((text: any) => { text.fontSize = 16; });
   }
 
   /**
@@ -50,7 +50,7 @@ export default class IdsCounts extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `
       ${this.href ? `<ids-hyperlink part="link" text-decoration="none" class="ids-counts message-text" href=${this.href} mode=${this.mode}>` : `<a class="ids-counts" mode=${this.mode}>`}
       <slot></slot>
@@ -63,37 +63,37 @@ export default class IdsCounts extends Base {
    * @param {string} value The color value. This can be omitted.
    * base (blue), caution, danger, success, warning, or a hex code with the "#"
    */
-  set color(value) {
+  set color(value: string) {
     if (this.href) this.container.setAttribute('color', 'unset');
     const color = value[0] === '#' ? value : `var(--ids-color-status-${value})`;
     this.container.style.color = color;
-    this.querySelectorAll('ids-text').forEach((node) => {
+    this.querySelectorAll('ids-text').forEach((node: any) => {
       node.color = 'unset';
       node.shadowRoot.querySelector('span').style.color = value;
     });
     this.setAttribute(attributes.COLOR, value);
   }
 
-  get color() { return this.getAttribute(attributes.COLOR); }
+  get color(): string { return this.getAttribute(attributes.COLOR); }
 
   /**
    * Set the compact attribute
    * @param {string | boolean} value true or false. Component will
    * default to regular size if this property is ommitted.
    */
-  set compact(value) {
+  set compact(value: string | boolean) {
     this.setAttribute(attributes.COMPACT, value === 'true' ? 'true' : 'false');
   }
 
-  get compact() { return this.getAttribute(attributes.COMPACT); }
+  get compact(): string | boolean { return this.getAttribute(attributes.COMPACT); }
 
   /**
    * Set the href attribute
    * @param {string} value The href link
    */
-  set href(value) {
+  set href(value: string) {
     this.setAttribute(attributes.HREF, value);
   }
 
-  get href() { return this.getAttribute(attributes.HREF); }
+  get href(): string { return this.getAttribute(attributes.HREF); }
 }

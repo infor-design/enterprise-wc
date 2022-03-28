@@ -104,7 +104,7 @@ export default class IdsContainer extends Base {
     this.container.removeAttribute('tabindex');
   }
 
-  get scrollable() { return this.getAttribute(attributes.SCROLLABLE) || 'true'; }
+  get scrollable(): boolean | string { return this.getAttribute(attributes.SCROLLABLE) || 'true'; }
 
   /**
    * Add the reset to the body
@@ -121,7 +121,7 @@ export default class IdsContainer extends Base {
    * If set to true body element will get reset
    * @param {boolean|string} value true of false
    */
-  set reset(value) {
+  set reset(value: boolean | string) {
     if (stringToBool(value)) {
       this.#addReset();
       return;
@@ -134,7 +134,7 @@ export default class IdsContainer extends Base {
     }
   }
 
-  get reset() { return this.getAttribute(attributes.RESET) || 'true'; }
+  get reset(): boolean | string { return this.getAttribute(attributes.RESET) || 'true'; }
 
   /**
    * Set the language for a component and wait for it to finish (async)
@@ -165,7 +165,7 @@ export default class IdsContainer extends Base {
    * Get the language data keys and message for the current language
    * @returns {object} The language data object
    */
-  get language() {
+  get language(): string {
     return this.state.locale?.language;
   }
 
@@ -173,7 +173,7 @@ export default class IdsContainer extends Base {
    * Set the locale for a component and wait for it to finish (async)
    * @param {string} value The locale string value
    */
-  async setLocale(value: any) {
+  async setLocale(value: string) {
     if (value) {
       await this.state.locale.setLocale(value);
       const lang = this.state.locale.correctLanguage(value);
@@ -188,7 +188,7 @@ export default class IdsContainer extends Base {
    * Set the locale for a component
    * @param {string} value The locale string value
    */
-  set locale(value) {
+  set locale(value: string) {
     if (value) {
       this.state.locale.setLocale(value);
       const lang = this.state.locale.correctLanguage(value);
@@ -202,11 +202,11 @@ export default class IdsContainer extends Base {
     }
   }
 
-  get locale() {
+  get locale(): string {
     return this.state.locale;
   }
 
-  get localeName() {
+  get localeName(): string {
     return this.state.locale.state.localeName;
   }
 }

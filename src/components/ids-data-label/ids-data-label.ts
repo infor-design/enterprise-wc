@@ -2,7 +2,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import Base from './ids-data-label-base';
 import styles from './ids-data-label.scss';
-import IdsText from '../ids-text/ids-text';
+import '../ids-text/ids-text';
 
 /**
  * IDS Data Label Component
@@ -23,7 +23,7 @@ export default class IdsDataLabel extends Base {
 
   connectedCallback() {
     this.offEvent('languagechange');
-    this.onEvent('languagechange', this.closest('ids-container'), (e) => {
+    this.onEvent('languagechange', this.closest('ids-container'), (e: CustomEvent) => {
       this.language = e.detail.language.name;
     });
     this.language = this.closest('ids-container')?.getAttribute('language');
@@ -49,7 +49,7 @@ export default class IdsDataLabel extends Base {
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `
       <div class="${this.labelClass}">
         <ids-text class="label" font-size="16"></ids-text>
@@ -62,20 +62,20 @@ export default class IdsDataLabel extends Base {
    * Sets to label
    * @param {string} value label string
    */
-  set label(value) {
+  set label(value: string) {
     if (value) {
       this.setAttribute(attributes.LABEL, value);
       this.container.querySelector('.label').innerHTML = `${value}<span class="colon">${this.colon}</span>`;
     }
   }
 
-  get label() { return this.getAttribute(attributes.LABEL); }
+  get label(): string { return this.getAttribute(attributes.LABEL); }
 
   /**
    * Sets to label
    * @param {string} value label string
    */
-  set labelPosition(value) {
+  set labelPosition(value: string) {
     if (value) {
       this.setAttribute(attributes.LABEL_POSITION, value);
       this.container.className = `${value}-positioned`;
@@ -83,12 +83,12 @@ export default class IdsDataLabel extends Base {
     }
   }
 
-  get labelPosition() { return this.getAttribute(attributes.LABEL_POSITION); }
+  get labelPosition(): string { return this.getAttribute(attributes.LABEL_POSITION); }
 
   /**
    * @returns {string} css class for data-label
    */
-  get labelClass() {
+  get labelClass(): string {
     if (this.labelPosition) {
       return `${this.labelPosition}-positioned`;
     }
@@ -98,11 +98,11 @@ export default class IdsDataLabel extends Base {
   /**
    * @returns {string} css class for data-label
    */
-  get colon() {
+  get colon(): string {
     return this.labelPosition === 'left' ? ':' : '';
   }
 
-  set language(value) {
+  set language(value: string) {
     if (value) {
       this.setAttribute('language', value);
     }

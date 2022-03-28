@@ -5,7 +5,7 @@
 import IdsColor from '../../src/components/ids-color/ids-color';
 
 describe('Ids Color Component', () => {
-  let color;
+  let color: any;
   beforeEach(async () => {
     color = new IdsColor();
     document.body.appendChild(color);
@@ -19,7 +19,7 @@ describe('Ids Color Component', () => {
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
     color.remove();
-    const elem = new IdsColor();
+    const elem: any = new IdsColor();
     document.body.appendChild(elem);
     expect(document.querySelectorAll('ids-color').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();

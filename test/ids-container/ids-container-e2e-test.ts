@@ -10,7 +10,7 @@ describe('Ids Container e2e Tests', () => {
   });
 
   it('should not have hidden', async () => {
-    const isHidden = await page.$eval('ids-container', (container) => container.getAttribute('hidden'));
+    const isHidden = await page.$eval('ids-container', (container: any) => container.getAttribute('hidden'));
     expect(isHidden).toBe(null);
   });
 
