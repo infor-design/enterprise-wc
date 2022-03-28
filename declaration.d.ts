@@ -12,6 +12,7 @@ declare module '*.jpg';
 
 // For Side by Side Examples
 declare const $: any;
+declare const Soho: any;
 
 // For Tests
 declare const page: any;

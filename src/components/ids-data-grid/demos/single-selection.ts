@@ -1,9 +1,9 @@
-import IdsDataGrid from '../ids-data-grid';
-import IdsContainer from '../../ids-container/ids-container';
+import '../ids-data-grid';
+import '../../ids-container/ids-container';
 
 // Example for populating the DataGrid
-const dataGrid = document.querySelector('#data-grid-1');
-const container = document.querySelector('ids-container');
+const dataGrid: any = document.querySelector('#data-grid-1');
+const container: any = document.querySelector('ids-container');
 
 (async function init() {
   // Set Locale and wait for it to load
@@ -15,20 +15,12 @@ const container = document.querySelector('ids-container');
 
   // Set up columns
   columns.push({
-    id: 'selectionCheckbox',
+    id: 'selectionRadio',
     name: 'selection',
     sortable: false,
     resizable: false,
-    formatter: dataGrid.formatters.selectionCheckbox,
+    formatter: dataGrid.formatters.selectionRadio,
     align: 'center'
-  });
-  columns.push({
-    id: 'rowNumber',
-    name: '#',
-    formatter: dataGrid.formatters.rowNumber,
-    sortable: false,
-    readonly: true,
-    width: 65
   });
   columns.push({
     id: 'description',
@@ -143,23 +135,11 @@ const container = document.querySelector('ids-container');
   setData();
 
   // Event Handlers
-  dataGrid.addEventListener('rowselected', (e) => {
+  dataGrid.addEventListener('rowselected', (e: CustomEvent) => {
     console.info(`Row Selected`, e.detail);
   });
 
-  dataGrid.addEventListener('rowdeselected', (e) => {
-    console.info(`Row Deselected`, e.detail);
-  });
-
-  dataGrid.addEventListener('rowactivated', (e) => {
-    console.info(`Row Activated`, e.detail);
-  });
-
-  dataGrid.addEventListener('rowdeactivated', (e) => {
-    console.info(`Row Deactivated`, e.detail);
-  });
-
-  dataGrid.addEventListener('selectionchanged', (e) => {
+  dataGrid.addEventListener('selectionchanged', (e: CustomEvent) => {
     console.info(`Selection Changed`, e.detail);
   });
 }());

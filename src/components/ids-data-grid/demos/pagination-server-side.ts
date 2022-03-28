@@ -1,9 +1,9 @@
-import { IdsDataGrid } from '../ids-data-grid';
-import { IdsContainer } from '../../ids-container/ids-container';
+import '../ids-data-grid';
+import '../../ids-container/ids-container';
 
 // Example for populating the DataGrid
-const dataGrid = document.querySelector('ids-data-grid');
-const container = document.querySelector('ids-container');
+const dataGrid: any = document.querySelector('ids-data-grid');
+const container: any = document.querySelector('ids-container');
 
 (async function init() {
   // Set Locale and wait for it to load
@@ -79,10 +79,10 @@ const container = document.querySelector('ids-container');
   dataGrid.columns = columns;
   paginateData(1, dataGrid.pageSize);
 
-  dataGrid.pager.addEventListener('pagenumberchange', async (e) => {
+  dataGrid.pager.addEventListener('pagenumberchange', async (e: CustomEvent) => {
     paginateData(e.detail.value, dataGrid.pageSize);
   });
 
   console.info('Loading Time:', window.performance.now());
-  console.info('Page Memory:', window.performance.memory);
+  console.info('Page Memory:', (window.performance as any).memory);
 }());

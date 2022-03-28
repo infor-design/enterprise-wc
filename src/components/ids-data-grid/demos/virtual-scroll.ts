@@ -1,16 +1,11 @@
-import IdsDataGrid from '../ids-data-grid';
+import '../ids-data-grid';
 import productsJSON from '../../../assets/data/products.json';
 
-import css from '../../../assets/css/ids-data-grid/auto-fit.css';
-
-const cssLink = `<link href="${css}" rel="stylesheet">`;
-document.querySelector('head').insertAdjacentHTML('afterbegin', cssLink);
-
 // Example for populating the DataGrid
-const dataGrid = document.querySelector('#data-grid-auto-fit');
+const dataGrid: any = document.querySelector('#data-grid-1');
 
 // Do an ajax request
-const url = productsJSON;
+const url: any = productsJSON;
 const columns = [];
 
 // Set up columns

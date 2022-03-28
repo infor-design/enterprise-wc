@@ -75,5 +75,5 @@ const container = document.querySelector('ids-container');
   });
 
   console.info('Loading Time:', window.performance.now());
-  console.info('Page Memory:', window.performance.memory);
+  console.info('Page Memory:', (window.performance as any).memory);
 }());
