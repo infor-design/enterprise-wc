@@ -100,11 +100,11 @@ export function addDate(date: Date, number: number, unit: string): any {
   let newDate = null;
   const originalDate = date instanceof Date ? new Date(date.toISOString()) : new Date(date);
   switch (unit) {
-  case 'days':
-    newDate = new Date(originalDate.setDate(originalDate.getDate() + number));
-    break;
-  default:
-    break;
+    case 'days':
+      newDate = new Date(originalDate.setDate(originalDate.getDate() + number));
+      break;
+    default:
+      break;
   }
   return newDate;
 }
@@ -120,11 +120,11 @@ export function subtractDate(date: Date, number: number, unit: string): any {
   let newDate = null;
   const originalDate = date instanceof Date ? new Date(date.toISOString()) : new Date(date);
   switch (unit) {
-  case 'days':
-    newDate = new Date(originalDate.setDate(originalDate.getDate() - number));
-    break;
-  default:
-    break;
+    case 'days':
+      newDate = new Date(originalDate.setDate(originalDate.getDate() - number));
+      break;
+    default:
+      break;
   }
   return newDate;
 }
@@ -297,7 +297,7 @@ export function weeksInMonth(year: number, month: number, day: number | undefine
  * @param {number} startsOn day of the week to start on. Sunday is 0, Monday is 1, and so on
  * @returns {number} number of weeks in a given range of dates
  */
-export function weeksInRange(startDate: { getDay: () => number; }, endDate: any, startsOn = 0) {
+export function weeksInRange(startDate: any, endDate: any, startsOn = 0) {
   const daysInRange = daysDiff(startDate, endDate);
   const firstDayOfWeekIndex = (startDate.getDay() - startsOn + 7) % 7;
 

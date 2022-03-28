@@ -39,8 +39,8 @@ export default class IdsSearchField extends Base {
    * switch trigger buttons to the "alternate" style instead of an `app-menu` style.
    * @param {string} variantName the new color variant being applied to the Search Field
    */
-  onColorVariantRefresh(variantName: string) {
-    let btnVariantName = variantName;
+  onColorVariantRefresh(variantName?: string) {
+    let btnVariantName = variantName || '';
     if (variantName === 'app-menu') {
       btnVariantName = 'alternate';
     }

@@ -116,6 +116,6 @@ export function getEditableRect(rect: DOMRect) {
  * @param {string} className The class name
  * @returns {boolean|undefined} true, if element has given css class
  */
-export function hasClass(el, className) {
+export function hasClass(el: any, className: any) {
   return el?.classList.contains(className);
 }

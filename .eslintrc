@@ -141,7 +141,9 @@
       // Allow array methods to not require an explicit return value (for no return values in `.filter()`, `.map()`, etc)
       "array-callback-return": ["off", {
         "allowImplicit": true
-      }]
+      }],
+      // Allow short circuiting of functions
+      "no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTernary": true }]
     }
   }]
 }

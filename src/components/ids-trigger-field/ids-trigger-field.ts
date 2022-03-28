@@ -64,7 +64,7 @@ export default class IdsTriggerField extends Base {
    * Push color variant to the container element
    * @returns {void}
    */
-  onColorVariantRefresh() {
+  onColorVariantRefresh(): void {
     this.buttons.forEach((btn) => { btn.colorVariant = this.colorVariant; });
   }
 

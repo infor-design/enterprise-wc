@@ -3,13 +3,13 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-dropdown-base';
-import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
-import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
-import IdsInput from '../ids-input/ids-input';
-import IdsPopup from '../ids-popup/ids-popup';
-import IdsListBox from '../ids-list-box/ids-list-box';
-import IdsText from '../ids-text/ids-text';
-import IdsIcon from '../ids-icon/ids-icon';
+import '../ids-trigger-field/ids-trigger-field';
+import '../ids-trigger-field/ids-trigger-button';
+import '../ids-input/ids-input';
+import '../ids-popup/ids-popup';
+import '../ids-list-box/ids-list-box';
+import '../ids-text/ids-text';
+import '../ids-icon/ids-icon';
 
 import styles from './ids-dropdown.scss';
 
@@ -100,7 +100,7 @@ export default class IdsDropdown extends Base {
    * Push field-height/compact to the container element
    * @param {string} val the new field height setting
    */
-  onFieldHeightChange(val) {
+  onFieldHeightChange(val: string) {
     if (val) {
       const attr = val === 'compact' ? { name: 'compact', val: '' } : { name: 'field-height', val };
       this.container.setAttribute(attr.name, attr.val);
@@ -156,7 +156,7 @@ export default class IdsDropdown extends Base {
    * @returns {object} This API object for chaining
    */
   #addAria() {
-    const attrs = {
+    const attrs: any = {
       role: 'combobox',
       'aria-expanded': 'false',
       'aria-autocomplete': 'list',
@@ -169,7 +169,7 @@ export default class IdsDropdown extends Base {
       this.listBox.setAttribute('id', `ids-list-box-${this.id}`);
       this.listBox.setAttribute('aria-label', `Listbox`);
     }
-    Object.keys(attrs).forEach((key) => this.setAttribute(key, attrs[key]));
+    Object.keys(attrs).forEach((key: any) => this.setAttribute(key, attrs[key]));
     return this;
   }
 
@@ -350,7 +350,7 @@ export default class IdsDropdown extends Base {
    * @private
    * @param {HTMLElement} option the option to select
    */
-  #selectOption(option) {
+  #selectOption(option: HTMLElement) {
     option?.setAttribute('aria-selected', 'true');
     option?.classList.add('is-selected');
   }
@@ -360,7 +360,7 @@ export default class IdsDropdown extends Base {
    * @private
    * @param {HTMLElement} option the option to select
    */
-  #selectIcon(option) {
+  #selectIcon(option: HTMLElement) {
     let dropdownIcon = this.container?.querySelector('ids-icon[slot="trigger-start"]');
     if (!this.hasIcons) {
       if (dropdownIcon) {
@@ -368,7 +368,7 @@ export default class IdsDropdown extends Base {
       }
       return;
     }
-    const icon = option.querySelector('ids-icon');
+    const icon: any = option.querySelector('ids-icon');
 
     if (!dropdownIcon) {
       const dropdownIconContainer = document.createElement('span');
@@ -389,7 +389,7 @@ export default class IdsDropdown extends Base {
    * @private
    * @param {HTMLElement} option the option to select
    */
-  #selectTooltip(option) {
+  #selectTooltip(option: HTMLElement) {
     const tooltip = option.getAttribute('tooltip');
     if (tooltip) {
       this.tooltip = tooltip;
@@ -446,11 +446,11 @@ export default class IdsDropdown extends Base {
    * @param {Function} dataset The dataset to use with value, label ect...
    * @private
    */
-  #loadDataSet(dataset) {
+  #loadDataSet(dataset: any) {
     let html = '';
     const listbox = this.querySelector('ids-list-box');
     listbox.innerHTML = '';
-    dataset.forEach((option) => {
+    dataset.forEach((option: any) => {
       html += `<ids-list-box-option
         value="${option.value}">${option.label}
         </ids-list-box-option>`;
@@ -483,7 +483,7 @@ export default class IdsDropdown extends Base {
    * Close the dropdown popup
    * @param {boolean} noFocus if true do not focus on close
    */
-  close(noFocus) {
+  close(noFocus?: boolean) {
     this.popup.visible = false;
     this.container.active = false;
     this.#setAriaOnMenuClose();
@@ -513,12 +513,12 @@ export default class IdsDropdown extends Base {
    */
   #attachEventHandlers() {
     // Handle Key Typeahead
-    this.onEvent('keydownend', this, (e) => {
+    this.onEvent('keydownend', this, (e: CustomEvent) => {
       this.#typeAhead(e.detail.keys);
     });
 
     // Handle Clicking with the mouse on options
-    this.onEvent('click', this, (e) => {
+    this.onEvent('click', this, (e: any) => {
       if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
         this.value = e.target.getAttribute('value');
         return;
@@ -535,7 +535,7 @@ export default class IdsDropdown extends Base {
 
     // Disable text selection on tab (extra info in the screen reader)
     this.onEvent('focus', this.container, () => {
-      window.getSelection().removeAllRanges();
+      (window.getSelection() as any).removeAllRanges();
     });
 
     // Handle the Locale Change
@@ -563,7 +563,7 @@ export default class IdsDropdown extends Base {
    */
   #attachKeyboardListeners() {
     // Handle up and down arrow
-    this.listen(['ArrowDown', 'ArrowUp'], this, (e) => {
+    this.listen(['ArrowDown', 'ArrowUp'], this, (e: KeyboardEvent) => {
       if (!this.popup.visible) {
         this.open();
         return;
@@ -613,7 +613,7 @@ export default class IdsDropdown extends Base {
     });
 
     // Move to Next on Tab
-    this.listen(['Tab'], this, (e) => {
+    this.listen(['Tab'], this, (e: KeyboardEvent) => {
       if (!this.popup.visible) {
         return;
       }

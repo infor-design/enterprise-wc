@@ -7,12 +7,13 @@ import { deepClone } from '../../utils/ids-deep-clone-utils/ids-deep-clone-utils
 import Base from './ids-data-grid-base';
 import IdsDataSource from '../../core/ids-data-source';
 import IdsDataGridFormatters from './ids-data-grid-formatters';
-import IdsDataGridFilters from './ids-data-grid-filters';
+import IdsDataGridFilters, { IdsDataGridFilterConditions } from './ids-data-grid-filters';
 import '../ids-virtual-scroll/ids-virtual-scroll';
 
 import styles from './ids-data-grid.scss';
+import { IdsDataGridColumn } from './ids-data-grid-column';
 
-const rowHeights = {
+const rowHeights: any = {
   xs: 30,
   sm: 35,
   md: 40,
@@ -56,13 +57,13 @@ export default class IdsDataGrid extends Base {
   }
 
   /** Reference to datasource API */
-  datasource = new IdsDataSource();
+  datasource: any = new IdsDataSource();
 
   /** Filters instance attached to component  */
   filters = new IdsDataGridFilters(this);
 
   /** API for list of formatters */
-  formatters = new IdsDataGridFormatters();
+  formatters: any = new IdsDataGridFormatters();
 
   /**
    * Return the attributes we handle as getters/setters
@@ -123,7 +124,7 @@ export default class IdsDataGrid extends Base {
    * @param {Array} conditions An array of objects with the filter conditions.
    * @returns {void}
    */
-  applyFilter(conditions) {
+  applyFilter(conditions: Array<IdsDataGridFilterConditions>) {
     this.filters?.applyFilter(conditions);
   }
 
@@ -195,7 +196,7 @@ export default class IdsDataGrid extends Base {
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
       this.virtualScrollContainer.scrollTarget = this.container;
 
-      this.virtualScrollContainer.itemTemplate = (row, index) => this.rowTemplate(row, index);
+      this.virtualScrollContainer.itemTemplate = (row: any, index: number) => this.rowTemplate(row, index);
       this.virtualScrollContainer.itemHeight = this.rowPixelHeight;
       this.virtualScrollContainer.data = this.data;
     }
@@ -230,7 +231,7 @@ export default class IdsDataGrid extends Base {
     const html = `
       <div class="ids-data-grid-header" role="rowgroup" part="header">
         <div role="row" class="ids-data-grid-row">
-          ${this.columns.map((columnData) => `${this.headerCellTemplate(columnData)}`).join('')}
+          ${this.columns.map((columnData: any) => `${this.headerCellTemplate(columnData)}`).join('')}
         </div>
       </div>
     `;
@@ -240,10 +241,10 @@ export default class IdsDataGrid extends Base {
   /**
    * Returns the markup for a header cell.
    * @private
-   * @param {object} column The column info
+   * @param {IdsDataGridColumn} column The column info
    * @returns {string} The resuling header cell template
    */
-  headerCellTemplate(column) {
+  headerCellTemplate(column: IdsDataGridColumn) {
     const selectionCheckBoxTemplate = `
       <span class="ids-datagrid-checkbox-container">
         <span
@@ -315,7 +316,7 @@ export default class IdsDataGrid extends Base {
     }
     return `
       <div class="ids-data-grid-body" part="contents" role="rowgroup">
-        ${this.data.map((row, index) => this.rowTemplate(row, index)).join('')}
+        ${this.data.map((row: Record<string, any>, index: number) => this.rowTemplate(row, index)).join('')}
       </div>
     `;
   }
@@ -323,18 +324,18 @@ export default class IdsDataGrid extends Base {
   /**
    * Return the row's markup
    * @private
-   * @param {object} row The row data object
+   * @param {Record<string, unknown>} row The row data object
    * @param {number} index [description]
    * @returns {string} The html string for the row
    */
-  rowTemplate(row, index) {
+  rowTemplate(row: Record<string, unknown>, index: number) {
     let rowClasses = `${row?.rowSelected ? ' selected' : ''}`;
     rowClasses += `${row?.rowSelected && this.rowSelected === 'mixed' ? ' mixed' : ''}`;
     rowClasses += `${row?.rowActivated ? ' activated' : ''}`;
 
     return `
       <div role="row" part="row" aria-rowindex="${index + 1}" class="ids-data-grid-row${rowClasses}">
-        ${this.columns.map((column, j) => `
+        ${this.columns.map((column: IdsDataGridColumn, j: number) => `
           <span role="cell" part="cell" class="ids-data-grid-cell${column?.readonly ? ` readonly` : ``}" aria-colindex="${j + 1}">
             ${this.cellTemplate(row, column, index + 1, this)}
           </span>
@@ -352,7 +353,7 @@ export default class IdsDataGrid extends Base {
    * @param {object} api The entire datagrid api
    * @returns {string} The template to display
    */
-  cellTemplate(row, column, index, api) {
+  cellTemplate(row: Record<string, unknown>, column: IdsDataGridColumn, index: number, api: this) {
     return this.formatters[column?.formatter?.name || 'text'](row, column, index, api);
   }
 
@@ -365,7 +366,7 @@ export default class IdsDataGrid extends Base {
 
     // Add a sort Handler
     this.offEvent('click.sort', header);
-    this.onEvent('click.sort', header, (e) => {
+    this.onEvent('click.sort', header, (e: any) => {
       const sortableHeaderCell = e.target.closest('.is-sortable')?.closest('.ids-data-grid-header-cell');
       if (sortableHeaderCell) {
         this.setSortColumn(
@@ -378,10 +379,10 @@ export default class IdsDataGrid extends Base {
     // Add a cell click handler
     const body = this.shadowRoot.querySelector('.ids-data-grid-body');
     this.offEvent('click.body', body);
-    this.onEvent('click.body', body, (e) => {
+    this.onEvent('click.body', body, (e: any) => {
       const cell = e.target.closest('.ids-data-grid-cell');
       const row = cell.parentNode;
-      this.setActiveCell(parseInt(cell.getAttribute('aria-colindex') - 1, 10), parseInt(row.getAttribute('aria-rowindex') - 1, 10));
+      this.setActiveCell(cell.getAttribute('aria-colindex') - 1, row.getAttribute('aria-rowindex') - 1);
 
       if (this.rowSelection === 'mixed') {
         if (cell.children[0].classList.contains('ids-datagrid-checkbox-container')) {
@@ -397,7 +398,7 @@ export default class IdsDataGrid extends Base {
     // Add a click to the table header
     this.headerCheckbox = this.shadowRoot.querySelector('.ids-data-grid-header .ids-datagrid-checkbox-container .ids-datagrid-checkbox');
     this.offEvent('click.select', this.headerCheckbox);
-    this.onEvent('click.select', this.headerCheckbox, (e) => {
+    this.onEvent('click.select', this.headerCheckbox, (e: any) => {
       if (e.target.classList.contains('checked') || e.target.classList.contains('indeterminate')) {
         this.deSelectAllRows();
       } else {
@@ -426,7 +427,7 @@ export default class IdsDataGrid extends Base {
    */
   #attachKeyboardListeners() {
     // Handle arrow navigation
-    this.listen(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], this, (e) => {
+    this.listen(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], this, (e: KeyboardEvent) => {
       const key = e.key;
       const rowDiff = key === 'ArrowDown' ? 1 : (key === 'ArrowUp' ? -1 : 0); //eslint-disable-line
       const cellDiff = key === 'ArrowRight' ? 1 : (key === 'ArrowLeft' ? -1 : 0); //eslint-disable-line
@@ -462,7 +463,7 @@ export default class IdsDataGrid extends Base {
       return;
     }
 
-    this.columns.forEach((column, i) => {
+    this.columns.forEach((column: IdsDataGridColumn, i: number) => {
       // Special Columns
       if (column.id === 'selectionCheckbox' || column.id === 'selectionRadio') {
         column.width = 45;
@@ -492,7 +493,7 @@ export default class IdsDataGrid extends Base {
    * @param {string} id The field id to sort on
    * @param {boolean} ascending Set in ascending (lowest first) or descending (lowest last)
    */
-  setSortColumn(id, ascending = true) {
+  setSortColumn(id : string, ascending = true) {
     this.sortColumn = { id, ascending };
     this.datasource.sort(id, ascending, null);
     this.#syncSelectedRows();
@@ -504,11 +505,10 @@ export default class IdsDataGrid extends Base {
 
   /**
    * Set the sort column and sort direction on the UI only
-   * @private
    * @param {string} id The field id to sort on
    * @param {boolean} ascending Set in ascending (lowest first) or descending (lowest last)
    */
-  setSortState(id, ascending = true) {
+  setSortState(id: string, ascending = true) {
     const sortedHeaders = [...this.shadowRoot.querySelectorAll('.is-sortable')]
       .map((sorted) => sorted.closest('.ids-data-grid-header-cell'));
     sortedHeaders.forEach((header) => header.removeAttribute('aria-sort'));
@@ -524,8 +524,8 @@ export default class IdsDataGrid extends Base {
    * @param {string} columnId The column id
    * @returns {object} The column data
    */
-  columnDataById(columnId) {
-    return this.columns?.filter((column) => column.id === columnId)[0];
+  columnDataById(columnId: string) {
+    return this.columns?.filter((column: IdsDataGridColumn) => column.id === columnId)[0];
   }
 
   /**
@@ -533,9 +533,9 @@ export default class IdsDataGrid extends Base {
    * @param {HTMLElement} elem The column header element
    * @returns {object} The column data
    */
-  columnDataByHeaderElem(elem) {
+  columnDataByHeaderElem(elem: HTMLElement) {
     const columnId = elem?.getAttribute('data-column-id');
-    return this.columnDataById(columnId);
+    return this.columnDataById(columnId || '');
   }
 
   /**
@@ -589,21 +589,22 @@ export default class IdsDataGrid extends Base {
    * Set the list view to use virtual scrolling for a large amount of elements.
    * @param {boolean|string} value true to use virtual scrolling
    */
-  set virtualScroll(value) {
-    stringToBool(value)
-      ? this.setAttribute(attributes.VIRTUAL_SCROLL, 'true')
-      : this.removeAttribute(attributes.VIRTUAL_SCROLL);
-
+  set virtualScroll(value: boolean | string) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.VIRTUAL_SCROLL, 'true');
+    } else {
+      this.removeAttribute(attributes.VIRTUAL_SCROLL);
+    }
     this.rerender();
   }
 
-  get virtualScroll() { return stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
+  get virtualScroll(): boolean { return stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
 
   /**
    * Set the aria-label element in the DOM. This should be translated.
    * @param {string} value The aria label
    */
-  set label(value) {
+  set label(value: string) {
     if (value) {
       this.setAttribute(attributes.LABEL, value);
       this.shadowRoot.querySelector('.ids-data-grid').setAttribute('aria-label', value);
@@ -614,7 +615,7 @@ export default class IdsDataGrid extends Base {
     this.shadowRoot.querySelector('.ids-data-grid').setAttribute('aria-label', 'Data Grid');
   }
 
-  get label() { return this.getAttribute(attributes.LABEL) || 'Data Grid'; }
+  get label(): string { return this.getAttribute(attributes.LABEL) || 'Data Grid'; }
 
   /**
    * Set the row height between extra-small, small, medium and large (default)
@@ -702,7 +703,7 @@ export default class IdsDataGrid extends Base {
    */
   #syncSelectedRows() {
     this.state.selectedRows = [];
-    this.data?.forEach((row: any, index) => {
+    this.data?.forEach((row: any, index: number) => {
       if (row.rowSelected) {
         this.state.selectedRows.push(index);
       }
@@ -715,7 +716,7 @@ export default class IdsDataGrid extends Base {
    */
   #syncActivatedRow() {
     this.state.activatedRow = null;
-    this.data?.forEach((row: any, index) => {
+    this.data?.forEach((row: any, index: number) => {
       if (row.rowActivated) {
         this.state.activatedRow = index;
       }
@@ -728,14 +729,14 @@ export default class IdsDataGrid extends Base {
    */
   get selectedRows() {
     const selectedIndex = this.state.selectedRows;
-    return selectedIndex.map((index) => ({ index, data: this.data[index] }));
+    return selectedIndex.map((index: number) => ({ index, data: this.data[index] }));
   }
 
   /**
    * Get the activated row
-   * @returns {number} The index of the selected row
+   * @returns {any} The index of the selected row
    */
-  get activatedRow() {
+  get activatedRow(): any {
     if (this.state.activatedRow == null) {
       return null;
     }
@@ -744,9 +745,9 @@ export default class IdsDataGrid extends Base {
 
   /**
    * Handle selection via click/keyboard
-   * @param {number} row the row that was clicked
+   * @param {HTMLElement} row the row that was clicked
    */
-  #handleRowSelection(row) {
+  #handleRowSelection(row: any) {
     if (this.rowSelection === false) {
       return;
     }
@@ -774,7 +775,7 @@ export default class IdsDataGrid extends Base {
    * Handle activation via click/keyboard
    * @param {number} row the row that was clicked
    */
-  #handleRowActivation(row) {
+  #handleRowActivation(row: any) {
     const isActivated = row.classList.contains('activated');
     const currentRow = row.getAttribute('aria-rowindex') - 1;
 
@@ -799,7 +800,7 @@ export default class IdsDataGrid extends Base {
    * @param {number} index the zero based index
    * @returns {HTMLElement} The HTMLElement
    */
-  rowByIndex(index) {
+  rowByIndex(index: number) {
     return this.shadowRoot.querySelector(`.ids-data-grid-body .ids-data-grid-row[aria-rowindex="${index + 1}"]`);
   }
 
@@ -807,7 +808,7 @@ export default class IdsDataGrid extends Base {
    * Set a row to selected
    * @param {number} index the zero based index
    */
-  selectRow(index) {
+  selectRow(index: any) {
     let row = index;
     if (typeof index === 'number') {
       row = this.rowByIndex(index);
@@ -845,7 +846,7 @@ export default class IdsDataGrid extends Base {
    * Set a row to be deselected
    * @param {number} index the zero based index
    */
-  deSelectRow(index) {
+  deSelectRow(index: any) {
     let row = index;
     if (typeof index === 'number') {
       row = this.rowByIndex(index);
@@ -908,7 +909,7 @@ export default class IdsDataGrid extends Base {
    * Set a row to be deactivated
    * @param {number} index the zero based index
    */
-  deActivateRow(index) {
+  deActivateRow(index: any) {
     let row = index;
     if (!index) {
       return;
@@ -936,7 +937,7 @@ export default class IdsDataGrid extends Base {
    * Set a all rows to be selected
    */
   selectAllRows() {
-    this.data?.forEach((row, index) => {
+    this.data?.forEach((row: any, index: number) => {
       this.selectRow(index);
     });
 
@@ -953,7 +954,7 @@ export default class IdsDataGrid extends Base {
    * Set a all rows to be deselected
    */
   deSelectAllRows() {
-    this.data?.forEach((row, index) => {
+    this.data?.forEach((row: any, index: number) => {
       this.deSelectRow(index);
     });
 
@@ -1001,7 +1002,7 @@ export default class IdsDataGrid extends Base {
    * @private
    * @returns {number} The pixel height
    */
-  get rowPixelHeight() {
+  get rowPixelHeight(): any {
     return rowHeights[this.rowHeight];
   }
 
@@ -1026,7 +1027,7 @@ export default class IdsDataGrid extends Base {
    * @param {boolean} nofocus If true, do not focus the cell
    * @returns {object} the current active cell
    */
-  setActiveCell(cell, row, nofocus) {
+  setActiveCell(cell: number, row: number, nofocus?: boolean) {
     // TODO Hidden Columns
     if (row < 0 || cell < 0 || row > this.data.length - 1 || cell > this.columns.length - 1) {
       return this.activeCell;
@@ -1064,7 +1065,7 @@ export default class IdsDataGrid extends Base {
    */
   #setFilterRow() {
     const nodes = this.shadowRoot.querySelectorAll('.ids-data-grid-header-cell-filter-wrapper');
-    nodes.forEach((n) => n?.classList?.[this.filterable ? 'remove' : 'add']('hidden'));
+    nodes.forEach((n: HTMLElement) => n?.classList?.[this.filterable ? 'remove' : 'add']('hidden'));
     this.triggerEvent(this.filterable ? 'openfilterrow' : 'closefilterrow', this, {
       detail: { elem: this, filterable: this.filterable }
     });

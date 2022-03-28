@@ -7,7 +7,8 @@ export function camelCase(str: string): string {
   return (str.slice(0, 1).toLowerCase() + str.slice(1))
     .replace(/([-_ ]){1,}/g, ' ')
     .split(/[-_ ]/)
-    .reduce((cur, acc) => cur + acc[0]?.toUpperCase() + acc.substring(1));
+    // eslint-disable-next-line no-unsafe-optional-chaining
+    .reduce((cur: any, acc: any) => cur + (acc[0] as any)?.toUpperCase() + acc.substring(1));
 }
 
 /**
@@ -70,8 +71,8 @@ export function injectTemplate(str: string, obj: string): string {
  * @param  {...any} classes classes/expressions
  * @returns {string} ` class="c1 c2..."` || ""
  */
-export function buildClassAttrib(...classes: Record<string, unknown>[]): string {
-  const classAttrib = classes.reduce((attribStr: any, c) => {
+export function buildClassAttrib(...classes: any): string {
+  const classAttrib = classes.reduce((attribStr: any, c: any) => {
     if (attribStr && c) { return `${attribStr} ${c}`; }
 
     if (!attribStr && c) { return c; }
