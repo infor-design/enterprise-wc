@@ -184,6 +184,20 @@ If we decide to remove containment by the element, we can simply set it back to 
 popup.containingElem = document.querySelector('ids-container');
 ```
 
+### Alter placement programmatically
+
+In some cases, you may want to slightly adjust the values provided by the built-in placement methods.  The `onPlace` callback can be implemented for this purpose:
+
+```js
+popup.onPlace = (popupRect) => {
+    popupRect.x += 100;
+    popupRect.y += 50;
+    return popupRect;
+}
+```
+
+The `popupRect` argument provides access to the editable [`DOMRect`](https://developer.mozilla.org/en-US/docs/Web/API/DOMRect) object that the IdsPopup uses to place itself.  The callback returns the DOMRect with modified values.
+
 ## Usage Tips
 
 - When making a Popup that is placed in reference to an adjacent element, it must be placed AFTER it in the DOM. Placing it BEFORE the adjacent element can cause its placement to be incorrect on its first render.
