@@ -141,10 +141,12 @@ export default class IdsMenuButton extends Base {
    * @returns {IdsPopupMenu | null} element if one is present
    */
   get menuEl() {
-    // Check for a Shadow Root parent.
-    // If none, use `document`
-    const target = getClosestRootNode(this);
-    return target.querySelector(`ids-popup-menu[id="${this.menu}"]`) || target.querySelector(`ids-action-sheet[id="${this.menu}"]`);
+    const findPopup = (root) => root?.querySelector(`ids-popup-menu[id="${this.menu}"]`)
+      || root?.querySelector(`ids-action-sheet[id="${this.menu}"]`);
+
+    let el = findPopup(this.shadowRoot?.host?.parentNode);
+    if (!el) el = findPopup(getClosestRootNode(this));
+    return el;
   }
 
   /**

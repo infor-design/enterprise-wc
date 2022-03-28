@@ -211,7 +211,7 @@
 
     &.color-variant-alternate,
     &.color-variant-alternate-formatter {
-      @include text-white();
+      @include text-slate-20();
 
       opacity: 0.7;
 
@@ -224,7 +224,7 @@
       }
 
       &:hover {
-        @include text-white();
+        @include text-slate-10();
 
         opacity: 1;
       }
@@ -312,6 +312,11 @@
 
       .ripple-effect {
         background-color: var(--ids-color-palette-azure-40);
+      }
+
+      &.ids-menu-button.compact {
+        @include p-4();
+        @include pl-8();
       }
     }
   }
@@ -423,7 +428,7 @@
 
     // Dark Mode Alternate Formatter Styles
     &.color-variant-alternate-formatter {
-      @include text-slate-100();
+      @include text-slate-70();
 
       &.is-active,
       &:focus {

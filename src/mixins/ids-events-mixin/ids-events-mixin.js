@@ -406,6 +406,7 @@ const IdsEventsMixin = (superclass) => class extends superclass {
     let keys = '';
 
     this.onEvent('keydown.eventsmixin', target, (e) => {
+      if (typeof e.key === 'undefined' && e.detail?.nativeEvent) e = e.detail.nativeEvent;
       if (!isPrintable(e)) {
         return;
       }

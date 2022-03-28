@@ -97,6 +97,8 @@ Set up for displaying the show/hide password button:
 - `bgTransparent` {boolean} set the transparent background to readonly input.
 - `clearable` {boolean} set (x) button to clear text on click/key to input. See [Ids Clearable Mixin](../../mixins/ids-clearable-mixin/README.md) for more information.
 - `clearableForced` {boolean} set (x) button to clear text on click/key to input, forced to be on readonly.
+- `colorVariant` {string} set the current color variant.
+- `compact` {boolean} sets the component to be compact mode.
 - `caps-lock` {boolean} sets whether the capslock indicator appears when caps lock is on.
 - `dirty-tracker` {boolean} set dirty tracker to input. See [Ids Dirty Tracker Mixin](../../mixins/ids-dirty-tracker-mixin/README.md) for more information.
 - `disabled` {boolean} set disabled state.
@@ -104,6 +106,7 @@ Set up for displaying the show/hide password button:
 - `label` {string} set the label text.
 - `labelState` {string} indicates that a label is hidden (note that for accessibility reasons, `label` should still be specified). See [Ids Label State Mixin](../../mixins/ids-label-state-mixin/README.md) for more information.
 - `mask` {array|function} defines how to mask the input.  See [Ids Mask Mixin](../ids-mask/README.md) for more information.
+- `noMargins` {boolean} sets whether or not no-margins around the component.
 - `password-visible` {boolean} sets whether the password is currently visible must be paired with revealable-text = 'true' and type = 'password'.
 - `placeholder` {string} set the placeholder text to input.
 - `size` {string} set the input size, it will set `md` as defaults.

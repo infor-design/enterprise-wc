@@ -110,8 +110,7 @@ const container = document.querySelector('ids-container');
     id: 'methodSwitch',
     name: 'Method Switch',
     field: 'methodSwitch',
-    formatter: dataGrid.formatters.text,
-    filterType: 'select'
+    formatter: dataGrid.formatters.text
   });
   columns.push({
     id: 'trackDeprecationHistory',

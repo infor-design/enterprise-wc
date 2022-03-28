@@ -71,4 +71,8 @@
       width: $input-field-height-lg - 2px;
     }
   }
+
+  &.color-variant-alternate-formatter {
+    @include p-2();
+  }
 }

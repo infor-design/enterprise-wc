@@ -115,12 +115,17 @@ The promise should resolve and return data with id, value and label info.
 
 ## Settings
 
+- `colorVariant` {string} set the current color variant.
+- `compact` {boolean} sets the component to be compact mode.
 - `dirtyTracker` {boolean} Sets the dirty tracking feature on to indicate a changed
 - `disabled` {boolean} Sets dropdown to disabled
+- `fieldHeight` {string} defines the field height. See [Ids Field Height Mixin](../../mixins/ids-field-height-mixin/README.md) for more information.
 - `label` {string} Sets the label text
 - `language` {string} Sets the language for RTL and inner labels
 - `labelRequired` {boolean} Sets the validation required indicator on label text, it's default to `true`
+- `labelState` {string} indicates that a label is hidden (note that for accessibility reasons, `label` should still be specified). See [Ids Label State Mixin](../../mixins/ids-label-state-mixin/README.md) for more information.
 - `maxlength` {number | string} Maximum characters allowed in textarea
+- `noMargins` {boolean} sets whether or not no-margins around the component.
 - `placeholder` {string} Sets the placeholder text
 - `size` {'sm ' | 'md' | 'lg' | 'full' | string} Sets the size (width)
 - `readonly` {boolean} Sets to readonly state

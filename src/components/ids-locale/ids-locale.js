@@ -522,6 +522,9 @@ class IdsLocale {
   parseDate(dateString, options) {
     const localeData = this.loadedLocales.get(options?.locale || this.locale.name);
     let sourceFormat = options?.dateFormat || localeData.calendars[0]?.dateFormat.datetime;
+    if (!options?.dateFormat && !options?.dateStyle && options?.timeStyle === 'short') {
+      sourceFormat = localeData.calendars[0]?.timeFormat || 'hh:mm a';
+    }
     sourceFormat = sourceFormat.replace('. ', '.').replace('. ', '.');
     dateString = dateString.replace('. ', '.').replace('. ', '.');
 
@@ -538,13 +541,10 @@ class IdsLocale {
     // Remove AM/PM
     const separator = this.#determineSeparator(sourceFormat);
     const dayPeriods = localeData.calendars[0].dayPeriods;
-    const is12Hr = dateString.indexOf(dayPeriods[0]) > -1 || dateString.indexOf(dayPeriods[1]) > -1;
-    const isAM = dateString.indexOf(dayPeriods[0]) > -1;
+    const is12Hr = (new RegExp(`${dayPeriods.join('|')}`, 'gi')).test(dateString);
+    const isAM = (new RegExp(dayPeriods[0], 'gi')).test(dateString);
     if (is12Hr) {
-      dateString = dateString.replace(`${dayPeriods[0]} `, '');
-      dateString = dateString.replace(`${dayPeriods[1]} `, '');
-      dateString = dateString.replace(`${dayPeriods[0]}`, '');
-      dateString = dateString.replace(`${dayPeriods[1]}`, '');
+      dateString = dateString.replace((new RegExp(`(${dayPeriods.join('|')})\\s?`, 'gi')), '');
     }
 
     // Parse the date
@@ -553,6 +553,9 @@ class IdsLocale {
 
     // Parse the time part
     let timePieces = dateComponents[1] ? dateComponents[1].split(':') : [0, 0, 0, 0];
+    if (!dateComponents[1] && dateComponents[0].indexOf(':') > -1) {
+      timePieces = dateComponents[0].split(':');
+    }
     if (dateComponents[1] && dateComponents[1].indexOf('.') > -1) {
       timePieces = dateComponents[1].split('.');
     }
