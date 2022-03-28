@@ -4,15 +4,10 @@ import styles from './ids-breadcrumb.scss';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import IdsMenuButton from '../ids-menu-button/ids-menu-button';
-import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
-import IdsPopup from '../ids-popup/ids-popup';
-
-import IdsMenuHeader from '../ids-menu/ids-menu-header';
-import IdsMenu from '../ids-menu/ids-menu';
-import IdsMenuItem from '../ids-menu/ids-menu-item';
-import IdsMenuGroup from '../ids-menu/ids-menu-group';
-import IdsSeparator from '../ids-separator/ids-separator';
+import '../ids-menu-button/ids-menu-button';
+import '../ids-menu/ids-menu-group';
+import '../ids-menu/ids-menu-item';
+import '../ids-popup-menu/ids-popup-menu';
 
 /**
  *  IDS Breadcrumb Component
@@ -27,11 +22,18 @@ import IdsSeparator from '../ids-separator/ids-separator';
 export default class IdsBreadcrumb extends Base {
   constructor() {
     super();
-    this.#init();
   }
 
   connectedCallback() {
     super.connectedCallback();
+
+    this.setAttribute('role', 'list');
+    this.#attachEventHandlers();
+
+    if (this.truncate) {
+      this.#buildOverflowMenu();
+    }
+    this.setActiveBreadrcrumb();
   }
 
   /**
@@ -46,8 +48,6 @@ export default class IdsBreadcrumb extends Base {
     ];
   }
 
-  #itemsCollapsed = [];
-
   /**
    * Attach the resize observer.
    * @private
@@ -55,49 +55,70 @@ export default class IdsBreadcrumb extends Base {
    */
   #resizeObserver = new ResizeObserver(() => this.#resize());
 
+  #attachEventHandlers() {
+    this.onEvent('click', this, (e) => {
+      if (e.target.tagName === 'IDS-HYPERLINK' && typeof this.onBreadcrumbActivate === 'function') {
+        this.onBreadcrumbActivate(e.target, this.current);
+      }
+    });
+
+    this.onEvent('beforeshow', this.popupMenuEl, (e) => {
+      // Reflect this event to the host element
+      this.triggerEvent('beforeshow', this, {
+        bubbles: e.bubbles,
+        detail: e.detail
+      });
+
+      this.refreshOverflowedItems();
+    });
+
+    this.onEvent('selected', this.popupMenuEl, (e) => {
+      // Reflect this event to the host element
+      this.triggerEvent('beforeshow', this, {
+        bubbles: e.bubbles,
+        detail: e.detail
+      });
+
+      // Reflect selection of a menu item on the corresponding Breadcrumb item
+      if (e.target.overflowTarget && typeof this.onBreadcrumbActivate === 'function') {
+        this.onBreadcrumbActivate(e.target.overflowTarget, this.current);
+      }
+    });
+  }
+
+  /**
+   * Constructs the overflow
+   */
+  #buildOverflowMenu() {
+    const group = this.popupMenuGroupEl;
+    const menuItemHTML = [...this.children].map((elem) => `<ids-menu-item>${elem.textContent}</ids-menu-item>`).join('');
+    group.insertAdjacentHTML('afterbegin', menuItemHTML);
+
+    // Connect all "More Action" items generated from Breadcrumb Links to their
+    // real counterparts in the list
+    this.overflowMenuItems.forEach((item, i) => {
+      item.overflowTarget = this.children[i];
+    });
+  }
+
+  /**
+   * Destroys the overflow
+   */
+  #emptyOverflowMenu() {
+    if (this.popupMenuGroupEl) {
+      this.popupMenuGroupEl.innerHTML = '';
+    }
+  }
+
   /**
    * Resize
    * @private
    * @returns {object} This API object for chaining
    */
   #resize() {
-    const widthLimit = this.clientWidth - 50;
-    const elementsToRemove = [];
-    let totalWidth = [...this.children].map((elem) => elem.offsetWidth).reduce((prev, cur) => prev + cur, 0);
+    this.refreshOverflowedItems();
 
-    // check if there is any element to collapse
-    for (const elem of this.children) {
-      if (totalWidth >= widthLimit) {
-        elementsToRemove.push(elem);
-        totalWidth -= elem.offsetWidth;
-      }
-    }
-
-    this.#itemsCollapsed = this.#itemsCollapsed.concat(elementsToRemove.map((elem) => ({
-      element: elem,
-      width: elem.offsetWidth,
-    })));
-    elementsToRemove.forEach((elem) => this.removeChild(elem));
-
-    // check if there is any element to show
-    while (totalWidth < widthLimit && this.#itemsCollapsed.length) {
-      const breadCrumb = this.#itemsCollapsed.pop();
-      if (totalWidth + breadCrumb.width < widthLimit) {
-        totalWidth += breadCrumb.width;
-        this.insertBefore(breadCrumb.element, this.firstElementChild);
-      } else {
-        this.#itemsCollapsed.push(breadCrumb);
-        break;
-      }
-    }
-
-    const menuStr = this.#itemsCollapsed
-      .map((item) => item.element.innerHTML)
-      .reduce((prev, cur) => `${prev}<ids-menu-item>${cur}</ids-menu-item>`, '');
-
-    this.container.querySelector('ids-menu-group').innerHTML = menuStr;
-
-    if (this.#itemsCollapsed.length) {
+    if (this.hasVisibleActions()) {
       this.#showBreadCrumbMenu();
     } else {
       this.#hideBreadCrumbMenu();
@@ -107,24 +128,13 @@ export default class IdsBreadcrumb extends Base {
   }
 
   /**
-   * Sets the 'role' attribute to 'list'.
-   * Also set the font weight, color and role of each child by removing each and re-adding.
-   * @private
-   */
-  #init() {
-    this.setAttribute('role', 'list');
-    const stack = [];
-    while (this.lastElementChild) { stack.push(this.delete()); }
-    while (stack.length) { this.add(stack.pop()); }
-  }
-
-  /**
    * Returns the Inner template contents
    * @returns {string} The template
    */
   template() {
+    const truncated = this.truncate ? ' truncate' : '';
     return `
-      <div class="ids-breadcrumb">
+      <div class="ids-breadcrumb${truncated}">
         <div class="ids-breadcrumb-menu hidden">
           <ids-menu-button id="icon-button" menu="icon-menu">
             <ids-icon slot="icon" icon="more"></ids-icon>
@@ -135,7 +145,6 @@ export default class IdsBreadcrumb extends Base {
             </ids-menu-group>
           </ids-popup-menu>
         </div>
-        
         <nav part="breadcrumb">
           <slot></slot>
         </nav>
@@ -147,10 +156,6 @@ export default class IdsBreadcrumb extends Base {
    * @param {Element} breadcrumb The HTML element to add
    */
   add(breadcrumb) {
-    if (this.lastElementChild) {
-      this.lastElementChild.setAttribute('font-weight', '');
-    }
-    breadcrumb.setAttribute('font-weight', 'bold');
     breadcrumb.setAttribute('color', 'unset');
     breadcrumb.setAttribute('role', 'listitem');
     breadcrumb.setAttribute('text-decoration', 'hover');
@@ -159,13 +164,7 @@ export default class IdsBreadcrumb extends Base {
       breadcrumb.setAttribute('font-size', 14);
     }
 
-    if (breadcrumb.getAttribute('href')) {
-      this.onEvent('click.link', breadcrumb, (e) => {
-        // eslint-disable-next-line no-console
-        console.log(`${e.target.innerHTML} Clicked!`);
-      });
-    }
-
+    this.setActiveBreadrcrumb(breadcrumb, this.lastElementChild);
     this.appendChild(breadcrumb);
   }
 
@@ -177,7 +176,7 @@ export default class IdsBreadcrumb extends Base {
     if (this.lastElementChild) {
       const breadcrumb = this.removeChild(this.lastElementChild);
       if (this.lastElementChild) {
-        this.lastElementChild.setAttribute('font-weight', 'bold');
+        this.setActiveBreadrcrumb();
       }
       return breadcrumb;
     }
@@ -185,13 +184,50 @@ export default class IdsBreadcrumb extends Base {
   }
 
   #showBreadCrumbMenu() {
-    this.container.querySelector('.ids-breadcrumb-menu').classList.remove('hidden');
+    this.menuContainerEl.classList.remove(attributes.HIDDEN);
+    this.container.classList.add('truncate');
     this.container.querySelector('nav').classList.add('truncate');
   }
 
   #hideBreadCrumbMenu() {
-    this.container.querySelector('.ids-breadcrumb-menu').classList.add('hidden');
+    this.menuContainerEl.classList.add(attributes.HIDDEN);
+    this.container.classList.remove('truncate');
     this.container.querySelector('nav').classList.remove('truncate');
+  }
+
+  get current() {
+    return this.querySelector('[font-weight="bold"]');
+  }
+
+  get buttonEl() {
+    return this.container.querySelector('ids-menu-button');
+  }
+
+  get menuContainerEl() {
+    return this.container.querySelector('.ids-breadcrumb-menu');
+  }
+
+  get navElem() {
+    return this.container.querySelector('nav');
+  }
+
+  /**
+   * @readonly
+   * @returns {Array<HTMLElement>} list of menu items that mirror Toolbar items
+   */
+  get overflowMenuItems() {
+    if (this.popupMenuEl) {
+      return [...this.popupMenuGroupEl.children];
+    }
+    return [];
+  }
+
+  get popupMenuEl() {
+    return this.container.querySelector('ids-popup-menu');
+  }
+
+  get popupMenuGroupEl() {
+    return this.container.querySelector('ids-menu-group');
   }
 
   /**
@@ -204,11 +240,13 @@ export default class IdsBreadcrumb extends Base {
       // Set observer for resize
       this.#resizeObserver.disconnect();
       this.#resizeObserver.observe(this.container);
+      this.#buildOverflowMenu();
       this.#showBreadCrumbMenu();
       this.setAttribute(attributes.TRUNCATE, value);
     } else {
       this.#resizeObserver.disconnect();
       this.#hideBreadCrumbMenu();
+      this.#emptyOverflowMenu();
       this.removeAttribute(attributes.TRUNCATE);
     }
   }
@@ -226,5 +264,75 @@ export default class IdsBreadcrumb extends Base {
 
   get padding() {
     return this.getAttribute(attributes.PADDING);
+  }
+
+  /**
+   * @param {HTMLElement} item reference to the toolbar item to be checked for overflow
+   * @returns {boolean} true if the item is a toolbar member and should be displayed by overflow
+   */
+  isOverflowed(item) {
+    if (!this.contains(item)) {
+      return false;
+    }
+    if (item.hidden) {
+      return false;
+    }
+
+    const itemRect = item.getBoundingClientRect();
+    const sectionRect = this.navElem.getBoundingClientRect();
+
+    const isBeyondRightEdge = itemRect.right > sectionRect.right;
+    const isBeyondLeftEdge = itemRect.left < sectionRect.left;
+
+    return isBeyondLeftEdge || isBeyondRightEdge;
+  }
+
+  /**
+   * Refreshes the visible state of menu items representing "overflowed" elements
+   * @returns {void}
+   */
+  refreshOverflowedItems() {
+    this.overflowMenuItems.forEach((item) => {
+      const doHide = !this.isOverflowed(item.overflowTarget);
+      item.hidden = doHide;
+      if (doHide) {
+        item.overflowTarget?.removeAttribute(attributes.OVERFLOWED);
+      } else {
+        item.overflowTarget?.setAttribute(attributes.OVERFLOWED, '');
+      }
+    });
+
+    this.menuContainerEl.hidden = !this.hasVisibleActions();
+    this.buttonEl.hidden = !this.hasVisibleActions();
+    this.buttonEl.disabled = !this.hasEnabledActions();
+  }
+
+  /**
+   * @returns {boolean} true if there are currently visible actions in this menu
+   */
+  hasVisibleActions() {
+    return this.container.querySelectorAll('ids-menu-group > ids-menu-item:not([hidden])').length > 0;
+  }
+
+  /**
+   * @returns {boolean} true if there are currently enabled (read: not disabled) actions in this menu
+   */
+  hasEnabledActions() {
+    return this.container.querySelectorAll('ids-menu-group > ids-menu-item:not([disabled])').length > 0;
+  }
+
+  /**
+   * @param {HTMLElement} el the target breadcrumb link
+   * @param {HTMLElement} [previousActiveBreadcrumbEl] a previously-activated Breadcrumb, if applicable
+   */
+  setActiveBreadrcrumb(el, previousActiveBreadcrumbEl) {
+    let targetEl = el;
+    if (!this.contains(targetEl)) {
+      targetEl = this.lastElementChild;
+    }
+    if (previousActiveBreadcrumbEl) {
+      previousActiveBreadcrumbEl.removeAttribute(attributes.FONT_WEIGHT);
+    }
+    targetEl.setAttribute(attributes.FONT_WEIGHT, 'bold');
   }
 }
