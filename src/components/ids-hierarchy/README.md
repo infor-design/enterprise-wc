@@ -6,7 +6,7 @@ The IDS Hierarchy (Org Chart) component is a UI pattern that is comprised expand
 
 ## Use Cases
 
-The main use case for the IDS Hierarchy component is to create an organizational chart with each leaf (card) containing details on employees and their hierachy in the org.
+The main use case for the IDS Hierarchy component is to create an organizational chart with each leaf (card) containing details on employees and their hierarchy in the org.
 
 ## Terminology
 
@@ -15,7 +15,7 @@ The main use case for the IDS Hierarchy component is to create an organizational
 - **heading**: A named `slot` that usually consists of `ids-text` component and displays the heading of the hierarchy item.
 - **subheading**: A named `slot` that usually consists of `ids-text` component and displays the subheading of the hierarchy item.
 - **micro**: A named `slot` that usually consists of `ids-text` component and displays the micro text of the hierarchy item.
-- **icon-btn**: An element in the `ids-hierarchy-item` that acts as the trigger for expandind and collapsing the hierarchy item.
+- **icon-btn**: An element in the `ids-hierarchy-item` that acts as the trigger for expanding and collapsing the hierarchy item.
 - **legend**: A component called `ids-hierarchy-legend` that is used to display the legend for the org chart. It consists of a text property and color-variant.
 
 ## Features (With Code Examples)
@@ -149,3 +149,13 @@ The `ids-hierarchy-item` and `ids-hierarchy-legend-item` make use of the [IdsCol
 ## Keyboard Guidelines
 
 - **Enter or Space**: When focus is on an `icon-btn`, this keystroke toggles the expansion of the corresponding leaf. If collapsed, the leaf is expanded, and its aria-expanded state is set to true. If expanded, the leaf is collapsed and its aria-expanded state is set to false.
+
+## Converting from Previous Versions (Breaking Changes)
+
+**4.x to 5.x**
+
+- The Hierarchy component has been changed to a web component and use with `ids-hierarchy`, `ids-hierarchy-item` and `ids-hierarchy-legend`.
+- Markup has changed to a custom element `<ids-hidden>` (see examples above)
+- Can now be imported as a single JS file and used with encapsulated styles
+- The multi level hierarchy has been removed (as is multi root)
+- The paging hierarchy has been discontinued

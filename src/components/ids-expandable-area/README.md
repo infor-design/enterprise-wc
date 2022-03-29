@@ -74,4 +74,14 @@ Ids Expandable Area - Toggle Button
 
 - **Enter or Space**: When focus is on an `expander`, this keystroke toggles the expansion of the corresponding expandable area panel. If collapsed, the panel is expanded, and its aria-expanded state is set to true. If expanded, the panel is collapsed and its aria-expanded state is set to false.
 
-## Accessibility
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+- Expandable Area and Field Set were separated
+
+**4.x to 5.x**
+- The ExpandableArea component has been changed to a web component and renamed to `<ids-expandable-area>`.
+- Markup has changed to a custom element `<ids-expandable-area` (see examples above)
+- Can now be imported as a single JS file and used with encapsulated styles
+- The settings are changed and uses flexible slots
+- The events now use native events / custom events

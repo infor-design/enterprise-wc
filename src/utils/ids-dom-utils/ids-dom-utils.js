@@ -69,7 +69,7 @@ export function transitionToPromise(el, property, value) {
   return new Promise((resolve) => {
     el.style[property] = value;
     const transitionEnded = (e) => {
-      if (e.propertyName !== property) return;
+      if (e.propertyName !== property) resolve();
       el.removeEventListener('transitionend', transitionEnded);
       resolve();
     };
@@ -87,7 +87,7 @@ export function transitionToPromise(el, property, value) {
 export function waitForTransitionEnd(el, property) {
   return new Promise((resolve) => {
     const transitionEnded = (e) => {
-      if (e.propertyName !== property) return;
+      if (e.propertyName !== property) resolve();
       el.removeEventListener('transitionend', transitionEnded);
       resolve();
     };
@@ -108,4 +108,14 @@ export function getEditableRect(rect) {
   return {
     bottom, left, right, top, height, width, x, y
   };
+}
+
+/**
+ * Check if given element has given css class
+ * @param {HTMLElement} el the element to act on
+ * @param {string} className The class name
+ * @returns {boolean|undefined} true, if element has given css class
+ */
+export function hasClass(el, className) {
+  return el?.classList.contains(className);
 }

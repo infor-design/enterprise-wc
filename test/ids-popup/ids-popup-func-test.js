@@ -619,12 +619,14 @@ describe('IdsPopup Component', () => {
     popup.visible = true;
     popup.show();
     await wait(200);
-    expect(popup.container.classList.contains('visible')).toBeTruthy();
+    expect(popup.hasAttribute('aria-hidden')).toBeFalsy();
+    expect(popup.hasAttribute('visible')).toBeTruthy();
 
     popup.visible = false;
     popup.hide();
     await wait(300);
-    expect(popup.container.classList.contains('visible')).toBeFalsy();
+    expect(popup.hasAttribute('aria-hidden')).toBeTruthy();
+    expect(popup.hasAttribute('visible')).toBeFalsy();
   });
 
   it('can enable/disable container bleed', () => {
@@ -876,5 +878,21 @@ describe('IdsPopup Component', () => {
     } catch (e) {
       expect(e).toBeDefined();
     }
+  });
+
+  it('can alter placement values using the onPlace callback', async () => {
+    popup.onPlace = jest.fn(() => ({
+      x: 300,
+      y: 300,
+      width: 50,
+      height: 50,
+      top: 300,
+      right: 350,
+      bottom: 350,
+      left: 300
+    }));
+    popup.visible = true;
+
+    expect(popup.onPlace.mock.calls.length).toBe(1);
   });
 });

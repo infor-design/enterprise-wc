@@ -399,6 +399,7 @@ export default class IdsToolbarMoreActions extends Base {
     // Connects Overflow Menu subitems with corresponding menu items in the Toolbar
     // (generally by way of IdsMenuButtons or other menu-driven components)
     const handleSubmenu = (thisItem, overflowTargetMenu) => {
+      if (!overflowTargetMenu) return;
       [...thisItem.submenu.children].forEach((item, i) => {
         item.overflowTarget = overflowTargetMenu.items[i];
         if (item.submenu) {

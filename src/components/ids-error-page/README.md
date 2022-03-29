@@ -35,3 +35,14 @@ The IDS Error Page Component builds on top of the [Modal]('../ids-modal/README.m
 ## Keyboard Shortcuts
 
 - Not Applicable as this is a static page
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+- This is a new concept that did not exist in 3.x
+
+**4.x to 5.x**
+- The ErrorPage component has been changed to a web component and renamed to `ids-error-page`.
+- Markup has changed to a custom element `<ids-error-page>` (see examples above)
+- Can now be imported as a single JS file and used with encapsulated styles
+- The options are all are set via properties/attributes.

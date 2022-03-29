@@ -413,7 +413,8 @@ describe('IdsDataGrid Component', () => {
       });
 
       dataGrid.addEventListener('sort', mockCallback);
-      dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell')[2].click();
+      const headers = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell');
+      headers[2].querySelector('.ids-data-grid-header-cell-content-wrapper').click();
 
       expect(mockCallback.mock.calls.length).toBe(1);
     });
@@ -824,11 +825,14 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.selectedRows.length).toBe(1);
       expect(dataGrid.selectedRows[0].index).toBe(1);
 
-      dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell')[2].click();
+      let headers = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell');
+      headers[2].querySelector('.ids-data-grid-header-cell-content-wrapper').click();
+
       expect(dataGrid.selectedRows.length).toBe(1);
       expect(dataGrid.selectedRows[0].index).toBe(1);
 
-      dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell')[2].click();
+      headers = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell');
+      headers[2].querySelector('.ids-data-grid-header-cell-content-wrapper').click();
       expect(dataGrid.selectedRows.length).toBe(1);
       expect(dataGrid.selectedRows[0].index).toBe(7);
     });
@@ -847,12 +851,14 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.activatedRow.index).toBe(2);
       expect(dataGrid.selectedRows[0].index).toBe(1);
 
-      dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell')[2].click();
+      let headers = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell');
+      headers[2].querySelector('.ids-data-grid-header-cell-content-wrapper').click();
       expect(dataGrid.selectedRows.length).toBe(1);
       expect(dataGrid.activatedRow.index).toBe(2);
       expect(dataGrid.selectedRows[0].index).toBe(1);
 
-      dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell')[2].click();
+      headers = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell');
+      headers[2].querySelector('.ids-data-grid-header-cell-content-wrapper').click();
       expect(dataGrid.selectedRows.length).toBe(1);
       expect(dataGrid.selectedRows[0].index).toBe(7);
       expect(dataGrid.activatedRow.index).toBe(6);

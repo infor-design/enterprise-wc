@@ -298,10 +298,21 @@ The IDS Button doesn't contain any interactions beyond a standard HTMLButtonElem
 
 - Try not to provide an over-abundance of Toolbar Actions.  The Toolbar's intention is to provide contextual actions for a specific workflow. Providing too many actions can cause end-user confusion.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-Ids Toolbar closely resembles the 4.x Flex Toolbar in structure and functionality.  The main differences are:
+**3.x to 4.x**
 
-- Toolbar Sections and the More Actions Button are now standardized components.
+- Toolbar was implemented in v4.0.0
+- Toolbar has new markup and can be invoked with `$('#my-toolbar').toolbar();`
+- Flex Toolbar replaced/deprecated Toolbar in v4.3.0
+- Flex Toolbar has new markup and can be invoked with `$('#my-toolbar').toolbarflex();`
+
+**4.x to 5.x**
+
+- Flex Toolbar is now a custom element `<ids-toolbar></ids-toolbar>`
+- Toolbar Sections are now codified as components `<ids-toolbar-section>`
+- More Actions Buttons are now a codified components `<ids-toolbar-more-actions>`
+- Toolbars now implement `tabbable` to enable use of (Shift)/Tab keys for navigation
 - Toolbar Section behavior is now controlled by attributes (`favor`, `type`, etc) instead of CSS classes.
-- The More Actions button can be configured NOT to automatically show overflow items by omitting its `overflow` attribute.
+- Not including a More Actions button in markup explicitly disables the menu from being displayed.
+- The More Actions button can be configured NOT to automatically show overflow items by omitting its `overflow` attribute.  This allows for pre-defined menu items to be displayed without items being spilled over to the overflow menu.

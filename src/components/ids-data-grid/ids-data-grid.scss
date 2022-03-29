@@ -1,4 +1,5 @@
 @import '../../core/ids-base';
+@import './ids-data-grid-filters';
 @import '../../mixins/sass/ids-checkbox-mixin';
 @import '../../mixins/sass/ids-radio-mixin';
 
@@ -81,7 +82,6 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     @include border-0();
     @include border-l-1();
     @include border-solid();
-    @include flex();
 
     background-color: $header-bg-color;
     border-color: $cell-border-color;
@@ -91,6 +91,10 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     &:first-child {
       border-left-style: hidden;
     }
+  }
+
+  .ids-data-grid-header-cell-content-wrapper {
+    @include flex();
   }
 
   .ids-data-grid-header-text {
@@ -119,45 +123,22 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
   // Sort Hover states
   .is-sortable {
-    ids-icon {
+    .sort-indicator ids-icon {
       color: var(--ids-color-palette-slate-50);
       opacity: 0;
       transition: opacity 0.3s cubic-bezier(0.17, 0.04, 0.03, 0.94) 0s;
-    }
 
-    ids-icon:first-child {
-      @include relative();
-
-      top: 4px;
-      transform: rotate(180deg);
-    }
-
-    ids-icon:last-child {
-      @include relative();
-
-      top: -9px;
-    }
-
-    &[aria-sort='descending'] ids-icon {
       &:first-child {
-        opacity: 1;
+        @include relative();
+
+        top: 4px;
+        transform: rotate(180deg);
       }
 
       &:last-child {
-        color: var(--ids-color-palette-white);
-        opacity: 1;
-      }
-    }
+        @include relative();
 
-    // stylelint-disable
-    &[aria-sort='ascending'] ids-icon {
-      &:first-child {
-        color: var(--ids-color-palette-white);
-        opacity: 1;
-      }
-
-      &:last-child {
-        opacity: 1;
+        top: -9px;
       }
     }
 
@@ -167,6 +148,30 @@ $header-bg-color: var(--ids-color-palette-slate-80);
       .sort-indicator ids-icon {
         opacity: 1;
       }
+    }
+  }
+
+  // Ascending sort
+  [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon {
+    &:first-child {
+      color: var(--ids-color-palette-white);
+      opacity: 1;
+    }
+
+    &:last-child {
+      opacity: 1;
+    }
+  }
+
+  // Descending sort
+  [aria-sort='descending'] .is-sortable .sort-indicator ids-icon {
+    &:first-child {
+      opacity: 1;
+    }
+
+    &:last-child {
+      color: var(--ids-color-palette-white);
+      opacity: 1;
     }
   }
 
@@ -212,6 +217,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     // Focus State
     &:focus {
       @include shadow();
+
       outline: 1px solid var(--ids-color-palette-azure-60);
       outline-offset: -1px;
     }
@@ -227,6 +233,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   .ids-datagrid-checkbox {
     @include checkbox-unchecked();
     @include cursor-pointer();
+
     position: relative;
     left: 0;
     top: 0;
@@ -258,6 +265,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   .ids-datagrid-radio {
     @include radio-unchecked();
     @include cursor-pointer();
+
     position: relative;
     left: 0;
     top: 0;
@@ -341,16 +349,12 @@ $header-bg-color: var(--ids-color-palette-slate-80);
         @include text-slate-50();
       }
 
-      &[aria-sort='descending'] ids-icon {
-        &:last-child {
-          @include text-slate-20();
-        }
+      &[aria-sort='descending'] ids-icon:last-child {
+        @include text-slate-20();
       }
 
-      &[aria-sort='ascending'] ids-icon {
-        &:first-child {
-          @include text-slate-20();
-        }
+      &[aria-sort='ascending'] ids-icon:first-child {
+        @include text-slate-20();
       }
     }
 
@@ -377,22 +381,16 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     @include text-slate-100();
   }
 
-  .is-sortable {
-    ids-icon {
-      @include text-slate-40();
-    }
+  .is-sortable .sort-indicator ids-icon {
+    @include text-slate-40();
+  }
 
-    &[aria-sort='descending'] ids-icon {
-      &:last-child {
-        @include text-slate-100();
-      }
-    }
+  [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
+    @include text-slate-100();
+  }
 
-    &[aria-sort='ascending'] ids-icon {
-      &:first-child {
-        @include text-slate-100();
-      }
-    }
+  [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
+    @include text-slate-100();
   }
 
   .ids-data-grid-cell {
@@ -401,6 +399,14 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
     &.readonly {
       @include bg-slate-70();
+    }
+
+    .ids-datagrid-checkbox {
+      @include border-slate-30();
+    }
+
+    .ids-datagrid-checkbox.checked {
+      @include border-azure-60();
     }
   }
 
@@ -417,22 +423,16 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     }
 
     // Change Sort Icon
-    .is-sortable {
-      ids-icon {
-        @include text-slate-40();
-      }
+    .is-sortable .sort-indicator ids-icon {
+      @include text-slate-40();
+    }
 
-      &[aria-sort='descending'] ids-icon {
-        &:last-child {
-          @include text-slate-20();
-        }
-      }
+    [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
+      @include text-slate-20();
+    }
 
-      &[aria-sort='ascending'] ids-icon {
-        &:first-child {
-          @include text-slate-20();
-        }
-      }
+    [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
+      @include text-slate-20();
     }
 
     // Change Header Checkbox
@@ -448,16 +448,6 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   .ids-data-grid-row.activated .ids-data-grid-cell {
     // Uses a non pallette color - no better looking ones
     background-color: #334d60;
-  }
-
-  .ids-data-grid-cell {
-    .ids-datagrid-checkbox {
-      @include border-slate-30();
-    }
-
-    .ids-datagrid-checkbox.checked {
-      @include border-azure-60();
-    }
   }
 
   .ids-datagrid-radio {
@@ -483,36 +473,33 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     @include text-white();
   }
 
-  .is-sortable {
-    ids-icon {
-      @include text-slate-40();
-    }
+  .is-sortable .sort-indicator ids-icon {
+    @include text-slate-40();
+  }
 
-    &[aria-sort='descending'] ids-icon {
-      &:last-child {
-        @include text-white();
-      }
-    }
+  [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
+    @include text-white();
+  }
 
-    &[aria-sort='ascending'] ids-icon {
-      &:first-child {
-        @include text-white();
-      }
-    }
+  [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
+    @include text-white();
   }
 
   .ids-data-grid-cell {
     @include border-slate-60();
     @include text-slate-100();
 
-
     &.readonly {
       @include bg-slate-20();
     }
 
     &:focus {
-      box-shadow: 0 0 0 1px rgba(0, 84, 177, 1);
+      box-shadow: 0 0 0 1px var(--ids-color-palette-azure-80);
       outline: 1px solid var(--ids-color-palette-azure-80);
+    }
+
+    .ids-datagrid-checkbox:not(.checked):not(.indeterminate) {
+      @include border-slate-90();
     }
   }
 
@@ -536,22 +523,16 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     }
 
     // Change Sort Icon
-    .is-sortable {
-      ids-icon {
-        @include text-slate-60();
-      }
+    .is-sortable .sort-indicator ids-icon {
+      @include text-slate-60();
+    }
 
-      &[aria-sort='descending'] ids-icon {
-        &:last-child {
-          @include text-slate-30();
-        }
-      }
+    [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
+      @include text-slate-30();
+    }
 
-      &[aria-sort='ascending'] ids-icon {
-        &:first-child {
-          @include text-slate-30();
-        }
-      }
+    [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
+      @include text-slate-30();
     }
   }
 
@@ -559,12 +540,6 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   .ids-data-grid-row.selected:not(.mixed) .ids-data-grid-cell,
   .ids-data-grid-row.activated .ids-data-grid-cell {
     @include bg-azure-20();
-  }
-
-  .ids-data-grid-cell {
-    .ids-datagrid-checkbox:not(.checked):not(.indeterminate) {
-      @include border-slate-90();
-    }
   }
 }
 
@@ -581,22 +556,16 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     @include text-white();
   }
 
-  .is-sortable {
-    ids-icon {
-      @include text-classic-slate-40();
-    }
+  .is-sortable .sort-indicator ids-icon {
+    @include text-classic-slate-40();
+  }
 
-    &[aria-sort='descending'] ids-icon {
-      &:last-child {
-        @include text-white();
-      }
-    }
+  [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
+    @include text-white();
+  }
 
-    &[aria-sort='ascending'] ids-icon {
-      &:first-child {
-        @include text-white();
-      }
-    }
+  [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
+    @include text-white();
   }
 
   .ids-data-grid-cell {
@@ -632,22 +601,16 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     }
 
     // Change Sort Icon
-    .is-sortable {
-      ids-icon {
-        @include text-graphite-50();
-      }
+    .is-sortable .sort-indicator ids-icon {
+      @include text-graphite-50();
+    }
 
-      &[aria-sort='descending'] ids-icon {
-        &:last-child {
-          @include text-graphite-30();
-        }
-      }
+    [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
+      @include text-graphite-30();
+    }
 
-      &[aria-sort='ascending'] ids-icon {
-        &:first-child {
-          @include text-graphite-30();
-        }
-      }
+    [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
+      @include text-graphite-30();
     }
   }
 }
@@ -665,22 +628,16 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     @include text-classic-slate-100();
   }
 
-  .is-sortable {
-    ids-icon {
-      @include text-classic-slate-40();
-    }
+  .is-sortable .sort-indicator ids-icon {
+    @include text-classic-slate-40();
+  }
 
-    &[aria-sort='descending'] ids-icon {
-      &:last-child {
-        @include text-classic-slate-100();
-      }
-    }
+  [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
+    @include text-classic-slate-100();
+  }
 
-    &[aria-sort='ascending'] ids-icon {
-      &:first-child {
-        @include text-classic-slate-100();
-      }
-    }
+  [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
+    @include text-classic-slate-100();
   }
 
   .ids-data-grid-cell {
@@ -705,22 +662,16 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     }
 
     // Change Sort Icon
-    .is-sortable {
-      ids-icon {
-        @include text-classic-slate-10();
-      }
+    .is-sortable .sort-indicator ids-icon {
+      @include text-classic-slate-10();
+    }
 
-      &[aria-sort='descending'] ids-icon {
-        &:last-child {
-          @include text-classic-slate-40();
-        }
-      }
+    [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
+      @include text-classic-slate-40();
+    }
 
-      &[aria-sort='ascending'] ids-icon {
-        &:first-child {
-          @include text-classic-slate-40();
-        }
-      }
+    [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
+      @include text-classic-slate-40();
     }
   }
 }
@@ -738,22 +689,16 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     @include text-white();
   }
 
-  .is-sortable {
-    ids-icon {
-      @include text-graphite-40();
-    }
+  .is-sortable .sort-indicator ids-icon {
+    @include text-graphite-40();
+  }
 
-    &[aria-sort='descending'] ids-icon {
-      &:last-child {
-        @include text-white();
-      }
-    }
+  [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
+    @include text-white();
+  }
 
-    &[aria-sort='ascending'] ids-icon {
-      &:first-child {
-        @include text-white();
-      }
-    }
+  [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
+    @include text-white();
   }
 
   .ids-data-grid-cell {
@@ -765,7 +710,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     }
 
     &:focus {
-      box-shadow: 0 0 0 1px rgba(0, 84, 177, 1);
+      box-shadow: 0 0 0 1px var(--ids-color-palette-azure-80);
       outline: 1px solid var(--ids-color-palette-azure-80);
     }
   }
@@ -790,22 +735,16 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     }
 
     // Change Sort Icon
-    .is-sortable {
-      ids-icon {
-        @include text-graphite-60();
-      }
+    .is-sortable .sort-indicator ids-icon {
+      @include text-graphite-60();
+    }
 
-      &[aria-sort='descending'] ids-icon {
-        &:last-child {
-          @include text-graphite-40();
-        }
-      }
+    [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
+      @include text-graphite-40();
+    }
 
-      &[aria-sort='ascending'] ids-icon {
-        &:first-child {
-          @include text-graphite-40();
-        }
-      }
+    [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
+      @include text-graphite-40();
     }
   }
 }
@@ -817,17 +756,19 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     &:first-child {
       border-left-style: solid;
     }
+
     &:last-child {
       border-left-style: hidden;
     }
   }
+
   .ids-data-grid-header-cell {
     &:first-child {
       border-left-style: solid;
     }
+
     &:last-child {
       border-left-style: hidden;
     }
   }
 }
-

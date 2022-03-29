@@ -59,6 +59,9 @@ export default class IdsMenu extends HTMLElement {
   /* Returns a list of the values contained by selected menu items, or a specified menu group */
   getSelectedValues(menuGroup?: IdsMenuGroup | string): Array<unknown>;
 
+  /* Selects menu items containing the value(s) provided */
+  setSelectedValues(values: Array<unknown> | string, menuGroup?: IdsMenuGroup | string): void;
+
   /* Selects a menu item contained in this menu, with some additional internal operations */
   selectItem(menuItem?: IdsMenuItem): void;
 

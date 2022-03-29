@@ -89,8 +89,8 @@ describe('IdsIcon Component', () => {
     document.body.appendChild(container);
     container.language = 'ar';
     await processAnimFrame();
-    expect(icon.isFlipped('previous-page')).toBeTruthy();
-    expect(icon.template()).toContain('class="flipped"');
+    expect(icon.isMirrored('previous-page')).toBeTruthy();
+    expect(icon.template()).toContain('class="mirrored"');
   });
 
   it('can change language from the container', async () => {
@@ -101,7 +101,7 @@ describe('IdsIcon Component', () => {
     expect(elem.container.getAttribute('dir')).toBeFalsy();
     container.language = 'ar';
     await processAnimFrame();
-    expect(elem.template()).toContain('class="flipped"');
+    expect(elem.template()).toContain('class="mirrored"');
   });
 
   it('can be updated with notification badges', () => {

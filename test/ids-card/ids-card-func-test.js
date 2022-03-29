@@ -136,4 +136,42 @@ describe('IdsCard Component', () => {
 
     expect(mockCallback.mock.calls.length).toBe(1);
   });
+
+  describe('Actionable Ids Card', () => {
+    let actionableCard;
+
+    beforeEach(() => {
+      const html = `
+         <ids-card actionable="true" href="https://www.example.com" target="_blank">
+           <div slot="card-content">
+             <ids-text font-size="20" type="h2">Actionable Card Link</ids-text>
+           </div>
+         </ids-card>
+       `;
+      document.body.innerHTML = html;
+      actionableCard = document.querySelector('ids-card');
+    });
+
+    afterEach(() => {
+      document.body.innerHTML = '';
+    });
+
+    it('should allow setting href', () => {
+      const expectedHref = '#section';
+      actionableCard.href = expectedHref;
+      expect(actionableCard.href).toEqual(expectedHref);
+
+      actionableCard.href = '';
+      expect(actionableCard.href).toBeNull();
+    });
+
+    it('should allow setting target', () => {
+      const expectedTarget = '_blank';
+      actionableCard.target = expectedTarget;
+      expect(actionableCard.target).toEqual(expectedTarget);
+
+      actionableCard.target = '';
+      expect(actionableCard.target).toBeNull();
+    });
+  });
 });

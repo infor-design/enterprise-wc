@@ -29,6 +29,12 @@ class IdsDataSource {
   #currentData = [];
 
   /**
+   * Holds the current data to use with filter
+   * @private
+   */
+  #currentFilterData = null;
+
+  /**
    * Page-number used for pagination
    * @private
    */
@@ -47,12 +53,18 @@ class IdsDataSource {
   #total;
 
   /**
+   * Return all the currently used data, without paging or filter
+   * @returns {Array | null} All the currently used data
+   */
+  get allData() { return this.#currentFilterData ?? this.#currentData; }
+
+  /**
    * Sets the data array on the data source object
    * @param {Array | null} value The array to attach
    */
   set data(value) {
     this.#currentData = deepClone(value);
-    this.#originalData = value;
+    this.#originalData = this.#originalData || value;
     this.#total = this.#currentData?.length || 0;
   }
 
@@ -152,6 +164,54 @@ class IdsDataSource {
       const B = key(b);
       return ((A < B) ? -1 : ((A > B) ? 1 : 0)) * [-1, 1][+!!reverse]; // eslint-disable-line
     };
+  }
+
+  /**
+   * Filter current data with given callback
+   * will reset filter data, if given callback not found
+   * @param  {Function} filterFunction User filter function
+   * @returns {void}
+   */
+  filter(filterFunction) {
+    // Updated the current data
+    const updateCurrentData = (data) => {
+      this.#currentData = data;
+      this.total = this.#currentData.length;
+      this.pageNumber = 1;
+    };
+
+    // Reset the current data
+    const resetCurrentData = () => {
+      updateCurrentData(this.#currentFilterData);
+      this.#currentFilterData = null;
+      delete this.filtered;
+    };
+
+    // Check if need to filter or reset
+    if (typeof filterFunction === 'function') {
+      this.#currentFilterData = this.#currentFilterData || this.#currentData;
+
+      // Run thru given filter process
+      this.#currentFilterData.forEach((row, index) => {
+        row.isFilteredOut = filterFunction(row, index);
+      });
+
+      // Get data either filtered or not
+      // if filtered then update the current data, else reset it
+      if (this.#currentFilterData.some((row) => row.isFilteredOut)) {
+        const data = this.#currentFilterData.filter((row) => {
+          const r = !row.isFilteredOut;
+          delete row.isFilteredOut;
+          return r;
+        });
+        updateCurrentData(data);
+        this.filtered = true;
+      } else {
+        resetCurrentData(); // reset, if none of filtered row found
+      }
+    } else if (this.#currentFilterData) {
+      resetCurrentData(); // reset, if callback not found
+    }
   }
 }
 
