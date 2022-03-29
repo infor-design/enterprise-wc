@@ -136,7 +136,7 @@ class IdsDatePicker extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     const colorVariant = this.colorVariant ? ` color-variant="${this.colorVariant}"` : '';
     const fieldHeight = this.fieldHeight ? ` field-height="${this.fieldHeight}"` : '';
     const labelState = this.labelState ? ` label-state="${this.labelState}"` : '';
@@ -260,7 +260,7 @@ class IdsDatePicker extends Base {
       });
 
       this.offEvent('dayselected.date-picker');
-      this.onEvent('dayselected.date-picker', this.#monthView, (e: any) => {
+      this.onEvent('dayselected.date-picker', this.#monthView, (e: CustomEvent) => {
         if (!this.isCalendarToolbar) {
           this.value = this.locale.formatDate(e.detail.date);
           this.#triggerField?.focus();
@@ -271,7 +271,7 @@ class IdsDatePicker extends Base {
       });
 
       this.offEvent('click.date-picker-clear');
-      this.onEvent('click.date-picker-clear', this.container.querySelector('.popup-btn-start'), (e: any) => {
+      this.onEvent('click.date-picker-clear', this.container.querySelector('.popup-btn-start'), (e: MouseEvent) => {
         e.stopPropagation();
 
         if (!this.isCalendarToolbar) {
@@ -284,7 +284,7 @@ class IdsDatePicker extends Base {
       });
 
       this.offEvent('click.date-picker-apply');
-      this.onEvent('click.date-picker-apply', this.container.querySelector('.popup-btn-end'), (e: any) => {
+      this.onEvent('click.date-picker-apply', this.container.querySelector('.popup-btn-end'), (e: MouseEvent) => {
         e.stopPropagation();
 
         const { month, year, day } = this.#monthView;
@@ -304,7 +304,7 @@ class IdsDatePicker extends Base {
    * @returns {object} this class-instance object for chaining
    */
   #attachKeyboardListeners() {
-    this.listen(['ArrowDown', 'Escape'], this, (e: any) => {
+    this.listen(['ArrowDown', 'Escape'], this, (e: KeyboardEvent) => {
       if (e.key === 'ArrowDown') {
         this.#togglePopup(true);
       }
