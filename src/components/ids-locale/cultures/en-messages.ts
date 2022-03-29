@@ -435,7 +435,7 @@ const messages = {
   TestLocaleDefaults: { id: 'TestLocaleDefaults', value: 'Test Locale Defaults', comment: 'Do not translate' },
   TextColor: { id: 'TextColor', value: 'Text color', comment: 'add or edit text color in the editor' },
   TextDropArea: { id: 'DropArea', value: 'Drag and Drop Files to Upload', comment: 'text for drop area for advanced fileupload' },
-  TextDropAreaWithBrowse: { id: 'TextDropAreaWithBrowse', value: 'Drag and Drop or <span class="hyperlink">Select Files</span> to Upload', comment: 'text for drop area with browse for advanced fileupload - please check this translation in french it seems to have some wierd characters in it <span class="hyperlink »>' },
+  TextDropAreaWithBrowse: { id: 'TextDropAreaWithBrowse', value: 'Drag and Drop or <span class="hyperlink">Select Files</span> to Upload' },
   TextBtnCancel: { id: 'TextBtnCancel', value: 'Cancel uploading this file', comment: 'text for cancel button for advanced fileupload' },
   TextBtnCloseError: { id: 'TextBtnCloseError', value: 'Close this error', comment: 'text for error close button for advanced fileupload' },
   TextBtnRemove: { id: 'TextBtnRemove', value: 'Close this error', comment: 'text for remove button for advanced fileupload' },
