@@ -50,6 +50,15 @@ export default class IdsInput extends HTMLElement {
   /** When set the input will add a clearable x button to forced for readonly */
   clearableForced: boolean;
 
+  /** Sets the current color variant */
+  colorVariant: 'alternate' | 'alternate-formatter' | string;
+
+  /** Sets the component to be compact mode */
+  compact: 'true' | 'false' | boolean;
+
+  /** Sets the component base field height (default 'md') */
+  fieldHeight: 'md' | 'xs' | 'sm' | 'lg';
+
   /** Sets the dirty tracking feature on to indicate a changed field */
   dirtyTracker: boolean;
 
@@ -61,6 +70,9 @@ export default class IdsInput extends HTMLElement {
 
   /** Determines the visibility state of this component's inner input field's label */
   labelState: null | 'hidden' | 'collapsed';
+
+  /** Sets whether or not no-margins around the component */
+  noMargins: 'true' | 'false ' | boolean;
 
   /** Sets the input placeholder text * */
   placeholder: string;

@@ -2,6 +2,10 @@
 @import '../../core/ids-base';
 @import '../ids-input/ids-input';
 
+:host([size='full']) .ids-time-picker {
+  @include w-full();
+}
+
 .ids-time-picker {
   @include flex();
 

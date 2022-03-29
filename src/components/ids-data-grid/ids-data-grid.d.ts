@@ -51,6 +51,41 @@ interface activationchanged extends Event {
   }
 }
 
+interface filtered extends Event {
+  detail: {
+    elem: IdsDataGrid,
+    type: 'apply' | 'clear',
+    conditions: Array<unknown>
+  }
+}
+
+interface filterOperatorChanged extends Event {
+  detail: {
+    elem: IdsDataGrid,
+    targetElem: HTMLElement,
+    icon: string,
+    value: string,
+    label: string,
+    initial: {
+      icon: string,
+      value: string,
+      label: string
+    },
+    beforeChange: {
+      icon: string,
+      value: string,
+      label: string
+    }
+  }
+}
+
+interface openCloseFilterRow extends Event {
+  detail: {
+    elem: IdsDataGrid,
+    filterable: boolean
+  }
+}
+
 export default class IdsDataGrid extends HTMLElement {
   /** Set the data array of the datagrid */
   data: Array<unknown>;
@@ -62,6 +97,15 @@ export default class IdsDataGrid extends HTMLElement {
   formatters: {
     text: (rowData: unknown, columnData: unknown) => string;
   };
+
+  /** Sets the data grid to be filterable */
+  filterable: boolean;
+
+  /** Sets disabled to be filter row */
+  filterRowDisabled: boolean;
+
+  /** Sets the data grid to filter when typing */
+  filterWhenTyping: boolean;
 
   /** Enables a different color shade on alternate rows for easier scanning */
   alternateRowShading: boolean;
@@ -99,6 +143,15 @@ export default class IdsDataGrid extends HTMLElement {
   /** Set the theme version */
   version: 'new' | 'classic' | string;
 
+  /** Filter data rows based on given conditions */
+  applyFilter(conditions?: Array<unknown>): void;
+
+  /** Get column data by given column id */
+  columnDataById(columnId: string): object;
+
+  /** Get column data by given column header element */
+  columnDataByHeaderElem(elem: HTMLElement): object;
+
   /** Set the sort column and sort direction */
   setSortColumn(id: string, ascending?: boolean): void;
 
@@ -125,6 +178,18 @@ export default class IdsDataGrid extends HTMLElement {
 
   /** Fires once for each time activation changes and gives information about the active row */
   on(event: 'activationchanged', listener: (event: activationchanged) => void): this;
+
+  /** Fires after a filter action occurs, clear or apply filter condition */
+  on(event: 'filtered', listener: (event: filtered) => void): this;
+
+  /** Fires once a filter operator changed */
+  on(event: 'filteroperatorchanged', listener: (event: filterOperatorChanged) => void): this;
+
+  /** Fires after the filter row is opened by the user */
+  on(event: 'openfilterrow', listener: (event: openCloseFilterRow) => void): this;
+
+  /** Fires after the filter row is closed by the user */
+  on(event: 'closefilterrow', listener: (event: openCloseFilterRow) => void): this;
 
   /** Set the language */
   language: string;

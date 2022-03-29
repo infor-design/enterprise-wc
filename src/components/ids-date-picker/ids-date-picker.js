@@ -91,6 +91,7 @@ class IdsDatePicker extends Base {
       attributes.IS_DROPDOWN,
       attributes.LABEL,
       attributes.MONTH,
+      attributes.NO_MARGINS,
       attributes.PLACEHOLDER,
       attributes.READONLY,
       attributes.SHOW_TODAY,
@@ -105,10 +106,51 @@ class IdsDatePicker extends Base {
   }
 
   /**
+   * List of available color variants for this component
+   * @returns {Array<string>}
+   */
+  colorVariants = ['alternate-formatter'];
+
+  /**
+   * Push color variant to the trigger-field element
+   * @returns {void}
+   */
+  onColorVariantRefresh() {
+    this.#triggerField.colorVariant = this.colorVariant;
+  }
+
+  /**
+   * Push label-state to the trigger-field element
+   * @returns {void}
+   */
+  onlabelStateChange() {
+    this.#triggerField.labelState = this.labelState;
+  }
+
+  /**
+   * Push field-height/compact to the trigger-field element
+   * @param {string} val the new field height setting
+   */
+  onFieldHeightChange(val) {
+    if (val) {
+      const attr = val === 'compact' ? { name: 'compact', val: '' } : { name: 'field-height', val };
+      this.#triggerField.setAttribute(attr.name, attr.val);
+    } else {
+      this.#triggerField.removeAttribute('compact');
+      this.#triggerField.removeAttribute('field-height');
+    }
+  }
+
+  /**
    * Inner template contents
    * @returns {string} The template
    */
   template() {
+    const colorVariant = this.colorVariant ? ` color-variant="${this.colorVariant}"` : '';
+    const fieldHeight = this.fieldHeight ? ` field-height="${this.fieldHeight}"` : '';
+    const labelState = this.labelState ? ` label-state="${this.labelState}"` : '';
+    const compact = this.compact ? ' compact' : '';
+    const noMargins = this.noMargins ? ' no-margins' : '';
     const classAttr = buildClassAttrib(
       'ids-date-picker',
       this.isCalendarToolbar && 'is-calendar-toolbar',
@@ -144,6 +186,7 @@ class IdsDatePicker extends Base {
             size="${this.size}"
             ${this.validate ? `validate="${this.validate}"` : ''}
             value="${this.value}"
+            ${colorVariant}${fieldHeight}${compact}${noMargins}${labelState}
           >
             <ids-trigger-button slot="trigger-end" part="trigger-button">
               <ids-text audible="true" translate-text="true">DatePickerTriggerButton</ids-text>
@@ -738,6 +781,7 @@ class IdsDatePicker extends Base {
    */
   #triggerExpandedEvent(expanded) {
     const args = {
+      bubbles: true,
       detail: {
         elem: this,
         expanded
@@ -1234,6 +1278,24 @@ class IdsDatePicker extends Base {
     if (this.isCalendarToolbar) {
       this.#togglePopup(false);
     }
+  }
+
+  /**
+   * Sets the no margins attribute
+   * @param {boolean} value The value for no margins attribute
+   */
+  set noMargins(value) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.NO_MARGINS, '');
+      this.#triggerField?.setAttribute(attributes.NO_MARGINS, '');
+      return;
+    }
+    this.removeAttribute(attributes.NO_MARGINS);
+    this.#triggerField?.removeAttribute(attributes.NO_MARGINS);
+  }
+
+  get noMargins() {
+    return stringToBool(this.getAttribute(attributes.NO_MARGINS));
   }
 
   /**
