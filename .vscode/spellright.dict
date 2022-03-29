@@ -67,3 +67,6 @@ KorUI
 tsc
 jsdoc-supported-types
 btn
+Csv
+Colspans
+Xss

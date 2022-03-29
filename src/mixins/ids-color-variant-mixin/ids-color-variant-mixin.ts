@@ -45,7 +45,7 @@ const IdsColorVariantMixin = (superclass: any) => class extends superclass {
   /**
    * @returns {string|null} the name of the color variant currently applied
    */
-  get colorVariant(): string {
+  get colorVariant() {
     return this.state?.colorVariant;
   }
 
@@ -53,18 +53,18 @@ const IdsColorVariantMixin = (superclass: any) => class extends superclass {
    * @param {string} val the name of the color variant to be applied
    */
   set colorVariant(val: string) {
-    let safeValue = '';
+    let safeValue = null;
     if (typeof val === 'string') {
       safeValue = stripTags(val, '');
     }
 
     const currentValue = this.state.colorVariant;
-    if (currentValue !== safeValue) {
+    if (safeValue && currentValue !== safeValue) {
       if (this.colorVariants.includes(safeValue)) {
         this.setAttribute(attributes.COLOR_VARIANT, `${safeValue}`);
       } else {
         this.removeAttribute(attributes.COLOR_VARIANT);
-        safeValue = '';
+        safeValue = null;
       }
 
       this.state.colorVariant = safeValue;
@@ -80,7 +80,7 @@ const IdsColorVariantMixin = (superclass: any) => class extends superclass {
    * @param {string} newVariantName the variant name to "add" to the style
    * @returns {void}
    */
-  #refreshColorVariant(oldVariantName?: string, newVariantName?: string) {
+  #refreshColorVariant(oldVariantName?: string | null, newVariantName?: string | null): void {
     const cl = this.container.classList;
 
     if (oldVariantName) cl.remove(`color-variant-${oldVariantName}`);

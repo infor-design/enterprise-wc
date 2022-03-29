@@ -1,5 +1,6 @@
 import '../ids-data-grid';
 import '../../ids-container/ids-container';
+import productsJSON from '../../../assets/data/products.json';
 
 // Example for populating the DataGrid
 const dataGrid: any = document.querySelector('ids-data-grid');
@@ -63,10 +64,11 @@ const container: any = document.querySelector('ids-container');
   });
 
   // Do an ajax request
-  const url = '/data/products.json';
+  const url: any = productsJSON;
   const response = await fetch(url);
   const data = await response.json();
 
+  // Fake server side pagination
   const paginateData = (pageNumber = 1, pageSize = 10) => {
     const last = pageNumber * pageSize;
     const start = last - pageSize;

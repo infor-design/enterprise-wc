@@ -9,8 +9,8 @@ import dataset from '../../src/assets/data/books.json';
 import createFromTemplate from '../helpers/create-from-template';
 
 describe('IdsDataGrid Component Filter Tests', () => {
-  let dataGrid;
-  let container;
+  let dataGrid: any;
+  let container: any;
 
   // Defaults data grid filters
   const d = {
@@ -19,7 +19,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     filterRowDisabled: false
   };
 
-  const formatters = new IdsDataGridFormatters();
+  const formatters: any = new IdsDataGridFormatters();
   const columns = () => {
     const cols = [];
     // Set up columns
@@ -93,7 +93,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
       field: 'active',
       formatter: formatters.text,
       filterType: dataGrid.filters.checkbox,
-      isChecked: (value) => value === 'Yes'
+      isChecked: (value: any) => value === 'Yes'
     });
     cols.push({
       id: 'inStock',
@@ -130,10 +130,10 @@ describe('IdsDataGrid Component Filter Tests', () => {
 
   beforeEach(async () => {
     // Mock the CSSStyleSheet in adoptedStyleSheets
-    window.CSSStyleSheet = function CSSStyleSheet() { //eslint-disable-line
+    (window as any).CSSStyleSheet = function CSSStyleSheet() {
       return { cssRules: [], replaceSync: () => '', insertRule: () => '' };
     };
-    window.StyleSheet.insertRule = () => '';
+    (window.StyleSheet as any).insertRule = () => '';
 
     container = new IdsContainer();
     dataGrid = new IdsDataGrid();
@@ -150,7 +150,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const dataGrid2 = new IdsDataGrid();
+    const dataGrid2: any = new IdsDataGrid();
     document.body.appendChild(dataGrid2);
     dataGrid2.columns = columns();
     dataGrid2.data = dataset;
@@ -164,50 +164,50 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.getAttribute('filterable')).toEqual(null);
     expect(dataGrid.filterable).toEqual(d.filterable);
     let nodes = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell-filter-wrapper');
-    nodes.forEach((n) => expect(n.classList.contains('hidden')).toBeFalsy());
+    nodes.forEach((n: any) => expect(n.classList.contains('hidden')).toBeFalsy());
     dataGrid.filterable = false;
 
     expect(dataGrid.getAttribute('filterable')).toEqual('false');
     expect(dataGrid.filterable).toEqual(false);
     nodes = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell-filter-wrapper');
-    nodes.forEach((n) => expect(n.classList.contains('hidden')).toBeTruthy());
+    nodes.forEach((n: any) => expect(n.classList.contains('hidden')).toBeTruthy());
     dataGrid.filterable = true;
 
     expect(dataGrid.getAttribute('filterable')).toEqual('true');
     expect(dataGrid.filterable).toEqual(true);
     nodes = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell-filter-wrapper');
-    nodes.forEach((n) => expect(n.classList.contains('hidden')).toBeFalsy());
+    nodes.forEach((n: any) => expect(n.classList.contains('hidden')).toBeFalsy());
     dataGrid.filterable = null;
 
     expect(dataGrid.getAttribute('filterable')).toEqual(null);
     expect(dataGrid.filterable).toEqual(d.filterable);
     nodes = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell-filter-wrapper');
-    nodes.forEach((n) => expect(n.classList.contains('hidden')).toBeFalsy());
+    nodes.forEach((n: any) => expect(n.classList.contains('hidden')).toBeFalsy());
   });
 
   it('should sets filter row as disabled state', () => {
     expect(dataGrid.getAttribute('filter-row-disabled')).toEqual(null);
     expect(dataGrid.filterRowDisabled).toEqual(d.filterRowDisabled);
     let nodes = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell-filter-wrapper');
-    nodes.forEach((n) => expect(n.classList.contains('disabled')).toBeFalsy());
+    nodes.forEach((n: any) => expect(n.classList.contains('disabled')).toBeFalsy());
     dataGrid.filterRowDisabled = true;
 
     expect(dataGrid.getAttribute('filter-row-disabled')).toEqual('true');
     expect(dataGrid.filterRowDisabled).toEqual(true);
     nodes = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell-filter-wrapper');
-    nodes.forEach((n) => expect(n.classList.contains('disabled')).toBeTruthy());
+    nodes.forEach((n: any) => expect(n.classList.contains('disabled')).toBeTruthy());
     dataGrid.filterRowDisabled = false;
 
     expect(dataGrid.getAttribute('filter-row-disabled')).toEqual('false');
     expect(dataGrid.filterRowDisabled).toEqual(false);
     nodes = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell-filter-wrapper');
-    nodes.forEach((n) => expect(n.classList.contains('disabled')).toBeFalsy());
+    nodes.forEach((n: any) => expect(n.classList.contains('disabled')).toBeFalsy());
     dataGrid.filterRowDisabled = null;
 
     expect(dataGrid.getAttribute('filter-row-disabled')).toEqual(null);
     expect(dataGrid.filterRowDisabled).toEqual(d.filterRowDisabled);
     nodes = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell-filter-wrapper');
-    nodes.forEach((n) => expect(n.classList.contains('disabled')).toBeFalsy());
+    nodes.forEach((n: any) => expect(n.classList.contains('disabled')).toBeFalsy());
     dataGrid = createFromTemplate(dataGrid, `<ids-data-grid filter-row-disabled="true"></ids-data-grid>`);
     dataGrid.columns = columns();
     dataGrid.data = dataset;
@@ -215,7 +215,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.getAttribute('filter-row-disabled')).toEqual('true');
     expect(dataGrid.filterRowDisabled).toEqual(true);
     nodes = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell-filter-wrapper');
-    nodes.forEach((n) => expect(n.classList.contains('disabled')).toBeTruthy());
+    nodes.forEach((n: any) => expect(n.classList.contains('disabled')).toBeTruthy());
   });
 
   it('should sets filter when typing', () => {
@@ -495,7 +495,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
   });
 
   it('should use custom filter', () => {
-    const myCustomFilter = (opt) => {
+    const myCustomFilter = (opt: any) => {
       const { operator, columnId, value } = opt.condition;
       const val = {
         condition: Number.parseFloat(value),
@@ -534,7 +534,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
 
     const selector = '.ids-data-grid-body .ids-data-grid-row';
     const cols = columns();
-    const priceCol = cols.find((c) => c.id === 'price');
+    const priceCol: any = cols.find((c) => c.id === 'price');
     priceCol.filterFunction = myCustomFilter;
     dataGrid.columns = cols;
     dataGrid.data = dataset;
@@ -747,7 +747,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.getAttribute('filterable')).toEqual('false');
     expect(dataGrid.filterable).toEqual(false);
     let nodes = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell-filter-wrapper');
-    nodes.forEach((n) => expect(n.classList.contains('hidden')).toBeTruthy());
+    nodes.forEach((n: any) => expect(n.classList.contains('hidden')).toBeTruthy());
 
     expect(mockCallback.mock.calls.length).toBe(1);
 
@@ -756,7 +756,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.getAttribute('filterable')).toEqual('true');
     expect(dataGrid.filterable).toEqual(true);
     nodes = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell-filter-wrapper');
-    nodes.forEach((n) => expect(n.classList.contains('hidden')).toBeFalsy());
+    nodes.forEach((n: any) => expect(n.classList.contains('hidden')).toBeFalsy());
 
     expect(mockCallback.mock.calls.length).toBe(2);
   });

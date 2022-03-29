@@ -1,4 +1,5 @@
 export interface IdsDataGridColumnFormatOptions {
+  /* Set the style of the number fx integer */
   style?: string;
 }
 

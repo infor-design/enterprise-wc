@@ -12,10 +12,10 @@ import createFromTemplate from '../helpers/create-from-template';
 import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
 
 describe('IdsDataGrid Component', () => {
-  let dataGrid;
-  let container;
+  let dataGrid: any;
+  let container: any;
 
-  const formatters = new IdsDataGridFormatters();
+  const formatters: any = new IdsDataGridFormatters();
   const columns = () => {
     const cols = [];
     // Set up columns
@@ -141,10 +141,10 @@ describe('IdsDataGrid Component', () => {
 
   beforeEach(async () => {
     // Mock the CSSStyleSheet in adoptedStyleSheets
-    window.CSSStyleSheet = function CSSStyleSheet() { //eslint-disable-line
+    (window as any).CSSStyleSheet = function CSSStyleSheet() { //eslint-disable-line
       return { cssRules: [], replaceSync: () => '', insertRule: () => '' };
     };
-    window.StyleSheet.insertRule = () => '';
+    (window.StyleSheet as any).insertRule = () => '';
 
     container = new IdsContainer();
     dataGrid = new IdsDataGrid();
@@ -162,7 +162,7 @@ describe('IdsDataGrid Component', () => {
   describe('Setup / General Tests', () => {
     it('renders with no errors', () => {
       const errors = jest.spyOn(global.console, 'error');
-      const dataGrid2 = new IdsDataGrid();
+      const dataGrid2: any = new IdsDataGrid();
       document.body.appendChild(dataGrid2);
       dataGrid2.columns = columns();
       dataGrid2.data = dataset;
@@ -589,7 +589,7 @@ describe('IdsDataGrid Component', () => {
     });
 
     it('can render with the hyperlink formatter (with href function)', () => {
-      dataGrid.columns[10].href = (row) => {
+      dataGrid.columns[10].href = (row: any) => {
         if (row.book === 101) {
           return null;
         }

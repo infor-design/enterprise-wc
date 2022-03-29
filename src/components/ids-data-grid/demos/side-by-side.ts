@@ -11,14 +11,6 @@ let columns = [];
 
 // Set up columns
 columns.push({
-  id: 'selectionCheckbox',
-  sortable: false,
-  resizable: false,
-  formatter: dataGrid.formatters.text,
-  align: 'center',
-  width: 20
-});
-columns.push({
   id: 'book',
   name: 'Book',
   field: 'book',

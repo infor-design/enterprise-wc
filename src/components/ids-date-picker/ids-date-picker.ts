@@ -227,11 +227,11 @@ class IdsDatePicker extends Base {
 
   /**
    * Click event is propagated to the window.
-   * @param {PointerEvent} e native pointer event
+   * @param {MouseEvent} e native pointer event
    * @returns {void}
    */
-  onOutsideClick(e: any) {
-    if (e.target !== this) {
+  onOutsideClick(e: MouseEvent): void {
+    if ((e.target as any) !== this) {
       this.#togglePopup(false);
     }
   }
