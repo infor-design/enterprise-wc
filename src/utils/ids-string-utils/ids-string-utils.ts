@@ -36,10 +36,10 @@ export function removeNewLines(str: string): string | null {
 
 /**
  * Convert an attribute string into a boolean representation
- * @param {string|boolean|any} val string value from the component attribute
+ * @param {string|boolean|null} val string value from the component attribute
  * @returns {boolean} The return boolean
  */
-export function stringToBool(val: string | boolean): boolean {
+export function stringToBool(val: string | boolean | null): boolean {
   if ((typeof val === 'string' && val.toLowerCase() === 'false') || val === false) {
     return false;
   }

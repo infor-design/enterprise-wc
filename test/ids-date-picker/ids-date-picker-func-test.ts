@@ -10,10 +10,10 @@ const name = 'ids-date-picker';
 
 describe('IdsDatePicker Component Tests', () => {
   describe('Using properties', () => {
-    let component;
+    let component: any;
 
     beforeEach(async () => {
-      const container = new IdsContainer();
+      const container: any = new IdsContainer();
       document.body.appendChild(container);
       component = new IdsDatePicker();
       component.tabbable = false;
@@ -147,8 +147,8 @@ describe('IdsDatePicker Component Tests', () => {
     it('should render field height', () => {
       const heights = ['xs', 'sm', 'md', 'lg'];
       const defaultHeight = 'md';
-      const className = (h) => `field-height-${h}`;
-      const checkHeight = (height) => {
+      const className = (h: any) => `field-height-${h}`;
+      const checkHeight = (height: any) => {
         component.fieldHeight = height;
 
         const triggerField = component.container.querySelector('ids-trigger-field');
@@ -192,7 +192,7 @@ describe('IdsDatePicker Component Tests', () => {
     it('should set size', () => {
       const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
       const defaultSize = 'lg';
-      const checkSize = (size) => {
+      const checkSize = (size: any) => {
         component.size = size;
 
         expect(component.getAttribute('size')).toEqual(size);
@@ -255,10 +255,10 @@ describe('IdsDatePicker Component Tests', () => {
   });
 
   describe('Using attributes', () => {
-    let component;
+    let component: any;
 
     beforeEach(async () => {
-      const container = new IdsContainer();
+      const container: any = new IdsContainer();
       document.body.appendChild(container);
       container.insertAdjacentHTML('beforeend', `
          <ids-date-picker
@@ -378,10 +378,10 @@ describe('IdsDatePicker Component Tests', () => {
   });
 
   describe('Using empty component', () => {
-    let component;
+    let component: any;
 
     beforeEach(async () => {
-      const container = new IdsContainer();
+      const container: any = new IdsContainer();
       document.body.appendChild(container);
       container.insertAdjacentHTML('beforeend', `<ids-date-picker></ids-date-picker>`);
       component = document.querySelector(name);
@@ -395,7 +395,7 @@ describe('IdsDatePicker Component Tests', () => {
     it('should not error if no container', () => {
       document.body.innerHTML = '';
       const errors = jest.spyOn(global.console, 'error');
-      const comp = new IdsDatePicker();
+      const comp: any = new IdsDatePicker();
       delete comp.locale;
       document.body.appendChild(comp);
       expect(errors).not.toHaveBeenCalled();
