@@ -122,7 +122,7 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
    * @returns {string | null} containing the searchKey
    */
   get searchKey() {
-    const fields = Object.keys(this.data[0]);
+    const fields = this.data && Object?.keys(this.data[0]);
     return this.getAttribute(attributes.SEARCH_KEY) || fields[0];
   }
 

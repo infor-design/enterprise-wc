@@ -4,6 +4,12 @@
 import IdsInput from '../../src/components/ids-input/ids-input';
 import IdsClearableMixin from '../../src/mixins/ids-clearable-mixin/ids-clearable-mixin';
 import processAnimFrame from '../helpers/process-anim-frame';
+import ResizeObserver from '../helpers/resize-observer-mock';
+
+import IdsDataSource from '../../src/core/ids-data-source';
+import dataset from '../../src/assets/data/states.json';
+import IdsListBox from '../../src/components/ids-list-box/ids-list-box';
+import IdsPopup from '../../src/components/ids-popup/ids-popup';
 
 describe('IdsInput Component', () => {
   let input;
@@ -222,6 +228,22 @@ describe('IdsInput Component', () => {
     expect(input.value).toEqual('test');
     input.value = null;
     expect(input.value).toEqual('');
+  });
+
+  it('should set autocomplete', () => {
+    expect(input.autocomplete).toEqual(false);
+    input.autocomplete = true;
+    expect(input.autocomplete).toEqual(true);
+    input.autocomplete = null;
+    expect(input.autocomplete).toEqual(false);
+
+    input.datasource = new IdsDataSource();
+    input.data = dataset;
+    expect(input.data.length).toEqual(59);
+
+    expect(input.searchKey).toEqual('value');
+    input.searchKey = 'label';
+    expect(input.searchKey).toEqual('label');
   });
 
   it('should call template', () => {
@@ -528,7 +550,7 @@ describe('IdsInput Component', () => {
   });
 
   it('should dispatch native events', () => {
-    const events = ['focus', 'select', 'keydown', 'keypress', 'click', 'dbclick'];
+    const events = ['focus', 'select', 'keydown', 'keypress', 'keyup', 'click', 'dbclick', 'blur'];
     events.forEach((evt) => {
       let response = null;
       input.addEventListener(evt, () => {
@@ -536,6 +558,8 @@ describe('IdsInput Component', () => {
       });
       if (evt === 'focus') {
         input.input.focus();
+      } else if (evt === 'blur') {
+        input.input.blur();
       } else {
         const event = new Event(evt);
         input.input.dispatchEvent(event);
