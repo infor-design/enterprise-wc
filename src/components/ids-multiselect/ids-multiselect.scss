@@ -6,6 +6,7 @@
 }
 
 ids-trigger-field{
+
   ids-tag{
     display: flex;
     align-self: center;
@@ -15,5 +16,22 @@ ids-trigger-field{
     /*&[disabled="true"]{
 
     }*/
+  }
+}
+
+:host([tags=true]){
+  ids-trigger-field{
+
+    &::part(content-area){
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      max-width: inherit;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+    &::part(input){
+      flex: 1;
+    }
   }
 }

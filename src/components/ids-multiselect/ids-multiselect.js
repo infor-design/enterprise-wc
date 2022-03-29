@@ -37,6 +37,7 @@ class IdsMultiselect extends Base {
     this.#populateSelected();
     console.log(Base.prototype);
     Base.prototype.connectedCallback.apply(this);
+    console.log(this.popup);
   }
 
   /**
@@ -53,7 +54,7 @@ class IdsMultiselect extends Base {
 
   set disabled(value) {
     console.log('multiselect set disabled');
-    console.log(isDisabled);
+    //console.log(isDisabled);
     if (this.tag) {
       this.querySelectorAll('ids-tag').forEach((element) => {
         element.setAttribute('disabled', 'true');
@@ -113,7 +114,7 @@ class IdsMultiselect extends Base {
     this.selectIcon(elem);
     this.selectTooltip(elem);
 
-    this.shadowRoot.querySelector('ids-input').value = '';
+    this.container.value = '';
     console.log("update display/list - value set");
     this.#updateDisplay();
     this.#updateList(true);
@@ -210,22 +211,26 @@ class IdsMultiselect extends Base {
           console.log("bonk");
         }
       }
+
+      if (e.target.isEqualNode(this)) {
+        console.log('multiselect toggle call');
+        this.toggle();
+      }
     });
 
     if (this.tags) {
       this.onEvent('beforetagremove', this.shadowRoot.querySelector('ids-trigger-field'), (e) => {
         console.log('tag clicked');
         console.log(e.target.nodeName);
-        if (e.target.nodeName === 'IDS-ICON') {
-          const removedSelection = this.#selectedList.indexOf(e.target.closest('ids-tag').id);
-          if (removedSelection > -1) {
-            this.#selectedList.splice(removedSelection, 1);
-          }
-          console.log('final selected list');
-          console.log(this.#selectedList);
-          console.log("update display/list - beforetag remove");
-          this.#updateList(false);
+
+        const removedSelection = this.#selectedList.indexOf(e.target.closest('ids-tag').id);
+        if (removedSelection > -1) {
+          this.#selectedList.splice(removedSelection, 1);
         }
+        console.log('final selected list');
+        console.log(this.#selectedList);
+        console.log("update display/list - beforetag remove");
+        this.#updateList(false);
       });
     }
   }
@@ -237,26 +242,34 @@ class IdsMultiselect extends Base {
 
   #updateDisplay() {
     let triggerField;
-    this.shadowRoot.querySelector('ids-input').value = '';
+    this.container.value = '';
     console.log(this.#selectedList);
     if (this.tags) {
-      triggerField = this.shadowRoot.querySelector('ids-trigger-field')
+      console.log('update display tags');
+
+      triggerField = this.shadowRoot.querySelector('ids-trigger-field');
+
+      console.log('triggerField Object & this.container:');
+      console.log(triggerField);
+      console.log(this.container);
+
       triggerField.querySelectorAll('ids-tag').forEach(item => item.remove());
     }
     this.#selectedList.forEach((selectedValue, index) => {
       const matchedElem = this.querySelector(`ids-list-box-option[value="${selectedValue}"]`);
 
-      if(this.tags) {
+      if (this.tags) {
+        console.log('tags selected list iteration, matched element follows: ');
+        console.log(matchedElem);
         const disabled = this.disabled ? `disabled="true"` : ``;
         triggerField.insertAdjacentHTML('afterbegin', `<ids-tag id="${selectedValue}" dismissible="true" ${disabled}>${matchedElem.querySelector('ids-checkbox').label}</ids-tag>`);
       } else {
         if (index > 0) {
-          this.shadowRoot.querySelector('ids-input').value += ', ';
+          this.container.value += ', ';
         }
-        this.shadowRoot.querySelector('ids-input').value += matchedElem.querySelector('ids-checkbox').label;
+        this.container.value += matchedElem.querySelector('ids-checkbox').label;
       }
     });
-
   }
 
   #updateList(addItem) {

@@ -154,10 +154,10 @@ export default class IdsDropdown extends Base {
     if (!elem) {
       return;
     }
-    this.#clearSelected();
-    this.#selectOption(elem);
+    this.clearSelected(); //possible private
+    this.selectOption(elem); //possible private
     this.#selectIcon(elem);
-    this.#selectTooltip(elem);
+    this.selectTooltip(elem); //possible private
     this.container.value = elem.textContent.trim();
     this.state.selectedIndex = [...elem.parentElement.children].indexOf(elem);
 
@@ -427,9 +427,12 @@ export default class IdsDropdown extends Base {
    * @private
    */
   toggle() {
+    console.log('toggle fired');
     if (!this.popup.visible) {
+      console.log('open');
       this.open();
     } else {
+      console.log('close');
       this.close();
     }
   }
@@ -448,6 +451,11 @@ export default class IdsDropdown extends Base {
       if (e.target.closest('ids-list-box-option')) {
         this.value = e.target.closest('ids-list-box-option').getAttribute('value');
       }
+
+      if (e.target.isEqualNode(this)) {
+        console.log('dropdown toggle call')
+        this.toggle();
+      }
     });
   }
 
@@ -464,15 +472,6 @@ export default class IdsDropdown extends Base {
 
     // Handle Clicking with the mouse on options
     this.attachClickEvent();
-
-      if (e.target.closest('ids-list-box-option')) {
-        this.value = e.target.closest('ids-list-box-option').getAttribute('value');
-      }
-
-      if (e.target.isEqualNode(this)) {
-        this.toggle();
-      }
-    });
 
     // Disable text selection on tab (extra info in the screen reader)
     this.onEvent('focus', this.container, () => {
