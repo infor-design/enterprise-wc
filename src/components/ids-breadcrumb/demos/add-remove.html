@@ -4,23 +4,29 @@
   <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 <body>
-  <ids-layout-grid auto="true">
-    <ids-text font-size="12" type="h1">Add/Remove Breadcrumbs</ids-text>
-  </ids-layout-grid>
-  <ids-layout-grid auto="true">
-    <ids-breadcrumb>
-      <ids-hyperlink href="#">Breadcrumb 1</ids-hyperlink>
-      <ids-hyperlink disabled href="#">Disabled Breadcrumb</ids-hyperlink>
-    </ids-breadcrumb>
-  </ids-layout-grid>
-  <ids-layout-grid auto="true">
-    <ids-checkbox label="Disabled"></ids-checkbox>
-  </ids-layout-grid>
-  <ids-layout-grid auto="true">
-    <ids-layout-grid-cell>
-      <ids-button type="secondary">Add Link</ids-button>
-      <ids-button type="secondary">Remove</ids-button>
-    </ids-layout-grid-cell>
-  </ids-layout-grid>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Add/Remove Breadcrumbs</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-breadcrumb>
+        <ids-hyperlink font-size="14" text-decoration="hover" href="#">Breadcrumb 1</ids-hyperlink>
+        <ids-hyperlink font-size="14" text-decoration="hover" disabled href="#">Disabled Breadcrumb</ids-hyperlink>
+      </ids-breadcrumb>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-checkbox label="Disabled"></ids-checkbox>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-button type="secondary">Add Link</ids-button>
+        <ids-button type="secondary">Remove</ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
 </body>
 </html>

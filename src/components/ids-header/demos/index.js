@@ -7,3 +7,4 @@ import IdsHeader from '../ids-header';
 import IdsBreadcrumb from '../../ids-breadcrumb/ids-breadcrumb';
 import IdsHyperlink from '../../ids-hyperlink/ids-hyperlink';
 import IdsCheckbox from '../../ids-checkbox/ids-checkbox';
+import IdsThemeSwitcher from '../../ids-theme-switcher/ids-theme-switcher';

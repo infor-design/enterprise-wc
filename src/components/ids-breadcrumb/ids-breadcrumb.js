@@ -4,15 +4,17 @@ import styles from './ids-breadcrumb.scss';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
+import '../ids-hyperlink/ids-hyperlink';
 import '../ids-menu-button/ids-menu-button';
 import '../ids-menu/ids-menu-group';
 import '../ids-menu/ids-menu-item';
 import '../ids-popup-menu/ids-popup-menu';
 
 /**
- *  IDS Breadcrumb Component
+ * IDS Breadcrumb Component
  * @type {IdsBreadcrumb}
  * @inherits IdsElement
+ * @mixes IdsColorVariantMixin
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  * @part breadcrumb
@@ -33,7 +35,8 @@ export default class IdsBreadcrumb extends Base {
     if (this.truncate) {
       this.#buildOverflowMenu();
     }
-    this.setActiveBreadrcrumb();
+    this.onColorVariantRefresh();
+    this.setActiveBreadcrumb();
   }
 
   /**
@@ -55,6 +58,16 @@ export default class IdsBreadcrumb extends Base {
    */
   #resizeObserver = new ResizeObserver(() => this.#resize());
 
+  /**
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  colorVariants = ['breadcrumb', 'alternate'];
+
+  /**
+   * Attaches event handlers
+   * @private
+   * @returns {void}
+   */
   #attachEventHandlers() {
     this.onEvent('click', this, (e) => {
       if (e.target.tagName === 'IDS-HYPERLINK' && typeof this.onBreadcrumbActivate === 'function') {
@@ -91,7 +104,11 @@ export default class IdsBreadcrumb extends Base {
    */
   #buildOverflowMenu() {
     const group = this.popupMenuGroupEl;
-    const menuItemHTML = [...this.children].map((elem) => `<ids-menu-item>${elem.textContent}</ids-menu-item>`).join('');
+    const menuItemHTML = [...this.children].map((elem) => {
+      const disabled = elem.disabled ? ' disabled' : '';
+      const hidden = elem.hidden ? ' hidden' : '';
+      return `<ids-menu-item${disabled}${hidden}>${elem.textContent}</ids-menu-item>`;
+    }).join('');
     group.insertAdjacentHTML('afterbegin', menuItemHTML);
 
     // Connect all "More Action" items generated from Breadcrumb Links to their
@@ -156,16 +173,17 @@ export default class IdsBreadcrumb extends Base {
    * @param {Element} breadcrumb The HTML element to add
    */
   add(breadcrumb) {
-    breadcrumb.setAttribute('color', 'unset');
     breadcrumb.setAttribute('role', 'listitem');
     breadcrumb.setAttribute('text-decoration', 'hover');
+    breadcrumb.setAttribute('color-variant', this.closest('ids-header') ? 'alternate' : 'breadcrumb');
     breadcrumb.setAttribute('hitbox', 'true');
     if (!(breadcrumb.getAttribute('font-size'))) {
       breadcrumb.setAttribute('font-size', 14);
     }
 
-    this.setActiveBreadrcrumb(breadcrumb, this.lastElementChild);
+    const lastBreadcrumb = this.lastElementChild;
     this.appendChild(breadcrumb);
+    this.setActiveBreadcrumb(breadcrumb, lastBreadcrumb);
   }
 
   /**
@@ -176,7 +194,7 @@ export default class IdsBreadcrumb extends Base {
     if (this.lastElementChild) {
       const breadcrumb = this.removeChild(this.lastElementChild);
       if (this.lastElementChild) {
-        this.setActiveBreadrcrumb();
+        this.setActiveBreadcrumb();
       }
       return breadcrumb;
     }
@@ -325,14 +343,28 @@ export default class IdsBreadcrumb extends Base {
    * @param {HTMLElement} el the target breadcrumb link
    * @param {HTMLElement} [previousActiveBreadcrumbEl] a previously-activated Breadcrumb, if applicable
    */
-  setActiveBreadrcrumb(el, previousActiveBreadcrumbEl) {
+  setActiveBreadcrumb(el, previousActiveBreadcrumbEl) {
     let targetEl = el;
     if (!this.contains(targetEl)) {
       targetEl = this.lastElementChild;
     }
     if (previousActiveBreadcrumbEl) {
-      previousActiveBreadcrumbEl.removeAttribute(attributes.FONT_WEIGHT);
+      previousActiveBreadcrumbEl.fontWeight = null;
     }
-    targetEl.setAttribute(attributes.FONT_WEIGHT, 'bold');
+    targetEl.fontWeight = 'bold';
+  }
+
+  /**
+   *
+   */
+  onColorVariantRefresh() {
+    const parentHeaderEl = this.closest('ids-header');
+    const breadcrumbVariant = parentHeaderEl ? 'alternate' : 'breadcrumb';
+    const menuButtonVariant = parentHeaderEl ? 'alternate' : null;
+
+    this.buttonEl.colorVariant = menuButtonVariant;
+    [...this.children].forEach((link) => {
+      link.colorVariant = breadcrumbVariant;
+    });
   }
 }

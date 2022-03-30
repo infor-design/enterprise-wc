@@ -1,76 +1,6 @@
 /* Ids Hyperlink Css */
 @import '../../core/ids-base';
 
-.ids-hyperlink {
-  @include antialiased();
-  @include text-azure-60();
-  @include font-sans();
-  @include font-normal();
-  @include p-4();
-  @include rounded-default();
-  @include mb-8();
-  @include text-16();
-  @include relative();
-
-  border: 1px solid transparent;
-  display: inline-block;
-  margin: -4px;
-
-  &[disabled] {
-    @include text-slate-40();
-    @include cursor-default();
-
-    pointer-events: none;
-    user-select: none;
-  }
-
-  &:hover:not([disabled]):not(.ids-text-decoration-hover),
-  &:active:not([disabled]):not(.ids-text-decoration-hover) {
-    @include text-azure-70();
-  }
-
-  &:focus {
-    border: 1px solid var(--ids-color-palette-azure-60);
-    box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
-    outline: none;
-  }
-
-  &.bold {
-    @include font-bold();
-  }
-
-  &.hitbox::after {
-    content: '';
-    display: block;
-    height: 44px;
-    top: 50%;
-    left: 0;
-    position: absolute;
-    transform: translateY(-50%);
-    width: 100%;
-  }
-}
-
-.ids-text-decoration-none {
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: none;
-  }
-}
-
-.ids-text-decoration-hover {
-  text-decoration: none;
-
-  &[href]:hover {
-    text-decoration: underline;
-  }
-}
-
-.ids-hyperlink-color-unset {
-  color: unset !important;
-}
-
 /* Ids Typography System */
 .ids-text-10 {
   @include text-10();
@@ -128,91 +58,255 @@
   @include mb-0();
 }
 
-// Handle Themes
-.ids-hyperlink[mode='dark'] {
-  @include text-azure-40();
+.ids-hyperlink {
+  @include antialiased();
+  @include cursor-pointer();
+  @include font-sans();
+  @include font-normal();
+  @include p-4();
+  @include rounded-default();
+  @include mb-8();
+  @include relative();
 
-  &:focus {
-    border: 1px solid var(--ids-color-palette-azure-60);
-    box-shadow: 0 0 4px 2px rgb(141 201 230 / 0.3);
-  }
-
-  &:hover:not([disabled]):not(.ids-text-decoration-hover),
-  &:active:not([disabled]):not(.ids-text-decoration-hover) {
-    @include text-azure-60();
-  }
+  border: 1px solid transparent;
+  display: inline-block;
+  margin: -4px;
 
   &[disabled] {
-    @include text-slate-50();
+    @include cursor-default();
+
+    pointer-events: none;
+    user-select: none;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &.bold {
+    @include font-bold();
+  }
+
+  &.hitbox::after {
+    content: '';
+    display: block;
+    height: 44px;
+    top: 50%;
+    left: 0;
+    position: absolute;
+    transform: translateY(-50%);
+    width: 100%;
+  }
+
+  // =========================================
+  // Theme colors are applied when `color="unset"` is not set
+  &:not(.ids-hyperlink-color-unset) {
+    &[version='new'][mode='light'] {
+      @include text-azure-60();
+
+      &:focus {
+        border: 1px solid var(--ids-color-palette-azure-60);
+        box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
+      }
+
+      &:hover:not([disabled]):not(.ids-text-decoration-hover),
+      &:active:not([disabled]):not(.ids-text-decoration-hover) {
+        @include text-azure-70();
+      }
+
+      &[disabled] {
+        @include text-slate-40();
+      }
+    }
+
+    &[version='new'][mode='dark'] {
+      @include text-azure-40();
+
+      &:focus {
+        border: 1px solid var(--ids-color-palette-azure-60);
+        box-shadow: 0 0 4px 2px rgb(141 201 230 / 0.3);
+      }
+
+      &:hover:not([disabled]):not(.ids-text-decoration-hover),
+      &:active:not([disabled]):not(.ids-text-decoration-hover) {
+        @include text-azure-60();
+      }
+
+      &[disabled] {
+        @include text-slate-50();
+      }
+    }
+
+    &[version='new'][mode='contrast'] {
+      @include text-azure-90();
+
+      &:focus {
+        border: 1px solid var(--ids-color-palette-azure-90);
+        box-shadow: 0 0 4px 2px rgb(41 41 41 / 0.3);
+      }
+
+      &:hover:not([disabled]):not(.ids-text-decoration-hover),
+      &:active:not([disabled]):not(.ids-text-decoration-hover) {
+        @include text-azure-100();
+      }
+
+      &[disabled] {
+        @include text-slate-50();
+      }
+    }
+
+    &[version='classic'][mode='light'] {
+      @include text-azure-70();
+
+      &:focus {
+        box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
+      }
+
+      &:hover:not([disabled]):not(.ids-text-decoration-hover),
+      &:active:not([disabled]):not(.ids-text-decoration-hover) {
+        @include text-azure-80();
+      }
+
+      &[disabled] {
+        @include text-graphite-40();
+      }
+    }
+
+    &[version='classic'][mode='dark'] {
+      @include text-azure-40();
+
+      &:focus {
+        box-shadow: 0 0 4px 3px rgb(141 201 230 / 0.3);
+      }
+
+      &:hover:not([disabled]):not(.ids-text-decoration-hover),
+      &:active:not([disabled]):not(.ids-text-decoration-hover) {
+        @include text-azure-50();
+      }
+
+      &[disabled] {
+        @include text-classic-slate-50();
+      }
+    }
+
+    &[version='classic'][mode='contrast'] {
+      @include text-azure-90();
+
+      &:focus {
+        border: 1px solid var(--ids-color-palette-azure-90);
+        box-shadow: 0 0 4px 2px rgb(41 41 41 / 0.3);
+      }
+
+      &:hover:not([disabled]):not(.ids-text-decoration-hover),
+      &:active:not([disabled]):not(.ids-text-decoration-hover) {
+        @include text-azure-100();
+      }
+
+      &[disabled] {
+        @include text-classic-slate-50();
+      }
+    }
+
+    // ===============================================
+    // Color Variants
+    &.color-variant-breadcrumb {
+      &[version='new'][mode='light'] {
+        @include text-slate-60();
+
+        &[disabled] {
+          @include text-slate-30();
+        }
+      }
+
+      &[version='new'][mode='dark'] {
+        @include text-slate-40();
+
+        &[disabled] {
+          @include text-slate-60();
+        }
+      }
+
+      &[version='new'][mode='contrast'] {
+        @include text-slate-80();
+
+        &[disabled] {
+          @include text-slate-30();
+        }
+      }
+
+      &[version='classic'][mode='light'] {
+        @include text-slate-60();
+
+        &[disabled] {
+          @include text-slate-30();
+        }
+      }
+
+      &[version='classic'][mode='dark'] {
+        @include text-slate-40();
+
+        &[disabled] {
+          @include text-classic-slate-50();
+        }
+      }
+
+      &[version='classic'][mode='contrast'] {
+        @include text-slate-80();
+
+        &[disabled] {
+          @include text-slate-50();
+        }
+      }
+
+      &:not([mode]) {
+        @include text-slate-60();
+      }
+    }
+
+    &.color-variant-alternate {
+      &[disabled] {
+        opacity: 0.7;
+      }
+
+      &[version='new'][mode='light'] {
+        @include text-white();
+      }
+
+      &[version='new'][mode='dark'] {
+        @include text-white();
+      }
+
+      &[version='new'][mode='contrast'] {
+        @include text-white();
+      }
+
+      &[version='classic'][mode='light'] {
+        @include text-white();
+      }
+
+      &[version='classic'][mode='dark'] {
+        @include text-white();
+      }
+
+      &[version='classic'][mode='contrast'] {
+        @include text-white();
+      }
+    }
   }
 }
 
-.ids-hyperlink[mode='contrast'] {
-  @include text-azure-90();
+.ids-text-decoration-none {
+  text-decoration: none;
 
-  &:focus {
-    border: 1px solid var(--ids-color-palette-azure-90);
-    box-shadow: 0 0 4px 2px rgb(41 41 41 / 0.3);
-  }
-
-  &:hover:not([disabled]):not(.ids-text-decoration-hover),
-  &:active:not([disabled]):not(.ids-text-decoration-hover) {
-    @include text-azure-100();
-  }
-
-  &[disabled] {
-    @include text-slate-50();
+  &:hover {
+    text-decoration: none;
   }
 }
 
-.ids-hyperlink[version='classic'][mode='light'] {
-  @include text-azure-70();
+.ids-text-decoration-hover {
+  text-decoration: none;
 
-  &:focus {
-    box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
-  }
-
-  &:hover:not([disabled]):not(.ids-text-decoration-hover),
-  &:active:not([disabled]):not(.ids-text-decoration-hover) {
-    @include text-azure-80();
-  }
-
-  &[disabled] {
-    @include text-graphite-40();
-  }
-}
-
-.ids-hyperlink[version='classic'][mode='dark'] {
-  @include text-azure-40();
-
-  &:focus {
-    box-shadow: 0 0 4px 3px rgb(141 201 230 / 0.3);
-  }
-
-  &:hover:not([disabled]):not(.ids-text-decoration-hover),
-  &:active:not([disabled]):not(.ids-text-decoration-hover) {
-    @include text-azure-50();
-  }
-
-  &[disabled] {
-    @include text-classic-slate-50();
-  }
-}
-
-.ids-hyperlink[version='classic'][mode='contrast'] {
-  @include text-azure-90();
-
-  &:focus {
-    border: 1px solid var(--ids-color-palette-azure-90);
-    box-shadow: 0 0 4px 2px rgb(41 41 41 / 0.3);
-  }
-
-  &:hover:not([disabled]):not(.ids-text-decoration-hover),
-  &:active:not([disabled]):not(.ids-text-decoration-hover) {
-    @include text-azure-100();
-  }
-
-  &[disabled] {
-    @include text-classic-slate-50();
+  &[href]:hover {
+    text-decoration: underline;
   }
 }

@@ -3,7 +3,8 @@ import { attributes } from '../../core/ids-attributes';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import Base from './ids-header-base';
-import IdsInput from '../ids-input/ids-input';
+import '../ids-input/ids-input';
+import '../ids-breadcrumb/ids-breadcrumb';
 
 import styles from './ids-header.scss';
 
@@ -52,7 +53,7 @@ export default class IdsHeader extends Base {
    * @private
    */
   #refreshVariants() {
-    const elementNames = ['ids-button', 'ids-search-field', 'ids-text', 'ids-theme-switcher'];
+    const elementNames = ['ids-button', 'ids-breadcrumb', 'ids-search-field', 'ids-text', 'ids-theme-switcher'];
 
     for (const element of elementNames) {
       const idsElements = [...this.querySelectorAll(element)];

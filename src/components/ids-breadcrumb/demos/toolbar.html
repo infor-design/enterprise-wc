@@ -8,20 +8,20 @@
     <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
 
     <ids-layout-grid auto="true">
-      <ids-text font-size="12" type="h1">Breadcrumb</ids-text>
+      <ids-text font-size="12" type="h1">Breadcrumb in a Toolbar</ids-text>
     </ids-layout-grid>
 
     <ids-layout-grid auto="true">
       <ids-toolbar>
         <ids-toolbar-section favor>
           <ids-breadcrumb padding="8">
-            <ids-hyperlink font-size="14" color="unset" href="#">First Item</ids-hyperlink>
-            <ids-hyperlink font-size="14" color="unset" href="#">Second Item</ids-hyperlink>
-            <ids-hyperlink font-size="14" color="unset" href="#">Disabled Item</ids-hyperlink>
-            <ids-hyperlink font-size="14" color="unset">Current Item</ids-hyperlink>
+            <ids-hyperlink font-size="14" text-decoration="hover" href="#">First Item</ids-hyperlink>
+            <ids-hyperlink font-size="14" text-decoration="hover" href="#">Second Item</ids-hyperlink>
+            <ids-hyperlink font-size="14" text-decoration="hover" href="#">Disabled Item</ids-hyperlink>
+            <ids-hyperlink font-size="14" text-decoration="hover">Current Item</ids-hyperlink>
           </ids-breadcrumb>
         </ids-toolbar-section>
-        
+
         <ids-toolbar-section type="buttonset" align="end">
           <ids-button id="button-6">
             <span slot="text" class="audible">Trash</span>

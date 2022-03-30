@@ -23,8 +23,8 @@ export default class IdsHyperlink extends Base {
   }
 
   connectedCallback() {
-    if (!(this.getAttribute('role'))) this.setAttribute('role', 'link');
     super.connectedCallback();
+    if (!(this.getAttribute('role'))) this.setAttribute('role', 'link');
   }
 
   /**
@@ -53,6 +53,11 @@ export default class IdsHyperlink extends Base {
   template() {
     return `<a class="ids-hyperlink" part="link"><slot></slot></a>`;
   }
+
+  /**
+   *
+   */
+  colorVariants = ['breadcrumb', 'alternate'];
 
   /**
    * Set the link href

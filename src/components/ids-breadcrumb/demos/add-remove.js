@@ -1,6 +1,8 @@
 const [button1, button2] = document.querySelectorAll('ids-button');
 const breadcrumb = document.querySelector('ids-breadcrumb');
 const checkbox = document.querySelector('ids-checkbox');
+
+// Click the "Add Link" button to add breadcrumbs
 button1.onclick = () => {
   const link = document.createElement('ids-hyperlink');
   link.innerText = `Breadcrumb ${breadcrumb.children.length + 1}`;
@@ -9,4 +11,5 @@ button1.onclick = () => {
   breadcrumb.add(link);
 };
 
+// Click "remove" to remove
 button2.onclick = () => breadcrumb.delete();
