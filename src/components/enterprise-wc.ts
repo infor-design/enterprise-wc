@@ -26,7 +26,7 @@ import './ids-dropdown/ids-dropdown';
 // import './ids-fieldset/ids-fieldset';
 // import './ids-header/ids-header';
 // import './ids-hidden/ids-hidden';
-// import './ids-hierarchy/ids-hierarchy';
+import './ids-hierarchy/ids-hierarchy';
 // import './ids-home-page/ids-home-page';
 import './ids-hyperlink/ids-hyperlink';
 // import './ids-icon/ids-icon';

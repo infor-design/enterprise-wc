@@ -63,17 +63,17 @@ const DEFAULT_HIERARCHY_HTML = (
 );
 
 describe('IdsHierarchy Component', () => {
-  let el;
-  let item;
-  let container;
-  let legend;
-  let legendItem;
+  let el: any;
+  let item: any;
+  let container: any;
+  let legend: any;
+  let legendItem: any;
 
   beforeEach(async () => {
-    const elem = new IdsHierarchy();
-    const elemItem = new IdsHierarchyItem();
-    const elemLegend = new IdsHierarchyLegend();
-    const elemLegendItem = new IdsHierarchyLegendItem();
+    const elem: any = new IdsHierarchy();
+    const elemItem: any = new IdsHierarchyItem();
+    const elemLegend: any = new IdsHierarchyLegend();
+    const elemLegendItem: any = new IdsHierarchyLegendItem();
     document.body.appendChild(elem);
     document.body.appendChild(elemLegend);
     elem.appendChild(elemItem);
@@ -91,7 +91,7 @@ describe('IdsHierarchy Component', () => {
     legendItem = null;
   });
 
-  const createElemViaTemplate = async (innerHTML) => {
+  const createElemViaTemplate = async (innerHTML: any) => {
     el?.remove?.();
     container = new IdsContainer();
 
@@ -106,7 +106,7 @@ describe('IdsHierarchy Component', () => {
     return el;
   };
 
-  const createLegendViaTemplate = async (innerHTML) => {
+  const createLegendViaTemplate = async (innerHTML: any) => {
     legend?.remove?.();
     container = new IdsContainer();
 
@@ -189,7 +189,6 @@ describe('IdsHierarchy Component', () => {
 
   it('can expand and collapse items when clicked', () => {
     const event = new MouseEvent('click', {
-      target: item.expander,
       bubbles: true,
       cancelable: true,
       view: window
@@ -207,10 +206,18 @@ describe('IdsHierarchy Component', () => {
   it('can expand and collapse items when touchend', () => {
     const event = new TouchEvent('touchend', {
       touches: [{
-        identifier: '123',
+        identifier: 123,
         pageX: 0,
         pageY: 0,
-        target: item.expander
+        target: item.expander,
+        clientX: 0,
+        clientY: 0,
+        force: 0,
+        radiusX: 0,
+        radiusY: 0,
+        rotationAngle: 0,
+        screenX: 0,
+        screenY: 0
       }],
       bubbles: true,
       cancelable: true,
@@ -229,10 +236,18 @@ describe('IdsHierarchy Component', () => {
   it('can select an item when touchstart', () => {
     const event = new TouchEvent('touchstart', {
       touches: [{
-        identifier: '123',
+        identifier: 123,
         pageX: 0,
         pageY: 0,
-        target: item.leaf
+        target: item.leaf,
+        clientX: 0,
+        clientY: 0,
+        force: 0,
+        radiusX: 0,
+        radiusY: 0,
+        rotationAngle: 0,
+        screenX: 0,
+        screenY: 0
       }],
       bubbles: true,
       cancelable: true,

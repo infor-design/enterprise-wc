@@ -23,7 +23,7 @@ export default class IdsHierarchy extends Base {
     super.connectedCallback?.();
   }
 
-  template() {
+  template(): string {
     return `<slot></slot>`;
   }
 
@@ -34,10 +34,10 @@ export default class IdsHierarchy extends Base {
    * @returns {void}
    */
   #selectItem() {
-    this.onEvent('itemselect', this, (e) => {
+    this.onEvent('itemselect', this, (e: any) => {
       e.stopPropagation();
       const items = this.querySelectorAll('ids-hierarchy-item');
-      items.forEach((item) => {
+      items.forEach((item: any) => {
         item.removeAttribute(attributes.SELECTED);
         item.setAttribute('aria-selected', false);
       });

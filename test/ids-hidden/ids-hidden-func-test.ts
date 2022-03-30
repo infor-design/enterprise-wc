@@ -14,10 +14,10 @@ const DEFAULT_HIDDEN_2_HTML = (
 );
 
 describe('IdsHidden Component', () => {
-  let el;
-  let container;
-  let hidden1;
-  let hidden2;
+  let el: any;
+  let container: any;
+  let hidden1: any;
+  let hidden2: any;
 
   beforeAll(() => {
     Object.defineProperty(window, 'matchMedia', {
@@ -35,7 +35,7 @@ describe('IdsHidden Component', () => {
     });
   });
 
-  const createElemViaTemplate1 = async (innerHTML) => {
+  const createElemViaTemplate1 = async (innerHTML: string) => {
     hidden1?.remove?.();
     container = new IdsContainer();
 
@@ -50,7 +50,7 @@ describe('IdsHidden Component', () => {
     return hidden1;
   };
 
-  const createElemViaTemplate2 = async (innerHTML) => {
+  const createElemViaTemplate2 = async (innerHTML: string) => {
     hidden2?.remove?.();
     container = new IdsContainer();
 
@@ -82,8 +82,8 @@ describe('IdsHidden Component', () => {
   });
 
   beforeEach(async () => {
-    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => cb());
-    const elem = new IdsHidden();
+    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb: any) => cb());
+    const elem: any = new IdsHidden();
     document.body.appendChild(elem);
     el = document.querySelector('ids-hidden');
   });
@@ -91,7 +91,7 @@ describe('IdsHidden Component', () => {
   afterEach(async () => {
     document.body.innerHTML = '';
     el = null;
-    window.requestAnimationFrame.mockRestore();
+    (<any>window.requestAnimationFrame).mockRestore();
   });
 
   it('renders correctly', () => {
@@ -153,5 +153,17 @@ describe('IdsHidden Component', () => {
     expect(el.getAttribute('visible')).toBe('true');
     el.visible = false;
     expect(el.getAttribute('visible')).toBe(null);
+  });
+
+  it('should hide when media query matches', () => {
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: jest.fn().mockImplementation(() => ({ matches: true }))
+    });
+
+    const mq = window.matchMedia('(min-width: 0px)');
+    el.checkScreen(mq);
+    expect(el.hidden).toBeTruthy();
+    expect(el.visible).toBeFalsy();
   });
 });

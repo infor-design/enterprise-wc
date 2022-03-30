@@ -6,7 +6,7 @@ describe('Ids Message Percy Tests', () => {
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
-      document.querySelector('#message-example-error-trigger').click();
+      (document.querySelector('#message-example-error-trigger') as HTMLElement).click();
     });
     await page.waitForTimeout(200); // approx. time for a Modal to show
     await percySnapshot(page, 'ids-message-new-light', { widths: [1280] });

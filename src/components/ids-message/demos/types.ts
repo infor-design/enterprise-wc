@@ -1,11 +1,11 @@
 // Supporting Components
-import IdsMessage from '../ids-message';
-import IdsModal, { IdsModalButton } from '../../ids-modal/ids-modal';
-import IdsButton from '../../ids-button/ids-button';
-import IdsHyperlink from '../../ids-hyperlink/ids-hyperlink';
+import '../ids-message';
+import '../../ids-modal/ids-modal';
+import '../../ids-button/ids-button';
+import '../../ids-hyperlink/ids-hyperlink';
 
 // Convenience function for setting up modal/trigger button connection
-const setupMessage = (messageEl, triggerBtnEl) => {
+const setupMessage = (messageEl: any, triggerBtnEl: any) => {
   // Link the Message to its trigger button
   messageEl.target = triggerBtnEl;
   messageEl.trigger = 'click';
@@ -17,7 +17,7 @@ const setupMessage = (messageEl, triggerBtnEl) => {
   });
 
   // Setup the response callback
-  messageEl.onButtonClick = (buttonEl) => {
+  messageEl.onButtonClick = (buttonEl: any) => {
     const response = buttonEl.cancel ? 'cancel' : buttonEl.text;
     console.info(`IdsMessage with title "${messageEl.title}" had its "${response}" button clicked`);
     messageEl.hide();

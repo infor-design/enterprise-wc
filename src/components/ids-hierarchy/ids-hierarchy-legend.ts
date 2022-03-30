@@ -1,5 +1,4 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import IdsElement from '../../core/ids-element';
 import Base from './ids-hierarchy-legend-base';
 
 import styles from './ids-hierarchy-legend.scss';
@@ -28,7 +27,7 @@ export default class IdsHierarchyLegend extends Base {
     super.disconnectedCallback?.();
   }
 
-  template() {
+  template(): string {
     return `
       <div class="ids-hierarchy-legend">
         <slot class="legend" part="legend"></slot>
