@@ -16,6 +16,7 @@ import styles from './ids-button.scss';
  * @mixes IdsEventsMixin
  * @mixes IdsColorVariantMixin
  * @mixes IdsLocaleMixin
+ * @mixes IdsRippleMixin
  * @mixes IdsThemeMixin
  * @mixes IdsTooltipMixin
  * @part button - the button element
@@ -67,7 +68,7 @@ export default class IdsButton extends Base {
    * Button-level `connectedCallback` implementation
    * @returns {void}
    */
-  connectedCallback() {
+  connectedCallback(): void {
     const isIconButton = this.button.classList.contains('ids-icon-button');
     this.setupRipple(this.button, isIconButton ? 35 : 50);
     this.setIconAlignment();
@@ -77,9 +78,9 @@ export default class IdsButton extends Base {
 
   /**
    * Return the attributes we handle as getters/setters
-   * @returns {Array} The attributes in an array
+   * @returns {Array<string>} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [...super.attributes, ...BUTTON_ATTRIBUTES];
   }
 
@@ -93,7 +94,7 @@ export default class IdsButton extends Base {
    * Figure out the classes
    * @private
    * @readonly
-   * @returns {Array} containing classes used to identify this button prototype
+   * @returns {Array<string>} containing classes used to identify this button prototype
    */
   get protoClasses() {
     const textSlot = this.querySelector('span:not(.audible), ids-text:not([audible])');
@@ -173,12 +174,12 @@ export default class IdsButton extends Base {
    * @readonly
    * @returns {HTMLButtonElement} reference to the true button element used in the Shadow Root
    */
-  get button() {
+  get button(): HTMLButtonElement {
     return this.shadowRoot.querySelector('button');
   }
 
   /**
-   * @param {Array|string} val containing CSS classes that will be applied to the button
+   * @param {Array<string>|string} val containing CSS classes that will be applied to the button
    * Strings will be split into an array and separated by whitespace.
    */
   set cssClass(val) {
@@ -216,7 +217,7 @@ export default class IdsButton extends Base {
     });
   }
 
-  get cssClass() {
+  get cssClass(): string {
     return this.state.cssClass;
   }
 
@@ -224,7 +225,7 @@ export default class IdsButton extends Base {
    * Passes a disabled attribute from the custom element to the button
    * @param {boolean|string} val true if the button will be disabled
    */
-  set disabled(val) {
+  set disabled(val: boolean | string) {
     const isValueTruthy = stringToBool(val);
     this.shouldUpdate = false;
     if (isValueTruthy) {
@@ -241,14 +242,14 @@ export default class IdsButton extends Base {
     }
   }
 
-  get disabled() {
+  get disabled(): boolean {
     return this.state.disabled;
   }
 
   /**
-   * @param {boolean} val true if the button component should be hidden from view
+   * @param {boolean|string} val true if the button component should be hidden from view
    */
-  set hidden(val) {
+  set hidden(val: boolean | string) {
     const isValueTruthy = stringToBool(val);
     this.shouldUpdate = false;
     if (isValueTruthy) {
@@ -268,16 +269,15 @@ export default class IdsButton extends Base {
   /**
    * @returns {boolean} true if the button component is hidden from view
    */
-  get hidden() {
+  get hidden(): boolean {
     return this.state.hidden;
   }
 
   /**
    * Passes a tabIndex attribute from the custom element to the button
-   * @param {number} val the tabIndex value
-   * @returns {void}
+   * @param {number | string | null} val the tabIndex value
    */
-  set tabIndex(val) {
+  set tabIndex(val: number | string | null) {
     const trueVal = Number(val);
 
     if (Number.isNaN(trueVal) || trueVal < -1) {
@@ -294,13 +294,13 @@ export default class IdsButton extends Base {
   /**
    * @returns {number} the current tabIndex number for the button
    */
-  get tabIndex() {
+  get tabIndex(): number {
     return this.state.tabIndex;
   }
 
   /**
    * Sets the icon on the button
-   * @param {undefined|string} val representing the icon to set
+   * @param {string | undefined} val representing the icon to set
    */
   set icon(val) {
     if (typeof val !== 'string' || !val.length) {
@@ -316,17 +316,18 @@ export default class IdsButton extends Base {
 
   /**
    * Gets the current icon used on the button
-   * @returns {undefined|string} a defined IdsIcon's `icon` attribute, if one is present
+   * @returns {string | undefined} a defined IdsIcon's `icon` attribute, if one is present
    */
-  get icon() {
+  get icon(): string | undefined {
     return this.querySelector('ids-icon')?.getAttribute('icon');
   }
 
   /**
    * Gets the current icon element
-   * @returns {HTMLElement|null} a defined IdsIcon, if one is present
+   * @readonly
+   * @returns {HTMLElement | null} a defined IdsIcon, if one is present
    */
-  get iconEl() {
+  get iconEl(): HTMLElement | null {
     return this.querySelector('ids-icon');
   }
 
@@ -334,35 +335,34 @@ export default class IdsButton extends Base {
    * Sets the alignment of an existing icon to the 'start' or 'end' of the text
    * @param {string} val the alignment type to set.
    */
-  set iconAlign(val) {
-    let trueVal = val;
+  set iconAlign(val: string) {
     if (!ICON_ALIGN.includes(`align-icon-${val}`)) {
-      trueVal = 'start';
+      val = 'start';
     }
-    this.state.iconAlign = trueVal;
+    this.state.iconAlign = val;
     this.setIconAlignment();
   }
 
   /**
    * @returns {string} containing 'start' or 'end'
    */
-  get iconAlign() {
+  get iconAlign(): string {
     return this.state.iconAlign;
   }
 
   /**
    * Get width
-   * @returns {string|null} 100%, 90px, 50rem etc.
+   * @returns {string | null} 100%, 90px, 50rem etc.
    */
-  get width() {
+  get width(): string | null {
     return this.getAttribute('width');
   }
 
   /**
    * Set width of button
-   * @param {string} w 100%, 90px, 50rem etc.
+   * @param {string | null} w 100%, 90px, 50rem etc.
    */
-  set width(w) {
+  set width(w: string | null) {
     if (!w) {
       this.removeAttribute('width');
       this.style.width = '';
@@ -405,7 +405,7 @@ export default class IdsButton extends Base {
    * Check if an icon exists, and removes the icon if it's present
    * @private
    */
-  removeIcon() {
+  removeIcon(): void {
     const icon = this.querySelector(`ids-icon`); // @TODO check for dropdown/expander icons here
 
     if (icon) {
@@ -419,7 +419,7 @@ export default class IdsButton extends Base {
    * Adds/Removes Icon Alignment CSS classes to/from the inner button component.
    * @private
    */
-  setIconAlignment() {
+  setIconAlignment(): void {
     const alignment = this.iconAlign || 'start';
     const iconStr = this.icon;
     this.button.classList.remove(...ICON_ALIGN);
@@ -443,10 +443,10 @@ export default class IdsButton extends Base {
   }
 
   /**
-   * @param {string} val the text value
+   * @param {string | null} val the text value
    * @returns {void}
    */
-  set text(val) {
+  set text(val: string | null) {
     this.removeAttribute(attributes.TEXT);
 
     if (typeof val !== 'string' || !val.length) {
@@ -461,9 +461,9 @@ export default class IdsButton extends Base {
   }
 
   /**
-   * @returns {string} the current text value
+   * @returns {string | null} the current text value
    */
-  get text() {
+  get text(): string | null {
     const textElem = this.querySelector('span:not(.audible)');
     if (textElem && textElem.textContent?.length) {
       return textElem.textContent;
@@ -500,9 +500,9 @@ export default class IdsButton extends Base {
 
   /**
    * Set the button types between 'default', 'primary', 'secondary', 'tertiary', or 'destructive'
-   * @param {string} val a valid button "type"
+   * @param {string | null} val a valid button "type"
    */
-  set type(val) {
+  set type(val: string | null) {
     if (!val || BUTTON_TYPES.indexOf(val) <= 0) {
       this.removeAttribute(attributes.TYPE);
       this.state.type = BUTTON_TYPES[0];
@@ -518,7 +518,7 @@ export default class IdsButton extends Base {
   /**
    * @returns {string} the currently set type
    */
-  get type() {
+  get type(): string {
     return this.state.type;
   }
 
@@ -536,7 +536,7 @@ export default class IdsButton extends Base {
     this.container.classList.remove(attributes.NO_MARGINS);
   }
 
-  get noMargins() {
+  get noMargins(): boolean {
     return stringToBool(this.getAttribute(attributes.NO_MARGINS));
   }
 
@@ -593,9 +593,9 @@ export default class IdsButton extends Base {
   /**
    * Sets the correct type class on the Shadow button.
    * @private
-   * @param {string} val desired type class
+   * @param {string | null} val desired type class
    */
-  setTypeClass(val: string) {
+  setTypeClass(val: string | null) {
     BUTTON_TYPES.forEach((type) => {
       const typeClassName = `btn-${type}`;
       if (val === type) {
@@ -613,7 +613,7 @@ export default class IdsButton extends Base {
   /**
    * Overrides the standard "focus" behavior to instead pass focus to the inner HTMLButton element.
    */
-  focus() {
+  focus(): void {
     this.button.focus();
   }
 
@@ -622,7 +622,7 @@ export default class IdsButton extends Base {
    * update the color variant on children components
    * @returns {void}
    */
-  onColorVariantRefresh() {
+  onColorVariantRefresh(): void {
     const icons = this.querySelectorAll('ids-icon');
     const texts = this.querySelectorAll('ids-text');
     const iterator = (el: { colorVariant: any; }) => {

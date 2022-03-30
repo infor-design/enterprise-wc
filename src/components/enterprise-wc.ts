@@ -70,7 +70,7 @@ import './ids-tag/ids-tag';
 // import './ids-theme-switcher/ids-theme-switcher';
 // import './ids-toast/ids-toast';
 // import './ids-trigger-field/ids-trigger-button';
-// import './ids-toggle-button/ids-toggle-button';
+import './ids-toggle-button/ids-toggle-button';
 // import './ids-toolbar/ids-toolbar';
 // import './ids-tooltip/ids-tooltip';
 // import './ids-tree/ids-tree';
