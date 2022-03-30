@@ -1,5 +1,5 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import { attributes, breakpoints } from '../../core/ids-attributes';
+import { attributes, Breakpoints, breakpoints } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import Base from './ids-hidden-base';
 
@@ -19,9 +19,9 @@ export default class IdsHidden extends Base {
 
   /**
    * Return the attributes we handle as getters/setters
-   * @returns {Array} The attributes in an array
+   * @returns {Array<string>} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       attributes.HIDE_UP,
       attributes.HIDE_DOWN
@@ -32,7 +32,7 @@ export default class IdsHidden extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `<slot part="children"></slot>`;
   }
 
@@ -41,7 +41,7 @@ export default class IdsHidden extends Base {
    * @param {string} val xxl | xl | lg | md | sm | xs
    * @memberof IdsHidden
    */
-  set hideDown(val) {
+  set hideDown(val: keyof Breakpoints) {
     if (val) {
       const mqUp = this.isWidthDown(breakpoints[val]);
       this.setAttribute(attributes.HIDE_DOWN, val);
@@ -60,7 +60,7 @@ export default class IdsHidden extends Base {
    * @readonly
    * @memberof IdsHidden
    */
-  get hideDown() {
+  get hideDown(): keyof Breakpoints {
     return this.getAttribute(attributes.HIDE_DOWN);
   }
 
@@ -69,7 +69,7 @@ export default class IdsHidden extends Base {
    * @param {string} val xxl | xl | lg | md | sm | xs
    * @memberof IdsHidden
    */
-  set hideUp(val) {
+  set hideUp(val: keyof Breakpoints) {
     if (val) {
       const mqUp = this.isWidthUp(breakpoints[val]);
       this.setAttribute(attributes.HIDE_UP, val);
@@ -88,7 +88,7 @@ export default class IdsHidden extends Base {
    * @readonly
    * @memberof IdsHidden
    */
-  get hideUp() {
+  get hideUp(): keyof Breakpoints {
     return this.getAttribute(attributes.HIDE_UP);
   }
 
@@ -97,7 +97,7 @@ export default class IdsHidden extends Base {
    * @param {boolean} val of the visible attribute
    * @memberof IdsHidden
    */
-  set visible(val) {
+  set visible(val: boolean) {
     const isValTruthy = stringToBool(val);
     if (isValTruthy) {
       this.setAttribute('visible', true);
@@ -118,10 +118,10 @@ export default class IdsHidden extends Base {
 
   /**
    * Check the screen size
-   * @param {object} mq media query to check against
+   * @param {MediaQueryList} mq media query to check against
    * @memberof IdsHidden
    */
-  checkScreen(mq) {
+  checkScreen(mq: MediaQueryList) {
     if (mq.matches) {
       this.hidden = true;
       this.removeAttribute('visible');
@@ -134,10 +134,10 @@ export default class IdsHidden extends Base {
   /**
    * Check for max width media query.
    * @param {string} width size of the breakpoint
-   * @returns {object} media query
+   * @returns {MediaQueryList} media query
    * @memberof IdsHidden
    */
-  isWidthDown(width) {
+  isWidthDown(width: string): MediaQueryList {
     const mq = window.matchMedia(`(max-width: ${width})`);
     return mq;
   }
@@ -145,10 +145,10 @@ export default class IdsHidden extends Base {
   /**
    * Check for min width media query.
    * @param {string} width size of the breakpoint
-   * @returns {object} media query
+   * @returns {MediaQueryList} media query
    * @memberof IdsHidden
    */
-  isWidthUp(width) {
+  isWidthUp(width: string): MediaQueryList {
     const mq = window.matchMedia(`(min-width: ${width})`);
     return mq;
   }

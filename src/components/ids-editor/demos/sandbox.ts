@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   /**
    * MODAL ELEMENTS DEFAULT VALUE
    */
-  const editorModalElementsValueEl = document.querySelector('#editor-modal-elements-value');
+  const editorModalElementsValueEl: any = document.querySelector('#editor-modal-elements-value');
   if (editorModalElementsValueEl) {
     const modals = {
       hyperlink: {
@@ -19,48 +19,48 @@ document.addEventListener('DOMContentLoaded', async () => {
   /**
    * EDITOR EVENTS
    */
-  const editorEventsEl = document.querySelector('#editor-events');
-  const radioBeforeEditor = document.querySelector('#radio-editor-evt-beforeeditormode');
-  const radioBeforeSource = document.querySelector('#radio-editor-evt-beforesourcemode');
-  const radioBeforePaste = document.querySelector('#radio-editor-evt-beforepaste');
-  const cbPasteAsPlainText = document.querySelector('#cb-paste-as-plain-text');
+  const editorEventsEl: any = document.querySelector('#editor-events');
+  const radioBeforeEditor: any = document.querySelector('#radio-editor-evt-beforeeditormode');
+  const radioBeforeSource: any = document.querySelector('#radio-editor-evt-beforesourcemode');
+  const radioBeforePaste: any = document.querySelector('#radio-editor-evt-beforepaste');
+  const cbPasteAsPlainText: any = document.querySelector('#cb-paste-as-plain-text');
   if (editorEventsEl) {
     // display console logs
-    const show = (type, detail, veto) => {
+    const show = (type: string, detail: string, veto?: boolean) => {
       const showVeto = typeof veto !== 'undefined' ? `veto: ${veto}` : '';
       console.info(type, (detail ?? ''), showVeto);
     };
 
     // before editor mode
-    editorEventsEl.addEventListener('beforeeditormode', (e) => {
-      const veto = radioBeforeEditor.value;
+    editorEventsEl.addEventListener('beforeeditormode', (e: any) => {
+      const veto: boolean = radioBeforeEditor.value;
       show('beforeeditormode', e.detail, veto);
       e.detail.response(veto);
     });
     // after editor mode
-    editorEventsEl.addEventListener('aftereditormode', (e) => {
+    editorEventsEl.addEventListener('aftereditormode', (e: any) => {
       show('aftereditormode', e.detail);
     });
     // before source mode
-    editorEventsEl.addEventListener('beforesourcemode', (e) => {
+    editorEventsEl.addEventListener('beforesourcemode', (e: any) => {
       const veto = radioBeforeSource.value;
       show('beforesourcemode', e.detail, veto);
       e.detail.response(veto);
     });
     // after source mode
-    editorEventsEl.addEventListener('aftersourcemode', (e) => {
+    editorEventsEl.addEventListener('aftersourcemode', (e: any) => {
       show('aftersourcemode', e.detail);
     });
     // if requested view mode reject
-    editorEventsEl.addEventListener('rejectviewchange', (e) => {
+    editorEventsEl.addEventListener('rejectviewchange', (e: any) => {
       show('rejectviewchange', e.detail);
     });
     // after requested view mode change
-    editorEventsEl.addEventListener('viewchange', (e) => {
+    editorEventsEl.addEventListener('viewchange', (e: any) => {
       show('viewchange', e.detail);
     });
     // before paste
-    editorEventsEl.addEventListener('beforepaste', (e) => {
+    editorEventsEl.addEventListener('beforepaste', (e: any) => {
       // Set paste as plain text setting
       editorEventsEl.pasteAsPlainText = cbPasteAsPlainText.checked;
       const veto = radioBeforePaste.value;
@@ -68,11 +68,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       e.detail.response(veto);
     });
     // after paste
-    editorEventsEl.addEventListener('afterpaste', (e) => {
+    editorEventsEl.addEventListener('afterpaste', (e: any) => {
       show('afterpaste', e.detail);
     });
     // if reject paste content
-    editorEventsEl.addEventListener('rejectpaste', (e) => {
+    editorEventsEl.addEventListener('rejectpaste', (e: any) => {
       show('rejectpaste', e.detail);
     });
     // // change event

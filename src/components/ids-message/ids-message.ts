@@ -1,9 +1,9 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import { MESSAGE_STATUSES } from './ids-message-attributes';
+import MESSAGE_STATUSES from './ids-message-attributes';
 
 import Base from './ids-message-base';
-import IdsIcon from '../ids-icon/ids-icon';
+import '../ids-icon/ids-icon';
 
 import styles from './ids-message.scss';
 
@@ -38,7 +38,7 @@ export default class IdsMessage extends Base {
   /**
    * @returns {void}
    */
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback();
 
     // Update status and correct
@@ -56,7 +56,7 @@ export default class IdsMessage extends Base {
    * @readonly
    * @returns {string} concatenating the status and title together.
    */
-  get ariaLabelContent() {
+  get ariaLabelContent(): string {
     const status = this.status !== 'none' ? `${this.status}: ` : '';
     return `${status}${this.messageTitle}`;
   }
@@ -64,14 +64,14 @@ export default class IdsMessage extends Base {
   /**
    * @returns {string} the current contents of the messsage
    */
-  get message() {
+  get message(): string {
     return this.state.message;
   }
 
   /**
    * @param {string} val the desired contents of the message element
    */
-  set message(val) {
+  set message(val: string) {
     const sanitizedVal = this.xssSanitize(val);
     if (sanitizedVal !== this.state.message) {
       this.#refreshMessage(sanitizedVal);
@@ -82,7 +82,7 @@ export default class IdsMessage extends Base {
    * Refreshes the state of the Message's Content
    * @param {string} content the new message content element
    */
-  #refreshMessage(content) {
+  #refreshMessage(content: string) {
     let messageEl = this.querySelector('*:not([slot])');
     if (!messageEl) {
       messageEl = document.createElement('div');
@@ -99,14 +99,14 @@ export default class IdsMessage extends Base {
   /**
    * @returns {string} the message's current status type
    */
-  get status() {
+  get status(): string {
     return this.state.status || 'default';
   }
 
   /**
    * @param {string} val the message's new status type
    */
-  set status(val) {
+  set status(val: string) {
     let realStatusValue = MESSAGE_STATUSES[0];
     if (MESSAGE_STATUSES.includes(val)) {
       realStatusValue = val;
@@ -131,7 +131,7 @@ export default class IdsMessage extends Base {
    * @param {string} val the value of the status icon
    * @returns {void}
    */
-  #refreshStatus(val) {
+  #refreshStatus(val: string): void {
     const header = this.container.querySelector('.ids-modal-header');
     let icon = header.querySelector('ids-icon');
     if (val && val !== MESSAGE_STATUSES[0]) {
@@ -148,11 +148,11 @@ export default class IdsMessage extends Base {
 
   /**
    * Changes the color of the Status Icon
-   * @param {IdsIcon} iconEl the icon element to update
+   * @param {any} iconEl the icon element to update
    * @param {string} thisStatus the status string to apply as a CSS class
    * @returns {void}
    */
-  #setIconColor(iconEl, thisStatus) {
+  #setIconColor(iconEl: any, thisStatus: string): void {
     const iconElClassList = iconEl.classList;
     MESSAGE_STATUSES.forEach((status) => {
       if (thisStatus !== 'none' && thisStatus === status) {

@@ -1,10 +1,10 @@
 // Supporting components
-import IdsMessage from '../ids-message';
-import IdsButton from '../../ids-button/ids-button';
+import '../ids-message';
+import '../../ids-button/ids-button';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const triggerBtn = document.querySelector('#message-example-error-trigger');
-  const message = document.querySelector('#message-example-error');
+  const triggerBtn: any = document.querySelector('#message-example-error-trigger');
+  const message: any = document.querySelector('#message-example-error');
 
   if (!message) {
     return;
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   message.trigger = 'click';
 
   // Setup the response callback
-  message.onButtonClick = (buttonEl) => {
+  message.onButtonClick = (buttonEl: any) => {
     const response = buttonEl.cancel ? 'cancelled' : 'confirmed';
     console.info(`IdsMessage was ${response}`);
     message.hide();
