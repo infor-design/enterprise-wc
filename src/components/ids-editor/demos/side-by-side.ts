@@ -1,5 +1,5 @@
 // Ids Editor
-import IdsEditor from '../ids-editor';
+import '../ids-editor';
 
 // Initialize the 4.x
 document.addEventListener('DOMContentLoaded', () => {

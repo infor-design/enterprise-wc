@@ -1,10 +1,10 @@
 /**
  * Parse given template string with each context.
  * @param {string} str The template string
- * @param {object} ctx The context key/value
+ * @param {any} ctx The context key/value
  * @returns {string} The template value
  */
-export function parseTemplate(str, ctx) {
+export function parseTemplate(str: string, ctx: any): string {
   return str.replace(/{(\w+)}/g, (m, p) => ctx[p]);
 }
 

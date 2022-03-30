@@ -3,13 +3,13 @@
  * @param {string} html true will force to toggle in to source mode.
  * @returns {string} formated value
  */
-export function formatHtml(html) {
+export default function formatHtml(html: string): string {
   html = html.trim();
   const tokens = html.split(/</);
   let indentLevel = 0;
   let result = '';
 
-  const getIndent = (level) => {
+  const getIndent = (level: number) => {
     const tabsize = 4;
     let indentation = '';
     let i = level * tabsize;

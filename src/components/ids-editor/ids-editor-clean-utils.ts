@@ -4,9 +4,9 @@ import { BLOCK_ELEMENTS } from './ids-editor-shared';
 /**
  * Check if given html is word format
  * @param {string} content The html
- * @returns {string} The cleaned html
+ * @returns {boolean} True, if has word format
  */
-export function isWordFormat(content) {
+export function isWordFormat(content: string): boolean {
   return (
     (/<font face="Times New Roman"|class="?Mso|style="[^"]*\bmso-|style='[^'']*\bmso-|w:WordDocument/i)
       .test(content)
@@ -20,7 +20,7 @@ export function isWordFormat(content) {
  * @param {string} content The html
  * @returns {string} The cleaned html
  */
-export function cleanWordHtml(content) {
+export function cleanWordHtml(content: string): string {
   let s = content;
 
   // Word comments like conditional comments etc
@@ -59,7 +59,7 @@ export function cleanWordHtml(content) {
  * @param {RegExp} styleStripper The RegExp
  * @returns {string} The cleaned html
  */
-export function stripStyles(content, styleStripper) {
+export function stripStyles(content: string, styleStripper: RegExp): string {
   const stylesToKeep = ['color', 'font-size', 'background', 'font-weight', 'font-style', 'text-decoration', 'text-align'];
   return content.replace(styleStripper, (m) => {
     m = m.replace(/( style=|("|\'))/gi, ''); // eslint-disable-line
@@ -81,7 +81,7 @@ export function stripStyles(content, styleStripper) {
  * @param {RegExp} attributeStripper The RegExp
  * @returns {string} The cleaned html
  */
-export function stripAttribute(content, attribute, attributeStripper) {
+export function stripAttribute(content: string, attribute: string, attributeStripper: RegExp): string {
   return (attribute === 'style')
     ? stripStyles(content, attributeStripper)
     : content.replace(attributeStripper, '');
@@ -93,7 +93,7 @@ export function stripAttribute(content, attribute, attributeStripper) {
  * @param {string} str The html
  * @returns {string} The converted html
  */
-export function htmlEntities(str) {
+export function htmlEntities(str: string): string {
   // converts special characters (e.g., <) into their escaped/encoded values (e.g., &lt;).
   // This allows you to display the string without the browser reading it as HTML.
   return String(str)
@@ -109,7 +109,7 @@ export function htmlEntities(str) {
  * @param {string} content The html
  * @returns {string} The cleaned html
  */
-export function cleanHtml(content) {
+export function cleanHtml(content: string): string {
   let attributeStripper;
   let s = content || '';
 
@@ -180,7 +180,7 @@ export function cleanHtml(content) {
  * @param  {string} content The html.
  * @returns {string} The trimmed content.
  */
-export function trimContent(content) {
+export function trimContent(content: string): string {
   const bElems = BLOCK_ELEMENTS.join('|');
   return sanitizeHTML(content || '')
     .trim()
