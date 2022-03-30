@@ -62,7 +62,7 @@ export default class IdsHierarchyLegendItem extends Base {
    * Set the value of the text attribute
    * @param {string} value the value of the attribute
    */
-  set text(value) {
+  set text(value: string) {
     if (value) {
       this.setAttribute('text', value);
     } else {

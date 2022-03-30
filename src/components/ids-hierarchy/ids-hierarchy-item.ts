@@ -61,7 +61,7 @@ export default class IdsHierarchyItem extends Base {
     ];
   }
 
-  template() {
+  template(): string {
     return `
       <div class="ids-hierarchy-item">
         <div class="leaf" part="leaf">
@@ -87,9 +87,9 @@ export default class IdsHierarchyItem extends Base {
 
   /**
    * Set the value of the expanded attribute
-   * @param {boolean} value the value of the attribute
+   * @param {string | null} value the value of the attribute
    */
-  set expanded(value) {
+  set expanded(value: string | null) {
     const isValueTruthy = stringToBool(value);
     if (isValueTruthy) {
       this.setAttribute(attributes.EXPANDED, true);
@@ -99,17 +99,17 @@ export default class IdsHierarchyItem extends Base {
   }
 
   /**
-   * @returns {boolean|undefined} containing value of the expanded attribute
+   * @returns {string | null} containing value of the expanded attribute
    */
-  get expanded() {
+  get expanded(): string | null {
     return this.getAttribute(attributes.EXPANDED);
   }
 
   /**
    * Set the value of the selected attribute
-   * @param {boolean} value the value of the attribute
+   * @param {string | boolean} value the value of the attribute
    */
-  set selected(value) {
+  set selected(value: string | boolean) {
     const isValueTruthy = stringToBool(value);
     if (isValueTruthy) {
       this.setAttribute(attributes.SELECTED, true);
@@ -126,17 +126,17 @@ export default class IdsHierarchyItem extends Base {
   }
 
   /**
-   * @returns {boolean|undefined} containing value of the selected attribute
+   * @returns {string | boolean} containing value of the selected attribute
    */
-  get selected() {
+  get selected(): string | boolean {
     return this.hasAttribute(attributes.SELECTED);
   }
 
   /**
    * Set the value of the root attribute
-   * @param {boolean} value the value of the attribute
+   * @param {string | null} value the value of the attribute
    */
-  set rootItem(value) {
+  set rootItem(value: string | null) {
     const isValueTruthy = stringToBool(value);
     if (isValueTruthy) {
       this.setAttribute(attributes.ROOT_ITEM, true);
@@ -146,9 +146,9 @@ export default class IdsHierarchyItem extends Base {
   }
 
   /**
-   * @returns {boolean|undefined} containing value of the root attribute
+   * @returns {string | null} containing value of the root attribute
    */
-  get rootItem() {
+  get rootItem(): string | null {
     return this.getAttribute(attributes.ROOT_ITEM);
   }
 
@@ -158,7 +158,7 @@ export default class IdsHierarchyItem extends Base {
    * @param {string} expanded the value of the expanded attribute.
    * @returns {void}
    */
-  #expandCollapse(expanded) {
+  #expandCollapse(expanded: string | null) {
     if (expanded) {
       this.setAttribute(attributes.EXPANDED, false);
     } else {
@@ -189,7 +189,7 @@ export default class IdsHierarchyItem extends Base {
       this.#expandCollapse(this.expanded);
     });
 
-    this.onEvent('touchend', this.expander, (e) => {
+    this.onEvent('touchend', this.expander, (e: any) => {
       if (e.touches && e.touches.length > 0) {
         this.#expandCollapse(this.expanded);
       }
