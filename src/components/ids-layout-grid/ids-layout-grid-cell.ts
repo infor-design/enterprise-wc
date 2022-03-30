@@ -36,19 +36,19 @@ export default class IdsLayoutGridCell extends Base {
     ];
   }
 
-  parentColSetting = this.parentElement?.getAttribute(attributes.COLS);
+  parentColSetting: any = this.parentElement?.getAttribute(attributes.COLS);
 
   /**
    * Handle The Fill Setting
    * @returns {string | null} The fill to true for theme default color
    */
-  get fill() { return this.getAttribute(attributes.FILL); }
+  get fill(): string | null { return this.getAttribute(attributes.FILL); }
 
   /**
    * Set the background fill
    * @param {string | null} value The fill color or true for theme default color
    */
-  set fill(value) {
+  set fill(value: string | null) {
     if (value) {
       this.setAttribute(attributes.FILL, value);
       this.classList.add('ids-background-fill');
@@ -63,7 +63,7 @@ export default class IdsLayoutGridCell extends Base {
    * Set the amount of columns to span
    * @param {string | null} value The number value for the columns to span in the grid
    */
-  set colSpan(value) {
+  set colSpan(value: string | null) {
     if (value) {
       this.setAttribute(attributes.COL_SPAN, value);
       this.style.setProperty('--grid-col-span', value);
@@ -84,13 +84,13 @@ export default class IdsLayoutGridCell extends Base {
     this.removeAttribute(attributes.COL_SPAN);
   }
 
-  get colSpan() { return this.getAttribute(attributes.COL_SPAN); }
+  get colSpan(): string | null { return this.getAttribute(attributes.COL_SPAN); }
 
   /**
    * Sets the col span for colSpanXs breakpoint 360px
    * @param {string | null} value The number value for the colSpanXs col span
    */
-  set colSpanXs(value) {
+  set colSpanXs(value: string | null) {
     if (value) {
       this.setAttribute(attributes.COL_SPAN_XS, value);
 
@@ -104,7 +104,7 @@ export default class IdsLayoutGridCell extends Base {
     }
   }
 
-  get colSpanXs() {
+  get colSpanXs(): string | null {
     return this.getAttribute(attributes.COL_SPAN_XS);
   }
 
@@ -112,7 +112,7 @@ export default class IdsLayoutGridCell extends Base {
    * Sets the col span for sm breakpoint 600px
    * @param {string | null} value The number value for the sm col span
    */
-  set colSpanSm(value) {
+  set colSpanSm(value: string | null) {
     if (value) {
       this.setAttribute(attributes.COL_SPAN_SM, value);
 
@@ -126,7 +126,7 @@ export default class IdsLayoutGridCell extends Base {
     }
   }
 
-  get colSpanSm() {
+  get colSpanSm(): string | null {
     return this.getAttribute(attributes.COL_SPAN_SM);
   }
 
@@ -134,7 +134,7 @@ export default class IdsLayoutGridCell extends Base {
    * Sets the col span for md breakpoint 840px
    * @param {string | null} value The number value for the md col span
    */
-  set colSpanMd(value) {
+  set colSpanMd(value: string | null) {
     if (value) {
       this.setAttribute(attributes.COL_SPAN_MD, value);
 
@@ -148,7 +148,7 @@ export default class IdsLayoutGridCell extends Base {
     }
   }
 
-  get colSpanMd() {
+  get colSpanMd(): string | null {
     return this.getAttribute(attributes.COL_SPAN_MD);
   }
 
@@ -156,7 +156,7 @@ export default class IdsLayoutGridCell extends Base {
    * Sets the col span for lg breakpoint 1024px
    * @param {string | null} value The number value for the lg col span
    */
-  set colSpanLg(value) {
+  set colSpanLg(value: string | null) {
     if (value) {
       this.setAttribute(attributes.COL_SPAN_LG, value);
 
@@ -170,7 +170,7 @@ export default class IdsLayoutGridCell extends Base {
     }
   }
 
-  get colSpanLg() {
+  get colSpanLg(): string | null {
     return this.getAttribute(attributes.COL_SPAN_LG);
   }
 
@@ -178,7 +178,7 @@ export default class IdsLayoutGridCell extends Base {
    * Sets the col span for xl breakpoint 1280px
    * @param {string | null} value The number value for the xl col span
    */
-  set colSpanXl(value) {
+  set colSpanXl(value: string | null) {
     if (value) {
       this.setAttribute(attributes.COL_SPAN_XL, value);
 
@@ -192,7 +192,7 @@ export default class IdsLayoutGridCell extends Base {
     }
   }
 
-  get colSpanXl() {
+  get colSpanXl(): string | null {
     return this.getAttribute(attributes.COL_SPAN_XL);
   }
 
@@ -200,7 +200,7 @@ export default class IdsLayoutGridCell extends Base {
    * Sets the col span for xxl breakpoint 1440px
    * @param {string | null} value The number value for the xxl col span
    */
-  set colSpanXxl(value) {
+  set colSpanXxl(value: string | null) {
     if (value) {
       this.setAttribute(attributes.COL_SPAN_XXL, value);
 
@@ -214,7 +214,7 @@ export default class IdsLayoutGridCell extends Base {
     }
   }
 
-  get colSpanXxl() {
+  get colSpanXxl(): string | null {
     return this.getAttribute(attributes.COL_SPAN_XXL);
   }
 
@@ -222,7 +222,7 @@ export default class IdsLayoutGridCell extends Base {
    * Set the starting column
    * @param {string | null} value The number value for the column starting point
    */
-  set colStart(value) {
+  set colStart(value: string | null) {
     if (value) {
       this.setAttribute(attributes.COL_START, value);
       this.style.setProperty('--grid-col-start', value);
@@ -235,13 +235,13 @@ export default class IdsLayoutGridCell extends Base {
     this.removeAttribute(attributes.COL_START);
   }
 
-  get colStart() { return this.getAttribute(attributes.COL_START); }
+  get colStart(): string | null { return this.getAttribute(attributes.COL_START); }
 
   /**
    * Set the ending column
    * @param {string | null} value The number value for the column starting point
    */
-  set colEnd(value) {
+  set colEnd(value: string | null) {
     if (value) {
       this.setAttribute(attributes.COL_END, value);
       this.style.setProperty('--grid-col-end', value);
@@ -254,13 +254,13 @@ export default class IdsLayoutGridCell extends Base {
     this.removeAttribute(attributes.COL_END);
   }
 
-  get colEnd() { return this.getAttribute(attributes.COL_END); }
+  get colEnd(): string | null { return this.getAttribute(attributes.COL_END); }
 
   /**
    * Set the amount of rows to span
    * @param {string | null} value The number value for the rows to span in the grid
    */
-  set rowSpan(value) {
+  set rowSpan(value: string | null) {
     if (value) {
       this.setAttribute(attributes.ROW_SPAN, value);
       this.style.setProperty('--grid-row-span', value);
@@ -273,13 +273,13 @@ export default class IdsLayoutGridCell extends Base {
     this.removeAttribute(attributes.ROW_SPAN);
   }
 
-  get rowSpan() { return this.getAttribute(attributes.ROW_SPAN); }
+  get rowSpan(): string | null { return this.getAttribute(attributes.ROW_SPAN); }
 
   /**
    * Set the starting row
    * @param {string | null} value The number value for the row starting point
    */
-  set rowStart(value) {
+  set rowStart(value: string | null) {
     if (value) {
       this.setAttribute(attributes.ROW_START, value);
       this.style.setProperty('--grid-row-start', value);
@@ -298,7 +298,7 @@ export default class IdsLayoutGridCell extends Base {
    * Set the ending row
    * @param {string | null} value The number value for the row ending point
    */
-  set rowEnd(value) {
+  set rowEnd(value: string | null) {
     if (value) {
       this.setAttribute(attributes.ROW_END, value);
       this.style.setProperty('--grid-row-end', value);
@@ -311,13 +311,13 @@ export default class IdsLayoutGridCell extends Base {
     this.removeAttribute(attributes.ROW_END);
   }
 
-  get rowEnd() { return this.getAttribute(attributes.ROW_END); }
+  get rowEnd(): string | null { return this.getAttribute(attributes.ROW_END); }
 
   /**
    * Float the element to the right using justify-self
    * @param {string | null} value The number value for the row ending point
    */
-  set justify(value) {
+  set justify(value: string | null) {
     if (value) {
       this.setAttribute(attributes.JUSTIFY, value);
       this.style.justifySelf = value;
@@ -332,5 +332,5 @@ export default class IdsLayoutGridCell extends Base {
     this.removeAttribute(attributes.JUSTIFY);
   }
 
-  get justify() { return this.getAttribute(attributes.JUSTIFY); }
+  get justify(): string | null { return this.getAttribute(attributes.JUSTIFY); }
 }

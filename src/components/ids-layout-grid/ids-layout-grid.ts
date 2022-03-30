@@ -43,7 +43,7 @@ export default class IdsLayoutGrid extends Base {
     this.aGridCell = new IdsLayoutGridCell();
   }
 
-  template() {
+  template(): string {
     return `<slot></slot>`;
   }
 
@@ -65,7 +65,7 @@ export default class IdsLayoutGrid extends Base {
    * If true the grid is not responsive and stays equal width as will fit
    * @param {boolean | string | null} value true or false/nothing
    */
-  set fixed(value) {
+  set fixed(value: boolean | string | null) {
     if (value) {
       this.setAttribute(attributes.FIXED, value.toString());
       this.classList.add('ids-fixed');
@@ -76,19 +76,19 @@ export default class IdsLayoutGrid extends Base {
     this.classList.remove('ids-fixed');
   }
 
-  get fixed() { return this.getAttribute(attributes.FIXED); }
+  get fixed(): boolean | string | null { return this.getAttribute(attributes.FIXED); }
 
   /**
    * Handle The Gap Setting
    * @returns {string} The Gap [none, sm, md, lg, xl]
    */
-  get gap() { return this.getAttribute(attributes.GAP) || 'md'; }
+  get gap(): string { return this.getAttribute(attributes.GAP) || 'md'; }
 
   /**
    * Set the grid gap
    * @param {string} value The Gap [none, sm, md, lg, xl]
    */
-  set gap(value) {
+  set gap(value: string) {
     if (value) {
       this.setAttribute(attributes.GAP, value);
       this.classList.add(`ids-layout-grid-gap-${value}`);
@@ -102,7 +102,7 @@ export default class IdsLayoutGrid extends Base {
    * Sets the grid to `auto-fit`
    * @param {boolean | string | null} value true or false/nothing
    */
-  set auto(value) {
+  set auto(value: boolean | string | null) {
     if (value) {
       this.setAttribute(attributes.AUTO, value.toString());
       this.classList.add(autoGridClass);
@@ -115,13 +115,13 @@ export default class IdsLayoutGrid extends Base {
     this.classList.remove(autoGridClass);
   }
 
-  get auto() { return this.getAttribute(attributes.AUTO); }
+  get auto(): boolean | string | null { return this.getAttribute(attributes.AUTO); }
 
   /**
    * Sets the amount of columns in the grid
    * @param {string | null} value number of columns of the grid
    */
-  set cols(value) {
+  set cols(value: string | null) {
     if (value) {
       this.setAttribute(attributes.COLS, value);
       this.style.setProperty('--grid-cols', value);
@@ -150,13 +150,13 @@ export default class IdsLayoutGrid extends Base {
     }
   }
 
-  get cols() { return this.getAttribute(attributes.COLS); }
+  get cols(): string | null { return this.getAttribute(attributes.COLS); }
 
   /**
    * Sets the amount of rows in the grid. Works best with fixed height grids
    * @param {string | null} value number of rows in a fixed grid
    */
-  set rows(value) {
+  set rows(value: string | null) {
     if (value) {
       this.auto = false;
       this.setAttribute(attributes.ROWS, value);
@@ -171,13 +171,13 @@ export default class IdsLayoutGrid extends Base {
     this.classList.remove(rowsClass);
   }
 
-  get rows() { return this.getAttribute(attributes.ROWS); }
+  get rows(): string | null { return this.getAttribute(attributes.ROWS); }
 
   /**
    * If true the grid will not have any margins
    * @param {boolean | string | null} value true or false/nothing
    */
-  set noMargins(value) {
+  set noMargins(value: boolean | string | null) {
     if (value) {
       this.setAttribute(attributes.NO_MARGINS, value.toString());
       this.classList.add(noMarginsClass);
@@ -188,13 +188,13 @@ export default class IdsLayoutGrid extends Base {
     this.classList.remove(noMarginsClass);
   }
 
-  get noMargins() { return this.getAttribute(attributes.NO_MARGINS); }
+  get noMargins(): boolean | string | null { return this.getAttribute(attributes.NO_MARGINS); }
 
   /**
    * Sets the min col width on the grid
-   * @param {string} value number for pixel length
+   * @param {string | null} value number for pixel length
    */
-  set minColWidth(value) {
+  set minColWidth(value: string | null) {
     if (value) {
       this.setAttribute(attributes.MIN_COL_WIDTH, value.toString());
       this.style.setProperty('--grid-min-col-width', value);
@@ -205,5 +205,5 @@ export default class IdsLayoutGrid extends Base {
     this.style.removeProperty('--grid-min-col-width');
   }
 
-  get minColWidth() { return this.getAttribute(attributes.MIN_COL_WIDTH); }
+  get minColWidth(): string | null { return this.getAttribute(attributes.MIN_COL_WIDTH); }
 }
