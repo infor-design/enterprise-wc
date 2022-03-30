@@ -100,7 +100,7 @@ const IdsAutoCompleteMixin = (superclass) => class extends superclass {
       popup: this.#popup,
       popupContent: this.#popup?.container.querySelector('slot[name="content"]'),
       listBoxOptions: this.#popup?.shadowRoot.querySelectorAll('ids-list-box-option'),
-      rootNode: this.getRootNode().body?.querySelector('ids-container') || window.document.body,
+      rootNode: this.container || window.document.body,
     };
   }
 
