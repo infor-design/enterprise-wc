@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import ResizeObserver from '../helpers/resize-observer-mock';
+import '../helpers/resize-observer-mock';
 import wait from '../helpers/wait';
 import processAnimFrame from '../helpers/process-anim-frame';
 
@@ -11,14 +11,17 @@ import {
   handlePasteAsPlainText,
   handlePasteAsHtml
 } from '../../src/components/ids-editor/ids-editor-handle-paste';
+import { cleanHtml } from '../../src/components/ids-editor/ids-editor-clean-utils';
+import { rgbToHex } from '../../src/components/ids-editor/ids-editor-shared';
+import formatHtml from '../../src/components/ids-editor/ids-editor-formatters';
 
 document.execCommand = jest.fn();
 document.queryCommandSupported = jest.fn();
 global.DOMStringList = jest.fn();
 
 describe('IdsEditor Component', () => {
-  let container;
-  let editor;
+  let container: any;
+  let editor: any;
 
   beforeEach(async () => {
     const elem = new IdsEditor();
@@ -35,7 +38,7 @@ describe('IdsEditor Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsEditor();
+    const elem: any = new IdsEditor();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-editor').length).toEqual(1);
@@ -105,9 +108,9 @@ describe('IdsEditor Component', () => {
   it('should sets the label text', () => {
     let labelEl = editor.container.querySelector('#editor-label');
     let sourceLabelEl = editor.container.querySelector('[for="source-textarea"]');
-    const sourceTextareaLabel = (str) => `${str} - HTML Source View`;
+    const sourceTextareaLabel = (str: string) => `${str} - HTML Source View`;
     let label = 'test';
-    const d = { label: 'Ids editor' };
+    const d: any = { label: 'Ids editor' };
     d.sourceLabel = sourceTextareaLabel(d.label);
     let sourceLabel = sourceTextareaLabel(label);
     expect(editor.getAttribute('label')).toEqual(null);
@@ -123,7 +126,7 @@ describe('IdsEditor Component', () => {
     expect(sourceLabelEl.textContent.trim()).toEqual(d.sourceLabel);
 
     const customSrcLabel = function customSrcLabel() {
-      return `Test Html source view ${this.label} title text.`;
+      return `Test Html source view ${editor.label} title text.`;
     };
     editor.sourceTextareaLabel = customSrcLabel.bind(editor);
     label = 'custom test';
@@ -365,10 +368,10 @@ describe('IdsEditor Component', () => {
       btnSource: editor.querySelector('[editor-action="sourcemode"]')
     });
     let veto = false;
-    editor.addEventListener('beforesourcemode', (e) => {
+    editor.addEventListener('beforesourcemode', (e: CustomEvent) => {
       e.detail.response(veto);
     });
-    editor.addEventListener('beforeeditormode', (e) => {
+    editor.addEventListener('beforeeditormode', (e: CustomEvent) => {
       e.detail.response(veto);
     });
 
@@ -435,7 +438,7 @@ describe('IdsEditor Component', () => {
         alt: 'image test title text'
       }
     };
-    const qs = (s) => editor.container.querySelector(s);
+    const qs = (s: string) => editor.container.querySelector(s);
     const getElems = () => ({
       linkUrl: qs('#hyperlink-modal-input-url'),
       linkClasses: qs('#hyperlink-modal-input-classes'),
@@ -448,7 +451,7 @@ describe('IdsEditor Component', () => {
     expect(elems.linkUrl.value).toEqual('http://www.example.com');
     expect(elems.linkClasses.value).toEqual('hyperlink');
     expect(elems.linkCbClickable.checked).toEqual(null);
-    expect(elems.imgUrl.value).toEqual('../assets/images/placeholder-154x120.png');
+    expect(elems.imgUrl.value).toEqual('');
     expect(elems.imgAlt.value).toEqual('');
 
     editor.modalElementsValue(modals);
@@ -473,7 +476,7 @@ describe('IdsEditor Component', () => {
         <p>test<a href="http://example.com">link</a></p>
       </ids-editor>`;
     await processAnimFrame();
-    const editors = document.querySelectorAll('ids-editor');
+    const editors: any = document.querySelectorAll('ids-editor');
     expect(editors[0].view).toEqual('source');
     expect(editors[0].disabled).toEqual(true);
     expect(editors[0].readonly).toEqual(false);
@@ -485,7 +488,7 @@ describe('IdsEditor Component', () => {
   it('should be let paste content', () => {
     const mockCallback = jest.fn(() => { });
     const editorContainer = editor.container.querySelector('.editor-container');
-    const event = new Event('paste', {
+    const event = new (Event as any)('paste', {
       clipboardData: {
         getData: jest.fn(),
         types: ['text/html'],
@@ -502,10 +505,10 @@ describe('IdsEditor Component', () => {
   });
 
   it('should be handle paste as plain text', () => {
-    let content = null;
-    const getClipboardData = (opt) => ({
+    let content: any = null;
+    const getClipboardData = (opt: string): any => ({
       clipboardData: {
-        getData: (s) => (s === 'text/plain' ? `${opt}` : `<h1>${opt}</h1>`),
+        getData: (s: string) => (s === 'text/plain' ? `${opt}` : `<h1>${opt}</h1>`),
         types: ['text/plain']
       }
     });
@@ -519,10 +522,10 @@ describe('IdsEditor Component', () => {
 
   it('should be handle paste as html', () => {
     let content = null;
-    const getGlobalData = (opt) => ({ getData: (s) => (s === 'Text' ? `${opt}` : `<h1>${opt}</h1>`) });
-    const getClipboardData = (opt) => ({
+    const getGlobalData = (opt: string) => ({ getData: (s: string) => (s === 'Text' ? `${opt}` : `<h1>${opt}</h1>`) });
+    const getClipboardData = (opt: string): any => ({
       clipboardData: {
-        getData: (s) => (s === 'text/plain' ? `${opt}` : `<h1>${opt}</h1>`),
+        getData: (s: string) => (s === 'text/plain' ? `${opt}` : `<h1>${opt}</h1>`),
         types: ['text/html']
       }
     });
@@ -537,14 +540,58 @@ describe('IdsEditor Component', () => {
 
     data = getClipboardData('test');
     data.clipboardData.types = null;
-    global.clipboardData = getGlobalData('test');
+    (global as any).clipboardData = getGlobalData('test');
     content = handlePasteAsHtml(data);
     expect(content).toEqual('<p>test</p>');
 
     data = getClipboardData('test');
     data.clipboardData.types = null;
-    global.clipboardData = getGlobalData('test.png');
+    (global as any).clipboardData = getGlobalData('test.png');
     content = handlePasteAsHtml(data);
     expect(content).toEqual('<img src="test.png" />');
+  });
+
+  it('should clean html', () => {
+    const html = cleanHtml(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title></title>
+        </head>
+        <body>
+          <p style='margin-top:0cm;margin-right:0cm;margin-bottom:8.0pt;margin-left:0cm;line-height:107%;font-size:15px;font-family:"Calibri",sans-serif;'>This is a text document. Here is a <em>list</em>:</p>
+          <ul style="list-style-type: disc;">
+            <li>Apples</li>
+            <li>Orange</li>
+          </ul>
+          <ul style="list-style-type: disc;">
+            <p><span><span>·</span></span></p>
+            <span style="mso-spacerun:yes"></span>
+            <span style="mso-spacerun : yes ;" > \u00a0</span>
+          </ul>
+          <font face="Times New Roman" class="Mso">Lorem ipsum dolor sit amet</font>
+        <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v652eace1692a40cfa3763df669d7439c1639079717194" integrity="sha512-Gi7xpJR8tSkrpF7aordPZQlW2DLtzUlZcumS8dMQjwDHEnw9I7ZLyiOj/6tZStRBGtGgN6ceN6cMH8z7etPGlw==" data-cf-beacon='{"rayId":"6f408f494b9de6ec","token":"4581d6a58cf94e929fad52deda295622","version":"2021.12.0","si":100}' crossorigin="anonymous"></script>
+        </body>
+      </html>
+    `);
+
+    expect(html).toContain('<p style="font-size:15px;">This is a text document. Here is a <em>list</em>:</li> <ul> <ul><li>Apples</li><li>Orange</li> </ul> <ul> <li></ul></li> </ul> <font face="Times New Roman" class="Mso">Lorem ipsum dolor sit amet</font>');
+  });
+
+  it('should format html', () => {
+    const html = formatHtml(`<p>Embrace <a href="http://en.wikipedia.org/wiki/e-commerce" class="hyperlink">e-commerce action-items</a>, reintermediate, ecologies paradigms wireless.</p><hr/><p>Cross-platform, evolve, ROI scale cultivate eyeballs addelivery, e-services contentmorph.</p>`);
+
+    expect(html).toContain('    e-commerce action-items');
+  });
+
+  it('should convert rgb to hex color value', () => {
+    let hex = rgbToHex('rgb(255, 255, 255)');
+
+    expect(hex).toContain('#ffffff');
+    hex = rgbToHex('rgb(0, 0, 0)');
+
+    expect(hex).toContain('#000000');
   });
 });

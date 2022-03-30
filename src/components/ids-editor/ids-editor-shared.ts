@@ -34,7 +34,7 @@ export const EDITOR_DEFAULTS = {
       showIsClickable: true
     },
     insertimage: {
-      url: '../assets/images/placeholder-154x120.png',
+      url: '',
       alt: ''
     }
   },
@@ -63,9 +63,9 @@ export const EDITOR_ATTRIBUTES = [
  * Query selector in shadow root or given element.
  * @param {string} s The selector.
  * @param {ShadowRoot|HTMLElement} root The root element.
- * @returns {HTMLElement|null} First matched selector element.
+ * @returns {any} First matched selector element.
  */
-export function qs(s, root) {
+export function qs(s: string, root: ShadowRoot | HTMLElement): any {
   return root?.querySelector(s);
 }
 
@@ -73,9 +73,9 @@ export function qs(s, root) {
  * Query selector all in shadow root or given element.
  * @param {string} s The selector.
  * @param {ShadowRoot|HTMLElement} root The root element.
- * @returns {Array<NodeList>} List of elements that matched.
+ * @returns {Array<any>} List of elements that matched.
  */
-export function qsAll(s, root) {
+export function qsAll(s: string, root: ShadowRoot | HTMLElement): Array<any> {
   return Array.from(root?.querySelectorAll(s));
 }
 
@@ -84,7 +84,7 @@ export function qsAll(s, root) {
  * @param {string} rgb The rgb value
  * @returns {string} the hex value
  */
-export function rgbToHex(rgb) {
+export function rgbToHex(rgb: string): string {
   const arrayRgb = rgb.split('(')[1].split(')')[0].split(',');
   const hex = arrayRgb.map((item) => {
     const x = parseInt(item).toString(16);

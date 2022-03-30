@@ -3,11 +3,11 @@
  */
 import '../helpers/resize-observer-mock';
 
-import IdsMessage from '../../src/components/ids-message/ids-message';
+import '../../src/components/ids-message/ids-message';
 
 // Supporing components
-import IdsModalButton from '../../src/components/ids-modal-button/ids-modal-button';
-import IdsText from '../../src/components/ids-text/ids-text';
+import '../../src/components/ids-modal-button/ids-modal-button';
+import '../../src/components/ids-text/ids-text';
 
 const messageId = 'test-message';
 const messageStatus = 'error';
@@ -19,7 +19,7 @@ const modalButtonHTML = `
   <ids-modal-button slot="buttons" type="primary" id="my-message-confirm">Confirm</ids-modal-button>`;
 
 describe('IdsMessage Component (using properties)', () => {
-  let messageEl;
+  let messageEl: any;
 
   beforeEach(async () => {
     messageEl = document.createElement('ids-message');
@@ -108,7 +108,7 @@ describe('IdsMessage Component (using properties)', () => {
 });
 
 describe('IdsMessage Component (using attributes)', () => {
-  let messageEl;
+  let messageEl: any;
 
   beforeEach(async () => {
     document.body.insertAdjacentHTML('beforeend', `<ids-message id="${messageId}" status="${messageStatus}">
@@ -148,7 +148,7 @@ describe('IdsMessage Component (using attributes)', () => {
 });
 
 describe('IdsMessage Component (empty)', () => {
-  let messageEl;
+  let messageEl: any;
 
   beforeEach(async () => {
     document.body.insertAdjacentHTML('beforeend', `<ids-message id="${messageId}" status="${messageStatus}"></ids-message>`);

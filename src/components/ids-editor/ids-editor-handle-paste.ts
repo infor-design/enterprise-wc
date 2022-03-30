@@ -3,10 +3,10 @@ import { htmlEntities, cleanHtml } from './ids-editor-clean-utils';
 /**
  * Paste as plain text.
  * @private
- * @param {Event} e The event
+ * @param {ClipboardEvent} e The event
  * @returns {string|null} The updated pasted data
  */
-export function handlePasteAsPlainText(e) {
+export function handlePasteAsPlainText(e?: ClipboardEvent): string | null {
   if (!e) return null;
 
   let paste;
@@ -14,11 +14,11 @@ export function handlePasteAsPlainText(e) {
   if (e.clipboardData?.getData) {
     paste = e.clipboardData.getData('text/plain');
   } else {
-    paste = window.clipboardData?.getData ? window.clipboardData.getData('Text') : false;
+    paste = (<any>window).clipboardData?.getData ? (<any>window).clipboardData.getData('Text') : false;
   }
   if (paste) {
     const nodes = paste.split(/[\r\n]/g);
-    nodes.forEach((node, i) => {
+    nodes.forEach((node: string, i: number) => {
       if (node !== '') {
         if (navigator.userAgent.match(/firefox/i) && i === 0) {
           html += `<p>${htmlEntities(node)}</p>`;
@@ -36,32 +36,32 @@ export function handlePasteAsPlainText(e) {
 /**
  * Paste as Html.
  * @private
- * @param {Event} e The event
+ * @param {ClipboardEvent} e The event
  * @returns {string|null} The updated pasted data
  */
-export function handlePasteAsHtml(e) {
+export function handlePasteAsHtml(e?: ClipboardEvent): string | null {
   if (!e) return null;
 
   const clipboardData = e.clipboardData;
-  let html;
+  let html: string | undefined;
 
   if (clipboardData?.types) {
     const types = clipboardData.types;
     if ((types instanceof DOMStringList && types.contains('text/html'))
       || (types.indexOf && types.indexOf('text/html') !== -1)) {
-      html = e.clipboardData.getData('text/html');
+      html = e.clipboardData?.getData('text/html');
     }
     if (types instanceof DOMStringList && types.contains('text/plain')) {
-      html = e.clipboardData.getData('text/plain');
+      html = e.clipboardData?.getData('text/plain');
     }
     if ((typeof types === 'object' && types[0] === 'text/plain') && !types[1]) {
-      html = e.clipboardData.getData('text/plain');
+      html = e.clipboardData?.getData('text/plain');
     }
   } else {
-    const paste = window.clipboardData ? window.clipboardData.getData('Text') : '';
+    const paste = (<any>window).clipboardData ? (<any>window).clipboardData.getData('Text') : '';
     const nodes = paste.split(/[\r\n]/g);
     html = '';
-    nodes.forEach((node, i) => {
+    nodes.forEach((node: string, i: number) => {
       if (node !== '') {
         if (navigator.userAgent.match(/firefox/i) && i === 0) {
           html += `<p>${htmlEntities(node)}</p>`;
@@ -73,5 +73,5 @@ export function handlePasteAsHtml(e) {
       }
     });
   }
-  return cleanHtml(html);
+  return html ? cleanHtml(html) : null;
 }
