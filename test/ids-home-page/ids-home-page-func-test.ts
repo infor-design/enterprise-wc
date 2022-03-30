@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import ResizeObserver from '../helpers/resize-observer-mock';
+import '../helpers/resize-observer-mock';
 import wait from '../helpers/wait';
 import processAnimFrame from '../helpers/process-anim-frame';
 
@@ -16,15 +16,15 @@ describe('IdsHomePage Component', () => {
     cardHeight: 370,
     cardWidth: 360,
     cols: 3,
-    gap: 20
+    gap: 20,
+    gapX: 20,
+    gapY: 20
   };
-  DEFAULTS.gapX = DEFAULTS.gap;
-  DEFAULTS.gapY = DEFAULTS.gap;
 
   const EVENTS = { resized: 'resized' };
 
-  let homePage;
-  let container;
+  let homePage: any;
+  let container: any;
 
   beforeEach(async () => {
     container = new IdsContainer();
@@ -44,7 +44,7 @@ describe('IdsHomePage Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsHomePage();
+    const elem: any = new IdsHomePage();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-home-page').length).toEqual(1);

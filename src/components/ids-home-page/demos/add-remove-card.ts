@@ -1,9 +1,9 @@
 // home page add/remove card
-import IdsHomePage from '../ids-home-page';
+import '../ids-home-page';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const homePage = document.querySelector('#home-page-toggle-card');
-  const btnToggle = document.querySelector('#btn-home-page-toggle-card');
+  const homePage: any = document.querySelector('#home-page-toggle-card');
+  const btnToggle: any = document.querySelector('#btn-home-page-toggle-card');
 
   const toggleCardId = 'toggle-card';
   let isAdded = false;
@@ -34,7 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Bind toggle button
   btnToggle?.addEventListener('click', () => {
-    isAdded ? removeCard() : addCard();
+    if (isAdded) removeCard();
+    else addCard();
     isAdded = !isAdded;
   });
 });

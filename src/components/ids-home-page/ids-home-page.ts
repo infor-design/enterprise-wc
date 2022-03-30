@@ -3,13 +3,28 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool, stringToNumber, camelCase } from '../../utils/ids-string-utils/ids-string-utils';
 import { HOME_PAGE_DEFAULTS, EVENTS } from './ids-home-page-attributes';
 
-import IdsCard from '../ids-card/ids-card';
+import '../ids-card/ids-card';
 import Base from './ids-home-page-base';
 
 import styles from './ids-home-page.scss';
 
-HOME_PAGE_DEFAULTS.gapX = HOME_PAGE_DEFAULTS.gap;
-HOME_PAGE_DEFAULTS.gapY = HOME_PAGE_DEFAULTS.gap;
+export interface IdsHomePageBlock {
+  /** The block width */
+  w: number;
+  /** The block height */
+  h: number;
+  /** The block x postion */
+  x: number;
+  /** The block x postion */
+  y: number;
+}
+
+export interface IdsHomePageAavailable {
+  /** The row element */
+  row: number;
+  /** The column element */
+  col: number;
+}
 
 /**
  * IDS Home Page Component
@@ -57,7 +72,7 @@ export default class IdsHomePage extends Base {
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `
       <div class="ids-home-page" part="home-page">
         <div class="cards" part="cards">
@@ -71,63 +86,55 @@ export default class IdsHomePage extends Base {
    * @param {boolean} animated False will disable animation during refresh
    * @returns {void}
    */
-  refresh(animated) {
+  refresh(animated: boolean): void {
     this.#resize(animated);
   }
 
   /**
    * List of blocks to manage cards width/height and position.
    * @private
-   * @type {Array<object>}
    */
-  #blocks = [];
+  #blocks: Array<any> = [];
 
   /**
    * List of cards attached to home page.
    * @private
-   * @type {Array<object>}
    */
-  #cards = [];
+  #cards: Array<object> = [];
 
   /**
    * Number of current columns.
    * @private
-   * @type {number}
    */
   #columns = 0;
 
   /**
    * Container current height.
    * @private
-   * @type {number}
    */
   #containerHeight = 0;
 
   /**
    * Column gap
    * @private
-   * @type {number}
    */
   #gapX = 0;
 
   /**
    * Row gap
    * @private
-   * @type {number}
    */
   #gapY = 0;
 
   /**
    * Keep all the blocks as rows and columns.
    * @private
-   * @type {Array<object>}
    */
-  #rowsAndCols = [];
+  #rowsAndCols: Array<any> = [];
 
   /**
    * Attach the resize observer.
    * @private
-   * @type {number}
    */
   #resizeObserver = new ResizeObserver(() => this.#resize());
 
@@ -136,12 +143,11 @@ export default class IdsHomePage extends Base {
    * @private
    * @returns {void}
    */
-  #init() {
-    this
-      .#setGap()
-      .#initCards()
-      .#resize()
-      .#attachEventHandlers();
+  #init(): void {
+    this.#setGap();
+    this.#initCards();
+    this.#resize();
+    this.#attachEventHandlers();
   }
 
   /**
@@ -149,10 +155,10 @@ export default class IdsHomePage extends Base {
    * @private
    * @returns {object} This API object for chaining
    */
-  #initCards() {
+  #initCards(): object {
     this.#cards = this.shadowRoot.querySelector('slot[name="card"]').assignedNodes();
 
-    this.#cards.forEach((card) => {
+    this.#cards.forEach((card: any) => {
       const colspan = this.#getNumberVal('colspan', card);
       const rowspan = this.#getNumberVal('rowspan', card);
       const w = colspan > 0 ? colspan : 1;
@@ -170,7 +176,7 @@ export default class IdsHomePage extends Base {
    * @private
    * @returns {void}
    */
-  #initRowsAndCols() {
+  #initRowsAndCols(): void {
     this.#rowsAndCols = [];
     this.#initColumns();
   }
@@ -181,7 +187,7 @@ export default class IdsHomePage extends Base {
    * @param {number} row to be initialize.
    * @returns {void}
    */
-  #initColumns(row = 0) {
+  #initColumns(row = 0): void {
     this.#rowsAndCols[row] = [];
 
     for (let i = 0, l = this.#columns; i < l; i++) {
@@ -199,11 +205,11 @@ export default class IdsHomePage extends Base {
    * @private
    * @returns {object} This API object for chaining
    */
-  #setGap() {
+  #setGap(): object {
     const d = HOME_PAGE_DEFAULTS;
-    const gap = this.gap;
-    const gapX = this.gapX;
-    const gapY = this.gapY;
+    const gap: any = this.gap;
+    const gapX: any = this.gapX;
+    const gapY: any = this.gapY;
     let x = d.gapX;
     let y = d.gapY;
 
@@ -236,7 +242,7 @@ export default class IdsHomePage extends Base {
    * @private
    * @returns {void}
    */
-  #refreshGap() {
+  #refreshGap(): void {
     this.#setGap();
     this.#resize();
   }
@@ -246,10 +252,10 @@ export default class IdsHomePage extends Base {
    * @private
    * @returns {void}
    */
-  #setBlocks() {
+  #setBlocks(): void {
     this.#blocks = [];
 
-    this.#cards.forEach((card) => {
+    this.#cards.forEach((card: any) => {
       const colspan = this.#getNumberVal('colspan', card);
       const rowspan = this.#getNumberVal('rowspan', card);
       const w = colspan > 0 ? colspan : 1;
@@ -281,7 +287,7 @@ export default class IdsHomePage extends Base {
    * @param {number} to index
    * @returns {void}
    */
-  #arrayIndexMove(arr, from, to) {
+  #arrayIndexMove(arr: Array<any>, from: number, to: number): void {
     arr.splice(to, 0, arr.splice(from, 1)[0]);
   }
 
@@ -291,10 +297,10 @@ export default class IdsHomePage extends Base {
    * @private
    * @param {number} r as row.
    * @param {number} c as col.
-   * @param {number} block to fit.
+   * @param {IdsHomePageBlock} block to fit.
    * @returns {void}
    */
-  #fitBlock(r, c, block) {
+  #fitBlock(r: number, c: number, block: IdsHomePageBlock): void {
     let addRow = true;
 
     block.x = c;
@@ -347,12 +353,12 @@ export default class IdsHomePage extends Base {
   /**
    * Get availability where we can fit this given block.
    * @private
-   * @param {object} block to get availability.
-   * @returns {object} [x and y] where we can fit this block
+   * @param {IdsHomePageBlock} block to get availability.
+   * @returns {IdsHomePageAavailable} [x and y] where we can fit this block
    */
-  #getAvailability(block) {
+  #getAvailability(block: IdsHomePageBlock): IdsHomePageAavailable {
     let abort = false;
-    const smallest = {};
+    const smallest: any = {};
     const rows = this.#rowsAndCols.length;
 
     // Loop thru each row and column soon it found first available spot
@@ -403,11 +409,11 @@ export default class IdsHomePage extends Base {
   /**
    * Apply cubic-bezier effects
    * @private
-   * @param {object} elem The element.
+   * @param {any} elem The element.
    * @param {string} effect effect to apply.
    * @returns {void}
    */
-  #applyCubicBezier(elem, effect) {
+  #applyCubicBezier(elem: any, effect: string): void {
     const value = effect ? `all .3s cubic-bezier(${effect})` : 'none';
     elem.style['-webkit-transition'] = value;
     elem.style['-moz-transition'] = value;
@@ -448,7 +454,7 @@ export default class IdsHomePage extends Base {
       const phone = (elemWidth <= bpTablet);
 
       // Assign columns as breakpoint sizes
-      let columns;
+      let columns = 0;
       if (xl3 || this.cols === 6) {
         columns = 6;
         bp = bpXl3;
@@ -490,7 +496,7 @@ export default class IdsHomePage extends Base {
       // Assign new left and top css positions
       for (let i = 0, l = this.#blocks.length; i < l; i++) {
         const block = this.#blocks[i];
-        const setWidth = (span) => {
+        const setWidth = (span: number) => {
           block.elem.style.width = `${(this.cardWidth * span) + (this.#gapX * (span - 1))}px`;
         };
         let colspan = this.#getNumberVal('colspan', block.elem);
@@ -504,7 +510,7 @@ export default class IdsHomePage extends Base {
         }
 
         // Get Availability
-        const available = this.#getAvailability(block);
+        const available: IdsHomePageAavailable = this.#getAvailability(block);
 
         // Set positions
         const box = this.cardWidth + this.#gapX;
@@ -515,7 +521,7 @@ export default class IdsHomePage extends Base {
           : box * available.col;
         const pos = { left, top };
 
-        const blockslide = animated ? [0.09, 0.11, 0.24, 0.91] : null;
+        const blockslide: any = animated ? [0.09, 0.11, 0.24, 0.91] : null;
         this.#applyCubicBezier(block.elem, blockslide);
         block.elem.style.left = `${pos.left}px`;
         block.elem.style.top = `${pos.top}px`;
@@ -541,7 +547,7 @@ export default class IdsHomePage extends Base {
    * @private
    * @returns {object} This API object for chaining
    */
-  #attachEventHandlers() {
+  #attachEventHandlers(): object {
     // Respond to parent changing language
     this.offEvent('languagechange.tree');
     this.onEvent('languagechange.tree', this.closest('ids-container'), () => {
@@ -567,8 +573,8 @@ export default class IdsHomePage extends Base {
    * @param {any} defaultVal The default value if not found in list.
    * @returns {any} The value
    */
-  #getDefaultVal(attr, defaultVal) {
-    const val = HOME_PAGE_DEFAULTS[camelCase(attr)];
+  #getDefaultVal(attr: string, defaultVal: any): any {
+    const val = (HOME_PAGE_DEFAULTS as any)[camelCase(attr)];
     return typeof val !== 'undefined' ? val : defaultVal;
   }
 
@@ -577,7 +583,7 @@ export default class IdsHomePage extends Base {
    * @param {boolean|string} val The value.
    * @returns {boolean} true if the value boolean
    */
-  #isBool(val) {
+  #isBool(val: boolean | string): boolean {
     return val === true || val === 'true' || val === false || val === 'false';
   }
 
@@ -588,7 +594,7 @@ export default class IdsHomePage extends Base {
    * @param {HTMLElement} elem The element.
    * @returns {boolean} The value
    */
-  #getBoolVal(attr, elem = this) {
+  #getBoolVal(attr: string, elem = this): boolean {
     const val = elem.getAttribute(attr);
     return val !== null ? stringToBool(val) : this.#getDefaultVal(attr, false);
   }
@@ -600,7 +606,7 @@ export default class IdsHomePage extends Base {
    * @param {HTMLElement} elem The element.
    * @returns {number} The value
    */
-  #getNumberVal(attr, elem = this) {
+  #getNumberVal(attr: string, elem = this): number {
     let val = elem.getAttribute(attr);
     if (val === null) return this.#getDefaultVal(attr, 0);
     val = stringToNumber(val);
@@ -611,7 +617,7 @@ export default class IdsHomePage extends Base {
    * Get the current status of home page
    * @returns {object} containing information about the current status of the home page
    */
-  get status() {
+  get status(): object {
     let rows = this.#rowsAndCols.length;
     const cols = rows ? this.#rowsAndCols[0].length : 0;
 
@@ -632,7 +638,7 @@ export default class IdsHomePage extends Base {
    * Set to animated or not the home page cards on resize.
    * @param {boolean|string} value If true, allows animate the home page cards.
    */
-  set animated(value) {
+  set animated(value: boolean | string) {
     if (this.#isBool(value)) {
       this.setAttribute(attributes.ANIMATED, value);
     } else {
@@ -646,7 +652,7 @@ export default class IdsHomePage extends Base {
    * Set card height for single span
    * @param {number|string} value The height
    */
-  set cardHeight(value) {
+  set cardHeight(value: number | string) {
     if (value) {
       this.setAttribute(attributes.CARD_HEIGHT, value);
     } else {
@@ -654,13 +660,13 @@ export default class IdsHomePage extends Base {
     }
   }
 
-  get cardHeight() { return this.#getNumberVal(attributes.CARD_HEIGHT); }
+  get cardHeight(): number { return this.#getNumberVal(attributes.CARD_HEIGHT); }
 
   /**
    * Set card width for single span
    * @param {number|string} value The width
    */
-  set cardWidth(value) {
+  set cardWidth(value: number | string) {
     if (value) {
       this.setAttribute(attributes.CARD_WIDTH, value);
     } else {
@@ -668,13 +674,13 @@ export default class IdsHomePage extends Base {
     }
   }
 
-  get cardWidth() { return this.#getNumberVal(attributes.CARD_WIDTH); }
+  get cardWidth(): number { return this.#getNumberVal(attributes.CARD_WIDTH); }
 
   /**
    * Set number of columns to display
    * @param {number|string} value Number of columns
    */
-  set cols(value) {
+  set cols(value: number | string) {
     if (value) {
       this.setAttribute(attributes.COLS, value);
     } else {
@@ -688,7 +694,7 @@ export default class IdsHomePage extends Base {
    * Set card gap for single span, apply same for both horizontal and vertical sides
    * @param {number|string} value The row gap
    */
-  set gap(value) {
+  set gap(value: number | string) {
     if (value) {
       this.setAttribute(attributes.GAP, value);
     } else {
@@ -703,7 +709,7 @@ export default class IdsHomePage extends Base {
    * Set card horizontal gap for single span
    * @param {number|string} value The gap-x
    */
-  set gapX(value) {
+  set gapX(value: number | string) {
     if (value) {
       this.setAttribute(attributes.GAP_X, value);
     } else {
@@ -718,7 +724,7 @@ export default class IdsHomePage extends Base {
    * Set card vertical gap for single span
    * @param {number|string} value The gap-y
    */
-  set gapY(value) {
+  set gapY(value: number | string) {
     if (value) {
       this.setAttribute(attributes.GAP_Y, value);
     } else {
