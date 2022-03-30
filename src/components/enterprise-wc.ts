@@ -74,7 +74,7 @@ import './ids-tag/ids-tag';
 // import './ids-toolbar/ids-toolbar';
 // import './ids-tooltip/ids-tooltip';
 // import './ids-tree/ids-tree';
-// import './ids-treemap/ids-treemap';
+import './ids-treemap/ids-treemap';
 // import './ids-trigger-field/ids-trigger-field';
 // import './ids-upload/ids-upload';
 // import './ids-upload-advanced/ids-upload-advanced';

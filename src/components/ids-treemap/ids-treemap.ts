@@ -127,10 +127,11 @@ export default class IdsTreeMap extends Base {
     if (data !== undefined) {
       svg = `
         <svg width='${this.width}' height='${this.height}' stroke-width=".5">
-          ${this.data.map((rect: any) => this.templateGroups(rect)).join('')}
+          ${data?.map((rect: any) => this.templateGroups(rect)).join('')}
         </svg>
       `;
     }
+
     return svg;
   }
 
@@ -374,10 +375,10 @@ export default class IdsTreeMap extends Base {
    * @param {any} obj object that contains config for the treemap
    * @param {any} obj.data array that contains the treemap block definitions
    * @param {number} obj.height total hieght of the treemap
-   * @returns {any} treemap array
+   * @returns {any | boolean} treemap array
    * @memberof IdsTreeMap
    */
-  treeMap({ data, height }: any): any {
+  treeMap({ data, height }: any): any | boolean {
     if (data && data.length > 0) {
       this.#validateArguments({ data, height });
       this.width = this.container.offsetWidth;

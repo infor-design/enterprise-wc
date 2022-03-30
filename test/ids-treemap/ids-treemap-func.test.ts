@@ -2,17 +2,17 @@
  * @jest-environment jsdom
  */
 import IdsTreeMap from '../../src/components/ids-treemap/ids-treemap';
-import ResizeObserver from '../helpers/resize-observer-mock';
+import '../helpers/resize-observer-mock';
 
 describe('IdsTreeMap Component', () => {
-  let treemap;
-  let origInnerWidth;
+  let treemap: any;
+  let origInnerWidth: any;
 
   beforeEach(async () => {
-    const elem = new IdsTreeMap();
+    const elem: any = new IdsTreeMap();
     document.body.appendChild(elem);
     treemap = document.querySelector('ids-treemap');
-    treemap.result = treemap.treeMap({
+    treemap.data = treemap.treeMap({
       data: [
         {
           value: 28,
@@ -44,7 +44,7 @@ describe('IdsTreeMap Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsTreeMap();
+    const elem: any = new IdsTreeMap();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-treemap').length).toEqual(1);
@@ -54,7 +54,7 @@ describe('IdsTreeMap Component', () => {
   it('renders correctly', () => {
     treemap.title = 'Storage Utilization (78 GB)';
     expect(treemap.outerHTML).toMatchSnapshot();
-    expect(treemap.result).toBeDefined();
+    expect(treemap.data).toBeDefined();
   });
 
   it('can set the treemap title', () => {
