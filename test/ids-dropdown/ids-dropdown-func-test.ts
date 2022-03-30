@@ -7,17 +7,17 @@ import wait from '../helpers/wait';
 import processAnimFrame from '../helpers/process-anim-frame';
 
 import IdsDropdown from '../../src/components/ids-dropdown/ids-dropdown';
-import IdsListBox from '../../src/components/ids-list-box/ids-list-box';
-import IdsListBoxOption from '../../src/components/ids-list-box/ids-list-box-option';
-import IdsTriggerField from '../../src/components/ids-trigger-field/ids-trigger-field';
+import '../../src/components/ids-list-box/ids-list-box';
+import '../../src/components/ids-list-box/ids-list-box-option';
+import '../../src/components/ids-trigger-field/ids-trigger-field';
 import states from '../../src/assets/data/states.json';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 
 describe('IdsDropdown Component', () => {
-  let dropdown;
-  let container;
+  let dropdown: any;
+  let container: any;
 
-  const createFromTemplate = (innerHTML) => {
+  const createFromTemplate = (innerHTML: any) => {
     dropdown?.remove();
     container?.remove();
 
@@ -53,7 +53,7 @@ describe('IdsDropdown Component', () => {
   it('renders empty dropdown with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
     dropdown.remove();
-    const elem = new IdsDropdown();
+    const elem: any = new IdsDropdown();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-dropdown').length).toEqual(0);
@@ -579,19 +579,19 @@ describe('IdsDropdown Component', () => {
 
   it('tab works correcty', async () => {
     dropdown.container.focus();
-    expect(document.activeElement.id).toEqual('dropdown-1');
+    expect((document.activeElement as any).id).toEqual('dropdown-1');
     const event = new KeyboardEvent('keydown', { key: 'Tab' });
     dropdown.dispatchEvent(event);
 
     // Not working right, not sure why?
-    expect(document.activeElement.id).toEqual('dropdown-1');
+    expect((document.activeElement as any).id).toEqual('dropdown-1');
   });
 
   it('should render field height', () => {
     const heights = ['xs', 'sm', 'md', 'lg'];
     const defaultHeight = 'md';
-    const className = (h) => `field-height-${h}`;
-    const checkHeight = (height) => {
+    const className = (h: any) => `field-height-${h}`;
+    const checkHeight = (height: any) => {
       dropdown.fieldHeight = height;
 
       expect(dropdown.container.getAttribute('field-height')).toEqual(height);
@@ -634,7 +634,7 @@ describe('IdsDropdown Component', () => {
   it('should set size', () => {
     const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
     const defaultSize = 'md';
-    const checkSize = (size) => {
+    const checkSize = (size: any) => {
       dropdown.size = size;
 
       expect(dropdown.getAttribute('size')).toEqual(size);
@@ -667,7 +667,7 @@ describe('IdsDropdown Component', () => {
   });
 
   it('should set values thru template', () => {
-    expect(dropdown.colorVariant).toEqual(null);
+    expect(dropdown.colorVariant).toEqual(undefined);
     expect(dropdown.labelState).toEqual(null);
     expect(dropdown.compact).toEqual(false);
     expect(dropdown.noMargins).toEqual(false);
@@ -681,5 +681,13 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.labelState).toEqual('collapsed');
     expect(dropdown.compact).toEqual(true);
     expect(dropdown.noMargins).toEqual(true);
+  });
+
+  it('fixes itself with an empty container', () => {
+    dropdown = createFromTemplate(
+      `<ids-dropdown id="dropdown-1" label="Normal Dropdown">
+       </ids-dropdown>`
+    );
+    expect(dropdown.container).toBeTruthy();
   });
 });

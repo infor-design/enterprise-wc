@@ -16,7 +16,7 @@ export default class IdsListBox extends Base {
     super();
   }
 
-  connectedCallback() {
+  connectedCallback(): void {
     this.setAttribute('role', 'listbox');
   }
 
