@@ -5,15 +5,15 @@ import IdsVirtualScroll from '../../src/components/ids-virtual-scroll/ids-virtua
 import dataset from '../../src/assets/data/bikes.json';
 
 describe('IdsVirtualScroll Component', () => {
-  let virtualScroll;
+  let virtualScroll: any;
 
   const appendVirtualScroll = () => {
-    const elem = new IdsVirtualScroll();
+    const elem: any = new IdsVirtualScroll();
     elem.innerHTML = `<div class="ids-list-view-body" part="contents"></div>`;
     document.body.appendChild(elem);
     elem.height = 308;
     elem.itemHeight = 20;
-    elem.itemTemplate = (item) => `<div part="list-item" class="ids-virtual-scroll-item">${item.manufacturerName}</div>`;
+    elem.itemTemplate = (item: any) => `<div part="list-item" class="ids-virtual-scroll-item">${item.manufacturerName}</div>`;
     elem.data = dataset;
     return elem;
   };
@@ -130,7 +130,7 @@ describe('IdsVirtualScroll Component', () => {
     expect(virtualScroll.scrollTop).toEqual((index * virtualScroll.itemHeight).toString());
   });
 
-  it('can reset the scrollTop', () => {
+  it.only('can reset the scrollTop', () => {
     expect(virtualScroll.scrollTop).toEqual('0');
     virtualScroll.scrollTop = null;
     virtualScroll.scrollTop = 100;
