@@ -36,10 +36,10 @@ const exampleHTML = `
 `;
 
 describe('IdsSwipeAction Component', () => {
-  let swipeAction;
+  let swipeAction: any;
 
   beforeEach(async () => {
-    const elem = new IdsSwipeAction();
+    const elem: any = new IdsSwipeAction();
     elem.swipeType = 'continuous';
     document.body.appendChild(elem);
     elem.insertAdjacentHTML('afterbegin', exampleHTML);
@@ -53,7 +53,7 @@ describe('IdsSwipeAction Component', () => {
   it('renders with no errors', () => {
     swipeAction.remove();
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsSwipeAction();
+    const elem: any = new IdsSwipeAction();
     document.body.appendChild(elem);
     elem.insertAdjacentHTML('afterbegin', exampleHTML);
     expect(document.querySelectorAll('ids-swipe-action').length).toEqual(1);
@@ -62,7 +62,7 @@ describe('IdsSwipeAction Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsSwipeAction();
+    const elem: any = new IdsSwipeAction();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-swipe-action').length).toEqual(1);
@@ -98,14 +98,14 @@ describe('IdsSwipeAction Component', () => {
   it('can click the right button and reset scroll', () => {
     swipeAction.swipeType = 'reveal';
     swipeAction.rendered();
-    document.querySelector('#action-right-continuous').click();
+    document.querySelector<any>('#action-right-continuous').click();
     expect(swipeAction.container.scrollLeft).toEqual(0);
   });
 
   it('can click the left button and reset scroll', () => {
     swipeAction.swipeType = 'reveal';
     swipeAction.rendered();
-    document.querySelector('#action-left-continuous').click();
+    document.querySelector<any>('#action-left-continuous').click();
     expect(swipeAction.container.scrollLeft).toEqual(0);
   });
 });
