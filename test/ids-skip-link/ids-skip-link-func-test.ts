@@ -4,10 +4,10 @@
 import IdsSkipLink from '../../src/components/ids-skip-link/ids-skip-link';
 
 describe('IdsSkipLink Component', () => {
-  let elem;
+  let elem: any;
 
   beforeEach(async () => {
-    const link = new IdsSkipLink();
+    const link: any = new IdsSkipLink();
     document.body.appendChild(link);
     elem = document.querySelector('ids-skip-link');
   });
