@@ -3,11 +3,12 @@
  */
 import IdsListView from '../../src/components/ids-list-view/ids-list-view';
 import dataset from '../../src/assets/data/products.json';
+import processAnimFrame from '../helpers/process-anim-frame';
 
 describe('IdsListView Component', () => {
-  let listView;
-  const originalOffsetHeight = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'offsetHeight');
-  const originalOffsetWidth = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'offsetWidth');
+  let listView: any;
+  const originalOffsetHeight: any = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'offsetHeight');
+  const originalOffsetWidth: any = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'offsetWidth');
 
   beforeEach(async () => {
     Object.defineProperty(HTMLElement.prototype, 'offsetHeight', { configurable: true, value: 320 });
@@ -45,17 +46,17 @@ describe('IdsListView Component', () => {
     expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(listView.data.length);
   });
 
-  it('renders the template with virtual scroll', () => {
-    requestAnimationFrame(() => {
-      document.body.innerHTML = '';
-      listView = new IdsListView();
-      listView.virtualScroll = true;
-      listView.innerHTML = '<template><ids-text type="h2">${productName}</ids-text></template></ids-list-view>'; //eslint-disable-line
-      document.body.appendChild(listView);
-      listView.data = dataset;
+  it('renders the template with virtual scroll', async () => {
+    await processAnimFrame();
+    document.body.innerHTML = '';
+    listView = new IdsListView();
+    listView.virtualScroll = true;
+    listView.innerHTML = '<template><ids-text type="h2">${productName}</ids-text></template></ids-list-view>'; //eslint-disable-line
+    document.body.appendChild(listView);
+    listView.data = dataset;
+    await processAnimFrame();
 
-      expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(listView.shadowRoot.querySelector('ids-virtual-scroll').visibleItemCount());
-    });
+    expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(listView.shadowRoot.querySelector('ids-virtual-scroll').visibleItemCount());
   });
 
   it('renders without errors with no template', () => {
@@ -144,20 +145,52 @@ describe('IdsListView Component', () => {
 
   it('supports setting focus', () => {
     listView.focus();
-    expect(document.activeElement.tagName).toEqual('BODY');
+    expect((document.activeElement as any).tagName).toEqual('BODY');
+  });
+
+  it('supports sorting', () => {
+    document.body.innerHTML = '';
+    listView = new IdsListView();
+    listView.sortable = true;
+    // eslint-disable-next-line no-template-curly-in-string
+    listView.innerHTML = '<template><ids-text type="h2">${productName}</ids-text></template></ids-list-view>';
+    document.body.appendChild(listView);
+    listView.data = dataset;
+
+    expect(listView.container.querySelector('div[part="list-item"]').classList.contains('sortable')).toBeTruthy();
+    listView.remove();
+  });
+
+  it('focuses on click', () => {
+    expect(listView.container.querySelector('div[part="list-item"]').getAttribute('tabindex')).toEqual('-1');
+    listView.container.querySelector('div[part="list-item"]').click();
+    expect(listView.container.querySelector('div[part="list-item"]').getAttribute('tabindex')).toEqual('0');
+  });
+
+  it('selects on click', () => {
+    listView.selectable = 'single';
+    expect(listView.container.querySelector('div[part="list-item"]').getAttribute('selected')).toBeFalsy();
+    listView.container.querySelector('div[part="list-item"]').click();
+    expect(listView.container.querySelector('div[part="list-item"]').getAttribute('selected')).toEqual('selected');
+    listView.selectable = false;
+    expect(listView.getAttribute('selectable')).toBeFalsy();
   });
 
   it('can use arrow keys to navigate', () => {
-    requestAnimationFrame(() => {
-      expect(listView.shadowRoot.querySelector('[part="list-item"][tabindex="0"]').innerHTML.indexOf('Discretionary') > -1).toEqual(true);
-      listView.shadowRoot.querySelector('[part="list-item"][tabindex="0"]').focus();
-      let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
-      listView.dispatchEvent(event);
-      expect(listView.shadowRoot.querySelector('[part="list-item"][tabindex="0"]').innerHTML.indexOf('Dentist') > -1).toEqual(true);
+    listView.shadowRoot.querySelector('[part="list-item"]').click();
+    expect(listView.shadowRoot.querySelector('[part="list-item"][tabindex="0"] ids-text').innerHTML).toContain('Steampan Lid');
+    listView.shadowRoot.querySelector('[part="list-item"]').focus();
+    let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    listView.dispatchEvent(event);
+    expect(listView.shadowRoot.querySelector('[part="list-item"][tabindex="0"] ids-text').innerHTML).toContain('Coconut - Creamed, Pure');
 
-      event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
-      listView.dispatchEvent(event);
-      expect(listView.shadowRoot.querySelector('[part="list-item"][tabindex="0"]').innerHTML.indexOf('Discretionary') > -1).toEqual(true);
-    });
+    event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
+    listView.dispatchEvent(event);
+    expect(listView.shadowRoot.querySelector('[part="list-item"][tabindex="0"] ids-text').innerHTML).toContain('Steampan Lid');
+
+    // Does nothing just the bounds case
+    event = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
+    listView.dispatchEvent(event);
+    expect(listView.shadowRoot.querySelector('[part="list-item"][tabindex="0"] ids-text').innerHTML).toContain('Steampan Lid');
   });
 });

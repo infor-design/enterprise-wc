@@ -7,7 +7,6 @@ import IdsEventsMixin from '../mixins/ids-events-mixin/ids-events-mixin';
 /**
  * Simple dictionary used to cache attribute names
  * to their corresponding property names.
- * @type {object.<string, string>}
  */
 const attribPropNameDict = Object.fromEntries(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

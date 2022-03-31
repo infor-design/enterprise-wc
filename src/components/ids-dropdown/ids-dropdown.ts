@@ -533,10 +533,10 @@ export default class IdsDropdown extends Base {
       if (e.target.closest('ids-list-box-option')) {
         this.value = e.target.closest('ids-list-box-option').getAttribute('value');
       }
+    });
 
-      if (e.target.isEqualNode(this)) {
-        this.toggle();
-      }
+    this.onEvent('click', this.container.shadowRoot.querySelector('.field-container'), () => {
+      this.toggle();
     });
 
     // Disable text selection on tab (extra info in the screen reader)

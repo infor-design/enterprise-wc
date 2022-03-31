@@ -17,6 +17,7 @@
 - [] Add test that the change and input event is fired when the date is changed as a test. And make sure the hide/show events are fired as well (from the popup component). And add to breaking changes.
 - [] Add test that the placeholder works (should work)
 - [] Add test for UTC picker https://github.com/infor-design/enterprise/blob/main/src/components/datepicker/datepicker.js#L83
+- [] https://github.com/infor-design/enterprise-ng/issues/1156
 
 ## Minor
 

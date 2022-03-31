@@ -34,7 +34,7 @@ import './ids-hyperlink/ids-hyperlink';
 // import './ids-layout-grid/ids-layout-grid';
 import './ids-list-box/ids-list-box';
 // import './ids-list-builder/ids-list-builder';
-// import './ids-list-view/ids-list-view';
+import './ids-list-view/ids-list-view';
 // import './ids-loading-indicator/ids-loading-indicator';
 // import './ids-menu/ids-menu';
 // import './ids-menu-button/ids-menu-button';
