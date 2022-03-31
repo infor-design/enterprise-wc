@@ -10,9 +10,9 @@ describe('Ids Tooltip e2e Tests', () => {
   });
 
   it('should open on focus', async () => {
-    await page.$eval('#tooltip-example', (e) => e.setAttribute('visible', 'true'));
+    await page.$eval('#tooltip-example', (e: any) => e.setAttribute('visible', 'true'));
     const element = await page.waitForSelector('#tooltip-example[visible]');
-    const value = await element.evaluate((el) => el.textContent);
+    const value = await element.evaluate((el: any) => el.textContent);
     await expect(value).toEqual('Additional Information');
     const isVisible = await page.evaluate('document.querySelector("#tooltip-example[visible]").getAttribute("visible")');
     await expect(isVisible).toEqual('true');

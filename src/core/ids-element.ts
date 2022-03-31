@@ -46,34 +46,6 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   }
 
   /**
-   * Insert the id's and data-**-id to the various parts in the component
-   * @private
-   */
-  addInternalIds() {
-    if (!this.shadowRoot) {
-      return;
-    }
-    const parts = this.shadowRoot.querySelectorAll('[part]');
-    if (parts.length === 0) {
-      return;
-    }
-
-    if (this.id) {
-      this.appendIdtoPart(parts, 'id', this.id);
-    }
-
-    for (let i = 0; i < this.attributes.length; i++) {
-      if (this.attributes[i].name.includes('data-') && this.attributes[i].name.includes('id')) {
-        this.appendIdtoPart(
-          parts,
-          this.attributes[i].name,
-          this.getAttribute(this.attributes[i].name)
-        );
-      }
-    }
-  }
-
-  /**
    * Handle Setting changes of the value has changed by calling the getter
    * in the extending class.
    * @param {string} name The property name
@@ -167,10 +139,6 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
       }));
     }
 
-    // Add automation Ids
-    if (this.appendIds) {
-      this.addInternalIds();
-    }
     return this;
   }
 
