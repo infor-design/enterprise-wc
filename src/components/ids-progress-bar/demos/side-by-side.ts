@@ -1,11 +1,10 @@
-import IdsProgressBar from '../ids-progress-bar';
-
 // Supporting components
-import IdsToggleButton from '../../ids-toggle-button/ids-toggle-button';
+import '../ids-progress-bar';
+import '../../ids-toggle-button/ids-toggle-button';
 
 document.addEventListener('DOMContentLoaded', () => {
   const btnUpdateVal = document.querySelector('#test-button-secondary');
-  const elem = document.querySelector('#elem-progress') || {};
+  const elem: any = document.querySelector('#elem-progress') || {};
   const orgValue = elem.value;
 
   // Update and reset value

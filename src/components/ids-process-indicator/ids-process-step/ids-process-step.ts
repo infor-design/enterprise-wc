@@ -22,7 +22,7 @@ export default class IdsProcessStep extends Base {
     super();
   }
 
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback?.();
 
     requestAnimationFrame(() => {
@@ -44,7 +44,7 @@ export default class IdsProcessStep extends Base {
         }
       }
 
-      this.updateLabelVisibility();
+      this.#updateLabelVisibility();
     });
   }
 
@@ -52,7 +52,7 @@ export default class IdsProcessStep extends Base {
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       ...super.attributes,
       attributes.LABEL,
@@ -64,7 +64,7 @@ export default class IdsProcessStep extends Base {
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `
       <div class="ids-process-step">
         <div class="line"></div>
@@ -79,35 +79,59 @@ export default class IdsProcessStep extends Base {
     `;
   }
 
-  setString(attribute, value) {
+  /**
+   * Set the string attribute
+   * @param {string} attribute attribute name
+   * @param {string} value attribute value
+   * @private
+   * @returns {void}
+   */
+  #setString(attribute: string, value: string) {
     if (value) {
       this.setAttribute(attribute, value);
     }
   }
 
-  getString(attribute, defaultValue) {
-    const result = this.getAttribute(attribute) || (defaultValue ?? '');
-    return result;
-  }
-
-  hide(element) {
+  /**
+   * Hide the step
+   * @param {HTMLElement} element html element
+   * @private
+   * @returns {void}
+   */
+  #hide(element: HTMLElement) {
     element.style.setProperty('visibility', 'hidden');
   }
 
-  show(element) {
+  /**
+   * show the step
+   * @param {HTMLElement} element html element
+   * @private
+   * @returns {void}
+   */
+  #show(element: HTMLElement) {
     element.style.removeProperty('visibility');
   }
 
-  updateLabelVisibility() {
-    const labelEl = this.getLabelElement();
+  /**
+   * Set the step label visibility
+   * @private
+   * @returns {void}
+   */
+  #updateLabelVisibility(): void {
+    const labelEl = this.#getLabelElement();
     if (this.label === DEFAULT_LABEL) {
-      this.hide(labelEl);
+      this.#hide(labelEl);
     } else {
-      this.show(labelEl);
+      this.#show(labelEl);
     }
   }
 
-  getLabelElement() {
+  /**
+   * Get the label element
+   * @returns {HTMLElement} the element
+   * @private
+   */
+  #getLabelElement(): HTMLElement {
     return this.container.querySelector('.label');
   }
 
@@ -115,40 +139,40 @@ export default class IdsProcessStep extends Base {
    * Sets the label for the step
    * @param {string} value The step name
    */
-  set label(value) {
+  set label(value: string) {
     const val = value || DEFAULT_LABEL;
-    this.setString(attributes.LABEL, val);
-    this.getLabelElement().innerHTML = val;
-    this.updateLabelVisibility();
+    this.#setString(attributes.LABEL, val);
+    this.#getLabelElement().innerHTML = val;
+    this.#updateLabelVisibility();
   }
 
-  get label() {
-    return this.getString(attributes.LABEL, DEFAULT_LABEL);
-  }
-
-  get status() {
-    const status = this.getAttribute(attributes.STATUS);
-    return statuses.includes(status) ? status : '';
+  get label(): string {
+    return this.getAttribute(attributes.LABEL) || (DEFAULT_LABEL ?? '');
   }
 
   /**
    * Sets the status for the step which determines the icon
    * @param {string} value The step status
    */
-  set status(value) {
+  set status(value: string) {
     const val = value.toLowerCase();
 
     if (statuses.includes(val)) {
-      this.setString(attributes.STATUS, val);
+      this.#setString(attributes.STATUS, val);
 
       const idsIcons = this.container.querySelectorAll('ids-icon');
       if (idsIcons.length > 0) {
-        idsIcons.forEach((icon) => icon.remove());
+        idsIcons.forEach((icon: HTMLElement) => icon.remove());
       }
 
       if (val === 'cancelled') {
         this.container.querySelector('.step').insertAdjacentHTML('beforeend', `<ids-icon icon="close" size="xsmall"></ids-icon>`);
       }
     }
+  }
+
+  get status(): string {
+    const status = this.getAttribute(attributes.STATUS);
+    return statuses.includes(status) ? status : '';
   }
 }

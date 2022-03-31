@@ -1,30 +1,30 @@
 /**
  * @jest-environment jsdom
  */
-import IdsProcessIndicator from '../../src/components/ids-process-indicator/ids-process-indicator';
-import IdsProcessStep from '../../src/components/ids-process-indicator/ids-process-step/ids-process-step';
+import '../../src/components/ids-process-indicator/ids-process-indicator';
+import '../../src/components/ids-process-indicator/ids-process-step/ids-process-step';
 
 const HTMLSnippets = {
   VANILLA_PROCESS_INDICATOR: (
-  `<ids-process-indicator>
+    `<ids-process-indicator>
   <ids-process-step status="done" label="Prepare"></ids-process-step>
   <ids-process-step status="started" label="Delivered"></ids-process-step>
   </ids-process-indicator>`
   ),
   STARTED_PROCESS_INDICATOR: (
-  `<ids-process-indicator>
+    `<ids-process-indicator>
    <ids-process-step status="done" label="Prepare"></ids-process-step>
    <ids-process-step label="3rd Level - Multiple Approvers" status="started"></ids-process-step>
    </ids-process-indicator>`),
   CANCELLED_PROCESS_INDICATOR: (
-  `<ids-process-indicator>
+    `<ids-process-indicator>
   <ids-process-step status="done" label="Prepare"></ids-process-step>
   <ids-process-step status="cancelled" label="Advertisement"></ids-process-step>
   <ids-process-step status="started" label="Delivered"></ids-process-step>
   </ids-process-indicator>`
   ),
   EMPTY_ATTRIBUTES_PROCESS_INDICATOR: (
-  `<ids-process-indicator>
+    `<ids-process-indicator>
   <ids-process-step status="" label=""></ids-process-step>
   <ids-process-step status="" label=""></ids-process-step>
   <ids-process-step></ids-process-step>
@@ -37,9 +37,9 @@ const HTMLSnippets = {
 };
 
 describe('IdsProcessIndicator Component', () => {
-  let processIndicator;
+  let processIndicator: any;
 
-  const createElemViaTemplate = async (innerHTML) => {
+  const createElemViaTemplate = async (innerHTML: any) => {
     processIndicator?.remove?.();
 
     const template = document.createElement('template');
@@ -79,7 +79,7 @@ describe('IdsProcessIndicator Component', () => {
   it('sets labels correctly', async () => {
     processIndicator = await createElemViaTemplate(HTMLSnippets.VANILLA_PROCESS_INDICATOR);
     const steps = document.querySelectorAll('ids-process-step');
-    steps.forEach((s) => {
+    steps.forEach((s: any) => {
       expect(s.label).toBeTruthy();
     });
   });
@@ -87,7 +87,7 @@ describe('IdsProcessIndicator Component', () => {
   it('sets cancelled status correctly', async () => {
     processIndicator = await createElemViaTemplate(HTMLSnippets.CANCELLED_PROCESS_INDICATOR);
     const steps = document.querySelectorAll('ids-process-step');
-    steps.forEach((s, i) => {
+    steps.forEach((s: any, i) => {
       expect(s.status).toBeTruthy();
       if (i === 1) {
         expect(s.status).toBe('cancelled');
@@ -98,7 +98,7 @@ describe('IdsProcessIndicator Component', () => {
   it('sets empty attributes correctly', async () => {
     processIndicator = await createElemViaTemplate(HTMLSnippets.EMPTY_ATTRIBUTES_PROCESS_INDICATOR);
     const steps = document.querySelectorAll('ids-process-step');
-    steps.forEach((s) => {
+    steps.forEach((s: any) => {
       expect(s.status).toBeFalsy();
       expect(s.label).toBe('empty label');
     });
@@ -106,7 +106,7 @@ describe('IdsProcessIndicator Component', () => {
 
   it('handles icon changes/removal correctly', async () => {
     processIndicator = await createElemViaTemplate(HTMLSnippets.CANCELLED_PROCESS_INDICATOR);
-    const step = document.querySelector('ids-process-step[status="cancelled"]');
+    const step: any = document.querySelector('ids-process-step[status="cancelled"]');
     expect(step.container.querySelector('ids-icon')).toBeTruthy();
     step.status = 'done';
     expect(step.container.querySelector('ids-icon')).toBe(null);

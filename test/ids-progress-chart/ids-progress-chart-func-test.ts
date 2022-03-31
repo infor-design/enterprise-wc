@@ -4,10 +4,10 @@
 import IdsProgressChart from '../../src/components/ids-progress-chart/ids-progress-chart';
 
 describe('IdsProgressChart Component', () => {
-  let chart;
+  let chart: any;
 
   beforeEach(async () => {
-    const elem = new IdsProgressChart();
+    const elem: any = new IdsProgressChart();
     elem.id = 'test-progress-chart';
     elem.text = 'Test Progress Chart';
     document.body.appendChild(elem);
@@ -30,7 +30,7 @@ describe('IdsProgressChart Component', () => {
   });
 
   it('renders correctly', () => {
-    const elem = new IdsProgressChart();
+    const elem: any = new IdsProgressChart();
     elem.label = 'test';
     elem.progressLabel = '30 mins';
     elem.totalLabel = '60 mins';

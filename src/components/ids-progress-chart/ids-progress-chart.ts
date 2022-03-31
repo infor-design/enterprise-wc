@@ -24,7 +24,6 @@ export default class IdsProgressChart extends Base {
   }
 
   connectedCallback() {
-    this.#attachEventHandlers();
     super.connectedCallback();
   }
 
@@ -32,7 +31,7 @@ export default class IdsProgressChart extends Base {
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       attributes.COLOR,
       attributes.ICON,
@@ -40,7 +39,7 @@ export default class IdsProgressChart extends Base {
       attributes.LABEL_PROGRESS,
       attributes.LABEL_TOTAL,
       attributes.PROGRESS,
-      attributes.SIZE, // small or normal
+      attributes.SIZE,
       attributes.TOTAL,
     ];
   }
@@ -49,7 +48,7 @@ export default class IdsProgressChart extends Base {
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `<div class="ids-progress-chart" part="chart">
       <div class="labels">
         <ids-text class="label-main">${this.label || ''}</ids-text>
@@ -71,7 +70,7 @@ export default class IdsProgressChart extends Base {
    * Sets the icon inside the label
    * @param {string} value The icon name
    */
-  set icon(value) {
+  set icon(value: string) {
     const icon = this.container.querySelector('.icon');
     if (value) {
       icon.style.display = '';
@@ -85,24 +84,24 @@ export default class IdsProgressChart extends Base {
     }
   }
 
-  get icon() { return this.getAttribute(attributes.ICON); }
+  get icon(): string { return this.getAttribute(attributes.ICON); }
 
   /**
    * Set the color of the bar
    * @param {string} value The color value, this can be a hex code with the #
    */
-  set color(value) {
+  set color(value: string) {
     this.setAttribute(attributes.COLOR, value);
     this.#updateColor();
   }
 
-  get color() { return this.getAttribute(attributes.COLOR); }
+  get color(): string { return this.getAttribute(attributes.COLOR); }
 
   /**
    * Updates the UI when color attribute is set
    * @private
    */
-  #updateColor() {
+  #updateColor(): void {
     let prop = this.color;
 
     const includesAlert = this.color.includes('error') || this.color.includes('caution') || this.color.includes('warning');
@@ -135,7 +134,7 @@ export default class IdsProgressChart extends Base {
    * @param {string} labelType The type of label being set
    * @private
    */
-  #updateLabel(labelType) {
+  #updateLabel(labelType: string): void {
     if (labelType === attributes.LABEL) {
       this.container.querySelector('.label-main').innerHTML = this.label;
     } else if (labelType === attributes.LABEL_PROGRESS) {
@@ -149,7 +148,7 @@ export default class IdsProgressChart extends Base {
    * Updates the UI when the progress value/total is set
    * @private
    */
-  #updateProgress() {
+  #updateProgress(): void {
     const prog = parseFloat(this.progress) || DEFAULT_PROGRESS;
     const tot = parseFloat(this.total) || DEFAULT_TOTAL;
     // make sure that prog / tot doesn't exceed 1 -- will happen if prog > tot
@@ -162,7 +161,7 @@ export default class IdsProgressChart extends Base {
    * Updates the UI when the chart size is set
    * @private
    */
-  #updateSize() {
+  #updateSize(): void {
     const bar = this.container.querySelector('.bar');
     bar.style.minHeight = this.size === 'small' ? '10px' : '28px';
     bar.style.borderRadius = this.size === 'small' ? '0px' : '2px';
@@ -172,7 +171,7 @@ export default class IdsProgressChart extends Base {
    * Set the numeric value of progress that has been completed
    * @param {string} value The progress value, between 0 and the total
    */
-  set progress(value) {
+  set progress(value: string) {
     const prop = (parseFloat(value) < 0 || Number.isNaN(parseFloat(value)))
       ? DEFAULT_PROGRESS
       : value;
@@ -181,13 +180,13 @@ export default class IdsProgressChart extends Base {
     this.#updateProgress();
   }
 
-  get progress() { return this.getAttribute(attributes.PROGRESS); }
+  get progress(): string { return this.getAttribute(attributes.PROGRESS); }
 
   /**
    * Set the total value of possible progress that can be completed
    * @param {string} value The total value, must be greater than or equal to the progress value
    */
-  set total(value) {
+  set total(value: string) {
     const prop = (parseFloat(value) < 0 || Number.isNaN(parseFloat(value)))
       ? DEFAULT_TOTAL
       : value;
@@ -196,46 +195,46 @@ export default class IdsProgressChart extends Base {
     this.#updateProgress();
   }
 
-  get total() { return this.getAttribute(attributes.TOTAL); }
+  get total(): string { return this.getAttribute(attributes.TOTAL); }
 
   /**
    * Set the label title of the bar
    * @param {string} value The title value, whatever you want to name the bar
    */
-  set label(value) {
+  set label(value: string) {
     this.setAttribute(attributes.LABEL, value || '');
     this.#updateLabel(attributes.LABEL);
   }
 
-  get label() { return this.getAttribute(attributes.LABEL); }
+  get label(): string { return this.getAttribute(attributes.LABEL); }
 
   /**
    * Set the label of completed progress--useful for displaying units
    * @param {string} value The label for completed progress (i.e. 13 hours)
    */
-  set progressLabel(value) {
+  set progressLabel(value: string) {
     this.setAttribute(attributes.LABEL_PROGRESS, value || '');
     this.#updateLabel(attributes.LABEL_PROGRESS);
   }
 
-  get progressLabel() { return this.getAttribute(attributes.LABEL_PROGRESS); }
+  get progressLabel(): string { return this.getAttribute(attributes.LABEL_PROGRESS); }
 
   /**
    * Set the label of total possible progress--useful for displaying units
    * @param {string} value The label for total progress (i.e. 26 hours)
    */
-  set totalLabel(value) {
+  set totalLabel(value: string) {
     this.setAttribute(attributes.LABEL_TOTAL, value || '');
     this.#updateLabel(attributes.LABEL_TOTAL);
   }
 
-  get totalLabel() { return this.getAttribute(attributes.LABEL_TOTAL); }
+  get totalLabel(): string { return this.getAttribute(attributes.LABEL_TOTAL); }
 
   /**
    * Set the size of the progress bar (small, or normal (default)
    * @param {string} value The size of the progress bar
    */
-  set size(value) {
+  set size(value: string) {
     const prop = value === 'small' ? value : DEFAULT_SIZE;
     this.setAttribute(attributes.SIZE, prop);
     const icon = this.container.querySelector('.icon');
@@ -243,9 +242,5 @@ export default class IdsProgressChart extends Base {
     this.#updateSize();
   }
 
-  get size() { return this.getAttribute(attributes.SIZE); }
-
-  #attachEventHandlers() {
-    return this;
-  }
+  get size(): string { return this.getAttribute(attributes.SIZE); }
 }

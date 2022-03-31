@@ -27,7 +27,7 @@ export default class IdsProgressBar extends Base {
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       attributes.DISABLED,
       attributes.LABEL,
@@ -41,7 +41,7 @@ export default class IdsProgressBar extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     const audible = stringToBool(this.labelAudible) ? ' audible="true"' : '';
     let rootClass = stringToBool(this.disabled) ? ' disabled' : '';
     rootClass += stringToBool(this.labelAudible) ? ' label-audible' : '';
@@ -60,7 +60,7 @@ export default class IdsProgressBar extends Base {
    * @param {string} val the value
    * @returns {void}
    */
-  updateValue(val = VALUE) {
+  #updateValue(val: string): void {
     const bar = this.shadowRoot.querySelector('.progress-bar');
     if (bar) {
       const v = bar.getAttribute(attributes.VALUE);
@@ -83,17 +83,17 @@ export default class IdsProgressBar extends Base {
    * Get calculated completed value
    * @returns {string} The completed value and percentage sign
    */
-  get completed() {
+  get completed(): string {
     const partial = parseFloat(this.value);
     const total = parseFloat(this.max);
     return `${Math.round((100 * partial) / total)}%`;
   }
 
   /**
-   * Sets to disabled
+   * Sets the component to disabled
    * @param {boolean|string} value If true will set `disabled` attribute
    */
-  set disabled(value) {
+  set disabled(value: boolean | string) {
     const rootEl = this.shadowRoot.querySelector('.ids-progress-bar');
     const val = stringToBool(value);
     if (val) {
@@ -105,13 +105,13 @@ export default class IdsProgressBar extends Base {
     }
   }
 
-  get disabled() { return this.getAttribute(attributes.DISABLED); }
+  get disabled(): boolean | string { return this.getAttribute(attributes.DISABLED); }
 
   /**
    * Set the `label` text
    * @param {string} value of the `label` text property
    */
-  set label(value) {
+  set label(value: string) {
     if (value) {
       this.setAttribute(attributes.LABEL, value.toString());
     } else {
@@ -123,13 +123,13 @@ export default class IdsProgressBar extends Base {
     }
   }
 
-  get label() { return this.getAttribute(attributes.LABEL) || ''; }
+  get label(): string { return this.getAttribute(attributes.LABEL) || ''; }
 
   /**
    * Sets to label text as audible
    * @param {boolean|string} value If true will set `label-audible` attribute
    */
-  set labelAudible(value) {
+  set labelAudible(value: boolean | string) {
     const rootEl = this.shadowRoot.querySelector('.ids-progress-bar');
     const labelText = this.shadowRoot.querySelector('.progress-label ids-text');
     const val = stringToBool(value);
@@ -144,29 +144,29 @@ export default class IdsProgressBar extends Base {
     }
   }
 
-  get labelAudible() { return this.getAttribute(attributes.LABEL_AUDIBLE); }
+  get labelAudible(): boolean | string { return this.getAttribute(attributes.LABEL_AUDIBLE); }
 
   /**
    * Set the `max` attribute of progress
    * @param {string} value of the `max` property
    */
-  set max(value) {
+  set max(value: string) {
     const bar = this.shadowRoot.querySelector('.progress-bar');
     const v = (value || MAX).toString();
     this.setAttribute(attributes.MAX, v);
     bar?.setAttribute(attributes.MAX, v);
   }
 
-  get max() { return this.getAttribute(attributes.MAX) || MAX; }
+  get max(): string { return this.getAttribute(attributes.MAX) || MAX; }
 
   /**
    * Set the `value` attribute of progress
    * @param {string} val the value property
    */
-  set value(val) {
+  set value(val: string) {
     this.setAttribute(attributes.VALUE, (val || VALUE).toString());
-    this.updateValue(val);
+    this.#updateValue(val);
   }
 
-  get value() { return this.getAttribute(attributes.VALUE) || VALUE; }
+  get value(): string { return this.getAttribute(attributes.VALUE) || VALUE; }
 }

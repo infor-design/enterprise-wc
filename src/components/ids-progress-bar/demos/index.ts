@@ -1,16 +1,16 @@
 // Supporting components
-import IdsProgressBar from '../ids-progress-bar';
-import IdsToggleButton from '../../ids-toggle-button/ids-toggle-button';
+import '../ids-progress-bar';
+import '../../ids-toggle-button/ids-toggle-button';
 
 document.addEventListener('DOMContentLoaded', () => {
   const btnUpdateVal = document.querySelector('#btn-progress-value');
   const btnDisable = document.querySelector('#btn-progress-disable');
   const btnSetLabel = document.querySelector('#btn-progress-set-label');
-  const elem = document.querySelector('#elem-progress') || {};
-  const orgValue = elem.value;
+  const elem: any = document.querySelector('#elem-progress') || {};
+  const orgValue: any = elem.value;
 
   // Update and reset value
-  btnUpdateVal?.addEventListener('click', (e) => {
+  btnUpdateVal?.addEventListener('click', (e: any) => {
     if (elem.disabled) {
       return;
     }
@@ -20,13 +20,13 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Toggle disable/enable
-  btnDisable?.addEventListener('click', (e) => {
+  btnDisable?.addEventListener('click', (e: any) => {
     e.target.toggle();
     elem.disabled = !elem.disabled;
   });
 
   // Toggle label audible
-  btnSetLabel?.addEventListener('click', (e) => {
+  btnSetLabel?.addEventListener('click', (e: any) => {
     if (elem.disabled) {
       return;
     }

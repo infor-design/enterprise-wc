@@ -1,7 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import Base from './ids-process-indicator-base';
-import IdsProcessStep from './ids-process-step/ids-process-step';
-import IdsAlert from '../ids-alert/ids-alert';
+import './ids-process-step/ids-process-step';
+import '../ids-alert/ids-alert';
 
 import styles from './ids-process-indicator.scss';
 
@@ -18,17 +18,22 @@ export default class IdsProcessIndicator extends Base {
     super();
   }
 
-  #activeStepLabel;
-
   connectedCallback() {
-    this.setActiveStepLabel();
+    this.#setActiveStepLabel();
+  }
+
+  static get attributes(): Array<string> {
+    return [
+      ...super.attributes,
+    ];
   }
 
   /**
    * Set the active step label for xs heading
    * @private
+   * @returns {void}
    */
-  setActiveStepLabel() {
+  #setActiveStepLabel(): void {
     let activeStepLabel = 'None';
     const steps = this.querySelectorAll('ids-process-step');
     if (steps.length > 1) {
@@ -44,17 +49,11 @@ export default class IdsProcessIndicator extends Base {
     }
   }
 
-  static get attributes() {
-    return [
-      ...super.attributes,
-    ];
-  }
-
   /**
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `
     <div class="ids-process-indicator">
       <span class="step-container">

@@ -4,10 +4,10 @@
 import IdsProgressBar from '../../src/components/ids-progress-bar/ids-progress-bar';
 
 describe('IdsProgressBar Component', () => {
-  let el;
+  let el: any;
 
   beforeEach(async () => {
-    const elem = new IdsProgressBar();
+    const elem: any = new IdsProgressBar();
     document.body.appendChild(elem);
     el = document.querySelector('ids-progress-bar');
   });
@@ -18,7 +18,7 @@ describe('IdsProgressBar Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsProgressBar();
+    const elem: any = new IdsProgressBar();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-progress-bar').length).toEqual(1);
@@ -31,7 +31,6 @@ describe('IdsProgressBar Component', () => {
     expect(el.value).toEqual('60');
     const bar = el.shadowRoot.querySelector('.progress-bar');
     bar.remove();
-    el.updateValue();
     el.value = null;
     expect(el.value).toEqual('0');
   });

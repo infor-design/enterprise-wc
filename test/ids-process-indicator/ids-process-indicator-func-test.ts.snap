@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`IdsProcessIndicator Component handles no steps correctly 1`] = `
-"<style nonce=\\"undefined\\">:host { background-color: transparent; }</style>
+"<style nonce=\\"0a59a005\\">:host { background-color: transparent; }</style>
     <div class=\\"ids-process-indicator\\">
       <span class=\\"step-container\\">
         <div class=\\"xs-header\\">
