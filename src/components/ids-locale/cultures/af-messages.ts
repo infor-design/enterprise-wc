@@ -467,5 +467,6 @@ const messages = {
   Year: { id: 'Year', value: 'Jaar', comment: 'As in a date year' },
   Yes: { id: 'Yes', value: 'Ja', comment: 'On a dialog button' }
 };
-
+// eslint-disable-next-line import/prefer-default-export
+// eslint-disable-next-line import/prefer-default-export
 export { messages };

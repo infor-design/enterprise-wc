@@ -600,17 +600,16 @@ class IdsLocale {
         Number(day),
         Number(timePieces && timePieces[0] ? timePieces[0] : 0),
         Number(timePieces && timePieces[1] ? timePieces[1] : 0),
-        Number(timePieces && timePieces[2] ? timePieces[2] : 0)
+        Number(timePieces && (timePieces[2] || timePieces[2] === 0) ? timePieces[2] : 0)
       ];
     }
-
     return (new Date(
       this.twoToFourDigitYear(year),
       (Number(month) - 1),
       Number(day),
       Number(timePieces && timePieces[0] ? timePieces[0] : 0),
       Number(timePieces && timePieces[1] ? timePieces[1] : 0),
-      Number(timePieces && timePieces[2] ? timePieces[2] : 0),
+      Number(timePieces && (timePieces[2] || timePieces[2] === 0) ? timePieces[2] : 0),
     ));
   }
 
