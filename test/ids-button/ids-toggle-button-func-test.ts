@@ -74,14 +74,14 @@ describe('IdsToggleButton Component', () => {
     btn.type = 'primary';
 
     expect(btn.getAttribute('type')).toBe(null);
-    expect(btn.type).not.toBeDefined();
+    expect(btn.type).toBe('default');
     expect(btn.state.type).toBe('default');
     expect(btn.button.classList.contains('primary')).toBeFalsy();
 
     btn.setAttribute('type', 'secondary');
 
     expect(btn.getAttribute('type')).toBe(null);
-    expect(btn.type).not.toBeDefined();
+    expect(btn.type).toBe('default');
     expect(btn.state.type).toBe('default');
     expect(btn.button.classList.contains('secondary')).toBeFalsy();
   });

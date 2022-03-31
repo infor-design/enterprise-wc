@@ -44,7 +44,7 @@ export default class IdsDraggable extends Base {
   /**
    * @returns {string} The template innerHTML to render
    */
-  template() {
+  template(): string {
     return (
       `<slot></slot>`
     );
@@ -67,22 +67,22 @@ export default class IdsDraggable extends Base {
    * be moving along (e.g. X => horizontal, Y => vertical);
    * By default, not defined and supports both axes.
    */
-  set axis(value) {
+  set axis(value: string | undefined) {
     let nextValue;
 
     switch (value) {
-    case 'y': {
-      nextValue = 'y';
-      break;
-    }
-    case 'x': {
-      nextValue = 'x';
-      break;
-    }
-    default: {
-      nextValue = undefined;
-      break;
-    }
+      case 'y': {
+        nextValue = 'y';
+        break;
+      }
+      case 'x': {
+        nextValue = 'x';
+        break;
+      }
+      default: {
+        nextValue = undefined;
+        break;
+      }
     }
 
     if (nextValue) {
@@ -101,15 +101,15 @@ export default class IdsDraggable extends Base {
    * be moving along (e.g. X => horizontal, Y => vertical);
    * By default not defined and supports both axes.
    */
-  get axis() {
+  get axis(): string | undefined {
     return this.getAttribute('axis');
   }
 
   /**
-   * @param {boolean} value Whether the draggable should be limited in range
+   * @param {string | boolean} value Whether the draggable should be limited in range
    * by its parent element
    */
-  set parentContainment(value) {
+  set parentContainment(value: string | boolean) {
     const isTruthy = stringToBool(value);
 
     if (isTruthy) {
@@ -125,14 +125,14 @@ export default class IdsDraggable extends Base {
    * @returns {boolean} value Whether the draggable should be limited in range
    * by its parent element
    */
-  get parentContainment() {
+  get parentContainment(): boolean {
     return stringToBool(this.getAttribute(attributes.PARENT_CONTAINMENT));
   }
 
   /**
-   * @param {boolean} value Whether or not draggable functionality is to be disabled
+   * @param {string | boolean} value Whether or not draggable functionality is to be disabled
    */
-  set disabled(value) {
+  set disabled(value: string | boolean) {
     const isTruthy = stringToBool(value);
 
     if (isTruthy && this.getAttribute(attributes.DISABLED) !== '') {
@@ -146,7 +146,7 @@ export default class IdsDraggable extends Base {
   /**
    * @returns {boolean} value Whether or not draggable functionality is disabled
    */
-  get disabled() {
+  get disabled(): boolean {
     return stringToBool(this.getAttribute(attributes.DISABLED));
   }
 
@@ -154,7 +154,7 @@ export default class IdsDraggable extends Base {
    * @param {string} value A query selector representing an optional handle that can be used to
    * drag the content of the draggable
    */
-  set handle(value) {
+  set handle(value: string) {
     if (this.getAttribute(attributes.HANDLE) !== value) {
       if (this.hasAttribute(attributes.HANDLE) && (!value)) {
         this.removeAttribute(attributes.HANDLE);
@@ -170,7 +170,7 @@ export default class IdsDraggable extends Base {
    * @returns {string} value A query selector representing an optional handle that can be used to
    * drag the content of the draggable
    */
-  get handle() {
+  get handle(): string {
     return this.getAttribute(attributes.HANDLE);
   }
 
@@ -288,11 +288,11 @@ export default class IdsDraggable extends Base {
     }
   }
 
-  set minTransformX(value) {
+  set minTransformX(value: number) {
     this.#setIntAttribute(this, attributes.MIN_TRANSFORM_X, value);
   }
 
-  get minTransformX() {
+  get minTransformX(): number {
     if (this.hasAttribute(attributes.MIN_TRANSFORM_X)) {
       return parseInt(this.getAttribute(attributes.MIN_TRANSFORM_X));
     }
@@ -300,11 +300,11 @@ export default class IdsDraggable extends Base {
     return 0;
   }
 
-  set maxTransformX(value) {
+  set maxTransformX(value: number) {
     this.#setIntAttribute(this, attributes.MAX_TRANSFORM_X, value);
   }
 
-  get maxTransformX() {
+  get maxTransformX(): number {
     if (this.hasAttribute(attributes.MAX_TRANSFORM_X)) {
       return parseInt(this.getAttribute(attributes.MAX_TRANSFORM_X));
     }
@@ -312,11 +312,11 @@ export default class IdsDraggable extends Base {
     return 0;
   }
 
-  set minTransformY(value) {
+  set minTransformY(value: number) {
     this.#setIntAttribute(this, attributes.MIN_TRANSFORM_Y, value);
   }
 
-  get minTransformY() {
+  get minTransformY(): number {
     if (this.hasAttribute(attributes.MIN_TRANSFORM_Y)) {
       return parseInt(this.getAttribute(attributes.MIN_TRANSFORM_Y));
     }
@@ -324,7 +324,7 @@ export default class IdsDraggable extends Base {
     return 0;
   }
 
-  get maxTransformY() {
+  get maxTransformY(): number {
     if (this.hasAttribute(attributes.MAX_TRANSFORM_Y)) {
       return parseInt(this.getAttribute(attributes.MAX_TRANSFORM_Y));
     }
@@ -332,7 +332,7 @@ export default class IdsDraggable extends Base {
     return 0;
   }
 
-  set maxTransformY(value) {
+  set maxTransformY(value: number) {
     this.#setIntAttribute(this, attributes.MAX_TRANSFORM_Y, value);
   }
 
@@ -468,10 +468,10 @@ export default class IdsDraggable extends Base {
   };
 
   /**
-   * @param {boolean} value Whether or not this element
+   * @param {string | boolean} value Whether or not this element
    * and content is being dragged
    */
-  set isDragging(value) {
+  set isDragging(value: string | boolean) {
     const isTruthy = stringToBool(value);
 
     if (isTruthy && this.getAttribute(attributes.IS_DRAGGING) !== '') {
@@ -485,7 +485,7 @@ export default class IdsDraggable extends Base {
    * @returns {boolean} value Whether or not this element
    * and content is being dragged
    */
-  get isDragging() {
+  get isDragging(): boolean {
     return stringToBool(this.getAttribute(attributes.IS_DRAGGING));
   }
 
@@ -495,11 +495,11 @@ export default class IdsDraggable extends Base {
    *
    * @returns {string} cursor property
    */
-  #getCursorStyle() {
+  #getCursorStyle(): string {
     switch (this.axis) {
-    case 'x': { return 'ew-resize'; }
-    case 'y': { return 'ns-resize'; }
-    default: { return 'move'; }
+      case 'x': { return 'ew-resize'; }
+      case 'y': { return 'ns-resize'; }
+      default: { return 'move'; }
     }
   }
 
@@ -612,13 +612,13 @@ export default class IdsDraggable extends Base {
   }
 
   /**
-   * @param {number} value The max coordinates relative
+   * @param {string | number} value The max coordinates relative
    * to the overall div; e.g. "left: -20; right: -20" would extend
    * the minimum x and maximum x from current container
    * bounds, or "top: 10; bottom: 20" would make the top (upwards
    * bounds) 10 below the top or 20 below the bottom).
    */
-  set relativeBounds(value) {
+  set relativeBounds(value: string | number) {
     if (value) {
       this.setAttribute(attributes.RELATIVE_BOUNDS, value);
       this.#updateRelativeBounds();
@@ -627,7 +627,7 @@ export default class IdsDraggable extends Base {
     this.removeAttribute(attributes.RELATIVE_BOUNDS);
   }
 
-  get relativeBounds() {
+  get relativeBounds(): string | number {
     return this.getAttribute(attributes.RELATIVE_BOUNDS);
   }
 
@@ -645,12 +645,12 @@ export default class IdsDraggable extends Base {
    */
   getBoundsHash(bounds: any) {
     return (
-        `${bounds?.left || 0
-        }_${
-          bounds?.right || 0
-        }_${
-          bounds?.top || 0
-        }_${bounds?.bottom || 0}`
+      `${bounds?.left || 0
+      }_${
+        bounds?.right || 0
+      }_${
+        bounds?.top || 0
+      }_${bounds?.bottom || 0}`
     );
   }
 

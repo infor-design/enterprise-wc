@@ -7,6 +7,7 @@ import IdsEventsMixin from '../mixins/ids-events-mixin/ids-events-mixin';
 /**
  * Simple dictionary used to cache attribute names
  * to their corresponding property names.
+ * @type {Object<string, string>}
  */
 const attribPropNameDict = Object.fromEntries(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -111,7 +112,7 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   /**
    * @returns {Array<string>} this component's observable properties
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [];
   }
 
