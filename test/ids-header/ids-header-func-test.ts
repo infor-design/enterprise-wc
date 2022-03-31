@@ -4,10 +4,10 @@
 import IdsHeader from '../../src/components/ids-header/ids-header';
 
 describe('IdsHeader Component', () => {
-  let elem;
+  let elem: any;
 
   beforeEach(async () => {
-    const header = new IdsHeader();
+    const header: any = new IdsHeader();
     document.body.appendChild(header);
     elem = document.querySelector('ids-header');
   });
