@@ -5,7 +5,7 @@ import IdsScrollView from '../../src/components/ids-scroll-view/ids-scroll-view'
 import IntersectionObserver from '../helpers/intersection-observer-mock';
 
 describe('IdsScrollView Component', () => {
-  let scrollView;
+  let scrollView: any;
   const html = `<img slot="scroll-view-item" src="../assets/images/camera-1.png" alt="Slide 1, Sony Camera, Front"/>
   <img slot="scroll-view-item" src="../assets/images/camera-2.png" alt="Slide 3, Sony Camera, Back Display"/>
   <img slot="scroll-view-item" src="../assets/images/camera-3.png" alt="Slide 3, Sony Camera, From Top"/>
@@ -15,10 +15,10 @@ describe('IdsScrollView Component', () => {
 
   beforeEach(async () => {
     // Mock IntersectionObserver
-    window.IntersectionObserver = IntersectionObserver;
+    (<any>window).IntersectionObserver = IntersectionObserver;
 
     // Append the element
-    const elem = new IdsScrollView();
+    const elem: any = new IdsScrollView();
     elem.innerHTML = html;
     document.body.appendChild(elem);
     scrollView = document.querySelector('ids-scroll-view');
@@ -34,7 +34,7 @@ describe('IdsScrollView Component', () => {
   it('renders with no errors', () => {
     scrollView.remove();
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsScrollView();
+    const elem: any = new IdsScrollView();
     elem.innerHTML = html;
     document.body.appendChild(elem);
     expect(document.querySelectorAll('ids-scroll-view').length).toEqual(1);
@@ -62,7 +62,7 @@ describe('IdsScrollView Component', () => {
 
   it('moved on ArrowLeft/ArrowRight', () => {
     const controls = scrollView.shadowRoot.querySelector('.ids-scroll-view-controls');
-    const testArrowKey = (key, id) => {
+    const testArrowKey = (key: string, id: string) => {
       scrollView.dispatchEvent(new KeyboardEvent('keydown', { key }));
       const link = controls.querySelector(`[href="#${id}"]`);
       expect(link.getAttribute('tabindex')).toEqual('0');

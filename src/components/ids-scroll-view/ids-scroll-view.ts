@@ -43,7 +43,7 @@ export default class IdsScrollView extends Base {
    * Create the template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `<div class="ids-scroll-view-container" part="container">
         <div class="ids-scroll-view" part="scroll-view" role="complementary" tabindex="-1">
           <slot name="scroll-view-item"></slot>
@@ -62,7 +62,7 @@ export default class IdsScrollView extends Base {
     this.isClick = false;
 
     // Set selected state on click
-    this.onEvent('click', this.controls, (event) => {
+    this.onEvent('click', this.controls, (event: any) => {
       if (event.target.nodeName !== 'A') {
         return;
       }
@@ -71,7 +71,7 @@ export default class IdsScrollView extends Base {
     });
 
     // handle arrow keys
-    this.listen(['ArrowLeft', 'ArrowRight', 'Enter'], this.controls, (e) => {
+    this.listen(['ArrowLeft', 'ArrowRight', 'Enter'], this.controls, (e: any) => {
       const selected = this.controls.querySelector('.selected');
       this.#resetIsClick();
       if (e.key === 'ArrowRight' && selected.nextElementSibling) {
@@ -90,13 +90,13 @@ export default class IdsScrollView extends Base {
     });
 
     // Set selected state on scroll/swipe
-    this.querySelectorAll('[slot]').forEach((elem, i) => {
+    this.querySelectorAll('[slot]').forEach((elem: any, i: any) => {
       elem.scrollViewIndex = i;
       const observer = new IntersectionObserver(
         (entries) => {
-          const elemToCheck = entries[0];
+          const elemToCheck: any = entries[0];
           if (elemToCheck.isIntersecting && !this.isClick) {
-            this.#activateLink(this.controls.querySelectorAll('a')[elemToCheck.target.scrollViewIndex]);
+            this.#activateLink(this.controls.querySelectorAll('a')[elemToCheck.target.scrollViewIndex], true);
           }
         },
         { threshold: 0.55 }
@@ -128,7 +128,7 @@ export default class IdsScrollView extends Base {
    * @param {HTMLElement} elem The next selected element
    * @param {boolean} focus The next selected element
    */
-  #activateLink(elem, focus) {
+  #activateLink(elem: HTMLElement, focus = false) {
     const selected = this.controls.querySelector('.selected');
     selected.classList.remove('selected');
     selected.setAttribute('tabindex', '-1');
@@ -149,7 +149,7 @@ export default class IdsScrollView extends Base {
    */
   #renderButtons() {
     const items = this.querySelectorAll('[slot]');
-    items.forEach((item, i) => {
+    items.forEach((item: any, i: number) => {
       const id = `id-${i}`;
       item.id = id;
       this.controls.insertAdjacentHTML('beforeend', `<a ${i === 0 ? ' class="selected"' : ''} href="#${id}" part="button" tabindex="${i === 0 ? '0' : '-1'}" role="tab" aria-selected="${i === 0 ? 'true' : 'false'}"><span class="audible">${item.getAttribute('alt')}</span></a>`);

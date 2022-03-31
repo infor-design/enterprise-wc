@@ -1,6 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
+import '../ids-hyperlink/ids-hyperlink';
 import Base from './ids-skip-link-base';
 
 import styles from './ids-skip-link.scss';
@@ -28,7 +28,7 @@ export default class IdsSkiplink extends Base {
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       attributes.HREF,
       attributes.MODE,
@@ -40,7 +40,7 @@ export default class IdsSkiplink extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `<a href="${this.href}" class="ids-skip-link ids-hyperlink" part="link"><slot></slot></a>`;
   }
 
@@ -48,7 +48,7 @@ export default class IdsSkiplink extends Base {
    * Set the link href
    * @param {string} value Set the link's href to some link
    */
-  set href(value) {
+  set href(value: string) {
     if (value) {
       this.setAttribute(attributes.HREF, value);
       this.container.setAttribute(attributes.HREF, value);
@@ -58,5 +58,5 @@ export default class IdsSkiplink extends Base {
     this.container.removeAttribute(attributes.HREF);
   }
 
-  get href() { return this.getAttribute(attributes.HREF); }
+  get href(): string { return this.getAttribute(attributes.HREF); }
 }

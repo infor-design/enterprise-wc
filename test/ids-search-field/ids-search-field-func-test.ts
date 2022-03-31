@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import createFromTemplate from '../helpers/create-from-template';
-import IdsSearchField from '../../src/components/ids-search-field/ids-search-field';
+import '../../src/components/ids-search-field/ids-search-field';
 
 const HTMLSnippets = {
   VANILLA_SEARCH_FIELD: (
@@ -17,15 +17,15 @@ const HTMLSnippets = {
 };
 
 describe('IdsSearchField Component', () => {
-  let s;
+  let s: any;
 
-  const createEvent = (type, attributes = {}) => {
+  const createEvent = (type: any, attributes = {}) => {
     const event = new Event(type);
     Object.assign(event, attributes);
     return event;
   };
 
-  const createKeyboardEvent = (keyName) => {
+  const createKeyboardEvent = (keyName: any) => {
     const event = new KeyboardEvent('keydown', { key: keyName });
     return event;
   };
@@ -139,7 +139,7 @@ describe('IdsSearchField Component', () => {
 
   it('fires a user-defined `onSearch` method when the value changes', async () => {
     const data = ['one', 'two', 'three', 'four', 'five'];
-    s.onSearch = (val) => data.filter((item) => item.includes(val));
+    s.onSearch = (val: any) => data.filter((item) => item.includes(val));
 
     let results = await s.search('five');
     expect(results.length).toBe(1);

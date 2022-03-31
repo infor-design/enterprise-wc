@@ -1,0 +1,1 @@
+import '../ids-skip-link';
