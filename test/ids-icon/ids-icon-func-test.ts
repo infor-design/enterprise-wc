@@ -6,8 +6,8 @@ import IdsIcon from '../../src/components/ids-icon/ids-icon';
 import processAnimFrame from '../helpers/process-anim-frame';
 
 describe('IdsIcon Component', () => {
-  let elem;
-  let container;
+  let elem: any;
+  let container: any;
   beforeEach(async () => {
     container = new IdsContainer();
     const icon = new IdsIcon();

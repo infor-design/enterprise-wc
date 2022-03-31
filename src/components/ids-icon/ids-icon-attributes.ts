@@ -8,4 +8,5 @@ const sizes: any = {
   xsmall: 10
 };
 
+// eslint-disable-next-line import/prefer-default-export
 export { sizes };

@@ -2,26 +2,27 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
+import waitFor from '../helpers/wait-for';
 
 import IdsTooltip from '../../src/components/ids-tooltip/ids-tooltip';
 import IdsButton from '../../src/components/ids-button/ids-button';
-import IdsPopup from '../../src/components/ids-popup/ids-popup';
+import '../../src/components/ids-popup/ids-popup';
 import IdsText from '../../src/components/ids-text/ids-text';
 import IdsInput from '../../src/components/ids-input/ids-input';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 
 describe('IdsTooltip Component', () => {
-  let tooltip;
-  let button;
+  let tooltip: any;
+  let button: any;
 
   beforeEach(async () => {
-    const buttonElem = new IdsButton();
+    const buttonElem: any = new IdsButton();
     buttonElem.id = 'button-1';
     buttonElem.text = 'Test Button';
     document.body.appendChild(buttonElem);
     button = document.querySelector('ids-button');
 
-    const tooltipElem = new IdsTooltip();
+    const tooltipElem: any = new IdsTooltip();
     tooltipElem.delay = 1;
     tooltipElem.target = '#button-1';
     tooltipElem.innerHTML = 'Additional Information';
@@ -37,7 +38,7 @@ describe('IdsTooltip Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsTooltip();
+    const elem: any = new IdsTooltip();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-tooltip').length).toEqual(1);
@@ -50,11 +51,11 @@ describe('IdsTooltip Component', () => {
   });
 
   it('handles two or more elements can share a tooltip', (done) => {
-    const buttonElem = new IdsButton();
+    const buttonElem: any = new IdsButton();
     buttonElem.id = 'button-2';
     buttonElem.text = 'Test Button 2';
     document.body.appendChild(buttonElem);
-    const button2 = document.querySelector('#button-2');
+    const button2: any = document.querySelector('#button-2');
     tooltip.target = '#button-1, #button-2';
 
     const mouseenter = new MouseEvent('mouseenter');
@@ -76,11 +77,11 @@ describe('IdsTooltip Component', () => {
   });
 
   it('handles changing the target', (done) => {
-    const buttonElem = new IdsButton();
+    const buttonElem: any = new IdsButton();
     buttonElem.id = 'button-2';
     buttonElem.text = 'Test Button 2';
     document.body.appendChild(buttonElem);
-    const button2 = document.querySelector('#button-2');
+    const button2: any = document.querySelector('#button-2');
     tooltip.target = '#button-2';
 
     const mouseenter = new MouseEvent('mouseenter');
@@ -120,60 +121,51 @@ describe('IdsTooltip Component', () => {
     }, 50);
   });
 
-  it('shows on click and then hides on tooltip click', (done) => {
+  it('shows on click and then hides on tooltip click', async () => {
     tooltip.trigger = 'click';
     button.click();
-
-    setTimeout(() => {
-      expect(tooltip.visible).toEqual(true);
-      tooltip.popup.click();
-      expect(tooltip.visible).toEqual(false);
-      done();
-    }, 50);
+    waitFor(() => expect(tooltip.visible).toBeTruthy());
+    expect(tooltip.visible).toEqual(true);
+    tooltip.popup.click();
+    expect(tooltip.visible).toEqual(false);
   });
 
-  it('hides on click when set to visible', (done) => {
+  it('hides on click when set to visible', async () => {
     tooltip.trigger = 'click';
     tooltip.visible = true;
     button.click();
-
-    setTimeout(() => {
-      expect(tooltip.visible).toEqual(false);
-      button.click();
-      expect(tooltip.visible).toEqual(true);
-      done();
-    }, 50);
+    waitFor(() => expect(tooltip.visible).toBeTruthy());
+    expect(tooltip.visible).toEqual(false);
+    button.click();
+    expect(tooltip.visible).toEqual(true);
   });
 
-  it('shows on keyboard focusin', (done) => {
+  it('shows on keyboard focusin', () => {
     tooltip.trigger = 'click';
     button.dispatchEvent(new CustomEvent('keyboardfocus'));
-
-    setTimeout(() => {
-      expect(tooltip.visible).toEqual(true);
-      done();
-    }, 50);
+    waitFor(() => expect(tooltip.visible).toBeTruthy());
+    expect(tooltip.visible).toEqual(true);
   });
 
-  it('shows on focusin and then hides on focusout', (done) => {
+  it('shows on focusin and then hides on focusout', async () => {
     tooltip.trigger = 'focus';
     button.dispatchEvent(new Event('focusin'));
-
-    setTimeout(() => {
-      expect(tooltip.visible).toEqual(true);
-      button.dispatchEvent(new Event('focusout'));
-      expect(tooltip.visible).toEqual(false);
-      done();
-    }, 50);
+    waitFor(() => expect(tooltip.visible).toBeTruthy());
+    expect(tooltip.visible).toEqual(true);
+    button.dispatchEvent(new Event('focusout'));
+    expect(tooltip.visible).toEqual(false);
   });
 
-  it('shows on longpress', (done) => {
-    button.triggerEvent('longpress', button, { delay: 1 });
+  it('hides on focusout', async () => {
+    tooltip.visible = true;
+    button.dispatchEvent(new Event('focusout'));
+    expect(tooltip.visible).toEqual(false);
+  });
 
-    setTimeout(() => {
-      expect(tooltip.visible).toEqual(true);
-      done();
-    }, 50);
+  it('shows on longpress', async () => {
+    button.triggerEvent('longpress', button, { delay: 1 });
+    waitFor(() => expect(tooltip.visible).toBeTruthy());
+    expect(tooltip.visible).toEqual(true);
   });
 
   it('shows on an HTMLElement', () => {
@@ -281,7 +273,7 @@ describe('IdsTooltip Component', () => {
   });
 
   it('fires beforeshow and can veto', () => {
-    tooltip.addEventListener('beforeshow', (e) => {
+    tooltip.addEventListener('beforeshow', (e: CustomEvent) => {
       e.detail.response(false);
     });
     tooltip.visible = true;
@@ -291,7 +283,7 @@ describe('IdsTooltip Component', () => {
 
   it('shows works as a mixin on buttons', (done) => {
     tooltip?.remove();
-    const button2 = new IdsButton();
+    const button2: any = new IdsButton();
     button2.id = 'button-1';
     button2.text = 'Test Button';
     button2.tooltip = 'Additional Info';
@@ -301,7 +293,7 @@ describe('IdsTooltip Component', () => {
     const mouseleave = new MouseEvent('mouseleave');
     button2.dispatchEvent(mouseenter);
     setTimeout(() => {
-      const tooltipFromMixin = document.querySelector('ids-tooltip');
+      const tooltipFromMixin: any = document.querySelector('ids-tooltip');
       expect(tooltipFromMixin.visible).toEqual(true);
       button2.dispatchEvent(mouseleave);
       expect(tooltipFromMixin.visible).toEqual(false);
@@ -312,14 +304,14 @@ describe('IdsTooltip Component', () => {
 
   it('shows works as a mixin on inputs', (done) => {
     tooltip?.remove();
-    const input = new IdsInput();
+    const input: any = new IdsInput();
     input.tooltip = 'Additional Info';
     document.body.appendChild(input);
 
     const mouseenter = new MouseEvent('mouseenter');
     input.dispatchEvent(mouseenter);
     setTimeout(() => {
-      const tooltipFromMixin = document.querySelector('ids-tooltip');
+      const tooltipFromMixin: any = document.querySelector('ids-tooltip');
       expect(tooltipFromMixin.visible).toEqual(true);
       expect(tooltipFromMixin.textContent).toEqual('Additional Info');
       done();
@@ -328,7 +320,7 @@ describe('IdsTooltip Component', () => {
 
   it('should not show when not overflown', () => {
     tooltip.remove();
-    const text = new IdsText();
+    const text: any = new IdsText();
     text.overflow = 'ellipsis';
     text.textContent = 'Some long text that is overflowing and long';
     text.tooltip = 'true';
@@ -341,7 +333,7 @@ describe('IdsTooltip Component', () => {
   });
 
   it('should work in a container', (done) => {
-    const container = new IdsContainer();
+    const container: any = new IdsContainer();
 
     tooltip.remove();
     const button2 = new IdsButton();
@@ -355,20 +347,12 @@ describe('IdsTooltip Component', () => {
     const mouseleave = new MouseEvent('mouseleave');
     button2.dispatchEvent(mouseenter);
     setTimeout(() => {
-      const tooltipFromMixin = document.querySelector('ids-tooltip');
+      const tooltipFromMixin: any = document.querySelector('ids-tooltip');
       expect(tooltipFromMixin.visible).toEqual(true);
       button2.dispatchEvent(mouseleave);
       expect(tooltipFromMixin.visible).toEqual(false);
       expect(tooltipFromMixin.textContent).toEqual('Additional Info2');
       done();
     }, 550);
-  });
-
-  it('should append ids', () => {
-    tooltip.addInternalIds();
-    expect(tooltip.shadowRoot.querySelector('[part="popup"]').getAttribute('data-automation-id')).toEqual('test-id-popup');
-    expect(tooltip.shadowRoot.querySelector('[part="popup"]').getAttribute('id')).toEqual('test-id-popup');
-    expect(tooltip.shadowRoot.querySelector('[part="tooltip"]').getAttribute('id')).toEqual('test-id-tooltip');
-    expect(tooltip.shadowRoot.querySelector('[part="tooltip"]').getAttribute('data-automation-id')).toEqual('test-id-tooltip');
   });
 });

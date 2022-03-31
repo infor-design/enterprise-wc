@@ -3,11 +3,8 @@ import { customElement, scss, appendIds } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-tooltip-base';
-
 import '../ids-popup/ids-popup';
-
 import styles from './ids-tooltip.scss';
-import '../ids-popup/ids-popup';
 
 /**
  * IDS Tooltip Component
@@ -36,7 +33,7 @@ export default class IdsTooltip extends Base {
   /**
    * Invoked each time the custom element is appended into a document-connected element,
    */
-  connectedCallback() {
+  connectedCallback(): void {
     this.#updateAria();
   }
 
@@ -44,7 +41,7 @@ export default class IdsTooltip extends Base {
    * Returns the properties/settings we handle as getters/setters
    * @returns {Array} The supported settings in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       attributes.DELAY,
       attributes.KEEP_OPEN,
@@ -61,7 +58,7 @@ export default class IdsTooltip extends Base {
    * Create the Template for the component contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `<ids-popup part="popup" id="${this.id || 'ids'}-tooltip">
         <div class="ids-tooltip" slot="content" part="tooltip">
           <slot></slot>
@@ -73,20 +70,19 @@ export default class IdsTooltip extends Base {
   /**
    * Bind Internal Event Handlers
    * @private
-   * @returns {object} The object for chaining.
+   * @returns {void}
    */
-  #attachEventHandlers() {
+  #attachEventHandlers(): void {
     this.detachAllEvents();
     if (!(typeof this.target === 'string')) {
       this.#bindEvents(this.target);
-      return this;
+      return;
     }
 
     const list = document.querySelectorAll(this.target);
     for (let i = 0, len = list.length; i < len; i++) {
       this.#bindEvents(list[i]);
     }
-    return this;
   }
 
   /**
@@ -159,8 +155,9 @@ export default class IdsTooltip extends Base {
   /**
    * Setup the popup
    * @private
+   * @returns {void}
    */
-  #configurePopup() {
+  #configurePopup(): void {
     // Popup settings / config
     this.popup.type = 'tooltip';
     this.popup.align = `${this.placement}, center`;
@@ -177,8 +174,9 @@ export default class IdsTooltip extends Base {
   /**
    * Update the aria attributes with the correct contents
    * @private
+   * @returns {void}
    */
-  #updateAria() {
+  #updateAria(): void {
     // For ellipsis based tooltips we dont do this
     if (this.state?.noAria) {
       return;
@@ -203,8 +201,9 @@ export default class IdsTooltip extends Base {
   /**
    * Show the tooltip (use visible for public API)
    * @private
+   * @returns {Promise<void>}
    */
-  async #show() {
+  async #show(): Promise<void> {
     // Trigger a veto-able `beforeshow` event.
     let canShow = true;
     const beforeShowResponse = (veto: any) => {
@@ -239,17 +238,18 @@ export default class IdsTooltip extends Base {
 
   /**
    * Show the tooltip  (use visible for public API)
+   * @returns {void}
    */
-  #hide() {
+  #hide(): void {
     this.popup.visible = false;
     this.triggerEvent('hide', this, { detail: { elem: this } });
   }
 
   /**
    * @readonly
-   * @returns {IdsPopup} reference to the internal IdsPopup component
+   * @returns {HTMLElement} reference to the internal IdsPopup component
    */
-  get popup() {
+  get popup(): any {
     return this.shadowRoot.querySelector('ids-popup');
   }
 
@@ -257,17 +257,17 @@ export default class IdsTooltip extends Base {
    * An async function that fires as the tooltip is showing allowing you to set contents.
    * @param {Function} func The async function
    */
-  set beforeShow(func) {
+  set beforeShow(func: () => Promise<string>) {
     this.state.beforeShow = func;
   }
 
-  get beforeShow() { return this.state.beforeShow; }
+  get beforeShow(): () => Promise<string> { return this.state.beforeShow; }
 
   /**
    * Set how long after hover you should delay before showing
    * @param {string | number} value The amount in ms to delay
    */
-  set delay(value) {
+  set delay(value: string | number) {
     if (value) {
       this.setAttribute('delay', value);
       return;
@@ -276,13 +276,13 @@ export default class IdsTooltip extends Base {
     this.removeAttribute('delay');
   }
 
-  get delay() { return Number(this.getAttribute('delay')) || 500; }
+  get delay(): string | number { return Number(this.getAttribute('delay')) || 500; }
 
   /**
    * Sets the tooltip placement between left, right, top, bottom
    * @param {string} value The placement of the tooltip
    */
-  set placement(value) {
+  set placement(value: string) {
     this.state.placement = value;
 
     if (value) {
@@ -293,13 +293,13 @@ export default class IdsTooltip extends Base {
     this.removeAttribute('placement');
   }
 
-  get placement() { return this.getAttribute('placement') || 'top'; }
+  get placement(): string { return this.getAttribute('placement') || 'top'; }
 
   /**
    * Set the target element for the tooltip
-   * @param {string | HTMLElement} value The target element selector
+   * @param {HTMLElement} value The target element selector
    */
-  set target(value) {
+  set target(value: any) {
     this.state.target = value;
 
     if (value && typeof value !== 'string') {
@@ -318,13 +318,13 @@ export default class IdsTooltip extends Base {
     this.#attachEventHandlers();
   }
 
-  get target() { return this.state.target; }
+  get target(): any { return this.state.target; }
 
   /**
    * Set trigger agains the target between hover, click and focus
    * @param {string} value The trigger mode to use
    */
-  set trigger(value) {
+  set trigger(value: string) {
     this.state.trigger = value;
 
     if (this.state.trigger) {
@@ -337,13 +337,13 @@ export default class IdsTooltip extends Base {
     this.#attachEventHandlers();
   }
 
-  get trigger() { return this.state.trigger || 'hover'; }
+  get trigger(): string { return this.state.trigger || 'hover'; }
 
   /**
    * Set tooltip immediately to visible/invisible
    * @param {string|boolean} value The target element selector
    */
-  set visible(value) {
+  set visible(value: string | boolean) {
     const trueVal = stringToBool(value);
     if (this.state.visible !== trueVal) {
       this.state.visible = trueVal;
@@ -366,5 +366,5 @@ export default class IdsTooltip extends Base {
     }
   }
 
-  get visible() { return this.state.visible; }
+  get visible(): string | boolean { return this.state.visible; }
 }
