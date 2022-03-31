@@ -21,7 +21,7 @@ import './ids-date-picker/ids-date-picker';
 import './ids-draggable/ids-draggable';
 import './ids-dropdown/ids-dropdown';
 // import './ids-empty-message/ids-empty-message';
-// import './ids-error-page/ids-error-page';
+import './ids-error-page/ids-error-page';
 // import './ids-expandable-area/ids-expandable-area';
 // import './ids-fieldset/ids-fieldset';
 // import './ids-header/ids-header';

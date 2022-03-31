@@ -4,10 +4,10 @@
 import IdsFieldset from '../../src/components/ids-fieldset/ids-fieldset';
 
 describe('IdsFieldset Component', () => {
-  let fieldset;
+  let fieldset: any;
 
   beforeEach(async () => {
-    const elem = new IdsFieldset();
+    const elem: any = new IdsFieldset();
     document.body.appendChild(elem);
     fieldset = document.querySelector('ids-fieldset');
   });
@@ -18,7 +18,7 @@ describe('IdsFieldset Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsFieldset();
+    const elem: any = new IdsFieldset();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-fieldset').length).toEqual(1);

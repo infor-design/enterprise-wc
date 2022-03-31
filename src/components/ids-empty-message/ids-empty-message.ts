@@ -4,8 +4,8 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
 import Base from './ids-empty-message-base';
-import IdsIcon from '../ids-icon/ids-icon';
-import IdsText from '../ids-text/ids-text';
+import '../ids-icon/ids-icon';
+import '../ids-text/ids-text';
 
 import styles from './ids-empty-message.scss';
 
@@ -43,7 +43,7 @@ export default class IdsEmptyMessage extends Base {
   }
 
   iconData() {
-    return pathData[this.icon];
+    return (pathData as any)[this.icon];
   }
 
   /**
@@ -79,7 +79,7 @@ export default class IdsEmptyMessage extends Base {
 
   set icon(value) {
     const svgIcon = this.shadowRoot.querySelector('svg');
-    if (value && pathData[value]) {
+    if (value && (pathData as any)[value]) {
       svgIcon.style.display = '';
       this.setAttribute(attributes.ICON, value);
       svgIcon.innerHTML = this.iconData();

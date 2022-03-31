@@ -2,9 +2,9 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import Base from './ids-error-page-base';
 
-import IdsModal from '../ids-modal/ids-modal';
-import IdsEmptyMessage from '../ids-empty-message/ids-empty-message';
-import IdsIcon from '../ids-icon/ids-icon';
+import '../ids-modal/ids-modal';
+import '../ids-empty-message/ids-empty-message';
+import '../ids-icon/ids-icon';
 import styles from './ids-error-page.scss';
 
 const DEFAULT_ICON = 'empty-error-loading';
@@ -24,12 +24,12 @@ export default class IdsErrorPage extends Base {
     super();
   }
 
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback?.();
     this.#attachEventHandlers();
   }
 
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       ...super.attributes,
       attributes.BUTTON_TEXT,
@@ -39,7 +39,7 @@ export default class IdsErrorPage extends Base {
     ];
   }
 
-  template() {
+  template(): string {
     return `<ids-popup part="modal" class="ids-modal ids-error" type="custom" position-style="viewport">
       <div class="ids-modal-container" slot="content">
         <ids-empty-message icon="${this.icon ?? DEFAULT_ICON}">
@@ -68,7 +68,7 @@ export default class IdsErrorPage extends Base {
    * @param {string} value icon id
    * @memberof IdsErrorPage
    */
-  set icon(value) {
+  set icon(value: string) {
     if (value) {
       this.setAttribute(attributes.ICON, value);
     } else {
@@ -96,7 +96,7 @@ export default class IdsErrorPage extends Base {
    * @param {string} value label text
    * @memberof IdsErrorPage
    */
-  set label(value) {
+  set label(value: string) {
     if (value) {
       this.setAttribute(attributes.LABEL, value);
     } else {
@@ -121,7 +121,7 @@ export default class IdsErrorPage extends Base {
    * @param {string} value description text
    * @memberof IdsErrorPage
    */
-  set description(value) {
+  set description(value: string) {
     if (value) {
       this.setAttribute(attributes.DESCRIPTION, value);
     } else {
@@ -146,7 +146,7 @@ export default class IdsErrorPage extends Base {
    * @param {string} value button text
    * @memberof IdsErrorPage
    */
-  set buttonText(value) {
+  set buttonText(value: string) {
     if (value) {
       this.setAttribute(attributes.BUTTON_TEXT, value);
     } else {
@@ -170,11 +170,11 @@ export default class IdsErrorPage extends Base {
    * Attach the error page event handlers
    * @private
    */
-  #attachEventHandlers() {
+  #attachEventHandlers(): void {
     const button = this.container.querySelector('.action-button');
     const actionBtnEvent = 'action-button';
 
-    this.onEvent('click', button, (e) => {
+    this.onEvent('click', button, (e:Event) => {
       this.triggerEvent(actionBtnEvent, this, {
         detail: {
           elem: this,
@@ -183,7 +183,7 @@ export default class IdsErrorPage extends Base {
       });
     });
 
-    this.onEvent('touchend', button, (e) => {
+    this.onEvent('touchend', button, (e:Event) => {
       this.triggerEvent(actionBtnEvent, this, {
         detail: {
           elem: this,
@@ -209,7 +209,7 @@ export default class IdsErrorPage extends Base {
    * @param {string} value attribute value
    * @private
    */
-  #refreshText(el, value) {
+  #refreshText(el:Object, value:String): void {
     const elText = this.container.querySelector(el);
     if (elText) {
       elText.innerHTML = value ? value.toString() : '';
