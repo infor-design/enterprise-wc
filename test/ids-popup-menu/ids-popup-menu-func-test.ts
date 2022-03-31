@@ -7,8 +7,8 @@ import IdsPopupMenu from '../../src/components/ids-popup-menu/ids-popup-menu';
 import IdsMenuGroup from '../../src/components/ids-menu/ids-menu-group';
 import IdsMenuHeader from '../../src/components/ids-menu/ids-menu-header';
 import IdsMenuItem from '../../src/components/ids-menu/ids-menu-item';
-import IdsSeparator from '../../src/components/ids-separator/ids-separator';
-import IdsPopup from '../../src/components/ids-popup/ids-popup';
+import '../../src/components/ids-separator/ids-separator';
+import '../../src/components/ids-popup/ids-popup';
 
 /*
 The final markup displayed by this test component should look like the following:
@@ -47,19 +47,19 @@ const newSubmenuHTML = `<ids-menu-group id="new-group">
 </ids-menu-group>`;
 
 describe('IdsPopupMenu Component', () => {
-  let menu;
-  let group1;
-  let group2;
-  let header;
-  let item1;
+  let menu: any;
+  let group1: any;
+  let group2: any;
+  let header: any;
+  let item1: any;
   let item2;
   let item3;
   let item4;
-  let item5;
-  let item6;
+  let item5: any;
+  let item6: any;
   let submenu;
   let subgroup;
-  let subitem1;
+  let subitem1: any;
   let subitem2;
   let subitem3;
 
@@ -198,7 +198,7 @@ describe('IdsPopupMenu Component', () => {
   });
 
   it('can be prevented from showing with a vetoed `beforeshow` event', () => {
-    menu.addEventListener('beforeshow', (e) => {
+    menu.addEventListener('beforeshow', (e: { detail: { response: (arg0: boolean) => void; }; }) => {
       e.detail.response(false);
     });
     menu.show();
@@ -423,13 +423,14 @@ describe('IdsPopupMenu Component', () => {
 
   // @TODO, how do we test `contextmenu` event being triggered on `window`?
   it('opens on `contextmenu` event by default', (done) => {
-    const contextMenuEvent = new MouseEvent('contextmenu', {
+    const args: any = {
       bubbles: true,
       clientX: 10,
       clientY: 10,
       pageX: 10,
       pageY: 10
-    });
+    };
+    const contextMenuEvent: any = new MouseEvent('contextmenu', args);
     document.body.dispatchEvent(contextMenuEvent);
 
     setTimeout(() => {
@@ -440,7 +441,7 @@ describe('IdsPopupMenu Component', () => {
 
   // Tests `connectedCallback`'s extra path
   it('won\'t be set to hidden if it\'s already hidden', () => {
-    const newMenu = new IdsPopupMenu();
+    const newMenu: any = new IdsPopupMenu();
     newMenu.id = 'new-menu';
     newMenu.hidden = true;
     document.body.appendChild(newMenu);

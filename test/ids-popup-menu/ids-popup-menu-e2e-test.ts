@@ -28,7 +28,7 @@ describe('Ids Popup Menu e2e Tests', () => {
     await page.waitForTimeout(popupHoverDelay);
 
     // check that sub popupmenu is visible
-    const isVisible = await page.$eval(subPopupMenuSelector, (el) => el?.visible);
+    const isVisible = await page.$eval(subPopupMenuSelector, (el: any) => el?.visible);
     expect(isVisible).toBeTruthy();
   });
 
@@ -40,7 +40,7 @@ describe('Ids Popup Menu e2e Tests', () => {
     await page.click(menuItemSelector);
 
     // check that sub popupmenu is visible
-    const isVisible = await page.$eval(subPopupMenuSelector, (el) => el?.visible);
+    const isVisible = await page.$eval(subPopupMenuSelector, (el: any) => el?.visible);
     expect(isVisible).toBeTruthy();
   });
 
@@ -54,7 +54,7 @@ describe('Ids Popup Menu e2e Tests', () => {
     await page.click(menuItemSelector);
 
     // check that sub popupmenu is visible
-    const isVisible = await page.$eval(subPopupMenuSelector, (el) => el?.visible);
+    const isVisible = await page.$eval(subPopupMenuSelector, (el: any) => el?.visible);
     expect(isVisible).toBeTruthy();
   });
 });

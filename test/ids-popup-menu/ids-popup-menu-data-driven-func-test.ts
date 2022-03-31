@@ -3,20 +3,14 @@
  */
 import '../helpers/resize-observer-mock';
 
-import IdsPopupMenu, {
-  IdsMenuGroup,
-  IdsMenuHeader,
-  IdsMenuItem,
-  IdsSeparator
-} from '../../src/components/ids-popup-menu/ids-popup-menu';
-
-import IdsPopup from '../../src/components/ids-popup/ids-popup';
+import IdsPopupMenu from '../../src/components/ids-popup-menu/ids-popup-menu';
+import '../../src/components/ids-popup/ids-popup';
 
 // Pull in menu contents
 import dataset from '../../src/assets/data/menu-contents.json';
 
 describe('IdsPopupMenu Component', () => {
-  let menu;
+  let menu: any;
 
   beforeEach(() => {
     // Invoke/Append the main menu
@@ -208,7 +202,7 @@ describe('IdsPopupMenu Component', () => {
     };
     document.body.appendChild(menu);
 
-    const item = document.querySelector('#my-item');
+    const item: any = document.querySelector('#my-item');
 
     expect(errors).not.toHaveBeenCalled();
     expect(item).toBeDefined();
@@ -241,7 +235,7 @@ describe('IdsPopupMenu Component', () => {
     };
     document.body.appendChild(menu);
 
-    const item = document.querySelector('#my-item');
+    const item: any = document.querySelector('#my-item');
 
     expect(errors).not.toHaveBeenCalled();
     expect(item).toBeDefined();

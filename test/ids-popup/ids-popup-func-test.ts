@@ -23,9 +23,9 @@ function createTestDiv() {
 }
 
 describe('IdsPopup Component', () => {
-  let popup;
+  let popup: any;
   let contentElem;
-  let container;
+  let container: any;
 
   beforeEach(async () => {
     container = new IdsContainer();
@@ -201,7 +201,7 @@ describe('IdsPopup Component', () => {
     // Create/Set the alignment target
     const alignTargetContainer = document.createElement('div');
     alignTargetContainer.style.position = 'relative';
-    const a = document.createElement('div');
+    const a: any = document.createElement('div');
     a.id = 'test-align-target';
     a.style.position = 'absolute';
     a.style.height = '50px';
@@ -463,7 +463,7 @@ describe('IdsPopup Component', () => {
     // Create/Set the alignment target
     const alignTargetContainer = document.createElement('div');
     alignTargetContainer.style.position = 'relative';
-    const a = document.createElement('div');
+    const a: any = document.createElement('div');
     a.id = 'test-align-target';
     a.style.position = 'absolute';
     a.style.height = '50px';

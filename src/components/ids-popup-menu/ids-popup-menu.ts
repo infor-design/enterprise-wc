@@ -24,7 +24,7 @@ export default class IdsPopupMenu extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     const menuTemplate = Base.prototype.template.apply(this);
     return `<ids-popup class="ids-popup-menu" type="menu">${menuTemplate}</ids-popup>`;
   }
@@ -32,7 +32,7 @@ export default class IdsPopupMenu extends Base {
   /**
    * @returns {void}
    */
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback?.();
     if (!this.hasAttribute('hidden')) {
       this.setAttribute('hidden', '');
@@ -52,7 +52,7 @@ export default class IdsPopupMenu extends Base {
   /**
    * @returns {void}
    */
-  disconnectedCallback() {
+  disconnectedCallback(): void {
     if (this.hasOpenEvents) {
       this.hide();
     }
@@ -61,13 +61,13 @@ export default class IdsPopupMenu extends Base {
   /**
    * @returns {Array<string>} Drawer vetoable events
    */
-  vetoableEventTypes = ['beforeshow'];
+  vetoableEventTypes: Array<string> = ['beforeshow'];
 
   /**
    * Sets up event handlers used in this menu.
    * @returns {void}
    */
-  attachEventHandlers() {
+  attachEventHandlers(): void {
     super.attachEventHandlers();
 
     // Hide the menu when an item is selected
@@ -110,7 +110,7 @@ export default class IdsPopupMenu extends Base {
    * Sets up the connection to the global keyboard handler
    * @returns {void}
    */
-  attachKeyboardListeners() {
+  attachKeyboardListeners(): void {
     super.attachKeyboardListeners();
 
     // Arrow Right on an item containing a submenu causes that submenu to open
@@ -153,7 +153,7 @@ export default class IdsPopupMenu extends Base {
    * @readonly
    * @returns {boolean} true if the Popup Menu is currently being displayed
    */
-  get visible() {
+  get visible(): boolean {
     return this.popup.visible;
   }
 
@@ -161,7 +161,7 @@ export default class IdsPopupMenu extends Base {
    * Hides this menu and any of its submenus.
    * @returns {void}
    */
-  hide() {
+  hide(): void {
     if (!this.popup.visible) return;
 
     this.hidden = true;
@@ -177,7 +177,7 @@ export default class IdsPopupMenu extends Base {
   /**
    * @returns {void}
    */
-  show() {
+  show(): void {
     if (this.popup.visible) return;
 
     // Trigger a veto-able `beforeshow` event.
@@ -202,7 +202,7 @@ export default class IdsPopupMenu extends Base {
    * Shows the Popupmenu if allowed
    * @returns {void}
    */
-  showIfAble() {
+  showIfAble(): void {
     if (!this.target) {
       this.show();
     } else if (!this.target.disabled && !this.target.hidden) {
@@ -217,7 +217,7 @@ export default class IdsPopupMenu extends Base {
    * "currently open" menu.
    * @returns {void}
    */
-  hideSubmenus(focusedMenuItem: any = undefined) {
+  hideSubmenus(focusedMenuItem: any = undefined): void {
     const submenus = this.submenus;
     let focusedSubmenu: any;
     if (focusedMenuItem?.hasSubmenu) {
@@ -236,7 +236,7 @@ export default class IdsPopupMenu extends Base {
    * Hides the popup menu and focuses a target element, if applicable
    * @returns {void}
    */
-  hideAndFocus() {
+  hideAndFocus(): void {
     this.hide();
     if (this.target) {
       this.target.focus();
@@ -248,7 +248,7 @@ export default class IdsPopupMenu extends Base {
    * Runs when a click event is propagated to the window.
    * @returns {void}
    */
-  onOutsideClick() {
+  onOutsideClick(): void {
     this.hide();
   }
 
@@ -258,7 +258,7 @@ export default class IdsPopupMenu extends Base {
    * @param {MouseEvent} e the original mouse event
    * @returns {boolean} true if the click is allowed to propagate
    */
-  onTriggerClick(e: MouseEvent) {
+  onTriggerClick(e: MouseEvent): boolean {
     if (e.currentTarget !== window) {
       e.preventDefault();
     }
@@ -280,7 +280,7 @@ export default class IdsPopupMenu extends Base {
    * @param {MouseEvent} e the original `contextmenu` event
    * @returns {void}
    */
-  onContextMenu(e: MouseEvent) {
+  onContextMenu(e: MouseEvent): void {
     e.preventDefault();
     e.stopPropagation();
     this.popup.setPosition(e.pageX, e.pageY);
@@ -292,7 +292,7 @@ export default class IdsPopupMenu extends Base {
    * Runs as soon as the Popup is connected to the DOM.
    * @returns {void}
    */
-  onTriggerImmediate() {
+  onTriggerImmediate(): void {
     window.requestAnimationFrame(() => {
       this.showIfAble();
     });
@@ -303,7 +303,7 @@ export default class IdsPopupMenu extends Base {
    * Runs on a delayed `mouseenter` event and fires when that delay completes
    * @returns {void}
    */
-  onTriggerHover() {
+  onTriggerHover(): void {
     if (!this.target.disabled && !this.target.hidden) {
       this.showIfAble();
     }
@@ -314,7 +314,7 @@ export default class IdsPopupMenu extends Base {
    * Runs after a `mouseleave` event occurs from this menu
    * @returns {void}
    */
-  onCancelTriggerHover() {
+  onCancelTriggerHover(): void {
     this.hide();
   }
 
@@ -323,7 +323,7 @@ export default class IdsPopupMenu extends Base {
    * @param {MouseEvent} e the original click event
    * @returns {boolean} true if the event is allowed to propagate
    */
-  onTriggerHoverClick(e: MouseEvent) {
+  onTriggerHoverClick(e: MouseEvent): boolean {
     e.preventDefault();
     return this.onTriggerClick(e);
   }
