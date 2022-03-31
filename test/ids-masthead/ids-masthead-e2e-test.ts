@@ -17,10 +17,10 @@ describe('Ids Masthead e2e Tests', () => {
 
   it('should react to desktop, tablet and mobile breakpoints/viewports', async () => {
     const assignedElementSelectors = {
-      start: () => document.querySelector('ids-masthead').shadowRoot.querySelector('#start slot').assignedElements(),
-      center: () => document.querySelector('ids-masthead').shadowRoot.querySelector('#center slot').assignedElements(),
-      end: () => document.querySelector('ids-masthead').shadowRoot.querySelector('#end slot').assignedElements(),
-      more: () => document.querySelector('ids-masthead').shadowRoot.querySelector('#more slot').assignedElements(),
+      start: () => (<any>document.querySelector('ids-masthead')?.shadowRoot?.querySelector('#start slot')).assignedElements(),
+      center: () => (<any>document.querySelector('ids-masthead')?.shadowRoot?.querySelector('#center slot')).assignedElements(),
+      end: () => (<any>document.querySelector('ids-masthead')?.shadowRoot?.querySelector('#end slot')).assignedElements(),
+      more: () => (<any>document.querySelector('ids-masthead')?.shadowRoot?.querySelector('#more slot')).assignedElements(),
     };
 
     // desktop: window.matchMedia('(min-width: 769px)'),

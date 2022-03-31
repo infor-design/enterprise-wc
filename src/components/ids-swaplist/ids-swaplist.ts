@@ -7,10 +7,10 @@ import { attributes } from '../../core/ids-attributes';
 import Base from './ids-swaplist-base';
 import IdsDataSource from '../../core/ids-data-source';
 import { injectTemplate } from '../../utils/ids-string-utils/ids-string-utils';
-import IdsCard from '../ids-card/ids-card';
-import IdsButton from '../ids-button/ids-button';
-import IdsListView from '../ids-list-view/ids-list-view';
-import IdsSwappable from '../ids-swappable/ids-swappable';
+import '../ids-card/ids-card';
+import '../ids-button/ids-button';
+import '../ids-list-view/ids-list-view';
+import '../ids-swappable/ids-swappable';
 
 import styles from './ids-swaplist.scss';
 
@@ -50,30 +50,30 @@ export default class IdsSwapList extends Base {
 
   /**
    * Set the data array of the swaplist
-   * @param {Array | null} value The array to use
+   * @param {any | null} value The array to use
    */
-  set data(value) {
+  set data(value: any | null) {
     if (this.datasource) {
       this.datasource.data = value || [];
-      this.render(true);
+      this.render();
     }
   }
 
-  get data() { return this?.datasource?.data || []; }
+  get data(): any | null { return this?.datasource?.data || []; }
 
   /**
    * Swap the list item to the next list
-   * @param {*} button htmlElement
+   * @param {any} button htmlElement
    * @private
    * @returns {void}
    */
-  #swapToNextList(button) {
+  #swapToNextList(button: any) {
     const currentCard = button.parentElement.parentElement.parentElement;
     const nextCard = currentCard.nextSibling;
     const nextList = nextCard.querySelector('ids-swappable');
     const selectedItems = currentCard.querySelectorAll('ids-swappable-item[selected]');
 
-    selectedItems.forEach((x) => {
+    selectedItems.forEach((x: any) => {
       nextList.appendChild(x);
       x.removeAttribute(attributes.SELECTED);
     });
@@ -81,17 +81,17 @@ export default class IdsSwapList extends Base {
 
   /**
    * Swap the list item to the previous list
-   * @param {*} button htmlElement
+   * @param {any} button htmlElement
    * @private
    * @returns {void}
    */
-  #swapToPreviousList(button) {
+  #swapToPreviousList(button: any) {
     const currentCard = button.parentElement.parentElement.parentElement;
     const prevCard = currentCard.previousSibling;
     const prevList = prevCard.querySelector('ids-swappable');
     const selectedItems = currentCard.querySelectorAll('ids-swappable-item[selected]');
 
-    selectedItems.forEach((x) => {
+    selectedItems.forEach((x: any) => {
       prevList.appendChild(x);
       x.removeAttribute(attributes.SELECTED);
     });
@@ -99,20 +99,20 @@ export default class IdsSwapList extends Base {
 
   /**
    * Get all selected ids-swappable-item
-   * @returns {Array} NodeList of ids-swappable-items
+   * @returns {any} NodeList of ids-swappable-items
    * @readonly
    * @memberof IdsSwapList
    */
-  get selectedItems() {
+  get selectedItems(): any {
     return this.container.querySelectorAll('ids-swappable-item[selected]');
   }
 
   /**
    * Set the count of lists
-   * @param {number} value number of lists
+   * @param {any} value number of lists
    * @memberof IdsSwapList
    */
-  set count(value) {
+  set count(value: any) {
     const val = parseInt(value);
     if (!Number.isNaN(val)) this.setAttribute(attributes.COUNT, val);
     else this.setAttribute(attributes.COUNT, DEFAULT_COUNT);
@@ -124,7 +124,7 @@ export default class IdsSwapList extends Base {
    * @readonly
    * @memberof IdsSwapList
    */
-  get count() {
+  get count(): number {
     const val = this.getAttribute(attributes.COUNT);
     return parseInt(val) || DEFAULT_COUNT;
   }
@@ -135,7 +135,7 @@ export default class IdsSwapList extends Base {
    * @returns {object} html element
    * @memberof IdsSwapList
    */
-  buttonTemplate(i) {
+  buttonTemplate(i: number): string {
     const leftArrow = `
       <ids-button id="left-arrow-${i}" class="left-arrow">
         <span slot="text" class="audible">Swap Item Left</span>
@@ -169,26 +169,26 @@ export default class IdsSwapList extends Base {
    * @returns {object} function
    * @memberof IdsSwapList
    */
-  itemTemplateFunc() {
-    const func = (item) => this.itemTemplate(item);
+  itemTemplateFunc(): any {
+    const func = (item: any) => this.itemTemplate(item);
     return func;
   }
 
   /**
    * Return an item's html injecting any values from the dataset as needed.
-   * @param  {object} item The item to generate
+   * @param  {any} item The item to generate
    * @returns {string} The html for this item
    */
-  itemTemplate(item) {
+  itemTemplate(item: any): any {
     return injectTemplate(this.defaultTemplate, item);
   }
 
   /**
    * Set up the list view template
-   * @returns {*} html element
+   * @returns {string} html element
    * @memberof IdsSwapList
    */
-  listTemplate() {
+  listTemplate(): string {
     const arr = Array(this.count).fill(0);
     const arrLen = arr.length;
 
@@ -213,12 +213,12 @@ export default class IdsSwapList extends Base {
 
   /**
    * Handle the item swap logic
-   * @param {object} e event paramater
+   * @param {any} e event paramater
    * @returns {void}
    * @private
    * @memberof IdsSwapList
    */
-  #handleItemSwap(e) {
+  #handleItemSwap(e: any) {
     if (e.target.classList.contains('left-arrow')) {
       this.#swapToPreviousList(e.target);
     } else if (e.target.classList.contains('right-arrow')) {
@@ -231,13 +231,13 @@ export default class IdsSwapList extends Base {
    * @memberof IdsSwapList
    */
   attachEventHandlers() {
-    this.offEvent('click', this.container, (e) => this.#handleItemSwap(e));
-    this.onEvent('click', this.container, (e) => this.#handleItemSwap(e));
+    this.offEvent('click', this.container, (e: any) => this.#handleItemSwap(e));
+    this.onEvent('click', this.container, (e: any) => this.#handleItemSwap(e));
 
-    this.offEvent('touchend', this.container, (e) => this.#handleItemSwap(e));
-    this.onEvent('touchend', this.container, (e) => this.#handleItemSwap(e));
+    this.offEvent('touchend', this.container, (e: any) => this.#handleItemSwap(e));
+    this.onEvent('touchend', this.container, (e: any) => this.#handleItemSwap(e));
 
-    this.listen('Enter', this.container, (e) => this.#handleItemSwap(e));
+    this.listen('Enter', this.container, (e: any) => this.#handleItemSwap(e));
   }
 
   /**

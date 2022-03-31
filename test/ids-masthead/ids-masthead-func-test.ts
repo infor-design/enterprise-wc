@@ -6,11 +6,11 @@ import '../helpers/match-media-mock';
 import IdsMasthead from '../../src/components/ids-masthead/ids-masthead';
 
 describe('IdsMasthead Component', () => {
-  let element;
-  let sections;
+  let element: any;
+  let sections: any;
 
   beforeEach(async () => {
-    const masthead = new IdsMasthead();
+    const masthead: any = new IdsMasthead();
     masthead.icon = 'logo';
     masthead.title = 'title';
     masthead.innerHTML = `
@@ -107,7 +107,7 @@ describe('IdsMasthead Component', () => {
   });
 
   it('restyles buttons to be square and transparent', () => {
-    const buttons = element.querySelectorAll('ids-button, ids-menu-button');
+    const buttons: any[] = element.querySelectorAll('ids-button, ids-menu-button');
     buttons.forEach((button) => {
       expect(button.colorVariant).toBe('alternate');
       expect(button.square).toBe(true);

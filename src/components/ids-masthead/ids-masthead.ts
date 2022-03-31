@@ -2,10 +2,23 @@ import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import Base from './ids-masthead-base';
 
-import IdsHeader from '../ids-header/ids-header';
-import IdsToolbar from '../ids-toolbar/ids-toolbar';
+import '../ids-header/ids-header';
+import '../ids-toolbar/ids-toolbar';
 
 import styles from './ids-masthead.scss';
+
+export type MastheadSlots = {
+  start: HTMLElement;
+  center: HTMLElement;
+  end: HTMLElement;
+  more: HTMLElement;
+};
+
+export type MastheadBreakpoints = {
+  mobile: MediaQueryList;
+  tablet: MediaQueryList;
+  desktop: MediaQueryList;
+};
 
 /**
  * IDS Masthead Component
@@ -22,13 +35,13 @@ export default class IdsMasthead extends Base {
    * @private
    * @see IdsMasthead.slots()
    */
-  #cachedSlots = null;
+  #cachedSlots: MastheadSlots | null = null;
 
   /**
    * @private
    * @see IdsMasthead.breakpoints()
    */
-  #cachedBreakpoints = null;
+  #cachedBreakpoints: MastheadBreakpoints | null = null;
 
   constructor() {
     super();
@@ -55,7 +68,7 @@ export default class IdsMasthead extends Base {
    * @readonly
    * @returns {object} the user-provided slots that were nested in ids-masthead
    */
-  get slots() {
+  get slots(): MastheadSlots {
     this.#cachedSlots = this.#cachedSlots || {
       start: this.querySelector('[slot="start"]'),
       center: this.querySelector('[slot="center"]'),
@@ -69,7 +82,7 @@ export default class IdsMasthead extends Base {
    * @readonly
    * @returns {object} window.matchMedia output for mobile, tablet and desktop
    */
-  get breakpoints() {
+  get breakpoints(): MastheadBreakpoints {
     this.#cachedBreakpoints = this.#cachedBreakpoints || {
       // @see https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
       mobile: window.matchMedia('(max-width: 425px)'),
@@ -83,19 +96,19 @@ export default class IdsMasthead extends Base {
    * @readonly
    * @returns {boolean} true if the mobile breakpoint is active
    */
-  get isMobile() { return this.breakpoints.mobile.matches; }
+  get isMobile(): boolean { return this.breakpoints.mobile.matches; }
 
   /**
    * @readonly
    * @returns {boolean} true if the tablet breakpoint is active
    */
-  get isTablet() { return this.breakpoints.tablet.matches; }
+  get isTablet(): boolean { return this.breakpoints.tablet.matches; }
 
   /**
    * @readonly
    * @returns {boolean} true if the desktop breakpoint is active
    */
-  get isDesktop() { return this.breakpoints.desktop.matches; }
+  get isDesktop(): boolean { return this.breakpoints.desktop.matches; }
 
   /**
    * Return the attributes we handle as getters/setters
@@ -114,7 +127,7 @@ export default class IdsMasthead extends Base {
    * @param {string} value - the icon name
    * @returns {void}
    */
-  set icon(value) {
+  set icon(value: string) {
     this.setAttribute(attributes.ICON, value);
     this.elements.logo.innerHTML = this.logo();
   }
@@ -123,14 +136,14 @@ export default class IdsMasthead extends Base {
    * Gets the icon attribute
    * @returns {string} value - the icon name
    */
-  get icon() { return this.getAttribute(attributes.ICON) || ''; }
+  get icon(): string { return this.getAttribute(attributes.ICON) || ''; }
 
   /**
    * Sets the title attribute
    * @param {string} value - the masthead's title
    * @returns {void}
    */
-  set title(value) {
+  set title(value: string) {
     this.setAttribute(attributes.TITLE, value);
     this.elements.title.innerHTML = value;
   }
@@ -139,13 +152,13 @@ export default class IdsMasthead extends Base {
    * Gets the title attribute
    * @returns {string} value - the masthead's title
    */
-  get title() { return this.getAttribute(attributes.TITLE) || ''; }
+  get title(): string { return this.getAttribute(attributes.TITLE) || ''; }
 
   /**
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `
       <ids-toolbar class="ids-masthead" tabbable="true">
         <ids-toolbar-section id="start" align="start" type="fluid">
@@ -173,7 +186,7 @@ export default class IdsMasthead extends Base {
    * Create the HTML template for the logo
    * @returns {string} The template
    */
-  logo() {
+  logo(): string {
     let icon = this.icon;
 
     if (icon) {
