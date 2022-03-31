@@ -34,7 +34,7 @@ export default class IdsSwappable extends Base {
     ];
   }
 
-  template() {
+  template(): string {
     return `<slot></slot>`;
   }
 
@@ -44,17 +44,17 @@ export default class IdsSwappable extends Base {
    * @readonly
    * @memberof IdsSwappable
    */
-  get overElement() {
+  get overElement(): HTMLElement {
     return this.querySelector('ids-swappable-item[over]');
   }
 
   /**
    * Get all the selected ids-swappable-items in the current list
-   * @returns {Array} NodeList of ids-swappable-item[selected]
+   * @returns {any} NodeList of ids-swappable-item[selected]
    * @readonly
    * @memberof IdsSwappable
    */
-  get selectedItems() {
+  get selectedItems(): any {
     return this.querySelectorAll('ids-swappable-item[selected]');
   }
 
@@ -65,7 +65,7 @@ export default class IdsSwappable extends Base {
     if (this.selectedItems.length <= 1) {
       return;
     }
-    this.selectedItems.forEach((el) => {
+    this.selectedItems.forEach((el: any) => {
       el.originalText = el.innerText;
       el.innerHTML = `<ids-text>${this.selectedItems.length} Items Selected</ids-text>`;
     });
@@ -73,10 +73,10 @@ export default class IdsSwappable extends Base {
 
   /**
    * Handle functionality for the drag event
-   * @param {object} event drag event
+   * @param {any} event drag event
    */
-  #dzDrag(event) {
-    this.selectedItems.forEach((el) => {
+  #dzDrag(event: any) {
+    this.selectedItems.forEach((el: any) => {
       this.#hideDraggingItems(event, el);
     });
   }
@@ -84,11 +84,11 @@ export default class IdsSwappable extends Base {
   /**
    * Calculate the position of the dragging element relative to the container
    * @returns {HTMLElement} closest element being dragged over
-   * @param {*} container ids-swappable container
-   * @param {*} y position of the dragging element
+   * @param {any} container ids-swappable container
+   * @param {number} y position of the dragging element
    * @memberof IdsSwappable
    */
-  getDragAfterElement = (container, y) => {
+  getDragAfterElement = (container: any, y: number) => {
     const draggableElms = [...container.querySelectorAll('ids-swappable-item:not([dragging])')];
 
     return draggableElms.reduce((closest, child) => {
@@ -109,18 +109,18 @@ export default class IdsSwappable extends Base {
    * Handle functionality for the list container once an item has been dropped
    * @param {object} event drop
    */
-  #dzDropHandler(event) {
+  #dzDropHandler(event: any) {
     event.preventDefault();
     const afterElement = this.getDragAfterElement(this, event.clientY);
 
     if (this.draggingElements?.length > 0) {
       if (afterElement) {
-        this.draggingElements.forEach((draggingEl) => {
+        this.draggingElements.forEach((draggingEl: HTMLElement) => {
           this.#resetDraggingItems(draggingEl);
           this.insertBefore(draggingEl, afterElement);
         });
       } else {
-        this.draggingElements.forEach((draggingEl) => {
+        this.draggingElements.forEach((draggingEl: HTMLElement) => {
           this.#resetDraggingItems(draggingEl);
           this.appendChild(draggingEl);
         });
@@ -139,9 +139,9 @@ export default class IdsSwappable extends Base {
 
   /**
    * Functionality for the list container once we are hovering over the list
-   * @param {object} event drop
+   * @param {any} event drop
    */
-  #dzDragover(event) {
+  #dzDragover(event: any) {
     event.preventDefault();
 
     if (!this.overElement) {
@@ -151,7 +151,7 @@ export default class IdsSwappable extends Base {
     }
 
     // find ids-swappable or ids-swappable-item
-    const found = event.composedPath().find((i) => {
+    const found = event.composedPath().find((i: any) => {
       if (i.nodeType === 1 && (i.nodeName === 'IDS-SWAPPABLE-ITEM' || i.nodeName === 'IDS-SWAPPABLE')) {
         return i;
       }
@@ -165,10 +165,10 @@ export default class IdsSwappable extends Base {
 
   /**
    * Hide the dragging items during drag event
-   * @param {object} event object
-   * @param {HTMLElement} el all dragging elements
+   * @param {any} event object
+   * @param {any} el all dragging elements
    */
-  #hideDraggingItems(event, el) {
+  #hideDraggingItems(event: any, el: any) {
     el.setAttribute('aria-grabbed', true);
     el.setAttribute('aria-dropeffect', event.dataTransfer.dropEffect);
     el.setAttribute('dragging', '');
@@ -184,9 +184,9 @@ export default class IdsSwappable extends Base {
 
   /**
    * Reset the selected items after drop event
-   * @param {HTMLElement} el all selected elements
+   * @param {any} el all selected elements
    */
-  #resetDraggingItems(el) {
+  #resetDraggingItems(el: any) {
     if (el.originalText) {
       el.innerHTML = `<ids-text>${el.originalText}</ids-text>`;
     }
@@ -207,14 +207,14 @@ export default class IdsSwappable extends Base {
     this.offEvent('dragstart', this, () => this.#dzDragStart());
     this.onEvent('dragstart', this, () => this.#dzDragStart());
 
-    this.offEvent('drag', this, (e) => this.#dzDrag(e));
-    this.onEvent('drag', this, (e) => this.#dzDrag(e));
+    this.offEvent('drag', this, (e: any) => this.#dzDrag(e));
+    this.onEvent('drag', this, (e: any) => this.#dzDrag(e));
 
-    this.offEvent('drop', this, (e) => this.#dzDropHandler(e));
-    this.onEvent('drop', this, (e) => this.#dzDropHandler(e));
+    this.offEvent('drop', this, (e: any) => this.#dzDropHandler(e));
+    this.onEvent('drop', this, (e: any) => this.#dzDropHandler(e));
 
-    this.offEvent('dragover', this, (e) => this.#dzDragover(e));
-    this.onEvent('dragover', this, (e) => this.#dzDragover(e));
+    this.offEvent('dragover', this, (e: any) => this.#dzDragover(e));
+    this.onEvent('dragover', this, (e: any) => this.#dzDragover(e));
 
     this.offEvent('dragleave', this, () => this.#dzDragLeave());
     this.onEvent('dragleave', this, () => this.#dzDragLeave());

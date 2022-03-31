@@ -40,16 +40,16 @@ export default class IdsSwappableItem extends Base {
     ];
   }
 
-  template() {
+  template(): string {
     return `<slot></slot>`;
   }
 
   /**
    * Set the selected attribute
-   * @param {string} value boolean value
+   * @param {string | boolean | null} value boolean value
    * @memberof IdsSwappableItem
    */
-  set selected(value) {
+  set selected(value: string | boolean | null) {
     const isValueTruthy = stringToBool(value);
     if (isValueTruthy) {
       this.setAttribute(attributes.SELECTED, '');
@@ -68,27 +68,27 @@ export default class IdsSwappableItem extends Base {
    * @readonly
    * @memberof IdsSwappableItem
    */
-  get selected() {
+  get selected(): boolean | null {
     return stringToBool(this.getAttribute(attributes.SELECTED));
   }
 
   /**
    * Get all selected swappable items
-   * @returns {Array} NodeList of selected ids-swappable-item
+   * @returns {any} NodeList of selected ids-swappable-item
    * @readonly
    * @memberof IdsSwappableItem
    */
-  get selectedItems() {
+  get selectedItems(): any {
     return this.parentElement.shadowRoot.querySelectorAll('[selected]');
   }
 
   /**
    * Get all swappable items
-   * @returns {Array} NodeList of ids-swappable-item
+   * @returns {any} NodeList of ids-swappable-item
    * @readonly
    * @memberof IdsSwappableItem
    */
-  get allItems() {
+  get allItems(): any {
     return this.parentElement.querySelectorAll('ids-swappable-item');
   }
 
@@ -98,7 +98,7 @@ export default class IdsSwappableItem extends Base {
    * @param {string} value text value of the item
    * @memberof IdsSwappableItem
    */
-  set originalText(value) {
+  set originalText(value: string) {
     if (value) {
       this.setAttribute(attributes.ORIGINAL_TEXT, value);
     } else {
@@ -112,25 +112,25 @@ export default class IdsSwappableItem extends Base {
    * @readonly
    * @memberof IdsSwappableItem
    */
-  get originalText() {
+  get originalText(): string {
     return this.getAttribute(attributes.ORIGINAL_TEXT);
   }
 
   /**
    * Get the selection attribute
-   * @returns {boolean} value of selection attribute
+   * @returns {string} value of selection attribute
    * @readonly
    * @memberof IdsSwappableItem
    */
-  get selection() {
+  get selection(): string {
     return this.parentElement.getAttribute(attributes.SELECTION);
   }
 
   /**
    * Set if the item is tabbable
-   * @param {boolean|string} value True of false depending if the item is tabbable
+   * @param {boolean | string} value True of false depending if the item is tabbable
    */
-  set tabbable(value) {
+  set tabbable(value: boolean | string) {
     if (stringToBool(value) !== this.getAttribute(attributes.TABBABLE)) {
       const isTabbable = stringToBool(value);
       if (isTabbable) {
@@ -145,17 +145,17 @@ export default class IdsSwappableItem extends Base {
 
   /**
    * Get whether the item currently allows tabbing.
-   * @returns {boolean} true or false depending on whether the item is currently tabbable
+   * @returns {boolean | string} true or false depending on whether the item is currently tabbable
    */
-  get tabbable() {
+  get tabbable(): boolean | string {
     return stringToBool(this.getAttribute(attributes.TABBABLE) || true);
   }
 
   /**
    * Handle functionality for the dragstart event
-   * @param {object} event dragstart event
+   * @param {any} event dragstart event
    */
-  #dragStart(event) {
+  #dragStart(event: any) {
     event.dataTransfer?.setData('text/plain', event.target.innerText);
     this.setAttribute(attributes.DRAGGING, '');
   }
@@ -196,7 +196,7 @@ export default class IdsSwappableItem extends Base {
     if (this.selected) {
       this.removeAttribute(attributes.SELECTED);
     } else {
-      this.allItems.forEach((item) => {
+      this.allItems.forEach((item: any) => {
         item.removeAttribute(attributes.SELECTED);
       });
       this.setAttribute(attributes.SELECTED, '');
@@ -219,7 +219,7 @@ export default class IdsSwappableItem extends Base {
    * Handle the keyboard events
    */
   #handleKeyEvents() {
-    this.listen(['Enter', 'ArrowUp', 'ArrowDown'], this, (e) => {
+    this.listen(['Enter', 'ArrowUp', 'ArrowDown'], this, (e: any) => {
       e.preventDefault();
 
       if (e.key === 'ArrowDown') {
@@ -257,8 +257,8 @@ export default class IdsSwappableItem extends Base {
    * Handle the drag events
    */
   #handleDragEvents() {
-    this.offEvent('dragstart', this, (e) => this.#dragStart(e));
-    this.onEvent('dragstart', this, (e) => this.#dragStart(e));
+    this.offEvent('dragstart', this, (e: any) => this.#dragStart(e));
+    this.onEvent('dragstart', this, (e: any) => this.#dragStart(e));
 
     this.offEvent('dragend', this, () => this.#dragEnd());
     this.onEvent('dragend', this, () => this.#dragEnd());
