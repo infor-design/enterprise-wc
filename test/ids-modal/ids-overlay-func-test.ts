@@ -4,10 +4,10 @@
 import IdsOverlay from '../../src/components/ids-modal/ids-overlay';
 
 describe('IdsModal Component', () => {
-  let overlay;
+  let overlay: any;
 
   beforeEach(async () => {
-    const elem = new IdsOverlay();
+    const elem: any = new IdsOverlay();
     document.body.appendChild(elem);
     overlay = document.querySelector('ids-overlay');
   });
@@ -18,7 +18,7 @@ describe('IdsModal Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsOverlay();
+    const elem: any = new IdsOverlay();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-overlay').length).toEqual(1);

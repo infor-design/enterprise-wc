@@ -36,7 +36,7 @@ describe('Ids Modal e2e Tests', () => {
 
     // Modal should be closed.  Check the visible value
     const modal = await page.waitForSelector('#my-modal:not([visible])');
-    const value = await modal.evaluate((el) => el.visible);
+    const value = await modal.evaluate((el: any) => el.visible);
     expect(value).toBeFalsy();
   });
 });

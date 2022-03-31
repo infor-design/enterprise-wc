@@ -9,10 +9,10 @@ import IdsOverlay from '../../src/components/ids-modal/ids-overlay';
 import IdsButton from '../../src/components/ids-button/ids-button';
 
 describe('IdsModal Component', () => {
-  let modal;
+  let modal: any;
 
   beforeEach(async () => {
-    const elem = new IdsModal();
+    const elem: any = new IdsModal();
     document.body.appendChild(elem);
     modal = document.querySelector('ids-modal');
   });
@@ -24,7 +24,7 @@ describe('IdsModal Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsModal();
+    const elem: any = new IdsModal();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-modal').length).toEqual(1);
@@ -71,7 +71,7 @@ describe('IdsModal Component', () => {
   });
 
   it('can prevent being opened with the `beforeshow` event', async () => {
-    modal.addEventListener('beforeshow', (e) => {
+    modal.addEventListener('beforeshow', (e: any) => {
       e.detail.response(false);
     });
     await modal.show();
@@ -80,7 +80,7 @@ describe('IdsModal Component', () => {
   });
 
   it('can prevent being closed with the `beforehide` event', async () => {
-    modal.addEventListener('beforehide', (e) => {
+    modal.addEventListener('beforehide', (e: any) => {
       e.detail.response(false);
     });
     await modal.show();
@@ -92,7 +92,7 @@ describe('IdsModal Component', () => {
   });
 
   it('can have a target element', () => {
-    const btn = new IdsButton();
+    const btn: any = new IdsButton();
     btn.type = 'secondary';
     btn.text = 'I am the target';
     document.body.appendChild(btn);
