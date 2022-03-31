@@ -46,7 +46,7 @@ export default class IdsPopup extends Base {
     this.shouldUpdate = false;
   }
 
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback?.();
 
     // Always setup link to containing element first
@@ -58,16 +58,16 @@ export default class IdsPopup extends Base {
     this.#attachEventHandlers();
   }
 
-  disconnectedCallback() {
+  disconnectedCallback(): void {
     super.disconnectedCallback?.();
     this.#ro.disconnect();
   }
 
   /**
    * Return the attributes we handle as getters/setters
-   * @returns {Array} The attributes in an array
+   * @returns {Array<string>} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [...super.attributes, ...POPUP_PROPERTIES];
   }
 
@@ -75,7 +75,7 @@ export default class IdsPopup extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `<div class="ids-popup" part="popup">
       <div class="arrow" part="arrow"></div>
       <div class="content-wrapper">
@@ -125,7 +125,7 @@ export default class IdsPopup extends Base {
    * Places the Popup and performs an adjustment to its `transform: matrix3d()`
    * CSS property, if applicable.
    */
-  #fixPlacementOnResize() {
+  #fixPlacementOnResize(): void {
     this.place();
     this.#fix3dMatrixOnResize();
   }
@@ -134,7 +134,7 @@ export default class IdsPopup extends Base {
    * Performs an adjustment to the Popup's `transform: matrix3d()`
    * CSS property, if applicable.
    */
-  #fix3dMatrixOnResize() {
+  #fix3dMatrixOnResize(): void {
     requestAnimationFrame(() => {
       this.container.style.transition = 'none';
       this.#remove3dMatrix();
@@ -151,7 +151,7 @@ export default class IdsPopup extends Base {
    * Cycles through all available props and checks the DOM for their presence
    * @returns {void}
    */
-  #setInitialState() {
+  #setInitialState(): void {
     POPUP_PROPERTIES.forEach((prop) => {
       const camelProp = camelCase(prop);
       this[camelProp] = this.getAttribute(prop) || this[camelProp];
@@ -162,7 +162,7 @@ export default class IdsPopup extends Base {
    * Attaches event handlers for the duration of the lifespan of this component
    * @returns {void}
    */
-  #attachEventHandlers() {
+  #attachEventHandlers(): void {
     const containerNode = getClosest((this as any), 'ids-container');
     // Setup Resize Observer
     this.#ro.observe(this.container);
@@ -174,7 +174,7 @@ export default class IdsPopup extends Base {
   /**
    * @returns {DOMRect} measurements of the inner ".ids-popup" <div>
    */
-  get innerRect() {
+  get innerRect(): DOMRect {
     return this.container.getBoundingClientRect();
   }
 
@@ -182,7 +182,7 @@ export default class IdsPopup extends Base {
    * @readonly
    * @returns {HTMLElement} reference to the `content-wrapper` element
    */
-  get wrapper() {
+  get wrapper(): HTMLElement {
     return this.shadowRoot.querySelector('.content-wrapper');
   }
 
@@ -235,7 +235,7 @@ export default class IdsPopup extends Base {
     return this.#alignTarget;
   }
 
-  #refreshAlignTarget() {
+  #refreshAlignTarget(): void {
     if (this.#alignTarget) {
       this.#mo.observe(this.#alignTarget, {
         attributes: true,
@@ -262,7 +262,7 @@ export default class IdsPopup extends Base {
   /**
    * @param {string} val a comma-delimited set of alignment types `direction1, direction2`
    */
-  set align(val) {
+  set align(val: string) {
     const currentAlign = this.#align;
     let trueVal = val;
     if (typeof trueVal !== 'string' || !trueVal.length) {
@@ -322,7 +322,7 @@ export default class IdsPopup extends Base {
   /**
    * @returns {string} a DOM-friendly string reprentation of alignment types
    */
-  get align() {
+  get align(): string {
     return this.#align;
   }
 
@@ -336,7 +336,7 @@ export default class IdsPopup extends Base {
    * Strategy for the parent X alignment (see the ALIGNMENTS_X array)
    * @param {string} val the strategy to use
    */
-  set alignX(val) {
+  set alignX(val: string) {
     if (typeof val !== 'string' || !val.length) {
       return;
     }
@@ -365,7 +365,7 @@ export default class IdsPopup extends Base {
    * Strategy for the parent X alignment (see the ALIGNMENTS_X array)
    * @returns {string} the strategy to use
    */
-  get alignX() {
+  get alignX(): string {
     return this.#alignX;
   }
 
@@ -378,7 +378,7 @@ export default class IdsPopup extends Base {
   /**
    * @param {string} val alignment strategy for the current parent Y alignment
    */
-  set alignY(val) {
+  set alignY(val: string) {
     if (typeof val !== 'string' || !val.length) {
       return;
     }
@@ -406,7 +406,7 @@ export default class IdsPopup extends Base {
   /**
    * @returns {string} alignment strategy for the current parent Y alignment
    */
-  get alignY() {
+  get alignY(): string {
     return this.#alignY;
   }
 
@@ -420,7 +420,7 @@ export default class IdsPopup extends Base {
    *  in configurations where a relative placement occurs
    * @param {string} val The edge to align to
    */
-  set alignEdge(val) {
+  set alignEdge(val: string) {
     if (typeof val !== 'string' || !val.length) {
       return;
     }
@@ -463,7 +463,7 @@ export default class IdsPopup extends Base {
   /**
    * @returns {string} representing the current adjacent edge of the parent element
    */
-  get alignEdge() {
+  get alignEdge(): string {
     return this.#alignEdge;
   }
 
@@ -471,7 +471,7 @@ export default class IdsPopup extends Base {
    * @readonly
    * @returns {string} representing the opposite edge of the currently-defined `alignEdge` property
    */
-  get oppositeAlignEdge() {
+  get oppositeAlignEdge(): string {
     switch (this.alignEdge) {
       case 'left':
         return 'right';
@@ -493,7 +493,7 @@ export default class IdsPopup extends Base {
    * Whether or not the component should animate its movement
    * @param {boolean} val true if animation should occur on the Popup
    */
-  set animated(val) {
+  set animated(val: boolean) {
     const trueVal = stringToBool(val);
     if (this.#animated !== trueVal) {
       this.#animated = trueVal;
@@ -509,7 +509,7 @@ export default class IdsPopup extends Base {
   /**
    * @returns {boolean} true if animation will occur on the Popup
    */
-  get animated() {
+  get animated(): boolean {
     return this.#animated;
   }
 
@@ -517,7 +517,7 @@ export default class IdsPopup extends Base {
    * Refreshes whether or not animations can be applied
    * @returns {void}
    */
-  #refreshAnimated() {
+  #refreshAnimated(): void {
     this.container.classList[this.animated ? 'add' : 'remove']('animated');
   }
 
@@ -530,7 +530,7 @@ export default class IdsPopup extends Base {
   /**
    * @param {string} val the style of animation this popup uses to show/hide
    */
-  set animationStyle(val) {
+  set animationStyle(val: string) {
     const currentVal = this.#animationStyle;
     if (val !== currentVal && ANIMATION_STYLES.includes(val)) {
       this.#animationStyle = val;
@@ -544,7 +544,7 @@ export default class IdsPopup extends Base {
   /**
    * @returns {string} the style of animation this popup uses to show/hide
    */
-  get animationStyle() {
+  get animationStyle(): string {
     return this.#animationStyle;
   }
 
@@ -569,10 +569,10 @@ export default class IdsPopup extends Base {
   /**
    * @param {boolean|string} val true if bleeds should be respected by the Popup
    */
-  set bleed(val) {
+  set bleed(val: string | boolean) {
     const trueVal = stringToBool(val);
     if (this.#bleed !== trueVal) {
-      this.#bleed = val;
+      this.#bleed = (val as boolean);
       if (trueVal) {
         this.setAttribute(attributes.BLEED, '');
       } else {
@@ -585,7 +585,7 @@ export default class IdsPopup extends Base {
   /**
    * @returns {boolean} true if bleeds are currently being respected by the Popup
    */
-  get bleed() {
+  get bleed(): string | boolean {
     return this.#bleed;
   }
 
@@ -597,7 +597,7 @@ export default class IdsPopup extends Base {
   /**
    * @param {HTMLElement} val an element that will appear to "contain" the Popup
    */
-  set containingElem(val) {
+  set containingElem(val: any) {
     if (!(val instanceof HTMLElement)) {
       return;
     }
@@ -610,7 +610,7 @@ export default class IdsPopup extends Base {
   /**
    * @returns {HTMLElement} the element currently appearing to "contain" the Popup
    */
-  get containingElem() {
+  get containingElem(): HTMLElement {
     return this.#containingElem;
   }
 
@@ -627,7 +627,7 @@ export default class IdsPopup extends Base {
    * you want arrow: top as well.
    * @param {string|null} val the arrow direction.  Defaults to `none`
    */
-  set arrow(val) {
+  set arrow(val: string | null) {
     const currentVal = this.#arrow;
     let trueVal = ARROW_TYPES[0];
     if (val && ARROW_TYPES.includes(val)) {
@@ -648,7 +648,7 @@ export default class IdsPopup extends Base {
   /**
    * @returns {string|null} the arrow setting, or null
    */
-  get arrow() {
+  get arrow(): string | null {
     const attr = this.getAttribute(attributes.ARROW);
     if (!attr) {
       return ARROW_TYPES[0];
@@ -661,7 +661,7 @@ export default class IdsPopup extends Base {
    * @param {string} currentDir a CSS class representing a Popup Arrow direction
    * @param {string} newDir a CSS class representing a Popup Arrow direction
    */
-  #setArrowDirection(currentDir: string, newDir: string) {
+  #setArrowDirection(currentDir: string | null, newDir: string | null) {
     const arrowElCl = this.arrowEl.classList;
     const isNone = newDir === 'none';
 
@@ -674,7 +674,7 @@ export default class IdsPopup extends Base {
    * @readonly
    * @returns {HTMLElement} referencing the internal arrow element
    */
-  get arrowEl() {
+  get arrowEl(): HTMLElement {
     return this.container.querySelector('.arrow');
   }
 
@@ -687,7 +687,7 @@ export default class IdsPopup extends Base {
    * Sets the element to align with via a css selector
    * @param {any} val ['string|HTMLElement'] a CSS selector string
    */
-  set arrowTarget(val) {
+  set arrowTarget(val: any) {
     const isString = typeof val === 'string' && val.length;
     const isElem = val instanceof HTMLElement;
 
@@ -722,7 +722,7 @@ export default class IdsPopup extends Base {
    * @returns {HTMLElement} the element in the page that the Popup will take
    * coordinates from for relative placement
    */
-  get arrowTarget() {
+  get arrowTarget(): HTMLElement {
     return this.#arrowTarget || this.alignTarget;
   }
 
@@ -734,7 +734,7 @@ export default class IdsPopup extends Base {
   /**
    * @param {string} val the position style string
    */
-  set positionStyle(val) {
+  set positionStyle(val: string) {
     const currentStyle = this.#positionStyle;
     if (val !== currentStyle && POSITION_STYLES.includes(val)) {
       this.#positionStyle = val;
@@ -749,7 +749,7 @@ export default class IdsPopup extends Base {
   /**
    * @returns {string} the current position style
    */
-  get positionStyle() {
+  get positionStyle(): string {
     return this.#positionStyle;
   }
 
@@ -774,7 +774,7 @@ export default class IdsPopup extends Base {
   /**
    * @param {string} val The popup type
    */
-  set type(val) {
+  set type(val: string) {
     const currentVal = this.#type;
     if (val && currentVal !== val && TYPES.includes(val)) {
       this.#type = val;
@@ -789,7 +789,7 @@ export default class IdsPopup extends Base {
   /**
    * @returns {string} the type assigned to the Popup
    */
-  get type() {
+  get type(): string {
     return this.#type;
   }
 
@@ -818,7 +818,7 @@ export default class IdsPopup extends Base {
    * Whether or not the component should be displayed
    * @param {boolean} val a boolean for displaying or hiding the popup
    */
-  set visible(val) {
+  set visible(val: boolean) {
     const trueVal = stringToBool(val);
     if (this.#visible !== trueVal) {
       this.#visible = trueVal;
@@ -831,7 +831,7 @@ export default class IdsPopup extends Base {
     }
   }
 
-  get visible() {
+  get visible(): boolean {
     return this.#visible;
   }
 
@@ -860,7 +860,7 @@ export default class IdsPopup extends Base {
    * Sets the X (left) coordinate of the Popup
    * @param {number} val the coordinate's value
    */
-  set x(val) {
+  set x(val: number) {
     let trueVal = parseInt(val?.toString(), 10);
     if (Number.isNaN(trueVal)) {
       trueVal = 0;
@@ -872,7 +872,7 @@ export default class IdsPopup extends Base {
     }
   }
 
-  get x() {
+  get x(): number {
     return this.#x;
   }
 
@@ -886,7 +886,7 @@ export default class IdsPopup extends Base {
    * Sets the Y (top) coordinate of the Popup
    * @param {number} val the coordinate's value
    */
-  set y(val) {
+  set y(val: number) {
     let trueVal = parseInt(val?.toString(), 10);
     if (Number.isNaN(trueVal)) {
       trueVal = 0;
@@ -898,7 +898,7 @@ export default class IdsPopup extends Base {
     }
   }
 
-  get y() {
+  get y(): number {
     return this.#y;
   }
 
@@ -998,7 +998,7 @@ export default class IdsPopup extends Base {
    * Runs the configured placement routine for the Popup
    * @returns {void}
    */
-  place() {
+  place(): void {
     if (this.visible) {
       if (this.positionStyle === 'viewport') {
         this.#placeInViewport();
@@ -1018,7 +1018,7 @@ export default class IdsPopup extends Base {
    * @private
    * @returns {void}
    */
-  #placeAtCoords() {
+  #placeAtCoords(): void {
     let popupRect = this.container.getBoundingClientRect();
     let x = this.x;
     let y = this.y;
@@ -1070,7 +1070,7 @@ export default class IdsPopup extends Base {
    *  alignment edge than the one defined on the component
    * @returns {void}
    */
-  #placeAgainstTarget(targetAlignEdge?: string) {
+  #placeAgainstTarget(targetAlignEdge?: string): void {
     let x = this.x;
     let y = this.y;
     this.container.classList.remove('flipped');
@@ -1201,7 +1201,7 @@ export default class IdsPopup extends Base {
    * @param {DOMRect} popupRect a Rect object representing the current state of the popup.
    * @returns {object} an adjusted Rect object with "nudged" coordinates.
    */
-  #nudge(popupRect: DOMRect) {
+  #nudge(popupRect: DOMRect): object {
     // Don't adjust if bleeding is allowed
     if (this.bleed) {
       return popupRect;
@@ -1242,7 +1242,7 @@ export default class IdsPopup extends Base {
     return popupRect;
   }
 
-  #shouldFlip(popupRect: DOMRect) {
+  #shouldFlip(popupRect: DOMRect): boolean {
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
     const scrollX = this.containingElem.scrollLeft || 0;
@@ -1301,7 +1301,7 @@ export default class IdsPopup extends Base {
    * See the IdsPopup CSS styles for the `animation-style-*` classes for modifying the Transform values.
    * @returns {void}
    */
-  #renderPlacementWithTransform() {
+  #renderPlacementWithTransform(): void {
     this.container.style.left = `50%`;
     this.container.style.top = `50%`;
   }
@@ -1313,7 +1313,7 @@ export default class IdsPopup extends Base {
    * Adapted from https://stackoverflow.com/a/42256897
    * @returns {void}
    */
-  #correct3dMatrix() {
+  #correct3dMatrix(): void {
     if (this.positionStyle !== 'viewport') {
       return;
     }
@@ -1399,7 +1399,7 @@ export default class IdsPopup extends Base {
    * the arrow is placed to align correctly against the target.
    * @returns {void}
    */
-  placeArrow() {
+  placeArrow(): void {
     const arrow = this.arrow;
     const arrowEl = this.arrowEl;
     const element = this.alignTarget;

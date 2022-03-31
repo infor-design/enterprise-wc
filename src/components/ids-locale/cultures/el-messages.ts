@@ -468,4 +468,5 @@ const messages = {
   Yes: { id: 'Yes', value: 'Ναι', comment: 'On a dialog button' }
 };
 
+// eslint-disable-next-line import/prefer-default-export
 export { messages };

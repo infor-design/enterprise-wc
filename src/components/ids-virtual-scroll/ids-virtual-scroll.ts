@@ -34,12 +34,11 @@ export default class IdsVirtualScroll extends Base {
 
   /**
    * Establish Internal Event Handlers
-   * @returns {object} The object for chaining.
+   * @returns {void}
    */
   #attachEventHandlers() {
     this.timeout = null;
     this.scrollTarget = this.container;
-    return this;
   }
 
   /**
@@ -47,13 +46,12 @@ export default class IdsVirtualScroll extends Base {
    * @private
    * @param {Event} e The scroll event data
    */
-  handleScroll(e: any) {
+  handleScroll(e: Event): void {
     if (this.timeout) {
       cancelAnimationFrame(this.timeout);
     }
 
-    // eslint-disable-next-line prefer-destructuring
-    const target = e.target;
+    const target: any = e.target;
     this.timeout = requestAnimationFrame(() => {
       if (target) {
         this.scrollTop = target.scrollTop;
@@ -102,11 +100,12 @@ export default class IdsVirtualScroll extends Base {
   /**
    * Set the height of the containers
    * @private
+   * @returns {void}
    */
-  applyHeight() {
+  applyHeight(): void {
     const content = this.container.querySelector('.ids-virtual-scroll-content');
 
-    if (this.height.includes('vh')) {
+    if (typeof this.height === 'string' && this.height?.includes('vh')) {
       const spaceFromTop = this.getBoundingClientRect().top;
       this.style.height = `calc(${this.height} - ${spaceFromTop - 16}px)`; // the actual viewport
     } else {
@@ -124,7 +123,7 @@ export default class IdsVirtualScroll extends Base {
    * @private
    * @returns {number} The array of visible data
    */
-  visibleItemCount() {
+  visibleItemCount(): number {
     const viewportHeight = this.getBoundingClientRect().height;
     let count = Math.ceil(viewportHeight / this.itemHeight) + (2 * this.bufferSize);
     count = Math.min(Number(this.itemCount) - this.startIndex, count);
@@ -135,7 +134,7 @@ export default class IdsVirtualScroll extends Base {
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       attributes.HEIGHT,
       attributes.ITEM_HEIGHT,
@@ -149,7 +148,7 @@ export default class IdsVirtualScroll extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `
       <div class="ids-virtual-scroll">
         <div class="ids-virtual-scroll-content">
@@ -165,7 +164,7 @@ export default class IdsVirtualScroll extends Base {
    * The height of the virtual scroll container
    * @param {number|string|undefined} value the height for css
    */
-  set height(value) {
+  set height(value: number | string | undefined) {
     if (value) {
       this.setAttribute(attributes.HEIGHT, value.toString());
       this.applyHeight();
@@ -175,13 +174,15 @@ export default class IdsVirtualScroll extends Base {
     this.removeAttribute(attributes.HEIGHT);
   }
 
-  get height() { return this.getAttribute(attributes.HEIGHT) || DEFAULT_HEIGHT; }
+  get height(): number | string | undefined {
+    return this.getAttribute(attributes.HEIGHT) || DEFAULT_HEIGHT;
+  }
 
   /**
    * The height of each item in the scroller. TODO: support dynamic heights
    * @param {number|string} value the height of each item in pixels
    */
-  set itemHeight(value) {
+  set itemHeight(value: number) {
     if (value) {
       this.setAttribute(attributes.ITEM_HEIGHT, value.toString());
       this.applyHeight();
@@ -192,16 +193,16 @@ export default class IdsVirtualScroll extends Base {
     this.removeAttribute(attributes.ITEM_HEIGHT);
   }
 
-  get itemHeight() {
+  get itemHeight(): number {
     const result = this.getAttribute(attributes.ITEM_HEIGHT) || DEFAULT_ITEM_HEIGHT;
     return result;
   }
 
   /**
    * Extra padding at the top and bottom so that the data transition smoothly
-   * @param {number|string} value The number of extra top and bottom elements
+   * @param {number} value The number of extra top and bottom elements
    */
-  set bufferSize(value) {
+  set bufferSize(value: number) {
     if (value) {
       this.setAttribute(attributes.BUFFER_SIZE, value.toString());
       return;
@@ -210,13 +211,13 @@ export default class IdsVirtualScroll extends Base {
     this.removeAttribute(attributes.BUFFER_SIZE);
   }
 
-  get bufferSize() { return this.getAttribute(attributes.BUFFER_SIZE) || 3; }
+  get bufferSize(): number { return this.getAttribute(attributes.BUFFER_SIZE) || 3; }
 
   /**
    * Set the scroll top position and scroll down to that location
-   * @param {number|string} value The number of pixels from the top
+   * @param {number | string} value The number of pixels from the top
    */
-  set scrollTop(value) {
+  set scrollTop(value: number | string | any) {
     const val = parseFloat(value);
     if (!(Number.isNaN(val))) {
       this.setAttribute(attributes.SCROLL_TOP, val.toString());
@@ -228,7 +229,7 @@ export default class IdsVirtualScroll extends Base {
     this.removeAttribute(attributes.SCROLL_TOP);
   }
 
-  get scrollTop() { return this.getAttribute(attributes.SCROLL_TOP) || 0; }
+  get scrollTop(): number { return this.getAttribute(attributes.SCROLL_TOP) || 0; }
 
   /**
    * Scroll to a indexed item bring it into center view.
@@ -242,15 +243,15 @@ export default class IdsVirtualScroll extends Base {
    * The height of the content behind the viewport
    * @returns {number} The calculated content height
    */
-  get contentHeight() { return Number(this.itemCount) * Number(this.itemHeight); }
+  get contentHeight(): number { return Number(this.itemCount) * Number(this.itemHeight); }
 
-  get itemCount() { return this.data?.length; }
+  get itemCount(): number { return this.data?.length; }
 
-  get offsetY() {
+  get offsetY(): number {
     return Number(this.startIndex) * Number(this.itemHeight);
   }
 
-  get startIndex() {
+  get startIndex(): number {
     let startNode = Math.floor(Number(this.scrollTop) / Number(this.itemHeight)) - Number(this.bufferSize);
     startNode = Math.max(0, startNode);
 
@@ -270,7 +271,7 @@ export default class IdsVirtualScroll extends Base {
    * Set the data array of the listview
    * @param {Array|undefined} array The array to use
    */
-  set data(array) {
+  set data(array: Array<any>) {
     if (array && this.datasource) {
       this.datasource.data = array;
       this.lastStart = null;
@@ -284,15 +285,15 @@ export default class IdsVirtualScroll extends Base {
     this.datasource.data = null;
   }
 
-  get data() {
+  get data(): Array<any> {
     return this?.datasource?.data;
   }
 
   /**
    * Set the scroll target to a external parent
-   * @param {object|undefined} value The array to use
+   * @param {HTMLElement|undefined} value The array to use
    */
-  set scrollTarget(value) {
+  set scrollTarget(value: HTMLElement | undefined) {
     if (value) {
       this.eventTarget = value;
       this.onEvent('scroll', this.eventTarget, (e: any) => {
@@ -301,7 +302,7 @@ export default class IdsVirtualScroll extends Base {
     }
   }
 
-  get scrollTarget() {
+  get scrollTarget(): HTMLElement | undefined {
     return this?.eventTarget;
   }
 }

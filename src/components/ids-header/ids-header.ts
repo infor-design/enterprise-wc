@@ -40,7 +40,7 @@ export default class IdsHeader extends Base {
    * Create the template for the header contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `
     <div class="ids-header">
       <slot></slot>

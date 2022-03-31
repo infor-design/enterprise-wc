@@ -26,7 +26,7 @@ export default class IdsSeparator extends Base {
     super.connectedCallback?.();
   }
 
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       ...super.attributes,
       attributes.VERTICAL
@@ -37,9 +37,12 @@ export default class IdsSeparator extends Base {
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants = ['alternate-formatter'];
+  colorVariants: Array<string> = ['alternate-formatter'];
 
-  template() {
+  /**
+   * @returns {string} The components template
+   */
+  template(): string {
     let tagName = 'div';
     if (this.parentElement?.tagName === 'IDS-MENU-GROUP') {
       tagName = 'li';
@@ -47,11 +50,10 @@ export default class IdsSeparator extends Base {
     return `<${tagName} part="separator" class="ids-separator"></${tagName}>`;
   }
 
-  get vertical() {
-    return this.container.classList.contains('vertical');
-  }
-
-  set vertical(val) {
+  /**
+   * Set the separator to be vertical
+   */
+  set vertical(val: boolean) {
     const current = this.vertical;
     const trueVal = stringToBool(val);
     if (current !== trueVal) {
@@ -63,5 +65,9 @@ export default class IdsSeparator extends Base {
         this.removeAttribute('vertical');
       }
     }
+  }
+
+  get vertical() {
+    return this.container.classList.contains('vertical');
   }
 }

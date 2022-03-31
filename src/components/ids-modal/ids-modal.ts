@@ -47,7 +47,7 @@ export default class IdsModal extends Base {
     this.state.messageTitle = null;
   }
 
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       ...super.attributes,
       attributes.MESSAGE_TITLE,
@@ -58,7 +58,7 @@ export default class IdsModal extends Base {
   /**
    * @returns {Array<string>} Modal vetoable events
    */
-  vetoableEventTypes = ['beforeshow', 'beforehide'];
+  vetoableEventTypes: Array<string> = ['beforeshow', 'beforehide'];
 
   /**
    * Handle Setting changes of the value has changed by calling the getter
@@ -73,7 +73,7 @@ export default class IdsModal extends Base {
     }
   }
 
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback?.();
 
     this.popup.type = 'modal';
@@ -83,7 +83,7 @@ export default class IdsModal extends Base {
     // Update ARIA / Sets up the label
     this.messageTitle = this.querySelector('[slot="title"]')?.textContent;
     this.setAttribute('role', 'dialog');
-    this.refreshAriaLabel();
+    this.#refreshAriaLabel();
 
     // Update Outer Modal Parts
     this.#refreshOverlay(this.overlay);
@@ -92,7 +92,7 @@ export default class IdsModal extends Base {
     this.shouldUpdate = true;
   }
 
-  disconnectedCallback() {
+  disconnectedCallback(): void {
     super.disconnectedCallback?.();
     window.removeEventListener('DOMContentLoaded', this.#onDOMContentLoaded);
   }
@@ -101,7 +101,7 @@ export default class IdsModal extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     const extraClass = this.name !== 'ids-modal' ? this.name : '';
     const extraContentClass = extraClass ? ` ${extraClass}-content` : '';
     const extraHeaderClass = extraClass ? ` ${extraClass}-header` : '';
@@ -128,7 +128,7 @@ export default class IdsModal extends Base {
    * @readonly
    * @returns {string} concatenating the status and title together.
    */
-  get ariaLabelContent() {
+  get ariaLabelContent(): string {
     return this.messageTitle;
   }
 
@@ -136,22 +136,22 @@ export default class IdsModal extends Base {
    * @readonly
    * @returns {NodeList} currently slotted buttons
    */
-  get buttons() {
+  get buttons(): NodeList {
     return this.querySelectorAll('[slot="buttons"]');
   }
 
   /**
-   * @returns {IdsOverlay|undefined} either an external overlay element, or none
+   * @returns {HTMLElement} either an external overlay element, or none
    */
-  get overlay() {
+  get overlay(): any {
     return this.state.overlay || this.shadowRoot.querySelector('ids-overlay');
   }
 
   /**
-   * @param {IdsOverlay|undefined} val an overlay element
+   * @param {HTMLElement | undefined} val an overlay element
    */
   set overlay(val) {
-    if (val instanceof IdsOverlay) {
+    if (val instanceof HTMLElement) {
       this.state.overlay = val;
     } else {
       this.state.overlay = null;
@@ -163,23 +163,22 @@ export default class IdsModal extends Base {
    * @readonly
    * @returns {HTMLElement} the inner Popup
    */
-  get popup() {
+  get popup(): any {
     return this.shadowRoot.querySelector('ids-popup');
   }
 
   /**
    * @returns {string} the content of the message's title
    */
-  get messageTitle() {
+  get messageTitle(): string {
     const titleEl = this.querySelector('[slot="title"]');
-
     return titleEl?.textContent || this.state.messageTitle;
   }
 
   /**
    * @param {string} val the new content to be used as the message's title
    */
-  set messageTitle(val) {
+  set messageTitle(val: string) {
     const trueVal = this.xssSanitize(val);
     const currentVal = this.state.messageTitle;
 
@@ -201,7 +200,7 @@ export default class IdsModal extends Base {
    * @param {boolean} hasTitle true if the title should be rendered
    * @returns {void}
    */
-  #refreshModalHeader(hasTitle: boolean) {
+  #refreshModalHeader(hasTitle: boolean): void {
     let titleEls = [...this.querySelectorAll('[slot="title"]')];
 
     if (hasTitle) {
@@ -213,7 +212,7 @@ export default class IdsModal extends Base {
       }
     }
 
-    this.refreshAriaLabel();
+    this.#refreshAriaLabel();
 
     titleEls.forEach((el, i) => {
       if (hasTitle) {
@@ -232,7 +231,7 @@ export default class IdsModal extends Base {
    * Renders or Removes a correct `aria-label` attribute on the Modal about its contents.
    * @returns {void}
    */
-  refreshAriaLabel() {
+  #refreshAriaLabel(): void {
     const title = this.ariaLabelContent;
     if (title) {
       this.setAttribute('aria-label', title);
@@ -263,14 +262,14 @@ export default class IdsModal extends Base {
   /**
    * @returns {boolean} true if the Modal is visible.
    */
-  get visible() {
+  get visible(): boolean {
     return this.#visible;
   }
 
   /**
    * @param {boolean} val true if the Modal is visible.
    */
-  set visible(val) {
+  set visible(val: boolean) {
     const trueVal = stringToBool(val);
     if (this.#visible !== trueVal) {
       this.#visible = trueVal;
@@ -286,10 +285,10 @@ export default class IdsModal extends Base {
   }
 
   /**
-   * Shows the modal
-   * @returns {void}
+   * Shows the modal with possibity to veto the promise
+   * @returns {Promise<void> }
    */
-  async show() {
+  async show(): Promise<void> {
     // Trigger a veto-able `beforeshow` event.
     if (!this.triggerVetoableEvent('beforeshow')) {
       return;
@@ -323,10 +322,10 @@ export default class IdsModal extends Base {
   }
 
   /**
-   * Hides the modal
-   * @returns {void}
+   * Hides the modal with possibity to veto the promise
+   * @returns {Promise<void>}
    */
-  async hide() {
+  async hide(): Promise<void> {
     // Trigger a veto-able `beforehide` event.
     if (!this.triggerVetoableEvent('beforehide')) {
       return;
@@ -368,7 +367,7 @@ export default class IdsModal extends Base {
    * Overrides `addOpenEvents` from the OpenEvents mixin to add additional "Escape" key handling
    * @private
    */
-  addOpenEvents() {
+  addOpenEvents(): void {
     super.addOpenEvents();
 
     // Adds a global event listener for the Keydown event on the body to capture close via Escape
@@ -397,7 +396,7 @@ export default class IdsModal extends Base {
    * Overrides `removeOpenEvents` from the OpenEvents mixin to remove "Escape" key handling
    * @private
    */
-  removeOpenEvents() {
+  removeOpenEvents(): void {
     super.removeOpenEvents();
     document.removeEventListener('keydown', this.globalKeydownListener);
     this.unlisten('Escape');
@@ -410,7 +409,7 @@ export default class IdsModal extends Base {
    * @param {boolean} val if true, uses an external overlay
    * @returns {void}
    */
-  #refreshOverlay(val: boolean) {
+  #refreshOverlay(val: boolean): void {
     let overlay;
 
     if (!val) {
@@ -428,7 +427,7 @@ export default class IdsModal extends Base {
    * @param {boolean} val if true, makes the Modal visible to the user
    * @returns {void}
    */
-  #refreshVisibility(val: boolean) {
+  #refreshVisibility(val: boolean): void {
     if (val) {
       this.show();
     } else {
@@ -440,7 +439,7 @@ export default class IdsModal extends Base {
    * Focuses the first-possible element within the Modal
    * @returns {void}
    */
-  #setModalFocus() {
+  #setModalFocus(): void {
     const focusableSelectors = [
       'button',
       'ids-button',
@@ -467,7 +466,7 @@ export default class IdsModal extends Base {
    * Focuses the defined target element, if applicable
    * @returns {void}
    */
-  #setTargetFocus() {
+  #setTargetFocus(): void {
     if (this.target) {
       this.target.focus();
     }
@@ -494,7 +493,7 @@ export default class IdsModal extends Base {
    * Sets up overall events
    * @private
    */
-  attachEventHandlers() {
+  attachEventHandlers(): void {
     const titleSlot = this.container.querySelector('slot[name="title"]');
     const buttonSlot = this.container.querySelector('slot[name="buttons"]');
 
@@ -526,7 +525,7 @@ export default class IdsModal extends Base {
    * Handles when Modal Button is clicked.
    * @param {any} e the original event object
    */
-  handleButtonClick(e: any) {
+  handleButtonClick(e: any): void {
     const timeoutCallback = () => {
       if (typeof this.onButtonClick === 'function') {
         this.onButtonClick(e.target);
@@ -550,7 +549,7 @@ export default class IdsModal extends Base {
    * Handle `onTriggerClick` from IdsPopupInteractionsMixin
    * @returns {void}
    */
-  onTriggerClick() {
+  onTriggerClick(): void {
     this.show();
   }
 
@@ -559,7 +558,7 @@ export default class IdsModal extends Base {
    * @param {MouseEvent} e the original click event
    * @returns {void}
    */
-  onOutsideClick(e: MouseEvent) {
+  onOutsideClick(e: MouseEvent): void {
     if (!e || !e?.target) {
       return;
     }
