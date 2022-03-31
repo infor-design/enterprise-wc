@@ -2,11 +2,14 @@
 import '../ids-input';
 import '../../ids-button/ids-button';
 
+import IdsInput from '../ids-input';
+import IdsButton from '../../ids-button/ids-button';
+
 document.addEventListener('DOMContentLoaded', () => {
-  const btnEnable = document.querySelector('#btn-input-enable');
-  const btnDisable = document.querySelector('#btn-input-disable');
-  const btnReadonly = document.querySelector('#btn-input-readonly');
-  const input: any = document.querySelector('#input-toggle-state');
+  const btnEnable: any = (document.querySelector('#btn-input-enable') as unknown as IdsButton);
+  const btnDisable: any = (document.querySelector('#btn-input-disable') as unknown as IdsButton);
+  const btnReadonly: any = (document.querySelector('#btn-input-readonly') as unknown as IdsButton);
+  const input: any = (document.querySelector('#input-toggle-state') as unknown as IdsInput);
 
   // Enable
   btnEnable?.addEventListener('click', () => {
@@ -24,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     input.readonly = true;
   });
 
-  const testInput = document.querySelector('#test-input');
+  const testInput: any = (document.querySelector('#test-input') as unknown as IdsInput);
   testInput?.addEventListener('change', (e: any) => {
     console.info('Test Input Change Event: ', e.target?.value);
   });

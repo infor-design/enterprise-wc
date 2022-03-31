@@ -1,6 +1,12 @@
+// Supporting components
+import '../ids-input';
+import '../../ids-button/ids-button';
+
+import IdsButton from '../../ids-button/ids-button';
+
 document.addEventListener('DOMContentLoaded', () => {
-  const btnAddMessage = document.querySelector('#btn-add-message');
-  const btnRemoveMessage = document.querySelector('#btn-remove-message');
+  const btnAddMessage: any = (document.querySelector('#btn-add-message') as unknown as IdsButton);
+  const btnRemoveMessage: any = (document.querySelector('#btn-remove-message') as unknown as IdsButton);
 
   const inputError: any = document.querySelector('#input-validation-error');
   const inputAlert: any = document.querySelector('#input-validation-alert');

@@ -4,7 +4,7 @@
 import { attributes } from '../../src/core/ids-attributes';
 import createFromTemplate from '../helpers/create-from-template';
 import IdsTriggerField from '../../src/components/ids-trigger-field/ids-trigger-field';
-import IdsTriggerButton from '../../src/components/ids-trigger-field/ids-trigger-button';
+import '../../src/components/ids-trigger-field/ids-trigger-button';
 import processAnimFrame from '../helpers/process-anim-frame';
 
 const DEFAULT_TRIGGERFIELD_HTML = (
@@ -57,7 +57,7 @@ const TWO_BUTTON_TRIGGERFIELD_HTML = (
 );
 
 describe('IdsTriggerField Component', () => {
-  let triggerField;
+  let triggerField: any;
 
   beforeEach(async () => {
     triggerField = await createFromTemplate(triggerField, DEFAULT_TRIGGERFIELD_HTML);
@@ -70,7 +70,7 @@ describe('IdsTriggerField Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsTriggerField();
+    const elem: any = new IdsTriggerField();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-trigger-field').length).toEqual(1);
@@ -85,7 +85,7 @@ describe('IdsTriggerField Component', () => {
   });
 
   it('fires triggerevent on trigger', () => {
-    triggerField.addEventListener('triggerfield', (e) => {
+    triggerField.addEventListener('triggerfield', (e: any) => {
       e.detail.response(false);
     });
     triggerField.trigger();

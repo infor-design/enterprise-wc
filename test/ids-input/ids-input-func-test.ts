@@ -2,11 +2,10 @@
  * @jest-environment jsdom
  */
 import IdsInput from '../../src/components/ids-input/ids-input';
-import IdsClearableMixin from '../../src/mixins/ids-clearable-mixin/ids-clearable-mixin';
 import processAnimFrame from '../helpers/process-anim-frame';
 
 describe('IdsInput Component', () => {
-  let input;
+  let input: any;
 
   beforeEach(async () => {
     const template = document.createElement('template');
@@ -45,7 +44,7 @@ describe('IdsInput Component', () => {
 
   it('renders placeholder', () => {
     document.body.innerHTML = '';
-    const elem = new IdsInput();
+    const elem: any = new IdsInput();
     input.placeholder = 'Placeholder Text';
     input.template();
     document.body.appendChild(elem);
@@ -133,7 +132,7 @@ describe('IdsInput Component', () => {
 
     const template = document.createElement('template');
     template.innerHTML = '<ids-input label="Hello World"></ids-input>';
-    const elem = template.content.childNodes[0];
+    const elem: any = template.content.childNodes[0];
     document.body.appendChild(elem);
     input = document.querySelector('ids-input');
     expect(input.labelEl.textContent.trim()).toBe('Hello World');
@@ -322,7 +321,7 @@ describe('IdsInput Component', () => {
     input.dirtyTrackerEvents();
     expect(input.dirty).toEqual({ original: '' });
     document.body.innerHTML = '';
-    let elem = new IdsInput();
+    let elem: any = new IdsInput();
     document.body.appendChild(elem);
     input = document.querySelector('ids-input');
     input.dirtyTracker = true;
@@ -500,7 +499,7 @@ describe('IdsInput Component', () => {
     input.input.remove();
     input.textAlign = 'test';
     document.body.innerHTML = '';
-    const elem = new IdsInput();
+    const elem: any = new IdsInput();
     document.body.appendChild(elem);
     input = document.querySelector('ids-input');
     input.textAlign = 'test2';
@@ -514,7 +513,7 @@ describe('IdsInput Component', () => {
 
   it('should input text-align', () => {
     const textAligns = ['left', 'center', 'right'];
-    const checkAlign = (textAlign) => {
+    const checkAlign = (textAlign: any) => {
       input.textAlign = textAlign;
       expect(input.getAttribute('text-align')).toEqual(textAlign);
       expect(input.input.classList).toContain(textAlign);
@@ -583,7 +582,7 @@ describe('IdsInput Component', () => {
 
   it('should render input sizes', () => {
     const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
-    const checkSize = (size) => {
+    const checkSize = (size: any) => {
       input.size = size;
       expect(input.getAttribute('size')).toEqual(size);
       expect(input.container.classList).toContain(size);
@@ -597,7 +596,7 @@ describe('IdsInput Component', () => {
   });
 
   it('should not set wrong input field height', () => {
-    const className = (h) => `field-height-${h}`;
+    const className = (h: any) => `field-height-${h}`;
     input.fieldHeight = 'test';
     expect(input.getAttribute('field-height')).toEqual(null);
     expect(input.container.classList).not.toContain('test');
@@ -611,8 +610,8 @@ describe('IdsInput Component', () => {
   it('should render input field height', () => {
     const heights = ['xs', 'sm', 'md', 'lg'];
     const defaultHeight = 'md';
-    const className = (h) => `field-height-${h}`;
-    const checkHeight = (height) => {
+    const className = (h: any) => `field-height-${h}`;
+    const checkHeight = (height: any) => {
       input.fieldHeight = height;
       expect(input.getAttribute('field-height')).toEqual(height);
       expect(input.container.classList).toContain(className(height));
