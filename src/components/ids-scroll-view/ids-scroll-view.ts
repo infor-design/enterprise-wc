@@ -96,7 +96,7 @@ export default class IdsScrollView extends Base {
         (entries) => {
           const elemToCheck: any = entries[0];
           if (elemToCheck.isIntersecting && !this.isClick) {
-            this.#activateLink(this.controls.querySelectorAll('a')[elemToCheck.target.scrollViewIndex]);
+            this.#activateLink(this.controls.querySelectorAll('a')[elemToCheck.target.scrollViewIndex], true);
           }
         },
         { threshold: 0.55 }
