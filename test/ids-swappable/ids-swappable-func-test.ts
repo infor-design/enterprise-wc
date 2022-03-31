@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import IdsSwappable from '../../src/components/ids-swappable/ids-swappable';
-import IdsSwappableItem from '../../src/components/ids-swappable/ids-swappable-item';
+import '../../src/components/ids-swappable/ids-swappable-item';
 
 const HTMLSnippets = {
   SWAPPABLE_COMPONENT: (
@@ -24,9 +24,9 @@ const HTMLSnippets = {
 };
 
 describe('IdsSwappable Component', () => {
-  let idsSwappable;
+  let idsSwappable: any;
 
-  const createElemViaTemplate = async (innerHTML) => {
+  const createElemViaTemplate = async (innerHTML: any) => {
     idsSwappable?.remove?.();
 
     const template = document.createElement('template');
@@ -39,7 +39,7 @@ describe('IdsSwappable Component', () => {
   };
 
   beforeEach(async () => {
-    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => cb());
+    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb: any) => cb());
     idsSwappable = new IdsSwappable();
     document.body.appendChild(idsSwappable);
   });
@@ -111,7 +111,6 @@ describe('IdsSwappable Component', () => {
     const items = idsSwappable.querySelectorAll('ids-swappable-item');
     const startingItem = items[0];
     const event = new MouseEvent('click', {
-      target: startingItem,
       bubbles: true,
       cancelable: true,
       view: window
@@ -140,7 +139,7 @@ describe('IdsSwappable Component', () => {
     const startingItem = items[0];
     const endingItem = items[2];
 
-    const createBubbledEvent = (type, props = {}) => {
+    const createBubbledEvent = (type: any, props = {}) => {
       const event = new Event(type, { bubbles: true });
       Object.assign(event, props);
       return event;
