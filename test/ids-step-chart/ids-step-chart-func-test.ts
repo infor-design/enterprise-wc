@@ -2,12 +2,12 @@
  * @jest-environment jsdom
  */
 import IdsStepChart from '../../src/components/ids-step-chart/ids-step-chart';
-import IdsText from '../../src/components/ids-text/ids-text';
+import '../../src/components/ids-text/ids-text';
 
 describe('Ids Step Chart Tests', () => {
-  let elem;
+  let elem: any;
 
-  const createElemViaTemplate = async (innerHTML) => {
+  const createElemViaTemplate = async (innerHTML: string) => {
     elem?.remove?.();
 
     const template = document.createElement('template');
