@@ -1,17 +1,17 @@
 /**
  * @jest-environment jsdom
  */
-import IdsDataGrid from '../../src/components/ids-data-grid/ids-data-grid';
+import '../../src/components/ids-data-grid/ids-data-grid';
 import IdsDataGridFormatters from '../../src/components/ids-data-grid/ids-data-grid-formatters';
 import IdsLookup from '../../src/components/ids-lookup/ids-lookup';
 
-import ResizeObserver from '../helpers/resize-observer-mock';
+import '../helpers/resize-observer-mock';
 import createFromTemplate from '../helpers/create-from-template';
 import waitFor from '../helpers/wait-for';
 import dataset from '../../src/assets/data/books.json';
 
 describe('IdsLookup Component', () => {
-  let lookup;
+  let lookup: any;
   const formatters = new IdsDataGridFormatters();
 
   const columns = () => {
@@ -82,7 +82,7 @@ describe('IdsLookup Component', () => {
   it('renders empty dropdown with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
     lookup.remove();
-    const elem = new IdsLookup();
+    const elem: any = new IdsLookup();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-lookup').length).toEqual(0);
@@ -133,6 +133,14 @@ describe('IdsLookup Component', () => {
     expect(lookup.getAttribute('readonly')).toEqual(null);
 
     lookup.triggerField = null;
+    expect(lookup.readonly).toEqual(false);
+  });
+
+  it('should skip readonly if no trigger field', () => {
+    lookup.triggerField.remove();
+    lookup.triggerField = null;
+    lookup.readonly = true;
+    expect(lookup.getAttribute('readonly')).toEqual(null);
     expect(lookup.readonly).toEqual(false);
   });
 
@@ -209,7 +217,7 @@ describe('IdsLookup Component', () => {
   });
 
   it('should fire change on setting the value', () => {
-    lookup.addEventListener('change', (e) => {
+    lookup.addEventListener('change', (e: CustomEvent) => {
       expect(e.detail.value).toEqual('218902');
     });
     lookup.value = '218902';
@@ -308,13 +316,13 @@ describe('IdsLookup Component', () => {
     lookup = createFromTemplate(lookup, `<ids-lookup id="lookup-5" label="Dynamic Validation"></ids-lookup>`);
     await waitFor(() => expect(lookup.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
 
-    document.querySelector('ids-lookup').validate = 'required';
+    (document.querySelector('ids-lookup') as any).validate = 'required';
     const triggerElem = lookup.shadowRoot.querySelector('ids-trigger-field');
     expect(triggerElem.getAttribute('validate')).toEqual('required');
     expect(triggerElem.getAttribute('validation-events')).toEqual('change blur');
     expect(triggerElem.labelEl).not.toEqual(undefined);
 
-    document.querySelector('ids-lookup').validate = '';
+    (document.querySelector('ids-lookup') as any).validate = '';
     expect(triggerElem.getAttribute('validate')).toEqual(null);
     expect(triggerElem.getAttribute('validation-events')).toEqual(null);
     expect(triggerElem.labelEl).not.toEqual(undefined);
@@ -422,8 +430,8 @@ describe('IdsLookup Component', () => {
     lookup.columns = columns();
     lookup.data = dataset;
 
-    expect(document.querySelector('#custom-lookup-modal').visible).toBeFalsy();
+    expect((document.querySelector('#custom-lookup-modal') as any).visible).toBeFalsy();
     lookup.modal.visible = true;
-    expect(document.querySelector('#custom-lookup-modal').visible).toBeTruthy();
+    expect((document.querySelector('#custom-lookup-modal') as any).visible).toBeTruthy();
   });
 });

@@ -8,8 +8,8 @@ import IdsThemeSwitcher from '../../src/components/ids-theme-switcher/ids-theme-
 import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';
 
 describe('IdsThemeSwitcher Component', () => {
-  let container;
-  let switcher;
+  let container: any;
+  let switcher: any;
 
   beforeEach(async () => {
     container = new IdsContainer();
@@ -24,7 +24,7 @@ describe('IdsThemeSwitcher Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const container2 = new IdsContainer();
+    const container2: any = new IdsContainer();
     const switcher2 = new IdsThemeSwitcher();
     container2.appendChild(switcher2);
     document.body.appendChild(container2);

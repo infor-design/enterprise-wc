@@ -1,17 +1,17 @@
 // Supporting components
-import IdsLookup from '../ids-lookup';
+import '../ids-lookup';
 import booksJSON from '../../../assets/data/books.json';
 
 // Example for populating the DataGrid
-const lookup = document.querySelector('#lookup-1');
-const container = document.querySelector('ids-container');
+const lookup: any = document.querySelector('#lookup-1');
+const container: any = document.querySelector('ids-container');
 
 (async function init() {
   // Set a Locale and wait for it to load
   await container.setLocale('en-US');
 
   // Do an ajax request
-  const url = booksJSON;
+  const url: any = booksJSON;
   const columns = [];
 
   // Set up columns
@@ -65,15 +65,15 @@ const container = document.querySelector('ids-container');
       console.info(`Value Changed`, lookup.dataGrid.selectedRows, lookup.value);
     });
 
-    lookup.addEventListener('rowselected', (e) => {
+    lookup.addEventListener('rowselected', (e: CustomEvent) => {
       console.info(`Row Selected`, e.detail);
     });
 
-    lookup.addEventListener('rowdeselected', (e) => {
+    lookup.addEventListener('rowdeselected', (e: CustomEvent) => {
       console.info(`Row DeSelected`, e.detail);
     });
 
-    lookup.addEventListener('selectionchanged', (e) => {
+    lookup.addEventListener('selectionchanged', (e: CustomEvent) => {
       console.info(`Selection Changed`, e.detail);
     });
   };
@@ -81,6 +81,9 @@ const container = document.querySelector('ids-container');
   const setData = async () => {
     const res = await fetch(url);
     const data = await res.json();
+    lookup.dataGridSettings = {
+      rowSelection: 'multiple'
+    };
     lookup.data = data;
   };
 

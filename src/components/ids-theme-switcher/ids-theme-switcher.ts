@@ -83,7 +83,7 @@ export default class IdsThemeSwitcher extends Base {
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants = ['alternate'];
+  colorVariants: Array<string> = ['alternate'];
 
   /**
    * Set the mode of the current theme
@@ -121,7 +121,7 @@ export default class IdsThemeSwitcher extends Base {
    * Implements callback from IdsColorVariantMixin used to
    * update the color variant setting on children components
    */
-  onColorVariantRefresh() {
+  onColorVariantRefresh(): void {
     // Updates the inner menu button's color variant, which should match the theme switcher's
     this.container.colorVariant = this.colorVariant;
   }
