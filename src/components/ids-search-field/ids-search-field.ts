@@ -71,7 +71,7 @@ export default class IdsSearchField extends Base {
     }
   }
 
-  template() {
+  template(): string {
     this.templateHostAttributes();
     const {
       ariaLabel,
@@ -108,7 +108,7 @@ export default class IdsSearchField extends Base {
    * @param {any} val the incoming value to search for
    * @returns {Array<any>} containing search results, if applicable
    */
-  async search(val: any) {
+  async search(val: any): Promise<any> {
     let ret: any = [];
     const safeVal: any = stripHTML(val);
 
@@ -126,7 +126,7 @@ export default class IdsSearchField extends Base {
   /**
    * @param {string} val the new value to set
    */
-  set value(val) {
+  set value(val: string) {
     super.value = val;
 
     const newValue = super.value;
@@ -137,7 +137,7 @@ export default class IdsSearchField extends Base {
     }
   }
 
-  get value() {
+  get value(): string {
     return super.value;
   }
 
@@ -147,7 +147,7 @@ export default class IdsSearchField extends Base {
    * @param {any} [val] the value to be searched for
    * @returns {Array<any>} containing matching search results
    */
-  onSearch(val: any = undefined) {
+  onSearch(val: any = undefined): any {
     return [`${stripHTML(val)}`];
   }
 
