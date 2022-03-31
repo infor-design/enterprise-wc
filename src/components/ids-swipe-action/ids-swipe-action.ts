@@ -89,7 +89,7 @@ export default class IdsSwipeAction extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `<div class="ids-swipe-container">
        <div class="ids-swipe-action-left"><slot name="action-left"></slot></div>
        <div class="ids-swipe-element"><slot name="contents"></slot></div>
@@ -103,7 +103,7 @@ export default class IdsSwipeAction extends Base {
    */
   #attachEventHandlers() {
     if (this.swipeType === 'continuous') {
-      this.onEvent('swipe', this, (e) => {
+      this.onEvent('swipe', this, (e: CustomEvent) => {
         this.querySelector(`[slot="action-${e.detail.direction === 'left' ? 'right' : 'left'}"`).click();
       }, { scrollContainer: this.container });
     }
@@ -123,7 +123,7 @@ export default class IdsSwipeAction extends Base {
    * Set the swipe interaction method between continuous and reveal (default)
    * @param {string | null} value The swipe interation type
    */
-  set swipeType(value) {
+  set swipeType(value: string | null) {
     if (value === 'continuous') {
       this.setAttribute(attributes.SWIPE_TYPE, value);
       this.container.classList.add('continuous');
@@ -134,5 +134,5 @@ export default class IdsSwipeAction extends Base {
     this.container.classList.remove('continuous');
   }
 
-  get swipeType() { return this.getAttribute(attributes.SWIPE_TYPE) || 'reveal'; }
+  get swipeType(): string { return this.getAttribute(attributes.SWIPE_TYPE) || 'reveal'; }
 }
