@@ -25,7 +25,7 @@ export default class IdsSplitterPane extends Base {
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [...super.attributes];
   }
 
@@ -33,7 +33,7 @@ export default class IdsSplitterPane extends Base {
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `<div class="ids-splitter-pane" part="pane"><slot></slot></div>`;
   }
 

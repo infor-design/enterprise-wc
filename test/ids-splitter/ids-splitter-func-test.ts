@@ -2,13 +2,13 @@
  * @jest-environment jsdom
  */
 import processAnimFrame from '../helpers/process-anim-frame';
-import ResizeObserver from '../helpers/resize-observer-mock';
+import '../helpers/resize-observer-mock';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsSplitter from '../../src/components/ids-splitter/ids-splitter';
 
 describe('IdsSplitter Component', () => {
-  let container;
-  let splitter;
+  let container: any;
+  let splitter: any;
 
   // Defaults
   const DEFAULTS = {
@@ -44,7 +44,7 @@ describe('IdsSplitter Component', () => {
 
   it('renders with no errors', async () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsSplitter();
+    const elem: any = new IdsSplitter();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-splitter').length).toEqual(1);
@@ -232,7 +232,7 @@ describe('IdsSplitter Component', () => {
   });
 
   it('should set nested splitter', async () => {
-    const checkSplitter = (elem, axis = 'x') => {
+    const checkSplitter = (elem: any, axis = 'x') => {
       const splitBars = elem.container.querySelectorAll('.ids-splitter-split-bar');
       const orientation = axis === 'y' ? 'vertical' : 'horizontal';
       expect(elem.axis).toEqual(axis);
@@ -349,7 +349,7 @@ describe('IdsSplitter Component', () => {
       </ids-splitter>`;
     await processAnimFrame();
     splitter = document.querySelector('ids-splitter');
-    splitter.addEventListener(EVENTS.beforecollapsed, (e) => {
+    splitter.addEventListener(EVENTS.beforecollapsed, (e: CustomEvent) => {
       e.detail.response(false); // veto
     });
     expect(splitter.querySelector('#p1').getAttribute('collapsed')).toEqual(null);
@@ -382,7 +382,7 @@ describe('IdsSplitter Component', () => {
       </ids-splitter>`;
     await processAnimFrame();
     splitter = document.querySelector('ids-splitter');
-    splitter.addEventListener(EVENTS.beforeexpanded, (e) => {
+    splitter.addEventListener(EVENTS.beforeexpanded, (e: CustomEvent) => {
       e.detail.response(false); // veto
     });
     expect(splitter.querySelector('#p1').getAttribute('collapsed')).toEqual('');
@@ -415,7 +415,7 @@ describe('IdsSplitter Component', () => {
       </ids-splitter>`;
     await processAnimFrame();
     splitter = document.querySelector('ids-splitter');
-    splitter.addEventListener(EVENTS.beforesizechanged, (e) => {
+    splitter.addEventListener(EVENTS.beforesizechanged, (e: CustomEvent) => {
       e.detail.response(false); // veto
     });
     expect(splitter.querySelector('#p1').getAttribute('collapsed')).toEqual(null);
