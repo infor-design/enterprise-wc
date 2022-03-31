@@ -10,7 +10,7 @@ const newSrc = '../assets/images/placeholder-154x120.png';
 const size = 'sm';
 
 describe('IdsImage Component (using properties)', () => {
-  let component;
+  let component: any;
 
   beforeEach(async () => {
     component = new IdsImage();
@@ -67,7 +67,7 @@ describe('IdsImage Component (using properties)', () => {
 });
 
 describe('IdsImage Component (using attributes)', () => {
-  let component;
+  let component: any;
 
   beforeEach(async () => {
     document.body.insertAdjacentHTML('beforeend', `
@@ -142,7 +142,7 @@ describe('IdsImage Component (using attributes)', () => {
 });
 
 describe('IdsImage Component (empty)', () => {
-  let component;
+  let component: any;
 
   beforeEach(async () => {
     document.body.insertAdjacentHTML('beforeend', `<ids-image></ids-image>`);
@@ -178,7 +178,7 @@ describe('IdsImage Component (empty)', () => {
 });
 
 describe('IdsImage Component (round and statuses)', () => {
-  let component;
+  let component: any;
 
   beforeEach(async () => {
     document.body.insertAdjacentHTML(
@@ -235,7 +235,7 @@ describe('IdsImage Component (round and statuses)', () => {
     document.body.innerHTML = '';
     document.body.insertAdjacentHTML(
       'beforeend',
-    `<ids-image round="true" initials="long"></ids-image>`
+      `<ids-image round="true" initials="long"></ids-image>`
     );
     component = document.querySelector(name);
 

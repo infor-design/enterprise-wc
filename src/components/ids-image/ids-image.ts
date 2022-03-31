@@ -103,9 +103,9 @@ export default class IdsImage extends Base {
   /**
    * @returns {HTMLElement} placeholder element to attach to shadow
    */
-  #getPlaceholderEl() {
-    const element: any = document.createElement('div');
-    element.classList = 'ids-image placeholder';
+  #getPlaceholderEl(): HTMLElement {
+    const element = document.createElement('div');
+    element.classList.add('ids-image', 'placeholder');
     element.innerHTML = '<span class="audible">Placeholder Image</span><ids-icon icon="insert-image"></ids-icon>';
 
     return element;
@@ -115,7 +115,7 @@ export default class IdsImage extends Base {
    * Path to the image
    * @returns {string} src attribute value
    */
-  get src() {
+  get src(): string {
     return this.getAttribute(attributes.SRC);
   }
 
@@ -123,7 +123,7 @@ export default class IdsImage extends Base {
    * Set the path to the image
    * @param {string} val src attribute value
    */
-  set src(val) {
+  set src(val: string) {
     let img = this.shadowRoot.querySelector('img');
 
     if (val && !this.placeholder) {
@@ -164,7 +164,7 @@ export default class IdsImage extends Base {
    * An alternate text for the image
    * @returns {string} alt attribute value
    */
-  get alt() {
+  get alt(): string {
     return this.getAttribute(attributes.ALT);
   }
 
@@ -172,7 +172,7 @@ export default class IdsImage extends Base {
    * Set an alternate text for the image
    * @param {string} val alt attribute value
    */
-  set alt(val) {
+  set alt(val: string) {
     const img = this.shadowRoot.querySelector('img');
     if (val) {
       this.setAttribute(attributes.ALT, val);
@@ -276,7 +276,7 @@ export default class IdsImage extends Base {
    * Round attribute
    * @returns {boolean} round attribute value converted to boolean
    */
-  get round() {
+  get round(): boolean {
     const attrVal = this.getAttribute(attributes.ROUND);
 
     return stringToBool(attrVal);

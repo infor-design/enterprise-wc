@@ -22,60 +22,51 @@ describe('Ids Image e2e Tests', () => {
   });
 
   it('should render placeholder on image error', async () => {
-    const hasPlaceholder = await page.$eval(fallbackEl, (el) =>
-      el.shadowRoot.querySelector('.placeholder'));
+    const hasPlaceholder = await page.$eval(fallbackEl, (el: HTMLElement) => el.shadowRoot?.querySelector('.placeholder'));
 
     expect(hasPlaceholder).toBeTruthy();
   });
 
   it('should render placeholder via attribute', async () => {
-    const hasPlaceholder = await page.$eval(placeholderEl, (el) =>
-      el.shadowRoot.querySelector('.placeholder'));
+    const hasPlaceholder = await page.$eval(placeholderEl, (el: HTMLElement) => el.shadowRoot?.querySelector('.placeholder'));
 
     expect(hasPlaceholder).toBeTruthy();
   });
 
   it('should change placeholder to src', async () => {
-    await page.evaluate((el, src) => {
-      const element = document.querySelector(el);
-
+    await page.evaluate((el: string, src: string) => {
+      const element = document.querySelector<any>(el);
       element.placeholder = false;
       element.src = src;
     }, placeholderEl, imgSrcExists);
 
-    const hasImage = await page.$eval(placeholderEl, (el) =>
-      el.shadowRoot.querySelector('img'));
+    const hasImage = await page.$eval(placeholderEl, (el: HTMLElement) => el.shadowRoot?.querySelector('img'));
 
     expect(hasImage).toBeTruthy();
   });
 
   it('should change image to placeholder', async () => {
-    await page.evaluate((el) => {
-      const element = document.querySelector(el);
-
+    await page.evaluate((el: string) => {
+      const element = document.querySelector<any>(el);
       element.placeholder = true;
       element.src = null;
     }, imageEl);
 
-    const hasPlaceholder = await page.$eval(imageEl, (el) =>
-      el.shadowRoot.querySelector('.placeholder'));
+    const hasPlaceholder = await page.$eval(imageEl, (el: HTMLElement) => el.shadowRoot?.querySelector('.placeholder'));
 
     expect(hasPlaceholder).toBeTruthy();
   });
 
   it('should render placeholder if src changed and img failed to load', async () => {
-    await page.evaluate((el, src) => {
-      const element = document.querySelector(el);
-
+    await page.evaluate((el: string, src: string) => {
+      const element = document.querySelector<any>(el);
       element.src = src;
     }, fallbackEl, imgSrcNotFound);
 
     // Image failed to load - placeholder appears
-    await page.waitForFunction(() =>
-      document.querySelector('#e2e-fallback')?.shadowRoot.querySelector('.placeholder'));
+    await page.waitForFunction(() => document.querySelector('#e2e-fallback')?.shadowRoot?.querySelector('.placeholder'));
 
-    const hasPlaceholder = await page.$eval(fallbackEl, (el) =>
-      el.shadowRoot.querySelector('.placeholder'));
+    const hasPlaceholder = await page.$eval(fallbackEl, (el: HTMLElement) => el.shadowRoot?.querySelector('.placeholder'));
 
     expect(hasPlaceholder).toBeTruthy();
   });
