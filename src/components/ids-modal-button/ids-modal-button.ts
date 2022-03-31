@@ -21,14 +21,14 @@ export default class IdsModalButton extends Base {
   /**
    * Toggle-Button-level `connectedCallback` implementation (adds an icon refresh)
    */
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback?.();
   }
 
   /**
    * @returns {Array} containing configurable properties on this component
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       ...super.attributes,
       attributes.CANCEL

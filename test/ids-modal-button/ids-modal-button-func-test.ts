@@ -4,16 +4,16 @@
 import '../helpers/resize-observer-mock';
 import wait from '../helpers/wait';
 
-import IdsModal, { IdsOverlay } from '../../src/components/ids-modal/ids-modal';
-import IdsText from '../../src/components/ids-text/ids-text';
-import IdsModalButton from '../../src/components/ids-modal-button/ids-modal-button';
+import '../../src/components/ids-modal/ids-modal';
+import '../../src/components/ids-text/ids-text';
+import '../../src/components/ids-modal-button/ids-modal-button';
 
 const modalButtonHTML = `
   <ids-modal-button slot="buttons" type="secondary" id="my-message-cancel" cancel>Cancel</ids-modal-button>
   <ids-modal-button slot="buttons" type="primary" id="my-message-confirm">Confirm</ids-modal-button>`;
 
 describe('IdsModal Component (with buttons)', () => {
-  let modal;
+  let modal: any;
 
   beforeEach(async () => {
     modal = document.createElement('ids-modal');
