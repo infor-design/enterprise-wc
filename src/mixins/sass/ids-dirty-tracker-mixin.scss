@@ -1,82 +1,50 @@
 @import '../../core/ids-base';
 
+// General Dirty-Tracker icon placement
 .icon-dirty {
   @include absolute();
-  @include m-2();
+  @include text-amber-30();
 
-  color: var(--ids-color-palette-amber-30);
-  left: -3px;
-  top: -3px;
+  top: -1px;
 
-  &.rtl {
+  &[dir='rtl'] {
     @include transform(rotate(90deg));
+
+    top: 0;
   }
 }
 
-// Radio
-.ids-radio-group {
-  .icon-dirty {
-    margin: 8px 0 0 -2px;
-    top: auto;
-  }
+// Color picker
+.ids-color-picker .icon-dirty {
+  margin-inline-start: 35px;
+}
 
-  &.first-item-checked .icon-dirty {
-    margin: 7px 0 0 -3px;
-    z-index: 1;
-  }
+// Radio
+.ids-radio-group .icon-dirty {
+  margin-inline-start: -4px;
+  margin-block-start: 6px;
+  top: auto;
+  z-index: 1;
 }
 
 // Checkbox
 .ids-checkbox {
-  &.hitbox {
-    input[type='checkbox'] {
-      &:checked ~ .icon-dirty {
-        left: 10px;
-        top: 10px;
-      }
-    }
-  }
-
-  input[type='checkbox'] {
-    ~ .icon-dirty {
-      @include z-1();
-
-      left: -2px;
-      top: 0;
-    }
-
-    &:checked ~ .icon-dirty {
-      left: -4px;
-      top: -2px;
-    }
-  }
-}
-
-// General Dirty-Tracker icon placement
-.field-container .icon-dirty {
-  left: -2px;
-  top: -2px;
-}
-
-.ids-color-picker {
   .icon-dirty {
-    top: -2;
-  }
+    margin-inline-start: -26px;
 
-  &:not(.rtl) {
-    .icon-dirty {
-      left: 34px;
+    &[dir='rtl'] {
+      margin-inline-start: -20px;
+      transform: none;
+      top: -1px;
     }
   }
 
-  &.rtl {
-    .icon-dirty {
-      right: 34px;
+  &.hitbox .icon-dirty {
+    margin-inline-start: 12px;
+    top: 11px;
+
+    &[dir='rtl'] {
+      margin-inline-start: -6px;
     }
   }
-}
-
-// Editor
-.ids-editor .icon-dirty {
-  left: -2px;
 }

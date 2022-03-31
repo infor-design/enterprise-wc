@@ -534,4 +534,20 @@ describe('IdsTimePicker Component', () => {
     expect(timepicker.compact).toEqual(true);
     expect(timepicker.noMargins).toEqual(true);
   });
+
+  it('should set dirty tracking', () => {
+    expect(timepicker.dirtyTracker).toEqual(false);
+    expect(timepicker.getAttribute('dirty-tracker')).toEqual(null);
+    expect(timepicker.input.getAttribute('dirty-tracker')).toEqual(null);
+    timepicker.dirtyTracker = true;
+
+    expect(timepicker.dirtyTracker).toEqual(true);
+    expect(timepicker.getAttribute('dirty-tracker')).toEqual('true');
+    expect(timepicker.input.getAttribute('dirty-tracker')).toEqual('true');
+    timepicker.dirtyTracker = false;
+
+    expect(timepicker.dirtyTracker).toEqual(false);
+    expect(timepicker.getAttribute('dirty-tracker')).toEqual(null);
+    expect(timepicker.input.getAttribute('dirty-tracker')).toEqual(null);
+  });
 });

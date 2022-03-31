@@ -442,5 +442,21 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.hasAttribute('is-calendar-toolbar')).toBeFalsy();
       expect(component.hasAttribute('is-dropdown')).toBeFalsy();
     });
+
+    it('should set dirty tracking', () => {
+      expect(component.dirtyTracker).toEqual(false);
+      expect(component.getAttribute('dirty-tracker')).toEqual(null);
+      expect(component.input.getAttribute('dirty-tracker')).toEqual(null);
+      component.dirtyTracker = true;
+
+      expect(component.dirtyTracker).toEqual(true);
+      expect(component.getAttribute('dirty-tracker')).toEqual('true');
+      expect(component.input.getAttribute('dirty-tracker')).toEqual('true');
+      component.dirtyTracker = false;
+
+      expect(component.dirtyTracker).toEqual(false);
+      expect(component.getAttribute('dirty-tracker')).toEqual(null);
+      expect(component.input.getAttribute('dirty-tracker')).toEqual(null);
+    });
   });
 });

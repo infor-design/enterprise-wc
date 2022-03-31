@@ -547,4 +547,23 @@ describe('IdsEditor Component', () => {
     content = handlePasteAsHtml(data);
     expect(content).toEqual('<img src="test.png" />');
   });
+
+  it('should dirty tracking', async () => {
+    container.setLanguage('ar');
+    await processAnimFrame();
+    editor.dirtyTracker = true;
+    await processAnimFrame();
+    await wait(500);
+
+    await expect(editor.value).toEqual('');
+    await expect(editor.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
+    const template = document.createElement('template');
+    template.innerHTML = '<p>test</p>';
+    editor.appendChild(template.content.childNodes[0]);
+    await processAnimFrame();
+    await wait(500);
+
+    await expect(editor.value).toEqual('<p>test</p>\n');
+    await expect(editor.shadowRoot.querySelector('.icon-dirty')).toBeTruthy();
+  });
 });
