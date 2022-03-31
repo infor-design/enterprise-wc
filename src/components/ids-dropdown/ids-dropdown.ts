@@ -39,10 +39,6 @@ export default class IdsDropdown extends Base {
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
-    if (!this.container?.querySelector) {
-      // Empty Dropdown
-      this.container = document.createElement('ids-trigger-field');
-    }
     this.popup = this.shadowRoot?.querySelector('ids-popup');
     this.fieldContainer = this.container?.fieldContainer;
     this.trigger = this.shadowRoot?.querySelector('ids-trigger-button');
@@ -78,13 +74,13 @@ export default class IdsDropdown extends Base {
    * List of available color variants for this component
    * @returns {Array<string>}
    */
-  colorVariants = ['alternate-formatter'];
+  colorVariants: Array<string> = ['alternate-formatter'];
 
   /**
    * Push color variant to the container element
    * @returns {void}
    */
-  onColorVariantRefresh() {
+  onColorVariantRefresh(): void {
     this.container.colorVariant = this.colorVariant;
   }
 
@@ -92,7 +88,7 @@ export default class IdsDropdown extends Base {
    * Push label-state to the container element
    * @returns {void}
    */
-  onlabelStateChange() {
+  onlabelStateChange(): void {
     this.container.labelState = this.labelState;
   }
 
@@ -114,7 +110,7 @@ export default class IdsDropdown extends Base {
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     const colorVariant = this.colorVariant ? ` color-variant="${this.colorVariant}"` : '';
     const fieldHeight = this.fieldHeight ? ` field-height="${this.fieldHeight}"` : '';
     const labelState = this.labelState ? ` label-state="${this.labelState}"` : '';
@@ -173,7 +169,12 @@ export default class IdsDropdown extends Base {
     return this;
   }
 
-  #setAriaOnMenuOpen() {
+  /**
+   * Add internal aria attributes while open
+   * @private
+   * @returns {void}
+   */
+  #setAriaOnMenuOpen(): void {
     this.setAttribute('aria-expanded', 'true');
 
     // Add aria for the open state
@@ -186,6 +187,11 @@ export default class IdsDropdown extends Base {
     }
   }
 
+  /**
+   * Add internal aria attributes while closed
+   * @private
+   * @returns {void}
+   */
   #setAriaOnMenuClose() {
     this.setAttribute('aria-expanded', 'false');
     this.listBox?.removeAttribute('tabindex');
@@ -194,14 +200,14 @@ export default class IdsDropdown extends Base {
     if (selected) {
       selected.classList.remove('is-selected');
       selected.setAttribute('tabindex', '-1');
-      this.selectedOption.classList.add('is-selected');
+      this.selectedOption?.classList.add('is-selected');
     }
   }
 
   /**
    * @returns {HTMLInputElement} Reference to the HTMLInputElement inside the IdsTriggerField
    */
-  get input() {
+  get input(): HTMLInputElement {
     return this.container.input;
   }
 
@@ -209,18 +215,18 @@ export default class IdsDropdown extends Base {
    * Set the `label` text
    * @param {string} value of the `label` text property
    */
-  set label(value) {
+  set label(value: string) {
     this.setAttribute('label', value);
     this.container.setAttribute('label', value);
   }
 
-  get label() { return this.getAttribute('label'); }
+  get label(): string { return this.getAttribute('label'); }
 
   /**
    * Set the value of the dropdown using the value/id attribute if present
-   * @param {boolean|string} value The value/id to use
+   * @param {string} value The value/id to use
    */
-  set value(value) {
+  set value(value: string) {
     const elem = this.selectedOption;
     if (!elem) {
       return;
@@ -229,8 +235,8 @@ export default class IdsDropdown extends Base {
     this.#selectOption(elem);
     this.#selectIcon(elem);
     this.#selectTooltip(elem);
-    this.container.value = elem.textContent.trim();
-    this.state.selectedIndex = [...elem.parentElement.children].indexOf(elem);
+    this.container.value = elem.textContent?.trim();
+    this.state.selectedIndex = [...(elem.parentElement as any).children].indexOf(elem);
 
     // Send the change event
     if (this.value === value) {
@@ -245,13 +251,13 @@ export default class IdsDropdown extends Base {
     this.setAttribute('value', value);
   }
 
-  get value() { return this.getAttribute('value'); }
+  get value(): string { return this.getAttribute('value'); }
 
   /**
    * Returns the selected Listbox option based on the Dropdown's value.
-   * @returns {HTMLElement} the selected option
+   * @returns {HTMLElement| null} the selected option
    */
-  get selectedOption() {
+  get selectedOption(): HTMLElement | null {
     return this.querySelector(`ids-list-box-option[value="${this.value}"]`);
   }
 
@@ -261,7 +267,7 @@ export default class IdsDropdown extends Base {
    * @readonly
    * @returns {HTMLElement|null} Reference to a selected Listbox option if one is present
    */
-  get selected() {
+  get selected(): HTMLElement | null {
     return this.querySelector('ids-list-box-option.is-selected');
   }
 
@@ -475,7 +481,7 @@ export default class IdsDropdown extends Base {
    * @private
    * @returns {void}
    */
-  onOutsideClick() {
+  onOutsideClick(): void {
     this.close(true);
   }
 
@@ -498,7 +504,7 @@ export default class IdsDropdown extends Base {
    * Toggle the dropdown list open/closed state
    * @private
    */
-  toggle() {
+  toggle(): void {
     if (!this.popup.visible) {
       this.open();
     } else {
@@ -572,9 +578,9 @@ export default class IdsDropdown extends Base {
       e.stopImmediatePropagation();
       e.preventDefault();
 
-      const selected = this.selected;
+      const selected: any = this.selected;
       if (e.key === 'ArrowUp' && e.altKey) {
-        this.value = selected.getAttribute('value');
+        this.value = selected?.getAttribute('value') || '';
         this.close();
         return;
       }
@@ -584,14 +590,14 @@ export default class IdsDropdown extends Base {
         selected.setAttribute('tabindex', '-1');
         selected.nextElementSibling.classList.add('is-selected');
         selected.nextElementSibling.setAttribute('tabindex', '0');
-        selected.nextElementSibling.focus();
+        (selected.nextElementSibling as any).focus();
       }
       if (e.key === 'ArrowUp' && selected?.previousElementSibling) {
         selected.classList.remove('is-selected');
         selected.setAttribute('tabindex', '-1');
         selected.previousElementSibling.classList.add('is-selected');
         selected.previousElementSibling.setAttribute('tabindex', '0');
-        selected.previousElementSibling.focus();
+        (selected.previousElementSibling as any).focus();
       }
     });
 
@@ -608,7 +614,7 @@ export default class IdsDropdown extends Base {
       }
 
       const selected = this.selected;
-      this.value = selected.getAttribute('value');
+      this.value = selected?.getAttribute('value') || '';
       this.close();
     });
 
@@ -623,7 +629,7 @@ export default class IdsDropdown extends Base {
       }
 
       const selected = this.selected;
-      this.value = selected.getAttribute('value');
+      this.value = selected?.getAttribute('value') || '';
       this.close(true);
     });
     return this;
@@ -659,7 +665,7 @@ export default class IdsDropdown extends Base {
    * Set the dirty tracking feature on to indicate a changed dropdown
    * @param {boolean|string} value If true will set `dirty-tracker` attribute
    */
-  set dirtyTracker(value) {
+  set dirtyTracker(value: boolean | string) {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
@@ -670,13 +676,13 @@ export default class IdsDropdown extends Base {
     this.handleDirtyTracker();
   }
 
-  get dirtyTracker() { return this.getAttribute(attributes.DIRTY_TRACKER); }
+  get dirtyTracker(): string { return this.getAttribute(attributes.DIRTY_TRACKER); }
 
   /**
    * Pass down `validate` attribute into IdsTriggerField
    * @param {string} value The `validate` attribute
    */
-  set validate(value) {
+  set validate(value: string) {
     if (value) {
       this.setAttribute(attributes.VALIDATE, value.toString());
       this.container.setAttribute(attributes.VALIDATE, value.toString());
@@ -686,13 +692,13 @@ export default class IdsDropdown extends Base {
     }
   }
 
-  get validate() { return this.getAttribute(attributes.VALIDATE); }
+  get validate(): string { return this.getAttribute(attributes.VALIDATE); }
 
   /**
    * Pass down `validation-events` attribute into IdsTriggerField
    * @param {string} value The `validation-events` attribute
    */
-  set validationEvents(value) {
+  set validationEvents(value: string) {
     if (value) {
       this.setAttribute(attributes.VALIDATION_EVENTS, value.toString());
       this.container.setAttribute(attributes.VALIDATION_EVENTS, value.toString());
@@ -702,13 +708,13 @@ export default class IdsDropdown extends Base {
     }
   }
 
-  get validationEvents() { return this.getAttribute(attributes.VALIDATION_EVENTS) || 'change'; }
+  get validationEvents(): string { return this.getAttribute(attributes.VALIDATION_EVENTS) || 'change'; }
 
   /**
    * Sets the no margins attribute
    * @param {boolean} value The value for no margins attribute
    */
-  set noMargins(value) {
+  set noMargins(value: boolean) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.NO_MARGINS, '');
       this.container.setAttribute(attributes.NO_MARGINS, '');
@@ -718,7 +724,7 @@ export default class IdsDropdown extends Base {
     this.container.removeAttribute(attributes.NO_MARGINS);
   }
 
-  get noMargins() {
+  get noMargins(): boolean {
     return stringToBool(this.getAttribute(attributes.NO_MARGINS));
   }
 
@@ -726,7 +732,7 @@ export default class IdsDropdown extends Base {
    * Set the dropdown size
    * @param {string} value The value
    */
-  set size(value) {
+  set size(value: string) {
     if (value) {
       this.setAttribute(attributes.SIZE, value);
     } else {
@@ -735,5 +741,5 @@ export default class IdsDropdown extends Base {
     this.container.setAttribute(attributes.SIZE, this.size);
   }
 
-  get size() { return this.getAttribute(attributes.SIZE) ?? 'md'; }
+  get size(): string { return this.getAttribute(attributes.SIZE) ?? 'md'; }
 }

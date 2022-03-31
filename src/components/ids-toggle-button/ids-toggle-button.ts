@@ -2,6 +2,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import Base from './ids-toggle-button-base';
 
 import { BUTTON_ATTRIBUTES, BUTTON_TYPES } from '../ids-button/ids-button-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import '../ids-icon/ids-icon';
 
 import styles from '../ids-button/ids-button.scss';
@@ -31,9 +32,9 @@ export default class IdsToggleButton extends Base {
   }
 
   /**
-   * @returns {Array} containing configurable properties on this component
+   * @returns {Array<string>} containing configurable properties on this component
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return BUTTON_ATTRIBUTES.concat([
       'icon-off',
       'icon-on',
@@ -47,7 +48,7 @@ export default class IdsToggleButton extends Base {
    * Toggle-Button-level `connectedCallback` implementation (adds an icon refresh)
    * @returns {void}
    */
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback?.();
     this.refreshIcon();
     this.refreshText();
@@ -55,10 +56,10 @@ export default class IdsToggleButton extends Base {
 
   /**
    * Set the pressed (on/off) state
-   * @param {boolean|string} val if true, the "toggle" is activated
+   * @param {boolean | string} val if true, the "toggle" is activated
    */
-  set pressed(val) {
-    const trueVal = val === true || val === 'true';
+  set pressed(val: boolean | string) {
+    const trueVal = stringToBool(val);
     this.state.pressed = trueVal;
     this.shouldUpdate = false;
 
@@ -73,24 +74,24 @@ export default class IdsToggleButton extends Base {
     this.refreshText();
   }
 
-  get pressed() {
+  get pressed(): boolean {
     return this.state.pressed;
   }
 
   /**
    * Override setting the "type" on Toggle Buttons, since they can only be the default style
    * @param {string} val a valid type
-   * @returns {void}
    */
-  set type(val: string) {
-    this.state.type = BUTTON_TYPES[0];
+  set type(val: string | null) {
+    val = BUTTON_TYPES[0];
+    super.type = val;
+  }
 
-    if (this.hasAttribute('type')) {
-      this.shouldUpdate = false;
-      this.removeAttribute('type');
-      this.shouldUpdate = true;
-    }
-    this.setTypeClass(this.state.type);
+  /**
+   * @returns {string} the currently set type
+   */
+  get type(): string {
+    return super.type;
   }
 
   /**
@@ -199,7 +200,7 @@ export default class IdsToggleButton extends Base {
    * @private
    * @returns {void}
    */
-  refreshIcon() {
+  refreshIcon(): void {
     this.icon = this[this.pressed ? 'iconOn' : 'iconOff'];
   }
 
@@ -208,7 +209,7 @@ export default class IdsToggleButton extends Base {
    * @private
    * @returns {void}
    */
-  refreshText() {
+  refreshText(): void {
     this.text = this[this.pressed ? 'textOn' : 'textOff'];
   }
 
@@ -216,7 +217,7 @@ export default class IdsToggleButton extends Base {
    * Toggles the "pressed" state of the button
    * @returns {void}
    */
-  toggle() {
+  toggle(): void {
     this.pressed = !this.pressed;
   }
 }
