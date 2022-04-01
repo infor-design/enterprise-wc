@@ -2,13 +2,7 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
-
-import IdsMenu, {
-  IdsMenuGroup,
-  IdsMenuHeader,
-  IdsMenuItem,
-  IdsSeparator
-} from '../../src/components/ids-menu/ids-menu';
+import IdsMenu from '../../src/components/ids-menu/ids-menu';
 
 const exampleHTML = `
   <ids-menu-header id="primary-header">My Items</ids-menu-header>
@@ -28,15 +22,15 @@ const exampleHTML = `
 `;
 
 describe('IdsMenuGroup Component', () => {
-  let menu;
-  let group1;
-  let header1;
-  let group2;
-  let header2;
-  let item1;
-  let item4;
-  let item5;
-  let item6;
+  let menu: any;
+  let group1: any;
+  let header1: any;
+  let group2: any;
+  let header2: any;
+  let item1: any;
+  let item4: any;
+  let item5: any;
+  let item6: any;
 
   beforeEach(async () => {
     menu = new IdsMenu();

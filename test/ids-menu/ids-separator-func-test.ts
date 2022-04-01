@@ -3,12 +3,7 @@
  */
 import '../helpers/resize-observer-mock';
 
-import IdsMenu, {
-  IdsMenuGroup,
-  IdsMenuHeader,
-  IdsMenuItem,
-  IdsSeparator
-} from '../../src/components/ids-menu/ids-menu';
+import IdsMenu from '../../src/components/ids-menu/ids-menu';
 
 // Appended to the menu once it's in the DOM
 const exampleHTML = `
@@ -27,9 +22,9 @@ const exampleHTML = `
 `;
 
 describe('IdsSeparator', () => {
-  let menu;
-  let sep1;
-  let sep2;
+  let menu: any;
+  let sep1: any;
+  let sep2: any;
 
   beforeEach(() => {
     menu = new IdsMenu();

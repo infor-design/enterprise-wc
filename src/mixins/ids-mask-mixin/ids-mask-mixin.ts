@@ -125,16 +125,16 @@ const IdsMaskMixin = (superclass: any) => class extends superclass {
       // Assume string in all other cases
       switch (val) {
       // Using 'date' as a string automatically connects the standard date mask function
-      case 'date':
-        trueVal = dateMask;
-        break;
-      // Using 'number' as a string automatically connects the standard number mask function
-      case 'number':
-        trueVal = numberMask;
-        break;
-      default:
-        trueVal = convertPatternFromString(val);
-        break;
+        case 'date':
+          trueVal = dateMask;
+          break;
+          // Using 'number' as a string automatically connects the standard number mask function
+        case 'number':
+          trueVal = numberMask;
+          break;
+        default:
+          trueVal = convertPatternFromString(val);
+          break;
       }
     }
 
@@ -152,7 +152,7 @@ const IdsMaskMixin = (superclass: any) => class extends superclass {
    * @param {boolean} [doSetValue=false] if true, attempts to set input state when masking completes
    * @returns {string|boolean} the result of the mask.  If no masking was performed, return `false`
    */
-  processMask = (rawValue: string, opts: { suffix: any; }, doSetValue = false) => {
+  processMask = (rawValue: string, opts: any, doSetValue = false) => {
     // If no mask function/pattern is defined, do not process anything.
     if (!this.mask) {
       return false;
