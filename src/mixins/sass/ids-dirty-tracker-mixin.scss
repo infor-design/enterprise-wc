@@ -48,3 +48,12 @@
     }
   }
 }
+
+.ids-textarea .icon-dirty {
+  top: 0;
+  margin-inline-start: 1px;
+
+  &[dir='rtl'] {
+    top: 1px;
+  }
+}
