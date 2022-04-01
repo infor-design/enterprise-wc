@@ -14,13 +14,13 @@ import {
 describe('IdsToast Component', () => {
   const origInnerWidth = window.innerWidth;
   const origInnerHeight = window.innerHeight;
-  let toast;
-  let container;
-  let options;
+  let toast: any;
+  let container: any;
+  let options: any;
 
   beforeEach(async () => {
     container = new IdsContainer();
-    const elem = new IdsToast();
+    const elem: any = new IdsToast();
     container.appendChild(elem);
     document.body.appendChild(container);
     container = document.querySelector('ids-container');
@@ -42,7 +42,7 @@ describe('IdsToast Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsToast();
+    const elem: any = new IdsToast();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-toast').length).toEqual(1);
@@ -367,16 +367,16 @@ describe('IdsToast Component', () => {
       }
     };
 
-    toast.addEventListener(EVENTS.addMessage, (e) => {
+    toast.addEventListener(EVENTS.addMessage, (e: any) => {
       detail.active.addMessage = e.detail?.messageId;
     });
-    toast.addEventListener(EVENTS.removeMessage, (e) => {
+    toast.addEventListener(EVENTS.removeMessage, (e: any) => {
       detail.active.removeMessage = e.detail?.messageId;
     });
-    toast.addEventListener(EVENTS.savePosition, (e) => {
+    toast.addEventListener(EVENTS.savePosition, (e: any) => {
       detail.active.savePosition = e.detail?.uniqueId;
     });
-    toast.addEventListener(EVENTS.clearPosition, (e) => {
+    toast.addEventListener(EVENTS.clearPosition, (e: any) => {
       detail.active.clearPosition = e.detail?.clearIds[0];
     });
 
@@ -577,9 +577,9 @@ describe('IdsToast Component', () => {
 
   it('renders toast-message with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsToast();
-    const messageEl1 = new IdsToastMessage();
-    const messageEl2 = new IdsToastMessage();
+    const elem: any = new IdsToast();
+    const messageEl1: any = new IdsToastMessage();
+    const messageEl2: any = new IdsToastMessage();
     messageEl1.audible = null;
     messageEl1.draggable = null;
     messageEl1.progressBar = null;
