@@ -8,7 +8,6 @@ import '../../src/components/ids-button/ids-button';
 import createFromTemplate from '../helpers/create-from-template';
 import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';
 import waitFor from '../helpers/wait-for';
-import processAnimFrame from '../helpers/process-anim-frame';
 
 describe('IdsDrawer Component', () => {
   let elem: any;
@@ -144,8 +143,7 @@ describe('IdsDrawer Component', () => {
     container.appendChild(elem2);
 
     await container.setLanguage('ar');
-    await processAnimFrame();
-    expect(elem.getAttribute('dir')).toEqual('rtl');
+    waitFor(() => expect(elem.getAttribute('dir')).toBe('rtl'));
   });
 
   it('should call hide on outside click', async () => {
