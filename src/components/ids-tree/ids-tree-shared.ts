@@ -47,9 +47,9 @@ const IdsTreeShared = {
    * @param {string} attr The attribute name to get the value.
    * @returns {string|null} The value or default value
    */
-  getVal(elem, attr) {
+  getVal(elem: any, attr: string) {
     const value = elem?.getAttribute(attr);
-    return value !== null ? value : this.DEFAULTS[camelCase(attr)];
+    return value !== null ? value : (this.DEFAULTS as any)[camelCase(attr)];
   },
 
   /**
@@ -58,10 +58,10 @@ const IdsTreeShared = {
    * @param {string} attr The attribute name to get the value.
    * @returns {boolean} The value
    */
-  getBoolVal(elem, attr) {
+  getBoolVal(elem: any, attr: string) {
     const value = elem?.getAttribute(attr);
     return value !== null
-      ? stringToBool(value) : this.DEFAULTS[camelCase(attr)];
+      ? stringToBool(value) : (this.DEFAULTS as any)[camelCase(attr)];
   },
 
   /**
@@ -69,7 +69,7 @@ const IdsTreeShared = {
    * @param {boolean|string} val The value.
    * @returns {boolean} true if the value boolean
    */
-  isBool(val) {
+  isBool(val: boolean | string): boolean {
     return val === true || val === 'true' || val === false || val === 'false';
   }
 };

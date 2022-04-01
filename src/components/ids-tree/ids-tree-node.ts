@@ -5,8 +5,8 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import Base from './ids-tree-node-base';
 
 import IdsTreeShared from './ids-tree-shared';
-import IdsBadge from '../ids-badge/ids-badge';
-import IdsText from '../ids-text/ids-text';
+import '../ids-badge/ids-badge';
+import '../ids-text/ids-text';
 
 import styles from './ids-tree-node.scss';
 
@@ -34,7 +34,7 @@ export default class IdsTreeNode extends Base {
   /**
    * Main node container
    */
-  nodeContainer = null;
+  nodeContainer: any = null;
 
   /**
    * Invoked each time the custom element is appended into a document-connected element.
@@ -74,7 +74,7 @@ export default class IdsTreeNode extends Base {
     this.tree = this.tree || this.closestElement('ids-tree');
 
     // Set the type is group or node
-    const isNodeEl = (el) => /^ids-tree-node$/i.test(el.nodeName);
+    const isNodeEl = (el: HTMLElement) => /^ids-tree-node$/i.test(el.nodeName);
     this.isGroup = [...this.childNodes].some((el) => isNodeEl(el));
 
     // Set group template
@@ -100,7 +100,7 @@ export default class IdsTreeNode extends Base {
    * @param {boolean|undefined} isGroup If true node type is group
    * @returns {string} The html template
    */
-  getTemplate(isGroup) {
+  getTemplate(isGroup?: boolean) {
     const disabled = `${this.disabled ? ' disabled' : ''}`;
     const selected = `${this.isSelected ? ' selected' : ''}`;
     const ariaDisabled = ` aria-disabled="${this.disabled}"`;
@@ -139,8 +139,8 @@ export default class IdsTreeNode extends Base {
    * @param {HTMLElement} base The base element
    * @returns {HTMLElement|null} the closest found element
    */
-  closestElement(selector, base = this) {
-    const closestFrom = (el) => {
+  closestElement(selector: string, base = this) {
+    const closestFrom: any = (el: any) => {
       if (!el || el === document || el === window) {
         return null;
       }
@@ -158,7 +158,7 @@ export default class IdsTreeNode extends Base {
    * @param {string} selector The selector string
    * @returns {string|null} The tree attribute value
    */
-  treeAttribute(selector) {
+  treeAttribute(selector: string) {
     return this.tree?.getAttribute(selector);
   }
 
@@ -166,8 +166,8 @@ export default class IdsTreeNode extends Base {
    * Set focus to node container
    * @returns {void}
    */
-  setFocus() {
-    this.nodeContainer.focus();
+  setFocus(): void {
+    (this.nodeContainer as any).focus();
   }
 
   /**
@@ -220,7 +220,7 @@ export default class IdsTreeNode extends Base {
    * @param {object} target to set values.
    * @returns {void}
    */
-  #rotatePlusminus(target) {
+  #rotatePlusminus(target: any) {
     if (this.tree?.toggleIconRotate && this.useToggleTarget && target?.elem) {
       target.elem.classList.add(target.rotateClass);
       const events = ['webkitAnimationEnd', 'oAnimationEnd', 'msAnimationEnd', 'animationend'];
@@ -292,7 +292,7 @@ export default class IdsTreeNode extends Base {
    * Gets toggle icon html
    * @returns {HTMLElement} the toggle icon html
    */
-  get toggleIconHtml() {
+  get toggleIconHtml(): any {
     return this.useToggleTarget
       ? `<ids-icon class="toggle-icon" icon="${this.toggleIcon}" part="toggle-icon"></ids-icon>`
       : '';
@@ -302,7 +302,7 @@ export default class IdsTreeNode extends Base {
    * Gets the current node icon or expand/collapse icon
    * @returns {HTMLElement} the current icon
    */
-  get nodeIcon() {
+  get nodeIcon(): any {
     if (this.isGroup) {
       return this.expanded ? this.expandIcon : this.collapseIcon;
     }
@@ -325,7 +325,7 @@ export default class IdsTreeNode extends Base {
    * Gets the current toggle css class name
    * @returns {string} the toggle css class name
    */
-  get toggleClass() {
+  get toggleClass(): string {
     return this.expanded
       ? IdsTreeShared.TOGGLE_CLASSES.expanded : IdsTreeShared.TOGGLE_CLASSES.collapsed;
   }
@@ -334,7 +334,7 @@ export default class IdsTreeNode extends Base {
    * Sets the tree group toggle icon
    * @returns {string} The toggle icon
    */
-  get toggleIcon() {
+  get toggleIcon(): string {
     if (this.useToggleTarget) {
       return this.expanded
         ? (this.treeAttribute(attributes.TOGGLE_EXPAND_ICON)
@@ -349,7 +349,7 @@ export default class IdsTreeNode extends Base {
    * Sets the tree group collapse icon
    * @param {string|null} value The icon name
    */
-  set collapseIcon(value) {
+  set collapseIcon(value: string | null) {
     if (value) {
       this.setAttribute(attributes.COLLAPSE_ICON, value.toString());
     } else {
@@ -358,7 +358,7 @@ export default class IdsTreeNode extends Base {
     this.#setNodeIcon();
   }
 
-  get collapseIcon() { return IdsTreeShared.getVal(this, attributes.COLLAPSE_ICON); }
+  get collapseIcon(): string | null { return IdsTreeShared.getVal((this as any), attributes.COLLAPSE_ICON); }
 
   /**
    * Sets the tree node to disabled
@@ -386,7 +386,7 @@ export default class IdsTreeNode extends Base {
    * Sets the tree group expand icon
    * @param {string|null} value The icon name
    */
-  set expandIcon(value) {
+  set expandIcon(value: string | null) {
     if (value) {
       this.setAttribute(attributes.EXPAND_ICON, value.toString());
     } else {
@@ -395,13 +395,13 @@ export default class IdsTreeNode extends Base {
     this.#setNodeIcon();
   }
 
-  get expandIcon() { return IdsTreeShared.getVal(this, attributes.EXPAND_ICON); }
+  get expandIcon(): string | null { return IdsTreeShared.getVal((this as any), attributes.EXPAND_ICON); }
 
   /**
    * Sets the tree group to be expanded
    * @param {boolean|string} value If true will set expanded attribute
    */
-  set expanded(value) {
+  set expanded(value: boolean | string) {
     if (IdsTreeShared.isBool(value)) {
       this.setAttribute(attributes.EXPANDED, `${value}`);
     } else {
@@ -410,13 +410,13 @@ export default class IdsTreeNode extends Base {
     this.#setExpandCollapse();
   }
 
-  get expanded() { return IdsTreeShared.getBoolVal(this, attributes.EXPANDED); }
+  get expanded(): boolean { return IdsTreeShared.getBoolVal((this as any), attributes.EXPANDED); }
 
   /**
    * Sets the tree node icon
    * @param {string|null} value The icon name
    */
-  set icon(value) {
+  set icon(value: string | null) {
     if (value) {
       this.setAttribute(attributes.ICON, value.toString());
     } else {
@@ -425,13 +425,13 @@ export default class IdsTreeNode extends Base {
     this.#setNodeIcon();
   }
 
-  get icon() { return IdsTreeShared.getVal(this, attributes.ICON); }
+  get icon(): string | null { return IdsTreeShared.getVal((this as any), attributes.ICON); }
 
   /**
    * Set the node label text
    * @param {string} value of the label text
    */
-  set label(value) {
+  set label(value: string) {
     if (value) {
       this.setAttribute(attributes.LABEL, value.toString());
     } else {
@@ -442,13 +442,13 @@ export default class IdsTreeNode extends Base {
     }
   }
 
-  get label() { return this.getAttribute(attributes.LABEL) || ''; }
+  get label(): string { return this.getAttribute(attributes.LABEL) || ''; }
 
   /**
    * Sets the tree node to be selectable 'single', 'multiple'
-   * @param {string|null} value The icon name
+   * @param {string | null | boolean} value The icon name
    */
-  set selectable(value) {
+  set selectable(value: any) {
     const val = `${value}`;
     const isValid = IdsTreeShared.SELECTABLE.indexOf(val) > -1;
     if (isValid) {
@@ -459,7 +459,7 @@ export default class IdsTreeNode extends Base {
     this.#setSelection();
   }
 
-  get selectable() {
+  get selectable(): string | null | boolean {
     const value = this.getAttribute(attributes.SELECTABLE);
     if (value === 'false') {
       return false;
@@ -471,7 +471,7 @@ export default class IdsTreeNode extends Base {
    * Sets the tree node to be selected
    * @param {boolean|string} value If true will set selected attribute
    */
-  set selected(value) {
+  set selected(value: boolean | string) {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.SELECTED, '');
@@ -481,24 +481,24 @@ export default class IdsTreeNode extends Base {
     this.#setSelection();
   }
 
-  get selected() { return stringToBool(this.getAttribute(attributes.SELECTED)); }
+  get selected(): boolean | string { return stringToBool(this.getAttribute(attributes.SELECTED)); }
 
   /**
    * Set if the node is tabbable
    * @param {boolean|string} value The tabbable
    */
-  set tabbable(value) {
+  set tabbable(value: boolean | string) {
     this.setAttribute(attributes.TABBABLE, `${value}`.toString());
     this.#setTabbable();
   }
 
-  get tabbable() { return stringToBool(this.getAttribute(attributes.TABBABLE)); }
+  get tabbable(): boolean | string { return stringToBool(this.getAttribute(attributes.TABBABLE)); }
 
   /**
    * Sets the tree to use toggle target
    * @param {boolean|string} value If true will set to use toggle target
    */
-  set useToggleTarget(value) {
+  set useToggleTarget(value: boolean | string) {
     if (IdsTreeShared.isBool(value)) {
       this.setAttribute(attributes.USE_TOGGLE_TARGET, `${value}`);
     } else {
@@ -507,5 +507,5 @@ export default class IdsTreeNode extends Base {
     this.#setToggleIconElement();
   }
 
-  get useToggleTarget() { return IdsTreeShared.getBoolVal(this, attributes.USE_TOGGLE_TARGET); }
+  get useToggleTarget(): boolean | string { return IdsTreeShared.getBoolVal((this as any), attributes.USE_TOGGLE_TARGET); }
 }

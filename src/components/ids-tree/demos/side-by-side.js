@@ -1,4 +1,4 @@
-import IdsTree from '../ids-tree';
+import '../ids-tree';
 
 // Initialize the 4.x
 $('body').initialize();
