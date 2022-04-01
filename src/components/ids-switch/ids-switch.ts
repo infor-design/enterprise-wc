@@ -3,7 +3,7 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-switch-base';
-import IdsText from '../ids-text/ids-text';
+import '../ids-text/ids-text';
 
 import styles from './ids-switch.scss';
 
@@ -68,7 +68,7 @@ export default class IdsSwitch extends Base {
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     const disabled = stringToBool(this.disabled) ? ' disabled' : '';
     const checked = stringToBool(this.checked) ? ' checked' : '';
     const rootClass = ` class="ids-switch${disabled}"`;
@@ -117,14 +117,14 @@ export default class IdsSwitch extends Base {
   attachNativeEvents(option = '') {
     if (this.input) {
       const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
-      events.forEach((evt) => {
+      events.forEach((evt: string) => {
         if (option === 'remove') {
           const handler = this.handledEvents?.get(evt);
           if (handler && handler.target === this.input) {
             this.offEvent(evt, this.input);
           }
         } else {
-          this.onEvent(evt, this.input, (e) => {
+          this.onEvent(evt, this.input, (e: any) => {
             /**
              * Trigger event on parent and compose the args
              * will fire nativeEvents.
@@ -161,7 +161,7 @@ export default class IdsSwitch extends Base {
    * Sets the checked state to true or false
    * @param {boolean|string} value If true will set `checked` attribute
    */
-  set checked(value) {
+  set checked(value: boolean | string) {
     const slider = this.shadowRoot.querySelector('.slider');
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     const val = stringToBool(value);
@@ -176,13 +176,13 @@ export default class IdsSwitch extends Base {
     }
   }
 
-  get checked() { return this.getAttribute(attributes.CHECKED); }
+  get checked(): boolean | string { return this.getAttribute(attributes.CHECKED); }
 
   /**
    * Sets checkbox to disabled
    * @param {boolean|string} value If true will set `disabled` attribute
    */
-  set disabled(value) {
+  set disabled(value: boolean | string) {
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     const rootEl = this.shadowRoot.querySelector('.ids-switch');
     const val = stringToBool(value);
@@ -201,13 +201,13 @@ export default class IdsSwitch extends Base {
     }
   }
 
-  get disabled() { return this.getAttribute(attributes.DISABLED); }
+  get disabled(): boolean | string { return this.getAttribute(attributes.DISABLED); }
 
   /**
    * Set the `label` text
-   * @param {string} value of the `label` text property
+   * @param {string | null} value of the `label` text property
    */
-  set label(value) {
+  set label(value: string | null) {
     const labelText = this.shadowRoot.querySelector('.label-text') || document.createElement('span');
     if (value) {
       this.setAttribute(attributes.LABEL, value);
@@ -218,13 +218,13 @@ export default class IdsSwitch extends Base {
     labelText.innerHTML = '';
   }
 
-  get label() { return this.getAttribute(attributes.LABEL) || ''; }
+  get label(): string { return this.getAttribute(attributes.LABEL) || ''; }
 
   /**
    * Sets the checkbox `value` attribute
-   * @param {string} val the value property
+   * @param {string | null} val the value property
    */
-  set value(val) {
+  set value(val: string | null) {
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
 
     if (val) {
@@ -235,7 +235,7 @@ export default class IdsSwitch extends Base {
     this.input.setAttribute(attributes.VALUE, (val || ''));
   }
 
-  get value() { return this.getAttribute(attributes.VALUE); }
+  get value(): string | null { return this.getAttribute(attributes.VALUE); }
 
   /**
    * Overrides the standard "focus" behavior to instead pass focus to the inner HTMLInput element.
