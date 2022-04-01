@@ -4,9 +4,9 @@
 import MaskAPI from '../../src/components/ids-mask/ids-mask-api';
 import { CARET_TRAP, PLACEHOLDER_CHAR } from '../../src/components/ids-mask/ids-mask-common';
 
-let api;
-
 describe('IdsMaskAPI', () => {
+  let api: any;
+
   beforeEach(() => {
     api = new MaskAPI();
   });
@@ -128,7 +128,7 @@ describe('IdsMaskAPI', () => {
 
   it('wraps a mask array returned by a mask function in an object with meta-data', () => {
     // This is a mask function that simply returns the raw value split up
-    const testMask = (rawValue) => rawValue.split('');
+    const testMask = (rawValue: string) => rawValue.split('');
     const opts = {
       pattern: testMask
     };
@@ -148,7 +148,7 @@ describe('IdsMaskAPI', () => {
   });
 
   it('ignores modified values from a failed pipe function', () => {
-    const testMask = (rawValue) => rawValue.split('');
+    const testMask = (rawValue: string) => rawValue.split('');
     const testPipe = () => { throw new Error(); };
     const opts = {
       pattern: testMask,
@@ -160,8 +160,8 @@ describe('IdsMaskAPI', () => {
   });
 
   it('handles string results from pipe functions', () => {
-    const testMask = (rawValue) => rawValue.split('');
-    const testPipe = (maskResult) => maskResult.conformedValue;
+    const testMask = (rawValue: string) => rawValue.split('');
+    const testPipe = (maskResult: any) => maskResult.conformedValue;
     const opts = {
       pattern: testMask,
       pipe: testPipe

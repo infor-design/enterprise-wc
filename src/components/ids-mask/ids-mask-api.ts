@@ -3,7 +3,8 @@ import {
   CARET_TRAP,
   EMPTY_STRING,
   PLACEHOLDER_CHAR,
-  DEFAULT_CONFORM_OPTIONS
+  DEFAULT_CONFORM_OPTIONS,
+  IdsMaskOptions
 } from './ids-mask-common';
 
 import { deepClone } from '../../utils/ids-deep-clone-utils/ids-deep-clone-utils';
@@ -26,7 +27,7 @@ class MaskAPI {
    * @param {object} [opts] process options
    * @returns {object} containing the processed mask along with some meta-data
    */
-  process(rawValue: any, opts: any) {
+  process(rawValue: string, opts: IdsMaskOptions) {
     if (typeof rawValue !== 'string') {
       throw new Error('No string provided');
     }
@@ -147,7 +148,7 @@ class MaskAPI {
    * @param {object} [settings] incoming settings for mask parsing.
    * @returns {object} containing the conformation result and some meta-data
    */
-  conformToMask(rawValue: any, maskObj: any, settings: any) {
+  conformToMask(rawValue: string, maskObj: any, settings: any) {
     // Use default settings, appended by user settings
     const conformSettings = deepClone(DEFAULT_CONFORM_OPTIONS);
     Object.assign(conformSettings, settings);
@@ -252,7 +253,7 @@ class MaskAPI {
           // or we find at least one character that we can map.
           while (rawValueArr.length > 0) {
             // Let's retrieve the first user character in the queue of characters we have left
-            const rawValueChar = rawValueArr.shift();
+            const rawValueChar: any = rawValueArr.shift();
             const nextChar = rawValue.slice(l, l + 1);
 
             // If the character we got from the user input is a placeholder character (which happens
@@ -283,7 +284,7 @@ class MaskAPI {
               const thisLiteralRegex = new RegExp(`(${rawValueChar.char})`, 'g');
               const numberLiteralsPlaceholder = conformSettings.placeholder.match(thisLiteralRegex).length; // eslint-disable-line
 
-              const numberLiteralsRawValue = rawValue.match(thisLiteralRegex).length;
+              const numberLiteralsRawValue: any = rawValue.match(thisLiteralRegex)?.length;
               if (numberLiteralsRawValue <= numberLiteralsPlaceholder) {
                 resultStr += rawValueChar.char;
               }
@@ -456,7 +457,7 @@ class MaskAPI {
    * @param {string} placeholderChar - a character that will be used as the placeholder.
    * @returns {string} representing the placeholder
    */
-  convertMaskToPlaceholder(mask = [], placeholderChar = PLACEHOLDER_CHAR) {
+  convertMaskToPlaceholder(mask: Array<string | RegExp>, placeholderChar = PLACEHOLDER_CHAR) {
     return mask.map((char: any) => ((char instanceof RegExp)
       ? placeholderChar : char)).join(EMPTY_STRING);
   }

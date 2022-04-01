@@ -2,16 +2,17 @@
  * @jest-environment jsdom
  */
 import IdsInput from '../../src/components/ids-input/ids-input';
+import { IdsMaskOptions } from '../../src/components/ids-mask/ids-mask-common';
 import { autoCorrectedDatePipe, dateMask, numberMask } from '../../src/components/ids-mask/ids-masks';
 
 const CREDIT_CARD_MASK = [/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
 const PHONE_NUMBER_MASK = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
 
 describe('IdsInput (Masked)', () => {
-  let input;
+  let input: any;
 
   beforeEach(async () => {
-    const elem = new IdsInput();
+    const elem: any = new IdsInput();
     document.body.appendChild(elem);
     input = document.querySelector('ids-input');
   });
@@ -22,7 +23,7 @@ describe('IdsInput (Masked)', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsInput();
+    const elem: any = new IdsInput();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-input').length).toEqual(1);
@@ -194,7 +195,7 @@ describe('IdsInput (Masked)', () => {
 
     // Simulates an input event after selecting the "456" with the text caret
     input.safelySetSelection(input.shadowRoot, 6, 9);
-    const inputEvent = new Event('input', { bubbles: true, data: '___' });
+    const inputEvent = new InputEvent('input', { bubbles: true, data: '___' });
     input.input.value = '(123) ___-7890'; // Simulate input value changing
     input.dispatchEvent(inputEvent);
 
@@ -218,19 +219,19 @@ describe('IdsInput (Masked)', () => {
     input.maskOptions = {
       limit: 100
     };
-    input.mask = (val, opts) => {
+    input.mask = (val: string, opts: IdsMaskOptions) => {
       const valid = [/[Ee]/, /[Dd]/];
-      const isEven = (n) => n % 2 === 0;
-      let count = opts.limit;
-      const mask = [];
+      const isEven = (n: number) => n % 2 === 0;
+      let count: number = opts.limit;
+      const mask: Array<string> = [];
 
       let prevChar = '';
-      val.split('').forEach((char) => {
+      val.split('').forEach((char: string) => {
         if (count < 1) {
           return;
         }
 
-        let pushed;
+        let pushed: any;
         if (count === opts.limit || (isEven(count) && prevChar.match(valid[1]))) {
           // Can be "E"
           pushed = valid[0];
