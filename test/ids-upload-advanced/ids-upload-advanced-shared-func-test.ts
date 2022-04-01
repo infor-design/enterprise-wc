@@ -5,7 +5,7 @@ import IdsUploadAdvancedShared from '../../src/components/ids-upload-advanced/id
 
 describe('IdsUploadAdvanced Component (shared)', () => {
   it('should format bytes from shared file', () => {
-    expect(IdsUploadAdvancedShared.formatBytes()).toEqual('');
+    expect((IdsUploadAdvancedShared as any).formatBytes()).toEqual('');
     expect(IdsUploadAdvancedShared.formatBytes(1048576)).toEqual('1.05 MB');
     expect(IdsUploadAdvancedShared.formatBytes(1048576, 2)).toEqual('1.05 MB');
     expect(IdsUploadAdvancedShared.formatBytes(1048576, 3)).toEqual('1.049 MB');

@@ -6,10 +6,10 @@ import IdsUpload from '../../src/components/ids-upload/ids-upload';
 jest.useFakeTimers();
 
 describe('IdsUpload Component', () => {
-  let upload;
+  let upload: any;
 
   beforeEach(async () => {
-    const elem = new IdsUpload();
+    const elem: any = new IdsUpload();
     document.body.appendChild(elem);
     upload = document.querySelector('ids-upload');
   });
@@ -20,7 +20,7 @@ describe('IdsUpload Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsUpload();
+    const elem: any = new IdsUpload();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-upload').length).toEqual(1);
@@ -29,7 +29,7 @@ describe('IdsUpload Component', () => {
 
   it('renders placeholder', () => {
     document.body.innerHTML = '';
-    const elem = new IdsUpload();
+    const elem: any = new IdsUpload();
     upload.placeholder = 'Placeholder Text';
     upload.template();
     document.body.appendChild(elem);
@@ -69,7 +69,7 @@ describe('IdsUpload Component', () => {
 
   it('should drag drop', () => {
     const zIndex = () => window.getComputedStyle(upload.fileInput).getPropertyValue('z-index');
-    const createBubbledEvent = (type, attributes = {}) => {
+    const createBubbledEvent = (type: any, attributes = {}) => {
       const event = new Event(type, { bubbles: true });
       Object.assign(event, attributes);
       return event;
@@ -187,7 +187,7 @@ describe('IdsUpload Component', () => {
     upload.noTextEllipsis = true;
     expect(upload.getAttribute('no-text-ellipsis')).toBeTruthy();
     expect(upload.noTextEllipsis).toBeTruthy();
-    expect(upload.textInput.textEllipsis).toBe(null);
+    expect(upload.textInput.textEllipsis).toBe(false);
     upload.noTextEllipsis = false;
     expect(upload.getAttribute('no-text-ellipsis')).toEqual(null);
     expect(upload.noTextEllipsis).toBe(null);
@@ -284,7 +284,7 @@ describe('IdsUpload Component', () => {
 
   it('should render upload sizes', () => {
     const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
-    const checkSize = (size) => {
+    const checkSize = (size: string) => {
       upload.size = size;
       expect(upload.getAttribute('size')).toEqual(size);
       expect(upload.textInput.size).toEqual(size);

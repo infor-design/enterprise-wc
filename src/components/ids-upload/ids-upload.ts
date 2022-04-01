@@ -4,8 +4,8 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-upload-base';
 
-import IdsInput from '../ids-input/ids-input';
-import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
+import '../ids-input/ids-input';
+import '../ids-trigger-field/ids-trigger-field';
 
 import styles from './ids-upload.scss';
 
@@ -34,7 +34,7 @@ export default class IdsUpload extends Base {
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       ...super.attributes,
       attributes.ACCEPT,
@@ -58,7 +58,7 @@ export default class IdsUpload extends Base {
    * Custom Element `connectedCallback` implementation
    * @returns {void}
    */
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback();
     this.trigger = this.shadowRoot.querySelector('.trigger');
     this.textInput = this.shadowRoot.querySelector('ids-trigger-field');
@@ -72,8 +72,8 @@ export default class IdsUpload extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
-    const trueVal = (v) => stringToBool(v);
+  template(): string {
+    const trueVal = (v: any) => stringToBool(v);
     const accept = this.accept ? ` accept="${this.accept}"` : '';
     const dirtyTracker = trueVal(this.dirtyTracker) ? ` dirty-tracker="${this.dirtyTracker}"` : '';
     const disabled = trueVal(this.disabled) ? ` disabled="${this.disabled}"` : '';
@@ -117,7 +117,7 @@ export default class IdsUpload extends Base {
    * @private
    * @returns {void}
    */
-  clear() {
+  clear(): void {
     if (this.hasAccess) {
       this.value = '';
     }
@@ -128,7 +128,7 @@ export default class IdsUpload extends Base {
    * @private
    * @returns {void}
    */
-  open() {
+  open(): void {
     if (this.hasAccess) {
       this.isFilePickerOpened = true; // track cancel button on file picker window
       this.fileInput?.click();
@@ -141,7 +141,7 @@ export default class IdsUpload extends Base {
    * @param  {object} e Actual event
    * @returns {void}
    */
-  dispatchChangeEvent(e) {
+  dispatchChangeEvent(e: CustomEvent): void {
     /**
      * Trigger event on parent and compose the args
      * will fire change event
@@ -164,7 +164,7 @@ export default class IdsUpload extends Base {
    * @private
    * @returns {void}
    */
-  handleWindowFocusEvent() {
+  handleWindowFocusEvent(): void {
     this.onEvent('focus', window, () => {
       if (this.isFilePickerOpened) {
         this.isFilePickerOpened = false;
@@ -185,10 +185,10 @@ export default class IdsUpload extends Base {
    * @private
    * @returns {void}
    */
-  handleFileInputChangeEvent() {
-    this.onEvent('change', this.fileInput, (e) => {
+  handleFileInputChangeEvent(): void {
+    this.onEvent('change', this.fileInput, (e: CustomEvent) => {
       const files = this.fileInput.files;
-      this.value = [].slice.call(files).map((f) => f.name).join(', ');
+      this.value = [].slice.call(files).map((f: any) => f.name).join(', ');
       this.dispatchChangeEvent(e);
     });
   }
@@ -198,7 +198,7 @@ export default class IdsUpload extends Base {
    * @private
    * @returns {void}
    */
-  handleFileInputCancelEvent() {
+  handleFileInputCancelEvent(): void {
     this.onEvent('filescancel', this.fileInput, () => {
       this.textInput.input?.dispatchEvent(new Event('blur', { bubbles: true }));
     });
@@ -209,7 +209,7 @@ export default class IdsUpload extends Base {
    * @private
    * @returns {void}
    */
-  handleTextInputDragDrop() {
+  handleTextInputDragDrop(): void {
     if (this.hasAccess) {
       this.onEvent('dragenter', this.textInput, () => {
         this.fileInput.style.zIndex = '1';
@@ -231,11 +231,11 @@ export default class IdsUpload extends Base {
    * @private
    * @returns {void}
    */
-  handleTextInputKeydown() {
-    this.onEvent('keydown', this.textInput, (e) => {
+  handleTextInputKeydown(): void {
+    this.onEvent('keydown', this.textInput, (e: any) => {
       const allow = ['Backspace', 'Enter', 'Space'];
       const key = e.code;
-      const isClearBtn = e.path?.filter((p) => p?.classList?.contains('btn-clear')).length > 0;
+      const isClearBtn = e.path?.filter((p: any) => p?.classList?.contains('btn-clear')).length > 0;
       if (allow.indexOf(key) > -1 && !isClearBtn) {
         if (key === 'Backspace') {
           this.clear();
@@ -253,7 +253,7 @@ export default class IdsUpload extends Base {
    * @private
    * @returns {void}
    */
-  handleTriggerClickEvent() {
+  handleTriggerClickEvent(): void {
     this.onEvent('click', this.trigger, () => {
       this.open();
     });
@@ -264,8 +264,8 @@ export default class IdsUpload extends Base {
    * @private
    * @returns {void}
    */
-  handleInputClearedEvent() {
-    this.onEvent('cleared', this.textInput, (e) => {
+  handleInputClearedEvent(): void {
+    this.onEvent('cleared', this.textInput, (e: CustomEvent) => {
       this.clear();
       this.dispatchChangeEvent(e);
     });
@@ -276,7 +276,7 @@ export default class IdsUpload extends Base {
    * @private
    * @returns {void}
    */
-  #attachEventHandlers() {
+  #attachEventHandlers(): void {
     this.handleWindowFocusEvent();
     this.handleFileInputChangeEvent();
     this.handleFileInputCancelEvent();
@@ -291,7 +291,7 @@ export default class IdsUpload extends Base {
    * @private
    * @returns {string} default label value
    */
-  get labelFiletypeDefault() {
+  get labelFiletypeDefault(): string {
     const instructions = ', Press Enter to Browse for files';
     return `${(this.label || '')}${instructions}`;
   }
@@ -301,30 +301,30 @@ export default class IdsUpload extends Base {
    * @private
    * @returns {string} default label value
    */
-  get triggerLabelDefault() { return `trigger button for ${(this.label || 'fileupload')}`; }
+  get triggerLabelDefault(): string { return `trigger button for ${(this.label || 'fileupload')}`; }
 
   /**
    * Default validation events
    * @private
    * @returns {string} default validation events value
    */
-  get validationEventsDefault() { return `blur change`; }
+  get validationEventsDefault(): string { return `blur change`; }
 
   /**
    * Has access to use, if not disabled or readonly
    * @private
    * @returns {boolean} true, if not disabled or readonly
    */
-  get hasAccess() {
-    const trueVal = (v) => stringToBool(v);
+  get hasAccess(): boolean {
+    const trueVal = (v: any) => stringToBool(v);
     return !(trueVal(this.disabled) || trueVal(this.readonly));
   }
 
   /**
    * Set `accept` attribute
-   * @param {string} value `accept` attribute
+   * @param {string | undefined} value `accept` attribute
    */
-  set accept(value) {
+  set accept(value: string | undefined) {
     if (value) {
       this.setAttribute(attributes.ACCEPT, value);
       this.fileInput.setAttribute(attributes.ACCEPT, value);
@@ -334,13 +334,13 @@ export default class IdsUpload extends Base {
     }
   }
 
-  get accept() { return this.getAttribute(attributes.ACCEPT); }
+  get accept(): string | undefined { return this.getAttribute(attributes.ACCEPT); }
 
   /**
    * Set `dirty-tracker` attribute
    * @param {boolean|string} value If true will set `dirty-tracker` attribute
    */
-  set dirtyTracker(value) {
+  set dirtyTracker(value: boolean | string) {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
@@ -351,13 +351,13 @@ export default class IdsUpload extends Base {
     }
   }
 
-  get dirtyTracker() { return this.getAttribute(attributes.DIRTY_TRACKER); }
+  get dirtyTracker(): boolean | string { return this.getAttribute(attributes.DIRTY_TRACKER); }
 
   /**
    * Set `disabled` attribute
    * @param {boolean|string} value If true will set `disabled` attribute
    */
-  set disabled(value) {
+  set disabled(value: boolean | string) {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
@@ -372,13 +372,13 @@ export default class IdsUpload extends Base {
     }
   }
 
-  get disabled() { return this.getAttribute(attributes.DISABLED); }
+  get disabled(): boolean | string { return this.getAttribute(attributes.DISABLED); }
 
   /**
    * Set the `label` text of input label
-   * @param {string} value of the `label` text property
+   * @param {string | undefined} value of the `label` text property
    */
-  set label(value) {
+  set label(value: string | undefined) {
     if (value) {
       this.setAttribute(attributes.LABEL, value);
       this.textInput.label = value;
@@ -388,13 +388,13 @@ export default class IdsUpload extends Base {
     }
   }
 
-  get label() { return this.getAttribute(attributes.LABEL); }
+  get label(): string | undefined { return this.getAttribute(attributes.LABEL); }
 
   /**
    * Set the label for filetype
-   * @param {string} value The label for filetype
+   * @param {string | undefined} value The label for filetype
    */
-  set labelFiletype(value) {
+  set labelFiletype(value: string | undefined) {
     const labelEL = this.shadowRoot.querySelector('.label-filetype');
     if (value) {
       this.setAttribute(attributes.LABEL_FILETYPE, value);
@@ -405,13 +405,13 @@ export default class IdsUpload extends Base {
     }
   }
 
-  get labelFiletype() { return this.getAttribute(attributes.LABEL_FILETYPE); }
+  get labelFiletype(): string | undefined { return this.getAttribute(attributes.LABEL_FILETYPE); }
 
   /**
    * Set the `multiple` attribute for filetype
    * @param {boolean|string} value of the `multiple` property
    */
-  set multiple(value) {
+  set multiple(value: boolean | string) {
     this.fileInput = this.shadowRoot.querySelector(`#${ID}`);
     const val = stringToBool(value);
     if (val) {
@@ -423,13 +423,13 @@ export default class IdsUpload extends Base {
     this.fileInput?.removeAttribute(attributes.MULTIPLE);
   }
 
-  get multiple() { return this.getAttribute(attributes.MULTIPLE); }
+  get multiple(): boolean | string { return this.getAttribute(attributes.MULTIPLE); }
 
   /**
    * Set the `no-text-ellipsis` attribute for text input
    * @param {boolean|string} value of the `no-text-ellipsis` property
    */
-  set noTextEllipsis(value) {
+  set noTextEllipsis(value: string | boolean) {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.NO_TEXT_ELLIPSIS, val.toString());
@@ -440,13 +440,13 @@ export default class IdsUpload extends Base {
     this.textInput.textEllipsis = true;
   }
 
-  get noTextEllipsis() { return this.getAttribute(attributes.NO_TEXT_ELLIPSIS); }
+  get noTextEllipsis(): string | boolean { return this.getAttribute(attributes.NO_TEXT_ELLIPSIS); }
 
   /**
    * Set the `placeholder` of input
-   * @param {string} value of the `placeholder` property
+   * @param {string | undefined} value of the `placeholder` property
    */
-  set placeholder(value) {
+  set placeholder(value: string | undefined) {
     if (value) {
       this.setAttribute(attributes.PLACEHOLDER, value);
       this.textInput.placeholder = value;
@@ -456,13 +456,13 @@ export default class IdsUpload extends Base {
     this.textInput.placeholder = null;
   }
 
-  get placeholder() { return this.getAttribute(attributes.PLACEHOLDER); }
+  get placeholder(): string | undefined { return this.getAttribute(attributes.PLACEHOLDER); }
 
   /**
    * Set the `readonly` of input
    * @param {boolean|string} value If true will set `readonly` attribute
    */
-  set readonly(value) {
+  set readonly(value: boolean | string) {
     // NOTE: IdsTriggerField is ALWAYS `readonly` when used in IdsUpload
     const val = stringToBool(value);
     if (this.textInput && !this.textInput?.readonly) {
@@ -482,13 +482,13 @@ export default class IdsUpload extends Base {
     }
   }
 
-  get readonly() { return this.getAttribute(attributes.READONLY); }
+  get readonly(): boolean | string { return this.getAttribute(attributes.READONLY); }
 
   /**
    * Set the size of input
    * @param {string} value [xs, sm, mm, md, lg, full]
    */
-  set size(value) {
+  set size(value: string | null) {
     if (value) {
       this.setAttribute(attributes.SIZE, value);
       this.textInput.size = value;
@@ -498,13 +498,13 @@ export default class IdsUpload extends Base {
     }
   }
 
-  get size() { return this.getAttribute(attributes.SIZE); }
+  get size(): string | null { return this.getAttribute(attributes.SIZE); }
 
   /**
    * Set the label for trigger button
-   * @param {string} value The label for trigger button
+   * @param {string | null} value The label for trigger button
    */
-  set triggerLabel(value) {
+  set triggerLabel(value: string | null) {
     const labelEL = this.shadowRoot.querySelector('.trigger-label');
     if (value) {
       this.setAttribute(attributes.TRIGGER_LABEL, value);
@@ -515,13 +515,13 @@ export default class IdsUpload extends Base {
     }
   }
 
-  get triggerLabel() { return this.getAttribute(attributes.TRIGGER_LABEL); }
+  get triggerLabel(): string | null { return this.getAttribute(attributes.TRIGGER_LABEL); }
 
   /**
    * Set `validate` attribute
-   * @param {string} value The `validate` attribute
+   * @param {string | null} value The `validate` attribute
    */
-  set validate(value) {
+  set validate(value: string | null) {
     if (value) {
       this.setAttribute(attributes.VALIDATE, value);
       this.textInput.validate = value;
@@ -531,13 +531,13 @@ export default class IdsUpload extends Base {
     }
   }
 
-  get validate() { return this.getAttribute(attributes.VALIDATE); }
+  get validate(): string | null { return this.getAttribute(attributes.VALIDATE); }
 
   /**
    * Sets which events to fire validation on
    * @param {string} value The `validation-events` attribute
    */
-  set validationEvents(value) {
+  set validationEvents(value: string | null) {
     if (value) {
       this.setAttribute(attributes.VALIDATION_EVENTS, value);
       this.textInput.validationEvents = value;
@@ -547,13 +547,13 @@ export default class IdsUpload extends Base {
     }
   }
 
-  get validationEvents() { return this.getAttribute(attributes.VALIDATION_EVENTS); }
+  get validationEvents(): string | null { return this.getAttribute(attributes.VALIDATION_EVENTS); }
 
   /**
    * Set the `value` for text input and file input
    * @param {string} val the value property
    */
-  set value(val) {
+  set value(val: string | null) {
     if (val) {
       this.setAttribute(attributes.VALUE, val);
       this.textInput.value = val;
@@ -565,5 +565,5 @@ export default class IdsUpload extends Base {
     this.files = this.fileInput.files;
   }
 
-  get value() { return this.getAttribute(attributes.VALUE); }
+  get value(): string | null { return this.getAttribute(attributes.VALUE); }
 }

@@ -14,7 +14,7 @@ const useSend = 1;
  * @param {number} max The file to check
  * @returns {number} Calcutated random integer
  */
-function randomInteger(min, max) {
+function randomInteger(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
@@ -27,7 +27,7 @@ function randomInteger(min, max) {
  * @returns {void}
  */
 // eslint-disable-next-line
-function uploadFileDummy(formData, uiElem) {
+function uploadFileDummy(formData: any, uiElem: any) {
   const total = 100;
   let loaded = 0;
   const e = {
@@ -73,8 +73,7 @@ function uploadFileDummy(formData, uiElem) {
  * @param {object} uiElem The ui element
  * @returns {void}
  */
-// eslint-disable-next-line
-function uploadFile(formData, uiElem) {
+function uploadFile(formData: any, uiElem: any) {
   const xhr = new XMLHttpRequest();
   xhr.upload.addEventListener('progress', uiElem.progressHandler.bind(uiElem), false);
   xhr.addEventListener('load', uiElem.completeHandler.bind(uiElem), false);
@@ -95,8 +94,8 @@ function uploadFile(formData, uiElem) {
  * ========================================================
  */
 document.addEventListener('DOMContentLoaded', () => {
-  const elemToBeSetAttrUrl = document.querySelectorAll('#upload-advanced-url ids-upload-advanced');
-  const elemToBeUseCustomSend = document.querySelector('#upload-advanced-send');
+  const elemToBeSetAttrUrl: any = document.querySelectorAll('#upload-advanced-url ids-upload-advanced');
+  const elemToBeUseCustomSend: any = document.querySelector('#upload-advanced-send');
 
   for (let i = 0, l = elemToBeSetAttrUrl.length; i < l; i++) {
     elemToBeSetAttrUrl[i].url = 'http://localhost:4300/upload';

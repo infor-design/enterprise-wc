@@ -4,9 +4,9 @@ import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-s
 
 import Base from './ids-upload-advanced-file-base';
 
-import IdsAlert from '../ids-alert/ids-alert';
-import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
-import IdsProgressBar from '../ids-progress-bar/ids-progress-bar';
+import '../ids-alert/ids-alert';
+import '../ids-trigger-field/ids-trigger-button';
+import '../ids-progress-bar/ids-progress-bar';
 import IdsUploadAdvancedShared from './ids-upload-advanced-shared';
 
 import styles from './ids-upload-advanced-file.scss';
@@ -100,11 +100,11 @@ export default class IdsUploadAdvancedFile extends Base {
   /**
    * Dispatch event
    * @private
-   * @param  {string} eventName The event name
-   * @param  {object} e Actual event
+   * @param {string} eventName The event name
+   * @param {object} e Actual event
    * @returns {void}
    */
-  dispatchChangeEvent(eventName, e = null) {
+  dispatchChangeEvent(eventName: string, e: any = null): void {
     this.triggerEvent(eventName, this, {
       detail: {
         elem: this,
@@ -126,7 +126,7 @@ export default class IdsUploadAdvancedFile extends Base {
    * @param {boolean|string} value If true will set `disabled`
    * @returns {void}
    */
-  toggleDisabled(value) {
+  toggleDisabled(value: boolean | string): void {
     const el = {
       root: this.shadowRoot.querySelector('.ids-upload-advanced-file'),
       progress: this.shadowRoot.querySelector('ids-progress-bar'),
@@ -138,14 +138,14 @@ export default class IdsUploadAdvancedFile extends Base {
       el.root?.classList.add(attributes.DISABLED);
       el.progress.setAttribute(attributes.DISABLED, val.toString());
       el.btnClose.setAttribute(attributes.DISABLED, val.toString());
-      el.alerts.forEach((alert) => {
+      el.alerts.forEach((alert: HTMLElement) => {
         alert?.setAttribute(attributes.DISABLED, val.toString());
       });
     } else {
       el.root?.classList.remove(attributes.DISABLED);
       el.progress.removeAttribute(attributes.DISABLED);
       el.btnClose.removeAttribute(attributes.DISABLED);
-      el.alerts.forEach((alert) => {
+      el.alerts.forEach((alert: HTMLElement) => {
         alert?.removeAttribute(attributes.DISABLED);
       });
     }
@@ -156,14 +156,14 @@ export default class IdsUploadAdvancedFile extends Base {
    * @private
    * @returns {void}
    */
-  setStatus() {
+  setStatus(): void {
     if (this.status === IdsUploadAdvancedShared.STATUS.aborted) {
       return;
     }
     const rootEl = this.shadowRoot.querySelector('.ids-upload-advanced-file');
     const progress = this.shadowRoot.querySelector('ids-progress-bar');
     const closeButtonTextEl = this.shadowRoot.querySelector('.btn-close .audible');
-    let value = stringToNumber(this.value);
+    let value = stringToNumber((this.value as any));
     value = value > -1 ? value : 0;
     let shouldTrigger = true;
 
@@ -198,7 +198,7 @@ export default class IdsUploadAdvancedFile extends Base {
     rootEl?.classList.add(this.status);
 
     if (shouldTrigger && this.status !== IdsUploadAdvancedShared.STATUS.inProcess) {
-      const events = { errored: 'error', completed: 'complete' };
+      const events: Record<string, string> = { errored: 'error', completed: 'complete' };
       this.dispatchChangeEvent(events[this.status]);
     }
   }
@@ -208,9 +208,9 @@ export default class IdsUploadAdvancedFile extends Base {
    * @private
    * @returns {void}
    */
-  handleBtnCloseClickEvent() {
+  handleBtnCloseClickEvent(): void {
     const btnClose = this.shadowRoot?.querySelector('.btn-close');
-    this.onEvent('click', btnClose, (e) => {
+    this.onEvent('click', btnClose, (e: MouseEvent) => {
       this.abortHandler();
       this.dispatchChangeEvent('closebuttonclick', e);
     });
@@ -221,7 +221,7 @@ export default class IdsUploadAdvancedFile extends Base {
    * @private
    * @returns {void}
    */
-  #attachEventHandlers() {
+  #attachEventHandlers(): void {
     this.handleBtnCloseClickEvent();
   }
 
@@ -230,7 +230,7 @@ export default class IdsUploadAdvancedFile extends Base {
    * @param  {any} e The event
    * @returns {void}
    */
-  abortHandler(e = null) {
+  abortHandler(e = null): void {
     if (this.status === IdsUploadAdvancedShared.STATUS.inProcess) {
       this.status = IdsUploadAdvancedShared.STATUS.aborted;
       this.dispatchChangeEvent('abort', e);
@@ -239,19 +239,19 @@ export default class IdsUploadAdvancedFile extends Base {
 
   /**
    * Progress handler
-   * @param  {any} e The event
+   * @param {any} e The event
    * @returns {void}
    */
-  progressHandler(e) {
+  progressHandler(e: any): void {
     this.value = (e.loaded / e.total) * 100;
   }
 
   /**
    * Complete handler
-   * @param  {any} e The event
+   * @param {any} e The event
    * @returns {void}
    */
-  completeHandler(e) {
+  completeHandler(e: any): void {
     if (e.target.readyState === 4 && e.target.status === 200) {
       this.value = '100';
       this.status = IdsUploadAdvancedShared.STATUS.completed;
@@ -266,17 +266,17 @@ export default class IdsUploadAdvancedFile extends Base {
 
   /**
    * Error handler
-   * @param  {any} e The event
+   * @param {any} e The event
    * @returns {void}
    */
-  errorHandler(e) {
+  errorHandler(e: any): void {
     let err = 'Failed to upload, server issue';
     if (typeof e === 'string' && e !== '') {
       err = e;
     } else if (typeof e === 'object') {
       err = `${e.target.status} - ${e.target.statusText}`;
     }
-    this.status = IdsUploadAdvancedShared.STATUS.error;
+    this.status = IdsUploadAdvancedShared.STATUS.errored;
     this.error = err;
   }
 
@@ -285,7 +285,7 @@ export default class IdsUploadAdvancedFile extends Base {
    * @private
    * @returns {number} The close button text
    */
-  get loaded() {
+  get loaded(): number {
     const percent = stringToNumber(this.value);
     const total = stringToNumber(this.size);
     return (percent * total) / 100;
@@ -296,14 +296,14 @@ export default class IdsUploadAdvancedFile extends Base {
    * @private
    * @returns {string} The close button text
    */
-  get loadedFormatted() { return IdsUploadAdvancedShared.formatBytes(this.loaded); }
+  get loadedFormatted(): string { return IdsUploadAdvancedShared.formatBytes(this.loaded); }
 
   /**
    * Get formatted size value
    * @private
    * @returns {string} The close button text
    */
-  get sizeFormatted() {
+  get sizeFormatted(): string {
     return IdsUploadAdvancedShared.formatBytes(stringToNumber(this.size));
   }
 
@@ -312,7 +312,7 @@ export default class IdsUploadAdvancedFile extends Base {
    * @private
    * @returns {string} The close button text
    */
-  get closeButtonText() {
+  get closeButtonText(): string {
     let text = IdsUploadAdvancedShared.slotVal(this.shadowRoot, 'text-btn-cancel');
     if (this.status === IdsUploadAdvancedShared.STATUS.errored) {
       text = IdsUploadAdvancedShared.slotVal(this.shadowRoot, 'text-btn-close-error');
@@ -327,7 +327,7 @@ export default class IdsUploadAdvancedFile extends Base {
    * @private
    * @returns {string} The progress label text
    */
-  get progressLabelText() {
+  get progressLabelText(): string {
     return IdsUploadAdvancedShared.slotVal(this.shadowRoot, 'text-progress-label')
       .replace('{file-name}', this.fileName)
       .replace('{loaded}', this.loadedFormatted.toString())
@@ -340,16 +340,16 @@ export default class IdsUploadAdvancedFile extends Base {
    * @private
    * @returns {string} The error
    */
-  get errorHtml() {
-    const isInSlot = Object.values(IdsUploadAdvancedShared.ERRORS).indexOf(this.error) > -1;
-    return isInSlot ? IdsUploadAdvancedShared.slotVal(this.shadowRoot, this.error) : this.error;
+  get errorHtml(): string {
+    const isInSlot = Object.values(IdsUploadAdvancedShared.ERRORS).indexOf((this.error as any)) > -1;
+    return isInSlot ? IdsUploadAdvancedShared.slotVal(this.shadowRoot, (this.error as any)) : this.error;
   }
 
   /**
    * Sets the whole file element to disabled
    * @param {boolean|string} value If true will set disabled attribute
    */
-  set disabled(value) {
+  set disabled(value: string | boolean) {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
@@ -359,13 +359,13 @@ export default class IdsUploadAdvancedFile extends Base {
     this.toggleDisabled(value);
   }
 
-  get disabled() { return this.getAttribute(attributes.DISABLED); }
+  get disabled(): string | boolean { return this.getAttribute(attributes.DISABLED); }
 
   /**
    * Sets the file state to show there was an error during the file operations
    * @param {string} value error attribute
    */
-  set error(value) {
+  set error(value: string | undefined) {
     if (value) {
       this.setAttribute(attributes.ERROR, value.toString());
     } else {
@@ -374,15 +374,15 @@ export default class IdsUploadAdvancedFile extends Base {
     this.setStatus();
   }
 
-  get error() {
+  get error(): string | undefined {
     return this.getAttribute(attributes.ERROR);
   }
 
   /**
    * Sets the file name
-   * @param {string} value file-name attribute
+   * @param {string | undefined} value file-name attribute
    */
-  set fileName(value) {
+  set fileName(value: string | undefined) {
     if (value) {
       this.setAttribute(attributes.FILE_NAME, value.toString());
       const el = this.shadowRoot.querySelector('.file-name span');
@@ -392,7 +392,7 @@ export default class IdsUploadAdvancedFile extends Base {
     }
   }
 
-  get fileName() {
+  get fileName(): string | undefined {
     return this.getAttribute(attributes.FILE_NAME) || '';
   }
 
@@ -400,7 +400,7 @@ export default class IdsUploadAdvancedFile extends Base {
    * Sets the file size in bytes
    * @param {string|number} value size attribute
    */
-  set size(value) {
+  set size(value: string | number | undefined) {
     if (value) {
       this.setAttribute(attributes.SIZE, value.toString());
       const el = this.shadowRoot.querySelector('.size');
@@ -410,13 +410,13 @@ export default class IdsUploadAdvancedFile extends Base {
     }
   }
 
-  get size() { return this.getAttribute(attributes.SIZE); }
+  get size(): string | number | undefined { return this.getAttribute(attributes.SIZE); }
 
   /**
    * Sets the progress bar value
-   * @param {string|number} val value attribute
+   * @param {string|number| undefined} val value attribute
    */
-  set value(val) {
+  set value(val: string | number | undefined) {
     if (val) {
       if (!this.status || this.status === IdsUploadAdvancedShared.STATUS.inProcess) {
         this.setAttribute(attributes.VALUE, val.toString());
@@ -427,7 +427,7 @@ export default class IdsUploadAdvancedFile extends Base {
     this.setStatus();
   }
 
-  get value() {
+  get value(): string | number | undefined {
     return this.getAttribute(attributes.VALUE);
   }
 }

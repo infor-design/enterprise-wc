@@ -57,7 +57,7 @@ const IdsUploadAdvancedShared = {
    * @param {number} decimals The decimal point.
    * @returns {string} formated to use in ui.
    */
-  formatBytes(bytes, decimals = 2) {
+  formatBytes(bytes: number, decimals = 2) {
     const units = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
     if (typeof bytes !== 'number') {
       return '';
@@ -78,9 +78,9 @@ const IdsUploadAdvancedShared = {
    * @param {string} slotName The slot name.
    * @returns {string} The slot val.
    */
-  slotVal(shadowRoot, slotName) {
-    const d = this.DEFAULTS;
-    const html = (slot) => slot?.assignedNodes()[0]?.innerHTML;
+  slotVal(shadowRoot: any, slotName: string) {
+    const d: any = this.DEFAULTS;
+    const html = (slot: any) => slot?.assignedNodes()[0]?.innerHTML;
     const slot = shadowRoot?.querySelector(`slot[name="${slotName}"]`);
     return html(slot) || d[camelCase(slotName)];
   }

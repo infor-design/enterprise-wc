@@ -1,4 +1,4 @@
-import IdsUploadAdvanced from '../ids-upload-advanced';
+import '../ids-upload-advanced';
 
 /**
  * Example to show the way to custom send method for uploading files.
@@ -8,7 +8,7 @@ import IdsUploadAdvanced from '../ids-upload-advanced';
  * @param {object} uiElem The ui element
  * @returns {void}
  */
-function customSendMethodXhr(formData, uiElem) {
+function customSendMethodXhr(formData: any, uiElem: any) {
   const xhr = new XMLHttpRequest();
   xhr.upload.addEventListener('progress', uiElem.progressHandler.bind(uiElem), false);
   xhr.addEventListener('load', uiElem.completeHandler.bind(uiElem), false);
@@ -24,7 +24,7 @@ function customSendMethodXhr(formData, uiElem) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const uploadEl = document.querySelector('#elem-upload-advanced-send');
+  const uploadEl: any = document.querySelector('#elem-upload-advanced-send');
   uploadEl.send = customSendMethodXhr;
 });
 

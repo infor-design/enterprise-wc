@@ -4,10 +4,10 @@
 import IdsUploadAdvancedFile from '../../src/components/ids-upload-advanced/ids-upload-advanced-file';
 
 describe('IdsUploadAdvancedFile Component', () => {
-  let el;
+  let el: any;
 
   beforeEach(async () => {
-    const elem = new IdsUploadAdvancedFile();
+    const elem: any = new IdsUploadAdvancedFile();
     elem.setAttribute('file-name', 'test');
     elem.setAttribute('size', '1000');
     document.body.appendChild(elem);
@@ -20,7 +20,7 @@ describe('IdsUploadAdvancedFile Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsUploadAdvancedFile();
+    const elem: any = new IdsUploadAdvancedFile();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-upload-advanced-file').length).toEqual(1);

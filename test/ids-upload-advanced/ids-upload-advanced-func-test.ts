@@ -4,10 +4,10 @@
 import IdsUploadAdvanced from '../../src/components/ids-upload-advanced/ids-upload-advanced';
 
 describe('IdsUploadAdvanced Component', () => {
-  let el;
+  let el: any;
 
   beforeEach(async () => {
-    const elem = new IdsUploadAdvanced();
+    const elem: any = new IdsUploadAdvanced();
     elem.setAttribute('url', 'https://somedomain.com/');
     document.body.appendChild(elem);
     el = document.querySelector('ids-upload-advanced');
@@ -19,7 +19,7 @@ describe('IdsUploadAdvanced Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsUploadAdvanced();
+    const elem: any = new IdsUploadAdvanced();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-upload-advanced').length).toEqual(1);
@@ -195,8 +195,9 @@ describe('IdsUploadAdvanced Component', () => {
   });
 
   it('should change event on file input', () => {
-    const file = { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' };
-    const event = new Event('change', { bubbles: true, files: [file] });
+    const file: any = { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' };
+    const args: any = { bubbles: true, files: [file] };
+    const event = new Event('change', args);
     el.fileInput.dispatchEvent(event);
     el.handleFileUpload([file]);
     const fileElems = el.shadowRoot.querySelectorAll('ids-upload-advanced-file');
@@ -232,7 +233,7 @@ describe('IdsUploadAdvanced Component', () => {
     el.appendChild(span3);
     el.setXhrHeaders();
     expect(el.xhrHeaders).toEqual([{ name: 'header1', value: 'header1-value' }]);
-    const xhrEl = document.querySelector('#xhr-headers-id');
+    const xhrEl: any = document.querySelector('#xhr-headers-id');
     xhrEl.innerHTML = 'test';
     el.setXhrHeaders();
     expect(el.xhrHeaders).toEqual(null);
@@ -246,7 +247,7 @@ describe('IdsUploadAdvanced Component', () => {
       { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
       { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
     ];
-    el.send = (formData, uiElem) => {}; // eslint-disable-line
+    el.send = (formData: any, uiElem: any) => {}; // eslint-disable-line
     el.handleFileUpload([...files]);
     const fileElems = el.shadowRoot.querySelectorAll('ids-upload-advanced-file');
     expect(fileElems.length).toEqual(2);
@@ -293,7 +294,7 @@ describe('IdsUploadAdvanced Component', () => {
     let fileElems = el.shadowRoot.querySelectorAll('ids-upload-advanced-file');
     el.xhrHeaders = [{ name: '', value: '' }];
     expect(fileElems.length).toEqual(2);
-    fileElems.forEach((elem) => (elem.shadowRoot.querySelector('.btn-close').click()));
+    fileElems.forEach((elem: any) => (elem.shadowRoot.querySelector('.btn-close').click()));
     el.handleFileUpload([...files]);
     fileElems = el.shadowRoot.querySelectorAll('ids-upload-advanced-file');
     expect(fileElems.length).toEqual(2);
@@ -301,7 +302,7 @@ describe('IdsUploadAdvanced Component', () => {
 
   it('should drag drop', () => {
     const files = [{ size: 1000, type: 'image/jpg', name: 'myfile1.jpg' }];
-    const createBubbledEvent = (type, attributes = {}) => {
+    const createBubbledEvent = (type: any, attributes = {}) => {
       const event = new Event(type, { bubbles: true });
       Object.assign(event, attributes);
       return event;

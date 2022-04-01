@@ -39,7 +39,7 @@ export function removeNewLines(str: string): string | null {
  * @param {string|boolean|null} val string value from the component attribute
  * @returns {boolean} The return boolean
  */
-export function stringToBool(val: string | boolean | null): boolean {
+export function stringToBool(val: string | boolean | null | undefined): boolean {
   if ((typeof val === 'string' && val.toLowerCase() === 'false') || val === false) {
     return false;
   }
@@ -51,7 +51,7 @@ export function stringToBool(val: string | boolean | null): boolean {
  * @param {string|number|any} val string value from the component attribute
  * @returns {number} The return boolean
  */
-export function stringToNumber(val: string): number {
+export function stringToNumber(val: string | number | any): number {
   return parseFloat(val); // eslint-disable-line
 }
 

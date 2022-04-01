@@ -4,8 +4,8 @@ import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-s
 
 import Base from './ids-upload-advanced-base';
 
-import IdsUploadAdvancedFile from './ids-upload-advanced-file';
-import IdsHyperLink from '../ids-hyperlink/ids-hyperlink';
+import './ids-upload-advanced-file';
+import '../ids-hyperlink/ids-hyperlink';
 import IdsUploadAdvancedShared from './ids-upload-advanced-shared';
 
 import styles from './ids-upload-advanced.scss';
@@ -33,7 +33,7 @@ export default class IdsUploadAdvanced extends Base {
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       attributes.ACCEPT,
       attributes.DISABLED,
@@ -54,7 +54,7 @@ export default class IdsUploadAdvanced extends Base {
    * Custom Element `connectedCallback` implementation
    * @returns {void}
    */
-  connectedCallback() {
+  connectedCallback(): void {
     this.fileInput = this.shadowRoot.querySelector('.file-input');
     this.droparea = this.shadowRoot.querySelector('.droparea');
 
@@ -68,13 +68,13 @@ export default class IdsUploadAdvanced extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     const toBool = stringToBool;
     const d = shared.DEFAULTS;
-    const hiddenClass = (opt) => (opt ? ' hidden' : '');
+    const hiddenClass = (opt: boolean) => (opt ? ' hidden' : '');
     const accept = this.accept ? ` accept="${this.accept}"` : '';
     const disabled = toBool(this.disabled) ? ' disabled' : '';
-    const multiple = this.maxFilesInProcess > 1 ? ' multiple' : '';
+    const multiple = Number(this.maxFilesInProcess) > 1 ? ' multiple' : '';
     const hiddenArea = `
       <div class="hidden">
         <slot name="text-btn-cancel">${d.textBtnCancel}</slot>
@@ -126,7 +126,7 @@ export default class IdsUploadAdvanced extends Base {
    * @param {object} uiElem The ui element
    * @returns {void}
    */
-  sendByXHR(formData, uiElem) {
+  sendByXHR(formData: any, uiElem: any): void {
     const xhr = new XMLHttpRequest();
     xhr.upload.addEventListener('progress', uiElem.progressHandler.bind(uiElem), false);
     xhr.addEventListener('load', uiElem.completeHandler.bind(uiElem), false);
@@ -135,8 +135,8 @@ export default class IdsUploadAdvanced extends Base {
     xhr.open(this.method, this.url);
     xhr.setRequestHeader('param-name', this.paramName);
     if (this.xhrHeaders) {
-      const isValid = (h) => (h && h.name !== '');
-      this.xhrHeaders.forEach((h) => {
+      const isValid = (h: any) => (h && h.name !== '');
+      this.xhrHeaders.forEach((h: any) => {
         if (isValid(h)) {
           xhr.setRequestHeader(h.name, h.value);
         }
@@ -154,7 +154,7 @@ export default class IdsUploadAdvanced extends Base {
    * @private
    * @returns {void}
    */
-  setXhrHeaders() {
+  setXhrHeaders(): void {
     const errorarea = this.shadowRoot?.querySelector('.errorarea');
     errorarea.innerHTML = '';
     let xhrHeaders = shared.slotVal(this.shadowRoot, 'xhr-headers');
@@ -182,13 +182,13 @@ export default class IdsUploadAdvanced extends Base {
   /**
    * Dispatch event
    * @private
-   * @param  {string} eventName The event name
-   * @param  {object} e Actual event
-   * @param  {string} id The id
-   * @param  {string} file The file
+   * @param {string} eventName The event name
+   * @param {object} e Actual event
+   * @param {string} id The id
+   * @param {string} file The file
    * @returns {void}
    */
-  dispatchFileEvent(eventName, e, id, file) {
+  dispatchFileEvent(eventName: string, e: any, id: string, file: string): void {
     this.triggerEvent(eventName, this, {
       detail: {
         id,
@@ -209,10 +209,10 @@ export default class IdsUploadAdvanced extends Base {
   /**
    * Get droparea label html
    * @private
-   * @param {boolean?} hasBrowse if true, use with browse link
+   * @param {boolean} hasBrowse if true, use with browse link
    * @returns {string} The html output
    */
-  getDropareaLabel(hasBrowse) {
+  getDropareaLabel(hasBrowse?: boolean | null): string {
     const text = shared.slotVal(this.shadowRoot, 'text-droparea');
     const textHasBrowse = shared.slotVal(this.shadowRoot, 'text-droparea-with-browse');
     const link = shared.slotVal(this.shadowRoot, 'text-droparea-with-browse-link');
@@ -239,7 +239,7 @@ export default class IdsUploadAdvanced extends Base {
    * @private
    * @returns {void}
    */
-  setDropareaLabel() {
+  setDropareaLabel(): void {
     if (!this.shadowRoot) {
       return;
     }
@@ -269,10 +269,10 @@ export default class IdsUploadAdvanced extends Base {
   /**
    * Show/Hide given error message
    * @private
-   * @param {object} [opt] The error message options.
+   * @param {any} opt The error message options.
    * @returns {void}
    */
-  errorMessage(opt) {
+  errorMessage(opt: any): void {
     const {
       error, // The error message
       data, // The data to show with message if any
@@ -310,8 +310,8 @@ export default class IdsUploadAdvanced extends Base {
    * @param {string} status The status
    * @returns {Array} The filter files
    */
-  statusFiles(status) {
-    return this.files.filter((file) => file.status === status);
+  statusFiles(status: string): Array<unknown> {
+    return this.files.filter((file: any) => file.status === status);
   }
 
   /**
@@ -320,12 +320,12 @@ export default class IdsUploadAdvanced extends Base {
    * @private
    * @returns {void}
    */
-  setDisabled() {
+  setDisabled(): void {
     const rootEl = this.shadowRoot.querySelector('.ids-upload-advanced');
     const alertError = this.shadowRoot.querySelector('.errorarea .status ids-alert');
     const link = this.shadowRoot.querySelector('ids-hyperlink');
     const uiElemArr = [].slice.call(this.shadowRoot.querySelectorAll('ids-upload-advanced-file'));
-    const attr = (el, val) => {
+    const attr = (el: any, val: any) => {
       if (val) {
         el?.setAttribute(attributes.DISABLED, val.toString());
       } else {
@@ -354,7 +354,7 @@ export default class IdsUploadAdvanced extends Base {
    * @param {string} error The error
    * @returns {string} The error value
    */
-  getErrorValue(error) {
+  getErrorValue(error: string): string {
     const isInSlot = Object.values(shared.ERRORS).indexOf(error) > -1;
     if (isInSlot) {
       return error === shared.ERRORS.errorMaxFiles
@@ -366,10 +366,10 @@ export default class IdsUploadAdvanced extends Base {
   /**
    * Check if file type or extension is allowed to accept
    * @private
-   * @param {object} file to check types
+   * @param {any} file to check types
    * @returns {boolean} true if allowed to uploaded
    */
-  validateAcceptFile(file) {
+  validateAcceptFile(file: any): boolean {
     const fileExt = file.name.match(/\.[^\.]*$|$/)[0]; // eslint-disable-line
     const sel = this.accept?.replace(/[, ]+/g, '|')?.replace(/\/\*/g, '/.*');
     const re = new RegExp(`^(${sel})$`, 'i');
@@ -382,23 +382,23 @@ export default class IdsUploadAdvanced extends Base {
   /**
    * Check for all type of validation requird before upload
    * @private
-   * @param {object} file The file to check
+   * @param {any} file The file to check
    * @returns {object} The result of validation isValid: true|false, error: msg if false
    */
-  validation(file) {
+  validation(file: any): any {
     const inProcess = this.inProcess.length;
     const completed = inProcess + this.completed.length;
-    let r = { isValid: true };
+    let r: any = { isValid: true };
 
     if (typeof this.send !== 'function' && !this.url) {
       r = { isValid: false, error: shared.ERRORS.errorUrl };
-    } else if (completed >= this.maxFiles) {
+    } else if (completed >= Number(this.maxFiles)) {
       r = { isValid: false, error: shared.ERRORS.errorMaxFiles };
-    } else if (inProcess >= this.maxFilesInProcess) {
+    } else if (inProcess >= Number(this.maxFilesInProcess)) {
       r = { isValid: false, error: shared.ERRORS.errorMaxFilesInProcess };
     } else if (!this.validateAcceptFile(file)) {
       r = { isValid: false, error: shared.ERRORS.errorAcceptFileType };
-    } else if (this.maxFileSize !== shared.DEFAULTS.maxFileSize
+    } else if (Number(this.maxFileSize) !== shared.DEFAULTS.maxFileSize
       && file.size > this.maxFileSize) {
       r = { isValid: false, error: shared.ERRORS.errorMaxFileSize };
     }
@@ -411,7 +411,7 @@ export default class IdsUploadAdvanced extends Base {
    * @param {object} files File object containing uploaded files.
    * @returns {void}
    */
-  handleFileUpload(files) {
+  handleFileUpload(files: any): void {
     const filesarea = this.shadowRoot?.querySelector('.filesarea');
 
     for (let i = 0, l = files.length; i < l; i++) {
@@ -468,7 +468,7 @@ export default class IdsUploadAdvanced extends Base {
    * @private
    * @returns {void}
    */
-  handleSlotchangeEvent() {
+  handleSlotchangeEvent(): void {
     const dropareaLabelSlotsName = [
       'text-droparea',
       'text-droparea-with-browse',
@@ -492,10 +492,10 @@ export default class IdsUploadAdvanced extends Base {
    * @private
    * @returns {void}
    */
-  handleLabelClickEvent() {
+  handleLabelClickEvent(): void {
     const label = this.shadowRoot?.querySelector('label');
-    this.onEvent('click', label, (e) => {
-      const hasClass = (c) => e.target?.classList?.contains(c);
+    this.onEvent('click', label, (e: any) => {
+      const hasClass = (c: any) => e.target?.classList?.contains(c);
       if (!(hasClass('hyperlink') || hasClass('file-input'))) {
         e.preventDefault();
       }
@@ -507,7 +507,7 @@ export default class IdsUploadAdvanced extends Base {
    * @private
    * @returns {void}
    */
-  handleFileInputChangeEvent() {
+  handleFileInputChangeEvent(): void {
     this.onEvent('change', this.fileInput, () => {
       this.handleFileUpload(this.fileInput.files);
     });
@@ -518,8 +518,8 @@ export default class IdsUploadAdvanced extends Base {
    * @private
    * @returns {void}
    */
-  handleDropareaDragenterEvent() {
-    this.onEvent('dragenter', this.droparea, (e) => {
+  handleDropareaDragenterEvent(): void {
+    this.onEvent('dragenter', this.droparea, (e: any) => {
       e.stopPropagation();
       e.preventDefault();
       if (this.disabled) {
@@ -535,8 +535,8 @@ export default class IdsUploadAdvanced extends Base {
    * @private
    * @returns {void}
    */
-  handleDropareaDragoverEvent() {
-    this.onEvent('dragover', this.droparea, (e) => {
+  handleDropareaDragoverEvent(): void {
+    this.onEvent('dragover', this.droparea, (e: any) => {
       e.stopPropagation();
       e.preventDefault();
     });
@@ -547,8 +547,8 @@ export default class IdsUploadAdvanced extends Base {
    * @private
    * @returns {void}
    */
-  handleDropareaDropEvent() {
-    this.onEvent('drop', this.droparea, (e) => {
+  handleDropareaDropEvent(): void {
+    this.onEvent('drop', this.droparea, (e: any) => {
       e.preventDefault();
       if (this.disabled) {
         return;
@@ -567,10 +567,10 @@ export default class IdsUploadAdvanced extends Base {
    * @private
    * @returns {void}
    */
-  handleDocumentDragDropEvents() {
+  handleDocumentDragDropEvents(): void {
     const events = ['dragenter', 'dragover', 'drop'];
     events.forEach((eventName) => {
-      this.onEvent(eventName, document, (e) => {
+      this.onEvent(eventName, document, (e: any) => {
         e.stopPropagation();
         e.preventDefault();
         if (e.type === 'dragover') {
@@ -586,11 +586,11 @@ export default class IdsUploadAdvanced extends Base {
    * @param {object} uiElem The ui element
    * @returns {void}
    */
-  handleFileEvent(uiElem) {
+  handleFileEvent(uiElem: any): void {
     const events = ['error', 'complete', 'abort', 'closebuttonclick'];
     events.forEach((eventName) => {
-      this.onEvent(eventName, uiElem, (e) => {
-        let target = {};
+      this.onEvent(eventName, uiElem, (e: any) => {
+        let target: any = {};
         for (let i = 0; i < this.files.length; i++) {
           if (uiElem.id === this.files[i].id) {
             this.files[i] = { ...this.files[i], ...e.detail };
@@ -611,7 +611,7 @@ export default class IdsUploadAdvanced extends Base {
    * @private
    * @returns {void}
    */
-  #attachEventHandlers() {
+  #attachEventHandlers(): void {
     this.handleSlotchangeEvent();
     this.handleLabelClickEvent();
     this.handleFileInputChangeEvent();
@@ -625,13 +625,13 @@ export default class IdsUploadAdvanced extends Base {
    * Get list of all added files
    * @returns {Array} list of all added files
    */
-  get all() { return this.files; }
+  get all(): Array<unknown> { return this.files; }
 
   /**
    * Get list of in process files
    * @returns {Array} list of in process files
    */
-  get inProcess() {
+  get inProcess(): Array<unknown> {
     return this.statusFiles(shared.STATUS.inProcess);
   }
 
@@ -639,7 +639,7 @@ export default class IdsUploadAdvanced extends Base {
    * Get list of aborted files
    * @returns {Array} list of aborted files
    */
-  get aborted() {
+  get aborted(): Array<unknown> {
     return this.statusFiles(shared.STATUS.aborted);
   }
 
@@ -647,7 +647,7 @@ export default class IdsUploadAdvanced extends Base {
    * Get list of errored files
    * @returns {Array} list of errored files
    */
-  get errored() {
+  get errored(): Array<unknown> {
     return this.statusFiles(shared.STATUS.errored);
   }
 
@@ -655,7 +655,7 @@ export default class IdsUploadAdvanced extends Base {
    * Get list of completed files
    * @returns {Array} list of completed files
    */
-  get completed() {
+  get completed(): Array<unknown> {
     return this.statusFiles(shared.STATUS.completed);
   }
 
@@ -664,7 +664,7 @@ export default class IdsUploadAdvanced extends Base {
    * @private
    * @returns {string} The slots template
    */
-  get fileSlotsTemplate() {
+  get fileSlotsTemplate(): string {
     const slotNames = [
       'text-btn-cancel',
       'text-btn-close-error',
@@ -688,7 +688,7 @@ export default class IdsUploadAdvanced extends Base {
    * @private
    * @returns {string} The slots template
    */
-  get fileTemplate() {
+  get fileTemplate(): string {
     return `
       <ids-upload-advanced-file id="{id}" value="{value}" file-name="{file-name}" size="{size}">
       ${this.fileSlotsTemplate}
@@ -701,7 +701,7 @@ export default class IdsUploadAdvanced extends Base {
    * @private
    * @returns {string} The value of max files and error string
    */
-  get errorMaxFilesVal() {
+  get errorMaxFilesVal(): string {
     const val = shared.slotVal(this.shadowRoot, 'error-max-files');
     return val.replace('{maxFiles}', this.maxFiles.toString());
   }
@@ -711,7 +711,7 @@ export default class IdsUploadAdvanced extends Base {
    * @private
    * @returns {boolean} true, if show browse link true or its null
    */
-  get showBrowseLinkVal() {
+  get showBrowseLinkVal(): boolean {
     return this.showBrowseLink === null
       ? shared.DEFAULTS.showBrowseLink
       : stringToBool(this.showBrowseLink);
@@ -721,7 +721,7 @@ export default class IdsUploadAdvanced extends Base {
    * Sets limit the file types to be uploaded
    * @param {string} value The accept value
    */
-  set accept(value) {
+  set accept(value: string | undefined) {
     if (value) {
       this.setAttribute(attributes.ACCEPT, value.toString());
       this.fileInput?.setAttribute(attributes.ACCEPT, value.toString());
@@ -731,13 +731,13 @@ export default class IdsUploadAdvanced extends Base {
     }
   }
 
-  get accept() { return this.getAttribute(attributes.ACCEPT); }
+  get accept(): string | undefined { return this.getAttribute(attributes.ACCEPT); }
 
   /**
    * Sets the whole element to disabled
    * @param {boolean|string} value The disabled value
    */
-  set disabled(value) {
+  set disabled(value: boolean | string | undefined) {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
@@ -747,13 +747,13 @@ export default class IdsUploadAdvanced extends Base {
     this.setDisabled();
   }
 
-  get disabled() { return this.getAttribute(attributes.DISABLED); }
+  get disabled(): string | undefined { return this.getAttribute(attributes.DISABLED); }
 
   /**
    * Sets the icon to be use in main drop area
-   * @param {string} value The icon value
+   * @param {string | undefined} value The icon value
    */
-  set icon(value) {
+  set icon(value: string | undefined) {
     const icon = this.shadowRoot.querySelector('.icon');
     if (value) {
       this.setAttribute(attributes.ICON, value.toString());
@@ -764,7 +764,7 @@ export default class IdsUploadAdvanced extends Base {
     }
   }
 
-  get icon() {
+  get icon(): string {
     return this.getAttribute(attributes.ICON)
       || shared.DEFAULTS.icon;
   }
@@ -773,7 +773,7 @@ export default class IdsUploadAdvanced extends Base {
    * Sets the max file size in bytes
    * @param {number|string} value  The max-file-size value
    */
-  set maxFileSize(value) {
+  set maxFileSize(value: string | number | undefined) {
     if (value) {
       this.setAttribute(attributes.MAX_FILE_SIZE, value.toString());
     } else {
@@ -781,16 +781,16 @@ export default class IdsUploadAdvanced extends Base {
     }
   }
 
-  get maxFileSize() {
+  get maxFileSize(): string {
     return this.getAttribute(attributes.MAX_FILE_SIZE)
       || shared.DEFAULTS.maxFileSize;
   }
 
   /**
    * Sets the max number of files can be uploaded
-   * @param {number|string} value The max-files value
+   * @param {string | number | undefined} value The max-files value
    */
-  set maxFiles(value) {
+  set maxFiles(value: string | number | undefined) {
     if (value) {
       this.setAttribute(attributes.MAX_FILES, value.toString());
     } else {
@@ -798,16 +798,16 @@ export default class IdsUploadAdvanced extends Base {
     }
   }
 
-  get maxFiles() {
+  get maxFiles(): string {
     return this.getAttribute(attributes.MAX_FILES)
       || shared.DEFAULTS.maxFiles;
   }
 
   /**
    * Sets the max number of files can be uploaded while in process
-   * @param {number|string} value The max-files-in-process value
+   * @param {string | number | undefined} value The max-files-in-process value
    */
-  set maxFilesInProcess(value) {
+  set maxFilesInProcess(value: string | number | undefined) {
     if (value) {
       this.setAttribute(attributes.MAX_FILES_IN_PROCESS, value.toString());
     } else {
@@ -815,16 +815,16 @@ export default class IdsUploadAdvanced extends Base {
     }
   }
 
-  get maxFilesInProcess() {
+  get maxFilesInProcess(): string {
     return this.getAttribute(attributes.MAX_FILES_IN_PROCESS)
       || shared.DEFAULTS.maxFilesInProcess;
   }
 
   /**
    * Sets the method to use component XMLHttpRequest method to send files
-   * @param {string} value The method value
+   * @param {string | undefined} value The method value
    */
-  set method(value) {
+  set method(value: string | undefined) {
     if (value) {
       this.setAttribute(attributes.METHOD, value.toString());
     } else {
@@ -832,16 +832,16 @@ export default class IdsUploadAdvanced extends Base {
     }
   }
 
-  get method() {
+  get method(): string {
     return this.getAttribute(attributes.METHOD)
       || shared.DEFAULTS.method;
   }
 
   /**
    * Sets the variable name to read from server
-   * @param {string} value The param-name value
+   * @param {string | undefined} value The param-name value
    */
-  set paramName(value) {
+  set paramName(value: string | undefined) {
     if (value) {
       this.setAttribute(attributes.PARAM_NAME, value.toString());
     } else {
@@ -849,7 +849,7 @@ export default class IdsUploadAdvanced extends Base {
     }
   }
 
-  get paramName() {
+  get paramName(): string {
     return this.getAttribute(attributes.PARAM_NAME)
       || shared.DEFAULTS.paramName;
   }
@@ -858,7 +858,7 @@ export default class IdsUploadAdvanced extends Base {
    * Sets a link to browse files to upload
    * @param {boolean|string} value The show-browse-link value
    */
-  set showBrowseLink(value) {
+  set showBrowseLink(value: boolean | string) {
     if (value) {
       this.setAttribute(attributes.SHOW_BROWSE_LINK, value.toString());
     } else {
@@ -867,13 +867,13 @@ export default class IdsUploadAdvanced extends Base {
     this.setDropareaLabel();
   }
 
-  get showBrowseLink() { return this.getAttribute(attributes.SHOW_BROWSE_LINK); }
+  get showBrowseLink(): boolean | string { return this.getAttribute(attributes.SHOW_BROWSE_LINK); }
 
   /**
    * Sets the url to use component XMLHttpRequest method to send files
    * @param {string} value The url value
    */
-  set url(value) {
+  set url(value: string) {
     if (value) {
       this.setAttribute(attributes.URL, value.toString());
     } else {
@@ -881,5 +881,5 @@ export default class IdsUploadAdvanced extends Base {
     }
   }
 
-  get url() { return this.getAttribute(attributes.URL); }
+  get url(): string { return this.getAttribute(attributes.URL); }
 }

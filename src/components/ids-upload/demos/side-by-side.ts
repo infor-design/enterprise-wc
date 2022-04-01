@@ -1,4 +1,4 @@
-import IdsText from '../ids-upload';
+import '../ids-upload';
 
 // Initialize the 4.x
 $('body').initialize();
