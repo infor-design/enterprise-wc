@@ -44,7 +44,7 @@ export default class IdsSearchField extends Base {
     if (variantName === 'app-menu') {
       btnVariantName = 'alternate';
     }
-    const adjustBtnVariant = (btn: HTMLButtonElement) => {
+    const adjustBtnVariant = (btn: any) => {
       btn.setAttribute(attributes.COLOR_VARIANT, btnVariantName);
     };
 

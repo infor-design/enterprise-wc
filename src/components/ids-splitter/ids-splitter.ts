@@ -4,9 +4,22 @@ import { attributes } from '../../core/ids-attributes';
 import Base from './ids-splitter-base';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsSplitterPane from './ids-splitter-pane';
-import IdsDraggable from '../ids-draggable/ids-draggable';
+import '../ids-draggable/ids-draggable';
 
 import styles from './ids-splitter.scss';
+
+/*
+*/
+export interface IdsSplitterCollapseExpandOpts {
+  /** The start pane element */
+  startPane?: HTMLElement | string;
+  /** The end pane element */
+  endPane?: HTMLElement | string;
+  /** The pair object */
+  pair?: any;
+  /** The initial values object */
+  initial?: any;
+}
 
 // Defaults
 const SPLITTER_DEFAULTS = {
@@ -58,7 +71,7 @@ export default class IdsSplitter extends Base {
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       ...super.attributes,
       attributes.ALIGN,
@@ -73,7 +86,7 @@ export default class IdsSplitter extends Base {
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     const cssClass = ` class="ids-splitter axis-${this.axis} align-${this.align}"`;
     const disabled = this.disabled ? ' disabled' : '';
     return `
@@ -94,7 +107,7 @@ export default class IdsSplitter extends Base {
    * Get list of current pane sizes.
    * @returns {Array} The list of current pane sizes.
    */
-  sizes() {
+  sizes(): Array<any> {
     return this.#sizes;
   }
 
@@ -102,7 +115,7 @@ export default class IdsSplitter extends Base {
    * Get list of current pane minimum sizes.
    * @returns {Array} The list of current pane minimum sizes.
    */
-  minSizes() {
+  minSizes(): Array<any> {
     return this.#minSizes;
   }
 
@@ -110,7 +123,7 @@ export default class IdsSplitter extends Base {
    * Get list of current pane maximum sizes, limited to single split.
    * @returns {Array} The list of current pane maximum sizes.
    */
-  maxSizes() {
+  maxSizes(): Array<any> {
     return this.#maxSizes;
   }
 
@@ -122,14 +135,14 @@ export default class IdsSplitter extends Base {
    * @param {object} [options.pair] The pair.
    * @returns {void}
    */
-  collapse(options = {}) {
+  collapse(options: IdsSplitterCollapseExpandOpts = {}): void {
     if (this.disabled) {
       if (!options.initial) return;
     }
     const pair = options.pair || this.getPair(options);
     if (pair && pair.start) {
       let canProceed = true;
-      const response = (veto) => {
+      const response = (veto: boolean) => {
         canProceed = !!stringToBool(veto);
       };
       this.#triggerEvent(EVENTS.beforecollapsed, pair, response);
@@ -139,7 +152,7 @@ export default class IdsSplitter extends Base {
       const { pane, idx } = pair.start;
       const before = this.#sizes[idx];
       const hasSize = this.#sizes[idx] > this.#minSizes[idx];
-      this.#expandSizes[idx] = hasSize ? this.#sizes[idx] : this.#defaultsSize;
+      (this.#expandSizes as any)[idx] = hasSize ? this.#sizes[idx] : this.#defaultsSize;
       if (hasSize) {
         const diff = this.#minSizes[idx] - this.#sizes[idx];
         const pixelDiff = this.#toPixel(`${diff}%`);
@@ -160,14 +173,14 @@ export default class IdsSplitter extends Base {
    * @param {object} [options.pair] The pair.
    * @returns {void}
    */
-  expand(options = {}) {
+  expand(options: IdsSplitterCollapseExpandOpts = {}): void {
     if (this.disabled) {
       return;
     }
     const pair = options.pair || this.getPair(options);
     if (pair && pair.start) {
       let canProceed = true;
-      const response = (veto) => {
+      const response = (veto: boolean) => {
         canProceed = !!stringToBool(veto);
       };
       this.#triggerEvent(EVENTS.beforeexpanded, pair, response);
@@ -195,15 +208,15 @@ export default class IdsSplitter extends Base {
    * @param {HTMLElement|string} [options.endPane] The end pane.
    * @returns {object|undefined} The pair.
    */
-  getPair(options = {}) {
+  getPair(options: IdsSplitterCollapseExpandOpts = {}): object | undefined {
     const { startPane, endPane } = options;
     let pair;
-    const isValid = (el) => typeof el === 'string' || el instanceof IdsSplitterPane;
+    const isValid = (el: any) => typeof el === 'string' || el instanceof IdsSplitterPane;
     if (isValid(startPane) && isValid(endPane)) {
-      const elem = (sel) => (typeof sel === 'string' ? this.querySelector(sel) : sel);
+      const elem = (sel: any) => (typeof sel === 'string' ? this.querySelector(sel) : sel);
       const startElem = elem(startPane);
       const endElem = elem(endPane);
-      this.#pairs.forEach((p) => {
+      this.#pairs.forEach((p: any) => {
         if ((p.start.pane === startElem) || (p.end.pane === endElem)) {
           pair = p;
         }
@@ -215,77 +228,66 @@ export default class IdsSplitter extends Base {
   /**
    * Container width.
    * @private
-   * @type {number}
    */
-  #container = { size: 0 };
+  #container: any = { size: 0 };
 
   /**
    * Store some properties based on current axis.
    * @private
-   * @type {object}
    */
-  #prop = {};
+  #prop: any = {};
 
   /**
    * Track while moving.
    * @private
-   * @type {object}
    */
-  #moving = {};
+  #moving: any = {};
 
   /**
    * List of pane elements attached.
    * @private
-   * @type {Array<object>}
    */
-  #panes = [];
+  #panes: Array<any> = [];
 
   /**
    * List of pair elements attached.
    * @private
-   * @type {Array<object>}
    */
-  #pairs = [];
+  #pairs: Array<any> = [];
 
   /**
    * Defaults pane size.
    * @private
-   * @type {number}
    */
   #defaultsSize = 0;
 
   /**
    * List of pane expand sizes.
    * @private
-   * @type {Array<number>}
    */
-  #expandSizes = [];
+  #expandSizes: Array<number> = [];
 
   /**
    * List of pane sizes.
    * @private
-   * @type {Array<number>}
    */
-  #sizes = [];
+  #sizes: Array<number> = [];
 
   /**
    * List of pane minimun sizes.
    * @private
-   * @type {Array<number>}
    */
-  #minSizes = [];
+  #minSizes: Array<number> = [];
 
   /**
    * List of pane maximum sizes.
    * @private
-   * @type {Array<number>}
    */
-  #maxSizes = [];
+  #maxSizes: Array<number> = [];
 
   /**
    * Attach the resize observer.
    * @private
-   * @type {number}
    */
   /* istanbul ignore next */
   #resizeObserver = new ResizeObserver(() => this.#resize());
@@ -295,18 +297,17 @@ export default class IdsSplitter extends Base {
    * @private
    * @returns {void}
    */
-  #init() {
+  #init(): void {
     window.requestAnimationFrame(() => {
-      this
-        .#destroy()
-        .#setProp()
-        .#setContainer()
-        .#initialSizes()
-        .#addSplitBars()
-        .#setPairs()
-        .#positionSplitBars()
-        .#attachEventHandlers()
-        .#setInitialCollapsed();
+      this.#destroy();
+      this.#setProp();
+      this.#setContainer();
+      this.#initialSizes();
+      this.#addSplitBars();
+      this.#setPairs();
+      this.#positionSplitBars();
+      this.#attachEventHandlers();
+      this.#setInitialCollapsed();
     });
   }
 
@@ -315,7 +316,7 @@ export default class IdsSplitter extends Base {
    * @private
    * @returns {void}
    */
-  #reInit() {
+  #reInit(): void {
     window.requestAnimationFrame(() => {
       this.#init();
     });
@@ -326,13 +327,12 @@ export default class IdsSplitter extends Base {
    * @private
    * @returns {void}
    */
-  #resize() {
+  #resize(): void {
     this.#setProp();
     window.requestAnimationFrame(() => {
-      this
-        .#setContainer()
-        .#positionSplitBars()
-        .#setInitialCollapsed();
+      this.#setContainer();
+      this.#positionSplitBars();
+      this.#setInitialCollapsed();
     });
   }
 
@@ -341,7 +341,7 @@ export default class IdsSplitter extends Base {
    * @private
    * @returns {object} This API object for chaining
    */
-  #setProp() {
+  #setProp(): object {
     let prop = {};
     if (this.axis === 'y') {
       prop = {
@@ -377,7 +377,7 @@ export default class IdsSplitter extends Base {
    * @private
    * @returns {object} This API object for chaining
    */
-  #setContainer() {
+  #setContainer(): object {
     this.#container.rect = this.container.getBoundingClientRect();
     this.#container.posStart = this.#container.rect[this.#prop.posStart];
     this.#container.size = this.#container.rect[this.#prop.dimension];
@@ -389,7 +389,7 @@ export default class IdsSplitter extends Base {
    * @private
    * @returns {object} This API object for chaining
    */
-  #initialSizes() {
+  #initialSizes(): object {
     const panes = [...this.childNodes].filter((n) => n instanceof IdsSplitterPane);
     const defaults = { minSize: 0, size: (100 / panes.length) };
     const initial = {
@@ -404,19 +404,19 @@ export default class IdsSplitter extends Base {
       if (size !== null && minSize === null) {
         size = this.#percentageVal(size);
         initial.sum.sizes += size;
-        initial.adjustable.sizes.push({ elem, idx: i, size });
+        (initial.adjustable.sizes as any).push({ elem, idx: i, size });
       } else if (size === null && minSize !== null) {
         minSize = this.#percentageVal(minSize);
         initial.sum.minSizes += minSize;
-        initial.adjustable.minSizes.push({ elem, idx: i, minSize });
+        (initial.adjustable.minSizes as any).push({ elem, idx: i, minSize });
       } else if (size !== null && minSize !== null) {
         size = this.#percentageVal(size);
         minSize = this.#percentageVal(minSize);
         size = minSize > size ? minSize : size;
         initial.sum.minSizes += minSize;
         initial.sum.sizes += size;
-        initial.adjustable.minSizes.push({ elem, idx: i, minSize });
-        initial.adjustable.sizes.push({ elem, idx: i, size });
+        (initial.adjustable.minSizes as any).push({ elem, idx: i, minSize });
+        (initial.adjustable.sizes as any).push({ elem, idx: i, size });
       }
     });
 
@@ -429,8 +429,8 @@ export default class IdsSplitter extends Base {
       if (maxSize !== null) {
         maxSize = this.#percentageVal(maxSize);
         maxSize = maxSize > total ? total : maxSize;
-        const sizes = initial.adjustable.sizes;
-        const minSizes = initial.adjustable.minSizes;
+        const sizes: any[] = initial.adjustable.sizes;
+        const minSizes: any[] = initial.adjustable.minSizes;
         const len = { sizes: sizes.length, minSizes: minSizes.length };
         const args = { idx: 0, elem: panes[0] };
 
@@ -442,7 +442,7 @@ export default class IdsSplitter extends Base {
           && minSizes[0].minSize >= maxSize) {
           maxSize = minSizes[0].minSize;
           initial.sum.sizes += maxSize;
-          initial.adjustable.sizes.push({ ...args, size: maxSize });
+          (initial.adjustable.sizes as any).push({ ...args, size: maxSize });
         } else if (len.sizes && len.minSizes && sizes[0].idx === 0
           && minSizes[0].idx === 0 && minSizes[0].minSize >= maxSize) {
           maxSize = minSizes[0].minSize;
@@ -450,7 +450,7 @@ export default class IdsSplitter extends Base {
           sizes[0].size = maxSize;
         } else if (!len.sizes && !len.minSizes) {
           initial.sum.sizes += maxSize;
-          initial.adjustable.sizes.push({ ...args, size: maxSize });
+          (initial.adjustable.sizes as any).push({ ...args, size: maxSize });
         }
         this.#maxSizes = [maxSize];
       }
@@ -460,7 +460,9 @@ export default class IdsSplitter extends Base {
     const adjustExcessSizes = () => {
       if (initial.sum.minSizes >= total) {
         const extra = initial.sum.minSizes - total;
-        const maxToMin = initial.adjustable.minSizes.sort((a, b) => b.minSize - a.minSize);
+        const maxToMin: any[] = initial.adjustable.minSizes.sort(
+          (a: { minSize: number }, b: { minSize: number }) => b.minSize - a.minSize
+        );
         for (let i = 0, l = maxToMin.length, ext = extra; ((i < l) && (ext > 0)); i++) {
           if (maxToMin[i].minSize >= ext) {
             maxToMin[i].minSize -= ext;
@@ -470,12 +472,14 @@ export default class IdsSplitter extends Base {
             maxToMin[i].minSize = 0;
           }
         }
-        initial.adjustable.minSizes = maxToMin.sort((a, b) => a.idx - b.idx);
+        (initial.adjustable as any).minSizes = maxToMin.sort((a, b) => a.idx - b.idx);
       }
 
       if (initial.sum.sizes >= total) {
         const extra = initial.sum.sizes - total;
-        const maxToMin = initial.adjustable.sizes.sort((a, b) => b.size - a.size);
+        const maxToMin: any[] = initial.adjustable.sizes.sort(
+          (a: { size: number }, b: { size: number }) => b.size - a.size
+        );
         for (let i = 0, l = maxToMin.length, ext = extra; ((i < l) && (ext > 0)); i++) {
           if (maxToMin[i].size >= ext) {
             maxToMin[i].size -= ext;
@@ -486,7 +490,7 @@ export default class IdsSplitter extends Base {
           }
         }
         initial.sum.sizes = total;
-        initial.adjustable.sizes = maxToMin.sort((a, b) => a.idx - b.idx);
+        (initial.adjustable as any).sizes = maxToMin.sort((a, b) => a.idx - b.idx);
       }
     };
     adjustExcessSizes();
@@ -505,13 +509,13 @@ export default class IdsSplitter extends Base {
     // Readjust if min-sizes have sum
     if (initial.sum.minSizes > 0) {
       let found = false;
-      initial.adjustable.minSizes.forEach((elem, i) => {
-        const size = initial.adjustable.sizes[elem.idx]?.size;
+      initial.adjustable.minSizes.forEach((elem: any, i: number) => {
+        const size = (initial.adjustable.sizes as any)[elem.idx]?.size;
         if (size && elem.minSize > size) {
-          initial.adjustable.sizes[i].size = elem.minSize;
+          (initial.adjustable.sizes[i] as any).size = elem.minSize;
           found = true;
         } else if (!size && elem.minSize > defaults.size) {
-          initial.adjustable.sizes.push({ elem, idx: elem.idx, size: elem.minSize });
+          (initial.adjustable.sizes as any).push({ elem, idx: elem.idx, size: elem.minSize });
           initial.sum.sizes += elem.minSize;
           found = true;
         }
@@ -527,8 +531,8 @@ export default class IdsSplitter extends Base {
     this.#minSizes = [];
     this.#sizes = [];
     this.#panes = panes.map((elem, i) => {
-      const minSizeObj = initial.adjustable.minSizes.find((x) => x.idx === i);
-      const sizeObj = initial.adjustable.sizes.find((x) => x.idx === i);
+      const minSizeObj: any = initial.adjustable.minSizes.find((x: any) => x.idx === i);
+      const sizeObj: any = initial.adjustable.sizes.find((x: any) => x.idx === i);
       const minSize = minSizeObj ? minSizeObj.minSize : defaults.minSize;
       const size = sizeObj ? sizeObj.size : defaults.size;
 
@@ -549,7 +553,7 @@ export default class IdsSplitter extends Base {
    * @param {number} value The value to be use as id.
    * @returns {string} prefix with given value.
    */
-  #splitId(value) {
+  #splitId(value: number): string {
     return `split-${value}`;
   }
 
@@ -558,7 +562,7 @@ export default class IdsSplitter extends Base {
    * @private
    * @returns {object} This API object for chaining.
    */
-  #addSplitBars() {
+  #addSplitBars(): object {
     const cssClass = ` class="ids-splitter-split-bar align-${this.align}"`;
     const disabled = this.disabled ? ' disabled aria-disabled="true"' : '';
     this.#panes.forEach((pane, i) => {
@@ -583,19 +587,19 @@ export default class IdsSplitter extends Base {
    * @private
    * @returns {object} This API object for chaining.
    */
-  #setPairs() {
+  #setPairs(): object {
     this.shadowRoot.host.setAttribute('role', 'group');
     this.#panes.forEach((pane, i) => {
       if (i > 0) {
         const splitBar = this.container.querySelector(`#${this.#splitId(i)}`);
         const zIdx = i - 1;
-        const start = {
+        const start: any = {
           pane: this.#panes[zIdx],
           idx: zIdx,
           size: this.#sizes[zIdx],
           minSize: this.#minSizes[zIdx],
         };
-        const end = {
+        const end: any = {
           pane,
           idx: i,
           size: this.#sizes[i],
@@ -624,7 +628,7 @@ export default class IdsSplitter extends Base {
    * @private
    * @returns {object} This API object for chaining
    */
-  #positionSplitBars() {
+  #positionSplitBars(): object {
     const s = { min: 0, mid: 0, max: 0 };
     const { minTransform, maxTransform, translate, useRTL } = this.#prop; // eslint-disable-line
     const last = this.#panes.length - 1;
@@ -635,7 +639,7 @@ export default class IdsSplitter extends Base {
       s.mid = s.max;
       s.max += size;
       if (i > 0) {
-        let extra = {};
+        let extra: any = {};
         if (this.align === 'start') {
           extra = {
             min: i > 1 ? this.#prop.barPixel : 0,
@@ -676,7 +680,7 @@ export default class IdsSplitter extends Base {
    * @private
    * @returns {object} This API object for chaining
    */
-  #setInitialCollapsed() {
+  #setInitialCollapsed(): object {
     this.#pairs.forEach((pair) => {
       const collapsed = stringToBool(pair.start.pane.getAttribute(COLLAPSED));
       if (collapsed) {
@@ -689,10 +693,10 @@ export default class IdsSplitter extends Base {
   /**
    * Set collapsed attribute to given start pane based start pane size.
    * @private
-   * @param {object} pair The pair object.
+   * @param {any} pair The pair object.
    * @returns {object} This API object for chaining
    */
-  #setCollapsedAttribute(pair) {
+  #setCollapsedAttribute(pair: any): object {
     const { start, initial } = pair;
     window.requestAnimationFrame(() => {
       const bar = start.idx === 0 && this.align === 'start' ? 0 : this.#prop.barPercentage;
@@ -711,9 +715,10 @@ export default class IdsSplitter extends Base {
    * @private
    * @returns {object} This API object for chaining
    */
-  #setDisabled() {
-    const toggleAttribute = (el, attr = attributes.DISABLED, val = '') => {
-      this.disabled ? el.setAttribute(attr, val) : el.removeAttribute(attr);
+  #setDisabled(): object {
+    const toggleAttribute = (el: HTMLElement, attr = attributes.DISABLED, val = '') => {
+      if (this.disabled) el.setAttribute(attr, val);
+      else el.removeAttribute(attr);
     };
     toggleAttribute(this.container);
     this.#pairs.forEach((pair) => {
@@ -726,13 +731,13 @@ export default class IdsSplitter extends Base {
   /**
    * Set pair and moving values to go with move.
    * @private
-   * @param {object} pair The pair object.
+   * @param {any} pair The pair object.
    * @returns {void}
    */
-  #moveStart(pair) {
+  #moveStart(pair: any): void {
     if (!this.#moving.isMoving) {
       let canProceed = true;
-      const response = (veto) => {
+      const response = (veto: boolean) => {
         canProceed = !!stringToBool(veto);
       };
       this.#triggerEvent(EVENTS.beforesizechanged, pair, response);
@@ -764,7 +769,7 @@ export default class IdsSplitter extends Base {
    * @param {object} pair The pair object.
    * @returns {void}
    */
-  #moveEnd(pair) {
+  #moveEnd(pair: any): void {
     if (this.#moving.isMoving) {
       this.#updateSizeAndSplitBar(pair);
       this.#setCollapsedAttribute(pair);
@@ -779,7 +784,7 @@ export default class IdsSplitter extends Base {
    * @param {object} pair The pair object.
    * @returns {void}
    */
-  #move(pair) {
+  #move(pair: any): void {
     this.#moveStart(pair);
     if (this.#moving.isMoving) {
       let diff = this.#adjustDiff({ ...pair, diff: this.#toPercentage(pair.diff) });
@@ -800,13 +805,13 @@ export default class IdsSplitter extends Base {
    * @param {object} pair The start object in pair.
    * @returns {number} The adjusted difference.
    */
-  #adjustDiff(pair) {
+  #adjustDiff(pair: any): number {
     const { startSize, endSize, pad, max, isMoving } = this.#moving; // eslint-disable-line
     const { useRTL, barPercentage } = this.#prop;
     const { start, end, diff } = pair;
     const useEndSize = typeof max !== 'undefined' ? max : endSize;
 
-    const extra = {};
+    const extra: any = {};
     if (this.align === 'start') {
       extra.min = start.idx === 0 ? 0 : barPercentage;
       extra.max = barPercentage;
@@ -835,9 +840,9 @@ export default class IdsSplitter extends Base {
    * @param {object} pair The pair.
    * @returns {object} new updated size
    */
-  #updateSize(pair) {
+  #updateSize(pair: any): object {
     const { start, end } = pair;
-    const newSize = { diff: this.#adjustDiff(pair) };
+    const newSize: any = { diff: this.#adjustDiff(pair) };
     newSize.start = start.size + newSize.diff;
     newSize.end = end.size - newSize.diff;
 
@@ -856,7 +861,7 @@ export default class IdsSplitter extends Base {
    * @param {object} res The veto response method.
    * @returns {void}
    */
-  #triggerEvent(evt, pair, res) {
+  #triggerEvent(evt: string, pair: any, res?: any): void {
     const { start, end, splitBar } = pair;
     const args = {
       detail: {
@@ -870,7 +875,7 @@ export default class IdsSplitter extends Base {
       }
     };
     if (typeof res === 'function') {
-      args.detail.response = res;
+      (args.detail as any).response = res;
     }
     this.triggerEvent(evt, this, args);
   }
@@ -881,11 +886,11 @@ export default class IdsSplitter extends Base {
    * @param {object} pair The pair.
    * @returns {void}
    */
-  #updateSizeAndSplitBar(pair) {
-    const { start, end, splitBar, idx, diff } = pair; // eslint-disable-line
+  #updateSizeAndSplitBar(pair: any): void {
+    const { start, end, idx, diff } = pair; // eslint-disable-line
 
     // Update and get new updated size
-    const newSize = this.#updateSize({ start, end, diff });
+    const newSize: any = this.#updateSize({ start, end, diff });
     this.#sizes[start.idx] = newSize.start;
     this.#sizes[end.idx] = newSize.end;
     start.size = newSize.start;
@@ -901,12 +906,16 @@ export default class IdsSplitter extends Base {
         next: this.#pairs[idx + 1]?.splitBar
       };
       if (idx === 0) {
-        useRTL ? sb.next[maxTransform] -= pixelDeff : sb.next[minTransform] += pixelDeff;
+        if (useRTL) sb.next[maxTransform] -= pixelDeff;
+        else sb.next[minTransform] += pixelDeff;
       } else if (idx === last) {
-        useRTL ? sb.prev[minTransform] -= pixelDeff : sb.prev[maxTransform] += pixelDeff;
+        if (useRTL) sb.prev[minTransform] -= pixelDeff;
+        else sb.prev[maxTransform] += pixelDeff;
       } else {
-        useRTL ? sb.prev[minTransform] -= pixelDeff : sb.prev[maxTransform] += pixelDeff;
-        useRTL ? sb.next[maxTransform] -= pixelDeff : sb.next[minTransform] += pixelDeff;
+        if (useRTL) sb.prev[minTransform] -= pixelDeff;
+        else sb.prev[maxTransform] += pixelDeff;
+        if (useRTL) sb.next[maxTransform] -= pixelDeff;
+        else sb.next[minTransform] += pixelDeff;
       }
     }
   }
@@ -917,9 +926,9 @@ export default class IdsSplitter extends Base {
    * @param {string|number|null} value The value
    * @returns {number} The percentage value
    */
-  #percentageVal(value) {
+  #percentageVal(value: string | number | null): number {
     return /%$/i.test(`${value}`)
-      ? parseInt(value, 10) : this.#toPercentage(value);
+      ? parseInt(`${value}`, 10) : this.#toPercentage(value);
   }
 
   /**
@@ -928,8 +937,8 @@ export default class IdsSplitter extends Base {
    * @param {string|number|null} value The value
    * @returns {number} The percentage value
    */
-  #toPercentage(value) {
-    const doPercentage = (v) => {
+  #toPercentage(value: string | number | null): number {
+    const doPercentage = (v: number) => {
       const isNegative = v < 0;
       v = Math.abs(v);
       return (((v / this.#container.size) * 100) * (isNegative ? -1 : 1));
@@ -938,7 +947,7 @@ export default class IdsSplitter extends Base {
     if (typeof value === 'number') {
       r = doPercentage(value);
     } else {
-      const val = parseInt(value, 10);
+      const val = parseInt(`${value}`, 10);
       if ((!Number.isNaN(val)) && (/px$/i.test(`${value}`))) {
         r = doPercentage(val);
       }
@@ -952,8 +961,8 @@ export default class IdsSplitter extends Base {
    * @param {string|number|null} value The value
    * @returns {number} The pixels value
    */
-  #toPixel(value) {
-    const doPixel = (v) => {
+  #toPixel(value: string | number | null): number {
+    const doPixel = (v: number) => {
       const isNegative = v < 0;
       v = Math.abs(v);
       return ((this.#container.size * (v / 100)) * (isNegative ? -1 : 1));
@@ -962,7 +971,7 @@ export default class IdsSplitter extends Base {
     if (typeof value === 'number') {
       r = doPixel(value);
     } else {
-      const val = parseInt(value, 10);
+      const val = parseInt(`${value}`, 10);
       if ((!Number.isNaN(val)) && (/%$/i.test(`${value}`))) {
         r = doPixel(val);
       }
@@ -975,7 +984,7 @@ export default class IdsSplitter extends Base {
    * @private
    * @returns {string} The genrated id.
    */
-  #uniqueId() {
+  #uniqueId(): string {
     return `splitter-pane-${Math.floor(Math.random() * Date.now())}`;
   }
 
@@ -984,7 +993,7 @@ export default class IdsSplitter extends Base {
    * @private
    * @returns {object} This API object for chaining
    */
-  #attachEventHandlers() {
+  #attachEventHandlers(): object {
     // Respond to parent changing language
     this.offEvent('languagechange.splitter');
     this.onEvent('languagechange.splitter', this.closest('ids-container'), () => {
@@ -1008,7 +1017,7 @@ export default class IdsSplitter extends Base {
       });
 
       this.offEvent(`ids-drag.${namespace}`, sb);
-      this.onEvent(`ids-drag.${namespace}`, sb, (e) => {
+      this.onEvent(`ids-drag.${namespace}`, sb, (e: CustomEvent) => {
         if (!this.disabled && !this.resizeOnDragEnd && this.#moving.isMoving) {
           const diff = this.#toPercentage(e.detail[this.#prop.delta]);
           this.#updateSize({ ...pair, diff });
@@ -1016,7 +1025,7 @@ export default class IdsSplitter extends Base {
       });
 
       this.offEvent(`ids-dragend.${namespace}`, sb);
-      this.onEvent(`ids-dragend.${namespace}`, sb, (e) => {
+      this.onEvent(`ids-dragend.${namespace}`, sb, (e: CustomEvent) => {
         if (!this.disabled) {
           const diff = this.#toPercentage(e.detail[this.#prop.delta]);
           this.#moveEnd({ ...pair, diff });
@@ -1029,7 +1038,7 @@ export default class IdsSplitter extends Base {
       });
 
       this.offEvent(`keydown.${namespace}`, sb);
-      this.onEvent(`keydown.${namespace}`, sb, (e) => {
+      this.onEvent(`keydown.${namespace}`, sb, (e: KeyboardEvent) => {
         if (!this.disabled) {
           // Keep `Space` in keydown allow options, so page not scrolls
           const allow = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Space'];
@@ -1062,7 +1071,7 @@ export default class IdsSplitter extends Base {
    * Destroy added elements and unbind events.
    * @returns {object} This API object for chaining
    */
-  #destroy() {
+  #destroy(): object {
     const slot = this.shadowRoot?.querySelector('slot');
     this.offEvent('slotchange.splitter', slot);
     this.offEvent('languagechange.splitter');
@@ -1098,14 +1107,14 @@ export default class IdsSplitter extends Base {
    * Check if current orientation is horizontal
    * @returns {boolean} True if, orientation is horizontal
    */
-  get isHorizontal() { return this.#prop.orientation === 'horizontal'; }
+  get isHorizontal(): boolean { return this.#prop.orientation === 'horizontal'; }
 
   /**
    * Set the split bar align direction start/end
-   * @param {string|null} value of the align start, end
+   * @param {string} value of the align start, end
    */
-  set align(value) {
-    const prefixed = (v) => `align-${v}`;
+  set align(value: string) {
+    const prefixed = (v: string) => `align-${v}`;
     this.container.classList.remove(...ALIGN.map((v) => prefixed(v)));
     let className;
     if (ALIGN.indexOf(value) > -1) {
@@ -1119,17 +1128,17 @@ export default class IdsSplitter extends Base {
     this.#reInit();
   }
 
-  get align() {
+  get align(): string {
     const value = this.getAttribute(attributes.ALIGN);
     return value !== null ? value : SPLITTER_DEFAULTS.align;
   }
 
   /**
    * Set the splitter axis direction x: horizontal or y: vertical
-   * @param {string|null} value of the axis x or y
+   * @param {string} value of the axis x or y
    */
-  set axis(value) {
-    const prefixed = (v) => `axis-${v}`;
+  set axis(value: string) {
+    const prefixed = (v: string) => `axis-${v}`;
     this.container.classList.remove(...AXIS.map((v) => prefixed(v)));
     let className;
     if (AXIS.indexOf(value) > -1) {
@@ -1143,7 +1152,7 @@ export default class IdsSplitter extends Base {
     this.#reInit();
   }
 
-  get axis() {
+  get axis(): string {
     const value = this.getAttribute(attributes.AXIS);
     return value !== null ? value : SPLITTER_DEFAULTS.axis;
   }
@@ -1152,7 +1161,7 @@ export default class IdsSplitter extends Base {
    * Sets the splitter to disabled
    * @param {boolean|string} value If true will set disabled attribute
    */
-  set disabled(value) {
+  set disabled(value: boolean | string) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.DISABLED, '');
     } else {
@@ -1161,18 +1170,16 @@ export default class IdsSplitter extends Base {
     this.#setDisabled();
   }
 
-  get disabled() {
+  get disabled(): boolean {
     const value = this.getAttribute(attributes.DISABLED);
-    return value !== null
-      ? stringToBool(value)
-      : SPLITTER_DEFAULTS.disabled;
+    return value !== null ? stringToBool(value) : SPLITTER_DEFAULTS.disabled;
   }
 
   /**
    * Set the aria-label text for each split bar.
    * @param {string} value of the label text.
    */
-  set label(value) {
+  set label(value: string) {
     if (value) {
       this.setAttribute(attributes.LABEL, value);
     } else {
@@ -1180,7 +1187,7 @@ export default class IdsSplitter extends Base {
     }
   }
 
-  get label() {
+  get label(): string {
     return this.getAttribute(attributes.LABEL) || SPLITTER_DEFAULTS.label;
   }
 
@@ -1188,7 +1195,7 @@ export default class IdsSplitter extends Base {
    * Sets the splitter to resize on drag end
    * @param {boolean|string} value If true will set to resize on drag end
    */
-  set resizeOnDragEnd(value) {
+  set resizeOnDragEnd(value: boolean | string) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.RESIZE_ON_DRAG_END, '');
     } else {
@@ -1196,10 +1203,8 @@ export default class IdsSplitter extends Base {
     }
   }
 
-  get resizeOnDragEnd() {
+  get resizeOnDragEnd(): boolean {
     const value = this.getAttribute(attributes.RESIZE_ON_DRAG_END);
-    return value !== null
-      ? stringToBool(value)
-      : SPLITTER_DEFAULTS.resizeOnDragEnd;
+    return value !== null ? stringToBool(value) : SPLITTER_DEFAULTS.resizeOnDragEnd;
   }
 }

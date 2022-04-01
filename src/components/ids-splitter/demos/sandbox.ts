@@ -1,15 +1,15 @@
 // IdsSplitter Sandbox
-import IdsRadio from '../../ids-radio/ids-radio';
+import '../../ids-radio/ids-radio';
 
 import css from '../../../assets/css/ids-splitter/sandbox.css';
 
 const cssLink = `<link href="${css}" rel="stylesheet">`;
-document.querySelector('head').insertAdjacentHTML('afterbegin', cssLink);
+(document.querySelector('head') as any).insertAdjacentHTML('afterbegin', cssLink);
 
 document.addEventListener('DOMContentLoaded', async () => {
   // Disable / Enable
-  const splitterDe = document.querySelector('#splitter-disable-enable');
-  const btnDisableEnable = document.querySelector('#btn-splitter-disable-enable');
+  const splitterDe: any = document.querySelector('#splitter-disable-enable');
+  const btnDisableEnable: any = document.querySelector('#btn-splitter-disable-enable');
   let isDisabled = false;
   const toggleDisableEnable = () => {
     isDisabled = !isDisabled;
@@ -22,58 +22,58 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   // Events
-  const btnCollapseExpand = document.querySelector('#btn-splitter-collapse-expand');
-  const splitterEvt = document.querySelector('#splitter-events');
-  const radioBeforeCollapsed = document.querySelector('#radio-splitter-evt-beforecollapsed');
-  const radioBeforeExpanded = document.querySelector('#radio-splitter-evt-beforeexpanded');
-  const radioBeforeSizeChanged = document.querySelector('#radio-splitter-evt-beforesizechanged');
+  const btnCollapseExpand: any = document.querySelector('#btn-splitter-collapse-expand');
+  const splitterEvt: any = document.querySelector('#splitter-events');
+  const radioBeforeCollapsed: any = document.querySelector('#radio-splitter-evt-beforecollapsed');
+  const radioBeforeExpanded: any = document.querySelector('#radio-splitter-evt-beforeexpanded');
+  const radioBeforeSizeChanged: any = document.querySelector('#radio-splitter-evt-beforesizechanged');
 
   if (splitterEvt && btnCollapseExpand) {
-    const show = (type, detail, veto) => {
-      const showVeto = veto !== 'undefined' ? `veto: ${veto}` : '';
+    const show = (type: string, detail: string, veto?: boolean) => {
+      const showVeto = typeof veto !== 'undefined' ? `veto: ${veto}` : '';
       console.info(type, detail, showVeto);
     };
 
     // event: before collapsed
-    splitterEvt.addEventListener('beforecollapsed', (e) => {
+    splitterEvt.addEventListener('beforecollapsed', (e: CustomEvent) => {
       const veto = radioBeforeCollapsed.value;
       show('beforecollapsed', e.detail, veto);
       e.detail.response(veto);
     });
 
     // event: collapsed
-    splitterEvt.addEventListener('collapsed', (e) => {
+    splitterEvt.addEventListener('collapsed', (e: CustomEvent) => {
       show('collapsed', e.detail);
     });
 
     // event: before expanded
-    splitterEvt.addEventListener('beforeexpanded', (e) => {
+    splitterEvt.addEventListener('beforeexpanded', (e: CustomEvent) => {
       const veto = radioBeforeExpanded.value;
       show('beforeexpanded', e.detail, veto);
       e.detail.response(veto);
     });
 
     // event: expanded
-    splitterEvt.addEventListener('expanded', (e) => {
+    splitterEvt.addEventListener('expanded', (e: CustomEvent) => {
       show('expanded', e.detail);
     });
 
     // event: before size changed
-    splitterEvt.addEventListener('beforesizechanged', (e) => {
+    splitterEvt.addEventListener('beforesizechanged', (e: CustomEvent) => {
       const veto = radioBeforeSizeChanged.value;
       show('beforesizechanged', e.detail, veto);
       e.detail.response(veto);
     });
 
     // event: size changed
-    splitterEvt.addEventListener('sizechanged', (e) => {
+    splitterEvt.addEventListener('sizechanged', (e: CustomEvent) => {
       show('sizechanged', e.detail);
     });
 
     // Toggle collapse expand
     let isCollapsed = false;
     const toggleCollapseExpand = () => {
-      const veto = {
+      const veto: any = {
         collapsed: radioBeforeCollapsed.value,
         expanded: radioBeforeExpanded.value,
         sizeChanged: radioBeforeSizeChanged.value,

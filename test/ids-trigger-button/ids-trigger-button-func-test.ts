@@ -5,10 +5,10 @@ import IdsTriggerButton from '../../src/components/ids-trigger-field/ids-trigger
 import createFromTemplate from '../helpers/create-from-template';
 
 describe('IdsTriggerButton Component', () => {
-  let triggerButton;
+  let triggerButton: any;
 
   beforeEach(async () => {
-    const elem = new IdsTriggerButton();
+    const elem: any = new IdsTriggerButton();
     document.body.appendChild(elem);
     triggerButton = document.querySelector('ids-trigger-button');
   });
@@ -19,7 +19,7 @@ describe('IdsTriggerButton Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsTriggerButton();
+    const elem: any = new IdsTriggerButton();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-trigger-button').length).toEqual(1);

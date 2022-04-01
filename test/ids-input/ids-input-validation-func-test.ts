@@ -1,17 +1,12 @@
 /**
  * @jest-environment jsdom
  */
-import IdsInput from '../../src/components/ids-input/ids-input';
-
-let elem = null;
-
-const processAnimFrame = () => new Promise((resolve) => {
-  window.requestAnimationFrame(() => {
-    window.requestAnimationFrame(resolve);
-  });
-});
+import '../../src/components/ids-input/ids-input';
+import processAnimFrame from '../helpers/process-anim-frame';
 
 describe('IdsInput Component', () => {
+  let elem: any = null;
+
   beforeEach(async () => {
     const template = document.createElement('template');
     template.innerHTML = '<ids-input label="testing input"></ids-input>';

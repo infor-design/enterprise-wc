@@ -5,8 +5,8 @@ import IdsRadio from '../../src/components/ids-radio/ids-radio';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 
 describe('IdsRadio Component', () => {
-  let rb;
-  let container;
+  let rb: any;
+  let container: any;
 
   beforeEach(async () => {
     container = new IdsContainer();
@@ -22,7 +22,7 @@ describe('IdsRadio Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsRadio();
+    const elem: any = new IdsRadio();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-radio').length).toEqual(1);
@@ -32,7 +32,7 @@ describe('IdsRadio Component', () => {
   it('should renders checked', () => {
     rb.checked = 'true';
     expect(rb.getAttribute('checked')).toEqual('true');
-    expect(rb.checked).toEqual('true');
+    expect(rb.checked).toEqual(true);
   });
 
   it('should renders as disabled', () => {
@@ -74,15 +74,15 @@ describe('IdsRadio Component', () => {
   it('should renders as validation has-error', () => {
     expect(rb.getAttribute('validation-has-error')).toEqual(null);
     expect(rb.input.classList).not.toContain('error');
-    expect(rb.validationHasError).toBe(null);
+    expect(rb.validationHasError).toBe(false);
     rb.validationHasError = true;
     expect(rb.getAttribute('validation-has-error')).toEqual('true');
     expect(rb.input.classList).toContain('error');
-    expect(rb.validationHasError).toBe('true');
+    expect(rb.validationHasError).toBe(true);
     rb.validationHasError = false;
     expect(rb.getAttribute('validation-has-error')).toEqual(null);
     expect(rb.input.classList).not.toContain('error');
-    expect(rb.validationHasError).toBe(null);
+    expect(rb.validationHasError).toBe(false);
   });
 
   it('should set label text', () => {
@@ -141,7 +141,7 @@ describe('IdsRadio Component', () => {
     rootEl = rb.shadowRoot.querySelector('.ids-radio');
     expect(rootEl.classList).not.toContain('horizontal');
     expect(rb.getAttribute('horizontal')).toEqual(null);
-    expect(rb.horizontal).toEqual(null);
+    expect(rb.horizontal).toEqual(false);
   });
 
   it('should trigger click', () => {
@@ -180,7 +180,7 @@ describe('IdsRadio Component', () => {
     expect(rootEl.classList).toContain('horizontal');
     expect(rb.getAttribute('horizontal')).toEqual('true');
     expect(rb.getAttribute('checked')).toEqual('true');
-    expect(rb.checked).toEqual('true');
+    expect(rb.checked).toEqual(true);
   });
 
   it('can change language from the container', async () => {

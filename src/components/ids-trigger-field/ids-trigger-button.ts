@@ -28,7 +28,7 @@ export default class IdsTriggerButton extends Base {
 
   /**
    * Return the attributes we handle as getters/setters
-   * @returns {Array} The attributes in an array
+   * @returns {Array<string>} The attributes in an array
    */
   static get attributes() {
     return [
@@ -50,9 +50,9 @@ export default class IdsTriggerButton extends Base {
    * Figure out the classes
    * @private
    * @readonly
-   * @returns {Array} containing classes used to identify this button prototype
+   * @returns {Array<string>} containing classes used to identify this button prototype
    */
-  get protoClasses() {
+  get protoClasses(): Array<string> {
     return ['ids-trigger-button'].concat(super.protoClasses);
   }
 
@@ -60,7 +60,7 @@ export default class IdsTriggerButton extends Base {
    * Set if the trigger field is tabbable
    * @param {boolean|string} value True of false depending if the trigger field is tabbable
    */
-  set tabbable(value) {
+  set tabbable(value: boolean | string) {
     const isTabbable = stringToBool(value);
     const button = this.shadowRoot?.querySelector('button');
 
@@ -74,13 +74,13 @@ export default class IdsTriggerButton extends Base {
     button.tabIndex = -1;
   }
 
-  get tabbable() { return stringToBool(this.getAttribute(attributes.TABBABLE)); }
+  get tabbable(): boolean { return stringToBool(this.getAttribute(attributes.TABBABLE)); }
 
   /**
    * Set the trigger button to readonly color
    * @param {boolean|string} value True of false depending if the trigger button is readonly
    */
-  set readonly(value) {
+  set readonly(value: boolean | string) {
     const isReadonly = stringToBool(value);
     const button = this.shadowRoot?.querySelector('button');
     if (isReadonly) {
@@ -92,20 +92,20 @@ export default class IdsTriggerButton extends Base {
     this.removeAttribute(attributes.READONLY);
   }
 
-  get readonly() { return stringToBool(this.getAttribute(attributes.READONLY)); }
+  get readonly(): boolean { return stringToBool(this.getAttribute(attributes.READONLY)); }
 
   /**
    * @readonly
    * @returns {string} containing an optional "border" class to apply to this button
    */
-  get inlineCssClass() {
+  get inlineCssClass(): string {
     return this?.slot === 'trigger-start' ? 'inline-start' : 'inline-end';
   }
 
   /**
    * @param {boolean} val true if this trigger button should display "inline" instead of having its own full border
    */
-  set inline(val) {
+  set inline(val: boolean | string) {
     const showsBorder = stringToBool(val);
     if (showsBorder) {
       this.setAttribute(attributes.INLINE, '');
@@ -119,7 +119,7 @@ export default class IdsTriggerButton extends Base {
   /**
    * @returns {boolean} true if this trigger button displays "inline" instead of having its own full border
    */
-  get inline() { return this.getAttribute(attributes.INLINE); }
+  get inline(): boolean { return stringToBool(this.getAttribute(attributes.INLINE)); }
 
   #setBorderClass() {
     this.button.classList.add('style-inline', this.inlineCssClass);
