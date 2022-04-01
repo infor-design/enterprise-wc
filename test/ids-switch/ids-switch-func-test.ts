@@ -5,8 +5,8 @@ import IdsSwitch from '../../src/components/ids-switch/ids-switch';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 
 describe('IdsSwitch Component', () => {
-  let el;
-  let container;
+  let el: any;
+  let container: any;
 
   beforeEach(async () => {
     container = new IdsContainer();
@@ -22,7 +22,7 @@ describe('IdsSwitch Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsSwitch();
+    const elem: any = new IdsSwitch();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-switch').length).toEqual(1);
@@ -58,7 +58,7 @@ describe('IdsSwitch Component', () => {
     el.label = 'test';
 
     document.body.innerHTML = '';
-    const elem = new IdsSwitch();
+    const elem: any = new IdsSwitch();
     document.body.appendChild(elem);
     el = document.querySelector('ids-switch');
     label = el.labelEl.querySelector('.label-text');
@@ -83,7 +83,7 @@ describe('IdsSwitch Component', () => {
 
   it('should dispatch native events', () => {
     const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
-    events.forEach((evt) => {
+    events.forEach((evt: string) => {
       let response = null;
       el.addEventListener(evt, () => {
         response = 'triggered';
@@ -97,7 +97,7 @@ describe('IdsSwitch Component', () => {
   it('should remove events', () => {
     el.input = null;
     document.body.innerHTML = '';
-    const elem = new IdsSwitch();
+    const elem: any = new IdsSwitch();
     document.body.appendChild(elem);
     el = document.querySelector('ids-switch');
 

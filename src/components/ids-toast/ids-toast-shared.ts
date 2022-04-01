@@ -3,7 +3,7 @@ import { stringToBool, camelCase } from '../../utils/ids-string-utils/ids-string
 /**
  * Default settings
  */
-export const DEFAULTS = {
+export const DEFAULTS: any = {
   // Slots default text
   closeButtonLabel: 'Close',
   message: '(Content)',
@@ -51,12 +51,12 @@ export const EVENTS = {
  * @param {string} prefix Optional prefix string to make the id more unique.
  * @returns {string} The id.
  */
-export function id(uniqueId, suffix, prefix) {
-  const defaults = { uniqueId: '', prefix: 'ids-toast-container', suffix: 'usersettings-position' };
+export function id(uniqueId?: any, suffix?: string, prefix?: undefined) {
+  const defaults: any = { uniqueId: '', prefix: 'ids-toast-container', suffix: 'usersettings-position' };
   const hasValue = [uniqueId, suffix, prefix].some((x) => (x !== undefined && x !== null));
   let returnId = defaults.prefix;
   if (hasValue) {
-    const use = (key, val) => ((val === undefined || val === null) ? defaults[key] : val);
+    const use = (key: string, val: string | null | undefined) => ((val === undefined || val === null) ? defaults[key] : val);
     returnId = `${use('prefix', prefix)}-${use('uniqueId', uniqueId)}-${use('suffix', suffix)}`;
     returnId = returnId.replace(/--/g, '-').replace(/-$/g, '');
   }
@@ -70,7 +70,7 @@ export function id(uniqueId, suffix, prefix) {
  * @param {string} idSegment The id part with out the uniqueId.
  * @returns {string} The message id.
  */
-export function messageId(uniqueId, idSegment) {
+export function messageId(uniqueId: any, idSegment: any) {
   return `${id(uniqueId, 'message')}-${idSegment}`;
 }
 
@@ -81,9 +81,9 @@ export function messageId(uniqueId, idSegment) {
  * @param {string} slotName The slot name.
  * @returns {string} The slot val.
  */
-export function slotVal(root, slotName) {
-  const d = DEFAULTS;
-  const html = (slot) => slot?.assignedNodes()[0]?.innerHTML;
+export function slotVal(root: any, slotName: string) {
+  const d: any = DEFAULTS;
+  const html = (slot: any) => slot?.assignedNodes()[0]?.innerHTML;
   const slot = root?.querySelector(`slot[name="${slotName}"]`);
   return html(slot) || d[camelCase(slotName)];
 }
@@ -94,8 +94,8 @@ export function slotVal(root, slotName) {
  * @param {string} attr The attribute name to get the value.
  * @returns {boolean} The value
  */
-export function getBoolVal(elem, attr) {
-  const value = elem?.getAttribute(attr);
+export function getBoolVal(elem: any, attr: string) {
+  const value: any = elem?.getAttribute(attr);
   return value !== null
     ? stringToBool(value) : DEFAULTS[camelCase(attr)];
 }
@@ -105,6 +105,6 @@ export function getBoolVal(elem, attr) {
  * @param {boolean|string} val The value.
  * @returns {boolean} true if the value boolean
  */
-export function isBool(val) {
+export function isBool(val: boolean | string) {
   return val === true || val === 'true' || val === false || val === 'false';
 }

@@ -1,4 +1,4 @@
-import IdsSpinbox from '../ids-spinbox';
+import '../ids-spinbox';
 
 // Initialize the 4.x
 $('body').initialize();

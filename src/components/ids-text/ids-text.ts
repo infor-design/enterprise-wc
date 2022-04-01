@@ -39,7 +39,7 @@ export default class IdsText extends Base {
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       ...super.attributes,
       attributes.AUDIBLE,
@@ -65,7 +65,7 @@ export default class IdsText extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     const tag = this.type || 'span';
 
     let classList = 'ids-text';
@@ -105,7 +105,7 @@ export default class IdsText extends Base {
   }
 
   /**
-   * Set the font size/style of the text with a class.
+   * Set the font size of the text with a class.
    * @param {string | null} value The font size in the font scheme
    * i.e. 10, 12, 16 ect increasing by increments of 4
    */
@@ -178,7 +178,7 @@ export default class IdsText extends Base {
    * @param {string} value the class type to check/add
    * @returns {void}
    */
-  #setTypeClass(value: string | null) {
+  #setTypeClass(value: string | null): void {
     this.container.classList.remove(...typesCssClasses);
     if (typesCssClasses.includes(value || '')) {
       this.container.classList.add(value);
@@ -210,39 +210,36 @@ export default class IdsText extends Base {
   }
 
   /**
-   * Set `audible` string (screen reader only text)
-   * @param {string | null} value The `audible` attribute
+   * Set audible as screen reader only text
+   * @param {boolean | string} value The audible value
    */
-  set audible(value: string | null) {
-    const isValueTruthy = stringToBool(value || '');
-
-    if (isValueTruthy && this.container && !this.container?.classList.contains('audible')) {
-      this.container.classList.add('audible');
+  set audible(value: boolean | string) {
+    if (stringToBool(value)) {
       this.setAttribute(attributes.AUDIBLE, value);
-    }
-
-    if (!isValueTruthy && this.container?.classList.contains('audible')) {
-      this.container.classList.remove('audible');
+      if (!this.container?.classList.contains(attributes.AUDIBLE)) {
+        this.container.classList.add('audible');
+      }
+    } else {
       this.removeAttribute(attributes.AUDIBLE);
+      this.container?.classList.remove('audible');
     }
   }
 
-  get audible(): string | null { return this.getAttribute(attributes.AUDIBLE); }
+  get audible(): boolean { return stringToBool(this.getAttribute(attributes.AUDIBLE)); }
 
   /**
    * Set the text to disabled color.
    * @param {boolean} value True if disabled
    */
   set disabled(value: boolean) {
-    const val = stringToBool(value);
-    if (val) {
+    if (stringToBool(value)) {
       this.setAttribute(attributes.DISABLED, value);
       return;
     }
     this.removeAttribute(attributes.DISABLED);
   }
 
-  get disabled(): boolean { return this.getAttribute(attributes.DISABLED); }
+  get disabled(): boolean { return stringToBool(this.getAttribute(attributes.DISABLED)); }
 
   /**
    * Set the text to error color.
@@ -259,7 +256,7 @@ export default class IdsText extends Base {
     this.container.classList.remove('error');
   }
 
-  get error(): boolean { return this.getAttribute(attributes.ERROR); }
+  get error(): boolean { return stringToBool(this.getAttribute(attributes.ERROR)); }
 
   /**
    * Set the text to label color.
@@ -276,13 +273,13 @@ export default class IdsText extends Base {
     this.container.classList.remove('label');
   }
 
-  get label(): boolean { return this.getAttribute(attributes.LABEL); }
+  get label(): boolean { return stringToBool(this.getAttribute(attributes.LABEL)); }
 
   /**
    * Set the text to data color.
-   * @param {boolean} value True if data text
+   * @param {boolean|string} value True if data text
    */
-  set data(value: boolean) {
+  set data(value: boolean | string) {
     const val = stringToBool(value);
     if (val) {
       this.container.classList.add('data');
@@ -293,7 +290,7 @@ export default class IdsText extends Base {
     this.container.classList.remove('data');
   }
 
-  get data(): boolean { return this.getAttribute(attributes.DATA); }
+  get data(): boolean { return stringToBool(this.getAttribute(attributes.DATA)); }
 
   /**
    * Set how content overflows; can specify 'ellipsis', or undefined or 'none'
@@ -330,7 +327,7 @@ export default class IdsText extends Base {
   }
 
   get translateText(): boolean {
-    return this.getAttribute(attributes.TRANSLATE_TEXT);
+    return stringToBool(this.getAttribute(attributes.TRANSLATE_TEXT));
   }
 
   /**

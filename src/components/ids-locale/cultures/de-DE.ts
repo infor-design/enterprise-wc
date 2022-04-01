@@ -62,5 +62,4 @@ const locale = {
   },
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export { locale };

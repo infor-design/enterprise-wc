@@ -5,8 +5,8 @@ import processAnimFrame from '../helpers/process-anim-frame';
 import createFromTemplate from '../helpers/create-from-template';
 import waitFor from '../helpers/wait-for';
 import simulateMouseDownEvents from '../helpers/simulate-mouse-down-events';
-import IdsSpinbox from '../../src/components/ids-spinbox/ids-spinbox';
-import IdsContainer from '../../src/components/ids-container/ids-container';
+import '../../src/components/ids-spinbox/ids-spinbox';
+import '../../src/components/ids-container/ids-container';
 
 const DEFAULT_SPINBOX_HTML = (
   `<ids-spinbox
@@ -20,8 +20,8 @@ const DEFAULT_SPINBOX_HTML = (
 );
 
 describe('IdsSpinbox Component', () => {
-  let elem;
-  let container;
+  let elem: any;
+  let container: any;
 
   afterEach(async () => {
     elem?.remove();
@@ -29,7 +29,7 @@ describe('IdsSpinbox Component', () => {
 
     elem = null;
     container = null;
-    document.innerHTML = '';
+    (document as any).innerHTML = '';
   });
 
   it('renders from HTML Template with no errors', async () => {
@@ -121,6 +121,7 @@ describe('IdsSpinbox Component', () => {
     ] = [...elem.querySelectorAll('ids-trigger-button')];
 
     do {
+      // eslint-disable-next-line no-await-in-loop
       await simulateMouseDownEvents({ element: incrementButton });
     } while (parseInt(elem.value) < elem.max);
 
@@ -245,8 +246,7 @@ describe('IdsSpinbox Component', () => {
   // not most easy to streamline quickly so this is just current
   // behavior on an edge case
 
-  it('changes the value in input to empty, then presses increment button '
-  + 'and value is cleared then one added', async () => {
+  it('changes the value in input to empty, then presses increment button and value is cleared then one added', async () => {
     const value = 10;
     elem = await createFromTemplate(elem, `<ids-spinbox readonly value="${value}"></ids-spinbox>`);
     elem.input.value = '';
@@ -259,14 +259,15 @@ describe('IdsSpinbox Component', () => {
     ] = [...elem.querySelectorAll('ids-trigger-button')];
 
     await simulateMouseDownEvents({ element: incrementButton });
+    await simulateMouseDownEvents({ element: decrementButton });
+    await simulateMouseDownEvents({ element: incrementButton });
     await processAnimFrame();
     await processAnimFrame();
 
     expect(elem.value).toEqual('1');
   });
 
-  it('sets the value to one not divisible by steps and has it auto-rounded to nearest-step in both '
-  + 'directions', async () => {
+  it('sets the value to one not divisible by steps and has it auto-rounded to nearest-step in both directions', async () => {
     elem = await createFromTemplate(elem, `<ids-spinbox value="23" step="5"></ids-spinbox>`);
 
     expect(elem.value).toEqual('25');

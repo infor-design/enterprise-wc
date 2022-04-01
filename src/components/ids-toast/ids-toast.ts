@@ -20,8 +20,8 @@ import {
   POSITIONS
 } from './ids-toast-shared';
 
-import IdsToastMessage from './ids-toast-message';
-import IdsDraggable from '../ids-draggable/ids-draggable';
+import './ids-toast-message';
+import '../ids-draggable/ids-draggable';
 
 import styles from './ids-toast.scss';
 
@@ -53,7 +53,7 @@ export default class IdsToast extends Base {
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       ...super.attributes,
       attributes.ALLOW_LINK,
@@ -74,7 +74,7 @@ export default class IdsToast extends Base {
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     const d = DEFAULTS;
     const hiddenArea = `
       <div class="hidden">
@@ -104,7 +104,7 @@ export default class IdsToast extends Base {
    * @param {string|undefined} uniqueId If undefined, will use Internal attached.
    * @returns {void}
    */
-  clearPosition(uniqueId) {
+  clearPosition(uniqueId: any) {
     const clearIds = [];
     if (this.#canUseLocalStorage()) {
       const removeId = uniqueId || this.uniqueId;
@@ -125,8 +125,8 @@ export default class IdsToast extends Base {
    * Clear all toast related saved position from local storage
    * @returns {void}
    */
-  clearPositionAll() {
-    const clearIds = [];
+  clearPositionAll(): void {
+    const clearIds: any = [];
     if (this.#canUseLocalStorage()) {
       const keys = Object.keys(localStorage);
       keys.forEach((key) => {
@@ -157,7 +157,7 @@ export default class IdsToast extends Base {
    * @param {string} elemId A message id to use.
    * @returns {HTMLElement|undefined} The message element
    */
-  messageElem(elemId) {
+  messageElem(elemId: string) {
     const attributeKey = ATTRIBUTE_MESSAGE_ID;
     return this.shadowRoot.querySelector(`[${attributeKey}="${elemId}"]`);
   }
@@ -175,7 +175,7 @@ export default class IdsToast extends Base {
    * @param {number} [options.timeout] The amount of time, the toast should be present on-screen.
    * @returns {void}
    */
-  show(options) {
+  show(options: any) {
     const opt = isObject(options) ? options : {};
     opt.messageId = this.#messageId(opt.messageId);
     const toast = this.#toast(opt);
@@ -191,9 +191,9 @@ export default class IdsToast extends Base {
 
   /**
    * Get toast container
-   * @returns {object} The toast container
+   * @returns {HTMLElement} The toast container
    */
-  toastContainer() {
+  toastContainer(): HTMLElement {
     let toastContainer = this.shadowRoot.querySelector('.toast-container');
     if (!toastContainer) {
       toastContainer = document.createElement('ids-draggable');
@@ -210,7 +210,7 @@ export default class IdsToast extends Base {
    * @param {string} value The text value.
    * @returns {HTMLElement} The creared element.
    */
-  #title(value) {
+  #title(value: string) {
     const title = value ? value.toString() : this.#slotVal('title');
     const titleEl = document.createElement('span');
     titleEl.setAttribute('slot', 'title');
@@ -225,7 +225,7 @@ export default class IdsToast extends Base {
    * @param {boolean} isAllowLink The option for allow link.
    * @returns {HTMLElement} The creared element.
    */
-  #message(value, isAllowLink) {
+  #message(value: string, isAllowLink: boolean) {
     const message = value ? value.toString() : this.#slotVal('message');
     const messageEl = document.createElement('span');
     messageEl.setAttribute('slot', 'message');
@@ -241,7 +241,7 @@ export default class IdsToast extends Base {
    * @param {string} value The text value.
    * @returns {HTMLElement} The creared element.
    */
-  #closeButtonLabel(value) {
+  #closeButtonLabel(value: string) {
     const closeButtonLabel = value ? value.toString() : this.#slotVal('close-button-label');
     const closeButtonLabelEl = document.createElement('span');
     closeButtonLabelEl.setAttribute('slot', 'close-button-label');
@@ -263,8 +263,8 @@ export default class IdsToast extends Base {
    * @param {number} [options.timeout] The amount of time, the toast should be present on-screen.
    * @returns {HTMLElement} The toast element.
    */
-  #toast(options) {
-    const addAttribute = (elem, attr) => {
+  #toast(options: any) {
+    const addAttribute = (elem: any, attr: string) => {
       const key = camelCase(attr);
       const value = { toast: this[key], opt: options[key] };
       if (typeof value.opt !== 'undefined' && value.opt !== null) {
@@ -293,7 +293,7 @@ export default class IdsToast extends Base {
    * @param {string} value A message id to use.
    * @returns {string} The message id
    */
-  #messageId(value) {
+  #messageId(value: string) {
     let returnId;
     if (value) {
       let found = false;
@@ -315,7 +315,7 @@ export default class IdsToast extends Base {
    * @param {string} slotName The slot name.
    * @returns {string} The slot val.
    */
-  #slotVal(slotName) {
+  #slotVal(slotName: string) {
     return slotVal(this.shadowRoot, slotName);
   }
 
@@ -335,9 +335,9 @@ export default class IdsToast extends Base {
    * @param {HTMLElement} toast The toast message element
    * @returns {object} The object for chaining.
    */
-  #handleRemoveToastMessage(toast) {
+  #handleRemoveToastMessage(toast: any) {
     const toastContainer = this.toastContainer();
-    this.onEvent(EVENTS.removeMessage, toast, (e) => {
+    this.onEvent(EVENTS.removeMessage, toast, (e: any) => {
       const toastEl = e?.detail?.elem;
       const returnId = this.#toastsMap.get(toastEl)?.messageId;
       const targetEl = this.messageElem(returnId);
@@ -422,7 +422,7 @@ export default class IdsToast extends Base {
    * @param {object} pos The postion to check
    * @returns {boolean} true if is in the viewport
    */
-  #isPosInViewport(pos) {
+  #isPosInViewport(pos: any) {
     return (
       pos.top >= 0 && pos.left >= 0
       && pos.bottom <= (window.innerHeight || document.documentElement.clientHeight)
@@ -436,7 +436,7 @@ export default class IdsToast extends Base {
    * @param {object} container the container element
    * @returns {void}
    */
-  #createDraggable(container) {
+  #createDraggable(container: any) {
     // Reset the transform position
     const reset = () => {
       container.style.transform = 'none';
@@ -464,7 +464,7 @@ export default class IdsToast extends Base {
    * Set to put links in the toast message.
    * @param {boolean|string} value If true, allows user to put links in the toast message.
    */
-  set allowLink(value) {
+  set allowLink(value: boolean | string) {
     if (isBool(value)) {
       this.setAttribute(attributes.ALLOW_LINK, value.toString());
     } else {
@@ -472,13 +472,13 @@ export default class IdsToast extends Base {
     }
   }
 
-  get allowLink() { return getBoolVal(this, attributes.ALLOW_LINK); }
+  get allowLink(): boolean | string { return getBoolVal(this, attributes.ALLOW_LINK); }
 
   /**
    * Set as invisible on the screen, but still read out loud by screen readers.
    * @param {boolean|string} value If true, causes the toast to be invisible on the screen.
    */
-  set audible(value) {
+  set audible(value: boolean | string) {
     if (isBool(value)) {
       this.setAttribute(attributes.AUDIBLE, value.toString());
     } else {
@@ -486,14 +486,14 @@ export default class IdsToast extends Base {
     }
   }
 
-  get audible() { return getBoolVal(this, attributes.AUDIBLE); }
+  get audible(): boolean | string { return getBoolVal(this, attributes.AUDIBLE); }
 
   /**
    * Set to destroy after complete all the toasts.
    * will remove from DOM host element.
    * @param {boolean|string} value if true, will remove from dom.
    */
-  set destroyOnComplete(value) {
+  set destroyOnComplete(value: boolean | string) {
     if (isBool(value)) {
       this.setAttribute(ATTRIBUTE_TOAST_DESTROY_ON_COMPLETE, value.toString());
     } else {
@@ -501,7 +501,7 @@ export default class IdsToast extends Base {
     }
   }
 
-  get destroyOnComplete() {
+  get destroyOnComplete(): boolean | string {
     return getBoolVal(this, ATTRIBUTE_TOAST_DESTROY_ON_COMPLETE);
   }
 
@@ -509,7 +509,7 @@ export default class IdsToast extends Base {
    * Set user to allows drag/drop the toast container.
    * @param {boolean|string} value if true, allows the drag/drop toast container.
    */
-  set draggable(value) {
+  set draggable(value: boolean | string) {
     if (isBool(value)) {
       this.setAttribute(attributes.DRAGGABLE, value.toString());
     } else {
@@ -517,14 +517,14 @@ export default class IdsToast extends Base {
     }
   }
 
-  get draggable() { return getBoolVal(this, attributes.DRAGGABLE); }
+  get draggable(): boolean | string { return getBoolVal(this, attributes.DRAGGABLE); }
 
   /**
    * Set position of the toast container in specific place.
    * Options: 'bottom-end', 'bottom-start', 'top-end', 'top-start'
    * @param {string} value The position value to be use, default use as `top-end`
    */
-  set position(value) {
+  set position(value: string) {
     const toastContainer = this.toastContainer();
     if (POSITIONS.indexOf(value) > -1) {
       this.setAttribute(attributes.POSITION, value);
@@ -537,7 +537,7 @@ export default class IdsToast extends Base {
     }
   }
 
-  get position() {
+  get position(): string {
     const position = this.getAttribute(attributes.POSITION);
     return position !== null ? position : DEFAULTS.position;
   }
@@ -546,7 +546,7 @@ export default class IdsToast extends Base {
    * Set toast to have a visible progress bar.
    * @param {boolean|string} value if true, will show progress with toast.
    */
-  set progressBar(value) {
+  set progressBar(value: boolean | string) {
     if (isBool(value)) {
       this.setAttribute(attributes.PROGRESS_BAR, value.toString());
     } else {
@@ -554,13 +554,13 @@ export default class IdsToast extends Base {
     }
   }
 
-  get progressBar() { return getBoolVal(this, attributes.PROGRESS_BAR); }
+  get progressBar(): boolean | string { return getBoolVal(this, attributes.PROGRESS_BAR); }
 
   /**
    * Set toast container to save position to local storage.
    * @param {boolean|string} value if true, will allow to save position to local storage.
    */
-  set savePosition(value) {
+  set savePosition(value: boolean | string) {
     if (isBool(value)) {
       this.setAttribute(attributes.SAVE_POSITION, value.toString());
     } else {
@@ -568,13 +568,13 @@ export default class IdsToast extends Base {
     }
   }
 
-  get savePosition() { return getBoolVal(this, attributes.SAVE_POSITION); }
+  get savePosition(): boolean | string { return getBoolVal(this, attributes.SAVE_POSITION); }
 
   /**
    * Set the amount of time, the toast should be present on-screen.
    * @param {number|string} value The amount of time in milliseconds.
    */
-  set timeout(value) {
+  set timeout(value: boolean | string) {
     if (value) {
       this.setAttribute(attributes.TIMEOUT, value.toString());
     } else {
@@ -582,7 +582,7 @@ export default class IdsToast extends Base {
     }
   }
 
-  get timeout() {
+  get timeout(): boolean | string {
     const timeout = this.getAttribute(attributes.TIMEOUT);
     return timeout !== null ? timeout : DEFAULTS.timeout;
   }
@@ -591,7 +591,7 @@ export default class IdsToast extends Base {
    * Set uniqueId to save to local storage, so same saved position can be use for whole app.
    * @param {number|string} value A uniqueId use to save to local storage.
    */
-  set uniqueId(value) {
+  set uniqueId(value: number | string) {
     if (value) {
       this.setAttribute(attributes.UNIQUE_ID, value.toString());
     } else {
@@ -599,7 +599,7 @@ export default class IdsToast extends Base {
     }
   }
 
-  get uniqueId() {
+  get uniqueId(): number | string {
     const uniqueId = this.getAttribute(attributes.UNIQUE_ID);
     return uniqueId !== null ? uniqueId : DEFAULTS.uniqueId;
   }

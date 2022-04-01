@@ -5,10 +5,10 @@ import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsText from '../../src/components/ids-text/ids-text';
 
 describe('IdsText Component', () => {
-  let elem;
+  let elem: any;
 
   beforeEach(async () => {
-    const text = new IdsText();
+    const text: any = new IdsText();
     document.body.appendChild(text);
     elem = document.querySelector('ids-text');
   });
@@ -126,9 +126,9 @@ describe('IdsText Component', () => {
 
   it('renders disabled setting', () => {
     elem.disabled = 'true';
-    expect(elem.disabled).toEqual('true');
+    expect(elem.disabled).toEqual(true);
     elem.disabled = false;
-    expect(elem.disabled).toEqual(null);
+    expect(elem.disabled).toEqual(false);
   });
 
   it('renders font-size setting then removes it', () => {
@@ -145,11 +145,17 @@ describe('IdsText Component', () => {
   it('renders audible setting then removes it', () => {
     elem = new IdsText();
     document.body.appendChild(elem);
+    elem = document.querySelector('ids-text');
+
+    expect(elem.audible).toEqual(false);
     expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(0);
     elem.audible = true;
-    elem.render();
+
+    expect(elem.audible).toEqual(true);
     expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(1);
     elem.audible = false;
+
+    expect(elem.audible).toEqual(false);
     expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(0);
   });
 
@@ -159,9 +165,9 @@ describe('IdsText Component', () => {
     expect(elem.shadowRoot.querySelector('span').classList.contains('error')).toEqual(false);
     elem.error = true;
     expect(elem.shadowRoot.querySelector('span').classList.contains('error')).toEqual(true);
-    expect(elem.error).toEqual('true');
+    expect(elem.error).toEqual(true);
     elem.error = false;
-    expect(elem.error).toEqual(null);
+    expect(elem.error).toEqual(false);
   });
 
   it('renders label setting then removes it', () => {
@@ -170,9 +176,9 @@ describe('IdsText Component', () => {
     expect(elem.shadowRoot.querySelector('span').classList.contains('label')).toEqual(false);
     elem.label = true;
     expect(elem.shadowRoot.querySelector('span').classList.contains('label')).toEqual(true);
-    expect(elem.label).toEqual('true');
+    expect(elem.label).toEqual(true);
     elem.label = false;
-    expect(elem.label).toEqual(null);
+    expect(elem.label).toEqual(false);
   });
 
   it('renders data setting then removes it', () => {
@@ -181,19 +187,24 @@ describe('IdsText Component', () => {
     expect(elem.shadowRoot.querySelector('span').classList.contains('data')).toEqual(false);
     elem.data = true;
     expect(elem.shadowRoot.querySelector('span').classList.contains('data')).toEqual(true);
-    expect(elem.data).toEqual('true');
+    expect(elem.data).toEqual(true);
     elem.data = false;
-    expect(elem.data).toEqual(null);
+    expect(elem.data).toEqual(false);
   });
 
-  it('renders with audible setting enabled, then removes it', () => { // ids-text audible
+  it('renders with audible setting enabled, then removes it', () => {
     document.body.innerHTML = '';
     const templateElem = document.createElement('template');
     templateElem.innerHTML = '<ids-text audible>Hello World, Can you hear me?</ids-text>';
     elem = templateElem.content.childNodes[0];
     document.body.appendChild(elem);
+    elem = document.querySelector('ids-text');
+
+    expect(elem.audible).toEqual(true);
     expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(1);
     elem.audible = false;
+
+    expect(elem.audible).toEqual(false);
     expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(0);
   });
 
@@ -204,8 +215,8 @@ describe('IdsText Component', () => {
   });
 
   it('can translate text', async () => {
-    const container = new IdsContainer();
-    const text = new IdsText();
+    const container: any = new IdsContainer();
+    const text: any = new IdsText();
     text.textContent = 'BrowserLanguage';
     text.translateText = true;
     container.appendChild(text);

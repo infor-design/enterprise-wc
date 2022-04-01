@@ -12,9 +12,9 @@ const processAnimFrame = () => new Promise((resolve) => {
 });
 
 describe('IdsTree Component', () => {
-  let container;
-  let tree;
-  let dataset;
+  let container: any;
+  let tree: any;
+  let dataset: any;
 
   beforeEach(async () => {
     const elem = new IdsTree();
@@ -165,7 +165,7 @@ describe('IdsTree Component', () => {
   });
 
   it('should sets the tree selectable', () => {
-    let selectable = 'single';
+    let selectable: any = 'single';
     expect(tree.getAttribute('selectable')).toEqual(null);
     expect(tree.selectable).toEqual(IdsTreeShared.DEFAULTS.selectable);
     tree.selectable = selectable;
@@ -517,19 +517,19 @@ describe('IdsTree Component', () => {
 
   it('should moves focus on keydown Down Arrow', () => {
     tree.data = dataset;
-    const tabbable = (n) => {
+    const tabbable = (n?: any) => {
       expect(n.node.elem.getAttribute('tabbable')).toEqual('true');
       expect(n.node.elem.nodeContainer.getAttribute('tabindex')).toEqual('0');
     };
-    const notTabbable = (n, isNull) => {
+    const notTabbable = (n?: any, isNull?: any) => {
       expect(n.node.elem.getAttribute('tabbable')).toEqual(isNull ? null : 'false');
       expect(n.node.elem.nodeContainer.getAttribute('tabindex')).toEqual('-1');
     };
-    const dispatchEvent = (n) => {
+    const dispatchEvent = (n?: any) => {
       const event = new KeyboardEvent('keydown', { code: 'ArrowDown' });
       n.node.elem.nodeContainer.dispatchEvent(event);
     };
-    const nodes = [];
+    const nodes: any = [];
     const keys = ['home', 'public-folders', 'leadership', 'history', 'careers-last', 'icons', 'audio'];
     keys.forEach((key) => {
       nodes.push({ node: tree.getNode(`#${key}`) });
@@ -573,19 +573,19 @@ describe('IdsTree Component', () => {
 
   it('should moves focus on keydown Up Arrow', () => {
     tree.data = dataset;
-    const tabbable = (n) => {
+    const tabbable = (n: any) => {
       expect(n.node.elem.getAttribute('tabbable')).toEqual('true');
       expect(n.node.elem.nodeContainer.getAttribute('tabindex')).toEqual('0');
     };
-    const notTabbable = (n, isNull) => {
+    const notTabbable = (n: any, isNull?: any) => {
       expect(n.node.elem.getAttribute('tabbable')).toEqual(isNull ? null : 'false');
       expect(n.node.elem.nodeContainer.getAttribute('tabindex')).toEqual('-1');
     };
-    const dispatchEvent = (n) => {
+    const dispatchEvent = (n: any) => {
       const event = new KeyboardEvent('keydown', { code: 'ArrowUp' });
       n.node.elem.nodeContainer.dispatchEvent(event);
     };
-    const nodes = [];
+    const nodes: any = [];
     const keys = ['home', 'public-folders', 'leadership', 'history', 'careers-last', 'icons', 'audio'];
     keys.forEach((key) => {
       nodes.push({ node: tree.getNode(`#${key}`) });
@@ -636,19 +636,19 @@ describe('IdsTree Component', () => {
 
   it('should moves focus on keydown Right Arrow', () => {
     tree.data = dataset;
-    const tabbable = (n) => {
+    const tabbable = (n: any) => {
       expect(n.node.elem.getAttribute('tabbable')).toEqual('true');
       expect(n.node.elem.nodeContainer.getAttribute('tabindex')).toEqual('0');
     };
-    const notTabbable = (n, isNull) => {
+    const notTabbable = (n: any, isNull?: any) => {
       expect(n.node.elem.getAttribute('tabbable')).toEqual(isNull ? null : 'false');
       expect(n.node.elem.nodeContainer.getAttribute('tabindex')).toEqual('-1');
     };
-    const dispatchEvent = (n) => {
+    const dispatchEvent = (n: any) => {
       const event = new KeyboardEvent('keydown', { code: 'ArrowRight' });
       n.node.elem.nodeContainer.dispatchEvent(event);
     };
-    const nodes = [];
+    const nodes: any = [];
     const keys = ['home', 'public-folders', 'leadership', 'history', 'careers-last', 'icons', 'audio'];
     keys.forEach((key) => {
       nodes.push({ node: tree.getNode(`#${key}`) });
@@ -695,19 +695,19 @@ describe('IdsTree Component', () => {
 
   it('should moves focus on keydown Left Arrow', () => {
     tree.data = dataset;
-    const tabbable = (n) => {
+    const tabbable = (n: any) => {
       expect(n.node.elem.getAttribute('tabbable')).toEqual('true');
       expect(n.node.elem.nodeContainer.getAttribute('tabindex')).toEqual('0');
     };
-    const notTabbable = (n, isNull) => {
+    const notTabbable = (n: any, isNull?: any) => {
       expect(n.node.elem.getAttribute('tabbable')).toEqual(isNull ? null : 'false');
       expect(n.node.elem.nodeContainer.getAttribute('tabindex')).toEqual('-1');
     };
-    const dispatchEvent = (n) => {
+    const dispatchEvent = (n: any) => {
       const event = new KeyboardEvent('keydown', { code: 'ArrowLeft' });
       n.node.elem.nodeContainer.dispatchEvent(event);
     };
-    const nodes = [];
+    const nodes: any = [];
     const keys = ['home', 'public-folders', 'leadership', 'history', 'careers-last', 'icons', 'audio'];
     keys.forEach((key) => {
       nodes.push({ node: tree.getNode(`#${key}`) });
@@ -747,7 +747,7 @@ describe('IdsTree Component', () => {
 
   it('should prevent keys', () => {
     tree.data = dataset;
-    const nodes = [];
+    const nodes: any = [];
     const keys = ['home', 'public-folders', 'leadership', 'history', 'careers-last', 'icons', 'audio'];
     keys.forEach((key) => {
       nodes.push({ node: tree.getNode(`#${key}`) });
@@ -770,19 +770,19 @@ describe('IdsTree Component', () => {
     await container.setLanguage('ar');
     expect(tree.getAttribute('dir')).toEqual('rtl');
 
-    const tabbable = (n) => {
+    const tabbable = (n: any) => {
       expect(n.node.elem.getAttribute('tabbable')).toEqual('true');
       expect(n.node.elem.nodeContainer.getAttribute('tabindex')).toEqual('0');
     };
-    const notTabbable = (n, isNull) => {
+    const notTabbable = (n: any, isNull?: any) => {
       expect(n.node.elem.getAttribute('tabbable')).toEqual(isNull ? null : 'false');
       expect(n.node.elem.nodeContainer.getAttribute('tabindex')).toEqual('-1');
     };
-    const dispatchEvent = (n, eventKey) => {
+    const dispatchEvent = (n: any, eventKey: any) => {
       const event = new KeyboardEvent('keydown', { code: eventKey });
       n.node.elem.nodeContainer.dispatchEvent(event);
     };
-    const nodes = [];
+    const nodes: any = [];
     const keys = ['home', 'public-folders', 'leadership', 'history', 'careers-last', 'icons', 'audio'];
     keys.forEach((key) => {
       nodes.push({ node: tree.getNode(`#${key}`) });
@@ -814,7 +814,7 @@ describe('IdsTree Component', () => {
 
   it('should veto before collapse response', () => {
     tree.data = dataset;
-    tree.addEventListener(IdsTreeShared.EVENTS.beforecollapsed, (e) => {
+    tree.addEventListener(IdsTreeShared.EVENTS.beforecollapsed, (e: any) => {
       e.detail.response(false); // veto
     });
     tree.data = dataset;
@@ -843,7 +843,7 @@ describe('IdsTree Component', () => {
 
   it('should veto before expand response', () => {
     tree.data = dataset;
-    tree.addEventListener(IdsTreeShared.EVENTS.beforeexpanded, (e) => {
+    tree.addEventListener(IdsTreeShared.EVENTS.beforeexpanded, (e: any) => {
       e.detail.response(false); // veto
     });
     tree.data = dataset;
@@ -872,7 +872,7 @@ describe('IdsTree Component', () => {
 
   it('should veto selection response', () => {
     tree.data = dataset;
-    tree.addEventListener(IdsTreeShared.EVENTS.beforeselected, (e) => {
+    tree.addEventListener(IdsTreeShared.EVENTS.beforeselected, (e: any) => {
       e.detail.response(false); // veto
     });
     tree.data = dataset;
@@ -895,7 +895,7 @@ describe('IdsTree Component', () => {
 
   it('should veto unselection response', () => {
     tree.data = dataset;
-    tree.addEventListener(IdsTreeShared.EVENTS.beforeunselected, (e) => {
+    tree.addEventListener(IdsTreeShared.EVENTS.beforeunselected, (e: any) => {
       e.detail.response(false); // veto
     });
     tree.data = dataset;

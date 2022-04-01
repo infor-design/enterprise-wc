@@ -14,11 +14,11 @@ import {
 } from '../../utils/ids-date-utils/ids-date-utils';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
-import IdsDatePicker from '../ids-date-picker/ids-date-picker';
-import IdsButton from '../ids-button/ids-button';
-import IdsIcon from '../ids-icon/ids-icon';
-import IdsText from '../ids-text/ids-text';
-import IdsToolbar from '../ids-toolbar/ids-toolbar';
+import '../ids-date-picker/ids-date-picker';
+import '../ids-button/ids-button';
+import '../ids-icon/ids-icon';
+import '../ids-text/ids-text';
+import '../ids-toolbar/ids-toolbar';
 import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 
@@ -66,7 +66,7 @@ export default class IdsWeekView extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `<div class="ids-week-view"></div>`;
   }
 
@@ -175,7 +175,7 @@ export default class IdsWeekView extends Base {
     }
 
     this.offEvent('dayselected.week-view-datepicker');
-    this.onEvent('dayselected.week-view-datepicker', this.container.querySelector('ids-date-picker'), (e) => {
+    this.onEvent('dayselected.week-view-datepicker', this.container.querySelector('ids-date-picker'), (e: CustomEvent) => {
       this.#datepickerChangeDate(e.detail.date);
     });
   }
@@ -232,7 +232,7 @@ export default class IdsWeekView extends Base {
    * Change startDate/endDate by event type
    * @param {'next'|'previous'|'today'} type of event to be called
    */
-  #changeDate(type) {
+  #changeDate(type: 'next' | 'previous' | 'today') {
     const diff = daysDiff(this.startDate, this.endDate);
     const hasIrregularDays = diff !== 7;
 
@@ -259,7 +259,7 @@ export default class IdsWeekView extends Base {
    * When datepicker changing date
    * @param {Date} date datepicker dayselected event date
    */
-  #datepickerChangeDate(date) {
+  #datepickerChangeDate(date: Date) {
     const diff = daysDiff(this.startDate, this.endDate);
     const hasIrregularDays = diff !== 7;
 
@@ -284,9 +284,9 @@ export default class IdsWeekView extends Base {
     const calendars = this.locale.locale.options.calendars;
     const dayOfWeekSetting = (calendars)[0]?.dateFormat?.dayOfWeek;
     // Determinate day/weekday order based on calendar settings (d EEE or EEE)
-    const emphasis = dayOfWeekSetting && dayOfWeekSetting.split(' ')[0] === 'EEE';
+    const emphasis: boolean = dayOfWeekSetting && dayOfWeekSetting.split(' ')[0] === 'EEE';
     // Helper to get day/weekday font size in the template
-    const getTextFontSize = (isEmphasis) => {
+    const getTextFontSize = (isEmphasis: boolean) => {
       if (!isEmphasis) return 16;
 
       return isDayView ? 32 : 20;
@@ -373,7 +373,7 @@ export default class IdsWeekView extends Base {
   #renderTimeline() {
     // Clear before rerender
     this.container.querySelectorAll('.week-view-time-marker')
-      .forEach((item) => item.remove());
+      .forEach((item: HTMLElement) => item.remove());
 
     if (this.timer) this.timer.destroy(true);
 
@@ -383,7 +383,7 @@ export default class IdsWeekView extends Base {
 
     // Add timeline element
     this.container.querySelectorAll('.week-view-hour-row:nth-child(1) td')
-      .forEach((item) => item.insertAdjacentHTML(
+      .forEach((item: HTMLElement) => item.insertAdjacentHTML(
         'afterbegin',
         '<div class="week-view-time-marker"></div>'
       ));
@@ -434,7 +434,7 @@ export default class IdsWeekView extends Base {
    * show-today attribute
    * @returns {boolean} showToday param converted to boolean from attribute value
    */
-  get showToday() {
+  get showToday(): boolean {
     const attrVal = this.getAttribute(attributes.SHOW_TODAY);
 
     return stringToBool(attrVal);
@@ -442,9 +442,9 @@ export default class IdsWeekView extends Base {
 
   /**
    * Set whether or not the today button should be shown
-   * @param {string|boolean|null} val showToday param value
+   * @param {string|boolean} val showToday param value
    */
-  set showToday(val) {
+  set showToday(val: string | boolean) {
     const boolVal = stringToBool(val);
 
     if (boolVal) {
@@ -461,7 +461,7 @@ export default class IdsWeekView extends Base {
    * start-date attribute
    * @returns {Date} startDate date parsed from attribute value
    */
-  get startDate() {
+  get startDate(): Date {
     const attrVal = this.getAttribute(attributes.START_DATE);
     const attrDate = new Date(attrVal);
 
@@ -476,9 +476,9 @@ export default class IdsWeekView extends Base {
 
   /**
    * Set start of the week to show
-   * @param {string|null} val startDate param value
+   * @param {string|Date} val startDate param value
    */
-  set startDate(val) {
+  set startDate(val: string | Date) {
     if (val) {
       this.setAttribute(attributes.START_DATE, val);
     } else {
@@ -493,7 +493,7 @@ export default class IdsWeekView extends Base {
    * end-date attribute
    * @returns {Date} endDate date parsed from attribute value
    */
-  get endDate() {
+  get endDate(): Date {
     const attrVal = this.getAttribute(attributes.END_DATE);
     const attrDate = new Date(attrVal);
 
@@ -509,9 +509,9 @@ export default class IdsWeekView extends Base {
 
   /**
    * Set end of the week to show
-   * @param {string|null} val endDate param value
+   * @param {string|Date} val endDate param value
    */
-  set endDate(val) {
+  set endDate(val: string | Date) {
     if (val) {
       this.setAttribute(attributes.END_DATE, val);
     } else {
@@ -526,7 +526,7 @@ export default class IdsWeekView extends Base {
    * fist-day-of-week attribute
    * @returns {number} firstDayOfWeek param converted to number from attribute value with range (0-6)
    */
-  get firstDayOfWeek() {
+  get firstDayOfWeek(): number {
     const attrVal = this.getAttribute(attributes.FIRST_DAY_OF_WEEK);
     const numberVal = stringToNumber(attrVal);
 
@@ -540,10 +540,10 @@ export default class IdsWeekView extends Base {
 
   /**
    * Set first day of the week (0-6)
-   * @param {string|number|null} val firstDayOfWeek param value
+   * @param {string|number} val firstDayOfWeek param value
    */
-  set firstDayOfWeek(val) {
-    const numberVal = stringToNumber(val);
+  set firstDayOfWeek(val: string | number) {
+    const numberVal = typeof val === 'number' ? val : stringToNumber(val);
 
     if (!Number.isNaN(numberVal)) {
       this.setAttribute(attributes.FIRST_DAY_OF_WEEK, val);
@@ -559,7 +559,7 @@ export default class IdsWeekView extends Base {
    * start-hour attribute
    * @returns {number} startHour param converted to number from attribute value with range (0-24)
    */
-  get startHour() {
+  get startHour(): number {
     const attrVal = this.getAttribute(attributes.START_HOUR);
     const numberVal = stringToNumber(attrVal);
 
@@ -573,9 +573,9 @@ export default class IdsWeekView extends Base {
 
   /**
    * Set start hour of the day (0-24)
-   * @param {string|number|null} val startHour param value
+   * @param {string|number} val startHour param value
    */
-  set startHour(val) {
+  set startHour(val: string | number) {
     // Allow 0 to be set
     if (val !== null) {
       this.setAttribute(attributes.START_HOUR, val);
@@ -591,7 +591,7 @@ export default class IdsWeekView extends Base {
    * end-hour attribute
    * @returns {number} endHour param converted to number from attribute value with range (0-24)
    */
-  get endHour() {
+  get endHour(): number {
     const attrVal = this.getAttribute(attributes.END_HOUR);
     const numberVal = stringToNumber(attrVal);
 
@@ -605,9 +605,9 @@ export default class IdsWeekView extends Base {
 
   /**
    * Set end hour of the day (0-24)
-   * @param {string|number|null} val endHour param value
+   * @param {string|number} val endHour param value
    */
-  set endHour(val) {
+  set endHour(val: string | number) {
     // Allow 0 to be set
     if (val !== null) {
       this.setAttribute(attributes.END_HOUR, val);
@@ -623,7 +623,7 @@ export default class IdsWeekView extends Base {
    * show-timeline attribute
    * @returns {boolean} showTimeline param converted to boolean from attribute value
    */
-  get showTimeline() {
+  get showTimeline(): boolean {
     const attrVal = this.getAttribute(attributes.SHOW_TIMELINE);
 
     if (attrVal) {
@@ -636,9 +636,9 @@ export default class IdsWeekView extends Base {
 
   /**
    * Set whether or not to show a bar across the current time
-   * @param {string|boolean|null} val showTimeline param value
+   * @param {string|boolean} val showTimeline param value
    */
-  set showTimeline(val) {
+  set showTimeline(val: string | boolean) {
     const boolVal = stringToBool(val);
     this.setAttribute(attributes.SHOW_TIMELINE, boolVal);
 
@@ -649,7 +649,7 @@ export default class IdsWeekView extends Base {
    * timeline-interval attribute value in milliseconds
    * @returns {number} timelineInterval param converted to number
    */
-  get timelineInterval() {
+  get timelineInterval(): number {
     const attrVal = this.getAttribute(attributes.TIMELINE_INTERVAL);
     const numberVal = stringToNumber(attrVal);
 
@@ -663,9 +663,9 @@ export default class IdsWeekView extends Base {
 
   /**
    * Set how often timeline should update it's position (in milliseconds)
-   * @param {number|string|null} val timelineInterval param value
+   * @param {number|string} val timelineInterval param value
    */
-  set timelineInterval(val) {
+  set timelineInterval(val: number | string) {
     if (val) {
       this.setAttribute(attributes.TIMELINE_INTERVAL, val);
     } else {

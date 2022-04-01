@@ -1,7 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
+import '../ids-trigger-field/ids-trigger-button';
 import Base from './ids-spinbox-base';
 import styles from './ids-spinbox.scss';
 
@@ -9,6 +9,7 @@ import styles from './ids-spinbox.scss';
  * used for assigning ids
  */
 let instanceCounter = 0;
+const MOUSE_LEFT = 0b001;
 
 /**
  * IDS Spinbox Component
@@ -176,11 +177,11 @@ export default class IdsSpinbox extends Base {
       this.#getStepButtonCycler('down')
     );
 
-    this.onEvent('mouseup', window, (e) => {
+    this.onEvent('mouseup', window, (e: MouseEvent) => {
       this.#onStepButtonUnpressed(e);
     });
 
-    this.onEvent('focus', this, (e) => {
+    this.onEvent('focus', this, (e: Event) => {
       const isDisabled = this.hasAttribute(attributes.DISABLED);
       if (!isDisabled) {
         e.preventDefault();
@@ -188,20 +189,20 @@ export default class IdsSpinbox extends Base {
       }
     });
 
-    this.listen(['ArrowUp', 'ArrowDown'], this, (e) => {
+    this.listen(['ArrowUp', 'ArrowDown'], this, (e: KeyboardEvent) => {
       if (stringToBool(this.getAttribute(attributes.DISABLED))) { return; }
       const key = e.key;
 
       this.#onStepButtonUnpressed();
 
       switch (key) {
-      case 'ArrowUp':
-        this.#onStep('up');
-        break;
-      case 'ArrowDown':
-        this.#onStep('down');
-        break;
-      default:
+        case 'ArrowUp':
+          this.#onStep('up');
+          break;
+        case 'ArrowDown':
+          this.#onStep('down');
+          break;
+        default:
       }
 
       e.preventDefault();
@@ -209,14 +210,14 @@ export default class IdsSpinbox extends Base {
   }
 
   /**
-   * @returns {IdsTriggerButton} reference to the decrementing button
+   * @returns {HTMLElement} reference to the decrementing button
    */
   get decrementButton() {
     return this.querySelector('ids-trigger-button[slot="trigger-start"]');
   }
 
   /**
-   * @returns {IdsTriggerButton} reference to the incrementing button
+   * @returns {HTMLElement} reference to the incrementing button
    */
   get incrementButton() {
     return this.querySelector('ids-trigger-button[slot="trigger-end"]');
@@ -250,7 +251,7 @@ export default class IdsSpinbox extends Base {
   set max(newValue) {
     const currentValue = this.getAttribute(attributes.MAX);
     if (currentValue !== newValue) {
-      const numberValue = parseInt(newValue);
+      const numberValue = parseInt(newValue as any);
       if (Number.isNaN(numberValue)) {
         this.removeAttribute(attributes.MAX);
         this.removeAttribute(htmlAttributes.ARIA_VALUEMAX);
@@ -278,7 +279,7 @@ export default class IdsSpinbox extends Base {
   set min(newValue) {
     const currentValue = this.getAttribute(attributes.MIN);
     if (currentValue !== newValue) {
-      const numberValue = parseInt(newValue);
+      const numberValue = parseInt(newValue as any);
       if (Number.isNaN(numberValue)) {
         this.removeAttribute(attributes.MIN);
         this.removeAttribute(htmlAttributes.ARIA_VALUEMIN);
@@ -306,7 +307,7 @@ export default class IdsSpinbox extends Base {
   set step(newValue) {
     const currentValue = this.getAttribute(attributes.STEP);
     if (currentValue !== newValue) {
-      let numberValue = parseInt(newValue);
+      let numberValue = parseInt(newValue as any);
       if (Number.isNaN(numberValue) || numberValue < 1) {
         numberValue = 1;
       }
@@ -367,27 +368,27 @@ export default class IdsSpinbox extends Base {
    * @param {number | string} value the incoming value
    * @returns {string} the corrected value, if applicable
    */
-  #setValueWithinLimits(value) {
-    let nextValue = parseInt(value);
+  #setValueWithinLimits(value: number | string) {
+    let nextValue: any = parseInt(value as any);
     if (!Number.isNaN(nextValue)) {
       // corrections on value if not in-step
-      const step = parseInt(this.step);
+      const step = parseInt(this.step as any);
       const hasValidStep = !Number.isNaN(step);
       if (hasValidStep && (nextValue % step !== 0)) {
         nextValue = Math.round(nextValue / step) * step;
       }
 
       // corrections on value if not in-range
-      const min = this.min;
-      const max = this.max;
+      const min: any = this.min;
+      const max: any = this.max;
       const hasMinValue = typeof this.min === 'number' && !Number.isNaN(this.min);
       const hasMaxValue = typeof this.max === 'number' && this.max && !Number.isNaN(this.max);
       const lessThanMin = hasMinValue && nextValue < min;
       const greaterThanMax = hasMaxValue && nextValue > max;
       const isEqualToLimits = (hasMaxValue && nextValue === max) || (hasMinValue && nextValue === min);
 
-      if (lessThanMin) nextValue = Math.max(nextValue, min);
-      if (greaterThanMax) nextValue = Math.min(nextValue, max);
+      if (lessThanMin) nextValue = Math.max(nextValue, min as any);
+      if (greaterThanMax) nextValue = Math.min(nextValue, max as any);
 
       // Change trigger button states if a limit is met
       if (isEqualToLimits) this.#onStepButtonUnpressed();
@@ -452,10 +453,10 @@ export default class IdsSpinbox extends Base {
    * @type {Function}
    * @param {'up'|'down'} direction direction of step
    */
-  #onStep(direction) {
-    const hasValidStep = !Number.isNaN(parseInt(this.step));
+  #onStep(direction: any) {
+    const hasValidStep = !Number.isNaN(parseInt(this.step as any));
     let step = hasValidStep
-      ? parseInt(this.step)
+      ? parseInt(this.step as any)
       : 1;
 
     if (direction === 'down') {
@@ -472,26 +473,26 @@ export default class IdsSpinbox extends Base {
    */
   #updateDisabledButtonStates() {
     // increment button
-    const hasMaxValue = !Number.isNaN(parseInt(this.max));
+    const hasMaxValue = !Number.isNaN(parseInt(this.max as any));
     if (!hasMaxValue) {
       this.incrementButton?.removeAttribute(attributes.DISABLED);
       return;
     }
 
-    if (parseInt(this.value) >= parseInt(this.max)) {
+    if (parseInt(this.value) >= parseInt(this.max as any)) {
       this.incrementButton?.setAttribute(attributes.DISABLED, '');
     } else if (!this.hasAttribute(attributes.READONLY)) {
       this.incrementButton?.removeAttribute(attributes.DISABLED);
     }
 
     // decrement button
-    const hasMinValue = !Number.isNaN(parseInt(this.min));
+    const hasMinValue = !Number.isNaN(parseInt(this.min as any));
     if (!hasMinValue) {
       this.decrementButton?.removeAttribute(attributes.DISABLED);
       return;
     }
 
-    if (parseInt(this.value) <= parseInt(this.min)) {
+    if (parseInt(this.value) <= parseInt(this.min as any)) {
       this.decrementButton?.setAttribute(attributes.DISABLED, '');
     } else if (!this.hasAttribute(attributes.READONLY)) {
       this.decrementButton?.removeAttribute(attributes.DISABLED);
@@ -504,21 +505,22 @@ export default class IdsSpinbox extends Base {
    *
    * @type {'up'|'down'|undefined}
    */
-  #stepDirection;
+  #stepDirection: any;
 
   /**
    * stores a timeout related to value cycling
    */
-  #stepCycleTimeout;
+  #stepCycleTimeout: any;
 
   /**
    * return a handler which begins incrementing/decrementing value in steps
    * @param {'up'|'down'} direction which direction to step towards
    * @returns {Function} callback which accepts mouse/touch event
    */
-  #getStepButtonCycler(direction) {
-    return (e) => {
-      if (0b001 /* Left Button Mask */ & e.buttons) {
+  #getStepButtonCycler(direction: any) {
+    return (e: any) => {
+      // eslint-disable-next-line no-bitwise
+      if (MOUSE_LEFT & e.buttons) {
         let tickCounter = 0;
         this.#stepDirection = direction;
 
@@ -531,7 +533,7 @@ export default class IdsSpinbox extends Base {
               Math.max(350 - Math.round(tickCounter * 50), 100)
             );
           } else {
-            clearTimeout(timedLogic);
+            clearTimeout(timedLogic as any);
             this.#stepCycleTimeout = undefined;
           }
         };
@@ -546,7 +548,7 @@ export default class IdsSpinbox extends Base {
    * unbinds timers associated with value cycling
    * @param {*} e optional mouse event
    */
-  #onStepButtonUnpressed(e) {
+  #onStepButtonUnpressed(e?: MouseEvent) {
     if (!e
     || (e.which === 1 && (this.#stepCycleTimeout || this.#stepDirection))
     ) {

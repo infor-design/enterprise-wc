@@ -1,10 +1,10 @@
-import IdsToast from '../ids-toast';
+import '../ids-toast';
 
 // Initialize Web Component
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#btn-toast-wc')?.addEventListener('click', () => {
     const toastId = 'test-toast-wc';
-    let toast = document.querySelector(`#${toastId}`);
+    let toast: any = document.querySelector(`#${toastId}`);
     if (!toast) {
       toast = document.createElement('ids-toast');
       toast.setAttribute('id', toastId);

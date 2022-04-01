@@ -24,10 +24,10 @@ const defaultFirstDayOfWeek = 0;
 const defaultInterval = 30000;
 
 describe('IdsWeekView Component (using properties)', () => {
-  let component;
+  let component: any;
 
   beforeEach(async () => {
-    const container = new IdsContainer();
+    const container: any = new IdsContainer();
     document.body.appendChild(container);
     component = new IdsWeekView();
     component.startDate = startDate;
@@ -97,10 +97,10 @@ describe('IdsWeekView Component (using properties)', () => {
 });
 
 describe('IdsWeekView Component (using attributes)', () => {
-  let component;
+  let component: any;
 
   beforeEach(async () => {
-    const container = new IdsContainer();
+    const container: any = new IdsContainer();
     document.body.appendChild(container);
     container.insertAdjacentHTML('beforeend', `
       <ids-week-view
@@ -149,10 +149,10 @@ describe('IdsWeekView Component (using attributes)', () => {
 });
 
 describe('IdsWeekView Component (empty)', () => {
-  let component;
+  let component: any;
 
   beforeEach(async () => {
-    const container = new IdsContainer();
+    const container: any = new IdsContainer();
     document.body.appendChild(container);
     container.insertAdjacentHTML('beforeend', `<ids-week-view></ids-week-view>`);
     component = document.querySelector(name);
@@ -166,7 +166,7 @@ describe('IdsWeekView Component (empty)', () => {
   it('should not error if no container', () => {
     document.body.innerHTML = '';
     const errors = jest.spyOn(global.console, 'error');
-    const comp = new IdsWeekView();
+    const comp: any = new IdsWeekView();
     delete comp.locale;
     comp.startDate = new Date();
     document.body.appendChild(comp);
