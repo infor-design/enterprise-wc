@@ -33,6 +33,9 @@ export default class IdsMonthView extends HTMLElement {
   /** Set whether or not the component is used in datepicker popup */
   isDatePicker: 'true' | 'false' | boolean | null;
 
+  /** Set legend data */
+  legend: Array<unknown> | null;
+
   /** Fires when a day selected */
   on(event: 'dayselected', listener: (event: dayselected) => void): this;
 }

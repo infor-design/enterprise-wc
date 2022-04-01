@@ -69,9 +69,9 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.placeholder).toEqual(name);
       expect(component.size).toEqual('lg');
       expect(component.format).toEqual('yyyy-MM-dd');
-      expect(component.month).toEqual('9');
-      expect(component.year).toEqual('2021');
-      expect(component.day).toEqual('18');
+      expect(component.month).toEqual(9);
+      expect(component.year).toEqual(2021);
+      expect(component.day).toEqual(18);
     });
 
     it('should change properties', () => {
@@ -95,9 +95,9 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.value).toEqual('2020-11-19');
       expect(component.placeholder).toEqual('changed');
       expect(component.size).toEqual('md');
-      expect(component.month).toEqual('10');
-      expect(component.year).toEqual('2020');
-      expect(component.day).toEqual('19');
+      expect(component.month).toEqual(10);
+      expect(component.year).toEqual(2020);
+      expect(component.day).toEqual(19);
 
       // Reset to defaults
       component.tabbable = null;
@@ -120,9 +120,9 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.label).toEqual('');
       expect(component.format).toEqual('locale');
       expect(component.placeholder).toEqual('');
-      expect(component.month).toBeNull();
-      expect(component.year).toBeNull();
-      expect(component.day).toBeNull();
+      expect(component.month).toEqual((new Date()).getMonth());
+      expect(component.year).toEqual((new Date()).getFullYear());
+      expect(component.day).toEqual((new Date()).getDate());
     });
 
     it('should not change value when disabled or readonly', () => {
@@ -142,6 +142,28 @@ describe('IdsDatePicker Component Tests', () => {
       component.value = 'changed';
 
       expect(component.value).toEqual('changed');
+    });
+
+    it('should set/unset legend property', () => {
+      expect(component.legend.length).toEqual(0);
+
+      const legend = [{ name: 'Weekends', color: 'amber-60', dayOfWeek: [0, 6] }];
+
+      component.legend = legend;
+
+      expect(component.legend).toEqual(legend);
+    });
+
+    it('should set/unset useRange property', () => {
+      expect(component.useRange).toBeFalsy();
+
+      component.useRange = true;
+
+      expect(component.useRange).toBeTruthy();
+
+      component.useRange = false;
+
+      expect(component.useRange).toBeFalsy();
     });
 
     it('should render field height', () => {
@@ -311,9 +333,9 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.placeholder).toEqual(name);
       expect(component.size).toEqual('lg');
       expect(component.format).toEqual('yyyy-MM-dd');
-      expect(component.month).toEqual('9');
-      expect(component.year).toEqual('2021');
-      expect(component.day).toEqual('18');
+      expect(component.month).toEqual(9);
+      expect(component.year).toEqual(2021);
+      expect(component.day).toEqual(18);
     });
 
     it('can set visible and get the popup', () => {
@@ -346,9 +368,9 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.placeholder).toEqual('changed');
       expect(component.size).toEqual('sm');
       expect(component.format).toEqual('locale');
-      expect(component.month).toEqual('4');
-      expect(component.year).toEqual('2019');
-      expect(component.day).toEqual('22');
+      expect(component.month).toEqual(4);
+      expect(component.year).toEqual(2019);
+      expect(component.day).toEqual(22);
 
       // Reset to defaults
       component.removeAttribute('tabbable');
@@ -371,9 +393,17 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.label).toEqual('');
       expect(component.format).toEqual('locale');
       expect(component.placeholder).toEqual('');
-      expect(component.month).toBeNull();
-      expect(component.year).toBeNull();
-      expect(component.day).toBeNull();
+      expect(component.month).toEqual((new Date()).getMonth());
+      expect(component.year).toEqual((new Date()).getFullYear());
+      expect(component.day).toEqual((new Date()).getDate());
+    });
+
+    it('should set/unset useRange property', () => {
+      expect(component.getAttribute('use-range')).toBeNull();
+
+      component.setAttribute('use-range', true);
+
+      expect(component.useRange).toBeTruthy();
     });
   });
 
@@ -423,10 +453,18 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.validationEvents).toEqual('change blur');
       expect(component.format).toEqual('locale');
       expect(component.isCalendarToolbar).toBeFalsy();
+      expect(component.month).toEqual((new Date()).getMonth());
+      expect(component.year).toEqual((new Date()).getFullYear());
+      expect(component.day).toEqual((new Date()).getDate());
+    });
+
+    it('should not expand if not dropdown', () => {
       expect(component.isDropdown).toBeFalsy();
-      expect(component.month).toBeNull();
-      expect(component.year).toBeNull();
-      expect(component.day).toBeNull();
+      expect(component.expanded).toBeFalsy();
+
+      component.expanded = true;
+
+      expect(component.expanded).toBeFalsy();
     });
 
     it('should handle is-dropdown is-calendar-toolbar attributes', () => {
