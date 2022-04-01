@@ -5,10 +5,10 @@ import '../helpers/resize-observer-mock';
 import IdsErrorPage from '../../src/components/ids-error-page/ids-error-page';
 
 describe('Ids Error Page Tests', () => {
-  let errorPage;
+  let errorPage: any;
 
   beforeEach(async () => {
-    const elem = new IdsErrorPage();
+    const elem: any = new IdsErrorPage();
     document.body.appendChild(elem);
     errorPage = document.querySelector('ids-error-page');
   });
@@ -91,9 +91,9 @@ describe('Ids Error Page Tests', () => {
     const button = errorPage.shadowRoot.querySelector('[slot="button"]');
     const event = new MouseEvent('click', {
       button: 1,
-      pageX: 0,
-      pageY: 0,
-      target: button,
+      screenX: 0,
+      screenY: 0,
+      buttons: button,
       bubbles: true,
       cancelable: true,
       view: window
@@ -107,9 +107,17 @@ describe('Ids Error Page Tests', () => {
     const button = errorPage.shadowRoot.querySelector('[slot="button"]');
     const event = new TouchEvent('touchend', {
       touches: [{
-        identifier: '123',
+        identifier: 123,
         pageX: 0,
         pageY: 0,
+        clientX: 0,
+        clientY: 0,
+        force: 0,
+        radiusX: 1,
+        radiusY: 1,
+        rotationAngle: 0,
+        screenX: 0,
+        screenY: 0,
         target: button
       }],
       bubbles: true,

@@ -1,15 +1,15 @@
-import IdsExpandableArea from '../ids-expandable-area';
-import IdsDataLabel from '../../ids-data-label/ids-data-label';
+import '../ids-expandable-area';
+import '../../ids-data-label/ids-data-label';
 
 // Supporting components
-import IdsInput from '../../ids-input/ids-input';
-import IdsToggleButton from '../../ids-toggle-button/ids-toggle-button';
-import IdsHyperlink from '../../ids-hyperlink/ids-hyperlink';
+import '../../ids-input/ids-input';
+import '../../ids-toggle-button/ids-toggle-button';
+import '../../ids-hyperlink/ids-hyperlink';
 
 document.addEventListener('DOMContentLoaded', () => {
   // Add an event listener to test clickable links
   document.querySelectorAll('ids-toggle-button').forEach((idsButton) => {
-    idsButton.addEventListener('click', (e) => {
+    idsButton.addEventListener('click', (e: any) => {
       e.target.toggle();
     });
   });
