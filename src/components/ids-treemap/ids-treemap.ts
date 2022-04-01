@@ -287,13 +287,13 @@ export default class IdsTreeMap extends Base {
 
   /**
    * Calculate worst ratio
-   * @param {number} row array
+   * @param {number[]} row array
    * @param {number} width of row
    * @returns {number} worst ratio number
    * @memberof IdsTreeMap
    * @private
    */
-  #worstRatio = (row: number[], width: number) => {
+  #worstRatio = (row: number[], width: number): number => {
     const sum = row.reduce(this.#sumReducer, 0);
     const rowMax = this.#getMaximum(row);
     const rowMin = this.#getMinimum(row);
