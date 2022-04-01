@@ -31,9 +31,26 @@ The `ids-date-picker` is a web component to support date entry
 - `year` `{string|number|null}` - Specifies a year for the popup calendar (`ids-month-view` attribute)
 - `first-day-of-week` `{string|number|null}` - Specifies first day of the week for the popup calendar, if not set the information comes from the locale (`ids-month-view` attribute)
 - `show-today` `{true|false}` - Whether or not to show the today button in the popup calendar (`ids-month-view` attribute)
+- `expanded` `{true|false}` - When the date picker is month/year picker it specifies whether or not the picker is expanded
+- `legend` - Set array of legend items:
+  - `name` `{string}` - The name of the legend (required)
+  - `color` `{string}` - The color of the legend, either hex or IDS variable excluding `--ids-color-palette-` part i.e. `emerald-60` (required)
+  - `dates` `{Array}` - Array of dates (either dates or dayOfWeek is required)
+  - `dayOfWeek` `{Array}` - Array of days of week where 0 is Sunday (either dates or dayOfWeek is required)
+- `use-range` `{true|false}` - Whether or not the component should be a range picker. If set without settings default settings will apply.
+- `rangeSettings` `{Object}` - Range selection settings:
+  - `start` `{string}` - start date of the range selection. Default is `null` not set
+  - `end` `{string}` - end date of the range selection. Default is `null` not set
+  - `separator` `{string}` - separator symbol for the input value i.e. `2/7/2018 - 2/22/2018` if separator is ` - `. Default is ` - `
+  - `minDays` `{number}` - minimum number of days to select. Default is `0` not set
+  - `maxDays` `{number}` - maximum number of days to select. Default is `0` not set
+  - `selectForward` `{boolean}` - Whether or not the selection should be in forward direction. Default is `false`
+  - `selectBackward` `{boolean}` - Whether or not the selection should be in backward direction. Default is `false`
+  - `includeDisabled` `{boolean}` - Whether or not the selection should include disabled dates visually
 
 ## Events
-- `dayselected` - Fires when a day is selected
+- `dayselected` - Fires when a day is selected or range selection is completed
+- `expanded` - Fires when a month/year picker is opened/closed
 
 ## Themeable Parts
 - `container` allows you to further style the container element of the component
@@ -91,6 +108,77 @@ When used in calendar toolbar.
   first-day-of-week="1"
 ></ids-date-picker>
 ```
+
+Enable range selection with default settings.
+
+```html
+<ids-date-picker
+  use-range="true"
+></ids-date-picker>
+```
+
+The component can be controlled dynamically
+
+```js
+const datePicker = document.querySelector('ids-date-picker');
+
+// Set legend
+datePicker.legend = [
+  {
+    name: 'Public Holiday',
+    color: 'emerald-60',
+    dates: ['12/31/2021', '12/24/2021', '1/1/2022'],
+  },
+  { name: 'Weekends', color: 'amber-60', dayOfWeek: [0, 6] },
+  {
+    name: 'Other',
+    color: 'ruby-30',
+    dates: ['1/8/2022', '1/9/2022', '1/23/2022'],
+  },
+  {
+    name: 'Half Days',
+    color: 'amethyst-60',
+    dates: ['1/21/2022', '1/22/2022'],
+  },
+  {
+    name: 'Full Days',
+    color: '#1677ee',
+    dates: ['1/24/2022', '1/25/2022'],
+  }
+];
+
+// Unset legend
+datePicker.legend = null;
+
+// Enable range selection and set range settings
+datePicker.useRange = true;
+datePicker.rangeSettings = {
+  start: '12/24/2021',
+  end: '1/25/2022'
+};
+
+// Disable range selection
+datePicker.useRange = false;
+```
+
+## Keyboard Guidelines
+- <kbd>Tab</kbd> - becomes active by tabbing into it.
+- <kbd>Shift + Tab</kbd> reverses the direction of the tab order. Once in the widget, a <kbd>Shift + Tab</kbd> will take the user to the previous focusable element in the tab order
+- <kbd>Up</kbd> and <kbd>Down</kbd> goes to the same day of the week in the previous or next week respectively. If the user advances past the end of the month they continue into the next or previous month as appropriate
+- <kbd>Left</kbd> Go to the previous day. Visually, focus is moved from day to day and wraps from row to row in a grid of days and weeks
+- <kbd>Right</kbd> Advances to the next day. Visually, focus is moved from day to day and wraps from row to row in a grid of days and weeks
+- <kbd>Control + Page Up</kbd> moves to the same date in the previous year
+- <kbd>Control + Page Down</kbd> moves to the same date in the next year
+- <kbd>Space</kbd>, in singleton mode, acts as a toggle either selecting or de-selecting the date. In contiguous mode, it behaves similar to selecting a range of text: <kbd>Space</kbd> selects the first date. <kbd>Shift + Arrows</kbd> add to the selection. Pressing <kbd>Space</kbd> again de-selects the previous selections and selects the current focused date. In non-contiguous mode, <kbd>Space</kbd> may be used to select multiple non-contiguous dates
+- <kbd>Home</kbd> moves to the first day of the current month
+- <kbd>End</kbd> moves to the last day of the current month
+- <kbd>Page Up</kbd> moves to the same date in the previous month
+- <kbd>Page Down</kbd> moves to the same date in the next month
+- <kbd>Enter</kbd> submits the form
+- <kbd>Escape</kbd>, in the case of a popup date picker, closes the widget without any action
+- <kbd>T</kbd> inserts today's date
+- <kbd>+</kbd> Is used to increment the day in the calendar. This is in addition to the <kbd>Right</kbd>. This works both when in the input field or when the calendar picker is open. If the date pattern contains a `-` in it then this key interferes with typing so this key shortcut is disabled.
+- <kbd>-</kbd>  Is used to increment the day in the calendar. This is in addition to the <kbd>Left</kbd>. This works both when in the input field or when the calendar picker is open. If the date pattern contains a `-` in it then this key interferes with typing so this key shortcut is disabled.
 
 ## Accessibility
 The Date Picker is a complex control to code for accessibility.
