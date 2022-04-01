@@ -79,4 +79,4 @@ import './ids-treemap/ids-treemap';
 // import './ids-upload/ids-upload';
 // import './ids-upload-advanced/ids-upload-advanced';
 // import './ids-week-view/ids-week-view';
-// import './ids-wizard/ids-wizard';
+import './ids-wizard/ids-wizard';
