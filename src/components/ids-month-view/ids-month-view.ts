@@ -27,13 +27,12 @@ import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { deepClone } from '../../utils/ids-deep-clone-utils/ids-deep-clone-utils';
 
 // Supporting components
-import IdsButton from '../ids-button/ids-button';
-// eslint-disable-next-line import/no-cycle
-import IdsDatePicker from '../ids-date-picker/ids-date-picker';
-import IdsIcon from '../ids-icon/ids-icon';
-import IdsText from '../ids-text/ids-text';
-import IdsToolbar from '../ids-toolbar/ids-toolbar';
-import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
+import '../ids-button/ids-button';
+import '../ids-date-picker/ids-date-picker';
+import '../ids-icon/ids-icon';
+import '../ids-text/ids-text';
+import '../ids-toolbar/ids-toolbar';
+import '../ids-trigger-field/ids-trigger-button';
 
 // Import Styles
 import styles from './ids-month-view.scss';
@@ -66,7 +65,7 @@ class IdsMonthView extends Base {
   #currentLegend = [];
 
   // Range picker default settings
-  #rangeSettings = {
+  #rangeSettings: any = {
     start: null,
     end: null,
     separator: ' - ',
@@ -81,7 +80,7 @@ class IdsMonthView extends Base {
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       ...super.attributes,
       attributes.COMPACT,
@@ -101,7 +100,7 @@ class IdsMonthView extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `<div class="ids-month-view ${this.compact ? 'is-compact' : 'is-fullsize'}${this.isDatePicker ? ' is-date-picker' : ''}">
       <div class="month-view-container">
         <table class="month-view-table" aria-label="${this.locale?.translate('Calendar')}" role="application">
@@ -116,7 +115,7 @@ class IdsMonthView extends Base {
 
   /**
    * Establish internal event handlers
-   * @returns {object} The object for chaining
+   * @returns {void}
    */
   #attachEventHandlers() {
     // Respond to container changing language
@@ -137,14 +136,14 @@ class IdsMonthView extends Base {
 
     // Day select event
     this.offEvent('click.month-view-dayselect');
-    this.onEvent('click.month-view-dayselect', this.container.querySelector('tbody'), (e) => {
-      this.#daySelectClick(e.target.closest('td'));
+    this.onEvent('click.month-view-dayselect', this.container.querySelector('tbody'), (e: MouseEvent) => {
+      this.#daySelectClick((e.target as any).closest('td'));
     });
 
     // Range selection event
     this.offEvent('mouseover.month-view-range');
-    this.onEvent('mouseover.month-view-range', this.container.querySelector('tbody'), (e) => {
-      const element = e.target.closest('td');
+    this.onEvent('mouseover.month-view-range', this.container.querySelector('tbody'), (e: MouseEvent) => {
+      const element = (e.target as any).closest('td');
 
       if (!element) return;
 
@@ -157,7 +156,7 @@ class IdsMonthView extends Base {
     this.offEvent('mouseleave.month-view-range');
     this.onEvent('mouseleave.month-view-range', this.container.querySelector('tbody'), () => {
       this.container.querySelectorAll('td')
-        .forEach((item) => item.classList.remove('range-next', 'range-prev'));
+        .forEach((item: HTMLElement) => item.classList.remove('range-next', 'range-prev'));
     });
 
     return this;
@@ -167,7 +166,7 @@ class IdsMonthView extends Base {
    * Establish Internal Keyboard shortcuts
    * @returns {object} this class-instance object for chaining
    */
-  #attachKeyboardListeners() {
+  #attachKeyboardListeners(): any {
     // Group key codes to stop keyboard event, trigger dayselected event and focus active day
     const keys = [33, 34, 35, 36, 37, 38, 39, 40, 187, 189];
 
@@ -176,7 +175,7 @@ class IdsMonthView extends Base {
       this.offEvent('keydown.month-view-keyboard');
     } else {
       this.offEvent('keydown.month-view-keyboard');
-      this.onEvent('keydown.month-view-keyboard', this.container.querySelector('.month-view-table'), (e) => {
+      this.onEvent('keydown.month-view-keyboard', this.container.querySelector('.month-view-table'), (e: KeyboardEvent) => {
         const key = e.keyCode;
 
         if (keys.includes(key)) {
@@ -308,7 +307,7 @@ class IdsMonthView extends Base {
   /**
    * Add/Remove toolbar HTML to container
    */
-  #renderToolbar() {
+  #renderToolbar(): void {
     if (this.#isDisplayRange()) {
       this.container.querySelector('ids-toolbar')?.remove();
       this.#detachToolbarEvents();
@@ -393,30 +392,30 @@ class IdsMonthView extends Base {
   /**
    * Add next/previous/today click events when toolbar is attached
    */
-  #attachToolbarEvents() {
+  #attachToolbarEvents(): void {
     const buttonSet = this.container.querySelector('ids-toolbar-section[type="buttonset"]');
     const toolbarDatepicker = this.container.querySelector('ids-date-picker');
 
     this.offEvent('click.month-view-buttons');
-    this.onEvent('click.month-view-buttons', buttonSet, (e) => {
+    this.onEvent('click.month-view-buttons', buttonSet, (e: MouseEvent) => {
       e.stopPropagation();
-
-      if (e.target?.classList.contains('btn-previous')) {
+      const target: any = e.target;
+      if (target.classList.contains('btn-previous')) {
         this.#changeDate('previous-month');
       }
 
-      if (e.target?.classList.contains('btn-next')) {
+      if (target.classList.contains('btn-next')) {
         this.#changeDate('next-month');
       }
 
-      if (e.target?.classList.contains('btn-today')) {
+      if (target.classList.contains('btn-today')) {
         this.#changeDate('today');
 
         this.focus();
         this.#triggerSelectedEvent();
       }
 
-      if (e.target?.classList.contains('btn-apply')) {
+      if (target.classList.contains('btn-apply')) {
         const { year, month } = toolbarDatepicker;
 
         this.year = year;
@@ -429,7 +428,7 @@ class IdsMonthView extends Base {
     });
 
     this.offEvent('dayselected.month-view-datepicker');
-    this.onEvent('dayselected.month-view-datepicker', toolbarDatepicker, (e) => {
+    this.onEvent('dayselected.month-view-datepicker', toolbarDatepicker, (e: CustomEvent) => {
       const date = e.detail.date;
 
       this.day = date.getDate();
@@ -439,8 +438,8 @@ class IdsMonthView extends Base {
 
     // Date picker dropdown picklist expanded or collapsed
     this.offEvent('expanded.month-view-picklist');
-    this.onEvent('expanded.month-view-picklist', toolbarDatepicker, (e) => {
-      const expanded = e.detail.expanded;
+    this.onEvent('expanded.month-view-picklist', toolbarDatepicker, (e: CustomEvent) => {
+      const expanded: any = e.detail.expanded;
 
       this.container.querySelector('.btn-today')?.setAttribute('hidden', expanded);
       this.container.querySelector('.btn-apply')?.setAttribute('hidden', !expanded);
@@ -453,7 +452,7 @@ class IdsMonthView extends Base {
   /**
    * Remove calendar toolbar events when showing range of dates
    */
-  #detachToolbarEvents() {
+  #detachToolbarEvents(): void {
     this.offEvent('click.month-view-buttons');
     this.offEvent('dayselected.month-view-datepicker');
   }
@@ -461,10 +460,10 @@ class IdsMonthView extends Base {
   /**
    * Add/remove legend HTML to the container
    */
-  #renderLegend() {
+  #renderLegend(): void {
     const template = this.legend.length > 0 ? `
       <div class="month-view-legend">
-        ${this.legend.map((item) => `
+        ${this.legend.map((item: any) => `
           <div class="month-view-legend-item">
             <span class="month-view-legend-swatch" data-color="${item.color}"></span>
             <ids-text class="month-view-legend-text">${item.name}</ids-text>
@@ -485,14 +484,14 @@ class IdsMonthView extends Base {
    * Helper to format datepicker text in the toolbar
    * @returns {string} locale formatted month year
    */
-  #formatMonthText() {
+  #formatMonthText(): string {
     return this.locale?.formatDate(this.activeDate, { month: 'long', year: 'numeric', numberingSystem: 'latn' });
   }
 
   /**
    * Datepicker changing locale formatted text
    */
-  #attachDatepicker() {
+  #attachDatepicker(): void {
     const text = this.#formatMonthText();
     const datepicker = this.container.querySelector('ids-date-picker');
 
@@ -511,7 +510,7 @@ class IdsMonthView extends Base {
    * @param {string} type of event to be called
    * @param {boolean} limitMonth date changing is limited only to the current month
    */
-  #changeDate(type, limitMonth = false) {
+  #changeDate(type: string, limitMonth = false): void {
     if (type === 'next-month') {
       if (this.locale?.isIslamic()) {
         const umalqura = gregorianToUmalqura(this.activeDate);
@@ -708,10 +707,10 @@ class IdsMonthView extends Base {
    * Day cell clicked
    * @param {HTMLElement} element The element.
    */
-  #daySelectClick(element) {
+  #daySelectClick(element: HTMLElement): void {
     if (!element) return;
 
-    const { month, year, day } = element.dataset;
+    const { month, year, day }: any = element.dataset;
     const isDisabled = element.classList.contains('is-disabled');
 
     if (!isDisabled) {
@@ -738,7 +737,7 @@ class IdsMonthView extends Base {
    * @param {number} month to add to the range selection
    * @param {number} day to add to the range selection
    */
-  #setRangeSelection(year, month, day) {
+  #setRangeSelection(year: number, month: number, day: number | undefined): void {
     if (!this.useRange) return;
 
     const date = new Date(year, month, day);
@@ -787,15 +786,15 @@ class IdsMonthView extends Base {
   /**
    * Helper to clear range selection CSS classes
    */
-  #clearRangeClasses() {
+  #clearRangeClasses(): void {
     this.container.querySelectorAll('td')
-      .forEach((item) => item.classList.remove('range-next', 'range-prev', 'range-selection'));
+      .forEach((item: any) => item.classList.remove('range-next', 'range-prev', 'range-selection'));
   }
 
   /**
    * Add CSS classes and selected attrs to tables cells when range selection is completed
    */
-  #renderRangeSelection() {
+  #renderRangeSelection(): void {
     if (!this.useRange) return;
     const startRange = new Date(this.rangeSettings.start);
     const endRange = new Date(this.rangeSettings.end);
@@ -828,7 +827,7 @@ class IdsMonthView extends Base {
    * @param {Date} date to check if in range selection
    * @returns {boolean} whether the date in range selection
    */
-  #isRangeByDate(date) {
+  #isRangeByDate(date: Date): boolean {
     const startRange = new Date(this.rangeSettings.start);
     const endRange = new Date(this.rangeSettings.end);
 
@@ -843,7 +842,7 @@ class IdsMonthView extends Base {
    * @param {number} month to add to the range selection
    * @param {number} day to add to the range selection
    */
-  #rangePropagation(year, month, day) {
+  #rangePropagation(year: number, month: number, day: number | undefined): void {
     if (!this.useRange) return;
 
     if (this.rangeSettings.start && !(this.rangeSettings.end && this.rangeSettings.start)) {
@@ -884,7 +883,7 @@ class IdsMonthView extends Base {
    * @param {Date} rangeStartsOn very first day of the display range
    * @returns {string|undefined} Intl.DateTimeFormat options month format (numeric, long, short)
    */
-  #monthInDayFormat(date, rangeStartsOn) {
+  #monthInDayFormat(date: any, rangeStartsOn: any): string | undefined {
     const isFirstDayOfRange = daysDiff(date, rangeStartsOn) === 0;
     const isFirstDayOfMonth = this.locale?.isIslamic()
       ? gregorianToUmalqura(date).day === 1
@@ -902,8 +901,8 @@ class IdsMonthView extends Base {
    * @param {number} weekIndex number of week in month starting from 0
    * @returns {string} table cell HTML template
    */
-  #getCellTemplate(weekIndex) {
-    const firstDayOfRange = this.#isDisplayRange()
+  #getCellTemplate(weekIndex: number): string {
+    const firstDayOfRange: any = this.#isDisplayRange()
       ? this.startDate
       : firstDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
     const lastDayOfRange = this.#isDisplayRange()
@@ -926,9 +925,9 @@ class IdsMonthView extends Base {
       const dateMatch = day === this.day && year === this.year && month === this.month;
       const isSelected = !this.useRange && dateMatch;
       const isSelectedWithRange = this.useRange && !this.rangeSettings.start && dateMatch;
-      const isDisabled = this.#isDisplayRange() && (date < this.startDate || date > this.endDate);
-      const isAlternate = !this.#isDisplayRange() && (date < firstDayOfRange || date > lastDayOfRange);
-      const legend = this.#getLegendByDate(date);
+      const isDisabled = this.#isDisplayRange() && (date < (this.startDate as any) || date > (this.endDate as any));
+      const isAlternate = !this.#isDisplayRange() && (date < firstDayOfRange || date > (lastDayOfRange as any));
+      const legend: any = this.#getLegendByDate(date);
       const isRangeSelection = this.#isRangeByDate(date);
       const classAttr = buildClassAttrib(
         isAlternate && 'alternate',
@@ -958,13 +957,13 @@ class IdsMonthView extends Base {
   /**
    * Add week days HTML to the table
    */
-  #renderWeekDays() {
+  #renderWeekDays(): void {
     if (!this.locale) return;
 
     const calendar = this.locale.calendar();
     const weekDays = this.compact ? calendar.days.narrow : calendar.days.abbreviated;
 
-    const weekDaysTemplate = weekDays.map((_, index) => {
+    const weekDaysTemplate = weekDays.map((el: any, index: number) => {
       const weekday = weekDays[(index + this.firstDayOfWeek) % WEEK_LENGTH];
 
       return `
@@ -978,23 +977,22 @@ class IdsMonthView extends Base {
     }).join('');
 
     // Clear/add HTML
-    this.container.querySelectorAll('thead th').forEach((el) => el.remove());
+    this.container.querySelectorAll('thead th').forEach((el: HTMLElement) => el.remove());
     this.container.querySelector('thead tr').insertAdjacentHTML('beforeend', weekDaysTemplate);
   }
 
   /**
    * Add month HTML to the table
    */
-  #renderMonth() {
+  #renderMonth(): void {
     const weeksCount = this.#isDisplayRange()
       ? weeksInRange(this.startDate, this.endDate, this.firstDayOfWeek)
       : weeksInMonth(this.year, this.month, this.day, this.firstDayOfWeek, this.locale?.isIslamic());
 
-    const rowsTemplate = Array.from({ length: weeksCount }).map((_, weekIndex) =>
-      `<tr>${this.#getCellTemplate(weekIndex)}</tr>`).join('');
+    const rowsTemplate = Array.from({ length: weeksCount }).map((_, weekIndex) => `<tr>${this.#getCellTemplate(weekIndex)}</tr>`).join('');
 
     // Clear/add HTML
-    this.container.querySelectorAll('tbody tr').forEach((el) => el.remove());
+    this.container.querySelectorAll('tbody tr').forEach((el: HTMLElement) => el.remove());
     this.container.querySelector('tbody').insertAdjacentHTML('beforeend', rowsTemplate);
 
     this.#renderWeekDays();
@@ -1005,7 +1003,7 @@ class IdsMonthView extends Base {
    * Trigger selected event with current params
    * @returns {void}
    */
-  #triggerSelectedEvent() {
+  #triggerSelectedEvent(): void {
     const args = {
       detail: {
         elem: this,
@@ -1029,9 +1027,9 @@ class IdsMonthView extends Base {
    * @param {number} month a given month
    * @param {number} day a given day
    */
-  #selectDay(year, month, day) {
+  #selectDay(year?: any, month?: any, day?: any): void {
     // Clear before
-    this.container.querySelectorAll('td.is-selected')?.forEach((item) => {
+    this.container.querySelectorAll('td.is-selected')?.forEach((item: HTMLElement) => {
       item?.removeAttribute('aria-selected');
       item?.removeAttribute('tabindex');
       item?.setAttribute('role', 'link');
@@ -1051,7 +1049,7 @@ class IdsMonthView extends Base {
    * Whether or not it should show range of dates instead of one month view
    * @returns {boolean} startDate and endDate are set
    */
-  #isDisplayRange() {
+  #isDisplayRange(): any {
     return this.startDate && this.endDate && this.endDate >= this.startDate;
   }
 
@@ -1060,7 +1058,7 @@ class IdsMonthView extends Base {
    * @param {number} day to check
    * @returns {number} day of the month either active or first
    */
-  #getDayInMonth(day) {
+  #getDayInMonth(day: number): number {
     const numberOfDays = daysInMonth(this.year, this.month);
 
     return day > numberOfDays ? 1 : day;
@@ -1071,10 +1069,10 @@ class IdsMonthView extends Base {
    * @param {Date} date to check if has any legend
    * @returns {object} legend object for a specific date
    */
-  #getLegendByDate(date) {
-    return this.legend.find((legend) => {
+  #getLegendByDate(date: any): void {
+    return this.legend.find((legend: any) => {
       const ifDayOfWeek = legend.dayOfWeek?.includes(date.getDay());
-      const ifDate = legend.dates?.some((item) => new Date(item).getTime() === date.getTime());
+      const ifDate = legend.dates?.some((item: any) => new Date(item).getTime() === date.getTime());
 
       return ifDayOfWeek || ifDate;
     });
@@ -1083,9 +1081,9 @@ class IdsMonthView extends Base {
   /**
    * Iterate legend items with color data and add color css variable
    */
-  #colorToVar() {
+  #colorToVar(): void {
     this.container.querySelectorAll('[data-color]')
-      .forEach((el) => {
+      .forEach((el: any) => {
         const color = el.dataset.color;
         const isHex = color?.includes('#');
 
@@ -1099,7 +1097,7 @@ class IdsMonthView extends Base {
    * Focuses the active/selected day
    * @returns {void}
    */
-  focus() {
+  focus(): void {
     this.container.querySelector('td.is-selected')?.focus();
   }
 
@@ -1108,7 +1106,7 @@ class IdsMonthView extends Base {
    * @readonly
    * @returns {Date} active date
    */
-  get activeDate() {
+  get activeDate(): Date {
     return new Date(this.year, this.month, this.day);
   }
 
@@ -1116,7 +1114,7 @@ class IdsMonthView extends Base {
    * show-today attribute
    * @returns {boolean} showToday param converted to boolean from attribute value
    */
-  get showToday() {
+  get showToday(): boolean {
     const attrVal = this.getAttribute(attributes.SHOW_TODAY);
 
     return stringToBool(attrVal);
@@ -1126,7 +1124,7 @@ class IdsMonthView extends Base {
    * Set whether or not the today button should be shown
    * @param {string|boolean|null} val showToday param value
    */
-  set showToday(val) {
+  set showToday(val: string | boolean | null) {
     const boolVal = stringToBool(val);
 
     if (boolVal) {
@@ -1143,7 +1141,7 @@ class IdsMonthView extends Base {
    * month attribute
    * @returns {number} month param converted to number from attribute value with range (MIN_MONTH - MAX_MONTH)
    */
-  get month() {
+  get month(): number {
     const attrVal = this.getAttribute(attributes.MONTH);
     const numberVal = stringToNumber(attrVal);
 
@@ -1159,7 +1157,7 @@ class IdsMonthView extends Base {
    * Set month param and render month table/toolbar
    * @param {string|number|null} val month param value
    */
-  set month(val) {
+  set month(val: string | number | null) {
     const numberVal = stringToNumber(val);
 
     if (!Number.isNaN(numberVal) && numberVal >= MIN_MONTH && numberVal <= MAX_MONTH) {
@@ -1182,7 +1180,7 @@ class IdsMonthView extends Base {
    * year attribute
    * @returns {number} year param converted to number from attribute value with 4-digit check
    */
-  get year() {
+  get year(): any {
     const attrVal = this.getAttribute(attributes.YEAR);
     const numberVal = stringToNumber(attrVal);
 
@@ -1198,7 +1196,7 @@ class IdsMonthView extends Base {
    * Set year param and render month table/toolbar
    * @param {string|number|null} val year param value
    */
-  set year(val) {
+  set year(val: any) {
     const numberVal = stringToNumber(val);
 
     if (!Number.isNaN(numberVal) && numberVal.toString().length === 4) {
@@ -1221,7 +1219,7 @@ class IdsMonthView extends Base {
    * day attribute
    * @returns {number} day param converted to number
    */
-  get day() {
+  get day(): any {
     const attrVal = this.getAttribute(attributes.DAY);
     const numberVal = stringToNumber(attrVal);
 
@@ -1237,7 +1235,7 @@ class IdsMonthView extends Base {
    * Set day param and select active day
    * @param {string|number|null} val day param value
    */
-  set day(val) {
+  set day(val: any) {
     const numberVal = stringToNumber(val);
     const validates = !Number.isNaN(numberVal) && numberVal > 0;
 
@@ -1258,9 +1256,9 @@ class IdsMonthView extends Base {
 
   /**
    * start-date attribute
-   * @returns {Date} startDate date parsed from attribute value
+   * @returns {string | Date | null} startDate date parsed from attribute value
    */
-  get startDate() {
+  get startDate(): string | Date | null {
     const attrVal = this.getAttribute(attributes.START_DATE);
     const attrDate = new Date(attrVal);
 
@@ -1273,9 +1271,9 @@ class IdsMonthView extends Base {
 
   /**
    * Set start of the range to show
-   * @param {string|null} val startDate param value
+   * @param {string | Date | null} val startDate param value
    */
-  set startDate(val) {
+  set startDate(val: string | Date | null) {
     if (val) {
       this.setAttribute(attributes.START_DATE, val);
     } else {
@@ -1291,7 +1289,7 @@ class IdsMonthView extends Base {
    * end-date attribute
    * @returns {Date|null} endDate date parsed from attribute value
    */
-  get endDate() {
+  get endDate(): Date | string | null {
     const attrVal = this.getAttribute(attributes.END_DATE);
     const attrDate = new Date(attrVal);
 
@@ -1304,9 +1302,9 @@ class IdsMonthView extends Base {
 
   /**
    * Set end of the range to show
-   * @param {string|null} val endDate param value
+   * @param {Date | string | null} val endDate param value
    */
-  set endDate(val) {
+  set endDate(val: Date | string | null) {
     if (val) {
       this.setAttribute(attributes.END_DATE, val);
     } else {
@@ -1322,7 +1320,7 @@ class IdsMonthView extends Base {
    * fist-day-of-week attribute
    * @returns {number} firstDayOfWeek param converted to number from attribute value with range (0-6)
    */
-  get firstDayOfWeek() {
+  get firstDayOfWeek(): number {
     const attrVal = this.getAttribute(attributes.FIRST_DAY_OF_WEEK);
     const numberVal = stringToNumber(attrVal);
 
@@ -1338,7 +1336,7 @@ class IdsMonthView extends Base {
    * Set first day of the week (0-6)
    * @param {string|number|null} val firstDayOfWeek param value
    */
-  set firstDayOfWeek(val) {
+  set firstDayOfWeek(val: any) {
     const numberVal = stringToNumber(val);
 
     if (!Number.isNaN(numberVal)) {
@@ -1355,7 +1353,7 @@ class IdsMonthView extends Base {
    * compact attribute
    * @returns {boolean} compact param converted to boolean from attribute value
    */
-  get compact() {
+  get compact(): boolean {
     const attrVal = this.getAttribute(attributes.COMPACT);
 
     return stringToBool(attrVal);
@@ -1365,7 +1363,7 @@ class IdsMonthView extends Base {
    * Set whether or not the component should be compact view
    * @param {string|boolean|null} val compact param value
    */
-  set compact(val) {
+  set compact(val: string | boolean | null) {
     const boolVal = stringToBool(val);
 
     if (boolVal) {
@@ -1386,7 +1384,7 @@ class IdsMonthView extends Base {
    * is-date-picker attribute
    * @returns {boolean} isDatePicker param converted to boolean from attribute value
    */
-  get isDatePicker() {
+  get isDatePicker(): boolean {
     const attrVal = this.getAttribute(attributes.IS_DATEPICKER);
 
     return stringToBool(attrVal);
@@ -1396,7 +1394,7 @@ class IdsMonthView extends Base {
    * Set whether or not the component is used in datepicker popup
    * @param {string|boolean|null} val compact param value
    */
-  set isDatePicker(val) {
+  set isDatePicker(val: string | boolean | null) {
     const boolVal = stringToBool(val);
 
     if (boolVal) {
@@ -1412,7 +1410,7 @@ class IdsMonthView extends Base {
   /**
    * @returns {Array} array of legend items
    */
-  get legend() {
+  get legend(): Array<any> {
     return this.#currentLegend;
   }
 
@@ -1421,7 +1419,7 @@ class IdsMonthView extends Base {
    * Not an empty array of object with name, color, dates or dayOfWeek properties
    * @param {Array|null} val array of legend items
    */
-  set legend(val) {
+  set legend(val: Array<any> | null) {
     // Remove legend by setting null
     if (val === null) {
       this.#currentLegend = [];
@@ -1437,7 +1435,7 @@ class IdsMonthView extends Base {
       Array.isArray(val)
       && val.length > 0
       && val.every(
-        (item) => item.name && item.color && (item.dates || item.dayOfWeek)
+        (item: any) => item.name && item.color && (item.dates || item.dayOfWeek)
       )
     ) {
       this.#currentLegend = deepClone(val);
@@ -1452,7 +1450,7 @@ class IdsMonthView extends Base {
   /**
    * @returns {object} range settings object
    */
-  get rangeSettings() {
+  get rangeSettings(): any {
     return this.#rangeSettings;
   }
 
@@ -1460,7 +1458,7 @@ class IdsMonthView extends Base {
    * Set range selection settings
    * @param {object} val settings to be assigned to default range settings
    */
-  set rangeSettings(val) {
+  set rangeSettings(val: any) {
     this.#rangeSettings = {
       ...this.#rangeSettings,
       ...deepClone(val)
@@ -1477,7 +1475,7 @@ class IdsMonthView extends Base {
    * use-range attribute
    * @returns {boolean} useRange param converted to boolean from attribute value
    */
-  get useRange() {
+  get useRange(): boolean {
     const attrVal = this.getAttribute(attributes.USE_RANGE);
 
     return stringToBool(attrVal);
@@ -1487,7 +1485,7 @@ class IdsMonthView extends Base {
    * Set whether or not the component should be a range picker
    * @param {string|boolean|null} val useRange param value
    */
-  set useRange(val) {
+  set useRange(val: string | boolean | null) {
     const boolVal = stringToBool(val);
 
     if (boolVal) {

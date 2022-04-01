@@ -3,10 +3,10 @@
  */
 import IdsRenderLoop from '../../src/components/ids-render-loop/ids-render-loop';
 import IdsRenderLoopItem from '../../src/components/ids-render-loop/ids-render-loop-item';
-import IdsIcon from '../../src/components/ids-icon/ids-icon';
+import '../../src/components/ids-icon/ids-icon';
 
 describe('Ids RenderLoop', () => {
-  let loop;
+  let loop: any;
 
   beforeEach(() => {
     loop = new IdsRenderLoop();
@@ -320,7 +320,7 @@ describe('Ids RenderLoop', () => {
 });
 
 describe('Ids RenderLoop (with Autostart)', () => {
-  let loop;
+  let loop: any;
 
   beforeEach(() => {
     // Setup Loop

@@ -1,11 +1,11 @@
 // Supporting components
-import IdsDatePicker from '../ids-date-picker';
+import '../ids-date-picker';
 
-const rangePickerSettings = document.querySelector('#e2e-datepicker-settings-value');
-const rangePickerForward = document.querySelector('#e2e-datepicker-forward');
-const rangePickerBackward = document.querySelector('#e2e-datepicker-backward');
-const rangePickerMax = document.querySelector('#e2e-datepicker-max');
-const rangePickerMin = document.querySelector('#e2e-datepicker-min');
+const rangePickerSettings: any = document.querySelector('#e2e-datepicker-settings-value');
+const rangePickerForward: any = document.querySelector('#e2e-datepicker-forward');
+const rangePickerBackward: any = document.querySelector('#e2e-datepicker-backward');
+const rangePickerMax: any = document.querySelector('#e2e-datepicker-max');
+const rangePickerMin: any = document.querySelector('#e2e-datepicker-min');
 
 // Example to set start/end of the range via component settings
 if (rangePickerSettings) {
@@ -14,7 +14,7 @@ if (rangePickerSettings) {
     end: '2/28/2018'
   };
 
-  rangePickerSettings.addEventListener('dayselected', (e) => {
+  rangePickerSettings.addEventListener('dayselected', (e: any) => {
     console.info('Range Selected', e.detail.rangeStart, e.detail.rangeEnd);
   });
 }

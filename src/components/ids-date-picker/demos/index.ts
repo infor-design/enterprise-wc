@@ -1,8 +1,8 @@
 // Supporting components
-import IdsDatePicker from '../ids-date-picker';
+import '../ids-date-picker';
 
 // Example for populating the legend
-const datePickerLegend = document.querySelector('#e2e-datepicker-legend');
+const datePickerLegend: any = document.querySelector('#e2e-datepicker-legend');
 
 if (datePickerLegend) {
   datePickerLegend.legend = [
