@@ -293,6 +293,7 @@ export const attributes = {
   USER_STATUS: 'user-status',
   USE_DEFAULT_COPYRIGHT: 'use-default-copyright',
   USE_TOGGLE_TARGET: 'use-toggle-target',
+  USE_RANGE: 'use-range',
   VALIDATE: 'validate',
   VALIDATION_EVENTS: 'validation-events',
   VALIDATION_HAS_ERROR: 'validation-has-error',
