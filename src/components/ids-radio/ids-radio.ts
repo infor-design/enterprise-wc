@@ -44,7 +44,7 @@ export default class IdsRadio extends Base {
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       attributes.CHECKED,
       attributes.COLOR,
@@ -69,7 +69,7 @@ export default class IdsRadio extends Base {
     name: string,
     oldValue: any,
     newValue: any
-  ) {
+  ): void {
     if (oldValue !== newValue) {
       attribs.forEach((attribute) => {
         if (name === attribute.name) {
@@ -83,7 +83,7 @@ export default class IdsRadio extends Base {
    * Custom Element `connectedCallback` implementation
    * @returns {void}
    */
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback();
     this.input = this.shadowRoot.querySelector('input[type="radio"]');
     this.labelEl = this.shadowRoot.querySelector('label');
@@ -100,7 +100,7 @@ export default class IdsRadio extends Base {
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     // Checkbox
     const isDisabled = stringToBool(this.groupDisabled) || stringToBool(this.disabled);
     const disabled = isDisabled ? ' disabled' : '';
@@ -127,7 +127,7 @@ export default class IdsRadio extends Base {
    * @private
    * @returns {void}
    */
-  #attachRadioChangeEvent() {
+  #attachRadioChangeEvent(): void {
     this.onEvent('change', this.input, () => {
       this.checked = this.input.checked;
     });
@@ -138,7 +138,7 @@ export default class IdsRadio extends Base {
    * @private
    * @returns {void}
    */
-  #attachRadioClickEvent() {
+  #attachRadioClickEvent(): void {
     this.onEvent('click', this.labelEl, () => {
       this.input?.focus(); // Safari need focus first click
     });
@@ -149,7 +149,7 @@ export default class IdsRadio extends Base {
    * @private
    * @returns {void}
    */
-  #attachNativeEvents() {
+  #attachNativeEvents(): void {
     const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       this.onEvent(evt, this.input, (e: KeyboardEvent) => {
@@ -175,7 +175,7 @@ export default class IdsRadio extends Base {
    * @private
    * @returns {void}
    */
-  #attachEventHandlers() {
+  #attachEventHandlers(): void {
     this.#attachRadioClickEvent();
     this.#attachRadioChangeEvent();
     this.#attachNativeEvents();
@@ -185,7 +185,7 @@ export default class IdsRadio extends Base {
    * Set `checked` attribute
    * @param {boolean|string} value If true will set `checked` attribute
    */
-  set checked(value) {
+  set checked(value: boolean | string) {
     const circle = this.shadowRoot.querySelector('.circle');
     const val = stringToBool(value);
     if (val) {
@@ -209,13 +209,13 @@ export default class IdsRadio extends Base {
     }
   }
 
-  get checked() { return this.getAttribute(attributes.CHECKED); }
+  get checked(): boolean { return stringToBool(this.getAttribute(attributes.CHECKED)); }
 
   /**
    * Set `color` attribute
-   * @param {boolean|string} value If true will set `color` attribute
+   * @param {string | null} value If true will set `color` attribute
    */
-  set color(value) {
+  set color(value: string | null) {
     if (value) {
       this.setAttribute(attributes.COLOR, value.toString());
       this.rootEl?.setAttribute(attributes.COLOR, value.toString());
@@ -225,13 +225,13 @@ export default class IdsRadio extends Base {
     }
   }
 
-  get color() { return this.getAttribute(attributes.COLOR); }
+  get color(): string | null { return this.getAttribute(attributes.COLOR); }
 
   /**
    * Set `disabled` attribute
    * @param {boolean|string} value If true will set `disabled` attribute
    */
-  set disabled(value) {
+  set disabled(value: boolean | string) {
     const labelText = this.shadowRoot.querySelector('.label-text');
     const val = stringToBool(value);
     if (val) {
@@ -250,13 +250,13 @@ export default class IdsRadio extends Base {
     }
   }
 
-  get disabled() { return this.getAttribute(attributes.DISABLED); }
+  get disabled(): boolean { return stringToBool(this.getAttribute(attributes.DISABLED)); }
 
   /**
    * Set `group-disabled` attribute
    * @param {boolean|string} value If true will set `group-disabled` attribute
    */
-  set groupDisabled(value) {
+  set groupDisabled(value: boolean | string) {
     const labelText = this.shadowRoot.querySelector('.label-text');
     const val = stringToBool(value);
     if (val) {
@@ -273,13 +273,13 @@ export default class IdsRadio extends Base {
     }
   }
 
-  get groupDisabled() { return this.getAttribute(attributes.GROUP_DISABLED); }
+  get groupDisabled(): boolean { return stringToBool(this.getAttribute(attributes.GROUP_DISABLED)); }
 
   /**
    * Set `horizontal` attribute `inline|block`, default as `block`
    * @param {boolean|string} value If true will set `horizontal` attribute
    */
-  set horizontal(value) {
+  set horizontal(value: boolean | string) {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.HORIZONTAL, val.toString());
@@ -290,13 +290,13 @@ export default class IdsRadio extends Base {
     }
   }
 
-  get horizontal() { return this.getAttribute(attributes.HORIZONTAL); }
+  get horizontal(): boolean { return stringToBool(this.getAttribute(attributes.HORIZONTAL)); }
 
   /**
    * Set the `label` text
    * @param {string} value of the `label` text property
    */
-  set label(value) {
+  set label(value: string) {
     const labelText = this.labelEl?.querySelector('.label-text');
     if (value) {
       this.setAttribute(attributes.LABEL, value);
@@ -308,13 +308,13 @@ export default class IdsRadio extends Base {
     }
   }
 
-  get label() { return this.getAttribute(attributes.LABEL) || ''; }
+  get label(): string { return this.getAttribute(attributes.LABEL) || ''; }
 
   /**
    * Set `validation-has-error` attribute
    * @param {boolean|string} value If true will set `validation-has-error` attribute
    */
-  set validationHasError(value) {
+  set validationHasError(value: boolean | string) {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.VALIDATION_HAS_ERROR, val.toString());
@@ -325,13 +325,13 @@ export default class IdsRadio extends Base {
     }
   }
 
-  get validationHasError() { return this.getAttribute(attributes.VALIDATION_HAS_ERROR); }
+  get validationHasError(): boolean { return stringToBool(this.getAttribute(attributes.VALIDATION_HAS_ERROR)); }
 
   /**
    * Set the `value` attribute
-   * @param {string} val the value property
+   * @param {string | null} val the value property
    */
-  set value(val) {
+  set value(val: string | null) {
     if (val) {
       this.setAttribute(attributes.VALUE, val);
     } else {
@@ -340,12 +340,13 @@ export default class IdsRadio extends Base {
     this.input?.setAttribute(attributes.VALUE, (val || ''));
   }
 
-  get value() { return this.getAttribute(attributes.VALUE); }
+  get value(): string | null { return this.getAttribute(attributes.VALUE); }
 
   /**
    * Overrides the standard "focus" behavior to instead pass focus to the inner HTMLInput element.
+   * @returns {void}
    */
-  focus() {
+  focus(): void {
     this.input.focus();
   }
 }

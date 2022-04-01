@@ -467,5 +467,4 @@ const messages = {
   Year: { id: 'Year', value: 'Jaar', comment: 'As in a date year' },
   Yes: { id: 'Yes', value: 'Ja', comment: 'On a dialog button' }
 };
-
 export { messages };

@@ -27,18 +27,21 @@ export default class IdsListView extends Base {
     super();
   }
 
-  // the currently focused list item
-  #focusedLiIndex: number | string = 0;
+  /** The currently focused list item */
+  #focusedLiIndex: any = 0;
 
+  /** The currently selected list item */
   #selectedLiIndex: any;
 
-  datasource = new IdsDataSource();
+  /** The datasource container */
+  datasource: Record<string, any> = new IdsDataSource();
 
   connectedCallback() {
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
-    this.dataKeys = this.extractTemplateLiteralsFromHTML(this.defaultTemplate);
+    this.dataKeys = this.#extractTemplateLiteralsFromHTML(this.defaultTemplate);
     super.connectedCallback();
-    this.attachEventListeners();
+    this.#attachEventListeners();
+    this.#attachKeyboardListeners();
   }
 
   /**
@@ -57,91 +60,75 @@ export default class IdsListView extends Base {
     ];
   }
 
-  extractTemplateLiteralsFromHTML(string: string) {
+  #extractTemplateLiteralsFromHTML(string: string) {
     const arr = string.split('${');
     arr.shift();
     const tokens = arr.map((x) => x.split('}')[0]);
     return tokens;
   }
 
-  getAllLi() {
+  /**
+   * Get list of all elements
+   * @returns {any} List of all list item elements
+   */
+  getAllLi(): any {
     return this.container.querySelectorAll('div[part="list-item"]');
   }
 
-  addSortableStyles() {
+  /**
+   * Add the sortable class to the list items
+   * @returns {void}
+   */
+  #addSortableStyles(): void {
     this.getAllLi().forEach((li: HTMLLIElement) => {
       li.classList.add('sortable');
     });
   }
 
-  attachEventListeners() {
-    this.attachKeyboardListeners();
-
+  #attachEventListeners() {
     // attaching both event listeners causes focus issues, so do it conditionally based on the sortable prop
     if (this.sortable) {
       this.attachDragEventListeners(); // for focusing and dragging list items
-      this.addSortableStyles();
+      this.#addSortableStyles();
     } else {
-      this.attachClickListeners(); // for focusing list items
+      this.#attachClickListeners(); // for focusing list items
     }
   }
 
-  attachClickListeners() {
+  #attachClickListeners() {
     this.getAllLi().forEach((item: HTMLLIElement) => {
-      this.attachClickListenersForItems(item);
+      this.#attachClickListenersForItems(item);
     });
   }
 
-  // each click on an item - always set that to focus, toggle the selected feature
-  attachClickListenersForItems(item: HTMLLIElement) {
+  /**
+   * Each click on an item - always set that to focus, toggle the selected feature
+   * @param {HTMLLIElement} item The item to listen on
+   * @returns {void}
+   */
+  #attachClickListenersForItems(item: HTMLLIElement) {
     this.onEvent('click', item, () => {
       this.onClick(item);
     });
   }
 
-  attachKeyboardListeners() {
-    this.getAllLi().forEach((item: HTMLLIElement) => {
-      this.attachKeyboardListenersForItems(item);
-    });
-
-    this.onEvent('keydown', document, (event: KeyboardEvent) => {
+  /**
+   * Attach keyboard functinality to the list items
+   * @returns {void}
+   */
+  #attachKeyboardListeners() {
+    this.onEvent('keydown', this, (event: KeyboardEvent) => {
       switch (event.key) {
-      case 'Tab':
-        this.virtualScrollContainer?.scrollToIndex(this.#focusedLiIndex);
-        break;
-      case 'ArrowUp':
-        event.preventDefault();
-        if (this.#focusedLiIndex >= 0 && !this.getFocusedLi()) {
-          this.virtualScrollContainer?.scrollToIndex(this.#focusedLiIndex);
+        case 'ArrowUp':
+          event.preventDefault();
           this.focusLi(this.getPreviousLi(this.getFocusedLi()));
-        }
-        break;
-      case 'ArrowDown':
-        event.preventDefault();
-        if (this.#focusedLiIndex >= 0 && !this.getFocusedLi()) {
-          this.virtualScrollContainer?.scrollToIndex(this.#focusedLiIndex);
+          break;
+        case 'ArrowDown':
+          event.preventDefault();
           this.focusLi(this.getNextLi(this.getFocusedLi()));
-        }
-        break;
-      default:
-        break;
-      }
-    });
-  }
-
-  attachKeyboardListenersForItems(item: HTMLLIElement) {
-    this.onEvent('keydown', item, (event: KeyboardEvent) => {
-      switch (event.key) {
-      case 'ArrowUp':
-        event.preventDefault();
-        this.focusLi(this.getPreviousLi(this.getFocusedLi()));
-        break;
-      case 'ArrowDown':
-        event.preventDefault();
-        this.focusLi(this.getNextLi(this.getFocusedLi()));
-        break;
-      default:
-        break;
+          break;
+        default:
+          break;
       }
     });
   }
@@ -157,7 +144,7 @@ export default class IdsListView extends Base {
       // remove tabindex from previous focus
       if (li !== prevFocus) {
         prevFocus?.setAttribute('tabindex', '-1');
-        this.#focusedLiIndex = li.getAttribute('index') || '';
+        this.#focusedLiIndex = li.getAttribute('index');
       }
       // init new focus
       li.setAttribute('tabindex', '0'); // this clears after every render
@@ -185,7 +172,7 @@ export default class IdsListView extends Base {
 
   listItemTemplateFunc() {
     const func = (item: any, index: number) => `
-      ${this.sortable ? `<ids-draggable axis="y">` : '' }
+      ${this.sortable ? `<ids-draggable axis="y">` : ''}
         <div
           part="list-item"
           role="listitem"
@@ -195,7 +182,7 @@ export default class IdsListView extends Base {
           ${this.sortable ? `<span></span>` : ``}
           ${this.itemTemplate(item)}
         </div>
-      ${this.sortable ? `</ids-draggable>` : '' }
+      ${this.sortable ? `</ids-draggable>` : ''}
     `;
 
     return func;
@@ -205,7 +192,7 @@ export default class IdsListView extends Base {
    * Helper method to render the static scrolling template
    * @returns {string} html
    */
-  staticScrollTemplate() {
+  staticScrollTemplate(): string {
     return `
       <div class="ids-list-view">
         <div class="ids-list-view-body" role="list">
@@ -219,7 +206,7 @@ export default class IdsListView extends Base {
    * Helper method to render the virtual scrolling template
    * @returns {string} html
    */
-  virtualScrollTemplate() {
+  virtualScrollTemplate(): string {
     const html = `
       <div class="ids-list-view">
         <ids-virtual-scroll
@@ -238,7 +225,7 @@ export default class IdsListView extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `
     ${this.virtualScroll ? this.virtualScrollTemplate() : this.staticScrollTemplate()}
   `;
@@ -249,7 +236,7 @@ export default class IdsListView extends Base {
    * @param  {object} item The item to generate
    * @returns {string} The html for this item
    */
-  itemTemplate(item: any) {
+  itemTemplate(item: any): string {
     return injectTemplate(this.defaultTemplate, item);
   }
 
@@ -260,7 +247,11 @@ export default class IdsListView extends Base {
     }
   }
 
-  updateDataFromDOM() {
+  /**
+   * Update data from DOM
+   * @returns {void}
+   */
+  updateDataFromDOM(): void {
     const newData: any = [];
     this.container.querySelectorAll('div[part="list-item"]').forEach((x: any) => {
       const objItem: any = {};
@@ -280,23 +271,23 @@ export default class IdsListView extends Base {
    * Render the list by applying the template
    * @private
    */
-  render() {
+  render(): void {
     super.render();
 
     if (!this.virtualScroll && this.data?.length > 0) {
-      this.attachEventListeners();
+      this.#attachEventListeners();
     }
 
     if (this.virtualScroll && this.data?.length > 0) {
       requestAnimationFrame(() => {
         // reattach event listeners and refocus any focused list item
         this.onEvent('aftervirtualscroll', this.virtualScrollContainer, () => {
-          this.attachEventListeners();
+          this.#attachEventListeners();
           if (this.#focusedLiIndex >= 0) this.#refocus();
         });
 
         // set the virtual-scroll item-height attribute
-        const itemHeight = this.itemHeight || this.checkTemplateHeight(`
+        const itemHeight = this.itemHeight || this.#checkTemplateHeight(`
           <div part="list-item" tabindex="-1" id="height-tester">
             ${this.itemTemplate(this.datasource.data[0])}
           </div>
@@ -313,7 +304,7 @@ export default class IdsListView extends Base {
 
         // reattach event listeners and refocus any focused list item
         this.onEvent('aftervirtualscroll', this.virtualScrollContainer, () => {
-          this.attachEventListeners();
+          this.#attachEventListeners();
           if (this.#focusedLiIndex >= 0) this.#refocus();
           if (this.selectable) this.#reselect();
         });
@@ -342,7 +333,7 @@ export default class IdsListView extends Base {
    * @param  {string} itemTemplate The item template
    * @returns {number} The item height
    */
-  checkTemplateHeight(itemTemplate: string) {
+  #checkTemplateHeight(itemTemplate: string) {
     this.container.insertAdjacentHTML('beforeEnd', itemTemplate);
     const tester = this.shadowRoot.querySelector('#height-tester');
     const height = tester.offsetHeight;
@@ -355,20 +346,20 @@ export default class IdsListView extends Base {
    * Set the data array of the listview
    * @param {Array | null} value The array to use
    */
-  set data(value) {
+  set data(value: any) {
     if (this.datasource) {
       this.datasource.data = value || [];
       this.render();
     }
   }
 
-  get data() { return this?.datasource?.data || []; }
+  get data(): any { return this?.datasource?.data || []; }
 
   /**
    * Set the list view to use virtual scrolling for a large amount of elements.
-   * @param {boolean|string} value true to use virtual scrolling
+   * @param {string | boolean} value true to use virtual scrolling
    */
-  set virtualScroll(value) {
+  set virtualScroll(value: string | boolean) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.VIRTUAL_SCROLL, value.toString());
     } else {
@@ -377,13 +368,13 @@ export default class IdsListView extends Base {
     this.render();
   }
 
-  get virtualScroll() { return stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
+  get virtualScroll(): string | boolean { return stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
 
   /**
    * Set the expected height of the viewport for virtual scrolling
    * @param {string | number} value true to use virtual scrolling
    */
-  set height(value) {
+  set height(value: string | number) {
     if (value) {
       this.setAttribute(attributes.HEIGHT, value);
     } else {
@@ -391,7 +382,7 @@ export default class IdsListView extends Base {
     }
   }
 
-  get height() {
+  get height(): string | number {
     return this.getAttribute(attributes.HEIGHT) || DEFAULT_HEIGHT;
   }
 
@@ -399,7 +390,7 @@ export default class IdsListView extends Base {
    * Set the expected height of each item
    * @param {string | number} value true to use virtual scrolling
    */
-  set itemHeight(value) {
+  set itemHeight(value: string | number) {
     if (value) {
       this.setAttribute(attributes.ITEM_HEIGHT, value);
     } else {
@@ -407,11 +398,15 @@ export default class IdsListView extends Base {
     }
   }
 
-  get itemHeight() {
+  get itemHeight(): string | number {
     return this.getAttribute(attributes.ITEM_HEIGHT);
   }
 
-  set selectable(value) {
+  /**
+   * Set the selection mode of the listview
+   * @param {string} value true to use virtual scrolling
+   */
+  set selectable(value: string) {
     if (SELECTABLE_OPTIONS.includes(value)) {
       this.setAttribute(attributes.SELECTABLE, value);
     } else {
@@ -419,7 +414,7 @@ export default class IdsListView extends Base {
     }
   }
 
-  get selectable() {
+  get selectable(): string {
     return this.getAttribute(attributes.SELECTABLE);
   }
 
@@ -427,7 +422,7 @@ export default class IdsListView extends Base {
    * Getter that returns the selected list items
    * @returns {NodeList | HTMLElement} a list if multiselect is enabled, else the single selected list item
    */
-  get selectedLi() {
+  get selectedLi(): any {
     const savedSelectedLi = this.selectable === 'multiple'
       ? this.container.querySelectorAll(`div[part=list-item][selected='selected']`)
       : this.container.querySelector(`div[part="list-item"][index="${this.#selectedLiIndex}"]`);
@@ -457,7 +452,11 @@ export default class IdsListView extends Base {
     } else {
       // otherwise toggle it depending on whether or not it has the attribute already
       const hasSelectedAttribute = item.getAttribute('selected');
-      hasSelectedAttribute ? unselect() : select();
+      if (hasSelectedAttribute) {
+        unselect();
+      } else {
+        select();
+      }
 
       this.focusLi(item);
     }
@@ -480,7 +479,11 @@ export default class IdsListView extends Base {
     }
   }
 
-  #reselect() {
+  /**
+   * Select the list item again
+   * @returns {void }
+   */
+  #reselect(): void {
     const prevSelectedLi = this.selectedLi;
     if (prevSelectedLi) {
       this.toggleSelectedAttribute(prevSelectedLi, true);

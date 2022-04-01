@@ -21,7 +21,7 @@
     flex-shrink: 0;
   }
 
-  .month-view-today-text {
+  .month-view-btn-text {
     @include text-azure-60();
   }
 
@@ -57,10 +57,37 @@
   .trigger-icon {
     @include text-azure-60();
   }
+
+  // Legend mutual
+  .month-view-legend {
+    margin: 0 auto;
+    padding: 10px 5px 0;
+  }
+
+  .month-view-legend-swatch,
+  .month-view-legend-item,
+  .month-view-legend-text {
+    display: inline-block;
+  }
+
+  .month-view-legend-swatch {
+    background-color: var(--legend-color);
+    opacity: 0.3;
+  }
+
+  .month-view-legend-text {
+    @include relative();
+    @include text-slate-80();
+
+    padding: 0 17px 0 8px;
+    top: -2px;
+  }
 }
 
 // Compact view
 .ids-month-view.is-compact {
+  @include relative();
+
   .month-view-table-header th {
     line-height: unset;
     vertical-align: top;
@@ -74,6 +101,7 @@
     text-align: center;
 
     .day-container {
+      @include relative();
       @include rounded-round();
       @include border-transparent();
       @include border-1();
@@ -81,9 +109,27 @@
 
       display: inline-block;
       margin: 5px 0;
+
+      &::after {
+        @include rounded-round();
+        @include absolute();
+
+        content: '';
+        background-color: var(--legend-color);
+        display: inline-block;
+        height: 38px;
+        left: 2px;
+        overflow: hidden;
+        top: 2px;
+        width: 38px;
+        opacity: 0.3;
+        transition: 0.2s opacity ease;
+      }
     }
 
     .day-text {
+      @include relative();
+      @include z-1();
       @include cursor-pointer();
       @include rounded-round();
       @include m-2();
@@ -114,15 +160,14 @@
     }
 
     &.is-selected {
-      &:focus,
-      &:focus-visible {
+      &:focus {
         outline: none;
         outline-style: none;
       }
 
-      &:focus .day-container,
-      &:focus-visible .day-container {
+      &:focus .day-container {
         @include border-azure-60();
+        @include z-1();
 
         box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
       }
@@ -131,26 +176,94 @@
         font-weight: 600;
       }
 
-      .day-text {
+      &:not(.range-selection) .day-text {
         @include text-white();
         @include bg-azure-60();
       }
+
+      &.has-legend .day-container::after {
+        height: 44px;
+        left: -1px;
+        top: -1px;
+        width: 44px;
+      }
     }
 
-    &:not(.is-selected):hover .day-text,
-    &:not(.is-selected):active .day-text {
+    &:not(.is-selected):not(.has-legend):not(.range-selection):hover .day-text,
+    &:not(.is-selected):not(.has-legend):not(.range-selection):active .day-text {
       @include bg-slate-20();
     }
 
-    &:not(.is-selected):not(.alternate):hover .day-text,
-    &:not(.is-selected):not(.alternate):active .day-text {
-      @include text-black();
+    &.has-legend:hover {
+      .day-container::after {
+        @include opacity-70();
+      }
+    }
+
+    // Range selection
+    &.range-selection + .range-selection,
+    &.range-next:not(:first-of-type),
+    &.range-prev:not(:last-of-type) {
+      @include relative();
+
+      &::before {
+        @include absolute();
+        @include w-full();
+        @include z-0();
+
+        content: '';
+        display: inline-block;
+        height: 38px;
+        top: 0;
+        bottom: 0;
+        margin-top: auto;
+        margin-bottom: auto;
+      }
+    }
+
+    &.range-prev .day-text,
+    &.range-next .day-text,
+    &.range-next:not(:first-of-type)::before,
+    &.range-prev:not(:last-of-type)::before {
+      @include bg-slate-20();
+    }
+
+    &.range-selection:not(:first-of-type)::before,
+    &.range-selection .day-text {
+      @include bg-azure-60();
+    }
+
+    &.range-selection:not(.alternate) .day-text {
+      @include text-white();
+    }
+
+    &.range-selection:not(:first-of-type)::before,
+    &.range-next:not(:first-of-type)::before {
+      left: -50%;
+    }
+
+    &.range-prev:not(:last-of-type)::before {
+      left: 50%;
+    }
+
+    &.range-selection .day-text,
+    &.range-prev .day-text,
+    &.range-next .day-text {
+      @include rounded-round();
+
+      transition: none;
     }
   }
 
   th,
   td {
     @include p-0();
+  }
+
+  // Legend in compact mode
+  .month-view-legend-swatch {
+    width: 16px;
+    height: 16px;
   }
 }
 
@@ -187,8 +300,8 @@
     overflow: hidden;
     user-select: none;
 
-    &:not(.is-selected):hover,
-    &:not(.is-selected):active {
+    &:not(.is-selected):not(.has-legend):hover,
+    &:not(.is-selected):not(.has-legend):active {
       background-color: rgb(240 240 240 / 0.5);
     }
 
@@ -197,13 +310,14 @@
       @include bg-slate-20();
     }
 
-    &.is-selected {
+    &.is-selected:not(.has-legend) {
       @include bg-slate-10();
+    }
 
+    &.is-selected {
       box-shadow: inset 0 5px 0 0 var(--ids-color-palette-azure-60);
 
-      &:focus,
-      &:focus-visible {
+      &:focus {
         @include border-transparent();
 
         outline: none;
@@ -215,18 +329,42 @@
       }
     }
 
+    &.has-legend {
+      &::after {
+        @include absolute();
+        @include w-full();
+
+        background-color: var(--legend-color);
+        content: '';
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        opacity: 0.3;
+      }
+
+      &.is-selected::after {
+        top: 5px;
+      }
+
+      &:hover::after {
+        @include opacity-70();
+      }
+    }
+
     .weekday-text,
     &:not(.alternate) .day-text {
       @include text-slate-80();
     }
 
     &.alternate .day-text {
-      @include text-slate-40();
+      @include text-slate-60();
     }
 
     .day-text {
       @include absolute();
       @include cursor-pointer();
+      @include z-1();
 
       left: calc(100% - 25px);
       top: 13px;
@@ -252,15 +390,23 @@
     @include border-b-1();
     @include border-slate-20();
   }
+
+  // Legend in full size mode
+  &.has-legend .month-view-container {
+    @include border-b-1();
+
+    border-bottom-color: var(--ids-color-palette-slate-20);
+  }
 }
 
 // Used in a day picker
 .ids-month-view.is-date-picker {
+  overflow: visible;
+
   .month-view-header {
     @include border-b-1();
     @include border-slate-30();
     @include pr-1();
-    @include pl-16();
 
     height: 43px;
   }
@@ -287,6 +433,35 @@
 
   td .day-container {
     @include m-0();
+
+    &::after {
+      height: 42px;
+      left: 0;
+      top: 0;
+      width: 42px;
+    }
+  }
+
+  ids-date-picker {
+    margin-left: 12px;
+  }
+}
+
+// Legend for full size view and if it's in a datepicker
+.ids-month-view.is-date-picker,
+.ids-month-view.is-fullsize {
+  .month-view-legend-swatch {
+    width: 12px;
+    height: 12px;
+  }
+
+  .month-view-legend-text::part(text) {
+    font-size: 11px;
+  }
+
+  .month-view-legend {
+    max-width: 300px;
+    text-align: center;
   }
 }
 
@@ -308,7 +483,7 @@
     @include bg-slate-80();
   }
 
-  .month-view-today-text {
+  .month-view-btn-text {
     @include text-azure-60();
   }
 
@@ -323,7 +498,7 @@
       @include text-slate-50();
     }
 
-    td.is-selected .day-text {
+    td.is-selected:not(.alternate) .day-text {
       @include text-white();
     }
 
@@ -332,14 +507,21 @@
       @include text-slate-10();
     }
 
-    td:not(.is-selected):hover .day-text,
-    td:not(.is-selected):active .day-text {
+    td:not(.is-selected):not(.has-legend):not(.range-selection):hover .day-text,
+    td:not(.is-selected):not(.has-legend):not(.range-selection):active .day-text {
       @include bg-slate-70();
     }
 
     td:not(.is-selected):not(.alternate):hover .day-text,
     td:not(.is-selected):not(.alternate):active .day-text {
       @include text-white();
+    }
+
+    td.range-prev .day-text,
+    td.range-next .day-text,
+    td.range-next:not(:first-of-type)::before,
+    td.range-prev:not(:last-of-type)::before {
+      @include bg-slate-70();
     }
   }
 
@@ -360,17 +542,16 @@
         @include text-slate-50();
       }
 
-      &:not(.is-selected):hover,
-      &:not(.is-selected):active {
+      &:not(.is-selected):not(.has-legend):hover,
+      &:not(.is-selected):not(.has-legend):active {
         background-color: rgb(49 50 54 / 0.2);
       }
 
-      &.is-selected {
+      &.is-selected:not(.has-legend) {
         @include bg-slate-70();
       }
 
-      &.is-selected:focus,
-      &.is-selected:focus-visible {
+      &.is-selected:focus {
         box-shadow: 0 0 2px 2px rgb(141 201 230 / 0.3), inset 0 5px 0 0 var(--ids-color-palette-azure-60);
       }
 
@@ -378,6 +559,14 @@
         @include bg-slate-80();
       }
     }
+
+    &.has-legend .month-view-container {
+      border-color: var(--ids-color-palette-slate-70);
+    }
+  }
+
+  .month-view-legend-text {
+    @include text-slate-30();
   }
 }
 
@@ -398,7 +587,7 @@
     @include bg-white();
   }
 
-  .month-view-today-text,
+  .month-view-btn-text,
   &.is-compact .trigger-icon {
     @include text-azure-90();
   }
@@ -414,7 +603,7 @@
       @include text-slate-50();
     }
 
-    td.is-selected .day-text {
+    td.is-selected:not(.alternate) .day-text {
       @include bg-azure-90();
       @include text-white();
     }
@@ -430,14 +619,26 @@
       @include text-slate-100();
     }
 
-    td:not(.is-selected):hover .day-text,
-    td:not(.is-selected):active .day-text {
+    td:not(.is-selected):not(.has-legend):not(.range-selection):hover .day-text,
+    td:not(.is-selected):not(.has-legend):not(.range-selection):active .day-text {
       @include bg-slate-30();
     }
 
-    td:not(.is-selected):not(.alternate):hover .day-text,
-    td:not(.is-selected):not(.alternate):active .day-text {
+    td:not(.is-selected):not(.alternate):not(.range-selection):hover .day-text,
+    td:not(.is-selected):not(.alternate):not(.range-selection):active .day-text {
       @include text-black();
+    }
+
+    td.range-prev .day-text,
+    td.range-next .day-text,
+    td.range-next:not(:first-of-type)::before,
+    td.range-prev:not(:last-of-type)::before {
+      @include bg-slate-30();
+    }
+
+    td.range-selection:not(:first-of-type)::before,
+    td.range-selection .day-text {
+      @include bg-azure-90();
     }
   }
 
@@ -458,8 +659,8 @@
         @include text-slate-50();
       }
 
-      &:not(.is-selected):hover,
-      &:not(.is-selected):active {
+      &:not(.is-selected):not(.has-legend):hover,
+      &:not(.is-selected):not(.has-legend):active {
         background-color: rgb(74 74 74 / 0.1);
       }
 
@@ -467,11 +668,18 @@
         box-shadow: inset 0 5px 0 0 var(--ids-color-palette-azure-90);
       }
 
-      &.is-selected:focus,
-      &.is-selected:focus-visible {
+      &.is-selected:focus {
         box-shadow: 0 0 2px 2px rgb(41 41 41 / 0.3), inset 0 5px 0 0 var(--ids-color-palette-azure-90);
       }
     }
+
+    &.has-legend .month-view-container {
+      border-color: var(--ids-color-palette-slate-30);
+    }
+  }
+
+  .month-view-legend-text {
+    @include text-black();
   }
 }
 

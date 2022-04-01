@@ -82,7 +82,7 @@ export default class IdsMessage extends Base {
    * Refreshes the state of the Message's Content
    * @param {string} content the new message content element
    */
-  #refreshMessage(content: string) {
+  #refreshMessage(content: string | number): void {
     let messageEl = this.querySelector('*:not([slot])');
     if (!messageEl) {
       messageEl = document.createElement('div');

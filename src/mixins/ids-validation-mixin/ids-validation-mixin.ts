@@ -1,5 +1,19 @@
 import { attributes } from '../../core/ids-attributes';
 
+export type IdsValidationErrorMessageTypes = {
+  /** The unique id in the check messages */
+  id: string;
+
+  /** The Type of message and icon */
+  type?: 'error' | 'info' | 'alert' | 'warn' | 'icon';
+
+  /** The localized message text */
+  message?: string;
+
+  /** The Type of message icon */
+  icon?: string;
+};
+
 /**
  * Adds validation to any input field
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
@@ -148,7 +162,7 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
    * @param {object} [settings] incoming settings
    * @returns {void}
    */
-  addMessage(settings: any = {}) {
+  addMessage(settings: IdsValidationErrorMessageTypes): void {
     const {
       id,
       type,
@@ -172,7 +186,7 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
     let audible = isValidationIcon ? type.replace(/^./, type[0].toUpperCase()) : null;
     audible = audible ? `<ids-text audible="true">${audible} </ids-text>` : '';
     let cssClass = 'validation-message';
-    let iconName = this.VALIDATION_ICONS[type];
+    let iconName = type ? this.VALIDATION_ICONS[type] : '';
     const messageId = `${this.input?.getAttribute('id')}-${settings.type}`;
 
     if (!iconName && type === 'icon') {
@@ -221,7 +235,7 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
    * @param {object} [settings] incoming settings
    * @returns {void}
    */
-  removeMessage(settings: any): void {
+  removeMessage(settings: IdsValidationErrorMessageTypes): void {
     const id = settings.id;
     let type = settings.type;
 
@@ -240,10 +254,12 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
       this.#externalValidationEl.innerHTML = '';
     }
 
-    if (this.isTypeNotValid && !this.isTypeNotValid[type]) {
-      this.fieldContainer?.classList.remove(type);
-      this.input?.removeAttribute('aria-describedby');
-      this.input?.removeAttribute('aria-invalid');
+    if (type) {
+      if (this.isTypeNotValid && !this.isTypeNotValid[type]) {
+        this.fieldContainer?.classList.remove(type);
+        this.input?.removeAttribute('aria-describedby');
+        this.input?.removeAttribute('aria-invalid');
+      }
     }
 
     const isRadioGroup = this.input?.classList.contains('ids-radio-group');
@@ -251,7 +267,8 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
       const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
       radioArr.forEach((r: HTMLElement) => r.removeAttribute('validation-has-error'));
     }
-    this.validationElems?.main?.classList.remove(type);
+
+    if (type) this.validationElems?.main?.classList.remove(type);
   }
 
   /**
@@ -261,10 +278,14 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
   removeAllMessages() {
     const nodes = [].slice.call(this.shadowRoot.querySelectorAll('.validation-message'));
     nodes.forEach((node: HTMLElement) => {
-      this.removeMessage({
-        id: node.getAttribute('validation-id'),
-        type: node.getAttribute('type')
-      });
+      const messageSettings: IdsValidationErrorMessageTypes = {
+        id: node.getAttribute('validation-id') || ''
+      };
+      const type: any = node.getAttribute('type');
+      if (type) {
+        messageSettings.type = type;
+      }
+      this.removeMessage(messageSettings);
     });
   }
 

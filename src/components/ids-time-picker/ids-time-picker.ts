@@ -88,7 +88,7 @@ export default class IdsTimePicker extends Base {
    * Push color variant to the trigger-field element
    * @returns {void}
    */
-  onColorVariantRefresh() {
+  onColorVariantRefresh(): void {
     this.elements.triggerField.colorVariant = this.colorVariant;
   }
 
@@ -96,7 +96,7 @@ export default class IdsTimePicker extends Base {
    * Push label-state to the trigger-field element
    * @returns {void}
    */
-  onlabelStateChange() {
+  onlabelStateChange(): void {
     this.elements.triggerField.labelState = this.labelState;
   }
 
@@ -120,7 +120,7 @@ export default class IdsTimePicker extends Base {
    * @param {string} name the attribute's name
    * @returns {string} the attribute's value
    */
-  getAttribute(name: string) {
+  getAttribute(name: string): string {
     const value = super.getAttribute(name);
     return value === 'false' ? false : value;
   }
@@ -164,37 +164,37 @@ export default class IdsTimePicker extends Base {
    * @readonly
    * @returns {boolean} returns true if the timepicker format includes the am/pm period (" a")
    */
-  get hasPeriod() { return this.is12Hours && this.format.toLowerCase().includes(' a'); }
+  get hasPeriod(): boolean { return this.is12Hours && this.format.toLowerCase().includes(' a'); }
 
   /**
    * @readonly
    * @returns {boolean} returns true if the timepicker is using a 12-Hour format ("hh")
    */
-  get is12Hours() { return this.format.includes('h'); }
+  get is12Hours(): boolean { return this.format.includes('h'); }
 
   /**
    * @readonly
    * @returns {boolean} returns true if the timepicker is using a 24-Hour format ("HH")
    */
-  get is24Hours() { return this.format.includes('H') || !this.hasPeriod; }
+  get is24Hours(): boolean { return this.format.includes('H') || !this.hasPeriod; }
 
   /**
    * @readonly
    * @returns {boolean} returns true if the timepicker's popup is open
    */
-  get isOpen() { return !!this.elements.popup.visible; }
+  get isOpen(): boolean { return !!this.elements.popup.visible; }
 
   /**
    * Sets the time format to use in the picker.
    * @param {string} value - a variation of "hh:mm:ss a"
    */
-  set format(value) { this.setAttribute(attributes.FORMAT, value); }
+  set format(value: string) { this.setAttribute(attributes.FORMAT, value); }
 
   /**
    * Gets the time format to use in the picker. Defaults to the current locale's time format or english ("hh:mm a")
    * @returns {string} the time format being used
    */
-  get format() {
+  get format(): string {
     return this.getAttribute(attributes.FORMAT) || this.locale?.calendar().timeFormat || 'hh:mm a';
   }
 
@@ -202,7 +202,7 @@ export default class IdsTimePicker extends Base {
    * Sets a current timestring-value of the timepickers input-field
    * @param {string} value - a timestring value for the input-field
    */
-  set value(value) {
+  set value(value: string) {
     if (!this.disabled && !this.readonly) {
       this.setAttribute(attributes.VALUE, value);
       this.elements.triggerField.value = value;
@@ -213,7 +213,7 @@ export default class IdsTimePicker extends Base {
    * Gets a timestring that matches the format specified by this.format()
    * @returns {string} the current timestring value of the timepicker
    */
-  get value() { return this.getAttribute(attributes.VALUE) || ''; }
+  get value(): string { return this.getAttribute(attributes.VALUE) || ''; }
 
   /**
    * Sets the autoselect attribute
@@ -227,13 +227,13 @@ export default class IdsTimePicker extends Base {
    * Gets the autoselect attribute
    * @returns {boolean} true if autoselect is enabled
    */
-  get autoselect() { return stringToBool(this.getAttribute(attributes.AUTOSELECT)); }
+  get autoselect(): boolean { return stringToBool(this.getAttribute(attributes.AUTOSELECT)); }
 
   /**
    * Sets the autoupdate attribute
    * @param {boolean} value - true or false
    */
-  set autoupdate(value) {
+  set autoupdate(value: boolean) {
     this.setAttribute(attributes.AUTOUPDATE, stringToBool(value));
   }
 
@@ -241,7 +241,7 @@ export default class IdsTimePicker extends Base {
    * Gets the autoupdate attribute
    * @returns {boolean} true if autoselect is enabled
    */
-  get autoupdate() { return stringToBool(this.getAttribute(attributes.AUTOUPDATE)); }
+  get autoupdate(): boolean { return stringToBool(this.getAttribute(attributes.AUTOUPDATE)); }
 
   /**
    * Sets the disabled attribute
@@ -256,15 +256,15 @@ export default class IdsTimePicker extends Base {
 
   /**
    * Gets the disabled attribute
-   * @returns {boolean} true if the timepicker is disabled
+   * @returns {boolean | string} true if the timepicker is disabled
    */
-  get disabled() { return this.getAttribute(attributes.DISABLED) ?? false; }
+  get disabled(): boolean | string { return this.getAttribute(attributes.DISABLED) ?? false; }
 
   /**
    * Sets the readonly attribute
-   * @param {boolean} value - true or false
+   * @param {boolean | string} value - true or false
    */
-  set readonly(value) {
+  set readonly(value: boolean | string) {
     const readonly = stringToBool(value);
     this.setAttribute(attributes.READONLY, readonly);
     this.elements.triggerField.readonly = readonly;
@@ -275,13 +275,13 @@ export default class IdsTimePicker extends Base {
    * Gets the readonly attribute
    * @returns {boolean} true if the timepicker is in readonly mode
    */
-  get readonly() { return this.getAttribute(attributes.READONLY) ?? false; }
+  get readonly(): boolean | string { return this.getAttribute(attributes.READONLY) ?? false; }
 
   /**
    * Sets the label attribute
    * @param {string} value - the label's text
    */
-  set label(value) {
+  set label(value: string) {
     this.setAttribute(attributes.LABEL, value);
     this.elements.triggerField.label = value;
   }
@@ -290,13 +290,13 @@ export default class IdsTimePicker extends Base {
    * Gets the label attribute
    * @returns {string} default is ""
    */
-  get label() { return this.getAttribute(attributes.LABEL) ?? ''; }
+  get label(): string { return this.getAttribute(attributes.LABEL) ?? ''; }
 
   /**
    * Sets the placeholder attribute
    * @param {string} value - the placeholder's text
    */
-  set placeholder(value) {
+  set placeholder(value: string) {
     this.setAttribute(attributes.PLACEHOLDER, value);
     this.elements.triggerField.placeholder = value;
   }
@@ -305,13 +305,13 @@ export default class IdsTimePicker extends Base {
    * Get the placeholder attribute
    * @returns {string} default is ""
    */
-  get placeholder() { return this.getAttribute(attributes.PLACEHOLDER) ?? ''; }
+  get placeholder(): string { return this.getAttribute(attributes.PLACEHOLDER) ?? ''; }
 
   /**
    * Sets the no margins attribute
    * @param {boolean} value The value for no margins attribute
    */
-  set noMargins(value) {
+  set noMargins(value: boolean) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.NO_MARGINS, '');
       this.elements?.triggerField?.setAttribute(attributes.NO_MARGINS, '');
@@ -321,7 +321,7 @@ export default class IdsTimePicker extends Base {
     this.elements?.triggerField?.removeAttribute(attributes.NO_MARGINS);
   }
 
-  get noMargins() {
+  get noMargins(): boolean {
     return stringToBool(this.getAttribute(attributes.NO_MARGINS));
   }
 
@@ -329,7 +329,7 @@ export default class IdsTimePicker extends Base {
    * Set the time picker size
    * @param {string} value The value
    */
-  set size(value) {
+  set size(value: string) {
     if (value) {
       this.setAttribute(attributes.SIZE, value);
     } else {
@@ -342,13 +342,13 @@ export default class IdsTimePicker extends Base {
    * Get the size attribute
    * @returns {string} default is "sm"
    */
-  get size() { return this.getAttribute(attributes.SIZE) ?? 'sm'; }
+  get size(): string { return this.getAttribute(attributes.SIZE) ?? 'sm'; }
 
   /**
    * Gets an object keyed-by minutes|seconds which contains the minutes and seconds intervals
    * @returns {object} an object with type { [minutes|seconds]: number }
    */
-  get intervals() {
+  get intervals(): object | any {
     return {
       minutes: parseInt(this.getAttribute(attributes.MINUTE_INTERVAL)) || false,
       seconds: parseInt(this.getAttribute(attributes.SECOND_INTERVAL)) || false,
@@ -361,12 +361,15 @@ export default class IdsTimePicker extends Base {
    */
   get options() {
     const intervals = this.intervals;
-    return {
+    type TimeConfig  = {hours: number, minutes: number, seconds: number, period: string[]}
+    const timeOptions: TimeConfig = {
       hours: this.is12Hours ? TIME.TWELVE : TIME.TWENTYFOUR,
       minutes: intervals.minutes ? range(0, 59, intervals.minutes) : TIME.SIXTY,
       seconds: intervals.seconds ? range(0, 59, intervals.seconds) : TIME.SIXTY,
       period: TIME.PERIOD,
-    };
+    }
+
+    return timeOptions
   }
 
   /**
@@ -416,7 +419,7 @@ export default class IdsTimePicker extends Base {
    * Creates the HTML the timepicker's dropdown fields
    * @returns {string[]} an array of HTML for the timepicker's dropdowns
    */
-  dropdowns() {
+  dropdowns(): string[] {
     const dropdown: any = ({
       id,
       label,
@@ -443,7 +446,7 @@ export default class IdsTimePicker extends Base {
     const spacer = '<span class="separator">&nbsp;</span>';
 
     const numbers = [hours, minutes, seconds].filter(Boolean).join(separator);
-    return [numbers, period].filter(Boolean).join(spacer);
+    return <any>[numbers, period].filter(Boolean).join(spacer);
   }
 
   /**
@@ -454,9 +457,8 @@ export default class IdsTimePicker extends Base {
     super.connectedCallback();
 
     if (!this.disabled && !this.readonly) {
-      this
-        .#attachEventHandlers()
-        .#attachKeyboardListeners();
+      this.#attachEventHandlers();
+      this.#attachKeyboardListeners();
     }
   }
 
@@ -514,7 +516,7 @@ export default class IdsTimePicker extends Base {
     minutes,
     seconds,
     period,
-  }: any = {}) {
+  }: any = {}): object {
     const { dropdowns } = this.elements;
     const values = {
       hours: hours ?? dropdowns.hours?.value ?? '00',
@@ -552,7 +554,7 @@ export default class IdsTimePicker extends Base {
    * @param {MouseEvent} e the original click event
    * @returns {void}
    */
-  onOutsideClick(e: any) {
+  onOutsideClick(e: any): void {
     if (e.target !== this && this.isOpen) {
       this.closeTimePopup();
     }
@@ -563,7 +565,7 @@ export default class IdsTimePicker extends Base {
    * @private
    * @returns {object} this class-instance object for chaining
    */
-  #attachEventHandlers() {
+  #attachEventHandlers(): object {
     const {
       dropdowns,
       triggerField,
@@ -636,7 +638,7 @@ export default class IdsTimePicker extends Base {
    * @private
    * @returns {object} this class-instance object for chaining
    */
-  #attachKeyboardListeners() {
+  #attachKeyboardListeners(): object {
     this.listen(['ArrowDown', 'Enter', 'Escape', 'Backspace'], this, (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
         this.setTimeOnField();

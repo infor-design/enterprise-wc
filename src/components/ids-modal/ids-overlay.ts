@@ -26,7 +26,7 @@ export default class IdsOverlay extends Base {
     };
   }
 
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       ...super.attributes,
       attributes.VISIBLE,

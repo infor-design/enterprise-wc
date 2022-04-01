@@ -1,7 +1,7 @@
 // Supporting components
 import '../../ids-button/ids-button';
 
-const times: any  = [];
+const times: any = [];
 
 const appendTestItems = () => {
   const section: any = document.querySelector('ids-layout-grid[cols="4"]');
