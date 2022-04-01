@@ -6,7 +6,7 @@ describe('Ids List Builder e2e Tests', () => {
    * @param {number} n nth-child(n)
    * @returns {string} css selector, defaults to nth-child(1)
    */
-  function createListItemSelector(n) {
+  function createListItemSelector(n: any): string {
     return `pierce/ids-draggable:nth-child(${n || 1}) > div[role="listitem"]`;
   }
 
@@ -111,8 +111,8 @@ describe('Ids List Builder e2e Tests', () => {
     const keyPressed = 'q';
     await page.keyboard.press(keyPressed);
     await page.waitForFunction(
-      (userInput) => {
-        const listBuilder = document.querySelector('ids-list-builder');
+      (userInput: any) => {
+        const listBuilder: any = document.querySelector('ids-list-builder');
         const idsText = listBuilder.shadowRoot.querySelector('ids-draggable:nth-child(1) ids-text');
         return idsText.innerHTML === userInput;
       },

@@ -2,9 +2,10 @@
  * @jest-environment jsdom
  */
 import MaskAPI from '../../src/components/ids-mask/ids-mask-api';
+import { IdsMaskOptions } from '../../src/components/ids-mask/ids-mask-common';
 import { numberMask } from '../../src/components/ids-mask/ids-masks';
 
-let api;
+let api: any;
 
 describe('IdsMaskAPI (Number)', () => {
   beforeEach(() => {
@@ -16,8 +17,8 @@ describe('IdsMaskAPI (Number)', () => {
   });
 
   it('can handle simple number masking', () => {
-    let textValue = '123456';
-    const opts = {
+    let textValue: string = '123456';
+    const opts: IdsMaskOptions = {
       selection: {
         start: 0
       },
@@ -44,7 +45,7 @@ describe('IdsMaskAPI (Number)', () => {
   it.skip('should process numbers with thousands separators', () => {
     // Handle big numbers with thousands separators
     let textValue = '1111111111';
-    const opts = {
+    const opts: IdsMaskOptions = {
       selection: {
         start: 0
       },
@@ -86,8 +87,8 @@ describe('IdsMaskAPI (Number)', () => {
 
   it('can handle numbers with prefixes or suffixes', () => {
     // Handle Numbers with a prefix (currency)
-    let textValue = '2345';
-    const opts = {
+    let textValue: string = '2345';
+    const opts: IdsMaskOptions = {
       selection: {
         start: 0
       },
@@ -115,8 +116,8 @@ describe('IdsMaskAPI (Number)', () => {
 
   it('should process arabic numbers', () => {
     // Handle big numbers with thousands separators
-    let textValue = '١٢٣٤٥٦٧٨٩٠';
-    const opts = {
+    let textValue: string = '١٢٣٤٥٦٧٨٩٠';
+    const opts: IdsMaskOptions = {
       selection: {
         start: 0
       },
@@ -157,8 +158,8 @@ describe('IdsMaskAPI (Number)', () => {
 
   it('should process hindi (devanagari) numbers', () => {
     // Handle big numbers with thousands separators
-    let textValue = '१२३४५६७८९०';
-    const opts = {
+    let textValue: string = '१२३४५६७८९०';
+    const opts: IdsMaskOptions = {
       selection: {
         start: 0
       },
@@ -191,8 +192,8 @@ describe('IdsMaskAPI (Number)', () => {
 
   it('should process hindi (devanagari) numbers with a percentage', () => {
     // Handle big numbers with thousands separators
-    let textValue = '१२३४५६७८९०';
-    const opts = {
+    let textValue: string = '१२३४५६७८९०';
+    const opts: IdsMaskOptions = {
       selection: {
         start: 0
       },
@@ -262,8 +263,8 @@ describe('IdsMaskAPI (Number)', () => {
 
   it('Should process number masks with leading zeros', () => {
     // Handle big numbers with thousands separators
-    let textValue = '00001';
-    const opts = {
+    let textValue: string = '00001';
+    const opts: IdsMaskOptions = {
       selection: {
         start: 0
       },
@@ -315,7 +316,7 @@ describe('IdsMaskAPI (Number)', () => {
 
 describe('Number Mask function', () => {
   it('should always provide masking space for at least one number', () => {
-    const result = numberMask(null, {});
+    const result = numberMask('', {});
 
     // Resulting mask will be [/\d/]
     expect(result.mask.length).toBe(1);
@@ -331,7 +332,7 @@ describe('Number Mask function', () => {
   });
 
   it('should handle suffixes', () => {
-    const opts = { suffix: '%' };
+    const opts: IdsMaskOptions = { suffix: '%' };
     let result = numberMask('100%', opts);
 
     // Resulting mask will be [/\d/, /\d/, /\d/, '%']
@@ -355,7 +356,7 @@ describe('Number Mask function', () => {
   });
 
   it('should handle multiple decimals in the value', () => {
-    const opts = {
+    const opts: IdsMaskOptions = {
       allowDecimal: true,
       decimalLimit: 3,
       integerLimit: 5,
@@ -368,7 +369,7 @@ describe('Number Mask function', () => {
   });
 
   it('should handle leading zeros', () => {
-    let opts = { allowLeadingZeros: true };
+    let opts: IdsMaskOptions = { allowLeadingZeros: true };
     let result = numberMask('00001', opts);
 
     // Resulting mask will be [/\d/, /\d/, /\d/, /\d/, /\d/]
@@ -396,7 +397,7 @@ describe('Number Mask function', () => {
   });
 
   it('should handle a complex combination of settings', () => {
-    const opts = {
+    const opts: IdsMaskOptions = {
       allowDecimal: true,
       allowLeadingZeros: true,
       allowNegative: true,
@@ -413,7 +414,7 @@ describe('Number Mask function', () => {
   });
 
   it('should account for caret placement after the decimal, if the decimal exists in the value', () => {
-    const opts = {
+    const opts: IdsMaskOptions = {
       allowDecimal: true,
       requireDecimal: true,
       integerLimit: 4,

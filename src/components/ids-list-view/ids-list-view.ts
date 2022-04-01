@@ -67,7 +67,11 @@ export default class IdsListView extends Base {
     return tokens;
   }
 
-  #getAllLi() {
+  /**
+   * Get list of all elements
+   * @returns {any} List of all list item elements
+   */
+  getAllLi(): any {
     return this.container.querySelectorAll('div[part="list-item"]');
   }
 
@@ -75,8 +79,8 @@ export default class IdsListView extends Base {
    * Add the sortable class to the list items
    * @returns {void}
    */
-  #addSortableStyles() {
-    this.#getAllLi().forEach((li: HTMLLIElement) => {
+  #addSortableStyles(): void {
+    this.getAllLi().forEach((li: HTMLLIElement) => {
       li.classList.add('sortable');
     });
   }
@@ -92,7 +96,7 @@ export default class IdsListView extends Base {
   }
 
   #attachClickListeners() {
-    this.#getAllLi().forEach((item: HTMLLIElement) => {
+    this.getAllLi().forEach((item: HTMLLIElement) => {
       this.#attachClickListenersForItems(item);
     });
   }
@@ -243,7 +247,11 @@ export default class IdsListView extends Base {
     }
   }
 
-  #updateDataFromDOM() {
+  /**
+   * Update data from DOM
+   * @returns {void}
+   */
+  updateDataFromDOM(): void {
     const newData: any = [];
     this.container.querySelectorAll('div[part="list-item"]').forEach((x: any) => {
       const objItem: any = {};
@@ -509,7 +517,7 @@ export default class IdsListView extends Base {
     const li = el.querySelector('div[part="list-item"]');
     li.focus();
 
-    this.#updateDataFromDOM();
+    this.updateDataFromDOM();
   }
 
   /**

@@ -2,11 +2,12 @@
  * @jest-environment jsdom
  */
 import MaskAPI from '../../src/components/ids-mask/ids-mask-api';
+import { IdsMaskOptions } from '../../src/components/ids-mask/ids-mask-common';
 import { dateMask, autoCorrectedDatePipe } from '../../src/components/ids-mask/ids-masks';
 
-let api;
-
 describe('IdsMaskAPI (Date)', () => {
+  let api: any;
+
   beforeEach(() => {
     api = new MaskAPI();
   });
@@ -16,8 +17,8 @@ describe('IdsMaskAPI (Date)', () => {
   });
 
   it('should process short dates', () => {
-    const textValue = '1111111111';
-    const opts = {
+    const textValue: string = '1111111111';
+    const opts: IdsMaskOptions = {
       selection: {
         start: 0
       },
@@ -36,8 +37,8 @@ describe('IdsMaskAPI (Date)', () => {
   });
 
   it('should process short dates with default patternOptions', () => {
-    const textValue = '1111111111';
-    const opts = {
+    const textValue: string = '1111111111';
+    const opts: IdsMaskOptions = {
       selection: {
         start: 0
       },
@@ -51,8 +52,8 @@ describe('IdsMaskAPI (Date)', () => {
   });
 
   it('should process short dates with no separators or other literals present', () => {
-    const textValue = '12122012';
-    let opts = {
+    const textValue: string = '12122012';
+    let opts: IdsMaskOptions = {
       selection: {
         start: 0
       },
@@ -80,8 +81,8 @@ describe('IdsMaskAPI (Date)', () => {
   });
 
   it('should process partial short dates', () => {
-    const textValue = '1111111111';
-    const opts = {
+    const textValue: string = '1111111111';
+    const opts: IdsMaskOptions = {
       selection: {
         start: 0
       },
@@ -99,8 +100,8 @@ describe('IdsMaskAPI (Date)', () => {
   });
 
   it('should process short dates when the format allows for single digit months and days', () => {
-    const textValue = '1/1/2020';
-    const opts = {
+    const textValue: string = '1/1/2020';
+    const opts: IdsMaskOptions = {
       selection: {
         start: 0
       },
@@ -121,8 +122,8 @@ describe('IdsMaskAPI (Date)', () => {
 
   // @TODO: fix partial autocorrect
   it.skip('can partially autocorrect incorrect dates', () => {
-    const textValue = '15/32/2020';
-    const opts = {
+    const textValue: string = '15/32/2020';
+    const opts: IdsMaskOptions = {
       selection: {
         start: 0
       },
@@ -152,7 +153,7 @@ describe('Date Mask function', () => {
   });
 
   it('should always provide masking space for at least one number', () => {
-    const result = dateMask(null, {});
+    const result = dateMask('', {}); // this one was null
 
     // Resulting mask will match default 'en-us' date format:
     // [/\d/, /\d/, '[]', '/', '[]', /\d/, /\d/, '[]', '/', '[]', /\d/, /\d/, /\d/, /\d/]

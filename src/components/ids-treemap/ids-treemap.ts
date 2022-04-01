@@ -8,7 +8,34 @@ const DEFAULT_DATA = [
   { value: 1 },
   { value: 2 }
 ];
+
 const DEFAULT_HEIGHT = 300;
+
+type Data = {
+  value: number,
+  color: string,
+  text: string,
+  label: string,
+};
+
+type TreemapDataSet = {
+  data: Data,
+  width: number,
+  height: number,
+  x: number,
+  y: number
+};
+
+type RectMinWidth = {
+  value: number,
+  vertical: boolean
+};
+
+type Squarify = {
+  children: number[],
+  row: number[],
+  width: number
+};
 
 /**
  * IDS Tree Component
@@ -52,21 +79,21 @@ export default class IdsTreeMap extends Base {
 
   /**
    * Set the data attribute
-   * @param {any} value of the treemap data object
+   * @param {TreemapDataSet[]} value of the treemap data object
    * @memberof IdsTreeMap
    */
-  set data(value: any) {
+  set data(value: TreemapDataSet[]) {
     this.d = value;
     this.render();
   }
 
   /**
    * Get the data attribute
-   * @returns {any} data of the treemap data object
+   * @returns {TreemapDataSet[]} data of the treemap data object
    * @readonly
    * @memberof IdsTreeMap
    */
-  get data(): any {
+  get data(): TreemapDataSet[] {
     return this.d;
   }
 
@@ -90,7 +117,7 @@ export default class IdsTreeMap extends Base {
 
   /**
    * Get the title attribute
-   * @returns {string} The value of the title attribute.
+   * @returns {string | null} The value of the title attribute.
    * @readonly
    * @memberof IdsTreeMap
    */
@@ -117,17 +144,17 @@ export default class IdsTreeMap extends Base {
 
   /**
    * Render SVG markup
-   * @param {any} data data array
+   * @param {TreemapDataSet[]} data data array
    * @returns {string} svg
    * @memberof IdsTreeMap
    */
-  templateSvg(data: any): string {
+  templateSvg(data: TreemapDataSet[]): string {
     let svg = `<svg>Sorry, your browser does not support inline SVG.</svg>`;
 
     if (data !== undefined) {
       svg = `
         <svg width='${this.width}' height='${this.height}' stroke-width=".5">
-          ${data?.map((rect: any) => this.templateGroups(rect)).join('')}
+          ${data?.map((rect: TreemapDataSet) => this.templateGroups(rect)).join('')}
         </svg>
       `;
     }
@@ -137,11 +164,11 @@ export default class IdsTreeMap extends Base {
 
   /**
    * Render the group markup
-   * @param {any} rect item in the data array
+   * @param {TreemapDataSet} rect item in the data array
    * @returns {string} svg group
    * @memberof IdsTreeMap
    */
-  templateGroups(rect: any): string {
+  templateGroups(rect: TreemapDataSet): string {
     const textOffset = 8;
 
     return `
@@ -198,21 +225,21 @@ export default class IdsTreeMap extends Base {
 
   /**
    * Get max number
-   * @param {any} array row
-   * @returns {any} max number
+   * @param {number[]} array row
+   * @returns {number} max number
    * @memberof IdsTreeMap
    * @private
    */
-  #getMaximum = (array: any): any => Math.max(...array);
+  #getMaximum = (array: number[]): number => Math.max(...array);
 
   /**
    * Get min number
-   * @param {any} array row
-   * @returns {any} min number
+   * @param {number[]} array row
+   * @returns {number} min number
    * @memberof IdsTreeMap
    * @private
    */
-  #getMinimum = (array: any): any => Math.min(...array);
+  #getMinimum = (array: number[]): number => Math.min(...array);
 
   /**
    * Sum Reducer
@@ -235,13 +262,21 @@ export default class IdsTreeMap extends Base {
 
   /**
    * Validate the treemap object.
-   * @param {any} obj { data, height }
-   * @param {any} obj.data array that contains the treemap block definitions
-   * @param {number} obj.height total hieght of the treemap
+   * @param {TreemapDataSet} treemap { data, height }
+   * @param {Data[]} treemap.data array that contains the treemap block definitions
+   * @param {number} treemap.height total hieght of the treemap
    * @memberof IdsTreeMap
    * @private
    */
-  #validateArguments = ({ data, height }: any) => {
+  #validateArguments = (
+    treemap: {
+      data: Data[],
+      height: Pick<TreemapDataSet, 'height'>
+    }
+  ) => {
+    const data = treemap.data;
+    const height = treemap.height;
+
     if (typeof height !== 'number' || height <= 0) {
       throw new Error('You need to specify the height of your treemap');
     }
@@ -252,13 +287,13 @@ export default class IdsTreeMap extends Base {
 
   /**
    * Calculate worst ratio
-   * @param {any} row array
+   * @param {number[]} row array
    * @param {number} width of row
    * @returns {number} worst ratio number
    * @memberof IdsTreeMap
    * @private
    */
-  #worstRatio = (row: any, width: number) => {
+  #worstRatio = (row: number[], width: number): number => {
     const sum = row.reduce(this.#sumReducer, 0);
     const rowMax = this.#getMaximum(row);
     const rowMin = this.#getMinimum(row);
@@ -267,11 +302,11 @@ export default class IdsTreeMap extends Base {
 
   /**
    * Get the min width
-   * @returns {any} the minWidth object
+   * @returns {RectMinWidth} the minWidth object
    * @memberof IdsTreeMap
    * @private
    */
-  #getMinWidth = (): any => {
+  #getMinWidth = (): RectMinWidth => {
     if (this.Rectangle.totalHeight ** 2 > this.Rectangle.totalWidth ** 2) {
       return { value: this.Rectangle.totalWidth, vertical: false };
     }
@@ -280,16 +315,20 @@ export default class IdsTreeMap extends Base {
 
   /**
    * Layout Row
-   * @param {any} row array
+   * @param {number[]} row array
    * @param {number} width number
    * @param {boolean} vertical boolean
    * @memberof IdsTreeMap
    * @private
    */
-  #layoutRow = (row: any, width: number, vertical: boolean) => {
+  #layoutRow = (
+    row: number[],
+    width: number,
+    vertical: boolean
+  ) => {
     const rowHeight = row.reduce(this.#sumReducer, 0) / width;
 
-    row.forEach((rowItem: any) => {
+    row.forEach((rowItem: number) => {
       const rowWidth = rowItem / rowHeight;
       const { xBeginning } = this.Rectangle;
       const { yBeginning } = this.Rectangle;
@@ -333,28 +372,36 @@ export default class IdsTreeMap extends Base {
 
   /**
    * Layout last row
-   * @param {any} rows array
-   * @param {any} children array
+   * @param {number[]} rows array
+   * @param {number[]} children array
    * @param {number} width number
    * @memberof IdsTreeMap
    * @private
    */
-  #layoutLastRow = (rows: any, children: any, width: number) => {
-    const { vertical }: any = this.#getMinWidth();
+  #layoutLastRow = (
+    rows: number[],
+    children: number[],
+    width: number
+  ) => {
+    const { vertical }: Pick<RectMinWidth, 'vertical'> = this.#getMinWidth();
     this.#layoutRow(rows, width, vertical);
     this.#layoutRow(children, width, vertical);
   };
 
   /**
    * Squarify
-   * @param {any} children array
-   * @param {any} row array
+   * @param {number[]} children array
+   * @param {number[]} row array
    * @param {number} width number
    * @returns {any} squarified row
    * @memberof IdsTreeMap
    * @private
    */
-  #squarify = (children: any, row: any, width: number): any => {
+  #squarify = (
+    children: number[],
+    row: number[],
+    width: number
+  ): void | Squarify => {
     if (children.length === 1) {
       return this.#layoutLastRow(row, children, width);
     }
@@ -372,14 +419,22 @@ export default class IdsTreeMap extends Base {
 
   /**
    * Create the Treemap
-   * @param {any} obj object that contains config for the treemap
-   * @param {any} obj.data array that contains the treemap block definitions
-   * @param {number} obj.height total hieght of the treemap
-   * @returns {any | boolean} treemap array
+   * @param {TreemapDataSet} treemap object that contains config for the treemap
+   * @param {Data[]} treemap.data array that contains the treemap block definitions
+   * @param {number} treemap.height total hieght of the treemap
+   * @returns {TreemapDataSet[]} treemap array
    * @memberof IdsTreeMap
    */
-  treeMap({ data, height }: any): any | boolean {
-    if (data && data.length > 0) {
+  treeMap(
+    treemap: {
+      data: Data[],
+      height: Pick<TreemapDataSet, 'height'>
+    }
+  ): TreemapDataSet[] {
+    if (treemap && treemap.data.length > 0) {
+      const height = treemap.height;
+      const data = treemap.data;
+
       this.#validateArguments({ data, height });
       this.width = this.container.offsetWidth;
       this.height = height;
@@ -393,12 +448,12 @@ export default class IdsTreeMap extends Base {
       };
 
       this.initialData = data;
-      const totalValue = data.map((dataPoint: any) => dataPoint.value).reduce(this.#sumReducer, 0);
-      const dataScaled = data.map((dataPoint: any) => (dataPoint.value * this.height * this.width) / totalValue);
+      const totalValue = data.map((dataPoint: Data) => dataPoint.value).reduce(this.#sumReducer, 0);
+      const dataScaled = data.map((dataPoint: Data) => (dataPoint.value * this.height * this.width) / totalValue);
 
       this.#squarify(dataScaled, [], this.#getMinWidth().value);
 
-      return this.Rectangle.data.map((dataPoint: any) => ({
+      return this.Rectangle.data.map((dataPoint: TreemapDataSet) => ({
         ...dataPoint,
         x: this.#roundValue(dataPoint.x),
         y: this.#roundValue(dataPoint.y),
@@ -407,7 +462,7 @@ export default class IdsTreeMap extends Base {
       }));
     }
 
-    return false;
+    return [];
   }
 
   /**

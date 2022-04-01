@@ -1,29 +1,41 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import IdsInput from '../ids-input/ids-input';
-import IdsToolbar from '../ids-toolbar/ids-toolbar';
-import IdsDraggable from '../ids-draggable/ids-draggable';
+
 import Base from './ids-list-builder-base';
+
+import '../ids-toolbar/ids-toolbar';
+import '../ids-draggable/ids-draggable';
+import IdsInput from '../ids-input/ids-input';
+
 import styles from './ids-list-builder.scss';
 
 /**
  * IDS ListBuilder Component
  * @type {IdsListBuilder}
- * @inherits IdsElement
+ * @inherits IdsListView
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
+ * @part container - the container element
  */
 @customElement('ids-list-builder')
 @scss(styles)
 export default class IdsListBuilder extends Base {
+  /**
+   * Call the constructor and then initialize
+   */
   constructor() {
     super();
   }
 
-  // any active editor of the selected list item
-  #selectedLiEditor;
+  /**
+   * Active editor of the selected list item
+   */
+  #selectedLiEditor: any;
 
-  // a clone of the list item being dragged -- appears during drag to help visualize where the dragged item's position
-  placeholder;
+  /**
+   * A clone of the list item being dragged,
+   * it appears during drag to help visualize where the dragged item's position
+   */
+  placeholder: any;
 
   connectedCallback() {
     this.sortable = true;
@@ -37,9 +49,9 @@ export default class IdsListBuilder extends Base {
 
   /**
    * Return the attributes we handle as getters/setters
-   * @returns {Array} The attributes in an array
+   * @returns {Array<string>} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       ...super.attributes,
     ];
@@ -49,7 +61,7 @@ export default class IdsListBuilder extends Base {
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `
       <div class="ids-list-builder">
           <div class="header">
@@ -85,25 +97,26 @@ export default class IdsListBuilder extends Base {
     `;
   }
 
-  get data() {
+  get data(): Array<any> {
     return super.data;
   }
 
   /**
    * Set the data set of the list
-   * @param {Array} val The list of items
+   * @param {Array<any>} val The list of items
    */
-  set data(val) {
+  set data(val: Array<any>) {
     super.data = val;
-
-    // need to reattach event listeners when new data set dynamically adds list items
     this.#attachEventListeners();
   }
 
   /**
-   * Attaches all the listeners which allow for clicking, dragging, and keyboard interaction with the list items
+   * Attaches all the listeners which allow for clicking,
+   * dragging, and keyboard interaction with the list items
+   * @private
+   * @returns {void}
    */
-  #attachEventListeners() {
+  #attachEventListeners(): void {
     this.#attachClickListeners(); // for toolbar buttons
     this.#attachKeyboardListeners(); // for selecting/editing list items
 
@@ -117,8 +130,10 @@ export default class IdsListBuilder extends Base {
 
   /**
    * Removes and unfocuses any active list item editor after updating the list item's value
+   * @private
+   * @returns {void}
    */
-  #unfocusAnySelectedLiEditor() {
+  #unfocusAnySelectedLiEditor(): void {
     if (this.#selectedLiEditor) {
       this.#removeSelectedLiEditor();
       this.updateDataFromDOM();
@@ -127,15 +142,19 @@ export default class IdsListBuilder extends Base {
 
   /**
    * Helper function to update the list item inner text with the editor's input value
+   * @private
+   * @returns {void}
    */
-  #updateSelectedLiWithEditorValue() {
+  #updateSelectedLiWithEditorValue(): void {
     this.selectedLi.querySelector('ids-text').innerHTML = this.#selectedLiEditor.value;
   }
 
   /**
    * Helper function to remove the editor element from the DOM
+   * @private
+   * @returns {void}
    */
-  #removeSelectedLiEditor() {
+  #removeSelectedLiEditor(): void {
     this.offEvent('keyup', this.#selectedLiEditor);
     this.#selectedLiEditor.parentNode.classList.remove('is-editing');
     this.#selectedLiEditor.remove();
@@ -144,9 +163,11 @@ export default class IdsListBuilder extends Base {
 
   /**
    * Helper function to insert an editor into the DOM and hide the inner text of the list item
-   * @param {boolean} newEntry whether or not this is an editor for a new or pre-existing list item
+   * @param {boolean | null} newEntry whether or not this is an editor for a new or pre-existing list item
+   * @private
+   * @returns {void}
    */
-  #insertSelectedLiWithEditor(newEntry = false) {
+  #insertSelectedLiWithEditor(newEntry: boolean | null = false): void {
     if (this.selectedLi) {
       if (!this.#selectedLiEditor) {
         const i = new IdsInput();
@@ -174,9 +195,12 @@ export default class IdsListBuilder extends Base {
   }
 
   /**
-   * Add/remove the editor in one function -- used when 'Enter' key is hit on a selected list item
+   * Add/remove the editor in one function,
+   * used when `Enter` key is hit on a selected list item
+   * @private
+   * @returns {void}
    */
-  #toggleEditor() {
+  #toggleEditor(): void {
     if (this.selectedLi) {
       if (!this.#selectedLiEditor) {
         this.#insertSelectedLiWithEditor();
@@ -189,17 +213,20 @@ export default class IdsListBuilder extends Base {
 
   /**
    * Overrides the onClick() to include select functionality and unfocus any active editor inputs
-   * @param {Element} item the draggable list item
+   * @param {any} item the draggable list item
+   * @returns {void}
    */
-  onClick(item) {
+  onClick(item: any): void {
     super.onClick(item);
     this.#unfocusAnySelectedLiEditor();
   }
 
   /**
    * Attaches functionality for toolbar button interaction
+   * @private
+   * @returns {void}
    */
-  #attachClickListeners() {
+  #attachClickListeners(): void {
     // Add button
     this.onEvent('click', this.container.querySelector('#button-add'), () => {
       this.#unfocusAnySelectedLiEditor();
@@ -217,7 +244,7 @@ export default class IdsListBuilder extends Base {
 
       const listItem = newDraggableItem.querySelector('div[part="list-item"]');
       // remove any selected attribute on li that may have propogated from the clone
-      listItem.getAttribute('selected') && listItem.removeAttribute('selected');
+      if (listItem.getAttribute('selected')) listItem.removeAttribute('selected');
 
       this.resetIndices();
       this.toggleSelectedLi(listItem);
@@ -270,42 +297,46 @@ export default class IdsListBuilder extends Base {
 
   /**
    * Attach selection toggling, editing feature, and navigation focus functionality to keyboard events
+   * @private
+   * @returns {void}
    */
-  #attachKeyboardListeners() {
-    this.getAllLi().forEach((l) => {
-      this.#attachKeyboardListenersForLi(l);
+  #attachKeyboardListeners(): void {
+    this.getAllLi().forEach((li: any) => {
+      this.#attachKeyboardListenersForLi(li);
     });
   }
 
   /**
    * Helper function to attach keyboard events to each individual item
-   * @param {Element} l the list item
+   * @private
+   * @param {any} li the list item
+   * @returns {void}
    */
-  #attachKeyboardListenersForLi(l) {
-    this.onEvent('keydown', l, (event) => {
+  #attachKeyboardListenersForLi(li: any): void {
+    this.onEvent('keydown', li, (event: KeyboardEvent) => {
       switch (event.key) {
-      case 'Enter': // edits the list item
-        this.#toggleEditor();
-        break;
-      case ' ': // selects the list item
-        if (!this.#selectedLiEditor) {
-          event.preventDefault(); // prevent container from scrolling
-          this.toggleSelectedLi(l);
-        }
-        break;
-      case 'Tab':
-        this.#unfocusAnySelectedLiEditor();
-        break;
-      case 'ArrowUp':
-        event.preventDefault();
-        this.#unfocusAnySelectedLiEditor();
-        break;
-      case 'ArrowDown':
-        event.preventDefault();
-        this.#unfocusAnySelectedLiEditor();
-        break;
-      default:
-        break;
+        case 'Enter': // edits the list item
+          this.#toggleEditor();
+          break;
+        case ' ': // selects the list item
+          if (!this.#selectedLiEditor) {
+            event.preventDefault(); // prevent container from scrolling
+            this.toggleSelectedLi(li);
+          }
+          break;
+        case 'Tab':
+          this.#unfocusAnySelectedLiEditor();
+          break;
+        case 'ArrowUp':
+          event.preventDefault();
+          this.#unfocusAnySelectedLiEditor();
+          break;
+        case 'ArrowDown':
+          event.preventDefault();
+          this.#unfocusAnySelectedLiEditor();
+          break;
+        default:
+          break;
       }
     });
   }
@@ -315,15 +346,19 @@ export default class IdsListBuilder extends Base {
    * @param {Node} node the node to be cloned
    * @returns {Node} the cloned node
    */
-  createPlaceholderNode(node) {
+  createPlaceholderNode(node: Node): Node {
     const p = super.createPlaceholderNode(node);
     p.querySelector('div[part="list-item"]').removeAttribute('selected');
     return p;
   }
 
-  resetIndices() {
-    this.container.querySelectorAll('div[part="list-item"]').forEach((x, i) => {
-      x.setAttribute('index', i);
+  /**
+   * Reset indices
+   * @returns {void}
+   */
+  resetIndices(): void {
+    this.container.querySelectorAll('div[part="list-item"]').forEach((x: HTMLElement, i: number) => {
+      x.setAttribute('index', i.toString());
     });
   }
 }
