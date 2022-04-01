@@ -1,5 +1,4 @@
 import { customElement } from '../../core/ids-decorators';
-import IdsElement from '../../core/ids-element';
 import Base from './ids-wizard-step-base';
 
 // Note: this component is only used to count steps

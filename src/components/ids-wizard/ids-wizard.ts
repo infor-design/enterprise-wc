@@ -3,7 +3,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import Base from './ids-wizard-base';
 
 // Dependencies
-import IdsText from '../ids-text/ids-text';
+import '../ids-text/ids-text';
 
 import styles from './ids-wizard.scss';
 
@@ -59,7 +59,7 @@ export default class IdsWizard extends Base {
    * within the space available
    */
   fitAndSizeElements() {
-    const labelEls = [];
+    const labelEls: any[] = [];
 
     for (let i = 0; i < this.children.length; i++) {
       const labelEl = this.getStepEl(this, i + 1).children[1];
@@ -84,7 +84,7 @@ export default class IdsWizard extends Base {
    * @param {DOMRect} r2 elem2's bounding box
    * @returns {boolean} whether there is collision on x-axis
    */
-  areRectsHColliding(r1, r2) {
+  areRectsHColliding(r1: DOMRect, r2: DOMRect): boolean {
     return (
       ((r1.left + r1.width) > r2.left)
       && ((r1.right - r1.width) < r2.right)
@@ -105,7 +105,7 @@ export default class IdsWizard extends Base {
    * @param {number} stepNumber the step number to check
    * @returns {boolean} whether or not the step is clickable
    */
-  isStepClickable(stepNumber) {
+  isStepClickable(stepNumber: number): boolean {
     const stepEl = this.children[stepNumber - 1];
 
     return (
@@ -118,13 +118,13 @@ export default class IdsWizard extends Base {
    * Create the Template for the contents
    * @returns {string} the template to render
    */
-  template() {
+  template(): string {
     let stepsHtml = '';
 
     // iterate through ids-wizard-step
     // lightDOM to create shadowDOM markup
 
-    const stepIndex = this.stepNumber - 1;
+    const stepIndex = <number>this.stepNumber - 1;
 
     for (const [i, stepEl] of [...this.children].entries()) {
       const isCurrentStep = stepIndex === i;
@@ -199,7 +199,7 @@ export default class IdsWizard extends Base {
    * Get the step number
    * @returns {number|string} step number (1-based)
    */
-  get stepNumber() {
+  get stepNumber(): number | string {
     const stepNumber = parseInt(this.getAttribute(attributes.STEP_NUMBER));
 
     if (Number.isNaN(stepNumber)) {
@@ -213,12 +213,12 @@ export default class IdsWizard extends Base {
    * Set the step number
    * @param {number|string} value step number (1-based)
    */
-  set stepNumber(value) {
+  set stepNumber(value: number | string) {
     if (Number.isNaN(Number(value))) {
       throw new Error('ids-wizard: Invalid step number provided');
     }
 
-    const v = parseInt(value);
+    const v = parseInt(<string>value);
     if (v <= 0) {
       throw new Error('ids-wizard: step number should be > 0');
     } else if (v > this.children.length) {
@@ -240,8 +240,8 @@ export default class IdsWizard extends Base {
     super.connectedCallback?.();
     this.updateHrefURIs();
     if (window.location.hash.length) {
-      const uriHash = window.location.hash.substr(1);
-      const stepNumber = this.hrefURIs.indexOf(uriHash) + 1;
+      const uriHash:never | string = window.location.hash.substr(1);
+      const stepNumber = this.hrefURIs.indexOf(<never>uriHash) + 1;
 
       if (stepNumber) {
         this.stepNumber = stepNumber;
@@ -251,7 +251,7 @@ export default class IdsWizard extends Base {
     this.stepObserver.disconnect();
 
     // set up observer for monitoring if a child element changed
-    this.stepObserver.observe(this, {
+    this.stepObserver.observe(<any>this, {
       childList: true,
       attributes: true,
       subtree: true
@@ -264,7 +264,7 @@ export default class IdsWizard extends Base {
    * @param  {string} oldValue The property old value
    * @param  {string} newValue The property new value
    */
-  attributeChangedCallback(name, oldValue, newValue) {
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     super.attributeChangedCallback(name, oldValue, newValue);
 
     // when we change the step number, we want to track any
@@ -277,7 +277,7 @@ export default class IdsWizard extends Base {
     // so that focus isn't lost suddenly
 
     if (oldValue !== newValue) {
-      const activeStepNumber = document.activeElement.getAttribute('step-number');
+      const activeStepNumber = document.activeElement?.getAttribute('step-number');
 
       // track any label widths
       const resizedWidthsMap = new Map();
@@ -333,7 +333,7 @@ export default class IdsWizard extends Base {
         this.stepNumber = `${stepNumber}`;
       };
 
-      this.offEvent(`click.step.${stepNumber}`);
+      this.offEvent(`click.step.${stepNumber}`, this);
       this.onEvent(`click.step.${stepNumber}`, stepEl, onClickStep);
     }
 
@@ -354,7 +354,7 @@ export default class IdsWizard extends Base {
    * @private
    */
   updateHrefURIs() {
-    this.hrefURIs = [...this.children].map((el, i) => {
+    this.hrefURIs = <string | number | any>[...this.children].map((el, i) => {
       let uriHash = encodeURI(el.textContent);
       let collisionCount;
 
@@ -384,7 +384,7 @@ export default class IdsWizard extends Base {
    * @param {*} stepNumber step number
    * @returns {HTMLElement} the step element
    */
-  getStepEl(wizardEl, stepNumber) {
+  getStepEl(wizardEl: IdsWizard, stepNumber: number): IdsWizard {
     return wizardEl?.shadowRoot?.querySelector(
     `.step[step-number="${stepNumber}"]`
     );
@@ -397,7 +397,7 @@ export default class IdsWizard extends Base {
    * user-defined element
    * @returns {Array<DOMRect>} array of rects for step positioning/sizing
    */
-  resizeStepLabelRects(...args) {
+  resizeStepLabelRects(...args: any): Array<DOMRect> {
     const w = args[0];
     const n = args[1] || 1;
     let rects = args[2] || [];
