@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import IdsTag from '../../src/components/ids-tag/ids-tag';
-import IdsElement from '../../src/core/ids-element';
+import '../../src/core/ids-element';
 
 describe('IdsElement Tests', () => {
   afterEach(async () => {
@@ -10,14 +10,14 @@ describe('IdsElement Tests', () => {
   });
 
   it('detaches an invalid event name without affecting existing events', () => {
-    const elem = new IdsTag();
+    const elem: any = new IdsTag();
     const prevHandledEventsSize = elem.handledEvents.size;
     elem.detachEventsByName(123);
     expect(elem.handledEvents.size).toEqual(prevHandledEventsSize);
   });
 
   it('skips render if no template', () => {
-    const elem = new IdsTag();
+    const elem: any = new IdsTag();
     elem.template = null;
 
     const mockCallback = jest.fn();
@@ -39,10 +39,10 @@ describe('IdsElement Tests', () => {
   it('can find the nonce', () => {
     const elem = new IdsTag();
     expect(elem.nonce).toEqual(undefined);
-    document.nonce = '0a59a001';
+    (document as any).nonce = '0a59a001';
     expect(elem.nonce).toEqual('0a59a001');
 
-    document.nonce = undefined;
+    (document as any).nonce = undefined;
     const nonce = document.createElement('meta');
     nonce.setAttribute('http-equiv', 'Content-Security-Policy');
     nonce.setAttribute('content', `script-src 'self';
@@ -52,7 +52,7 @@ describe('IdsElement Tests', () => {
 
     expect(elem.nonce).toEqual('0a59a005');
 
-    document.nonce = undefined;
+    (document as any).nonce = undefined;
     nonce.setAttribute('content', `default-src 'self'; img-src https://*; child-src 'none';`);
     expect(elem.nonce).toEqual(undefined);
   });

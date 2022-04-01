@@ -30,7 +30,7 @@ describe('IdsDeepCloneMixin Tests', () => {
   });
 
   it('can clone an arrays in an object', () => {
-    const original = { x: 1, triggers: ['1', '2'] };
+    const original: any = { x: 1, triggers: ['1', '2'] };
     const clone = deepClone(original);
     original.triggers = [4, 5];
 
@@ -49,7 +49,7 @@ describe('IdsDeepCloneMixin Tests', () => {
   });
 
   it('can skip prototype properties', () => {
-    const Person = function Person(name) {
+    const Person: any = function Person(this: any, name: string) {
       this.name = name;
     };
     Person.prototype.age = 43;
@@ -76,7 +76,7 @@ describe('IdsDeepCloneMixin Tests', () => {
     const d1 = new Date();
     const d2 = new Date();
 
-    const original = [d1, d2];
+    const original: Array<any> = [d1, d2];
     const clone = deepClone(original);
     original[0] = [new Date(10, 10, 2020), new Date(10, 10, 2020)];
     original[1] = [new Date(10, 10, 2020), new Date(10, 10, 2020)];
@@ -87,7 +87,7 @@ describe('IdsDeepCloneMixin Tests', () => {
 
   it('can clone an object with circular refs', () => {
     const original = { okProp: true };
-    original.circularReference = original;
+    (original as any).circularReference = original;
 
     const clone = deepClone(original);
 
@@ -96,7 +96,7 @@ describe('IdsDeepCloneMixin Tests', () => {
   });
 
   it('can clone an array with circular refs', () => {
-    const original = { nestedThing: [1, 2] };
+    const original: any = { nestedThing: [1, 2] };
     original.nestedThing.push(original);
 
     const clone = deepClone(original);

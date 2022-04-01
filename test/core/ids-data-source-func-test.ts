@@ -4,14 +4,14 @@
 import IdsDataSource from '../../src/core/ids-data-source';
 
 describe('IdsDataSourceMixin Tests', () => {
-  let datasource;
+  let datasource: any;
 
   beforeEach(async () => {
     datasource = new IdsDataSource();
   });
 
   it('can set data as source', () => {
-    const dataset = [{ prop1: 1, prop2: 2 }, { prop1: 1, prop2: 2 }];
+    const dataset: any = [{ prop1: 1, prop2: 2 }, { prop1: 1, prop2: 2 }];
 
     datasource.data = dataset;
     dataset[0].prop1 = 'a';
@@ -24,7 +24,7 @@ describe('IdsDataSourceMixin Tests', () => {
 
     datasource.data = dataset;
 
-    datasource.forEach((data) => {
+    datasource.forEach((data: any) => {
       expect(data.prop1).toEqual(1);
       expect(data.prop2).toEqual(2);
     });
@@ -55,8 +55,8 @@ describe('IdsDataSourceMixin Tests', () => {
   });
 
   it('can sort with a primer function', () => {
-    const dataset = [{ prop1: 1, prop2: 2 }, { prop1: 1, prop2: 2 }];
-    const primer = (x) => x;
+    const dataset: any = [{ prop1: 1, prop2: 2 }, { prop1: 1, prop2: 2 }];
+    const primer = (x: any) => x;
 
     datasource.data = dataset;
     datasource.sort('prop1', false, primer);
@@ -76,7 +76,7 @@ describe('IdsDataSourceMixin Tests', () => {
       { prop1: 'a', prop2: 'a' },
       { prop1: 'a', prop2: 'a' }
     ];
-    const primer = (x) => x;
+    const primer = (x: any) => x;
 
     datasource.data = dataset;
     datasource.sort('prop1', false, primer);

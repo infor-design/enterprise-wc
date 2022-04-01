@@ -4,7 +4,7 @@
 import { getSpecs } from '../../src/utils/ids-device-env-specs-utils/ids-device-env-specs-utils';
 
 describe('IdsDeviceEnvUtils Tests', () => {
-  let specs;
+  let specs: any;
 
   beforeEach(async () => {
     specs = getSpecs();

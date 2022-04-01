@@ -51,7 +51,7 @@ export function stringToBool(val: string | boolean | null | undefined): boolean 
  * @param {string|number|any} val string value from the component attribute
  * @returns {number} The return boolean
  */
-export function stringToNumber(val: string | number | any): number {
+export function stringToNumber(val?: string | number | any): number {
   return parseFloat(val); // eslint-disable-line
 }
 
@@ -88,7 +88,7 @@ export function buildClassAttrib(...classes: any): string {
  * @param {number} e the event to inspect
  * @returns {boolean} Returns true if the key is a printable one.
  */
-export function isPrintable(e: KeyboardEvent): boolean {
+export function isPrintable(e: KeyboardEvent | any): boolean {
   const controlKeys = ['Alt', 'Shift', 'Control', 'Meta', 'CapsLock', 'Enter', 'Escape', 'Tab'];
   if (controlKeys.indexOf(e.key) > -1 || e.key.indexOf('Arrow') > -1) {
     return false;

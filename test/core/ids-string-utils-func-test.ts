@@ -39,7 +39,7 @@ describe('IdsStringUtils Tests', () => {
   });
 
   it('can inject a template variable', () => {
-    const obj = { field: 'test-value' };
+    const obj: any = { field: 'test-value' };
     const template = 'Test String <b>${field}</b>'; //eslint-disable-line
 
     expect(injectTemplate(template, obj)).toEqual('Test String <b>test-value</b>');
