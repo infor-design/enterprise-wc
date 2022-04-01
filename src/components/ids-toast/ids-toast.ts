@@ -227,7 +227,7 @@ export default class IdsToast extends Base {
    */
   #message(value: string, isAllowLink: boolean) {
     const message = value ? value.toString() : this.#slotVal('message');
-    const messageEl = document.createElement('span');
+    const messageEl: any = document.createElement('span');
     messageEl.setAttribute('slot', 'message');
     messageEl.innerHTML = isAllowLink
       ? stripTags(message, '<a><br><p><ids-hyperlink>')
