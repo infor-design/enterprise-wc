@@ -4,7 +4,7 @@
  * @param {string} html HTML in string form
  * @returns {string} the modified value
  */
-export function sanitizeConsoleMethods(html: string) {
+export function sanitizeConsoleMethods(html: string | any) {
   const methods = ['assert', 'clear', 'count', 'debug', 'dirxml', 'dir', 'error', 'exception', 'groupCollapsed', 'groupEnd', 'group', 'info', 'log', 'markTimeline', 'profileEnd', 'profile', 'table', 'timeEnd', 'timeStamp', 'time', 'trace', 'warn'];
   const expr = new RegExp(`console\\.(${methods.join('|')})((\\s+)?\\(([^)]+)\\);?)?`, 'igm');
 
@@ -60,11 +60,11 @@ export function stripHTML(str: string) {
 /**
  * Remove all html tags except for the ones specified.
  * For example: White list to a specific set of accepted tags.
- * @param {string} html HTML in string form
+ * @param {string | number} html HTML in string form
  * @param {string} allowed Comma seperated string of allowed tags e.g. '<b><i><p>''
  * @returns {string} the modified value
  */
-export function stripTags(html: string, allowed: string) {
+export function stripTags(html: string | number, allowed?: string) {
   if (!html) {
     return '';
   }
@@ -95,15 +95,14 @@ export function stripTags(html: string, allowed: string) {
  * @param {string} value HTML in string form
  * @returns {string} the modified value
  */
-export function unescapeHTML(value: string): string {
+export function unescapeHTML(value: string | any): string {
   if (value === '') {
     return '';
   }
 
   const match = (regx: RegExp) => {
-    const test = value.match(regx)
-    if (test)
-      return test[0];
+    const test = value.match(regx);
+    if (test) return test[0];
     return null;
   };
   const doc = new DOMParser().parseFromString(value, 'text/html');

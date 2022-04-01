@@ -91,12 +91,12 @@ export function daysDiff(startDate: any, endDate: any): number {
 
 /**
  * Add a number of units to original date
- * @param {Date} date original date.
+ * @param {Date | string} date original date.
  * @param {number} number of unit to add to the date.
  * @param {string} unit days
  * @returns {Date} new date after addition.
  */
-export function addDate(date: Date, number: number, unit: string): any {
+export function addDate(date: Date | string, number: number, unit?: string): any {
   let newDate = null;
   const originalDate = date instanceof Date ? new Date(date.toISOString()) : new Date(date);
   switch (unit) {
@@ -111,12 +111,12 @@ export function addDate(date: Date, number: number, unit: string): any {
 
 /**
  * Subtract a number of units to original date
- * @param {Date} date original date.
+ * @param {Date | string} date original date.
  * @param {number} number of unit to subtract from the given date.
  * @param {string} unit days
  * @returns {Date} new date after subtraction.
  */
-export function subtractDate(date: Date, number: number, unit: string): any {
+export function subtractDate(date: Date | string, number: number, unit?: string): any {
   let newDate = null;
   const originalDate = date instanceof Date ? new Date(date.toISOString()) : new Date(date);
   switch (unit) {
@@ -142,10 +142,10 @@ export function isDaylightSavingTime(date: Date) {
 
 /**
  * Check if a date is valid
- * @param {Date} date date to check.
+ * @param {Date | string | undefined} date date to check.
  * @returns {boolean} true if valid, false otherwise.
  */
-export function isValidDate(date: Date) {
+export function isValidDate(date: Date | string | undefined): boolean {
   return date instanceof Date && !Number.isNaN(date);
 }
 
@@ -204,7 +204,7 @@ export function umalquraToGregorian(year: number, month: number, day: number, ho
  * @param {Date} date Gregorian calendar date
  * @returns {object} Umm al-Qura calendar year, month, day
  */
-export function gregorianToUmalqura(date: Date): any {
+export function gregorianToUmalqura(date?: Date): any {
   const umalquraParts: any = new Intl.DateTimeFormat('en-US', { calendar: 'islamic-umalqura' })
     // set a current date if argument is not valid
     .formatToParts(isValidDate(date) ? date : new Date())
@@ -225,7 +225,7 @@ export function gregorianToUmalqura(date: Date): any {
  * @param {boolean} isIslamic if set to true the calculation is based on the Umm al-Qura Calendar
  * @returns {Date} Gregorian calendar date
  */
-export function firstDayOfMonthDate(year: number, month: number, day: number | undefined, isIslamic = false) {
+export function firstDayOfMonthDate(year: number, month: number, day?: number | undefined, isIslamic?: boolean) {
   if (isIslamic) {
     const umalqura = gregorianToUmalqura(new Date(year, month, day));
 
@@ -243,7 +243,7 @@ export function firstDayOfMonthDate(year: number, month: number, day: number | u
  * @param {boolean} isIslamic if set to true the calculation is based on the Umm al-Qura Calendar
  * @returns {Date} Gregorian calendar date
  */
-export function lastDayOfMonthDate(year: number, month: number, day: number | undefined, isIslamic = false) {
+export function lastDayOfMonthDate(year: number, month: number, day?: number | undefined, isIslamic?: boolean) {
   if (isIslamic) {
     const umalqura = gregorianToUmalqura(new Date(year, month, day));
 
@@ -261,7 +261,7 @@ export function lastDayOfMonthDate(year: number, month: number, day: number | un
  * @param {boolean} isIslamic if set to true the calculation is base the Umm al-Qura Calendar
  * @returns {number} number of days in a given month.
  */
-export function daysInMonth(year: number, month: number, day: number | undefined, isIslamic = false) {
+export function daysInMonth(year: number, month: number, day?: number | undefined, isIslamic?: boolean) {
   const lastDayOfMonth = lastDayOfMonthDate(year, month, day, isIslamic);
 
   if (isIslamic) {
@@ -282,10 +282,10 @@ export function daysInMonth(year: number, month: number, day: number | undefined
  * @param {boolean} isIslamic if set to true the calculation is base the Umm al-Qura Calendar
  * @returns {number} number of weeks in a given month
  */
-export function weeksInMonth(year: number, month: number, day: number | undefined, startsOn = 0, isIslamic = false) {
+export function weeksInMonth(year: number, month: number, day?: number | undefined, startsOn?: number, isIslamic?: boolean) {
   const firstDayOfMonth = firstDayOfMonthDate(year, month, day, isIslamic);
   const numberOfDaysInMonth = daysInMonth(year, month, day, isIslamic);
-  const firstDayOfWeekIndex = (firstDayOfMonth.getDay() - startsOn + 7) % 7;
+  const firstDayOfWeekIndex = (firstDayOfMonth.getDay() - (startsOn || 0) + 7) % 7;
 
   return Math.ceil((firstDayOfWeekIndex + numberOfDaysInMonth) / 7);
 }

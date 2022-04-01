@@ -2,6 +2,7 @@ const path = require('path');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const demoEntry = require('./scripts/webpack-dev-entry');
+const handleUpload = require('./scripts/handle-upload');
 const WebpackHtmlExamples = require('./scripts/webpack-html-templates');
 
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
@@ -43,7 +44,9 @@ module.exports = {
     static: {
       directory: path.resolve(__dirname, `./build/demos/${isProduction ? 'production' : 'development'}`),
       watch: false
-    }
+    },
+    // For fake file upload behavior
+    setupMiddlewares: handleUpload
   },
   devtool: 'cheap-module-source-map',
   module: {
