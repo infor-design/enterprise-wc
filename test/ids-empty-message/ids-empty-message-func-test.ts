@@ -1,13 +1,13 @@
 /**
  * @jest-environment jsdom
  */
-import IdsText from '../../src/components/ids-text/ids-text';
 import IdsEmptyMessage from '../../src/components/ids-empty-message/ids-empty-message';
+import '../../src/components/ids-text/ids-text';
 
 describe('Ids Empty Message Tests', () => {
-  let elem;
+  let elem: any;
 
-  const createElemViaTemplate = async (innerHTML) => {
+  const createElemViaTemplate = async (innerHTML: string) => {
     elem?.remove?.();
 
     const template = document.createElement('template');

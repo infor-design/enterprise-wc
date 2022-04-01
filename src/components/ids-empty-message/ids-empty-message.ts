@@ -4,8 +4,8 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
 import Base from './ids-empty-message-base';
-import IdsIcon from '../ids-icon/ids-icon';
-import IdsText from '../ids-text/ids-text';
+import '../ids-icon/ids-icon';
+import '../ids-text/ids-text';
 
 import styles from './ids-empty-message.scss';
 
@@ -42,15 +42,15 @@ export default class IdsEmptyMessage extends Base {
     ];
   }
 
-  iconData() {
-    return pathData[this.icon];
+  iconData(): string {
+    return (<any>pathData)[this.icon];
   }
 
   /**
    * Create the template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `<div class="ids-empty-message" part="container">
         <svg class="icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" aria-hidden="true">${this.iconData()}</svg>
         <div class="label">
@@ -75,11 +75,11 @@ export default class IdsEmptyMessage extends Base {
     return this;
   }
 
-  get icon() { return this.getAttribute(attributes.ICON); }
+  get icon(): string { return this.getAttribute(attributes.ICON); }
 
-  set icon(value) {
+  set icon(value: string) {
     const svgIcon = this.shadowRoot.querySelector('svg');
-    if (value && pathData[value]) {
+    if (value && (<any>pathData)[value]) {
       svgIcon.style.display = '';
       this.setAttribute(attributes.ICON, value);
       svgIcon.innerHTML = this.iconData();

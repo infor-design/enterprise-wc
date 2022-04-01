@@ -3,42 +3,41 @@
  */
 import IdsDrawer from '../../src/components/ids-drawer/ids-drawer';
 import IdsContainer from '../../src/components/ids-container/ids-container';
-import IdsButton from '../../src/components/ids-button/ids-button';
+import '../../src/components/ids-button/ids-button';
 
-import elemBuilderFactory from '../helpers/elem-builder-factory';
+import createFromTemplate from '../helpers/create-from-template';
 import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';
 import waitFor from '../helpers/wait-for';
 import processAnimFrame from '../helpers/process-anim-frame';
 
-const elemBuilder = elemBuilderFactory();
 
 describe('IdsDrawer Component', () => {
-  afterAll(async () => { elemBuilder.clearElement(); });
+  let elem: any;
+
+  afterEach(async () => {
+    document.body.innerHTML = '';
+  });
 
   it('renders with no errors', async () => {
     const errors = jest.spyOn(global.console, 'error');
 
     // Build and destroy an "App Menu" type Drawer
-    await elemBuilder.createElemFromTemplate(
-      `<ids-drawer edge="start" type="app-menu">
+    elem = createFromTemplate(elem, `<ids-drawer edge="start" type="app-menu">
         <div>Menu Content</div>
       </ids-drawer>`
     );
-    await elemBuilder.clearElement();
 
     // Build and destroy an "Action Sheet" type Drawer
-    await elemBuilder.createElemFromTemplate(
-      `<ids-drawer edge="bottom" type="action-sheet">
+    elem = createFromTemplate(elem, `<ids-drawer edge="bottom" type="action-sheet">
         <div>Action Sheet Content</div>
       </ids-drawer>`
     );
-    await elemBuilder.clearElement();
 
     expect(errors).not.toHaveBeenCalled();
   });
 
   it('must have an edge', async () => {
-    const elem = await elemBuilder.createElemFromTemplate(
+    elem = createFromTemplate(elem,
       `<ids-drawer>
         <div>Content</div>
       </ids-drawer>`
@@ -59,8 +58,7 @@ describe('IdsDrawer Component', () => {
   });
 
   it('can have a type', async () => {
-    const elem = await elemBuilder.createElemFromTemplate(
-      `<ids-drawer>
+    elem = createFromTemplate(elem, `<ids-drawer>
         <div>Content</div>
       </ids-drawer>`
     );
@@ -74,12 +72,13 @@ describe('IdsDrawer Component', () => {
 
   it('can have a target', async () => {
     // Build drawer/target and connect them
-    const elem = await elemBuilder.createElemFromTemplate(
+    elem = createFromTemplate(elem,
       `<ids-drawer>
         <div>Content</div>
       </ids-drawer>`
     );
-    const btn = await elemBuilder.createElemFromTemplate(
+    let btn: any;
+    btn = createFromTemplate(btn,
       `<ids-button id="trigger-btn">Open Drawer</ids-button>`
     );
     elem.target = btn;
@@ -103,14 +102,14 @@ describe('IdsDrawer Component', () => {
   });
 
   it('can be prevented from being shown', async () => {
-    const elem = await elemBuilder.createElemFromTemplate(
+    elem = createFromTemplate(elem,
       `<ids-drawer>
         <div>Content</div>
       </ids-drawer>`
     );
 
     // Veto the opening of the Drawer
-    elem.addEventListener('beforeshow', (e) => {
+    elem.addEventListener('beforeshow', (e: any) => {
       e.detail.response(false);
     });
     elem.show();
@@ -119,14 +118,14 @@ describe('IdsDrawer Component', () => {
   });
 
   it('can be prevented from being hidden', async () => {
-    const elem = await elemBuilder.createElemFromTemplate(
+    elem = createFromTemplate(elem,
       `<ids-drawer>
         <div>Content</div>
       </ids-drawer>`
     );
 
     // Veto the closing of the Drawer
-    elem.addEventListener('beforehide', (e) => {
+    elem.addEventListener('beforehide', (e: any) => {
       e.detail.response(false);
     });
     elem.show();
@@ -137,8 +136,8 @@ describe('IdsDrawer Component', () => {
   });
 
   it('should update with container language change', async () => {
-    const elem = new IdsDrawer();
-    const container = new IdsContainer();
+    const elem: any = new IdsDrawer();
+    const container: any = new IdsContainer();
     document.body.appendChild(container);
     container.appendChild(elem);
 
@@ -148,7 +147,7 @@ describe('IdsDrawer Component', () => {
   });
 
   it('should call hide on outside click', async () => {
-    const elem = await elemBuilder.createElemFromTemplate(
+    elem = createFromTemplate(elem,
       `<ids-drawer>
         <div>Content</div>
       </ids-drawer>`
