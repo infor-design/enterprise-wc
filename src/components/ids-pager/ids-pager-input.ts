@@ -24,7 +24,7 @@ export default class IdsPagerInput extends Base {
     super();
   }
 
-  template() {
+  template(): string {
     const pageCountShown = this.pageCount !== null ? this.pageCount : 'N/A';
     const idsTextAttribs = `label ${this.disabledOverall ? ' disabled' : ''}`;
 
@@ -44,7 +44,7 @@ export default class IdsPagerInput extends Base {
     );
   }
 
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       attributes.DISABLED,
       attributes.PAGE_NUMBER,
@@ -54,7 +54,7 @@ export default class IdsPagerInput extends Base {
     ];
   }
 
-  connectedCallback() {
+  connectedCallback(): void {
     this.input = this.shadowRoot.querySelector('ids-input');
 
     this.onEvent('change', this.input, () => {
@@ -99,13 +99,13 @@ export default class IdsPagerInput extends Base {
   }
 
   /** @param {string|number} value The number of items to show per page */
-  set pageSize(value) {
+  set pageSize(value: string | number) {
     let nextValue;
 
-    if (Number.isNaN(value)) {
+    if (Number.isNaN(Number.parseInt(value as any))) {
       nextValue = 1;
     } else {
-      nextValue = value;
+      nextValue = Number.parseInt(value as any);
     }
 
     if (parseInt(this.getAttribute(attributes.PAGE_SIZE)) !== nextValue) {
@@ -116,7 +116,7 @@ export default class IdsPagerInput extends Base {
   }
 
   /** @returns {string|number} The number of items shown per page */
-  get pageSize() {
+  get pageSize(): string | number {
     return parseInt(this.getAttribute(attributes.PAGE_SIZE));
   }
 
@@ -127,15 +127,15 @@ export default class IdsPagerInput extends Base {
     const currentPageNumber = pagerInputField?.value || 1;
     let nexPageNumber;
 
-    if (Number.isNaN(value)) {
+    if (Number.isNaN(Number.parseInt(value as any))) {
       nexPageNumber = 1;
-    } else if (value <= 1) {
+    } else if (Number.parseInt(value as any) <= 1) {
       nexPageNumber = 1;
     } else {
-      nexPageNumber = value;
+      nexPageNumber = Number.parseInt(value as any);
     }
 
-    const isSamePageNumber = nexPageNumber === currentPageNumber;
+    const isSamePageNumber = parseInt(nexPageNumber as any) === parseInt(currentPageNumber);
     if (isSamePageNumber) {
       // no need to update if page number did not changed.
       return;
@@ -156,19 +156,19 @@ export default class IdsPagerInput extends Base {
   }
 
   /** @returns {string|number} value A 1-based page number displayed */
-  get pageNumber() {
+  get pageNumber(): string | number {
     return parseInt(this.getAttribute(attributes.PAGE_NUMBER)) || 1;
   }
 
   /** @param {string|number} value The number of items to track */
-  set total(value) {
+  set total(value: string | number) {
     let nextValue;
-    if (Number.isNaN(value)) {
+    if (Number.isNaN(Number.parseInt(value as any))) {
       nextValue = 1;
-    } else if (value <= 0) {
+    } else if (Number.parseInt(value as any) <= 0) {
       nextValue = 1;
     } else {
-      nextValue = value;
+      nextValue = Number.parseInt(value as any);
     }
 
     this.setAttribute(attributes.TOTAL, nextValue);
@@ -176,21 +176,21 @@ export default class IdsPagerInput extends Base {
   }
 
   /** @returns {string|number} The number of items for pager is tracking */
-  get total() {
+  get total(): string | number {
     return parseInt(this.getAttribute(attributes.TOTAL)) || 0;
   }
 
   /** @returns {number} The calculated pageCount using total and pageSize */
-  get pageCount() {
+  get pageCount(): number {
     const total = this.total || 0;
     const pageSize = this.pageSize || 1;
-    const pageCount = Math.ceil(total / pageSize);
+    const pageCount = Math.ceil(Number(total) / Number(pageSize));
 
     return Math.max(pageCount, 1);
   }
 
   /** @param {boolean|string} value Whether or not to disable input at app-specified-level */
-  set disabled(value) {
+  set disabled(value: boolean | string) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.DISABLED, '');
     } else {
@@ -204,7 +204,7 @@ export default class IdsPagerInput extends Base {
    * @returns {string|boolean} A flag indicating whether the input is disabled
    * for nav reasons
    */
-  get disabled() {
+  get disabled(): boolean | string {
     return this.hasAttribute(attributes.DISABLED);
   }
 
@@ -212,7 +212,7 @@ export default class IdsPagerInput extends Base {
    * @param {string|boolean} value A flag indicating if the input is disabled
    * through parent pager's disabled attribute
    */
-  set parentDisabled(value) {
+  set parentDisabled(value: boolean | string) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.PARENT_DISABLED, '');
     } else {
@@ -226,7 +226,7 @@ export default class IdsPagerInput extends Base {
    * @returns {string|boolean} A flag indicating whether button is disabled
    * via parent pager's disabled attribute
    */
-  get parentDisabled() {
+  get parentDisabled(): boolean | string {
     return this.hasAttribute(attributes.PARENT_DISABLED);
   }
 
@@ -234,14 +234,14 @@ export default class IdsPagerInput extends Base {
    * @returns {string|boolean} Whether the functionality overall is disabled based on
    * a combination of other available disabled fields
    */
-  get disabledOverall() {
+  get disabledOverall(): boolean | string {
     return (this.hasAttribute(attributes.DISABLED)
       || this.hasAttribute(attributes.PARENT_DISABLED)
     );
   }
 
   /** Updates text found in page-count within ids-text span */
-  #updatePageCountShown() {
+  #updatePageCountShown(): void {
     const pageCount = this.pageCount;
     const pageCountShown = (pageCount === null) ? 'N/A' : pageCount;
     this.shadowRoot.querySelector('span.page-count').textContent = pageCountShown;
@@ -251,7 +251,7 @@ export default class IdsPagerInput extends Base {
    * Update visible button disabled state
    * based on parentDisabled and disabled attribs
    */
-  #updateDisabledState() {
+  #updateDisabledState(): void {
     const idsTextEls = this.shadowRoot.querySelectorAll('ids-text');
 
     if (this.disabledOverall) {

@@ -143,7 +143,11 @@
         "allowImplicit": true
       }],
       // Allow short circuiting of functions
-      "no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTernary": true }]
+      "no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTernary": true }],
+      // Require modules with a single export to use a default export
+      // Will ignore because of https://medium.com/@timoxley/named-exports-as-the-default-export-api-670b1b554f65
+      // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/prefer-default-export.md
+      "import/prefer-default-export": "off"
     }
   }]
 }

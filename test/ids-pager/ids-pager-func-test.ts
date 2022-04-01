@@ -3,14 +3,9 @@
  */
 // eslint-disable-next-line
 import processAnimFrame from '../helpers/process-anim-frame';
-import IdsInput from '../../src/components/ids-input/ids-input';
+import '../../src/components/ids-input/ids-input';
 import IdsContainer from '../../src/components/ids-container/ids-container';
-import IdsPager, {
-  IdsPagerInput,
-  IdsPagerButton,
-  IdsPagerSection,
-  IdsPagerNumberList
-} from '../../src/components/ids-pager/ids-pager';
+import '../../src/components/ids-pager/ids-pager';
 
 const HTMLSnippets = {
   NAV_BUTTONS_WITHOUT_NESTING: (
@@ -34,7 +29,7 @@ const HTMLSnippets = {
     </ids-pager>`
   ),
   NUMBER_LIST_NAV: (
-  `<ids-pager page-size="20" page-number="10" total="150">
+    `<ids-pager page-size="20" page-number="10" total="150">
       <section>
         <ids-pager-button previous></ids-pager-button>
         <ids-pager-number-list></ids-pager-number-list>
@@ -72,10 +67,10 @@ const HTMLSnippets = {
 };
 
 describe('IdsPager Component', () => {
-  let elem;
-  let container;
+  let elem: any;
+  let container: any;
 
-  const createElemViaTemplate = async (innerHTML) => {
+  const createElemViaTemplate = async (innerHTML: any) => {
     elem?.remove?.();
     container = new IdsContainer();
 
@@ -228,7 +223,7 @@ describe('IdsPager Component', () => {
   it('creates a pager and the "type" of each of its nav button when accessed is based on their flag attrib', async () => {
     elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
     const navButtons = elem.querySelectorAll('ids-pager-button');
-    navButtons.forEach((idsPagerButton) => {
+    navButtons.forEach((idsPagerButton: any) => {
       expect(idsPagerButton.type).not.toBeFalsy();
       expect(idsPagerButton.hasAttribute(idsPagerButton.type)).not.toBeFalsy();
     });
