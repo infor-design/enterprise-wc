@@ -83,7 +83,7 @@ export default class IdsModal extends Base {
     // Update ARIA / Sets up the label
     this.messageTitle = this.querySelector('[slot="title"]')?.textContent;
     this.setAttribute('role', 'dialog');
-    this.#refreshAriaLabel();
+    this.refreshAriaLabel();
 
     // Update Outer Modal Parts
     this.#refreshOverlay(this.overlay);
@@ -212,7 +212,7 @@ export default class IdsModal extends Base {
       }
     }
 
-    this.#refreshAriaLabel();
+    this.refreshAriaLabel();
 
     titleEls.forEach((el, i) => {
       if (hasTitle) {
@@ -231,7 +231,7 @@ export default class IdsModal extends Base {
    * Renders or Removes a correct `aria-label` attribute on the Modal about its contents.
    * @returns {void}
    */
-  #refreshAriaLabel(): void {
+  refreshAriaLabel(): void {
     const title = this.ariaLabelContent;
     if (title) {
       this.setAttribute('aria-label', title);
