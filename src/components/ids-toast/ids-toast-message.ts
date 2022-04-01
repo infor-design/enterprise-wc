@@ -3,10 +3,10 @@ import { attributes } from '../../core/ids-attributes';
 
 import Base from './ids-toast-message-base';
 
-import IdsIcon from '../ids-icon/ids-icon';
-import IdsText from '../ids-text/ids-text';
-import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
-import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
+import '../ids-icon/ids-icon';
+import '../ids-text/ids-text';
+import '../ids-trigger-field/ids-trigger-button';
+import '../ids-hyperlink/ids-hyperlink';
 import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 
@@ -47,9 +47,8 @@ export default class IdsToastMessage extends Base {
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
-    this
-      .#setTimer()
-      .#attachEventHandlers();
+    this.#setTimer();
+    this.#attachEventHandlers();
     super.connectedCallback();
   }
 
@@ -57,7 +56,7 @@ export default class IdsToastMessage extends Base {
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       ...super.attributes,
       attributes.AUDIBLE,
@@ -71,7 +70,7 @@ export default class IdsToastMessage extends Base {
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     const d = DEFAULTS;
 
     const closeButton = `
@@ -100,11 +99,11 @@ export default class IdsToastMessage extends Base {
   /**
    * Set the toast timer
    * @private
-   * @returns {object} This API object for chaining
+   * @returns {void}
    */
-  #setTimer() {
+  #setTimer(): void {
     let progressBar = this.shadowRoot.querySelector('.progress-bar');
-    const updateProgressBar = (percentage) => {
+    const updateProgressBar = (percentage: any) => {
       if (progressBar) {
         progressBar.style.width = `${percentage}%`;
       }
@@ -133,27 +132,25 @@ export default class IdsToastMessage extends Base {
         id: `add-${self.messageId}`,
         duration,
         updateCallback() {
-          percentage = ((duration - this.elapsedTime) / duration) * 100;
+          percentage = (((duration as any) - (this as any).elapsedTime) / (duration as any)) * 100;
           updateProgressBar(percentage);
         },
         timeoutCallback() {
           updateProgressBar(0);
           self.removeToastMessage();
-          this.destroy();
+          (this as any).destroy();
         }
       });
       renderLoop.register(self.timer);
     };
     timer();
-
-    return this;
   }
 
   /**
    * Remove the toast message and animate
    * @returns {void}
    */
-  removeToastMessage() {
+  removeToastMessage(): void {
     const removeCallback = () => {
       const toast = this.container;
       if (toast) {
@@ -192,7 +189,7 @@ export default class IdsToastMessage extends Base {
       duration: 20,
       timeoutCallback() {
         removeCallback();
-        this.destroy();
+        (this as any).destroy();
       }
     });
     renderLoop.register(closeTimer);
@@ -201,9 +198,8 @@ export default class IdsToastMessage extends Base {
   /**
    * Establish Internal Event Handlers
    * @private
-   * @returns {object} The object for chaining.
    */
-  #attachEventHandlers() {
+  #attachEventHandlers(): void {
     const toast = this.container;
     const id = this.messageId;
 
@@ -212,7 +208,7 @@ export default class IdsToastMessage extends Base {
     const updateTimer = () => this.timer[isPausePlay ? 'pause' : 'resume']();
     const events = ['mousedown.toast', 'touchstart.toast', 'mouseup.toast', 'touchend.toast'];
     events.forEach((event) => {
-      this.onEvent(event, toast, (e) => {
+      this.onEvent(event, toast, (e: MouseEvent) => {
         isPausePlay = !!/mousedown|touchstart/i.test(e.type);
         updateTimer();
       });
@@ -220,7 +216,7 @@ export default class IdsToastMessage extends Base {
 
     const keyEvents = [`keydown.toast-${id}`, `keyup.toast-${id}`];
     keyEvents.forEach((event) => {
-      this.onEvent(event, document, (e) => {
+      this.onEvent(event, document, (e: KeyboardEvent) => {
         const key = e.which || e.keyCode;
 
         // Control + Alt + P
@@ -240,15 +236,13 @@ export default class IdsToastMessage extends Base {
     // Handle clicking the (x) close button
     const closeButton = this.shadowRoot.querySelector('.close-button');
     this.onEvent('click.toast', closeButton, () => this.removeToastMessage());
-
-    return this;
   }
 
   /**
    * Set as invisible on the screen, but still read out lout by screen readers.
    * @param {boolean|string} value If true, causes the toast to be invisible on the screen.
    */
-  set audible(value) {
+  set audible(value: boolean | string) {
     if (isBool(value)) {
       this.setAttribute(attributes.AUDIBLE, value.toString());
     } else {
@@ -256,13 +250,13 @@ export default class IdsToastMessage extends Base {
     }
   }
 
-  get audible() { return getBoolVal(this, attributes.AUDIBLE); }
+  get audible(): boolean | string { return getBoolVal(this, attributes.AUDIBLE); }
 
   /**
    * Set toast to have a visible progress bar.
    * @param {boolean|string} value if true, will show progress with toast.
    */
-  set progressBar(value) {
+  set progressBar(value: boolean | string) {
     if (isBool(value)) {
       this.setAttribute(attributes.PROGRESS_BAR, value.toString());
     } else {
@@ -270,13 +264,13 @@ export default class IdsToastMessage extends Base {
     }
   }
 
-  get progressBar() { return getBoolVal(this, attributes.PROGRESS_BAR); }
+  get progressBar(): boolean | string { return getBoolVal(this, attributes.PROGRESS_BAR); }
 
   /**
    * Set the amount of time, the toast should be present on-screen.
    * @param {number|string} value The amount of time in milliseconds.
    */
-  set timeout(value) {
+  set timeout(value: number | string) {
     if (value) {
       this.setAttribute(attributes.TIMEOUT, value.toString());
     } else {
@@ -284,7 +278,7 @@ export default class IdsToastMessage extends Base {
     }
   }
 
-  get timeout() {
+  get timeout(): number | string {
     const timeout = parseInt(this.getAttribute(attributes.TIMEOUT), 10);
     return !isNaN(timeout) ? timeout : DEFAULTS.timeout; // eslint-disable-line
   }
@@ -293,7 +287,7 @@ export default class IdsToastMessage extends Base {
    * Set toast-id to manage each toast.
    * @param {number|string} value A toast-id use.
    */
-  set messageId(value) {
+  set messageId(value: number | string) {
     if (value) {
       this.setAttribute(ATTRIBUTE_MESSAGE_ID, value.toString());
     } else {
@@ -301,5 +295,5 @@ export default class IdsToastMessage extends Base {
     }
   }
 
-  get messageId() { return this.getAttribute(ATTRIBUTE_MESSAGE_ID); }
+  get messageId(): number | string { return this.getAttribute(ATTRIBUTE_MESSAGE_ID); }
 }

@@ -1,5 +1,5 @@
 // IdsToast Example
-import IdsToast from '../ids-toast';
+import '../ids-toast';
 
 document.addEventListener('DOMContentLoaded', () => {
   const idsContainer = document.querySelector('ids-container');
@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Show toast message
   btnToastDemo?.addEventListener('click', () => {
     const toastId = 'test-demo-toast';
-    let toast = document.querySelector(`#${toastId}`);
+    let toast: any = document.querySelector(`#${toastId}`);
     if (!toast) {
       toast = document.createElement('ids-toast');
       toast.setAttribute('id', toastId);

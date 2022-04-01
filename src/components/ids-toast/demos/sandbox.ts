@@ -1,6 +1,6 @@
 // Supporting components
-import IdsCheckbox from '../../ids-checkbox/ids-checkbox';
-import IdsRadio from '../../ids-radio/ids-radio';
+import '../../ids-checkbox/ids-checkbox';
+import '../../ids-radio/ids-radio';
 
 document.addEventListener('DOMContentLoaded', () => {
   const idsContainer = document.querySelector('ids-container');
@@ -9,13 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
    * Variant Toast
    * show toast message with variant settings
    */
-  const isChecked = (sel) => document.querySelector(sel)?.checked === 'true';
+  const isChecked = (sel: any) => document.querySelector(sel)?.checked === 'true';
   const btnToastVariant = document.querySelector('#btn-toast-variant');
 
   btnToastVariant?.addEventListener('click', () => {
     const draggable = isChecked('#cb-toast-draggable');
     const destroyOnComplete = isChecked('#cb-toast-destroy-on-complete');
-    const position = document.querySelector('#radio-toast-position').value;
+    const position = (document.querySelector('#radio-toast-position') as any).value;
 
     const allowLink = isChecked('#cb-toast-allow-link');
     const audible = isChecked('#cb-toast-audible');
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
       : 'Link in message: <ids-hyperlink href="http://www.example.com" target="_blank">Google</ids-hyperlink>';
 
     const toastId = 'test-toast-variant';
-    let toast = document.querySelector(`#${toastId}`);
+    let toast: any = document.querySelector(`#${toastId}`);
     if (!toast) {
       toast = document.createElement('ids-toast');
       toast.setAttribute('id', toastId);
@@ -61,8 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const uniqueId1 = 'some-uniqueid-1';
   const uniqueId2 = 'some-uniqueid-2';
 
-  const setClearButtons = (sel, toast) => {
-    const buttons = {
+  const setClearButtons = (sel: any, toast: any) => {
+    const buttons: any = {
       clearAll: document.querySelector('#btn-toast-clear-position-all'),
       btnClear1: document.querySelector('#btn-toast-clear-position-1'),
       btnClear2: document.querySelector('#btn-toast-clear-position-2'),
@@ -80,9 +80,9 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   };
-  const handleSavePosition = (sel) => {
+  const handleSavePosition = (sel: any) => {
     const toastId = `test-toast-save-position-${sel}`;
-    let toast = document.querySelector(`#${toastId}`);
+    let toast: any = document.querySelector(`#${toastId}`);
     if (!toast) {
       toast = document.createElement('ids-toast');
       toast.setAttribute('id', toastId);
@@ -116,15 +116,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnClear2 = document.querySelector('#btn-toast-clear-position-2');
   const btnClearAll = document.querySelector('#btn-toast-clear-position-all');
   btnClear1?.addEventListener('click', () => {
-    const toast = document.createElement('ids-toast');
+    const toast: any = document.createElement('ids-toast');
     toast.clearPosition(uniqueId1);
   });
   btnClear2?.addEventListener('click', () => {
-    const toast = document.createElement('ids-toast');
+    const toast: any = document.createElement('ids-toast');
     toast.clearPosition(uniqueId2);
   });
   btnClearAll?.addEventListener('click', () => {
-    const toast = document.createElement('ids-toast');
+    const toast: any = document.createElement('ids-toast');
     toast.clearPositionAll();
   });
 
@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
    * Toast message by markup
    */
   const btnMarkup = document.querySelector('#btn-toast-markup');
-  const toastMarkup = document.querySelector('#toast-markup');
+  const toastMarkup: any = document.querySelector('#toast-markup');
   btnMarkup?.addEventListener('click', () => {
     toastMarkup.show();
   });
