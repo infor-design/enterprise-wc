@@ -2,13 +2,13 @@
  * @jest-environment jsdom
  */
 import IdsTextarea from '../../src/components/ids-textarea/ids-textarea';
-import IdsEventsMixin from '../../src/mixins/ids-events-mixin/ids-events-mixin';
+import '../../src/mixins/ids-events-mixin/ids-events-mixin';
 
 describe('IdsTextarea Component', () => {
-  let textarea;
+  let textarea: any;
 
   beforeEach(async () => {
-    const elem = new IdsTextarea();
+    const elem: any = new IdsTextarea();
     document.body.appendChild(elem);
     textarea = document.querySelector('ids-textarea');
   });
@@ -19,7 +19,7 @@ describe('IdsTextarea Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsTextarea();
+    const elem: any = new IdsTextarea();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-textarea').length).toEqual(1);
@@ -226,7 +226,7 @@ describe('IdsTextarea Component', () => {
     expect(textarea.getAttribute('printable')).toEqual('true');
     expect(textarea.shadowRoot.querySelector('.textarea-print')).toBeTruthy();
     textarea.printable = 'false';
-    expect(textarea.getAttribute('printable')).toEqual('false');
+    expect(textarea.getAttribute('printable')).toEqual(null);
     expect(textarea.shadowRoot.querySelector('.textarea-print')).toBeFalsy();
     textarea.value = 'test';
     textarea.printable = null;
@@ -256,9 +256,11 @@ describe('IdsTextarea Component', () => {
     textarea.characterCounter = 'true';
     expect(textarea.getAttribute('character-counter')).toEqual('true');
     expect(textarea.shadowRoot.querySelector('.textarea-character-counter')).toBeTruthy();
+    textarea.maxlength = null;
     textarea.characterCounter = 'false';
     expect(textarea.getAttribute('character-counter')).toEqual(null);
     expect(textarea.shadowRoot.querySelector('.textarea-character-counter')).toBeFalsy();
+    textarea.maxlength = '90';
     textarea.characterCounter = null;
     expect(textarea.getAttribute('character-counter')).toEqual(null);
     expect(textarea.shadowRoot.querySelector('.textarea-character-counter')).toBeTruthy();
@@ -300,14 +302,14 @@ describe('IdsTextarea Component', () => {
   it('renders char-max-text as custom to field', () => {
     const valueMax = '01234567890123456789';
     const maxlength = '20';
-    const defaultText = {
+    const defaultText: any = {
       charMaxText: `Character count maximum of`,
       charRemainingText: `Characters left ${maxlength}`
     };
     defaultText.charMaxTextVal = `${defaultText.charMaxText} ${maxlength}`;
     defaultText.charRemainingTextVal = defaultText.charRemainingText.replace('{0}', maxlength);
 
-    const customText = {
+    const customText: any = {
       charMaxText: 'This text cannot exceed {0} characters.',
       charRemainingText: 'You can type {0} more characters.'
     };
@@ -363,17 +365,17 @@ describe('IdsTextarea Component', () => {
     }))(window.navigator.userAgent));
 
     expect(textarea.isSafari).toEqual(false);
-    global.navigator.userAgent = 'Safari';
+    (global.navigator as any).userAgent = 'Safari';
     expect(global.navigator.userAgent).toBe('Safari');
     textarea.setBrowser();
     expect(textarea.isSafari).toEqual(true);
 
-    global.navigator.userAgent = 'Chrome';
+    (global.navigator as any).userAgent = 'Chrome';
     expect(global.navigator.userAgent).toBe('Chrome');
     textarea.setBrowser();
     expect(textarea.isSafari).toEqual(false);
 
-    global.navigator.userAgent = 'Android';
+    (global.navigator as any).userAgent = 'Android';
     expect(global.navigator.userAgent).toBe('Android');
     textarea.setBrowser();
     expect(textarea.isSafari).toEqual(false);
@@ -382,8 +384,8 @@ describe('IdsTextarea Component', () => {
       get() { return value; },
       set(v) { value = v; } // eslint-disable-line
     }))(window.navigator.vendor));
-    global.navigator.userAgent = null;
-    global.navigator.vendor = 'Safari';
+    (global.navigator as any).userAgent = null;
+    (global.navigator as any).vendor = 'Safari';
     expect(global.navigator.vendor).toBe('Safari');
     textarea.setBrowser();
     expect(textarea.isSafari).toEqual(true);
@@ -391,11 +393,11 @@ describe('IdsTextarea Component', () => {
     Object.defineProperty(window, 'opera', ((value) => ({
       get() { return value; },
       set(v) { value = v; } // eslint-disable-line
-    }))(window.opera));
-    global.navigator.userAgent = null;
-    global.navigator.vendor = null;
-    global.opera = 'Safari';
-    expect(global.opera).toBe('Safari');
+    }))((window as any).opera));
+    (global.navigator as any).userAgent = null;
+    (global.navigator as any).vendor = null;
+    (global as any).opera = 'Safari';
+    expect((global as any).opera).toBe('Safari');
     textarea.setBrowser();
     expect(textarea.isSafari).toEqual(true);
   });
@@ -474,8 +476,8 @@ describe('IdsTextarea Component', () => {
   });
 
   it('should textarea text-align', () => {
-    const textAligns = ['left', 'center', 'right'];
-    const checkAlign = (textAlign) => {
+    const textAligns: string[] = ['left', 'center', 'right'];
+    const checkAlign = (textAlign: string) => {
       textarea.textAlign = textAlign;
       expect(textarea.getAttribute('text-align')).toEqual(textAlign);
       expect(textarea.input.classList).toContain(textAlign);
@@ -513,7 +515,7 @@ describe('IdsTextarea Component', () => {
 
   it('should rendr textarea sizes', () => {
     const sizes = ['sm', 'md', 'lg', 'full'];
-    const checkSize = (size) => {
+    const checkSize = (size: string) => {
       textarea.size = size;
       expect(textarea.getAttribute('size')).toEqual(size);
       expect(textarea.shadowRoot.querySelector('.field-container').classList).toContain(size);

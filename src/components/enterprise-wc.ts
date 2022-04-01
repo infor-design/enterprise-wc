@@ -62,7 +62,7 @@ import './ids-splitter/ids-splitter';
 // import './ids-swipe-action/ids-swipe-action';
 import './ids-swappable/ids-swappable';
 import './ids-swaplist/ids-swaplist';
-// import './ids-switch/ids-switch';
+import './ids-switch/ids-switch';
 // import './ids-tabs/ids-tabs';
 import './ids-tag/ids-tag';
 // import './ids-time-picker/ids-time-picker';

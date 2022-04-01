@@ -91,12 +91,12 @@ export default class IdsScrollView extends Base {
 
     // Set selected state on scroll/swipe
     this.querySelectorAll('[slot]').forEach((elem: any, i: any) => {
-      elem.scrollViewIndex = i;
+      const scrollViewIndex = i;
       const observer = new IntersectionObserver(
         (entries) => {
-          const elemToCheck: any = entries[0];
+          const elemToCheck: IntersectionObserverEntry = entries[0];
           if (elemToCheck.isIntersecting && !this.isClick) {
-            this.#activateLink(this.controls.querySelectorAll('a')[elemToCheck.target.scrollViewIndex], true);
+            this.#activateLink(this.controls.querySelectorAll('a')[scrollViewIndex], true);
           }
         },
         { threshold: 0.55 }
