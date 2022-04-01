@@ -1,8 +1,8 @@
 // Supporting components
-import IdsErrorPage from '../ids-error-page';
+import '../ids-error-page';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const errorPage = document.querySelector('ids-error-page');
+  const errorPage: any = document.querySelector('ids-error-page');
 
   errorPage.popup.animated = false;
 

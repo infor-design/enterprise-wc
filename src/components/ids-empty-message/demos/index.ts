@@ -1,12 +1,12 @@
 // Supporting components
 import pathData from 'ids-identity/dist/theme-new/icons/empty/path-data.json';
-import IdsEmptyMessage from '../ids-empty-message';
-import IdsCard from '../../ids-card/ids-card';
-import Idstoast from '../../ids-toast/ids-toast';
-import IdsButton from '../../ids-button/ids-button';
+import '../ids-empty-message';
+import '../../ids-card/ids-card';
+//import Idstoast from '../../ids-toast/ids-toast';
+import '../../ids-button/ids-button';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const container = document.querySelector('.icon-examples');
+  const container: HTMLElement | null = document.querySelector('.icon-examples');
   const emptyIcons = Object.entries(pathData);
   let exampleIconHtml = '';
 
@@ -28,14 +28,17 @@ document.addEventListener('DOMContentLoaded', () => {
   </ids-layout-grid-cell>`;
   }
 
-  container.innerHTML = exampleIconHtml;
+  if(container){
+    container.innerHTML = exampleIconHtml;
+  }
+
 
   const buttons = document.querySelectorAll('.action-button');
 
   for (let i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener('click', () => {
       const toastId = 'demo-toast';
-      let toast = document.querySelector(`#${toastId}`);
+      let toast: any = document.querySelector(`#${toastId}`);
       if (!toast) {
         toast = document.createElement('ids-toast');
         toast.setAttribute('id', toastId);

@@ -25,7 +25,7 @@ export default class IdsExpandableArea extends Base {
     this.state = {};
   }
 
-  connectedCallback() {
+  connectedCallback(): void {
     this.expander = this.shadowRoot?.querySelector('[data-expander]');
     this.expanderDefault = this.shadowRoot?.querySelector('[name="expander-default"]');
     this.expanderExpanded = this.shadowRoot?.querySelector('[name="expander-expanded"]');
@@ -38,7 +38,7 @@ export default class IdsExpandableArea extends Base {
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [attributes.EXPANDED, attributes.TYPE, attributes.MODE, attributes.VERSION];
   }
 
@@ -46,7 +46,7 @@ export default class IdsExpandableArea extends Base {
    * Set the type
    * @param {string | null} value The Type [null, toggle-btn]
    */
-  set type(value) {
+  set type(value: string) {
     if (value === EXPANDABLE_AREA_TYPES[0]) {
       this.setAttribute(attributes.TYPE, value);
     } else {
@@ -60,7 +60,7 @@ export default class IdsExpandableArea extends Base {
    * Set the expanded property
    * @param {string | null} value true/false
    */
-  set expanded(value) {
+  set expanded(value: string | null) {
     if (value) {
       this.setAttribute(attributes.EXPANDED, value);
     } else {
@@ -75,7 +75,7 @@ export default class IdsExpandableArea extends Base {
    * The main state switching function
    * @returns {void}
    */
-  switchState() {
+  switchState(): void {
     this.expanderDefault = this.shadowRoot?.querySelector('[name="expander-default"]');
     this.expanderExpanded = this.shadowRoot?.querySelector('[name="expander-expanded"]');
     this.state.expanded = this.getAttribute(attributes.EXPANDED) === 'true' || false;
@@ -99,7 +99,7 @@ export default class IdsExpandableArea extends Base {
    * @private
    * @returns {void}
    */
-  collapsePane() {
+  collapsePane(): void {
     requestAnimationFrame(() => {
       if (!this.pane) {
         return;
@@ -117,7 +117,7 @@ export default class IdsExpandableArea extends Base {
    * @private
    * @returns {void}
    */
-  expandPane() {
+  expandPane(): void {
     if (!this.pane) {
       return;
     }
@@ -129,7 +129,7 @@ export default class IdsExpandableArea extends Base {
    * Sets the expanded state attribute
    * @returns {void}
    */
-  setAttributes() {
+  setAttributes(): void {
     this.setAttribute(attributes.EXPANDED, this.getAttribute(attributes.EXPANDED) === 'true' ? 'false' : 'true');
   }
 
@@ -138,12 +138,12 @@ export default class IdsExpandableArea extends Base {
    * @private
    * @returns {void}
    */
-  #attachEventHandlers() {
+  #attachEventHandlers(): void {
     this.onEvent('click', this.expander, () => {
       this.setAttributes();
     });
 
-    this.onEvent('touchstart', this.expander, (e) => {
+    this.onEvent('touchstart', this.expander, (e: any) => {
       if (e.touches && e.touches.length > 0) {
         this.setAttributes();
       }
@@ -156,7 +156,7 @@ export default class IdsExpandableArea extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     let template;
     if (this.type === EXPANDABLE_AREA_TYPES[0]) {
       template = `
