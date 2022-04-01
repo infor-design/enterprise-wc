@@ -5,17 +5,18 @@ import '../helpers/resize-observer-mock';
 import processAnimFrame from '../helpers/process-anim-frame';
 import wait from '../helpers/wait';
 
-import IdsModal, { IdsOverlay } from '../../src/components/ids-modal/ids-modal';
+import IdsModal from '../../src/components/ids-modal/ids-modal';
+import '../../src/components/ids-modal/ids-overlay';
 import IdsModalButton from '../../src/components/ids-modal-button/ids-modal-button';
 import IdsButton from '../../src/components/ids-button/ids-button';
 
 describe('IdsFocusCaptureMixin)', () => {
-  let triggerBtn;
-  let afterBtn;
-  let modal;
-  let modalBtnCancel;
-  let modalBtnReset;
-  let modalBtnOK;
+  let triggerBtn: any;
+  let afterBtn: any;
+  let modal: any;
+  let modalBtnCancel: any;
+  let modalBtnReset: any;
+  let modalBtnOK: any;
 
   beforeEach(async () => {
     // Triggers the Modal, sits ahead of the Modal HTML
@@ -71,7 +72,7 @@ describe('IdsFocusCaptureMixin)', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsModal();
+    const elem: any = new IdsModal();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-modal').length).toEqual(1);
@@ -126,23 +127,23 @@ describe('IdsFocusCaptureMixin)', () => {
     // Do nothing
     modal.setFocus();
     await processAnimFrame();
-    expect(document.activeElement.isEqualNode(modalBtnCancel)).toBeTruthy();
+    expect((document.activeElement as any).isEqualNode(modalBtnCancel)).toBeTruthy();
     expect(modal.nextFocusableElement).toEqual(modalBtnReset);
     expect(modal.previousFocusableElement).toEqual(modalBtnOK);
 
     modal.setFocus(1);
     await processAnimFrame();
-    expect(document.activeElement.isEqualNode(modalBtnReset)).toBeTruthy();
+    expect((document.activeElement as any).isEqualNode(modalBtnReset)).toBeTruthy();
     expect(modal.nextFocusableElement).toEqual(modalBtnOK);
     expect(modal.previousFocusableElement).toEqual(modalBtnCancel);
 
     modal.setFocus('first');
     await processAnimFrame();
-    expect(document.activeElement.isEqualNode(modalBtnCancel)).toBeTruthy();
+    expect((document.activeElement as any).isEqualNode(modalBtnCancel)).toBeTruthy();
 
     modal.setFocus('last');
     await processAnimFrame();
-    expect(document.activeElement.isEqualNode(modalBtnOK)).toBeTruthy();
+    expect((document.activeElement as any).isEqualNode(modalBtnOK)).toBeTruthy();
     expect(modal.nextFocusableElement).toEqual(modalBtnCancel);
     expect(modal.previousFocusableElement).toEqual(modalBtnReset);
   });
@@ -157,35 +158,35 @@ describe('IdsFocusCaptureMixin)', () => {
     modal.setFocus();
     await processAnimFrame();
 
-    expect(document.activeElement.isEqualNode(modalBtnCancel));
+    expect((document.activeElement as any).isEqualNode(modalBtnCancel));
 
     document.body.dispatchEvent(tabToPrevEvent);
 
     // Focus should cycle back around to the OK button
-    expect(document.activeElement.isEqualNode(modalBtnOK));
+    expect((document.activeElement as any).isEqualNode(modalBtnOK));
 
     document.body.dispatchEvent(tabToNextEvent);
 
     // Focus should cycle back around to the Cancel button
-    expect(document.activeElement.isEqualNode(modalBtnCancel));
+    expect((document.activeElement as any).isEqualNode(modalBtnCancel));
 
     modal.cyclesFocus = false;
     document.body.dispatchEvent(tabToPrevEvent);
 
     // Focus should not escape the Modal, and should not cycle
-    expect(document.activeElement.isEqualNode(modalBtnCancel));
+    expect((document.activeElement as any).isEqualNode(modalBtnCancel));
 
     modal.capturesFocus = false;
     document.body.dispatchEvent(tabToPrevEvent);
 
     // Focus should escape the modal and hit the Trigger Button (previous available elem)
-    expect(document.activeElement.isEqualNode(modalBtnCancel));
+    expect((document.activeElement as any).isEqualNode(modalBtnCancel));
 
     modalBtnOK.focus();
     document.body.dispatchEvent(tabToNextEvent);
 
     // Focus should escape the modal and hit the "After" Button (next available elem)
-    expect(document.activeElement.isEqualNode(afterBtn));
+    expect((document.activeElement as any).isEqualNode(afterBtn));
   });
 
   it('listens to namespaced keydown events', async () => {
@@ -195,24 +196,24 @@ describe('IdsFocusCaptureMixin)', () => {
     modal.setFocus();
     await processAnimFrame();
 
-    expect(document.activeElement.isEqualNode(modalBtnCancel));
+    expect((document.activeElement as any).isEqualNode(modalBtnCancel));
 
     modal.triggerEvent('keydown.focus-capture', document, { key: 'Tab', bubbles: true, shiftKey: true });
 
     // Focus should cycle back around to the OK button
-    expect(document.activeElement.isEqualNode(modalBtnOK));
+    expect((document.activeElement as any).isEqualNode(modalBtnOK));
 
     modal.triggerEvent('keydown.focus-capture', document, { key: 'Tab', bubbles: true });
 
     // Focus should cycle back around to the Cancel button
-    expect(document.activeElement.isEqualNode(modalBtnCancel));
+    expect((document.activeElement as any).isEqualNode(modalBtnCancel));
   });
 });
 
 describe('IdsFocusCaptureMixin (empty)', () => {
-  let triggerBtn;
-  let afterBtn;
-  let modal;
+  let triggerBtn: any;
+  let afterBtn: any;
+  let modal: any;
 
   beforeEach(async () => {
     // Triggers the Modal, sits ahead of the Modal HTML
@@ -241,7 +242,7 @@ describe('IdsFocusCaptureMixin (empty)', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsModal();
+    const elem: any = new IdsModal();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-modal').length).toEqual(1);
@@ -255,7 +256,7 @@ describe('IdsFocusCaptureMixin (empty)', () => {
     modal.setFocus();
     await processAnimFrame();
 
-    expect(modal.contains(document.activeElement)).toBeFalsy();
+    expect(modal.contains((document.activeElement as any))).toBeFalsy();
     expect(modal.focusableElements).toEqual([]);
     expect(modal.nextFocusableElement).not.toBeDefined();
     expect(modal.previousFocusableElement).not.toBeDefined();

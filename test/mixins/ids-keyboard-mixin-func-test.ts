@@ -3,7 +3,7 @@
  */
 import IdsTag from '../../src/components/ids-tag/ids-tag';
 
-let elem;
+let elem: any;
 
 describe('IdsKeyboardMixin Tests', () => {
   beforeEach(async () => {

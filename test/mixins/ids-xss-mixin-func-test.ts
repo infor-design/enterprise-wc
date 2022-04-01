@@ -3,11 +3,11 @@
  */
 import '../helpers/resize-observer-mock';
 
-import IdsXssMixin from '../../src/mixins/ids-xss-mixin/ids-xss-mixin';
-import IdsMessage from '../../src/components/ids-message/ids-message';
+import '../../src/mixins/ids-xss-mixin/ids-xss-mixin';
+import '../../src/components/ids-message/ids-message';
 
 describe('IdsXssMixin tests (properties)', () => {
-  let messageEl;
+  let messageEl: any;
 
   beforeEach(async () => {
     messageEl = document.createElement('ids-message');
@@ -46,7 +46,7 @@ describe('IdsXssMixin tests (properties)', () => {
 });
 
 describe('IdsXssMixin tests (attributes)', () => {
-  let messageEl;
+  let messageEl: any;
 
   beforeEach(async () => {
     document.body.insertAdjacentHTML('beforeend', `<ids-message id="xss-tests" xss-ignored-tags=""></ids-message>`);

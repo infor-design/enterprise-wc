@@ -7,8 +7,8 @@ import IdsTag from '../../src/components/ids-tag/ids-tag';
 import IdsThemeSwitcher from '../../src/components/ids-theme-switcher/ids-theme-switcher';
 
 describe('IdsThemeMixin Tests', () => {
-  let elem;
-  let switcher;
+  let elem: any;
+  let switcher: any;
 
   beforeEach(async () => {
     elem = new IdsTag();

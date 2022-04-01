@@ -4,7 +4,7 @@
 import IdsButton from '../../src/components/ids-button/ids-button';
 
 describe('IdsRippleMixin Tests', () => {
-  let idsButton;
+  let idsButton: any;
 
   beforeEach(async () => {
     // create ids button
@@ -19,19 +19,20 @@ describe('IdsRippleMixin Tests', () => {
   });
 
   it('should add ripple effect on click.ripple', async () => {
-    const clickEvent = new MouseEvent('click', {
+    const args: any = {
       button: 1,
       pageX: 0,
       pageY: 0,
       target: idsButton.button,
       bubbles: true
-    });
+    };
+    const clickEvent: any = new MouseEvent('click', args);
     idsButton.button.dispatchEvent(clickEvent);
     expect(idsButton.button.querySelector('.ripple-effect')).toBeDefined();
   });
 
   it('should add ripple effect on touchstart.ripple', async () => {
-    const touchEvent = new TouchEvent('touchstart', {
+    const args: any = {
       touches: [{
         identifier: '123',
         pageX: 0,
@@ -41,7 +42,9 @@ describe('IdsRippleMixin Tests', () => {
       bubbles: true,
       cancelable: true,
       view: window
-    });
+    };
+
+    const touchEvent = new TouchEvent('touchstart', args);
     idsButton.button.dispatchEvent(touchEvent);
     expect(idsButton.button.querySelector('.ripple-effect')).toBeDefined();
   });
@@ -60,13 +63,14 @@ describe('IdsRippleMixin Tests', () => {
   });
 
   it('should not ripple when noRipple is truthy', async () => {
-    const clickEvent = new MouseEvent('click', {
+    const args = {
       button: 1,
       pageX: 0,
       pageY: 0,
       target: idsButton.button,
       bubbles: true
-    });
+    };
+    const clickEvent = new MouseEvent('click', args);
     idsButton.noRipple = true;
     idsButton.button.dispatchEvent(clickEvent);
 
@@ -109,7 +113,7 @@ describe('IdsRippleMixin Tests', () => {
   });
 
   it('removes the ripple effect HTML when it completes', (done) => {
-    const event = new MouseEvent('click', {
+    const args = {
       button: 1,
       pageX: 0,
       pageY: 0,
@@ -117,7 +121,8 @@ describe('IdsRippleMixin Tests', () => {
       bubbles: true,
       cancelable: true,
       view: window
-    });
+    };
+    const event = new MouseEvent('click', args);
     idsButton.button.dispatchEvent(event);
 
     expect(idsButton.button.querySelector('.ripple-effect')).toBeDefined();
@@ -143,7 +148,7 @@ describe('IdsRippleMixin Tests', () => {
   });
 
   it('can disable the ripple when added', () => {
-    const elem = new IdsButton();
+    const elem: any = new IdsButton();
     elem.noRipple = true;
     elem.text = 'Test Button';
     document.body.appendChild(elem);
@@ -153,7 +158,7 @@ describe('IdsRippleMixin Tests', () => {
 
   it('only creates one ripple if a touch event is followed by a click event', () => {
     // Touch event will always occur first
-    const touchEvent = new TouchEvent('touchstart', {
+    const args: any = {
       touches: [{
         identifier: '123',
         pageX: 0,
@@ -163,11 +168,12 @@ describe('IdsRippleMixin Tests', () => {
       bubbles: true,
       cancelable: true,
       view: window
-    });
+    };
+    const touchEvent = new TouchEvent('touchstart', args);
     idsButton.button.dispatchEvent(touchEvent);
 
     // Click Event occurs second
-    const clickEvent = new MouseEvent('click', {
+    const args2: any = {
       button: 1,
       pageX: 0,
       pageY: 0,
@@ -175,7 +181,8 @@ describe('IdsRippleMixin Tests', () => {
       bubbles: true,
       cancelable: true,
       view: window
-    });
+    };
+    const clickEvent = new MouseEvent('click', args2);
     idsButton.button.dispatchEvent(clickEvent);
 
     expect(idsButton.button.querySelectorAll('.ripple-effect').length).toEqual(1);

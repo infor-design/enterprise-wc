@@ -3,7 +3,7 @@
  */
 import IdsText from '../../src/components/ids-text/ids-text';
 
-let elem;
+let elem: any;
 
 describe('IdsLocaleMixin Tests', () => {
   beforeEach(async () => {
