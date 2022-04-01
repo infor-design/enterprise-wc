@@ -19,6 +19,7 @@ import './ids-data-grid/ids-data-grid';
 import './ids-data-label/ids-data-label';
 import './ids-date-picker/ids-date-picker';
 import './ids-draggable/ids-draggable';
+import './ids-drawer/ids-drawer';
 import './ids-dropdown/ids-dropdown';
 import './ids-editor/ids-editor';
 // import './ids-empty-message/ids-empty-message';
