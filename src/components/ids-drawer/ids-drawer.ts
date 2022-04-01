@@ -35,7 +35,7 @@ export default class IdsDrawer extends Base {
     super.connectedCallback?.();
   }
 
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       ...super.attributes,
       attributes.EDGE,
@@ -44,7 +44,7 @@ export default class IdsDrawer extends Base {
     ];
   }
 
-  template() {
+  template(): string {
     return `<div class="ids-drawer">
       <slot></slot>
     </ids-drawer>`;
@@ -77,7 +77,7 @@ export default class IdsDrawer extends Base {
    * Refreshes the visual state of the Drawer related to its Edge
    * @returns {void}
    */
-  #refreshEdgeClass() {
+  #refreshEdgeClass(): void {
     const cl = this.container.classList;
     const edgeClass = `edge-${this.edge}`;
     EDGES.forEach((edge) => {
@@ -101,7 +101,6 @@ export default class IdsDrawer extends Base {
    * @param {HTMLElement} val a target element's reference
    */
   set target(val: HTMLElement) {
-    // @TODO replace this with a selector/standardized element ref
     if (val !== this.state.target) {
       this.removeTriggerEvents();
       this.state.target = val;
@@ -115,7 +114,7 @@ export default class IdsDrawer extends Base {
   /**
    * Removes events from a trigger element
    */
-  removeTriggerEvents() {
+  removeTriggerEvents(): void {
     const removeEventTargets = ['click.trigger'];
     removeEventTargets.forEach((eventName) => {
       const evt = this.handledEvents.get(eventName);
@@ -129,7 +128,7 @@ export default class IdsDrawer extends Base {
   /**
    * Attaches events to the trigger element
    */
-  refreshTriggerEvents() {
+  refreshTriggerEvents(): void {
     if (!this.target) {
       return;
     }
@@ -169,7 +168,7 @@ export default class IdsDrawer extends Base {
    * Refreshes the visual state of the Drawer related to its type
    * @returns {void}
    */
-  #refreshTypeClass() {
+  #refreshTypeClass(): void {
     const cl = this.container.classList;
     const typeClass = `type-${this.type}`;
     TYPES.forEach((type) => {
@@ -210,7 +209,7 @@ export default class IdsDrawer extends Base {
    * Changes visual state related to the Drawer's visibility
    * @returns {void}
    */
-  #refreshVisibility() {
+  #refreshVisibility(): void {
     if (this.visible) {
       this.container.classList.add('visible');
       this.addOpenEvents();
@@ -231,12 +230,12 @@ export default class IdsDrawer extends Base {
   /**
    * @returns {Array<string>} Drawer vetoable events
    */
-  vetoableEventTypes = ['beforeshow', 'beforehide'];
+  vetoableEventTypes: Array<string> = ['beforeshow', 'beforehide'];
 
   /**
    * Shows the drawer
    */
-  show() {
+  show(): void {
     // Trigger a veto-able `beforeshow` event.
     if (!this.triggerVetoableEvent('beforeshow')) {
       return;
@@ -248,7 +247,7 @@ export default class IdsDrawer extends Base {
   /**
    * Hides the drawer
    */
-  hide() {
+  hide(): void {
     // Trigger a veto-able `beforehide` event.
     if (!this.triggerVetoableEvent('beforehide')) {
       return;
@@ -261,7 +260,7 @@ export default class IdsDrawer extends Base {
    * Handle `onOutsideClick` from IdsPopupOpenEventsMixin
    * @param {MouseEvent} e the original click event
    */
-  onOutsideClick(e: MouseEvent) {
+  onOutsideClick(e: MouseEvent): void {
     if (this.isEqualNode(e.target) || this.contains(e.target)) {
       return;
     }

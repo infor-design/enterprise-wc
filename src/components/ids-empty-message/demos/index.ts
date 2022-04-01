@@ -2,11 +2,11 @@
 import pathData from 'ids-identity/dist/theme-new/icons/empty/path-data.json';
 import '../ids-empty-message';
 import '../../ids-card/ids-card';
-//import Idstoast from '../../ids-toast/ids-toast';
+import '../../ids-toast/ids-toast';
 import '../../ids-button/ids-button';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const container: HTMLElement | null = document.querySelector('.icon-examples');
+  const container = document.querySelector('.icon-examples');
   const emptyIcons = Object.entries(pathData);
   let exampleIconHtml = '';
 
@@ -28,10 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
   </ids-layout-grid-cell>`;
   }
 
-  if(container){
+  if (container?.innerHTML) {
     container.innerHTML = exampleIconHtml;
   }
-
 
   const buttons = document.querySelectorAll('.action-button');
 
