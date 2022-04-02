@@ -1,4 +1,4 @@
-import IdsLoadingIndicator from '../ids-loading-indicator';
+import '../ids-loading-indicator';
 
 // Initialize the 4.x
 $('body').initialize();

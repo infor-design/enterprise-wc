@@ -3,15 +3,15 @@
  */
 import expectFlagAttributeBehavior from '../helpers/expect-flag-attribute-behavior';
 import processAnimFrame from '../helpers/process-anim-frame';
-import IdsLoadingIndicator from '../../src/components/ids-loading-indicator/ids-loading-indicator';
+import '../../src/components/ids-loading-indicator/ids-loading-indicator';
 
 describe('IdsLoadingIndicator Component', () => {
-  let elem;
+  let elem: any;
 
-  const createElemViaTemplate = async (innerHTML) => {
+  const createElemViaTemplate = async (innerHTML: any) => {
     elem?.remove?.();
 
-    const template = document.createElement('template');
+    const template: any = document.createElement('template');
     template.innerHTML = innerHTML;
     elem = template.content.childNodes[0];
     document.body.appendChild(elem);

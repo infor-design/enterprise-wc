@@ -21,10 +21,10 @@ export default class IdsSummaryField extends Base {
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       attributes.DATA,
-      attributes.LABEL,
+      attributes.LABEL
     ];
   }
 
@@ -32,7 +32,7 @@ export default class IdsSummaryField extends Base {
    * Inner template contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `
       <div class="ids-summary-field">
         <ids-text label="true" class="label">${this.label ?? ''}</ids-text>
@@ -44,7 +44,7 @@ export default class IdsSummaryField extends Base {
    * Set the data field
    * @param {string} value The contents of the data
    */
-  set data(value) {
+  set data(value: string) {
     this.setAttribute(attributes.VALUE, value || '');
     this.#updateData();
   }
@@ -57,7 +57,7 @@ export default class IdsSummaryField extends Base {
    * Set the label field
    * @param {string} value The name for the label
    */
-  set label(value) {
+  set label(value: string) {
     this.setAttribute(attributes.LABEL, value || '');
     this.#updateLabel();
   }
@@ -70,7 +70,7 @@ export default class IdsSummaryField extends Base {
    * Updates the UI when the label is set
    * @private
    */
-  #updateLabel() {
+  #updateLabel(): void {
     this.container.querySelector('.label').innerHTML = this.label;
   }
 
@@ -78,7 +78,7 @@ export default class IdsSummaryField extends Base {
    * Updates the UI when the data is set
    * @private
    */
-  #updateData() {
+  #updateData(): void {
     this.container.querySelector('.data').innerHTML = this.data;
   }
 }
