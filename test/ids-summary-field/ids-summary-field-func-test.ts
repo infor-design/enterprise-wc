@@ -4,10 +4,10 @@
 import IdsSummaryField from '../../src/components/ids-summary-field/ids-summary-field';
 
 describe('IdsSummaryField Component', () => {
-  let summaryField;
+  let summaryField: any;
 
   beforeEach(async () => {
-    const elem = new IdsSummaryField();
+    const elem: any = new IdsSummaryField();
     elem.id = 'test-summary-field';
     elem.text = 'Test Summary Field';
     document.body.appendChild(elem);
@@ -30,7 +30,7 @@ describe('IdsSummaryField Component', () => {
   });
 
   it('renders correctly', () => {
-    const elem = new IdsSummaryField();
+    const elem: any = new IdsSummaryField();
     elem.label = 'test';
     elem.data = 'some random data';
     document.body.appendChild(elem);

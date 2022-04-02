@@ -40,7 +40,7 @@ export default class IdsLoadingIndicator extends Base {
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       attributes.LINEAR,
       attributes.MODE,
@@ -56,7 +56,7 @@ export default class IdsLoadingIndicator extends Base {
    * Return the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     let type = 'circular';
 
     if (this.hasAttribute(attributes.STICKY)) {
@@ -89,7 +89,7 @@ export default class IdsLoadingIndicator extends Base {
    * will be nested as a sub-part of another component (e.g. input);
    * renders a smaller variant.
    */
-  set inline(value) {
+  set inline(value: string | boolean) {
     const isTruthy = stringToBool(value);
 
     if (isTruthy && !this.hasAttribute(attributes.INLINE)) {
@@ -117,7 +117,7 @@ export default class IdsLoadingIndicator extends Base {
    * if not specified, the indicator is set into indeterminate mode (e.g. no specific
    * progress with an animation)
    */
-  set progress(value) {
+  set progress(value: any) {
     const hasValue = !Number.isNaN(Number.parseFloat(value));
     if (hasValue) {
       this.setAttribute(attributes.PROGRESS, parseFloat(value));
@@ -136,7 +136,7 @@ export default class IdsLoadingIndicator extends Base {
    * and span it horizontally. If set, will unflag this indicator with any other
    * flag types set.
    */
-  set sticky(value) {
+  set sticky(value: boolean | string) {
     this.#onUpdateTypeFlag(attributes.STICKY, stringToBool(value));
   }
 
@@ -154,7 +154,7 @@ export default class IdsLoadingIndicator extends Base {
    * @param {boolean} value Whether the percentage text should be visible
    * (not applicable to `sticky` loading indicators).
    */
-  set percentageVisible(value) {
+  set percentageVisible(value: boolean|string) {
     const isTruthy = stringToBool(value);
 
     if (isTruthy && !this.hasAttribute(attributes.PERCENTAGE_VISIBLE)) {
@@ -174,7 +174,7 @@ export default class IdsLoadingIndicator extends Base {
     return this.hasAttribute(attributes.PERCENTAGE_VISIBLE);
   }
 
-  updatePercentageVisible() {
+  updatePercentageVisible(): void {
     const percentageEl = this.shadowRoot.querySelector('[part="percentage-text"]');
 
     if (percentageEl) {
@@ -194,7 +194,7 @@ export default class IdsLoadingIndicator extends Base {
    * be represented as a horizontal/linear bar. If set, removes current
    * flag types that may be set.
    */
-  set linear(value) {
+  set linear(value: string | boolean) {
     this.#onUpdateTypeFlag(attributes.LINEAR, stringToBool(value));
   }
 
@@ -219,14 +219,14 @@ export default class IdsLoadingIndicator extends Base {
    * type-flag set based on attributes
    * @type {'circular'|'linear'|'sticky'}
    */
-  #type;
+  #type: string | undefined;
 
   /**
    * updates type based on attribute setter passed
    * @param {*} attribute attribute of flag set
    * @param {*} value value of attribute passed to flag
    */
-  #onUpdateTypeFlag(attribute, value) {
+  #onUpdateTypeFlag(attribute: string, value: boolean | string): void {
     const isTruthy = stringToBool(value);
 
     if (isTruthy) {
