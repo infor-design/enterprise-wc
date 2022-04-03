@@ -6,26 +6,26 @@
  * application
  */
 class TabController {
-  constructor(idsTabsElement) {
-    this.tabContainers = [...idsTabsElement.querySelectorAll('.ids-tab-container')];
+  constructor(idsTabsElement: Element) {
+    this.tabContainers = < any>[...idsTabsElement.querySelectorAll('.ids-tab-container')];
     this.tabContainers?.[0]?.focus();
 
-    this.tabContainers?.forEach?.((t, i) => {
+    this.tabContainers?.forEach?.((t: Event | CustomEvent | any, i: number) => {
       t.addEventListener('click', () => { this.selectedIndex = i; });
     });
 
     this.selectedIndex = 0;
   }
 
-  tabContainers = [];
+  tabContainers: Element | any = [];
 
   #selectedIndex = -1;
 
-  set selectedIndex(value) {
+  set selectedIndex(value: string | number | any) {
     this.#selectedIndex = Math.max(0, Math.min(parseInt(value), this.tabContainers.length - 1));
 
     const prevValue = this.tabContainers.findIndex(
-      (t) => t.children[0].classList.contains('selected')
+      (t: Element) => t.children[0].classList.contains('selected')
     );
 
     if (prevValue === this.#selectedIndex) {

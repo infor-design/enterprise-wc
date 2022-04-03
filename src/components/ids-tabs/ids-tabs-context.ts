@@ -2,7 +2,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
 import Base from './ids-tabs-context-base';
-import IdsTabContent from './ids-tab-content';
+import './ids-tab-content';
 
 import styles from './ids-tabs.scss';
 
@@ -35,14 +35,14 @@ export default class IdsTabsContext extends Base {
   connectedCallback() {
     super.connectedCallback?.();
 
-    this.onEvent('tabselect', this, (e) => {
+    this.onEvent('tabselect', this, (e: { stopPropagation: () => void; target: { value: any; }; }) => {
       e.stopPropagation();
       this.value = e.target.value;
     });
   }
 
   /** @param {string} value The value representing a currently selected tab */
-  set value(value) {
+  set value(value: string) {
     const currentValue = this.getAttribute(attributes.VALUE);
     if (currentValue !== value) {
       this.setAttribute(attributes.VALUE, value);
@@ -59,7 +59,7 @@ export default class IdsTabsContext extends Base {
    * @param {string} currentValue the value of the current pane, used to make it inactive
    * @param {string} newValue the value of the new pane, used to make it active
    */
-  #changeContentPane(currentValue, newValue) {
+  #changeContentPane(currentValue: any, newValue: any) {
     const contentPanes = [...this.querySelectorAll('ids-tab-content')];
     const currentPane = contentPanes.find((el) => el.value === currentValue);
     const targetPane = contentPanes.find((el) => el.value === newValue);

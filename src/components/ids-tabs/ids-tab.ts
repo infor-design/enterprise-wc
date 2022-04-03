@@ -3,7 +3,7 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool, buildClassAttrib } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-tab-base';
-import IdsText from '../ids-text/ids-text';
+import '../ids-text/ids-text';
 
 import styles from './ids-tab.scss';
 
@@ -45,7 +45,7 @@ export default class IdsTab extends Base {
    * Create the Template for the contents
    * @returns {string} the template to render
    */
-  template() {
+  template(): string {
     const innerContent = this.hasAttribute('count') ? (
       `<ids-text
         overflow="ellipsis"
@@ -132,7 +132,7 @@ export default class IdsTab extends Base {
   /**
    * @param {boolean} isSelected Whether or not this tab is selected.
    */
-  set selected(isSelected) {
+  set selected(isSelected: boolean) {
     const newValue = stringToBool(isSelected);
     if (!newValue) {
       this.removeAttribute(attributes.SELECTED);
@@ -156,12 +156,12 @@ export default class IdsTab extends Base {
   /**
    * @returns {boolean} isSelected Whether or not this tab is selected.
    */
-  get selected() {
+  get selected(): boolean {
     return this.hasAttribute(attributes.SELECTED);
   }
 
   /** @param {string} value The value which becomes selected by ids-tabs component */
-  set value(value) {
+  set value(value: string) {
     if (value !== this.getAttribute(attributes.VALUE)) {
       this.setAttribute(attributes.VALUE, value);
     }
@@ -173,19 +173,19 @@ export default class IdsTab extends Base {
   }
 
   /** @returns {string} value The value which becomes selected by ids-tabs component */
-  get value() {
+  get value(): string {
     return this.getAttribute(attributes.VALUE);
   }
 
   /** @returns {string} value The number of items represented in the tab (may or may not apply) */
-  get count() {
+  get count(): string {
     return this.getAttribute(attributes.COUNT);
   }
 
   /**
    * @param {string} value The number of items represented in the tab (may or may not apply)
    */
-  set count(value) {
+  set count(value: string) {
     if (value === '') {
       if (this.hasAttribute(attributes.COUNT)) {
         this.removeAttribute(attributes.COUNT);
@@ -211,7 +211,7 @@ export default class IdsTab extends Base {
    * they appear in the DOM
    * @returns {string} aria-label content
    */
-  #getReadableAriaLabel() {
+  #getReadableAriaLabel(): string {
     // eslint-disable-next-line no-unsafe-optional-chaining
     const idsTextEls = [...this.container?.querySelectorAll('ids-text')];
     return idsTextEls.map((textEl) => {

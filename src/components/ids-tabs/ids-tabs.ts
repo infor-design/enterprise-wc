@@ -3,10 +3,11 @@ import { attributes } from '../../core/ids-attributes';
 
 import Base from './ids-tabs-base';
 import IdsHeader from '../ids-header/ids-header';
-import IdsTab from './ids-tab';
-import IdsTabDivider from './ids-tab-divider';
+import './ids-tab';
+import './ids-tab-divider';
 
 import styles from './ids-tabs.scss';
+import IdsTab from './ids-tab';
 
 /**
  * IDS Tabs Component
@@ -95,7 +96,7 @@ export default class IdsTabs extends Base {
    * @param {string} value the tab value to scan
    * @returns {boolean} true if this tab list contains a tab with the provided value
    */
-  hasTab(value) {
+  hasTab(value: string): boolean {
     return this.querySelector(`ids-tab[value="${value}"]`) !== null;
   }
 
@@ -134,13 +135,13 @@ export default class IdsTabs extends Base {
    */
   #attachEventHandlers() {
     // Reusable handlers
-    const nextTabHandler = (e) => {
+    const nextTabHandler = (e: { target: { closest: (arg0: string) => any; }; }) => {
       this.nextTab(e.target.closest('ids-tab')).focus();
     };
-    const prevTabHandler = (e) => {
+    const prevTabHandler = (e: { target: { closest: (arg0: string) => any; }; }) => {
       this.prevTab(e.target.closest('ids-tab')).focus();
     };
-    const selectTabHandler = (e) => {
+    const selectTabHandler = (e: { target: { closest: (arg0: string) => any; }; }) => {
       const tab = e.target.closest('ids-tab');
       if (tab) {
         this.value = tab.value;
@@ -175,7 +176,7 @@ export default class IdsTabs extends Base {
    * @param {HTMLElement} currentTab an contained element (usually an IdsTab) to check for siblings
    * @returns {IdsTab} the next tab in this Tab list's order
    */
-  nextTab(currentTab) {
+  nextTab(currentTab: IdsTab): IdsTab {
     let nextTab = currentTab.nextElementSibling;
 
     // If next sibling isn't a tab or is disabled, try this method again on the found sibling
@@ -196,7 +197,7 @@ export default class IdsTabs extends Base {
    * @param {HTMLElement} currentTab an contained element (usually an IdsTab) to check for siblings
    * @returns {IdsTab} the previous tab in this Tab list's order
    */
-  prevTab(currentTab) {
+  prevTab(currentTab: IdsTab): IdsTab {
     let prevTab = currentTab.previousElementSibling;
 
     // If previous sibling isn't a tab or is disabled, try this method again on the found sibling
@@ -218,7 +219,7 @@ export default class IdsTabs extends Base {
    * @param {string} newValue the new tab value
    * @returns {void}
    */
-  #refreshSelectionState(currentValue, newValue) {
+  #refreshSelectionState(currentValue: any, newValue: any): void {
     if (!this.children.length) {
       return;
     }
@@ -244,7 +245,7 @@ export default class IdsTabs extends Base {
    * Listen for changes to color variant, which updates each child tab.
    * @returns {void}
    */
-  onColorVariantRefresh() {
+  onColorVariantRefresh(): void {
     const tabs = [...this.querySelectorAll('ids-tab')];
     tabs.forEach((tab) => {
       tab.colorVariant = this.colorVariant;
@@ -255,7 +256,7 @@ export default class IdsTabs extends Base {
    * Listen for changes to orientation, which updates each child tab.
    * @returns {void}
    */
-  onOrientationRefresh() {
+  onOrientationRefresh(): void {
     const tabs = [...this.querySelectorAll('ids-tab')];
     tabs.forEach((tab) => {
       tab.orientation = this.orientation;
