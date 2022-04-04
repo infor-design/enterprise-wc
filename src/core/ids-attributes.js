@@ -97,6 +97,9 @@ export const attributes = {
   FILE: 'file',
   FILE_NAME: 'file-name',
   FILL: 'fill',
+  FILTER_ROW_DISABLED: 'filter-row-disabled',
+  FILTER_WHEN_TYPING: 'filter-when-typing',
+  FILTERABLE: 'filterable',
   FIRST: 'first',
   FIRST_DAY_OF_WEEK: 'first-day-of-week',
   FIXED: 'fixed',
@@ -289,6 +292,7 @@ export const attributes = {
   USER_STATUS: 'user-status',
   USE_DEFAULT_COPYRIGHT: 'use-default-copyright',
   USE_TOGGLE_TARGET: 'use-toggle-target',
+  USE_RANGE: 'use-range',
   VALIDATE: 'validate',
   VALIDATION_EVENTS: 'validation-events',
   VALIDATION_HAS_ERROR: 'validation-has-error',
@@ -331,4 +335,4 @@ export const breakpoints = {
   xs: '360px'
 };
 
-export const version = '0.0.0-beta.19';
+export const version = '0.0.0-beta.20';

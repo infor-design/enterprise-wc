@@ -879,4 +879,20 @@ describe('IdsPopup Component', () => {
       expect(e).toBeDefined();
     }
   });
+
+  it('can alter placement values using the onPlace callback', async () => {
+    popup.onPlace = jest.fn(() => ({
+      x: 300,
+      y: 300,
+      width: 50,
+      height: 50,
+      top: 300,
+      right: 350,
+      bottom: 350,
+      left: 300
+    }));
+    popup.visible = true;
+
+    expect(popup.onPlace.mock.calls.length).toBe(1);
+  });
 });

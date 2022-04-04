@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>
+      <%= htmlWebpackPlugin.options.title %>
+    </title>
+  </head>
+  <body>
+    <ids-container role="main" padding="8" hidden>
+      <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+
+      <ids-layout-grid auto="true">
+        <ids-text font-size="12" type="h1">Data Grid - Filter (custom)</ids-text>
+      </ids-layout-grid>
+
+      <ids-layout-grid auto="true">
+        <ids-layout-grid-cell>
+          <ids-data-grid
+            id="data-grid-filter-custom"
+            row-selection="multiple"
+            label="Products"
+            row-height="md"
+            pagination="client-side"
+            page-number="1"
+            page-size="10"
+          >
+            <div slot="filter-productId" column-id="productId">
+              <ids-menu-button id="btn-filter-product-id" icon="filter-greater-equals" menu="menu-filter-product-id" dropdown-icon>
+                <span slot="text" class="audible">Greater Than Or Equals</span>
+              </ids-menu-button>
+              <ids-popup-menu id="menu-filter-product-id" target="#btn-filter-product-id">
+                <ids-menu-group select="single">
+                  <ids-menu-item value="equals" icon="filter-equals">Equals</ids-menu-item>
+                  <ids-menu-item value="greater-than" icon="filter-greater-than">Greater Than</ids-menu-item>
+                  <ids-menu-item value="greater-equals" icon="filter-greater-equals" selected="true">Greater Than Or Equals</ids-menu-item>
+                  <ids-menu-item value="less-than" icon="filter-less-than">Less Than</ids-menu-item>
+                  <ids-menu-item value="less-equals" icon="filter-less-equals">Less Than Or Equals</ids-menu-item>
+                </ids-menu-group>
+              </ids-popup-menu>
+              <ids-input id="input-filter-product-id" type="text" size="full" placeholder="Slotted product-id" label="Slotted product-id input">
+              </ids-input>
+            </div>
+            <div slot="filter-color" column-id="color">
+              <ids-menu-button id="btn-filter-color" icon="filter-contains" menu="menu-filter-color" dropdown-icon>
+                <span slot="text" class="audible">Contains</span>
+              </ids-menu-button>
+              <ids-popup-menu id="menu-filter-color" target="#btn-filter-color">
+                <ids-menu-group select="single">
+                  <ids-menu-item value="contains" icon="filter-contains">Contains</ids-menu-item>
+                  <ids-menu-item value="does-not-contain" icon="filter-does-not-contain">Does Not Contain</ids-menu-item>
+                  <ids-menu-item value="equals" icon="filter-equals">Equals</ids-menu-item>
+                </ids-menu-group>
+              </ids-popup-menu>
+              <ids-input id="input-filter-color" type="text" size="full" placeholder="Slotted color" label="Slotted color input">
+              </ids-input>
+            </div>
+          </ids-data-grid>
+        </ids-layout-grid-cell>
+      </ids-layout-grid>
+
+    </ids-container>
+  </body>
+</html>

@@ -39,6 +39,7 @@ const CHAR_REMAINING_TEXT = 'Characters left {0}';
  * IDS Textarea Component
  * @type {IdsTextarea}
  * @inherits IdsElement
+ * @mixes IdsLocaleMixin
  * @mixes IdsEventsMixin
  * @mixes IdsClearableMixin
  * @mixes IdsDirtyTrackerMixin

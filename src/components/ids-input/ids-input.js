@@ -22,6 +22,7 @@ let instanceCounter = 0;
  * IDS Input Component
  * @type {IdsInput}
  * @inherits IdsElement
+ * @mixes IdsLocaleMixin
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsClearableMixin
@@ -50,7 +51,7 @@ export default class IdsInput extends Base {
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants = ['alternate'];
+  colorVariants = ['alternate', 'alternate-formatter'];
 
   /**
    * @returns {Array<string>} IdsInput component observable attributes
@@ -849,7 +850,7 @@ export default class IdsInput extends Base {
 
   /**
    * Sets the no margins attribute
-   * @param {string} n string value from the no margins attribute
+   * @param {boolean} n string value from the no margins attribute
    */
   set noMargins(n) {
     if (stringToBool(n)) {

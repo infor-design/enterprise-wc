@@ -33,11 +33,11 @@
   }
 
   &.inline-end {
-    @include border-l-1();
+    border-inline-start: 1px solid;
   }
 
   &.inline-start {
-    @include border-r-1();
+    border-inline-end: 1px solid;
   }
 
   // ===================================================
@@ -70,5 +70,9 @@
       height: $input-field-height-lg - 2px;
       width: $input-field-height-lg - 2px;
     }
+  }
+
+  &.color-variant-alternate-formatter {
+    @include p-2();
   }
 }

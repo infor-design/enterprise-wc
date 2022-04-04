@@ -67,9 +67,47 @@ export default class IdsDropdown extends Base {
       ...super.attributes,
       attributes.DISABLED,
       attributes.LABEL,
+      attributes.NO_MARGINS,
       attributes.READONLY,
+      attributes.SIZE,
       attributes.VALUE
     ];
+  }
+
+  /**
+   * List of available color variants for this component
+   * @returns {Array<string>}
+   */
+  colorVariants = ['alternate-formatter'];
+
+  /**
+   * Push color variant to the container element
+   * @returns {void}
+   */
+  onColorVariantRefresh() {
+    this.container.colorVariant = this.colorVariant;
+  }
+
+  /**
+   * Push label-state to the container element
+   * @returns {void}
+   */
+  onlabelStateChange() {
+    this.container.labelState = this.labelState;
+  }
+
+  /**
+   * Push field-height/compact to the container element
+   * @param {string} val the new field height setting
+   */
+  onFieldHeightChange(val) {
+    if (val) {
+      const attr = val === 'compact' ? { name: 'compact', val: '' } : { name: 'field-height', val };
+      this.container.setAttribute(attr.name, attr.val);
+    } else {
+      this.container.removeAttribute('compact');
+      this.container.removeAttribute('field-height');
+    }
   }
 
   /**
@@ -77,8 +115,12 @@ export default class IdsDropdown extends Base {
    * @returns {string} The template
    */
   template() {
+    const colorVariant = this.colorVariant ? ` color-variant="${this.colorVariant}"` : '';
+    const fieldHeight = this.fieldHeight ? ` field-height="${this.fieldHeight}"` : '';
+    const labelState = this.labelState ? ` label-state="${this.labelState}"` : '';
+    const compact = this.compact ? ' compact' : '';
+    const noMargins = this.noMargins ? ' no-margins' : '';
     this.hasIcons = this.querySelector('ids-list-box-option ids-icon') !== null;
-    this.size = this.getAttribute(attributes.SIZE) || 'md';
 
     return `<ids-trigger-field
       ${this.disabled ? ' disabled="true"' : ' readonly="true"'}
@@ -88,6 +130,7 @@ export default class IdsDropdown extends Base {
       size="${this.size}"
       label="${this.label}"
       part="trigger-field"
+      ${colorVariant}${fieldHeight}${compact}${noMargins}${labelState}
 
       ${this.validate ? ` validate="${this.validate}"` : ''}
       ${this.validate && this.validationEvents ? ` validation-events="${this.validationEvents}"` : ''}>
@@ -159,7 +202,7 @@ export default class IdsDropdown extends Base {
    * @returns {HTMLInputElement} Reference to the HTMLInputElement inside the IdsTriggerField
    */
   get input() {
-    return this.container.input;
+    return this.container;
   }
 
   /**
@@ -613,23 +656,6 @@ export default class IdsDropdown extends Base {
   }
 
   /**
-   * Set the dirty tracking feature on to indicate a changed dropdown
-   * @param {boolean|string} value If true will set `dirty-tracker` attribute
-   */
-  set dirtyTracker(value) {
-    const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
-    } else {
-      this.removeAttribute(attributes.DIRTY_TRACKER);
-    }
-
-    this.handleDirtyTracker();
-  }
-
-  get dirtyTracker() { return this.getAttribute(attributes.DIRTY_TRACKER); }
-
-  /**
    * Pass down `validate` attribute into IdsTriggerField
    * @param {string} value The `validate` attribute
    */
@@ -660,4 +686,37 @@ export default class IdsDropdown extends Base {
   }
 
   get validationEvents() { return this.getAttribute(attributes.VALIDATION_EVENTS) || 'change'; }
+
+  /**
+   * Sets the no margins attribute
+   * @param {boolean} value The value for no margins attribute
+   */
+  set noMargins(value) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.NO_MARGINS, '');
+      this.container.setAttribute(attributes.NO_MARGINS, '');
+      return;
+    }
+    this.removeAttribute(attributes.NO_MARGINS);
+    this.container.removeAttribute(attributes.NO_MARGINS);
+  }
+
+  get noMargins() {
+    return stringToBool(this.getAttribute(attributes.NO_MARGINS));
+  }
+
+  /**
+   * Set the dropdown size
+   * @param {string} value The value
+   */
+  set size(value) {
+    if (value) {
+      this.setAttribute(attributes.SIZE, value);
+    } else {
+      this.removeAttribute(attributes.SIZE);
+    }
+    this.container.setAttribute(attributes.SIZE, this.size);
+  }
+
+  get size() { return this.getAttribute(attributes.SIZE) ?? 'md'; }
 }

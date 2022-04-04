@@ -26,6 +26,7 @@ const TIME = {
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
+ * @mixes IdsDirtyTrackerMixin
  * @mixes IdsPopupOpenEventsMixin
  * @mixes IdsThemeMixin
  * @mixes IdsLocaleMixin
@@ -70,10 +71,48 @@ export default class IdsTimePicker extends Base {
       attributes.DISABLED,
       attributes.FORMAT,
       attributes.LABEL,
-      attributes.READONLY,
+      attributes.NO_MARGINS,
       attributes.PLACEHOLDER,
-      attributes.VALUE,
+      attributes.READONLY,
+      attributes.SIZE,
+      attributes.VALUE
     ];
+  }
+
+  /**
+   * List of available color variants for this component
+   * @returns {Array<string>}
+   */
+  colorVariants = ['alternate-formatter'];
+
+  /**
+   * Push color variant to the trigger-field element
+   * @returns {void}
+   */
+  onColorVariantRefresh() {
+    this.elements.triggerField.colorVariant = this.colorVariant;
+  }
+
+  /**
+   * Push label-state to the trigger-field element
+   * @returns {void}
+   */
+  onlabelStateChange() {
+    this.elements.triggerField.labelState = this.labelState;
+  }
+
+  /**
+   * Push field-height/compact to the trigger-field element
+   * @param {string} val the new field height setting
+   */
+  onFieldHeightChange(val) {
+    if (val) {
+      const attr = val === 'compact' ? { name: 'compact', val: '' } : { name: 'field-height', val };
+      this.elements.triggerField.setAttribute(attr.name, attr.val);
+    } else {
+      this.elements.triggerField.removeAttribute('compact');
+      this.elements.triggerField.removeAttribute('field-height');
+    }
   }
 
   /**
@@ -112,6 +151,19 @@ export default class IdsTimePicker extends Base {
         // handle default case
         break;
       }
+    }
+  }
+
+  /**
+   * Callback for dirty tracker setting change
+   * @param {boolean} value The changed value
+   * @returns {void}
+   */
+  onDirtyTrackerChange(value) {
+    if (value) {
+      this.elements.triggerField?.setAttribute(attributes.DIRTY_TRACKER, value);
+    } else {
+      this.elements.triggerField?.removeAttribute(attributes.DIRTY_TRACKER);
     }
   }
 
@@ -269,6 +321,37 @@ export default class IdsTimePicker extends Base {
   get placeholder() { return this.getAttribute(attributes.PLACEHOLDER) ?? ''; }
 
   /**
+   * Sets the no margins attribute
+   * @param {boolean} value The value for no margins attribute
+   */
+  set noMargins(value) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.NO_MARGINS, '');
+      this.elements?.triggerField?.setAttribute(attributes.NO_MARGINS, '');
+      return;
+    }
+    this.removeAttribute(attributes.NO_MARGINS);
+    this.elements?.triggerField?.removeAttribute(attributes.NO_MARGINS);
+  }
+
+  get noMargins() {
+    return stringToBool(this.getAttribute(attributes.NO_MARGINS));
+  }
+
+  /**
+   * Set the time picker size
+   * @param {string} value The value
+   */
+  set size(value) {
+    if (value) {
+      this.setAttribute(attributes.SIZE, value);
+    } else {
+      this.removeAttribute(attributes.SIZE);
+    }
+    this.elements?.triggerField?.setAttribute(attributes.SIZE, this.size);
+  }
+
+  /**
    * Get the size attribute
    * @returns {string} default is "sm"
    */
@@ -300,13 +383,27 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
+   * @returns {HTMLInputElement} Reference to the IdsTriggerField
+   */
+  get input() {
+    return this.elements.triggerField;
+  }
+
+  /**
    * Create the Template for the contents
    * @returns {string} HTML for the template
    */
   template() {
+    const colorVariant = this.colorVariant ? ` color-variant="${this.colorVariant}"` : '';
+    const fieldHeight = this.fieldHeight ? ` field-height="${this.fieldHeight}"` : '';
+    const labelState = this.labelState ? ` label-state="${this.labelState}"` : '';
+    const compact = this.compact ? ' compact' : '';
+    const noMargins = this.noMargins ? ' no-margins' : '';
+
     return `
       <div class="ids-time-picker">
         <ids-trigger-field
+          ${colorVariant}${fieldHeight}${compact}${noMargins}${labelState}
           label="${this.label}"
           size="${this.size}"
           placeholder="${this.placeholder}"
@@ -459,6 +556,10 @@ export default class IdsTimePicker extends Base {
       });
 
       this.value = value.replace(/^24/, '00');
+      this.triggerEvent('change', this, {
+        bubbles: true,
+        detail: { elem: this, value: this.value }
+      });
     }
 
     return this;

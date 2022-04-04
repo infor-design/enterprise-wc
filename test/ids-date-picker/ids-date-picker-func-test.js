@@ -69,9 +69,9 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.placeholder).toEqual(name);
       expect(component.size).toEqual('lg');
       expect(component.format).toEqual('yyyy-MM-dd');
-      expect(component.month).toEqual('9');
-      expect(component.year).toEqual('2021');
-      expect(component.day).toEqual('18');
+      expect(component.month).toEqual(9);
+      expect(component.year).toEqual(2021);
+      expect(component.day).toEqual(18);
     });
 
     it('should change properties', () => {
@@ -95,9 +95,9 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.value).toEqual('2020-11-19');
       expect(component.placeholder).toEqual('changed');
       expect(component.size).toEqual('md');
-      expect(component.month).toEqual('10');
-      expect(component.year).toEqual('2020');
-      expect(component.day).toEqual('19');
+      expect(component.month).toEqual(10);
+      expect(component.year).toEqual(2020);
+      expect(component.day).toEqual(19);
 
       // Reset to defaults
       component.tabbable = null;
@@ -120,9 +120,9 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.label).toEqual('');
       expect(component.format).toEqual('locale');
       expect(component.placeholder).toEqual('');
-      expect(component.month).toBeNull();
-      expect(component.year).toBeNull();
-      expect(component.day).toBeNull();
+      expect(component.month).toEqual((new Date()).getMonth());
+      expect(component.year).toEqual((new Date()).getFullYear());
+      expect(component.day).toEqual((new Date()).getDate());
     });
 
     it('should not change value when disabled or readonly', () => {
@@ -142,6 +142,137 @@ describe('IdsDatePicker Component Tests', () => {
       component.value = 'changed';
 
       expect(component.value).toEqual('changed');
+    });
+
+    it('should set/unset legend property', () => {
+      expect(component.legend.length).toEqual(0);
+
+      const legend = [{ name: 'Weekends', color: 'amber-60', dayOfWeek: [0, 6] }];
+
+      component.legend = legend;
+
+      expect(component.legend).toEqual(legend);
+    });
+
+    it('should set/unset useRange property', () => {
+      expect(component.useRange).toBeFalsy();
+
+      component.useRange = true;
+
+      expect(component.useRange).toBeTruthy();
+
+      component.useRange = false;
+
+      expect(component.useRange).toBeFalsy();
+    });
+
+    it('should render field height', () => {
+      const heights = ['xs', 'sm', 'md', 'lg'];
+      const defaultHeight = 'md';
+      const className = (h) => `field-height-${h}`;
+      const checkHeight = (height) => {
+        component.fieldHeight = height;
+
+        const triggerField = component.container.querySelector('ids-trigger-field');
+        expect(triggerField.getAttribute('field-height')).toEqual(height);
+        expect(component.container.classList).toContain(className(height));
+        heights.filter((h) => h !== height).forEach((h) => {
+          expect(component.container.classList).not.toContain(className(h));
+        });
+      };
+
+      expect(component.getAttribute('field-height')).toEqual(null);
+      heights.filter((h) => h !== defaultHeight).forEach((h) => {
+        expect(component.container.classList).not.toContain(className(h));
+      });
+
+      expect(component.container.classList).toContain(className(defaultHeight));
+      heights.forEach((h) => checkHeight(h));
+      component.removeAttribute('field-height');
+      component.removeAttribute('compact');
+
+      expect(component.getAttribute('field-height')).toEqual(null);
+      heights.filter((h) => h !== defaultHeight).forEach((h) => {
+        expect(component.container.classList).not.toContain(className(h));
+      });
+      component.onFieldHeightChange();
+
+      expect(component.container.classList).toContain(className(defaultHeight));
+    });
+
+    it('should set compact height', () => {
+      component.compact = true;
+
+      expect(component.hasAttribute('compact')).toBeTruthy();
+      expect(component.container.classList.contains('compact')).toBeTruthy();
+      component.compact = false;
+
+      expect(component.hasAttribute('compact')).toBeFalsy();
+      expect(component.container.classList.contains('compact')).toBeFalsy();
+    });
+
+    it('should set size', () => {
+      const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
+      const defaultSize = 'lg';
+      const checkSize = (size) => {
+        component.size = size;
+
+        expect(component.getAttribute('size')).toEqual(size);
+        const triggerField = component.container.querySelector('ids-trigger-field');
+
+        expect(triggerField.getAttribute('size')).toEqual(size);
+      };
+
+      expect(component.getAttribute('size')).toEqual(defaultSize);
+      let triggerField = component.container.querySelector('ids-trigger-field');
+
+      expect(triggerField.getAttribute('size')).toEqual(defaultSize);
+      sizes.forEach((s) => checkSize(s));
+      component.size = null;
+
+      expect(component.getAttribute('size')).toEqual('null');
+      triggerField = component.container.querySelector('ids-trigger-field');
+
+      expect(triggerField.getAttribute('size')).toEqual('md');
+    });
+
+    it('should set no margins', () => {
+      expect(component.getAttribute('no-margins')).toEqual(null);
+      expect(component.noMargins).toEqual(false);
+      let triggerField = component.container.querySelector('ids-trigger-field');
+
+      expect(triggerField.getAttribute('no-margins')).toEqual(null);
+      component.noMargins = true;
+
+      expect(component.getAttribute('no-margins')).toEqual('');
+      expect(component.noMargins).toEqual(true);
+      triggerField = component.container.querySelector('ids-trigger-field');
+
+      expect(triggerField.getAttribute('no-margins')).toEqual('');
+      component.noMargins = false;
+
+      expect(component.getAttribute('no-margins')).toEqual(null);
+      expect(component.noMargins).toEqual(false);
+      triggerField = component.container.querySelector('ids-trigger-field');
+
+      expect(triggerField.getAttribute('no-margins')).toEqual(null);
+    });
+
+    it('should set values thru template', () => {
+      expect(component.colorVariant).toEqual(null);
+      expect(component.labelState).toEqual(null);
+      expect(component.compact).toEqual(false);
+      expect(component.noMargins).toEqual(false);
+      component.colorVariant = 'alternate-formatter';
+      component.labelState = 'collapsed';
+      component.compact = true;
+      component.noMargins = true;
+      component.template();
+
+      expect(component.colorVariant).toEqual('alternate-formatter');
+      expect(component.labelState).toEqual('collapsed');
+      expect(component.compact).toEqual(true);
+      expect(component.noMargins).toEqual(true);
     });
   });
 
@@ -202,9 +333,9 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.placeholder).toEqual(name);
       expect(component.size).toEqual('lg');
       expect(component.format).toEqual('yyyy-MM-dd');
-      expect(component.month).toEqual('9');
-      expect(component.year).toEqual('2021');
-      expect(component.day).toEqual('18');
+      expect(component.month).toEqual(9);
+      expect(component.year).toEqual(2021);
+      expect(component.day).toEqual(18);
     });
 
     it('can set visible and get the popup', () => {
@@ -237,9 +368,9 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.placeholder).toEqual('changed');
       expect(component.size).toEqual('sm');
       expect(component.format).toEqual('locale');
-      expect(component.month).toEqual('4');
-      expect(component.year).toEqual('2019');
-      expect(component.day).toEqual('22');
+      expect(component.month).toEqual(4);
+      expect(component.year).toEqual(2019);
+      expect(component.day).toEqual(22);
 
       // Reset to defaults
       component.removeAttribute('tabbable');
@@ -262,9 +393,17 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.label).toEqual('');
       expect(component.format).toEqual('locale');
       expect(component.placeholder).toEqual('');
-      expect(component.month).toBeNull();
-      expect(component.year).toBeNull();
-      expect(component.day).toBeNull();
+      expect(component.month).toEqual((new Date()).getMonth());
+      expect(component.year).toEqual((new Date()).getFullYear());
+      expect(component.day).toEqual((new Date()).getDate());
+    });
+
+    it('should set/unset useRange property', () => {
+      expect(component.getAttribute('use-range')).toBeNull();
+
+      component.setAttribute('use-range', true);
+
+      expect(component.useRange).toBeTruthy();
     });
   });
 
@@ -314,10 +453,18 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.validationEvents).toEqual('change blur');
       expect(component.format).toEqual('locale');
       expect(component.isCalendarToolbar).toBeFalsy();
+      expect(component.month).toEqual((new Date()).getMonth());
+      expect(component.year).toEqual((new Date()).getFullYear());
+      expect(component.day).toEqual((new Date()).getDate());
+    });
+
+    it('should not expand if not dropdown', () => {
       expect(component.isDropdown).toBeFalsy();
-      expect(component.month).toBeNull();
-      expect(component.year).toBeNull();
-      expect(component.day).toBeNull();
+      expect(component.expanded).toBeFalsy();
+
+      component.expanded = true;
+
+      expect(component.expanded).toBeFalsy();
     });
 
     it('should handle is-dropdown is-calendar-toolbar attributes', () => {
@@ -332,6 +479,22 @@ describe('IdsDatePicker Component Tests', () => {
 
       expect(component.hasAttribute('is-calendar-toolbar')).toBeFalsy();
       expect(component.hasAttribute('is-dropdown')).toBeFalsy();
+    });
+
+    it('should set dirty tracking', () => {
+      expect(component.dirtyTracker).toEqual(false);
+      expect(component.getAttribute('dirty-tracker')).toEqual(null);
+      expect(component.input.getAttribute('dirty-tracker')).toEqual(null);
+      component.dirtyTracker = true;
+
+      expect(component.dirtyTracker).toEqual(true);
+      expect(component.getAttribute('dirty-tracker')).toEqual('true');
+      expect(component.input.getAttribute('dirty-tracker')).toEqual('true');
+      component.dirtyTracker = false;
+
+      expect(component.dirtyTracker).toEqual(false);
+      expect(component.getAttribute('dirty-tracker')).toEqual(null);
+      expect(component.input.getAttribute('dirty-tracker')).toEqual(null);
     });
   });
 });

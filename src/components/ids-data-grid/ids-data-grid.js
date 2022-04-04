@@ -7,6 +7,7 @@ import { deepClone } from '../../utils/ids-deep-clone-utils/ids-deep-clone-utils
 import Base from './ids-data-grid-base';
 import IdsDataSource from '../../core/ids-data-source';
 import IdsDataGridFormatters from './ids-data-grid-formatters';
+import IdsDataGridFilters from './ids-data-grid-filters';
 import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 
 import styles from './ids-data-grid.scss';
@@ -44,7 +45,7 @@ export default class IdsDataGrid extends Base {
   get elements() {
     return {
       header: this.container.querySelector('.ids-data-grid-header'),
-      labels: this.container.querySelectorAll('.ids-data-grid-header-cell.is-sortable'),
+      labels: this.container.querySelectorAll('.ids-data-grid-header-cell .is-sortable'),
       body: this.container.querySelector('.ids-data-grid-body'),
     };
   }
@@ -54,11 +55,14 @@ export default class IdsDataGrid extends Base {
     super.connectedCallback();
   }
 
-  /** API for list of formatters */
-  formatters = new IdsDataGridFormatters();
-
   /** Reference to datasource API */
   datasource = new IdsDataSource();
+
+  /** Filters instance attached to component  */
+  filters = new IdsDataGridFilters(this);
+
+  /** API for list of formatters */
+  formatters = new IdsDataGridFormatters();
 
   /**
    * Return the attributes we handle as getters/setters
@@ -69,6 +73,9 @@ export default class IdsDataGrid extends Base {
       ...super.attributes,
       attributes.ALTERNATE_ROW_SHADING,
       attributes.AUTO_FIT,
+      attributes.FILTER_ROW_DISABLED,
+      attributes.FILTER_WHEN_TYPING,
+      attributes.FILTERABLE,
       attributes.LABEL,
       attributes.LANGUAGE,
       attributes.LOCALE,
@@ -104,16 +111,60 @@ export default class IdsDataGrid extends Base {
         mode="${this.mode}"
         version="${this.version}">
       ${this.headerTemplate()}
-      ${this.virtualScroll
-      ? `<ids-virtual-scroll>
-          <div class="ids-data-grid-body" part="contents" role="rowgroup"></div>
-        </ids-virtual-scroll>`
-      : `${this.bodyTemplate()}`
-      }
+      ${this.bodyTemplate()}
       </div>
     `;
 
     return html;
+  }
+
+  /**
+   * Apply the Filter with the currently selected conditions, or the ones passed in.
+   * @param {Array} conditions An array of objects with the filter conditions.
+   * @returns {void}
+   */
+  applyFilter(conditions) {
+    this.filters?.applyFilter(conditions);
+  }
+
+  /**
+   * Sync and then rerender body rows
+   * @returns {void}
+   */
+  syncAndRerenderBody() {
+    this.#syncSelectedRows();
+    this.#syncActivatedRow();
+    this.#rerenderBody();
+  }
+
+  /**
+   * Rerender body rows
+   * @private
+   * @returns {void}
+   */
+  #rerenderBody() {
+    if ((this.columns.length === 0 && this.data.length === 0) || !this.initialized) {
+      return;
+    }
+    const template = document.createElement('template');
+    template.innerHTML = this.bodyTemplate();
+    const elem = this.virtualScroll ? this.virtualScrollContainer : this.elements.body;
+    elem.remove();
+    this.container.appendChild(template.content.cloneNode(true));
+
+    this.#syncPager();
+    this.#attachEventHandlers();
+    this.#setHeaderCheckbox();
+  }
+
+  /**
+   * Sync pager to refresh updated dataset
+   * @private
+   * @returns {void}
+   */
+  #syncPager() {
+    this.pager.total = this.datasource.total;
+    this.pager.pageNumber = this.datasource.pageNumber;
   }
 
   /**
@@ -165,6 +216,9 @@ export default class IdsDataGrid extends Base {
 
     // Set back selection
     this.#setHeaderCheckbox();
+
+    // Attach post filters setting
+    this.filters.attachPostFiltersSetting();
   }
 
   /**
@@ -190,10 +244,6 @@ export default class IdsDataGrid extends Base {
    * @returns {string} The resuling header cell template
    */
   headerCellTemplate(column) {
-    const cssClasses = [
-      `${column.sortable ? 'is-sortable' : ''}`
-    ];
-
     const selectionCheckBoxTemplate = `
       <span class="ids-datagrid-checkbox-container">
         <span
@@ -207,10 +257,10 @@ export default class IdsDataGrid extends Base {
     `;
 
     const sortIndicatorTemplate = `
-      <div class="sort-indicator">
+      <span class="sort-indicator">
         <ids-icon icon="dropdown"></ids-icon>
         <ids-icon icon="dropdown"></ids-icon>
-      </div>
+      </span>
     `;
 
     const headerContentTemplate = `
@@ -218,17 +268,32 @@ export default class IdsDataGrid extends Base {
       ${(column.id !== 'selectionRadio' && column.id !== 'selectionCheckbox' && column.name) ? column.name : ''}
     `.trim();
 
-    const html = `
-      <span
-        class="ids-data-grid-header-cell ${cssClasses.join(' ')}"
-        part="header-cell"
-        data-column-id="${column.id}"
-        role="columnheader"
-      >
+    let cssClasses = 'ids-data-grid-header-cell-content-wrapper';
+    cssClasses += column.sortable ? ' is-sortable' : '';
+
+    // Content row cell template
+    const headerContentWrapperTemplate = `
+      <span class="${cssClasses}">
         <span class="ids-data-grid-header-text">
           ${headerContentTemplate}
         </span>
         ${column.sortable ? sortIndicatorTemplate : ''}
+      </span>
+    `;
+
+    // Filter row cell template
+    const headerFilterWrapperTemplate = this.filters?.filterTemplate(column) || '';
+
+    // Header cell template
+    const html = `
+      <span
+        class="ids-data-grid-header-cell"
+        part="header-cell"
+        data-column-id="${column.id}"
+        role="columnheader"
+      >
+        ${headerContentWrapperTemplate}
+        ${headerFilterWrapperTemplate}
       </span>
     `;
 
@@ -241,6 +306,13 @@ export default class IdsDataGrid extends Base {
    * @returns {string} The template
    */
   bodyTemplate() {
+    if (this.virtualScroll) {
+      return `
+        <ids-virtual-scroll>
+          <div class="ids-data-grid-body" part="contents" role="rowgroup"></div>
+        </ids-virtual-scroll>
+      `;
+    }
     return `
       <div class="ids-data-grid-body" part="contents" role="rowgroup">
         ${this.data.map((row, index) => this.rowTemplate(row, index)).join('')}
@@ -289,15 +361,17 @@ export default class IdsDataGrid extends Base {
    * @private
    */
   #attachEventHandlers() {
-    const sortableColumns = this.shadowRoot.querySelector('.ids-data-grid-header');
+    const header = this.shadowRoot.querySelector('.ids-data-grid-header');
 
     // Add a sort Handler
-    this.offEvent('click.sort', sortableColumns);
-    this.onEvent('click.sort', sortableColumns, (e) => {
-      const header = e.target.closest('.is-sortable');
-
-      if (header) {
-        this.setSortColumn(header.getAttribute('data-column-id'), header.getAttribute('aria-sort') !== 'ascending');
+    this.offEvent('click.sort', header);
+    this.onEvent('click.sort', header, (e) => {
+      const sortableHeaderCell = e.target.closest('.is-sortable')?.closest('.ids-data-grid-header-cell');
+      if (sortableHeaderCell) {
+        this.setSortColumn(
+          sortableHeaderCell.getAttribute('data-column-id'),
+          sortableHeaderCell.getAttribute('aria-sort') !== 'ascending'
+        );
       }
     });
 
@@ -341,6 +415,8 @@ export default class IdsDataGrid extends Base {
     this.onEvent('localechange.data-grid-container', this.closest('ids-container'), () => {
       this.rerender();
     });
+
+    this.filters?.attachFilterEventHandlers();
   }
 
   /**
@@ -433,16 +509,33 @@ export default class IdsDataGrid extends Base {
    * @param {boolean} ascending Set in ascending (lowest first) or descending (lowest last)
    */
   setSortState(id, ascending = true) {
-    const sortedHeaders = this.shadowRoot.querySelectorAll('.is-sortable');
-    for (let i = 0; i < sortedHeaders.length; i++) {
-      sortedHeaders[i].removeAttribute('aria-sort');
-    }
+    const sortedHeaders = [...this.shadowRoot.querySelectorAll('.is-sortable')]
+      .map((sorted) => sorted.closest('.ids-data-grid-header-cell'));
+    sortedHeaders.forEach((header) => header.removeAttribute('aria-sort'));
 
     const header = this.shadowRoot.querySelector(`[data-column-id="${id}"]`);
-
-    if (header && header.classList.contains('is-sortable')) {
+    if (header && sortedHeaders.includes(header)) {
       header.setAttribute('aria-sort', ascending ? 'ascending' : 'descending');
     }
+  }
+
+  /**
+   * Get column data by given column id
+   * @param {string} columnId The column id
+   * @returns {object} The column data
+   */
+  columnDataById(columnId) {
+    return this.columns?.filter((column) => column.id === columnId)[0];
+  }
+
+  /**
+   * Get column data by given column header element
+   * @param {HTMLElement} elem The column header element
+   * @returns {object} The column data
+   */
+  columnDataByHeaderElem(elem) {
+    const columnId = elem?.getAttribute('data-column-id');
+    return this.columnDataById(columnId);
   }
 
   /**
@@ -962,5 +1055,76 @@ export default class IdsDataGrid extends Base {
     }
     this.triggerEvent('activecellchange', this, { detail: { elem: this, activeCell: this.activeCell } });
     return this.activeCell;
+  }
+
+  /**
+   * Set filter row to be shown or hidden
+   * @private
+   * @returns {object} This API object for chaining
+   */
+  #setFilterRow() {
+    const nodes = this.shadowRoot.querySelectorAll('.ids-data-grid-header-cell-filter-wrapper');
+    nodes.forEach((n) => n?.classList?.[this.filterable ? 'remove' : 'add']('hidden'));
+    this.triggerEvent(this.filterable ? 'openfilterrow' : 'closefilterrow', this, {
+      detail: { elem: this, filterable: this.filterable }
+    });
+    return this;
+  }
+
+  /**
+   * Sets the data grid to be filterable
+   * @param {boolean|string} value If true will set filterable
+   */
+  set filterable(value) {
+    const isApply = this.filterable !== stringToBool(value);
+    if (typeof value !== 'undefined' && value !== null) {
+      this.setAttribute(attributes.FILTERABLE, value);
+    } else {
+      this.removeAttribute(attributes.FILTERABLE);
+    }
+    if (isApply) this.#setFilterRow();
+  }
+
+  get filterable() {
+    const value = this.getAttribute(attributes.FILTERABLE);
+    return value !== null ? stringToBool(value) : this.filters.DEFAULTS.filterable;
+  }
+
+  /**
+   * Sets disabled to be filter row
+   * @param {boolean|string} value The value
+   */
+  set filterRowDisabled(value) {
+    const isApply = this.filterRowDisabled !== stringToBool(value);
+    if (typeof value !== 'undefined' && value !== null) {
+      this.setAttribute(attributes.FILTER_ROW_DISABLED, value);
+    } else {
+      this.removeAttribute(attributes.FILTER_ROW_DISABLED);
+    }
+    if (isApply) this.filters?.setFilterRowDisabled();
+  }
+
+  get filterRowDisabled() {
+    const value = this.getAttribute(attributes.FILTER_ROW_DISABLED);
+    return value !== null ? stringToBool(value) : this.filters.DEFAULTS.filterRowDisabled;
+  }
+
+  /**
+   * Sets the data grid to filter when typing
+   * @param {boolean|string} value The value
+   */
+  set filterWhenTyping(value) {
+    const isApply = this.filterWhenTyping !== stringToBool(value);
+    if (typeof value !== 'undefined' && value !== null) {
+      this.setAttribute(attributes.FILTER_WHEN_TYPING, value);
+    } else {
+      this.removeAttribute(attributes.FILTER_WHEN_TYPING);
+    }
+    if (isApply) this.filters?.setFilterWhenTyping();
+  }
+
+  get filterWhenTyping() {
+    const value = this.getAttribute(attributes.FILTER_WHEN_TYPING);
+    return value !== null ? stringToBool(value) : this.filters.DEFAULTS.filterWhenTyping;
   }
 }

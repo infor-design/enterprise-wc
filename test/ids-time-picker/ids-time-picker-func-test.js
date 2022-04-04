@@ -438,4 +438,116 @@ describe('IdsTimePicker Component', () => {
   });
 
   it('can validate/enforce required', () => {});
+
+  it('should render field height', () => {
+    const heights = ['xs', 'sm', 'md', 'lg'];
+    const defaultHeight = 'md';
+    const className = (h) => `field-height-${h}`;
+    const checkHeight = (height) => {
+      timepicker.fieldHeight = height;
+
+      expect(timepicker.elements.triggerField.getAttribute('field-height')).toEqual(height);
+      expect(timepicker.container.classList).toContain(className(height));
+      heights.filter((h) => h !== height).forEach((h) => {
+        expect(timepicker.container.classList).not.toContain(className(h));
+      });
+    };
+
+    expect(timepicker.getAttribute('field-height')).toEqual(null);
+    heights.filter((h) => h !== defaultHeight).forEach((h) => {
+      expect(timepicker.container.classList).not.toContain(className(h));
+    });
+
+    expect(timepicker.container.classList).toContain(className(defaultHeight));
+    heights.forEach((h) => checkHeight(h));
+    timepicker.removeAttribute('field-height');
+    timepicker.removeAttribute('compact');
+
+    expect(timepicker.getAttribute('field-height')).toEqual(null);
+    heights.filter((h) => h !== defaultHeight).forEach((h) => {
+      expect(timepicker.container.classList).not.toContain(className(h));
+    });
+    timepicker.onFieldHeightChange();
+
+    expect(timepicker.container.classList).toContain(className(defaultHeight));
+  });
+
+  it('should set compact height', () => {
+    timepicker.compact = true;
+
+    expect(timepicker.hasAttribute('compact')).toBeTruthy();
+    expect(timepicker.container.classList.contains('compact')).toBeTruthy();
+    timepicker.compact = false;
+
+    expect(timepicker.hasAttribute('compact')).toBeFalsy();
+    expect(timepicker.container.classList.contains('compact')).toBeFalsy();
+  });
+
+  it('should set size', () => {
+    const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
+    const defaultSize = 'sm';
+    const checkSize = (size) => {
+      timepicker.size = size;
+
+      expect(timepicker.getAttribute('size')).toEqual(size);
+      expect(timepicker.elements.triggerField.getAttribute('size')).toEqual(size);
+    };
+
+    expect(timepicker.getAttribute('size')).toEqual(null);
+    expect(timepicker.elements.triggerField.getAttribute('size')).toEqual(defaultSize);
+    sizes.forEach((s) => checkSize(s));
+    timepicker.size = null;
+
+    expect(timepicker.getAttribute('size')).toEqual(null);
+    expect(timepicker.elements.triggerField.getAttribute('size')).toEqual(defaultSize);
+  });
+
+  it('should set no margins', () => {
+    expect(timepicker.getAttribute('no-margins')).toEqual(null);
+    expect(timepicker.noMargins).toEqual(false);
+    expect(timepicker.elements.triggerField.getAttribute('no-margins')).toEqual(null);
+    timepicker.noMargins = true;
+
+    expect(timepicker.getAttribute('no-margins')).toEqual('');
+    expect(timepicker.noMargins).toEqual(true);
+    expect(timepicker.elements.triggerField.getAttribute('no-margins')).toEqual('');
+    timepicker.noMargins = false;
+
+    expect(timepicker.getAttribute('no-margins')).toEqual(null);
+    expect(timepicker.noMargins).toEqual(false);
+    expect(timepicker.elements.triggerField.getAttribute('no-margins')).toEqual(null);
+  });
+
+  it('should set values thru template', () => {
+    expect(timepicker.colorVariant).toEqual(null);
+    expect(timepicker.labelState).toEqual(null);
+    expect(timepicker.compact).toEqual(false);
+    expect(timepicker.noMargins).toEqual(false);
+    timepicker.colorVariant = 'alternate-formatter';
+    timepicker.labelState = 'collapsed';
+    timepicker.compact = true;
+    timepicker.noMargins = true;
+    timepicker.template();
+
+    expect(timepicker.colorVariant).toEqual('alternate-formatter');
+    expect(timepicker.labelState).toEqual('collapsed');
+    expect(timepicker.compact).toEqual(true);
+    expect(timepicker.noMargins).toEqual(true);
+  });
+
+  it('should set dirty tracking', () => {
+    expect(timepicker.dirtyTracker).toEqual(false);
+    expect(timepicker.getAttribute('dirty-tracker')).toEqual(null);
+    expect(timepicker.input.getAttribute('dirty-tracker')).toEqual(null);
+    timepicker.dirtyTracker = true;
+
+    expect(timepicker.dirtyTracker).toEqual(true);
+    expect(timepicker.getAttribute('dirty-tracker')).toEqual('true');
+    expect(timepicker.input.getAttribute('dirty-tracker')).toEqual('true');
+    timepicker.dirtyTracker = false;
+
+    expect(timepicker.dirtyTracker).toEqual(false);
+    expect(timepicker.getAttribute('dirty-tracker')).toEqual(null);
+    expect(timepicker.input.getAttribute('dirty-tracker')).toEqual(null);
+  });
 });

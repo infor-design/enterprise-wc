@@ -98,25 +98,25 @@ const IdsLabelStateMixin = (superclass) => class extends superclass {
   #setlabelState(doHide = false) {
     if (doHide) {
       this.#hideLabel();
-      this.input.setAttribute('aria-label', this.label);
+      this.input?.setAttribute('aria-label', this.label);
     } else {
       this.#showLabel();
-      this.input.removeAttribute('aria-label');
+      this.input?.removeAttribute('aria-label');
     }
   }
 
   #hideLabel() {
-    this.setLabelText('');
+    this.setLabelText?.('');
   }
 
   #showLabel() {
     const existingLabel = this.shadowRoot.querySelector('label');
-    if (!existingLabel) {
-      this.fieldContainer.insertAdjacentHTML('beforebegin', `<label for="${this.id}-input" class="ids-label-text">
+    if (!existingLabel && !this.labelEl) {
+      this.fieldContainer?.insertAdjacentHTML('beforebegin', `<label for="${this.id}-input" class="ids-label-text">
         <ids-text part="label" label="true" color-unset>${this.label}</ids-text>
       </label>`);
     } else {
-      this.setLabelText(this.label);
+      this.setLabelText?.(this.label);
     }
   }
 };

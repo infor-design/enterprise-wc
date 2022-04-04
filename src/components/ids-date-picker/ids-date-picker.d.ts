@@ -5,6 +5,13 @@ interface dayselected extends Event {
   }
 }
 
+interface expanded extends Event {
+  detail: {
+    elem: IdsDatePicker,
+    expanded: boolean
+  }
+}
+
 export default class IdsDatePicker extends HTMLElement {
   /** Set input value */
   value: string | null;
@@ -14,6 +21,21 @@ export default class IdsDatePicker extends HTMLElement {
 
   /** Set trigger field label */
   label: string | null;
+
+  /** Determines the visibility state of this component's inner trigger field's label */
+  labelState: null | 'hidden' | 'collapsed';
+
+  /** Sets whether or not no-margins around the component */
+  noMargins: 'true' | 'false ' | boolean;
+
+  /** Sets the current color variant */
+  colorVariant: 'alternate' | 'alternate-formatter' | string;
+
+  /** Sets the component to be compact mode */
+  compact: 'true' | 'false' | boolean;
+
+  /** Sets the component base field height (default 'md') */
+  fieldHeight: 'md' | 'xs' | 'sm' | 'lg';
 
   /** Set trigger field disabled attribute */
   disabled: 'true' | 'false' | boolean | null;
@@ -60,6 +82,15 @@ export default class IdsDatePicker extends HTMLElement {
   /** Set whether or not month view today button should be show */
   showToday: 'true' | 'false' | boolean | null;
 
+  /** Set whether or not month/year picker should be expanded */
+  expanded: 'true' | 'false' | boolean | null;
+
+  /** Set legend data */
+  legend: Array<unknown> | null;
+
   /** Fires when month view day is selected */
   on(event: 'dayselected', listener: (event: dayselected) => void): this;
+
+  /** Fires when month/year picker is opened/closed */
+  on(event: 'expanded', listener: (event: expanded) => void): this;
 }
