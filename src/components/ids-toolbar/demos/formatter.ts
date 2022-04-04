@@ -6,7 +6,7 @@ import '../../ids-menu-button/ids-menu-button';
 import '../../ids-popup-menu/ids-popup-menu';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const btnFontpicker:  any = document.querySelector('#btn-fontpicker');
+  const btnFontpicker: any = document.querySelector('#btn-fontpicker');
   btnFontpicker?.menuEl.popup.addEventListener('selected', (e: CustomEvent) => {
     btnFontpicker.text = e.detail.elem.text;
   });

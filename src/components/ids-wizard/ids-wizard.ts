@@ -124,7 +124,7 @@ export default class IdsWizard extends Base {
     // iterate through ids-wizard-step
     // lightDOM to create shadowDOM markup
 
-    const stepIndex = <number>this.stepNumber - 1;
+    const stepIndex = <number> this.stepNumber - 1;
 
     for (const [i, stepEl] of [...this.children].entries()) {
       const isCurrentStep = stepIndex === i;
@@ -139,14 +139,14 @@ export default class IdsWizard extends Base {
       stepClassName += isClickable ? ' clickable' : '';
 
       const pathSegmentHtml = (i >= this.children.length - 1) ? '' : (
-      `<div
+        `<div
         class="path-segment${stepIndex <= i ? '' : ' visited'}
         part="path-segment"
       ></div>`
       );
 
       const stepLabelHtml = (
-      `<div
+        `<div
         class="step-label"
         step-number=${i + 1}
       >
@@ -164,7 +164,7 @@ export default class IdsWizard extends Base {
       anchorAttribsHtml += (!isClickable || isCurrentStep) ? '' : ` href="#${hrefUrl}"`;
 
       stepsHtml += (
-      `<a
+        `<a
         class="${stepClassName}"
         part="step"
         step-number="${i + 1}"
@@ -175,10 +175,10 @@ export default class IdsWizard extends Base {
           <svg viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="12" />
           </svg>
-          ${ !isCurrentStep ? '' : (
-            `<svg viewBox="0 0 24 24">
+          ${!isCurrentStep ? '' : (
+          `<svg viewBox="0 0 24 24">
               <circle cx="12" cy="12" r="12" />
-            </svg>`) }
+            </svg>`)}
         </div>
         ${stepLabelHtml}
       </a>
@@ -187,7 +187,7 @@ export default class IdsWizard extends Base {
     }
 
     return (
-    `<div class="ids-wizard">
+      `<div class="ids-wizard">
       <nav class="steps">
         ${stepsHtml}
       </nav>
@@ -251,7 +251,7 @@ export default class IdsWizard extends Base {
     this.stepObserver.disconnect();
 
     // set up observer for monitoring if a child element changed
-    this.stepObserver.observe(<any>this, {
+    this.stepObserver.observe(<any> this, {
       childList: true,
       attributes: true,
       subtree: true
@@ -386,7 +386,7 @@ export default class IdsWizard extends Base {
    */
   getStepEl(wizardEl: IdsWizard, stepNumber: number): IdsWizard {
     return wizardEl?.shadowRoot?.querySelector(
-    `.step[step-number="${stepNumber}"]`
+      `.step[step-number="${stepNumber}"]`
     );
   }
 
@@ -410,8 +410,7 @@ export default class IdsWizard extends Base {
       totalWidth = wizardRect.width;
 
       for (let i = 0; i < w.children.length; i++) {
-        // eslint-disable-next-line no-unused-vars
-        const [_stepEl, labelEl] = this.getStepEl(w, i + 1).children;
+        const [, labelEl] = this.getStepEl(w, i + 1).children;
 
         const labelRect = labelEl.getBoundingClientRect();
         const offsetRect = {

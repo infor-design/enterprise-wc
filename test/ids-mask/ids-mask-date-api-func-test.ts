@@ -17,7 +17,7 @@ describe('IdsMaskAPI (Date)', () => {
   });
 
   it('should process short dates', () => {
-    const textValue: string = '1111111111';
+    const textValue = '1111111111';
     const opts: IdsMaskOptions = {
       selection: {
         start: 0
@@ -37,7 +37,7 @@ describe('IdsMaskAPI (Date)', () => {
   });
 
   it('should process short dates with default patternOptions', () => {
-    const textValue: string = '1111111111';
+    const textValue = '1111111111';
     const opts: IdsMaskOptions = {
       selection: {
         start: 0
@@ -52,7 +52,7 @@ describe('IdsMaskAPI (Date)', () => {
   });
 
   it('should process short dates with no separators or other literals present', () => {
-    const textValue: string = '12122012';
+    const textValue = '12122012';
     let opts: IdsMaskOptions = {
       selection: {
         start: 0
@@ -81,7 +81,7 @@ describe('IdsMaskAPI (Date)', () => {
   });
 
   it('should process partial short dates', () => {
-    const textValue: string = '1111111111';
+    const textValue = '1111111111';
     const opts: IdsMaskOptions = {
       selection: {
         start: 0
@@ -100,7 +100,7 @@ describe('IdsMaskAPI (Date)', () => {
   });
 
   it('should process short dates when the format allows for single digit months and days', () => {
-    const textValue: string = '1/1/2020';
+    const textValue = '1/1/2020';
     const opts: IdsMaskOptions = {
       selection: {
         start: 0
@@ -122,7 +122,7 @@ describe('IdsMaskAPI (Date)', () => {
 
   // @TODO: fix partial autocorrect
   it.skip('can partially autocorrect incorrect dates', () => {
-    const textValue: string = '15/32/2020';
+    const textValue = '15/32/2020';
     const opts: IdsMaskOptions = {
       selection: {
         start: 0

@@ -154,7 +154,7 @@ export default class IdsLoadingIndicator extends Base {
    * @param {boolean} value Whether the percentage text should be visible
    * (not applicable to `sticky` loading indicators).
    */
-  set percentageVisible(value: boolean|string) {
+  set percentageVisible(value: boolean) {
     const isTruthy = stringToBool(value);
 
     if (isTruthy && !this.hasAttribute(attributes.PERCENTAGE_VISIBLE)) {

@@ -80,7 +80,7 @@ export default class IdsTab extends Base {
           this.selected,
           this.orientation,
           this.count
-        ) }
+        )}
         tabindex="-1"
         part="container"
       >${innerContent}
@@ -89,8 +89,7 @@ export default class IdsTab extends Base {
   }
 
   /**
-   * Refresh component's bindings
-   * after a render
+   * Refresh component's bindings after render
    */
   rendered() {
     this.offEvent('slotchange');

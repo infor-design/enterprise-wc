@@ -12,18 +12,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let type;
     switch (elem.tagName.toLowerCase()) {
-    case 'ids-menu-item':
-      type = 'Menu Item';
-      break;
-    case 'ids-menu-button':
-      type = 'Menu Button';
-      break;
-    case 'ids-button':
-      type = 'Button';
-      break;
-    default: // Catch all for anything "off"
-      type = elem.tagName.toLowerCase();
-      break;
+      case 'ids-menu-item':
+        type = 'Menu Item';
+        break;
+      case 'ids-menu-button':
+        type = 'Menu Button';
+        break;
+      case 'ids-button':
+        type = 'Button';
+        break;
+      default: // Catch all for anything "off"
+        type = elem.tagName.toLowerCase();
+        break;
     }
 
     const consoleArgs = [

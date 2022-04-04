@@ -205,11 +205,11 @@ export default class IdsErrorPage extends Base {
 
   /**
    * Refresh the text attributes
-   * @param {object} el dom element to query
+   * @param {string} el dom element selector to query
    * @param {string} value attribute value
    * @private
    */
-  #refreshText(el:Object, value:String): void {
+  #refreshText(el: string, value: string): void {
     const elText = this.container.querySelector(el);
     if (elText) {
       elText.innerHTML = value ? value.toString() : '';

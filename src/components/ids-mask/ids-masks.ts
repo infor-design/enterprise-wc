@@ -414,10 +414,23 @@ export function dateMask(rawValue = '', options = {}) {
  * NOTE: DOES NOT WORK FOR DATES WITH ALPHABETIC CONTENT. Do not use this if your
  * dates contain "MMM" or the full month name.
  * @param {object} processResult the results object of a mask process
+ * @param {object} processResult.conformedValue the value after being conformed to the mask
+ * @param {object} processResult.placeholderChar the placeholder char to use
+ * @param {object} processResult.placeholder the placeholder text to use
  * @param {object} options settings for the date pipe function
+ * @param {object} options.dateFormat the dateFormat text to use
  * @returns {object} the result of the piping function's changes
  */
-export function autoCorrectedDatePipe(processResult: { conformedValue: string; placeholderChar: any; placeholder: string; }, options: { dateFormat: string; }) {
+export function autoCorrectedDatePipe(
+  processResult: {
+    conformedValue: string;
+    placeholderChar: any;
+    placeholder: string;
+  },
+  options: {
+    dateFormat: string;
+  }
+) {
   options.dateFormat = 'M/d/yyyy'; // Locale.calendar().dateFormat.short;
   const conformedValueArr: any = processResult.conformedValue.split('');
   const indexesOfPipedChars: number[] = [];

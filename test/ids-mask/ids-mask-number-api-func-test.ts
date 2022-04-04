@@ -17,7 +17,7 @@ describe('IdsMaskAPI (Number)', () => {
   });
 
   it('can handle simple number masking', () => {
-    let textValue: string = '123456';
+    let textValue = '123456';
     const opts: IdsMaskOptions = {
       selection: {
         start: 0
@@ -87,7 +87,7 @@ describe('IdsMaskAPI (Number)', () => {
 
   it('can handle numbers with prefixes or suffixes', () => {
     // Handle Numbers with a prefix (currency)
-    let textValue: string = '2345';
+    let textValue = '2345';
     const opts: IdsMaskOptions = {
       selection: {
         start: 0
@@ -116,7 +116,7 @@ describe('IdsMaskAPI (Number)', () => {
 
   it('should process arabic numbers', () => {
     // Handle big numbers with thousands separators
-    let textValue: string = '١٢٣٤٥٦٧٨٩٠';
+    let textValue = '١٢٣٤٥٦٧٨٩٠';
     const opts: IdsMaskOptions = {
       selection: {
         start: 0
@@ -158,7 +158,7 @@ describe('IdsMaskAPI (Number)', () => {
 
   it('should process hindi (devanagari) numbers', () => {
     // Handle big numbers with thousands separators
-    let textValue: string = '१२३४५६७८९०';
+    let textValue = '१२३४५६७८९०';
     const opts: IdsMaskOptions = {
       selection: {
         start: 0
@@ -192,7 +192,7 @@ describe('IdsMaskAPI (Number)', () => {
 
   it('should process hindi (devanagari) numbers with a percentage', () => {
     // Handle big numbers with thousands separators
-    let textValue: string = '१२३४५६७८९०';
+    let textValue = '१२३४५६७८९०';
     const opts: IdsMaskOptions = {
       selection: {
         start: 0
@@ -263,7 +263,7 @@ describe('IdsMaskAPI (Number)', () => {
 
   it('Should process number masks with leading zeros', () => {
     // Handle big numbers with thousands separators
-    let textValue: string = '00001';
+    let textValue = '00001';
     const opts: IdsMaskOptions = {
       selection: {
         start: 0
