@@ -69,8 +69,8 @@ export default class IdsTriggerField extends Base {
   }
 
   /**
-   * Create the Template for the contents
-   * @returns {string} The template
+   * Creates the Template for rendering an IdsTriggerField's contents
+   * @returns {string} containing the template
    */
   template() {
     this.templateHostAttributes();
@@ -112,10 +112,9 @@ export default class IdsTriggerField extends Base {
   }
 
   /**
-   * Set the trigger button to tabbable
-   * @param {boolean|string} value True of false depending if the trigger field is tabbable
+   * @param {boolean | string} value true if this trigger field's buttons should be made accessible using the tab key
    */
-  set tabbable(value) {
+  set tabbable(value: boolean | string) {
     const currentValue = this.getAttribute(attributes.TABBABLE);
     const newValue = stringToBool(value);
 
@@ -132,15 +131,18 @@ export default class IdsTriggerField extends Base {
     });
   }
 
-  get tabbable() {
+  /**
+   * @returns {boolean} true if this trigger field's buttons are accessible using the tab key
+   */
+  get tabbable(): boolean {
     return stringToBool(this.getAttribute(attributes.TABBABLE));
   }
 
   /**
    * Sets the disabled attribute
-   * @param {string} d string value from the disabled attribute
+   * @param {boolean | string} d string value from the disabled attribute
    */
-  set disabled(d) {
+  set disabled(d: boolean | string) {
     super.disabled = d;
 
     if (stringToBool(d)) {
@@ -155,7 +157,7 @@ export default class IdsTriggerField extends Base {
     }
   }
 
-  get disabled() {
+  get disabled(): boolean {
     return super.disabled;
   }
 
@@ -163,7 +165,7 @@ export default class IdsTriggerField extends Base {
    * Sets the readonly attribute
    * @param {string} r string value from the read only attribute
    */
-  set readonly(r) {
+  set readonly(r: boolean | string) {
     super.readonly = r;
 
     if (stringToBool(r)) {
@@ -178,16 +180,16 @@ export default class IdsTriggerField extends Base {
     }
   }
 
-  get readonly() {
+  get readonly(): boolean {
     return super.readonly;
   }
 
   /**
    * Establish Internal Event Handlers
    * @private
-   * @returns {object} The object for chaining.
+   * @returns {this} The IdsTriggerField API for chaining.
    */
-  #attachTriggerButtonEvents() {
+  #attachTriggerButtonEvents(): this {
     const buttons = this.querySelectorAll('ids-trigger-button');
     if (buttons) {
       [...buttons].forEach((button) => this.onEvent('click', button, () => this.trigger()));
@@ -200,7 +202,7 @@ export default class IdsTriggerField extends Base {
    * Updates trigger buttons when the trigger field's fieldHeight property is updated
    * @param {string} val the new field height setting
    */
-  onFieldHeightChange(val: string) {
+  onFieldHeightChange(val: string): void {
     this.buttons.forEach((btn) => {
       btn.fieldHeight = val;
     });
@@ -209,7 +211,7 @@ export default class IdsTriggerField extends Base {
   /**
    * Fire the trigger event and action.
    */
-  trigger() {
+  trigger(): void {
     let canTrigger = true;
     const response = (veto: any) => {
       canTrigger = !!veto;

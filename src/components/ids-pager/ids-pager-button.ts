@@ -26,7 +26,7 @@ export default class IdsPagerButton extends Base {
     super();
   }
 
-  template() {
+  template(): string {
     const type = this.type;
 
     return (
@@ -41,7 +41,7 @@ export default class IdsPagerButton extends Base {
     );
   }
 
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       attributes.DISABLED,
       attributes.FIRST,
@@ -57,7 +57,7 @@ export default class IdsPagerButton extends Base {
     ];
   }
 
-  connectedCallback() {
+  connectedCallback(): void {
     this.button = this.shadowRoot.querySelector('ids-button');
     this.icon = this.shadowRoot.querySelector('ids-icon');
     this.onEvent('click', this.button, () => this.#onClick());
@@ -73,7 +73,7 @@ export default class IdsPagerButton extends Base {
    */
   get pageCount(): number | null {
     return (this.total !== null && !Number.isNaN(this.total))
-      ? Math.ceil(this.total / this.pageSize)
+      ? Math.ceil(Number(this.total) / this.pageSize)
       : null;
   }
 
@@ -110,14 +110,14 @@ export default class IdsPagerButton extends Base {
    * @returns {boolean|string} A flag indicating whether button is disabled
    * for nav reasons
    */
-  get disabled() {
+  get disabled(): boolean | string {
     return this.hasAttribute(attributes.DISABLED);
   }
 
   /**
    * @param {boolean|string} value A whether to disable input at app-specified-level
    */
-  set disabled(value) {
+  set disabled(value: boolean | string) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.DISABLED, true);
     } else {
@@ -130,7 +130,7 @@ export default class IdsPagerButton extends Base {
   /**
    * @returns {string|undefined} type The type of button -- based on which attrib was set
    */
-  get type() {
+  get type(): undefined | string {
     for (const a of buttonTypes) {
       if (this.hasAttribute(a)) { return a; }
     }
@@ -141,7 +141,7 @@ export default class IdsPagerButton extends Base {
   /**
    * @param {string|number} value The number of items to track
    */
-  set total(value) {
+  set total(value: string | number) {
     this.setAttribute(attributes.TOTAL, value);
     this.#updateNavDisabled();
     this.#updateDisabledState();
@@ -150,7 +150,7 @@ export default class IdsPagerButton extends Base {
   /**
    * @returns {string|number} The number of items for pager is tracking
    */
-  get total() {
+  get total(): string | number {
     return parseInt(this.getAttribute(attributes.TOTAL));
   }
 
@@ -158,7 +158,7 @@ export default class IdsPagerButton extends Base {
    * @param {string|boolean} value A flag indicating whether button is disabled
    * for nav reasons
    */
-  set navDisabled(value) {
+  set navDisabled(value: string | boolean) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.NAV_DISABLED, '');
     } else {
@@ -172,7 +172,7 @@ export default class IdsPagerButton extends Base {
    * @returns {string|boolean} A flag indicating whether button is disabled
    * for nav reasons
    */
-  get navDisabled() {
+  get navDisabled(): string | boolean {
     return this.hasAttribute(attributes.NAV_DISABLED);
   }
 
@@ -180,7 +180,7 @@ export default class IdsPagerButton extends Base {
    * @param {string|boolean} value A flag indicating if button is disabled
    * through parent pager's disabled attribute
    */
-  set parentDisabled(value) {
+  set parentDisabled(value: string | boolean) {
     if (stringToBool(value) && !this.hasAttribute(attributes.PARENT_DISABLED)) {
       this.setAttribute(attributes.PARENT_DISABLED, '');
     } else if (!stringToBool(value) && this.hasAttribute(attributes.PARENT_DISABLED)) {
@@ -194,7 +194,7 @@ export default class IdsPagerButton extends Base {
    * @returns {string|boolean} A flag indicating whether button is disabled
    * via parent pager's disabled attribute
    */
-  get parentDisabled() {
+  get parentDisabled(): string | boolean {
     return this.hasAttribute(attributes.PARENT_DISABLED);
   }
 
@@ -202,14 +202,14 @@ export default class IdsPagerButton extends Base {
    * @param {number} value A 1-based page number shown
    */
   set pageNumber(value: number) {
-    let nextValue = value;
+    let nextValue = Number.parseInt(value as any);
 
     if (Number.isNaN(nextValue)) {
       nextValue = 1;
     } else if (nextValue <= 1) {
       nextValue = 1;
     } else {
-      const pageCount = Math.ceil(this.total / this.pageSize);
+      const pageCount = Math.ceil(this.total as any / this.pageSize);
       nextValue = Math.min(nextValue, pageCount);
     }
 
@@ -232,10 +232,10 @@ export default class IdsPagerButton extends Base {
   set pageSize(value: number) {
     let nextValue;
 
-    if (Number.isNaN(value)) {
+    if (Number.isNaN(Number.parseInt(value as any))) {
       nextValue = 1;
     } else {
-      nextValue = value;
+      nextValue = Number.parseInt(value as any);
     }
 
     if (this.getAttribute(attributes.PAGE_SIZE) !== `${nextValue}`) {
@@ -260,46 +260,46 @@ export default class IdsPagerButton extends Base {
    */
   #onClick() {
     if (!this.disabled) {
-      const lastPageNumber = Math.ceil(this.total / this.pageSize);
+      const lastPageNumber = Math.ceil(Number(this.total) / this.pageSize);
 
       /* eslint-disable default-case */
       switch (this.type) {
-      case attributes.FIRST: {
-        if (this.pageNumber > 1) {
-          this.triggerEvent('pagenumberchange', this, {
-            bubbles: true,
-            detail: { elem: this, value: 1 }
-          });
+        case attributes.FIRST: {
+          if (this.pageNumber > 1) {
+            this.triggerEvent('pagenumberchange', this, {
+              bubbles: true,
+              detail: { elem: this, value: 1 }
+            });
+          }
+          break;
         }
-        break;
-      }
-      case attributes.LAST: {
-        if (this.pageNumber < lastPageNumber) {
-          this.triggerEvent('pagenumberchange', this, {
-            bubbles: true,
-            detail: { elem: this, value: this.pageCount }
-          });
+        case attributes.LAST: {
+          if (this.pageNumber < lastPageNumber) {
+            this.triggerEvent('pagenumberchange', this, {
+              bubbles: true,
+              detail: { elem: this, value: this.pageCount }
+            });
+          }
+          break;
         }
-        break;
-      }
-      case attributes.PREVIOUS: {
-        if (this.pageNumber > 1) {
-          this.triggerEvent('pagenumberchange', this, {
-            bubbles: true,
-            detail: { elem: this, value: this.pageNumber - 1 }
-          });
+        case attributes.PREVIOUS: {
+          if (this.pageNumber > 1) {
+            this.triggerEvent('pagenumberchange', this, {
+              bubbles: true,
+              detail: { elem: this, value: this.pageNumber - 1 }
+            });
+          }
+          break;
         }
-        break;
-      }
-      case attributes.NEXT: {
-        if (this.pageNumber < lastPageNumber) {
-          this.triggerEvent('pagenumberchange', this, {
-            bubbles: true,
-            detail: { elem: this, value: this.pageNumber + 1 }
-          });
+        case attributes.NEXT: {
+          if (this.pageNumber < lastPageNumber) {
+            this.triggerEvent('pagenumberchange', this, {
+              bubbles: true,
+              detail: { elem: this, value: this.pageNumber + 1 }
+            });
+          }
+          break;
         }
-        break;
-      }
       }
     }
   }
@@ -329,23 +329,23 @@ export default class IdsPagerButton extends Base {
    * prevent nav actions/disable the component
    * based on these factors
    */
-  #updateNavDisabled() {
+  #updateNavDisabled(): void {
     let isNavDisabled = false;
 
     switch (this.type) {
-    case attributes.FIRST:
-    case attributes.PREVIOUS: {
-      isNavDisabled = this.pageNumber <= 1;
-      break;
-    }
-    case attributes.NEXT:
-    case attributes.LAST: {
-      isNavDisabled = this.pageNumber >= (this.pageCount || 0);
-      break;
-    }
-    default: {
-      break;
-    }
+      case attributes.FIRST:
+      case attributes.PREVIOUS: {
+        isNavDisabled = this.pageNumber <= 1;
+        break;
+      }
+      case attributes.NEXT:
+      case attributes.LAST: {
+        isNavDisabled = this.pageNumber >= (this.pageCount || 0);
+        break;
+      }
+      default: {
+        break;
+      }
     }
 
     if (isNavDisabled) {
@@ -360,7 +360,7 @@ export default class IdsPagerButton extends Base {
    * dependent on current page nav and
    * user-provided disabled state
    */
-  #updateDisabledState() {
+  #updateDisabledState(): void {
     const isDisabled = (
       this.hasAttribute(attributes.DISABLED)
       || this.hasAttribute(attributes.NAV_DISABLED)

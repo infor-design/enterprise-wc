@@ -71,7 +71,7 @@ export default class IdsIcon extends Base {
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     let height = '';
     let width = '';
     let viewBox = '';
@@ -103,7 +103,7 @@ export default class IdsIcon extends Base {
    * Return the icon data for the svg based on the icon name
    * @returns {string} the path data
    */
-  iconData() {
+  iconData(): string {
     let iconData = '';
     if (emptyIconPathData[this.icon]) {
       iconData = emptyIconPathData[this.icon];
@@ -217,14 +217,14 @@ export default class IdsIcon extends Base {
   /**
    * @returns {string} the current color of the notification badge
    */
-  get badgeColor() {
+  get badgeColor(): string {
     return this.getAttribute(attributes.BADGE_COLOR);
   }
 
   /**
    * @param {string} value sets the color of the notification badge
    */
-  set badgeColor(value) {
+  set badgeColor(value: string) {
     if (value && this.getAttribute(attributes.BADGE_COLOR) !== value) {
       this.setAttribute(attributes.BADGE_COLOR, value);
       this.#updateBadge();
@@ -237,12 +237,12 @@ export default class IdsIcon extends Base {
   /**
    * @returns {string} position of notification badge
    */
-  get badgePosition() { return this.getAttribute(attributes.BADGE_POSITION); }
+  get badgePosition(): string { return this.getAttribute(attributes.BADGE_POSITION); }
 
   /**
    * @param {string} value sets the postion of the notification badge
    */
-  set badgePosition(value) {
+  set badgePosition(value: string) {
     if (value && this.getAttribute(attributes.BADGE_POSITION) !== value) {
       this.setAttribute(attributes.BADGE_POSITION, value);
       this.#updateBadge();
@@ -263,7 +263,7 @@ export default class IdsIcon extends Base {
   /**
    * @param {string} value allows sets a custom height value for the icon svg
    */
-  set height(value) {
+  set height(value: string) {
     if (value) {
       this.removeAttribute(attributes.SIZE);
       this.setAttribute(attributes.HEIGHT, value);
@@ -277,14 +277,14 @@ export default class IdsIcon extends Base {
    * Return the viewbox
    * @returns {string} the string of viewbox numbers
    */
-  get viewbox() {
+  get viewbox(): string {
     return this.getAttribute(attributes.VIEWBOX);
   }
 
   /**
    * @param {string} value set a custom viewbox for the icon svg
    */
-  set viewbox(value) {
+  set viewbox(value: string) {
     if (value) {
       this.setAttribute(attributes.VIEWBOX, value);
       this.#adjustViewbox();
@@ -297,14 +297,14 @@ export default class IdsIcon extends Base {
    * Return the width number
    * @returns {string} the stringified width number
    */
-  get width() {
+  get width(): string {
     return this.getAttribute(attributes.WIDTH) || sizes[this.size];
   }
 
   /**
    * @param {string} value sets a custom width for the icon svg
    */
-  set width(value) {
+  set width(value: string) {
     if (value) {
       this.removeAttribute(attributes.SIZE);
       this.setAttribute(attributes.WIDTH, value);
@@ -318,13 +318,13 @@ export default class IdsIcon extends Base {
    * Return the icon name
    * @returns {string} the icon
    */
-  get icon() { return this.getAttribute(attributes.ICON) || ''; }
+  get icon(): string { return this.getAttribute(attributes.ICON) || ''; }
 
   /**
    * Sets the icon svg path to render
    * @param {string} value The value must be a valid key in the path-data.json
    */
-  set icon(value) {
+  set icon(value: string) {
     const svgElem = this.shadowRoot?.querySelector('svg');
     const isPathData = pathData.hasOwnProperty(value);
     const isEmptyPathData = emptyIconPathData.hasOwnProperty(value);
@@ -342,9 +342,9 @@ export default class IdsIcon extends Base {
    * Return the size. May be large, normal/medium or small
    * @returns {string} the size
    */
-  get size() { return this.getAttribute(attributes.SIZE) || 'normal'; }
+  get size(): string { return this.getAttribute(attributes.SIZE) || 'normal'; }
 
-  set size(value) {
+  set size(value: string) {
     if (value && sizes[value]) {
       const size = sizes[this.size];
       this.setAttribute(attributes.SIZE, value);
@@ -361,7 +361,7 @@ export default class IdsIcon extends Base {
    * properties that need adjusting at the component level
    * @returns {void}
    */
-  #adjustViewbox() {
+  #adjustViewbox(): void {
     let viewboxSize = '0 0 18 18';
 
     if (this.viewbox) {
@@ -371,10 +371,10 @@ export default class IdsIcon extends Base {
   }
 
   /** @returns {string|boolean} Whether or not the icon is vertical */
-  get vertical() { return this.getAttribute(attributes.VERTICAL) || false; }
+  get vertical(): string | boolean { return this.getAttribute(attributes.VERTICAL) || false; }
 
-  /** @param {string|boolean} value Rotate the icon to vertical */
-  set vertical(value) {
+  /** @param {string | boolean} value Rotate the icon to vertical */
+  set vertical(value: string | boolean) {
     const isVertical = stringToBool(value);
     if (isVertical) {
       this.setAttribute(attributes.VERTICAL, value);
@@ -391,7 +391,7 @@ export default class IdsIcon extends Base {
     }
   }
 
-  #updateBadge() {
+  #updateBadge(): void {
     let badge = this.shadowRoot.querySelector('span');
     if (!badge) {
       this.shadowRoot.innerHTML = this.template();

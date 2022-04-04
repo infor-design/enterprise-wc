@@ -4,6 +4,7 @@ const refsNew: Array<any> = [];
 
 /**
  * Deep clone an array creating a new array
+ * @param {any} this The array to clone
  * @param {Array} arr The array to clone
  * @param {Function} fn The functional call back used for recursion
  * @returns {Array} The array's clone

@@ -3,6 +3,26 @@
  */
 
 /**
+ * IdsMaskOptions are POJOs that contain different properties based on the mask type.
+ * Mask functions can be completely user-defined, so the options need to be flexible.
+ */
+export type IdsMaskOptions = Record<string, any>;
+
+export type IdsMaskTypes = {
+  /** Adds a mask to the input */
+  mask: Array<RegExp | string> | CallableFunction | string
+
+  /** Adds options that are considered by a mask function when generating a mask */
+  maskOptions?: IdsMaskOptions;
+
+  /** If true, displays the literals and fillable space of the mask as a placeholder inside the field */
+  maskGuide?: boolean;
+
+  /** If true, combined with `maskGuide`, attempts to keep previously-entered input from shifting within the field */
+  maskRetainPositions?: boolean;
+};
+
+/**
  * @property {string} EMPTY_STRING just an empty string
  */
 export const EMPTY_STRING = '';
@@ -57,7 +77,7 @@ export const DEFAULT_CONFORM_OPTIONS = {
  * @param {string} pattern a string containing a pattern that needs parsing
  * @returns {Array<string|RegExp>|undefined} a valid mask or nothing
  */
-export function convertPatternFromString(pattern: any) {
+export function convertPatternFromString(pattern: string) {
   if (typeof pattern !== 'string' || !pattern.length) {
     return undefined;
   }

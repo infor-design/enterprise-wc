@@ -59,9 +59,9 @@ export default class IdsTextarea extends Base {
 
   /**
    * Return the attributes we handle as getters/setters
-   * @returns {Array} The attributes in an array
+   * @returns {Array<string>} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       ...super.attributes,
       attributes.AUTOGROW,
@@ -89,7 +89,7 @@ export default class IdsTextarea extends Base {
    * Custom Element `connectedCallback` implementation
    * @returns {void}
    */
-  connectedCallback() {
+  connectedCallback(): void {
     this.#attachEventHandlers();
     super.connectedCallback();
   }
@@ -98,7 +98,7 @@ export default class IdsTextarea extends Base {
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     // Textarea
     const value = this.value || '';
     const rows = this.rows ? ` rows="${this.rows}"` : '';
@@ -106,8 +106,7 @@ export default class IdsTextarea extends Base {
     const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
     const isPrintable = stringToBool(this.printable) || this.printable === null;
     const printable = isPrintable ? `<span class="textarea-print">${value}</span>` : '';
-    const isCounter = ((stringToBool(this.characterCounter)
-      || this.characterCounter === null) && this.maxlength);
+    const isCounter = (this.characterCounter && this.maxlength);
     const counter = isCounter ? '<span class="textarea-character-counter"></span>' : '';
     let textareaState = stringToBool(this.readonly) ? ' readonly' : '';
     textareaState = stringToBool(this.disabled) ? ' disabled' : textareaState;
@@ -133,7 +132,7 @@ export default class IdsTextarea extends Base {
   /**
    * @returns {HTMLTextAreaElement} reference to this component's inner text input element
    */
-  get input() {
+  get input(): HTMLTextAreaElement {
     return this.container.querySelector('textarea');
   }
 
@@ -142,7 +141,7 @@ export default class IdsTextarea extends Base {
    * @returns {HTMLElement} the element in this component's Shadow Root
    *  that wraps the input and any triggering elements or icons
    */
-  get fieldContainer() {
+  get fieldContainer(): HTMLElement {
     return this.container.querySelector('.field-container');
   }
 
@@ -152,7 +151,7 @@ export default class IdsTextarea extends Base {
    * @param {string} prop The property.
    * @returns {void}
    */
-  setTextareaState(prop: string) {
+  setTextareaState(prop: string): void {
     if (prop === attributes.READONLY || prop === attributes.DISABLED) {
       const msgNodes = [].slice.call(this.shadowRoot.querySelectorAll('.validation-message'));
       const options = {
@@ -184,7 +183,7 @@ export default class IdsTextarea extends Base {
    * @private
    * @returns {void}
    */
-  handleAutoselect() {
+  handleAutoselect(): void {
     if (this.autoselect) {
       this.handleTextareaFocusEvent();
     } else {
@@ -197,7 +196,7 @@ export default class IdsTextarea extends Base {
    * @private
    * @returns {void}
    */
-  handleAutogrow() {
+  handleAutogrow(): void {
     if (this.input) {
       if (this.autogrow) {
         if (this.autogrowMaxHeight) {
@@ -219,7 +218,7 @@ export default class IdsTextarea extends Base {
    * @private
    * @returns {void}
    */
-  setBrowser() {
+  setBrowser(): void {
     const ua = navigator.userAgent || navigator.vendor || (window as any).opera;
     const browser = (s: string) => ua.toLowerCase().indexOf(s) > -1;
     this.isSafari = browser('safari') && !browser('chrome') && !browser('android');
@@ -232,7 +231,7 @@ export default class IdsTextarea extends Base {
    * @returns {string} max value
    */
   getMaxValue(value: string): string {
-    const max = parseInt(this.maxlength, 10);
+    const max = parseInt((this.maxlength as any), 10);
     return value && max > 0 ? value.substr(0, max) : value;
   }
 
@@ -254,10 +253,10 @@ export default class IdsTextarea extends Base {
    * @private
    * @returns {void}
    */
-  setAutogrow() {
+  setAutogrow(): void {
     if (this.autogrow && !this.autogrowProcessing) {
       this.autogrowProcessing = true;
-      const maxHeight = parseInt(this.autogrowMaxHeight, 10) || 0;
+      const maxHeight = parseInt((this.autogrowMaxHeight as any), 10) || 0;
       const oldHeight = this.input.offsetHeight;
 
       // Need delay, when initial value more then max on first load
@@ -276,7 +275,7 @@ export default class IdsTextarea extends Base {
    * @param {HTMLElement|null} input The textarea input element
    * @returns {void}
    */
-  adjustHeight(oldHeight: number, maxHeight: number, input = null) {
+  adjustHeight(oldHeight: number, maxHeight: number, input: HTMLElement | null = null): void {
     const elem = input || this.input;
     const newHeight = elem?.scrollHeight;
     if (elem && (oldHeight !== newHeight)) {
@@ -294,11 +293,11 @@ export default class IdsTextarea extends Base {
   /**
    * Handle character-counter
    * @private
-   * @param {boolean|string} value of character-counter
+   * @returns {void}
    */
-  handleCharacterCounter(value: boolean | string) {
+  handleCharacterCounter(): void {
     let elem = this.shadowRoot.querySelector('.textarea-character-counter');
-    if ((stringToBool(this.characterCounter) || value === null) && this.maxlength) {
+    if (this.characterCounter && this.maxlength) {
       if (!elem) {
         elem = document.createElement('span');
         elem.className = 'textarea-character-counter';
@@ -313,10 +312,10 @@ export default class IdsTextarea extends Base {
   /**
    * Handle printable
    * @private
-   * @param {boolean|string} value of printable
+   * @param {boolean|string|null} value of printable
    * @returns {void}
    */
-  handlePrintable(value: boolean | string) {
+  handlePrintable(value: boolean | string | null): void {
     let elem = this.shadowRoot.querySelector('.textarea-print');
     if (stringToBool(this.printable) || value === null) {
       if (!elem) {
@@ -335,7 +334,7 @@ export default class IdsTextarea extends Base {
    * @private
    * @returns {void}
    */
-  handleSlotchangeEvent() {
+  handleSlotchangeEvent(): void {
     const slot = this.shadowRoot.querySelector('slot');
     this.onEvent('slotchange', slot, () => {
       const val = slot.assignedNodes()[0].textContent;
@@ -346,10 +345,10 @@ export default class IdsTextarea extends Base {
   /**
    * Handle focus event
    * @private
-   * @param {string} option If 'remove', will remove attached events
+   * @param {string | undefined | null} option If 'remove', will remove attached events
    * @returns {void}
    */
-  handleTextareaFocusEvent(option = '') {
+  handleTextareaFocusEvent(option: string | undefined | null = ''): void {
     if (this.input) {
       const eventName = 'focus';
       if (option === 'remove') {
@@ -372,7 +371,7 @@ export default class IdsTextarea extends Base {
    * @private
    * @returns {void}
    */
-  handleTextareaChangeEvent() {
+  handleTextareaChangeEvent(): void {
     const events = ['change', 'input', 'propertychange'];
     events.forEach((evt) => {
       this.onEvent(evt, this.input, () => {
@@ -386,7 +385,7 @@ export default class IdsTextarea extends Base {
    * @private
    * @returns {object} The object for chaining.
    */
-  handleNativeEvents() {
+  handleNativeEvents(): object {
     if (this.input) {
       const events = ['change', 'input', 'propertychange', 'focus', 'select'];
       events.forEach((evt) => {
@@ -412,7 +411,7 @@ export default class IdsTextarea extends Base {
    * @private
    * @returns {void}
    */
-  #attachEventHandlers() {
+  #attachEventHandlers(): void {
     this.setBrowser();
     this.handleAutoselect();
     this.handleAutogrow();
@@ -426,7 +425,7 @@ export default class IdsTextarea extends Base {
    * @private
    * @returns {void}
    */
-  updatePrintarea() {
+  updatePrintarea(): void {
     const printareaEl = this.shadowRoot.querySelector('.textarea-print');
     if (printareaEl) {
       printareaEl.textContent = this.value;
@@ -439,7 +438,7 @@ export default class IdsTextarea extends Base {
    * @param {string} s The string to test.
    * @returns {number} The number of found line countLinebreaks
    */
-  countLinebreaks(s: string) {
+  countLinebreaks(s: string): number {
     return (s.match(/\n/g) || []).length;
   }
 
@@ -449,7 +448,7 @@ export default class IdsTextarea extends Base {
    * @private
    * @returns {void}
    */
-  updateCounter() {
+  updateCounter(): void {
     const elem = this.shadowRoot.querySelector('.textarea-character-counter');
     if (elem && this.maxlength) {
       const val = this.value || '';
@@ -479,7 +478,7 @@ export default class IdsTextarea extends Base {
    * Set textarea height to be autogrow
    * @param {boolean|string} value If true will set `autogrow` attribute
    */
-  set autogrow(value) {
+  set autogrow(value: boolean | string) {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.AUTOGROW, val.toString());
@@ -489,13 +488,13 @@ export default class IdsTextarea extends Base {
     this.handleAutogrow();
   }
 
-  get autogrow() { return this.getAttribute(attributes.AUTOGROW); }
+  get autogrow(): boolean { return stringToBool(this.getAttribute(attributes.AUTOGROW)); }
 
   /**
    * Set textarea height to be autogrow-max-height
-   * @param {string} value of `autogrow-max-height` attribute
+   * @param {string | null} value of `autogrow-max-height` attribute
    */
-  set autogrowMaxHeight(value) {
+  set autogrowMaxHeight(value: string | null) {
     if (value) {
       this.setAttribute(attributes.AUTOGROW_MAX_HEIGHT, value.toString());
     } else {
@@ -504,13 +503,13 @@ export default class IdsTextarea extends Base {
     this.handleAutogrow();
   }
 
-  get autogrowMaxHeight() { return this.getAttribute(attributes.AUTOGROW_MAX_HEIGHT); }
+  get autogrowMaxHeight(): string | null { return this.getAttribute(attributes.AUTOGROW_MAX_HEIGHT); }
 
   /**
    * When set the textarea will select all text on focus
    * @param {boolean|string} value If true will set `autoselect` attribute
    */
-  set autoselect(value) {
+  set autoselect(value: boolean | string) {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.AUTOSELECT, val.toString());
@@ -520,13 +519,13 @@ export default class IdsTextarea extends Base {
     this.handleAutoselect();
   }
 
-  get autoselect() { return this.getAttribute(attributes.AUTOSELECT); }
+  get autoselect(): boolean { return stringToBool(this.getAttribute(attributes.AUTOSELECT)); }
 
   /**
    * Set `char-max-text` text for character counter
    * @param {string} value of the `char-max-text` property
    */
-  set charMaxText(value) {
+  set charMaxText(value: string) {
     if (value) {
       this.setAttribute(attributes.CHAR_MAX_TEXT, value.toString());
       return;
@@ -534,13 +533,13 @@ export default class IdsTextarea extends Base {
     this.removeAttribute(attributes.CHAR_MAX_TEXT);
   }
 
-  get charMaxText() { return this.getAttribute(attributes.CHAR_MAX_TEXT) || CHAR_MAX_TEXT; }
+  get charMaxText(): string { return this.getAttribute(attributes.CHAR_MAX_TEXT) || CHAR_MAX_TEXT; }
 
   /**
    * Set `char-remaining-text` text for character counter
    * @param {string} value of the `char-remaining-text` property
    */
-  set charRemainingText(value) {
+  set charRemainingText(value: string) {
     if (value) {
       this.setAttribute(attributes.CHAR_REMAINING_TEXT, value.toString());
       return;
@@ -548,7 +547,7 @@ export default class IdsTextarea extends Base {
     this.removeAttribute(attributes.CHAR_REMAINING_TEXT);
   }
 
-  get charRemainingText() {
+  get charRemainingText(): string {
     return this.getAttribute(attributes.CHAR_REMAINING_TEXT) || CHAR_REMAINING_TEXT;
   }
 
@@ -556,23 +555,26 @@ export default class IdsTextarea extends Base {
    * Set the `character-counter` feature
    * @param {boolean|string} value If true will set `character-counter` attribute
    */
-  set characterCounter(value) {
+  set characterCounter(value: boolean | string) {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.CHARACTER_COUNTER, val.toString());
     } else {
       this.removeAttribute(attributes.CHARACTER_COUNTER);
     }
-    this.handleCharacterCounter(value);
+    this.handleCharacterCounter();
   }
 
-  get characterCounter() { return this.getAttribute(attributes.CHARACTER_COUNTER); }
+  get characterCounter(): boolean {
+    const val = this.getAttribute(attributes.CHARACTER_COUNTER);
+    return val !== null ? stringToBool(val) : true;
+  }
 
   /**
    * Sets textarea to disabled
    * @param {boolean|string} value If true will set `disabled` attribute
    */
-  set disabled(value) {
+  set disabled(value: boolean | string) {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
@@ -582,7 +584,7 @@ export default class IdsTextarea extends Base {
     this.setTextareaState(attributes.DISABLED);
   }
 
-  get disabled() { return this.getAttribute(attributes.DISABLED); }
+  get disabled(): boolean { return stringToBool(this.getAttribute(attributes.DISABLED)); }
 
   /**
    * internal reference to a label element a user provides
@@ -593,7 +595,7 @@ export default class IdsTextarea extends Base {
    * Set the `label` text
    * @param {string} value of the `label` text property
    */
-  set label(value) {
+  set label(value: string) {
     const newValue = stripHTML(value);
     const currentValue = this.label;
 
@@ -607,13 +609,13 @@ export default class IdsTextarea extends Base {
     }
   }
 
-  get label() { return this.getAttribute(attributes.LABEL) || ''; }
+  get label(): string { return this.getAttribute(attributes.LABEL) || ''; }
 
   /**
    * @readonly
    * @returns {HTMLLabelElement} the inner `label` element
    */
-  get labelEl() {
+  get labelEl(): HTMLLabelElement {
     return (
       this.#labelEl
       || this.shadowRoot?.querySelector(`[for="${ID}"]`)
@@ -622,9 +624,9 @@ export default class IdsTextarea extends Base {
 
   /**
    * Set `label-required` attribute
-   * @param {string} value The `label-required` attribute
+   * @param {string|null} value The `label-required` attribute
    */
-  set labelRequired(value) {
+  set labelRequired(value: string | null) {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.LABEL_REQUIRED, val.toString());
@@ -634,13 +636,13 @@ export default class IdsTextarea extends Base {
     this.labelEl?.classList[!val ? 'add' : 'remove']('no-required-indicator');
   }
 
-  get labelRequired() { return this.getAttribute(attributes.LABEL_REQUIRED); }
+  get labelRequired(): string | null { return this.getAttribute(attributes.LABEL_REQUIRED); }
 
   /**
    * Set the `maxlength` of textarea
-   * @param {string} value of the `maxlength` property
+   * @param {string|null} value of the `maxlength` property
    */
-  set maxlength(value) {
+  set maxlength(value: string | null) {
     if (value) {
       this.setAttribute(attributes.MAXLENGTH, value.toString());
       this.input?.setAttribute(attributes.MAXLENGTH, value.toString());
@@ -648,16 +650,16 @@ export default class IdsTextarea extends Base {
       this.removeAttribute(attributes.MAXLENGTH);
       this.input?.removeAttribute(attributes.MAXLENGTH);
     }
-    this.handleCharacterCounter(this.characterCounter);
+    this.handleCharacterCounter();
   }
 
-  get maxlength() { return this.getAttribute(attributes.MAXLENGTH); }
+  get maxlength(): string | null { return this.getAttribute(attributes.MAXLENGTH); }
 
   /**
    * Set the `placeholder` of textarea
-   * @param {string} value of the `placeholder` property
+   * @param {string|null} value of the `placeholder` property
    */
-  set placeholder(value) {
+  set placeholder(value: string | null) {
     if (value) {
       this.setAttribute(attributes.PLACEHOLDER, value.toString());
       this.input?.setAttribute(attributes.PLACEHOLDER, value.toString());
@@ -667,28 +669,29 @@ export default class IdsTextarea extends Base {
     this.input?.removeAttribute(attributes.PLACEHOLDER);
   }
 
-  get placeholder() { return this.getAttribute(attributes.PLACEHOLDER); }
+  get placeholder(): string | null { return this.getAttribute(attributes.PLACEHOLDER); }
 
   /**
    * Set the `printable` of textarea
-   * @param {boolean|string} value If true will set `printable` attribute
+   * @param {boolean|string|null} value If true will set `printable` attribute
    */
-  set printable(value) {
-    if (value) {
-      this.setAttribute(attributes.PRINTABLE, value.toString());
+  set printable(value: boolean | string | null) {
+    const val = stringToBool(value);
+    if (val) {
+      this.setAttribute(attributes.PRINTABLE, val.toString());
     } else {
       this.removeAttribute(attributes.PRINTABLE);
     }
     this.handlePrintable(value);
   }
 
-  get printable() { return this.getAttribute(attributes.PRINTABLE); }
+  get printable(): string | null { return this.getAttribute(attributes.PRINTABLE); }
 
   /**
    * Set the textarea to readonly state
    * @param {boolean|string} value If true will set `readonly` attribute
    */
-  set readonly(value) {
+  set readonly(value: boolean | string) {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.READONLY, val.toString());
@@ -698,13 +701,13 @@ export default class IdsTextarea extends Base {
     this.setTextareaState(attributes.READONLY);
   }
 
-  get readonly() { return this.getAttribute(attributes.READONLY); }
+  get readonly(): boolean { return stringToBool(this.getAttribute(attributes.READONLY)); }
 
   /**
    * Set the textarea to resizable state
    * @param {boolean|string} value If true will set `resizable` attribute
    */
-  set resizable(value) {
+  set resizable(value: boolean | string) {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.RESIZABLE, val.toString());
@@ -715,13 +718,13 @@ export default class IdsTextarea extends Base {
     }
   }
 
-  get resizable() { return this.getAttribute(attributes.RESIZABLE); }
+  get resizable(): boolean { return stringToBool(this.getAttribute(attributes.RESIZABLE)); }
 
   /**
    * Set the rows for textarea
-   * @param {boolean|string} value If true will set `rows` attribute
+   * @param {string|null} value If true will set `rows` attribute
    */
-  set rows(value) {
+  set rows(value: string | null) {
     if (value) {
       this.setAttribute(attributes.ROWS, value.toString());
       this.input?.setAttribute(attributes.ROWS, value.toString());
@@ -731,13 +734,13 @@ export default class IdsTextarea extends Base {
     }
   }
 
-  get rows() { return this.getAttribute(attributes.ROWS); }
+  get rows(): string | null { return this.getAttribute(attributes.ROWS); }
 
   /**
    * Set the size (width) of textarea
    * @param {string} value [sm, md, lg, full]
    */
-  set size(value) {
+  set size(value: string) {
     const fieldContainer = this.shadowRoot.querySelector('.field-container');
     const size = SIZES[value];
     this.setAttribute(attributes.SIZE, size || SIZES.default);
@@ -745,26 +748,26 @@ export default class IdsTextarea extends Base {
     fieldContainer?.classList.add(size || SIZES.default);
   }
 
-  get size() { return this.getAttribute(attributes.SIZE) || SIZES.default; }
+  get size(): string { return this.getAttribute(attributes.SIZE) || SIZES.default; }
 
   /**
    * Sets the text alignment
    * @param {string} value [left, center, right]
    */
-  set textAlign(value) {
+  set textAlign(value: string) {
     const textAlign = TEXT_ALIGN[value];
     this.setAttribute(attributes.TEXT_ALIGN, textAlign || TEXT_ALIGN.default);
     this.input?.classList.remove(...Object.values(TEXT_ALIGN));
     this.input?.classList.add(textAlign || TEXT_ALIGN.default);
   }
 
-  get textAlign() { return this.getAttribute(attributes.TEXT_ALIGN) || TEXT_ALIGN.default; }
+  get textAlign(): string { return this.getAttribute(attributes.TEXT_ALIGN) || TEXT_ALIGN.default; }
 
   /**
    * Set the `value` of textarea
    * @param {string} val the value property
    */
-  set value(val) {
+  set value(val: string) {
     const v = val || '';
     this.setAttribute(attributes.VALUE, v);
     if (this.input && this.input.value !== v) {
@@ -777,5 +780,5 @@ export default class IdsTextarea extends Base {
     this.setAutogrow();
   }
 
-  get value() { return this.getAttribute(attributes.VALUE); }
+  get value(): string { return this.getAttribute(attributes.VALUE) || ''; }
 }

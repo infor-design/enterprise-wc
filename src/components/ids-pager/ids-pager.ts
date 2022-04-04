@@ -11,20 +11,6 @@ import './ids-pager-number-list';
 
 import styles from './ids-pager.scss';
 
-// { attribute: DISABLED, component: IdsPagerInput, targetAttribute: PARENT_DISABLED },
-// { attribute: DISABLED, component: IdsPagerButton, targetAttribute: PARENT_DISABLED },
-// { attribute: DISABLED, component: IdsPagerInput, targetAttribute: PARENT_DISABLED },
-// { attribute: DISABLED, component: IdsPagerNumberList, targetAttribute: PARENT_DISABLED },
-// { attribute: PAGE_NUMBER, component: IdsPagerInput },
-// { attribute: PAGE_NUMBER, component: IdsPagerNumberList },
-// { attribute: PAGE_NUMBER, component: IdsPagerButton },
-// { attribute: PAGE_SIZE, component: IdsPagerNumberList },
-// { attribute: PAGE_SIZE, component: IdsPagerButton },
-// { attribute: PAGE_SIZE, component: IdsPagerInput },
-// { attribute: TOTAL, component: IdsPagerInput },
-// { attribute: TOTAL, component: IdsPagerNumberList },
-// { attribute: TOTAL, component: IdsPagerButton }
-
 /**
  * IDS Pager Component
  * @type {IdsPager}
@@ -40,7 +26,7 @@ export default class IdsPager extends Base {
     super();
   }
 
-  get elements() {
+  get elements(): any {
     return {
       buttons: {
         first: this.querySelector('ids-pager-button[first]'),
@@ -57,7 +43,7 @@ export default class IdsPager extends Base {
     };
   }
 
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       attributes.DISABLED,
       attributes.MODE,
@@ -68,7 +54,7 @@ export default class IdsPager extends Base {
     ];
   }
 
-  template() {
+  template(): string {
     return (
       `<div class="ids-pager">
         <section class="pager-section start"><slot name="start"></slot></section>
@@ -78,7 +64,7 @@ export default class IdsPager extends Base {
     );
   }
 
-  connectedCallback() {
+  connectedCallback(): void {
     this.onEvent('pagenumberchange', this, (e: CustomEvent) => {
       this.pageNumber = e.detail.value;
     });
@@ -92,7 +78,7 @@ export default class IdsPager extends Base {
    * @param {string} value value to sync
    * @private
    */
-  #syncChildren(attribute: any, value: any) {
+  #syncChildren(attribute: any, value: any): void {
     const input = this.querySelector('ids-pager-input');
     if (input) {
       input.setAttribute(attribute, value);
@@ -124,34 +110,34 @@ export default class IdsPager extends Base {
   /**
    * @returns {boolean} Whether or not the pager overall is disabled
    */
-  get disabled() {
+  get disabled(): boolean {
     return this.hasAttribute(attributes.DISABLED);
   }
 
   /** @param {number} value The number of items shown per page */
   set pageSize(value: number) {
-    let nextValue = value;
+    let nextValue = parseInt(value as any);
 
     if (Number.isNaN(nextValue)) {
       nextValue = 1;
     } else if (nextValue < 1) {
       nextValue = 1;
     } else {
-      nextValue = value;
+      nextValue = Number.parseInt(value as any);
     }
     this.setAttribute(attributes.PAGE_SIZE, nextValue);
     this.#syncChildren(attributes.PAGE_SIZE, nextValue);
     this.#keepPageNumberInBounds();
   }
 
-  /** @returns {string|number} The number of items shown per page */
-  get pageSize() {
+  /** @returns {number} The number of items shown per page */
+  get pageSize(): number {
     return parseInt(this.getAttribute(attributes.PAGE_SIZE));
   }
 
   /** @param {number} value A 1-based index for the page number displayed */
-  set pageNumber(value: number) {
-    let nextValue = value;
+  set pageNumber(value: number | string) {
+    let nextValue = Number.parseInt((value as any));
 
     if (Number.isNaN(nextValue)) {
       nextValue = 1;
@@ -166,25 +152,27 @@ export default class IdsPager extends Base {
     this.#syncChildren(attributes.PAGE_NUMBER, nextValue);
   }
 
-  /** @returns {string|number} value A 1-based-index for the page number displayed */
-  get pageNumber() {
+  /** @returns {number} value A 1-based-index for the page number displayed */
+  get pageNumber(): number {
     return parseInt(this.getAttribute(attributes.PAGE_NUMBER));
   }
 
   /** @returns {number|null} The calculated pageCount using total and pageSize */
-  get pageCount() {
+  get pageCount(): number | null {
     return (this.total !== null && !Number.isNaN(this.total))
       ? Math.ceil(this.total / this.pageSize)
       : null;
   }
 
   /** @param {number} value The number of items to track */
-  set total(value: number) {
+  set total(value) {
     let nextValue;
-    if (value <= 0) {
+    if (Number.isNaN(Number.parseInt(value as any))) {
+      nextValue = 1;
+    } else if (Number.parseInt(value as any) <= 0) {
       nextValue = 1;
     } else {
-      nextValue = value;
+      nextValue = Number.parseInt(value as any);
     }
 
     this.setAttribute(attributes.TOTAL, nextValue);
@@ -193,13 +181,13 @@ export default class IdsPager extends Base {
   }
 
   /**
-   * @returns {string|number} The number of items for pager is tracking
+   * @returns {number} The number of items for pager is tracking
    */
-  get total() {
+  get total(): number {
     return parseInt(this.getAttribute(attributes.TOTAL));
   }
 
-  #keepPageNumberInBounds() {
+  #keepPageNumberInBounds(): void {
     let nextValue = parseInt(this.getAttribute(attributes.PAGE_NUMBER));
 
     if (Number.isNaN(nextValue)) {

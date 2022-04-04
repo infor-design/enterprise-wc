@@ -59,7 +59,7 @@ export default class IdsRadioGroup extends Base {
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     // Radio
     const disabled = stringToBool(this.disabled) ? ' disabled' : '';
     const disabledAria = stringToBool(this.disabled) ? ' aria-disabled="true"' : '';
@@ -79,7 +79,7 @@ export default class IdsRadioGroup extends Base {
    * @private
    * @returns {void}
    */
-  afterChildrenReady() {
+  afterChildrenReady(): void {
     this.input = this.shadowRoot.querySelector('.ids-radio-group');
     this.labelEl = this.shadowRoot.querySelector('.group-label-text');
 
@@ -96,7 +96,7 @@ export default class IdsRadioGroup extends Base {
    * @private
    * @returns {void}
    */
-  setValue() {
+  setValue(): void {
     const radioArr: any = [].slice.call(this.querySelectorAll('ids-radio[checked="true"]'));
     const len = radioArr.length;
     const value = radioArr[len - 1]?.getAttribute(attributes.VALUE);
@@ -116,7 +116,7 @@ export default class IdsRadioGroup extends Base {
    * Clear the group as checked, validation etc.
    * @returns {void}
    */
-  clear() {
+  clear(): void {
     this.value = null;
     this.checked = null;
     this.removeAllMessages();
@@ -129,7 +129,7 @@ export default class IdsRadioGroup extends Base {
    * Set disabled for each radio in group.
    * @returns {void}
    */
-  handleDisabled() {
+  handleDisabled(): void {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
     const rootEl = this.shadowRoot.querySelector('.ids-radio-group');
 
@@ -148,7 +148,7 @@ export default class IdsRadioGroup extends Base {
    * Set horizontal for each radio in group.
    * @returns {void}
    */
-  handleHorizontal() {
+  handleHorizontal(): void {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
     const rootEl = this.shadowRoot.querySelector('.ids-radio-group');
     if (stringToBool(this.horizontal)) {
@@ -167,7 +167,7 @@ export default class IdsRadioGroup extends Base {
    * @param {boolean} isFocus if true will set focus
    * @returns {void}
    */
-  makeChecked(radio: any, isFocus: boolean) {
+  makeChecked(radio: any, isFocus: boolean): void {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
     const targetEl = radioArr.filter((r) => r !== radio);
     targetEl.forEach((r: any) => r.removeAttribute(attributes.CHECKED));
@@ -198,7 +198,7 @@ export default class IdsRadioGroup extends Base {
    * @private
    * @returns {void}
    */
-  attachRadioGroupChangeEvent() {
+  attachRadioGroupChangeEvent(): void {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
 
     radioArr.forEach((r) => {
@@ -213,7 +213,7 @@ export default class IdsRadioGroup extends Base {
    * @private
    * @returns {void}
    */
-  attachRadioGroupKeydown() {
+  attachRadioGroupKeydown(): void {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio:not([disabled="true"])'));
     const len = radioArr.length;
     radioArr.forEach((r, i) => {
@@ -239,32 +239,16 @@ export default class IdsRadioGroup extends Base {
    * @private
    * @returns {void}
    */
-  attachInternalEventHandlers() {
+  attachInternalEventHandlers(): void {
     this.attachRadioGroupChangeEvent();
     this.attachRadioGroupKeydown();
   }
 
   /**
-   * Sets the dirty tracking feature on to indicate a changed field
-   * @param {boolean|string} value If true will set `dirty-tracker` attribute
-   */
-  set dirtyTracker(value) {
-    const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
-    } else {
-      this.removeAttribute(attributes.DIRTY_TRACKER);
-    }
-    this.handleDirtyTracker();
-  }
-
-  get dirtyTracker() { return this.getAttribute(attributes.DIRTY_TRACKER); }
-
-  /**
    * Sets checkbox to disabled
    * @param {boolean|string} value If true will set `disabled` attribute
    */
-  set disabled(value) {
+  set disabled(value: boolean | string) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.DISABLED, value.toString());
     } else {
@@ -273,13 +257,13 @@ export default class IdsRadioGroup extends Base {
     this.handleDisabled();
   }
 
-  get disabled() { return this.getAttribute(attributes.DISABLED); }
+  get disabled(): boolean { return stringToBool(this.getAttribute(attributes.DISABLED)); }
 
   /**
    * Flips the checkbox orientation to horizontal
    * @param {boolean|string} value If true will set `horizontal` attribute
    */
-  set horizontal(value) {
+  set horizontal(value: boolean | string) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.HORIZONTAL, value.toString());
     } else {
@@ -288,13 +272,13 @@ export default class IdsRadioGroup extends Base {
     this.handleHorizontal();
   }
 
-  get horizontal() { return this.getAttribute(attributes.HORIZONTAL); }
+  get horizontal() { return stringToBool(this.getAttribute(attributes.HORIZONTAL)); }
 
   /**
    * Set the `label` text
    * @param {string} value of the `label` text property
    */
-  set label(value) {
+  set label(value: string) {
     const rootEl = this.shadowRoot.querySelector('.ids-radio-group');
     let labelText = this.shadowRoot.querySelector('.group-label-text');
     if (value) {
@@ -314,13 +298,13 @@ export default class IdsRadioGroup extends Base {
     labelText?.remove();
   }
 
-  get label() { return this.getAttribute(attributes.LABEL); }
+  get label() { return this.getAttribute(attributes.LABEL) || ''; }
 
   /**
    * Sets the checkbox to required
-   * @param {string} value The `label-required` attribute
+   * @param {boolean} value The `label-required` attribute
    */
-  set labelRequired(value) {
+  set labelRequired(value: boolean) {
     const val = stringToBool(value);
     if (value) {
       this.setAttribute(attributes.LABEL_REQUIRED, value.toString());
@@ -330,13 +314,13 @@ export default class IdsRadioGroup extends Base {
     this.labelEl?.classList[!val ? 'add' : 'remove']('no-required-indicator');
   }
 
-  get labelRequired() { return this.getAttribute(attributes.LABEL_REQUIRED); }
+  get labelRequired(): boolean { return stringToBool(this.getAttribute(attributes.LABEL_REQUIRED)); }
 
   /**
    * Sets the validation check to use
-   * @param {string} value The `validate` attribute
+   * @param {string | null} value The `validate` attribute
    */
-  set validate(value) {
+  set validate(value: string | null) {
     if (value) {
       this.setAttribute(attributes.VALIDATE, value);
     } else {
@@ -345,13 +329,13 @@ export default class IdsRadioGroup extends Base {
     this.handleValidation();
   }
 
-  get validate() { return this.getAttribute(attributes.VALIDATE); }
+  get validate(): string | null { return this.getAttribute(attributes.VALIDATE); }
 
   /**
    * Sets which events to fire validation on
-   * @param {string} value The `validation-events` attribute
+   * @param {string | null} value The `validation-events` attribute
    */
-  set validationEvents(value) {
+  set validationEvents(value: string | null) {
     if (value) {
       this.setAttribute(attributes.VALIDATION_EVENTS, value);
     } else {
@@ -360,13 +344,13 @@ export default class IdsRadioGroup extends Base {
     this.handleValidation();
   }
 
-  get validationEvents() { return this.getAttribute(attributes.VALIDATION_EVENTS); }
+  get validationEvents(): string | null { return this.getAttribute(attributes.VALIDATION_EVENTS); }
 
   /**
    * Sets the checkbox `value` attribute
    * @param {string | null} val the value property
    */
-  set value(val) {
+  set value(val: string | null) {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
     if (val) {
       const state: any = { on: [], off: [] };
@@ -389,5 +373,5 @@ export default class IdsRadioGroup extends Base {
     }
   }
 
-  get value() { return this.getAttribute(attributes.VALUE); }
+  get value(): string | null { return this.getAttribute(attributes.VALUE); }
 }
