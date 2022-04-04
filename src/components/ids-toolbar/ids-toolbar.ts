@@ -6,6 +6,7 @@ import { stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import './ids-toolbar-section';
 import './ids-toolbar-more-actions';
+
 import Base from './ids-toolbar-base';
 
 import styles from './ids-toolbar.scss';
@@ -29,15 +30,16 @@ export default class IdsToolbar extends Base {
     super();
   }
 
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
+      ...super.attributes,
       attributes.DISABLED,
       attributes.TABBABLE,
       attributes.TYPE
     ];
   }
 
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback?.();
     this.setAttribute('role', 'toolbar');
     this.#attachEventHandlers();
@@ -57,7 +59,7 @@ export default class IdsToolbar extends Base {
     super.connectedCallback();
   }
 
-  disconnectedCallback() {
+  disconnectedCallback(): void {
     super.disconnectedCallback?.();
     this.#resizeObserver.disconnect(this.container);
   }
@@ -65,7 +67,6 @@ export default class IdsToolbar extends Base {
   /**
    * Attach the resize observer.
    * @private
-   * @type {number}
    */
   #resizeObserver: any = new ResizeObserver(() => {
     this.#resize();
@@ -76,7 +77,7 @@ export default class IdsToolbar extends Base {
    * @private
    * @returns {void}
    */
-  #attachEventHandlers() {
+  #attachEventHandlers(): void {
     // Translate click events on buttons into Toolbar `selected` events to correspond
     // to the behavior of menu buttons and the "More Actions" menu
     this.onEvent('click.toolbar-item', this, (e: any) => {
@@ -92,7 +93,7 @@ export default class IdsToolbar extends Base {
    * @private
    * @returns {void}
    */
-  #attachKeyboardListeners() {
+  #attachKeyboardListeners(): void {
     // Arrow Up navigates focus backward
     this.listen(['ArrowLeft'], this, (e: any) => {
       e.preventDefault();
@@ -125,9 +126,9 @@ export default class IdsToolbar extends Base {
    * of steps to another toolbar item, highlighting it.
    * @param {number} [amt] the amount of items to navigate
    * @param {boolean} [doFocus] if true, causes the new item to become focused.
-   * @returns {any} the item that will be focused
+   * @returns {HTMLElement} the item that will be focused
    */
-  navigate(amt = 0, doFocus = false) {
+  navigate(amt = 0, doFocus = false): HTMLElement {
     const items = this.items;
     let currentItem = this.focused || items[0];
 
@@ -172,9 +173,9 @@ export default class IdsToolbar extends Base {
   }
 
   /**
-   * @param {boolean} val sets the disabled state of the entire toolbar
+   * @param {boolean | string} val sets the disabled state of the entire toolbar
    */
-  set disabled(val) {
+  set disabled(val: boolean | string) {
     const trueVal = stringToBool(val);
 
     if (trueVal) {
@@ -201,7 +202,7 @@ export default class IdsToolbar extends Base {
   /**
    * @returns {boolean} true if the toolbar is currently disabled
    */
-  get disabled() {
+  get disabled(): boolean {
     return this.container.classList.contains(attributes.DISABLED);
   }
 
@@ -209,7 +210,7 @@ export default class IdsToolbar extends Base {
    * Refreshes the overflow state of toolbar items
    * @returns {void}
    */
-  refreshOverflowedItems() {
+  refreshOverflowedItems(): void {
     const moreActions = this.querySelector('ids-toolbar-more-actions');
     if (moreActions) {
       moreActions.refreshOverflowedItems();
@@ -218,9 +219,9 @@ export default class IdsToolbar extends Base {
 
   /**
    * @readonly
-   * @returns {any} the currently focused menu item, if one exists
+   * @returns {any | undefined} the currently focused menu item, if one exists
    */
-  get focused() {
+  get focused(): any | undefined {
     // @TODO clean this up / document why/how it works
     return this.items.find((item: any) => {
       const container: any = getClosestContainerNode(item);
@@ -232,11 +233,11 @@ export default class IdsToolbar extends Base {
 
   /**
    * @readonly
-   * @returns {Array<any>} list of all available toolbar items present in all toolbar sections
+   * @returns {Array<HTMLElement>} list of all available toolbar items present in all toolbar sections
    */
-  get items() {
+  get items(): Array<HTMLElement> {
     const i: any = [];
-    this.sections.forEach((section) => {
+    this.sections.forEach((section: any) => {
       // Pass along the More Actions button, if applicable
       if (section?.name === 'ids-toolbar-more-actions') {
         i.push(section.button);
@@ -249,11 +250,11 @@ export default class IdsToolbar extends Base {
 
   /**
    * @readonly
-   * @returns {Array<any>} list of all available text nodes present in all toolbar sections
+   * @returns {Array<HTMLElement>} list of all available text nodes present in all toolbar sections
    */
-  get textElems() {
+  get textElems(): Array<HTMLElement> {
     const i: any = [];
-    this.sections.forEach((section) => {
+    this.sections.forEach((section: any) => {
       if (section?.name !== 'ids-toolbar-more-actions') {
         i.push(...section.textElems);
       }
@@ -263,11 +264,11 @@ export default class IdsToolbar extends Base {
 
   /**
    * @readonly
-   * @returns {Array<any>} list of all available ids-separator nodes present in all toolbar sections
+   * @returns {Array<HTMLElement>} list of all available ids-separator nodes present in all toolbar sections
    */
-  get separators() {
+  get separators(): Array<HTMLElement> {
     const sep: any = [];
-    this.sections.forEach((section) => {
+    this.sections.forEach((section: any) => {
       if (section?.name !== 'ids-toolbar-more-actions' && section?.separators) {
         sep.push(...section.separators);
       }
@@ -277,18 +278,18 @@ export default class IdsToolbar extends Base {
 
   /**
    * @readonly
-   * @returns {Array<any>} list of available sections within the toolbar
+   * @returns {Array<HTMLElement>} list of available sections within the toolbar
    */
-  get sections() {
+  get sections(): Array<any> {
     return [...this.children].filter((e) => e.matches('ids-toolbar-section, ids-toolbar-more-actions'));
   }
 
   /**
    * If true, sets the Toolbar mode to allow ALL items to have a usable tabIndex.
    * Default is false, which means one Toolbar element is focusable at a time.
-   * @param {boolean} val sets the tabbable state of the toolbar
+   * @param {boolean | string} val sets the tabbable state of the toolbar
    */
-  set tabbable(val) {
+  set tabbable(val: boolean | string) {
     const trueVal = stringToBool(val);
 
     if (trueVal) {
@@ -306,15 +307,15 @@ export default class IdsToolbar extends Base {
   /**
    * @returns {boolean} true if the toolbar is fully tabbable
    */
-  get tabbable() {
+  get tabbable(): boolean {
     return this.container.classList.contains(attributes.TABBABLE);
   }
 
   /**
    * Set the type for toolbar
-   * @param {string|null} value of toolbar type
+   * @param {string | null} value of toolbar type
    */
-  set type(value) {
+  set type(value: string | null) {
     let safeValue: any = null;
     if (typeof value === 'string') {
       safeValue = stripTags(value, '');
@@ -332,7 +333,7 @@ export default class IdsToolbar extends Base {
     }
   }
 
-  get type() {
+  get type(): string | null {
     return this.getAttribute(attributes.TYPE) ?? null;
   }
 
@@ -352,7 +353,7 @@ export default class IdsToolbar extends Base {
 
     // If using a "formatter" type, change the buttons/separators/etc to use the alternate style
     this.sections.forEach((s) => {
-      s.setAttribute(attributes.TOOLBAR_TYPE, newType);
+      s.setAttribute(attributes.TOOLBAR_TYPE, `${newType}`);
       if (s.tagName === 'IDS-TOOLBAR-MORE-ACTIONS') {
         if (newType === 'formatter') {
           s.colorVariant = FORMATTER_VARIANT;

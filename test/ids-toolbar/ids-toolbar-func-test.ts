@@ -73,17 +73,17 @@ const exampleHTML = `
 `;
 
 describe('IdsToolbar Component', () => {
-  let selectedEventListener;
-  let toolbar;
-  let sectionMore;
-  let buttonAppMenu;
-  let button1;
-  let button2;
-  let button3;
-  let button4;
+  let selectedEventListener: any;
+  let toolbar: any;
+  let sectionMore: any;
+  let buttonAppMenu: any;
+  let button1: any;
+  let button2: any;
+  let button3: any;
+  let button4: any;
 
   beforeEach(async () => {
-    const elem = new IdsToolbar();
+    const elem: any = new IdsToolbar();
     document.body.appendChild(elem);
     toolbar = document.querySelector('ids-toolbar');
     toolbar.insertAdjacentHTML('afterbegin', exampleHTML);
@@ -107,7 +107,7 @@ describe('IdsToolbar Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsToolbar();
+    const elem: any = new IdsToolbar();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-toolbar').length).toEqual(1);

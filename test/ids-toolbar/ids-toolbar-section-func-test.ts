@@ -3,9 +3,8 @@
  */
 import '../helpers/resize-observer-mock';
 
-import IdsToolbar, {
-  IdsToolbarSection
-} from '../../src/components/ids-toolbar/ids-toolbar';
+import IdsToolbar from '../../src/components/ids-toolbar/ids-toolbar';
+import '../../src/components/ids-toolbar/ids-toolbar-section';
 
 const exampleHTML = `
   <ids-toolbar-section id="appmenu-section">
@@ -71,13 +70,13 @@ const exampleHTML = `
 `;
 
 describe('IdsToolbarSection Component', () => {
-  let toolbar;
-  let sectionAppMenu;
-  let sectionTitle;
-  let sectionButtonset;
+  let toolbar: any;
+  let sectionAppMenu: any;
+  let sectionTitle: any;
+  let sectionButtonset: any;
 
   beforeEach(async () => {
-    const elem = new IdsToolbar();
+    const elem: any = new IdsToolbar();
     document.body.appendChild(elem);
     toolbar = document.querySelector('ids-toolbar');
     toolbar.insertAdjacentHTML('afterbegin', exampleHTML);
