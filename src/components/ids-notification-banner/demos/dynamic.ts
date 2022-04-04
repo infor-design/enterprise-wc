@@ -1,4 +1,4 @@
-import "../ids-notification-banner";
+import '../ids-notification-banner';
 
 document.addEventListener('DOMContentLoaded', () => {
   const notificationBanner: HTMLElement | any = document.createElement('ids-notification-banner');

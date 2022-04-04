@@ -8,7 +8,7 @@ describe('IdsNotificationBanner Component', () => {
   let notificationBanner: any;
 
   beforeEach(async () => {
-    const elem = new IdsNotificationBanner();
+    const elem: any = new IdsNotificationBanner();
     document.body.appendChild(elem);
     notificationBanner = document.querySelector('ids-notification-banner');
   });
@@ -19,7 +19,7 @@ describe('IdsNotificationBanner Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsNotificationBanner();
+    const elem: any = new IdsNotificationBanner();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-notification-banner').length).toEqual(1);
@@ -206,7 +206,7 @@ describe('IdsNotificationBanner Component', () => {
     notification.appendChild(parentEl);
     expect(notificationObj.parent).toEqual('notification-container');
 
-    const notificationObj2 = {
+    const notificationObj2: any = {
       type: 'alert',
       parent: 'notification-container',
       messageText: 'DTO accepted by your manager for Sept 30, 2018.',

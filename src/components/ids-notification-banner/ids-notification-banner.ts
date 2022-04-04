@@ -72,9 +72,9 @@ export default class IdsNotificationBanner extends Base {
           <ids-text overflow="ellipsis">${this.messageText !== null ? this.messageText : 'Enter Message Text.'}</ids-text>
         </div>
 
-        ${ this.link !== null ? `<div part="link">
+        ${this.link !== null ? `<div part="link">
           <ids-hyperlink href="${this.link}" target="_blank">${this.linkText === null ? 'Click to view' : this.linkText}</ids-hyperlink>
-        </div>` : '' }
+        </div>` : ''}
 
         <div class="ids-notification-banner-button" part="button">
           <ids-button type="tertiary">
@@ -162,7 +162,6 @@ export default class IdsNotificationBanner extends Base {
    * @returns {void}
    */
   add(notification: object | any): void {
-
     const {
       id,
       parent,
@@ -198,11 +197,11 @@ export default class IdsNotificationBanner extends Base {
     // If not prepend to body element.
     if (parent) {
       const parentEl = document.getElementById(parent);
-      parentEl?.prepend(<any>this);
+      parentEl?.prepend(<any> this);
     } else if (document.querySelector('ids-container')) {
-      document.querySelector('ids-container')?.prepend(<any>this);
+      document.querySelector('ids-container')?.prepend(<any> this);
     } else {
-      document.body.prepend(<any>this);
+      document.body.prepend(<any> this);
     }
   }
 

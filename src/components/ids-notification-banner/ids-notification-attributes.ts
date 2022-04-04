@@ -1,5 +1,5 @@
 // Notification Types
-type TypesObject = {success: object, alert: object, info: object, error: object};
+type TypesObject = { success: object, alert: object, info: object, error: object };
 const TYPES: TypesObject = {
   success: {
     type: 'success'
