@@ -61,7 +61,6 @@ $header-gradient-transparent-classic-contrast: rgb(0 74 153 / 0);
           background $transition-length $transition-ease;
         background-color: transparent;
         content: '';
-
         height: 100%;
         left: 0;
         pointer-events: none;
@@ -118,12 +117,8 @@ $header-gradient-transparent-classic-contrast: rgb(0 74 153 / 0);
       }
     }
 
-    nav {
-      &.truncate {
-        &::before {
-          @include text-slate-60();
-        }
-      }
+    nav.truncate::before {
+      @include text-slate-60();
     }
   }
 
@@ -134,66 +129,74 @@ $header-gradient-transparent-classic-contrast: rgb(0 74 153 / 0);
       }
     }
 
-    nav {
-      &.truncate {
-        &::before {
-          @include text-white();
-        }
-      }
+    nav.truncate::before {
+      @include text-white();
     }
 
     // Use background colors from IdsHeader
     &[version='new'][mode='light'] {
       nav.truncate::before {
-        background-image: linear-gradient(
-          to right,
-          $header-gradient-opaque-new-light,
-          $header-gradient-transparent-new-light);
+        background-image:
+          linear-gradient(
+            to right,
+            $header-gradient-opaque-new-light,
+            $header-gradient-transparent-new-light
+          );
       }
     }
 
     &[version='new'][mode='dark'] {
       nav.truncate::before {
-        background-image: linear-gradient(
-          to right,
-          $header-gradient-opaque-new-dark,
-          $header-gradient-transparent-new-dark);
+        background-image:
+          linear-gradient(
+            to right,
+            $header-gradient-opaque-new-dark,
+            $header-gradient-transparent-new-dark
+          );
       }
     }
 
     &[version='new'][mode='contrast'] {
       nav.truncate::before {
-        background-image: linear-gradient(
-          to right,
-          $header-gradient-opaque-new-contrast,
-          $header-gradient-transparent-new-contrast);
+        background-image:
+          linear-gradient(
+            to right,
+            $header-gradient-opaque-new-contrast,
+            $header-gradient-transparent-new-contrast
+          );
       }
     }
 
     &[version='classic'][mode='light'] {
       nav.truncate::before {
-        background-image: linear-gradient(
-          to right,
-          $header-gradient-opaque-classic-light,
-          $header-gradient-transparent-classic-light);
+        background-image:
+          linear-gradient(
+            to right,
+            $header-gradient-opaque-classic-light,
+            $header-gradient-transparent-classic-light
+          );
       }
     }
 
     &[version='classic'][mode='dark'] {
       nav.truncate::before {
-        background-image: linear-gradient(
-          to right,
-          $header-gradient-opaque-classic-dark,
-          $header-gradient-transparent-classic-dark);
+        background-image:
+          linear-gradient(
+            to right,
+            $header-gradient-opaque-classic-dark,
+            $header-gradient-transparent-classic-dark
+          );
       }
     }
 
     &[version='classic'][mode='contrast'] {
       nav.truncate::before {
-        background-image: linear-gradient(
-          to right,
-          $header-gradient-opaque-classic-contrast,
-          $header-gradient-transparent-classic-contrast);
+        background-image:
+          linear-gradient(
+            to right,
+            $header-gradient-opaque-classic-contrast,
+            $header-gradient-transparent-classic-contrast
+          );
       }
     }
   }
