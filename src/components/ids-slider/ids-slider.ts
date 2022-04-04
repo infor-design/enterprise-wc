@@ -32,53 +32,53 @@ export default class IdsSlider extends Base {
 
   DEFAULT_TYPE = DEFAULT_TYPE;
 
-  #trackBounds;
+  #trackBounds: any;
 
-  #labels;
+  #labels: any;
 
-  #isRTL;
+  #isRTL: any;
 
-  #percent;
+  #percent: any;
 
-  #percentSecondary;
+  #percentSecondary: any;
 
-  slider;
+  slider: any;
 
-  trackArea;
+  trackArea: any;
 
-  progressTrack;
+  progressTrack: any;
 
-  track;
+  track: any;
 
-  tickContainer;
+  tickContainer: any;
 
-  thumb;
+  thumb: any;
 
-  thumbDraggable;
+  thumbDraggable: any;
 
-  thumbShadow;
+  thumbShadow: any;
 
-  tooltip;
+  tooltip: any;
 
-  tooltipText;
+  tooltipText: any;
 
-  tooltipPin;
+  tooltipPin: any;
 
-  firstTick;
+  firstTick: any;
 
-  lastTick;
+  lastTick: any;
 
-  thumbSecondary;
+  thumbSecondary: any;
 
-  thumbDraggableSecondary;
+  thumbDraggableSecondary: any;
 
-  thumbShadowSecondary;
+  thumbShadowSecondary: any;
 
-  tooltipSecondary;
+  tooltipSecondary: any;
 
-  tooltipTextSecondary;
+  tooltipTextSecondary: any;
 
-  tooltipPinSecondary;
+  tooltipPinSecondary: any;
 
   constructor() {
     super();
@@ -120,7 +120,7 @@ export default class IdsSlider extends Base {
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<any> {
     return [
       attributes.COLOR,
       attributes.MIN,
@@ -138,7 +138,7 @@ export default class IdsSlider extends Base {
    * @returns {string} The template
    */
 
-  template() {
+  template(): string {
     return `
       <div class="ids-slider">
         <div class="slider">
@@ -178,7 +178,7 @@ export default class IdsSlider extends Base {
    * Set the orientation of the slider
    * @param {boolean} value Whether the orientation is vertical or horizontal
    */
-  set vertical(value) {
+  set vertical(value: boolean) {
     const val = stringToBool(value);
     val ? this.setAttribute(attributes.VERTICAL, val) : this.removeAttribute(attributes.VERTICAL);
     if (val) {
@@ -203,7 +203,7 @@ export default class IdsSlider extends Base {
    * Keep track of RTL
    * @param {boolean} value Whether or not RTL is in effect
    */
-  set isRTL(value) {
+  set isRTL(value: boolean) {
     if (value !== this.isRTL) {
       this.#isRTL = value;
       this.#moveThumb();
@@ -230,7 +230,7 @@ export default class IdsSlider extends Base {
    * @param {number} value the text the tooltip should display
    * @param {string} primaryOrSecondary which tooltip to update
    */
-  #updateToolTip(value, primaryOrSecondary) {
+  #updateToolTip(value: number, primaryOrSecondary: string) {
     let tooltipText = this.tooltipText;
     let type = 'primary';
 
@@ -316,7 +316,7 @@ export default class IdsSlider extends Base {
       // set the innerHTML for each label in the array
 
       if (labels.length === labelElements.length) {
-        labelElements.forEach((x, i) => {
+        labelElements.forEach((x: { innerHTML: any; classList: { add: (arg0: string) => any; }; }, i: number) => {
           x.innerHTML = this.vertical ? labels[labels.length - 1 - i] : labels[i];
           this.vertical && x.classList.add('vertical'); // add vertical styles
         });
@@ -324,7 +324,7 @@ export default class IdsSlider extends Base {
     } else {
       // set labels to be empty
       const labelElements = this.container.querySelectorAll('.label');
-      labelElements.forEach((x) => {
+      labelElements.forEach((x: { innerHTML: string; }) => {
         x.innerHTML = '';
       });
     }
@@ -334,7 +334,7 @@ export default class IdsSlider extends Base {
    * Helper method for setLabels and initialization of labels
    * @returns {Array} An array the size of stepNumber with numerical intervals between the min and max
    */
-  #generateNumericalLabels() {
+  #generateNumericalLabels(): Array<any> {
     const arr = [];
     for (let i = 0; i < this.stepNumber; i++) {
       // rounds floats to 1st decimal
@@ -347,7 +347,7 @@ export default class IdsSlider extends Base {
    * Set the amount of step intervals desired (only applicable to step sliders)
    * @param {string} value the amount of steps
    */
-  set stepNumber(value) {
+  set stepNumber(value: string | number | any) {
     if (this.type === 'step') {
       // must have at least 2 steps
 
@@ -406,7 +406,7 @@ export default class IdsSlider extends Base {
    * @param {number} value the number to check
    * @returns {boolean} whether it is within range of the min and max
    */
-  #withinBounds(value) {
+  #withinBounds(value: string | number | any): boolean {
     return parseFloat(value) >= this.min && parseFloat(value) <= this.max;
   }
 
@@ -414,7 +414,7 @@ export default class IdsSlider extends Base {
    * Set the secondary value of the slider (only applicable to double sliders)
    * @param {string} value The secondary input value
    */
-  set valueSecondary(value) {
+  set valueSecondary(value: string | number | any) {
     if (this.#withinBounds(value)) {
       this.setAttribute(attributes.VALUE_SECONDARY, value);
       this.percentSecondary = ((this.valueSecondary - this.min) / (this.max - this.min)) * 100;
@@ -427,7 +427,7 @@ export default class IdsSlider extends Base {
     }
   }
 
-  get valueSecondary() {
+  get valueSecondary(): number {
     const b = this.getAttribute(attributes.VALUE_SECONDARY);
     if (b === null || b === '' || Number.isNaN(b)) {
       return this.max;
@@ -439,12 +439,12 @@ export default class IdsSlider extends Base {
    * Set the primary value of the slider
    * @param {string} value The input value
    */
-  set value(value) {
+  set value(value: string | number | any) {
     if (this.#withinBounds(value)) {
       this.setAttribute(attributes.VALUE, value);
       this.percent = ((this.value - this.min) / (this.max - this.min)) * 100;
       this.#updateToolTip(value);
-      this.#moveThumb();
+      this.#moveThumb('');
     } else if (value > this.max) {
       this.setAttribute(attributes.VALUE, this.max);
     } else {
@@ -464,7 +464,7 @@ export default class IdsSlider extends Base {
    * Set the minimum value of the slider
    * @param {string} value The desired minimum
    */
-  set min(value) {
+  set min(value: string | number | any) {
     const val = parseFloat(value);
     if (val >= this.max || val === null || val === '' || Number.isNaN(val)) {
       this.setAttribute(attributes.MIN, DEFAULT_MIN);
@@ -481,7 +481,7 @@ export default class IdsSlider extends Base {
    * Set the maximum value of the slider
    * @param {string} value The desired max
    */
-  set max(value) {
+  set max(value: string | number | any) {
     const val = parseFloat(value);
     if (val <= this.min || val === null || val === '' || Number.isNaN(val)) {
       this.setAttribute(attributes.MAX, this.min + DEFAULT_MAX);
@@ -538,7 +538,7 @@ export default class IdsSlider extends Base {
         }
       }
 
-      ticks.forEach((tick) => {
+      ticks.forEach((tick: { style: { setProperty: (arg0: string, arg1: any) => void; }; }) => {
         tick.style.setProperty('background-color', colorString);
       });
       this.thumb.style.setProperty('background-color', colorString);
@@ -562,7 +562,7 @@ export default class IdsSlider extends Base {
    * @param {boolean} hide whether or not to hide it
    * @param {primaryOrSecondary} primaryOrSecondary which tooltip to hide
    */
-  #hideTooltip(hide, primaryOrSecondary) {
+  #hideTooltip(hide: boolean, primaryOrSecondary: string) {
     if (primaryOrSecondary === 'secondary' && this.tooltipSecondary) {
       this.tooltipSecondary.style.opacity = hide ? 0 : 1;
     } else {
@@ -575,7 +575,7 @@ export default class IdsSlider extends Base {
    * @param {boolean} hide whether or not to hide it
    * @param {string} primaryOrSecondary which thumb to hide
    */
-  #hideThumbShadow(hide, primaryOrSecondary) {
+  #hideThumbShadow(hide: boolean, primaryOrSecondary: string) {
     let thumbShadow = this.thumbShadow;
 
     if (primaryOrSecondary === 'secondary' && this.thumbShadowSecondary) {
@@ -591,7 +591,7 @@ export default class IdsSlider extends Base {
    * @param {number} y coordinate of mouse click
    * @returns {number} the percent
    */
-  #calcPercentFromClick(x, y) {
+  #calcPercentFromClick(x: number, y: number): number {
     this.#refreshTrackBounds();
     const {
       TOP,
@@ -617,7 +617,7 @@ export default class IdsSlider extends Base {
    * @param {number} y coordnate of mouse click
    * @param {number} labelValueClicked if label was clicked or not
    */
-  #calculateUIFromClick(x, y, labelValueClicked) {
+  #calculateUIFromClick(x: number, y: number, labelValueClicked: number) {
     if (this.type !== 'step') {
       const value = labelValueClicked ?? this.#calcValueFromPercent(this.#calcPercentFromClick(x, y));
 
@@ -676,7 +676,7 @@ export default class IdsSlider extends Base {
    * Translate the thumb(s) according to the percent values
    * @param {string} primaryOrSecondary which thumb to move
    */
-  #moveThumb(primaryOrSecondary) {
+  #moveThumb(primaryOrSecondary: string) {
     this.#refreshTrackBounds();
 
     let thumbDraggable = this.thumbDraggable;
@@ -710,7 +710,7 @@ export default class IdsSlider extends Base {
    * @param {number} percent the percent value to convert to numerical value btw min and max
    * @returns {number} the calculated value
    */
-  #calcValueFromPercent(percent) {
+  #calcValueFromPercent(percent: number): number {
     return ((percent / 100) * (this.max - this.min)) + (this.min);
   }
 
@@ -724,7 +724,7 @@ export default class IdsSlider extends Base {
    * if notCentered is false, it will translate negatively and positively with 0 being the center
    * @returns {number} coordinates or the amount of pixels to translate by
    */
-  #calcTranslateFromPercent(nStart, nEnd, percent, centered) {
+  #calcTranslateFromPercent(nStart: number, nEnd: number, percent: number, centered: boolean): number {
     // minus thumb height bc it overshoots
     const editedRange = Math.abs(nEnd - nStart) - this.thumbDraggable.clientWidth;
     let coord = (Math.ceil(percent) / 100) * editedRange;
@@ -740,7 +740,7 @@ export default class IdsSlider extends Base {
    * @param {number} nEnd the ending x or y coordinate of the slider
    * @returns {number} the percent/location of the thumb relative to the slider
    */
-  #calcPercentFromRange(n, nStart, nEnd) {
+  #calcPercentFromRange(n: number, nStart: number, nEnd: number): number {
     const thumbWidth = this.thumbDraggable.clientWidth;
     let percent = 0;
     // allow bigger hit areas for controlling thumb
@@ -797,7 +797,7 @@ export default class IdsSlider extends Base {
     return bounds;
   }
 
-  #toggleTransitionStyles(toggleOn) {
+  #toggleTransitionStyles(toggleOn: any) {
     if (toggleOn) {
       // primary styles
 
@@ -861,7 +861,7 @@ export default class IdsSlider extends Base {
 
   /** Add event listeners for clicking the track area */
   #attachClickListeners() {
-    this.onEvent('click', this.container, (event) => {
+    this.onEvent('click', this.container, (event: { target: { className: any; innerHTML: string; }; clientX: number; clientY: number; }) => {
       const className = event.target.className;
       const clickedIdsSlider = className.includes('ids-slider');
       const clickedLabel = className.includes('label');
@@ -880,7 +880,7 @@ export default class IdsSlider extends Base {
       }
     });
 
-    this.onEvent('click', document, (event) => {
+    this.onEvent('click', document, (event: any) => {
       if (event.target !== this) {
         this.#hideTooltip(true);
         this.type === 'double' && this.#hideTooltip(true, 'secondary');
@@ -892,7 +892,7 @@ export default class IdsSlider extends Base {
    * Add event listeners for dragging the slider thumbs
    * @param {string} primaryOrSecondary the primary or secondary thumb
    */
-  #attachDragEventListeners(primaryOrSecondary) {
+  #attachDragEventListeners(primaryOrSecondary: string) {
     const d = this.type === 'double' && primaryOrSecondary === 'secondary';
     const obj = {
       thumbDraggable: d ? this.thumbDraggableSecondary : this.thumbDraggable,
@@ -910,7 +910,7 @@ export default class IdsSlider extends Base {
     };
 
     // Listen for drag event on draggable thumb
-    this.onEvent('ids-drag', obj.thumbDraggable, (e) => {
+    this.onEvent('ids-drag', obj.thumbDraggable, (e: { detail: { mouseX: any; mouseY: any; }; }) => {
       this.type !== 'step' && this.#hideTooltip(false);
 
       const [x, y] = [e.detail.mouseX, e.detail.mouseY];
@@ -954,7 +954,7 @@ export default class IdsSlider extends Base {
 
   /** Add event listeners for arrow keys to move thumbs */
   #attachKeyboardListeners() {
-    this.onEvent('keydown', this, (event) => {
+    this.onEvent('keydown', this, (event: { code: string; preventDefault: () => void; target: { name: string; }; key: any; }) => {
       if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].indexOf(event.code) > -1) {
         event.preventDefault();
       }
@@ -997,7 +997,7 @@ export default class IdsSlider extends Base {
    * Helper method for arrow key actions
    * @param {string} primaryOrSecondary the primary or secondary value
    */
-  #decreaseValue(primaryOrSecondary) {
+  #decreaseValue(primaryOrSecondary: string) {
     if (this.type === 'step') {
       this.value -= (this.max / (this.stepNumber - 1));
     } else if (this.type === 'double' && primaryOrSecondary === 'secondary') {
@@ -1011,7 +1011,7 @@ export default class IdsSlider extends Base {
    * Helper method for arrow key actions
    * @param {string} primaryOrSecondary the primary or secondary value
    */
-  #increaseValue(primaryOrSecondary) {
+  #increaseValue(primaryOrSecondary: string) {
     if (this.type === 'step') {
       this.value += (this.max / (this.stepNumber - 1));
     } else if (this.type === 'double' && primaryOrSecondary === 'secondary') {
