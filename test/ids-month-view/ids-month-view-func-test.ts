@@ -9,10 +9,10 @@ import IdsContainer from '../../src/components/ids-container/ids-container';
 const name = 'ids-month-view';
 
 describe('IdsMonthView Component (using properties)', () => {
-  let component;
+  let component: any;
 
   beforeEach(async () => {
-    const container = new IdsContainer();
+    const container: any = new IdsContainer();
     document.body.appendChild(container);
     component = new IdsMonthView();
     component.month = 0;
@@ -112,10 +112,10 @@ describe('IdsMonthView Component (using properties)', () => {
 });
 
 describe('IdsMonthView Component (using attributes)', () => {
-  let component;
+  let component: any;
 
   beforeEach(async () => {
-    const container = new IdsContainer();
+    const container: any = new IdsContainer();
     document.body.appendChild(container);
     container.insertAdjacentHTML('beforeend', `
       <ids-month-view
@@ -193,10 +193,10 @@ describe('IdsMonthView Component (using attributes)', () => {
 });
 
 describe('IdsMonthView Component (empty)', () => {
-  let component;
+  let component: any;
 
   beforeEach(async () => {
-    const container = new IdsContainer();
+    const container: any = new IdsContainer();
     document.body.appendChild(container);
     container.insertAdjacentHTML('beforeend', `<ids-month-view></ids-month-view>`);
     component = document.querySelector(name);
@@ -210,7 +210,7 @@ describe('IdsMonthView Component (empty)', () => {
   it('should not error if no container', () => {
     document.body.innerHTML = '';
     const errors = jest.spyOn(global.console, 'error');
-    const comp = new IdsMonthView();
+    const comp: any = new IdsMonthView();
     delete comp.locale;
     document.body.appendChild(comp);
     expect(errors).not.toHaveBeenCalled();
@@ -235,10 +235,10 @@ describe('IdsMonthView Component (empty)', () => {
 });
 
 describe('IdsMonthView Component (range of dates)', () => {
-  let component;
+  let component: any;
 
   beforeEach(async () => {
-    const container = new IdsContainer();
+    const container: any = new IdsContainer();
     document.body.appendChild(container);
     container.insertAdjacentHTML('beforeend', `
       <ids-month-view
@@ -257,7 +257,7 @@ describe('IdsMonthView Component (range of dates)', () => {
   it('should not error if no container', () => {
     document.body.innerHTML = '';
     const errors = jest.spyOn(global.console, 'error');
-    const comp = new IdsMonthView();
+    const comp: any = new IdsMonthView();
     delete comp.locale;
     document.body.appendChild(comp);
     expect(errors).not.toHaveBeenCalled();
@@ -293,10 +293,10 @@ describe('IdsMonthView Component (range of dates)', () => {
 });
 
 describe('IdsMonthView Component (compact and datepicker)', () => {
-  let component;
+  let component: any;
 
   beforeEach(async () => {
-    const container = new IdsContainer();
+    const container: any = new IdsContainer();
     document.body.appendChild(container);
     container.insertAdjacentHTML('beforeend', `
       <ids-month-view
@@ -315,7 +315,7 @@ describe('IdsMonthView Component (compact and datepicker)', () => {
   it('should not error if no container', () => {
     document.body.innerHTML = '';
     const errors = jest.spyOn(global.console, 'error');
-    const comp = new IdsMonthView();
+    const comp: any = new IdsMonthView();
     delete comp.locale;
     document.body.appendChild(comp);
     expect(errors).not.toHaveBeenCalled();

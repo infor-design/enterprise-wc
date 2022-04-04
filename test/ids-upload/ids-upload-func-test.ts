@@ -271,15 +271,15 @@ describe('IdsUpload Component', () => {
   it('should setup dirty tracking', () => {
     expect(upload.getAttribute('dirty-tracker')).toEqual(null);
     expect(upload.textInput.getAttribute('dirty-tracker')).toEqual(null);
-    expect(upload.textInput.dirtyTracker).toEqual(null);
+    expect(upload.textInput.dirtyTracker).toEqual(false);
     upload.dirtyTracker = true;
     expect(upload.getAttribute('dirty-tracker')).toEqual('true');
     expect(upload.textInput.getAttribute('dirty-tracker')).toEqual('true');
-    expect(upload.textInput.dirtyTracker).toEqual('true');
+    expect(upload.textInput.dirtyTracker).toEqual(true);
     upload.dirtyTracker = false;
     expect(upload.getAttribute('dirty-tracker')).toEqual(null);
     expect(upload.textInput.getAttribute('dirty-tracker')).toEqual(null);
-    expect(upload.textInput.dirtyTracker).toEqual(null);
+    expect(upload.textInput.dirtyTracker).toEqual(false);
   });
 
   it('should render upload sizes', () => {

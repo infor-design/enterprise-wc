@@ -23,7 +23,7 @@ export default class IdsToolbarMoreActions extends Base {
     super();
   }
 
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       ...super.attributes,
       attributes.DISABLED,
@@ -33,7 +33,7 @@ export default class IdsToolbarMoreActions extends Base {
     ];
   }
 
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback?.();
 
     requestAnimationFrame(() => {
@@ -48,7 +48,7 @@ export default class IdsToolbarMoreActions extends Base {
     });
   }
 
-  disconnectedCallback() {
+  disconnectedCallback(): void {
     super.disconnectedCallback?.();
 
     // Cleanup overflow markings on Toolbar items
@@ -81,7 +81,7 @@ export default class IdsToolbarMoreActions extends Base {
    * @private
    * @returns {string} the template for the More Actions Menu Group
    */
-  #moreActionsMenuTemplate() {
+  #moreActionsMenuTemplate(): string {
     // Cycle through toolbar items, if present, and render a menu item that represents them
     const renderToolbarItems = () => this.toolbar?.items?.map((i: HTMLElement) => this.#moreActionsItemTemplate(i)).join('') || '';
     return `<ids-menu-group ${attributes.MORE_ACTIONS}>
@@ -96,7 +96,7 @@ export default class IdsToolbarMoreActions extends Base {
    * @param {boolean} isSubmenuItem true if the item provided is a submenu item
    * @returns {string} representing a single menu item
    */
-  #moreActionsItemTemplate(item: HTMLElement, isSubmenuItem = false) {
+  #moreActionsItemTemplate(item: HTMLElement, isSubmenuItem = false): string {
     let text: any = '';
     let icon = '';
     let hidden = '';
@@ -175,7 +175,7 @@ export default class IdsToolbarMoreActions extends Base {
    * @readonly
    * @returns {HTMLElement} the inner menu button
    */
-  get button() {
+  get button(): any {
     return this.shadowRoot.querySelector('ids-menu-button');
   }
 
@@ -183,7 +183,7 @@ export default class IdsToolbarMoreActions extends Base {
    * @readonly
    * @returns {HTMLElement} the inner popup menu
    */
-  get menu() {
+  get menu(): any {
     return this.shadowRoot.querySelector('ids-popup-menu');
   }
 
@@ -191,7 +191,7 @@ export default class IdsToolbarMoreActions extends Base {
    * @readonly
    * @returns {Array<HTMLElement>} list of manually-defined menu items
    */
-  get predefinedMenuItems() {
+  get predefinedMenuItems(): Array<any> {
     return [...this.querySelectorAll(`:scope > ids-menu-group:not(${MORE_ACTIONS_SELECTOR}) > ids-menu-item`)];
   }
 
@@ -199,7 +199,7 @@ export default class IdsToolbarMoreActions extends Base {
    * @readonly
    * @returns {Array<HTMLElement>} list of menu items that mirror Toolbar items
    */
-  get overflowMenuItems() {
+  get overflowMenuItems(): Array<any> {
     const moreActionsMenu = this.querySelector(MORE_ACTIONS_SELECTOR);
     if (moreActionsMenu) {
       return [...this.querySelector(MORE_ACTIONS_SELECTOR).children];
@@ -211,14 +211,14 @@ export default class IdsToolbarMoreActions extends Base {
    * @readonly
    * @returns {HTMLElement} a reference to this section's toolbar parent node
    */
-  get toolbar() {
+  get toolbar(): any {
     return this.parentElement;
   }
 
   /**
-   * @param {boolean} val true if the More Actions menu should be disabled
+   * @param {boolean | string} val true if the More Actions menu should be disabled
    */
-  set disabled(val) {
+  set disabled(val: boolean | string) {
     const trueVal = stringToBool(val);
 
     if (trueVal) {
@@ -234,14 +234,14 @@ export default class IdsToolbarMoreActions extends Base {
   /**
    * @returns {boolean} true if the More Actions menu is currently disabled
    */
-  get disabled() {
+  get disabled(): boolean {
     return this.container?.classList.contains(attributes.DISABLED);
   }
 
   /**
-   * @param {boolean|string} val truthy if this More Actions menu should display overflowed items from the toolbar
+   * @param {boolean | string} val truthy if this More Actions menu should display overflowed items from the toolbar
    */
-  set overflow(val) {
+  set overflow(val: boolean | string) {
     const newValue = stringToBool(val);
     const currentValue = this.overflow;
     if (newValue !== currentValue) {
@@ -256,14 +256,14 @@ export default class IdsToolbarMoreActions extends Base {
   /**
    * @returns {boolean} true if this More Actions menu will display overflowed items from the toolbar
    */
-  get overflow() {
+  get overflow(): boolean {
     return this.hasAttribute(attributes.OVERFLOW);
   }
 
   /**
    * @param {string} value the type of toolbar
    */
-  set toolbarType(value) {
+  set toolbarType(value: string) {
     if (TOOLBAR_TYPES.includes(value)) {
       this.setAttribute(attributes.TOOLBAR_TYPE, value);
       this.container.classList.add(value);
@@ -276,7 +276,7 @@ export default class IdsToolbarMoreActions extends Base {
   /**
    * @returns {string} the type of toolbar
    */
-  get toolbarType() {
+  get toolbarType(): string {
     return this.getAttribute(attributes.TOOLBAR_TYPE);
   }
 
@@ -284,7 +284,7 @@ export default class IdsToolbarMoreActions extends Base {
    * Overrides the standard toolbar section "type" setter, which is always "more" in this case.
    * @param {string} val the type value
    */
-  set type(val) {
+  set type(val: string) {
     this.removeAttribute(attributes.TYPE);
   }
 
@@ -292,14 +292,14 @@ export default class IdsToolbarMoreActions extends Base {
    * Overrides the standard toolbar section "type" getter, which always returns "more" in this case.
    * @returns {string} representing the Toolbar Section type
    */
-  get type() {
+  get type(): string {
     return 'more';
   }
 
   /**
-   * @param {boolean} val alters whether the More Actions menu is displayed/hidden
+   * @param {boolean | string} val alters whether the More Actions menu is displayed/hidden
    */
-  set visible(val) {
+  set visible(val: boolean | string) {
     if (stringToBool(val)) {
       this.setAttribute(attributes.VISIBLE, '');
       this.menu.showIfAble();
@@ -312,14 +312,14 @@ export default class IdsToolbarMoreActions extends Base {
   /**
    * @returns {boolean} true if the More Actions menu is currently displayed
    */
-  get visible() {
+  get visible(): boolean {
     return this.menu?.visible || false;
   }
 
   /**
    * @returns {void}
    */
-  #attachEventHandlers() {
+  #attachEventHandlers(): void {
     this.onEvent('beforeshow', this.menu, (e: any) => {
       // Reflect this event to the host element
       this.triggerEvent('beforeshow', this, {
@@ -355,7 +355,7 @@ export default class IdsToolbarMoreActions extends Base {
    * Refreshes the state of the More Actions button
    * @returns {void}
    */
-  #refresh() {
+  #refresh(): void {
     if (this.menu.popup) {
       this.menu.popup.align = 'bottom, right';
       this.menu.popup.alignEdge = 'bottom';
@@ -366,7 +366,7 @@ export default class IdsToolbarMoreActions extends Base {
    * Refreshes the visible state of menu items representing "overflowed" elements
    * @returns {void}
    */
-  refreshOverflowedItems() {
+  refreshOverflowedItems(): void {
     this.overflowMenuItems.forEach((item) => {
       const doHide = !this.isOverflowed(item.overflowTarget);
       item.hidden = doHide;
@@ -386,7 +386,7 @@ export default class IdsToolbarMoreActions extends Base {
    * @private
    * @returns {void}
    */
-  #connectOverflowedItems() {
+  #connectOverflowedItems(): void {
     // Render the "More Actions" area if it doesn't exist
     const el = this.querySelector(MORE_ACTIONS_SELECTOR);
     if (!el && this.overflow) {
@@ -400,7 +400,7 @@ export default class IdsToolbarMoreActions extends Base {
     // (generally by way of IdsMenuButtons or other menu-driven components)
     const handleSubmenu = (thisItem: any, overflowTargetMenu: any) => {
       if (!overflowTargetMenu) return;
-      [...thisItem.submenu.children].forEach((item, i) => {
+      [...thisItem.submenu.children].forEach((item: any, i: number) => {
         item.overflowTarget = overflowTargetMenu.items[i];
         if (item.submenu) {
           handleSubmenu(item, item.overflowTarget.submenu);
@@ -410,7 +410,7 @@ export default class IdsToolbarMoreActions extends Base {
 
     // Connect all "More Action" items generated from Toolbar Elements to their
     // real counterparts in the Toolbar
-    this.overflowMenuItems.forEach((item, i) => {
+    this.overflowMenuItems.forEach((item: any, i: number) => {
       item.overflowTarget = this.toolbar.items[i];
       if (item.submenu) {
         handleSubmenu(item, item.overflowTarget.menuEl);
@@ -422,21 +422,21 @@ export default class IdsToolbarMoreActions extends Base {
    * Passes focus from the main element into the inner Ids Menu Button
    * @returns {void}
    */
-  focus() {
+  focus(): void {
     this.button.focus();
   }
 
   /**
    * @returns {boolean} true if there are currently visible actions in this menu
    */
-  hasVisibleActions() {
+  hasVisibleActions(): boolean {
     return this.querySelectorAll(':scope > ids-menu-group > ids-menu-item:not([hidden])').length > 0;
   }
 
   /**
    * @returns {boolean} true if there are currently enabled (read: not disabled) actions in this menu
    */
-  hasEnabledActions() {
+  hasEnabledActions(): boolean {
     return this.querySelectorAll(':scope > ids-menu-group > ids-menu-item:not([disabled])').length > 0;
   }
 
@@ -444,7 +444,7 @@ export default class IdsToolbarMoreActions extends Base {
    * @param {HTMLElement} item reference to the toolbar item to be checked for overflow
    * @returns {boolean} true if the item is a toolbar member and should be displayed by overflow
    */
-  isOverflowed(item: any) {
+  isOverflowed(item: any): boolean {
     if (!this.toolbar.contains(item)) {
       return false;
     }
@@ -462,7 +462,7 @@ export default class IdsToolbarMoreActions extends Base {
     return isBeyondLeftEdge || isBeyondRightEdge;
   }
 
-  onColorVariantRefresh() {
+  onColorVariantRefresh(): void {
     const colorVariant = this.colorVariant;
     if (colorVariant === 'alternate-formatter') {
       this.button.colorVariant = 'alternate-formatter';

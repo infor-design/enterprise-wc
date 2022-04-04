@@ -91,11 +91,11 @@ export default class IdsToolbarSection extends Base {
     super();
   }
 
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [...super.attributes, ...TOOLBAR_SECTION_ATTRIBUTES];
   }
 
-  template() {
+  template(): string {
     return `
       <div class="ids-toolbar-section">
         <slot></slot>
@@ -103,7 +103,7 @@ export default class IdsToolbarSection extends Base {
     `;
   }
 
-  connectedCallback() {
+  connectedCallback(): void {
     setCssClassFromGroup(this.type, this.container, SECTION_TYPES);
     setCssClassFromGroup(this.toolbarType, this.container, TOOLBAR_TYPES);
     super.connectedCallback();
@@ -113,7 +113,7 @@ export default class IdsToolbarSection extends Base {
    * @readonly
    * @returns {Array<any>} list of available items contained by the toolbar
    */
-  get items() {
+  get items(): Array<any> {
     return [...this.children].filter((e) => {
       const elemTagName = e.tagName.toLowerCase();
       return TOOLBAR_ITEM_TAGNAMES.includes(elemTagName);
@@ -124,7 +124,7 @@ export default class IdsToolbarSection extends Base {
    * @readonly
    * @returns {Array<any>} list of text nodes contained by the toolbar
    */
-  get textElems() {
+  get textElems(): Array<any> {
     const nodes = [...this.children].filter((e) => {
       const elemTagName = e.tagName.toLowerCase();
       return TOOLBAR_TEXTNODE_TAGNAMES.includes(elemTagName);
@@ -136,7 +136,7 @@ export default class IdsToolbarSection extends Base {
    * @readonly
    * @returns {Array<any>} list of ids-separator nodes contained by the toolbar
    */
-  get separators() {
+  get separators(): Array<any> {
     const nodes = [...this.children].filter((e) => {
       const elemTagName = e.tagName.toLowerCase();
       return TOOLBAR_SEPARATOR_TAGNAMES.includes(elemTagName);
@@ -148,14 +148,14 @@ export default class IdsToolbarSection extends Base {
    * @readonly
    * @returns {HTMLElement} a reference to this section's toolbar parent node
    */
-  get toolbar() {
+  get toolbar(): HTMLElement {
     return this.parentElement;
   }
 
   /**
    * @param {string} val the alignment type to set
    */
-  set align(val) {
+  set align(val: string) {
     let trueVal = `align-${val}`;
     if (typeof val !== 'string' || val === '' || !SECTION_ALIGNS.includes(trueVal)) {
       this.removeAttribute('align');
@@ -168,15 +168,15 @@ export default class IdsToolbarSection extends Base {
   /**
    * @returns {string} the current alignment value
    */
-  get align() {
+  get align(): string {
     return this.getAttribute('align') || 'start';
   }
 
   /**
-   * @param {boolean|string} val true if this toolbar section should be marked "favor"
+   * @param {boolean | string} val true if this toolbar section should be marked "favor"
    * (will try not to be collapsed/shrunk if the parent toolbar size shrinks)
    */
-  set favor(val) {
+  set favor(val: boolean | string) {
     const newValue = stringToBool(val);
     if (newValue) {
       this.setAttribute(attributes.FAVOR, '');
@@ -191,14 +191,14 @@ export default class IdsToolbarSection extends Base {
    * @returns {boolean} true if this toolbar section is marked "favor"
    * (will try not to be collapsed/shrunk if the parent toolbar size shrinks)
    */
-  get favor() {
+  get favor(): boolean {
     return this.hasAttribute(attributes.FAVOR);
   }
 
   /**
    * @param {string} val the type of section
    */
-  set type(val) {
+  set type(val: string) {
     let trueVal;
     if (typeof val !== 'string' || val === '' || !SECTION_TYPES.includes(val)) {
       trueVal = SECTION_TYPES[0];
@@ -212,14 +212,14 @@ export default class IdsToolbarSection extends Base {
   /**
    * @returns {string} the type of section
    */
-  get type() {
+  get type(): string {
     return this.getAttribute(attributes.TYPE) || 'static';
   }
 
   /**
    * @param {string} value the type of toolbar
    */
-  set toolbarType(value) {
+  set toolbarType(value: string) {
     if (TOOLBAR_TYPES.includes(value)) {
       this.setAttribute(attributes.TOOLBAR_TYPE, value);
       this.container.classList.add(value);
@@ -232,7 +232,7 @@ export default class IdsToolbarSection extends Base {
   /**
    * @returns {string} the type of toolbar
    */
-  get toolbarType() {
+  get toolbarType(): string {
     return this.getAttribute(attributes.TOOLBAR_TYPE);
   }
 }

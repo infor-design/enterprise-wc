@@ -107,50 +107,5 @@
     &:focus-visible ids-button::part(button) {
       outline: none;
     }
-
-    ids-button::part(button) {
-      @include border-slate-40();
-
-      border-style: solid;
-      width: 33px;
-      max-width: 33px;
-      justify-content: center;
-      align-items: center;
-      padding: 0;
-      box-shadow: none;
-      border-width: 1px;
-    }
-
-    ids-button:first-child::part(button) {
-      border-radius: 2px 0 0 2px;
-      border-right-style: none;
-    }
-
-    ids-button:last-child::part(button) {
-      border-radius: 0 2px 2px 0;
-      border-left-style: none;
-    }
-
-    & ids-input::part(input) {
-      @include border-1();
-
-      border-radius: 0;
-      max-width: 84px;
-      margin-bottom: 0;
-    }
-  }
-}
-
-:host([dir='rtl']) {
-  .ids-spinbox-content ids-button:first-child::part(button) {
-    border-left-style: none;
-    border-right-style: solid;
-    border-radius: 0 2px 2px 0;
-  }
-
-  .ids-spinbox-content ids-button:last-child::part(button) {
-    border-left-style: solid;
-    border-right-style: none;
-    border-radius: 2px 0 0 2px;
   }
 }

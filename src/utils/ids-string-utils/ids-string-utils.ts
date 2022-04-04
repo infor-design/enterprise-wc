@@ -31,7 +31,7 @@ export function removeDuplicates(str: string): string {
  * @returns {string} the string with newline characters replaced
  */
 export function removeNewLines(str: string): string | null {
-  return str.replace(/\r?\n|\r/g, ' ');
+  return str?.replace(/\r?\n|\r/g, ' ') || '';
 }
 
 /**

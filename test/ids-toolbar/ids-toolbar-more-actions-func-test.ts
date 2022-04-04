@@ -2,13 +2,12 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
-import elemBuilderFactory from '../helpers/elem-builder-factory';
 import waitFor from '../helpers/wait-for';
+import createFromTemplate from '../helpers/create-from-template';
 
-import IdsToolbar, {
-  IdsToolbarSection,
-  IdsToolbarMoreActions
-} from '../../src/components/ids-toolbar/ids-toolbar';
+import IdsToolbar from '../../src/components/ids-toolbar/ids-toolbar';
+import '../../src/components/ids-toolbar/ids-toolbar-section';
+import '../../src/components/ids-toolbar/ids-toolbar-more-actions';
 
 const getToolbarExampleHTML = async (extras = false) => `
      <ids-toolbar-section id="appmenu-section">
@@ -73,14 +72,12 @@ const getToolbarExampleHTML = async (extras = false) => `
      </ids-toolbar-more-actions>
    `;
 
-const elemBuilder = elemBuilderFactory();
-
 describe('IdsToolbarMoreActions Component', () => {
-  let toolbar;
-  let sectionMore;
+  let toolbar: any;
+  let sectionMore: any;
 
   beforeEach(async () => {
-    const elem = new IdsToolbar();
+    const elem: any = new IdsToolbar();
     document.body.appendChild(elem);
     toolbar = document.querySelector('ids-toolbar');
     toolbar.insertAdjacentHTML('afterbegin', await getToolbarExampleHTML());
@@ -97,12 +94,10 @@ describe('IdsToolbarMoreActions Component', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     // Build and destroy a barebones Toolbar
-    elemBuilder.createElemFromTemplate(`<ids-toolbar id="my-toolbar">${await getToolbarExampleHTML()}</ids-toolbar>`);
-    await elemBuilder.clearElement();
+    toolbar = createFromTemplate(toolbar, `<ids-toolbar id="my-toolbar">${await getToolbarExampleHTML()}</ids-toolbar>`);
 
     // Build and destroy a Toolbar with a hidden item, a disabled item, and overflow enabled
-    elemBuilder.createElemFromTemplate(`<ids-toolbar id="my-toolbar">${await getToolbarExampleHTML(true)}</ids-toolbar>`);
-    await elemBuilder.clearElement();
+    toolbar = createFromTemplate(toolbar, `<ids-toolbar id="my-toolbar">${await getToolbarExampleHTML(true)}</ids-toolbar>`);
 
     expect(errors).not.toHaveBeenCalled();
   });
@@ -165,17 +160,17 @@ describe('IdsToolbarMoreActions Component', () => {
 
 // @TODO need an issue to resolve why this can't find overflow items
 describe.skip('IdsToolbarMoreActions Component (initialized with overflow)', () => {
-  let selectedEventListener;
+  let toolbar: any;
+  let selectedEventListener: any;
 
   beforeEach(async () => {
     // Build and destroy a Toolbar that will have overflow established by default
-    elemBuilder.createElemFromTemplate(`<div id="wrapper" style="width: 450px;">
+    toolbar = createFromTemplate(toolbar, `<div id="wrapper" style="width: 450px;">
        <ids-toolbar id="my-toolbar">${await getToolbarExampleHTML(true)}</ids-toolbar>
      </div>`);
   });
 
   afterEach(async () => {
-    await elemBuilder.clearElement();
     if (selectedEventListener) {
       document.body.removeEventListener('selected', selectedEventListener);
       selectedEventListener = null;
@@ -186,9 +181,10 @@ describe.skip('IdsToolbarMoreActions Component (initialized with overflow)', () 
     selectedEventListener = jest.fn();
     document.body.addEventListener('selected', selectedEventListener);
 
-    const sectionMore = document.querySelector('#section-more');
-    const overflowItemButton1 = sectionMore.overflowMenuItems[1];
-    document.querySelector('#my-toolbar').triggerSelectedEvent(overflowItemButton1);
+    const sectionMore: any = document.querySelector('#section-more');
+    const overflowItemButton1: any = sectionMore.overflowMenuItems[1];
+    const toolbarElem: any = document.querySelector('#my-toolbar');
+    toolbarElem.triggerSelectedEvent(overflowItemButton1);
 
     waitFor(() => expect(selectedEventListener).toHaveBeenCalledTimes(1));
   });
