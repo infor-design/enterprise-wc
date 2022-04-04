@@ -5,11 +5,11 @@ import IdsExpandableArea from '../../src/components/ids-expandable-area/ids-expa
 import IdsToggleButton from '../../src/components/ids-toggle-button/ids-toggle-button';
 
 describe('IdsExpandableArea Component', () => {
-  let el;
+  let el: any;
 
   beforeEach(async () => {
-    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => cb());
-    const elem = new IdsExpandableArea();
+    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb: any) => cb());
+    const elem: any = new IdsExpandableArea();
     document.body.appendChild(elem);
     el = document.querySelector('ids-expandable-area');
   });
@@ -17,7 +17,7 @@ describe('IdsExpandableArea Component', () => {
   afterEach(async () => {
     document.body.innerHTML = '';
     el = null;
-    window.requestAnimationFrame.mockRestore();
+    (window.requestAnimationFrame as any).mockRestore();
   });
 
   it('renders correctly', () => {
@@ -91,13 +91,13 @@ describe('IdsExpandableArea Component', () => {
 
   it('can be expanded/collapsed when clicked (mouse)', () => {
     el.type = null;
-
-    const event = new MouseEvent('click', {
+    const args: any = {
       target: el.expander,
       bubbles: true,
       cancelable: true,
       view: window
-    });
+    };
+    const event = new MouseEvent('click', args);
 
     // Expand
     el.expander.dispatchEvent(event);
@@ -114,12 +114,13 @@ describe('IdsExpandableArea Component', () => {
     el.state.expanded = false;
     el.expanded = false;
 
-    const event2 = new MouseEvent('click', {
+    const args2: any = {
       target: el.expander,
       bubbles: true,
       cancelable: true,
       view: window
-    });
+    };
+    const event2 = new MouseEvent('click', args2);
 
     // Expand
     el.expander.dispatchEvent(event2);
@@ -133,7 +134,7 @@ describe('IdsExpandableArea Component', () => {
   });
 
   it('can be expanded/collapsed when touched', () => {
-    const event = new TouchEvent('touchstart', {
+    const args: any = {
       touches: [{
         identifier: '123',
         pageX: 0,
@@ -143,7 +144,8 @@ describe('IdsExpandableArea Component', () => {
       bubbles: true,
       cancelable: true,
       view: window
-    });
+    };
+    const event = new TouchEvent('touchstart', args);
 
     // Expand
     el.expander.dispatchEvent(event);

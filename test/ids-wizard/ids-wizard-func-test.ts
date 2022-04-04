@@ -8,18 +8,18 @@ import createFromTemplate from '../helpers/create-from-template';
 import IdsWizard from '../../src/components/ids-wizard/ids-wizard';
 import IdsWizardStep from '../../src/components/ids-wizard/ids-wizard-step';
 
-const getLightDOMLabels = (elem) => [...elem.children]
+const getLightDOMLabels = (elem: any) => [...elem.children]
   .map((lEl) => lEl.textContent.trim());
-const getShadowDOMLabels = (elem) => [...elem.shadowRoot.querySelectorAll(`ids-text`)]
+const getShadowDOMLabels = (elem: any) => [...elem.shadowRoot.querySelectorAll(`ids-text`)]
   .map((idsText) => idsText.textContent.trim());
 
-const getLabels = (elem) => ({
+const getLabels = (elem: any) => ({
   lightDOMLabels: getLightDOMLabels(elem),
   shadowDOMLabels: getShadowDOMLabels(elem)
 });
 
 describe('IdsWizard Tests', () => {
-  let elem;
+  let elem: any;
 
   beforeEach(async () => {
     elem = createFromTemplate(
@@ -152,7 +152,7 @@ describe('IdsWizard Tests', () => {
     await wait(100);
 
     const marker = elem.shadowRoot.querySelector(
-    `.step[step-number="${stepNumber}"] .step-marker`
+      `.step[step-number="${stepNumber}"] .step-marker`
     );
 
     marker.click();

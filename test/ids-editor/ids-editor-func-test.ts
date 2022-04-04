@@ -11,9 +11,9 @@ import {
   handlePasteAsPlainText,
   handlePasteAsHtml
 } from '../../src/components/ids-editor/ids-editor-handle-paste';
-import { cleanHtml } from '../../src/components/ids-editor/ids-editor-clean-utils';
-import { rgbToHex } from '../../src/components/ids-editor/ids-editor-shared';
-import formatHtml from '../../src/components/ids-editor/ids-editor-formatters';
+import '../../src/components/ids-editor/ids-editor-clean-utils';
+import '../../src/components/ids-editor/ids-editor-shared';
+import '../../src/components/ids-editor/ids-editor-formatters';
 
 document.execCommand = jest.fn();
 document.queryCommandSupported = jest.fn();

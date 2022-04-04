@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import percySnapshot from '@percy/puppeteer';
 
 describe('Ids Wizard Percy Tests', () => {
