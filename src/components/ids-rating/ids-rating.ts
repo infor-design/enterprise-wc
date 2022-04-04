@@ -35,7 +35,7 @@ export default class IdsRating extends Base {
    * Create the template for the rating contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     let html = '<div class="rating">';
     for (let i = 0; i < this.stars; i++) {
       html += `<ids-icon class="star star-${i}" role="button" aria-label="${i + 1} out of 5 Stars" icon="star-outlined" tabindex="0" size="${this.size}"></ids-icon>`;
@@ -47,7 +47,7 @@ export default class IdsRating extends Base {
   /**
    * @returns {Array<string>} this component's observable properties
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       ...super.attributes,
       attributes.CLICKABLE,
@@ -65,7 +65,7 @@ export default class IdsRating extends Base {
    * Sets the value attribute
    * @param {string|number} val string value from the value attribute
    */
-  set value(val) {
+  set value(val: string | number | any) {
     const isReadonly = stringToBool(this.readonly);
 
     if (val && !isReadonly) {
@@ -93,7 +93,7 @@ export default class IdsRating extends Base {
     }
   }
 
-  get value() {
+  get value(): number {
     return Number(this.getAttribute('value') || '0');
   }
 
@@ -101,13 +101,13 @@ export default class IdsRating extends Base {
    * Sets the stars attribute
    * @param {string} num string value from the stars attribute
    */
-  set stars(num) {
+  set stars(num: string | number | any) {
     if (num) {
       this.setAttribute('stars', num.toString());
     }
   }
 
-  get stars() {
+  get stars(): string | number | any {
     return this.getAttribute('stars') || 5;
   }
 
@@ -115,7 +115,7 @@ export default class IdsRating extends Base {
    * Sets the readonly attribute
    * @param {string} ro string value from the readonly attribute
    */
-  set readonly(ro) {
+  set readonly(ro: string | boolean) {
     if (ro && this.readonly) {
       this.offEvent('click', this.container);
       this.updateHalfStar(this.ratingArr);
@@ -128,7 +128,7 @@ export default class IdsRating extends Base {
     }
   }
 
-  get readonly() {
+  get readonly(): string | boolean | any {
     return this.getAttribute('readonly') || false;
   }
 
@@ -136,7 +136,7 @@ export default class IdsRating extends Base {
    * Sets the size attribute
    * @param {string} s string value from the size attribute
    */
-  set size(s) {
+  set size(s: string) {
     if (s) {
       this.ratingArr.forEach((element) => element.setAttribute('size', s.toString()));
       this.setAttribute('size', s.toString());
@@ -152,9 +152,9 @@ export default class IdsRating extends Base {
    * @private
    * @returns {void}
    */
-  #attachEventHandlers() {
-    this.onEvent('click', this.container, (e) => this.updateStars(e));
-    this.onEvent('keyup', this.container, (e) => {
+  #attachEventHandlers(): void {
+    this.onEvent('click', this.container, (e: any) => this.updateStars(e));
+    this.onEvent('keyup', this.container, (e: { key: string; }) => {
       if ((e.key === 'Enter' || e.key === ' ') && this.readonly === false) {
         this.updateStars(e);
       }
@@ -165,7 +165,7 @@ export default class IdsRating extends Base {
    * Sets star state, active class and icon attribute
    * @param {any} event event target
    */
-  updateStars(event) {
+  updateStars(event: any) {
     const activeElements = this.ratingArr.filter((item) => item.classList.contains('active'));
     let attrName = 'star-filled';
     let action = 'add';
@@ -188,7 +188,7 @@ export default class IdsRating extends Base {
    * Sets and updates value attribute
    * @param {any} arr NodeList
    */
-  updateValue(arr) {
+  updateValue(arr: any) {
     const val = [...arr];
     const value = val.filter((el) => el.classList.contains('active'));
     this.setAttribute('value', value.length);
@@ -198,7 +198,7 @@ export default class IdsRating extends Base {
    * Sets and updates value attribute for halfstar
    * @param {any} arr NodeList
    */
-  updateHalfStar(arr) {
+  updateHalfStar(arr: any) {
     const value = this.value;
     const roundValue = Math.round(value);
     for (let i = 0; i < roundValue; i++) {
@@ -206,7 +206,7 @@ export default class IdsRating extends Base {
       arr[i].setAttribute('icon', 'star-filled');
     }
     if (value < roundValue) {
-      const activeArr = arr.filter((act) => act.classList.contains('active'));
+      const activeArr = arr.filter((act: { classList: { contains: (arg0: string) => any; }; }) => act.classList.contains('active'));
       const lastItem = activeArr[activeArr.length - 1];
       lastItem.classList.add('is-half');
       lastItem.setAttribute('icon', 'star-half');

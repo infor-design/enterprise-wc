@@ -1,12 +1,14 @@
+import "../ids-notification-banner";
+
 document.addEventListener('DOMContentLoaded', () => {
-  const notificationBanner = document.createElement('ids-notification-banner');
+  const notificationBanner: HTMLElement | any = document.createElement('ids-notification-banner');
   notificationBanner.add({
     id: 'ids-notification-banner-1',
     type: 'success',
     messageText: 'DTO accepted by your manager for Sept 30, 2018.',
   });
 
-  const notificationBanner2 = document.createElement('ids-notification-banner');
+  const notificationBanner2: HTMLElement | any = document.createElement('ids-notification-banner');
   notificationBanner2.add({
     id: 'ids-notification-banner-2',
     type: 'error',
@@ -14,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     link: 'https://infor.com'
   });
 
-  const notificationBanner3 = document.createElement('ids-notification-banner');
+  const notificationBanner3: HTMLElement | any = document.createElement('ids-notification-banner');
   notificationBanner3.add({
     id: 'ids-notification-banner-3',
     type: 'info',
@@ -23,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     linkText: 'Learn More'
   });
 
-  const notificationBanner4 = document.createElement('ids-notification-banner');
+  const notificationBanner4: HTMLElement | any = document.createElement('ids-notification-banner');
   notificationBanner4.add({
     id: 'ids-notification-banner-4',
     type: 'alert',
@@ -32,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     linkText: 'Learn More'
   });
 
-  const notificationBanner5 = document.createElement('ids-notification-banner');
+  const notificationBanner5: HTMLElement | any = document.createElement('ids-notification-banner');
   notificationBanner5.add({
     id: 'ids-notification-banner-5',
     parent: 'notification-container',

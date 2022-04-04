@@ -2,11 +2,11 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { TYPES } from './ids-notification-attributes';
 
-import IdsText from '../ids-text/ids-text';
-import IdsAlert from '../ids-alert/ids-alert';
-import IdsIcon from '../ids-icon/ids-icon';
-import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
-import IdsButton from '../ids-button/ids-button';
+import '../ids-text/ids-text';
+import '../ids-alert/ids-alert';
+import '../ids-icon/ids-icon';
+import '../ids-hyperlink/ids-hyperlink';
+import '../ids-button/ids-button';
 import Base from './ids-notification-banner-base';
 
 import styles from './ids-notification-banner.scss';
@@ -34,9 +34,8 @@ export default class IdsNotificationBanner extends Base {
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
-    this
-      .#attachEventHandlers()
-      .#attachKeyboardListeners();
+    this.#attachEventHandlers();
+    this.#attachKeyboardListeners();
     super.connectedCallback();
   }
 
@@ -44,7 +43,7 @@ export default class IdsNotificationBanner extends Base {
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get attributes() {
+  static get attributes(): Array<any> {
     return [
       attributes.MESSAGE_TEXT,
       attributes.LINK,
@@ -57,7 +56,7 @@ export default class IdsNotificationBanner extends Base {
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     // Set the alert icon based on the notification type
     let alertIcon;
     if (TYPES[this.type]?.type === undefined) {
@@ -119,7 +118,7 @@ export default class IdsNotificationBanner extends Base {
    * Set the custom link text of the Notification Banner
    * @param {string | null} value the link-text value
    */
-  set linkText(value) {
+  set linkText(value: string | null) {
     this.setAttribute(attributes.LINK_TEXT, value);
   }
 
@@ -129,7 +128,7 @@ export default class IdsNotificationBanner extends Base {
    * Set the message text of the Notification Banner
    * @param {string | null} value the link-text value
    */
-  set messageText(value) {
+  set messageText(value: string | null) {
     this.setAttribute(attributes.MESSAGE_TEXT, value);
   }
 
@@ -140,7 +139,7 @@ export default class IdsNotificationBanner extends Base {
    * @private
    * @returns {object} The object for chaining.
    */
-  #attachEventHandlers() {
+  #attachEventHandlers(): object {
     const closeBtn = this.container.querySelector('ids-button');
     this.onEvent('click', closeBtn, () => this.dismiss());
     return this;
@@ -151,7 +150,7 @@ export default class IdsNotificationBanner extends Base {
    * @private
    * @returns {object} This API object for chaining
    */
-  #attachKeyboardListeners() {
+  #attachKeyboardListeners(): object {
     const closeBtn = this.container.querySelector('ids-button');
     this.listen('Enter', closeBtn, () => this.dismiss());
     return this;
@@ -162,7 +161,8 @@ export default class IdsNotificationBanner extends Base {
    * @param {object} notification Object passed in for notification creation
    * @returns {void}
    */
-  add(notification) {
+  add(notification: object | any): void {
+
     const {
       id,
       parent,
@@ -198,11 +198,11 @@ export default class IdsNotificationBanner extends Base {
     // If not prepend to body element.
     if (parent) {
       const parentEl = document.getElementById(parent);
-      parentEl.prepend(this);
+      parentEl?.prepend(<any>this);
     } else if (document.querySelector('ids-container')) {
-      document.querySelector('ids-container').prepend(this);
+      document.querySelector('ids-container')?.prepend(<any>this);
     } else {
-      document.body.prepend(this);
+      document.body.prepend(<any>this);
     }
   }
 
@@ -211,7 +211,7 @@ export default class IdsNotificationBanner extends Base {
    */
   dismiss() {
     let canDismiss = true;
-    const response = (veto) => {
+    const response = (veto: any) => {
       canDismiss = !!veto;
     };
     this.triggerEvent('beforeNotificationRemove', this, { detail: { elem: this, response } });

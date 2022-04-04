@@ -1,5 +1,6 @@
 // Notification Types
-const TYPES = {
+type TypesObject = {success: object, alert: object, info: object, error: object};
+const TYPES: TypesObject = {
   success: {
     type: 'success'
   },

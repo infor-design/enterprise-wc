@@ -2,7 +2,7 @@ import IdsCard from '../../ids-card/ids-card';
 import IdsListView from '../../ids-list-view/ids-list-view';
 
 // Example for populating the List View
-const listView = document.querySelector('#list-view-1');
+const listView: Element | null | any = document.querySelector('#list-view-1');
 
 // Do an ajax request and apply the data to the list
 const url = '/data/bikes.json';
