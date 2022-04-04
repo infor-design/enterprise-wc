@@ -22,6 +22,7 @@ let instanceCounter = 0;
  * IDS Input Component
  * @type {IdsInput}
  * @inherits IdsElement
+ * @mixes IdsLocaleMixin
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsClearableMixin

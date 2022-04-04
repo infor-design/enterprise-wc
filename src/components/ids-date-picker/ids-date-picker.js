@@ -35,6 +35,8 @@ const MAX_MONTH = 11;
  * @type {IdsDatePicker}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
+ * @mixes IdsKeyboardMixin
+ * @mixes IdsDirtyTrackerMixin
  * @mixes IdsPopupOpenEventsMixin
  * @mixes IdsThemeMixin
  * @mixes IdsLocaleMixin
@@ -226,6 +228,19 @@ class IdsDatePicker extends Base {
         ` : ''}
       </div>
     `;
+  }
+
+  /**
+   * Callback for dirty tracker setting change
+   * @param {boolean} value The changed value
+   * @returns {void}
+   */
+  onDirtyTrackerChange(value) {
+    if (value) {
+      this.#triggerField?.setAttribute(attributes.DIRTY_TRACKER, value);
+    } else {
+      this.#triggerField?.removeAttribute(attributes.DIRTY_TRACKER);
+    }
   }
 
   /**
@@ -1364,6 +1379,13 @@ class IdsDatePicker extends Base {
     if (this.isCalendarToolbar) {
       this.#togglePopup(false);
     }
+  }
+
+  /**
+   * @returns {HTMLInputElement} Reference to the IdsTriggerField
+   */
+  get input() {
+    return this.#triggerField;
   }
 
   /**

@@ -202,7 +202,7 @@ export default class IdsDropdown extends Base {
    * @returns {HTMLInputElement} Reference to the HTMLInputElement inside the IdsTriggerField
    */
   get input() {
-    return this.container.input;
+    return this.container;
   }
 
   /**
@@ -654,23 +654,6 @@ export default class IdsDropdown extends Base {
       }
     }
   }
-
-  /**
-   * Set the dirty tracking feature on to indicate a changed dropdown
-   * @param {boolean|string} value If true will set `dirty-tracker` attribute
-   */
-  set dirtyTracker(value) {
-    const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
-    } else {
-      this.removeAttribute(attributes.DIRTY_TRACKER);
-    }
-
-    this.handleDirtyTracker();
-  }
-
-  get dirtyTracker() { return this.getAttribute(attributes.DIRTY_TRACKER); }
 
   /**
    * Pass down `validate` attribute into IdsTriggerField

@@ -186,10 +186,10 @@ describe('IdsSpinbox Component', () => {
         dirty-tracker="true"
       ></ids-spinbox>`);
     expect(document.querySelectorAll('ids-spinbox').length).toEqual(1);
-    expect(elem.dirtyTracker).toEqual('true');
+    expect(elem.dirtyTracker).toEqual(true);
 
     elem.dirtyTracker = false;
-    expect(elem.dirtyTracker).toEqual(null);
+    expect(elem.dirtyTracker).toEqual(false);
     expect(errors).not.toHaveBeenCalled();
   });
 

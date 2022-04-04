@@ -1,5 +1,6 @@
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 /**
  * Track changes on inputs elements and show a dirty indicator.
@@ -14,6 +15,10 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
   connectedCallback() {
     super.connectedCallback?.();
     this.handleDirtyTracker();
+
+    window.requestAnimationFrame(() => {
+      this.resetDirtyTracker();
+    });
   }
 
   static get attributes() {
@@ -65,15 +70,20 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
       icon.setAttribute('icon', 'dirty');
       icon.setAttribute('size', 'small');
       icon.className = 'icon-dirty';
+      if (this.locale?.isRTL()) icon?.setAttribute('dir', 'rtl');
       if (this.isCheckbox) {
         this.labelEl?.appendChild(icon);
+        this.dirtyContainer = this.labelEl;
       } else if (this.isRadioGroup) {
         const refEl = this.shadowRoot.querySelector('slot');
         this.input?.insertBefore(icon, refEl);
+        this.dirtyContainer = this.input;
       } else if (this.isEditor) {
-        this.shadowRoot.querySelector('.editor-content')?.appendChild(icon);
+        this.dirtyContainer = this.shadowRoot.querySelector('.editor-content');
+        this.dirtyContainer?.appendChild(icon);
       } else {
         this.fieldContainer?.prepend(icon);
+        this.dirtyContainer = this.fieldContainer;
       }
     }
   }
@@ -84,7 +94,7 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   removeDirtyTrackerIcon() {
-    const icon = this.shadowRoot.querySelector('.icon-dirty');
+    const icon = this.dirtyContainer?.querySelector('.icon-dirty');
     if (icon) {
       icon.remove();
     }
@@ -137,7 +147,7 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
     } else if (this.isEditor) {
       r = this.value;
     } else {
-      r = el.value;
+      r = el?.value;
     }
     return r;
   }
@@ -171,6 +181,13 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   dirtyTrackerEvents(option = '') {
+    this.offEvent('languagechange.container');
+    this.onEvent('languagechange.container', getClosest(this, 'ids-container'), () => {
+      const icon = this.dirtyContainer?.querySelector('.icon-dirty');
+      if (this.locale?.isRTL()) icon?.setAttribute('dir', 'rtl');
+      else icon?.removeAttribute('dir');
+    });
+
     if (this.input) {
       const eventName = 'change.dirtytrackermixin';
       if (option === 'remove') {
@@ -214,21 +231,33 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
   }
 
   /**
+   * Runs optional callback, if possible
+   * @private
+   * @returns {void}
+   */
+  #onDirtyTrackerChange() {
+    if (typeof this.onDirtyTrackerChange === 'function') {
+      this.onDirtyTrackerChange(this.dirtyTracker);
+    }
+  }
+
+  /**
    * Set the dirty tracking feature on to indicate a changed field
    * @param {boolean|string} value If true will set `dirty-tracker` attribute
    */
   set dirtyTracker(value) {
     const val = stringToBool(value);
     if (val) {
-      this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
+      this.setAttribute(attributes.DIRTY_TRACKER, val);
     } else {
       this.removeAttribute(attributes.DIRTY_TRACKER);
     }
 
+    this.#onDirtyTrackerChange();
     this.handleDirtyTracker();
   }
 
-  get dirtyTracker() { return this.getAttribute(attributes.DIRTY_TRACKER); }
+  get dirtyTracker() { return stringToBool(this.getAttribute(attributes.DIRTY_TRACKER)); }
 };
 
 export default IdsDirtyTrackerMixin;

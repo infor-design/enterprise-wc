@@ -16,6 +16,7 @@ const ID = 'ids-upload-id';
  * IDS Upload Component
  * @type {IdsUpload}
  * @inherits IdsElement
+ * @mixes IdsDirtyTrackerMixin
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  * @part container - the main container element
@@ -38,7 +39,6 @@ export default class IdsUpload extends Base {
     return [
       ...super.attributes,
       attributes.ACCEPT,
-      attributes.DIRTY_TRACKER,
       attributes.DISABLED,
       attributes.LABEL,
       attributes.LABEL_FILETYPE,
@@ -110,6 +110,15 @@ export default class IdsUpload extends Base {
           </ids-trigger-button>
         </ids-trigger-field>
       </div>`;
+  }
+
+  /**
+   * Callback for dirty tracker setting change
+   * @param {boolean} value The changed value
+   * @returns {void}
+   */
+  onDirtyTrackerChange(value) {
+    this.textInput.dirtyTracker = value;
   }
 
   /**
@@ -335,23 +344,6 @@ export default class IdsUpload extends Base {
   }
 
   get accept() { return this.getAttribute(attributes.ACCEPT); }
-
-  /**
-   * Set `dirty-tracker` attribute
-   * @param {boolean|string} value If true will set `dirty-tracker` attribute
-   */
-  set dirtyTracker(value) {
-    const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
-      this.textInput.dirtyTracker = true;
-    } else {
-      this.removeAttribute(attributes.DIRTY_TRACKER);
-      this.textInput.dirtyTracker = false;
-    }
-  }
-
-  get dirtyTracker() { return this.getAttribute(attributes.DIRTY_TRACKER); }
 
   /**
    * Set `disabled` attribute

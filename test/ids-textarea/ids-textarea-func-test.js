@@ -405,7 +405,7 @@ describe('IdsTextarea Component', () => {
     expect(textarea.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
     expect(textarea.labelEl.querySelector('.msg-dirty')).toBeFalsy();
     textarea.dirtyTracker = true;
-    expect(textarea.dirtyTracker).toEqual('true');
+    expect(textarea.dirtyTracker).toEqual(true);
     textarea.input.value = 'test';
     const event = new Event('change', { bubbles: true });
     textarea.input.dispatchEvent(event);
