@@ -345,4 +345,4 @@ export const breakpoints: Breakpoints = {
   xs: '360px'
 };
 
-export const version = '0.0.0-beta.19';
+export const version = '0.0.0-beta.20';
