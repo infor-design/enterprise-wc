@@ -24,7 +24,7 @@ describe('IdsRating Component', () => {
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
     rating.remove();
-    const elem = new IdsRating();
+    const elem: any = new IdsRating();
     document.body.appendChild(elem);
     expect(document.querySelectorAll('ids-rating').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
@@ -62,7 +62,7 @@ describe('IdsRating Component', () => {
   });
 
   it('supports half stars', () => {
-    const elem = new IdsRating();
+    const elem: any = new IdsRating();
     elem.readonly = true;
     elem.stars = 5;
     elem.value = 3.5;
