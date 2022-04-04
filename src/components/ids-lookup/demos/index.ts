@@ -78,6 +78,10 @@ const container: any = document.querySelector('ids-container');
     });
   };
 
+  lookup.dataGridSettings = {
+    rowSelection: 'multiple'
+  };
+
   const setData = async () => {
     const res = await fetch(url);
     const data = await res.json();

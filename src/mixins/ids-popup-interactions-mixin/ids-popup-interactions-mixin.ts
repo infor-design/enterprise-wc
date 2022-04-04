@@ -130,66 +130,66 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
 
     // Based on the trigger type, bind new events
     switch (this.state.trigger) {
-    case 'click':
+      case 'click':
       // Configure some settings for opening
-      this.popup.align = 'bottom, left';
-      this.popup.arrow = 'bottom';
-      this.popup.y = 8;
+        this.popup.align = 'bottom, left';
+        this.popup.arrow = 'bottom';
+        this.popup.y = 8;
 
-      // Announce Popup control with `aria-controls` on the target
-      if (targetElem.id && targetElem !== 'window') {
-        this.target.setAttribute('aria-controls', `${this.id}`);
-      }
-
-      // Open/Close the menu when the trigger element is clicked
-      this.offEvent('click.trigger');
-      this.onEvent('click.trigger', targetElem, (e: Event) => {
-        if (typeof this.onTriggerClick === 'function') {
-          return this.onTriggerClick(e);
+        // Announce Popup control with `aria-controls` on the target
+        if (targetElem.id && targetElem !== 'window') {
+          this.target.setAttribute('aria-controls', `${this.id}`);
         }
-        return true;
-      });
 
-      break;
-    case 'contextmenu':
+        // Open/Close the menu when the trigger element is clicked
+        this.offEvent('click.trigger');
+        this.onEvent('click.trigger', targetElem, (e: Event) => {
+          if (typeof this.onTriggerClick === 'function') {
+            return this.onTriggerClick(e);
+          }
+          return true;
+        });
+
+        break;
+      case 'contextmenu':
       // Standard `contextmenu` event behavior.
       // `contextmenu` events should only apply to top-level Popup Menu components.
       // (submenus open/close events are handled by their parent items)
-      if (this.parentMenu) {
-        break;
-      }
+        if (this.parentMenu) {
+          break;
+        }
 
-      // Attach a contextmenu handler to the target element for opening the popup
-      this.onEvent('contextmenu.trigger', targetElem, (e: Event) => {
-        if (typeof this.onContextMenu === 'function') {
-          this.onContextMenu(e);
+        // Attach a contextmenu handler to the target element for opening the popup
+        this.onEvent('contextmenu.trigger', targetElem, (e: Event) => {
+          if (typeof this.onContextMenu === 'function') {
+            this.onContextMenu(e);
+          }
+        });
+        break;
+      case 'hover':
+        this.onEvent('hoverend.trigger', targetElem, (e: Event) => {
+          if (typeof this.onTriggerHover === 'function') {
+            this.onTriggerHover(e);
+          }
+        }, { delay: this.popupDelay });
+        this.onEvent('mouseleave.trigger', targetElem, (e: Event) => {
+          if (typeof this.onCancelTriggerHover === 'function') {
+            this.onCancelTriggerHover(e);
+          }
+        });
+        this.onEvent('click.trigger', targetElem, (e: Event) => {
+          if (typeof this.onTriggerHoverClick === 'function') {
+            this.onTriggerHoverClick(e);
+          }
+        });
+        break;
+      case 'immediate':
+        if (typeof this.onTriggerImmediate === 'function') {
+          this.onTriggerImmediate();
         }
-      });
-      break;
-    case 'hover':
-      this.onEvent('hoverend.trigger', targetElem, (e: Event) => {
-        if (typeof this.onTriggerHover === 'function') {
-          this.onTriggerHover(e);
-        }
-      }, { delay: this.popupDelay });
-      this.onEvent('mouseleave.trigger', targetElem, (e: Event) => {
-        if (typeof this.onCancelTriggerHover === 'function') {
-          this.onCancelTriggerHover(e);
-        }
-      });
-      this.onEvent('click.trigger', targetElem, (e: Event) => {
-        if (typeof this.onTriggerHoverClick === 'function') {
-          this.onTriggerHoverClick(e);
-        }
-      });
-      break;
-    case 'immediate':
-      if (typeof this.onTriggerImmediate === 'function') {
-        this.onTriggerImmediate();
-      }
-      break;
-    default:
-      break;
+        break;
+      default:
+        break;
     }
 
     this.hasTriggerEvents = true;

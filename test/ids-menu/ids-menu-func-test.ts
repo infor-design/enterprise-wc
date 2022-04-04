@@ -6,10 +6,10 @@ import '../../src/components/ids-text/ids-text';
 
 import IdsMenu from '../../src/components/ids-menu/ids-menu';
 import IdsMenuItem from '../../src/components/ids-menu/ids-menu-item';
-import IdsPopupMenu from '../../src/components/ids-popup-menu/ids-popup-menu';
-import IdsMenuGroup from '../../src/components/ids-menu/ids-menu-group';
-import IdsMenuHeader from '../../src/components/ids-menu/ids-menu-header';
-import IdsSeparator from '../../src/components/ids-separator/ids-separator';
+import '../../src/components/ids-popup-menu/ids-popup-menu';
+import '../../src/components/ids-menu/ids-menu-group';
+import '../../src/components/ids-menu/ids-menu-header';
+import '../../src/components/ids-separator/ids-separator';
 
 const exampleHTML = `
   <ids-menu-header>My Items</ids-menu-header>
@@ -28,15 +28,15 @@ const exampleHTML = `
 `;
 
 describe('IdsMenu Component', () => {
-  let menu;
-  let group1;
-  let item1;
-  let item2;
-  let item3;
-  let group2;
-  let item4;
-  let item5;
-  let item6;
+  let menu: any;
+  let group1: any;
+  let item1: any;
+  let item2: any;
+  let item3: any;
+  let group2: any;
+  let item4: any;
+  let item5: any;
+  let item6: any;
 
   beforeEach(async () => {
     menu = new IdsMenu();
@@ -622,13 +622,13 @@ describe('IdsMenu Component', () => {
       expect(item1.value).toBeTruthy();
 
       // can set function values
-      item1.value = (x) => Number(x) * 2;
+      item1.value = (x: any) => Number(x) * 2;
 
       expect(item1.value(2)).toEqual(4);
     });
 
     it('can cancel selection with a vetoed `beforeselected` event handler', () => {
-      item1.addEventListener('beforeselected', (e) => {
+      item1.addEventListener('beforeselected', (e: any) => {
         e.detail.response(false);
       });
       item1.select();

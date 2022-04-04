@@ -1,15 +1,15 @@
 // Supporting Components
-import IdsToggleButton from '../../ids-toggle-button/ids-toggle-button';
+import '../../ids-toggle-button/ids-toggle-button';
 import IdsRenderLoopItem from '../ids-render-loop-item';
 import renderLoop from '../ids-render-loop';
 
 // When the DOM Loads, register a loop that counts durations
 // of both the loop and an individual item, as well as sets up play/stop.
 document.addEventListener('DOMContentLoaded', () => {
-  const rlCounterEl = document.querySelector('#renderloop-elapsed-time');
-  const rlStopCounterEl = document.querySelector('#renderloop-stopped-time');
-  const itemCounterEl = document.querySelector('#item-elapsed-time');
-  const itemPauseCounterEl = document.querySelector('#item-paused-time');
+  const rlCounterEl: any = document.querySelector('#renderloop-elapsed-time');
+  const rlStopCounterEl: any = document.querySelector('#renderloop-stopped-time');
+  const itemCounterEl: any = document.querySelector('#item-elapsed-time');
+  const itemPauseCounterEl: any = document.querySelector('#item-paused-time');
 
   // =================================================
   // Builds sample `IdsRenderLoopItem`s with infinite duration
@@ -20,39 +20,39 @@ document.addEventListener('DOMContentLoaded', () => {
     id: 'item-counter',
     duration: -1,
     updateCallback() {
-      itemCounterEl.textContent = `${this.elapsedTime}`;
+      itemCounterEl.textContent = `${(this as any).elapsedTime}`;
     }
   });
-  renderLoop.register(testItem);
+  (renderLoop as any).register(testItem);
 
   // This item runs all the time and updates all the display values
   const loopCountItem = new IdsRenderLoopItem({
     id: 'loop-counter',
     duration: -1,
     updateCallback() {
-      rlCounterEl.textContent = `${renderLoop.elapsedTime}`;
-      rlStopCounterEl.textContent = `${renderLoop.totalStoppedTime}`;
-      itemPauseCounterEl.textContent = `${testItem.totalStoppedTime}`;
+      rlCounterEl.textContent = `${(renderLoop as any).elapsedTime}`;
+      rlStopCounterEl.textContent = `${(renderLoop as any).totalStoppedTime}`;
+      itemPauseCounterEl.textContent = `${(renderLoop as any).totalStoppedTime}`;
     }
   });
-  renderLoop.register(loopCountItem);
+  (renderLoop as any).register(loopCountItem);
 
   // =================================================
   // Setup functionality on Playback buttons
-  const loopPlaybackBtn = document.querySelector('#loop-playback-btn');
-  const itemPlaybackBtn = document.querySelector('#item-playback-btn');
+  const loopPlaybackBtn: any = document.querySelector('#loop-playback-btn');
+  const itemPlaybackBtn: any = document.querySelector('#item-playback-btn');
 
-  loopPlaybackBtn.addEventListener('click', (e) => {
+  loopPlaybackBtn.addEventListener('click', (e: any) => {
     const btn = e.target;
     btn.toggle();
     if (btn.pressed) {
-      renderLoop.start();
+      (renderLoop as any).start();
     } else {
-      renderLoop.stop();
+      (renderLoop as any).stop();
     }
   });
 
-  itemPlaybackBtn.addEventListener('click', (e) => {
+  itemPlaybackBtn.addEventListener('click', (e: any) => {
     const btn = e.target;
     btn.toggle();
     if (btn.pressed) {

@@ -8,8 +8,6 @@ import '../../src/components/ids-button/ids-button';
 import createFromTemplate from '../helpers/create-from-template';
 import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';
 import waitFor from '../helpers/wait-for';
-import processAnimFrame from '../helpers/process-anim-frame';
-
 
 describe('IdsDrawer Component', () => {
   let elem: any;
@@ -24,20 +22,19 @@ describe('IdsDrawer Component', () => {
     // Build and destroy an "App Menu" type Drawer
     elem = createFromTemplate(elem, `<ids-drawer edge="start" type="app-menu">
         <div>Menu Content</div>
-      </ids-drawer>`
-    );
+      </ids-drawer>`);
 
     // Build and destroy an "Action Sheet" type Drawer
     elem = createFromTemplate(elem, `<ids-drawer edge="bottom" type="action-sheet">
         <div>Action Sheet Content</div>
-      </ids-drawer>`
-    );
+      </ids-drawer>`);
 
     expect(errors).not.toHaveBeenCalled();
   });
 
   it('must have an edge', async () => {
-    elem = createFromTemplate(elem,
+    elem = createFromTemplate(
+      elem,
       `<ids-drawer>
         <div>Content</div>
       </ids-drawer>`
@@ -60,8 +57,7 @@ describe('IdsDrawer Component', () => {
   it('can have a type', async () => {
     elem = createFromTemplate(elem, `<ids-drawer>
         <div>Content</div>
-      </ids-drawer>`
-    );
+      </ids-drawer>`);
     await expectEnumAttributeBehavior({
       elem,
       attribute: 'type',
@@ -72,13 +68,16 @@ describe('IdsDrawer Component', () => {
 
   it('can have a target', async () => {
     // Build drawer/target and connect them
-    elem = createFromTemplate(elem,
+    elem = createFromTemplate(
+      elem,
       `<ids-drawer>
         <div>Content</div>
       </ids-drawer>`
     );
     let btn: any;
-    btn = createFromTemplate(btn,
+    // eslint-disable-next-line prefer-const
+    btn = createFromTemplate(
+      btn,
       `<ids-button id="trigger-btn">Open Drawer</ids-button>`
     );
     elem.target = btn;
@@ -102,7 +101,8 @@ describe('IdsDrawer Component', () => {
   });
 
   it('can be prevented from being shown', async () => {
-    elem = createFromTemplate(elem,
+    elem = createFromTemplate(
+      elem,
       `<ids-drawer>
         <div>Content</div>
       </ids-drawer>`
@@ -118,7 +118,8 @@ describe('IdsDrawer Component', () => {
   });
 
   it('can be prevented from being hidden', async () => {
-    elem = createFromTemplate(elem,
+    elem = createFromTemplate(
+      elem,
       `<ids-drawer>
         <div>Content</div>
       </ids-drawer>`
@@ -136,18 +137,18 @@ describe('IdsDrawer Component', () => {
   });
 
   it('should update with container language change', async () => {
-    const elem: any = new IdsDrawer();
+    const elem2: any = new IdsDrawer();
     const container: any = new IdsContainer();
     document.body.appendChild(container);
-    container.appendChild(elem);
+    container.appendChild(elem2);
 
     await container.setLanguage('ar');
-    await processAnimFrame();
-    expect(elem.getAttribute('dir')).toEqual('rtl');
+    waitFor(() => expect(elem.getAttribute('dir')).toBe('rtl'));
   });
 
   it('should call hide on outside click', async () => {
-    elem = createFromTemplate(elem,
+    elem = createFromTemplate(
+      elem,
       `<ids-drawer>
         <div>Content</div>
       </ids-drawer>`

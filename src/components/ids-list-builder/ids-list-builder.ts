@@ -1,11 +1,8 @@
 import { customElement, scss } from '../../core/ids-decorators';
-
-import Base from './ids-list-builder-base';
-
+import IdsInput from '../ids-input/ids-input';
 import '../ids-toolbar/ids-toolbar';
 import '../ids-draggable/ids-draggable';
-import IdsInput from '../ids-input/ids-input';
-
+import Base from './ids-list-builder-base';
 import styles from './ids-list-builder.scss';
 
 /**
@@ -26,9 +23,7 @@ export default class IdsListBuilder extends Base {
     super();
   }
 
-  /**
-   * Active editor of the selected list item
-   */
+  /** Active editor of the selected list item */
   #selectedLiEditor: any;
 
   /**
@@ -107,6 +102,8 @@ export default class IdsListBuilder extends Base {
    */
   set data(val: Array<any>) {
     super.data = val;
+
+    // need to reattach event listeners when new data set dynamically adds list items
     this.#attachEventListeners();
   }
 

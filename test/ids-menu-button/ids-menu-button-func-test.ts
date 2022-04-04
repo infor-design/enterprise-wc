@@ -5,17 +5,12 @@ import '../helpers/resize-observer-mock';
 
 import IdsIcon from '../../src/components/ids-icon/ids-icon';
 import IdsMenuButton from '../../src/components/ids-menu-button/ids-menu-button';
-import IdsPopupMenu, {
-  IdsMenuGroup,
-  IdsMenuHeader,
-  IdsMenuItem,
-  IdsSeparator
-} from '../../src/components/ids-popup-menu/ids-popup-menu';
+import IdsPopupMenu from '../../src/components/ids-popup-menu/ids-popup-menu';
 import waitFor from '../helpers/wait-for';
 
 describe('IdsMenuButton Component', () => {
-  let buttonEl;
-  let menuEl;
+  let buttonEl: any;
+  let menuEl: any;
 
   beforeEach(() => {
     buttonEl = new IdsMenuButton();
@@ -55,12 +50,12 @@ describe('IdsMenuButton Component', () => {
   });
 
   it('renders correctly', () => {
-    const newButtonElem = new IdsMenuButton();
+    const newButtonElem: any = new IdsMenuButton();
     newButtonElem.id = 'new-button';
     newButtonElem.dropdownIcon = 'more';
     document.body.appendChild(newButtonElem);
 
-    const newMenuElem = new IdsPopupMenu();
+    const newMenuElem: any = new IdsPopupMenu();
     newMenuElem.id = 'new-menu';
     document.body.appendChild(newMenuElem);
 
@@ -127,7 +122,7 @@ describe('IdsMenuButton Component', () => {
   });
 
   it('not error if no menu', () => {
-    const noMenuButton = new IdsMenuButton();
+    const noMenuButton: any = new IdsMenuButton();
     document.body.appendChild(noMenuButton);
 
     expect(() => {
@@ -146,7 +141,7 @@ describe('IdsMenuButton Component', () => {
     iconEl.icon = 'more';
     buttonEl.appendChild(iconEl);
 
-    const spanEl = document.createElement('span');
+    const spanEl: any = document.createElement('span');
     spanEl.classList.add('audible');
     spanEl.text = 'Icon Only Button';
     buttonEl.appendChild(spanEl);
@@ -165,7 +160,7 @@ describe('IdsMenuButton Component', () => {
       menuEl.dispatchEvent(closeEvent);
 
       setTimeout(() => {
-        expect(document.activeElement.isEqualNode(buttonEl)).toBeTruthy();
+        expect((document as any).activeElement.isEqualNode(buttonEl)).toBeTruthy();
       }, 20);
     }, 20);
   });
