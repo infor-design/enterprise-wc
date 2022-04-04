@@ -133,11 +133,11 @@ export default class IdsLookup extends Base {
   }
 
   /**
- * Callback for dirty tracker setting change
- * @param {boolean} value The changed value
- * @returns {void}
- */
-  onDirtyTrackerChange(value) {
+   * Callback for dirty tracker setting change
+   * @param {boolean} value The changed value
+   * @returns {void}
+   */
+  onDirtyTrackerChange(value: boolean) {
     if (value) {
       this.container?.setAttribute(attributes.DIRTY_TRACKER, value);
     } else {
@@ -387,8 +387,8 @@ export default class IdsLookup extends Base {
   get delimiter(): string { return this.getAttribute(attributes.DELIMITER) || ','; }
 
   /**
- * @returns {HTMLInputElement} Reference to the IdsTriggerField
- */
+   * @returns {HTMLInputElement} Reference to the IdsTriggerField
+   */
   get input() {
     return this.container;
   }
