@@ -91,7 +91,7 @@ export default class IdsNotificationBanner extends Base {
    * @param {string | null} value the type value
    * success, alert, info, error
    */
-  set type(value) {
+  set type(value: string) {
     if (!value || TYPES[value] === undefined) {
       this.removeAttribute(attributes.TYPE);
       this.setAttribute(attributes.TYPE, TYPES.success.type);
@@ -102,7 +102,7 @@ export default class IdsNotificationBanner extends Base {
     }
   }
 
-  get type() { return this.getAttribute(attributes.TYPE); }
+  get type(): string { return this.getAttribute(attributes.TYPE); }
 
   /**
    * Set the link inside the Notification Banner
