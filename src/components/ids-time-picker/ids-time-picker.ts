@@ -26,6 +26,7 @@ const TIME = {
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
+ * @mixes IdsDirtyTrackerMixin
  * @mixes IdsPopupOpenEventsMixin
  * @mixes IdsThemeMixin
  * @mixes IdsLocaleMixin
@@ -151,6 +152,19 @@ export default class IdsTimePicker extends Base {
         // handle default case
           break;
       }
+    }
+  }
+
+  /**
+   * Callback for dirty tracker setting change
+   * @param {boolean} value The changed value
+   * @returns {void}
+   */
+  onDirtyTrackerChange(value) {
+    if (value) {
+      this.elements.triggerField?.setAttribute(attributes.DIRTY_TRACKER, value);
+    } else {
+      this.elements.triggerField?.removeAttribute(attributes.DIRTY_TRACKER);
     }
   }
 
@@ -370,6 +384,13 @@ export default class IdsTimePicker extends Base {
     }
 
     return timeOptions
+  }
+
+  /**
+   * @returns {HTMLInputElement} Reference to the IdsTriggerField
+   */
+  get input() {
+    return this.elements.triggerField;
   }
 
   /**

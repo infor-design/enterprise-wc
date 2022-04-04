@@ -10,38 +10,44 @@ describe('Ids Date Picker e2e Tests', () => {
   });
 
   // @TODO: Revisit and figure out accessibility issues
-  it('should pass Axe accessibility tests', async () => {
+  it.skip('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await (expect(page) as any).toPassAxeTests();
+    await expect(page).toPassAxeTests();
   });
 
   it('should handle calendar popup events', async () => {
     // Closed before
-    let isOpen = await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('ids-popup')?.visible);
+    let isOpen = await page.$eval('#e2e-datepicker-value', (el) =>
+      el.shadowRoot.querySelector('ids-popup')?.visible);
 
     expect(isOpen).toBeFalsy();
 
     // Open popup
-    await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('ids-trigger-button')?.click());
+    await page.$eval('#e2e-datepicker-value', (el) =>
+      el.shadowRoot.querySelector('ids-trigger-button')?.click());
 
-    isOpen = await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('ids-popup')?.visible);
+    isOpen = await page.$eval('#e2e-datepicker-value', (el) =>
+      el.shadowRoot.querySelector('ids-popup')?.visible);
 
     expect(isOpen).toBeTruthy();
 
     // Click to itself
-    await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('ids-popup')?.click());
+    await page.$eval('#e2e-datepicker-value', (el) =>
+      el.shadowRoot.querySelector('ids-popup')?.click());
 
-    isOpen = await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('ids-popup')?.visible);
+    isOpen = await page.$eval('#e2e-datepicker-value', (el) =>
+      el.shadowRoot.querySelector('ids-popup')?.visible);
 
     expect(isOpen).toBeTruthy();
 
     // Click outside
     await page.evaluate(() => {
-      (document as any).querySelector('ids-container')?.click();
+      document.querySelector('ids-container')?.click();
     });
 
-    isOpen = await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('ids-popup')?.visible);
+    isOpen = await page.$eval('#e2e-datepicker-value', (el) =>
+      el.shadowRoot.querySelector('ids-popup')?.visible);
 
     expect(isOpen).toBeFalsy();
 
@@ -50,13 +56,15 @@ describe('Ids Date Picker e2e Tests', () => {
     await input?.focus();
     await page.keyboard.press('ArrowDown');
 
-    isOpen = await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('ids-popup')?.visible);
+    isOpen = await page.$eval('#e2e-datepicker-value', (el) =>
+      el.shadowRoot.querySelector('ids-popup')?.visible);
 
     expect(isOpen).toBeTruthy();
 
     await page.keyboard.press('Escape');
 
-    isOpen = await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('ids-popup')?.visible);
+    isOpen = await page.$eval('#e2e-datepicker-value', (el) =>
+      el.shadowRoot.querySelector('ids-popup')?.visible);
 
     expect(isOpen).toBeFalsy();
 
@@ -66,7 +74,7 @@ describe('Ids Date Picker e2e Tests', () => {
     await page.keyboard.press('Tab');
     await page.keyboard.press('Tab');
 
-    let focusedElId = await page.evaluate(() => (document as any).activeElement.id);
+    let focusedElId = await page.evaluate(() => document.activeElement.id);
 
     expect(focusedElId).toEqual('e2e-datepicker-value');
 
@@ -76,18 +84,22 @@ describe('Ids Date Picker e2e Tests', () => {
     await page.keyboard.press('Tab');
     await page.keyboard.up('ShiftLeft');
 
-    focusedElId = await page.evaluate(() => (document as any).activeElement.id);
+    focusedElId = await page.evaluate(() => document.activeElement.id);
 
     expect(focusedElId).toEqual('e2e-datepicker-value');
   });
 
   it('should set correct date to the calendar popup', async () => {
     // Open popup
-    await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('ids-trigger-button')?.click());
+    await page.$eval('#e2e-datepicker-value', (el) =>
+      el.shadowRoot.querySelector('ids-trigger-button')?.click());
 
-    let year = await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('ids-month-view')?.year);
-    let month = await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('ids-month-view')?.month);
-    let day = await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('ids-month-view')?.day);
+    let year = await page.$eval('#e2e-datepicker-value', (el) =>
+      el.shadowRoot.querySelector('ids-month-view')?.year);
+    let month = await page.$eval('#e2e-datepicker-value', (el) =>
+      el.shadowRoot.querySelector('ids-month-view')?.month);
+    let day = await page.$eval('#e2e-datepicker-value', (el) =>
+      el.shadowRoot.querySelector('ids-month-view')?.day);
 
     expect(year).toEqual(2016);
     expect(month).toEqual(2);
@@ -95,16 +107,20 @@ describe('Ids Date Picker e2e Tests', () => {
 
     // Changing date via input
     await page.evaluate(() => {
-      (document as any).querySelector('ids-container')?.click();
+      document.querySelector('ids-container')?.click();
       document.querySelector('#e2e-datepicker-value')?.setAttribute('value', '1/23/2022');
     });
 
     // Open popup
-    await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('ids-trigger-button')?.click());
+    await page.$eval('#e2e-datepicker-value', (el) =>
+      el.shadowRoot.querySelector('ids-trigger-button')?.click());
 
-    year = await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('ids-month-view')?.year);
-    month = await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('ids-month-view')?.month);
-    day = await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('ids-month-view')?.day);
+    year = await page.$eval('#e2e-datepicker-value', (el) =>
+      el.shadowRoot.querySelector('ids-month-view')?.year);
+    month = await page.$eval('#e2e-datepicker-value', (el) =>
+      el.shadowRoot.querySelector('ids-month-view')?.month);
+    day = await page.$eval('#e2e-datepicker-value', (el) =>
+      el.shadowRoot.querySelector('ids-month-view')?.day);
 
     expect(year).toEqual(2022);
     expect(month).toEqual(0);
@@ -112,16 +128,20 @@ describe('Ids Date Picker e2e Tests', () => {
 
     // Clear input value
     await page.evaluate(() => {
-      (document as any).querySelector('ids-container')?.click();
+      document.querySelector('ids-container')?.click();
       document.querySelector('#e2e-datepicker-value')?.setAttribute('value', '');
     });
 
     // Open popup
-    await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('ids-trigger-button')?.click());
+    await page.$eval('#e2e-datepicker-value', (el) =>
+      el.shadowRoot.querySelector('ids-trigger-button')?.click());
 
-    year = await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('ids-month-view')?.year);
-    month = await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('ids-month-view')?.month);
-    day = await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('ids-month-view')?.day);
+    year = await page.$eval('#e2e-datepicker-value', (el) =>
+      el.shadowRoot.querySelector('ids-month-view')?.year);
+    month = await page.$eval('#e2e-datepicker-value', (el) =>
+      el.shadowRoot.querySelector('ids-month-view')?.month);
+    day = await page.$eval('#e2e-datepicker-value', (el) =>
+      el.shadowRoot.querySelector('ids-month-view')?.day);
 
     const now = new Date();
 
@@ -131,11 +151,15 @@ describe('Ids Date Picker e2e Tests', () => {
 
     // No value with placeholder
     // Open popup
-    await page.$eval('#e2e-datepicker-required', (el: any) => el.shadowRoot.querySelector('ids-trigger-button')?.click());
+    await page.$eval('#e2e-datepicker-required', (el) =>
+      el.shadowRoot.querySelector('ids-trigger-button')?.click());
 
-    year = await page.$eval('#e2e-datepicker-required', (el: any) => el.shadowRoot.querySelector('ids-month-view')?.year);
-    month = await page.$eval('#e2e-datepicker-required', (el: any) => el.shadowRoot.querySelector('ids-month-view')?.month);
-    day = await page.$eval('#e2e-datepicker-required', (el: any) => el.shadowRoot.querySelector('ids-month-view')?.day);
+    year = await page.$eval('#e2e-datepicker-required', (el) =>
+      el.shadowRoot.querySelector('ids-month-view')?.year);
+    month = await page.$eval('#e2e-datepicker-required', (el) =>
+      el.shadowRoot.querySelector('ids-month-view')?.month);
+    day = await page.$eval('#e2e-datepicker-required', (el) =>
+      el.shadowRoot.querySelector('ids-month-view')?.day);
 
     expect(year).toEqual(now.getFullYear());
     expect(month).toEqual(now.getMonth());
@@ -149,7 +173,8 @@ describe('Ids Date Picker e2e Tests', () => {
     });
 
     // Open popup
-    await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('ids-trigger-button')?.click());
+    await page.$eval('#e2e-datepicker-value', (el) =>
+      el.shadowRoot.querySelector('ids-trigger-button')?.click());
 
     // Click to calendar day
     await page.evaluate(() => {
@@ -159,7 +184,7 @@ describe('Ids Date Picker e2e Tests', () => {
       day?.click();
     });
 
-    let value = await page.$eval('#e2e-datepicker-value', (el: any) => el?.value);
+    let value = await page.$eval('#e2e-datepicker-value', (el) => el?.value);
 
     expect(value).toEqual('3/31/2016');
 
@@ -175,17 +200,19 @@ describe('Ids Date Picker e2e Tests', () => {
       component?.shadowRoot.querySelector('.popup-btn-end')?.click();
     });
 
-    value = await page.$eval('#e2e-datepicker-value', (el: any) => el?.value);
+    value = await page.$eval('#e2e-datepicker-value', (el) => el?.value);
 
     expect(value).toEqual('3/26/2022');
 
     // Open popup
-    await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('ids-trigger-button')?.click());
+    await page.$eval('#e2e-datepicker-value', (el) =>
+      el.shadowRoot.querySelector('ids-trigger-button')?.click());
 
     // Clear button
-    await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('.popup-btn-start')?.click());
+    await page.$eval('#e2e-datepicker-value', (el) =>
+      el.shadowRoot.querySelector('.popup-btn-start')?.click());
 
-    value = await page.$eval('#e2e-datepicker-value', (el: any) => el?.value);
+    value = await page.$eval('#e2e-datepicker-value', (el) => el?.value);
 
     expect(value).toEqual('');
   });
@@ -205,9 +232,12 @@ describe('Ids Date Picker e2e Tests', () => {
       `);
     });
 
-    const hasCssClass = await page.$eval('#e2e-datepicker-toolbar', (el: any) => el.container.classList.contains('is-calendar-toolbar'));
-    const hasTabindex = await page.$eval('#e2e-datepicker-toolbar', (el: any) => el.container.getAttribute('tabindex') === '0');
-    const hasCancelBtn = await page.$eval('#e2e-datepicker-toolbar', (el: any) => el.shadowRoot.querySelector('.popup-btn-start ids-text')?.textContent === 'Cancel');
+    const hasCssClass = await page.$eval('#e2e-datepicker-toolbar', (el) =>
+      el.container.classList.contains('is-calendar-toolbar'));
+    const hasTabindex = await page.$eval('#e2e-datepicker-toolbar', (el) =>
+      el.container.getAttribute('tabindex') === '0');
+    const hasCancelBtn = await page.$eval('#e2e-datepicker-toolbar', (el) =>
+      el.shadowRoot.querySelector('.popup-btn-start ids-text')?.textContent === 'Cancel');
 
     expect(hasCssClass).toBeTruthy();
     expect(hasTabindex).toBeTruthy();
@@ -222,14 +252,14 @@ describe('Ids Date Picker e2e Tests', () => {
       component.day = 22;
     });
 
-    const value = await page.$eval('#e2e-datepicker-toolbar', (el: any) => el.value);
+    const value = await page.$eval('#e2e-datepicker-toolbar', (el) => el.value);
 
     expect(value).toEqual('is calendar toolbar');
   });
 
   it('should handle validation', async () => {
-    let isRequired = await page.$eval('#e2e-datepicker-required', (el: any) => el.validate === 'required');
-    let validationEvents = await page.$eval('#e2e-datepicker-required', (el: any) => el.validationEvents);
+    let isRequired = await page.$eval('#e2e-datepicker-required', (el) => el.validate === 'required');
+    let validationEvents = await page.$eval('#e2e-datepicker-required', (el) => el.validationEvents);
 
     expect(isRequired).toBeTruthy();
     expect(validationEvents).toEqual('change blur');
@@ -239,8 +269,8 @@ describe('Ids Date Picker e2e Tests', () => {
       document.querySelector('#e2e-datepicker-required').validationEvents = null;
     });
 
-    isRequired = await page.$eval('#e2e-datepicker-required', (el: any) => el.validate === 'required');
-    validationEvents = await page.$eval('#e2e-datepicker-required', (el: any) => el.validationEvents);
+    isRequired = await page.$eval('#e2e-datepicker-required', (el) => el.validate === 'required');
+    validationEvents = await page.$eval('#e2e-datepicker-required', (el) => el.validationEvents);
 
     expect(isRequired).toBeFalsy();
     expect(validationEvents).toEqual('change blur');
@@ -249,14 +279,14 @@ describe('Ids Date Picker e2e Tests', () => {
       document.querySelector('#e2e-datepicker-required').validationEvents = 'blur';
     });
 
-    validationEvents = await page.$eval('#e2e-datepicker-required', (el: any) => el.validationEvents);
+    validationEvents = await page.$eval('#e2e-datepicker-required', (el) => el.validationEvents);
 
     expect(validationEvents).toEqual('blur');
   });
 
   it('should handle locale change', async () => {
-    let firstDayOfWeek = await page.$eval('#e2e-datepicker-value', (el: any) => el.firstDayOfWeek);
-    let isRtl = await page.$eval('#e2e-datepicker-value', (el: any) => el.getAttribute('dir') === 'rtl');
+    let firstDayOfWeek = await page.$eval('#e2e-datepicker-value', (el) => el.firstDayOfWeek);
+    let isRtl = await page.$eval('#e2e-datepicker-value', (el) => el.getAttribute('dir') === 'rtl');
 
     expect(isRtl).toBeFalsy();
     expect(firstDayOfWeek).toEqual(0);
@@ -266,9 +296,10 @@ describe('Ids Date Picker e2e Tests', () => {
     });
 
     // Wait till calendars load
-    await page.waitForFunction(() => document.querySelector('ids-container')?.locale?.calendar().name === 'islamic-umalqura');
+    await page.waitForFunction(() =>
+      document.querySelector('ids-container')?.locale?.calendar().name === 'islamic-umalqura');
 
-    isRtl = await page.$eval('#e2e-datepicker-value', (el: any) => el.getAttribute('dir') === 'rtl');
+    isRtl = await page.$eval('#e2e-datepicker-value', (el) => el.getAttribute('dir') === 'rtl');
 
     expect(isRtl).toBeTruthy();
 
@@ -277,13 +308,14 @@ describe('Ids Date Picker e2e Tests', () => {
     });
 
     // Wait till calendars load
-    await page.waitForFunction(() => document.querySelector('ids-container')?.locale?.calendar().name === 'gregorian');
+    await page.waitForFunction(() =>
+      document.querySelector('ids-container')?.locale?.calendar().name === 'gregorian');
 
-    firstDayOfWeek = await page.$eval('#e2e-datepicker-value', (el: any) => el.firstDayOfWeek);
+    firstDayOfWeek = await page.$eval('#e2e-datepicker-value', (el) => el.firstDayOfWeek);
 
     expect(firstDayOfWeek).toEqual(6);
 
-    firstDayOfWeek = await page.$eval('#e2e-datepicker-required', (el: any) => el.firstDayOfWeek);
+    firstDayOfWeek = await page.$eval('#e2e-datepicker-required', (el) => el.firstDayOfWeek);
 
     expect(firstDayOfWeek).toEqual(1);
 
@@ -291,7 +323,7 @@ describe('Ids Date Picker e2e Tests', () => {
       document.querySelector('ids-container')?.setLocale('en-US');
     });
 
-    isRtl = await page.$eval('#e2e-datepicker-value', (el: any) => el.getAttribute('dir') === 'rtl');
+    isRtl = await page.$eval('#e2e-datepicker-value', (el) => el.getAttribute('dir') === 'rtl');
 
     expect(isRtl).toBeFalsy();
   });
@@ -308,24 +340,24 @@ describe('Ids Date Picker e2e Tests', () => {
       component.value = '3/4/2016';
     });
 
-    await page.$eval('#e2e-datepicker-value', (el: any) => el?.click());
+    await page.$eval('#e2e-datepicker-value', (el) => el?.click());
 
     await page.keyboard.press('Equal');
 
-    let value = await page.$eval('#e2e-datepicker-value', (el: any) => el.value);
+    let value = await page.$eval('#e2e-datepicker-value', (el) => el.value);
 
     expect(value).toEqual('3/5/2016');
 
     await page.keyboard.press('Minus');
     await page.keyboard.press('Minus');
 
-    value = await page.$eval('#e2e-datepicker-value', (el: any) => el.value);
+    value = await page.$eval('#e2e-datepicker-value', (el) => el.value);
 
     expect(value).toEqual('3/3/2016');
 
     await page.keyboard.press('KeyT');
 
-    value = await page.$eval('#e2e-datepicker-value', (el: any) => el.value);
+    value = await page.$eval('#e2e-datepicker-value', (el) => el.value);
 
     expect(value).toEqual(new Intl.DateTimeFormat('en-US').format(new Date()));
 
@@ -338,13 +370,13 @@ describe('Ids Date Picker e2e Tests', () => {
 
     await page.keyboard.press('Minus');
 
-    value = await page.$eval('#e2e-datepicker-value', (el: any) => el.value);
+    value = await page.$eval('#e2e-datepicker-value', (el) => el.value);
 
     expect(value).toEqual('2021-10-18');
 
     await page.keyboard.press('Equal');
 
-    value = await page.$eval('#e2e-datepicker-value', (el: any) => el.value);
+    value = await page.$eval('#e2e-datepicker-value', (el) => el.value);
 
     expect(value).toEqual('2021-10-18');
   });
@@ -357,10 +389,10 @@ describe('Ids Date Picker e2e Tests', () => {
       );
     });
 
-    const value = await page.$eval('#e2e-monthyear-picker', (el: any) => el?.value);
-    const month = await page.$eval('#e2e-monthyear-picker', (el: any) => el?.month);
-    const year = await page.$eval('#e2e-monthyear-picker', (el: any) => el?.year);
-    let expanded = await page.$eval('#e2e-monthyear-picker', (el: any) => el?.expanded && el?.classList.contains('is-expaned'));
+    const value = await page.$eval('#e2e-monthyear-picker', (el) => el?.value);
+    const month = await page.$eval('#e2e-monthyear-picker', (el) => el?.month);
+    const year = await page.$eval('#e2e-monthyear-picker', (el) => el?.year);
+    let expanded = await page.$eval('#e2e-monthyear-picker', (el) => el?.expanded && el?.classList.contains('is-expaned'));
 
     // Check initial values
     expect(value).toEqual('January 2021');
@@ -369,15 +401,15 @@ describe('Ids Date Picker e2e Tests', () => {
     expect(expanded).toBeFalsy();
 
     // Open/close picker with click to toggle button
-    await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('ids-toggle-button')?.click());
+    await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('ids-toggle-button')?.click());
 
-    expanded = await page.$eval('#e2e-monthyear-picker', (el: any) => el.expanded);
+    expanded = await page.$eval('#e2e-monthyear-picker', (el) => el.expanded);
 
     expect(expanded).toBeTruthy();
 
-    await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('ids-toggle-button')?.click());
+    await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('ids-toggle-button')?.click());
 
-    expanded = await page.$eval('#e2e-monthyear-picker', (el: any) => el.expanded);
+    expanded = await page.$eval('#e2e-monthyear-picker', (el) => el.expanded);
 
     expect(expanded).toBeFalsy();
 
@@ -386,14 +418,14 @@ describe('Ids Date Picker e2e Tests', () => {
       document.querySelector('#e2e-monthyear-picker').expanded = true;
     });
 
-    expanded = await page.$eval('#e2e-monthyear-picker', (el: any) => el.expanded);
+    expanded = await page.$eval('#e2e-monthyear-picker', (el) => el.expanded);
 
     expect(expanded).toBeTruthy();
 
     // Check month/year default selected in the list
-    let monthSelectedIndex = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.dataset.month);
-    let monthSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.textContent);
-    let yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    let monthSelectedIndex = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.dataset.month);
+    let monthSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.textContent);
+    let yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
 
     expect(+monthSelectedIndex).toEqual(0);
     expect(monthSelectedText).toEqual('January');
@@ -402,16 +434,16 @@ describe('Ids Date Picker e2e Tests', () => {
     // Changing month with keyboard
     await page.keyboard.press('ArrowUp');
 
-    monthSelectedIndex = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.dataset.month);
-    monthSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.textContent);
+    monthSelectedIndex = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.dataset.month);
+    monthSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.textContent);
 
     expect(+monthSelectedIndex).toEqual(11);
     expect(monthSelectedText).toEqual('December');
 
     await page.keyboard.press('ArrowDown');
 
-    monthSelectedIndex = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.dataset.month);
-    monthSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.textContent);
+    monthSelectedIndex = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.dataset.month);
+    monthSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.textContent);
 
     expect(+monthSelectedIndex).toEqual(0);
     expect(monthSelectedText).toEqual('January');
@@ -420,44 +452,44 @@ describe('Ids Date Picker e2e Tests', () => {
     await page.keyboard.press('Tab');
     await page.keyboard.press('Enter');
 
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
     expect(yearSelectedText).toEqual('2011');
 
     await page.keyboard.press('ArrowUp');
     await page.keyboard.press('Enter');
 
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
     expect(yearSelectedText).toEqual('2021');
 
     await page.keyboard.press('ArrowUp');
 
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
     expect(yearSelectedText).toEqual('2026');
 
     await page.keyboard.press('ArrowDown');
     await page.keyboard.press('Enter');
 
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
     expect(yearSelectedText).toEqual('2031');
 
     await page.keyboard.press('ArrowDown');
     await page.keyboard.press('ArrowDown');
 
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
     expect(yearSelectedText).toEqual('2027');
 
     await page.keyboard.press('ArrowUp');
     await page.keyboard.press('Enter');
     await page.keyboard.press('Enter');
 
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
     expect(yearSelectedText).toEqual('2011');
 
     await page.keyboard.press('ArrowDown');
     await page.keyboard.press('ArrowDown');
     await page.keyboard.press('ArrowUp');
 
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
     expect(yearSelectedText).toEqual('2007');
 
     await page.keyboard.press('Tab');
@@ -465,35 +497,35 @@ describe('Ids Date Picker e2e Tests', () => {
     await page.keyboard.press('ArrowDown');
     await page.keyboard.press('Enter');
 
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
     expect(yearSelectedText).toEqual('2021');
 
     await page.keyboard.press('ArrowUp');
 
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
 
     expect(yearSelectedText).toEqual('2026');
 
     // Changing month/year by clicking to list items
-    await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-month')?.click());
-    await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year')?.click());
+    await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-month')?.click());
+    await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year')?.click());
 
-    monthSelectedIndex = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.dataset.month);
-    monthSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.textContent);
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    monthSelectedIndex = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.dataset.month);
+    monthSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.textContent);
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
 
     expect(+monthSelectedIndex).toEqual(0);
     expect(monthSelectedText).toEqual('January');
     expect(yearSelectedText).toEqual('2017');
 
-    await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-btn-up')?.click());
+    await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-btn-up')?.click());
 
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
     expect(yearSelectedText).toEqual('2011');
 
-    await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-btn-down')?.click());
+    await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-btn-down')?.click());
 
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
     expect(yearSelectedText).toEqual('2021');
 
     // Legend doesn't apply if dropdown
@@ -501,7 +533,7 @@ describe('Ids Date Picker e2e Tests', () => {
       document.querySelector('#e2e-monthyear-picker').legend = [{ name: 'Holiday' }];
     });
 
-    const legend = await page.$eval('#e2e-monthyear-picker', (el: any) => el?.legend);
+    const legend = await page.$eval('#e2e-monthyear-picker', (el) => el?.legend);
 
     expect(legend).not.toBeDefined();
 
@@ -510,7 +542,7 @@ describe('Ids Date Picker e2e Tests', () => {
       document.querySelector('#e2e-monthyear-picker').rangeSettings = { maxDays: 5 };
     });
 
-    const rangeSettings = await page.$eval('#e2e-monthyear-picker', (el: any) => el?.rangeSettings);
+    const rangeSettings = await page.$eval('#e2e-monthyear-picker', (el) => el?.rangeSettings);
 
     expect(rangeSettings).not.toBeDefined();
 
@@ -528,19 +560,19 @@ describe('Ids Date Picker e2e Tests', () => {
 
     const btnStartText = await page.$eval(
       '#e2e-datepicker-legend',
-      (el: any) => el?.container.querySelector('.popup-btn-start ids-text')?.textContent
+      (el) => el?.container.querySelector('.popup-btn-start ids-text')?.textContent
     );
 
     expect(btnStartText).toEqual('Cancel');
 
     await page.$eval(
       '#e2e-datepicker-legend',
-      (el: any) => el?.container.querySelector('.popup-btn-end')?.click()
+      (el) => el?.container.querySelector('.popup-btn-end')?.click()
     );
 
     const appliedToMonthView = await page.$eval(
       '#e2e-datepicker-legend',
-      (el: any) => {
+      (el) => {
         const monthView = el?.container.querySelector('ids-month-view');
 
         return monthView?.month === 0 && monthView?.year === 2022;
@@ -551,12 +583,12 @@ describe('Ids Date Picker e2e Tests', () => {
 
     await page.$eval(
       '#e2e-datepicker-legend',
-      (el: any) => el?.container.querySelector('.popup-btn-end')?.click()
+      (el) => el?.container.querySelector('.popup-btn-end')?.click()
     );
 
     const datePickerValue = await page.$eval(
       '#e2e-datepicker-legend',
-      (el: any) => el?.value
+      (el) => el?.value
     );
 
     expect(datePickerValue).toEqual('1/15/2022');
@@ -576,7 +608,7 @@ describe('Ids Date Picker e2e Tests', () => {
       };
     });
 
-    let value = await page.$eval('#e2e-range-picker', (el: any) => el?.value);
+    let value = await page.$eval('#e2e-range-picker', (el) => el?.value);
 
     expect(value).toEqual('2/3/2019 - 3/15/2019');
 
@@ -586,8 +618,8 @@ describe('Ids Date Picker e2e Tests', () => {
       document.querySelector('#e2e-range-picker')?.container.querySelector('ids-trigger-button')?.click();
     });
 
-    const start = await page.$eval('#e2e-range-picker', (el: any) => el?.shadowRoot.querySelector('ids-month-view')?.rangeSettings.start?.getTime());
-    const end = await page.$eval('#e2e-range-picker', (el: any) => el?.shadowRoot.querySelector('ids-month-view')?.rangeSettings.end?.getTime());
+    const start = await page.$eval('#e2e-range-picker', (el) => el?.shadowRoot.querySelector('ids-month-view')?.rangeSettings.start?.getTime());
+    const end = await page.$eval('#e2e-range-picker', (el) => el?.shadowRoot.querySelector('ids-month-view')?.rangeSettings.end?.getTime());
 
     expect(start).toEqual(new Date('3/4/2021').getTime());
     expect(end).toEqual(new Date('3/22/2021').getTime());
@@ -602,10 +634,10 @@ describe('Ids Date Picker e2e Tests', () => {
 
     await page.$eval(
       '#e2e-range-picker',
-      (el: any) => el?.shadowRoot.querySelector('ids-month-view')?.container.querySelector('.btn-today')?.click()
+      (el) => el?.shadowRoot.querySelector('ids-month-view')?.container.querySelector('.btn-today')?.click()
     );
 
-    value = await page.$eval('#e2e-range-picker', (el: any) => el?.value);
+    value = await page.$eval('#e2e-range-picker', (el) => el?.value);
 
     expect(value).toEqual(todayFormatted);
 
@@ -629,7 +661,7 @@ describe('Ids Date Picker e2e Tests', () => {
       }
     });
 
-    value = await page.$eval('#e2e-range-picker', (el: any) => el?.value);
+    value = await page.$eval('#e2e-range-picker', (el) => el?.value);
     expect(value).toEqual('3/22/2021 - 3/22/2021');
 
     await page.evaluate(() => {
@@ -645,7 +677,7 @@ describe('Ids Date Picker e2e Tests', () => {
       }
     });
 
-    value = await page.$eval('#e2e-range-picker', (el: any) => el?.value);
+    value = await page.$eval('#e2e-range-picker', (el) => el?.value);
     expect(value).toEqual('1/2/2021 - 1/25/2021');
   });
 });

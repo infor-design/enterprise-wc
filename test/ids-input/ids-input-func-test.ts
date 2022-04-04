@@ -343,7 +343,7 @@ describe('IdsInput Component', () => {
     expect(input.labelEl.querySelector('.msg-dirty')).toBeFalsy();
     input.dirtyTracker = true;
     input.setDirtyTracker();
-    expect(input.dirtyTracker).toEqual('true');
+    expect(input.dirtyTracker).toEqual(true);
     input.input.value = 'test';
     const event = new Event('change', { bubbles: true });
     input.input.dispatchEvent(event);
@@ -356,7 +356,7 @@ describe('IdsInput Component', () => {
     expect(input.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
     expect(input.labelEl.querySelector('.msg-dirty')).toBeFalsy();
     input.dirtyTracker = true;
-    expect(input.dirtyTracker).toEqual('true');
+    expect(input.dirtyTracker).toEqual(true);
     input.input.value = 'test';
     const event = new Event('change', { bubbles: true });
     input.input.dispatchEvent(event);

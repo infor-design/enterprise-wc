@@ -551,47 +551,22 @@ describe('IdsEditor Component', () => {
     expect(content).toEqual('<img src="test.png" />');
   });
 
-  it('should clean html', () => {
-    const html = cleanHtml(`
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title></title>
-        </head>
-        <body>
-          <p style='margin-top:0cm;margin-right:0cm;margin-bottom:8.0pt;margin-left:0cm;line-height:107%;font-size:15px;font-family:"Calibri",sans-serif;'>This is a text document. Here is a <em>list</em>:</p>
-          <ul style="list-style-type: disc;">
-            <li>Apples</li>
-            <li>Orange</li>
-          </ul>
-          <ul style="list-style-type: disc;">
-            <p><span><span>·</span></span></p>
-            <span style="mso-spacerun:yes"></span>
-            <span style="mso-spacerun : yes ;" > \u00a0</span>
-          </ul>
-          <font face="Times New Roman" class="Mso">Lorem ipsum dolor sit amet</font>
-        <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v652eace1692a40cfa3763df669d7439c1639079717194" integrity="sha512-Gi7xpJR8tSkrpF7aordPZQlW2DLtzUlZcumS8dMQjwDHEnw9I7ZLyiOj/6tZStRBGtGgN6ceN6cMH8z7etPGlw==" data-cf-beacon='{"rayId":"6f408f494b9de6ec","token":"4581d6a58cf94e929fad52deda295622","version":"2021.12.0","si":100}' crossorigin="anonymous"></script>
-        </body>
-      </html>
-    `);
+  it('should dirty tracking', async () => {
+    container.setLanguage('ar');
+    await processAnimFrame();
+    editor.dirtyTracker = true;
+    await processAnimFrame();
+    await wait(500);
 
-    expect(html).toContain('<p style="font-size:15px;">This is a text document. Here is a <em>list</em>:</li> <ul> <ul><li>Apples</li><li>Orange</li> </ul> <ul> <li></ul></li> </ul> <font face="Times New Roman" class="Mso">Lorem ipsum dolor sit amet</font>');
-  });
+    await expect(editor.value).toEqual('');
+    await expect(editor.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
+    const template = document.createElement('template');
+    template.innerHTML = '<p>test</p>';
+    editor.appendChild(template.content.childNodes[0]);
+    await processAnimFrame();
+    await wait(500);
 
-  it('should format html', () => {
-    const html = formatHtml(`<p>Embrace <a href="http://en.wikipedia.org/wiki/e-commerce" class="hyperlink">e-commerce action-items</a>, reintermediate, ecologies paradigms wireless.</p><hr/><p>Cross-platform, evolve, ROI scale cultivate eyeballs addelivery, e-services contentmorph.</p>`);
-
-    expect(html).toContain('    e-commerce action-items');
-  });
-
-  it('should convert rgb to hex color value', () => {
-    let hex = rgbToHex('rgb(255, 255, 255)');
-
-    expect(hex).toContain('#ffffff');
-    hex = rgbToHex('rgb(0, 0, 0)');
-
-    expect(hex).toContain('#000000');
+    await expect(editor.value).toEqual('<p>test</p>\n');
+    await expect(editor.shadowRoot.querySelector('.icon-dirty')).toBeTruthy();
   });
 });

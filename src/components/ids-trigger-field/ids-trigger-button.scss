@@ -33,11 +33,11 @@
   }
 
   &.inline-end {
-    @include border-l-1();
+    border-inline-start: 1px solid;
   }
 
   &.inline-start {
-    @include border-r-1();
+    border-inline-end: 1px solid;
   }
 
   // ===================================================

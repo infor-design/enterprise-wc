@@ -37,8 +37,9 @@ describe('IdsCheckboxGroup Component', () => {
   it('renders label correctly', () => {
     checkboxGroup.label = 'Label Test';
     expect(checkboxGroup.container.querySelector('ids-text').innerHTML).toEqual('Label Test');
-    checkboxGroup.label = '';
-    expect(checkboxGroup.getAttribute('label')).toBeFalsy();
+
+    checkboxGroup.label = null;
+    expect(checkboxGroup.container.querySelector('ids-text').innerHTML).toEqual('');
   });
 
   it('renders checkboxes correctly', () => {

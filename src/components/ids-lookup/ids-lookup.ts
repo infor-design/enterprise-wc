@@ -74,6 +74,7 @@ export default class IdsLookup extends Base {
    */
   static get attributes() {
     return [
+      ...super.attributes,
       attributes.DISABLED,
       attributes.FIELD,
       attributes.LABEL,
@@ -129,6 +130,19 @@ export default class IdsLookup extends Base {
       </ids-modal>
     </slot>
     `;
+  }
+
+  /**
+ * Callback for dirty tracker setting change
+ * @param {boolean} value The changed value
+ * @returns {void}
+ */
+  onDirtyTrackerChange(value) {
+    if (value) {
+      this.container?.setAttribute(attributes.DIRTY_TRACKER, value);
+    } else {
+      this.container?.removeAttribute(attributes.DIRTY_TRACKER);
+    }
   }
 
   /**
@@ -371,6 +385,13 @@ export default class IdsLookup extends Base {
   }
 
   get delimiter(): string { return this.getAttribute(attributes.DELIMITER) || ','; }
+
+  /**
+ * @returns {HTMLInputElement} Reference to the IdsTriggerField
+ */
+  get input() {
+    return this.container;
+  }
 
   /**
    * Set the value in the input for the selected row(s)

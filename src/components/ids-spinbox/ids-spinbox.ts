@@ -497,6 +497,11 @@ export default class IdsSpinbox extends Base {
     } else if (!this.hasAttribute(attributes.READONLY)) {
       this.decrementButton?.removeAttribute(attributes.DISABLED);
     }
+
+    if (this.disabled) {
+      this.incrementButton?.setAttribute(attributes.DISABLED, '');
+      this.decrementButton?.setAttribute(attributes.DISABLED, '');
+    }
   }
 
   /**
