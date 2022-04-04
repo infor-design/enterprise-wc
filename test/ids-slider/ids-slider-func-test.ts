@@ -4,7 +4,7 @@
 import processAnimFrame from '../helpers/process-anim-frame';
 import '../helpers/resize-observer-mock';
 
-import IdsSlider from '../../src/components/ids-slider/ids-slider';
+import '../../src/components/ids-slider/ids-slider';
 
 const HTMLSnippets = {
   SINGLE_SLIDER: (
@@ -28,20 +28,20 @@ const HTMLSnippets = {
 };
 
 describe('IdsSlider Component', () => {
-  let slider;
+  let slider: any;
 
-  const createEvent = (type, attributes = {}) => {
+  const createEvent = (type: any, attributes = {}) => {
     const event = new Event(type);
     Object.assign(event, attributes);
     return event;
   };
 
-  const createKeyboardEvent = (keyName) => {
+  const createKeyboardEvent = (keyName: any) => {
     const event = new KeyboardEvent('keydown', { key: keyName });
     return event;
   };
 
-  const createElemViaTemplate = async (innerHTML) => {
+  const createElemViaTemplate = async (innerHTML: any) => {
     slider?.remove?.();
 
     const template = document.createElement('template');
@@ -256,7 +256,7 @@ describe('IdsSlider Component', () => {
     slider = await createElemViaTemplate(HTMLSnippets.LANGUAGE_SLIDER);
     processAnimFrame();
 
-    document.body.querySelector('ids-container').setAttribute('language', 'ar');
+    (document.body as any).querySelector('ids-container').setAttribute('language', 'ar');
 
     slider.value = slider.min + 1;
 
@@ -266,7 +266,7 @@ describe('IdsSlider Component', () => {
     slider.isRTL = false;
     expect(slider.isRTL).toBeFalsy();
 
-    document.querySelector('ids-container').click();
+    (document as any).querySelector('ids-container').click();
   });
 
   it('drags correctly on double slider', async () => {
@@ -335,7 +335,7 @@ describe('IdsSlider Component', () => {
 
     slider.thumbDraggable.focus();
 
-    expect(document.activeElement.name).toBe('ids-slider');
+    expect((document as any).activeElement.name).toBe('ids-slider');
 
     slider.dispatchEvent(
       createKeyboardEvent('ArrowUp')
@@ -369,7 +369,7 @@ describe('IdsSlider Component', () => {
 
     slider.thumbDraggable.focus();
 
-    expect(document.activeElement.name).toBe('ids-slider');
+    expect((document as any).activeElement.name).toBe('ids-slider');
 
     slider.dispatchEvent(
       createKeyboardEvent('ArrowLeft')

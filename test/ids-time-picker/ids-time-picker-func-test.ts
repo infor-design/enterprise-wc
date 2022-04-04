@@ -7,10 +7,10 @@ import IdsTimePicker from '../../src/components/ids-time-picker/ids-time-picker'
 import { attributes } from '../../src/core/ids-attributes';
 
 describe('IdsTimePicker Component', () => {
-  let timepicker;
+  let timepicker: any;
 
   beforeEach(async () => {
-    const element = new IdsTimePicker();
+    const element: any = new IdsTimePicker();
     document.body.appendChild(element);
     timepicker = document.querySelector('ids-time-picker');
   });
@@ -442,8 +442,8 @@ describe('IdsTimePicker Component', () => {
   it('should render field height', () => {
     const heights = ['xs', 'sm', 'md', 'lg'];
     const defaultHeight = 'md';
-    const className = (h) => `field-height-${h}`;
-    const checkHeight = (height) => {
+    const className = (h: any) => `field-height-${h}`;
+    const checkHeight = (height: any) => {
       timepicker.fieldHeight = height;
 
       expect(timepicker.elements.triggerField.getAttribute('field-height')).toEqual(height);
@@ -486,7 +486,7 @@ describe('IdsTimePicker Component', () => {
   it('should set size', () => {
     const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
     const defaultSize = 'sm';
-    const checkSize = (size) => {
+    const checkSize = (size: any) => {
       timepicker.size = size;
 
       expect(timepicker.getAttribute('size')).toEqual(size);

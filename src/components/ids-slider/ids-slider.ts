@@ -180,7 +180,11 @@ export default class IdsSlider extends Base {
    */
   set vertical(value: boolean) {
     const val = stringToBool(value);
-    val ? this.setAttribute(attributes.VERTICAL, val) : this.removeAttribute(attributes.VERTICAL);
+    if (val) {
+      this.setAttribute(attributes.VERTICAL, val);
+    } else {
+      this.removeAttribute(attributes.VERTICAL);
+    }
     if (val) {
       this.container.classList.add('vertical');
       this.slider.classList.add('vertical');
@@ -189,9 +193,9 @@ export default class IdsSlider extends Base {
       this.trackArea.classList.add('vertical');
       this.tickContainer.classList.add('vertical');
       this.tooltip.classList.add('vertical');
-      this.type === 'double' && this.tooltipSecondary.classList.add('vertical');
+      if (this.type === 'double') this.tooltipSecondary.classList.add('vertical');
       this.tooltipPin.classList.add('vertical');
-      this.type === 'double' && this.tooltipPinSecondary.classList.add('vertical');
+      if (this.type === 'double') this.tooltipPinSecondary.classList.add('vertical');
     }
   }
 
@@ -208,7 +212,7 @@ export default class IdsSlider extends Base {
       this.#isRTL = value;
       this.#moveThumb();
       this.#updateProgressBar();
-      this.type === 'double' && this.#moveThumb('secondary');
+      if (this.type === 'double') this.#moveThumb('secondary');
     }
   }
 
@@ -318,7 +322,7 @@ export default class IdsSlider extends Base {
       if (labels.length === labelElements.length) {
         labelElements.forEach((x: { innerHTML: any; classList: { add: (arg0: string) => any; }; }, i: number) => {
           x.innerHTML = this.vertical ? labels[labels.length - 1 - i] : labels[i];
-          this.vertical && x.classList.add('vertical'); // add vertical styles
+          if (this.vertical) x.classList.add('vertical'); // add vertical styles
         });
       }
     } else {
@@ -359,7 +363,11 @@ export default class IdsSlider extends Base {
           const x = Math.abs(stepLength - this.stepNumber);
           for (let i = 0; i < x; i++) {
             // remove or add ticks accordingly
-            stepLength > this.stepNumber ? this.container.querySelector('.tick').remove() : this.container.querySelector('.tick:last-child').insertAdjacentHTML('afterend', '<span class="tick"></span>');
+            if (stepLength > this.stepNumber) {
+              this.container.querySelector('.tick').remove();
+            } else {
+              this.container.querySelector('.tick:last-child').insertAdjacentHTML('afterend', '<span class="tick"></span>');
+            }
           }
         }
       }
@@ -582,7 +590,11 @@ export default class IdsSlider extends Base {
       thumbShadow = this.thumbShadowSecondary;
     }
 
-    hide ? thumbShadow.setAttribute('hidden', '') : thumbShadow.removeAttribute('hidden');
+    if (hide) {
+      thumbShadow.setAttribute('hidden', '');
+    } else {
+      thumbShadow.removeAttribute('hidden');
+    }
   }
 
   /**
@@ -767,7 +779,7 @@ export default class IdsSlider extends Base {
 
     // DRAGGABLE EVENTS
     this.#attachDragEventListeners();
-    this.type === 'double' && this.#attachDragEventListeners('secondary');
+    if (this.type === 'double') this.#attachDragEventListeners('secondary');
 
     // KEYBOARD EVENTS
     this.#attachKeyboardListeners();
@@ -803,7 +815,7 @@ export default class IdsSlider extends Base {
       if (!this.thumbDraggable.style.transition && !this.progressTrack.style.transition) {
         this.thumbDraggable.style.setProperty('transition', 'transform 0.2s ease 0s');
         // the progress track transition animation is jittery on vertical and double sliders, so don't add for those
-        (!this.vertical || this.type !== 'double') && this.progressTrack.style.setProperty('transition', 'width 0.2s ease 0s, transform 0.2s ease 0s');
+        if (!this.vertical || this.type !== 'double') this.progressTrack.style.setProperty('transition', 'width 0.2s ease 0s, transform 0.2s ease 0s');
       }
       // secondary styles
       if (this.type === 'double' && this.thumbDraggableSecondary && !this.thumbDraggableSecondary.style.transition) {
@@ -822,7 +834,7 @@ export default class IdsSlider extends Base {
     // init UI styles
     this.#updateProgressBar();
     this.#moveThumb();
-    this.type === 'double' && this.#moveThumb('secondary');
+    if (this.type === 'double') this.#moveThumb('secondary');
     this.#toggleTransitionStyles(true);
     this.#updateColor();
 
@@ -850,7 +862,7 @@ export default class IdsSlider extends Base {
       for (const entry of entries) {
         if (entry.contentBoxSize) {
           this.#moveThumb();
-          this.type === 'double' && this.#moveThumb('secondary');
+          if (this.type === 'double') this.#moveThumb('secondary');
         }
       }
     });
@@ -875,14 +887,14 @@ export default class IdsSlider extends Base {
         }
       } else {
         this.thumbDraggable.blur();
-        this.type === 'double' && this.thumbDraggableSecondary.blur();
+        if (this.type === 'double') this.thumbDraggableSecondary.blur();
       }
     });
 
     this.onEvent('click', document, (event: any) => {
       if (event.target !== this) {
         this.#hideTooltip(true);
-        this.type === 'double' && this.#hideTooltip(true, 'secondary');
+        if (this.type === 'double') this.#hideTooltip(true, 'secondary');
       }
     });
   }
@@ -910,14 +922,14 @@ export default class IdsSlider extends Base {
 
     // Listen for drag event on draggable thumb
     this.onEvent('ids-drag', obj.thumbDraggable, (e: { detail: { mouseX: any; mouseY: any; }; }) => {
-      this.type !== 'step' && this.#hideTooltip(false);
+      if (this.type !== 'step') this.#hideTooltip(false);
 
       const [x, y] = [e.detail.mouseX, e.detail.mouseY];
       const percent = this.#calcPercentFromClick(x, y);
 
       this.#hideThumbShadow(true, obj.primaryOrSecondary);
 
-      this.type === 'double' && swapZIndex();
+      if (this.type === 'double') swapZIndex();
       // only set the percent--because changing the value causes the moveThumb() to fire like crazy
       this[obj.percentAttribute] = percent;
     });
@@ -925,7 +937,7 @@ export default class IdsSlider extends Base {
     this.onEvent('ids-dragstart', obj.thumbDraggable, () => {
       this.#toggleTransitionStyles(false);
       obj.thumbDraggable.blur();
-      this.type === 'double' && obj.thumbDraggableOther.blur();
+      if (this.type === 'double') obj.thumbDraggableOther.blur();
     });
 
     this.onEvent('ids-dragend', obj.thumbDraggable, () => {
@@ -969,24 +981,22 @@ export default class IdsSlider extends Base {
         }
 
         switch (event.key) {
-        case 'ArrowUp':
-          this.#increaseValue(primaryOrSecondary);
-          break;
-        case 'ArrowDown':
-          this.#decreaseValue(primaryOrSecondary);
-          break;
-        case 'ArrowRight':
-          this.isRTL
-            ? this.#decreaseValue(primaryOrSecondary)
-            : this.#increaseValue(primaryOrSecondary);
-          break;
-        case 'ArrowLeft':
-          this.isRTL
-            ? this.#increaseValue(primaryOrSecondary)
-            : this.#decreaseValue(primaryOrSecondary);
-          break;
-        default:
-          break;
+          case 'ArrowUp':
+            this.#increaseValue(primaryOrSecondary);
+            break;
+          case 'ArrowDown':
+            this.#decreaseValue(primaryOrSecondary);
+            break;
+          case 'ArrowRight':
+            if (this.isRTL) this.#decreaseValue(primaryOrSecondary);
+            else this.#increaseValue(primaryOrSecondary);
+            break;
+          case 'ArrowLeft':
+            if (this.isRTL) this.#increaseValue(primaryOrSecondary);
+            else this.#decreaseValue(primaryOrSecondary);
+            break;
+          default:
+            break;
         }
       }
     });

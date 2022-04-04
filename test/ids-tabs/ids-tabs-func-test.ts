@@ -4,13 +4,13 @@
 // eslint-disable-next-line
 import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';
 import expectFlagAttributeBehavior from '../helpers/expect-flag-attribute-behavior';
-import IdsTabs from '../../src/components/ids-tabs/ids-tabs';
-import IdsTab from '../../src/components/ids-tabs/ids-tab';
-import IdsTabsContext from '../../src/components/ids-tabs/ids-tabs-context';
-import IdsTabContent from '../../src/components/ids-tabs/ids-tab-content';
+import '../../src/components/ids-tabs/ids-tabs';
+import '../../src/components/ids-tabs/ids-tab';
+import '../../src/components/ids-tabs/ids-tabs-context';
+import '../../src/components/ids-tabs/ids-tab-content';
 
 import IdsHeader from '../../src/components/ids-header/ids-header';
-import IdsText from '../../src/components/ids-text/ids-text';
+import '../../src/components/ids-text/ids-text';
 import createFromTemplate from '../helpers/create-from-template';
 
 const processAnimFrame = () => new Promise((resolve) => {
@@ -42,7 +42,7 @@ const TAB_CONTEXT_HTML = (
 );
 
 describe('IdsTabs Tests', () => {
-  let elem;
+  let elem: any;
 
   /**
    * scans through to find all ids-tab elements in an
@@ -205,7 +205,7 @@ describe('IdsTabs Tests', () => {
 
     elem.children[1].selected = true;
     await processAnimFrame();
-    // const hasValidTabs = areTabSelectionAttribsValid(elem);
+    // const hasValidTabs = areTabSelectionAttribsValid();
 
     // expect(hasValidTabs).toEqual(true);
   });
@@ -214,7 +214,7 @@ describe('IdsTabs Tests', () => {
     elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
     elem.children[0].selected = false;
     await processAnimFrame();
-    const hasValidTabs = areTabSelectionAttribsValid(elem);
+    const hasValidTabs = areTabSelectionAttribsValid();
 
     expect(hasValidTabs).toEqual(false);
   });
@@ -287,9 +287,9 @@ describe('IdsTabs Tests', () => {
 
   it('is created within ids-header and gets set to an alternate color variant', async () => {
     const idsHeader = new IdsHeader();
-    document.body.appendChild(idsHeader);
+    (document.body as any).appendChild(idsHeader);
 
-    elem = await createFromTemplate(elem, DEFAULT_TABS_HTML, idsHeader);
+    elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
   });
 
   it('predictably sets/gets color-variant', async () => {
@@ -307,13 +307,13 @@ describe('IdsTabs Tests', () => {
 
   it('clicks on an unselected tab and ids-tabs detects tabselect', async () => {
     elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
-
-    const clickEvent = new MouseEvent('click', {
+    const args: any = {
       target: elem.children[1],
       bubbles: true,
       cancelable: true,
       view: window
-    });
+    };
+    const clickEvent = new MouseEvent('click', args);
     elem.children[1].dispatchEvent(clickEvent);
   });
 

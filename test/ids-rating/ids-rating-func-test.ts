@@ -5,7 +5,7 @@
 import IdsRating from '../../src/components/ids-rating/ids-rating';
 
 describe('IdsRating Component', () => {
-  let rating;
+  let rating: any;
 
   beforeEach(async () => {
     rating = new IdsRating();
@@ -67,7 +67,7 @@ describe('IdsRating Component', () => {
     elem.stars = 5;
     elem.value = 3.5;
     document.body.appendChild(elem);
-    expect(document.querySelector('ids-rating').shadowRoot.querySelectorAll('.star').length).toEqual(5);
+    expect((document as any).querySelector('ids-rating').shadowRoot.querySelectorAll('.star').length).toEqual(5);
   });
 
   it('can click stars to select', () => {
@@ -92,10 +92,12 @@ describe('IdsRating Component', () => {
     expect(rating.value).toEqual(0);
     const star = rating.shadowRoot.querySelector('.star-4');
     star.focus();
-    let keyEvent = new KeyboardEvent('keyup', { key: 'Enter', target: star, bubbles: true });
+    const args: any = { key: 'Enter', target: star, bubbles: true };
+    let keyEvent = new KeyboardEvent('keyup', args);
     rating.container.dispatchEvent(keyEvent);
     expect(rating.value).toEqual(5);
-    keyEvent = new KeyboardEvent('keyup', { key: 'a', target: star, bubbles: true });
+    const args2: any = { key: 'a', target: star, bubbles: true };
+    keyEvent = new KeyboardEvent('keyup', args2);
     rating.container.dispatchEvent(keyEvent);
     expect(rating.value).toEqual(5);
   });

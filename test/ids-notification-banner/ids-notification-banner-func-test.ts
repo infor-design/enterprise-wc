@@ -5,7 +5,7 @@ import IdsNotificationBanner from '../../src/components/ids-notification-banner/
 import IdsHyperLink from '../../src/components/ids-hyperlink/ids-hyperlink';
 
 describe('IdsNotificationBanner Component', () => {
-  let notificationBanner;
+  let notificationBanner: any;
 
   beforeEach(async () => {
     const elem = new IdsNotificationBanner();
@@ -192,12 +192,12 @@ describe('IdsNotificationBanner Component', () => {
   });
 
   it('can create notification dynamically with add()', () => {
-    const notificationObj = {
+    const notificationObj: any = {
       id: 'ids-notification-banner-5',
       type: 'alert',
       messageText: 'DTO accepted by your manager for Sept 30, 2018.',
     };
-    const notification = new IdsNotificationBanner();
+    const notification: any = new IdsNotificationBanner();
     notification.add(notificationObj);
 
     notificationObj.parent = 'notification-container';
@@ -213,7 +213,7 @@ describe('IdsNotificationBanner Component', () => {
       link: 'https://infor.com',
       linkText: 'Learn More'
     };
-    const notification2 = new IdsNotificationBanner();
+    const notification2: any = new IdsNotificationBanner();
     notification2.add(notificationObj2);
     expect(notificationObj2.id).toEqual(undefined);
     expect(notificationObj2.linkText).toEqual('Learn More');

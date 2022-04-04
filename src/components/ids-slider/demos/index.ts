@@ -2,5 +2,5 @@ import '../ids-slider';
 import '../../ids-draggable/ids-draggable';
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.?querySelector('.survey').labels = ['very bad', 'poor', 'average', 'good', 'excellent'];
+  (document as any).querySelector('.survey').labels = ['very bad', 'poor', 'average', 'good', 'excellent'];
 });
