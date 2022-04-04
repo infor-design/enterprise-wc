@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import '../../src/components/ids-list-builder/ids-list-builder';
+import IdsListBuilder from '../../src/components/ids-list-builder/ids-list-builder';
 import '../helpers/resize-observer-mock';
 
 const sampleData = [
@@ -60,7 +60,7 @@ const HTMLSnippets = {
 };
 
 describe('IdsListBuilder Component', () => {
-  let idsListBuilder: any;
+  let idsListBuilder: IdsListBuilder | any;
 
   const createElemViaTemplate = async (innerHTML: any) => {
     idsListBuilder?.remove?.();

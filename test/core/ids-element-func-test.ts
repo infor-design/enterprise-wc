@@ -38,7 +38,7 @@ describe('IdsElement Tests', () => {
 
   it('can find the nonce', () => {
     const elem = new IdsTag();
-    expect(elem.nonce).toEqual(undefined);
+    expect(elem.nonce).toEqual('0a59a005');
     (document as any).nonce = '0a59a001';
     expect(elem.nonce).toEqual('0a59a001');
 
@@ -54,6 +54,6 @@ describe('IdsElement Tests', () => {
 
     (document as any).nonce = undefined;
     nonce.setAttribute('content', `default-src 'self'; img-src https://*; child-src 'none';`);
-    expect(elem.nonce).toEqual(undefined);
+    expect(elem.nonce).toEqual('0a59a005');
   });
 });

@@ -1,9 +1,20 @@
-/* eslint-disable no-use-before-define */
-/* eslint-disable no-async-promise-executor */
-import areJestFakeTimersEnabled from './are-jest-fake-timers-enabled';
-
 // crux of it adapted from https://github.com/testing-library/dom-testing-library
 // /blob/d347302d6b17280b71505d55d0cb9cda376b95cc/src/wait-for.js
+
+/**
+ * Test if fake jest timeouts are enabled
+ * @returns {void}
+ */
+function areJestFakeTimersEnabled() {
+  if (typeof jest !== 'undefined' && jest !== null) {
+    return (
+      // eslint-disable-next-line no-underscore-dangle
+      (setTimeout as any)._isMockFunction === true
+      || Object.prototype.hasOwnProperty.call(setTimeout, 'clock')
+    );
+  }
+  return false;
+}
 
 /**
  * Wait for an assertion to stop failing with an optional timeout;
@@ -73,6 +84,7 @@ export default async function waitFor(
       throw new TypeError('waitFor requires a dom query string or an assertion callback');
   }
 
+  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     let lastError: any;
     let intervalId: any;

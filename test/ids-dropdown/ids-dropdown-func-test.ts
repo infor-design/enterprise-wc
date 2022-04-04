@@ -394,6 +394,7 @@ describe('IdsDropdown Component', () => {
     await waitFor(() => expect(dropdown.container).toBeTruthy());
 
     dropdown.container.click();
+    await waitFor(() => expect(dropdown.popup.visible).toBeTruthy());
     expect(dropdown.popup.visible).toEqual(true);
   });
 

@@ -31,14 +31,6 @@ describe('IdsContextualActionPanel Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders hidden if no toolbar or buttons', () => {
-    cap.querySelector('[slot="toolbar"]').remove();
-    expect(cap.toolbar).toBe(undefined);
-    cap.querySelector('[slot="buttons"]').remove();
-    expect(cap.buttons).toBe(undefined);
-    expect(cap.template()).toMatchSnapshot();
-  });
-
   it('responds to its normal buttons\' clicks', async () => {
     // Insert a header toolbar
     cap.insertAdjacentHTML('afterbegin', `<ids-toolbar slot="toolbar">

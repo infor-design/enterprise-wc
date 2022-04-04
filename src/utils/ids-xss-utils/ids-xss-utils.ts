@@ -95,20 +95,18 @@ export function stripTags(html: string | number, allowed?: string) {
  * @param {string} value HTML in string form
  * @returns {string} the modified value
  */
-export function unescapeHTML(value: string | any): string {
+export function unescapeHTML(value: any) {
   if (value === '') {
     return '';
   }
 
-  const match = (regx: RegExp) => {
-    const test = value.match(regx);
-    if (test) return test[0];
-    return null;
-  };
-  const doc = new DOMParser().parseFromString(value, 'text/html');
+  if (typeof value === 'string') {
+    const match = (regx: any) => (value as any).match(regx)[0];
+    const doc = new DOMParser().parseFromString(value, 'text/html');
 
-  // Keep leading/trailing spaces
-  return `${match(/^\s*/)}${doc.documentElement?.textContent?.trim()}${match(/\s*$/)}`;
+    // Keep leading/trailing spaces
+    return `${match(/^\s*/)}${(doc.documentElement as any).textContent.trim()}${match(/\s*$/)}`;
+  }
   return value;
 }
 
