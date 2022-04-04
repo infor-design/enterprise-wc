@@ -21,8 +21,6 @@ $header-gradient-transparent-classic-contrast: rgb(0 74 153 / 0);
 
   align-items: center;
   display: flex;
-  overflow: hidden;
-  white-space: nowrap;
 
   [text-decoration] {
     text-decoration: attr(text-decoration);
@@ -46,13 +44,20 @@ $header-gradient-transparent-classic-contrast: rgb(0 74 153 / 0);
     }
   }
 
+  &.can-truncate {
+    overflow: hidden;
+    white-space: nowrap;
+
+    nav {
+      display: flex;
+      position: relative;
+      justify-content: end;
+      overflow: hidden;
+    }
+  }
+
   nav {
     @include p-8();
-
-    display: flex;
-    justify-content: end;
-    overflow: hidden;
-    position: relative;
 
     &.truncate {
       &::before {

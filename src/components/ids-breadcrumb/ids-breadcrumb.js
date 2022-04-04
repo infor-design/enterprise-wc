@@ -261,11 +261,13 @@ export default class IdsBreadcrumb extends Base {
       this.#buildOverflowMenu();
       this.#showBreadCrumbMenu();
       this.setAttribute(attributes.TRUNCATE, value);
+      this.container.classList.add('can-truncate');
     } else {
       this.#resizeObserver.disconnect();
       this.#hideBreadCrumbMenu();
       this.#emptyOverflowMenu();
       this.removeAttribute(attributes.TRUNCATE);
+      this.container.classList.remove('can-truncate');
     }
   }
 
