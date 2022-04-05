@@ -680,4 +680,32 @@ describe('Ids Date Picker e2e Tests', () => {
     value = await page.$eval('#e2e-range-picker', (el) => el?.value);
     expect(value).toEqual('1/2/2021 - 1/25/2021');
   });
+
+  it.only('should change value on input value change', async () => {
+    // Set value to the input
+    await page.$eval(
+      '#e2e-datepicker-required',
+      (el) => el?.container.querySelector('ids-trigger-field')?.setAttribute('value', '4/5/2022')
+    );
+
+    let value = await page.$eval(
+      '#e2e-datepicker-required',
+      (el) => el?.value
+    );
+
+    expect(value).toEqual('4/5/2022');
+
+    // Reset value in the input
+    await page.$eval(
+      '#e2e-datepicker-required',
+      (el) => el?.container.querySelector('ids-trigger-field')?.setAttribute('value', '')
+    );
+
+    value = await page.$eval(
+      '#e2e-datepicker-required',
+      (el) => el?.value
+    );
+
+    expect(value).toEqual('');
+  });
 });
