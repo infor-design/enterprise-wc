@@ -33,7 +33,7 @@ export default class IdsBreadcrumb extends Base {
     this.#attachEventHandlers();
 
     if (this.truncate) {
-      this.#buildOverflowMenu();
+      this.#enableTruncation();
     }
     this.onColorVariantRefresh();
     this.setActiveBreadcrumb();
@@ -216,6 +216,7 @@ export default class IdsBreadcrumb extends Base {
 
   /**
    * Refreshes the state of the Breadcrumb's overflow menu based on whether its items are overflowed
+   * @returns {void}
    */
   refreshBreadcrumbMenu() {
     this.refreshOverflowedItems();
@@ -226,6 +227,11 @@ export default class IdsBreadcrumb extends Base {
     }
   }
 
+  /**
+   * contains the render routine for showing truncation and the breadcrumb overflow menu
+   * @private
+   * @returns {void}
+   */
   #showBreadCrumbMenu() {
     this.buttonEl.removeAttribute('hidden');
     this.menuContainerEl.classList.remove(attributes.HIDDEN);
@@ -233,6 +239,11 @@ export default class IdsBreadcrumb extends Base {
     this.container.querySelector('nav').classList.add('truncate');
   }
 
+  /**
+   * contains the render routine for removing truncation and hiding the breadcrumb overflow menu
+   * @private
+   * @returns {void}
+   */
   #hideBreadCrumbMenu() {
     this.buttonEl.setAttribute('hidden', '');
     this.menuContainerEl.classList.add(attributes.HIDDEN);
@@ -240,18 +251,30 @@ export default class IdsBreadcrumb extends Base {
     this.container.querySelector('nav').classList.remove('truncate');
   }
 
+  /**
+   * @returns {HTMLElement} the current breadcrumb
+   */
   get current() {
     return this.querySelector('[font-weight="bold"]');
   }
 
+  /**
+   * @returns {HTMLElement} reference to the breadcrumb overflow menu button
+   */
   get buttonEl() {
     return this.container.querySelector('ids-menu-button');
   }
 
+  /**
+   * @returns {HTMLElement} reference to the breadcrumb overflow menu's container element
+   */
   get menuContainerEl() {
     return this.container.querySelector('.ids-breadcrumb-menu');
   }
 
+  /**
+   * @returns {HTMLElement} reference to the breadcrumb list's container element
+   */
   get navElem() {
     return this.container.querySelector('nav');
   }
@@ -284,24 +307,45 @@ export default class IdsBreadcrumb extends Base {
     const val = stringToBool(value);
     if (currentValue !== val) {
       if (val) {
-        // Set observer for resize
-        this.#resizeObserver.disconnect();
-        this.#resizeObserver.observe(this.container);
-        this.#buildOverflowMenu();
-        this.#showBreadCrumbMenu();
         this.setAttribute(attributes.TRUNCATE, value);
-        this.container.classList.add('can-truncate');
+        this.#enableTruncation();
       } else {
-        this.#resizeObserver.disconnect();
-        this.#hideBreadCrumbMenu();
-        this.#emptyOverflowMenu();
         this.removeAttribute(attributes.TRUNCATE);
-        this.container.classList.remove('can-truncate');
+        this.#disableTruncation();
       }
     }
   }
 
+  /**
+   * @returns {boolean} true if this component is currently configured to truncate
+   */
   get truncate() { return stringToBool(this.getAttribute(attributes.TRUNCATE)); }
+
+  /**
+   * contains the render routine for showing truncation and the breadcrumb overflow menu
+   * @private
+   * @returns {void}
+   */
+  #enableTruncation() {
+    // Set observer for resize
+    this.#resizeObserver.disconnect();
+    this.#resizeObserver.observe(this.container);
+    this.#buildOverflowMenu();
+    this.#showBreadCrumbMenu();
+    this.container.classList.add('can-truncate');
+  }
+
+  /**
+   * contains the render routine for removing truncation and hiding the breadcrumb overflow menu
+   * @private
+   * @returns {void}
+   */
+  #disableTruncation() {
+    this.#resizeObserver.disconnect();
+    this.#hideBreadCrumbMenu();
+    this.#emptyOverflowMenu();
+    this.container.classList.remove('can-truncate');
+  }
 
   /**
    * If set to number the breadcrumb container will have padding added (in pixels)
@@ -383,11 +427,13 @@ export default class IdsBreadcrumb extends Base {
     if (previousActiveBreadcrumbEl) {
       previousActiveBreadcrumbEl.fontWeight = null;
     }
-    targetEl.fontWeight = 'bold';
+    if (targetEl) {
+      targetEl.fontWeight = 'bold';
+    }
   }
 
   /**
-   *
+   * Inherited from IdsColorVariantMixin to set child element color variants
    */
   onColorVariantRefresh() {
     const parentHeaderEl = this.closest('ids-header');
