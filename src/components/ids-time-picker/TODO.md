@@ -1,24 +1,26 @@
-# TimePicker TODO's
+# Ids Time Picker TODO
 
-- [ ] Add option to limit hours. [See issue](https://github.com/infor-design/enterprise/issues/5880).
-- [ ] Make dropdown default values reflect what's in the input-field - this causes the value to change when changing the locale on the container.
-- [ ] Add validation
-- [ ] Write func-tests for "validation"
-- [ ] Fix skipped e2e and percy tests
-- [ ] Add custom id's/automation id's that can be used for scripting.
-- [ ] Fix onOutsideClick() (ids-time-picker width too-wide, but inline-flex breaks alignment) - maybe get rid of the div
-- [ ] Fix theme colors
-- [ ] Add "Themeable Parts" for `label`, `input`, and `popup`.
-- [x] Add actual colon-prefix to minutes + seconds (and remove from SCSS)
+Keep this file in sync with #636
+
+## Major
+
+- [ ] Make the picker popup's dropdowns display values that reflect what's in the IdsTriggerField
+- [ ] Add validation passthrough to the inner IdsTriggerField
+- [ ] Add option to limit hours [similar to this Enterprise issue](https://github.com/infor-design/enterprise/issues/5880)
+- [ ] Review theme colors for accuracy (should be inherited from IdsTriggerField)
 - [ ] Add ARIA-attributes
-- [x] Add LocaleMixin to translate dropdown labels (hours, minutes, seconds, periods)
-- [ ] Create a side-by-side.html demo for timepicker 4.x
-- [ ] Add config for enabling/disabling leading-zeros on hours minutes and seconds.
+- [ ] Fix onOutsideClick() (ids-time-picker width too-wide, but inline-flex breaks alignment) - maybe get rid of the div
+- [ ] Add config for enabling/disabling leading-zeros on hours, minutes, and seconds (depends on localized date string `h` vs. `hh` or `m` vs. `mm`)
 - [ ] Replace the `range()` with the Date object or some other API, so we don't have to assume manually. See [Ed's comment](https://github.com/infor-design/enterprise-wc/pull/432#discussion_r756304951).
-- [x] Use `this.locale.calendar().timeFormat` as the default value for IdsTimePicker.format
-- [ ] Make `this.dropdowns` private (i.e. `this.#dropdowns()`). See [Ed's comment](https://github.com/infor-design/enterprise-wc/pull/432#discussion_r756209961).
+- [ ] Separate out the "picker contents" to a separate, embeddable form element (could potentially be shared by this component and the Date Picker's "Date/Time" view)
+- [ ] Allow reset of the Time Picker's value ([#623](https://github.com/infor-design/enterprise-wc/issues/623))
+
+## Minor
+
+- [ ] Add Side-by-side Examples
+- [ ] Add Standalone CSS Examples
+- [ ] Fix skipped e2e and percy tests
+- [ ] Add custom id's/automation id's that can be used for scripting
+- [ ] Add "Themeable Parts" for `label`, `input`, and `popup`
 - [ ] Make private `this.is24Hours`, `this.is12Hours`, `this.hasSeconds` and `this.hasPeriod` (i.e. `this.#is24Hours`)
-- [x] Make the default time format the current locales time setting. See [Tim's comment](https://github.com/infor-design/enterprise-wc/pull/432#discussion_r758427694).
-- [x] Fix func-test to hide "Set Time" button when autoupdate attribute true
-- [x] Add timepicker trigger translation `<ids-text audible="true" translate-text="true">TimepickerTriggerButton</ids-text>`. See [Andrii's comment](https://github.com/infor-design/enterprise-wc/pull/432#discussion_r759205003).
-- [x] Trigger field label is missing audible text "Use arrow keys to select." with translation. See [Andrii's comment](https://github.com/infor-design/enterprise-wc/pull/432#discussion_r759205003).
+- [ ] Make private `this.dropdowns` (i.e. `this.#dropdowns()`). See [Ed's comment](https://github.com/infor-design/enterprise-wc/pull/432#discussion_r756209961).
