@@ -681,7 +681,7 @@ describe('Ids Date Picker e2e Tests', () => {
     expect(value).toEqual('1/2/2021 - 1/25/2021');
   });
 
-  it.only('should change value on input value change', async () => {
+  it('should change value on input value change', async () => {
     // Set value to the input
     await page.$eval(
       '#e2e-datepicker-required',
