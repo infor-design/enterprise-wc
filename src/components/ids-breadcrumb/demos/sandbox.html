@@ -7,7 +7,7 @@
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
     <ids-layout-grid auto="true">
-      <ids-text font-size="12" type="h1">Add/Remove Breadcrumbs</ids-text>
+      <ids-text font-size="12" type="h1">Breadcrumb Sandbox</ids-text>
     </ids-layout-grid>
 
     <ids-layout-grid auto="true">
@@ -18,13 +18,18 @@
     </ids-layout-grid>
 
     <ids-layout-grid auto="true">
-      <ids-checkbox label="Disabled"></ids-checkbox>
+      <ids-layout-grid-cell>
+        <ids-text>Breadcrumb List Controls</ids-text>
+        <ids-checkbox id="enable-truncation" label="Enable Truncation"></ids-checkbox>
+      </ids-layout-grid-cell>
     </ids-layout-grid>
 
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
-        <ids-button type="secondary">Add Link</ids-button>
-        <ids-button type="secondary">Remove</ids-button>
+        <ids-text>New Breadcrumb Controls</ids-text>
+        <ids-checkbox id="disable-breadcrumb" label="Disable new breadcrumbs"></ids-checkbox>
+        <ids-button id="add-new-breadcrumb" type="secondary">Add to the end</ids-button>
+        <ids-button id="remove-last-breadcrumb" type="secondary">Remove from the end</ids-button>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>

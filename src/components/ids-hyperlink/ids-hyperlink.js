@@ -121,8 +121,8 @@ export default class IdsHyperlink extends Base {
   set disabled(value) {
     const val = stringToBool(value);
     if (val) {
-      this.setAttribute(attributes.DISABLED, value);
-      this.container.setAttribute(attributes.DISABLED, value);
+      this.setAttribute(attributes.DISABLED, `${value}`);
+      this.container.setAttribute(attributes.DISABLED, `${value}`);
       this.container.setAttribute('tabindex', '-1');
       return;
     }

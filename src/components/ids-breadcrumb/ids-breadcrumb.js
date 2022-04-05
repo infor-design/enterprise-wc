@@ -104,11 +104,7 @@ export default class IdsBreadcrumb extends Base {
    */
   #buildOverflowMenu() {
     const group = this.popupMenuGroupEl;
-    const menuItemHTML = [...this.children].map((elem) => {
-      const disabled = elem.disabled ? ' disabled' : '';
-      const hidden = elem.hidden ? ' hidden' : '';
-      return `<ids-menu-item${disabled}${hidden}>${elem.textContent}</ids-menu-item>`;
-    }).join('');
+    const menuItemHTML = [...this.children].map(this.#buildOverflowMenuItem).join('');
     group.insertAdjacentHTML('afterbegin', menuItemHTML);
 
     // Connect all "More Action" items generated from Breadcrumb Links to their
@@ -116,6 +112,17 @@ export default class IdsBreadcrumb extends Base {
     this.overflowMenuItems.forEach((item, i) => {
       item.overflowTarget = this.children[i];
     });
+  }
+
+  /**
+   * Constructs a single overflow menu item
+   * @param {HTMLElement} elem the breadcrumb element to use for creating the menu item
+   * @returns {string} representation of an IdsMenuItem
+   */
+  #buildOverflowMenuItem(elem) {
+    const disabled = elem.hasAttribute(attributes.DISABLED) ? ' disabled' : '';
+    const hidden = elem.hasAttribute(attributes.HIDDEN) ? ' hidden' : '';
+    return `<ids-menu-item${disabled}${hidden}>${elem.textContent}</ids-menu-item>`;
   }
 
   /**
@@ -133,14 +140,7 @@ export default class IdsBreadcrumb extends Base {
    * @returns {object} This API object for chaining
    */
   #resize() {
-    this.refreshOverflowedItems();
-
-    if (this.hasVisibleActions()) {
-      this.#showBreadCrumbMenu();
-    } else {
-      this.#hideBreadCrumbMenu();
-    }
-
+    this.refreshBreadcrumbMenu();
     return this;
   }
 
@@ -180,10 +180,16 @@ export default class IdsBreadcrumb extends Base {
     if (!(breadcrumb.getAttribute('font-size'))) {
       breadcrumb.setAttribute('font-size', 14);
     }
-
     const lastBreadcrumb = this.lastElementChild;
     this.appendChild(breadcrumb);
     this.setActiveBreadcrumb(breadcrumb, lastBreadcrumb);
+    if (this.truncate) {
+      this.popupMenuGroupEl.insertAdjacentHTML('beforeend', this.#buildOverflowMenuItem(breadcrumb));
+      this.popupMenuGroupEl.lastElementChild.overflowTarget = breadcrumb;
+    }
+
+    // Refresh overflow state if needed
+    this.refreshBreadcrumbMenu();
   }
 
   /**
@@ -193,21 +199,42 @@ export default class IdsBreadcrumb extends Base {
   delete() {
     if (this.lastElementChild) {
       const breadcrumb = this.removeChild(this.lastElementChild);
+      if (this.truncate) {
+        this.popupMenuGroupEl.removeChild(this.popupMenuGroupEl.lastElementChild);
+      }
       if (this.lastElementChild) {
         this.setActiveBreadcrumb();
       }
+
+      // Refresh overflow state if needed
+      this.refreshBreadcrumbMenu();
+
       return breadcrumb;
     }
     return null;
   }
 
+  /**
+   * Refreshes the state of the Breadcrumb's overflow menu based on whether its items are overflowed
+   */
+  refreshBreadcrumbMenu() {
+    this.refreshOverflowedItems();
+    if (this.hasVisibleActions()) {
+      this.#showBreadCrumbMenu();
+    } else {
+      this.#hideBreadCrumbMenu();
+    }
+  }
+
   #showBreadCrumbMenu() {
+    this.buttonEl.removeAttribute('hidden');
     this.menuContainerEl.classList.remove(attributes.HIDDEN);
     this.container.classList.add('truncate');
     this.container.querySelector('nav').classList.add('truncate');
   }
 
   #hideBreadCrumbMenu() {
+    this.buttonEl.setAttribute('hidden', '');
     this.menuContainerEl.classList.add(attributes.HIDDEN);
     this.container.classList.remove('truncate');
     this.container.querySelector('nav').classList.remove('truncate');
@@ -253,25 +280,28 @@ export default class IdsBreadcrumb extends Base {
    * @param {boolean|null} value truncate if true
    */
   set truncate(value) {
+    const currentValue = this.truncate;
     const val = stringToBool(value);
-    if (val === true) {
-      // Set observer for resize
-      this.#resizeObserver.disconnect();
-      this.#resizeObserver.observe(this.container);
-      this.#buildOverflowMenu();
-      this.#showBreadCrumbMenu();
-      this.setAttribute(attributes.TRUNCATE, value);
-      this.container.classList.add('can-truncate');
-    } else {
-      this.#resizeObserver.disconnect();
-      this.#hideBreadCrumbMenu();
-      this.#emptyOverflowMenu();
-      this.removeAttribute(attributes.TRUNCATE);
-      this.container.classList.remove('can-truncate');
+    if (currentValue !== val) {
+      if (val) {
+        // Set observer for resize
+        this.#resizeObserver.disconnect();
+        this.#resizeObserver.observe(this.container);
+        this.#buildOverflowMenu();
+        this.#showBreadCrumbMenu();
+        this.setAttribute(attributes.TRUNCATE, value);
+        this.container.classList.add('can-truncate');
+      } else {
+        this.#resizeObserver.disconnect();
+        this.#hideBreadCrumbMenu();
+        this.#emptyOverflowMenu();
+        this.removeAttribute(attributes.TRUNCATE);
+        this.container.classList.remove('can-truncate');
+      }
     }
   }
 
-  get truncate() { return this.getAttribute(attributes.TRUNCATE); }
+  get truncate() { return stringToBool(this.getAttribute(attributes.TRUNCATE)); }
 
   /**
    * If set to number the breadcrumb container will have padding added (in pixels)
