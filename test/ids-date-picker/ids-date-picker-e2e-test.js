@@ -1,19 +1,16 @@
 describe('Ids Date Picker e2e Tests', () => {
   const url = 'http://localhost:4444/ids-date-picker';
+  const axeUrl = `${url}/axe.html`;
 
-  beforeAll(async () => {
-    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+  it('should pass Axe accessibility tests', async () => {
+    await page.setBypassCSP(true);
+    await page.goto(axeUrl, { waitUntil: ['networkidle2', 'load'] });
+    await expect(page).toPassAxeTests();
   });
 
   it('should not have errors', async () => {
-    await expect(page.title()).resolves.toMatch('IDS Date Picker Component');
-  });
-
-  // @TODO: Revisit and figure out accessibility issues
-  it.skip('should pass Axe accessibility tests', async () => {
-    await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await expect(page).toPassAxeTests();
+    await expect(page.title()).resolves.toMatch('IDS Date Picker Component');
   });
 
   it('should handle calendar popup events', async () => {
