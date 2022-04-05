@@ -150,7 +150,19 @@ The IDS Textarea doesn't contain any interactions beyond a standard HTMLTextarea
 
 - Default size is 362px wide but there are a number of widths.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- Textarea was implemented in v4.0.0
+- Textarea can be invoked with `$('#my-element').textarea()`.
+
+**4.x to 5.x**
+
+- Textareas are now custom elements `<ids-textarea></ids-textarea>`
+- If using events, events are now plain JS events
+- Can now be imported as a single JS file and used with encapsulated styles
+- If using the `clearable` attribute, the "X" trigger button on the textarea is now tabbable by default for accessibility
 
 ### Converting from 4.x
 
@@ -159,13 +171,12 @@ The IDS Textarea component is now a WebComponent. Instead of using classes to de
 ```html
 <!-- 4.x textarea example -->
 <div class="field">
-	<label for="textarea-desc">Description</label>
-  <textarea class="textarea" id="textarea-desc" name="textarea-desc"></textarea>
+    <label for="textarea-desc">Description</label>
+    <textarea class="textarea" id="textarea-desc" name="textarea-desc"></textarea>
 </div>
 
 <!-- this is the same textarea using the WebComponent -->
 <ids-textarea label="Description" id="textarea-desc"></ids-textarea>
-
 ```
 
 ## Designs
