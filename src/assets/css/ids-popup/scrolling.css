@@ -1,0 +1,31 @@
+.scrollable {
+  border: 1px solid #999;
+
+  max-height: 400px;
+  max-width: 400px;
+  overflow: scroll;
+}
+
+.spacer {
+  height: 300px;
+  width: 400px;
+}
+
+.scrolled-element-y {
+  height: 1200px;
+}
+
+.scrolled-element-x {
+  width: 1200px;
+}
+
+.scrolled-element-both {
+  height: 1200px;
+  width: 1200px;
+}
+
+#scroll-container-positioned {
+  position: absolute;
+  left: 500px;
+  top: 150px;
+}
