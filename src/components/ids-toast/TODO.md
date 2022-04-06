@@ -2,11 +2,11 @@
 
 Keep this file in sync with #635
 
-# Major
+## Major
 
 - [ ] Accessibility Live Region in Shadow DOM
 - [ ] Need to find the way to switch RTL or LTR with draggable and save-position, currently it goes off the window
 
-# Minor
+## Minor
 
 - [ ] Standalone CSS examples
