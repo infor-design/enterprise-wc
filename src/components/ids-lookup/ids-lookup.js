@@ -8,6 +8,7 @@ import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 import IdsModal from '../ids-modal/ids-modal';
 import IdsDataGrid from '../ids-data-grid/ids-data-grid';
 
+
 import styles from './ids-lookup.scss';
 
 /**
@@ -90,7 +91,6 @@ export default class IdsLookup extends Base {
       label="${this.label}"
       part="trigger-field"
       size="md"
-      ${this.autocomplete ? ` autocomplete search-key=${this.field}` : ''}
       ${this.disabled ? ' disabled="true"' : ''}
       ${this.readonly ? ' readonly="true"' : ''}
       ${this.validate ? ` validate="${this.validate}"` : ''}
@@ -105,6 +105,7 @@ export default class IdsLookup extends Base {
         <ids-icon slot="icon" icon="search-list" part="icon"></ids-icon>
       </ids-trigger-button>
     </ids-trigger-field>
+    ${this.autocomplete ? `<ids-autocomplete autocomplete="#ids-input-6" search-key="${this.field}"></ids-autocomplete>` : ''}
     <slot name="lookup-modal">
       <ids-modal id="lookup-modal" aria-labelledby="lookup-modal-title" part="modal">
         <ids-text slot="title" font-size="24" type="h2" id="lookup-modal-title">${this.title}</ids-text>
@@ -139,6 +140,8 @@ export default class IdsLookup extends Base {
       this.removeAttribute(attributes.AUTOCOMPLETE);
       this.container.classList.remove('autocomplete');
     }
+
+    this.triggerField.id = this.triggerField.getAttribute('id');
   }
 
   /**

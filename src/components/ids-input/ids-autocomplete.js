@@ -1,6 +1,5 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-// import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsListBox from '../ids-list-box/ids-list-box';
 import IdsListBoxOption from '../ids-list-box/ids-list-box-option';
 import IdsPopup from '../ids-popup/ids-popup';
@@ -86,24 +85,58 @@ export default class IdsAutoComplete extends Base {
     return this.getAttribute(attributes.SEARCH_KEY) || fields[0];
   }
 
+  /**
+   * Get the internal input element
+   * @returns {Element | any} input element
+   * @readonly
+   * @memberof IdsAutoComplete
+   */
   get input() {
-    return document.querySelector('#input-autocomplete-2');
+    return this.getRootNode()?.querySelector(`${this.autocomplete}`);
   }
 
+  /**
+   * Get the internal popup element
+   * @returns {Element | any} popup element
+   * @readonly
+   * @memberof IdsAutoComplete
+   */
   get popup() {
     return this.shadowRoot?.querySelector('ids-popup');
   }
 
+  /**
+   * Get the internal list-box element
+   * @returns {Element | any} list-box element
+   * @readonly
+   * @memberof IdsAutoComplete
+   */
   get listBox() {
     return this.shadowRoot?.querySelector('ids-list-box');
   }
 
-  populateListBox() {
-    this.listBox.innerHTML = this.data.map((d) => `<ids-list-box-item>${d.label}</ids-list-box-item>`);
+  /**
+   * Set the autocomplete attribute
+   * use the id of the target input (ex: #input-6);
+   * @param {string} value of the target inputs id attr.
+   * @memberof IdsAutoComplete
+   */
+  set autocomplete(value) {
+    if (value) {
+      this.setAttribute(attributes.AUTOCOMPLETE, value);
+    } else {
+      this.removeAttribute(attributes.AUTOCOMPLETE);
+    }
   }
 
-  rendered() {
-    this.populateListBox();
+  /**
+   * Get the autocomplete attribute
+   * @returns {Element | any} autocomplete attribute.
+   * @readonly
+   * @memberof IdsAutoComplete
+   */
+  get autocomplete() {
+    return this.getAttribute(attributes.AUTOCOMPLETE);
   }
 
   /**
@@ -164,7 +197,7 @@ export default class IdsAutoComplete extends Base {
   #attachEventListeners() {
     this.onEvent('keyup', this.input, this.displayMatches.bind(this));
     this.onEvent('change', this.input, this.displayMatches.bind(this));
-    this.onEvent('blur', this.input, this.closePopup(this));
+    this.onEvent('blur', this.input, this.closePopup.bind(this));
   }
 
   /**
@@ -172,9 +205,9 @@ export default class IdsAutoComplete extends Base {
    * @returns {void}
    */
   #removeEventListeners() {
-    this.offEvent('keyup', this.input, this.displayMatches);
-    this.offEvent('change', this.input, this.displayMatches);
-    this.offEvent('blur', this.input, this.closePopup);
+    this.offEvent('keyup', this.input, this.displayMatches.bind(this));
+    this.offEvent('change', this.input, this.displayMatches.bind(this));
+    this.offEvent('blur', this.input, this.closePopup.bind(this));
   }
 
   /**
@@ -186,7 +219,7 @@ export default class IdsAutoComplete extends Base {
       <ids-popup
         type="dropdown"
         align="bottom, left"
-        align-target="#input-autocomplete-2"
+        align-target="${this.autocomplete}"
         part="popup"
       >
         <ids-list-box slot="content"></ids-list-box>

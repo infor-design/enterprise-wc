@@ -9,28 +9,16 @@
     <ids-layout-grid auto="true" gap="md">
       <ids-layout-grid-cell>
         <ids-input
-          id="input-autocomplete"
-          placeholder="This input's label is visible"
-          size="md"
-          label="Autocomplete Input"
-          autocomplete
-          search-key="label"
-        >
-        </ids-input>
-      </ids-layout-grid-cell>
-    </ids-layout-grid>
-
-    <ids-layout-grid auto="true" gap="md">
-      <ids-layout-grid-cell>
-        <ids-input
           id="input-autocomplete-2"
           placeholder="This input's label is visible"
           size="md"
           label="Autocomplete Input 2"
-          search-key="label"
         >
         </ids-input>
-        <ids-autocomplete search-key="label"></ids-autocomplete>
+        <ids-autocomplete
+          autocomplete="#input-autocomplete-2"
+          search-key="label"
+        ></ids-autocomplete>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>
