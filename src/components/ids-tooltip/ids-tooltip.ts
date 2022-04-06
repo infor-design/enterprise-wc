@@ -234,6 +234,7 @@ export default class IdsTooltip extends Base {
     this.popup.visible = true;
     this.popup.place();
     this.triggerEvent('show', this, { detail: { elem: this } });
+    this.triggerEvent('aftershow', this, { detail: { elem: this } });
   }
 
   /**
@@ -243,6 +244,7 @@ export default class IdsTooltip extends Base {
   #hide(): void {
     this.popup.visible = false;
     this.triggerEvent('hide', this, { detail: { elem: this } });
+    this.triggerEvent('afterhide', this, { detail: { elem: this } });
   }
 
   /**

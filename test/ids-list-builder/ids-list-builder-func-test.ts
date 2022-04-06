@@ -94,7 +94,6 @@ describe('IdsListBuilder Component', () => {
 
   it('renders correctly', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.VANILLA_COMPONENT);
-    idsListBuilder.template();
     expect(idsListBuilder.outerHTML).toMatchSnapshot();
   });
 

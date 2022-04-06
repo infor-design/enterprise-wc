@@ -40,7 +40,7 @@ module.exports = {
   // An array of regexp pattern strings used to skip coverage collection
   coveragePathIgnorePatterns: [
     '/node_modules/',
-    '/build/'
+    '/build/types'
   ],
 
   // Indicates which provider should be used to instrument code for coverage
@@ -166,7 +166,7 @@ module.exports = {
   // The glob patterns Jest uses to detect test files
   testMatch: [
     '**/test/**/*.ts',
-    '!**/build/**'
+    '!**/build/types/**'
   ],
 
   // An array of regexp pattern strings that are matched against all test paths,
@@ -198,7 +198,7 @@ module.exports = {
   // matched files will skip transformation
   transformIgnorePatterns: [
     'node_modules/(?!ids-identity)',
-    'build'
+    'build/types/*.d.ts'
   ],
 
   // An array of regexp pattern strings that are matched against all modules before
