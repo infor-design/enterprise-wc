@@ -46,7 +46,7 @@ describe('Ids Date Picker e2e Tests', () => {
     expect(isOpen).toBeFalsy();
 
     // Keyboard
-    const input = await page.evaluateHandle('(document.querySelector as any)("#e2e-datepicker-value")');
+    const input = await page.evaluateHandle('document.querySelector("#e2e-datepicker-value")');
     await input?.focus();
     await page.keyboard.press('ArrowDown');
 
@@ -66,7 +66,7 @@ describe('Ids Date Picker e2e Tests', () => {
     await page.keyboard.press('Tab');
     await page.keyboard.press('Tab');
 
-    let focusedElId = await page.evaluate(() => (document.activeElement as any).id);
+    let focusedElId = await page.evaluate(() => (document as any).activeElement.id);
 
     expect(focusedElId).toEqual('e2e-datepicker-value');
 
@@ -76,7 +76,7 @@ describe('Ids Date Picker e2e Tests', () => {
     await page.keyboard.press('Tab');
     await page.keyboard.up('ShiftLeft');
 
-    focusedElId = await page.evaluate(() => (document.activeElement as any).id);
+    focusedElId = await page.evaluate(() => (document as any).activeElement.id);
 
     expect(focusedElId).toEqual('e2e-datepicker-value');
   });

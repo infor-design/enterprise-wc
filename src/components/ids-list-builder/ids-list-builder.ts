@@ -1,9 +1,9 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import IdsInput from '../ids-input/ids-input';
 import '../ids-toolbar/ids-toolbar';
-import '../ids-draggable/ids-draggable';
 import Base from './ids-list-builder-base';
 import styles from './ids-list-builder.scss';
+import IdsDraggable from '../ids-draggable/ids-draggable';
 
 /**
  * IDS ListBuilder Component
@@ -35,7 +35,7 @@ export default class IdsListBuilder extends Base {
   connectedCallback() {
     this.sortable = true;
     this.selectable = 'single';
-    // list-builder is not designed to handle thousands of items, so don't support virtual scroll
+    // list-builder is not designed to handle thousands of items, so doesnt support virtual scroll
     this.virtualScroll = false;
     this.itemHeight = 46; // hard-coded
     this.#attachEventListeners();
@@ -116,13 +116,6 @@ export default class IdsListBuilder extends Base {
   #attachEventListeners(): void {
     this.#attachClickListeners(); // for toolbar buttons
     this.#attachKeyboardListeners(); // for selecting/editing list items
-
-    if (this.virtualScroll) {
-      this.onEvent('aftervirtualscroll', this.virtualScrollContainer, () => {
-        this.attachDragEventListeners();
-        this.#attachKeyboardListeners();
-      });
-    }
   }
 
   /**
@@ -231,18 +224,24 @@ export default class IdsListBuilder extends Base {
       const selectionNull = !this.selectedLi;
       // if an item is selected, create a node under it, otherwise create a node above the first item
 
-      const targetDraggableItem = selectionNull ? this.container.querySelector('ids-draggable') : this.selectedLi.parentNode;
+      let targetDraggableItem = selectionNull ? this.container.querySelector('ids-draggable') : this.selectedLi.parentNode;
+      if (!targetDraggableItem) {
+        targetDraggableItem = new IdsDraggable();
+      }
       const newDraggableItem = targetDraggableItem.cloneNode(true);
 
       const insertionLocation = selectionNull ? targetDraggableItem : targetDraggableItem.nextSibling;
-      targetDraggableItem.parentNode.insertBefore(newDraggableItem, insertionLocation);
+      if (targetDraggableItem.parentNode) {
+        targetDraggableItem.parentNode.insertBefore(newDraggableItem, insertionLocation);
+      } else {
+        this.container.querySelector('.ids-list-view-body').appendChild(newDraggableItem);
+      }
       this.attachDragEventListenersForDraggable(newDraggableItem);
       this.#attachKeyboardListenersForLi(newDraggableItem.querySelector('div[part="list-item"]'));
 
       const listItem = newDraggableItem.querySelector('div[part="list-item"]');
       // remove any selected attribute on li that may have propogated from the clone
-      if (listItem.getAttribute('selected')) listItem.removeAttribute('selected');
-
+      if (listItem?.getAttribute('selected')) listItem.removeAttribute('selected');
       this.resetIndices();
       this.toggleSelectedLi(listItem);
 

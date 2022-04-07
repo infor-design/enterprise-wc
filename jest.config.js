@@ -40,7 +40,8 @@ module.exports = {
   // An array of regexp pattern strings used to skip coverage collection
   coveragePathIgnorePatterns: [
     '/node_modules/',
-    '/build/types'
+    '/build/types',
+    '/components/enterprise-wc.ts',
   ],
 
   // Indicates which provider should be used to instrument code for coverage
@@ -166,7 +167,8 @@ module.exports = {
   // The glob patterns Jest uses to detect test files
   testMatch: [
     '**/test/**/*.ts',
-    '!**/build/types/**'
+    '!**/build/types/**',
+    '!**/test/helpers/**'
   ],
 
   // An array of regexp pattern strings that are matched against all test paths,

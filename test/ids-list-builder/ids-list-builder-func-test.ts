@@ -57,6 +57,10 @@ const HTMLSnippets = {
     `<ids-list-builder>
    </ids-list-builder>`
   ),
+  FULL_COMPONENT: (
+    // eslint-disable-next-line no-template-curly-in-string
+    '<ids-list-builder height="310px"><template><ids-text font-size="16" type="span">${manufacturerName}</ids-text></template></ids-list-builder>'
+  ),
 };
 
 describe('IdsListBuilder Component', () => {
@@ -78,7 +82,27 @@ describe('IdsListBuilder Component', () => {
     idsListBuilder?.remove();
   });
 
+  it('renders empty listbuilder with no errors', () => {
+    document.body.innerHTML = '';
+    const errors = jest.spyOn(global.console, 'error');
+    const elem: any = new IdsListBuilder();
+    document.body.appendChild(elem);
+    expect(document.querySelectorAll('ids-list-builder').length).toEqual(1);
+    expect(errors).not.toHaveBeenCalled();
+    elem.remove();
+  });
+
+  it('renders virtual scroll and ignores it', () => {
+    document.body.innerHTML = '';
+    const elem: any = new IdsListBuilder();
+    elem.virtualScroll = true;
+    document.body.appendChild(elem);
+    expect(elem.virtualScroll).toEqual(false);
+    elem.remove();
+  });
+
   it('renders with no errors', async () => {
+    document.body.innerHTML = '';
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.VANILLA_COMPONENT);
 
     const errors = jest.spyOn(global.console, 'error');
@@ -95,10 +119,23 @@ describe('IdsListBuilder Component', () => {
   it('renders correctly', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.VANILLA_COMPONENT);
     expect(idsListBuilder.outerHTML).toMatchSnapshot();
+    expect(idsListBuilder.container.querySelector('#button-add')).toBeTruthy();
   });
 
   it('injects template correctly and sets data correctly', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.VANILLA_COMPONENT);
     idsListBuilder.data = sampleData;
+  });
+
+  it('renders the header', async () => {
+    idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
+    expect(idsListBuilder.container.querySelector('#button-add')).toBeTruthy();
+  });
+
+  it('can add items with the button when empty', async () => {
+    idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
+    idsListBuilder.container.querySelector('#button-add').click();
+    // TODO: Errors are thrown when the button is clicked for no items
+    // expect(idsListBuilder.container.querySelectorAll('ids-draggable').length).toEqual(1);
   });
 });

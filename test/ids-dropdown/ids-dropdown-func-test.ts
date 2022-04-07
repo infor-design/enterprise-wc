@@ -51,12 +51,12 @@ describe('IdsDropdown Component', () => {
   });
 
   it('renders empty dropdown with no errors', () => {
+    document.body.innerHTML = '';
     const errors = jest.spyOn(global.console, 'error');
-    dropdown.remove();
     const elem: any = new IdsDropdown();
     document.body.appendChild(elem);
+    expect(document.querySelectorAll('ids-dropdown').length).toEqual(1);
     elem.remove();
-    expect(document.querySelectorAll('ids-dropdown').length).toEqual(0);
     expect(errors).not.toHaveBeenCalled();
   });
 
@@ -392,8 +392,7 @@ describe('IdsDropdown Component', () => {
 
   it('supports clicking input to open', async () => {
     await waitFor(() => expect(dropdown.container).toBeTruthy());
-
-    dropdown.container.click();
+    dropdown.container.shadowRoot.querySelector('.field-container').click();
     await waitFor(() => expect(dropdown.popup.visible).toBeTruthy());
     expect(dropdown.popup.visible).toEqual(true);
   });
