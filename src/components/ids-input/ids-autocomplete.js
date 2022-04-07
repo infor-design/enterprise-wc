@@ -27,6 +27,7 @@ const IdsAutoComplete = (superclass) => class extends superclass {
     }
 
     this.#configurePopup();
+    this.#attachKeyboardListeners();
     this.#attachEventListeners();
   }
 
@@ -66,7 +67,7 @@ const IdsAutoComplete = (superclass) => class extends superclass {
   set data(value) {
     if (this.datasource) {
       this.datasource.data = value || [];
-      this.rerender();
+      this.#populateListBox();
     }
   }
 
@@ -112,13 +113,8 @@ const IdsAutoComplete = (superclass) => class extends superclass {
     return this.shadowRoot?.querySelectorAll('ids-list-box-option');
   }
 
-  get selectedOption() {
-    return this.shadowRoot?.querySelector(`ids-list-box-option[value="${this.value}"]`);
-  }
-
-  rerender() {
-    super.rerender?.();
-    this.popuplateListBox();
+  get isSelected() {
+    return this.shadowRoot?.querySelector(`ids-list-box-option.is-selected`);
   }
 
   /**
@@ -139,19 +135,34 @@ const IdsAutoComplete = (superclass) => class extends superclass {
    * @returns {void}
    */
   displayMatches() {
+    if (this.readonly || this.disabled) {
+      return;
+    }
+
     const resultsArr = this.findMatches(this.value, this.data);
     const results = resultsArr.map((result) => {
       const regex = new RegExp(this.value, 'gi');
       const optionText = result[this.searchField].toString()?.replace(regex, `<span class="highlight">${this.value.toLowerCase()}</span>`);
-      return this.templatelistBoxOption(result[this.searchField], optionText);
+      return this.#templatelistBoxOption(result[this.searchField], optionText);
     }).join('');
 
     if (this.value) {
-      this.listBox.innerHTML = results;
       this.openPopup();
+      this.listBox.innerHTML = results;
     } else {
       this.closePopup();
     }
+  }
+
+  #populateListBox() {
+    this.listBox.innerHTML = this.data.map((d) => {
+      const value = d[this.searchField];
+      return this.#templatelistBoxOption(value, value);
+    });
+  }
+
+  #templatelistBoxOption(value, label) {
+    return `<ids-list-box-option value="${value}">${label}</ids-list-box-option>`;
   }
 
   /**
@@ -172,16 +183,26 @@ const IdsAutoComplete = (superclass) => class extends superclass {
     this.popup.visible = true;
   }
 
-  popuplateListBox() {
-    this.listBox.innerHTML = this.data.map((d) => this.templatelistBoxOption(d[this.searchField], d[this.searchField]));
-  }
-
-  templatelistBoxOption(value, label) {
-    return `<ids-list-box-option value="${value}">${label}</ids-list-box-option>`;
-  }
-
   selectOption(e) {
-    this.value = e.target.getAttribute('value');
+    if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
+      this.setSelectedOption(e.target);
+    }
+
+    if (this.isSelected) {
+      this.value = this.isSelected.getAttribute('value');
+    }
+
+    this.closePopup();
+  }
+
+  setSelectedOption(el) {
+    el.classList.add('is-selected');
+    el.setAttribute('tabindex', '0');
+  }
+
+  removeSelectedOption(el) {
+    el.classList.remove('is-selected');
+    el.setAttribute('tabindex', '-1');
   }
 
   /**
@@ -200,10 +221,40 @@ const IdsAutoComplete = (superclass) => class extends superclass {
    * @returns {void}
    */
   #attachEventListeners() {
+    this.onEvent('keydownend', this, this.displayMatches);
     this.onEvent('mousedown', this.listBox, this.selectOption.bind(this));
-    this.onEvent('keyup', this, this.displayMatches);
-    this.onEvent('change', this, this.displayMatches);
     this.onEvent('blur', this, this.closePopup);
+  }
+
+  #attachKeyboardListeners() {
+    this.listen(['ArrowDown', 'ArrowUp'], this, (e) => {
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      e.preventDefault();
+
+      const selected = this.isSelected;
+
+      if (e.key === 'ArrowUp' && e.altKey) {
+        this.value = selected.getAttribute('value');
+        this.closePopup();
+        return;
+      }
+
+      if (e.key === 'ArrowDown' && !selected) {
+        this.setSelectedOption(this.options[0]);
+      }
+
+      if (e.key === 'ArrowDown' && selected?.nextElementSibling) {
+        this.removeSelectedOption(selected);
+        this.setSelectedOption(selected.nextElementSibling);
+      }
+      if (e.key === 'ArrowUp' && selected?.previousElementSibling) {
+        this.removeSelectedOption(selected);
+        this.setSelectedOption(selected.previousElementSibling);
+      }
+    });
+
+    this.listen([' ', 'Enter'], this.listBox, this.selectOption.bind(this));
   }
 
   /**

@@ -24,7 +24,8 @@
   @include text-white();
 }
 
-:host(:hover:not(.is-selected)) {
+:host(:hover:not(.is-selected)),
+:host(.is-focused) {
   @include bg-slate-20();
 }
 
