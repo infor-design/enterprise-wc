@@ -422,10 +422,18 @@ btnToast?.addEventListener('click', () => {
 - Toasts can be configured to appear at either the top-start, top-end, bottom-start or bottom-end of an application window.
 - Will be placed in the top-end corner by default.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-- 3.x: Toast have all new markup and classes.
-- 4.x: Toast have all new markup and classes for web components.
+**3.x to 4.x**
+
+- Toasts were implemented in v4.0.0
+- Toasts can be invoked with `$('#my-element').toast()`.
+
+**4.x to 5.x**
+
+- Toasts are now custom elements `<ids-toast></ids-toast>`
+- If using events, events are now plain JS events
+- Can now be imported as a single JS file and used with encapsulated styles
 
 ## Designs
 
