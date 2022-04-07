@@ -14,4 +14,12 @@ describe('Ids Virtual Scroll e2e Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await (expect(page) as any).toPassAxeTests({ disabledRules: ['scrollable-region-focusable', 'landmark-one-main', 'page-has-heading-one'] });
   });
+
+  it('should not have visual regressions (percy)', async () => {
+    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    await page.waitForSelector('.ids-data-grid-row');
+
+    const count = (await page.$$('.ids-data-grid-row')).length;
+    expect(count).toEqual(15);
+  });
 });

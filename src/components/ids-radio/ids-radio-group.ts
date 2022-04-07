@@ -298,13 +298,13 @@ export default class IdsRadioGroup extends Base {
     labelText?.remove();
   }
 
-  get label() { return this.getAttribute(attributes.LABEL) || ''; }
+  get label(): string { return this.getAttribute(attributes.LABEL); }
 
   /**
    * Sets the checkbox to required
-   * @param {boolean} value The `label-required` attribute
+   * @param {string | null} value The `label-required` attribute
    */
-  set labelRequired(value: boolean) {
+  set labelRequired(value: string | null) {
     const val = stringToBool(value);
     if (value) {
       this.setAttribute(attributes.LABEL_REQUIRED, value.toString());
@@ -314,7 +314,7 @@ export default class IdsRadioGroup extends Base {
     this.labelEl?.classList[!val ? 'add' : 'remove']('no-required-indicator');
   }
 
-  get labelRequired(): boolean { return stringToBool(this.getAttribute(attributes.LABEL_REQUIRED)); }
+  get labelRequired(): string | null { return this.getAttribute(attributes.LABEL_REQUIRED); }
 
   /**
    * Sets the validation check to use

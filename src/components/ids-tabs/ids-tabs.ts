@@ -3,10 +3,10 @@ import { attributes } from '../../core/ids-attributes';
 
 import Base from './ids-tabs-base';
 import IdsHeader from '../ids-header/ids-header';
+import './ids-tab';
 import './ids-tab-divider';
 
 import styles from './ids-tabs.scss';
-import IdsTab from './ids-tab';
 
 /**
  * IDS Tabs Component
@@ -29,7 +29,7 @@ export default class IdsTabs extends Base {
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<any> {
     return [
       ...super.attributes,
       attributes.VALUE
@@ -134,14 +134,14 @@ export default class IdsTabs extends Base {
    */
   #attachEventHandlers() {
     // Reusable handlers
-    const nextTabHandler = (e: { target: { closest: (arg0: string) => any; }; }) => {
-      this.nextTab(e.target.closest('ids-tab')).focus();
+    const nextTabHandler = (e: Event) => {
+      this.nextTab((e.target as any).closest('ids-tab')).focus();
     };
-    const prevTabHandler = (e: { target: { closest: (arg0: string) => any; }; }) => {
-      this.prevTab(e.target.closest('ids-tab')).focus();
+    const prevTabHandler = (e: Event) => {
+      this.prevTab((e.target as any).closest('ids-tab')).focus();
     };
-    const selectTabHandler = (e: { target: { closest: (arg0: string) => any; }; }) => {
-      const tab = e.target.closest('ids-tab');
+    const selectTabHandler = (e: Event) => {
+      const tab = (e.target as any).closest('ids-tab');
       if (tab) {
         this.value = tab.value;
       }
@@ -173,10 +173,10 @@ export default class IdsTabs extends Base {
   /**
    * Navigates from a specified Tab to the next-available Tab in the list
    * @param {HTMLElement} currentTab an contained element (usually an IdsTab) to check for siblings
-   * @returns {IdsTab} the next tab in this Tab list's order
+   * @returns {HTMLElement} the next tab in this Tab list's order
    */
-  nextTab(currentTab: IdsTab): IdsTab {
-    let nextTab = currentTab.nextElementSibling;
+  nextTab(currentTab: HTMLElement): HTMLElement {
+    let nextTab: any = currentTab.nextElementSibling;
 
     // If next sibling isn't a tab or is disabled, try this method again on the found sibling
     if (nextTab && (nextTab.tagName !== 'IDS-TAB' || nextTab.disabled)) {
@@ -194,10 +194,10 @@ export default class IdsTabs extends Base {
   /**
    * Navigates from a specified Tab to the previously-available Tab in the list
    * @param {HTMLElement} currentTab an contained element (usually an IdsTab) to check for siblings
-   * @returns {IdsTab} the previous tab in this Tab list's order
+   * @returns {HTMLElement} the previous tab in this Tab list's order
    */
-  prevTab(currentTab: IdsTab): IdsTab {
-    let prevTab = currentTab.previousElementSibling;
+  prevTab(currentTab: HTMLElement): HTMLElement {
+    let prevTab: any = currentTab.previousElementSibling;
 
     // If previous sibling isn't a tab or is disabled, try this method again on the found sibling
     if (prevTab && (prevTab.tagName !== 'IDS-TAB' || prevTab.disabled)) {
@@ -218,7 +218,7 @@ export default class IdsTabs extends Base {
    * @param {string} newValue the new tab value
    * @returns {void}
    */
-  #refreshSelectionState(currentValue: any, newValue: any): void {
+  #refreshSelectionState(currentValue: any, newValue: string) {
     if (!this.children.length) {
       return;
     }
