@@ -181,12 +181,12 @@ describe('IdsRadioGroup Component', () => {
     expect(rg.getAttribute('validate')).toEqual('required');
     expect(rg.getAttribute('label-required')).toEqual(null);
     expect(rg.labelEl.classList).toContain(className);
-    expect(rg.labelRequired).toEqual(false);
+    expect(rg.labelRequired).toEqual(null);
     rg.labelRequired = true;
     expect(rg.getAttribute('validate')).toEqual('required');
     expect(rg.getAttribute('label-required')).toEqual('true');
     expect(rg.labelEl.classList).not.toContain(className);
-    expect(rg.labelRequired).toEqual(true);
+    expect(rg.labelRequired).toEqual('true');
   });
 
   it('should set label text', () => {
