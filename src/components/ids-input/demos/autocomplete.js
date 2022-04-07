@@ -1,6 +1,6 @@
 import statesJSON from '../../../assets/data/states.json';
 
-const autocomplete = document.querySelector('ids-autocomplete');
+const autocomplete = document.querySelector('ids-input');
 
 const setData = async () => {
   const res = await fetch(statesJSON);

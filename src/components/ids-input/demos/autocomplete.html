@@ -8,17 +8,17 @@
     <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
     <ids-layout-grid auto="true" gap="md">
       <ids-layout-grid-cell>
+
         <ids-input
           id="input-autocomplete-2"
           placeholder="This input's label is visible"
           size="md"
           label="Autocomplete Input 2"
+          autocomplete
+          search-field="label"
         >
         </ids-input>
-        <ids-autocomplete
-          autocomplete="#input-autocomplete-2"
-          search-key="label"
-        ></ids-autocomplete>
+
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>

@@ -1,41 +1,32 @@
-import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import IdsPopup from '../ids-popup/ids-popup';
 import IdsListBox from '../ids-list-box/ids-list-box';
 import IdsListBoxOption from '../ids-list-box/ids-list-box-option';
-import IdsPopup from '../ids-popup/ids-popup';
 import IdsDataSource from '../../core/ids-data-source';
-import Base from './ids-autocomplete-base';
 
-import styles from './ids-autocomplete.scss';
-
-/**
- * IDS Autocomplete Component
- * @type {IdsAutoComplete}
- * @inherits IdsElement
- * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
- */
-@customElement('ids-autocomplete')
-@scss(styles)
-export default class IdsAutoComplete extends Base {
+const IdsAutoComplete = (superclass) => class extends superclass {
   constructor() {
     super();
   }
 
-  /**
-   * Return the attributes we handle as getters/setters
-   * @returns {Array} The attributes in an array
-   */
   static get attributes() {
     return [
       ...super.attributes,
       attributes.AUTOCOMPLETE,
-      attributes.SEARCH_KEY,
+      attributes.SEARCH_FIELD
     ];
   }
 
   connectedCallback() {
     super.connectedCallback?.();
+
+    if (!this.autocomplete) {
+      this.destroyAutocomplete();
+      return;
+    }
+
+    this.#configurePopup();
     this.#attachEventListeners();
   }
 
@@ -46,12 +37,36 @@ export default class IdsAutoComplete extends Base {
   datasource = new IdsDataSource();
 
   /**
+   * Set autocomplete attribute
+   * @param {string | null} value autocomplete value
+   */
+  set autocomplete(value) {
+    const val = stringToBool(value);
+    if (val) {
+      this.setAttribute(attributes.AUTOCOMPLETE, '');
+      this.container.classList.add('autocomplete');
+    } else {
+      this.removeAttribute(attributes.AUTOCOMPLETE);
+      this.container.classList.remove('autocomplete');
+    }
+  }
+
+  /**
+   * Get the autocomplete attribute
+   * @returns {boolean} autocomplete attribute value
+   */
+  get autocomplete() {
+    return this.hasAttribute(attributes.AUTOCOMPLETE);
+  }
+
+  /**
    * Set the data array of the autocomplete input
    * @param {Array} value The array to use
    */
   set data(value) {
     if (this.datasource) {
       this.datasource.data = value || [];
+      this.rerender();
     }
   }
 
@@ -68,79 +83,46 @@ export default class IdsAutoComplete extends Base {
    * Used as the target term to find matches in the dataset.
    * @param {string | null} value search key value
    */
-  set searchKey(value) {
+  set searchField(value) {
     if (value) {
-      this.setAttribute(attributes.SEARCH_KEY, value);
+      this.setAttribute(attributes.SEARCH_FIELD, value);
     } else {
-      this.removeAttribute(attributes.SEARCH_KEY);
+      this.removeAttribute(attributes.SEARCH_FIELD);
     }
   }
 
   /**
-   * Get searchKey
-   * @returns {string | null} containing the searchKey
+   * Get searchField
+   * @returns {string | null} containing the searchField
    */
-  get searchKey() {
+  get searchField() {
     const fields = this.data && Object?.keys(this.data[0]);
-    return this.getAttribute(attributes.SEARCH_KEY) || fields[0];
+    return this.getAttribute(attributes.SEARCH_FIELD) || fields[0];
   }
 
-  /**
-   * Get the internal input element
-   * @returns {Element | any} input element
-   * @readonly
-   * @memberof IdsAutoComplete
-   */
-  get input() {
-    return this.getRootNode()?.querySelector(`${this.autocomplete}`);
-  }
-
-  /**
-   * Get the internal popup element
-   * @returns {Element | any} popup element
-   * @readonly
-   * @memberof IdsAutoComplete
-   */
   get popup() {
     return this.shadowRoot?.querySelector('ids-popup');
   }
 
-  /**
-   * Get the internal list-box element
-   * @returns {Element | any} list-box element
-   * @readonly
-   * @memberof IdsAutoComplete
-   */
   get listBox() {
     return this.shadowRoot?.querySelector('ids-list-box');
   }
 
-  /**
-   * Set the autocomplete attribute
-   * use the id of the target input (ex: #input-6);
-   * @param {string} value of the target inputs id attr.
-   * @memberof IdsAutoComplete
-   */
-  set autocomplete(value) {
-    if (value) {
-      this.setAttribute(attributes.AUTOCOMPLETE, value);
-    } else {
-      this.removeAttribute(attributes.AUTOCOMPLETE);
-    }
+  get options() {
+    return this.shadowRoot?.querySelectorAll('ids-list-box-option');
+  }
+
+  get selectedOption() {
+    return this.shadowRoot?.querySelector(`ids-list-box-option[value="${this.value}"]`);
+  }
+
+  rerender() {
+    super.rerender?.();
+    this.popuplateListBox();
   }
 
   /**
-   * Get the autocomplete attribute
-   * @returns {Element | any} autocomplete attribute.
-   * @readonly
-   * @memberof IdsAutoComplete
-   */
-  get autocomplete() {
-    return this.getAttribute(attributes.AUTOCOMPLETE);
-  }
-
-  /**
-   * Find matches between the input value, searchKey and dataset
+   * Find matches between the input value, searchField and dataset
    * @param {string | null} value value in the input field
    * @param {Array} list the dataset
    * @returns {Array<any> | null} containing matched values.
@@ -148,7 +130,7 @@ export default class IdsAutoComplete extends Base {
   findMatches(value, list) {
     return list.filter((option) => {
       const regex = new RegExp(value, 'gi');
-      return option[this.searchKey].toString()?.match(regex);
+      return option[this.searchField].toString()?.match(regex);
     });
   }
 
@@ -157,14 +139,14 @@ export default class IdsAutoComplete extends Base {
    * @returns {void}
    */
   displayMatches() {
-    const resultsArr = this.findMatches(this.input.value, this.data);
+    const resultsArr = this.findMatches(this.value, this.data);
     const results = resultsArr.map((result) => {
-      const regex = new RegExp(this.input.value, 'gi');
-      const optionText = result[this.searchKey].toString()?.replace(regex, `<span class="highlight">${this.input.value.toLowerCase()}</span>`);
-      return `<ids-list-box-option>${optionText}</ids-list-box-option>`;
+      const regex = new RegExp(this.value, 'gi');
+      const optionText = result[this.searchField].toString()?.replace(regex, `<span class="highlight">${this.value.toLowerCase()}</span>`);
+      return this.templatelistBoxOption(result[this.searchField], optionText);
     }).join('');
 
-    if (this.input.value) {
+    if (this.value) {
       this.listBox.innerHTML = results;
       this.openPopup();
     } else {
@@ -190,14 +172,38 @@ export default class IdsAutoComplete extends Base {
     this.popup.visible = true;
   }
 
+  popuplateListBox() {
+    this.listBox.innerHTML = this.data.map((d) => this.templatelistBoxOption(d[this.searchField], d[this.searchField]));
+  }
+
+  templatelistBoxOption(value, label) {
+    return `<ids-list-box-option value="${value}">${label}</ids-list-box-option>`;
+  }
+
+  selectOption(e) {
+    this.value = e.target.getAttribute('value');
+  }
+
+  /**
+   * Configure and attach internal IdsPopup element.
+   * @returns {void}
+   */
+  #configurePopup() {
+    this.popup.type = 'dropdown';
+    this.popup.align = 'bottom, left';
+    this.popup.alignTarget = this.fieldContainer;
+    this.popup.y = -1;
+  }
+
   /**
    * Attach internal event handlers
    * @returns {void}
    */
   #attachEventListeners() {
-    this.onEvent('keyup', this.input, this.displayMatches.bind(this));
-    this.onEvent('change', this.input, this.displayMatches.bind(this));
-    this.onEvent('blur', this.input, this.closePopup.bind(this));
+    this.onEvent('mousedown', this.listBox, this.selectOption.bind(this));
+    this.onEvent('keyup', this, this.displayMatches);
+    this.onEvent('change', this, this.displayMatches);
+    this.onEvent('blur', this, this.closePopup);
   }
 
   /**
@@ -205,25 +211,18 @@ export default class IdsAutoComplete extends Base {
    * @returns {void}
    */
   #removeEventListeners() {
-    this.offEvent('keyup', this.input, this.displayMatches.bind(this));
-    this.offEvent('change', this.input, this.displayMatches.bind(this));
-    this.offEvent('blur', this.input, this.closePopup.bind(this));
+    this.offEvent('keyup', this, this.displayMatches);
+    this.offEvent('change', this, this.displayMatches);
+    this.offEvent('blur', this, this.closePopup);
   }
 
   /**
-   * Create the Template for the contents
-   * @returns {string} The template
+   * Destroy autocomplete functionality
+   * @returns {void}
    */
-  template() {
-    return `
-      <ids-popup
-        type="dropdown"
-        align="bottom, left"
-        align-target="${this.autocomplete}"
-        part="popup"
-      >
-        <ids-list-box slot="content"></ids-list-box>
-      </ids-popup>
-    `;
+  destroyAutocomplete() {
+    this.#removeEventListeners();
   }
-}
+};
+
+export default IdsAutoComplete;

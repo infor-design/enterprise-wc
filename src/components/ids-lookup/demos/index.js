@@ -1,13 +1,10 @@
 // Supporting components
 import IdsLookup from '../ids-lookup';
 import booksJSON from '../../../assets/data/books.json';
-import IdsAutoComplete from '../../ids-input/ids-autocomplete';
 
 // Example for populating the DataGrid
 const lookup = document.querySelector('#lookup-1');
 const container = document.querySelector('ids-container');
-const lookupAutocomplete = document.querySelector('#lookup-6');
-const autocomplete = lookupAutocomplete.shadowRoot.querySelector('ids-autocomplete');
 
 (async function init() {
   // Set a Locale and wait for it to load
@@ -62,7 +59,6 @@ const autocomplete = lookupAutocomplete.shadowRoot.querySelector('ids-autocomple
   });
 
   lookup.columns = columns;
-  lookupAutocomplete.columns = columns;
 
   const addEventListeners = () => {
     lookup.addEventListener('change', () => {
@@ -86,8 +82,6 @@ const autocomplete = lookupAutocomplete.shadowRoot.querySelector('ids-autocomple
     const res = await fetch(url);
     const data = await res.json();
     lookup.data = data;
-    lookupAutocomplete.data = data;
-    autocomplete.data = data;
   };
 
   setData();

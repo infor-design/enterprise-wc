@@ -1,10 +1,6 @@
 // Supporting components
 import IdsInput from '../ids-input';
 import IdsButton from '../../ids-button/ids-button';
-import IdsPopup from '../../ids-popup/ids-popup';
-import IdsListBox from '../../ids-list-box/ids-list-box';
-import IdsListBoxOption from '../../ids-list-box/ids-list-box-option';
-import IdsAutoComplete from '../ids-autocomplete';
 
 document.addEventListener('DOMContentLoaded', () => {
   const btnEnable = document.querySelector('#btn-input-enable');

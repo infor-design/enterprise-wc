@@ -115,20 +115,49 @@ export default class IdsInput extends Base {
       value
     } = this.templateVariables();
 
-    return `<div class="${containerClass}" part="container">
-      ${labelHtml}
-      <div class="field-container" part="field-container">
-        <input
-          part="input"
-          id="${this.id}-input"
-          ${type}${inputClass}${placeholder}${inputState}
-          ${ariaLabel}
-          ${value}
-          ></input>
-        ${showHide}
-        ${capsLock}
-      </div>
-    </div>`;
+    let template;
+
+    if (this.autocomplete) {
+      template = `<div class="${containerClass}" part="container">
+        ${labelHtml}
+        <div class="field-container" part="field-container">
+          <input
+            part="input"
+            id="${this.id}-input"
+            ${type}${inputClass}${placeholder}${inputState}
+            ${ariaLabel}
+            ${value}
+            ></input>
+          ${showHide}
+          ${capsLock}
+        </div>
+        <ids-popup
+          type="dropdown"
+          align="bottom, left"
+          align-target="#${this.id}-input"
+          part="popup"
+        >
+          <ids-list-box slot="content"></ids-list-box>
+        </ids-popup>
+      </div>`;
+    } else {
+      template = `<div class="${containerClass}" part="container">
+        ${labelHtml}
+        <div class="field-container" part="field-container">
+          <input
+            part="input"
+            id="${this.id}-input"
+            ${type}${inputClass}${placeholder}${inputState}
+            ${ariaLabel}
+            ${value}
+            ></input>
+          ${showHide}
+          ${capsLock}
+        </div>
+      </div>`;
+    }
+
+    return template;
   }
 
   /**

@@ -9,21 +9,21 @@ import IdsValidationMixin from '../../mixins/ids-validation-mixin/ids-validation
 import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
 import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsAutoCompleteMixin from '../../mixins/ids-autocomplete-mixin/ids-autocomplete-mixin';
+import IdsAutoComplete from './ids-autocomplete';
 import IdsElement from '../../core/ids-element';
 
 const Base = IdsTooltipMixin(
-  IdsAutoCompleteMixin(
-    IdsLabelStateMixin(
-      IdsFieldHeightMixin(
-        IdsDirtyTrackerMixin(
-          IdsClearableMixin(
-            IdsColorVariantMixin(
-              IdsMaskMixin(
-                IdsValidationMixin(
-                  IdsKeyboardMixin(
-                    IdsThemeMixin(
-                      IdsEventsMixin(
+  IdsLabelStateMixin(
+    IdsFieldHeightMixin(
+      IdsDirtyTrackerMixin(
+        IdsClearableMixin(
+          IdsColorVariantMixin(
+            IdsMaskMixin(
+              IdsValidationMixin(
+                IdsKeyboardMixin(
+                  IdsThemeMixin(
+                    IdsEventsMixin(
+                      IdsAutoComplete(
                         IdsElement
                       )
                     )
