@@ -213,7 +213,7 @@ describe('IdsDatePicker Component Tests', () => {
 
     it('should set size', () => {
       const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
-      const defaultSize = 'lg';
+      const defaultSize = 'sm';
       const checkSize = (size) => {
         component.size = size;
 
@@ -223,17 +223,18 @@ describe('IdsDatePicker Component Tests', () => {
         expect(triggerField.getAttribute('size')).toEqual(size);
       };
 
-      expect(component.getAttribute('size')).toEqual(defaultSize);
+      // size lg is set before each test
+      expect(component.getAttribute('size')).toEqual('lg');
       let triggerField = component.container.querySelector('ids-trigger-field');
 
-      expect(triggerField.getAttribute('size')).toEqual(defaultSize);
+      expect(triggerField.getAttribute('size')).toEqual('lg');
       sizes.forEach((s) => checkSize(s));
       component.size = null;
 
-      expect(component.getAttribute('size')).toEqual('null');
+      expect(component.getAttribute('size')).toBeNull();
       triggerField = component.container.querySelector('ids-trigger-field');
 
-      expect(triggerField.getAttribute('size')).toEqual('md');
+      expect(triggerField.getAttribute('size')).toEqual(defaultSize);
     });
 
     it('should set no margins', () => {
@@ -448,7 +449,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.readonly).toBeFalsy();
       expect(component.value).toEqual('');
       expect(component.placeholder).toEqual('');
-      expect(component.size).toBeNull();
+      expect(component.size).toEqual('sm');
       expect(component.validate).toBeNull();
       expect(component.validationEvents).toEqual('change blur');
       expect(component.format).toEqual('locale');

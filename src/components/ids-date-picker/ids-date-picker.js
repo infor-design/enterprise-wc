@@ -1048,17 +1048,23 @@ class IdsDatePicker extends Base {
 
   /**
    * size attribute
+   * default is sm
    * @returns {string} size param
    */
-  get size() { return this.getAttribute(attributes.SIZE); }
+  get size() { return this.getAttribute(attributes.SIZE) ?? 'sm'; }
 
   /**
    * Set the size (width) of input
    * @param {string} val [xs, sm, mm, md, lg, full]
    */
   set size(val) {
-    this.setAttribute(attributes.SIZE, val);
-    this.#triggerField?.setAttribute(attributes.SIZE, val);
+    if (val) {
+      this.setAttribute(attributes.SIZE, val);
+      this.#triggerField?.setAttribute(attributes.SIZE, val);
+    } else {
+      this.removeAttribute(attributes.SIZE);
+      this.#triggerField?.setAttribute(attributes.SIZE, 'sm');
+    }
   }
 
   /**
