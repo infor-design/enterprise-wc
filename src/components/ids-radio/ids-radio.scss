@@ -63,6 +63,8 @@
     &:disabled {
       ~ .circle {
         @include radio-disabled-unchecked();
+
+        box-shadow: none !important;
       }
 
       ~ .label-text {

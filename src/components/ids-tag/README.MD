@@ -92,8 +92,17 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 
 ## Converting from Previous Versions (Breaking Changes)
 
-- 3.x: Tags have all new markup and classes.
-- 4.x: Tags have all new markup and classes for web components.
+**3.x to 4.x**
+
+- Tag was implemented in v4.0.0
+- Tag can be invoked with `$('#my-element').tag()`.
+
+**4.x to 5.x**
+
+- Tags are now custom elements `<ids-tag color="error>Text</ids-tag>`
+- If using events events are now plain JS events. `beforetagremove`, `tagremove`, `aftertagremove`
+- If using properties/settings these are now attributes: `dismissible`, `color`
+- Can now be imported as a single JS file and used with encapsulated styles
 
 ## Designs
 

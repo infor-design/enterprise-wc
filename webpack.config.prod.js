@@ -20,7 +20,11 @@ module.exports = {
     clean: true
   },
   infrastructureLogging: {
-    level: 'error' // or 'verbose' if any debug info is needed
+    level: 'verbose' // or 'verbose' if any debug info is needed
+  },
+  resolve: {
+    extensions: ['.js', '.ts'],
+    modules: ['node_modules']
   },
   optimization: {
     splitChunks: {
@@ -74,14 +78,9 @@ module.exports = {
         ]
       },
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            // Options are all in babel.config.js
-            loader: 'babel-loader',
-          }
-        ]
+        test: /\.ts?$/,
+        use: 'ts-loader',
+        exclude: [/node_modules/]
       }
     ]
   },
@@ -113,7 +112,7 @@ module.exports = {
           }
         },
         {
-          from: './src/**/**/*.d.ts',
+          from: './build/types/**/ids*.d.ts',
           to({ absoluteFilename }) {
             const baseName = path.basename(absoluteFilename);
             const folders = path.dirname(absoluteFilename).split(path.sep);
@@ -122,7 +121,7 @@ module.exports = {
 
             if (filePath.includes('core/')) {
               filePath = filePath.replace('core/', '').replace('.d.ts', '');
-              return `${filePath}/${filePath}.d.ts`;
+              return `core/${filePath}.d.ts`;
             }
             return filePath;
           }

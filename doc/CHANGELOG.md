@@ -128,20 +128,10 @@ For more details on breaking changes see each component in the individual README
 - `[Tabs]` The Tabs component has been changed to a web component and renamed to ids-tabs.
   - Markup has changed to a custom element `<ids-tabs value=${selection}></ids-tabs>`
   - content within the tabs are specified as `<ids-tab value=${selection-value}>`Tab Label/Content`</ids-tab>`
-- `[Tags]` The Tag component has been changed to a web component.
-  - If using events events are now plain JS events. beforetagremove, tagremove, aftertagremove
-  - If using properties/settings these are now attributes: dismissible, color
-  - Markup has changed to a custom element `<ids-tag color="error">Text</ids-tag>`
-  - Can now be imported as a single JS file and used with encapsulated styles
-- `[Textarea]` The Textarea component has been changed to a web component and renamed to ids-textarea.
-  - Markup has changed to a custom element `<ids-textarea></ids-textarea>`
-  - If using events, events are now plain JS events.
-  - Can now be imported as a single JS file and used with encapsulated styles
-  - If using a clearable X on the textarea the x is now tabbable by default for accessibility
-- `[Toast]` The Toast component has been changed to a web component and renamed to ids-toast.
-  - Markup is now a custom element `<ids-toast></ids-toast>`
-  - If using events, events are now plain JS events.
-  - Can now be imported as a single JS file and used with encapsulated styles
+- `[Tags]` The Tag component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-tag/README.md#converting-from-previous-versions-breaking-changes) for details. *(N/A)*
+- `[Textarea]` The Textarea component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-time-picker/README.md#converting-from-previous-versions-breaking-changes) for details. ([#162](https://github.com/infor-design/enterprise-wc/issues/162))
+- `[Time Picker]` The Time Picker component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-time-picker/README.md#converting-from-previous-versions-breaking-changes) for details. ([#151](https://github.com/infor-design/enterprise-wc/issues/151))
+- `[Toast]` The Toast component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-toast/README.md#converting-from-previous-versions-breaking-changes) for details. ([#129](https://github.com/infor-design/enterprise-wc/issues/129))
 - `[Toolbar]` The Toolbar component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-toolbar/README.md#converting-from-previous-versions-breaking-changes) for details. ([#163](https://github.com/infor-design/enterprise-wc/issues/163))
 - `[Tooltip]` The Tooltip component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-tooltip/README.md#converting-from-previous-versions-breaking-changes) for details. ([#124](https://github.com/infor-design/enterprise-wc/issues/124))
 - `[Tree]` The Tree component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-treemap/README.md#converting-from-previous-versions-breaking-changes) for details. ([#235](https://github.com/infor-design/enterprise-wc/issues/235))

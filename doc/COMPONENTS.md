@@ -34,7 +34,7 @@ Current mixins are documented here `src/mixins/README.md`. Some commonly used on
 
 - [ ] Create a folder `/src/ids-[component]`, which will contain all your new component source code.
 - [ ] Add an `ids-[component].js`, which is the WebComponent interaction code.
-- [ ] Add an `ids-[component].d.ts` for this WebComponent's TypeScript definitions.
+- [ ] Note that `ids-[component].d.ts` will be generated automatically by the TypeScript compiler.
 - [ ] Add an `ids-[component].scss`, which holds all scoped styles for this WebComponent.
 - [ ] Add a `README.md` for documentation, specification, etc.
 - [ ] Add a `index.js` that imports whats needed (and only whats needed) to use the component.
@@ -486,14 +486,14 @@ Add axe test.
 it('should pass Axe accessibility tests', async () => {
   await page.setBypassCSP(true);
   await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-  await expect(page).toPassAxeTests();
+  await (expect(page) as any).toPassAxeTests();
 });
 ```
 
 Note that you can ignore some rules if they do not make sense. For example some designs might not be accessible for color contrast.
 
 ```js
-await expect(page).toPassAxeTests({ disabledRules: ['color-contrast', 'aria-required-children', 'aria-required-parent'] });
+await (expect(page) as any).toPassAxeTests({ disabledRules: ['color-contrast', 'aria-required-children', 'aria-required-parent'] });
 ```
 
 In the future we will add many more e2e tests, including tests for BDD (test steps for QA).
@@ -512,7 +512,7 @@ A percy tests sets the theme and takes a screen shot. Note the file name  and th
 it('should not have visual regressions in new dark theme (percy)', async () => {
   await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
   await page.evaluate(() => {
-    document.querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
+    document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');
   });
   await percySnapshot(page, 'ids-scroll-view-new-dark');
 });
