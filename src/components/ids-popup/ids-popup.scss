@@ -2,9 +2,15 @@
 @import './ids-popup-base';
 
 :host {
-  // Take the WebComponent out of document flow
-  position: absolute;
   display: block;
+}
+
+:host([position-style='absolute']) {
+  position: absolute;
+}
+
+:host([position-style='fixed']) {
+  position: fixed;
 }
 
 // Viewport-centered Popup centering is changed
@@ -22,8 +28,6 @@
 .ids-popup {
   @include antialiased();
   @include z-3000();
-
-  position: relative;
 
   // This style is always applied when IdsPopup is not visible
   // (goes hand-in-hand with `aria-hidden="true"` on the host element
@@ -167,14 +171,16 @@
   }
 
   // Position style: fixed
+  /*
   &.position-fixed {
-    @include fixed();
+    // @include fixed();
   }
 
   // Position style: absolute
   &.position-absolute {
     @include absolute();
   }
+  */
 
   // Position style: viewport (uses transforms)
   &.position-viewport {

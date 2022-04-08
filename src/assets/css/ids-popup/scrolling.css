@@ -1,14 +1,24 @@
-.scrollable {
+.visual {
   border: 1px solid #999;
+}
+
+
+.scrollable {
+
 
   max-height: 400px;
   max-width: 400px;
   overflow: scroll;
+  /* position: relative; */
 }
 
 .spacer {
   height: 300px;
   width: 400px;
+}
+
+.scrolled-element {
+  position: relative;
 }
 
 .scrolled-element-y {
@@ -28,4 +38,37 @@
   position: absolute;
   left: 500px;
   top: 150px;
+}
+
+/*
+ *
+ */
+
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 350px;
+  width: 100%;
+}
+
+.inner {
+  position: relative;
+  width: 50%;
+  height: 200px;
+  background-color: pink;
+  padding: 0 15px;
+}
+
+.positioned {
+  background-color: red;
+  width: 50px;
+  height: 50px;
+}
+
+
+
+.relative {
+  position: relative;
 }

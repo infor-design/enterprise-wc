@@ -25,3 +25,4 @@ document.addEventListener('DOMContentLoaded', () => {
   connectButtonToPopup('#popup-test-1', '#popup-test-trigger-1');
   connectButtonToPopup('#popup-test-2', '#popup-test-trigger-2');
 });
+
