@@ -26,7 +26,7 @@ describe('Ids Text e2e Tests', () => {
 });
 
 describe('Typography Percy Tests', () => {
-  const url = 'http://localhost:4444/typography';
+  const url = 'http://localhost:4444/ids-text/typography.html';
 
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
