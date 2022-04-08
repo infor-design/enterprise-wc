@@ -1,7 +1,11 @@
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
+const tsPreset = require('ts-jest/jest-preset');
+const puppeteerPreset = require('jest-puppeteer/jest-preset');
 
 module.exports = {
+  ...tsPreset,
+  ...puppeteerPreset,
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
@@ -22,14 +26,22 @@ module.exports = {
 
   // An array of glob patterns indicating a set of files for which coverage
   // information should be collected
-  collectCoverageFrom: ['src/**/**/*.js', '!src/**/**/index.js', '!src/**/demos/*.js', '!src/assets/scripts/*.js'],
+  collectCoverageFrom: [
+    'src/**/**/*.ts',
+    '!src/**/**/index.ts',
+    '!src/**/demos/*.ts',
+    '!src/assets/scripts/*.ts',
+    '!*.js'
+  ],
 
   // The directory where Jest should output its coverage files
   coverageDirectory: 'coverage',
 
   // An array of regexp pattern strings used to skip coverage collection
   coveragePathIgnorePatterns: [
-    '/node_modules/'
+    '/node_modules/',
+    '/build/types',
+    '/components/enterprise-wc.ts',
   ],
 
   // Indicates which provider should be used to instrument code for coverage
@@ -67,7 +79,7 @@ module.exports = {
 
   // An array of directory names to be searched recursively up from the requiring module's location
   // moduleDirectories: [
-  //   "node_modules"
+  //   "node_modules",
   // ],
 
   // An array of file extensions your modules use
@@ -84,8 +96,8 @@ module.exports = {
   // names that allow to stub out resources with a single module
   // See https://jestjs.io/docs/en/webpack.html for more info
   moduleNameMapper: {
-    '^.+\\.scss$': '<rootDir>/test/helpers/style-mock.js',
-    'ui.config.font-sizes.js': 'ids-identity/dist/theme-new/tokens/web/ui.config.font-sizes.js'
+    '^.+\\.scss$': '<rootDir>/test/helpers/style-mock.ts',
+    'ui.config.font-sizes.ts': 'ids-identity/dist/theme-new/tokens/web/ui.config.font-sizes.ts'
   },
 
   // An array of regexp pattern strings, matched against all module
@@ -99,13 +111,13 @@ module.exports = {
   // notifyMode: "failure-change",
 
   // A preset that is used as a base for Jest's configuration
-  preset: 'jest-puppeteer',
+  // preset: ['ts-jest', 'jest-puppeteer'],
 
   // Run tests from one or more projects
   // projects: undefined,
 
   // Use this configuration option to add custom reporters to Jest
-  reporters: ['default', 'jest-puppeteer-istanbul/lib/reporter'],
+  reporters: ['default'],
 
   // Automatically reset mock state between every test
   // resetMocks: false,
@@ -137,12 +149,11 @@ module.exports = {
   // A list of paths to modules that run some code to configure
   // or set up the testing framework before each test
   setupFilesAfterEnv: [
-    'jest-puppeteer-istanbul/lib/setup',
     '@wordpress/jest-puppeteer-axe'
   ],
 
   // Change the name convention of the snapshot to be next to the test
-  snapshotResolver: '<rootDir>/test/helpers/snapshot-resolver.js',
+  snapshotResolver: '<rootDir>/test/helpers/snapshot-resolver.ts',
 
   // The test environment that will be used for testing
   // testEnvironment: 'node',
@@ -155,9 +166,9 @@ module.exports = {
 
   // The glob patterns Jest uses to detect test files
   testMatch: [
-    '**/test/ids*/*.[jt]s?(x)',
-    '**/test/core/*.[jt]s?(x)',
-    '**/test/mixins/*.[jt]s?(x)'
+    '**/test/**/*.ts',
+    '!**/build/types/**',
+    '!**/test/helpers/**'
   ],
 
   // An array of regexp pattern strings that are matched against all test paths,
@@ -188,7 +199,8 @@ module.exports = {
   // An array of regexp pattern strings that are matched against all source file paths,
   // matched files will skip transformation
   transformIgnorePatterns: [
-    'node_modules/(?!ids-identity)'
+    'node_modules/(?!ids-identity)',
+    'build/types/*.d.ts'
   ],
 
   // An array of regexp pattern strings that are matched against all modules before

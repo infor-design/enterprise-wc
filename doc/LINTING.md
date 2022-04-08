@@ -1,10 +1,10 @@
 # Linting
 
-We use several linters and type checkers for various reasons. The different linters and tools are explained in this document. Note that we are doing type checking BUT NOT using Typescript. This allows us to include typing files to support Typescript users and ensures our code will not fail when included in a Typescript environment. This allows us to eliminate the need for Angular wrappers.
+We use several linters and type checkers for various reasons. The different linters and tools are explained in this document. This should allows us to eliminate the need for Angular wrappers.
 
 ## Tooling
 
-- [Actions](https://github.com/infor-design/enterprise-wc/actions) The github actions on your PR will report errors which will be verifiable on the command line running `npm run lint && npm run test`
+- [Actions](https://github.com/infor-design/enterprise-wc/actions) The GitHub actions on your PR will report errors which will be verifiable on the command line running `npm run lint && npm run test`
 
 ## Markdown (Remark) Linter
 
@@ -18,7 +18,7 @@ We are using the core [eslinter for Javascript](https://eslint.org/) all setting
 
 ## Style Linter
 
-We are using [style lint](https://github.com/stylelint/stylelint) for checking the rules in scss files. All settings can be set within the `.stylelintignore` file in the root. If using Atom the package [linter-stylelint](https://atom.io/packages/linter-stylelint) should be installed. If using visual code the [stylelint](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint) should be installed. The web pack config in the demo app will also report errors in the Google Chrome console while testing.
+We are using [style lint](https://github.com/stylelint/stylelint) for checking the rules in `scss` files. All settings can be set within the `.stylelintignore` file in the root. If using Atom the package [linter-stylelint](https://atom.io/packages/linter-stylelint) should be installed. If using visual code the [stylelint](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint) should be installed. The web pack config in the demo app will also report errors in the Google Chrome console while testing.
 
 ## HtmlHint Linter
 
@@ -26,7 +26,7 @@ We are using [HtmlHint lint](https://github.com/htmlhint/HTMLHint) for checking 
 
 ## Typescript Type Checking
 
-We are using [the typescript tsc](https://www.typescriptlang.org/docs/handbook/compiler-options.html) command for checking simple rules around Typescript and typings to support Typescript users. Note that in this project we chose to not use Typescript but we make the code type safe using comments and/or proper Javascript. All settings regarding typing can be set within the `tsconfig.json` file in the root of this project.
+We are using [the typescript tsc](https://www.typescriptlang.org/docs/handbook/compiler-options.html) command for checking simple rules around Typescript and typings. All settings regarding typing can be set within the `tsconfig.json` file in the root of this project.
 
 If using the Atom editor the package [atom-typescript](https://atom.io/packages/atom-typescript) should be installed to see errors in the editor. Within the atom-typescript plugin make sure to check the "Enable Atom-Typescript for JavaScript Files" to see errors in Atom.
 
@@ -34,4 +34,4 @@ In addition we had to disabled a couple warnings it complains about regarding ou
 
 Occasionally due to a bug in Atom not showing errors when a JS file is open. Click `JavaScript` on the bottom footer and set it to `TypesScript` to toggle the visibility of type errors.
 
-In addition to the types in the d.ts file which should be the external facing types. You can use tsdoc to guide ts into the types. Have a look at [jsdoc-supported-types](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html).
+The the `d.ts` will be generated and will give the external facing types. Have a look at [jsdoc-supported-types](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html).
