@@ -236,9 +236,9 @@ describe('IdsInput Component', () => {
     input.data = dataset;
     expect(input.data.length).toEqual(59);
 
-    expect(input.searchKey).toEqual('value');
-    input.searchKey = 'label';
-    expect(input.searchKey).toEqual('label');
+    expect(input.searchField).toEqual('value');
+    input.searchField = 'label';
+    expect(input.searchField).toEqual('label');
   });
 
   it('should call template', () => {

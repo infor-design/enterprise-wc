@@ -178,10 +178,12 @@ const IdsAutoComplete = (superclass: any) => class extends superclass {
    * Popuplate the list box with the current data
    */
   #populateListBox() {
-    this.listBox.innerHTML = this.data.map((d) => {
-      const value = d[this.searchField];
-      return this.#templatelistBoxOption(value, value);
-    });
+    if (this.listBox) {
+      this.listBox.innerHTML = this.data.map((d) => {
+        const value = d[this.searchField];
+        return this.#templatelistBoxOption(value, value);
+      });
+    }
   }
 
   /**
