@@ -28,12 +28,12 @@ describe('Ids Time Picker e2e Tests', () => {
     // Set value to the input
     await page.$eval(
       '#e2e-timepicker-locale',
-      (el) => el?.container.querySelector('ids-trigger-field')?.setAttribute('value', '01:00 AM')
+      (el: any) => el?.container.querySelector('ids-trigger-field')?.setAttribute('value', '01:00 AM')
     );
 
     let value = await page.$eval(
       '#e2e-timepicker-locale',
-      (el) => el?.value
+      (el: any) => el?.value
     );
 
     expect(value).toEqual('01:00 AM');
@@ -41,12 +41,12 @@ describe('Ids Time Picker e2e Tests', () => {
     // Reset value in the input
     await page.$eval(
       '#e2e-timepicker-locale',
-      (el) => el?.container.querySelector('ids-trigger-field')?.setAttribute('value', '')
+      (el: any) => el?.container.querySelector('ids-trigger-field')?.setAttribute('value', '')
     );
 
     value = await page.$eval(
       '#e2e-timepicker-locale',
-      (el) => el?.value
+      (el: any) => el?.value
     );
 
     expect(value).toEqual('');
