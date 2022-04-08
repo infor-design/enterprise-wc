@@ -3,6 +3,7 @@
 ## Major
 
 - [ ] Fix the keyboard (arrow down , enter, keys around the colors ect), and fix focus state around swatches
+- [ ] Add keyboard/jest tests
 - [ ] Tooltip on the colors
 - [ ] Standardize/Abstract out Popup/Picker/"return value" interface (to be used in this and other pickers)
 - [ ] Fix all the states [See example](https://main-enterprise.demo.design.infor.com/components/dropdown/test-states.html) and [also see](https://main-enterprise.demo.design.infor.com/components/colorpicker/test-states.html)

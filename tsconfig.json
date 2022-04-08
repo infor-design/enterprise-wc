@@ -1,22 +1,42 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "allowJs": true,
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "checkJs": false,
+    "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "checkJs": false,
-    "noEmit": true,
-    // We'd like to use noImplicitAny: true, but we often need to access
-    // arbitrary data on elements, and have not yet worked out an easy way to
-    // declare that properly.
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "strict": true,
-    "target": "ES2019",
-    "types": [],
+    "target": "es2020",
+    "module": "es2020",
     "moduleResolution": "node",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./build/types"
   },
-  "include": ["src/**/**/*.js", "src/**/**/*.d.ts"],
-  "exclude": ["node_modules", "test"]
+  "include": [
+    "test/**/*.ts",
+    "src/**/**/*.ts",
+     "./declaration.d.ts"
+  ],
+  "exclude": [
+    "src/**/*.d.ts",
+    "node_modules",
+    "build/types",
+    "dist",
+    "aws",
+    "scripts"
+  ],
+  "types": [
+    "@types/jest",
+    "@types/puppeteer",
+    "@types/jest-axe"
+  ]
 }

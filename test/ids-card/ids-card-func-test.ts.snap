@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IdsCard Component Actionable Ids Card renders card action correctly 1`] = `"<ids-card-action></ids-card-action>"`;
+
+exports[`IdsCard Component Actionable Ids Card renders card action markup correctly 1`] = `
+"
+      <div class=\\"ids-card\\" part=\\"card\\">
+        <ids-button>
+          <slot name=\\"card-content\\"></slot>
+        </ids-button>
+      </div>
+    "
+`;
+
+exports[`IdsCard Component renders correctly 1`] = `
+"<ids-card><div slot=\\"card-header\\">
+            <ids-text font-size=\\"20\\" type=\\"h2\\">Card Title Two</ids-text>
+          </div>
+          <div slot=\\"card-content\\">
+          </div></ids-card>"
+`;
