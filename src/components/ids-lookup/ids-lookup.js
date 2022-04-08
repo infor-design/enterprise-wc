@@ -90,6 +90,7 @@ export default class IdsLookup extends Base {
       label="${this.label}"
       part="trigger-field"
       size="md"
+      ${this.autocomplete ? ` autocomplete search-field="${this.field}"` : ''}
       ${this.disabled ? ' disabled="true"' : ''}
       ${this.readonly ? ' readonly="true"' : ''}
       ${this.validate ? ` validate="${this.validate}"` : ''}

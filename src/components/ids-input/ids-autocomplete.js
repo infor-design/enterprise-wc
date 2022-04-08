@@ -148,7 +148,7 @@ const IdsAutoComplete = (superclass) => class extends superclass {
 
     if (this.value) {
       this.openPopup();
-      this.listBox.innerHTML = results;
+      this.listBox.innerHTML = results || '<ids-list-box-option>No Results.</ids-list-box-option>';
     } else {
       this.closePopup();
     }
