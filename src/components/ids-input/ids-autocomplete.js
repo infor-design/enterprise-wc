@@ -101,18 +101,38 @@ const IdsAutoComplete = (superclass) => class extends superclass {
     return this.getAttribute(attributes.SEARCH_FIELD) || fields[0];
   }
 
+  /**
+   * Get the internal ids-popup element
+   * @returns {Element | null | any} IdsPopup Element
+   * @readonly
+   */
   get popup() {
     return this.shadowRoot?.querySelector('ids-popup');
   }
 
+  /**
+   * Get the internal ids-list-box element
+   * @returns {Element | null | any} IdsListBox Element
+   * @readonly
+   */
   get listBox() {
     return this.shadowRoot?.querySelector('ids-list-box');
   }
 
+  /**
+   * Get all internal ids-list-box-option elements
+   * @returns {Element | null | any} IdsListBoxOption Elements
+   * @readonly
+   */
   get options() {
     return this.shadowRoot?.querySelectorAll('ids-list-box-option');
   }
 
+  /**
+   * Get the selected ids-list-box-option element
+   * @returns {Element | null | any} Selected IdsListBoxOption Element
+   * @readonly
+   */
   get isSelected() {
     return this.shadowRoot?.querySelector(`ids-list-box-option.is-selected`);
   }
@@ -154,6 +174,9 @@ const IdsAutoComplete = (superclass) => class extends superclass {
     }
   }
 
+  /**
+   * Popuplate the list box with the current data
+   */
   #populateListBox() {
     this.listBox.innerHTML = this.data.map((d) => {
       const value = d[this.searchField];
@@ -161,6 +184,12 @@ const IdsAutoComplete = (superclass) => class extends superclass {
     });
   }
 
+  /**
+   * Create the list box option template.
+   * @param {string | null} value sets the value attr of the option
+   * @param {string | null} label sets the label of the option
+   * @returns {string} ids-list-box-option template.
+   */
   #templatelistBoxOption(value, label) {
     return `<ids-list-box-option value="${value}">${label}</ids-list-box-option>`;
   }
@@ -183,6 +212,10 @@ const IdsAutoComplete = (superclass) => class extends superclass {
     this.popup.visible = true;
   }
 
+  /**
+   * Set the value of the input to the selected option
+   * @param {Event | null | any} e event
+   */
   selectOption(e) {
     if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
       this.setSelectedOption(e.target);
@@ -195,11 +228,19 @@ const IdsAutoComplete = (superclass) => class extends superclass {
     this.closePopup();
   }
 
+  /**
+   * Set the selected attributes on the current option
+   * @param {Element | null | any} el element
+   */
   setSelectedOption(el) {
     el.classList.add('is-selected');
     el.setAttribute('tabindex', '0');
   }
 
+  /**
+   * Remove the selected attributes on the current option
+   * @param {Element | null | any} el element
+   */
   removeSelectedOption(el) {
     el.classList.remove('is-selected');
     el.setAttribute('tabindex', '-1');
@@ -226,6 +267,10 @@ const IdsAutoComplete = (superclass) => class extends superclass {
     this.onEvent('blur', this, this.closePopup);
   }
 
+  /**
+   * Attach the keyborad listeners
+   * @returns {void}
+   */
   #attachKeyboardListeners() {
     this.listen(['ArrowDown', 'ArrowUp'], this, (e) => {
       e.stopPropagation();
