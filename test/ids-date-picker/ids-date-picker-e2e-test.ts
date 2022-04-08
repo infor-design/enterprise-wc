@@ -11,7 +11,6 @@ describe('Ids Date Picker e2e Tests', () => {
   it('should not have errors', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await expect(page.title()).resolves.toMatch('IDS Date Picker Component');
-    await (expect(page) as any).toPassAxeTests();
   });
 
   it('should handle calendar popup events', async () => {
