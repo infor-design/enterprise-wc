@@ -142,7 +142,7 @@ export default class IdsSplitter extends Base {
       this.#expandSizes[idx] = hasSize ? this.#sizes[idx] : this.#defaultsSize;
       if (hasSize) {
         const diff = this.#minSizes[idx] - this.#sizes[idx];
-        const pixelDiff = this.#toPixel(`${diff}%`);
+        const pixelDiff = this.#toPixel(diff);
         this.#move({ ...pair, diff: pixelDiff, initial: options.initial });
       }
       if (before !== this.#sizes[idx]) {
@@ -296,17 +296,20 @@ export default class IdsSplitter extends Base {
    * @returns {void}
    */
   #init() {
-    window.requestAnimationFrame(() => {
-      this
-        .#destroy()
-        .#setProp()
-        .#setContainer()
-        .#initialSizes()
-        .#addSplitBars()
-        .#setPairs()
-        .#positionSplitBars()
-        .#attachEventHandlers()
-        .#setInitialCollapsed();
+    window.addEventListener('load', () => {
+      console.log('test');
+      window.requestAnimationFrame(() => {
+        this
+          .#destroy()
+          .#setProp()
+          .#setContainer()
+          .#initialSizes()
+          .#addSplitBars()
+          .#setPairs()
+          .#positionSplitBars()
+          .#attachEventHandlers()
+          .#setInitialCollapsed();
+      });
     });
   }
 
