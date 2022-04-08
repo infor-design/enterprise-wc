@@ -298,16 +298,18 @@ export default class IdsSplitter extends Base {
    * @returns {void}
    */
   #init(): void {
-    window.requestAnimationFrame(() => {
-      this.#destroy();
-      this.#setProp();
-      this.#setContainer();
-      this.#initialSizes();
-      this.#addSplitBars();
-      this.#setPairs();
-      this.#positionSplitBars();
-      this.#attachEventHandlers();
-      this.#setInitialCollapsed();
+    window.addEventListener('load', () => {
+      window.requestAnimationFrame(() => {
+        this.#destroy();
+        this.#setProp();
+        this.#setContainer();
+        this.#initialSizes();
+        this.#addSplitBars();
+        this.#setPairs();
+        this.#positionSplitBars();
+        this.#attachEventHandlers();
+        this.#setInitialCollapsed();
+      });
     });
   }
 
