@@ -1,0 +1,157 @@
+{
+  "root": true,
+  "extends": [
+    "eslint:recommended",
+    "airbnb-base",
+    "plugin:jsdoc/recommended"
+  ],
+  "env": {
+    "browser": true,
+    "es2022": true
+  },
+  "globals": {
+    "page": true,
+    "browser": true,
+    "context": true,
+    "jestPuppeteer": true,
+    "jest": true,
+    "it": true,
+    "describe": true,
+    "beforeAll": true,
+    "afterAll": true,
+    "afterEach": true,
+    "beforeEach": true,
+    "expect": true,
+    "test": true,
+    "Ids": true,
+    "ResizeObserver": true,
+    "$": true,
+    "process": true,
+    "console": true,
+    "module": true,
+    "require": true,
+    "__dirname": true,
+    "before": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module"
+  },
+  "rules": {
+    // Allow single quotes only or template literals
+    "quotes": ["error", "single", { "allowTemplateLiterals": true }],
+    // Allow assignment of properties from items in `forEach` loops
+    "no-param-reassign": ["off", { "props": false }],
+    // Dont force a new line after comments
+    "jsdoc/newline-after-description": 0,
+    // Allow single line JSDoc comments
+    "jsdoc/no-multi-asterisks": 0,
+    // Allow a few custom jsdoc tags
+    "jsdoc/check-tag-names": ["error", { "definedTags": ["jest-environment", "inherits", "part"] }],
+    // require trailing commas in multiline object literals
+    "comma-dangle": ["off", {
+      "arrays": "never",
+      "objects": "never",
+      "imports": "never",
+      "exports": "never",
+      "functions": "never"
+    }],
+    // Allow ternary operators
+    "no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTernary": true }],
+    // Forbid the import of external modules that are not declared
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    // Enforce line length
+    "max-len": ["error", 120, 2, {
+      "ignoreUrls": true,
+      "ignoreComments": false,
+      "ignoreRegExpLiterals": true,
+      "ignoreStrings": true,
+      "ignoreTemplateLiterals": true
+    }],
+    // Allow i++
+    "no-plusplus": ["off", { }],
+    // Allow continue in loops
+    "no-continue": ["off"]
+  },
+  "overrides": [{
+    "files": ["*.ts"],
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "airbnb-base",
+      "airbnb-typescript/base"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "project": ["./tsconfig.json"]
+    },
+    "rules": {
+     // Allow var requires
+     "@typescript-eslint/no-var-requires": "off",
+      // Allow any
+      "@typescript-eslint/no-explicit-any": "off",
+      // Allow empty constructors
+      "no-useless-constructor": "off",
+      "@typescript-eslint/no-useless-constructor": ["off"],
+      // Allow the use of this
+      "class-methods-use-this": "off",
+      "no-prototype-builtins": "off",
+      // Dont suggest confusing destructuring
+      "prefer-destructuring": ["off"],
+      // Enforce line length
+      "max-len": ["error", 125, 2, {
+        "ignoreUrls": true,
+        "ignoreComments": false,
+        "ignoreRegExpLiterals": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true
+      }],
+     // Enforce where commas can be used
+     "@typescript-eslint/comma-dangle": ["off", {
+        "arrays": "never",
+        "objects": "never",
+        "imports": "never",
+        "exports": "never",
+        "functions": "never"
+      }],
+      // Enforce single quotes
+      "@typescript-eslint/quotes": ["error", "single", { "allowTemplateLiterals": true }],
+      // Allow to update parameters
+      "no-param-reassign": ["off", { "props": false }],
+      // Allow imports from node_modules (ids-identity)
+      "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+      // Allow console.info
+      "no-console": ["error", { "allow": ["error", "info"] }],
+      // Allow i++
+      "no-plusplus": ["off", { }],
+      // Allow functions with no this in them
+      "no-restricted-syntax": ["off", { }],
+      // Allow this to be aliased
+      "@typescript-eslint/no-this-alias": ["off"],
+      // Allow continue in loops
+      "no-continue": ["off"],
+      // we aren't doing special math with binary/hex radix numbers often,
+      // so this removes need for parseInt(number, 10);
+      "radix": 0,
+      // allow inconsistent return values (allows empty return values on array functions, etc)
+      "consistent-return": ["off"],
+      // Allow array methods to not require an explicit return value (for no return values in `.filter()`, `.map()`, etc)
+      "array-callback-return": ["off", {
+        "allowImplicit": true
+      }],
+      // Allow short circuiting of functions
+      "no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTernary": true }],
+      // Require modules with a single export to use a default export
+      // Will ignore because of https://medium.com/@timoxley/named-exports-as-the-default-export-api-670b1b554f65
+      // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/prefer-default-export.md
+      "import/prefer-default-export": "off",
+      // valid for readability in async tests
+      "no-await-in-loop": ["off", { }],
+      // bit masks used for idiomatic MouseEvents.buttons detection w/ mousewheel down
+      "no-bitwise": 0
+    }
+  }]
+}
