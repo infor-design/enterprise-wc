@@ -9,6 +9,7 @@ tmp
 app
 .build-report
 build
+.nyc_output
 
 # OS Setting Files
 .DS_Store

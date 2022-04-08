@@ -367,6 +367,12 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     &.focus-within .field-container {
       @include border-slate-40();
       @include text-black();
+
+      &.error,
+      &.error:hover {
+        @include border-alert-error();
+        @include text-alert-error();
+      }
     }
 
     &:not(.readonly-background):not(.bg-transparent) {
