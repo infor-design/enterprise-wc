@@ -84,23 +84,21 @@ export default class IdsSearchField extends Base {
       value
     } = this.templateVariables();
 
-    let template;
-
-    if (this.autocomplete) {
-      template = `<div id="ids-search-field" class="ids-search-field ids-trigger-field ${containerClass}" part="container">
-        ${labelHtml}
-        <div class="field-container" part="field-container">
-          <ids-icon class="ids-icon search-icon starting-icon" size="medium" icon="search"></ids-icon>
-          <slot name="trigger-start"></slot>
-          <input
-            part="input"
-            id="${this.id}-input"
-            ${type}${inputClass}${placeholder}${inputState}
-            ${ariaLabel}
-            ${value}
-            ></input>
-          <slot name="trigger-end"></slot>
-        </div>
+    return `<div id="ids-search-field" class="ids-search-field ids-trigger-field ${containerClass}" part="container">
+      ${labelHtml}
+      <div class="field-container" part="field-container">
+        <ids-icon class="ids-icon search-icon starting-icon" size="medium" icon="search"></ids-icon>
+        <slot name="trigger-start"></slot>
+        <input
+          part="input"
+          id="${this.id}-input"
+          ${type}${inputClass}${placeholder}${inputState}
+          ${ariaLabel}
+          ${value}
+          ></input>
+        <slot name="trigger-end"></slot>
+      </div>
+      ${this.autocomplete ? `
         <ids-popup
           type="dropdown"
           align="bottom, left"
@@ -108,27 +106,9 @@ export default class IdsSearchField extends Base {
           part="popup"
         >
           <ids-list-box slot="content"></ids-list-box>
-        </ids-popup>
-      </div>`;
-    } else {
-      template = `<div id="ids-search-field" class="ids-search-field ids-trigger-field ${containerClass}" part="container">
-        ${labelHtml}
-        <div class="field-container" part="field-container">
-          <ids-icon class="ids-icon search-icon starting-icon" size="medium" icon="search"></ids-icon>
-          <slot name="trigger-start"></slot>
-          <input
-            part="input"
-            id="${this.id}-input"
-            ${type}${inputClass}${placeholder}${inputState}
-            ${ariaLabel}
-            ${value}
-            ></input>
-          <slot name="trigger-end"></slot>
-        </div>
-      </div>`;
-    }
-
-    return template;
+        </ids-popup>` : ''
+      }
+    </div>`;
   }
 
   /**
