@@ -1,9 +1,8 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import Base from './ids-breadcrumb-base';
+import styles from './ids-breadcrumb.scss';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-
-import styles from './ids-breadcrumb.scss';
 
 import '../ids-hyperlink/ids-hyperlink';
 import '../ids-menu-button/ids-menu-button';
@@ -27,7 +26,7 @@ export default class IdsBreadcrumb extends Base {
     super();
   }
 
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback();
 
     this.setAttribute('role', 'list');
@@ -44,7 +43,7 @@ export default class IdsBreadcrumb extends Base {
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       ...super.attributes,
       attributes.PADDING,
@@ -69,14 +68,14 @@ export default class IdsBreadcrumb extends Base {
    * @private
    * @returns {void}
    */
-  #attachEventHandlers() {
-    this.onEvent('click', this, (e) => {
+  #attachEventHandlers(): void {
+    this.onEvent('click', this, (e: any) => {
       if (e.target.tagName === 'IDS-HYPERLINK' && typeof this.onBreadcrumbActivate === 'function') {
         this.onBreadcrumbActivate(e.target, this.current);
       }
     });
 
-    this.onEvent('beforeshow', this.popupMenuEl, (e) => {
+    this.onEvent('beforeshow', this.popupMenuEl, (e: any) => {
       // Reflect this event to the host element
       this.triggerEvent('beforeshow', this, {
         bubbles: e.bubbles,
@@ -86,7 +85,7 @@ export default class IdsBreadcrumb extends Base {
       this.refreshOverflowedItems();
     });
 
-    this.onEvent('selected', this.popupMenuEl, (e) => {
+    this.onEvent('selected', this.popupMenuEl, (e: any) => {
       // Reflect this event to the host element
       this.triggerEvent('beforeshow', this, {
         bubbles: e.bubbles,
@@ -103,7 +102,7 @@ export default class IdsBreadcrumb extends Base {
   /**
    * Constructs the overflow
    */
-  #buildOverflowMenu() {
+  #buildOverflowMenu(): void {
     const group = this.popupMenuGroupEl;
     const menuItemHTML = [...this.children].map(this.#buildOverflowMenuItem).join('');
     group.insertAdjacentHTML('afterbegin', menuItemHTML);
@@ -120,7 +119,7 @@ export default class IdsBreadcrumb extends Base {
    * @param {HTMLElement} elem the breadcrumb element to use for creating the menu item
    * @returns {string} representation of an IdsMenuItem
    */
-  #buildOverflowMenuItem(elem) {
+  #buildOverflowMenuItem(elem: any): string {
     const disabled = elem.hasAttribute(attributes.DISABLED) ? ' disabled' : '';
     const hidden = elem.hasAttribute(attributes.HIDDEN) ? ' hidden' : '';
     return `<ids-menu-item${disabled}${hidden}>${elem.textContent}</ids-menu-item>`;
@@ -129,7 +128,7 @@ export default class IdsBreadcrumb extends Base {
   /**
    * Destroys the overflow
    */
-  #emptyOverflowMenu() {
+  #emptyOverflowMenu(): void {
     if (this.popupMenuGroupEl) {
       this.popupMenuGroupEl.innerHTML = '';
     }
@@ -140,7 +139,7 @@ export default class IdsBreadcrumb extends Base {
    * @private
    * @returns {object} This API object for chaining
    */
-  #resize() {
+  #resize(): any {
     this.refreshBreadcrumbMenu();
     return this;
   }
@@ -150,6 +149,7 @@ export default class IdsBreadcrumb extends Base {
    * @returns {string} The template
    */
   template(): string {
+    const truncated = this.truncate ? ' truncate' : '';
     return `
       <div class="ids-breadcrumb${truncated}">
         <div class="ids-breadcrumb-menu hidden">
@@ -172,12 +172,7 @@ export default class IdsBreadcrumb extends Base {
    * Adds an individual breadcrumb to the end of the bread crumb list
    * @param {Element} breadcrumb The HTML element to add
    */
-  add(breadcrumb: any) {
-    if (this.lastElementChild) {
-      this.lastElementChild.setAttribute('font-weight', '');
-    }
-    breadcrumb.setAttribute('font-weight', 'bold');
-    breadcrumb.setAttribute('color', 'unset');
+  add(breadcrumb: any): void {
     breadcrumb.setAttribute('role', 'listitem');
     breadcrumb.setAttribute('text-decoration', 'hover');
     breadcrumb.setAttribute('color-variant', this.closest('ids-header') ? 'alternate' : 'breadcrumb');
@@ -223,7 +218,7 @@ export default class IdsBreadcrumb extends Base {
    * Refreshes the state of the Breadcrumb's overflow menu based on whether its items are overflowed
    * @returns {void}
    */
-  refreshBreadcrumbMenu() {
+  refreshBreadcrumbMenu(): void {
     this.refreshOverflowedItems();
     if (this.hasVisibleActions()) {
       this.#showBreadCrumbMenu();
@@ -237,7 +232,7 @@ export default class IdsBreadcrumb extends Base {
    * @private
    * @returns {void}
    */
-  #showBreadCrumbMenu() {
+  #showBreadCrumbMenu(): void {
     this.buttonEl.removeAttribute('hidden');
     this.menuContainerEl.classList.remove(attributes.HIDDEN);
     this.container.classList.add('truncate');
@@ -249,7 +244,7 @@ export default class IdsBreadcrumb extends Base {
    * @private
    * @returns {void}
    */
-  #hideBreadCrumbMenu() {
+  #hideBreadCrumbMenu(): void {
     this.buttonEl.setAttribute('hidden', '');
     this.menuContainerEl.classList.add(attributes.HIDDEN);
     this.container.classList.remove('truncate');
@@ -259,28 +254,28 @@ export default class IdsBreadcrumb extends Base {
   /**
    * @returns {HTMLElement} the current breadcrumb
    */
-  get current() {
+  get current(): HTMLElement {
     return this.querySelector('[font-weight="bold"]');
   }
 
   /**
    * @returns {HTMLElement} reference to the breadcrumb overflow menu button
    */
-  get buttonEl() {
+  get buttonEl(): any {
     return this.container.querySelector('ids-menu-button');
   }
 
   /**
    * @returns {HTMLElement} reference to the breadcrumb overflow menu's container element
    */
-  get menuContainerEl() {
+  get menuContainerEl(): HTMLElement {
     return this.container.querySelector('.ids-breadcrumb-menu');
   }
 
   /**
    * @returns {HTMLElement} reference to the breadcrumb list's container element
    */
-  get navElem() {
+  get navElem(): HTMLElement {
     return this.container.querySelector('nav');
   }
 
@@ -288,7 +283,7 @@ export default class IdsBreadcrumb extends Base {
    * @readonly
    * @returns {Array<HTMLElement>} list of menu items that mirror Toolbar items
    */
-  get overflowMenuItems() {
+  get overflowMenuItems(): Array<any> {
     if (this.popupMenuEl) {
       return [...this.popupMenuGroupEl.children];
     }
@@ -307,7 +302,7 @@ export default class IdsBreadcrumb extends Base {
    * Set if breadcrumb will be truncated if there isn't enough space
    * @param {boolean|null} value truncate if true
    */
-  set truncate(value) {
+  set truncate(value: boolean | null) {
     const currentValue = this.truncate;
     const val = stringToBool(value);
     if (currentValue !== val) {
@@ -324,14 +319,14 @@ export default class IdsBreadcrumb extends Base {
   /**
    * @returns {boolean} true if this component is currently configured to truncate
    */
-  get truncate() { return stringToBool(this.getAttribute(attributes.TRUNCATE)); }
+  get truncate(): boolean { return stringToBool(this.getAttribute(attributes.TRUNCATE)); }
 
   /**
    * contains the render routine for showing truncation and the breadcrumb overflow menu
    * @private
    * @returns {void}
    */
-  #enableTruncation() {
+  #enableTruncation(): void {
     // Set observer for resize
     this.#resizeObserver.disconnect();
     this.#resizeObserver.observe(this.container);
@@ -345,7 +340,7 @@ export default class IdsBreadcrumb extends Base {
    * @private
    * @returns {void}
    */
-  #disableTruncation() {
+  #disableTruncation(): void {
     this.#resizeObserver.disconnect();
     this.#hideBreadCrumbMenu();
     this.#emptyOverflowMenu();
@@ -356,12 +351,12 @@ export default class IdsBreadcrumb extends Base {
    * If set to number the breadcrumb container will have padding added (in pixels)
    * @param {string} value sets the padding to the container
    */
-  set padding(value) {
+  set padding(value: string) {
     this.container.style.padding = `0 ${value}px`;
     this.setAttribute(attributes.PADDING, value.toString());
   }
 
-  get padding() {
+  get padding(): string {
     return this.getAttribute(attributes.PADDING);
   }
 
@@ -369,7 +364,7 @@ export default class IdsBreadcrumb extends Base {
    * @param {HTMLElement} item reference to the toolbar item to be checked for overflow
    * @returns {boolean} true if the item is a toolbar member and should be displayed by overflow
    */
-  isOverflowed(item) {
+  isOverflowed(item: any): boolean {
     if (!this.contains(item)) {
       return false;
     }
@@ -390,7 +385,7 @@ export default class IdsBreadcrumb extends Base {
    * Refreshes the visible state of menu items representing "overflowed" elements
    * @returns {void}
    */
-  refreshOverflowedItems() {
+  refreshOverflowedItems(): void {
     this.overflowMenuItems.forEach((item) => {
       const doHide = !this.isOverflowed(item.overflowTarget);
       item.hidden = doHide;
@@ -409,14 +404,14 @@ export default class IdsBreadcrumb extends Base {
   /**
    * @returns {boolean} true if there are currently visible actions in this menu
    */
-  hasVisibleActions() {
+  hasVisibleActions(): boolean {
     return this.container.querySelectorAll('ids-menu-group > ids-menu-item:not([hidden])').length > 0;
   }
 
   /**
    * @returns {boolean} true if there are currently enabled (read: not disabled) actions in this menu
    */
-  hasEnabledActions() {
+  hasEnabledActions(): boolean {
     return this.container.querySelectorAll('ids-menu-group > ids-menu-item:not([disabled])').length > 0;
   }
 

@@ -11,9 +11,7 @@ describe('IdsBreadcrumb Component', () => {
   let breadcrumb: any;
 
   beforeEach(async () => {
-    const elem: any = new IdsBreadcrumb();
-    document.body.appendChild(elem);
-    breadcrumb = document.querySelector('ids-breadcrumb');
+    breadcrumb = createFromTemplate(breadcrumb, `<ids-breadcrumb></ids-breadcrumb>`);
   });
 
   afterEach(async () => {
@@ -26,15 +24,8 @@ describe('IdsBreadcrumb Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-<<<<<<< HEAD:test/ids-breadcrumb/ids-breadcrumb-func-test.js
     breadcrumb = createFromTemplate(breadcrumb, `<ids-breadcrumb></ids-breadcrumb>`);
 
-=======
-    const elem: any = new IdsBreadcrumb();
-    expect(document.querySelectorAll('ids-breadcrumb').length).toEqual(1);
-    document.body.appendChild(elem);
-    elem.remove();
->>>>>>> 2f24e047cfdfdad714ec1a1d3373b817aab0e801:test/ids-breadcrumb/ids-breadcrumb-func-test.ts
     expect(document.querySelectorAll('ids-breadcrumb').length).toEqual(1);
 
     breadcrumb.remove();
@@ -83,17 +74,17 @@ describe('IdsBreadcrumb Component', () => {
 
   it('can be truncated', () => {
     breadcrumb.insertAdjacentHTML('afterbegin', `
-      <ids-hyperlink id="breadcrumb-1">First Breadcrumb</ids-hyperlink>
-      <ids-hyperlink id="breadcrumb-2">Second Breadcrumb</ids-hyperlink>
-      <ids-hyperlink id="breadcrumb-3">Third Breadcrumb</ids-hyperlink>
-      <ids-hyperlink id="breadcrumb-4">Fourth Breadcrumb</ids-hyperlink>
-      <ids-hyperlink id="breadcrumb-5">Fifth Breadcrumb</ids-hyperlink>
-      <ids-hyperlink id="breadcrumb-6">Sixth Breadcrumb</ids-hyperlink>
-    `);
+       <ids-hyperlink id="breadcrumb-1">First Breadcrumb</ids-hyperlink>
+       <ids-hyperlink id="breadcrumb-2">Second Breadcrumb</ids-hyperlink>
+       <ids-hyperlink id="breadcrumb-3">Third Breadcrumb</ids-hyperlink>
+       <ids-hyperlink id="breadcrumb-4">Fourth Breadcrumb</ids-hyperlink>
+       <ids-hyperlink id="breadcrumb-5">Fifth Breadcrumb</ids-hyperlink>
+       <ids-hyperlink id="breadcrumb-6">Sixth Breadcrumb</ids-hyperlink>
+     `);
 
     // move the breadcrumb to a fixed-size container
     document.body.insertAdjacentHTML('beforeend', `<div id="test-div" style="width: 500px;"></div>`);
-    const testDiv = document.querySelector('#test-div');
+    const testDiv: any = document.querySelector('#test-div');
     testDiv.append(breadcrumb);
 
     // Test truncation settings
@@ -110,9 +101,5 @@ describe('IdsBreadcrumb Component', () => {
     breadcrumb.truncate = false;
     expect(breadcrumb.hasVisibleActions()).toBeFalsy();
     expect(breadcrumb.popupMenuGroupEl.children.length).toBe(0);
-  });
-
-  it('styles links correctly', () => {
-    expect(breadcrumb.outerHTML).toMatchSnapshot();
   });
 });
