@@ -297,7 +297,6 @@ export default class IdsSplitter extends Base {
    */
   #init() {
     window.addEventListener('load', () => {
-      console.log('test');
       window.requestAnimationFrame(() => {
         this
           .#destroy()
