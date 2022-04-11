@@ -8,10 +8,12 @@ const url: any = statesJSON;
 
 const autocomplete: Element | any = document.querySelector('#search-field-autocomplete');
 
-const setData = async () => {
-  const res = await fetch(url);
-  const data = await res.json();
-  autocomplete.data = data;
-};
+if (autocomplete) {
+  const setData = async () => {
+    const res = await fetch(url);
+    const data = await res.json();
+    autocomplete.data = data;
+  };
 
-setData();
+  setData();
+}

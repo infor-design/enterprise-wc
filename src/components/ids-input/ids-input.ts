@@ -157,8 +157,7 @@ export default class IdsInput extends Base {
           part="popup"
         >
           <ids-list-box slot="content"></ids-list-box>
-        </ids-popup>` : ''
-      }
+        </ids-popup>` : ''}
     </div>`;
   }
 
