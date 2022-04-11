@@ -27,6 +27,7 @@ const IdsAutoComplete = (superclass: any) => class extends superclass {
     }
 
     this.#configurePopup();
+    this.#addAria();
     this.#attachKeyboardListeners();
     this.#attachEventListeners();
   }
@@ -194,6 +195,28 @@ const IdsAutoComplete = (superclass: any) => class extends superclass {
    */
   #templatelistBoxOption(value: string | null, label: string | null): string {
     return `<ids-list-box-option value="${value}">${label}</ids-list-box-option>`;
+  }
+
+  /**
+   * Add internal aria attributes
+   * @private
+   * @returns {object} This API object for chaining
+   */
+  #addAria(): object {
+    const attrs: any = {
+      role: 'combobox',
+      'aria-expanded': 'false',
+      'aria-autocomplete': 'list',
+      'aria-haspopup': 'listbox',
+      'aria-controls': this.listBox?.getAttribute('id') || `ids-list-box-${this.id}`
+    };
+
+    if (this.listBox) {
+      this.listBox.setAttribute('id', `ids-list-box-${this.id}`);
+      this.listBox.setAttribute('aria-label', `Listbox`);
+    }
+    Object.keys(attrs).forEach((key: any) => this.setAttribute(key, attrs[key]));
+    return this;
   }
 
   /**
