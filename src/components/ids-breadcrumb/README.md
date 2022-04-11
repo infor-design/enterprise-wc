@@ -35,6 +35,7 @@ The following ids-hyperlink attributes should be considered
 - `disabled` Use leave blank or set to 'true' to set disabled color.
 - `font-size` {number} Will be 14 by default.
 - `href` {string} The url that the hyperlink component links to.
+- `truncate` {boolean} true if the breadcrumb list can become "truncated", hiding some links behind an overflow menu
 
 ## States and Variations (With Code Examples)
 
@@ -60,7 +61,6 @@ The following ids-hyperlink attributes should be considered
 - Markup has entirely changed, see the updated code example
 
 **4.x to 5.x**
-- Bread Crumb now uses all new markup and classes for web components (see above)
 - Markup has changed to a custom element `<ids-breadcrumb></ids-breadcrumb>`
 - Markup Uses `ids-hyperlink` instead of `<a>`
 - Can now be imported as a single JS file and used with encapsulated styles
