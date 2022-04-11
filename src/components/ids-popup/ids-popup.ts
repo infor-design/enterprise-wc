@@ -1027,8 +1027,6 @@ export default class IdsPopup extends Base {
     let x = this.x;
     let y = this.y;
 
-    popupRect = this.#accountForScrolledParentElements(this, popupRect);
-
     switch (this.alignX) {
       case 'right':
         x -= popupRect.width;
@@ -1083,14 +1081,10 @@ export default class IdsPopup extends Base {
 
     // Detect sizes/locations of the popup and the alignment target Element
     let popupRect = this.getBoundingClientRect();
-    let targetRect = this.alignTarget.getBoundingClientRect();
+    const targetRect = this.alignTarget.getBoundingClientRect();
     const alignEdge = targetAlignEdge || this.alignEdge;
     let alignXCentered = false;
     let alignYCentered = false;
-
-    // Make rectangle values account for scrolled parents
-    popupRect = this.#accountForScrolledParentElements(this, popupRect);
-    targetRect = this.#accountForScrolledParentElements(this.alignTarget, targetRect);
 
     /*
      * NOTE: All calculatations are based on the top/left corner of the element rectangles.
@@ -1377,7 +1371,7 @@ export default class IdsPopup extends Base {
 
   /**
    * Returns a DOMRect from `getBoundingClientRect` from an element, with the values adjusted
-   * by subtracting the left/top values from an absolute-positioned parent
+   * by subtracting the left/top values from an relative-positioned parent
    * @param {HTMLElement} elem the element to measure
    * @param {DOMRect} [rect] optionally pass in an existing rect and correct it
    * @returns {DOMRect} measurements adjusted for an absolutely-positioned parent
@@ -1392,77 +1386,23 @@ export default class IdsPopup extends Base {
         if (parent.toString() === '[object ShadowRoot]') {
           parent = parent.host;
         }
-
         if (parent instanceof HTMLElement) {
           parentStyle = getComputedStyle(parent);
           if (parentStyle.position === 'relative') {
             parentRect = parent.getBoundingClientRect();
-            ['bottom', 'top', 'y'].forEach((prop) => {
+            for (const prop of ['bottom', 'left', 'right', 'top', 'x', 'y']) {
               elemRect[prop] -= parentRect[prop];
-            });
-            ['left', 'right', 'x'].forEach((prop) => {
-              elemRect[prop] -= parentRect[prop];
-            });
+            }
           }
         }
-
         if (parent.parentNode) {
           removeRelativeDistance(parent.parentNode);
         }
       }
     };
+
     removeRelativeDistance(elem);
-
     return elemRect;
-  }
-
-  /**
-   * Detects the distance of scrolled parent elements and adds this distance to the DOMRect values of the Popup
-   * @param {HTMLElement} elem the element in which to detect parent scroll distance.
-   * @param {DOMRect | undefined} [rect] an optional, previously-defined DOMRect to be modified.
-   * @returns {DOMRect} modified rectangle to be used for placement
-   */
-  #accountForScrolledParentElements(elem, rect) {
-    const elemRect = getEditableRect(rect || elem.getBoundingClientRect());
-    const adjustedRect = Object.create(elemRect);
-    let hasAbsoluteParent = false;
-    let parentStyle;
-
-    const checkParentScrolling = (parent) => {
-      if (parent && !hasAbsoluteParent) {
-        if (parent.toString() === '[object ShadowRoot]') {
-          parent = parent.host;
-        }
-
-        if (parent instanceof HTMLElement) {
-          parentStyle = getComputedStyle(parent);
-
-          if (parentStyle.position === 'absolute') {
-            hasAbsoluteParent = true;
-            return;
-          }
-
-          if (parent.scrollLeft !== 0) {
-            adjustedRect.left += parent.scrollLeft;
-            adjustedRect.right += parent.scrollLeft;
-            adjustedRect.x += parent.scrollLeft;
-          }
-          if (parent.scrollTop !== 0) {
-            adjustedRect.top += parent.scrollTop;
-            adjustedRect.bottom += parent.scrollTop;
-            adjustedRect.y += parent.scrollTop;
-          }
-        }
-
-        if (parent.parentNode) {
-          checkParentScrolling(parent.parentNode);
-        }
-      }
-    };
-
-    checkParentScrolling(elem);
-
-    return hasAbsoluteParent ? elemRect : adjustedRect;
   }
 
   /**

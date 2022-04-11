@@ -3,6 +3,7 @@
 
 :host {
   display: block;
+  z-index: 3000;
 }
 
 :host([position-style='absolute']) {
@@ -25,9 +26,12 @@
   pointer-events: none;
 }
 
+:host(:not([visible])) {
+  pointer-events: none;
+}
+
 .ids-popup {
   @include antialiased();
-  @include z-3000();
 
   // This style is always applied when IdsPopup is not visible
   // (goes hand-in-hand with `aria-hidden="true"` on the host element
