@@ -10,82 +10,61 @@
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
-    <div class="container">
-      <div class="inner visual">
+    <div class="demo-container">
+      <div class="demo-border demo-callout-section">
+        <ids-text font-size="14" type="h2">This container is in page flow and uses <pre>position: relative;</pre> to control Popup placement</ids-text>
+        <div class="demo-content-spacer"></div>
         <ids-button id="popup-test-trigger-2" type="secondary">
-          <span slot="text">Trigger a Popup</span>
+          <span slot="text">Trigger Popup Two</span>
         </ids-button>
         <ids-popup x="15" y="0" align-target="#popup-test-trigger-2" align="right" animated="true" type="menu"
           id="popup-test-2" arrow="right">
           <div slot="content">
             <div class="demo-popup">
-              <ids-text font-size="12" type="span">My Popup Content</ids-text>
+              <ids-text font-size="12" type="span">This is Popup Two</ids-text>
             </div>
           </div>
         </ids-popup>
       </div>
 
-      <div class="inner visual">
-        <div class="scrolled-element-y">
-          <ids-button id="popup-test-trigger-1" type="secondary">
-            <span slot="text">Trigger a Popup</span>
+      <div class="demo-border demo-callout-section">
+        <div class="demo-content-spacer"></div>
+        <ids-text font-size="14" type="h2">This container is in page flow and uses <pre>position: relative;</pre> to control Popup placement</ids-text>
+        <ids-button id="popup-test-trigger-1" type="secondary">
+          <span slot="text">Trigger Popup One</span>
+        </ids-button>
+        <ids-popup x="15" y="0" align-target="#popup-test-trigger-1" align="right" animated="true" type="menu"
+          id="popup-test-1" arrow="right">
+          <div slot="content">
+            <div class="demo-popup">
+              <ids-text font-size="12" type="span">This is Popup One</ids-text>
+            </div>
+          </div>
+        </ids-popup>
+      </div>
+
+      <ids-draggable class="demo-draggable demo-scrollable demo-border">
+        <div class="demo-draggable-container">
+          <ids-text font-size="14" type="h2">
+            This draggable container is using <pre>position: absolute;</pre><br />
+            IdsPopup can be used in absolute-positioned containers when reset by wrapping with another <pre>position: relative;</pre> container inside
+          <div class="demo-content-spacer"></div>
+          <ids-button id="popup-test-trigger-3" type="secondary">
+            <span slot="text">Trigger Popup Three</span>
           </ids-button>
-          <ids-popup x="15" y="0" align-target="#popup-test-trigger-1" align="right" animated="true" type="menu"
-            id="popup-test-1" arrow="right">
+          <ids-popup x="15" y="0" align-target="#popup-test-trigger-3" align="right" animated="true" type="menu" id="popup-test-3"
+            arrow="right">
             <div slot="content">
               <div class="demo-popup">
-                <ids-text font-size="12" type="span">My Popup Content</ids-text>
+                <ids-text font-size="12" type="span">This is Popup Three and is inside the Draggable</ids-text>
               </div>
             </div>
           </ids-popup>
+          <div class="demo-content-spacer"></div>
         </div>
-      </div>
-
-      <div id="scroll-container-positioned" class="scrollable visual">
-        <div class="relative">
-          <ids-text font-size="14" type="h2">Absolute-positioned container should be accounted for by IdsPopup</ids-text>
-          <div class="scrolled-element-y">
-            <div class="spacer"></div>
-            <ids-button id="popup-test-trigger-3" type="secondary">
-              <span slot="text">Trigger a Popup</span>
-            </ids-button>
-            <ids-popup x="15" y="0" align-target="#popup-test-trigger-3" align="right" animated="true" type="menu" id="popup-test-3"
-              arrow="right">
-              <div slot="content">
-                <div class="demo-popup">
-                  <ids-text font-size="12" type="span">My Popup Content</ids-text>
-                </div>
-              </div>
-            </ids-popup>
-          </div>
-        </div>
-      </div>
+      </ids-draggable>
     </div>
   </ids-container>
-
-  <!--
-
-
-
-    <ids-layout-grid auto="true">
-      <ids-text font-size="12" type="h1">Popup Scrolling Scenarios</ids-text>
-    </ids-layout-grid>
-    <ids-layout-grid auto="true">
-      <ids-layout-grid-cell>
-        <ids-text font-size="14" type="h2">Triggering element scrolls<br />so should IdsPopup</ids-text>
-
-        <div id="scroll-container-vertical" class="scrollable">
-          <div class="scrolled-element-y">
-            <div class="spacer"></div>
-
-
-          </div>
-        </div>
-
-      </ids-layout-grid-cell>
-    </ids-layout-grid>
-  </ids-container>
-  -->
 </body>
 
 </html>

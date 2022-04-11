@@ -1,5 +1,6 @@
 // Supporting components
 import IdsPopup from '../ids-popup';
+import '../../ids-draggable/ids-draggable';
 import css from '../../../assets/css/ids-popup/scrolling.css';
 
 const cssLink = `<link href="${css}" rel="stylesheet">`;
@@ -26,4 +27,3 @@ document.addEventListener('DOMContentLoaded', () => {
   connectButtonToPopup('#popup-test-2', '#popup-test-trigger-2');
   connectButtonToPopup('#popup-test-3', '#popup-test-trigger-3');
 });
-
