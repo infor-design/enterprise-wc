@@ -12,7 +12,27 @@
     <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
     <div class="demo-container">
       <div class="demo-border demo-callout-section">
-        <ids-text font-size="14" type="h2">This container is in page flow and uses <pre>position: relative;</pre> to control Popup placement</ids-text>
+        <ids-text font-size="14" type="h2">This container is in page flow and uses
+          <pre>position: relative;</pre> to control Popup placement
+        </ids-text>
+        <div class="demo-content-spacer"></div>
+        <ids-button id="popup-test-trigger-1" type="secondary">
+          <span slot="text">Trigger Popup One</span>
+        </ids-button>
+        <ids-popup x="15" y="0" align-target="#popup-test-trigger-1" align="right" animated="true" type="menu"
+          id="popup-test-1" arrow="right">
+          <div slot="content">
+            <div class="demo-popup">
+              <ids-text font-size="12" type="span">This is Popup One</ids-text>
+            </div>
+          </div>
+        </ids-popup>
+      </div>
+
+      <div class="demo-border demo-callout-section">
+        <ids-text font-size="14" type="h2">This container is in page flow and uses
+          <pre>position: relative;</pre> to control Popup placement
+        </ids-text>
         <div class="demo-content-spacer"></div>
         <ids-button id="popup-test-trigger-2" type="secondary">
           <span slot="text">Trigger Popup Two</span>
@@ -27,27 +47,11 @@
         </ids-popup>
       </div>
 
-      <div class="demo-border demo-callout-section">
-        <div class="demo-content-spacer"></div>
-        <ids-text font-size="14" type="h2">This container is in page flow and uses <pre>position: relative;</pre> to control Popup placement</ids-text>
-        <ids-button id="popup-test-trigger-1" type="secondary">
-          <span slot="text">Trigger Popup One</span>
-        </ids-button>
-        <ids-popup x="15" y="0" align-target="#popup-test-trigger-1" align="right" animated="true" type="menu"
-          id="popup-test-1" arrow="right">
-          <div slot="content">
-            <div class="demo-popup">
-              <ids-text font-size="12" type="span">This is Popup One</ids-text>
-            </div>
-          </div>
-        </ids-popup>
-      </div>
-
       <ids-draggable class="demo-draggable demo-scrollable demo-border">
         <div class="demo-draggable-container">
           <ids-text font-size="14" type="h2">
             This draggable container is using <pre>position: absolute;</pre><br />
-            IdsPopup can be used in absolute-positioned containers when reset by wrapping with another <pre>position: relative;</pre> container inside
+            IdsPopup can be used in absolute-positioned containers when reset by wrapping with another <pre>position: relative;</pre> container inside</ids-text>
           <div class="demo-content-spacer"></div>
           <ids-button id="popup-test-trigger-3" type="secondary">
             <span slot="text">Trigger Popup Three</span>

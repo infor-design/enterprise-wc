@@ -70,8 +70,8 @@
     // Bottom Alignment
     &.bottom {
       border-top-width: 0;
-      left: calc(50% - 9px);
-      top: -9px;
+      left: calc(50% - 8px);
+      top: -8px;
 
       &::after {
         border-top-width: 0;
@@ -83,12 +83,12 @@
     // Left Alignment
     &.left {
       border-right-width: 0;
-      right: -9px;
-      top: calc(50% - 9px);
+      right: -8px;
+      top: calc(50% - 8px);
 
       &::after {
         border-right-width: 0;
-        left: -9px;
+        left: -8px;
         top: -8px;
       }
     }
@@ -96,8 +96,8 @@
     // Right Alignment
     &.right {
       border-left-width: 0;
-      left: -9px;
-      top: calc(50% - 9px);
+      left: -8px;
+      top: calc(50% - 8px);
 
       &::after {
         border-left-width: 0;
@@ -109,13 +109,13 @@
     // Top Alignment
     &.top {
       border-bottom-width: 0;
-      bottom: -9px;
-      left: calc(50% - 9px);
+      bottom: -8px;
+      left: calc(50% - 8px);
 
       &::after {
         border-bottom-width: 0;
         left: -8px;
-        top: -9px;
+        top: -8px;
       }
     }
   }
@@ -173,18 +173,6 @@
       transform: perspective(1000px) translate3d(0, 0, 0);
     }
   }
-
-  // Position style: fixed
-  /*
-  &.position-fixed {
-    // @include fixed();
-  }
-
-  // Position style: absolute
-  &.position-absolute {
-    @include absolute();
-  }
-  */
 
   // Position style: viewport (uses transforms)
   &.position-viewport {
