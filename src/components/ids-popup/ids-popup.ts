@@ -1424,20 +1424,33 @@ export default class IdsPopup extends Base {
    */
   #accountForScrolledParentElements(elem, rect) {
     const elemRect = getEditableRect(rect || elem.getBoundingClientRect());
+    const adjustedRect = Object.create(elemRect);
+    let hasAbsoluteParent = false;
+    let parentStyle;
+
     const checkParentScrolling = (parent) => {
-      if (parent) {
+      if (parent && !hasAbsoluteParent) {
         if (parent.toString() === '[object ShadowRoot]') {
           parent = parent.host;
         }
 
         if (parent instanceof HTMLElement) {
+          parentStyle = getComputedStyle(parent);
+
+          if (parentStyle.position === 'absolute') {
+            hasAbsoluteParent = true;
+            return;
+          }
+
           if (parent.scrollLeft !== 0) {
-            elemRect.left += parent.scrollLeft;
-            elemRect.right += parent.scrollLeft;
+            adjustedRect.left += parent.scrollLeft;
+            adjustedRect.right += parent.scrollLeft;
+            adjustedRect.x += parent.scrollLeft;
           }
           if (parent.scrollTop !== 0) {
-            elemRect.top += parent.scrollTop;
-            elemRect.bottom += parent.scrollTop;
+            adjustedRect.top += parent.scrollTop;
+            adjustedRect.bottom += parent.scrollTop;
+            adjustedRect.y += parent.scrollTop;
           }
         }
 
@@ -1448,7 +1461,8 @@ export default class IdsPopup extends Base {
     };
 
     checkParentScrolling(elem);
-    return elemRect;
+
+    return hasAbsoluteParent ? elemRect : adjustedRect;
   }
 
   /**

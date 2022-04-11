@@ -4,7 +4,7 @@
 
 
 .scrollable {
-
+  background-color: white;
 
   max-height: 400px;
   max-width: 400px;
@@ -37,7 +37,7 @@
 #scroll-container-positioned {
   position: absolute;
   left: 500px;
-  top: 150px;
+  top: 50px;
 }
 
 /*
@@ -48,14 +48,14 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   height: 350px;
   width: 100%;
 }
 
 .inner {
   position: relative;
-  width: 50%;
+  width: 45%;
   height: 200px;
   background-color: pink;
   padding: 0 15px;

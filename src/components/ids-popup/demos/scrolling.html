@@ -8,29 +8,15 @@
 </head>
 
 <body>
-  <div class="container">
-
-    <div class="inner visual">
-      <ids-button id="popup-test-trigger-2" type="secondary">
-        <span slot="text">Trigger a Popup</span>
-      </ids-button>
-      <ids-popup x="15" y="0" align-target="#popup-test-trigger-2" align="right" animated="true" type="menu"
-        id="popup-test-2" arrow="right">
-        <div slot="content">
-          <div class="demo-popup">
-            <ids-text font-size="12" type="span">My Popup Content</ids-text>
-          </div>
-        </div>
-      </ids-popup>
-    </div>
-
-    <div class="inner visual">
-      <div class="scrolled-element-y">
-        <ids-button id="popup-test-trigger-1" type="secondary">
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <div class="container">
+      <div class="inner visual">
+        <ids-button id="popup-test-trigger-2" type="secondary">
           <span slot="text">Trigger a Popup</span>
         </ids-button>
-        <ids-popup x="15" y="0" align-target="#popup-test-trigger-1" align="right" animated="true" type="menu"
-          id="popup-test-1" arrow="right">
+        <ids-popup x="15" y="0" align-target="#popup-test-trigger-2" align="right" animated="true" type="menu"
+          id="popup-test-2" arrow="right">
           <div slot="content">
             <div class="demo-popup">
               <ids-text font-size="12" type="span">My Popup Content</ids-text>
@@ -38,24 +24,46 @@
           </div>
         </ids-popup>
       </div>
-    </div>
 
-  </div>
-
-  <!--
-  <ids-container role="main" padding="8" hidden>
-    <div id="scroll-container-positioned" class="scrollable">
-      <div class="relative">
-        <ids-text font-size="14" type="h2">Absolute-positioned container should be accounted for by IdsPopup</ids-text>
+      <div class="inner visual">
         <div class="scrolled-element-y">
-          <div class="spacer"></div>
+          <ids-button id="popup-test-trigger-1" type="secondary">
+            <span slot="text">Trigger a Popup</span>
+          </ids-button>
+          <ids-popup x="15" y="0" align-target="#popup-test-trigger-1" align="right" animated="true" type="menu"
+            id="popup-test-1" arrow="right">
+            <div slot="content">
+              <div class="demo-popup">
+                <ids-text font-size="12" type="span">My Popup Content</ids-text>
+              </div>
+            </div>
+          </ids-popup>
+        </div>
+      </div>
+
+      <div id="scroll-container-positioned" class="scrollable visual">
+        <div class="relative">
+          <ids-text font-size="14" type="h2">Absolute-positioned container should be accounted for by IdsPopup</ids-text>
+          <div class="scrolled-element-y">
+            <div class="spacer"></div>
+            <ids-button id="popup-test-trigger-3" type="secondary">
+              <span slot="text">Trigger a Popup</span>
+            </ids-button>
+            <ids-popup x="15" y="0" align-target="#popup-test-trigger-3" align="right" animated="true" type="menu" id="popup-test-3"
+              arrow="right">
+              <div slot="content">
+                <div class="demo-popup">
+                  <ids-text font-size="12" type="span">My Popup Content</ids-text>
+                </div>
+              </div>
+            </ids-popup>
+          </div>
         </div>
       </div>
     </div>
+  </ids-container>
 
-
-
-    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+  <!--
 
 
 

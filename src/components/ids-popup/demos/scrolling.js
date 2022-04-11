@@ -24,5 +24,6 @@ const connectButtonToPopup = (popupSelector, btnSelector) => {
 document.addEventListener('DOMContentLoaded', () => {
   connectButtonToPopup('#popup-test-1', '#popup-test-trigger-1');
   connectButtonToPopup('#popup-test-2', '#popup-test-trigger-2');
+  connectButtonToPopup('#popup-test-3', '#popup-test-trigger-3');
 });
 
