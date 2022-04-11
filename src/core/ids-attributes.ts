@@ -289,6 +289,7 @@ export const attributes = {
   TRIGGER: 'trigger',
   TRIGGERFIELD: 'triggerfield',
   TRIGGER_LABEL: 'trigger-label',
+  TRUNCATE: 'truncate',
   TYPE: 'type',
   UNIQUE_ID: 'unique-id',
   URL: 'url',

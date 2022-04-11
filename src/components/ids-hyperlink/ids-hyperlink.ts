@@ -10,6 +10,7 @@ import styles from './ids-hyperlink.scss';
  * IDS Hyperlink Component
  * @type {IdsHyperlink}
  * @inherits IdsElement
+ * @mixes IdsHitboxMixin
  * @mixes IdsThemeMixin
  * @mixes IdsEventsMixin
  * @part link - the link element
@@ -26,6 +27,7 @@ export default class IdsHyperlink extends Base {
       this.setAttribute('role', 'link');
     }
     super.connectedCallback();
+    if (!(this.getAttribute('role'))) this.setAttribute('role', 'link');
   }
 
   /**
@@ -34,6 +36,7 @@ export default class IdsHyperlink extends Base {
    */
   static get attributes() {
     return [
+      ...super.attributes,
       attributes.COLOR,
       attributes.DISABLED,
       attributes.HREF,
@@ -53,6 +56,11 @@ export default class IdsHyperlink extends Base {
   template(): string {
     return `<a class="ids-hyperlink" part="link"><slot></slot></a>`;
   }
+
+  /**
+   *
+   */
+  colorVariants = ['breadcrumb', 'alternate'];
 
   /**
    * Set the link href
@@ -116,8 +124,8 @@ export default class IdsHyperlink extends Base {
   set disabled(value: boolean) {
     const val = stringToBool(value);
     if (val) {
-      this.setAttribute(attributes.DISABLED, value);
-      this.container.setAttribute(attributes.DISABLED, value);
+      this.setAttribute(attributes.DISABLED, `${value}`);
+      this.container.setAttribute(attributes.DISABLED, `${value}`);
       this.container.setAttribute('tabindex', '-1');
       return;
     }
