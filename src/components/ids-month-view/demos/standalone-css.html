@@ -3,58 +3,17 @@
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
-<body>
-
-  <link rel="stylesheet" href="../ids-layout-grid/ids-layout-grid.css" />
-  <link rel="stylesheet" href="../ids-text/ids-text.css" />
-  <link rel="stylesheet" href="../ids-button/ids-button.css" />
-  <link rel="stylesheet" href="../ids-toolbar/ids-toolbar.css" />
-  <link rel="stylesheet" href="../ids-toolbar/ids-toolbar-section.css" />
-  <link rel="stylesheet" href="../ids-month-view/ids-month-view.css" />
-
+<body hidden>
   <div class="ids-layout-grid">
     <div class="ids-layout-grid-cell">
       <h1 class="ids-text ids-text-12">IDS Month View - Standalone CSS</h1>
     </div>
   </div>
 
-  <div class="ids-layout-grid ids-layout-grid-cols ids-layout-grid-auto">
-    <div class="ids-layout-grid-cell ids-layout-grid-col-span">
+  <div class="ids-layout-grid ids-layout-grid-cols-4 ids-layout-grid-gap-md">
+    <div class="ids-layout-grid-cell ids-layout-grid-col-span-4">
       <div class="full-height">
         <div class="ids-month-view is-fullsize" id="month-view-example">
-          <div class="ids-toolbar month-view-header" role="toolbar">
-            <div class="ids-toolbar-section align-start buttonset">
-              <button class="ids-icon-button align-icon-start month-view-btn-previous" tabindex="0">
-                <span class="ids-text audible">Previous Month</span>
-                <svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18"
-                  viewBox="0 0 18 18" aria-hidden="true">
-                  <path d="M13 17.5L4 9l9-8.5" stroke="currentColor" vector-effect="non-scaling-stroke"></path>
-                </svg>
-              </button>
-              <button class="ids-icon-button align-icon-start month-view-btn-next" tabindex="0">
-                <span class="ids-text audible">Next Month</span>
-                <svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18"
-                  viewBox="0 0 18 18" aria-hidden="true">
-                  <path d="M4 .5L13 9l-9 8.5" stroke="currentColor" vector-effect="non-scaling-stroke"></path>
-                </svg>
-              </button>
-              <span class="datepicker" tabindex="0">
-                <span class="ids-text ids-text-20 datepicker-text">November 2021</span>
-                <span class="ids-text audible">Select a Day</span>
-                <button class="ids-icon-button align-icon-start" tabindex="0">
-                  <span class="ids-text audible">Date Picker Trigger</span>
-                  <svg class="datepicker-icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none"
-                    height="18" width="18" viewBox="0 0 18 18" aria-hidden="true">
-                    <path d="M1 7.5h16M3.5 0v3m11-3v3m-14 .5h17v8.727c0 2.912-2.342 5.273-5.23 5.273H.5v-14z"
-                      stroke="currentColor" vector-effect="non-scaling-stroke"></path>
-                  </svg>
-                </button>
-              </span>
-              <button class="ids-button month-view-btn-today no-padding" tabindex="0">
-                <span class="ids-text bold ids-text-16 month-view-today-text">Today</span>
-              </button>
-            </div>
-          </div>
           <div class="month-view-container">
             <table class="month-view-table">
               <thead class="month-view-table-header">

@@ -127,7 +127,8 @@
   @include inline-flex();
   @include rounded-default();
 
-  &[mode='light'] {
+  &[mode='light'],
+  &:not([mode]) {
     // ====================================================
     // Default/Tertiary/Destructive Button styles
 

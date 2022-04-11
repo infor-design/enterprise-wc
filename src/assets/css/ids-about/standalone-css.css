@@ -3,6 +3,7 @@
   justify-content: center;
   align-items: center;
   pointer-events: unset;
+  margin-top: calc(50% - 225px);
 }
 
 #about-example .ids-modal-header svg {
@@ -11,10 +12,4 @@
 
 #about-example .ids-modal-content .ids-text:not(:last-child) {
   margin-bottom: 16px;
-}
-
-#about-example .ids-modal-icon-button {
-  position: absolute;
-  top: 3px;
-  right: 3px;
 }

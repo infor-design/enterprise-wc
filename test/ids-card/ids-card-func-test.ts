@@ -110,6 +110,9 @@ describe('IdsCard Component', () => {
   it('support card selection multiple', () => {
     const clickEvent = new MouseEvent('click', { bubbles: true });
     card.selection = 'multiple';
+    // Add event handler
+    card.connectedCallback();
+    card.cardTemplate();
     const checkboxElem = card.shadowRoot.querySelector('ids-checkbox');
 
     // when user click card container
@@ -119,7 +122,13 @@ describe('IdsCard Component', () => {
 
     card.dispatchEvent(clickEvent);
     expect(card.selected).toBe('false');
-    expect(checkboxElem.checked).toBeNull();
+
+    checkboxElem.dispatchEvent(clickEvent);
+    expect(card.selected).toBe('true');
+    expect(checkboxElem.checked).toBe('true');
+
+    checkboxElem.dispatchEvent(clickEvent);
+    expect(card.selected).toBe('false');
   });
 
   it('should fire selectionchanged event', async () => {
@@ -183,6 +192,15 @@ describe('IdsCard Component', () => {
     it('renders card action markup correctly', () => {
       card.href = '/something';
       expect(card.actionableButtonTemplate()).toMatchSnapshot();
+    });
+
+    it('renders card action markup', () => {
+      expect(card.template()).toMatchSnapshot();
+      card.href = '';
+      card.actionable = true;
+      expect(card.template()).toMatchSnapshot();
+      card.href = '/something';
+      expect(card.template()).toMatchSnapshot();
     });
 
     it('should allow setting actionable', () => {

@@ -9,6 +9,11 @@ describe('Ids Header Percy Tests', () => {
     await percySnapshot(page, 'ids-header-new-light');
   });
 
+  it('should not have visual regressions in standalone css', async () => {
+    await page.goto('http://localhost:4444/ids-header/standalone-css.html', { waitUntil: ['networkidle2', 'load'] });
+    await percySnapshot(page, 'ids-header-standalone-css', { widths: [1280] });
+  });
+
   it('should not have visual regressions in new dark theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {

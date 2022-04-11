@@ -3,20 +3,14 @@
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
-<body>
-  <link rel="stylesheet" href="ids-fieldset.css"/>
-  <link rel="stylesheet" href="../ids-layout-grid/ids-layout-grid.css"/>
-  <link rel="stylesheet" href="../ids-text/ids-text.css"/>
-  <link rel="stylesheet" href="../ids-input/ids-input.css"/>
-  <link rel="stylesheet" href="../ids-button/ids-button.css"/>
-
+<body hidden>
   <div class="ids-layout-grid">
     <div class="ids-text ids-text-12" type="h1">Fieldset</div>
   </div>
   <div class="ids-layout-grid">
     <form>
       <fieldset>
-        <legend><div class="ids-text ids-text-lg">Company Information</div></legend>
+        <legend><div class="ids-text ids-text-20">Company Information</div></legend>
         <div class="ids-input">
           <label for="input-company-name" class="ids-text ids-label-text">Company Name</label>
           <div class="field-container">
