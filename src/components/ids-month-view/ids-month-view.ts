@@ -76,6 +76,17 @@ class IdsMonthView extends Base {
     includeDisabled: false
   };
 
+  // Disabled default settings
+  #disableSettings: any = {
+    dates: [],
+    years: [],
+    minDate: '',
+    maxDate: '',
+    dayOfWeek: [],
+    isReverse: false,
+    restrictMonths: false
+  };
+
   /**
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
@@ -788,7 +799,7 @@ class IdsMonthView extends Base {
    */
   #clearRangeClasses(): void {
     this.container.querySelectorAll('td')
-      .forEach((item: any) => item.classList.remove('range-next', 'range-prev', 'range-selection'));
+      .forEach((item: HTMLElement) => item.classList.remove('range-next', 'range-prev', 'range-selection'));
   }
 
   /**
@@ -877,6 +888,34 @@ class IdsMonthView extends Base {
     }
   }
 
+  #isDisabledByDate(date: Date): boolean {
+    const {
+      years,
+      dayOfWeek,
+      dates,
+      minDate,
+      maxDate,
+      isReverse
+    } = this.#disableSettings;
+    const isOutOfDisplayRange: boolean = this.#isDisplayRange()
+      && (date < (this.startDate as Date) || date > (this.endDate as Date));
+    const ifYear: boolean = years.some(
+      (item: number) => item === date.getFullYear()
+    );
+    const ifDayOfWeek: boolean = dayOfWeek.some(
+      (item: number) => item === date.getDay()
+    );
+    const ifDates: boolean = dates.some(
+      (item: string) => (new Date(item)).getTime() === date.getTime()
+    );
+    const ifMinDate: boolean = date < new Date(minDate);
+    const ifMaxDate: boolean = date < new Date(maxDate);
+    const ifBySettings: boolean = ifYear || ifDayOfWeek || ifDates || ifMinDate || ifMaxDate;
+    const withReverse: boolean = isReverse ? !ifBySettings : ifBySettings;
+
+    return withReverse || isOutOfDisplayRange;
+  }
+
   /**
    * Helper to get month format for first day of a month or first day of the display range
    * @param {Date} date date to check
@@ -925,7 +964,7 @@ class IdsMonthView extends Base {
       const dateMatch = day === this.day && year === this.year && month === this.month;
       const isSelected = !this.useRange && dateMatch;
       const isSelectedWithRange = this.useRange && !this.rangeSettings.start && dateMatch;
-      const isDisabled = this.#isDisplayRange() && (date < (this.startDate as any) || date > (this.endDate as any));
+      const isDisabled = this.#isDisabledByDate(date);
       const isAlternate = !this.#isDisplayRange() && (date < firstDayOfRange || date > (lastDayOfRange as any));
       const legend: any = this.#getLegendByDate(date);
       const isRangeSelection = this.#isRangeByDate(date);
@@ -1180,7 +1219,7 @@ class IdsMonthView extends Base {
    * year attribute
    * @returns {number} year param converted to number from attribute value with 4-digit check
    */
-  get year(): any {
+  get year(): number {
     const attrVal = this.getAttribute(attributes.YEAR);
     const numberVal = stringToNumber(attrVal);
 
@@ -1219,7 +1258,7 @@ class IdsMonthView extends Base {
    * day attribute
    * @returns {number} day param converted to number
    */
-  get day(): any {
+  get day(): number {
     const attrVal = this.getAttribute(attributes.DAY);
     const numberVal = stringToNumber(attrVal);
 
@@ -1256,9 +1295,9 @@ class IdsMonthView extends Base {
 
   /**
    * start-date attribute
-   * @returns {string | Date | null} startDate date parsed from attribute value
+   * @returns {Date | null} startDate date parsed from attribute value
    */
-  get startDate(): string | Date | null {
+  get startDate(): Date | null {
     const attrVal = this.getAttribute(attributes.START_DATE);
     const attrDate = new Date(attrVal);
 
@@ -1289,7 +1328,7 @@ class IdsMonthView extends Base {
    * end-date attribute
    * @returns {Date|null} endDate date parsed from attribute value
    */
-  get endDate(): Date | string | null {
+  get endDate(): Date | null {
     const attrVal = this.getAttribute(attributes.END_DATE);
     const attrDate = new Date(attrVal);
 
@@ -1497,6 +1536,17 @@ class IdsMonthView extends Base {
       this.#clearRangeClasses();
       this.#selectDay(this.year, this.month, this.day);
     }
+  }
+
+  get disable(): any {
+    return this.#disableSettings;
+  }
+
+  set disable(val: any) {
+    this.#disableSettings = {
+      ...this.#disableSettings,
+      ...deepClone(val)
+    };
   }
 }
 
