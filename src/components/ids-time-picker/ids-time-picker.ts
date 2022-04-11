@@ -653,7 +653,7 @@ export default class IdsTimePicker extends Base {
 
     // Input value change triggers component value change
     this.offEvent('change.time-picker-input');
-    this.onEvent('change.time-picker-input', this.elements.triggerField, (e) => {
+    this.onEvent('change.time-picker-input', this.elements.triggerField, (e: any) => {
       this.setAttribute(attributes.VALUE, e.detail.value);
     });
 

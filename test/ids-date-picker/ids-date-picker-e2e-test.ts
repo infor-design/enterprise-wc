@@ -2,20 +2,16 @@ describe('Ids Date Picker e2e Tests', () => {
   const url = 'http://localhost:4444/ids-date-picker';
   const axeUrl = `${url}/axe.html`;
 
-//   it('should pass Axe accessibility tests', async () => {
-//     await page.setBypassCSP(true);
-//     await page.goto(axeUrl, { waitUntil: ['networkidle2', 'load'] });
-//     await expect(page).toPassAxeTests();
-//   });
+  it('should pass Axe accessibility tests', async () => {
+    await page.setBypassCSP(true);
+    await page.goto(axeUrl, { waitUntil: ['networkidle2', 'load'] });
+    await (expect((page as any)) as any).toPassAxeTests();
+  });
 
-//   it('should not have errors', async () => {
-//     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-// <<<<<<< HEAD:test/ids-date-picker/ids-date-picker-e2e-test.js
-//     await expect(page.title()).resolves.toMatch('IDS Date Picker Component');
-// =======
-//     await (expect((page as any)) as any).toPassAxeTests();
-// >>>>>>> main:test/ids-date-picker/ids-date-picker-e2e-test.ts
-//   });
+  it('should not have errors', async () => {
+    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    await expect(page.title()).resolves.toMatch('IDS Date Picker Component');
+  });
 
   it('should handle calendar popup events', async () => {
     // Closed before
@@ -654,12 +650,12 @@ describe('Ids Date Picker e2e Tests', () => {
     // Set value to the input
     await page.$eval(
       '#e2e-datepicker-required',
-      (el) => el?.container.querySelector('ids-trigger-field')?.setAttribute('value', '4/5/2022')
+      (el: any) => el?.container.querySelector('ids-trigger-field')?.setAttribute('value', '4/5/2022')
     );
 
     let value = await page.$eval(
       '#e2e-datepicker-required',
-      (el) => el?.value
+      (el: any) => el?.value
     );
 
     expect(value).toEqual('4/5/2022');
@@ -667,12 +663,12 @@ describe('Ids Date Picker e2e Tests', () => {
     // Reset value in the input
     await page.$eval(
       '#e2e-datepicker-required',
-      (el) => el?.container.querySelector('ids-trigger-field')?.setAttribute('value', '')
+      (el: any) => el?.container.querySelector('ids-trigger-field')?.setAttribute('value', '')
     );
 
     value = await page.$eval(
       '#e2e-datepicker-required',
-      (el) => el?.value
+      (el: any) => el?.value
     );
 
     expect(value).toEqual('');

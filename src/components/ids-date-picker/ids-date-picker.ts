@@ -421,7 +421,7 @@ class IdsDatePicker extends Base {
 
     // Input value change triggers component value change
     this.offEvent('change.date-picker-input');
-    this.onEvent('change.date-picker-input', this.#triggerField, (e) => {
+    this.onEvent('change.date-picker-input', this.#triggerField, (e: any) => {
       this.setAttribute(attributes.VALUE, e.detail.value);
     });
 

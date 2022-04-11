@@ -213,13 +213,8 @@ describe('IdsDatePicker Component Tests', () => {
 
     it('should set size', () => {
       const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
-<<<<<<< HEAD:test/ids-date-picker/ids-date-picker-func-test.js
       const defaultSize = 'sm';
-      const checkSize = (size) => {
-=======
-      const defaultSize = 'lg';
       const checkSize = (size: any) => {
->>>>>>> main:test/ids-date-picker/ids-date-picker-func-test.ts
         component.size = size;
 
         expect(component.getAttribute('size')).toEqual(size);
