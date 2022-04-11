@@ -52,7 +52,7 @@ export default class IdsHeader extends Base {
    * @private
    */
   #refreshVariants() {
-    const elementNames = ['ids-button', 'ids-search-field', 'ids-text', 'ids-theme-switcher'];
+    const elementNames = ['ids-button', 'ids-breadcrumb', 'ids-search-field', 'ids-text', 'ids-theme-switcher'];
 
     for (const element of elementNames) {
       const idsElements = [...this.querySelectorAll(element)];

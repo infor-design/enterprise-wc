@@ -1,29 +1,35 @@
 /**
  * @jest-environment jsdom
  */
-import IdsBreadcrumb from '../../src/components/ids-breadcrumb/ids-breadcrumb';
+import createFromTemplate from '../helpers/create-from-template';
+import '../helpers/resize-observer-mock';
+
+import '../../src/components/ids-breadcrumb/ids-breadcrumb';
 import IdsHyperlink from '../../src/components/ids-hyperlink/ids-hyperlink';
 
 describe('IdsBreadcrumb Component', () => {
   let breadcrumb: any;
 
   beforeEach(async () => {
-    const elem: any = new IdsBreadcrumb();
-    document.body.appendChild(elem);
-    breadcrumb = document.querySelector('ids-breadcrumb');
+    breadcrumb = createFromTemplate(breadcrumb, `<ids-breadcrumb></ids-breadcrumb>`);
   });
 
   afterEach(async () => {
     document.body.innerHTML = '';
   });
 
+  it('renders as expected', () => {
+    expect(breadcrumb.outerHTML).toMatchSnapshot();
+  });
+
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsBreadcrumb();
+    breadcrumb = createFromTemplate(breadcrumb, `<ids-breadcrumb></ids-breadcrumb>`);
+
     expect(document.querySelectorAll('ids-breadcrumb').length).toEqual(1);
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-breadcrumb').length).toEqual(1);
+
+    breadcrumb.remove();
+
     expect(errors).not.toHaveBeenCalled();
   });
 
@@ -31,8 +37,8 @@ describe('IdsBreadcrumb Component', () => {
     breadcrumb.add(new IdsHyperlink());
     breadcrumb.add(new IdsHyperlink());
     expect(breadcrumb.children.length).toEqual(2);
+
     for (const child of breadcrumb.children) {
-      expect(child.getAttribute('color')).toEqual('unset');
       expect(child.getAttribute('role')).toEqual('listitem');
       expect(child.getAttribute('font-size')).toEqual('14');
     }
@@ -45,16 +51,55 @@ describe('IdsBreadcrumb Component', () => {
     expect(breadcrumb.delete() instanceof IdsHyperlink).toEqual(true);
     expect(breadcrumb.children.length).toEqual(1);
     expect(breadcrumb.lastElementChild.fontWeight).toEqual('bold');
+
     breadcrumb.delete();
     expect(breadcrumb.children.length).toEqual(0);
     expect(breadcrumb.delete()).toEqual(null);
   });
 
-  it('renders correctly', () => {
-    expect(breadcrumb.outerHTML).toMatchSnapshot();
+  it('can have a callback set for activation', () => {
+    breadcrumb.add(new IdsHyperlink());
+    breadcrumb.add(new IdsHyperlink());
+    const cb = jest.fn((targetBreadcrumb, currentBreadcrumb) => {
+      expect(targetBreadcrumb).toBeDefined();
+      expect(currentBreadcrumb).toBeDefined();
+    });
+    breadcrumb.onBreadcrumbActivate = cb;
+
+    const clickEvent = new MouseEvent('click', { bubbles: true });
+    breadcrumb.children[0].dispatchEvent(clickEvent);
+
+    expect(cb.mock.calls.length).toBe(1);
   });
 
-  it('styles links correctly', () => {
-    expect(breadcrumb.outerHTML).toMatchSnapshot();
+  it('can be truncated', () => {
+    breadcrumb.insertAdjacentHTML('afterbegin', `
+       <ids-hyperlink id="breadcrumb-1">First Breadcrumb</ids-hyperlink>
+       <ids-hyperlink id="breadcrumb-2">Second Breadcrumb</ids-hyperlink>
+       <ids-hyperlink id="breadcrumb-3">Third Breadcrumb</ids-hyperlink>
+       <ids-hyperlink id="breadcrumb-4">Fourth Breadcrumb</ids-hyperlink>
+       <ids-hyperlink id="breadcrumb-5">Fifth Breadcrumb</ids-hyperlink>
+       <ids-hyperlink id="breadcrumb-6">Sixth Breadcrumb</ids-hyperlink>
+     `);
+
+    // move the breadcrumb to a fixed-size container
+    document.body.insertAdjacentHTML('beforeend', `<div id="test-div" style="width: 500px;"></div>`);
+    const testDiv: any = document.querySelector('#test-div');
+    testDiv.append(breadcrumb);
+
+    // Test truncation settings
+    breadcrumb.truncate = true;
+    expect(breadcrumb.hasVisibleActions()).toBeTruthy();
+    expect(breadcrumb.popupMenuGroupEl.children.length).toEqual(breadcrumb.children.length);
+
+    // Check overflow links are working
+    const firstLink = breadcrumb.children[0];
+    const firstMenuItem = breadcrumb.popupMenuGroupEl.children[0];
+    expect(firstMenuItem.overflowTarget.isEqualNode(firstLink)).toBeTruthy();
+
+    // Disable truncation
+    breadcrumb.truncate = false;
+    expect(breadcrumb.hasVisibleActions()).toBeFalsy();
+    expect(breadcrumb.popupMenuGroupEl.children.length).toBe(0);
   });
 });
