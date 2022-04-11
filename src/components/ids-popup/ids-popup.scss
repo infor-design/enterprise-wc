@@ -30,6 +30,11 @@
   pointer-events: none;
 }
 
+:host([animated]) {
+  transition: left $popup-transition-length $popup-transition-ease,
+    top $popup-transition-length $popup-transition-ease,
+}
+
 .ids-popup {
   @include antialiased();
 
