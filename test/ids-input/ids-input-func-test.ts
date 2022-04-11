@@ -5,6 +5,7 @@ import IdsInput from '../../src/components/ids-input/ids-input';
 import processAnimFrame from '../helpers/process-anim-frame';
 import IdsDataSource from '../../src/core/ids-data-source';
 import dataset from '../../src/assets/data/states.json';
+import '../helpers/resize-observer-mock';
 
 describe('IdsInput Component', () => {
   let input: any;
@@ -223,22 +224,6 @@ describe('IdsInput Component', () => {
     expect(input.value).toEqual('test');
     input.value = null;
     expect(input.value).toEqual('');
-  });
-
-  it('should set autocomplete', () => {
-    expect(input.autocomplete).toEqual(false);
-    input.autocomplete = true;
-    expect(input.autocomplete).toEqual(true);
-    input.autocomplete = null;
-    expect(input.autocomplete).toEqual(false);
-
-    input.datasource = new IdsDataSource();
-    input.data = dataset;
-    expect(input.data.length).toEqual(59);
-
-    expect(input.searchField).toEqual('value');
-    input.searchField = 'label';
-    expect(input.searchField).toEqual('label');
   });
 
   it('should call template', () => {
@@ -718,5 +703,57 @@ describe('IdsInput Component', () => {
     await processAnimFrame();
 
     expect(input.input.isEqualNode(input.shadowRoot.activeElement));
+  });
+
+  it('should set autocomplete', () => {
+    expect(input.autocomplete).toEqual(false);
+    input.autocomplete = true;
+    expect(input.autocomplete).toEqual(true);
+    input.autocomplete = null;
+    expect(input.autocomplete).toEqual(false);
+
+    input.datasource = new IdsDataSource();
+    input.data = dataset;
+    expect(input.data.length).toEqual(59);
+
+    expect(input.searchField).toEqual('value');
+    input.searchField = 'label';
+    expect(input.searchField).toEqual('label');
+  });
+
+  it('should open popup on keydown if autocomplete is enabled', async () => {
+    const template = document.createElement('template');
+    template.innerHTML = '<ids-input label="testing input" autocomplete></ids-input>';
+    input = template.content.childNodes[0];
+    document.body.appendChild(input);
+    await processAnimFrame();
+
+    input.datasource = new IdsDataSource();
+    input.data = dataset;
+
+    const keydownendEvent = new KeyboardEvent('keydownend', { key: 'a' });
+    input.dispatchEvent(keydownendEvent);
+    input.popup.open = true;
+    input.popup.visible = true;
+    expect(input.popup.open).toBe(true);
+
+    const navigateDownEvent = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    const navigateUpEvent = new KeyboardEvent('keydown', { key: 'ArrowUp' });
+
+    input.dispatchEvent(navigateDownEvent);
+    input.dispatchEvent(navigateUpEvent);
+
+    input.options[0].classList.add('is-selected');
+    expect(input.options[0].classList).toContain('is-selected');
+
+    input.dispatchEvent(navigateDownEvent);
+    input.dispatchEvent(navigateUpEvent);
+
+    const enterEvent = new KeyboardEvent('keydown', { key: 'Enter' });
+
+    input.dispatchEvent(enterEvent);
+    input.popup.open = false;
+    input.popup.visible = false;
+    expect(input.popup.open).toBe(false);
   });
 });
