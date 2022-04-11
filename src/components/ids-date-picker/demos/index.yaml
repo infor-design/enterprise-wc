@@ -9,3 +9,5 @@
     description: Showing date picker variations
   - link: range.html
     description: Showing range picker variations
+  - link: sizes.html
+    description: Showing width and height size variations
