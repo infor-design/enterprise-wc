@@ -36,8 +36,9 @@
       &.sortable:hover::before {
         position: absolute;
         left: 0;
-        transform: translate(75%, 0);
+        transform: translate(50%, 0);
         font-size: 24px;
+        margin-top: -3px;
         content: '⁞';
         cursor: move;
       }
