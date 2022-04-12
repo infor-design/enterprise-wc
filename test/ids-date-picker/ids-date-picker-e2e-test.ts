@@ -1,19 +1,16 @@
 describe('Ids Date Picker e2e Tests', () => {
   const url = 'http://localhost:4444/ids-date-picker';
+  const axeUrl = `${url}/axe.html`;
 
-  beforeAll(async () => {
-    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+  it('should pass Axe accessibility tests', async () => {
+    await page.setBypassCSP(true);
+    await page.goto(axeUrl, { waitUntil: ['networkidle2', 'load'] });
+    await (expect(page) as any).toPassAxeTests();
   });
 
   it('should not have errors', async () => {
-    await expect(page.title()).resolves.toMatch('IDS Date Picker Component');
-  });
-
-  // @TODO: Revisit and figure out accessibility issues
-  it.skip('should pass Axe accessibility tests', async () => {
-    await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await (expect((page as any)) as any).toPassAxeTests();
+    await expect(page.title()).resolves.toMatch('IDS Date Picker Component');
   });
 
   it('should handle calendar popup events', async () => {
@@ -647,5 +644,33 @@ describe('Ids Date Picker e2e Tests', () => {
 
     value = await page.$eval('#e2e-range-picker', (el: any) => el?.value);
     expect(value).toEqual('1/2/2021 - 1/25/2021');
+  });
+
+  it('should change value on input value change', async () => {
+    // Set value to the input
+    await page.$eval(
+      '#e2e-datepicker-required',
+      (el: any) => el?.container.querySelector('ids-trigger-field')?.setAttribute('value', '4/5/2022')
+    );
+
+    let value = await page.$eval(
+      '#e2e-datepicker-required',
+      (el: any) => el?.value
+    );
+
+    expect(value).toEqual('4/5/2022');
+
+    // Reset value in the input
+    await page.$eval(
+      '#e2e-datepicker-required',
+      (el: any) => el?.container.querySelector('ids-trigger-field')?.setAttribute('value', '')
+    );
+
+    value = await page.$eval(
+      '#e2e-datepicker-required',
+      (el: any) => el?.value
+    );
+
+    expect(value).toEqual('');
   });
 });
