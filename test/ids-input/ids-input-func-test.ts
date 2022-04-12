@@ -705,12 +705,19 @@ describe('IdsInput Component', () => {
     expect(input.input.isEqualNode(input.shadowRoot.activeElement));
   });
 
-  it('should set autocomplete', () => {
-    expect(input.autocomplete).toEqual(false);
-    input.autocomplete = true;
+  it('should set autocomplete', async () => {
+    const template = document.createElement('template');
+    template.innerHTML = '<ids-input label="testing input" autocomplete></ids-input>';
+    input = template.content.childNodes[0];
+    document.body.appendChild(input);
+    await processAnimFrame();
+
     expect(input.autocomplete).toEqual(true);
     input.autocomplete = null;
     expect(input.autocomplete).toEqual(false);
+
+    input.data = [];
+    expect(input.data.length).toEqual(0);
 
     input.datasource = new IdsDataSource();
     input.data = dataset;
@@ -723,7 +730,7 @@ describe('IdsInput Component', () => {
 
   it('should open popup on keydown if autocomplete is enabled', async () => {
     const template = document.createElement('template');
-    template.innerHTML = '<ids-input label="testing input" autocomplete></ids-input>';
+    template.innerHTML = '<ids-input label="testing input" autocomplete value="a"></ids-input>';
     input = template.content.childNodes[0];
     document.body.appendChild(input);
     await processAnimFrame();
@@ -733,6 +740,7 @@ describe('IdsInput Component', () => {
 
     const keydownendEvent = new KeyboardEvent('keydownend', { key: 'a' });
     input.dispatchEvent(keydownendEvent);
+    input.value = 'a';
     input.popup.open = true;
     input.popup.visible = true;
     expect(input.popup.open).toBe(true);
@@ -752,6 +760,18 @@ describe('IdsInput Component', () => {
     const enterEvent = new KeyboardEvent('keydown', { key: 'Enter' });
 
     input.dispatchEvent(enterEvent);
+    input.popup.open = false;
+    input.popup.visible = false;
+    expect(input.popup.open).toBe(false);
+
+    const template2 = document.createElement('template');
+    template2.innerHTML = '<ids-input label="testing input" autocomplete readonly disabled value=""></ids-input>';
+    input = template2.content.childNodes[0];
+    document.body.appendChild(input);
+    await processAnimFrame();
+
+    const keydownendEvent2 = new KeyboardEvent('keydownend', { key: 'a' });
+    input.dispatchEvent(keydownendEvent2);
     input.popup.open = false;
     input.popup.visible = false;
     expect(input.popup.open).toBe(false);
