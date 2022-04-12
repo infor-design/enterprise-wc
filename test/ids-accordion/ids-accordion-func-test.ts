@@ -168,6 +168,16 @@ describe('IdsAccordion Component', () => {
     expect(panel.expanded).toBeFalsy();
   });
 
+  it('can be expanded/collapsed programmatically', () => {
+    // Expand
+    header.expanded = true;
+    waitFor(() => expect(panel.expanded).toBeTruthy());
+
+    // Collapse
+    header.expanded = false;
+    waitFor(() => expect(panel.expanded).toBeFalsy());
+  });
+
   it('can select the next panel when pressing the ArrowDown key', () => {
     const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
     let nextPanel = panel.nextElementSibling;

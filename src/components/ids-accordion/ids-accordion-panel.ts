@@ -174,13 +174,17 @@ export default class IdsAccordionPanel extends Base {
    */
   set expanded(value: boolean) {
     const isValueTruthy = stringToBool(value);
+    const currentValue = this.expanded;
 
     if (isValueTruthy) {
       this.setAttribute(attributes.EXPANDED, `${value}`);
     } else {
       this.removeAttribute(attributes.EXPANDED);
     }
-    this.#toggleExpanded(isValueTruthy);
+    
+    if (isValueTruthy !== currentValue) {
+      this.#toggleExpanded(isValueTruthy);
+    }
   }
 
   /**

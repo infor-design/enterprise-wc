@@ -111,6 +111,7 @@ export default class IdsAccordionHeader extends Base {
   set expanded(val: boolean) {
     const trueVal = stringToBool(val);
     this.container.classList[trueVal ? 'add' : 'remove']('expanded');
+    this.panel.expanded = trueVal;
     this.#refreshExpanderIconType();
   }
 
