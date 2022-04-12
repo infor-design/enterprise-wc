@@ -23,6 +23,13 @@ import '../ids-popup/ids-popup';
 import '../ids-text/ids-text';
 import '../ids-trigger-field/ids-trigger-field';
 
+// Types
+import type {
+  RangeSettings,
+  DisableSettings,
+  DayselectedEvent
+} from '../ids-month-view/ids-month-view-types';
+
 // Import Styles
 import styles from './ids-date-picker.scss';
 
@@ -284,7 +291,7 @@ class IdsDatePicker extends Base {
       });
 
       this.offEvent('dayselected.date-picker-calendar');
-      this.onEvent('dayselected.date-picker-calendar', this.#monthView, (e: any) => {
+      this.onEvent('dayselected.date-picker-calendar', this.#monthView, (e: DayselectedEvent) => {
         if (!this.isCalendarToolbar) {
           if (this.useRange) {
             this.value = [
@@ -295,7 +302,6 @@ class IdsDatePicker extends Base {
           } else {
             this.value = this.locale.formatDate(e.detail.date);
           }
-          this.#triggerField?.focus();
         }
 
         this.#togglePopup(false);
@@ -780,8 +786,8 @@ class IdsDatePicker extends Base {
         elem: this,
         date: this.#monthView.activeDate,
         useRange: this.useRange,
-        rangeStart: new Date(this.rangeSettings.start),
-        rangeEnd: new Date(this.rangeSettings.end)
+        rangeStart: this.useRange ? new Date(this.rangeSettings.start as string) : null,
+        rangeEnd: this.useRange ? new Date(this.rangeSettings.end as string) : null
       }
     };
 
@@ -1463,7 +1469,7 @@ class IdsDatePicker extends Base {
    * Get range settings for month view component
    * @returns {object} month view range settings
    */
-  get rangeSettings(): any {
+  get rangeSettings(): RangeSettings {
     return this.#monthView?.rangeSettings;
   }
 
@@ -1472,7 +1478,7 @@ class IdsDatePicker extends Base {
    * and update input value if passed settings contain start/end
    * @param {object} val settings to be assigned to default range settings
    */
-  set rangeSettings(val: any) {
+  set rangeSettings(val: RangeSettings) {
     if (this.#monthView) {
       this.#monthView.rangeSettings = val;
 
@@ -1505,6 +1511,16 @@ class IdsDatePicker extends Base {
     } else {
       this.removeAttribute(attributes.USE_RANGE);
       this.#monthView?.removeAttribute(attributes.USE_RANGE);
+    }
+  }
+
+  get disable(): DisableSettings {
+    return this.#monthView?.disable;
+  }
+
+  set disable(val: DisableSettings) {
+    if (this.#monthView) {
+      this.#monthView.disable = val;
     }
   }
 }

@@ -1,10 +1,10 @@
 // Supporting components
 import '../ids-month-view';
 
-document.addEventListener('DOMContentLoaded', () => {
-  const monthView = document.querySelector('ids-month-view');
+const monthView: null | Element = document.querySelector('ids-month-view');
 
-  monthView?.addEventListener('dayselected', (e: any) => {
-    console.info('Day Selected', e.detail.date);
+if (monthView) {
+  monthView.addEventListener('dayselected', (e: any) => {
+    console.info('Day Selected', e.detail);
   });
-});
+}

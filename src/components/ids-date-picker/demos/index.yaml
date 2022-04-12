@@ -11,3 +11,5 @@
     description: Showing range picker variations
   - link: sizes.html
     description: Showing width and height size variations
+  - link: disabled-dates.html
+    description: Showing disabled dates variations

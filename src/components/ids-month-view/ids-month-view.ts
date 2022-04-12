@@ -34,6 +34,9 @@ import '../ids-text/ids-text';
 import '../ids-toolbar/ids-toolbar';
 import '../ids-trigger-field/ids-trigger-button';
 
+// Types
+import type { RangeSettings, DisableSettings, DayselectedEvent } from './ids-month-view-types';
+
 // Import Styles
 import styles from './ids-month-view.scss';
 
@@ -65,7 +68,7 @@ class IdsMonthView extends Base {
   #currentLegend = [];
 
   // Range picker default settings
-  #rangeSettings: any = {
+  #rangeSettings: RangeSettings = {
     start: null,
     end: null,
     separator: ' - ',
@@ -77,7 +80,7 @@ class IdsMonthView extends Base {
   };
 
   // Disabled default settings
-  #disableSettings: any = {
+  #disableSettings: DisableSettings = {
     dates: [],
     years: [],
     minDate: '',
@@ -148,13 +151,13 @@ class IdsMonthView extends Base {
     // Day select event
     this.offEvent('click.month-view-dayselect');
     this.onEvent('click.month-view-dayselect', this.container.querySelector('tbody'), (e: MouseEvent) => {
-      this.#daySelectClick((e.target as any).closest('td'));
+      this.#daySelectClick((e.target as HTMLElement).closest('td'));
     });
 
     // Range selection event
     this.offEvent('mouseover.month-view-range');
     this.onEvent('mouseover.month-view-range', this.container.querySelector('tbody'), (e: MouseEvent) => {
-      const element = (e.target as any).closest('td');
+      const element = (e.target as HTMLElement).closest('td');
 
       if (!element) return;
 
@@ -440,7 +443,7 @@ class IdsMonthView extends Base {
 
     this.offEvent('dayselected.month-view-datepicker');
     this.onEvent('dayselected.month-view-datepicker', toolbarDatepicker, (e: CustomEvent) => {
-      const date = e.detail.date;
+      const date: Date = e.detail.date;
 
       this.day = date.getDate();
       this.year = date.getFullYear();
@@ -450,7 +453,7 @@ class IdsMonthView extends Base {
     // Date picker dropdown picklist expanded or collapsed
     this.offEvent('expanded.month-view-picklist');
     this.onEvent('expanded.month-view-picklist', toolbarDatepicker, (e: CustomEvent) => {
-      const expanded: any = e.detail.expanded;
+      const expanded: boolean = e.detail.expanded;
 
       this.container.querySelector('.btn-today')?.setAttribute('hidden', expanded);
       this.container.querySelector('.btn-apply')?.setAttribute('hidden', !expanded);
@@ -718,7 +721,7 @@ class IdsMonthView extends Base {
    * Day cell clicked
    * @param {HTMLElement} element The element.
    */
-  #daySelectClick(element: HTMLElement): void {
+  #daySelectClick(element: null | HTMLElement): void {
     if (!element) return;
 
     const { month, year, day }: any = element.dataset;
@@ -758,15 +761,15 @@ class IdsMonthView extends Base {
     const canSelectBoth = !(this.rangeSettings.selectBackward || this.rangeSettings.selectForward);
     const selectBackward = this.rangeSettings.selectBackward && diff < 0;
     const selectForward = this.rangeSettings.selectForward && diff > 0;
-    const startDate = new Date(this.rangeSettings.start);
+    const startDate = new Date(this.rangeSettings.start as string);
     const startTime = startDate.getTime();
     const minDays = this.rangeSettings.minDays;
     const maxDays = this.rangeSettings.maxDays;
-    const minRangeExceeded = minDays > 0 && Math.abs(diff) < minDays;
-    const maxRangeExceeded = maxDays > 0 && Math.abs(diff) > maxDays;
+    const minRangeExceeded = (minDays as number) > 0 && Math.abs(diff) < (minDays as number);
+    const maxRangeExceeded = (maxDays as number) > 0 && Math.abs(diff) > (maxDays as number);
     const minRangeDate = diff > 0
-      ? addDate(startDate, minDays, 'days')
-      : subtractDate(startDate, minDays, 'days');
+      ? addDate(startDate, (minDays as number), 'days')
+      : subtractDate(startDate, (minDays as number), 'days');
 
     this.#selectDay(year, month, day);
 
@@ -849,16 +852,20 @@ class IdsMonthView extends Base {
   /**
    * Add CSS classes to table cells when range selection is in progress
    * Starting from the range settings start
-   * @param {number} year to add to the range selection
-   * @param {number} month to add to the range selection
-   * @param {number} day to add to the range selection
+   * @param {string|number} year to add to the range selection
+   * @param {string|number} month to add to the range selection
+   * @param {string|number} day to add to the range selection
    */
-  #rangePropagation(year: number, month: number, day: number | undefined): void {
+  #rangePropagation(
+    year: string | number | undefined,
+    month: string | number | undefined,
+    day: string | number | undefined
+  ): void {
     if (!this.useRange) return;
 
     if (this.rangeSettings.start && !(this.rangeSettings.end && this.rangeSettings.start)) {
       const startRange = new Date(this.rangeSettings.start);
-      const endRange = new Date(year, month, day);
+      const endRange = new Date(year as number, month as number, day as number);
       const diff = daysDiff(startRange, endRange);
 
       this.#clearRangeClasses();
@@ -867,7 +874,7 @@ class IdsMonthView extends Base {
       const selectBackward = this.rangeSettings.selectBackward && diff < 0;
       const selectForward = this.rangeSettings.selectForward && diff > 0;
       const maxDays = this.rangeSettings.maxDays;
-      const maxRangeExceeded = maxDays > 0 && Math.abs(diff) > maxDays;
+      const maxRangeExceeded = (maxDays as number) > 0 && Math.abs(diff) > (maxDays as number);
 
       if (diff !== 0 && !maxRangeExceeded && (canSelectBoth || selectBackward || selectForward)) {
         Array.from({ length: Math.abs(diff) }).forEach((_, index) => {
@@ -896,7 +903,7 @@ class IdsMonthView extends Base {
       minDate,
       maxDate,
       isReverse
-    } = this.#disableSettings;
+    }: DisableSettings = this.#disableSettings;
     const isOutOfDisplayRange: boolean = this.#isDisplayRange()
       && (date < (this.startDate as Date) || date > (this.endDate as Date));
     const ifYear: boolean = years.some(
@@ -922,7 +929,7 @@ class IdsMonthView extends Base {
    * @param {Date} rangeStartsOn very first day of the display range
    * @returns {string|undefined} Intl.DateTimeFormat options month format (numeric, long, short)
    */
-  #monthInDayFormat(date: any, rangeStartsOn: any): string | undefined {
+  #monthInDayFormat(date: Date, rangeStartsOn: Date): string | undefined {
     const isFirstDayOfRange = daysDiff(date, rangeStartsOn) === 0;
     const isFirstDayOfMonth = this.locale?.isIslamic()
       ? gregorianToUmalqura(date).day === 1
@@ -1043,19 +1050,21 @@ class IdsMonthView extends Base {
    * @returns {void}
    */
   #triggerSelectedEvent(): void {
-    const args = {
+    const args: DayselectedEvent = {
       detail: {
         elem: this,
         date: this.activeDate,
         useRange: this.useRange,
-        rangeStart: new Date(this.rangeSettings.start),
-        rangeEnd: new Date(this.rangeSettings.end)
+        rangeStart: this.useRange ? new Date(this.rangeSettings.start) : null,
+        rangeEnd: this.useRange ? new Date(this.rangeSettings.end) : null
       }
     };
 
-    // Fires on any day selected in regular mode and
+    const rangeSet = this.useRange || (this.rangeSettings.start && this.rangeSettings.end);
+
+    // Fires on not disabled days in regular mode and
     // only when start/end of range is set in range mode
-    if (!this.useRange || (this.rangeSettings.start && this.rangeSettings.end)) {
+    if (!this.#isDisabledByDate(this.activeDate) || rangeSet) {
       this.triggerEvent('dayselected', this, args);
     }
   }
@@ -1088,8 +1097,10 @@ class IdsMonthView extends Base {
    * Whether or not it should show range of dates instead of one month view
    * @returns {boolean} startDate and endDate are set
    */
-  #isDisplayRange(): any {
-    return this.startDate && this.endDate && this.endDate >= this.startDate;
+  #isDisplayRange(): boolean {
+    return isValidDate(this.startDate)
+      && isValidDate(this.endDate)
+      && (this.endDate as Date) >= (this.startDate as Date);
   }
 
   /**
@@ -1108,7 +1119,7 @@ class IdsMonthView extends Base {
    * @param {Date} date to check if has any legend
    * @returns {object} legend object for a specific date
    */
-  #getLegendByDate(date: any): void {
+  #getLegendByDate(date: Date): void {
     return this.legend.find((legend: any) => {
       const ifDayOfWeek = legend.dayOfWeek?.includes(date.getDay());
       const ifDate = legend.dates?.some((item: any) => new Date(item).getTime() === date.getTime());
@@ -1487,17 +1498,17 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * @returns {object} range settings object
+   * @returns {RangeSettings} range settings object
    */
-  get rangeSettings(): any {
+  get rangeSettings(): RangeSettings {
     return this.#rangeSettings;
   }
 
   /**
    * Set range selection settings
-   * @param {object} val settings to be assigned to default range settings
+   * @param {RangeSettings} val settings to be assigned to default range settings
    */
-  set rangeSettings(val: any) {
+  set rangeSettings(val: RangeSettings) {
     this.#rangeSettings = {
       ...this.#rangeSettings,
       ...deepClone(val)
@@ -1538,15 +1549,17 @@ class IdsMonthView extends Base {
     }
   }
 
-  get disable(): any {
+  get disable(): DisableSettings {
     return this.#disableSettings;
   }
 
-  set disable(val: any) {
+  set disable(val: DisableSettings) {
     this.#disableSettings = {
       ...this.#disableSettings,
       ...deepClone(val)
     };
+
+    this.#renderMonth();
   }
 }
 
