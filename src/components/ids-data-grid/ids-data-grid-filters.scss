@@ -27,3 +27,8 @@
     }
   }
 }
+
+ids-dropdown::part(popup) {
+  overflow: hidden;
+  max-width: 100%;
+}

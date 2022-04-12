@@ -22,18 +22,15 @@
 // When a popup is not visible, `aria-hidden="true"` is applied to the host element.
 // The element is still in document flow in this case, so we need to prevent clicks
 // from occuring inside the "invisible" Popup
-:host([aria-hidden='true']) {
-  pointer-events: none;
-}
-
 :host(:not([visible])) {
   pointer-events: none;
 }
 
 // Host elements receive left/top animations
 :host([animated]) {
-  transition: left $popup-transition-length $popup-transition-ease,
-    top $popup-transition-length $popup-transition-ease,
+  transition:
+    left $popup-transition-length $popup-transition-ease,
+    top $popup-transition-length $popup-transition-ease;
 }
 
 .ids-popup {
