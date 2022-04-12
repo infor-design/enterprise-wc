@@ -84,24 +84,25 @@ An icon is not on its own keyboard focusable and has no keyboard interaction.
 
 - Flows within its parent/placement and is usually centered vertically.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-- 3.x: Icons have all new markup and classes.
-- 4.x: Icons have all new markup and classes again.
-- 4.x: Icons have all new markup and classes and a custom element for web components.
+**3.x to 4.x**
 
-## Designs
+- Icons have all new markup and classes.
 
-[Figma Design Specs](https://www.figma.com/files/team/715586812838044954/Hook%26Loop)
+**4.x to 5.x**
 
-## Alternate Designs
-
-Icons differ in the two provided theme/icon versions.
-
-## Proposed Changes
-
-- Fix Accessibility issue (1.4.1 Use of Color) by changing some alert colors
-- Fix Accessibility issue (1.4.3 Contrast (Minimum)) by changing some icon colors when its used with text
+- The Icon component has been changed to a web component
+- You no longer need the huge block of svg in the page.
+- The icon and size are set via properties/attributes
+- Markup has changed to a custom element `<ids-icon></ids-icon>` (see examples above)
+- Can now be imported as a single JS file and used with encapsulated styles
+- If using events, events are now plain JS events.
+- Can now display notification badge (combines this feature)
+- Has new sizing options
+- Can now be used to display empty-message options
+- The logos have been removed/deprecated.
+- The pseudo elements have been removed/deprecated.
 
 ## Accessibility Guidelines
 
