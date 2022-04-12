@@ -138,6 +138,7 @@ describe('IdsSplitter Component', () => {
         <ids-splitter-pane id="p1" min-size="10%" size="40%"></ids-splitter-pane>
         <ids-splitter-pane id="p2"></ids-splitter-pane>
       </ids-splitter>`;
+    dispatchEvent(new Event('load'));
     await processAnimFrame();
     splitter = document.querySelector('ids-splitter');
     expect(splitter.querySelector('#p1').style.width).toEqual('40%');
@@ -150,6 +151,7 @@ describe('IdsSplitter Component', () => {
         <ids-splitter-pane id="p1" min-size="40%" size="10%"></ids-splitter-pane>
         <ids-splitter-pane id="p2"></ids-splitter-pane>
       </ids-splitter>`;
+    dispatchEvent(new Event('load'));
     await processAnimFrame();
     splitter = document.querySelector('ids-splitter');
     expect(splitter.querySelector('#p1').style.width).toEqual('40%');
@@ -162,6 +164,7 @@ describe('IdsSplitter Component', () => {
         <ids-splitter-pane id="p1" min-size="10%" max-size="80%"></ids-splitter-pane>
         <ids-splitter-pane id="p2"></ids-splitter-pane>
       </ids-splitter>`;
+    dispatchEvent(new Event('load'));
     await processAnimFrame();
     splitter = document.querySelector('ids-splitter');
     expect(splitter.querySelector('#p1').style.width).toEqual('50%');
@@ -226,6 +229,7 @@ describe('IdsSplitter Component', () => {
         <ids-splitter-pane></ids-splitter-pane>
         <ids-splitter-pane></ids-splitter-pane>
       </ids-splitter>`;
+    dispatchEvent(new Event('load'));
     await processAnimFrame();
     splitter = document.querySelector('ids-splitter');
     expect(splitter.container.querySelectorAll('.ids-splitter-split-bar').length).toEqual(3);
@@ -249,6 +253,7 @@ describe('IdsSplitter Component', () => {
           </ids-splitter>
         </ids-splitter-pane>
       </ids-splitter>`;
+    dispatchEvent(new Event('load'));
     await processAnimFrame();
     splitter = document.querySelector('ids-splitter');
     checkSplitter(splitter);
@@ -287,12 +292,14 @@ describe('IdsSplitter Component', () => {
         <ids-splitter-pane></ids-splitter-pane>
         <ids-splitter-pane></ids-splitter-pane>
       </ids-splitter>`;
+    dispatchEvent(new Event('load'));
     await processAnimFrame();
     splitter = document.querySelector('ids-splitter');
     expect(splitter.shadowRoot.querySelectorAll('.ids-splitter-split-bar').length).toEqual(1);
     const template = document.createElement('template');
     template.innerHTML = '<ids-splitter-pane></ids-splitter-pane>';
     splitter.appendChild(template.content.cloneNode(true));
+    dispatchEvent(new Event('load'));
     await processAnimFrame();
     expect(splitter.shadowRoot.querySelectorAll('.ids-splitter-split-bar').length).toEqual(2);
   });
@@ -303,6 +310,7 @@ describe('IdsSplitter Component', () => {
         <ids-splitter-pane id="p1"></ids-splitter-pane>
         <ids-splitter-pane id="p2"></ids-splitter-pane>
       </ids-splitter>`;
+    dispatchEvent(new Event('load'));
     await processAnimFrame();
     splitter = document.querySelector('ids-splitter');
     expect(splitter.querySelector('#p1').getAttribute('collapsed')).toEqual(null);
@@ -318,6 +326,7 @@ describe('IdsSplitter Component', () => {
         <ids-splitter-pane id="p1"></ids-splitter-pane>
         <ids-splitter-pane id="p2"></ids-splitter-pane>
       </ids-splitter>`;
+    dispatchEvent(new Event('load'));
     await processAnimFrame();
     splitter = document.querySelector('ids-splitter');
     expect(splitter.querySelector('#p1').getAttribute('collapsed')).toEqual(null);
@@ -363,6 +372,7 @@ describe('IdsSplitter Component', () => {
         <ids-splitter-pane id="p1"></ids-splitter-pane>
         <ids-splitter-pane></ids-splitter-pane>
       </ids-splitter>`;
+    dispatchEvent(new Event('load'));
     await processAnimFrame();
     splitter = document.querySelector('ids-splitter');
     const mockCallback = jest.fn(() => { });
@@ -396,6 +406,7 @@ describe('IdsSplitter Component', () => {
         <ids-splitter-pane id="p1" collapsed></ids-splitter-pane>
         <ids-splitter-pane></ids-splitter-pane>
       </ids-splitter>`;
+    dispatchEvent(new Event('load'));
     await processAnimFrame();
     splitter = document.querySelector('ids-splitter');
     const mockCallback = jest.fn(() => { });
@@ -429,6 +440,7 @@ describe('IdsSplitter Component', () => {
         <ids-splitter-pane id="p1"></ids-splitter-pane>
         <ids-splitter-pane></ids-splitter-pane>
       </ids-splitter>`;
+    dispatchEvent(new Event('load'));
     await processAnimFrame();
     splitter = document.querySelector('ids-splitter');
     const mockCallback = jest.fn(() => { });
