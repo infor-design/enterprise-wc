@@ -15,7 +15,7 @@ describe('Ids Virtual Scroll e2e Tests', () => {
     await (expect(page) as any).toPassAxeTests({ disabledRules: ['scrollable-region-focusable', 'landmark-one-main', 'page-has-heading-one'] });
   });
 
-  it('should not have visual regressions (percy)', async () => {
+  it('should render some rows', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('.ids-data-grid-row');
 
