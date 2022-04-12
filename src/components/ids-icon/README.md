@@ -99,7 +99,6 @@ An icon is not on its own keyboard focusable and has no keyboard interaction.
 - Can now be imported as a single JS file and used with encapsulated styles
 - If using events, events are now plain JS events.
 - Can now display notification badge (combines this feature)
-- Has new sizing options
 - Can now be used to display empty-message options
 - The logos have been removed/deprecated.
 - The pseudo elements have been removed/deprecated.
