@@ -9,3 +9,5 @@
     description: Shows a basic accordion
   - link: side-by-side.html
     description: Showing a accordion side by side with a 4.x accordion
+  - link: disabled.html
+    description: Shows a accordion with disabled attributes

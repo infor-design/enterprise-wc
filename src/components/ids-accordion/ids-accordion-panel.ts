@@ -44,7 +44,8 @@ export default class IdsAccordionPanel extends Base {
       ...super.attributes,
       attributes.EXPANDED,
       attributes.MODE,
-      attributes.VERSION
+      attributes.VERSION,
+      attributes.DISABLED
     ];
   }
 
@@ -259,6 +260,29 @@ export default class IdsAccordionPanel extends Base {
   }
 
   /**
+   * Gets disabled property
+   * @readonly
+   * @returns {boolean} true if accordion set to disable
+   */
+  get disabled() {
+    return stringToBool(this.getAttribute(attributes.DISABLED));
+  }
+
+  /**
+   * Sets disabled property
+   * @param {boolean|string} value true/false
+   */
+  set disabled(value) {
+    const disabled = stringToBool(value);
+
+    if (disabled) {
+      this.setAttribute(attributes.DISABLED, `${disabled}`);
+    } else {
+      this.removeAttribute(attributes.DISABLED);
+    }
+  }
+
+  /**
    * Collapse the expandable area pane.
    * @private
    * @returns {void}
@@ -346,7 +370,9 @@ export default class IdsAccordionPanel extends Base {
    */
   #attachEventHandlers(): void {
     this.onEvent('click', this.expander, () => {
-      this.#selectAndToggle();
+      if (!this.disabled) {
+        this.#selectAndToggle();
+      }
     });
 
     this.listen('Enter', this.expander, (e: { stopPropagation: () => void; }) => {

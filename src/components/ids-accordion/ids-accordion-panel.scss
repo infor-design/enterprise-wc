@@ -145,3 +145,9 @@
 .ids-accordion-pane-title {
   @include audible();
 }
+
+:host([disabled="true"]) {
+  .ids-accordion-panel {
+    opacity: 0.5;
+  }
+}
