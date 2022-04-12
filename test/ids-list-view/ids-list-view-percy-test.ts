@@ -8,7 +8,7 @@ describe('Ids List View Percy Tests', () => {
     await percySnapshot(page, 'ids-listview-new-light');
   });
 
-  it.skip('should not have visual regressions in standalone css', async () => {
+  it('should not have visual regressions in standalone css', async () => {
     await page.goto('http://localhost:4444/ids-listview/standalone-css.html', { waitUntil: ['networkidle2', 'load'] });
     await percySnapshot(page, 'ids-listview-standalone-css', { widths: [1280] });
   });

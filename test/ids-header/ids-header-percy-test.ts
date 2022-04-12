@@ -9,7 +9,7 @@ describe('Ids Header Percy Tests', () => {
     await percySnapshot(page, 'ids-header-new-light');
   });
 
-  it.skip('should not have visual regressions in standalone css', async () => {
+  it('should not have visual regressions in standalone css', async () => {
     await page.goto('http://localhost:4444/ids-header/standalone-css.html', { waitUntil: ['networkidle2', 'load'] });
     await percySnapshot(page, 'ids-header-standalone-css', { widths: [1280] });
   });

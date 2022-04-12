@@ -8,7 +8,7 @@ describe('Ids Fieldset e2e Tests', () => {
     await percySnapshot(page, 'ids-fieldset-new-light');
   });
 
-  it.skip('should not have visual regressions in standalone css', async () => {
+  it('should not have visual regressions in standalone css', async () => {
     await page.goto('http://localhost:4444/ids-fieldset/standalone-css.html', { waitUntil: ['networkidle2', 'load'] });
     await percySnapshot(page, 'ids-fieldset-standalone-css', { widths: [1280] });
   });
