@@ -915,9 +915,8 @@ class IdsMonthView extends Base {
     const ifDates: boolean = dates.some(
       (item: string) => (new Date(item)).getTime() === date.getTime()
     );
-    const ifMinDate: boolean = date < new Date(minDate);
-    const ifMaxDate: boolean = date < new Date(maxDate);
-    const ifBySettings: boolean = ifYear || ifDayOfWeek || ifDates || ifMinDate || ifMaxDate;
+    const ifMinMaxDate: boolean = date <= new Date(minDate) || date >= new Date(maxDate);
+    const ifBySettings: boolean = ifYear || ifDayOfWeek || ifDates || ifMinMaxDate;
     const withReverse: boolean = isReverse ? !ifBySettings : ifBySettings;
 
     return withReverse || isOutOfDisplayRange;
