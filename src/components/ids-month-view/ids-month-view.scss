@@ -130,14 +130,18 @@
     .day-text {
       @include relative();
       @include z-1();
-      @include cursor-pointer();
       @include rounded-round();
       @include m-2();
       @include text-slate-80();
+      @include cursor-default();
 
       display: inline-block;
       white-space: nowrap;
       transition: 0.2s background-color ease;
+    }
+
+    &:not(.is-disabled) .day-text {
+      @include cursor-pointer();
     }
 
     &.alternate .day-text {
@@ -165,7 +169,7 @@
         outline-style: none;
       }
 
-      &:focus .day-container {
+      &:not(.is-disabled):focus .day-container {
         @include border-azure-60();
         @include z-1();
 
@@ -189,8 +193,8 @@
       }
     }
 
-    &:not(.is-selected):not(.has-legend):not(.range-selection):hover .day-text,
-    &:not(.is-selected):not(.has-legend):not(.range-selection):active .day-text {
+    &:not(.is-disabled):not(.is-selected):not(.has-legend):not(.range-selection):hover .day-text,
+    &:not(.is-disabled):not(.is-selected):not(.has-legend):not(.range-selection):active .day-text {
       @include bg-slate-20();
     }
 
@@ -317,11 +321,14 @@
     &.is-selected {
       box-shadow: inset 0 5px 0 0 var(--ids-color-palette-azure-60);
 
-      &:focus {
+      &:not(.is-disabled):focus {
         @include border-transparent();
 
-        outline: none;
         box-shadow: 0 0 2px 2px rgb(54 138 192 / 0.3), inset 0 5px 0 0 var(--ids-color-palette-azure-60);
+      }
+
+      &:focus {
+        outline: none;
       }
 
       ids-text::part(text) {
@@ -502,13 +509,13 @@
       @include text-white();
     }
 
-    td.is-disabled .day-text {
+    td:not(.is-selected).is-disabled .day-text {
       @include bg-slate-70();
       @include text-slate-10();
     }
 
-    td:not(.is-selected):not(.has-legend):not(.range-selection):hover .day-text,
-    td:not(.is-selected):not(.has-legend):not(.range-selection):active .day-text {
+    td:not(.is-disabled):not(.is-selected):not(.has-legend):not(.range-selection):hover .day-text,
+    td:not(.is-disabled):not(.is-selected):not(.has-legend):not(.range-selection):active .day-text {
       @include bg-slate-70();
     }
 
@@ -551,7 +558,7 @@
         @include bg-slate-70();
       }
 
-      &.is-selected:focus {
+      &.is-selected:not(.is-disabled):focus {
         box-shadow: 0 0 2px 2px rgb(141 201 230 / 0.3), inset 0 5px 0 0 var(--ids-color-palette-azure-60);
       }
 
@@ -608,7 +615,7 @@
       @include text-white();
     }
 
-    td.is-selected:focus .day-container {
+    td.is-selected:not(.is-disabled):focus .day-container {
       @include border-azure-100();
 
       box-shadow: 0 0 4px 2px rgb(41 41 41 / 0.3);
@@ -619,8 +626,8 @@
       @include text-slate-100();
     }
 
-    td:not(.is-selected):not(.has-legend):not(.range-selection):hover .day-text,
-    td:not(.is-selected):not(.has-legend):not(.range-selection):active .day-text {
+    td:not(.is-disabled):not(.is-selected):not(.has-legend):not(.range-selection):hover .day-text,
+    td:not(.is-disabled):not(.is-selected):not(.has-legend):not(.range-selection):active .day-text {
       @include bg-slate-30();
     }
 
@@ -668,7 +675,7 @@
         box-shadow: inset 0 5px 0 0 var(--ids-color-palette-azure-90);
       }
 
-      &.is-selected:focus {
+      &.is-selected:not(.is-disabled):focus {
         box-shadow: 0 0 2px 2px rgb(41 41 41 / 0.3), inset 0 5px 0 0 var(--ids-color-palette-azure-90);
       }
     }
