@@ -122,7 +122,7 @@ setData();
 
 ## Settings (Attributes)
 
-- `autocomplete` can be set to true to enable autocomplete functionality
+- `autocomplete` can be set to true to enable autocomplete functionality.
 - `autoselect` {boolean} set auto select text on focus to input.
 - `bgTransparent` {boolean} set the transparent background to readonly input.
 - `clearable` {boolean} set (x) button to clear text on click/key to input. See [Ids Clearable Mixin](../../mixins/ids-clearable-mixin/README.md) for more information.
@@ -130,7 +130,7 @@ setData();
 - `colorVariant` {string} set the current color variant.
 - `compact` {boolean} sets the component to be compact mode.
 - `caps-lock` {boolean} sets whether the capslock indicator appears when caps lock is on.
-- `data` when autocomplete is enabled a instance of [IdsDatasource](../../core/README.md)]
+- `data` when autocomplete is enabled an instance of [IdsDatasource](../../core/README.md)]
 - `dirty-tracker` {boolean} set dirty tracker to input. See [Ids Dirty Tracker Mixin](../../mixins/ids-dirty-tracker-mixin/README.md) for more information.
 - `disabled` {boolean} set disabled state.
 - `fieldHeight` {string} defines the height of the input field. See [Ids Field Height Mixin](../../mixins/ids-field-height-mixin/README.md) for more information.

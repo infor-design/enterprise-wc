@@ -336,6 +336,7 @@ const IdsAutoComplete = (superclass: any) => class extends superclass {
       if (selected?.nextElementSibling) {
         this.removeSelectedOption(selected);
         this.setSelectedOption(selected.nextElementSibling);
+        (selected.nextElementSibling as any).focus();
       }
       // Cycle to first option when pressing down arrow and last option is selected
       if (selected === lastOption) {
@@ -362,6 +363,7 @@ const IdsAutoComplete = (superclass: any) => class extends superclass {
       if (selected?.previousElementSibling) {
         this.removeSelectedOption(selected);
         this.setSelectedOption(selected.previousElementSibling);
+        (selected.previousElementSibling as any).focus();
       }
       // Select the first option when pressing up arrow and first option is selected
       if (selected === firstOption) {
