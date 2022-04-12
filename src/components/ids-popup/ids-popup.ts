@@ -1371,18 +1371,20 @@ export default class IdsPopup extends Base {
 
   /**
    * Returns a DOMRect from `getBoundingClientRect` from an element, with the values adjusted
-   * by subtracting the left/top values from an relative-positioned parent
+   * by subtracting the left/top values from the closest relative-positioned parent
    * @param {HTMLElement} elem the element to measure
    * @param {DOMRect} [rect] optionally pass in an existing rect and correct it
    * @returns {DOMRect} measurements adjusted for an absolutely-positioned parent
    */
   #removeRelativeParentDistance(elem, rect) {
     const elemRect = getEditableRect(rect || elem.getBoundingClientRect());
+    let found = false;
+
     const removeRelativeDistance = (parent) => {
       let parentStyle;
       let parentRect;
 
-      if (parent) {
+      if (parent && !found) {
         if (parent.toString() === '[object ShadowRoot]') {
           parent = parent.host;
         }
@@ -1393,6 +1395,7 @@ export default class IdsPopup extends Base {
             for (const prop of ['bottom', 'left', 'right', 'top', 'x', 'y']) {
               elemRect[prop] -= parentRect[prop];
             }
+            found = true;
           }
         }
         if (parent.parentNode) {

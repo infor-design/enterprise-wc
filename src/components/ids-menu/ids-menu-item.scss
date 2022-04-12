@@ -15,6 +15,10 @@
   }
 }
 
+::slotted(ids-popup-menu)  {
+  position: relative;
+}
+
 :host([hidden]) {
   display: none;
 }
