@@ -159,12 +159,17 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   }
 }
 
+:host([size='full']) {
+  @include w-full();
+}
+
 .ids-input {
   @include block();
   @include mb-16();
 
   // Applied to the wrapper element that wraps the input and other interactable elements
   .field-container {
+    @include css3(transition, border $transition-length $transition-ease);
     @include m-0();
     @include p-0();
     @include relative();
@@ -211,6 +216,10 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     @include text-16();
     @include w-full();
 
+    &:focus-visible {
+      outline: none;
+    }
+
     appearance: none;
     color: currentColor;
     display: inline-block;
@@ -245,7 +254,8 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   // If `no-margins` is used:
   // - margins are removed from component top/bottom
   // - labels are visually hidden instead of displaying blank content for spacing
-  &.no-margins {
+  &.no-margins,
+  &.no-margins.compact {
     margin: 0;
 
     .field-container {
@@ -357,6 +367,12 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     &.focus-within .field-container {
       @include border-slate-40();
       @include text-black();
+
+      &.error,
+      &.error:hover {
+        @include border-alert-error();
+        @include text-alert-error();
+      }
     }
 
     &:not(.readonly-background):not(.bg-transparent) {
@@ -421,6 +437,44 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
 
     .ids-input-field::placeholder {
       color: rgba(255 255 255 / 0.7);
+    }
+  }
+
+  // Alternate-formatter Color Variant (used in IdsDataGrid filter)
+  &.color-variant-alternate-formatter {
+    .field-container {
+      @include bg-transparent();
+      @include border-slate-30();
+      @include text-white();
+    }
+
+    &:hover .field-container {
+      @include border-slate-20();
+    }
+
+    &:focus-within {
+      .field-container,
+      &:hover .field-container {
+        @include border-azure-50();
+      }
+
+      .ids-input-field {
+        box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-60);
+      }
+    }
+
+    &.disabled .field-container,
+    &.disabled:hover .field-container {
+      @include border-slate-50();
+      @include text-slate-40();
+    }
+
+    &.readonly:not(.readonly-background):not(.bg-transparent) .field-container {
+      @include text-slate-80();
+    }
+
+    .ids-input-field::placeholder {
+      @include text-slate-40();
     }
   }
 }
@@ -490,6 +544,44 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
       color: rgba(255 255 255 / 0.7);
     }
   }
+
+  // Alternate-formatter Color Variant (used in IdsDataGrid filter)
+  &.color-variant-alternate-formatter {
+    .field-container {
+      @include bg-transparent();
+      @include border-slate-50();
+      @include text-slate-100();
+    }
+
+    &:hover .field-container {
+      @include border-slate-70();
+    }
+
+    &:focus-within {
+      .field-container,
+      &:hover .field-container {
+        @include border-azure-50();
+      }
+
+      .ids-input-field {
+        box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-50);
+      }
+    }
+
+    &.disabled .field-container,
+    &.disabled:hover .field-container {
+      @include border-slate-60();
+      @include text-slate-50();
+    }
+
+    &.readonly:not(.readonly-background):not(.bg-transparent) .field-container {
+      @include text-slate-30();
+    }
+
+    .ids-input-field::placeholder {
+      @include text-slate-40();
+    }
+  }
 }
 
 .ids-input[version='new'][mode='contrast'] {
@@ -557,6 +649,44 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
       color: rgba(255 255 255 / 0.7);
     }
   }
+
+  // Alternate-formatter Color Variant (used in IdsDataGrid filter)
+  &.color-variant-alternate-formatter {
+    .field-container {
+      @include bg-transparent();
+      @include border-slate-30();
+      @include text-white();
+    }
+
+    &:hover .field-container {
+      @include border-slate-20();
+    }
+
+    &:focus-within {
+      .field-container,
+      &:hover .field-container {
+        @include border-azure-50();
+      }
+
+      .ids-input-field {
+        box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-60);
+      }
+    }
+
+    &.disabled .field-container,
+    &.disabled:hover .field-container {
+      @include border-slate-50();
+      @include text-slate-40();
+    }
+
+    &.readonly:not(.readonly-background):not(.bg-transparent) .field-container {
+      @include text-slate-80();
+    }
+
+    .ids-input-field::placeholder {
+      @include text-slate-40();
+    }
+  }
 }
 
 .ids-input[version='classic'][mode='light'] {
@@ -603,6 +733,44 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
       @include text-white();
     }
   }
+
+  // Alternate-formatter Color Variant (used in IdsDataGrid filter)
+  &.color-variant-alternate-formatter {
+    .field-container {
+      @include bg-transparent();
+      @include border-slate-30();
+      @include text-white();
+    }
+
+    &:hover .field-container {
+      @include border-slate-20();
+    }
+
+    &:focus-within {
+      .field-container,
+      &:hover .field-container {
+        @include border-azure-50();
+      }
+
+      .ids-input-field {
+        box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-60);
+      }
+    }
+
+    &.disabled .field-container,
+    &.disabled:hover .field-container {
+      @include border-slate-50();
+      @include text-slate-40();
+    }
+
+    &.readonly:not(.readonly-background):not(.bg-transparent) .field-container {
+      @include text-slate-80();
+    }
+
+    .ids-input-field::placeholder {
+      @include text-slate-40();
+    }
+  }
 }
 
 .ids-input[version='classic'][mode='dark'] {
@@ -642,6 +810,44 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
 
   // Include error styles
   @include ids-input-message-styles();
+
+  // Alternate-formatter Color Variant (used in IdsDataGrid filter)
+  &.color-variant-alternate-formatter {
+    .field-container {
+      @include bg-transparent();
+      @include border-slate-50();
+      @include text-slate-100();
+    }
+
+    &:hover .field-container {
+      @include border-slate-70();
+    }
+
+    &:focus-within {
+      .field-container,
+      &:hover .field-container {
+        @include border-azure-50();
+      }
+
+      .ids-input-field {
+        box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-50);
+      }
+    }
+
+    &.disabled .field-container,
+    &.disabled:hover .field-container {
+      @include border-slate-60();
+      @include text-slate-50();
+    }
+
+    &.readonly:not(.readonly-background):not(.bg-transparent) .field-container {
+      @include text-slate-30();
+    }
+
+    .ids-input-field::placeholder {
+      @include text-slate-40();
+    }
+  }
 }
 
 .ids-input[version='classic'][mode='contrast'] {
@@ -688,6 +894,44 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   &.color-variant-alternate {
     .field-container {
       @include text-white();
+    }
+  }
+
+  // Alternate-formatter Color Variant (used in IdsDataGrid filter)
+  &.color-variant-alternate-formatter {
+    .field-container {
+      @include bg-transparent();
+      @include border-slate-30();
+      @include text-white();
+    }
+
+    &:hover .field-container {
+      @include border-slate-20();
+    }
+
+    &:focus-within {
+      .field-container,
+      &:hover .field-container {
+        @include border-azure-50();
+      }
+
+      .ids-input-field {
+        box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-60);
+      }
+    }
+
+    &.disabled .field-container,
+    &.disabled:hover .field-container {
+      @include border-slate-50();
+      @include text-slate-40();
+    }
+
+    &.readonly:not(.readonly-background):not(.bg-transparent) .field-container {
+      @include text-slate-80();
+    }
+
+    .ids-input-field::placeholder {
+      @include text-slate-40();
     }
   }
 }

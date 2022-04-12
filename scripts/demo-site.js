@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 // Import Every Yaml File
 import accordionYaml from './ids-accordion/index.yaml';
 import actionSheetYaml from './ids-action-sheet/index.yaml';
@@ -26,6 +27,8 @@ import editorYaml from './ids-editor/index.yaml';
 import errorPageYaml from './ids-error-page/index.yaml';
 import expandableAreaYaml from './ids-expandable-area/index.yaml';
 import fieldsetYaml from './ids-fieldset/index.yaml';
+import headerYaml from './ids-header/index.yaml';
+import hiddenYaml from './ids-hidden/index.yaml';
 import hierarchyYaml from './ids-hierarchy/index.yaml';
 import homePageYaml from './ids-home-page/index.yaml';
 import hyperlinkYaml from './ids-hyperlink/index.yaml';
@@ -127,6 +130,8 @@ addYaml(editorYaml);
 addYaml(errorPageYaml);
 addYaml(expandableAreaYaml);
 addYaml(fieldsetYaml);
+addYaml(headerYaml);
+addYaml(hiddenYaml);
 addYaml(hierarchyYaml);
 addYaml(homePageYaml);
 addYaml(hyperlinkYaml);

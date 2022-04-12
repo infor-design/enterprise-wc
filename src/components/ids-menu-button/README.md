@@ -19,6 +19,7 @@ The IDS Menu Button component is an extension of the standard [Button component]
 - `dropdownIcon` sets the type of icon to be used as the dropdown icon.  If null/empty, the dropdown icon is not displayed.  Note that this is different than the standard IDS Button `icon` property, and both can exist at the same time.
 - `formatterWidth` set the width and formatter style for menu button.
 - `menu` can be defined as a CSS selector string, or if using the JS property, can be a direct reference to an IdsPopupMenu component.
+- `value` sets/gets selected menu items by providing list of menu item values
 
 ## States and Variations
 

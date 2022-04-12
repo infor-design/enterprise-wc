@@ -2,14 +2,13 @@
 
 ## Making a package in npm
 
-- Bump version in `package.json`
-- Bump version in `package-dist.json`
-- Bump version in `src/core/ids-attributes.js`
+- Search for `0.0.0-beta.20` and replace with `0.0.0-beta.20`
+- It will be in`package.json`, `package-dist.json`, about tests, and `src/core/ids-attributes.js`
 - Make and push a tag with `git tag 0.0.x && git push origin --tags`
-- Run command `npm run publish:dry-run` to test first
+- Run command `npm run publish:dry-run` to test first if you wish
 - Run command `npm run publish:npm`
 - Create a release on GitHub using [`gh`](https://cli.github.com/manual/gh_release_create) with `brew install gh`
-- Run command `gh release create 0.0.x --title "0.0.0-beta.19" --notes-file "doc/CHANGELOG.md"`
+- Run command `gh release create 0.0.x --title "0.0.0-beta.20" --notes-file "doc/CHANGELOG.md"`
 
 ## Working with local changes
 

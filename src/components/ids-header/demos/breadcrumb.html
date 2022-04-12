@@ -6,15 +6,21 @@
 <body>
   <ids-container role="main" padding="0" hidden>
     <ids-header>
-      <ids-layout-grid>
-        <ids-breadcrumb role="list">
-          <ids-hyperlink font-size="14" color="unset" href="#">First Item</ids-hyperlink>
-          <ids-hyperlink font-size="14" color="unset" href="#">Second Item</ids-hyperlink>
-          <ids-hyperlink font-size="14" color="unset" disabled>Disabled Item</ids-hyperlink>
-          <ids-hyperlink font-size="14" color="unset">Current Item</ids-hyperlink>
+      <ids-layout-grid auto="true">
+        <ids-breadcrumb truncate="true" color-variant="alternate">
+          <ids-hyperlink font-size="14" text-decoration="hover" href="#">First Item</ids-hyperlink>
+          <ids-hyperlink font-size="14" text-decoration="hover" href="#" disabled>Second Item</ids-hyperlink>
+          <ids-hyperlink font-size="14" text-decoration="hover" href="#">Page Pane Test</ids-hyperlink>
+          <ids-hyperlink font-size="14" text-decoration="hover" href="#">Products for Jamis Bikes</ids-hyperlink>
+          <ids-hyperlink font-size="14" text-decoration="hover" href="#">Basic Form</ids-hyperlink>
+          <ids-hyperlink font-size="14" text-decoration="hover" href="#">Bar Chart List</ids-hyperlink>
+          <ids-hyperlink font-size="14" text-decoration="hover" href="#">Three Element Overlapped Bar List</ids-hyperlink>
+          <ids-hyperlink font-size="14" text-decoration="hover" href="#">Three Element Bar No Legend List</ids-hyperlink>
+          <ids-hyperlink font-size="14" text-decoration="hover" href="#">Bar Chart No Legend List</ids-hyperlink>
         </ids-breadcrumb>
       </ids-layout-grid>
     </ids-header>
+    <ids-theme-switcher mode="light" version="new" hidden></ids-theme-switcher>
   </ids-container>
 </body>
 </html>

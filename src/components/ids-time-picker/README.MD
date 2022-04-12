@@ -92,14 +92,19 @@ It's also possible to control the intervals of minutes and seconds available for
 ## Settings
 
 - `autoselect` {boolean} Automatically opens the popup on focus.
-- `autoupdate` {boolean} Automatically upates the timestring value and hides the "Set Time" button.
+- `autoupdate` {boolean} Automatically updates the time string value and hides the "Set Time" button.
+- `colorVariant` {string} set the current color variant.
+- `compact` {boolean} sets the component to be compact mode.
 - `dirty-tracker` {boolean} sets the dirty tracking feature on to indicate a changed field. See [Ids Dirty Tracker Mixin](../../mixins/ids-dirty-tracker-mixin/README.md) for more information.
 - `disabled` {boolean} Disables the timepicker
+- `fieldHeight` {string} defines the field height. See [Ids Field Height Mixin](../../mixins/ids-field-height-mixin/README.md) for more information.
 - `readonly` {boolean} Makes the timepicker readonly
 - `label` {string} Set the timepicker's label
+- `labelState` {string} indicates that a label is hidden (note that for accessibility reasons, `label` should still be specified). See [Ids Label State Mixin](../../mixins/ids-label-state-mixin/README.md) for more information.
 - `placeholder` {string} Set the timepicker's placeholder
 - `language` {string} Set the timepicker's language (Default: "en")
 - `locale` {string} Set the timepicker's locale (Default: "en-US")
+- `noMargins` {boolean} sets whether or not no-margins around the component.
 - `size` {'sm' | 'md' | 'lg' | 'full' | string} Sets the size of the input-field's width
 - `mode` {'light' | 'dark' | 'contrast' | string} Set the theme mode
 - `version` {'new' | 'classic' | string} Set the theme version
@@ -140,10 +145,18 @@ It's also possible to control the intervals of minutes and seconds available for
 
 - Flows with padding and margin within the width and height of the parent container. Possibly scrolling as needed based on parent dimensions.
 
-## Converting from Previous Versions (TODO)
+## Converting from Previous Versions (Breaking Changes)
 
-- 3.x: Timepickers have all new markup and classes.
-- 4.x: Timepickers have all new markup and classes for web components.
+**3.x to 4.x**
+
+- Timepicker was implemented in v4.0.0
+- Timepicker can be invoked with `$('#my-element').timepicker()`.
+
+**4.x to 5.x**
+
+- Timepicker are now custom elements `<ids-time-picker></ids-time-picker>`
+- If using events, events are now plain JS events
+- Can now be imported as a single JS file and used with encapsulated styles
 
 ## Designs
 

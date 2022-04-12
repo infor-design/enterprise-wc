@@ -11,10 +11,9 @@ const WebpackHtmlExamples = WebpackHtmlTemplates.map((template) => {
   const chunkFileNameArray = template.split(isWin32);
   const chunkFileName = chunkFileNameArray.slice(-1)[0];
   const noCSP = !!chunkFileName.includes('side-by-side');
-  const title = `${chunkName.split('-').map((word) =>
-    `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`).join(' ').replace('Ids ', 'IDS ')} Component`;
+  const title = `${chunkName.split('-').map((word) => `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`).join(' ').replace('Ids ', 'IDS ')} Component`;
   let extraChunk;
-  chunkFileName !== 'index.html' && fs.existsSync(`./src/components/${chunkName}/demos/${chunkFileName.replace('.html', '.js')}`);
+  chunkFileName !== 'index.html' && fs.existsSync(`./src/components/${chunkName}/demos/${chunkFileName.replace('.html', '.ts')}`);
   chunkFileName ? extraChunk = `${chunkName}-${chunkFileName.replace('.html', '')}` : extraChunk = '';
 
   return new HTMLWebpackPlugin({

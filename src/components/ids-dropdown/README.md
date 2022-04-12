@@ -115,12 +115,17 @@ The promise should resolve and return data with id, value and label info.
 
 ## Settings
 
+- `colorVariant` {string} set the current color variant.
+- `compact` {boolean} sets the component to be compact mode.
 - `dirtyTracker` {boolean} Sets the dirty tracking feature on to indicate a changed
 - `disabled` {boolean} Sets dropdown to disabled
+- `fieldHeight` {string} defines the field height. See [Ids Field Height Mixin](../../mixins/ids-field-height-mixin/README.md) for more information.
 - `label` {string} Sets the label text
 - `language` {string} Sets the language for RTL and inner labels
 - `labelRequired` {boolean} Sets the validation required indicator on label text, it's default to `true`
+- `labelState` {string} indicates that a label is hidden (note that for accessibility reasons, `label` should still be specified). See [Ids Label State Mixin](../../mixins/ids-label-state-mixin/README.md) for more information.
 - `maxlength` {number | string} Maximum characters allowed in textarea
+- `noMargins` {boolean} sets whether or not no-margins around the component.
 - `placeholder` {string} Sets the placeholder text
 - `size` {'sm ' | 'md' | 'lg' | 'full' | string} Sets the size (width)
 - `readonly` {boolean} Sets to readonly state
@@ -177,11 +182,17 @@ The promise should resolve and return data with id, value and label info.
 
 - The dropdown `<input>` should size to the parent container and the `<label>` should remain on the top.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-- 3.x: Dropdown have all new markup and classes.
-- 4.x: Dropdown have all new markup and classes for web components.
-- 5.x: Dropdown is now a custom web element with all new classes
+**3.x to 4.x**
+- Dropdown have all new markup and classes.
+
+**4.x to 5.x**
+- The dropdown component has been changed to a web component and renamed to ids-editor.
+- Markup has changed to a custom element `<ids-dropdown></ids-dropdown>`
+- If using events, events are now plain JS events (change event when changed)
+- API is significantly different
+- No longer uses a select element
 
 ## Designs
 

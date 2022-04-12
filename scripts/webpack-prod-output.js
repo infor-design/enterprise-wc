@@ -1,9 +1,9 @@
 const NodeFsFiles = require('./node-fs-files');
 
 const prodOutput = (pathData) => {
-  const srcFileListArray = NodeFsFiles('./src', 'js');
+  const srcFileListArray = NodeFsFiles('./src', 'ts');
   const isWin32 = process.platform === 'win32' ? '\\' : '/';
-  const srcFileListFilter = srcFileListArray.filter((chunk) => chunk.includes(`${pathData}.js`));
+  const srcFileListFilter = srcFileListArray.filter((chunk) => chunk.includes(`${pathData}.ts`));
   const srcFileListFilterItem = srcFileListFilter[0];
   const srcFileListFilterItemArray = srcFileListFilterItem.split(isWin32);
   const isCore = srcFileListFilterItemArray[1] === 'core' ? 1 : 2;
