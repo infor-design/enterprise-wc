@@ -5,7 +5,7 @@ describe('Ids Date Picker e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(axeUrl, { waitUntil: ['networkidle2', 'load'] });
-    await (expect((page as any)) as any).toPassAxeTests();
+    await (expect(page) as any).toPassAxeTests();
   });
 
   it('should not have errors', async () => {
