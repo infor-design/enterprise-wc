@@ -51,7 +51,6 @@
   #dropdowns {
     @include flex();
     @include p-8();
-    @include relative();
 
     border-bottom: 1px solid var(--ids-color-palette-slate-30, #b7b7ba);
     flex-direction: row;
