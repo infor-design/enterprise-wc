@@ -9,5 +9,12 @@ const setData = async () => {
   const data = await res.json();
   autocomplete.data = data;
 };
-
 setData();
+
+autocomplete.addEventListener('selected', (e: CustomEvent) => {
+  console.info('Option Selected', e.detail);
+});
+
+autocomplete.addEventListener('cleared', (e: CustomEvent) => {
+  console.info('Options Cleared', e.detail);
+});

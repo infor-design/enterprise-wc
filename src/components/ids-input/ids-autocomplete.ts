@@ -171,6 +171,7 @@ const IdsAutoComplete = (superclass: any) => class extends superclass {
       this.openPopup();
       this.listBox.innerHTML = results || '<ids-list-box-option>No Results.</ids-list-box-option>';
     } else {
+      this.clearOptions();
       this.closePopup();
     }
   }
@@ -248,9 +249,30 @@ const IdsAutoComplete = (superclass: any) => class extends superclass {
 
     if (this.isSelected) {
       this.value = this.isSelected.getAttribute('value');
+
+      this.triggerEvent('selected', this, {
+        bubbles: true,
+        detail: {
+          elem: this,
+          value: this.value
+        }
+      });
     }
 
     this.closePopup();
+  }
+
+  /**
+   * Trigger the cleared event when input is cleared
+   */
+  clearOptions() {
+    this.triggerEvent('cleared', this, {
+      bubbles: true,
+      detail: {
+        elem: this,
+        value: this.value
+      }
+    });
   }
 
   /**
@@ -297,30 +319,54 @@ const IdsAutoComplete = (superclass: any) => class extends superclass {
    * @returns {void}
    */
   #attachKeyboardListeners() {
-    this.listen(['ArrowDown', 'ArrowUp'], this, (e: Event | any) => {
+    this.listen(['ArrowDown'], this, (e: Event | any) => {
       e.stopPropagation();
       e.stopImmediatePropagation();
       e.preventDefault();
 
       const selected = this.isSelected;
+      const firstOption = this.options[0];
+      const lastOption = this.options[this.options.length - 1];
 
-      if (e.key === 'ArrowUp' && e.altKey) {
+      // Select the first option when pressing down arrow
+      if (!selected) {
+        this.setSelectedOption(firstOption);
+      }
+      // Select the next option when pressing down arrow
+      if (selected?.nextElementSibling) {
+        this.removeSelectedOption(selected);
+        this.setSelectedOption(selected.nextElementSibling);
+      }
+      // Cycle to first option when pressing down arrow and last option is selected
+      if (selected === lastOption) {
+        this.removeSelectedOption(selected);
+        this.setSelectedOption(firstOption);
+      }
+    });
+
+    this.listen(['ArrowUp'], this, (e: Event | any) => {
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      e.preventDefault();
+
+      const selected = this.isSelected;
+      const firstOption = this.options[0];
+      const lastOption = this.options[this.options.length - 1];
+
+      if (e.altKey) {
         this.value = selected.getAttribute('value');
         this.closePopup();
         return;
       }
-
-      if (e.key === 'ArrowDown' && !selected) {
-        this.setSelectedOption(this.options[0]);
-      }
-
-      if (e.key === 'ArrowDown' && selected?.nextElementSibling) {
-        this.removeSelectedOption(selected);
-        this.setSelectedOption(selected.nextElementSibling);
-      }
-      if (e.key === 'ArrowUp' && selected?.previousElementSibling) {
+      // Select the previus option when pressing up arrow
+      if (selected?.previousElementSibling) {
         this.removeSelectedOption(selected);
         this.setSelectedOption(selected.previousElementSibling);
+      }
+      // Select the first option when pressing up arrow and first option is selected
+      if (selected === firstOption) {
+        this.removeSelectedOption(selected);
+        this.setSelectedOption(lastOption);
       }
     });
 
