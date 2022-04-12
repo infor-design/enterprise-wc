@@ -325,6 +325,7 @@ const IdsAutoComplete = (superclass: any) => class extends superclass {
     });
 
     this.listen([' ', 'Enter'], this.listBox, this.selectOption.bind(this));
+    this.listen(['Escape'], this.listBox, this.closePopup.bind(this));
   }
 
   /**
