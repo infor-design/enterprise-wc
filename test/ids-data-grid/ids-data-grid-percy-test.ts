@@ -9,7 +9,7 @@ describe('Ids Data Grid Percy Tests', () => {
     await percySnapshot(page, 'ids-data-grid-new-light');
   });
 
-  it('should not have visual regressions in standalone css', async () => {
+  it.skip('should not have visual regressions in standalone css', async () => {
     await page.goto('http://localhost:4444/ids-data-grid/standalone-css.html', { waitUntil: ['networkidle2', 'load'] });
     await percySnapshot(page, 'ids-data-grid-standalone-css', { widths: [1280] });
   });

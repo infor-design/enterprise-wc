@@ -8,7 +8,7 @@ describe('Ids Week View Percy Tests', () => {
     await percySnapshot(page, 'ids-week-view-new-light');
   });
 
-  it('should not have visual regressions in standalone css', async () => {
+  it.skip('should not have visual regressions in standalone css', async () => {
     await page.goto('http://localhost:4444/ids-week-view/standalone-css.html', { waitUntil: ['networkidle2', 'load'] });
     await percySnapshot(page, 'ids-week-view-standalone-css', { widths: [1280] });
   });

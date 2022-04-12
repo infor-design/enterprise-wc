@@ -8,7 +8,7 @@ describe('Ids Popup Menu Percy Tests', () => {
     await percySnapshot(page, 'ids-popup-menu-new-light');
   });
 
-  it('should not have visual regressions in standalone css', async () => {
+  it.skip('should not have visual regressions in standalone css', async () => {
     await page.goto('http://localhost:4444/ids-popup-menu/standalone-css.html', { waitUntil: ['networkidle2', 'load'] });
     await percySnapshot(page, 'ids-popup-menu-standalone-css', { widths: [1280] });
   });

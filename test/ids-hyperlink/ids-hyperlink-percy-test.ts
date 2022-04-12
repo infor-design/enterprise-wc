@@ -8,7 +8,7 @@ describe('Ids Hyperlink e2e Tests', () => {
     await percySnapshot(page, 'ids-hyperlink-new-light');
   });
 
-  it('should not have visual regressions in standalone css', async () => {
+  it.skip('should not have visual regressions in standalone css', async () => {
     await page.goto('http://localhost:4444/ids-hyperlink/standalone-css.html', { waitUntil: ['networkidle2', 'load'] });
     await percySnapshot(page, 'ids-hyperlink-standalone-css', { widths: [1280] });
   });
