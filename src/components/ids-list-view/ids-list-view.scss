@@ -72,7 +72,8 @@
 }
 
 // Handle Themes
-.ids-list-view[mode='light'] div[part='list-item'] {
+.ids-list-view[mode='light'] div[part='list-item'],
+.ids-list-view:not([mode]) div[part='list-item'] {
   @include bg-white();
 }
 

@@ -77,7 +77,8 @@ $header-gradient-transparent-classic-contrast: rgb(0 74 153 / 0);
     }
   }
 
-  &[version='new'][mode='light'] {
+  &[version='new'][mode='light'],
+  &:not([mode]) {
     nav.truncate::before {
       background-image: linear-gradient(to right, var(--ids-color-palette-white), $transparent-white);
     }
@@ -139,7 +140,8 @@ $header-gradient-transparent-classic-contrast: rgb(0 74 153 / 0);
     }
 
     // Use background colors from IdsHeader
-    &[version='new'][mode='light'] {
+    &[version='new'][mode='light'],
+    &:not([mode]) {
       nav.truncate::before {
         background-image:
           linear-gradient(

@@ -37,7 +37,8 @@ ids-hyperlink::part(link) {
   white-space: nowrap;
 }
 
-.ids-notification-banner[mode='light'] {
+.ids-notification-banner[mode='light'],
+.ids-notification-banner:not([mode]) {
   &[type='success'],
   &[type='alert'],
   &[type='info'],
@@ -84,6 +85,7 @@ ids-hyperlink::part(link) {
 
 .ids-notification-banner[type='success'] {
   &[mode='light'],
+  &:not([mode]),
   &[mode='contrast'] {
     @include bg-emerald-10();
   }
@@ -95,6 +97,7 @@ ids-hyperlink::part(link) {
 
 .ids-notification-banner[type='alert'] {
   &[mode='light'],
+  &:not([mode]),
   &[mode='contrast'] {
     @include bg-amber-10();
   }
@@ -106,6 +109,7 @@ ids-hyperlink::part(link) {
 
 .ids-notification-banner[type='info'] {
   &[mode='light'],
+  &:not([mode]),
   &[mode='contrast'] {
     @include bg-azure-10();
   }
@@ -117,6 +121,7 @@ ids-hyperlink::part(link) {
 
 .ids-notification-banner[type='error'] {
   &[mode='light'],
+  &:not([mode]),
   &[mode='contrast'] {
     @include bg-ruby-10();
   }
