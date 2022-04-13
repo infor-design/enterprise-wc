@@ -26,3 +26,4 @@
 - [] Add mobility changes when design approved https://github.com/infor-design/enterprise/issues/5763 (some need to be confirmed)
 - [] Add test for this case https://github.com/infor-design/enterprise/issues/5255
 - [] Add side by side example
+- [] Fix bug https://github.com/infor-design/enterprise/issues/4605

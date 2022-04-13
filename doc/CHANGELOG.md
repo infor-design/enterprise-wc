@@ -30,17 +30,10 @@ For more details on breaking changes see each component in the individual README
 - `[Fieldset]` The Fieldset component is now a web component called `ids-fieldset`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-fieldset/README.md#converting-from-previous-versions for details. ([#138](https://github.com/infor-design/enterprise-wc/issues/138))
 - `[Header]` The Header component is now a web component called `ids-header`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-header/README.md#converting-from-previous-versions for details. ([#134](https://github.com/infor-design/enterprise-wc/issues/134))
 - `[Hidden/Visibility]` The visibility classes are now a web component called `ids-hidden`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-hidden/README.md#converting-from-previous-versions for details. ([#405](https://github.com/infor-design/enterprise-wc/issues/405))
-- `[Hierarchy]` The visibility classes are now a web component called `ids-hierarchy`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-hierarchy/README.md#converting-from-previous-versions for details. ([#331](https://github.com/infor-design/enterprise-wc/issues/331))
-- `[HomePage]` The HomePage component has been changed to a web component and use with ids-home-page.
-  - Markup has changed to a custom element `<ids-home-page></ids-home-page>`
-  - If using events, events are now plain JS events.
-  - Can now be imported as a single JS file and used with encapsulated styles
-- `[Icons]` The icons are now a web component called ids-icon. You no longer need the huge block of svg in the page
-  - The icon and size are set via properties/attributes
-  - Can now be imported as a single JS file and used with encapsulated styles
-  - Can now display notification badges
-  - has new sizing options
-  - can now be used to display empty-message options
+- `[Hierarchy]` The Hierarchy component is now a web component called `ids-hierarchy`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-hierarchy/README.md#converting-from-previous-versions for details. ([#331](https://github.com/infor-design/enterprise-wc/issues/331))
+- `[HomePage]` The HomePage component is now a web component called `ids-home-page`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-home-page/README.md#converting-from-previous-versions for details. ([#313](https://github.com/infor-design/enterprise-wc/issues/313))
+- `[Hyperlink]` The Hyperlink component is now a web component called `ids-hyperlink`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-hyperlink/README.md#converting-from-previous-versions for details. ([#137](https://github.com/infor-design/enterprise-wc/issues/137))
+- `[Icons]` The icon component is now a web component called `ids-icon`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-icon/README.md#converting-from-previous-versions for details. ([#581](https://github.com/infor-design/enterprise-wc/issues/581))
 - `[Input]` The Input component has been changed to a web component and renamed to ids-input.
   - Markup has changed to a custom element `<ids-input></ids-input>`
   - If using events, events are now plain JS events.
