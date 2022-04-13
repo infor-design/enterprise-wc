@@ -11,3 +11,5 @@
     description: Showing a accordion side by side with a 4.x accordion
   - link: disabled.html
     description: Shows a accordion with disabled attributes
+  - link: icon.html
+    description: Shows a accordion with various icons
