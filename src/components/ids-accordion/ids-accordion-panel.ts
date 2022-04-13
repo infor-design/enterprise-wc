@@ -281,8 +281,10 @@ export default class IdsAccordionPanel extends Base {
 
     if (disabled) {
       this.setAttribute(attributes.DISABLED, `${disabled}`);
+      this.setAttribute(attributes.TABINDEX, '-1');
     } else {
       this.removeAttribute(attributes.DISABLED);
+      this.removeAttribute(attributes.TABINDEX);
     }
   }
 
@@ -381,12 +383,16 @@ export default class IdsAccordionPanel extends Base {
 
     this.listen('Enter', this.expander, (e: { stopPropagation: () => void; }) => {
       e.stopPropagation();
-      this.#selectAndToggle();
+      if (!this.disabled) {
+        this.#selectAndToggle();
+      }
     });
 
     this.listen(' ', this.expander, (e: { stopPropagation: () => void; }) => {
       e.stopPropagation();
-      this.#selectAndToggle();
+      if (!this.disabled) {
+        this.#selectAndToggle();
+      }
     });
 
     this.onEvent('touchend', this.expander, (e: { touches: string | any[]; }) => {

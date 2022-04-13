@@ -13,3 +13,5 @@
     description: Shows a accordion with disabled attributes
   - link: icon.html
     description: Shows a accordion with various icons
+  - link: nested.html
+    description: Shows a accordion with nest variant
