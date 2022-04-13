@@ -1,0 +1,127 @@
+@import '../../core/ids-base';
+
+// Calendar Event Type Themes
+.ids-calendar-event[color='emerald'] {
+  background: var(--ids-color-palette-emerald-30);
+  border-left-color: var(--ids-color-palette-emerald-70);
+}
+
+.ids-calendar-event[color='azure'] {
+  background: var(--ids-color-palette-azure-20);
+  border-left-color: var(--ids-color-palette-azure-70);
+}
+
+.ids-calendar-event[color='amber'] {
+  background: var(--ids-color-palette-amber-30);
+  border-left-color: var(--ids-color-palette-amber-70);
+}
+
+.ids-calendar-event[color='amethyst'] {
+  background: var(--ids-color-palette-amethyst-30);
+  border-left-color: var(--ids-color-palette-amethyst-70);
+}
+
+.ids-calendar-event[color='slate'] {
+  background: var(--ids-color-palette-slate-30);
+  border-left-color: var(--ids-color-palette-slate-70);
+}
+
+.ids-calendar-event {
+  @include absolute;
+  @include box-border;
+  @include w-full;
+  @include z-1;
+
+  background: var(--ids-color-palette-azure-20);
+  border: 1px solid transparent;
+  border-left: 5px solid var(--ids-color-palette-azure-70);
+  border-radius: 3px;
+  color: var(--ids-color-palette-slate-100);
+  left: 0;
+  height: 20px;
+  overflow: hidden;
+  text-decoration: none;
+  top: 0;
+
+  .calendar-event-content {
+    @include box-border;
+    @include h-full;
+    @include w-full;
+
+    padding: 2px 5px;
+  }
+
+  .calendar-event-icon {
+    @include align-bottom;
+
+    &[icon='success-alert'] {
+      color: var(--ids-color-palette-emerald-60);
+    }
+  }
+
+  .calendar-event-title {
+    line-height: 12px;
+
+    &::part(text) {
+      text-transform: initial;
+    }
+  }
+
+  // Styles for intraday events
+  &.is-cutoff {
+    border-radius: 3px 3px 0 0;
+  }
+
+  &.is-ellipsis {
+    .calendar-event-content {
+      white-space: nowrap;
+    }
+  }
+
+  &.reduced-padding {
+    .calendar-event-content {
+      padding: 0 5px;
+    }
+
+    .calendar-event-title {
+      @include relative;
+
+      top: -1.6px;
+    }
+  }
+
+  // Styles for all day events
+  &.all-day {
+    top: 1px;
+  }
+
+  &.calendar-event-continue {
+    border-radius: 0;
+  }
+
+  &.calendar-event-start {
+    border-radius: 3px 0 0 3px;
+  }
+
+  &.calendar-event-ends {
+    border-radius: 0 3px 3px 0;
+  }
+
+  &.calendar-event-continue,
+  &.calendar-event-ends {
+    left: -1px;
+    border-left-width: 0;
+    width: calc(100% + 1px);
+
+    .calendar-event-title {
+      color: transparent;
+    }
+  }
+
+  &:focus {
+    @include shadow();
+
+    border-color: var(--ids-color-palette-azure-60);
+    outline: none;
+  }
+}

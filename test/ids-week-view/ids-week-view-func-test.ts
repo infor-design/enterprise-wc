@@ -23,6 +23,66 @@ const defaultEndHour = 19;
 const defaultFirstDayOfWeek = 0;
 const defaultInterval = 30000;
 
+const EVENTS_ITEMS = [
+  {
+    id: '1',
+    subject: 'Intraday Event',
+    starts: '2021-11-10T12:00:00.000',
+    ends: '2021-11-10T12:15:00.000',
+    type: 'dto',
+    isAllDay: 'false'
+  },
+  {
+    id: '1b',
+    subject: 'Intraday Event Copy',
+    starts: '2021-11-10T12:00:00.000',
+    ends: '2021-11-10T12:15:00.000',
+    type: 'dto',
+    isAllDay: 'false'
+  },
+  {
+    id: '2',
+    subject: '3 Day Event',
+    starts: '2021-11-10T00:00:00.000',
+    ends: '2021-11-12T23:59:59.999',
+    type: 'admin',
+    isAllDay: 'true'
+  },
+  {
+    id: '3',
+    subject: 'All Day Event',
+    starts: '2021-11-10T00:00:00.000',
+    ends: '2021-11-10T23:59:59.999',
+    type: 'dto',
+    isAllDay: 'true'
+  },
+  {
+    id: '3b',
+    subject: 'All Day Event Copy',
+    starts: '2021-11-10T00:00:00.000',
+    ends: '2021-11-10T23:59:59.999',
+    type: 'dto',
+    isAllDay: 'true'
+  }
+];
+
+const EVENT_TYPES = [
+  {
+    id: 'dto',
+    label: 'Discretionary Time Off',
+    translationKey: 'DiscretionaryTimeOff',
+    color: 'azure',
+    checked: true
+  },
+  {
+    id: 'admin',
+    label: 'Admin',
+    translationKey: 'AdministrativeLeave',
+    color: 'amethyst',
+    checked: true
+  }
+];
+
 describe('IdsWeekView Component (using properties)', () => {
   let component: any;
 
@@ -75,6 +135,8 @@ describe('IdsWeekView Component (using properties)', () => {
     expect(component.endHour).toEqual(endHour);
     expect(component.showTimeline).toBeFalsy();
     expect(component.timelineInterval).toEqual(interval);
+    expect(component.events).toBeUndefined();
+    expect(component.eventTypes).toBeUndefined();
   });
 
   it('should change properties', () => {
@@ -93,6 +155,26 @@ describe('IdsWeekView Component (using properties)', () => {
     expect(component.firstDayOfWeek).toEqual(defaultFirstDayOfWeek);
     expect(component.showToday).toBeFalsy();
     expect(component.timelineInterval).toEqual(defaultInterval);
+  });
+
+  it('can add calendar events', () => {
+    component.eventTypes = EVENT_TYPES;
+    component.events = EVENTS_ITEMS;
+
+    const expectedEventCount = 7; // 5 Event Items (1 event lasts 3 days)
+    expect(component.container.querySelectorAll('ids-calendar-event')?.length).toBe(expectedEventCount);
+  });
+
+  it('can change dates via toolbar buttons', () => {
+    const clickEvent = new MouseEvent('click');
+
+    // test clicking next button
+    component.container.querySelector('.week-view-btn-next').dispatchEvent(clickEvent);
+    expect(component.startDate.getDate()).toEqual(15);
+
+    // test clicking previous button
+    component.container.querySelector('.week-view-btn-previous').dispatchEvent(clickEvent);
+    expect(component.startDate.getDate()).toEqual(8);
   });
 });
 

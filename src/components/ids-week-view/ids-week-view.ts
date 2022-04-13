@@ -23,6 +23,12 @@ import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 
 import styles from './ids-week-view.scss';
+import IdsCalendarEvent, { ICalendarEvent, ICalendarEventType } from './ids-calendar-event';
+
+interface IDayMapItem {
+  key: number;
+  elem: HTMLTableCellElement;
+}
 
 /**
  * IDS Week View Component
@@ -35,6 +41,8 @@ import styles from './ids-week-view.scss';
 @customElement('ids-week-view')
 @scss(styles)
 export default class IdsWeekView extends Base {
+  private dayMap: IDayMapItem[] = [];
+
   constructor() {
     super();
   }
@@ -93,7 +101,6 @@ export default class IdsWeekView extends Base {
     this.onEvent('languagechange.week-view-container', this.closest('ids-container'), () => {
       this.#renderToolbar();
       this.#renderWeek();
-      this.#renderTimeline();
       this.#attachOffsetTop();
     });
 
@@ -101,8 +108,13 @@ export default class IdsWeekView extends Base {
     this.offEvent('localechange.week-view-container');
     this.onEvent('localechange.week-view-container', this.closest('ids-container'), () => {
       this.#renderWeek();
-      this.#renderTimeline();
       this.#attachDatepicker();
+    });
+
+    // Handle Calendar Event selections
+    this.offEvent('select.calendar-event');
+    this.onEvent('select.calendar-event', this, (evt: CustomEvent) => {
+      evt.stopPropagation();
     });
 
     return this;
@@ -235,24 +247,30 @@ export default class IdsWeekView extends Base {
   #changeDate(type: 'next' | 'previous' | 'today') {
     const diff = daysDiff(this.startDate, this.endDate);
     const hasIrregularDays = diff !== 7;
+    let startDate: Date;
+    let endDate: Date;
 
     if (type === 'next') {
-      this.startDate = addDate(this.startDate, diff, 'days');
-      this.endDate = addDate(this.endDate, diff - 1, 'days');
+      startDate = addDate(this.startDate, diff, 'days');
+      endDate = addDate(this.endDate, diff - 1, 'days');
     }
 
     if (type === 'previous') {
-      this.startDate = subtractDate(this.startDate, diff, 'days');
-      this.endDate = subtractDate(this.endDate, diff + 1, 'days');
+      startDate = subtractDate(this.startDate, diff, 'days');
+      endDate = subtractDate(this.endDate, diff + 1, 'days');
     }
 
     if (type === 'today') {
-      this.startDate = hasIrregularDays ? new Date() : firstDayOfWeekDate(new Date(), this.firstDayOfWeek);
-      this.endDate = addDate(this.startDate, diff - 1, 'days');
+      startDate = hasIrregularDays ? new Date() : firstDayOfWeekDate(new Date(), this.firstDayOfWeek);
+      endDate = addDate(startDate, diff - 1, 'days');
     }
 
+    this.#batchBeforeRender(() => {
+      this.startDate = startDate;
+      this.endDate = endDate;
+    });
+
     this.#attachDatepicker();
-    this.#renderTimeline();
   }
 
   /**
@@ -265,17 +283,47 @@ export default class IdsWeekView extends Base {
 
     this.startDate = hasIrregularDays ? date : firstDayOfWeekDate(date, this.firstDayOfWeek);
     this.endDate = addDate(this.startDate, diff - 1, 'days');
+  }
 
-    this.#renderTimeline();
+  #generateDateKey(date: Date): number {
+    const year = date.getFullYear();
+    const month = date.getMonth().toString();
+    const day = date.getDate().toString();
+
+    return parseInt(`${year}${month.padStart(2, '0')}${day.padStart(2, '0')}`);
+  }
+
+  /**
+   * Allows execution of multiple operations before rendering week
+   * Ex. setting startDate & endDate before triggering #renderWeek
+   * @param {Function} fn Function containg batched operations
+   */
+  #batchBeforeRender(fn: () => void) {
+    this.state.wait = true;
+    fn();
+    this.state.wait = false;
+    this.#renderWeek();
   }
 
   /**
    * Add week HTML to shadow including day/weekday header, hour rows, event cells
    */
   #renderWeek() {
-    if (!this.locale) {
+    if (!this.locale || this.state.wait) {
       return;
     }
+
+    let canRender = true;
+    const vetoFn = (veto: boolean) => { canRender = !!veto; };
+
+    this.triggerEvent('beforeWeekRendered', this, {
+      detail: {
+        elem: this,
+        response: vetoFn
+      }
+    });
+
+    if (!canRender) return;
 
     const diff = daysDiff(this.startDate, this.endDate);
     const hoursDiff = this.endHour - this.startHour + 1;
@@ -291,15 +339,17 @@ export default class IdsWeekView extends Base {
 
       return isDayView ? 32 : 20;
     };
+    this.dayMap = [];
 
     const daysTemplate = Array.from({ length: diff }, (_, index) => {
       const date = this.startDate.setDate(this.startDate.getDate() + index);
       const dayNumeric = this.locale.formatDate(date, { day: 'numeric' });
       const weekday = this.locale.formatDate(date, { weekday: 'short' });
       const isToday = isTodaysDate(new Date(date));
+      const dataKey = this.#generateDateKey(new Date(date));
 
       return `
-        <th>
+        <th data-key="${dataKey}">
           <div class="week-view-header-wrapper${isToday ? ' is-today' : ''}${isDayView ? ' is-day-view' : ''}">
             <ids-text
               class="week-view-header-day-of-week${emphasis ? '' : ' is-emphasis'}"
@@ -323,8 +373,11 @@ export default class IdsWeekView extends Base {
       </td>
     `).join('');
 
-    const hoursTemplate = Array.from({ length: hoursDiff }).map((_, index) => `
-      <tr class="week-view-hour-row">
+    const startHour = this.startHour;
+    const hoursTemplate = Array.from({ length: hoursDiff }).map((_, index) => {
+      const hour = startHour + index;
+      const hoursHTML = `
+      <tr class="week-view-hour-row" data-hour="${hour}">
         <td>
           <div class="week-view-cell-wrapper">
             <ids-text font-size="12">${calendars ? this.locale.formatHour(this.startHour + index) : ''}</ids-text>
@@ -337,8 +390,10 @@ export default class IdsWeekView extends Base {
           <div class="week-view-cell-wrapper"></div>
         </td>
         ${cellTemplate}
-      </tr>
-    `).join('');
+      </tr>`;
+
+      return hoursHTML;
+    }).join('');
 
     const weekTemplate = `<div class="week-view-container">
       <table class="week-view-table">
@@ -364,6 +419,23 @@ export default class IdsWeekView extends Base {
     // Clear/add HTML
     this.container.querySelector('.week-view-container')?.remove();
     this.container.insertAdjacentHTML('beforeend', weekTemplate);
+
+    this.state.hasRendered = true;
+    this.triggerEvent('afterWeekRendered', this, {
+      detail: { elem: this }
+    });
+
+    // Create day map
+    this.container.querySelectorAll('th').forEach((elem: HTMLTableCellElement) => {
+      const dateKey = elem.getAttribute('data-key');
+      if (dateKey) {
+        const key = parseInt(dateKey);
+        this.dayMap.push({ key, elem });
+      }
+    });
+
+    this.#renderTimeline();
+    this.#renderAllEvents();
   }
 
   /**
@@ -377,7 +449,7 @@ export default class IdsWeekView extends Base {
 
     if (this.timer) this.timer.destroy(true);
 
-    if (!this.showTimeline) {
+    if (!this.showTimeline || !this.state.hasRendered) {
       return;
     }
 
@@ -428,6 +500,234 @@ export default class IdsWeekView extends Base {
   #attachOffsetTop() {
     const offsetTop = this.container.offsetTop;
     this.container.style = `--offset-top: ${offsetTop}px`;
+  }
+
+  /**
+   * Removes IdsCalendarEvent components from week view
+   */
+  #removeAllEvents() {
+    const events = this.container.querySelectorAll('ids-calendar-event');
+    events.forEach((event: IdsCalendarEvent) => event.remove());
+  }
+
+  /**
+   * Gets number of hours of Date (ex. 3:15am => 3.25)
+   * @param {Date} date Date object
+   * @param {boolean} rounded If true, rounds down to nearest half hour
+   * @returns {number} number of hours
+   */
+  #getDateHours(date: Date, rounded: boolean): number {
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+
+    if (rounded) {
+      return hours + (minutes >= 30 ? 0.5 : 0);
+    }
+
+    return hours + (minutes / 60) + (seconds / 600);
+  }
+
+  /**
+   * Renders all events currently set or returned in beforeEventsRender function
+   */
+  async #renderAllEvents() {
+    if (typeof this.state.beforeEventsRender === 'function') {
+      this.state.events = await this.state.beforeEventsRender(this.startDate, this.endDate);
+    }
+
+    if (!this.state.hasRendered || !this.state.events?.length) return;
+
+    this.#removeAllEvents();
+
+    const weekStart = new Date(this.startDate).getTime();
+    const weekEnd = new Date(this.endDate).getTime();
+
+    this.state.events.forEach((event: ICalendarEvent) => {
+      const eventStart = new Date(event.starts).getTime();
+
+      if (weekStart <= eventStart && eventStart < weekEnd) {
+        this.#renderEvent(event);
+      }
+    });
+  }
+
+  /**
+   * Finds week view table cell element for intraday event
+   * @param {HTMLTableCellElement} dayColumn th element for day column
+   * @param {ICalendarEvent} event event data
+   * @returns {HTMLTableCellElement | null} td element in week view
+   */
+  #findHourContainer(dayColumn: HTMLTableCellElement, event: ICalendarEvent): HTMLTableCellElement | null {
+    const hourContainers = this.container.querySelectorAll(`td:nth-child(${dayColumn.cellIndex + 1})`);
+    const eventStartHour = this.#getDateHours(new Date(event.starts), true);
+
+    for (let i = 0; i < hourContainers.length; i++) {
+      const hour = parseFloat(hourContainers[i].parentElement?.getAttribute('data-hour'));
+      if (hour === eventStartHour) return hourContainers[i];
+    }
+
+    return null;
+  }
+
+  /**
+   * Creates IdsCalendarEvent and assigns event data and event type
+   * @param {ICalendarEvent} eventData event data for calendar event
+   * @param {Array<string>} cssClass optional css classes for calendar event
+   * @returns {IdsCalendarEvent} IdsCalendarEvent component
+   */
+  #createCalendarEvent(eventData: ICalendarEvent, cssClass?: string[]): IdsCalendarEvent {
+    const calendarEvent = new IdsCalendarEvent();
+    const eventType = this.state.eventTypes?.find((et: ICalendarEventType) => et.id === eventData.type);
+
+    calendarEvent.eventType = eventType;
+    calendarEvent.event = eventData;
+
+    if (cssClass?.length) {
+      calendarEvent.cssClass = cssClass;
+
+      // Prevent keyboard navigation for multi day events
+      if (cssClass?.indexOf('calendar-event-continue') !== -1 || cssClass?.indexOf('calendar-event-ends') !== -1) {
+        calendarEvent.container.setAttribute('tabindex', -1);
+      }
+    }
+
+    return calendarEvent;
+  }
+
+  /**
+   * Creates IdsCalendarEvent and finds its appropriate container
+   * @param {ICalendarEvent} eventData Data to create calendar event
+   */
+  #renderEvent(eventData: ICalendarEvent) {
+    const startKey = this.#generateDateKey(new Date(eventData.starts));
+    const endKey = this.#generateDateKey(new Date(eventData.ends));
+    const days = this.dayMap.filter((day) => day.key >= startKey && day.key <= endKey);
+    const isAllDay = stringToBool(eventData.isAllDay);
+    let calendarEvent: IdsCalendarEvent | undefined;
+    let container: HTMLTableCellElement | null;
+
+    // Event is intraday
+    if (days.length === 1 && !isAllDay) {
+      calendarEvent = this.#createCalendarEvent(eventData);
+      container = this.#findHourContainer(days[0].elem, eventData);
+
+      if (container) this.#renderIntradayEvent(container, calendarEvent);
+    }
+
+    // Event lasts all day
+    if (days.length === 1 && isAllDay) {
+      calendarEvent = this.#createCalendarEvent(eventData, ['all-day']);
+      container = days[0].elem.querySelector('.week-view-all-day-wrapper');
+
+      if (container) this.#renderAllDayEvent(container, calendarEvent);
+    }
+
+    // Event lasts multiple days
+    if (days.length > 1) {
+      for (let i = 0; i < days.length; i++) {
+        let cssClass = i === 0 ? 'calendar-event-start' : 'calendar-event-continue';
+
+        // last day of multi day event
+        if (i === days.length - 1) cssClass = 'calendar-event-ends';
+
+        calendarEvent = this.#createCalendarEvent(eventData, ['all-day', cssClass]);
+        container = days[i].elem.querySelector('.week-view-all-day-wrapper');
+
+        if (container) this.#renderAllDayEvent(container, calendarEvent);
+      }
+    }
+  }
+
+  /**
+   * Appends IdsCalendarEvent to respective hour container
+   * Adjust styles to reflect event duration and accomodate multiple events
+   * @param {HTMLElement} container HTMLElement containing calendar event
+   * @param {IdsCalendarEvent} calendarEvent IdsCalendarEvent component
+   */
+  #renderIntradayEvent(container: HTMLElement, calendarEvent: IdsCalendarEvent) {
+    const containerHour = parseFloat(container.parentElement?.getAttribute('data-hour') || '');
+    const eventStartHour = this.#getDateHours(calendarEvent.startDate, false);
+    const containerWrapper = container.querySelector('.week-view-cell-wrapper');
+
+    // Calculate and override event height
+    const minHeightDuration = 0.25;
+    const maxHeighDuration = this.endHour + 1 - eventStartHour;
+    let eventDuration = calendarEvent.duration;
+    eventDuration = Math.max(minHeightDuration, eventDuration);
+    eventDuration = Math.min(maxHeighDuration, eventDuration);
+    calendarEvent.height = `${(eventDuration * 50) + (eventDuration / 0.5) - 1}px`;
+
+    // When event is less than 30 minutes
+    if (eventDuration < 0.5) {
+      calendarEvent.cssClass = ['reduced-padding'];
+    }
+
+    // When event duration fits within week view hour params
+    if (eventDuration < 1.5) {
+      calendarEvent.cssClass = ['is-ellipsis'];
+    }
+
+    if (eventDuration >= 2) {
+      calendarEvent.displayTime = true;
+      calendarEvent.overflow = 'normal';
+    }
+
+    // When event duration exceeds week view end hour
+    if (eventStartHour + eventDuration > this.endHour) {
+      calendarEvent.cssClass = ['is-cutoff'];
+    }
+
+    // Set Y offset
+    if (eventStartHour > containerHour) {
+      const unit = 0.016666666666666784; // unit for one minute
+      const extra = eventStartHour - containerHour; // extract extra minutes
+      const height = container.parentElement?.offsetHeight || 26; // container height
+
+      calendarEvent.yOffset = `${(extra / unit) * (height / 30)}px`; // 30-minutes each row
+    }
+
+    // Set X offset
+    const containerEvents = container.querySelectorAll<any>('ids-calendar-event');
+    const eventCount = containerEvents.length;
+    if (eventCount > 0) {
+      const width = (100 / (eventCount + 1));
+
+      calendarEvent.width = `${width}%`;
+      calendarEvent.xOffset = `${width * eventCount}%`;
+      containerEvents.forEach((elem, i) => {
+        elem.width = `${width}%`;
+        elem.xOffset = `${width * i}%`;
+      });
+    }
+
+    containerWrapper?.appendChild(<any>calendarEvent);
+  }
+
+  /**
+   * Appends IdsCalendarEvent to all day section of week view
+   * Adjust styles to accomodate multiple calendar events
+   * @param {HTMLElement} container HTMLElement containing calendar event
+   * @param {IdsCalendarEvent} calendarEvent IdsCalendarEvent component
+   */
+  #renderAllDayEvent(container: HTMLElement, calendarEvent: IdsCalendarEvent) {
+    const containerEvents = container.querySelectorAll('ids-calendar-event');
+    const eventCount = containerEvents.length;
+
+    // align events vertically
+    if (eventCount >= 1) {
+      calendarEvent.yOffset = `${22 * eventCount}px`;
+    }
+
+    // set container height to fit all events
+    if (eventCount >= 2) {
+      const nodes = this.container.querySelectorAll('.week-view-all-day-wrapper');
+      for (let i = 0; i < nodes.length; i++) {
+        nodes[i].style.height = `${44 + ((eventCount - 1) * 23)}px`;
+      }
+    }
+
+    container.appendChild(<any>calendarEvent);
   }
 
   /**
@@ -584,7 +884,6 @@ export default class IdsWeekView extends Base {
     }
 
     this.#renderWeek();
-    this.#renderTimeline();
   }
 
   /**
@@ -616,7 +915,6 @@ export default class IdsWeekView extends Base {
     }
 
     this.#renderWeek();
-    this.#renderTimeline();
   }
 
   /**
@@ -641,7 +939,6 @@ export default class IdsWeekView extends Base {
   set showTimeline(val: string | boolean) {
     const boolVal = stringToBool(val);
     this.setAttribute(attributes.SHOW_TIMELINE, boolVal);
-
     this.#renderTimeline();
   }
 
@@ -673,5 +970,48 @@ export default class IdsWeekView extends Base {
     }
 
     this.#renderTimeline();
+  }
+
+  /**
+   * Set events to display on week view
+   * @param {ICalendarEvent[]} events array of events
+   */
+  set events(events: ICalendarEvent[]) {
+    this.state.events = events;
+    if (!this.state.beforeEventsRender) this.#renderAllEvents();
+  }
+
+  /**
+   * Gets calendar events
+   * @returns {ICalendarEvent[]} array of events
+   */
+  get events(): ICalendarEvent[] {
+    return this.state.events;
+  }
+
+  /**
+   * Set event types for week view
+   * @param {ICalendarEventType[]} eventTypes array of event types
+   */
+  set eventTypes(eventTypes: ICalendarEventType[]) {
+    this.state.eventTypes = eventTypes;
+    if (!this.state.beforeEventsRender) this.#renderAllEvents();
+  }
+
+  /**
+   * Gets event types of week view
+   * @returns {ICalendarEventType[]} array of event types
+   */
+  get eventTypes(): ICalendarEventType[] {
+    return this.state.eventTypes;
+  }
+
+  /**
+   * Allows setting async function to fetch calendar event data
+   * Passes startDate and endDate as callback arguments
+   * @param {Function} fn Async function
+   */
+  set beforeEventsRender(fn: (startDate: Date, endDate: Date) => Promise<ICalendarEvent[]>) {
+    this.state.beforeEventsRender = fn;
   }
 }
