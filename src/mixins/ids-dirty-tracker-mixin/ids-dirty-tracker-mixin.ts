@@ -81,7 +81,7 @@ const IdsDirtyTrackerMixin = (superclass: any) => class extends superclass {
       } else if (this.isEditor) {
         this.dirtyContainer = this.shadowRoot.querySelector('.editor-content');
         this.dirtyContainer?.appendChild(icon);
-      } else if (this.input) {
+      } else if (this.tagName === 'IDS-DROPDOWN') {
         this.dirtyContainer = this.input.fieldContainer;
         this.dirtyContainer.prepend(icon);
       } else {
