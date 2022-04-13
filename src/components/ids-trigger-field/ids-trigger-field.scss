@@ -10,6 +10,7 @@
 }
 
 .ids-input[version='new'][mode='light'].color-variant-alternate-formatter,
+.ids-input:not([mode]).color-variant-alternate-formatter,
 .ids-input[version='new'][mode='dark'].color-variant-alternate-formatter,
 .ids-input[version='new'][mode='contrast'].color-variant-alternate-formatter,
 .ids-input[version='classic'][mode='light'].color-variant-alternate-formatter,

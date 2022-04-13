@@ -354,7 +354,8 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
 // =======================================================
 // Handle Themes
 
-.ids-input[version='new'][mode='light'] {
+.ids-input[version='new'][mode='light'],
+.ids-input:not([mode]) {
   .field-container {
     @include bg-white();
     @include border-slate-40();

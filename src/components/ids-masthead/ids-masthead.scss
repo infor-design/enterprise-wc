@@ -43,7 +43,8 @@
   }
 
   // New Version: Light Mode
-  &[mode='light'] {
+  &[mode='light'],
+  &:not([mode]) {
     @include bg-black();
     @include text-slate-30();
   }

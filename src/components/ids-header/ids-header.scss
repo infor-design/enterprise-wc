@@ -10,7 +10,8 @@
   width: 100%;
 
   // New Version: Light Mode
-  &[mode='light'] {
+  &[mode='light'],
+  &:not([mode]) {
     @include bg-azure-60();
     @include text-white();
   }

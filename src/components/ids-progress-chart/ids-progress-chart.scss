@@ -88,8 +88,10 @@
   }
 }
 
-.ids-progress-chart[version='new'] {
-  &[mode='light'] {
+.ids-progress-chart[version='new'],
+.ids-progress-chart:not([mode]) {
+  &[mode='light'],
+  &:not([mode]) {
     .bar {
       .bar-total {
         @include bg-slate-30();
