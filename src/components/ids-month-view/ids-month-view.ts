@@ -1049,6 +1049,10 @@ class IdsMonthView extends Base {
    * @returns {void}
    */
   #triggerSelectedEvent(): void {
+    if (this.#isDisabledByDate(this.activeDate)) {
+      return;
+    }
+
     const args: DayselectedEvent = {
       detail: {
         elem: this,
@@ -1059,11 +1063,9 @@ class IdsMonthView extends Base {
       }
     };
 
-    const rangeSet = this.useRange || (this.rangeSettings.start && this.rangeSettings.end);
-
     // Fires on not disabled days in regular mode and
     // only when start/end of range is set in range mode
-    if (!this.#isDisabledByDate(this.activeDate) || rangeSet) {
+    if (!this.useRange || (this.rangeSettings.start && this.rangeSettings.end)) {
       this.triggerEvent('dayselected', this, args);
     }
   }
