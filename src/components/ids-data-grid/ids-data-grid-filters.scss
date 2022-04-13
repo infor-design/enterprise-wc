@@ -3,6 +3,7 @@
 .ids-data-grid {
   ::slotted([slot^='filter-']) {
     @include flex();
+    @include relative();
 
     align-items: center;
   }

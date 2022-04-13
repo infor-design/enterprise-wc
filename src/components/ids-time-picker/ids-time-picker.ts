@@ -483,6 +483,10 @@ export default class IdsTimePicker extends Base {
     }
   }
 
+  disconnectedCallback() {
+    this.closeTimePopup();
+  }
+
   /**
    * Close the timepicker's popup window
    */

@@ -32,7 +32,7 @@
     &::part(trigger-field) {
       @include inline-flex();
 
-      width: fit-content;
+      min-width: 75px;
     }
   }
 
