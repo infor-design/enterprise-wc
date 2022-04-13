@@ -57,14 +57,19 @@ A Disabled appearing hyperlink element.
 
 - Flows with padding and margin within the width and height of the parent container. Possibly scrolling as needed based on parent dimensions.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-- 3.x: Used a css class on `<a>` tags
-- 4.x: Used a css class on `<a>` tags
+**3.x to 4.x**
 
-## Designs
+- Used a css class on `<a>` tags
 
-[Design Specs](https://www.figma.com/file/yaJ8mJrqRRej8oTsd6iT8P/IDS-(SoHo)-Component-Library-v4.5?node-id=760%3A771)
+**4.x to 5.x**
+
+- The Hyperlink component has been changed to a web component
+- Markup has changed to a custom element `<ids-hyperlink></ids-hyperlink>` (see examples above)
+- Can now be imported as a single JS file and used with encapsulated styles
+- If using events, events are now plain JS events.
+- The directional links have been removed/deprecated.
 
 ## Accessibility Guidelines
 
