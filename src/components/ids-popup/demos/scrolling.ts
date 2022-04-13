@@ -1,15 +1,15 @@
 // Supporting components
-import IdsPopup from '../ids-popup';
+import '../ids-popup';
 import '../../ids-draggable/ids-draggable';
 import css from '../../../assets/css/ids-popup/scrolling.css';
 
 const cssLink = `<link href="${css}" rel="stylesheet">`;
-document.querySelector('head').insertAdjacentHTML('afterbegin', cssLink);
+(document.querySelector('head') as any).insertAdjacentHTML('afterbegin', cssLink);
 
 // Connect an IdsPopup to a trigger element
-const connectButtonToPopup = (popupSelector, btnSelector) => {
-  const popup = document.querySelector(popupSelector);
-  const btn = document.querySelector(btnSelector);
+const connectButtonToPopup = (popupSelector: string, btnSelector: string) => {
+  const popup: any = document.querySelector(popupSelector);
+  const btn: any = document.querySelector(btnSelector);
   if (!popup) {
     throw new Error(`No popup found for selector ${popupSelector}`);
   }

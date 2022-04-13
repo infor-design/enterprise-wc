@@ -165,7 +165,7 @@ export default class IdsPopup extends Base {
   #attachEventHandlers(): void {
     const containerNode = getClosest((this as any), 'ids-container');
     // Setup Resize Observer
-    this.#ro.observe(this);
+    this.#ro.observe((this as any));
     if (containerNode) {
       this.#ro.observe(containerNode);
     }
@@ -1311,15 +1311,6 @@ export default class IdsPopup extends Base {
   }
 
   /**
-   * Clears placement values
-   * @returns {void}
-   */
-  #clearPlacement(): void {
-    this.style.left = '';
-    this.style.top = '';
-  }
-
-  /**
    * In cases where 3D CSS transforms are used for Popup positioning,
    * corrects the placement of the Popup after rendering so that it doesn't
    * reside on half-pixels, causing blurriness to text, icons, etc.
@@ -1376,13 +1367,13 @@ export default class IdsPopup extends Base {
    * @param {DOMRect} [rect] optionally pass in an existing rect and correct it
    * @returns {DOMRect} measurements adjusted for an absolutely-positioned parent
    */
-  #removeRelativeParentDistance(elem, rect) {
+  #removeRelativeParentDistance(elem: HTMLElement, rect: DOMRect) {
     const elemRect = getEditableRect(rect || elem.getBoundingClientRect());
     let found = false;
 
-    const removeRelativeDistance = (parent) => {
-      let parentStyle;
-      let parentRect;
+    const removeRelativeDistance = (parent: any) => {
+      let parentStyle: CSSStyleDeclaration;
+      let parentRect: DOMRect;
 
       if (parent && !found) {
         if (parent.toString() === '[object ShadowRoot]') {
@@ -1392,9 +1383,12 @@ export default class IdsPopup extends Base {
           parentStyle = getComputedStyle(parent);
           if (parentStyle.position === 'relative') {
             parentRect = parent.getBoundingClientRect();
-            for (const prop of ['bottom', 'left', 'right', 'top', 'x', 'y']) {
-              elemRect[prop] -= parentRect[prop];
-            }
+            elemRect.bottom -= parentRect.bottom;
+            elemRect.left -= parentRect.left;
+            elemRect.right -= parentRect.right;
+            elemRect.top -= parentRect.top;
+            elemRect.x -= parentRect.x;
+            elemRect.y -= parentRect.y;
             found = true;
           }
         }
