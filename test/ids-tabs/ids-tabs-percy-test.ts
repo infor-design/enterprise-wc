@@ -10,7 +10,7 @@ describe('Ids Tabs Percy Tests', () => {
 
   it('should not have visual regressions in standalone css', async () => {
     await page.goto('http://localhost:4444/ids-tabs/standalone-css.html', { waitUntil: ['networkidle2', 'load'] });
-    await percySnapshot(page, 'ids-tabs-standalone-css', { widths: [1280] });
+    await percySnapshot(page, 'ids-tabs-standalone-css', { widths: [960] });
   });
 
   it('should not have visual regressions in new dark theme (percy)', async () => {
