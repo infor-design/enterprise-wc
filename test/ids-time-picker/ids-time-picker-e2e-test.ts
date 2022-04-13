@@ -23,4 +23,32 @@ describe('Ids Time Picker e2e Tests', () => {
   it.skip('should show popup on clicking the trigger-button', async () => {});
   it.skip('setting the language will update the labels', () => {});
   it.skip('setting the locale will update the dropdowns and field', () => {});
+
+  it('should change value on input value change', async () => {
+    // Set value to the input
+    await page.$eval(
+      '#e2e-timepicker-locale',
+      (el: any) => el?.container.querySelector('ids-trigger-field')?.setAttribute('value', '01:00 AM')
+    );
+
+    let value = await page.$eval(
+      '#e2e-timepicker-locale',
+      (el: any) => el?.value
+    );
+
+    expect(value).toEqual('01:00 AM');
+
+    // Reset value in the input
+    await page.$eval(
+      '#e2e-timepicker-locale',
+      (el: any) => el?.container.querySelector('ids-trigger-field')?.setAttribute('value', '')
+    );
+
+    value = await page.$eval(
+      '#e2e-timepicker-locale',
+      (el: any) => el?.value
+    );
+
+    expect(value).toEqual('');
+  });
 });
