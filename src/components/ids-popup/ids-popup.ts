@@ -1337,7 +1337,7 @@ export default class IdsPopup extends Base {
 
     requestAnimationFrame(() => {
       // gets the current computed style
-      const style = window.getComputedStyle(this, null);
+      const style = window.getComputedStyle(this.container, null);
       const mx = style.getPropertyValue('-webkit-transform')
         || style.getPropertyValue('-moz-transform')
         || style.getPropertyValue('transform') || false;
@@ -1357,7 +1357,7 @@ export default class IdsPopup extends Base {
         }
       }
 
-      this.style.transform = `matrix3d(${values.join()})`;
+      this.container.style.transform = `matrix3d(${values.join()})`;
     });
   }
 
@@ -1366,7 +1366,7 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   #remove3dMatrix() {
-    this.style.transform = '';
+    this.container.style.transform = '';
   }
 
   /**
