@@ -5,6 +5,7 @@ import booksJSON from '../../../assets/data/books.json';
 // Example for populating the DataGrid
 const lookup: Element | any = document.querySelector('#lookup-1');
 const container: Element | any = document.querySelector('ids-container');
+const autocomplete: Element | any = lookup.shadowRoot?.querySelector('ids-trigger-field');
 
 (async function init() {
   // Set a Locale and wait for it to load
@@ -89,6 +90,7 @@ const container: Element | any = document.querySelector('ids-container');
       rowSelection: 'multiple'
     };
     lookup.data = data;
+    autocomplete.data = data;
   };
 
   setData();
