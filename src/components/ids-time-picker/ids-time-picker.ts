@@ -423,8 +423,7 @@ export default class IdsTimePicker extends Base {
           type="menu"
           align-target="ids-trigger-field"
           align="bottom, left"
-          arrow="bottom"
-          animated="true">
+          arrow="bottom">
           <section slot="content">
             <div id="dropdowns">${this.dropdowns()}</div>
             <ids-button id="set-time" class="${this.autoupdate ? 'hidden' : ''}">

@@ -688,6 +688,7 @@ export default class IdsDataGridFilters {
       // (normally it targets the body tag, but this causes usability issues when combined with datagrid)
       if (timePicker) {
         timePicker.popupOpenEventsTarget = timePicker.closest('.ids-data-grid');
+        timePicker.elements.popup.y = 16;
       }
 
       // Integer type mask
