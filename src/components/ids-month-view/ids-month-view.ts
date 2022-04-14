@@ -848,8 +848,8 @@ class IdsMonthView extends Base {
 
   /**
    * Helper to check if date is in the range selection
-   * @param {Date} date to check if in range selection
-   * @returns {boolean} whether the date in range selection
+   * @param {Date} date to check if is in range selection
+   * @returns {boolean} whether the date is in range selection
    */
   #isRangeByDate(date: Date): boolean {
     const startRange = new Date(this.rangeSettings.start);
@@ -909,6 +909,11 @@ class IdsMonthView extends Base {
     }
   }
 
+  /**
+   * Defines if a date is in disabled settings
+   * @param {Date} date to check
+   * @returns {boolean} wheter or not the date is disabled
+   */
   #isDisabledByDate(date: Date): boolean {
     const {
       years,
@@ -1564,10 +1569,17 @@ class IdsMonthView extends Base {
     }
   }
 
+  /**
+   * @returns {DisableSettings} disable settings object
+   */
   get disable(): DisableSettings {
     return this.#disableSettings;
   }
 
+  /**
+   * Set disable settings
+   * @param {DisableSettings} val settings to be assigned to default disable settings
+   */
   set disable(val: DisableSettings) {
     this.#disableSettings = {
       ...this.#disableSettings,

@@ -12,13 +12,12 @@ export type RangeSettings = {
 };
 
 export type DisableSettings = {
-  dates: Array<string>,
-  years: Array<number>,
-  minDate: string,
-  maxDate: string,
-  dayOfWeek: Array<number>,
-  isReverse: boolean,
-  restrictMonths: boolean
+  dates?: Array<string>,
+  years?: Array<number>,
+  minDate?: string,
+  maxDate?: string,
+  dayOfWeek?: Array<number>,
+  isReverse?: boolean
 };
 
 export type DayselectedEvent = {

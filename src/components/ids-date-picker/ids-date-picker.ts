@@ -1514,10 +1514,17 @@ class IdsDatePicker extends Base {
     }
   }
 
+  /**
+   * @returns {DisableSettings} disable settings object
+   */
   get disable(): DisableSettings {
     return this.#monthView?.disable;
   }
 
+  /**
+   * Set disable settings
+   * @param {DisableSettings} val settings to be assigned to default disable settings
+   */
   set disable(val: DisableSettings) {
     if (this.#monthView) {
       this.#monthView.disable = val;
