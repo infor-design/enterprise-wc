@@ -108,7 +108,8 @@
   }
 
   // Themes
-  &[mode='light'] {
+  &[mode='light'],
+  &:not([mode]) {
     &.type-action-sheet {
       @include bg-white();
       @include text-slate-100();

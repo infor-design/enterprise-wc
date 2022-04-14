@@ -32,7 +32,8 @@
 }
 
 // Handle Themes
-.ids-container[mode='light'] {
+.ids-container[mode='light'],
+.ids-container:not([mode]) {
   @include bg-white();
   @include text-slate-100();
 

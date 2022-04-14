@@ -298,14 +298,19 @@ The card vertical gap for single span.
 
 - Flows the laid out in the best order and use of space it can be. It is possible to adjust columns to different size depending on how much screen and parent dimensions.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-- 3.x: Home Page have all new markup and classes.
-- 4.x: Home Page have all new markup and classes for web components.
+**3.x to 4.x**
 
-## Designs
+- Home Page has all new markup and classes.
 
-[Design Specs](https://www.figma.com/file/yaJ8mJrqRRej8oTsd6iT8P/IDS-(SoHo)-Component-Library-v4.5?node-id=760%3A771)
+**4.x to 5.x**
+
+- The HomePage component has been changed to a web component
+- Markup has changed to a custom element `<ids-home-page></ids-home-page>` (see examples above)
+- Can now be imported as a single JS file and used with encapsulated styles
+- If using events, events are now plain JS events.
+- The hero example must be created manually by styling a widget
 
 ## Accessibility Guidelines
 

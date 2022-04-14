@@ -98,7 +98,8 @@
   // Theme Colors for color variants
 
   // Light Mode
-  &[mode='light'] {
+  &[mode='light'],
+  &:not([mode]) {
     @include ids-search-field-alternate-colors();
 
     &.color-variant-app-menu {

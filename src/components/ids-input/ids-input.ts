@@ -149,6 +149,15 @@ export default class IdsInput extends Base {
         ${showHide}
         ${capsLock}
       </div>
+      ${this.autocomplete ? `
+        <ids-popup
+          type="dropdown"
+          align="bottom, left"
+          align-target="#${this.id}-input"
+          part="popup"
+        >
+          <ids-list-box slot="content"></ids-list-box>
+        </ids-popup>` : ''}
     </div>`;
   }
 

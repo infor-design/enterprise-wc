@@ -3,6 +3,9 @@
  */
 import IdsInput from '../../src/components/ids-input/ids-input';
 import processAnimFrame from '../helpers/process-anim-frame';
+import IdsDataSource from '../../src/core/ids-data-source';
+import dataset from '../../src/assets/data/states.json';
+import '../helpers/resize-observer-mock';
 
 describe('IdsInput Component', () => {
   let input: any;
@@ -527,7 +530,7 @@ describe('IdsInput Component', () => {
   });
 
   it('should dispatch native events', () => {
-    const events = ['focus', 'select', 'keydown', 'keypress', 'click', 'dbclick'];
+    const events = ['focus', 'select', 'keydown', 'keypress', 'keyup', 'click', 'dbclick', 'blur'];
     events.forEach((evt) => {
       let response = null;
       input.addEventListener(evt, () => {
@@ -535,6 +538,8 @@ describe('IdsInput Component', () => {
       });
       if (evt === 'focus') {
         input.input.focus();
+      } else if (evt === 'blur') {
+        input.input.blur();
       } else {
         const event = new Event(evt);
         input.input.dispatchEvent(event);
@@ -698,5 +703,77 @@ describe('IdsInput Component', () => {
     await processAnimFrame();
 
     expect(input.input.isEqualNode(input.shadowRoot.activeElement));
+  });
+
+  it('should set autocomplete', async () => {
+    const template = document.createElement('template');
+    template.innerHTML = '<ids-input label="testing input" autocomplete></ids-input>';
+    input = template.content.childNodes[0];
+    document.body.appendChild(input);
+    await processAnimFrame();
+
+    expect(input.autocomplete).toEqual(true);
+    input.autocomplete = null;
+    expect(input.autocomplete).toEqual(false);
+
+    input.data = [];
+    expect(input.data.length).toEqual(0);
+
+    input.datasource = new IdsDataSource();
+    input.data = dataset;
+    expect(input.data.length).toEqual(59);
+
+    expect(input.searchField).toEqual('value');
+    input.searchField = 'label';
+    expect(input.searchField).toEqual('label');
+  });
+
+  it('should open popup on keydown if autocomplete is enabled', async () => {
+    const template = document.createElement('template');
+    template.innerHTML = '<ids-input label="testing input" autocomplete value="a"></ids-input>';
+    input = template.content.childNodes[0];
+    document.body.appendChild(input);
+    await processAnimFrame();
+
+    input.datasource = new IdsDataSource();
+    input.data = dataset;
+
+    const keydownendEvent = new KeyboardEvent('keydownend', { key: 'a' });
+    input.dispatchEvent(keydownendEvent);
+    input.value = 'a';
+    input.popup.open = true;
+    input.popup.visible = true;
+    expect(input.popup.open).toBe(true);
+
+    const navigateDownEvent = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    const navigateUpEvent = new KeyboardEvent('keydown', { key: 'ArrowUp' });
+
+    input.dispatchEvent(navigateDownEvent);
+    input.dispatchEvent(navigateUpEvent);
+
+    input.options[0].classList.add('is-selected');
+    expect(input.options[0].classList).toContain('is-selected');
+
+    input.dispatchEvent(navigateDownEvent);
+    input.dispatchEvent(navigateUpEvent);
+
+    const enterEvent = new KeyboardEvent('keydown', { key: 'Enter' });
+
+    input.dispatchEvent(enterEvent);
+    input.popup.open = false;
+    input.popup.visible = false;
+    expect(input.popup.open).toBe(false);
+
+    const template2 = document.createElement('template');
+    template2.innerHTML = '<ids-input label="testing input" autocomplete readonly disabled value=""></ids-input>';
+    input = template2.content.childNodes[0];
+    document.body.appendChild(input);
+    await processAnimFrame();
+
+    const keydownendEvent2 = new KeyboardEvent('keydownend', { key: 'a' });
+    input.dispatchEvent(keydownendEvent2);
+    input.popup.open = false;
+    input.popup.visible = false;
+    expect(input.popup.open).toBe(false);
   });
 });
