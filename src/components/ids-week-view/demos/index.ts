@@ -35,18 +35,16 @@ function getEventTypes(): Promise<any> {
   return fetch(eventTypesURL).then((res) => res.json());
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const weekView: any = document.querySelector('ids-week-view');
+
+  // Set event types
+  weekView.eventTypes = await getEventTypes();
 
   weekView.beforeEventsRender = (startDate: Date, endDate: Date) => {
     const starts = startDate;
     const ends = endDate;
 
-    return Promise.all([getEventsWithinWeek(starts, ends), getEventTypes()])
-      .then((assets) => {
-        // event types can be set separately
-        weekView.eventTypes = assets[1];
-        return assets[0];
-      });
+    return getEventsWithinWeek(starts, ends);
   };
 });

@@ -1,11 +1,11 @@
 import IdsElement from '../../core/ids-element';
 import { customElement, scss } from '../../core/ids-decorators';
 import styles from './ids-calendar-event.scss';
-import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { attributes } from '../../core/ids-attributes';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 
-export interface ICalendarEvent {
+export type CalendarEventData = {
   id: string;
   subject: string;
   shortSubject?: string;
@@ -17,15 +17,15 @@ export interface ICalendarEvent {
   ends: string;
   type: string;
   isAllDay: string;
-}
+};
 
-export interface ICalendarEventType {
+export type CalendarEventTypeData = {
   id: string;
   label: string;
   translationKey: string;
-  color: 'azure' | 'emerald' | 'amtethyst' | 'amber' | 'slate';
+  color: 'amber' | 'amethyst' | 'azure' | 'emerald' | 'ruby' | 'slate' | 'turquoise';
   checked: boolean;
-}
+};
 
 @customElement('ids-calendar-event')
 @scss(styles)
@@ -48,10 +48,11 @@ export default class IdsCalendarEvent extends IdsLocaleMixin(IdsElement) {
 
   connectedCallback(): void {
     this.#attachEventHandlers();
+    this.setDirection();
   }
 
   disconnectedCallback() {
-    this.offEvent('click', this);
+    this.offEvent('click', this.container);
   }
 
   template(): string {
@@ -75,16 +76,28 @@ export default class IdsCalendarEvent extends IdsLocaleMixin(IdsElement) {
   }
 
   #attachEventHandlers() {
-    this.onEvent('click', this, (evt: MouseEvent) => {
-      evt.preventDefault();
-      evt.stopPropagation();
-
-      this.triggerEvent('select.calendar-event', this, {
+    const triggerFn = (clickType: 'click' | 'dblclick') => {
+      this.triggerEvent(`${clickType}calevent`, this, {
         detail: { calendarEvent: this },
         bubbles: true,
         cancelable: true,
         composed: true
       });
+    };
+    let timer: number | undefined;
+
+    this.onEvent('click', this.container, (evt: MouseEvent) => {
+      evt.preventDefault();
+      evt.stopPropagation();
+      clearTimeout(timer);
+      timer = <any>setTimeout(() => triggerFn('click'), 350);
+    });
+
+    this.onEvent('dblclick', this.container, (evt: MouseEvent) => {
+      evt.preventDefault();
+      evt.stopPropagation();
+      clearTimeout(timer);
+      triggerFn('dblclick');
     });
   }
 
@@ -112,35 +125,41 @@ export default class IdsCalendarEvent extends IdsLocaleMixin(IdsElement) {
 
   /**
    * Sets event data
-   * @param {ICalendarEvent} event Event data
+   * @param {CalendarEventData} event Event data
    */
-  set event(event: ICalendarEvent) {
+  set event(event: CalendarEventData) {
     this.cachedEvent = event;
     this.#refreshContent();
   }
 
   /**
    * Gets event data
-   * @returns {ICalendarEvent} Event data
+   * @returns {CalendarEventData} Event data
    */
-  get event(): ICalendarEvent {
+  get event(): CalendarEventData {
     return this.cachedEvent;
   }
 
   /**
    * Sets event type
-   * @param {ICalendarEventType | undefined} eventType Event type
+   * @param {CalendarEventTypeData | undefined} eventType Event type
    */
-  set eventType(eventType: ICalendarEventType | undefined) {
+  set eventType(eventType: CalendarEventTypeData | undefined) {
     this.cachedEventType = eventType;
-    this.container.setAttribute('color', eventType?.color);
+    if (this.cachedEvent) this.cachedEvent.type = eventType?.id;
+
+    if (eventType?.color) {
+      this.container.setAttribute('color', eventType?.color);
+    } else {
+      this.container.removeAttribute('color');
+    }
   }
 
   /**
    * Gets event type
-   * @returns {ICalendarEventType} Event type
+   * @returns {CalendarEventTypeData} Event type
    */
-  get eventType(): ICalendarEventType {
+  get eventType(): CalendarEventTypeData {
     return this.cachedEventType;
   }
 
@@ -154,6 +173,7 @@ export default class IdsCalendarEvent extends IdsLocaleMixin(IdsElement) {
   }
 
   /**
+   * Gets y offset
    * @returns {string | null} yOffset value
    */
   get yOffset(): string | null {
@@ -168,9 +188,11 @@ export default class IdsCalendarEvent extends IdsLocaleMixin(IdsElement) {
   set xOffset(value: string | null) {
     this.setAttribute(attributes.X_OFFSET, value);
 
-    if (this.isRTL) {
+    if (this.locale?.isRTL()) {
       this.container.style.right = value;
+      this.container.style.left = null;
     } else {
+      this.container.style.right = null;
       this.container.style.left = value;
     }
   }
@@ -192,6 +214,7 @@ export default class IdsCalendarEvent extends IdsLocaleMixin(IdsElement) {
   }
 
   /**
+   * Gets height
    * @returns {string | null} height value
    */
   get height(): string | null {
@@ -208,6 +231,7 @@ export default class IdsCalendarEvent extends IdsLocaleMixin(IdsElement) {
   }
 
   /**
+   * Gets width
    * @returns {string | null} width value
    */
   get width(): string | null {
