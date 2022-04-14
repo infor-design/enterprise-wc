@@ -225,29 +225,37 @@
       }
     }
 
-    &.range-prev .day-text,
-    &.range-next .day-text,
-    &.range-next:not(:first-of-type)::before,
+    &.is-disabled.range-selection.not-included + .range-selection,
+    &.is-disabled.range-prev.not-included {
+      &::before {
+        content: none;
+      }
+    }
+
+    &:not(.is-disabled.not-included).range-prev .day-text,
+    &:not(.is-disabled.not-included).range-next .day-text,
+    &:not(.is-disabled.not-included).range-next:not(:first-of-type)::before,
     &.range-prev:not(:last-of-type)::before {
+      @include text-slate-80();
       @include bg-slate-20();
     }
 
     &.range-selection:not(:first-of-type)::before,
-    &.range-selection .day-text {
+    &:not(.is-disabled.not-included).range-selection .day-text {
       @include bg-azure-60();
     }
 
-    &.range-selection:not(.alternate) .day-text {
+    &.range-selection:not(.alternate):not(.is-disabled.not-included) .day-text {
       @include text-white();
     }
 
     &.range-selection:not(:first-of-type)::before,
     &.range-next:not(:first-of-type)::before {
-      left: -50%;
+      right: 50%;
     }
 
     &.range-prev:not(:last-of-type)::before {
-      left: 50%;
+      right: -50%;
     }
 
     &.range-selection .day-text,
@@ -524,11 +532,17 @@
       @include text-white();
     }
 
-    td.range-prev .day-text,
-    td.range-next .day-text,
-    td.range-next:not(:first-of-type)::before,
+    td:not(.is-disabled.not-included).range-prev .day-text,
+    td:not(.is-disabled.not-included).range-next .day-text,
+    td:not(.is-disabled.not-included).range-next:not(:first-of-type)::before,
     td.range-prev:not(:last-of-type)::before {
+      @include text-slate-30();
       @include bg-slate-70();
+    }
+
+    td.range-selection:not(:first-of-type)::before,
+    td:not(.is-disabled.not-included).range-selection .day-text {
+      @include bg-azure-70();
     }
   }
 
@@ -636,15 +650,16 @@
       @include text-black();
     }
 
-    td.range-prev .day-text,
-    td.range-next .day-text,
-    td.range-next:not(:first-of-type)::before,
+    td:not(.is-disabled.not-included).range-prev .day-text,
+    td:not(.is-disabled.not-included).range-next .day-text,
+    td:not(.is-disabled.not-included).range-next:not(:first-of-type)::before,
     td.range-prev:not(:last-of-type)::before {
+      @include text-black();
       @include bg-slate-30();
     }
 
     td.range-selection:not(:first-of-type)::before,
-    td.range-selection .day-text {
+    td:not(.is-disabled.not-included).range-selection .day-text {
       @include bg-azure-90();
     }
   }

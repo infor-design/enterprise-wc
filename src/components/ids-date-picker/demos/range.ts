@@ -55,8 +55,8 @@ if (rangePickerNotIncluded) {
     start: '2/5/2018',
     end: '2/28/2018'
   };
-  rangePickerIncluded.disable = {
-    dates: ['2/7/2018', '2/9/2018']
+  rangePickerNotIncluded.disable = {
+    dates: ['2/7/2018', '2/9/2018', '2/10/2018', '2/11/2018']
   };
 }
 
@@ -68,6 +68,6 @@ if (rangePickerIncluded) {
     includeDisabled: true
   };
   rangePickerIncluded.disable = {
-    dates: ['2/7/2018', '2/9/2018']
+    dates: ['2/7/2018', '2/9/2018', '2/10/2018', '2/11/2018']
   };
 }

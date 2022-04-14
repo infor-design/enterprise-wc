@@ -86,8 +86,7 @@ class IdsMonthView extends Base {
     minDate: '',
     maxDate: '',
     dayOfWeek: [],
-    isReverse: false,
-    restrictMonths: false
+    isReverse: false
   };
 
   /**
@@ -802,7 +801,14 @@ class IdsMonthView extends Base {
    */
   #clearRangeClasses(): void {
     this.container.querySelectorAll('td')
-      .forEach((item: HTMLElement) => item.classList.remove('range-next', 'range-prev', 'range-selection'));
+      .forEach(
+        (item: HTMLElement) => item.classList.remove(
+          'range-next',
+          'range-prev',
+          'range-selection',
+          'not-included'
+        )
+      );
   }
 
   /**
@@ -827,6 +833,10 @@ class IdsMonthView extends Base {
       const element = this.container.querySelector(selectedQuery);
 
       element?.classList.add('range-selection');
+
+      if (!this.#rangeSettings.includeDisabled) {
+        element?.classList.add('not-included');
+      }
 
       if (index === 0 || index === days) {
         element?.setAttribute('aria-selected', true);
@@ -890,6 +900,10 @@ class IdsMonthView extends Base {
 
           this.container.querySelector(selectedQuery)
             ?.classList.add(diff > 0 ? 'range-next' : 'range-prev');
+
+          if (!this.#rangeSettings.includeDisabled) {
+            this.container.querySelector(selectedQuery)?.classList.add('not-included');
+          }
         });
       }
     }
@@ -906,16 +920,16 @@ class IdsMonthView extends Base {
     }: DisableSettings = this.#disableSettings;
     const isOutOfDisplayRange: boolean = this.#isDisplayRange()
       && (date < (this.startDate as Date) || date > (this.endDate as Date));
-    const ifYear: boolean = years.some(
+    const ifYear: boolean = (years as Array<number>).some(
       (item: number) => item === date.getFullYear()
     );
-    const ifDayOfWeek: boolean = dayOfWeek.some(
+    const ifDayOfWeek: boolean = (dayOfWeek as Array<number>).some(
       (item: number) => item === date.getDay()
     );
-    const ifDates: boolean = dates.some(
+    const ifDates: boolean = (dates as Array<string>).some(
       (item: string) => (new Date(item)).getTime() === date.getTime()
     );
-    const ifMinMaxDate: boolean = date <= new Date(minDate) || date >= new Date(maxDate);
+    const ifMinMaxDate: boolean = date <= new Date(minDate as string) || date >= new Date(maxDate as string);
     const ifBySettings: boolean = ifYear || ifDayOfWeek || ifDates || ifMinMaxDate;
     const withReverse: boolean = isReverse ? !ifBySettings : ifBySettings;
 
