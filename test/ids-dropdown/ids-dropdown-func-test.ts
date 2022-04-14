@@ -392,7 +392,7 @@ describe('IdsDropdown Component', () => {
 
   it('supports clicking input to open', async () => {
     await waitFor(() => expect(dropdown.container).toBeTruthy());
-    dropdown.container.shadowRoot.querySelector('.field-container').click();
+    dropdown.input.shadowRoot.querySelector('.field-container').click();
     await waitFor(() => expect(dropdown.popup.visible).toBeTruthy());
     expect(dropdown.popup.visible).toEqual(true);
   });
@@ -579,7 +579,7 @@ describe('IdsDropdown Component', () => {
 
   it('tab works correcty', async () => {
     dropdown.input.focus();
-    expect((document.activeElement as any).activeElement.id).toEqual('dropdown-1');
+    expect((document.activeElement as any).id).toEqual('dropdown-1');
     const event = new KeyboardEvent('keydown', { key: 'Tab' });
     dropdown.dispatchEvent(event);
 

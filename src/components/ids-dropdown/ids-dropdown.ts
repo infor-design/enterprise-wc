@@ -534,7 +534,7 @@ export default class IdsDropdown extends Base {
       }
     });
 
-    this.onEvent('click', this.container.shadowRoot?.querySelector('.field-container'), () => {
+    this.onEvent('click', this.input.fieldContainer, () => {
       this.toggle();
     });
 
