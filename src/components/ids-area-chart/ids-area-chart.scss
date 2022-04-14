@@ -14,4 +14,13 @@
       }
     }
   }
+
+  .animate {
+    animation: fadein 1.6s cubic-bezier(0.17, 0.04, 0.03, 0.94) forwards;
+  }
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }

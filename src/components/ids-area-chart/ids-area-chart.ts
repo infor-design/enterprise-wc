@@ -53,8 +53,7 @@ export default class IdsAreaChart extends Base {
           areas += `M${point.left},${point.top}L${point.left},${(this as any).markerData.gridBottom}L${pointGroup[index + 1]?.left},${(this as any).markerData.gridBottom}L${pointGroup[index + 1]?.left},${pointGroup[index + 1]?.top}`;
         }
       });
-      areaHTML += `<path class="color-${groupIndex + 1}" part="area" d="${areas}Z" fill="var(${(this as any).color(groupIndex)})"}>
-        <animateTransform attributeName="transform" type="scale" additive="sum" values="1 1.25;1 1" origin="100 200" ${(this as any).cubicBezier}/>
+      areaHTML += `<path class="color-${groupIndex + 1} animate" part="area" d="${areas}Z" fill="var(${(this as any).color(groupIndex)})"}>
       </path>`;
     });
     return areaHTML;

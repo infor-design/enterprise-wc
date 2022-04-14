@@ -1,5 +1,4 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { attributes } from '../../core/ids-attributes';
 import Base from './ids-bar-chart-base';
 import styles from './ids-bar-chart.scss';
@@ -82,17 +81,8 @@ export default class IdsBarChart extends Base {
   #bars() {
     let barHTML = '';
 
-    // Calculate the width of each category section (used in other places)
-    const sectionWidth = (this.markerData.gridRight - this.markerData.gridLeft) / this.markerData.markerCount;
-    let left = this.textWidths.left + this.margins.left + (this.margins.leftInner * 2);
-    this.sectionWidths = [];
-    for (let index = 0; index < this.markerData.markerCount + 1; index++) {
-      this.sectionWidths.push({ left, width: sectionWidth });
-      left += sectionWidth;
-    }
-
     // Calculate the width of each bar and bar "category" and fit it in even sections
-    this.categoryWidth = (this.categoryPercentage * sectionWidth);
+    this.categoryWidth = (this.categoryPercentage * this.sectionWidth);
     this.barWidth = (this.categoryWidth * this.barPercentage);
 
     // Generate the bars
@@ -103,7 +93,7 @@ export default class IdsBarChart extends Base {
           + ((this.categoryWidth - this.barWidth) / 2);
 
         barHTML += `<rect width="${this.barWidth}" height="${this.markerData.gridBottom - point.top}" x="${xLeft}" y="${point.top}" fill="var(${this.color(groupIndex)})">
-        ${stringToBool(this.animated) ? `<animate attributeName="y" ${this.cubicBezier} from="${this.markerData.gridBottom + 100}" to="${point.top}"/>` : ''}
+        ${this.animated ? `<animate attributeName="y" ${this.cubicBezier} from="${this.markerData.gridBottom + 100}" to="${point.top}"/>` : ''}
          </rect>`;
       });
     });
@@ -143,5 +133,13 @@ export default class IdsBarChart extends Base {
       return Number(this.getAttribute(attributes.CATEGORY_PERCENTAGE));
     }
     return 0.9;
+  }
+
+  /**
+   * Adjust the default for the x labels
+   * @returns {number} value The value to use (in pixels)
+   */
+  get alignXLabels(): string {
+    return this.getAttribute(attributes.ALIGN_X_LABELS) || 'middle';
   }
 }

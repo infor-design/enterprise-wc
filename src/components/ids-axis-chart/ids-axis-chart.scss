@@ -78,8 +78,8 @@
 }
 
 // Center an Empty Message
-ids-empty-message,
-::slotted(ids-empty-message) {
+ids-empty-message:not([hidden]),
+::slotted(ids-empty-message:not([hidden])) {
   display: flex;
   justify-content: center;
   align-items: center;

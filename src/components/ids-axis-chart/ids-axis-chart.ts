@@ -52,6 +52,13 @@ type IdsChartMarkerData = {
   gridRight: number
 };
 
+type IdsChartDimensions = {
+  left: number,
+  right: number,
+  top: number,
+  bottom: number
+};
+
 /**
  * IDS Axis Chart Component
  * @type {IdsAxisChart}
@@ -80,7 +87,7 @@ export default class IdsAxisChart extends Base {
   /**
    * Invoked each time the custom element is appended into a document-connected element.
    */
-  connectedCallback() {
+  connectedCallback(): void {
     this.svg = this.shadowRoot.querySelector('svg');
     this.emptyMessage = this.querySelector('ids-empty-message') || this.shadowRoot.querySelector('ids-empty-message');
     this.legend = this.shadowRoot.querySelector('[name="legend"]');
@@ -93,10 +100,11 @@ export default class IdsAxisChart extends Base {
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       ...super.attributes,
       attributes.ANIMATED,
+      attributes.ALIGN_X_LABELS,
       attributes.DATA,
       attributes.HEIGHT,
       attributes.MARGINS,
@@ -111,7 +119,7 @@ export default class IdsAxisChart extends Base {
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return `<div class="ids-chart-container" part="container">
       <svg class="ids-axis-chart" part="chart" width="${this.width}" height="${this.height}" xmlns="http://www.w3.org/2000/svg">
       </svg>
@@ -129,7 +137,7 @@ export default class IdsAxisChart extends Base {
    * Setup the Event Handling
    * @private
    */
-  #attachEventHandlers() {
+  #attachEventHandlers(): void {
     this.onEvent('localechange.about-container', this.closest('ids-container'), async () => {
       this.rerender();
       this.shadowRoot.querySelector('ids-empty-message ids-text').textContent = this.locale?.translate('NoData');
@@ -147,7 +155,7 @@ export default class IdsAxisChart extends Base {
    * Attach the resize observer
    * @private
    */
-  #attachResizeObserver() {
+  #attachResizeObserver(): void {
     // Set observer for resize
     if ((this.resizeToParentHeight || this.resizeToParentWidth) && !this.#resizeObserver) {
       this.parentWidth = this.parentElement.offsetWidth;
@@ -165,7 +173,7 @@ export default class IdsAxisChart extends Base {
    * @private
    * @param {object} entries The resize observer entries
    */
-  resize(entries: ResizeObserverEntry[]) {
+  resize(entries: ResizeObserverEntry[]): void {
     if (!this.initialized) {
       return;
     }
@@ -192,7 +200,7 @@ export default class IdsAxisChart extends Base {
    * Redraw the chart
    * @private
    */
-  rerender() {
+  rerender(): void {
     if (!this.initialized) {
       return;
     }
@@ -235,7 +243,7 @@ export default class IdsAxisChart extends Base {
    * Get the min/max points and calculate the scale
    * @private
    */
-  #calculate() {
+  #calculate(): void {
     let groupCount = 0;
     let markerCount = 0;
     this.markerData = this.#emptyMarkerData;
@@ -295,14 +303,22 @@ export default class IdsAxisChart extends Base {
       }
       this.markerData.points?.push(points as any);
     });
-    console.info(this.markerData);
+
+    // Calculate the width of each category section (used in other places)
+    this.sectionWidth = (this.markerData.gridRight - this.markerData.gridLeft) / this.markerData.markerCount;
+    let left = this.textWidths.left + this.margins.left + (this.margins.leftInner * 2);
+    this.sectionWidths = [];
+    for (let index = 0; index < this.markerData.markerCount + 1; index++) {
+      this.sectionWidths.push({ left, width: this.sectionWidth });
+      left += this.sectionWidth;
+    }
   }
 
   /**
    * Add colors in a style sheet to the root so the variables can be used
    * @private
    */
-  #addColorVariables() {
+  #addColorVariables(): void {
     let colorSheet = '';
     if (!this.shadowRoot.styleSheets) {
       return;
@@ -323,7 +339,7 @@ export default class IdsAxisChart extends Base {
    * @private
    * @returns {string} The SVG markup
    */
-  #axisTemplate() {
+  #axisTemplate(): string {
     return `
     <title id="title">${this.title}</title>
     <g class="grid vertical-lines${!this.showVerticalGridLines ? ' hidden' : ''}">
@@ -346,7 +362,7 @@ export default class IdsAxisChart extends Base {
    * Overridable method to draw the markers
    * @returns {string} The SVG Marker Markup
    */
-  chartTemplate() {
+  chartTemplate(): string {
     return '';
   }
 
@@ -355,7 +371,7 @@ export default class IdsAxisChart extends Base {
    * @private
    * @returns {string} The y line markup
    */
-  #horizonatalLines() {
+  #horizonatalLines(): string {
     let lineHtml = '';
     let top = 0;
     const left = this.textWidths.left + this.margins.left + this.margins.leftInner;
@@ -374,7 +390,7 @@ export default class IdsAxisChart extends Base {
    * @private
    * @returns {string} The x line markup
    */
-  #verticalLines() {
+  #verticalLines(): string {
     let lineHtml = '';
     let left = this.textWidths.left + this.margins.left + (this.margins.leftInner * 2);
     const height = Number(this.height) - this.margins.bottom - this.textWidths.bottom;
@@ -391,7 +407,7 @@ export default class IdsAxisChart extends Base {
    * @private
    * @returns {string} The y label markup
    */
-  #yLabels() {
+  #yLabels(): string {
     let lineHtml = '';
     let top = 0;
     // 3 is the half height of the text - could figure this out based on font size?
@@ -412,7 +428,7 @@ export default class IdsAxisChart extends Base {
    * @returns {string} The formatted value
    * @private
    */
-  #formatXLabel(value: string) {
+  #formatXLabel(value: string): any {
     if (!this.xAxisFormatter) {
       return value;
     }
@@ -452,7 +468,7 @@ export default class IdsAxisChart extends Base {
    * @private
    * @returns {string} The x label markup
    */
-  #xLabels() {
+  #xLabels(): string {
     if (this.hasData) {
       return '';
     }
@@ -461,8 +477,13 @@ export default class IdsAxisChart extends Base {
     const height = Number(this.height) - this.margins.top - this.margins.bottom + this.margins.bottomInner;
 
     for (let index = 0; index < this.markerData.markerCount; index++) {
-      left = index === 0 ? left : left + this.#xLineGap();
-      labelHtml += `<text x="${left}" y="${height}">${this.#formatXLabel((this.data as any)[0]?.data[index]?.name)}</text>`;
+      const value = this.#formatXLabel((this.data as any)[0]?.data[index]?.name);
+      left = index === 0 ? left : left + (this.alignXLabels === 'middle' ? this.sectionWidths[index].width : this.#xLineGap());
+      if (this.alignXLabels === 'middle') {
+        labelHtml += `<text x="${left + (this.sectionWidths[index].width / 2)}" y="${height}" alignment-baseline="middle" text-anchor="middle">${value}</text>`;
+      } else {
+        labelHtml += `<text x="${left}" y="${height}">${value}</text>`;
+      }
     }
     return labelHtml;
   }
@@ -627,7 +648,7 @@ export default class IdsAxisChart extends Base {
     this.rerender();
   }
 
-  get textWidths() {
+  get textWidths(): IdsChartDimensions {
     return this.state.textWidths || {
       left: this.legendPlacement === 'left' ? 34 : 4, // TODO: Calculate this
       right: 0,
@@ -658,23 +679,23 @@ export default class IdsAxisChart extends Base {
    * Set the minimum value on the y axis
    * @param {number} value The value to use
    */
-  set yAxisMin(value) {
+  set yAxisMin(value: number) {
     this.setAttribute(attributes.Y_AXIS_MIN, value);
     this.rerender();
   }
 
-  get yAxisMin() { return parseInt(this.getAttribute(attributes.Y_AXIS_MIN)) || 0; }
+  get yAxisMin(): number { return parseInt(this.getAttribute(attributes.Y_AXIS_MIN)) || 0; }
 
   /**
    * Show the vertical axis grid lines
    * @param {boolean} value True or false to show the grid lines
    */
-  set showVerticalGridLines(value) {
+  set showVerticalGridLines(value: boolean) {
     this.setAttribute(attributes.SHOW_VERTICAL_GRID_LINES, value);
     this.rerender();
   }
 
-  get showVerticalGridLines() {
+  get showVerticalGridLines(): boolean {
     const value = this.getAttribute(attributes.SHOW_VERTICAL_GRID_LINES);
     if (value) {
       return stringToBool(this.getAttribute(attributes.SHOW_VERTICAL_GRID_LINES));
@@ -686,12 +707,12 @@ export default class IdsAxisChart extends Base {
    * Show the horizontal axis grid lines
    * @param {boolean} value True or false to show the grid lines
    */
-  set showHorizontalGridLines(value) {
+  set showHorizontalGridLines(value: boolean) {
     this.setAttribute(attributes.SHOW_HORIZONTAL_GRID_LINES, value);
     this.rerender();
   }
 
-  get showHorizontalGridLines() {
+  get showHorizontalGridLines(): boolean {
     const value = this.getAttribute(attributes.SHOW_HORIZONTAL_GRID_LINES);
     if (value) {
       return stringToBool(this.getAttribute(attributes.SHOW_HORIZONTAL_GRID_LINES));
@@ -703,17 +724,17 @@ export default class IdsAxisChart extends Base {
    * Utility function to get the colors series being used in this chart
    * @returns {Array} The colors being used on this instance.
    */
-  get colors() {
+  get colors(): Array<string> {
     return QUALITATIVE_COLORS;
   }
 
   /**
    * Get the color to use based on the index for sequential and custom colors
    * @param {number} index The current index
-   * @returns {number} The value to use (integer)
+   * @returns {string} The color to use
    * @private
    */
-  color(index: number) {
+  color(index: number): string {
     return this.data[index].color ? `color-${index + 1}` : this.colors[index];
   }
 
@@ -721,32 +742,32 @@ export default class IdsAxisChart extends Base {
    * Set the format on the x axis items
    * @param {Function} value A string with the formatting routine or a function for more customization.
    */
-  set xAxisFormatter(value) {
+  set xAxisFormatter(value: any) {
     this.state.xAxisFormatter = value;
     this.rerender();
   }
 
-  get xAxisFormatter() {
+  get xAxisFormatter(): any {
     return this.state.xAxisFormatter;
   }
 
   /**
    * Set the format on the y axis items
-   * @param {object|Function} value A string with the formatting routine or a function for more customization.
+   * @param {string|Function} value A string with the formatting routine or a function for more customization.
    */
-  set yAxisFormatter(value) {
+  set yAxisFormatter(value: string | ((value: unknown, data: Array<IdsChartData>, api: this) => string)) {
     this.state.yAxisFormatter = value;
     this.rerender();
   }
 
-  get yAxisFormatter() {
+  get yAxisFormatter(): any {
     return this.state.yAxisFormatter;
   }
 
   /**
    * Reanimate the chart
    */
-  reanimate() {
+  reanimate(): void {
     if (!this.animated || !this.initialized) {
       return;
     }
@@ -762,7 +783,7 @@ export default class IdsAxisChart extends Base {
    * @private
    * @returns {string} The reusable snippet
    */
-  get cubicBezier() {
+  get cubicBezier(): string {
     return 'calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.6s"';
   }
 
@@ -770,7 +791,7 @@ export default class IdsAxisChart extends Base {
    * Set the animation on/off
    * @param {boolean} value True if animation is on
    */
-  set animated(value) {
+  set animated(value: boolean) {
     const animated = stringToBool(this.animated);
     this.setAttribute(attributes.ANIMATED, value);
     this.rerender();
@@ -780,11 +801,24 @@ export default class IdsAxisChart extends Base {
     }
   }
 
-  get animated() {
+  get animated(): boolean {
     const animated = this.getAttribute(attributes.ANIMATED);
     if (animated === null) {
       return true;
     }
     return stringToBool(this.getAttribute(attributes.ANIMATED));
+  }
+
+  /**
+   * Set the x axis label alignment between start, middle and end
+   * @param {string} value start, middle or end
+   */
+  set alignXLabels(value: string) {
+    this.setAttribute(attributes.ALIGN_X_LABELS, value);
+    this.rerender();
+  }
+
+  get alignXLabels(): string {
+    return this.getAttribute(attributes.ALIGN_X_LABELS) || 'start';
   }
 }

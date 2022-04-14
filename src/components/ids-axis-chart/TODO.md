@@ -1,6 +1,6 @@
 # TODO's For Axis Charts
 
-## General
+## TS
 
 - [x] Show Grid Lines Setting
 - [x] Multi Line(s)
@@ -49,12 +49,15 @@
 
 ## Chart Types
 
+- [x] Line
+- [x] Area
+- [ ] Bar
+- [ ] Pie
 - [ ] Column
 - [ ] Bubble
 - [ ] Scatter Plot
+- [ ] Grouped Bar
+- [ ] Stacked Bar
 - [ ] Grouped Column
 - [ ] Stacked Column
 - [ ] Positive Negative ( Negative Values)
-- [ ] Bar
-- [ ] Grouped Bar
-- [ ] Stacked Bar

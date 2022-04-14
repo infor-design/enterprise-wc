@@ -8,6 +8,7 @@ export const attributes = {
   ALIGN_EDGE: 'align-edge',
   ALIGN_TARGET: 'align-target',
   ALIGN_X: 'align-x',
+  ALIGN_X_LABELS: ';alignXLabels',
   ALIGN_Y: 'align-y',
   ALLOW_LINK: 'allow-link',
   ALLOW_ONE_PANE: 'allow-one-pane',
