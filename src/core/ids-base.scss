@@ -1,10 +1,5 @@
 /* Sass scss styles. Keep Base very small */
 @import '../../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new-mixins';
-/* stylelint-disable scss/at-import-partial-extension */
-@import '../../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new.host.variables';
-/* stylelint-enable scss/at-import-partial-extension */
-
-/* Global SCSS Mixins */
 @import '../mixins/sass/ids-general-mixins';
 
 /* Global variables (might want these to become tokens) */
@@ -26,7 +21,7 @@ $input-size-md: 300px ;
 $input-size-lg: 400px;
 $input-size-full: 100%;
 
-// Field Height
+// Field Heights
 $input-field-height-xs: 28px;
 $input-field-height-sm: 30px;
 $input-field-height-md: 38px;

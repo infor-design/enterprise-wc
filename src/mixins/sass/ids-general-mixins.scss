@@ -1,6 +1,4 @@
 @use 'sass:list';
-/* stylelint-disable-next-line scss/at-import-partial-extension */
-@import '../../../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new.map.variables';
 
 // All vendor prefixes
 $prefixes: -webkit-, -moz-, -o-, -ms-, '';
@@ -113,17 +111,4 @@ $animation-prefixes: -webkit-, -moz-, '';
 
 @mixin rotate($deg) {
   @include transform(rotate(#{$deg}deg));
-}
-
-/* stylelint-disable scss/no-global-function-names */
-@mixin css-variables($vars...) {
-  :host {
-    @each $var in $vars {
-      @if not map-get($css-variables, $var) {
-        @error 'ERROR: Specified css variable #{$var} does not exist in the css-variables map';
-      }
-
-      #{$var}: map-get($css-variables, $var);
-    }
-  }
 }

@@ -1,27 +1,5 @@
-@import '../../../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new-mixins';
-@import '../../mixins/sass/ids-general-mixins';
+@import '../../core/ids-base';
 @import '../../mixins/sass/ids-ripple-mixin';
-@include css-variables(
-  --ids-color-brand-primary-base,
-  --ids-color-palette-azure-10,
-  --ids-color-palette-azure-50,
-  --ids-color-palette-azure-60,
-  --ids-color-palette-azure-90,
-  --ids-color-palette-classic-slate-10,
-  --ids-color-palette-classic-slate-60,
-  --ids-color-palette-classic-slate-80,
-  --ids-color-palette-graphite-10,
-  --ids-color-palette-graphite-30,
-  --ids-color-palette-graphite-100,
-  --ids-color-palette-slate-10,
-  --ids-color-palette-slate-20,
-  --ids-color-palette-slate-30,
-  --ids-color-palette-slate-60,
-  --ids-color-palette-slate-70,
-  --ids-color-palette-slate-90,
-  --ids-color-palette-slate-100,
-  --ids-color-palette-white,
-);
 
 .ids-card {
   @include bg-white();
