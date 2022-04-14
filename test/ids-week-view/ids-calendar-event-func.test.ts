@@ -5,6 +5,7 @@ import '../../src/mixins/ids-locale-mixin/ids-locale-mixin';
 import '../../src/components/ids-text/ids-text';
 import IdsCalendarEvent from '../../src/components/ids-week-view/ids-calendar-event';
 import IdsContainer from '../../src/components/ids-container/ids-container';
+import wait from '../helpers/wait';
 
 const EVENT_ITEM = {
   id: '9',
@@ -45,6 +46,8 @@ describe('IdsCalendarEvent Component', () => {
     calendarEvent.event = EVENT_ITEM;
     idsText = calendarEvent.container.querySelector('ids-text');
     idsContainer.appendChild(calendarEvent);
+    idsContainer.setLocale('en-US');
+    idsContainer.setLanguage('en');
   });
 
   it('should render', () => {
@@ -106,6 +109,12 @@ describe('IdsCalendarEvent Component', () => {
     calendarEvent.xOffset = xOffset;
     expect(calendarEvent.xOffset).toEqual(xOffset);
     expect(calendarEvent.container.style.left).toEqual(xOffset);
+
+    // test rtl
+    idsContainer.setLocale('ar-SA');
+    idsContainer.setLanguage('ar');
+    calendarEvent.xOffset = xOffset;
+    expect(calendarEvent.container.style.right).toEqual(xOffset);
   });
 
   it('allows setting extra css classes', () => {
@@ -131,10 +140,24 @@ describe('IdsCalendarEvent Component', () => {
     expect(calendarEvent.getDisplayTime()).toEqual('');
   });
 
-  it('triggers select event when clicked', () => {
+  it('triggers event when clicked', async () => {
     const spy = jest.spyOn(calendarEvent, 'triggerEvent');
     const clickEvent = new MouseEvent('click');
-    calendarEvent.dispatchEvent(clickEvent);
+    calendarEvent.container.dispatchEvent(clickEvent);
+    await wait(1000);
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('triggers event when dbl clicked', () => {
+    const spy = jest.spyOn(calendarEvent, 'triggerEvent');
+    const clickEvent = new MouseEvent('dblclick');
+    calendarEvent.container.dispatchEvent(clickEvent);
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('can render without event type', () => {
+    const errors = jest.spyOn(global.console, 'error');
+    calendarEvent.eventType = null;
+    expect(errors).not.toHaveBeenCalled();
   });
 });
