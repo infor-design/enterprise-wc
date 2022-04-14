@@ -68,8 +68,8 @@ document.querySelector('ids-lbarine-chart').data = lineData;
 ## Class Hierarchy
 
 - IdsBarChart
-    - IdsAxisChart
-        - IdsElement
+  - IdsAxisChart
+    - IdsElement
 - Mixins
   IdsEventsMixin
   IdsLocaleMixin
@@ -142,8 +142,8 @@ The bars rise along the y-axis from 0 to the appropriate values.
 
 - 4.x: The area chart was added after version 3.6 so new in 4.x
 - 5.x: Bar Chart have all new markup and classes for web components but the data is still the same except for a few changes.
-    - `shortName` is now `shortName`
-    - `abbreviatedName` is now `abbrName`
+  - `shortName` is now `shortName`
+  - `abbreviatedName` is now `abbrName`
 
 ## Accessibility Guidelines
 

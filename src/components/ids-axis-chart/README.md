@@ -112,7 +112,7 @@ To achieve this it is recommended to use the `color` setting and pick one of the
 ## Class Hierarchy
 
 - IdsAxisChart
-    - IdsElement
+  - IdsElement
 - Mixins
   IdsEventsMixin
   IdsLocaleMixin

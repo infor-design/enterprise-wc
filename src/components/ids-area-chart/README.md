@@ -115,9 +115,9 @@ To achieve this it is recommended to use the `color` setting and pick one of the
 ## Class Hierarchy
 
 - IdsAreaChart
-    - IdsLineChart
-        - IdsAxisChart
-            - IdsElement
+  - IdsLineChart
+    - IdsAxisChart
+      - IdsElement
 - Mixins
   IdsEventsMixin
   IdsLocaleMixin
@@ -165,8 +165,8 @@ The line rise along the y-axis from 0 to the appropriate values. The area below 
 
 - 4.x: The area chart was added after version 3.6 so new in 4.x
 - 5.x: Area Chart have all new markup and classes for web components but the data is still the same except for a few changes.
-    - `shortName` is now `shortName`
-    - `abbreviatedName` is now `abbrName`
+  - `shortName` is now `shortName`
+  - `abbreviatedName` is now `abbrName`
 
 ## Designs
 

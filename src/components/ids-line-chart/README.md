@@ -90,8 +90,8 @@ To achieve this it is recommended to use the `color` setting and pick one of the
 ## Class Hierarchy
 
 - IdsLineChart
-    - IdsAxisChart
-        - IdsElement
+  - IdsAxisChart
+    - IdsElement
 - Mixins
   IdsEventsMixin
   IdsLocaleMixin
@@ -125,9 +125,9 @@ The following data attributes can be used on the data passed to a chart.
 ## Themeable Parts
 
 - `chart` the svg outer element
- * @part svg - the outside svg element
- * @part marker - the dots/markers in the chart
- * @part line - the lines in the chart
+- `svg` - the outside svg element
+- `marker` - the dots/markers in the chart
+- `line` - the lines in the chart
 
 ## Animation
 
@@ -158,8 +158,8 @@ All points in the line rise along the y-axis from 0 to the appropriate values. L
 - Line Chart now uses all new markup and classes for web components (see above)
 - Now called IdsAccordion with a namespace
 - The data object is the same format except for two changes.
-    - `shortName` is now `shortName`
-    - `abbreviatedName` is now `abbrName`
+  - `shortName` is now `shortName`
+  - `abbreviatedName` is now `abbrName`
 - If using side by side the old line chart requires the height and width of the parent to be visible. So you may need to toggle the visibility of `ids-container` or some new element if its nested in it.
 
 ## Designs

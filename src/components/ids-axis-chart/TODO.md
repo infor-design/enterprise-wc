@@ -12,6 +12,9 @@
 - [x] Change Log
 - [x] Do a test coverage pass
 - [x] Side By Side Example
+- [x] Types for chart data
+- [] Make ids-axis chart extend (this as any) in area-chart
+- [] Fix point group types `// Generate the bars`
 
 ## Rendering
 
