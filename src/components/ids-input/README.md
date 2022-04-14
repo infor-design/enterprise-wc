@@ -91,8 +91,38 @@ Set up for displaying the show/hide password button:
 <ids-input label="password" revealable-text="true" password-visible="false" type="password"></ids-input>
 ```
 
+Set up for autocomplete input
+
+```html
+  <ids-input
+    id="input-autocomplete"
+    placeholder="This input's label is visible"
+    size="md"
+    label="Autocomplete Input"
+    autocomplete
+    search-field="label"
+  >
+  </ids-input>
+```
+
+```js
+import statesJSON from '../../../assets/data/states.json';
+
+const input: any = document.querySelector('#input-autocomplete');
+const url: any = statesJSON;
+
+const setData = async () => {
+  const res = await fetch(url);
+  const data = await res.json();
+  input.data = data;
+};
+
+setData();
+```
+
 ## Settings (Attributes)
 
+- `autocomplete` can be set to true to enable autocomplete functionality.
 - `autoselect` {boolean} set auto select text on focus to input.
 - `bgTransparent` {boolean} set the transparent background to readonly input.
 - `clearable` {boolean} set (x) button to clear text on click/key to input. See [Ids Clearable Mixin](../../mixins/ids-clearable-mixin/README.md) for more information.
@@ -100,6 +130,7 @@ Set up for displaying the show/hide password button:
 - `colorVariant` {string} set the current color variant.
 - `compact` {boolean} sets the component to be compact mode.
 - `caps-lock` {boolean} sets whether the capslock indicator appears when caps lock is on.
+- `data` when autocomplete is enabled an instance of [IdsDatasource](../../core/README.md)]
 - `dirty-tracker` {boolean} set dirty tracker to input. See [Ids Dirty Tracker Mixin](../../mixins/ids-dirty-tracker-mixin/README.md) for more information.
 - `disabled` {boolean} set disabled state.
 - `fieldHeight` {string} defines the height of the input field. See [Ids Field Height Mixin](../../mixins/ids-field-height-mixin/README.md) for more information.
@@ -110,6 +141,7 @@ Set up for displaying the show/hide password button:
 - `password-visible` {boolean} sets whether the password is currently visible must be paired with revealable-text = 'true' and type = 'password'.
 - `placeholder` {string} set the placeholder text to input.
 - `size` {string} set the input size, it will set `md` as defaults.
+- `search-field` when autocomplete is enabled can be set to a string of the field to be searched in the dataset.
 - `revealable-text` {boolean} sets whether the show/hide button is availble for password fields must be paired with type='password'
 - `readonly` {boolean} set readonly state.
 - `text-align` {string} set text-align to input, it will set `left` as defaults.

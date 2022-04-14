@@ -277,7 +277,8 @@ $textarea-size-default-height: 120px;
 }
 
 // Handle Themes
-.ids-textarea[mode='light'] {
+.ids-textarea[mode='light'],
+.ids-textarea:not([mode]) {
   .ids-textarea-field {
     @include bg-white();
     @include border-slate-40();

@@ -10,6 +10,7 @@ import IdsValidationMixin from '../../mixins/ids-validation-mixin/ids-validation
 import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
 import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsAutoComplete from './ids-autocomplete';
 import IdsElement from '../../core/ids-element';
 
 const Base = IdsTooltipMixin(
@@ -24,7 +25,9 @@ const Base = IdsTooltipMixin(
                   IdsKeyboardMixin(
                     IdsThemeMixin(
                       IdsEventsMixin(
-                        IdsElement
+                        IdsAutoComplete(
+                          IdsElement
+                        )
                       )
                     )
                   )

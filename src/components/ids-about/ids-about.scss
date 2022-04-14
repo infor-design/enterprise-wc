@@ -50,7 +50,8 @@
     }
   }
 
-  &[mode='light'] .ids-modal-content {
+  &[mode='light'] .ids-modal-content,
+  &:not([mode]) .ids-modal-content {
     @include border-slate-30();
 
     &:hover {
