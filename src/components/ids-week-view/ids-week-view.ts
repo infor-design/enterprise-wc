@@ -10,7 +10,8 @@ import {
   firstDayOfWeekDate,
   isTodaysDate,
   isValidDate,
-  lastDayOfWeekDate
+  lastDayOfWeekDate,
+  dateDiff
 } from '../../utils/ids-date-utils/ids-date-utils';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
@@ -359,11 +360,14 @@ export default class IdsWeekView extends Base {
       `;
     }).join('');
 
-    const cellTemplate = Array.from({ length: diff }).map(() => `
-      <td>
+    const cellTemplate = Array.from({ length: diff }).map((_, index) => {
+      const cellDate = this.startDate;
+      cellDate.setDate(cellDate.getDate() + index);
+
+      return `<td data-date="${cellDate.getDate()}">
         <div class="week-view-cell-wrapper"></div>
-      </td>
-    `).join('');
+      </td>`;
+    }).join('');
 
     const startHour = this.startHour;
     const hoursTemplate = Array.from({ length: hoursDiff }).map((_, index) => {
@@ -377,7 +381,7 @@ export default class IdsWeekView extends Base {
         </td>
         ${cellTemplate}
       </tr>
-      <tr class="week-view-half-hour-row">
+      <tr class="week-view-half-hour-row" data-hour="${hour}">
         <td>
           <div class="week-view-cell-wrapper"></div>
         </td>
@@ -531,13 +535,10 @@ export default class IdsWeekView extends Base {
 
     if (!this.state.hasRendered || !this.state.events?.length) return;
 
-    const weekStart = new Date(this.startDate).getTime();
-    const weekEnd = new Date(this.endDate).getTime();
-
     this.state.events.forEach((event: CalendarEventData) => {
-      const eventStart = new Date(event.starts).getTime();
+      const eventStart = new Date(event.starts);
 
-      if (weekStart <= eventStart && eventStart < weekEnd) {
+      if (this.startDate <= eventStart && eventStart < this.endDate) {
         this.#renderEvent(event);
       }
     });
@@ -545,20 +546,15 @@ export default class IdsWeekView extends Base {
 
   /**
    * Finds week view table cell element for intraday event
-   * @param {HTMLTableCellElement} dayColumn th element for day column
-   * @param {CalendarEventData} event event data
+   * @param {CalendarEventData} eventData event data
    * @returns {HTMLTableCellElement | null} td element in week view
    */
-  #findHourContainer(dayColumn: HTMLTableCellElement, event: CalendarEventData): HTMLTableCellElement | null {
-    const hourContainers = this.container.querySelectorAll(`td:nth-child(${dayColumn.cellIndex + 1})`);
-    const eventStartHour = this.#getDateHours(new Date(event.starts), true);
+  #findHourContainer(eventData: CalendarEventData): HTMLTableCellElement | null {
+    const eventStart = new Date(eventData.starts);
+    const startDate = eventStart.getDate();
+    const startHour = this.#getDateHours(eventStart, true);
 
-    for (let i = 0; i < hourContainers.length; i++) {
-      const hour = parseFloat(hourContainers[i].parentElement?.getAttribute('data-hour'));
-      if (hour === eventStartHour) return hourContainers[i];
-    }
-
-    return null;
+    return this.container.querySelector(`[data-hour="${startHour}"] [data-date="${startDate}"]`);
   }
 
   /**
@@ -576,11 +572,6 @@ export default class IdsWeekView extends Base {
 
     if (cssClass?.length) {
       calendarEvent.cssClass = cssClass;
-
-      // Prevent keyboard navigation for multi day events
-      if (cssClass?.indexOf('calendar-event-continue') !== -1 || cssClass?.indexOf('calendar-event-ends') !== -1) {
-        calendarEvent.container.setAttribute('tabindex', -1);
-      }
     }
 
     return calendarEvent;
@@ -591,31 +582,40 @@ export default class IdsWeekView extends Base {
    * @param {CalendarEventData} eventData Data to create calendar event
    */
   #renderEvent(eventData: CalendarEventData) {
-    const startKey = this.#generateDateKey(new Date(eventData.starts));
-    const endKey = this.#generateDateKey(new Date(eventData.ends));
-    const days = this.dayMap.filter((day) => day.key >= startKey && day.key <= endKey);
-    const isAllDay = stringToBool(eventData.isAllDay);
     let calendarEvent: IdsCalendarEvent | undefined;
     let container: HTMLTableCellElement | null;
+
+    // get day containers
+    const startDate = new Date(eventData.starts);
+    const endDate = new Date(eventData.ends);
+    const startKey = this.#generateDateKey(startDate);
+    const endKey = this.#generateDateKey(endDate);
+    const days = this.dayMap.filter((day) => day.key >= startKey && day.key <= endKey);
+
+    // get event hour count
+    const hours = dateDiff(startDate, endDate, true);
+    const isAllDay = hours >= 24;
 
     // Event is intraday
     if (days.length === 1 && !isAllDay) {
       calendarEvent = this.#createCalendarEvent(eventData);
-      container = this.#findHourContainer(days[0].elem, eventData);
+      container = this.#findHourContainer(eventData);
 
       if (container) this.#appendIntradayEvent(container, calendarEvent);
+      return;
     }
 
-    // Event lasts all day
+    // Event lasts one day
     if (days.length === 1 && isAllDay) {
       calendarEvent = this.#createCalendarEvent(eventData, ['all-day']);
       container = days[0].elem.querySelector('.week-view-all-day-wrapper');
 
       if (container) this.#appendAllDayEvent(container, calendarEvent);
+      return;
     }
 
     // Event lasts multiple days
-    if (days.length > 1) {
+    if (days.length > 1 && isAllDay) {
       for (let i = 0; i < days.length; i++) {
         let cssClass = i === 0 ? 'calendar-event-start' : 'calendar-event-continue';
 
@@ -643,10 +643,10 @@ export default class IdsWeekView extends Base {
 
     // Calculate and override event height
     const minHeightDuration = 0.25;
-    const maxHeighDuration = this.endHour + 1 - eventStartHour;
+    const maxHeightDuration = this.endHour + 1 - eventStartHour;
     let eventDuration = calendarEvent.duration;
     eventDuration = Math.max(minHeightDuration, eventDuration);
-    eventDuration = Math.min(maxHeighDuration, eventDuration);
+    eventDuration = Math.min(maxHeightDuration, eventDuration);
     calendarEvent.height = `${(eventDuration * 50) + (eventDuration / 0.5) - 1}px`;
 
     // When event is less than 30 minutes
