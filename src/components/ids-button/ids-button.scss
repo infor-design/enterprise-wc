@@ -152,6 +152,9 @@ button {
 
   display: block;
   font-weight: 600;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
 
   &:focus {
     z-index: 1;

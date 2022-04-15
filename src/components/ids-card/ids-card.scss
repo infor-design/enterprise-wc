@@ -242,13 +242,12 @@
 }
 
 .ids-card-header {
+  @include py-12();
   @include px-16();
   @include border-slate-30();
 }
 
 ::slotted([slot='card-header']) {
-  @include py-12();
-
   display: flex;
   flex-direction: row;
   align-items: center;
