@@ -279,6 +279,12 @@ export default class IdsWeekView extends Base {
     this.endDate = addDate(this.startDate, diff - 1, 'days');
   }
 
+  /**
+   * Creates date key used in component
+   * Format - [year][month][date]
+   * @param {Date} date Date obj
+   * @returns {number} 20200421
+   */
   #generateDateKey(date: Date): number {
     const year = date.getFullYear();
     const month = date.getMonth().toString();

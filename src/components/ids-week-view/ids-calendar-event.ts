@@ -34,7 +34,11 @@ export default class IdsCalendarEvent extends IdsLocaleMixin(IdsElement) {
     super();
   }
 
-  static get attributes() {
+  /**
+   * Returns array of observed attributes
+   * @returns {Array<string>} attribute names
+   */
+  static get attributes(): string[] {
     return [
       ...super.attributes,
       attributes.DISPLAY_TIME,
@@ -46,19 +50,33 @@ export default class IdsCalendarEvent extends IdsLocaleMixin(IdsElement) {
     ];
   }
 
+  /**
+   * Invoked when ids-calendar-event is added to the DOM
+   */
   connectedCallback(): void {
     this.#attachEventHandlers();
     this.setDirection();
   }
 
-  disconnectedCallback() {
+  /**
+   * Invoked when ids-calendar-event is removed from the DOM
+   */
+  disconnectedCallback(): void {
     this.offEvent('click', this.container);
   }
 
+  /**
+   * Creates template for ids calendar event
+   * @returns {string} html
+   */
   template(): string {
     return `<a class="ids-calendar-event" href="#">${this.contentTemplate()}</a>`;
   }
 
+  /**
+   * Creates template for calendar event content
+   * @returns {string} content html
+   */
   contentTemplate(): string {
     if (!this.event) return ``;
 
@@ -75,7 +93,10 @@ export default class IdsCalendarEvent extends IdsLocaleMixin(IdsElement) {
     </div>`;
   }
 
-  #attachEventHandlers() {
+  /**
+   * Attach calendar-event event handlers
+   */
+  #attachEventHandlers(): void {
     const triggerFn = (clickType: 'click' | 'dblclick') => {
       this.triggerEvent(`${clickType}calevent`, this, {
         detail: { calendarEvent: this },
@@ -104,7 +125,7 @@ export default class IdsCalendarEvent extends IdsLocaleMixin(IdsElement) {
   /**
    * Refreshses calendar event content with current settings
    */
-  #refreshContent() {
+  #refreshContent(): void {
     this.container.innerHTML = this.contentTemplate();
   }
 
