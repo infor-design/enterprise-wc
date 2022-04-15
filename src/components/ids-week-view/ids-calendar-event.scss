@@ -72,7 +72,7 @@
   @include z-1;
 
   background: var(--ids-color-palette-azure-20);
-  border: 1px solid var(--ids-color-palette-azure-20);
+  border: 1px solid transparent;
   border-radius: 3px;
   color: var(--ids-color-palette-slate-100);
   height: 20px;

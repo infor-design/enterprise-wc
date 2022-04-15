@@ -150,6 +150,7 @@ export default class IdsCalendarEvent extends IdsLocaleMixin(IdsElement) {
    */
   set event(event: CalendarEventData) {
     this.cachedEvent = event;
+    this.setAttribute('data-id', event.id);
     this.#refreshContent();
   }
 
