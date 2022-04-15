@@ -3,19 +3,17 @@
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
-<body>
-  <link rel="stylesheet" href="../ids-popup/ids-popup.css"/>
-  <link rel="stylesheet" href="../ids-layout-grid/ids-layout-grid.css"/>
-  <link rel="stylesheet" href="../ids-text/ids-text.css"/>
-
+<body hidden>
   <div class="ids-layout-grid">
-    <h1 class="ids-text ids-text-12">Tooltip Standalone CSS</h1>
+    <h1 class="ids-text ids-text-12">Tooltip (Standalone CSS)</h1>
   </div>
 
-  <div class="ids-popup tooltip visible open" id="css-example">
-    <div class="arrow top"></div>
-    <div class="content-wrapper">
-      Normal Tooltip
+  <div class="ids-layout-grid">
+    <div class="ids-popup tooltip open">
+      <div class="arrow top"></div>
+      <div class="content-wrapper">
+        Normal Css Tooltip
+      </div>
     </div>
   </div>
 </body>

@@ -1,4 +1,5 @@
 @import '../ids-menu/ids-menu-base';
+@import '../../mixins/sass/ids-hide-mixin';
 
 :host {
   &:not([hidden]) {
