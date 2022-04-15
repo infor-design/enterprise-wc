@@ -1,7 +1,10 @@
-# TODO on Images
+# IdsImage TODOs
 
-- [] The icon color should change per theme
+## Major
 
-## TBD for Images
+- [] The icon color should be changeable with a setting
 
-- [] The `example-image-list.html` should be a pattern?
+## Minor
+
+- [] Add upload drag drop and crop as per https://github.com/infor-design/enterprise-wc/issues/653
+- [] Side by side example

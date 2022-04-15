@@ -1,5 +1,5 @@
-# TODO on IDS Layout Grid
+# IdsLayoutGrid TODOs
 
-## Features
+## Minor
 
 - [] Add fixed unit sizing options for cells and rows.

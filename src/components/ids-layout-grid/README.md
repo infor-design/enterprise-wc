@@ -16,7 +16,7 @@ The Ids Layout Grid is comprised of 2 web components, IdsLayoutGrid and IdsLayou
 - **GridCell** Any direct child of a grid container, we refer to this as `ids-layout-grid-cell`.
 - **Cols** These are the vertical columns of the grid, also referred to as tracks.
 - **Rows** The horizontal tracks of the grid.
-- **MinColWidth** This sets the minimun col width in the grid's minmax setting.
+- **MinColWidth** This sets the minimum col width in the grid.
 
 ## Features (With Code Examples)
 
@@ -128,7 +128,7 @@ An Ids Layout Grid with a custom number of columns or rows. The example below sh
 </ids-layout-grid>
 ```
 
-You can pass an optional attribute `minColWidth` to override the default min value in the minmax definition of the grid
+You can pass an optional attribute `minColWidth` to override the default min value of the grid
 
 ```html
 <ids-layout-grid auto="true" minColWidth="200px">
@@ -206,17 +206,18 @@ A layout grid is not on its own keyboard focusable and has no keyboard interacti
 - A Layout Grid set to auto will flow automatically with the screen size.
 - As of now, Layout GrIds with column and row settings will flow as normal until the medium breakpoint (840px). Then they will switch to auto-fit and
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-The Layout grid replaces the former grid entirely. Apply the new markup.
+**3.x to 4.x**
 
-## Test Plan
+- New concept in 4.x
 
-1. Accessibility - Axe
-1. Visual Regression Test
-1. Repeat Tests in All Supported Browsers
-1. Some of these as test cases from the [WC gold standard](https://github.com/webcomponents/gold-standard/wiki#api)
-1. Can be consumed in NG/Vue/React (pull it in standalone/built see it works standalone)
+**4.x to 5.x**
+
+- The Layout grid replaces the former grid entirely. Apply the new markup.
+- Using a 8pt style grid https://builttoadapt.io/intro-to-the-8-point-grid-system-d2573cde8632
+- Markup has changed to a custom element `<ids-layout-grid></ids-layout-grid>` (see examples above)
+- Can now be imported as a single JS file and used with encapsulated styles
 
 ## Regional Considerations
 
