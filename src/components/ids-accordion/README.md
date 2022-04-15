@@ -118,7 +118,34 @@ In the example below, the "My Benefits", "Dependents and Beneficiaries", "Life E
 </ids-accordion>
 ```
 
-## Settings and Attributes
+## Class Hierarchy
+
+- IdsAccordion
+    - IdsElement
+- Mixins
+  IdsColorVariantMixin
+  IdsEventsMixin
+  IdsKeyboardMixin
+  IdsLocaleMixin
+  IdsThemeMixin
+
+- IdsAccordionHeader
+    - IdsElement
+- Mixins
+  IdsColorVariantMixin
+  IdsEventsMixin
+  IdsThemeMixin
+
+- IdsAccordionPanel
+    - IdsElement
+- Mixins
+  IdsColorVariantMixin
+  IdsThemeMixin
+  IdsKeyboardMixin
+  IdsLocaleMixin
+  IdsEventsMixin
+
+## Settings (Attributes)
 
 When used as an attribute the settings are kebab case, when used in the JS they are camel case.
 
@@ -126,6 +153,28 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 - `panels` {Array<IdsAccordionPanel>} Reference to all inner Accordion Panels.
 - `focused` {HTMLElement} Reference to the currently-focused element within the accordion, if applicable.
 - `allowOnePane` {boolean} Sets Accordion to allow only one inner Accordion Panel to be expanded at a time.
+
+## Events
+
+- `selected` Fire at the time the ids-accodion-panel element is selected, used for App-Menu, 
+Detail contains the element `elem`
+- `expanded` Fires at the time the ids-accodion-panel is expanded. Detail contains the element `elem`
+- `collapsed` Fires at the time the ids-accodion-panel is collapsed. Detail contains the element `elem`
+
+## Methods
+
+- IdsAccordion
+    - `navigate` Navigate next/prev panel
+
+- IdsAccordionPanel
+    - `collapsePane` Collapse pane
+    - `expandPane` Expand pane
+    - `select` Select header and put focus
+    - `focus` Set focus on header
+
+## Themeable Parts
+
+- `accordion` Accordion root element
 
 ## States and Variations
 
