@@ -958,17 +958,22 @@ class IdsDatePicker extends Base {
    * @returns {string} placeholder param
    */
   get placeholder(): string {
-    return this.getAttribute(attributes.PLACEHOLDER) ?? '';
+    const boolVal = stringToBool(this.getAttribute(attributes.PLACEHOLDER));
+    const format = this.format === 'locale' ? this.locale?.calendar().dateFormat.short : this.format;
+
+    return boolVal ? format : '';
   }
 
   /**
    * Set input placeholder
-   * @param {string|null} val of placeholder to be set
+   * @param {boolean|string|null} val of placeholder to be set
    */
-  set placeholder(val: string | null) {
-    if (val) {
-      this.setAttribute(attributes.PLACEHOLDER, val);
-      this.#triggerField?.setAttribute(attributes.PLACEHOLDER, val);
+  set placeholder(val: boolean | string | null) {
+    const boolVal = stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.PLACEHOLDER, this.placeholder);
+      this.#triggerField?.setAttribute(attributes.PLACEHOLDER, this.placeholder);
     } else {
       this.removeAttribute(attributes.PLACEHOLDER);
       this.#triggerField?.removeAttribute(attributes.PLACEHOLDER);
@@ -1171,6 +1176,10 @@ class IdsDatePicker extends Base {
       this.setAttribute(attributes.FORMAT, val);
     } else {
       this.removeAttribute(attributes.FORMAT);
+    }
+
+    if (this.placeholder) {
+      this.placeholder = this.format;
     }
 
     this.#applyMask();

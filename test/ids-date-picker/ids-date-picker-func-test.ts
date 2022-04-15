@@ -22,7 +22,6 @@ describe('IdsDatePicker Component Tests', () => {
       component.id = name;
       component.label = name;
       component.value = '2021-10-18';
-      component.placeholder = name;
       component.size = 'lg';
       component.format = 'yyyy-MM-dd';
       component.month = 9;
@@ -66,7 +65,6 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.id).toEqual(name);
       expect(component.value).toEqual('2021-10-18');
       expect(component.label).toEqual(name);
-      expect(component.placeholder).toEqual(name);
       expect(component.size).toEqual('lg');
       expect(component.format).toEqual('yyyy-MM-dd');
       expect(component.month).toEqual(9);
@@ -80,7 +78,6 @@ describe('IdsDatePicker Component Tests', () => {
       component.firstDayOfWeek = 0;
       component.id = 'changed';
       component.value = '2020-11-19';
-      component.placeholder = 'changed';
       component.size = 'md';
       component.month = 10;
       component.year = 2020;
@@ -93,7 +90,6 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.disabled).toBeFalsy();
       expect(component.readonly).toBeFalsy();
       expect(component.value).toEqual('2020-11-19');
-      expect(component.placeholder).toEqual('changed');
       expect(component.size).toEqual('md');
       expect(component.month).toEqual(10);
       expect(component.year).toEqual(2020);
@@ -107,7 +103,6 @@ describe('IdsDatePicker Component Tests', () => {
       component.value = '';
       component.label = null;
       component.format = null;
-      component.placeholder = null;
       component.month = null;
       component.year = null;
       component.day = null;
@@ -119,7 +114,6 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.value).toEqual('');
       expect(component.label).toEqual('');
       expect(component.format).toEqual('locale');
-      expect(component.placeholder).toEqual('');
       expect(component.month).toEqual((new Date()).getMonth());
       expect(component.year).toEqual((new Date()).getFullYear());
       expect(component.day).toEqual((new Date()).getDate());
@@ -275,6 +269,19 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.compact).toEqual(true);
       expect(component.noMargins).toEqual(true);
     });
+
+    it('should change placeholder by format', () => {
+      expect(component.placeholder).toBe('');
+
+      component.placeholder = true;
+      expect(component.placeholder).toBe('yyyy-MM-dd');
+
+      component.format = 'M/d/yyyy';
+      expect(component.placeholder).toBe('M/d/yyyy');
+
+      component.placeholder = false;
+      expect(component.placeholder).toBe('');
+    });
   });
 
   describe('Using attributes', () => {
@@ -287,7 +294,6 @@ describe('IdsDatePicker Component Tests', () => {
           <ids-date-picker
             label="${name}"
             id="${name}"
-            placeholder="${name}"
             tabbable="false"
             value="2021-10-18"
             format="yyyy-MM-dd"
@@ -297,6 +303,7 @@ describe('IdsDatePicker Component Tests', () => {
             month="9"
             year="2021"
             day="18"
+            placeholder="false"
           ></ids-date-picker>
         `);
 
@@ -331,7 +338,6 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.id).toEqual(name);
       expect(component.value).toEqual('2021-10-18');
       expect(component.label).toEqual(name);
-      expect(component.placeholder).toEqual(name);
       expect(component.size).toEqual('lg');
       expect(component.format).toEqual('yyyy-MM-dd');
       expect(component.month).toEqual(9);
@@ -366,7 +372,6 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.id).toEqual('changed');
       expect(component.value).toEqual('2022-01-20');
       expect(component.label).toEqual('changed');
-      expect(component.placeholder).toEqual('changed');
       expect(component.size).toEqual('sm');
       expect(component.format).toEqual('locale');
       expect(component.month).toEqual(4);
@@ -393,7 +398,6 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.id).toEqual('');
       expect(component.label).toEqual('');
       expect(component.format).toEqual('locale');
-      expect(component.placeholder).toEqual('');
       expect(component.month).toEqual((new Date()).getMonth());
       expect(component.year).toEqual((new Date()).getFullYear());
       expect(component.day).toEqual((new Date()).getDate());
@@ -405,6 +409,19 @@ describe('IdsDatePicker Component Tests', () => {
       component.setAttribute('use-range', true);
 
       expect(component.useRange).toBeTruthy();
+    });
+
+    it('should change placeholder by format', () => {
+      expect(component.getAttribute('placeholder')).toBeNull();
+
+      component.setAttribute('placeholder', true);
+      expect(component.placeholder).toBe('yyyy-MM-dd');
+
+      component.setAttribute('format', 'M/d/yyyy');
+      expect(component.placeholder).toBe('M/d/yyyy');
+
+      component.removeAttribute('placeholder');
+      expect(component.placeholder).toBe('');
     });
   });
 
@@ -448,7 +465,6 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.disabled).toBeFalsy();
       expect(component.readonly).toBeFalsy();
       expect(component.value).toEqual('');
-      expect(component.placeholder).toEqual('');
       expect(component.size).toEqual('sm');
       expect(component.validate).toBeNull();
       expect(component.validationEvents).toEqual('change blur');
@@ -497,5 +513,21 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.getAttribute('dirty-tracker')).toEqual(null);
       expect(component.input.getAttribute('dirty-tracker')).toEqual(null);
     });
+
+    // it('should change placeholder by format', () => {
+    //   component.format = 'd/M/yyyy';
+    //   // component.placehoder = true;
+    //   component.setAttribute('placehoder', true);
+
+    //   expect(component.placehoder).toEqual('d/M/yyyy');
+
+    //   component.format = 'yyyy-MM-dd';
+
+    //   expect(component.placehoder).toEqual('yyyy-MM-dd');
+
+    //   component.placeholder = false;
+
+    //   expect(component.placehoder).toEqual('');
+    // });
   });
 });

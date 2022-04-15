@@ -12,7 +12,7 @@ The `ids-date-picker` is a web component to support date entry
 - `compact` {boolean} sets the component to be compact mode.
 - `fieldHeight` {string} defines the field height. See [Ids Field Height Mixin](../../mixins/ids-field-height-mixin/README.md) for more information.
 - `value` {string|null} - Input value
-- `placeholder` {string|null} - Input placeholder
+- `placeholder` {true|false} - Whether or not to show date format as input placeholder
 - `label` {string|null} - Input label
 - `labelState` {string} indicates that a label is hidden (note that for accessibility reasons, `label` should still be specified). See [Ids Label State Mixin](../../mixins/ids-label-state-mixin/README.md) for more information.
 - `noMargins` {boolean} sets whether or not no-margins around the component.
