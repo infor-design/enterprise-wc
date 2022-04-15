@@ -250,10 +250,17 @@ class IdsDatePicker extends Base {
   }
 
   /**
-   * @returns {HTMLElement} reference to the Popup component
+   * @returns {HTMLElement} reference to the IdsPopup component
    */
   get popup(): HTMLElement {
     return this.#popup;
+  }
+
+  /**
+   * @returns {HTMLElement} reference to the IdsTriggerField component
+   */
+  get triggerField(): HTMLElement {
+    return this.#triggerField;
   }
 
   /**
