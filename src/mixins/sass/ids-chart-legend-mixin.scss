@@ -28,7 +28,7 @@
 
     @for $i from 1 through 21 {
       &.color-#{$i} {
-        background-color: var(--color-#{$i});
+        background-color: var(--ids-chart-color-#{$i});
       }
     }
   }

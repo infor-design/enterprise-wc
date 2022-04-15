@@ -1,4 +1,5 @@
-import componentsColorsJSON from '../../../assets/data/components-colors.json';
+import componentsColorsJSON from '../../../assets/data/components-single-color.json';
+
 import '../ids-bar-chart';
 
 const setData = async () => {

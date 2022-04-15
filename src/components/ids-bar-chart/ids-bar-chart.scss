@@ -3,7 +3,11 @@
 @import '../../components/ids-line-chart/ids-line-chart';
 
 .ids-axis-chart {
-  .labels.x-labels {
-    text-anchor: start;
+  .bars {
+    @for $i from 1 through 21 {
+      rect.color-#{$i} {
+        fill: var(--ids-chart-color-#{$i});
+      }
+    }
   }
 }

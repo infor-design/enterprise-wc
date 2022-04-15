@@ -10,13 +10,13 @@
     @for $i from 1 through 21 {
       path.color-#{$i} {
         /* stylelint-disable-next-line custom-property-pattern */
-        fill: var(--color-#{$i});
+        fill: var(--ids-chart-color-#{$i});
       }
     }
   }
 
   .animate {
-    animation: fadein 1.6s cubic-bezier(0.17, 0.04, 0.03, 0.94) forwards;
+    animation: fadein 2.8s cubic-bezier(0.17, 0.04, 0.03, 0.94) forwards;
   }
 }
 

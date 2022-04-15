@@ -6,7 +6,7 @@
   .markers {
     @for $i from 1 through 21 {
       circle.color-#{$i} {
-        fill: var(--color-#{$i});
+        fill: var(--ids-chart-color-#{$i});
       }
     }
   }
@@ -16,14 +16,9 @@
     fill: none;
     stroke-width: 2;
 
-    // Animation
-    // stroke-dasharray: 2000;
-    // stroke-dashoffset: 2000;
-    // animation: animate-line 2s linear forwards;
-
     @for $i from 1 through 21 {
       .data-line.color-#{$i} {
-        stroke: var(--color-#{$i});
+        stroke: var(--ids-chart-color-#{$i});
       }
     }
   }

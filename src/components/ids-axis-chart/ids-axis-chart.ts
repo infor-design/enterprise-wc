@@ -325,7 +325,7 @@ export default class IdsAxisChart extends Base {
     }
 
     this.data?.forEach((group: IdsChartData, index: number) => {
-      colorSheet += `--color-${index + 1}: ${(group as any).color || `var(${this.colors[index]})`} !important;`;
+      colorSheet += `--ids-chart-color-${index + 1}: ${(group as any).color || `var(${this.colors[index]})`} !important;`;
     });
 
     const styleSheet = this.shadowRoot.styleSheets[0];
@@ -784,7 +784,7 @@ export default class IdsAxisChart extends Base {
    * @returns {string} The reusable snippet
    */
   get cubicBezier(): string {
-    return 'calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.6s"';
+    return `calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="${this.animationSpeed}s"`;
   }
 
   /**
@@ -807,6 +807,21 @@ export default class IdsAxisChart extends Base {
       return true;
     }
     return stringToBool(this.getAttribute(attributes.ANIMATED));
+  }
+
+  /**
+   * Set the animation speed in s
+   * @param {number} value The speed in s
+   */
+  set animationSpeed(value: number) {
+    this.setAttribute(attributes.ANIMATION_SPEED, value);
+    if (this.animated) {
+      this.reanimate();
+    }
+  }
+
+  get animationSpeed(): number {
+    return this.getAttribute(attributes.ANIMATION_SPEED) || 0.8;
   }
 
   /**
