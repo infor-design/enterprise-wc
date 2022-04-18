@@ -1,6 +1,8 @@
 /**
  * @jest-environment jsdom
  */
+import '../helpers/resize-observer-mock';
+import waitFor from '../helpers/wait-for';
 import IdsUploadAdvanced from '../../src/components/ids-upload-advanced/ids-upload-advanced';
 
 describe('IdsUploadAdvanced Component', () => {
@@ -70,6 +72,21 @@ describe('IdsUploadAdvanced Component', () => {
     icon = el.shadowRoot.querySelector('.icon');
     expect(icon.getAttribute('icon')).toEqual(defaultIcon);
     expect(el.getAttribute('icon')).toEqual(null);
+  });
+
+  it('should set icon size for main drop area', () => {
+    const icon = el.shadowRoot.querySelector('.icon');
+    expect(el.getAttribute('icon-size')).toEqual(null);
+    expect(icon.getAttribute('size')).toEqual(null);
+    expect(el.iconSize).toEqual(null);
+    el.iconSize = 'large';
+    expect(el.getAttribute('icon-size')).toEqual('large');
+    expect(icon.getAttribute('size')).toEqual('large');
+    expect(el.iconSize).toEqual('large');
+    el.iconSize = null;
+    expect(el.getAttribute('icon-size')).toEqual(null);
+    expect(icon.getAttribute('size')).toEqual(null);
+    expect(el.iconSize).toEqual(null);
   });
 
   it('should set the max file size', () => {
@@ -349,5 +366,183 @@ describe('IdsUploadAdvanced Component', () => {
     const rootEl = el.shadowRoot.querySelector('.ids-upload-advanced');
     expect(el.disabled).toEqual('true');
     expect(rootEl.classList).toContain('disabled');
+  });
+
+  it('should auto start', () => {
+    expect(el.getAttribute('auto-start')).toEqual(null);
+    expect(el.autoStart).toEqual(true);
+    el.autoStart = false;
+    expect(el.getAttribute('auto-start')).toEqual('false');
+    expect(el.autoStart).toEqual(false);
+    el.autoStart = true;
+    expect(el.getAttribute('auto-start')).toEqual('true');
+    expect(el.autoStart).toEqual(true);
+    el.autoStart = null;
+    expect(el.getAttribute('auto-start')).toEqual(null);
+    expect(el.autoStart).toEqual(true);
+  });
+
+  it('should set arbitrary error message', () => {
+    const errorarea = el.shadowRoot.querySelector('.errorarea');
+    expect(errorarea.classList).not.toContain('has-error');
+    el.setError();
+    expect(errorarea.classList).not.toContain('has-error');
+    el.setError({ message: 'test' });
+    expect(errorarea.classList).toContain('has-error');
+    expect(el.getErrorValue('test')).toEqual('test');
+    const closeBtn = el.shadowRoot.querySelector('#btn-close-error');
+    expect(closeBtn).toBeTruthy();
+    closeBtn.click();
+    expect(errorarea.classList).not.toContain('has-error');
+  });
+
+  it('should set arbitrary error message on files', () => {
+    const files = [
+      { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
+      { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
+    ];
+    el.handleFileUpload([...files]);
+    const fileNodes = el.all;
+    expect(fileNodes.length).toEqual(2);
+    fileNodes.forEach((fileNode: any) => {
+      expect(fileNode.status).toEqual('in-process');
+    });
+
+    el.setError({ message: 'test', fileNodes });
+    fileNodes.forEach((fileNode: any) => {
+      expect(fileNode.status).toEqual('errored');
+    });
+  });
+
+  it('should set arbitrary error message on single file by ui element', () => {
+    const files = [
+      { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
+      { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
+    ];
+    el.handleFileUpload([...files]);
+    const fileElems = el.shadowRoot.querySelectorAll('ids-upload-advanced-file');
+    expect(fileElems.length).toEqual(2);
+    fileElems.forEach((elem: any) => {
+      expect(elem.status).toEqual('in-process');
+    });
+
+    el.setError({ message: 'test', fileNodes: fileElems[0] });
+    expect(fileElems[0].status).toEqual('errored');
+    expect(fileElems[1].status).toEqual('in-process');
+  });
+
+  it('should manually start upload single file', () => {
+    const files = [
+      { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
+      { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
+    ];
+    el.autoStart = false;
+    el.handleFileUpload([...files]);
+    const fileElems = el.shadowRoot.querySelectorAll('ids-upload-advanced-file');
+    expect(fileElems.length).toEqual(2);
+    fileElems.forEach((elem: any) => {
+      expect(elem.status).toEqual('not-started');
+    });
+
+    fileElems[0].start();
+    expect(fileElems[0].status).toEqual('in-process');
+    expect(fileElems[1].status).toEqual('not-started');
+
+    fileElems[1].shadowRoot.querySelector('.btn-start').click();
+    fileElems.forEach((elem: any) => {
+      expect(elem.status).toEqual('in-process');
+    });
+  });
+
+  it('should manually start upload all files', async () => {
+    const files = [
+      { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
+      { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
+    ];
+    el.autoStart = false;
+    let toolbararea: any = el.shadowRoot.querySelector('.toolbararea');
+    expect(toolbararea).toBeFalsy();
+    el.handleFileUpload([...files]);
+    const fileElems = el.shadowRoot.querySelectorAll('ids-upload-advanced-file');
+    const toolbar = el.shadowRoot.querySelector('ids-toolbar');
+    toolbararea = el.shadowRoot.querySelector('.toolbararea');
+    expect(toolbararea).toBeTruthy();
+    expect(fileElems.length).toEqual(2);
+    fileElems.forEach((elem: any) => {
+      expect(elem.status).toEqual('not-started');
+    });
+    toolbar.items.filter((btn: any) => btn.id === 'btn-start-all')[0].click();
+    fileElems.forEach((elem: any) => {
+      expect(elem.status).toEqual('in-process');
+    });
+    toolbararea.dispatchEvent(new Event('transitionend'));
+    waitFor(() => expect(toolbararea).toBeFalsy());
+  });
+
+  it('should cancel upload single file', () => {
+    const files = [
+      { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
+      { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
+    ];
+    el.autoStart = false;
+    el.handleFileUpload([...files]);
+    let fileElems = el.shadowRoot.querySelectorAll('ids-upload-advanced-file');
+    expect(fileElems.length).toEqual(2);
+    expect(el.all.length).toEqual(2);
+    fileElems.forEach((elem: any) => {
+      expect(elem.status).toEqual('not-started');
+    });
+
+    fileElems[0].cancel();
+    fileElems = el.shadowRoot.querySelectorAll('ids-upload-advanced-file');
+    expect(fileElems.length).toEqual(1);
+    expect(fileElems[0].status).toEqual('not-started');
+  });
+
+  it('should cancel upload all files', () => {
+    const files = [
+      { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
+      { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
+    ];
+    el.autoStart = false;
+    el.handleFileUpload([...files]);
+    let fileElems = el.shadowRoot.querySelectorAll('ids-upload-advanced-file');
+    const toolbar = el.shadowRoot.querySelector('ids-toolbar');
+    expect(fileElems.length).toEqual(2);
+    expect(el.all.length).toEqual(2);
+    fileElems.forEach((elem: any) => {
+      expect(elem.status).toEqual('not-started');
+    });
+    toolbar.items.filter((btn: any) => btn.id === 'btn-cancel-all')[0].click();
+    fileElems = el.shadowRoot.querySelectorAll('ids-upload-advanced-file');
+    expect(fileElems.length).toEqual(0);
+    expect(el.all.length).toEqual(0);
+  });
+
+  it('should remove if existing in files', () => {
+    const files = [
+      { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
+      { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
+    ];
+    el.autoStart = false;
+    el.handleFileUpload([...files]);
+    let fileElems = el.shadowRoot.querySelectorAll('ids-upload-advanced-file');
+    expect(fileElems.length).toEqual(2);
+    fileElems.forEach((elem: any) => {
+      expect(elem.status).toEqual('not-started');
+    });
+
+    fileElems[0].start();
+    expect(fileElems[0].status).toEqual('in-process');
+    expect(fileElems[1].status).toEqual('not-started');
+
+    expect(el.files.length).toEqual(2);
+    el.files = el.files.slice(1);
+    expect(el.files.length).toEqual(1);
+    fileElems = el.shadowRoot.querySelectorAll('ids-upload-advanced-file');
+    expect(fileElems.length).toEqual(2);
+    fileElems[0].cancel();
+    fileElems = el.shadowRoot.querySelectorAll('ids-upload-advanced-file');
+    expect(fileElems.length).toEqual(2);
   });
 });

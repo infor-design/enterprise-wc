@@ -72,6 +72,7 @@
   display: inline-block;
   margin: -4px;
 
+  &.disabled,
   &[disabled] {
     @include cursor-default();
 
@@ -110,11 +111,12 @@
         box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
       }
 
-      &:hover:not([disabled]):not(.ids-text-decoration-hover),
-      &:active:not([disabled]):not(.ids-text-decoration-hover) {
+      &:hover:not([disabled]):not(.ids-text-decoration-hover):not(.disabled),
+      &:active:not([disabled]):not(.ids-text-decoration-hover):not(.disabled) {
         @include text-azure-70();
       }
 
+      &.disabled,
       &[disabled] {
         @include text-slate-40();
       }
@@ -128,11 +130,12 @@
         box-shadow: 0 0 4px 2px rgb(141 201 230 / 0.3);
       }
 
-      &:hover:not([disabled]):not(.ids-text-decoration-hover),
-      &:active:not([disabled]):not(.ids-text-decoration-hover) {
+      &:hover:not([disabled]):not(.ids-text-decoration-hover):not(.disabled),
+      &:active:not([disabled]):not(.ids-text-decoration-hover):not(.disabled) {
         @include text-azure-60();
       }
 
+      &.disabled,
       &[disabled] {
         @include text-slate-50();
       }
@@ -146,11 +149,12 @@
         box-shadow: 0 0 4px 2px rgb(41 41 41 / 0.3);
       }
 
-      &:hover:not([disabled]):not(.ids-text-decoration-hover),
-      &:active:not([disabled]):not(.ids-text-decoration-hover) {
+      &:hover:not([disabled]):not(.ids-text-decoration-hover):not(.disabled),
+      &:active:not([disabled]):not(.ids-text-decoration-hover):not(.disabled) {
         @include text-azure-100();
       }
 
+      &.disabled,
       &[disabled] {
         @include text-slate-50();
       }
@@ -163,11 +167,12 @@
         box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
       }
 
-      &:hover:not([disabled]):not(.ids-text-decoration-hover),
-      &:active:not([disabled]):not(.ids-text-decoration-hover) {
+      &:hover:not([disabled]):not(.ids-text-decoration-hover):not(.disabled),
+      &:active:not([disabled]):not(.ids-text-decoration-hover):not(.disabled) {
         @include text-azure-80();
       }
 
+      &.disabled,
       &[disabled] {
         @include text-graphite-40();
       }
@@ -180,11 +185,12 @@
         box-shadow: 0 0 4px 3px rgb(141 201 230 / 0.3);
       }
 
-      &:hover:not([disabled]):not(.ids-text-decoration-hover),
-      &:active:not([disabled]):not(.ids-text-decoration-hover) {
+      &:hover:not([disabled]):not(.ids-text-decoration-hover):not(.disabled),
+      &:active:not([disabled]):not(.ids-text-decoration-hover):not(.disabled) {
         @include text-azure-50();
       }
 
+      &.disabled,
       &[disabled] {
         @include text-classic-slate-50();
       }
@@ -198,11 +204,12 @@
         box-shadow: 0 0 4px 2px rgb(41 41 41 / 0.3);
       }
 
-      &:hover:not([disabled]):not(.ids-text-decoration-hover),
-      &:active:not([disabled]):not(.ids-text-decoration-hover) {
+      &:hover:not([disabled]):not(.ids-text-decoration-hover):not(.disabled),
+      &:active:not([disabled]):not(.ids-text-decoration-hover):not(.disabled) {
         @include text-azure-100();
       }
 
+      &.disabled,
       &[disabled] {
         @include text-classic-slate-50();
       }
@@ -215,6 +222,7 @@
       &:not([mode]) {
         @include text-slate-60();
 
+        &.disabled,
         &[disabled] {
           @include text-slate-30();
         }
@@ -223,6 +231,7 @@
       &[version='new'][mode='dark'] {
         @include text-slate-40();
 
+        &.disabled,
         &[disabled] {
           @include text-slate-60();
         }
@@ -231,6 +240,7 @@
       &[version='new'][mode='contrast'] {
         @include text-slate-80();
 
+        &.disabled,
         &[disabled] {
           @include text-slate-30();
         }
@@ -239,6 +249,7 @@
       &[version='classic'][mode='light'] {
         @include text-slate-60();
 
+        &.disabled,
         &[disabled] {
           @include text-slate-30();
         }
@@ -247,6 +258,7 @@
       &[version='classic'][mode='dark'] {
         @include text-slate-40();
 
+        &.disabled,
         &[disabled] {
           @include text-classic-slate-50();
         }
@@ -255,6 +267,7 @@
       &[version='classic'][mode='contrast'] {
         @include text-slate-80();
 
+        &.disabled,
         &[disabled] {
           @include text-slate-50();
         }
@@ -266,6 +279,7 @@
     }
 
     &.color-variant-alternate {
+      &.disabled,
       &[disabled] {
         opacity: 0.7;
       }

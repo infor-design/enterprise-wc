@@ -1,6 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
+import { camelCase, stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-upload-advanced-file-base';
 
@@ -16,6 +16,19 @@ import styles from './ids-upload-advanced-file.scss';
  * @type {IdsUploadAdvancedFile}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
+ * @part container - the main container element
+ * @part file-row - the file row element
+ * @part status - the status element
+ * @part not-started-icon - the not started icon element
+ * @part in-process-icon - the in process icon element
+ * @part completed-icon - the completed icon element
+ * @part errored-icon - the errored icon element
+ * @part file-name - the file name element
+ * @part file-progress - the file progress element
+ * @part btn-close - the  close button element
+ * @part btn-close-icone - the  close button icon element
+ * @part progress-row - the progress row element
+ * @part error-row - the error row element
  */
 @customElement('ids-upload-advanced-file')
 @scss(styles)
@@ -34,6 +47,7 @@ export default class IdsUploadAdvancedFile extends Base {
       attributes.ERROR,
       attributes.FILE_NAME,
       attributes.SIZE,
+      attributes.STATUS,
       attributes.VALUE
     ];
   }
@@ -59,6 +73,7 @@ export default class IdsUploadAdvancedFile extends Base {
         <slot name="text-btn-cancel">${d.textBtnCancel}</slot>
         <slot name="text-btn-close-error">${d.textBtnCloseError}</slot>
         <slot name="text-btn-remove">${d.textBtnRemove}</slot>
+        <slot name="text-btn-start">${d.textBtnStart}</slot>
         <slot name="text-droparea">${d.textDroparea}</slot>
         <slot name="text-droparea-with-browse">${d.textDropareaWithBrowse}</slot>
         <slot name="text-droparea-with-browse-link">${d.textDropareaWithBrowseLink}</slot>
@@ -73,24 +88,25 @@ export default class IdsUploadAdvancedFile extends Base {
     return `
       <div class="ids-upload-advanced-file${disabled}">
         ${hiddenArea}
-        <div class="container">
-          <div class="file-row">
-            <div class="status">
-              <ids-alert class="in-process" icon="in-progress-solid"></ids-alert>
-              <ids-alert class="completed" icon="success-solid"></ids-alert>
-              <ids-alert class="errored" icon="error-solid"></ids-alert>
+        <div class="container" part="container">
+          <div class="file-row" part="file-row">
+            <div class="status" part="status">
+              <ids-alert class="not-started" part="not-started-icon" icon="info"></ids-alert>
+              <ids-alert class="in-process" part="in-process-icon" icon="in-progress"></ids-alert>
+              <ids-alert class="completed" part="completed-icon" icon="success"></ids-alert>
+              <ids-alert class="errored" part="errored-icon" icon="error"></ids-alert>
             </div>
-            <div class="file-name"><span>${this.fileName}</span></div>
-            <div class="file-progress"><ids-text class="size">${this.sizeFormatted}</ids-text><div class="progress-text"><span class="bar">|</span><span class="percent">0%</span></div></div>
-            <ids-button class="btn-close">
+            <div class="file-name" part="file-name"><span>${this.fileName}</span></div>
+            <div class="file-progress" part="file-progress"><ids-text class="size">${this.sizeFormatted}</ids-text><div class="progress-text"><span class="bar">|</span><span class="percent">0%</span></div></div>
+            <ids-button class="btn-close" part="btn-close">
               <span slot="text" class="audible">${this.closeButtonText}</span>
-              <ids-icon slot="icon" icon="close" size="xsmall"></ids-icon>
+              <ids-icon slot="icon" icon="close" size="xsmall" part="btn-close-icon"></ids-icon>
             </ids-button>
           </div>
-          <div class="progress-row">
-            <ids-progress-bar label="${this.progressLabelText}" label-audible="true" value="${this.value || 0}"></ids-progress-bar>
+          <div class="progress-row" part="progress-row">
+            <ids-progress-bar class="progress-bar" label="${this.progressLabelText}" label-audible="true" value="${this.value || 0}"></ids-progress-bar>
           </div>
-          <div class="error-row">
+          <div class="error-row" part="error-row">
             <ids-text class="error-msg"></ids-text>
           </div>
         </div>
@@ -160,13 +176,18 @@ export default class IdsUploadAdvancedFile extends Base {
     if (this.status === IdsUploadAdvancedShared.STATUS.aborted) {
       return;
     }
+
     const rootEl = this.shadowRoot.querySelector('.ids-upload-advanced-file');
     const progress = this.shadowRoot.querySelector('ids-progress-bar');
+    const btnStart = this.shadowRoot.querySelector('.btn-start');
     const closeButtonTextEl = this.shadowRoot.querySelector('.btn-close .audible');
     let value = stringToNumber((this.value as any));
     value = value > -1 ? value : 0;
     let shouldTrigger = true;
 
+    if (btnStart && this.status !== IdsUploadAdvancedShared.STATUS.notStarted) {
+      btnStart.remove();
+    }
     if (this.error) {
       const errorMsg = this.shadowRoot.querySelector('.error-row .error-msg');
       if (errorMsg) {
@@ -174,8 +195,18 @@ export default class IdsUploadAdvancedFile extends Base {
       }
       if (this.status === IdsUploadAdvancedShared.STATUS.errored) {
         shouldTrigger = false;
+        this.dispatchChangeEvent('error');
       } else {
         this.status = IdsUploadAdvancedShared.STATUS.errored;
+      }
+    } else if (this.status === IdsUploadAdvancedShared.STATUS.notStarted) {
+      if (!btnStart) {
+        const progressRow = this.shadowRoot.querySelector('.progress-row');
+        progressRow?.insertAdjacentHTML('beforeend', `
+          <ids-button class="btn-start">
+            <span slot="text" class="audible">${this.startButtonText}</span>
+            <ids-icon slot="icon" icon="play" size="xsmall"></ids-icon>
+          </ids-button>`);
       }
     } else if (value < 100) {
       this.status = IdsUploadAdvancedShared.STATUS.inProcess;
@@ -198,22 +229,9 @@ export default class IdsUploadAdvancedFile extends Base {
     rootEl?.classList.add(this.status);
 
     if (shouldTrigger && this.status !== IdsUploadAdvancedShared.STATUS.inProcess) {
-      const events: Record<string, string> = { errored: 'error', completed: 'complete' };
-      this.dispatchChangeEvent(events[this.status]);
+      const events: Record<string, string> = { notStarted: 'notstarted', errored: 'error', completed: 'complete' };
+      if (this.status) this.dispatchChangeEvent(events[camelCase(this.status)]);
     }
-  }
-
-  /**
-   * Handle close button click event
-   * @private
-   * @returns {void}
-   */
-  handleBtnCloseClickEvent(): void {
-    const btnClose = this.shadowRoot?.querySelector('.btn-close');
-    this.onEvent('click', btnClose, (e: MouseEvent) => {
-      this.abortHandler();
-      this.dispatchChangeEvent('closebuttonclick', e);
-    });
   }
 
   /**
@@ -222,7 +240,35 @@ export default class IdsUploadAdvancedFile extends Base {
    * @returns {void}
    */
   #attachEventHandlers(): void {
-    this.handleBtnCloseClickEvent();
+    this.onEvent('click', this.container, (e: any) => {
+      const classList = e?.target?.classList;
+      if (classList?.contains('btn-start')) {
+        this.dispatchChangeEvent('startbuttonclick', e);
+      }
+      if (classList?.contains('btn-close')) {
+        this.dispatchChangeEvent('closebuttonclick', e);
+      }
+    });
+  }
+
+  /**
+   * Start uploading process
+   * @returns {void}
+   */
+  start(): void {
+    if (this.status === IdsUploadAdvancedShared.STATUS.notStarted) {
+      this.dispatchChangeEvent('start');
+    }
+  }
+
+  /**
+   * Cancel upload and remove from files list
+   * @returns {void}
+   */
+  cancel(): void {
+    if (this.status === IdsUploadAdvancedShared.STATUS.notStarted) {
+      this.dispatchChangeEvent('cancel');
+    }
   }
 
   /**
@@ -323,6 +369,15 @@ export default class IdsUploadAdvancedFile extends Base {
   }
 
   /**
+   * Get text for start button
+   * @private
+   * @returns {string} The start button text
+   */
+  get startButtonText(): string {
+    return IdsUploadAdvancedShared.slotVal(this.shadowRoot, 'text-btn-start');
+  }
+
+  /**
    * Get text for progress label
    * @private
    * @returns {string} The progress label text
@@ -411,6 +466,24 @@ export default class IdsUploadAdvancedFile extends Base {
   }
 
   get size(): string | number | undefined { return this.getAttribute(attributes.SIZE); }
+
+  /**
+   * Sets the file status
+   * @param {string} value status attribute
+   */
+  set status(value: string | undefined | null) {
+    if (this.status === value) return;
+    if (Object.values(IdsUploadAdvancedShared.STATUS).indexOf((value as string)) > -1) {
+      this.setAttribute(attributes.STATUS, value);
+    } else {
+      this.removeAttribute(attributes.STATUS);
+    }
+    this.setStatus();
+  }
+
+  get status(): string | null {
+    return this.getAttribute(attributes.STATUS);
+  }
 
   /**
    * Sets the progress bar value

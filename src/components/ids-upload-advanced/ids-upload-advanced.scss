@@ -14,6 +14,9 @@
     @include flex();
     @include relative();
     @include rounded-default();
+    @include bg-slate-10();
+    @include border-slate-50();
+    @include text-slate-50();
 
     align-items: center;
     border-style: dashed;
@@ -26,6 +29,7 @@
       @include antialiased();
       @include block();
       @include no-select();
+      @include text-slate-100();
 
       text-align: center;
     }
@@ -61,9 +65,29 @@
       @include text-slate-100();
     }
 
-    &.hover {
+    &.dragenter {
       @include bg-azure-10();
       @include border-azure-60();
+    }
+  }
+
+  .toolbararea {
+    height: 42px;
+    opacity: 1;
+
+    &.before-remove-transition {
+      height: 8px;
+      opacity: 0;
+      transition: 0.3s all ease-out;
+    }
+
+    ~.filesarea .ids-upload-advanced-file:first-of-type .container,
+    ~.filesarea ids-upload-advanced-file:first-of-type::part(container) {
+      @include mt-0();
+    }
+
+    .ids-toolbar-section.align-end {
+      flex: auto;
     }
   }
 
@@ -82,13 +106,15 @@
       @include flex();
     }
 
-    .status ids-alert {
-      @include block();
-      @include p-8();
-      @include m-0();
+    .status {
+      flex: 0 0;
 
-      flex-grow: 0;
-      flex-shrink: 0;
+      .ids-alert,
+      ids-alert {
+        @include block();
+        @include p-8();
+        @include m-0();
+      }
     }
 
     .error-row {
@@ -97,6 +123,12 @@
       @include font-normal();
       @include p-8();
       @include pl-0();
+
+      flex: 1 1;
+    }
+
+    .btn-close {
+      flex: 0 0;
     }
 
     .error-data-container {
@@ -113,29 +145,8 @@
       }
     }
 
-    .errorarea.has-error {
-      @include border-ruby-30();
-      @include text-slate-30();
-    }
-  }
-}
-
-// Handle Themes
-.ids-upload-advanced[mode='light'],
-.ids-upload-advanced:not([mode]) {
-  .droparea {
-    @include bg-slate-10();
-    @include border-slate-50();
-    @include text-slate-50();
-
-    .droparea-label {
-      @include text-slate-100();
-    }
-  }
-
-  &.disabled {
     .droparea,
-    .droparea.hover,
+    .droparea.dragenter,
     .droparea:hover {
       @include bg-slate-10();
       @include border-slate-30();
@@ -147,9 +158,15 @@
         @include text-slate-30();
       }
     }
+
+    .errorarea.has-error {
+      @include border-ruby-30();
+      @include text-slate-30();
+    }
   }
 }
 
+// Handle Themes
 .ids-upload-advanced[mode='dark'] {
   .droparea {
     @include bg-slate-70();
@@ -157,7 +174,7 @@
     @include text-slate-20();
 
     &:hover,
-    &.hover {
+    &.dragenter {
       @include bg-slate-80();
       @include border-slate-50();
     }
@@ -165,7 +182,7 @@
 
   &.disabled .droparea {
     &:hover,
-    &.hover {
+    &.dragenter {
       @include bg-slate-70();
       @include border-slate-50();
     }
@@ -179,7 +196,7 @@
     @include text-slate-70();
 
     &:hover,
-    &.hover {
+    &.dragenter {
       @include bg-slate-10();
       @include border-slate-50();
     }
@@ -187,7 +204,7 @@
 
   &.disabled .droparea {
     &:hover,
-    &.hover {
+    &.dragenter {
       @include bg-white();
       @include border-slate-50();
     }
@@ -201,7 +218,7 @@
     @include text-graphite-80();
 
     &:hover,
-    &.hover {
+    &.dragenter {
       @include bg-graphite-20();
       @include border-graphite-50();
     }
@@ -209,7 +226,7 @@
 
   &.disabled .droparea {
     &:hover,
-    &.hover {
+    &.dragenter {
       @include bg-graphite-20();
       @include border-graphite-50();
     }
@@ -223,7 +240,7 @@
     @include text-classic-slate-30();
 
     &:hover,
-    &.hover {
+    &.dragenter {
       @include bg-classic-slate-70();
       @include border-classic-slate-50();
     }
@@ -231,7 +248,7 @@
 
   &.disabled .droparea {
     &:hover,
-    &.hover {
+    &.dragenter {
       @include bg-classic-slate-80();
       @include border-classic-slate-50();
     }
@@ -245,7 +262,7 @@
     @include text-graphite-100();
 
     &:hover,
-    &.hover {
+    &.dragenter {
       @include bg-graphite-10();
       @include border-graphite-50();
     }
@@ -253,7 +270,7 @@
 
   &.disabled .droparea {
     &:hover,
-    &.hover {
+    &.dragenter {
       @include bg-white();
       @include border-graphite-50();
     }

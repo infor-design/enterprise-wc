@@ -159,4 +159,26 @@ document.addEventListener('DOMContentLoaded', () => {
   targetElem?.addEventListener('closebuttonclick', (e) => {
     console.info('Clicked on close button', e);
   });
+
+  /*
+   * ========================================================
+   * Arbitrary error message
+   * ========================================================
+   */
+  // Set an arbitrary error message
+  const errorBtn: any = document.querySelector('#upload-advanced-set-error-btn');
+  const errorEl: any = document.querySelector('#upload-advanced-set-error');
+  errorBtn?.addEventListener('click', () => {
+    errorEl.setError({ message: 'Arbitrary error message' });
+  });
+
+  // Set an arbitrary error message (on each file)
+  const errorFilesBtn: any = document.querySelector('#upload-advanced-set-error-on-files-btn');
+  const errorFilesEl: any = document.querySelector('#upload-advanced-set-error-on-files');
+  errorFilesBtn?.addEventListener('click', () => {
+    const fileNodes: any[] = errorFilesEl.all;
+    if (fileNodes.length) {
+      errorFilesEl.setError({ message: 'File arbitrary error message', fileNodes });
+    }
+  });
 });
