@@ -142,7 +142,7 @@ export default class IdsAccordion extends Base {
    * @readonly
    * @returns {boolean} true if accordion set to disable
    */
-   get disabled() {
+  get disabled() {
     return stringToBool(this.getAttribute(attributes.DISABLED));
   }
 

@@ -146,7 +146,7 @@
   @include audible();
 }
 
-:host([disabled="true"]) {
+:host([disabled='true']) {
   .ids-accordion-panel {
     opacity: 0.5;
   }

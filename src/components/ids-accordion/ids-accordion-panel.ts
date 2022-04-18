@@ -181,7 +181,7 @@ export default class IdsAccordionPanel extends Base {
     } else {
       this.removeAttribute(attributes.EXPANDED);
     }
-    
+
     if (isValueTruthy !== currentValue) {
       this.#toggleExpanded(isValueTruthy);
     }
