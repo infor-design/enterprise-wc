@@ -916,6 +916,22 @@ class IdsDatePicker extends Base {
   }
 
   /**
+   * Public method to open calendar popup
+   * @returns {void}
+   */
+  show(): void {
+    this.#togglePopup(true);
+  }
+
+  /**
+   * Public method to close calendar popup
+   * @returns {void}
+   */
+  hide(): void {
+    this.#togglePopup(false);
+  }
+
+  /**
    * Indicates if input, dropdown or the calendar toolbar has focus
    * @returns {boolean} whether or not an element has focus
    */

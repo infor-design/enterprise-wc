@@ -55,9 +55,26 @@ The `ids-date-picker` is a web component to support date entry
   - `dayOfWeek` `{Array}` - Disable a specific of days of the week 0-6
   - `isReverse` `{boolean}` - Reverse the disable settings. Default is false
 
+## Methods
+- `show()` - opens calendar popup
+- `hide()` - closes calendar popup
+
 ## Events
 - `dayselected` - Fires when a day is selected or range selection is completed
 - `expanded` - Fires when a month/year picker is opened/closed
+- Event listeners for trigger field (input) `blur`, `change`, `focus`, `select`, `keydown`, `keypress`, `keyup`, `click`, `dbclick`, `beforetriggerclicked`, `triggerclicked` events can be added to `triggerField` component property:
+```js
+const datePicker = document.querySelector('ids-date-picker');
+
+datePicker.triggerField.addEventListener('change');
+```
+- Event listeners for popup `show`, `hide` events can be added to `popup` property:
+```js
+const datePicker = document.querySelector('ids-date-picker');
+
+datePicker.popup.addEventListener('show');
+datePicker.popup.addEventListener('hide');
+```
 
 ## Themeable Parts
 - `container` allows you to further style the container element of the component
@@ -213,7 +230,7 @@ The Date Picker is a complex control to code for accessibility.
 - This is a new component for 4.x
 
 **4.x to 5.x**
-- Instead of `close` and show now use `popup.visible= false`
+- Listeners for input and popup events should be added to references `triggerField` and `popup` now. See Events section.
 - `disable/readonly/tabbable` are now attributes not methods
 - If using events events are now plain JS events for example: change
 - Markup has changed to a custom element `<ids-date-picker></ids-date-picker`

@@ -423,6 +423,32 @@ describe('IdsDatePicker Component Tests', () => {
       component.removeAttribute('placeholder');
       expect(component.placeholder).toBe('');
     });
+
+    it('should trigger input change event when the date is changed', () => {
+      const mockCallback = jest.fn();
+
+      component.triggerField.addEventListener('change', mockCallback);
+
+      component.value = '1/2/2020';
+
+      expect(mockCallback).toHaveBeenCalled();
+    });
+
+    it('should trigger popup show/hide events', () => {
+      const mockShowCallback = jest.fn();
+      const mockHideCallback = jest.fn();
+
+      component.popup.addEventListener('show', mockShowCallback);
+      component.popup.addEventListener('hide', mockHideCallback);
+
+      component.show();
+
+      expect(mockShowCallback).toHaveBeenCalled();
+
+      component.hide();
+
+      expect(mockHideCallback).toHaveBeenCalled();
+    });
   });
 
   describe('Using empty component', () => {
