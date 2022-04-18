@@ -3,7 +3,6 @@ import { attributes } from '../../core/ids-attributes';
 import Base from './ids-bar-chart-base';
 import styles from './ids-bar-chart.scss';
 import type IdsChartData from '../ids-axis-chart/ids-axis-chart';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 /**
  * IDS Bar Chart Component
@@ -30,9 +29,7 @@ export default class IdsBarChart extends Base {
     return [
       ...super.attributes,
       attributes.BAR_PERCENTAGE,
-      attributes.CATEGORY_PERCENTAGE,
-      attributes.GROUPED,
-      attributes.STACKED
+      attributes.CATEGORY_PERCENTAGE
     ];
   }
 
@@ -83,7 +80,7 @@ export default class IdsBarChart extends Base {
    */
   #bars() {
     let barHTML = '';
-
+    const runningHeight: Record<number, number> = [];
     // Calculate the width of each bar and bar "category" and fit it in even sections
     this.categoryWidth = (this.categoryPercentage * this.sectionWidth);
     this.barWidth = (this.categoryWidth * this.barPercentage);
@@ -97,8 +94,12 @@ export default class IdsBarChart extends Base {
 
         const bottom = this.markerData.gridBottom;
         const height = bottom - point.top;
-        const top = point.top;
-        if (index === 1) console.log(bottom, top, height, point);
+        let top = point.top;
+        if (this.stacked) {
+          top = groupIndex > 0 ? top - runningHeight[index] : top;
+          runningHeight[index] = (runningHeight[index] || 0) + height;
+        }
+
         barHTML += `<rect class="bar color-${groupIndex + 1}" width="${this.barWidth}" height="${height}" x="${left}" y="${top}">
           ${this.animated ? `
             <animate attributeName="height" from="0" to="${height}" ${this.cubicBezier}></animate>
@@ -152,18 +153,5 @@ export default class IdsBarChart extends Base {
       return Number(this.getAttribute(attributes.CATEGORY_PERCENTAGE));
     }
     return 0.9;
-  }
-
-  /**
-   * Stack the data forming a stacked bar chart
-   * @param {boolean} value True to stack the data
-   */
-  set stacked(value: boolean) {
-    this.setAttribute(attributes.STACKED, value);
-    this.rerender();
-  }
-
-  get stacked(): boolean {
-    return stringToBool(this.getAttribute(attributes.STACKED)) || false;
   }
 }

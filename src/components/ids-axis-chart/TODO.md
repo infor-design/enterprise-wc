@@ -53,11 +53,11 @@
 - [x] Area
 - [ ] Bar
 - [ ] Pie
-- [ ] Column
+- [x] Column
 - [ ] Bubble
 - [ ] Scatter Plot
 - [ ] Grouped Bar
 - [ ] Stacked Bar
 - [ ] Grouped Column
-- [ ] Stacked Column
+- [x] Stacked Column
 - [ ] Positive Negative ( Negative Values)

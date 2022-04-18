@@ -6,7 +6,7 @@ const setData = async () => {
   const res = await fetch(url as any);
   const data = await res.json();
 
-  const chart: any = document.querySelector('#index-example');
+  const chart: any = document.querySelector('#stacked-example');
   if (chart) {
     chart.data = data;
   }

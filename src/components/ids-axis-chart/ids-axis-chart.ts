@@ -50,6 +50,8 @@ type IdsChartMarkerData = {
   gridLeft: number,
   /** The location of the right of the grid */
   gridRight: number
+  /** The total within each group */
+  groupTotals: Array<number>
 };
 
 type IdsChartDimensions = {
@@ -106,10 +108,12 @@ export default class IdsAxisChart extends Base {
       attributes.ANIMATED,
       attributes.ALIGN_X_LABELS,
       attributes.DATA,
+      attributes.GROUPED,
       attributes.HEIGHT,
       attributes.MARGINS,
       attributes.SHOW_HORIZONTAL_GRID_LINES,
       attributes.SHOW_VERTICAL_GRID_LINES,
+      attributes.STACKED,
       attributes.TITLE,
       attributes.WIDTH
     ];
@@ -234,6 +238,7 @@ export default class IdsAxisChart extends Base {
     gridBottom: 0,
     gridLeft: 0,
     gridRight: 0,
+    groupTotals: [0],
   };
 
   /** The marker data to use to draw the chart */
@@ -249,14 +254,16 @@ export default class IdsAxisChart extends Base {
     this.markerData = this.#emptyMarkerData;
 
     // Get the Min and Max and Totals in one sequence
-    this.data?.forEach((group: any) => {
+    this.data?.forEach((group: any, index: number) => {
       groupCount++;
       markerCount = 0;
+      this.markerData.groupTotals[index] = 0;
 
       group.data?.forEach((data: any) => {
         if (data.value > this.markerData.max) {
           this.markerData.max = data.value;
         }
+        this.markerData.groupTotals[index] += data.value;
         if (data.value < this.markerData.min) {
           this.markerData.min = data.value;
         }
@@ -265,7 +272,6 @@ export default class IdsAxisChart extends Base {
         }
         markerCount++;
       });
-
       if (markerCount > this.markerData.markerCount) {
         this.markerData.markerCount = markerCount;
       }
@@ -273,7 +279,8 @@ export default class IdsAxisChart extends Base {
     });
 
     // Calculate a Nice Scale
-    const scale: NiceScale = new NiceScale(this.yAxisMin, this.markerData.max);
+    const groupMax = Math.max(...this.markerData.groupTotals);
+    const scale: NiceScale = new NiceScale(this.yAxisMin, this.stacked ? groupMax : this.markerData.max);
     this.markerData.scale = scale;
     this.markerData.scaleY = [];
     for (let i = (scale.niceMin || 0); i <= (scale.niceMax || 0); i += (scale.tickSpacing || 0)) {
@@ -835,5 +842,18 @@ export default class IdsAxisChart extends Base {
 
   get alignXLabels(): string {
     return this.getAttribute(attributes.ALIGN_X_LABELS) || 'start';
+  }
+
+  /**
+   * Stack the data forming a stacked bar chart
+   * @param {boolean} value True to stack the data
+   */
+  set stacked(value: boolean) {
+    this.setAttribute(attributes.STACKED, value);
+    this.rerender();
+  }
+
+  get stacked(): boolean {
+    return stringToBool(this.getAttribute(attributes.STACKED)) || false;
   }
 }
