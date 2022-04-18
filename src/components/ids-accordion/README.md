@@ -121,23 +121,21 @@ In the example below, the "My Benefits", "Dependents and Beneficiaries", "Life E
 ## Class Hierarchy
 
 - IdsAccordion
-    - IdsElement
+  - IdsElement
 - Mixins
   IdsColorVariantMixin
   IdsEventsMixin
   IdsKeyboardMixin
   IdsLocaleMixin
   IdsThemeMixin
-
 - IdsAccordionHeader
-    - IdsElement
+  - IdsElement
 - Mixins
   IdsColorVariantMixin
   IdsEventsMixin
   IdsThemeMixin
-
 - IdsAccordionPanel
-    - IdsElement
+  - IdsElement
 - Mixins
   IdsColorVariantMixin
   IdsThemeMixin
@@ -156,21 +154,20 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 
 ## Events
 
-- `selected` Fire at the time the ids-accodion-panel element is selected, used for App-Menu, 
+- `selected` Fire at the time the ids-accordion-panel element is selected, used for App-Menu,
 Detail contains the element `elem`
-- `expanded` Fires at the time the ids-accodion-panel is expanded. Detail contains the element `elem`
-- `collapsed` Fires at the time the ids-accodion-panel is collapsed. Detail contains the element `elem`
+- `expanded` Fires at the time the ids-accordion-panel is expanded. Detail contains the element `elem`
+- `collapsed` Fires at the time the ids-accordion-panel is collapsed. Detail contains the element `elem`
 
 ## Methods
 
 - IdsAccordion
-    - `navigate` Navigate next/prev panel
-
+  - `navigate` Navigate to the next/prev panel
 - IdsAccordionPanel
-    - `collapsePane` Collapse pane
-    - `expandPane` Expand pane
-    - `select` Select header and put focus
-    - `focus` Set focus on header
+  - `collapsePane` Collapse pane
+  - `expandPane` Expand pane
+  - `select` Select header and focus it
+  - `focus` Set focus on header
 
 ## Themeable Parts
 
