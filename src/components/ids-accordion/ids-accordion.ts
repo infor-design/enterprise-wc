@@ -258,6 +258,16 @@ export default class IdsAccordion extends Base {
     this.onEvent('selected', this, (e: CustomEvent) => {
       this.#deselectOtherHeaders((e.target as HTMLElement));
     });
+
+    // Responds to `expanded` events triggered by children
+    this.onEvent('expanded', this, (e: CustomEvent) => {
+      this.#deselectOtherHeaders((e.target as HTMLElement));
+    });
+
+    // Responds to `collapsed` events triggered by children
+    this.onEvent('collapsed', this, (e: CustomEvent) => {
+      this.#deselectOtherHeaders((e.target as HTMLElement));
+    });
   }
 
   /**

@@ -112,6 +112,13 @@ export default class IdsAccordionHeader extends Base {
     const trueVal = stringToBool(val);
     this.container.classList[trueVal ? 'add' : 'remove']('expanded');
     this.panel.expanded = trueVal;
+
+    if (trueVal) {
+      this.triggerEvent('expanded', this, { bubbles: true });
+    } else {
+      this.triggerEvent('collapsed', this, { bubbles: true });
+    }
+
     this.#refreshExpanderIconType();
   }
 
