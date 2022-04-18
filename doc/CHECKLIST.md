@@ -87,6 +87,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Icons (ids-icon)
  - [x] Images (ids-image)
  - [x] Input (ids-input)
+ - [x] (Layout) Responsive Grid (ids-layout-grid)
  - [ ] Line (ids-line-chart)
  - [x] Listbuilder (ids-list-builder)
  - [x] Listview (ids-list-view)

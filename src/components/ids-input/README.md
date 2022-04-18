@@ -46,7 +46,7 @@ Add an Readonly Text Input this way:
 <ids-input label="Readonly" readonly="true"></ids-input>
 ```
 
-Set the Dirty Tracking to Text Input this way:
+Set the Dirty Tracking to Text Input this way. You can also call `resetDirtyTracker()` to reset the dirty tracking icon:
 
 ```html
 <ids-input label="Dirty Tracking" dirty-tracker="true"></ids-input>
@@ -79,7 +79,7 @@ Set the Text Align to Text Input this way:
 <ids-input label="Right align" value="Right align" text-align="right"></ids-input>
 ```
 
-Set the capslock alert indicator this way:
+Set the caps lock alert indicator this way:
 
 ```html
 <ids-input label="password" caps-lock="true" type="password"></ids-input>
@@ -129,7 +129,7 @@ setData();
 - `clearableForced` {boolean} set (x) button to clear text on click/key to input, forced to be on readonly.
 - `colorVariant` {string} set the current color variant.
 - `compact` {boolean} sets the component to be compact mode.
-- `caps-lock` {boolean} sets whether the capslock indicator appears when caps lock is on.
+- `caps-lock` {boolean} sets whether the   indicator appears when caps lock is on.
 - `data` when autocomplete is enabled an instance of [IdsDatasource](../../core/README.md)]
 - `dirty-tracker` {boolean} set dirty tracker to input. See [Ids Dirty Tracker Mixin](../../mixins/ids-dirty-tracker-mixin/README.md) for more information.
 - `disabled` {boolean} set disabled state.
@@ -142,7 +142,7 @@ setData();
 - `placeholder` {string} set the placeholder text to input.
 - `size` {string} set the input size, it will set `md` as defaults.
 - `search-field` when autocomplete is enabled can be set to a string of the field to be searched in the dataset.
-- `revealable-text` {boolean} sets whether the show/hide button is availble for password fields must be paired with type='password'
+- `revealable-text` {boolean} sets whether the show/hide button is available for password fields must be paired with type='password'
 - `readonly` {boolean} set readonly state.
 - `text-align` {string} set text-align to input, it will set `left` as defaults.
 - `type` {string} set the input type, it will set `text` as defaults.
@@ -160,11 +160,23 @@ The IDS Input doesn't contain any interactions beyond a standard HTMLInputElemen
 
 - Default size is 300px wide but there are a number of widths.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-### Converting from 4.x
+**3.x to 4.x**
 
-The IDS Input component is now a WebComponent. Instead of using classes to define the type, it is done directly with a "type" attribute:
+- Block grid / Image List partially replaces the carousel in 3.x
+
+**4.x to 5.x**
+
+- The Input component has been changed to a web component and renamed to ids-input.
+- Markup has changed to a custom element `<ids-input></ids-input>` (see examples above)
+- Actions next to the input is deprecated, if needed you can code it with a button, popupmenu and input
+- If using events, events are now plain JS events (custom events)
+- Can now be imported as a single JS file and used with encapsulated styles
+- Can now be use variation of sizes (width/height)
+- If using a clearable X on the input the x is now tabbable by default for accessibility
+
+Markup comparison:
 
 ```html
 <!-- 4.x input example -->
@@ -175,7 +187,6 @@ The IDS Input component is now a WebComponent. Instead of using classes to defin
 
 <!-- this is the same input using the WebComponent -->
 <ids-input label="Last Name" id="last-name" name="last-name" validate="required"></ids-input>
-
 ```
 
 ## Accessibility Guidelines
