@@ -43,6 +43,7 @@ export default class IdsUploadAdvancedFile extends Base {
    */
   static get attributes() {
     return [
+      ...super.attributes,
       attributes.DISABLED,
       attributes.ERROR,
       attributes.FILE_NAME,
@@ -58,6 +59,7 @@ export default class IdsUploadAdvancedFile extends Base {
    */
   connectedCallback() {
     this.#attachEventHandlers();
+    super.connectedCallback?.();
   }
 
   /**

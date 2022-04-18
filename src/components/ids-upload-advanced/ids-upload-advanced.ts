@@ -49,6 +49,7 @@ export default class IdsUploadAdvanced extends Base {
    */
   static get attributes(): Array<string> {
     return [
+      ...super.attributes,
       attributes.ACCEPT,
       attributes.AUTO_START,
       attributes.DISABLED,
@@ -77,7 +78,7 @@ export default class IdsUploadAdvanced extends Base {
     this.files = [];
 
     this.#attachEventHandlers();
-    super.connectedCallback();
+    super.connectedCallback?.();
   }
 
   /**

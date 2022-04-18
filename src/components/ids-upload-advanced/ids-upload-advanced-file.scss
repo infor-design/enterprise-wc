@@ -125,15 +125,9 @@
 
   &.not-started {
     .container {
-      @include border-azure-80();
-
       .btn-start,
       .status .not-started {
         @include block();
-      }
-
-      .file-name {
-        @include text-azure-80();
       }
 
       .error-row,
@@ -211,16 +205,6 @@
     .container {
       @include border-slate-30();
       @include no-select();
-    }
-
-    &.not-started {
-      .container {
-        @include border-azure-30();
-      }
-
-      .container .file-name {
-        @include text-azure-30();
-      }
     }
 
     &.completed {
