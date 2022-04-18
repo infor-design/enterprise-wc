@@ -121,7 +121,8 @@
 }
 
 // Handle Themes
-.ids-upload-advanced[mode='light'] {
+.ids-upload-advanced[mode='light'],
+.ids-upload-advanced:not([mode]) {
   .droparea {
     @include bg-slate-10();
     @include border-slate-50();

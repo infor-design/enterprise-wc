@@ -16,6 +16,7 @@
   user-select: none;
   min-width: $input-size-xs - 2;
   width: 298px;
+  text-transform: capitalize;
 }
 
 :host(.is-selected) {
@@ -23,7 +24,8 @@
   @include text-white();
 }
 
-:host(:hover:not(.is-selected)) {
+:host(:hover:not(.is-selected)),
+:host(.is-focused) {
   @include bg-slate-20();
 }
 

@@ -13,4 +13,6 @@
     description: Shows all validation messages
   - link: standalone-css.html
     description: Showing a input that works with css only
+  - link: autocomplete.html
+    description: Showing an autocomplete input
 

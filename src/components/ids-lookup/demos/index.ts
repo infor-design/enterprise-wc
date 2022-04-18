@@ -3,8 +3,8 @@ import '../ids-lookup';
 import booksJSON from '../../../assets/data/books.json';
 
 // Example for populating the DataGrid
-const lookup: any = document.querySelector('#lookup-1');
-const container: any = document.querySelector('ids-container');
+const lookup: Element | any = document.querySelector('#lookup-1');
+const container: Element | any = document.querySelector('ids-container');
 
 (async function init() {
   // Set a Locale and wait for it to load

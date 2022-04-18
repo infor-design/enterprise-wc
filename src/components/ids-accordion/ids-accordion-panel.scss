@@ -15,7 +15,8 @@
   }
 
   // Light Mode Styles
-  &[mode='light'] {
+  &[mode='light'],
+  &:not([mode]) {
     &.expanded {
       @include bg-black();
     }

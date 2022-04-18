@@ -22,7 +22,9 @@ export default class IdsColorPicker extends Base {
   }
 
   // Reference to internal Popup
-  popup = this.container.querySelector('ids-popup');
+  get popup(): any {
+    return this.container.querySelector('ids-popup');
+  }
 
   // Reference to swatch input
   // (Used in the advanced color picker to retain `input[type="color"]` state)
