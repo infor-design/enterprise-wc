@@ -11,8 +11,8 @@
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "strict": true,
-    "target": "es2020",
-    "module": "es2020",
+    "target": "es2022",
+    "module": "es2022",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "sourceMap": true,
@@ -24,6 +24,7 @@
   "include": [
     "test/**/*.ts",
     "src/**/**/*.ts",
+    "scripts/*.ts",
      "./declaration.d.ts"
   ],
   "exclude": [
@@ -32,7 +33,7 @@
     "build/types",
     "dist",
     "aws",
-    "scripts"
+    "scripts/*.js"
   ],
   "types": [
     "@types/jest",

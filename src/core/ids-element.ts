@@ -1,6 +1,7 @@
 import { attributes, version } from './ids-attributes';
 import { camelCase } from '../utils/ids-string-utils/ids-string-utils';
 import IdsEventsMixin from '../mixins/ids-events-mixin/ids-events-mixin';
+import styles from './ids-element.scss';
 
 /**
  * Simple dictionary used to cache attribute names
@@ -22,6 +23,7 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
     super();
     this.addBaseName();
     this.render();
+    this.#appendHostCss();
   }
 
   /** Component's name */
@@ -176,5 +178,23 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
 
     this.shadowRoot?.appendChild(style);
     this.hasStyles = true;
+  }
+
+  /**
+   * Append One host css
+   * @private
+   */
+  #appendHostCss() {
+    const win = (window as any);
+    if (!win.idsStylesAdded) {
+      const doc = (document.head as any);
+      const style = document.createElement('style');
+      style.textContent = styles.replace(':host {', ':root {');
+      style.id = 'ids-styles';
+      style.setAttribute('nonce', this.nonce);
+
+      doc.appendChild(style);
+      win.idsStylesAdded = true;
+    }
   }
 }

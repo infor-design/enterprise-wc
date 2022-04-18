@@ -34,12 +34,9 @@ For more details on breaking changes see each component in the individual README
 - `[HomePage]` The HomePage component is now a web component called `ids-home-page`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-home-page/README.md#converting-from-previous-versions for details. ([#313](https://github.com/infor-design/enterprise-wc/issues/313))
 - `[Hyperlink]` The Hyperlink component is now a web component called `ids-hyperlink`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-hyperlink/README.md#converting-from-previous-versions for details. ([#137](https://github.com/infor-design/enterprise-wc/issues/137))
 - `[Icons]` The icon component is now a web component called `ids-icon`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-icon/README.md#converting-from-previous-versions for details. ([#581](https://github.com/infor-design/enterprise-wc/issues/581))
-- `[Input]` The Input component has been changed to a web component and renamed to ids-input.
-  - Markup has changed to a custom element `<ids-input></ids-input>`
-  - If using events, events are now plain JS events.
-  - Can now be imported as a single JS file and used with encapsulated styles
-  - Can now be use variation of sizes (width/height)
-  - If using a clearable X on the input the x is now tabbable by default for accessibility
+- `[Image]` The image css component is now a web component called `ids-image`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-image/README.md#converting-from-previous-versions for details. ([#360](https://github.com/infor-design/enterprise-wc/issues/360))
+- `[Input]` The Input component is now a web component called `ids-input`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-image/README.md#converting-from-previous-versions for details. ([#171](https://github.com/infor-design/enterprise-wc/issues/171))
+- `[LayoutGrid]` The Grid component is now a web component called `ids-layout-grid`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-layout-grid/README.md#converting-from-previous-versions for details. ([#180](https://github.com/infor-design/enterprise-wc/issues/180))
 - `[LineChart]`The Line Chart component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/blob/todo-passthrough/src/components/ids-line-chart/README.md#converting-from-previous-versions-breaking-changes)` for details. ([#317](https://github.com/infor-design/enterprise-wc/issues/317))
 - `[ListView]` The List View component has been changed to a web component and renamed to ids-list-view.
   - If using properties/settings these are now attributes.

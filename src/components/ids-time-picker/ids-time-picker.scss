@@ -1,6 +1,7 @@
 /* Ids Time Picker Component */
 @import '../../core/ids-base';
 @import '../ids-input/ids-input';
+@import '../../mixins/sass/ids-hide-mixin';
 
 :host([size='full']) .ids-time-picker {
   @include w-full();
