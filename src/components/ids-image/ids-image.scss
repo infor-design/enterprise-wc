@@ -14,11 +14,10 @@ $image-sizes: (
 
 // set size
 @each $key, $value in $image-sizes {
-  :host([size='#{$key}']) {
-    .ids-image {
-      width: list.nth($value, 1);
-      height: list.nth($value, 2);
-    }
+  :host([size='#{$key}']) .ids-image,
+  .ids-image.#{$key} {
+    width: list.nth($value, 1);
+    height: list.nth($value, 2);
   }
 }
 
@@ -28,7 +27,9 @@ $image-sizes: (
 }
 
 :host([mode='light']:focus),
-:host([mode='light']:focus-visible) {
+:host([mode='light']:focus-visible),
+:host(:not([mode]):focus),
+:host(:not([mode]):focus-visible) {
   .ids-image {
     @include border-azure-60();
 
@@ -55,13 +56,13 @@ $image-sizes: (
 }
 
 // theme mode
-:host([mode='light']) {
-  .placeholder {
-    @include border-slate-20();
+:host([mode='light']) .placeholder,
+:host(:not([mode])) .placeholder,
+.ids-image.placeholder {
+  @include border-slate-20();
 
-    ids-icon {
-      @include text-slate-80();
-    }
+  ids-icon {
+    @include text-slate-80();
   }
 }
 
@@ -86,19 +87,19 @@ $image-sizes: (
 }
 
 // round attribute
-:host([round='true']) {
-  .ids-image {
-    @include rounded-round();
+:host([round='true']) .ids-image,
+.ids-image.round {
+  @include rounded-round();
 
-    min-width: 50px;
-    max-width: 50px;
-    width: 50px;
-    height: 50px;
-  }
+  min-width: 50px;
+  max-width: 50px;
+  width: 50px;
+  height: 50px;
 }
 
 // user-status attribute
-:host([user-status]) {
+:host([user-status]),
+.user-status-wrapper {
   @include relative();
 }
 
@@ -118,24 +119,23 @@ $image-sizes: (
     object-fit: cover;
   }
 
-  &.placeholder,
-  &.initials {
-    @include w-full();
-    @include h-full();
+  &.placeholder {
     @include inline-flex();
+    @include bg-white();
 
     align-items: center;
     justify-content: center;
-  }
-
-  &.placeholder {
-    @include bg-white();
-
     min-width: 50px;
     min-height: 50px;
   }
 
   &.initials {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    min-width: 50px;
+    min-height: 50px;
+
     @include bg-amethyst-50();
     @include text-white();
     @include text-uppercase();
@@ -188,4 +188,17 @@ $image-sizes: (
   ids-icon {
     @include z-1();
   }
+}
+
+.user-status-wrapper .user-status {
+  svg {
+    @include bg-white();
+    @include rounded-round();
+  }
+
+  position: unset;
+  width: 18px;
+  height: 18px;
+  margin-left: 36px;
+  margin-top: -18px;
 }

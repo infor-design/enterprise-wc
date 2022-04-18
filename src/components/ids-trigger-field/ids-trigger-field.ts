@@ -34,6 +34,7 @@ export default class IdsTriggerField extends Base {
    */
   get elements() {
     return {
+      ...super.elements,
       content: this.container.querySelector('.ids-trigger-field-content'),
       label: this.container.querySelector('label'),
       text: this.container.querySelector('ids-text'),
@@ -85,22 +86,29 @@ export default class IdsTriggerField extends Base {
       value
     } = this.templateVariables();
 
-    return (
-      `<div class="ids-trigger-field ${containerClass}" part="container">
-        ${labelHtml}
-        <div class="field-container" part="field-container">
-          <slot name="trigger-start"></slot>
-          <input
-            part="input"
-            id="${this.id}-input"
-            ${type}${inputClass}${placeholder}${inputState}
-            ${ariaLabel}
-            ${value}
-            ></input>
-          <slot name="trigger-end"></slot>
-        </div>
-      </div>`
-    );
+    return `<div class="ids-trigger-field ${containerClass}" part="container">
+      ${labelHtml}
+      <div class="field-container" part="field-container">
+        <slot name="trigger-start"></slot>
+        <input
+          part="input"
+          id="${this.id}-input"
+          ${type}${inputClass}${placeholder}${inputState}
+          ${ariaLabel}
+          ${value}
+          ></input>
+        <slot name="trigger-end"></slot>
+      </div>
+      ${this.autocomplete ? `
+        <ids-popup
+          type="dropdown"
+          align="bottom, left"
+          align-target="#${this.id}-input"
+          part="popup"
+        >
+          <ids-list-box slot="content"></ids-list-box>
+        </ids-popup>` : ''}
+    </div>`;
   }
 
   /**

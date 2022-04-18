@@ -242,13 +242,12 @@
 }
 
 .ids-card-header {
+  @include py-12();
   @include px-16();
   @include border-slate-30();
 }
 
 ::slotted([slot='card-header']) {
-  @include py-12();
-
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -277,7 +276,7 @@
   @include border-b-1();
 }
 
-.ids-card[version='classic'][mode='light'] {
+.ids-card[mode='light'][version='classic'] {
   @include border-graphite-30();
   @include rounded-default();
   @include shadow-none();
@@ -287,7 +286,7 @@
   }
 }
 
-.ids-card[version='classic'][mode='dark'] {
+.ids-card[mode='dark'][version='classic'] {
   @include bg-classic-slate-80();
   @include border-classic-slate-60();
   @include rounded-default();
@@ -298,7 +297,7 @@
   }
 }
 
-.ids-card[version='classic'][mode='contrast'] {
+.ids-card[mode='contrast'][version='classic'] {
   @include bg-white();
   @include border-classic-slate-60();
   @include rounded-default();

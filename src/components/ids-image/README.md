@@ -89,3 +89,17 @@ image.userStatus = null;
 // Show initials
 image.initials = 'mn';
 ```
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- Block grid / Image List partially replaces the carousel in 3.x
+
+**4.x to 5.x**
+
+- Swipe Container replaces the carousel in 3.x
+- Image List - can be done if needed with a toolbar and block grid
+- The Image css for sizes/placeholder and alerts/initials has been changed to a web component with settings
+- Markup has changed to a custom element `<ids-image></ids-image>` (see examples above)
+- Can now be imported as a single JS file and used with encapsulated styles

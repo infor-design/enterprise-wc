@@ -71,6 +71,11 @@ module.exports = {
           'sass-to-string',
           {
             loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                outputStyle: 'expanded'
+              }
+            }
           }
         ],
       },

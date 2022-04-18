@@ -11,6 +11,7 @@
 ## Minor
 
 - [ ] Add side by side example
+- [ ] Fix standalone css example
 - [ ] Add menu button example like https://main-enterprise.demo.design.infor.com/components/header/example-popupmenu.html
 - [ ] Add wizard example like https://main-enterprise.demo.design.infor.com/components/header/example-wizard.html
 - [ ] Add sticky header example (position sticky). This is new and used by landmark

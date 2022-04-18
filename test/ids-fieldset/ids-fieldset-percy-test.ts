@@ -8,6 +8,11 @@ describe('Ids Fieldset e2e Tests', () => {
     await percySnapshot(page, 'ids-fieldset-new-light');
   });
 
+  it('should not have visual regressions in standalone css', async () => {
+    await page.goto('http://localhost:4444/ids-fieldset/standalone-css.html', { waitUntil: ['networkidle2', 'load'] });
+    await percySnapshot(page, 'ids-fieldset-standalone-css', { widths: [1280] });
+  });
+
   it('should not have visual regressions in new dark theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
