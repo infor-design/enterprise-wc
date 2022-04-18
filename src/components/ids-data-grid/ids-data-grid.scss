@@ -370,6 +370,11 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   }
 }
 
+// Standalone Css Borders
+table.ids-data-grid {
+  outline: 1px solid var(--ids-color-palette-azure-30);
+}
+
 // Dark Theme
 .ids-data-grid[mode='dark'] {
   @include bg-slate-90();

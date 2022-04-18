@@ -1,6 +1,6 @@
 const path = require('path');
 const sass = require('sass');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const prodEntry = require('./scripts/webpack-prod-entry');
@@ -54,7 +54,7 @@ module.exports = {
             loader: 'sass-loader',
             options: {
               sassOptions: {
-                outputStyle: 'compressed',
+                outputStyle: 'expanded',
               },
             },
           },
