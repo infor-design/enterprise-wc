@@ -188,7 +188,7 @@
       @include text-slate-30();
     }
 
-    .file-input:focus~.droparea-label .hyperlink::part(link) {
+    .file-input:focus ~ .droparea-label .hyperlink::part(link) {
       border: 1px solid var(--ids-color-palette-azure-60);
       box-shadow: 0 0 4px 2px rgb(141 201 230 / 0.1);
     }
