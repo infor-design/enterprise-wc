@@ -102,6 +102,7 @@
     @include rounded-default();
 
     border-style: dashed;
+    align-items: center;
 
     &.has-error {
       @include border-ruby-60();
@@ -109,28 +110,38 @@
     }
 
     .status {
-      flex: 0 0;
+      flex-grow: 0;
+      flex-shrink: 0;
 
       .ids-alert,
       ids-alert {
         @include block();
         @include p-8();
+        @include pb-4();
         @include m-0();
       }
     }
 
     .error-row {
-      @include antialiased();
-      @include font-sans();
-      @include font-normal();
-      @include p-8();
-      @include pl-0();
+      @include min-w-0();
 
-      flex: 1 1;
+      flex-grow: 1;
+
+      span {
+        @include antialiased();
+        @include ellipsis();
+        @include font-sans();
+        @include font-normal();
+        @include block();
+        @include m-0();
+      }
     }
 
     .btn-close {
-      flex: 0 0;
+      @include mx-2();
+
+      flex-grow: 0;
+      flex-shrink: 0;
     }
 
     .error-data-container {
