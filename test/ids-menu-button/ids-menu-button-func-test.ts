@@ -151,6 +151,34 @@ describe('IdsMenuButton Component', () => {
     expect(buttonEl.shadowRoot.querySelector('.ids-icon-button')).toBeTruthy();
   });
 
+  it('should select item via keyboard', async () => {
+    menuEl.innerHTML = `<ids-menu-group id="primary" select="single">
+      <ids-menu-item id="item1" value="1">Item 1</ids-menu-item>
+    </ids-menu-group>`;
+
+    // open menu
+    const clickEvent = new MouseEvent('click');
+    buttonEl.dispatchEvent(clickEvent);
+    expect(menuEl.visible).toBeTruthy();
+
+    // select menu item
+    const item1 = menuEl.querySelector('#item1');
+    const enterEvent = new KeyboardEvent('keydown', {
+      code: 'Enter',
+      key: 'Enter',
+      charCode: 13,
+      keyCode: 13,
+      view: window,
+      bubbles: true
+    });
+    item1.focus();
+    item1.dispatchEvent(enterEvent);
+    expect(item1.selected).toBeTruthy();
+
+    // ensure popup closed after selection
+    expect(menuEl.visible).toBeFalsy();
+  });
+
   it('focuses the button when the menu is closed with the `Escape` key', () => {
     const closeEvent = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true });
     menuEl.show();
