@@ -650,7 +650,7 @@ describe('Ids Date Picker e2e Tests', () => {
     // Set value to the input
     await page.$eval(
       '#e2e-datepicker-required',
-      (el: any) => el?.container.querySelector('ids-trigger-field')?.setAttribute('value', '4/5/2022')
+      (el: any) => el?.container.querySelector('ids-trigger-field')?.setAttribute('value', '2021-04-09')
     );
 
     let value = await page.$eval(
@@ -658,7 +658,7 @@ describe('Ids Date Picker e2e Tests', () => {
       (el: any) => el?.value
     );
 
-    expect(value).toEqual('4/5/2022');
+    expect(value).toEqual('2021-04-09');
 
     // Reset value in the input
     await page.$eval(

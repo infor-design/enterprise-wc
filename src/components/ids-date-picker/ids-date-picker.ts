@@ -896,22 +896,24 @@ class IdsDatePicker extends Base {
    * @param {string} type of event
    */
   #changeDate(type: string) {
-    const date = this.#triggerField?.value ? new Date(this.#triggerField.value) : new Date();
+    const date = this.#triggerField?.value
+      ? this.locale.parseDate(this.#triggerField.value, { dateFormat: this.format })
+      : new Date();
 
     if (type === 'today') {
       const now = new Date();
 
       this.value = this.useRange
-        ? `${this.locale.formatDate(now)}${this.rangeSettings.separator}${this.locale.formatDate(now)}`
-        : this.locale.formatDate(now);
+        ? `${this.locale.formatDate(now, { pattern: this.format })}${this.rangeSettings.separator}${this.locale.formatDate(now, { pattern: this.format })}`
+        : this.locale.formatDate(now, { pattern: this.format });
     }
 
     if (type === 'next-day' && !this.useRange) {
-      this.value = this.locale.formatDate(addDate(date, 1, 'days'));
+      this.value = this.locale.formatDate(addDate(date, 1, 'days'), { pattern: this.format });
     }
 
     if (type === 'previous-day' && !this.useRange) {
-      this.value = this.locale.formatDate(subtractDate(date, 1, 'days'));
+      this.value = this.locale.formatDate(subtractDate(date, 1, 'days'), { pattern: this.format });
     }
   }
 
@@ -1529,7 +1531,7 @@ class IdsDatePicker extends Base {
       this.#monthView.rangeSettings = val;
 
       if (val?.start && val?.end) {
-        this.value = `${this.locale.formatDate(val.start)}${this.rangeSettings.separator}${this.locale.formatDate(val.end)}`;
+        this.value = `${this.locale.formatDate(val.start, { pattern: this.format })}${this.rangeSettings.separator}${this.locale.formatDate(val.end, { pattern: this.format })}`;
       }
     }
   }
