@@ -415,8 +415,9 @@ class IdsLocale {
       const month: string = (monthIndex + 1).toString();
       const day: string = value.getDate().toString();
       const pattern = options.pattern;
+      let result = '';
 
-      const result: string = pattern
+      result = pattern
         .replace('de', 'nnnnn')
         .replace('ngày', 'nnnn')
         .replace('tháng', 't1áng')
@@ -432,13 +433,11 @@ class IdsLocale {
       if (pattern.includes('MMM')) {
         const calendar = this.calendar(usedLocale);
 
-        result
-          .replace('MMMM', calendar.months.wide[month])
+        result = result.replace('MMMM', calendar.months.wide[month])
           .replace('MMM', calendar.months.abbreviated[month]);
       }
 
-      result
-        .replace('MM', month.padStart(2, '0'))
+      result = result.replace('MM', month.padStart(2, '0'))
         .replace('M', month)
         .replace('nnnnn', 'de')
         .replace('nnnn', 'ngày')

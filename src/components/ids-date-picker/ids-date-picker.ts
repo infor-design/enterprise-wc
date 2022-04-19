@@ -302,12 +302,12 @@ class IdsDatePicker extends Base {
         if (!this.isCalendarToolbar) {
           if (this.useRange) {
             this.value = [
-              this.locale.formatDate(e.detail.rangeStart),
+              this.locale.formatDate(e.detail.rangeStart, { pattern: this.format }),
               this.rangeSettings.separator,
-              e.detail.rangeEnd && this.locale.formatDate(e.detail.rangeEnd)
+              e.detail.rangeEnd && this.locale.formatDate(e.detail.rangeEnd, { pattern: this.format })
             ].filter(Boolean).join('');
           } else {
-            this.value = this.locale.formatDate(e.detail.date);
+            this.value = this.locale.formatDate(e.detail.date, { pattern: this.format });
           }
         }
 
@@ -361,16 +361,22 @@ class IdsDatePicker extends Base {
         if (this.useRange) {
           if (this.rangeSettings.end || (this.rangeSettings.start && !this.rangeSettings.end)) {
             this.value = [
-              this.locale.formatDate(this.rangeSettings.start),
+              this.locale.formatDate(this.rangeSettings.start, { pattern: this.format }),
               this.rangeSettings.separator,
-              this.locale.formatDate(this.rangeSettings.end ?? this.#monthView.activeDate),
+              this.locale.formatDate(
+                this.rangeSettings.end ?? this.#monthView.activeDate,
+                { pattern: this.format }
+              ),
             ].filter(Boolean).join('');
 
             this.#togglePopup(false);
             this.#triggerField?.focus();
             this.#triggerSelectedEvent();
           } else {
-            this.value = this.locale.formatDate(this.rangeSettings.start ?? this.#monthView.activeDate);
+            this.value = this.locale.formatDate(
+              this.rangeSettings.start ?? this.#monthView.activeDate,
+              { pattern: this.format }
+            );
             this.rangeSettings = {
               start: this.#monthView.activeDate
             };
@@ -379,7 +385,7 @@ class IdsDatePicker extends Base {
           return;
         }
 
-        this.value = this.locale.formatDate(this.#monthView.activeDate);
+        this.value = this.locale.formatDate(this.#monthView.activeDate, { pattern: this.format });
         this.#togglePopup(false);
         this.#triggerField?.focus();
         this.#triggerSelectedEvent();
