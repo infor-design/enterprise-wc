@@ -149,6 +149,8 @@
 
 :host([disabled='true']) {
   .ids-accordion-panel {
-    opacity: 0.5;
+    ::slotted([slot='header']) {
+      color: var(--ids-color-palette-slate-30);
+    }
   }
 }
