@@ -407,6 +407,48 @@ class IdsLocale {
   formatDate(value: any, options: any): string {
     const usedOptions = options;
     const usedLocale = usedOptions?.locale || this.locale.name;
+
+    // Formatting by pattern
+    if (options?.pattern && value instanceof Date) {
+      const year: string = value.getFullYear().toString();
+      const monthIndex: number = value.getMonth();
+      const month: string = (monthIndex + 1).toString();
+      const day: string = value.getDate().toString();
+      const pattern = options.pattern;
+
+      const result: string = pattern
+        .replace('de', 'nnnnn')
+        .replace('ngày', 'nnnn')
+        .replace('tháng', 't1áng')
+        .replace('den', 'nnn')
+        // Days
+        .replace('dd', day.padStart(2, '0'))
+        .replace('d', day)
+        // Years
+        .replace('yyyy', year)
+        .replace('y', year);
+
+      // Months
+      if (pattern.includes('MMM')) {
+        const calendar = this.calendar(usedLocale);
+
+        result
+          .replace('MMMM', calendar.months.wide[month])
+          .replace('MMM', calendar.months.abbreviated[month]);
+      }
+
+      result
+        .replace('MM', month.padStart(2, '0'))
+        .replace('M', month)
+        .replace('nnnnn', 'de')
+        .replace('nnnn', 'ngày')
+        .replace('t1áng', 'tháng')
+        .replace('nnn', 'den');
+
+      return result.replace(/&lrm;|\u200E/gi, ' ').trim();
+    }
+
+    // Formatting by locale
     let sourceDate = value;
 
     this.dateFormatter = new Intl.DateTimeFormat(

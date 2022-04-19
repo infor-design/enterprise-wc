@@ -828,7 +828,10 @@ class IdsDatePicker extends Base {
   #parseInputDate() {
     if (this.isCalendarToolbar) return;
 
-    const inputDate = new Date(this.#triggerField?.value);
+    const inputDate = this.locale.parseDate(
+      this.#triggerField?.value,
+      { dateFormat: this.format }
+    );
 
     const setDateParams = (date: Date) => {
       const month = date.getMonth();
@@ -850,8 +853,14 @@ class IdsDatePicker extends Base {
 
     if (this.useRange && this.#triggerField?.value) {
       const rangeParts = this.#triggerField.value.split(this.rangeSettings.separator);
-      const rangeStart = rangeParts[0] ? new Date(rangeParts[0]) : null;
-      const rangeEnd = rangeParts[1] ? new Date(rangeParts[1]) : null;
+      const rangeStart = rangeParts[0] ? this.locale.parseDate(
+        rangeParts[0],
+        { dateFormat: this.format }
+      ) : null;
+      const rangeEnd = rangeParts[1] ? this.locale.parseDate(
+        rangeParts[1],
+        { dateFormat: this.format }
+      ) : null;
 
       this.rangeSettings = {
         start: rangeStart,
@@ -863,17 +872,15 @@ class IdsDatePicker extends Base {
       return;
     }
 
-    setDateParams(inputDate);
+    setDateParams(inputDate || new Date());
   }
 
   /**
    * Applying ids-mask to the input when changing locale or format
    */
   #applyMask() {
-    const format = this.format === 'locale' ? this.locale.calendar().dateFormat.short : this.format;
-
     if (this.#triggerField) {
-      this.#triggerField.maskOptions = { format };
+      this.#triggerField.maskOptions = { format: this.format };
       this.#triggerField.value = this.value;
     }
   }
@@ -982,9 +989,8 @@ class IdsDatePicker extends Base {
    */
   get placeholder(): string {
     const boolVal = stringToBool(this.getAttribute(attributes.PLACEHOLDER));
-    const format = this.format === 'locale' ? this.locale?.calendar().dateFormat.short : this.format;
 
-    return boolVal ? format : '';
+    return boolVal ? this.format : '';
   }
 
   /**
@@ -1184,10 +1190,12 @@ class IdsDatePicker extends Base {
 
   /**
    * format attributes
-   * @returns {string|'locale'} format param. Default is locale - gets format from the calendar
+   * @returns {string} format param. Default is locale - gets format from the calendar
    */
-  get format(): string | 'locale' {
-    return this.getAttribute(attributes.FORMAT) ?? 'locale';
+  get format(): string {
+    const attrVal = this.getAttribute(attributes.FORMAT);
+
+    return !attrVal || attrVal === 'locale' ? this.locale?.calendar().dateFormat.short : attrVal;
   }
 
   /**

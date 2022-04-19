@@ -113,7 +113,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.id).toEqual('');
       expect(component.value).toEqual('');
       expect(component.label).toEqual('');
-      expect(component.format).toEqual('locale');
+      expect(component.format).toEqual('M/d/yyyy');
       expect(component.month).toEqual((new Date()).getMonth());
       expect(component.year).toEqual((new Date()).getFullYear());
       expect(component.day).toEqual((new Date()).getDate());
@@ -373,7 +373,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.value).toEqual('2022-01-20');
       expect(component.label).toEqual('changed');
       expect(component.size).toEqual('sm');
-      expect(component.format).toEqual('locale');
+      expect(component.format).toEqual('M/d/yyyy');
       expect(component.month).toEqual(4);
       expect(component.year).toEqual(2019);
       expect(component.day).toEqual(22);
@@ -397,7 +397,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.firstDayOfWeek).toEqual(0);
       expect(component.id).toEqual('');
       expect(component.label).toEqual('');
-      expect(component.format).toEqual('locale');
+      expect(component.format).toEqual('M/d/yyyy');
       expect(component.month).toEqual((new Date()).getMonth());
       expect(component.year).toEqual((new Date()).getFullYear());
       expect(component.day).toEqual((new Date()).getDate());
@@ -494,7 +494,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.size).toEqual('sm');
       expect(component.validate).toBeNull();
       expect(component.validationEvents).toEqual('change blur');
-      expect(component.format).toEqual('locale');
+      expect(component.format).toEqual('M/d/yyyy');
       expect(component.isCalendarToolbar).toBeFalsy();
       expect(component.month).toEqual((new Date()).getMonth());
       expect(component.year).toEqual((new Date()).getFullYear());
@@ -539,21 +539,5 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.getAttribute('dirty-tracker')).toEqual(null);
       expect(component.input.getAttribute('dirty-tracker')).toEqual(null);
     });
-
-    // it('should change placeholder by format', () => {
-    //   component.format = 'd/M/yyyy';
-    //   // component.placehoder = true;
-    //   component.setAttribute('placehoder', true);
-
-    //   expect(component.placehoder).toEqual('d/M/yyyy');
-
-    //   component.format = 'yyyy-MM-dd';
-
-    //   expect(component.placehoder).toEqual('yyyy-MM-dd');
-
-    //   component.placeholder = false;
-
-    //   expect(component.placehoder).toEqual('');
-    // });
   });
 });
