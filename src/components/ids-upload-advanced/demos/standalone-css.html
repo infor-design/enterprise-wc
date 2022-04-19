@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body hidden>
+  <div class="ids-layout-grid">
+    <div class="ids-layout-grid-cell">
+      <h1 class="ids-text ids-text-12">IDS Upload Advanced - Standalone CSS</h1>
+    </div>
+  </div>
+
+  <div class="ids-layout-grid">
+    <div class="ids-layout-grid-cell">
+
+
+      <!-- Basic Upload Advanced Component -->
+      <span class="ids-text">Basic</span>
+      <div class="ids-upload-advanced">
+
+        <!-- Drop Area -->
+        <div class="droparea">
+          <svg part="svg" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18"
+            viewBox="0 0 18 18" aria-hidden="true">
+            <path d="M9.5 18.074V3.722M4 9.074l5.5-5.5 5.5 5.5M17.5 7.5V5.59C17.5 2.78 15.158.5 12.27.5H.5v7"
+              stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+          </svg>
+          <div class="content">
+            <div class="has-browse-link">
+              <label>
+                <input type="file" class="file-input" multiple />
+                <span class="droparea-label">
+                  <span class="ids-text inline">Drag and Drop or </span>
+                  <span class="hyperlink"><a class="ids-hyperlink">Select Files</a></span>
+                  <span class="ids-text inline"> to Upload</span>
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Component Error Area -->
+        <div class="errorarea has-error">
+          <div class="status">
+            <span class="ids-alert error">
+              <svg part="svg" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18"
+                viewBox="0 0 18 18" aria-hidden="true">
+                <path
+                  d="M9 1a8 8 0 018 8h1a9 9 0 00-9-9v1zm8 8a8 8 0 01-8 8v1a9 9 0 009-9h-1zm-8 8a8 8 0 01-8-8H0a9 9 0 009 9v-1zM1 9a8 8 0 018-8V0a9 9 0 00-9 9h1zm7.5-4.423V9.5h1V4.577h-1zm0 6.538V12.5h1v-1.385h-1z"
+                  fill="currentColor" stroke="none"></path>
+              </svg>
+            </span>
+          </div>
+          <div class="error-row">
+            <span class="error-msg">
+              <span class="ids-text"><em>Error</em>: Some general error message!</span>
+            </span>
+          </div>
+          <div class="btn-close">
+            <button class="ids-icon-button align-icon-start">
+              <span class="ids-icon xsmall">
+                <svg part="svg" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="10" width="10" viewBox="0 0 18 18" aria-hidden="true">
+                  <path d="M17.5.5l-17 17m17 0L.5.5" stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+                </svg>
+              </span>
+              <span class="audible">Close this error</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Files area -->
+        <div class="filesarea">
+
+          <!-- File Error -->
+          <div class="ids-upload-advanced-file errored">
+            <div class="container">
+              <div class="file-row">
+                <div class="status">
+                  <span class="ids-alert error">
+                    <svg part="svg" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18"
+                      viewBox="0 0 18 18" aria-hidden="true">
+                      <path
+                        d="M9 1a8 8 0 018 8h1a9 9 0 00-9-9v1zm8 8a8 8 0 01-8 8v1a9 9 0 009-9h-1zm-8 8a8 8 0 01-8-8H0a9 9 0 009 9v-1zM1 9a8 8 0 018-8V0a9 9 0 00-9 9h1zm7.5-4.423V9.5h1V4.577h-1zm0 6.538V12.5h1v-1.385h-1z"
+                        fill="currentColor" stroke="none"></path>
+                    </svg>
+                  </span>
+                </div>
+                <div class="file-name"><span>myfile.jpg</span></div>
+                <div class="file-progress">
+                  <span class="size">
+                    <span class="ids-text">363 Bytes</span>
+                  </span>
+                  <div class="progress-text">
+                    <span class="bar">|</span>
+                    <span class="percent">0%</span>
+                  </div>
+                </div>
+                <div class="btn-close">
+                  <button class="ids-icon-button align-icon-start">
+                    <span class="ids-icon xsmall">
+                      <svg part="svg" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="10" width="10"
+                        viewBox="0 0 18 18" aria-hidden="true">
+                        <path d="M17.5.5l-17 17m17 0L.5.5" stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+                      </svg>
+                    </span>
+                    <span class="audible">Cancel uploading this file</span>
+                  </button>
+                </div>
+              </div>
+              <div class="error-row">
+                <span class="error-msg">
+                  <span class="ids-text"><em>Error</em>: Some file error message!</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- File in process (0%) -->
+          <div class="ids-upload-advanced-file in-process">
+            <div class="container">
+              <div class="file-row">
+                <div class="status">
+                  <span class="ids-alert in-progress">
+                    <svg part="svg" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18" viewBox="0 0 18 18" aria-hidden="true">
+                      <path
+                        d="M16.762 5.562C15.435 2.579 12.46.5 9 .5 4.306.5.5 4.329.5 9.052c0 1.473.37 2.86 1.023 4.07M17 .5v5h-5M3.907 15.899A8.431 8.431 0 007.673 17.5m3.855-.281a8.487 8.487 0 003.42-2.057m2.034-3.164a8.58 8.58 0 00.518-2.946"
+                        stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+                    </svg>
+                  </span>
+                </div>
+                <div class="file-name"><span>myfile.jpg</span></div>
+                <div class="file-progress">
+                  <span class="size">
+                    <span class="ids-text">363 Bytes</span>
+                  </span>
+                  <div class="progress-text">
+                    <span class="bar">|</span>
+                    <span class="percent">0%</span>
+                  </div>
+                </div>
+                <div class="btn-close">
+                  <button class="ids-icon-button align-icon-start">
+                    <span class="ids-icon xsmall">
+                      <svg part="svg" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="10" width="10" viewBox="0 0 18 18" aria-hidden="true">
+                        <path d="M17.5.5l-17 17m17 0L.5.5" stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+                      </svg>
+                    </span>
+                    <span class="audible">Cancel uploading this file</span>
+                  </button>
+                </div>
+              </div>
+              <div class="progress-row">
+                <div class="ids-progress-bar label-audible">
+                  <label for="ids-progress-bar-id-1" class="progress-label">
+                    <span class="ids-text audible">myfile.jpg uploaded 0 Bytes out of 363 Bytes (0%)</span>
+                  </label>
+                  <progress class="progress-bar" id="ids-progress-bar-id-1" max="100" value="0"></progress>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- File in process (40%) -->
+          <div class="ids-upload-advanced-file in-process">
+            <div class="container">
+              <div class="file-row">
+                <div class="status">
+                  <span class="ids-alert in-progress">
+                    <svg part="svg" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18" viewBox="0 0 18 18" aria-hidden="true">
+                      <path
+                        d="M16.762 5.562C15.435 2.579 12.46.5 9 .5 4.306.5.5 4.329.5 9.052c0 1.473.37 2.86 1.023 4.07M17 .5v5h-5M3.907 15.899A8.431 8.431 0 007.673 17.5m3.855-.281a8.487 8.487 0 003.42-2.057m2.034-3.164a8.58 8.58 0 00.518-2.946"
+                        stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+                    </svg>
+                  </span>
+                </div>
+                <div class="file-name"><span>myfile.jpg</span></div>
+                <div class="file-progress">
+                  <span class="size">
+                    <span class="ids-text">363 Bytes</span>
+                  </span>
+                  <div class="progress-text">
+                    <span class="bar">|</span>
+                    <span class="percent">40%</span>
+                  </div>
+                </div>
+                <div class="btn-close">
+                  <button class="ids-icon-button align-icon-start">
+                    <span class="ids-icon xsmall">
+                      <svg part="svg" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="10" width="10" viewBox="0 0 18 18" aria-hidden="true">
+                        <path d="M17.5.5l-17 17m17 0L.5.5" stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+                      </svg>
+                    </span>
+                    <span class="audible">Cancel uploading this file</span>
+                  </button>
+                </div>
+              </div>
+              <div class="progress-row">
+                <div class="ids-progress-bar label-audible">
+                  <label for="ids-progress-bar-id-2" class="progress-label">
+                    <span class="ids-text audible">myfile.jpg uploaded 145 Bytes out of 363 Bytes (40%)</span>
+                  </label>
+                  <progress class="progress-bar" id="ids-progress-bar-id-2" max="100" value="40"></progress>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- File Completed Upload -->
+          <div class="ids-upload-advanced-file completed">
+            <div class="container">
+              <div class="file-row">
+                <div class="status">
+                  <span class="ids-alert success">
+                    <svg part="svg" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18" viewBox="0 0 18 18" aria-hidden="true">
+                      <path
+                        d="M7 12l-.407.29.343.48.418-.416L7 12zm10-3a8 8 0 01-8 8v1a9 9 0 009-9h-1zm-8 8a8 8 0 01-8-8H0a9 9 0 009 9v-1zM1 9a8 8 0 018-8V0a9 9 0 00-9 9h1zm8-8a8 8 0 018 8h1a9 9 0 00-9-9v1zM4.093 8.79l2.5 3.5.814-.58-2.5-3.5-.814.58zm3.26 3.564l6.5-6.5-.707-.708-6.5 6.5.708.707z"
+                        fill="currentColor" stroke="none"></path>
+                    </svg>
+                  </span>
+                </div>
+                <div class="file-name"><span>myfile.jpg</span></div>
+                <div class="file-progress">
+                  <span class="size">
+                    <span class="ids-text">363 Bytes</span>
+                  </span>
+                  <div class="progress-text">
+                    <span class="bar">|</span>
+                    <span class="percent">100%</span>
+                  </div>
+                </div>
+                <div class="btn-close">
+                  <button class="ids-icon-button align-icon-start">
+                    <span class="ids-icon xsmall">
+                      <svg part="svg" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="10" width="10" viewBox="0 0 18 18" aria-hidden="true">
+                        <path d="M17.5.5l-17 17m17 0L.5.5" stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+                      </svg>
+                    </span>
+                    <span class="audible">Cancel uploading this file</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Disabled -->
+      <span class="ids-text">Disabled</span>
+      <div class="ids-upload-advanced disabled">
+        <div class="droparea">
+          <svg part="svg" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18"
+            viewBox="0 0 18 18" aria-hidden="true">
+            <path d="M9.5 18.074V3.722M4 9.074l5.5-5.5 5.5 5.5M17.5 7.5V5.59C17.5 2.78 15.158.5 12.27.5H.5v7"
+              stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+          </svg>
+          <div class="content">
+            <div class="has-browse-link">
+              <label>
+                <input type="file" class="file-input" multiple disabled />
+                <span class="droparea-label">
+                  <span class="ids-text inline">Drag and Drop or </span>
+                  <span class="hyperlink"><a class="ids-hyperlink disabled">Select Files</a></span>
+                  <span class="ids-text inline"> to Upload</span>
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- On Drag Enter -->
+      <span class="ids-text">On Drag Enter</span>
+      <div class="ids-upload-advanced">
+        <div class="droparea dragenter">
+          <svg part="svg" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18"
+            viewBox="0 0 18 18" aria-hidden="true">
+            <path d="M9.5 18.074V3.722M4 9.074l5.5-5.5 5.5 5.5M17.5 7.5V5.59C17.5 2.78 15.158.5 12.27.5H.5v7"
+              stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+          </svg>
+          <div class="content">
+            <div class="has-browse-link">
+              <label>
+                <input type="file" class="file-input" multiple />
+                <span class="droparea-label">
+                  <span class="ids-text inline">Drag and Drop or </span>
+                  <span class="hyperlink"><a class="ids-hyperlink">Select Files</a></span>
+                  <span class="ids-text inline"> to Upload</span>
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Start Manually -->
+      <span class="ids-text">Start Manually</span>
+      <div class="ids-upload-advanced">
+        <!-- Drop Area -->
+        <div class="droparea">
+          <svg part="svg" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18"
+            viewBox="0 0 18 18" aria-hidden="true">
+            <path d="M9.5 18.074V3.722M4 9.074l5.5-5.5 5.5 5.5M17.5 7.5V5.59C17.5 2.78 15.158.5 12.27.5H.5v7"
+              stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+          </svg>
+          <div class="content">
+            <div class="has-browse-link">
+              <label>
+                <input type="file" class="file-input" multiple />
+                <span class="droparea-label">
+                  <span class="ids-text inline">Drag and Drop or </span>
+                  <span class="hyperlink"><a class="ids-hyperlink">Select Files</a></span>
+                  <span class="ids-text inline"> to Upload</span>
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <!-- Toolbar Area -->
+        <div class="toolbararea">
+          <div class="ids-toolbar">
+            <div class="ids-toolbar-section buttonset align-end">
+              <button id="btn-cancel-all" class="ids-button no-padding">
+                <span>Cancel</span>
+              </button>
+              <button id="btn-start-all" class="ids-button no-padding">
+                <span>Start</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Files area -->
+        <div class="filesarea">
+          <div class="ids-upload-advanced-file not-started">
+            <div class="container">
+              <div class="file-row">
+                <div class="status">
+                  <span class="ids-alert info">
+                    <svg part="svg" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18"
+                      width="18" viewBox="0 0 18 18" aria-hidden="true">
+                      <path
+                        d="M9 18a9 9 0 009-9h-1a8 8 0 01-8 8v1zm9-9a9 9 0 00-9-9v1a8 8 0 018 8h1zM9 0a9 9 0 00-9 9h1a8 8 0 018-8V0zM0 9a9 9 0 009 9v-1a8 8 0 01-8-8H0zm9.5 3.923v-5h-1v5h1zM9.5 6V5h-1v1h1z"
+                        fill="currentColor" stroke="none"></path>
+                    </svg>
+                  </span>
+                </div>
+                <div class="file-name"><span>myfile.jpg</span></div>
+                <div class="file-progress">
+                  <span class="size">
+                    <span class="ids-text">363 Bytes</span>
+                  </span>
+                  <div class="progress-text">
+                    <span class="bar">|</span>
+                    <span class="percent">0%</span>
+                  </div>
+                </div>
+                <div class="btn-close">
+                  <button class="ids-icon-button align-icon-start">
+                    <span class="ids-icon xsmall">
+                      <svg part="svg" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="10"
+                        width="10" viewBox="0 0 18 18" aria-hidden="true">
+                        <path d="M17.5.5l-17 17m17 0L.5.5" stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+                      </svg>
+                    </span>
+                    <span class="audible">Cancel uploading this file</span>
+                  </button>
+                </div>
+              </div>
+              <div class="progress-row">
+                <div class="ids-progress-bar label-audible">
+                  <label for="ids-progress-bar-id-3" class="progress-label">
+                    <span class="ids-text audible">myfile.jpg uploaded 0 Bytes out of 363 Bytes (0%)</span>
+                  </label>
+                  <progress class="progress-bar" id="ids-progress-bar-id-3" max="100" value="0"></progress>
+                </div>
+                <div class="btn-start">
+                  <button class="ids-icon-button align-icon-start">
+                    <span class="ids-icon xsmall">
+                      <svg part="svg" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="10"
+                        width="10" viewBox="0 0 18 18" aria-hidden="true">
+                        <path clip-rule="evenodd" d="M15.5 9l-6 3.75-6 3.75v-15l6 3.75 6 3.75z" fill-rule="evenodd"
+                          stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+                      </svg>
+                    </span>
+                    <span class="audible">Start uploading this file</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>

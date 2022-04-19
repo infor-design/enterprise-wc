@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import '../helpers/resize-observer-mock';
 import IdsUploadAdvancedFile from '../../src/components/ids-upload-advanced/ids-upload-advanced-file';
 
 describe('IdsUploadAdvancedFile Component', () => {
@@ -47,6 +48,18 @@ describe('IdsUploadAdvancedFile Component', () => {
     expect(el.status).toEqual('in-process');
     el.progressHandler({ loaded: 35, total: 100 });
     expect(el.value).toEqual('35');
+    expect(el.status).toEqual('in-process');
+  });
+
+  it('should set status', () => {
+    const status = 'not-started';
+    expect(el.getAttribute('status')).toEqual(null);
+    expect(el.status).toEqual(null);
+    el.status = status;
+    expect(el.getAttribute('status')).toEqual(status);
+    expect(el.status).toEqual(status);
+    el.status = null;
+    expect(el.getAttribute('status')).toEqual('in-process');
     expect(el.status).toEqual('in-process');
   });
 
