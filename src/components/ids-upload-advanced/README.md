@@ -35,10 +35,16 @@ Set to hide the browse link:
 <ids-upload-advanced show-browse-link="false"></ids-upload-advanced>
 ```
 
+Set to not allow automatic start of upload after files have been dropped or added via browser.
+
+```html
+<ids-upload-advanced auto-start="false"></ids-upload-advanced>
+```
+
 Set custom icon in main drop area:
 
 ```html
-<ids-upload-advanced icon="upload-adv"></ids-upload-advanced>
+<ids-upload-advanced icon="cloud"></ids-upload-advanced>
 ```
 
 Add limit the file types (.png, .jpg):
@@ -47,7 +53,7 @@ Add limit the file types (.png, .jpg):
 <ids-upload-advanced accept=".png, .jpg"></ids-upload-advanced>
 ```
 
-Set max file size (in bytes), can be uploaded. An error will bew shown if the file is over the limit.
+Set max file size (in bytes), can be uploaded. An error will be shown if the file is over the limit.
 
 ```html
 <ids-upload-advanced max-file-size="2097152"></ids-upload-advanced>
@@ -150,13 +156,54 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 ```
 
+Set an arbitrary error message.
+
+```html
+<ids-button id="error-btn" type="secondary">
+  <span slot="text">Set Error</span>
+</ids-button>
+<ids-upload-advanced id="error-el"></ids-upload-advanced>
+```
+
+```javascript
+const errorBtn = document.querySelector('#error-btn');
+const errorEl = document.querySelector('#error-el');
+errorBtn?.addEventListener('click', () => {
+  errorEl.setError({ message: 'Arbitrary error message' });
+});
+```
+
+Set an arbitrary error message on each file.
+-Add file/s to upload before apply error. It can only be apply before `completed` state.
+
+```html
+<ids-button id="error-files-btn" type="secondary">
+  <span slot="text">Set Error on each file</span>
+</ids-button>
+<ids-upload-advanced id="error-files-el"></ids-upload-advanced>
+```
+
+```javascript
+const errorFilesBtn = document.querySelector('#error-files-btn');
+const errorFilesEl = document.querySelector('#error-files-el');
+errorFilesBtn?.addEventListener('click', () => {
+  // fileNodes: can be use `all`, `notStarted`, `inProcess`
+  const fileNodes: any[] = errorFilesEl.all;
+  if (fileNodes.length) {
+    errorFilesEl.setError({ message: 'File arbitrary error message', fileNodes });
+  }
+});
+```
+
 ## Settings (Attributes)
 
 ### IDS Upload Advanced attributes and properties
 
 - `accept` {string} sets a limit on the file types that can be uploaded.
+- `auto-start` {boolean|string} allow automatic start upload, after files have been dropped or added.
 - `disabled` {boolean|string} sets the whole upload advanced element to disabled.
 - `icon` {string} sets the icon to be use in main drop area.
+- `icon-size` {string} sets the icon size to be use in main drop area.
 - `max-file-size` {number|string} sets the max file size in bytes.
 - `max-files` {number|string} sets the max number of files can be uploaded.
 - `max-files-in-process` {number|string} sets the max number of files can be uploaded while in process.
@@ -171,13 +218,17 @@ document.addEventListener('DOMContentLoaded', () => {
 - `error` {string} set the file state to show there was an error during the file operations.
 - `file-name` {string} set the file name.
 - `size` {number|string} set the file size in bytes.
+- `status` {string} set the file status.
 - `value` {number|string} set the progress bar value.
 
 ## Text strings (use with slot)
 
 - `text-btn-cancel` Text for `x-close` button, while file in process.
+- `text-btn-cancel-all` Text for `cancel-all` button, when file status not-started.
 - `text-btn-close-error` Text for `x-close` button, when file gets error.
 - `text-btn-remove` Text for `x-close` button, when file complete uploading.
+- `text-btn-start` Text for `start` button, when file status not-started.
+- `text-btn-start-all` Text for `start-all` button, when file status not-started.
 - `text-droparea` Text to show in drop area.
 - `text-droparea-with-browse` Text to show in drop area when `show-browse-link` set to true.
 - `text-droparea-with-browse-link` Text for `browse` link, when `show-browse-link` set to true.
@@ -205,6 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
 ## Get current attached files from API (updated files data)
 
 - `all` List of all the files added.
+- `notStarted` List of files which not start uploading yet.
 - `inProcess` List of files in-process.
 - `aborted` List of files aborted.
 - `errored` List of all the files had error.
@@ -216,6 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 - `filesdragenter` Triggered when files enter to drag area.
 - `filesdrop` Triggered when files dropped in to drag area.
+- `notstartedupload` Triggered when file sent to not-started status.
 - `beginupload` Triggered when each file sent to in-process.
 - `abort` Triggered when each file get abort.
 - `error` Triggered when each file get error.
@@ -224,6 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ### Triggered on IdsUploadAdvancedFile (file-component)
 
+- `notstartedupload` Triggered when file sent to not-started status.
 - `beginupload` Triggered when file sent to in-process.
 - `abort` Triggered when file get abort.
 - `error` Triggered when file get error.

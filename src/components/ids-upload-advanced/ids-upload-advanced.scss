@@ -14,6 +14,9 @@
     @include flex();
     @include relative();
     @include rounded-default();
+    @include bg-slate-10();
+    @include border-slate-50();
+    @include text-slate-50();
 
     align-items: center;
     border-style: dashed;
@@ -22,23 +25,25 @@
     min-height: 80px;
     padding: 0 20px;
 
+    .icon {
+      @include mb-4();
+    }
+
     .droparea-label {
       @include antialiased();
       @include block();
       @include no-select();
+      @include text-slate-100();
 
       text-align: center;
     }
 
     .hyperlink {
-      @include border-1();
-      @include border-solid();
-      @include border-transparent();
-      @include cursor-pointer();
-      @include text-azure-60();
-
       pointer-events: auto;
-      text-decoration: underline;
+
+      &::part(link) {
+        text-decoration: underline;
+      }
     }
 
     .file-input {
@@ -50,8 +55,9 @@
       width: 0.1px;
       z-index: -1;
 
-      &:focus ~ .droparea-label .hyperlink {
-        @include border-azure-60();
+      &:focus ~ .droparea-label .hyperlink::part(link) {
+        border: 1px solid var(--ids-color-palette-azure-60);
+        box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
       }
     }
 
@@ -61,9 +67,29 @@
       @include text-slate-100();
     }
 
-    &.hover {
+    &.dragenter {
       @include bg-azure-10();
       @include border-azure-60();
+    }
+  }
+
+  .toolbararea {
+    height: 42px;
+    opacity: 1;
+
+    &.before-remove-transition {
+      height: 8px;
+      opacity: 0;
+      transition: 0.3s all ease-out;
+    }
+
+    ~.filesarea .ids-upload-advanced-file:first-of-type .container,
+    ~.filesarea ids-upload-advanced-file:first-of-type::part(container) {
+      @include mt-0();
+    }
+
+    .ids-toolbar-section.align-end {
+      flex: auto;
     }
   }
 
@@ -76,27 +102,46 @@
     @include rounded-default();
 
     border-style: dashed;
+    align-items: center;
 
     &.has-error {
       @include border-ruby-60();
       @include flex();
     }
 
-    .status ids-alert {
-      @include block();
-      @include p-8();
-      @include m-0();
-
+    .status {
       flex-grow: 0;
       flex-shrink: 0;
+
+      .ids-alert,
+      ids-alert {
+        @include block();
+        @include p-8();
+        @include pb-4();
+        @include m-0();
+      }
     }
 
     .error-row {
-      @include antialiased();
-      @include font-sans();
-      @include font-normal();
-      @include p-8();
-      @include pl-0();
+      @include min-w-0();
+
+      flex-grow: 1;
+
+      span {
+        @include antialiased();
+        @include ellipsis();
+        @include font-sans();
+        @include font-normal();
+        @include block();
+        @include m-0();
+      }
+    }
+
+    .btn-close {
+      @include mx-2();
+
+      flex-grow: 0;
+      flex-shrink: 0;
     }
 
     .error-data-container {
@@ -113,6 +158,19 @@
       }
     }
 
+    .droparea,
+    .droparea.dragenter,
+    .droparea:hover {
+      @include bg-slate-10();
+      @include border-slate-30();
+      @include text-slate-30();
+
+      .droparea-label {
+        @include cursor-default();
+        @include text-slate-30();
+      }
+    }
+
     .errorarea.has-error {
       @include border-ruby-30();
       @include text-slate-30();
@@ -121,53 +179,43 @@
 }
 
 // Handle Themes
-.ids-upload-advanced[mode='light'],
-.ids-upload-advanced:not([mode]) {
-  .droparea {
-    @include bg-slate-10();
-    @include border-slate-50();
-    @include text-slate-50();
-
-    .droparea-label {
-      @include text-slate-100();
-    }
-  }
-
-  &.disabled {
-    .droparea,
-    .droparea.hover,
-    .droparea:hover {
-      @include bg-slate-10();
-      @include border-slate-30();
-      @include text-slate-30();
-
-      .droparea-label,
-      .hyperlink {
-        @include cursor-default();
-        @include text-slate-30();
-      }
-    }
-  }
-}
-
 .ids-upload-advanced[mode='dark'] {
   .droparea {
     @include bg-slate-70();
     @include border-slate-50();
     @include text-slate-20();
 
-    &:hover,
-    &.hover {
+    &:hover {
+      @include bg-slate-60();
+      @include border-slate-40();
+    }
+
+    &.dragenter {
       @include bg-slate-80();
-      @include border-slate-50();
+      @include border-azure-60();
+    }
+
+    .droparea-label {
+      @include text-slate-30();
+    }
+
+    .file-input:focus ~ .droparea-label .hyperlink::part(link) {
+      border: 1px solid var(--ids-color-palette-azure-60);
+      box-shadow: 0 0 4px 2px rgb(141 201 230 / 0.1);
     }
   }
 
   &.disabled .droparea {
+    @include text-slate-50();
+
     &:hover,
-    &.hover {
+    &.dragenter {
       @include bg-slate-70();
       @include border-slate-50();
+    }
+
+    .droparea-label {
+      @include text-slate-50();
     }
   }
 }
@@ -176,64 +224,74 @@
   .droparea {
     @include bg-white();
     @include border-slate-50();
-    @include text-slate-70();
+    @include text-slate-50();
 
-    &:hover,
-    &.hover {
+    &:hover {
       @include bg-slate-10();
       @include border-slate-50();
+    }
+
+    &.dragenter {
+      @include bg-azure-10();
+      @include border-azure-60();
     }
   }
 
   &.disabled .droparea {
+    @include text-slate-40();
+    @include border-slate-30();
+
     &:hover,
-    &.hover {
+    &.dragenter {
       @include bg-white();
-      @include border-slate-50();
+      @include border-slate-30();
+    }
+
+    .droparea-label {
+      @include text-slate-40();
     }
   }
 }
 
 .ids-upload-advanced[version='classic'][mode='light'] {
   .droparea {
-    @include bg-graphite-10();
-    @include border-graphite-50();
-    @include text-graphite-80();
+    @include bg-graphite-20();
 
-    &:hover,
-    &.hover {
-      @include bg-graphite-20();
-      @include border-graphite-50();
+    &:hover {
+      @include bg-graphite-30();
+    }
+
+    &.dragenter {
+      @include bg-azure-10();
     }
   }
 
   &.disabled .droparea {
+    @include bg-graphite-10();
+
     &:hover,
-    &.hover {
-      @include bg-graphite-20();
-      @include border-graphite-50();
+    &.dragenter {
+      @include bg-graphite-10();
     }
   }
 }
 
 .ids-upload-advanced[version='classic'][mode='dark'] {
   .droparea {
-    @include bg-classic-slate-80();
-    @include border-classic-slate-50();
-    @include text-classic-slate-30();
+    @include bg-slate-100();
 
     &:hover,
-    &.hover {
-      @include bg-classic-slate-70();
-      @include border-classic-slate-50();
+    &.dragenter {
+      @include bg-slate-90();
     }
   }
 
   &.disabled .droparea {
+    @include bg-slate-80();
+
     &:hover,
-    &.hover {
-      @include bg-classic-slate-80();
-      @include border-classic-slate-50();
+    &.dragenter {
+      @include bg-slate-80();
     }
   }
 }
@@ -241,21 +299,22 @@
 .ids-upload-advanced[version='classic'][mode='contrast'] {
   .droparea {
     @include bg-white();
-    @include border-graphite-50();
-    @include text-graphite-100();
 
-    &:hover,
-    &.hover {
+    &:hover {
       @include bg-graphite-10();
-      @include border-graphite-50();
+    }
+
+    &.dragenter {
+      @include bg-azure-10();
     }
   }
 
   &.disabled .droparea {
+    @include bg-graphite-10();
+
     &:hover,
-    &.hover {
-      @include bg-white();
-      @include border-graphite-50();
+    &.dragenter {
+      @include bg-graphite-10();
     }
   }
 }
