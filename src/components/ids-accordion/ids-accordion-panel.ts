@@ -42,10 +42,10 @@ export default class IdsAccordionPanel extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.DISABLED,
       attributes.EXPANDED,
       attributes.MODE,
       attributes.VERSION,
-      attributes.DISABLED
     ];
   }
 
