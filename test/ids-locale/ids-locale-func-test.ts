@@ -1417,6 +1417,43 @@ describe('IdsLocale API', () => {
     });
   });
 
+  describe('Date Formatting With Pattern', () => {
+    it('numeric patterns', async () => {
+      await locale.setLocale('en-US');
+
+      expect(locale.formatDate(new Date(2015, 0, 8, 13, 40), { pattern: 'yyyy' })).toEqual('2015');
+      expect(locale.formatDate(new Date(2015, 0, 8, 13, 40), { pattern: 'dd' })).toEqual('08');
+      expect(locale.formatDate(new Date(2015, 0, 8, 13, 40), { pattern: 'd' })).toEqual('8');
+      expect(locale.formatDate(new Date(2015, 0, 8, 13, 40), { pattern: 'M' })).toEqual('1');
+      expect(locale.formatDate(new Date(2015, 0, 1, 13, 40), { pattern: 'M.dd.yyyy' })).toEqual('1.01.2015');
+    });
+
+    it('long patterns', async () => {
+      await locale.setLocale('en-US');
+
+      expect(locale.formatDate(new Date(2015, 0, 8, 13, 40), { pattern: 'MMMM d, yyyy' })).toEqual('January 8, 2015');
+      expect(locale.formatDate(new Date(2015, 0, 8, 13, 40), { pattern: 'MMMM yyyy' })).toEqual('January 2015');
+      expect(locale.formatDate(new Date(2015, 0, 8, 13, 40), { pattern: 'MMM yyyy' })).toEqual('Jan 2015');
+      expect(locale.formatDate(new Date(2015, 0, 8, 13, 40), { pattern: 'MMMM dd' })).toEqual('January 08');
+      expect(locale.formatDate(new Date(2015, 0, 8, 13, 40), { pattern: 'MMMM d' })).toEqual('January 8');
+      expect(locale.formatDate(new Date(2015, 0, 8, 13, 40), { pattern: 'MMM d' })).toEqual('Jan 8');
+      expect(locale.formatDate(new Date(2015, 0, 8, 13, 40), { pattern: 'd MMM, yyyy' })).toEqual('8 Jan, 2015');
+
+      await locale.setLocale('vi-VN');
+
+      expect(locale.formatDate(new Date(2015, 0, 8, 13, 40), { pattern: 'd MMMM, yyyy' })).toEqual('8 Tháng Giêng, 2015');
+      expect(locale.formatDate(new Date(2015, 0, 8, 13, 40), { pattern: 'd MMM, yyyy' })).toEqual('8 Thg1, 2015');
+
+      await locale.setLocale('pt-PT');
+
+      expect(locale.formatDate(new Date(2015, 0, 8, 13, 40), { pattern: 'd de MMMM de yyyy' })).toEqual('8 de Janeiro de 2015');
+
+      await locale.setLocale('bg-BG');
+
+      expect(locale.formatDate(new Date(2015, 0, 8, 13, 40), { pattern: 'd MMMM yyyy г.' })).toEqual('8 януари 2015 г.');
+    });
+  });
+
   describe('Timezone Dates', () => {
     it('should be able to display dates into another timezone including long timezone name', async () => {
       await locale.setLocale('en-US');

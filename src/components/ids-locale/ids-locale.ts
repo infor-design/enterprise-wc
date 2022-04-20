@@ -433,13 +433,14 @@ class IdsLocale {
       if (pattern.includes('MMM')) {
         const calendar = this.calendar(usedLocale);
 
-        result = result.replace('MMMM', calendar.months.wide[month])
-          .replace('MMM', calendar.months.abbreviated[month]);
+        result = result.replace('MMMM', calendar.months.wide[monthIndex])
+          .replace('MMM', calendar.months.abbreviated[monthIndex]);
+      } else {
+        result = result.replace('MM', month.padStart(2, '0'))
+          .replace('M', month);
       }
 
-      result = result.replace('MM', month.padStart(2, '0'))
-        .replace('M', month)
-        .replace('nnnnn', 'de')
+      result = result.replace('nnnnn', 'de')
         .replace('nnnn', 'ngày')
         .replace('t1áng', 'tháng')
         .replace('nnn', 'den');
