@@ -334,3 +334,21 @@
     }
   }
 }
+
+:host([disabled='true']) {
+  .ids-accordion-header {
+    color: var(--ids-color-palette-slate-30);
+  }
+}
+
+:host([mode='dark'][disabled='true']) {
+  .ids-accordion-header {
+    color: var(--ids-color-palette-slate-50);
+  }
+}
+
+:host([mode='contrast'][disabled='true']) {
+  .ids-accordion-header {
+    color: var(--ids-color-palette-slate-60);
+  }
+}

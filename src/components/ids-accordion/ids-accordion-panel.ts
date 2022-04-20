@@ -278,6 +278,7 @@ export default class IdsAccordionPanel extends Base {
    */
   set disabled(value) {
     const disabled = stringToBool(value);
+    this.header.disabled = disabled;
 
     if (disabled) {
       this.setAttribute(attributes.DISABLED, `${disabled}`);

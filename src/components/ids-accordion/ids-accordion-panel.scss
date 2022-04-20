@@ -146,11 +146,3 @@
 .ids-accordion-pane-title {
   @include audible();
 }
-
-:host([disabled='true']) {
-  .ids-accordion-panel {
-    ::slotted([slot='header']) {
-      color: var(--ids-color-palette-slate-30);
-    }
-  }
-}
