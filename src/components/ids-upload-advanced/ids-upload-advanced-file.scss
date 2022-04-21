@@ -84,6 +84,7 @@
       }
     }
 
+    .status .ids-alert,
     .status ids-alert {
       @include block();
       @include p-8();
@@ -92,6 +93,8 @@
     }
 
     .error-row,
+    .btn-start,
+    .status .not-started,
     .status .completed,
     .status .errored {
       @include hidden();
@@ -104,7 +107,52 @@
     }
 
     .progress-row {
+      @include flex();
       @include px-28();
+
+      align-items: center;
+      min-height: 28px;
+
+      .progress-bar,
+      .ids-progress-bar {
+        @include pr-4();
+
+        flex-grow: 1;
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  &.not-started {
+    .container {
+      .btn-start,
+      .status .not-started {
+        @include block();
+      }
+
+      .error-row,
+      .status .in-process,
+      .status .completed,
+      .status .errored {
+        @include hidden();
+      }
+
+      .progress-row {
+        @include pl-28();
+        @include pr-2();
+      }
+
+      .progress-row .progress-bar {
+        @include pr-2();
+      }
+
+      .progress-row .btn-start {
+        @include relative();
+
+        flex-grow: 0;
+        flex-shrink: 0;
+        top: 2px;
+      }
     }
   }
 
@@ -122,6 +170,8 @@
 
       .error-row,
       .progress-row,
+      .btn-start,
+      .status .not-started,
       .status .in-process,
       .status .errored {
         @include hidden();
@@ -139,6 +189,8 @@
       }
 
       .progress-row,
+      .btn-start,
+      .status .not-started,
       .status .in-process,
       .status .completed {
         @include hidden();

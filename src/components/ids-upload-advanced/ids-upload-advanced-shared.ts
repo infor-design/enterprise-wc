@@ -7,6 +7,7 @@ import { camelCase } from '../../utils/ids-string-utils/ids-string-utils';
  */
 const IdsUploadAdvancedShared = {
   DEFAULTS: {
+    autoStart: true, // allow automatic start upload, after files have been dropped or added
     paramName: 'myfile', // variable name to read from server
     icon: 'upload', // Droparea icon
     maxFileSize: -1, // max file size in bytes, -1 for unlimited
@@ -17,8 +18,11 @@ const IdsUploadAdvancedShared = {
 
     // Text strings
     textBtnCancel: 'Cancel uploading this file',
+    textBtnCancelAll: 'Cancel',
     textBtnCloseError: 'Close this error',
     textBtnRemove: 'Remove this file from UI list',
+    textBtnStart: 'Start uploading this file',
+    textBtnStartAll: 'Start',
     textDroparea: 'Drag and Drop Files to Upload',
     textDropareaWithBrowse: 'Drag and Drop or {browseLink} to Upload',
     textDropareaWithBrowseLink: 'Select Files',
@@ -44,6 +48,7 @@ const IdsUploadAdvancedShared = {
     errorXhrHeaders: 'error-xhr-headers'
   },
   STATUS: {
+    notStarted: 'not-started',
     inProcess: 'in-process',
     aborted: 'aborted',
     errored: 'errored',
