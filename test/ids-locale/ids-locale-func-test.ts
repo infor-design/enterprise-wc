@@ -1144,8 +1144,8 @@ describe('IdsLocale API', () => {
     });
 
     it('should be able to parse 2 and 3 digit years', async () => {
-      expect(locale.parseDate('10/10/10', { dateFormat: 'M/d/yyyy' }).getTime()).toEqual(new Date(2010, 9, 10, 0, 0, 0).getTime());
-      expect(locale.parseDate('10/10/010', { dateFormat: 'M/d/yyyy' }).getTime()).toEqual(new Date(2010, 9, 10, 0, 0, 0).getTime());
+      expect(locale.parseDate('10/10/10', { dateFormat: 'M/d/yy' }).getFullYear()).toEqual(2010);
+      expect(locale.parseDate('10/10/010', { dateFormat: 'M/d/yy' }).getFullYear()).toEqual(2010);
     });
 
     it('should parse or format a string of four, six, or eight zeroes', async () => {
@@ -1351,7 +1351,7 @@ describe('IdsLocale API', () => {
       expect(locale.formatDate(new Date(2018, 10, 10, 14, 15, 12), { timeStyle: 'medium' })).toEqual('14:15:12');
       expect(locale.formatDate(new Date(2018, 10, 10, 14, 15, 12), { timeStyle: 'short' })).toEqual('14:15');
       expect(locale.formatDate('29/3/2018 14:15', {
-        year: 'numeric', day: 'numeric', month: 'numeric', hour: 'numeric', minute: 'numeric'
+        year: 'numeric', day: 'numeric', month: 'numeric', hour: 'numeric', minute: 'numeric', dateFormat: 'd/M/yyyy HH:mm'
       })).toEqual('29/3/2018 14:15');
 
       let opts: any = {
@@ -1776,19 +1776,19 @@ describe('IdsLocale API', () => {
     });
 
     it('should fallback for time', async () => {
-      expect(locale.parseDate('1:00AM', { timeStyle: 'short' }).getTime()).toEqual(-2211732000000);
+      expect(locale.parseDate('1:00 AM', { dateFormat: 'h:mm a' }).getHours()).toEqual(1);
       locale.calendar().timeFormat = null;
-      expect(locale.parseDate('1:00AM', { timeStyle: 'short' }).getTime()).toEqual(-2211732000000);
+      expect(locale.parseDate('1:00 AM', { dateFormat: 'h:mm a' }).getHours()).toEqual(1);
     });
 
     it('should parseDate in el-GR', async () => {
       await locale.setLocale('el-GR');
       expect(locale.parseDate('18/10/2019 7:15 π.μ.', { dateFormat: 'dd/MM/yyyy HH:mm a' }).getTime()).toEqual(new Date(2019, 9, 18, 7, 15, 0).getTime());
-      expect(locale.parseDate('18/10/2019 7:15 μ.μ.').getTime()).toEqual(new Date(2019, 9, 18, 19, 15, 0).getTime());
-      expect(locale.parseDate('18/10/2019 12:00 π.μ.').getTime()).toEqual(new Date(2019, 9, 18, 0, 0, 0).getTime());
-      expect(locale.parseDate('18/10/2019 12:00 μ.μ.').getTime()).toEqual(new Date(2019, 9, 18, 12, 0, 0).getTime());
-      expect(locale.parseDate('18/10/2019 11:59 π.μ.').getTime()).toEqual(new Date(2019, 9, 18, 11, 59, 0).getTime());
-      expect(locale.parseDate('18/10/2019 11:59 μ.μ.').getTime()).toEqual(new Date(2019, 9, 18, 23, 59, 0).getTime());
+      expect(locale.parseDate('18/10/2019 7:15 μ.μ.', { dateFormat: 'dd/MM/yyyy HH:mm a' }).getTime()).toEqual(new Date(2019, 9, 18, 19, 15, 0).getTime());
+      expect(locale.parseDate('18/10/2019 12:00 π.μ.', { dateFormat: 'dd/MM/yyyy HH:mm a' }).getTime()).toEqual(new Date(2019, 9, 18, 0, 0, 0).getTime());
+      expect(locale.parseDate('18/10/2019 12:00 μ.μ.', { dateFormat: 'dd/MM/yyyy HH:mm a' }).getTime()).toEqual(new Date(2019, 9, 18, 12, 0, 0).getTime());
+      expect(locale.parseDate('18/10/2019 11:59 π.μ.', { dateFormat: 'dd/MM/yyyy HH:mm a' }).getTime()).toEqual(new Date(2019, 9, 18, 11, 59, 0).getTime());
+      expect(locale.parseDate('18/10/2019 11:59 μ.μ.', { dateFormat: 'dd/MM/yyyy HH:mm a' }).getTime()).toEqual(new Date(2019, 9, 18, 23, 59, 0).getTime());
     });
 
     it('should parseDate in fi-FI', async () => {
@@ -1835,8 +1835,8 @@ describe('IdsLocale API', () => {
 
     it('should parse date in es-419', async () => {
       await locale.setLocale('es-419');
-      const dateTest = locale.parseDate('29/4/2020 08:40', { dateStyle: 'short', timeStyle: 'short' });
-      expect(dateTest.getTime()).toEqual(new Date(2020, 3, 29, 8, 40, 0).getTime());
+      expect(locale.parseDate('29/4/2020 08:40', { dateFormat: 'd/M/yyyy HH:mm' }).getTime()).toEqual(new Date(2020, 3, 29, 8, 40, 0).getTime());
+      expect(locale.parseDate('29 de abril de 2020', { pattern: 'd de MMMM de yyyy' }).getTime()).toEqual(new Date(2020, 3, 29, 0, 0, 0).getTime());
     });
 
     it('should parse date in ar-SA', async () => {
