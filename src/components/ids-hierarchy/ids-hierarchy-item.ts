@@ -23,6 +23,7 @@ export default class IdsHierarchyItem extends Base {
   constructor() {
     super();
     this.expander = this.shadowRoot?.querySelector('[part="icon-btn"]');
+    this.dropdownMenu = this.querySelector('[part="icon-menu"]');
     this.leaf = this.shadowRoot?.querySelector('[part="leaf"]');
     this.nestedItemContainer = this.shadowRoot?.querySelector('[part="nested-items"]');
   }
@@ -74,10 +75,13 @@ export default class IdsHierarchyItem extends Base {
               <slot name="subheading"></slot>
               <slot name="micro"></slot>
             </div>
-            <ids-button part="icon-btn" id="icon-only-button-default">
-              <span class="audible">Default Button</span>
-              <ids-icon slot="icon" icon="caret-down"></ids-icon>
-            </ids-button>
+            <div part="actions">
+              <slot name="menu"></slot>
+              <ids-button part="icon-btn" id="icon-only-button-default">
+                <span class="audible">Default Button</span>
+                <ids-icon slot="icon" icon="caret-down"></ids-icon>
+              </ids-button>
+            </div>
           </div>
         </div>
         <div class="sub-level"><slot part="nested-items"></slot></div>
@@ -188,6 +192,19 @@ export default class IdsHierarchyItem extends Base {
     this.onEvent('click', this.expander, () => {
       this.#expandCollapse(this.expanded);
     });
+
+    if (this.dropdownMenu) {
+      this.onEvent('click', this.dropdownMenu, () => {
+        const allLeafs = document.querySelectorAll('ids-hierarchy-item');
+        allLeafs.forEach((l) => {
+          const elem = l.shadowRoot?.querySelector('.leaf') as HTMLElement;
+          elem.style.zIndex = '100';
+        });
+
+        const leafElement = this.shadowRoot?.querySelector('.leaf');
+        leafElement.style.zIndex = 1000;
+      });
+    }
 
     this.onEvent('touchend', this.expander, (e: any) => {
       if (e.touches && e.touches.length > 0) {

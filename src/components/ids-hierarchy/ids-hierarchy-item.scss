@@ -148,10 +148,26 @@
   }
 }
 
+div[part='actions'] {
+  margin-inline-start: auto;
+  display: flex;
+}
+
+ids-button[part='icon-menu'] {
+  margin-right: 5px;
+
+  .ids-icon-button {
+    padding: 4px;
+  }
+}
+
 ids-button[part='icon-btn'] {
   display: none;
   cursor: pointer;
-  margin-inline-start: auto;
+
+  .ids-icon-button {
+    padding: 4px;
+  }
 }
 
 :host([expanded]) {
