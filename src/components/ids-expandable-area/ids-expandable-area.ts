@@ -47,7 +47,7 @@ export default class IdsExpandableArea extends Base {
    * @param {string | null} value The Type [null, toggle-btn]
    */
   set type(value: string) {
-    if (value === EXPANDABLE_AREA_TYPES[0]) {
+    if (EXPANDABLE_AREA_TYPES.indexOf(value) !== -1) {
       this.setAttribute(attributes.TYPE, value);
     } else {
       this.setAttribute(attributes.TYPE, '');
@@ -58,9 +58,9 @@ export default class IdsExpandableArea extends Base {
 
   /**
    * Set the expanded property
-   * @param {string | null} value true/false
+   * @param {string | boolean | null} value true/false
    */
-  set expanded(value: string | null) {
+  set expanded(value: string | boolean | null) {
     if (value) {
       this.setAttribute(attributes.EXPANDED, value);
     } else {
@@ -69,7 +69,9 @@ export default class IdsExpandableArea extends Base {
     this.switchState();
   }
 
-  get expanded() { return this.getAttribute(attributes.EXPANDED); }
+  get expanded(): string | null {
+    return this.getAttribute(attributes.EXPANDED);
+  }
 
   /**
    * The main state switching function
@@ -82,7 +84,7 @@ export default class IdsExpandableArea extends Base {
     this.expander?.setAttribute('aria-expanded', this.state.expanded);
 
     // Hide/show the text link if default
-    if (this.type === null && this.expanderDefault && this.expanderExpanded) {
+    if (this.type !== EXPANDABLE_AREA_TYPES[0] && this.expanderDefault && this.expanderExpanded) {
       this.expanderDefault.hidden = this.state.expanded;
       this.expanderExpanded.hidden = !this.state.expanded;
     }
@@ -100,15 +102,25 @@ export default class IdsExpandableArea extends Base {
    * @returns {void}
    */
   collapsePane(): void {
-    requestAnimationFrame(() => {
-      if (!this.pane) {
-        return;
-      }
+    if (!this.pane) {
+      return;
+    }
 
-      this.pane.style.height = `${this.pane?.scrollHeight}px`;
-      requestAnimationFrame(() => {
-        this.pane.style.height = `0px`;
+    const canCollapse = this.triggerVetoableEvent('beforecollapse', this);
+
+    if (!canCollapse) {
+      this.expanded = true;
+      return;
+    }
+
+    this.triggerEvent('collapse', this);
+
+    requestAnimationFrame(() => {
+      this.pane.addEventListener('transitionend', () => {
+        this.triggerEvent('aftercollapse', this);
       });
+      this.pane.style.height = `${this.pane?.scrollHeight}px`;
+      this.pane.style.height = `0px`;
     });
   }
 
@@ -122,7 +134,20 @@ export default class IdsExpandableArea extends Base {
       return;
     }
 
-    this.pane.style.height = `${this.pane.scrollHeight}px`;
+    const canExpand = this.triggerVetoableEvent('beforeexpand', this);
+    if (!canExpand) {
+      this.expanded = false;
+      return;
+    }
+
+    this.triggerEvent('expand', this);
+
+    requestAnimationFrame(() => {
+      this.pane.addEventListener('transitionend', () => {
+        this.triggerEvent('afterexpand', this);
+      });
+      this.pane.style.height = `${this.pane.scrollHeight}px`;
+    });
   }
 
   /**
@@ -160,12 +185,38 @@ export default class IdsExpandableArea extends Base {
     let template;
     if (this.type === EXPANDABLE_AREA_TYPES[0]) {
       template = `
-        <div class="ids-expandable-area" part="container">
+        <div class="ids-expandable-area toggle-btn-type" part="container">
           <div class="ids-expandable-area-header" part="header" aria-expanded="false" data-expander="header">
             <slot name="header"></slot>
           </div>
           <div class="ids-expandable-area-pane" part="pane">
-            <slot name="pane"></slot>
+            <div class="expandable-pane-content">
+              <slot name="pane"></slot>
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (this.type === EXPANDABLE_AREA_TYPES[1]) {
+      template = `
+        <div class="ids-expandable-area" part="container">
+          <div class="ids-expandable-area-header" part="header">
+            <slot name="header"></slot>
+          </div>
+          <div class="ids-expandable-area-visible-pane">
+            <div class="expandable-pane-content">
+              <slot name="visible"></slot>
+            </div>
+          </div>
+          <div class="ids-expandable-area-pane" part="pane">
+            <div class="expandable-pane-content">
+              <slot name="pane"></slot>
+            </div>
+          </div>
+          <div class="ids-expandable-area-footer" part="footer">
+            <a class="ids-expandable-area-expander" href="#0" role="button" aria-expanded="false" data-expander="link">
+              <slot name="expander-default"></slot>
+              <slot name="expander-expanded" hidden></slot>
+            </a>
           </div>
         </div>
       `;
@@ -176,7 +227,9 @@ export default class IdsExpandableArea extends Base {
             <slot name="header"></slot>
           </div>
           <div class="ids-expandable-area-pane" part="pane">
-            <slot name="pane"></slot>
+            <div class="expandable-pane-content">
+              <slot name="pane"></slot>
+            </div>
           </div>
           <div class="ids-expandable-area-footer" part="footer">
             <a class="ids-expandable-area-expander" href="#0" role="button" aria-expanded="false" data-expander="link">

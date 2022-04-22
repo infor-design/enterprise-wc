@@ -158,6 +158,39 @@ describe('IdsExpandableArea Component', () => {
     expect(el.expanded).toBe('false');
   });
 
+  it('allows vetoing beforeexpand/beforecollapse', () => {
+    const click = new MouseEvent('click');
+    const veto = (evt: CustomEvent) => evt.detail.response(false);
+
+    // prevent expand once
+    el.addEventListener('beforeexpand', veto, { once: true });
+    el.expander.dispatchEvent(click);
+    expect(el.expanded).toEqual('false');
+
+    // open pane
+    el.expander.dispatchEvent(click);
+    expect(el.expanded).toEqual('true');
+
+    // prevent collapse once
+    el.addEventListener('beforecollapse', veto, { once: true });
+    el.expander.dispatchEvent(click);
+    expect(el.expanded).toEqual('true');
+  });
+
+  it('triggers expand/collapse events', () => {
+    const mockExpandFn = jest.fn();
+    const mockCollapseFn = jest.fn();
+    const click = new MouseEvent('click');
+
+    el.addEventListener('expand', mockExpandFn);
+    el.expander.dispatchEvent(click);
+    el.addEventListener('collapse', mockCollapseFn);
+    el.expander.dispatchEvent(click);
+
+    expect(mockExpandFn.mock.calls.length).toBe(1);
+    expect(mockCollapseFn.mock.calls.length).toBe(1);
+  });
+
   it('can change the height of the pane', () => {
     el.pane.style.height = `100px`;
 

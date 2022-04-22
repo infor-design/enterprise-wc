@@ -3,13 +3,26 @@
 .ids-expandable-area {
   border-bottom: 1px solid var(--ids-color-palette-slate-30);
   contain: content;
-  margin-bottom: calc(var(--ids-number-spacing-base) * 4);
-  padding-bottom: calc(var(--ids-number-spacing-base) * 4);
+  padding: calc(var(--ids-number-spacing-base) * 3) 0;
+
+  .expandable-pane-content {
+    margin-top: calc(var(--ids-number-spacing-base) * 2);
+  }
 }
 
 :host([type='toggle-btn']) {
   .ids-expandable-area-header {
-    @include mb-16();
+    @include mb-8();
+  }
+}
+
+:host([type='partial']) {
+  .ids-expandable-area-visible-pane .expandable-pane-content {
+    margin-top: calc(var(--ids-number-spacing-base) * 3);
+  }
+
+  .ids-expandable-area-pane .expandable-pane-content {
+    margin-top: 0;
   }
 }
 
