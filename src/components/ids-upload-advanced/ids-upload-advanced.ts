@@ -10,6 +10,10 @@ import IdsUploadAdvancedShared from './ids-upload-advanced-shared';
 
 import styles from './ids-upload-advanced.scss';
 
+// Supporting components
+import '../ids-toolbar/ids-toolbar';
+import '../ids-button/ids-button';
+
 const shared = IdsUploadAdvancedShared;
 
 /**
@@ -21,6 +25,16 @@ const shared = IdsUploadAdvancedShared;
  * @part container - the main container element
  * @part label - the label element
  * @part link - the hyperlink element
+ * @part filesarea - the files area element
+ * @part errorarea - the error area element
+ * @part error-status - the error status element
+ * @part error-status-icon - the error status icon element
+ * @part error-row - the error row element
+ * @part btn-close-error - the close error button element
+ * @part error-data-container - the error data container element
+ * @part toolbararea - the toolbar area element
+ * @part btn-start-all - the start all button element
+ * @part btn-cancel-all - the cancel all button element
  */
 @customElement('ids-upload-advanced')
 @scss(styles)
@@ -35,9 +49,12 @@ export default class IdsUploadAdvanced extends Base {
    */
   static get attributes(): Array<string> {
     return [
+      ...super.attributes,
       attributes.ACCEPT,
+      attributes.AUTO_START,
       attributes.DISABLED,
       attributes.ICON,
+      attributes.ICON_SIZE,
       attributes.MAX_FILE_SIZE,
       attributes.MAX_FILES,
       attributes.MAX_FILES_IN_PROCESS,
@@ -61,7 +78,7 @@ export default class IdsUploadAdvanced extends Base {
     this.files = [];
 
     this.#attachEventHandlers();
-    super.connectedCallback();
+    super.connectedCallback?.();
   }
 
   /**
@@ -78,8 +95,10 @@ export default class IdsUploadAdvanced extends Base {
     const hiddenArea = `
       <div class="hidden">
         <slot name="text-btn-cancel">${d.textBtnCancel}</slot>
+        <slot name="text-btn-cancel-all">${d.textBtnCancelAll}</slot>
         <slot name="text-btn-close-error">${d.textBtnCloseError}</slot>
         <slot name="text-btn-remove">${d.textBtnRemove}</slot>
+        <slot name="text-btn-start-all">${d.textBtnStartAll}</slot>
         <slot name="text-droparea">${d.textDroparea}</slot>
         <slot name="text-droparea-with-browse">${d.textDropareaWithBrowse}</slot>
         <slot name="text-droparea-with-browse-link">${d.textDropareaWithBrowseLink}</slot>
@@ -113,8 +132,8 @@ export default class IdsUploadAdvanced extends Base {
           <ids-icon icon="${this.icon}" class="icon"></ids-icon>
           ${content}
         </div>
-        <div class="errorarea"></div>
-        <div class="filesarea"></div>
+        <div class="errorarea" part="errorarea"></div>
+        <div class="filesarea" part="filesarea"></div>
       </div>`;
   }
 
@@ -146,6 +165,10 @@ export default class IdsUploadAdvanced extends Base {
 
     uiElem?.addEventListener('abort', () => {
       xhr.abort(); // File abort
+    });
+    uiElem?.addEventListener('error', () => {
+      xhr.abort(); // File abort, for arbitrary error
+      this.setToolbar();
     });
   }
 
@@ -235,14 +258,11 @@ export default class IdsUploadAdvanced extends Base {
   }
 
   /**
-   * Get droparea label html
+   * Set droparea label html
    * @private
    * @returns {void}
    */
   setDropareaLabel(): void {
-    if (!this.shadowRoot) {
-      return;
-    }
     const hasBrowse = this.showBrowseLinkVal;
     const className = 'hidden';
     const sel = {
@@ -267,6 +287,35 @@ export default class IdsUploadAdvanced extends Base {
   }
 
   /**
+   * Set an arbitrary error message
+   * @param {any} opt The error message options.
+   * @returns {void}
+   */
+  setError(opt: any = {}): void {
+    const { message, fileNodes } = opt;
+    if (message) {
+      if (fileNodes) {
+        const setErrorMessage = (n: any) => {
+          const el: any = /ids-upload-advanced-file/gi.test(n.nodeName) ? n : n?.uiElem;
+          if (el && (typeof el.status === 'undefined'
+            || el.status === shared.STATUS.notStarted
+            || el.status === shared.STATUS.inProcess
+          )) {
+            el.error = message;
+          }
+        };
+        if (fileNodes.constructor === Array) {
+          fileNodes.forEach((n: any) => setErrorMessage(n));
+        } else {
+          setErrorMessage(fileNodes);
+        }
+      } else {
+        this.errorMessage({ error: message });
+      }
+    }
+  }
+
+  /**
    * Show/Hide given error message
    * @private
    * @param {any} opt The error message options.
@@ -283,20 +332,27 @@ export default class IdsUploadAdvanced extends Base {
     errorarea.innerHTML = '';
     if (!remove) {
       const disabled = this.disabled ? ` disabled="true"` : '';
+      const textCloseBtnError = shared.slotVal(this.shadowRoot, 'text-btn-close-error');
       let dataHtml = '';
       if (data) {
         dataHtml = `
-          <div class="error-data-container">
+          <div class="error-data-container" part="error-data-container">
             <ids-text class="error-data">${data}</ids-text>
           </div>`;
       }
       const html = `
-        <div class="status">
-          <ids-alert class="errored" icon="error-solid"${disabled}></ids-alert>
+        <div class="status" part="error-status">
+          <ids-alert class="errored" icon="error" part="error-status-icon"${disabled}></ids-alert>
         </div>
-        <div class="error-row">
+        <div class="error-row" part="error-row">
           <ids-text class="error-msg">${error}</ids-text>
           ${dataHtml}
+        </div>
+        <div class="btn-close">
+          <ids-button id="btn-close-error" part="btn-close-error">
+            <span slot="text" class="audible">${textCloseBtnError}</span>
+            <ids-icon slot="icon" icon="close" size="xsmall"></ids-icon>
+          </ids-button>
         </div>
       `;
       errorarea?.classList.add('has-error');
@@ -406,6 +462,40 @@ export default class IdsUploadAdvanced extends Base {
   }
 
   /**
+   * Start given file node in to process
+   * @private
+   * @param {object} fileNode Filenode related to file element.
+   * @returns {void}
+   */
+  startInProcess(fileNode: any): void {
+    const status = fileNode?.status;
+    if (typeof status === 'undefined' || status === shared.STATUS.notStarted) {
+      const { id, file, uiElem } = fileNode;
+      const detail = {
+        id,
+        file,
+        elem: this,
+        size: file.size,
+        sizeFormatted: shared.formatBytes(stringToNumber(file.size)),
+        status: shared.STATUS.inProcess,
+        value: '0'
+      };
+      fileNode.status = shared.STATUS.inProcess;
+      uiElem.status = shared.STATUS.inProcess;
+      const formData = new FormData(); // use FormData API
+      const paramName = this.paramName.replace('[]', '');
+      formData.append(`${paramName}[]`, file);
+      if (typeof this.send === 'function') {
+        this.send(formData, uiElem);
+      } else {
+        this.sendByXHR(formData, uiElem);
+      }
+      this.triggerEvent('beginupload', uiElem, { detail });
+      this.triggerEvent('beginupload', this, { detail });
+    }
+  }
+
+  /**
    * Read the file contents using HTML5 FormData()
    * @private
    * @param {object} files File object containing uploaded files.
@@ -429,28 +519,28 @@ export default class IdsUploadAdvanced extends Base {
       const fileNode = this.files[this.files.length - 1];
       filesarea?.insertAdjacentHTML('afterbegin', html);
       const uiElem = filesarea?.querySelector(`#${id}`);
+      fileNode.uiElem = uiElem;
       this.handleFileEvent(uiElem);
+
+      // Good to upload
       if (validation.isValid) {
-        // Good to upload
-        fileNode.status = shared.STATUS.inProcess;
-        const detail = {
-          id,
-          file,
-          elem: this,
-          size: file.size,
-          sizeFormatted: shared.formatBytes(stringToNumber(file.size)),
-          status: shared.STATUS.inProcess,
-          value: '0'
-        };
-        this.triggerEvent('beginupload', uiElem, { detail });
-        this.triggerEvent('beginupload', this, { detail });
-        const formData = new FormData(); // use FormData API
-        const paramName = this.paramName.replace('[]', '');
-        formData.append(`${paramName}[]`, file);
-        if (typeof this.send === 'function') {
-          this.send(formData, uiElem);
+        if (this.autoStart) {
+          this.startInProcess(fileNode); // Automatic start
         } else {
-          this.sendByXHR(formData, uiElem);
+          // Add to list only, it can start manually
+          fileNode.status = shared.STATUS.notStarted;
+          uiElem.status = shared.STATUS.notStarted;
+          const detail = {
+            id,
+            file,
+            elem: this,
+            size: file.size,
+            sizeFormatted: shared.formatBytes(stringToNumber(file.size)),
+            status: shared.STATUS.inProcess,
+            value: '0'
+          };
+          this.triggerEvent('notstartedupload', uiElem, { detail });
+          this.triggerEvent('notstartedupload', this, { detail });
         }
       } else {
         // Add file with error
@@ -459,8 +549,33 @@ export default class IdsUploadAdvanced extends Base {
       }
     }
 
+    this.setToolbar();
+
     // Clear browse file input
     this.fileInput.value = null;
+  }
+
+  /**
+   * Set toolbar
+   * @private
+   * @returns {void}
+   */
+  setToolbar(): void {
+    const toolbarEl = this.shadowRoot.querySelector('.toolbararea');
+    if (this.notStarted.length > 0) {
+      if (!toolbarEl) {
+        const template = document.createElement('template');
+        template.innerHTML = this.toolbarTemplate;
+
+        const refEl = this.shadowRoot.querySelector('.errorarea');
+        this.container.insertBefore(template.content.cloneNode(true), refEl);
+      }
+    } else {
+      toolbarEl?.classList.add('before-remove-transition');
+      this.onEvent('transitionend', toolbarEl, () => {
+        toolbarEl?.remove();
+      });
+    }
   }
 
   /**
@@ -500,6 +615,11 @@ export default class IdsUploadAdvanced extends Base {
         e.preventDefault();
       }
     });
+    const errorarea = this.shadowRoot?.querySelector('.errorarea');
+    this.onEvent('click', errorarea, (e: any) => {
+      const id = e.target?.getAttribute('id');
+      if (id === 'btn-close-error') this.errorMessage({ remove: true });
+    });
   }
 
   /**
@@ -526,7 +646,7 @@ export default class IdsUploadAdvanced extends Base {
         return;
       }
       this.triggerEvent('filesdragenter', this, { detail: { elem: this } });
-      this.droparea.classList.add('hover');
+      this.droparea.classList.add('dragenter');
     });
   }
 
@@ -553,7 +673,7 @@ export default class IdsUploadAdvanced extends Base {
       if (this.disabled) {
         return;
       }
-      this.droparea.classList.remove('hover');
+      this.droparea.classList.remove('dragenter');
       const files = e.dataTransfer.files;
       this.triggerEvent('filesdrop', this, { detail: { elem: this, files } });
       this.handleFileUpload(files);
@@ -574,7 +694,7 @@ export default class IdsUploadAdvanced extends Base {
         e.stopPropagation();
         e.preventDefault();
         if (e.type === 'dragover') {
-          this.droparea.classList.remove('hover');
+          this.droparea.classList.remove('dragenter');
         }
       });
     });
@@ -587,22 +707,57 @@ export default class IdsUploadAdvanced extends Base {
    * @returns {void}
    */
   handleFileEvent(uiElem: any): void {
-    const events = ['error', 'complete', 'abort', 'closebuttonclick'];
+    const events = ['error', 'complete', 'abort', 'cancel', 'start', 'closebuttonclick', 'startbuttonclick'];
     events.forEach((eventName) => {
       this.onEvent(eventName, uiElem, (e: any) => {
-        let target: any = {};
+        const target: any = { node: {}, idx: -1 };
         for (let i = 0; i < this.files.length; i++) {
           if (uiElem.id === this.files[i].id) {
             this.files[i] = { ...this.files[i], ...e.detail };
-            target = this.files[i];
+            target.node = this.files[i];
+            target.idx = i;
           }
         }
-        this.dispatchFileEvent(eventName, e, target.id, target.file);
+        this.dispatchFileEvent(eventName, e, target.node.id, target.node.file);
 
-        if (/closebuttonclick|abort/g.test(eventName)) {
+        // Close button clicked
+        if (/closebuttonclick|abort|cancel/g.test(eventName)) {
+          uiElem?.abortHandler();
           uiElem?.remove();
+          // Remove from files list
+          if (target.node.status === shared.STATUS.notStarted) {
+            this.files.splice(target.idx, 1);
+          }
+          this.setToolbar();
+        }
+
+        // Start button clicked
+        if (/startbuttonclick|start/g.test(eventName)) {
+          this.startInProcess(target.node);
+          this.setToolbar();
+        }
+
+        // Error
+        if (eventName === 'error') {
+          this.setToolbar();
         }
       });
+    });
+  }
+
+  /**
+   * Handle toolbar events
+   * @private
+   * @returns {void}
+   */
+  handleToolbarEvents(): void {
+    this.onEvent('selected', this.container, (e: any) => {
+      const doAction = (action: string) => {
+        this.notStarted.forEach((fileNode: any) => fileNode.uiElem[action]());
+      };
+      const id = e?.detail?.elem?.getAttribute('id');
+      if (id === 'btn-start-all') doAction('start');
+      if (id === 'btn-cancel-all') doAction('cancel');
     });
   }
 
@@ -619,6 +774,7 @@ export default class IdsUploadAdvanced extends Base {
     this.handleDropareaDragoverEvent();
     this.handleDropareaDropEvent();
     this.handleDocumentDragDropEvents();
+    this.handleToolbarEvents();
   }
 
   /**
@@ -626,6 +782,14 @@ export default class IdsUploadAdvanced extends Base {
    * @returns {Array} list of all added files
    */
   get all(): Array<unknown> { return this.files; }
+
+  /**
+   * Get list of not started files
+   * @returns {Array} list of not started files
+   */
+  get notStarted(): Array<unknown> {
+    return this.statusFiles(shared.STATUS.notStarted);
+  }
 
   /**
    * Get list of in process files
@@ -697,6 +861,32 @@ export default class IdsUploadAdvanced extends Base {
   }
 
   /**
+   * Get template for toolbar element
+   * @private
+   * @returns {string} The slots template
+   */
+  get toolbarTemplate(): string {
+    const text = {
+      start: shared.slotVal(this.shadowRoot, 'text-btn-start-all'),
+      cancel: shared.slotVal(this.shadowRoot, 'text-btn-cancel-all'),
+    };
+    return `
+      <div class="toolbararea" part="toolbararea">
+        <ids-toolbar>
+          <ids-toolbar-section type="buttonset" align="end">
+            <ids-button id="btn-cancel-all" part="btn-cancel-all" role="button" no-padding>
+              <span slot="text">${text.cancel}</span>
+            </ids-button>
+            <ids-button id="btn-start-all" part="btn-start-all" role="button" no-padding>
+              <span slot="text">${text.start}</span>
+            </ids-button>
+          </ids-toolbar-section>
+        </ids-toolbar>
+      </div>
+    `;
+  }
+
+  /**
    * Get error max files value
    * @private
    * @returns {string} The value of max files and error string
@@ -734,6 +924,23 @@ export default class IdsUploadAdvanced extends Base {
   get accept(): string | undefined { return this.getAttribute(attributes.ACCEPT); }
 
   /**
+   * Allow automatic start upload, after files have been dropped or added
+   * @param {boolean|string|undefined} value The value
+   */
+  set autoStart(value: boolean | string | undefined) {
+    if (typeof value === 'boolean' || typeof value === 'string') {
+      this.setAttribute(attributes.AUTO_START, value.toString());
+    } else {
+      this.removeAttribute(attributes.AUTO_START);
+    }
+  }
+
+  get autoStart(): boolean {
+    const value = this.getAttribute(attributes.AUTO_START);
+    return value !== null ? stringToBool(value) : shared.DEFAULTS.autoStart;
+  }
+
+  /**
    * Sets the whole element to disabled
    * @param {boolean|string} value The disabled value
    */
@@ -767,6 +974,25 @@ export default class IdsUploadAdvanced extends Base {
   get icon(): string {
     return this.getAttribute(attributes.ICON)
       || shared.DEFAULTS.icon;
+  }
+
+  /**
+   * Sets the icon size to be use in main drop area
+   * @param {string | undefined | null} value The icon size value
+   */
+  set iconSize(value: string | undefined | null) {
+    const icon = this.shadowRoot.querySelector('.icon');
+    if (value) {
+      this.setAttribute(attributes.ICON_SIZE, value.toString());
+      icon?.setAttribute(attributes.SIZE, value.toString());
+    } else {
+      this.removeAttribute(attributes.ICON_SIZE);
+      icon?.removeAttribute(attributes.SIZE);
+    }
+  }
+
+  get iconSize(): string | null {
+    return this.getAttribute(attributes.ICON_SIZE);
   }
 
   /**
