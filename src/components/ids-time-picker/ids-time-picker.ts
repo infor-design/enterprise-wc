@@ -672,7 +672,6 @@ export default class IdsTimePicker extends Base {
     this.listen(['ArrowDown', 'Enter', 'Escape', 'Backspace'], this, (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
         this.setTimeOnField();
-        this.toggleTimePopup();
       } else if (e.key === 'ArrowDown') {
         this.openTimePopup();
       } else if (e.key === 'Escape' || e.key === 'Backspace') {
