@@ -113,12 +113,8 @@ export default class IdsExpandableArea extends Base {
       return;
     }
 
-    this.triggerEvent('collapse', this);
-
     requestAnimationFrame(() => {
-      this.pane.addEventListener('transitionend', () => {
-        this.triggerEvent('aftercollapse', this);
-      });
+      this.triggerEvent('collapse', this);
       this.pane.style.height = `${this.pane?.scrollHeight}px`;
       this.pane.style.height = `0px`;
     });
@@ -140,12 +136,8 @@ export default class IdsExpandableArea extends Base {
       return;
     }
 
-    this.triggerEvent('expand', this);
-
     requestAnimationFrame(() => {
-      this.pane.addEventListener('transitionend', () => {
-        this.triggerEvent('afterexpand', this);
-      });
+      this.triggerEvent('expand', this);
       this.pane.style.height = `${this.pane.scrollHeight}px`;
     });
   }
@@ -175,6 +167,14 @@ export default class IdsExpandableArea extends Base {
     }, {
       passive: true
     });
+
+    this.onEvent('transitionend', this.pane, () => {
+      if (this.pane.style.height === '0px') {
+        this.triggerEvent('aftercollapse', this);
+      } else {
+        this.triggerEvent('afterexpand', this);
+      }
+    });
   }
 
   /**
@@ -182,64 +182,53 @@ export default class IdsExpandableArea extends Base {
    * @returns {string} The template
    */
   template(): string {
-    let template;
-    if (this.type === EXPANDABLE_AREA_TYPES[0]) {
-      template = `
-        <div class="ids-expandable-area toggle-btn-type" part="container">
-          <div class="ids-expandable-area-header" part="header" aria-expanded="false" data-expander="header">
-            <slot name="header"></slot>
-          </div>
-          <div class="ids-expandable-area-pane" part="pane">
-            <div class="expandable-pane-content">
-              <slot name="pane"></slot>
-            </div>
-          </div>
+    let header = `
+      <div class="ids-expandable-area-header" part="header">
+        <slot name="header"></slot>
+      </div>
+    `;
+    let pane = `
+      <div class="ids-expandable-area-pane" part="pane">
+        <div class="expandable-pane-content">
+          <slot name="pane"></slot>
+        </div>
+      </div>
+    `;
+    let footer = `
+      <div class="ids-expandable-area-footer" part="footer">
+        <a class="ids-expandable-area-expander" href="#0" role="button" aria-expanded="false" data-expander="link">
+          <slot name="expander-default"></slot>
+          <slot name="expander-expanded" hidden></slot>
+        </a>
+      </div>
+    `;
+
+    if (this.type === EXPANDABLE_AREA_TYPES[0]) { // Toggle Button Type
+      header = `
+        <div class="ids-expandable-area-header" part="header" aria-expanded="false" data-expander="header">
+          <slot name="header"></slot>
         </div>
       `;
-    } else if (this.type === EXPANDABLE_AREA_TYPES[1]) {
-      template = `
-        <div class="ids-expandable-area" part="container">
-          <div class="ids-expandable-area-header" part="header">
-            <slot name="header"></slot>
-          </div>
-          <div class="ids-expandable-area-visible-pane">
-            <div class="expandable-pane-content">
-              <slot name="visible"></slot>
-            </div>
-          </div>
-          <div class="ids-expandable-area-pane" part="pane">
-            <div class="expandable-pane-content">
-              <slot name="pane"></slot>
-            </div>
-          </div>
-          <div class="ids-expandable-area-footer" part="footer">
-            <a class="ids-expandable-area-expander" href="#0" role="button" aria-expanded="false" data-expander="link">
-              <slot name="expander-default"></slot>
-              <slot name="expander-expanded" hidden></slot>
-            </a>
+      footer = '';
+    } else if (this.type === EXPANDABLE_AREA_TYPES[1]) { // Partial Pane Type
+      pane = `
+        <div class="ids-expandable-area-visible-pane">
+          <div class="expandable-pane-content">
+            <slot name="visible"></slot>
           </div>
         </div>
-      `;
-    } else {
-      template = `
-        <div class="ids-expandable-area" part="container">
-          <div class="ids-expandable-area-header" part="header">
-            <slot name="header"></slot>
-          </div>
-          <div class="ids-expandable-area-pane" part="pane">
-            <div class="expandable-pane-content">
-              <slot name="pane"></slot>
-            </div>
-          </div>
-          <div class="ids-expandable-area-footer" part="footer">
-            <a class="ids-expandable-area-expander" href="#0" role="button" aria-expanded="false" data-expander="link">
-              <slot name="expander-default"></slot>
-              <slot name="expander-expanded" hidden></slot>
-            </a>
-          </div>
-        </div>
+        ${pane}
       `;
     }
+
+    const template = `
+      <div class="ids-expandable-area" part="container">
+        ${header}
+        ${pane}
+        ${footer}
+      </div>
+    `;
+
     return template;
   }
 }

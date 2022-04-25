@@ -191,6 +191,24 @@ describe('IdsExpandableArea Component', () => {
     expect(mockCollapseFn.mock.calls.length).toBe(1);
   });
 
+  it('triggers afterexpand/aftercollapse events after transition', () => {
+    const mockExpandFn = jest.fn();
+    const mockCollapseFn = jest.fn();
+
+    el.addEventListener('afterexpand', mockExpandFn, { once: true });
+    el.addEventListener('aftercollapse', mockCollapseFn, { once: true });
+
+    // expanded state
+    el.pane.style.height = '100px';
+    el.pane.dispatchEvent(new Event('transitionend'));
+    expect(mockExpandFn.mock.calls.length).toBe(1);
+
+    // collapsed state
+    el.pane.style.height = '0px';
+    el.pane.dispatchEvent(new Event('transitionend'));
+    expect(mockCollapseFn.mock.calls.length).toBe(1);
+  });
+
   it('can change the height of the pane', () => {
     el.pane.style.height = `100px`;
 
