@@ -54,6 +54,7 @@ The `ids-date-picker` is a web component to support date entry
   - `maxDate` `{string}` - Disable up to a maximum date
   - `dayOfWeek` `{Array}` - Disable a specific of days of the week 0-6
   - `isReverse` `{boolean}` - Reverse the disable settings. Default is false
+- `mask` `{true|false}` - Whether or not to enable date mask for the input. `format` attribute will be set as mask options format
 
 ## Methods
 - `show()` - opens calendar popup

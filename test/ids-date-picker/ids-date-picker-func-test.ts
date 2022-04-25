@@ -539,5 +539,19 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.getAttribute('dirty-tracker')).toEqual(null);
       expect(component.input.getAttribute('dirty-tracker')).toEqual(null);
     });
+
+    it('should handle mask attribute', () => {
+      expect(component.mask).toBeFalsy();
+
+      component.mask = true;
+
+      expect(component.mask).toBeTruthy();
+      expect(component.input.getAttribute('mask')).toEqual('date');
+
+      component.mask = false;
+
+      expect(component.mask).toBeFalsy();
+      expect(component.input.getAttribute('mask')).toBeNull();
+    });
   });
 });

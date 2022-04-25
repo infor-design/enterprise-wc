@@ -98,6 +98,7 @@ class IdsDatePicker extends Base {
       attributes.IS_CALENDAR_TOOLBAR,
       attributes.IS_DROPDOWN,
       attributes.LABEL,
+      attributes.MASK,
       attributes.MONTH,
       attributes.NO_MARGINS,
       attributes.PLACEHOLDER,
@@ -187,7 +188,7 @@ class IdsDatePicker extends Base {
         ${(!(this.isDropdown || this.isCalendarToolbar)) ? `
           <ids-trigger-field
             part="trigger-field"
-            ${this.useRange ? '' : 'mask="date"'}
+            ${this.mask ? `mask="date"` : ''}
             ${this.id ? `id="${this.id}"` : ''}
             ${this.label ? `label="${this.label}"` : ''}
             placeholder="${this.placeholder}"
@@ -888,7 +889,7 @@ class IdsDatePicker extends Base {
    * Applying ids-mask to the input when changing locale or format
    */
   #applyMask() {
-    if (this.#triggerField) {
+    if (this.#triggerField && this.mask) {
       this.#triggerField.maskOptions = { format: this.format };
       this.#triggerField.value = this.value;
     }
@@ -1579,6 +1580,32 @@ class IdsDatePicker extends Base {
   set disable(val: DisableSettings) {
     if (this.#monthView) {
       this.#monthView.disable = val;
+    }
+  }
+
+  /**
+   * mask attribute
+   * @returns {boolean} if date mask is enabled
+   */
+  get mask(): boolean {
+    const attrVal = this.getAttribute(attributes.MASK);
+
+    return stringToBool(attrVal);
+  }
+
+  /**
+   * Enable/disable date mask for the input
+   * @param {string|boolean|null} val mask param value
+   */
+  set mask(val: string | boolean | null) {
+    const boolVal = stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.MASK, boolVal);
+      this.#triggerField?.setAttribute(attributes.MASK, 'date');
+    } else {
+      this.removeAttribute(attributes.MASK);
+      this.#triggerField?.removeAttribute(attributes.MASK);
     }
   }
 }
