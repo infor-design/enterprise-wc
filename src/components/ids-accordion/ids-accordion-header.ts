@@ -349,8 +349,10 @@ export default class IdsAccordionHeader extends Base {
 
     if (disabled) {
       this.setAttribute(attributes.DISABLED, `${disabled}`);
+      this.container.classList.add(attributes.DISABLED);
     } else {
       this.removeAttribute(attributes.DISABLED);
+      this.container.classList.remove(attributes.DISABLED);
     }
   }
 }

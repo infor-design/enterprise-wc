@@ -40,8 +40,6 @@ describe('IdsAccordion Component', () => {
   let header2: any;
 
   beforeEach(async () => {
-    // jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb: any) => cb());
-
     accordion = await createAccordion(accordion);
 
     panel = document.querySelector('#p1');

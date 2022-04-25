@@ -14,12 +14,6 @@
     border-left-color: transparent;
     border-right-color: transparent;
     border-top-color: transparent;
-
-    &:focus {
-      @include border-azure-60();
-
-      box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
-    }
   }
 
   // Dark Mode Styles
@@ -30,12 +24,6 @@
 
     ids-icon {
       @include text-slate-10();
-    }
-
-    &:focus {
-      @include border-azure-60();
-
-      box-shadow: 0 0 4px 2px rgb(141 201 230 / 0.3);
     }
   }
 
@@ -48,12 +36,6 @@
     ids-icon {
       @include text-slate-100();
     }
-
-    &:focus {
-      @include border-azure-50();
-
-      box-shadow: 0 0 4px 2px rgb(41 41 41 / 0.3);
-    }
   }
 
   // Classic Light Mode Styles
@@ -64,10 +46,6 @@
 
     ids-icon {
       @include text-graphite-100();
-    }
-
-    &:focus {
-      @include border-azure-60();
     }
   }
 
@@ -80,10 +58,6 @@
     ids-icon {
       @include text-slate-10();
     }
-
-    &:focus {
-      @include border-azure-60();
-    }
   }
 
   // Classic Contrast Mode Styles
@@ -95,9 +69,109 @@
     ids-icon {
       @include text-slate-100();
     }
+  }
+}
 
+@mixin accordion-header-focus-colors() {
+  // Light Mode Styles
+  &[mode='light'],
+  &:not([mode]) {
+    &:focus {
+      @include border-azure-60();
+
+      box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
+    }
+  }
+
+  // Dark Mode Styles
+  &[mode='dark'] {
+    &:focus {
+      @include border-azure-60();
+
+      box-shadow: 0 0 4px 2px rgb(141 201 230 / 0.3);
+    }
+  }
+
+  // Contrast Mode Styles
+  &[mode='contrast'] {
     &:focus {
       @include border-azure-50();
+
+      box-shadow: 0 0 4px 2px rgb(41 41 41 / 0.3);
+    }
+  }
+
+  // Classic Light Mode Styles
+  &[version='classic'][mode='light'] {
+    &:focus {
+      @include border-azure-60();
+    }
+  }
+
+  // Classic Dark Mode Styles
+  &[version='classic'][mode='dark'] {
+    &:focus {
+      @include border-azure-60();
+    }
+  }
+
+  // Classic Contrast Mode Styles
+  &[version='classic'][mode='contrast'] {
+    &:focus {
+      @include border-azure-50();
+    }
+  }
+}
+
+@mixin accordion-header-disabled-colors() {
+  color: var(--ids-color-palette-slate-30);
+
+  ids-icon {
+    color: var(--ids-color-palette-slate-30);
+  }
+
+  // Dark Mode Styles
+  &[mode='dark'] {
+    color: var(--ids-color-palette-slate-50);
+
+    ids-icon {
+      color: var(--ids-color-palette-slate-50);
+    }
+  }
+
+  // Contrast Mode Styles
+  &[mode='contrast'] {
+    color: var(--ids-color-palette-slate-60);
+
+    ids-icon {
+      color: var(--ids-color-palette-slate-60);
+    }
+  }
+
+  // Classic Light Mode Styles
+  &[version='classic'][mode='light'] {
+    color: var(--ids-color-palette-classic-slate-30);
+
+    ids-icon {
+      color: var(--ids-color-palette-classic-slate-30);
+    }
+  }
+
+  // Classic Dark Mode Styles
+  &[version='classic'][mode='dark'] {
+    color: var(--ids-color-palette-classic-slate-50);
+
+    ids-icon {
+      color: var(--ids-color-palette-classic-slate-50);
+    }
+  }
+
+  // Classic Contrast Mode Styles
+  &[version='classic'][mode='contrast'] {
+    color: var(--ids-color-palette-classic-slate-60);
+
+    ids-icon {
+      color: var(--ids-color-palette-classic-slate-60);
     }
   }
 }
@@ -262,6 +336,16 @@
     @include px-16();
     @include py-12();
     @include accordion-header-standard-colors();
+
+    &:not(.disabled) {
+      @include accordion-header-focus-colors();
+    }
+  
+    &.disabled {
+      @include accordion-header-disabled-colors();
+  
+      cursor: unset;
+    }
   }
 
   &.selected {
@@ -335,20 +419,20 @@
   }
 }
 
-:host([disabled='true']) {
-  .ids-accordion-header {
-    color: var(--ids-color-palette-slate-30);
-  }
-}
+// :host([disabled='true']) {
+//   .ids-accordion-header {
+//     color: var(--ids-color-palette-slate-30);
+//   }
+// }
 
-:host([mode='dark'][disabled='true']) {
-  .ids-accordion-header {
-    color: var(--ids-color-palette-slate-50);
-  }
-}
+// :host([mode='dark'][disabled='true']) {
+//   .ids-accordion-header {
+//     color: var(--ids-color-palette-slate-50);
+//   }
+// }
 
-:host([mode='contrast'][disabled='true']) {
-  .ids-accordion-header {
-    color: var(--ids-color-palette-slate-60);
-  }
-}
+// :host([mode='contrast'][disabled='true']) {
+//   .ids-accordion-header {
+//     color: var(--ids-color-palette-slate-60);
+//   }
+// }
