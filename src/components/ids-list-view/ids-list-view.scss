@@ -39,7 +39,7 @@
 
       &.sortable:hover::before {
         position: absolute;
-        left: 0;
+        left: 3px;
         transform: translate(50%, 0);
         font-size: 24px;
         margin-top: -3px;
