@@ -256,26 +256,32 @@ locale.parseDate('2020-02-26 下午12:00', { dateFormat: 'yyyy/M/d ah:mm', local
 - `isIslamic(locale)` - Returns true if the current or provided locale uses the islamic calendar as the primary calendar
 - `isTRL(locale)` - Returns true if the current or provided locale is a right-to-left language
 
-## Converting from Previous Versions (Overview)
 
-- 3.x: Used the older Globalize open source utilities
-- 4.x: Has an entire new Locale API
-- 5.x: Has numerous breaking changes
-  - The `set` api is now called `setLocale`. The `setLanguage` is still called `setLanguage`
-  - The translate API and in general no longer require a cultures folder as this is contained in the npm package.
-  - `toLocaleString` Is deprecated as function as now `formatNumber` uses it
-  - The `formatNumber` function now uses `toLocaleString` internally which has some minor differences. As a result the the rounding and truncation behavior has slightly changed and some other details are listed in the formatDate section.
-  - The `formatDate` function now uses [Intl.DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat) internally which has some minor differences. This was done to reduce the number of locale bugs and code.
-  - The `getLocale` function is not needed since we can use await now so was removed
-  - We did not include the culturesPath as its not needed since the locales are contained with the locale code
-  - ShowAsUndefined option is deprecated, now undefined locales will all be shown in square brackets
-  - Round option on formatNumber is deprecated
-  - Options on formatNumber now use toLocaleString options (which are similar)
-  - `parseDate` is now much more limited and cannot parse long formats
-  - Its technically not possible to provide a new translation file as the files are in the npm folder. So if you want to add a new translation or locale lets us know and we will add it. You might have to sync the translations.
-  - `toUpperCase` can now be done with `toLocaleUpperCase` so is deprecated
-  - `toLowerCase` can now be done with `toLocaleLowerCase` so is deprecated
-  - `dateToUTC` is deprecated as its use case is limited
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- 3.x Used the older Globalize open source utilities
+- 4.x Has an entire new Locale API
+
+**4.x to 5.x**
+
+- You can now change the locale on the `ids-container` element to have it propagate down to the children components
+- The `set` api is now called `setLocale`. The `setLanguage` is still called `setLanguage`
+- The translate API and in general no longer require a cultures folder as this is contained in the npm package.
+- `toLocaleString` Is deprecated as function as now `formatNumber` uses it
+- The `formatNumber` function now uses `toLocaleString` internally which has some minor differences. As a result the the rounding and truncation behavior has slightly changed and some other details are listed in the formatDate section.
+- The `formatDate` function now uses [Intl.DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat) internally which has some minor differences. This was done to reduce the number of locale bugs and code.
+- The `getLocale` function is not needed since we can use await now so was removed
+- We did not include the culturesPath as its not needed since the locales are contained with the locale code
+- ShowAsUndefined option is deprecated, now undefined locales will all be shown in square brackets
+- Round option on formatNumber is deprecated
+- Options on formatNumber now use toLocaleString options (which are similar)
+- `parseDate` is now much more limited and cannot parse long formats
+- Its technically not possible to provide a new translation file as the files are in the npm folder. So if you want to add a new translation or locale lets us know and we will add it. You might have to sync the translations.
+- `toUpperCase` can now be done with `toLocaleUpperCase` so is deprecated
+- `toLowerCase` can now be done with `toLocaleLowerCase` so is deprecated
+- `dateToUTC` is deprecated as its use case is limited
 
 ## Regional Considerations
 
