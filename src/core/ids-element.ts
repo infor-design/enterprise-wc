@@ -6,18 +6,6 @@ import IdsEventsMixin from '../mixins/ids-events-mixin/ids-events-mixin';
 import styles from './ids-element.scss';
 
 /**
- * Simple dictionary used to cache attribute names
- * to their corresponding property names.
- * @type {Object<string, string>}
- */
-const attribPropNameDict = Object.fromEntries(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  Object.entries(attributes).map(([_, attrib]) => (
-    [attrib, camelCase((attrib as string))]
-  ))
-);
-
-/**
  * IDS Base Element
  */
 export default class IdsElement extends IdsEventsMixin(HTMLElement) {
@@ -36,6 +24,14 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
 
   /** State object for current states */
   state?: Record<string, unknown>;
+
+  /** Dictionary used to cache attribute names */
+  attribPropNameDict?: any = Object.fromEntries(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    Object.entries(attributes).map(([_, attrib]) => (
+      [attrib, camelCase((attrib as string))]
+    ))
+  );
 
   /**
    * Add the component name and baseclass
@@ -56,11 +52,11 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
    */
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     if (oldValue !== newValue) {
-      if (!attribPropNameDict[name]) {
-        attribPropNameDict[name] = camelCase(name);
+      if (!this.attribPropNameDict[name]) {
+        this.attribPropNameDict[name] = camelCase(name);
       }
 
-      this[attribPropNameDict[name]] = newValue;
+      this[this.attribPropNameDict[name]] = newValue;
     }
   }
 
@@ -73,6 +69,10 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
     if (this.detachAllListeners) {
       this.detachAllListeners();
     }
+    delete this.handledEvents;
+    delete this.cssStyles;
+    delete this.attribPropNameDict;
+    delete this.popupOpenEventsTarget;
   }
 
   /**
