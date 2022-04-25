@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Date Picker</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-date-picker label="Abbreviated Month Year" format="MMM yyyy" placeholder="true" ></ids-date-picker>
+        <ids-date-picker label="Wide Month Day" format="MMMM d" placeholder="true"></ids-date-picker>
+        <ids-date-picker label="Year" format="yyyy" placeholder="true"></ids-date-picker>
+        <ids-date-picker label="Wide Month Year" format="MMMM yyyy" placeholder="true"></ids-date-picker>
+        <ids-date-picker label="Abbreviated Month Day Year" format="MMM d, yyyy" placeholder="true"></ids-date-picker>
+        <ids-date-picker label="ISO Date" format="yyyy-MM-dd" placeholder="true"></ids-date-picker>
+       <ids-layout-grid-cell>
+     </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

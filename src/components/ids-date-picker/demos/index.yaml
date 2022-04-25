@@ -13,3 +13,5 @@
     description: Showing width and height size variations
   - link: disabled-dates.html
     description: Showing disabled dates variations
+  - link: sandbox.html
+    description: Showing various date formats and options
