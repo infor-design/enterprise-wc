@@ -206,6 +206,7 @@ class IdsDatePicker extends Base {
           <ids-popup
             part="popup"
             type="menu"
+            tabindex="-1"
           >
             <section slot="content">
               <ids-month-view
@@ -662,6 +663,7 @@ class IdsDatePicker extends Base {
     if (isOpen && !this.readonly) {
       this.addOpenEvents();
       this.#attachExpandedListener();
+      this.#popup.removeAttribute('tabindex');
 
       this.#popup.alignTarget = this.isCalendarToolbar ? this.container : this.#triggerField;
       this.#popup.arrowTarget = this.#triggerButton;
@@ -681,6 +683,7 @@ class IdsDatePicker extends Base {
     } else {
       this.removeOpenEvents();
       this.#popup.visible = false;
+      this.#popup.setAttribute('tabindex', -1);
 
       this.container.classList.remove('is-open');
 
