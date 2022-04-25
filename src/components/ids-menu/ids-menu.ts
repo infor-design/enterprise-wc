@@ -88,6 +88,7 @@ export default class IdsMenu extends Base {
       const thisItem = e.target.closest('ids-menu-item');
       this.selectItem(thisItem);
       this.lastNavigated = thisItem;
+      e.preventDefault();
       e.stopPropagation();
     });
   }

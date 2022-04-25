@@ -37,13 +37,9 @@ For more details on breaking changes see each component in the individual README
 - `[Image]` The image css component is now a web component called `ids-image`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-image/README.md#converting-from-previous-versions for details. ([#360](https://github.com/infor-design/enterprise-wc/issues/360))
 - `[Input]` The Input component is now a web component called `ids-input`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-image/README.md#converting-from-previous-versions for details. ([#171](https://github.com/infor-design/enterprise-wc/issues/171))
 - `[LayoutGrid]` The Grid component is now a web component called `ids-layout-grid`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-layout-grid/README.md#converting-from-previous-versions for details. ([#180](https://github.com/infor-design/enterprise-wc/issues/180))
-- `[ListView]` The List View component has been changed to a web component and renamed to ids-list-view.
-  - If using properties/settings these are now attributes.
-  - Markup has changed to a custom element `<ids-list-view></ids-list-view>`
-  - If using events events are now plain JS events for example
-  - The template is now a template element that uses simple string substitution
-  - Can now be imported as a single JS file and used with encapsulated styles
-- `[ListBuilder]` The List Builder component has been changed to a web component and renamed to ids-list-builder.
+- `[ListBuilder]` The List Builder component is now a web component called `ids-list-builder`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-list-builder/README.md#converting-from-previous-versions for details. ([#365](https://github.com/infor-design/enterprise-wc/issues/365))
+- `[ListView]` The List View component is now a web component called `ids-list-view`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-list-view/README.md#converting-from-previous-versions for details. ([#174](https://github.com/infor-design/enterprise-wc/issues/174))
+- `[Locale]` The locale component has been changed to a mixin and added to many but not all components. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-locale/README.md#converting-from-previous-versions for details. ([#121](https://github.com/infor-design/enterprise-wc/issues/121))
 - `[LoadingIndicator]` The Busy Indicator component has been changed to a web component and renamed to ids-loading-indicator.
   - Markup has changed to a custom element `<ids-loading-indicator></ids-loading-indicator>`
   - Can now be imported as a single JS file and used with encapsulated styles
@@ -88,8 +84,6 @@ For more details on breaking changes see each component in the individual README
   - Markup has changed to a custom element `<ids-progress-bar></ids-progress-bar>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
-- `[Locale]` The locale component has been changed to a mixin and added to many but not all components. You can now change the locale on the `ids-container` element to have it propagate down.
-  - See the [locale components docs](../src/ids-locales/README.md) for more detailed change info the the "Converting from Previous Versions" sections
 - `[Radio]` The Radio component has been changed to a web component and use with ids-radio and ids-radio-group.
   - Markup has changed to a custom element `<ids-radio-group><ids-radio></ids-radio></ids-radio-group>`
   - If using events, events are now plain JS events.

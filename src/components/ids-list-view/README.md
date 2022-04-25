@@ -74,19 +74,22 @@ The template shows the use of a string substitution to access the data element. 
 - The list body will expand vertically and horizontally to fill it the size of its parent container.
 - When used in homepages, special rules apply with sizes.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-** From 3.x to 4.x**
+**3.x to 4.x**
+
 - Single select roughly replaces the inforListBox component.
 - Multi select is a new feature, however it replaces the listbox with checkboxes construct.
 
-** From 4.x to 5.x**
+**4.x to 5.x**
 
+- The List View component has been changed to a web component and renamed to ids-list-view.
 - If using properties/settings these are now attributes.
 - Markup has changed to a custom element `<ids-list-view></ids-list-view>`
 - If using events events are now plain JS events for example
 - The template is now a template element that uses simple string substitution
 - Can now be imported as a single JS file and used with encapsulated styles (in some browsers)
+- Alternate row colors is deprecated
 
 ## Accessibility Guidelines
 
