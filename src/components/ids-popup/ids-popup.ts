@@ -1369,27 +1369,41 @@ export default class IdsPopup extends Base {
    */
   #removeRelativeParentDistance(elem: HTMLElement, rect: DOMRect) {
     const elemRect = getEditableRect(rect || elem.getBoundingClientRect());
-    let found = false;
+    let foundRelativeParent = false;
 
     const removeRelativeDistance = (parent: any) => {
       let parentStyle: CSSStyleDeclaration;
       let parentRect: DOMRect;
 
-      if (parent && !found) {
+      if (parent && !foundRelativeParent) {
         if (parent.toString() === '[object ShadowRoot]') {
           parent = parent.host;
         }
         if (parent instanceof HTMLElement) {
           parentStyle = getComputedStyle(parent);
+          parentRect = parent.getBoundingClientRect();
+
+          // Add scrollLeft/scrollTop of container elements
+          if (parent.scrollLeft !== 0) {
+            elemRect.left += parent.scrollLeft;
+            elemRect.right += parent.scrollLeft;
+            elemRect.x += parent.scrollLeft;
+          }
+          if (parent.scrollTop !== 0) {
+            elemRect.top += parent.scrollTop;
+            elemRect.bottom += parent.scrollTop;
+            elemRect.y += parent.scrollTop;
+          }
+
+          // Remove relative parents' coordinates from the calculation
           if (parentStyle.position === 'relative') {
-            parentRect = parent.getBoundingClientRect();
             elemRect.bottom -= parentRect.bottom;
             elemRect.left -= parentRect.left;
             elemRect.right -= parentRect.right;
             elemRect.top -= parentRect.top;
             elemRect.x -= parentRect.x;
             elemRect.y -= parentRect.y;
-            found = true;
+            foundRelativeParent = true;
           }
         }
         if (parent.parentNode) {
