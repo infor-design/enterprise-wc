@@ -78,18 +78,18 @@ export default class IdsExpandableArea extends Base {
    * @returns {void}
    */
   switchState(): void {
+    const expanded = this.expanded === 'true' || false;
     this.expanderDefault = this.shadowRoot?.querySelector('[name="expander-default"]');
     this.expanderExpanded = this.shadowRoot?.querySelector('[name="expander-expanded"]');
-    this.state.expanded = this.getAttribute(attributes.EXPANDED) === 'true' || false;
-    this.expander?.setAttribute('aria-expanded', this.state.expanded);
+    this.expander?.setAttribute('aria-expanded', expanded);
 
     // Hide/show the text link if default
     if (this.type !== EXPANDABLE_AREA_TYPES[0] && this.expanderDefault && this.expanderExpanded) {
-      this.expanderDefault.hidden = this.state.expanded;
-      this.expanderExpanded.hidden = !this.state.expanded;
+      this.expanderDefault.hidden = expanded;
+      this.expanderExpanded.hidden = !expanded;
     }
 
-    if (!this.state.expanded) {
+    if (!expanded) {
       this.collapsePane();
     } else {
       this.expandPane();
@@ -113,11 +113,15 @@ export default class IdsExpandableArea extends Base {
       return;
     }
 
-    requestAnimationFrame(() => {
-      this.triggerEvent('collapse', this, { detail: { elem: this } });
-      this.pane.style.height = `${this.pane?.scrollHeight}px`;
-      this.pane.style.height = `0px`;
-    });
+    if (this.state.expanded) {
+      requestAnimationFrame(() => {
+        this.triggerEvent('collapse', this, { detail: { elem: this } });
+        this.pane.style.height = `${this.pane?.scrollHeight}px`;
+        this.pane.style.height = `0px`;
+      });
+    }
+
+    this.state.expanded = false;
   }
 
   /**
@@ -136,10 +140,14 @@ export default class IdsExpandableArea extends Base {
       return;
     }
 
-    requestAnimationFrame(() => {
-      this.triggerEvent('expand', this, { detail: { elem: this } });
-      this.pane.style.height = `${this.pane.scrollHeight}px`;
-    });
+    if (this.state.expanded === false) {
+      requestAnimationFrame(() => {
+        this.triggerEvent('expand', this, { detail: { elem: this } });
+        this.pane.style.height = `${this.pane.scrollHeight}px`;
+      });
+    }
+
+    this.state.expanded = true;
   }
 
   /**
