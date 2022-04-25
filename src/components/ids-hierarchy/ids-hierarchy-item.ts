@@ -40,22 +40,13 @@ export default class IdsHierarchyItem extends Base {
   }
 
   /**
-   * Inherited from `IdsColorVariantMixin`
-   * @returns {Array<string>} List of available color variants for this component
-   */
-  colorVariants = [
-    'full-time',
-    'part-time',
-    'contractor',
-    'open-position'
-  ];
-
-  /**
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
   static get attributes() {
     return [
+      ...super.attributes,
+      attributes.COLOR,
       attributes.EXPANDED,
       attributes.ROOT_ITEM,
       attributes.SELECTED
@@ -154,6 +145,28 @@ export default class IdsHierarchyItem extends Base {
    */
   get rootItem(): string | null {
     return this.getAttribute(attributes.ROOT_ITEM);
+  }
+
+  get color(): string {
+    return this.getAttribute(attributes.COLOR);
+  }
+
+  /**
+   * Set the color of the bar
+   * @param {string} value The color value, this can be a hex code with the #
+   */
+  set color(value: string) {
+    this.setAttribute(attributes.COLOR, value);
+
+    let color = value;
+    if (this.color.substring(0, 1) !== '#') {
+      color = `var(--ids-color-palette-${this.color})`;
+    }
+
+    const item = this.container.querySelector('.leaf-inside');
+    const avatar = this.container.querySelector('.avatar');
+    item.style.borderLeftColor = color;
+    avatar.style.borderColor = color;
   }
 
   /**
