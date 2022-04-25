@@ -114,7 +114,7 @@ export default class IdsExpandableArea extends Base {
     }
 
     requestAnimationFrame(() => {
-      this.triggerEvent('collapse', this);
+      this.triggerEvent('collapse', this, { detail: { elem: this } });
       this.pane.style.height = `${this.pane?.scrollHeight}px`;
       this.pane.style.height = `0px`;
     });
@@ -137,7 +137,7 @@ export default class IdsExpandableArea extends Base {
     }
 
     requestAnimationFrame(() => {
-      this.triggerEvent('expand', this);
+      this.triggerEvent('expand', this, { detail: { elem: this } });
       this.pane.style.height = `${this.pane.scrollHeight}px`;
     });
   }
@@ -169,10 +169,14 @@ export default class IdsExpandableArea extends Base {
     });
 
     this.onEvent('transitionend', this.pane, () => {
+      const eventOpts = {
+        detail: { elem: this }
+      };
+
       if (this.pane.style.height === '0px') {
-        this.triggerEvent('aftercollapse', this);
+        this.triggerEvent('aftercollapse', this, eventOpts);
       } else {
-        this.triggerEvent('afterexpand', this);
+        this.triggerEvent('afterexpand', this, eventOpts);
       }
     });
   }
@@ -214,7 +218,7 @@ export default class IdsExpandableArea extends Base {
       pane = `
         <div class="ids-expandable-area-visible-pane">
           <div class="expandable-pane-content">
-            <slot name="visible"></slot>
+            <slot name="visible-pane-content"></slot>
           </div>
         </div>
         ${pane}
