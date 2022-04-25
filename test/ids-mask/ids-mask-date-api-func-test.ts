@@ -170,8 +170,7 @@ describe('Date Mask function', () => {
     expect(result.mask.length).toBe(12);
   });
 
-  // @TODO: Re-enable after Locale exists
-  it.skip('can handle `ah`', () => {
+  it('can handle `ah`', () => {
     const result = dateMask('202006', {
       format: 'ah:mm'
     });

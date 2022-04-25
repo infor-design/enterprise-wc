@@ -41,8 +41,8 @@ describe('IdsMaskAPI (Number)', () => {
     expect(result.conformedValue).toEqual('1234.56');
   });
 
-  // @TODO Re-enable this when `Locale.formatNumber()` is implemented.
-  it.skip('should process numbers with thousands separators', () => {
+  // Test that `Locale.formatNumber()` is implemented.
+  it('should process numbers with thousands separators', () => {
     // Handle big numbers with thousands separators
     let textValue = '1111111111';
     const opts: IdsMaskOptions = {
@@ -294,8 +294,7 @@ describe('IdsMaskAPI (Number)', () => {
 
     expect(result.conformedValue).toEqual('00000.123');
 
-    /*
-    // @TODO Re-enable this when `Locale.formatNumber()` is implemented.
+    // Test that `Locale.formatNumber()` is implemented.
     textValue = '10000';
     result = api.process(textValue, opts);
 
@@ -310,7 +309,6 @@ describe('IdsMaskAPI (Number)', () => {
     result = api.process(textValue, opts);
 
     expect(result.conformedValue).toEqual('10,000.100');
-    */
   });
 });
 
