@@ -1789,6 +1789,10 @@ describe('IdsLocale API', () => {
       expect(locale.parseDate('18/10/2019 12:00 μ.μ.', { dateFormat: 'dd/MM/yyyy HH:mm a' }).getTime()).toEqual(new Date(2019, 9, 18, 12, 0, 0).getTime());
       expect(locale.parseDate('18/10/2019 11:59 π.μ.', { dateFormat: 'dd/MM/yyyy HH:mm a' }).getTime()).toEqual(new Date(2019, 9, 18, 11, 59, 0).getTime());
       expect(locale.parseDate('18/10/2019 11:59 μ.μ.', { dateFormat: 'dd/MM/yyyy HH:mm a' }).getTime()).toEqual(new Date(2019, 9, 18, 23, 59, 0).getTime());
+
+      // Parse wide/abbreviated months
+      expect(locale.parseDate('Απρίλιος', { dateFormat: 'MMMM' }).getMonth()).toEqual(3);
+      expect(locale.parseDate('Απρ', { dateFormat: 'MMM' }).getMonth()).toEqual(3);
     });
 
     it('should parseDate in fi-FI', async () => {
@@ -1797,6 +1801,10 @@ describe('IdsLocale API', () => {
       expect(locale.parseDate('18.10.2019', { dateFormat: 'dd.MM.yyyy' }).getTime()).toEqual(new Date(2019, 9, 18, 0, 0, 0).getTime());
       expect(locale.parseDate('18.10.2019 7.15', { dateFormat: 'dd.MM.yyyy hh.mm' }).getTime()).toEqual(new Date(2019, 9, 18, 7, 15, 0).getTime());
       expect(locale.parseDate('18.10.2019', { dateFormat: 'dd.MM.yyyy' }).getTime()).toEqual(new Date(2019, 9, 18, 0, 0, 0).getTime());
+
+      // Parse wide/abbreviated months
+      expect(locale.parseDate('Helmikuu', { dateFormat: 'MMMM' }).getMonth()).toEqual(1);
+      expect(locale.parseDate('helmi', { dateFormat: 'MMM' }).getMonth()).toEqual(1);
     });
 
     it('should parse dates with and without spaces, dash, comma format', async () => {
@@ -1805,6 +1813,8 @@ describe('IdsLocale API', () => {
       // Date with spaces, dashes and comma
       expect(locale.parseDate('2014-12-11', { dateFormat: 'yyyy-MM-dd' }).getTime()).toEqual(new Date(2014, 11, 11, 0, 0, 0).getTime());
       expect(locale.parseDate('2014/12/11', { dateFormat: 'yyyy/MM/dd' }).getTime()).toEqual(new Date(2014, 11, 11, 0, 0, 0).getTime());
+      expect(locale.parseDate('11122014', { dateFormat: 'dMyyyy' }).getTime()).toEqual(new Date(2014, 11, 11, 0, 0, 0).getTime());
+      expect(locale.parseDate('12112014', { dateFormat: 'Mdyyyy' }).getTime()).toEqual(new Date(2014, 11, 11, 0, 0, 0).getTime());
     });
 
     it('should parse am/pm in Korean', async () => {
@@ -1895,6 +1905,20 @@ describe('IdsLocale API', () => {
     it('should parse ISO Dates with dashes in them', async () => {
       await locale.setLocale('en-US');
       expect(locale.parseDate('2011-10-05T14:48:00.000Z').getTime()).toEqual(1317826080000);
+    });
+
+    it('should parse single months, days, years and their combinations', async () => {
+      await locale.setLocale('en-US');
+
+      expect(locale.parseDate('June', 'MMMM').getMonth()).toEqual(5);
+      expect(locale.parseDate('Jun', 'MMM').getMonth()).toEqual(5);
+      expect(locale.parseDate('2020', 'yyyy').getFullYear()).toEqual(2020);
+      expect(locale.parseDate('June 2020', 'MMMM yyyy').getTime()).toEqual(new Date(2020, 5, 1, 0, 0, 0).getTime());
+      expect(locale.parseDate('June 20', 'MMMM dd').getMonth()).toEqual(5);
+      expect(locale.parseDate('June 03', 'MMMM dd').getDate()).toEqual(3);
+      expect(locale.parseDate('June 20', 'MMMM d').getDate()).toEqual(20);
+      expect(locale.parseDate('2020 June', 'yyyy MMMM').getTime()).toEqual(new Date(2020, 5, 1, 0, 0, 0).getTime());
+      expect(locale.parseDate('02', 'dd').getDate()).toEqual(2);
     });
   });
 
