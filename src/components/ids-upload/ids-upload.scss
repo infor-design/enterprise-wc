@@ -11,6 +11,7 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+    width: -webkit-fill-available;
     z-index: -1;
   }
 }

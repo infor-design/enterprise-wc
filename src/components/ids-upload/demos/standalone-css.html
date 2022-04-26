@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body hidden>
+  <div class="ids-layout-grid">
+    <div class="ids-layout-grid-cell">
+      <h1 class="ids-text ids-text-12">IDS Upload - Standalone CSS</h1>
+    </div>
+  </div>
+
+  <div class="ids-layout-grid">
+    <div class="ids-layout-grid-cell">
+
+      <!-- Basic -->
+      <div class="ids-upload">
+        <label for="ids-upload-id-1" class="ids-upload-filetype-label" aria-hidden="true" tabindex="-1">
+          <span class="ids-text audible label-filetype">Basic, Press Enter to Browse for files</span>
+        </label>
+        <input id="ids-upload-id-1" type="file" class="ids-upload-filetype" aria-hidden="true" tabindex="-1">
+        <div class="ids-trigger-field ids-input readonly md readonly-background field-height-md">
+          <label class="ids-label-text" for="ids-input-1-input-1" readonly="true">
+            <span class="ids-text">Basic</span>
+          </label>
+          <div class="field-container">
+            <input id="ids-input-1-input-1" type="text" class="ids-input-field left text-ellipsis" readonly="true">
+            <div class="btn-trigger trigger ids-trigger-field-slot-trigger-end">
+              <button class="ids-trigger-button ids-icon-button align-icon-start field-height-md" tabindex="-1">
+                <span class="ids-icon icon-trigger">
+                  <svg part="svg" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18"
+                    viewBox="0 0 18 18" aria-hidden="true">
+                    <path d="M.5 4.5h11.214M.5 16.5h11.77c2.888 0 5.23-2.442 5.23-5.454V4.5h-5.885l-5.884-3H.5v15z"
+                      stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+                  </svg>
+                </span>
+                <span class="text-trigger">
+                  <span class="audible">Trigger button for Basic</span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Clearable -->
+      <div class="ids-upload">
+        <label for="ids-upload-id-2" class="ids-upload-filetype-label" aria-hidden="true" tabindex="-1">
+          <span class="ids-text audible label-filetype">Clearable, Press Enter to Browse for files</span>
+        </label>
+        <input id="ids-upload-id-2" type="file" class="ids-upload-filetype" aria-hidden="true" tabindex="-1">
+        <div class="ids-trigger-field ids-input readonly md readonly-background has-clearable field-height-md">
+          <label class="ids-label-text" for="ids-input-1-input-2" readonly="true">
+            <span class="ids-text">Clearable</span>
+          </label>
+          <div class="field-container">
+            <input id="ids-input-1-input-2" type="text" class="ids-input-field left text-ellipsis" readonly="true" value="myfile.jpg">
+            <div class="btn-clear">
+              <button class="ids-trigger-button ids-icon-button no-margins field-height-md align-icon-start" tabindex="0">
+                <span class="ids-icon icon-clear">
+                  <svg part="svg" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="14" width="14" viewBox="0 0 18 18" aria-hidden="true">
+                    <path d="M17.5.5l-17 17m17 0L.5.5" stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+                  </svg>
+                </span>
+                <span class="text-clear">
+                  <span class="audible">Clear</span>
+                </span>
+              </button>
+            </div>
+            <div class="btn-trigger trigger ids-trigger-field-slot-trigger-end">
+              <button class="ids-trigger-button ids-icon-button align-icon-start field-height-md" tabindex="-1">
+                <span class="ids-icon icon-trigger">
+                  <svg part="svg" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18"
+                    viewBox="0 0 18 18" aria-hidden="true">
+                    <path d="M.5 4.5h11.214M.5 16.5h11.77c2.888 0 5.23-2.442 5.23-5.454V4.5h-5.885l-5.884-3H.5v15z"
+                      stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+                  </svg>
+                </span>
+                <span class="text-trigger">
+                  <span class="audible">Trigger button for Clearable</span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Readonly -->
+      <div class="ids-upload readonly">
+        <label for="ids-upload-id-3" class="ids-upload-filetype-label" aria-hidden="true" tabindex="-1">
+          <span class="ids-text audible label-filetype">Readonly, Press Enter to Browse for files</span>
+        </label>
+        <input id="ids-upload-id-3" type="file" class="ids-upload-filetype" aria-hidden="true" tabindex="-1">
+        <div class="ids-trigger-field ids-input readonly md field-height-md">
+          <label class="ids-label-text" for="ids-input-1-input-3" readonly="true">
+            <span class="ids-text">Readonly</span>
+          </label>
+          <div class="field-container">
+            <input id="ids-input-1-input-3" type="text" class="ids-input-field left text-ellipsis" readonly="true">
+            <div class="btn-trigger trigger ids-trigger-field-slot-trigger-end">
+              <button class="ids-trigger-button ids-icon-button align-icon-start field-height-md" tabindex="-1">
+                <span class="ids-icon icon-trigger">
+                  <svg part="svg" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18"
+                    viewBox="0 0 18 18" aria-hidden="true">
+                    <path d="M.5 4.5h11.214M.5 16.5h11.77c2.888 0 5.23-2.442 5.23-5.454V4.5h-5.885l-5.884-3H.5v15z"
+                      stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+                  </svg>
+                </span>
+                <span class="text-trigger">
+                  <span class="audible">Trigger button for Readonly</span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Disabled -->
+      <div class="ids-upload">
+        <label for="ids-upload-id-4" class="ids-upload-filetype-label" aria-hidden="true" tabindex="-1">
+          <span class="ids-text audible label-filetype">Disabled, Press Enter to Browse for files</span>
+        </label>
+        <input id="ids-upload-id-4" type="file" class="ids-upload-filetype" aria-hidden="true" tabindex="-1" value="Readme.txt">
+        <div class="ids-trigger-field ids-input readonly md readonly-background field-height-md disabled">
+          <label class="ids-label-text" for="ids-input-1-input-4" readonly="true" disabled="true">
+            <span class="ids-text disabled">Disabled</span>
+          </label>
+          <div class="field-container">
+            <input id="ids-input-1-input-4" type="text" class="ids-input-field left text-ellipsis" disabled="true" value="Readme.txt">
+            <div class="btn-trigger trigger ids-trigger-field-slot-trigger-end">
+              <button class="ids-trigger-button ids-icon-button align-icon-start field-height-md" tabindex="-1" disabled="true">
+                <span class="ids-icon icon-trigger">
+                  <svg part="svg" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18"
+                    viewBox="0 0 18 18" aria-hidden="true">
+                    <path d="M.5 4.5h11.214M.5 16.5h11.77c2.888 0 5.23-2.442 5.23-5.454V4.5h-5.885l-5.884-3H.5v15z"
+                      stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+                  </svg>
+                </span>
+                <span class="text-trigger">
+                  <span class="audible">Trigger button for Disabled</span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Validation Required -->
+      <div class="ids-upload">
+        <label for="ids-upload-id-5" class="ids-upload-filetype-label" aria-hidden="true" tabindex="-1">
+          <span class="ids-text audible label-filetype">Required, Press Enter to Browse for files</span>
+        </label>
+        <input id="ids-upload-id-5" type="file" class="ids-upload-filetype" aria-hidden="true" tabindex="-1" readonly="true">
+        <div class="ids-trigger-field ids-input readonly md readonly-background field-height-md">
+          <label class="ids-label-text required" for="ids-input-1-input-5" readonly="true">
+            <span class="ids-text">Required</span>
+          </label>
+          <div class="field-container error">
+            <input id="ids-input-1-input-5" type="text" class="ids-input-field left text-ellipsis" readonly="true">
+            <div class="btn-trigger trigger ids-trigger-field-slot-trigger-end">
+              <button class="ids-trigger-button ids-icon-button align-icon-start field-height-md" tabindex="-1">
+                <span class="ids-icon icon-trigger">
+                  <svg part="svg" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18"
+                    viewBox="0 0 18 18" aria-hidden="true">
+                    <path d="M.5 4.5h11.214M.5 16.5h11.77c2.888 0 5.23-2.442 5.23-5.454V4.5h-5.885l-5.884-3H.5v15z"
+                      stroke="currentColor" vector-effect="non-scaling-stroke"></path>
+                  </svg>
+                </span>
+                <span class="text-trigger">
+                  <span class="audible">Trigger button for Required</span>
+                </span>
+              </button>
+            </div>
+          </div>
+          <div id="ids-input-5-input-error" validation-id="required" class="validation-message error">
+            <span class="ids-icon">
+              <svg part="svg" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18" viewBox="0 0 18 18" aria-hidden="true">
+                <path
+                  d="M9 1a8 8 0 018 8h1a9 9 0 00-9-9v1zm8 8a8 8 0 01-8 8v1a9 9 0 009-9h-1zm-8 8a8 8 0 01-8-8H0a9 9 0 009 9v-1zM1 9a8 8 0 018-8V0a9 9 0 00-9 9h1zm7.5-4.423V9.5h1V4.577h-1zm0 6.538V12.5h1v-1.385h-1z"
+                  fill="currentColor" stroke="none"></path>
+              </svg>
+            </span>
+            <span class="ids-text error message-text"><span class="ids-text audible">Error </span>Required</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>

@@ -11,7 +11,8 @@ A form element that allows users to choose a file they want to upload. A user ca
 ## Terminology
 
 **Input Type File:** A standard basic input element with type as file.
-**Label**: HTMLLabelElement to keep matching with HTMLInputElement. Make sure the label has a meaningful relative.
+**Label:** HTMLLabelElement to keep matching with HTMLInputElement. Make sure the label has a meaningful relative.
+**Drag and Drop:** File/s can be drag from finder/explorer window and drop into upload field.
 
 ## Features (With Code Samples)
 
@@ -57,17 +58,68 @@ Upload field with required validation
 <ids-upload label="Required" validate="required"></ids-upload>
 ```
 
+Upload field as tabbable
+
+```html
+<ids-upload label="Tabbable" tabbable="true"></ids-upload>
+```
+
+Upload field with hidden label state
+
+```html
+<ids-upload label="Label State (hidden)" label-state="hidden"></ids-upload>
+```
+
+Upload field with collapsed label state
+
+```html
+<ids-upload label="Label State (collapsed)" label-state="collapsed"></ids-upload>
+```
+
+Upload field as compact mode
+
+```html
+<ids-upload label="Compact" compact="true"></ids-upload>
+```
+
+Upload field with types of field heights
+
+```html
+<ids-upload field-height="xs" label="Extra Small (compact)"></ids-upload>
+<ids-upload field-height="sm" label="Small"></ids-upload>
+<ids-upload field-height="md" label="Medium (default)"></ids-upload>
+<ids-upload field-height="lg" label="Large"></ids-upload>
+```
+
+Upload field with types of sizes
+
+```html
+<ids-upload size="xs" label="Extra Small"></ids-upload>
+<ids-upload size="sm" label="Small"></ids-upload>
+<ids-upload size="mm" label="Small - Medium"></ids-upload>
+<ids-upload size="md" label="Medium (default)"></ids-upload>
+<ids-upload size="lg" label="Large"></ids-upload>
+<ids-upload size="full" label="Full"></ids-upload>
+```
+
 ## Settings (Attributes)
 
 - `accept` {string} sets limit the file types to be uploaded.
+- `colorVariant` {string} set the current color variant.
+- `compact` {boolean} sets the component to be compact mode.
 - `dirty-tracker` {boolean} sets the dirty tracking feature on to indicate a changed field. See [Ids Dirty Tracker Mixin](../../mixins/ids-dirty-tracker-mixin/README.md) for more information.
 - `disabled` {boolean} sets to disabled state.
+- `fieldHeight` {string} defines the field height. See [Ids Field Height Mixin](../../mixins/ids-field-height-mixin/README.md) for more information.
 - `label` {string} sets the label text for text input.
 - `labelFiletype` {string} sets the label text for file input.
+- `language` {string} Sets the language for RTL and inner labels
+- `labelRequired` {boolean} Sets the validation required indicator on label text, it's default to `true`
+- `labelState` {string} indicates that a label is hidden (note that for accessibility reasons, `label` should still
 - `multiple` {boolean} sets to allows multiple files to be uploaded.
-- `noTextEllipsis` {boolean} sets ellipsis to be not shown on text input.
+- `noMargins` {boolean} sets whether or not no-margins around the component.
+- `textEllipsis` {boolean} sets ellipsis to be shown on text input.
 - `placeholder` {string} sets the input placeholder text.
-- `size` {string} sets the size (width) of input, it will set `md` as defaults.
+- `size` {'sm '|'md'|'lg'|'full'|string} sets the size (width) of input, it will set `md` as defaults.
 - `readonly` {boolean} sets to readonly state.
 - `triggerLabel` {string} sets the label text for trigger button.
 - `validate` {string} sets text input validation rules, use `space` to add multiple validation rules.
