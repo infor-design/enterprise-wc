@@ -4,6 +4,7 @@
 import MaskAPI from '../../src/components/ids-mask/ids-mask-api';
 import { IdsMaskOptions } from '../../src/components/ids-mask/ids-mask-common';
 import { numberMask } from '../../src/components/ids-mask/ids-masks';
+import locale from '../../src/components/ids-locale/ids-locale-global';
 
 let api: any;
 
@@ -49,9 +50,11 @@ describe('IdsMaskAPI (Number)', () => {
       selection: {
         start: 0
       },
+      locale,
       pattern: numberMask,
       patternOptions: {
         locale: 'en-US',
+        allowDecimal: false,
         allowThousandsSeparator: true,
         integerLimit: 10
       }
@@ -268,6 +271,7 @@ describe('IdsMaskAPI (Number)', () => {
       selection: {
         start: 0
       },
+      locale,
       pattern: numberMask,
       patternOptions: {
         allowLeadingZeros: true,
@@ -344,6 +348,7 @@ describe('Number Mask function', () => {
 
   it('should account for decimal placement', () => {
     const result = numberMask('.', {
+      allowDecimal: true,
       symbols: {
         decimal: '.'
       }
@@ -400,6 +405,9 @@ describe('Number Mask function', () => {
       allowLeadingZeros: true,
       allowNegative: true,
       allowThousandsSeparator: true,
+      decimalLimit: 2,
+      integerLimit: 7,
+      locale,
       prefix: 'X',
       suffix: 'W',
     };

@@ -4,6 +4,7 @@
 import MaskAPI from '../../src/components/ids-mask/ids-mask-api';
 import { IdsMaskOptions } from '../../src/components/ids-mask/ids-mask-common';
 import { dateMask, autoCorrectedDatePipe } from '../../src/components/ids-mask/ids-masks';
+import locale from '../../src/components/ids-locale/ids-locale-global';
 
 describe('IdsMaskAPI (Date)', () => {
   let api: any;
@@ -162,6 +163,7 @@ describe('Date Mask function', () => {
 
   it('can handle time periods', () => {
     const result = dateMask('1212am', {
+      locale,
       format: 'HH:mm a'
     });
 
@@ -172,6 +174,7 @@ describe('Date Mask function', () => {
 
   it('can handle `ah`', () => {
     const result = dateMask('202006', {
+      locale,
       format: 'ah:mm'
     });
 

@@ -1,5 +1,5 @@
 import {
-  ALPHAS_REGEX, ANY_REGEX, CARET_TRAP, DIGITS_REGEX, EMPTY_STRING, NON_DIGITS_REGEX
+  ALPHAS_REGEX, ANY_REGEX, CARET_TRAP, DIGITS_REGEX, EMPTY_STRING, NON_DIGITS_REGEX, IdsMaskOptions
 } from './ids-mask-common';
 import { removeDuplicates } from '../../utils/ids-string-utils/ids-string-utils';
 import { deepClone } from '../../utils/ids-deep-clone-utils/ids-deep-clone-utils';
@@ -15,8 +15,8 @@ export const DEFAULT_NUMBER_MASK_OPTIONS = {
     negative: '-',
     thousands: ','
   },
-  allowDecimal: true,
-  decimalLimit: 2,
+  allowDecimal: false,
+  decimalLimit: 0,
   locale: '',
   requireDecimal: false,
   allowNegative: false,
@@ -25,13 +25,23 @@ export const DEFAULT_NUMBER_MASK_OPTIONS = {
 };
 
 /**
+ * Contents returned from Mask Generator functions
+ */
+type IdsMaskGeneratorResult = {
+  mask: Array<string | RegExp>;
+  literals?: Array<string>;
+  literalRegex?: RegExp;
+};
+
+/**
  * Gets the number of leading zeros in a string representing a formatted number.
  * @param {string} formattedStr the string to be checked
  * @returns {number} containing the number of leading zeros.
  */
-// function getLeadingZeros(formattedStr = '') {
-//   return `${formattedStr}`.match(/^0*/)[0].length;
-// }
+function getLeadingZeros(formattedStr = '') {
+  const match = `${formattedStr}`.match(/^0*/);
+  return match ? match[0].length : 0;
+}
 
 /**
  * Converts a string representing a formatted number into a Number Mask.
@@ -48,21 +58,16 @@ function convertToMask(strNumber: string) {
  * Adds thousands separators to the correct spot in a formatted number string.
  * http://stackoverflow.com/a/10899795/604296
  * @param {string} n - the string
- * @param {string} thousands - the thousands separator.
  * @param {object} [options] - number mask function options.
  * @param {object} [localeStringOpts] - settings for `toLocaleString`.
  * @returns {string} the incoming string formatted with a thousands separator.
  */
-function addThousandsSeparator(n: any, thousands: any, options = {}, localeStringOpts = {}) { // eslint-disable-line
-  return n;
-
-  /*
-  // @TODO: Re-enable this when Locale is ported to WebComponents
-  if (n === '' || isNaN(n)) {
+function addThousandsSeparator(n: string, options: any = {}, localeStringOpts: any = {}) {
+  if (n === '' || Number.isNaN(n)) {
     return n;
   }
 
-  let formatted = Locale.toLocaleString(Number(n), options.locale, localeStringOpts, thousands);
+  let formatted = options.locale.formatNumber(n, localeStringOpts);
 
   // `Number.toLocaleString` does not account for leading zeroes, so we have to put them
   // back if we've configured this Mask to use them.
@@ -78,7 +83,6 @@ function addThousandsSeparator(n: any, thousands: any, options = {}, localeStrin
   }
 
   return formatted;
-  */
 }
 
 /**
@@ -112,10 +116,10 @@ function getRegexForPart(part: string, type: string) {
 /**
  * Number Mask Function
  * @param {string} rawValue the un-formatted value that will eventually be masked.
- * @param {object} options masking options
- * @returns {object} containing a mask that will match a formatted number.
+ * @param {IdsMaskOptions} options masking options
+ * @returns {IdsMaskGeneratorResult} containing a mask that will match a formatted number.
  */
-export function numberMask(rawValue: string, options: any) {
+export function numberMask(rawValue = '', options: IdsMaskOptions = {}): IdsMaskGeneratorResult {
   let thisOptions = deepClone(DEFAULT_NUMBER_MASK_OPTIONS);
   thisOptions = Object.assign(thisOptions, options);
 
@@ -192,14 +196,15 @@ export function numberMask(rawValue: string, options: any) {
     integer = integer.replace(/^0+(0$|[^0])/, '$1');
   }
 
-  const localeOptions = {
-    maximumFractionDigits: options.decimalLimit,
-    style: 'decimal',
-    useGrouping: true
-  };
-
-  integer = (options.allowThousandsSeparator)
-    ? addThousandsSeparator(integer, THOUSANDS, options, localeOptions) : integer;
+  // Pass the integer part to localization for adding Groups (thousands separators)
+  if (options.allowThousandsSeparator) {
+    const localeOptions = {
+      maximumSignificantDigits: options.integerLimit,
+      style: 'decimal',
+      useGrouping: options.allowThousandsSeparator
+    };
+    integer = addThousandsSeparator(integer, options, localeOptions);
+  }
 
   mask = convertToMask(integer);
 
@@ -299,15 +304,15 @@ function getSplitterRegex(splitterStr: string) {
 /**
  * Soho Date Mask Function
  * @param {string} rawValue the un-formatted value that will eventually be masked.
- * @param {object} options masking options
- * @returns {object} containing a mask that will match a formatted date,
+ * @param {IdsMaskOptions} options masking options
+ * @returns {IdsMaskGeneratorResult} containing a mask that will match a formatted date,
  * along with extra meta-data about the characters contained.
  */
-export function dateMask(rawValue = '', options = {}) {
+export function dateMask(rawValue = '', options: IdsMaskOptions = {}): IdsMaskGeneratorResult {
   let thisOptions = deepClone(DEFAULT_DATETIME_MASK_OPTIONS);
   thisOptions = Object.assign(thisOptions, options);
 
-  let mask:any = [];
+  let mask: any = [];
   let thisRawValue = rawValue;
   if (typeof rawValue !== 'string') {
     thisRawValue = '';
@@ -328,14 +333,12 @@ export function dateMask(rawValue = '', options = {}) {
 
     if (part === 'a' || part === 'ah') {
       // Match the day period
-      // @TODO Re-enable this block when IdsLocale is implemented.
-      /*
       let am = 'AM';
       let pm = 'PM';
 
-      if (Locale.calendar()) {
-        am = Locale.calendar().dayPeriods[0];
-        pm = Locale.calendar().dayPeriods[1];
+      if (options.locale.calendar()) {
+        am = options.locale.calendar().dayPeriods[0];
+        pm = options.locale.calendar().dayPeriods[1];
         const apRegex = [];
 
         for (let j = 0; j < am.length; j++) {
@@ -352,10 +355,6 @@ export function dateMask(rawValue = '', options = {}) {
       } else {
         mask.push(/[aApP]/, /[Mm]/);
       }
-      */
-      const am = 'AM';
-      const pm = 'PM';
-      mask.push(/[aApP]/, /[Mm]/);
 
       if (part === 'ah') {
         const hourValue = rawValueArray[i].replace(am, '').replace(pm, '');

@@ -1,5 +1,5 @@
 import maskAPI from '../../components/ids-mask/ids-mask-global';
-import { convertPatternFromString, PLACEHOLDER_CHAR } from '../../components/ids-mask/ids-mask-common';
+import { convertPatternFromString, PLACEHOLDER_CHAR, IdsMaskOptions } from '../../components/ids-mask/ids-mask-common';
 import { dateMask, numberMask } from '../../components/ids-mask/ids-masks';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
@@ -148,11 +148,11 @@ const IdsMaskMixin = (superclass: any) => class extends superclass {
   /**
    * Uses an input value and pattern options to process a masked string.
    * @param {string} rawValue the value to be checked for masking.
-   * @param {object} opts various options that can be passed to the masking process.
+   * @param {IdsMaskOptions} opts various options that can be passed to the masking process.
    * @param {boolean} [doSetValue=false] if true, attempts to set input state when masking completes
    * @returns {string|boolean} the result of the mask.  If no masking was performed, return `false`
    */
-  processMask = (rawValue: string, opts: any, doSetValue = false) => {
+  processMask = (rawValue: string, opts: IdsMaskOptions = {}, doSetValue = false) => {
     // If no mask function/pattern is defined, do not process anything.
     if (!this.mask) {
       return false;
@@ -177,6 +177,7 @@ const IdsMaskMixin = (superclass: any) => class extends superclass {
     const processOptions: any = {
       caretTrapIndexes: [],
       guide: this.maskState.guide,
+      locale: this.locale,
       keepCharacterPositions: this.maskState.keepCharacterPositions,
       pattern: this.mask,
       patternOptions: opts,

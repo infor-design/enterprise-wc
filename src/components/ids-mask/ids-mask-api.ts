@@ -27,7 +27,7 @@ class MaskAPI {
    * @param {object} [opts] process options
    * @returns {object} containing the processed mask along with some meta-data
    */
-  process(rawValue: string, opts: IdsMaskOptions) {
+  process(rawValue: string, opts: IdsMaskOptions = {}) {
     if (typeof rawValue !== 'string') {
       throw new Error('No string provided');
     }
@@ -56,6 +56,7 @@ class MaskAPI {
       const maskOpts = deepClone(opts.patternOptions);
       maskOpts.caretPos = opts.selection.start;
       maskOpts.previousMaskResult = opts.previousMaskResult;
+      maskOpts.locale = opts.locale;
 
       // Get a processed mask pattern from the function.
       // See #4079 for an explanation of the change from just an array to an object with meta-data.
