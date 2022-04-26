@@ -446,6 +446,12 @@ class IdsDatePicker extends Base {
       this.setAttribute(attributes.VALUE, e.detail.value);
     });
 
+    // Closes popup on input focus
+    this.offEvent('focus.date-picker-input');
+    this.onEvent('focus.date-picker-input', this.#triggerField, () => {
+      this.#togglePopup(false);
+    });
+
     return this;
   }
 
