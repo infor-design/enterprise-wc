@@ -42,9 +42,10 @@ export default class IdsAccordionPanel extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.DISABLED,
       attributes.EXPANDED,
       attributes.MODE,
-      attributes.VERSION
+      attributes.VERSION,
     ];
   }
 
@@ -173,13 +174,17 @@ export default class IdsAccordionPanel extends Base {
    */
   set expanded(value: boolean) {
     const isValueTruthy = stringToBool(value);
+    const currentValue = this.expanded;
 
     if (isValueTruthy) {
       this.setAttribute(attributes.EXPANDED, `${value}`);
     } else {
       this.removeAttribute(attributes.EXPANDED);
     }
-    this.#toggleExpanded(isValueTruthy);
+
+    if (isValueTruthy !== currentValue) {
+      this.#toggleExpanded(isValueTruthy);
+    }
   }
 
   /**
@@ -256,6 +261,32 @@ export default class IdsAccordionPanel extends Base {
    */
   set nested(val: boolean) {
     this.container.classList[stringToBool(val) ? 'add' : 'remove']('nested');
+  }
+
+  /**
+   * Gets disabled property
+   * @readonly
+   * @returns {boolean} true if accordion set to disable
+   */
+  get disabled() {
+    return stringToBool(this.getAttribute(attributes.DISABLED));
+  }
+
+  /**
+   * Sets disabled property
+   * @param {boolean|string} value true/false
+   */
+  set disabled(value) {
+    const disabled = stringToBool(value);
+    this.header.disabled = disabled;
+
+    if (disabled) {
+      this.setAttribute(attributes.DISABLED, `${disabled}`);
+      this.setAttribute(attributes.TABINDEX, '-1');
+    } else {
+      this.removeAttribute(attributes.DISABLED);
+      this.removeAttribute(attributes.TABINDEX);
+    }
   }
 
   /**
@@ -346,17 +377,23 @@ export default class IdsAccordionPanel extends Base {
    */
   #attachEventHandlers(): void {
     this.onEvent('click', this.expander, () => {
-      this.#selectAndToggle();
+      if (!this.disabled) {
+        this.#selectAndToggle();
+      }
     });
 
     this.listen('Enter', this.expander, (e: { stopPropagation: () => void; }) => {
       e.stopPropagation();
-      this.#selectAndToggle();
+      if (!this.disabled) {
+        this.#selectAndToggle();
+      }
     });
 
     this.listen(' ', this.expander, (e: { stopPropagation: () => void; }) => {
       e.stopPropagation();
-      this.#selectAndToggle();
+      if (!this.disabled) {
+        this.#selectAndToggle();
+      }
     });
 
     this.onEvent('touchend', this.expander, (e: { touches: string | any[]; }) => {

@@ -46,6 +46,7 @@ export default class IdsAccordion extends Base {
     return [
       ...super.attributes,
       attributes.ALLOW_ONE_PANE,
+      attributes.DISABLED,
       attributes.MODE,
       attributes.VERSION
     ];
@@ -96,9 +97,9 @@ export default class IdsAccordion extends Base {
 
   /**
    * @readonly
-   * @returns {Array<HTMLElement>} all accordion panels in a flattened array
+   * @returns {Array<any>} all accordion panels in a flattened array
    */
-  get panels(): Array<HTMLElement> {
+  get panels(): Array<any> {
     return [...this.querySelectorAll('ids-accordion-panel')];
   }
 
@@ -134,6 +135,33 @@ export default class IdsAccordion extends Base {
     } else {
       this.removeAttribute(attributes.ALLOW_ONE_PANE);
     }
+  }
+
+  /**
+   * Gets disabled property
+   * @readonly
+   * @returns {boolean} true if accordion set to disable
+   */
+  get disabled() {
+    return stringToBool(this.getAttribute(attributes.DISABLED));
+  }
+
+  /**
+   * Sets disabled property
+   * @param {boolean|string} value true/false
+   */
+  set disabled(value) {
+    const disabled = stringToBool(value);
+
+    if (disabled) {
+      this.setAttribute(attributes.DISABLED, `${disabled}`);
+    } else {
+      this.removeAttribute(attributes.DISABLED);
+    }
+
+    this.panels.forEach((panel) => {
+      panel.disabled = disabled;
+    });
   }
 
   /**
