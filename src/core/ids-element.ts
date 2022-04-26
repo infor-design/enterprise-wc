@@ -1,4 +1,4 @@
-import { attributes, version } from './ids-attributes';
+import { version } from './ids-attributes';
 import renderLoop from '../components/ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../components/ids-render-loop/ids-render-loop-item';
 import { camelCase } from '../utils/ids-string-utils/ids-string-utils';
@@ -25,14 +25,6 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   /** State object for current states */
   state?: Record<string, unknown>;
 
-  /** Dictionary used to cache attribute names */
-  attribPropNameDict?: any = Object.fromEntries(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    Object.entries(attributes).map(([_, attrib]) => (
-      [attrib, camelCase((attrib as string))]
-    ))
-  );
-
   /**
    * Add the component name and baseclass
    * @private
@@ -52,11 +44,7 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
    */
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     if (oldValue !== newValue) {
-      if (!this.attribPropNameDict[name]) {
-        this.attribPropNameDict[name] = camelCase(name);
-      }
-
-      this[this.attribPropNameDict[name]] = newValue;
+      this[camelCase(name)] = newValue;
     }
   }
 
