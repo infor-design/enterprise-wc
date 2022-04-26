@@ -20,6 +20,11 @@ import styles from './ids-expandable-area.scss';
 @customElement('ids-expandable-area')
 @scss(styles)
 export default class IdsExpandableArea extends Base {
+  /**
+   * @returns {Array<string>} Expandable area vetoable events
+   */
+  vetoableEventTypes = ['beforecollapse', 'beforeexpand'];
+
   constructor() {
     super();
     this.state = {};

@@ -160,4 +160,16 @@ describe('IdsEventsMixin Tests', () => {
     expect(mockHandler.mock.calls.length).toBe(0);
     expect(elem.keyDownEndOn).toBe(false);
   });
+
+  it('can trigger vetoable events', () => {
+    const eventName = 'vetoableevent';
+
+    // test when vetoableEventTypes is empty
+    elem.vetoableEventTypes = [];
+    expect(elem.triggerVetoableEvent(eventName)).toBeFalsy();
+
+    // test when vetoableEventTypes is properly defined
+    elem.vetoableEventTypes = [eventName];
+    expect(elem.triggerVetoableEvent(eventName)).toBeTruthy();
+  });
 });
