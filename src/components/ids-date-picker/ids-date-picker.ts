@@ -632,8 +632,8 @@ class IdsDatePicker extends Base {
           }
         }
 
-        // 't' sets today date
-        if (key === 84 && !this.isCalendarToolbar) {
+        // 't' sets today date excluding cases where wide/abbreviated months in the input
+        if (key === 84 && !this.isCalendarToolbar && !this.format.includes('MMM')) {
           stopEvent();
 
           this.#changeDate('today');
