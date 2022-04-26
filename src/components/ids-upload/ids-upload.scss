@@ -1,8 +1,6 @@
 @import '../../core/ids-base';
 
 .ids-upload {
-  // @include mb-16();
-
   position: relative;
 
   .ids-upload-filetype {
@@ -11,7 +9,7 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: -webkit-fill-available;
+    width: -webkit-fill-available; // stylelint-disable-line
     z-index: -1;
   }
 }
