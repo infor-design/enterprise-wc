@@ -6,8 +6,6 @@ import { deepClone } from '../../../utils/ids-deep-clone-utils/ids-deep-clone-ut
 document.addEventListener('DOMContentLoaded', () => {
   const pageContainer: any = document.querySelector('ids-container');
   const dropdown: any = document.querySelector('ids-dropdown');
-  let options = pageContainer.locale.locale.options;
-  let numbers = options.numbers;
 
   // Uses the defined integer/decimal limits to create an IdsInput
   // `placeholder` definition based on the actual length of the mask.
@@ -52,14 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
   allInputs.forEach((input) => {
     input.textAlign = 'right';
     input.mask = 'number';
-    input.maskOptions = {
-      symbols: {
-        currency: options.currencySign,
-        decimal: numbers.decimal,
-        negative: numbers.minusSign,
-        thousands: numbers.group,
-      }
-    };
   });
 
   const allNegativeInputs: Array<any> = [...document.querySelectorAll('[id*="negative"]')];
@@ -94,13 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Change localized strings on all number inputs when the Page container's locale changes
   pageContainer.addEventListener('localechange', () => {
-    options = pageContainer.locale.locale.options;
-    numbers = options.numbers;
     allInputs.forEach((input) => {
-      input.maskOptions.symbols.currency = options.currencySign;
-      input.maskOptions.symbols.decimal = numbers.decimal;
-      input.maskOptions.symbols.negative = numbers.minusSign;
-      input.maskOptions.symbols.thousands = numbers.group;
+      input.value = '';
       createPlaceholder(input);
     });
   });

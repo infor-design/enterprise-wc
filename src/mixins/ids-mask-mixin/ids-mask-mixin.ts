@@ -124,21 +124,39 @@ const IdsMaskMixin = (superclass: any) => class extends superclass {
     } else {
       // Assume string in all other cases
       switch (val) {
-      // Using 'date' as a string automatically connects the standard date mask function
+        // Using 'date' as a string automatically connects the standard date mask function
         case 'date':
           trueVal = dateMask;
+          this.onLocaleChange = () => {
+            if (!this.maskOptions.format) {
+              this.maskOptions.format = this.locale.calendar().dateFormat.short;
+            }
+          };
           break;
           // Using 'number' as a string automatically connects the standard number mask function
         case 'number':
           trueVal = numberMask;
+          this.onLocaleChange = () => {
+            const newLocale = this.locale.locale;
+            this.maskOptions.symbols = {
+              currency: newLocale.options.currencySign,
+              decimal: newLocale.options.numbers.decimal,
+              negative: newLocale.options.numbers.minusSign,
+              thousands: newLocale.options.numbers.group
+            };
+          };
           break;
         default:
           trueVal = convertPatternFromString(val);
+          this.onLocaleChange = undefined;
           break;
       }
     }
 
     this.maskState.pattern = trueVal;
+    if (typeof this.onLocaleChange === 'function') {
+      this.onLocaleChange();
+    }
   }
 
   handleMaskEvents() {

@@ -7,19 +7,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const dropdown: any = document.querySelector('ids-dropdown');
   let calendar = pageContainer.locale.calendar();
 
-  // Configure date inputs
+  // Configure Short Date input
   const dateInputShort: any = document.querySelector('#mask-date-short');
   dateInputShort.mask = 'date';
-  dateInputShort.maskOptions = {
-    format: calendar.dateFormat.short || 'M/d/yyyy'
-  };
-  dateInputShort.placeholder = calendar.dateFormat.short;
+  dateInputShort.placeholder = dateInputShort.maskOptions.format;
+
+  // The default date format absorbed by the Mask Mixin from IdsLocale is "short".
+  // For the timestamp field, we have to manually override the format set by the mixin.
   const dateInputTime: any = document.querySelector('#mask-date-time');
   dateInputTime.mask = 'date';
   dateInputTime.maskOptions = {
-    format: calendar.dateFormat.timestamp || 'M/d/yyyy'
+    format: calendar.dateFormat.timestamp
   };
-  dateInputTime.placeholder = calendar.dateFormat.timestamp;
+  dateInputTime.placeholder = dateInputTime.maskOptions.format;
 
   // Change the IdsContainer's locale setting when the dropdown is modified
   dropdown.addEventListener('change', async (e: any) => {
@@ -33,11 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const timeFormat = calendar.dateFormat.timestamp;
 
     dateInputShort.value = '';
-    dateInputShort.placeholder = shortFormat;
     dateInputShort.maskOptions.format = shortFormat;
+    dateInputShort.placeholder = dateInputShort.maskOptions.format;
 
     dateInputTime.value = '';
-    dateInputTime.placeholder = timeFormat;
     dateInputTime.maskOptions.format = timeFormat;
+    dateInputTime.placeholder = dateInputTime.maskOptions.format;
   });
 });
