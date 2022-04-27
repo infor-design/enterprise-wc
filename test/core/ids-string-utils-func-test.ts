@@ -15,6 +15,7 @@ describe('IdsStringUtils Tests', () => {
   });
 
   it('can camel case properties', () => {
+    expect(camelCase('i-am-camel')).toEqual('iAmCamel');
     expect(camelCase('test-me')).toEqual('testMe');
     expect(camelCase('testxyz')).toEqual('testxyz');
   });
