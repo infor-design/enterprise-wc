@@ -1,8 +1,9 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import hierarchyJSON from '../../assets/data/hierarchy.json';
 
-import Base from './ids-hierarchy-item-base';
+import Base, { ItemInfo } from './ids-hierarchy-item-base';
 
 import styles from './ids-hierarchy-item.scss';
 
@@ -26,6 +27,7 @@ export default class IdsHierarchyItem extends Base {
     this.dropdownMenu = this.querySelector('[part="icon-menu"]');
     this.leaf = this.shadowRoot?.querySelector('[part="leaf"]');
     this.nestedItemContainer = this.shadowRoot?.querySelector('[part="nested-items"]');
+    this.childElements = [];
   }
 
   /**
@@ -48,6 +50,7 @@ export default class IdsHierarchyItem extends Base {
       ...super.attributes,
       attributes.COLOR,
       attributes.EXPANDED,
+      attributes.LAZY_LOAD,
       attributes.ROOT_ITEM,
       attributes.SELECTED
     ];
@@ -147,6 +150,26 @@ export default class IdsHierarchyItem extends Base {
     return this.getAttribute(attributes.ROOT_ITEM);
   }
 
+  /**
+   * Set the value of the lazy loading attribute
+   * @param {string | null} value the value of the attribute
+   */
+  set lazyLoad(value: string | null) {
+    const isValueTruthy = stringToBool(value);
+    if (isValueTruthy) {
+      this.setAttribute(attributes.LAZY_LOAD, true);
+    } else {
+      this.removeAttribute(attributes.LAZY_LOAD);
+    }
+  }
+
+  /**
+   * @returns {string | null} containing value of the root attribute
+   */
+  get lazyLoad(): string | null {
+    return this.getAttribute(attributes.LAZY_LOAD);
+  }
+
   get color(): string {
     return this.getAttribute(attributes.COLOR);
   }
@@ -188,11 +211,35 @@ export default class IdsHierarchyItem extends Base {
    * @private
    * @returns {void}
    */
-  #hasNestedItems() {
+  async #hasNestedItems() {
     const nestedItems = this.container?.querySelector('[part="nested-items"]');
-    const hasNestedItems = !!nestedItems?.assignedElements().length;
+    let hasNestedItems = !!nestedItems?.assignedElements().length;
+
+    if (this.lazyLoad) {
+      const url: any = hierarchyJSON;
+      const res = await fetch(url);
+      const data: ItemInfo[] = await res.json();
+
+      this.childElements = data.filter((d: ItemInfo) => d.parentItem === this.getAttribute(attributes.ID));
+      hasNestedItems = this.childElements.length;
+    }
+
     if (hasNestedItems) {
       this.container.classList.add('has-nested-items');
+    }
+  }
+
+  adjustZIndex(node: any, zIndex: number) {
+    if (node.name === 'ids-hierarchy-item') {
+      const elem = node.shadowRoot?.querySelector('.leaf') as HTMLElement;
+      elem.style.zIndex = zIndex.toString();
+    }
+
+    const siblingNodes = node.childNodes;
+    for (const subNode of siblingNodes) {
+      if (subNode.name === 'ids-hierarchy-item') {
+        this.adjustZIndex(subNode, zIndex - 2);
+      }
     }
   }
 
@@ -203,19 +250,27 @@ export default class IdsHierarchyItem extends Base {
    */
   #attachEventHandlers() {
     this.onEvent('click', this.expander, () => {
+      if (!this.expanded && !this.childElements.attached) {
+        const templateStr = this.childElements.reduce((prev: string, cur: ItemInfo) => `${prev}
+          <ids-hierarchy-item id="${cur.id}" lazy-load=${!cur.isLeaf} color="${cur.color}">
+            ${cur.picture ? `<img id="headshot" alt="${cur.id}" src="${cur.picture}" slot="avatar" />` : ''}
+            <ids-text slot="heading">${cur.name}</ids-text>
+            <ids-text slot="subheading">${cur.position}</ids-text>
+            <ids-text slot="micro">${cur.employmentType}</ids-text>
+          </ids-hierarchy-item>
+        `, '');
+        this.innerHTML += templateStr;
+        this.childElements.attached = true;
+      }
       this.#expandCollapse(this.expanded);
     });
 
     if (this.dropdownMenu) {
       this.onEvent('click', this.dropdownMenu, () => {
-        const allLeafs = document.querySelectorAll('ids-hierarchy-item');
-        allLeafs.forEach((l) => {
-          const elem = l.shadowRoot?.querySelector('.leaf') as HTMLElement;
-          elem.style.zIndex = '100';
-        });
+        this.adjustZIndex(this.parentNode, 202);
 
         const leafElement = this.shadowRoot?.querySelector('.leaf');
-        leafElement.style.zIndex = 1000;
+        leafElement.style.zIndex = 201;
       });
     }
 
