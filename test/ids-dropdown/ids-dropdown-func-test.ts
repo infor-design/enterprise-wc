@@ -397,6 +397,28 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.popup.visible).toEqual(true);
   });
 
+  it('should not open by clicking on label', async () => {
+    await waitFor(() => expect(dropdown.labelEl).toBeTruthy());
+    dropdown.labelEl.click();
+    await waitFor(() => expect(dropdown.popup.visible).toBeFalsy());
+    dropdown.container.shadowRoot.querySelector('.field-container').click();
+    await waitFor(() => expect(dropdown.popup.visible).toBeTruthy());
+    expect(dropdown.popup.visible).toEqual(true);
+  });
+
+  it('should not set icon if setting has-icon as false', async () => {
+    expect(dropdown.value).toEqual('opt2');
+    dropdown.trigger.click();
+
+    await wait(80);
+    dropdown.hasIcons = false;
+    dropdown.container.insertAdjacentHTML('beforeend', '<ids-icon icon="user-profile" slot="trigger-start"></ids-icon>');
+    dropdown.querySelectorAll('ids-list-box-option')[4].click();
+
+    await wait(80);
+    expect(dropdown.value).toEqual('opt5');
+  });
+
   it('supports clicking to select', async () => {
     expect(dropdown.value).toEqual('opt2');
     dropdown.trigger.click();
@@ -681,6 +703,12 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.labelState).toEqual('collapsed');
     expect(dropdown.compact).toEqual(true);
     expect(dropdown.noMargins).toEqual(true);
+
+    dropdown.compact = false;
+    dropdown.fieldHeight = 'lg';
+    dropdown.template();
+
+    expect(dropdown.fieldHeight).toEqual('lg');
   });
 
   it('fixes itself with an empty container', () => {

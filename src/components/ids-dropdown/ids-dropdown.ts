@@ -539,6 +539,12 @@ export default class IdsDropdown extends Base {
       this.toggle();
     });
 
+    // Should not open if clicked on label
+    this.onEvent('click', this.labelEl, (e: MouseEvent) => {
+      e.preventDefault();
+      this.container.focus();
+    });
+
     // Disable text selection on tab (extra info in the screen reader)
     this.onEvent('focus', this.container, () => {
       (window.getSelection() as any).removeAllRanges();
@@ -662,26 +668,6 @@ export default class IdsDropdown extends Base {
   }
 
   /**
-<<<<<<< HEAD:src/components/ids-dropdown/ids-dropdown.ts
-   * Set the dirty tracking feature on to indicate a changed dropdown
-   * @param {boolean|string} value If true will set `dirty-tracker` attribute
-   */
-  set dirtyTracker(value: boolean | string) {
-    const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
-    } else {
-      this.removeAttribute(attributes.DIRTY_TRACKER);
-    }
-
-    this.handleDirtyTracker();
-  }
-
-  get dirtyTracker(): string { return this.getAttribute(attributes.DIRTY_TRACKER); }
-
-  /**
-=======
->>>>>>> 4e5a366b9839e8c14611738914186014bf89fcd9:src/components/ids-dropdown/ids-dropdown.js
    * Pass down `validate` attribute into IdsTriggerField
    * @param {string} value The `validate` attribute
    */
