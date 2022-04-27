@@ -12,7 +12,7 @@
     <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
     <ids-layout-grid cols="3" gap="md">
       <ids-layout-grid-cell>
-        <ids-text font-size="12" type="h1">Masked Inputs (Localized Dates)</ids-text>
+        <ids-text font-size="12" type="h1">Masked Inputs (Localized Numbers)</ids-text>
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
@@ -34,15 +34,35 @@
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
-    <ids-layout-grid cols="3" gap="md">
+    <!-- Thousands-length Inputs without groups -->
+    <ids-layout-grid cols="4" gap="md">
       <ids-layout-grid-cell>
-        <ids-input id="mask-date-short" size="sm" label="Short Date"></ids-input>
+        <ids-input id="mask-number-thousands" label="Thousands"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-thousands-negative" label="Thousands + Negative"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-thousands-decimal" label="Thousands + Decimal"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-thousands-decimal-negative" label="Thousands + Decimal + Negative"></ids-input>
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
-    <ids-layout-grid cols="3" gap="md">
+    <!-- Thousands-length Inputs with groups -->
+    <ids-layout-grid cols="4" gap="md">
       <ids-layout-grid-cell>
-        <ids-input id="mask-date-time" size="sm" label="Timestamp"></ids-input>
+        <ids-input id="mask-number-groups-thousands" label="Thousands + Groups"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-groups-thousands-negative" label="Thousands + Groups + Negative"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-groups-thousands-decimal" label="Thousands + Groups + Decimal"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-groups-thousands-decimal-negative" label="Thousands + Groups + Decimal + Negative"></ids-input>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>
