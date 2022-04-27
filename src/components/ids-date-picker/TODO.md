@@ -27,3 +27,4 @@
 - [] Add test for this case https://github.com/infor-design/enterprise/issues/5255
 - [] Add side by side example
 - [] Fix bug https://github.com/infor-design/enterprise/issues/4605
+- [] Fix bug https://github.com/infor-design/enterprise/issues/5255
