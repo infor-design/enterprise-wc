@@ -644,6 +644,27 @@ describe('IdsDatePicker Component Tests', () => {
       component.triggerField.checkValidation();
 
       expect(isValid).toBeFalsy();
+
+      component.value = '2012-40-04';
+      component.triggerField.checkValidation();
+
+      expect(isValid).toBeFalsy();
+
+      component.value = '2012-03-50';
+      component.triggerField.checkValidation();
+
+      expect(isValid).toBeFalsy();
+
+      component.format = 'yyyy';
+      component.value = '2012';
+      component.triggerField.checkValidation();
+
+      expect(isValid).toBeTruthy();
+
+      component.value = '201';
+      component.triggerField.checkValidation();
+
+      expect(isValid).toBeFalsy();
     });
   });
 });
