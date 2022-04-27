@@ -627,5 +627,23 @@ describe('IdsDatePicker Component Tests', () => {
 
       expect(monthView.activeDate).toEqual(new Date(2012, 2, 4));
     });
+
+    it('should validate dates', () => {
+      let isValid;
+      component.validate = 'date';
+      component.format = 'yyyy-MM-dd';
+      component.value = '2012-03-04';
+      component.triggerField.addEventListener('validate', (e: any) => {
+        isValid = e.detail.isValid;
+      });
+      component.triggerField.checkValidation();
+
+      expect(isValid).toBeTruthy();
+
+      component.value = '201-03-04';
+      component.triggerField.checkValidation();
+
+      expect(isValid).toBeFalsy();
+    });
   });
 });

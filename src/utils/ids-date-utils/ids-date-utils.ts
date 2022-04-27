@@ -146,7 +146,9 @@ export function isDaylightSavingTime(date: Date) {
  * @returns {boolean} true if valid, false otherwise.
  */
 export function isValidDate(date: any): boolean {
-  return date instanceof Date && !Number.isNaN(date);
+  return date instanceof Date
+    && !Number.isNaN(date)
+    && date.toString() !== 'Invalid Date';
 }
 
 /**

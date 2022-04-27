@@ -14,6 +14,13 @@ export type IdsValidationErrorMessageTypes = {
   icon?: string;
 };
 
+type Rule = {
+  id: string;
+  type: IdsValidationErrorMessageTypes['type'];
+  message: string;
+  check: () => boolean;
+};
+
 /**
  * Adds validation to any input field
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
@@ -155,6 +162,21 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
         checkRules(input);
       });
     }
+  }
+
+  /**
+   * Add a new rule or replace an existing one.
+   * @param {Rule} rule incoming rule
+   * @returns {void}
+   */
+  addRule(rule: Rule): void {
+    const useRules = this.useRules.get(this.input);
+    const useRulesExclude = useRules.filter((item: Rule) => item.id !== rule.id);
+
+    const mergeRule = [...useRulesExclude, { id: rule.id, rule }];
+
+    this.useRules.set(this.input, mergeRule);
+    this.handleValidationEvents();
   }
 
   /**

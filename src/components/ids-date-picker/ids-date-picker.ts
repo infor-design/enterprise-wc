@@ -8,7 +8,7 @@ import {
   stringToBool,
   stringToNumber
 } from '../../utils/ids-string-utils/ids-string-utils';
-import { addDate, subtractDate } from '../../utils/ids-date-utils/ids-date-utils';
+import { addDate, subtractDate, isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 // Supporting components
@@ -1183,6 +1183,25 @@ class IdsDatePicker extends Base {
       this.#triggerField?.removeAttribute(attributes.VALIDATE);
       this.#triggerField?.removeAttribute(attributes.VALIDATION_EVENTS);
       this.#triggerField?.handleValidation();
+    }
+
+    // Date validation extends validation mixin
+    if (val?.includes('date')) {
+      this.#triggerField.addRule({
+        id: 'date',
+        type: 'error',
+        message: 'Invalid Date',
+        check: (input: any) => {
+          if (!input.value) return true;
+
+          const date: Date | undefined = this.locale.parseDate(
+            input.value,
+            this.format
+          );
+
+          return isValidDate(date);
+        }
+      });
     }
   }
 
