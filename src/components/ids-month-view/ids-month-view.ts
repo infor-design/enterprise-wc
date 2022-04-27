@@ -914,7 +914,7 @@ class IdsMonthView extends Base {
    * @param {Date} date to check
    * @returns {boolean} wheter or not the date is disabled
    */
-  #isDisabledByDate(date: Date): boolean {
+  isDisabledByDate(date: Date): boolean {
     const {
       years,
       dayOfWeek,
@@ -989,7 +989,7 @@ class IdsMonthView extends Base {
       const dateMatch = day === this.day && year === this.year && month === this.month;
       const isSelected = !this.useRange && dateMatch;
       const isSelectedWithRange = this.useRange && !this.rangeSettings.start && dateMatch;
-      const isDisabled = this.#isDisabledByDate(date);
+      const isDisabled = this.isDisabledByDate(date);
       const isAlternate = !this.#isDisplayRange() && (date < firstDayOfRange || date > (lastDayOfRange as any));
       const legend: any = this.#getLegendByDate(date);
       const isRangeSelection = this.#isRangeByDate(date);
@@ -1068,7 +1068,7 @@ class IdsMonthView extends Base {
    * @returns {void}
    */
   #triggerSelectedEvent(): void {
-    if (this.#isDisabledByDate(this.activeDate)) {
+    if (this.isDisabledByDate(this.activeDate)) {
       return;
     }
 

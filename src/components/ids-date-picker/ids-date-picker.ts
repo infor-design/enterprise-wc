@@ -1203,6 +1203,25 @@ class IdsDatePicker extends Base {
         }
       });
     }
+
+    // Available date validation with month view method
+    if (val?.includes('availableDate')) {
+      this.#triggerField.addRule({
+        id: 'availableDate',
+        type: 'error',
+        message: 'Unavailable Date',
+        check: (input: any) => {
+          if (!input.value) return true;
+
+          const date: Date | undefined = this.locale.parseDate(
+            input.value,
+            this.format
+          );
+
+          return isValidDate(date) && !this.#monthView?.isDisabledByDate(date);
+        }
+      });
+    }
   }
 
   /**

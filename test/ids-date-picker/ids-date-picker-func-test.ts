@@ -666,5 +666,26 @@ describe('IdsDatePicker Component Tests', () => {
 
       expect(isValid).toBeFalsy();
     });
+
+    it('should validate unavailable dates', () => {
+      let isValid;
+      component.disable = {
+        dates: ['2/15/2010', '2/25/2010'],
+        dayOfWeek: [0, 6]
+      };
+      component.validate = 'availableDate';
+      component.triggerField.addEventListener('validate', (e: any) => {
+        isValid = e.detail.isValid;
+      });
+      component.value = '2/16/2010';
+      component.triggerField.checkValidation();
+
+      expect(isValid).toBeTruthy();
+
+      component.value = '2/15/2010';
+      component.triggerField.checkValidation();
+
+      expect(isValid).toBeFalsy();
+    });
   });
 });

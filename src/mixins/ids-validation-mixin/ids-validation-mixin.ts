@@ -172,7 +172,6 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
   addRule(rule: Rule): void {
     const useRules = this.useRules.get(this.input);
     const useRulesExclude = useRules.filter((item: Rule) => item.id !== rule.id);
-
     const mergeRule = [...useRulesExclude, { id: rule.id, rule }];
 
     this.useRules.set(this.input, mergeRule);
