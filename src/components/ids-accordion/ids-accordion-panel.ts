@@ -63,19 +63,10 @@ export default class IdsAccordionPanel extends Base {
   }
 
   /**
-   * Overrides the setter from `IdsColorVariantMixin` to include a check on the expander icon
-   * @param {string} val the desired color variant
+   * When the accordion's color variant is set, push this change through to include a check on the expander icon
    */
-  set colorVariant(val: string) {
-    super.colorVariant = val;
+  onColorVariantRefresh() {
     this.#toggleExpanderDisplay();
-  }
-
-  /**
-   * @returns {string} the current color variant
-   */
-  get colorVariant(): string {
-    return super.colorVariant;
   }
 
   /**
