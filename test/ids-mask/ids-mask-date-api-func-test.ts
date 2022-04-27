@@ -122,12 +122,13 @@ describe('IdsMaskAPI (Date)', () => {
   });
 
   // @TODO: fix partial autocorrect
-  it.skip('can partially autocorrect incorrect dates', () => {
+  it('can partially autocorrect incorrect dates', () => {
     const textValue = '15/32/2020';
     const opts: IdsMaskOptions = {
       selection: {
         start: 0
       },
+      locale,
       pattern: dateMask,
       patternOptions: {
         format: 'M/d/yyyy',

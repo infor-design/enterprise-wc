@@ -76,6 +76,30 @@ document.addEventListener('DOMContentLoaded', () => {
     createPlaceholder(input);
   });
 
+  // Set limits on "millions-length" inputs
+  const allMillionsInputs: Array<any> = [...document.querySelectorAll('[id*="millions"]')];
+  allMillionsInputs.forEach((input) => {
+    input.maskOptions.integerLimit = 7;
+    createPlaceholder(input);
+  });
+
+  // Set limits on "billions-length" inputs
+  const allBillionsInputs: Array<any> = [...document.querySelectorAll('[id*="billions"]')];
+  allBillionsInputs.forEach((input) => {
+    input.maskOptions.integerLimit = 10;
+    createPlaceholder(input);
+  });
+
+  // Set limits on "quintillions-length" inputs
+  const allQuintillionsInputs: Array<any> = [...document.querySelectorAll('[id*="quintillions"]')];
+  allQuintillionsInputs.forEach((input) => {
+    input.maskOptions.integerLimit = 18;
+    if (input.id.includes('decimal')) {
+      input.maskOptions.decimalLimit = 6;
+    }
+    createPlaceholder(input);
+  });
+
   // ===================================================
   // Change the IdsContainer's locale setting when the dropdown is modified
   dropdown.addEventListener('change', async (e: any) => {
