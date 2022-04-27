@@ -1,3 +1,5 @@
+import countObjects from '../helpers/count-objects';
+
 describe('Ids Tag e2e Tests', () => {
   const url = 'http://localhost:4444/ids-tag';
 
@@ -17,5 +19,18 @@ describe('Ids Tag e2e Tests', () => {
 
     // @TODO: Remove setting after #669 is fixed
     await (expect(page) as any).toPassAxeTests({ disabledRules: ['color-contrast'] });
+  });
+
+  it('should not have memory leaks', async () => {
+    const numberOfObjects = await countObjects(page);
+    await page.evaluate(() => {
+      document.body.insertAdjacentHTML('beforeend', `<ids-tag color="red" id="test">test</ids-tag>`);
+      document.querySelector('#test')?.remove();
+
+      // For testing - leaving this here for now
+      // const onMessage = () => { /* ... */ };
+      // window.addEventListener('message', onMessage);
+    });
+    expect(await countObjects(page)).toEqual(numberOfObjects);
   });
 });

@@ -247,11 +247,11 @@
     @include bg-white();
     @include text-slate-80();
 
-    border-color: var(--ids-color-border-lighter);
+    border-color: var(--ids-color-palette-slate-30);
     box-shadow: 0 2px 5px rgba(0 0 0 / 0.2);
 
     .arrow.bottom {
-      border-bottom-color: var(--ids-color-border-lighter);
+      border-bottom-color: var(--ids-color-palette-slate-30);
     }
 
     .arrow.bottom::after {
@@ -259,7 +259,7 @@
     }
 
     .arrow.left {
-      border-left-color: var(--ids-color-border-lighter);
+      border-left-color: var(--ids-color-palette-slate-30);
     }
 
     .arrow.left::after {
@@ -267,7 +267,7 @@
     }
 
     .arrow.right {
-      border-right-color: var(--ids-color-border-lighter);
+      border-right-color: var(--ids-color-palette-slate-30);
     }
 
     .arrow.right::after {
@@ -275,7 +275,7 @@
     }
 
     .arrow.top {
-      border-top-color: var(--ids-color-border-lighter);
+      border-top-color: var(--ids-color-palette-slate-30);
     }
 
     .arrow.top::after {

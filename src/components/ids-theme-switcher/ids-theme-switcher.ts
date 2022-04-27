@@ -47,26 +47,10 @@ export default class IdsThemeSwitcher extends Base {
             <span class="audible">Theme Switcher</span>
         </ids-menu-button>
         <ids-popup-menu id="ids-theme-menu" target="#ids-theme-switcher" trigger="click">
-          <ids-menu-group>
-            <ids-menu-item>
-              Theme
-              <ids-popup-menu>
-                <ids-menu-group select="single">
-                  <ids-menu-item selected="true" value="new">New</ids-menu-item>
-                  <ids-menu-item value="classic">Classic</ids-menu-item>
-                </ids-menu-group>
-              </ids-popup-menu>
-            </ids-menu-item>
-            <ids-menu-item>
-              Mode
-              <ids-popup-menu>
-                <ids-menu-group select="single">
-                  <ids-menu-item selected="true" value="light">Light</ids-menu-item>
-                  <ids-menu-item value="dark">Dark</ids-menu-item>
-                  <ids-menu-item value="contrast">High Contrast</ids-menu-item>
-                </ids-menu-group>
-              </ids-popup-menu>
-            </ids-menu-item>
+          <ids-menu-group select="single">
+            <ids-menu-item selected="true" value="light">Light</ids-menu-item>
+            <ids-menu-item value="dark">Dark</ids-menu-item>
+            <ids-menu-item value="contrast">Contrast</ids-menu-item>
           </ids-menu-group>
         </ids-popup-menu>`;
   }

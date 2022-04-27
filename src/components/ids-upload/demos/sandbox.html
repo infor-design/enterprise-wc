@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Ids Upload - Sandbox</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="3" gap="md">
+      <ids-layout-grid-cell>
+        <ids-upload label="Single File"></ids-upload>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-upload label="Multiple Files" multiple="true"></ids-upload>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-upload label="Multiple Files Accept (.cvs,.xls,.xlsx)" multiple="true" accept=".cvs,.xls,.xlsx"></ids-upload>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-upload label="Readonly" readonly="true"></ids-upload>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-upload label="Disabled" disabled="true" value="Readme.txt"></ids-upload>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-upload label="Dirty Tracker" dirty-tracker="true"></ids-upload>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-upload label="Required" validate="required"></ids-upload>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-upload label="Tabbable" tabbable></ids-upload>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-upload label="Label State (hidden)" label-state="hidden"></ids-upload>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2">Ids Upload - Compact</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-upload label="Compact" compact="true"></ids-upload>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2">Ids Upload - Field Heights (Height)</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <!-- Field Heights: [xs, sm, md, lg] -->
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-upload field-height="xs" label="Extra Small (compact)"></ids-upload>
+        <ids-upload field-height="sm" label="Small"></ids-upload>
+        <ids-upload field-height="md" label="Medium (default)"></ids-upload>
+        <ids-upload field-height="lg" label="Large"></ids-upload>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2">Ids Upload - Sizes (Width)</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <!-- Sizes: [xs, sm, mm, md, lg, full] -->
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-upload size="xs" label="Extra Small"></ids-upload>
+        <ids-upload size="sm" label="Small"></ids-upload>
+        <ids-upload size="mm" label="Small - Medium"></ids-upload>
+        <ids-upload size="md" label="Medium (default)"></ids-upload>
+        <ids-upload size="lg" label="Large"></ids-upload>
+        <ids-upload size="full" label="Full"></ids-upload>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+  </ids-container>
+</body>
+
+</html>
