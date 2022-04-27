@@ -1,21 +1,9 @@
-import { attributes, version } from './ids-attributes';
+import { version } from './ids-attributes';
 import renderLoop from '../components/ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../components/ids-render-loop/ids-render-loop-item';
 import { camelCase } from '../utils/ids-string-utils/ids-string-utils';
 import IdsEventsMixin from '../mixins/ids-events-mixin/ids-events-mixin';
 import styles from './ids-element.scss';
-
-/**
- * Simple dictionary used to cache attribute names
- * to their corresponding property names.
- * @type {Object<string, string>}
- */
-const attribPropNameDict = Object.fromEntries(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  Object.entries(attributes).map(([_, attrib]) => (
-    [attrib, camelCase((attrib as string))]
-  ))
-);
 
 /**
  * IDS Base Element
@@ -56,11 +44,7 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
    */
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     if (oldValue !== newValue) {
-      if (!attribPropNameDict[name]) {
-        attribPropNameDict[name] = camelCase(name);
-      }
-
-      this[attribPropNameDict[name]] = newValue;
+      this[camelCase(name)] = newValue;
     }
   }
 
@@ -73,6 +57,9 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
     if (this.detachAllListeners) {
       this.detachAllListeners();
     }
+    delete this.cssStyles;
+    delete this.attribPropNameDict;
+    delete this.popupOpenEventsTarget;
   }
 
   /**
