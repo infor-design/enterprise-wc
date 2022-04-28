@@ -3,11 +3,9 @@ body {
 }
 
 #about-example {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  pointer-events: unset;
-  height: 100%;
+  position: absolute;
+  left: calc(50% - 280px);
+  top: calc(50% - 230px);
 }
 
 #about-example .ids-modal-header svg {
