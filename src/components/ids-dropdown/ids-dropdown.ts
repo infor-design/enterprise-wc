@@ -77,8 +77,8 @@ export default class IdsDropdown extends Base {
   template() {
     this.hasIcons = this.querySelector('ids-list-box-option ids-icon') !== null;
     this.size = this.getAttribute(attributes.SIZE) || 'md';
-    console.log('is disabled true');
-    console.log(this.disabled);
+    //console.log('is disabled true');
+    //console.log(this.disabled);
 
     return `<ids-trigger-field
       ${this.disabled ? ' disabled="true"' : ' readonly="true"'}
@@ -243,8 +243,8 @@ export default class IdsDropdown extends Base {
    */
   set disabled(value) {
     const isDisabled = stringToBool(value);
-    console.log('dropdown set disabled');
-    console.log(isDisabled);
+    //console.log('dropdown set disabled');
+    //console.log(isDisabled);
     if (isDisabled) {
       this.container.disabled = true;
       this.container.readonly = false;
@@ -272,6 +272,8 @@ export default class IdsDropdown extends Base {
    * @param {HTMLElement} option the option to select
    */
   selectOption(option) {
+    //console.log('selectOption fired');
+    //console.log(option);
     option?.setAttribute('aria-selected', 'true');
     option?.classList.add('is-selected');
   }
@@ -409,10 +411,9 @@ export default class IdsDropdown extends Base {
     this.container.active = false;
     this.setAttribute('aria-expanded', 'false');
     const selected = this.querySelector('ids-list-box-option.is-selected');
-
     if (selected) {
       selected.classList.remove('is-selected');
-      this.selectedOption.classList.add('is-selected');
+      this.selectedOption?.classList.add('is-selected');
     }
 
     this.removeOpenEvents();
@@ -427,12 +428,12 @@ export default class IdsDropdown extends Base {
    * @private
    */
   toggle() {
-    console.log('toggle fired');
+    //console.log('toggle fired');
     if (!this.popup.visible) {
-      console.log('open');
+      //console.log('open');
       this.open();
     } else {
-      console.log('close');
+      //console.log('close');
       this.close();
     }
   }
@@ -453,7 +454,7 @@ export default class IdsDropdown extends Base {
       }
 
       if (e.target.isEqualNode(this)) {
-        console.log('dropdown toggle call')
+        //console.log('dropdown toggle call');
         this.toggle();
       }
     });
@@ -494,6 +495,8 @@ export default class IdsDropdown extends Base {
   #attachKeyboardListeners() {
     // Handle up and down arrow
     this.listen(['ArrowDown', 'ArrowUp'], this, (e) => {
+      //console.log('ArrowDown or ArrowUp event to follow');
+      //console.log(e);
       if (!this.popup.visible) {
         this.open();
         return;
@@ -510,6 +513,7 @@ export default class IdsDropdown extends Base {
       }
 
       if (e.key === 'ArrowDown' && selected?.nextElementSibling) {
+        //console.log('arrow down menu?');
         selected.classList.remove('is-selected');
         selected.setAttribute('tabindex', '-1');
         selected.nextElementSibling.classList.add('is-selected');
@@ -517,6 +521,7 @@ export default class IdsDropdown extends Base {
         selected.nextElementSibling.focus();
       }
       if (e.key === 'ArrowUp' && selected?.previousElementSibling) {
+        //console.log('arrow up menu?');
         selected.classList.remove('is-selected');
         selected.setAttribute('tabindex', '-1');
         selected.previousElementSibling.classList.add('is-selected');
@@ -537,8 +542,12 @@ export default class IdsDropdown extends Base {
         return;
       }
 
+      console.log(this.querySelector('ids-list-box-option.is-selected'));
+      console.log(this.querySelector('ids-list-box-option.is-selected').getAttribute('value'));
       const selected = this.querySelector('ids-list-box-option.is-selected');
       this.value = selected.getAttribute('value');
+      console.log('value next: ')
+      console.log(this.value);
       this.close();
     });
 
