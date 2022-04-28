@@ -7,10 +7,10 @@ import { isValidDate, gregorianToUmalqura } from '../../utils/ids-date-utils/ids
  */
 class IdsLocale {
   // The Locale files that have been loaded up
-  loadedLocales = new Map();
+  loadedLocales?: any = new Map();
 
   // The lang files that have been loaded up
-  loadedLanguages = new Map();
+  loadedLanguages?: any = new Map();
 
   // State object
   state?: any;
@@ -1176,6 +1176,17 @@ class IdsLocale {
       }
     }
     return calendars[0];
+  }
+
+  /**
+   * Remove references
+   */
+  destroy() {
+    this.loadedLocales = null;
+    this.loadedLanguages = null;
+    this.state = null;
+    this.html = null;
+    this.dateFormatter = undefined;
   }
 }
 

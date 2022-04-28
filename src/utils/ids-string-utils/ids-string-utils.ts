@@ -4,11 +4,7 @@
  * @returns {string} The return string
  */
 export function camelCase(str: string): string {
-  return (str.slice(0, 1).toLowerCase() + str.slice(1))
-    .replace(/([-_ ]){1,}/g, ' ')
-    .split(/[-_ ]/)
-    // eslint-disable-next-line no-unsafe-optional-chaining
-    .reduce((cur: any, acc: any) => cur + (acc[0] as any)?.toUpperCase() + acc.substring(1));
+  return str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
 }
 
 /**
