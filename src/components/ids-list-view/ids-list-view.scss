@@ -34,6 +34,7 @@
 
       &.sortable {
         background-color: transparent;
+        border: none;
       }
 
       &.sortable:hover::before {
@@ -47,6 +48,15 @@
       }
     }
   }
+}
+
+ids-swappable-item {
+  border: 1px solid transparent;
+  border-bottom-color: var(--ids-color-palette-slate-20);
+}
+
+ids-swappable-item[over] {
+  border: 1px dashed var(--ids-color-palette-slate-80);
 }
 
 // Handle Themes
