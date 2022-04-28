@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Calendar Event</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true" gap="md">
+      <ids-layout-grid-cell cols="1">
+        <ids-calendar-event id="item-1" display-time></ids-calendar-event>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell cols="1">
+        <ids-calendar-event id="item-2" display-time></ids-calendar-event></div>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell cols="1">
+        <ids-calendar-event id="item-3" display-time></ids-calendar-event>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell cols="1">
+        <ids-calendar-event id="item-4" display-time></ids-calendar-event>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

@@ -56,6 +56,7 @@ export default class IdsCalendarEvent extends IdsLocaleMixin(IdsElement) {
   connectedCallback(): void {
     this.#attachEventHandlers();
     this.setDirection();
+    super.connectedCallback();
   }
 
   /**
@@ -120,12 +121,16 @@ export default class IdsCalendarEvent extends IdsLocaleMixin(IdsElement) {
       clearTimeout(timer);
       triggerFn('dblclick');
     });
+
+    this.onEvent('languagechange.calendar-event', this.closest('ids-container'), () => {
+      this.refreshContent();
+    });
   }
 
   /**
    * Refreshses calendar event content with current settings
    */
-  #refreshContent(): void {
+  refreshContent(): void {
     this.container.innerHTML = this.contentTemplate();
   }
 
@@ -151,7 +156,7 @@ export default class IdsCalendarEvent extends IdsLocaleMixin(IdsElement) {
   set event(event: CalendarEventData) {
     this.cachedEvent = event;
     this.setAttribute('data-id', event.id);
-    this.#refreshContent();
+    this.refreshContent();
   }
 
   /**
@@ -304,7 +309,7 @@ export default class IdsCalendarEvent extends IdsLocaleMixin(IdsElement) {
       this.removeAttribute('display-time');
     }
 
-    this.#refreshContent();
+    this.refreshContent();
   }
 
   /**
@@ -321,7 +326,7 @@ export default class IdsCalendarEvent extends IdsLocaleMixin(IdsElement) {
    */
   set overflow(value: string | null) {
     this.setAttribute(attributes.OVERFLOW, value);
-    this.#refreshContent();
+    this.refreshContent();
   }
 
   /**

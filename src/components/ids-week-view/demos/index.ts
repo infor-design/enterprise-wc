@@ -1,5 +1,5 @@
 import '../ids-week-view';
-import '../ids-calendar-event';
+import '../../ids-calendar-event/ids-calendar-event';
 import eventsJSON from '../../../assets/data/events.json';
 import eventTypesJSON from '../../../assets/data/event-types.json';
 
