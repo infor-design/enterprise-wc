@@ -205,14 +205,14 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.getAttribute('disabled')).toEqual('true');
     expect(dropdown.getAttribute('readonly')).toBeFalsy();
     expect(dropdown.disabled).toEqual(true);
-    expect(dropdown.container.disabled).toEqual(true);
+    expect(dropdown.input.disabled).toEqual(true);
   });
 
   it('handles setting readonly', () => {
     dropdown.readonly = true;
     expect(dropdown.getAttribute('readonly')).toEqual('true');
     expect(dropdown.readonly).toEqual(true);
-    expect(dropdown.container.disabled).toEqual(false);
+    expect(dropdown.input.disabled).toEqual(false);
   });
 
   it('can change the label', () => {
@@ -225,7 +225,7 @@ describe('IdsDropdown Component', () => {
     dropdown.dirtyTracker = true;
     dropdown.value = 'opt3';
     expect(dropdown.dirty).toEqual({ original: 'Option Two' });
-    expect(dropdown.container.shadowRoot.querySelector('.icon-dirty')).toBeTruthy();
+    expect(dropdown.input.shadowRoot.querySelector('.icon-dirty')).toBeTruthy();
   });
 
   it('should be able to reset dirty indicator', () => {
@@ -238,7 +238,7 @@ describe('IdsDropdown Component', () => {
   it('should be able to set value', () => {
     dropdown.value = 'opt3';
     expect(dropdown.value).toEqual('opt3');
-    expect(dropdown.container.value).toEqual('Option Three');
+    expect(dropdown.input.value).toEqual('Option Three');
   });
 
   it('should be able to set value with selectedIndex', () => {
@@ -247,12 +247,12 @@ describe('IdsDropdown Component', () => {
     dropdown.selectedIndex = 2;
     expect(dropdown.selectedIndex).toEqual(2);
     expect(dropdown.value).toEqual('opt3');
-    expect(dropdown.container.value).toEqual('Option Three');
+    expect(dropdown.input.value).toEqual('Option Three');
 
     dropdown.selectedIndex = 'x'; // ignored
     expect(dropdown.selectedIndex).toEqual(2);
     expect(dropdown.value).toEqual('opt3');
-    expect(dropdown.container.value).toEqual('Option Three');
+    expect(dropdown.input.value).toEqual('Option Three');
   });
 
   it('should ignore null / bad selectedIndex', () => {
@@ -260,19 +260,19 @@ describe('IdsDropdown Component', () => {
     dropdown.selectedIndex = 'x'; // ignored
     expect(dropdown.selectedIndex).toEqual(1);
     expect(dropdown.value).toEqual('opt2');
-    expect(dropdown.container.value).toEqual('Option Two');
+    expect(dropdown.input.value).toEqual('Option Two');
   });
 
   it('should ignore null / bad value', () => {
     dropdown.value = 'opt3';
     expect(dropdown.value).toEqual('opt3');
-    expect(dropdown.container.value).toEqual('Option Three');
+    expect(dropdown.input.value).toEqual('Option Three');
 
     dropdown.value = null;
-    expect(dropdown.container.value).toEqual('Option Three');
+    expect(dropdown.input.value).toEqual('Option Three');
 
     dropdown.value = 'optx';
-    expect(dropdown.container.value).toEqual('Option Three');
+    expect(dropdown.input.value).toEqual('Option Three');
   });
 
   it('supports opening the list with open', async () => {
@@ -392,7 +392,7 @@ describe('IdsDropdown Component', () => {
 
   it('supports clicking input to open', async () => {
     await waitFor(() => expect(dropdown.container).toBeTruthy());
-    dropdown.container.shadowRoot.querySelector('.field-container').click();
+    dropdown.input.shadowRoot.querySelector('.field-container').click();
     await waitFor(() => expect(dropdown.popup.visible).toBeTruthy());
     expect(dropdown.popup.visible).toEqual(true);
   });
@@ -578,7 +578,7 @@ describe('IdsDropdown Component', () => {
   });
 
   it('tab works correcty', async () => {
-    dropdown.container.focus();
+    dropdown.input.focus();
     expect((document.activeElement as any).id).toEqual('dropdown-1');
     const event = new KeyboardEvent('keydown', { key: 'Tab' });
     dropdown.dispatchEvent(event);
@@ -594,7 +594,7 @@ describe('IdsDropdown Component', () => {
     const checkHeight = (height: any) => {
       dropdown.fieldHeight = height;
 
-      expect(dropdown.container.getAttribute('field-height')).toEqual(height);
+      expect(dropdown.input.getAttribute('field-height')).toEqual(height);
       expect(dropdown.container.classList).toContain(className(height));
       heights.filter((h) => h !== height).forEach((h) => {
         expect(dropdown.container.classList).not.toContain(className(h));
@@ -638,32 +638,32 @@ describe('IdsDropdown Component', () => {
       dropdown.size = size;
 
       expect(dropdown.getAttribute('size')).toEqual(size);
-      expect(dropdown.container.getAttribute('size')).toEqual(size);
+      expect(dropdown.input.getAttribute('size')).toEqual(size);
     };
 
     expect(dropdown.getAttribute('size')).toEqual(null);
-    expect(dropdown.container.getAttribute('size')).toEqual(defaultSize);
+    expect(dropdown.input.getAttribute('size')).toEqual(defaultSize);
     sizes.forEach((s) => checkSize(s));
     dropdown.size = null;
 
     expect(dropdown.getAttribute('size')).toEqual(null);
-    expect(dropdown.container.getAttribute('size')).toEqual(defaultSize);
+    expect(dropdown.input.getAttribute('size')).toEqual(defaultSize);
   });
 
   it('should set no margins', () => {
     expect(dropdown.getAttribute('no-margins')).toEqual(null);
     expect(dropdown.noMargins).toEqual(false);
-    expect(dropdown.container.getAttribute('no-margins')).toEqual(null);
+    expect(dropdown.input.getAttribute('no-margins')).toEqual(null);
     dropdown.noMargins = true;
 
     expect(dropdown.getAttribute('no-margins')).toEqual('');
     expect(dropdown.noMargins).toEqual(true);
-    expect(dropdown.container.getAttribute('no-margins')).toEqual('');
+    expect(dropdown.input.getAttribute('no-margins')).toEqual('');
     dropdown.noMargins = false;
 
     expect(dropdown.getAttribute('no-margins')).toEqual(null);
     expect(dropdown.noMargins).toEqual(false);
-    expect(dropdown.container.getAttribute('no-margins')).toEqual(null);
+    expect(dropdown.input.getAttribute('no-margins')).toEqual(null);
   });
 
   it('should set values thru template', () => {
