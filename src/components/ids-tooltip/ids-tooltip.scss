@@ -5,3 +5,8 @@
 :host([visible]) {
   display: inline;
 }
+
+// Used for positioning IdsTooltips in standalone-css mode
+.ids-popup.tooltip.standalone {
+  position: relative;
+}
