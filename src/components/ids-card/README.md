@@ -50,6 +50,7 @@ A card can be an actionable with the behavior of a button.
 
 - `autoHeight` {boolean} Makes the card the same height as its inner content
 - `actionable` {boolean} It will make the card act as a button
+- `height` {number} It will make the card have a fixed height (used primarily on actionable cards)
 
 ## States and Variations (With Code Examples)
 

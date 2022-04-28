@@ -97,6 +97,10 @@ module.exports = {
           'css-loader',
           'sass-loader',
         ]
+      },
+      {
+        test: /\.ya?ml$/,
+        use: 'yaml-loader'
       }
     ]
   },
@@ -104,6 +108,6 @@ module.exports = {
     new BundleAnalyzerPlugin({
       analyzerMode: process.env.npm_lifecycle_event === 'build:dev:stats' ? 'server' : 'disabled',
       reportFilename: 'dev-build-report.html'
-    }),
+    })
   ].concat(WebpackHtmlExamples)
 };

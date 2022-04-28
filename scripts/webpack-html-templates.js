@@ -21,6 +21,21 @@ const WebpackHtmlExamples = WebpackHtmlTemplates.map((template) => {
     chunkList = [extraChunk, 'ids-csp'];
   }
 
+  // Special Entry for Main Homepage
+  if (chunkName === 'ids-demo-app') {
+    chunkList.push('ids-card');
+    chunkList.push('ids-block-grid');
+
+    return new HTMLWebpackPlugin({
+      template: `./${template}`,
+      title,
+      filename: `index.html`,
+      chunks: chunkList,
+      favicon: './src/assets/images/favicon.ico',
+    });
+  }
+
+  // Normal Entry for all other demos
   return new HTMLWebpackPlugin({
     template: `./${template}`,
     title,

@@ -39,6 +39,7 @@ export default class IdsCard extends Base {
       attributes.ACTIONABLE,
       attributes.AUTO_FIT,
       attributes.AUTO_HEIGHT,
+      attributes.HEIGHT,
       attributes.HREF,
       attributes.OVERFLOW,
       attributes.TARGET
@@ -267,6 +268,28 @@ export default class IdsCard extends Base {
     } else {
       this.removeAttribute('href');
       this.container.querySelector('ids-hyperlink')?.removeAttribute('href');
+    }
+  }
+
+  /**
+   * Set a specific height and center the card
+   * @returns {string} href for ids-hyperlink
+   */
+  get height() { return this.getAttribute(attributes.HEIGHT); }
+
+  /**
+   * Set a height and center the card
+   * @param {number} height height in pixels
+   */
+  set height(height) {
+    if (height) {
+      this.setAttribute(attributes.HEIGHT, height);
+      this.querySelector('[slot]').style.height = `${height}px`;
+      this.querySelector('[slot]').classList.add('fixed-height');
+    } else {
+      this.removeAttribute(attributes.HEIGHT);
+      this.querySelector('[slot]').style.height = '';
+      this.querySelector('[slot]').classList.remove('fixed-height');
     }
   }
 
