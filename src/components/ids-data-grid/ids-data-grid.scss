@@ -28,6 +28,9 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   overflow: auto;
   scroll-behavior: smooth;
 
+  // @TODO: Remove as part of infor-design/enterprise-wc#648
+  min-height: 300px;
+
   // Font Info
   @include antialiased();
   @include font-sans();

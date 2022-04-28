@@ -112,9 +112,11 @@ const IdsLabelStateMixin = (superclass: any) => class extends superclass {
   #showLabel() {
     const existingLabel = this.shadowRoot.querySelector('label');
     if (!existingLabel && !this.labelEl) {
-      this.fieldContainer?.insertAdjacentHTML('beforebegin', `<label for="${this.id}-input" class="ids-label-text">
-        <ids-text part="label" label="true" color-unset>${this.label}</ids-text>
-      </label>`);
+      if (this.fieldContainer) {
+        this.fieldContainer.insertAdjacentHTML('beforebegin', `<label for="${this.id}-input" class="ids-label-text">
+          <ids-text part="label" label="true" color-unset>${this.label}</ids-text>
+        </label>`);
+      }
     } else {
       this.setLabelText?.(this.label);
     }
