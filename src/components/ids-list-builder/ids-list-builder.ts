@@ -224,11 +224,7 @@ export default class IdsListBuilder extends Base {
    * @param {Node} nodeB the second node
    */
   swap(nodeA: Node, nodeB: Node) {
-    const parentA = nodeA.parentNode;
-    const siblingA = nodeA.nextSibling === nodeB ? nodeA : nodeA.nextSibling;
-
     nodeB.parentNode?.insertBefore(nodeA, nodeB);
-    parentA?.insertBefore(nodeB, siblingA);
   }
 
   /**
@@ -244,7 +240,7 @@ export default class IdsListBuilder extends Base {
       const selectionNull = !this.selectedLi;
       // if an item is selected, create a node under it, otherwise create a node above the first item
 
-      let targetDraggableItem = selectionNull ? this.container.querySelector('ids-swappable-item') : this.selectedLi.parentNode;
+      let targetDraggableItem = selectionNull ? this.container.querySelector('ids-swappable-item') : this.selectedLi;
       if (!targetDraggableItem) {
         targetDraggableItem = new IdsSwappableItem();
       }
@@ -254,8 +250,9 @@ export default class IdsListBuilder extends Base {
       const insertionLocation = selectionNull ? targetDraggableItem : targetDraggableItem.nextSibling;
       if (targetDraggableItem.parentNode) {
         targetDraggableItem.parentNode.insertBefore(newDraggableItem, insertionLocation);
+        targetDraggableItem.removeAttribute('selected');
       } else {
-        this.container.querySelector('.ids-list-view-body').appendChild(newDraggableItem);
+        this.container.querySelector('ids-swappable').appendChild(newDraggableItem);
       }
 
       this.#attachKeyboardListenersForLi(newDraggableItem.querySelector('div[part="list-item"]'));
@@ -274,7 +271,7 @@ export default class IdsListBuilder extends Base {
       if (this.selectedLi) {
         this.#unfocusAnySelectedLiEditor();
 
-        const prev = this.selectedLi.previousSibling.previousSibling;
+        const prev = this.selectedLi.previousSibling?.previousSibling;
         if (prev) {
           this.swap(this.selectedLi, prev);
         }
@@ -287,7 +284,7 @@ export default class IdsListBuilder extends Base {
       if (this.selectedLi) {
         this.#unfocusAnySelectedLiEditor();
 
-        const next = this.selectedLi.nextElementSibling.nextElementSibling;
+        const next = this.selectedLi.nextElementSibling?.nextElementSibling;
         if (next) {
           this.swap(this.selectedLi, next);
         }
