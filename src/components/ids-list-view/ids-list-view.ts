@@ -432,6 +432,23 @@ export default class IdsListView extends Base {
   }
 
   /**
+   * Handles the sortable property and reflects it on the DOM
+   * @param {string | boolean} value the sortable parameter
+   */
+  set sortable(value) {
+    const val = stringToBool(value);
+    if (val) {
+      this.setAttribute(attributes.SORTABLE, val);
+    } else {
+      this.removeAttribute(attributes.SORTABLE);
+    }
+  }
+
+  get sortable() {
+    return this.hasAttribute(attributes.SORTABLE);
+  }
+
+  /**
    * Helper function that toggles the 'selected' attribute of an element, then focuses on that element
    * @param {Element} item the item to add/remove the selected attribute
    * @param {boolean} switchValue optional switch values to force add/remove the selected attribute
