@@ -127,17 +127,17 @@ const IdsMaskMixin = (superclass: any) => class extends superclass {
         // Using 'date' as a string automatically connects the standard date mask function
         case 'date':
           trueVal = dateMask;
-          this.onLocaleChange = () => {
+          this.onLocaleChange = (locale: any) => {
             if (!this.maskOptions.format) {
-              this.maskOptions.format = this.locale.calendar().dateFormat.short;
+              this.maskOptions.format = locale.calendar().dateFormat.short;
             }
           };
           break;
           // Using 'number' as a string automatically connects the standard number mask function
         case 'number':
           trueVal = numberMask;
-          this.onLocaleChange = () => {
-            const newLocale = this.locale.locale;
+          this.onLocaleChange = (locale: any) => {
+            const newLocale = locale.locale;
             this.maskOptions.symbols = {
               currency: newLocale.options.currencySign,
               decimal: newLocale.options.numbers.decimal,
@@ -154,8 +154,8 @@ const IdsMaskMixin = (superclass: any) => class extends superclass {
     }
 
     this.maskState.pattern = trueVal;
-    if (typeof this.onLocaleChange === 'function') {
-      this.onLocaleChange();
+    if (typeof this.onLocaleChange === 'function' && this.locale) {
+      this.onLocaleChange(this.locale);
     }
   }
 
