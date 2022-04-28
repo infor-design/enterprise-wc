@@ -293,6 +293,13 @@ class IdsDatePicker extends Base {
       }
     });
 
+    // Respond to container changing language
+    this.offEvent('languagechange.date-picker-container');
+    this.onEvent('languagechange.date-picker-container', getClosest(this, 'ids-container'), () => {
+      this.#setDateValidation();
+      this.#setAvailableDateValidation();
+    });
+
     if (!this.isDropdown) {
       this.offEvent('click.date-picker-popup');
       this.onEvent('click.date-picker-popup', this.#triggerButton, () => {
@@ -928,6 +935,53 @@ class IdsDatePicker extends Base {
   }
 
   /**
+   * Valid date validation extend validation mixin
+   */
+  #setDateValidation(): void {
+    if (this.validate?.includes('date')) {
+      this.#triggerField.addRule({
+        id: 'date',
+        type: 'error',
+        message: this.locale?.translate('InvalidDate'),
+        check: (input: any) => {
+          if (!input.value) return true;
+
+          const date: Date | undefined = this.locale.parseDate(
+            input.value,
+            this.format
+          );
+
+          return isValidDate(date);
+        }
+      });
+    }
+  }
+
+  /**
+   * Available date validation extend validation mixin
+   * Uses month view to define if date is available
+   */
+  #setAvailableDateValidation(): void {
+    if (this.validate?.includes('availableDate')) {
+      this.#triggerField.addRule({
+        id: 'availableDate',
+        type: 'error',
+        message: this.locale?.translate('UnavailableDate'),
+        check: (input: any) => {
+          if (!input.value) return true;
+
+          const date: Date | undefined = this.locale.parseDate(
+            input.value,
+            this.format
+          );
+
+          return isValidDate(date) && !this.#monthView?.isDisabledByDate(date);
+        }
+      });
+    }
+  }
+
+  /**
    * Focuses input or dropdown
    * @returns {void}
    */
@@ -1185,43 +1239,8 @@ class IdsDatePicker extends Base {
       this.#triggerField?.handleValidation();
     }
 
-    // Date validation extends validation mixin
-    if (val?.includes('date')) {
-      this.#triggerField.addRule({
-        id: 'date',
-        type: 'error',
-        message: 'Invalid Date',
-        check: (input: any) => {
-          if (!input.value) return true;
-
-          const date: Date | undefined = this.locale.parseDate(
-            input.value,
-            this.format
-          );
-
-          return isValidDate(date);
-        }
-      });
-    }
-
-    // Available date validation with month view method
-    if (val?.includes('availableDate')) {
-      this.#triggerField.addRule({
-        id: 'availableDate',
-        type: 'error',
-        message: 'Unavailable Date',
-        check: (input: any) => {
-          if (!input.value) return true;
-
-          const date: Date | undefined = this.locale.parseDate(
-            input.value,
-            this.format
-          );
-
-          return isValidDate(date) && !this.#monthView?.isDisabledByDate(date);
-        }
-      });
-    }
+    this.#setDateValidation();
+    this.#setAvailableDateValidation();
   }
 
   /**
