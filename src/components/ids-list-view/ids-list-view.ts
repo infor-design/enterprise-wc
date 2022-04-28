@@ -5,6 +5,8 @@ import { injectTemplate, stringToBool } from '../../utils/ids-string-utils/ids-s
 import IdsDataSource from '../../core/ids-data-source';
 import '../ids-virtual-scroll/ids-virtual-scroll';
 import Base from './ids-list-view-base';
+import '../ids-swappable/ids-swappable';
+import '../ids-swappable/ids-swappable-item';
 
 import styles from './ids-list-view.scss';
 
@@ -88,7 +90,6 @@ export default class IdsListView extends Base {
   #attachEventListeners() {
     // attaching both event listeners causes focus issues, so do it conditionally based on the sortable prop
     if (this.sortable) {
-      this.attachDragEventListeners(); // for focusing and dragging list items
       this.#addSortableStyles();
     } else {
       this.#attachClickListeners(); // for focusing list items
@@ -172,17 +173,16 @@ export default class IdsListView extends Base {
 
   listItemTemplateFunc() {
     const func = (item: any, index: number) => `
-      ${this.sortable ? `<ids-draggable axis="y">` : ''}
+      ${this.sortable ? `<ids-swappable-item>` : ''}
         <div
           part="list-item"
           role="listitem"
           tabindex="-1"
           index="${index}"
         >
-          ${this.sortable ? `<span></span>` : ``}
           ${this.itemTemplate(item)}
         </div>
-      ${this.sortable ? `</ids-draggable>` : ''}
+      ${this.sortable ? `</ids-swappable-item>` : ''}
     `;
 
     return func;
@@ -196,7 +196,9 @@ export default class IdsListView extends Base {
     return `
       <div class="ids-list-view">
         <div class="ids-list-view-body" role="list">
-          ${this.data.length > 0 ? this.data?.map(this.listItemTemplateFunc()).join('') : ''}
+          ${this.sortable ? `<ids-swappable>` : ''}
+            ${this.data.length > 0 ? this.data?.map(this.listItemTemplateFunc()).join('') : ''}
+          ${this.sortable ? `</ids-swappable>` : ''}
         </div>
       </div>
     `;
