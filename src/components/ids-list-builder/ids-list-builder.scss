@@ -35,14 +35,6 @@
         color: var(--ids-color-palette-slate-70);
       }
     }
-
-    .ids-list-view div[part='list-item']:hover:not(:focus):not([selected='selected']) {
-      background-color: var(--ids-color-palette-slate-60);
-    }
-
-    .ids-list-view div[part='list-item']:focus:not([selected='selected']) {
-      background-color: var(--ids-color-palette-slate-60);
-    }
   }
 
   // High Contrast theme
@@ -54,35 +46,11 @@
         color: var(--ids-color-palette-slate-20);
       }
     }
-
-    .ids-list-view div[part='list-item'] {
-      &:hover:not(:focus):not([selected='selected']) {
-        background-color: var(--ids-color-palette-slate-100);
-        color: white;
-      }
-
-      &:focus:not([selected='selected']) {
-        background-color: var(--ids-color-palette-slate-10);
-        color: white;
-      }
-
-      &[selected='selected'] {
-        background-color: var(--ids-color-palette-azure-90);
-      }
-
-      &:focus[selected='selected'] {
-        background-color: var(--ids-color-palette-azure-90);
-      }
-    }
   }
 
   .ids-list-view {
     overflow: auto;
     position: relative;
-
-    ids-draggable {
-      width: 100%;
-    }
 
     ids-input {
       &::part(input) {
@@ -117,31 +85,6 @@
         font-size: 24px;
         content: '\205e';
         cursor: move;
-      }
-
-      &[selected='selected'] {
-        background-color: var(--ids-color-palette-azure-60);
-        color: white;
-        outline: none;
-      }
-
-      &:focus[selected='selected'] {
-        background-color: var(--ids-color-palette-azure-60);
-        color: white;
-        border: 1px solid var(--ids-color-palette-azure-40);
-        box-shadow: 0 0 4px 1px rgb(54 138 192 / 0.3);
-        outline: none;
-      }
-
-      &:hover:not(:focus):not([selected='selected']) {
-        background-color: var(--ids-color-palette-azure-10); // light
-      }
-
-      &:focus:not([selected='selected']) {
-        background-color: var(--ids-color-palette-azure-10);
-        border: 1px solid var(--ids-color-palette-azure-40);
-        box-shadow: 0 0 4px 1px rgb(54 138 192 / 0.3);
-        outline: none;
       }
 
       ids-text::part(text) {
