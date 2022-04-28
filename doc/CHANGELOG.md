@@ -47,7 +47,8 @@ For more details on breaking changes see each component in the individual README
   make it a sticky/bar indicator that sticks to the top of a component via the `sticky` flag.
   - Can make the indicator determinate by providing a `progress` attribute with a number representing the percentage
   from 0-100 that the indicator is representing a process completed so far.
-- `[Menu Button]` The menu button component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-menu-button/README.md#converting-from-previous-versions for details. ([#173](https://github.com/infor-design/enterprise-wc/issues/173))
+- `[Mask]` The mask component has been changed to a mixin and added to IdsInput components. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-mask/README.md#converting-from-previous-versions-breaking-changes) for details. ([#125](https://github.com/infor-design/enterprise-wc/issues/125))
+- `[Menu Button]` The menu button component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-menu-button/README.md#converting-from-previous-versions-breaking-changes) for details. ([#173](https://github.com/infor-design/enterprise-wc/issues/173))
 - `[Message]` The Message is now a web component called ids-message
   - The Message component now extends the Modal component, containing the same properties and methods.
   - Modal Buttons, Title, Status, and Message can be changed via API
