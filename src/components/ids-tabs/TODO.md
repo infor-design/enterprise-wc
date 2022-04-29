@@ -1,13 +1,13 @@
-# Tabs TODO's
+# Ids Tabs TODOs
 
-## Phase 1
+Keep this file in sync with #683
+## Major
 
-Tentative for Phase 1 but certain things e.g. overflows may need to  get done in Phase 2 since they are not directly functional depending on time.
+- [ ] Add overflow detection feature (may need design review?)
+- [ ] Review current solution for potential optimization (remove extraneous elements and looping)
+- [ ] `ids-tab-divider`: Improve accessibility + add aXe tests
+## Minor
 
-- [] ids-tab-divider: accessibility + axe tests
-- [] detect overflows
-- [] edge case: when user removes an option (either via through React/Angular template or JS) that was selected, provide warning
-- [] test: for keyboard events
-- [] test: figure out how to get coveralls + Jest to detect certain parts of code
-- [] test: figure out why ids-tab.selected = false doesn't trigger in Jest
-- [x] fix an issue with double firing of change
+- [ ] test: for keyboard events
+- [ ] test: figure out how to get coveralls + Jest to detect certain parts of code
+- [ ] test: figure out why ids-tab.selected = false doesn't trigger in Jest
