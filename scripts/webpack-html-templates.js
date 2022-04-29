@@ -25,6 +25,7 @@ const WebpackHtmlExamples = WebpackHtmlTemplates.map((template) => {
   if (chunkName === 'ids-demo-app') {
     chunkList.push('ids-card');
     chunkList.push('ids-block-grid');
+    chunkList.push('ids-hyperlink');
 
     return new HTMLWebpackPlugin({
       template: `./${template}`,

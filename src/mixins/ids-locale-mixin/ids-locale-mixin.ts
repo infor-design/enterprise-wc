@@ -1,3 +1,4 @@
+import IdsLocale from '../../components/ids-locale/ids-locale';
 import { attributes } from '../../core/ids-attributes';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
@@ -33,7 +34,7 @@ const IdsLocaleMixin = (superclass: any) => class extends superclass {
    * Provides access to a global `locale` instance
    * @returns {any} link to the global locale instance
    */
-  get locale() {
+  get locale(): IdsLocale {
     this.attachLocale();
     return this.state.locale;
   }

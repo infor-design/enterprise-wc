@@ -176,6 +176,18 @@ describe('IdsBlockgridItem Component', () => {
     expect(blockgridItemEl2.selected).toBe('true');
   });
 
+  it('can set tabbable setting', () => {
+    const blockgridItemEl2 = new IdsBlockgridItem();
+    blockgridEl.appendChild(blockgridItemEl2);
+    expect(blockgridItemEl2.tabbable).toBe(true);
+
+    blockgridItemEl2.tabbable = false;
+    expect(blockgridItemEl2.tabbable).toBe(false);
+
+    blockgridItemEl2.tabbable = null;
+    expect(blockgridItemEl2.tabbable).toBe(true);
+  });
+
   it('should fire selectionchanged event', async () => {
     const mockCallback = jest.fn((x) => {
       expect(x.detail.elem).toEqual(blockgridItemEl);

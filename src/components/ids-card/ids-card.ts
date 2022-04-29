@@ -282,13 +282,16 @@ export default class IdsCard extends Base {
    * @param {number} height height in pixels
    */
   set height(height) {
+    const link = this.container.querySelector('ids-hyperlink')?.container;
     if (height) {
       this.setAttribute(attributes.HEIGHT, height);
-      this.querySelector('[slot]').style.height = `${height}px`;
+      this.container.style.height = `${height}px`;
+      if (link) link.style.height = `${height}px`;
       this.querySelector('[slot]').classList.add('fixed-height');
     } else {
       this.removeAttribute(attributes.HEIGHT);
-      this.querySelector('[slot]').style.height = '';
+      this.container.style.height = '';
+      if (link) link.container.style.height = '';
       this.querySelector('[slot]').classList.remove('fixed-height');
     }
   }

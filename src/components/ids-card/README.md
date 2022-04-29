@@ -69,10 +69,6 @@ A card can be an actionable with the behavior of a button.
 
 - Depending on the container in the responsive grid, the width of the card follows the layout of the grid. However, when using in a home page a special algorithm is used to both keep the tab order and fill in the gaps most efficiently depending on the card dimensions.
 
-## Designs
-
-[Figma Design Specs](https://www.figma.com/files/project/2768042/Infor-Design-System)
-
 ## Accessibility Guidelines
 
 - 1.4.1 Use of Color - Color is not used as the only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual element. Ensure the color tags that indicate state like OK, cancel, ect have other ways to indicate that information. This is failing.

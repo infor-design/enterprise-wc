@@ -259,11 +259,21 @@
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  height: 100px;
+  height: inherit;
   justify-content: center;
   padding: 0 8px;
   text-align: center;
   width: 100%;
+}
+
+:host([actionable][height]) .ids-card {
+  ids-hyperlink {
+    height: inherit;
+  }
+
+  ids-hyperlink::part(link) {
+    height: inherit;
+  }
 }
 
 // Handle Themes
