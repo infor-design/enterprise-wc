@@ -77,6 +77,10 @@ export default class IdsListView extends Base {
     return this.container.querySelectorAll('div[part="list-item"]');
   }
 
+  getAllSwappableItems(): any {
+    return this.container.querySelectorAll('ids-swappable-item');
+  }
+
   /**
    * Add the sortable class to the list items
    * @returns {void}
@@ -156,6 +160,7 @@ export default class IdsListView extends Base {
   getFocusedLi() {
     const savedFocusedLi = this.container.querySelector(`div[part="list-item"][index="${this.#focusedLiIndex}"]`);
     const val = savedFocusedLi ?? this.container.querySelector('div[part="list-item"][tabindex="0"]');
+    console.log(val);
     return val;
   }
 
@@ -486,7 +491,9 @@ export default class IdsListView extends Base {
    * @param {any} item the selected list item to toggle
    */
   toggleSelectedLi(item: any) {
-    if (item.tagName === 'DIV' && item.getAttribute('part') === 'list-item') {
+    if (
+      (item.tagName === 'DIV' && item.getAttribute('part') === 'list-item')
+      || item.tagName === 'IDS-SWAPPABLE-ITEM') {
       if (this.selectable === 'single') {
         const prevSelectedLi: HTMLLIElement = this.selectedLi;
         if (item !== prevSelectedLi && prevSelectedLi) {

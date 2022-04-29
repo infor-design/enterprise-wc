@@ -3,7 +3,6 @@ import IdsInput from '../ids-input/ids-input';
 import '../ids-toolbar/ids-toolbar';
 import Base from './ids-list-builder-base';
 import styles from './ids-list-builder.scss';
-// import IdsDraggable from '../ids-draggable/ids-draggable';
 import IdsSwappableItem from '../ids-swappable/ids-swappable-item';
 
 /**
@@ -116,7 +115,7 @@ export default class IdsListBuilder extends Base {
    */
   #attachEventListeners(): void {
     this.#attachClickListeners(); // for toolbar buttons
-    this.#attachKeyboardListeners(); // for selecting/editing list items
+    this.#attachKeyboardListeners();
   }
 
   /**
@@ -148,8 +147,10 @@ export default class IdsListBuilder extends Base {
    */
   #removeSelectedLiEditor(): void {
     this.offEvent('keyup', this.#selectedLiEditor);
-    this.#selectedLiEditor.parentNode.classList.remove('is-editing');
-    this.#selectedLiEditor.remove();
+    if (this.#selectedLiEditor) {
+      this.#selectedLiEditor.parentNode.classList.remove('is-editing');
+      this.#selectedLiEditor.remove();
+    }
     this.#selectedLiEditor = null;
   }
 
@@ -181,26 +182,10 @@ export default class IdsListBuilder extends Base {
 
         // update inner text on keyup
         this.onEvent('keyup', i, () => this.#updateSelectedLiWithEditorValue());
+        this.onEvent('blur', i, () => this.#unfocusAnySelectedLiEditor());
       } else {
         this.#selectedLiEditor.focus();
       }
-    }
-  }
-
-  /**
-   * Add/remove the editor in one function,
-   * used when `Enter` key is hit on a selected list item
-   * @private
-   * @returns {void}
-   */
-  #toggleEditor(): void {
-    if (this.selectedLi) {
-      if (!this.#selectedLiEditor) {
-        this.#insertSelectedLiWithEditor();
-      } else {
-        this.#unfocusAnySelectedLiEditor();
-      }
-      this.focusLi(this.selectedLi);
     }
   }
 
@@ -314,7 +299,7 @@ export default class IdsListBuilder extends Base {
    * @returns {void}
    */
   #attachKeyboardListeners(): void {
-    this.getAllLi().forEach((li: any) => {
+    this.getAllSwappableItems().forEach((li: any) => {
       this.#attachKeyboardListenersForLi(li);
     });
   }
@@ -328,25 +313,11 @@ export default class IdsListBuilder extends Base {
   #attachKeyboardListenersForLi(li: any): void {
     this.onEvent('keydown', li, (event: KeyboardEvent) => {
       switch (event.key) {
-        case 'Enter': // edits the list item
-          this.#toggleEditor();
-          break;
         case ' ': // selects the list item
           if (!this.#selectedLiEditor) {
             event.preventDefault(); // prevent container from scrolling
             this.toggleSelectedLi(li);
           }
-          break;
-        case 'Tab':
-          this.#unfocusAnySelectedLiEditor();
-          break;
-        case 'ArrowUp':
-          event.preventDefault();
-          this.#unfocusAnySelectedLiEditor();
-          break;
-        case 'ArrowDown':
-          event.preventDefault();
-          this.#unfocusAnySelectedLiEditor();
           break;
         default:
           break;
