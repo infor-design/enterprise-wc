@@ -40,3 +40,4 @@
 - [ ] Automation id's
 - [ ] Errors and Validation
 - [ ] Xss Tests
+- [ ] https://github.com/infor-design/enterprise/issues/6338

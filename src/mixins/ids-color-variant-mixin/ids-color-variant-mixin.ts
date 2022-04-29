@@ -50,9 +50,9 @@ const IdsColorVariantMixin = (superclass: any) => class extends superclass {
   }
 
   /**
-   * @param {string} val the name of the color variant to be applied
+   * @param {string | null} val the name of the color variant to be applied
    */
-  set colorVariant(val: string) {
+  set colorVariant(val: string | null) {
     let safeValue: any = null;
     if (typeof val === 'string') {
       safeValue = stripTags(val, '');
