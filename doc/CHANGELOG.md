@@ -102,13 +102,10 @@ For more details on breaking changes see each component in the individual README
   - Splitter orientation can be set by use of `axis` settings.
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
-- `[Swappable/Arange]` The arrange component was converted to a web component and renamed to ids-swappable. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-swappable/README.mds) for details. ([#487](https://github.com/infor-design/enterprise-wc/issues/#487))
-- `[SwapList]` The swaplist component has been changed to a web component and renamed to ids-swaplist.
-- `[Switch]` The Switch component has been changed to a web component and renamed to ids-switch.
-  - Markup has changed to a custom element `<ids-switch></ids-switch>`
-  - If using events, events are now plain JS events.
-  - Can now be imported as a single JS file and used with encapsulated styles
-- `[Swipe Action]` A new component that lets you swipe left or right and select an action.
+- `[Swappable/Arange]` The Arrange component was converted to a web component and renamed to ids-swappable. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-swappable/README.md) for details. ([#487](https://github.com/infor-design/enterprise-wc/issues/487))
+- `[SwapList]` The SwapList component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-swaplist/README.md) for details. ([#368](https://github.com/infor-design/enterprise-wc/issues/368))
+- `[Swipe Action]` A new component that lets you swipe left or right and select an action. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-swipe-action/README.md) for details. ([#133](https://github.com/infor-design/enterprise-wc/issues/133))
+- `[Switch]` The Switch component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-switch/README.md#converting-from-previous-versions-breaking-changes) for details.([#169](https://github.com/infor-design/enterprise-wc/issues/169))
 - `[Tabs]` The Tabs component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-tabs/README.md#converting-from-previous-versions-breaking-changes) for details.([#120](https://github.com/infor-design/enterprise-wc/issues/120))
 - `[Tags]` The Tag component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-tag/README.md#converting-from-previous-versions-breaking-changes) for details. *(N/A)*
 - `[Textarea]` The Textarea component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-time-picker/README.md#converting-from-previous-versions-breaking-changes) for details. ([#162](https://github.com/infor-design/enterprise-wc/issues/162))
