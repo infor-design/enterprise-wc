@@ -19,6 +19,8 @@
 - [ ] Tooltips [example](https://main-enterprise.demo.design.infor.com/components/datagrid/tooltips.html)
 - [ ] Tree [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-tree.html)
 - [ ] Save Settings [example](https://main-enterprise.demo.design.infor.com/components/datagrid/test-save-settings.html)
+- [ ] Fix icon sizes on http://localhost:4300/ids-data-grid/filter.html
+- [ ] E2E tests for each example
 
 ## Minor
 
@@ -38,3 +40,4 @@
 - [ ] Automation id's
 - [ ] Errors and Validation
 - [ ] Xss Tests
+- [ ] https://github.com/infor-design/enterprise/issues/6338

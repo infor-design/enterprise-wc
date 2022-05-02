@@ -54,19 +54,15 @@ The IDS Switch doesn't contain any interactions beyond a standard Checkbox HTMLI
 - <kbd>Tab</kbd> and <kbd>Shift Tab</kbd> moves focus into the switch to/from the next focusable item in the tab order.
 - <kbd>Space</kbd> toggle the checked/unchecked state.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-### Converting from 4.x
+**3.x to 4.x**
 
-The IDS Switch component is now a WebComponent. Instead of using classes to define, it is done directly:
+- Switch was implemented in v4.0.0
+- Switch can be invoked with `$('#my-element').switch()`.
 
-```html
-<!-- 4.x switch example -->
-<div class="switch">
-  <input type="checkbox" checked="true" id="allow-notifications" class="switch" />
-  <label for="allow-notifications">Allow notifications</label>
-</div>
+**4.x to 5.x**
 
-<!-- this is the same switch using the WebComponent -->
-<ids-switch label="Allow notifications" checked="true"></ids-switch>
-```
+- Markup has changed to a custom element `<ids-switch></ids-switch>`
+- If using events, events are now plain JS events.
+- Can now be imported as a single JS file and used with encapsulated styles

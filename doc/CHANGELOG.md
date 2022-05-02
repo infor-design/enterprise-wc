@@ -26,41 +26,22 @@ For more details on breaking changes see each component in the individual README
 - `[Editor]` The Editor component is now a web component called `ids-editor`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-editor/README.md#converting-from-previous-versions for details. ([#350](https://github.com/infor-design/enterprise-wc/issues/350))
 - `[EmptyMessage]` The EmptyMessage component is now a web component called `ids-empty-message`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-empty-message`/README.md#converting-from-previous-versions for details. ([#281](https://github.com/infor-design/enterprise-wc/issues/281))
 - `[ErrorPage]` The ErrorPage component is now a web component called `ids-error-page`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-error-page/README.md#converting-from-previous-versions for details. ([#352](https://github.com/infor-design/enterprise-wc/issues/352))
-- `[Fieldset]` The fieldset component has been changed to a web component `ids-fieldset` ([#138](https://github.com/infor-design/enterprise-wc/issues/138))
-  - Markup has changed to a custom element `<ids-fieldset></ids-fieldset>`
-  - Can now be imported as a single JS file and used with encapsulated styles.
-- `[Header]` Created an ids header web component. The <ids-header></ids-header> custom element has a color attribute that can be applied to personalize the background color.
-- `[Hierarchy]` The Hierarchy component has been changed to a web component and use with `ids-hierarchy`, `ids-hierarchy-item` and `ids-hierarchy-legend`.
-- `[HomePage]` The HomePage component has been changed to a web component and use with ids-home-page.
-  - Markup has changed to a custom element `<ids-home-page></ids-home-page>`
-  - If using events, events are now plain JS events.
-  - Can now be imported as a single JS file and used with encapsulated styles
-- `[Icons]` The icons are now a web component called ids-icon. You no longer need the huge block of svg in the page
-  - The icon and size are set via properties/attributes
-  - Can now be imported as a single JS file and used with encapsulated styles
-  - Can now display notification badges
-  - has new sizing options
-  - can now be used to display empty-message options
-- `[Input]` The Input component has been changed to a web component and renamed to ids-input.
-  - Markup has changed to a custom element `<ids-input></ids-input>`
-  - If using events, events are now plain JS events.
-  - Can now be imported as a single JS file and used with encapsulated styles
-  - Can now be use variation of sizes (width/height)
-  - If using a clearable X on the input the x is now tabbable by default for accessibility
-- `[ListView]` The List View component has been changed to a web component and renamed to ids-list-view.
-  - If using properties/settings these are now attributes.
-  - Markup has changed to a custom element `<ids-list-view></ids-list-view>`
-  - If using events events are now plain JS events for example
-  - The template is now a template element that uses simple string substitution
-  - Can now be imported as a single JS file and used with encapsulated styles
-- `[ListBuilder]` The List Builder component has been changed to a web component and renamed to ids-list-builder.
-- `[LoadingIndicator]` The Busy Indicator component has been changed to a web component and renamed to ids-loading-indicator.
-  - Markup has changed to a custom element `<ids-loading-indicator></ids-loading-indicator>`
-  - Can now be imported as a single JS file and used with encapsulated styles
-  - Can change the type of indicator from Circular to Linear by applying a `linear` attribute flag, or
-  make it a sticky/bar indicator that sticks to the top of a component via the `sticky` flag.
-  - Can make the indicator determinate by providing a `progress` attribute with a number representing the percentage
-  from 0-100 that the indicator is representing a process completed so far.
+- `[ExpandableArea]` The Fieldset component is now a web component called `ids-expandable-area`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-expandable-area/README.md#converting-from-previous-versions for details. ([#168](https://github.com/infor-design/enterprise-wc/issues/168))
+- `[Fieldset]` The Fieldset component is now a web component called `ids-fieldset`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-fieldset/README.md#converting-from-previous-versions for details. ([#138](https://github.com/infor-design/enterprise-wc/issues/138))
+- `[Header]` The Header component is now a web component called `ids-header`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-header/README.md#converting-from-previous-versions for details. ([#134](https://github.com/infor-design/enterprise-wc/issues/134))
+- `[Hidden/Visibility]` The visibility classes are now a web component called `ids-hidden`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-hidden/README.md#converting-from-previous-versions for details. ([#405](https://github.com/infor-design/enterprise-wc/issues/405))
+- `[Hierarchy]` The Hierarchy component is now a web component called `ids-hierarchy`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-hierarchy/README.md#converting-from-previous-versions for details. ([#331](https://github.com/infor-design/enterprise-wc/issues/331))
+- `[HomePage]` The HomePage component is now a web component called `ids-home-page`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-home-page/README.md#converting-from-previous-versions for details. ([#313](https://github.com/infor-design/enterprise-wc/issues/313))
+- `[Hyperlink]` The Hyperlink component is now a web component called `ids-hyperlink`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-hyperlink/README.md#converting-from-previous-versions for details. ([#137](https://github.com/infor-design/enterprise-wc/issues/137))
+- `[Icons]` The icon component is now a web component called `ids-icon`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-icon/README.md#converting-from-previous-versions for details. ([#581](https://github.com/infor-design/enterprise-wc/issues/581))
+- `[Image]` The image css component is now a web component called `ids-image`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-image/README.md#converting-from-previous-versions for details. ([#360](https://github.com/infor-design/enterprise-wc/issues/360))
+- `[Input]` The Input component is now a web component called `ids-input`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-image/README.md#converting-from-previous-versions for details. ([#171](https://github.com/infor-design/enterprise-wc/issues/171))
+- `[LayoutGrid]` The Grid component is now a web component called `ids-layout-grid`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-layout-grid/README.md#converting-from-previous-versions for details. ([#180](https://github.com/infor-design/enterprise-wc/issues/180))
+- `[ListBuilder]` The List Builder component is now a web component called `ids-list-builder`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-list-builder/README.md#converting-from-previous-versions for details. ([#365](https://github.com/infor-design/enterprise-wc/issues/365))
+- `[ListView]` The List View component is now a web component called `ids-list-view`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-list-view/README.md#converting-from-previous-versions for details. ([#174](https://github.com/infor-design/enterprise-wc/issues/174))
+- `[LoadingIndicator]` The busy indicator component is now a web component called `ids-loading-indicator`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-loading-indicator/README.md#converting-from-previous-versions for details. ([#187](https://github.com/infor-design/enterprise-wc/issues/187))
+- `[Locale]` The locale component has been changed to a mixin and added to many but not all components. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-locale/README.md#converting-from-previous-versions for details. ([#121](https://github.com/infor-design/enterprise-wc/issues/121))
+- `[Lookup]` The Lookup component is now a web component called `ids-lookup`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-lookup/README.md#converting-from-previous-versions for details. ([#149](https://github.com/infor-design/enterprise-wc/issues/149))
 - `[Menu Button]` The menu button component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-menu-button/README.md#converting-from-previous-versions for details. ([#173](https://github.com/infor-design/enterprise-wc/issues/173))
 - `[Message]` The Message is now a web component called ids-message
   - The Message component now extends the Modal component, containing the same properties and methods.
@@ -98,8 +79,6 @@ For more details on breaking changes see each component in the individual README
   - Markup has changed to a custom element `<ids-progress-bar></ids-progress-bar>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
-- `[Locale]` The locale component has been changed to a mixin and added to many but not all components. You can now change the locale on the `ids-container` element to have it propagate down.
-  - See the [locale components docs](../src/ids-locales/README.md) for more detailed change info the the "Converting from Previous Versions" sections
 - `[Radio]` The Radio component has been changed to a web component and use with ids-radio and ids-radio-group.
   - Markup has changed to a custom element `<ids-radio-group><ids-radio></ids-radio></ids-radio-group>`
   - If using events, events are now plain JS events.
@@ -118,50 +97,18 @@ For more details on breaking changes see each component in the individual README
   - Splitter orientation can be set by use of `axis` settings.
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
-- `[Swappable/Arange]` The arrange component was converted to a web component and renamed to ids-swappable. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-swappable/README.mds) for details. ([#487](https://github.com/infor-design/enterprise-wc/issues/#487))
-- `[SwapList]` The swaplist component has been changed to a web component and renamed to ids-swaplist.
-- `[Switch]` The Switch component has been changed to a web component and renamed to ids-switch.
-  - Markup has changed to a custom element `<ids-switch></ids-switch>`
-  - If using events, events are now plain JS events.
-  - Can now be imported as a single JS file and used with encapsulated styles
-- `[Swipe Action]` A new component that lets you swipe left or right and select an action.
-- `[Tabs]` The Tabs component has been changed to a web component and renamed to ids-tabs.
-  - Markup has changed to a custom element `<ids-tabs value=${selection}></ids-tabs>`
-  - content within the tabs are specified as `<ids-tab value=${selection-value}>`Tab Label/Content`</ids-tab>`
-- `[Tags]` The Tag component has been changed to a web component.
-  - If using events events are now plain JS events. beforetagremove, tagremove, aftertagremove
-  - If using properties/settings these are now attributes: dismissible, color
-  - Markup has changed to a custom element `<ids-tag color="error">Text</ids-tag>`
-  - Can now be imported as a single JS file and used with encapsulated styles
-- `[Textarea]` The Textarea component has been changed to a web component and renamed to ids-textarea.
-  - Markup has changed to a custom element `<ids-textarea></ids-textarea>`
-  - If using events, events are now plain JS events.
-  - Can now be imported as a single JS file and used with encapsulated styles
-  - If using a clearable X on the textarea the x is now tabbable by default for accessibility
-- `[Toast]` The Toast component has been changed to a web component and renamed to ids-toast.
-  - Markup is now a custom element `<ids-toast></ids-toast>`
-  - If using events, events are now plain JS events.
-  - Can now be imported as a single JS file and used with encapsulated styles
-- `[Toolbar]` The Toolbar component has been changed to a web component.
-  - Markup is now a custom element `<ids-toolbar></ids-toolbar>`
-  - There is no longer a "Toolbar Item" component, instead use standard components directly.
-  - Toolbar Sections are now codified as components `<ids-toolbar-section>`
-  - The More Actions Button is now a codified component `<ids-toolbar-more-actions>`
-  - Toolbar can be tabbable or not
-- `[Tooltip]` The Tooltip component has been changed to a web component.
-  - Markup is now a custom element `<ids-tooltip></ids-tooltip>`
-  - There is no longer a "KeepOpen" setting, instead add a component to the page and use `visible=true`
-  - Tooltip can be used as a mixin or standalone component
-  - Tooltip is no longer shared with popups so all options related to that are removed
-  - Error Tooltips are removed/not needed at this time
-  - attachToBody option is removed/not needed at this time
-  - Content can now be set with `tooltipElem.textContent`
-  - Instead of open and close use `tooltipElem.visible=true`
-  - After show event was not needed as its the same as show so this is removed
-- `[Tree]` The Tree component has been changed to a web component and use with ids-tree and ids-tree-node.
-  - Markup has changed to a custom element `<ids-tree><ids-tree-node></ids-tree-node></ids-tree>`
-  - If using events, events are now plain JS events.
-  - Can now be imported as a single JS file and used with encapsulated styles
+- `[Swappable/Arange]` The Arrange component was converted to a web component and renamed to ids-swappable. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-swappable/README.md) for details. ([#487](https://github.com/infor-design/enterprise-wc/issues/487))
+- `[SwapList]` The SwapList component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-swaplist/README.md) for details. ([#368](https://github.com/infor-design/enterprise-wc/issues/368))
+- `[Swipe Action]` A new component that lets you swipe left or right and select an action. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-swipe-action/README.md) for details. ([#133](https://github.com/infor-design/enterprise-wc/issues/133))
+- `[Switch]` The Switch component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-switch/README.md#converting-from-previous-versions-breaking-changes) for details.([#169](https://github.com/infor-design/enterprise-wc/issues/169))
+- `[Tabs]` The Tabs component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-tabs/README.md#converting-from-previous-versions-breaking-changes) for details.([#120](https://github.com/infor-design/enterprise-wc/issues/120))
+- `[Tags]` The Tag component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-tag/README.md#converting-from-previous-versions-breaking-changes) for details. *(N/A)*
+- `[Textarea]` The Textarea component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-time-picker/README.md#converting-from-previous-versions-breaking-changes) for details. ([#162](https://github.com/infor-design/enterprise-wc/issues/162))
+- `[Time Picker]` The Time Picker component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-time-picker/README.md#converting-from-previous-versions-breaking-changes) for details. ([#151](https://github.com/infor-design/enterprise-wc/issues/151))
+- `[Toast]` The Toast component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-toast/README.md#converting-from-previous-versions-breaking-changes) for details. ([#129](https://github.com/infor-design/enterprise-wc/issues/129))
+- `[Toolbar]` The Toolbar component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-toolbar/README.md#converting-from-previous-versions-breaking-changes) for details. ([#163](https://github.com/infor-design/enterprise-wc/issues/163))
+- `[Tooltip]` The Tooltip component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-tooltip/README.md#converting-from-previous-versions-breaking-changes) for details. ([#124](https://github.com/infor-design/enterprise-wc/issues/124))
+- `[Tree]` The Tree component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-treemap/README.md#converting-from-previous-versions-breaking-changes) for details. ([#235](https://github.com/infor-design/enterprise-wc/issues/235))
 - `[Treemap]` The Treemap component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-treemap/README.md#converting-from-previous-versions-breaking-changes) for details. ([#369](https://github.com/infor-design/enterprise-wc/issues/369))
 - `[Trigger Field]` A new trigger field component has been added. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-trigger-field/README.md) for details. ([#178](https://github.com/infor-design/enterprise-wc/issues/178))
 - `[Upload]` The file upload component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-upload/README.md#converting-from-previous-versions-breaking-changes) for details. ([#166](https://github.com/infor-design/enterprise-wc/issues/166))

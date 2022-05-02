@@ -1,19 +1,21 @@
 // Supporting components
-import IdsDropdown from '../ids-dropdown';
+import '../ids-dropdown';
 import statesJSON from '../../../assets/data/states.json';
 
-document.querySelector('#dropdown-1')?.addEventListener('change', (e) => {
+const dropdown: any = document.querySelector('#dropdown-1');
+dropdown?.addEventListener('change', (e: any) => {
   console.info(`Value Changed to ${e.target.value}: ${e.target.selectedOption.textContent}`);
 });
 
-document.querySelector('#dropdown-1')?.addEventListener('focus', (e) => {
+dropdown?.addEventListener('focus', (e: any) => {
   console.info(`Focus Changed to ${e.target}`);
 });
 
-const dropdownAsync = document.querySelector('#dropdown-7');
+const dropdownAsync: any = document.querySelector('#dropdown-7');
 if (dropdownAsync) {
   dropdownAsync.beforeShow = async function beforeShow() {
-    const res = await fetch(statesJSON);
+    const url: any = statesJSON;
+    const res = await fetch(url);
     const data = await res.json();
     return data;
   };

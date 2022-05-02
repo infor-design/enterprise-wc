@@ -1,10 +1,30 @@
 @import '../../core/ids-base';
 @import '../ids-input/ids-input';
 
+.ids-trigger-field-slot-trigger-start,
 ::slotted(*[slot='trigger-start']:first-of-type:not([inline])) {
   @include ml-4();
 }
 
+.ids-trigger-field-slot-trigger-end,
 ::slotted(*[slot='trigger-end']:last-of-type:not([inline])) {
   @include mr-4();
+}
+
+.ids-input[version='new'][mode='light'].color-variant-alternate-formatter,
+.ids-input:not([mode]).color-variant-alternate-formatter,
+.ids-input[version='new'][mode='dark'].color-variant-alternate-formatter,
+.ids-input[version='new'][mode='contrast'].color-variant-alternate-formatter,
+.ids-input[version='classic'][mode='light'].color-variant-alternate-formatter,
+.ids-input[version='classic'][mode='dark'].color-variant-alternate-formatter,
+.ids-input[version='classic'][mode='contrast'].color-variant-alternate-formatter {
+  &:focus-within {
+    .field-container {
+      box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-60);
+    }
+
+    .ids-input-field {
+      box-shadow: none;
+    }
+  }
 }

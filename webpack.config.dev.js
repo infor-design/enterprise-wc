@@ -1,13 +1,14 @@
 const path = require('path');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const demoEntry = require('./scripts/webpack-dev-entry');
+const handleUpload = require('./scripts/handle-upload');
 const WebpackHtmlExamples = require('./scripts/webpack-html-templates');
 
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
 
 module.exports = {
-  entry: () => demoEntry(),
+  entry: demoEntry(),
   output: {
     chunkFormat: 'module',
     path: path.resolve(__dirname, './build/development'),
@@ -21,6 +22,10 @@ module.exports = {
     splitChunks: {
       chunks: 'async'
     },
+  },
+  resolve: {
+    extensions: ['.js', '.ts'],
+    modules: ['node_modules']
   },
   infrastructureLogging: {
     level: 'error' // or 'verbose' if any debug info is needed
@@ -39,25 +44,22 @@ module.exports = {
     static: {
       directory: path.resolve(__dirname, `./build/demos/${isProduction ? 'production' : 'development'}`),
       watch: false
-    }
+    },
+    // For fake file upload behavior
+    setupMiddlewares: handleUpload
   },
   devtool: 'cheap-module-source-map',
   module: {
     rules: [
       {
+        test: /\.ts?$/,
+        use: 'ts-loader',
+        exclude: [/node_modules/]
+      },
+      {
         test: /\.(png|jpe?g|gif|svg|json|css|pdf|csv|xml)$/i,
         exclude: [/node_modules/],
         type: 'asset/resource',
-      },
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            // Options are all in babel.config.js
-            loader: 'babel-loader'
-          }
-        ]
       },
       {
         test: /\.scss$/,
@@ -69,6 +71,11 @@ module.exports = {
           'sass-to-string',
           {
             loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                outputStyle: 'expanded'
+              }
+            }
           }
         ],
       },
@@ -83,7 +90,6 @@ module.exports = {
             loader: MiniCssExtractPlugin.loader,
             options: {
               attributes: {
-                id: 'demo-styles',
                 nonce: '0a59a005' // @TODO needs to match a global nonce instance
               }
             }

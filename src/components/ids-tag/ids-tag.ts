@@ -1,6 +1,6 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
-import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-tag-base';
 
@@ -37,12 +37,11 @@ export default class IdsTag extends Base {
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<string> {
     return [
       attributes.COLOR,
       attributes.CLICKABLE,
       attributes.DISMISSIBLE,
-      attributes.DISABLED,
       attributes.MODE,
       attributes.VERSION
     ];
@@ -52,7 +51,7 @@ export default class IdsTag extends Base {
    * Create the Template for the contents
    * @returns {string} The template
    */
-  template() {
+  template(): string {
     return '<span class="ids-tag" part="tag"><slot></slot></span>';
   }
 
@@ -61,7 +60,7 @@ export default class IdsTag extends Base {
    * @param {string} value The color value, this can be not provided,
    * secondary (white), error, success, danger, caution or a hex code with the #
    */
-  set color(value) {
+  set color(value: string) {
     if (value) {
       this.setAttribute('color', value);
       if (value.substring(0, 1) === '#') {
@@ -70,6 +69,7 @@ export default class IdsTag extends Base {
         return;
       }
 
+      this.container.classList.remove('secondary', 'info', 'success', 'warning', 'error');
       this.container.classList.add(value);
       return;
     }
@@ -80,25 +80,20 @@ export default class IdsTag extends Base {
     this.container.style.color = '';
   }
 
-  get color() { return this.getAttribute('color'); }
-
-  set disabled(value) {
-    this.setAttribute('disabled', value);
-  }
-
-  get disabled() {
-    return this.getAttribute('disabled');
-  }
+  get color(): string { return this.getAttribute('color'); }
 
   /**
    * Check if an icon exists if not add it
    * @param {string} iconName The icon name to check
    * @private
    */
-  #appendIcon(iconName) {
+  #appendIcon(iconName: string) {
     const icon = this.querySelector(`[icon="${iconName}"]`);
     if (!icon) {
-      this.insertAdjacentHTML('beforeend', `<ids-icon part="icon" icon="${iconName}" size="xsmall" class="ids-icon"></ids-icon>`);
+      this.insertAdjacentHTML(
+        'beforeend',
+        `<ids-icon part="icon" icon="${iconName}" size="xsmall" class="ids-icon"></ids-icon>`
+      );
       this.#attachEventHandlers();
     }
   }
@@ -108,7 +103,7 @@ export default class IdsTag extends Base {
    * @param {string} iconName The icon name to check
    * @private
    */
-  #removeIcon(iconName) {
+  #removeIcon(iconName: string) {
     const icon = this.querySelector(`[icon="${iconName}"]`);
     if (icon) {
       icon.remove();
@@ -119,8 +114,9 @@ export default class IdsTag extends Base {
    * If set to true the tag has an x to dismiss
    * @param {boolean|string} value true of false depending if the tag is dismissed
    */
-  set dismissible(value) {
-    if (value) {
+  set dismissible(value: boolean) {
+    const isDismissible = stringToBool(value);
+    if (isDismissible) {
       this.setAttribute('dismissible', value.toString());
       this.container.classList.add('focusable');
       this.container.setAttribute('tabindex', '0');
@@ -135,14 +131,15 @@ export default class IdsTag extends Base {
     this.container.classList.remove('focusable');
   }
 
-  get dismissible() { return this.getAttribute('dismissible'); }
+  get dismissible(): boolean { return stringToBool(this.getAttribute('dismissible')); }
 
   /**
    * If set to true the tag has focus state and becomes a clickable linnk
-   * @param {boolean|string} value true of false depending if the tag is clickable
+   * @param {boolean} value true of false depending if the tag is clickable
    */
-  set clickable(value) {
-    if (value) {
+  set clickable(value: boolean) {
+    const isClickable = stringToBool(value);
+    if (isClickable) {
       this.setAttribute('clickable', value.toString());
       this.container.classList.add('focusable');
       this.container.setAttribute('tabindex', '0');
@@ -155,22 +152,18 @@ export default class IdsTag extends Base {
     this.container.classList.remove('focusable');
   }
 
-  get clickable() { return this.getAttribute('clickable'); }
+  get clickable(): boolean { return this.getAttribute('clickable'); }
 
   /**
    * Establish Internal Event Handlers
    * @private
    * @returns {object} The object for chaining.
    */
-  #attachEventHandlers() {
+  #attachEventHandlers(): this {
     // Handle Clicking the x for dismissible
     const closeIcon = this.querySelector('ids-icon[icon="close"]');
     if (closeIcon) {
-      this.onEvent('click', closeIcon, () => {
-        if (!this.disabled) {
-          this.dismiss();
-        }
-      });
+      this.onEvent('click', closeIcon, () => this.dismiss());
     }
 
     // Ensure icon is always last
@@ -183,12 +176,6 @@ export default class IdsTag extends Base {
         isChanging = false;
       }
     });
-
-    this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', getClosest(this, 'ids-container'), () => {
-      this.setDirection();
-    });
-
     return this;
   }
 
@@ -197,14 +184,14 @@ export default class IdsTag extends Base {
    * @private
    * @returns {object} This API object for chaining
    */
-  #attachKeyboardListeners() {
-    if (this.dismissible && !this.disabled) {
+  #attachKeyboardListeners(): object {
+    if (this.dismissible) {
       this.listen(['Delete', 'Backspace'], this, () => {
         this.dismiss();
       });
     }
 
-    if (this.clickable && !this.disabled) {
+    if (this.clickable) {
       this.listen('Enter', this, () => {
         this.click();
       });
@@ -222,17 +209,26 @@ export default class IdsTag extends Base {
     }
 
     let canDismiss = true;
-    const response = (veto) => {
+    const response = (veto: any) => {
       canDismiss = !!veto;
     };
-    this.triggerEvent('beforetagremove', this, { bubbles: true, detail: { elem: this, response } });
+    this.triggerEvent('beforetagremove', this, { detail: { elem: this, response } });
 
     if (!canDismiss) {
       return;
     }
 
-    this.triggerEvent('tagremove', this, { bubbles: true, detail: { elem: this } });
+    this.triggerEvent('tagremove', this, { detail: { elem: this } });
     this.remove();
-    this.triggerEvent('aftertagremove', this, { bubbles: true, detail: { elem: this } });
+    this.triggerEvent('aftertagremove', this, { detail: { elem: this } });
   }
 }
+
+    if (closeIcon) {
+      this.onEvent('click', closeIcon, () => {
+        if (!this.disabled) {
+          this.dismiss();
+        }
+      });
+    const closeIcon = this.querySelector('ids-icon[icon="close"]');
+    }

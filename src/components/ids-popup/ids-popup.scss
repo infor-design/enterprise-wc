@@ -2,9 +2,16 @@
 @import './ids-popup-base';
 
 :host {
-  // Take the WebComponent out of document flow
-  position: absolute;
   display: block;
+  z-index: 3000;
+}
+
+:host([position-style='absolute']) {
+  position: absolute;
+}
+
+:host([position-style='fixed']) {
+  position: fixed;
 }
 
 // Viewport-centered Popup centering is changed
@@ -12,12 +19,28 @@
   position: static;
 }
 
+// When a popup is not visible, `aria-hidden="true"` is applied to the host element.
+// The element is still in document flow in this case, so we need to prevent clicks
+// from occuring inside the "invisible" Popup
+:host(:not([visible])) {
+  pointer-events: none;
+}
+
+// Host elements receive left/top animations
+:host([animated]) {
+  transition:
+    left $popup-transition-length $popup-transition-ease,
+    top $popup-transition-length $popup-transition-ease;
+}
+
 .ids-popup {
   @include antialiased();
-  @include z-3000();
 
-  display: none;
-  position: relative;
+  // This style is always applied when IdsPopup is not visible
+  // (goes hand-in-hand with `aria-hidden="true"` on the host element
+  &:not(.open) {
+    pointer-events: none;
+  }
 
   // Arrow definition
   .arrow {
@@ -50,8 +73,8 @@
     // Bottom Alignment
     &.bottom {
       border-top-width: 0;
-      left: calc(50% - 9px);
-      top: -9px;
+      left: calc(50% - 8px);
+      top: -8px;
 
       &::after {
         border-top-width: 0;
@@ -63,12 +86,12 @@
     // Left Alignment
     &.left {
       border-right-width: 0;
-      right: -9px;
-      top: calc(50% - 9px);
+      right: -8px;
+      top: calc(50% - 8px);
 
       &::after {
         border-right-width: 0;
-        left: -9px;
+        left: -8px;
         top: -8px;
       }
     }
@@ -76,8 +99,8 @@
     // Right Alignment
     &.right {
       border-left-width: 0;
-      left: -9px;
-      top: calc(50% - 9px);
+      left: -8px;
+      top: calc(50% - 8px);
 
       &::after {
         border-left-width: 0;
@@ -89,20 +112,15 @@
     // Top Alignment
     &.top {
       border-bottom-width: 0;
-      bottom: -9px;
-      left: calc(50% - 9px);
+      bottom: -8px;
+      left: calc(50% - 8px);
 
       &::after {
         border-bottom-width: 0;
         left: -8px;
-        top: -9px;
+        top: -8px;
       }
     }
-  }
-
-  // Actually renders the popup, but doesn't "unhide" it
-  &.visible {
-    display: block;
   }
 
   // Animates X/Y movement, fade in/out of the popup.
@@ -157,16 +175,6 @@
 
       transform: perspective(1000px) translate3d(0, 0, 0);
     }
-  }
-
-  // Position style: fixed
-  &.position-fixed {
-    @include fixed();
-  }
-
-  // Position style: absolute
-  &.position-absolute {
-    @include absolute();
   }
 
   // Position style: viewport (uses transforms)
@@ -239,11 +247,11 @@
     @include bg-white();
     @include text-slate-80();
 
-    border-color: var(--ids-color-border-lighter);
+    border-color: var(--ids-color-palette-slate-30);
     box-shadow: 0 2px 5px rgba(0 0 0 / 0.2);
 
     .arrow.bottom {
-      border-bottom-color: var(--ids-color-border-lighter);
+      border-bottom-color: var(--ids-color-palette-slate-30);
     }
 
     .arrow.bottom::after {
@@ -251,7 +259,7 @@
     }
 
     .arrow.left {
-      border-left-color: var(--ids-color-border-lighter);
+      border-left-color: var(--ids-color-palette-slate-30);
     }
 
     .arrow.left::after {
@@ -259,7 +267,7 @@
     }
 
     .arrow.right {
-      border-right-color: var(--ids-color-border-lighter);
+      border-right-color: var(--ids-color-palette-slate-30);
     }
 
     .arrow.right::after {
@@ -267,7 +275,7 @@
     }
 
     .arrow.top {
-      border-top-color: var(--ids-color-border-lighter);
+      border-top-color: var(--ids-color-palette-slate-30);
     }
 
     .arrow.top::after {

@@ -5,12 +5,12 @@ import IdsCheckbox from '../../src/components/ids-checkbox/ids-checkbox';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 
 describe('IdsCheckbox Component', () => {
-  let cb;
-  let container;
+  let cb: any;
+  let container: any;
 
   beforeEach(async () => {
     container = new IdsContainer();
-    const elem = new IdsCheckbox();
+    const elem: any = new IdsCheckbox();
     container.appendChild(elem);
     document.body.appendChild(container);
     cb = document.querySelector('ids-checkbox');
@@ -22,7 +22,7 @@ describe('IdsCheckbox Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsCheckbox();
+    const elem: any = new IdsCheckbox();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-checkbox').length).toEqual(1);
@@ -32,7 +32,7 @@ describe('IdsCheckbox Component', () => {
   it('should renders checked', () => {
     cb.checked = 'true';
     expect(cb.getAttribute('checked')).toEqual('true');
-    expect(cb.checked).toEqual(true);
+    expect(cb.checked).toEqual('true');
   });
 
   it('should dirty tracking', () => {
@@ -87,6 +87,7 @@ describe('IdsCheckbox Component', () => {
     expect(cb.getAttribute('label-audible')).toEqual('true');
     textEl = cb.shadowRoot.querySelector('ids-text');
     expect(textEl.getAttribute('audible')).toEqual('true');
+    expect(cb.template()).toMatchSnapshot();
 
     cb.labelAudible = 'false';
     expect(cb.getAttribute('label-audible')).toEqual('false');
@@ -151,7 +152,7 @@ describe('IdsCheckbox Component', () => {
     cb.label = 'test';
     cb.radioCheckbox = false;
     document.body.innerHTML = '';
-    const elem = new IdsCheckbox();
+    const elem: any = new IdsCheckbox();
     document.body.appendChild(elem);
     cb = document.querySelector('ids-checkbox');
     label = cb.labelEl.querySelector('.label-checkbox');
@@ -223,7 +224,7 @@ describe('IdsCheckbox Component', () => {
   });
 
   it('should dispatch native events', () => {
-    const events = ['focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
+    const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       let response = null;
       cb.addEventListener(evt, () => {
@@ -238,13 +239,13 @@ describe('IdsCheckbox Component', () => {
   it('should remove events', () => {
     cb.input = null;
     document.body.innerHTML = '';
-    const elem = new IdsCheckbox();
+    const elem: any = new IdsCheckbox();
     document.body.appendChild(elem);
     cb = document.querySelector('ids-checkbox');
 
     cb.attachCheckboxChangeEvent('remove');
     cb.attachNativeEvents('remove');
-    const events = ['focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
+    const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       let response = null;
       cb.addEventListener(`trigger${evt}`, () => {
@@ -272,7 +273,7 @@ describe('IdsCheckbox Component', () => {
     expect(rootEl.classList).toContain('horizontal');
     expect(cb.getAttribute('horizontal')).toEqual('true');
     expect(cb.getAttribute('checked')).toEqual('true');
-    expect(cb.checked).toEqual(true);
+    expect(cb.checked).toEqual('true');
     expect(cb.getAttribute('indeterminate')).toEqual('true');
   });
 

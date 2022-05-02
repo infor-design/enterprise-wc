@@ -12,11 +12,15 @@
   }
 
   .ids-list-view-body {
+    margin: 0;
+    padding: 0;
+
     &:focus {
       @include border-azure-40();
     }
 
-    div[part='list-item'] {
+    div[part='list-item'],
+    li {
       @include list-none();
       @include py-12();
       @include px-20();
@@ -35,9 +39,10 @@
 
       &.sortable:hover::before {
         position: absolute;
-        left: 0;
-        transform: translate(75%, 0);
+        left: 3px;
+        transform: translate(50%, 0);
         font-size: 24px;
+        margin-top: -3px;
         content: '⁞';
         cursor: move;
       }
@@ -71,7 +76,8 @@
 }
 
 // Handle Themes
-.ids-list-view[mode='light'] div[part='list-item'] {
+.ids-list-view[mode='light'] div[part='list-item'],
+.ids-list-view:not([mode]) div[part='list-item'] {
   @include bg-white();
 }
 

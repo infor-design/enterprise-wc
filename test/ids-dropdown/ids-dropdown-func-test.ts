@@ -7,17 +7,17 @@ import wait from '../helpers/wait';
 import processAnimFrame from '../helpers/process-anim-frame';
 
 import IdsDropdown from '../../src/components/ids-dropdown/ids-dropdown';
-import IdsListBox from '../../src/components/ids-list-box/ids-list-box';
-import IdsListBoxOption from '../../src/components/ids-list-box/ids-list-box-option';
-import IdsTriggerField from '../../src/components/ids-trigger-field/ids-trigger-field';
+import '../../src/components/ids-list-box/ids-list-box';
+import '../../src/components/ids-list-box/ids-list-box-option';
+import '../../src/components/ids-trigger-field/ids-trigger-field';
 import states from '../../src/assets/data/states.json';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 
 describe('IdsDropdown Component', () => {
-  let dropdown;
-  let container;
+  let dropdown: any;
+  let container: any;
 
-  const createFromTemplate = (innerHTML) => {
+  const createFromTemplate = (innerHTML: any) => {
     dropdown?.remove();
     container?.remove();
 
@@ -51,12 +51,12 @@ describe('IdsDropdown Component', () => {
   });
 
   it('renders empty dropdown with no errors', () => {
+    document.body.innerHTML = '';
     const errors = jest.spyOn(global.console, 'error');
-    dropdown.remove();
-    const elem = new IdsDropdown();
+    const elem: any = new IdsDropdown();
     document.body.appendChild(elem);
+    expect(document.querySelectorAll('ids-dropdown').length).toEqual(1);
     elem.remove();
-    expect(document.querySelectorAll('ids-dropdown').length).toEqual(0);
     expect(errors).not.toHaveBeenCalled();
   });
 
@@ -75,6 +75,7 @@ describe('IdsDropdown Component', () => {
   });
 
   it('can set readonly', () => {
+    dropdown.container.readonly = false;
     dropdown.readonly = true;
     expect(dropdown.readonly).toEqual(true);
     expect(dropdown.getAttribute('readonly')).toBeTruthy();
@@ -204,14 +205,14 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.getAttribute('disabled')).toEqual('true');
     expect(dropdown.getAttribute('readonly')).toBeFalsy();
     expect(dropdown.disabled).toEqual(true);
-    expect(dropdown.container.disabled).toEqual(true);
+    expect(dropdown.input.disabled).toEqual(true);
   });
 
   it('handles setting readonly', () => {
     dropdown.readonly = true;
     expect(dropdown.getAttribute('readonly')).toEqual('true');
     expect(dropdown.readonly).toEqual(true);
-    expect(dropdown.container.disabled).toEqual(false);
+    expect(dropdown.input.disabled).toEqual(false);
   });
 
   it('can change the label', () => {
@@ -224,7 +225,7 @@ describe('IdsDropdown Component', () => {
     dropdown.dirtyTracker = true;
     dropdown.value = 'opt3';
     expect(dropdown.dirty).toEqual({ original: 'Option Two' });
-    expect(dropdown.container.shadowRoot.querySelector('.icon-dirty')).toBeTruthy();
+    expect(dropdown.input.shadowRoot.querySelector('.icon-dirty')).toBeTruthy();
   });
 
   it('should be able to reset dirty indicator', () => {
@@ -237,7 +238,7 @@ describe('IdsDropdown Component', () => {
   it('should be able to set value', () => {
     dropdown.value = 'opt3';
     expect(dropdown.value).toEqual('opt3');
-    expect(dropdown.container.value).toEqual('Option Three');
+    expect(dropdown.input.value).toEqual('Option Three');
   });
 
   it('should be able to set value with selectedIndex', () => {
@@ -246,12 +247,12 @@ describe('IdsDropdown Component', () => {
     dropdown.selectedIndex = 2;
     expect(dropdown.selectedIndex).toEqual(2);
     expect(dropdown.value).toEqual('opt3');
-    expect(dropdown.container.value).toEqual('Option Three');
+    expect(dropdown.input.value).toEqual('Option Three');
 
     dropdown.selectedIndex = 'x'; // ignored
     expect(dropdown.selectedIndex).toEqual(2);
     expect(dropdown.value).toEqual('opt3');
-    expect(dropdown.container.value).toEqual('Option Three');
+    expect(dropdown.input.value).toEqual('Option Three');
   });
 
   it('should ignore null / bad selectedIndex', () => {
@@ -259,19 +260,19 @@ describe('IdsDropdown Component', () => {
     dropdown.selectedIndex = 'x'; // ignored
     expect(dropdown.selectedIndex).toEqual(1);
     expect(dropdown.value).toEqual('opt2');
-    expect(dropdown.container.value).toEqual('Option Two');
+    expect(dropdown.input.value).toEqual('Option Two');
   });
 
   it('should ignore null / bad value', () => {
     dropdown.value = 'opt3';
     expect(dropdown.value).toEqual('opt3');
-    expect(dropdown.container.value).toEqual('Option Three');
+    expect(dropdown.input.value).toEqual('Option Three');
 
     dropdown.value = null;
-    expect(dropdown.container.value).toEqual('Option Three');
+    expect(dropdown.input.value).toEqual('Option Three');
 
     dropdown.value = 'optx';
-    expect(dropdown.container.value).toEqual('Option Three');
+    expect(dropdown.input.value).toEqual('Option Three');
   });
 
   it('supports opening the list with open', async () => {
@@ -391,9 +392,31 @@ describe('IdsDropdown Component', () => {
 
   it('supports clicking input to open', async () => {
     await waitFor(() => expect(dropdown.container).toBeTruthy());
-
-    dropdown.container.click();
+    dropdown.input.shadowRoot.querySelector('.field-container').click();
+    await waitFor(() => expect(dropdown.popup.visible).toBeTruthy());
     expect(dropdown.popup.visible).toEqual(true);
+  });
+
+  it('should not open by clicking on label', async () => {
+    await waitFor(() => expect(dropdown.labelEl).toBeTruthy());
+    dropdown.labelEl.click();
+    await waitFor(() => expect(dropdown.popup.visible).toBeFalsy());
+    dropdown.input.shadowRoot.querySelector('.field-container').click();
+    await waitFor(() => expect(dropdown.popup.visible).toBeTruthy());
+    expect(dropdown.popup.visible).toEqual(true);
+  });
+
+  it('should not set icon if setting has-icon as false', async () => {
+    expect(dropdown.value).toEqual('opt2');
+    dropdown.trigger.click();
+
+    await wait(80);
+    dropdown.hasIcons = false;
+    dropdown.container.insertAdjacentHTML('beforeend', '<ids-icon icon="user-profile" slot="trigger-start"></ids-icon>');
+    dropdown.querySelectorAll('ids-list-box-option')[4].click();
+
+    await wait(80);
+    expect(dropdown.value).toEqual('opt5');
   });
 
   it('supports clicking to select', async () => {
@@ -577,12 +600,122 @@ describe('IdsDropdown Component', () => {
   });
 
   it('tab works correcty', async () => {
-    dropdown.container.focus();
-    expect(document.activeElement.id).toEqual('dropdown-1');
+    dropdown.input.focus();
+    expect((document.activeElement as any).id).toEqual('dropdown-1');
     const event = new KeyboardEvent('keydown', { key: 'Tab' });
     dropdown.dispatchEvent(event);
 
     // Not working right, not sure why?
-    expect(document.activeElement.id).toEqual('dropdown-1');
+    expect((document.activeElement as any).id).toEqual('dropdown-1');
+  });
+
+  it('should render field height', () => {
+    const heights = ['xs', 'sm', 'md', 'lg'];
+    const defaultHeight = 'md';
+    const className = (h: any) => `field-height-${h}`;
+    const checkHeight = (height: any) => {
+      dropdown.fieldHeight = height;
+
+      expect(dropdown.input.getAttribute('field-height')).toEqual(height);
+      expect(dropdown.container.classList).toContain(className(height));
+      heights.filter((h) => h !== height).forEach((h) => {
+        expect(dropdown.container.classList).not.toContain(className(h));
+      });
+    };
+
+    expect(dropdown.getAttribute('field-height')).toEqual(null);
+    heights.filter((h) => h !== defaultHeight).forEach((h) => {
+      expect(dropdown.container.classList).not.toContain(className(h));
+    });
+
+    expect(dropdown.container.classList).toContain(className(defaultHeight));
+    heights.forEach((h) => checkHeight(h));
+    dropdown.removeAttribute('field-height');
+    dropdown.removeAttribute('compact');
+
+    expect(dropdown.getAttribute('field-height')).toEqual(null);
+    heights.filter((h) => h !== defaultHeight).forEach((h) => {
+      expect(dropdown.container.classList).not.toContain(className(h));
+    });
+    dropdown.onFieldHeightChange();
+
+    expect(dropdown.container.classList).toContain(className(defaultHeight));
+  });
+
+  it('should set compact height', () => {
+    dropdown.compact = true;
+
+    expect(dropdown.hasAttribute('compact')).toBeTruthy();
+    expect(dropdown.container.classList.contains('compact')).toBeTruthy();
+    dropdown.compact = false;
+
+    expect(dropdown.hasAttribute('compact')).toBeFalsy();
+    expect(dropdown.container.classList.contains('compact')).toBeFalsy();
+  });
+
+  it('should set size', () => {
+    const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
+    const defaultSize = 'md';
+    const checkSize = (size: any) => {
+      dropdown.size = size;
+
+      expect(dropdown.getAttribute('size')).toEqual(size);
+      expect(dropdown.input.getAttribute('size')).toEqual(size);
+    };
+
+    expect(dropdown.getAttribute('size')).toEqual(null);
+    expect(dropdown.input.getAttribute('size')).toEqual(defaultSize);
+    sizes.forEach((s) => checkSize(s));
+    dropdown.size = null;
+
+    expect(dropdown.getAttribute('size')).toEqual(null);
+    expect(dropdown.input.getAttribute('size')).toEqual(defaultSize);
+  });
+
+  it('should set no margins', () => {
+    expect(dropdown.getAttribute('no-margins')).toEqual(null);
+    expect(dropdown.noMargins).toEqual(false);
+    expect(dropdown.input.getAttribute('no-margins')).toEqual(null);
+    dropdown.noMargins = true;
+
+    expect(dropdown.getAttribute('no-margins')).toEqual('');
+    expect(dropdown.noMargins).toEqual(true);
+    expect(dropdown.input.getAttribute('no-margins')).toEqual('');
+    dropdown.noMargins = false;
+
+    expect(dropdown.getAttribute('no-margins')).toEqual(null);
+    expect(dropdown.noMargins).toEqual(false);
+    expect(dropdown.input.getAttribute('no-margins')).toEqual(null);
+  });
+
+  it('should set values thru template', () => {
+    expect(dropdown.colorVariant).toEqual(undefined);
+    expect(dropdown.labelState).toEqual(null);
+    expect(dropdown.compact).toEqual(false);
+    expect(dropdown.noMargins).toEqual(false);
+    dropdown.colorVariant = 'alternate-formatter';
+    dropdown.labelState = 'collapsed';
+    dropdown.compact = true;
+    dropdown.noMargins = true;
+    dropdown.template();
+
+    expect(dropdown.colorVariant).toEqual('alternate-formatter');
+    expect(dropdown.labelState).toEqual('collapsed');
+    expect(dropdown.compact).toEqual(true);
+    expect(dropdown.noMargins).toEqual(true);
+
+    dropdown.compact = false;
+    dropdown.fieldHeight = 'lg';
+    dropdown.template();
+
+    expect(dropdown.fieldHeight).toEqual('lg');
+  });
+
+  it('fixes itself with an empty container', () => {
+    dropdown = createFromTemplate(
+      `<ids-dropdown id="dropdown-1" label="Normal Dropdown">
+       </ids-dropdown>`
+    );
+    expect(dropdown.container).toBeTruthy();
   });
 });

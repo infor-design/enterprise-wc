@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container id="test-ids-container" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+
+    <div id="test-container">
+      <ids-text font-size="12">Test Container</ids-text>
+    </div>
+
+    <section id="other-test-section">
+      <ids-text font-size="12" class="align-target" id="second-target">Secondary Target</ids-text>
+    </section>
+
+    <section id="another-test-section">
+      <ids-text font-size="12" class="align-target" id="test-container-target">Test Container Target</ids-text>
+    </section>
+
+    <section id="test-section">
+      <ids-text font-size="12" class="align-target" id="center-point">Center Point</ids-text>
+    </section>
+
+    <ids-popup id="test-popup" x="0" y="0" align="top, left" animated="true" visible="true" type="menu">
+      <div slot="content">
+        <div class="demo-popup">
+          <ids-text font-size="14" font-weight="bold">My Test Popup</ids-text>
+          <ids-button type="primary">This is Focusable</ids-button>
+        </div>
+      </div>
+    </ids-popup>
+
+    <section id="test-controls" class="fixed-bottom">
+      <ids-layout-grid auto="true">
+        <ids-layout-grid-cell>
+          <ids-radio-group id="align-targets" label="Alignment Targets:">
+            <ids-radio value="none" id="align-targets-option1" label="None (Use Coordinates)" checked="true"></ids-radio>
+            <ids-radio value="#center-point" id="align-targets-option2" label="Center Point"></ids-radio>
+            <ids-radio value="#second-target" id="align-targets-option3" label="Secondary Target"></ids-radio>
+            <ids-radio value="#test-container-target" id="align-targets-option4" label="Test Container Target"></ids-radio>
+          </ids-radio-group>
+          <ids-radio-group id="containment" label="Containment:">
+            <ids-radio value="none" id="containment-option1" label="Body Tag (default)" checked="true"></ids-radio>
+            <ids-radio value="ids-container" id="containment-option2" label="IdsContainer"></ids-radio>
+            <ids-radio value="test-container" id="containment-option3" label="Test Container"></ids-radio>
+          </ids-radio-group>
+        </ids-layout-grid-cell>
+
+        <ids-layout-grid-cell>
+          <ids-text>Alignment Edge Order: <span id="alignment-display">"center, bottom"</span></ids-text>
+          <ids-layout-grid auto="true">
+            <ids-layout-grid-cell>
+              <ids-radio-group id="x-alignments" label="X Alignment:">
+                <ids-radio value="left" id="x-alignments-option1" label="Left" checked="true"></ids-radio>
+                <ids-radio value="center" id="x-alignments-option2" label="Center"></ids-radio>
+                <ids-radio value="right" id="x-alignments-option3" label="Right"></ids-radio>
+              </ids-radio-group>
+            </ids-layout-grid-cell>
+            <ids-layout-grid-cell>
+              <ids-radio-group id="y-alignments" label="Y Alignment:">
+                <ids-radio value="top" id="y-alignments-option1" label="Top" checked="true"></ids-radio>
+                <ids-radio value="center" id="y-alignments-option2" label="Center"></ids-radio>
+                <ids-radio value="bottom" id="y-alignments-option3" label="Bottom"></ids-radio>
+              </ids-radio-group>
+            </ids-layout-grid-cell>
+          </ids-layout-grid>
+
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell>
+          <ids-text id="xy-controls">Coordinates</ids-text><br />
+          <ids-input id="x-control" value="0" label="X:" size="sm" compact></ids-input>
+          <ids-input id="y-control" value="0" label="Y:" size="sm" compact></ids-input>
+          <ids-checkbox id="xy-click-to-set-option" label="Click page to set coords"></ids-checkbox>
+          <ids-button type="secondary" id="xy-controls-reset">Reset</ids-button>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell>
+          <ids-text id="other-controls">Other</ids-text><br />
+          <ids-checkbox id="animated-option" label="Animated" checked="true"></ids-checkbox>
+          <ids-checkbox id="visible-option" label="Visible" checked="true"></ids-checkbox>
+          <ids-checkbox id="bleeds-option" label="Allow Bleeds"></ids-checkbox>
+        </ids-layout-grid-cell>
+      </ids-layout-grid>
+    </section>
+  </ids-container>
+</body>
+</html>

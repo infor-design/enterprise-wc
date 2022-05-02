@@ -37,11 +37,16 @@ An IdsFieldset inside a form element. Best practice is to use an IdsText element
 
 Field sets have a default responsive behavior to move from two columns to one at our mobile breakpoints. The behavior is not limited to this, however, it is important to keep in mind the complexity that a multitude of content columns can bring to an application experience.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-- 3.x: Removed the expand/collapse button, Changed class inforFieldSetLabel and inforFieldSet
-- 4.x: Field set have all new markup and classes
-- 4.x: Field set have all new markup and classes for web components
+**3.x to 4.x**
+- Removed the expand/collapse button, Changed class inforFieldSetLabel and inforFieldSet
+
+**4.x to 5.x**
+- The fieldset component has been changed to a web component and renamed to `<ids-fieldset>`.
+- Markup has changed to a custom element `<ids-fieldset>` (see examples above)
+- Can now be imported as a single JS file and used with encapsulated styles
+- The uses flexible slots for content
 
 ## Regional Considerations
 

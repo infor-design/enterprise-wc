@@ -1,0 +1,64 @@
+html,
+body {
+  height: 100vh;
+  margin: 0;
+}
+
+.demo-popup {
+  padding: 50px;
+  text-align: center;
+}
+
+/*
+For the purposes of the sandbox page, remove IdsThemeSwitcher from document flow.
+DO NOT DO THIS in normal application setups.
+*/
+ids-theme-switcher {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+/*
+Contains the controls for the sandbox
+*/
+.fixed-bottom {
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+}
+
+.align-target {
+  border: 1px dashed #999;
+  display: inline-block;
+  padding: 10px;
+}
+
+#test-section {
+  align-items: center;
+  align-self: center;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+
+#other-test-section,
+#another-test-section {
+  position: relative;
+}
+
+#second-target,
+#test-container-target {
+  position: absolute;
+}
+
+#test-container {
+  background-color: #ccc;
+  position: absolute;
+  top: 10%;
+  bottom: 40%;
+  left: 10%;
+  right: 60%;
+  padding: 10px;
+}

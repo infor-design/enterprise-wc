@@ -5,3 +5,4 @@ adding `shouldUpdate: true` setting to the `connectedCallback`
 - [ ] Add tests for "type"
 - [ ] Add option to close on clicking out in the page
 - [ ] Improve "alignTarget" to accept an element reference directly (IDS Popup Menu).
+- [ ] Rename "containment" to "constraint"

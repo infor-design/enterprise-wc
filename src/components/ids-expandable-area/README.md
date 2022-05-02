@@ -23,6 +23,15 @@ Expandable areas are crucial to displaying only important information to the use
 - `pane` allows you to further style the pane element
 - `footer` allows you to further style the footer element
 
+## Events
+
+- `beforeexpand` Vetoable event triggered before expanding pane
+- `beforecollapse` Vetoable event triggered before collapsing pane
+- `expand` Triggered when pane starts expanding
+- `collapse` Triggered when pane starts collapsing
+- `afterexpand` Triggered after expand css transition
+- `aftercollapse` Triggered after collapse css transition
+
 ## Features (With Code Examples)
 
 Ids Expandable Area - Default
@@ -74,4 +83,14 @@ Ids Expandable Area - Toggle Button
 
 - **Enter or Space**: When focus is on an `expander`, this keystroke toggles the expansion of the corresponding expandable area panel. If collapsed, the panel is expanded, and its aria-expanded state is set to true. If expanded, the panel is collapsed and its aria-expanded state is set to false.
 
-## Accessibility
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+- Expandable Area and Field Set were separated
+
+**4.x to 5.x**
+- The ExpandableArea component has been changed to a web component and renamed to `<ids-expandable-area>`.
+- Markup has changed to a custom element `<ids-expandable-area` (see examples above)
+- Can now be imported as a single JS file and used with encapsulated styles
+- The settings are changed and uses flexible slots
+- The events now use native events / custom events

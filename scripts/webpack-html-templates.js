@@ -11,17 +11,21 @@ const WebpackHtmlExamples = WebpackHtmlTemplates.map((template) => {
   const chunkFileNameArray = template.split(isWin32);
   const chunkFileName = chunkFileNameArray.slice(-1)[0];
   const noCSP = !!chunkFileName.includes('side-by-side');
-  const title = `${chunkName.split('-').map((word) =>
-    `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`).join(' ').replace('Ids ', 'IDS ')} Component`;
+  const title = `${chunkName.split('-').map((word) => `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`).join(' ').replace('Ids ', 'IDS ')} Component`;
   let extraChunk;
-  chunkFileName !== 'index.html' && fs.existsSync(`./src/components/${chunkName}/demos/${chunkFileName.replace('.html', '.js')}`);
+  chunkFileName !== 'index.html' && fs.existsSync(`./src/components/${chunkName}/demos/${chunkFileName.replace('.html', '.ts')}`);
   chunkFileName ? extraChunk = `${chunkName}-${chunkFileName.replace('.html', '')}` : extraChunk = '';
+
+  let chunkList = [chunkName, 'ids-container', 'ids-text', 'ids-icon', 'ids-layout-grid', 'ids-theme-switcher', noCSP ? 'ids-csp-side-by-side' : 'ids-csp', extraChunk];
+  if (chunkFileName.includes('standalone-css')) {
+    chunkList = [extraChunk, 'ids-csp'];
+  }
 
   return new HTMLWebpackPlugin({
     template: `./${template}`,
     title,
     filename: `${chunkName}/${chunkFileName}`,
-    chunks: [chunkName, 'ids-container', 'ids-text', 'ids-icon', 'ids-layout-grid', 'ids-theme-switcher', noCSP ? 'ids-csp-side-by-side' : 'ids-csp', extraChunk],
+    chunks: chunkList,
     favicon: './src/assets/images/favicon.ico',
   });
 });

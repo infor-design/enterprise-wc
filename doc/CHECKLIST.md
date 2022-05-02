@@ -47,7 +47,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Application menu (ids-application-menu)
  - [ ] Area (ids-area-chart)
  - [x] Arrange (ids-swapabble)
- - [ ] Autocomplete (ids-autocomplete)
+ - [x] Autocomplete (ids-autocomplete)
  - [x] Badges (ids-badge)
  - [ ] Bar (ids-bar-chart)
  - [x] Block grid (ids-block-grid)
@@ -56,7 +56,6 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Button (ids-button)
  - [ ] Bullet (ids-bullet-chart) skipping for now
  - [ ] Builder (ids-patterns)
- - [x] Loader (ids-loading-indicator) aka Busy Indicator / Loading Indicator
  - [x] Button (ids-button)
  - [ ] Calendar (ids-calendar)
  - [x] Cards (ids-card)
@@ -76,7 +75,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Emptymessage (ids-empty-message)
  - [x] Error Page (ids-page-error)
  - [x] Expandable area (ids-expandable-area)
- - [ ] Fieldset (ids-field-set)
+ - [x] Fieldset (ids-field-set)
  - [x] Fontpicker (added as part of editor)
  - [ ] Form  (ids-form)
  - [x] Grid (ids-layout-grid)
@@ -87,9 +86,11 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Icons (ids-icon)
  - [x] Images (ids-image)
  - [x] Input (ids-input)
+ - [x] Responsive Grid Layout (ids-layout-grid)
  - [ ] Line (ids-line-chart)
  - [x] Listbuilder (ids-list-builder)
  - [x] Listview (ids-list-view)
+ - [x] Loading indicator (ids-loading-indicator) aka Busy Indicator / Loader
  - [x] Locale (ids-locale)
  - [x] Lookup (ids-lookup)
  - [x] Mask (ids-mask)
@@ -144,7 +145,8 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Typography (ids-text)
  - [x] Upload (ids-upload)
  - [x] Upload Advanced (ids-upload-advanced)
- - [x] Validation (mixin)
+ - [x] Validation (ids-validation-mixin)
+ - [x] Visibility (ids-hidden)
  - [x] Week View (ids-week-view)
  - [x] Wizard (ids-wizard)
 

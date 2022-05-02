@@ -1,0 +1,35 @@
+@import '../../core/ids-base';
+
+.ids-data-grid {
+  ::slotted([slot^='filter-']) {
+    @include flex();
+    @include relative();
+
+    align-items: center;
+  }
+
+  .ids-data-grid-header-cell-content-wrapper.vertical-align-center {
+    @include relative();
+
+    top: calc(50% - 16px);
+  }
+
+  .ids-data-grid-header-cell-filter-wrapper {
+    @include flex();
+    @include pb-8();
+    @include pl-8();
+    @include pr-12();
+    @include relative();
+
+    align-items: center;
+
+    &.hidden {
+      @include hidden();
+    }
+  }
+}
+
+ids-dropdown::part(popup) {
+  overflow: hidden;
+  max-width: 100%;
+}

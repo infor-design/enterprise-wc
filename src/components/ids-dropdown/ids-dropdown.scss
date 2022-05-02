@@ -6,6 +6,10 @@ ids-trigger-button {
   width: 34px;
 }
 
+.ids-dropdown {
+  position: relative;
+}
+
 // Icon Placement
 .icon-container {
   @include text-slate-100();
@@ -13,6 +17,10 @@ ids-trigger-button {
   margin: 0 0 0 8px;
   position: relative;
   top: 2px;
+}
+
+:host([size='full']) {
+  @include w-full();
 }
 
 :host([dir='rtl']) .icon-container {

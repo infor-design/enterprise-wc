@@ -1,11 +1,211 @@
 /* Ids Breadcrumb Component */
 @import '../../core/ids-base';
 
+// RGB triplet values that represent Ids Palette Colors
+// @TODO maybe move these to the design system?
+$header-gradient-opaque-new-light: rgb(0 114 237 / 1);
+$header-gradient-transparent-new-light: rgb(0 114 237 / 0);
+$header-gradient-opaque-new-dark: rgb(0 114 237 / 1);
+$header-gradient-transparent-new-dark: rgb(0 114 237 / 0);
+$header-gradient-opaque-new-contrast: rgb(0 74 153 / 1);
+$header-gradient-transparent-new-contrast: rgb(0 74 153 / 0);
+$header-gradient-opaque-classic-light: rgb(0 102 212 / 1);
+$header-gradient-transparent-classic-light: rgb(0 102 212 / 0);
+$header-gradient-opaque-classic-dark: rgb(54 54 54 / 1);
+$header-gradient-transparent-classic-dark: rgb(54 54 54 / 0);
+$header-gradient-opaque-classic-contrast: rgb(0 74 153 / 1);
+$header-gradient-transparent-classic-contrast: rgb(0 74 153 / 0);
+
 .ids-breadcrumb {
   @include antialiased();
 
+  align-items: center;
+  display: flex;
+
   [text-decoration] {
     text-decoration: attr(text-decoration);
+  }
+
+  &-menu {
+    position: relative;
+
+    &::after {
+      @include antialiased();
+      @include text-slate-60();
+
+      content: '\002F';
+      font-weight: normal;
+      padding-right: 4px;
+      padding-left: 0;
+      text-decoration: none;
+      display: inline-block;
+      vertical-align: top;
+      margin-top: 10px;
+    }
+  }
+
+  &.can-truncate {
+    overflow: hidden;
+    white-space: nowrap;
+
+    nav {
+      display: flex;
+      position: relative;
+      justify-content: end;
+      overflow: hidden;
+    }
+  }
+
+  nav {
+    @include p-8();
+
+    &.truncate {
+      &::before {
+        transition:
+          width $transition-length $transition-ease,
+          background $transition-length $transition-ease;
+        background-color: transparent;
+        content: '';
+        height: 100%;
+        left: 0;
+        pointer-events: none;
+        position: absolute;
+        top: 0;
+        z-index: 20;
+        width: 32px;
+      }
+    }
+  }
+
+  &[version='new'][mode='light'],
+  &:not([mode]) {
+    nav.truncate::before {
+      background-image: linear-gradient(to right, var(--ids-color-palette-white), $transparent-white);
+    }
+  }
+
+  &[version='new'][mode='dark'] {
+    nav.truncate::before {
+      background-image: linear-gradient(to right, var(--ids-color-palette-slate-90), $transparent-white);
+    }
+  }
+
+  &[version='new'][mode='contrast'] {
+    nav.truncate::before {
+      background-image: linear-gradient(to right, var(--ids-color-palette-slate-10), $transparent-white);
+    }
+  }
+
+  &[version='classic'][mode='light'] {
+    nav.truncate::before {
+      background-image: linear-gradient(to right, var(--ids-color-palette-graphite-10), $transparent-white);
+    }
+  }
+
+  &[version='classic'][mode='dark'] {
+    nav.truncate::before {
+      background-image: linear-gradient(to right, var(--ids-color-palette-classic-slate-90), $transparent-white);
+    }
+  }
+
+  &[version='classic'][mode='contrast'] {
+    nav.truncate::before {
+      background-image: linear-gradient(to right, var(--ids-color-palette-graphite-20), $transparent-white);
+    }
+  }
+
+  // =====================================================
+  // Breadcrumb Color Variants
+  &.color-variant-breadcrumb {
+    .ids-breadcrumb-menu {
+      &::after {
+        @include text-slate-60();
+      }
+    }
+
+    nav.truncate::before {
+      @include text-slate-60();
+    }
+  }
+
+  &.color-variant-alternate {
+    .ids-breadcrumb-menu {
+      &::after {
+        @include text-white();
+      }
+    }
+
+    nav.truncate::before {
+      @include text-white();
+    }
+
+    // Use background colors from IdsHeader
+    &[version='new'][mode='light'],
+    &:not([mode]) {
+      nav.truncate::before {
+        background-image:
+          linear-gradient(
+            to right,
+            $header-gradient-opaque-new-light,
+            $header-gradient-transparent-new-light
+          );
+      }
+    }
+
+    &[version='new'][mode='dark'] {
+      nav.truncate::before {
+        background-image:
+          linear-gradient(
+            to right,
+            $header-gradient-opaque-new-dark,
+            $header-gradient-transparent-new-dark
+          );
+      }
+    }
+
+    &[version='new'][mode='contrast'] {
+      nav.truncate::before {
+        background-image:
+          linear-gradient(
+            to right,
+            $header-gradient-opaque-new-contrast,
+            $header-gradient-transparent-new-contrast
+          );
+      }
+    }
+
+    &[version='classic'][mode='light'] {
+      nav.truncate::before {
+        background-image:
+          linear-gradient(
+            to right,
+            $header-gradient-opaque-classic-light,
+            $header-gradient-transparent-classic-light
+          );
+      }
+    }
+
+    &[version='classic'][mode='dark'] {
+      nav.truncate::before {
+        background-image:
+          linear-gradient(
+            to right,
+            $header-gradient-opaque-classic-dark,
+            $header-gradient-transparent-classic-dark
+          );
+      }
+    }
+
+    &[version='classic'][mode='contrast'] {
+      nav.truncate::before {
+        background-image:
+          linear-gradient(
+            to right,
+            $header-gradient-opaque-classic-contrast,
+            $header-gradient-transparent-classic-contrast
+          );
+      }
+    }
   }
 }
 
@@ -16,76 +216,23 @@ a.ids-hyperlink {
 
 ::slotted(*),
 .ids-breadcrumb > * {
-  display: inline;
+  display: inline-block;
 }
 
 // Create the / between breadcrumbs
 ::slotted(*:not(:first-child))::before,
-.ids-breadcrumb > *:not(:first-child)::before {
+a.ids-hyperlink:not(:first-child)::before {
   @include antialiased();
-  @include text-slate-60();
 
+  color: inherit;
   content: '\002F';
   font-weight: normal;
-  padding-left: 4px;
-  padding-right: 8px;
+  padding: 0 6px;
   text-decoration: none;
   display: inline-block;
+  vertical-align: middle;
 }
 
-// Handle font colors for different themes
-::slotted(ids-hyperlink[version='new'][mode='light']) {
-  @include text-slate-60();
-}
-
-::slotted(ids-hyperlink[version='new'][mode='light'][disabled]) {
-  @include text-slate-30();
-}
-
-::slotted(ids-hyperlink[version='new'][mode='dark']) {
-  @include text-slate-40();
-}
-
-::slotted(ids-hyperlink[version='new'][mode='dark'][disabled]) {
-  @include text-slate-60();
-}
-
-::slotted(ids-hyperlink[version='new'][mode='contrast']) {
-  @include text-slate-80();
-}
-
-::slotted(ids-hyperlink[version='new'][mode='contrast'][disabled]) {
-  @include text-slate-30();
-}
-
-::slotted(ids-hyperlink[version='classic'][mode='light']) {
-  @include text-graphite-60();
-}
-
-::slotted(ids-hyperlink[version='classic'][mode='light'][disabled]) {
-  @include text-graphite-30();
-}
-
-::slotted(ids-hyperlink[version='classic'][mode='dark']) {
-  @include text-slate-40();
-}
-
-::slotted(ids-hyperlink[version='classic'][mode='dark'][disabled]) {
-  @include text-classic-slate-50();
-}
-
-::slotted(ids-hyperlink[version='classic'][mode='contrast']) {
-  @include text-slate-80();
-}
-
-::slotted(ids-hyperlink[version='classic'][mode='contrast'][disabled]) {
-  @include text-slate-50();
-}
-
-::slotted(ids-hyperlink[disabled]) {
-  @include text-graphite-30();
-}
-
-::slotted(ids-hyperlink:not([mode]), ids-hyperlink[version='classic'][disabled]) {
-  @include text-slate-60();
+.hidden {
+  display: none !important;
 }

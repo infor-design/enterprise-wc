@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Breadcrumb Sandbox</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-breadcrumb>
+        <ids-hyperlink font-size="14" text-decoration="hover" href="#">Breadcrumb 1</ids-hyperlink>
+        <ids-hyperlink font-size="14" text-decoration="hover" disabled href="#">Disabled Breadcrumb</ids-hyperlink>
+      </ids-breadcrumb>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-text>Breadcrumb List Controls</ids-text>
+        <ids-checkbox id="enable-truncation" label="Enable Truncation"></ids-checkbox>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-text>New Breadcrumb Controls</ids-text>
+        <ids-checkbox id="disable-breadcrumb" label="Disable new breadcrumbs"></ids-checkbox>
+        <ids-button id="add-new-breadcrumb" type="secondary">Add to the end</ids-button>
+        <ids-button id="remove-last-breadcrumb" type="secondary">Remove from the end</ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

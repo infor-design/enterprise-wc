@@ -92,11 +92,18 @@ Since this component inherits [IdsListView](../ids-list-view/README.md), it will
 
 - This component stretches to 100% width of its container
 
-## Converting from Previous Version
+## Converting from Previous Versions (Breaking Changes)
 
-### Converting from 4.x
+**3.x to 4.x**
 
-The Ids ListBuilder is now a Web Component. Instead of using classes to define it, it is done directly with a custom element and attributes:
+- New pattern for 4.x
+
+**4.x to 5.x**
+
+- The Ids ListBuilder is now a Web Component
+- Instead of using classes to define it, it is done directly with a custom element and attributes
+- Markup has changed to a custom element `<ids-list-builder></ids-list-builder>` (see examples above)
+- Can now be imported as a single JS file and used with encapsulated styles
 
 ```html
 <!-- 4.x example -->

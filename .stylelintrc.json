@@ -10,12 +10,15 @@
         "each",
         "for",
         "if",
+        "error",
         "include",
         "mixin",
         "use"
       ]
     }],
-    "max-nesting-depth": 3,
+    "max-nesting-depth": [3, {
+      "ignore": ["pseudo-classes"]
+    }],
     "no-descending-specificity": null,
     "selector-pseudo-class-no-unknown": [true, {
       "ignorePseudoClasses": ["root", "host", "unresolved", "part", "::part"]

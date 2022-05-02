@@ -1,6 +1,6 @@
 const path = require('path');
 const sass = require('sass');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const prodEntry = require('./scripts/webpack-prod-entry');
@@ -20,7 +20,11 @@ module.exports = {
     clean: true
   },
   infrastructureLogging: {
-    level: 'error' // or 'verbose' if any debug info is needed
+    level: 'verbose' // or 'verbose' if any debug info is needed
+  },
+  resolve: {
+    extensions: ['.js', '.ts'],
+    modules: ['node_modules']
   },
   optimization: {
     splitChunks: {
@@ -50,7 +54,7 @@ module.exports = {
             loader: 'sass-loader',
             options: {
               sassOptions: {
-                outputStyle: 'compressed',
+                outputStyle: 'expanded',
               },
             },
           },
@@ -74,14 +78,9 @@ module.exports = {
         ]
       },
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            // Options are all in babel.config.js
-            loader: 'babel-loader',
-          }
-        ]
+        test: /\.ts?$/,
+        use: 'ts-loader',
+        exclude: [/node_modules/]
       }
     ]
   },
@@ -101,7 +100,7 @@ module.exports = {
           to({ absoluteFilename }) {
             const baseName = path.basename(absoluteFilename);
             const folders = path.dirname(absoluteFilename).split(path.sep);
-            return `${folders[folders.length - 1]}/${baseName.replace('scss', 'css')}`;
+            return `${folders[folders.length - 2]}/${folders[folders.length - 1]}/${baseName.replace('scss', 'css')}`;
           },
           transform(content, transFormPath) {
             const result = sass.renderSync({
@@ -113,16 +112,16 @@ module.exports = {
           }
         },
         {
-          from: './src/**/**/*.d.ts',
+          from: './build/types/src/**/ids*.d.ts',
           to({ absoluteFilename }) {
             const baseName = path.basename(absoluteFilename);
             const folders = path.dirname(absoluteFilename).split(path.sep);
-            let filePath = `${folders[folders.length - 1]}/${baseName}`;
-            filePath = filePath.replace('src/components/', '');
+            let filePath = `${folders[folders.length - 2]}/${folders[folders.length - 1]}/${baseName}`;
+            filePath = filePath.replace('src/components', '');
 
             if (filePath.includes('core/')) {
               filePath = filePath.replace('core/', '').replace('.d.ts', '');
-              return `${filePath}/${filePath}.d.ts`;
+              return `core/${filePath}.d.ts`;
             }
             return filePath;
           }
@@ -132,8 +131,8 @@ module.exports = {
           to({ absoluteFilename }) {
             const baseName = path.basename(absoluteFilename);
             const folders = path.dirname(absoluteFilename).split(path.sep);
-            let filePath = `${folders[folders.length - 1]}/${baseName}`;
-            filePath = filePath.replace('src/components/', '');
+            let filePath = `${folders[folders.length - 2]}/${folders[folders.length - 1]}/${baseName}`;
+            filePath = filePath.replace('src/components', '');
             return filePath;
           }
         }
