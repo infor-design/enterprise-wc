@@ -109,7 +109,20 @@ Icons adjust accordingly to the size of the chart
 - By default, the width stretches to 100% of the parent container
 - The minimum width is 66px
 
-## Converting from Previous Version
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- The Completion Chart component was added in v4.4.0
+- Completion Chart is invoked with `$('#my-element').chart({ type: 'completion-target' });`
+
+- The Targeted Achievement Chart component is new in 4.4.0
+- Targeted Achievement Chart is invoked with `$('#my-element').chart({ type: 'targeted-achievement' });`
+
+**4.x to 5.x**
+
+- Features from both Targeted Achievement Charts and Completion Charts have been merged into a new web component called IdsProgressChart
+- IdsProgressChart is a custom element `<ids-progress-chart></ids-progress-chart>`
 
 ### Converting from 4.x
 
