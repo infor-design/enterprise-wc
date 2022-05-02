@@ -1,12 +1,12 @@
 # Ids Message
 
-The IdsMessage Component provides a quick interface for displaying an application message to the user in [Modal]('../ids-modal/README.md'), along with providing quick actions related to the messsage.
+The IdsMessage Component provides a quick interface for displaying an application message to the user in [Modal]('../ids-modal/README.md'), along with providing quick actions related to the message.
 
 ## Use Cases
 
 - Display application information that requires a user's attention
 - Convey a specific status to the user
-- Provide ansulary actions that the user can take to address the information
+- Provide actions that the user can take to address the information
 
 ## Terminology
 
@@ -55,7 +55,7 @@ const messageEl = document.querySelector('#my-message');
 messageEl.show();
 ```
 
-You can also take advange of the Modal's `target` property to activate a Message component by clicking an associated target element, like a button for example:
+You can also use the Modal's `target` property to activate a Message component by clicking an associated target element, like a button for example:
 
 ```html
 <ids-message id="my-message">
