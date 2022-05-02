@@ -100,7 +100,7 @@ module.exports = {
           to({ absoluteFilename }) {
             const baseName = path.basename(absoluteFilename);
             const folders = path.dirname(absoluteFilename).split(path.sep);
-            return `${folders[folders.length - 1]}/${baseName.replace('scss', 'css')}`;
+            return `${folders[folders.length - 2]}/${folders[folders.length - 1]}/${baseName.replace('scss', 'css')}`;
           },
           transform(content, transFormPath) {
             const result = sass.renderSync({
@@ -112,12 +112,12 @@ module.exports = {
           }
         },
         {
-          from: './build/types/**/ids*.d.ts',
+          from: './build/types/src/**/ids*.d.ts',
           to({ absoluteFilename }) {
             const baseName = path.basename(absoluteFilename);
             const folders = path.dirname(absoluteFilename).split(path.sep);
-            let filePath = `${folders[folders.length - 1]}/${baseName}`;
-            filePath = filePath.replace('src/components/', '');
+            let filePath = `${folders[folders.length - 2]}/${folders[folders.length - 1]}/${baseName}`;
+            filePath = filePath.replace('src/components', '');
 
             if (filePath.includes('core/')) {
               filePath = filePath.replace('core/', '').replace('.d.ts', '');
@@ -131,8 +131,8 @@ module.exports = {
           to({ absoluteFilename }) {
             const baseName = path.basename(absoluteFilename);
             const folders = path.dirname(absoluteFilename).split(path.sep);
-            let filePath = `${folders[folders.length - 1]}/${baseName}`;
-            filePath = filePath.replace('src/components/', '');
+            let filePath = `${folders[folders.length - 2]}/${folders[folders.length - 1]}/${baseName}`;
+            filePath = filePath.replace('src/components', '');
             return filePath;
           }
         }

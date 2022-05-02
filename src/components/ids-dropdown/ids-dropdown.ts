@@ -42,7 +42,7 @@ export default class IdsDropdown extends Base {
     this.popup = this.container.querySelector('ids-popup');
     this.trigger = this.container.querySelector('ids-trigger-button');
     this.listBox = this.querySelector('ids-list-box');
-    this.labelEl = this.input?.querySelector('label');
+    this.labelEl = this.input?.labelEl;
 
     this
       .#addAria()
@@ -536,6 +536,12 @@ export default class IdsDropdown extends Base {
 
     this.onEvent('click', this.input.fieldContainer, () => {
       this.toggle();
+    });
+
+    // Should not open if clicked on label
+    this.onEvent('click', this.labelEl, (e: MouseEvent) => {
+      e.preventDefault();
+      this.input.focus();
     });
 
     // Disable text selection on tab (extra info in the screen reader)
