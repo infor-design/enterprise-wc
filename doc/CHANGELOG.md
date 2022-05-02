@@ -92,11 +92,7 @@ For more details on breaking changes see each component in the individual README
   - Markup has changed to a custom element `<ids-spinbox></ids-spinbox>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
-- `[Splitter]` The splitter component has been changed to a web component and renamed to ids-splitter.
-  - Content should append to `<ids-splitter-pane>` component.
-  - Splitter orientation can be set by use of `axis` settings.
-  - If using events, events are now plain JS events.
-  - Can now be imported as a single JS file and used with encapsulated styles
+- `[Splitter]` The Splitter component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-splitter/README.md#converting-from-previous-versions-breaking-changes) for details. ([#143](https://github.com/infor-design/enterprise-wc/issues/143))
 - `[Step Chart]` The Step Chart has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-step-chart/README.md#converting-from-previous-versions-breaking-changes) for details. ([#273](https://github.com/infor-design/enterprise-wc/issues/273))
 - `[Summary Field]` A new component was created that displays contextual information on forms. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-summary-field/README.md) for details. ([#276](https://github.com/infor-design/enterprise-wc/issues/276))
 - `[SwapList]` The SwapList component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-swaplist/README.md#converting-from-previous-versions-breaking-changes) for details. ([#368](https://github.com/infor-design/enterprise-wc/issues/368))
