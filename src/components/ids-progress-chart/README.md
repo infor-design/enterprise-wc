@@ -113,9 +113,11 @@ Icons adjust accordingly to the size of the chart
 
 **3.x to 4.x**
 
+*Completion Chart:*
 - The Completion Chart component was added in v4.4.0
 - Completion Chart is invoked with `$('#my-element').chart({ type: 'completion-target' });`
 
+*Targeted Achievement Chart:*
 - The Targeted Achievement Chart component is new in 4.4.0
 - Targeted Achievement Chart is invoked with `$('#my-element').chart({ type: 'targeted-achievement' });`
 
