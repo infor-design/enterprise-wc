@@ -88,10 +88,7 @@ For more details on breaking changes see each component in the individual README
 - `[ScrollView/CirclePager]` The IdsScrollView component replaces circle pager from the previous version and adds swiping
   - Markup has changed to a custom element `<ids-scroll-view></ids-scroll-view>`
   - Can now be imported as a single JS file and used with encapsulated styles
-- `[Spinbox]` The spinbox component has been changed to a web component and renamed to ids-spinbox.
-  - Markup has changed to a custom element `<ids-spinbox></ids-spinbox>`
-  - If using events, events are now plain JS events.
-  - Can now be imported as a single JS file and used with encapsulated styles
+- `[Spinbox]` The spinbox component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-spinbox/README.md#converting-from-previous-versions-breaking-changes) for details. ([#139](https://github.com/infor-design/enterprise-wc/issues/139))
 - `[Splitter]` The Splitter component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-splitter/README.md#converting-from-previous-versions-breaking-changes) for details. ([#143](https://github.com/infor-design/enterprise-wc/issues/143))
 - `[Step Chart]` The Step Chart has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-step-chart/README.md#converting-from-previous-versions-breaking-changes) for details. ([#273](https://github.com/infor-design/enterprise-wc/issues/273))
 - `[Summary Field]` A new component was created that displays contextual information on forms. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-summary-field/README.md) for details. ([#276](https://github.com/infor-design/enterprise-wc/issues/276))
