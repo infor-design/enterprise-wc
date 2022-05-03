@@ -203,11 +203,23 @@ The IDS Radio doesn't contain any interactions beyond a standard radio input ele
 - Default display set vertical but can also use the  `horizontal` attribute as true for some cases.
 - Default display set as `block`, but can change to `inline-block` by use of `horizontal` attribute as `true`.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- Radio button styles were implemented in 4.0.0
+- Radio buttons were CSS-only components
+
+**4.x to 5.x**
+
+- Radio component has changed to a custom element `<ids-radio-group></ids-radio-group>`
+- Individual radio buttons are standalone custom elements `<ids-radio></ids-radio>` and are slotted into groups
+- If using events, events are now plain JS events.
+- Can now be imported as a single JS file and used with encapsulated styles
 
 ### Converting from 4.x
 
-The IDS Radio component is now a WebComponent. Instead of using classes to define a radio, it is now via the web component structure.
+Radio Buttons are now standalone web components instead of being defined only with CSS styles:
 
 ```html
 <!-- 4.x radio example -->
@@ -220,7 +232,7 @@ The IDS Radio component is now a WebComponent. Instead of using classes to defin
 <ids-radio value="opt1" label="Option one"></ids-radio>
 ```
 
-The IDS Radio Group component is a WebComponent. Instead of using classes to define a radio, it is now via the web component structure.
+The same rules apply to Radio Groups, which are also now standalone web components:
 
 ```html
 <!-- 4.x radio group example -->

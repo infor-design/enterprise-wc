@@ -89,10 +89,7 @@ For more details on breaking changes see each component in the individual README
   - Markup has changed to a custom element `<ids-progress-bar></ids-progress-bar>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
-- `[Radio]` The Radio component has been changed to a web component and use with ids-radio and ids-radio-group.
-  - Markup has changed to a custom element `<ids-radio-group><ids-radio></ids-radio></ids-radio-group>`
-  - If using events, events are now plain JS events.
-  - Can now be imported as a single JS file and used with encapsulated styles
+- `[Radio]` The Radio component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-radio/README.md#converting-from-previous-versions-breaking-changes) for details. ([#169](https://github.com/infor-design/enterprise-wc/issues/169))
 - `[Rating]` The Rating component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-rating/README.md#converting-from-previous-versions-breaking-changes) for details. ([#119](https://github.com/infor-design/enterprise-wc/issues/119))
 - `[RenderLoop]` The RenderLoop component has been implemented as a mixin. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-render-loop/README.md#converting-from-previous-versions-breaking-changes) for details. ([#172](https://github.com/infor-design/enterprise-wc/issues/172))
 - `[ScrollView]` A new component that replaces Circle Pager from the previous version and adds touch gestures like swiping. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-scroll-view/README.md#converting-from-previous-versions-breaking-changes) for details. ([#199](https://github.com/infor-design/enterprise-wc/issues/199))
