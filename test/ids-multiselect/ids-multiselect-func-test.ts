@@ -7,10 +7,10 @@ import wait from '../helpers/wait';
 import processAnimFrame from '../helpers/process-anim-frame';
 
 import IdsMultiselect from '../../src/components/ids-multiselect/ids-multiselect';
-import IdsDropdown from '../../src/components/ids-dropdown/ids-dropdown';
-import IdsListBox from '../../src/components/ids-list-box/ids-list-box';
-import IdsListBoxOption from '../../src/components/ids-list-box/ids-list-box-option';
-import IdsTriggerField from '../../src/components/ids-trigger-field/ids-trigger-field';
+import '../../src/components/ids-dropdown/ids-dropdown';
+import '../../src/components/ids-list-box/ids-list-box';
+import '../../src/components/ids-list-box/ids-list-box-option';
+import '../../src/components/ids-trigger-field/ids-trigger-field';
 import states from '../../src/assets/data/states.json';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 
@@ -584,12 +584,14 @@ describe('IdsMultiselect Component', () => {
 
   it('tab works correcty', async () => {
     multiselect.container.focus();
-    expect(document.activeElement.id).toEqual('multiselect-1');
+    let activeElement: any = document.activeElement;
+    expect(activeElement.id).toEqual('multiselect-1');
     const event = new KeyboardEvent('keydown', { key: 'Tab' });
     multiselect.dispatchEvent(event);
 
+    activeElement = document.activeElement;
     // Not working right, not sure why?
-    expect(document.activeElement.id).toEqual('multiselect-1');
+    expect(activeElement.id).toEqual('multiselect-1');
   });
 
   it('tags work correctly', async () => {

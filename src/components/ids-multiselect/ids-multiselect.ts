@@ -1,10 +1,10 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
-import IdsCheckbox from '../ids-checkbox/ids-checkbox';
-import IdsDropdown from '../ids-dropdown/ids-dropdown';
+import '../ids-checkbox/ids-checkbox';
+import '../ids-dropdown/ids-dropdown';
 import Base from './ids-multiselect-base';
-import IdsTag from '../ids-tag/ids-tag';
+import '../ids-tag/ids-tag';
 
 // Import Sass to be encapsulated in the component shadowRoot
 import styles from './ids-multiselect.scss';
@@ -103,7 +103,7 @@ class IdsMultiselect extends Base {
    * Set the value of the dropdown using the value/id attribute if present
    * @param {Array} value The value/id to use
    */
-  set value(value: Array<string>) {
+  set value(value: any) {
     const elem: any = this.selectedOption;
     if (!elem) {
       return;
@@ -283,7 +283,7 @@ class IdsMultiselect extends Base {
       //console.log(triggerField);
       //console.log(this.container);
 
-      triggerField.querySelectorAll('ids-tag').forEach((item: HTMLElement) => {item.remove()});
+      triggerField.querySelectorAll('ids-tag').forEach((item: HTMLElement) => {item.remove()} );
     }
     this.#selectedList.forEach((selectedValue: string, index: number) => {
       const matchedElem = this.querySelector(`ids-list-box-option[value="${selectedValue}"]`);

@@ -163,7 +163,11 @@ export default class IdsTag extends Base {
     // Handle Clicking the x for dismissible
     const closeIcon = this.querySelector('ids-icon[icon="close"]');
     if (closeIcon) {
-      this.onEvent('click', closeIcon, () => this.dismiss());
+      this.onEvent('click', closeIcon, () => {
+        if (!this.disabled) {
+          this.dismiss();
+        }
+      });
     }
 
     // Ensure icon is always last
@@ -223,12 +227,3 @@ export default class IdsTag extends Base {
     this.triggerEvent('aftertagremove', this, { detail: { elem: this } });
   }
 }
-
-    if (closeIcon) {
-      this.onEvent('click', closeIcon, () => {
-        if (!this.disabled) {
-          this.dismiss();
-        }
-      });
-    const closeIcon = this.querySelector('ids-icon[icon="close"]');
-    }
