@@ -65,27 +65,27 @@ export default class IdsThemeSwitcher extends Base {
   menuTemplate(): string {
     return `<ids-menu-group>
     <ids-menu-item>
-        ${this.locale.translate('Mode')}
+        ${this.locale?.translate('Mode')}
         <ids-popup-menu>
           <ids-menu-group select="single">
-            <ids-menu-item selected="true" value="light">${this.locale.translate('Light')}</ids-menu-item>
-            <ids-menu-item value="dark">${this.locale.translate('Dark')}</ids-menu-item>
-            <ids-menu-item value="contrast">${this.locale.translate('Contrast')}</ids-menu-item>
+            <ids-menu-item selected="true" value="light">${this.locale?.translate('Light')}</ids-menu-item>
+            <ids-menu-item value="dark">${this.locale?.translate('Dark')}</ids-menu-item>
+            <ids-menu-item value="contrast">${this.locale?.translate('Contrast')}</ids-menu-item>
           </ids-menu-group>
         </ids-popup-menu>
       </ids-menu-item>
       <ids-menu-item>
-        ${this.locale.translate('Locale')}
+        ${this.locale?.translate('Locale')}
         <ids-popup-menu>
           <ids-menu-group select="single" id="locale-menu">
-            <ids-menu-item selected="true" value="en-US">${this.locale.translate('English')} (en-US)</ids-menu-item>
-            <ids-menu-item value="de-DE">${this.locale.translate('German')} (de-DE)</ids-menu-item>
-            <ids-menu-item value="uk-UA">${this.locale.translate('Ukrainian')} (uk-UA)</ids-menu-item>
-            <ids-menu-item value="bg-BG">${this.locale.translate('Bulgarian')} (bg-BG)</ids-menu-item>
-            <ids-menu-item value="he-IL">${this.locale.translate('Hebrew')} (he-IL)</ids-menu-item>
-            <ids-menu-item value="ar-EG">${this.locale.translate('Arabic')} (ar-EG)</ids-menu-item>
-            <ids-menu-item value="th-TH">${this.locale.translate('Bulgarian')} (th-TH)</ids-menu-item>
-            <ids-menu-item value="zh-Hans">${this.locale.translate('Chinese')} (zh-Hans)</ids-menu-item>
+            <ids-menu-item selected="true" value="en-US">${this.locale?.translate('English')} (en-US)</ids-menu-item>
+            <ids-menu-item value="de-DE">${this.locale?.translate('German')} (de-DE)</ids-menu-item>
+            <ids-menu-item value="uk-UA">${this.locale?.translate('Ukrainian')} (uk-UA)</ids-menu-item>
+            <ids-menu-item value="bg-BG">${this.locale?.translate('Bulgarian')} (bg-BG)</ids-menu-item>
+            <ids-menu-item value="he-IL">${this.locale?.translate('Hebrew')} (he-IL)</ids-menu-item>
+            <ids-menu-item value="ar-EG">${this.locale?.translate('Arabic')} (ar-EG)</ids-menu-item>
+            <ids-menu-item value="th-TH">${this.locale?.translate('Bulgarian')} (th-TH)</ids-menu-item>
+            <ids-menu-item value="zh-Hans">${this.locale?.translate('Chinese')} (zh-Hans)</ids-menu-item>
           </ids-menu-group>
         </ids-popup-menu>
       </ids-menu-item>

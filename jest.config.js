@@ -30,6 +30,7 @@ module.exports = {
     'src/**/**/*.ts',
     '!src/**/**/index.ts',
     '!src/**/demos/*.ts',
+    '!src/ids-demo-app/*.ts',
     '!src/assets/scripts/*.ts',
     '!*.js'
   ],
