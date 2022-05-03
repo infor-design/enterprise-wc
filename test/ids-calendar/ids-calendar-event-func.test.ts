@@ -3,7 +3,7 @@
  */
 import '../../src/mixins/ids-locale-mixin/ids-locale-mixin';
 import '../../src/components/ids-text/ids-text';
-import IdsCalendarEvent from '../../src/components/ids-calendar-event/ids-calendar-event';
+import IdsCalendarEvent from '../../src/components/ids-calendar/ids-calendar-event';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import wait from '../helpers/wait';
 

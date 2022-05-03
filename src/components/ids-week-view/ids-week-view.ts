@@ -24,7 +24,7 @@ import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 
 import styles from './ids-week-view.scss';
-import IdsCalendarEvent, { CalendarEventData, CalendarEventTypeData } from '../ids-calendar-event/ids-calendar-event';
+import IdsCalendarEvent, { CalendarEventData, CalendarEventTypeData } from '../ids-calendar/ids-calendar-event';
 
 interface DayMapData {
   key: number;
