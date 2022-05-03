@@ -2,6 +2,8 @@
 
 ## Description
 
+This component displays contextual information that may be of importance to a user currently filling out an [IdsForm](../ids-form/README.md) or other form component.
+
 This component is closely intertwined with the [old component](https://main-enterprise.demo.design.infor.com/components/form/example-forms.html) and provides readable information based on what is entered in those fields. The style of this summary field by default has a font weight `bold` for the `data` field. To overwrite these styles, you would have to edit the source code, specifically the styles of the `ids-text` elements of the template
 
 ## Use Cases
@@ -35,7 +37,17 @@ Examples can be viewed at https://main.wc.design.infor.com/ids-summary-field/](h
 - By default, the width adjusts to 100% of the parent container
 - There is no minimum width
 
-## Converting from Previous Version
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- Summary Fields did not exist in 3.x
+- In 4.x, Summary Fields were a part of the Form Component's styles, but they were not separate components.
+
+**4.x to 5.x**
+
+- IdsSummaryField is now its own web component separate from [IdsForm](../ids-form/README.md)
+- IdsSummaryField is a custom element `<ids-summary-field></ids-summary-field>`
 
 ### Converting from 4.x
 
@@ -73,4 +85,4 @@ Examples can be viewed at https://main.wc.design.infor.com/ids-summary-field/](h
   <ids-summary-field label="Shipping to" data="4209 Industrial Avenue<br/>Los Angeles, California 90001 USA"></ids-summary-field>
   <ids-summary-field label="Shipping Method" data="Freight"></ids-summary-field>
   <ids-summary-field label="Estimated Delivery" data="June 21, 2015 (4 days)"></ids-summary-field>
-  ```
+```

@@ -1,13 +1,11 @@
-# TODO for IdsSplitter
+# Ids Splitter TODO
 
- - [ ] Add trigger button to toggle collapse/expand to split-bar
- - [ ] Save positions to local storage
- - [ ] Fix aria-controls error for split-bar
- - [ ] Max-size with multi splits
- - [ ] Api to set dynamically size for single, multiple and all panes
- - [ ] Api to set dynamically minSize for single, multiple and all panes
- - [ ] Api to set dynamically maxSize for single, multiple and all panes
- - [ ] Api to set dynamically allSizes()
- - [ ] Api to collapse for multiple and all panes
- - [ ] Api to expand for multiple and all panes
- - [ ] Does not work on a touch device (ipad/iphone in chrome dev tools)
+Keep this file in sync with #694
+
+## Major
+
+- [ ] Does not work on a touch device (ipad/iphone in chrome dev tools) ([#691](https://github.com/infor-design/enterprise-wc/issues/691))
+- [ ] Save positions to local storage ([#692](https://github.com/infor-design/enterprise-wc/issues/692))
+- [ ] Add API methods for sizing/expanding/collapsing split panes ([#693](https://github.com/infor-design/enterprise-wc/issues/693))
+- [ ] Add trigger button to toggle collapse/expand to split-bar
+- [ ] Fix aria-controls error for split-bar
