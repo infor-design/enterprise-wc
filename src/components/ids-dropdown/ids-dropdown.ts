@@ -274,7 +274,7 @@ export default class IdsDropdown extends Base {
    * Set the selected option by index
    * @param {number} value the index to use
    */
-  set selectedIndex(value) {
+  set selectedIndex(value:number) {
     if (Number.isInteger(value) && this.options[value]) {
       const elem = this.options[value];
       this.value = elem.getAttribute('value');
@@ -286,7 +286,7 @@ export default class IdsDropdown extends Base {
 
   /**
    * Returns the currently available options
-   * @returns {Array} the array of options
+   * @returns {Array<any>} the array of options
    */
   get options() {
     return this.querySelectorAll('ids-list-box-option');
@@ -522,27 +522,7 @@ export default class IdsDropdown extends Base {
       this.#typeAhead(e.detail.keys);
     });
 
-    // Handle Clicking with the mouse on options
-    this.onEvent('click', this, (e: any) => {
-      if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
-        this.value = e.target.getAttribute('value');
-        return;
-      }
-
-      if (e.target.closest('ids-list-box-option')) {
-        this.value = e.target.closest('ids-list-box-option').getAttribute('value');
-      }
-    });
-
-    this.onEvent('click', this.input.fieldContainer, () => {
-      this.toggle();
-    });
-
-    // Should not open if clicked on label
-    this.onEvent('click', this.labelEl, (e: MouseEvent) => {
-      e.preventDefault();
-      this.input.focus();
-    });
+    this.attachClickEvent();
 
     // Disable text selection on tab (extra info in the screen reader)
     this.onEvent('focus', this.input, () => {
@@ -565,6 +545,34 @@ export default class IdsDropdown extends Base {
     });
 
     return this;
+  }
+
+  /**
+ * Handle Clicking with the mouse on options
+ *  @public
+ */
+  attachClickEvent() {
+    this.onEvent('click', this, (e: any) => {
+      if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
+        this.value = e.target.getAttribute('value');
+        return;
+      }
+
+      if (e.target.closest('ids-list-box-option')) {
+        this.value = e.target.closest('ids-list-box-option').getAttribute('value');
+      }
+      if (e.target.isEqualNode(this)) {
+
+        //console.log('dropdown toggle call');
+        this.toggle();
+      }
+    });
+
+    // Should not open if clicked on label
+    this.onEvent('click', this.labelEl, (e: MouseEvent) => {
+      e.preventDefault();
+      this.input.focus();
+    });
   }
 
   /**
@@ -748,25 +756,3 @@ export default class IdsDropdown extends Base {
 
   get size(): string { return this.getAttribute(attributes.SIZE) ?? 'md'; }
 }
-
-  attachClickEvent() {
-    this.onEvent('click', this, (e) => {
-      if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
-        this.value = e.target.getAttribute('value');
-        return;
-      }
-
-      if (e.target.closest('ids-list-box-option')) {
-        this.value = e.target.closest('ids-list-box-option').getAttribute('value');
-      }
-      if (e.target.isEqualNode(this)) {
-
-        //console.log('dropdown toggle call');
-        this.toggle();
-      }
-    });
-  }
-  /**
-   * Handle Clicking with the mouse on options
-   *  @public
-   */

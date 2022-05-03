@@ -21,7 +21,7 @@ import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-s
 @customElement('ids-multiselect')
 @scss(styles)
 class IdsMultiselect extends Base {
-  #selectedList;
+  #selectedList:Array<any>;
 
   constructor() {
     super();
@@ -56,7 +56,7 @@ class IdsMultiselect extends Base {
     //console.log('multiselect set disabled');
     ////console.log(isDisabled);
     if (this.tag) {
-      this.querySelectorAll('ids-tag').forEach((element) => {
+      this.querySelectorAll('ids-tag').forEach((element:HTMLElement) => {
         element.setAttribute('disabled', 'true');
       });
     }
@@ -83,7 +83,7 @@ class IdsMultiselect extends Base {
     return stringToBool(this.getAttribute(attributes.TAGS));
   }
 
-  set max(value) {
+  set max(value: any) {
     const valueSafe = stringToNumber(value);
     if (valueSafe !== this.getAttribute(stringToNumber(attributes.MAX))) {
       if (valueSafe) {
@@ -103,8 +103,8 @@ class IdsMultiselect extends Base {
    * Set the value of the dropdown using the value/id attribute if present
    * @param {Array} value The value/id to use
    */
-  set value(value) {
-    const elem = this.selectedOption;
+  set value(value: Array<string>) {
+    const elem: any = this.selectedOption;
     if (!elem) {
       return;
     }
@@ -161,7 +161,7 @@ class IdsMultiselect extends Base {
 
   attachClickEvent() {
     this.offEvent('click');
-    this.onEvent('click', this, (e) => {
+    this.onEvent('click', this, (e: any) => {
       //console.log('click event called target to follow');
 
       if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
@@ -246,7 +246,7 @@ class IdsMultiselect extends Base {
     });
 
     if (this.tags) {
-      this.onEvent('beforetagremove', this.shadowRoot.querySelector('ids-trigger-field'), (e) => {
+      this.onEvent('beforetagremove', this.shadowRoot.querySelector('ids-trigger-field'), (e:any) => {
         //console.log('tag clicked');
         //console.log(e.target.nodeName);
 
@@ -271,7 +271,7 @@ class IdsMultiselect extends Base {
   }
 
   #updateDisplay() {
-    let triggerField;
+    let triggerField: any;
     this.container.value = '';
     //console.log(this.#selectedList);
     if (this.tags) {
@@ -283,9 +283,9 @@ class IdsMultiselect extends Base {
       //console.log(triggerField);
       //console.log(this.container);
 
-      triggerField.querySelectorAll('ids-tag').forEach(item => item.remove());
+      triggerField.querySelectorAll('ids-tag').forEach((item: HTMLElement) => {item.remove()});
     }
-    this.#selectedList.forEach((selectedValue, index) => {
+    this.#selectedList.forEach((selectedValue: string, index: number) => {
       const matchedElem = this.querySelector(`ids-list-box-option[value="${selectedValue}"]`);
 
       if (this.tags) {
@@ -302,11 +302,11 @@ class IdsMultiselect extends Base {
     });
   }
 
-  #updateList(addItem) {
+  #updateList(addItem:boolean) {
     //console.log('updateList start');
-    const selectedOptions = this.querySelectorAll('.selected-options ids-list-box-option');
+    const selectedOptions: Array<any> = this.querySelectorAll('.selected-options ids-list-box-option');
     //console.log(this.querySelectorAll('ids-list-box.selected-options ids-list-box-option'));
-    let unselectedOptions;
+    let unselectedOptions: Array<any>;
     const optionsContainer = this.querySelector('.options');
     let selectedOptionsContainer = this.querySelector('.selected-options');
     if (addItem) {
@@ -346,7 +346,7 @@ class IdsMultiselect extends Base {
     //console.log(this.value);
   }
 
-  #loadDataSet(dataset) {
+  #loadDataSet(dataset:Array<any>) {
     let html = '';
     const listbox = this.querySelector('ids-list-box');
     listbox.innerHTML = '';
@@ -360,7 +360,7 @@ class IdsMultiselect extends Base {
   }
 
   #populateSelected() {
-    this.options.forEach((element) => {
+    this.options.forEach((element: any) => {
       //console.log(element.id);
       //console.log(element.querySelector('ids-checkbox').checked);
       if (element.querySelector('ids-checkbox').checked) {
