@@ -16,6 +16,7 @@ For more details on breaking changes see each component in the individual README
 - `[Button]` The button component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-button/README.md#converting-from-previous-versions) for details. ([#173](https://github.com/infor-design/enterprise-wc/issues/173))
 - `[Card]` The card component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-card/README.md#converting-from-previous-versions) for details. ([#419](https://github.com/infor-design/enterprise-wc/issues/419))
 - `[Checkbox]` The checkbox component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-checkbox/README.md#converting-from-previous-versions for details. ([#164](https://github.com/infor-design/enterprise-wc/issues/164))
+- `[Circle Pager]` The circle pager component has been renamed to [`IdsScrollView`](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-scroll-view/README.md)
 - `[Colorpicker]` The card component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-color-picker/README.md#converting-from-previous-versions for details. ([#223](https://github.com/infor-design/enterprise-wc/issues/223))
 - `[IdsContainer]` Added a new component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-containerr/README.md) for details.
 - `[Contextual Action Panel]` The contextual action panel component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-contextual-action-panel/README.md#converting-from-previous-versions for details. ([#330](https://github.com/infor-design/enterprise-wc/issues/330))
@@ -94,9 +95,7 @@ For more details on breaking changes see each component in the individual README
   - Can now be imported as a single JS file and used with encapsulated styles
 - `[RenderLoop]` The RenderLoop component has been implemented as a mixin.
   - API has been simplified and made more user-friendly.
-- `[ScrollView/CirclePager]` The IdsScrollView component replaces circle pager from the previous version and adds swiping
-  - Markup has changed to a custom element `<ids-scroll-view></ids-scroll-view>`
-  - Can now be imported as a single JS file and used with encapsulated styles
+- `[ScrollView]` A new component that replaces Circle Pager from the previous version and adds touch gestures like swiping. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-scroll-view/README.md#converting-from-previous-versions-breaking-changes) for details. ([#199](https://github.com/infor-design/enterprise-wc/issues/199))
 - `[Search Field]` The Search Field component has been converted.  See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-search-field/README.md#converting-from-previous-versions-breaking-changes) for details. ([#314](https://github.com/infor-design/enterprise-wc/issues/314))
 - `[Separator]` A new component was created for use in IdsToolbar and IdsMenu to visually separate content. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-separator/README.md#converting-from-previous-versions-breaking-changes) for details. *(N/A)*
 - `[Skip Link]` The Skip Link component has been converted.  See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-skip-link/README.md#converting-from-previous-versions-breaking-changes) for details. *(N/A)*
