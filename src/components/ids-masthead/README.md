@@ -13,8 +13,8 @@ In some cases, the masthead may be implemented in a context outside of the Cloud
 Actions and links found in the masthead are configurable by the tenant admin. The masthead will almost always have:
 
 The application tray: allows users to navigate to other applications within a tenants suite
-- Search: pulls results from the current application and around the cloudsuite
-- Bookmarks: allows users to save specific pages within applications and access them from anywhere within the cloudsuite
+- Search: pulls results from the current application and around the cloud suite
+- Bookmarks: allows users to save specific pages within applications and access them from anywhere within the cloud suite
 - User settings: central place for end users to view/edit their personal information and any global preferences
 
 Some optional features in the masthead:
@@ -102,10 +102,6 @@ Masthead with `nav` elements as slots:
 - Use the `role="banner"` Landmark role
 - Should use html5 section or nav type
 
-## Testability
-
-- Please refer to the [Application Testability Checklist](https://design.infor.com/resources/application-testability-checklist) for further details.
-
 ## Keyboard Guidelines
 
 A masthead's action buttons should function as a toolbar, see [toolbar](../ids-toolbar/README.md) page for guidelines.
@@ -113,3 +109,19 @@ A masthead's action buttons should function as a toolbar, see [toolbar](../ids-t
 ## Responsive Guidelines
 
 A masthead will resize horizontally to mobile, tablet and desktop breakpoints. At the tablet and mobile breakpoints, buttons are moved into the "More" popup-menu.
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- Masthead replaces the inforTopBanner CSS. The markup and CSS Is entirely different to support new look and behavior.
+
+**4.x to 5.x**
+
+- The masthead component has been changed to a web component and renamed to ids-masthead.
+- If using properties/settings these are now attributes.
+- Markup has changed to a custom element `<ids-masthead></ids-masthead>`
+- If using events events are now plain JS events for example (i.e. button click events)
+- The template is now a template element that uses simple string substitution
+- Can now be imported as a single JS file and used with encapsulated styles (in some browsers)
+- Design has changed
