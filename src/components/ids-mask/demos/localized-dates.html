@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+</head>
+
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid cols="3" gap="md">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Masked Inputs (Localized Dates)</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="1" gap="md">
+      <ids-layout-grid-cell>
+        <ids-dropdown id="locales" size="sm" label="Choose Locale" dirty-tracker="true" value="en-US">
+          <ids-list-box>
+            <ids-list-box-option value="en-US">en-US</ids-list-box-option>
+            <ids-list-box-option value="de-DE">de-DE</ids-list-box-option>
+            <ids-list-box-option value="ru-RU">ru-RU</ids-list-box-option>
+            <ids-list-box-option value="bg-BG">bg-BG</ids-list-box-option>
+            <ids-list-box-option value="he-IL">he-IL</ids-list-box-option>
+            <ids-list-box-option value="hr-HR">hr-HR</ids-list-box-option>
+            <ids-list-box-option value="ar-EG">ar-EG</ids-list-box-option>
+            <ids-list-box-option value="th-TH">th-TH</ids-list-box-option>
+            <ids-list-box-option value="zh-TW">zh-TW</ids-list-box-option>
+          </ids-list-box>
+        </ids-dropdown>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="3" gap="md">
+      <ids-layout-grid-cell>
+        <ids-input id="mask-date-short" size="sm" label="Short Date"></ids-input>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="3" gap="md">
+      <ids-layout-grid-cell>
+        <ids-input id="mask-date-time" size="sm" label="Timestamp"></ids-input>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+
+</html>

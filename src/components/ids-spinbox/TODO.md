@@ -1,8 +1,10 @@
-# TODO for Ids-Spinbox
+# TODO for Ids Spinbox TODO
 
- - [ ] make spinbox remember last "good" value when pressing
-increment or decrement if a user has cleared it
- - [ ] react to valid number changes on initial numeric keydowns
-vs explicit browser value change event (re: Deepak's feedback)
-- [ ] test with a num pad
-- [ ] use IdsDirtyTrackerMixin and IdsValidationMixin
+Keep this file in sync with #696
+
+## Major
+
+- [ ] Allow valid user input on "step"-constrained fields ([#695](https://github.com/infor-design/enterprise-wc/issues/695))
+## Minor
+
+- [ ] Make spinbox remember last "good" value when pressing increment or decrement if a user has cleared it
