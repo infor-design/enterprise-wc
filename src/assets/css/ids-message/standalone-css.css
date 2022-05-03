@@ -1,4 +1,5 @@
-#my-message-popup {
+#my-message {
+  position: absolute;
   left: calc(50% - 220px);
   top: calc(50% - 110px);
 }

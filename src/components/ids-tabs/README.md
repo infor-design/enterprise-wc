@@ -92,9 +92,20 @@ When placed inside of an `IdsHeader` component, the `ids-tabs` component automat
 
 - Flows with padding and margin within the width and height of the parent container. Possibly scrolling as needed based on parent dimensions.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-TODO
+**3.x to 4.x**
+
+- Tabs was implemented in v4.0.0
+- Tabs can be invoked with `$('#my-element').tabs()`.
+
+**4.x to 5.x**
+
+- Tabs are now custom elements `<ids-tabs value=${selection}></ids-tabs>`
+- If using events, events are now plain JS events
+- Can now be imported as a single JS file and used with encapsulated styles
+- Content within the tabs are specified as `<ids-tab value=${selection-value}>`Tab Label/Content`</ids-tab>`
+- Tabs and their panels are now wrapped with a context element `<ids-tabs-context></ids-tabs-context>` for controlling which tab is displayed
 
 ## Accessibility Guidelines
 

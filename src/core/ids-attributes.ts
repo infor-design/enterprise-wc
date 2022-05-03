@@ -29,6 +29,7 @@ export const attributes = {
   AUTOUPDATE: 'autoupdate',
   AUTO_FIT: 'auto-fit',
   AUTO_HEIGHT: 'auto-height',
+  AUTO_START: 'auto-start',
   AXIS: 'axis',
   BADGE_COLOR: 'badge-color',
   BADGE_POSITION: 'badge-position',
@@ -131,6 +132,7 @@ export const attributes = {
   HREF: 'href',
   ICON: 'icon',
   ICON_ALIGN: 'icon-align',
+  ICON_SIZE: 'icon-size',
   ID: 'id',
   INDETERMINATE: 'indeterminate',
   INITIALS: 'initials',
@@ -193,7 +195,6 @@ export const attributes = {
   NO_MARGINS: 'no-margins',
   NO_PADDING: 'no-padding',
   NO_RIPPLE: 'no-ripple',
-  NO_TEXT_ELLIPSIS: 'no-text-ellipsis',
   OPACITY: 'opacity',
   ORIENTATION: 'orientation',
   ORIGINAL_TEXT: 'original-text',
@@ -362,4 +363,4 @@ export const breakpoints: Breakpoints = {
   xs: '360px'
 };
 
-export const version = '0.0.0-beta.20';
+export const version = '0.0.0-beta.22';

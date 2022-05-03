@@ -9,12 +9,13 @@ import waitFor from '../helpers/wait-for';
 import createFromTemplate from '../helpers/create-from-template';
 
 const createAccordion = async (accordion: any, variant?: string | null) => {
-  const variantProp = variant ? ` colorVariant="${variant}"` : '';
+  const variantProp = variant ? ` color-variant="${variant}"` : '';
   accordion = await createFromTemplate(accordion, `<ids-accordion${variantProp}>
   <ids-accordion-panel id="p1">
     <ids-accordion-header id="h1" slot="header">
       <ids-text>Header 1</ids-text>
     </ids-accordion-header>
+    <ids-text slot="content">content</ids-text>
   </ids-accordion-panel>
   <ids-accordion-panel id="p2">
     <ids-accordion-header id="h2" slot="header">
@@ -39,8 +40,6 @@ describe('IdsAccordion Component', () => {
   let header2: any;
 
   beforeEach(async () => {
-    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb: any) => cb());
-
     accordion = await createAccordion(accordion);
 
     panel = document.querySelector('#p1');
@@ -168,6 +167,18 @@ describe('IdsAccordion Component', () => {
     expect(panel.expanded).toBeFalsy();
   });
 
+  it('can be expanded/collapsed programmatically', async () => {
+    // Expand
+    header.expanded = true;
+    await waitFor(() => expect(panel.expanded).toEqual(true));
+    await waitFor(() => expect(header.expanded).toEqual(panel.expanded));
+
+    // Collapse
+    header.expanded = false;
+    await waitFor(() => expect(panel.expanded).toEqual(false));
+    await waitFor(() => expect(header.expanded).toEqual(panel.expanded));
+  });
+
   it('can select the next panel when pressing the ArrowDown key', () => {
     const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
     let nextPanel = panel.nextElementSibling;
@@ -194,7 +205,7 @@ describe('IdsAccordion Component', () => {
     expect(prevPanel).toBe(null);
   });
 
-  it('can change the height of the pane', () => {
+  it('can change the height of the pane', async () => {
     panel.pane.style.height = `100px`;
 
     requestAnimationFrame(() => {
@@ -203,7 +214,7 @@ describe('IdsAccordion Component', () => {
         panel.pane.style.height = `0px`;
       });
     });
-    expect(panel.pane.style.height).toEqual('0px');
+    await waitFor(() => expect(panel.pane.style.height).toEqual('0px'));
   });
 
   it('supports setting mode', () => {
@@ -226,7 +237,7 @@ describe('IdsAccordion Component', () => {
 
   it('supports color variants', async () => {
     accordion = await createAccordion(accordion, 'app-menu');
-    waitFor(() => expect(accordion.colorVariant).toBe('app-menu'));
+    expect(accordion.colorVariant).toBe('app-menu');
   });
 
   it('has a reference to its panels', () => {
@@ -296,7 +307,7 @@ describe('IdsAccordion Component', () => {
 
   it('has headers that are aware of their expanded status', async () => {
     panel.expanded = true;
-    waitFor(() => expect(header.expanded).toBeTruthy());
+    await waitFor(() => expect(header.expanded).toBeTruthy());
   });
 
   it('can select headers', () => {
@@ -310,11 +321,11 @@ describe('IdsAccordion Component', () => {
     expect(header2.container.classList.contains('selected')).toBeTruthy();
   });
 
-  it('can change its headers expander type', () => {
-    expect(header.expanderType).toBe('caret');
+  it('can change its headers expander type', async () => {
+    await waitFor(() => expect(header.expanderType).toBe('caret'));
 
     header.expanderType = 'plus-minus';
-    expect(header.expanderType).toBe('plus-minus');
+    await waitFor(() => expect(header.expanderType).toBe('plus-minus'));
   });
 
   it('can add/remove icons from accordion headers', () => {
@@ -328,6 +339,13 @@ describe('IdsAccordion Component', () => {
 
     expect(header.getAttribute('icon')).toBe(null);
     expect(icon.icon).toBe(null);
+  });
+
+  it('toggle expander icon for header', async () => {
+    const icon = header.container.querySelector('.ids-accordion-expander-icon');
+    expect(icon.getAttribute('icon')).toBe('caret-down');
+    header.toggleExpanderIcon(true);
+    await waitFor(() => expect(icon.getAttribute('icon')).toBe('caret-down'));
   });
 
   it('should update with container language change', () => {
@@ -358,5 +376,43 @@ describe('IdsAccordion Component', () => {
     expect(panel.expanded).toBeFalsy();
     expect(panel2.expanded).toBeTruthy();
     expect(panel3.expanded).toBeFalsy();
+  });
+
+  it('should add/remove alignment classes with panel\'s contentAlignment', () => {
+    panel.contentAlignment = '';
+    expect(header.container.classList.contains('has-icon')).toBeFalsy();
+
+    panel.contentAlignment = 'has-icon';
+    expect(header.container.classList.contains('has-icon')).toBeTruthy();
+
+    panel.contentAlignment = 'has-menu';
+    expect(header.container.classList.contains('has-icon')).toBeFalsy();
+  });
+
+  it('should not expand when panel is disabled', () => {
+    panel.disabled = true;
+    const event = new KeyboardEvent('keydown', { key: ' ' });
+
+    panel.dispatchEvent(event);
+    expect(panel.expanded).toBeFalsy();
+
+    panel.disabled = false;
+    // Expand
+    panel.dispatchEvent(event);
+    expect(panel.expanded).toBeTruthy();
+  });
+
+  it('should not expand all panels when accordion disabled', () => {
+    accordion.disabled = true;
+    const event = new KeyboardEvent('keydown', { key: ' ' });
+
+    panel.dispatchEvent(event);
+    expect(panel.expanded).toBeFalsy();
+
+    panel2.dispatchEvent(event);
+    expect(panel2.expanded).toBeFalsy();
+
+    panel2.dispatchEvent(event);
+    expect(panel2.expanded).toBeFalsy();
   });
 });

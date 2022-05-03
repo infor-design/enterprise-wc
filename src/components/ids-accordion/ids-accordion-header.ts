@@ -46,6 +46,7 @@ export default class IdsAccordionHeader extends Base {
     return [
       ...super.attributes,
       attributes.CHILD_FILTER_MATCH,
+      attributes.DISABLED,
       attributes.EXPANDED,
       attributes.EXPANDER_TYPE,
       attributes.HIDDEN_BY_FILTER,
@@ -111,6 +112,14 @@ export default class IdsAccordionHeader extends Base {
   set expanded(val: boolean) {
     const trueVal = stringToBool(val);
     this.container.classList[trueVal ? 'add' : 'remove']('expanded');
+    this.panel.expanded = trueVal;
+
+    if (trueVal) {
+      this.triggerEvent('expanded', this, { bubbles: true });
+    } else {
+      this.triggerEvent('collapsed', this, { bubbles: true });
+    }
+
     this.#refreshExpanderIconType();
   }
 
@@ -320,5 +329,30 @@ export default class IdsAccordionHeader extends Base {
    */
   get childFilterMatch(): boolean {
     return this.hasAttribute(attributes.HIDDEN_BY_FILTER);
+  }
+
+  /**
+   * Gets disabled property
+   * @readonly
+   * @returns {boolean} true if accordion set to disable
+   */
+  get disabled() {
+    return stringToBool(this.getAttribute(attributes.DISABLED));
+  }
+
+  /**
+   * Sets disabled property
+   * @param {boolean|string} value true/false
+   */
+  set disabled(value) {
+    const disabled = stringToBool(value);
+
+    if (disabled) {
+      this.setAttribute(attributes.DISABLED, `${disabled}`);
+      this.container.classList.add(attributes.DISABLED);
+    } else {
+      this.removeAttribute(attributes.DISABLED);
+      this.container.classList.remove(attributes.DISABLED);
+    }
   }
 }

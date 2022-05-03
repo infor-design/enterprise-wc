@@ -4,7 +4,7 @@ import '../../ids-checkbox/ids-checkbox';
 import '../../ids-fieldset/ids-fieldset';
 import '../../ids-radio/ids-radio';
 import '../../ids-input/ids-input';
-import css from '../../../assets/css/ids-popup/test-sandbox.css';
+import css from '../../../assets/css/ids-popup/sandbox.css';
 
 const cssLink = `<link href="${css}" rel="stylesheet">`;
 document.querySelector('head')?.insertAdjacentHTML('afterbegin', cssLink);

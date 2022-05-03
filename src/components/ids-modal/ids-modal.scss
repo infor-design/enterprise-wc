@@ -69,7 +69,7 @@ $modal-border-style: 1px solid var(--ids-color-palette-slate-30);
   border-left: $modal-border-style;
 }
 
-.ids-modal-button + .ids-modal-button {
+.ids-modal-button:not(.ids-modal-icon-button):not(:first-of-type) {
   border-left: $modal-border-style;
 }
 

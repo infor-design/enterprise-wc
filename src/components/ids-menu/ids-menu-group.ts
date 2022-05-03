@@ -33,7 +33,6 @@ export default class IdsMenuGroup extends Base {
   static get attributes() {
     return [
       attributes.KEEP_OPEN,
-      attributes.LANGUAGE,
       attributes.SELECT
     ];
   }

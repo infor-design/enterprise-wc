@@ -6,6 +6,7 @@ exports[`IdsAccordion Component renders correctly 1`] = `
     <ids-accordion-header id=\\"h1\\" slot=\\"header\\" aria-expanded=\\"false\\">
       <ids-text>Header 1</ids-text>
     </ids-accordion-header>
+    <ids-text slot=\\"content\\">content</ids-text>
   </ids-accordion-panel>
   <ids-accordion-panel id=\\"p2\\">
     <ids-accordion-header id=\\"h2\\" slot=\\"header\\" aria-expanded=\\"false\\">
@@ -26,6 +27,7 @@ exports[`IdsAccordion Component renders correctly 2`] = `
     <ids-accordion-header id=\\"h1\\" slot=\\"header\\" aria-expanded=\\"true\\">
       <ids-text>Header 1</ids-text>
     </ids-accordion-header>
+    <ids-text slot=\\"content\\">content</ids-text>
   </ids-accordion-panel>
   <ids-accordion-panel id=\\"p2\\">
     <ids-accordion-header id=\\"h2\\" slot=\\"header\\" aria-expanded=\\"false\\">
@@ -46,6 +48,7 @@ exports[`IdsAccordion Component renders correctly 3`] = `
     <ids-accordion-header id=\\"h1\\" slot=\\"header\\" aria-expanded=\\"false\\">
       <ids-text>Header 1</ids-text>
     </ids-accordion-header>
+    <ids-text slot=\\"content\\">content</ids-text>
   </ids-accordion-panel>
   <ids-accordion-panel id=\\"p2\\">
     <ids-accordion-header id=\\"h2\\" slot=\\"header\\" aria-expanded=\\"false\\">

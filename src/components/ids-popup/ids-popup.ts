@@ -136,12 +136,12 @@ export default class IdsPopup extends Base {
    */
   #fix3dMatrixOnResize(): void {
     requestAnimationFrame(() => {
-      this.container.style.transition = 'none';
+      this.style.transition = 'none';
       this.#remove3dMatrix();
       requestAnimationFrame(() => {
         this.#correct3dMatrix();
         requestAnimationFrame(() => {
-          this.container.style.transition = '';
+          this.style.transition = '';
         });
       });
     });
@@ -165,7 +165,7 @@ export default class IdsPopup extends Base {
   #attachEventHandlers(): void {
     const containerNode = getClosest((this as any), 'ids-container');
     // Setup Resize Observer
-    this.#ro.observe(this.container);
+    this.#ro.observe((this as any));
     if (containerNode) {
       this.#ro.observe(containerNode);
     }
@@ -175,7 +175,7 @@ export default class IdsPopup extends Base {
    * @returns {DOMRect} measurements of the inner ".ids-popup" <div>
    */
   get innerRect(): DOMRect {
-    return this.container.getBoundingClientRect();
+    return this.getBoundingClientRect();
   }
 
   /**
@@ -729,20 +729,24 @@ export default class IdsPopup extends Base {
   /**
    * @property {string} positionStyle the method in which the Popup is positioned
    */
-  #positionStyle = POSITION_STYLES[0];
+  #positionStyle = POSITION_STYLES[1];
 
   /**
    * @param {string} val the position style string
    */
   set positionStyle(val: string) {
     const currentStyle = this.#positionStyle;
-    if (val !== currentStyle && POSITION_STYLES.includes(val)) {
-      this.#positionStyle = val;
+    if (POSITION_STYLES.includes(val)) {
       this.setAttribute(attributes.POSITION_STYLE, val);
-      this.#refreshPositionStyle(currentStyle, val);
+      this.#positionStyle = val;
+
+      if (val !== currentStyle) {
+        this.#refreshPositionStyle(currentStyle, val);
+      } else {
+        this.#refreshPositionStyle('', currentStyle);
+      }
+
       this.place();
-    } else {
-      this.#refreshPositionStyle('', currentStyle);
     }
   }
 
@@ -1019,7 +1023,7 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   #placeAtCoords(): void {
-    let popupRect = this.container.getBoundingClientRect();
+    let popupRect = this.getBoundingClientRect();
     let x = this.x;
     let y = this.y;
 
@@ -1053,7 +1057,7 @@ export default class IdsPopup extends Base {
     popupRect = this.#nudge(popupRect);
 
     // Account for absolute-positioned parents
-    popupRect = this.#removeAbsoluteParentDistance(this.parentNode, popupRect);
+    popupRect = this.#removeRelativeParentDistance(this.parentNode, popupRect);
 
     // Make user-defined adjustments, if applicable
     if (typeof this.onPlace === 'function') {
@@ -1076,7 +1080,7 @@ export default class IdsPopup extends Base {
     this.container.classList.remove('flipped');
 
     // Detect sizes/locations of the popup and the alignment target Element
-    let popupRect = this.container.getBoundingClientRect();
+    let popupRect = this.getBoundingClientRect();
     const targetRect = this.alignTarget.getBoundingClientRect();
     const alignEdge = targetAlignEdge || this.alignEdge;
     let alignXCentered = false;
@@ -1168,7 +1172,7 @@ export default class IdsPopup extends Base {
     }
 
     // Account for absolute-positioned parents
-    popupRect = this.#removeAbsoluteParentDistance(this.parentNode, popupRect);
+    popupRect = this.#removeRelativeParentDistance(this.parentNode, popupRect);
 
     // Make user-defined adjustments, if applicable
     if (typeof this.onPlace === 'function') {
@@ -1291,9 +1295,9 @@ export default class IdsPopup extends Base {
    * @param {DOMRect} popupRect representing approximated new placement values
    * @returns {void}
    */
-  #renderPlacementInPixels(popupRect: DOMRect) {
-    this.container.style.left = `${popupRect.x}px`;
-    this.container.style.top = `${popupRect.y}px`;
+  #renderPlacementInPixels(popupRect: DOMRect): void {
+    this.style.left = `${popupRect.x}px`;
+    this.style.top = `${popupRect.y}px`;
   }
 
   /**
@@ -1302,8 +1306,8 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   #renderPlacementWithTransform(): void {
-    this.container.style.left = `50%`;
-    this.container.style.top = `50%`;
+    this.style.left = `50%`;
+    this.style.top = `50%`;
   }
 
   /**
@@ -1358,39 +1362,57 @@ export default class IdsPopup extends Base {
 
   /**
    * Returns a DOMRect from `getBoundingClientRect` from an element, with the values adjusted
-   * by subtracting the left/top values from an absolute-positioned parent
+   * by subtracting the left/top values from the closest relative-positioned parent
    * @param {HTMLElement} elem the element to measure
    * @param {DOMRect} [rect] optionally pass in an existing rect and correct it
    * @returns {DOMRect} measurements adjusted for an absolutely-positioned parent
    */
-  #removeAbsoluteParentDistance(elem: any, rect: DOMRect) {
-    const adjustedProps = ['absolute', 'fixed'];
-    const domRectProps = ['bottom', 'left', 'right', 'top', 'x', 'y'];
-    const elemRect: any = getEditableRect(rect || elem.getBoundingClientRect());
+  #removeRelativeParentDistance(elem: HTMLElement, rect: DOMRect) {
+    const elemRect = getEditableRect(rect || elem.getBoundingClientRect());
+    let foundRelativeParent = false;
 
-    let parent = (elem && (elem.host || elem.parentNode));
-    let parentStyle;
-    let parentRect;
+    const removeRelativeDistance = (parent: any) => {
+      let parentStyle: CSSStyleDeclaration;
+      let parentRect: DOMRect;
 
-    while (parent) {
-      if (parent.toString() === '[object ShadowRoot]') {
-        parent = parent.host;
-      }
+      if (parent && !foundRelativeParent) {
+        if (parent.toString() === '[object ShadowRoot]') {
+          parent = parent.host;
+        }
+        if (parent instanceof HTMLElement) {
+          parentStyle = getComputedStyle(parent);
+          parentRect = parent.getBoundingClientRect();
 
-      if (parent.toString() === '[object HTMLElement]') {
-        parentStyle = getComputedStyle(parent);
-        if (adjustedProps.includes(parentStyle.position) && parent.popup) {
-          parentRect = parent.popup.innerRect;
+          // Add scrollLeft/scrollTop of container elements
+          if (parent.scrollLeft !== 0) {
+            elemRect.left += parent.scrollLeft;
+            elemRect.right += parent.scrollLeft;
+            elemRect.x += parent.scrollLeft;
+          }
+          if (parent.scrollTop !== 0) {
+            elemRect.top += parent.scrollTop;
+            elemRect.bottom += parent.scrollTop;
+            elemRect.y += parent.scrollTop;
+          }
 
-          for (let i = 0, prop; i < domRectProps.length; i++) {
-            prop = domRectProps[i];
-            elemRect[prop] -= parentRect[prop];
+          // Remove relative parents' coordinates from the calculation
+          if (parentStyle.position === 'relative') {
+            elemRect.bottom -= parentRect.bottom;
+            elemRect.left -= parentRect.left;
+            elemRect.right -= parentRect.right;
+            elemRect.top -= parentRect.top;
+            elemRect.x -= parentRect.x;
+            elemRect.y -= parentRect.y;
+            foundRelativeParent = true;
           }
         }
+        if (parent.parentNode) {
+          removeRelativeDistance(parent.parentNode);
+        }
       }
+    };
 
-      parent = parent.parentNode;
-    }
+    removeRelativeDistance(elem);
     return elemRect;
   }
 
