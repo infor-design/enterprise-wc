@@ -1,10 +1,11 @@
 // Supporting components
 import '../ids-input';
+import '../../ids-radio/ids-radio';
 import '../../ids-button/ids-button';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const btnAddMessage: any = document.querySelector('#btn-add-message');
-  const btnRemoveMessage: any = document.querySelector('#btn-remove-message');
+  const btnAddMessages: any = document.querySelector('#btn-add-messages');
+  const btnRemoveMessages: any = document.querySelector('#btn-remove-messages');
 
   const inputError: any = document.querySelector('#input-validation-error');
   const inputAlert: any = document.querySelector('#input-validation-alert');
@@ -13,45 +14,52 @@ document.addEventListener('DOMContentLoaded', () => {
   const inputIconDefault: any = document.querySelector('#input-validation-icon-default');
   const inputIconCustom: any = document.querySelector('#input-validation-icon-custom');
 
-  // Add input message
-  const addInputMessage = () => {
+  const btnAddMultipleMessages: any = document.querySelector('#btn-add-multiple-messages');
+  const btnRemoveMultipleMessages: any = document.querySelector('#btn-remove-multiple-messages');
+  const radioValidationAddType: any = document.querySelector('#radio-validation-add-type');
+  const radioValidationRemoveBy: any = document.querySelector('#radio-validation-remove-by');
+
+  const inputMultiple: any = document.querySelector('#input-validation-multiple');
+
+  // Add single message
+  const addSingleMessages = () => {
     // Error
-    inputError?.addMessage({
+    inputError?.addValidationMessage({
       message: 'Something is wrong do not continue',
       type: 'error',
       id: 'error'
     });
 
     // Alert
-    inputAlert?.addMessage({
+    inputAlert?.addValidationMessage({
       message: 'Warning the value may be incorrect',
       type: 'alert',
       id: 'alert'
     });
 
     // Success
-    inputSuccess?.addMessage({
+    inputSuccess?.addValidationMessage({
       message: 'This value is correct',
       type: 'success',
       id: 'success'
     });
 
     // Info
-    inputInfo?.addMessage({
+    inputInfo?.addValidationMessage({
       message: 'Random information about this field',
       type: 'info',
       id: 'info'
     });
 
-    // Icon default
-    inputIconDefault?.addMessage({
+    // Icon default (user-profile)
+    inputIconDefault?.addValidationMessage({
       message: 'Something about your user profile',
       type: 'icon',
       id: 'icon-default'
     });
 
     // Icon custom (mail)
-    inputIconCustom?.addMessage({
+    inputIconCustom?.addValidationMessage({
       message: 'Something about your mail information',
       type: 'icon',
       id: 'icon-custom',
@@ -59,31 +67,149 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  // Remove input message
-  const removeInputMessage = () => {
+  // Remove single message
+  const removeSingleMessages = () => {
     // Error
-    inputError?.removeMessage({ id: 'error' });
+    inputError?.removeValidationMessage({ id: 'error' });
 
     // Alert
-    inputAlert?.removeMessage({ id: 'alert' });
+    inputAlert?.removeValidationMessage({ id: 'alert' });
 
     // Success
-    inputSuccess?.removeMessage({ id: 'success' });
+    inputSuccess?.removeValidationMessage({ id: 'success' });
 
     // Info
-    inputInfo?.removeMessage({ id: 'info' });
+    inputInfo?.removeValidationMessage({ id: 'info' });
 
     // Icon default
-    inputIconDefault?.removeMessage({ id: 'icon-default' });
+    inputIconDefault?.removeValidationMessage({ id: 'icon-default' });
 
     // Icon custom (mail)
-    inputIconCustom?.removeMessage({ id: 'icon-custom' });
+    inputIconCustom?.removeValidationMessage({ id: 'icon-custom' });
   };
 
-  // Init, add message on load
-  addInputMessage();
+  // Initialize, add single messages on load
+  addSingleMessages();
+
+  // Add multiple messages (all)
+  const addMultipleMessagesAll = () => {
+    inputMultiple?.addValidationMessage([{
+      message: 'Something is wrong do not continue',
+      type: 'error',
+      id: 'error-multi'
+    }, {
+      message: 'Warning the value may be incorrect',
+      type: 'alert',
+      id: 'alert-multi'
+    }, {
+      message: 'This value is correct',
+      type: 'success',
+      id: 'success-multi'
+    }, {
+      message: 'Random information about this field',
+      type: 'info',
+      id: 'info-multi'
+    }, {
+      message: 'Something about your user profile',
+      type: 'icon',
+      id: 'icon-default-multi'
+    }, {
+      message: 'Something about your mail information',
+      type: 'icon',
+      id: 'icon-custom-multi',
+      icon: 'mail'
+    }]);
+  };
+
+  // Add multiple messages
+  const addMultipleMessages = () => {
+    const addBy: string = radioValidationAddType.value;
+    // Error
+    if (addBy === 'error') {
+      inputMultiple?.addValidationMessage({
+        message: 'Something is wrong do not continue',
+        type: 'error',
+        id: 'error-multi'
+      });
+    }
+    // Alert
+    if (addBy === 'alert') {
+      inputMultiple?.addValidationMessage({
+        message: 'Warning the value may be incorrect',
+        type: 'alert',
+        id: 'alert-multi'
+      });
+    }
+    // Success
+    if (addBy === 'success') {
+      inputMultiple?.addValidationMessage({
+        message: 'This value is correct',
+        type: 'success',
+        id: 'success-multi'
+      });
+    }
+    // Info
+    if (addBy === 'info') {
+      inputMultiple?.addValidationMessage({
+        message: 'Random information about this field',
+        type: 'info',
+        id: 'info-multi'
+      });
+    }
+    // Icon (default)
+    if (addBy === 'icon') {
+      inputMultiple?.addValidationMessage({
+        message: 'Something about your user profile',
+        type: 'icon',
+        id: 'icon-default-multi'
+      });
+    }
+    // Icon (custom)
+    if (addBy === 'icon-custom') {
+      inputMultiple?.addValidationMessage({
+        message: 'Something about your mail information',
+        type: 'icon',
+        id: 'icon-custom-multi',
+        icon: 'mail'
+      });
+    }
+    if (addBy === 'all') addMultipleMessagesAll();
+  };
+
+  // Remove multiple messages by id (array of multiple objects)
+  const removeMultipleMessagesById = () => {
+    inputMultiple?.removeValidationMessage([
+      { id: 'error-multi' },
+      { id: 'alert-multi' },
+      { id: 'info-multi' }
+    ]);
+  };
+
+  // Remove multiple messages by type (single object)
+  const removeMultipleMessagesByType = () => {
+    inputMultiple?.removeValidationMessage({ type: 'icon' });
+  };
+
+  // Remove all validation messages
+  const removeMultipleMessagesAll = () => {
+    inputMultiple?.removeAllValidationMessages();
+  };
+
+  // Remove multiple messages
+  const removeMultipleMessages = () => {
+    const removeBy: string = radioValidationRemoveBy.value;
+    if (removeBy === 'id') removeMultipleMessagesById();
+    if (removeBy === 'type') removeMultipleMessagesByType();
+    if (removeBy === 'all') removeMultipleMessagesAll();
+
+    if (/error|alert|success|info|icon|icon-custom/g.test(removeBy)) {
+      inputMultiple?.removeValidationMessage({ id: `${removeBy}-multi` });
+    }
+  };
 
   // Bind buttons
-  btnAddMessage?.addEventListener('click', addInputMessage);
-  btnRemoveMessage?.addEventListener('click', removeInputMessage);
+  btnAddMessages?.addEventListener('click', addSingleMessages);
+  btnRemoveMessages?.addEventListener('click', removeSingleMessages);
+  btnAddMultipleMessages?.addEventListener('click', addMultipleMessages);
+  btnRemoveMultipleMessages?.addEventListener('click', removeMultipleMessages);
 });
