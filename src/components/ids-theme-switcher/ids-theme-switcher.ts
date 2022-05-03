@@ -41,7 +41,7 @@ export default class IdsThemeSwitcher extends Base {
       this.onEvent('languagechange.themeswitcher', this.closest('ids-container'), (e: CustomEvent) => {
         this.shadowRoot.querySelector('#ids-theme-menu').innerHTML = this.menuTemplate();
         this.shadowRoot.querySelector('#locale-menu [selected]').removeAttribute('selected');
-        this.shadowRoot.querySelector(`#locale-menu [value="${e.detail.locale.state.localeName}"]`).setAttribute('selected', 'true');
+        this.shadowRoot.querySelector(`#locale-menu [value="${e.detail.locale.state.localeName}"]`)?.setAttribute('selected', 'true');
       });
     });
   }
