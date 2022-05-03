@@ -15,7 +15,7 @@ For more information on line charts check out the article [Line Charts Made Simp
 
 ## Usage Considerations
 
-- Do not show too many lines at once as it may be difficult to interpret.
+- Do not show too many lines at once as it may be difficult to interpret. Studies say 8 max is  a good number.
 - Hover tooltips should only be used to reveal additional non-critical information.
 
 ## Terminology

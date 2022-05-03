@@ -99,8 +99,9 @@ export default class IdsBarChart extends Base {
           top = groupIndex > 0 ? top - runningHeight[index] : top;
           runningHeight[index] = (runningHeight[index] || 0) + height;
         }
+        const pattern = this.data[groupIndex]?.pattern ? ` fill="url(#${this.data[groupIndex]?.pattern})"` : '';
 
-        barHTML += `<rect class="bar color-${groupIndex + 1}" width="${this.barWidth}" height="${height}" x="${left}" y="${top}">
+        barHTML += `<rect class="bar color-${groupIndex + 1}" width="${this.barWidth}" height="${height}" x="${left}" y="${top}"${pattern}>
           ${this.animated ? `
             <animate attributeName="height" from="0" to="${height}" ${this.cubicBezier}></animate>
             <animate attributeName="y" from="${bottom}" to="${top}" ${this.cubicBezier}/>

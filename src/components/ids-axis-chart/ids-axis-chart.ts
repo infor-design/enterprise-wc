@@ -6,6 +6,7 @@ import NiceScale from './ids-nice-scale';
 import debounce from '../../utils/ids-debounce-utils/ids-debounce-utils';
 import Base from './ids-axis-chart-base';
 import IdsDataSource from '../../core/ids-data-source';
+import { patternData } from './ids-pattern-data';
 
 import '../ids-empty-message/ids-empty-message';
 
@@ -17,7 +18,9 @@ type IdsChartData = {
   value?: number,
   shortName?: string,
   color?: string,
-  data?: Array<IdsChartData>
+  data?: Array<IdsChartData>,
+  pattern?: string,
+  patternColor?: string
 };
 
 type IdsChartPointData = {
@@ -332,7 +335,13 @@ export default class IdsAxisChart extends Base {
     }
 
     this.data?.forEach((group: IdsChartData, index: number) => {
-      colorSheet += `--ids-chart-color-${index + 1}: ${(group as any).color || `var(${this.colors[index]})`} !important;`;
+      const data = (group as any);
+      colorSheet += `--ids-chart-color-${index + 1}: ${data.patternColor || data.color || `var(${this.colors[index]})`} !important;`;
+      if (data.pattern && patternData[data.pattern]) {
+        const patternCss = patternData[data.pattern].replace(/</g, '%3c').replace(/>/g, '%3e');
+        const px = patternData[data.pattern].indexOf('width=\'4\'') ? '4' : '8';
+        colorSheet += `--ids-chart-pattern-${index + 1}: url("data:image/svg+xml,%3Csvg width='${px}' height='${px}' viewBox='0 0 ${px} ${px}' xmlns='http://www.w3.org/2000/svg'${patternCss}%3c/svg%3E") !important;`;
+      }
     });
 
     const styleSheet = this.shadowRoot.styleSheets[0];
@@ -349,6 +358,9 @@ export default class IdsAxisChart extends Base {
   #axisTemplate(): string {
     return `
     <title id="title">${this.title}</title>
+    <defs>
+      ${this.#patterns()}
+    </defs>
     <g class="grid vertical-lines${!this.showVerticalGridLines ? ' hidden' : ''}">
       ${this.#verticalLines()}
     </g>
@@ -537,6 +549,24 @@ export default class IdsAxisChart extends Base {
     const width = Number(this.width) - this.margins.right - (this.margins.rightInner * 2);
 
     return ((width - left) / (this.markerData.markerCount - 1));
+  }
+
+  /**
+   * Return the markup for svg patterns
+   * @private
+   * @returns {string} The string with all the patterns being used
+   */
+  #patterns(): string {
+    let patternHtml = '';
+    this.data?.forEach((group: any, i: number) => {
+      let pattern = patternData[group.pattern];
+      if (pattern) {
+        const color = `${this.color(i)}` || '#000000';
+        pattern = pattern.replace('fill="#000000"', `fill="${color}"`);
+        patternHtml += pattern;
+      }
+    });
+    return patternHtml;
   }
 
   /**
@@ -742,7 +772,10 @@ export default class IdsAxisChart extends Base {
    * @private
    */
   color(index: number): string {
-    return this.data[index].color ? `color-${index + 1}` : this.colors[index];
+    if (this.data[index].patternColor) {
+      return (this.data[index].patternColor as any);
+    }
+    return `var(${this.data[index].color ? `color-${index + 1}` : this.colors[index]})`;
   }
 
   /**

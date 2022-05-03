@@ -5,7 +5,7 @@
 .ids-axis-chart {
   .bars {
     @for $i from 1 through 21 {
-      rect.color-#{$i} {
+      rect.color-#{$i}:not([fill]) {
         fill: var(--ids-chart-color-#{$i});
       }
     }

@@ -65,6 +65,10 @@ const lineData2 = [{
 document.querySelector('ids-lbarine-chart').data = lineData;
 ```
 
+A chart can also be `stacked` or `grouped`. Stacked bar graphs or composite bar graphs divide an aggregate total into parts. Each segment adds to the total of the bar and are separated by different colors.
+
+To make a stacked bar chart use `stacked="true"` and provide the appropriately formatted data.
+
 ## Class Hierarchy
 
 - IdsBarChart
@@ -106,7 +110,9 @@ Category:        |   .5   |
 Sample:     |==================|
 ```
 
-(See Axis Chart Settings for more other shared settings)
+- `stacked` {boolean} Set to true to make a stacked bar chart.
+
+(See Axis Chart Settings for other shared settings)
 
 ## Events
 

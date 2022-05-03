@@ -2,19 +2,9 @@
 
 ## TS
 
-- [x] Show Grid Lines Setting
-- [x] Multi Line(s)
-- [x] Do a Docs Pass
-- [x] Checklist
-- [x] Parts and mixins sections
-- [x] Types and settings
-- [x] Yaml
-- [x] Change Log
-- [x] Do a test coverage pass
-- [x] Side By Side Example
-- [x] Types for chart data
-- [] Make ids-axis chart extend (this as any) in area-chart
+- [] Make ids-axis chart extend without (this as any) in area-chart
 - [] Fix point group types `// Generate the bars`
+- [] Docs pass
 
 ## Rendering
 
@@ -32,14 +22,13 @@
 
 ## Accessibility
 
-- [ ] Should be keyboard friendly. Can focus the legend and hit enter to select [see for suggestions](https://github.com/infor-design/enterprise/issues/6074)
+- [ ] Should be keyboard friendly. Can focus the legend and hit enter to select [see for suggestions](https://github.com/infor-design/enterprise/issues/6074) and in particular https://css-tricks.com/accessible-svgs/#aa-2-lets-make-it-accessible and https://accessibility.psu.edu/images/charts/
 - [ ] When keying in to the legend elements it should read the data
 - [ ] Have a table option to display the data in optional data form.
 - [ ] SVG Patterns for accessibility https://css-tricks.com/simple-patterns-for-separation/
 - [ ] a) Break chart into parts and focus
 - [ ] Table alternate b) visible or c) shown)
 - [ ] Focusable Legend (for selection)
-- [ ] See https://accessibility.psu.edu/images/charts/
 
 ## Interaction
 
@@ -51,13 +40,12 @@
 
 - [x] Line
 - [x] Area
-- [ ] Bar
+- [x] Bar
+- [x] Stacked Column
 - [ ] Pie
 - [x] Column
-- [ ] Bubble
 - [ ] Scatter Plot
 - [ ] Grouped Bar
-- [ ] Stacked Bar
 - [ ] Grouped Column
-- [x] Stacked Column
 - [ ] Positive Negative ( Negative Values)
+- [ ] Bubble

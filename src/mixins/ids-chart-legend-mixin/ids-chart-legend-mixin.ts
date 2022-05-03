@@ -44,7 +44,11 @@ const IdsChartLegend = (superclass: any) => class extends superclass {
   legendTemplate(setting = 'name') {
     let legend = `<div class="chart-legend">`;
     this.data.forEach((group: any, index: number) => {
-      legend += `<a href="#"><div class="swatch color-${index + 1}"></div>${group[setting] ? group[setting] : group.name}</a>`;
+      const patternSvg = group.pattern ? `<svg width="12" height="12" xmlns="http://www.w3.org/2000/svg">
+        <rect width="12" height="12" fill="url(#${group.pattern})"></rect>
+      </svg>` : '';
+      const colorClass = group.pattern ? '' : `color-${index + 1}`;
+      legend += `<a href="#"><div class="swatch ${colorClass}">${patternSvg}</div>${group[setting] ? group[setting] : group.name}</a>`;
     });
     legend += `</div>`;
     return legend;
