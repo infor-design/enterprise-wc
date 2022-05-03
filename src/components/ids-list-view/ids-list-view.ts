@@ -160,7 +160,6 @@ export default class IdsListView extends Base {
   getFocusedLi() {
     const savedFocusedLi = this.container.querySelector(`div[part="list-item"][index="${this.#focusedLiIndex}"]`);
     const val = savedFocusedLi ?? this.container.querySelector('div[part="list-item"][tabindex="0"]');
-    console.log(val);
     return val;
   }
 

@@ -115,7 +115,6 @@ export default class IdsListBuilder extends Base {
    */
   #attachEventListeners(): void {
     this.#attachClickListeners(); // for toolbar buttons
-    this.#attachKeyboardListeners();
   }
 
   /**
@@ -240,8 +239,6 @@ export default class IdsListBuilder extends Base {
         this.container.querySelector('ids-swappable').appendChild(newDraggableItem);
       }
 
-      this.#attachKeyboardListenersForLi(newDraggableItem.querySelector('div[part="list-item"]'));
-
       const listItem = newDraggableItem.querySelector('div[part="list-item"]');
       // remove any selected attribute on li that may have propogated from the clone
       if (listItem?.getAttribute('selected')) listItem.removeAttribute('selected');
@@ -289,38 +286,6 @@ export default class IdsListBuilder extends Base {
         if (this.#selectedLiEditor) this.#selectedLiEditor = null;
         this.resetIndices();
         this.updateDataFromDOM();
-      }
-    });
-  }
-
-  /**
-   * Attach selection toggling, editing feature, and navigation focus functionality to keyboard events
-   * @private
-   * @returns {void}
-   */
-  #attachKeyboardListeners(): void {
-    this.getAllSwappableItems().forEach((li: any) => {
-      this.#attachKeyboardListenersForLi(li);
-    });
-  }
-
-  /**
-   * Helper function to attach keyboard events to each individual item
-   * @private
-   * @param {any} li the list item
-   * @returns {void}
-   */
-  #attachKeyboardListenersForLi(li: any): void {
-    this.onEvent('keydown', li, (event: KeyboardEvent) => {
-      switch (event.key) {
-        case ' ': // selects the list item
-          if (!this.#selectedLiEditor) {
-            event.preventDefault(); // prevent container from scrolling
-            this.toggleSelectedLi(li);
-          }
-          break;
-        default:
-          break;
       }
     });
   }
