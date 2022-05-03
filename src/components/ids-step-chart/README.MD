@@ -51,7 +51,6 @@ IDS step chart also has an available slot `icon` that can be used to append cont
   </ids-step-chart>
 ```
 
-
 ## Settings and Attributes
 
   - `color` {string} Sets the color used for completed steps (must use ids provided colors).
@@ -70,9 +69,21 @@ This componenent does not add any new keyboard fuctionality, steps are not tabab
 
 [design doc](https://www.figma.com/file/yaJ8mJrqRRej8oTsd6iT8P/IDS-(SoHo)-Component-Library-v4.5?node-id=760%3A771)
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-If you are converting this from the enterprise version you will no longer be using the `data-options` attribute. the following options from the `data-options` objects are implemented as attributes of the `ids-step-chart` component as follows:
+**3.x to 4.x**
+
+- Step Chart was added in v4.3.3
+- Step Chart is invoked with `$('#my-element').stepchart();`
+
+**4.x to 5.x**
+
+- Step Chart is now a custom element `<ids-step-chart></ids-step-chart>`
+- Settings are now attributes on the custom element
+
+### Converting from 4.x
+
+If you are converting this from the enterprise version you will no longer be using the `data-options` attribute. Properties of the `data-options` objects are implemented as attributes of the `ids-step-chart` component as follows:
 
 - `steps: 7` => `step-number="7"`
 - `completed: 2` => `value="2"`

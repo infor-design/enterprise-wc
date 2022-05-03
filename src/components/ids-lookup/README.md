@@ -80,14 +80,22 @@ If necessary you can provide your own custom modal to the lookup. When doing thi
 - Default size is 300px wide but there are a number of widths in mobile mode it will go to 100%
 - The dialog stretches to 100% - 16px at smaller breakpoints
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-- 3.x: Lookup had all new markup and classes.
-- 4.x: Lookup had all new markup and classes for web components.
-  - inforLookup class changed to lookup
-  - Initialization options and API is different
-  - Uses events rather than callbacks
-- 5.x: Lookup had all new markup and classes for web components.
+**3.x to 4.x**
+
+- Lookup had all new markup and classes for web components.
+- inforLookup class changed to lookup
+- Initialization options and API is different
+- Uses events rather than callbacks
+
+**4.x to 5.x**
+
+- It has all new markup and classes for web components.
+- Markup has changed to a custom element `<ids-lookup></ids-lookup>`
+- If using events events are now plain JS events for example
+- Can now be imported as a single JS file and used with encapsulated styles
+- Greatly simplified the API
 
 ## Designs
 
