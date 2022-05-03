@@ -79,12 +79,7 @@ For more details on breaking changes see each component in the individual README
   - If using properties/settings, these are now attributes: x, y, align, alignX, alignY, alignEdge, alignTarget, animated, visible.
   - Popup is now driven by its own HTMLElement rather than a being a behavior applied to any element: `<ids-popup x="0" y="0" align="top, left">My Popup</ids-popup>`
   - Can now be imported as a single JS file and used with encapsulated styles
-- `[Popup Menu]` The Popup Menu is now a web component called ids-popup-menu.
-  - Markup has been changed to a custom element `<ids-popup-menu></ids-popup-menu>`.
-  - Events triggered by the Popup Menu are now plain JS (for example `selected`/`deselected`)
-  - Selection of items is now divided up by Menu Groups `<ids-menu-group></ids-menu-group>`.  Multiple menu groups in each Popup Menu are supported, and selection in one group will not affect selection in other groups.
-  - Many previous settings are now attribute-friendly (for example `closeOnSelect` is now a `keep-open` attribute on menu groups).
-  - Made dynamic menus possible by using IdsDataSource
+- `[Popup Menu]` The Popup Menu has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-popup-menu/README.md#converting-from-previous-versions-breaking-changes) for details. ([#170](https://github.com/infor-design/enterprise-wc/issues/170))
 - `[Progress (Bar)]` The Progress component has been changed to a web component and renamed to `ids-progress-bar`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-progress-bar/README.md#converting-from-previous-versions-breaking-changes) for details. ([#187](https://github.com/infor-design/enterprise-wc/issues/187))
 - `[Progress (Chart)]` A new component that combines various similar chart types (Completion, Targeted Achievement, etc) has been added. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-progress-chart/README.md#converting-from-previous-versions-breaking-changes) for details. ([#268](https://github.com/infor-design/enterprise-wc/issues/268))
 - `[Radio]` The Radio component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-radio/README.md#converting-from-previous-versions-breaking-changes) for details. ([#169](https://github.com/infor-design/enterprise-wc/issues/169))
