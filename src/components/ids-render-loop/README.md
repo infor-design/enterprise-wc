@@ -139,8 +139,8 @@ Each individual RenderLoop Item has two opposite states:
 
 **3.x to 4.x**
 
-RenderLoop was a new API in v4.x
+- RenderLoop was a new API in v4.x
 
 **4.x to 5.x**
 
-The RenderLoop API wasn't exposed publicly in the previous release.  The API has been modified in this version, but it's largely been simplified.
+- The RenderLoop API is now exposed for public use
