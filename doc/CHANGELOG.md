@@ -85,10 +85,8 @@ For more details on breaking changes see each component in the individual README
   - Selection of items is now divided up by Menu Groups `<ids-menu-group></ids-menu-group>`.  Multiple menu groups in each Popup Menu are supported, and selection in one group will not affect selection in other groups.
   - Many previous settings are now attribute-friendly (for example `closeOnSelect` is now a `keep-open` attribute on menu groups).
   - Made dynamic menus possible by using IdsDataSource
-- `[Progress]` The progress component has been changed to a web component and renamed to ids-progress-bar.
-  - Markup has changed to a custom element `<ids-progress-bar></ids-progress-bar>`
-  - If using events, events are now plain JS events.
-  - Can now be imported as a single JS file and used with encapsulated styles
+- `[Progress (Bar)]` The Progress component has been changed to a web component and renamed to `ids-progress-bar`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-progress-bar/README.md#converting-from-previous-versions-breaking-changes) for details. ([#187](https://github.com/infor-design/enterprise-wc/issues/187))
+- `[Progress (Chart)]` A new component that combines various similar chart types (Completion, Targeted Achievement, etc) has been added. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-progress-chart/README.md#converting-from-previous-versions-breaking-changes) for details. ([#268](https://github.com/infor-design/enterprise-wc/issues/268))
 - `[Radio]` The Radio component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-radio/README.md#converting-from-previous-versions-breaking-changes) for details. ([#169](https://github.com/infor-design/enterprise-wc/issues/169))
 - `[Rating]` The Rating component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-rating/README.md#converting-from-previous-versions-breaking-changes) for details. ([#119](https://github.com/infor-design/enterprise-wc/issues/119))
 - `[RenderLoop]` The RenderLoop component has been implemented as a mixin. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-render-loop/README.md#converting-from-previous-versions-breaking-changes) for details. ([#172](https://github.com/infor-design/enterprise-wc/issues/172))
