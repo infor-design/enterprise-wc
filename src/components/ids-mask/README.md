@@ -79,6 +79,8 @@ input.mask = (rawValue, opts) => {
 
 Ids Mask comes with some built in masking functions.  These hook into other IDS components and utilities to provide localization and formatting.
 
+#### Date Masks
+
 For example, configuring an input field to mask as a U.S. localized short-hand date could be done this way:
 
 ```js
@@ -96,6 +98,10 @@ As a convenience, built-in masks can also be automatically applied with shorthan
 ```js
 input.mask = 'date';
 ```
+
+When using the date mask this way, the automatically-applied date format will be a short date format supplied by [IdsLocale](../ids-locale/README.MD).
+
+#### Number Mask
 
 Another example is configuring an input field to mask a fully-formatted number, with proper localization of thousands separator, decimal, and currency symbol placement.  An example of configuring the field for a U.S. localized formatted number could be this:
 
@@ -119,6 +125,8 @@ As a convenience, the number formatter can also be applied by string:
 input.mask = 'number';
 ```
 
+When using the number mask this way, the number will be formatted with localized decimal, thousands (group) separator, negative, and currency symbols supplied by [IdsLocale](../ids-locale/README.MD).
+
 ## Settings (Attributes)
 
 - `mask` {Array<string|RegExp>|Function} the mask that is applied to the input.
@@ -126,10 +134,18 @@ input.mask = 'number';
 - `mask-retain-positions` {boolean} if true, combined with guides, creates masked input that allows sections between literal characters to be removed/replaced without altering the position of the characters in other sections.
 - `mask-guide` {boolean} if true, displays the complete mask as a "placeholder" in the input field once input has been entered.  Pattern characters are represented as `_` or other defined character, and literal characters are shown in-line.  This feature is only applicable to array-based pattern masks.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-### Converting from 4.x
+**3.x to 4.x**
 
-The Mask is no longer a standalone component, but applied as a mixin to all [Ids Input Components](../ids-input/README.md).  To enable a mask, all that's necessary is to define the `mask` property of an Ids Input.
+- Mask is a new component in 4.0.0
+- Invoke with `.mask()` on any `<input type="text">` element
 
-What used to be defined as a `patternOptions` setting in 4.x will now be applied to the Ids Input's `maskOptions` property.  All the previous built-in mask settings have remained unchanged between 4.x and 5.x
+**4.x to 5.x**
+
+- Mask is now an Ids Mixin applied to [IdsInput](../ids-input/README.md)
+- To enable a mask, all that's necessary is to define the `mask` attribute of an IdsInput
+- If using events, events are now plain JS events
+- 4.x `patternOptions` settings are applied to masks with the `mask-options` attribute on IdsInput. All the previous built-in mask settings have remained unchanged between 4.x and 5.x
+- When using `mask="date"` on the element, an [IdsLocale](../ids-locale/README.md)-driven date format is applied to the field's mask
+- When using `mask="number"` on the element, an [IdsLocale](../ids-locale/README.md)-driven number format is applied to the field's mask
