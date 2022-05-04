@@ -98,7 +98,7 @@ export default class IdsCalendarEvent extends Base {
    */
   #attachEventHandlers(): void {
     const triggerFn = (clickType: 'click' | 'dblclick') => {
-      this.triggerEvent(`${clickType}calevent`, this, {
+      this.triggerEvent(`${clickType}-calendar-event`, this, {
         detail: { calendarEvent: this },
         bubbles: true,
         cancelable: true,
