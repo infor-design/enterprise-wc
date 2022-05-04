@@ -24,3 +24,13 @@ Modal Buttons extend regular buttons and are constructed with similar markup.
     <ids-text slot="text">Cancel</ids-text>
 </ids-modal-button>
 ```
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+Modal Buttons in 4.x were defined with only CSS classes
+
+**4.x to 5.x**
+
+- Modal Buttons are now standalone custom elements `<ids-modal-button></ids-modal-button>`

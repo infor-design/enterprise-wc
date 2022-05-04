@@ -1,10 +1,13 @@
-# TODO for IDS Popup
+# Ids Popup TODO
 
-- [ ] Create a "Click in the boundary" page that places a Popup by coordinates.
-adding `shouldUpdate: true` setting to the `connectedCallback`
-- [ ] Add tests for "type"
-- [ ] Add option to close on clicking out in the page
-- [ ] Improve "alignTarget" to accept an element reference directly (IDS Popup Menu).
+Keep this file in sync with #707
+
+## Major
+
+- [ ] Fix bug related to `is-flipped` setting ([#339](https://github.com/infor-design/enterprise-wc/issues/339))
+- [ ] Add test cases for multiple Popup types tied to the same trigger element ([#472](https://github.com/infor-design/enterprise-wc/issues/472))
+## Minor
+
 - [ ] Rename "containment" to "constraint"
 - [] Add "flip" and "nudge" logic
 - [] Might also need to create Ids Popup Boundary?

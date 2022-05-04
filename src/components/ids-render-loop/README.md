@@ -135,6 +135,12 @@ Each individual RenderLoop Item has two opposite states:
 - Paused
 - Resumed
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-- 4.x: The RenderLoop API wasn't exposed publicly in the previous release.  The API has been modified in this version, but it's largely been simplified.
+**3.x to 4.x**
+
+- RenderLoop was a new API in v4.x
+
+**4.x to 5.x**
+
+- The RenderLoop API is now exposed for public use
