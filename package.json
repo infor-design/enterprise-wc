@@ -28,7 +28,7 @@
     "test:watch": "PERCY_LOGLEVEL=silent npx jest --watchAll --coverage --detectOpenHandles --forceExit -- func",
     "test:coverage": "PERCY_LOGLEVEL=silent npx jest --coverage",
     "test:ui": "npx jest --coverage --runInBand --detectOpenHandles --forceExit -- func -- e2e",
-    "test:ci": "npm run test:ui && npm run test:percy",
+    "test:ci": "node --max-old-space-size=16384 `which npm` run test:ui && node --max-old-space-size=16384 `which npm` run test:percy",
     "test:percy": "npx jest --verbose --runInBand --detectOpenHandles --forceExit -- percy",
     "test:percy:local": "npx percy exec -- npm run test:percy",
     "test:debug": "PERCY_LOGLEVEL=silent node --inspect-brk node_modules/.bin/jest --runInBand --detectOpenHandles --forceExit",
