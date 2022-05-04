@@ -412,6 +412,9 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     .field-container {
       @include border-slate-90();
     }
+
+    // Include error styles
+    @include ids-input-message-styles();
   }
 
   &:focus-within,
