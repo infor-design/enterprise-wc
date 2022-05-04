@@ -34,9 +34,6 @@ jobs:
         path: node_modules
         key: ids-enterprise-wc-033
 
-    - name: Clear Jest Cache
-      run: npx jest --clear-cache
-
     - name: Install Dependencies
       run: npm ci
 
