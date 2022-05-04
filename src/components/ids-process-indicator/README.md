@@ -2,7 +2,7 @@
 
 ## Description
 
-Indicates the process of an activity over a timeline with process steps showing details and status of what needs to be done and/or has been done/started/cancelled. 
+Indicates the process of an activity over a timeline with process steps showing details and status of what needs to be done and/or has been done/started/cancelled.
 
 ## Use Cases
 
@@ -11,11 +11,15 @@ Indicates the process of an activity over a timeline with process steps showing 
 ## Terminology
 
 - **Process Step**: each task/stage/to-do within the whole process
+- **Status**: done, started, or cancelled as indicated by a filled circle, empty circle, or red circle with an X, respectively
+- **Label**: the title of the process step
+
 ## Settings (Attributes)
 
-None, but utilizes the child component (IDS Process Step)[./ids-process-step/README.md] which has `label` and `status` attribute.
+Utilizes the child component IDS Process Step  which has `label` and `status` attribute. The colored process line will draw to the farthest process step with a non-null status. Which has the following attributes:
 
-The colored process line will draw to the farthest process step with a non-null status.
+- `label` {string} the title of the process step
+- `status` {string} `done` || `started` || `cancelled`
 
 ## Features (With Code Samples)
 
@@ -76,7 +80,16 @@ A process indicator with 4 process steps and the 3 different possible statuses
 
 - The component stretches to 100% width of its container (horizontal orientation)
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- Process Indicator was a new componet in v4.0.0
+- Can be invoked with `$('#my-element').processindicator();`
+
+**4.x to 5.x**
+
+- Process Indicator is now a custom element `<ids-process-indicator></ids-process-indicator>`
 
 ### Converting from 4.x
 
@@ -84,7 +97,7 @@ A process indicator with 4 process steps and the 3 different possible statuses
     <div class="process-indicator compact responsive has-labels">
       <span class="responsive-label"><span>Current:</span> 3rd Level - Multiple Approvers</span>
       <div class="display">
-        
+
         <div class="step" id="step3" data-automation-id="step3-automation-id">
           <span class="label">2nd Level</span>
           <div class="lines">
@@ -156,7 +169,7 @@ A process indicator with 4 process steps and the 3 different possible statuses
         </div>
       </div>
     </div>
-      
+
 
 ```
 is the 4.x equivalent of the web component example below

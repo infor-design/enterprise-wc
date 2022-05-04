@@ -65,11 +65,11 @@ describe('IdsCounts Component', () => {
   it('unsets container color when href property is set', () => {
     count.href = '#';
     count.color = 'success';
-    expect(count.container.getAttribute('color')).toEqual('unset');
+    expect(count.container.getAttribute('color')).toEqual('');
 
     count.href = '#';
     count.color = 'danger';
-    expect(count.container.getAttribute('color')).toEqual('unset');
+    expect(count.container.getAttribute('color')).toEqual('');
   });
 
   it('is able to change sizes via compact attribute', () => {

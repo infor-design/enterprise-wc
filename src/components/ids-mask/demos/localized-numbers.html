@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+</head>
+
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid cols="3" gap="md">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Masked Inputs (Localized Numbers)</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="1" gap="md">
+      <ids-layout-grid-cell>
+        <ids-dropdown id="locales" size="sm" label="Choose Locale" dirty-tracker="true" value="en-US">
+          <ids-list-box>
+            <ids-list-box-option value="en-US">en-US</ids-list-box-option>
+            <ids-list-box-option value="de-DE">de-DE</ids-list-box-option>
+            <ids-list-box-option value="ru-RU">ru-RU</ids-list-box-option>
+            <ids-list-box-option value="bg-BG">bg-BG</ids-list-box-option>
+            <ids-list-box-option value="he-IL">he-IL</ids-list-box-option>
+            <ids-list-box-option value="hr-HR">hr-HR</ids-list-box-option>
+            <ids-list-box-option value="ar-EG">ar-EG</ids-list-box-option>
+            <ids-list-box-option value="th-TH">th-TH</ids-list-box-option>
+            <ids-list-box-option value="zh-TW">zh-TW</ids-list-box-option>
+          </ids-list-box>
+        </ids-dropdown>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <!-- Thousands-length Inputs without groups -->
+    <ids-layout-grid cols="4" gap="md">
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-thousands" label="Thousands"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-thousands-negative" label="Thousands + Negative"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-thousands-decimal" label="Thousands + Decimal"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-thousands-decimal-negative" label="Thousands + Decimal + Negative"></ids-input>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <!-- Thousands-length Inputs with groups -->
+    <ids-layout-grid cols="4" gap="md">
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-groups-thousands" label="Thousands + Groups"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-groups-thousands-negative" label="Thousands + Groups + Negative"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-groups-thousands-decimal" label="Thousands + Groups + Decimal"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-groups-thousands-decimal-negative" label="Thousands + Groups + Decimal + Negative"></ids-input>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <!-- Millions-length Inputs without groups -->
+    <ids-layout-grid cols="4" gap="md">
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-millions" label="Millions"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-millions-negative" label="Millions + Negative"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-millions-decimal" label="Millions + Decimal"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-millions-decimal-negative" label="Millions + Decimal + Negative"></ids-input>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <!-- Millions-length Inputs with groups -->
+    <ids-layout-grid cols="4" gap="md">
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-groups-millions" label="Millions + Groups"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-groups-millions-negative" label="Millions + Groups + Negative"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-groups-millions-decimal" label="Millions + Groups + Decimal"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-groups-millions-decimal-negative" label="Millions + Groups + Decimal + Negative"></ids-input>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <!-- Billions-length Inputs without groups -->
+    <ids-layout-grid cols="4" gap="md">
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-billions" label="Billions"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-billions-negative" label="Billions + Negative"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-billions-decimal" label="Billions + Decimal"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-billions-decimal-negative" label="Billions + Decimal + Negative"></ids-input>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <!-- Billions-length Inputs with groups -->
+    <ids-layout-grid cols="4" gap="md">
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-groups-billions" label="Billions + Groups"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-groups-billions-negative" label="Billions + Groups + Negative"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-groups-billions-decimal" label="Billions + Groups + Decimal"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-groups-billions-decimal-negative" label="Billions + Groups + Decimal + Negative">
+        </ids-input>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <!-- Quintillions-length Inputs without groups -->
+    <ids-layout-grid cols="4" gap="md">
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-quintillions" label="Quintillions"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-quintillions-negative" label="Quintillions + Negative"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-quintillions-decimal" label="Quintillions + Decimal"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-quintillions-decimal-negative" label="Quintillions + Decimal + Negative"></ids-input>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <!-- Quintillions-length Inputs with groups -->
+    <ids-layout-grid cols="4" gap="md">
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-groups-quintillions" label="Quintillions + Groups"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-groups-quintillions-negative" label="Quintillions + Groups + Negative"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-groups-quintillions-decimal" label="Quintillions + Groups + Decimal"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input id="mask-number-groups-quintillions-decimal-negative" label="Quintillions + Groups + Decimal + Negative">
+        </ids-input>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+
+</html>

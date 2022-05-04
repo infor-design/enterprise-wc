@@ -84,9 +84,18 @@ Spinbox which is required to have a value set when tabbed off.
 
 N/A
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-TODO
+**3.x to 4.x**
+
+- Spinbox was a new component added in v4.0.0
+- Spinbox can be invoked against an input field with `$('#my-element').spinbox();`
+
+**4.x to 5.x**
+
+- Spinbox is now a custom element `<ids-spinbox></ids-spinbox>`
+- If using events, events are now plain JS events.
+- Can now be imported as a single JS file and used with encapsulated styles
 
 ## Accessibility Guidelines
 - 1.4.3 Contrast (Minimum) - there should be enough contrast on the background which the wizard resides on in the page.

@@ -1,5 +1,6 @@
 const EXPANDABLE_AREA_TYPES = [
-  'toggle-btn'
+  'toggle-btn',
+  'partial'
 ];
 
 export { EXPANDABLE_AREA_TYPES };

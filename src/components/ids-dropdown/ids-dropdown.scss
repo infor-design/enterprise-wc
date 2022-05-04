@@ -6,6 +6,10 @@ ids-trigger-button {
   width: 34px;
 }
 
+.ids-dropdown {
+  position: relative;
+}
+
 // Icon Placement
 .icon-container {
   @include text-slate-100();

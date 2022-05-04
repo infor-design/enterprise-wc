@@ -3,9 +3,10 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-upload-base';
-
-import '../ids-input/ids-input';
 import '../ids-trigger-field/ids-trigger-field';
+import '../ids-trigger-field/ids-trigger-button';
+import '../ids-text/ids-text';
+import '../ids-icon/ids-icon';
 
 import styles from './ids-upload.scss';
 
@@ -16,9 +17,14 @@ const ID = 'ids-upload-id';
  * IDS Upload Component
  * @type {IdsUpload}
  * @inherits IdsElement
- * @mixes IdsDirtyTrackerMixin
- * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
+ * @mixes IdsLabelStateMixin
+ * @mixes IdsLocaleMixin
+ * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsFieldHeightMixin
+ * @mixes IdsColorVariantMixin
+ * @mixes IdsTooltipMixin
+ * @mixes IdsEventsMixin
  * @part container - the main container element
  * @part label - the label element
  * @part input - the visible input element
@@ -42,16 +48,55 @@ export default class IdsUpload extends Base {
       attributes.DISABLED,
       attributes.LABEL,
       attributes.LABEL_FILETYPE,
+      attributes.LABEL_REQUIRED,
       attributes.MULTIPLE,
-      attributes.NO_TEXT_ELLIPSIS,
+      attributes.NO_MARGINS,
       attributes.PLACEHOLDER,
       attributes.SIZE,
       attributes.READONLY,
+      attributes.TABBABLE,
+      attributes.TEXT_ELLIPSIS,
       attributes.TRIGGER_LABEL,
       attributes.VALIDATE,
       attributes.VALIDATION_EVENTS,
       attributes.VALUE
     ];
+  }
+
+  /**
+   * List of available color variants for this component
+   * @returns {Array<string>}
+   */
+  colorVariants: Array<string> = ['alternate-formatter'];
+
+  /**
+   * Push color variant to the trigger-field element
+   * @returns {void}
+   */
+  onColorVariantRefresh(): void {
+    this.textInput.colorVariant = this.colorVariant;
+  }
+
+  /**
+   * Push label-state to the trigger-field element
+   * @returns {void}
+   */
+  onlabelStateChange(): void {
+    this.textInput.labelState = this.labelState;
+  }
+
+  /**
+   * Push field-height/compact to the trigger-field element
+   * @param {string} val the new field height setting
+   */
+  onFieldHeightChange(val: string) {
+    if (val) {
+      const attr = val === 'compact' ? { name: 'compact', val: '' } : { name: 'field-height', val };
+      this.textInput.setAttribute(attr.name, attr.val);
+    } else {
+      this.textInput.removeAttribute('compact');
+      this.textInput.removeAttribute('field-height');
+    }
   }
 
   /**
@@ -61,7 +106,6 @@ export default class IdsUpload extends Base {
   connectedCallback(): void {
     super.connectedCallback();
     this.trigger = this.shadowRoot.querySelector('.trigger');
-    this.textInput = this.shadowRoot.querySelector('ids-trigger-field');
     this.fileInput = this.shadowRoot.querySelector(`#${ID}`);
 
     this.files = this.fileInput.files;
@@ -91,6 +135,12 @@ export default class IdsUpload extends Base {
     const validationEvents = ` validation-events="${this.validationEvents || this.validationEventsDefault}"`;
     const value = this.value ? ` value="${this.value}"` : '';
 
+    const colorVariant = this.colorVariant ? ` color-variant="${this.colorVariant}"` : '';
+    const fieldHeight = this.fieldHeight ? ` field-height="${this.fieldHeight}"` : '';
+    const labelState = this.labelState ? ` label-state="${this.labelState}"` : '';
+    const compact = this.compact ? ' compact' : '';
+    const noMargins = this.noMargins ? ' no-margins' : '';
+
     return `
       <div class="ids-upload" part="container">
         <label for="${ID}" class="ids-upload-filetype-label" aria-hidden="true" tabindex="-1">
@@ -100,6 +150,7 @@ export default class IdsUpload extends Base {
         <ids-trigger-field
           readonly
           ${readonlyBG}
+          ${colorVariant}${fieldHeight}${compact}${noMargins}${labelState}
           ${clearableForced}${dirtyTracker}${disabled}${label}${placeholder}${size}${validate}${validationEvents}${textEllipsis}${value}
           css-class="ids-upload"
           part="input"
@@ -123,7 +174,6 @@ export default class IdsUpload extends Base {
 
   /**
    * Clear the value
-   * @private
    * @returns {void}
    */
   clear(): void {
@@ -134,7 +184,6 @@ export default class IdsUpload extends Base {
 
   /**
    * Open file picker window
-   * @private
    * @returns {void}
    */
   open(): void {
@@ -296,6 +345,14 @@ export default class IdsUpload extends Base {
   }
 
   /**
+   * Get trigger field element as textInput
+   * @returns {any} The textInput element
+   */
+  get textInput(): any {
+    return this.shadowRoot.querySelector('ids-trigger-field');
+  }
+
+  /**
    * Default label for filetype
    * @private
    * @returns {string} default label value
@@ -400,6 +457,24 @@ export default class IdsUpload extends Base {
   get labelFiletype(): string | undefined { return this.getAttribute(attributes.LABEL_FILETYPE); }
 
   /**
+   * Set `label-required` attribute
+   * @param {boolean|string} value The `label-required` attribute
+   */
+  set labelRequired(value: boolean | string) {
+    if (typeof value === 'boolean' || typeof value === 'string') {
+      this.setAttribute(attributes.LABEL_REQUIRED, value.toString());
+    } else {
+      this.removeAttribute(attributes.LABEL_REQUIRED);
+    }
+    this.textInput.labelRequired = this.labelRequired;
+  }
+
+  get labelRequired(): boolean {
+    const value = this.getAttribute(attributes.LABEL_REQUIRED);
+    return value !== null ? stringToBool(value) : true;
+  }
+
+  /**
    * Set the `multiple` attribute for filetype
    * @param {boolean|string} value of the `multiple` property
    */
@@ -418,21 +493,40 @@ export default class IdsUpload extends Base {
   get multiple(): boolean | string { return this.getAttribute(attributes.MULTIPLE); }
 
   /**
-   * Set the `no-text-ellipsis` attribute for text input
-   * @param {boolean|string} value of the `no-text-ellipsis` property
+   * Sets the no margins attribute
+   * @param {boolean} value The value for no margins attribute
    */
-  set noTextEllipsis(value: string | boolean) {
-    const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.NO_TEXT_ELLIPSIS, val.toString());
-      this.textInput.textEllipsis = false;
-      return;
+  set noMargins(value: boolean) {
+    if (typeof value === 'boolean' || typeof value === 'string') {
+      this.setAttribute(attributes.NO_MARGINS, value.toString());
+    } else {
+      this.removeAttribute(attributes.NO_MARGINS);
     }
-    this.removeAttribute(attributes.NO_TEXT_ELLIPSIS);
-    this.textInput.textEllipsis = true;
+    this.textInput.noMargins = this.noMargins;
   }
 
-  get noTextEllipsis(): string | boolean { return this.getAttribute(attributes.NO_TEXT_ELLIPSIS); }
+  get noMargins(): boolean {
+    const value = this.getAttribute(attributes.NO_MARGINS);
+    return value !== null ? stringToBool(value) : false;
+  }
+
+  /**
+   * Set the text ellipsis for input text
+   * @param {boolean|string} value The value
+   */
+  set textEllipsis(value: string | boolean) {
+    if (typeof value === 'boolean' || typeof value === 'string') {
+      this.setAttribute(attributes.TEXT_ELLIPSIS, value.toString());
+    } else {
+      this.removeAttribute(attributes.TEXT_ELLIPSIS);
+    }
+    this.textInput.textEllipsis = this.textEllipsis;
+  }
+
+  get textEllipsis(): boolean {
+    const value = this.getAttribute(attributes.TEXT_ELLIPSIS);
+    return value !== null ? stringToBool(value) : true;
+  }
 
   /**
    * Set the `placeholder` of input
@@ -491,6 +585,24 @@ export default class IdsUpload extends Base {
   }
 
   get size(): string | null { return this.getAttribute(attributes.SIZE); }
+
+  /**
+   * Set if the upload is tabbable
+   * @param {boolean|string} value True of false depending if the upload is tabbable
+   */
+  set tabbable(value: boolean | string) {
+    if (typeof value === 'boolean' || typeof value === 'string') {
+      this.setAttribute(attributes.TABBABLE, value.toString());
+    } else {
+      this.removeAttribute(attributes.TABBABLE);
+    }
+    this.textInput.tabbable = this.tabbable;
+  }
+
+  get tabbable(): boolean {
+    const value = this.getAttribute(attributes.TABBABLE);
+    return value !== null ? stringToBool(value) : false;
+  }
 
   /**
    * Set the label for trigger button

@@ -84,3 +84,17 @@ It's possible to append a Message Title to add more context, and Buttons to crea
     <ids-modal-button slot="buttons" id="cancel" type="secondary" cancel>Cancel</ids-modal-button>
 </ids-modal>
 ```
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- Modal was added in v4.0.0
+- Replace `.inforDialog()` with `.modal()`
+
+**4.x to 5.x**
+
+- Modal is now a custom element `<ids-modal></ids-modal>`
+- Modal content is now user-defined by slot
+- Triggering element for the modal is now configurable with the `target` prop
+- Events are now just plain JS events

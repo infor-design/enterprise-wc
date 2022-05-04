@@ -96,12 +96,12 @@ describe('IdsPopup Component', () => {
 
   // NOTE: Needs to mock `getBoundingClientRect` on the `container`
   it('can align based on coordinates', () => {
-    const c = popup.container;
-    const originalGetBoundingClientRect = c.getBoundingClientRect;
+    // const c = popup;
+    const originalGetBoundingClientRect = popup.getBoundingClientRect;
     popup.bleed = true;
 
     // Basic coord alignment (center/center against the point, for modals)
-    c.getBoundingClientRect = jest.fn(() => ({
+    popup.getBoundingClientRect = jest.fn(() => ({
       x: 0,
       y: 0,
       left: -50,
@@ -116,11 +116,11 @@ describe('IdsPopup Component', () => {
     // (setting 0 initially would not cause a refresh -- 0 is the value by default)
     popup.setPosition(0, 0, true, true);
 
-    expect(popup.container.style.left).toEqual('-50px');
-    expect(popup.container.style.top).toEqual('-50px');
+    expect(popup.style.left).toEqual('-50px');
+    expect(popup.style.top).toEqual('-50px');
 
     // Left/Top (standard for context menus)
-    c.getBoundingClientRect = jest.fn(() => ({
+    popup.getBoundingClientRect = jest.fn(() => ({
       x: 0,
       y: 0,
       left: 0,
@@ -133,11 +133,11 @@ describe('IdsPopup Component', () => {
     popup.alignX = 'left';
     popup.alignY = 'top';
 
-    expect(popup.container.style.left).toEqual('0px');
-    expect(popup.container.style.top).toEqual('0px');
+    expect(popup.style.left).toEqual('0px');
+    expect(popup.style.top).toEqual('0px');
 
     // Bottom/Right (left/top edges will be at X:-100,y:-100)
-    c.getBoundingClientRect = jest.fn(() => ({
+    popup.getBoundingClientRect = jest.fn(() => ({
       x: 0,
       y: 0,
       left: -100,
@@ -150,11 +150,11 @@ describe('IdsPopup Component', () => {
     popup.alignX = 'right';
     popup.alignY = 'bottom';
 
-    expect(popup.container.style.left).toEqual('-100px');
-    expect(popup.container.style.top).toEqual('-100px');
+    expect(popup.style.left).toEqual('-100px');
+    expect(popup.style.top).toEqual('-100px');
 
     // Center (popup will center itself at X:0,Y:0)
-    c.getBoundingClientRect = jest.fn(() => ({
+    popup.getBoundingClientRect = jest.fn(() => ({
       x: 0,
       y: 0,
       left: -50,
@@ -167,34 +167,33 @@ describe('IdsPopup Component', () => {
     popup.alignX = 'center';
     popup.alignY = 'center';
 
-    expect(popup.container.style.left).toEqual('-50px');
-    expect(popup.container.style.top).toEqual('-50px');
+    expect(popup.style.left).toEqual('-50px');
+    expect(popup.style.top).toEqual('-50px');
 
     // Left/Top (shorthand)
     popup.align = 'left, top';
 
-    expect(popup.container.style.left).toEqual('0px');
-    expect(popup.container.style.top).toEqual('0px');
+    expect(popup.style.left).toEqual('0px');
+    expect(popup.style.top).toEqual('0px');
 
     // Bottom/Right (shorthand)
     popup.align = 'right, bottom';
 
-    expect(popup.container.style.left).toEqual('-100px');
-    expect(popup.container.style.top).toEqual('-100px');
+    expect(popup.style.left).toEqual('-100px');
+    expect(popup.style.top).toEqual('-100px');
 
     // Center (shorthand)
     popup.align = 'center';
 
-    expect(popup.container.style.left).toEqual('-50px');
-    expect(popup.container.style.top).toEqual('-50px');
+    expect(popup.style.left).toEqual('-50px');
+    expect(popup.style.top).toEqual('-50px');
 
     // Reset `getBoundingClientRect` to default
-    c.getBoundingClientRect = originalGetBoundingClientRect;
+    popup.getBoundingClientRect = originalGetBoundingClientRect;
   });
 
   // NOTE: Needs to mock `getBoundingClientRect` on both the `container` and the `alignTarget`
   it('can align relative to another element on the page', () => {
-    const c = popup.container;
     popup.visible = true;
     popup.bleed = true;
 
@@ -225,7 +224,7 @@ describe('IdsPopup Component', () => {
 
     // Center the component on top of the alignTarget
     // Default `align` attribute is "center"
-    c.getBoundingClientRect = jest.fn(() => ({
+    popup.getBoundingClientRect = jest.fn(() => ({
       width: 100,
       height: 100
     }));
@@ -238,69 +237,69 @@ describe('IdsPopup Component', () => {
     popup.x = 0;
     popup.y = 0;
 
-    expect(popup.container.style.left).toEqual('275px');
-    expect(popup.container.style.top).toEqual('275px');
+    expect(popup.style.left).toEqual('275px');
+    expect(popup.style.top).toEqual('275px');
 
     // Bottom
     popup.align = 'bottom';
 
-    expect(popup.container.style.left).toEqual('275px');
-    expect(popup.container.style.top).toEqual('350px');
+    expect(popup.style.left).toEqual('275px');
+    expect(popup.style.top).toEqual('350px');
 
     // Use the Y attribute as an offset
     popup.y = 50;
 
-    expect(popup.container.style.left).toEqual('275px');
-    expect(popup.container.style.top).toEqual('350px');
+    expect(popup.style.left).toEqual('275px');
+    expect(popup.style.top).toEqual('350px');
 
     // Reset and test bottom,right alignment
     // (Uses `bottom` as the edge, `right` as secondary border alignment)
     popup.y = 0;
     popup.align = 'bottom, right';
 
-    expect(popup.container.style.left).toEqual('250px');
-    expect(popup.container.style.top).toEqual('350px');
+    expect(popup.style.left).toEqual('250px');
+    expect(popup.style.top).toEqual('350px');
 
     // Switch edge/secondary
     // (Uses `right` as the edge, `bottom` as secondary border alignment)
     popup.align = 'right, bottom';
 
-    expect(popup.container.style.left).toEqual('350px');
-    expect(popup.container.style.top).toEqual('250px');
+    expect(popup.style.left).toEqual('350px');
+    expect(popup.style.top).toEqual('250px');
 
     // Use the X attribute as an offset
     popup.x = 50;
 
-    expect(popup.container.style.left).toEqual('350px');
-    expect(popup.container.style.top).toEqual('250px');
+    expect(popup.style.left).toEqual('350px');
+    expect(popup.style.top).toEqual('250px');
 
     // Add a Y offset for fun
     popup.y = 50;
 
-    expect(popup.container.style.left).toEqual('350px');
-    expect(popup.container.style.top).toEqual('250px');
+    expect(popup.style.left).toEqual('350px');
+    expect(popup.style.top).toEqual('250px');
 
     // Remove the offsets and flip to the opposite alignment
     popup.align = 'top, left';
     popup.x = 0;
     popup.y = 0;
 
-    expect(popup.container.style.left).toEqual('350px');
-    expect(popup.container.style.top).toEqual('150px');
+    expect(popup.style.left).toEqual('350px');
+    expect(popup.style.top).toEqual('150px');
 
     // Switch edge/secondary
     // (Uses `right` as the edge, `bottom` as secondary border alignment)
     popup.align = 'left, top';
 
-    expect(popup.container.style.left).toEqual('200px');
-    expect(popup.container.style.top).toEqual('300px');
+    expect(popup.style.left).toEqual('200px');
+    expect(popup.style.top).toEqual('300px');
 
     // Center vertically, align against the left edge
     // This should autocorrect the `align` attribute to simply say `left`
     popup.align = 'left';
 
-    expect(popup.container.style.left).toEqual('200px');
-    expect(popup.container.style.top).toEqual('275px');
+    expect(popup.style.left).toEqual('200px');
+    expect(popup.style.top).toEqual('275px');
   });
 
   it('rejects setting bad alignment values', () => {

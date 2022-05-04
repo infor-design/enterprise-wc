@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import '../../src/components/ids-process-indicator/ids-process-indicator';
-import '../../src/components/ids-process-indicator/ids-process-step/ids-process-step';
+import '../../src/components/ids-process-indicator/ids-process-step';
 
 const HTMLSnippets = {
   VANILLA_PROCESS_INDICATOR: (

@@ -10,4 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
     errorPage.popup.animated = true;
     errorPage.visible = false;
   });
+
+  errorPage.addEventListener('beforehide', (evt: CustomEvent) => {
+    evt.detail.response(false);
+  });
 });

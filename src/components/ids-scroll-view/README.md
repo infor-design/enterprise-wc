@@ -59,11 +59,17 @@ None
 
 - Swipe left or swipe right will do the same as clicking the next button in the list of buttons
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-- 3.x: Had a .inforCarousel() that was a bit more functional but used a true carousel
-- 4.x: Replaces .inforCarousel() in a more limited fashion
-- 4.x: Replaces .circlePage() in a more limited fashion, focusing just on the button controls and swipe containers
+**3.x to 4.x**
+
+- Circle Pager component replaced `.inforCarousel()` and `.circlePage()` from 3.x in a more limited fashion
+
+**4.x to 5.x**
+
+- IdsScrollView component replaces Circle Pager from the previous version and adds swiping
+- Markup has changed to a custom element `<ids-scroll-view></ids-scroll-view>`
+- Can now be imported as a single JS file and used with encapsulated styles
 
 ## Designs
 
