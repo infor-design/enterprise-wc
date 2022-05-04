@@ -5,9 +5,10 @@ Keep this file in sync with #708
 ## Major
 
 - [ ] Examples with CSS parts
-- [ ] Add breakpoints/"fullsize" support from 4.x [(example)](https://main-enterprise.demo.design.infor.com/components/modal/example-fullsize-responsive.html)
+- [ ] Add breakpoints and full size support from 4.x [(example)](https://main-enterprise.demo.design.infor.com/components/modal/example-fullsize-responsive.html)
 - [ ] Add `keepOpen` behavior to prevent clicking outside to close (may also just need to ignore `onOutsideClick()`)
 - [x] Keep keyboard navigation within the Modal's boundaries (don't focus on anything outside the active modal) ([#267](https://www.github.com/infor-design/enterprise-wc/issues/267))
+
 ## Minor
 
 - [ ] Trigger an event on the "target" containing a value of some sort (useful for Lookup/etc)
