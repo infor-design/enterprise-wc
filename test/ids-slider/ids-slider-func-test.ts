@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import processAnimFrame from '../helpers/process-anim-frame';
+import createFromTemplate from '../helpers/create-from-template';
 import '../helpers/resize-observer-mock';
 
 import '../../src/components/ids-slider/ids-slider';
@@ -41,40 +42,26 @@ describe('IdsSlider Component', () => {
     return event;
   };
 
-  const createElemViaTemplate = async (innerHTML: any) => {
-    slider?.remove?.();
-
-    const template = document.createElement('template');
-    template.innerHTML = innerHTML;
-    slider = template.content.childNodes[0];
-
-    document.body.appendChild(slider);
-
-    await processAnimFrame();
-
-    return slider;
-  };
-
   afterEach(async () => {
     slider?.remove();
   });
 
   it('renders with no errors', async () => {
-    slider = await createElemViaTemplate(HTMLSnippets.SINGLE_SLIDER);
+    slider = await createFromTemplate(slider, HTMLSnippets.SINGLE_SLIDER);
 
     const errors = jest.spyOn(global.console, 'error');
     expect(document.querySelectorAll('ids-slider').length).toEqual(1);
 
     slider.remove();
 
-    slider = await createElemViaTemplate(HTMLSnippets.SINGLE_SLIDER);
+    slider = await createFromTemplate(slider, HTMLSnippets.SINGLE_SLIDER);
     expect(document.querySelectorAll('ids-slider').length).toEqual(1);
 
     expect(errors).not.toHaveBeenCalled();
   });
 
   it('renders correctly', async () => {
-    slider = await createElemViaTemplate(HTMLSnippets.SINGLE_SLIDER);
+    slider = await createFromTemplate(slider, HTMLSnippets.SINGLE_SLIDER);
     slider.labels = ['terrible', 'poor', 'average', 'good', 'excellent'];
     slider.min = 0;
     slider.max = 100;
@@ -86,7 +73,7 @@ describe('IdsSlider Component', () => {
   });
 
   it('sets color correctly', async () => {
-    slider = await createElemViaTemplate(HTMLSnippets.SINGLE_SLIDER);
+    slider = await createFromTemplate(slider, HTMLSnippets.SINGLE_SLIDER);
 
     slider.color = '#25af65';
     expect(slider.color).toBe('#25af65');
@@ -108,7 +95,7 @@ describe('IdsSlider Component', () => {
   });
 
   it('sets labels correctly', async () => {
-    slider = await createElemViaTemplate(HTMLSnippets.SINGLE_SLIDER);
+    slider = await createFromTemplate(slider, HTMLSnippets.SINGLE_SLIDER);
     processAnimFrame();
 
     expect(slider.stepNumber).toBe(2);
@@ -117,7 +104,7 @@ describe('IdsSlider Component', () => {
   });
 
   it('sets vertical step labels correctly', async () => {
-    slider = await createElemViaTemplate(HTMLSnippets.VERTICAL_STEP_SLIDER);
+    slider = await createFromTemplate(slider, HTMLSnippets.VERTICAL_STEP_SLIDER);
     processAnimFrame();
 
     expect(slider.stepNumber).toBe(5);
@@ -132,7 +119,7 @@ describe('IdsSlider Component', () => {
   });
 
   it('sets step labels correctly', async () => {
-    slider = await createElemViaTemplate(HTMLSnippets.STEP_SLIDER);
+    slider = await createFromTemplate(slider, HTMLSnippets.STEP_SLIDER);
     processAnimFrame();
 
     expect(slider.type).toBe('step');
@@ -155,7 +142,7 @@ describe('IdsSlider Component', () => {
   });
 
   it('sets double slider correctly', async () => {
-    const idsContainer = await createElemViaTemplate(HTMLSnippets.DOUBLE_SLIDER);
+    const idsContainer = await createFromTemplate(slider, HTMLSnippets.DOUBLE_SLIDER);
     slider = idsContainer.querySelector('ids-slider');
 
     processAnimFrame();
@@ -170,7 +157,7 @@ describe('IdsSlider Component', () => {
   });
 
   it('sets min correctly', async () => {
-    slider = await createElemViaTemplate(HTMLSnippets.SINGLE_SLIDER);
+    slider = await createFromTemplate(slider, HTMLSnippets.SINGLE_SLIDER);
 
     slider.min = '50';
     expect(slider.min).toBe(50);
@@ -186,7 +173,7 @@ describe('IdsSlider Component', () => {
   });
 
   it('sets max correctly', async () => {
-    slider = await createElemViaTemplate(HTMLSnippets.SINGLE_SLIDER);
+    slider = await createFromTemplate(slider, HTMLSnippets.SINGLE_SLIDER);
     slider.max = '150';
     expect(slider.max).toBe(150);
 
@@ -204,7 +191,7 @@ describe('IdsSlider Component', () => {
   });
 
   it('sets type correctly', async () => {
-    slider = await createElemViaTemplate(HTMLSnippets.SINGLE_SLIDER);
+    slider = await createFromTemplate(slider, HTMLSnippets.SINGLE_SLIDER);
 
     slider.type = 'step';
     expect(slider.type).toBe('step');
@@ -223,7 +210,7 @@ describe('IdsSlider Component', () => {
   });
 
   it('sets vertical correctly', async () => {
-    slider = await createElemViaTemplate(HTMLSnippets.VERTICAL_DOUBLE_SLIDER);
+    slider = await createFromTemplate(slider, HTMLSnippets.VERTICAL_DOUBLE_SLIDER);
     processAnimFrame();
 
     expect(slider.vertical).toBeTruthy();
@@ -253,7 +240,7 @@ describe('IdsSlider Component', () => {
   });
 
   it('sets rtl correctly, click outside of slider', async () => {
-    slider = await createElemViaTemplate(HTMLSnippets.LANGUAGE_SLIDER);
+    slider = await createFromTemplate(slider, HTMLSnippets.LANGUAGE_SLIDER);
     processAnimFrame();
 
     (document.body as any).querySelector('ids-container').setAttribute('language', 'ar');
@@ -270,7 +257,7 @@ describe('IdsSlider Component', () => {
   });
 
   it('drags correctly on double slider', async () => {
-    const idsContainer = await createElemViaTemplate(HTMLSnippets.DOUBLE_SLIDER);
+    const idsContainer = await createFromTemplate(slider, HTMLSnippets.DOUBLE_SLIDER);
     slider = idsContainer.querySelector('ids-slider');
     await processAnimFrame();
 
@@ -317,7 +304,7 @@ describe('IdsSlider Component', () => {
   });
 
   it('clicks correctly on vertical step slider', async () => {
-    slider = await createElemViaTemplate(HTMLSnippets.VERTICAL_STEP_SLIDER);
+    slider = await createFromTemplate(slider, HTMLSnippets.VERTICAL_STEP_SLIDER);
     await processAnimFrame();
 
     const mockBounds = {
@@ -347,7 +334,7 @@ describe('IdsSlider Component', () => {
   });
 
   it('clicks and drags and navigates keyboard arrows on vertical double slider correctly', async () => {
-    slider = await createElemViaTemplate(HTMLSnippets.VERTICAL_DOUBLE_SLIDER);
+    slider = await createFromTemplate(slider, HTMLSnippets.VERTICAL_DOUBLE_SLIDER);
     processAnimFrame();
 
     expect(slider.vertical).toBeTruthy();
