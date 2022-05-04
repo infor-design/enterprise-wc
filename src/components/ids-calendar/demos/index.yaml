@@ -6,4 +6,5 @@
  keywords: calendar, date, day, week, month, toolbar
  examples:
   - link: calendar-event.html
+    type: Calendar Events Example
     description: Showing the event component that populates month and week views

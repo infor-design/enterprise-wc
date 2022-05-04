@@ -44,7 +44,7 @@ interface DayMapData {
 export default class IdsWeekView extends Base {
   dayMap: DayMapData[] = [];
 
-  vetoableEventNames = ['beforeweekrender'];
+  vetoableEventTypes = ['beforeweekrender'];
 
   constructor() {
     super();

@@ -142,7 +142,7 @@ export default class IdsCalendarEvent extends Base {
       const startHours = this.startDate.getHours() + (this.startDate.getMinutes() / 60);
       const endHours = this.endDate.getHours() + (this.startDate.getMinutes() / 60);
 
-      return this.locale?.formatHourRange(startHours, endHours);
+      return this.locale?.formatHourRange(startHours, endHours, {});
     }
 
     return '';
