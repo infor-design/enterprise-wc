@@ -71,7 +71,7 @@ btn.click();
 ```
 ### Adding a Message Title and Buttons
 
-It's possible to append a Message Title to add more context, and Buttons to create mulitple actions that can be triggered from the Modal.  To do so, take advantage of the Modal's slots:
+It's possible to append a Message Title to add more context, and Buttons to create multiple actions that can be triggered from the Modal.  To do so, take advantage of the Modal's slots:
 
 - The "title" slot, which can be populated by an [IdsText](../ids-text/README.md) or other text element, and will be located at the top of the Modal.
 - The "buttons" slot, which can be filled with one or multiple [IdsModalButtons](../ids-modal-button/README.md), and will be located at the bottom of the Modal.
