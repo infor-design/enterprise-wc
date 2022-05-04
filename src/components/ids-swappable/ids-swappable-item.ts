@@ -219,7 +219,7 @@ export default class IdsSwappableItem extends Base {
    * Handle the keyboard events
    */
   #handleKeyEvents() {
-    this.listen(['Enter', 'ArrowUp', 'ArrowDown', ' '], this, (e: any) => {
+    this.listen(['Enter', 'ArrowUp', 'ArrowDown'], this, (e: any) => {
       e.preventDefault();
 
       if (e.key === 'ArrowDown') {
@@ -230,7 +230,12 @@ export default class IdsSwappableItem extends Base {
         e.target.previousElementSibling?.focus();
       }
 
-      if (e.key === 'Enter' || e.key === ' ') {
+      if (e.key === 'Enter') {
+        const isEditing = this.querySelector('.is-editing');
+        if (isEditing) {
+          return;
+        }
+
         if (this.selection === 'multiple') {
           this.#toggleMultiSelect();
         } else {

@@ -115,6 +115,7 @@ export default class IdsListBuilder extends Base {
    */
   #attachEventListeners(): void {
     this.#attachClickListeners(); // for toolbar buttons
+    this.#attachKeyboardListeners();
   }
 
   /**
@@ -181,7 +182,7 @@ export default class IdsListBuilder extends Base {
 
         // update inner text on keyup
         this.onEvent('keyup', i, () => this.#updateSelectedLiWithEditorValue());
-        this.onEvent('blur', i, () => this.#unfocusAnySelectedLiEditor());
+        this.onEvent('blur', i, () => this.#unfocusAnySelectedLiEditor(), { once: true });
       } else {
         this.#selectedLiEditor.focus();
       }
@@ -287,6 +288,34 @@ export default class IdsListBuilder extends Base {
         this.resetIndices();
         this.updateDataFromDOM();
       }
+    });
+  }
+
+  /**
+   * Add/remove the editor in one function,
+   * used when `Enter` key is hit on a selected list item
+   * @private
+   * @param {Event | any} e event
+   * @returns {void}
+   */
+  #toggleEditor(e: Event | any): void {
+    if (this.selectedLi) {
+      if (!this.#selectedLiEditor) {
+        this.#insertSelectedLiWithEditor();
+      } else {
+        if (e.key === 'Enter') {
+          this.#selectedLiEditor.blur();
+          return;
+        }
+        this.#unfocusAnySelectedLiEditor();
+      }
+      this.focusLi(this.selectedLi);
+    }
+  }
+
+  #attachKeyboardListeners() {
+    this.listen('Enter', this.selectedLi, (e: Event | any) => {
+      this.#toggleEditor(e);
     });
   }
 
