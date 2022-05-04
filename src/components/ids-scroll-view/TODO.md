@@ -1,6 +1,6 @@
 # Ids Scroll View TODOs
 
-Keep this file in sync with #XXX
+Keep this file in sync with #709
 
 ## Major
 
