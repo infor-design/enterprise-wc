@@ -23,6 +23,15 @@ Expandable areas are crucial to displaying only important information to the use
 - `pane` allows you to further style the pane element
 - `footer` allows you to further style the footer element
 
+## Events
+
+- `beforeexpand` Vetoable event triggered before expanding pane
+- `beforecollapse` Vetoable event triggered before collapsing pane
+- `expand` Triggered when pane starts expanding
+- `collapse` Triggered when pane starts collapsing
+- `afterexpand` Triggered after expand css transition
+- `aftercollapse` Triggered after collapse css transition
+
 ## Features (With Code Examples)
 
 Ids Expandable Area - Default

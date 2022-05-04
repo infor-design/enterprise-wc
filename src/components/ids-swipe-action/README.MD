@@ -78,10 +78,16 @@ The swipe action is not keyboard friendly. For this we use the actions button fo
 - Flows with padding and margin within the width and height of the parent container.
 - The swipe does work to a limited degree on chrome via a scroll action. But it is not the most user friendly interaction. For this we use the actions button for keyboard users.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-- 3.x: Did not exist
-- 4.x: Did not exist
+**3.x to 4.x**
+
+- Swipe Action is a new component in v4.53.0
+- Invoke Swipe Action on an element with `$('#my-element').swipeaction();`
+
+**4.x to 5.x**
+
+- Swipe Action has been added as a custom element `<ids-swipe-action></ids-swipe-action>`
 
 ## Designs
 

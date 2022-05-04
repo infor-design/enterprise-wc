@@ -1,20 +1,11 @@
-# TODO on IDS Menu
+# IdsMenu TODOs
 
-## Features
+## Major
 
-- [] Disabled state (entire menu)
-- [] Ensure current aria labels work properly to describe groups (Voiceover doesn't currently read out group headers)
+- [ ] Ensure current aria labels work properly to describe groups (Voiceover doesn't currently read out group headers)
+
+## Minor
+
+- [ ] Disabled state (entire menu)
 - [ ] Get aXe tests passing
-
-## Ids Popup
-
-- [] Add "flip" and "nudge" logic
-- [] Might also need to create Ids Popup Boundary?
-
-## Ids Popup Menu
-
-- [] Shift + F10 to open (need to have different targets in Keyboard mixin)
-
-## ContextMenu Mixin?
-
-- [] Apply an IdsPopupMenu to an element with API for open/close and menu functions
+- [ ] Css only examples

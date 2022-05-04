@@ -195,10 +195,20 @@ Splitter set as disabled.
 
 - Flows with padding and margin within the width and height of the parent container.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-- 3.x: Splitter have all new markup and classes.
-- 4.x: Splitter have all new markup and classes for web components.
+**3.x to 4.x**
+
+- Splitter was a new component added in v4.1.1
+- Splitter can be invoked on a container element with `$('#my-element').splitter();`
+
+**4.x to 5.x**
+
+- Splitter's base component is now a custom element `<ids-splitter></ids-splitter>`
+- Content that should live in "split" areas should be slotted into `<ids-splitter-pane></ids-splitter-pane>` components.
+- Splitter orientation can be set by use of `axis` settings.
+- If using events, events are now plain JS events.
+- Can now be imported as a single JS file and used with encapsulated styles
 
 ## Designs
 

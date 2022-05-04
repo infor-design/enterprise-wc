@@ -92,7 +92,7 @@ itemThree.value = 1;
 group.appendChild(itemThree);
 ```
 
-Additionally, it's possible to use an [IdsDataSource](./ids-base/README.md) to populate the Popup Menu dynamically.  The component has a standardize JSON format that can be used to create a menu structure quickly:
+Additionally, it's possible to use an [IdsDataSource](../../core/README.md#ids-data-source) to populate the Popup Menu dynamically.  The component has a standardize JSON format that can be used to create a menu structure quickly:
 
 ```js
 const menu = new IdsPopupMenu();
@@ -120,6 +120,20 @@ menu.data = {
 }
 document.body.appendChild(menu);
 ```
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- Replace usage of `.inforContextMenu()` with `.contextmenu()` or `.popupmenu()` (depending on the use case)
+
+**4.x to 5.x**
+
+- Popup Menu is now a custom element `<ids-popup-menu></ids-popup-menu>`.
+- Events triggered by the Popup Menu are now plain JS (for example `selected`/`deselected`)
+- Selection of items is now divided up by Menu Groups `<ids-menu-group></ids-menu-group>`.  Multiple menu groups in each Popup Menu are supported, and selection in one group will not affect selection in other groups.
+- Many previous settings are now attribute-friendly (for example `closeOnSelect` is now a `keep-open` attribute on menu groups).
+- Made dynamic menus possible by using [IdsDataSource](../../core/README.md#ids-data-source)
 
 ## Keyboard Guidelines
 

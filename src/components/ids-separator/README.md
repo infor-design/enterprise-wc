@@ -44,3 +44,13 @@ To Show separators between items in a menu you would do something like the follo
     </ids-menu-group>
 </ids-popup-menu>
 ```
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+Separator did not exist as a standalone component in this version
+
+**4.x to 5.x**
+
+- Separator is now a standalone custom element `<ids-separator><ids-separator>`

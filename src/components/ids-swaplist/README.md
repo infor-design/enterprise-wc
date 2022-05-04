@@ -29,3 +29,13 @@ data.forEach((d) => {
 ```
 ## Settings (Attributes)
 **count** Sets the amount of lists on the page. By default `count` is set to 2.
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- Swaplist was a new component created in v4.0.6
+
+**4.x to 5.x**
+
+- Swaplist is now a custom element `<ids-swaplist></ids-swaplist>`

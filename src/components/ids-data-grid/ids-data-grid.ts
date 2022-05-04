@@ -381,8 +381,10 @@ export default class IdsDataGrid extends Base {
     this.offEvent('click.body', body);
     this.onEvent('click.body', body, (e: any) => {
       const cell = e.target.closest('.ids-data-grid-cell');
+      const cellNum = cell.getAttribute('aria-colindex') - 1;
       const row = cell.parentNode;
-      this.setActiveCell(cell.getAttribute('aria-colindex') - 1, row.getAttribute('aria-rowindex') - 1);
+      const isHyperlink = this.columns[cellNum]?.formatter?.name === 'hyperlink' && e.target?.nodeName === 'IDS-HYPERLINK';
+      this.setActiveCell(cellNum, row.getAttribute('aria-rowindex') - 1, isHyperlink);
 
       if (this.rowSelection === 'mixed') {
         if (cell.children[0].classList.contains('ids-datagrid-checkbox-container')) {

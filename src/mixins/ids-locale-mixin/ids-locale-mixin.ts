@@ -1,3 +1,4 @@
+import IdsLocale from '../../components/ids-locale/ids-locale';
 import { attributes } from '../../core/ids-attributes';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
@@ -17,6 +18,9 @@ const IdsLocaleMixin = (superclass: any) => class extends superclass {
     this.offEvent('localechange.mixin');
     this.onEvent('localechange.mixin', getClosest(this, 'ids-container'), () => {
       this.setDirection();
+      if (typeof this.onLocaleChange === 'function') {
+        this.onLocaleChange(this.locale);
+      }
     });
     super.connectedCallback?.();
   }
@@ -33,7 +37,7 @@ const IdsLocaleMixin = (superclass: any) => class extends superclass {
    * Provides access to a global `locale` instance
    * @returns {any} link to the global locale instance
    */
-  get locale() {
+  get locale(): IdsLocale {
     this.attachLocale();
     return this.state.locale;
   }
