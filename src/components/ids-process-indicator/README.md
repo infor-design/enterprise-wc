@@ -80,7 +80,16 @@ A process indicator with 4 process steps and the 3 different possible statuses
 
 - The component stretches to 100% width of its container (horizontal orientation)
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- Process Indicator was a new componet in v4.0.0
+- Can be invoked with `$('#my-element').processindicator();`
+
+**4.x to 5.x**
+
+- Process Indicator is now a custom element `<ids-process-indicator></ids-process-indicator>`
 
 ### Converting from 4.x
 

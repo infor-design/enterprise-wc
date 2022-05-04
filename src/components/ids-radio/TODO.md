@@ -1,3 +1,8 @@
 # Ids Radio TODO
 
-[ ] Move `.radio-group-label` text colors into IdsText, under `label` styles. IdsText needs a way to do this without explicitly being changed to a "label" type (which would change the tagName instead of just applying the color change)
+Keep this file in sync with #704
+
+## Minor
+
+- [ ] Review "legend" styles on Radio Groups for each theme and ensure they are the correct color (they currently match what's in 4.x, but both 4.x and 5.x don't match other "label" colors)
+- [ ] Implement IdsFieldHeightMixin and respect different-sized radio buttons

@@ -16,6 +16,7 @@ For more details on breaking changes see each component in the individual README
 - `[Button]` The button component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-button/README.md#converting-from-previous-versions) for details. ([#173](https://github.com/infor-design/enterprise-wc/issues/173))
 - `[Card]` The card component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-card/README.md#converting-from-previous-versions) for details. ([#419](https://github.com/infor-design/enterprise-wc/issues/419))
 - `[Checkbox]` The checkbox component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-checkbox/README.md#converting-from-previous-versions for details. ([#164](https://github.com/infor-design/enterprise-wc/issues/164))
+- `[Circle Pager]` The circle pager component has been renamed to [`IdsScrollView`](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-scroll-view/README.md)
 - `[Colorpicker]` The card component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-color-picker/README.md#converting-from-previous-versions for details. ([#223](https://github.com/infor-design/enterprise-wc/issues/223))
 - `[IdsContainer]` Added a new component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-containerr/README.md) for details.
 - `[Contextual Action Panel]` The contextual action panel component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-contextual-action-panel/README.md#converting-from-previous-versions for details. ([#330](https://github.com/infor-design/enterprise-wc/issues/330))
@@ -59,12 +60,8 @@ For more details on breaking changes see each component in the individual README
   - Modal Buttons, Title, Status, and Message can be changed via API
   - Enhance user-interface on mobile and desktop viewports.
   - Markup is `<ids-message></ids-message>`
-- `[Modal]` The Modal is now a web component called ids-modal ([WC#118](https://github.com/infor-design/enterprise-wc/issues/118))
-  - All content inside the modal boundary is now user-defined by slot
-  - Triggering element for the modal is now configurable with the `target` prop
-  - Events are now just plain JS events
-  - Markup has been changed to custom element `<ids-modal></ids-modal>`
-  - Enhance user-interface on mobile and desktop viewports.
+- `[Modal]` The Modal component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-modal/README.md#converting-from-previous-versions-breaking-changes) for details. ([#118](https://github.com/infor-design/enterprise-wc/issues/118))
+- `[Modal Button]` A new component was created for standalone Modal buttons, extending IdsButton. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-modal-button/README.md#converting-from-previous-versions-breaking-changes) for details. ([#118](https://github.com/infor-design/enterprise-wc/issues/118))
 - `[NotificationBanner]` The Notification Banner is now a web component called ids-notification-banner
   - The type, alert icon, message text, link and link text are all configurable via properties on the custom element
   - Additionally, user's can define the notification via a JS api, where the `parent` and `id` can be configured
@@ -75,31 +72,21 @@ For more details on breaking changes see each component in the individual README
   - pagination is controlled via attributes on the `<ids-pager>` (`page-number`, `total`, `page-size`), and manages buttons and controls automatically.
   - buttons are managed by `<ids-pager-button>` with given functionality flags e.g. `<ids-pager-button start>`.
   - input box can be inserted `<ids-pager-input>`, and a number list with `<ids-pager-number-list>`
-- `[Popup]` Added the Popup WebComponent. ([#4259](https://github.com/infor-design/enterprise/issues/4259))
-  - This is the new base component to be used for building Popupmenu, Tooltip, Modal, and any other component that requires placement of a fixed-position element.
-  - If using properties/settings, these are now attributes: x, y, align, alignX, alignY, alignEdge, alignTarget, animated, visible.
-  - Popup is now driven by its own HTMLElement rather than a being a behavior applied to any element: `<ids-popup x="0" y="0" align="top, left">My Popup</ids-popup>`
-  - Can now be imported as a single JS file and used with encapsulated styles
-- `[Popup Menu]` The Popup Menu is now a web component called ids-popup-menu.
-  - Markup has been changed to a custom element `<ids-popup-menu></ids-popup-menu>`.
-  - Events triggered by the Popup Menu are now plain JS (for example `selected`/`deselected`)
-  - Selection of items is now divided up by Menu Groups `<ids-menu-group></ids-menu-group>`.  Multiple menu groups in each Popup Menu are supported, and selection in one group will not affect selection in other groups.
-  - Many previous settings are now attribute-friendly (for example `closeOnSelect` is now a `keep-open` attribute on menu groups).
-  - Made dynamic menus possible by using IdsDataSource
-- `[Progress]` The progress component has been changed to a web component and renamed to ids-progress-bar.
-  - Markup has changed to a custom element `<ids-progress-bar></ids-progress-bar>`
-  - If using events, events are now plain JS events.
-  - Can now be imported as a single JS file and used with encapsulated styles
-- `[Radio]` The Radio component has been changed to a web component and use with ids-radio and ids-radio-group.
-  - Markup has changed to a custom element `<ids-radio-group><ids-radio></ids-radio></ids-radio-group>`
-  - If using events, events are now plain JS events.
-  - Can now be imported as a single JS file and used with encapsulated styles
-- `[RenderLoop]` The RenderLoop component has been implemented as a mixin.
-  - API has been simplified and made more user-friendly.
-- `[ScrollView/CirclePager]` The IdsScrollView component replaces circle pager from the previous version and adds swiping
-  - Markup has changed to a custom element `<ids-scroll-view></ids-scroll-view>`
-  - Can now be imported as a single JS file and used with encapsulated styles
-- `[Spinbox]` The spinbox component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-spinbox/README.md#converting-from-previous-versions-breaking-changes) for details. ([#139](https://github.com/infor-design/enterprise-wc/issues/139))
+- `[Place]` The Place component has been replaced by [IdsPopup](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-popup/README.md#converting-from-previous-versions-breaking-changes).
+- `[Popup]` Added a new Popup component that serves as a base element for absolute/fixed-position elements. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-popup/README.md#converting-from-previous-versions-breaking-changes) for details. ([#139](https://github.com/infor-design/enterprise-wc/issues/139))
+- `[Popup Menu]` The Popup Menu has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-popup-menu/README.md#converting-from-previous-versions-breaking-changes) for details. ([#170](https://github.com/infor-design/enterprise-wc/issues/170))
+- `[Process Indicator]` The Process Indicator component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-process-indicator/README.md#converting-from-previous-versions-breaking-changes) for details. ([#333](https://github.com/infor-design/enterprise-wc/issues/333))
+- `[Progress (Bar)]` The Progress component has been changed to a web component and renamed to `ids-progress-bar`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-progress-bar/README.md#converting-from-previous-versions-breaking-changes) for details. ([#187](https://github.com/infor-design/enterprise-wc/issues/187))
+- `[Progress (Chart)]` A new component that combines various similar chart types (Completion, Targeted Achievement, etc) has been added. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-progress-chart/README.md#converting-from-previous-versions-breaking-changes) for details. ([#268](https://github.com/infor-design/enterprise-wc/issues/268))
+- `[Radio]` The Radio component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-radio/README.md#converting-from-previous-versions-breaking-changes) for details. ([#169](https://github.com/infor-design/enterprise-wc/issues/169))
+- `[Rating]` The Rating component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-rating/README.md#converting-from-previous-versions-breaking-changes) for details. ([#119](https://github.com/infor-design/enterprise-wc/issues/119))
+- `[RenderLoop]` The RenderLoop component has been implemented as a mixin. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-render-loop/README.md#converting-from-previous-versions-breaking-changes) for details. ([#172](https://github.com/infor-design/enterprise-wc/issues/172))
+- `[ScrollView]` A new component that replaces Circle Pager from the previous version and adds touch gestures like swiping. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-scroll-view/README.md#converting-from-previous-versions-breaking-changes) for details. ([#199](https://github.com/infor-design/enterprise-wc/issues/199))
+- `[Search Field]` The Search Field component has been converted.  See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-search-field/README.md#converting-from-previous-versions-breaking-changes) for details. ([#314](https://github.com/infor-design/enterprise-wc/issues/314))
+- `[Separator]` A new component was created for use in IdsToolbar and IdsMenu to visually separate content. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-separator/README.md#converting-from-previous-versions-breaking-changes) for details. *(N/A)*
+- `[Skip Link]` The Skip Link component has been converted.  See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-skip-link/README.md#converting-from-previous-versions-breaking-changes) for details. *(N/A)*
+- `[Slider]` The Slider component has been converted.  See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-slider/README.md#converting-from-previous-versions-breaking-changes) for details. ([#304](https://github.com/infor-design/enterprise-wc/issues/304))
+- `[Spinbox]` The Spinbox component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-spinbox/README.md#converting-from-previous-versions-breaking-changes) for details. ([#139](https://github.com/infor-design/enterprise-wc/issues/139))
 - `[Splitter]` The Splitter component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-splitter/README.md#converting-from-previous-versions-breaking-changes) for details. ([#143](https://github.com/infor-design/enterprise-wc/issues/143))
 - `[Step Chart]` The Step Chart has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-step-chart/README.md#converting-from-previous-versions-breaking-changes) for details. ([#273](https://github.com/infor-design/enterprise-wc/issues/273))
 - `[Summary Field]` A new component was created that displays contextual information on forms. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-summary-field/README.md) for details. ([#276](https://github.com/infor-design/enterprise-wc/issues/276))
