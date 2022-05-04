@@ -123,57 +123,68 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Add multiple messages
   const addMultipleMessages = () => {
-    const addBy: string = radioValidationAddType.value;
-    // Error
-    if (addBy === 'error') {
-      inputMultiple?.addValidationMessage({
-        message: 'Something is wrong do not continue',
-        type: 'error',
-        id: 'error-multi'
-      });
+    switch (radioValidationAddType.value) {
+      // Error
+      case 'error':
+        inputMultiple?.addValidationMessage({
+          message: 'Something is wrong do not continue',
+          type: 'error',
+          id: 'error-multi'
+        });
+        break;
+
+      // Alert
+      case 'alert':
+        inputMultiple?.addValidationMessage({
+          message: 'Warning the value may be incorrect',
+          type: 'alert',
+          id: 'alert-multi'
+        });
+        break;
+
+      // Success
+      case 'success':
+        inputMultiple?.addValidationMessage({
+          message: 'This value is correct',
+          type: 'success',
+          id: 'success-multi'
+        });
+        break;
+
+      // Info
+      case 'info':
+        inputMultiple?.addValidationMessage({
+          message: 'Random information about this field',
+          type: 'info',
+          id: 'info-multi'
+        });
+        break;
+
+      // Icon (default)
+      case 'icon':
+        inputMultiple?.addValidationMessage({
+          message: 'Something about your user profile',
+          type: 'icon',
+          id: 'icon-default-multi'
+        });
+        break;
+
+      // Icon (custom)
+      case 'icon-custom':
+        inputMultiple?.addValidationMessage({
+          message: 'Something about your mail information',
+          type: 'icon',
+          id: 'icon-custom-multi',
+          icon: 'mail'
+        });
+        break;
+
+      // All
+      case 'all':
+        addMultipleMessagesAll();
+        break;
+      default:
     }
-    // Alert
-    if (addBy === 'alert') {
-      inputMultiple?.addValidationMessage({
-        message: 'Warning the value may be incorrect',
-        type: 'alert',
-        id: 'alert-multi'
-      });
-    }
-    // Success
-    if (addBy === 'success') {
-      inputMultiple?.addValidationMessage({
-        message: 'This value is correct',
-        type: 'success',
-        id: 'success-multi'
-      });
-    }
-    // Info
-    if (addBy === 'info') {
-      inputMultiple?.addValidationMessage({
-        message: 'Random information about this field',
-        type: 'info',
-        id: 'info-multi'
-      });
-    }
-    // Icon (default)
-    if (addBy === 'icon') {
-      inputMultiple?.addValidationMessage({
-        message: 'Something about your user profile',
-        type: 'icon',
-        id: 'icon-default-multi'
-      });
-    }
-    // Icon (custom)
-    if (addBy === 'icon-custom') {
-      inputMultiple?.addValidationMessage({
-        message: 'Something about your mail information',
-        type: 'icon',
-        id: 'icon-custom-multi',
-        icon: 'mail'
-      });
-    }
-    if (addBy === 'all') addMultipleMessagesAll();
   };
 
   // Remove multiple messages by id (array of multiple objects)
