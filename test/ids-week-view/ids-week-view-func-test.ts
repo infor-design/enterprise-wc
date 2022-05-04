@@ -135,8 +135,8 @@ describe('IdsWeekView Component (using properties)', () => {
     expect(component.endHour).toEqual(endHour);
     expect(component.showTimeline).toBeFalsy();
     expect(component.timelineInterval).toEqual(interval);
-    expect(component.events).toBeUndefined();
-    expect(component.eventTypes).toBeUndefined();
+    expect(component.eventsData).toBeUndefined();
+    expect(component.eventTypesData).toBeUndefined();
   });
 
   it('should change properties', () => {
@@ -158,8 +158,8 @@ describe('IdsWeekView Component (using properties)', () => {
   });
 
   it('can add calendar events', () => {
-    component.eventTypes = EVENT_TYPES;
-    component.events = EVENTS_ITEMS;
+    component.eventTypesData = EVENT_TYPES;
+    component.eventsData = EVENTS_ITEMS;
 
     const expectedEventCount = 7; // 5 Event Items (1 event lasts 3 days)
     expect(component.container.querySelectorAll('ids-calendar-event')?.length).toBe(expectedEventCount);

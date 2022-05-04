@@ -42,7 +42,9 @@ interface DayMapData {
 @customElement('ids-week-view')
 @scss(styles)
 export default class IdsWeekView extends Base {
-  private dayMap: DayMapData[] = [];
+  dayMap: DayMapData[] = [];
+
+  vetoableEventNames = ['beforeweekrender'];
 
   constructor() {
     super();
@@ -417,7 +419,7 @@ export default class IdsWeekView extends Base {
     this.container.insertAdjacentHTML('beforeend', weekTemplate);
 
     this.state.hasRendered = true;
-    this.triggerEvent('afterweekrendered', this);
+    this.triggerEvent('afterweekrender', this);
 
     // Create day map
     this.container.querySelectorAll('th').forEach((elem: HTMLTableCellElement) => {
@@ -528,14 +530,14 @@ export default class IdsWeekView extends Base {
    */
   async renderEventsFromData(forceRender = false) {
     if (!forceRender && typeof this.state.beforeEventsRender === 'function') {
-      this.state.events = await this.state.beforeEventsRender(this.startDate, this.endDate);
+      this.state.eventsData = await this.state.beforeEventsRender(this.startDate, this.endDate);
     }
 
     this.#removeAllEvents();
 
-    if (!this.state.hasRendered || !this.state.events?.length) return;
+    if (!this.state.hasRendered || !this.state.eventsData?.length) return;
 
-    this.state.events.forEach((event: CalendarEventData) => {
+    this.state.eventsData.forEach((event: CalendarEventData) => {
       const eventStart = new Date(event.starts);
 
       if (this.startDate <= eventStart && eventStart < this.endDate) {
@@ -565,10 +567,10 @@ export default class IdsWeekView extends Base {
    */
   #createCalendarEvent(eventData: CalendarEventData, cssClass?: string[]): IdsCalendarEvent {
     const calendarEvent = new IdsCalendarEvent();
-    const eventType = this.state.eventTypes?.find((et: CalendarEventTypeData) => et.id === eventData.type);
+    const eventType = this.state.eventTypesData?.find((et: CalendarEventTypeData) => et.id === eventData.type);
 
-    calendarEvent.eventType = eventType;
-    calendarEvent.event = eventData;
+    calendarEvent.eventTypeData = eventType;
+    calendarEvent.eventData = eventData;
 
     if (cssClass?.length) {
       calendarEvent.cssClass = cssClass;
@@ -964,11 +966,11 @@ export default class IdsWeekView extends Base {
   }
 
   /**
-   * Set events to display on week view
-   * @param {CalendarEventData[]} events array of events
+   * Set calendar events to display on week view
+   * @param {CalendarEventData[]} data array of events
    */
-  set events(events: CalendarEventData[]) {
-    this.state.events = events;
+  set eventsData(data: CalendarEventData[]) {
+    this.state.eventsData = data;
     this.renderEventsFromData(true);
   }
 
@@ -976,16 +978,16 @@ export default class IdsWeekView extends Base {
    * Gets calendar events
    * @returns {CalendarEventData[]} array of events
    */
-  get events(): CalendarEventData[] {
-    return this.state.events;
+  get eventsData(): CalendarEventData[] {
+    return this.state.eventsData;
   }
 
   /**
    * Set event types for week view
-   * @param {CalendarEventTypeData[]} eventTypes array of event types
+   * @param {CalendarEventTypeData[]} data array of event types
    */
-  set eventTypes(eventTypes: CalendarEventTypeData[]) {
-    this.state.eventTypes = eventTypes;
+  set eventTypesData(data: CalendarEventTypeData[]) {
+    this.state.eventTypesData = data;
     this.renderEventsFromData(true);
   }
 
@@ -993,8 +995,8 @@ export default class IdsWeekView extends Base {
    * Gets event types of week view
    * @returns {CalendarEventTypeData[]} array of event types
    */
-  get eventTypes(): CalendarEventTypeData[] {
-    return this.state.eventTypes;
+  get eventTypesData(): CalendarEventTypeData[] {
+    return this.state.eventTypesData;
   }
 
   /**

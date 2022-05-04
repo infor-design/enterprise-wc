@@ -1,0 +1,9 @@
+---
+ component: Calendar
+ link: ids-calendar
+ description: Displays calendar view 
+ category: Layouts
+ keywords: calendar, date, day, week, month, toolbar
+ examples:
+  - link: calendar-event.html
+    description: Showing the event component that populates month and week views

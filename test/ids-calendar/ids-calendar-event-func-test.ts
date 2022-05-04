@@ -42,8 +42,8 @@ describe('IdsCalendarEvent Component', () => {
   beforeEach(() => {
     idsContainer.innerHTML = '';
     calendarEvent = new IdsCalendarEvent();
-    calendarEvent.eventType = EVENT_TYPE;
-    calendarEvent.event = EVENT_ITEM;
+    calendarEvent.eventTypeData = EVENT_TYPE;
+    calendarEvent.eventData = EVENT_ITEM;
     idsText = calendarEvent.container.querySelector('ids-text');
     idsContainer.appendChild(calendarEvent);
     idsContainer.setLocale('en-US');
@@ -52,8 +52,8 @@ describe('IdsCalendarEvent Component', () => {
 
   it('should render', () => {
     const errors = jest.spyOn(global.console, 'error');
-    calendarEvent.eventType = EVENT_TYPE;
-    calendarEvent.event = EVENT_ITEM;
+    calendarEvent.eventTypeData = EVENT_TYPE;
+    calendarEvent.eventData = EVENT_ITEM;
 
     expect(document.querySelector('ids-calendar-event')).toBeDefined();
     expect(errors).not.toHaveBeenCalled();
@@ -69,8 +69,8 @@ describe('IdsCalendarEvent Component', () => {
   });
 
   it('caches event data', () => {
-    expect(calendarEvent.event).toEqual(EVENT_ITEM);
-    expect(calendarEvent.eventType).toEqual(EVENT_TYPE);
+    expect(calendarEvent.eventData).toEqual(EVENT_ITEM);
+    expect(calendarEvent.eventTypeData).toEqual(EVENT_TYPE);
   });
 
   it('calculates duration in hours', () => {
@@ -83,7 +83,7 @@ describe('IdsCalendarEvent Component', () => {
       ends: '2018-10-22T02:30:00.000',
     };
 
-    calendarEvent.event = twoHalfHourEvent;
+    calendarEvent.eventData = twoHalfHourEvent;
     expect(calendarEvent.duration).toEqual(2.5);
   });
 
@@ -157,7 +157,7 @@ describe('IdsCalendarEvent Component', () => {
 
   it('can render without event type', () => {
     const errors = jest.spyOn(global.console, 'error');
-    calendarEvent.eventType = null;
+    calendarEvent.eventTypeData = null;
     expect(errors).not.toHaveBeenCalled();
   });
 });

@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const weekView: any = document.querySelector('ids-week-view');
 
   // Set event types
-  weekView.eventTypes = await getEventTypes();
+  weekView.eventTypesData = await getEventTypes();
 
   weekView.beforeEventsRender = (startDate: Date, endDate: Date) => {
     const starts = startDate;

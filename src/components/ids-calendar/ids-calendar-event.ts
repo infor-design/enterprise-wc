@@ -1,9 +1,8 @@
-import IdsElement from '../../core/ids-element';
-import { customElement, scss } from '../../core/ids-decorators';
+import Base from './ids-calendar-base';
 import styles from './ids-calendar-event.scss';
+import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { attributes } from '../../core/ids-attributes';
-import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 
 export type CalendarEventData = {
   id: string;
@@ -29,7 +28,7 @@ export type CalendarEventTypeData = {
 
 @customElement('ids-calendar-event')
 @scss(styles)
-export default class IdsCalendarEvent extends IdsLocaleMixin(IdsElement) {
+export default class IdsCalendarEvent extends Base {
   constructor() {
     super();
   }
@@ -79,13 +78,13 @@ export default class IdsCalendarEvent extends IdsLocaleMixin(IdsElement) {
    * @returns {string} content html
    */
   contentTemplate(): string {
-    if (!this.event) return ``;
+    if (!this.eventData) return ``;
 
     const displayTime = this.getDisplayTime();
-    const text = this.event.shortSubject || this.event.subject;
-    const tooltip = this.event.subject;
+    const text = this.eventData.shortSubject || this.eventData.subject;
+    const tooltip = this.eventData.subject;
     const overflow = this.overflow;
-    const icon = this.event.icon ? `<ids-icon class="calendar-event-icon" icon="${this.event.icon}" height="11" width="11"></ids-icon>` : '';
+    const icon = this.eventData.icon ? `<ids-icon class="calendar-event-icon" icon="${this.eventData.icon}" height="11" width="11"></ids-icon>` : '';
 
     return `<div class="calendar-event-content">
       <ids-text class="calendar-event-title" inline font-size="12" color="unset" overflow="${overflow}" tooltip="${tooltip}">
@@ -150,43 +149,43 @@ export default class IdsCalendarEvent extends IdsLocaleMixin(IdsElement) {
   }
 
   /**
-   * Sets event data
-   * @param {CalendarEventData} event Event data
+   * Sets calendar event data
+   * @param {CalendarEventData} data Event data
    */
-  set event(event: CalendarEventData) {
-    this.cachedEvent = event;
-    this.setAttribute('data-id', event.id);
+  set eventData(data: CalendarEventData) {
+    this.cachedEvent = data;
+    this.setAttribute('data-id', data.id);
     this.refreshContent();
   }
 
   /**
-   * Gets event data
+   * Gets calendar event data
    * @returns {CalendarEventData} Event data
    */
-  get event(): CalendarEventData {
+  get eventData(): CalendarEventData {
     return this.cachedEvent;
   }
 
   /**
-   * Sets event type
-   * @param {CalendarEventTypeData | undefined} eventType Event type
+   * Sets calendar event type
+   * @param {CalendarEventTypeData | undefined} data Event type
    */
-  set eventType(eventType: CalendarEventTypeData | undefined) {
-    this.cachedEventType = eventType;
-    if (this.cachedEvent) this.cachedEvent.type = eventType?.id;
+  set eventTypeData(data: CalendarEventTypeData | undefined) {
+    this.cachedEventType = data;
+    if (this.cachedEvent) this.cachedEvent.type = data?.id;
 
-    if (eventType?.color) {
-      this.container.setAttribute('color', eventType?.color);
+    if (data?.color) {
+      this.container.setAttribute('color', data?.color);
     } else {
       this.container.removeAttribute('color');
     }
   }
 
   /**
-   * Gets event type
+   * Gets calendar event type
    * @returns {CalendarEventTypeData} Event type
    */
-  get eventType(): CalendarEventTypeData {
+  get eventTypeData(): CalendarEventTypeData {
     return this.cachedEventType;
   }
 
