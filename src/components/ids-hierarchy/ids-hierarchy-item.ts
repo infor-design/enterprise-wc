@@ -1,7 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import hierarchyJSON from '../../assets/data/hierarchy.json';
 
 import Base, { IdsHierarchyItemInfo } from './ids-hierarchy-item-base';
 
@@ -50,9 +49,8 @@ export default class IdsHierarchyItem extends Base {
       ...super.attributes,
       attributes.COLOR,
       attributes.EXPANDED,
-      attributes.LAZY_LOAD,
       attributes.ROOT_ITEM,
-      attributes.SELECTED
+      attributes.SELECTED,
     ];
   }
 
@@ -150,26 +148,6 @@ export default class IdsHierarchyItem extends Base {
     return this.getAttribute(attributes.ROOT_ITEM);
   }
 
-  /**
-   * Set the value of the lazy loading attribute
-   * @param {string | null} value the value of the attribute
-   */
-  set lazyLoad(value: string | null) {
-    const isValueTruthy = stringToBool(value);
-    if (isValueTruthy) {
-      this.setAttribute(attributes.LAZY_LOAD, true);
-    } else {
-      this.removeAttribute(attributes.LAZY_LOAD);
-    }
-  }
-
-  /**
-   * @returns {string | null} containing value of the root attribute
-   */
-  get lazyLoad(): string | null {
-    return this.getAttribute(attributes.LAZY_LOAD);
-  }
-
   get color(): string {
     return this.getAttribute(attributes.COLOR);
   }
@@ -193,6 +171,30 @@ export default class IdsHierarchyItem extends Base {
   }
 
   /**
+   * An async function that fires as the dropdown is opening allowing you to set contents.
+   * @param {Function} func The async function
+   */
+  set loadChildren(func) {
+    this.state.loadChildren = func;
+  }
+
+  get loadChildren() { return this.state.loadChildren; }
+
+  /**
+   * An async function that fires as the dropdown is opening allowing you to set contents.
+   * @param {Array} value The async function
+   */
+  set hasChildren(value) {
+    this.state.hasChildren = value;
+
+    if (value) {
+      this.container.classList.add('has-nested-items');
+    }
+  }
+
+  get hasChildren() { return this.state.hasChildren; }
+
+  /**
    * Sets the value of the expanded attribute
    * @private
    * @param {string} expanded the value of the expanded attribute.
@@ -211,19 +213,9 @@ export default class IdsHierarchyItem extends Base {
    * @private
    * @returns {void}
    */
-  async #hasNestedItems() {
+  #hasNestedItems() {
     const nestedItems = this.container?.querySelector('[part="nested-items"]');
-    let hasNestedItems = !!nestedItems?.assignedElements().length;
-
-    if (this.lazyLoad) {
-      const url: any = hierarchyJSON;
-      const res = await fetch(url);
-      const data: IdsHierarchyItemInfo[] = await res.json();
-
-      this.childElements = data.filter((d: IdsHierarchyItemInfo) => d.parentItem === this.getAttribute(attributes.ID));
-      hasNestedItems = this.childElements.length;
-    }
-
+    const hasNestedItems = !!nestedItems?.assignedElements().length;
     if (hasNestedItems) {
       this.container.classList.add('has-nested-items');
     }
@@ -249,19 +241,37 @@ export default class IdsHierarchyItem extends Base {
    * @returns {void}
    */
   #attachEventHandlers() {
-    this.onEvent('click', this.expander, () => {
-      if (!this.expanded && !this.childElements.attached) {
-        const templateStr = this.childElements.reduce((prev: string, cur: IdsHierarchyItemInfo) => `${prev}
-          <ids-hierarchy-item id="${cur.id}" lazy-load=${!cur.isLeaf} color="${cur.color}">
-            ${cur.picture ? `<img id="headshot" alt="${cur.id}" src="${cur.picture}" slot="avatar" />` : ''}
-            <ids-text slot="heading">${cur.name}</ids-text>
-            <ids-text slot="subheading">${cur.position}</ids-text>
-            <ids-text slot="micro">${cur.employmentType}</ids-text>
-          </ids-hierarchy-item>
-        `, '');
-        this.innerHTML += templateStr;
-        this.childElements.attached = true;
+    this.onEvent('click', this.expander, async () => {
+      if (this.loadChildren) {
+        if (!this.expanded && !this.childElements.attached) {
+          const data: IdsHierarchyItemInfo[] = await this.loadChildren();
+          this.childElements = data.filter((d: IdsHierarchyItemInfo) => d.parentItem === this.getAttribute(attributes.ID));
+
+          if (!this.childElements.length) {
+            this.container.classList.remove('has-nested-items');
+          }
+
+          const templateStr = this.childElements.reduce((prev: string, cur: IdsHierarchyItemInfo) => `${prev}
+            <ids-hierarchy-item id="${cur.id}" color="${cur.color}">
+              ${cur.picture ? `<img id="headshot" alt="${cur.id}" src="${cur.picture}" slot="avatar" />` : ''}
+              <ids-text slot="heading">${cur.name}</ids-text>
+              <ids-text slot="subheading">${cur.position}</ids-text>
+              <ids-text slot="micro">${cur.employmentType}</ids-text>
+            </ids-hierarchy-item>
+          `, '');
+          this.innerHTML += templateStr;
+          this.childElements.attached = true;
+
+          const childElementItems = this.querySelectorAll('ids-hierarchy-item');
+          for (const item of childElementItems) {
+            item.hasChildren = data
+              .filter((d: IdsHierarchyItemInfo) => d.parentItem === item.getAttribute(attributes.ID))
+              .length > 0;
+            item.loadChildren = this.loadChildren;
+          }
+        }
       }
+
       this.#expandCollapse(this.expanded);
     });
 
