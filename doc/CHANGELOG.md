@@ -42,36 +42,18 @@ For more details on breaking changes see each component in the individual README
 - `[ListView]` The List View component is now a web component called `ids-list-view`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-list-view/README.md#converting-from-previous-versions for details. ([#174](https://github.com/infor-design/enterprise-wc/issues/174))
 - `[LoadingIndicator]` The busy indicator component is now a web component called `ids-loading-indicator`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-loading-indicator/README.md#converting-from-previous-versions for details. ([#187](https://github.com/infor-design/enterprise-wc/issues/187))
 - `[Locale]` The locale component has been changed to a mixin and added to many but not all components. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-locale/README.md#converting-from-previous-versions for details. ([#121](https://github.com/infor-design/enterprise-wc/issues/121))
-- `[LoadingIndicator]` The Busy Indicator component has been changed to a web component and renamed to ids-loading-indicator.
-  - Markup has changed to a custom element `<ids-loading-indicator></ids-loading-indicator>`
-  - Can now be imported as a single JS file and used with encapsulated styles
-  - Can change the type of indicator from Circular to Linear by applying a `linear` attribute flag, or
-  make it a sticky/bar indicator that sticks to the top of a component via the `sticky` flag.
-  - Can make the indicator determinate by providing a `progress` attribute with a number representing the percentage
-  from 0-100 that the indicator is representing a process completed so far.
 - `[Mask]` The mask component has been changed to a mixin and added to IdsInput components. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-mask/README.md#converting-from-previous-versions-breaking-changes) for details. ([#125](https://github.com/infor-design/enterprise-wc/issues/125))
 - `[Menu Button]` The menu button component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-menu-button/README.md#converting-from-previous-versions-breaking-changes) for details. ([#173](https://github.com/infor-design/enterprise-wc/issues/173))
 - `[Lookup]` The Lookup component is now a web component called `ids-lookup`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-lookup/README.md#converting-from-previous-versions for details. ([#149](https://github.com/infor-design/enterprise-wc/issues/149))
 - `[Masthead]` The masthead component is now a web component called `ids-masthead`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-masthead/README.md#converting-from-previous-versions for details. ([#362](https://github.com/infor-design/enterprise-wc/issues/362))
 - `[Menu]` The menu component was converted to a web component called `ids-menu`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-menu/README.md#converting-from-previous-versions for details. ([#170](https://github.com/infor-design/enterprise-wc/issues/170))
 - `[Menu Button]` The menu button component was converted to a web component called `ids-menu-button`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-menu-button/README.md#converting-from-previous-versions for details. ([#173](https://github.com/infor-design/enterprise-wc/issues/173))
-- `[Message]` The Message is now a web component called ids-message
-  - The Message component now extends the Modal component, containing the same properties and methods.
-  - Modal Buttons, Title, Status, and Message can be changed via API
-  - Enhance user-interface on mobile and desktop viewports.
-  - Markup is `<ids-message></ids-message>`
-- `[Modal]` The Modal component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-modal/README.md#converting-from-previous-versions-breaking-changes) for details. ([#118](https://github.com/infor-design/enterprise-wc/issues/118))
+- `[Message]` The Message is now a web component called ids-message. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-message/README.md#converting-from-previous-versions-breaking-changes) for details. ([#118](https://github.com/infor-design/enterprise-wc/issues/118))
+- `[Modal]` The Modal component has been converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-modal/README.md#converting-from-previous-versions-breaking-changes) for details. ([#118](https://github.com/infor-design/enterprise-wc/issues/118))
 - `[Modal Button]` A new component was created for standalone Modal buttons, extending IdsButton. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-modal-button/README.md#converting-from-previous-versions-breaking-changes) for details. ([#118](https://github.com/infor-design/enterprise-wc/issues/118))
-- `[NotificationBanner]` The Notification Banner is now a web component called ids-notification-banner
-  - The type, alert icon, message text, link and link text are all configurable via properties on the custom element
-  - Additionally, user's can define the notification via a JS api, where the `parent` and `id` can be configured
-  - Custom element: `<ids-notification-banner></ids-notification-banner>`
-- `[Pager]` Pager is now a web component called ids-pager ([WC#148](https://github.com/infor-design/enterprise-wc/issues/148))
-  - there is a new base-component: `<ids-pager>`, and several sub-components to provide specific controls.
-  - content is automatically managed/aligned via nesting controls inside of `<ids-pager-section>`
-  - pagination is controlled via attributes on the `<ids-pager>` (`page-number`, `total`, `page-size`), and manages buttons and controls automatically.
-  - buttons are managed by `<ids-pager-button>` with given functionality flags e.g. `<ids-pager-button start>`.
-  - input box can be inserted `<ids-pager-input>`, and a number list with `<ids-pager-number-list>`
+- `[MonthView]` The Monthview is now a web component called ids-monthview. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-monthview/README.md#converting-from-previous-versions-breaking-changes) for details. ([#444](https://github.com/infor-design/enterprise-wc/issues/444))
+- `[NotificationBanner]` The Notification component is now a web component called ids-notification-banner. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-notification-banner/README.md#converting-from-previous-versions-breaking-changes) for details. ([#229](https://github.com/infor-design/enterprise-wc/issues/229))
+- `[Pager]` The Pager component is now a web component called ids-pager. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-pager/README.md#converting-from-previous-versions-breaking-changes) for details. ([#148](https://github.com/
 - `[Place]` The Place component has been replaced by [IdsPopup](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-popup/README.md#converting-from-previous-versions-breaking-changes).
 - `[Popup]` Added a new Popup component that serves as a base element for absolute/fixed-position elements. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-popup/README.md#converting-from-previous-versions-breaking-changes) for details. ([#139](https://github.com/infor-design/enterprise-wc/issues/139))
 - `[Popup Menu]` The Popup Menu has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-popup-menu/README.md#converting-from-previous-versions-breaking-changes) for details. ([#170](https://github.com/infor-design/enterprise-wc/issues/170))
