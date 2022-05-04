@@ -95,35 +95,34 @@ describe('Ids List Builder e2e Tests', () => {
     await page.keyboard.press('Shift');
   });
 
-  it('should update inner text on edit keyup', async () => {
-    const firstItem = 'pierce/ids-swappable-item:nth-child(1)';
-    // const firstItemSelector = createListItemSelector(1);
+  it.skip('should update inner text on edit keyup', async () => {
+    const firstItemSelector = createListItemSelector(1);
     const editButtonSelector = 'pierce/#button-edit';
 
     // click first list item, wait for selected state
-    await page.click(firstItem);
-    await page.waitForSelector(`${firstItem}[selected]`);
+    await page.click(firstItemSelector);
+    await page.waitForSelector(`${firstItemSelector}[selected="selected"]`);
 
     // click edit button, wait for ids-input to be injected into list item
     await page.click(editButtonSelector);
-    // await page.waitForSelector(`${firstItemSelector} ids-input`);
+    await page.waitForSelector(`${firstItemSelector} ids-input`);
 
     // type something, wait for ids text to match key pressed
     const keyPressed = 'q';
     await page.keyboard.press(keyPressed);
-    // await page.waitForFunction(
-    //   (userInput: any) => {
-    //     const listBuilder: any = document.querySelector('ids-list-builder');
-    //     const idsText = listBuilder.shadowRoot.querySelector('ids-swappable-item:nth-child(1) ids-text');
-    //     return idsText.innerHTML === userInput;
-    //   },
-    //   {},
-    //   keyPressed
-    // );
+    await page.waitForFunction(
+      (userInput: any) => {
+        const listBuilder: any = document.querySelector('ids-list-builder');
+        const idsText = listBuilder.shadowRoot.querySelector('ids-swappable-item:nth-child(1) ids-text');
+        return idsText.innerHTML === userInput;
+      },
+      {},
+      keyPressed
+    );
 
     // deselect list item to reset
-    // await page.click(firstItemSelector);
-    // await page.waitForSelector(`${firstItemSelector}:not([selected])`);
+    await page.click(firstItemSelector);
+    await page.waitForSelector(`${firstItemSelector}:not([selected])`);
   });
 
   it.skip('should navigate list view via keyboard arrows', async () => {
@@ -136,12 +135,12 @@ describe('Ids List Builder e2e Tests', () => {
 
     // keyboard navigate to second item and select
     await page.keyboard.press('ArrowDown');
-    await page.keyboard.press('Space');
+    await page.keyboard.press('Enter');
     await page.waitForSelector(`${secondItemSelector}[selected]`);
 
     // keyboard navigate to first item and select
     await page.keyboard.press('ArrowUp');
-    await page.keyboard.press('Space');
+    await page.keyboard.press('Enter');
     await page.waitForSelector(`${firstItemSelector}[selected]`);
   });
 });

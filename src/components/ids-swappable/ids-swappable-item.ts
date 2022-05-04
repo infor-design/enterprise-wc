@@ -195,11 +195,14 @@ export default class IdsSwappableItem extends Base {
   #toggleSelect() {
     if (this.selected) {
       this.removeAttribute(attributes.SELECTED);
+      this.querySelector('div[part="list-item"]')?.removeAttribute(attributes.SELECTED, 'selected');
     } else {
       this.allItems.forEach((item: any) => {
         item.removeAttribute(attributes.SELECTED);
+        item.querySelector('div[part="list-item"]')?.removeAttribute(attributes.SELECTED);
       });
       this.setAttribute(attributes.SELECTED, '');
+      this.querySelector('div[part="list-item"]')?.setAttribute(attributes.SELECTED, 'selected');
     }
   }
 

@@ -320,17 +320,6 @@ export default class IdsListBuilder extends Base {
   }
 
   /**
-   * Overrides the ids-sortable-mixin function to ensure there are no duplicate selected nodes as a result of cloning
-   * @param {Node} node the node to be cloned
-   * @returns {Node} the cloned node
-   */
-  createPlaceholderNode(node: Node): Node {
-    const p = super.createPlaceholderNode(node);
-    p.querySelector('div[part="list-item"]').removeAttribute('selected');
-    return p;
-  }
-
-  /**
    * Reset indices
    * @returns {void}
    */
