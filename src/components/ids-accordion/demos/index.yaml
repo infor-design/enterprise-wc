@@ -6,12 +6,17 @@
  keywords: accordion, sections
  examples:
   - link: index.html
+    type: Main Example
     description: Shows a basic accordion
-  - link: side-by-side.html
-    description: Showing a accordion side by side with a 4.x accordion
   - link: disabled.html
-    description: Shows a accordion with disabled attributes
+    type: Example
+    description: Shows a accordion with disabled sections
   - link: icon.html
-    description: Shows a accordion with various icons
+    type: Example
+    description: Shows a accordion with icons
   - link: nested.html
+    type: Test
     description: Shows a accordion with nest variant
+  - link: side-by-side.html
+    type: Side by Side
+    description: Showing side by side with 4.x

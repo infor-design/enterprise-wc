@@ -66,6 +66,7 @@ export const attributes = {
   COL_START: 'col-start',
   COMPACT: 'compact',
   COMPLETED_LABEL: 'completed-label',
+  COMPONENT_NAME: 'component-name',
   COPYRIGHT_YEAR: 'copyright-year',
   COUNT: 'count',
   CSS_CLASS: 'css-class',
