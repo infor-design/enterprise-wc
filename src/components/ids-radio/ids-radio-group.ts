@@ -119,7 +119,7 @@ export default class IdsRadioGroup extends Base {
   clear(): void {
     this.value = null;
     this.checked = null;
-    this.removeAllMessages();
+    this.removeAllValidationMessages();
     const radio = this.querySelector('ids-radio');
     const rootEl = radio.shadowRoot?.querySelector('.ids-radio');
     rootEl?.setAttribute('tabindex', '0');

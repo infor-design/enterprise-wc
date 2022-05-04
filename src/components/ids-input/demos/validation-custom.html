@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Input - Custom Validation</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true" gap="md">
+      <ids-layout-grid-cell>
+        <ids-text font-size="14">Input below uses custom validation rule, It validate to allow `Uppercase` letters only.</ids-text>
+        <ids-text font-size="14">- Type something in lowercase letters</ids-text>
+        <ids-text font-size="14">- It should show validation error</ids-text>
+        <ids-text font-size="14">- Remove all lowercase letters</ids-text>
+        <ids-text font-size="14">- And type something in uppercase letters now</ids-text>
+        <ids-text font-size="14">- It should NOT be any validation error</ids-text>
+        <br />
+
+        <ids-radio-group id="radio-custom-validation-1">
+          <ids-radio value="add" label="Add validation rule" checked="true"></ids-radio>
+          <ids-radio value="remove" label="Remove validation rule"></ids-radio>
+        </ids-radio-group>
+
+        <ids-input label="Custom Validation - uppercase" id="input-custom-validation-1" validation-events="input blur"></ids-input>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true" gap="md">
+      <ids-layout-grid-cell>
+        <ids-text font-size="14">Input below uses multiple custom validation rules, It validate to `No Numbers` and `No Special Characters`.</ids-text>
+        <ids-text font-size="14">- Type any numbers or special characters</ids-text>
+        <ids-text font-size="14">- It should show validation error</ids-text>
+        <ids-text font-size="14">- Remove all numbers and special characters</ids-text>
+        <ids-text font-size="14">- And type something in uppercase or lowercase letters now</ids-text>
+        <ids-text font-size="14">- It should NOT be any validation error</ids-text>
+        <br />
+
+        <ids-radio-group id="radio-custom-validation-2">
+          <ids-radio value="add" label="Add validation rules" checked="true"></ids-radio>
+          <ids-radio value="remove" label="Remove validation rules"></ids-radio>
+        </ids-radio-group>
+
+        <ids-input label="Custom Validation - no-numbers and no-special-characters" id="input-custom-validation-2" validate="no-numbers no-special-characters" validation-events="input blur"></ids-input>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+  </ids-container>
+</body>
+</html>
