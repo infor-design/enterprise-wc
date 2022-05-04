@@ -11,7 +11,7 @@ const Base = IdsColorVariantMixin(
   )
 );
 
-export interface ItemInfo {
+export interface IdsHierarchyItemInfo {
   id: string;
   name: string;
   position: string;

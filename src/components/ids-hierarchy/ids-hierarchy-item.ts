@@ -3,7 +3,7 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import hierarchyJSON from '../../assets/data/hierarchy.json';
 
-import Base, { ItemInfo } from './ids-hierarchy-item-base';
+import Base, { IdsHierarchyItemInfo } from './ids-hierarchy-item-base';
 
 import styles from './ids-hierarchy-item.scss';
 
@@ -218,9 +218,9 @@ export default class IdsHierarchyItem extends Base {
     if (this.lazyLoad) {
       const url: any = hierarchyJSON;
       const res = await fetch(url);
-      const data: ItemInfo[] = await res.json();
+      const data: IdsHierarchyItemInfo[] = await res.json();
 
-      this.childElements = data.filter((d: ItemInfo) => d.parentItem === this.getAttribute(attributes.ID));
+      this.childElements = data.filter((d: IdsHierarchyItemInfo) => d.parentItem === this.getAttribute(attributes.ID));
       hasNestedItems = this.childElements.length;
     }
 
@@ -251,7 +251,7 @@ export default class IdsHierarchyItem extends Base {
   #attachEventHandlers() {
     this.onEvent('click', this.expander, () => {
       if (!this.expanded && !this.childElements.attached) {
-        const templateStr = this.childElements.reduce((prev: string, cur: ItemInfo) => `${prev}
+        const templateStr = this.childElements.reduce((prev: string, cur: IdsHierarchyItemInfo) => `${prev}
           <ids-hierarchy-item id="${cur.id}" lazy-load=${!cur.isLeaf} color="${cur.color}">
             ${cur.picture ? `<img id="headshot" alt="${cur.id}" src="${cur.picture}" slot="avatar" />` : ''}
             <ids-text slot="heading">${cur.name}</ids-text>
@@ -288,6 +288,6 @@ export default class IdsHierarchyItem extends Base {
 
     this.onEvent('touchstart', this.leaf, () => {
       this.setAttribute(attributes.SELECTED, true);
-    });
+    }, { passive: true });
   }
 }
