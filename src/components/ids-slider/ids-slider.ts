@@ -940,14 +940,13 @@ export default class IdsSlider extends Base {
       if (this.type === 'double') obj.thumbDraggableOther.blur();
     });
 
-    this.onEvent('ids-dragend', obj.thumbDraggable, () => {
+    this.onEvent('ids-dragend', obj.thumbDraggable, (e: CustomEvent) => {
       this.#toggleTransitionStyles(true);
       obj.thumbDraggable.focus();
       // to ensure that after dragging, the value is updated only after dragging has ended..
       // this is the roundabout solution to prevent the firing of moveThumb() every ids-drag event
       const freshPercent = obj.primaryOrSecondary === 'secondary' ? this.percentSecondary : this.percent;
-      const calcValue = this.#calcValueFromPercent(freshPercent);
-      this[obj.valueAttribute] = calcValue;
+      this.#calculateUIFromClick(e.detail.mouseX, e.detail.mouseY, freshPercent);
     });
 
     this.onEvent('focus', obj.thumbDraggable, () => {

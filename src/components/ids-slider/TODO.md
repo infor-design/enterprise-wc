@@ -4,7 +4,7 @@ Keep this file in sync with #698
 
 ## Major
 
-- [ ] Step Slider: Make it snap a dragged handle to the specified steps (snap could be optional) [(example)](https://main-enterprise.demo.design.infor.com/components/slider/example-stepping.html) - [(example 2)](https://main-enterprise.demo.design.infor.com/components/slider/test-options.html)
+- [x] Step Slider: Make it snap a dragged handle to the specified steps (snap could be optional) [(example)](https://main-enterprise.demo.design.infor.com/components/slider/example-stepping.html) - [(example 2)](https://main-enterprise.demo.design.infor.com/components/slider/test-options.html)
 - [ ] Fix keyboard focus bug (focusing on slider handles doesn't trigger tooltip show/hide)
 - [ ] Ensure values update on both slider range AND tooltip when API changes the value [required behavior](https://main-enterprise.demo.design.infor.com/components/slider/example-tooltip-onload-and-textbox.html)
 - [ ] Convert all instances of "Double Slider" back to "Range Slider" (correct terminology)
