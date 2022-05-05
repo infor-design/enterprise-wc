@@ -6,25 +6,12 @@ import '../../ids-button/ids-button';
 import '../../ids-icon/ids-icon';
 import '../../ids-search-field/ids-search-field';
 import '../../ids-toolbar/ids-toolbar';
-import avatarPlaceholder from '../../../assets/images/avatar-placeholder.jpg';
 
-const avatarImg: any = window.document.getElementById('avatar');
-avatarImg.src = avatarPlaceholder;
+// Listing Page
+import '../../ids-demo-app/ids-demo-listing';
+import indexYaml from './index.yaml';
 
-document.addEventListener('DOMContentLoaded', () => {
-  const appMenuDrawer: any = document.querySelector('#app-menu');
-  const appMenuTriggerBtn: any = document.querySelector('#app-menu-trigger');
-
-  appMenuDrawer.target = appMenuTriggerBtn;
-  appMenuTriggerBtn.addEventListener('click', () => {
-    appMenuTriggerBtn.disabled = true;
-  });
-
-  appMenuDrawer.addEventListener('hide', () => {
-    appMenuTriggerBtn.disabled = false;
-  });
-
-  appMenuDrawer.addEventListener('selected', (e: CustomEvent) => {
-    console.info(`Header "${(e.target as any).textContent.trim()}" was selected.`);
-  });
-});
+const demoListing: any = document.querySelector('ids-demo-listing');
+if (demoListing) {
+  demoListing.data = indexYaml.examples;
+}
