@@ -38,6 +38,8 @@ export default class IdsSlider extends Base {
 
   #isRTL: any;
 
+  #mouseHover: any;
+
   #percent: any;
 
   #percentSecondary: any;
@@ -91,6 +93,7 @@ export default class IdsSlider extends Base {
     this.track = this.container.querySelector('.track');
     this.tickContainer = this.container.querySelector('.tick-container');
 
+    this.#mouseHover = false;
     this.thumb = this.container.querySelector('.thumb');
     this.thumbDraggable = this.container.querySelector('.thumb-draggable');
     this.thumbShadow = this.container.querySelector('.thumb-shadow');
@@ -234,7 +237,7 @@ export default class IdsSlider extends Base {
    * @param {number} value the text the tooltip should display
    * @param {string} primaryOrSecondary which tooltip to update
    */
-  #updateToolTip(value?: number, primaryOrSecondary?: string) {
+  #updateTooltip(value?: number, primaryOrSecondary?: string) {
     let tooltipText = this.tooltipText;
     let type = 'primary';
 
@@ -246,7 +249,7 @@ export default class IdsSlider extends Base {
     tooltipText.innerHTML = Math.ceil(Number(value));
 
     if (this.type !== 'step') {
-      this.#hideTooltip(false, type);
+      this.#updateTooltipDisplay(false, type);
     }
   }
 
@@ -383,7 +386,7 @@ export default class IdsSlider extends Base {
   set percentSecondary(value) {
     this.#percentSecondary = value;
     this.#updateProgressBar();
-    this.#updateToolTip(this.#calcValueFromPercent(value), 'secondary');
+    this.#updateTooltip(this.#calcValueFromPercent(value), 'secondary');
   }
 
   get percentSecondary() {
@@ -399,7 +402,7 @@ export default class IdsSlider extends Base {
   set percent(value) {
     this.#percent = value;
     this.#updateProgressBar();
-    this.#updateToolTip(this.#calcValueFromPercent(value));
+    this.#updateTooltip(this.#calcValueFromPercent(value));
   }
 
   get percent() {
@@ -426,7 +429,7 @@ export default class IdsSlider extends Base {
     if (this.#withinBounds(value)) {
       this.setAttribute(attributes.VALUE_SECONDARY, value);
       this.percentSecondary = ((this.valueSecondary - this.min) / (this.max - this.min)) * 100;
-      this.#updateToolTip(value, 'secondary');
+      this.#updateTooltip(value, 'secondary');
       this.#moveThumb('secondary');
     } else if (value < this.min) {
       this.setAttribute(attributes.VALUE_SECONDARY, this.min);
@@ -451,7 +454,7 @@ export default class IdsSlider extends Base {
     if (this.#withinBounds(value)) {
       this.setAttribute(attributes.VALUE, value);
       this.percent = ((this.value - this.min) / (this.max - this.min)) * 100;
-      this.#updateToolTip(value);
+      this.#updateTooltip(value);
       this.#moveThumb('');
     } else if (value > this.max) {
       this.setAttribute(attributes.VALUE, this.max);
@@ -570,7 +573,7 @@ export default class IdsSlider extends Base {
    * @param {boolean} hide whether or not to hide it
    * @param {primaryOrSecondary} primaryOrSecondary which tooltip to hide
    */
-  #hideTooltip(hide: boolean, primaryOrSecondary?: string) {
+  #updateTooltipDisplay(hide: boolean, primaryOrSecondary?: string) {
     if (primaryOrSecondary === 'secondary' && this.tooltipSecondary) {
       this.tooltipSecondary.style.opacity = hide ? 0 : 1;
     } else {
@@ -583,7 +586,7 @@ export default class IdsSlider extends Base {
    * @param {boolean} hide whether or not to hide it
    * @param {string} primaryOrSecondary which thumb to hide
    */
-  #hideThumbShadow(hide: boolean, primaryOrSecondary: string) {
+  #updateThumbShadow(hide: boolean, primaryOrSecondary: string) {
     let thumbShadow = this.thumbShadow;
 
     if (primaryOrSecondary === 'secondary' && this.thumbShadowSecondary) {
@@ -633,7 +636,6 @@ export default class IdsSlider extends Base {
     if (this.type !== 'step') {
       const value = labelValueClicked ?? this.#calcValueFromPercent(this.#calcPercentFromClick(x, y));
 
-      this.#hideTooltip(false);
       const thumbPos = this.vertical
         ? this.thumbDraggable.getBoundingClientRect().y
         : this.thumbDraggable.getBoundingClientRect().x;
@@ -642,7 +644,6 @@ export default class IdsSlider extends Base {
       let valueAttribute = 'value';
 
       if (this.type === 'double') {
-        this.#hideTooltip(false, 'secondary');
         const thumbPosSecondary = this.vertical
           ? this.thumbDraggableSecondary.getBoundingClientRect().y
           : this.thumbDraggableSecondary.getBoundingClientRect().x;
@@ -781,6 +782,47 @@ export default class IdsSlider extends Base {
     this.#attachDragEventListeners();
     if (this.type === 'double') this.#attachDragEventListeners('secondary');
 
+    this.onEvent('mouseenter', this, () => {
+      this.#mouseHover = true;
+    });
+
+    this.onEvent('mouseleave', this, () => {
+      this.#mouseHover = false;
+    });
+
+    // FOCUS/BLUR EVENTS
+    this.onEvent('focusin', this.container, (e: FocusEvent) => {
+      if (this.shadowRoot.activeElement) {
+        this.#updateTooltipDisplay(false);
+        const target = e.target instanceof HTMLElement && e.target;
+
+        if (target && target.classList.contains('secondary')) {
+          this.#updateThumbShadow(false, 'secondary');
+          this.#updateThumbShadow(true, 'primary');
+        } else {
+          this.#updateThumbShadow(false, 'primary');
+          if (this.type === 'double') {
+            this.#updateThumbShadow(true, 'secondary');
+          }
+        }
+
+        if (this.type === 'double') {
+          this.#updateTooltipDisplay(false, 'secondary');
+        }
+      }
+    });
+
+    this.onEvent('focusout', this.container, () => {
+      if (!this.shadowRoot.activeElement && !this.#mouseHover) {
+        this.#updateTooltipDisplay(true);
+        this.#updateThumbShadow(true, 'primary');
+        if (this.type === 'double') {
+          this.#updateTooltipDisplay(true, 'secondary');
+          this.#updateThumbShadow(true, 'secondary');
+        }
+      }
+    });
+
     // KEYBOARD EVENTS
     this.#attachKeyboardListeners();
 
@@ -885,16 +927,13 @@ export default class IdsSlider extends Base {
           const labelValueClicked = parseFloat(event.target.innerHTML);
           this.#calculateUIFromClick(event.clientX, event.clientY, labelValueClicked);
         }
-      } else {
-        this.thumbDraggable.blur();
-        if (this.type === 'double') this.thumbDraggableSecondary.blur();
       }
     });
 
     this.onEvent('click', document, (event: any) => {
       if (event.target !== this) {
-        this.#hideTooltip(true);
-        if (this.type === 'double') this.#hideTooltip(true, 'secondary');
+        this.#updateTooltipDisplay(true);
+        if (this.type === 'double') this.#updateTooltipDisplay(true, 'secondary');
       }
     });
   }
@@ -922,12 +961,10 @@ export default class IdsSlider extends Base {
 
     // Listen for drag event on draggable thumb
     this.onEvent('ids-drag', obj.thumbDraggable, (e: { detail: { mouseX: any; mouseY: any; }; }) => {
-      if (this.type !== 'step') this.#hideTooltip(false);
+      if (this.type !== 'step') this.#updateTooltipDisplay(false);
 
       const [x, y] = [e.detail.mouseX, e.detail.mouseY];
       const percent = this.#calcPercentFromClick(x, y);
-
-      this.#hideThumbShadow(true, obj.primaryOrSecondary);
 
       if (this.type === 'double') swapZIndex();
       // only set the percent--because changing the value causes the moveThumb() to fire like crazy
@@ -936,8 +973,8 @@ export default class IdsSlider extends Base {
 
     this.onEvent('ids-dragstart', obj.thumbDraggable, () => {
       this.#toggleTransitionStyles(false);
-      obj.thumbDraggable.blur();
-      if (this.type === 'double') obj.thumbDraggableOther.blur();
+      this.#updateThumbShadow(true, obj.primaryOrSecondary);
+      this.#updateThumbShadow(true, obj.primaryOrSecondary === 'secondary' ? 'primary' : 'secondary');
     });
 
     this.onEvent('ids-dragend', obj.thumbDraggable, (e: CustomEvent) => {
@@ -947,18 +984,7 @@ export default class IdsSlider extends Base {
       // this is the roundabout solution to prevent the firing of moveThumb() every ids-drag event
       const freshPercent = obj.primaryOrSecondary === 'secondary' ? this.percentSecondary : this.percent;
       this.#calculateUIFromClick(e.detail.mouseX, e.detail.mouseY, freshPercent);
-    });
-
-    this.onEvent('focus', obj.thumbDraggable, () => {
-      if (this.type === 'double') {
-        swapZIndex();
-        obj.thumbDraggableOther.blur();
-      }
-      this.#hideThumbShadow(false, obj.primaryOrSecondary);
-    });
-
-    this.onEvent('blur', obj.thumbDraggable, () => {
-      this.#hideThumbShadow(true, obj.primaryOrSecondary);
+      this.#updateThumbShadow(false, obj.primaryOrSecondary);
     });
   }
 
