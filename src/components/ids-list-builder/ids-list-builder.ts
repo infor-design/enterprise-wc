@@ -189,16 +189,6 @@ export default class IdsListBuilder extends Base {
     }
   }
 
-  /**
-   * Overrides the onClick() to include select functionality and unfocus any active editor inputs
-   * @param {any} item the draggable list item
-   * @returns {void}
-   */
-  onClick(item: any): void {
-    super.onClick(item);
-    this.#unfocusAnySelectedLiEditor();
-  }
-
   get selectedLi() {
     return this.shadowRoot.querySelector('ids-swappable-item[selected]');
   }

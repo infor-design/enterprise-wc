@@ -36,16 +36,6 @@
         background-color: transparent;
         border: none;
       }
-
-      &.sortable:hover::before {
-        position: absolute;
-        left: 3px;
-        transform: translate(50%, 0);
-        font-size: 24px;
-        margin-top: -3px;
-        content: '⁞';
-        cursor: move;
-      }
     }
   }
 }

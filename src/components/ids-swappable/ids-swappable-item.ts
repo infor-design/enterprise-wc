@@ -226,6 +226,7 @@ export default class IdsSwappableItem extends Base {
       e.preventDefault();
 
       if (e.key === 'ArrowDown') {
+        e.target.parentElement?.nextElementSibling?.focus();
         e.target.nextElementSibling?.focus();
       }
 
