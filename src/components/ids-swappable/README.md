@@ -50,3 +50,15 @@ data.forEach((d) => {
 **selected** Sets the selected attribute. Items need to be selected before that can be dragged.
 **originalText** Sets the originalText attribute. This happens when the component is connected and is used to revert the text after item is dropped.
 **tabbable** Sets if the item is tabbable. Defaults to true.
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- Sortable behavior is part of the Arrange component
+- Arrange was added in v4.2.1
+- Invoke the Arrange component on an element with `$('#my-element').arrange();`
+
+**4.x to 5.x**
+
+- Sortable behavior is now enabled by wrapping elements on a page with `<ids-swappable></ids-swappable>` and `<ids-swappable-item></ids-swappable-item>`

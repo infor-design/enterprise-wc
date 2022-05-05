@@ -1,0 +1,9 @@
+---
+ component: Data Label
+ link: ids-data-label
+ description: Readonly data/label component
+ category: Form Inputs
+ keywords: input, label, readonly, data
+ examples:
+  - link: index.html
+    description: Showing the data label component

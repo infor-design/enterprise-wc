@@ -1,5 +1,5 @@
-import { customElement, scss } from '../../../core/ids-decorators';
-import { attributes } from '../../../core/ids-attributes';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 import Base from './ids-process-step-base';
 
 import styles from './ids-process-step.scss';

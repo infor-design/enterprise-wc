@@ -99,8 +99,8 @@
   // Alignment changes
 
   &.align-icon-end {
-    ids-icon[slot] {
-      align-self: flex-end;
+    ::slotted(ids-icon) {
+      @include pl-4;
     }
   }
 

@@ -551,3 +551,17 @@ Basically any fields or methods should add the # in front to make it private. Th
 Decided not to make either the `connectedCallback` nor `template` events private as the former is a lifecycle event in web components and the template may need to be overridable in some cases for flexibility.
 
 For an example see IdsTag, IdsAccordion.
+
+#### Checking for memory leaks
+
+The general idea is that when removing and adding components from the page they shouldn't leak. One type of leak is detached nodes. The best way to manually test for this is:
+
+- Go to the page in chrome
+- Open Dev tools
+- Go to the memory tab
+- Take a `Heap Snapshot`
+- Remove and add back the component (delete and recreate). Can do this once or several times.
+- Take a `Heap Snapshot` again
+- Select Comparison in the dropdown to compare snap 1 and snap 2
+- Search to filter on detach or name of the component
+- look for any + on the deltas column (this means some new ones are added and not deleted)

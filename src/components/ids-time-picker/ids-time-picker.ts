@@ -423,8 +423,7 @@ export default class IdsTimePicker extends Base {
           type="menu"
           align-target="ids-trigger-field"
           align="bottom, left"
-          arrow="bottom"
-          animated="true">
+          arrow="bottom">
           <section slot="content">
             <div id="dropdowns">${this.dropdowns()}</div>
             <ids-button id="set-time" class="${this.autoupdate ? 'hidden' : ''}">
@@ -481,6 +480,10 @@ export default class IdsTimePicker extends Base {
       this.#attachEventHandlers();
       this.#attachKeyboardListeners();
     }
+  }
+
+  disconnectedCallback() {
+    this.closeTimePopup();
   }
 
   /**
@@ -669,7 +672,6 @@ export default class IdsTimePicker extends Base {
     this.listen(['ArrowDown', 'Enter', 'Escape', 'Backspace'], this, (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
         this.setTimeOnField();
-        this.toggleTimePopup();
       } else if (e.key === 'ArrowDown') {
         this.openTimePopup();
       } else if (e.key === 'Escape' || e.key === 'Backspace') {

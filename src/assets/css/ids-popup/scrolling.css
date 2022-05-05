@@ -1,0 +1,53 @@
+pre {
+  display: inline-block;
+}
+
+/* main page containment rules */
+.demo-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  height: 350px;
+  width: 100%;
+}
+
+/* Initial placement rules for the draggable */
+.demo-draggable {
+  border-style: dashed;
+  background-color: white;
+  padding: 12px;
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  z-index: 4000;
+}
+
+/* Resets the inner IdsPopup's placement to be contained properly by the draggable Popup */
+.demo-draggable-container {
+  position: relative;
+}
+
+/* Sets size and scrolling on an element that contains Popups */
+.demo-scrollable {
+  max-height: 512px;
+  max-width: 512px;
+  overflow: scroll;
+}
+
+/* visual border */
+.demo-border {
+  border: 1px solid #999;
+}
+
+/* Resets the inner IdsPopup's containment inside in-page sections */
+.demo-callout-section {
+  padding: 12px;
+  position: relative;
+  width: 45%;
+}
+
+/* spaces out elements from the top of their container elements */
+.demo-content-spacer {
+  height: 200px;
+  width: 400px;
+}

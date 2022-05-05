@@ -13,6 +13,7 @@ describe('Ids List Builder Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');
     });
+    await page.waitForTimeout(200);
     await percySnapshot(page, 'ids-list-builder-new-dark');
   });
 
@@ -21,6 +22,7 @@ describe('Ids List Builder Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'contrast');
     });
+    await page.waitForTimeout(200);
     await percySnapshot(page, 'ids-list-builder-new-contrast');
   });
 });
