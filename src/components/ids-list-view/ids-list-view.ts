@@ -43,6 +43,9 @@ export default class IdsListView extends Base {
     this.dataKeys = this.#extractTemplateLiteralsFromHTML(this.defaultTemplate);
     super.connectedCallback();
     this.#attachEventListeners();
+    if (!this.sortable) {
+      this.#attachKeyboardListeners();
+    }
   }
 
   /**
@@ -96,7 +99,6 @@ export default class IdsListView extends Base {
       this.#addSortableStyles();
     } else {
       this.#attachClickListeners(); // for focusing list items
-      this.#attachKeyboardListeners();
     }
   }
 
