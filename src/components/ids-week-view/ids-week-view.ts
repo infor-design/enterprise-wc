@@ -42,7 +42,7 @@ interface DayMapData {
 @customElement('ids-week-view')
 @scss(styles)
 export default class IdsWeekView extends Base {
-  dayMap: DayMapData[] = [];
+  dayMap: DayMapData[] | null = [];
 
   vetoableEventTypes = ['beforeweekrender'];
 
@@ -53,6 +53,20 @@ export default class IdsWeekView extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.#attachEventHandlers();
+  }
+
+  disconnectedCallback() {
+    this.state = null;
+    this.dayMap = null;
+    this.hourRowElement = null;
+    this.ro.unobserve(this.container);
+    this.ro = null;
+    this.container = null;
+    this.timer.destroy();
+    this.timer = null;
+    this.datepicker.remove();
+    this.datepicker = null;
+    super.disconnectedCallback();
   }
 
   /**
@@ -90,14 +104,14 @@ export default class IdsWeekView extends Base {
     this.#renderToolbar();
 
     // Set the height from the top
-    const ro = new ResizeObserver((entries) => {
+    this.ro = new ResizeObserver((entries) => {
       for (const entry of entries) {
         if (entry.contentRect.width > 0) {
           this.#attachOffsetTop();
         }
       }
     });
-    ro.observe(this.container);
+    this.ro.observe(this.container);
 
     // Respond to parent changing language
     this.offEvent('languagechange.week-view-container');
@@ -225,15 +239,15 @@ export default class IdsWeekView extends Base {
    */
   #attachDatepicker() {
     const text = this.#formatMonthRange();
-    const datepicker = this.container.querySelector('ids-date-picker');
+    this.datepicker = this.container.querySelector('ids-date-picker');
 
-    if (datepicker) {
-      datepicker.value = text;
-      datepicker.year = this.startDate.getFullYear();
-      datepicker.month = this.startDate.getMonth();
-      datepicker.day = this.startDate.getDate();
-      datepicker.showToday = this.showToday;
-      datepicker.firstDayOfWeek = this.firstDayOfWeek;
+    if (this.datepicker) {
+      this.datepicker.value = text;
+      this.datepicker.year = this.startDate.getFullYear();
+      this.datepicker.month = this.startDate.getMonth();
+      this.datepicker.day = this.startDate.getDate();
+      this.datepicker.showToday = this.showToday;
+      this.datepicker.firstDayOfWeek = this.firstDayOfWeek;
     }
   }
 
@@ -426,7 +440,7 @@ export default class IdsWeekView extends Base {
       const dateKey = elem.getAttribute('data-key');
       if (dateKey) {
         const key = parseInt(dateKey);
-        this.dayMap.push({ key, elem });
+        this.dayMap?.push({ key, elem });
       }
     });
 
@@ -457,7 +471,7 @@ export default class IdsWeekView extends Base {
       ));
 
     const hoursDiff = this.endHour - this.startHour + 1;
-    const hourRowElement = this.container.querySelector('.week-view-hour-row');
+    this.hourRowElement = this.container.querySelector('.week-view-hour-row');
     const timelineInterval = this.timelineInterval;
 
     // Timeline position based on current hour and startHour/endHour parameters
@@ -470,9 +484,9 @@ export default class IdsWeekView extends Base {
       // 52 is the size of one whole hour (25 + two borders)
       const position = diff > 0 && diff <= hoursDiff ? diff * 52 : 0;
 
-      hourRowElement.style = `--timeline-shift: ${position}px`;
+      this.hourRowElement.style = `--timeline-shift: ${position}px`;
       // For testing purposes only
-      hourRowElement.dataset.diffInMilliseconds = diffInMilliseconds;
+      this.hourRowElement.dataset.diffInMilliseconds = diffInMilliseconds;
     };
 
     setTimelinePosition();
@@ -592,14 +606,14 @@ export default class IdsWeekView extends Base {
     const endDate = new Date(eventData.ends);
     const startKey = this.#generateDateKey(startDate);
     const endKey = this.#generateDateKey(endDate);
-    const days = this.dayMap.filter((day) => day.key >= startKey && day.key <= endKey);
+    const days = this.dayMap?.filter((day) => day.key >= startKey && day.key <= endKey);
 
     // get event hour count
     const hours = dateDiff(startDate, endDate, true);
     const isAllDay = hours >= 24;
 
     // Event is intraday
-    if (days.length === 1 && !isAllDay) {
+    if (days?.length === 1 && !isAllDay) {
       calendarEvent = this.#createCalendarEvent(eventData);
       container = this.#findHourContainer(eventData);
 
@@ -608,7 +622,7 @@ export default class IdsWeekView extends Base {
     }
 
     // Event lasts one day
-    if (days.length === 1 && isAllDay) {
+    if (days?.length === 1 && isAllDay) {
       calendarEvent = this.#createCalendarEvent(eventData, ['all-day']);
       container = days[0].elem.querySelector('.week-view-all-day-wrapper');
 
@@ -617,7 +631,7 @@ export default class IdsWeekView extends Base {
     }
 
     // Event lasts multiple days
-    if (days.length > 1 && isAllDay) {
+    if (days && days.length > 1 && isAllDay) {
       for (let i = 0; i < days.length; i++) {
         let cssClass = i === 0 ? 'calendar-event-start' : 'calendar-event-continue';
 

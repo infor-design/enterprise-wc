@@ -1,3 +1,5 @@
+import countObjects from '../helpers/count-objects';
+
 describe('Ids Week View e2e Tests', () => {
   const url = 'http://localhost:4444/ids-week-view';
   const name = 'ids-week-view';
@@ -196,5 +198,14 @@ describe('Ids Week View e2e Tests', () => {
     const positionAfter = await page.$eval(name, (el: any) => el.shadowRoot.querySelector('.week-view-hour-row')?.dataset.diffInMilliseconds);
 
     expect(positionBefore).not.toEqual(positionAfter);
+  });
+
+  it.skip('should not have memory leaks', async () => {
+    const numberOfObjects = await countObjects(page);
+    await page.evaluate(() => {
+      document.body.insertAdjacentHTML('beforeend', `<ids-week-view id="test" first-day-of-week="1" show-today="true" start-date="04/25/2022" end-date="05/01/2022" show-timeline="true"></ids-week-view>`);
+      document.querySelector('#test')?.remove();
+    });
+    expect(await countObjects(page)).toEqual(numberOfObjects);
   });
 });
