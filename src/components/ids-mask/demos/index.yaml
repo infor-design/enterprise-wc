@@ -11,6 +11,10 @@
     description: Shows a mask set but a string attribute
   - link: number-leading-zeros.html
     description: Shows a test with leading zeros
+  - link: localized-dates.html
+    desrciption: Shows masked input fields containing dates that are fixed to the current Locale
+  - link: localized-numbers.html
+    desrciption: Shows masked input fields containing numbers that are fixed to the current Locale
   - link: prefix-suffix.html
     description: Shows adding a prefix or suffix to the mask
   - link: side-by-side.html

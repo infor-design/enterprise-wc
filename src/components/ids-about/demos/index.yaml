@@ -5,7 +5,9 @@
  category: Messages and Alerts
  keywords: modal, info, popup, product, application
  examples:
-  - link: index.html
+  - link: example.html
+    type: Main Example
     description: Shows main example
   - link: standalone-css.html
-    description: Showing the component that works with css only
+    type: Standalone Css
+    description: Showing the component partly works with css only

@@ -5,10 +5,10 @@
  */
 class IdsLocale {
   // The Locale files that have been loaded up
-  loadedLocales = new Map();
+  loadedLocales?: any = new Map();
 
   // The lang files that have been loaded up
-  loadedLanguages = new Map();
+  loadedLanguages?: any = new Map();
 
   // State object
   state?: any;
@@ -523,9 +523,9 @@ class IdsLocale {
    * @param {string} language The language to check if not the current
    * @returns {boolean} Whether or not this locale is "right-to-left"
    */
-  isRTL(language: string) {
+  isRTL(language?: string) {
     const lang = this.correctLanguage(language || this.language.name);
-    return lang === 'ar' || lang === 'hi';
+    return lang === 'ar' || lang === 'he';
   }
 
   /**
@@ -686,6 +686,17 @@ class IdsLocale {
       }
     }
     return calendars[0];
+  }
+
+  /**
+   * Remove references
+   */
+  destroy() {
+    this.loadedLocales = null;
+    this.loadedLanguages = null;
+    this.state = null;
+    this.html = null;
+    this.dateFormatter = undefined;
   }
 }
 

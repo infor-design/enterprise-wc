@@ -1,0 +1,11 @@
+---
+ component: Locale
+ link: ids-locale
+ description: Localization
+ category: Patterns
+ keywords: locale, languages, dates, numbers
+ examples:
+  - link: index.html
+    description: Shows all translated strings
+  - link: numbers.html
+    description: Shows parsing numbers

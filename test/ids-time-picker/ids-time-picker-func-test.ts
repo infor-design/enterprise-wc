@@ -360,16 +360,6 @@ describe('IdsTimePicker Component', () => {
     expect(timepicker.isOpen).toBe(false);
   });
 
-  it('can show and hide popup on keyboard-Enter', () => {
-    expect(timepicker.isOpen).toBe(false);
-
-    timepicker.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-    expect(timepicker.isOpen).toBe(true);
-
-    timepicker.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-    expect(timepicker.isOpen).toBe(false);
-  });
-
   it('can show popup with keyboard-ArrowDown', () => {
     expect(timepicker.isOpen).toBe(false);
 

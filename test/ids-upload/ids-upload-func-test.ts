@@ -101,17 +101,28 @@ describe('IdsUpload Component', () => {
     upload.size = 'sm';
     upload.validate = 'required';
     upload.value = 'test-value';
+    upload.colorVariant = 'alternate-formatter';
+    upload.fieldHeight = 'lg';
+    upload.labelState = 'hidden';
+    upload.noMargins = true;
     upload.template();
     expect(upload.fileInput.getAttribute('accept')).toEqual('.jpg');
     expect(upload.fileInput.getAttribute('multiple')).toEqual('multiple');
     expect(upload.textInput.getAttribute('dirty-tracker')).toEqual('true');
     expect(upload.textInput.getAttribute('disabled')).toEqual('true');
-    expect(upload.textInput.getAttribute('text-ellipsis')).toEqual(null);
+    expect(upload.textInput.getAttribute('text-ellipsis')).toEqual('true');
     expect(upload.textInput.getAttribute('label')).toEqual('test');
     expect(upload.textInput.getAttribute('readonly')).toBeTruthy();
     expect(upload.textInput.getAttribute('size')).toEqual('sm');
     expect(upload.textInput.getAttribute('validate')).toEqual('required');
     expect(upload.textInput.value).toEqual('test-value');
+    expect(upload.textInput.colorVariant).toEqual('alternate-formatter');
+    expect(upload.textInput.fieldHeight).toEqual('lg');
+    expect(upload.textInput.labelState).toEqual('hidden');
+    expect(upload.textInput.noMargins).toEqual(true);
+    upload.compact = true;
+    upload.template();
+    expect(upload.textInput.compact).toEqual(true);
   });
 
   it('should set hasAccess', () => {
@@ -153,7 +164,9 @@ describe('IdsUpload Component', () => {
     upload.readonly = true;
     expect(upload.getAttribute('readonly')).toBeTruthy();
     expect(upload.textInput.readonlyBackground).toBeFalsy();
+    upload.textInput.readonly = false;
     upload.readonly = false;
+    expect(upload.textInput.readonly).toBe(true);
     expect(upload.getAttribute('readonly')).toEqual(null);
     expect(upload.textInput.readonlyBackground).toBeTruthy();
   });
@@ -180,17 +193,21 @@ describe('IdsUpload Component', () => {
     expect(upload.fileInput.getAttribute('multiple')).toEqual(null);
   });
 
-  it('renders as no-text-ellipsis', () => {
-    expect(upload.getAttribute('no-text-ellipsis')).toEqual(null);
-    expect(upload.noTextEllipsis).toBe(null);
+  it('should set text-ellipsis', () => {
+    expect(upload.getAttribute('text-ellipsis')).toEqual(null);
+    expect(upload.textEllipsis).toBe(true);
     expect(upload.textInput.textEllipsis).toBeTruthy();
-    upload.noTextEllipsis = true;
-    expect(upload.getAttribute('no-text-ellipsis')).toBeTruthy();
-    expect(upload.noTextEllipsis).toBeTruthy();
+    upload.textEllipsis = true;
+    expect(upload.getAttribute('text-ellipsis')).toBeTruthy();
+    expect(upload.textEllipsis).toBeTruthy();
+    expect(upload.textInput.textEllipsis).toBe(true);
+    upload.textEllipsis = false;
+    expect(upload.getAttribute('text-ellipsis')).toEqual('false');
+    expect(upload.textEllipsis).toBe(false);
     expect(upload.textInput.textEllipsis).toBe(false);
-    upload.noTextEllipsis = false;
-    expect(upload.getAttribute('no-text-ellipsis')).toEqual(null);
-    expect(upload.noTextEllipsis).toBe(null);
+    upload.textEllipsis = null;
+    expect(upload.getAttribute('text-ellipsis')).toEqual(null);
+    expect(upload.textEllipsis).toBe(true);
     expect(upload.textInput.textEllipsis).toBeTruthy();
   });
 
@@ -236,6 +253,78 @@ describe('IdsUpload Component', () => {
     upload.label = null;
     expect(upload.getAttribute('label')).toEqual(null);
     expect(upload.textInput.label).toBe('');
+  });
+
+  it('should set color variant', () => {
+    expect(upload.getAttribute('color-variant')).toEqual(null);
+    expect(upload.textInput.colorVariant).toBe(null);
+    upload.colorVariant = 'alternate-formatter';
+    expect(upload.getAttribute('color-variant')).toEqual('alternate-formatter');
+    expect(upload.textInput.colorVariant).toBe('alternate-formatter');
+  });
+
+  it('should set label state', () => {
+    expect(upload.getAttribute('label-state')).toEqual(null);
+    expect(upload.textInput.labelState).toBe(null);
+    upload.labelState = 'hidden';
+    expect(upload.getAttribute('label-state')).toEqual('hidden');
+    expect(upload.textInput.labelState).toBe('hidden');
+    upload.labelState = null;
+    expect(upload.getAttribute('label-state')).toEqual(null);
+    expect(upload.textInput.labelState).toBe(null);
+  });
+
+  it('should set label required', () => {
+    expect(upload.getAttribute('label-required')).toEqual(null);
+    expect(upload.textInput.labelRequired).toBe(true);
+    upload.labelRequired = 'false';
+    expect(upload.getAttribute('label-required')).toEqual('false');
+    expect(upload.textInput.labelRequired).toBe(false);
+    upload.labelRequired = null;
+    expect(upload.getAttribute('label-required')).toEqual(null);
+    expect(upload.textInput.labelRequired).toBe(true);
+  });
+
+  it('should set no margins', () => {
+    expect(upload.getAttribute('no-margins')).toEqual(null);
+    expect(upload.textInput.noMargins).toBe(false);
+    upload.noMargins = true;
+    expect(upload.getAttribute('no-margins')).toEqual('true');
+    expect(upload.textInput.noMargins).toBe(true);
+    upload.noMargins = null;
+    expect(upload.getAttribute('no-margins')).toEqual(null);
+    expect(upload.textInput.noMargins).toBe(false);
+  });
+
+  it('should set tabbable', () => {
+    expect(upload.getAttribute('tabbable')).toEqual(null);
+    expect(upload.textInput.tabbable).toBe(false);
+    upload.tabbable = true;
+    expect(upload.getAttribute('tabbable')).toEqual('true');
+    expect(upload.textInput.tabbable).toBe(true);
+    upload.tabbable = null;
+    expect(upload.getAttribute('tabbable')).toEqual(null);
+    expect(upload.textInput.tabbable).toBe(false);
+  });
+
+  it('should set field-height and compact', () => {
+    expect(upload.getAttribute('field-height')).toEqual(null);
+    expect(upload.getAttribute('compact')).toEqual(null);
+    expect(upload.textInput.fieldHeight).toBe(null);
+    upload.fieldHeight = 'lg';
+    expect(upload.getAttribute('field-height')).toEqual('lg');
+    expect(upload.getAttribute('compact')).toEqual(null);
+    expect(upload.textInput.fieldHeight).toBe('lg');
+    upload.fieldHeight = null;
+    upload.compact = true;
+    expect(upload.getAttribute('field-height')).toEqual(null);
+    expect(upload.getAttribute('compact')).toEqual('');
+    expect(upload.textInput.fieldHeight).toBe(null);
+    upload.compact = null;
+    upload.onFieldHeightChange();
+    expect(upload.getAttribute('field-height')).toEqual(null);
+    expect(upload.getAttribute('compact')).toEqual(null);
+    expect(upload.textInput.fieldHeight).toBe(null);
   });
 
   it('should render label filetype', () => {

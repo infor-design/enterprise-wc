@@ -656,21 +656,6 @@ export default class IdsDataGridFilters {
       const timePicker = node.querySelector('ids-time-picker');
       const btn = node.querySelector('ids-menu-button');
 
-      // Adjust popup place poistion
-      // @TODO readjust or remove `onPlace` related stuff
-      // after fix https://github.com/infor-design/enterprise-wc/issues/565
-      const onPlace = (el: any, popupEl: any) => {
-        if (!el || !popupEl) return;
-        popupEl.onPlace = (popupRect: any) => {
-          popupRect.y = el.offsetTop + 40;
-          return popupRect;
-        };
-      };
-      onPlace(dropdown, dropdown?.popup);
-      onPlace(datePicker, datePicker?.popup);
-      onPlace(timePicker, timePicker?.elements?.popup);
-      onPlace(btn, btn?.menuEl?.popup);
-
       // Slotted filter only
       if (slot && (input || dropdown || datePicker || timePicker || btn)) {
         const headerElem = n.closest('.ids-data-grid-header-cell');
@@ -697,6 +682,13 @@ export default class IdsDataGridFilters {
           btn.setAttribute('trigger', 'click');
           btn.setAttribute('square', 'true');
         }
+      }
+
+      // Timepicker needs a different element to use for targeting outside clicks
+      // (normally it targets the body tag, but this causes usability issues when combined with datagrid)
+      if (timePicker) {
+        timePicker.popupOpenEventsTarget = timePicker.closest('.ids-data-grid');
+        timePicker.elements.popup.y = 16;
       }
 
       // Integer type mask

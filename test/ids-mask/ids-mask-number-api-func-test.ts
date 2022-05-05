@@ -4,6 +4,7 @@
 import MaskAPI from '../../src/components/ids-mask/ids-mask-api';
 import { IdsMaskOptions } from '../../src/components/ids-mask/ids-mask-common';
 import { numberMask } from '../../src/components/ids-mask/ids-masks';
+import locale from '../../src/components/ids-locale/ids-locale-global';
 
 let api: any;
 
@@ -41,17 +42,19 @@ describe('IdsMaskAPI (Number)', () => {
     expect(result.conformedValue).toEqual('1234.56');
   });
 
-  // @TODO Re-enable this when `Locale.formatNumber()` is implemented.
-  it.skip('should process numbers with thousands separators', () => {
+  // Test that `Locale.formatNumber()` is implemented.
+  it('should process numbers with thousands separators', () => {
     // Handle big numbers with thousands separators
     let textValue = '1111111111';
     const opts: IdsMaskOptions = {
       selection: {
         start: 0
       },
+      locale,
       pattern: numberMask,
       patternOptions: {
         locale: 'en-US',
+        allowDecimal: false,
         allowThousandsSeparator: true,
         integerLimit: 10
       }
@@ -268,6 +271,7 @@ describe('IdsMaskAPI (Number)', () => {
       selection: {
         start: 0
       },
+      locale,
       pattern: numberMask,
       patternOptions: {
         allowLeadingZeros: true,
@@ -294,8 +298,7 @@ describe('IdsMaskAPI (Number)', () => {
 
     expect(result.conformedValue).toEqual('00000.123');
 
-    /*
-    // @TODO Re-enable this when `Locale.formatNumber()` is implemented.
+    // Test that `Locale.formatNumber()` is implemented.
     textValue = '10000';
     result = api.process(textValue, opts);
 
@@ -310,7 +313,6 @@ describe('IdsMaskAPI (Number)', () => {
     result = api.process(textValue, opts);
 
     expect(result.conformedValue).toEqual('10,000.100');
-    */
   });
 });
 
@@ -346,6 +348,7 @@ describe('Number Mask function', () => {
 
   it('should account for decimal placement', () => {
     const result = numberMask('.', {
+      allowDecimal: true,
       symbols: {
         decimal: '.'
       }
@@ -402,6 +405,9 @@ describe('Number Mask function', () => {
       allowLeadingZeros: true,
       allowNegative: true,
       allowThousandsSeparator: true,
+      decimalLimit: 2,
+      integerLimit: 7,
+      locale,
       prefix: 'X',
       suffix: 'W',
     };

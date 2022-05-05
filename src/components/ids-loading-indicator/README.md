@@ -58,7 +58,7 @@ affixed to the top of view it is currently in:
 
 - `progress` *{number | undefined}* Represents the percentage completed for the indicator; if not specified, the indicator is set into indeterminate mode (e.g. no specific progress with an animation)
 - `sticky` *{boolean}* Flags the indicator as an sticky indicator type; causes
-the indicator to stick to the top of the innermost parent IdsElement and span it horizontally. If set, will unflag this indicator as a linear or circular indicator.
+the indicator to stick to the top of the innermost parent IdsElement and span it horizontally. If set, will flag this indicator as a linear or circular indicator.
 - `linear` *{boolean}* value Flags the indicator as a linear indicator type; causes the indicator to span its parent component horizontally and become a horizontal/linear bar. If set, removes other current flag types that may be set.
 - `percentage-visible` *{boolean}* Denotes that the percentage text should be visible (not applicable to `sticky` loading indicators).
 
@@ -76,16 +76,6 @@ No keyboard shortcuts available -- the loading indicator is only meant to be a v
 
 - if using a `sticky` indicator, the indicator will span 100% of the nearest `relative` positioned div.
 
-## Converting from Previous Versions
-
-- 3.x:  have all new markup and classes.
-- 4.x: Busy Indicator has been changed to `ids-loading-indicator`. It has all new markup and classes for web components.
-
-## Proposed Changes
-
-- Fix Accessibility issue (1.4.1 Use of Color) by adding an icon to the color tags.
-- Add a label or off screen text for accessibility
-
 ## Accessibility Guidelines
 
 - 1.4.1 Use of Color - Color is not used as the only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual element. Ensure the color tags that indicate state like OK, cancel, ect have other ways to indicate that information. This is failing.
@@ -94,3 +84,19 @@ No keyboard shortcuts available -- the loading indicator is only meant to be a v
 ## Regional Considerations
 
 Any Labels should be localized in the current language. The animation should flip in RTL mode (TBD)
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- Has all new markup and styles.
+
+**4.x to 5.x**
+
+- Busy Indicator has been renamed to `ids-loading-indicator`.
+- It has all new markup and classes for web components.
+- Markup has changed to a custom element `<ids-loading-indicator></ids-loading-indicator>`
+- If using events events are now plain JS events for example
+- Can now be imported as a single JS file and used with encapsulated styles
+- Can change the type of indicator from Circular to Linear by applying a `linear` attribute flag, or make it a sticky/bar indicator that sticks to the top of a component via the `sticky` flag.
+- Can make the indicator determinate by providing a `progress` attribute with a number representing the percentage from 0-100 that the indicator is representing a process completed so far.

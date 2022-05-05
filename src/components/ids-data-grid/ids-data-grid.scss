@@ -28,6 +28,9 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   overflow: auto;
   scroll-behavior: smooth;
 
+  // @TODO: Remove as part of infor-design/enterprise-wc#648
+  min-height: 300px;
+
   // Font Info
   @include antialiased();
   @include font-sans();
@@ -343,19 +346,19 @@ $header-bg-color: var(--ids-color-palette-slate-80);
       border-top: 0;
     }
 
-    // Change Sort Icon
+    // Change Sort Icon Colors
     .is-sortable {
       ids-icon {
         @include text-slate-50();
       }
+    }
 
-      &[aria-sort='descending'] ids-icon:last-child {
-        @include text-slate-20();
-      }
+    [aria-sort='descending'] .is-sortable ids-icon:last-child {
+      @include text-slate-20();
+    }
 
-      &[aria-sort='ascending'] ids-icon:first-child {
-        @include text-slate-20();
-      }
+    [aria-sort='ascending'] .is-sortable ids-icon:first-child {
+      @include text-slate-20();
     }
 
     // Change Header Checkbox

@@ -88,14 +88,18 @@ notificationBanner.add({
 - The notification is 100% wide and will full the parent container by default
 - The message text will be non-breaking and display ellipsis when there is not enough visible space.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
 
-TODO
+**3.x to 4.x**
 
-## Accessibility Guidelines
+- Comparable to the inforSlideInDialog in 3.X
 
-TODO
+**4.x to 5.x**
 
-## Regional Considerations
-
-TODO
+- The notification component has been renamed to notification-banner
+- If using properties/settings these are now attributes.
+- Markup has changed to a custom element `<ids-message></ids-message>`
+- If using events events are now plain JS events for example
+- Can now be imported as a single JS file and used with encapsulated styles
+- The type, alert icon, message text, link and link text are all configurable via properties on the custom element
+- Additionally, user's can define the notification via a JS api, where the `parent` and `id` can be configured
