@@ -939,7 +939,7 @@ class IdsDatePicker extends Base {
    */
   #setDateValidation(): void {
     if (this.validate?.includes('date')) {
-      this.#triggerField.addRule({
+      this.#triggerField.addValidationRule({
         id: 'date',
         type: 'error',
         message: this.locale?.translate('InvalidDate'),
@@ -963,7 +963,7 @@ class IdsDatePicker extends Base {
    */
   #setAvailableDateValidation(): void {
     if (this.validate?.includes('availableDate')) {
-      this.#triggerField.addRule({
+      this.#triggerField.addValidationRule({
         id: 'availableDate',
         type: 'error',
         message: this.locale?.translate('UnavailableDate'),

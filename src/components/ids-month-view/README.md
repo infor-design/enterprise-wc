@@ -151,3 +151,15 @@ The monthview is a very complex component to code for accessibility. We take the
 - Add `aria-selected=true` to selected day
 - Each calendar item should have an audible label to announce the day of week while arrowing through days
 - For comparison, see a similar <a href="http://oaa-accessibility.org/example/15/" target="_blank">example</a>
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- This is a new component for 4.x
+
+**4.x to 5.x**
+
+- MonthView is now a custom element `<ids-month-view></ids-view>`
+- Events are now just plain JS events
+- Some options and events are not converted yet

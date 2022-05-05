@@ -7,5 +7,5 @@
  examples:
   - link: index.html
     description: Shows all ids-time-picker combinations
- - link: open.html
-   description: Showing a time-picker open via the API
+  - link: open.html
+    description: Showing a time-picker open via the API

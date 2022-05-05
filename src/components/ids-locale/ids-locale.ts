@@ -569,7 +569,7 @@ class IdsLocale {
    */
   isRTL(language?: string) {
     const lang = this.correctLanguage(language || this.language.name);
-    return lang === 'ar' || lang === 'hi';
+    return lang === 'ar' || lang === 'he';
   }
 
   /**

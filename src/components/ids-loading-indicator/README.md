@@ -76,6 +76,15 @@ No keyboard shortcuts available -- the loading indicator is only meant to be a v
 
 - if using a `sticky` indicator, the indicator will span 100% of the nearest `relative` positioned div.
 
+## Accessibility Guidelines
+
+- 1.4.1 Use of Color - Color is not used as the only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual element. Ensure the color tags that indicate state like OK, cancel, ect have other ways to indicate that information. This is failing.
+- 1.1 Text Alternatives - Provide text alternatives for any non-text content so that it can be changed into other forms people need, such as large print, braille, speech, symbols or simpler language.
+
+## Regional Considerations
+
+Any Labels should be localized in the current language. The animation should flip in RTL mode (TBD)
+
 ## Converting from Previous Versions (Breaking Changes)
 
 **3.x to 4.x**
@@ -91,12 +100,3 @@ No keyboard shortcuts available -- the loading indicator is only meant to be a v
 - Can now be imported as a single JS file and used with encapsulated styles
 - Can change the type of indicator from Circular to Linear by applying a `linear` attribute flag, or make it a sticky/bar indicator that sticks to the top of a component via the `sticky` flag.
 - Can make the indicator determinate by providing a `progress` attribute with a number representing the percentage from 0-100 that the indicator is representing a process completed so far.
-
-## Accessibility Guidelines
-
-- 1.4.1 Use of Color - Color is not used as the only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual element. Ensure the color tags that indicate state like OK, cancel, ect have other ways to indicate that information. This is failing.
-- 1.1 Text Alternatives - Provide text alternatives for any non-text content so that it can be changed into other forms people need, such as large print, braille, speech, symbols or simpler language.
-
-## Regional Considerations
-
-Any Labels should be localized in the current language. The animation should flip in RTL mode (TBD)

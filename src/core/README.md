@@ -27,3 +27,7 @@ Ids Element is the general base class for most web components in IDS. Its used t
 1. Holds the property (settings) list
 1. Renders a template from the template property
 1. Exports several decorators and utils that are commonly used.
+
+## Ids Data Source
+
+TBD (Describe IdsDataSource and/or link to another source of documentation)

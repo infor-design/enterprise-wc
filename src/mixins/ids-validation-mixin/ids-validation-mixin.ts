@@ -1,11 +1,12 @@
 import { attributes } from '../../core/ids-attributes';
+import { isObjectAndNotEmpty } from '../../utils/ids-object-utils/ids-object-utils';
 
 export type IdsValidationErrorMessageTypes = {
   /** The unique id in the check messages */
   id: string;
 
   /** The Type of message and icon */
-  type?: 'error' | 'info' | 'alert' | 'warn' | 'icon';
+  type?: string | 'error' | 'info' | 'alert' | 'warn' | 'icon';
 
   /** The localized message text */
   message?: string;
@@ -14,11 +15,18 @@ export type IdsValidationErrorMessageTypes = {
   icon?: string;
 };
 
-type Rule = {
+export type IdsValidationRule = {
+  /** The unique rule id */
   id: string;
-  type: IdsValidationErrorMessageTypes['type'];
+
+  /** The Type of rule */
+  type: string | 'error' | 'info' | 'alert' | 'warn' | 'icon';
+
+  /** The localized message text */
   message: string;
-  check: () => boolean;
+
+  /** The method to check validation logic, return true if is valid */
+  check: (input: HTMLElement) => boolean;
 };
 
 /**
@@ -40,7 +48,11 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
     return [
       ...super.attributes,
       attributes.VALIDATE,
-      attributes.VALIDATION_EVENTS
+      attributes.VALIDATION_EVENTS,
+      attributes.VALIDATION_ICON,
+      attributes.VALIDATION_ID,
+      attributes.VALIDATION_MESSAGE,
+      attributes.VALIDATION_TYPE
     ];
   }
 
@@ -80,6 +92,8 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
       let isRulesAdded = false;
 
       this.validate.split(' ').forEach((strRule) => {
+        if (!getRule(strRule).rule) return;
+
         if (strRule === 'required') {
           this.labelEl?.classList.add('required');
           this.input?.setAttribute('aria-required', true);
@@ -98,12 +112,7 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
         const setRules = (input: any) => {
           const useRules = this.useRules.get(input);
           if (useRules) {
-            let found = false;
-            useRules.forEach((rule: any) => {
-              if (rule.id === strRule) {
-                found = true;
-              }
-            });
+            const found = useRules.some((r: any) => r.id === strRule);
             if (!found) {
               const mergeRule = [...useRules, getRule(strRule)];
               this.useRules.set(input, mergeRule);
@@ -120,6 +129,23 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
 
       if (isRulesAdded) {
         this.handleValidationEvents();
+      }
+
+      // Update to remove unused rule/s
+      const arrayValidate: string[] = this.validate?.split(' ');
+      let rules = this.useRules.get(this.input);
+
+      if (this.input && (rules?.length > arrayValidate?.length)) {
+        const removed: string[] = [];
+        arrayValidate.forEach((id: string) => {
+          rules = rules.filter((r: any) => {
+            if (r.id === id) return true;
+            removed.push(r.id);
+            return false;
+          });
+        });
+        removed.forEach((id: string) => this.removeValidationMessage({ id }));
+        this.useRules.set(this.input, rules);
       }
     } else {
       this.destroyValidation();
@@ -156,26 +182,111 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
     if (this.input) {
       checkRules(this.input);
     }
+  }
 
-    if (this.inputs) {
-      [...this.inputs].forEach((input) => {
-        checkRules(input);
-      });
+  /**
+   * Add validation rule/s
+   * @param {IdsValidationRule} [rule] incoming rule/s settings
+   * @returns {void}
+   */
+  addValidationRule(rule: Array<IdsValidationRule> | IdsValidationRule): void {
+    const isValid = (val: any) => typeof val === 'string' && val !== '';
+    const addToValidate: string[] = [];
+    let isRulesAdded = false;
+
+    // Add rule
+    const addRule = (newRule: IdsValidationRule) => {
+      const { id, type, message } = newRule;
+      if (isValid(id) && isValid(type) && isValid(message) && typeof newRule.check === 'function') {
+        if (!this.rules[id]) {
+          isRulesAdded = true;
+          this.rules[id] = newRule;
+          if (!this.validate || (!(new RegExp(id)).test(this.validate))) addToValidate.push(id);
+        }
+      }
+    };
+
+    // Check if single or multiple rules need to be add
+    if (rule?.constructor === Array) {
+      rule.forEach((r: IdsValidationRule) => addRule(r));
+    } else {
+      addRule(rule as IdsValidationRule);
+    }
+
+    // Bind rule/s
+    if (isRulesAdded) {
+      if (addToValidate.length) {
+        const val = this.validate ? `${this.validate} ` : '';
+        this.validate = `${val}${[...new Set(addToValidate)].join(' ')}`;
+      }
+      this.handleValidation();
     }
   }
 
   /**
-   * Add a new rule or replace an existing one.
-   * @param {Rule} rule incoming rule
+   * Remove validation rule/s
+   * @param {string} [ruleId] incoming rule/s id
    * @returns {void}
    */
-  addRule(rule: Rule): void {
-    const useRules = this.useRules.get(this.input);
-    const useRulesExclude = useRules.filter((item: Rule) => item.id !== rule.id);
-    const mergeRule = [...useRulesExclude, { id: rule.id, rule }];
+  removeValidationRule(ruleId: Array<string> | string): void {
+    const isValid = (val: any) => typeof val === 'string' && val !== '';
+    let validate = this.validate;
+    let isRulesRemoved = false;
 
-    this.useRules.set(this.input, mergeRule);
-    this.handleValidationEvents();
+    // Remove rule
+    const removeRule = (id: string) => {
+      if (isValid(id) && this.rules[id] && (new RegExp(id)).test(validate)) {
+        isRulesRemoved = true;
+        delete this.rules[id];
+        validate = validate.replace(id, '');
+      }
+    };
+
+    // Check if single or multiple rules need to be remove
+    if (ruleId?.constructor === Array) {
+      ruleId.forEach((id: string) => removeRule(id));
+    } else {
+      removeRule(ruleId as string);
+    }
+
+    // Unbind rule/s
+    if (isRulesRemoved) {
+      this.validate = validate.replace(/\s\s+/g, ' ').trim();
+    }
+  }
+
+  /**
+   * Add validation message/s
+   * @param {Array|object} [message] incoming message/s settings
+   * @returns {void}
+   */
+  addValidationMessage(message: Array<IdsValidationErrorMessageTypes> | IdsValidationErrorMessageTypes): void {
+    const addMessage = (obj: any): void => {
+      if (isObjectAndNotEmpty(obj)) this.addMessage(obj);
+    };
+
+    if (message?.constructor === Array) {
+      message.forEach((m) => addMessage(m));
+    } else {
+      addMessage(message);
+    }
+  }
+
+  /**
+   * Remove validation message/s
+   * @param {Array|object} [message] incoming message/s settings
+   * @returns {void}
+   */
+  removeValidationMessage(message: Array<IdsValidationErrorMessageTypes> | IdsValidationErrorMessageTypes): void {
+    const removeMessage = (obj: any): void => {
+      if (isObjectAndNotEmpty(obj)) this.removeMessage(obj);
+    };
+
+    if (message?.constructor === Array) {
+      message.forEach((m) => removeMessage(m));
+    } else {
+      removeMessage(message);
+    }
   }
 
   /**
@@ -191,15 +302,9 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
       icon
     } = settings;
 
-    if (!id && !this.#externalValidationEl) {
-      return;
-    }
-
-    let elem = this.#externalValidationEl || this.shadowRoot.querySelector(`[validation-id="${id}"]`);
-    if (elem && !this.#externalValidationEl) {
-      // Already has this message
-      return;
-    }
+    if (!id) return;
+    let elem = this.shadowRoot.querySelector(`[validation-id="${id}"]`);
+    if (elem) return; // Already has this message
 
     // Add error and related details
     const regex = new RegExp(`^\\b(${Object.keys(this.VALIDATION_ICONS).join('|')})\\b$`, 'g');
@@ -219,12 +324,7 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
     const iconHtml = iconName ? `<ids-icon icon="${iconName}" class="ids-icon"></ids-icon>` : '';
 
     // Add error message div and associated aria
-
-    if (!this.#externalValidationEl) {
-      elem = document.createElement('div');
-    } else {
-      elem = this.#externalValidationEl;
-    }
+    elem = document.createElement('div');
 
     elem.setAttribute('id', messageId);
     elem.setAttribute('validation-id', id);
@@ -238,10 +338,7 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
 
     const rootEl = this.shadowRoot.querySelector('.ids-input, .ids-textarea, .ids-checkbox');
     const parent = rootEl || this.shadowRoot;
-
-    if (!this.#externalValidationEl) {
-      parent.appendChild(elem);
-    }
+    parent.appendChild(elem);
 
     // Add extra classes for radios
     const isRadioGroup = this.input?.classList.contains('ids-radio-group');
@@ -260,9 +357,9 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
     const id = settings.id;
     let type = settings.type;
 
-    if (!this.#externalValidationEl) {
-      const elem = this.shadowRoot.querySelector(`[validation-id="${id}"]`);
+    const removeMsg = (elem: any) => {
       if (elem) {
+        const thisId = (id === null || typeof id === 'undefined') ? elem.getAttribute('id') : id;
         if (!type) {
           type = elem.getAttribute('type');
         }
@@ -270,9 +367,22 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
           this.isTypeNotValid = {};
         }
         elem.remove?.();
+        // Remove related items, added manually by markup
+        if (this.validationId === thisId) {
+          this.validationId = null;
+          this.validationType = null;
+          this.validationMessage = null;
+          this.validationIcon = null;
+        }
       }
-    } else {
-      this.#externalValidationEl.innerHTML = '';
+    };
+
+    const el: any = this.shadowRoot.querySelector(`[validation-id="${id}"]`);
+    if (el) {
+      removeMsg(el);
+    } else if (type && (id === null || typeof id === 'undefined')) {
+      const typeElms: any = this.shadowRoot.querySelectorAll(`.validation-message[type="${type}"]`);
+      typeElms.forEach((typeEl: any) => removeMsg(typeEl));
     }
 
     if (type) {
@@ -293,14 +403,14 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
   }
 
   /**
-   * Remove all the messages from input
+   * Remove all the validation messages
    * @returns {void}
    */
-  removeAllMessages() {
+  removeAllValidationMessages() {
     const nodes = [].slice.call(this.shadowRoot.querySelectorAll('.validation-message'));
     nodes.forEach((node: HTMLElement) => {
       const messageSettings: IdsValidationErrorMessageTypes = {
-        id: node.getAttribute('validation-id') || ''
+        id: (node.getAttribute('validation-id') as string)
       };
       const type: any = node.getAttribute('type');
       if (type) {
@@ -308,6 +418,26 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
       }
       this.removeMessage(messageSettings);
     });
+  }
+
+  /**
+   * Set validation message manually
+   * @returns {void}
+   */
+  setMessageManually() {
+    const getVal = (val?: string | null): string => (
+      typeof val === 'string' && val.trim() !== '' ? val.trim() : ''
+    );
+    const id = getVal(this.validationId);
+    const type = getVal(this.validationType);
+    const message = getVal(this.validationMessage);
+    const icon = getVal(this.validationIcon);
+
+    if (id && type && message) {
+      const args = { id, type, message, icon }; // eslint-disable-line
+      this.removeMessage(args);
+      this.addMessage(args);
+    }
   }
 
   /**
@@ -361,7 +491,7 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
         input.removeAttribute('aria-required');
         this.validationElems?.editor?.removeAttribute('aria-required');
       }
-      this.removeAllMessages();
+      this.removeAllValidationMessages();
     };
 
     if (this.input) {
@@ -389,7 +519,11 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
           return input.getRootNode()?.host?.checked;
         }
         const val = input.value;
-                return !((val === null) || (typeof val === 'string' && val === '') || (typeof val === 'number' && isNaN(val))) // eslint-disable-line
+        return !(
+          (val === null)
+          || (typeof val === 'string' && val === '')
+          || (typeof val === 'number' && Number.isNaN(val))
+        );
       },
       message: 'Required',
       type: 'error',
@@ -411,12 +545,6 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
       id: 'email'
     }
   };
-
-  setValidationElement(el: HTMLElement) {
-    this.#externalValidationEl = el;
-  }
-
-  #externalValidationEl?: HTMLElement;
 
   /**
    * Sets the validation check to use
@@ -448,6 +576,66 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
   }
 
   get validationEvents() { return this.getAttribute(attributes.VALIDATION_EVENTS); }
+
+  /**
+   * Sets  message icon, use with manually messages thru markup
+   * @param {string} value The value
+   */
+  set validationIcon(value) {
+    if (value) {
+      this.setAttribute(attributes.VALIDATION_ICON, value);
+    } else {
+      this.removeAttribute(attributes.VALIDATION_ICON);
+    }
+    this.setMessageManually();
+  }
+
+  get validationIcon() { return this.getAttribute(attributes.VALIDATION_ICON); }
+
+  /**
+   * Sets  message id, use with manually messages thru markup
+   * @param {string} value The value
+   */
+  set validationId(value) {
+    if (value) {
+      this.setAttribute(attributes.VALIDATION_ID, value);
+    } else {
+      this.removeAttribute(attributes.VALIDATION_ID);
+    }
+    this.setMessageManually();
+  }
+
+  get validationId() { return this.getAttribute(attributes.VALIDATION_ID); }
+
+  /**
+   * Sets message string, use with manually messages thru markup
+   * @param {string} value The value
+   */
+  set validationMessage(value) {
+    if (value) {
+      this.setAttribute(attributes.VALIDATION_MESSAGE, value);
+    } else {
+      this.removeAttribute(attributes.VALIDATION_MESSAGE);
+    }
+    this.setMessageManually();
+  }
+
+  get validationMessage() { return this.getAttribute(attributes.VALIDATION_MESSAGE); }
+
+  /**
+   * Sets message type, use with manually messages thru markup
+   * @param {string} value The value
+   */
+  set validationType(value) {
+    if (value) {
+      this.setAttribute(attributes.VALIDATION_TYPE, value);
+    } else {
+      this.removeAttribute(attributes.VALIDATION_TYPE);
+    }
+    this.setMessageManually();
+  }
+
+  get validationType() { return this.getAttribute(attributes.VALIDATION_TYPE); }
 };
 
 export default IdsValidationMixin;
