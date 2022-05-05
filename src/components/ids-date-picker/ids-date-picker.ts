@@ -21,6 +21,7 @@ import '../ids-input/ids-input';
 import '../ids-month-view/ids-month-view';
 import '../ids-popup/ids-popup';
 import '../ids-text/ids-text';
+import '../ids-time-picker/ids-time-picker';
 import '../ids-trigger-field/ids-trigger-field';
 
 // Types
@@ -1011,6 +1012,14 @@ class IdsDatePicker extends Base {
   }
 
   /**
+   * Defines if the format has hours/minutes/seconds pattern to show time picker
+   * @returns {boolean} whether or not to show time picker
+   */
+  #hasTime(): boolean {
+    return this.format.includes('h') || this.format.includes('m') || this.format.includes('s');
+  }
+
+  /**
    * Indicates if input, dropdown or the calendar toolbar has focus
    * @returns {boolean} whether or not an element has focus
    */
@@ -1286,6 +1295,18 @@ class IdsDatePicker extends Base {
 
     if (this.placeholder) {
       this.placeholder = this.format;
+    }
+
+    if (this.#hasTime()) {
+      this.#monthView.insertAdjacentHTML('afterend', `
+        <ids-time-picker
+          embeddable="true"
+          value="${this.value}"
+          format="${this.format}"
+        ></ids-time-picker>
+      `);
+    } else {
+      this.container.querySelector('ids-time-picker')?.remove();
     }
 
     this.#applyMask();

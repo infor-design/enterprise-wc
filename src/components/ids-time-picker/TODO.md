@@ -13,7 +13,7 @@ Keep this file in sync with #636
 - [ ] Add config for enabling/disabling leading-zeros on hours, minutes, and seconds (depends on localized date string `h` vs. `hh` or `m` vs. `mm`)
 - [ ] Replace the `range()` with the Date object or some other API, so we don't have to assume manually. See [Ed's comment](https://github.com/infor-design/enterprise-wc/pull/432#discussion_r756304951).
 - [ ] Separate out the "picker contents" to a separate, embeddable form element (could potentially be shared by this component and the Date Picker's "Date/Time" view)
-- [ ] Allow reset of the Time Picker's value ([#623](https://github.com/infor-design/enterprise-wc/issues/623))
+- [x] Allow reset of the Time Picker's value ([#623](https://github.com/infor-design/enterprise-wc/issues/623))
 
 ## Minor
 

@@ -69,6 +69,7 @@ export default class IdsTimePicker extends Base {
       attributes.AUTOSELECT,
       attributes.AUTOUPDATE,
       attributes.DISABLED,
+      attributes.EMBEDDABLE,
       attributes.FORMAT,
       attributes.LABEL,
       attributes.NO_MARGINS,
@@ -144,9 +145,9 @@ export default class IdsTimePicker extends Base {
           }
           break;
         case attributes.AUTOUPDATE:
-          this.elements.setTimeButton.classList.remove('hidden');
+          this.elements.setTimeButton?.classList.remove('hidden');
           // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-          stringToBool(newValue) && this.elements.setTimeButton.classList.add('hidden');
+          stringToBool(newValue) && this.elements.setTimeButton?.classList.add('hidden');
           break;
         default:
         // handle default case
@@ -219,7 +220,9 @@ export default class IdsTimePicker extends Base {
   set value(value: string) {
     if (!this.disabled && !this.readonly) {
       this.setAttribute(attributes.VALUE, value);
-      this.elements.triggerField.value = value;
+      if (this.elements.triggerField) {
+        this.elements.triggerField.value = value;
+      }
     }
   }
 
@@ -264,8 +267,12 @@ export default class IdsTimePicker extends Base {
   set disabled(value) {
     const disabled = stringToBool(value);
     this.setAttribute(attributes.DISABLED, disabled);
-    this.elements.triggerField.disabled = disabled;
-    this.elements.triggerButton.disabled = disabled;
+    if (this.elements.triggerField) {
+      this.elements.triggerField.disabled = disabled;
+    }
+    if (this.elements.triggerButton) {
+      this.elements.triggerButton.disabled = disabled;
+    }
   }
 
   /**
@@ -281,8 +288,12 @@ export default class IdsTimePicker extends Base {
   set readonly(value: boolean | string) {
     const readonly = stringToBool(value);
     this.setAttribute(attributes.READONLY, readonly);
-    this.elements.triggerField.readonly = readonly;
-    this.elements.triggerButton.readonly = readonly;
+    if (this.elements.triggerField) {
+      this.elements.triggerField.readonly = readonly;
+    }
+    if (this.elements.triggerButton) {
+      this.elements.triggerButton.readonly = readonly;
+    }
   }
 
   /**
@@ -297,7 +308,9 @@ export default class IdsTimePicker extends Base {
    */
   set label(value: string) {
     this.setAttribute(attributes.LABEL, value);
-    this.elements.triggerField.label = value;
+    if (this.elements.triggerField) {
+      this.elements.triggerField.label = value;
+    }
   }
 
   /**
@@ -312,7 +325,9 @@ export default class IdsTimePicker extends Base {
    */
   set placeholder(value: string) {
     this.setAttribute(attributes.PLACEHOLDER, value);
-    this.elements.triggerField.placeholder = value;
+    if (this.elements.triggerField) {
+      this.elements.triggerField.placeholder = value;
+    }
   }
 
   /**
@@ -394,10 +409,38 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
+   * embeddable attribute
+   * @returns {boolean} whether or not to show only hours/minutes/seconds dropdowns without input
+   */
+  get embeddable(): boolean {
+    return stringToBool(this.getAttribute(attributes.EMBEDDABLE));
+  }
+
+  /**
+   * Set whether or not show only hours/minutes/seconds dropdowns without input
+   * @param {string|boolean|null} val embeddable param value
+   */
+  set embeddable(val: string | boolean | null) {
+    const boolVal = stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.EMBEDDABLE, boolVal);
+    } else {
+      this.removeAttribute(attributes.EMBEDDABLE);
+    }
+  }
+
+  /**
    * Create the Template for the contents
    * @returns {string} HTML for the template
    */
   template() {
+    if (this.embeddable) {
+      return `<div class="ids-time-picker">
+        <div id="dropdowns">${this.dropdowns()}</div>
+      </div>`;
+    }
+
     const colorVariant = this.colorVariant ? ` color-variant="${this.colorVariant}"` : '';
     const fieldHeight = this.fieldHeight ? ` field-height="${this.fieldHeight}"` : '';
     const labelState = this.labelState ? ` label-state="${this.labelState}"` : '';
@@ -490,8 +533,10 @@ export default class IdsTimePicker extends Base {
    * Close the timepicker's popup window
    */
   closeTimePopup() {
-    this.elements.popup.visible = false;
-    this.removeOpenEvents();
+    if (this.elements.popup) {
+      this.elements.popup.visible = false;
+      this.removeOpenEvents();
+    }
   }
 
   /**

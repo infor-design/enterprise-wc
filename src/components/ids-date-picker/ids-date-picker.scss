@@ -79,8 +79,6 @@
   // Popup related
   ids-month-view {
     @include w-full();
-
-    max-width: 330px;
   }
 
   ids-popup::part(popup) {
@@ -163,6 +161,15 @@
 
   &[mode='contrast'] .popup-btn-end::part(button) {
     @include text-azure-90();
+  }
+
+  ids-time-picker + .popup-footer {
+    margin-top: 0;
+  }
+
+  ids-time-picker {
+    display: flex;
+    justify-content: center;
   }
 }
 

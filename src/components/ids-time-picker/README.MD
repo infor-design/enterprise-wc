@@ -110,6 +110,7 @@ It's also possible to control the intervals of minutes and seconds available for
 - `version` {'new' | 'classic' | string} Set the theme version
 - `intervals` {readonly} Get the minutes and seconds intervals
 - `options` {readonly} Get dropdown-options for hour, minutes, second and period (am/pm)
+- `embeddable` {boolean} Set whether or not to show only hours/minutes/seconds dropdowns without input
 
 ## Events
 

@@ -93,6 +93,7 @@ export const attributes = {
   EXPANDED: 'expanded',
   EXPANDER_TYPE: 'expander-type',
   EXPAND_ICON: 'expand-icon',
+  EMBEDDABLE: 'embeddable',
   FALLBACK: 'fallback',
   FAVOR: 'favor',
   FIELD: 'field',
