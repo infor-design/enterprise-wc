@@ -5,7 +5,7 @@
  category: Layouts
  keywords: breadcrumb, wayfinding
  examples:
-  - link: index.html
+  - link: example.html
     description: Shows a simple block grid
   - link: single-selection.html
     description: Shows a block grid with single selection

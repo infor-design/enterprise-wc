@@ -5,7 +5,7 @@
  category: Form Inputs
  keywords: switch, toggle, check, checkbox
  examples:
-  - link: index.html
+  - link: example.html
     description: Showing a switch with all states
   - link: side-by-side.html
     description: Showing a tab component side by side working with 4.x

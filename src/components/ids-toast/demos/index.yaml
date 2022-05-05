@@ -5,7 +5,7 @@
  category: Messages and Alerts
  keywords: toast, feedback, information, warning, status, Html5 toast
  examples:
-  - link: index.html
+  - link: example.html
     description: Shows basic toast message
   - link: sandbox.html
     description: Shows additional toast scenarios

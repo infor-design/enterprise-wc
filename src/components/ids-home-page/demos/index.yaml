@@ -5,7 +5,7 @@
  category: Layouts
  keywords: Home Page, Card, Cards
  examples:
-  - link: index.html
+  - link: example.html
     description: Shows home page layout with cards
   - link: side-by-side.html
     description: Showing the wc home page with 4.x home page

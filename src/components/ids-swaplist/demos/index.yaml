@@ -1,9 +1,9 @@
 ---
- component: SwapList 
+ component: SwapList
  link: ids-swaplist
- description: Displays SwapList component 
+ description: Displays SwapList component
  category: Lists
- keywords: ids-swaplist, SwapList 
+ keywords: ids-swaplist, SwapList
  examples:
-  - link: index.html
+  - link: example.html
     description: Showing various SwapList examples

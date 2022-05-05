@@ -5,7 +5,7 @@
  category: Typography
  keywords: link, anchor, hyperlink
  examples:
-  - link: index.html
+  - link: example.html
     description: Shows all hyperlinks and states
   - link: multi-line.html
     description: Shows a multi line hyperlink

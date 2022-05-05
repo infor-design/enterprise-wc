@@ -5,5 +5,5 @@
  category: Form Inputs
  keywords: input, label, readonly, data
  examples:
-  - link: index.html
+  - link: example.html
     description: Showing the summary field label component

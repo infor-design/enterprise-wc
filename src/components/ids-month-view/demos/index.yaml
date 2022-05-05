@@ -5,7 +5,7 @@
  category: Layouts
  keywords: calendar, date, day, week, month, toolbar
  examples:
-  - link: index.html
+  - link: example.html
     description: Past dates. Full size view
   - link: current-month.html
     description: Current month, year and day. Compact view

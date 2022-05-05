@@ -5,7 +5,7 @@
  category: Layouts
  keywords: List, List View, Listview, Grid, Responsively
  examples:
-  - link: index.html
+  - link: example.html
     description: Shows a list view with virtual scrolling
   - link: side-by-side.html
     description: Showing a layout grid side by side with a 4.x grid

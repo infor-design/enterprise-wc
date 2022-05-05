@@ -5,7 +5,7 @@
  category: Navigation and Interaction
  keywords: tab, tabs, sections
  examples:
-  - link: index.html
+  - link: example.html
     description: Shows a basic ids-tabs example
   - link: counts.html
     description: Shows tabs with a count for each tab

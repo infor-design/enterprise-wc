@@ -5,7 +5,7 @@
  category: Navigation and Interaction
  keywords: HTMLButtonElement, Button, Click
  examples:
-  - link: index.html
+  - link: example.html
     description: Shows most available buttons
   - link: button.html
     description: Shows form buttons

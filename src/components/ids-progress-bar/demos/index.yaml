@@ -5,7 +5,7 @@
  category: Messages and Alerts
  keywords: progress, status, feedback
  examples:
-  - link: index.html
+  - link: example.html
     description: Showing a progress bar example
   - link: side-by-side.html
     description: Showing a progress bar side by side with 4.x

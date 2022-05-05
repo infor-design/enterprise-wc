@@ -5,7 +5,7 @@
  category: Navigation and Interaction
  keywords: breadcrumb, wayfinding
  examples:
-  - link: index.html
+  - link: example.html
     description: Shows a basic breadcrumb
   - link: add-remove.html
     description: Shows an api to add and remove breadcrumbs

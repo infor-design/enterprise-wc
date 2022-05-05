@@ -5,7 +5,7 @@
  category: Form Inputs
  keywords: input, text, form
  examples:
-  - link: index.html
+  - link: example.html
     description: Shows all input settings and states
   - link: side-by-side.html
     description: Showing an input with a 4.x input

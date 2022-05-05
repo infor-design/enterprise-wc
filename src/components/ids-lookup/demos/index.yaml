@@ -5,7 +5,7 @@
  category: Form Inputs
  keywords: datagrid, lookup, selection
  examples:
-  - link: index.html
+  - link: example.html
     description: Shows basic lookup with states
   - link: side-by-side.html
     description: Showing a lookup side by side with a 4.x lookup

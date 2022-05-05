@@ -5,7 +5,7 @@
  category: Charts and Visualizations
  keywords: Count, Process Display
  examples:
-  - link: index.html
+  - link: example.html
     description: Shows a count on top and bottom
   - link: not-actionable.html
     description: Shows a readonly (non clickable) count

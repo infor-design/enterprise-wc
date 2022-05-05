@@ -5,5 +5,5 @@
  category: Layouts
  keywords: hide, responsive, hidden
  examples:
-  - link: index.html
+  - link: example.html
     description: Shows all ids-hidden combinations

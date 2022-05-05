@@ -5,5 +5,5 @@
  category: Form Inputs
  keywords: checkbox, checkboxes, groups, checkbox group
  examples:
-  - link: index.html
+  - link: example.html
     description: Shows checkbox-group with label

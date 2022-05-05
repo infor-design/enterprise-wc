@@ -5,7 +5,7 @@
  category: Layouts
  keywords: fieldset, collapse, expandable area, form, section
  examples:
-  - link: index.html
+  - link: example.html
     description: Shows general expandable area examples
   - link: standalone.html
     description: Shows a css expandable area

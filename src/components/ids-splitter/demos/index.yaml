@@ -5,5 +5,5 @@
  category: Layouts
  keywords: splitter, pane, resize, grid
  examples:
-  - link: index.html
+  - link: example.html
     description: Shows some basic examples of splitters and nested splitters.

@@ -3,9 +3,9 @@
  link: ids-process-indicator
  description: Displays process on a timeline with intervals
  category: Charts and Visualizations
- keywords: process, indicator, timeline 
+ keywords: process, indicator, timeline
  examples:
-  - link: index.html
+  - link: example.html
     description: Showing various process indicator examples
   - link: empty-label.html
     description: Showing various process indicator examples without labels

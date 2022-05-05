@@ -5,7 +5,7 @@
  category: Layouts
  keywords: fieldset, form, section
  examples:
-  - link: index.html
+  - link: example.html
     description: Shows general fieldset examples
   - link: standalone.html
     description: Shows a css fieldset
