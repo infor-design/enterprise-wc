@@ -147,7 +147,7 @@ export default class IdsSlider extends Base {
         <div class="slider">
           <div class="track-area">
             <ids-draggable hidden tabindex="0" class="thumb-draggable" axis="${this.vertical ? 'y' : 'x'}" parent-containment>
-              <div hidden class="thumb-shadow"></div>
+              <div class="thumb-shadow"></div>
               <div class="thumb">
                 <div class="tooltip">
                   <ids-text class="text">${this.value}</ids-text>
@@ -156,7 +156,7 @@ export default class IdsSlider extends Base {
               </div>
             </ids-draggable>
             <ids-draggable hidden tabindex="0" class="thumb-draggable secondary" axis="${this.vertical ? 'y' : 'x'}" parent-containment>
-              <div hidden class="thumb-shadow secondary"></div>
+              <div class="thumb-shadow secondary"></div>
               <div class="thumb secondary">
                 <div class="tooltip secondary">
                   <ids-text class="text secondary">${this.valueSecondary}</ids-text>
@@ -594,9 +594,9 @@ export default class IdsSlider extends Base {
     }
 
     if (hide) {
-      thumbShadow.setAttribute('hidden', '');
+      thumbShadow.classList.remove('active');
     } else {
-      thumbShadow.removeAttribute('hidden');
+      thumbShadow.classList.add('active');
     }
   }
 
@@ -1000,7 +1000,7 @@ export default class IdsSlider extends Base {
 
         if (this.type === 'double') {
           // check if focus is on b or a
-          if (this.thumbShadow.hasAttribute('hidden')) {
+          if (this.thumbShadow.classList.contains('active')) {
             primaryOrSecondary = 'secondary';
           }
         }

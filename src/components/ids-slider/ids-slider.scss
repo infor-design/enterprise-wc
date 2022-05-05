@@ -1,3 +1,5 @@
+@import '../../core/ids-base';
+
 ::host {
   position: relative;
 }
@@ -131,6 +133,12 @@
       height: 30px;
       background-color: rgba(0 114 237 / 0.1);
       border: 1px var(--ids-color-brand-primary-base) solid;
+      transition: transform $transition-length $transition-ease;
+      transform: scale(0);
+
+      &.active {
+        transform: scale(1);
+      }
     }
 
     .thumb {
