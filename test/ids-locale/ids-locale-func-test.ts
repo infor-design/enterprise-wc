@@ -1452,6 +1452,19 @@ describe('IdsLocale API', () => {
 
       expect(locale.formatDate(new Date(2015, 0, 8, 13, 40), { pattern: 'd MMMM yyyy г.' })).toEqual('8 януари 2015 г.');
     });
+
+    it('with time and day period patterns', async () => {
+      await locale.setLocale('en-US');
+
+      expect(locale.formatDate(new Date(2018, 10, 10, 14, 15, 12), { pattern: 'HH:mm:ss' })).toEqual('14:15:12');
+      expect(locale.formatDate(new Date(2018, 10, 10, 2, 15, 12), { pattern: 'H:mm' })).toEqual('2:15');
+      expect(locale.formatDate(new Date(2000, 10, 8, 13, 40, 30, 777), {
+        pattern: 'h:mm:ss.SSS a'
+      })).toEqual('1:40:30.777 PM');
+      expect(locale.formatDate(new Date(2000, 10, 8, 13, 40, 30, 777), {
+        pattern: 'H:mm:ss.SSS'
+      })).toEqual('13:40:30.777');
+    });
   });
 
   describe('Timezone Dates', () => {

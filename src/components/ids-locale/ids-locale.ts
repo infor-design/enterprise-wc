@@ -412,10 +412,16 @@ class IdsLocale {
 
     // Formatting by pattern
     if (options?.pattern && value instanceof Date) {
+      const calendar = this.calendar(usedLocale);
       const year: string = value.getFullYear().toString();
       const monthIndex: number = value.getMonth();
       const month: string = (monthIndex + 1).toString();
       const day: string = value.getDate().toString();
+      const dayOfWeek: number = value.getDay();
+      const hours: number = value.getHours();
+      const mins: number = value.getMinutes();
+      const seconds: number = value.getSeconds();
+      const millis: number = value.getMilliseconds();
       const pattern = options.pattern;
       let result = '';
 
@@ -431,15 +437,46 @@ class IdsLocale {
         .replace('yyyy', year)
         .replace('y', year);
 
+      // Time
+      const showDayPeriods = pattern.indexOf(' a') > -1 || pattern.indexOf('a') === 0;
+
+      if (showDayPeriods && hours === 0) {
+        result = result.replace('hh', '12');
+        result = result.replace('h', '12');
+      }
+
+      result = result.replace('hh', (hours > 12
+        ? (hours - 12).toString().padStart(2, '0')
+        : hours.toString().padStart(2, '0')))
+        .replace('h', hours > 12 ? (hours - 12).toString() : hours.toString())
+        .replace('HH', hours.toString().padStart(2, '0'))
+        .replace('H', hours.toString())
+        .replace('mm', mins.toString().padStart(2, '0'))
+        .replace('ss', seconds.toString().padStart(2, '0'))
+        .replace('SSS', millis.toString().padStart(3, '0'));
+
       // Months
       if (pattern.includes('MMM')) {
-        const calendar = this.calendar(usedLocale);
-
-        result = result.replace('MMMM', calendar.months.wide[monthIndex])
-          .replace('MMM', calendar.months.abbreviated[monthIndex]);
+        result = result.replace('MMMM', calendar?.months.wide[monthIndex] || month.padStart(2, '0'))
+          .replace('MMM', calendar?.months.abbreviated[monthIndex] || month.padStart(2, '0'));
       } else {
         result = result.replace('MM', month.padStart(2, '0'))
           .replace('M', month);
+      }
+
+      // AM/PM
+      if (showDayPeriods && calendar) {
+        result = result.replace(' a', ` ${hours >= 12 ? calendar.dayPeriods[1] : calendar.dayPeriods[0]}`);
+        if (pattern.indexOf('a') === 0) {
+          result = result.replace(' a', ` ${hours >= 12 ? calendar.dayPeriods[1] : calendar.dayPeriods[0]}`);
+        }
+      }
+
+      // Day of Week
+      if (calendar) {
+        result = result.replace('EEEE', calendar.days.wide[dayOfWeek])
+          .replace('EEE', calendar.days.abbreviated[dayOfWeek])
+          .replace('EE', calendar.days.narrow[dayOfWeek]);
       }
 
       result = result.replace('nnnnn', 'de')
