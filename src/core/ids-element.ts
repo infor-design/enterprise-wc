@@ -60,7 +60,6 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
     delete this.cssStyles;
     delete this.attribPropNameDict;
     delete this.popupOpenEventsTarget;
-    delete this.handledEvents;
   }
 
   /**
