@@ -6,7 +6,9 @@
  keywords: Drag, Draggable, Html5 draggable
  examples:
   - link: example.html
+    type: Main Example
     description: Shows basic dragging scenarios
   - link: sandbox.html
+    type: Sandbox
     description: Shows additional dragging scenarios
 

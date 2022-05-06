@@ -6,4 +6,5 @@
  keywords: Color, Swatch
  examples:
   - link: example.html
+    type: Main Example
     description: Shows a color swatch

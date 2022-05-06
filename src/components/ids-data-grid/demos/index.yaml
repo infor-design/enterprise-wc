@@ -6,25 +6,48 @@
  keywords: Data Grid, Grid, datagrid
  examples:
   - link: example.html
+    type: Main Example
     description: Shows a basic datagrid with formatters
   - link: list-style.html
+    type: Example
     description: Shows a datagrid with readonly list styling
   - link: multiple-selection.html
+    type: Example
     description: Shows a datagrid with multiple selection
   - link: single-selection.html
+    type: Example
     description: Shows a datagrid with single selection
   - link: mixed-selection.html
-    description: Shows a datagrid with mixed selection
+    type: Example
+    escription: Shows a datagrid with mixed selection
   - link: virtual-scroll.html
+    type: Example
     description: Shows a basic datagrid with virtual scrolling
-  - link: standalone-css.html
-    description: Shows a css only styles table
-  - link: side-by-side.html
-    description: Showing a datagrid next to a 4.x datagrid
   - link: pagination-client-side.html
+    type: Example
     description: Showing a datagrid with client-side pagination
   - link: pagination-server-side.html
+    type: Example
     description: Showing a datagrid with server-side pagination
   - link: pagination-standalone.html
+    type: Example
     description: Showing a datagrid with standalone pagination
+  - link: auto-fit.html
+    type: Example
+    description: Showing a datagrid that sizes to the bottom of the page
+  - link: filter-books.html
+    type: Example
+    description: Showing a filter row
+  - link: filter-custom.html
+    type: Example
+    description: Showing a filter row with custom filter inputs
+  - link: auto-fit.html
+    type: Example
+    description: Showing a datagrid that sizes to the bottom of the page
+  - link: standalone-css.html
+    type: Standalone CSS
+    description: Shows a css only styles table
+  - link: side-by-side.html
+    type: Side by Side
+    description: Showing a datagrid next to a 4.x datagrid
 

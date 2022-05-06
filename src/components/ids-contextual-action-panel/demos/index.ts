@@ -8,29 +8,11 @@ import '../../ids-toolbar/ids-toolbar';
 import '../../ids-button/ids-button';
 import '../../ids-separator/ids-separator';
 
-document.addEventListener('DOMContentLoaded', () => {
-  const triggerId: any = '#cap-trigger-btn';
-  const triggerBtn: any = document.querySelector(triggerId);
-  const cap: any = document.querySelector('ids-contextual-action-panel');
+// Listing Page
+import '../../ids-demo-app/ids-demo-listing';
+import indexYaml from './index.yaml';
 
-  // Links the CAP to its trigger button (sets up click/focus events)
-  cap.target = triggerBtn;
-  cap.trigger = 'click';
-
-  // Disable the trigger button when showing the CAP.
-  cap.addEventListener('beforeshow', () => {
-    triggerBtn.disabled = true;
-    return true;
-  });
-
-  // Close the modal when its inner buttons are clicked
-  // (this can be in the standard button area, OR inside a Toolbar)
-  cap.onButtonClick = () => {
-    cap.hide();
-  };
-
-  // After the modal is done hiding, re-enable its trigger button.
-  cap.addEventListener('hide', () => {
-    triggerBtn.disabled = false;
-  });
-});
+const demoListing: any = document.querySelector('ids-demo-listing');
+if (demoListing) {
+  demoListing.data = indexYaml.examples;
+}

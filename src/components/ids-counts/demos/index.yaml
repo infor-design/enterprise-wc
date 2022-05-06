@@ -6,11 +6,18 @@
  keywords: Count, Process Display
  examples:
   - link: example.html
+    type: Main Example
     description: Shows a count on top and bottom
   - link: not-actionable.html
+    type: Example
     description: Shows a readonly (non clickable) count
+  - link: compact.html
+    type: Example
+    description: Shows a more compact count
   - link: standalone-css.html
+    type: Standalone CSS
     description: Shows a css only count
   - link: side-by-side.html
+    type: Side by Side
     description: Showing a count next to a 4.x count
 

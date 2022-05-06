@@ -2,26 +2,11 @@
 import '../ids-drawer';
 import '../../ids-button/ids-button';
 
-document.addEventListener('DOMContentLoaded', () => {
-  const appMenuDrawer: any = document.querySelector('#drawer-app-menu');
-  const actionSheetDrawer: any = document.querySelector('#drawer-action-sheet');
-  const appMenuTriggerBtn: any = document.querySelector('#app-menu-trigger');
-  const actionSheetTriggerBtn: any = document.querySelector('#action-sheet-trigger');
+// Listing Page
+import '../../ids-demo-app/ids-demo-listing';
+import indexYaml from './index.yaml';
 
-  appMenuDrawer.target = appMenuTriggerBtn;
-  appMenuTriggerBtn.addEventListener('click', () => {
-    appMenuTriggerBtn.disabled = true;
-  });
-
-  actionSheetDrawer.target = actionSheetTriggerBtn;
-  actionSheetTriggerBtn.addEventListener('click', () => {
-    actionSheetTriggerBtn.disabled = true;
-  });
-
-  appMenuDrawer.addEventListener('hide', () => {
-    appMenuTriggerBtn.disabled = false;
-  });
-  actionSheetDrawer.addEventListener('hide', () => {
-    actionSheetTriggerBtn.disabled = false;
-  });
-});
+const demoListing: any = document.querySelector('ids-demo-listing');
+if (demoListing) {
+  demoListing.data = indexYaml.examples;
+}

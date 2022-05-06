@@ -4,22 +4,16 @@
   <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 <body>
-  <ids-container padding="8" role="main" hidden>
+  <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
-
     <ids-layout-grid auto="true">
-      <ids-layout-grid-cell>
-        <ids-text font-size="12" type="h1">Checkbox Groups</ids-text>
-      </ids-layout-grid-cell>
+      <ids-text font-size="20" type="h1">Ids Checkbox Group Examples</ids-text>
     </ids-layout-grid>
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
-        <ids-checkbox-group label="Choose from these options:">
-          <ids-checkbox label="Option 1" checked="false"></ids-checkbox>
-          <ids-checkbox label="Option 2" checked="true"></ids-checkbox>
-          <ids-checkbox label="Option 3" checked="true"></ids-checkbox>
-        </ids-checkbox-group>
-    </ids-layout-grid-cell>
+        <ids-demo-listing label="Checkbox Group Examples" component-name="ids-checkbox-group">
+        </ids-demo-listing>
+      </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>
 </body>

@@ -6,4 +6,5 @@
  keywords: checkbox, checkboxes, groups, checkbox group
  examples:
   - link: example.html
+    type: Main Example
     description: Shows checkbox-group with label

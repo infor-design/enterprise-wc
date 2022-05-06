@@ -6,18 +6,26 @@
  keywords: Card, Cards, Widget, Widgets
  examples:
   - link: example.html
+    type: Main Example
     description: Shows two side by side cards
   - link: auto-height.html
+    type: Example
     description: Shows an auto height card
-  - link: side-by-side.html
-    description: Showing an cards with a 4.x cards
-  - link: standalone-css.html
-    description: Showing a cards that works with css only
   - link: single-selection.html
+    type: Example
     description: Showing cards with single selection
   - link: multiple-selection.html
+    type: Example
     description: Showing cards with multiple selection
   - link: toolbar.html
+    type: Example
     description: Showing cards with secondary toolbar
   - link: info.html
-    description: Showing cards with various info examples
+    type: Example
+    description: Showing cards with various info
+  - link: side-by-side.html
+    type: Side by Side
+    description: Showing a card with a 4.x card
+  - link: standalone-css.html
+    type: Standalone CSS
+    description: Showing a cards that works with css only

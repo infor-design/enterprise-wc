@@ -6,5 +6,6 @@
  keywords: Color, Input
  examples:
   - link: example.html
+    type: Main Example
     description: Shows a color picker and states
 

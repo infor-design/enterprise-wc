@@ -6,4 +6,5 @@
  keywords: input, label, readonly, data
  examples:
   - link: example.html
+    type: Main Example
     description: Showing the data label component

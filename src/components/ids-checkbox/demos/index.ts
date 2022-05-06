@@ -2,18 +2,11 @@
 import '../ids-checkbox';
 import '../../ids-button/ids-button';
 
-document.addEventListener('DOMContentLoaded', () => {
-  const btnSetIndeterminate = document.querySelector('#btn-set-indeterminate');
-  const btnRemoveIndeterminate = document.querySelector('#btn-remove-indeterminate');
-  const cbIndeterminate: any = document.querySelector('#cb-indeterminate');
+// Listing Page
+import '../../ids-demo-app/ids-demo-listing';
+import indexYaml from './index.yaml';
 
-  // Set indeterminate
-  btnSetIndeterminate?.addEventListener('click', () => {
-    cbIndeterminate.indeterminate = true;
-  });
-
-  // Remove indeterminate
-  btnRemoveIndeterminate?.addEventListener('click', () => {
-    cbIndeterminate.indeterminate = false;
-  });
-});
+const demoListing: any = document.querySelector('ids-demo-listing');
+if (demoListing) {
+  demoListing.data = indexYaml.examples;
+}

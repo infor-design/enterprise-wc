@@ -1,24 +1,11 @@
 // Supporting components
 import '../ids-draggable';
-import css from '../../../assets/css/ids-draggable/index.css';
 
-const cssLink = `<link href="${css}" rel="stylesheet">`;
-const head = document.querySelector('head');
-if (head) {
-  head.insertAdjacentHTML('afterbegin', cssLink);
+// Listing Page
+import '../../ids-demo-app/ids-demo-listing';
+import indexYaml from './index.yaml';
+
+const demoListing: any = document.querySelector('ids-demo-listing');
+if (demoListing) {
+  demoListing.data = indexYaml.examples;
 }
-
-const draggables = [...document.querySelectorAll('ids-draggable')];
-draggables.forEach((d) => {
-  d.addEventListener('ids-dragstart', (e: any) => {
-    console.info('ids-dragstart', d, e.detail);
-  });
-
-  d.addEventListener('ids-drag', (e: any) => {
-    console.info('ids-drag', d, e.detail);
-  });
-
-  d.addEventListener('ids-dragend', (e: any) => {
-    console.info('ids-dragend', d, e.detail);
-  });
-});

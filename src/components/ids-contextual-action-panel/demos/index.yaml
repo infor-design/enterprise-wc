@@ -6,7 +6,9 @@
  keywords: Contextual Action Panel, Modal, Dialog
  examples:
   - link: example.html
+    type: Main Example
     description: Shows a simple Contextual Action Panel implementation
   - link: empty.html
+    type: Example
     description: Shows an empty Contextual Action Panel
 
