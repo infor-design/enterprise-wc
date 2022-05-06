@@ -146,7 +146,7 @@ export default class IdsSlider extends Base {
       <div class="ids-slider">
         <div class="slider">
           <div class="track-area">
-            <ids-draggable hidden tabindex="0" class="thumb-draggable" axis="${this.vertical ? 'y' : 'x'}" parent-containment>
+            <ids-draggable tabindex="0" class="thumb-draggable" axis="${this.vertical ? 'y' : 'x'}" parent-containment>
               <div class="thumb-shadow"></div>
               <div class="thumb">
                 <div class="tooltip">
@@ -155,7 +155,7 @@ export default class IdsSlider extends Base {
                 </div>
               </div>
             </ids-draggable>
-            <ids-draggable hidden tabindex="0" class="thumb-draggable secondary" axis="${this.vertical ? 'y' : 'x'}" parent-containment>
+            <ids-draggable tabindex="0" class="thumb-draggable secondary" axis="${this.vertical ? 'y' : 'x'}" parent-containment>
               <div class="thumb-shadow secondary"></div>
               <div class="thumb secondary">
                 <div class="tooltip secondary">
@@ -519,6 +519,7 @@ export default class IdsSlider extends Base {
     } else {
       this.setAttribute(attributes.TYPE, DEFAULT_TYPE);
     }
+    this.container.classList[value === 'double' ? 'add' : 'remove']('double');
   }
 
   get type(): string { return this.getAttribute(attributes.TYPE) || DEFAULT_TYPE; }
@@ -852,23 +853,7 @@ export default class IdsSlider extends Base {
   }
 
   #toggleTransitionStyles(toggleOn: any) {
-    if (toggleOn) {
-      // primary styles
-      if (!this.thumbDraggable.style.transition && !this.progressTrack.style.transition) {
-        this.thumbDraggable.style.setProperty('transition', 'transform 0.2s ease 0s');
-        // the progress track transition animation is jittery on vertical and double sliders, so don't add for those
-        if (!this.vertical || this.type !== 'double') this.progressTrack.style.setProperty('transition', 'width 0.2s ease 0s, transform 0.2s ease 0s');
-      }
-      // secondary styles
-      if (this.type === 'double' && this.thumbDraggableSecondary && !this.thumbDraggableSecondary.style.transition) {
-        this.thumbDraggableSecondary.style.setProperty('transition', 'transform 0.2s ease');
-      }
-    } else {
-      this.thumbDraggable.style.removeProperty('transition');
-      this.progressTrack.style.removeProperty('transition');
-
-      if (this.type === 'double') this.thumbDraggableSecondary.style.removeProperty('transition');
-    }
+    this.container.classList[toggleOn ? 'add' : 'remove']('animated');
   }
 
   /** Performs initializations, like style set ups */

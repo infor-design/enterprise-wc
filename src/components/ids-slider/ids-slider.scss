@@ -8,8 +8,29 @@
   display: flex;
   justify-content: center; // horizontal
   width: 100%; // horizontal
+
   &.vertical {
     height: 300px; // vertical
+  }
+
+  &.animated {
+    .thumb-draggable {
+      transition: transform $transition-length $transition-ease;
+    }
+
+    &:not(.vertical) {
+      .track-progress {
+        transition: transform $transition-length $transition-ease,
+          width $transition-length $transition-ease;
+      }
+    }
+
+    &.vertical {
+      .track-progress {
+        transition: transform $transition-length $transition-ease,
+          height $transition-length $transition-ease;
+      }
+    }
   }
 }
 
