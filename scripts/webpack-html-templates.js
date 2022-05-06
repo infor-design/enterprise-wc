@@ -16,9 +16,25 @@ const WebpackHtmlExamples = WebpackHtmlTemplates.map((template) => {
   chunkFileName !== 'index.html' && fs.existsSync(`./src/components/${chunkName}/demos/${chunkFileName.replace('.html', '.ts')}`);
   chunkFileName ? extraChunk = `${chunkName}-${chunkFileName.replace('.html', '')}` : extraChunk = '';
 
-  let chunkList = [chunkName, 'ids-container', 'ids-text', 'ids-icon', 'ids-layout-grid', 'ids-theme-switcher', noCSP ? 'ids-csp-side-by-side' : 'ids-csp', extraChunk];
+  let chunkList = [chunkName, 'ids-container', 'ids-text', 'ids-icon', 'ids-layout-grid', 'ids-theme-switcher', extraChunk];
   if (chunkFileName.includes('standalone-css')) {
-    chunkList = [extraChunk, 'ids-csp'];
+    chunkList = [extraChunk];
+  }
+
+  const metaTags = {
+    charset: 'utf-8',
+    viewport: 'width=device-width, initial-scale=1'
+  };
+
+  if (!noCSP) {
+    metaTags.csp = {
+      'http-equiv': 'Content-Security-Policy',
+      content: `
+        script-src 'self' https://unpkg.com/;
+        style-src 'self' https://fonts.googleapis.com 'nonce-0a59a005';
+        font-src 'self' data: https://fonts.gstatic.com;
+      `
+    };
   }
 
   // Special Entry for Main Homepage
@@ -33,6 +49,8 @@ const WebpackHtmlExamples = WebpackHtmlTemplates.map((template) => {
       filename: `index.html`,
       chunks: chunkList,
       favicon: './src/assets/images/favicon.ico',
+      meta: metaTags,
+      font: '<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&amp;amp;display=swap" rel="stylesheet">'
     });
   }
 
@@ -43,6 +61,8 @@ const WebpackHtmlExamples = WebpackHtmlTemplates.map((template) => {
     filename: `${chunkName}/${chunkFileName}`,
     chunks: chunkList,
     favicon: './src/assets/images/favicon.ico',
+    meta: metaTags,
+    font: '<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&amp;amp;display=swap" rel="stylesheet">'
   });
 });
 
