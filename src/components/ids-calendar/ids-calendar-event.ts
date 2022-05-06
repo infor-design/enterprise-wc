@@ -59,13 +59,6 @@ export default class IdsCalendarEvent extends Base {
   }
 
   /**
-   * Invoked when ids-calendar-event is removed from the DOM
-   */
-  disconnectedCallback(): void {
-    this.offEvent('click', this.container);
-  }
-
-  /**
    * Creates template for ids calendar event
    * @returns {string} html
    */

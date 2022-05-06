@@ -46,8 +46,6 @@ describe('IdsCalendarEvent Component', () => {
     calendarEvent.eventData = EVENT_ITEM;
     idsText = calendarEvent.container.querySelector('ids-text');
     idsContainer.appendChild(calendarEvent);
-    idsContainer.setLocale('en-US');
-    idsContainer.setLanguage('en');
   });
 
   it('should render', () => {
@@ -109,12 +107,6 @@ describe('IdsCalendarEvent Component', () => {
     calendarEvent.xOffset = xOffset;
     expect(calendarEvent.xOffset).toEqual(xOffset);
     expect(calendarEvent.container.style.left).toEqual(xOffset);
-
-    // test rtl
-    idsContainer.setLocale('ar-SA');
-    idsContainer.setLanguage('ar');
-    calendarEvent.xOffset = xOffset;
-    expect(calendarEvent.container.style.right).toEqual(xOffset);
   });
 
   it('allows setting extra css classes', () => {
