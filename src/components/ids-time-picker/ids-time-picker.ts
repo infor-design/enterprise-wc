@@ -683,7 +683,7 @@ export default class IdsTimePicker extends Base {
         minutes.label = this.locale?.translate('Minutes') || 'Minutes';
       }
       if (period) {
-        period.label = this.locale?.translate('Period') || 'HouPeriodrs';
+        period.label = this.locale?.translate('Period') || 'Period';
       }
       if (seconds) {
         seconds.label = this.locale?.translate('Seconds') || 'Seconds';
