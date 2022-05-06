@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Buttons</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid cols="4" gap="md">
+      <ids-layout-grid-cell>
+        <ids-button id="test-button-default">
+          <span slot="text">Default Button</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-button id="test-button-primary" type="primary">
+          <span slot="text">Primary Button</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-button id="test-button-secondary" type="secondary">
+          <span slot="text">Secondary Button</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-button id="test-button-tertiary" type="tertiary">
+          <span slot="text">Tertiary Button</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Disabled Buttons</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid cols="4" gap="md">
+      <ids-layout-grid-cell>
+        <ids-button id="test-disabled-button-default" disabled="true">
+          <span slot="text">Default Button</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-button id="test-disabled-button-primary" type="primary"  disabled="true">
+          <span slot="text">Primary Button</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-button id="test-disabled-button-secondary" type="secondary"  disabled="true">
+          <span slot="text">Secondary Button</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-button id="test-disabled-button-tertiary" type="tertiary"  disabled="true">
+          <span slot="text">Tertiary Button</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Icon Only Buttons</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid cols="4" gap="md">
+      <ids-layout-grid-cell>
+        <ids-button id="test-icon-only-button-default">
+          <span class="audible">Default Button</span>
+          <ids-icon slot="icon" icon="settings"></ids-icon>
+        </ids-button>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-button id="test-icon-only-button-primary" type="primary">
+          <span class="audible">Primary Button</span>
+          <ids-icon slot="icon" icon="settings"></ids-icon>
+        </ids-button>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-button id="test-icon-only-button-secondary" type="secondary">
+          <span class="audible">Secondary Button</span>
+          <ids-icon slot="icon" icon="settings"></ids-icon>
+        </ids-button>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-button id="test-icon-only-button-tertiary" type="tertiary">
+          <span class="audible">Tertiary Button</span>
+          <ids-icon slot="icon" icon="settings"></ids-icon>
+        </ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Icon + Text Buttons</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid cols="4" gap="md">
+      <ids-layout-grid-cell>
+        <ids-button id="test-icon-button-default">
+          <ids-icon slot="icon" icon="settings"></ids-icon>
+          <span slot="text">Default Button</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-button id="test-icon-button-primary" type="primary">
+          <ids-icon slot="icon" icon="settings"></ids-icon>
+          <span slot="text">Primary Button</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-button id="test-icon-button-secondary" type="secondary">
+          <ids-icon slot="icon" icon="settings"></ids-icon>
+          <span slot="text">Secondary Button</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-button id="test-icon-button-tertiary" type="tertiary">
+          <ids-icon slot="icon" icon="settings"></ids-icon>
+          <span slot="text">Tertiary Button</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Text + Icon Buttons</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid cols="4" gap="md">
+      <ids-layout-grid-cell>
+        <ids-button id="test-icon-end-button-default" icon-align="end">
+          <span slot="text">Default Button</span>
+          <ids-icon slot="icon" icon="settings"></ids-icon>
+        </ids-button>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-button id="test-icon-end-button-primary" icon-align="end" type="primary">
+          <span slot="text">Primary Button</span>
+          <ids-icon slot="icon" icon="settings"></ids-icon>
+        </ids-button>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-button id="test-icon-end-button-secondary" icon-align="end" type="secondary">
+          <span slot="text">Secondary Button</span>
+          <ids-icon slot="icon" icon="settings"></ids-icon>
+        </ids-button>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-button id="test-icon-end-button-tertiary" icon-align="end" type="tertiary">
+          <span slot="text">Tertiary Button</span>
+          <ids-icon slot="icon" icon="settings"></ids-icon>
+        </ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

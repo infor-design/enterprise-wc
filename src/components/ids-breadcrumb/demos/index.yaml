@@ -6,14 +6,20 @@
  keywords: breadcrumb, wayfinding
  examples:
   - link: example.html
+    type: Main Example
     description: Shows a basic breadcrumb
   - link: add-remove.html
+    type: Example
     description: Shows an api to add and remove breadcrumbs
-  - link: side-by-side.html
-    description: Showing a breadcrumb with a 4.x breadcrumb
-  - link: standalone-css.html
-    description: Showing a breadcrumb that works with css only
   - link: truncated.html
+    type: Example
     description: Showing a breadcrumb truncated
   - link: toolbar.html
+    type: Example
     description: Showing a breadcrumb in a toolbar
+  - link: side-by-side.html
+    type: Side by Side
+    description: Showing a breadcrumb with a 4.x breadcrumb
+  - link: standalone-css.html
+    type: Standalone CSS
+    description: Showing a breadcrumb that works with css only

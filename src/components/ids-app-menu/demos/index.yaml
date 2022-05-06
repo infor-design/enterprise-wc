@@ -6,4 +6,8 @@
  keywords: app-menu, sections
  examples:
   - link: example.html
+    type: Main Example
     description: Shows a basic app menu
+  - link: sandbox.html
+    type: Sandbox
+    description: Shows miscellaneous app menu features

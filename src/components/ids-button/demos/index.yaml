@@ -6,22 +6,32 @@
  keywords: HTMLButtonElement, Button, Click
  examples:
   - link: example.html
+    type: Main Example
     description: Shows most available buttons
   - link: button.html
+    type: Example
     description: Shows form buttons
   - link: disabled-button.html
+    type: Example
     description: Shows disabled buttons
   - link: icon-button-align-right.html
+    type: Example
     description: Shows an icon aligned to the right of text
   - link: icon-button.html
+    type: Example
     description: Shows icon buttons
-  - link: performance.html
-    description: Test performance of many buttons
+  - link: responsive.html
+    type: Example
+    description: Showing a button width setting
   - link: side-by-side.html
+    type: Side By Side
     description: Showing an button with a 4.x button
   - link: standalone-css.html
+    type: Standalone CSS
     description: Showing a button that works with css only
   - link: test-fallback-slot.html
+    type: Test
     description: Showing a button with an unamed slot working
-  - link: responsive.html
-    description: Showing a button width setting
+  - link: performance.html
+    type: Test
+    description: Test performance of many buttons

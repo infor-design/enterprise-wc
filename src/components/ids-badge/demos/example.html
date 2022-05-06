@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Badges</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-badge>5</ids-badge>
+        <ids-badge color="error">1500</ids-badge>
+        <ids-badge color="error">404 <ids-text audible="true">Items in Error</ids-text></ids-badge>
+        <ids-badge color="warning" shape="round">10</ids-badge>
+        <ids-badge color="warning" shape="normal">1000</ids-badge>
+        <ids-badge color="warning" shape="round"><ids-icon icon="pending" size="normal"></ids-icon></ids-badge>
+        <ids-badge color="success">5</ids-badge>
+        <ids-badge color="info">25k+</ids-badge>
+     </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>
