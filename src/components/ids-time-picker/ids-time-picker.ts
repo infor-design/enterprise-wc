@@ -220,8 +220,48 @@ export default class IdsTimePicker extends Base {
   set value(value: string) {
     if (!this.disabled && !this.readonly) {
       this.setAttribute(attributes.VALUE, value);
+
       if (this.elements.triggerField) {
         this.elements.triggerField.value = value;
+      }
+
+      // Parse input date and populate dropdowns
+      const {
+        hours, minutes, seconds, period
+      } = this.elements.dropdowns;
+
+      const inputDate: Date = this.locale.parseDate(
+        value,
+        { dateFormat: this.format }
+      );
+
+      if (hours && this.is24Hours && inputDate) {
+        hours.value = inputDate.getHours();
+      }
+
+      if (hours && this.is12Hours && inputDate) {
+        hours.value = inputDate.getHours() === 0 ? 12 : inputDate.getHours() % 12;
+      }
+
+      if (minutes && inputDate) {
+        minutes.value = inputDate.getMinutes();
+      }
+
+      if (seconds && inputDate) {
+        seconds.value = inputDate.getSeconds();
+      }
+
+      if (period && inputDate) {
+        const am = this.locale?.calendar().dayPeriods[0];
+        const pm = this.locale?.calendar().dayPeriods[1];
+
+        if (value?.includes(am)) {
+          period.setAttribute(attributes.VALUE, am);
+        }
+
+        if (value?.includes(pm)) {
+          period.setAttribute(attributes.VALUE, pm);
+        }
       }
     }
   }

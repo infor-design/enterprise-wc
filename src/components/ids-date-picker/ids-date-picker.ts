@@ -897,6 +897,12 @@ class IdsDatePicker extends Base {
     }
 
     setDateParams(inputDate || new Date());
+
+    // Set time picker value
+    if (this.#hasTime()) {
+      this.container.querySelector('ids-time-picker')
+        ?.setAttribute(attributes.VALUE, this.#triggerField?.value);
+    }
   }
 
   /**
