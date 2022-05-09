@@ -6,4 +6,5 @@
  keywords: hide, responsive, hidden
  examples:
   - link: example.html
+    type: Main Example
     description: Shows all ids-hidden combinations
