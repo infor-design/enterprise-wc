@@ -364,6 +364,18 @@ export default class IdsListView extends Base {
   get data(): any { return this?.datasource?.data || []; }
 
   /**
+   * Set the data array of the listview
+   * @param {Array | null} value The array to use
+   */
+  set dataKeys(value: any) {
+    if (this.datasource) {
+      this.datasource.dataKeys = value || [];
+    }
+  }
+
+  get dataKeys(): any { return this?.datasource?.dataKeys || []; }
+
+  /**
    * Set the list view to use virtual scrolling for a large amount of elements.
    * @param {string | boolean} value true to use virtual scrolling
    */

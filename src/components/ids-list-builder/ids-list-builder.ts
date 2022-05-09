@@ -92,6 +92,14 @@ export default class IdsListBuilder extends Base {
     `;
   }
 
+  get dataKeys(): Array<any> {
+    return super.dataKeys;
+  }
+
+  set dataKeys(val: Array<any>) {
+    super.dataKeys = val;
+  }
+
   get data(): Array<any> {
     return super.data;
   }
@@ -211,23 +219,42 @@ export default class IdsListBuilder extends Base {
     // Add button
     this.onEvent('click', this.container.querySelector('#button-add'), () => {
       this.#unfocusAnySelectedLiEditor();
+      let newDraggableItem;
 
-      const selectionNull = !this.selectedLi;
-      // if an item is selected, create a node under it, otherwise create a node above the first item
-
-      let targetDraggableItem = selectionNull ? this.container.querySelector('ids-swappable-item') : this.selectedLi;
-      if (!targetDraggableItem) {
-        targetDraggableItem = new IdsSwappableItem();
-      }
-      const newDraggableItem = targetDraggableItem.cloneNode(true);
-      newDraggableItem.setAttribute('selected', '');
-
-      const insertionLocation = selectionNull ? targetDraggableItem : targetDraggableItem.nextSibling;
-      if (targetDraggableItem.parentNode) {
-        targetDraggableItem.parentNode.insertBefore(newDraggableItem, insertionLocation);
-        targetDraggableItem.removeAttribute('selected');
+      if (!this.data.length) {
+        // if list is empty, add new item data to the source data
+        const newItemData: { [key: string]: any } = {};
+        this.dataKeys.forEach((key: string) => {
+          newItemData[key] = 'New Value';
+        });
+        this.data = [newItemData];
+        newDraggableItem = this.container.querySelector('ids-draggable');
       } else {
-        this.container.querySelector('ids-swappable').appendChild(newDraggableItem);
+        const selectionNull = !this.selectedLi;
+        // if an item is selected, create a node under it, otherwise create a node above the first item
+
+        let targetDraggableItem = selectionNull ? this.container.querySelector('ids-swappable-item') : this.selectedLi;
+        if (!targetDraggableItem) {
+          targetDraggableItem = new IdsSwappableItem();
+        }
+        const newDraggableItem = targetDraggableItem.cloneNode(true);
+        newDraggableItem.setAttribute('selected', '');
+
+        const insertionLocation = selectionNull ? targetDraggableItem : targetDraggableItem.nextSibling;
+        if (targetDraggableItem.parentNode) {
+          targetDraggableItem.parentNode.insertBefore(newDraggableItem, insertionLocation);
+          targetDraggableItem.removeAttribute('selected');
+        } else {
+          this.container.querySelector('ids-swappable').appendChild(newDraggableItem);
+          const insertionLocation = selectionNull ? targetDraggableItem : targetDraggableItem.nextSibling;
+          if (targetDraggableItem.parentNode) {
+            targetDraggableItem.parentNode.insertBefore(newDraggableItem, insertionLocation);
+          } else {
+            this.container.querySelector('.ids-list-view-body').appendChild(newDraggableItem);
+          }
+
+          this.attachDragEventListenersForDraggable(newDraggableItem);
+        }
       }
 
       const listItem = newDraggableItem.querySelector('div[part="list-item"]');
