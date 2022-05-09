@@ -6,4 +6,8 @@
  keywords: image, thumbnail, placeholder, user, initials, status
  examples:
   - link: example.html
+    type: Main Example
     description: Image Sizes and Placeholders
+  - link: standalone-css.html
+    type: Standalone CSS
+    description: Shows a image with standalone CSS
