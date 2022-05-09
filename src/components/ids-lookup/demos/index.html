@@ -6,32 +6,13 @@
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
-    <ids-layout-grid>
-      <ids-text font-size="12" type="h1">Lookup</ids-text>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="20" type="h1">Ids Lookup Examples</ids-text>
     </ids-layout-grid>
-
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
-        <ids-lookup id="lookup-1" label="Normal Lookup (dirty-tracker)" title="Select an Item" field="description" value="102,103" dirty-tracker="true"></ids-lookup>
-        <ids-lookup id="lookup-2" readonly="true" label="Readonly Lookup" value="102"></ids-lookup>
-        <ids-lookup id="lookup-3" disabled="true" label="Disabled Lookup" value="103"></ids-lookup>
-        <ids-lookup id="lookup-4" label="Required Lookup" validate="required"></ids-lookup>
-        <ids-lookup id="lookup-5" label="Custom Lookup">
-          <ids-modal slot="lookup-modal" id="custom-lookup-modal" aria-labelledby="custom-lookup-modal-title">
-            <ids-text slot="title" font-size="24" type="h2" id="lookup-modal-title">Custom Lookup Modal</ids-text>
-            <ids-modal-button slot="buttons" id="modal-cancel-btn" type="primary">
-              <span slot="text">Apply</span>
-            </ids-modal-button>
-          </ids-modal>
-        </ids-lookup>
-        <ids-lookup
-          id="lookup-6"
-          label="Autocomplete Lookup"
-          title="Select an Item"
-          autocomplete
-          field="description"
-        >
-        </ids-lookup>
+        <ids-demo-listing label="Loading Lookup Examples" component-name="ids-lookup">
+        </ids-demo-listing>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>

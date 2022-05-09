@@ -108,7 +108,7 @@ export default class IdsDemoListing extends Base {
       id: 'link',
       name: 'Example Name',
       field: 'link',
-      href: `./${this.componentName}/{{value}}`,
+      href: `/${this.componentName}/{{value}}`,
       sortable: true,
       formatter: this.container.formatters.hyperlink
     });

@@ -6,4 +6,5 @@
  keywords: ids-list-builder, ListBuilder
  examples:
   - link: example.html
+    type: Main Example
     description: Showing various List Builder examples
