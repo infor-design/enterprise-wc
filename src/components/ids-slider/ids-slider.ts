@@ -694,8 +694,8 @@ export default class IdsSlider extends Base {
         arr[i] = (this.max / (this.stepNumber - 1)) * i;
       }
 
-      const percent = this.#calcPercentFromClick(x, y);
-      const differences = arr.map((val) => Math.abs(val - ((percent / 100) * this.max)));
+      const passedValue = labelValueClicked || this.#calcPercentFromClick(x, y);
+      const differences = arr.map((val) => Math.abs(val - ((passedValue / 100) * this.max)));
 
       let min = differences[0];
       let minIndex = 0;
@@ -707,7 +707,15 @@ export default class IdsSlider extends Base {
         }
       }
 
-      this.value = arr[minIndex];
+      const targetValue = arr[minIndex];
+      this.percent = targetValue;
+      if (targetValue !== this.value) {
+        this.value = targetValue;
+      } else {
+        this.#moveThumb('primary');
+        this.#triggerChangeEvent(targetValue, 'primary');
+      }
+
       this.thumbDraggable.focus();
     }
   }
@@ -980,6 +988,9 @@ export default class IdsSlider extends Base {
       if (this.type === 'double') swapZIndex();
       // only set the percent--because changing the value causes the moveThumb() to fire like crazy
       this[obj.percentAttribute] = percent;
+
+      // Expose this event externally
+      this.triggerEvent('ids-drag', this, e);
     });
 
     this.onEvent('ids-dragstart', obj.thumbDraggable, () => {
