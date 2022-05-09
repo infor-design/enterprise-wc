@@ -22,8 +22,11 @@ const WebpackHtmlExamples = WebpackHtmlTemplates.map((template) => {
   }
 
   const metaTags = {
-    charset: 'utf-8',
-    viewport: 'width=device-width, initial-scale=1'
+    charset: { charset: 'utf-8' },
+    viewport: {
+      name: 'viewport',
+      content: 'width=device-width, initial-scale=1'
+    }
   };
 
   if (!noCSP) {
