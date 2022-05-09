@@ -255,6 +255,7 @@ export const attributes = {
   SHOW_BROWSE_LINK: 'show-browse-link',
   SHOW_TIMELINE: 'show-timeline',
   SHOW_TODAY: 'show-today',
+  SHOW_TOOLTIP: 'show-tooltip',
   SIZE: 'size',
   SORTABLE: 'sortable',
   SOURCE_FORMATTER: 'source-formatter',

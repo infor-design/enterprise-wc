@@ -14,4 +14,5 @@ Keep this file in sync with #698
 
 - [ ] Add colors and ticks feature [(example)](https://main-enterprise.demo.design.infor.com/components/slider/example-colors-and-ticks.html)
 - [x] Double Slider: fix bug where when drag is released too close to other thumb, it calculates the UI translate for that thumb thru calculateUIFromClick()
+- [ ] Fix minor bug where something between extra clicks/focus causes the tooltip to never hide
 - [ ] Should not animate when loading

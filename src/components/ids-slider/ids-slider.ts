@@ -129,6 +129,7 @@ export default class IdsSlider extends Base {
       attributes.MIN,
       attributes.MAX,
       attributes.STEP_NUMBER,
+      attributes.SHOW_TOOLTIP,
       attributes.TYPE,
       attributes.VALUE,
       attributes.VALUE_SECONDARY,
@@ -551,6 +552,25 @@ export default class IdsSlider extends Base {
   get type(): string { return this.getAttribute(attributes.TYPE) || DEFAULT_TYPE; }
 
   /**
+   *
+   */
+  set showTooltip(value: boolean | string) {
+    const currentValue = this.tooltip;
+    const newValue = stringToBool(value);
+    if (currentValue !== newValue) {
+      if (newValue) {
+        this.setAttribute(attributes.TOOLTIP, `${value}`);
+      } else {
+        this.removeAttribute(attributes.TOOLTIP);
+      }
+    }
+  }
+
+  get showTooltip() {
+    return this.hasAttribute(attributes.TOOLTIP);
+  }
+
+  /**
    * Set the color of the bar
    * @param {string} value The color, this can be a hex code with the #, a native css color, or an ids-status color
    */
@@ -601,6 +621,9 @@ export default class IdsSlider extends Base {
    * @param {primaryOrSecondary} primaryOrSecondary which tooltip to hide
    */
   #updateTooltipDisplay(hide: boolean, primaryOrSecondary?: string) {
+    if (!this.showTooltip) {
+      hide = true;
+    }
     if (primaryOrSecondary === 'secondary' && this.tooltipSecondary) {
       this.tooltipSecondary.style.opacity = hide ? 0 : 1;
     } else {
