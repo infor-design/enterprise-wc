@@ -23,6 +23,42 @@ const defaultEndHour = 19;
 const defaultFirstDayOfWeek = 0;
 const defaultInterval = 30000;
 
+const EVENTS_ITEMS = [
+  {
+    id: '1',
+    subject: 'Intraday Event',
+    starts: '2021-11-10T12:00:00.000',
+    ends: '2021-11-10T12:15:00.000',
+    type: 'dto',
+    isAllDay: 'false'
+  },
+  {
+    id: '2',
+    subject: 'All Day Event',
+    starts: '2021-11-10T00:00:00.000',
+    ends: '2021-11-10T23:59:59.999',
+    type: 'admin',
+    isAllDay: 'true'
+  }
+];
+
+const EVENT_TYPES = [
+  {
+    id: 'dto',
+    label: 'Discretionary Time Off',
+    translationKey: 'DiscretionaryTimeOff',
+    color: 'azure',
+    checked: true
+  },
+  {
+    id: 'admin',
+    label: 'Admin',
+    translationKey: 'AdministrativeLeave',
+    color: 'amethyst',
+    checked: true
+  }
+];
+
 describe('IdsWeekView Component (using properties)', () => {
   let component: any;
 
@@ -75,6 +111,8 @@ describe('IdsWeekView Component (using properties)', () => {
     expect(component.endHour).toEqual(endHour);
     expect(component.showTimeline).toBeFalsy();
     expect(component.timelineInterval).toEqual(interval);
+    expect(component.eventsData).toBeUndefined();
+    expect(component.eventTypesData).toBeUndefined();
   });
 
   it('should change properties', () => {
@@ -94,6 +132,14 @@ describe('IdsWeekView Component (using properties)', () => {
     expect(component.showToday).toBeFalsy();
     expect(component.timelineInterval).toEqual(defaultInterval);
   });
+
+  it('can add calendar events', () => {
+    component.eventTypesData = EVENT_TYPES;
+    component.eventsData = EVENTS_ITEMS;
+
+    const expectedEventCount = 2;
+    expect(component.container.querySelectorAll('ids-calendar-event')?.length).toBe(expectedEventCount);
+  });
 });
 
 describe('IdsWeekView Component (using attributes)', () => {
@@ -103,16 +149,16 @@ describe('IdsWeekView Component (using attributes)', () => {
     const container: any = new IdsContainer();
     document.body.appendChild(container);
     container.insertAdjacentHTML('beforeend', `
-      <ids-week-view
-        start-date="${startDate}"
-        end-date="${endDate}"
-        start-hour="${startHour}"
-        end-hour="${endHour}"
-        first-day-of-week="${startFirstDayOfWeek}"
-        timeline-interval="${interval}"
-        show-timeline="false"
-      ></ids-week-view>
-    `);
+       <ids-week-view
+         start-date="${startDate}"
+         end-date="${endDate}"
+         start-hour="${startHour}"
+         end-hour="${endHour}"
+         first-day-of-week="${startFirstDayOfWeek}"
+         timeline-interval="${interval}"
+         show-timeline="false"
+       ></ids-week-view>
+     `);
     component = document.querySelector(name);
   });
 
