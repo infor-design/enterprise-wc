@@ -21,10 +21,10 @@ describe('Ids Process Indicator e2e Tests', () => {
     });
 
     await page.goto(exampleUrl, { waitUntil: ['domcontentloaded', 'networkidle0'] });
-    await page.waitForSelector('ids-process-step [slot="detail"]', {
+    await page.waitForSelector('ids-process-indicator-step [slot="detail"]', {
       visible: false,
     });
-    const size = await page.evaluate('document.querySelector("ids-process-step [slot=\'detail\']").style.width');
+    const size = await page.evaluate('document.querySelector("ids-process-indicator-step [slot=\'detail\']").style.width');
     expect(Number(size.replace('px', ''))).toBe(0);
   });
 });

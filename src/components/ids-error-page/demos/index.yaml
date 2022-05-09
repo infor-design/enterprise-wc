@@ -6,4 +6,5 @@
  keywords: modal, info, popup, product, application
  examples:
   - link: example.html
+    type: Main Example
     description: Shows basic error message

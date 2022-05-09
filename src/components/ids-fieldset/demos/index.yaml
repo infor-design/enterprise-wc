@@ -6,9 +6,12 @@
  keywords: fieldset, form, section
  examples:
   - link: example.html
+    type: Main Example
     description: Shows general fieldset examples
   - link: standalone.html
+    type: Standalone Example
     description: Shows a css fieldset
   - link: side-by-side.html
+    type: Side-by-Side Example
     description: Showing a fieldset next to a 4.x fieldset
 

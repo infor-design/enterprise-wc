@@ -1,8 +1,8 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import Base from './ids-process-step-base';
+import Base from './ids-process-indicator-step-base';
 
-import styles from './ids-process-step.scss';
+import styles from './ids-process-indicator-step.scss';
 
 const statuses = ['cancelled', 'started', 'done'];
 const DEFAULT_LABEL = 'empty label';
@@ -15,7 +15,7 @@ const DEFAULT_LABEL = 'empty label';
  * @mixes IdsThemeMixin
  * @part label
  */
-@customElement('ids-process-step')
+@customElement('ids-process-indicator-step')
 @scss(styles)
 export default class IdsProcessStep extends Base {
   constructor() {
@@ -28,7 +28,7 @@ export default class IdsProcessStep extends Base {
     requestAnimationFrame(() => {
       const parentElement = this.parentElement;
       if (parentElement.tagName === 'IDS-PROCESS-INDICATOR') {
-        const steps = this.parentElement.querySelectorAll('ids-process-step');
+        const steps = this.parentElement.querySelectorAll('ids-process-indicator-step');
         const stepAmount = steps.length;
 
         const line = this.container.querySelector('.line');
@@ -66,7 +66,7 @@ export default class IdsProcessStep extends Base {
    */
   template(): string {
     return `
-      <div class="ids-process-step">
+      <div class="ids-process-indicator-step">
         <div class="line"></div>
         <ids-text part="label" hidden class="label">
           ${this.label}

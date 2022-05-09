@@ -1,17 +1,11 @@
 // Supporting components
 import '../ids-error-page';
 
-document.addEventListener('DOMContentLoaded', () => {
-  const errorPage: any = document.querySelector('ids-error-page');
+// Listing Page
+import '../../ids-demo-app/ids-demo-listing';
+import indexYaml from './index.yaml';
 
-  errorPage.popup.animated = false;
-
-  errorPage.addEventListener('action-button', () => {
-    errorPage.popup.animated = true;
-    errorPage.visible = false;
-  });
-
-  errorPage.addEventListener('beforehide', (evt: CustomEvent) => {
-    evt.detail.response(false);
-  });
-});
+const demoListing: any = document.querySelector('ids-demo-listing');
+if (demoListing) {
+  demoListing.data = indexYaml.examples;
+}
