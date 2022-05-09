@@ -413,10 +413,9 @@ class IdsLocale {
     // Formatting by pattern
     if (options?.pattern && value instanceof Date) {
       const calendar = this.calendar(usedLocale);
-      const year: string = value.getFullYear().toString();
-      const monthIndex: number = value.getMonth();
-      const month: string = (monthIndex + 1).toString();
-      const day: string = value.getDate().toString();
+      const year: number = value.getFullYear();
+      const month: number = value.getMonth();
+      const day: number = value.getDate();
       const dayOfWeek: number = value.getDay();
       const hours: number = value.getHours();
       const mins: number = value.getMinutes();
@@ -431,7 +430,7 @@ class IdsLocale {
         .replace('tháng', 't1áng')
         .replace('den', 'nnn')
         // Days
-        .replace('dd', day.padStart(2, '0'))
+        .replace('dd', `${day}`.padStart(2, '0'))
         .replace('d', day)
         // Years
         .replace('yyyy', year)
@@ -446,22 +445,22 @@ class IdsLocale {
       }
 
       result = result.replace('hh', (hours > 12
-        ? (hours - 12).toString().padStart(2, '0')
-        : hours.toString().padStart(2, '0')))
-        .replace('h', hours > 12 ? (hours - 12).toString() : hours.toString())
-        .replace('HH', hours.toString().padStart(2, '0'))
-        .replace('H', hours.toString())
-        .replace('mm', mins.toString().padStart(2, '0'))
-        .replace('ss', seconds.toString().padStart(2, '0'))
-        .replace('SSS', millis.toString().padStart(3, '0'));
+        ? `${hours - 12}`.padStart(2, '0')
+        : `${hours}`.padStart(2, '0')))
+        .replace('h', hours > 12 ? `${hours - 12}` : `${hours}`)
+        .replace('HH', `${hours}`.padStart(2, '0'))
+        .replace('H', `${hours}`)
+        .replace('mm', `${mins}`.padStart(2, '0'))
+        .replace('ss', `${seconds}`.padStart(2, '0'))
+        .replace('SSS', `${millis}`.padStart(3, '0'));
 
       // Months
       if (pattern.includes('MMM')) {
-        result = result.replace('MMMM', calendar?.months.wide[monthIndex] || month.padStart(2, '0'))
-          .replace('MMM', calendar?.months.abbreviated[monthIndex] || month.padStart(2, '0'));
+        result = result.replace('MMMM', calendar?.months.wide[month] || `${month + 1}`.padStart(2, '0'))
+          .replace('MMM', calendar?.months.abbreviated[month] || `${month + 1}`.padStart(2, '0'));
       } else {
-        result = result.replace('MM', month.padStart(2, '0'))
-          .replace('M', month);
+        result = result.replace('MM', `${month + 1}`.padStart(2, '0'))
+          .replace('M', `${month + 1}`);
       }
 
       // AM/PM
