@@ -33,6 +33,10 @@ Displays a range of selectable values(s) between a minimum and maximum, which ca
 
 - `labels` {array} set the list of labels you want (applicable only for step slider)
 
+## Events
+
+- `ids-drag` - passed up from Slider's thumbs in ShadowRoot, which are controlled by [IdsDraggable](../ids-draggable/README.md).  Listening to this event can enable special changes on the dragging of slider handles
+
 ## Accessibility
 
 Users can tab to focus on the thumb with <kbd>Tab<kbd> and modify values with <kbd>Arrow Up/Down/Left/Right</kbd>.
