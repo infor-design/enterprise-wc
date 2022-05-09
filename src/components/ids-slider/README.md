@@ -33,18 +33,6 @@ Displays a range of selectable values(s) between a minimum and maximum, which ca
 
 - `labels` {array} set the list of labels you want (applicable only for step slider)
 
-### How to set the labels
-
-In order for the labels to be set, the `type` attribute must be set to `step`, and the attribute `step-number` must match the size of the array of labels. Javascript is required to inject the label array into the DOM.
-
-```js
-this.labels = ['very bad, poor, average, good, excellent']; // where 'this' is the ids-slider
-
-document.querySelector('ids-slider').labels = ['very bad, poor, average, good, excellent']; // you can also do this
-```
-
-Based on the example above, the attribute `step-number` would need to be set to `5`
-
 ## Accessibility
 
 Users can tab to focus on the thumb with <kbd>Tab<kbd> and modify values with <kbd>Arrow Up/Down/Left/Right</kbd>.
@@ -73,6 +61,24 @@ A vertical step slider witih 12 intervals
 
 ```html
 <ids-slider vertical type="step" step-number="12"></ids-slider>
+```
+
+### Custom labels
+
+Custom label strings can be applied to a Slider with `type="step"` set.
+
+```html
+<ids-slider type="step"></ids-slider>
+```
+
+To add custom labels, the `step-number` attribute must match the size of the array of labels to be applied.  Absent this match, the labels will be hidden:
+
+```js
+const labels = ['very bad, poor, average, good, excellent'];
+const slider = document.querySelector('ids-slider');
+
+slider.labels = labels;
+slider.stepNumber = labels.length;
 ```
 
 ## Responsive Guidelines
