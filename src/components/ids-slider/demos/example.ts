@@ -1,3 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-  (document as any).querySelector('.survey').labels = ['very bad', 'poor', 'average', 'good', 'excellent'];
+  const survey = (document as any).querySelector('.survey');
+  if (survey) {
+    survey.labels = ['very bad', 'poor', 'average', 'good', 'excellent'];
+  }
 });

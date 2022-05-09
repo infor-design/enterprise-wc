@@ -412,6 +412,17 @@ export default class IdsSlider extends Base {
     return this.#percent;
   }
 
+  #sanitizeValue(value: string | number | any): number {
+    const fixedValue = parseFloat(value);
+    if (this.#withinBounds(fixedValue)) {
+      return fixedValue;
+    }
+    if (fixedValue > this.min) {
+      return this.min;
+    }
+    return this.max;
+  }
+
   /**
    * Helper function to check if values being set are within min and max
    * @param {number} value the number to check
@@ -426,15 +437,15 @@ export default class IdsSlider extends Base {
    * @param {string} value The secondary input value
    */
   set valueSecondary(value: string | number | any) {
-    if (this.#withinBounds(value)) {
-      this.setAttribute(attributes.VALUE_SECONDARY, value);
-      this.percentSecondary = ((this.valueSecondary - this.min) / (this.max - this.min)) * 100;
-      this.#updateTooltip(value, 'secondary');
+    const currentValue = this.getAttribute(attributes.VALUE_SECONDARY) || '';
+    const newValue = this.#sanitizeValue(value);
+
+    if (currentValue !== newValue) {
+      this.setAttribute(attributes.VALUE_SECONDARY, `${newValue}`);
+      this.percentSecondary = ((newValue - this.min) / (this.max - this.min)) * 100;
+      this.#updateTooltip(newValue, 'secondary');
       this.#moveThumb('secondary');
-    } else if (value < this.min) {
-      this.setAttribute(attributes.VALUE_SECONDARY, this.min);
-    } else {
-      this.setAttribute(attributes.VALUE_SECONDARY, this.max);
+      this.#triggerChangeEvent(newValue, 'secondary');
     }
   }
 
@@ -451,15 +462,15 @@ export default class IdsSlider extends Base {
    * @param {string} value The input value
    */
   set value(value: string | number | any) {
-    if (this.#withinBounds(value)) {
-      this.setAttribute(attributes.VALUE, value);
-      this.percent = ((this.value - this.min) / (this.max - this.min)) * 100;
-      this.#updateTooltip(value);
-      this.#moveThumb('');
-    } else if (value > this.max) {
-      this.setAttribute(attributes.VALUE, this.max);
-    } else {
-      this.setAttribute(attributes.VALUE, this.min);
+    const currentValue = parseFloat(this.getAttribute(attributes.VALUE)) || this.min;
+    const newValue = this.#sanitizeValue(value);
+
+    if (currentValue !== newValue) {
+      this.setAttribute(attributes.VALUE, `${newValue}`);
+      this.percent = ((newValue - this.min) / (this.max - this.min)) * 100;
+      this.#updateTooltip(newValue, 'primary');
+      this.#moveThumb('primary');
+      this.#triggerChangeEvent(newValue, 'primary');
     }
   }
 
@@ -469,6 +480,21 @@ export default class IdsSlider extends Base {
       return this.min;
     }
     return parseFloat(this.getAttribute(attributes.VALUE));
+  }
+
+  /**
+   * Triggers a Change Event
+   * @param {string | number | any } value the value of the slider handle
+   * @param {string} [thumb] the slider thumb causing the change
+   */
+  #triggerChangeEvent(value: string | number | any, thumb: string) {
+    this.triggerEvent('change', this, {
+      bubbles: true,
+      detail: {
+        elem: thumb === 'secondary' ? this.thumbSecondaryDraggable : this.thumbDraggable,
+        value
+      }
+    });
   }
 
   /**
