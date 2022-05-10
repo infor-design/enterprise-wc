@@ -225,6 +225,7 @@ export default class IdsTree extends Base {
           nodesHtml(n.children);
         } else {
           addKey('icon');
+          addKey((this.selectable === 'multiple' && hasKey('label') ? 'label' : 'text'), 'label');
           const text = hasKey('label') ? n.label : (n.text || '');
           html += `>${validatedText(text)}`;
         }

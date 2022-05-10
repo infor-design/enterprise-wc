@@ -7,6 +7,7 @@ import Base from './ids-tree-node-base';
 import IdsTreeShared from './ids-tree-shared';
 import '../ids-badge/ids-badge';
 import '../ids-text/ids-text';
+import '../ids-checkbox/ids-checkbox';
 
 import styles from './ids-tree-node.scss';
 
@@ -115,8 +116,9 @@ export default class IdsTreeNode extends Base {
           <span class="node-container" part="node-container" role="treeitem"${tabindex}${disabled}${selected}${ariaDisabled}${ariaSelected}${ariaExpanded}>
             <ids-icon class="icon" icon="${this.nodeIcon}" part="icon"></ids-icon>
             ${this.toggleIconHtml}
+            ${this.isMultiSelect ? `<ids-checkbox label="${this.label}"></ids-checkbox>` : ''}
             <slot name="badge" class="badge"></slot>
-            <ids-text class="text" part="text">${this.label}</ids-text>
+            <ids-text class="text" part="text" ${this.isMultiSelect ? 'hidden' : ''}>${this.label}</ids-text>
           </span>
           <ul class="group-nodes" role="group">{group-nodes}</ul>
         </li>`;
@@ -126,8 +128,9 @@ export default class IdsTreeNode extends Base {
       <li class="ids-tree-node" part="node" role="none"${disabled}${selected}>
         <span class="node-container" part="node-container" role="treeitem"${tabindex}${disabled}${selected}${ariaDisabled}${ariaSelected}>
           <ids-icon class="icon" part="icon" icon="${this.nodeIcon}"></ids-icon>
+          ${this.isMultiSelect ? `<ids-checkbox label="${this.label}"></ids-checkbox>` : ''}
           <slot name="badge" class="badge"></slot>
-          <ids-text class="text" part="text"><slot></slot></ids-text>
+          <ids-text class="text" part="text" ${this.isMultiSelect ? 'hidden' : ''}><slot></slot></ids-text>
         </span>
       </li>`;
   }
@@ -321,6 +324,8 @@ export default class IdsTreeNode extends Base {
    */
   get isTabbable() { return !this.disabled && this.tabbable; }
 
+  get isMultiSelect() { return this.tree.selectable === 'multiple' }
+
   /**
    * Gets the current toggle css class name
    * @returns {string} the toggle css class name
@@ -437,6 +442,7 @@ export default class IdsTreeNode extends Base {
     } else {
       this.removeAttribute(attributes.LABEL);
     }
+
     if (this.isGroup) {
       this.shadowRoot.querySelector('.text').textContent = `${value}`;
     }
