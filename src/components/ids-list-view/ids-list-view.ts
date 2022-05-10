@@ -443,8 +443,11 @@ export default class IdsListView extends Base {
    * @returns {NodeList | HTMLElement} a list if multiselect is enabled, else the single selected list item
    */
   get selectedLi(): any {
+    // const savedSelectedLi = this.selectable === 'multiple'
+    //   ? this.container.querySelectorAll(`div[part=list-item][selected='selected']`)
+    //   : this.container.querySelector(`div[part="list-item"][index="${this.#selectedLiIndex}"]`);
     const savedSelectedLi = this.selectable === 'multiple'
-      ? this.container.querySelectorAll(`div[part=list-item][selected='selected']`)
+      ? this.container.querySelector(`div[part=list-item][selected='selected']`)
       : this.container.querySelector(`div[part="list-item"][index="${this.#selectedLiIndex}"]`);
     return savedSelectedLi;
   }

@@ -34,7 +34,6 @@ export default class IdsListBuilder extends Base {
 
   connectedCallback() {
     this.sortable = true;
-    this.selectable = 'single';
     // list-builder is not designed to handle thousands of items, so doesnt support virtual scroll
     this.virtualScroll = false;
     this.itemHeight = 46; // hard-coded
@@ -62,25 +61,25 @@ export default class IdsListBuilder extends Base {
           <div class="header">
             <ids-toolbar tabbable="true">
               <ids-toolbar-section type="buttonset">
-                <ids-button id="button-add">
+                <ids-button id="button-add" color-variant="alternate">
                   <span slot="text" class="audible">Add List Item</span>
                   <ids-icon slot="icon" icon="add"></ids-icon>
                 </ids-button>
                 <div class="separator"></div>
-                <ids-button id="button-up">
+                <ids-button id="button-up" color-variant="alternate">
                   <span slot="text" class="audible">Move Up List Item</span>
                   <ids-icon slot="icon" icon="arrow-up"></ids-icon>
                 </ids-button>
-                <ids-button id="button-down">
+                <ids-button id="button-down" color-variant="alternate">
                   <span slot="text" class="audible">Move Down List Item</span>
                   <ids-icon slot="icon" icon="arrow-down"></ids-icon>
                 </ids-button>
                 <div class="separator"></div>
-                <ids-button id="button-edit">
+                <ids-button id="button-edit" color-variant="alternate">
                   <span slot="text" class="audible">Edit List Item</span>
                   <ids-icon slot="icon" icon="edit"></ids-icon>
                 </ids-button>
-                <ids-button id="button-delete">
+                <ids-button id="button-delete" color-variant="alternate">
                   <span slot="text" class="audible">Delete Down List Item</span>
                   <ids-icon slot="icon" icon="delete"></ids-icon>
                 </ids-button>
@@ -90,6 +89,18 @@ export default class IdsListBuilder extends Base {
           ${super.template()}
       </div>
     `;
+  }
+
+  /**
+   * Set the selection mode of the listview
+   * @param {string} value true to use virtual scrolling
+   */
+  set selectable(value: string) {
+    super.selectable = value;
+  }
+
+  get selectable(): string {
+    return super.selectable;
   }
 
   get dataKeys(): Array<any> {
