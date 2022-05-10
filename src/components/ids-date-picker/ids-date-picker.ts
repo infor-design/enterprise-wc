@@ -1046,7 +1046,7 @@ class IdsDatePicker extends Base {
     const seconds: number = Number(timePicker?.elements.dropdowns.seconds?.value) || 0;
     const period: string | undefined = timePicker?.elements.dropdowns.period?.value;
     const dayPeriodIndex = this.locale?.calendar().dayPeriods?.indexOf(period);
-    const hours24 = (hours % 12) + dayPeriodIndex * 12;
+    const hours24 = (hours % 12) + Math.abs(dayPeriodIndex) * 12;
 
     date.setHours(hours24, minutes, seconds);
 
