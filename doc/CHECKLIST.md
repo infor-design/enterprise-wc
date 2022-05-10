@@ -123,7 +123,6 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Spinbox (ids-spin-box)
  - [x] Splitter (ids-splitter)
  - [x] Stepchart (ids-step-chart)
- - [x] Summary field (ids-summary-field)
  - [x] Swaplist (ids-swap-list)
  - [x] Switch (ids-switch)
  - [x] Tabs (ids-tabs)
