@@ -6,4 +6,5 @@
  keywords: ids-swaplist, SwapList
  examples:
   - link: example.html
+    type: Main Example
     description: Showing various SwapList examples

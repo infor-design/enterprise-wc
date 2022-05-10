@@ -6,4 +6,5 @@
  keywords: slider, range, step
  examples:
   - link: example.html
+    type: Main Example
     description: Showing various slider examples

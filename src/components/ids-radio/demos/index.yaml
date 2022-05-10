@@ -6,8 +6,11 @@
  keywords: radio, choice, input
  examples:
   - link: example.html
+    type: Main Example
     description: Showing a radio with all states
   - link: side-by-side.html
-    description: Showing a radio component side by side working with 4.x
+    type: Side by Side
+    description: Showing a radio component side by side with 4.x
   - link: standalone-css.html
+    type: Standalone CSS
     description: Showing radio that works with css only

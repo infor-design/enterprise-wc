@@ -6,4 +6,5 @@
  keywords: swipe, scroll, circle pager, carousel
  examples:
   - link: example.html
+    type: Main Example
     description: Shows a basic scroll view
