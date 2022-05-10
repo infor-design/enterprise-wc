@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Ids Progress Bar</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="3" gap="md">
+      <ids-layout-grid-cell>
+
+        <ids-progress-bar id="elem-progress" label="Percent complete" value="10"></ids-progress-bar>
+
+        <ids-toggle-button id="btn-progress-value" icon-off="rocket" icon-on="rocket" text-off="Update Value" text-on="Reset Value">
+          <span slot="text"></span>
+        </ids-toggle-button>
+
+        <ids-toggle-button id="btn-progress-disable" icon-off="unlink" icon-on="unlink" text-off="Disable" text-on="Enable">
+          <span slot="text"></span>
+        </ids-toggle-button>
+
+        <ids-toggle-button id="btn-progress-set-label" icon-off="settings" icon-on="settings" text-off="Audible label" text-on="Inaudible label">
+          <span slot="text"></span>
+        </ids-toggle-button>
+
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-progress-bar label="Progress Bar (max:1, value: 0.7)" max="1" value="0.7"></ids-progress-bar>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

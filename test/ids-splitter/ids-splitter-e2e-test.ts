@@ -1,5 +1,5 @@
 describe('Ids Splitter e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-splitter';
+  const url = 'http://localhost:4444/ids-splitter/example.html';
   const urlSandbox = 'http://localhost:4444/ids-splitter/sandbox.html';
   const stringToNumber = (val: any) => {
     // eslint-disable-next-line no-unsafe-optional-chaining

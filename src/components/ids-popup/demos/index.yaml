@@ -6,10 +6,20 @@
  keywords: Popup, popover, popdown
  examples:
   - link: example.html
+    title: Main Example
     description: Showing a Popup example
-  - link: test-sandbox.html
+  - link: on-place.html
+    title: Test
+    description: Showing a test page for placement logic
+  - link: scrolling.html
+    title: Test
+    description: Showing a test page for scrolling
+  - link: sandbox.html
+    title: Sandbox
     description: Showing a test page for positioning
   - link: side-by-side.html
+    title: Side-by-Side
     description: Showing a Popup Menu side by side with 4.x
   - link: standalone-css.html
+    title: Standalone CSS
     description: Showing Popup Menu that works with css only

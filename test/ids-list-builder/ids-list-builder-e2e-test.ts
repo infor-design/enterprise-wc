@@ -1,5 +1,5 @@
 describe('Ids List Builder e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-list-builder';
+  const url = 'http://localhost:4444/ids-list-builder/example.html';
 
   /**
    * Create css selector for list item

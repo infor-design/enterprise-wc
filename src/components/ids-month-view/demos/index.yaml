@@ -6,8 +6,14 @@
  keywords: calendar, date, day, week, month, toolbar
  examples:
   - link: example.html
+    title: Main Example
     description: Past dates. Full size view
   - link: current-month.html
+    title: Example
     description: Current month, year and day. Compact view
   - link: range-in-month.html
-    description: Range of dates. More than one month view. No toolbar
+    title: Example
+    ddescription: Range of dates. More than one month view. No toolbar
+  - link: standalone-css.html
+    title: Standalone CSS
+    ddescription: Range of dates. More than one month view. No toolbar

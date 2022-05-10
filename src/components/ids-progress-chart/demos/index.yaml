@@ -6,6 +6,8 @@
  keywords: progress, chart, bar
  examples:
   - link: example.html
+    title: Main Demo
     description: Showing various progress chart examples
-  - link: readme-examples.html
-    description: Showing the examples as listed on the README.md
+  - link: sandbox.html
+    title: Sandbox
+    description: Showing misc examples

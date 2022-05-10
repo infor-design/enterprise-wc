@@ -1,5 +1,5 @@
 describe('Ids List View e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-list-view';
+  const url = 'http://localhost:4444/ids-list-view/example.html';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });

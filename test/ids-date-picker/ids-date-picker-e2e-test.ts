@@ -1,5 +1,5 @@
 describe('Ids Date Picker e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-date-picker';
+  const url = 'http://localhost:4444/ids-date-picker/example.html';
   const axeUrl = `${url}/axe.html`;
 
   it('should pass Axe accessibility tests', async () => {

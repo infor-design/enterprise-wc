@@ -6,14 +6,20 @@
  keywords: Popup, context menu, menu
  examples:
   - link: example.html
+    title: Main Example
     description: Showing a Popup Menu example
   - link: data-driven.html
+    title: Example
     description: Showing a Popup Menu fed with a dataset
   - link: selected-state.html
+    title: Example
     description: Showing a Popup Menu with selections
   - link: trigger-immediate.html
+    title: Test
     description: Showing a Popup Menu invoked on demand
   - link: side-by-side.html
+    title: Side-by-Side
     description: Showing a Popup Menu side by side with 4.x
   - link: standalone-css.html
+    title: Standalone CSS
     description: Showing Popup Menu that works with css only

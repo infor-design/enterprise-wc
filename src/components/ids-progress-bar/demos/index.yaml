@@ -6,8 +6,11 @@
  keywords: progress, status, feedback
  examples:
   - link: example.html
+    title: Main Demo
     description: Showing a progress bar example
   - link: side-by-side.html
+    title: Side-by-Side
     description: Showing a progress bar side by side with 4.x
   - link: standalone-css.html
+    title: Standalone CSS
     description: Showing progress bar that works with css only

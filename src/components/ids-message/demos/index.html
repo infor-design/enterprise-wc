@@ -6,23 +6,13 @@
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
-    <ids-message id="message-example-error" status="error">
-      <ids-text slot="title" font-size="24" type="h2" id="my-message-title">Lost connection</ids-text>
-      <ids-text id="my-message-contents" align="left">This application has experienced a system error due to the lack of internet access. Please restart the
-        application in order to proceed.</ids-text>
-      <ids-modal-button slot="buttons" type="secondary" id="my-message-cancel" cancel>Cancel</ids-modal-button>
-      <ids-modal-button slot="buttons" type="primary" id="my-message-confirm">Confirm</ids-modal-button>
-    </ids-message>
-
     <ids-layout-grid auto="true">
-      <ids-layout-grid-cell>
-        <ids-text font-size="12" type="h1">Message</ids-text>
-      </ids-layout-grid-cell>
+      <ids-text font-size="20" type="h1">Ids Message Examples</ids-text>
     </ids-layout-grid>
-
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
-        <ids-button type="secondary" id="message-example-error-trigger">Error Example</ids-button>
+        <ids-demo-listing label="Message Examples" component-name="ids-message">
+        </ids-demo-listing>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>
