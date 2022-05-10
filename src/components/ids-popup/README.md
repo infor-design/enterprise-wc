@@ -202,3 +202,19 @@ The `popupRect` argument provides access to the editable [`DOMRect`](https://dev
 
 - When making a Popup that is placed in reference to an adjacent element, it must be placed AFTER it in the DOM. Placing it BEFORE the adjacent element can cause its placement to be incorrect on its first render.
 - When using an `alignTarget`, also using the `arrow` setting and pointing it in the direction of the `alignTarget` can help contextualize the relationship between the two elements.
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- Place was added in v4.2.2
+- All separate placment/popup logic was replaced with Place internally (not called)
+- Place could be invoked on a custom component with `$('#my-element').place();`
+
+**4.x to 5.x**
+
+- Place is now a custom element `<ids-popup></ids-popup>`
+- This is the new base component to be used for building Popupmenu, Tooltip, Modal, and any other component that requires placement of a absolute/fixed-position element.
+- All options/settings are now attributes: x, y, align, alignX, alignY, alignEdge, alignTarget, animated, visible.
+- Popup is now driven by its own HTMLElement rather than a being a behavior applied to any element: `<ids-popup x="0" y="0" align="top, left">My Popup</ids-popup>`
+- Can now be imported as a single JS file and used with encapsulated styles

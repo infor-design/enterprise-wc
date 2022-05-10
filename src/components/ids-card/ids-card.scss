@@ -253,6 +253,29 @@
   align-items: center;
 }
 
+::slotted([slot='card-content'].fixed-height) {
+  align-items: center;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: inherit;
+  justify-content: center;
+  padding: 0 8px;
+  text-align: center;
+  width: 100%;
+}
+
+:host([actionable][height]) .ids-card {
+  ids-hyperlink {
+    height: inherit;
+  }
+
+  ids-hyperlink::part(link) {
+    height: inherit;
+  }
+}
+
 // Handle Themes
 .ids-card[mode='dark'] {
   @include bg-slate-90();

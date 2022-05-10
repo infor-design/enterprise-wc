@@ -227,5 +227,32 @@ describe('IdsCard Component', () => {
       actionableCard.target = '';
       expect(actionableCard.target).toBeNull();
     });
+
+    it('should allow setting height', () => {
+      card.actionable = true;
+      actionableCard.height = '100';
+      expect(actionableCard.height).toEqual('100');
+
+      actionableCard.height = null;
+      expect(actionableCard.height).toBeNull();
+    });
+
+    it('should allow setting height with a link', () => {
+      document.body.innerHTML = '';
+      const html = `
+        <ids-card actionable="true" href="https://www.example.com" target="_self">
+          <div slot="card-content">
+            <ids-text font-size="16" type="p">Actionable Link Card</ids-text>
+          </div>
+        </ids-card>
+      `;
+      document.body.innerHTML = html;
+      actionableCard = document.querySelector('ids-card');
+      actionableCard.height = '200';
+      expect(actionableCard.height).toEqual('200');
+
+      actionableCard.height = null;
+      expect(actionableCard.height).toBeNull();
+    });
   });
 });

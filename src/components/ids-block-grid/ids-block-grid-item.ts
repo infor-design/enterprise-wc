@@ -65,6 +65,10 @@ export default class IdsBlockgridItem extends Base {
       }
     });
 
+    this.onEvent('focus.blockitem', this, () => {
+      this.querySelector('ids-card')?.container.querySelector('ids-hyperlink').container.focus();
+    });
+
     return this;
   }
 

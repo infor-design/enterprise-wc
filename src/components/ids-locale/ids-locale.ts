@@ -523,9 +523,9 @@ class IdsLocale {
    * @param {string} language The language to check if not the current
    * @returns {boolean} Whether or not this locale is "right-to-left"
    */
-  isRTL(language: string) {
+  isRTL(language?: string) {
     const lang = this.correctLanguage(language || this.language.name);
-    return lang === 'ar' || lang === 'hi';
+    return lang === 'ar' || lang === 'he';
   }
 
   /**

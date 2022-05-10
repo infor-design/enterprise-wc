@@ -71,7 +71,7 @@ btn.click();
 ```
 ### Adding a Message Title and Buttons
 
-It's possible to append a Message Title to add more context, and Buttons to create mulitple actions that can be triggered from the Modal.  To do so, take advantage of the Modal's slots:
+It's possible to append a Message Title to add more context, and Buttons to create multiple actions that can be triggered from the Modal.  To do so, take advantage of the Modal's slots:
 
 - The "title" slot, which can be populated by an [IdsText](../ids-text/README.md) or other text element, and will be located at the top of the Modal.
 - The "buttons" slot, which can be filled with one or multiple [IdsModalButtons](../ids-modal-button/README.md), and will be located at the bottom of the Modal.
@@ -84,3 +84,17 @@ It's possible to append a Message Title to add more context, and Buttons to crea
     <ids-modal-button slot="buttons" id="cancel" type="secondary" cancel>Cancel</ids-modal-button>
 </ids-modal>
 ```
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- Modal was added in v4.0.0
+- Replace `.inforDialog()` with `.modal()`
+
+**4.x to 5.x**
+
+- Modal is now a custom element `<ids-modal></ids-modal>`
+- Modal content is now user-defined by slot
+- Triggering element for the modal is now configurable with the `target` prop
+- Events are now just plain JS events

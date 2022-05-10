@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+
+    <ids-about id="about-example" product-name="Controls Example Application" product-version="Version No. XX">
+      <ids-icon slot="icon" icon="logo" viewbox="0 0 35 34" size="xxl" /></ids-icon>
+      <ids-text id="about-example-name" slot="appName" type="h1" font-size="24" font-weight="bold">IDS Enterprise</ids-text>
+      <ids-text id="about-example-content" slot="content" type="p">Fashionable components for fashionable applications.</ids-text>
+    </ids-about>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">About</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-button type="secondary" id="about-example-trigger">Show About Screen</ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

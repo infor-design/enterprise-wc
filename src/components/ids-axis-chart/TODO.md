@@ -12,26 +12,24 @@
 - [ ] Fix point group types `// Generate the bars`
 - [ ] Docs pass
 - [ ] Add svg patterns to line, area, bar stacked
+- [ ] Have a table option to actually display the data in optional data form
 
 ## Personal
 
-## Accessibility
+### Accessibility
 
 - [ ] Should be keyboard friendly. Can focus the legend and hit enter to select [see for suggestions](https://github.com/infor-design/enterprise/issues/6074) and in particular https://css-tricks.com/accessible-svgs/#aa-2-lets-make-it-accessible and https://accessibility.psu.edu/images/charts/
 - [ ] When keying in to the legend elements it should read the data
-- [ ] Have a table option to display the data in optional data form.
 - [x] SVG Patterns for accessibility https://css-tricks.com/simple-patterns-for-separation/
-- [ ] a) Break chart into parts and focus
-- [ ] Table alternate b) visible or c) shown)
+- [ ] Table alternate
 - [ ] Focusable Legend (for selection)
 
-## Interaction
+### Interaction
 
 - [ ] When hovering over the dot it should show the tooltip
 - [ ] When clicking the line it should select
-- [x] Animation
 
-## Chart Types
+### Chart Types Needed (in Order)
 
 - [x] Line
 - [x] Area

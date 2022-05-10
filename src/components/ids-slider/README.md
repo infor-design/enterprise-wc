@@ -80,7 +80,17 @@ A vertical step slider witih 12 intervals
 - The slider stretches to 100% width of its container (horizontal orientation)
 - The slider has a minimum height of 300px (vertical orientation)
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- Slider was a new component in v4.0.0
+- Slider can be invoked with `$('#my-element').slider();`
+
+**4.x to 5.x**
+
+- Slider is now a custom element `<ids-slider></ids-slider>`
+- Slider options are avaiable as attributes (such as `vertical`, `type`, etc)
 
 ### Converting from 4.x
 
