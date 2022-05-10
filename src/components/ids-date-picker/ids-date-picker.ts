@@ -317,7 +317,10 @@ class IdsDatePicker extends Base {
               e.detail.rangeEnd && this.locale.formatDate(e.detail.rangeEnd, { pattern: this.format })
             ].filter(Boolean).join('');
           } else {
-            this.value = this.locale.formatDate(e.detail.date, { pattern: this.format });
+            this.value = this.locale.formatDate(
+              this.#setTime(e.detail.date),
+              { pattern: this.format }
+            );
           }
         }
 
@@ -395,7 +398,10 @@ class IdsDatePicker extends Base {
           return;
         }
 
-        this.value = this.locale.formatDate(this.#monthView.activeDate, { pattern: this.format });
+        this.value = this.locale.formatDate(
+          this.#setTime(this.#monthView.activeDate),
+          { pattern: this.format }
+        );
         this.#togglePopup(false);
         this.#triggerField?.focus();
         this.#triggerSelectedEvent();
@@ -1023,6 +1029,28 @@ class IdsDatePicker extends Base {
    */
   #hasTime(): boolean {
     return this.format.includes('h') || this.format.includes('m') || this.format.includes('s');
+  }
+
+  /**
+   * Helper to set the date with time from time picker
+   * @param {Date} date date to add time values
+   * @returns {Date} date with time values
+   */
+  #setTime(date: Date): Date {
+    const timePicker = this.container.querySelector('ids-time-picker');
+
+    if (!this.#hasTime() || !timePicker) return date;
+
+    const hours: number = Number(timePicker?.elements.dropdowns.hours?.value) || 0;
+    const minutes: number = Number(timePicker?.elements.dropdowns.minutes?.value) || 0;
+    const seconds: number = Number(timePicker?.elements.dropdowns.seconds?.value) || 0;
+    const period: string | undefined = timePicker?.elements.dropdowns.period?.value;
+    const dayPeriodIndex = this.locale?.calendar().dayPeriods?.indexOf(period);
+    const hours24 = (hours % 12) + dayPeriodIndex * 12;
+
+    date.setHours(hours24, minutes, seconds);
+
+    return date;
   }
 
   /**
