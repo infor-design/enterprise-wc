@@ -3,7 +3,7 @@ import IdsInput from '../ids-input/ids-input';
 import '../ids-toolbar/ids-toolbar';
 import Base from './ids-list-builder-base';
 import styles from './ids-list-builder.scss';
-import IdsDraggable from '../ids-draggable/ids-draggable';
+import IdsSwappableItem from '../ids-swappable/ids-swappable-item';
 
 /**
  * IDS ListBuilder Component
@@ -115,7 +115,7 @@ export default class IdsListBuilder extends Base {
    */
   #attachEventListeners(): void {
     this.#attachClickListeners(); // for toolbar buttons
-    this.#attachKeyboardListeners(); // for selecting/editing list items
+    this.#attachKeyboardListeners();
   }
 
   /**
@@ -136,7 +136,8 @@ export default class IdsListBuilder extends Base {
    * @returns {void}
    */
   #updateSelectedLiWithEditorValue(): void {
-    this.selectedLi.querySelector('ids-text').innerHTML = this.#selectedLiEditor.value;
+    const listItem = this.selectedLi.querySelector('div[part="list-item"]');
+    listItem.querySelector('ids-text').innerHTML = this.#selectedLiEditor.value;
   }
 
   /**
@@ -146,8 +147,10 @@ export default class IdsListBuilder extends Base {
    */
   #removeSelectedLiEditor(): void {
     this.offEvent('keyup', this.#selectedLiEditor);
-    this.#selectedLiEditor.parentNode.classList.remove('is-editing');
-    this.#selectedLiEditor.remove();
+    if (this.#selectedLiEditor) {
+      this.#selectedLiEditor.parentNode.classList.remove('is-editing');
+      this.#selectedLiEditor.remove();
+    }
     this.#selectedLiEditor = null;
   }
 
@@ -161,16 +164,17 @@ export default class IdsListBuilder extends Base {
     if (this.selectedLi) {
       if (!this.#selectedLiEditor) {
         const i = new IdsInput();
+        const listItem = this.selectedLi.querySelector('div[part="list-item"]');
 
         // insert into DOM
-        this.selectedLi.insertBefore(i, this.selectedLi.querySelector('ids-text'));
+        listItem.insertBefore(i, listItem.querySelector('ids-text'));
 
         // hide inner text
-        this.selectedLi.classList.add('is-editing');
+        listItem.classList.add('is-editing');
 
         // set the value of input
         this.#selectedLiEditor = i;
-        i.value = newEntry ? 'New Value' : this.selectedLi.querySelector('ids-text').innerHTML;
+        i.value = newEntry ? 'New Value' : listItem.querySelector('ids-text').innerHTML;
         i.autoselect = 'true';
         i.noMargins = 'true';
         i.colorVariant = 'alternate';
@@ -178,37 +182,24 @@ export default class IdsListBuilder extends Base {
 
         // update inner text on keyup
         this.onEvent('keyup', i, () => this.#updateSelectedLiWithEditorValue());
+        this.onEvent('blur', i, () => this.#unfocusAnySelectedLiEditor(), { once: true });
       } else {
         this.#selectedLiEditor.focus();
       }
     }
   }
 
-  /**
-   * Add/remove the editor in one function,
-   * used when `Enter` key is hit on a selected list item
-   * @private
-   * @returns {void}
-   */
-  #toggleEditor(): void {
-    if (this.selectedLi) {
-      if (!this.#selectedLiEditor) {
-        this.#insertSelectedLiWithEditor();
-      } else {
-        this.#unfocusAnySelectedLiEditor();
-      }
-      this.focusLi(this.selectedLi);
-    }
+  get selectedLi() {
+    return this.shadowRoot.querySelector('ids-swappable-item[selected]');
   }
 
   /**
-   * Overrides the onClick() to include select functionality and unfocus any active editor inputs
-   * @param {any} item the draggable list item
-   * @returns {void}
+   * Helper function for swapping nodes in the list item -- used when dragging list items or clicking the up/down arrows
+   * @param {Node} nodeA the first node
+   * @param {Node} nodeB the second node
    */
-  onClick(item: any): void {
-    super.onClick(item);
-    this.#unfocusAnySelectedLiEditor();
+  swap(nodeA: Node, nodeB: Node) {
+    nodeB.parentNode?.insertBefore(nodeA, nodeB);
   }
 
   /**
@@ -224,26 +215,25 @@ export default class IdsListBuilder extends Base {
       const selectionNull = !this.selectedLi;
       // if an item is selected, create a node under it, otherwise create a node above the first item
 
-      let targetDraggableItem = selectionNull ? this.container.querySelector('ids-draggable') : this.selectedLi.parentNode;
+      let targetDraggableItem = selectionNull ? this.container.querySelector('ids-swappable-item') : this.selectedLi;
       if (!targetDraggableItem) {
-        targetDraggableItem = new IdsDraggable();
+        targetDraggableItem = new IdsSwappableItem();
       }
       const newDraggableItem = targetDraggableItem.cloneNode(true);
+      newDraggableItem.setAttribute('selected', '');
 
       const insertionLocation = selectionNull ? targetDraggableItem : targetDraggableItem.nextSibling;
       if (targetDraggableItem.parentNode) {
         targetDraggableItem.parentNode.insertBefore(newDraggableItem, insertionLocation);
+        targetDraggableItem.removeAttribute('selected');
       } else {
-        this.container.querySelector('.ids-list-view-body').appendChild(newDraggableItem);
+        this.container.querySelector('ids-swappable').appendChild(newDraggableItem);
       }
-      this.attachDragEventListenersForDraggable(newDraggableItem);
-      this.#attachKeyboardListenersForLi(newDraggableItem.querySelector('div[part="list-item"]'));
 
       const listItem = newDraggableItem.querySelector('div[part="list-item"]');
       // remove any selected attribute on li that may have propogated from the clone
       if (listItem?.getAttribute('selected')) listItem.removeAttribute('selected');
       this.resetIndices();
-      this.toggleSelectedLi(listItem);
 
       const newEntry = true;
       this.#insertSelectedLiWithEditor(newEntry);
@@ -254,9 +244,9 @@ export default class IdsListBuilder extends Base {
       if (this.selectedLi) {
         this.#unfocusAnySelectedLiEditor();
 
-        const prev = this.selectedLi.parentNode.previousElementSibling;
+        const prev = this.selectedLi.previousSibling?.previousSibling;
         if (prev) {
-          this.swap(this.selectedLi.parentNode, prev);
+          this.swap(this.selectedLi, prev);
         }
         this.updateDataFromDOM();
       }
@@ -267,9 +257,9 @@ export default class IdsListBuilder extends Base {
       if (this.selectedLi) {
         this.#unfocusAnySelectedLiEditor();
 
-        const next = this.selectedLi.parentNode.nextElementSibling;
+        const next = this.selectedLi.nextElementSibling?.nextElementSibling;
         if (next) {
-          this.swap(this.selectedLi.parentNode, next);
+          this.swap(this.selectedLi, next);
         }
         this.updateDataFromDOM();
       }
@@ -283,7 +273,7 @@ export default class IdsListBuilder extends Base {
     // Delete button
     this.onEvent('click', this.container.querySelector('#button-delete'), () => {
       if (this.selectedLi) {
-        this.selectedLi.parentNode.remove();
+        this.selectedLi.remove();
         if (this.#selectedLiEditor) this.#selectedLiEditor = null;
         this.resetIndices();
         this.updateDataFromDOM();
@@ -292,60 +282,31 @@ export default class IdsListBuilder extends Base {
   }
 
   /**
-   * Attach selection toggling, editing feature, and navigation focus functionality to keyboard events
+   * Add/remove the editor in one function,
+   * used when `Enter` key is hit on a selected list item
    * @private
+   * @param {Event | any} e event
    * @returns {void}
    */
-  #attachKeyboardListeners(): void {
-    this.getAllLi().forEach((li: any) => {
-      this.#attachKeyboardListenersForLi(li);
-    });
-  }
-
-  /**
-   * Helper function to attach keyboard events to each individual item
-   * @private
-   * @param {any} li the list item
-   * @returns {void}
-   */
-  #attachKeyboardListenersForLi(li: any): void {
-    this.onEvent('keydown', li, (event: KeyboardEvent) => {
-      switch (event.key) {
-        case 'Enter': // edits the list item
-          this.#toggleEditor();
-          break;
-        case ' ': // selects the list item
-          if (!this.#selectedLiEditor) {
-            event.preventDefault(); // prevent container from scrolling
-            this.toggleSelectedLi(li);
-          }
-          break;
-        case 'Tab':
-          this.#unfocusAnySelectedLiEditor();
-          break;
-        case 'ArrowUp':
-          event.preventDefault();
-          this.#unfocusAnySelectedLiEditor();
-          break;
-        case 'ArrowDown':
-          event.preventDefault();
-          this.#unfocusAnySelectedLiEditor();
-          break;
-        default:
-          break;
+  #toggleEditor(e: Event | any): void {
+    if (this.selectedLi) {
+      if (!this.#selectedLiEditor) {
+        this.#insertSelectedLiWithEditor();
+      } else {
+        if (e.key === 'Enter') {
+          this.#selectedLiEditor.blur();
+          return;
+        }
+        this.#unfocusAnySelectedLiEditor();
       }
-    });
+      this.focusLi(this.selectedLi);
+    }
   }
 
-  /**
-   * Overrides the ids-sortable-mixin function to ensure there are no duplicate selected nodes as a result of cloning
-   * @param {Node} node the node to be cloned
-   * @returns {Node} the cloned node
-   */
-  createPlaceholderNode(node: Node): Node {
-    const p = super.createPlaceholderNode(node);
-    p.querySelector('div[part="list-item"]').removeAttribute('selected');
-    return p;
+  #attachKeyboardListeners() {
+    this.listen('Enter', this.selectedLi, (e: Event | any) => {
+      this.#toggleEditor(e);
+    });
   }
 
   /**
@@ -353,7 +314,7 @@ export default class IdsListBuilder extends Base {
    * @returns {void}
    */
   resetIndices(): void {
-    this.container.querySelectorAll('div[part="list-item"]').forEach((x: HTMLElement, i: number) => {
+    this.container.querySelectorAll('ids-swappable-item').forEach((x: HTMLElement, i: number) => {
       x.setAttribute('index', i.toString());
     });
   }
