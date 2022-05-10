@@ -114,9 +114,14 @@ export default class IdsSlider extends Base {
       this.container.querySelector('.thumb-draggable.secondary').remove();
     }
 
+    super.connectedCallback();
     this.#attachEventListeners();
     this.#initUIStyles();
-    super.connectedCallback();
+
+    // @TODO - find a better way to apply animation/transition rules after the component loads (#698)
+    setTimeout(() => {
+      this.#toggleTransitionStyles(true);
+    }, 70);
   }
 
   /**
@@ -493,6 +498,7 @@ export default class IdsSlider extends Base {
       bubbles: true,
       detail: {
         elem: thumb === 'secondary' ? this.thumbSecondaryDraggable : this.thumbDraggable,
+        percent: thumb === 'secondary' ? this.percentSecondary : this.percent,
         value
       }
     });
@@ -933,11 +939,9 @@ export default class IdsSlider extends Base {
     this.#updateProgressBar();
     this.#moveThumb();
     if (this.type === 'range') this.#moveThumb('secondary');
-    this.#toggleTransitionStyles(true);
     this.#updateColor();
 
     // init base min/max labels
-
     if (this.firstTick && this.lastTick) {
       const maxTick = this.vertical ? this.firstTick : this.lastTick;
       const minTick = this.vertical ? this.lastTick : this.firstTick;
@@ -1027,7 +1031,16 @@ export default class IdsSlider extends Base {
       this[obj.percentAttribute] = percent;
 
       // Expose this event externally
-      this.triggerEvent('ids-drag', this, e);
+      this.triggerEvent('ids-slider-drag', this, {
+        bubbles: true,
+        detail: {
+          elem: obj.thumbDraggable,
+          mouseX: e.detail.mouseX,
+          mouseY: e.detail.mouseY,
+          percent,
+          value: this.#calcValueFromPercent(percent)
+        }
+      });
     });
 
     this.onEvent('ids-dragstart', obj.thumbDraggable, () => {
