@@ -488,7 +488,7 @@ export default class IdsSlider extends Base {
    * @param {string | number | any } value the value of the slider handle
    * @param {string} [thumb] the slider thumb causing the change
    */
-  #triggerChangeEvent(value: string | number | any, thumb: string) {
+  #triggerChangeEvent(value: string | number | any, thumb?: undefined | string) {
     this.triggerEvent('change', this, {
       bubbles: true,
       detail: {
@@ -681,10 +681,11 @@ export default class IdsSlider extends Base {
    * @param {number} x coordinate of mouse click
    * @param {number} y coordnate of mouse click
    * @param {number} labelValueClicked if label was clicked or not
+   * @param {string} primaryOrSecondary string representing the primary/secondary label for double sliders
    */
-  #calculateUIFromClick(x: number, y: number, labelValueClicked?: number) {
+  #calculateUIFromClick(x: number, y: number, labelValueClicked?: number, primaryOrSecondary?: string) {
     if (this.type !== 'step') {
-      const value = labelValueClicked ?? this.#calcValueFromPercent(this.#calcPercentFromClick(x, y));
+      let value = labelValueClicked ?? this.#calcValueFromPercent(this.#calcPercentFromClick(x, y));
 
       const thumbPos = this.vertical
         ? this.thumbDraggable.getBoundingClientRect().y
@@ -704,10 +705,23 @@ export default class IdsSlider extends Base {
         if (Math.abs(mousePos - thumbPos) > Math.abs(mousePos - thumbPosSecondary)) {
           thumbDraggable = this.thumbDraggableSecondary;
           valueAttribute = 'valueSecondary';
+          primaryOrSecondary = 'secondary';
+        }
+
+        if (primaryOrSecondary === 'primary' && value > this.valueSecondary) {
+          value = (this.valueSecondary - 1);
+        } else if (primaryOrSecondary === 'secondary' && value < this.value) {
+          value = (this.value + 1);
         }
       }
 
-      this[valueAttribute] = value;
+      if (value !== this[valueAttribute]) {
+        this[valueAttribute] = value;
+      } else {
+        this.#moveThumb(primaryOrSecondary);
+        this.#triggerChangeEvent(value, primaryOrSecondary);
+      }
+
       thumbDraggable.focus();
     } else {
       // for step sliders, snap to the closest interval
@@ -1028,7 +1042,7 @@ export default class IdsSlider extends Base {
       // to ensure that after dragging, the value is updated only after dragging has ended..
       // this is the roundabout solution to prevent the firing of moveThumb() every ids-drag event
       const freshPercent = obj.primaryOrSecondary === 'secondary' ? this.percentSecondary : this.percent;
-      this.#calculateUIFromClick(e.detail.mouseX, e.detail.mouseY, freshPercent);
+      this.#calculateUIFromClick(e.detail.mouseX, e.detail.mouseY, freshPercent, obj.primaryOrSecondary);
       this.#updateThumbShadow(false, obj.primaryOrSecondary);
     });
   }
