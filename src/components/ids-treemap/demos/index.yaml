@@ -6,4 +6,5 @@
  keywords:
  examples:
   - link: example.html
+    type: Main Example
     description: Hierarchical data viz component

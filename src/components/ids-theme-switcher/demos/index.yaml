@@ -6,5 +6,6 @@
  keywords: theme, color, switcher
  examples:
   - link: example.html
+    type: Main Example
     description: Showing a tag with the switcher
 

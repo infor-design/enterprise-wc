@@ -6,6 +6,11 @@
  keywords: calendar, date, day, week, month, toolbar, time
  examples:
   - link: example.html
+    type: Main Example
     description: Past dates, no timeline, no today's day highlight
   - link: current-week.html
+    type: Example
     description: Example showing current week with today's day highlighted and timeline
+  - link: standalone-css.html
+    type: Standalone CSS
+    description: Example showing a limited css only version

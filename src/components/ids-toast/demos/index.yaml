@@ -6,8 +6,11 @@
  keywords: toast, feedback, information, warning, status, Html5 toast
  examples:
   - link: example.html
+    type: Main Example
     description: Shows basic toast message
   - link: sandbox.html
+    type: Sandbox
     description: Shows additional toast scenarios
   - link: side-by-side.html
+    type: Side by Side
     description: Showing toast side by side with 4.x toast

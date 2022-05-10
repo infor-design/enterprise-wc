@@ -6,13 +6,11 @@
  keywords: wizard, steps, tabs
  examples:
   - link: example.html
+    type: Main Example
     description: Showing a 4 step clickable wizard
-    keywords: true
-    tag: new
-  - link: side-by-side.html
-    description: Example showing it work side by side
-    keywords: side by side, 4.x, old version
-    tag: updated
-  - link: side-by-side.html
+  - link: sandbox.html
+    type: Sandbox
     description: Miscellaneous Tests and Examples
-    keywords: sandbox, examples
+  - link: side-by-side.html
+    type: Side by Side
+    description: Example showing it work side by side
