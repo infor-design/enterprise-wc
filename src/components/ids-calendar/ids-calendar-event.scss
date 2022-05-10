@@ -5,18 +5,26 @@
   &:not(.rtl):not(.calendar-event-continue):not(.calendar-event-ends) {
     border-left-width: 5px;
     border-left-color: $color;
+
+    &:focus {
+      border-left-color: var(--ids-color-palette-azure-60);
+    }
   }
 
   // direction rtl
   &.rtl:not(.calendar-event-continue):not(.calendar-event-ends) {
     border-right-width: 5px;
     border-right-color: $color;
+
+    &:focus {
+      border-right-color: var(--ids-color-palette-azure-60);
+    }
   }
 
   &:focus {
     @include shadow();
 
-    border-color: $color;
+    border-color: var(--ids-color-palette-azure-60);
     outline: none;
   }
 }
@@ -27,6 +35,11 @@
   @include event-border-accent(var(--ids-color-palette-azure-70));
 
   background: var(--ids-color-palette-azure-20);
+}
+
+.ids-calendar-event[mode='contrast']:not([color]),
+.ids-calendar-event[mode='contrast'][color='azure'] {
+  @include event-border-accent(var(--ids-color-palette-azure-100));
 }
 
 .ids-calendar-event[color='amber'] {
@@ -92,6 +105,12 @@
 
     &[icon='success-alert'] {
       color: var(--ids-color-palette-emerald-60);
+    }
+
+    &[icon='alert-alert'],
+    &[icon='clock'],
+    &[icon='pending'] {
+      color: var(--ids-color-palette-amber-60);
     }
   }
 
