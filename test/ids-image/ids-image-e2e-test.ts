@@ -45,18 +45,6 @@ describe('Ids Image e2e Tests', () => {
     expect(hasImage).toBeTruthy();
   });
 
-  it('should change image to placeholder', async () => {
-    await page.evaluate((el: string) => {
-      const element = document.querySelector<any>(el);
-      element.placeholder = true;
-      element.src = null;
-    }, imageEl);
-
-    const hasPlaceholder = await page.$eval(imageEl, (el: HTMLElement) => el.shadowRoot?.querySelector('.placeholder'));
-
-    expect(hasPlaceholder).toBeTruthy();
-  });
-
   it('should render placeholder if src changed and img failed to load', async () => {
     await page.evaluate((el: string, src: string) => {
       const element = document.querySelector<any>(el);

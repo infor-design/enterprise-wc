@@ -1,5 +1,5 @@
-describe('Ids Action Sheet e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-hidden/example.html/example.html';
+describe('Ids Hidden e2e Tests', () => {
+  const url = 'http://localhost:4444/ids-hidden/example.html';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });

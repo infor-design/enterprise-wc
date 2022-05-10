@@ -1,7 +1,7 @@
 import percySnapshot from '@percy/puppeteer';
 
 describe('Ids Search Field Percy Tests', () => {
-  const url = 'http://localhost:4444/ids-search-field';
+  const url = 'http://localhost:4444/ids-search-field/example.html';
 
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0'] });
