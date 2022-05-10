@@ -2,7 +2,7 @@
 
 ## Description
 
-Displays a range of selectable values(s) between a minimum and maximum, which can be controlled by the thumb(s) along the track of the slider. There is a single slider (1 thumb), double slider (2 thumbs), and a step slider (1 thumb and x amount of ticks). They can also be converted from horizontal (default) to vertical orientation. The value(s) can be modified by either clicking the area around the track, by dragging the thumb back and forth, or by focusing and pressing the arrow keys.  A user can select a single value or range of values.
+Displays a range of selectable values(s) between a minimum and maximum, which can be controlled by the thumb(s) along the track of the slider. Configurations include the default (1 thumb), a range slider (2 thumbs), and a step slider (1 thumb and x amount of ticks). They can also be converted from horizontal (default) to vertical orientation. The value(s) can be modified by either clicking the area around the track, by dragging the thumb back and forth, or by focusing and pressing the arrow keys.  A user can select a single value or range of values.
 
 ## Use Cases
 
@@ -21,11 +21,12 @@ Displays a range of selectable values(s) between a minimum and maximum, which ca
 ## Settings (Attributes)
 
 - `value` {number} set the primary value of the slider
-- `value-secondary` {number} set the secondary value of the slider (applicable only for double slider)
+- `value-secondary` {number} set the secondary value of the slider (applicable only for range slider)
 - `min` {number} set the minimum value of the slider
 - `max` {number} set the maximum value of the slider
 - `color` {string} set the color of the slider
-- `type` {'single' | 'double' | 'step'} set the type of the slider
+- `type` {'single' | 'range' | 'step'} set the type of the slider
+- `show-tooltip` {boolean} if true, allows the display of a Tooltip on each slider handle during interactions
 - `step-number` {number >= 2} number of steps (applicable only for the step slider)
 - `vertical` {boolean}
 
@@ -49,10 +50,10 @@ A simple single slider from 0 to 100
 <ids-slider value="50" min="0" max="100"></ids-slider>
 ```
 
-A double slider that can handle negative and positive values
+A range slider that can handle negative and positive values
 
 ```html
-<ids-slider type="double" min="-50" max="50"></ids-slider>
+<ids-slider type="range" min="-50" max="50"></ids-slider>
 ```
 
 A step slider with custom color and 5 intervals

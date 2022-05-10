@@ -7,7 +7,7 @@ import styles from './ids-slider.scss';
 
 const TYPES = [
   'single',
-  'double',
+  'range',
   'step'
 ];
 
@@ -103,7 +103,7 @@ export default class IdsSlider extends Base {
     this.lastTick = this.container.querySelector('.tick:last-child');
     this.firstTick = this.container.querySelector('.tick:first-child');
 
-    if (this.type === 'double') {
+    if (this.type === 'range') {
       this.thumbSecondary = this.container.querySelector('.thumb.secondary');
       this.thumbDraggableSecondary = this.container.querySelector('.thumb-draggable.secondary');
       this.thumbShadowSecondary = this.container.querySelector('.thumb-shadow.secondary');
@@ -197,9 +197,9 @@ export default class IdsSlider extends Base {
       this.trackArea.classList.add('vertical');
       this.tickContainer.classList.add('vertical');
       this.tooltip.classList.add('vertical');
-      if (this.type === 'double') this.tooltipSecondary.classList.add('vertical');
+      if (this.type === 'range') this.tooltipSecondary.classList.add('vertical');
       this.tooltipPin.classList.add('vertical');
-      if (this.type === 'double') this.tooltipPinSecondary.classList.add('vertical');
+      if (this.type === 'range') this.tooltipPinSecondary.classList.add('vertical');
     }
   }
 
@@ -216,7 +216,7 @@ export default class IdsSlider extends Base {
       this.#isRTL = value;
       this.#moveThumb();
       this.#updateProgressBar();
-      if (this.type === 'double') this.#moveThumb('secondary');
+      if (this.type === 'range') this.#moveThumb('secondary');
     }
   }
 
@@ -256,7 +256,7 @@ export default class IdsSlider extends Base {
 
   /** Helper method to update the UI of the progress track bar */
   #updateProgressBar() {
-    if (this.type !== 'double') {
+    if (this.type !== 'range') {
       this.slider.style.setProperty('--percentStart', 0);
       this.slider.style.setProperty('--percentEnd', this.percent);
     } else {
@@ -434,7 +434,7 @@ export default class IdsSlider extends Base {
   }
 
   /**
-   * Set the secondary value of the slider (only applicable to double sliders)
+   * Set the secondary value of the slider (only applicable to range sliders)
    * @param {string} value The secondary input value
    */
   set valueSecondary(value: string | number | any) {
@@ -546,7 +546,7 @@ export default class IdsSlider extends Base {
     } else {
       this.setAttribute(attributes.TYPE, DEFAULT_TYPE);
     }
-    this.container.classList[value === 'double' ? 'add' : 'remove']('double');
+    this.container.classList[value === 'range' ? 'add' : 'remove']('range');
   }
 
   get type(): string { return this.getAttribute(attributes.TYPE) || DEFAULT_TYPE; }
@@ -607,7 +607,7 @@ export default class IdsSlider extends Base {
       this.thumbShadow.style.setProperty('border', `1px ${colorString} solid`);
       this.progressTrack.style.setProperty('background-color', colorString);
 
-      if (this.type === 'double' && this.thumbShadowSecondary && this.thumbSecondary) {
+      if (this.type === 'range' && this.thumbShadowSecondary && this.thumbSecondary) {
         this.thumbShadowSecondary.style.setProperty('background-color', rgbaString);
         this.thumbShadowSecondary.style.setProperty('border', `1px ${colorString} solid`);
         this.thumbSecondary.style.setProperty('background-color', colorString);
@@ -681,7 +681,7 @@ export default class IdsSlider extends Base {
    * @param {number} x coordinate of mouse click
    * @param {number} y coordnate of mouse click
    * @param {number} labelValueClicked if label was clicked or not
-   * @param {string} primaryOrSecondary string representing the primary/secondary label for double sliders
+   * @param {string} primaryOrSecondary string representing the primary/secondary label for range sliders
    */
   #calculateUIFromClick(x: number, y: number, labelValueClicked?: number, primaryOrSecondary?: string) {
     if (this.type !== 'step') {
@@ -694,7 +694,7 @@ export default class IdsSlider extends Base {
       let thumbDraggable = this.thumbDraggable;
       let valueAttribute = 'value';
 
-      if (this.type === 'double') {
+      if (this.type === 'range') {
         const thumbPosSecondary = this.vertical
           ? this.thumbDraggableSecondary.getBoundingClientRect().y
           : this.thumbDraggableSecondary.getBoundingClientRect().x;
@@ -768,7 +768,7 @@ export default class IdsSlider extends Base {
     let percent = this.percent;
 
     // secondary values
-    if (primaryOrSecondary === 'secondary' && this.type === 'double') {
+    if (primaryOrSecondary === 'secondary' && this.type === 'range') {
       thumbDraggable = this.thumbDraggableSecondary;
       percent = this.percentSecondary;
     }
@@ -852,7 +852,7 @@ export default class IdsSlider extends Base {
 
     // DRAGGABLE EVENTS
     this.#attachDragEventListeners();
-    if (this.type === 'double') this.#attachDragEventListeners('secondary');
+    if (this.type === 'range') this.#attachDragEventListeners('secondary');
 
     this.onEvent('mouseenter', this, () => {
       this.#mouseHover = true;
@@ -873,12 +873,12 @@ export default class IdsSlider extends Base {
           this.#updateThumbShadow(true, 'primary');
         } else {
           this.#updateThumbShadow(false, 'primary');
-          if (this.type === 'double') {
+          if (this.type === 'range') {
             this.#updateThumbShadow(true, 'secondary');
           }
         }
 
-        if (this.type === 'double') {
+        if (this.type === 'range') {
           this.#updateTooltipDisplay(false, 'secondary');
         }
       }
@@ -888,7 +888,7 @@ export default class IdsSlider extends Base {
       if (!this.shadowRoot.activeElement && !this.#mouseHover) {
         this.#updateTooltipDisplay(true);
         this.#updateThumbShadow(true, 'primary');
-        if (this.type === 'double') {
+        if (this.type === 'range') {
           this.#updateTooltipDisplay(true, 'secondary');
           this.#updateThumbShadow(true, 'secondary');
         }
@@ -932,7 +932,7 @@ export default class IdsSlider extends Base {
     // init UI styles
     this.#updateProgressBar();
     this.#moveThumb();
-    if (this.type === 'double') this.#moveThumb('secondary');
+    if (this.type === 'range') this.#moveThumb('secondary');
     this.#toggleTransitionStyles(true);
     this.#updateColor();
 
@@ -960,7 +960,7 @@ export default class IdsSlider extends Base {
       for (const entry of entries) {
         if (entry.contentBoxSize) {
           this.#moveThumb();
-          if (this.type === 'double') this.#moveThumb('secondary');
+          if (this.type === 'range') this.#moveThumb('secondary');
         }
       }
     });
@@ -989,7 +989,7 @@ export default class IdsSlider extends Base {
     this.onEvent('click', document, (event: any) => {
       if (event.target !== this) {
         this.#updateTooltipDisplay(true);
-        if (this.type === 'double') this.#updateTooltipDisplay(true, 'secondary');
+        if (this.type === 'range') this.#updateTooltipDisplay(true, 'secondary');
       }
     });
   }
@@ -999,7 +999,7 @@ export default class IdsSlider extends Base {
    * @param {string} primaryOrSecondary the primary or secondary thumb
    */
   #attachDragEventListeners(primaryOrSecondary?: string) {
-    const d = this.type === 'double' && primaryOrSecondary === 'secondary';
+    const d = this.type === 'range' && primaryOrSecondary === 'secondary';
     const obj = {
       thumbDraggable: d ? this.thumbDraggableSecondary : this.thumbDraggable,
       thumbDraggableOther: d ? this.thumbDraggable : this.thumbDraggableSecondary,
@@ -1022,7 +1022,7 @@ export default class IdsSlider extends Base {
       const [x, y] = [e.detail.mouseX, e.detail.mouseY];
       const percent = this.#calcPercentFromClick(x, y);
 
-      if (this.type === 'double') swapZIndex();
+      if (this.type === 'range') swapZIndex();
       // only set the percent--because changing the value causes the moveThumb() to fire like crazy
       this[obj.percentAttribute] = percent;
 
@@ -1057,7 +1057,7 @@ export default class IdsSlider extends Base {
       if (event.target.name === 'ids-slider') {
         let primaryOrSecondary = '';
 
-        if (this.type === 'double') {
+        if (this.type === 'range') {
           // check if focus is on b or a
           if (this.thumbShadow.classList.contains('active')) {
             primaryOrSecondary = 'secondary';
@@ -1093,7 +1093,7 @@ export default class IdsSlider extends Base {
   #decreaseValue(primaryOrSecondary: string) {
     if (this.type === 'step') {
       this.value -= (this.max / (this.stepNumber - 1));
-    } else if (this.type === 'double' && primaryOrSecondary === 'secondary') {
+    } else if (this.type === 'range' && primaryOrSecondary === 'secondary') {
       this.valueSecondary = Math.ceil(this.valueSecondary) - 1;
     } else {
       this.value = Math.ceil(this.value) - 1;
@@ -1107,7 +1107,7 @@ export default class IdsSlider extends Base {
   #increaseValue(primaryOrSecondary: string) {
     if (this.type === 'step') {
       this.value += (this.max / (this.stepNumber - 1));
-    } else if (this.type === 'double' && primaryOrSecondary === 'secondary') {
+    } else if (this.type === 'range' && primaryOrSecondary === 'secondary') {
       this.valueSecondary = Math.ceil(this.valueSecondary) + 1;
     } else {
       this.value = Math.ceil(this.value) + 1;

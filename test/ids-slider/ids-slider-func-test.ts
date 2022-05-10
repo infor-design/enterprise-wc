@@ -11,14 +11,14 @@ const HTMLSnippets = {
   SINGLE_SLIDER: (
     `<ids-slider type="single" min="0" max="100"></ids-slider>`
   ),
-  DOUBLE_SLIDER: (
-    `<ids-container><ids-slider type="double" min="0" max="100"></ids-slider><ids-container>`
+  RANGE_SLIDER: (
+    `<ids-container><ids-slider type="range" min="0" max="100"></ids-slider><ids-container>`
   ),
   STEP_SLIDER: (
     `<ids-slider type="step" step-number="5" min="0" max="100"></ids-slider>`
   ),
-  VERTICAL_DOUBLE_SLIDER: (
-    `<ids-slider type="double" vertical='' min="0" max="100"></ids-slider>`
+  VERTICAL_RANGE_SLIDER: (
+    `<ids-slider type="range" vertical='' min="0" max="100"></ids-slider>`
   ),
   VERTICAL_STEP_SLIDER: (
     `<ids-slider type="step" vertical='' step-number="5" min="0" max="100"></ids-slider>`
@@ -141,8 +141,8 @@ describe('IdsSlider Component', () => {
     expect(slider.stepNumber).toBe(2);
   });
 
-  it('sets double slider correctly', async () => {
-    const idsContainer = await createFromTemplate(slider, HTMLSnippets.DOUBLE_SLIDER);
+  it('sets range slider correctly', async () => {
+    const idsContainer = await createFromTemplate(slider, HTMLSnippets.RANGE_SLIDER);
     slider = idsContainer.querySelector('ids-slider');
 
     processAnimFrame();
@@ -196,8 +196,8 @@ describe('IdsSlider Component', () => {
     slider.type = 'step';
     expect(slider.type).toBe('step');
 
-    slider.type = 'double';
-    expect(slider.type).toBe('double');
+    slider.type = 'range';
+    expect(slider.type).toBe('range');
 
     slider.type = '';
     expect(slider.type).toBe(slider.DEFAULT_TYPE);
@@ -210,7 +210,7 @@ describe('IdsSlider Component', () => {
   });
 
   it('sets vertical correctly', async () => {
-    slider = await createFromTemplate(slider, HTMLSnippets.VERTICAL_DOUBLE_SLIDER);
+    slider = await createFromTemplate(slider, HTMLSnippets.VERTICAL_RANGE_SLIDER);
     processAnimFrame();
 
     expect(slider.vertical).toBeTruthy();
@@ -256,8 +256,8 @@ describe('IdsSlider Component', () => {
     (document as any).querySelector('ids-container').click();
   });
 
-  it('drags correctly on double slider', async () => {
-    const idsContainer = await createFromTemplate(slider, HTMLSnippets.DOUBLE_SLIDER);
+  it('drags correctly on range slider', async () => {
+    const idsContainer = await createFromTemplate(slider, HTMLSnippets.RANGE_SLIDER);
     slider = idsContainer.querySelector('ids-slider');
     await processAnimFrame();
 
@@ -333,8 +333,8 @@ describe('IdsSlider Component', () => {
     );
   });
 
-  it('clicks and drags and navigates keyboard arrows on vertical double slider correctly', async () => {
-    slider = await createFromTemplate(slider, HTMLSnippets.VERTICAL_DOUBLE_SLIDER);
+  it('clicks and drags and navigates keyboard arrows on vertical range slider correctly', async () => {
+    slider = await createFromTemplate(slider, HTMLSnippets.VERTICAL_RANGE_SLIDER);
     processAnimFrame();
 
     expect(slider.vertical).toBeTruthy();
