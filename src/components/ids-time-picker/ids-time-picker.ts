@@ -1,6 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import Base from './ids-time-picker-base';
 import '../ids-dropdown/ids-dropdown';
@@ -709,7 +710,7 @@ export default class IdsTimePicker extends Base {
 
     // Translate Labels
     this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', this.closest('ids-container'), () => {
+    this.onEvent('languagechange.container', getClosest(this, 'ids-container'), () => {
       const {
         hours,
         minutes,
@@ -733,7 +734,7 @@ export default class IdsTimePicker extends Base {
     // Change Locale if not set by a setting initially
     const formatSet = this.getAttribute('format') !== null;
     this.offEvent('localechange.container');
-    this.onEvent('localechange.container', this.closest('ids-container'), async () => {
+    this.onEvent('localechange.container', getClosest(this, 'ids-container'), async () => {
       if (!formatSet) {
         this.format = this.locale?.calendar().timeFormat;
       }
