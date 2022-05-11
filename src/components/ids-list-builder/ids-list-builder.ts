@@ -213,6 +213,21 @@ export default class IdsListBuilder extends Base {
   }
 
   /**
+   * Remove selected list item
+   * @private
+   * @returns {void}
+   */
+  #removeSelectedLi(): void {
+    if (this.selectedLi) {
+      this.selectedLi.parentNode.remove();
+      if (this.#selectedLiEditor) this.#selectedLiEditor = null;
+      this.resetIndices();
+      this.updateDataFromDOM();
+      this.resetSelectedLiIndex();
+    }
+  }
+
+  /**
    * Helper function for swapping nodes in the list item -- used when dragging list items or clicking the up/down arrows
    * @param {Node} nodeA the first node
    * @param {Node} nodeB the second node
@@ -310,12 +325,7 @@ export default class IdsListBuilder extends Base {
 
     // Delete button
     this.onEvent('click', this.container.querySelector('#button-delete'), () => {
-      if (this.selectedLi) {
-        this.selectedLi.remove();
-        if (this.#selectedLiEditor) this.#selectedLiEditor = null;
-        this.resetIndices();
-        this.updateDataFromDOM();
-      }
+      this.#removeSelectedLi();
     });
   }
 
@@ -352,8 +362,12 @@ export default class IdsListBuilder extends Base {
    * @returns {void}
    */
   resetIndices(): void {
-    this.container.querySelectorAll('ids-swappable-item').forEach((x: HTMLElement, i: number) => {
+    const listItems = this.container.querySelectorAll('ids-swappable-item');
+    listItems.forEach((x: HTMLElement, i: number) => {
       x.setAttribute('index', i.toString());
+      x.setAttribute('id', `id_item_${i + 1}`);
+      x.setAttribute('aria-posinset', `${i + 1}`);
+      x.setAttribute('aria-setsize', listItems.length.toString());
     });
   }
 }

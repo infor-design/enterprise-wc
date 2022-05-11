@@ -153,6 +153,11 @@ export default class IdsListView extends Base {
         prevFocus?.setAttribute('tabindex', '-1');
         this.#focusedLiIndex = li.getAttribute('index');
       }
+
+      // Set accessbility
+      const container = this.container.querySelector('.ids-list-view-body');
+      container.setAttribute('aria-activedescendant', li.getAttribute('id'));
+
       // init new focus
       li.setAttribute('tabindex', '0'); // this clears after every render
       li.focus();
@@ -185,6 +190,9 @@ export default class IdsListView extends Base {
           role="listitem"
           tabindex="-1"
           index="${index}"
+          id="id_item_${index + 1}"
+          aria-posinset="${index + 1}"
+          aria-setsize="${this.data.length}"
         >
           ${this.itemTemplate(item)}
         </div>
@@ -469,6 +477,13 @@ export default class IdsListView extends Base {
     return this.hasAttribute(attributes.SORTABLE);
   }
 
+  /*
+   * Reset selected list item index
+   */
+  resetSelectedLiIndex() {
+    this.#selectedLiIndex = null;
+  }
+
   /**
    * Helper function that toggles the 'selected' attribute of an element, then focuses on that element
    * @param {Element} item the item to add/remove the selected attribute
@@ -477,11 +492,13 @@ export default class IdsListView extends Base {
   toggleSelectedAttribute(item: HTMLLIElement, switchValue?: boolean) {
     const unselect = () => {
       item.removeAttribute('selected');
+      item.removeAttribute('aria-selected');
       this.#selectedLiIndex = null;
     };
 
     const select = () => {
       item.setAttribute('selected', 'selected');
+      item.setAttribute('aria-selected', 'true');
       this.#selectedLiIndex = item.getAttribute('index');
     };
 
