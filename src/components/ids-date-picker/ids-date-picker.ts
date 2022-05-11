@@ -312,9 +312,9 @@ class IdsDatePicker extends Base {
         if (!this.isCalendarToolbar) {
           if (this.useRange) {
             this.value = [
-              this.locale.formatDate(e.detail.rangeStart, { pattern: this.format }),
+              this.locale.formatDate(this.#setTime(e.detail.rangeStart as Date), { pattern: this.format }),
               this.rangeSettings.separator,
-              e.detail.rangeEnd && this.locale.formatDate(e.detail.rangeEnd, { pattern: this.format })
+              e.detail.rangeEnd && this.locale.formatDate(this.#setTime(e.detail.rangeEnd), { pattern: this.format })
             ].filter(Boolean).join('');
           } else {
             this.value = this.locale.formatDate(
@@ -374,10 +374,10 @@ class IdsDatePicker extends Base {
         if (this.useRange) {
           if (this.rangeSettings.end || (this.rangeSettings.start && !this.rangeSettings.end)) {
             this.value = [
-              this.locale.formatDate(this.rangeSettings.start, { pattern: this.format }),
+              this.locale.formatDate(this.#setTime(this.rangeSettings.start), { pattern: this.format }),
               this.rangeSettings.separator,
               this.locale.formatDate(
-                this.rangeSettings.end ?? this.#monthView.activeDate,
+                this.#setTime(this.rangeSettings.end ?? this.#monthView.activeDate),
                 { pattern: this.format }
               ),
             ].filter(Boolean).join('');
@@ -387,7 +387,7 @@ class IdsDatePicker extends Base {
             this.#triggerSelectedEvent();
           } else {
             this.value = this.locale.formatDate(
-              this.rangeSettings.start ?? this.#monthView.activeDate,
+              this.#setTime(this.rangeSettings.start ?? this.#monthView.activeDate),
               { pattern: this.format }
             );
             this.rangeSettings = {
@@ -934,8 +934,8 @@ class IdsDatePicker extends Base {
       const now = new Date();
 
       this.value = this.useRange
-        ? `${this.locale.formatDate(now, { pattern: this.format })}${this.rangeSettings.separator}${this.locale.formatDate(now, { pattern: this.format })}`
-        : this.locale.formatDate(now, { pattern: this.format });
+        ? `${this.locale.formatDate(this.#setTime(now), { pattern: this.format })}${this.rangeSettings.separator}${this.locale.formatDate(this.#setTime(now), { pattern: this.format })}`
+        : this.locale.formatDate(this.#setTime(now), { pattern: this.format });
     }
 
     if (type === 'next-day' && !this.useRange) {
@@ -1653,7 +1653,7 @@ class IdsDatePicker extends Base {
       this.#monthView.rangeSettings = val;
 
       if (val?.start && val?.end) {
-        this.value = `${this.locale.formatDate(val.start, { pattern: this.format })}${this.rangeSettings.separator}${this.locale.formatDate(val.end, { pattern: this.format })}`;
+        this.value = `${this.locale.formatDate(this.#setTime(val.start), { pattern: this.format })}${this.rangeSettings.separator}${this.locale.formatDate(this.#setTime(val.end), { pattern: this.format })}`;
       }
     }
   }
