@@ -83,6 +83,7 @@ export const attributes = {
   DISABLE_EVENTS: 'disable-native-events',
   DISMISSIBLE: 'dismissible',
   DISPLAY: 'display',
+  DISPLAY_TIME: 'display-time',
   DRAGGING: 'dragging',
   DRAGGABLE: 'draggable',
   DROPDOWN_ICON: 'dropdown-icon',
@@ -317,8 +318,10 @@ export const attributes = {
   VISIBLE: 'visible',
   WIDTH: 'width',
   X: 'x',
+  X_OFFSET: 'x-offset',
   XSS_IGNORED_TAGS: 'xss-ignored-tags',
   Y: 'y',
+  Y_OFFSET: 'y-offset',
   YEAR: 'year'
 };
 
