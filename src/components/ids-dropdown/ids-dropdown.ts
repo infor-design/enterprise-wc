@@ -126,6 +126,7 @@ export default class IdsDropdown extends Base {
         cursor="pointer"
         size="${this.size}"
         label="${this.label}"
+        id="${this.id}"
         part="trigger-field"
         ${colorVariant}${fieldHeight}${compact}${noMargins}${labelState}
 
@@ -216,7 +217,9 @@ export default class IdsDropdown extends Base {
    */
   set label(value: string) {
     this.setAttribute('label', value);
-    this.input.setAttribute('label', value);
+    if (this.input?.label) {
+      this.input.label = value;
+    }
   }
 
   get label(): string { return this.getAttribute('label'); }

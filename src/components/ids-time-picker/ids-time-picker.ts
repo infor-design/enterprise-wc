@@ -709,8 +709,8 @@ export default class IdsTimePicker extends Base {
     this.onEvent('focus', triggerField, () => this.autoselect && this.openTimePopup());
 
     // Translate Labels
-    this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', getClosest(this, 'ids-container'), () => {
+    this.offEvent('languagechange.time-picker-container');
+    this.onEvent('languagechange.time-picker-container', getClosest(this, 'ids-container'), () => {
       const {
         hours,
         minutes,
@@ -733,8 +733,8 @@ export default class IdsTimePicker extends Base {
 
     // Change Locale if not set by a setting initially
     const formatSet = this.getAttribute('format') !== null;
-    this.offEvent('localechange.container');
-    this.onEvent('localechange.container', getClosest(this, 'ids-container'), async () => {
+    this.offEvent('localechange.time-picker-container');
+    this.onEvent('localechange.time-picker-container', getClosest(this, 'ids-container'), async () => {
       if (!formatSet) {
         this.format = this.locale?.calendar().timeFormat;
       }
