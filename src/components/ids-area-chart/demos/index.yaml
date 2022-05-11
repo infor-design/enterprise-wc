@@ -6,6 +6,8 @@
  keywords: line chart, chart, visualization, track changes over time, area chart, trends
  examples:
   - link: index.html
+    type: Main Example
     description: Shows a basic area chart
   - link: colors.html
+    type: Example
     description: Shows configuring custom colors

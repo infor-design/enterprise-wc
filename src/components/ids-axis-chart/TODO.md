@@ -16,6 +16,9 @@
 
 ## Personal
 
+- [ ] Bar chart tests
+- [ ] Recheck themes
+
 ### Accessibility
 
 - [ ] Should be keyboard friendly. Can focus the legend and hit enter to select [see for suggestions](https://github.com/infor-design/enterprise/issues/6074) and in particular https://css-tricks.com/accessible-svgs/#aa-2-lets-make-it-accessible and https://accessibility.psu.edu/images/charts/
