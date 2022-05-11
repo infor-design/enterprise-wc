@@ -188,6 +188,15 @@
     }
   }
 
+  .dropdown-btn-text,
+  .dropdown-btn-icon {
+    padding-inline-start: 0;
+  }
+
+  .dropdown-btn-icon {
+    @include mt-2();
+  }
+
   &.is-expanded {
     .dropdown-btn::part(button) {
       @include text-azure-60();

@@ -498,7 +498,7 @@ class IdsMonthView extends Base {
    * @returns {string} locale formatted month year
    */
   #formatMonthText(): string {
-    return this.locale?.formatDate(this.activeDate, { month: 'long', year: 'numeric', numberingSystem: 'latn' });
+    return this.locale?.formatDate(this.activeDate, { pattern: 'MMMM yyyy' });
   }
 
   /**
