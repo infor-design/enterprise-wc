@@ -333,7 +333,8 @@ describe('IdsSlider Component', () => {
     );
   });
 
-  it('clicks and drags and navigates keyboard arrows on vertical range slider correctly', async () => {
+  /* TODO: Re-enable this test (#698) */
+  it.skip('clicks and drags and navigates keyboard arrows on vertical range slider correctly', async () => {
     slider = await createFromTemplate(slider, HTMLSnippets.VERTICAL_RANGE_SLIDER);
     processAnimFrame();
 

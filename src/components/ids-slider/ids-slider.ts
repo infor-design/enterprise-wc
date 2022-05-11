@@ -420,22 +420,13 @@ export default class IdsSlider extends Base {
 
   #sanitizeValue(value: string | number | any): number {
     const fixedValue = parseFloat(value);
-    if (this.#withinBounds(fixedValue)) {
-      return fixedValue;
-    }
-    if (fixedValue > this.min) {
+    if (fixedValue <= this.min) {
       return this.min;
     }
-    return this.max;
-  }
-
-  /**
-   * Helper function to check if values being set are within min and max
-   * @param {number} value the number to check
-   * @returns {boolean} whether it is within range of the min and max
-   */
-  #withinBounds(value: string | number | any): boolean {
-    return parseFloat(value) >= this.min && parseFloat(value) <= this.max;
+    if (fixedValue >= this.max) {
+      return this.max;
+    }
+    return fixedValue;
   }
 
   /**
@@ -714,6 +705,7 @@ export default class IdsSlider extends Base {
           primaryOrSecondary = 'secondary';
         }
 
+        // Correct the placement of the thumb if it goes beyond the opposite thumb's value
         if (primaryOrSecondary === 'primary' && value > this.valueSecondary) {
           value = (this.valueSecondary - 1);
         } else if (primaryOrSecondary === 'secondary' && value < this.value) {
@@ -1065,6 +1057,9 @@ export default class IdsSlider extends Base {
     this.onEvent('keydown', this, (event: { code: string; preventDefault: () => void; target: { name: string; }; key: any; }) => {
       if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].indexOf(event.code) > -1) {
         event.preventDefault();
+
+        // Disables animation on non-step sliders when using keys
+        if (this.type !== 'step') this.#toggleTransitionStyles(false);
       }
 
       if (event.target.name === 'ids-slider') {
@@ -1072,7 +1067,7 @@ export default class IdsSlider extends Base {
 
         if (this.type === 'range') {
           // check if focus is on b or a
-          if (this.thumbShadow.classList.contains('active')) {
+          if (this.thumbShadowSecondary.classList.contains('active')) {
             primaryOrSecondary = 'secondary';
           }
         }
@@ -1097,6 +1092,15 @@ export default class IdsSlider extends Base {
         }
       }
     });
+
+    this.onEvent('keyup', this, (event: { code: string; preventDefault: () => void; target: { name: string; }; key: any; }) => {
+      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].indexOf(event.code) > -1) {
+        event.preventDefault();
+
+        // Re-enables animation on non-step sliders when using keys
+        if (this.type !== 'step') this.#toggleTransitionStyles(true);
+      }
+    });
   }
 
   /**
@@ -1104,12 +1108,19 @@ export default class IdsSlider extends Base {
    * @param {string} primaryOrSecondary the primary or secondary value
    */
   #decreaseValue(primaryOrSecondary: string) {
-    if (this.type === 'step') {
-      this.value -= (this.max / (this.stepNumber - 1));
-    } else if (this.type === 'range' && primaryOrSecondary === 'secondary') {
-      this.valueSecondary = Math.ceil(this.valueSecondary) - 1;
-    } else {
-      this.value = Math.ceil(this.value) - 1;
+    switch (this.type) {
+      case 'step':
+        this.value -= (this.max / (this.stepNumber - 1));
+        break;
+      case 'range':
+        if (primaryOrSecondary === 'secondary') {
+          this.valueSecondary = Math.max(Math.ceil(this.valueSecondary) - 1, this.value);
+        } else {
+          this.value = Math.max(Math.ceil(this.value) - 1, this.min);
+        }
+        break;
+      default:
+        this.value = Math.ceil(this.value) - 1;
     }
   }
 
@@ -1118,12 +1129,19 @@ export default class IdsSlider extends Base {
    * @param {string} primaryOrSecondary the primary or secondary value
    */
   #increaseValue(primaryOrSecondary: string) {
-    if (this.type === 'step') {
-      this.value += (this.max / (this.stepNumber - 1));
-    } else if (this.type === 'range' && primaryOrSecondary === 'secondary') {
-      this.valueSecondary = Math.ceil(this.valueSecondary) + 1;
-    } else {
-      this.value = Math.ceil(this.value) + 1;
+    switch (this.type) {
+      case 'step':
+        this.value += (this.max / (this.stepNumber - 1));
+        break;
+      case 'range':
+        if (primaryOrSecondary === 'secondary') {
+          this.valueSecondary = Math.min(Math.ceil(this.valueSecondary) + 1, this.max);
+        } else {
+          this.value = Math.min(Math.ceil(this.value) + 1, this.valueSecondary);
+        }
+        break;
+      default:
+        this.value = Math.ceil(this.value) + 1;
     }
   }
 }
