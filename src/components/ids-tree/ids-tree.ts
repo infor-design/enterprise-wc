@@ -34,6 +34,10 @@ export default class IdsTree extends Base {
   connectedCallback() {
     this.#init();
     super.connectedCallback();
+
+    // this.onEvent('selected', this, (e: any) => {
+    //   console.log(e.detail);
+    // });
   }
 
   /**
@@ -225,7 +229,7 @@ export default class IdsTree extends Base {
           nodesHtml(n.children);
         } else {
           addKey('icon');
-          addKey((this.selectable === 'multiple' && hasKey('label') ? 'label' : 'text'), 'label');
+          addKey((this.isMultiSelect && hasKey('label') ? 'label' : 'text'), 'label');
           const text = hasKey('label') ? n.label : (n.text || '');
           html += `>${validatedText(text)}`;
         }
@@ -513,13 +517,20 @@ export default class IdsTree extends Base {
       if (!canProceed) {
         return;
       }
-      this.#active.selectedOld = this.#active.selectedCurrent;
-      this.#active.selectedCurrent = node;
-      this.#active.selectedCurrent.elem.selected = true;
-      if (this.#active.selectedOld) {
-        this.#active.selectedOld.elem.selected = false;
+
+      if (this.isMultiSelect) {
+        node.elem.selected = true;
+        node.elem.shadowRoot.querySelector('ids-checkbox').input.checked = true;
+        this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, node } });
+      } else {
+        this.#active.selectedOld = this.#active.selectedCurrent;
+        this.#active.selectedCurrent = node;
+        this.#active.selectedCurrent.elem.selected = true;
+        if (this.#active.selectedOld) {
+          this.#active.selectedOld.elem.selected = false;
+        }
+        this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, node } });
       }
-      this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, node } });
     }
   }
 
@@ -543,11 +554,31 @@ export default class IdsTree extends Base {
       if (!canProceed) {
         return;
       }
+
       this.#active.selectedCurrent.elem.selected = false;
       this.#active.selectedOld = null;
       this.#active.selectedCurrent = null;
       this.triggerEvent(IdsTreeShared.EVENTS.unselected, this, { detail: { elem: this, node } });
     }
+  }
+
+  #setMultiUnSelected(node: any) {
+    let canProceed = true;
+    const response = (veto: any) => {
+      canProceed = !!veto;
+    };
+    this.triggerEvent(
+      IdsTreeShared.EVENTS.beforeunselected,
+      this,
+      { detail: { elem: this, response, node } }
+    );
+    if (!canProceed) {
+      return;
+    }
+
+    node.elem.selected = null;
+    node.elem.shadowRoot.querySelector('ids-checkbox').input.checked = null;
+    this.triggerEvent(IdsTreeShared.EVENTS.unselected, this, { detail: { elem: this, node } });
   }
 
   /**
@@ -675,10 +706,18 @@ export default class IdsTree extends Base {
     // Handle mouse click, and keyup space, enter keys
     const handleClick = (e: any, node: any) => {
       if (!node.elem.disabled) {
-        if (this.useToggleTarget) {
+        if (this.useToggleTarget || this.isMultiSelect) {
           if (node.elem.isGroup && hasSomeClass(e.target, 'icon toggle-icon')) {
             this.#toggle(node);
           } else {
+            if (this.isMultiSelect) {
+              if (!node.elem.selected) {
+                this.#setSelected(node);
+              } else {
+                this.#setMultiUnSelected(node);
+              }
+              return;
+            }
             this.#setSelected(node);
             this.#setFocus(node);
           }
@@ -881,6 +920,10 @@ export default class IdsTree extends Base {
       return false;
     }
     return value !== null ? value : IdsTreeShared.DEFAULTS.selectable;
+  }
+
+  get isMultiSelect() {
+    return this.selectable === 'multiple';
   }
 
   /**

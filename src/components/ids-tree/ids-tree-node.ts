@@ -44,6 +44,7 @@ export default class IdsTreeNode extends Base {
     this.nodeContainer = this.shadowRoot?.querySelector('.node-container');
     this.groupNodesEl = this.shadowRoot?.querySelector('.group-nodes');
     super.connectedCallback();
+    this.#attachEventListeners();
   }
 
   /**
@@ -116,7 +117,7 @@ export default class IdsTreeNode extends Base {
           <span class="node-container" part="node-container" role="treeitem"${tabindex}${disabled}${selected}${ariaDisabled}${ariaSelected}${ariaExpanded}>
             <ids-icon class="icon" icon="${this.nodeIcon}" part="icon"></ids-icon>
             ${this.toggleIconHtml}
-            ${this.isMultiSelect ? `<ids-checkbox label="${this.label}"></ids-checkbox>` : ''}
+            ${this.isMultiSelect ? `<ids-checkbox label="${this.label}" ${disabled}></ids-checkbox>` : ''}
             <slot name="badge" class="badge"></slot>
             <ids-text class="text" part="text" ${this.isMultiSelect ? 'hidden' : ''}>${this.label}</ids-text>
           </span>
@@ -128,7 +129,7 @@ export default class IdsTreeNode extends Base {
       <li class="ids-tree-node" part="node" role="none"${disabled}${selected}>
         <span class="node-container" part="node-container" role="treeitem"${tabindex}${disabled}${selected}${ariaDisabled}${ariaSelected}>
           <ids-icon class="icon" part="icon" icon="${this.nodeIcon}"></ids-icon>
-          ${this.isMultiSelect ? `<ids-checkbox label="${this.label}"></ids-checkbox>` : ''}
+          ${this.isMultiSelect ? `<ids-checkbox label="${this.label}" ${disabled}></ids-checkbox>` : ''}
           <slot name="badge" class="badge"></slot>
           <ids-text class="text" part="text" ${this.isMultiSelect ? 'hidden' : ''}><slot></slot></ids-text>
         </span>
@@ -291,6 +292,12 @@ export default class IdsTreeNode extends Base {
     this.nodeContainer?.setAttribute('tabindex', (this.isTabbable ? '0' : '-1'));
   }
 
+  #attachEventListeners() {
+    this.onEvent('click', this.checkbox, (e: any) => {
+      e.preventDefault();
+    });
+  }
+
   /**
    * Gets toggle icon html
    * @returns {HTMLElement} the toggle icon html
@@ -318,13 +325,17 @@ export default class IdsTreeNode extends Base {
    */
   get isSelected() { return !!this.selectable && this.selected; }
 
+  get checkbox() {
+    return this.shadowRoot.querySelector('ids-checkbox');
+  }
+
   /**
    * Gets the current state is tabbable or not
    * @returns {boolean} the state is tabbable or not
    */
   get isTabbable() { return !this.disabled && this.tabbable; }
 
-  get isMultiSelect() { return this.tree.selectable === 'multiple' }
+  get isMultiSelect() { return this.tree.selectable === 'multiple'; }
 
   /**
    * Gets the current toggle css class name

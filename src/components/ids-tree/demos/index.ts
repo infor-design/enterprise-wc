@@ -15,6 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
       treeDemo.addEventListener('selected', (e: any) => {
         console.info('selected:', e?.detail);
       });
+
+      // On unselected
+      treeDemo.addEventListener('unselected', (e: any) => {
+        console.info('unselected:', e?.detail);
+      });
     }());
   }
 });
