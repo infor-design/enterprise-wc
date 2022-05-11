@@ -53,6 +53,13 @@
     }
   }
 
+  // Focusable Groups
+  g[tabindex='0'] {
+    &:focus {
+      outline: 2px dashed var(--ids-color-palette-azure-60);
+    }
+  }
+
   // Label Styles
   .labels {
     @include text-14();
@@ -74,6 +81,10 @@
     &.axis-label {
       @include text-16();
     }
+  }
+
+  .audible {
+    opacity: 0;
   }
 }
 

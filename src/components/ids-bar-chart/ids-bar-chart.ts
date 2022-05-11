@@ -39,7 +39,8 @@ export default class IdsBarChart extends Base {
    * @returns {object} The markers and areas and lines
    */
   chartTemplate() {
-    return `<g class="bars">
+    const ariaLabel = `${!this.grouped && !this.stacked ? this.data[0]?.name : ''}`;
+    return `<g class="bars" role="list" aria-label="${ariaLabel}">
       ${this.#bars()}
     </g>`;
   }
@@ -94,18 +95,22 @@ export default class IdsBarChart extends Base {
 
         const bottom = this.markerData.gridBottom;
         const height = bottom - point.top;
+        const pattern = this.data[groupIndex]?.pattern ? ` fill="url(#${this.data[groupIndex]?.pattern})"` : '';
+        const label = (this.data as any)[0]?.data[index]?.name;
         let top = point.top;
+
         if (this.stacked) {
           top = groupIndex > 0 ? top - runningHeight[index] : top;
           runningHeight[index] = (runningHeight[index] || 0) + height;
         }
-        const pattern = this.data[groupIndex]?.pattern ? ` fill="url(#${this.data[groupIndex]?.pattern})"` : '';
 
-        barHTML += `<rect class="bar color-${groupIndex + 1}" width="${this.barWidth}" height="${height}" x="${left}" y="${top}"${pattern}>
+        barHTML += `<g role="listitem">
+          <text class="audible" x="${left}" y="${this.markerData.gridBottom}">${label} ${point.value}</text>
+          <rect class="bar color-${groupIndex + 1}" width="${this.barWidth}" height="${height}" x="${left}" y="${top}"${pattern}>
           ${this.animated ? `
             <animate attributeName="height" from="0" to="${height}" ${this.cubicBezier}></animate>
             <animate attributeName="y" from="${bottom}" to="${top}" ${this.cubicBezier}/>
-          </rect>` : ''}
+          </rect></g>` : ''}
          `;
       });
     });

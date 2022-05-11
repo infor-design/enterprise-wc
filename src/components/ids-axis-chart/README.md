@@ -129,7 +129,7 @@ The following data attributes can be used on the data passed to a chart.
 
 ## Settings
 
-- `title` {string} Sets the internal title of the chart (for accessibility).
+- `title` {string} Sets the internal title of the chart (for accessibility). It is recommended to mention the chart type for accessibility readout. For example: `Line chart showing invoice history`.
 - `height` {number} Generally this is calculated automatically but can be used to set a specific height.
 - `width` {number} Generally this is calculated automatically but can be used to set a specific width.
 - `textWidths` {object} Generally this is calculated automatically but can be overridden by setting the amount of space to allocate for margins on the `{ left, right, top, bottom }` sides.

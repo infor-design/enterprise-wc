@@ -435,7 +435,7 @@ export default class IdsAxisChart extends Base {
 
     this.markerData.scaleY?.slice().reverse().forEach((value: any) => {
       top = top === 0 ? this.margins.top + textHeight : top + this.#yLineGap();
-      lineHtml += `<text x="${left}" y="${top}">${this.#formatYLabel(value)}</text>`;
+      lineHtml += `<text x="${left}" y="${top}" aria-hidden="true">${this.#formatYLabel(value)}</text>`;
     });
 
     return lineHtml;
@@ -499,9 +499,9 @@ export default class IdsAxisChart extends Base {
       const value = this.#formatXLabel((this.data as any)[0]?.data[index]?.name);
       left = index === 0 ? left : left + (this.alignXLabels === 'middle' ? this.sectionWidths[index].width : this.#xLineGap());
       if (this.alignXLabels === 'middle') {
-        labelHtml += `<text x="${left + (this.sectionWidths[index].width / 2)}" y="${height}" alignment-baseline="middle" text-anchor="middle">${value}</text>`;
+        labelHtml += `<text x="${left + (this.sectionWidths[index].width / 2)}" y="${height}" alignment-baseline="middle" text-anchor="middle" aria-hidden="true">${value}</text>`;
       } else {
-        labelHtml += `<text x="${left}" y="${height}">${value}</text>`;
+        labelHtml += `<text x="${left}" y="${height}" aria-hidden="true">${value}</text>`;
       }
     }
     return labelHtml;

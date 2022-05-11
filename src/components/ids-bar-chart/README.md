@@ -154,6 +154,12 @@ The bars rise along the y-axis from 0 to the appropriate values.
 ## Accessibility Guidelines
 
 - 1.4.1 Use of Color - Color is not used as the only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual element. Ensure the color tags that indicate state like OK, cancel, ect have other ways to indicate that information.
+-  Approach is to treat the bar items as a list `role="list"`. The bar items are `role="listitem"`. The tab index is not visible to the user as it is not needed and can be navigated with a screen reader.
+- Using voice over the sequence is to
+    - Navigate to the parent element above it  or parent page
+    - Hold <kbd>caps lock + left/right arrow</kbd>
+    - You will hear the title , followed by number of items and then each list item
+    - Proceed to use <kbd>caps lock + left/right arrow</kbd> will move through the list items announcing the values
 
 ## Regional Considerations
 
