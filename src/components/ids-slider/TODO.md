@@ -23,5 +23,6 @@ Keep this file in sync with #698
 - [ ] Tooltip: Bug where something between extra clicks/focus causes the tooltip to never hide
 - [ ] Review/Re-enable skipped functional test regarding drags/clicks interchangeably
 - [ ] Should not animate when loading (currently somewhat fixed but its done with a timeout)
+- [ ] Keyboard: Implement PageUp/PageDown for 10% increase/decrease respectively
 - [ ] Standalone CSS Examples
 - [ ] Side-by-Side Examples
