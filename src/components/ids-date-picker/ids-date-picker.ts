@@ -686,10 +686,13 @@ class IdsDatePicker extends Base {
       this.#attachExpandedListener();
       this.#popup.removeAttribute('tabindex');
 
-      this.#popup.alignTarget = this.isCalendarToolbar ? this.container : this.#triggerField;
+      this.#popup.alignTarget = this.isCalendarToolbar
+        ? this.container
+        : this.#triggerField?.container.querySelector('.field-container');
       this.#popup.arrowTarget = this.#triggerButton;
-      this.#popup.align = `bottom, ${this.locale.isRTL() ? 'right' : 'left'}`;
+      this.#popup.align = `bottom, ${this.locale.isRTL() || ['lg', 'full'].includes(this.size) ? 'right' : 'left'}`;
       this.#popup.arrow = 'bottom';
+      this.#popup.positionStyle = this.isCalendarToolbar ? 'fixed' : 'absolute';
       this.#popup.y = 16;
       this.#popup.visible = true;
 
