@@ -1,12 +1,14 @@
 # Ids Tabs TODOs
 
 Keep this file in sync with #683
+
 ## Major
 
 - [ ] Add Module Tabs
 - [ ] Add overflow detection feature (may need design review?)
 - [ ] Review current solution for potential optimization (remove extraneous elements and looping)
 - [ ] `ids-tab-divider`: Improve accessibility + add aXe tests
+
 ## Minor
 
 - [ ] test: for keyboard events
