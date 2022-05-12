@@ -126,6 +126,7 @@ The following data attributes can be used on the data passed to a chart.
 - `shortName` {string} The short name of the legend text.
 - `abbrName` {string} A very short name of the legend text (one or two characters).
 - `color` {string} The color of this axis group. This can be either a hex value for example `#FF0000` or a color name like `red` or an ids variable like `var(--ids-color-palette-azure-20)`.
+- `tooltip` {string} The custom tooltip string (as static text). See the tooltip section for more information.
 
 ## Settings
 
@@ -157,6 +158,39 @@ The following data attributes can be used on the data passed to a chart.
 ## Responsive Guidelines
 
 - Sizes to the given width/height defaulting to that of the immediate parent.
+
+## Tooltip Customizations
+
+You can customize the tooltip by changing some of the API settings. For just a static tooltip you can use the `tooltip` setting in the data at the same place as the `name` property.
+
+If you need to change which items get tooltips you can override `tooltipElements` getter.
+
+```js
+tooltipElements() {
+  return this.container.querySelectorAll('rect.bar'); // return the ones that get events
+}
+```
+
+If you need to change or manipulate the tooltip data you can override the `tooltipData` function. it should return the label and data for the index passed in.
+
+```js
+tooltipData(index: number) {
+  const data = (this.data as any)[0]?.data;
+  return {
+    label: data[index]?.name,
+    value: this.formatYLabel(data[index]?.value)
+  };
+}
+```
+
+If you need to change the tooltip contents you can override the `tooltipTemplate` function.
+
+```js
+tooltipTemplate() {
+  // eslint-disable-next-line no-template-curly-in-string
+  return '<b>${label}</b> ${value}';
+}
+```
 
 ## Why Not Canvas?
 

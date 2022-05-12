@@ -33,6 +33,11 @@ export default class IdsBarChart extends Base {
     ];
   }
 
+  rendered() {
+    this.#adjustVerticalLines();
+    this.attachTooltipEvents();
+  }
+
   /**
    * Return the chart data for the internal svg
    * @private
@@ -45,8 +50,35 @@ export default class IdsBarChart extends Base {
     </g>`;
   }
 
-  rendered() {
-    this.#adjustVerticalLines();
+  /**
+   * Return the elements that get tooltip events
+   * @returns {Array<string>} The elements
+   */
+  tooltipElements(): Array<SVGElement> {
+    return this.container.querySelectorAll('rect.bar');
+  }
+
+  /**
+   * Return the data foor a tooltip accessible by index
+   * @param {number} index the data index
+   * @returns {Array<string>} The elements
+   */
+  tooltipData(index: number) {
+    const data = (this.data as any)[0]?.data;
+    return {
+      label: data[index]?.name,
+      value: this.formatYLabel(data[index]?.value),
+      tooltip: data[index]?.tooltip
+    };
+  }
+
+  /**
+   * Overridable method to draw to get the tooltip template
+   * @returns {string} The tooltip template
+   */
+  tooltipTemplate(): string {
+    // eslint-disable-next-line no-template-curly-in-string
+    return '<b>${label}</b> ${value}';
   }
 
   /**
@@ -106,7 +138,7 @@ export default class IdsBarChart extends Base {
 
         barHTML += `<g role="listitem">
           <text class="audible" x="${left}" y="${this.markerData.gridBottom}">${label} ${point.value}</text>
-          <rect class="bar color-${groupIndex + 1}" width="${this.barWidth}" height="${height}" x="${left}" y="${top}"${pattern}>
+          <rect class="bar color-${groupIndex + 1}" aria-hidden="true" index="${index}" width="${this.barWidth}" height="${height}" x="${left}" y="${top}"${pattern}>
           ${this.animated ? `
             <animate attributeName="height" from="0" to="${height}" ${this.cubicBezier}></animate>
             <animate attributeName="y" from="${bottom}" to="${top}" ${this.cubicBezier}/>

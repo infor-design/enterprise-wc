@@ -21,6 +21,7 @@ const messages = {
   AppMenuTriggerTextAlt: { id: 'AppMenuTriggerTextAlt', value: 'Application Menu Trigger', comment: 'Default text used inside of Application Menu trigger buttons' },
   Apply: { id: 'Apply', value: 'Apply', comment: 'Text in a button to apply an action' },
   Arabic: { id: 'Arabic', value: 'Arabic', comment: 'Language name for Arabic (general)' },
+  AreaChart: { id: 'AreaChart', value: 'Area Chart', comment: 'A chart type' },
   Attach: { id: 'Attach', value: 'Attach', comment: 'Attach' },
   Available: { id: 'Available', value: 'Available', comment: 'Button tooltip used in a list of movable items' },
   Azure: { id: 'Azure', value: 'Azure', comment: 'Color in our color palette' },

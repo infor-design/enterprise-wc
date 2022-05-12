@@ -54,10 +54,10 @@ export function stringToNumber(val?: string | number | any): number {
 /**
  * Inject template variables in a string
  * @param {string} str The string to inject into
- * @param {string} obj The string to inject into
+ * @param {any} obj The string to inject into
  * @returns {string} The return string
  */
-export function injectTemplate(str: string, obj: string): string {
+export function injectTemplate(str: string, obj: any): string {
   return str.replace(/\${(.*?)}/g, (_x, g) => obj[g]);
 }
 

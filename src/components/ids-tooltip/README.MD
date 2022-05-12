@@ -68,6 +68,18 @@ document.querySelector('#button-1').visible = true;
 - `trigger` {string} Set trigger agains the target between hover, click and focus
 - `visible` {string | boolean} Set tooltip immediately to visible/invisible
 
+## Events
+
+- `beforeshow` Fires just before the tooltip is shown (veto-able if returning false from the detail event)
+- `show` Fires at the time the ids-tooltip is shown
+- `aftershow` Fires after the tooltip is fully shown
+- `hide` Fires at the time the ids-tooltip is trying  to hide
+- `afterhide` Fires after the tooltip is fully hidden
+
+## Callbacks
+
+- `onHide` Fires when the tooltip is hidden
+
 ## Themeable Parts
 
 - `popup` allows you to further style the popup container element

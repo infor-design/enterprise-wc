@@ -3,7 +3,6 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import Base from './ids-line-chart-base';
 import styles from './ids-line-chart.scss';
-
 import type IdsChartData from '../ids-axis-chart/ids-axis-chart';
 
 /**
@@ -33,6 +32,10 @@ export default class IdsLineChart extends Base {
     ];
   }
 
+  rendered() {
+    this.attachTooltipEvents();
+  }
+
   /**
    * Return the chart data for the internal svg
    * @returns {object} The markers and lines
@@ -44,6 +47,14 @@ export default class IdsLineChart extends Base {
     <g class="marker-lines">
       ${this.lineMarkers().lines}
     </g>`;
+  }
+
+  /**
+   * Return the elements that get tooltip events
+   * @returns {Array<string>} The elements
+   */
+  tooltipElements(): Array<SVGElement> {
+    return this.container.querySelectorAll('.markers circle');
   }
 
   /**

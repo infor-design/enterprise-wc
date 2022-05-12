@@ -1,4 +1,4 @@
-import IdsAxisChart from '../ids-line-chart/ids-line-chart';
+import IdsAxisChart from '../ids-axis-chart/ids-axis-chart';
 
 const Base = IdsAxisChart;
 export default Base;

@@ -1,12 +1,13 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { injectTemplate, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { QUALITATIVE_COLORS } from './ids-chart-colors';
 import NiceScale from './ids-nice-scale';
 import debounce from '../../utils/ids-debounce-utils/ids-debounce-utils';
 import Base from './ids-axis-chart-base';
 import IdsDataSource from '../../core/ids-data-source';
 import { patternData } from './ids-pattern-data';
+import IdsToolTip from '../ids-tooltip/ids-tooltip';
 
 import '../ids-empty-message/ids-empty-message';
 
@@ -90,7 +91,7 @@ export default class IdsAxisChart extends Base {
   datasource = new IdsDataSource();
 
   /**
-   * Invoked each time the custom element is appended into a document-connected element.
+   * Invoked each time the custom element is appended
    */
   connectedCallback(): void {
     this.svg = this.shadowRoot.querySelector('svg');
@@ -99,6 +100,15 @@ export default class IdsAxisChart extends Base {
     this.#attachEventHandlers();
     this.rerender();
     super.connectedCallback?.();
+  }
+
+  /**
+   * Invoked each time the custom element is removed
+   */
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.#resizeObserver?.disconnect();
+    this.#resizeObserver = undefined;
   }
 
   /**
@@ -357,7 +367,8 @@ export default class IdsAxisChart extends Base {
    */
   #axisTemplate(): string {
     return `
-    <title id="title">${this.title}</title>
+    <title></title>
+    <title>${this.title}</title>
     <defs>
       ${this.#patterns()}
     </defs>
@@ -383,6 +394,80 @@ export default class IdsAxisChart extends Base {
    */
   chartTemplate(): string {
     return '';
+  }
+
+  /**
+   * Child Chart elements that get tooltips
+   * @private
+   * @returns {Array<SVGElement>} The elements
+   */
+  tooltipElements(): Array<SVGElement> {
+    return [];
+  }
+
+  /**
+   * Overridable method to draw to get the tooltip template
+   * @returns {string} The tooltip template
+   */
+  tooltipTemplate(): string {
+    // eslint-disable-next-line no-template-curly-in-string
+    return '<b>${label}</b> ${value}';
+  }
+
+  /**
+   * Setup handlers on tooltip elements
+   */
+  attachTooltipEvents(): void {
+    // Need one event per bar due to the nature of the events for tooltip
+    this.tooltipElements().forEach((element: SVGElement) => {
+      this.onEvent('hoverend', element, async () => {
+        const tooltip = new IdsToolTip();
+        tooltip.innerHTML = this.#tooltipContent(element);
+
+        // Not content - don't show
+        if (!tooltip.innerHTML) {
+          return;
+        }
+
+        // Show the tooltip and remove it when it closes
+        this.container.appendChild(tooltip);
+        tooltip.position = this.tooltipPosition;
+        tooltip.target = element;
+        tooltip.visible = true;
+        tooltip.onHide = () => {
+          tooltip.remove();
+        };
+      });
+    });
+  }
+
+  /**
+   * Return the data for a tooltip accessible by index
+   * @param {number} index the data index
+   * @returns {Array<string>} The elements
+   */
+  tooltipData(index: number) {
+    const data = (this.data as any)[0]?.data;
+    return {
+      label: data[index]?.name,
+      value: data[index]?.value,
+      tooltip: data[index]?.tooltip
+    };
+  }
+
+  /**
+   * Return the tooltip content
+   * @param {SVGElement} elem The svg element we will inspect for content
+   * @private
+   * @returns {string} The tooltip content
+   */
+  #tooltipContent(elem: SVGElement): string {
+    const data = this.tooltipData(Number(elem.getAttribute('index')));
+    if (data.tooltip) {
+      // eslint-disable-next-line no-template-curly-in-string
+      return data.tooltip.replace('${value}', data.value).replace('${label}', data.label);
+    }
+    return injectTemplate(this.tooltipTemplate(), data);
   }
 
   /**
@@ -435,7 +520,7 @@ export default class IdsAxisChart extends Base {
 
     this.markerData.scaleY?.slice().reverse().forEach((value: any) => {
       top = top === 0 ? this.margins.top + textHeight : top + this.#yLineGap();
-      lineHtml += `<text x="${left}" y="${top}" aria-hidden="true">${this.#formatYLabel(value)}</text>`;
+      lineHtml += `<text x="${left}" y="${top}" aria-hidden="true">${this.formatYLabel(value)}</text>`;
     });
 
     return lineHtml;
@@ -463,7 +548,7 @@ export default class IdsAxisChart extends Base {
    * @returns {string} The formatted value
    * @private
    */
-  #formatYLabel(value: string | ((value: unknown, data: Array<IdsChartData>, api: this) => string)) {
+  formatYLabel(value: string | ((value: unknown, data: Array<IdsChartData>, api: this) => string)) {
     if (!this.yAxisFormatter) {
       return value;
     }
