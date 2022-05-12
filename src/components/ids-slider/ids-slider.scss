@@ -34,14 +34,16 @@
 
     &:not(.vertical) {
       .track-progress {
-        transition: transform $transition-length $transition-ease,
+        transition:
+          transform $transition-length $transition-ease,
           width $transition-length $transition-ease;
       }
     }
 
     &.vertical {
       .track-progress {
-        transition: transform $transition-length $transition-ease,
+        transition:
+          transform $transition-length $transition-ease,
           height $transition-length $transition-ease;
       }
     }
@@ -368,7 +370,7 @@
     color: var(--ids-color-palette-slate-100);
 
     .pin {
-      border-top-color:var(--ids-color-palette-white);
+      border-top-color: var(--ids-color-palette-white);
 
       &.vertical {
         border-top-color: transparent;

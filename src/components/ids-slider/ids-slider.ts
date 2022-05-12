@@ -119,10 +119,10 @@ export default class IdsSlider extends Base {
     this.#attachEventListeners();
     this.#initUIStyles();
 
-    // @TODO - find a better way to apply animation/transition rules after the component loads (#698)
+    // @TODO find a better way to apply animation/transition rules after the component loads (#698)
     setTimeout(() => {
       this.#toggleTransitionStyles(true);
-    }, 70);
+    }, 80);
   }
 
   /**

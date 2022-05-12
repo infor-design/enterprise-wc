@@ -18,10 +18,10 @@ export function hexToRgba(hex: string, opacity?: number) {
 
     if (opacity) {
       // eslint-disable-next-line
-      return `rgba(${[(c >> 16) & 255, (c >> 8) & 255, c & 255].join(',')},${opacity})`;
+      return `rgba(${[(c >> 16) & 255, (c >> 8) & 255, c & 255].join(' ')} / ${opacity})`;
     }
 
-    return `rgb(${[(c >> 16) & 255, (c >> 8) & 255, c & 255].join(',')})`;
+    return `rgb(${[(c >> 16) & 255, (c >> 8) & 255, c & 255].join(' ')})`;
   }
   return '';
 }
@@ -40,20 +40,23 @@ export function builtinToRgba(colorName: string, opacity?: number) {
   document.body.appendChild(el);
 
   const cs = window.getComputedStyle(el);
-  const rgb = cs.getPropertyValue('color');
+  let rgb = cs.getPropertyValue('color');
 
   document.body.removeChild(el);
 
+  // normalize RGB values from the DOM to the modern format
+  rgb = rgb.replace(/,/g, '');
+
   if (opacity && rgb.indexOf('a') === -1) {
-    return rgb.replace('rgb', 'rgba').replace(')', `, ${opacity})`);
+    return rgb.replace('rgb', 'rgba').replace(')', ` / ${opacity})`);
   }
   return rgb;
 }
 
 /**
  * Converts any valid CSS color into an RGB(A?) value
- * @param colorName any valid CSS color
- * @param opacity optional opacity value. If included, causes the return value to be RGBA.
+ * @param {string} colorName any valid CSS color
+ * @param {number} opacity optional opacity value. If included, causes the return value to be RGBA.
  *  If omitted, causes the return value to be RGB.
  * @returns {string} RGB(A?) value of the original color
  */
