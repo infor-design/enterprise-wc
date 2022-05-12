@@ -59,6 +59,7 @@ const WebpackHtmlExamples = WebpackHtmlTemplates.map((template) => {
 
   // Special Entry for List Pages
   if (chunkFileName === 'index.html') {
+    chunkList.push('ids-data-grid');
     chunkList.push(`${chunkFileNameArray[2]}-listing`);
   }
 

@@ -1,6 +1,6 @@
 ---
  component: Text Area
- link: ids-text-area
+ link: ids-textarea
  description: An input for multi line text
  category: Form Inputs
  keywords: theme, color, switcher

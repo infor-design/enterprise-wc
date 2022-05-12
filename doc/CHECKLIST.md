@@ -132,7 +132,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Tabs Vertical (ids-tabs with option)
  - [x] Tag (ids-tag)
  - [x] Targeted Achievement (ids-progress-chart)
- - [x] Textarea (ids-text-area)
+ - [x] Textarea (ids-textarea)
  - [ ] Timeline (ids-time-line)
  - [x] Timepicker (ids-time-picker)
  - [x] Toast (ids-toast)

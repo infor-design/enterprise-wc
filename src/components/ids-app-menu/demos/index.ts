@@ -6,3 +6,4 @@ import '../../ids-button/ids-button';
 import '../../ids-icon/ids-icon';
 import '../../ids-search-field/ids-search-field';
 import '../../ids-toolbar/ids-toolbar';
+import '../../ids-data-grid/ids-data-grid';
