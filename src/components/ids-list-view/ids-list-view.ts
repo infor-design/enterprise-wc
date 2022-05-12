@@ -500,6 +500,10 @@ export default class IdsListView extends Base {
       item.setAttribute('selected', 'selected');
       item.setAttribute('aria-selected', 'true');
       this.#selectedLiIndex = item.getAttribute('index');
+
+      this.triggerEvent('itemSelect', this, {
+        detail: this.getListItemData(item)
+      });
     };
 
     if (switchValue === true) {
@@ -556,6 +560,16 @@ export default class IdsListView extends Base {
   }
 
   /**
+   * Get data for list item
+   * @param {Element} item list item
+   * @returns {any} data object
+   */
+  getListItemData(item: Element) {
+    const dataIdx = item.getAttribute('index');
+    return dataIdx ? this.data[dataIdx] : {};
+  }
+
+  /**
    * Overrides the ids-sortable-mixin function to focus on item
    * @param {Element} el element to be dragged
    */
@@ -564,6 +578,10 @@ export default class IdsListView extends Base {
 
     const li = el.querySelector('div[part="list-item"]');
     this.onClick(li);
+
+    this.triggerEvent('itemClick', this, {
+      detail: this.getListItemData(li)
+    });
   }
 
   /**

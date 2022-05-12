@@ -290,6 +290,10 @@ export default class IdsListBuilder extends Base {
 
       const newEntry = true;
       this.#insertSelectedLiWithEditor(newEntry);
+
+      this.triggerEvent('itemAdd', this, {
+        detail: this.getListItemData(listItem)
+      });
     });
 
     // Up button
@@ -302,6 +306,12 @@ export default class IdsListBuilder extends Base {
           this.swap(this.selectedLi, prev);
         }
         this.updateDataFromDOM();
+
+        this.triggerEvent('itemMoveUp', this, {
+          detail: {
+            dataSet: this.data
+          }
+        });
       }
     });
 
@@ -315,16 +325,30 @@ export default class IdsListBuilder extends Base {
           this.swap(this.selectedLi, next);
         }
         this.updateDataFromDOM();
+
+        this.triggerEvent('itemMoveDown', this, {
+          detail: {
+            dataSet: this.data
+          }
+        });
       }
     });
 
     // Edit button
     this.onEvent('click', this.container.querySelector('#button-edit'), () => {
       this.#insertSelectedLiWithEditor();
+
+      this.triggerEvent('itemChange', this, {
+        detail: this.getListItemData(this.selectedLi)
+      });
     });
 
     // Delete button
     this.onEvent('click', this.container.querySelector('#button-delete'), () => {
+      this.triggerEvent('itemDelete', this, {
+        detail: this.getListItemData(this.selectedLi)
+      });
+
       this.#removeSelectedLi();
     });
   }
