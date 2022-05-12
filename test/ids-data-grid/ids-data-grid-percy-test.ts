@@ -48,6 +48,7 @@ describe('Ids Data Grid List Style Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');
     });
+    await page.waitForTimeout(200);
     await percySnapshot(page, 'ids-data-grid-list-style-new-dark');
   });
 
@@ -57,6 +58,7 @@ describe('Ids Data Grid List Style Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'contrast');
     });
+    await page.waitForTimeout(200);
     await percySnapshot(page, 'ids-data-grid-list-style-new-contrast');
   });
 });
