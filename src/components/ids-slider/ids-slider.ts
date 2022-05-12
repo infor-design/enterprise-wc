@@ -1,6 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { convertColorToRgba, convertStatusToIDSColor } from '../../utils/ids-color-utils/ids-color-utils';
 import Base from './ids-slider-base';
 
 import styles from './ids-slider.scss';
@@ -131,8 +132,10 @@ export default class IdsSlider extends Base {
   static get attributes(): Array<any> {
     return [
       attributes.COLOR,
+      attributes.DISABLED,
       attributes.MIN,
       attributes.MAX,
+      attributes.READONLY,
       attributes.STEP_NUMBER,
       attributes.SHOW_TOOLTIP,
       attributes.TYPE,
@@ -148,11 +151,15 @@ export default class IdsSlider extends Base {
    */
 
   template(): string {
+    const disabledClass = this.disabled ? ' disabled' : '';
+    const readonlyClass = this.readonly ? ' readonly' : '';
+    const draggableTabIndex = (!disabledClass.length && !readonlyClass.length) ? '0' : '-1';
+
     return `
-      <div class="ids-slider">
+      <div class="ids-slider${disabledClass}${readonlyClass}">
         <div class="slider">
           <div class="track-area">
-            <ids-draggable tabindex="0" class="thumb-draggable" axis="${this.vertical ? 'y' : 'x'}" parent-containment>
+            <ids-draggable tabindex="${draggableTabIndex}" class="thumb-draggable" axis="${this.vertical ? 'y' : 'x'}" parent-containment>
               <div class="thumb-shadow"></div>
               <div class="thumb">
                 <div class="tooltip">
@@ -161,7 +168,7 @@ export default class IdsSlider extends Base {
                 </div>
               </div>
             </ids-draggable>
-            <ids-draggable tabindex="0" class="thumb-draggable secondary" axis="${this.vertical ? 'y' : 'x'}" parent-containment>
+            <ids-draggable tabindex="${draggableTabIndex}" class="thumb-draggable secondary" axis="${this.vertical ? 'y' : 'x'}" parent-containment>
               <div class="thumb-shadow secondary"></div>
               <div class="thumb secondary">
                 <div class="tooltip secondary">
@@ -181,6 +188,63 @@ export default class IdsSlider extends Base {
         </div>
       </div>
     `;
+  }
+
+  /**
+   * Controls Slider disabled state
+   * @param {boolean | string} value If true, will set `disabled` attribute
+   */
+  set disabled(value: boolean | string) {
+    const val = stringToBool(value);
+    if (val) {
+      if (this.readonly) this.readonly = false;
+      this.setAttribute(attributes.DISABLED, '');
+      this.container.classList.add(attributes.DISABLED);
+      this.thumbDraggable.disabled = true;
+      this.#updateTooltipDisplay(true);
+      if (this.type === 'range') {
+        this.thumbDraggableSecondary.disabled = true;
+        this.#updateTooltipDisplay(true, 'secondary');
+      }
+    } else {
+      this.removeAttribute(attributes.DISABLED);
+      this.container.classList.remove(attributes.DISABLED);
+      this.thumbDraggable.disabled = false;
+      if (this.type === 'range') this.thumbDraggableSecondary.disabled = false;
+    }
+    this.#updateColor();
+  }
+
+  get disabled(): boolean {
+    return this.hasAttribute(attributes.DISABLED);
+  }
+
+  /**
+   * Controls Slider readonly state
+   * @param {boolean | string} value If true, will set `readonly` attribute
+   */
+  set readonly(value: boolean | string) {
+    const val = stringToBool(value);
+    if (val) {
+      if (this.disabled) this.disabled = false;
+      this.setAttribute(attributes.READONLY, '');
+      this.container.classList.add(attributes.READONLY);
+      this.thumbDraggable.disabled = true;
+      if (this.type === 'range') {
+        this.thumbDraggableSecondary.disabled = true;
+        this.#updateTooltipDisplay(true, 'secondary');
+      }
+    } else {
+      this.removeAttribute(attributes.READONLY);
+      this.container.classList.remove(attributes.READONLY);
+      this.thumbDraggable.disabled = false;
+      if (this.type === 'range') this.thumbDraggableSecondary.disabled = false;
+    }
+    this.#updateColor();
+  }
+
+  get readonly(): boolean {
+    return this.hasAttribute(attributes.READONLY);
   }
 
   /**
@@ -375,7 +439,7 @@ export default class IdsSlider extends Base {
             if (stepLength > this.stepNumber) {
               this.container.querySelector('.tick').remove();
             } else {
-              this.container.querySelector('.tick:last-child').insertAdjacentHTML('afterend', '<span class="tick"></span>');
+              this.container.querySelector('.tick:last-child').insertAdjacentHTML('afterend', `<span class="tick"></span>`);
             }
           }
         }
@@ -580,34 +644,44 @@ export default class IdsSlider extends Base {
 
   /** Update the color theme of the slider */
   #updateColor() {
-    const color = this.color;
+    let color;
+    if (!this.readonly && !this.disabled) {
+      color = this.color;
+    }
+
+    const ticks = this.container.querySelectorAll('.tick');
 
     if (color) {
-      const ticks = this.container.querySelectorAll('.tick');
-
       let colorString = color;
-
       if (color.substring(0, 1) !== '#') {
-        if (color.includes('error') || color.includes('warning') || color.includes('caution') || color.includes('base') || color.includes('success')) {
-          colorString = `var(--ids-color-status-${color === 'error' ? 'danger' : color})`;
-        }
+        colorString = convertStatusToIDSColor(color);
       }
+      const rgbaColor = convertColorToRgba(colorString, 0.1);
 
-      ticks.forEach((tick: { style: { setProperty: (arg0: string, arg1: any) => void; }; }) => {
+      ticks.forEach((tick: { style: CSSStyleDeclaration }) => {
         tick.style.setProperty('background-color', colorString);
       });
       this.thumb.style.setProperty('background-color', colorString);
-      const rgbString = window.getComputedStyle(this.thumb).backgroundColor;
-      // have to specify opacity in background-color, otherwise the opacity affects the ring border
-      const rgbaString = `${rgbString.slice(0, 3)}a${rgbString.slice(3, rgbString.length - 1)}, 0.1)`;
-      this.thumbShadow.style.setProperty('background-color', rgbaString);
+      this.thumbShadow.style.setProperty('background-color', rgbaColor);
       this.thumbShadow.style.setProperty('border', `1px ${colorString} solid`);
       this.progressTrack.style.setProperty('background-color', colorString);
-
       if (this.type === 'range' && this.thumbShadowSecondary && this.thumbSecondary) {
-        this.thumbShadowSecondary.style.setProperty('background-color', rgbaString);
+        this.thumbShadowSecondary.style.setProperty('background-color', rgbaColor);
         this.thumbShadowSecondary.style.setProperty('border', `1px ${colorString} solid`);
         this.thumbSecondary.style.setProperty('background-color', colorString);
+      }
+    } else {
+      ticks.forEach((tick: { style: CSSStyleDeclaration }) => {
+        tick.style.removeProperty('background-color');
+      });
+      this.thumb.style.removeProperty('background-color');
+      this.thumbShadow.style.removeProperty('background-color');
+      this.thumbShadow.style.removeProperty('border');
+      this.progressTrack.style.removeProperty('background-color');
+      if (this.type === 'range' && this.thumbShadowSecondary && this.thumbSecondary) {
+        this.thumbShadowSecondary.style.removeProperty('background-color');
+        this.thumbShadowSecondary.style.removeProperty('border');
+        this.thumbSecondary.style.removeProperty('background-color');
       }
     }
   }
@@ -862,7 +936,7 @@ export default class IdsSlider extends Base {
 
     // FOCUS/BLUR EVENTS
     this.onEvent('focusin', this.container, (e: FocusEvent) => {
-      if (this.shadowRoot.activeElement) {
+      if (!this.disabled && this.shadowRoot.activeElement) {
         this.#updateTooltipDisplay(false);
         const target = e.target instanceof HTMLElement && e.target;
 
@@ -955,6 +1029,8 @@ export default class IdsSlider extends Base {
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
         if (entry.contentBoxSize) {
+          this.#refreshTrackBounds();
+          this.#updateProgressBar();
           this.#moveThumb();
           if (this.type === 'range') this.#moveThumb('secondary');
         }
@@ -967,6 +1043,10 @@ export default class IdsSlider extends Base {
   /** Add event listeners for clicking the track area */
   #attachClickListeners() {
     this.onEvent('click', this.container, (event: { target: { className: any; innerHTML: string; }; clientX: number; clientY: number; }) => {
+      if (this.disabled || this.readonly) {
+        return;
+      }
+
       const className = event.target.className;
       const clickedIdsSlider = className.includes('ids-slider');
       const clickedLabel = className.includes('label');
@@ -983,7 +1063,7 @@ export default class IdsSlider extends Base {
     });
 
     this.onEvent('click', document, (event: any) => {
-      if (event.target !== this) {
+      if (event.target !== this && !this.disabled) {
         this.#updateTooltipDisplay(true);
         if (this.type === 'range') this.#updateTooltipDisplay(true, 'secondary');
       }
