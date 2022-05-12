@@ -115,6 +115,7 @@ The promise should resolve and return data with id, value and label info.
 
 ## Settings
 
+- `allowBlank` {boolean} Sets whether option list should include 'blank' option
 - `colorVariant` {string} set the current color variant.
 - `compact` {boolean} sets the component to be compact mode.
 - `dirtyTracker` {boolean} Sets the dirty tracking feature on to indicate a changed
