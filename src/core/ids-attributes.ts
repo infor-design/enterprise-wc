@@ -152,6 +152,7 @@ export const attributes = {
   LABEL_TOTAL: 'label-total',
   LANGUAGE: 'language',
   LAST: 'last',
+  LAZY_LOAD: 'lazy-load',
   LINEAR: 'linear',
   LINK: 'link',
   LINK_TEXT: 'link-text',
