@@ -29,6 +29,6 @@ if (disabledReverse) {
   disabledReverse.disable = {
     minDate: '6/3/2020',
     maxDate: '6/25/2020',
-    isReverse: true
+    isEnable: true
   };
 }

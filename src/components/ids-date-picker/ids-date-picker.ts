@@ -26,9 +26,9 @@ import '../ids-trigger-field/ids-trigger-field';
 
 // Types
 import type {
-  RangeSettings,
-  DisableSettings,
-  DayselectedEvent
+  IdsRangeSettings,
+  IdsDisableSettings,
+  IdsDayselectedEvent
 } from '../ids-month-view/ids-month-view-types';
 
 // Import Styles
@@ -308,7 +308,7 @@ class IdsDatePicker extends Base {
       });
 
       this.offEvent('dayselected.date-picker-calendar');
-      this.onEvent('dayselected.date-picker-calendar', this.#monthView, (e: DayselectedEvent) => {
+      this.onEvent('dayselected.date-picker-calendar', this.#monthView, (e: IdsDayselectedEvent) => {
         if (!this.isCalendarToolbar) {
           if (this.useRange) {
             this.value = [
@@ -1642,7 +1642,7 @@ class IdsDatePicker extends Base {
    * Get range settings for month view component
    * @returns {object} month view range settings
    */
-  get rangeSettings(): RangeSettings {
+  get rangeSettings(): IdsRangeSettings {
     return this.#monthView?.rangeSettings;
   }
 
@@ -1651,7 +1651,7 @@ class IdsDatePicker extends Base {
    * and update input value if passed settings contain start/end
    * @param {object} val settings to be assigned to default range settings
    */
-  set rangeSettings(val: RangeSettings) {
+  set rangeSettings(val: IdsRangeSettings) {
     if (this.#monthView) {
       this.#monthView.rangeSettings = val;
 
@@ -1688,17 +1688,17 @@ class IdsDatePicker extends Base {
   }
 
   /**
-   * @returns {DisableSettings} disable settings object
+   * @returns {IdsDisableSettings} disable settings object
    */
-  get disable(): DisableSettings {
+  get disable(): IdsDisableSettings {
     return this.#monthView?.disable;
   }
 
   /**
    * Set disable settings
-   * @param {DisableSettings} val settings to be assigned to default disable settings
+   * @param {IdsDisableSettings} val settings to be assigned to default disable settings
    */
-  set disable(val: DisableSettings) {
+  set disable(val: IdsDisableSettings) {
     if (this.#monthView) {
       this.#monthView.disable = val;
     }

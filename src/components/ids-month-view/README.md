@@ -34,7 +34,7 @@ If both start and end dates are set calendar toolbar will not be displayed.
   - `minDate` `{string}` - Disable up to a minimum date
   - `maxDate` `{string}` - Disable up to a maximum date
   - `dayOfWeek` `{Array}` - Disable a specific of days of the week 0-6
-  - `isReverse` `{boolean}` - Reverse the disable settings. Default is false
+  - `isEnable` `{boolean}` - Enables the disabled dates. Default is false
 
 ## Events
 - `dayselected` - Fires when a day is selected
@@ -139,7 +139,7 @@ monthView.disable = {
   minDate: '2/6/2018',
   maxDate: '2/12/2018',
   years: [2017, 2018],
-  isReverse: true
+  isEnable: true
 }
 ```
 

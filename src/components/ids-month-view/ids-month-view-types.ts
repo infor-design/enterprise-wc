@@ -1,6 +1,6 @@
 import type IdsMonthView from './ids-month-view';
 
-export type RangeSettings = {
+export type IdsRangeSettings = {
   start?: any,
   end?: any,
   separator?: string,
@@ -11,16 +11,16 @@ export type RangeSettings = {
   includeDisabled?: boolean
 };
 
-export type DisableSettings = {
+export type IdsDisableSettings = {
   dates?: Array<string>,
   years?: Array<number>,
   minDate?: string,
   maxDate?: string,
   dayOfWeek?: Array<number>,
-  isReverse?: boolean
+  isEnable?: boolean
 };
 
-export type DayselectedEvent = {
+export type IdsDayselectedEvent = {
   detail: {
     elem: IdsMonthView,
     date: Date,

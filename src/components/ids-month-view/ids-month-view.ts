@@ -35,7 +35,7 @@ import '../ids-toolbar/ids-toolbar';
 import '../ids-trigger-field/ids-trigger-button';
 
 // Types
-import type { RangeSettings, DisableSettings, DayselectedEvent } from './ids-month-view-types';
+import type { IdsRangeSettings, IdsDisableSettings, IdsDayselectedEvent } from './ids-month-view-types';
 
 // Import Styles
 import styles from './ids-month-view.scss';
@@ -68,7 +68,7 @@ class IdsMonthView extends Base {
   #currentLegend = [];
 
   // Range picker default settings
-  #rangeSettings: RangeSettings = {
+  #rangeSettings: IdsRangeSettings = {
     start: null,
     end: null,
     separator: ' - ',
@@ -80,13 +80,13 @@ class IdsMonthView extends Base {
   };
 
   // Disabled default settings
-  #disableSettings: DisableSettings = {
+  #disableSettings: IdsDisableSettings = {
     dates: [],
     years: [],
     minDate: '',
     maxDate: '',
     dayOfWeek: [],
-    isReverse: false
+    isEnable: false
   };
 
   /**
@@ -921,8 +921,8 @@ class IdsMonthView extends Base {
       dates,
       minDate,
       maxDate,
-      isReverse
-    }: DisableSettings = this.#disableSettings;
+      isEnable
+    }: IdsDisableSettings = this.#disableSettings;
     const isOutOfDisplayRange: boolean = this.#isDisplayRange()
       && (date < (this.startDate as Date) || date > (this.endDate as Date));
     const ifYear: boolean = (years as Array<number>).some(
@@ -936,7 +936,7 @@ class IdsMonthView extends Base {
     );
     const ifMinMaxDate: boolean = date <= new Date(minDate as string) || date >= new Date(maxDate as string);
     const ifBySettings: boolean = ifYear || ifDayOfWeek || ifDates || ifMinMaxDate;
-    const withReverse: boolean = isReverse ? !ifBySettings : ifBySettings;
+    const withReverse: boolean = isEnable ? !ifBySettings : ifBySettings;
 
     return withReverse || isOutOfDisplayRange;
   }
@@ -1072,7 +1072,7 @@ class IdsMonthView extends Base {
       return;
     }
 
-    const args: DayselectedEvent = {
+    const args: IdsDayselectedEvent = {
       detail: {
         elem: this,
         date: this.activeDate,
@@ -1518,17 +1518,17 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * @returns {RangeSettings} range settings object
+   * @returns {IdsRangeSettings} range settings object
    */
-  get rangeSettings(): RangeSettings {
+  get rangeSettings(): IdsRangeSettings {
     return this.#rangeSettings;
   }
 
   /**
    * Set range selection settings
-   * @param {RangeSettings} val settings to be assigned to default range settings
+   * @param {IdsRangeSettings} val settings to be assigned to default range settings
    */
-  set rangeSettings(val: RangeSettings) {
+  set rangeSettings(val: IdsRangeSettings) {
     this.#rangeSettings = {
       ...this.#rangeSettings,
       ...deepClone(val)
@@ -1570,17 +1570,17 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * @returns {DisableSettings} disable settings object
+   * @returns {IdsDisableSettings} disable settings object
    */
-  get disable(): DisableSettings {
+  get disable(): IdsDisableSettings {
     return this.#disableSettings;
   }
 
   /**
    * Set disable settings
-   * @param {DisableSettings} val settings to be assigned to default disable settings
+   * @param {IdsDisableSettings} val settings to be assigned to default disable settings
    */
-  set disable(val: DisableSettings) {
+  set disable(val: IdsDisableSettings) {
     this.#disableSettings = {
       ...this.#disableSettings,
       ...deepClone(val)
