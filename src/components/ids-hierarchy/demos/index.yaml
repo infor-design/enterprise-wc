@@ -7,3 +7,5 @@
  examples:
   - link: example.html
     description: Shows minimal hierarchy
+  - link: lazy-load.html
+    description: Shows hierarchy with lazy loading
