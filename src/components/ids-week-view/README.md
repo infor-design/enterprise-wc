@@ -24,6 +24,10 @@ First day of the week from current date will be set if not valid date or no spec
 - `show-timeline` `{true|false}` - Whether or not to show current time indicator
 - `timeline-interval` {string|number|null} - Specifies how often timeline should update it's position (in milliseconds). Defaults to 30000 (30 seconds)
 
+## Settings (Properties)
+- `eventsData` `{Array<CalendarEventData>}` - Array of calendar event data to populate the week view
+- `eventTypesData` `{Array<CalendarEventTypeData>}` - Array of calendar event types used to categorize calendar events
+
 ## Features (With Code Examples)
 
 With no settings. Regular week 7 days to show. First day of the week is Sunday, last day of the week is Saturday. 7 AM - 7 PM hours.
