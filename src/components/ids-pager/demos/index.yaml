@@ -6,14 +6,14 @@
  keywords: Pager, Paging
  examples:
   - link: example.html
-    title: Main Example
+    type: Main Example
     description: Showing a standalone Pager example
   - link: list.html
-    title: Example
+    type: Example
     description: Showing a list style Pager example
   - link: sandbox.html
-    title: Sandbox
+    type: Sandbox
     description: Showing a test page for pager states
   - link: side-by-side.html
-    title: Side-by-Side
+    type: Side-by-Side
     description: Showing a Popup Menu side by side with 4.x

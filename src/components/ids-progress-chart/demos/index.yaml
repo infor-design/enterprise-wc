@@ -6,8 +6,8 @@
  keywords: progress, chart, bar
  examples:
   - link: example.html
-    title: Main Demo
+    type: Main Demo
     description: Showing various progress chart examples
   - link: sandbox.html
-    title: Sandbox
+    type: Sandbox
     description: Showing misc examples

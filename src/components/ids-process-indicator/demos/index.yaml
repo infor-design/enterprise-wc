@@ -6,8 +6,8 @@
  keywords: process, indicator, timeline
  examples:
   - link: example.html
-    title: Main Example
+    type: Main Example
     description: Showing various process indicator examples
   - link: empty-label.html
-    title: Example
+    type: Example
     description: Showing various process indicator examples without labels

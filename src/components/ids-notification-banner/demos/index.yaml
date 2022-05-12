@@ -6,11 +6,11 @@
  keywords: Modal, Dialog
  examples:
   - link: example.html
-    title: Main Example
+    type: Main Example
     description: Showing a simple notification Banner
   - link: dynamic.html
-    title: Example
+    type: Example
     description: Showing adding notification banners dynamically
   - link: card.html
-    title: Example
+    type: Example
     description: Showing adding notification banners in a card/widget
