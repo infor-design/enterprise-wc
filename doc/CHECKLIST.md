@@ -54,8 +54,8 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Breadcrumb (ids-bread-crumb)
  - [ ] Bubble (ids-bubble-chart)
  - [x] Button (ids-button)
- - [ ] Bullet (ids-bullet-chart) skipping for now
- - [ ] Builder (ids-patterns)
+ - [ ] Bullet (ids-bullet-chart) skipping until needed
+ - [ ] Builder (ids-patterns) skipping until needed
  - [x] Button (ids-button)
  - [ ] Calendar (ids-calendar)
  - [x] Cards (ids-card)
@@ -109,8 +109,8 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Pie (ids-pie-chart)
  - [x] Popup (ids-popup)
  - [x] Popupmenu (ids-men
- - [ ] Positive Negative (ids-positive-negative-chart)
- - [ ] Radar (ids-radar-chart)
+ - [ ] Positive Negative (ids-positive-negative-chart) skipping until needed
+ - [ ] Radar (ids-radar-chart) skipping until needed
  - [x] Radios (ids-radio)
  - [x] Rating (ids-rating)
  - [x] Renderloop (mixin)
@@ -119,7 +119,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Sign-in (ids-layouts)
  - [x] Skiplink (ids-skip-link)
  - [x] Slider (ids-slider)
- - [ ] Sparkline (ids-spark-line-chart)
+ - [ ] Sparkline (ids-spark-line-chart) skipping until needed
  - [x] Spinbox (ids-spin-box)
  - [x] Splitter (ids-splitter)
  - [x] Stepchart (ids-step-chart)
@@ -128,12 +128,12 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Tabs (ids-tabs)
  - [x] Tabs Header (ids-tabs with option)
  - [ ] Tabs Module (ids-tabs with option)
- - [ ] Tabs Multi (ids-tabs with option)
+ - [ ] Tabs Multi (ids-tabs with option) skipping until needed
  - [x] Tabs Vertical (ids-tabs with option)
  - [x] Tag (ids-tag)
  - [x] Targeted Achievement (ids-progress-chart)
  - [x] Textarea (ids-textarea)
- - [ ] Timeline (ids-time-line)
+ - [ ] Timeline (ids-time-line) skipping until needed (also have process indicator)
  - [x] Timepicker (ids-time-picker)
  - [x] Toast (ids-toast)
  - [x] Toolbar (ids-toolbar)

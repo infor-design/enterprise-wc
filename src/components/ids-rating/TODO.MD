@@ -6,6 +6,7 @@ Keep this file in sync with #703
 
 - [ ] Update number of stars (and current value if applicable) when `stars` attribute changes
 - [ ] Themes: Implement color changes for Themes
+
 ## Minor
 
 - [ ] Private Methods and Classes: Make anything private that should be with # on the name
