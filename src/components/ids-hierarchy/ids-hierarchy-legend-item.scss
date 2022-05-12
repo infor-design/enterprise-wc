@@ -1,5 +1,9 @@
 @import '../../core/ids-base';
 
+:host {
+  --background: var(--ids-color-palette-slate-20);
+}
+
 .ids-hierarchy-legend-item {
   @include flex();
   @include relative();
@@ -16,30 +20,6 @@
     height: calc(var(--ids-number-spacing-base) * 2);
     width: calc(var(--ids-number-spacing-base) * 2);
     margin-inline-end: var(--ids-number-spacing-base);
-    background-color: var(--ids-color-palette-slate-20);
-  }
-
-  &.color-variant-full-time {
-    &::before {
-      background-color: var(--ids-color-palette-azure-80);
-    }
-  }
-
-  &.color-variant-part-time {
-    &::before {
-      background-color: var(--ids-color-palette-turquoise-20);
-    }
-  }
-
-  &.color-variant-contractor {
-    &::before {
-      background-color: var(--ids-color-palette-amethyst-60);
-    }
-  }
-
-  &.color-variant-open-position {
-    &::before {
-      background-color: var(--ids-color-palette-slate-60);
-    }
+    background-color: var(--background);
   }
 }
