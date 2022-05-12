@@ -160,6 +160,6 @@ The monthview is a very complex component to code for accessibility. We take the
 
 **4.x to 5.x**
 
-- MonthView is now a custom element `<ids-month-view></ids-view>`
+- MonthView is now a custom element `<ids-month-view></ids-month-view>`
 - Events are now just plain JS events
 - Some options and events are not converted yet

@@ -18,7 +18,6 @@
 - [x] Add test that the placeholder works (should work)
 - [] Add test for UTC picker https://github.com/infor-design/enterprise/blob/main/src/components/datepicker/datepicker.js#L83
 - [x] https://github.com/infor-design/enterprise-ng/issues/1156
-- [] Week picker https://main-enterprise.demo.design.infor.com/components/datepicker/test-week-picker.html
 
 ## Minor
 

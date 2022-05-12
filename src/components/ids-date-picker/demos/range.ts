@@ -9,6 +9,7 @@ const rangePickerMin: any = document.querySelector('#e2e-datepicker-min');
 const rangePickerNotIncluded: any = document.querySelector('#e2e-datepicker-not-included');
 const rangePickerIncluded: any = document.querySelector('#e2e-datepicker-included');
 const rangePickerLegend: any = document.querySelector('#e2e-datepicker-range-legend');
+const rangePickerWeek: any = document.querySelector('#e2e-datepicker-week');
 
 // Example to set start/end of the range via component settings
 if (rangePickerSettings) {
@@ -96,4 +97,11 @@ if (rangePickerLegend) {
     },
     { name: 'Full Days', color: 'azure-30', dates: ['2/24/2018', '2/25/2018'] },
   ];
+}
+
+// Example week picker
+if (rangePickerWeek) {
+  rangePickerWeek.rangeSettings = {
+    selectWeek: true
+  };
 }

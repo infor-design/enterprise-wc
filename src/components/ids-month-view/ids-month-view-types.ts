@@ -8,7 +8,8 @@ export type IdsRangeSettings = {
   maxDays?: number,
   selectForward?: boolean,
   selectBackward?: boolean,
-  includeDisabled?: boolean
+  includeDisabled?: boolean,
+  selectWeek?: boolean
 };
 
 export type IdsDisableSettings = {

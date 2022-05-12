@@ -884,34 +884,33 @@ class IdsDatePicker extends Base {
       }
     };
 
-    if (this.useRange && this.#triggerField?.value) {
-      const rangeParts = this.#triggerField.value.split(this.rangeSettings.separator);
-      const rangeStart = rangeParts[0] ? this.locale.parseDate(
-        rangeParts[0],
-        { dateFormat: this.format }
-      ) : null;
-      const rangeEnd = rangeParts[1] ? this.locale.parseDate(
-        rangeParts[1],
-        { dateFormat: this.format }
-      ) : null;
+    // Set time picker value
+    if (this.#hasTime()) {
+      this.container.querySelector('ids-time-picker')?.setAttribute(attributes.VALUE, this.#triggerField?.value);
+    }
 
-      this.rangeSettings = {
-        start: rangeStart,
-        end: rangeEnd
-      };
-
-      setDateParams(rangeStart ?? inputDate);
+    if (!this.useRange) {
+      setDateParams(inputDate || new Date());
 
       return;
     }
 
-    setDateParams(inputDate || new Date());
+    const rangeParts: Array<string> = this.#triggerField.value?.split(this.rangeSettings.separator) || [];
+    const rangeStart = rangeParts[0] ? this.locale.parseDate(
+      rangeParts[0],
+      { dateFormat: this.format }
+    ) : null;
+    const rangeEnd = rangeParts[1] ? this.locale.parseDate(
+      rangeParts[1],
+      { dateFormat: this.format }
+    ) : null;
 
-    // Set time picker value
-    if (this.#hasTime()) {
-      this.container.querySelector('ids-time-picker')
-        ?.setAttribute(attributes.VALUE, this.#triggerField?.value);
-    }
+    this.rangeSettings = {
+      start: rangeStart,
+      end: rangeEnd
+    };
+
+    setDateParams(rangeStart ?? new Date());
   }
 
   /**

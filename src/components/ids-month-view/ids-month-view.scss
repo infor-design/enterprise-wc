@@ -278,6 +278,10 @@
     width: 16px;
     height: 16px;
   }
+
+  &.range-select-week td .day-text {
+    transition: none;
+  }
 }
 
 // Full size view

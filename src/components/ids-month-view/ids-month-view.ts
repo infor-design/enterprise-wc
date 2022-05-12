@@ -76,7 +76,8 @@ class IdsMonthView extends Base {
     maxDays: 0,
     selectForward: false,
     selectBackward: false,
-    includeDisabled: false
+    includeDisabled: false,
+    selectWeek: false
   };
 
   // Disabled default settings
@@ -243,8 +244,13 @@ class IdsMonthView extends Base {
 
           // Enter or space key starts range selection
           if (key === 13 || key === 32) {
-            this.#setRangeSelection(this.year, this.month, this.day);
-            this.focus();
+            if (this.rangeSettings.selectWeek) {
+              this.#rangeSelectWeek(this.year, this.month, this.day);
+              this.#triggerSelectedEvent();
+            } else {
+              this.#setRangeSelection(this.year, this.month, this.day);
+              this.focus();
+            }
           }
         }
 
@@ -772,6 +778,10 @@ class IdsMonthView extends Base {
 
     this.#selectDay(year, month, day);
 
+    if (this.rangeSettings.selectWeek) {
+      return;
+    }
+
     // Start is set
     if (rangeStarted && !maxRangeExceeded && (canSelectBoth || selectBackward || selectForward)) {
       if (minRangeExceeded) {
@@ -838,7 +848,7 @@ class IdsMonthView extends Base {
         element?.classList.add('not-included');
       }
 
-      if (index === 0 || index === days) {
+      if ((index === 0 || index === days) && !this.rangeSettings.selectWeek) {
         element?.setAttribute('aria-selected', true);
         element?.setAttribute('role', 'gridcell');
         element?.classList.add('is-selected');
@@ -860,6 +870,31 @@ class IdsMonthView extends Base {
   }
 
   /**
+   * Helper to handle week selection
+   * @param {string|number} year to add to the range selection
+   * @param {string|number} month to add to the range selection
+   * @param {string|number} day to add to the range selection
+   */
+  #rangeSelectWeek(
+    year: string | number | undefined,
+    month: string | number | undefined,
+    day: string | number | undefined
+  ): void {
+    const firstDayOfWeek: Date = firstDayOfWeekDate(
+      new Date(year as number, month as number, day as number),
+      this.firstDayOfWeek
+    );
+
+    if (firstDayOfWeek.getTime() !== this.rangeSettings.start?.getTime()) {
+      this.rangeSettings.start = firstDayOfWeek;
+      this.rangeSettings.end = addDate(this.rangeSettings.start, WEEK_LENGTH - 1, 'days');
+
+      this.#selectDay();
+      this.#renderRangeSelection();
+    }
+  }
+
+  /**
    * Add CSS classes to table cells when range selection is in progress
    * Starting from the range settings start
    * @param {string|number} year to add to the range selection
@@ -872,6 +907,12 @@ class IdsMonthView extends Base {
     day: string | number | undefined
   ): void {
     if (!this.useRange) return;
+
+    if (this.rangeSettings.selectWeek) {
+      this.#rangeSelectWeek(year, month, day);
+
+      return;
+    }
 
     if (this.rangeSettings.start && !(this.rangeSettings.end && this.rangeSettings.start)) {
       const startRange = new Date(this.rangeSettings.start);
@@ -1534,10 +1575,11 @@ class IdsMonthView extends Base {
       ...deepClone(val)
     };
 
-    if (this.useRange) {
+    if (this.useRange && val?.start) {
       this.#selectDay();
     }
 
+    this.container.classList.toggle('range-select-week', this.#rangeSettings.selectWeek);
     this.#renderRangeSelection();
   }
 
