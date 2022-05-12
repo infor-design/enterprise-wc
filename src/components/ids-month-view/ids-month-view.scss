@@ -129,7 +129,7 @@
 
     .day-text {
       @include relative();
-      @include z-1();
+      @include z-2();
       @include rounded-round();
       @include m-2();
       @include text-slate-80();
@@ -171,7 +171,7 @@
 
       &:not(.is-disabled):focus .day-container {
         @include border-azure-60();
-        @include z-1();
+        @include z-2();
 
         box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
       }
@@ -198,7 +198,7 @@
       @include bg-slate-20();
     }
 
-    &.has-legend:hover {
+    &.has-legend:not(.is-disabled):hover {
       .day-container::after {
         @include opacity-70();
       }
@@ -213,7 +213,7 @@
       &::before {
         @include absolute();
         @include w-full();
-        @include z-0();
+        @include z-1();
 
         content: '';
         display: inline-block;
@@ -262,6 +262,7 @@
     &.range-prev .day-text,
     &.range-next .day-text {
       @include rounded-round();
+      @include z-2();
 
       transition: none;
     }
