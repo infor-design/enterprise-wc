@@ -150,6 +150,7 @@ export const attributes = {
   LABEL_STATE: 'label-state',
   LABEL_PROGRESS: 'label-progress',
   LABEL_REQUIRED: 'label-required',
+  LABEL_SECONDARY: 'label-secondary',
   LABEL_TOTAL: 'label-total',
   LANGUAGE: 'language',
   LAST: 'last',
@@ -332,9 +333,11 @@ export const attributes = {
 // Please keep constants alphabetized
 export const htmlAttributes = {
   ARIA_LABEL: 'aria-label',
+  ARIA_ORIENTATION: 'aria-orientation',
   ARIA_VALUEMAX: 'aria-valuemax',
   ARIA_VALUEMIN: 'aria-valuemin',
   ARIA_VALUENOW: 'aria-valuenow',
+  ARIA_VALUETEXT: 'aria-valuetext',
   ROLE: 'role',
   TABINDEX: 'tabIndex'
 };

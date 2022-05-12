@@ -9,19 +9,19 @@ import '../../src/components/ids-slider/ids-slider';
 
 const HTMLSnippets = {
   SINGLE_SLIDER: (
-    `<ids-slider type="single" min="0" max="100"></ids-slider>`
+    `<ids-slider type="single" min="0" max="100" label="Single"></ids-slider>`
   ),
   RANGE_SLIDER: (
-    `<ids-container><ids-slider type="range" min="0" max="100"></ids-slider><ids-container>`
+    `<ids-container><ids-slider type="range" min="0" max="100" label="Range Minimum" label-secondary="Range Maximum"></ids-slider><ids-container>`
   ),
   STEP_SLIDER: (
-    `<ids-slider type="step" step-number="5" min="0" max="100"></ids-slider>`
+    `<ids-slider type="step" step-number="5" min="0" max="100" label="Single Step"></ids-slider>`
   ),
   VERTICAL_RANGE_SLIDER: (
-    `<ids-slider type="range" vertical='' min="0" max="100"></ids-slider>`
+    `<ids-slider type="range" vertical='' min="0" max="100" label="Range Minimum" label-secondary="Range Maximum"></ids-slider>`
   ),
   VERTICAL_STEP_SLIDER: (
-    `<ids-slider type="step" vertical='' step-number="5" min="0" max="100"></ids-slider>`
+    `<ids-slider type="step" vertical='' step-number="5" min="0" max="100" label="Single Step"></ids-slider>`
   ),
   LANGUAGE_SLIDER: (
     `<ids-container language="en"><ids-slider></ids-slider></ids-container>`
@@ -410,5 +410,19 @@ describe('IdsSlider Component', () => {
     slider.dispatchEvent(
       createKeyboardEvent('Enter')
     );
+  });
+
+  it('has correct aria attributes on slider thumbs', async () => {
+    slider = await createFromTemplate(slider, HTMLSnippets.VERTICAL_RANGE_SLIDER);
+    processAnimFrame();
+
+    expect(slider.thumbDraggable.getAttribute('aria-label')).toEqual('Range Minimum');
+    expect(slider.thumbDraggableSecondary.getAttribute('aria-label')).toEqual('Range Maximum');
+
+    slider.label = 'Lower Value';
+    slider.labelSecondary = 'Upper Value';
+
+    expect(slider.thumbDraggable.getAttribute('aria-label')).toEqual('Lower Value');
+    expect(slider.thumbDraggableSecondary.getAttribute('aria-label')).toEqual('Upper Value');
   });
 });
