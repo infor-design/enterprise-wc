@@ -6,13 +6,27 @@
 
 .ids-slider {
   display: flex;
-  justify-content: center; // horizontal
-  width: 100%; // horizontal
+  justify-content: center;
 
-  &.vertical {
-    height: 300px; // vertical
+  // horizontal slider rules only
+  &:not(.vertical) {
+    width: 100%;
+
+    .thumb {
+      cursor: ew-resize;
+    }
   }
 
+  // Vertical slider rules only
+  &.vertical {
+    height: 300px;
+
+    .thumb {
+      cursor: ns-resize;
+    }
+  }
+
+  // Animates some parts of the shadow root when applied to the `.container` element
   &.animated {
     .thumb-draggable {
       transition: transform $transition-length $transition-ease;
@@ -33,6 +47,7 @@
     }
   }
 
+  // Disabled cursor rules
   &.disabled {
     .label {
       cursor: default;
@@ -163,7 +178,6 @@
     width: var(--thumb-size);
     height: var(--thumb-size);
     border-radius: 50%;
-    cursor: pointer;
     z-index: 50 !important;
   }
 
@@ -278,6 +292,8 @@
   }
 
   &.disabled {
+    color: var(--ids-color-palette-slate-30);
+
     .tick {
       background-color: var(--ids-color-palette-slate-30);
     }
@@ -300,7 +316,28 @@
   }
 
   &.readonly {
+    color: var(--ids-color-palette-slate-30);
 
+    .tick {
+      background-color: var(--ids-color-palette-slate-50);
+    }
+
+    .thumb-shadow {
+      border-color: var(--ids-color-palette-slate-50);
+      background-color: $ids-slider-thumb-readonly-shadow-color-light;
+    }
+
+    .thumb {
+      background-color: var(--ids-color-palette-slate-50);
+    }
+
+    .track {
+      background-color: var(--ids-color-palette-slate-40);
+    }
+
+    .track-progress {
+      background-color: var(--ids-color-palette-slate-50);
+    }
   }
 }
 
@@ -347,6 +384,8 @@
   }
 
   &.disabled {
+    color: var(--ids-color-palette-slate-20);
+
     .tick {
       background-color: var(--ids-color-palette-slate-40);
     }
@@ -357,6 +396,31 @@
 
     .track {
       background-color: var(--ids-color-palette-slate-50);
+    }
+
+    .track-progress {
+      background-color: var(--ids-color-palette-slate-40);
+    }
+  }
+
+  &.readonly {
+    color: var(--ids-color-palette-slate-20);
+
+    .tick {
+      background-color: var(--ids-color-palette-slate-40);
+    }
+
+    .thumb-shadow {
+      border-color: var(--ids-color-palette-slate-40);
+      background-color: $ids-slider-thumb-readonly-shadow-color-dark;
+    }
+
+    .thumb {
+      background-color: var(--ids-color-palette-slate-40);
+    }
+
+    .track {
+      background-color: var(--ids-color-palette-slate-70);
     }
 
     .track-progress {
@@ -403,12 +467,14 @@
 
   &:not(.disabled) {
     .thumb:hover {
-      box-shadow: 0 2px 5px $ids-slider-thumb-hover-shadow-light;
+      box-shadow: 0 2px 5px $ids-slider-thumb-hover-shadow-contrast;
     }
   }
 
   // Disabled
   &.disabled {
+    color: var(--ids-color-palette-slate-40);
+
     .tick {
       background-color: var(--ids-color-palette-slate-60);
     }
@@ -428,6 +494,27 @@
 
   // Readonly
   &.readonly {
+    color: var(--ids-color-palette-slate-40);
 
+    .tick {
+      background-color: var(--ids-color-palette-slate-80);
+    }
+
+    .thumb-shadow {
+      border-color: var(--ids-color-palette-slate-80);
+      background-color: $ids-slider-thumb-readonly-shadow-color-contrast;
+    }
+
+    .thumb {
+      background-color: var(--ids-color-palette-slate-80);
+    }
+
+    .track {
+      background-color: var(--ids-color-palette-slate-60);
+    }
+
+    .track-progress {
+      background-color: var(--ids-color-palette-slate-80);
+    }
   }
 }

@@ -153,7 +153,7 @@ export default class IdsSlider extends Base {
   template(): string {
     const disabledClass = this.disabled ? ' disabled' : '';
     const readonlyClass = this.readonly ? ' readonly' : '';
-    const draggableTabIndex = (!disabledClass.length && !readonlyClass.length) ? '0' : '-1';
+    const draggableTabIndex = (!disabledClass.length) ? '0' : '-1';
 
     return `
       <div class="ids-slider${disabledClass}${readonlyClass}">
@@ -201,16 +201,22 @@ export default class IdsSlider extends Base {
       this.setAttribute(attributes.DISABLED, '');
       this.container.classList.add(attributes.DISABLED);
       this.thumbDraggable.disabled = true;
+      this.thumbDraggable.setAttribute(attributes.TABINDEX, '-1');
       this.#updateTooltipDisplay(true);
       if (this.type === 'range') {
         this.thumbDraggableSecondary.disabled = true;
+        this.thumbDraggableSecondary.setAttribute(attributes.TABINDEX, '-1');
         this.#updateTooltipDisplay(true, 'secondary');
       }
     } else {
       this.removeAttribute(attributes.DISABLED);
       this.container.classList.remove(attributes.DISABLED);
       this.thumbDraggable.disabled = false;
-      if (this.type === 'range') this.thumbDraggableSecondary.disabled = false;
+      this.thumbDraggable.setAttribute(attributes.TABINDEX, '0');
+      if (this.type === 'range') {
+        this.thumbDraggableSecondary.disabled = false;
+        this.thumbDraggableSecondary.setAttribute(attributes.TABINDEX, '0');
+      }
     }
     this.#updateColor();
   }
@@ -382,9 +388,11 @@ export default class IdsSlider extends Base {
 
       if (labelElements.length !== stepNumber) {
         const x = Math.abs(stepNumber - labelElements.length);
+        const labelAttr = this.#shouldApplyColor() ? ' label' : '';
+
         for (let i = 0; i < x; i++) {
           if (labelElements.length < stepNumber) {
-            ticks[ticks.length - 1 - i].insertAdjacentHTML('afterbegin', '<ids-text label class="label"></ids-text>');
+            ticks[ticks.length - 1 - i].insertAdjacentHTML('afterbegin', `<ids-text${labelAttr} class="label"></ids-text>`);
           }
         }
         // grab fresh label elements group
@@ -642,10 +650,14 @@ export default class IdsSlider extends Base {
 
   get color() { return this.getAttribute(attributes.COLOR); }
 
+  #shouldApplyColor() {
+    return !this.readonly && !this.disabled;
+  }
+
   /** Update the color theme of the slider */
   #updateColor() {
     let color;
-    if (!this.readonly && !this.disabled) {
+    if (this.#shouldApplyColor()) {
       color = this.color;
     }
 
@@ -658,8 +670,9 @@ export default class IdsSlider extends Base {
       }
       const rgbaColor = convertColorToRgba(colorString, 0.1);
 
-      ticks.forEach((tick: { style: CSSStyleDeclaration }) => {
+      ticks.forEach((tick: { children: HTMLCollection, style: CSSStyleDeclaration }) => {
         tick.style.setProperty('background-color', colorString);
+        tick.children[0]?.setAttribute('label', '');
       });
       this.thumb.style.setProperty('background-color', colorString);
       this.thumbShadow.style.setProperty('background-color', rgbaColor);
@@ -671,8 +684,9 @@ export default class IdsSlider extends Base {
         this.thumbSecondary.style.setProperty('background-color', colorString);
       }
     } else {
-      ticks.forEach((tick: { style: CSSStyleDeclaration }) => {
+      ticks.forEach((tick: { children: HTMLCollection, style: CSSStyleDeclaration }) => {
         tick.style.removeProperty('background-color');
+        tick.children[0]?.removeAttribute('label');
       });
       this.thumb.style.removeProperty('background-color');
       this.thumbShadow.style.removeProperty('background-color');

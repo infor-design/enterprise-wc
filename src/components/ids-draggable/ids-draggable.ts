@@ -138,10 +138,8 @@ export default class IdsDraggable extends Base {
     if (isTruthy && this.getAttribute(attributes.DISABLED) !== '') {
       this.offEvent('mousemove', window.document, this.onMouseMove);
       this.setAttribute(attributes.DISABLED, '');
-      this.setAttribute(attributes.TABINDEX, '-1');
     } else if (!isTruthy && this.hasAttribute(attributes.DISABLED)) {
       this.removeAttribute(attributes.DISABLED);
-      this.setAttribute(attributes.TABINDEX, '0');
     }
   }
 
