@@ -30,7 +30,8 @@
 
 ## Personal ----> Do from here down
 
-- [ ] Interaction: When hovering over the "thing" it should show the tooltip
+- [ ] Interaction: When hovering over should show the tooltip - line chart erroring
+- [ ] Pull main on
 - [ ] Bar chart tests (including leak tests)
 - [ ] Interaction: When clicking the line it should select
 - [ ] Interaction: Focusable Legend (for selection)

@@ -2,6 +2,12 @@
 @import '../../components/ids-axis-chart/ids-axis-chart';
 
 .ids-axis-chart {
+  // Extend the dot area for hover events
+  .markers circle {
+    stroke-width: 8px;
+    stroke: transparent;
+  }
+
   // Dot Styles
   .markers {
     @for $i from 1 through 21 {

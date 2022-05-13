@@ -59,29 +59,6 @@ export default class IdsBarChart extends Base {
   }
 
   /**
-   * Return the data foor a tooltip accessible by index
-   * @param {number} index the data index
-   * @returns {Array<string>} The elements
-   */
-  tooltipData(index: number) {
-    const data = (this.data as any)[0]?.data;
-    return {
-      label: data[index]?.name,
-      value: this.formatYLabel(data[index]?.value),
-      tooltip: data[index]?.tooltip
-    };
-  }
-
-  /**
-   * Overridable method to draw to get the tooltip template
-   * @returns {string} The tooltip template
-   */
-  tooltipTemplate(): string {
-    // eslint-disable-next-line no-template-curly-in-string
-    return '<b>${label}</b> ${value}';
-  }
-
-  /**
    * Adjust the lines to display category sections
    * @private
    */

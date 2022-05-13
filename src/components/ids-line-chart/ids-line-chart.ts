@@ -41,11 +41,11 @@ export default class IdsLineChart extends Base {
    * @returns {object} The markers and lines
    */
   chartTemplate() {
-    return `<g class="markers">
-      ${this.lineMarkers().markers}
-    </g>
-    <g class="marker-lines">
+    return `<g class="marker-lines">
       ${this.lineMarkers().lines}
+    </g>
+    <g class="markers">
+      ${this.lineMarkers().markers}
     </g>`;
   }
 
@@ -65,20 +65,20 @@ export default class IdsLineChart extends Base {
   lineMarkers() {
     let markerHTML = '';
     let lineHTML = '';
-    this.markerData.points?.forEach((pointGroup: any, index: number) => {
+    this.markerData.points?.forEach((pointGroup: any, groupIndex: number) => {
       let points = '';
       let animationPoints = '';
       markerHTML += '<g class="marker-set">';
 
-      pointGroup.forEach((point: IdsChartData) => {
+      pointGroup.forEach((point: IdsChartData, index: number) => {
         points += `${point.left},${point.top} `;
         animationPoints += `${point.left},${this.markerData.gridBottom} `;
-        markerHTML += `<circle part="marker" class="color-${index + 1}" cx="${point.left}" cy="${point.top}" data-value="${point.value}" r="${this.markerSize}">
+        markerHTML += `<circle part="marker" group-index="${groupIndex}" index="${index}" class="color-${groupIndex + 1}" cx="${point.left}" cy="${point.top}" data-value="${point.value}" r="${this.markerSize}">
         ${stringToBool(this.animated) ? `<animate attributeName="cy" ${this.cubicBezier} from="${this.markerData.gridBottom}" to="${point.top}"/>` : ''}
         </circle>`;
       });
       markerHTML += '</g>';
-      lineHTML += `<polyline part="line" class="data-line color-${index + 1}" points="${points}" stroke="var(${this.color(index)}">
+      lineHTML += `<polyline part="line" class="data-line color-${groupIndex + 1}" points="${points}" stroke="var(${this.color(groupIndex)}">
       ${stringToBool(this.animated) ? `<animate attributeName="points" ${this.cubicBezier} from="${animationPoints}" to="${points}" />` : ''}
       </polyline>`;
     });

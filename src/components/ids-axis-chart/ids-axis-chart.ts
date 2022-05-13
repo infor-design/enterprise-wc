@@ -2,15 +2,13 @@ import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { injectTemplate, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { QUALITATIVE_COLORS } from './ids-chart-colors';
+import { patternData } from './ids-pattern-data';
 import NiceScale from './ids-nice-scale';
 import debounce from '../../utils/ids-debounce-utils/ids-debounce-utils';
 import Base from './ids-axis-chart-base';
 import IdsDataSource from '../../core/ids-data-source';
-import { patternData } from './ids-pattern-data';
-import IdsToolTip from '../ids-tooltip/ids-tooltip';
-
+import '../ids-tooltip/ids-tooltip';
 import '../ids-empty-message/ids-empty-message';
-
 import styles from './ids-axis-chart.scss';
 
 type IdsChartData = {
@@ -146,6 +144,9 @@ export default class IdsAxisChart extends Base {
         <ids-empty-message icon="empty-no-data" hidden>
           <ids-text type="h2" font-size="20" label="true" slot="label">${this.locale?.translate('NoData') || 'No Data Available'}</ids-text>
         </ids-empty-message>
+      </slot>
+      <slot name="tooltip">
+        <ids-tooltip id="tooltip"></ids-tooltip>
       </slot>
     </div>`;
   }
@@ -421,7 +422,7 @@ export default class IdsAxisChart extends Base {
     // Need one event per bar due to the nature of the events for tooltip
     this.tooltipElements().forEach((element: SVGElement) => {
       this.onEvent('hoverend', element, async () => {
-        const tooltip = new IdsToolTip();
+        const tooltip = this.container.querySelector('ids-tooltip');
         tooltip.innerHTML = this.#tooltipContent(element);
 
         // Not content - don't show
@@ -430,27 +431,25 @@ export default class IdsAxisChart extends Base {
         }
 
         // Show the tooltip and remove it when it closes
-        this.container.appendChild(tooltip);
-        tooltip.position = this.tooltipPosition;
         tooltip.target = element;
+        tooltip.placement = 'top';
         tooltip.visible = true;
-        tooltip.onHide = () => {
-          tooltip.remove();
-        };
       });
     });
   }
 
   /**
    * Return the data for a tooltip accessible by index
-   * @param {number} index the data index
+   * @param {number} index the data groupIndex
+   * @param {number} groupIndex the data index
    * @returns {Array<string>} The elements
    */
-  tooltipData(index: number) {
-    const data = (this.data as any)[0]?.data;
+  tooltipData(index: number, groupIndex = 0) {
+    const data = (this.data as any)[groupIndex]?.data;
+
     return {
-      label: data[index]?.name,
-      value: data[index]?.value,
+      label: data[index]?.name || (this.data as any)[0].data[index].name,
+      value: data[index]?.value || 0,
       tooltip: data[index]?.tooltip
     };
   }
@@ -462,10 +461,28 @@ export default class IdsAxisChart extends Base {
    * @returns {string} The tooltip content
    */
   #tooltipContent(elem: SVGElement): string {
-    const data = this.tooltipData(Number(elem.getAttribute('index')));
+    const group = Number(elem.getAttribute('group-index'));
+    const index = Number(elem.getAttribute('index'));
+    const data = this.tooltipData(index, group);
+
     if (data.tooltip) {
       // eslint-disable-next-line no-template-curly-in-string
       return data.tooltip.replace('${value}', data.value).replace('${label}', data.label);
+    }
+
+    if (this.stacked) {
+      let html = `<div class="tooltip-center"><b>${data.label}</b></div><div class="tooltip chart-legend">`;
+      for (let i = 0; i < this.data.length; i++) {
+        const label = this.data[i].name;
+        const value = (this.data as any)[i].data[index]?.value;
+        if (label && value) {
+          html += `<div class="tooltip-row">
+            <div class="swatch color-${i + 1}"></div>
+            <span>${this.data[i].name}</span>
+            <b>${(this.data as any)[i].data[index].value}</b></div>`;
+        }
+      }
+      return `${html}</div>`;
     }
     return injectTemplate(this.tooltipTemplate(), data);
   }

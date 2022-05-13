@@ -1,4 +1,3 @@
-import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import '../ids-line-chart/ids-line-chart';
 import Base from './ids-area-chart-base';
@@ -27,14 +26,15 @@ export default class IdsAreaChart extends Base {
    * @returns {object} The markers and areas and lines
    */
   chartTemplate() {
-    return `<g class="markers">
-      ${(this as any).lineMarkers().markers}
-    </g>
+    return `
     <g class="marker-lines">
       ${(this as any).lineMarkers().lines}
     </g>
     <g class="areas">
       ${this.#areas()}
+    </g>
+    <g class="markers">
+      ${(this as any).lineMarkers().markers}
     </g>`;
   }
 
@@ -57,22 +57,5 @@ export default class IdsAreaChart extends Base {
       </path>`;
     });
     return areaHTML;
-  }
-
-  /**
-   * Set the size of the markers (aka dots/ticks) in the chart
-   * @param {number} value The value to use (in pixels)
-   */
-  set markerSize(value: number) {
-    this.setAttribute(attributes.MARKER_SIZE, value.toString());
-    (this as any).rerender();
-  }
-
-  /**
-   * Adjust the size of the default marker
-   * @returns {number} value The value to use (in pixels)
-   */
-  get markerSize(): number {
-    return parseFloat((this as any).getAttribute(attributes.MARKER_SIZE)) || 1;
   }
 }

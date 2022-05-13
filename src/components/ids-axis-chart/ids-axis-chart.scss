@@ -101,6 +101,31 @@ ids-empty-message:not([hidden]),
   }
 }
 
+// Stacked tooltips
+.tooltip-center {
+  @include my-4();
+
+  text-align: center;
+}
+
+.tooltip.chart-legend {
+  @include mb-8();
+
+  flex-direction: column;
+  padding: 0;
+
+  .swatch {
+    @include mx-4();
+
+    padding: 0;
+  }
+}
+
+.tooltip-row span {
+  padding-inline-start: 2px;
+  padding-inline-end: 4px;
+}
+
 // Handle Themes
 .ids-axis-chart[mode='dark'],
 .ids-chart-container[mode='dark'] {

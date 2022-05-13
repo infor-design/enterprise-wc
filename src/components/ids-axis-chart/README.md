@@ -169,19 +169,6 @@ If you need to change which items get tooltips you can override `tooltipElements
 tooltipElements() {
   return this.container.querySelectorAll('rect.bar'); // return the ones that get events
 }
-```
-
-If you need to change or manipulate the tooltip data you can override the `tooltipData` function. it should return the label and data for the index passed in.
-
-```js
-tooltipData(index: number) {
-  const data = (this.data as any)[0]?.data;
-  return {
-    label: data[index]?.name,
-    value: this.formatYLabel(data[index]?.value)
-  };
-}
-```
 
 If you need to change the tooltip contents you can override the `tooltipTemplate` function.
 
@@ -191,6 +178,8 @@ tooltipTemplate() {
   return '<b>${label}</b> ${value}';
 }
 ```
+
+Or you can modify the tooltip in the slot.
 
 ## Why Not Canvas?
 

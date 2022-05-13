@@ -374,7 +374,7 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
     this.onEvent('mouseenter.eventsmixin', target, (e: KeyboardEvent) => {
       if (!this.timer) {
         this.timer = renderLoop.register(new IdsRenderLoopItem({
-          duration: options?.delay || 500,
+          duration: options?.delay || 400,
           timeoutCallback: () => {
             const event = new CustomEvent('hoverend', e);
             target.dispatchEvent(event);

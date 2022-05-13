@@ -1,4 +1,7 @@
 import '../ids-bar-chart';
+import '../../ids-axis-chart/ids-axis-chart';
+import '../../ids-tooltip/ids-tooltip';
+
 import componentsJSON from '../../../assets/data/components-single.json';
 
 const url = componentsJSON;
