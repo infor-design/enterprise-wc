@@ -5,7 +5,7 @@
  category: Charts and Visualizations
  keywords: axis chart, chart, visualization
  examples:
-  - link: index.html
+  - link: example.html
     type: Main Example
     description: Shows a basic axis chart
   - link: empty-message.html
@@ -13,7 +13,4 @@
     type: Example
   - link: colors.html
     description: Shows configuring custom colors
-    type: Example
-  - link: patterns.html
-    description: Shows accessible chart patterns instead of colors
     type: Example

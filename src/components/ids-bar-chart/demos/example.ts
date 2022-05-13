@@ -1,5 +1,3 @@
-import '../ids-bar-chart';
-
 import componentsJSON from '../../../assets/data/components-single.json';
 
 const url = componentsJSON;

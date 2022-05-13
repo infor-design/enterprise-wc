@@ -1,12 +1,8 @@
-import '../ids-bar-chart';
+import componentsJSON from '../../../assets/data/components.json';
 
-import componentsJSON from '../../../assets/data/components-single.json';
-
-const url = componentsJSON;
 const setData = async () => {
-  const res = await fetch(url as any);
+  const res = await fetch(componentsJSON as any);
   const data = await res.json();
-
   const chart: any = document.querySelector('#index-example');
   if (chart) {
     chart.data = data;

@@ -23,19 +23,18 @@
 - [ ] Positive Negative ( Negative Values with comparison / slightly different chart)
 - [ ] Chart Types: Bubble Chart
 - [ ] Make ids-axis chart extend without (this as any) in area-chart
-- [ ] Fix point group types `// Generate the bars`
 - [ ] Add svg patterns to line, area, bar stacked
 - [ ] Maybe: Have a table option to actually display the data in optional data form
-- [ ] Add accessibility once confirmed to area and line chart (only in bar and bar grouped now until tested) https://github.com/infor-design/enterprise-wc/commit/f6014597004ab7963ef66449bea63bfc43e95fa0
+- [ ] Add accessibility once confirmed to area and line chart (only in bar now until tested) https://github.com/infor-design/enterprise-wc/commit/f6014597004ab7963ef66449bea63bfc43e95fa0
 
 ## Personal ----> Do from here down
 
-- [ ] Interaction: When hovering over should show the tooltip - line chart erroring
-- [ ] Pull main on
 - [ ] Bar chart tests (including leak tests)
 - [ ] Interaction: When clicking the line it should select
 - [ ] Interaction: Focusable Legend (for selection)
-- [ ] Accessibility to bar grouped chart
-- [ ] Recheck themes
+- [ ] Accessibility and patterns to bar grouped chart ?
+- [ ] Accessibility and patterns  to line chart ?
+- [ ] Retest themes
+- [ ] RTL
 - [ ] Docs pass
 - [ ] Chart Types: Pie Chart
