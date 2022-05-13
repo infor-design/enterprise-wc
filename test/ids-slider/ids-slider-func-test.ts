@@ -144,7 +144,6 @@ describe('IdsSlider Component', () => {
   it('sets range slider correctly', async () => {
     const idsContainer = await createFromTemplate(slider, HTMLSnippets.RANGE_SLIDER);
     slider = idsContainer.querySelector('ids-slider');
-
     processAnimFrame();
 
     slider.valueSecondary = 80;
@@ -154,6 +153,23 @@ describe('IdsSlider Component', () => {
     expect(slider.valueSecondary).toBe(slider.max);
 
     slider.thumbDraggable.click();
+  });
+
+  // @TODO: Re-enable this test (#698) -- works in browser but not in JSDOM */
+  it.skip('cannot set range slider thumb values lesser/greater than the opposite thumb', async () => {
+    slider = await createFromTemplate(slider, HTMLSnippets.RANGE_SLIDER);
+    processAnimFrame();
+
+    slider.value = 20;
+    slider.valueSecondary = 19;
+
+    expect(slider.value).toBe(20);
+    expect(slider.valueSecondary).toBe(20);
+
+    slider.value = 21;
+
+    expect(slider.value).toBe(20);
+    expect(slider.valueSecondary).toBe(20);
   });
 
   it('sets min correctly', async () => {
@@ -410,6 +426,58 @@ describe('IdsSlider Component', () => {
     slider.dispatchEvent(
       createKeyboardEvent('Enter')
     );
+  });
+
+  it('cannot change slider thumb values when disabled', async () => {
+    slider = await createFromTemplate(slider, HTMLSnippets.SINGLE_SLIDER);
+    processAnimFrame();
+
+    expect(slider.value).toBe(0);
+
+    // Use API to set value
+    slider.disabled = true;
+    slider.value = 10;
+
+    expect(slider.value).toBe(0);
+
+    // Trigger events that would normally cause the value to change
+    slider.dispatchEvent(
+      createKeyboardEvent('ArrowRight')
+    );
+
+    expect(slider.value).toBe(0);
+
+    // Re-enable the component and set the value
+    slider.disabled = false;
+    slider.value = 10;
+
+    expect(slider.value).toBe(10);
+  });
+
+  it('cannot change slider thumb values when made readonly', async () => {
+    slider = await createFromTemplate(slider, HTMLSnippets.SINGLE_SLIDER);
+    processAnimFrame();
+
+    expect(slider.value).toBe(0);
+
+    // Use API to set value
+    slider.readonly = true;
+    slider.value = 10;
+
+    expect(slider.value).toBe(0);
+
+    // Trigger events that would normally cause the value to change
+    slider.dispatchEvent(
+      createKeyboardEvent('ArrowRight')
+    );
+
+    expect(slider.value).toBe(0);
+
+    // Re-enable the component and set the value
+    slider.readonly = false;
+    slider.value = 10;
+
+    expect(slider.value).toBe(10);
   });
 
   it('has correct aria attributes on slider thumbs', async () => {

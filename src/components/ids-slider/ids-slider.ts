@@ -607,15 +607,24 @@ export default class IdsSlider extends Base {
    * to pass beyond the min/max values.
    * @private
    * @param {string | number | any} value incoming value to set
+   * @param {boolean} secondary true if this value represents the secondary slider thumb (range slider only)
    * @returns {number} the corrected slider number
    */
-  #sanitizeValue(value: string | number | any): number {
+  #sanitizeValue(value: string | number | any, secondary?: boolean): number {
     const fixedValue = parseFloat(value);
     if (fixedValue <= this.min) {
       return this.min;
     }
     if (fixedValue >= this.max) {
       return this.max;
+    }
+    if (this.type === 'range') {
+      if (!secondary && fixedValue >= this.valueSecondary) {
+        return this.valueSecondary;
+      }
+      if (secondary && fixedValue <= this.value) {
+        return this.value;
+      }
     }
     return fixedValue;
   }
@@ -625,8 +634,10 @@ export default class IdsSlider extends Base {
    * @param {string} value The secondary input value
    */
   set valueSecondary(value: string | number | any) {
+    if (this.readonly || this.disabled) return;
+
     const currentValue = this.getAttribute(attributes.VALUE_SECONDARY) || '';
-    const newValue = this.#sanitizeValue(value);
+    const newValue = this.#sanitizeValue(value, true);
 
     if (currentValue !== newValue) {
       this.setAttribute(attributes.VALUE_SECONDARY, `${newValue}`);
@@ -658,6 +669,8 @@ export default class IdsSlider extends Base {
    * @param {string} value The primary input value
    */
   set value(value: string | number | any) {
+    if (this.readonly || this.disabled) return;
+
     const currentValue = parseFloat(this.getAttribute(attributes.VALUE)) || this.min;
     const newValue = this.#sanitizeValue(value);
 
@@ -1313,6 +1326,8 @@ export default class IdsSlider extends Base {
    */
   #attachKeyboardListeners(): void {
     this.onEvent('keydown', this, (event: { code: string; preventDefault: () => void; target: { name: string; }; key: any; }) => {
+      if (this.readonly || this.disabled) return;
+
       if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].indexOf(event.code) > -1) {
         event.preventDefault();
 
@@ -1352,6 +1367,8 @@ export default class IdsSlider extends Base {
     });
 
     this.onEvent('keyup', this, (event: { code: string; preventDefault: () => void; target: { name: string; }; key: any; }) => {
+      if (this.readonly || this.disabled) return;
+
       if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].indexOf(event.code) > -1) {
         event.preventDefault();
 
