@@ -1,5 +1,5 @@
 describe('Ids Line Chart e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-line-chart';
+  const url = 'http://localhost:4444/ids-line-chart/example.html';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
@@ -20,7 +20,7 @@ describe('Ids Line Chart e2e Tests', () => {
       width: 375,
       height: 1080
     });
-    await page.goto('http://localhost:4444/ids-line-chart', { waitUntil: ['networkidle2', 'load'] });
+    await page.goto('http://localhost:4444/ids-line-chart/example.html', { waitUntil: ['networkidle2', 'load'] });
     const h = await page.evaluate('document.querySelector("ids-line-chart").height');
     const w = await page.evaluate('document.querySelector("ids-line-chart").width');
     expect(h).toBe(500);

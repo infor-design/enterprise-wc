@@ -30,11 +30,12 @@
 ## Personal ----> Do from here down
 
 - [ ] Bar chart tests (including leak tests)
+- [ ] RTL
+- [ ] Docs pass
 - [ ] Interaction: When clicking the line it should select
 - [ ] Interaction: Focusable Legend (for selection)
 - [ ] Accessibility and patterns to bar grouped chart ?
 - [ ] Accessibility and patterns  to line chart ?
 - [ ] Retest themes
-- [ ] RTL
-- [ ] Docs pass
 - [ ] Chart Types: Pie Chart
+- [ ] Add side by side examples and responsive examples

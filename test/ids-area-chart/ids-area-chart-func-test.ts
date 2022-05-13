@@ -3,6 +3,7 @@
  */
 import IdsAreaChart from '../../src/components/ids-area-chart/ids-area-chart';
 import dataset from '../../src/assets/data/components.json';
+import '../helpers/resize-observer-mock';
 
 describe('IdsAreaChart Component', () => {
   let areaChart: any;
@@ -30,8 +31,8 @@ describe('IdsAreaChart Component', () => {
   });
 
   it('supports setting markerSize', () => {
-    expect(areaChart.markerSize).toEqual(1);
-    expect(areaChart.shadowRoot.querySelector('circle').getAttribute('r')).toEqual('1');
+    expect(areaChart.markerSize).toEqual(5);
+    expect(areaChart.shadowRoot.querySelector('circle').getAttribute('r')).toEqual('5');
     areaChart.markerSize = 8;
     expect(areaChart.markerSize).toEqual(8);
   });
@@ -63,11 +64,11 @@ describe('IdsAreaChart Component', () => {
     expect(areaChart.container.parentNode.querySelectorAll('.swatch')[0].classList.contains('color-1')).toBeTruthy();
     expect(areaChart.shadowRoot.querySelectorAll('circle')[0].classList.contains('color-1')).toBeTruthy();
     expect(areaChart.shadowRoot.querySelectorAll('.areas path')[0].classList.contains('color-1')).toBeTruthy();
-    expect(areaChart.color(0)).toEqual('color-1');
+    expect(areaChart.color(0)).toEqual('var(color-1)');
 
     expect(areaChart.container.parentNode.querySelectorAll('.swatch')[1].classList.contains('color-2')).toBeTruthy();
     expect(areaChart.shadowRoot.querySelectorAll('circle')[1].classList.contains('color-1')).toBeTruthy();
     expect(areaChart.shadowRoot.querySelectorAll('.areas path')[1].classList.contains('color-2')).toBeTruthy();
-    expect(areaChart.color(1)).toEqual('color-2');
+    expect(areaChart.color(1)).toEqual('var(color-2)');
   });
 });

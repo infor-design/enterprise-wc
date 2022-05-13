@@ -3,6 +3,7 @@
  */
 import IdsLineChart from '../../src/components/ids-line-chart/ids-line-chart';
 import dataset from '../../src/assets/data/components.json';
+import '../helpers/resize-observer-mock';
 
 describe('IdsLineChart Component', () => {
   let lineChart: any;
@@ -69,11 +70,11 @@ describe('IdsLineChart Component', () => {
 
     expect(lineChart.container.parentNode.querySelectorAll('.swatch')[0].classList.contains('color-1')).toBeTruthy();
     expect(lineChart.shadowRoot.querySelectorAll('circle')[0].classList.contains('color-1')).toBeTruthy();
-    expect(lineChart.color(0)).toEqual('color-1');
+    expect(lineChart.color(0)).toEqual('var(color-1)');
 
     expect(lineChart.container.parentNode.querySelectorAll('.swatch')[1].classList.contains('color-2')).toBeTruthy();
     expect(lineChart.shadowRoot.querySelectorAll('circle')[1].classList.contains('color-1')).toBeTruthy();
     expect(lineChart.shadowRoot.querySelector('circle').getAttribute('r')).toEqual('5');
-    expect(lineChart.color(1)).toEqual('color-2');
+    expect(lineChart.color(1)).toEqual('var(color-2)');
   });
 });
