@@ -5,9 +5,18 @@
  category: Typography
  keywords: text, color, switcher
  examples:
-  - link: index.html
+  - link: example.html
+    type: Main Example
     description: Shows all ids-text sizes
-  - link: side-by-side.html
-    description: Showing a text element side by side working with 4.x
   - link: typography.html
+    type: Example
     description: Showing all typography styles
+  - link: translations.html
+    type: Example
+    description: Showing translatable text
+  - link: variant-alternate.html
+    type: Test
+    description: Showing changing color with variants
+  - link: side-by-side.html
+    type: Side by Side
+    description: Showing a text element side by side working with 4.x

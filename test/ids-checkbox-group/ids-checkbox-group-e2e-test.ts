@@ -1,5 +1,5 @@
 describe('Ids Checkbox Group e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-checkbox-group';
+  const url = 'http://localhost:4444/ids-checkbox-group/example.html';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-text font-size="12" type="h1">Ids Hierarchy</ids-text>
+
+    <ids-hierarchy-legend>
+      <ids-hierarchy-legend-item
+        text="Full Time"
+        color="azure-80"
+      ></ids-hierarchy-legend-item>
+      <ids-hierarchy-legend-item
+        text="Part Time"
+        color="turquoise-20"
+      ></ids-hierarchy-legend-item>
+      <ids-hierarchy-legend-item
+        text="Contractor"
+        color="amethyst-60"
+      ></ids-hierarchy-legend-item>
+      <ids-hierarchy-legend-item
+        text="Open Position"
+        color="slate-60"
+      ></ids-hierarchy-legend-item>
+    </ids-hierarchy-legend>
+
+    <ids-hierarchy>
+      <ids-hierarchy-item id="item-1" root-item expanded color="azure-80">
+        <img id="headshot" alt="item-1" slot="avatar" />
+        <ids-text slot="heading">Tony Cleveland</ids-text>
+        <ids-text slot="subheading">Director</ids-text>
+        <ids-text slot="micro">FT</ids-text>
+        <div slot="menu">
+          <ids-menu-button part="icon-menu" menu="item-menu-id-one" id="item-menu-btn-id-one">
+            <span class="audible">Popup Menu Button</span>
+            <ids-icon slot="icon" icon="more"></ids-icon>
+          </ids-menu-button>
+          <ids-popup-menu id="item-menu-id-one" target="#item-menu-btn-id-one" trigger="click">
+            <ids-menu-group>
+              <ids-menu-item value="1">Option One</ids-menu-item>
+              <ids-menu-item value="2">Option Two</ids-menu-item>
+              <ids-menu-item value="3">Option Three</ids-menu-item>
+            </ids-menu-group>
+          </ids-popup-menu>
+        </div>
+
+        <ids-hierarchy-item id="item-2" color="turquoise-20">
+          <ids-text slot="heading">Julie Dawes</ids-text>
+          <ids-text slot="subheading">Records Clerk</ids-text>
+          <ids-text slot="micro">PT</ids-text>
+          <div slot="menu">
+            <ids-menu-button part="icon-menu" menu="item-menu-id-two" id="item-menu-btn-id-two">
+              <span class="audible">Popup Menu Button</span>
+              <ids-icon slot="icon" icon="more"></ids-icon>
+            </ids-menu-button>
+            <ids-popup-menu id="item-menu-id-two" target="#item-menu-btn-id-two" trigger="click">
+              <ids-menu-group>
+                <ids-menu-item value="1">Option One</ids-menu-item>
+                <ids-menu-item value="2">Option Two</ids-menu-item>
+                <ids-menu-item value="3">Option Three</ids-menu-item>
+                <ids-menu-item>More Options
+                  <ids-popup-menu>
+                    <ids-menu-group>
+                      <ids-menu-item value="4">Option Four</ids-menu-item>
+                      <ids-menu-item value="5">Option Five</ids-menu-item>
+                      <ids-menu-item value="6">Option Six</ids-menu-item>
+                    </ids-menu-group>
+                  </ids-popup-menu>
+                </ids-menu-item>
+              </ids-menu-group>
+            </ids-popup-menu>
+          </div>
+        </ids-hierarchy-item>
+        <ids-hierarchy-item id="item-3" color="amethyst-60">
+          <ids-text slot="heading">Kaylee Edwards</ids-text>
+          <ids-text slot="subheading">Records Manager</ids-text>
+          <ids-text slot="micro">C</ids-text>
+          <div slot="menu">
+            <ids-menu-button part="icon-menu" menu="item-menu-id-three" id="item-menu-btn-id-three">
+              <span class="audible">Popup Menu Button</span>
+              <ids-icon slot="icon" icon="more"></ids-icon>
+            </ids-menu-button>
+            <ids-popup-menu id="item-menu-id-three" target="#item-menu-btn-id-three" trigger="click">
+              <ids-menu-group>
+                <ids-menu-item value="1">Option One</ids-menu-item>
+                <ids-menu-item value="2">Option Two</ids-menu-item>
+                <ids-menu-item value="3">Option Three</ids-menu-item>
+              </ids-menu-group>
+            </ids-popup-menu>
+          </div>
+
+          <ids-hierarchy-item id="item-4" color="slate-60">
+            <ids-text slot="heading">Julie Dawes</ids-text>
+            <ids-text slot="subheading">Records Clerk</ids-text>
+            <ids-text slot="micro">OP</ids-text>
+
+            <ids-hierarchy-item id="item-5" color="amethyst-60">
+              <ids-text slot="heading">Tony Cleveland</ids-text>
+              <ids-text slot="subheading">Director</ids-text>
+              <ids-text slot="micro">C</ids-text>
+            </ids-hierarchy-item>
+          </ids-hierarchy-item>
+        </ids-hierarchy-item>
+      </ids-hierarchy-item>
+    </ids-hierarchy>
+  </ids-container>
+</body>
+</html>

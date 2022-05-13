@@ -1,5 +1,5 @@
 describe('Ids Popup Menu e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-popup-menu';
+  const url = 'http://localhost:4444/ids-popup-menu/example.html';
   const menuItemSelector = '#item-six'; // ids-menu-item with sub level ids-popup-menu
   const subPopupMenuSelector = `${menuItemSelector} > ids-popup-menu`; // reference to sub level ids-popup-menu
   const popupHoverDelay = 500; // popupDelay configured in ids-popup-interactions-mixin.js

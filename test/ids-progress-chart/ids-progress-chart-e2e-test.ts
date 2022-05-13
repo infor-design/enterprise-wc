@@ -1,5 +1,5 @@
 describe('Ids Progress Chart e2e Tests', () => {
-  const exampleUrl = 'http://localhost:4444/ids-progress-chart';
+  const exampleUrl = 'http://localhost:4444/ids-progress-chart/example.html';
 
   it('should not have errors', async () => {
     await page.goto(exampleUrl, { waitUntil: ['domcontentloaded', 'networkidle0'] });

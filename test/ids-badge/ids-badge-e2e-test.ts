@@ -1,7 +1,7 @@
 import countObjects from '../helpers/count-objects';
 
 describe('Ids Badge e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-badge';
+  const url = 'http://localhost:4444/ids-badge/example.html';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });

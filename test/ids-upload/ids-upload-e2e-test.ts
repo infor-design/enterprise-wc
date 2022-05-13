@@ -1,5 +1,5 @@
 describe('Ids Upload e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-upload';
+  const url = 'http://localhost:4444/ids-upload/example.html';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });

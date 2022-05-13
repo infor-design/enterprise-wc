@@ -1,5 +1,5 @@
 describe('Ids Toast e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-toast';
+  const url = 'http://localhost:4444/ids-toast/example.html';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });

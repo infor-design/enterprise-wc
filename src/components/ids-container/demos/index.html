@@ -2,10 +2,20 @@
 <html lang="en">
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
 </head>
 <body>
-  <ids-container padding="8" role="main" hidden>
+  <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="20" type="h1">Ids Container Examples</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-demo-listing label="Container Examples" component-name="ids-container">
+        </ids-demo-listing>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
   </ids-container>
 </body>
 </html>

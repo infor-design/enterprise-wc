@@ -87,6 +87,7 @@ export const attributes = {
   DISABLE_EVENTS: 'disable-native-events',
   DISMISSIBLE: 'dismissible',
   DISPLAY: 'display',
+  DISPLAY_TIME: 'display-time',
   DRAGGABLE: 'draggable',
   DRAGGING: 'dragging',
   DROPDOWN_ICON: 'dropdown-icon',
@@ -156,6 +157,7 @@ export const attributes = {
   LABEL_TOTAL: 'label-total',
   LANGUAGE: 'language',
   LAST: 'last',
+  LAZY_LOAD: 'lazy-load',
   LEGEND_PLACEMENT: 'legend-placement',
   LINEAR: 'linear',
   LINK: 'link',
@@ -193,6 +195,7 @@ export const attributes = {
   NAME: 'name',
   NAV_DISABLED: 'nav-disabled',
   NEXT: 'next',
+  NO_HEADER: 'no-header',
   NO_MARGINS: 'no-margins',
   NO_PADDING: 'no-padding',
   NO_RIPPLE: 'no-ripple',
@@ -329,10 +332,12 @@ export const attributes = {
   X: 'x',
   XSS_IGNORED_TAGS: 'xss-ignored-tags',
   X_AXIS_FORMATTER: 'x-axis-formatter',
+  X_OFFSET: 'x-offset',
   Y: 'y',
   YEAR: 'year',
   Y_AXIS_FORMATTER: 'y-axis-formatter',
   Y_AXIS_MIN: 'y-axis-min',
+  Y_OFFSET: 'y-offset',
 };
 
 // Standard HTMLElement attribute names

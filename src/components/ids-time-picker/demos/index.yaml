@@ -5,7 +5,9 @@
  category: Form Inputs
  keywords: timepicker, time, picker, hours, seconds, minutes, label, text
  examples:
-  - link: index.html
+  - link: example.html
+    type: Main Example
     description: Shows all ids-time-picker combinations
   - link: open.html
-    description: Showing a time-picker open via the API
+    type: Test
+    description: Test a time-picker open for visual tests

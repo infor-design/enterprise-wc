@@ -5,5 +5,6 @@
  category: Charts and Visualizations
  keywords: slider, range, step
  examples:
-  - link: index.html
+  - link: example.html
+    type: Main Example
     description: Showing various slider examples

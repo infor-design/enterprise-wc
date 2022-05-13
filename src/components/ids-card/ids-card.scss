@@ -94,6 +94,12 @@
   }
 }
 
+:host([no-header]) {
+  .ids-card-header {
+    padding: 0;
+  }
+}
+
 // Actionable Link Card Styles
 :host([actionable]) ids-hyperlink {
   height: 50px;

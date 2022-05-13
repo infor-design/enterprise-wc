@@ -1,0 +1,16 @@
+---
+ component: Message
+ link: ids-message
+ description: Displays a Message Dialog
+ category: Navigation and Interaction
+ keywords: Modal, Dialog, error, message
+ examples:
+  - link: example.html
+    type: Main Example
+    description: Showing a simple message example
+  - link: types.html
+    type: Example
+    description: Showing a various alert message types
+  - link: standalone-css.html
+    type: Standalone CSS
+    description: Showing a standalone css example
