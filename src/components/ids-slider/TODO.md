@@ -15,7 +15,8 @@ Keep this file in sync with #698
 - [x] Add disabled state
 - [x] Add readonly state
 - [x] Screenreader visibility
-- [ ] Range Slider: Ticks should not be colorful unless the handle value is greater
+- [ ] Step Slider: Ticks should not be colorful unless the handle value is greater
+
 ## Minor
 
 - [ ] Check disabled/readonly states against aXe (similar contrast issues to other form components)
