@@ -51,6 +51,7 @@ const IdsDirtyTrackerMixin = (superclass: any) => class extends superclass {
       if (this.input) {
         const val = this.valMethod(this.input);
         this.dirty = { original: val };
+        console.log(this.dirty )
         this.dirtyTrackerEvents();
       }
     } else {
@@ -168,6 +169,7 @@ const IdsDirtyTrackerMixin = (superclass: any) => class extends superclass {
     }
 
     this.isDirty = this.dirty?.original !== val;
+    console.log(this.isDirty)
     if (this.isDirty) {
       this.appendDirtyTrackerMsg();
       this.appendDirtyTrackerIcon();

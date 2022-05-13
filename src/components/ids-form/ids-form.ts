@@ -15,6 +15,11 @@ import '../ids-color-picker/ids-color-picker';
 import '../ids-time-picker/ids-time-picker';
 import '../ids-date-picker/ids-date-picker';
 import '../ids-fieldset/ids-fieldset';
+import '../ids-trigger-field/ids-trigger-field.ts';
+import '../ids-upload/ids-upload.ts';
+import '../ids-upload-advanced/ids-upload-advanced.ts';
+import IdsElement from '../../core/ids-element';
+
 
 @customElement('ids-form')
 @scss(styles)
@@ -47,6 +52,8 @@ export default class IdsForm extends Base {
   }
 
   connectedCallback() {
+    this.getFormElements();
+    this.#attachEventHandlers();
   }
 
   /**
@@ -154,4 +161,37 @@ export default class IdsForm extends Base {
   get title(): string {
     return this.getAttribute('title') || '';
   }
+
+  /**
+   * Handle events
+   * @private
+   * @returns {void}
+   */
+  #attachEventHandlers(): void {
+    //onEvent('click', this, () => this.#submitIdsForm())
+  }
+  
+  getFormElements(): HTMLElement[] | IdsElement[] | any[] {
+    let IdsElements: HTMLElement[] | IdsElement[] | any[] = [];
+    const idsForm: IdsForm = this;
+    const findIdsElements = (el: HTMLElement | IdsElement | any) => {
+      if (el.hasChildNodes()) {
+        const formChildren = [...el.children]
+        formChildren.forEach((e: any) => {
+          // const idsFormElements: any = 'IDS-INPUT' || 'IDS-DROPDOWN'
+          if (e.tagName.includes('IDS-') && e.hasAttribute('dirty-tracker')) {
+            IdsElements.push(e);
+          };
+          findIdsElements(e);
+        });
+      };
+    };
+    findIdsElements(idsForm);
+    // console.log(IdsElements)
+    return IdsElements;
+  }
+
+  // #submitIdsForm(): void {
+
+  // }
 }

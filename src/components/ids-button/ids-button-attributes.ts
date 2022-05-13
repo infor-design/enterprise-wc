@@ -8,7 +8,8 @@ const BUTTON_TYPES = [
   'tertiary',
   'destructive',
   'swipe-action-left',
-  'swipe-action-right'
+  'swipe-action-right',
+  'submit'
 ];
 
 // Default Button state values
