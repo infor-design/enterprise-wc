@@ -1,0 +1,16 @@
+---
+ component: Render Loop
+ link: ids-render-loop
+ description: Efficient Timeout Loop
+ category: Patterns
+ keywords: radio, choice, input
+ examples:
+  - link: example.html
+    type: Main Example
+    description: Showing a render loop
+  - link: test-elapsed-time.html
+    type: Test
+    description: Showing a timer that counts the ellapsed time
+  - link: test-flying-popup.html
+    type: Test
+    description: Showing a render loop with a popup

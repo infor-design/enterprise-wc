@@ -5,15 +5,24 @@
  category: Layouts
  keywords: breadcrumb, wayfinding
  examples:
-  - link: index.html
+  - link: example.html
+    type: Example
     description: Shows a simple block grid
   - link: single-selection.html
+    type: Example
     description: Shows a block grid with single selection
   - link: multiple-selection.html
+    type: Example
     description: Shows a block grid with multiple selection
   - link: mixed-selection.html
+    type: Example
     description: Shows a block grid with mixed selection
+  - link: pagination.html
+    type: Example
+    description: Shows a block grid with paging
   - link: multiple-text-selection.html
+    type: Example
     description: Shows a text block grid with multiple selection
   - link: side-by-side.html
+    type: Side by Side
     description: Showing a block grid with a 4.x block grid

@@ -11,7 +11,7 @@ For IDS Menu Component examples see [Ids Popup Menu](../ids-menu/README.md) and 
 
 ## Settings (Attributes)
 
-- `vertical` Can be used to turn set the separator between a horizontal and vertical. The vertical one is ued on tabs and the horizontal (default) is used on menus
+- `vertical` Can be used to turn set the separator between a horizontal and vertical. The vertical one is used on tabs and the horizontal (default) is used on menus
 
 ## Themeable Parts
 

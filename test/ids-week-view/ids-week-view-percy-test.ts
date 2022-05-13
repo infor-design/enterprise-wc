@@ -1,7 +1,7 @@
 import percySnapshot from '@percy/puppeteer';
 
 describe('Ids Week View Percy Tests', () => {
-  const url = 'http://localhost:4444/ids-week-view';
+  const url = 'http://localhost:4444/ids-week-view/example.html';
 
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });

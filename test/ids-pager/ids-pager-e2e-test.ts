@@ -1,5 +1,5 @@
 describe('Ids Pager e2e Tests', () => {
-  const exampleUrl = 'http://localhost:4444/ids-pager';
+  const exampleUrl = 'http://localhost:4444/ids-pager/example.html';
   const sandboxUrl = 'http://localhost:4444/ids-pager/sandbox.html';
 
   it('should not have errors', async () => {

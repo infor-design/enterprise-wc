@@ -1,5 +1,5 @@
 describe('Ids Icon e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-icon?count=1';
+  const url = 'http://localhost:4444/ids-icon/example.html?count=1';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });

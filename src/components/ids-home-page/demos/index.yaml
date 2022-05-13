@@ -5,7 +5,129 @@
  category: Layouts
  keywords: Home Page, Card, Cards
  examples:
-  - link: index.html
+  - link: example.html
+    type: Main Example
     description: Shows home page layout with cards
+  - link: add-remove-card.html
+    type: Example
+    description: Shows adding and removing home page cards
+  - link: columns-4.html
+    type: Example
+    description: Shows a four column home page
+  - link: columns-5.html
+    type: Example
+    description: Shows a five column home page
+  - link: columns-6.html
+    type: Example
+    description: Shows a six column home page
+  - link: scenario-a.html
+    type: Test
+    description: Shows test scenario A
+  - link: scenario-a.html
+    type: Test
+    description: Shows test scenario A
+  - link: scenario-a.html
+    type: Test
+    description: Shows test scenario A
+  - link: scenario-b.html
+    type: Test
+    description: Shows test scenario B
+  - link: scenario-c.html
+    type: Test
+    description: Shows test scenario C
+  - link: scenario-d.html
+    type: Test
+    description: Shows test scenario D
+  - link: scenario-e.html
+    type: Test
+    description: Shows test scenario E
+  - link: scenario-f.html
+    type: Test
+    description: Shows test scenario F
+  - link: scenario-c.html
+    type: Test
+    description: Shows test scenario C
+  - link: scenario-d.html
+    type: Test
+    description: Shows test scenario D
+  - link: scenario-e.html
+    type: Test
+    description: Shows test scenario E
+  - link: scenario-f.html
+    type: Test
+    description: Shows test scenario F
+  - link: scenario-g.html
+    type: Test
+    description: Shows test scenario G
+  - link: scenario-h.html
+    type: Test
+    description: Shows test scenario h
+  - link: scenario-i.html
+    type: Test
+    description: Shows test scenario I
+  - link: scenario-j.html
+    type: Test
+    description: Shows test scenario J
+  - link: scenario-k.html
+    type: Test
+    description: Shows test scenario K
+  - link: scenario-l.html
+    type: Test
+    description: Shows test scenario L
+  - link: scenario-m.html
+    type: Test
+    description: Shows test scenario M
+  - link: scenario-n.html
+    type: Test
+    description: Shows test scenario N
+  - link: scenario-o.html
+    type: Test
+    description: Shows test scenario O
+  - link: scenario-p.html
+    type: Test
+    description: Shows test scenario P
+  - link: scenario-q.html
+    type: Test
+    description: Shows test scenario Q
+  - link: scenario-r.html
+    type: Test
+    description: Shows test scenario R
+  - link: small-columns-4.html
+    type: Test
+    description: Shows test with smaller cards and 4 columns
+  - link: small-columns-5.html
+    type: Test
+    description: Shows test with smaller cards and 5 columns
+  - link: small-columns-5.html
+    type: Test
+    description: Shows test with smaller cards and 5 columns
+  - link: small-scenario-a.html
+    type: Test
+    description: Shows test with smaller cards
+  - link: small-scenario-b.html
+    type: Test
+    description: Shows test with smaller cards
+  - link: small-scenario-c.html
+    type: Test
+    description: Shows test with smaller cards
+  - link: small-scenario-d.html
+    type: Test
+    description: Shows test with smaller cards
+
+
+
+
+
+
+
+
+
+
+
+
+  - link: events.html
+    type: Test
+    description: Shows the events firing
   - link: side-by-side.html
+    type: Side-by-Side Example
     description: Showing the wc home page with 4.x home page

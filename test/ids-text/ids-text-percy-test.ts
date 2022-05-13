@@ -1,7 +1,7 @@
 import percySnapshot from '@percy/puppeteer';
 
 describe('Ids Text e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-text';
+  const url = 'http://localhost:4444/ids-text/example.html';
 
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });

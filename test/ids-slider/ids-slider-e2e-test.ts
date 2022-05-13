@@ -1,5 +1,5 @@
 describe('Ids Slider e2e Tests', () => {
-  const exampleUrl = 'http://localhost:4444/ids-slider';
+  const exampleUrl = 'http://localhost:4444/ids-slider/example.html';
 
   it('should not have errors', async () => {
     await page.goto(exampleUrl, { waitUntil: ['domcontentloaded', 'networkidle0'] });
