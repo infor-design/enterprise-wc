@@ -5,9 +5,12 @@
  category: Messages and Alerts
  keywords: progress, status, feedback
  examples:
-  - link: index.html
+  - link: example.html
+    type: Main Demo
     description: Showing a progress bar example
   - link: side-by-side.html
+    type: Side-by-Side
     description: Showing a progress bar side by side with 4.x
   - link: standalone-css.html
+    type: Standalone CSS
     description: Showing progress bar that works with css only

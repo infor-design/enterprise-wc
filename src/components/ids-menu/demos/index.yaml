@@ -5,7 +5,7 @@
  category: Navigation and Interaction
  keywords: Menu, Context Menu
  examples:
-  - link: index.html
+  - link: example.html
     description: Showing a simple static menu
   - link: side-by-side.html
     description: Showing a menu side by side with 4.x

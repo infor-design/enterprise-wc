@@ -1,5 +1,5 @@
 describe('Ids Draggable e2e Tests', () => {
-  const exampleUrl = 'http://localhost:4444/ids-draggable';
+  const exampleUrl = 'http://localhost:4444/ids-draggable/example.html';
 
   beforeAll(async () => {
     await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });

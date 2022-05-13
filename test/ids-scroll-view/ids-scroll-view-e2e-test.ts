@@ -1,5 +1,5 @@
 describe('Ids Scroll View e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-scroll-view';
+  const url = 'http://localhost:4444/ids-scroll-view/example.html';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });

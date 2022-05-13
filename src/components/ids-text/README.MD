@@ -122,7 +122,7 @@ A Disabled appearing text element.
 <ids-text disabled="true">Disabled Text</ids-text>
 ```
 
-Using the data/label theme, related to [IdsSummaryField](../ids-summary-field/README.md)
+Using the data/label.
 ```html
 <ids-text label="true">Title</ids-text>
 <ids-text data="true">Some random data</ids-text>

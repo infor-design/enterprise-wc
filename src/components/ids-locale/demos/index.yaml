@@ -5,7 +5,9 @@
  category: Patterns
  keywords: locale, languages, dates, numbers
  examples:
-  - link: index.html
+  - link: example.html
+    type: Main Example
     description: Shows all translated strings
   - link: numbers.html
+    type: Example
     description: Shows parsing numbers

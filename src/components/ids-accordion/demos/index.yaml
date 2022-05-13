@@ -5,7 +5,7 @@
  category: Layouts
  keywords: accordion, sections
  examples:
-  - link: index.html
+  - link: example.html
     type: Main Example
     description: Shows a basic accordion
   - link: disabled.html

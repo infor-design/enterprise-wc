@@ -1,5 +1,5 @@
 describe('Ids Hierarchy e2e test', () => {
-  const url = 'http://localhost:4444/ids-hierarchy';
+  const url = 'http://localhost:4444/ids-hierarchy/example.html';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });

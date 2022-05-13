@@ -5,10 +5,15 @@
  category: Messages and Alerts
  keywords: icon, svg
  examples:
-  - link: index.html
+  - link: example.html
+    type: Main Example
     description: Shows all available icons and sizes
-  - link: side-by-side.html
-    description: Showing a few icons next to 4.x iconss
   - link: notification-badge.html
+    type: Example
     description: Example of notifications badges on icons
-
+  - link: variant-alternate.html
+    type: Test
+    description: Test showing the alternate variant color
+  - link: side-by-side.html
+    type: Side by Side
+    description: Showing a few icons next to 4.x iconss

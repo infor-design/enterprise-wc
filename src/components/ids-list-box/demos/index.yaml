@@ -1,0 +1,10 @@
+---
+ component: List Box
+ link: ids-list-box
+ description: List Item Markup
+ category: Layouts
+ keywords: List, dropdown
+ examples:
+  - link: example.html
+    type: Main Example
+    description: Shows a list box markup

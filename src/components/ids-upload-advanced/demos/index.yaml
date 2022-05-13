@@ -5,12 +5,15 @@
  category: Form Inputs
  keywords: upload, files, file upload
  examples:
-  - link: index.html
+  - link: example.html
+    type: Main Example
     description: Showing a basic file upload
-  - link: side-by-side.html
-    description: Example showing it work side by side
-    keywords: side by side, 4.x, old version
-    tag: updated
-  - link: test-sandbox.html
+  - link: sandbox.html
+    type: Sandbox
     description: Miscellaneous Tests and Examples
-    keywords: sandbox, examples
+  - link: side-by-side.html
+    type: Side by Side
+    description: Example showing it work side by side
+  - link: standalone-css.html
+    type: Standalone CSS
+    description: Example showing a limited version with css only
