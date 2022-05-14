@@ -236,8 +236,8 @@
     @include m-0();
     @include p-0();
     @include w-full();
-    @include z-2();
 
+    z-index: 3;
     border: none;
     top: 44px;
     left: 0;
@@ -249,6 +249,10 @@
 
   ids-expandable-area::part(pane) {
     @include bg-white();
+  }
+
+  ids-expandable-area::part(pane-content) {
+    @include mt-0();
   }
 
   &[mode='dark'] ids-expandable-area::part(pane) {

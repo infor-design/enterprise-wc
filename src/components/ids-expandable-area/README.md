@@ -21,6 +21,7 @@ Expandable areas are crucial to displaying only important information to the use
 - `container` allows you to further style the main container element
 - `header` allows you to further style the header element
 - `pane` allows you to further style the pane element
+- `pane-content` allows you to further style the pane content
 - `footer` allows you to further style the footer element
 
 ## Events
