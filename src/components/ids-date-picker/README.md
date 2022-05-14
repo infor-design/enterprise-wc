@@ -64,6 +64,7 @@ The `ids-date-picker` is a web component to support date entry
 - `dayselected` - Fires when a day is selected or range selection is completed
 - `expanded` - Fires when a month/year picker is opened/closed
 - Event listeners for trigger field (input) `blur`, `change`, `focus`, `select`, `keydown`, `keypress`, `keyup`, `click`, `dbclick`, `beforetriggerclicked`, `triggerclicked` events can be added to `triggerField` component property:
+
 ```js
 const datePicker = document.querySelector('ids-date-picker');
 
@@ -192,7 +193,7 @@ datePicker.disable = {
   minDate: '2/6/2018',
   maxDate: '2/12/2018',
   years: [2017, 2018],
-  isReverse: true
+  isEnable: true
 }
 ```
 
@@ -234,5 +235,7 @@ The Date Picker is a complex control to code for accessibility.
 - Listeners for input and popup events should be added to references `triggerField` and `popup` now. See Events section.
 - `disable/readonly/tabbable` are now attributes not methods
 - If using events events are now plain JS events for example: change
-- Markup has changed to a custom element `<ids-date-picker></ids-date-picker`
+- Markup has changed to a custom element `<ids-date-picker></ids-date-picker>`
 - Can now be imported as a single JS file and used with encapsulated styles
+- Instead of `onOpenCalendar` callback there are `show`, `hide` popup plain JS events and a date for calendar can be set as date picker `year`, `month`, `day` settings when calendar popup is opened
+- To use date picker with time picker `format` should contain time i.e. `M/d/yyyy hh:mm a`

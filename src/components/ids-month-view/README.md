@@ -163,3 +163,4 @@ The monthview is a very complex component to code for accessibility. We take the
 - MonthView is now a custom element `<ids-month-view></ids-month-view>`
 - Events are now just plain JS events
 - Some options and events are not converted yet
+- To set range of dates now there are `start-date` and `end-date` attributes instead of `displayRange` setting
