@@ -1,5 +1,5 @@
 describe('Ids Progress Bar e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-progress-bar';
+  const url = 'http://localhost:4444/ids-progress-bar/example.html';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });

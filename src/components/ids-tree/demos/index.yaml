@@ -5,5 +5,12 @@
  category: Navigation and Interaction
  keywords: tree, decoration, folder, files, links, nodes
  examples:
-  - link: index.html
+  - link: example.html
+    type: Main Example
     description: Shows basic tree view
+  - link: sandbox.html
+    type: Sandbox
+    description: Shows other tree scenarios
+  - link: side-by-side.html
+    type: Side by Side
+    description: Shows a tree side by side with 4.x

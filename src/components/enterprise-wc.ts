@@ -59,7 +59,6 @@ import './ids-slider/ids-slider';
 import './ids-spinbox/ids-spinbox';
 import './ids-splitter/ids-splitter';
 import './ids-step-chart/ids-step-chart';
-import './ids-summary-field/ids-summary-field';
 import './ids-swipe-action/ids-swipe-action';
 import './ids-swappable/ids-swappable';
 import './ids-swaplist/ids-swaplist';

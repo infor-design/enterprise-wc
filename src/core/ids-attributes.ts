@@ -188,6 +188,7 @@ export const attributes = {
   NAME: 'name',
   NAV_DISABLED: 'nav-disabled',
   NEXT: 'next',
+  NO_HEADER: 'no-header',
   NO_MARGINS: 'no-margins',
   NO_PADDING: 'no-padding',
   NO_RIPPLE: 'no-ripple',

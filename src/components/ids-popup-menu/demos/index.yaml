@@ -5,15 +5,21 @@
  category: Navigation and Interaction
  keywords: Popup, context menu, menu
  examples:
-  - link: index.html
+  - link: example.html
+    type: Main Example
     description: Showing a Popup Menu example
   - link: data-driven.html
+    type: Example
     description: Showing a Popup Menu fed with a dataset
   - link: selected-state.html
+    type: Example
     description: Showing a Popup Menu with selections
   - link: trigger-immediate.html
+    type: Test
     description: Showing a Popup Menu invoked on demand
   - link: side-by-side.html
+    type: Side-by-Side
     description: Showing a Popup Menu side by side with 4.x
   - link: standalone-css.html
+    type: Standalone CSS
     description: Showing Popup Menu that works with css only

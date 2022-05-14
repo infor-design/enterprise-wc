@@ -5,13 +5,21 @@
  category: Form Inputs
  keywords: input, date, month, year, picker
  examples:
-  - link: index.html
+  - link: example.html
+    type: Main Example
     description: Showing date picker variations
   - link: range.html
+    type: Example
     description: Showing range picker variations
   - link: sizes.html
+    type: Example
     description: Showing width and height size variations
   - link: disabled-dates.html
+    type: Example
     description: Showing disabled dates variations
   - link: sandbox.html
-    description: Showing various date formats and options
+    type: Sandbox
+    description: Showing various date formats and scenarios
+  - link: axe.html
+    type: Test
+    description: Test page for axe scans

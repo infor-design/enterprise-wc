@@ -41,6 +41,7 @@ export default class IdsCard extends Base {
       attributes.AUTO_HEIGHT,
       attributes.HEIGHT,
       attributes.HREF,
+      attributes.NO_HEADER,
       attributes.OVERFLOW,
       attributes.TARGET
     ];
@@ -313,6 +314,20 @@ export default class IdsCard extends Base {
     } else {
       this.removeAttribute('target');
       this.container.querySelector('ids-hyperlink')?.removeAttribute('target');
+    }
+  }
+
+  /**
+   * Set to true to hide the header space
+   * @returns {string} target for ids-hyperlink
+   */
+  get noHeader() { return this.getAttribute(attributes.NO_HEADER); }
+
+  set noHeader(value) {
+    if (value) {
+      this.setAttribute(attributes.NO_HEADER, value);
+    } else {
+      this.removeAttribute(attributes.NO_HEADER);
     }
   }
 }

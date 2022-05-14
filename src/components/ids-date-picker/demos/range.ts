@@ -1,107 +1,109 @@
-// Supporting components
-import '../ids-date-picker';
+(async function init() {
+  const container: any = document.querySelector('ids-container');
+  // Set Locale and wait for it to load
+  await container?.setLocale('en-US');
+  const rangePickerSettings: any = document.querySelector('#e2e-datepicker-settings-value');
+  const rangePickerForward: any = document.querySelector('#e2e-datepicker-forward');
+  const rangePickerBackward: any = document.querySelector('#e2e-datepicker-backward');
+  const rangePickerMax: any = document.querySelector('#e2e-datepicker-max');
+  const rangePickerMin: any = document.querySelector('#e2e-datepicker-min');
+  const rangePickerNotIncluded: any = document.querySelector('#e2e-datepicker-not-included');
+  const rangePickerIncluded: any = document.querySelector('#e2e-datepicker-included');
+  const rangePickerLegend: any = document.querySelector('#e2e-datepicker-range-legend');
+  const rangePickerWeek: any = document.querySelector('#e2e-datepicker-week');
 
-const rangePickerSettings: any = document.querySelector('#e2e-datepicker-settings-value');
-const rangePickerForward: any = document.querySelector('#e2e-datepicker-forward');
-const rangePickerBackward: any = document.querySelector('#e2e-datepicker-backward');
-const rangePickerMax: any = document.querySelector('#e2e-datepicker-max');
-const rangePickerMin: any = document.querySelector('#e2e-datepicker-min');
-const rangePickerNotIncluded: any = document.querySelector('#e2e-datepicker-not-included');
-const rangePickerIncluded: any = document.querySelector('#e2e-datepicker-included');
-const rangePickerLegend: any = document.querySelector('#e2e-datepicker-range-legend');
-const rangePickerWeek: any = document.querySelector('#e2e-datepicker-week');
+  // Example to set start/end of the range via component settings
+  if (rangePickerSettings) {
+    rangePickerSettings.rangeSettings = {
+      start: '2/5/2018',
+      end: '2/28/2018'
+    };
 
-// Example to set start/end of the range via component settings
-if (rangePickerSettings) {
-  rangePickerSettings.rangeSettings = {
-    start: '2/5/2018',
-    end: '2/28/2018'
-  };
+    rangePickerSettings.addEventListener('dayselected', (e: any) => {
+      console.info('Range Selected', e.detail.rangeStart, e.detail.rangeEnd);
+    });
+  }
 
-  rangePickerSettings.addEventListener('dayselected', (e: any) => {
-    console.info('Range Selected', e.detail.rangeStart, e.detail.rangeEnd);
-  });
-}
+  // Example range selection forward
+  if (rangePickerForward) {
+    rangePickerForward.rangeSettings = {
+      selectForward: true
+    };
+  }
 
-// Example range selection forward
-if (rangePickerForward) {
-  rangePickerForward.rangeSettings = {
-    selectForward: true
-  };
-}
+  // Example range selection backward
+  if (rangePickerBackward) {
+    rangePickerBackward.rangeSettings = {
+      selectBackward: true
+    };
+  }
 
-// Example range selection backward
-if (rangePickerBackward) {
-  rangePickerBackward.rangeSettings = {
-    selectBackward: true
-  };
-}
+  // Example range max days
+  if (rangePickerMax) {
+    rangePickerMax.rangeSettings = {
+      maxDays: 2
+    };
+  }
 
-// Example range max days
-if (rangePickerMax) {
-  rangePickerMax.rangeSettings = {
-    maxDays: 2
-  };
-}
+  // Example range min days
+  if (rangePickerMin) {
+    rangePickerMin.rangeSettings = {
+      minDays: 5
+    };
+  }
 
-// Example range min days
-if (rangePickerMin) {
-  rangePickerMin.rangeSettings = {
-    minDays: 5
-  };
-}
+  // Example week picker
+  if (rangePickerWeek) {
+    rangePickerWeek.rangeSettings = {
+      selectWeek: true
+    };
+  }
 
-// Example range disabled not included
-if (rangePickerNotIncluded) {
-  rangePickerNotIncluded.rangeSettings = {
-    start: '2/5/2018',
-    end: '2/28/2018'
-  };
-  rangePickerNotIncluded.disable = {
-    dates: ['2/7/2018', '2/9/2018', '2/10/2018', '2/11/2018']
-  };
-}
+  // Example range disabled not included
+  if (rangePickerNotIncluded) {
+    rangePickerNotIncluded.rangeSettings = {
+      start: '2/5/2018',
+      end: '2/28/2018'
+    };
+    rangePickerNotIncluded.disable = {
+      dates: ['2/7/2018', '2/9/2018', '2/10/2018', '2/11/2018']
+    };
+  }
 
-// Example range disabled included
-if (rangePickerIncluded) {
-  rangePickerIncluded.rangeSettings = {
-    start: '2/5/2018',
-    end: '2/28/2018',
-    includeDisabled: true
-  };
-  rangePickerIncluded.disable = {
-    dates: ['2/7/2018', '2/9/2018', '2/10/2018', '2/11/2018']
-  };
-}
+  // Example range disabled included
+  if (rangePickerIncluded) {
+    rangePickerIncluded.rangeSettings = {
+      start: '2/5/2018',
+      end: '2/28/2018',
+      includeDisabled: true
+    };
+    rangePickerIncluded.disable = {
+      dates: ['2/7/2018', '2/9/2018', '2/10/2018', '2/11/2018']
+    };
+  }
 
-// Example range with disabled and legend
-if (rangePickerLegend) {
-  rangePickerLegend.rangeSettings = {
-    start: '2/5/2018',
-    end: '2/28/2018'
-  };
-  rangePickerLegend.disable = {
-    dates: ['2/7/2018', '2/9/2018', '2/10/2018', '2/11/2018']
-  };
-  rangePickerLegend.legend = [
-    { name: 'Weekends', color: 'amber-60', dayOfWeek: [0, 6] },
-    {
-      name: 'Other',
-      color: 'ruby-30',
-      dates: ['2/8/2018', '2/9/2018', '2/23/2018'],
-    },
-    {
-      name: 'Half Days',
-      color: 'amethyst-60',
-      dates: ['2/21/2018', '1/22/2018'],
-    },
-    { name: 'Full Days', color: 'azure-30', dates: ['2/24/2018', '2/25/2018'] },
-  ];
-}
-
-// Example week picker
-if (rangePickerWeek) {
-  rangePickerWeek.rangeSettings = {
-    selectWeek: true
-  };
-}
+  // Example range with disabled and legend
+  if (rangePickerLegend) {
+    rangePickerLegend.rangeSettings = {
+      start: '2/5/2018',
+      end: '2/28/2018'
+    };
+    rangePickerLegend.disable = {
+      dates: ['2/7/2018', '2/9/2018', '2/10/2018', '2/11/2018']
+    };
+    rangePickerLegend.legend = [
+      { name: 'Weekends', color: 'amber-60', dayOfWeek: [0, 6] },
+      {
+        name: 'Other',
+        color: 'ruby-30',
+        dates: ['2/8/2018', '2/9/2018', '2/23/2018'],
+      },
+      {
+        name: 'Half Days',
+        color: 'amethyst-60',
+        dates: ['2/21/2018', '1/22/2018'],
+      },
+      { name: 'Full Days', color: 'azure-30', dates: ['2/24/2018', '2/25/2018'] },
+    ];
+  }
+}());

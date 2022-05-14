@@ -1,0 +1,10 @@
+---
+ component: Drawer
+ link: ids-drawer
+ description: Slide out Panel
+ category: Layouts
+ keywords: Drawer, Panel, Slide Out
+ examples:
+  - link: example.html
+    type: Main Example
+    description: Shows basic drawer

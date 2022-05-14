@@ -1,5 +1,5 @@
 describe('Ids Dropdown e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-dropdown';
+  const url = 'http://localhost:4444/ids-dropdown/example.html';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });

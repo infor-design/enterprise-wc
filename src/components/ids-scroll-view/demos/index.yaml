@@ -5,5 +5,6 @@
  category: Navigation and Interaction
  keywords: swipe, scroll, circle pager, carousel
  examples:
-  - link: index.html
+  - link: example.html
+    type: Main Example
     description: Shows a basic scroll view

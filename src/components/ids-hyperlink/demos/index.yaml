@@ -5,10 +5,17 @@
  category: Typography
  keywords: link, anchor, hyperlink
  examples:
-  - link: index.html
+  - link: example.html
+    type: Main Example
     description: Shows all hyperlinks and states
   - link: multi-line.html
+    type: Example
     description: Shows a multi line hyperlink
   - link: side-by-side.html
+    type: Side by Side
     description: Showing a hyperlink next to a 4.x hyperlink
+  - link: standalone-css.html
+    type: Standalone CSS
+    description: Showing a hyperlink with standalone CSS
+
 
