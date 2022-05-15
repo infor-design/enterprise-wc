@@ -47,13 +47,14 @@ The `ids-date-picker` is a web component to support date entry
   - `selectForward` `{boolean}` - Whether or not the selection should be in forward direction. Default is `false`
   - `selectBackward` `{boolean}` - Whether or not the selection should be in backward direction. Default is `false`
   - `includeDisabled` `{boolean}` - Whether or not the selection should include disabled dates visually
+  - `selectWeek` `{boolean}` - Whether or not the selection should include the whole week
 - `disable` `{Object}` - Disable dates settings:
   - `dates` `{Array}` - Disable specific dates (in a format that can be converted to a date)
   - `years` `{Array}` - Disable specific years
   - `minDate` `{string}` - Disable up to a minimum date
   - `maxDate` `{string}` - Disable up to a maximum date
   - `dayOfWeek` `{Array}` - Disable a specific of days of the week 0-6
-  - `isReverse` `{boolean}` - Reverse the disable settings. Default is false
+  - `isEnable` `{boolean}` - Enables the disabled dates. Default is false
 - `mask` `{true|false}` - Whether or not to enable date mask for the input. `format` attribute will be set as mask options format
 
 ## Methods
@@ -63,12 +64,12 @@ The `ids-date-picker` is a web component to support date entry
 ## Events
 - `dayselected` - Fires when a day is selected or range selection is completed
 - `expanded` - Fires when a month/year picker is opened/closed
-- Event listeners for trigger field (input) `blur`, `change`, `focus`, `select`, `keydown`, `keypress`, `keyup`, `click`, `dbclick`, `beforetriggerclicked`, `triggerclicked` events can be added to `triggerField` component property:
+- Event listeners for input (trigger field) `blur`, `change`, `focus`, `select`, `keydown`, `keypress`, `keyup`, `click`, `dbclick`, `beforetriggerclicked`, `triggerclicked` events can be added to `input` component property:
 
 ```js
 const datePicker = document.querySelector('ids-date-picker');
 
-datePicker.triggerField.addEventListener('change');
+datePicker.input.addEventListener('change');
 ```
 - Event listeners for popup `show`, `hide` events can be added to `popup` property:
 ```js
@@ -232,7 +233,7 @@ The Date Picker is a complex control to code for accessibility.
 - This is a new component for 4.x
 
 **4.x to 5.x**
-- Listeners for input and popup events should be added to references `triggerField` and `popup` now. See Events section.
+- Listeners for input and popup events should be added to references `input` and `popup` now. See Events section.
 - `disable/readonly/tabbable` are now attributes not methods
 - If using events events are now plain JS events for example: change
 - Markup has changed to a custom element `<ids-date-picker></ids-date-picker>`

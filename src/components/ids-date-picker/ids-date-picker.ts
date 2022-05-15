@@ -260,13 +260,6 @@ class IdsDatePicker extends Base {
   }
 
   /**
-   * @returns {HTMLElement} reference to the IdsTriggerField component
-   */
-  get triggerField(): HTMLElement {
-    return this.#triggerField;
-  }
-
-  /**
    * Click event is propagated to the window.
    * @param {PointerEvent} e native pointer event
    * @returns {void}

@@ -427,7 +427,7 @@ describe('IdsDatePicker Component Tests', () => {
     it('should trigger input change event when the date is changed', () => {
       const mockCallback = jest.fn();
 
-      component.triggerField.addEventListener('change', mockCallback);
+      component.input.addEventListener('change', mockCallback);
 
       component.value = '1/2/2020';
 
@@ -633,36 +633,36 @@ describe('IdsDatePicker Component Tests', () => {
       component.validate = 'date';
       component.format = 'yyyy-MM-dd';
       component.value = '2012-03-04';
-      component.triggerField.addEventListener('validate', (e: any) => {
+      component.input.addEventListener('validate', (e: any) => {
         isValid = e.detail.isValid;
       });
-      component.triggerField.checkValidation();
+      component.input.checkValidation();
 
       expect(isValid).toBeTruthy();
 
       component.value = '201-03-04';
-      component.triggerField.checkValidation();
+      component.input.checkValidation();
 
       expect(isValid).toBeFalsy();
 
       component.value = '2012-40-04';
-      component.triggerField.checkValidation();
+      component.input.checkValidation();
 
       expect(isValid).toBeFalsy();
 
       component.value = '2012-03-50';
-      component.triggerField.checkValidation();
+      component.input.checkValidation();
 
       expect(isValid).toBeFalsy();
 
       component.format = 'yyyy';
       component.value = '2012';
-      component.triggerField.checkValidation();
+      component.input.checkValidation();
 
       expect(isValid).toBeTruthy();
 
       component.value = '201';
-      component.triggerField.checkValidation();
+      component.input.checkValidation();
 
       expect(isValid).toBeFalsy();
     });
@@ -674,16 +674,16 @@ describe('IdsDatePicker Component Tests', () => {
         dayOfWeek: [0, 6]
       };
       component.validate = 'availableDate';
-      component.triggerField.addEventListener('validate', (e: any) => {
+      component.input.addEventListener('validate', (e: any) => {
         isValid = e.detail.isValid;
       });
       component.value = '2/16/2010';
-      component.triggerField.checkValidation();
+      component.input.checkValidation();
 
       expect(isValid).toBeTruthy();
 
       component.value = '2/15/2010';
-      component.triggerField.checkValidation();
+      component.input.checkValidation();
 
       expect(isValid).toBeFalsy();
     });

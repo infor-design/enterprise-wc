@@ -39,6 +39,9 @@ If both start and end dates are set calendar toolbar will not be displayed.
 ## Events
 - `dayselected` - Fires when a day is selected
 
+## Methods
+- `isDisabledByDate(date: Date): boolean` - Defines if a date is in disabled settings
+
 ## Keyboard Guidelines
 - <kbd>Tab</kbd> - Tabbing will tab across the header elements and into the monthview.
 - <kbd>Shift + Tab</kbd> reverses the direction of the tab order.
