@@ -808,4 +808,150 @@ describe('Ids Month View e2e Tests', () => {
     selected = await page.$eval(name, (el: any) => el?.container.querySelectorAll('.range-selection')?.length);
     expect(selected).toEqual(0);
   });
+
+  it('should show disabled dates visually', async () => {
+    await page.reload({ waitUntil: 'networkidle0' });
+    await page.setRequestInterception(false);
+
+    await page.evaluate((el: any) => {
+      const element = document.querySelector(el);
+
+      if (element) {
+        element.disable = {
+          dayOfWeek: [0, 6],
+          dates: ['11/16/2021']
+        };
+      }
+    }, name);
+
+    // Weekends
+    let isDisabled = await page.$eval(name, (el: any) => {
+      const firstDays: NodeList = el?.container.querySelectorAll('.month-view-table tr td:first-child');
+      const lastDays: NodeList = el?.container.querySelectorAll('.month-view-table tr td:last-child');
+
+      return [...firstDays, ...lastDays].every((item: any) => item.classList.contains('is-disabled'));
+    });
+
+    expect(isDisabled).toBeTruthy();
+
+    await page.evaluate((el: any) => {
+      const element = document.querySelector(el);
+
+      if (element) {
+        element.disable = {
+          dayOfWeek: []
+        };
+      }
+    }, name);
+
+    isDisabled = await page.$eval(name, (el: any) => {
+      const firstDays: NodeList = el?.container.querySelectorAll('.month-view-table tr td:first-child');
+      const lastDays: NodeList = el?.container.querySelectorAll('.month-view-table tr td:last-child');
+
+      return [...firstDays, ...lastDays].every((item: any) => item.classList.contains('is-disabled'));
+    });
+
+    expect(isDisabled).toBeFalsy();
+
+    // Dates
+    isDisabled = await page.$eval(name, (el: any) => {
+      const disabledDate: any = el?.container.querySelector('td[data-year="2021"][data-month="10"][data-day="16"]');
+
+      return disabledDate?.classList.contains('is-disabled');
+    });
+
+    expect(isDisabled).toBeTruthy();
+
+    await page.evaluate((el: any) => {
+      const element = document.querySelector(el);
+
+      if (element) {
+        element.disable = {
+          dates: []
+        };
+      }
+    }, name);
+
+    isDisabled = await page.$eval(name, (el: any) => {
+      const disabledDate: any = el?.container.querySelector('td[data-year="2021"][data-month="10"][data-day="16"]');
+
+      return disabledDate?.classList.contains('is-disabled');
+    });
+
+    expect(isDisabled).toBeFalsy();
+
+    // min/max date and isEnable
+    await page.evaluate((el: any) => {
+      const element = document.querySelector(el);
+
+      if (element) {
+        element.disable = {
+          minDate: '11/6/2021',
+          maxDate: '11/28/2021'
+        };
+      }
+    }, name);
+
+    isDisabled = await page.$eval(name, (el: any) => {
+      const minDateRow: any = el?.container.querySelectorAll('.month-view-table tr:first-child td');
+      const maxDateRow: any = el?.container.querySelectorAll('.month-view-table tr:last-child td');
+
+      return [...minDateRow, ...maxDateRow].every((item: any) => item.classList.contains('is-disabled'));
+    });
+
+    expect(isDisabled).toBeTruthy();
+
+    await page.evaluate((el: any) => {
+      const element = document.querySelector(el);
+
+      if (element) {
+        element.disable = {
+          isEnable: true
+        };
+      }
+    }, name);
+
+    isDisabled = await page.$eval(name, (el: any) => {
+      const minDateRow: any = el?.container.querySelectorAll('.month-view-table tr:first-child td');
+      const maxDateRow: any = el?.container.querySelectorAll('.month-view-table tr:last-child td');
+
+      return [...minDateRow, ...maxDateRow].every((item: any) => item.classList.contains('is-disabled'));
+    });
+
+    expect(isDisabled).toBeFalsy();
+
+    isDisabled = await page.$eval(name, (el: any) => {
+      const rows: any = el?.container.querySelectorAll(
+        `.month-view-table tr:nth-child(2) td,
+        .month-view-table tr:nth-child(3) td,
+        .month-view-table tr:nth-child(4) td`
+      );
+
+      return [...rows].every((item: any) => item.classList.contains('is-disabled'));
+    });
+
+    expect(isDisabled).toBeTruthy();
+
+    // Years
+    await page.evaluate((el: any) => {
+      const element = document.querySelector(el);
+
+      if (element) {
+        element.disable = {
+          minDate: '',
+          maxDate: '',
+          isEnable: false,
+          years: [2021]
+        };
+      }
+    }, name);
+
+    isDisabled = await page.$eval(name, (el: any) => {
+      const month: any = el?.container.querySelectorAll('.month-view-table tr td');
+
+      return [...month].every((item: any) => item.classList.contains('is-disabled'));
+    });
+
+    expect(isDisabled).toBeTruthy();
+  });
 });

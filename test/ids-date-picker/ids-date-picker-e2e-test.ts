@@ -1,6 +1,6 @@
 describe('Ids Date Picker e2e Tests', () => {
   const url = 'http://localhost:4444/ids-date-picker/example.html';
-  const axeUrl = `http://localhost:4444/ids-date-picker/axe.html`;
+  const axeUrl = 'http://localhost:4444/ids-date-picker/axe.html';
 
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
