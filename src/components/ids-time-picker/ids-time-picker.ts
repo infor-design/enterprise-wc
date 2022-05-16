@@ -791,7 +791,7 @@ export default class IdsTimePicker extends Base {
       hours, minutes, seconds, period
     } = this.elements.dropdowns;
 
-    const inputDate: Date = this.locale.parseDate(
+    const inputDate: Date = this.locale?.parseDate(
       this.value,
       { dateFormat: this.format }
     );
