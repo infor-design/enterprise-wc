@@ -8,7 +8,7 @@ import {
   stringToBool,
   stringToNumber
 } from '../../utils/ids-string-utils/ids-string-utils';
-import { addDate, subtractDate, isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
+import { addDate, subtractDate, isValidDate, umalquraToGregorian } from '../../utils/ids-date-utils/ids-date-utils';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 // Supporting components
@@ -856,11 +856,15 @@ class IdsDatePicker extends Base {
   #parseInputDate() {
     if (this.isCalendarToolbar) return;
 
-    const inputDate = this.locale.parseDate(
+    const parsedDate = this.locale.parseDate(
       this.#triggerField?.value,
       { dateFormat: this.format }
     );
-
+    const inputDate = this.locale.isIslamic() ? (parsedDate && umalquraToGregorian(
+      parsedDate[0],
+      parsedDate[1],
+      parsedDate[2]
+    )) : parsedDate;
     const setDateParams = (date: Date) => {
       const month = date.getMonth();
       const year = date.getFullYear();

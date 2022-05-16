@@ -1,4 +1,4 @@
-import { isValidDate, gregorianToUmalqura, umalquraToGregorian } from '../../utils/ids-date-utils/ids-date-utils';
+import { isValidDate, gregorianToUmalqura } from '../../utils/ids-date-utils/ids-date-utils';
 
 /**
  * A mixin that adds locale functionality to components
@@ -1156,15 +1156,15 @@ class IdsLocale {
     }
 
     if (thisLocaleCalendar.name === 'islamic-umalqura') {
-      dateObj.return = umalquraToGregorian(
+      return [
         parseInt(dateObj.year as string, 10),
         parseInt(dateObj.month as string, 10),
         parseInt(dateObj.day as string, 10),
-        parseInt(dateObj.h as string, 10),
-        parseInt(dateObj.mm as string, 10),
-        parseInt(dateObj.ss as string, 10),
-        parseInt(dateObj.ms as string, 10)
-      );
+        parseInt((dateObj.h as string) || '0', 10),
+        parseInt(dateObj.mm as string || '0', 10),
+        parseInt(dateObj.ss as string || '0', 10),
+        parseInt(dateObj.ms as string || '0', 10)
+      ];
     }
 
     return isValidDate(dateObj.return) ? dateObj.return : undefined;
