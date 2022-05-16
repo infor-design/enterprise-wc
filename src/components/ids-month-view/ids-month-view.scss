@@ -732,5 +732,10 @@
         border-left: 0;
       }
     }
+
+    &.is-date-picker ids-date-picker {
+      margin-left: 0;
+      margin-right: 12px;
+    }
   }
 }

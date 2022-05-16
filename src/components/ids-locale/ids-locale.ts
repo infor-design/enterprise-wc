@@ -1,4 +1,4 @@
-import { isValidDate, gregorianToUmalqura } from '../../utils/ids-date-utils/ids-date-utils';
+import { isValidDate, gregorianToUmalqura, umalquraToGregorian } from '../../utils/ids-date-utils/ids-date-utils';
 
 /**
  * A mixin that adds locale functionality to components
@@ -413,9 +413,19 @@ class IdsLocale {
     // Formatting by pattern
     if (options?.pattern && value instanceof Date) {
       const calendar = this.calendar(usedLocale);
-      const year: number = value.getFullYear();
-      const month: number = value.getMonth();
-      const day: number = value.getDate();
+
+      let year: number = value.getFullYear();
+      let month: number = value.getMonth();
+      let day: number = value.getDate();
+
+      if (calendar.name === 'islamic-umalqura') {
+        const umalquraParts = gregorianToUmalqura(value);
+
+        year = umalquraParts?.year;
+        month = umalquraParts?.month;
+        day = umalquraParts?.day;
+      }
+
       const dayOfWeek: number = value.getDay();
       const hours: number = value.getHours();
       const mins: number = value.getMinutes();
@@ -1146,15 +1156,15 @@ class IdsLocale {
     }
 
     if (thisLocaleCalendar.name === 'islamic-umalqura') {
-      return [
+      dateObj.return = umalquraToGregorian(
         parseInt(dateObj.year as string, 10),
         parseInt(dateObj.month as string, 10),
         parseInt(dateObj.day as string, 10),
-        parseInt((dateObj.h as string) || '0', 10),
-        parseInt(dateObj.mm as string || '0', 10),
-        parseInt(dateObj.ss as string || '0', 10),
-        parseInt(dateObj.ms as string || '0', 10)
-      ];
+        parseInt(dateObj.h as string, 10),
+        parseInt(dateObj.mm as string, 10),
+        parseInt(dateObj.ss as string, 10),
+        parseInt(dateObj.ms as string, 10)
+      );
     }
 
     return isValidDate(dateObj.return) ? dateObj.return : undefined;
