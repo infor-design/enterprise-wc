@@ -222,6 +222,7 @@ export default class IdsSwappableItem extends Base {
    * Handle the keyboard events
    */
   #handleKeyEvents() {
+    /* TODO: needs review
     this.listen(['Enter', 'ArrowUp', 'ArrowDown'], this, (e: any) => {
       e.preventDefault();
 
@@ -235,7 +236,6 @@ export default class IdsSwappableItem extends Base {
       }
 
       if (e.key === 'Enter') {
-        /* TODO: need review
         const isEditing = this.querySelector('.is-editing');
         if (isEditing) {
           return;
@@ -246,9 +246,9 @@ export default class IdsSwappableItem extends Base {
         } else {
           this.#toggleSelect();
         }
-        */
       }
     });
+    */
   }
 
   /**

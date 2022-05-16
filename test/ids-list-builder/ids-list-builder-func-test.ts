@@ -152,7 +152,7 @@ describe('IdsListBuilder Component', () => {
     const addBtnElem = idsListBuilder.container.querySelector('#button-add');
     addBtnElem.dispatchEvent(clickEvent);
 
-    const listItems = idsListBuilder.container.querySelectorAll('div[part=list-item]');
+    const listItems = idsListBuilder.container.querySelectorAll('ids-swappable-item[role=listitem]');
     expect(listItems.length).toEqual(sampleData1.length + 1);
 
     const itemInputElem = listItems[0].querySelector('ids-input');
@@ -169,7 +169,7 @@ describe('IdsListBuilder Component', () => {
     const addBtnElem = idsListBuilder.container.querySelector('#button-add');
     addBtnElem.dispatchEvent(clickEvent);
 
-    const listItems = idsListBuilder.container.querySelectorAll('div[part=list-item]');
+    const listItems = idsListBuilder.container.querySelectorAll('ids-swappable-item[role=listitem]');
     expect(listItems.length).toEqual(1);
 
     const itemInputElem = listItems[0].querySelector('ids-input');
@@ -184,10 +184,10 @@ describe('IdsListBuilder Component', () => {
 
     // click edit button
     const editBtnElem = idsListBuilder.container.querySelector('#button-edit');
-    const listItems = idsListBuilder.container.querySelectorAll('div[part=list-item]');
+    const listItems = idsListBuilder.container.querySelectorAll('ids-swappable-item[role=listitem]');
 
     // select first item and edit
-    idsListBuilder.onClick(listItems[0]);
+    listItems[0].dispatchEvent(clickEvent);
     editBtnElem.dispatchEvent(clickEvent);
 
     // check editor element and value
@@ -202,7 +202,7 @@ describe('IdsListBuilder Component', () => {
     const clickEvent = new MouseEvent('click');
 
     const removeBtnElem = idsListBuilder.container.querySelector('#button-delete');
-    let listItems = idsListBuilder.container.querySelectorAll('div[part=list-item]');
+    let listItems = idsListBuilder.container.querySelectorAll('ids-swappable-item[role=listitem]');
     expect(listItems.length).toEqual(sampleData1.length);
 
     // click remove button without selection
@@ -210,10 +210,10 @@ describe('IdsListBuilder Component', () => {
     expect(listItems.length).toEqual(sampleData1.length);
 
     // remove first list item
-    idsListBuilder.onClick(listItems[0]);
+    listItems[0].dispatchEvent(clickEvent);
     removeBtnElem.dispatchEvent(clickEvent);
 
-    listItems = idsListBuilder.container.querySelectorAll('div[part=list-item]');
+    listItems = idsListBuilder.container.querySelectorAll('ids-swappable-item[role=listitem]');
     expect(listItems.length).toEqual(sampleData1.length - 1);
   });
 
@@ -223,15 +223,15 @@ describe('IdsListBuilder Component', () => {
     const clickEvent = new MouseEvent('click');
 
     const moveUpBtnElem = idsListBuilder.container.querySelector('#button-up');
-    const listItems = idsListBuilder.container.querySelectorAll('div[part=list-item]');
+    const listItems = idsListBuilder.container.querySelectorAll('ids-swappable-item[role=listitem]');
     expect(listItems.length).toEqual(sampleData1.length);
 
     // click move up button without selection
     moveUpBtnElem.dispatchEvent(clickEvent);
     expect(idsListBuilder.data[0].manufacturerName).toBe('name1');
 
-    // remove first list item
-    idsListBuilder.onClick(listItems[1]);
+    // click second list item
+    listItems[1].dispatchEvent(clickEvent);
     moveUpBtnElem.dispatchEvent(clickEvent);
 
     expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[1].manufacturerName);
@@ -244,15 +244,15 @@ describe('IdsListBuilder Component', () => {
     const clickEvent = new MouseEvent('click');
 
     const moveDownBtnElem = idsListBuilder.container.querySelector('#button-down');
-    const listItems = idsListBuilder.container.querySelectorAll('div[part=list-item]');
+    const listItems = idsListBuilder.container.querySelectorAll('ids-swappable-item[role=listitem]');
     expect(listItems.length).toEqual(sampleData1.length);
 
     // click move up button without selection
     moveDownBtnElem.dispatchEvent(clickEvent);
     expect(idsListBuilder.data[0].manufacturerName).toBe('name1');
 
-    // remove first list item
-    idsListBuilder.onClick(listItems[0]);
+    // click first list item
+    listItems[0].dispatchEvent(clickEvent);
     moveDownBtnElem.dispatchEvent(clickEvent);
 
     expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[1].manufacturerName);
@@ -262,9 +262,10 @@ describe('IdsListBuilder Component', () => {
   it('keyboard support for select/toggle/arrow up/arrow down/delete', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
     idsListBuilder.data = sampleData1;
+    const clickEvent = new MouseEvent('click');
 
-    const listItems = idsListBuilder.container.querySelectorAll('div[part=list-item]');
-    idsListBuilder.onClick(listItems[0]);
+    const listItems = idsListBuilder.container.querySelectorAll('ids-swappable-item[role=listitem]');
+    listItems[0].dispatchEvent(clickEvent);
 
     // toggle editor
     listItems[0].dispatchEvent(createKeyboardEvent('Enter'));
@@ -302,14 +303,14 @@ describe('IdsListBuilder Component', () => {
     // for item level keyboard
     const keys = ['ArrowDown', 'ArrowUp', 'Tab'];
     for (let i = 0; i < keys.length; i++) {
-      idsListBuilder.onClick(listItems[0]);
+      listItems[0].dispatchEvent(clickEvent);
       listItems[0].dispatchEvent(createKeyboardEvent('Enter'));
       listItems[0].dispatchEvent(createKeyboardEvent(keys[i]));
       expect(listItems[0].querySelector('ids-input')).toBeFalsy();
     }
 
     listItems[0].dispatchEvent(createKeyboardEvent('Delete'));
-    expect(idsListBuilder.container.querySelectorAll('div[part=list-item]')).toHaveLength(2);
+    expect(idsListBuilder.container.querySelectorAll('ids-swappable-item[role=listitem]')).toHaveLength(2);
   });
 
   it('update list item editor value', async () => {
@@ -321,7 +322,7 @@ describe('IdsListBuilder Component', () => {
     const addBtnElem = idsListBuilder.container.querySelector('#button-add');
     addBtnElem.dispatchEvent(clickEvent);
 
-    const listItems = idsListBuilder.container.querySelectorAll('div[part=list-item]');
+    const listItems = idsListBuilder.container.querySelectorAll('ids-swappable-item[role=listitem]');
     expect(listItems.length).toEqual(1);
 
     const itemInputElem = listItems[0].querySelector('ids-input');

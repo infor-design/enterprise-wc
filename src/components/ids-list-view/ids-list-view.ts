@@ -43,9 +43,7 @@ export default class IdsListView extends Base {
     this.dataKeys = this.#extractTemplateLiteralsFromHTML(this.defaultTemplate);
     super.connectedCallback();
     this.#attachEventListeners();
-    if (!this.sortable) {
-      this.#attachKeyboardListeners();
-    }
+    this.#attachKeyboardListeners();
   }
 
   /**
@@ -160,27 +158,25 @@ export default class IdsListView extends Base {
   }
 
   getFocusedLi() {
-    const savedFocusedLi = this.container.querySelector(`div[role="listitem"][index="${this.#focusedLiIndex}"]`);
-    const val = savedFocusedLi ?? this.container.querySelector('div[role="listitem"][tabindex="0"]');
+    const savedFocusedLi = this.container.querySelector(`ids-swappable-item[role="listitem"][index="${this.#focusedLiIndex}"]`);
+    const val = savedFocusedLi ?? this.container.querySelector('ids-swappable-item[role="listitem"][tabindex="0"]');
     return val;
   }
 
   getPreviousLi(li: any) {
-    return this.sortable
-      ? li.parentElement.previousElementSibling?.firstElementChild // needs to navigate outside to ids-draggable wrapper
-      : li.previousElementSibling;
+    return li.previousElementSibling;
   }
 
   getNextLi(li: any) {
-    return this.sortable
-      ? li.parentElement.nextElementSibling?.firstElementChild
-      : li.nextElementSibling;
+    return li.nextElementSibling;
   }
 
   listItemTemplateFunc() {
     const func = (item: any, index: number) => `
       ${this.sortable ? `<ids-swappable-item
         role="listitem"
+        tabindex="-1"
+        tabbable="false"
         index="${index}"
         id="id_item_${index + 1}"
         aria-posinset="${index + 1}"
@@ -446,12 +442,9 @@ export default class IdsListView extends Base {
    * @returns {NodeList | HTMLElement} a list if multiselect is enabled, else the single selected list item
    */
   get selectedLi(): any {
-    // const savedSelectedLi = this.selectable === 'multiple'
-    //   ? this.container.querySelectorAll(`div[part=list-item][selected='selected']`)
-    //   : this.container.querySelector(`div[part="list-item"][index="${this.#selectedLiIndex}"]`);
     const savedSelectedLi = this.selectable === 'multiple'
-      ? this.container.querySelector(`div[part=list-item][selected='selected']`)
-      : this.container.querySelector(`div[part="list-item"][index="${this.#selectedLiIndex}"]`);
+      ? this.container.querySelector(`ids-swappable-item[selected]`)
+      : this.container.querySelector(`ids-swappable-list[role="listitem"][index="${this.#selectedLiIndex}"]`);
     return savedSelectedLi;
   }
 
@@ -561,34 +554,6 @@ export default class IdsListView extends Base {
     const dataIdx = item.getAttribute('index');
     return dataIdx ? this.data[dataIdx] : {};
   }
-
-  // /**
-  //  * Overrides the ids-sortable-mixin function to focus on item
-  //  * @param {Element} el element to be dragged
-  //  */
-  // onDragStart(el: any) {
-  //   super.onDragStart(el);
-
-  //   const li = el.querySelector('div[part="list-item"]');
-  //   this.onClick(li);
-
-  //   this.triggerEvent('itemClick', this, {
-  //     detail: this.getListItemData(li)
-  //   });
-  // }
-
-  // /**
-  //  * Overrides the ids-sortable-mixin function to focus on item
-  //  * @param {Element} el element to be dragged
-  //  */
-  // onDragEnd(el: any) {
-  //   super.onDragEnd(el);
-
-  //   const li = el.querySelector('div[part="list-item"]');
-  //   li.focus();
-
-  //   this.updateDataFromDOM();
-  // }
 
   /**
    * Overrides the ids-sortable-mixin function to add styling for the placeholder node

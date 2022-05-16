@@ -298,7 +298,7 @@ export default class IdsListBuilder extends Base {
       if (this.selectedLi) {
         this.#unfocusAnySelectedLiEditor();
 
-        const prev = this.selectedLi?.previousSibling;
+        const prev = this.selectedLi?.previousElementSibling;
         if (prev) {
           this.swap(this.selectedLi, prev);
         }
@@ -340,6 +340,10 @@ export default class IdsListBuilder extends Base {
     this.onEvent('click', this.container.querySelector('#button-delete'), () => {
       this.#removeSelectedLi();
     });
+
+    this.getAllSwappableItems().forEach((li: any) => {
+      this.#attachClickListenersForLi(li);
+    });
   }
 
   /**
@@ -359,16 +363,22 @@ export default class IdsListBuilder extends Base {
     }
   }
 
-  // TODO: remove
-  // #attachKeyboardListeners() {
-  //   this.listen('Enter', this.selectedLi, (e: Event | any) => {
-  //     this.#toggleEditor(e);
-  //   });
-  // }
-
   #attachKeyboardListeners(): void {
     this.getAllSwappableItems().forEach((li: any) => {
       this.#attachKeyboardListenersForLi(li);
+    });
+  }
+
+  /**
+   * Helper function to attach mouse events to each individual item
+   * @private
+   * @param {any} li the list item
+   * @returns {void}
+   */
+  #attachClickListenersForLi(li: any): void {
+    this.offEvent('click', li);
+    this.onEvent('click', li, () => {
+      this.focusLi(li);
     });
   }
 
@@ -400,6 +410,9 @@ export default class IdsListBuilder extends Base {
           break;
         case 'ArrowDown':
           this.#unfocusAnySelectedLiEditor();
+          break;
+        case 'Delete':
+          this.#removeSelectedLi();
           break;
         default:
           break;
