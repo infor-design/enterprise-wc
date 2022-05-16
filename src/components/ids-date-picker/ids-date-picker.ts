@@ -8,7 +8,9 @@ import {
   stringToBool,
   stringToNumber
 } from '../../utils/ids-string-utils/ids-string-utils';
-import { addDate, subtractDate, isValidDate, umalquraToGregorian } from '../../utils/ids-date-utils/ids-date-utils';
+import {
+  addDate, subtractDate, isValidDate, umalquraToGregorian
+} from '../../utils/ids-date-utils/ids-date-utils';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 // Supporting components
