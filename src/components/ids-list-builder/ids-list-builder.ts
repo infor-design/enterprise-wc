@@ -205,7 +205,6 @@ export default class IdsListBuilder extends Base {
 
         // update inner text on keyup
         this.onEvent('keyup', i, () => this.#updateSelectedLiWithEditorValue());
-        this.onEvent('blur', i, () => this.#unfocusAnySelectedLiEditor(), { once: true });
       } else {
         this.#selectedLiEditor.focus();
       }
@@ -290,7 +289,7 @@ export default class IdsListBuilder extends Base {
       this.#insertSelectedLiWithEditor(newEntry);
 
       this.triggerEvent('itemAdd', this, {
-        detail: this.getListItemData(listItem)
+        detail: this.getListItemData(newSwappableItem)
       });
     });
 
@@ -299,7 +298,7 @@ export default class IdsListBuilder extends Base {
       if (this.selectedLi) {
         this.#unfocusAnySelectedLiEditor();
 
-        const prev = this.selectedLi.previousSibling?.previousSibling;
+        const prev = this.selectedLi?.previousSibling;
         if (prev) {
           this.swap(this.selectedLi, prev);
         }
@@ -318,9 +317,9 @@ export default class IdsListBuilder extends Base {
       if (this.selectedLi) {
         this.#unfocusAnySelectedLiEditor();
 
-        const next = this.selectedLi.nextElementSibling?.nextElementSibling;
+        const next = this.selectedLi?.nextElementSibling;
         if (next) {
-          this.swap(this.selectedLi, next);
+          this.swap(next, this.selectedLi);
         }
         this.updateDataFromDOM();
 
@@ -347,18 +346,13 @@ export default class IdsListBuilder extends Base {
    * Add/remove the editor in one function,
    * used when `Enter` key is hit on a selected list item
    * @private
-   * @param {Event | any} e event
    * @returns {void}
    */
-  #toggleEditor(e: Event | any): void {
+  #toggleEditor(): void {
     if (this.selectedLi) {
       if (!this.#selectedLiEditor) {
         this.#insertSelectedLiWithEditor();
       } else {
-        if (e.key === 'Enter') {
-          this.#selectedLiEditor.blur();
-          return;
-        }
         this.#unfocusAnySelectedLiEditor();
       }
       this.focusLi(this.selectedLi);
@@ -390,7 +384,7 @@ export default class IdsListBuilder extends Base {
       switch (event.key) {
         case 'Enter': // edits the list item
           event.preventDefault();
-          this.#toggleEditor(event);
+          this.#toggleEditor();
           break;
         case ' ': // selects the list item
           if (!this.#selectedLiEditor) {

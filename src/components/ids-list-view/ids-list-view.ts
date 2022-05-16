@@ -140,13 +140,6 @@ export default class IdsListView extends Base {
     });
   }
 
-  // TODO: remove
-  // onClick(item: HTMLLIElement) {
-  //   console.log('onClick');
-  //   this.focusLi(item);
-  //   if (this.selectable) this.toggleSelectedLi(item);
-  // }
-
   focusLi(li: HTMLLIElement) {
     if (li) {
       const prevFocus = this.getFocusedLi();
@@ -167,8 +160,8 @@ export default class IdsListView extends Base {
   }
 
   getFocusedLi() {
-    const savedFocusedLi = this.container.querySelector(`div[part="list-item"][index="${this.#focusedLiIndex}"]`);
-    const val = savedFocusedLi ?? this.container.querySelector('div[part="list-item"][tabindex="0"]');
+    const savedFocusedLi = this.container.querySelector(`div[role="listitem"][index="${this.#focusedLiIndex}"]`);
+    const val = savedFocusedLi ?? this.container.querySelector('div[role="listitem"][tabindex="0"]');
     return val;
   }
 
