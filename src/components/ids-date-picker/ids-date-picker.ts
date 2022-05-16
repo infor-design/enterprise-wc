@@ -1328,16 +1328,16 @@ class IdsDatePicker extends Base {
       this.placeholder = this.format;
     }
 
+    this.container.querySelector('ids-time-picker')?.remove();
+
     if (this.#hasTime()) {
-      this.#monthView.insertAdjacentHTML('afterend', `
+      this.#monthView?.insertAdjacentHTML('afterend', `
         <ids-time-picker
           embeddable="true"
           value="${this.value}"
           format="${this.format}"
         ></ids-time-picker>
       `);
-    } else {
-      this.container.querySelector('ids-time-picker')?.remove();
     }
 
     this.#applyMask();

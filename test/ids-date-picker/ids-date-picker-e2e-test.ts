@@ -673,4 +673,124 @@ describe('Ids Date Picker e2e Tests', () => {
 
     expect(value).toEqual('');
   });
+
+  it('should handle time', async () => {
+    await page.evaluate(() => {
+      (document as any).querySelector('ids-container').insertAdjacentHTML(
+        'afterbegin',
+        '<ids-date-picker id="e2e-datepicker-time" value="2/3/2010 08:24 AM" format="M/d/yyyy hh:mm a"></ids-date-picker>'
+      );
+
+      (document.querySelector as any)('#e2e-datepicker-time').show();
+    });
+
+    // If time picker appears from format
+    let timePicker = await page.$eval(
+      '#e2e-datepicker-time',
+      (el: any) => el?.container.querySelector('ids-time-picker')
+    );
+
+    expect(timePicker).not.toBeNull();
+
+    const getTimeValues = async () => {
+      const hours: string = await page.$eval(
+        '#e2e-datepicker-time',
+        (el: any) => el?.container.querySelector('ids-time-picker')?.container.querySelector('#hours')?.value
+      );
+
+      const minutes: string = await page.$eval(
+        '#e2e-datepicker-time',
+        (el: any) => el?.container.querySelector('ids-time-picker')?.container.querySelector('#minutes')?.value
+      );
+
+      const seconds: string = await page.$eval(
+        '#e2e-datepicker-time',
+        (el: any) => el?.container.querySelector('ids-time-picker')?.container.querySelector('#seconds')?.value
+      );
+
+      const period: string = await page.$eval(
+        '#e2e-datepicker-time',
+        (el: any) => el?.container.querySelector('ids-time-picker')?.container.querySelector('#period')?.value
+      );
+
+      return {
+        hours, minutes, seconds, period
+      };
+    };
+
+    // Time picker has values from date picker input
+    expect(+(await getTimeValues()).hours).toEqual(8);
+    expect(+(await getTimeValues()).minutes).toEqual(24);
+    expect((await getTimeValues()).period).toEqual('AM');
+
+    // Changing date picker input
+    await page.evaluate(() => {
+      (document.querySelector as any)('#e2e-datepicker-time').hide();
+      (document.querySelector as any)('#e2e-datepicker-time').value = '2/3/2010 11:00 PM';
+      (document.querySelector as any)('#e2e-datepicker-time').show();
+    });
+
+    expect(+(await getTimeValues()).hours).toEqual(11);
+    expect(+(await getTimeValues()).minutes).toEqual(0);
+    expect((await getTimeValues()).period).toEqual('PM');
+
+    // Changing format
+    await page.evaluate(() => {
+      (document.querySelector as any)('#e2e-datepicker-time').hide();
+      (document.querySelector as any)('#e2e-datepicker-time').format = 'M/d/yyyy HH:mm:ss';
+      (document.querySelector as any)('#e2e-datepicker-time').value = '2/3/2010 23:25:44';
+      (document.querySelector as any)('#e2e-datepicker-time').show();
+    });
+
+    expect(+(await getTimeValues()).hours).toEqual(23);
+    expect(+(await getTimeValues()).minutes).toEqual(25);
+    expect(+(await getTimeValues()).seconds).toEqual(44);
+
+    // Time picker dropdowns value to the input
+    const value = await page.$eval(
+      '#e2e-datepicker-time',
+      (el: any) => {
+        el.format = 'M/d/yyyy hh:mm:ss a';
+        el.value = '2/3/2010 08:24:00 AM';
+        const hours = el.container.querySelector('ids-time-picker').container.querySelector('#hours');
+        const minutes = el.container.querySelector('ids-time-picker').container.querySelector('#minutes');
+        const seconds = el.container.querySelector('ids-time-picker').container.querySelector('#seconds');
+        const period = el.container.querySelector('ids-time-picker').container.querySelector('#period');
+
+        if (hours) {
+          hours.value = 10;
+        }
+
+        if (minutes) {
+          minutes.value = 12;
+        }
+
+        if (seconds) {
+          seconds.value = 14;
+        }
+
+        if (period) {
+          period.value = 'PM';
+        }
+
+        el.container.querySelector('ids-month-view').container.querySelector('td.is-selected').click();
+
+        return el?.value;
+      }
+    );
+
+    expect(value).toEqual('2/3/2010 10:12:14 PM');
+
+    // Remove time picker
+    await page.evaluate(() => {
+      (document.querySelector as any)('#e2e-datepicker-time').format = 'M/d/yyyy';
+    });
+
+    timePicker = await page.$eval(
+      '#e2e-datepicker-time',
+      (el: any) => el?.container.querySelector('ids-time-picker')
+    );
+
+    expect(timePicker).toBeNull();
+  });
 });
