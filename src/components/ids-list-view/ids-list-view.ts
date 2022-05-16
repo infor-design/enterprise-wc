@@ -140,10 +140,12 @@ export default class IdsListView extends Base {
     });
   }
 
-  onClick(item: HTMLLIElement) {
-    this.focusLi(item);
-    if (this.selectable) this.toggleSelectedLi(item);
-  }
+  // TODO: remove
+  // onClick(item: HTMLLIElement) {
+  //   console.log('onClick');
+  //   this.focusLi(item);
+  //   if (this.selectable) this.toggleSelectedLi(item);
+  // }
 
   focusLi(li: HTMLLIElement) {
     if (li) {
@@ -184,15 +186,16 @@ export default class IdsListView extends Base {
 
   listItemTemplateFunc() {
     const func = (item: any, index: number) => `
-      ${this.sortable ? `<ids-swappable-item>` : ''}
+      ${this.sortable ? `<ids-swappable-item
+        role="listitem"
+        index="${index}"
+        id="id_item_${index + 1}"
+        aria-posinset="${index + 1}"
+        aria-setsize="${this.data.length}"
+      >` : ''}
         <div
           part="list-item"
-          role="listitem"
           tabindex="-1"
-          index="${index}"
-          id="id_item_${index + 1}"
-          aria-posinset="${index + 1}"
-          aria-setsize="${this.data.length}"
         >
           ${this.itemTemplate(item)}
         </div>
@@ -210,7 +213,7 @@ export default class IdsListView extends Base {
     return `
       <div class="ids-list-view">
         <div class="ids-list-view-body" role="list">
-          ${this.sortable ? `<ids-swappable>` : ''}
+          ${this.sortable ? `<ids-swappable selection=${this.selectable}>` : ''}
             ${this.data.length > 0 ? this.data?.map(this.listItemTemplateFunc()).join('') : ''}
           ${this.sortable ? `</ids-swappable>` : ''}
         </div>
@@ -310,7 +313,6 @@ export default class IdsListView extends Base {
         `);
 
         this.virtualScrollContainer.itemHeight = itemHeight; // calls renderItems()
-
         this.virtualScrollContainer.itemTemplate = this.listItemTemplateFunc();
         this.virtualScrollContainer.data = this.data; // calls renderItems()
 
@@ -512,7 +514,7 @@ export default class IdsListView extends Base {
       unselect();
     } else {
       // otherwise toggle it depending on whether or not it has the attribute already
-      const hasSelectedAttribute = item.getAttribute('selected');
+      const hasSelectedAttribute = item.hasAttribute('selected');
       if (hasSelectedAttribute) {
         unselect();
       } else {
@@ -528,9 +530,7 @@ export default class IdsListView extends Base {
    * @param {any} item the selected list item to toggle
    */
   toggleSelectedLi(item: any) {
-    if (
-      (item.tagName === 'DIV' && item.getAttribute('part') === 'list-item')
-      || item.tagName === 'IDS-SWAPPABLE-ITEM') {
+    if (item.tagName === 'IDS-SWAPPABLE-ITEM') {
       if (this.selectable === 'single') {
         const prevSelectedLi: HTMLLIElement = this.selectedLi;
         if (item !== prevSelectedLi && prevSelectedLi) {
@@ -569,33 +569,33 @@ export default class IdsListView extends Base {
     return dataIdx ? this.data[dataIdx] : {};
   }
 
-  /**
-   * Overrides the ids-sortable-mixin function to focus on item
-   * @param {Element} el element to be dragged
-   */
-  onDragStart(el: any) {
-    super.onDragStart(el);
+  // /**
+  //  * Overrides the ids-sortable-mixin function to focus on item
+  //  * @param {Element} el element to be dragged
+  //  */
+  // onDragStart(el: any) {
+  //   super.onDragStart(el);
 
-    const li = el.querySelector('div[part="list-item"]');
-    this.onClick(li);
+  //   const li = el.querySelector('div[part="list-item"]');
+  //   this.onClick(li);
 
-    this.triggerEvent('itemClick', this, {
-      detail: this.getListItemData(li)
-    });
-  }
+  //   this.triggerEvent('itemClick', this, {
+  //     detail: this.getListItemData(li)
+  //   });
+  // }
 
-  /**
-   * Overrides the ids-sortable-mixin function to focus on item
-   * @param {Element} el element to be dragged
-   */
-  onDragEnd(el: any) {
-    super.onDragEnd(el);
+  // /**
+  //  * Overrides the ids-sortable-mixin function to focus on item
+  //  * @param {Element} el element to be dragged
+  //  */
+  // onDragEnd(el: any) {
+  //   super.onDragEnd(el);
 
-    const li = el.querySelector('div[part="list-item"]');
-    li.focus();
+  //   const li = el.querySelector('div[part="list-item"]');
+  //   li.focus();
 
-    this.updateDataFromDOM();
-  }
+  //   this.updateDataFromDOM();
+  // }
 
   /**
    * Overrides the ids-sortable-mixin function to add styling for the placeholder node

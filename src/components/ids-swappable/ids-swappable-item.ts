@@ -235,6 +235,7 @@ export default class IdsSwappableItem extends Base {
       }
 
       if (e.key === 'Enter') {
+        /* TODO: need review
         const isEditing = this.querySelector('.is-editing');
         if (isEditing) {
           return;
@@ -245,6 +246,7 @@ export default class IdsSwappableItem extends Base {
         } else {
           this.#toggleSelect();
         }
+        */
       }
     });
   }
