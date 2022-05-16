@@ -793,4 +793,40 @@ describe('Ids Date Picker e2e Tests', () => {
 
     expect(timePicker).toBeNull();
   });
+
+  it('should handle UTC date format', async () => {
+    await page.evaluate(() => {
+      const component = (document.querySelector as any)('#e2e-datepicker-value');
+
+      component.format = 'yyyy-MM-ddTHH:mm:ss.SSSZ';
+      component.value = '2022-05-16T00:00:00.000Z';
+      component.show();
+    });
+
+    // Parsing
+    const isValidCalendar = await page.$eval(
+      '#e2e-datepicker-value',
+      (el: any) => {
+        const monthView = el?.container.querySelector('ids-month-view');
+
+        return monthView?.year === 2022 && monthView?.month === 4 && monthView?.day === 16;
+      }
+    );
+
+    expect(isValidCalendar).toBeTruthy();
+
+    // Formatting
+    await page.evaluate(() => {
+      const component = (document.querySelector as any)('#e2e-datepicker-value');
+
+      component.year = 2018;
+      component.month = 2;
+      component.day = 22;
+      component.container.querySelector('ids-month-view').container.querySelector('td.is-selected').click();
+    });
+
+    const value = await page.$eval('#e2e-datepicker-value', (el: any) => el?.value);
+
+    expect(value).toEqual('2018-03-22T00:00:00');
+  });
 });
