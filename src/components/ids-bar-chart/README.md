@@ -114,6 +114,52 @@ Sample:     |==================|
 
 (See Axis Chart Settings for other shared settings)
 
+## Patterns
+
+The bar chart includes patterns that can be used for color blind users. We plan on adding this to other charts as well.
+To use a pattern specify it on the `pattern` attribute it in the data. You can also set a `patternColor` otherwise it will use the default color for that item in the series.
+
+```js
+const data = [{
+  data: [{
+    name: 'Jan',
+    value: 1
+  }, {
+    name: 'Feb',
+    value: 2
+  }],
+  name: 'Component A',
+  pattern: 'circles',
+  patternColor: '#DA1217'
+}];
+```
+
+The following patterns are supported:
+
+``sh
+arrows
+boxes
+checkers
+patches
+circles
+exes
+diamonds
+dots
+stars
+mixed
+squares
+hex
+big-hex
+intersect
+lines
+bars
+pipes
+mesh
+pluses
+waves
+big-waves
+```
+
 ## Events
 
 (See Axis Chart Settings for more information)

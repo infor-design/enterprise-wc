@@ -6,7 +6,6 @@ import IdsContainer from '../../src/components/ids-container/ids-container';
 import '../../src/components/ids-empty-message/ids-empty-message';
 import '../../src/components/ids-text/ids-text';
 import '../helpers/resize-observer-mock';
-import badDataset from '../../src/assets/data/products.json';
 import dataset from '../../src/assets/data/components.json';
 import processAnimFrame from '../helpers/process-anim-frame';
 
@@ -33,7 +32,6 @@ describe('IdsAxisChart Component', () => {
     document.body.innerHTML = '';
     axisChart = new IdsAxisChart();
     document.body.appendChild(axisChart);
-    axisChart.data = badDataset;
     axisChart.data = dataset;
 
     axisChart.remove();
@@ -135,7 +133,7 @@ describe('IdsAxisChart Component', () => {
   it('supports setting dataset to null', () => {
     expect(axisChart.shadowRoot.querySelector('.grid')).toBeTruthy();
     axisChart.data = null;
-    expect(axisChart.data).toBeFalsy();
+    expect(axisChart.data).toEqual([]);
   });
 
   it('supports setting yAxisMin', () => {
@@ -179,7 +177,7 @@ describe('IdsAxisChart Component', () => {
   });
 
   it('renders an empty message with empty data', async () => {
-    expect(axisChart.emptyMessage.getAttribute('hidden')).toBeTruthy();
+    expect(axisChart.emptyMessage.getAttribute('hidden')).toEqual('');
     axisChart.data = [];
     expect(axisChart.emptyMessage.getAttribute('hidden')).toBeFalsy();
     axisChart.data = [{
@@ -191,7 +189,7 @@ describe('IdsAxisChart Component', () => {
         value: null
       }]
     }];
-    expect(axisChart.emptyMessage.getAttribute('hidden')).toBeTruthy();
+    expect(axisChart.emptyMessage.getAttribute('hidden')).toEqual('');
     axisChart.data = [];
     expect(axisChart.emptyMessage.getAttribute('hidden')).toBeFalsy();
   });
@@ -206,7 +204,7 @@ describe('IdsAxisChart Component', () => {
 
   it('can get colors and color range', async () => {
     expect(axisChart.colors.length).toEqual(20);
-    expect(axisChart.color(2)).toEqual('--ids-color-palette-amethyst-60');
+    expect(axisChart.color(2)).toEqual('var(--ids-color-palette-amethyst-60)');
   });
 
   it('renders when changing format/locale', async () => {
@@ -267,6 +265,13 @@ describe('IdsAxisChart Component', () => {
     expect(axisChart.shadowRoot.querySelectorAll('.x-labels text')[1].textContent).toEqual('Feb');
   });
 
+  it('fires rendered callback', async () => {
+    const renderedListener = jest.fn();
+    axisChart.rendered = renderedListener;
+    axisChart.rerender();
+    expect(renderedListener).toBeCalledTimes(1);
+  });
+
   it('can set the legend placement', async () => {
     expect(axisChart.legendPlacement).toEqual('bottom');
     axisChart.legendPlacement = 'left';
@@ -278,6 +283,29 @@ describe('IdsAxisChart Component', () => {
     axisChart.legendPlacement = 'bottom';
     axisChart.rerender();
     expect(axisChart.container.parentNode.classList.contains('legend-bottom')).toBeTruthy();
+  });
+
+  it('can set alignXLabels', () => {
+    expect(axisChart.alignXLabels).toEqual('start');
+    axisChart.alignXLabels = 'middle';
+    axisChart.rerender();
+    expect(axisChart.container.querySelector('.x-labels text').getAttribute('text-anchor')).toEqual('middle');
+  });
+
+  it('can set animationSpeed', () => {
+    expect(axisChart.animationSpeed).toEqual(0.8);
+    axisChart.animationSpeed = 1.5;
+    axisChart.rerender();
+    expect(axisChart.getAttribute('animation-speed')).toEqual('1.5');
+  });
+
+  it('has no tooltip elements when only the base', () => {
+    expect(axisChart.tooltipElements()).toEqual([]);
+  });
+
+  it('has no tooltip elements when only the base', () => {
+    const axisChart2 = new IdsAxisChart();
+    expect(axisChart2.data).toEqual([]);
   });
 
   it('can set custom colors', async () => {
@@ -305,9 +333,9 @@ describe('IdsAxisChart Component', () => {
     axisChart.rerender();
 
     expect(axisChart.container.parentNode.querySelectorAll('.swatch')[0].classList.contains('color-1')).toBeTruthy();
-    expect(axisChart.color(0)).toEqual('color-1');
+    expect(axisChart.color(0)).toEqual('var(color-1)');
 
     expect(axisChart.container.parentNode.querySelectorAll('.swatch')[1].classList.contains('color-2')).toBeTruthy();
-    expect(axisChart.color(1)).toEqual('color-2');
+    expect(axisChart.color(1)).toEqual('var(color-2)');
   });
 });

@@ -77,4 +77,11 @@ describe('IdsLineChart Component', () => {
     expect(lineChart.shadowRoot.querySelector('circle').getAttribute('r')).toEqual('5');
     expect(lineChart.color(1)).toEqual('var(color-2)');
   });
+
+  it('supports short labels', () => {
+    // Needs a real DOM to test properly
+    lineChart.width = 300;
+    lineChart.rerender();
+    expect(lineChart.shadowRoot.querySelector('.chart-legend').innerHTML).toMatchSnapshot();
+  });
 });

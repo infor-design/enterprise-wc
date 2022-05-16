@@ -241,8 +241,8 @@ export default class IdsAxisChart extends Base {
     }
   }
 
-  /** The Empty Marker Data for defaults/reseting */
-  #emptyMarkerData: IdsChartMarkerData = {
+  /** The marker data to use to draw the chart */
+  markerData: IdsChartMarkerData = {
     markerCount: 0,
     groupCount: 0,
     min: 0,
@@ -255,9 +255,6 @@ export default class IdsAxisChart extends Base {
     groupTotals: [0],
   };
 
-  /** The marker data to use to draw the chart */
-  markerData: IdsChartMarkerData = this.#emptyMarkerData;
-
   /**
    * Get the min/max points and calculate the scale
    * @private
@@ -265,7 +262,18 @@ export default class IdsAxisChart extends Base {
   #calculate(): void {
     let groupCount = 0;
     let markerCount = 0;
-    this.markerData = this.#emptyMarkerData;
+    this.markerData = {
+      markerCount: 0,
+      groupCount: 0,
+      min: 0,
+      max: 0,
+      scale: new NiceScale(this.yAxisMin, 0),
+      gridTop: 0,
+      gridBottom: 0,
+      gridLeft: 0,
+      gridRight: 0,
+      groupTotals: [0],
+    };
 
     // Get the Min and Max and Totals in one sequence
     this.data?.forEach((group: any, index: number) => {
@@ -297,7 +305,7 @@ export default class IdsAxisChart extends Base {
     const scale: NiceScale = new NiceScale(this.yAxisMin, this.stacked ? groupMax : this.markerData.max);
     this.markerData.scale = scale;
     this.markerData.scaleY = [];
-    for (let i = (scale.niceMin || 0); i <= (scale.niceMax || 0); i += (scale.tickSpacing || 0)) {
+    for (let i = (scale.niceMin || 0); i <= (scale.niceMax); i += (scale.tickSpacing || 0)) {
       this.markerData.scaleY.push(i);
     }
 
@@ -348,11 +356,6 @@ export default class IdsAxisChart extends Base {
     this.data?.forEach((group: IdsChartData, index: number) => {
       const data = (group as any);
       colorSheet += `--ids-chart-color-${index + 1}: ${data.patternColor || data.color || `var(${this.colors[index]})`} !important;`;
-      if (data.pattern && patternData[data.pattern]) {
-        const patternCss = patternData[data.pattern].replace(/</g, '%3c').replace(/>/g, '%3e');
-        const px = patternData[data.pattern].indexOf('width=\'4\'') ? '4' : '8';
-        colorSheet += `--ids-chart-pattern-${index + 1}: url("data:image/svg+xml,%3Csvg width='${px}' height='${px}' viewBox='0 0 ${px} ${px}' xmlns='http://www.w3.org/2000/svg'${patternCss}%3c/svg%3E") !important;`;
-      }
     });
 
     const styleSheet = this.shadowRoot.styleSheets[0];
@@ -424,13 +427,6 @@ export default class IdsAxisChart extends Base {
       this.onEvent('hoverend', element, async () => {
         const tooltip = this.container.querySelector('ids-tooltip');
         tooltip.innerHTML = this.#tooltipContent(element);
-
-        // Not content - don't show
-        if (!tooltip.innerHTML) {
-          return;
-        }
-
-        // Show the tooltip and remove it when it closes
         tooltip.target = element;
         tooltip.placement = 'top';
         tooltip.visible = true;
@@ -473,11 +469,15 @@ export default class IdsAxisChart extends Base {
     if (this.stacked) {
       let html = `<div class="tooltip-center"><b>${data.label}</b></div><div class="tooltip chart-legend">`;
       for (let i = 0; i < this.data.length; i++) {
-        const label = this.data[i].name;
+        const dataGroup = this.data[i];
+        const label = dataGroup.name;
         const value = (this.data as any)[i].data[index]?.value;
+        const colorClass = dataGroup.pattern ? '' : ` color-${i + 1}`;
+        const patternSvg = dataGroup.pattern ? `<svg width="12" height="12" xmlns="http://www.w3.org/2000/svg"><rect width="12" height="12" fill="url(#${dataGroup.pattern})"></rect></svg>` : '';
+
         if (label && value) {
           html += `<div class="tooltip-row">
-            <div class="swatch color-${i + 1}"></div>
+            <div class="swatch${colorClass}">${patternSvg}</div>
             <span>${this.data[i].name}</span>
             <b>${(this.data as any)[i].data[index].value}</b></div>`;
         }
@@ -577,22 +577,11 @@ export default class IdsAxisChart extends Base {
   }
 
   /**
-   * Return true if there is at least one data point
-   * @returns {boolean} True if there is at least one data point
-   */
-  get hasData(): boolean {
-    return !this.markerData || !this.data[0]?.data;
-  }
-
-  /**
    * Return the x label data for the svg
    * @private
    * @returns {string} The x label markup
    */
   #xLabels(): string {
-    if (this.hasData) {
-      return '';
-    }
     let labelHtml = '';
     let left = this.textWidths.left + this.margins.left + (this.margins.leftInner * 2);
     const height = Number(this.height) - this.margins.top - this.margins.bottom + this.margins.bottomInner;

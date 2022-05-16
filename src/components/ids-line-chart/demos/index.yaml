@@ -5,7 +5,7 @@
  category: Charts and Visualizations
  keywords: line chart, chart, visualization, track changes over time
  examples:
-  - link: index.html
+  - link: example.html
     type: Main Example
     description: Shows a basic line chart
   - link: colors.html

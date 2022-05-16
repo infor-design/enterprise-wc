@@ -14,8 +14,9 @@
 - [x] Chart Types: Step Chart
 - [ ] Chart Types: Pie Chart
 - [ ] Chart Types: Grouped Column Chart
-- [ ] Chart Types: Scatter Plot Chart
 - [ ] Chart Types: Grouped Bar Chart
+- [ ] Chart Types: Stacked Bar Chart
+- [ ] Chart Types: Scatter Plot Chart
 
 ## Minor
 
@@ -23,19 +24,13 @@
 - [ ] Positive Negative ( Negative Values with comparison / slightly different chart)
 - [ ] Chart Types: Bubble Chart
 - [ ] Make ids-axis chart extend without (this as any) in area-chart
-- [ ] Add svg patterns to line, area, bar stacked
+- [ ] Add svg patterns and accessibility to line, area, bar stacked
 - [ ] Maybe: Have a table option to actually display the data in optional data form
 - [ ] Add accessibility once confirmed to area and line chart (only in bar now until tested) https://github.com/infor-design/enterprise-wc/commit/f6014597004ab7963ef66449bea63bfc43e95fa0
+- [ ] RTL is not flipping https://stackoverflow.com/questions/42147119/how-to-flip-svg-coordinates
 
 ## Personal ----> Do from here down
 
-- [ ] Bar chart tests (including leak tests)
-- [ ] RTL
-- [ ] Docs pass
-- [ ] Interaction: When clicking the line it should select
-- [ ] Interaction: Focusable Legend (for selection)
-- [ ] Accessibility and patterns to bar grouped chart ?
-- [ ] Accessibility and patterns  to line chart ?
-- [ ] Retest themes
+- [ ] Interaction: When clicking the line it should select with focusable Legend (for selection)
 - [ ] Chart Types: Pie Chart
 - [ ] Add side by side examples and responsive examples
