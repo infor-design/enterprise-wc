@@ -276,10 +276,34 @@ export default class IdsTreeNode extends Base {
       this.container.setAttribute(attributes.SELECTED, '');
       this.nodeContainer?.setAttribute(attributes.SELECTED, '');
       this.nodeContainer?.setAttribute('aria-selected', 'true');
+
+      if (this.groupNodes) {
+        // If is a group parent select all children
+        // [...this.groupNodes.querySelectorAll('ids-tree-node')].forEach((node) => {
+        //   if (!node.disabled) {
+        //     node.setAttribute(attributes.SELECTED, '');
+        //     node.checkbox.checked = true;
+        //   }
+        // });
+
+        // If is a node in a group, select and set all parents checkbox up the chain to indeterminate.
+        // If is a node in a group and all other children are selected set parents to selected.
+      }
     } else {
       this.container.removeAttribute(attributes.SELECTED);
       this.nodeContainer?.removeAttribute(attributes.SELECTED);
       this.nodeContainer?.setAttribute('aria-selected', 'false');
+
+      if (this.groupNodes) {
+        // If is a group parent deselect all children
+        // [...this.groupNodes.querySelectorAll('ids-tree-node')].forEach((node) => {
+        //   node.removeAttribute(attributes.SELECTED, '');
+        //   node.checkbox.checked = null;
+        // });
+
+        // If is a node in a group, deselect and set all parents checkbox up the chain to indeterminate.
+        // If is a node in a group and all other children are deselected set parents to deselected.
+      }
     }
   }
 
@@ -296,6 +320,41 @@ export default class IdsTreeNode extends Base {
     this.onEvent('click', this.checkbox, (e: any) => {
       e.preventDefault();
     });
+  }
+
+  getSelectedStatus(groupNodes: any) {
+    let total = 0;
+    let selected = 0;
+    let unselected = 0;
+
+    if (groupNodes) {
+      [...groupNodes.querySelectorAll('ids-tree-node')].forEach((node: any) => {
+        total++;
+        if (node.selected) {
+          selected++;
+        } else {
+          unselected++;
+        }
+      });
+    }
+
+    let status;
+    if (total === selected) {
+      status = true;
+    } else if (total === unselected) {
+      status = false;
+    } else {
+      status = 'mixed';
+    }
+    return status;
+  }
+
+  get groupNode() {
+    return this.shadowRoot.querySelector('[part="group-node"]');
+  }
+
+  get groupNodes() {
+    return this.shadowRoot.querySelector('.group-nodes');
   }
 
   /**
