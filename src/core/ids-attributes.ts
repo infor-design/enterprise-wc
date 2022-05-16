@@ -10,6 +10,7 @@ export const attributes = {
   ALIGN_X: 'align-x',
   ALIGN_X_LABELS: 'alignXLabels',
   ALIGN_Y: 'align-y',
+  ALLOW_BLANK: 'allow-blank',
   ALLOW_LINK: 'allow-link',
   ALLOW_ONE_PANE: 'allow-one-pane',
   ALT: 'alt',

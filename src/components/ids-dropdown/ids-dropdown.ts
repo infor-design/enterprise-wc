@@ -60,6 +60,7 @@ export default class IdsDropdown extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.ALLOW_BLANK,
       attributes.DISABLED,
       attributes.LABEL,
       attributes.NO_MARGINS,
@@ -180,10 +181,11 @@ export default class IdsDropdown extends Base {
     this.setAttribute('aria-expanded', 'true');
 
     // Add aria for the open state
-    const selected = this.selectedOption;
+    const selected = this.selectedOption || this.querySelector('ids-list-box-option');
     this.listBox?.setAttribute('tabindex', '0');
     this.listBox?.setAttribute('aria-activedescendant', selected?.id || this.selectedIndex);
     if (selected) {
+      selected.classList.add('is-selected');
       selected.setAttribute('tabindex', '0');
       selected.focus();
     }
@@ -226,7 +228,8 @@ export default class IdsDropdown extends Base {
    * @param {string} value The value/id to use
    */
   set value(value: string) {
-    const elem = this.selectedOption;
+    const elem = this.querySelector(`ids-list-box-option[value="${value}"]`);
+
     if (!elem) {
       return;
     }
@@ -351,6 +354,31 @@ export default class IdsDropdown extends Base {
   }
 
   /**
+   * Sets allow-blank setting
+   * @param {string|boolean} value adds blank option if true
+   */
+  set allowBlank(value: boolean | string) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.ALLOW_BLANK, '');
+      this.#insertBlankOption();
+    } else {
+      this.#removeBlank();
+      this.removeAttribute(attributes.ALLOW_BLANK);
+      if (this.value === 'blank') {
+        this.removeAttribute('value');
+      }
+    }
+  }
+
+  /**
+   * Gets allow-blank value
+   * @returns {boolean} allow-blank value
+   */
+  get allowBlank(): boolean {
+    return stringToBool(this.getAttribute(attributes.ALLOW_BLANK));
+  }
+
+  /**
    * Set the aria and state on the element
    * @private
    * @param {HTMLElement} option the option to select
@@ -412,6 +440,24 @@ export default class IdsDropdown extends Base {
     }
   }
 
+  /**
+   * Insert blank option into list box
+   */
+  #insertBlankOption(): void {
+    if (!this.allowBlank) return;
+    const list = this.querySelector('ids-list-box');
+    const blankOption = '<ids-list-box-option value="blank" aria-label="Blank">&nbsp;</ids-list-box-option>';
+    this.#removeBlank();
+    list?.insertAdjacentHTML('afterbegin', blankOption);
+  }
+
+  /**
+   * Remove blank options from list box
+   */
+  #removeBlank(): void {
+    this.querySelector('ids-list-box-option[value="blank"]')?.remove();
+  }
+
   #configurePopup() {
     this.popup.alignTarget = this.input.fieldContainer;
     this.popup.align = 'bottom, left';
@@ -461,6 +507,7 @@ export default class IdsDropdown extends Base {
         </ids-list-box-option>`;
     });
     listbox.insertAdjacentHTML('afterbegin', html);
+    this.#insertBlankOption();
     this.value = this.getAttribute('value');
   }
 
