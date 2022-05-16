@@ -1,5 +1,5 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import { attributes } from '../../core/ids-attributes';
+import { attributes, htmlAttributes } from '../../core/ids-attributes';
 
 import Base from './ids-tabs-base';
 import IdsHeader from '../ids-header/ids-header';
@@ -54,10 +54,10 @@ export default class IdsTabs extends Base {
    */
   connectedCallback() {
     super.connectedCallback?.();
-    this.setAttribute('role', 'tablist');
+    this.setAttribute(htmlAttributes.ROLE, 'tablist');
 
     this.#detectParentColorVariant();
-    this.#refreshSelectionState(null, this.getAttribute('value'));
+    this.#refreshSelectionState(null, this.getAttribute(attributes.VALUE));
     this.#attachEventHandlers();
   }
 

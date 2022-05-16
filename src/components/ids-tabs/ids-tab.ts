@@ -1,5 +1,5 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import { attributes } from '../../core/ids-attributes';
+import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stringToBool, buildClassAttrib } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-tab-base';
@@ -46,7 +46,7 @@ export default class IdsTab extends Base {
    * @returns {string} the template to render
    */
   template(): string {
-    const innerContent = this.hasAttribute('count') ? (
+    const innerContent = this.hasAttribute(attributes.COUNT) ? (
       `<ids-text
         overflow="ellipsis"
         font-size="28"
@@ -101,7 +101,7 @@ export default class IdsTab extends Base {
 
     this.onEvent('slotchange', this.container, () => {
       this.#setDataTextForBoldFix();
-      this.setAttribute('aria-label', this.#getReadableAriaLabel());
+      this.setAttribute(htmlAttributes.ARIA_LABEL, this.#getReadableAriaLabel());
     });
 
     this.#setDataTextForBoldFix();
@@ -110,10 +110,10 @@ export default class IdsTab extends Base {
   connectedCallback() {
     super.connectedCallback?.();
 
-    this.setAttribute('role', 'tab');
-    this.setAttribute('aria-selected', `${Boolean(this.selected)}`);
-    this.setAttribute('tabindex', stringToBool(this.selected) ? '0' : '-1');
-    this.setAttribute('aria-label', this.#getReadableAriaLabel());
+    this.setAttribute(htmlAttributes.ROLE, 'tab');
+    this.setAttribute(htmlAttributes.ARIA_SELECTED, `${Boolean(this.selected)}`);
+    this.setAttribute(htmlAttributes.TABINDEX, stringToBool(this.selected) ? '0' : '-1');
+    this.setAttribute(htmlAttributes.ARIA_LABEL, this.#getReadableAriaLabel());
     this.selected = this.hasAttribute(attributes.SELECTED);
 
     this.#attachEventHandlers();
@@ -135,21 +135,21 @@ export default class IdsTab extends Base {
     const newValue = stringToBool(isSelected);
     if (!newValue) {
       this.removeAttribute(attributes.SELECTED);
-      this.container.classList.remove('selected');
-      this.container?.children?.[0]?.removeAttribute?.('font-weight');
-      this.setAttribute('tabindex', '-1');
+      this.container.classList.remove(attributes.SELECTED);
+      this.container?.children?.[0]?.removeAttribute?.(attributes.FONT_WEIGHT);
+      this.setAttribute(htmlAttributes.TABINDEX, '-1');
     } else {
       this.setAttribute(attributes.SELECTED, '');
-      this.container?.children?.[0]?.setAttribute?.('font-weight', 'bold');
-      this.container.classList.add('selected');
-      this.setAttribute('tabindex', '0');
+      this.container?.children?.[0]?.setAttribute?.(attributes.FONT_WEIGHT, 'bold');
+      this.container.classList.add(attributes.SELECTED);
+      this.setAttribute(htmlAttributes.TABINDEX, '0');
 
       // reqAnimFrame needed to fire for context to read reliably due to onEvent binding
       window.requestAnimationFrame(() => {
         this.triggerEvent('tabselect', this, { bubbles: true });
       });
     }
-    this.setAttribute('aria-selected', `${newValue}`);
+    this.setAttribute(htmlAttributes.ARIA_SELECTED, `${newValue}`);
   }
 
   /**
@@ -189,7 +189,7 @@ export default class IdsTab extends Base {
       if (this.hasAttribute(attributes.COUNT)) {
         this.removeAttribute(attributes.COUNT);
       }
-      this.container.classList.remove('count');
+      this.container.classList.remove(attributes.COUNT);
       return;
     }
 
@@ -197,7 +197,7 @@ export default class IdsTab extends Base {
       return;
     }
 
-    this.container.classList.add('count');
+    this.container.classList.add(attributes.COUNT);
 
     if (this.getAttribute(attributes.COUNT) !== value) {
       this.setAttribute(attributes.COUNT, value);

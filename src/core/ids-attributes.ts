@@ -358,6 +358,7 @@ export const attributes = {
 export const htmlAttributes = {
   ARIA_LABEL: 'aria-label',
   ARIA_ORIENTATION: 'aria-orientation',
+  ARIA_SELECTED: 'aria-selected',
   ARIA_VALUEMAX: 'aria-valuemax',
   ARIA_VALUEMIN: 'aria-valuemin',
   ARIA_VALUENOW: 'aria-valuenow',

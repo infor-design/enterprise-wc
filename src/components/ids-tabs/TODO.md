@@ -4,7 +4,7 @@ Keep this file in sync with #683
 
 ## Major
 
-- [ ] Add Module Tabs
+- [ ] Add Module Tabs ([#729](https://github.com/infor-design/enterprise-wc/issues/729))
 - [ ] Add overflow detection feature (may need design review?)
 - [ ] Review current solution for potential optimization (remove extraneous elements and looping)
 - [ ] `ids-tab-divider`: Improve accessibility + add aXe tests
