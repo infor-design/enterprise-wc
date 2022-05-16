@@ -56,6 +56,8 @@ The `ids-date-picker` is a web component to support date entry
   - `dayOfWeek` `{Array}` - Disable a specific of days of the week 0-6
   - `isEnable` `{boolean}` - Enables the disabled dates. Default is false
 - `mask` `{true|false}` - Whether or not to enable date mask for the input. `format` attribute will be set as mask options format
+- `minute-interval` {number} Set time picker minutes dropdown options interval
+- `second-interval` {number} Set time picker seconds dropdown options interval
 
 ## Methods
 - `show()` - opens calendar popup
@@ -239,4 +241,4 @@ The Date Picker is a complex control to code for accessibility.
 - Markup has changed to a custom element `<ids-date-picker></ids-date-picker>`
 - Can now be imported as a single JS file and used with encapsulated styles
 - Instead of `onOpenCalendar` callback there are `show`, `hide` popup plain JS events and a date for calendar can be set as date picker `year`, `month`, `day` settings when calendar popup is opened
-- To use date picker with time picker `format` should contain time i.e. `M/d/yyyy hh:mm a`
+- To use date picker with time picker `format` attribute should contain time i.e. `M/d/yyyy hh:mm a`

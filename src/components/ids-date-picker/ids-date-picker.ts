@@ -100,10 +100,12 @@ class IdsDatePicker extends Base {
       attributes.IS_DROPDOWN,
       attributes.LABEL,
       attributes.MASK,
+      attributes.MINUTE_INTERVAL,
       attributes.MONTH,
       attributes.NO_MARGINS,
       attributes.PLACEHOLDER,
       attributes.READONLY,
+      attributes.SECOND_INTERVAL,
       attributes.SHOW_TODAY,
       attributes.SIZE,
       attributes.TABBABLE,
@@ -1721,6 +1723,60 @@ class IdsDatePicker extends Base {
     } else {
       this.removeAttribute(attributes.MASK);
       this.#triggerField?.removeAttribute(attributes.MASK);
+    }
+  }
+
+  /**
+   * minute-interval attribute
+   * @returns {number} minuteInterval value
+   */
+  get minuteInterval(): number {
+    return stringToNumber(this.getAttribute(attributes.MINUTE_INTERVAL));
+  }
+
+  /**
+   * Set interval in minutes dropdown
+   * @param {string|number|null} val minute-interval attribute value
+   */
+  set minuteInterval(val: string | number | null) {
+    const numberVal = stringToNumber(val);
+    const timePicker = this.container.querySelector('ids-time-picker');
+
+    if (numberVal) {
+      this.setAttribute(attributes.MINUTE_INTERVAL, numberVal);
+    } else {
+      this.removeAttribute(attributes.MINUTE_INTERVAL);
+    }
+
+    if (timePicker) {
+      timePicker.minuteInterval = numberVal;
+    }
+  }
+
+  /**
+   * second-interval attribute
+   * @returns {number} secondInterval value
+   */
+  get secondInterval(): number {
+    return stringToNumber(this.getAttribute(attributes.SECOND_INTERVAL));
+  }
+
+  /**
+   * Set interval in seconds dropdown
+   * @param {string|number|null} val second-interval attribute value
+   */
+  set secondInterval(val: string | number | null) {
+    const numberVal = stringToNumber(val);
+    const timePicker = this.container.querySelector('ids-time-picker');
+
+    if (numberVal) {
+      this.setAttribute(attributes.SECOND_INTERVAL, numberVal);
+    } else {
+      this.removeAttribute(attributes.SECOND_INTERVAL);
+    }
+
+    if (timePicker) {
+      timePicker.secondInterval = numberVal;
     }
   }
 }
