@@ -30,15 +30,3 @@ $input-field-height-lg: 48px;
 // Sometimes we need to "fade" white into transparency, so we need a
 // completely-transparent "white" color to use as one end of a gradient.
 $transparent-white: rgba(255 255 255 / 0);
-
-// Other semi-transparent colors (temporary until we move these to design tokens)
-// See infor-design/design-system#490
-$ids-slider-thumb-color-light: rgba(0 114 237 / 0.1);
-$ids-slider-thumb-readonly-shadow-color-light: rgba(119 119 124 / 0.1);
-$ids-slider-thumb-color-dark: rgba(0 114 237 / 0.1);
-$ids-slider-thumb-readonly-shadow-color-dark: rgba(151 151 155 / 0.1);
-$ids-slider-thumb-color-contrast: rgba(0 74 153 / 0.1);
-$ids-slider-thumb-readonly-shadow-color-contrast: rgba(71 71 76 / 0.1);
-$ids-slider-thumb-hover-shadow-light: rgba(0 0 0 / 0.4);
-$ids-slider-thumb-hover-shadow-dark: rgba(255 255 255 / 0.4);
-$ids-slider-thumb-hover-shadow-contrast: rgba(0 0 0 / 0.4);
