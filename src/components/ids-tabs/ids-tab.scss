@@ -1,18 +1,64 @@
 @import '../../core/ids-base';
 
-:host(ids-tab:not([orientation='vertical']):first-child),
-.ids-tab-container:not([orientation='vertical']):first-child {
+@mixin ids-tabs-focus-border() {
+  &::before {
+    @include border-1();
+    @include border-solid();
+
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    content: '';
+    pointer-events: none;
+  }
+}
+
+// Spacing rules for Horizontal Tab Lists
+
+:host(ids-tab:not([orientation='vertical']):not([color-variant='module']):first-child),
+.ids-tab-container:not([orientation='vertical']):not(.color-variant-module) .ids-tab:first-child {
   @include ml-4;
 }
 
-:host(ids-tab:not([orientation='vertical']):last-child),
-.ids-tab-container:not([orientation='vertical']):last-child {
+:host(ids-tab:not([orientation='vertical']):not([color-variant='module']):last-child),
+.ids-tab-container:not([orientation='vertical']):not(.color-variant-module) .ids-tab:last-child {
   @include mr-4;
 }
 
-:host(ids-tab:not([orientation='vertical']):not(:last-child)),
-.ids-tab-container:not([orientation='vertical']):not(:last-child) {
+:host(ids-tab:not([orientation='vertical']):not([color-variant='module']):not(:last-child)),
+.ids-tab-container:not(.orientation-vertical):not(.color-variant-module) .ids-tab:not(:last-child) {
   @include mr-8;
+}
+
+// Border/Themes for Module Tabs
+
+:host(ids-tab[color-variant='module']:not([mode]):not(:last-child)),
+.ids-tab-container.color-variant-module:not([mode]) .ids-tab:not(:last-child) {
+  border-right: 1px solid var(--ids-color-palette-azure-100);
+}
+
+:host(ids-tab[color-variant='module'][mode='light']:not(:last-child)),
+.ids-tab-container.color-variant-module[mode='light'] .ids-tab:not(:last-child) {
+  border-right: 1px solid var(--ids-color-palette-azure-100);
+}
+
+:host(ids-tab[color-variant='module'][mode='dark']:not(:last-child)),
+.ids-tab-container.color-variant-module[mode='dark'] .ids-tab:not(:last-child) {
+  border-right: 1px solid var(--ids-color-palette-slate-100);
+}
+
+:host(ids-tab[color-variant='module'][mode='contrast']:not(:last-child)),
+.ids-tab-container.color-variant-module[mode='contrast'] .ids-tab:not(:last-child) {
+  border-right: 1px solid var(--ids-color-palette-azure-100);
+}
+
+// Spacing rules for Module Tabs
+
+:host(ids-tab[color-variant='module']:not([orientation='vertical'])),
+.ids-tab-container.color-variant-module:not(.orientation-vertical) .ids-tab {
+  flex-grow: 1;
 }
 
 :host(ids-tab:focus-visible),
@@ -28,9 +74,6 @@
   box-sizing: border-box;
   position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-end;
   list-style: none outside none;
   border-color: transparent;
   height: 100%;
@@ -67,30 +110,44 @@
   // Orientation-specific layouts
 
   &:not(.orientation-vertical) {
-    @include rounded-default();
     @include pb-8();
 
     border-bottom-width: 0;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-
-    // cannot read css var for color in ::after
-    // without shadowDOM scope so need .selection-underline div
-    // as workaround
-    &::after,
-    & .selection-underline {
-      position: absolute;
-      bottom: 0;
-      height: 3px;
-      left: -1px;
-      width: calc(100% + 2px);
-      z-index: 1;
-      pointer-events: none;
-      content: '';
-    }
 
     &:not(.count) {
       @include pt-8;
+    }
+
+    // Round borders on regular horizontal tabs
+    &:not(.color-variant-module) {
+      @include rounded-default();
+
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-end;
+
+      // Adds the "underline" element for selected state.
+      // cannot read css var for color in ::after
+      // without shadowDOM scope so need .selection-underline div
+      // as workaround
+      &::after,
+      & .selection-underline {
+        position: absolute;
+        bottom: 0;
+        height: 3px;
+        left: -1px;
+        width: calc(100% + 2px);
+        z-index: 1;
+        pointer-events: none;
+        content: '';
+      }
+    }
+
+    &.color-variant-module {
+      justify-content: center;
     }
   }
 
@@ -100,23 +157,14 @@
     display: flex;
     align-items: flex-start;
     justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
     width: 100%;
     height: 42px;
 
     &.selected {
       &:focus {
-        &::before {
-          @include border-1();
-          @include border-solid();
-
-          position: absolute;
-          top: 1px;
-          left: 1px;
-          width: calc(100% - 4px);
-          height: calc(100% - 4px);
-          content: '';
-          pointer-events: none;
-        }
+        @include ids-tabs-focus-border();
       }
     }
   }
@@ -146,6 +194,18 @@
 
     @media speech {
       display: none;
+    }
+  }
+
+  // =================================================
+  // Structural rules for Module Tabs color variant
+  &.color-variant-module {
+    text-align: center;
+
+    &:focus-visible,
+    &:focus,
+    &:focus-within {
+      @include ids-tabs-focus-border();
     }
   }
 
@@ -245,11 +305,18 @@
     // Light Mode / Module Tabs Color Variant
 
     &.color-variant-module {
-      background-color: #aa0000;
+      @include font-bold();
+      @include bg-azure-70();
+      @include text-azure-10();
 
-      // Horizontal Tab Styles
-      &:not(.orientation-vertical) {
+      &:hover {
+        @include text-white();
+        @include bg-azure-100();
+      }
 
+      &.selected {
+        @include bg-azure-60();
+        @include text-white();
       }
     }
   }
@@ -298,6 +365,25 @@
         }
       }
     }
+
+    // =================================================
+    // Dark Mode / Module Tabs Color Variant
+
+    &.color-variant-module {
+      @include font-bold();
+      @include bg-slate-70();
+      @include text-slate-10();
+
+      &:hover {
+        @include text-white();
+        @include bg-slate-100();
+      }
+
+      &.selected {
+        @include bg-slate-60();
+        @include text-white();
+      }
+    }
   }
 
   // =================================================
@@ -313,7 +399,7 @@
     }
 
     // =================================================
-    // Dark Mode / Default Color Variant
+    // Contrast Mode / Default Color Variant
 
     &:not([class*='color-variant-']) {
       &:focus-visible,
@@ -327,6 +413,27 @@
         & .selection-underline {
           @include bg-azure-90();
         }
+      }
+    }
+
+    // =================================================
+    // Contrast Mode / Module Tabs Color Variant
+
+    &.color-variant-module {
+      @include font-bold();
+      @include bg-azure-80();
+      @include text-azure-10();
+
+      &:hover {
+        @include bg-azure-100();
+        @include text-white();
+      }
+
+      &.selected {
+        @include bg-azure-60();
+        @include text-white();
+
+        text-decoration: underline;
       }
     }
   }
