@@ -695,13 +695,7 @@ export default class IdsTree extends Base {
     node.elem.shadowRoot.querySelector('ids-checkbox').indeterminate = null;
 
     if (node.isGroup) {
-      [...this.allChildNodes(node)].forEach((groupNode: any) => {
-        if (!groupNode.disabled) {
-          groupNode.selected = null;
-          groupNode.shadowRoot.querySelector('ids-checkbox').input.checked = null;
-          this.triggerEvent(IdsTreeShared.EVENTS.unselected, this, { detail: { elem: this, groupNode } });
-        }
-      });
+      this.unselectNestedNodes(node);
     }
 
     const parent: any = this.getParentSelection(node);
@@ -730,26 +724,26 @@ export default class IdsTree extends Base {
     this.triggerEvent(IdsTreeShared.EVENTS.unselected, this, { detail: { elem: this, node } });
   }
 
-  getParentSelection(node: any) {
+  getParentSelection(node: HTMLElement | any) {
     let value;
-    const fn: any = (n: any) => {
+    const findParentElements: HTMLElement | any = (n: HTMLElement | any) => {
       if (
         (n && n?.classList?.contains('ids-tree-node'))
         || (n.elem && n?.elem?.classList?.contains('ids-tree-node'))
       ) {
         value = n;
       } else if (n && n.parentElement) {
-        fn(n.parentElement);
+        findParentElements(n.parentElement);
       } else if (n.elem && n.elem.parentElement) {
-        fn(n.elem.parentElement);
+        findParentElements(n.elem.parentElement);
       }
     };
 
-    fn(node);
+    findParentElements(node);
     return value;
   }
 
-  allChildNodes(parent: any) {
+  allChildNodes(parent: HTMLElement | any) {
     if (parent.elem) {
       return parent.elem.shadowRoot.querySelector('.group-nodes').querySelectorAll('ids-tree-node')
     }
@@ -757,16 +751,13 @@ export default class IdsTree extends Base {
       return parent.shadowRoot.querySelector('.group-nodes').querySelectorAll('ids-tree-node');
     }
     return parent.querySelector('.group-nodes').querySelectorAll('ids-tree-node');
-    // return parent.elem
-    //   ? parent.elem.shadowRoot.querySelector('.group-nodes').querySelectorAll('ids-tree-node')
-    //   : parent.querySelector('.group-nodes').querySelectorAll('ids-tree-node');
   }
 
-  selectNestedNodes(node: any) {
-    const findNestedNodes: any = (n: any) => {
+  selectNestedNodes(node: HTMLElement | any) {
+    const findNestedNodes: HTMLElement | any = (n: HTMLElement | any) => {
       if (n.elem && n.elem.hasChildNodes()) {
         const children = [...this.allChildNodes(n.elem)];
-        children.forEach((childNode: any) => {
+        children.forEach((childNode: HTMLElement | any) => {
           if (childNode.hasChildNodes() && !childNode.disabled) {
             childNode.selected = true;
             this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, childNode } });
@@ -775,10 +766,36 @@ export default class IdsTree extends Base {
         });
       } else if (n && n.shadowRoot?.querySelector('.group-nodes')) {
         const children = [...this.allChildNodes(n)];
-        children.forEach((childNode: any) => {
+        children.forEach((childNode: HTMLElement | any) => {
           if (childNode.hasChildNodes() && !childNode.disabled) {
             childNode.selected = true;
             this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, childNode } });
+          }
+          findNestedNodes(childNode);
+        });
+      }
+    };
+
+    findNestedNodes(node);
+  }
+
+  unselectNestedNodes(node: HTMLElement | any) {
+    const findNestedNodes: HTMLElement | any = (n: HTMLElement | any) => {
+      if (n.elem && n.elem.hasChildNodes()) {
+        const children = [...this.allChildNodes(n.elem)];
+        children.forEach((childNode: HTMLElement | any) => {
+          if (childNode.hasChildNodes() && !childNode.disabled) {
+            childNode.selected = null;
+            this.triggerEvent(IdsTreeShared.EVENTS.unselected, this, { detail: { elem: this, childNode } });
+          }
+          findNestedNodes(childNode);
+        });
+      } else if (n && n.shadowRoot?.querySelector('.group-nodes')) {
+        const children = [...this.allChildNodes(n)];
+        children.forEach((childNode: HTMLElement | any) => {
+          if (childNode.hasChildNodes() && !childNode.disabled) {
+            childNode.selected = null;
+            this.triggerEvent(IdsTreeShared.EVENTS.unselected, this, { detail: { elem: this, childNode } });
           }
           findNestedNodes(childNode);
         });
