@@ -46,6 +46,14 @@
       <ids-modal-button slot="buttons" type="primary" id="message-confirmation-no" cancel>No</ids-modal-button>
     </ids-message>
 
+    <!-- Huge Text Message -->
+    <ids-message id="message-huge-text">
+      <ids-text slot="title" font-size="24" type="h2" id="message-huge-text-title">Message with huge text</ids-text>
+      <ids-text class="demo-contents" align="left">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?<br /><br /></ids-text>
+      <ids-modal-button slot="buttons" type="secondary" id="message-huge-text-yes">Yes</ids-modal-button>
+      <ids-modal-button slot="buttons" type="primary" id="message-huge-text-no" cancel>No</ids-modal-button>
+    </ids-message>
+
     <!-- "No Buttons" Message -->
     <ids-message id="message-no-buttons">
       <ids-text slot="title" font-size="24" type="h2" id="message-no-buttons-title">No Buttons</ids-text>
@@ -99,6 +107,9 @@
       </ids-layout-grid-cell>
       <ids-layout-grid-cell>
         <ids-button type="secondary" id="message-confirmation-trigger">Confirmation Example</ids-button>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-button type="secondary" id="message-huge-text-trigger">Huge Text Example</ids-button>
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
