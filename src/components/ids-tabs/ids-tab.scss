@@ -35,13 +35,50 @@
   border-color: transparent;
   height: 100%;
 
-  &:hover {
-    @include text-slate-100();
+  &:focus-visible,
+  &:focus,
+  &:focus-within {
+    @include shadow();
+    @include border-solid();
 
-    &:not(.orientation-vertical)::after,
-    &:not(.orientation-vertical) .selection-underline {
-      @include bg-slate-100();
+    outline: none;
+  }
 
+  &:not(.selected) {
+    cursor: pointer;
+  }
+
+  &.selected {
+    cursor: default;
+
+    &.ids-text {
+      @include font-bold();
+    }
+  }
+
+  // =================================================
+  // Counts
+
+  &.count {
+    @include px-12();
+  }
+
+  // =================================================
+  // Orientation-specific layouts
+
+  &:not(.orientation-vertical) {
+    @include rounded-default();
+    @include pb-8();
+
+    border-bottom-width: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+
+    // cannot read css var for color in ::after
+    // without shadowDOM scope so need .selection-underline div
+    // as workaround
+    &::after,
+    & .selection-underline {
       position: absolute;
       bottom: 0;
       height: 3px;
@@ -51,47 +88,42 @@
       pointer-events: none;
       content: '';
     }
+
+    &:not(.count) {
+      @include pt-8;
+    }
   }
 
-  &:focus-visible,
-  &:focus {
-    @include shadow();
-    @include border-solid();
+  &.orientation-vertical {
+    @include pl-24();
 
-    outline: none;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    height: 42px;
+
+    &.selected {
+      &:focus {
+        &::before {
+          @include border-1();
+          @include border-solid();
+
+          position: absolute;
+          top: 1px;
+          left: 1px;
+          width: calc(100% - 4px);
+          height: calc(100% - 4px);
+          content: '';
+          pointer-events: none;
+        }
+      }
+    }
   }
 
-  &:focus-visible:not(.color-variant-alternate),
-  &:focus:not(.color-variant-alternate),
-  &:focus-within:not(.color-variant-alternate) {
-    @include border-azure-60();
-  }
-
-  &.color-variant-alternate:focus-visible,
-  &.color-variant-alternate:focus,
-  &.color-variant-alternate:focus-within {
-    @include border-white();
-  }
-
-  &.color-variant-alternate:hover::after {
-    @include bg-white();
-  }
-
-  &.selected.orientation-vertical:focus::before {
-    position: absolute;
-    top: 1px;
-    left: 1px;
-    width: calc(100% - 4px);
-    height: calc(100% - 4px);
-    border: 1px solid #fff;
-    content: '';
-    pointer-events: none;
-  }
-
-  /* a little bit hacky, but needed to allow the
-   * text to be bolded without shuddering the widths;
-   * text-content is set in ids-tab => rendered()
-   *  */
+  // =================================================
+  // Makes text appear bolded without shuddering the widths;
+  // Text Content is set in IdsTab `rendered();`
 
   ids-text::part(text),
   .ids-tab.ids-text {
@@ -99,14 +131,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-  }
-
-  &.color-variant-alternate:not(.selected) {
-    color: rgba(255 255 255 / 0.7);
-  }
-
-  &.color-variant-alternate.selected {
-    color: var(--ids-color-palette-white);
   }
 
   & ids-text::part(text)::after,
@@ -125,131 +149,184 @@
     }
   }
 
-  &:not(.orientation-vertical):not(.count) {
-    @include pt-8;
-  }
+  // =================================================
+  // Light Mode
 
-  &:not(.orientation-vertical) {
-    @include rounded-default();
-    @include pb-8();
+  &:not([mode]),
+  &[mode='light'] {
+    &:hover {
+      @include text-slate-100();
+    }
 
-    border-bottom-width: 0;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-
-  &.orientation-vertical {
-    @include pl-24();
-
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    width: 100%;
-    height: 42px;
+    &:not(.selected) {
+      @include text-slate-70;
+    }
 
     &.selected {
-      @include border-none();
-      @include bg-azure-60();
-      @include text-white();
+      @include text-azure-60;
+    }
+
+    // =================================================
+    // Light Mode / Default Color Variant
+
+    &:not([class*='color-variant-']) {
+      &:focus-visible,
+      &:focus,
+      &:focus-within {
+        @include border-azure-60();
+      }
+
+      // Horizontal Tab Styles
+      &:not(.orientation-vertical) {
+        &:hover {
+          &::after,
+          & .selection-underline {
+            @include bg-slate-100();
+          }
+        }
+
+        &.selected {
+          &::after,
+          & .selection-underline {
+            @include bg-azure-60();
+          }
+        }
+      }
+
+      &.orientation-vertical {
+        &.selected {
+          @include border-none();
+          @include bg-azure-60();
+          @include text-white();
+
+          &:focus {
+            &::before {
+              @include border-white();
+            }
+          }
+        }
+      }
+    }
+
+    // =================================================
+    // Light Mode / Alternate Color Variant
+
+    &.color-variant-alternate {
+      &:hover::after {
+        @include bg-white();
+      }
+
+      &:focus-visible,
+      &:focus,
+      &:focus-within {
+        @include border-white();
+      }
+
+      &:not(.selected) {
+        color: rgba(255 255 255 / 0.7);
+      }
+
+      &.selected {
+        color: var(--ids-color-palette-white);
+      }
+
+      // Horizontal Tab Styles
+      &:not(.orientation-vertical) {
+        &.selected {
+          &::after,
+          & .selection-underline {
+            @include bg-white();
+          }
+        }
+      }
+    }
+
+    // =================================================
+    // Light Mode / Module Tabs Color Variant
+
+    &.color-variant-module {
+      background-color: #aa0000;
+
+      // Horizontal Tab Styles
+      &:not(.orientation-vertical) {
+
+      }
     }
   }
-}
 
-.ids-tab:not(.selected) {
-  @include text-slate-70;
+  // =================================================
+  // Dark Mode
 
-  cursor: pointer;
-}
-
-.ids-tab.selected {
-  @include text-azure-60;
-
-  cursor: default;
-
-  &.ids-text {
-    @include font-bold();
-  }
-
-  &:not(.orientation-vertical)::after,
-  /* cannot read css var for color in :after
-   * without shadowDOM scope so need .selection-underline div
-   * as workaround */
-  &:not(.orientation-vertical) .selection-underline {
-    position: absolute;
-    bottom: 0;
-    height: 3px;
-    left: -1px;
-    width: calc(100% + 2px);
-    z-index: 1;
-    pointer-events: none;
-    content: '';
-  }
-
-  &:not(.orientation-vertical):not(.color-variant-alternate)::after,
-  &:not(.orientation-vertical):not(.color-variant-alternate) .selection-underline {
-    @include bg-azure-60();
-  }
-
-  &.color-variant-alternate:not(.orientation-vertical)::after,
-  &.color-variant-alternate:not(.orientation-vertical) .selection-underline {
-    @include bg-white();
-  }
-}
-
-.ids-tab.count {
-  @include px-12();
-}
-
-:host(ids-tab[mode='dark']) {
-  .ids-tab {
+  &[mode='dark'] {
     &:not(.selected) {
       @include text-slate-20;
     }
 
     &:hover {
       @include text-white();
+    }
 
-      &:not(.orientation-vertical)::after,
-      &:not(.orientation-vertical) .selection-underline {
-        @include bg-white();
+    &:not(.orientation-vertical) {
+      &:hover {
+        &::after,
+        & .selection-underline {
+          @include bg-white();
+        }
       }
     }
 
-    &:focus-visible:not(.color-variant-alternate),
-    &:focus:not(.color-variant-alternate),
-    &:focus-within:not(.color-variant-alternate) {
-      @include border-azure-40();
-    }
+    // =================================================
+    // Dark Mode / Default Color Variant
 
-    &.selected {
-      @include text-azure-40;
+    &:not([class*='color-variant-']) {
+      &:focus-visible,
+      &:focus,
+      &:focus-within {
+        @include border-azure-40();
+      }
 
-      &:not(.orientation-vertical):not(.color-variant-alternate)::after,
-      &:not(.orientation-vertical):not(.color-variant-alternate) .selection-underline {
-        @include bg-azure-40();
+      &.selected {
+        @include text-azure-40();
+      }
+
+      &:not(.orientation-vertical) {
+        &.selected {
+          &::after,
+          & .selection-underline {
+            @include bg-azure-40();
+          }
+        }
       }
     }
   }
-}
 
-:host(ids-tab[mode='contrast']) {
-  .ids-tab {
+  // =================================================
+  // Contrast Mode
+
+  &[mode='contrast'] {
     &:not(.selected) {
       @include text-slate-100;
     }
 
-    &:focus-visible:not(.color-variant-alternate),
-    &:focus:not(.color-variant-alternate),
-    &:focus-within:not(.color-variant-alternate) {
-      @include border-azure-90();
-    }
-
     &.selected {
       @include text-azure-90;
+    }
 
-      &:not(.orientation-vertical):not(.color-variant-alternate)::after,
-      &:not(.orientation-vertical):not(.color-variant-alternate) .selection-underline {
-        @include bg-azure-90();
+    // =================================================
+    // Dark Mode / Default Color Variant
+
+    &:not([class*='color-variant-']) {
+      &:focus-visible,
+      &:focus,
+      &:focus-within {
+        @include border-azure-90();
+      }
+
+      &:not(.orientation-vertical) {
+        &::after,
+        & .selection-underline {
+          @include bg-azure-90();
+        }
       }
     }
   }
