@@ -577,69 +577,75 @@ export default class IdsTree extends Base {
         return;
       }
 
-      if (this.isMultiSelect) {
-        node.elem.selected = true;
-        node.elem.shadowRoot.querySelector('ids-checkbox').input.checked = true;
-        this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, node } });
-
-        if (node.isGroup) {
-          [...node.elem.shadowRoot.querySelectorAll('ids-tree-node')].forEach((groupNode: any) => {
-            if (!groupNode.disabled) {
-              groupNode.selected = true;
-              groupNode.shadowRoot.querySelector('ids-checkbox').input.checked = true;
-              this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, groupNode } });
-            }
-          });
-        }
-
-        const parent: any = this.getParentSelection(node);
-        if (parent) {
-          const selectedNodes: any = [...this.allChildNodes(parent)]
-            .filter((nestedNode: any) => nestedNode.selected === true);
-          parent.getRootNode().host.selected = true;
-          parent.querySelector('ids-checkbox').input.checked = true;
-
-          // If current node has parent and not all nodes are slelected
-          if (this.allChildNodes(parent).length === selectedNodes.length) {
-            parent.querySelector('ids-checkbox').indeterminate = null;
-          } else {
-            // If current node has parent and all nodes are slelected
-            parent.querySelector('ids-checkbox').indeterminate = true;
-          }
-        }
-      } else {
-        this.#active.selectedOld = this.#active.selectedCurrent;
-        this.#active.selectedCurrent = node;
-        this.#active.selectedCurrent.elem.selected = true;
-        if (this.#active.selectedOld) {
-          this.#active.selectedOld.elem.selected = false;
-        }
-        this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, node } });
+      this.#active.selectedOld = this.#active.selectedCurrent;
+      this.#active.selectedCurrent = node;
+      this.#active.selectedCurrent.elem.selected = true;
+      if (this.#active.selectedOld) {
+        this.#active.selectedOld.elem.selected = false;
       }
+      this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, node } });
     }
   }
 
-  getParentSelection(node: any) {
-    let value;
-    const fn: any = (n: any) => {
-      if (
-        (n && n?.classList?.contains('ids-tree-node'))
-        || (n.elem && n?.elem?.classList?.contains('ids-tree-node'))
-      ) {
-        value = n;
-      } else if (n && n.parentElement) {
-        fn(n.parentElement);
-      } else if (n.elem && n.elem.parentElement) {
-        fn(n.elem.parentElement);
+  #setMultiSelected(node: any) {
+    if (node && node.elem) {
+      let canProceed = true;
+      const response = (veto: any) => {
+        canProceed = !!veto;
+      };
+      this.triggerEvent(
+        IdsTreeShared.EVENTS.beforeselected,
+        this,
+        { detail: { elem: this, response, node } }
+      );
+      if (!canProceed) {
+        return;
       }
-    };
 
-    fn(node);
-    return value;
-  }
+      const parent: any = this.getParentSelection(node);
+      node.elem.selected = true;
+      this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, node } });
 
-  allChildNodes(parent: any) {
-    return parent.querySelector('.group-nodes').querySelectorAll('ids-tree-node');
+      // If node is a group select all children in the group
+      if (node.isGroup) {
+        this.selectNestedNodes(node);
+        // [...this.allChildNodes(node)].forEach((groupNode: any) => {
+        //   if (!groupNode.disabled) {
+        //     groupNode.selected = true;
+        //     this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, groupNode } });
+
+        //     if (groupNode.shadowRoot.querySelectorAll('ids-tree-node')) {
+        //       [...groupNode.shadowRoot.querySelectorAll('ids-tree-node')].forEach((nestedNode: any) => {
+        //         if (!nestedNode.disabled) {
+        //           nestedNode.selected = true;
+        //           this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, nestedNode } });
+        //         }
+        //       });
+        //     }
+        //   }
+        // });
+      }
+
+      // If node is in a group set the correct selection on the parent
+      if (parent) {
+        const selectedNodes: any = [...this.allChildNodes(parent)]
+          .filter((nestedNode: any) => nestedNode.selected === true);
+
+        // Select the parent tree node
+        parent.getRootNode().host.selected = true;
+        parent.querySelector('ids-checkbox').input.checked = true;
+
+        // If current node has parent and all nodes are selected
+        // remove indeterminate from parent
+        if (this.allChildNodes(parent).length === selectedNodes.length) {
+          parent.querySelector('ids-checkbox').indeterminate = null;
+        } else {
+          // If current node has parent and all nodes are not selected
+          // set the parent checkbox to indeterminate
+          parent.querySelector('ids-checkbox').indeterminate = true;
+        }
+      }
+    }
   }
 
   /**
@@ -689,7 +695,7 @@ export default class IdsTree extends Base {
     node.elem.shadowRoot.querySelector('ids-checkbox').indeterminate = null;
 
     if (node.isGroup) {
-      [...node.elem.shadowRoot.querySelectorAll('ids-tree-node')].forEach((groupNode: any) => {
+      [...this.allChildNodes(node)].forEach((groupNode: any) => {
         if (!groupNode.disabled) {
           groupNode.selected = null;
           groupNode.shadowRoot.querySelector('ids-checkbox').input.checked = null;
@@ -722,6 +728,64 @@ export default class IdsTree extends Base {
     }
 
     this.triggerEvent(IdsTreeShared.EVENTS.unselected, this, { detail: { elem: this, node } });
+  }
+
+  getParentSelection(node: any) {
+    let value;
+    const fn: any = (n: any) => {
+      if (
+        (n && n?.classList?.contains('ids-tree-node'))
+        || (n.elem && n?.elem?.classList?.contains('ids-tree-node'))
+      ) {
+        value = n;
+      } else if (n && n.parentElement) {
+        fn(n.parentElement);
+      } else if (n.elem && n.elem.parentElement) {
+        fn(n.elem.parentElement);
+      }
+    };
+
+    fn(node);
+    return value;
+  }
+
+  allChildNodes(parent: any) {
+    if (parent.elem) {
+      return parent.elem.shadowRoot.querySelector('.group-nodes').querySelectorAll('ids-tree-node')
+    }
+    if (parent.shadowRoot) {
+      return parent.shadowRoot.querySelector('.group-nodes').querySelectorAll('ids-tree-node');
+    }
+    return parent.querySelector('.group-nodes').querySelectorAll('ids-tree-node');
+    // return parent.elem
+    //   ? parent.elem.shadowRoot.querySelector('.group-nodes').querySelectorAll('ids-tree-node')
+    //   : parent.querySelector('.group-nodes').querySelectorAll('ids-tree-node');
+  }
+
+  selectNestedNodes(node: any) {
+    const findNestedNodes: any = (n: any) => {
+      if (n.elem && n.elem.hasChildNodes()) {
+        const children = [...this.allChildNodes(n.elem)];
+        children.forEach((childNode: any) => {
+          if (childNode.hasChildNodes() && !childNode.disabled) {
+            childNode.selected = true;
+            this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, childNode } });
+          }
+          findNestedNodes(childNode);
+        });
+      } else if (n && n.shadowRoot?.querySelector('.group-nodes')) {
+        const children = [...this.allChildNodes(n)];
+        children.forEach((childNode: any) => {
+          if (childNode.hasChildNodes() && !childNode.disabled) {
+            childNode.selected = true;
+            this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, childNode } });
+          }
+          findNestedNodes(childNode);
+        });
+      }
+    };
+
+    findNestedNodes(node);
   }
 
   /**
@@ -855,7 +919,7 @@ export default class IdsTree extends Base {
           } else {
             if (this.isMultiSelect) {
               if (!node.elem.selected) {
-                this.#setSelected(node);
+                this.#setMultiSelected(node);
               } else {
                 this.#setMultiUnSelected(node);
               }

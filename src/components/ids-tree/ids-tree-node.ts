@@ -276,6 +276,9 @@ export default class IdsTreeNode extends Base {
       this.container.setAttribute(attributes.SELECTED, '');
       this.nodeContainer?.setAttribute(attributes.SELECTED, '');
       this.nodeContainer?.setAttribute('aria-selected', 'true');
+      if (this.container.querySelector('ids-checkbox')) {
+        this.container.querySelector('ids-checkbox').checked = true;
+      }
 
       if (this.groupNodes) {
         // If is a group parent select all children
@@ -293,6 +296,9 @@ export default class IdsTreeNode extends Base {
       this.container.removeAttribute(attributes.SELECTED);
       this.nodeContainer?.removeAttribute(attributes.SELECTED);
       this.nodeContainer?.setAttribute('aria-selected', 'false');
+      if (this.container.querySelector('ids-checkbox')) {
+        this.container.querySelector('ids-checkbox').checked = null;
+      }
 
       if (this.groupNodes) {
         // If is a group parent deselect all children
@@ -320,37 +326,6 @@ export default class IdsTreeNode extends Base {
     this.onEvent('click', this.checkbox, (e: any) => {
       e.preventDefault();
     });
-  }
-
-  getSelectedStatus(groupNodes: any) {
-    let total = 0;
-    let selected = 0;
-    let unselected = 0;
-
-    if (groupNodes) {
-      [...groupNodes.querySelectorAll('ids-tree-node')].forEach((node: any) => {
-        total++;
-        if (node.selected) {
-          selected++;
-        } else {
-          unselected++;
-        }
-      });
-    }
-
-    let status;
-    if (total === selected) {
-      status = true;
-    } else if (total === unselected) {
-      status = false;
-    } else {
-      status = 'mixed';
-    }
-    return status;
-  }
-
-  get groupNode() {
-    return this.shadowRoot.querySelector('[part="group-node"]');
   }
 
   get groupNodes() {
