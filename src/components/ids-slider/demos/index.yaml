@@ -8,3 +8,12 @@
   - link: example.html
     type: Main Example
     description: Showing various slider examples
+  - link: disabled.html
+    type: Example
+    description: Demonstrates disabled slider behavior
+  - link: readonly.html
+    type: Example
+    description: Demonstrates readonly slider behavior
+  - link: update-value.html
+    type: Example
+    description: Demonstrates a slider with its value bound to an IdsInput field

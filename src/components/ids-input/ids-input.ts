@@ -254,12 +254,15 @@ export default class IdsInput extends Base {
       : '';
   }
 
-  /**
-   * When the color variant is set, update the clearable button
-   * @private
-   */
-  onColorVariantRefresh() {
-    this.refreshClearableButtonStyles();
+  set colorVariant(value: string | null) {
+    super.colorVariant = value;
+    if (this.clearable) {
+      this.refreshClearableButtonStyles();
+    }
+  }
+
+  get colorVariant(): string | null {
+    return super.colorVariant;
   }
 
   /**
