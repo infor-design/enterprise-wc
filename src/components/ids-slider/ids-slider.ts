@@ -485,7 +485,7 @@ export default class IdsSlider extends Base {
 
       if (labelElements.length !== stepNumber) {
         const x = Math.abs(stepNumber - labelElements.length);
-        const labelAttr = this.#shouldApplyColor() ? ' label' : '';
+        const labelAttr = !this.disabled ? ' label' : '';
 
         for (let i = 0; i < x; i++) {
           if (labelElements.length < stepNumber) {
@@ -857,7 +857,11 @@ export default class IdsSlider extends Base {
     } else {
       ticks.forEach((tick: { children: HTMLCollection, style: CSSStyleDeclaration }) => {
         tick.style.removeProperty('background-color');
-        tick.children[0]?.removeAttribute('label');
+        if (!this.readonly) {
+          tick.children[0]?.removeAttribute('label');
+        } else {
+          tick.children[0]?.setAttribute('label', '');
+        }
       });
       this.thumb.style.removeProperty('background-color');
       this.thumbShadow.style.removeProperty('background-color');
