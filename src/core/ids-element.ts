@@ -1,6 +1,4 @@
 import { version } from './ids-attributes';
-import renderLoop from '../components/ids-render-loop/ids-render-loop-global';
-import IdsRenderLoopItem from '../components/ids-render-loop/ids-render-loop-item';
 import { camelCase } from '../utils/ids-string-utils/ids-string-utils';
 import IdsEventsMixin from '../mixins/ids-events-mixin/ids-events-mixin';
 import styles from './ids-element.scss';
@@ -120,12 +118,9 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
 
     // Runs on next next paint to be sure rendered() fully
     if (this.rendered) {
-      renderLoop.register(new IdsRenderLoopItem({
-        duration: 1,
-        timeoutCallback: () => {
-          this.rendered();
-        }
-      }));
+      requestAnimationFrame(() => {
+        this.rendered();
+      });
     }
 
     return this;
