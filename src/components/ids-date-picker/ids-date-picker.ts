@@ -28,10 +28,10 @@ import '../ids-trigger-field/ids-trigger-field';
 
 // Types
 import type {
-  IdsRangeSettings,
-  IdsDisableSettings,
-  IdsDayselectedEvent
-} from '../ids-month-view/ids-month-view-types';
+  RangeSettings,
+  DisableSettings,
+  DayselectedEvent
+} from '../ids-month-view/ids-month-view';
 
 // Import Styles
 import styles from './ids-date-picker.scss';
@@ -305,7 +305,7 @@ class IdsDatePicker extends Base {
       });
 
       this.offEvent('dayselected.date-picker-calendar');
-      this.onEvent('dayselected.date-picker-calendar', this.#monthView, (e: IdsDayselectedEvent) => {
+      this.onEvent('dayselected.date-picker-calendar', this.#monthView, (e: DayselectedEvent) => {
         if (!this.isCalendarToolbar) {
           if (this.useRange) {
             this.value = [
@@ -1644,7 +1644,7 @@ class IdsDatePicker extends Base {
    * Get range settings for month view component
    * @returns {object} month view range settings
    */
-  get rangeSettings(): IdsRangeSettings {
+  get rangeSettings(): RangeSettings {
     return this.#monthView?.rangeSettings;
   }
 
@@ -1653,7 +1653,7 @@ class IdsDatePicker extends Base {
    * and update input value if passed settings contain start/end
    * @param {object} val settings to be assigned to default range settings
    */
-  set rangeSettings(val: IdsRangeSettings) {
+  set rangeSettings(val: RangeSettings) {
     if (this.#monthView) {
       this.#monthView.rangeSettings = val;
 
@@ -1690,17 +1690,17 @@ class IdsDatePicker extends Base {
   }
 
   /**
-   * @returns {IdsDisableSettings} disable settings object
+   * @returns {DisableSettings} disable settings object
    */
-  get disable(): IdsDisableSettings {
+  get disable(): DisableSettings {
     return this.#monthView?.disable;
   }
 
   /**
    * Set disable settings
-   * @param {IdsDisableSettings} val settings to be assigned to default disable settings
+   * @param {DisableSettings} val settings to be assigned to default disable settings
    */
-  set disable(val: IdsDisableSettings) {
+  set disable(val: DisableSettings) {
     if (this.#monthView) {
       this.#monthView.disable = val;
     }
