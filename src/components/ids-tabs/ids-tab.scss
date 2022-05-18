@@ -56,8 +56,8 @@
 
 // Spacing rules for Module Tabs
 
-:host(ids-tab[color-variant='module']:not([orientation='vertical'])),
-.ids-tab-container.color-variant-module:not(.orientation-vertical) .ids-tab {
+:host(ids-tab[color-variant='module']:not([orientation='vertical']):not([actionable])),
+.ids-tab-container.color-variant-module:not(.orientation-vertical):not(.actionable) .ids-tab {
   flex-grow: 1;
 }
 

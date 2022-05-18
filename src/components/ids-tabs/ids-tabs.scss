@@ -15,8 +15,8 @@
 
 // Horizontal Tabs
 
-:host(ids-tabs:not([orientation='vertical'])),
-.ids-tabs-container:not([orientation='vertical']) {
+:host(ids-tabs:not([orientation='vertical']):not([color-variant='module'])),
+.ids-tabs-container:not([orientation='vertical']:not(.color-variant-module)) {
   @include mt-8;
 }
 

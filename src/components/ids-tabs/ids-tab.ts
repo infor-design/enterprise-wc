@@ -7,6 +7,8 @@ import '../ids-text/ids-text';
 
 import styles from './ids-tab.scss';
 
+type IdsTabonActionCallback = (isSelected: boolean) => void;
+
 /**
  * IDS Tab Component
  * @type {IdsTab}
@@ -18,6 +20,11 @@ import styles from './ids-tab.scss';
 @customElement('ids-tab')
 @scss(styles)
 export default class IdsTab extends Base {
+  /**
+   * @param {IdsTabonActionCallback} onAction a user-defined callback function that can be applied to a Tab
+   */
+  onAction?: IdsTabonActionCallback;
+
   constructor() {
     super();
   }
@@ -29,6 +36,7 @@ export default class IdsTab extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.ACTIONABLE,
       attributes.COUNT,
       attributes.SELECTED,
       attributes.VALUE
@@ -88,6 +96,15 @@ export default class IdsTab extends Base {
     );
   }
 
+  connectedCallback() {
+    super.connectedCallback?.();
+
+    this.setAttribute(htmlAttributes.ROLE, 'tab');
+    this.setAttribute(htmlAttributes.ARIA_SELECTED, `${Boolean(this.selected)}`);
+    this.setAttribute(htmlAttributes.TABINDEX, stringToBool(this.selected) ? '0' : '-1');
+    this.setAttribute(htmlAttributes.ARIA_LABEL, this.#getReadableAriaLabel());
+  }
+
   /**
    * Refresh component's bindings after render
    */
@@ -105,51 +122,48 @@ export default class IdsTab extends Base {
     });
 
     this.#setDataTextForBoldFix();
-  }
-
-  connectedCallback() {
-    super.connectedCallback?.();
-
-    this.setAttribute(htmlAttributes.ROLE, 'tab');
-    this.setAttribute(htmlAttributes.ARIA_SELECTED, `${Boolean(this.selected)}`);
-    this.setAttribute(htmlAttributes.TABINDEX, stringToBool(this.selected) ? '0' : '-1');
-    this.setAttribute(htmlAttributes.ARIA_LABEL, this.#getReadableAriaLabel());
     this.selected = this.hasAttribute(attributes.SELECTED);
-
-    this.#attachEventHandlers();
   }
 
-  #attachEventHandlers() {
-    this.onEvent('focus', this, () => {
-      if (!this.selected) {
-        this.selected = true;
-      }
-      this.focus();
-    });
+  /**
+   * @param {boolean} isActionable true if this Tab should be displayed as an "action" (small, low padding, no flex)
+   */
+  set actionable(isActionable: boolean | string) {
+    if (stringToBool(isActionable)) {
+      this.setAttribute(attributes.ACTIONABLE, '');
+    } else {
+      this.removeAttribute(attributes.ACTIONABLE);
+    }
+  }
+
+  /**
+   * @returns {boolean} true if this Tab should be displayed as an "action"
+   */
+  get actionable(): boolean {
+    return this.hasAttribute(attributes.ACTIONABLE);
   }
 
   /**
    * @param {boolean} isSelected Whether or not this tab is selected.
    */
   set selected(isSelected: boolean) {
+    const currentValue = this.selected;
     const newValue = stringToBool(isSelected);
-    if (!newValue) {
-      this.removeAttribute(attributes.SELECTED);
-      this.container.classList.remove(attributes.SELECTED);
-      this.container?.children?.[0]?.removeAttribute?.(attributes.FONT_WEIGHT);
-      this.setAttribute(htmlAttributes.TABINDEX, '-1');
-    } else {
-      this.setAttribute(attributes.SELECTED, '');
-      this.container?.children?.[0]?.setAttribute?.(attributes.FONT_WEIGHT, 'bold');
-      this.container.classList.add(attributes.SELECTED);
-      this.setAttribute(htmlAttributes.TABINDEX, '0');
-
-      // reqAnimFrame needed to fire for context to read reliably due to onEvent binding
-      window.requestAnimationFrame(() => {
-        this.triggerEvent('tabselect', this, { bubbles: true });
-      });
+    if (currentValue !== newValue) {
+      if (!newValue) {
+        this.removeAttribute(attributes.SELECTED);
+        this.container.classList.remove(attributes.SELECTED);
+        this.container?.children?.[0]?.removeAttribute?.(attributes.FONT_WEIGHT);
+        this.setAttribute(htmlAttributes.TABINDEX, '-1');
+      } else {
+        this.setAttribute(attributes.SELECTED, '');
+        this.container?.children?.[0]?.setAttribute?.(attributes.FONT_WEIGHT, 'bold');
+        this.container.classList.add(attributes.SELECTED);
+        this.setAttribute(htmlAttributes.TABINDEX, '0');
+        this.#select(newValue);
+      }
+      this.setAttribute(htmlAttributes.ARIA_SELECTED, `${newValue}`);
     }
-    this.setAttribute(htmlAttributes.ARIA_SELECTED, `${newValue}`);
   }
 
   /**
@@ -159,21 +173,40 @@ export default class IdsTab extends Base {
     return this.hasAttribute(attributes.SELECTED);
   }
 
+  /**
+   * Runs an `onAction` callback or triggers an event
+   * @param {boolean} isSelected true if the tab has been selected
+   */
+  #select(isSelected: boolean): void {
+    this.triggerEvent('tabselect', this, {
+      bubbles: true,
+      detail: {
+        selected: isSelected
+      }
+    });
+  }
+
   /** @param {string} value The value which becomes selected by ids-tabs component */
   set value(value: string) {
     if (value !== this.getAttribute(attributes.VALUE)) {
       this.setAttribute(attributes.VALUE, value);
     }
-
-    this.triggerEvent('tabvaluechange', this, {
-      bubbles: true,
-      detail: { value: `${value}` }
-    });
+    this.#valueChange(value);
   }
 
   /** @returns {string} value The value which becomes selected by ids-tabs component */
   get value(): string {
     return this.getAttribute(attributes.VALUE);
+  }
+
+  /**
+   * @param {string} value The value which becomes selected by ids-tabs component
+   */
+  #valueChange(value: string) {
+    this.triggerEvent('tabvaluechange', this, {
+      bubbles: true,
+      detail: { value: `${value}` }
+    });
   }
 
   /** @returns {string} value The number of items represented in the tab (may or may not apply) */
