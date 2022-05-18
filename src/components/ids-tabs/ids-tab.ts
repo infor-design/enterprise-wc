@@ -54,46 +54,31 @@ export default class IdsTab extends Base {
    * @returns {string} the template to render
    */
   template(): string {
-    const innerContent = this.hasAttribute(attributes.COUNT) ? (
-      `<ids-text
-        overflow="ellipsis"
-        font-size="28"
-        color="unset"
-        ${this.selected ? 'font-weight="bold"' : ''}
-      >${this.getAttribute(attributes.COUNT)}
-      </ids-text>
-      <ids-text
-        overflow="ellipsis"
-        size="22"
-        color="unset"
-        ${this.selected ? 'font-weight="bold"' : ''}
-      >
-        <slot></slot>
-      </ids-text>`
-    ) : (
-      `<ids-text
-      overflow="ellipsis"
-      size="22"
-      color="unset"
-      ${this.selected ? 'font-weight="bold"' : ''}
-    >
-      <slot></slot>
-    </ids-text>`
+    const hasIcon = this.querySelector('ids-icon');
+    const hasCount = this.hasAttribute(attributes.COUNT);
+    const cssClassAttr = buildClassAttrib(
+      'ids-tab',
+      this.selected,
+      this.orientation,
+      this.count
     );
+    const selectedAttr = this.selected ? ' font-weight="bold"' : '';
 
-    return (
-      `<div ${
-        buildClassAttrib(
-          'ids-tab',
-          this.selected,
-          this.orientation,
-          this.count
-        )}
-        tabindex="-1"
-        part="container"
-      >${innerContent}
-      </div>`
-    );
+    let innerContent = '<slot></slot>';
+    if (!hasIcon && !hasCount) {
+      innerContent = `<ids-text overflow="ellipsis" size="22"${selectedAttr}>
+        <slot></slot>
+      </ids-text>`;
+    } else if (hasCount) {
+      innerContent = `<ids-text overflow="ellipsis" font-size="28"${selectedAttr}>
+        ${this.getAttribute(attributes.COUNT)}
+      </ids-text>
+      <ids-text overflow="ellipsis" size="22">
+        <slot></slot>
+      </ids-text>`;
+    }
+
+    return `<div ${cssClassAttr} tabindex="-1" part="container">${innerContent}</div>`;
   }
 
   connectedCallback() {
@@ -131,8 +116,10 @@ export default class IdsTab extends Base {
   set actionable(isActionable: boolean | string) {
     if (stringToBool(isActionable)) {
       this.setAttribute(attributes.ACTIONABLE, '');
+      this.container.classList.add(attributes.ACTIONABLE);
     } else {
       this.removeAttribute(attributes.ACTIONABLE);
+      this.container.classList.remove(attributes.ACTIONABLE);
     }
   }
 
@@ -174,7 +161,7 @@ export default class IdsTab extends Base {
   }
 
   /**
-   * Runs an `onAction` callback or triggers an event
+   * Triggers the `tabselect` event
    * @param {boolean} isSelected true if the tab has been selected
    */
   #select(isSelected: boolean): void {
@@ -259,7 +246,7 @@ export default class IdsTab extends Base {
    */
   #setDataTextForBoldFix = () => {
     const idsText = this.container?.querySelector('ids-text');
-    const slotNode = idsText.querySelector('slot')?.assignedNodes?.()?.[0];
+    const slotNode = this.container?.querySelector('slot')?.assignedNodes?.()?.[0];
 
     if (slotNode && idsText) {
       idsText.container.setAttribute('data-text', `"${slotNode.textContent}"`);

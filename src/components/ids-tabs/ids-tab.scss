@@ -1,5 +1,8 @@
 @import '../../core/ids-base';
 
+$ids-tab-alternate-color-semi-transparent: rgba(255 255 255 / 0.7);
+$ids-tab-min-width: 44px;
+
 @mixin ids-tabs-focus-border() {
   &::before {
     @include border-1();
@@ -66,6 +69,10 @@
   outline: none;
 }
 
+::slotted(ids-icon) {
+  pointer-events: none;
+}
+
 .ids-tab {
   @include px-4();
   @include border-1();
@@ -100,6 +107,16 @@
   }
 
   // =================================================
+  // Actionable
+
+  &.actionable {
+    @include px-12();
+
+    cursor: pointer;
+    min-width: $ids-tab-min-width;
+  }
+
+  // =================================================
   // Counts
 
   &.count {
@@ -115,7 +132,7 @@
     border-bottom-width: 0;
 
     &:not(.count) {
-      @include pt-8;
+      @include pt-8();
     }
 
     // Round borders on regular horizontal tabs
@@ -273,7 +290,7 @@
 
     &.color-variant-alternate {
       &:hover::after {
-        @include bg-white();
+        background-color: $ids-tab-alternate-color-semi-transparent;
       }
 
       &:focus-visible,
@@ -283,7 +300,7 @@
       }
 
       &:not(.selected) {
-        color: rgba(255 255 255 / 0.7);
+        color: $ids-tab-alternate-color-semi-transparent;
       }
 
       &.selected {
@@ -329,23 +346,14 @@
       @include text-slate-20;
     }
 
-    &:hover {
-      @include text-white();
-    }
-
-    &:not(.orientation-vertical) {
-      &:hover {
-        &::after,
-        & .selection-underline {
-          @include bg-white();
-        }
-      }
-    }
-
     // =================================================
     // Dark Mode / Default Color Variant
 
     &:not([class*='color-variant-']) {
+      &:not(.selected) {
+        @include text-slate-20;
+      }
+
       &:focus-visible,
       &:focus,
       &:focus-within {
@@ -357,10 +365,51 @@
       }
 
       &:not(.orientation-vertical) {
+        &:hover {
+          &::after,
+          & .selection-underline {
+            @include bg-white();
+          }
+        }
+
         &.selected {
           &::after,
           & .selection-underline {
             @include bg-azure-40();
+          }
+        }
+      }
+    }
+
+    // =================================================
+    // Dark Mode / Alternate Color Variant
+
+    &.color-variant-alternate {
+      &:hover::after {
+        background-color: $ids-tab-alternate-color-semi-transparent;
+      }
+
+      &:focus-visible,
+      &:focus,
+      &:focus-within {
+        @include border-white();
+      }
+
+      &:not(.selected) {
+        color: $ids-tab-alternate-color-semi-transparent;
+      }
+
+      &.selected {
+        color: var(--ids-color-palette-white);
+      }
+
+      // Horizontal Tab Styles
+      &:not(.orientation-vertical) {
+        &.selected {
+
+          &::after,
+          & .selection-underline {
+            @include bg-white();
           }
         }
       }
@@ -402,6 +451,10 @@
     // Contrast Mode / Default Color Variant
 
     &:not([class*='color-variant-']) {
+      &:hover::after {
+        @include bg-slate-100;
+      }
+
       &:focus-visible,
       &:focus,
       &:focus-within {
@@ -413,6 +466,41 @@
           &::after,
           & .selection-underline {
             @include bg-azure-90();
+          }
+        }
+      }
+    }
+
+    // =================================================
+    // Contrast Mode / Alternate Color Variant
+
+    &.color-variant-alternate {
+      @include text-slate-10();
+
+      &:hover {
+        text-decoration: underline;
+
+        &::after {
+          background-color: $ids-tab-alternate-color-semi-transparent;
+        }
+      }
+
+      &:focus-visible,
+      &:focus,
+      &:focus-within {
+        @include border-slate-10();
+      }
+
+      &.selected {
+        @include text-azure-10();
+      }
+
+      &:not(.orientation-vertical) {
+        &.selected {
+
+          &::after,
+          & .selection-underline {
+            @include bg-white();
           }
         }
       }
