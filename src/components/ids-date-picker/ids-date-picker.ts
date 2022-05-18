@@ -441,6 +441,10 @@ class IdsDatePicker extends Base {
 
         if (yearItem) {
           e.stopPropagation();
+          const disabledSettings: DisableSettings = getClosest(this, 'ids-month-view')?.disable;
+          const isDisabled: boolean | undefined = disabledSettings?.years?.includes(stringToNumber(yearItem.dataset.year));
+
+          if (isDisabled) return;
 
           this.#unselectPicklist('year');
           this.#selectPicklistEl(yearItem);
@@ -729,16 +733,22 @@ class IdsDatePicker extends Base {
   #attachPicklist() {
     if (!this.isDropdown) return;
 
-    const calendarMonths = this.locale?.calendar()?.months.wide;
-    const startYear = this.year - 4;
+    const calendarMonths: Array<string> = this.locale?.calendar()?.months.wide;
+    const disabledSettings: DisableSettings = getClosest(this, 'ids-month-view')?.disable;
+    const startYear: number = this.year - 4;
     const months = calendarMonths?.map((item: any, index: number) => `<li
         data-month="${index}"
         class="picklist-item is-month"
       ><ids-text>${item}</ids-text></li>`).join('');
-    const years = Array.from({ length: 10 }).map((_, index) => `<li
-        data-year="${startYear + index}"
-        class="picklist-item is-year${index === 9 ? ' is-last' : ''}"
-      ><ids-text>${startYear + index}</ids-text></li>`).join('');
+    const years = Array.from({ length: 10 }).map((_, index) => {
+      const year = startYear + index;
+      const isDisabled: boolean | undefined = disabledSettings?.years?.includes(year);
+
+      return `<li
+        data-year="${year}"
+        class="picklist-item is-year${index === 9 ? ' is-last' : ''}${isDisabled ? ' is-disabled' : ''}"
+      ><ids-text${isDisabled ? ' disabled="true"' : ''}>${year}</ids-text></li>`;
+    }).join('');
 
     const template = `
       <div class="picklist-section">
@@ -770,13 +780,20 @@ class IdsDatePicker extends Base {
   #picklistYearPaged(isNext: boolean) {
     this.#unselectPicklist('year');
 
+    const disabledSettings: DisableSettings = getClosest(this, 'ids-month-view')?.disable;
+
     this.container.querySelectorAll('.picklist-item.is-year').forEach((el: any, index: number) => {
-      const elYear = stringToNumber(el.dataset.year);
+      const elYear: number = stringToNumber(el.dataset.year);
+      const year: number = isNext ? elYear + 10 : elYear - 10;
+      const isDisabled: boolean | undefined = disabledSettings?.years?.includes(year);
 
-      el.dataset.year = isNext ? elYear + 10 : elYear - 10;
-      el.querySelector('ids-text').textContent = isNext ? elYear + 10 : elYear - 10;
+      el.dataset.year = year;
+      el.querySelector('ids-text').textContent = year;
 
-      if (index === 4) {
+      el.classList.toggle('is-disabled', isDisabled);
+      el.querySelector('ids-text').disabled = isDisabled;
+
+      if (index === 4 && !isDisabled) {
         this.#selectPicklistEl(el);
 
         this.year = el.dataset.year;

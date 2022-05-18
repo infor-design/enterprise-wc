@@ -14,7 +14,7 @@ if (disabledDates) {
 
 if (disabledYears) {
   disabledYears.disable = {
-    years: [2019, 2021]
+    years: [2019, 2021, 2030, 2034]
   };
 }
 
