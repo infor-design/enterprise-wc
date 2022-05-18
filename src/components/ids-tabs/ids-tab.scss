@@ -409,9 +409,11 @@
       }
 
       &:not(.orientation-vertical) {
-        &::after,
-        & .selection-underline {
-          @include bg-azure-90();
+        &.selected {
+          &::after,
+          & .selection-underline {
+            @include bg-azure-90();
+          }
         }
       }
     }
