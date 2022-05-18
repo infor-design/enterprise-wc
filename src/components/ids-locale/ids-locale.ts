@@ -689,6 +689,16 @@ class IdsLocale {
   }
 
   /**
+   * Shortcut function to get the current locales numbers
+   * @param {string} locale The locale to use
+   * @returns {object} containing calendar data for numbers
+   */
+  numbers(locale: string): any {
+    const localeData = this.loadedLocales.get(locale || this.locale.name);
+    return localeData.numbers;
+  }
+
+  /**
    * Remove references
    */
   destroy() {

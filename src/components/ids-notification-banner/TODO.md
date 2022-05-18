@@ -1,6 +1,6 @@
 # IDS Notification TODOs
 
-Keep this file in sync with #715
+Keep this file in sync with https://github.com/infor-design/enterprise-wc/issues/715
 
 ## Major
 

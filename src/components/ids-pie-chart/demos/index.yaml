@@ -1,0 +1,19 @@
+---
+ component: Pie Chart
+ link: ids-pie-chart
+ description: Configurable circle chart divided into sectors
+ category: Charts and Visualizations
+ keywords: pie chart, chart, visualization, pie, donut
+ examples:
+  - link: example.html
+    type: Main Example
+    description: Shows a basic pie chart
+  - link: donut.html
+    type: Main Example
+    description: Shows a basic donut chart
+  - link: empty-message.html
+    type: Example
+    description: Shows an empty message when no data
+  - link: colors.html
+    type: Example
+    description: Shows configuring custom colors

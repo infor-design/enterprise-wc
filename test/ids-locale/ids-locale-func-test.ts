@@ -589,6 +589,13 @@ describe('IdsLocale API', () => {
   });
 
   describe('Number Formatting', () => {
+    it.only('should be able too get numbers easily', async () => {
+      await locale.setLocale('en-US');
+      expect(locale.numbers().decimal).toEqual('.');
+      await locale.setLocale('de-DE');
+      expect(locale.numbers('de-DE').decimal).toEqual(',');
+    });
+
     it('should convert arabic numbers', async () => {
       expect(locale.convertNumberToEnglish('١٢٣٤٥٦٧٨٩٠')).toEqual(1234567890);
       expect(locale.convertNumberToEnglish('١٢٣')).toEqual(123);

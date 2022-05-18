@@ -643,7 +643,7 @@ export default class IdsAxisChart extends Base {
   }
 
   /**
-   * Return the markup for svg patterns
+   * Return the def markup for svg patterns
    * @private
    * @returns {string} The string with all the patterns being used
    */
@@ -708,7 +708,7 @@ export default class IdsAxisChart extends Base {
     this.rerender();
   }
 
-  get width() { return parseFloat(this.getAttribute(attributes.WIDTH)) || 800; }
+  get width() { return parseFloat(this.getAttribute(attributes.WIDTH)) || 700; }
 
   /**
    * Get the parent element's width and height

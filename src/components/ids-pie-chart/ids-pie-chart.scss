@@ -1,0 +1,41 @@
+/* Ids Pie Chart Component */
+@import '../../core/ids-base';
+@import '../../mixins/sass/ids-chart-legend-mixin';
+
+.ids-chart-container {
+  height: 100%;
+  width: 100%;
+}
+
+// Responsive Pie
+.ids-pie-chart {
+  @include mb-12();
+
+  height: 100%;
+  width: 100%;
+}
+
+// Donut Chart
+.slice {
+  fill-opacity: 0;
+}
+
+.donut-text {
+  @include antialiased();
+  @include font-sans();
+
+  font-size: 2px;
+  fill: var(--ids-color-palette-slate-60);
+  text-anchor: middle;
+}
+
+// Audible Text
+.audible {
+  opacity: 0;
+  fill-opacity: 0;
+}
+
+// Center Legend
+.chart-legend {
+  justify-content: center;
+}

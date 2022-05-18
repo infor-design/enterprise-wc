@@ -89,6 +89,8 @@ export const attributes = {
   DISMISSIBLE: 'dismissible',
   DISPLAY: 'display',
   DISPLAY_TIME: 'display-time',
+  DONUT: 'donut',
+  DONUT_TEXT: 'donut-text',
   DRAGGABLE: 'draggable',
   DRAGGING: 'dragging',
   DROPDOWN_ICON: 'dropdown-icon',
