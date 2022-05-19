@@ -5,6 +5,10 @@
 .ids-chart-container {
   height: 100%;
   width: 100%;
+
+  &.empty {
+    flex-direction: column;
+  }
 }
 
 // Responsive Pie
@@ -13,6 +17,17 @@
 
   height: 100%;
   width: 100%;
+
+  // Colors
+  @for $i from 1 through 21 {
+    .slice.color-#{$i}:not([fill]) {
+      stroke: var(--ids-chart-color-#{$i});
+    }
+  }
+
+  &.hidden {
+    display: none;
+  }
 }
 
 // Donut Chart
@@ -24,7 +39,7 @@
   @include antialiased();
   @include font-sans();
 
-  font-size: 2px;
+  font-size: 10px;
   fill: var(--ids-color-palette-slate-60);
   text-anchor: middle;
 }
@@ -38,4 +53,13 @@
 // Center Legend
 .chart-legend {
   justify-content: center;
+}
+
+// Themes
+[mode='dark'] .donut-text {
+  fill: var(--ids-color-palette-slate-10);
+}
+
+[mode='contrast'] .donut-text {
+  fill: var(--ids-color-palette-slate-100);
 }

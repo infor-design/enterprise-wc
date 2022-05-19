@@ -11,7 +11,9 @@
   - link: colors.html
     type: Example
     description: Shows configuring custom colors
-  - link: side-by-side.html
-    description: Shows chart side by side with a 4.x chart
   - link: responsive.html
+    type: Example
     description: Shows a responsive chart
+  - link: side-by-side.html
+    type: Side by Side
+    description: Shows chart side by side with a 4.x chart

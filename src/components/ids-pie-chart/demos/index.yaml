@@ -11,9 +11,12 @@
   - link: donut.html
     type: Main Example
     description: Shows a basic donut chart
-  - link: empty-message.html
-    type: Example
-    description: Shows an empty message when no data
   - link: colors.html
     type: Example
     description: Shows configuring custom colors
+  - link: empty-message.html
+    type: Example
+    description: Shows an empty message when no data
+  - link: side-by-side.html
+    type: Side by Side
+    description: Shows chart side by side with a 4.x chart

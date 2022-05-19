@@ -1,5 +1,5 @@
 import '../ids-pie-chart';
-import componentsColorsJSON from '../../../assets/data/components-colors.json';
+import componentsColorsJSON from '../../../assets/data/items-single-color.json';
 
 const setData = async () => {
   const res = await fetch(componentsColorsJSON as any);

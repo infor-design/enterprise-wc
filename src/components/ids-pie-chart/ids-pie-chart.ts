@@ -52,6 +52,10 @@ export default class IdsPieChart extends Base {
     super.connectedCallback?.();
   }
 
+  rendered(): void {
+    this.attachTooltipEvents();
+  }
+
   /**
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
@@ -75,7 +79,7 @@ export default class IdsPieChart extends Base {
    */
   template(): string {
     return `<div class="ids-chart-container" part="container">
-      <svg class="ids-pie-chart" part="chart" width="${this.width}" height="${this.height}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+      <svg class="ids-pie-chart" part="chart"${this.width ? ` width="${this.width}"` : ''}${this.height ? ` height="${this.height}"` : ''} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${this.viewBoxSize} ${this.viewBoxSize}">
       </svg>
       <slot name="legend">
       </slot>
@@ -212,27 +216,55 @@ export default class IdsPieChart extends Base {
    * @returns {string} The SVG Marker Markup
    */
   chartTemplate(): string {
-    let rotate = 0;
     let circles = '';
-
+    let filled = 0;
     this.percents.forEach((percent: any, index: number) => {
-      const deg = percent.total * 0.3142;
+      const startAngle = -90;
+      const radius = this.donut ? 40 : 25;
+      const strokeWidth = this.donut ? 15 : 50;
+      const cx = this.viewBoxSize / 2;
+      const cy = this.viewBoxSize / 2;
+      const dashArray = 2 * Math.PI * radius;
+      const dashOffset = dashArray - ((dashArray * percent.total) / 100);
+      const angle = ((filled * 360) / 100) + startAngle;
+      const colorClass = ` color-${index + 1}`;
 
       circles += `<g role="listitem">
+        <circle class="slice${colorClass}" stroke="${this.color(index)}" stroke-width="${strokeWidth}" index="${index}" percent="${percent.total}" r="${radius}" cx="${cx}" cy="${cy}" stroke-dasharray="${dashArray}" stroke-dashoffset="${this.animated ? dashArray : dashOffset}" transform="rotate(${angle} ${cx} ${cy})"></circle>
         <text class="audible">${this.data[0].data?.[index].name}  ${percent.rounded}%</text>
-        <circle class="slice" r="5" cx="10" cy="10" stroke="${this.color(index)}" percent="${percent.total}" value="${percent.rounded}" index="${index}" stroke-dasharray="${deg} 31.42" transform="rotate(${rotate} 10 10)"></circle>
         </g>`;
-      rotate += (deg / 31.42) * 360;
+      filled += percent.total;
+
+      if (this.animated) {
+        // Kick Off an Animation
+        const animationDuration = 380;
+        const currentDuration = (animationDuration * percent.total) / 100;
+        const delay = (animationDuration * filled) / 100;
+
+        requestAnimationFrame(() => {
+          this.container.querySelector(`circle.slice[index="${index}"]`).style.transition = `stroke-dashoffset ${currentDuration}ms cubic-bezier(0.17, 0.04, 0.03, 0.94) ${delay}ms`;
+          requestAnimationFrame(() => {
+            this.container.querySelector(`circle.slice[index="${index}"]`).setAttribute('stroke-dashoffset', dashOffset);
+          });
+        });
+      }
     });
 
     return `<title></title>
       <title>${this.title}</title>
-      <g transform="rotate(-90 10 10)" stroke-width="10" role="list">
+      <g role="list">
         ${circles}
-        <circle class="donut-hole" r="${!this.donut ? 0 : 6.5}" cx="10" cy="10" fill="white" aria-hidden="true"></circle>
       </g>
       <text class="donut-text" x="50%" y="50%" dy=".3em">${this.donutText}</text>
       `;
+  }
+
+  /**
+   * Viewbox size (square)
+   * @returns {number} the viewbox width/height
+   */
+  get viewBoxSize(): number {
+    return 100;
   }
 
   /**
@@ -241,7 +273,7 @@ export default class IdsPieChart extends Base {
    * @returns {Array<SVGElement>} The elements
    */
   tooltipElements(): Array<SVGElement> {
-    return this.container.querySelectorAll('circle[percent]');
+    return this.container.querySelectorAll('.slice');
   }
 
   /**
@@ -260,28 +292,51 @@ export default class IdsPieChart extends Base {
     // Need one event per bar due to the nature of the events for tooltip
     this.tooltipElements().forEach((element: SVGElement) => {
       this.onEvent('hoverend', element, async () => {
-        const tooltip = this.container.querySelector('ids-tooltip');
+        const slice = (element as any);
+        const tooltip = this.container.parentElement.querySelector('ids-tooltip');
         tooltip.innerHTML = this.#tooltipContent(element);
-        tooltip.target = element;
-        tooltip.placement = 'top';
+
+        const position = this.#calculateTooltipPosition(slice);
+
+        // tooltip.target = element;
+        // tooltip.position = 'center';
+        // tooltip.popup.x = position.x;
+        // tooltip.popup.y = position.y;
+        tooltip.popup.setPosition(position.x, position.y, true, true);
         tooltip.visible = true;
       });
     });
   }
 
   /**
+   * Return the tooltip position relative to the slice
+   * @param {SVGElement} slice the cicle element
+   * @returns {object} The element's positino
+   */
+  #calculateTooltipPosition(slice: any): { x : number, y : number } {
+    // https://github.com/infor-design/enterprise/blob/main/src/components/pie/pie.js#L528
+    if (!slice) return { x: 0, y: 0 };
+    const rect = slice.getBoundingClientRect();
+    const x = rect.left + parseFloat(slice.getAttribute('cx'));
+    const y = rect.top + parseFloat(slice.getAttribute('cy'));
+    console.log(x, y);
+    return { x, y };
+  }
+
+  /**
    * Return the data for a tooltip accessible by index
    * @param {number} index the data groupIndex
-   * @param {number} groupIndex the data index
    * @returns {Array<string>} The elements
    */
-  tooltipData(index: number, groupIndex = 0) {
-    const data = (this.data as any)[groupIndex]?.data;
+  tooltipData(index: number) {
+    const data = (this.data as any)[0].data[index];
 
     return {
-      label: data[index]?.name || (this.data as any)[0].data[index].name,
-      value: data[index]?.value || 0,
-      tooltip: data[index]?.tooltip
+      label: data.name,
+      value: data.value || 0,
+      tooltip: data.tooltip,
+      total: this.percents[index].total,
+      rounded: this.percents[index].rounded
     };
   }
 
@@ -292,13 +347,12 @@ export default class IdsPieChart extends Base {
    * @returns {string} The tooltip content
    */
   #tooltipContent(elem: SVGElement): string {
-    const group = Number(elem.getAttribute('group-index'));
     const index = Number(elem.getAttribute('index'));
-    const data = this.tooltipData(index, group);
+    const data = this.tooltipData(index);
 
     if (data.tooltip) {
       // eslint-disable-next-line no-template-curly-in-string
-      return data.tooltip.replace('${value}', data.value).replace('${label}', data.label);
+      return data.tooltip.replace('${value}', data.value).replace('${label}', data.label).replace('${percent}', data.rounded);
     }
     return injectTemplate(this.tooltipTemplate(), data);
   }
@@ -309,6 +363,7 @@ export default class IdsPieChart extends Base {
    */
   #showEmptyMessage() {
     this.svg.classList.add('hidden');
+    this.container.parentElement.classList.add('empty');
     this.emptyMessage.style.height = `${this.height}px`;
     this.emptyMessage.removeAttribute('hidden');
   }
@@ -319,6 +374,7 @@ export default class IdsPieChart extends Base {
    */
   #hideEmptyMessage() {
     this.svg.classList.remove('hidden');
+    this.container.parentElement.classList.remove('empty');
     this.emptyMessage.style.height = '';
     this.emptyMessage.setAttribute('hidden', '');
   }
@@ -341,9 +397,8 @@ export default class IdsPieChart extends Base {
    * @param {boolean} value True to make a donut chart
    */
   set donut(value) {
-    const isDonut = stringToBool(value);
     this.setAttribute(attributes.DONUT, value);
-    this.container.querySelector('.donut-hole')?.setAttribute('r', !isDonut ? '0' : '6.5');
+    this.rerender();
   }
 
   get donut() { return stringToBool(this.getAttribute(attributes.DONUT)) || false; }
@@ -369,7 +424,10 @@ export default class IdsPieChart extends Base {
     this.rerender();
   }
 
-  get height() { return parseFloat(this.getAttribute(attributes.HEIGHT)) || 400; }
+  get height() {
+    const attrib = this.getAttribute(attributes.HEIGHT);
+    return attrib ? parseFloat(attrib) : '';
+  }
 
   /**
    * The width of the chart (in pixels) or 'inherit' from the parent
@@ -381,7 +439,10 @@ export default class IdsPieChart extends Base {
     this.rerender();
   }
 
-  get width() { return parseFloat(this.getAttribute(attributes.WIDTH)) || 400; }
+  get width() {
+    const attrib = this.getAttribute(attributes.WIDTH);
+    return attrib ? parseFloat(attrib) : '';
+  }
 
   /**
    * Set the data array of the chart
@@ -393,7 +454,6 @@ export default class IdsPieChart extends Base {
       this.datasource.data = value as any;
       this.initialized = true;
       this.rerender();
-      this.reanimate();
       return;
     }
     this.datasource.data = [];
@@ -422,31 +482,12 @@ export default class IdsPieChart extends Base {
   }
 
   /**
-   * Reanimate the chart
-   */
-  reanimate(): void {
-    if (!this.animated || !this.initialized) {
-      return;
-    }
-
-    requestAnimationFrame(() => {
-      this.container.querySelectorAll('animate').forEach((elem: SVGAnimationElement) => elem.beginElement());
-      this.container.querySelectorAll('animateTransform').forEach((elem: SVGAnimationElement) => elem.beginElement());
-    });
-  }
-
-  /**
    * Set the animation on/off
    * @param {boolean} value True if animation is on
    */
   set animated(value: boolean) {
-    const animated = stringToBool(this.animated);
     this.setAttribute(attributes.ANIMATED, value);
     this.rerender();
-
-    if (animated) {
-      this.reanimate();
-    }
   }
 
   get animated(): boolean {
