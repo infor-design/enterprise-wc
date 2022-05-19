@@ -1,6 +1,8 @@
 @import '../../core/ids-base';
 
 $ids-tab-alternate-color-semi-transparent: rgba(255 255 255 / 0.7);
+$ids-tab-alternate-color-disabled: rgba(255 255 255 / 0.4);
+
 $ids-tab-min-width: 44px;
 
 @mixin ids-tabs-focus-border() {
@@ -15,6 +17,24 @@ $ids-tab-min-width: 44px;
     height: calc(100% - 4px);
     content: '';
     pointer-events: none;
+  }
+}
+
+// Adds the "underline" element for selected state.
+// cannot read css var for color in ::after
+// without shadowDOM scope so need .selection-underline div
+// as workaround
+@mixin ids-tabs-selected-underline() {
+  &::after,
+  & .selection-underline {
+    position: absolute;
+    bottom: 0;
+    height: 3px;
+    left: -1px;
+    width: calc(100% + 2px);
+    z-index: 1;
+    pointer-events: none;
+    content: '';
   }
 }
 
@@ -84,6 +104,7 @@ $ids-tab-min-width: 44px;
   list-style: none outside none;
   border-color: transparent;
   height: 100%;
+  user-select: none;
 
   &:focus-visible,
   &:focus,
@@ -124,6 +145,14 @@ $ids-tab-min-width: 44px;
   }
 
   // =================================================
+  // Disabled
+
+  &.disabled {
+    cursor: default;
+    pointer-events: none;
+  }
+
+  // =================================================
   // Orientation-specific layouts
 
   &:not(.orientation-vertical) {
@@ -146,20 +175,15 @@ $ids-tab-min-width: 44px;
       align-items: flex-start;
       justify-content: flex-end;
 
-      // Adds the "underline" element for selected state.
-      // cannot read css var for color in ::after
-      // without shadowDOM scope so need .selection-underline div
-      // as workaround
-      &::after,
-      & .selection-underline {
-        position: absolute;
-        bottom: 0;
-        height: 3px;
-        left: -1px;
-        width: calc(100% + 2px);
-        z-index: 1;
-        pointer-events: none;
-        content: '';
+      // Show the underline
+      @include ids-tabs-selected-underline();
+
+      // Hide the underline on disabled
+      &.disabled {
+        &::after,
+        & .selection-underline {
+          display: none;
+        }
       }
     }
 
@@ -251,6 +275,10 @@ $ids-tab-min-width: 44px;
         @include border-azure-60();
       }
 
+      &.disabled {
+        @include text-slate-30();
+      }
+
       // Horizontal Tab Styles
       &:not(.orientation-vertical) {
         &:hover {
@@ -309,6 +337,14 @@ $ids-tab-min-width: 44px;
         color: var(--ids-color-palette-white);
       }
 
+      &.disabled {
+        color: $ids-tab-alternate-color-disabled;
+
+        &.selected {
+          color: $ids-tab-alternate-color-disabled;
+        }
+      }
+
       // Horizontal Tab Styles
       &:not(.orientation-vertical) {
         &.selected {
@@ -337,6 +373,11 @@ $ids-tab-min-width: 44px;
         @include bg-azure-60();
         @include text-white();
       }
+
+      &.disabled {
+        @include bg-azure-50();
+        @include text-azure-20();
+      }
     }
   }
 
@@ -363,6 +404,10 @@ $ids-tab-min-width: 44px;
 
       &.selected {
         @include text-azure-40();
+      }
+
+      &.disabled {
+        @include text-slate-60();
       }
 
       &:not(.orientation-vertical) {
@@ -422,6 +467,14 @@ $ids-tab-min-width: 44px;
         color: var(--ids-color-palette-white);
       }
 
+      &.disabled {
+        color: $ids-tab-alternate-color-disabled;
+
+        &.selected {
+          color: $ids-tab-alternate-color-disabled;
+        }
+      }
+
       // Horizontal Tab Styles
       &:not(.orientation-vertical) {
         &.selected {
@@ -451,6 +504,11 @@ $ids-tab-min-width: 44px;
         @include bg-slate-60();
         @include text-white();
       }
+
+      &.disabled {
+        @include bg-slate-50();
+        @include text-slate-30();
+      }
     }
   }
 
@@ -465,10 +523,6 @@ $ids-tab-min-width: 44px;
     &:not([class*='color-variant-']) {
       @include text-slate-100;
 
-      &.selected {
-        @include text-azure-90;
-      }
-
       &:hover::after {
         @include bg-slate-100;
       }
@@ -477,6 +531,14 @@ $ids-tab-min-width: 44px;
       &:focus,
       &:focus-within {
         @include border-azure-90();
+      }
+
+      &.selected {
+        @include text-azure-90;
+      }
+
+      &.disabled {
+        @include text-slate-40();
       }
 
       &:not(.orientation-vertical) {
@@ -529,6 +591,14 @@ $ids-tab-min-width: 44px;
         @include text-azure-10();
       }
 
+      &.disabled {
+        color: $ids-tab-alternate-color-disabled;
+
+        &.selected {
+          color: $ids-tab-alternate-color-disabled;
+        }
+      }
+
       &:not(.orientation-vertical) {
         &.selected {
 
@@ -558,6 +628,11 @@ $ids-tab-min-width: 44px;
         @include text-white();
 
         text-decoration: underline;
+      }
+
+      &.disabled {
+        @include bg-azure-50();
+        @include text-azure-20();
       }
     }
   }

@@ -38,6 +38,7 @@ export default class IdsTab extends Base {
       ...super.attributes,
       attributes.ACTIONABLE,
       attributes.COUNT,
+      attributes.DISABLED,
       attributes.SELECTED,
       attributes.VALUE
     ];
@@ -128,6 +129,27 @@ export default class IdsTab extends Base {
    */
   get actionable(): boolean {
     return this.hasAttribute(attributes.ACTIONABLE);
+  }
+
+  /**
+   * @param {boolean | string} isDisabled true if the tab should become disabled
+   */
+  set disabled(isDisabled: boolean | string) {
+    const newValue = stringToBool(isDisabled);
+    if (newValue) {
+      this.setAttribute(attributes.DISABLED, '');
+      this.container.classList.add(attributes.DISABLED);
+    } else {
+      this.removeAttribute(attributes.DISABLED);
+      this.container.classList.remove(attributes.DISABLED);
+    }
+  }
+
+  /**
+   * @returns {boolean} true if this tab is disabled
+   */
+  get disabled(): boolean {
+    return this.hasAttribute(attributes.DISABLED);
   }
 
   /**

@@ -142,7 +142,7 @@ export default class IdsTabs extends Base {
     };
     const selectTabHandler = (e: Event) => {
       const tab = (e.target as any).closest('ids-tab');
-      if (tab) {
+      if (tab && !tab.disabled) {
         this.value = tab.value;
       }
     };
