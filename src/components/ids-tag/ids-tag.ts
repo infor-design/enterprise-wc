@@ -42,6 +42,7 @@ export default class IdsTag extends Base {
       attributes.COLOR,
       attributes.CLICKABLE,
       attributes.DISMISSIBLE,
+      attributes.DISABLED,
       attributes.MODE,
       attributes.VERSION
     ];
@@ -216,13 +217,13 @@ export default class IdsTag extends Base {
     const response = (veto: any) => {
       canDismiss = !!veto;
     };
-    this.triggerEvent('beforetagremove', this, { detail: { elem: this, response } });
+    this.triggerEvent('beforetagremove', this, { bubbles: true, detail: { elem: this, response } });
 
     if (!canDismiss) {
       return;
     }
 
-    this.triggerEvent('tagremove', this, { detail: { elem: this } });
+    this.triggerEvent('tagremove', this, { bubbles: true, detail: { elem: this } });
     this.remove();
     this.triggerEvent('aftertagremove', this, { detail: { elem: this } });
   }

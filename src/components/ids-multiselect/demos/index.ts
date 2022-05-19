@@ -1,1 +1,1 @@
-import IdsMultiselect from '../ids-multiselect';
+import '../ids-multiselect';

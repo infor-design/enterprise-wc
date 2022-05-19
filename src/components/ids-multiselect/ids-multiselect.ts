@@ -32,12 +32,11 @@ class IdsMultiselect extends Base {
    * Invoked each time the custom element is add into a document-connected element
    */
   connectedCallback() {
-    //this.#attachEventHandlers();
-    //super.connectedCallback();
     this.#populateSelected();
-    //console.log(Base.prototype);
     Base.prototype.connectedCallback.apply(this);
-    //console.log(this.popup);
+    window.requestAnimationFrame(() => {
+      this.resetDirtyTracker();
+    });
   }
 
   /**
@@ -53,8 +52,6 @@ class IdsMultiselect extends Base {
   }
 
   set disabled(value) {
-    //console.log('multiselect set disabled');
-    ////console.log(isDisabled);
     if (this.tag) {
       this.querySelectorAll('ids-tag').forEach((element:HTMLElement) => {
         element.setAttribute('disabled', 'true');
@@ -104,22 +101,25 @@ class IdsMultiselect extends Base {
    * @param {Array} value The value/id to use
    */
   set value(value: any) {
-    const elem: any = this.selectedOption;
-    if (!elem) {
+    let matched = true;
+    if (!value) {
+      return;
+    }
+    value.forEach((selectedValue:string) => {
+      const existingOption = this.querySelector(`ids-list-box-option[value="${selectedValue}"]`);
+      if (!existingOption) {
+        matched = false;
+      }
+    });
+    if (!matched) {
       return;
     }
     this.#selectedList = value;
-    // this.clearSelected();
-    this.selectOption(elem);
-    this.selectIcon(elem);
-    this.selectTooltip(elem);
 
     this.container.value = '';
-    //console.log("update display/list - value set");
     this.#updateDisplay();
     this.#updateList(true);
 
-    this.state.selectedIndex = [...elem.parentElement.children].indexOf(elem);
     // Send the change event
     if (this.value === value) {
       this.triggerEvent('change', this, {
@@ -131,66 +131,25 @@ class IdsMultiselect extends Base {
       });
     }
     this.#selectedList = value;
-    this.selectOption(this.#selectedList[0]);
-    // this.setAttribute('value', value);
   }
 
   get value() { return this.#selectedList; }
 
-  /* get selectedOption() {
-    return this.value;
-  }
-
-  set selectedOption(value) {
-    if (value) {
-      //console.log('selected set');
-    }
-  } */
-
-  /**
-   * Establish internal event handlers
-   * @private
-   * @returns {object} The object for chaining
-   */
-  /*#attachEventHandlers() {
-    //super.attachEventHandlers();
-    // //console.log(Base.prototype);
-    // Base.prototype.attachEventHandlers.apply(this);
-    return this;
-  }*/
-
   attachClickEvent() {
     this.offEvent('click');
     this.onEvent('click', this, (e: any) => {
-      //console.log('click event called target to follow');
-
       if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
         const targetOption = e.target;
         if (this.#selectedList.find((value) => value === targetOption.getAttribute('value'))) {
-          /*if (targetOption.querySelector('ids-checkbox')?.checked) {
-            //check change
-            //targetOption.querySelector('ids-checkbox').setAttribute('checked', 'false');
-          }*/
           this.#selectedList = this.#selectedList.filter((item) => item !== targetOption.getAttribute('value'));
-          //console.log(`list should be shorter`);
-          //console.log(this.#selectedList);
-          //console.log("update display/list - click event list box option, found in selected list");
-          //console.log(this.#selectedList);
           this.selectOption(targetOption);
           this.#updateDisplay();
           this.#updateList(false);
         } else if (this.max !== this.value.length) {
-          /*if (!e.target.querySelector('ids-checkbox')?.checked) {
-            //check change
-            //e.target.querySelector('ids-checkbox').setAttribute('checked', 'true');
-          }*/
           this.#selectedList.push(e.target.getAttribute('value'));
-          //console.log("update display/list - click event, list box option, not found in selected list");
-          //console.log(this.#selectedList);
           this.selectOption(targetOption);
           this.#updateDisplay();
           this.#updateList(true);
-          //console.log("boop");
           return;
         }
       }
@@ -198,35 +157,27 @@ class IdsMultiselect extends Base {
       if (e.target.closest('ids-list-box-option')) {
         const targetOption = e.target.closest('ids-list-box-option');
         if (this.#selectedList.find((value) => value === targetOption.getAttribute('value'))) {
-          if (targetOption.querySelector('ids-checkbox')?.checked) {
-            //targetOption.querySelector('ids-checkbox').setAttribute('checked', 'false');
-          }
           this.#selectedList = this.#selectedList.filter((item) => item !== targetOption.getAttribute('value'));
-          //console.log("update display/list - click, closest list box, found selected list");
-          //console.log(this.#selectedList);
           this.selectOption(targetOption);
           this.#updateDisplay();
           this.#updateList(false);
         } else if (this.max !== this.value.length) {
-          if (!targetOption.querySelector('ids-checkbox')?.checked) {
-            //targetOption.querySelector('ids-checkbox').setAttribute('checked', 'true');
-          }
           this.#selectedList.push(targetOption.getAttribute('value'));
-          //console.log("update display/list - click, closest list box, not found in selected list");
-          //console.log(this.#selectedList);
           this.selectOption(targetOption);
           this.#updateDisplay();
           this.#updateList(true);
-          //console.log("bonk");
         }
       }
 
       if (e.target.isEqualNode(this)) {
-        //console.log('multiselect toggle call');
         this.toggle();
       }
     });
 
+    /**
+     * TO DO: update to select and group functionality to follow updates to ids-dropdown
+     */
+    /*
     this.unlisten('Enter');
     this.unlisten(' ');
     this.listen([' ', 'Enter'], this, () => {
@@ -235,142 +186,103 @@ class IdsMultiselect extends Base {
         return;
       }
 
-      console.log(this.querySelector('ids-list-box-option.is-selected'));
-      console.log(this.querySelector('ids-list-box-option.is-selected').getAttribute('value'));
       const selected = this.querySelector('ids-list-box-option.is-selected');
       this.value = selected.getAttribute('value');
-      console.log('value next: ');
-      console.log(this.value);
       this.#updateDisplay();
       this.close();
     });
+    */
 
     if (this.tags) {
-      this.onEvent('beforetagremove', this.shadowRoot.querySelector('ids-trigger-field'), (e:any) => {
-        //console.log('tag clicked');
-        //console.log(e.target.nodeName);
-
+      this.onEvent('beforetagremove', this.input, (e:any) => {
         const removedSelection = this.#selectedList.indexOf(e.target.closest('ids-tag').id);
         if (removedSelection > -1) {
           this.#selectedList.splice(removedSelection, 1);
         }
-        //console.log('final selected list');
-        //console.log(this.#selectedList);
-        //console.log("update display/list - beforetag remove");
         this.#updateList(false);
       });
     }
   }
 
-  async open() {
+  /**
+   * TODO: this maybe relevant to select feature update to dropdown or maybe overwritten.
+   */
+  /* async open() {
+    if (this.state.beforeShow) {
+      super.beforeShow = this.state.beforeShow;
+    }
+
+    super.open();
+
     if (this.#selectedList.length === 0) {
       const unselectedOptions = this.querySelectorAll('ids-list-box.options ids-list-box-option');
       this.selectOption(unselectedOptions[0]);
     }
-    super.open();
-  }
+  } */
 
   #updateDisplay() {
-    let triggerField: any;
-    this.container.value = '';
-    //console.log(this.#selectedList);
+    let newValue = '';
     if (this.tags) {
-      //console.log('update display tags');
-
-      triggerField = this.shadowRoot.querySelector('ids-trigger-field');
-
-      //console.log('triggerField Object & this.container:');
-      //console.log(triggerField);
-      //console.log(this.container);
-
-      triggerField.querySelectorAll('ids-tag').forEach((item: HTMLElement) => {item.remove()} );
+      this.input.querySelectorAll('ids-tag').forEach((item: HTMLElement) => { item.remove(); });
     }
     this.#selectedList.forEach((selectedValue: string, index: number) => {
       const matchedElem = this.querySelector(`ids-list-box-option[value="${selectedValue}"]`);
 
       if (this.tags) {
-        //console.log('tags selected list iteration, matched element follows: ');
-        //console.log(matchedElem);
         const disabled = this.disabled ? `disabled="true"` : ``;
-        triggerField.insertAdjacentHTML('afterbegin', `<ids-tag id="${selectedValue}" dismissible="true" ${disabled}>${matchedElem.querySelector('ids-checkbox').label}</ids-tag>`);
+        this.input.insertAdjacentHTML('afterbegin', `<ids-tag id="${selectedValue}" dismissible="true" ${disabled}>${matchedElem.querySelector('ids-checkbox').label}</ids-tag>`);
       } else {
         if (index > 0) {
-          this.container.value += ', ';
+          newValue += ', ';
         }
-        this.container.value += matchedElem.querySelector('ids-checkbox').label;
+        newValue += matchedElem.querySelector('ids-checkbox').label;
       }
     });
+    this.input.value = newValue;
   }
 
   #updateList(addItem:boolean) {
-    //console.log('updateList start');
     const selectedOptions: Array<any> = this.querySelectorAll('.selected-options ids-list-box-option');
-    //console.log(this.querySelectorAll('ids-list-box.selected-options ids-list-box-option'));
     let unselectedOptions: Array<any>;
     const optionsContainer = this.querySelector('.options');
     let selectedOptionsContainer = this.querySelector('.selected-options');
     if (addItem) {
-      //console.log('add item start');
       if (!selectedOptionsContainer) {
         this.insertAdjacentHTML('afterbegin', `<ids-listbox class="selected-options" id="selected-options">
         </ids-listbox>`);
         selectedOptionsContainer = this.querySelector('.selected-options');
       }
       unselectedOptions = this.querySelectorAll('ids-list-box.options ids-list-box-option');
-      unselectedOptions.forEach((option, index) => {
+      unselectedOptions.forEach((option) => {
         if (this.#selectedList.includes(option.getAttribute('value'))) {
           window.requestAnimationFrame(() => {
-            //console.log('found in selected list - goal add, checked true');
-            //check change
-            selectedOptionsContainer.insertBefore(option, selectedOptionsContainer.children[selectedOptionsContainer.children.length]);
+            // check change
+            selectedOptionsContainer
+              .insertBefore(option, selectedOptionsContainer.children[selectedOptionsContainer.children.length]);
             option.querySelector('ids-checkbox').checked = true;
           });
         }
       });
     } else {
-      //console.log('remove item start');
-      selectedOptions.forEach((option, index) => {
-        //console.log(!this.#selectedList.includes(option.getAttribute('value')));
-        //console.log(this.#selectedList);
+      selectedOptions.forEach((option) => {
         if (!this.#selectedList.includes(option.getAttribute('value'))) {
-          //console.log('found in selected list - goal remove, checked false');
-          //check change
           window.requestAnimationFrame(() => {
-            option.querySelector('ids-checkbox').checked = "false";
+            option.querySelector('ids-checkbox').checked = 'false';
             optionsContainer.insertBefore(option, optionsContainer.children[optionsContainer.children.length]);
           });
         }
       });
     }
-    //console.log(selectedOptions);
-    //console.log(this.value);
-  }
-
-  #loadDataSet(dataset:Array<any>) {
-    let html = '';
-    const listbox = this.querySelector('ids-list-box');
-    listbox.innerHTML = '';
-    dataset.forEach((option, index) => {
-      html += `<ids-list-box-option value="${option.value}">
-        <ids-checkbox id="${index}-checkbox" value="${option.value}" label="${option.label}"></ids-checkbox>
-        </ids-list-box-option>`;
-    });
-    listbox.insertAdjacentHTML('afterbegin', html);
-    this.value = this.getAttribute('value');
   }
 
   #populateSelected() {
     this.options.forEach((element: any) => {
-      //console.log(element.id);
-      //console.log(element.querySelector('ids-checkbox').checked);
       if (element.querySelector('ids-checkbox').checked) {
         this.#selectedList.push(element.getAttribute('value'));
         this.#updateDisplay();
-        //console.log("update display/list - populate selected, checked option");
         this.#updateList(true);
       }
     });
-    //console.log(this.#selectedList);
   }
 }
 

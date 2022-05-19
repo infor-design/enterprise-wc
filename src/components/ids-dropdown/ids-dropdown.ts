@@ -231,9 +231,9 @@ export default class IdsDropdown extends Base {
       return;
     }
     this.#clearSelected();
-    this.#selectOption(elem);
-    this.#selectIcon(elem);
-    this.#selectTooltip(elem);
+    this.selectOption(elem);
+    this.selectIcon(elem);
+    this.selectTooltip(elem);
     this.input.value = (elem as any).textContent.trim();
     this.state.selectedIndex = [...(elem.parentElement as any).children].indexOf(elem);
 
@@ -355,7 +355,7 @@ export default class IdsDropdown extends Base {
    * @private
    * @param {HTMLElement} option the option to select
    */
-  #selectOption(option: HTMLElement) {
+  selectOption(option: HTMLElement) {
     option?.setAttribute('aria-selected', 'true');
     option?.classList.add('is-selected');
   }
@@ -365,7 +365,7 @@ export default class IdsDropdown extends Base {
    * @private
    * @param {HTMLElement} option the option to select
    */
-  #selectIcon(option: HTMLElement) {
+  selectIcon(option: HTMLElement) {
     let dropdownIcon = this.input?.querySelector('ids-icon[slot="trigger-start"]');
     if (!this.hasIcons) {
       if (dropdownIcon) {
@@ -394,7 +394,7 @@ export default class IdsDropdown extends Base {
    * @private
    * @param {HTMLElement} option the option to select
    */
-  #selectTooltip(option: HTMLElement) {
+  selectTooltip(option: HTMLElement) {
     const tooltip = option.getAttribute('tooltip');
     if (tooltip) {
       this.tooltip = tooltip;
@@ -434,7 +434,7 @@ export default class IdsDropdown extends Base {
     }
 
     // Trigger an async callback for contents
-    if (this.state.beforeShow) {
+    if (typeof this.state.beforeShow === 'function') {
       const stuff = await this.state.beforeShow();
       this.#loadDataSet(stuff);
     }
@@ -562,8 +562,6 @@ export default class IdsDropdown extends Base {
         this.value = e.target.closest('ids-list-box-option').getAttribute('value');
       }
       if (e.target.isEqualNode(this)) {
-
-        //console.log('dropdown toggle call');
         this.toggle();
       }
     });
@@ -678,6 +676,7 @@ export default class IdsDropdown extends Base {
    * Set the dirty tracking feature on to indicate a changed dropdown
    * @param {boolean|string} value If true will set `dirty-tracker` attribute
    */
+  /*
   set dirtyTracker(value: boolean | string) {
     const val = stringToBool(value);
     if (val) {
@@ -690,6 +689,7 @@ export default class IdsDropdown extends Base {
   }
 
   get dirtyTracker(): string { return this.getAttribute(attributes.DIRTY_TRACKER); }
+  */
 
   /**
    * Pass down `validate` attribute into IdsTriggerField
