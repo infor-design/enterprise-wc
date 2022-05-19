@@ -14,3 +14,6 @@
   - link: standalone-css.html
     type: Standalone CSS
     description: Showing a standalone css example
+  - link: overlay-opacity.html
+    type: Overlay opacity message example
+    description: Showing a list of messages with different opacity

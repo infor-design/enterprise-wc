@@ -31,7 +31,8 @@ export default class IdsMessage extends Base {
     return [
       ...super.attributes,
       attributes.MESSAGE,
-      attributes.STATUS
+      attributes.OPACITY,
+      attributes.STATUS,
     ];
   }
 
@@ -76,6 +77,23 @@ export default class IdsMessage extends Base {
     if (sanitizedVal !== this.state.message) {
       this.#refreshMessage(sanitizedVal);
     }
+  }
+
+  /**
+   * @returns {string} the current opacity of the overlay
+   */
+  get opacity(): string {
+    return this.state.opacity;
+  }
+
+  /**
+   * @param {string} val the desired opacity of the overlay
+   */
+  set opacity(val: string) {
+    this.state.opacity = val;
+
+    const overlayElem = this.shadowRoot.querySelector('ids-overlay');
+    overlayElem.opacity = val;
   }
 
   /**
