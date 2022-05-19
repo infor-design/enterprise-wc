@@ -231,22 +231,20 @@ $ids-tab-min-width: 44px;
 
   &:not([mode]),
   &[mode='light'] {
-    &:hover {
-      @include text-slate-100();
-    }
-
-    &:not(.selected) {
-      @include text-slate-70;
-    }
-
-    &.selected {
-      @include text-azure-60;
-    }
 
     // =================================================
     // Light Mode / Default Color Variant
-
     &:not([class*='color-variant-']) {
+      @include text-slate-70;
+
+      &:hover {
+        @include text-slate-100();
+      }
+
+      &.selected {
+        @include text-azure-60;
+      }
+
       &:focus-visible,
       &:focus,
       &:focus-within {
@@ -277,6 +275,8 @@ $ids-tab-min-width: 44px;
           @include text-white();
 
           &:focus {
+            @include border-none();
+
             &::before {
               @include border-white();
             }
@@ -289,18 +289,20 @@ $ids-tab-min-width: 44px;
     // Light Mode / Alternate Color Variant
 
     &.color-variant-alternate {
-      &:hover::after {
-        background-color: $ids-tab-alternate-color-semi-transparent;
+      color: $ids-tab-alternate-color-semi-transparent;
+
+      &:hover {
+        @include text-white();
+
+        &::after {
+          background-color: $ids-tab-alternate-color-semi-transparent;
+        }
       }
 
       &:focus-visible,
       &:focus,
       &:focus-within {
         @include border-white();
-      }
-
-      &:not(.selected) {
-        color: $ids-tab-alternate-color-semi-transparent;
       }
 
       &.selected {
@@ -342,16 +344,15 @@ $ids-tab-min-width: 44px;
   // Dark Mode
 
   &[mode='dark'] {
-    &:not(.selected) {
-      @include text-slate-20;
-    }
 
     // =================================================
     // Dark Mode / Default Color Variant
 
     &:not([class*='color-variant-']) {
-      &:not(.selected) {
-        @include text-slate-20;
+      @include text-slate-20;
+
+      &:hover {
+        @include text-white();
       }
 
       &:focus-visible,
@@ -379,24 +380,42 @@ $ids-tab-min-width: 44px;
           }
         }
       }
+
+      &.orientation-vertical {
+        &.selected {
+          @include border-none();
+          @include bg-azure-60();
+          @include text-white();
+
+          &:focus {
+            @include border-none();
+
+            &::before {
+              @include border-white();
+            }
+          }
+        }
+      }
     }
 
     // =================================================
     // Dark Mode / Alternate Color Variant
 
     &.color-variant-alternate {
-      &:hover::after {
-        background-color: $ids-tab-alternate-color-semi-transparent;
+      color: $ids-tab-alternate-color-semi-transparent;
+
+      &:hover {
+        @include text-white();
+
+        &::after {
+          background-color: $ids-tab-alternate-color-semi-transparent;
+        }
       }
 
       &:focus-visible,
       &:focus,
       &:focus-within {
         @include border-white();
-      }
-
-      &:not(.selected) {
-        color: $ids-tab-alternate-color-semi-transparent;
       }
 
       &.selected {
@@ -439,18 +458,17 @@ $ids-tab-min-width: 44px;
   // Contrast Mode
 
   &[mode='contrast'] {
-    &:not(.selected) {
-      @include text-slate-100;
-    }
-
-    &.selected {
-      @include text-azure-90;
-    }
 
     // =================================================
     // Contrast Mode / Default Color Variant
 
     &:not([class*='color-variant-']) {
+      @include text-slate-100;
+
+      &.selected {
+        @include text-azure-90;
+      }
+
       &:hover::after {
         @include bg-slate-100;
       }
@@ -466,6 +484,22 @@ $ids-tab-min-width: 44px;
           &::after,
           & .selection-underline {
             @include bg-azure-90();
+          }
+        }
+      }
+
+      &.orientation-vertical {
+        &.selected {
+          @include border-none();
+          @include bg-azure-90();
+          @include text-white();
+
+          &:focus {
+            @include border-none();
+
+            &::before {
+              @include border-white();
+            }
           }
         }
       }
