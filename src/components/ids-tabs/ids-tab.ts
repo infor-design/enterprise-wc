@@ -187,6 +187,7 @@ export default class IdsTab extends Base {
    * @param {boolean} isSelected true if the tab has been selected
    */
   #select(isSelected: boolean): void {
+    if (this.actionable) return;
     this.triggerEvent('tabselect', this, {
       bubbles: true,
       detail: {

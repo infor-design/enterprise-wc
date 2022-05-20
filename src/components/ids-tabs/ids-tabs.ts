@@ -25,6 +25,19 @@ export default class IdsTabs extends Base {
     super();
   }
 
+  connectedCallback() {
+    super.connectedCallback?.();
+    this.setAttribute(htmlAttributes.ROLE, 'tablist');
+
+    this.#detectParentColorVariant();
+    this.#attachEventHandlers();
+  }
+
+  rendered() {
+    const selected: any = this.querySelector('[selected]') || this.querySelector('[value]');
+    this.#selectTab(selected);
+  }
+
   /**
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
@@ -37,12 +50,6 @@ export default class IdsTabs extends Base {
   }
 
   /**
-   * Inherited from `IdsColorVariantMixin`
-   * @returns {Array<string>} List of available color variants for this component
-   */
-  colorVariants = ['alternate', 'module'];
-
-  /**
    * @returns {string} template for Tab List
    */
   template() {
@@ -50,17 +57,14 @@ export default class IdsTabs extends Base {
   }
 
   /**
-   * WebComponent's `connectedCallback` implementation
+   * Inherited from `IdsColorVariantMixin`
+   * @returns {Array<string>} List of available color variants for this component
    */
-  connectedCallback() {
-    super.connectedCallback?.();
-    this.setAttribute(htmlAttributes.ROLE, 'tablist');
+  colorVariants = ['alternate', 'module'];
 
-    this.#detectParentColorVariant();
-    this.#refreshSelectionState(null, this.getAttribute(attributes.VALUE));
-    this.#attachEventHandlers();
-  }
-
+  /**
+   * @property {string} value stores a tab's value (used for syncing tab state with displayed content)
+   */
   #value = '';
 
   /**
@@ -140,21 +144,12 @@ export default class IdsTabs extends Base {
     const prevTabHandler = (e: Event) => {
       this.prevTab((e.target as any).closest('ids-tab')).focus();
     };
-    const selectTabHandler = (e: Event) => {
-      const tab = (e.target as any).closest('ids-tab');
-      if (tab && !tab.disabled) {
-        this.value = tab.value;
-      }
-    };
 
     // Add key listeners and consider orientation for assignments
-    if (this.orientation !== 'vertical') {
-      this.listen('ArrowLeft', this, prevTabHandler);
-      this.listen('ArrowRight', this, nextTabHandler);
-    } else {
-      this.listen('ArrowUp', this, prevTabHandler);
-      this.listen('ArrowDown', this, nextTabHandler);
-    }
+    this.listen('ArrowLeft', this, prevTabHandler);
+    this.listen('ArrowRight', this, nextTabHandler);
+    this.listen('ArrowUp', this, prevTabHandler);
+    this.listen('ArrowDown', this, nextTabHandler);
 
     // Home/End keys should navigate to beginning/end of Tab list respectively
     this.listen('Home', this, () => {
@@ -165,9 +160,35 @@ export default class IdsTabs extends Base {
     });
 
     // Add Events/Key listeners for Tab Selection via click/keyboard
-    this.onEvent('click.tabs', this, selectTabHandler);
-    this.listen('Enter', this, selectTabHandler);
-    this.onEvent('tabselect', this, selectTabHandler);
+
+    this.listen('Enter', this, (e: KeyboardEvent) => {
+      const elem: any = e.target;
+      if (elem && elem.tagName === 'IDS-TAB') {
+        this.#selectTab(elem);
+      }
+    });
+
+    this.onEvent('tabselect', this, (e: CustomEvent) => {
+      const elem: any = e.target;
+      if (elem && elem.tagName === 'IDS-TAB') {
+        this.#selectTab(elem);
+      }
+    });
+
+    this.onEvent('click.tabs', this, (e: PointerEvent) => {
+      const elem: any = e.target;
+      if (elem && elem.tagName === 'IDS-TAB') {
+        this.#selectTab(elem);
+      }
+    });
+
+    this.onEvent('focus', this, (e: FocusEvent) => {
+      const elem: any = e.target;
+      if (elem && elem.tagName === 'IDS-TAB') {
+        this.#selectTab(elem);
+        elem.focus();
+      }
+    });
   }
 
   /**
@@ -210,6 +231,30 @@ export default class IdsTabs extends Base {
     }
 
     return prevTab;
+  }
+
+  /**
+   * Selects a tab and syncs the entire tab list with the new selection
+   * @param {any} tab the new tab to select
+   * @returns {void}
+   */
+  #selectTab(tab: any): void {
+    if (!tab || tab.disabled) return;
+
+    if (tab.actionable && typeof tab.onAction === 'function') {
+      tab.onAction(tab.selected);
+      return;
+    }
+
+    if (!tab.selected) {
+      const current = this.querySelector('[selected]');
+      if (!current || (current && tab !== current)) {
+        tab.selected = true;
+        if (current) {
+          current.selected = false;
+        }
+      }
+    }
   }
 
   /**

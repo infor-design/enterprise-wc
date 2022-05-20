@@ -2,7 +2,6 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
 import Base from './ids-tabs-context-base';
-import IdsTab from './ids-tab';
 import './ids-tab-content';
 
 import styles from './ids-tabs.scss';
@@ -21,60 +20,32 @@ export default class IdsTabsContext extends Base {
     super();
   }
 
-  /**
-   * Return the attributes we handle as getters/setters
-   * @returns {Array} The attributes in an array
-   */
-  static get attributes() {
-    return [attributes.VALUE];
-  }
-
-  template() {
-    return '<slot></slot>';
-  }
-
   connectedCallback() {
     super.connectedCallback?.();
 
     this.onEvent('tabselect', this, (e: { stopPropagation: () => void; target: { value: any; onAction?: CallableFunction }; }) => {
       e.stopPropagation();
-
-      // Don't try to change the content pane if the
-      // selected tab has an `onAction` function attached
-      if (typeof e.target.onAction === 'function') {
-        return;
-      }
-
       this.value = e.target.value;
     });
+  }
 
-    // child Tab "click" event fires
-    const handleTabClick = (tab: IdsTab) => {
-      if (tab.actionable && typeof tab.onAction === 'function') {
-        tab.onAction(tab.selected);
-        return;
-      }
+  rendered() {
+    this.value = this.querySelector('[selected]')?.value;
+  }
 
-      if (!tab.selected) {
-        tab.selected = true;
-      }
-    };
+  /**
+   * Return the attributes we handle as getters/setters
+   * @returns {Array} The attributes in an array
+   */
+  static get attributes() {
+    return [
+      ...super.attributes,
+      attributes.VALUE
+    ];
+  }
 
-    this.onEvent('click', this, (e: PointerEvent) => {
-      const elem: any = e.target;
-      if (elem && elem.tagName === 'IDS-TAB') {
-        e.stopPropagation();
-        handleTabClick(elem);
-      }
-    });
-
-    this.onEvent('focus', this, (e: FocusEvent) => {
-      const elem: any = e.target;
-      if (!elem.selected) {
-        elem.selected = true;
-      }
-      elem.focus();
-    });
+  template() {
+    return '<slot></slot>';
   }
 
   /** @param {string} value The value representing a currently selected tab */
