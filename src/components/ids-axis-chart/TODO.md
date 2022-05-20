@@ -18,10 +18,10 @@ Keep in sync with #515
 - [ ] Chart Types: Grouped Bar Chart
 - [ ] Chart Types: Stacked Bar Chart
 - [ ] Chart Types: Scatter Plot Chart
+- [ ] Rendering: Negative Values (bar/line)
 
 ## Minor
 
-- [ ] Rendering: Negative Values (bar/line)
 - [ ] RTL is not flipping https://stackoverflow.com/questions/42147119/how-to-flip-svg-coordinates
 - [ ] Add svg patterns and accessibility to line, area, bar stacked
 - [ ] Add accessibility once confirmed to area and line chart (only in bar now until tested) https://github.com/infor-design/enterprise-wc/commit/f6014597004ab7963ef66449bea63bfc43e95fa0
@@ -30,3 +30,10 @@ Keep in sync with #515
 - [ ] Chart Types: Bubble Chart
 - [ ] Chart Types: Positive Negative ( Negative Values with comparison / slightly different chart)
 
+## Now:
+
+- [ ] Pie Tests
+- [ ] Check all Todos in all comps
+- [ ] Check lint / tests for all components
+- [ ] Make PR
+- [ ] Make issues

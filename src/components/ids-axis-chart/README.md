@@ -123,6 +123,7 @@ To achieve this it is recommended to use the `color` setting and pick one of the
 The following data attributes can be used on the data passed to a chart.
 
 - `data` {object} A data group with one or more `name` and `value` pairs.
+- `name` {string} The name for the legend text and tooltip representing the slice.
 - `shortName` {string} The short name of the legend text.
 - `abbrName` {string} A very short name of the legend text (one or two characters).
 - `color` {string} The color of this axis group. This can be either a hex value for example `#FF0000` or a color name like `red` or an ids variable like `var(--ids-color-palette-azure-20)`.
@@ -167,14 +168,13 @@ If you need to change which items get tooltips you can override `tooltipElements
 
 ```js
 tooltipElements() {
-  return this.container.querySelectorAll('rect.bar'); // return the ones that get events
+  return this.container.querySelectorAll('rect.bar');
 }
 
 If you need to change the tooltip contents you can override the `tooltipTemplate` function.
 
 ```js
 tooltipTemplate() {
-  // eslint-disable-next-line no-template-curly-in-string
   return '<b>${label}</b> ${value}';
 }
 ```

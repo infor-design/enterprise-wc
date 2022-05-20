@@ -32,6 +32,7 @@
 
 // Donut Chart
 .slice {
+  outline: none;
   fill-opacity: 0;
 }
 
@@ -42,6 +43,11 @@
   font-size: 10px;
   fill: var(--ids-color-palette-slate-60);
   text-anchor: middle;
+}
+
+// For Tooltip
+.donut-hole {
+  pointer-events: none;
 }
 
 // Audible Text

@@ -17,6 +17,9 @@
   - link: empty-message.html
     type: Example
     description: Shows an empty message when no data
+  - link: patterns.html
+    type: Example
+    description: Shows configuring custom patterns for accessibility
   - link: side-by-side.html
     type: Side by Side
     description: Shows chart side by side with a 4.x chart

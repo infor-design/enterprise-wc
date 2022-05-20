@@ -2,6 +2,8 @@ import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { injectTemplate, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { QUALITATIVE_COLORS } from '../ids-axis-chart/ids-chart-colors';
+import { patternData } from '../ids-axis-chart/ids-pattern-data';
+
 import Base from './ids-pie-chart-base';
 import IdsDataSource from '../../core/ids-data-source';
 
@@ -15,14 +17,19 @@ type IdsPieChartData = {
   value?: number,
   color?: string,
   data?: IdsPieChartData[],
-  tooltip?: string
+  tooltip?: string,
+  pattern?: string,
+  patternColor?: string,
 };
 
 /**
  * IDS Pie Chart Component
  * @type {IdsPieChart}
  * @inherits IdsElement
+ * @mixes IdsChartLegendMixin
+ * @mixes IdsLocaleMixin
  * @mixes IdsEventsMixin
+ * @mixes IdsThemeMixin
  * @part container - the outside container element
  * @part chart - the svg outer element
  */
@@ -32,7 +39,7 @@ export default class IdsPieChart extends Base {
   constructor() {
     super();
 
-    // Setup the default values
+    // Setup default values
     this.state = {};
     this.legendPlacement = 'right';
   }
@@ -41,76 +48,27 @@ export default class IdsPieChart extends Base {
   datasource = new IdsDataSource();
 
   /**
-   * Invoked each time the custom element is appended
+   * Invoked each time the custom element is connected to the DOM.
    */
   connectedCallback(): void {
     this.svg = this.shadowRoot.querySelector('svg');
     this.emptyMessage = this.querySelector('ids-empty-message') || this.shadowRoot.querySelector('ids-empty-message');
     this.legend = this.shadowRoot.querySelector('[name="legend"]');
+
     this.#attachEventHandlers();
     this.rerender();
     super.connectedCallback?.();
   }
 
+  /**
+   * Invoked after rendering
+   */
   rendered(): void {
-    this.attachTooltipEvents();
+    this.#attachTooltipEvents();
   }
 
   /**
-   * Return the attributes we handle as getters/setters
-   * @returns {Array} The attributes in an array
-   */
-  static get attributes(): Array<string> {
-    return [
-      ...super.attributes,
-      attributes.ANIMATED,
-      attributes.DATA,
-      attributes.DONUT,
-      attributes.DONUT_TEXT,
-      attributes.HEIGHT,
-      attributes.TITLE,
-      attributes.WIDTH
-    ];
-  }
-
-  /**
-   * Create the Template for the contents
-   * @returns {string} The template
-   */
-  template(): string {
-    return `<div class="ids-chart-container" part="container">
-      <svg class="ids-pie-chart" part="chart"${this.width ? ` width="${this.width}"` : ''}${this.height ? ` height="${this.height}"` : ''} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${this.viewBoxSize} ${this.viewBoxSize}">
-      </svg>
-      <slot name="legend">
-      </slot>
-      <slot name="empty-message">
-        <ids-empty-message icon="empty-no-data" hidden>
-          <ids-text type="h2" font-size="20" label="true" slot="label">${this.locale?.translate('NoData') || 'No Data Available'}</ids-text>
-        </ids-empty-message>
-      </slot>
-      <slot name="tooltip">
-        <ids-tooltip id="tooltip"></ids-tooltip>
-      </slot>
-    </div>`;
-  }
-
-  /**
-   * Setup the Event Handling
-   * @private
-   */
-  #attachEventHandlers(): void {
-    this.onEvent('localechange.pie', this.closest('ids-container'), async () => {
-      this.rerender();
-      this.shadowRoot.querySelector('ids-empty-message ids-text').textContent = this.locale?.translate('NoData');
-    });
-
-    this.onEvent('languagechange.pie', this.closest('ids-container'), async () => {
-      this.shadowRoot.querySelector('ids-empty-message ids-text').textContent = this.locale?.translate('NoData');
-    });
-  }
-
-  /**
-   * Redraw the chart
+   * Invoked when redrawing the chart
    * @private
    */
   rerender(): void {
@@ -136,7 +94,61 @@ export default class IdsPieChart extends Base {
   }
 
   /**
-   * Get the percentages both rounded and total
+   * Return the attributes handled as getters/setters
+   * @returns {Array} the list of attributes
+   */
+  static get attributes(): Array<string> {
+    return [
+      ...super.attributes,
+      attributes.ANIMATED,
+      attributes.DATA,
+      attributes.DONUT,
+      attributes.DONUT_TEXT,
+      attributes.HEIGHT,
+      attributes.SUPPRESS_TOOLTIPS,
+      attributes.TITLE,
+      attributes.WIDTH
+    ];
+  }
+
+  /**
+   * Create the template chart
+   * @returns {string} The template
+   */
+  template(): string {
+    return `<div class="ids-chart-container" part="container">
+      <svg class="ids-pie-chart" part="chart"${this.width ? ` width="${this.width}"` : ''}${this.height ? ` height="${this.height}"` : ''} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${this.viewBoxSize} ${this.viewBoxSize}">
+      </svg>
+      <slot name="legend">
+      </slot>
+      <slot name="empty-message">
+        <ids-empty-message icon="empty-no-data" hidden>
+          <ids-text type="h2" font-size="20" label="true" slot="label">${this.locale?.translate('NoData') || 'No Data Available'}</ids-text>
+        </ids-empty-message>
+      </slot>
+      <slot name="tooltip">
+        <ids-tooltip id="tooltip"></ids-tooltip>
+      </slot>
+    </div>`;
+  }
+
+  /**
+   * Setup event handling
+   * @private
+   */
+  #attachEventHandlers(): void {
+    this.onEvent('localechange.pie', this.closest('ids-container'), async () => {
+      this.rerender();
+      this.shadowRoot.querySelector('ids-empty-message ids-text').textContent = this.locale?.translate('NoData');
+    });
+
+    this.onEvent('languagechange.pie', this.closest('ids-container'), async () => {
+      this.shadowRoot.querySelector('ids-empty-message ids-text').textContent = this.locale?.translate('NoData');
+    });
+  }
+
+  /**
+   * Get the percentages as rounded and total
    * @private
    */
   #calculate(): void {
@@ -163,13 +175,15 @@ export default class IdsPieChart extends Base {
     const count = this.data[0].data?.length || 0;
 
     this.data[0].data?.forEach((slice: any, index: number) => {
-      const colorClass = `color-${index + 1}`;
+      const colorClass = slice.pattern ? '' : ` color-${index + 1}`;
+      const patternSvg = slice.pattern ? `<svg width="12" height="12" xmlns="http://www.w3.org/2000/svg"><rect width="12" height="12" fill="url(#${slice.pattern})"></rect></svg>` : '';
+
       let legendValue = `${slice[setting] ? slice[setting] : slice.name} (${this.percents[index].rounded}${this.locale.numbers().percentSign || '%'})`;
       if (typeof this.legendFormatter === 'function') {
         legendValue = this.legendFormatter(slice, this.percents[index], this);
       }
       legend += `<a${count > 1 ? ' href="#"' : ' aria-hidden="true"'}>
-        <div class="swatch ${colorClass}"></div>
+        <div class="swatch${colorClass}">${patternSvg}</div>
         ${legendValue}
         </a>`;
     });
@@ -212,26 +226,29 @@ export default class IdsPieChart extends Base {
   }
 
   /**
-   * Overridable method to draw the markers
-   * @returns {string} The SVG Marker Markup
+   * Return the inner chart template
+   * @returns {string} The pie inner template
    */
   chartTemplate(): string {
     let circles = '';
     let filled = 0;
+    const radius = this.donut ? 40 : 25;
+    const strokeWidth = this.donut ? 15 : 50;
+    const cx = this.viewBoxSize / 2;
+    const cy = this.viewBoxSize / 2;
+
     this.percents.forEach((percent: any, index: number) => {
       const startAngle = -90;
-      const radius = this.donut ? 40 : 25;
-      const strokeWidth = this.donut ? 15 : 50;
-      const cx = this.viewBoxSize / 2;
-      const cy = this.viewBoxSize / 2;
       const dashArray = 2 * Math.PI * radius;
       const dashOffset = dashArray - ((dashArray * percent.total) / 100);
       const angle = ((filled * 360) / 100) + startAngle;
-      const colorClass = ` color-${index + 1}`;
+      const data = this.data[0].data;
+      const colorClass = data?.[index].pattern ? '' : ` color-${index + 1}`;
+      const stroke = data?.[index].pattern ? `url(#${data?.[index].pattern})` : this.color(index);
 
       circles += `<g role="listitem">
-        <circle class="slice${colorClass}" stroke="${this.color(index)}" stroke-width="${strokeWidth}" index="${index}" percent="${percent.total}" r="${radius}" cx="${cx}" cy="${cy}" stroke-dasharray="${dashArray}" stroke-dashoffset="${this.animated ? dashArray : dashOffset}" transform="rotate(${angle} ${cx} ${cy})"></circle>
-        <text class="audible">${this.data[0].data?.[index].name}  ${percent.rounded}%</text>
+        <circle class="slice${colorClass}" part="circle" stroke="${stroke}" stroke-width="${strokeWidth}" index="${index}" percent="${percent.total}" r="${radius}" cx="${cx}" cy="${cy}" stroke-dasharray="${dashArray}" stroke-dashoffset="${this.animated ? dashArray : dashOffset}" transform="rotate(${angle} ${cx} ${cy})"></circle>
+        <text class="audible">${data?.[index].name}  ${percent.rounded}%</text>
         </g>`;
       filled += percent.total;
 
@@ -252,11 +269,33 @@ export default class IdsPieChart extends Base {
 
     return `<title></title>
       <title>${this.title}</title>
+      <defs>
+        ${this.#patterns()}
+      </defs>
       <g role="list">
         ${circles}
       </g>
+      <circle class="donut-hole" r="${radius}" cx="${cx}" cy="${cy}" fill="transparent" stroke-width="0"></circle>
       <text class="donut-text" x="50%" y="50%" dy=".3em">${this.donutText}</text>
       `;
+  }
+
+  /**
+   * Return the definition markup for svg patterns
+   * @private
+   * @returns {string} The string with all the patterns being used
+   */
+  #patterns(): string {
+    let patternHtml = '';
+    this.data[0].data?.forEach((slice: any, i: number) => {
+      let pattern = patternData[slice.pattern];
+      if (pattern) {
+        const color = `${this.color(i)}` || '#000000';
+        pattern = pattern.replace('fill="#000000"', `fill="${color}"`);
+        patternHtml += pattern;
+      }
+    });
+    return patternHtml;
   }
 
   /**
@@ -268,7 +307,7 @@ export default class IdsPieChart extends Base {
   }
 
   /**
-   * Child Chart elements that get tooltips
+   * Return chart elements that get tooltips
    * @private
    * @returns {Array<SVGElement>} The elements
    */
@@ -277,7 +316,7 @@ export default class IdsPieChart extends Base {
   }
 
   /**
-   * Overridable method to draw to get the tooltip template
+   * Return the tooltip template
    * @returns {string} The tooltip template
    */
   tooltipTemplate(): string {
@@ -288,39 +327,49 @@ export default class IdsPieChart extends Base {
   /**
    * Setup handlers on tooltip elements
    */
-  attachTooltipEvents(): void {
+  #attachTooltipEvents(): void {
+    if (this.suppressTooltips) {
+      return;
+    }
+
     // Need one event per bar due to the nature of the events for tooltip
     this.tooltipElements().forEach((element: SVGElement) => {
-      this.onEvent('hoverend', element, async () => {
-        const slice = (element as any);
+      this.onEvent('hoverend', element, async (e: MouseEvent) => {
         const tooltip = this.container.parentElement.querySelector('ids-tooltip');
         tooltip.innerHTML = this.#tooltipContent(element);
-
-        const position = this.#calculateTooltipPosition(slice);
-
-        // tooltip.target = element;
-        // tooltip.position = 'center';
-        // tooltip.popup.x = position.x;
-        // tooltip.popup.y = position.y;
-        tooltip.popup.setPosition(position.x, position.y, true, true);
-        tooltip.visible = true;
+        tooltip.target = element;
+        this.#positionTooltip(tooltip, e);
       });
     });
   }
 
   /**
-   * Return the tooltip position relative to the slice
-   * @param {SVGElement} slice the cicle element
-   * @returns {object} The element's positino
+   * Detatch tooltip handlers on elements
    */
-  #calculateTooltipPosition(slice: any): { x : number, y : number } {
-    // https://github.com/infor-design/enterprise/blob/main/src/components/pie/pie.js#L528
-    if (!slice) return { x: 0, y: 0 };
-    const rect = slice.getBoundingClientRect();
-    const x = rect.left + parseFloat(slice.getAttribute('cx'));
-    const y = rect.top + parseFloat(slice.getAttribute('cy'));
-    console.log(x, y);
-    return { x, y };
+  #detachTooltipEvents(): void {
+    // Need one event per bar due to the nature of the events for tooltip
+    this.tooltipElements().forEach((element: SVGElement) => {
+      this.offEvent('hoverend', element);
+    });
+  }
+
+  /**
+   * Return the data for a tooltip accessed by index
+   * @private
+   * @param {SVGElement} tooltip the tooltip component
+   * @param {MouseEvent} e the event element
+   */
+  #positionTooltip(tooltip: any, e: any) {
+    tooltip.popup.onPlace = (popupRect: any) => {
+      popupRect.x = e.clientX - 45;
+      popupRect.y = e.clientY - 50;
+      tooltip.popup.arrowEl.style.marginLeft = '';
+      tooltip.popup.arrowEl.style.marginTop = '';
+      return popupRect;
+    };
+    tooltip.popup.x = e.clientX - 45;
+    tooltip.popup.y = e.clienty - 50;
+    tooltip.visible = true;
   }
 
   /**
@@ -496,5 +545,26 @@ export default class IdsPieChart extends Base {
       return true;
     }
     return stringToBool(this.getAttribute(attributes.ANIMATED));
+  }
+
+  /**
+   * Set the tooltips on/off
+   * @param {boolean} value True if animation is on
+   */
+  set suppressTooltips(value: boolean) {
+    this.setAttribute(attributes.SUPPRESS_TOOLTIPS, value);
+    const suppressed = stringToBool(this.getAttribute(attributes.SUPPRESS_TOOLTIPS));
+    if (suppressed) {
+      this.#detachTooltipEvents();
+    }
+    this.rerender();
+  }
+
+  get suppressTooltips(): boolean {
+    const suppressed = this.getAttribute(attributes.SUPPRESS_TOOLTIPS);
+    if (suppressed === null) {
+      return false;
+    }
+    return stringToBool(this.getAttribute(attributes.SUPPRESS_TOOLTIPS));
   }
 }

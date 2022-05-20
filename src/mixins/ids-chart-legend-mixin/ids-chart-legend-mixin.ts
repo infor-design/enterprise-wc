@@ -6,7 +6,7 @@ import { checkOverflow } from '../../utils/ids-dom-utils/ids-dom-utils';
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsChartLegend = (superclass: any) => class extends superclass {
+const IdsChartLegendMixin = (superclass: any) => class extends superclass {
   constructor() {
     super();
   }
@@ -71,4 +71,4 @@ const IdsChartLegend = (superclass: any) => class extends superclass {
   }
 };
 
-export default IdsChartLegend;
+export default IdsChartLegendMixin;

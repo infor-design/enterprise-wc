@@ -1,163 +1,159 @@
-# Ids Pie Chart Component
+# Ids Pie/Donut Chart Component
 
 ## Description
 
-The axis chart is a chart with an x-axis and y-axis. This is the base chart object used to make line, area, column and other charts. Generally it should not be used on its own but if you have a case of making some other chart it could be used.
+A pie chart (or a circle chart) is a circular statistical graphic which is divided into slices to illustrate numerical proportion. In a pie chart, the arc length of each slice is proportional to the quantity it represents.
+
+The pie chart can be made into a donut chart by setting the `donut` setting. A donut chart is almost identical to a pie chart, but the center is cut out (hence the name `donut`). Donut charts are also used to show proportions of categories that make up the whole, but the center can also be used to display a data label.
+
+You can control the size of the pie/donut chart by setting the size of the parent element the pie chart lives in. This may include possibly using an inset margin in some cases.
+
+Hovering a chart slice with show a tooltip with the slice's value. This data is also shown as a percentage in the legend.
 
 ## Use Cases
 
-- When you want a chart with x and y axis and control over whats rendered in it.
+- Showcasing part-to-whole relationships.
+- Compare any type of content or data that can be broken down into comparative categories Revenue, demographics, market shares, survey results
+- Display different data points that total 100%
 
 ## Usage Considerations
 
-- Do not show too many lines at once as it may be difficult to interpret.
+- You don’t want to display more than six categories of data or the pie chart can be difficult to read and compare the relative size of slices.
+- If you have a lot of smaller slices this can be difficult to read.
 - Hover tooltips should only be used to reveal additional non-critical information.
 
 ## Terminology
 
-- **Marker**: A UI embellishments that shows the data points (i.e. the dots on a line chart).
-- **Domain**: The domain is all x-values (the values of the graph from left to right)
-- **Range**: The domain is all y-values (the values of the graph from down to up)
-- **Scale**: The range of values in the graph (the values of the graph from down to up) and the amount of steps between each value.
-- **Axis**: Charts typically have two axes that are used to measure and categorize data: a vertical axis (also known as value axis or y axis), and a horizontal axis (also known as category axis or x axis).
+- **Slice**: The pieces of the pie in a pie style chart represented by an individual data point
+- **Arcs**: The lengths of the slices in a donut style chart represented by an individual data point
+- **Donut**: The center is cut out on a pie chart too look like a donut
 
 ## Features (With Code Examples)
 
-A axis chart is defined with a custom element with a width and height.
+An pie chart is defined with the custom element. By default it will size to the parent element but a width and height can also be set.
 
 ```html
-<ids-axis-chart title="A line chart showing component usage" width="800" height="500"></ids-axis-chart>
-```
-
-Datasets can be added to the line chart by passing in an array of objects. Each object must have a `data` and object with `name` and `values` from the data points. Also a name should be given for each data object which will be used as the legend text. The `shortName` is used to show the short name of the legend text and the `abbrName` is used to show an even shorter name of the legend text in responsive situations.
 
 ```html
-const dataset = [{
-  data: [{
-    name: 'Jan',
-    value: 1
-  }, {
-    name: 'Feb',
-    value: 2
-  }, {
-    name: 'Mar',
-    value: 3
-  }, {
-    name: 'Apr',
-    value: 5
-  }, {
-    name: 'May',
-    value: 7
-  }, {
-    name: 'Jun',
-    value: 10
-  }],
-  name: 'Component A',
-  shortName: 'Comp A',
-  abbrName: 'A',
-}];
-
-document.querySelector('ids-axis-chart').data = dataset;
+<ids-pie-chart title="A pie chart showing component usage" id="index-example" suppress-tooltips="true"></ids-pie-chart>
 ```
 
-Inside the chart you should provide a chartTemplate that returns the inside (markers) of the chart as svg. The `lineMarkers` element will contain the correct points and position of the markers to use based on the data/height/width/margins of the chart.
+Datasets can be added to the pie chart by passing in an array of objects. Each object must have a `data` and object with `name` and `values` to form the data points. Other information like the `color`, `tooltip` or accessible `pattern` can be provided.
 
 ```js
-chartTemplate() {
-  return `<g class="markers">
-    ${this.lineMarkers().markers}
-  </g>
-  <g class="marker-lines">
-    ${this.lineMarkers().lines}
-  </g>
-  <g class="areas">
-    ${this.#areas()}
-  </g>`;
-}
-```
-
-You can also customize the empty message contents but adding an `ids-empty-element` to the slot.
-
-```html
-<ids-axis-chart title="A line chart showing component usage" width="800" height="500">
-    <ids-empty-message slot="empty-message"icon="empty-no-data" hidden>
-        <ids-text type="h2" font-size="20" label="true" slot="label">No Data Right Now</ids-text>
-    </ids-empty-message>
-</ids-axis-chart>
-```
-
-Another type of chart you can use is a sequential color chart. A sequence of colors is used to represent various concepts of range in low-high density, quantity, and concentration situations. I.E. The data is highly related and should be represented with a single color.
-
-To achieve this it is recommended to use the `color` setting and pick one of the Ids Colors in the color palette and use variables in its range. For example:
-
-```js
-[{
-   "data": [],
-   "name": "Component A",
-   "color": "var(--ids-color-palette-azure-60)
- }, {
-   "data": [],
-   "name": "Component B",
-   "shortName": "Comp B",
-   "abbreviatedName": "B",
-   "color": "var(--ids-color-palette-azure-40)"
- }, {
+const data = [{
    "data": [{
-   ],
-   "name": "Component C",
-   "color": "var(--ids-color-palette-azure-20)"
- }]
+     "name": "Item A",
+     "tooltip": "<b>Item A</b> ${percent}%",
+     "value": 10.1,
+     "pattern": "mesh"
+   },{
+     "name": "Item B",
+     "tooltip": "<b>Item B</b> ${value}",
+     "value": 12.2,
+     "pattern": "mixed"
+   }, {
+     "name": "Item C",
+     "tooltip": "<b>Item C</b> ${value}",
+     "value": 14.35,
+     "pattern": "lines"
+   }];
+
+document.querySelector('ids-pie-chart').data = lineData;
 ```
+
+A chart can also be a `donut`. If used provided or `donut-text` for the center. Be consice since there isnt a lot of room.
 
 ## Class Hierarchy
 
-- IdsAxisChart
+- IdsPieChart
   - IdsElement
 - Mixins
-  IdsEventsMixin
+  IdsChartLegendMixin
   IdsLocaleMixin
+  IdsEventsMixin
   IdsThemeMixin
 
 ## Data Settings
 
-The following data attributes can be used on the data passed to a chart.
+The following data attributes can be used on the data passed to a chart. If using typescript the type is `IdsPieChartData`.
 
 - `data` {object} A data group with one or more `name` and `value` pairs.
-- `shortName` {string} The short name of the legend text.
-- `abbrName` {string} A very short name of the legend text (one or two characters).
+- `name` {string} The name for the legend text and tooltip representing the slice.
+- `value` {number} The value of the slice, calculated to a whole of 100% with the other data points.
 - `color` {string} The color of this axis group. This can be either a hex value for example `#FF0000` or a color name like `red` or an ids variable like `var(--ids-color-palette-azure-20)`.
 - `tooltip` {string} The custom tooltip string (as static text). See the tooltip section for more information.
+- `pattern` {string} The name of the pattern to show instead of a solid color. See the pattern section for more information.
+- `patternColor` {string} The color to show for the pattern. This can be either a hex value for example `#FF0000` or a color name like `red` or an ids variable like `var(--ids-color-palette-azure-20)`.
 
 ## Settings
 
-- `title` {string} Sets the internal title of the chart (for accessibility). It is recommended to mention the chart type for accessibility readout. For example: `Line chart showing invoice history`.
-- `height` {number} Generally this is calculated automatically but can be used to set a specific height.
-- `width` {number} Generally this is calculated automatically but can be used to set a specific width.
-- `textWidths` {object} Generally this is calculated automatically but can be overridden by setting the amount of space to allocate for margins on the `{ left, right, top, bottom }` sides.
-- `textWidths` {object} Generally this is calculated automatically but can be overridden by setting the amount of space to allocate for text on the `{ left, right, top, bottom }` sides.
-- `yAxisMin` {number}  Set the minimum value on the y axis  (default: 0)
-- `showVerticalGridLines` {boolean}  Show the vertical axis grid lines (default: false)
-- `showHorizontalGridLines` {boolean}  Show the horizontal axis grid lines (default: true)
-- `yAxisFormatter` {object | Function} Sets the format on the y axis items. This can either be settings that are passed to `Intl.NumberFormat` or a formatter function. The formatter function will get three parameters (value, data, api) and should return a string based on the axis value. The y axis is not always a number so it does not default to `Intl.NumberFormat`. The default is `{ notation: 'compact', compactDisplay: 'short' }`.
-- `xAxisFormatter` {Function} Sets the format on the x axis items. The formatter function will get three parameters (value, data, api) and should return a string based on the axis value. The x axis is not always a number so it does not default to `Intl.NumberFormat`. See the [Intl.NumberFormat api](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) for more details and examples on formatting options.
+- `legendPlacement` {string} By default the legend will be placed to the right of the chart but it can also be set to `bottom` or `top` or `left`.
+- `animated` {boolean} Disable the animation of the chart by setting this to false.
+- `data` {Array} The data points to use as described previously
+- `donut` {boolean} Set to true to make a donut chart.
+- `donutText` {string} The text to showin the middle of the chart. Be consice since there isnt a lot of room.
+- `height` {number} To set the height of the chart to a specific value in pixels.
+- `width` {number} To set the width of the chart to a specific value in pixels.
+- `title` {string} The topic of the chart. This will be used only for accessibility / screen readers and should always be set.
+- `suppress-tooltips` {boolean} Disable the tooltips (they are currently experimental).
+- `legendFormatter` {Function} A function to format the legend text for each data point.
 
-## Events
+## Patterns
 
-- `rendered` Fires each time the chart is rendered or rerendered (on resize).
+The pie/donut chart includes patterns that can be used to assist color blind users. To use a pattern specify it on the `pattern` attribute it in the data. You can also set a `patternColor` otherwise it will use the default color for that item in the series.
 
-## Themeable Parts
+```js
+const data: [{
+  "name": "Item C",
+  "tooltip": "<b>Item C</b> ${value}",
+  "value": 14.35,
+  "pattern": "lines"
+}, {
+  "name": "Item D",
+  "tooltip": "<b>Item D</b> ${value}",
+  "value": 15.6,
+  "pattern": "pipes"
+}];
+```
 
-- `container` the outer container div element
-- `chart` the svg outer element
+The following patterns are supported:
 
-## States and Variations
+``sh
+arrows
+boxes
+checkers
+patches
+circles
+exes
+diamonds
+dots
+stars
+mixed
+squares
+hex
+big-hex
+intersect
+lines
+bars
+pipes
+mesh
+pluses
+waves
+big-waves
+```
 
-- Theme
-- Legends
+However some look better than others when zoomed. So suggest:
 
-## Responsive Guidelines
-
-- Sizes to the given width/height defaulting to that of the immediate parent.
+```sh
+mesh
+circles
+boxes
+dots
+mixed
+lines
+pipes
+```
 
 ## Tooltip Customizations
 
@@ -167,25 +163,75 @@ If you need to change which items get tooltips you can override `tooltipElements
 
 ```js
 tooltipElements() {
-  return this.container.querySelectorAll('rect.bar'); // return the ones that get events
+  return this.container.querySelectorAll('circle'); // return the ones that get events
 }
 
 If you need to change the tooltip contents you can override the `tooltipTemplate` function.
 
 ```js
 tooltipTemplate() {
-  // eslint-disable-next-line no-template-curly-in-string
   return '<b>${label}</b> ${value}';
 }
 ```
 
 Or you can modify the tooltip in the slot.
 
-## Why Not Canvas?
+## Events
 
-We decided to use SVG over Canvas because of the following reasons:
+- `rendered` Fires each time the chart is rendered or rerendered (on resize).
 
-- Canvas is not part of the DOM thus not accessible by screen readers.
-- Canvas is more difficult to make interactive and responsive.
-- Would be generally more maintainable.
-- SVG output is easier to debug.
+## Methods
+
+- `rerender` Re render and reanimate the chart.
+- `tooltipData` Override the data for the tooltip.
+- `tooltipTemplate` Override the tooltip markup
+
+## Themeable Parts
+
+- `container` the outer container div element
+- `chart` the svg outer element
+- `circles` each circle element in the chart
+
+## Animation
+
+The slices animate clockwise with a cubic bezier curve at 600ms.
+
+## States and Variations
+
+- selected (future)
+- disabled (future)
+
+## Keyboard Guidelines
+
+The legend items are focusable and can be navigated with the tabs keys.
+
+## Responsive Guidelines
+
+- The area chart will fill the size of its parent container and readjust when the window is resized to the parent using css/svg viewbox
+
+## Converting from Previous Versions (Breaking Changes)
+
+**4.x to 5.x**
+- The pie chart was added after version 3.6 so new in 4.x
+
+
+**4.x to 5.x**
+- Pie component has changed to a custom element `<ids-pie-chart></ids-pie-chart>`
+- Donut component has been combined with a setting `<ids-pie-chart donut="true" donut-text="Some Test"></ids-pie-chart>`
+- If using events, events are now plain JS events.
+- Can now be imported as a single JS file and used with encapsulated styles
+
+## Accessibility Guidelines
+
+- 1.4.1 Use of Color - Color is not used as the only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual element.
+-  Markup is to treat the bar items as a list `role="list"`. The bar items are `role="listitem"`. The tab index is not visible to the user as it is not needed and can be navigated with a screen reader.
+- Using voice over the sequence is to
+    - Navigate to the parent element above it  or parent page
+    - Hold <kbd>caps lock + left/right arrow</kbd>
+    - You will hear the title , followed by number of items and then each list item
+    - Proceed to use <kbd>caps lock + left/right arrow</kbd> will move through the list items announcing the values
+- The contrast and actual colors can be a concern for visibility impaired and color blind people. However, you can customize the color by passing higher contrast colors. Or you can add a pattern to the color with the `pattern` attribute.
+
+## Regional Considerations
+
+Chart labels should be localized in the current language. The chart will flip in RTL mode. Note that in RTL languages clockwise is the same so the chart slices / arcs are not rotated.  For some color blind users the svg patterns can be used.

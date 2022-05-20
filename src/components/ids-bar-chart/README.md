@@ -62,7 +62,7 @@ const lineData2 = [{
   abbrName: 'A',
 }];
 
-document.querySelector('ids-lbarine-chart').data = lineData;
+document.querySelector('ids-bar-chart').data = lineData;
 ```
 
 A chart can also be `stacked` or `grouped`. Stacked bar graphs or composite bar graphs divide an aggregate total into parts. Each segment adds to the total of the bar and are separated by different colors.
