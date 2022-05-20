@@ -1,5 +1,5 @@
 describe('Ids Color Picker e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-color-picker';
+  const url = 'http://localhost:4444/ids-color-picker/example.html';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });

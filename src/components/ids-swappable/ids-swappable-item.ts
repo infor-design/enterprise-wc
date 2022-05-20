@@ -195,11 +195,14 @@ export default class IdsSwappableItem extends Base {
   #toggleSelect() {
     if (this.selected) {
       this.removeAttribute(attributes.SELECTED);
+      this.querySelector('div[part="list-item"]')?.removeAttribute(attributes.SELECTED, 'selected');
     } else {
       this.allItems.forEach((item: any) => {
         item.removeAttribute(attributes.SELECTED);
+        item.querySelector('div[part="list-item"]')?.removeAttribute(attributes.SELECTED);
       });
       this.setAttribute(attributes.SELECTED, '');
+      this.querySelector('div[part="list-item"]')?.setAttribute(attributes.SELECTED, 'selected');
     }
   }
 
@@ -223,6 +226,7 @@ export default class IdsSwappableItem extends Base {
       e.preventDefault();
 
       if (e.key === 'ArrowDown') {
+        e.target.parentElement?.nextElementSibling?.focus();
         e.target.nextElementSibling?.focus();
       }
 
@@ -231,6 +235,11 @@ export default class IdsSwappableItem extends Base {
       }
 
       if (e.key === 'Enter') {
+        const isEditing = this.querySelector('.is-editing');
+        if (isEditing) {
+          return;
+        }
+
         if (this.selection === 'multiple') {
           this.#toggleMultiSelect();
         } else {

@@ -1,20 +1,29 @@
 ---
- component: Header 
+ component: Header
  link: ids-header
- description: Layout header component 
+ description: Layout header component
  category: Layouts
- keywords: header, layout 
+ keywords: header, layout
  examples:
-  - link: index.html
-    description: Shows general header example 
+  - link: example.html
+    type: Main Example
+    description: Shows general header example
   - link: toolbar.html
-    description: Shows a header with tool bar, icons, and buttons 
+    type: Example
+    description: Shows a header with a toolbar, icons, and buttons
+  - link: breadcrumb.html
+    type: Example
+    description: Shows a header with a breadcrumb in it
   - link: button-types.html
+    type: Example
     description: Showing a header with different button types and styles
   - link: color.html
-    description: Showing a header with custom color
+    type: Example
+    description: Showing a header with a custom color
   - link: eyebrow.html
+    type: Example
     description: Showing a header with eyebrow settings
   - link: standalone-css.html
-    description: Showing a header with stand alone css 
+    type: Standalone CSS
+    description: Showing a header with stand alone css
 

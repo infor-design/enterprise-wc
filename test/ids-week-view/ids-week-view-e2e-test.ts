@@ -1,5 +1,5 @@
 describe('Ids Week View e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-week-view';
+  const url = 'http://localhost:4444/ids-week-view/example.html';
   const name = 'ids-week-view';
 
   beforeAll(async () => {

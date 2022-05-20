@@ -51,7 +51,19 @@ Set the audible (screen reader only) label to Progress:
 
 - Default size is 100% wide and it based on fluid design, stretching to the parent content.
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- Progress component was added in 4.0.0
+- Progress can be invoked with `$('#my-element').progress();`
+
+**4.x to 5.x**
+
+- Progress component has been renamed to "Progress Bar"
+- Progress Bar is a custom element `<ids-progress-bar></ids-progress-bar>`
+- If using events, events are now plain JS events.
+- Can now be imported as a single JS file and used with encapsulated styles
 
 ### Converting from 4.x
 

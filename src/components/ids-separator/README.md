@@ -11,7 +11,7 @@ For IDS Menu Component examples see [Ids Popup Menu](../ids-menu/README.md) and 
 
 ## Settings (Attributes)
 
-- `vertical` Can be used to turn set the separator between a horizontal and vertical. The vertical one is ued on tabs and the horizontal (default) is used on menus
+- `vertical` Can be used to turn set the separator between a horizontal and vertical. The vertical one is used on tabs and the horizontal (default) is used on menus
 
 ## Themeable Parts
 
@@ -44,3 +44,13 @@ To Show separators between items in a menu you would do something like the follo
     </ids-menu-group>
 </ids-popup-menu>
 ```
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+Separator did not exist as a standalone component in this version
+
+**4.x to 5.x**
+
+- Separator is now a standalone custom element `<ids-separator><ids-separator>`

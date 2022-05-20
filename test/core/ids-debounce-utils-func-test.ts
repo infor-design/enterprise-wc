@@ -5,7 +5,7 @@ import debounce from '../../src/utils/ids-debounce-utils/ids-debounce-utils';
 
 describe('IdsDebounceUtils Tests', () => {
   beforeEach(async () => {
-    jest.useFakeTimers('modern');
+    jest.useFakeTimers();
   });
 
   afterEach(async () => {

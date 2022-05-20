@@ -1,5 +1,5 @@
 describe('Ids Header e2e test', () => {
-  const url = 'http://localhost:4444/ids-header';
+  const url = 'http://localhost:4444/ids-header/example.html';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });

@@ -3,4 +3,4 @@ import '../ids-accordion';
 import '../../ids-icon/ids-icon';
 import '../../ids-block-grid/ids-block-grid';
 import '../../ids-card/ids-card';
-import '../../ids-layout-grid/ids-layout-grid';
+import '../../ids-data-grid/ids-data-grid';

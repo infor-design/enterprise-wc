@@ -1,5 +1,5 @@
 describe('Ids Search Field e2e Tests', () => {
-  const exampleUrl = 'http://localhost:4444/ids-search-field';
+  const exampleUrl = 'http://localhost:4444/ids-search-field/example.html';
 
   it('should not have errors', async () => {
     await page.goto(exampleUrl, { waitUntil: ['domcontentloaded', 'networkidle0'] });

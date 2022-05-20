@@ -1,0 +1,43 @@
+[
+  {
+    "id": "item-1",
+    "name": "Tony Cleveland",
+    "position": "Director",
+    "employmentType": "FT",
+    "parentItem": null,
+    "color": "azure-80"
+  },
+  {
+    "id": "item-2",
+    "name": "Julie Dawes",
+    "position": "Records Clerk",
+    "employmentType": "PT",
+    "parentItem": "item-1",
+    "color": "turquoise-20",
+    "picture": "/src/assets/images/headshot-1.jpg"
+  },
+  {
+    "id": "item-3",
+    "name": "Kaylee Edwards",
+    "position": "Records Manager",
+    "employmentType": "C",
+    "parentItem": "item-1",
+    "color": "amethyst-60"
+  },
+  {
+    "id": "item-4",
+    "name": "Julie Dawes",
+    "position": "Records Clerk",
+    "employmentType": "OP",
+    "parentItem": "item-3",
+    "color": "slate-60"
+  },
+  {
+    "id": "item-5",
+    "name": "Tony Cleveland",
+    "position": "Director",
+    "employmentType": "C",
+    "parentItem": "item-4",
+    "color": "amethyst-60"
+  }
+]

@@ -1,7 +1,7 @@
 import percySnapshot from '@percy/puppeteer';
 
 describe('Ids Menu Percy Tests', () => {
-  const url = 'http://localhost:4444/ids-menu';
+  const url = 'http://localhost:4444/ids-menu/example.html';
 
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });

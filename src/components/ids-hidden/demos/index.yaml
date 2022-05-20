@@ -1,0 +1,10 @@
+---
+ component: Hidden
+ link: ids-hidden
+ description: Input field for time and dates
+ category: Layouts
+ keywords: hide, responsive, hidden
+ examples:
+  - link: example.html
+    type: Main Example
+    description: Shows all ids-hidden combinations

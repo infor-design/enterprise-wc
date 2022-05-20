@@ -43,7 +43,16 @@ A rating rating with 4.5/5 which is also readonly. If using half stars the ratin
 - `mode` {string} Sets the theme mode
 - `version` {string} Sets the theme version
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- Rating component was added in v4.0.0
+- Can be invoked on an element with `$('#my-element').rating();`
+
+**4.x to 5.x**
+
+- Rating is now a custom element `<ids-rating></ids-rating>`
 
 ### Version - 4.x:
 

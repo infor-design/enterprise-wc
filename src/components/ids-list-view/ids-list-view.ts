@@ -5,6 +5,8 @@ import { injectTemplate, stringToBool } from '../../utils/ids-string-utils/ids-s
 import IdsDataSource from '../../core/ids-data-source';
 import '../ids-virtual-scroll/ids-virtual-scroll';
 import Base from './ids-list-view-base';
+import '../ids-swappable/ids-swappable';
+import '../ids-swappable/ids-swappable-item';
 
 import styles from './ids-list-view.scss';
 
@@ -41,7 +43,9 @@ export default class IdsListView extends Base {
     this.dataKeys = this.#extractTemplateLiteralsFromHTML(this.defaultTemplate);
     super.connectedCallback();
     this.#attachEventListeners();
-    this.#attachKeyboardListeners();
+    if (!this.sortable) {
+      this.#attachKeyboardListeners();
+    }
   }
 
   /**
@@ -75,6 +79,10 @@ export default class IdsListView extends Base {
     return this.container.querySelectorAll('div[part="list-item"]');
   }
 
+  getAllSwappableItems(): any {
+    return this.container.querySelectorAll('ids-swappable-item');
+  }
+
   /**
    * Add the sortable class to the list items
    * @returns {void}
@@ -88,7 +96,6 @@ export default class IdsListView extends Base {
   #attachEventListeners() {
     // attaching both event listeners causes focus issues, so do it conditionally based on the sortable prop
     if (this.sortable) {
-      this.attachDragEventListeners(); // for focusing and dragging list items
       this.#addSortableStyles();
     } else {
       this.#attachClickListeners(); // for focusing list items
@@ -172,17 +179,16 @@ export default class IdsListView extends Base {
 
   listItemTemplateFunc() {
     const func = (item: any, index: number) => `
-      ${this.sortable ? `<ids-draggable axis="y">` : ''}
+      ${this.sortable ? `<ids-swappable-item>` : ''}
         <div
           part="list-item"
           role="listitem"
           tabindex="-1"
           index="${index}"
         >
-          ${this.sortable ? `<span></span>` : ``}
           ${this.itemTemplate(item)}
         </div>
-      ${this.sortable ? `</ids-draggable>` : ''}
+      ${this.sortable ? `</ids-swappable-item>` : ''}
     `;
 
     return func;
@@ -196,7 +202,9 @@ export default class IdsListView extends Base {
     return `
       <div class="ids-list-view">
         <div class="ids-list-view-body" role="list">
-          ${this.data.length > 0 ? this.data?.map(this.listItemTemplateFunc()).join('') : ''}
+          ${this.sortable ? `<ids-swappable>` : ''}
+            ${this.data.length > 0 ? this.data?.map(this.listItemTemplateFunc()).join('') : ''}
+          ${this.sortable ? `</ids-swappable>` : ''}
         </div>
       </div>
     `;
@@ -430,6 +438,23 @@ export default class IdsListView extends Base {
   }
 
   /**
+   * Handles the sortable property and reflects it on the DOM
+   * @param {string | boolean} value the sortable parameter
+   */
+  set sortable(value) {
+    const val = stringToBool(value);
+    if (val) {
+      this.setAttribute(attributes.SORTABLE, val);
+    } else {
+      this.removeAttribute(attributes.SORTABLE);
+    }
+  }
+
+  get sortable() {
+    return this.hasAttribute(attributes.SORTABLE);
+  }
+
+  /**
    * Helper function that toggles the 'selected' attribute of an element, then focuses on that element
    * @param {Element} item the item to add/remove the selected attribute
    * @param {boolean} switchValue optional switch values to force add/remove the selected attribute
@@ -467,7 +492,9 @@ export default class IdsListView extends Base {
    * @param {any} item the selected list item to toggle
    */
   toggleSelectedLi(item: any) {
-    if (item.tagName === 'DIV' && item.getAttribute('part') === 'list-item') {
+    if (
+      (item.tagName === 'DIV' && item.getAttribute('part') === 'list-item')
+      || item.tagName === 'IDS-SWAPPABLE-ITEM') {
       if (this.selectable === 'single') {
         const prevSelectedLi: HTMLLIElement = this.selectedLi;
         if (item !== prevSelectedLi && prevSelectedLi) {

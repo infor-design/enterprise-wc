@@ -1,6 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import Base from './ids-process-indicator-base';
-import './ids-process-step';
+import './ids-process-indicator-step';
 import '../ids-alert/ids-alert';
 
 import styles from './ids-process-indicator.scss';
@@ -35,7 +35,7 @@ export default class IdsProcessIndicator extends Base {
    */
   #setActiveStepLabel(): void {
     let activeStepLabel = 'None';
-    const steps = this.querySelectorAll('ids-process-step');
+    const steps = this.querySelectorAll('ids-process-indicator-step');
     if (steps.length > 1) {
       let i = 0;
       for (const step of steps) {

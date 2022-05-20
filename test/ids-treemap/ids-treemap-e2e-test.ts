@@ -1,5 +1,5 @@
 describe('Ids Treemap e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-treemap';
+  const url = 'http://localhost:4444/ids-treemap/example.html';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });

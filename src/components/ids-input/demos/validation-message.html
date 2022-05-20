@@ -2,22 +2,25 @@
 <html lang="en">
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
 </head>
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
     <ids-layout-grid auto="true">
-      <ids-text font-size="12" type="h1">Input - Ids Validation Message</ids-text>
+      <ids-text font-size="12" type="h1">Input - Validation Message</ids-text>
     </ids-layout-grid>
 
     <ids-layout-grid auto="true" gap="md">
       <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2">Single Messages</ids-text>
+        <br />
 
-        <ids-button id="btn-add-message" type="secondary">
-          <span slot="text">Add Message</span>
+        <ids-button id="btn-add-messages" type="secondary">
+          <span slot="text">Add Messages</span>
         </ids-button>
-        <ids-button id="btn-remove-message" type="secondary">
-          <span slot="text">Remove Message</span>
+        <ids-button id="btn-remove-messages" type="secondary">
+          <span slot="text">Remove Messages</span>
         </ids-button>
         <br/><br/>
 
@@ -29,7 +32,70 @@
         <ids-input label="Test Icon (custom icon)" id="input-validation-icon-custom" value="Some text"></ids-input>
 
       </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2">Set Messages Manually (thru the markup)</ids-text>
+        <br />
+        <ids-input
+          label="Test Message Manually"
+          id="input-validation-manually"
+          value="Some text"
+          validation-id="error-manually"
+          validation-type="error"
+          validation-message="Something is wrong do not continue"
+        ></ids-input>
+        <ids-input
+          label="Test Message Manually (custom icon)"
+          id="input-validation-icon-custom-manually"
+          value="Some text"
+          validation-id="icon-custom-manually"
+          validation-type="icon"
+          validation-message="Something about your mail information"
+          validation-icon="mail"
+        ></ids-input>
+        <br /><br />
+
+        <ids-text font-size="12" type="h2">Multiple Messages</ids-text>
+        <br />
+        <ids-button id="btn-add-multiple-messages" type="secondary">
+          <span slot="text">Add Multiple Messages</span>
+        </ids-button>
+        <br />
+        <ids-text font-size="14" font-weight="bold">Choose option to add by and click button above:</ids-text>
+        <ids-radio-group id="radio-validation-add-type" horizontal="true">
+          <ids-radio value="error" label="Error" checked="true"></ids-radio>
+          <ids-radio value="alert" label="Alert"></ids-radio>
+          <ids-radio value="success" label="Success"></ids-radio>
+          <ids-radio value="info" label="Info"></ids-radio>
+          <br />
+          <ids-radio value="icon" label="Icon (default)"></ids-radio>
+          <ids-radio value="icon-custom" label="Icon (custom)"></ids-radio>
+          <br />
+          <ids-radio value="all" label="Add all"></ids-radio>
+        </ids-radio-group>
+        <ids-button id="btn-remove-multiple-messages" type="secondary">
+          <span slot="text">Remove Multiple Messages</span>
+        </ids-button>
+        <ids-text font-size="14" font-weight="bold">Choose option to remove by and click button above:</ids-text>
+        <ids-radio-group id="radio-validation-remove-by" horizontal="true">
+          <ids-radio value="error" label="Error" checked="true"></ids-radio>
+          <ids-radio value="alert" label="Alert"></ids-radio>
+          <ids-radio value="success" label="Success"></ids-radio>
+          <ids-radio value="info" label="Info"></ids-radio>
+          <br />
+          <ids-radio value="icon" label="Icon (default)"></ids-radio>
+          <ids-radio value="icon-custom" label="Icon (custom)"></ids-radio>
+          <br />
+          <ids-radio value="id" label="Remove Multiple by ID's (id: error-multi, alert-multi, info-multi)"></ids-radio>
+          <ids-radio value="type" label="Remove Multiple by Type (type: icon)"></ids-radio>
+          <br />
+          <ids-radio value="all" label="Remove All"></ids-radio>
+        </ids-radio-group>
+        <br />
+
+        <ids-input label="Test Multiple Messages" id="input-validation-multiple" value="Some text"></ids-input>
+      </ids-layout-grid-cell>
     </ids-layout-grid>
+
   </ids-container>
 </body>
 </html>

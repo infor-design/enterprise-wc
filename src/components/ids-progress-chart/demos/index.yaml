@@ -5,7 +5,9 @@
  category: Charts and Visualizations
  keywords: progress, chart, bar
  examples:
-  - link: index.html
+  - link: example.html
+    type: Main Demo
     description: Showing various progress chart examples
-  - link: readme-examples.html
-    description: Showing the examples as listed on the README.md
+  - link: sandbox.html
+    type: Sandbox
+    description: Showing misc examples

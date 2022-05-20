@@ -1,5 +1,5 @@
 describe('Ids Editor e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-editor';
+  const url = 'http://localhost:4444/ids-editor/example.html';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
