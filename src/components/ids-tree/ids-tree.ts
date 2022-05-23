@@ -463,6 +463,8 @@ export default class IdsTree extends Base {
       } else {
         this.#active.selectedCurrent = selected[0];
       }
+    } else if (this.selectable === 'multiple') {
+      this.#active.selectedCurrent = [];
     } else {
       unSelect(selected);
     }
@@ -602,48 +604,16 @@ export default class IdsTree extends Base {
         return;
       }
 
-      const parent: any = this.getParentSelection(node);
       node.elem.selected = true;
       this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, node } });
 
-      // If node is a group select all children in the group
       if (node.isGroup) {
         this.selectNestedNodes(node);
-        // [...this.allChildNodes(node)].forEach((groupNode: any) => {
-        //   if (!groupNode.disabled) {
-        //     groupNode.selected = true;
-        //     this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, groupNode } });
-
-        //     if (groupNode.shadowRoot.querySelectorAll('ids-tree-node')) {
-        //       [...groupNode.shadowRoot.querySelectorAll('ids-tree-node')].forEach((nestedNode: any) => {
-        //         if (!nestedNode.disabled) {
-        //           nestedNode.selected = true;
-        //           this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, nestedNode } });
-        //         }
-        //       });
-        //     }
-        //   }
-        // });
       }
 
-      // If node is in a group set the correct selection on the parent
+      const parent: any = this.getParentNode(node);
       if (parent) {
-        const selectedNodes: any = [...this.allChildNodes(parent)]
-          .filter((nestedNode: any) => nestedNode.selected === true);
-
-        // Select the parent tree node
-        parent.getRootNode().host.selected = true;
-        parent.querySelector('ids-checkbox').input.checked = true;
-
-        // If current node has parent and all nodes are selected
-        // remove indeterminate from parent
-        if (this.allChildNodes(parent).length === selectedNodes.length) {
-          parent.querySelector('ids-checkbox').indeterminate = null;
-        } else {
-          // If current node has parent and all nodes are not selected
-          // set the parent checkbox to indeterminate
-          parent.querySelector('ids-checkbox').indeterminate = true;
-        }
+        this.selectParentNodes(parent);
       }
     }
   }
@@ -698,42 +668,32 @@ export default class IdsTree extends Base {
       this.unselectNestedNodes(node);
     }
 
-    const parent: any = this.getParentSelection(node);
+    const parent: any = this.getParentNode(node);
     if (parent) {
-      const selectedNodes: any = [...this.allChildNodes(parent)]
-        .filter((nestedNode: any) => nestedNode.selected === true);
-
-      if (selectedNodes.length === 0) {
-        parent.getRootNode().host.selected = null;
-        parent.querySelector('ids-checkbox').input.checked = null;
-        parent.querySelector('ids-checkbox').indeterminate = null;
-      }
-
-      // If current node has parent and not all nodes are slelected
-      if (this.allChildNodes(parent).length === selectedNodes.length) {
-        parent.getRootNode().host.selected = true;
-        parent.querySelector('ids-checkbox').input.checked = true;
-        parent.querySelector('ids-checkbox').indeterminate = null;
-      }
-
-      if (selectedNodes.length !== 0 && this.allChildNodes(parent).length > selectedNodes.length) {
-        parent.querySelector('ids-checkbox').indeterminate = true;
-      }
+      this.selectParentNodes(parent);
     }
 
     this.triggerEvent(IdsTreeShared.EVENTS.unselected, this, { detail: { elem: this, node } });
   }
 
-  getParentSelection(node: HTMLElement | any) {
+  /**
+   * Gets the parent node of the currently selected node.
+   * @param {HTMLElement | any} node ids-tree-node
+   * @returns {HTMLElement | any} value
+   */
+  getParentNode(node: HTMLElement | any) {
     let value;
     const findParentElements: HTMLElement | any = (n: HTMLElement | any) => {
       if (
         (n && n?.classList?.contains('ids-tree-node'))
         || (n.elem && n?.elem?.classList?.contains('ids-tree-node'))
       ) {
-        value = n;
+        value = n.getRootNode().host;
       } else if (n && n.parentElement) {
         findParentElements(n.parentElement);
+        if (n.getRootNode().host?.parentElement) {
+          findParentElements(n.getRootNode().host.parentElement);
+        }
       } else if (n.elem && n.elem.parentElement) {
         findParentElements(n.elem.parentElement);
       }
@@ -745,12 +705,53 @@ export default class IdsTree extends Base {
 
   allChildNodes(parent: HTMLElement | any) {
     if (parent.elem) {
-      return parent.elem.shadowRoot.querySelector('.group-nodes').querySelectorAll('ids-tree-node')
+      return parent.elem.shadowRoot.querySelector('.group-nodes').querySelectorAll('ids-tree-node');
     }
     if (parent.shadowRoot) {
       return parent.shadowRoot.querySelector('.group-nodes').querySelectorAll('ids-tree-node');
     }
     return parent.querySelector('.group-nodes').querySelectorAll('ids-tree-node');
+  }
+
+  selectParentNodes(parent: any) {
+    const selectedNodes: any = [...this.allChildNodes(parent)]
+      .filter((nestedNode: any) => nestedNode.selected === true);
+
+    console.log(selectedNodes);
+    // Select the parent tree node
+    parent.selected = true;
+    // parent.container.querySelector('ids-checkbox').input.checked = true;
+    // this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, node: parent } });
+
+    // If current node has parent and all nodes are selected
+    // remove indeterminate from parent
+    if (this.allChildNodes(parent).length === selectedNodes.length) {
+      parent.container.querySelector('ids-checkbox').indeterminate = null;
+    } else {
+      // If current node has parent and all nodes are not selected
+      // set the parent checkbox to indeterminate
+      parent.container.querySelector('ids-checkbox').indeterminate = true;
+    }
+
+    // If there are no selected nodes underneath the parent
+    // Remove selection from the parent
+    if (selectedNodes.length === 0) {
+      parent.selected = null;
+      parent.container.querySelector('ids-checkbox').input.checked = null;
+      parent.container.querySelector('ids-checkbox').indeterminate = null;
+    }
+
+    // If current node is unselected, has parent and all siblings are selected
+    if (this.allChildNodes(parent).length === selectedNodes.length) {
+      parent.selected = true;
+      parent.container.querySelector('ids-checkbox').input.checked = true;
+      parent.container.querySelector('ids-checkbox').indeterminate = null;
+    }
+
+    // If current node is unselected, has parent and siblings are mix selected
+    if (selectedNodes.length !== 0 && this.allChildNodes(parent).length > selectedNodes.length) {
+      parent.container.querySelector('ids-checkbox').indeterminate = true;
+    }
   }
 
   selectNestedNodes(node: HTMLElement | any) {
