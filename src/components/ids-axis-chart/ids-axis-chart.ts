@@ -359,6 +359,9 @@ export default class IdsAxisChart extends Base {
     });
 
     const styleSheet = this.shadowRoot.styleSheets[0];
+    if (styleSheet.cssRules && styleSheet.cssRules[0].selectorText === ':host') {
+      styleSheet.deleteRule(0);
+    }
     styleSheet.insertRule(`:host {
       ${colorSheet}
     }`);

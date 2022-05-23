@@ -167,22 +167,20 @@ export default class IdsPieChart extends Base {
 
   /**
    * Calculate the legend markup and return it
-   * @param {string} setting The setting to use between name,shortName and abbreviatedName
    * @returns {string} The legend markup.
    */
-  legendTemplate(setting = 'name') {
+  legendTemplate() {
     let legend = `<div class="chart-legend">`;
-    const count = this.data[0].data?.length || 0;
 
     this.data[0].data?.forEach((slice: any, index: number) => {
       const colorClass = slice.pattern ? '' : ` color-${index + 1}`;
       const patternSvg = slice.pattern ? `<svg width="12" height="12" xmlns="http://www.w3.org/2000/svg"><rect width="12" height="12" fill="url(#${slice.pattern})"></rect></svg>` : '';
 
-      let legendValue = `${slice[setting] ? slice[setting] : slice.name} (${this.percents[index].rounded}${this.locale.numbers().percentSign || '%'})`;
+      let legendValue = `${slice.name} (${this.percents[index].rounded}${this.locale?.numbers().percentSign || '%'})`;
       if (typeof this.legendFormatter === 'function') {
         legendValue = this.legendFormatter(slice, this.percents[index], this);
       }
-      legend += `<a${count > 1 ? ' href="#"' : ' aria-hidden="true"'}>
+      legend += `<a href="#"}>
         <div class="swatch${colorClass}">${patternSvg}</div>
         ${legendValue}
         </a>`;
@@ -220,6 +218,10 @@ export default class IdsPieChart extends Base {
     });
 
     const styleSheet = this.shadowRoot.styleSheets[0];
+
+    if (styleSheet.cssRules && styleSheet.cssRules[0].selectorText === ':host') {
+      styleSheet.deleteRule(0);
+    }
     styleSheet.insertRule(`:host {
       ${colorSheet}
     }`);
@@ -290,7 +292,7 @@ export default class IdsPieChart extends Base {
     this.data[0].data?.forEach((slice: any, i: number) => {
       let pattern = patternData[slice.pattern];
       if (pattern) {
-        const color = `${this.color(i)}` || '#000000';
+        const color = `${this.color(i)}`;
         pattern = pattern.replace('fill="#000000"', `fill="${color}"`);
         patternHtml += pattern;
       }
@@ -434,8 +436,9 @@ export default class IdsPieChart extends Base {
    */
   set title(value) {
     this.setAttribute(attributes.TITLE, value);
-    if (this.container?.querySelector(attributes.TITLE)) {
-      this.container.querySelector(attributes.TITLE).textContent = value;
+    const title = this.container.querySelectorAll(attributes.TITLE);
+    if (title.length > 1) {
+      title[1].textContent = value;
     }
   }
 

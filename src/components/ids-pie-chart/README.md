@@ -99,6 +99,14 @@ The following data attributes can be used on the data passed to a chart. If usin
 - `suppress-tooltips` {boolean} Disable the tooltips (they are currently experimental).
 - `legendFormatter` {Function} A function to format the legend text for each data point.
 
+Here is an example of a pie chart with a legendFormatter.
+
+```js
+chart.legendFormatter = (slice, data) => {
+  return `${slice.name}: ${slice.value}`;
+}
+```
+
 ## Patterns
 
 The pie/donut chart includes patterns that can be used to assist color blind users. To use a pattern specify it on the `pattern` attribute it in the data. You can also set a `patternColor` otherwise it will use the default color for that item in the series.
@@ -119,7 +127,7 @@ const data: [{
 
 The following patterns are supported:
 
-``sh
+```sh
 arrows
 boxes
 checkers
@@ -214,7 +222,6 @@ The legend items are focusable and can be navigated with the tabs keys.
 **4.x to 5.x**
 - The pie chart was added after version 3.6 so new in 4.x
 
-
 **4.x to 5.x**
 - Pie component has changed to a custom element `<ids-pie-chart></ids-pie-chart>`
 - Donut component has been combined with a setting `<ids-pie-chart donut="true" donut-text="Some Test"></ids-pie-chart>`
@@ -224,12 +231,12 @@ The legend items are focusable and can be navigated with the tabs keys.
 ## Accessibility Guidelines
 
 - 1.4.1 Use of Color - Color is not used as the only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual element.
--  Markup is to treat the bar items as a list `role="list"`. The bar items are `role="listitem"`. The tab index is not visible to the user as it is not needed and can be navigated with a screen reader.
+- Markup is to treat the pie slices as a list `role="list"`. The pie slices are `role="listitem"`. The tab index is not visible to the user as it is not needed and can be navigated with a screen reader.
 - Using voice over the sequence is to
-    - Navigate to the parent element above it  or parent page
-    - Hold <kbd>caps lock + left/right arrow</kbd>
-    - You will hear the title , followed by number of items and then each list item
-    - Proceed to use <kbd>caps lock + left/right arrow</kbd> will move through the list items announcing the values
+  - Navigate to the parent element above it  or parent page
+  - Hold <kbd>caps lock + left/right arrow</kbd>
+  - You will hear the title , followed by number of items and then each list item
+  - Proceed to use <kbd>caps lock + left/right arrow</kbd> will move through the list items announcing the values
 - The contrast and actual colors can be a concern for visibility impaired and color blind people. However, you can customize the color by passing higher contrast colors. Or you can add a pattern to the color with the `pattern` attribute.
 
 ## Regional Considerations

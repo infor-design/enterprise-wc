@@ -56,6 +56,7 @@ describe('IdsBarChart Component', () => {
     }];
     barChart.rerender();
 
+    // Note: This doesnt test this really well since jest doesnt support stylesheets - see also the percy test
     expect(barChart.container.parentNode.querySelectorAll('.swatch')[0].classList.contains('color-1')).toBeTruthy();
     expect(barChart.shadowRoot.querySelectorAll('.color-1')[0].classList.contains('color-1')).toBeTruthy();
     expect(barChart.color(0)).toEqual('var(color-1)');
@@ -135,7 +136,7 @@ describe('IdsBarChart Component', () => {
     expect(barChart.getAttribute('category-percentage')).toEqual('1.5');
   });
 
-  it('supported stacked chart', () => {
+  it('supports stacked chart', () => {
     document.body.innerHTML = '';
     barChart = new IdsBarChart();
     barChart.animated = false;

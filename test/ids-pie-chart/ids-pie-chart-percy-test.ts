@@ -1,11 +1,11 @@
 import percySnapshot from '@percy/puppeteer';
 
-describe('Ids Bar Chart Percy Tests', () => {
-  const url = 'http://localhost:4444/ids-bar-chart/example.html';
+describe('Ids Pie Chart Percy Tests', () => {
+  const url = 'http://localhost:4444/ids-pie-chart/example.html';
 
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await percySnapshot(page, 'ids-bar-chart-new-light');
+    await percySnapshot(page, 'ids-pie-chart-new-light');
   });
 
   it('should not have visual regressions in new dark theme (percy)', async () => {
@@ -13,7 +13,7 @@ describe('Ids Bar Chart Percy Tests', () => {
     await page.evaluate(() => {
       (document as any).querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
     });
-    await percySnapshot(page, 'ids-bar-chart-new-dark');
+    await percySnapshot(page, 'ids-pie-chart-new-dark');
   });
 
   it('should not have visual regressions in new contrast theme (percy)', async () => {
@@ -21,21 +21,21 @@ describe('Ids Bar Chart Percy Tests', () => {
     await page.evaluate(() => {
       (document as any).querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
     });
-    await percySnapshot(page, 'ids-bar-chart-new-contrast');
+    await percySnapshot(page, 'ids-pie-chart-new-contrast');
   });
 
   it('should not have visual regressions with custom colors', async () => {
-    await page.goto('http://localhost:4444/ids-bar-chart/colors.html', { waitUntil: ['networkidle2', 'load'] });
-    await percySnapshot(page, 'ids-bar-chart-colors');
+    await page.goto('http://localhost:4444/ids-pie-chart/colors.html', { waitUntil: ['networkidle2', 'load'] });
+    await percySnapshot(page, 'ids-pie-chart-colors');
   });
 
   it('should not have visual regressions with accessible patterns', async () => {
-    await page.goto('http://localhost:4444/ids-bar-chart/patterns.html', { waitUntil: ['networkidle2', 'load'] });
-    await percySnapshot(page, 'ids-bar-chart-patterns');
+    await page.goto('http://localhost:4444/ids-pie-chart/patterns.html', { waitUntil: ['networkidle2', 'load'] });
+    await percySnapshot(page, 'ids-pie-chart-patterns');
   });
 
-  it('should not have visual regressions with stacked', async () => {
-    await page.goto('http://localhost:4444/ids-bar-chart/stacked.html', { waitUntil: ['networkidle2', 'load'] });
-    await percySnapshot(page, 'ids-bar-chart-stacked');
+  it('should not have visual regressions with donuts', async () => {
+    await page.goto('http://localhost:4444/ids-pie-chart/donut.html', { waitUntil: ['networkidle2', 'load'] });
+    await percySnapshot(page, 'ids-pie-chart-donut');
   });
 });

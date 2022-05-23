@@ -1,6 +1,6 @@
 import countObjects from '../helpers/count-objects';
 
-describe('Ids Area Chart e2e Tests', () => {
+describe('Ids Axis Chart e2e Tests', () => {
   const url = 'http://localhost:4444/ids-axis-chart/example.html';
 
   beforeAll(async () => {

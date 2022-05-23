@@ -53,7 +53,7 @@ describe('IdsAxisChart Component', () => {
   });
 
   it('supports setting width', () => {
-    expect(axisChart.width).toEqual(800);
+    expect(axisChart.width).toEqual(700);
     axisChart.width = 400;
     expect(axisChart.width).toEqual(400);
     expect(axisChart.shadowRoot.querySelector('svg').getAttribute('width')).toEqual('400');
@@ -77,7 +77,7 @@ describe('IdsAxisChart Component', () => {
     await processAnimFrame();
     axisChart.resize([{ contentRect: { height: 500, width: 300 } }]);
     axisChart.parentNode.style.width = '300px';
-    expect(axisChart.width).toEqual(800);
+    expect(axisChart.width).toEqual(700);
   });
 
   it('supports setting height to parent', async () => {
