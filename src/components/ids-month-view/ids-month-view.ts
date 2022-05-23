@@ -41,6 +41,37 @@ const MIN_MONTH = 0;
 const MAX_MONTH = 11;
 const WEEK_LENGTH = 7;
 
+export type RangeSettings = {
+  start?: any,
+  end?: any,
+  separator?: string,
+  minDays?: number,
+  maxDays?: number,
+  selectForward?: boolean,
+  selectBackward?: boolean,
+  includeDisabled?: boolean,
+  selectWeek?: boolean
+};
+
+export type DisableSettings = {
+  dates?: Array<string>,
+  years?: Array<number>,
+  minDate?: string,
+  maxDate?: string,
+  dayOfWeek?: Array<number>,
+  isEnable?: boolean
+};
+
+export type DayselectedEvent = {
+  detail: {
+    elem: IdsMonthView,
+    date: Date,
+    useRange: boolean,
+    rangeStart: Date | null,
+    rangeEnd: Date | null
+  }
+};
+
 /**
  * IDS Month View Component
  * @type {IdsMonthView}
@@ -65,7 +96,7 @@ class IdsMonthView extends Base {
   #currentLegend = [];
 
   // Range picker default settings
-  #rangeSettings: any = {
+  #rangeSettings: RangeSettings = {
     start: null,
     end: null,
     separator: ' - ',
@@ -73,7 +104,18 @@ class IdsMonthView extends Base {
     maxDays: 0,
     selectForward: false,
     selectBackward: false,
-    includeDisabled: false
+    includeDisabled: false,
+    selectWeek: false
+  };
+
+  // Disabled default settings
+  #disableSettings: DisableSettings = {
+    dates: [],
+    years: [],
+    minDate: '',
+    maxDate: '',
+    dayOfWeek: [],
+    isEnable: false
   };
 
   /**
@@ -137,13 +179,13 @@ class IdsMonthView extends Base {
     // Day select event
     this.offEvent('click.month-view-dayselect');
     this.onEvent('click.month-view-dayselect', this.container.querySelector('tbody'), (e: MouseEvent) => {
-      this.#daySelectClick((e.target as any).closest('td'));
+      this.#daySelectClick((e.target as HTMLElement).closest('td'));
     });
 
     // Range selection event
     this.offEvent('mouseover.month-view-range');
     this.onEvent('mouseover.month-view-range', this.container.querySelector('tbody'), (e: MouseEvent) => {
-      const element = (e.target as any).closest('td');
+      const element = (e.target as HTMLElement).closest('td');
 
       if (!element) return;
 
@@ -230,8 +272,13 @@ class IdsMonthView extends Base {
 
           // Enter or space key starts range selection
           if (key === 13 || key === 32) {
-            this.#setRangeSelection(this.year, this.month, this.day);
-            this.focus();
+            if (this.rangeSettings.selectWeek) {
+              this.#rangeSelectWeek(this.year, this.month, this.day);
+              this.#triggerSelectedEvent();
+            } else {
+              this.#setRangeSelection(this.year, this.month, this.day);
+              this.focus();
+            }
           }
         }
 
@@ -429,7 +476,7 @@ class IdsMonthView extends Base {
 
     this.offEvent('dayselected.month-view-datepicker');
     this.onEvent('dayselected.month-view-datepicker', toolbarDatepicker, (e: CustomEvent) => {
-      const date = e.detail.date;
+      const date: Date = e.detail.date;
 
       this.day = date.getDate();
       this.year = date.getFullYear();
@@ -439,7 +486,7 @@ class IdsMonthView extends Base {
     // Date picker dropdown picklist expanded or collapsed
     this.offEvent('expanded.month-view-picklist');
     this.onEvent('expanded.month-view-picklist', toolbarDatepicker, (e: CustomEvent) => {
-      const expanded: any = e.detail.expanded;
+      const expanded: boolean = e.detail.expanded;
 
       this.container.querySelector('.btn-today')?.setAttribute('hidden', expanded);
       this.container.querySelector('.btn-apply')?.setAttribute('hidden', !expanded);
@@ -485,7 +532,7 @@ class IdsMonthView extends Base {
    * @returns {string} locale formatted month year
    */
   #formatMonthText(): string {
-    return this.locale?.formatDate(this.activeDate, { month: 'long', year: 'numeric', numberingSystem: 'latn' });
+    return this.locale?.formatDate(this.activeDate, { pattern: 'MMMM yyyy' });
   }
 
   /**
@@ -707,7 +754,7 @@ class IdsMonthView extends Base {
    * Day cell clicked
    * @param {HTMLElement} element The element.
    */
-  #daySelectClick(element: HTMLElement): void {
+  #daySelectClick(element: null | HTMLElement): void {
     if (!element) return;
 
     const { month, year, day }: any = element.dataset;
@@ -747,17 +794,21 @@ class IdsMonthView extends Base {
     const canSelectBoth = !(this.rangeSettings.selectBackward || this.rangeSettings.selectForward);
     const selectBackward = this.rangeSettings.selectBackward && diff < 0;
     const selectForward = this.rangeSettings.selectForward && diff > 0;
-    const startDate = new Date(this.rangeSettings.start);
+    const startDate = new Date(this.rangeSettings.start as string);
     const startTime = startDate.getTime();
     const minDays = this.rangeSettings.minDays;
     const maxDays = this.rangeSettings.maxDays;
-    const minRangeExceeded = minDays > 0 && Math.abs(diff) < minDays;
-    const maxRangeExceeded = maxDays > 0 && Math.abs(diff) > maxDays;
+    const minRangeExceeded = (minDays as number) > 0 && Math.abs(diff) < (minDays as number);
+    const maxRangeExceeded = (maxDays as number) > 0 && Math.abs(diff) > (maxDays as number);
     const minRangeDate = diff > 0
-      ? addDate(startDate, minDays, 'days')
-      : subtractDate(startDate, minDays, 'days');
+      ? addDate(startDate, (minDays as number), 'days')
+      : subtractDate(startDate, (minDays as number), 'days');
 
     this.#selectDay(year, month, day);
+
+    if (this.rangeSettings.selectWeek) {
+      return;
+    }
 
     // Start is set
     if (rangeStarted && !maxRangeExceeded && (canSelectBoth || selectBackward || selectForward)) {
@@ -788,7 +839,14 @@ class IdsMonthView extends Base {
    */
   #clearRangeClasses(): void {
     this.container.querySelectorAll('td')
-      .forEach((item: any) => item.classList.remove('range-next', 'range-prev', 'range-selection'));
+      .forEach(
+        (item: HTMLElement) => item.classList.remove(
+          'range-next',
+          'range-prev',
+          'range-selection',
+          'not-included'
+        )
+      );
   }
 
   /**
@@ -814,7 +872,11 @@ class IdsMonthView extends Base {
 
       element?.classList.add('range-selection');
 
-      if (index === 0 || index === days) {
+      if (!this.#rangeSettings.includeDisabled) {
+        element?.classList.add('not-included');
+      }
+
+      if ((index === 0 || index === days) && !this.rangeSettings.selectWeek) {
         element?.setAttribute('aria-selected', true);
         element?.setAttribute('role', 'gridcell');
         element?.classList.add('is-selected');
@@ -824,8 +886,8 @@ class IdsMonthView extends Base {
 
   /**
    * Helper to check if date is in the range selection
-   * @param {Date} date to check if in range selection
-   * @returns {boolean} whether the date in range selection
+   * @param {Date} date to check if is in range selection
+   * @returns {boolean} whether the date is in range selection
    */
   #isRangeByDate(date: Date): boolean {
     const startRange = new Date(this.rangeSettings.start);
@@ -836,18 +898,53 @@ class IdsMonthView extends Base {
   }
 
   /**
+   * Helper to handle week selection
+   * @param {string|number} year to add to the range selection
+   * @param {string|number} month to add to the range selection
+   * @param {string|number} day to add to the range selection
+   */
+  #rangeSelectWeek(
+    year: string | number | undefined,
+    month: string | number | undefined,
+    day: string | number | undefined
+  ): void {
+    const firstDayOfWeek: Date = firstDayOfWeekDate(
+      new Date(year as number, month as number, day as number),
+      this.firstDayOfWeek
+    );
+
+    if (firstDayOfWeek.getTime() !== this.rangeSettings.start?.getTime()) {
+      this.rangeSettings.start = firstDayOfWeek;
+      this.rangeSettings.end = addDate(this.rangeSettings.start, WEEK_LENGTH - 1, 'days');
+
+      this.#selectDay();
+      this.#renderRangeSelection();
+    }
+  }
+
+  /**
    * Add CSS classes to table cells when range selection is in progress
    * Starting from the range settings start
-   * @param {number} year to add to the range selection
-   * @param {number} month to add to the range selection
-   * @param {number} day to add to the range selection
+   * @param {string|number} year to add to the range selection
+   * @param {string|number} month to add to the range selection
+   * @param {string|number} day to add to the range selection
    */
-  #rangePropagation(year: number, month: number, day: number | undefined): void {
+  #rangePropagation(
+    year: string | number | undefined,
+    month: string | number | undefined,
+    day: string | number | undefined
+  ): void {
     if (!this.useRange) return;
+
+    if (this.rangeSettings.selectWeek) {
+      this.#rangeSelectWeek(year, month, day);
+
+      return;
+    }
 
     if (this.rangeSettings.start && !(this.rangeSettings.end && this.rangeSettings.start)) {
       const startRange = new Date(this.rangeSettings.start);
-      const endRange = new Date(year, month, day);
+      const endRange = new Date(year as number, month as number, day as number);
       const diff = daysDiff(startRange, endRange);
 
       this.#clearRangeClasses();
@@ -856,7 +953,7 @@ class IdsMonthView extends Base {
       const selectBackward = this.rangeSettings.selectBackward && diff < 0;
       const selectForward = this.rangeSettings.selectForward && diff > 0;
       const maxDays = this.rangeSettings.maxDays;
-      const maxRangeExceeded = maxDays > 0 && Math.abs(diff) > maxDays;
+      const maxRangeExceeded = (maxDays as number) > 0 && Math.abs(diff) > (maxDays as number);
 
       if (diff !== 0 && !maxRangeExceeded && (canSelectBoth || selectBackward || selectForward)) {
         Array.from({ length: Math.abs(diff) }).forEach((_, index) => {
@@ -872,9 +969,45 @@ class IdsMonthView extends Base {
 
           this.container.querySelector(selectedQuery)
             ?.classList.add(diff > 0 ? 'range-next' : 'range-prev');
+
+          if (!this.#rangeSettings.includeDisabled) {
+            this.container.querySelector(selectedQuery)?.classList.add('not-included');
+          }
         });
       }
     }
+  }
+
+  /**
+   * Defines if a date is in disabled settings
+   * @param {Date} date to check
+   * @returns {boolean} wheter or not the date is disabled
+   */
+  isDisabledByDate(date: Date): boolean {
+    const {
+      years,
+      dayOfWeek,
+      dates,
+      minDate,
+      maxDate,
+      isEnable
+    }: DisableSettings = this.#disableSettings;
+    const isOutOfDisplayRange: boolean = this.#isDisplayRange()
+      && (date < (this.startDate as Date) || date > (this.endDate as Date));
+    const ifYear: boolean = (years as Array<number>).some(
+      (item: number) => item === date.getFullYear()
+    );
+    const ifDayOfWeek: boolean = (dayOfWeek as Array<number>).some(
+      (item: number) => item === date.getDay()
+    );
+    const ifDates: boolean = (dates as Array<string>).some(
+      (item: string) => (new Date(item)).getTime() === date.getTime()
+    );
+    const ifMinMaxDate: boolean = date <= new Date(minDate as string) || date >= new Date(maxDate as string);
+    const ifBySettings: boolean = ifYear || ifDayOfWeek || ifDates || ifMinMaxDate;
+    const withReverse: boolean = isEnable ? !ifBySettings : ifBySettings;
+
+    return withReverse || isOutOfDisplayRange;
   }
 
   /**
@@ -883,7 +1016,7 @@ class IdsMonthView extends Base {
    * @param {Date} rangeStartsOn very first day of the display range
    * @returns {string|undefined} Intl.DateTimeFormat options month format (numeric, long, short)
    */
-  #monthInDayFormat(date: any, rangeStartsOn: any): string | undefined {
+  #monthInDayFormat(date: Date, rangeStartsOn: Date): string | undefined {
     const isFirstDayOfRange = daysDiff(date, rangeStartsOn) === 0;
     const isFirstDayOfMonth = this.locale?.isIslamic()
       ? gregorianToUmalqura(date).day === 1
@@ -925,7 +1058,7 @@ class IdsMonthView extends Base {
       const dateMatch = day === this.day && year === this.year && month === this.month;
       const isSelected = !this.useRange && dateMatch;
       const isSelectedWithRange = this.useRange && !this.rangeSettings.start && dateMatch;
-      const isDisabled = this.#isDisplayRange() && (date < (this.startDate as any) || date > (this.endDate as any));
+      const isDisabled = this.isDisabledByDate(date);
       const isAlternate = !this.#isDisplayRange() && (date < firstDayOfRange || date > (lastDayOfRange as any));
       const legend: any = this.#getLegendByDate(date);
       const isRangeSelection = this.#isRangeByDate(date);
@@ -1004,17 +1137,21 @@ class IdsMonthView extends Base {
    * @returns {void}
    */
   #triggerSelectedEvent(): void {
-    const args = {
+    if (this.isDisabledByDate(this.activeDate)) {
+      return;
+    }
+
+    const args: DayselectedEvent = {
       detail: {
         elem: this,
         date: this.activeDate,
         useRange: this.useRange,
-        rangeStart: new Date(this.rangeSettings.start),
-        rangeEnd: new Date(this.rangeSettings.end)
+        rangeStart: this.useRange ? new Date(this.rangeSettings.start) : null,
+        rangeEnd: this.useRange ? new Date(this.rangeSettings.end) : null
       }
     };
 
-    // Fires on any day selected in regular mode and
+    // Fires on not disabled days in regular mode and
     // only when start/end of range is set in range mode
     if (!this.useRange || (this.rangeSettings.start && this.rangeSettings.end)) {
       this.triggerEvent('dayselected', this, args);
@@ -1049,8 +1186,10 @@ class IdsMonthView extends Base {
    * Whether or not it should show range of dates instead of one month view
    * @returns {boolean} startDate and endDate are set
    */
-  #isDisplayRange(): any {
-    return this.startDate && this.endDate && this.endDate >= this.startDate;
+  #isDisplayRange(): boolean {
+    return isValidDate(this.startDate)
+      && isValidDate(this.endDate)
+      && (this.endDate as Date) >= (this.startDate as Date);
   }
 
   /**
@@ -1069,7 +1208,7 @@ class IdsMonthView extends Base {
    * @param {Date} date to check if has any legend
    * @returns {object} legend object for a specific date
    */
-  #getLegendByDate(date: any): void {
+  #getLegendByDate(date: Date): void {
     return this.legend.find((legend: any) => {
       const ifDayOfWeek = legend.dayOfWeek?.includes(date.getDay());
       const ifDate = legend.dates?.some((item: any) => new Date(item).getTime() === date.getTime());
@@ -1180,7 +1319,7 @@ class IdsMonthView extends Base {
    * year attribute
    * @returns {number} year param converted to number from attribute value with 4-digit check
    */
-  get year(): any {
+  get year(): number {
     const attrVal = this.getAttribute(attributes.YEAR);
     const numberVal = stringToNumber(attrVal);
 
@@ -1219,7 +1358,7 @@ class IdsMonthView extends Base {
    * day attribute
    * @returns {number} day param converted to number
    */
-  get day(): any {
+  get day(): number {
     const attrVal = this.getAttribute(attributes.DAY);
     const numberVal = stringToNumber(attrVal);
 
@@ -1256,9 +1395,9 @@ class IdsMonthView extends Base {
 
   /**
    * start-date attribute
-   * @returns {string | Date | null} startDate date parsed from attribute value
+   * @returns {Date | null} startDate date parsed from attribute value
    */
-  get startDate(): string | Date | null {
+  get startDate(): Date | null {
     const attrVal = this.getAttribute(attributes.START_DATE);
     const attrDate = new Date(attrVal);
 
@@ -1289,7 +1428,7 @@ class IdsMonthView extends Base {
    * end-date attribute
    * @returns {Date|null} endDate date parsed from attribute value
    */
-  get endDate(): Date | string | null {
+  get endDate(): Date | null {
     const attrVal = this.getAttribute(attributes.END_DATE);
     const attrDate = new Date(attrVal);
 
@@ -1448,26 +1587,27 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * @returns {object} range settings object
+   * @returns {RangeSettings} range settings object
    */
-  get rangeSettings(): any {
+  get rangeSettings(): RangeSettings {
     return this.#rangeSettings;
   }
 
   /**
    * Set range selection settings
-   * @param {object} val settings to be assigned to default range settings
+   * @param {RangeSettings} val settings to be assigned to default range settings
    */
-  set rangeSettings(val: any) {
+  set rangeSettings(val: RangeSettings) {
     this.#rangeSettings = {
       ...this.#rangeSettings,
       ...deepClone(val)
     };
 
-    if (this.useRange) {
+    if (this.useRange && val?.start) {
       this.#selectDay();
     }
 
+    this.container.classList.toggle('range-select-week', this.#rangeSettings.selectWeek);
     this.#renderRangeSelection();
   }
 
@@ -1497,6 +1637,26 @@ class IdsMonthView extends Base {
       this.#clearRangeClasses();
       this.#selectDay(this.year, this.month, this.day);
     }
+  }
+
+  /**
+   * @returns {DisableSettings} disable settings object
+   */
+  get disable(): DisableSettings {
+    return this.#disableSettings;
+  }
+
+  /**
+   * Set disable settings
+   * @param {DisableSettings} val settings to be assigned to default disable settings
+   */
+  set disable(val: DisableSettings) {
+    this.#disableSettings = {
+      ...this.#disableSettings,
+      ...deepClone(val)
+    };
+
+    this.#renderMonth();
   }
 }
 

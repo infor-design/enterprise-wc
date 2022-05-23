@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Date Picker Sizes</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid cols="2" gap="sm">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Width</ids-text>
+        <br/>
+        <ids-date-picker label="Default"></ids-date-picker>
+        <ids-date-picker label="Extra Small" size="xs"></ids-date-picker>
+        <ids-date-picker label="Small" size="sm"></ids-date-picker>
+        <ids-date-picker label="Small - Medium" size="mm"></ids-date-picker>
+        <ids-date-picker label="Medium" size="md"></ids-date-picker>
+        <ids-date-picker label="Large" size="lg"></ids-date-picker>
+        <ids-date-picker label="Full" size="full"></ids-date-picker>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Height</ids-text>
+        <br/>
+        <ids-date-picker label="Compact" compact></ids-date-picker>
+        <ids-date-picker label="Extra Small" field-height="xs"></ids-date-picker>
+        <ids-date-picker label="Small" field-height="sm"></ids-date-picker>
+        <ids-date-picker label="Medium" field-height="md"></ids-date-picker>
+        <ids-date-picker label="Large" field-height="lg"></ids-date-picker>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+  </ids-container>
+</body>
+</html>
