@@ -398,6 +398,9 @@ describe('Ids Date Picker e2e Tests', () => {
 
     // Changing month with keyboard
     await page.keyboard.press('ArrowUp');
+    await page.keyboard.press('Enter');
+    await page.keyboard.press('ArrowUp');
+    await page.keyboard.press('ArrowUp');
 
     monthSelectedIndex = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.dataset.month);
     monthSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.textContent);
@@ -405,6 +408,9 @@ describe('Ids Date Picker e2e Tests', () => {
     expect(+monthSelectedIndex).toEqual(11);
     expect(monthSelectedText).toEqual('December');
 
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('Enter');
+    await page.keyboard.press('ArrowDown');
     await page.keyboard.press('ArrowDown');
 
     monthSelectedIndex = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.dataset.month);
@@ -415,51 +421,13 @@ describe('Ids Date Picker e2e Tests', () => {
 
     // Changing year with keyboard
     await page.keyboard.press('Tab');
-    await page.keyboard.press('Enter');
-
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
-    expect(yearSelectedText).toEqual('2011');
-
-    await page.keyboard.press('ArrowUp');
-    await page.keyboard.press('Enter');
-
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
-    expect(yearSelectedText).toEqual('2021');
-
-    await page.keyboard.press('ArrowUp');
-
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
-    expect(yearSelectedText).toEqual('2026');
-
-    await page.keyboard.press('ArrowDown');
-    await page.keyboard.press('Enter');
-
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
-    expect(yearSelectedText).toEqual('2031');
-
-    await page.keyboard.press('ArrowDown');
-    await page.keyboard.press('ArrowDown');
-
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
-    expect(yearSelectedText).toEqual('2027');
-
-    await page.keyboard.press('ArrowUp');
-    await page.keyboard.press('Enter');
-    await page.keyboard.press('Enter');
-
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
-    expect(yearSelectedText).toEqual('2011');
-
-    await page.keyboard.press('ArrowDown');
-    await page.keyboard.press('ArrowDown');
-    await page.keyboard.press('ArrowUp');
-
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
-    expect(yearSelectedText).toEqual('2007');
-
     await page.keyboard.press('Tab');
+    await page.keyboard.press('Enter');
+
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    expect(yearSelectedText).toEqual('2015');
+
     await page.keyboard.press('ArrowUp');
-    await page.keyboard.press('ArrowDown');
     await page.keyboard.press('Enter');
 
     yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
@@ -468,8 +436,29 @@ describe('Ids Date Picker e2e Tests', () => {
     await page.keyboard.press('ArrowUp');
 
     yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    expect(yearSelectedText).toEqual('2024');
 
-    expect(yearSelectedText).toEqual('2026');
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('Enter');
+    await page.keyboard.press('ArrowUp');
+
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    expect(yearSelectedText).toEqual('2030');
+
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('ArrowDown');
+
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    expect(yearSelectedText).toEqual('2025');
+
+    await page.keyboard.press('ArrowUp');
+    await page.keyboard.press('Enter');
+    await page.keyboard.press('Enter');
+    await page.keyboard.press('ArrowDown');
+
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    expect(yearSelectedText).toEqual('2013');
 
     // Changing month/year by clicking to list items
     await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-month')?.click());
@@ -481,17 +470,17 @@ describe('Ids Date Picker e2e Tests', () => {
 
     expect(+monthSelectedIndex).toEqual(0);
     expect(monthSelectedText).toEqual('January');
-    expect(yearSelectedText).toEqual('2017');
+    expect(yearSelectedText).toEqual('2013');
 
-    await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-btn-up')?.click());
-
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
-    expect(yearSelectedText).toEqual('2011');
-
-    await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-btn-down')?.click());
+    await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-btn-up.is-year-nav')?.click());
 
     yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
-    expect(yearSelectedText).toEqual('2021');
+    expect(yearSelectedText).toEqual('2007');
+
+    await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-btn-down.is-year-nav')?.click());
+
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    expect(yearSelectedText).toEqual('2013');
 
     // Legend doesn't apply if dropdown
     await page.evaluate(() => {
@@ -522,13 +511,6 @@ describe('Ids Date Picker e2e Tests', () => {
       monthView?.container.querySelector('ids-date-picker')?.setAttribute('year', 2022);
       monthView?.container.querySelector('ids-date-picker')?.setAttribute('expanded', true);
     });
-
-    const btnStartText = await page.$eval(
-      '#e2e-datepicker-legend',
-      (el: any) => el?.container.querySelector('.popup-btn-start ids-text')?.textContent
-    );
-
-    expect(btnStartText).toEqual('Cancel');
 
     await page.$eval(
       '#e2e-datepicker-legend',

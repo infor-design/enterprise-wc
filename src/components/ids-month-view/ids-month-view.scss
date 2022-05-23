@@ -424,8 +424,6 @@
   overflow: visible;
 
   .month-view-header {
-    @include border-b-1();
-    @include border-slate-30();
     @include pr-1();
 
     height: 43px;
@@ -492,10 +490,6 @@
   .month-view-header {
     @include border-slate-70();
     @include bg-slate-80();
-  }
-
-  &.is-date-picker .month-view-header {
-    @include border-slate-50();
   }
 
   .month-view-container {
@@ -602,10 +596,6 @@
   .month-view-header {
     @include border-slate-30();
     @include bg-white();
-  }
-
-  &.is-date-picker .month-view-header {
-    @include border-slate-30();
   }
 
   .month-view-container {

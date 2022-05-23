@@ -490,8 +490,8 @@ class IdsMonthView extends Base {
 
       this.container.querySelector('.btn-today')?.setAttribute('hidden', expanded);
       this.container.querySelector('.btn-apply')?.setAttribute('hidden', !expanded);
-      this.container.querySelector('.btn-previous')?.setAttribute(this.isDatePicker ? 'disabled' : 'hidden', expanded);
-      this.container.querySelector('.btn-next')?.setAttribute(this.isDatePicker ? 'disabled' : 'hidden', expanded);
+      this.container.querySelector('.btn-previous')?.setAttribute('hidden', expanded);
+      this.container.querySelector('.btn-next')?.setAttribute('hidden', expanded);
       this.#selectDay(!expanded && this.year, !expanded && this.month, !expanded && this.day);
     });
   }
