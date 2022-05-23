@@ -608,6 +608,7 @@ export default class IdsTree extends Base {
       this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, node } });
 
       if (node.isGroup) {
+        console.log(node);
         this.selectNestedNodes(node);
       }
 
@@ -720,12 +721,10 @@ export default class IdsTree extends Base {
   selectParentNodes(parent: any) {
     parent.forEach((p: any) => {
       const checkbox = p.container.querySelector('ids-checkbox');
-
-      p.selected = true;
-      this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, node: p } });
-
       const selectedNodes = [...this.allChildNodes(p)]
         .filter((node: any) => node.selected === true);
+
+      p.selected = true;
 
       // If current node has parent and all nodes are selected
       // remove indeterminate from parent
@@ -754,6 +753,8 @@ export default class IdsTree extends Base {
       if (selectedNodes.length !== 0 && this.allChildNodes(p).length > selectedNodes.length) {
         checkbox.indeterminate = true;
       }
+
+      this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, node: p } });
     });
   }
 
@@ -768,6 +769,15 @@ export default class IdsTree extends Base {
           }
           findNestedNodes(childNode);
         });
+
+        requestAnimationFrame(() => {
+          const selectedChildren = [...this.allChildNodes(n.elem)].filter((child: any) => child.selected === true);
+          if (children.length > selectedChildren.length) {
+            n.elem.shadowRoot.querySelector('ids-checkbox').indeterminate = true;
+          } else {
+            n.elem.shadowRoot.querySelector('ids-checkbox').indeterminate = null;
+          }
+        });
       } else if (n && n.shadowRoot?.querySelector('.group-nodes')) {
         const children = [...this.allChildNodes(n)];
         children.forEach((childNode: HTMLElement | any) => {
@@ -776,6 +786,15 @@ export default class IdsTree extends Base {
             this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, childNode } });
           }
           findNestedNodes(childNode);
+        });
+
+        requestAnimationFrame(() => {
+          const selectedChildren = [...this.allChildNodes(n)].filter((child: any) => child.selected === true);
+          if (children.length > selectedChildren.length) {
+            n.shadowRoot.querySelector('ids-checkbox').indeterminate = true;
+          } else {
+            n.shadowRoot.querySelector('ids-checkbox').indeterminate = null;
+          }
         });
       }
     };
@@ -794,6 +813,7 @@ export default class IdsTree extends Base {
           }
           findNestedNodes(childNode);
         });
+        n.elem.shadowRoot.querySelector('ids-checkbox').indeterminate = null;
       } else if (n && n.shadowRoot?.querySelector('.group-nodes')) {
         const children = [...this.allChildNodes(n)];
         children.forEach((childNode: HTMLElement | any) => {
@@ -803,6 +823,7 @@ export default class IdsTree extends Base {
           }
           findNestedNodes(childNode);
         });
+        n.shadowRoot.querySelector('ids-checkbox').indeterminate = null;
       }
     };
 
