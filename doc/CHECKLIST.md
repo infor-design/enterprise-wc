@@ -68,7 +68,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Datagrid (ids-data-grid)
  - [x] Data Label (ids-data-label)
  - [x] Datepicker (ids-date-picker)
- - [ ] Donut (ids-donut or combined with ids-pie)
+ - [x] Donut (ids-donut or combined with ids-pie)
  - [x] Drag (ids-draggable)
  - [x] Dropdown (ids-drop-down)
  - [x] Editor (ids-editor)
@@ -106,7 +106,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Page Patterns (ids-page-pattern or as individual separate examples)
  - [x] Pager (ids-pager)
  - [ ] Personalize (ids-personalize or as a mixin on components thats support)
- - [ ] Pie (ids-pie-chart)
+ - [x] Pie (ids-pie-chart)
  - [x] Popup (ids-popup)
  - [x] Popupmenu (ids-men
  - [ ] Positive Negative (ids-positive-negative-chart) skipping until needed
