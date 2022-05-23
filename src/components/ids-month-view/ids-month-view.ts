@@ -381,7 +381,7 @@ class IdsMonthView extends Base {
 
     const toolbarTemplate = `<ids-toolbar class="month-view-header" tabbable="true">
       ${!this.compact ? `
-        <ids-toolbar-section type="buttonset">
+        <ids-toolbar-section type="buttonset" class="toolbar-buttonset">
           ${prevNextBtn}
           <ids-date-picker
             is-calendar-toolbar="true"
@@ -411,7 +411,7 @@ class IdsMonthView extends Base {
             ></ids-date-picker>
           </div>
         </ids-toolbar-section>
-        <ids-toolbar-section align="end" type="buttonset">
+        <ids-toolbar-section align="end" type="fluid" class="toolbar-buttonset">
           ${todayBtn}
           ${prevNextBtn}
           ${!this.isDatePicker ? `
@@ -440,7 +440,7 @@ class IdsMonthView extends Base {
    * Add next/previous/today click events when toolbar is attached
    */
   #attachToolbarEvents(): void {
-    const buttonSet = this.container.querySelector('ids-toolbar-section[type="buttonset"]');
+    const buttonSet = this.container.querySelector('ids-toolbar-section.toolbar-buttonset');
     const toolbarDatepicker = this.container.querySelector('ids-date-picker');
 
     this.offEvent('click.month-view-buttons');

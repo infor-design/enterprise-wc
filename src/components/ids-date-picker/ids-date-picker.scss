@@ -97,7 +97,7 @@
   }
 
   .popup-btn {
-    width: 50%;
+    @include w-full();
   }
 
   .popup-btn::part(button) {
@@ -151,15 +151,15 @@
     }
   }
 
-  .popup-btn-end::part(button) {
+  .popup-btn-apply::part(button) {
     @include text-azure-70();
   }
 
-  &[mode='dark'] .popup-btn-end::part(button) {
+  &[mode='dark'] .popup-btn-apply::part(button) {
     @include text-azure-60();
   }
 
-  &[mode='contrast'] .popup-btn-end::part(button) {
+  &[mode='contrast'] .popup-btn-apply::part(button) {
     @include text-azure-90();
   }
 
@@ -239,7 +239,7 @@
 
     z-index: 3;
     border: none;
-    top: 44px;
+    top: 52px;
     left: 0;
   }
 

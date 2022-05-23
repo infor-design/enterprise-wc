@@ -56,8 +56,6 @@ const MAX_MONTH = 11;
  * @part input - the input element
  * @part popup - the popup with calendar
  * @part footer - footer of the popup
- * @part start-button - clear/cancel button in the popup footer
- * @part end-button - apply button in the popup footer
  */
 @customElement('ids-date-picker')
 @scss(styles)
@@ -80,6 +78,7 @@ class IdsDatePicker extends Base {
 
   connectedCallback(): void {
     this.#attachEventHandlers();
+    this.#attachExpandedListener();
     this.#attachKeyboardListeners();
     super.connectedCallback();
   }
@@ -225,13 +224,19 @@ class IdsDatePicker extends Base {
                 use-range="${this.useRange}"
               ></ids-month-view>
               <div class="popup-footer" part="footer">
-                <ids-button class="popup-btn popup-btn-start" part="start-button">
+                <ids-button class="popup-btn popup-btn-cancel" hidden>
                   <ids-text
                     translate-text="true"
                     font-weight="bold"
-                  >${this.isCalendarToolbar ? 'Cancel' : 'Clear'}</ids-text>
+                  >Cancel</ids-text>
                 </ids-button>
-                <ids-button class="popup-btn popup-btn-end" part="end-button">
+                <ids-button class="popup-btn popup-btn-clear" hidden>
+                  <ids-text
+                    translate-text="true"
+                    font-weight="bold"
+                  >Clear</ids-text>
+                </ids-button>
+                <ids-button class="popup-btn popup-btn-apply" hidden>
                   <ids-text translate-text="true" font-weight="bold">Apply</ids-text>
                 </ids-button>
               </div>
@@ -271,6 +276,19 @@ class IdsDatePicker extends Base {
     if (e.target !== this) {
       this.#togglePopup(false);
     }
+  }
+
+  /**
+   * Expanded/collapsed event for date picker (picklist) in calendar popup
+   */
+  #attachExpandedListener() {
+    this.offEvent('expanded.date-picker-expand');
+    this.onEvent('expanded.date-picker-expand', this.#monthView?.container?.querySelector('ids-date-picker'), (e: any) => {
+      const btn = this.container.querySelector('.popup-btn-apply');
+
+      btn?.setAttribute('hidden', !e.detail.expanded);
+      btn?.classList.toggle('is-visible', e.detail.expanded);
+    });
   }
 
   /**
@@ -326,7 +344,7 @@ class IdsDatePicker extends Base {
       });
 
       this.offEvent('click.date-picker-clear');
-      this.onEvent('click.date-picker-clear', this.container.querySelector('.popup-btn-start'), (e: any) => {
+      this.onEvent('click.date-picker-clear', this.container.querySelector('.popup-btn-clear'), (e: any) => {
         e.stopPropagation();
 
         if (!this.isCalendarToolbar) {
@@ -343,7 +361,7 @@ class IdsDatePicker extends Base {
       });
 
       this.offEvent('click.date-picker-apply');
-      this.onEvent('click.date-picker-apply', this.container.querySelector('.popup-btn-end'), (e: any) => {
+      this.onEvent('click.date-picker-apply', this.container.querySelector('.popup-btn-apply'), (e: any) => {
         e.stopPropagation();
 
         const picklist = this.#monthView?.container?.querySelector('ids-date-picker');
@@ -667,8 +685,10 @@ class IdsDatePicker extends Base {
         if (key === 9 && this.#popup?.visible) {
           // First focusable in the calendar popup is dropdown datepicker
           const firstFocusable = this.#monthView?.container?.querySelector('ids-date-picker');
-          // Last focusable in the calendar popup is Apply button
-          const lastFocusable = this.container.querySelector('.popup-btn-end')?.container;
+          // Last focusable element
+          const footerBtn = this.container.querySelector('.popup-btn.is-visible')?.container;
+          const dateSelected = this.#monthView?.container.querySelector('td.is-selected');
+          const lastFocusable = footerBtn || dateSelected;
 
           if (!e.shiftKey && lastFocusable?.matches(':focus')) {
             stopEvent();
@@ -720,6 +740,7 @@ class IdsDatePicker extends Base {
 
     if (isOpen && !this.readonly) {
       this.addOpenEvents();
+      this.#attachExpandedListener();
       this.#popup.removeAttribute('tabindex');
 
       this.#popup.alignTarget = this.isCalendarToolbar
@@ -1180,8 +1201,6 @@ class IdsDatePicker extends Base {
         dropdownEl.innerText = val;
       }
     }
-
-    this.#attachPicklist();
   }
 
   /**
@@ -1504,6 +1523,7 @@ class IdsDatePicker extends Base {
   set showToday(val: string | boolean | null) {
     this.setAttribute(attributes.SHOW_TODAY, val);
     this.#monthView?.setAttribute(attributes.SHOW_TODAY, val);
+    this.#attachExpandedListener();
   }
 
   /**
@@ -1680,6 +1700,7 @@ class IdsDatePicker extends Base {
     this.#triggerExpandedEvent(boolVal);
 
     if (boolVal) {
+      this.#attachPicklist();
       const monthViewHeight: number = getClosest(this, 'ids-month-view')?.container.offsetHeight || 0;
       const timePickerHeight: number = getClosest(this, 'ids-month-view')?.parentElement
         ?.querySelector('ids-time-picker')?.container.offsetHeight || 0;

@@ -426,7 +426,7 @@
   .month-view-header {
     @include pr-1();
 
-    height: 43px;
+    height: 52px;
   }
 
   .month-view-container {
@@ -435,13 +435,26 @@
   }
 
   .btn-today::part(button) {
-    padding-left: 0;
-    padding-right: 0;
+    @include px-4();
+
+    padding-top: 11px;
+    padding-bottom: 11px;
   }
 
   .btn-previous,
   .btn-next {
     @include pl-0();
+
+    &::part(button) {
+      @include p-0();
+
+      width: 44px;
+      height: 44px;
+    }
+  }
+
+  .btn-previous {
+    margin-right: 6px;
   }
 
   .month-view-table {
@@ -723,9 +736,19 @@
       }
     }
 
-    &.is-date-picker ids-date-picker {
-      margin-left: 0;
-      margin-right: 12px;
+    &.is-date-picker {
+      ids-date-picker {
+        margin-left: 0;
+        margin-right: 12px;
+      }
+
+      .btn-previous {
+        margin-right: 0;
+      }
+
+      .btn-next {
+        margin-right: 6px;
+      }
     }
   }
 }
