@@ -10,7 +10,7 @@ const MORE_ACTIONS_SELECTOR = `[${attributes.MORE_ACTIONS}]`;
 
 /**
  * IDS Tab Component
- * @type {IdsTab}
+ * @type {IdsTabMore}
  * @inherits IdsElement
  * @part container - the tab container itself
  * @mixes IdsEventsMixin
