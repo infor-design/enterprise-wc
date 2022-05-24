@@ -89,6 +89,8 @@ datePicker.popup.addEventListener('hide');
 - `input` allows you to further style the input element
 - `popup` allows you to further style the popup element
 - `footer` - allows you to further style the popup footer
+- `btn-clear` - allows you to further style the clear button
+- `btn-apply ` - allows you to further style the apply button
 
 ## Features (With Code Examples)
 With no settings. Showing empty input field with no label or placeholder.

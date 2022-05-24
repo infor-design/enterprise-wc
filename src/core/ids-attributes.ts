@@ -255,6 +255,7 @@ export const attributes = {
   SELECTION: 'selection',
   SHAPE: 'shape',
   SHOW_BROWSE_LINK: 'show-browse-link',
+  SHOW_CLEAR: 'show-clear',
   SHOW_TIMELINE: 'show-timeline',
   SHOW_TODAY: 'show-today',
   SHOW_TOOLTIP: 'show-tooltip',

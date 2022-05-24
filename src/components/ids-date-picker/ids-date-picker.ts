@@ -106,6 +106,7 @@ class IdsDatePicker extends Base {
       attributes.PLACEHOLDER,
       attributes.READONLY,
       attributes.SECOND_INTERVAL,
+      attributes.SHOW_CLEAR,
       attributes.SHOW_TODAY,
       attributes.SIZE,
       attributes.TABBABLE,
@@ -224,19 +225,13 @@ class IdsDatePicker extends Base {
                 use-range="${this.useRange}"
               ></ids-month-view>
               <div class="popup-footer" part="footer">
-                <ids-button class="popup-btn popup-btn-cancel" hidden>
-                  <ids-text
-                    translate-text="true"
-                    font-weight="bold"
-                  >Cancel</ids-text>
-                </ids-button>
-                <ids-button class="popup-btn popup-btn-clear" hidden>
+                <ids-button class="popup-btn popup-btn-clear" hidden part="btn-clear">
                   <ids-text
                     translate-text="true"
                     font-weight="bold"
                   >Clear</ids-text>
                 </ids-button>
-                <ids-button class="popup-btn popup-btn-apply" hidden>
+                <ids-button class="popup-btn popup-btn-apply" hidden part="btn-apply">
                   <ids-text translate-text="true" font-weight="bold">Apply</ids-text>
                 </ids-button>
               </div>
@@ -686,9 +681,10 @@ class IdsDatePicker extends Base {
           // First focusable in the calendar popup is dropdown datepicker
           const firstFocusable = this.#monthView?.container?.querySelector('ids-date-picker');
           // Last focusable element
-          const footerBtn = this.container.querySelector('.popup-btn.is-visible')?.container;
+          const btnClear = this.container.querySelector('.popup-btn-clear.is-visible')?.container;
+          const btnApply = this.container.querySelector('.popup-btn-apply.is-visible')?.container;
           const dateSelected = this.#monthView?.container.querySelector('td.is-selected');
-          const lastFocusable = footerBtn || dateSelected;
+          const lastFocusable = btnApply || btnClear || dateSelected;
 
           if (!e.shiftKey && lastFocusable?.matches(':focus')) {
             stopEvent();
@@ -1887,6 +1883,33 @@ class IdsDatePicker extends Base {
     if (timePicker) {
       timePicker.secondInterval = numberVal;
     }
+  }
+
+  /**
+   * show-clear attribute
+   * @returns {boolean} showClear param converted to boolean from attribute value
+   */
+  get showClear(): boolean {
+    return stringToBool(this.getAttribute(attributes.SHOW_CLEAR));
+  }
+
+  /**
+   * Set whether or not to show clear button in the calendar popup
+   * @param {string|boolean|null} val show-clear attribute value
+   */
+  set showClear(val: string | boolean | null) {
+    const boolVal = stringToBool(val);
+    const btn = this.container.querySelector('.popup-btn-clear');
+
+    if (boolVal) {
+      this.setAttribute(attributes.SHOW_CLEAR, boolVal);
+      btn?.removeAttribute('hidden');
+    } else {
+      this.removeAttribute(attributes.SHOW_CLEAR);
+      btn?.setAttribute('hidden', !boolVal);
+    }
+
+    btn?.classList.toggle('is-visible', boolVal);
   }
 }
 
