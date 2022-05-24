@@ -5,6 +5,11 @@ import Base from './ids-line-chart-base';
 import styles from './ids-line-chart.scss';
 import type IdsChartData from '../ids-axis-chart/ids-axis-chart';
 
+type IdsLineChartMarkers = {
+  markers?: string,
+  lines?: string
+};
+
 /**
  * IDS Line Chart Component
  * @type {IdsLineChart}
@@ -62,7 +67,7 @@ export default class IdsLineChart extends Base {
    * @private
    * @returns {object} The markers and lines
    */
-  lineMarkers() {
+  lineMarkers(): IdsLineChartMarkers {
     let markerHTML = '';
     let lineHTML = '';
     this.markerData.points?.forEach((pointGroup: any, groupIndex: number) => {
