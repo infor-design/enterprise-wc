@@ -5,6 +5,11 @@
   padding-top: 4px;
 }
 
+::slotted(ids-list-box-option.is-selected){
+  @include bg-azure-20();
+  @include text-black();
+}
+
 ids-trigger-field{
 
   ids-tag{
