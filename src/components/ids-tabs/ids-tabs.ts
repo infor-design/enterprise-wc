@@ -78,7 +78,7 @@ export default class IdsTabs extends Base {
     if (isValidValue && currentValue !== value) {
       this.#value = value;
       this.setAttribute(attributes.VALUE, value);
-      this.#refreshSelectionState(currentValue, value);
+      this.#selectTab(this.querySelector(`ids-tab[value="${value}"]`));
       this.triggerEvent('change', this, {
         bubbles: false,
         detail: { elem: this, value }
@@ -93,6 +93,14 @@ export default class IdsTabs extends Base {
    */
   get value() {
     return this.#value;
+  }
+
+  /**
+   * @readonly
+   * @returns {any} [IdsTab | null] The last possible tab with a usable value in the list
+   */
+  get lastNavigableTab(): any {
+    return [...this.querySelectorAll('ids-tab[value]:not([actionable])')].pop();
   }
 
   /**
@@ -161,11 +169,15 @@ export default class IdsTabs extends Base {
     });
 
     // Add Events/Key listeners for Tab Selection via click/keyboard
-
     this.listen('Enter', this, (e: KeyboardEvent) => {
       const elem: any = e.target;
-      if (elem && elem.tagName.includes === 'IDS-TAB') {
-        this.#selectTab(elem);
+      if (elem) {
+        if (elem.tagName === 'IDS-TAB') {
+          this.#selectTab(elem);
+        }
+        if (elem.tagName === 'IDS-TAB-MORE') {
+          elem.menu.showIfAble();
+        }
       }
     });
 
@@ -188,6 +200,17 @@ export default class IdsTabs extends Base {
       if (elem && elem.tagName === 'IDS-TAB') {
         this.#selectTab(elem);
         elem.focus();
+      }
+    });
+
+    // Refreshes the tab list on change
+    this.onEvent('slotchange', this.container, () => {
+      const moreTab = this.querySelector('ids-tab-more');
+      if (moreTab) {
+        moreTab.renderOverflowedItems();
+      }
+      if (!this.hasTab(this.value)) {
+        this.#selectTab(this.lastNavigableTab);
       }
     });
   }
@@ -253,38 +276,11 @@ export default class IdsTabs extends Base {
       const current = this.querySelector('[selected]');
       if (!current || (current && tab !== current)) {
         tab.selected = true;
+        this.value = tab.value;
         if (current) {
           current.selected = false;
         }
       }
-    }
-  }
-
-  /**
-   * Sets the ids-tab selection states based on the current value
-   * @param {string} currentValue the current tab value
-   * @param {string} newValue the new tab value
-   * @returns {void}
-   */
-  #refreshSelectionState(currentValue: any, newValue: string) {
-    if (!this.children.length) {
-      return;
-    }
-
-    const tabs = [...this.children];
-    const previouslySelectedTab = tabs.find((el) => el.value === currentValue);
-
-    if (!newValue) {
-      newValue = tabs.find((el) => el.selected)?.value;
-      if (!newValue) {
-        newValue = tabs[0].value;
-      }
-    }
-    const newSelectedTab = tabs.find((el) => el.value === newValue);
-
-    if (previouslySelectedTab !== newSelectedTab) {
-      if (previouslySelectedTab) previouslySelectedTab.selected = false;
-      if (newSelectedTab) newSelectedTab.selected = true;
     }
   }
 

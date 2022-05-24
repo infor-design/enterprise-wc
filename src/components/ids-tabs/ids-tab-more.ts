@@ -36,7 +36,7 @@ export default class IdsTabMore extends Base {
     // Connect the menu items to their Toolbar items after everything is rendered
     requestAnimationFrame(() => {
       this.#configureMenu();
-      this.#connectOverflowedItems();
+      this.renderOverflowedItems();
     });
   }
 
@@ -70,6 +70,10 @@ export default class IdsTabMore extends Base {
     return this.shadowRoot.querySelector('ids-popup-menu');
   }
 
+  get moreActionsGroup(): any {
+    return this.querySelector(MORE_ACTIONS_SELECTOR);
+  }
+
   /**
    * @readonly
    * @returns {Array<HTMLElement>} list of manually-defined menu items
@@ -83,9 +87,9 @@ export default class IdsTabMore extends Base {
    * @returns {Array<HTMLElement>} list of menu items that mirror Tabs
    */
   get overflowMenuItems(): Array<any> {
-    const moreActionsMenu = this.querySelector(MORE_ACTIONS_SELECTOR);
-    if (moreActionsMenu) {
-      return [...this.querySelector(MORE_ACTIONS_SELECTOR).children];
+    const moreActionsGroup = this.moreActionsGroup;
+    if (moreActionsGroup) {
+      return [...moreActionsGroup.children];
     }
     return [];
   }
@@ -106,14 +110,17 @@ export default class IdsTabMore extends Base {
     const childTabs: Array<any> = [...this.parentElement.querySelectorAll('ids-tab')];
     const renderedTabItems = childTabs?.map((i: HTMLElement) => this.#moreActionsItemTemplate(i)).join('') || '';
 
-    // Cycle through toolbar items, if present, and render a menu item that represents them
+    // Cycle through tabs, if present, and render a menu item that represents them
     return `<ids-menu-group ${attributes.MORE_ACTIONS}>
       ${renderedTabItems}
     </ids-menu-group>`;
   }
 
   /**
-   *
+   * @private
+   * @param {HTMLElement} item an element from inside the Tab List that will be mirrored in the More Actions menu
+   * @param {boolean} isSubmenuItem true if the item provided is a submenu item
+   * @returns {string} representing a single menu item
    */
   #moreActionsItemTemplate(item: HTMLElement, isSubmenuItem = false): string {
     let text: any = '';
@@ -180,7 +187,7 @@ export default class IdsTabMore extends Base {
         break;
     }
 
-    // Sanitize text from Toolbar elements to fit menu items
+    // Sanitize text from Tabs to fit menu items
     text = removeNewLines(text)?.trim();
 
     return `<ids-menu-item${disabled}${icon}${hidden || overflowed}${value}>
@@ -209,19 +216,21 @@ export default class IdsTabMore extends Base {
   }
 
   /**
-   *
+   * Re-renders the overflowed items
+   * @private
    */
-  #connectOverflowedItems() {
+  renderOverflowedItems(): void {
     // Render the "More Actions" area if it doesn't exist
     const el = this.querySelector(MORE_ACTIONS_SELECTOR);
-    if (!el && this.overflow) {
-      this.insertAdjacentHTML('afterbegin', this.#moreActionsMenuTemplate());
-    }
     if (el && !this.overflow) {
       el.remove();
+      return;
     }
 
-    // Connects Overflow Menu subitems with corresponding menu items in the Toolbar
+    this.innerHTML = '';
+    this.insertAdjacentHTML('afterbegin', this.#moreActionsMenuTemplate());
+
+    // Connects Overflow Menu subitems with corresponding menu items in the Tab List
     // (generally by way of IdsMenuButtons or other menu-driven components)
     const handleSubmenu = (thisItem: any, overflowTargetMenu: any) => {
       if (!overflowTargetMenu) return;
@@ -233,19 +242,29 @@ export default class IdsTabMore extends Base {
       });
     };
 
-    // Connect all "More Action" items generated from Toolbar Elements to their
-    // real counterparts in the Toolbar
+    // Connect all "More Action" items generated from Tabs to their
+    // real counterparts in the Tab List
+    const moreActionsGroup = this.moreActionsGroup;
     const parentTabs = this.availableOverflowTabs;
-    this.overflowMenuItems.forEach((item: any, i: number) => {
-      item.overflowTarget = parentTabs[i];
-      if (item.submenu) {
-        handleSubmenu(item, item.overflowTarget.menuEl);
+    const overflowMenuItems = this.overflowMenuItems;
+    parentTabs.forEach((tab: any, i: number) => {
+      // Draws new "missing" menu items that may have
+      // been added by a slotchange or other event
+      let menuItem = overflowMenuItems[i];
+      if (!menuItem) {
+        moreActionsGroup.insertAdjacentHTML('beforeend', this.#moreActionsItemTemplate(tab));
+        menuItem = moreActionsGroup[moreActionsGroup.length - 1];
+      }
+
+      menuItem.overflowTarget = tab;
+      if (menuItem.submenu) {
+        handleSubmenu(menuItem, menuItem.overflowTarget.menuEl);
       }
     });
   }
 
   /**
-   * @param {boolean | string} val truthy if this More Actions menu should display overflowed items from the toolbar
+   * @param {boolean | string} val truthy if this More Actions menu should display overflowed Tabs from the Tab List
    */
   set overflow(val: boolean | string) {
     const newValue = stringToBool(val);
@@ -260,7 +279,7 @@ export default class IdsTabMore extends Base {
   }
 
   /**
-   * @returns {boolean} true if this More Actions menu will display overflowed items from the toolbar
+   * @returns {boolean} true if this More Actions menu will display overflowed Tabs from the Tab List
    */
   get overflow(): boolean {
     return this.hasAttribute(attributes.OVERFLOW);
@@ -281,29 +300,29 @@ export default class IdsTabMore extends Base {
   }
 
   /**
-   * @param {HTMLElement} item reference to the toolbar item to be checked for overflow
-   * @returns {boolean} true if the item is a toolbar member and should be displayed by overflow
+   * @param {HTMLElement} tab reference to the Tab to be checked for overflow
+   * @returns {boolean} true if the Tab belongs to this Tab List and should be displayed by overflow
    */
-  isOverflowed(item: any): boolean {
-    if (!this.parentElement.contains(item)) {
+  isOverflowed(tab: any): boolean {
+    if (!this.parentElement.contains(tab)) {
       return false;
     }
-    if (item.isEqualNode(this)) {
+    if (tab.isEqualNode(this)) {
       return false;
     }
-    if (item.hidden) {
+    if (tab.hidden) {
       return false;
     }
 
-    const itemRect = item.getBoundingClientRect();
+    const tabRect = tab.getBoundingClientRect();
     const moreTabRect = this.getBoundingClientRect();
 
     if (this.locale?.isRTL()) {
       // Beyond left edge
-      return itemRect.left < moreTabRect.right;
+      return tabRect.left < moreTabRect.right;
     }
     // Beyond right edge
-    return itemRect.right > moreTabRect.left;
+    return tabRect.right > moreTabRect.left;
   }
 
   #configureMenu() {
@@ -328,6 +347,13 @@ export default class IdsTabMore extends Base {
         this.menu.show();
       } else {
         this.menu.hide();
+      }
+    });
+
+    this.onEvent('selected', this.menu, (e: CustomEvent) => {
+      const elem = e.detail.elem;
+      if (elem.overflowTarget) {
+        elem.overflowTarget.click();
       }
     });
   }

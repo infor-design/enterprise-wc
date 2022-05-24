@@ -99,6 +99,12 @@ $ids-tab-actionable-min-width: 44px;
   outline: none;
 }
 
+// "More Tabs" tab flex rules
+
+:host(ids-tab-more) {
+  margin-block-end: auto;
+}
+
 ::slotted(ids-icon) {
   pointer-events: none;
 }
