@@ -79,6 +79,8 @@ export type DayselectedEvent = {
  * @mixes IdsLocaleMixin
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
+ * @part container - the container of the component
+ * @part table-container - the container of the calendar table
  */
 @customElement('ids-month-view')
 @scss(styles)
@@ -143,8 +145,8 @@ class IdsMonthView extends Base {
    * @returns {string} The template
    */
   template(): string {
-    return `<div class="ids-month-view ${this.compact ? 'is-compact' : 'is-fullsize'}${this.isDatePicker ? ' is-date-picker' : ''}">
-      <div class="month-view-container">
+    return `<div class="ids-month-view ${this.compact ? 'is-compact' : 'is-fullsize'}${this.isDatePicker ? ' is-date-picker' : ''}" part="container">
+      <div class="month-view-container" part="table-container">
         <table class="month-view-table" aria-label="${this.locale?.translate('Calendar')}" role="application">
           <thead class="month-view-table-header">
             <tr></tr>
@@ -1146,16 +1148,12 @@ class IdsMonthView extends Base {
         elem: this,
         date: this.activeDate,
         useRange: this.useRange,
-        rangeStart: this.useRange ? new Date(this.rangeSettings.start) : null,
-        rangeEnd: this.useRange ? new Date(this.rangeSettings.end) : null
+        rangeStart: this.useRange && this.rangeSettings.start ? new Date(this.rangeSettings.start) : null,
+        rangeEnd: this.useRange && this.rangeSettings.end ? new Date(this.rangeSettings.end) : null
       }
     };
 
-    // Fires on not disabled days in regular mode and
-    // only when start/end of range is set in range mode
-    if (!this.useRange || (this.rangeSettings.start && this.rangeSettings.end)) {
-      this.triggerEvent('dayselected', this, args);
-    }
+    this.triggerEvent('dayselected', this, args);
   }
 
   /**

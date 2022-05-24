@@ -81,6 +81,10 @@
     @include w-full();
   }
 
+  &:not(.has-time) ids-month-view::part(table-container) {
+    margin-bottom: 10px;
+  }
+
   ids-popup::part(popup) {
     padding-top: 0;
     padding-bottom: 0;
@@ -153,15 +157,19 @@
     }
   }
 
-  .popup-btn-apply::part(button) {
+  .popup-btn-apply:not([disabled])::part(button) {
     @include text-azure-70();
   }
 
-  &[mode='dark'] .popup-btn-apply::part(button) {
+  .popup-btn-apply[disabled]::part(button) {
+    @include text-azure-30();
+  }
+
+  &[mode='dark'] .popup-btn-apply:not([disabled])::part(button) {
     @include text-azure-60();
   }
 
-  &[mode='contrast'] .popup-btn-apply::part(button) {
+  &[mode='contrast'] .popup-btn-apply:not([disabled])::part(button) {
     @include text-azure-90();
   }
 
