@@ -18,6 +18,8 @@ export interface IdsDataGridColumn {
   readonly?: boolean;
   /** Allow column sorting */
   width?: number | string;
+  /** Hide a column to be shown later */
+  hidden?: boolean;
   /** Column Formatter Function */
   formatter?: (rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number, api: any) => string;
   /** Enable Href / Link Columns */
@@ -59,4 +61,8 @@ export interface IdsDataGridColumn {
     /** Sets the auto update attribute (for time type filters) */
     autoupdate?: boolean;
   };
+  /** True if the row is selected */
+  rowSelected?: boolean;
+  /** True if the row is activated */
+  rowActivated?: boolean;
 }

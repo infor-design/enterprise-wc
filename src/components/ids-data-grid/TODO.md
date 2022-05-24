@@ -37,7 +37,7 @@
 - [ ] Paste/Copy from Excel [example](https://main-enterprise.demo.design.infor.com/components/datagrid/test-copy-paste-from-excel.html)
 - [ ] Custom Formatters and Editors
 - [ ] Summary Row [example](https://main-enterprise.demo.design.infor.com/components/datagrid/test-summary-row-pager.html)
-- [ ] Automation id's
+- [x] Automation id's
 - [ ] Errors and Validation
 - [ ] Xss Tests
 - [ ] https://github.com/infor-design/enterprise/issues/6338

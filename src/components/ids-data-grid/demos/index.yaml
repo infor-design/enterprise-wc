@@ -41,9 +41,9 @@
   - link: filter-custom.html
     type: Example
     description: Showing a filter row with custom filter inputs
-  - link: auto-fit.html
+  - link: columns-hidden.html
     type: Example
-    description: Showing a datagrid that sizes to the bottom of the page
+    description: Showing initialy hidden columns
   - link: standalone-css.html
     type: Standalone CSS
     description: Shows a css only styles table

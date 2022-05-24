@@ -44,8 +44,6 @@ export default class IdsIcon extends Base {
       attributes.BADGE_POSITION,
       attributes.HEIGHT,
       attributes.ICON,
-      attributes.LANGUAGE,
-      attributes.LOCALE,
       attributes.SIZE,
       attributes.VERTICAL,
       attributes.VIEWBOX,

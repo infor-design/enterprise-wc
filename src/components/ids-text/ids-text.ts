@@ -51,8 +51,6 @@ export default class IdsText extends Base {
       attributes.FONT_SIZE,
       attributes.FONT_WEIGHT,
       attributes.LABEL,
-      attributes.LANGUAGE,
-      attributes.LOCALE,
       attributes.MODE,
       attributes.OVERFLOW,
       attributes.TRANSLATE_TEXT,

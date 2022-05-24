@@ -1,4 +1,3 @@
-// Import Core
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
@@ -43,6 +42,7 @@ export default class IdsDataGrid extends Base {
     this.initialized = false;
   }
 
+  /* Selectors for various elements */
   get elements() {
     return {
       header: this.container.querySelector('.ids-data-grid-header'),
@@ -78,8 +78,6 @@ export default class IdsDataGrid extends Base {
       attributes.FILTER_WHEN_TYPING,
       attributes.FILTERABLE,
       attributes.LABEL,
-      attributes.LANGUAGE,
-      attributes.LOCALE,
       attributes.LIST_STYLE,
       attributes.ROW_HEIGHT,
       attributes.ROW_SELECTION,
@@ -231,7 +229,7 @@ export default class IdsDataGrid extends Base {
     const html = `
       <div class="ids-data-grid-header" role="rowgroup" part="header">
         <div role="row" class="ids-data-grid-row">
-          ${this.columns.map((columnData: any) => `${this.headerCellTemplate(columnData)}`).join('')}
+          ${this.visibleColumns.map((columnData: any) => `${this.headerCellTemplate(columnData)}`).join('')}
         </div>
       </div>
     `;
@@ -335,7 +333,7 @@ export default class IdsDataGrid extends Base {
 
     return `
       <div role="row" part="row" aria-rowindex="${index + 1}" class="ids-data-grid-row${rowClasses}">
-        ${this.columns.map((column: IdsDataGridColumn, j: number) => `
+        ${this.visibleColumns.map((column: IdsDataGridColumn, j: number) => `
           <span role="cell" part="cell" class="ids-data-grid-cell${column?.readonly ? ` readonly` : ``}" aria-colindex="${j + 1}">
             ${this.cellTemplate(row, column, index + 1, this)}
           </span>
@@ -383,7 +381,7 @@ export default class IdsDataGrid extends Base {
       const cell = e.target.closest('.ids-data-grid-cell');
       const cellNum = cell.getAttribute('aria-colindex') - 1;
       const row = cell.parentNode;
-      const isHyperlink = this.columns[cellNum]?.formatter?.name === 'hyperlink' && e.target?.nodeName === 'IDS-HYPERLINK';
+      const isHyperlink = this.visibleColumns[cellNum]?.formatter?.name === 'hyperlink' && e.target?.nodeName === 'IDS-HYPERLINK';
       this.setActiveCell(cellNum, row.getAttribute('aria-rowindex') - 1, isHyperlink);
 
       if (this.rowSelection === 'mixed') {
@@ -465,15 +463,15 @@ export default class IdsDataGrid extends Base {
       return;
     }
 
-    this.columns.forEach((column: IdsDataGridColumn, i: number) => {
+    this.visibleColumns.forEach((column: IdsDataGridColumn, i: number) => {
       // Special Columns
       if (column.id === 'selectionCheckbox' || column.id === 'selectionRadio') {
         column.width = 45;
       }
-      if (column.width && this.columns.length === i + 1) {
+      if (column.width && this.visibleColumns.length === i + 1) {
         css += `minmax(250px, 1fr)`;
       }
-      if (column.width && this.columns.length !== i + 1) {
+      if (column.width && this.visibleColumns.length !== i + 1) {
         css += `${column.width}px `;
       }
       if (!column.width) {
@@ -528,6 +526,14 @@ export default class IdsDataGrid extends Base {
    */
   columnDataById(columnId: string) {
     return this.columns?.filter((column: IdsDataGridColumn) => column.id === columnId)[0];
+  }
+
+  /**
+   * Get the visible column data (via hidden attributes)
+   * @returns {object} The visible column data
+   */
+  get visibleColumns() {
+    return this.columns?.filter((column: IdsDataGridColumn) => !column.hidden);
   }
 
   /**
@@ -1031,7 +1037,7 @@ export default class IdsDataGrid extends Base {
    */
   setActiveCell(cell: number, row: number, nofocus?: boolean) {
     // TODO Hidden Columns
-    if (row < 0 || cell < 0 || row > this.data.length - 1 || cell > this.columns.length - 1) {
+    if (row < 0 || cell < 0 || row > this.data.length - 1 || cell > this.visibleColumns.length - 1) {
       return this.activeCell;
     }
 

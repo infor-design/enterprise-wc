@@ -351,6 +351,49 @@ describe('IdsDataGrid Component', () => {
 
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell').length).toEqual(2);
     });
+
+    it('supports hidden columns', () => {
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        hidden: true
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency'
+      },
+      {
+        id: 'transactionCurrency',
+        name: 'Transaction Currency',
+        field: 'transactionCurrency'
+      }];
+
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell').length).toEqual(2);
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-cell').length).toEqual(18);
+
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        hidden: true
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency'
+      },
+      {
+        id: 'transactionCurrency',
+        name: 'Transaction Currency',
+        field: 'transactionCurrency',
+        hidden: true
+      }];
+
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell').length).toEqual(1);
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-cell').length).toEqual(9);
+    });
   });
 
   describe('Sorting Tests', () => {
@@ -973,7 +1016,7 @@ describe('IdsDataGrid Component', () => {
     });
   });
 
-  describe('IdsPagerMixin Tests', () => {
+  describe('Paging Tests', () => {
     it('renders pager', () => {
       dataGrid.pagination = 'client-side';
       dataGrid.pageSize = 10;
@@ -1126,24 +1169,6 @@ describe('IdsDataGrid Component', () => {
       buttons.first.button.dispatchEvent(mouseClick);
       expect(dataGrid.pageNumber).toBe(1);
     });
-
-    it.skip('paginates correctly when data-grid is sorted by column', () => {
-      dataGrid.pagination = 'client-side';
-      dataGrid.pageNumber = 1;
-      dataGrid.pageSize = 3;
-      dataGrid.replaceWith(dataGrid);
-
-      const { labels } = dataGrid.elements;
-      const { buttons } = dataGrid.pager.elements;
-      const mouseClick = new MouseEvent('click', { bubbles: true });
-
-      labels[0].dispatchEvent(mouseClick);
-      labels[0].dispatchEvent(mouseClick);
-      buttons.last.button.dispatchEvent(mouseClick);
-      expect(dataGrid.shadowRoot.innerHTML).toMatchSnapshot();
-    });
-
-    it.skip('does server-side pagination when pagination is "server-side"', () => {});
 
     it('only fires pager events when pagination is "standalone"', () => {
       dataGrid.pagination = 'standalone';
