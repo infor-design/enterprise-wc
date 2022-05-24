@@ -1,6 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import Base from './ids-time-picker-base';
 import '../ids-dropdown/ids-dropdown';
@@ -69,6 +70,7 @@ export default class IdsTimePicker extends Base {
       attributes.AUTOSELECT,
       attributes.AUTOUPDATE,
       attributes.DISABLED,
+      attributes.EMBEDDABLE,
       attributes.FORMAT,
       attributes.LABEL,
       attributes.NO_MARGINS,
@@ -144,9 +146,9 @@ export default class IdsTimePicker extends Base {
           }
           break;
         case attributes.AUTOUPDATE:
-          this.elements.setTimeButton.classList.remove('hidden');
+          this.elements.setTimeButton?.classList.remove('hidden');
           // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-          stringToBool(newValue) && this.elements.setTimeButton.classList.add('hidden');
+          stringToBool(newValue) && this.elements.setTimeButton?.classList.add('hidden');
           break;
         default:
         // handle default case
@@ -219,7 +221,12 @@ export default class IdsTimePicker extends Base {
   set value(value: string) {
     if (!this.disabled && !this.readonly) {
       this.setAttribute(attributes.VALUE, value);
-      this.elements.triggerField.value = value;
+
+      if (this.elements.triggerField) {
+        this.elements.triggerField.value = value;
+      }
+
+      this.#parseInputValue();
     }
   }
 
@@ -264,8 +271,12 @@ export default class IdsTimePicker extends Base {
   set disabled(value) {
     const disabled = stringToBool(value);
     this.setAttribute(attributes.DISABLED, disabled);
-    this.elements.triggerField.disabled = disabled;
-    this.elements.triggerButton.disabled = disabled;
+    if (this.elements.triggerField) {
+      this.elements.triggerField.disabled = disabled;
+    }
+    if (this.elements.triggerButton) {
+      this.elements.triggerButton.disabled = disabled;
+    }
   }
 
   /**
@@ -281,8 +292,12 @@ export default class IdsTimePicker extends Base {
   set readonly(value: boolean | string) {
     const readonly = stringToBool(value);
     this.setAttribute(attributes.READONLY, readonly);
-    this.elements.triggerField.readonly = readonly;
-    this.elements.triggerButton.readonly = readonly;
+    if (this.elements.triggerField) {
+      this.elements.triggerField.readonly = readonly;
+    }
+    if (this.elements.triggerButton) {
+      this.elements.triggerButton.readonly = readonly;
+    }
   }
 
   /**
@@ -297,7 +312,9 @@ export default class IdsTimePicker extends Base {
    */
   set label(value: string) {
     this.setAttribute(attributes.LABEL, value);
-    this.elements.triggerField.label = value;
+    if (this.elements.triggerField) {
+      this.elements.triggerField.label = value;
+    }
   }
 
   /**
@@ -312,7 +329,9 @@ export default class IdsTimePicker extends Base {
    */
   set placeholder(value: string) {
     this.setAttribute(attributes.PLACEHOLDER, value);
-    this.elements.triggerField.placeholder = value;
+    if (this.elements.triggerField) {
+      this.elements.triggerField.placeholder = value;
+    }
   }
 
   /**
@@ -359,14 +378,53 @@ export default class IdsTimePicker extends Base {
   get size(): string { return this.getAttribute(attributes.SIZE) ?? 'sm'; }
 
   /**
-   * Gets an object keyed-by minutes|seconds which contains the minutes and seconds intervals
-   * @returns {object} an object with type { [minutes|seconds]: number }
+   * minute-interval attribute
+   * @returns {number} minuteInterval value
    */
-  get intervals(): object | any {
-    return {
-      minutes: parseInt(this.getAttribute(attributes.MINUTE_INTERVAL)) || false,
-      seconds: parseInt(this.getAttribute(attributes.SECOND_INTERVAL)) || false,
-    };
+  get minuteInterval(): number {
+    return stringToNumber(this.getAttribute(attributes.MINUTE_INTERVAL));
+  }
+
+  /**
+   * Set interval in minutes dropdown
+   * @param {string|number|null} val minute-interval attribute value
+   */
+  set minuteInterval(val: string | number | null) {
+    const numberVal = stringToNumber(val);
+
+    if (numberVal) {
+      this.setAttribute(attributes.MINUTE_INTERVAL, numberVal);
+    } else {
+      this.removeAttribute(attributes.MINUTE_INTERVAL);
+    }
+
+    this.#renderDropdowns();
+    this.#parseInputValue();
+  }
+
+  /**
+   * second-interval attribute
+   * @returns {number} secondInterval value
+   */
+  get secondInterval(): number {
+    return stringToNumber(this.getAttribute(attributes.SECOND_INTERVAL));
+  }
+
+  /**
+   * Set interval in seconds dropdown
+   * @param {string|number|null} val second-interval attribute value
+   */
+  set secondInterval(val: string | number | null) {
+    const numberVal = stringToNumber(val);
+
+    if (numberVal) {
+      this.setAttribute(attributes.SECOND_INTERVAL, numberVal);
+    } else {
+      this.removeAttribute(attributes.SECOND_INTERVAL);
+    }
+
+    this.#renderDropdowns();
+    this.#parseInputValue();
   }
 
   /**
@@ -374,12 +432,11 @@ export default class IdsTimePicker extends Base {
    * @returns {object} an object keyed by hours|minutes|seconds|period
    */
   get options() {
-    const intervals = this.intervals;
     type TimeConfig = { hours: number, minutes: number, seconds: number, period: string[] };
     const timeOptions: TimeConfig = {
       hours: this.is12Hours ? TIME.TWELVE : TIME.TWENTYFOUR,
-      minutes: intervals.minutes ? range(0, 59, intervals.minutes) : TIME.SIXTY,
-      seconds: intervals.seconds ? range(0, 59, intervals.seconds) : TIME.SIXTY,
+      minutes: this.minuteInterval ? range(0, 59, this.minuteInterval) : TIME.SIXTY,
+      seconds: this.secondInterval ? range(0, 59, this.secondInterval) : TIME.SIXTY,
       period: TIME.PERIOD,
     };
 
@@ -394,10 +451,38 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
+   * embeddable attribute
+   * @returns {boolean} whether or not to show only hours/minutes/seconds dropdowns without input
+   */
+  get embeddable(): boolean {
+    return stringToBool(this.getAttribute(attributes.EMBEDDABLE));
+  }
+
+  /**
+   * Set whether or not show only hours/minutes/seconds dropdowns without input
+   * @param {string|boolean|null} val embeddable param value
+   */
+  set embeddable(val: string | boolean | null) {
+    const boolVal = stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.EMBEDDABLE, boolVal);
+    } else {
+      this.removeAttribute(attributes.EMBEDDABLE);
+    }
+  }
+
+  /**
    * Create the Template for the contents
    * @returns {string} HTML for the template
    */
   template() {
+    if (this.embeddable) {
+      return `<div class="ids-time-picker">
+        <div id="dropdowns">${this.dropdowns()}</div>
+      </div>`;
+    }
+
     const colorVariant = this.colorVariant ? ` color-variant="${this.colorVariant}"` : '';
     const fieldHeight = this.fieldHeight ? ` field-height="${this.fieldHeight}"` : '';
     const labelState = this.labelState ? ` label-state="${this.labelState}"` : '';
@@ -437,9 +522,9 @@ export default class IdsTimePicker extends Base {
 
   /**
    * Creates the HTML the timepicker's dropdown fields
-   * @returns {string[]} an array of HTML for the timepicker's dropdowns
+   * @returns {string} an array of HTML for the timepicker's dropdowns
    */
-  dropdowns(): string[] {
+  dropdowns(): string {
     const dropdown: any = ({
       id,
       label,
@@ -490,8 +575,10 @@ export default class IdsTimePicker extends Base {
    * Close the timepicker's popup window
    */
   closeTimePopup() {
-    this.elements.popup.visible = false;
-    this.removeOpenEvents();
+    if (this.elements.popup) {
+      this.elements.popup.visible = false;
+      this.removeOpenEvents();
+    }
   }
 
   /**
@@ -623,8 +710,8 @@ export default class IdsTimePicker extends Base {
     this.onEvent('focus', triggerField, () => this.autoselect && this.openTimePopup());
 
     // Translate Labels
-    this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', this.closest('ids-container'), () => {
+    this.offEvent('languagechange.time-picker-container');
+    this.onEvent('languagechange.time-picker-container', getClosest(this, 'ids-container'), () => {
       const {
         hours,
         minutes,
@@ -638,7 +725,7 @@ export default class IdsTimePicker extends Base {
         minutes.label = this.locale?.translate('Minutes') || 'Minutes';
       }
       if (period) {
-        period.label = this.locale?.translate('Period') || 'HouPeriodrs';
+        period.label = this.locale?.translate('Period') || 'Period';
       }
       if (seconds) {
         seconds.label = this.locale?.translate('Seconds') || 'Seconds';
@@ -647,8 +734,8 @@ export default class IdsTimePicker extends Base {
 
     // Change Locale if not set by a setting initially
     const formatSet = this.getAttribute('format') !== null;
-    this.offEvent('localechange.container');
-    this.onEvent('localechange.container', this.closest('ids-container'), async () => {
+    this.offEvent('localechange.time-picker-container');
+    this.onEvent('localechange.time-picker-container', getClosest(this, 'ids-container'), async () => {
       if (!formatSet) {
         this.format = this.locale?.calendar().timeFormat;
       }
@@ -680,5 +767,57 @@ export default class IdsTimePicker extends Base {
     });
 
     return this;
+  }
+
+  /**
+   * Render dropdowns
+   */
+  #renderDropdowns(): void {
+    // Clear before rendering
+    this.container.querySelectorAll('#dropdowns ids-dropdown, #dropdowns .separator')
+      .forEach((item: HTMLElement) => {
+        item.remove();
+      });
+
+    // Adding dropdowns
+    this.container.querySelector('#dropdowns').insertAdjacentHTML('afterbegin', this.dropdowns());
+  }
+
+  /**
+   * Parse input date and populate dropdowns
+   */
+  #parseInputValue(): void {
+    const {
+      hours, minutes, seconds, period
+    } = this.elements.dropdowns;
+
+    const inputDate: Date = this.locale?.parseDate(
+      this.value,
+      { dateFormat: this.format }
+    );
+
+    if (hours && this.is24Hours && inputDate) {
+      hours.value = inputDate.getHours();
+    }
+
+    if (hours && this.is12Hours && inputDate) {
+      hours.value = inputDate.getHours() === 0 ? 12 : inputDate.getHours() % 12;
+    }
+
+    if (minutes && inputDate) {
+      minutes.value = inputDate.getMinutes();
+    }
+
+    if (seconds && inputDate) {
+      seconds.value = inputDate.getSeconds();
+    }
+
+    if (period && inputDate) {
+      this.locale?.calendar().dayPeriods?.forEach((item: string) => {
+        if (this.value?.includes(item)) {
+          period.setAttribute(attributes.VALUE, item);
+        }
+      });
+    }
   }
 }

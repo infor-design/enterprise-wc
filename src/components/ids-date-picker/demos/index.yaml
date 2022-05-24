@@ -11,6 +11,15 @@
   - link: range.html
     type: Example
     description: Showing range picker variations
+  - link: sizes.html
+    type: Example
+    description: Showing width and height size variations
+  - link: disabled-dates.html
+    type: Example
+    description: Showing disabled dates variations
+  - link: sandbox.html
+    type: Sandbox
+    description: Showing various date formats and scenarios
   - link: axe.html
     type: Test
     description: Test page for axe scans

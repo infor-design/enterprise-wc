@@ -28,9 +28,19 @@ If both start and end dates are set calendar toolbar will not be displayed.
   - `color` `{string}` - The color of the legend, either hex or IDS variable excluding `--ids-color-palette-` part i.e. `emerald-60` (required)
   - `dates` `{Array}` - Array of dates (either dates or dayOfWeek is required)
   - `dayOfWeek` `{Array}` - Array of days of week where 0 is Sunday (either dates or dayOfWeek is required)
+- `disable` `{Object}` - Disable dates settings:
+  - `dates` `{Array}` - Disable specific dates (in a format that can be converted to a date)
+  - `years` `{Array}` - Disable specific years
+  - `minDate` `{string}` - Disable up to a minimum date
+  - `maxDate` `{string}` - Disable up to a maximum date
+  - `dayOfWeek` `{Array}` - Disable a specific of days of the week 0-6
+  - `isEnable` `{boolean}` - Enables the disabled dates. Default is false
 
 ## Events
 - `dayselected` - Fires when a day is selected
+
+## Methods
+- `isDisabledByDate(date: Date): boolean` - Defines if a date is in disabled settings
 
 ## Keyboard Guidelines
 - <kbd>Tab</kbd> - Tabbing will tab across the header elements and into the monthview.
@@ -124,6 +134,16 @@ monthView.legend = [
 
 // Unset legend
 monthView.legend = null;
+
+// Add disabled dates
+monthView.disable = {
+  dates: ['2/7/2018', '2/9/2018', '2/10/2018', '2/11/2018'],
+  dayOfWeek: [0, 6],
+  minDate: '2/6/2018',
+  maxDate: '2/12/2018',
+  years: [2017, 2018],
+  isEnable: true
+}
 ```
 
 ## Accessibility
@@ -143,6 +163,7 @@ The monthview is a very complex component to code for accessibility. We take the
 
 **4.x to 5.x**
 
-- MonthView is now a custom element `<ids-month-view></ids-view>`
+- MonthView is now a custom element `<ids-month-view></ids-month-view>`
 - Events are now just plain JS events
 - Some options and events are not converted yet
+- To set range of dates now there are `start-date` and `end-date` attributes instead of `displayRange` setting
