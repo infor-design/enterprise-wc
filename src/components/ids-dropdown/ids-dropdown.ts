@@ -218,7 +218,9 @@ export default class IdsDropdown extends Base {
    */
   set label(value: string) {
     this.setAttribute('label', value);
-    this.input.setAttribute('label', value);
+    if (this.input) {
+      this.input.label = value;
+    }
   }
 
   get label(): string { return this.getAttribute('label'); }

@@ -19,6 +19,7 @@
     align-items: center;
     height: 45px;
     width: 100%;
+    border-top: 1px solid var(--ids-color-palette-slate-30);
 
     &::part(button) {
       color: var(--ids-color-palette-azure-70);
@@ -53,7 +54,6 @@
     @include flex();
     @include p-8();
 
-    border-bottom: 1px solid var(--ids-color-palette-slate-30, #b7b7ba);
     flex-direction: row;
   }
 
