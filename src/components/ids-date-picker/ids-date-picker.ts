@@ -1705,7 +1705,7 @@ class IdsDatePicker extends Base {
       const timePickerHeight: number = getClosest(this, 'ids-month-view')?.parentElement
         ?.querySelector('ids-time-picker')?.container.offsetHeight || 0;
 
-      this.container.querySelector('.picklist').style.height = `${monthViewHeight + timePickerHeight - 44}px`;
+      this.container.querySelector('.picklist').style.height = `${monthViewHeight + timePickerHeight - 48}px`;
 
       const monthEl = this.container.querySelector(`.picklist-item.is-month[data-month="${this.month}"]`);
       const yearEl = this.container.querySelector(`.picklist-item.is-year[data-year="${this.year}"]`);

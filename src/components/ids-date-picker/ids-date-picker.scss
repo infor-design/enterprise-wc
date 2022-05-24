@@ -92,8 +92,6 @@
 
   .popup-footer {
     @include flex();
-
-    margin-top: 10px;
   }
 
   .popup-btn {
@@ -239,7 +237,7 @@
 
     z-index: 3;
     border: none;
-    top: 52px;
+    top: 43px;
     left: 0;
   }
 

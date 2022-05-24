@@ -425,13 +425,12 @@
 
   .month-view-header {
     @include pr-1();
-
-    height: 52px;
   }
 
   .month-view-container {
     padding-left: 10px;
     padding-right: 10px;
+    margin-bottom: 10px;
   }
 
   .btn-today::part(button) {
@@ -458,7 +457,7 @@
   }
 
   .month-view-table {
-    @include mt-20();
+    margin-top: 13px;
   }
 
   td .day-container {
