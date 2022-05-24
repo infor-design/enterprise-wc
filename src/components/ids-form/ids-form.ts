@@ -5,17 +5,21 @@ import Base from './ids-form-base';
 import styles from './ids-form.scss';
 
 // Supporting components
+import '../ids-alert/ids-alert';
 import '../ids-button/ids-button';
-import '../ids-input/ids-input';
 import '../ids-checkbox/ids-checkbox';
-import '../ids-editor/ids-editor';
-import '../ids-dropdown/ids-dropdown';
-import '../ids-radio/ids-radio';
+import '../ids-checkbox-group/ids-checkbox-group';
 import '../ids-color-picker/ids-color-picker';
+import '../ids-data-label/ids-data-label';
+import '../ids-dropdown/ids-dropdown';
+import '../ids-editor/ids-editor';
+import '../ids-input/ids-input';
+import '../ids-fieldset/ids-fieldset';
+import '../ids-lookup/ids-lookup';
+import '../ids-trigger-field/ids-trigger-field.ts';
 import '../ids-time-picker/ids-time-picker';
 import '../ids-date-picker/ids-date-picker';
-import '../ids-fieldset/ids-fieldset';
-import '../ids-trigger-field/ids-trigger-field.ts';
+import '../ids-radio/ids-radio';
 import '../ids-upload/ids-upload.ts';
 import '../ids-upload-advanced/ids-upload-advanced.ts';
 import IdsElement from '../../core/ids-element';
@@ -52,7 +56,7 @@ export default class IdsForm extends Base {
   }
 
   connectedCallback() {
-    this.getFormElements();
+    this.getIdsFormComponents();
     this.#attachEventHandlers();
   }
 
@@ -65,30 +69,21 @@ export default class IdsForm extends Base {
   }
 
   /**
-   * Sets the autocomplete attribute
-   * @param {string} value string value for autocomplete
-   */
-  set autocomplete(value: string) {
-    if(value) {
-      this.setAttribute('autocomplete', value);
-    }
-  }
-
-  get autocomplete(): string {
-    return this.getAttribute('autocomplete') || '';
-  }
-
-  /**
    * Sets the compact attribute
    * @param {boolean | string} value string value for compact
    */
   set compact(value: boolean | string) {
     if(value) {
       this.setAttribute('compact', value);
+      const idsFormComponents: IdsElement[] = this.getIdsFormComponents();
+      [...idsFormComponents].forEach((el) => {
+        el.setAttribute('compact', value)
+        console.log(el)
+      });
     }
   }
 
-  get compact(): string {
+  get compact(): boolean | string {
     return this.getAttribute('compact') || '';
   }
   
@@ -171,15 +166,14 @@ export default class IdsForm extends Base {
     //onEvent('click', this, () => this.#submitIdsForm())
   }
   
-  getFormElements(): HTMLElement[] | IdsElement[] | any[] {
-    let IdsElements: HTMLElement[] | IdsElement[] | any[] = [];
+  getIdsElements(): IdsElement[] {
+    let IdsElements: IdsElement[] = [];
     const idsForm: IdsForm = this;
-    const findIdsElements = (el: HTMLElement | IdsElement | any) => {
+    const findIdsElements = (el: IdsElement | any) => {
       if (el.hasChildNodes()) {
         const formChildren = [...el.children]
-        formChildren.forEach((e: any) => {
-          // const idsFormElements: any = 'IDS-INPUT' || 'IDS-DROPDOWN'
-          if (e.tagName.includes('IDS-') && e.hasAttribute('dirty-tracker')) {
+        formChildren.forEach((e: IdsElement) => {
+          if (e.tagName.includes('IDS-')) {
             IdsElements.push(e);
           };
           findIdsElements(e);
@@ -187,8 +181,13 @@ export default class IdsForm extends Base {
       };
     };
     findIdsElements(idsForm);
-    // console.log(IdsElements)
     return IdsElements;
+  }
+
+  getIdsFormComponents(): IdsElement[] {
+    const idsElements: IdsElement[] = this.getIdsElements();
+    const idsFormComponents: IdsElement[] = idsElements.filter((item) => (item.nodeName === 'IDS-ALERT' || item.nodeName === 'IDS-CHECKBOX' || item.nodeName === 'IDS-CHECKBOX-GROUP' || item.nodeName === 'IDS-COLOR-PICKER' || item.nodeName === 'IDS-DATA-LABEL' || item.nodeName === 'IDS-TIME-PICKER' || item.nodeName === 'IDS-DATE-PICKER' || item.nodeName === 'IDS-DROPDOWN' || item.nodeName === 'IDS-EDITOR' || item.nodeName === 'IDS-INPUT' || item.nodeName === 'IDS-LOOKUP'));
+    return idsFormComponents;
   }
 
   // #submitIdsForm(): void {
