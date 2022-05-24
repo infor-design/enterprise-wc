@@ -156,35 +156,9 @@ describe('Ids Date Picker e2e Tests', () => {
       day?.click();
     });
 
-    let value = await page.$eval('#e2e-datepicker-value', (el: any) => el?.value);
+    const value = await page.$eval('#e2e-datepicker-value', (el: any) => el?.value);
 
     expect(value).toEqual('3/31/2016');
-
-    // Apply button
-    await page.evaluate(() => {
-      const component: any = (document.querySelector as any)('#e2e-datepicker-value');
-      const monthView = component?.shadowRoot.querySelector('ids-month-view');
-
-      monthView.year = 2022;
-      monthView.month = 2;
-      monthView.day = 26;
-
-      component?.shadowRoot.querySelector('.popup-btn-end')?.click();
-    });
-
-    value = await page.$eval('#e2e-datepicker-value', (el: any) => el?.value);
-
-    expect(value).toEqual('3/26/2022');
-
-    // Open popup
-    await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('ids-trigger-button')?.click());
-
-    // Clear button
-    await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('.popup-btn-start')?.click());
-
-    value = await page.$eval('#e2e-datepicker-value', (el: any) => el?.value);
-
-    expect(value).toEqual('');
   });
 
   it('should change when used in calendar toolbar', async () => {
@@ -204,11 +178,9 @@ describe('Ids Date Picker e2e Tests', () => {
 
     const hasCssClass = await page.$eval('#e2e-datepicker-toolbar', (el: any) => el.container.classList.contains('is-calendar-toolbar'));
     const hasTabindex = await page.$eval('#e2e-datepicker-toolbar', (el: any) => el.container.getAttribute('tabindex') === '0');
-    const hasCancelBtn = await page.$eval('#e2e-datepicker-toolbar', (el: any) => el.shadowRoot.querySelector('.popup-btn-start ids-text')?.textContent === 'Cancel');
 
     expect(hasCssClass).toBeTruthy();
     expect(hasTabindex).toBeTruthy();
-    expect(hasCancelBtn).toBeTruthy();
 
     // Changing date doesn't change value
     await page.evaluate(() => {
@@ -514,7 +486,7 @@ describe('Ids Date Picker e2e Tests', () => {
 
     await page.$eval(
       '#e2e-datepicker-legend',
-      (el: any) => el?.container.querySelector('.popup-btn-end')?.click()
+      (el: any) => el?.container.querySelector('.popup-btn-apply')?.click()
     );
 
     const appliedToMonthView = await page.$eval(
@@ -530,7 +502,7 @@ describe('Ids Date Picker e2e Tests', () => {
 
     await page.$eval(
       '#e2e-datepicker-legend',
-      (el: any) => el?.container.querySelector('.popup-btn-end')?.click()
+      (el: any) => el?.container.querySelector('.popup-btn-apply')?.click()
     );
 
     const datePickerValue = await page.$eval(
@@ -571,23 +543,6 @@ describe('Ids Date Picker e2e Tests', () => {
     expect(start).toEqual(new Date('3/4/2021').getTime());
     expect(end).toEqual(new Date('3/22/2021').getTime());
 
-    // Today button
-    const todayFormatted = await page.evaluate(() => {
-      const container = (document as any).querySelector('ids-container');
-      const formatted = container?.locale.formatDate(new Date());
-
-      return `${formatted} - ${formatted}`;
-    });
-
-    await page.$eval(
-      '#e2e-range-picker',
-      (el: any) => el?.shadowRoot.querySelector('ids-month-view')?.container.querySelector('.btn-today')?.click()
-    );
-
-    value = await page.$eval('#e2e-range-picker', (el: any) => el?.value);
-
-    expect(value).toEqual(todayFormatted);
-
     // Apply button
     await page.evaluate(() => {
       const component = (document.querySelector as any)('#e2e-range-picker');
@@ -604,7 +559,7 @@ describe('Ids Date Picker e2e Tests', () => {
         component.rangeSettings = {
           start: '3/22/2021'
         };
-        component.container.querySelector('.popup-btn-end')?.click();
+        component.container.querySelector('.popup-btn-apply')?.click();
       }
     });
 
@@ -620,7 +575,7 @@ describe('Ids Date Picker e2e Tests', () => {
           start: '1/2/2021',
           end: '1/25/2021'
         };
-        component.container.querySelector('.popup-btn-end')?.click();
+        component.container.querySelector('.popup-btn-apply')?.click();
       }
     });
 
