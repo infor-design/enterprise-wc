@@ -13,6 +13,7 @@ describe('Ids Area Chart Percy Tests', () => {
     await page.evaluate(() => {
       (document as any).querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
     });
+    await page.waitForTimeout(300);
     await percySnapshot(page, 'ids-area-chart-new-dark');
   });
 
@@ -21,6 +22,7 @@ describe('Ids Area Chart Percy Tests', () => {
     await page.evaluate(() => {
       (document as any).querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
     });
+    await page.waitForTimeout(300);
     await percySnapshot(page, 'ids-area-chart-new-contrast');
   });
 
