@@ -4,6 +4,7 @@ import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import Base from './ids-tabs-base';
 import IdsHeader from '../ids-header/ids-header';
 import './ids-tab';
+import './ids-tab-more';
 import './ids-tab-divider';
 
 import styles from './ids-tabs.scss';
@@ -139,10 +140,10 @@ export default class IdsTabs extends Base {
   #attachEventHandlers() {
     // Reusable handlers
     const nextTabHandler = (e: Event) => {
-      this.nextTab((e.target as any).closest('ids-tab')).focus();
+      this.nextTab((e.target as any).closest('ids-tab, ids-tab-more')).focus();
     };
     const prevTabHandler = (e: Event) => {
-      this.prevTab((e.target as any).closest('ids-tab')).focus();
+      this.prevTab((e.target as any).closest('ids-tab, ids-tab-more')).focus();
     };
 
     // Add key listeners and consider orientation for assignments
@@ -163,7 +164,7 @@ export default class IdsTabs extends Base {
 
     this.listen('Enter', this, (e: KeyboardEvent) => {
       const elem: any = e.target;
-      if (elem && elem.tagName === 'IDS-TAB') {
+      if (elem && elem.tagName.includes === 'IDS-TAB') {
         this.#selectTab(elem);
       }
     });
@@ -200,7 +201,7 @@ export default class IdsTabs extends Base {
     let nextTab: any = currentTab.nextElementSibling;
 
     // If next sibling isn't a tab or is disabled, try this method again on the found sibling
-    if (nextTab && (nextTab.tagName !== 'IDS-TAB' || nextTab.disabled)) {
+    if (nextTab && (!nextTab.tagName.includes('IDS-TAB') || nextTab.disabled)) {
       return this.nextTab(nextTab);
     }
 
@@ -221,7 +222,7 @@ export default class IdsTabs extends Base {
     let prevTab: any = currentTab.previousElementSibling;
 
     // If previous sibling isn't a tab or is disabled, try this method again on the found sibling
-    if (prevTab && (prevTab.tagName !== 'IDS-TAB' || prevTab.disabled)) {
+    if (prevTab && (!prevTab.tagName.includes('IDS-TAB') || prevTab.disabled)) {
       return this.prevTab(prevTab);
     }
 
@@ -241,8 +242,10 @@ export default class IdsTabs extends Base {
   #selectTab(tab: any): void {
     if (!tab || tab.disabled) return;
 
-    if (tab.actionable && typeof tab.onAction === 'function') {
-      tab.onAction(tab.selected);
+    if (tab.actionable) {
+      if (typeof tab.onAction === 'function') {
+        tab.onAction(tab.selected);
+      }
       return;
     }
 
@@ -290,7 +293,7 @@ export default class IdsTabs extends Base {
    * @returns {void}
    */
   onColorVariantRefresh(): void {
-    const tabs = [...this.querySelectorAll('ids-tab')];
+    const tabs = [...this.querySelectorAll('ids-tab, ids-tab-more')];
     tabs.forEach((tab) => {
       tab.colorVariant = this.colorVariant;
     });
@@ -301,7 +304,7 @@ export default class IdsTabs extends Base {
    * @returns {void}
    */
   onOrientationRefresh(): void {
-    const tabs = [...this.querySelectorAll('ids-tab')];
+    const tabs = [...this.querySelectorAll('ids-tab, ids-tab-more')];
     tabs.forEach((tab) => {
       tab.orientation = this.orientation;
     });

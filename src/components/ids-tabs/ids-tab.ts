@@ -7,7 +7,7 @@ import '../ids-text/ids-text';
 
 import styles from './ids-tab.scss';
 
-type IdsTabonActionCallback = (isSelected: boolean) => void;
+type IdsTabOnActionCallback = (isSelected: boolean) => void;
 
 /**
  * IDS Tab Component
@@ -21,9 +21,9 @@ type IdsTabonActionCallback = (isSelected: boolean) => void;
 @scss(styles)
 export default class IdsTab extends Base {
   /**
-   * @param {IdsTabonActionCallback} onAction a user-defined callback function that can be applied to a Tab
+   * @param {IdsTabOnActionCallback} onAction a user-defined callback function that can be applied to a Tab
    */
-  onAction?: IdsTabonActionCallback;
+  onAction?: IdsTabOnActionCallback;
 
   constructor() {
     super();
@@ -269,10 +269,10 @@ export default class IdsTab extends Base {
    */
   #setDataTextForBoldFix = () => {
     const idsText = this.container?.querySelector('ids-text');
-    const slotNode = this.container?.querySelector('slot')?.assignedNodes?.()?.[0];
+    const slotNode = idsText?.querySelector('slot')?.assignedNodes?.()?.[0];
 
     if (slotNode && idsText) {
-      idsText.container.setAttribute('data-text', `"${slotNode.textContent}"`);
+      idsText.container.setAttribute('data-text', `"${slotNode.textContent.trim()}"`);
     }
   };
 

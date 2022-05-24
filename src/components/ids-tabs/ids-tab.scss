@@ -3,7 +3,8 @@
 $ids-tab-alternate-color-semi-transparent: rgba(255 255 255 / 0.7);
 $ids-tab-alternate-color-disabled: rgba(255 255 255 / 0.4);
 
-$ids-tab-min-width: 44px;
+$ids-tab-min-width: 135px;
+$ids-tab-actionable-min-width: 44px;
 
 @mixin ids-tabs-focus-border() {
   &::before {
@@ -41,51 +42,60 @@ $ids-tab-min-width: 44px;
 // Spacing rules for Horizontal Tab Lists
 
 :host(ids-tab:not([orientation='vertical']):not([color-variant='module']):first-child),
-.ids-tab-container:not([orientation='vertical']):not(.color-variant-module) .ids-tab:first-child {
+:host(ids-tab-more:not([orientation='vertical']):not([color-variant='module']):first-child),
+.ids-tab-container:not([orientation='vertical']):not(.color-variant-module) [class*='ids-tab']:first-child {
   @include ml-4;
 }
 
 :host(ids-tab:not([orientation='vertical']):not([color-variant='module']):last-child),
-.ids-tab-container:not([orientation='vertical']):not(.color-variant-module) .ids-tab:last-child {
+:host(ids-tab-more:not([orientation='vertical']):not([color-variant='module']):last-child),
+.ids-tab-container:not([orientation='vertical']):not(.color-variant-module) [class*='ids-tab']:last-child {
   @include mr-4;
 }
 
 :host(ids-tab:not([orientation='vertical']):not([color-variant='module']):not(:last-child)),
-.ids-tab-container:not(.orientation-vertical):not(.color-variant-module) .ids-tab:not(:last-child) {
+:host(ids-tab-more:not([orientation='vertical']):not([color-variant='module']):not(:last-child)),
+.ids-tab-container:not(.orientation-vertical):not(.color-variant-module) [class*='ids-tab']:not(:last-child) {
   @include mr-8;
 }
 
 // Border/Themes for Module Tabs
 
 :host(ids-tab[color-variant='module']:not([mode]):not(:last-child)),
-.ids-tab-container.color-variant-module:not([mode]) .ids-tab:not(:last-child) {
+:host(ids-tab-more[color-variant='module']:not([mode]):not(:last-child)),
+.ids-tab-container.color-variant-module:not([mode]) [class*='ids-tab']:not(:last-child) {
   border-right: 1px solid var(--ids-color-palette-azure-100);
 }
 
 :host(ids-tab[color-variant='module'][mode='light']:not(:last-child)),
-.ids-tab-container.color-variant-module[mode='light'] .ids-tab:not(:last-child) {
+:host(ids-tab-more[color-variant='module'][mode='light']:not(:last-child)),
+.ids-tab-container.color-variant-module[mode='light'] [class*='ids-tab']:not(:last-child) {
   border-right: 1px solid var(--ids-color-palette-azure-100);
 }
 
 :host(ids-tab[color-variant='module'][mode='dark']:not(:last-child)),
-.ids-tab-container.color-variant-module[mode='dark'] .ids-tab:not(:last-child) {
+:host(ids-tab-more[color-variant='module'][mode='dark']:not(:last-child)),
+.ids-tab-container.color-variant-module[mode='dark'] [class*='ids-tab']:not(:last-child) {
   border-right: 1px solid var(--ids-color-palette-slate-100);
 }
 
 :host(ids-tab[color-variant='module'][mode='contrast']:not(:last-child)),
-.ids-tab-container.color-variant-module[mode='contrast'] .ids-tab:not(:last-child) {
+:host(ids-tab-more[color-variant='module'][mode='contrast']:not(:last-child)),
+.ids-tab-container.color-variant-module[mode='contrast'] [class*='ids-tab']:not(:last-child) {
   border-right: 1px solid var(--ids-color-palette-azure-100);
 }
 
 // Spacing rules for Module Tabs
 
 :host(ids-tab[color-variant='module']:not([orientation='vertical']):not([actionable])),
-.ids-tab-container.color-variant-module:not(.orientation-vertical):not(.actionable) .ids-tab {
+:host(ids-tab-more[color-variant='module']:not([orientation='vertical']):not([actionable])),
+.ids-tab-container.color-variant-module:not(.orientation-vertical):not(.actionable) [class*='ids-tab'] {
   flex-grow: 1;
 }
 
 :host(ids-tab:focus-visible),
-.ids-tab-container:focus-visible {
+:host(ids-tab-more:focus-visible),
+.ids-tab-container [class*='ids-tab']:focus-visible {
   outline: none;
 }
 
@@ -131,10 +141,7 @@ $ids-tab-min-width: 44px;
   // Actionable
 
   &.actionable {
-    @include px-12();
-
     cursor: pointer;
-    min-width: $ids-tab-min-width;
   }
 
   // =================================================
@@ -241,7 +248,20 @@ $ids-tab-min-width: 44px;
   // =================================================
   // Structural rules for Module Tabs color variant
   &.color-variant-module {
-    text-align: center;
+
+    // Scoped to the first child text element to avoid conflicts with menus
+    > ids-text,
+    > .ids-text {
+      text-align: center;
+    }
+
+    &:not(.actionable) {
+      min-width: $ids-tab-min-width;
+    }
+
+    &.actionable {
+      min-width: $ids-tab-actionable-min-width;
+    }
 
     &:focus-visible,
     &:focus,
@@ -360,7 +380,6 @@ $ids-tab-min-width: 44px;
     // Light Mode / Module Tabs Color Variant
 
     &.color-variant-module {
-      @include font-bold();
       @include bg-azure-70();
       @include text-azure-10();
 
@@ -636,4 +655,11 @@ $ids-tab-min-width: 44px;
       }
     }
   }
+}
+
+// Popupmenus inside of the "More Tabs" tab, or Dropdown tabs
+ids-popup-menu,
+.ids-popup-menu {
+  position: absolute;
+  width: 100%;
 }
