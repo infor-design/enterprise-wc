@@ -457,7 +457,11 @@ export default class IdsModal extends Base {
     const selectorStr = focusableSelectors.join(', ');
 
     const focusable = [...this.querySelectorAll(selectorStr)];
-    if (focusable.length) {
+
+    // Right action btn should have focus
+    if (focusable.length === 2) {
+      focusable[1].focus();
+    } else if (focusable.length) {
       focusable[0].focus();
     }
   }
@@ -480,6 +484,7 @@ export default class IdsModal extends Base {
     if (this.visible) {
       // Fixes a Chrome Bug where time staggering is needed for focus to occur
       const timeoutCallback = () => {
+        console.log('------------2');
         this.#setModalFocus();
       };
       renderLoop.register(new IdsRenderLoopItem({
