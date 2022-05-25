@@ -109,10 +109,8 @@
     height: 44px;
     text-align: center;
 
-    &:not(.is-disabled) {
-      &:hover, .day-text {
-        @include cursor-pointer();
-      }
+    &:not(.is-disabled):hover {
+      @include cursor-pointer();
     }
 
     .day-container {
@@ -132,7 +130,6 @@
       @include rounded-round();
       @include m-2();
       @include text-slate-80();
-      @include cursor-default();
 
       display: inline-block;
       white-space: nowrap;
@@ -150,6 +147,7 @@
 
     ids-text::part(text) {
       @include rounded-round();
+      @include box-border();
 
       width: 35px;
       height: 35px;
@@ -187,6 +185,12 @@
         @include text-white();
         @include bg-azure-60();
       }
+    }
+
+    &.is-today:not(.is-selected) .day-text::part(text) {
+      @include border-1();
+      @include border-solid();
+      @include border-slate-30();
     }
 
     &:not(.is-disabled):not(.is-selected):not(.has-legend):not(.range-selection):hover .day-text,
@@ -636,6 +640,10 @@
     td.is-disabled .day-text {
       @include bg-slate-20();
       @include text-slate-100();
+    }
+
+    td.is-today:not(.is-selected) .day-text::part(text) {
+      @include border-slate-100();
     }
 
     td:not(.is-disabled):not(.is-selected):not(.has-legend):not(.range-selection):hover .day-text,

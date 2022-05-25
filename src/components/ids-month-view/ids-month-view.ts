@@ -1037,45 +1037,48 @@ class IdsMonthView extends Base {
    * @returns {string} table cell HTML template
    */
   #getCellTemplate(weekIndex: number): string {
-    const firstDayOfRange: any = this.#isDisplayRange()
-      ? this.startDate
+    const firstDayOfRange: Date = this.#isDisplayRange()
+      ? (this.startDate as Date)
       : firstDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
-    const lastDayOfRange = this.#isDisplayRange()
-      ? this.endDate
+    const lastDayOfRange: Date = this.#isDisplayRange()
+      ? (this.endDate as Date)
       : lastDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
     const rangeStartsOn = firstDayOfWeekDate(firstDayOfRange, this.firstDayOfWeek);
+    const now: Date = new Date();
 
     return Array.from({ length: WEEK_LENGTH }).map((_, index) => {
-      const date = addDate(rangeStartsOn, (weekIndex * WEEK_LENGTH) + index, 'days');
-      const monthFormat = this.#monthInDayFormat(date, rangeStartsOn);
-      const dayText = this.locale?.formatDate(date, {
+      const date: Date = addDate(rangeStartsOn, (weekIndex * WEEK_LENGTH) + index, 'days');
+      const monthFormat: string | undefined = this.#monthInDayFormat(date, rangeStartsOn);
+      const dayText: string = this.locale?.formatDate(date, {
         day: 'numeric',
         month: monthFormat,
         numberingSystem: 'latn'
       });
-      const ariaLabel = this.locale?.formatDate(date, { dateStyle: 'full' });
-      const day = date.getDate();
-      const month = date.getMonth();
-      const year = date.getFullYear();
-      const dateMatch = day === this.day && year === this.year && month === this.month;
-      const isSelected = !this.useRange && dateMatch;
-      const isSelectedWithRange = this.useRange && !this.rangeSettings.start && dateMatch;
-      const isDisabled = this.isDisabledByDate(date);
-      const isAlternate = !this.#isDisplayRange() && (date < firstDayOfRange || date > (lastDayOfRange as any));
+      const ariaLabel: string = this.locale?.formatDate(date, { dateStyle: 'full' });
+      const day: number = date.getDate();
+      const month: number = date.getMonth();
+      const year: number = date.getFullYear();
+      const dateMatch: boolean = day === this.day && year === this.year && month === this.month;
+      const isSelected: boolean = !this.useRange && dateMatch;
+      const isSelectedWithRange: boolean = this.useRange && !this.rangeSettings.start && dateMatch;
+      const isDisabled: boolean = this.isDisabledByDate(date);
+      const isAlternate: boolean = !this.#isDisplayRange() && (date < firstDayOfRange || date > lastDayOfRange);
       const legend: any = this.#getLegendByDate(date);
-      const isRangeSelection = this.#isRangeByDate(date);
-      const classAttr = buildClassAttrib(
+      const isRangeSelection: boolean = this.#isRangeByDate(date);
+      const isToday: boolean = year === now.getFullYear() && month === now.getMonth() && day === now.getDate();
+      const classAttr: string = buildClassAttrib(
         isAlternate && 'alternate',
         legend && 'has-legend',
         isDisabled && 'is-disabled',
         (isSelected || isSelectedWithRange) && 'is-selected',
         monthFormat && 'month-label',
-        isRangeSelection && 'range-selection'
+        isRangeSelection && 'range-selection',
+        isToday && 'is-today'
       );
-      const selectedAttr = isSelected || isSelectedWithRange
+      const selectedAttr: string = isSelected || isSelectedWithRange
         ? 'aria-selected="true" tabindex="0" role="gridcell"' : 'role="link"';
-      const dataAttr = [`data-year="${year}"`, `data-month="${month}"`, `data-day="${day}"`].join(' ');
-      const colorAttr = legend ? `data-color="${legend.color}"` : '';
+      const dataAttr: string = [`data-year="${year}"`, `data-month="${month}"`, `data-day="${day}"`].join(' ');
+      const colorAttr: string = legend ? `data-color="${legend.color}"` : '';
 
       return `<td aria-label="${ariaLabel}" ${dataAttr} ${classAttr} ${selectedAttr} ${colorAttr}>
         <span class="day-container">
