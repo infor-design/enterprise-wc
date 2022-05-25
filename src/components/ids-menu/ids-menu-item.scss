@@ -53,10 +53,11 @@
     @include text-16();
 
     display: grid;
-    grid-template-columns: 0 min-content;
+    grid-template-columns: 0 max-content;
     max-width: 100%;
     user-select: inherit;
     white-space: nowrap;
+    width: calc(100% - 16px);
 
     // Disable default browser focus state.
     // (comment this out to debug the true menu focus state)
@@ -163,7 +164,7 @@
     a {
       @include px-8();
 
-      grid-template-columns: 30px auto;
+      grid-template-columns: 30px max-content;
     }
   }
 
@@ -175,7 +176,7 @@
     a {
       @include pl-4();
 
-      grid-template-columns: 30px 0 auto;
+      grid-template-columns: 30px 0 max-content;
 
       // When checkmarks are present, all column placements change
       .check {
@@ -203,9 +204,7 @@
 
   &.has-submenu {
     a {
-      @include pr-4();
-
-      grid-template-columns: 0 auto 25px;
+      grid-template-columns: 0 calc(100% - 25px) 25px;
     }
   }
 
@@ -218,6 +217,7 @@
       @include pl-4();
 
       grid-template-columns: 30px 30px calc(100% - 60px);
+      width: calc(100% - 12px);
     }
   }
 
@@ -229,7 +229,7 @@
   &.has-checkmark.has-submenu,
   &.has-multi-checkmark.has-submenu {
     a {
-      grid-template-columns: 30px auto 25px;
+      grid-template-columns: 30px max-content 25px;
     }
   }
 
