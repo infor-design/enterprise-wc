@@ -108,8 +108,10 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 |`resizable` | If false the column will not be resizable, thus is a fixed size and can never be changed by the user by dragging the left and right edge.|
 |`readonly` | If true the cell will be set to readonly color, indicating no editing.|
 |`formatter` | Controls how the data is rendered in the cell.|
+|`hidden` | Excludes the column from being added to the DOM.|
 |`align` | Can be `left` or `right` or `center`. Note that `center` has limited column type support.|
 |`width` | The column width, this can be an integer for pixel width or a percent for example `10%`, if left off the columns will be sized to contents and to fit the width of the grid using the internal algorithm.|
+|`cssPart` | Allows you to set the name of a css part that can be used to customize the cell's css. This can be a string or a function. See the columns-custom-css example. The default cssPart for cells is called `cell` and it also can be used for more global changes.  |
 
 ## Column Settings (Specific)
 

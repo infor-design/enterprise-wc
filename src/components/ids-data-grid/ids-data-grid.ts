@@ -334,12 +334,28 @@ export default class IdsDataGrid extends Base {
     return `
       <div role="row" part="row" aria-rowindex="${index + 1}" class="ids-data-grid-row${rowClasses}">
         ${this.visibleColumns.map((column: IdsDataGridColumn, j: number) => `
-          <span role="cell" part="cell" class="ids-data-grid-cell${column?.readonly ? ` readonly` : ``}" aria-colindex="${j + 1}">
+          <span role="cell" part="${this.#cssPart(column, index, j)}" class="ids-data-grid-cell${column?.readonly ? ` readonly` : ``}" aria-colindex="${j + 1}">
             ${this.cellTemplate(row, column, index + 1, this)}
           </span>
         `).join('')}
       </div>
     `;
+  }
+
+  /**
+   * Return the dynamic css part to use.
+   * @private
+   * @param {IdsDataGridColumn} column The row data object
+   * @param {number} rowIndex The row's index
+   * @param {number} cellIndex The cells's index
+   * @returns {string} The html string for the row
+   */
+  #cssPart(column: IdsDataGridColumn, rowIndex: number, cellIndex: number) {
+    const cssPart = column.cssPart || 'cell';
+    if (typeof column.cssPart === 'function') {
+      return column.cssPart(rowIndex, cellIndex);
+    }
+    return cssPart;
   }
 
   /**

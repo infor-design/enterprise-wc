@@ -65,4 +65,6 @@ export interface IdsDataGridColumn {
   rowSelected?: boolean;
   /** True if the row is activated */
   rowActivated?: boolean;
+  /** True if the row is selected */
+  cssPart?: string | ((rowIndex: number, cellIndex: number) => string);
 }

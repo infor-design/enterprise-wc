@@ -43,6 +43,9 @@
     description: Showing a filter row with custom filter inputs
   - link: columns-hidden.html
     type: Example
+    description: Showing how to add custom styles to cells
+  - link: columns-custom-css.html
+    type: Example
     description: Showing initialy hidden columns
   - link: standalone-css.html
     type: Standalone CSS

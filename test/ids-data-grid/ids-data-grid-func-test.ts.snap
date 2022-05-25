@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IdsDataGrid Component IdsPagerMixin Tests renders pager 1`] = `
+exports[`IdsDataGrid Component Paging Tests renders pager 1`] = `
 <ids-data-grid
   page-size="10"
   pagination="client-side"
 />
 `;
 
-exports[`IdsDataGrid Component IdsPagerMixin Tests renders pager 2`] = `
+exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
 "<style nonce=\\"0a59a005\\">:host { background-color: transparent; }</style>
       <div class=\\"ids-data-grid\\" role=\\"table\\" part=\\"table\\" aria-label=\\"Data Grid\\" data-row-height=\\"lg\\" mode=\\"light\\" version=\\"new\\">
       

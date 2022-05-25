@@ -394,6 +394,28 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell').length).toEqual(1);
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-cell').length).toEqual(9);
     });
+
+    it('supports setting cssPart', () => {
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        cssPart: 'custom-cell'
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency'
+      },
+      {
+        id: 'transactionCurrency',
+        name: 'Transaction Currency',
+        field: 'transactionCurrency',
+        cssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell' : '')
+      }];
+
+      expect(dataGrid.shadowRoot.querySelectorAll('[part="custom-cell"]').length).toEqual(14);
+    });
   });
 
   describe('Sorting Tests', () => {
