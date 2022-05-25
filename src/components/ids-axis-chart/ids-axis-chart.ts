@@ -225,6 +225,7 @@ export default class IdsAxisChart extends Base {
 
     if (this.data && this.data.length === 0 && this.initialized) {
       this.#showEmptyMessage();
+      this.legend.innerHTML = this.legendTemplate();
       return;
     }
 
@@ -232,6 +233,7 @@ export default class IdsAxisChart extends Base {
     this.#addColorVariables();
     this.svg.innerHTML = this.#axisTemplate();
     this.legend.innerHTML = this.legendTemplate();
+
     this.adjustLabels();
 
     // Completed Event and Callback
@@ -355,7 +357,17 @@ export default class IdsAxisChart extends Base {
 
     this.data?.forEach((group: IdsChartData, index: number) => {
       const data = (group as any);
-      colorSheet += `--ids-chart-color-${index + 1}: ${data.patternColor || data.color || `var(${this.colors[index]})`} !important;`;
+      let color = data.patternColor;
+      if (!color && data.color && data.color.substr(0, 1) === '#') {
+        color = data.color;
+      }
+      if (!color && data.color && data.color.substr(0, 1) !== '#') {
+        color = `var(--ids-color-palette-${data.color})`;
+      }
+      if (!color) {
+        color = `var(${this.colors[index]})`;
+      }
+      colorSheet += `--ids-chart-color-${index + 1}: ${color} !important;`;
     });
 
     const styleSheet = this.shadowRoot.styleSheets[0];
@@ -373,8 +385,7 @@ export default class IdsAxisChart extends Base {
    * @returns {string} The SVG markup
    */
   #axisTemplate(): string {
-    return `
-    <title></title>
+    return `<title></title>
     <title>${this.title}</title>
     <defs>
       ${this.#patterns()}

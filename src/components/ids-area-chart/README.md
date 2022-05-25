@@ -168,11 +168,6 @@ The line rise along the y-axis from 0 to the appropriate values. The area below 
   - `shortName` is now `shortName`
   - `abbreviatedName` is now `abbrName`
 
-## Designs
-
-[Design Specs 4.5](https://www.figma.com/file/yaJ8mJrqRRej8oTsd6iT8P/IDS-(SoHo)-Component-Library-v4.5?node-id=760%3A771)
-[Design Specs 4.6](https://www.figma.com/file/ok0LLOT9PP1J0kBkPMaZ5c/IDS_Component_File_v4.6-(Draft))
-
 ## Accessibility Guidelines
 
 - 1.4.1 Use of Color - Color is not used as the only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual element. Ensure the color tags that indicate state like OK, cancel, ect have other ways to indicate that information.

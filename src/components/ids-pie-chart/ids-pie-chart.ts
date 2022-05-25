@@ -214,7 +214,17 @@ export default class IdsPieChart extends Base {
     const data = this.data[0].data;
     data?.forEach((group: IdsPieChartData, index: number) => {
       const slice = (group as any);
-      colorSheet += `--ids-chart-color-${index + 1}: ${slice.color || `var(${this.colors[index]})`} !important;`;
+      let color = slice.patternColor;
+      if (!color && slice.color && slice.color.substr(0, 1) === '#') {
+        color = slice.color;
+      }
+      if (!color && slice.color && slice.color.substr(0, 1) !== '#') {
+        color = `var(--ids-color-palette-${slice.color})`;
+      }
+      if (!color) {
+        color = `var(${this.colors[index]})`;
+      }
+      colorSheet += `--ids-chart-color-${index + 1}: ${color} !important;`;
     });
 
     const styleSheet = this.shadowRoot.styleSheets[0];
@@ -461,7 +471,8 @@ export default class IdsPieChart extends Base {
    */
   set donutText(value) {
     this.setAttribute(attributes.DONUT_TEXT, value);
-    this.container.querySelector('.donut-text')?.innerHTML(value);
+    const textElem = this.container.querySelector('.donut-text');
+    if (textElem) textElem.innerHTML = value;
   }
 
   get donutText() { return this.getAttribute(attributes.DONUT_TEXT) || ''; }

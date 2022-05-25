@@ -107,6 +107,9 @@ describe('IdsPieChart Component', () => {
     expect(pieChart.container.querySelectorAll('[index="1"]').length).toBe(1);
     expect(pieChart.container.querySelectorAll('[index="2"]').length).toBe(1);
     expect(pieChart.container.querySelector('.donut-text').innerHTML).toBe('Test Text');
+
+    pieChart.donutText = 'Test Update';
+    expect(pieChart.container.querySelector('.donut-text').innerHTML).toBe('Test Update');
   });
 
   it('shows a tooltip on hover', (done) => {

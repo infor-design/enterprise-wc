@@ -66,5 +66,5 @@
    "name": "Component C",
    "shortName": "Comp C",
    "abbreviatedName": "C",
-   "color": "var(--ids-color-palette-azure-20)"
+   "color": "azure-20"
  }]

@@ -5,6 +5,7 @@ describe('Ids Line Chart Percy Tests', () => {
 
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    await page.waitForSelector('pierce/.chart-legend');
     await percySnapshot(page, 'ids-line-chart-new-light');
   });
 
@@ -13,6 +14,7 @@ describe('Ids Line Chart Percy Tests', () => {
     await page.evaluate(() => {
       (document as any).querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
     });
+    await page.waitForSelector('pierce/.chart-legend');
     await percySnapshot(page, 'ids-line-chart-new-dark');
   });
 
@@ -21,12 +23,14 @@ describe('Ids Line Chart Percy Tests', () => {
     await page.evaluate(() => {
       (document as any).querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
     });
+    await page.waitForSelector('pierce/.chart-legend');
     await percySnapshot(page, 'ids-line-chart-new-contrast');
   });
 
   it('should not have visual regressions with custom colors', async () => {
     await page.goto('http://localhost:4444/ids-line-chart/colors.html', { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate('document.querySelector("ids-line-chart").animate = false');
+    await page.waitForSelector('pierce/.chart-legend');
     await percySnapshot(page, 'ids-line-chart-colors');
   });
 
@@ -37,6 +41,7 @@ describe('Ids Line Chart Percy Tests', () => {
     });
     await page.goto('http://localhost:4444/ids-line-chart/responsive.html', { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate('document.querySelector("ids-line-chart").animate = false');
+    await page.waitForSelector('pierce/.chart-legend');
     await percySnapshot(page, 'ids-line-chart-responsive-short');
   });
 
@@ -47,6 +52,7 @@ describe('Ids Line Chart Percy Tests', () => {
     });
     await page.goto('http://localhost:4444/ids-line-chart/responsive.html', { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate('document.querySelector("ids-line-chart").animate = false');
+    await page.waitForSelector('pierce/.chart-legend');
     await percySnapshot(page, 'ids-line-chart-responsive-abbreviated');
   });
 });
