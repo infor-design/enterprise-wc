@@ -281,6 +281,7 @@ export const attributes = {
   TABBABLE: 'tabbable',
   TABINDEX: 'tabindex',
   TARGET: 'target',
+  TAGS: 'tags',
   TEXT: 'text',
   TEXT_ALIGN: 'text-align',
   TEXT_DECORATION: 'text-decoration',

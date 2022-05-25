@@ -62,6 +62,34 @@
   }
 }
 
+:host([disabled]){
+  ::slotted(ids-icon){
+    @include text-slate-50();
+  }
+  .ids-tag{
+    @include text-slate-50();
+  }
+  .ids-tag.info{
+    @include bg-azure-30();
+    @include border-emerald-30();
+    @include text-white();
+  }
+  .ids-tag.success{
+    @include bg-emerald-30();
+    @include border-emerald-30();
+    @include text-white();
+  }
+  .ids-tag.warning{
+    @include bg-amber-30();
+    @include border-amber-30();
+    @include text-white();
+  }
+  .ids-tag.error{
+    @include bg-ruby-30();
+    @include border-ruby-30();
+    @include text-white();
+  }
+}
 // Adjust icons in the tag
 ::slotted(ids-icon) {
   @include cursor-pointer();

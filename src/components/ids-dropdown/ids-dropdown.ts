@@ -236,9 +236,9 @@ export default class IdsDropdown extends Base {
       return;
     }
     this.#clearSelected();
-    this.#selectOption(elem);
-    this.#selectIcon(elem);
-    this.#selectTooltip(elem);
+    this.selectOption(elem);
+    this.selectIcon(elem);
+    this.selectTooltip(elem);
     this.input.value = (elem as any).textContent.trim();
     this.state.selectedIndex = [...(elem.parentElement as any).children].indexOf(elem);
 
@@ -279,7 +279,7 @@ export default class IdsDropdown extends Base {
    * Set the selected option by index
    * @param {number} value the index to use
    */
-  set selectedIndex(value) {
+  set selectedIndex(value:number) {
     if (Number.isInteger(value) && this.options[value]) {
       const elem = this.options[value];
       this.value = elem.getAttribute('value');
@@ -291,7 +291,7 @@ export default class IdsDropdown extends Base {
 
   /**
    * Returns the currently available options
-   * @returns {Array} the array of options
+   * @returns {Array<any>} the array of options
    */
   get options() {
     return this.querySelectorAll('ids-list-box-option');
@@ -385,7 +385,7 @@ export default class IdsDropdown extends Base {
    * @private
    * @param {HTMLElement} option the option to select
    */
-  #selectOption(option: HTMLElement) {
+  selectOption(option: HTMLElement) {
     option?.setAttribute('aria-selected', 'true');
     option?.classList.add('is-selected');
   }
@@ -395,7 +395,7 @@ export default class IdsDropdown extends Base {
    * @private
    * @param {HTMLElement} option the option to select
    */
-  #selectIcon(option: HTMLElement) {
+  selectIcon(option: HTMLElement) {
     let dropdownIcon = this.input?.querySelector('ids-icon[slot="trigger-start"]');
     if (!this.hasIcons) {
       if (dropdownIcon) {
@@ -424,7 +424,7 @@ export default class IdsDropdown extends Base {
    * @private
    * @param {HTMLElement} option the option to select
    */
-  #selectTooltip(option: HTMLElement) {
+  selectTooltip(option: HTMLElement) {
     const tooltip = option.getAttribute('tooltip');
     if (tooltip) {
       this.tooltip = tooltip;
@@ -482,7 +482,7 @@ export default class IdsDropdown extends Base {
     }
 
     // Trigger an async callback for contents
-    if (this.state.beforeShow) {
+    if (typeof this.state.beforeShow === 'function') {
       const stuff = await this.state.beforeShow();
       this.#loadDataSet(stuff);
     }
@@ -571,27 +571,7 @@ export default class IdsDropdown extends Base {
       this.#typeAhead(e.detail.keys);
     });
 
-    // Handle Clicking with the mouse on options
-    this.onEvent('click', this, (e: any) => {
-      if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
-        this.value = e.target.getAttribute('value');
-        return;
-      }
-
-      if (e.target.closest('ids-list-box-option')) {
-        this.value = e.target.closest('ids-list-box-option').getAttribute('value');
-      }
-    });
-
-    this.onEvent('click', this.input.fieldContainer, () => {
-      this.toggle();
-    });
-
-    // Should not open if clicked on label
-    this.onEvent('click', this.labelEl, (e: MouseEvent) => {
-      e.preventDefault();
-      this.input.focus();
-    });
+    this.attachClickEvent();
 
     // Disable text selection on tab (extra info in the screen reader)
     this.onEvent('focus', this.input, () => {
@@ -614,6 +594,32 @@ export default class IdsDropdown extends Base {
     });
 
     return this;
+  }
+
+  /**
+ * Handle Clicking with the mouse on options
+ *  @public
+ */
+  attachClickEvent() {
+    this.onEvent('click', this, (e: any) => {
+      if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
+        this.value = e.target.getAttribute('value');
+        return;
+      }
+
+      if (e.target.closest('ids-list-box-option')) {
+        this.value = e.target.closest('ids-list-box-option').getAttribute('value');
+      }
+      if (e.target.isEqualNode(this)) {
+        this.toggle();
+      }
+    });
+
+    // Should not open if clicked on label
+    this.onEvent('click', this.labelEl, (e: MouseEvent) => {
+      e.preventDefault();
+      this.input.focus();
+    });
   }
 
   /**
@@ -719,6 +725,7 @@ export default class IdsDropdown extends Base {
    * Set the dirty tracking feature on to indicate a changed dropdown
    * @param {boolean|string} value If true will set `dirty-tracker` attribute
    */
+  /*
   set dirtyTracker(value: boolean | string) {
     const val = stringToBool(value);
     if (val) {
@@ -731,6 +738,7 @@ export default class IdsDropdown extends Base {
   }
 
   get dirtyTracker(): string { return this.getAttribute(attributes.DIRTY_TRACKER); }
+  */
 
   /**
    * Pass down `validate` attribute into IdsTriggerField
