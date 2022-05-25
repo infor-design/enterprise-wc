@@ -6,6 +6,7 @@ describe('Ids Axis Chart Percy Tests', () => {
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('pierce/.chart-legend');
+    await page.waitForSelector('[mode="light"]');
     await percySnapshot(page, 'ids-axis-chart-new-light');
   });
 
@@ -14,6 +15,7 @@ describe('Ids Axis Chart Percy Tests', () => {
     await page.evaluate(() => {
       (document as any).querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
     });
+    await page.waitForSelector('[mode="dark"]');
     await page.waitForSelector('pierce/.chart-legend');
     await percySnapshot(page, 'ids-axis-chart-new-dark');
   });
@@ -23,6 +25,7 @@ describe('Ids Axis Chart Percy Tests', () => {
     await page.evaluate(() => {
       (document as any).querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
     });
+    await page.waitForSelector('[mode="contrast"]');
     await page.waitForSelector('pierce/.chart-legend');
     await percySnapshot(page, 'ids-axis-chart-new-contrast');
   });

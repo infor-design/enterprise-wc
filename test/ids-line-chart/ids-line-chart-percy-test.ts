@@ -5,24 +5,30 @@ describe('Ids Line Chart Percy Tests', () => {
 
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    await page.evaluate('document.querySelector("ids-line-chart").animate = false');
     await page.waitForSelector('pierce/.chart-legend');
+    await page.waitForSelector('[mode="light"]');
     await percySnapshot(page, 'ids-line-chart-new-light');
   });
 
   it('should not have visual regressions in new dark theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    await page.evaluate('document.querySelector("ids-line-chart").animate = false');
     await page.evaluate(() => {
       (document as any).querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
     });
+    await page.waitForSelector('[mode="dark"]');
     await page.waitForSelector('pierce/.chart-legend');
     await percySnapshot(page, 'ids-line-chart-new-dark');
   });
 
   it('should not have visual regressions in new contrast theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    await page.evaluate('document.querySelector("ids-line-chart").animate = false');
     await page.evaluate(() => {
       (document as any).querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
     });
+    await page.waitForSelector('[mode="contrast"]');
     await page.waitForSelector('pierce/.chart-legend');
     await percySnapshot(page, 'ids-line-chart-new-contrast');
   });
