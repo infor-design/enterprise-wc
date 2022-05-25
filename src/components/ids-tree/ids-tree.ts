@@ -580,6 +580,7 @@ export default class IdsTree extends Base {
         this.selectNestedNodes(node);
       }
 
+      // If node has a parent et current state on parentNode of current node.
       if (parentNode) {
         this.selectParentNodes(parentNode);
       }
@@ -635,16 +636,16 @@ export default class IdsTree extends Base {
     if (!canProceed) {
       return;
     }
+
     const parentNode: any = this.getParentNode(node);
-
     node.elem.selected = null;
-    node.elem.shadowRoot.querySelector('ids-checkbox').input.checked = null;
-    node.elem.shadowRoot.querySelector('ids-checkbox').indeterminate = null;
 
+    // If the node is a parent, unselect it's children
     if (node.isGroup) {
       this.unselectNestedNodes(node);
     }
 
+    // If node has a parent et current state on parentNode of current node.
     if (parentNode) {
       this.selectParentNodes(parentNode);
     }
@@ -687,15 +688,15 @@ export default class IdsTree extends Base {
    */
   getAllChildNodes(parent: HTMLElement | any): object | HTMLElement | any {
     if (parent.elem) {
-      return parent.elem.shadowRoot.querySelector('.group-nodes').querySelectorAll('ids-tree-node');
+      return parent.elem.shadowRoot.querySelectorAll('.group-nodes > ids-tree-node');
     }
     if (parent.shadowRoot) {
-      return parent.shadowRoot.querySelector('.group-nodes').querySelectorAll('ids-tree-node');
+      return parent.shadowRoot.querySelectorAll('.group-nodes > ids-tree-node');
     }
-    if (parent.length) {
-      return parent.map((p: any) => p.shadowRoot.querySelector('.group-nodes').querySelectorAll('ids-tree-node'));
+    if (Array.isArray(parent)) {
+      return parent.map((p: any) => p.shadowRoot.querySelectorAll('.group-nodes > ids-tree-node'));
     }
-    return parent.querySelector('.group-nodes').querySelectorAll('ids-tree-node');
+    return parent.querySelectorAll('.group-nodes > ids-tree-node');
   }
 
   /**
@@ -707,6 +708,8 @@ export default class IdsTree extends Base {
       const checkbox = p.container.querySelector('ids-checkbox');
       const selectedNodes = [...this.getAllChildNodes(p)]
         .filter((node: any) => node.selected === true);
+      const indeterminateNodes = selectedNodes
+        .filter((node: any) => node.shadowRoot.querySelector('ids-checkbox').indeterminate === 'true');
 
       p.selected = true;
 
@@ -714,10 +717,6 @@ export default class IdsTree extends Base {
       // remove indeterminate from parent
       if (this.getAllChildNodes(p).length === selectedNodes.length) {
         checkbox.indeterminate = null;
-      } else {
-        // If current node has parent and all nodes are not selected
-        // set the parent checkbox to indeterminate
-        checkbox.indeterminate = true;
       }
 
       // If there are no selected nodes underneath the parent
@@ -734,7 +733,10 @@ export default class IdsTree extends Base {
       }
 
       // If current node is unselected, has parent and siblings are mix selected
-      if (selectedNodes.length !== 0 && this.getAllChildNodes(p).length > selectedNodes.length) {
+      if (
+        (selectedNodes.length !== 0 && this.getAllChildNodes(p).length > selectedNodes.length)
+        || indeterminateNodes.length > 0
+      ) {
         checkbox.indeterminate = true;
       }
 
@@ -761,7 +763,9 @@ export default class IdsTree extends Base {
         // Set the correct state for the parent nodes
         requestAnimationFrame(() => {
           const selectedChildren = [...this.getAllChildNodes(n.elem)].filter((child: any) => child.selected === true);
-          if (children.length > selectedChildren.length) {
+          const indeterminateNodes = [...this.getAllChildNodes(n.elem)]
+            .filter((childNode: any) => childNode.shadowRoot.querySelector('ids-checkbox').indeterminate === 'true');
+          if (children.length > selectedChildren.length || indeterminateNodes.length > 0) {
             n.elem.shadowRoot.querySelector('ids-checkbox').indeterminate = true;
           } else {
             n.elem.shadowRoot.querySelector('ids-checkbox').indeterminate = null;
@@ -780,7 +784,10 @@ export default class IdsTree extends Base {
         // Set the correct state for the parent nodes
         requestAnimationFrame(() => {
           const selectedChildren = [...this.getAllChildNodes(n)].filter((child: any) => child.selected === true);
-          if (children.length > selectedChildren.length) {
+          const indeterminateNodes = [...this.getAllChildNodes(n)]
+            .filter((childNode: any) => childNode.shadowRoot.querySelector('ids-checkbox').indeterminate === 'true');
+
+          if (children.length > selectedChildren.length || indeterminateNodes.length > 0) {
             n.shadowRoot.querySelector('ids-checkbox').indeterminate = true;
           } else {
             n.shadowRoot.querySelector('ids-checkbox').indeterminate = null;

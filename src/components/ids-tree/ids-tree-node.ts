@@ -298,14 +298,13 @@ export default class IdsTreeNode extends Base {
     this.nodeContainer?.setAttribute('tabindex', (this.isTabbable ? '0' : '-1'));
   }
 
+  /**
+   * Attach event listeners
+   */
   #attachEventListeners() {
     this.onEvent('click', this.checkbox, (e: any) => {
       e.preventDefault();
     });
-  }
-
-  get groupNodes() {
-    return this.shadowRoot.querySelector('.group-nodes');
   }
 
   /**
