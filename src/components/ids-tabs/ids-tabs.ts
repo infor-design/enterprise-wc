@@ -32,6 +32,12 @@ export default class IdsTabs extends Base {
 
     this.#detectParentColorVariant();
     this.#attachEventHandlers();
+    this.#ro.observe(this as any);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback?.();
+    this.#ro.disconnect();
   }
 
   rendered() {
@@ -56,6 +62,19 @@ export default class IdsTabs extends Base {
   template() {
     return '<slot></slot>';
   }
+
+  /**
+   * Watches for changes to the Tab List size and recalculates overflowed tabs, if applicable
+   * @private
+   * @property {ResizeObserver} mo this Popup component's resize observer
+   */
+  #ro = new ResizeObserver((entries) => {
+    for (const entry of entries) {
+      if (entry.target.tagName.toLowerCase() === 'ids-tab-list') {
+        this.#refreshOverflowedTabs();
+      }
+    }
+  });
 
   /**
    * Inherited from `IdsColorVariantMixin`
@@ -205,10 +224,7 @@ export default class IdsTabs extends Base {
 
     // Refreshes the tab list on change
     this.onEvent('slotchange', this.container, () => {
-      const moreTab = this.querySelector('ids-tab-more');
-      if (moreTab) {
-        moreTab.renderOverflowedItems();
-      }
+      this.#refreshOverflowedTabs();
       if (!this.hasTab(this.value)) {
         this.#selectTab(this.lastNavigableTab);
       }
@@ -281,6 +297,16 @@ export default class IdsTabs extends Base {
           current.selected = false;
         }
       }
+    }
+  }
+
+  /**
+   * Attempts to refresh state of the Tab List related to overflowed tabs, if applicable
+   */
+  #refreshOverflowedTabs(): void {
+    const moreTab = this.querySelector('ids-tab-more');
+    if (moreTab) {
+      moreTab.renderOverflowedItems();
     }
   }
 
