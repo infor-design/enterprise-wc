@@ -133,6 +133,9 @@ export default class IdsTree extends Base {
    */
   select(selector: string) {
     const node = this.getNode(selector);
+    if (this.isMultiSelect) {
+      this.#setMultiSelected(node);
+    }
     this.#setSelected(node);
   }
 
@@ -258,33 +261,6 @@ export default class IdsTree extends Base {
 
     nodesHtml(this.data);
     return { html, data };
-  }
-
-  getSelectedStatus(groupNodes: any) {
-    let total = 0;
-    let selected = 0;
-    let unselected = 0;
-
-    if (groupNodes) {
-      [...groupNodes.querySelectorAll('ids-tree-node')].forEach((node: any) => {
-        total++;
-        if (node.selected) {
-          selected++;
-        } else {
-          unselected++;
-        }
-      });
-    }
-
-    let status;
-    if (total === selected) {
-      status = true;
-    } else if (total === unselected) {
-      status = false;
-    } else {
-      status = 'mixed';
-    }
-    return status;
   }
 
   /**
@@ -427,8 +403,6 @@ export default class IdsTree extends Base {
       } else {
         this.#active.selectedCurrent = selected[0];
       }
-    } else if (this.selectable === 'multiple') {
-      this.#active.selectedCurrent = [];
     } else {
       unSelect(selected);
     }
@@ -764,7 +738,7 @@ export default class IdsTree extends Base {
         requestAnimationFrame(() => {
           const selectedChildren = [...this.getAllChildNodes(n.elem)].filter((child: any) => child.selected === true);
           const indeterminateNodes = [...this.getAllChildNodes(n.elem)]
-            .filter((childNode: any) => childNode.shadowRoot.querySelector('ids-checkbox').indeterminate === 'true');
+            .filter((childNode: any) => childNode.shadowRoot.querySelector('ids-checkbox')?.indeterminate === 'true');
           if (children.length > selectedChildren.length || indeterminateNodes.length > 0) {
             n.elem.shadowRoot.querySelector('ids-checkbox').indeterminate = true;
           } else {
@@ -785,7 +759,7 @@ export default class IdsTree extends Base {
         requestAnimationFrame(() => {
           const selectedChildren = [...this.getAllChildNodes(n)].filter((child: any) => child.selected === true);
           const indeterminateNodes = [...this.getAllChildNodes(n)]
-            .filter((childNode: any) => childNode.shadowRoot.querySelector('ids-checkbox').indeterminate === 'true');
+            .filter((childNode: any) => childNode.shadowRoot.querySelector('ids-checkbox')?.indeterminate === 'true');
 
           if (children.length > selectedChildren.length || indeterminateNodes.length > 0) {
             n.shadowRoot.querySelector('ids-checkbox').indeterminate = true;

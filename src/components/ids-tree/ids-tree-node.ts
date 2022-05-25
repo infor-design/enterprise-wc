@@ -344,7 +344,7 @@ export default class IdsTreeNode extends Base {
    */
   get isTabbable() { return !this.disabled && this.tabbable; }
 
-  get isMultiSelect() { return this.tree.selectable === 'multiple'; }
+  get isMultiSelect() { return this.tree?.selectable === 'multiple'; }
 
   /**
    * Gets the current toggle css class name

@@ -353,6 +353,15 @@ describe('IdsTree Component', () => {
     expect(tree.selectable).toEqual(selectable);
     expect(tree.selected).toEqual(expect.arrayContaining([]));
     expect(tree.selected.length).toEqual(0);
+
+    const home = tree.getNode('#home');
+    home.elem.selected = true;
+    expect(tree.isSelected('#home')).toEqual(true);
+
+    const pubFolders = tree.getNode('#public-folders');
+    pubFolders.elem.selected = true;
+    expect(tree.isSelected('#public-folders')).toEqual(true);
+    expect(tree.isSelected('#home')).toEqual(true);
   });
 
   it('should gets the tree node for selection false', () => {
