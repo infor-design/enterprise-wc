@@ -1,3 +1,8 @@
+// Supporting components
+import '../ids-popup-menu';
+import '../../ids-popup/ids-popup';
+import json from '../../../assets/data/menu-contents.json';
+
 // Example for populating the Popup Menu
 const popupmenuEl: any = document.querySelector('#popupmenu');
 if (popupmenuEl) {
@@ -10,7 +15,7 @@ if (popupmenuEl) {
     });
   });
 
-  const url = '/data/menu-contents.json';
+  const url: any = json;
   popupEl.align = 'top, left';
 
   const setData = async () => {

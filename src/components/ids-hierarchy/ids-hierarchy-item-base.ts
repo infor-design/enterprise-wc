@@ -11,4 +11,15 @@ const Base = IdsColorVariantMixin(
   )
 );
 
+export interface IdsHierarchyItemInfo {
+  id: string;
+  name: string;
+  position: string;
+  employmentType: string;
+  parentItem: string;
+  isLeaf: boolean;
+  color: string;
+  picture?: string;
+}
+
 export default Base;

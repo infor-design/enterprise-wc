@@ -89,7 +89,7 @@ It's also possible to control the intervals of minutes and seconds available for
     - IdsThemeMixin
     - IdsLocaleMixin
 
-## Settings
+## Settings (Attributes)
 
 - `autoselect` {boolean} Automatically opens the popup on focus.
 - `autoupdate` {boolean} Automatically updates the time string value and hides the "Set Time" button.
@@ -108,8 +108,10 @@ It's also possible to control the intervals of minutes and seconds available for
 - `size` {'sm' | 'md' | 'lg' | 'full' | string} Sets the size of the input-field's width
 - `mode` {'light' | 'dark' | 'contrast' | string} Set the theme mode
 - `version` {'new' | 'classic' | string} Set the theme version
-- `intervals` {readonly} Get the minutes and seconds intervals
 - `options` {readonly} Get dropdown-options for hour, minutes, second and period (am/pm)
+- `embeddable` {boolean} Set whether or not to show only hours/minutes/seconds dropdowns without input
+- `minute-interval` {number} Set minutes dropdown options interval
+- `second-interval` {number} Set seconds dropdown options interval
 
 ## Events
 

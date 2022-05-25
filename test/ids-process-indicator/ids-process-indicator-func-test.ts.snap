@@ -16,7 +16,7 @@ exports[`IdsProcessIndicator Component handles no steps correctly 1`] = `
 
 exports[`IdsProcessIndicator Component renders correctly 1`] = `
 "<ids-process-indicator>
-  <ids-process-step status=\\"done\\" label=\\"Prepare\\"></ids-process-step>
-  <ids-process-step status=\\"started\\" label=\\"Delivered\\"></ids-process-step>
+  <ids-process-indicator-step status=\\"done\\" label=\\"Prepare\\"></ids-process-indicator-step>
+  <ids-process-indicator-step status=\\"started\\" label=\\"Delivered\\"></ids-process-indicator-step>
   </ids-process-indicator>"
 `;

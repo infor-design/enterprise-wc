@@ -1,5 +1,5 @@
 describe('Ids Tooltip e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-tooltip';
+  const url = 'http://localhost:4444/ids-tooltip/example.html';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });

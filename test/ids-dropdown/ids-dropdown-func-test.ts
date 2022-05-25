@@ -111,6 +111,17 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.getAttribute('disabled')).toBeFalsy();
   });
 
+  it('can set allow blank', () => {
+    dropdown.allowBlank = true;
+    dropdown.value = 'blank';
+    expect(dropdown.allowBlank).toBeTruthy();
+    expect(dropdown.value).toEqual('blank');
+
+    dropdown.allowBlank = false;
+    expect(dropdown.allowBlank).toBeFalsy();
+    expect(dropdown.value).toBeNull();
+  });
+
   it('renders with validation', () => {
     dropdown = createFromTemplate(`<ids-dropdown id="dropdown-1" validate="required" validation-events="blur change" label="Test"></ids-dropdown>`);
     expect(dropdown.validate).toEqual('required');

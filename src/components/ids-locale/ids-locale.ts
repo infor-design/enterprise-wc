@@ -1,3 +1,5 @@
+import { isValidDate, gregorianToUmalqura } from '../../utils/ids-date-utils/ids-date-utils';
+
 /**
  * A mixin that adds locale functionality to components
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
@@ -407,6 +409,94 @@ class IdsLocale {
   formatDate(value: any, options: any): string {
     const usedOptions = options;
     const usedLocale = usedOptions?.locale || this.locale.name;
+
+    // Formatting by pattern
+    if (options?.pattern && value instanceof Date) {
+      const calendar = this.calendar(usedLocale);
+
+      let year: number = value.getFullYear();
+      let month: number = value.getMonth();
+      let day: number = value.getDate();
+
+      if (calendar.name === 'islamic-umalqura') {
+        const umalquraParts = gregorianToUmalqura(value);
+
+        year = umalquraParts?.year;
+        month = umalquraParts?.month;
+        day = umalquraParts?.day;
+      }
+
+      const dayOfWeek: number = value.getDay();
+      const hours: number = value.getHours();
+      const mins: number = value.getMinutes();
+      const seconds: number = value.getSeconds();
+      const millis: number = value.getMilliseconds();
+      const pattern = options.pattern;
+      let result = '';
+
+      result = pattern
+        .replace('de', 'nnnnn')
+        .replace('ngày', 'nnnn')
+        .replace('tháng', 't1áng')
+        .replace('den', 'nnn')
+        // Days
+        .replace('dd', `${day}`.padStart(2, '0'))
+        .replace('d', day)
+        // Years
+        .replace('yyyy', year)
+        .replace('y', year);
+
+      // Time
+      const showDayPeriods = pattern.indexOf(' a') > -1 || pattern.indexOf('a') === 0;
+
+      if (showDayPeriods && hours === 0) {
+        result = result.replace('hh', '12');
+        result = result.replace('h', '12');
+      }
+
+      result = result.replace('hh', (hours > 12
+        ? `${hours - 12}`.padStart(2, '0')
+        : `${hours}`.padStart(2, '0')))
+        .replace('h', hours > 12 ? `${hours - 12}` : `${hours}`)
+        .replace('HH', `${hours}`.padStart(2, '0'))
+        .replace('H', `${hours}`)
+        .replace('mm', `${mins}`.padStart(2, '0'))
+        .replace('ss', `${seconds}`.padStart(2, '0'))
+        .replace('SSS', `${millis}`.padStart(3, '0'));
+
+      // Months
+      if (pattern.includes('MMM')) {
+        result = result.replace('MMMM', calendar?.months.wide[month] || `${month + 1}`.padStart(2, '0'))
+          .replace('MMM', calendar?.months.abbreviated[month] || `${month + 1}`.padStart(2, '0'));
+      } else {
+        result = result.replace('MM', `${month + 1}`.padStart(2, '0'))
+          .replace('M', `${month + 1}`);
+      }
+
+      // AM/PM
+      if (showDayPeriods && calendar) {
+        result = result.replace(' a', ` ${hours >= 12 ? calendar.dayPeriods[1] : calendar.dayPeriods[0]}`);
+        if (pattern.indexOf('a') === 0) {
+          result = result.replace(' a', ` ${hours >= 12 ? calendar.dayPeriods[1] : calendar.dayPeriods[0]}`);
+        }
+      }
+
+      // Day of Week
+      if (calendar) {
+        result = result.replace('EEEE', calendar.days.wide[dayOfWeek])
+          .replace('EEE', calendar.days.abbreviated[dayOfWeek])
+          .replace('EE', calendar.days.narrow[dayOfWeek]);
+      }
+
+      result = result.replace('nnnnn', 'de')
+        .replace('nnnn', 'ngày')
+        .replace('t1áng', 'tháng')
+        .replace('nnn', 'den');
+
+      return result.replace(/&lrm;|\u200E/gi, ' ').trim();
+    }
+
+    // Formatting by locale
     let sourceDate = value;
 
     this.dateFormatter = new Intl.DateTimeFormat(
@@ -529,109 +619,555 @@ class IdsLocale {
   }
 
   /**
+   * Get the timezone part of a date
+   * @param {Date} date The date object to use.
+   * @param {string} timeZoneName Can be short or long.
+   * @returns {string} The time zone as a string.
+   */
+  #getTimeZone(date: Date, timeZoneName: string): string {
+    const currentLocale = this.locale.name || 'en-US';
+
+    const short = date.toLocaleDateString(currentLocale);
+    const full = date.toLocaleDateString(currentLocale, { timeZoneName: timeZoneName === 'long' ? 'long' : 'short' });
+
+    // Trying to remove date from the string in a locale-agnostic way
+    const shortIndex = full.indexOf(short);
+    if (shortIndex >= 0) {
+      const trimmed = full.substring(0, shortIndex) + full.substring(shortIndex + short.length);
+
+      // by this time `trimmed` should be the timezone's name with some punctuation -
+      // trim it from both sides
+      return trimmed.replace(/^[\s,.\-:;]+|[\s,.\-:;]+$/g, '');
+    }
+
+    return full;
+  }
+
+  /**
    * Takes a formatted date string and parses back it into a date object
-   * @param {string} dateString  The string to parse in the current format
-   * @param {string|object} options  Additional options like locale and dateFormat
+   * @param {string} dateString The string to parse in the current format
+   * @param {string|object} options Additional options like locale and dateFormat
+   * @param {boolean} isStrict If true missing date parts will be considered invalid. If false the current month/day.
    * @returns {Date | Array | undefined} The date object it could calculate from the string
    */
-  parseDate(dateString: string, options: any) {
-    const localeData = this.loadedLocales.get(options?.locale || this.locale.name);
-    let sourceFormat = options?.dateFormat || localeData.calendars[0]?.dateFormat.datetime;
-    if (!options?.dateFormat && !options?.dateStyle && options?.timeStyle === 'short') {
-      sourceFormat = localeData.calendars[0]?.timeFormat || 'hh:mm a';
+  parseDate(dateString: string, options: any, isStrict?: boolean) {
+    type DateObj = {
+      day?: number | string,
+      month?: number | string,
+      year?: any,
+      h?: number | string,
+      ss?: number | string,
+      ms?: number | string,
+      mm?: number | string,
+      a?: string,
+      isUndefindedDay?: boolean,
+      isUndefinedYear?: boolean,
+      isUndefinedMonth?: boolean,
+      leapYear?: boolean,
+      return?: Date | undefined,
+    };
+
+    if (!dateString) {
+      return undefined;
     }
-    sourceFormat = sourceFormat.replace('. ', '.').replace('. ', '.');
-    dateString = dateString.replace('. ', '.').replace('. ', '.');
 
     // ISO Date String
     if (dateString.indexOf('T') > -1 && dateString.substr(dateString.length - 1) === 'Z') {
       return new Date(dateString);
     }
 
-    // Validation
-    if (/^0*$/.test(dateString)) {
+    let dateFormat = options;
+    let locale = this.locale.name;
+    let thisLocaleCalendar = this.calendar(locale);
+    const dirtyDateString = dateString;
+
+    if (typeof options === 'object') {
+      locale = options.locale || locale;
+      dateFormat = options.dateFormat || this.calendar(locale).dateFormat[dateFormat.date];
+    }
+
+    if (typeof options === 'object' && options.pattern) {
+      dateFormat = options.dateFormat || options.pattern;
+    }
+
+    if (typeof options === 'object' && options.calendarName && options.locale) {
+      thisLocaleCalendar = this.calendar(options.locale);
+    }
+
+    if (!dateFormat) {
+      dateFormat = this.calendar(locale).dateFormat.short;
+    }
+
+    const orgDatestring = dateString;
+    if (dateString === '0000' || dateString === '000000' || dateString === '00000000') {
+      // Means no date in some applications
       return undefined;
     }
 
-    // Remove AM/PM
-    const separator = this.#determineSeparator(sourceFormat);
-    const dayPeriods = localeData.calendars[0].dayPeriods;
-    const is12Hr = (new RegExp(`${dayPeriods.join('|')}`, 'gi')).test(dateString);
-    const isAM = (new RegExp(dayPeriods[0], 'gi')).test(dateString);
-    if (is12Hr) {
-      dateString = dateString.replace((new RegExp(`(${dayPeriods.join('|')})\\s?`, 'gi')), '');
+    if (dateFormat.pattern) {
+      dateFormat = dateFormat.pattern;
     }
 
-    // Parse the date
-    const dateComponents = dateString.split(' ');
-    const datePieces = dateComponents[0].split(separator);
+    let formatParts;
+    let dateStringParts;
+    const dateObj: DateObj = {};
+    const isDateTime = (dateFormat.toLowerCase().indexOf('h') > -1);
+    const isUTC = (dateString.toLowerCase().indexOf('z') > -1);
+    let i;
+    let l;
+    const ampmHasDot = !!thisLocaleCalendar.dayPeriods.filter((x: string) => x.indexOf('.') > -1).length
+      && dateFormat.indexOf('a') > -1
+      && dateFormat.indexOf('ah') < 0
+      && dateFormat.indexOf('H') < 0;
+    const hasDot = (dateFormat.match(/M/g) || []).length === 3
+      && thisLocaleCalendar
+      && thisLocaleCalendar.months
+      && thisLocaleCalendar.months.abbreviated
+      && thisLocaleCalendar.months.abbreviated.filter((v: string) => /\./.test(v)).length;
 
-    // Parse the time part
-    let timePieces = dateComponents[1] ? dateComponents[1].split(':') : [0, 0, 0, 0];
-    if (!dateComponents[1] && dateComponents[0].indexOf(':') > -1) {
-      timePieces = dateComponents[0].split(':');
-    }
-    if (dateComponents[1] && dateComponents[1].indexOf('.') > -1) {
-      timePieces = dateComponents[1].split('.');
-    }
-    const formatComponents = sourceFormat.split(' ');
-    const formatPieces = formatComponents[0].split(separator);
+    if (isDateTime) {
+      // Remove Timezone
+      const shortTimeZone = this.#getTimeZone(new Date(), 'short');
+      const longTimeZone = this.#getTimeZone(new Date(), 'long');
+      dateString = dateString.replace(` ${shortTimeZone}`, '');
+      dateString = dateString.replace(` ${longTimeZone}`, '');
+      dateFormat = dateFormat.replace(' zzzz', '').replace(' zz', '');
 
-    const month = this.#determineDatePart(formatPieces, datePieces, 'M', 'MM', 'MMM', 'MMMM');
-    const year = this.#determineDatePart(formatPieces, datePieces, 'y', 'yy', 'yyyy');
-    const day = this.#determineDatePart(formatPieces, datePieces, 'd', 'dd', 'dddd');
-
-    // Adjust for AM / PM
-    if (is12Hr && !isAM && Number(timePieces[0]) !== 12) {
-      timePieces[0] = Number(timePieces[0]) + 12;
-    }
-    if (is12Hr && isAM && Number(timePieces[0]) === 12) {
-      timePieces[0] = 0;
-    }
-    if (is12Hr && !isAM && Number(timePieces[0]) === 12) {
-      timePieces[0] = 12;
+      // Replace [space & colon & dot] with "/"
+      const regex = hasDot ? /[T\s:-]/g : /[T\s:.-]/g;
+      dateFormat = dateFormat.replace(regex, '/').replace(/z/i, '');
+      dateFormat = ampmHasDot ? dateFormat.replace('//', '/') : dateFormat;
+      dateString = dateString.replace(ampmHasDot ? /[T\s:-]/g : regex, '/').replace(/z/i, '');
     }
 
-    // Return arrays for arabic dates
-    if (this.isIslamic()) {
+    // Remove spanish de
+    dateFormat = dateFormat.replace(' de ', ' ');
+    dateString = dateString.replace(' de ', ' ');
+
+    // Fix ah
+    dateFormat = dateFormat.replace('/ah/', '/a/h/');
+    dateString = dateString.replace('午', '午/');
+
+    // Remove commas
+    dateFormat = dateFormat.replace(',', '');
+    dateString = dateString.replace(',', '');
+
+    const getStartIndex = (hasMdyyyy: number, hasdMyyyy: number): number => {
+      if (hasMdyyyy > -1) {
+        return hasMdyyyy;
+      }
+
+      if (hasdMyyyy > -1) {
+        return hasdMyyyy;
+      }
+
+      return 0;
+    };
+
+    // Adjust short dates where no separators or special characters are present.
+    const hasMdyyyy = dateFormat.indexOf('Mdyyyy');
+    const hasdMyyyy = dateFormat.indexOf('dMyyyy');
+    let startIndex = -1;
+    let endIndex = -1;
+    if (hasMdyyyy > -1 || hasdMyyyy > -1) {
+      startIndex = getStartIndex(hasMdyyyy, hasdMyyyy);
+      endIndex = startIndex + dateString.indexOf('/') > -1 ? dateString.indexOf('/') : dateString.length;
+      dateString = `${dateString.substr(startIndex, endIndex - 4)}/${dateString.substr(endIndex - 4, dateString.length)}`;
+      dateString = `${dateString.substr(startIndex, dateString.indexOf('/') / 2)}/${dateString.substr(dateString.indexOf('/') / 2, dateString.length)}`;
+    }
+    if (hasMdyyyy > -1) {
+      dateFormat = dateFormat.replace('Mdyyyy', 'M/d/yyyy');
+    }
+    if (hasdMyyyy > -1) {
+      dateFormat = dateFormat.replace('dMyyyy', 'd/M/yyyy');
+    }
+
+    if (dateFormat.indexOf(' ') !== -1) {
+      const regex = hasDot ? /[\s:]/g : /[\s:.]/g;
+      dateFormat = dateFormat.replace(regex, '/');
+      dateString = dateString.replace(regex, '/');
+    }
+
+    // Extra Check in case month has spaces
+    if (dateFormat.indexOf('MMMM') > -1 && this.isRTL() && dateFormat
+      && dateFormat !== 'MMMM/dd' && dateFormat !== 'dd/MMMM') {
+      const lastIdx = dateString.lastIndexOf('/');
+      dateString = dateString.substr(0, lastIdx - 1).replace('/', ' ') + dateString.substr(lastIdx);
+    }
+
+    if (dateFormat.indexOf(' ') === -1 && dateFormat.indexOf('.') === -1 && dateFormat.indexOf('/') === -1 && dateFormat.indexOf('-') === -1) {
+      // Remove delimeter for the data string.
+      if (dateString.indexOf(' ') !== -1) {
+        dateString = dateString.split(' ').join('');
+      } else if (dateString.indexOf('.') !== -1) {
+        dateString = dateString.split('.').join('');
+      } else if (dateString.indexOf('/') !== -1) {
+        dateString = dateString.split('/').join('');
+      } else if (dateString.indexOf('-') !== -1) {
+        dateString = dateString.split('-').join('');
+      }
+
+      let lastChar = dateFormat[0];
+      let newFormat = '';
+      let newDateString = '';
+
+      for (i = 0, l = dateFormat.length; i < l; i++) {
+        newDateString += (dateFormat[i] !== lastChar ? `/${dateString[i]}` : dateString[i]);
+        newFormat += (dateFormat[i] !== lastChar ? `/${dateFormat[i]}` : dateFormat[i]);
+
+        if (i > 1) {
+          lastChar = dateFormat[i];
+        }
+      }
+
+      dateString = newDateString;
+      dateFormat = newFormat;
+    }
+
+    formatParts = dateFormat.split('/');
+    dateStringParts = dateString.split('/');
+
+    if (formatParts.length === 1) {
+      formatParts = dateFormat.split('.');
+    }
+
+    if (dateStringParts.length === 1) {
+      dateStringParts = dateString.split('.');
+    }
+
+    if (formatParts.length === 1) {
+      formatParts = dateFormat.split('-');
+    }
+
+    if (dateStringParts.length === 1) {
+      dateStringParts = dateString.split('-');
+    }
+
+    if (formatParts.length === 1) {
+      formatParts = dateFormat.split(' ');
+    }
+
+    if (dateStringParts.length === 1) {
+      dateStringParts = dateString.split(' ');
+    }
+
+    // Check the incoming date string's parts to make sure the values are
+    // valid against the localized Date pattern.
+    const month = this.#determineDatePart(formatParts, dateStringParts, 'M', 'MM', 'MMM', 'MMMM');
+    const year = this.#determineDatePart(formatParts, dateStringParts, 'y', 'yy', 'yyyy');
+    let hasDays = false;
+    let hasDayPeriodsFirst = false;
+
+    for (i = 0, l = dateStringParts.length; i < l; i++) {
+      const pattern = `${formatParts[i]}`;
+      const value = dateStringParts[i];
+      const numberValue: number = parseInt(value, 10);
+
+      if (!hasDays) {
+        hasDays = pattern.toLowerCase().indexOf('d') > -1;
+      }
+
+      let lastDay;
+      let abrMonth;
+      let textMonths;
+
+      switch (pattern) {
+        case 'd':
+          lastDay = new Date((year as any), (month as any), 0).getDate();
+
+          if (numberValue < 1 || numberValue > 31 || numberValue > lastDay) {
+            return undefined;
+          }
+          dateObj.day = value;
+          break;
+        case 'dd':
+          if ((numberValue < 1 || numberValue > 31) || (numberValue < 10 && value.substr(0, 1) !== '0')) {
+            return undefined;
+          }
+          dateObj.day = value;
+          break;
+        case 'M': {
+          if (numberValue < 1 || numberValue > 12) {
+            return undefined;
+          }
+          (dateObj.month as number) = numberValue - 1;
+          break;
+        }
+        case 'MM':
+          if ((numberValue < 1 || numberValue > 12) || (numberValue < 10 && value.substr(0, 1) !== '0')) {
+            return undefined;
+          }
+          dateObj.month = numberValue - 1;
+          break;
+        case 'MMM':
+          abrMonth = this.calendar(locale).months.abbreviated;
+
+          for (let len = 0; len < abrMonth.length; len++) {
+            if (orgDatestring.indexOf(abrMonth[len]) > -1) {
+              dateObj.month = len;
+            }
+          }
+
+          break;
+        case 'MMMM':
+          textMonths = this.calendar(locale).months.wide;
+
+          for (let k = 0; k < textMonths.length; k++) {
+            if (orgDatestring.indexOf(textMonths[k]) > -1) {
+              dateObj.month = k;
+            }
+          }
+
+          break;
+        case 'yy':
+          dateObj.year = this.twoToFourDigitYear(value);
+          break;
+        case 'y':
+        case 'yyyy':
+          dateObj.year = (value.length === 2)
+            ? this.twoToFourDigitYear(value) : value;
+          break;
+        case 'h':
+          if (numberValue < 0 || numberValue > 12) {
+            return undefined;
+          }
+          dateObj.h = hasDayPeriodsFirst ? dateObj.h : value;
+          break;
+        case 'hh':
+          if (numberValue < 0 || numberValue > 12) {
+            return undefined;
+          }
+
+          // eslint-disable-next-line
+          dateObj.h = hasDayPeriodsFirst ? dateObj.h : value.length === 1 ? `0${value}` : value;
+          break;
+        case 'H':
+          if (numberValue < 0 || numberValue > 24) {
+            return undefined;
+          }
+          dateObj.h = hasDayPeriodsFirst ? dateObj.h : value;
+          break;
+        case 'HH':
+          if (numberValue < 0 || numberValue > 24) {
+            return undefined;
+          }
+
+          // eslint-disable-next-line
+          dateObj.h = hasDayPeriodsFirst ? dateObj.h : value.length === 1 ? `0${value}` : value;
+          break;
+        case 'ss':
+          if (numberValue < 0 || numberValue > 60) {
+            dateObj.ss = 0;
+            break;
+          }
+          dateObj.ss = value;
+          break;
+        case 'SSS':
+          dateObj.ms = value;
+          break;
+        case 'mm':
+          if (numberValue < 0 || numberValue > 60) {
+            dateObj.mm = 0;
+            break;
+          }
+          dateObj.mm = value;
+          break;
+        case 'a':
+          if (!dateObj.h && formatParts[i + 1] && formatParts[i + 1].toLowerCase().substr(0, 1) === 'h') {
+            // in a few cases am/pm is before hours
+            dateObj.h = dateStringParts[i + 1];
+            hasDayPeriodsFirst = true;
+          }
+
+          if (dirtyDateString.includes(thisLocaleCalendar.dayPeriods[0])) {
+            dateObj.a = 'AM';
+
+            if (dateObj.h) {
+              if (dateObj.h === 12 || dateObj.h === '12') {
+                dateObj.h = 0;
+              }
+            }
+          }
+
+          if (dirtyDateString.includes(thisLocaleCalendar.dayPeriods[1])) {
+            dateObj.a = 'PM';
+
+            if (dateObj.h) {
+              if (dateObj.h < 12) {
+                dateObj.h = parseInt(dateObj.h as string, 10) + 12;
+              }
+            }
+          }
+          break;
+        default:
+          break;
+      }
+    }
+
+    const isLeap = (y: number) => ((y % 4 === 0) && (y % 100 !== 0)) || (y % 400 === 0);
+    const closestLeap = (y?: number) => {
+      let closestLeapYear = typeof y === 'number' && !Number.isNaN(y) ? y : (new Date()).getFullYear();
+      for (let i2 = 0; i2 < 4; i2++) {
+        if (isLeap(closestLeapYear)) {
+          break;
+        }
+        closestLeapYear--;
+      }
+      return closestLeapYear;
+    };
+
+    dateObj.return = undefined;
+    dateObj.leapYear = isLeap(dateObj.year as number);
+
+    if ((isDateTime && !dateObj.h && !dateObj.mm)) {
+      return undefined;
+    }
+
+    if (!dateObj.year && dateObj.year !== 0 && !isStrict) {
+      dateObj.isUndefinedYear = true;
+      for (i = 0, l = formatParts.length; i < l; i++) {
+        if (formatParts[i].indexOf('y') > -1 && dateStringParts[i] !== undefined) {
+          dateObj.isUndefinedYear = false;
+          break;
+        }
+      }
+      if (dateObj.isUndefinedYear) {
+        const isFeb29 = parseInt(dateObj.day as string, 10) === 29 && parseInt(dateObj.month as string, 10) === 1;
+        dateObj.year = isFeb29 ? closestLeap() : (new Date()).getFullYear();
+
+        if (thisLocaleCalendar.name === 'islamic-umalqura') {
+          const umDate = gregorianToUmalqura(new Date(dateObj.year, 0, 1));
+          dateObj.year = umDate[0];
+        }
+      } else {
+        delete dateObj.year;
+      }
+    }
+
+    // Fix incomelete 2 and 3 digit years
+    if (dateObj.year && (dateObj.year as string).length === 2) {
+      dateObj.year = `20${dateObj.year}`;
+    }
+
+    if (dateObj.year === '' || (dateObj.year && !((`${dateObj.year}`).length === 2 || (`${dateObj.year}`).length === 4))) {
+      delete dateObj.year;
+    }
+
+    if (!dateObj.month && dateObj.month !== 0 && !isStrict) {
+      dateObj.isUndefinedMonth = true;
+      for (i = 0, l = formatParts.length; i < l; i++) {
+        if (formatParts[i].indexOf('M') > -1 && dateStringParts[i] !== undefined) {
+          dateObj.isUndefinedMonth = false;
+          break;
+        }
+      }
+      if (dateObj.isUndefinedMonth) {
+        dateObj.month = (new Date()).getMonth();
+      }
+    }
+
+    if (!dateObj.day && dateObj.day !== 0 && (!isStrict || !hasDays)) {
+      dateObj.isUndefindedDay = true;
+      for (i = 0, l = formatParts.length; i < l; i++) {
+        if (formatParts[i].indexOf('d') > -1 && dateStringParts[i] !== undefined) {
+          dateObj.isUndefindedDay = false;
+          break;
+        }
+      }
+      if (dateObj.isUndefindedDay) {
+        dateObj.day = 1;
+      } else {
+        delete dateObj.day;
+      }
+    }
+
+    if (isDateTime) {
+      if (isUTC) {
+        if (dateObj.h !== undefined) {
+          dateObj.return = new Date(
+            Date.UTC(
+              dateObj.year as number,
+              dateObj.month as number,
+              dateObj.day as number,
+              dateObj.h as number,
+              dateObj.mm as number
+            )
+          );
+        }
+        if (dateObj.ss !== undefined) {
+          dateObj.return = new Date(
+            Date.UTC(
+              dateObj.year as number,
+              dateObj.month as number,
+              dateObj.day as number,
+              dateObj.h as number,
+              dateObj.mm as number,
+              dateObj.ss as number
+            )
+          );
+        }
+        if (dateObj.ms !== undefined) {
+          dateObj.return = new Date(
+            Date.UTC(
+              dateObj.year as number,
+              dateObj.month as number,
+              dateObj.day as number,
+              dateObj.h as number,
+              dateObj.mm as number,
+              dateObj.ss as number,
+              dateObj.ms as number
+            )
+          );
+        }
+      } else {
+        if (dateObj.h !== undefined) {
+          dateObj.return = new Date(
+            dateObj.year as number,
+            dateObj.month as number,
+            dateObj.day as number,
+            dateObj.h as number,
+            dateObj.mm as number
+          );
+        }
+        if (dateObj.ss !== undefined) {
+          dateObj.return = new Date(
+            dateObj.year as number,
+            dateObj.month as number,
+            dateObj.day as number,
+            dateObj.h as number,
+            dateObj.mm as number,
+            dateObj.ss as number
+          );
+        }
+        if (dateObj.ms !== undefined) {
+          dateObj.return = new Date(
+            dateObj.year as number,
+            dateObj.month as number,
+            dateObj.day as number,
+            dateObj.h as number,
+            dateObj.mm as number,
+            dateObj.ss as number,
+            dateObj.ms as number
+          );
+        }
+      }
+    } else {
+      dateObj.return = new Date(dateObj.year as number, dateObj.month as number, dateObj.day as number);
+    }
+
+    if (thisLocaleCalendar.name === 'islamic-umalqura') {
       return [
-        Number(this.twoToFourDigitYear(year)),
-        (Number(month) - 1),
-        Number(day),
-        Number(timePieces && timePieces[0] ? timePieces[0] : 0),
-        Number(timePieces && timePieces[1] ? timePieces[1] : 0),
-        Number(timePieces && (timePieces[2] || timePieces[2] === 0) ? timePieces[2] : 0)
+        parseInt(dateObj.year as string, 10),
+        parseInt(dateObj.month as string, 10),
+        parseInt(dateObj.day as string, 10),
+        parseInt((dateObj.h as string) || '0', 10),
+        parseInt(dateObj.mm as string || '0', 10),
+        parseInt(dateObj.ss as string || '0', 10),
+        parseInt(dateObj.ms as string || '0', 10)
       ];
     }
-    return (new Date(
-      this.twoToFourDigitYear(year),
-      (Number(month) - 1),
-      Number(day),
-      Number(timePieces && timePieces[0] ? timePieces[0] : 0),
-      Number(timePieces && timePieces[1] ? timePieces[1] : 0),
-      Number(timePieces && (timePieces[2] || timePieces[2] === 0) ? timePieces[2] : 0),
-    ));
-  }
 
-  /**
-   * Figure out what seperator is used.
-   * @param {string} dateFormat The source format to check
-   * @returns {string} The format used.
-   */
-  #determineSeparator(dateFormat: string): string {
-    if (dateFormat.indexOf('/') > -1) {
-      return '/';
-    }
-    if (dateFormat.indexOf('-') > -1) {
-      return '-';
-    }
-    if (dateFormat.indexOf('. ') > -1) {
-      return '.';
-    }
-    if (dateFormat.indexOf('.') > -1) {
-      return '.';
-    }
-    return '/';
+    return isValidDate(dateObj.return) ? dateObj.return : undefined;
   }
 
   /**

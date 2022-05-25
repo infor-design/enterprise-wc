@@ -1,5 +1,5 @@
 describe('Ids Notification Banner e2e Tests', () => {
-  const exampleUrl = 'http://localhost:4444/ids-notification-banner';
+  const exampleUrl = 'http://localhost:4444/ids-notification-banner/example.html';
 
   it('should not have errors', async () => {
     await page.goto(exampleUrl, { waitUntil: ['domcontentloaded', 'networkidle0'] });

@@ -3,6 +3,8 @@ import cssVars from '../src/core/ids-element.scss';
 const style = document.createElement('style');
 style.textContent = cssVars.replace(':host {', ':root {');
 style.id = 'ids-styles';
+style.setAttribute('nonce', '0a59a005');
+
 const doc = (document.head as any);
 doc.appendChild(style);
 

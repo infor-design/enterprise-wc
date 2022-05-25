@@ -5,7 +5,7 @@
  category: Form Inputs
  keywords: alert, error, info, warning
  examples:
-  - link: index.html
+  - link: example.html
     description: Shows all alert types
   - link: side-by-side.html
     description: Showing a alert side by side with a 4.x alert

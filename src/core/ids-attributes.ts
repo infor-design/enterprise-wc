@@ -9,6 +9,7 @@ export const attributes = {
   ALIGN_TARGET: 'align-target',
   ALIGN_X: 'align-x',
   ALIGN_Y: 'align-y',
+  ALLOW_BLANK: 'allow-blank',
   ALLOW_LINK: 'allow-link',
   ALLOW_ONE_PANE: 'allow-one-pane',
   ALT: 'alt',
@@ -83,6 +84,7 @@ export const attributes = {
   DISABLE_EVENTS: 'disable-native-events',
   DISMISSIBLE: 'dismissible',
   DISPLAY: 'display',
+  DISPLAY_TIME: 'display-time',
   DRAGGING: 'dragging',
   DRAGGABLE: 'draggable',
   DROPDOWN_ICON: 'dropdown-icon',
@@ -93,6 +95,7 @@ export const attributes = {
   EXPANDED: 'expanded',
   EXPANDER_TYPE: 'expander-type',
   EXPAND_ICON: 'expand-icon',
+  EMBEDDABLE: 'embeddable',
   FALLBACK: 'fallback',
   FAVOR: 'favor',
   FIELD: 'field',
@@ -148,9 +151,11 @@ export const attributes = {
   LABEL_STATE: 'label-state',
   LABEL_PROGRESS: 'label-progress',
   LABEL_REQUIRED: 'label-required',
+  LABEL_SECONDARY: 'label-secondary',
   LABEL_TOTAL: 'label-total',
   LANGUAGE: 'language',
   LAST: 'last',
+  LAZY_LOAD: 'lazy-load',
   LINEAR: 'linear',
   LINK: 'link',
   LINK_TEXT: 'link-text',
@@ -185,6 +190,7 @@ export const attributes = {
   NAME: 'name',
   NAV_DISABLED: 'nav-disabled',
   NEXT: 'next',
+  NO_HEADER: 'no-header',
   NO_MARGINS: 'no-margins',
   NO_PADDING: 'no-padding',
   NO_RIPPLE: 'no-ripple',
@@ -251,6 +257,7 @@ export const attributes = {
   SHOW_BROWSE_LINK: 'show-browse-link',
   SHOW_TIMELINE: 'show-timeline',
   SHOW_TODAY: 'show-today',
+  SHOW_TOOLTIP: 'show-tooltip',
   SIZE: 'size',
   SORTABLE: 'sortable',
   SOURCE_FORMATTER: 'source-formatter',
@@ -316,8 +323,10 @@ export const attributes = {
   VISIBLE: 'visible',
   WIDTH: 'width',
   X: 'x',
+  X_OFFSET: 'x-offset',
   XSS_IGNORED_TAGS: 'xss-ignored-tags',
   Y: 'y',
+  Y_OFFSET: 'y-offset',
   YEAR: 'year'
 };
 
@@ -325,9 +334,11 @@ export const attributes = {
 // Please keep constants alphabetized
 export const htmlAttributes = {
   ARIA_LABEL: 'aria-label',
+  ARIA_ORIENTATION: 'aria-orientation',
   ARIA_VALUEMAX: 'aria-valuemax',
   ARIA_VALUEMIN: 'aria-valuemin',
   ARIA_VALUENOW: 'aria-valuenow',
+  ARIA_VALUETEXT: 'aria-valuetext',
   ROLE: 'role',
   TABINDEX: 'tabIndex'
 };

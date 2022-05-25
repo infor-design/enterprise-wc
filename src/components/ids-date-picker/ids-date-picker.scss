@@ -79,8 +79,6 @@
   // Popup related
   ids-month-view {
     @include w-full();
-
-    max-width: 330px;
   }
 
   ids-popup::part(popup) {
@@ -164,6 +162,15 @@
   &[mode='contrast'] .popup-btn-end::part(button) {
     @include text-azure-90();
   }
+
+  ids-time-picker + .popup-footer {
+    margin-top: 0;
+  }
+
+  ids-time-picker {
+    display: flex;
+    justify-content: center;
+  }
 }
 
 // Dropdown
@@ -179,6 +186,15 @@
     &:focus {
       box-shadow: 0 0 0 2px transparent, 0 0 0 1px var(--ids-color-palette-azure-60), 0 0 4px 3px rgb(54 138 192 / 0.3);
     }
+  }
+
+  .dropdown-btn-text,
+  .dropdown-btn-icon {
+    padding-inline-start: 0;
+  }
+
+  .dropdown-btn-icon {
+    @include mt-2();
   }
 
   &.is-expanded {
@@ -220,8 +236,8 @@
     @include m-0();
     @include p-0();
     @include w-full();
-    @include z-2();
 
+    z-index: 3;
     border: none;
     top: 44px;
     left: 0;
@@ -233,6 +249,10 @@
 
   ids-expandable-area::part(pane) {
     @include bg-white();
+  }
+
+  ids-expandable-area::part(pane-content) {
+    @include mt-0();
   }
 
   &[mode='dark'] ids-expandable-area::part(pane) {

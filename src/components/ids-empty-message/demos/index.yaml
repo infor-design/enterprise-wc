@@ -5,5 +5,6 @@
   category: Messages and Alerts
   keywords: message, alert, empty, icon
   examples:
-      - link: index.html
-        description: Shows use cases for the empty message component
+  - link: example.html
+    type: Main Example
+    description: Shows use cases for the empty message component

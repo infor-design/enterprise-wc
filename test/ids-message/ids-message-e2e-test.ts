@@ -1,5 +1,5 @@
 describe('Ids Message e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-message';
+  const url = 'http://localhost:4444/ids-message/example.html';
 
   beforeAll(async () => {
     await page.setBypassCSP(true);
