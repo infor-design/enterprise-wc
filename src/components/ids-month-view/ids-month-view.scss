@@ -61,7 +61,7 @@
   // Legend mutual
   .month-view-legend {
     margin: 0 auto;
-    padding: 10px 5px 0;
+    padding: 27px 5px 0;
   }
 
   .month-view-legend-swatch,
@@ -70,16 +70,22 @@
     display: inline-block;
   }
 
+  .month-view-legend-item {
+    @include mb-2();
+  }
+
   .month-view-legend-swatch {
     background-color: var(--legend-color);
     opacity: 0.3;
+    width: 16px;
+    height: 16px;
   }
 
   .month-view-legend-text {
     @include relative();
     @include text-slate-80();
 
-    padding: 0 17px 0 8px;
+    padding: 0 10px 0 8px;
     top: -2px;
   }
 }
@@ -91,6 +97,7 @@
   .month-view-table-header th {
     line-height: unset;
     vertical-align: top;
+    height: 22px;
   }
 
   .month-view-table {
@@ -98,7 +105,15 @@
   }
 
   td {
+    width: 44px;
+    height: 44px;
     text-align: center;
+
+    &:not(.is-disabled) {
+      &:hover, .day-text {
+        @include cursor-pointer();
+      }
+    }
 
     .day-container {
       @include relative();
@@ -109,22 +124,6 @@
 
       display: inline-block;
       margin: 5px 0;
-
-      &::after {
-        @include rounded-round();
-        @include absolute();
-
-        content: '';
-        background-color: var(--legend-color);
-        display: inline-block;
-        height: 38px;
-        left: 2px;
-        overflow: hidden;
-        top: 2px;
-        width: 38px;
-        opacity: 0.3;
-        transition: 0.2s opacity ease;
-      }
     }
 
     .day-text {
@@ -140,10 +139,6 @@
       transition: 0.2s background-color ease;
     }
 
-    &:not(.is-disabled) .day-text {
-      @include cursor-pointer();
-    }
-
     &.alternate .day-text {
       @include text-slate-40();
     }
@@ -156,9 +151,9 @@
     ids-text::part(text) {
       @include rounded-round();
 
-      width: 38px;
-      height: 38px;
-      line-height: 38px;
+      width: 35px;
+      height: 35px;
+      line-height: 35px;
       text-align: center;
       display: inline-block;
     }
@@ -169,27 +164,28 @@
         outline-style: none;
       }
 
-      &:not(.is-disabled):focus .day-container {
-        @include border-azure-60();
-        @include z-2();
+      &:not(.is-disabled):focus {
+        ids-text::part(text) {
+          width: 31px;
+          height: 31px;
+          line-height: 31px;
+        }
 
-        box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
-      }
+        ids-text {
+          margin: 1px;
+        }
 
-      ids-text::part(text) {
-        font-weight: 600;
+        .day-container {
+          @include border-azure-60();
+          @include z-2();
+
+          box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
+        }
       }
 
       &:not(.range-selection) .day-text {
         @include text-white();
         @include bg-azure-60();
-      }
-
-      &.has-legend .day-container::after {
-        height: 44px;
-        left: -1px;
-        top: -1px;
-        width: 44px;
       }
     }
 
@@ -198,9 +194,31 @@
       @include bg-slate-20();
     }
 
+    // Legend in compact mode
     &.has-legend:not(.is-disabled):hover {
       .day-container::after {
         @include opacity-70();
+      }
+    }
+
+    &.has-legend .day-container {
+      &::after {
+        @include rounded-round();
+        @include absolute();
+
+        content: '';
+        background-color: var(--legend-color);
+        display: inline-block;
+        width: 35px;
+        height: 35px;
+        overflow: hidden;
+        opacity: 0.3;
+        transition: 0.2s opacity ease;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        margin: auto;
       }
     }
 
@@ -217,7 +235,7 @@
 
         content: '';
         display: inline-block;
-        height: 38px;
+        height: 35px;
         top: 0;
         bottom: 0;
         margin-top: auto;
@@ -273,14 +291,36 @@
     @include p-0();
   }
 
-  // Legend in compact mode
-  .month-view-legend-swatch {
-    width: 16px;
-    height: 16px;
-  }
-
   &.range-select-week td .day-text {
     transition: none;
+  }
+
+  .btn-today {
+    margin-right: -7px;
+
+    &::part(button) {
+      @include px-4();
+      @include py-2();
+
+      margin: 3px;
+    }
+  }
+
+  .btn-previous,
+  .btn-next {
+    @include pl-0();
+    margin: 3px;
+
+    &::part(button) {
+      @include p-0();
+
+      width: 44px;
+      height: 44px;
+    }
+  }
+
+  .month-view-table {
+    margin-top: 13px;
   }
 }
 
@@ -428,43 +468,8 @@
     padding-right: 10px;
   }
 
-  .btn-today {
-    margin-right: -7px;
-
-    &::part(button) {
-      @include px-4();
-      @include py-2();
-
-      margin: 3px;
-    }
-  }
-
-  .btn-previous,
-  .btn-next {
-    @include pl-0();
-    margin: 3px;
-
-    &::part(button) {
-      @include p-0();
-
-      width: 44px;
-      height: 44px;
-    }
-  }
-
-  .month-view-table {
-    margin-top: 13px;
-  }
-
   td .day-container {
     @include m-0();
-
-    &::after {
-      height: 42px;
-      left: 0;
-      top: 0;
-      width: 42px;
-    }
   }
 
   ids-date-picker {
@@ -475,15 +480,6 @@
 // Legend for full size view and if it's in a datepicker
 .ids-month-view.is-date-picker,
 .ids-month-view.is-fullsize {
-  .month-view-legend-swatch {
-    width: 12px;
-    height: 12px;
-  }
-
-  .month-view-legend-text::part(text) {
-    font-size: 11px;
-  }
-
   .month-view-legend {
     max-width: 300px;
     text-align: center;
