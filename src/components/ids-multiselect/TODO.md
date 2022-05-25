@@ -1,6 +1,6 @@
 # IDS Multiselect TODOs
 
-Keep this file in sync with NUMBER HERE
+Keep this file in sync with [#741](https://github.com/infor-design/enterprise-wc/issues/741)
 
 ## Major
 
