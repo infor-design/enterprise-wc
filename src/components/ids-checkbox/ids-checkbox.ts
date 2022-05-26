@@ -54,10 +54,10 @@ export default class IdsCheckbox extends Base {
   }
 
   /**
- * Internal change event detection trigger.
- * @private
- * @type {boolean}
- */
+   * Internal change event detection trigger.
+   * @private
+   * @type {boolean}
+   */
   #triggeredChange = false;
 
   /**

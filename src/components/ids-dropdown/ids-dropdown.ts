@@ -597,9 +597,9 @@ export default class IdsDropdown extends Base {
   }
 
   /**
- * Handle Clicking with the mouse on options
- *  @public
- */
+   * Handle Clicking with the mouse on options
+   *  @public
+   */
   attachClickEvent() {
     this.onEvent('click', this, (e: any) => {
       if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
