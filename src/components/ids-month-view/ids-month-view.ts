@@ -543,7 +543,10 @@ class IdsMonthView extends Base {
    * @returns {string} locale formatted month year
    */
   #formatMonthText(): string {
-    return this.locale?.formatDate(this.activeDate, { pattern: 'MMMM yyyy' });
+    const monthKeys = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const month = this.locale?.translate(`MonthWide${monthKeys[this.activeDate.getMonth()]}`);
+
+    return `${month} ${this.activeDate.getFullYear()}`;
   }
 
   /**
@@ -1105,10 +1108,8 @@ class IdsMonthView extends Base {
    * Add week days HTML to the table
    */
   #renderWeekDays(): void {
-    if (!this.locale) return;
-
-    const calendar = this.locale.calendar();
-    const weekDays = this.compact ? calendar.days.narrow : calendar.days.abbreviated;
+    const weekDayKeys = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const weekDays = weekDayKeys.map((item) => this.locale?.translate(`${this.compact ? 'DayNarrow' : 'DayAbbreviated'}${item}`));
 
     const weekDaysTemplate = weekDays.map((el: any, index: number) => {
       const weekday = weekDays[(index + this.firstDayOfWeek) % WEEK_LENGTH];

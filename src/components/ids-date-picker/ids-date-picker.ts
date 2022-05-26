@@ -38,6 +38,7 @@ import styles from './ids-date-picker.scss';
 
 const MIN_MONTH = 0;
 const MAX_MONTH = 11;
+const MONTH_KEYS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 /**
  * IDS Date Picker Component
@@ -827,10 +828,10 @@ class IdsDatePicker extends Base {
   #attachPicklist() {
     if (!this.isDropdown) return;
 
-    const calendarMonths: Array<string> = this.locale?.calendar()?.months.wide;
+    const monthsList: Array<string> = MONTH_KEYS.map((item) => this.locale?.translate(`MonthWide${item}`));
     const disabledSettings: DisableSettings = getClosest(this, 'ids-month-view')?.disable;
     const startYear: number = this.year - 2;
-    const months = calendarMonths?.map((item: string, index: number) => `<li
+    const months = monthsList?.map((item: string, index: number) => `<li
         data-month="${index}"
         class="picklist-item is-month${index === 5 || index === 11 ? ' is-last' : ''}"
       ><ids-text>${item}</ids-text></li>`).filter(
@@ -909,14 +910,14 @@ class IdsDatePicker extends Base {
    * Helper to cycle through the entire list of the months
    */
   #picklistMonthPaged() {
-    const calendarMonths: Array<string> = this.locale?.calendar()?.months.wide;
+    const monthsList: Array<string> = MONTH_KEYS.map((item) => this.locale?.translate(`MonthWide${item}`));
 
     this.container.querySelectorAll('.picklist-item.is-month').forEach((el: any, index: number) => {
       const elMonth: number = stringToNumber(el.dataset.month);
       const month: number = elMonth > 5 ? 0 + index : 6 + index;
 
       el.dataset.month = month;
-      el.querySelector('ids-text').textContent = calendarMonths[month];
+      el.querySelector('ids-text').textContent = monthsList[month];
 
       if (el.classList.contains('is-selected')) {
         this.#selectPicklistEl(el);

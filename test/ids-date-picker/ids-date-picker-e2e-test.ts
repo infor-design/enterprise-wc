@@ -768,4 +768,30 @@ describe('Ids Date Picker e2e Tests', () => {
 
     expect(value).toEqual('2018-03-22');
   });
+
+  it('should handle different locale and language', async () => {
+    await page.evaluate(async () => {
+      const component: any = document.querySelector('#e2e-datepicker-value');
+      const container: any = document.querySelector('ids-container');
+
+      if (container) {
+        await container.setLocale('es-ES');
+        await container.setLanguage('en');
+      }
+
+      if (component) {
+        component.format = 'M/d/yyyy';
+        component.value = '3/4/2016';
+        component.show();
+      }
+    });
+
+    const picklistMonth = await page.$eval('#e2e-datepicker-value', (el: any) => el?.container.querySelector('ids-month-view')?.container.querySelector('ids-date-picker')?.value);
+    const weekDays = await page.$eval('#e2e-datepicker-value', (el: any) => Array.from(
+      el?.container.querySelector('ids-month-view')?.container.querySelectorAll('.weekday-text')
+    ).map((item: any) => item?.textContent));
+
+    expect(picklistMonth).toEqual('March 2016');
+    expect(weekDays).toEqual(['S', 'M', 'T', 'W', 'T', 'F', 'S']);
+  });
 });
