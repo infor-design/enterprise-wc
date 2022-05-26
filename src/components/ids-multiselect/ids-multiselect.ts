@@ -34,7 +34,7 @@ class IdsMultiselect extends Base {
   connectedCallback() {
     this.#populateSelected();
     Base.prototype.connectedCallback.apply(this);
-    window.requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
       this.resetDirtyTracker();
     });
   }
