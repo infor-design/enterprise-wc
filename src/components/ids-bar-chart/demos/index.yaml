@@ -17,3 +17,6 @@
   - link: patterns.html
     type: Example
     description: Shows configuring custom patterns for accessibility
+  - link: no-animation.html
+    type: Example
+    description: Shows configuring no animation

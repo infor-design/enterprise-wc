@@ -1,12 +1,11 @@
 import percySnapshot from '@percy/puppeteer';
 
 describe('Ids Axis Chart Percy Tests', () => {
-  const url = 'http://localhost:4444/ids-axis-chart/example.html';
+  const url = 'http://localhost:4444/ids-axis-chart/no-animatioon.html';
 
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('pierce/.chart-legend');
-    await page.waitForSelector('[mode="light"]');
     await percySnapshot(page, 'ids-axis-chart-new-light');
   });
 
