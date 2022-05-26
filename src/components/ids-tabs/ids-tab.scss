@@ -5,6 +5,7 @@ $ids-tab-alternate-color-disabled: rgba(255 255 255 / 0.4);
 
 $ids-tab-min-width: 135px;
 $ids-tab-actionable-min-width: 44px;
+$ids-tab-vertical-height: 42px;
 
 @mixin ids-tabs-focus-border() {
   &::before {
@@ -39,50 +40,70 @@ $ids-tab-actionable-min-width: 44px;
   }
 }
 
+:host(:not([hidden])) {
+  display: block;
+}
+
 // Spacing rules for Horizontal Tab Lists
 
 :host(ids-tab:not([orientation='vertical']):not([color-variant='module']):first-child),
 :host(ids-tab-more:not([orientation='vertical']):not([color-variant='module']):first-child),
-.ids-tab-container:not([orientation='vertical']):not(.color-variant-module) [class*='ids-tab']:first-child {
+.ids-tabs-container:not(.orientation-vertical):not(.color-variant-module) [class*='ids-tab']:first-child {
   @include ml-4;
 }
 
 :host(ids-tab:not([orientation='vertical']):not([color-variant='module']):last-child),
 :host(ids-tab-more:not([orientation='vertical']):not([color-variant='module']):last-child),
-.ids-tab-container:not([orientation='vertical']):not(.color-variant-module) [class*='ids-tab']:last-child {
+.ids-tabs-container:not(.orientation-vertical):not(.color-variant-module) [class*='ids-tab']:last-child {
   @include mr-4;
 }
 
 :host(ids-tab:not([orientation='vertical']):not([color-variant='module']):not(:last-child)),
 :host(ids-tab-more:not([orientation='vertical']):not([color-variant='module']):not(:last-child)),
-.ids-tab-container:not(.orientation-vertical):not(.color-variant-module) [class*='ids-tab']:not(:last-child) {
+.ids-tabs-container:not(.orientation-vertical):not(.color-variant-module) [class*='ids-tab']:not(:last-child) {
   @include mr-8;
 }
 
 // Border/Themes for Module Tabs
 
+// None
 :host(ids-tab[color-variant='module']:not([mode]):not(:last-child)),
-:host(ids-tab-more[color-variant='module']:not([mode]):not(:last-child)),
-.ids-tab-container.color-variant-module:not([mode]) [class*='ids-tab']:not(:last-child) {
+.ids-tabs-container.color-variant-module:not([mode]) .ids-tab:not(:last-child) {
   border-right: 1px solid var(--ids-color-palette-azure-100);
 }
+:host(ids-tab-more[color-variant='module']:not([mode])),
+.ids-tabs-container.color-variant-module:not([mode]) .ids-tab.more {
+  border-left: 1px solid var(--ids-color-palette-azure-100);
+}
 
+// Light
 :host(ids-tab[color-variant='module'][mode='light']:not(:last-child)),
-:host(ids-tab-more[color-variant='module'][mode='light']:not(:last-child)),
-.ids-tab-container.color-variant-module[mode='light'] [class*='ids-tab']:not(:last-child) {
+.ids-tabs-container.color-variant-module[mode='light'] .ids-tab:not(:last-child) {
   border-right: 1px solid var(--ids-color-palette-azure-100);
 }
+:host(ids-tab-more[color-variant='module'][mode='light']),
+.ids-tabs-container.color-variant-module[mode='light'] .ids-tab.more {
+  border-left: 1px solid var(--ids-color-palette-azure-100);
+}
 
+// Dark
 :host(ids-tab[color-variant='module'][mode='dark']:not(:last-child)),
-:host(ids-tab-more[color-variant='module'][mode='dark']:not(:last-child)),
-.ids-tab-container.color-variant-module[mode='dark'] [class*='ids-tab']:not(:last-child) {
+.ids-tabs-container.color-variant-module[mode='dark'] .ids-tab:not(:last-child) {
   border-right: 1px solid var(--ids-color-palette-slate-100);
 }
+:host(ids-tab-more[color-variant='module'][mode='dark']),
+.ids-tabs-container.color-variant-module[mode='dark'] .ids-tab.more {
+  border-left: 1px solid var(--ids-color-palette-slate-100);
+}
 
+// Contrast
 :host(ids-tab[color-variant='module'][mode='contrast']:not(:last-child)),
-:host(ids-tab-more[color-variant='module'][mode='contrast']:not(:last-child)),
-.ids-tab-container.color-variant-module[mode='contrast'] [class*='ids-tab']:not(:last-child) {
+.ids-tabs-container.color-variant-module[mode='contrast'] .ids-tab:not(:last-child) {
   border-right: 1px solid var(--ids-color-palette-azure-100);
+}
+:host(ids-tab-more[color-variant='module'][mode='contrast']),
+.ids-tabs-container.color-variant-module[mode='contrast'] .ids-tab.more {
+  border-left: 1px solid var(--ids-color-palette-azure-100);
 }
 
 // Spacing rules for Module Tabs
@@ -206,7 +227,7 @@ $ids-tab-actionable-min-width: 44px;
   }
 
   &.orientation-vertical {
-    @include pl-24();
+    @include px-24();
 
     display: flex;
     align-items: flex-start;
@@ -214,7 +235,7 @@ $ids-tab-actionable-min-width: 44px;
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
-    height: 42px;
+    height: $ids-tab-vertical-height;
 
     &.selected {
       &:focus {

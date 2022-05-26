@@ -197,10 +197,12 @@ export default class IdsTabMore extends Base {
   }
 
   /**
-   * Refreshes the visible state of menu items representing "overflowed" elements
+   * Refreshes the visible state of menu items representing "overflowed" elements,
+   * and hides/shows this component from view
    * @returns {void}
    */
   refreshOverflowedItems(): void {
+    this.hidden = false;
     this.overflowMenuItems.forEach((item) => {
       const doHide = !this.isOverflowed(item.overflowTarget);
       item.hidden = doHide;
@@ -212,6 +214,10 @@ export default class IdsTabMore extends Base {
     });
 
     this.hidden = !this.hasVisibleActions();
+    if (!this.hasVisibleActions) {
+      this.menu.hide();
+    }
+
     this.disabled = !this.hasEnabledActions();
   }
 
@@ -319,16 +325,16 @@ export default class IdsTabMore extends Base {
 
     if (this.locale?.isRTL()) {
       // Beyond left edge
-      return tabRect.left < moreTabRect.right;
+      return tabRect.left < moreTabRect.right - 3;
     }
     // Beyond right edge
-    return tabRect.right > moreTabRect.left;
+    return tabRect.right > moreTabRect.left + 3;
   }
 
   #configureMenu() {
     this.menu.width = '100%';
     this.menu.popup.align = 'bottom, left';
-    this.menu.popup.y = 0;
+    this.menu.popup.y = -10;
   }
 
   #attachMoreMenuEvents(): void {

@@ -29,10 +29,10 @@ export default class IdsTabs extends Base {
   connectedCallback() {
     super.connectedCallback?.();
     this.setAttribute(htmlAttributes.ROLE, 'tablist');
-
+    this.#connectMoreTabs();
     this.#detectParentColorVariant();
     this.#attachEventHandlers();
-    this.#ro.observe(this as any);
+    this.#ro.observe(this.container as any);
   }
 
   disconnectedCallback() {
@@ -60,21 +60,38 @@ export default class IdsTabs extends Base {
    * @returns {string} template for Tab List
    */
   template() {
-    return '<slot></slot>';
+    return `<div class="ids-tabs-container">
+      <div class="ids-tabs-list">
+        <slot></slot>
+      </div>
+      <div class="ids-tabs-list-more">
+        <slot name="more"></slot>
+      </div>
+    </div>`;
   }
 
   /**
    * Watches for changes to the Tab List size and recalculates overflowed tabs, if applicable
    * @private
-   * @property {ResizeObserver} mo this Popup component's resize observer
+   * @property {ResizeObserver} ro this Popup component's resize observer
    */
   #ro = new ResizeObserver((entries) => {
     for (const entry of entries) {
-      if (entry.target.tagName.toLowerCase() === 'ids-tab-list') {
-        this.#refreshOverflowedTabs();
+      if (entry.target.classList.contains('ids-tabs-container')) {
+        this.#resize();
       }
     }
   });
+
+  /**
+   * Runs whenever the Tab List's size is altered
+   */
+  #resize(): void {
+    const moreTab = this.querySelector('ids-tab-more');
+    if (moreTab) {
+      moreTab.refreshOverflowedItems();
+    }
+  }
 
   /**
    * Inherited from `IdsColorVariantMixin`
@@ -115,11 +132,18 @@ export default class IdsTabs extends Base {
   }
 
   /**
+   * @returns {HTMLElement} Tab List container element reference from the shadow root
+   */
+  get tabListContainer() {
+    return this.container.querySelector('.ids-tabs-list');
+  }
+
+  /**
    * @readonly
    * @returns {any} [IdsTab | null] The last possible tab with a usable value in the list
    */
   get lastNavigableTab(): any {
-    return [...this.querySelectorAll('ids-tab[value]:not([actionable])')].pop();
+    return [...this.querySelectorAll('ids-tab[value]:not([actionable]):not([overflowed])')].pop();
   }
 
   /**
@@ -168,9 +192,11 @@ export default class IdsTabs extends Base {
     // Reusable handlers
     const nextTabHandler = (e: Event) => {
       this.nextTab((e.target as any).closest('ids-tab, ids-tab-more')).focus();
+      this.tabListContainer.scrollLeft = 0;
     };
     const prevTabHandler = (e: Event) => {
       this.prevTab((e.target as any).closest('ids-tab, ids-tab-more')).focus();
+      this.tabListContainer.scrollLeft = 0;
     };
 
     // Add key listeners and consider orientation for assignments
@@ -224,11 +250,19 @@ export default class IdsTabs extends Base {
 
     // Refreshes the tab list on change
     this.onEvent('slotchange', this.container, () => {
+      this.#connectMoreTabs();
       this.#refreshOverflowedTabs();
       if (!this.hasTab(this.value)) {
         this.#selectTab(this.lastNavigableTab);
       }
     });
+  }
+
+  /**
+   * Configures any slotted `ids-tab-more` components present
+   */
+  #connectMoreTabs() {
+    this.querySelector('ids-tab-more')?.setAttribute('slot', 'more');
   }
 
   /**
@@ -240,7 +274,7 @@ export default class IdsTabs extends Base {
     let nextTab: any = currentTab.nextElementSibling;
 
     // If next sibling isn't a tab or is disabled, try this method again on the found sibling
-    if (nextTab && (!nextTab.tagName.includes('IDS-TAB') || nextTab.disabled)) {
+    if (nextTab && (!nextTab.tagName.includes('IDS-TAB') || nextTab.disabled || nextTab.hasAttribute('overflowed'))) {
       return this.nextTab(nextTab);
     }
 
@@ -261,7 +295,7 @@ export default class IdsTabs extends Base {
     let prevTab: any = currentTab.previousElementSibling;
 
     // If previous sibling isn't a tab or is disabled, try this method again on the found sibling
-    if (prevTab && (!prevTab.tagName.includes('IDS-TAB') || prevTab.disabled)) {
+    if (prevTab && (!prevTab.tagName.includes('IDS-TAB') || prevTab.disabled || prevTab.hasAttribute('overflowed'))) {
       return this.prevTab(prevTab);
     }
 
@@ -307,6 +341,7 @@ export default class IdsTabs extends Base {
     const moreTab = this.querySelector('ids-tab-more');
     if (moreTab) {
       moreTab.renderOverflowedItems();
+      moreTab.refreshOverflowedItems();
     }
   }
 
@@ -330,5 +365,6 @@ export default class IdsTabs extends Base {
     tabs.forEach((tab) => {
       tab.orientation = this.orientation;
     });
+    this.#resize();
   }
 }

@@ -55,6 +55,8 @@
     display: grid;
     grid-template-columns: 0 max-content;
     max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellispis;
     user-select: inherit;
     white-space: nowrap;
     width: calc(100% - 16px);
