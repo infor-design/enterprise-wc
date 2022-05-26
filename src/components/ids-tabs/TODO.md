@@ -5,10 +5,11 @@ Keep this file in sync with #683
 ## Major
 
 - [x] Add Module Tabs ([#729](https://github.com/infor-design/enterprise-wc/issues/729))
-- [ ] Add overflow detection feature (may need design review?)
+- [x] Add overflow detection feature (may need design review?)
 - [ ] Dismissible Tabs
 - [ ] Review current solution for potential optimization (remove extraneous elements and looping)
 - [ ] `ids-tab-divider`: Improve accessibility + add aXe tests
+- [ ] Sortable Behavior ([Example](https://main-enterprise.demo.design.infor.com/components/tabs-module/example-sortable.html))
 
 ## Minor
 
