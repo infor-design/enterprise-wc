@@ -954,4 +954,24 @@ describe('Ids Month View e2e Tests', () => {
 
     expect(isDisabled).toBeTruthy();
   });
+
+  it('should show today visually', async () => {
+    await page.reload({ waitUntil: 'networkidle0' });
+    await page.setRequestInterception(false);
+
+    await page.evaluate((el: any) => {
+      const element = document.querySelector(el);
+      const now = new Date();
+
+      if (element) {
+        element.year = now.getFullYear();
+        element.month = now.getMonth();
+        element.day = now.getDate();
+      }
+    }, name);
+
+    const todayEl = await page.$eval(name, (el: any) => el?.container.querySelector('td.is-today'));
+
+    expect(todayEl).not.toBeNull();
+  });
 });
