@@ -43,6 +43,7 @@ export default class IdsTabs extends Base {
   rendered() {
     const selected: any = this.querySelector('[selected]') || this.querySelector('[value]');
     this.#selectTab(selected);
+    this.#attachAfterRenderEvents();
   }
 
   /**
@@ -252,7 +253,12 @@ export default class IdsTabs extends Base {
         elem.focus();
       }
     });
+  }
 
+  /**
+   * Attaches event handlers that should be applied after rendering occurs
+   */
+  #attachAfterRenderEvents(): void {
     // Refreshes the tab list on change
     this.onEvent('slotchange', this.container, () => {
       this.#connectMoreTabs();

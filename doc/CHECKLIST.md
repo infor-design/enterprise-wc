@@ -127,7 +127,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Switch (ids-switch)
  - [x] Tabs (ids-tabs)
  - [x] Tabs Header (ids-tabs with option)
- - [ ] Tabs Module (ids-tabs with option)
+ - [x] Tabs Module (ids-tabs with option)
  - [ ] Tabs Multi (ids-tabs with option) skipping until needed
  - [x] Tabs Vertical (ids-tabs with option)
  - [x] Tag (ids-tag)
