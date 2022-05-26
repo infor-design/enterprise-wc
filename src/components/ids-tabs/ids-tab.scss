@@ -71,6 +71,7 @@ $ids-tab-vertical-height: 42px;
 .ids-tabs-container.color-variant-module:not([mode]) .ids-tab:not(:last-child) {
   border-right: 1px solid var(--ids-color-palette-azure-100);
 }
+
 :host(ids-tab-more[color-variant='module']:not([mode])),
 .ids-tabs-container.color-variant-module:not([mode]) .ids-tab.more {
   border-left: 1px solid var(--ids-color-palette-azure-100);
@@ -81,6 +82,7 @@ $ids-tab-vertical-height: 42px;
 .ids-tabs-container.color-variant-module[mode='light'] .ids-tab:not(:last-child) {
   border-right: 1px solid var(--ids-color-palette-azure-100);
 }
+
 :host(ids-tab-more[color-variant='module'][mode='light']),
 .ids-tabs-container.color-variant-module[mode='light'] .ids-tab.more {
   border-left: 1px solid var(--ids-color-palette-azure-100);
@@ -91,6 +93,7 @@ $ids-tab-vertical-height: 42px;
 .ids-tabs-container.color-variant-module[mode='dark'] .ids-tab:not(:last-child) {
   border-right: 1px solid var(--ids-color-palette-slate-100);
 }
+
 :host(ids-tab-more[color-variant='module'][mode='dark']),
 .ids-tabs-container.color-variant-module[mode='dark'] .ids-tab.more {
   border-left: 1px solid var(--ids-color-palette-slate-100);
@@ -101,6 +104,7 @@ $ids-tab-vertical-height: 42px;
 .ids-tabs-container.color-variant-module[mode='contrast'] .ids-tab:not(:last-child) {
   border-right: 1px solid var(--ids-color-palette-azure-100);
 }
+
 :host(ids-tab-more[color-variant='module'][mode='contrast']),
 .ids-tabs-container.color-variant-module[mode='contrast'] .ids-tab.more {
   border-left: 1px solid var(--ids-color-palette-azure-100);
@@ -204,7 +208,6 @@ $ids-tab-vertical-height: 42px;
 
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
-
       flex-direction: column;
       align-items: flex-start;
       justify-content: flex-end;
@@ -233,7 +236,6 @@ $ids-tab-vertical-height: 42px;
     align-items: flex-start;
     justify-content: center;
     flex-direction: column;
-    align-items: flex-start;
     width: 100%;
     height: $ids-tab-vertical-height;
 
@@ -275,7 +277,6 @@ $ids-tab-vertical-height: 42px;
   // =================================================
   // Structural rules for Module Tabs color variant
   &.color-variant-module {
-
     // Scoped to the first child text element to avoid conflicts with menus
     > ids-text,
     > .ids-text {
@@ -302,9 +303,9 @@ $ids-tab-vertical-height: 42px;
 
   &:not([mode]),
   &[mode='light'] {
-
     // =================================================
     // Light Mode / Default Color Variant
+
     &:not([class*='color-variant-']) {
       @include text-slate-70;
 
@@ -431,7 +432,6 @@ $ids-tab-vertical-height: 42px;
   // Dark Mode
 
   &[mode='dark'] {
-
     // =================================================
     // Dark Mode / Default Color Variant
 
@@ -524,7 +524,6 @@ $ids-tab-vertical-height: 42px;
       // Horizontal Tab Styles
       &:not(.orientation-vertical) {
         &.selected {
-
           &::after,
           & .selection-underline {
             @include bg-white();
@@ -537,7 +536,6 @@ $ids-tab-vertical-height: 42px;
     // Dark Mode / Module Tabs Color Variant
 
     &.color-variant-module {
-      @include font-bold();
       @include bg-slate-70();
       @include text-slate-10();
 
@@ -562,7 +560,6 @@ $ids-tab-vertical-height: 42px;
   // Contrast Mode
 
   &[mode='contrast'] {
-
     // =================================================
     // Contrast Mode / Default Color Variant
 
@@ -647,7 +644,6 @@ $ids-tab-vertical-height: 42px;
 
       &:not(.orientation-vertical) {
         &.selected {
-
           &::after,
           & .selection-underline {
             @include bg-white();
@@ -660,7 +656,6 @@ $ids-tab-vertical-height: 42px;
     // Contrast Mode / Module Tabs Color Variant
 
     &.color-variant-module {
-      @include font-bold();
       @include bg-azure-80();
       @include text-azure-10();
 
