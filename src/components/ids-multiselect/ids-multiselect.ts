@@ -13,7 +13,7 @@ import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-s
 /**
  * IDS Multiselect Component
  * @type {IdsMultiselect}
- * @inherits IdsElement
+ * @inherits IdsDropdown
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  * @part container - the container element
