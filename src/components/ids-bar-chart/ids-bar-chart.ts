@@ -116,11 +116,9 @@ export default class IdsBarChart extends Base {
         barHTML += `<g role="listitem">
           <text class="audible" x="${left}" y="${this.markerData.gridBottom}">${label} ${point.value}</text>
           <rect class="bar color-${groupIndex + 1}" aria-hidden="true" index="${index}" width="${this.barWidth}" height="${height}" x="${left}" y="${top}"${pattern}>
-          ${this.animated ? `
-            <animate attributeName="height" from="0" to="${height}" ${this.cubicBezier}></animate>
-            <animate attributeName="y" from="${bottom}" to="${top}" ${this.cubicBezier}/>
-          </rect></g>` : ''}
-         `;
+            <animate attributeName="height" from="0" to="${height}" ${this.animated ? this.cubicBezier : this.cubicBezier.replace('0.8s', '0.01s')}></animate>
+            <animate attributeName="y" from="${bottom}" to="${top}" ${this.animated ? this.cubicBezier : this.cubicBezier.replace('0.8s', '0.01s')}></animate>
+          </rect></g>`;
       });
     });
 
