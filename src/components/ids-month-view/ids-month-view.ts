@@ -235,7 +235,7 @@ class IdsMonthView extends Base {
             if (key === 27) {
               this.rangeSettings.start = null;
               this.#clearRangeClasses();
-              this.#selectDay(this.year, this.month, this.day);
+              this.selectDay(this.year, this.month, this.day);
               this.focus();
             }
 
@@ -268,6 +268,8 @@ class IdsMonthView extends Base {
               this.#setRangeSelection(this.year, this.month, this.day);
               this.#triggerSelectedEvent();
             }
+
+            this.focus();
 
             return;
           }
@@ -345,6 +347,9 @@ class IdsMonthView extends Base {
         }
 
         if (keys.includes(key) || key === 84) {
+          if (this.isDatePicker) {
+            this.selectDay(this.year, this.month, this.day);
+          }
           this.focus();
         }
       });
@@ -494,7 +499,11 @@ class IdsMonthView extends Base {
       this.container.querySelector('.btn-apply')?.setAttribute('hidden', !expanded);
       this.container.querySelector('.btn-previous')?.setAttribute('hidden', expanded);
       this.container.querySelector('.btn-next')?.setAttribute('hidden', expanded);
-      this.#selectDay(!expanded && this.year, !expanded && this.month, !expanded && this.day);
+      if (expanded) {
+        this.container.querySelector('td.is-selected')?.removeAttribute('tabindex');
+      } else {
+        this.container.querySelector('td.is-selected')?.setAttribute('tabindex', 0);
+      }
     });
   }
 
@@ -806,7 +815,7 @@ class IdsMonthView extends Base {
       ? addDate(startDate, (minDays as number), 'days')
       : subtractDate(startDate, (minDays as number), 'days');
 
-    this.#selectDay(year, month, day);
+    this.selectDay(year, month, day);
 
     if (this.rangeSettings.selectWeek) {
       return;
@@ -919,7 +928,7 @@ class IdsMonthView extends Base {
       this.rangeSettings.start = firstDayOfWeek;
       this.rangeSettings.end = addDate(this.rangeSettings.start, WEEK_LENGTH - 1, 'days');
 
-      this.#selectDay();
+      this.selectDay();
       this.#renderRangeSelection();
     }
   }
@@ -1059,8 +1068,8 @@ class IdsMonthView extends Base {
       const month: number = date.getMonth();
       const year: number = date.getFullYear();
       const dateMatch: boolean = day === this.day && year === this.year && month === this.month;
-      const isSelected: boolean = !this.useRange && dateMatch;
-      const isSelectedWithRange: boolean = this.useRange && !this.rangeSettings.start && dateMatch;
+      const isSelected: boolean = !this.isDatePicker && !this.useRange && dateMatch;
+      const isSelectedWithRange: boolean = !this.isDatePicker && this.useRange && !this.rangeSettings.start && dateMatch;
       const isDisabled: boolean = this.isDisabledByDate(date);
       const isAlternate: boolean = !this.#isDisplayRange() && (date < firstDayOfRange || date > lastDayOfRange);
       const legend: any = this.#getLegendByDate(date);
@@ -1165,7 +1174,7 @@ class IdsMonthView extends Base {
    * @param {number} month a given month
    * @param {number} day a given day
    */
-  #selectDay(year?: any, month?: any, day?: any): void {
+  selectDay(year?: any, month?: any, day?: any): void {
     // Clear before
     this.container.querySelectorAll('td.is-selected')?.forEach((item: HTMLElement) => {
       item?.removeAttribute('aria-selected');
@@ -1238,7 +1247,9 @@ class IdsMonthView extends Base {
    * @returns {void}
    */
   focus(): void {
-    this.container.querySelector('td.is-selected')?.focus();
+    const selectedQuery = `td[data-year="${this.year}"][data-month="${this.month}"][data-day="${this.day}"]`;
+
+    this.container.querySelector(selectedQuery)?.focus();
   }
 
   /**
@@ -1308,7 +1319,7 @@ class IdsMonthView extends Base {
 
     // Month change in range calendar doesn't trigger a rerender, just selects a day
     if (this.#isDisplayRange()) {
-      this.#selectDay(this.year, this.month, this.day);
+      this.selectDay(this.year, this.month, this.day);
     } else {
       this.#renderMonth();
       this.#attachDatepicker();
@@ -1347,7 +1358,7 @@ class IdsMonthView extends Base {
 
     // Year change in range calendar doesn't trigger a rerender, just selects a day
     if (this.#isDisplayRange()) {
-      this.#selectDay(this.year, this.month, this.day);
+      this.selectDay(this.year, this.month, this.day);
     } else {
       this.#renderMonth();
       this.#attachDatepicker();
@@ -1385,8 +1396,8 @@ class IdsMonthView extends Base {
       this.removeAttribute(attributes.DAY);
     }
 
-    if (!this.rangeSettings.start || !this.useRange) {
-      this.#selectDay(this.year, this.month, validates ? numberVal : this.day);
+    if (!(this.rangeSettings.start || this.useRange) && !this.isDatePicker) {
+      this.selectDay(this.year, this.month, validates ? numberVal : this.day);
     }
 
     if (!this.#isDisplayRange()) {
@@ -1605,7 +1616,7 @@ class IdsMonthView extends Base {
     };
 
     if (this.useRange && val?.start) {
-      this.#selectDay();
+      this.selectDay();
     }
 
     this.container.classList.toggle('range-select-week', this.#rangeSettings.selectWeek);
@@ -1631,12 +1642,12 @@ class IdsMonthView extends Base {
 
     if (boolVal) {
       this.setAttribute(attributes.USE_RANGE, boolVal);
-      this.#selectDay();
+      this.selectDay();
       this.#renderRangeSelection();
     } else {
       this.removeAttribute(attributes.USE_RANGE);
       this.#clearRangeClasses();
-      this.#selectDay(this.year, this.month, this.day);
+      this.selectDay(this.year, this.month, this.day);
     }
   }
 

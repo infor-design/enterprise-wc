@@ -101,7 +101,7 @@
   }
 
   .month-view-table {
-    margin-top: 10px;
+    margin-top: 13px;
   }
 
   td {
@@ -162,7 +162,7 @@
         outline-style: none;
       }
 
-      &:not(.is-disabled):focus {
+      &:not(.is-disabled):not(.range-selection):focus {
         ids-text::part(text) {
           width: 31px;
           height: 31px;
@@ -313,6 +313,7 @@
   .btn-previous,
   .btn-next {
     @include pl-0();
+
     margin: 3px;
 
     &::part(button) {
@@ -321,10 +322,6 @@
       width: 44px;
       height: 44px;
     }
-  }
-
-  .month-view-table {
-    margin-top: 13px;
   }
 
   .month-view-legend {
@@ -635,7 +632,7 @@
       @include text-white();
     }
 
-    td.is-selected:not(.is-disabled):focus .day-container {
+    td.is-selected:not(.is-disabled):not(.range-selection):focus .day-container {
       @include border-azure-100();
 
       box-shadow: 0 0 4px 2px rgb(41 41 41 / 0.3);

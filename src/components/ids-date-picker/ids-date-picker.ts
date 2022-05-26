@@ -326,38 +326,50 @@ class IdsDatePicker extends Base {
 
       this.offEvent('dayselected.date-picker-calendar');
       this.onEvent('dayselected.date-picker-calendar', this.#monthView, (e: DayselectedEvent) => {
-        if (!this.isCalendarToolbar) {
-          if (this.useRange) {
-            if (this.rangeSettings.selectWeek) {
-              this.value = [
-                this.locale.formatDate(this.#setTime(e.detail.rangeStart as Date), { pattern: this.format }),
-                this.rangeSettings.separator,
-                e.detail.rangeEnd && this.locale.formatDate(this.#setTime(e.detail.rangeEnd), { pattern: this.format })
-              ].filter(Boolean).join('');
+        const inputDate: Date = this.locale.parseDate(this.value, { dateFormat: this.format });
 
-              this.#togglePopup(false);
-              this.focus();
-              this.#triggerSelectedEvent();
+        // Clear action
+        // Deselect the selected date by clicking to the selected date
+        if (isValidDate(inputDate) && inputDate.getTime() === e.detail.date.getTime()) {
+          this.value = '';
+          if (this.#monthView.selectDay) {
+            this.#monthView.selectDay();
+          }
+          this.#triggerSelectedEvent();
 
-              return;
-            }
+          return;
+        }
 
-            const btnApply: HTMLElement = this.container.querySelector('.popup-btn-apply');
+        if (this.useRange) {
+          if (this.rangeSettings.selectWeek) {
+            this.value = [
+              this.locale.formatDate(this.#setTime(e.detail.rangeStart as Date), { pattern: this.format }),
+              this.rangeSettings.separator,
+              e.detail.rangeEnd && this.locale.formatDate(this.#setTime(e.detail.rangeEnd), { pattern: this.format })
+            ].filter(Boolean).join('');
 
-            if (e.detail.rangeStart && e.detail.rangeEnd) {
-              btnApply?.removeAttribute('disabled');
-            } else {
-              btnApply?.setAttribute('disabled', 'true');
-            }
-          } else {
-            this.value = this.locale.formatDate(
-              this.#setTime(e.detail.date),
-              { pattern: this.format }
-            );
             this.#togglePopup(false);
             this.focus();
             this.#triggerSelectedEvent();
+
+            return;
           }
+
+          const btnApply: HTMLElement = this.container.querySelector('.popup-btn-apply');
+
+          if (e.detail.rangeStart && e.detail.rangeEnd) {
+            btnApply?.removeAttribute('disabled');
+          } else {
+            btnApply?.setAttribute('disabled', 'true');
+          }
+        } else {
+          this.value = this.locale.formatDate(
+            this.#setTime(e.detail.date),
+            { pattern: this.format }
+          );
+          this.#togglePopup(false);
+          this.focus();
+          this.#triggerSelectedEvent();
         }
       });
 
@@ -757,7 +769,12 @@ class IdsDatePicker extends Base {
   #togglePopup(isOpen: boolean) {
     if (this.isDropdown) return;
 
-    if (isOpen && !this.readonly) {
+    if (isOpen && !this.readonly && !this.disabled) {
+      this.#parseInputDate();
+      if (this.value) {
+        this.#monthView?.selectDay(this.year, this.month, this.day);
+      }
+
       this.addOpenEvents();
       this.#attachExpandedListener();
       this.#popup.removeAttribute('tabindex');
@@ -773,7 +790,6 @@ class IdsDatePicker extends Base {
       this.#popup.visible = true;
 
       this.container.classList.add('is-open');
-      this.#parseInputDate();
 
       this.#monthView.focus();
 
@@ -781,6 +797,9 @@ class IdsDatePicker extends Base {
         this.container.removeAttribute('tabindex');
       }
     } else {
+      if (this.#monthView.selectDay) {
+        this.#monthView.selectDay();
+      }
       this.removeOpenEvents();
       this.#popup.visible = false;
       this.#popup.setAttribute('tabindex', -1);
@@ -794,7 +813,7 @@ class IdsDatePicker extends Base {
       // Close and reset month/year picker when main popup is closed
       const picklist = this.#monthView?.container?.querySelector('ids-date-picker');
 
-      if (picklist) {
+      if (picklist?.expanded) {
         picklist.expanded = false;
         picklist.month = this.month;
         picklist.year = this.year;
@@ -1025,10 +1044,12 @@ class IdsDatePicker extends Base {
       { dateFormat: this.format }
     ) : null;
 
-    this.rangeSettings = {
-      start: rangeStart,
-      end: rangeEnd
-    };
+    if (this.#monthView) {
+      this.#monthView.rangeSettings = {
+        start: rangeStart,
+        end: rangeEnd
+      };
+    }
 
     setDateParams(rangeStart ?? new Date());
   }

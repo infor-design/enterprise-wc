@@ -735,8 +735,8 @@ describe('Ids Date Picker e2e Tests', () => {
     await page.evaluate(() => {
       const component = (document.querySelector as any)('#e2e-datepicker-value');
 
-      component.format = 'yyyy-MM-ddTHH:mm:ss.SSSZ';
-      component.value = '2022-05-16T00:00:00.000Z';
+      component.format = 'yyyy-MM-dd';
+      component.value = '2022-05-16';
       component.show();
     });
 
@@ -755,15 +755,17 @@ describe('Ids Date Picker e2e Tests', () => {
     // Formatting
     await page.evaluate(() => {
       const component = (document.querySelector as any)('#e2e-datepicker-value');
+      component.hide();
 
       component.year = 2018;
       component.month = 2;
       component.day = 22;
-      component.container.querySelector('ids-month-view').container.querySelector('td.is-selected').click();
+      component.container.querySelector('ids-month-view')
+        .container.querySelector('td[data-year="2018"][data-month="2"][data-day="22"]').click();
     });
 
     const value = await page.$eval('#e2e-datepicker-value', (el: any) => el?.value);
 
-    expect(value).toEqual('2018-03-22T00:00:00');
+    expect(value).toEqual('2018-03-22');
   });
 });

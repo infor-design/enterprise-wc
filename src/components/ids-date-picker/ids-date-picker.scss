@@ -340,7 +340,8 @@
       outline: none;
     }
 
-    &.is-year-nav, &.is-month-nav {
+    &.is-year-nav,
+    &.is-month-nav {
       @include z-1();
     }
 
