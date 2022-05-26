@@ -31,6 +31,7 @@ export default class IdsTabMore extends Base {
 
   connectedCallback() {
     super.connectedCallback();
+    this.#attachLocaleEvents();
     this.#attachMoreMenuEvents();
 
     // Connect the menu items to their Toolbar items after everything is rendered
@@ -55,7 +56,11 @@ export default class IdsTabMore extends Base {
     const selectedAttr = this.selected ? ' font-weight="bold"' : '';
 
     return `<div id="tab-more" ${cssClassAttr} tabindex="-1" part="container">
-      <ids-text overflow="ellipsis" size="22"${selectedAttr}>${count} More</ids-text>
+      <span class="tab-more-text">
+        <ids-text id="count">${count}</ids-text>
+        <ids-text id="more-text" size="22"${selectedAttr}> ${this.locale?.translate('More')}</ids-text>
+        <ids-icon icon="dropdown"></ids-icon>
+      </span>
       <ids-popup-menu id="tab-more-menu" target="#tab-more">
         <slot></slot>
       </ids-popup-menu>
@@ -202,6 +207,8 @@ export default class IdsTabMore extends Base {
    * @returns {void}
    */
   refreshOverflowedItems(): void {
+    let overflowed = 0;
+
     this.hidden = false;
     this.overflowMenuItems.forEach((item) => {
       const doHide = !this.isOverflowed(item.overflowTarget);
@@ -210,8 +217,11 @@ export default class IdsTabMore extends Base {
         item.overflowTarget.removeAttribute(attributes.OVERFLOWED);
       } else {
         item.overflowTarget.setAttribute(attributes.OVERFLOWED, '');
+        overflowed++;
       }
     });
+
+    this.container.querySelector('#count').innerHTML = `${overflowed}`;
 
     this.hidden = !this.hasVisibleActions();
     if (!this.hasVisibleActions) {
@@ -362,5 +372,19 @@ export default class IdsTabMore extends Base {
         elem.overflowTarget.click();
       }
     });
+  }
+
+  #attachLocaleEvents() {
+    const containerElem = this.closest('ids-container');
+    const localeChangeHandler = () => {
+      this.container.querySelector('#more-text').innerHTML = this.locale?.translate('More');
+    };
+
+    // Respond to parent changing language
+    this.offEvent('languagechange.ids-tab-more');
+    this.onEvent('languagechange.ids-tab-more', containerElem, localeChangeHandler);
+
+    this.offEvent('localechange.ids-tab-more');
+    this.onEvent('localechange.ids-tab-more', containerElem, localeChangeHandler);
   }
 }

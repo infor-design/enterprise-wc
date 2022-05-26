@@ -143,7 +143,7 @@ export default class IdsTabs extends Base {
    * @returns {any} [IdsTab | null] The last possible tab with a usable value in the list
    */
   get lastNavigableTab(): any {
-    return [...this.querySelectorAll('ids-tab[value]:not([actionable]):not([overflowed])')].pop();
+    return [...this.querySelectorAll('ids-tab[value]:not([actionable]):not([disabled]):not([overflowed])')].pop();
   }
 
   /**
@@ -221,7 +221,12 @@ export default class IdsTabs extends Base {
           this.#selectTab(elem);
         }
         if (elem.tagName === 'IDS-TAB-MORE') {
-          elem.menu.showIfAble();
+          if (!elem.menu.visible) {
+            elem.menu.showIfAble();
+          } else {
+            elem.menu.hide();
+            elem.focus();
+          }
         }
       }
     });
@@ -240,7 +245,7 @@ export default class IdsTabs extends Base {
       }
     });
 
-    this.onEvent('focus', this, (e: FocusEvent) => {
+    this.onEvent('focusin', this, (e: FocusEvent) => {
       const elem: any = e.target;
       if (elem && elem.tagName === 'IDS-TAB') {
         this.#selectTab(elem);

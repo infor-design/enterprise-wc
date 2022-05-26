@@ -684,6 +684,21 @@ $ids-tab-vertical-height: 42px;
   }
 }
 
+// "More" Tab's text content and icons are centered
+.tab-more-text {
+  display: inline-flex;
+  align-items: center;
+
+  > *:not(.last-child) {
+    @include pr-4();
+  }
+
+  ids-text,
+  .ids-text {
+    display: inline-block;
+  }
+}
+
 // Popupmenus inside of the "More Tabs" tab, or Dropdown tabs
 ids-popup-menu,
 .ids-popup-menu {
