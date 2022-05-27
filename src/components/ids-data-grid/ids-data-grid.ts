@@ -206,7 +206,7 @@ export default class IdsDataGrid extends Base {
       this.#attachKeyboardListeners();
     }
 
-    if (this.autoFit) this.container.style.height = `100%`;
+    this.#applyAutoFit();
 
     // Set back direction
     if (dir) {
@@ -1032,17 +1032,37 @@ export default class IdsDataGrid extends Base {
 
   /**
    * Set the card to auto fit to its parent size
-   * @param {boolean|null} value The auto fit
+   * @param {boolean|string|null} value The auto fit
    */
   set autoFit(value) {
-    if (stringToBool(value)) {
+    if (stringToBool(value) || value === 'bottom') {
       this.setAttribute(attributes.AUTO_FIT, value);
       return;
     }
     this.removeAttribute(attributes.AUTO_FIT);
   }
 
-  get autoFit() { return stringToBool(this.getAttribute(attributes.AUTO_FIT)); }
+  get autoFit(): boolean | string | null {
+    const attr = this.getAttribute(attributes.AUTO_FIT);
+    if (attr === 'bottom') {
+      return attr;
+    }
+    return stringToBool(attr);
+  }
+
+  /**
+   * Set the container height
+   * @private
+   */
+  #applyAutoFit() {
+    if (this.autoFit === 'bottom') {
+      const spaceFromTop = this.getBoundingClientRect().y;
+      this.container.style.height = `calc(100vh - ${spaceFromTop + 16}px)`;
+    }
+    if (this.autoFit === true) {
+      this.container.style.height = '100%';
+    }
+  }
 
   /**
    * Set the active cell for focus

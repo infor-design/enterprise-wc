@@ -34,6 +34,9 @@
     description: Showing a datagrid with standalone pagination
   - link: auto-fit.html
     type: Example
+    description: Showing a datagrid that sizes to the size of the parent container
+  - link: auto-fit-bottom.html
+    type: Example
     description: Showing a datagrid that sizes to the bottom of the page
   - link: filter-books.html
     type: Example
