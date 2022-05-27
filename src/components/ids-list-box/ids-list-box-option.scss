@@ -91,7 +91,6 @@
   @include bg-graphite-20();
 }
 
-::slotted(ids-check-box){
-  //background-color: plum;
+::slotted(ids-check-box) {
   line-height: normal;
 }

@@ -62,6 +62,7 @@ export default class IdsDropdown extends Base {
       ...super.attributes,
       attributes.ALLOW_BLANK,
       attributes.DISABLED,
+      attributes.GROUP,
       attributes.LABEL,
       attributes.NO_MARGINS,
       attributes.READONLY,
@@ -326,6 +327,23 @@ export default class IdsDropdown extends Base {
 
   get readonly() {
     return stringToBool(this.getAttribute(attributes.READONLY)) || false;
+  }
+
+  /**
+   * Sets the group attribute
+   * @param {string|boolean} value string value from the disabled attribute
+   */
+  set group(value) {
+    const valueSafe = stringToBool(value);
+    if (valueSafe) {
+      this.setAttribute(attributes.GROUP, valueSafe);
+      return
+    }
+    this.removeAttribute(attributes.GROUP);
+  }
+
+  get group(){
+    return this.getAttribute(attributes.GROUP);
   }
 
   /**
@@ -597,9 +615,9 @@ export default class IdsDropdown extends Base {
   }
 
   /**
- * Handle Clicking with the mouse on options
- *  @public
- */
+   * Handle Clicking with the mouse on options
+   *  @public
+   */
   attachClickEvent() {
     this.onEvent('click', this, (e: any) => {
       if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {

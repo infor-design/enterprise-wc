@@ -13,7 +13,7 @@ import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-s
 /**
  * IDS Multiselect Component
  * @type {IdsMultiselect}
- * @inherits IdsElement
+ * @inherits IdsDropdown
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  * @part container - the container element
@@ -34,7 +34,7 @@ class IdsMultiselect extends Base {
   connectedCallback() {
     this.#populateSelected();
     Base.prototype.connectedCallback.apply(this);
-    window.requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
       this.resetDirtyTracker();
     });
   }
@@ -138,87 +138,68 @@ class IdsMultiselect extends Base {
   attachClickEvent() {
     this.offEvent('click');
     this.onEvent('click', this, (e: any) => {
-      if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
-        const targetOption = e.target;
-        if (this.#selectedList.find((value) => value === targetOption.getAttribute('value'))) {
-          this.#selectedList = this.#selectedList.filter((item) => item !== targetOption.getAttribute('value'));
-          this.selectOption(targetOption);
-          this.#updateDisplay();
-          this.#updateList(false);
-        } else if (this.max !== this.value.length) {
-          this.#selectedList.push(e.target.getAttribute('value'));
-          this.selectOption(targetOption);
-          this.#updateDisplay();
-          this.#updateList(true);
-          return;
-        }
-      }
-
-      if (e.target.closest('ids-list-box-option')) {
-        const targetOption = e.target.closest('ids-list-box-option');
-        if (this.#selectedList.find((value) => value === targetOption.getAttribute('value'))) {
-          this.#selectedList = this.#selectedList.filter((item) => item !== targetOption.getAttribute('value'));
-          this.selectOption(targetOption);
-          this.#updateDisplay();
-          this.#updateList(false);
-        } else if (this.max !== this.value.length) {
-          this.#selectedList.push(targetOption.getAttribute('value'));
-          this.selectOption(targetOption);
-          this.#updateDisplay();
-          this.#updateList(true);
-        }
-      }
-
-      if (e.target.isEqualNode(this)) {
-        this.toggle();
-      }
+      this.#handleOptionClick(e);
     });
 
     /**
      * TO DO: update to select and group functionality to follow updates to ids-dropdown
      */
-    /*
-    this.unlisten('Enter');
-    this.unlisten(' ');
-    this.listen([' ', 'Enter'], this, () => {
-      if (!this.popup.visible) {
-        this.open();
-        return;
-      }
-
-      const selected = this.querySelector('ids-list-box-option.is-selected');
-      this.value = selected.getAttribute('value');
-      this.#updateDisplay();
-      this.close();
-    });
-    */
 
     if (this.tags) {
       this.onEvent('beforetagremove', this.input, (e:any) => {
-        const removedSelection = this.#selectedList.indexOf(e.target.closest('ids-tag').id);
+        this.#handleTagRemove(e);
+      });
+    }
+  }
+
+  #handleTagRemove(e:any) {
+    const removedSelection = this.#selectedList.indexOf(e.target.closest('ids-tag').id);
         if (removedSelection > -1) {
           this.#selectedList.splice(removedSelection, 1);
         }
         this.#updateList(false);
-      });
+  }
+
+  #handleOptionClick(e:any) {
+    if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
+      const targetOption = e.target;
+      if (this.#selectedList.find((value) => value === targetOption.getAttribute('value'))) {
+        this.#selectedList = this.#selectedList.filter((item) => item !== targetOption.getAttribute('value'));
+        this.selectOption(targetOption);
+        this.#updateDisplay();
+        this.#updateList(false);
+      } else if (this.max !== this.value.length) {
+        this.#selectedList.push(e.target.getAttribute('value'));
+        this.selectOption(targetOption);
+        this.#updateDisplay();
+        this.#updateList(true);
+        return;
+      }
+    }
+
+    if (e.target.closest('ids-list-box-option')) {
+      const targetOption = e.target.closest('ids-list-box-option');
+      if (this.#selectedList.find((value) => value === targetOption.getAttribute('value'))) {
+        this.#selectedList = this.#selectedList.filter((item) => item !== targetOption.getAttribute('value'));
+        this.selectOption(targetOption);
+        this.#updateDisplay();
+        this.#updateList(false);
+      } else if (this.max !== this.value.length) {
+        this.#selectedList.push(targetOption.getAttribute('value'));
+        this.selectOption(targetOption);
+        this.#updateDisplay();
+        this.#updateList(true);
+      }
+    }
+
+    if (e.target.isEqualNode(this)) {
+      this.toggle();
     }
   }
 
   /**
    * TODO: this maybe relevant to select feature update to dropdown or maybe overwritten.
    */
-  /* async open() {
-    if (this.state.beforeShow) {
-      super.beforeShow = this.state.beforeShow;
-    }
-
-    super.open();
-
-    if (this.#selectedList.length === 0) {
-      const unselectedOptions = this.querySelectorAll('ids-list-box.options ids-list-box-option');
-      this.selectOption(unselectedOptions[0]);
-    }
-  } */
 
   #updateDisplay() {
     let newValue = '';
@@ -255,21 +236,21 @@ class IdsMultiselect extends Base {
       unselectedOptions = this.querySelectorAll('ids-list-box.options ids-list-box-option');
       unselectedOptions.forEach((option) => {
         if (this.#selectedList.includes(option.getAttribute('value'))) {
-          window.requestAnimationFrame(() => {
+          //window.requestAnimationFrame(() => {
             // check change
             selectedOptionsContainer
               .insertBefore(option, selectedOptionsContainer.children[selectedOptionsContainer.children.length]);
             option.querySelector('ids-checkbox').checked = true;
-          });
+          //});
         }
       });
     } else {
       selectedOptions.forEach((option) => {
         if (!this.#selectedList.includes(option.getAttribute('value'))) {
-          window.requestAnimationFrame(() => {
+          //window.requestAnimationFrame(() => {
             option.querySelector('ids-checkbox').checked = 'false';
             optionsContainer.insertBefore(option, optionsContainer.children[optionsContainer.children.length]);
-          });
+          //});
         }
       });
     }

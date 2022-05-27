@@ -1,18 +1,18 @@
 @import '../../core/ids-base';
 
-::slotted(.options){
+::slotted(.options) {
   border-top: 1px solid #B7B7BA;
   padding-top: 4px;
 }
 
-::slotted(.is-selected){
+::slotted(.is-selected) {
   @include bg-azure-20();
   @include text-black();
 }
 
-ids-trigger-field{
+ids-trigger-field {
 
-  ids-tag{
+  ids-tag {
     display: flex;
     align-self: center;
     margin-top: 4px;
@@ -24,10 +24,10 @@ ids-trigger-field{
   }
 }
 
-:host([tags=true]){
-  ids-trigger-field{
+:host([tags=true]) {
+  ids-trigger-field {
 
-    &::part(content-area){
+    &::part(content-area) {
       width: 100%;
       display: flex;
       flex-wrap: wrap;
@@ -35,7 +35,7 @@ ids-trigger-field{
       max-height: 120px;
       overflow-y: auto;
     }
-    &::part(input){
+    &::part(input) {
       flex: 1;
     }
   }
