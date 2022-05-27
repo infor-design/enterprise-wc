@@ -30,3 +30,8 @@ ids-trigger-button {
 :host([dir='rtl']) .icon-container {
   margin: 0 8px 0 0;
 }
+
+::slotted(.sub-group){
+  border-top: 1px solid #B7B7BA;
+  padding-top: 4px;
+}
