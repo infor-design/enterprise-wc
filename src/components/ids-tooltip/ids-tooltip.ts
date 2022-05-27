@@ -245,6 +245,14 @@ export default class IdsTooltip extends Base {
     this.popup.visible = false;
     this.triggerEvent('hide', this, { detail: { elem: this } });
     this.triggerEvent('afterhide', this, { detail: { elem: this } });
+    this.onHide();
+  }
+
+  /**
+   * Callback for when hide is triggered
+   * @returns {void}
+   */
+  onHide() {
   }
 
   /**
