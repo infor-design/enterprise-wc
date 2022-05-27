@@ -79,7 +79,6 @@
 
     .ids-menu-item-text {
       grid-column-start: 2;
-      white-space: normal;
     }
 
     .ids-menu-item-submenu-icon {
@@ -231,7 +230,7 @@
   &.has-checkmark.has-submenu,
   &.has-multi-checkmark.has-submenu {
     a {
-      grid-template-columns: 30px max-content 25px;
+      grid-template-columns: 30px calc(100% - 55px) 25px;
     }
   }
 
