@@ -12,7 +12,10 @@ The Color Picker by default supports colors within a pre-configured palette of I
 - `value` {string} Sets the value attribute to displayed the color of selected `value="#b94e4e"`
 - `label` {string} Sets the label attribute which will be displayed above the color picker web component `label="Color Picker"`
 - `disabled` {boolean} Sets the disabled attribute which will disabled the entire color picker web component `disabled="true"` Valid values are 'true' | 'false'
-- `readyonly` {boolean} Sets the readonly attribute. Valid values are 'true' | 'false'
+- `readonly` {boolean} Sets the readonly attribute. Valid values are 'true' | 'false'
+- `labels` {boolean} If true, the color-swatchs will display labels instead of the hex-values. Valid values are 'true' | 'false'
+- `tooltips` {boolean} If true, the color-swatchs will display tooltips on mouseover. Valid values are 'true' | 'false'
+- `validate` {string} set the validation rule `required`.
 - `mode` {string} Sets the theme mode
 - `version` {string} Sets the theme version
 
@@ -63,5 +66,6 @@ The IDS Color Picker component is now a WebComponent. The custom colors are the 
 
 ## Keyboard Guidelines
 
-- <kbd>Tab/Shift+Tab</kbd>
-- <kbd>Enter</kbd>
+- <kbd>Tab / Shift+Tab</kbd>: To navigate color swatches
+- <kbd>ArrowDown / ArrowLeft / ArrowRight / ArrowUp</kbd>: To navigate color swatches
+- <kbd>Enter / Space</kbd>: To select currently focuses color-swatch
