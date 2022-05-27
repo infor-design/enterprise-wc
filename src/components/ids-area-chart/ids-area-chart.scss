@@ -1,0 +1,25 @@
+/* Ids Line Chart Component */
+@import '../../components/ids-axis-chart/ids-axis-chart';
+@import '../../components/ids-line-chart/ids-line-chart';
+
+.ids-axis-chart {
+  .areas {
+    fill-opacity: 0.2;
+
+    @for $i from 1 through 21 {
+      path.color-#{$i} {
+        /* stylelint-disable-next-line custom-property-pattern */
+        fill: var(--ids-chart-color-#{$i});
+      }
+    }
+  }
+
+  .animate {
+    animation: fadein 2.8s cubic-bezier(0.17, 0.04, 0.03, 0.94) forwards;
+  }
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

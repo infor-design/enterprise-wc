@@ -151,7 +151,7 @@ export default class IdsModal extends Base {
    * @param {HTMLElement | undefined} val an overlay element
    */
   set overlay(val) {
-    if (val instanceof HTMLElement) {
+    if (val instanceof HTMLElement || val instanceof SVGElement) {
       this.state.overlay = val;
     } else {
       this.state.overlay = null;

@@ -62,6 +62,7 @@ export default class IdsToolbar extends Base {
   disconnectedCallback(): void {
     super.disconnectedCallback?.();
     this.#resizeObserver.disconnect(this.container);
+    this.#resizeObserver = null;
   }
 
   /**
