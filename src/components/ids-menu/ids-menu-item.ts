@@ -599,7 +599,7 @@ export default class IdsMenuItem extends Base {
   set target(element: any) {
     const currentTarget = this.target;
     if (element !== currentTarget) {
-      if (element instanceof HTMLElement) {
+      if (element instanceof HTMLElement || element instanceof SVGElement) {
         if (!element.isEqualNode(currentTarget)) {
           this.#target = element;
         }

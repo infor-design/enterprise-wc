@@ -197,7 +197,7 @@ export default class IdsPopup extends Base {
    */
   set alignTarget(val: any) {
     const isString = typeof val === 'string' && val.length;
-    const isElem = val instanceof HTMLElement;
+    const isElem = val instanceof HTMLElement || val instanceof SVGElement;
 
     if (!isString && !isElem) {
       if (this.#alignTarget !== undefined) {
@@ -213,7 +213,7 @@ export default class IdsPopup extends Base {
       // @TODO Harden for security (XSS)
       const rootNode = getClosestRootNode((this as any));
       elem = rootNode.querySelector(val);
-      if (!(elem instanceof HTMLElement)) {
+      if (!(elem instanceof HTMLElement || elem instanceof SVGElement)) {
         return;
       }
       this.setAttribute(attributes.ALIGN_TARGET, val);
@@ -590,15 +590,15 @@ export default class IdsPopup extends Base {
   }
 
   /**
-   * @property {HTMLElement} containingElem the element to use for containment of the Popup
+   * @property {HTMLElement | SVGElement} containingElem the element to use for containment of the Popup
    */
-  #containingElem = document.body;
+  #containingElem: HTMLElement | SVGElement = document.body;
 
   /**
-   * @param {HTMLElement} val an element that will appear to "contain" the Popup
+   * @param {HTMLElement | SVGElement} val an element that will appear to "contain" the Popup
    */
   set containingElem(val: any) {
-    if (!(val instanceof HTMLElement)) {
+    if (!(val instanceof HTMLElement || val instanceof SVGElement)) {
       return;
     }
     if (this.#containingElem !== val) {
@@ -608,9 +608,9 @@ export default class IdsPopup extends Base {
   }
 
   /**
-   * @returns {HTMLElement} the element currently appearing to "contain" the Popup
+   * @returns {HTMLElement | SVGElement} the element currently appearing to "contain" the Popup
    */
-  get containingElem(): HTMLElement {
+  get containingElem(): HTMLElement | SVGElement {
     return this.#containingElem;
   }
 
@@ -689,7 +689,7 @@ export default class IdsPopup extends Base {
    */
   set arrowTarget(val: any) {
     const isString = typeof val === 'string' && val.length;
-    const isElem = val instanceof HTMLElement;
+    const isElem = val instanceof HTMLElement || val instanceof SVGElement;
 
     if (!isString && !isElem) {
       if (this.#arrowTarget !== undefined) {
@@ -704,7 +704,7 @@ export default class IdsPopup extends Base {
       // @TODO Harden for security (XSS)
       const rootNode = getClosestRootNode((this as any));
       elem = rootNode.querySelector(val);
-      if (!(elem instanceof HTMLElement)) {
+      if (!(elem instanceof HTMLElement || elem instanceof SVGElement)) {
         return;
       }
       this.setAttribute(attributes.ARROW_TARGET, val);
@@ -1379,7 +1379,7 @@ export default class IdsPopup extends Base {
         if (parent.toString() === '[object ShadowRoot]') {
           parent = parent.host;
         }
-        if (parent instanceof HTMLElement) {
+        if (parent instanceof HTMLElement || parent instanceof SVGElement) {
           parentStyle = getComputedStyle(parent);
           parentRect = parent.getBoundingClientRect();
 
