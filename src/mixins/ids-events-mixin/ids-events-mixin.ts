@@ -371,12 +371,12 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
    */
   #addHoverEndListener(eventName: string, target: HTMLElement, options?:Record<string, unknown>) {
     // Setup events
-    this.onEvent('mouseenter.eventsmixin', target, (e: KeyboardEvent) => {
+    this.onEvent('mouseenter.eventsmixin', target, (e: MouseEvent) => {
       if (!this.timer) {
         this.timer = renderLoop.register(new IdsRenderLoopItem({
-          duration: options?.delay || 500,
+          duration: options?.delay || 400,
           timeoutCallback: () => {
-            const event = new CustomEvent('hoverend', e);
+            const event = new MouseEvent('hoverend', e);
             target.dispatchEvent(event);
             this.clearTimer();
           }

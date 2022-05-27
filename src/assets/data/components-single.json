@@ -1,0 +1,29 @@
+[{
+   "data": [{
+     "name": "Jan",
+     "tooltip": "<b>January</b> ${value}",
+     "value": 100
+   }, {
+     "name": "Feb",
+     "tooltip": "<b>February</b> ${value}",
+     "value": 3111
+   }, {
+     "name": "Mar",
+     "tooltip": "<b>March</b> ${value}",
+     "value": 3411
+   }, {
+     "name": "Apr",
+     "tooltip": "<b>April</b> ${value}",
+     "value": 500
+   }, {
+     "name": "May",
+     "value": 3411
+   }, {
+     "name": "Jun",
+     "tooltip": "<b>June</b> ${value}",
+     "value": 6500
+   }],
+   "name": "Component A",
+   "shortName": "Comp A",
+   "abbreviatedName": "A"
+ }]

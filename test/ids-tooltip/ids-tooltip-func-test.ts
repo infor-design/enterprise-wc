@@ -289,17 +289,13 @@ describe('IdsTooltip Component', () => {
     button2.tooltip = 'Additional Info';
     document.body.appendChild(button2);
 
-    const mouseenter = new MouseEvent('mouseenter');
-    const mouseleave = new MouseEvent('mouseleave');
-    button2.dispatchEvent(mouseenter);
+    button2.dispatchEvent(new CustomEvent('hoverend'));
     setTimeout(() => {
       const tooltipFromMixin: any = document.querySelector('ids-tooltip');
       expect(tooltipFromMixin.visible).toEqual(true);
-      button2.dispatchEvent(mouseleave);
-      expect(tooltipFromMixin.visible).toEqual(false);
       expect(tooltipFromMixin.textContent).toEqual('Additional Info');
       done();
-    }, 550);
+    }, 1);
   });
 
   it('shows works as a mixin on inputs', (done) => {
@@ -308,14 +304,13 @@ describe('IdsTooltip Component', () => {
     input.tooltip = 'Additional Info';
     document.body.appendChild(input);
 
-    const mouseenter = new MouseEvent('mouseenter');
-    input.dispatchEvent(mouseenter);
+    input.dispatchEvent(new CustomEvent('hoverend'));
     setTimeout(() => {
       const tooltipFromMixin: any = document.querySelector('ids-tooltip');
       expect(tooltipFromMixin.visible).toEqual(true);
       expect(tooltipFromMixin.textContent).toEqual('Additional Info');
       done();
-    }, 550);
+    }, 1);
   });
 
   it('should not show when not overflown', () => {
@@ -343,16 +338,14 @@ describe('IdsTooltip Component', () => {
     container.appendChild(button2);
     document.body.appendChild(container);
 
-    const mouseenter = new MouseEvent('mouseenter');
-    const mouseleave = new MouseEvent('mouseleave');
-    button2.dispatchEvent(mouseenter);
+    button2.dispatchEvent(new CustomEvent('hoverend'));
     setTimeout(() => {
       const tooltipFromMixin: any = document.querySelector('ids-tooltip');
       expect(tooltipFromMixin.visible).toEqual(true);
-      button2.dispatchEvent(mouseleave);
+      button2.dispatchEvent(new MouseEvent('mouseleave'));
       expect(tooltipFromMixin.visible).toEqual(false);
       expect(tooltipFromMixin.textContent).toEqual('Additional Info2');
       done();
-    }, 550);
+    }, 1);
   });
 });

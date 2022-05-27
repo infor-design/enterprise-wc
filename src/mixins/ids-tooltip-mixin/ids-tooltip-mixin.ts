@@ -46,7 +46,7 @@ const IdsTooltipMixin = (superclass: any) => class extends superclass {
    */
   get toolTipTarget(): any {
     // `this.fieldContainer` targets any IDS Component that extends IdsInput
-    if (this.fieldContainer instanceof HTMLElement) {
+    if (this.fieldContainer instanceof HTMLElement || this.fieldContainer instanceof SVGElement) {
       return this.fieldContainer;
     }
     return this;

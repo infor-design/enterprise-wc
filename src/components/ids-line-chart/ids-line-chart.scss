@@ -1,0 +1,38 @@
+/* Ids Line Chart Component */
+@import '../../components/ids-axis-chart/ids-axis-chart';
+
+.ids-axis-chart {
+  // Extend the dot area for hover events
+  .markers circle {
+    stroke-width: 8px;
+    stroke: transparent;
+  }
+
+  // Dot Styles
+  .markers {
+    @for $i from 1 through 21 {
+      circle.color-#{$i} {
+        fill: var(--ids-chart-color-#{$i});
+      }
+    }
+  }
+
+  // Line Styles
+  .marker-lines {
+    fill: none;
+    stroke-width: 2;
+
+    @for $i from 1 through 21 {
+      .data-line.color-#{$i} {
+        stroke: var(--ids-chart-color-#{$i});
+      }
+    }
+  }
+}
+
+// End animation at the right place
+@keyframes animate-line {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
