@@ -5,7 +5,6 @@ Keep this file in sync with [#741](https://github.com/infor-design/enterprise-wc
 ## Major
 
 - [ ] Keyboard functionality that works with groupped selection options
-
 - [ ] respecting initial sorting of option groups
 
 ## Minor
