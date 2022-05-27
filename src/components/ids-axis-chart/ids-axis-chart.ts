@@ -918,8 +918,12 @@ export default class IdsAxisChart extends Base {
     }
 
     requestAnimationFrame(() => {
-      this.container.querySelectorAll('animate').forEach((elem: SVGAnimationElement) => elem.beginElement());
-      this.container.querySelectorAll('animateTransform').forEach((elem: SVGAnimationElement) => elem.beginElement());
+      this.container.querySelectorAll('animate').forEach((elem: SVGAnimationElement) => {
+        if (elem.beginElement) { elem.beginElement(); }
+      });
+      this.container.querySelectorAll('animateTransform').forEach((elem: SVGAnimationElement) => {
+        if (elem.beginElement) { elem.beginElement(); }
+      });
     });
   }
 
