@@ -1,7 +1,7 @@
 # IDS Multiselect
 
 ## Description
-Ids Multiselect is a alternative to Ids Dropdown that allows the end user to select more than one option from a list. selected items can be displayed as dismissable tags or a comma seperated string.
+Ids Multiselect is similar to IdDropdown except it allows the end user to select more than one option from a list. Selected items can be displayed as dismissible tags or a comma separated string.
 
 ## Use Cases
 
