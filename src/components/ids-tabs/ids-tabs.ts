@@ -245,14 +245,6 @@ export default class IdsTabs extends Base {
         this.#selectTab(elem);
       }
     });
-
-    this.onEvent('focusin', this, (e: FocusEvent) => {
-      const elem: any = e.target;
-      if (elem && elem.tagName === 'IDS-TAB') {
-        this.#selectTab(elem);
-        elem.focus();
-      }
-    });
   }
 
   /**
