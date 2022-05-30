@@ -102,13 +102,8 @@ It's also possible to control the intervals of minutes and seconds available for
 - `label` {string} Set the timepicker's label
 - `labelState` {string} indicates that a label is hidden (note that for accessibility reasons, `label` should still be specified). See [Ids Label State Mixin](../../mixins/ids-label-state-mixin/README.md) for more information.
 - `placeholder` {string} Set the timepicker's placeholder
-- `language` {string} Set the timepicker's language (Default: "en")
-- `locale` {string} Set the timepicker's locale (Default: "en-US")
 - `noMargins` {boolean} sets whether or not no-margins around the component.
 - `size` {'sm' | 'md' | 'lg' | 'full' | string} Sets the size of the input-field's width
-- `mode` {'light' | 'dark' | 'contrast' | string} Set the theme mode
-- `version` {'new' | 'classic' | string} Set the theme version
-- `options` {readonly} Get dropdown-options for hour, minutes, second and period (am/pm)
 - `embeddable` {boolean} Set whether or not to show only hours/minutes/seconds dropdowns without input
 - `minute-interval` {number} Set minutes dropdown options interval
 - `second-interval` {number} Set seconds dropdown options interval
@@ -119,24 +114,14 @@ It's also possible to control the intervals of minutes and seconds available for
 
 ## Methods
 
-- `closeTimePopup()` Close the timepicker's popup window
-- `openTimePopup()` Open the timepicker's popup window
-- `toggleTimePopup()` Close the timepicker's popup window
-- `setTimeOnField()` Set the input-field's timestring value.
+- `show()` Open the timepicker's popup window
+- `hide()` Close the timepicker's popup window
 
 ## Themeable Parts (TODO)
 
 - `label` allows you to further style the label text
 - `input` allows you to further style the input element
 - `popup` allows you to further style the timepicker's popup window
-
-## States and Variations
-
-- `hasSeconds` {boolean} Does the timepicker format include seconds ("ss")?
-- `hasPeriod` {boolean} Does the timepicker format include the am/pm period (" a")?
-- `is12Hours` {boolean} Is the timepicker using a 12-Hour format ("hh")?
-- `is24Hours` {boolean} Is the timepicker using a 24-Hour format ("HH")?
-- `isOpen` {boolean} Is the timepicker's popup open?
 
 ## Keyboard Guidelines
 

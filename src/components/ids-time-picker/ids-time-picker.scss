@@ -50,15 +50,11 @@
     }
   }
 
-  #dropdowns {
+  .dropdowns {
     @include flex();
     @include p-8();
 
     flex-direction: row;
-  }
-
-  .hidden {
-    display: none;
   }
 
   .separator {
