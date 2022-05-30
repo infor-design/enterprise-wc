@@ -1060,7 +1060,7 @@ class IdsDatePicker extends Base {
    */
   #applyMask() {
     if (this.#triggerField && this.mask) {
-      this.#triggerField.maskOptions = { format: this.format };
+      this.#triggerField.maskOptions = { format: this.format, delimeter: this.rangeSettings.separator };
       this.#triggerField.value = this.value;
     }
   }
@@ -1879,7 +1879,7 @@ class IdsDatePicker extends Base {
 
     if (boolVal) {
       this.setAttribute(attributes.MASK, boolVal);
-      this.#triggerField?.setAttribute(attributes.MASK, 'date');
+      this.#triggerField?.setAttribute(attributes.MASK, this.useRange ? 'rangeDate' : 'date');
     } else {
       this.removeAttribute(attributes.MASK);
       this.#triggerField?.removeAttribute(attributes.MASK);
