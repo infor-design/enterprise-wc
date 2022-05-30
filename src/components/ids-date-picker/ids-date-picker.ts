@@ -28,9 +28,10 @@ import '../ids-trigger-field/ids-trigger-field';
 
 // Types
 import type {
-  RangeSettings,
-  DisableSettings,
-  DayselectedEvent
+  IdsRangeSettings,
+  IdsDisableSettings,
+  IdsDayselectedEvent,
+  IdsLegend
 } from '../ids-month-view/ids-month-view';
 
 // Import Styles
@@ -195,7 +196,6 @@ class IdsDatePicker extends Base {
         ${(!(this.isDropdown || this.isCalendarToolbar)) ? `
           <ids-trigger-field
             part="trigger-field"
-            ${this.mask ? `mask="date"` : ''}
             ${this.id ? `id="${this.id}"` : ''}
             ${this.label ? `label="${this.label}"` : ''}
             placeholder="${this.placeholder}"
@@ -326,7 +326,7 @@ class IdsDatePicker extends Base {
       });
 
       this.offEvent('dayselected.date-picker-calendar');
-      this.onEvent('dayselected.date-picker-calendar', this.#monthView, (e: DayselectedEvent) => {
+      this.onEvent('dayselected.date-picker-calendar', this.#monthView, (e: IdsDayselectedEvent) => {
         const inputDate: Date = this.locale.parseDate(this.value, { dateFormat: this.format });
 
         // Clear action
@@ -464,14 +464,17 @@ class IdsDatePicker extends Base {
         const yearItem: HTMLElement = e.target.closest('.is-year');
 
         if (btnUpYear) {
+          e.stopPropagation();
           this.#picklistYearPaged(false);
         }
 
         if (btnDownYear) {
+          e.stopPropagation();
           this.#picklistYearPaged(true);
         }
 
         if (btnUpMonth || btnDownMonth) {
+          e.stopPropagation();
           this.#picklistMonthPaged();
         }
 
@@ -487,7 +490,7 @@ class IdsDatePicker extends Base {
 
         if (yearItem) {
           e.stopPropagation();
-          const disabledSettings: DisableSettings = getClosest(this, 'ids-month-view')?.disable;
+          const disabledSettings: IdsDisableSettings = getClosest(this, 'ids-month-view')?.disable;
           const isDisabled: boolean | undefined = disabledSettings?.years?.includes(stringToNumber(yearItem.dataset.year));
 
           if (isDisabled) return;
@@ -829,7 +832,7 @@ class IdsDatePicker extends Base {
     if (!this.isDropdown) return;
 
     const monthsList: Array<string> = MONTH_KEYS.map((item) => this.locale?.translate(`MonthWide${item}`));
-    const disabledSettings: DisableSettings = getClosest(this, 'ids-month-view')?.disable;
+    const disabledSettings: IdsDisableSettings = getClosest(this, 'ids-month-view')?.disable;
     const startYear: number = this.year - 2;
     const months = monthsList?.map((item: string, index: number) => `<li
         data-month="${index}"
@@ -885,7 +888,7 @@ class IdsDatePicker extends Base {
    * @param {boolean} isNext increase/descrese picklist year
    */
   #picklistYearPaged(isNext: boolean) {
-    const disabledSettings: DisableSettings = getClosest(this, 'ids-month-view')?.disable;
+    const disabledSettings: IdsDisableSettings = getClosest(this, 'ids-month-view')?.disable;
 
     this.container.querySelectorAll('.picklist-item.is-year').forEach((el: any) => {
       const elYear: number = stringToNumber(el.dataset.year);
@@ -1766,18 +1769,18 @@ class IdsDatePicker extends Base {
   }
 
   /**
-   * @returns {Array} array of legend items
+   * @returns {Array<IdsLegend>} array of legend items
    */
-  get legend(): Array<any> {
+  get legend(): Array<IdsLegend> {
     return this.#monthView?.legend;
   }
 
   /**
    * Set array of legend items to month view component
    * Validation of data is provided by the month view component
-   * @param {Array|null} val array of legend items
+   * @param {Array<IdsLegend>|null} val array of legend items
    */
-  set legend(val: Array<any> | null) {
+  set legend(val: Array<IdsLegend> | null) {
     if (this.#monthView) {
       this.#monthView.legend = val;
     }
@@ -1787,7 +1790,7 @@ class IdsDatePicker extends Base {
    * Get range settings for month view component
    * @returns {object} month view range settings
    */
-  get rangeSettings(): RangeSettings {
+  get rangeSettings(): IdsRangeSettings {
     return this.#monthView?.rangeSettings;
   }
 
@@ -1796,7 +1799,7 @@ class IdsDatePicker extends Base {
    * and update input value if passed settings contain start/end
    * @param {object} val settings to be assigned to default range settings
    */
-  set rangeSettings(val: RangeSettings) {
+  set rangeSettings(val: IdsRangeSettings) {
     if (this.#monthView) {
       const btnApply = this.container.querySelector('.popup-btn-apply');
       this.#monthView.rangeSettings = val;
@@ -1844,17 +1847,17 @@ class IdsDatePicker extends Base {
   }
 
   /**
-   * @returns {DisableSettings} disable settings object
+   * @returns {IdsDisableSettings} disable settings object
    */
-  get disable(): DisableSettings {
+  get disable(): IdsDisableSettings {
     return this.#monthView?.disable;
   }
 
   /**
    * Set disable settings
-   * @param {DisableSettings} val settings to be assigned to default disable settings
+   * @param {IdsDisableSettings} val settings to be assigned to default disable settings
    */
-  set disable(val: DisableSettings) {
+  set disable(val: IdsDisableSettings) {
     if (this.#monthView) {
       this.#monthView.disable = val;
     }

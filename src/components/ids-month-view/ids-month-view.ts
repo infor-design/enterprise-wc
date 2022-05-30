@@ -41,7 +41,7 @@ const MIN_MONTH = 0;
 const MAX_MONTH = 11;
 const WEEK_LENGTH = 7;
 
-export type RangeSettings = {
+export type IdsRangeSettings = {
   start?: any,
   end?: any,
   separator?: string,
@@ -53,7 +53,7 @@ export type RangeSettings = {
   selectWeek?: boolean
 };
 
-export type DisableSettings = {
+export type IdsDisableSettings = {
   dates?: Array<string>,
   years?: Array<number>,
   minDate?: string,
@@ -62,7 +62,7 @@ export type DisableSettings = {
   isEnable?: boolean
 };
 
-export type DayselectedEvent = {
+export type IdsDayselectedEvent = {
   detail: {
     elem: IdsMonthView,
     date: Date,
@@ -70,6 +70,13 @@ export type DayselectedEvent = {
     rangeStart: Date | null,
     rangeEnd: Date | null
   }
+};
+
+export type IdsLegend = {
+  name: string,
+  color: string,
+  dates: Array<string>,
+  dayOfWeek: Array<number>
 };
 
 /**
@@ -98,7 +105,7 @@ class IdsMonthView extends Base {
   #currentLegend = [];
 
   // Range picker default settings
-  #rangeSettings: RangeSettings = {
+  #rangeSettings: IdsRangeSettings = {
     start: null,
     end: null,
     separator: ' - ',
@@ -111,7 +118,7 @@ class IdsMonthView extends Base {
   };
 
   // Disabled default settings
-  #disableSettings: DisableSettings = {
+  #disableSettings: IdsDisableSettings = {
     dates: [],
     years: [],
     minDate: '',
@@ -1005,7 +1012,7 @@ class IdsMonthView extends Base {
       minDate,
       maxDate,
       isEnable
-    }: DisableSettings = this.#disableSettings;
+    }: IdsDisableSettings = this.#disableSettings;
     const isOutOfDisplayRange: boolean = this.#isDisplayRange()
       && (date < (this.startDate as Date) || date > (this.endDate as Date));
     const ifYear: boolean = (years as Array<number>).some(
@@ -1156,7 +1163,7 @@ class IdsMonthView extends Base {
       return;
     }
 
-    const args: DayselectedEvent = {
+    const args: IdsDayselectedEvent = {
       detail: {
         elem: this,
         date: this.activeDate,
@@ -1217,10 +1224,10 @@ class IdsMonthView extends Base {
   /**
    * Find legend object by date provided
    * @param {Date} date to check if has any legend
-   * @returns {object} legend object for a specific date
+   * @returns {IdsLegend} legend object for a specific date
    */
-  #getLegendByDate(date: Date): void {
-    return this.legend.find((legend: any) => {
+  #getLegendByDate(date: Date): IdsLegend | undefined {
+    return this.legend.find((legend: IdsLegend) => {
       const ifDayOfWeek = legend.dayOfWeek?.includes(date.getDay());
       const ifDate = legend.dates?.some((item: any) => new Date(item).getTime() === date.getTime());
 
@@ -1560,18 +1567,18 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * @returns {Array} array of legend items
+   * @returns {Array<IdsLegend>} array of legend items
    */
-  get legend(): Array<any> {
+  get legend(): Array<IdsLegend> {
     return this.#currentLegend;
   }
 
   /**
    * Set and validate array of legend items
    * Not an empty array of object with name, color, dates or dayOfWeek properties
-   * @param {Array|null} val array of legend items
+   * @param {Array<IdsLegend>|null} val array of legend items
    */
-  set legend(val: Array<any> | null) {
+  set legend(val: Array<IdsLegend> | null) {
     // Remove legend by setting null
     if (val === null) {
       this.#currentLegend = [];
@@ -1600,17 +1607,17 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * @returns {RangeSettings} range settings object
+   * @returns {IdsRangeSettings} range settings object
    */
-  get rangeSettings(): RangeSettings {
+  get rangeSettings(): IdsRangeSettings {
     return this.#rangeSettings;
   }
 
   /**
    * Set range selection settings
-   * @param {RangeSettings} val settings to be assigned to default range settings
+   * @param {IdsRangeSettings} val settings to be assigned to default range settings
    */
-  set rangeSettings(val: RangeSettings) {
+  set rangeSettings(val: IdsRangeSettings) {
     this.#rangeSettings = {
       ...this.#rangeSettings,
       ...deepClone(val)
@@ -1653,17 +1660,17 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * @returns {DisableSettings} disable settings object
+   * @returns {IdsDisableSettings} disable settings object
    */
-  get disable(): DisableSettings {
+  get disable(): IdsDisableSettings {
     return this.#disableSettings;
   }
 
   /**
    * Set disable settings
-   * @param {DisableSettings} val settings to be assigned to default disable settings
+   * @param {IdsDisableSettings} val settings to be assigned to default disable settings
    */
-  set disable(val: DisableSettings) {
+  set disable(val: IdsDisableSettings) {
     this.#disableSettings = {
       ...this.#disableSettings,
       ...deepClone(val)

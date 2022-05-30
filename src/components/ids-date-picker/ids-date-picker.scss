@@ -284,6 +284,10 @@
     }
   }
 
+  &:not(.is-expanded) .picklist::after {
+    @include bg-transparent();
+  }
+
   .picklist-section {
     @include h-full();
 
