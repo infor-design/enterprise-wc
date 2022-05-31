@@ -9,7 +9,7 @@
     type: Main Example
     description: Shows basic tree view
   - link: multi-select.html
-    type: Multi-select
+    type: Example
     description: Shows multi-select tree view
   - link: sandbox.html
     type: Sandbox
