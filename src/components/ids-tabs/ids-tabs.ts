@@ -33,17 +33,15 @@ export default class IdsTabs extends Base {
     this.#detectParentColorVariant();
     this.#attachEventHandlers();
     this.#ro.observe(this.container as any);
+
+    const selected: any = this.querySelector('[selected]') || this.querySelector('[value]');
+    this.#selectTab(selected);
+    this.#attachAfterRenderEvents();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback?.();
     this.#ro.disconnect();
-  }
-
-  rendered() {
-    const selected: any = this.querySelector('[selected]') || this.querySelector('[value]');
-    this.#selectTab(selected);
-    this.#attachAfterRenderEvents();
   }
 
   /**
