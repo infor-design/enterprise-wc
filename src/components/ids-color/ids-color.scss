@@ -3,12 +3,10 @@
 :host {
   contain: layout;
   overflow: visible;
-
   display: inline-flex;
   position: relative;
   height: fit-content;
   width: fit-content;
-
   padding: 1px;
 
   & .ids-color {
@@ -18,14 +16,14 @@
   }
 
   & .no-color {
-    border: 1px solid #BBB;
+    border: 1px solid #bbb;
     border-radius: 2px;
 
     &::before {
       transform: rotate(-45deg);
-      border-top: 2px solid #DA1217;
-      content: "";
-      left: 0px;
+      border-top: 2px solid #da1217;
+      content: '';
+      left: 0;
       position: absolute;
       right: -5px;
       top: calc(50% - 1px);
@@ -43,22 +41,21 @@
 :host(.outlined:hover),
 :host(.outlined:focus),
 :host(.outlined:focus-visible) {
-  box-shadow: 0 0 3px 2px #0072ED4d;
+  box-shadow: 0 0 3px 2px #0072ed4d;
   outline: 1px solid var(--ids-color-palette-azure-60);
 }
 
 .ids-color {
   background-color: var(--ids-color-palette-black);
+
   // contain: content;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   min-width: 18px;
   width: 18px;
   height: 18px;
-
   margin: 0;
   padding: 0;
 
@@ -67,21 +64,25 @@
     min-width: 18px;
     width: 18px;
   }
+
   &.sm {
     height: 20px;
     min-width: 20px;
     width: 20px;
   }
+
   &.mm {
     height: 24px;
     min-width: 24px;
     width: 24px;
   }
+
   &.md {
     height: 32px;
     min-width: 32px;
     width: 32px;
   }
+
   &.lg {
     height: 42px;
     min-width: 42px;

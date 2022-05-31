@@ -12,6 +12,7 @@
 
   &.xs {
     max-width: $border-input-size-xs;
+
     input {
       margin: 0;
       padding: 0;
@@ -64,10 +65,8 @@ ids-input::part(container) {
   grid-template-columns: repeat(10, 20px);
   overflow: visible;
   padding: var(--ids-number-spacing-base);
-
   align-items: center;
   align-content: center;
-  align-items: center;
   justify-content: center;
   justify-items: center;
   column-gap: 8px;
@@ -92,6 +91,7 @@ ids-input::part(container) {
     // Regarding the accessibility, opacity: 0 is the only property which makes the
     // element accessible in the tab order, and the element's content can be read by screen readers.
     opacity: 0;
+
     // visibility: hidden;
   }
 }
