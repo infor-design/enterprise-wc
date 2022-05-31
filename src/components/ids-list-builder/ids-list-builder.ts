@@ -215,23 +215,30 @@ export default class IdsListBuilder extends Base {
     return this.shadowRoot.querySelector('ids-swappable-item[selected]');
   }
 
+  get allSelectedLi() {
+    return this.shadowRoot.querySelectorAll('ids-swappable-item[selected]');
+  }
+
   /**
    * Remove selected list item
    * @private
    * @returns {void}
    */
-  #removeSelectedLi(): void {
-    if (this.selectedLi) {
+  #removeAllSelectedLi(): void {
+    const items = this.allSelectedLi;
+
+    for (const item of items) {
       this.triggerEvent('itemDelete', this, {
-        detail: this.getListItemData(this.selectedLi)
+        detail: this.getListItemData(item)
       });
 
-      this.selectedLi.remove();
+      item.remove();
       if (this.#selectedLiEditor) this.#selectedLiEditor = null;
-      this.resetIndices();
-      this.updateDataFromDOM();
-      this.resetSelectedLiIndex();
     }
+
+    this.resetIndices();
+    this.updateDataFromDOM();
+    this.resetSelectedLiIndex();
   }
 
   /**
@@ -338,7 +345,7 @@ export default class IdsListBuilder extends Base {
 
     // Delete button
     this.onEvent('click', this.container.querySelector('#button-delete'), () => {
-      this.#removeSelectedLi();
+      this.#removeAllSelectedLi();
     });
 
     this.getAllSwappableItems().forEach((li: any) => {
@@ -368,6 +375,7 @@ export default class IdsListBuilder extends Base {
       li.unlisten('Enter');
       li.unlisten('ArrowUp');
       li.unlisten('ArrowDown');
+      li.offEvent('click');
       this.#attachKeyboardListenersForLi(li);
     });
   }
@@ -382,10 +390,12 @@ export default class IdsListBuilder extends Base {
     this.offEvent('click', li);
     this.onEvent('click', li, () => {
       this.focusLi(li);
-      if (this.getSelectedLiIndex() !== this.getFocusedLiIndex()) {
+      if (!(this.getAllSelectedLiIndex().includes(+this.getFocusedLiIndex()))) {
         this.#unfocusAnySelectedLiEditor();
+        this.toggleSelectedLi(li);
+      } else if (!this.#selectedLiEditor && this.selectable !== 'single') {
+        this.toggleSelectedLi(li);
       }
-      this.setSelectedLiIndex(this.getFocusedLiIndex());
     });
   }
 
@@ -401,7 +411,7 @@ export default class IdsListBuilder extends Base {
       switch (event.key) {
         case 'Enter': // edits the list item
           event.preventDefault();
-          if (this.getSelectedLiIndex() !== this.getFocusedLiIndex()) {
+          if (!(this.getAllSelectedLiIndex().includes(+this.getFocusedLiIndex()))) {
             this.toggleSelectedLi(li);
           }
           this.#toggleEditor();
@@ -422,7 +432,7 @@ export default class IdsListBuilder extends Base {
           this.#unfocusAnySelectedLiEditor();
           break;
         case 'Delete':
-          this.#removeSelectedLi();
+          this.#removeAllSelectedLi();
           break;
         default:
           break;

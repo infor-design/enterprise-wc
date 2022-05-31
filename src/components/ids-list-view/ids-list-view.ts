@@ -77,6 +77,10 @@ export default class IdsListView extends Base {
     return this.container.querySelectorAll('div[part="list-item"]');
   }
 
+  /**
+   * Return all swappable items
+   * @returns {any} List of all swappable items
+   */
   getAllSwappableItems(): any {
     return this.container.querySelectorAll('ids-swappable-item');
   }
@@ -570,23 +574,29 @@ export default class IdsListView extends Base {
    * Return #selectedLiIndex
    * @returns {any} selectedLiIndex
    */
-  getSelectedLiIndex() {
+  getSelectedLiIndex(): any {
     return this.#selectedLiIndex;
-  }
-
-  /**
-   * Set selected li index (on click)
-   * @param {number} idx selected li index
-   */
-  setSelectedLiIndex(idx: number) {
-    this.#selectedLiIndex = idx;
   }
 
   /**
    * Return #focusedLiIndex
    * @returns {any} focusedLiIndex
    */
-  getFocusedLiIndex() {
+  getFocusedLiIndex(): any {
     return this.#focusedLiIndex;
+  }
+
+  /**
+   * Return all selected Li indexes
+   * @returns {any} List of selected li index
+   */
+  getAllSelectedLiIndex(): any {
+    const listOfIndex: any[] = [];
+    this.container.querySelectorAll('ids-swappable-item[selected]')
+      .forEach((item: Element) => {
+        listOfIndex.push(+(item.getAttribute('index') ?? -1));
+      });
+
+    return listOfIndex;
   }
 }
