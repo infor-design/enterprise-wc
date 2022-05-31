@@ -4,8 +4,8 @@ describe('Ids Tabs Percy Tests', () => {
   const url = 'http://localhost:4444/ids-tabs/example.html';
 
   it('should not have visual regressions in new light theme (percy)', async () => {
-    await page.goto(url, { waitUntil: ['networkidle0', 'domcontentloaded'] });
-    await page.waitForTimeout(120);
+    await page.goto(url, { waitUntil: ['networkidle0', 'load'] });
+    await page.waitForSelector('ids-tab[selected]');
     await percySnapshot(page, 'ids-tabs-new-light');
   });
 
@@ -15,8 +15,8 @@ describe('Ids Tabs Percy Tests', () => {
   });
 
   it('should not have visual regressions in new dark theme (percy)', async () => {
-    await page.goto(url, { waitUntil: ['networkidle0', 'domcontentloaded'] });
-    await page.waitForTimeout(120);
+    await page.goto(url, { waitUntil: ['networkidle0', 'load'] });
+    await page.waitForSelector('ids-tab[selected]');
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');
     });
@@ -24,8 +24,8 @@ describe('Ids Tabs Percy Tests', () => {
   });
 
   it('should not have visual regressions in new contrast theme (percy)', async () => {
-    await page.goto(url, { waitUntil: ['networkidle0', 'domcontentloaded'] });
-    await page.waitForTimeout(120);
+    await page.goto(url, { waitUntil: ['networkidle0', 'load'] });
+    await page.waitForSelector('ids-tab[selected]');
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'contrast');
     });
