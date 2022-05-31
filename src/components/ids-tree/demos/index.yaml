@@ -8,6 +8,9 @@
   - link: example.html
     type: Main Example
     description: Shows basic tree view
+  - link: multi-select.html
+    type: Example
+    description: Shows multi-select tree view
   - link: sandbox.html
     type: Sandbox
     description: Shows other tree scenarios
