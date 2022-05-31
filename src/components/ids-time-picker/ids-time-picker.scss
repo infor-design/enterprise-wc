@@ -10,9 +10,6 @@
 .ids-time-picker {
   @include flex();
 
-  // TODO: use inline or reduce width of timepicker so onOutsideClick() works laterally
-  // @include inline-flex();
-  min-width: $input-size-xs;
   width: fit-content;
 
   ids-button {

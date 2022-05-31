@@ -18,7 +18,6 @@ const TIME = {
   TWELVE: range(1, 12),
   TWENTYFOUR: range(0, 23),
   SIXTY: range(0, 59),
-  PERIOD: ['AM', 'PM'],
 };
 
 /**
@@ -46,9 +45,9 @@ export default class IdsTimePicker extends Base {
   #triggerButton = this.container.querySelector('ids-trigger-button');
 
   connectedCallback() {
-    this.#renderDropdowns();
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
+    this.#renderDropdowns();
     super.connectedCallback();
   }
 
@@ -183,36 +182,21 @@ export default class IdsTimePicker extends Base {
    * @returns {void}
    */
   onOutsideClick(e: any): void {
-    if (!e.path?.includes(this.popup)) {
+    if ((!this.autoselect && !e.path?.includes(this.popup))
+    || (this.autoselect && !e.path?.includes(this.popup) && !e.path?.includes(this.input))) {
       this.hide();
     }
   }
 
   /**
-   * Get a list of element dependencies for this component
-   * @returns {object} of elements
-   */
-  get elements() {
-    return {
-      dropdowns: {
-        wrapper: this.container.querySelector('div#dropdowns'),
-        hours: this.container.querySelector('ids-dropdown#hours'),
-        minutes: this.container.querySelector('ids-dropdown#minutes'),
-        seconds: this.container.querySelector('ids-dropdown#seconds'),
-        period: this.container.querySelector('ids-dropdown#period'),
-      },
-    };
-  }
-
-  /**
    * Establish Internal Keyboard shortcuts
    * @private
-   * @returns {object} this class-instance object for chaining
+   * @returns {IdsTimePicker} this class-instance object for chaining
    */
-  #attachKeyboardListeners(): object {
+  #attachKeyboardListeners(): IdsTimePicker {
     this.listen(['ArrowDown', 'Enter', 'Escape', 'Backspace'], this, (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
-        this.setTimeOnField();
+        this.#setTimeOnField();
       } else if (e.key === 'ArrowDown') {
         this.show();
       } else if (e.key === 'Escape' || e.key === 'Backspace') {
@@ -225,60 +209,43 @@ export default class IdsTimePicker extends Base {
 
   /**
    * Establish Internal Event Handlers
+   * @returns {IdsTimePicker} this class-instance object for chaining
    * @private
-   * @returns {object} this class-instance object for chaining
    */
-  #attachEventHandlers(): object {
-    const {
-      dropdowns,
-    } = this.elements;
-
-    this.onEvent('change', this.container, (e: any) => {
+  #attachEventHandlers(): IdsTimePicker {
+    this.offEvent('change.time-picker-dropdowns');
+    this.onEvent('change.time-picker-dropdowns', this.container.querySelector('.dropdowns'), (e: any) => {
       const currentId = e.detail?.elem?.id;
-      if (!currentId || !this.autoupdate) return;
 
-      if (currentId === dropdowns?.hours?.id) {
-        this.setTimeOnField({ hours: e.detail.value });
-      } else if (currentId === dropdowns?.minutes?.id) {
-        this.setTimeOnField({ minutes: e.detail.value });
-      } else if (currentId === dropdowns?.seconds?.id) {
-        this.setTimeOnField({ seconds: e.detail.value });
-      } else if (currentId === dropdowns?.period?.id) {
-        this.setTimeOnField({ period: e.detail.value });
+      if (!currentId) return;
+
+      this.setAttribute(currentId, e.detail.value);
+
+      if (this.autoupdate) {
+        this.#setTimeOnField();
       }
     });
 
     // using on mouseup, because on click interferes with on Enter
     this.onEvent('mouseup', this.container.querySelector('.popup-btn'), () => {
-      this.setTimeOnField();
+      this.#setTimeOnField();
       this.hide();
     });
 
     // using on mouseup, because on click interferes with on Enter
     this.onEvent('mouseup', this.#triggerButton, () => this.#toggleTimePopup());
-    this.onEvent('focus', this.input, () => this.autoselect && this.show());
+
+    this.offEvent('focus.time-picker-input');
+    this.onEvent('focus.time-picker-input', this.input, () => {
+      if (this.autoselect) {
+        this.show();
+      }
+    });
 
     // Translate Labels
     this.offEvent('languagechange.time-picker-container');
     this.onEvent('languagechange.time-picker-container', getClosest(this, 'ids-container'), () => {
-      const {
-        hours,
-        minutes,
-        period,
-        seconds,
-      } = this.elements.dropdowns;
-      if (hours) {
-        hours.label = this.locale?.translate('Hours') || 'Hours';
-      }
-      if (minutes) {
-        minutes.label = this.locale?.translate('Minutes') || 'Minutes';
-      }
-      if (period) {
-        period.label = this.locale?.translate('Period') || 'Period';
-      }
-      if (seconds) {
-        seconds.label = this.locale?.translate('Seconds') || 'Seconds';
-      }
+      this.#renderDropdowns();
     });
 
     // Input value change triggers component value change
@@ -308,35 +275,35 @@ export default class IdsTimePicker extends Base {
    * Parse input date and populate dropdowns
    */
   #parseInputValue(): void {
-    const {
-      hours, minutes, seconds, period
-    } = this.elements.dropdowns;
-
     const inputDate: Date = this.locale?.parseDate(
       this.value,
       { dateFormat: this.format }
     );
+    const hours = inputDate?.getHours();
+    const hours12 = hours === 0 ? 12 : hours % 12;
+    const minutes = inputDate?.getMinutes();
+    const seconds = inputDate?.getSeconds();
 
-    if (hours && this.#is24Hours() && inputDate) {
-      hours.value = inputDate.getHours();
+    if (this.#is24Hours() && hours && hours !== this.hours) {
+      this.hours = hours;
     }
 
-    if (hours && this.#is12Hours() && inputDate) {
-      hours.value = inputDate.getHours() === 0 ? 12 : inputDate.getHours() % 12;
+    if (this.#is12Hours() && hours && hours12 !== this.hours) {
+      this.hours = hours12;
     }
 
-    if (minutes && inputDate) {
-      minutes.value = inputDate.getMinutes();
+    if (minutes && minutes !== this.minutes) {
+      this.minutes = minutes;
     }
 
-    if (seconds && inputDate) {
-      seconds.value = inputDate.getSeconds();
+    if (seconds && seconds !== this.seconds) {
+      this.seconds = seconds;
     }
 
-    if (period && inputDate) {
-      this.locale?.calendar().dayPeriods?.forEach((item: string) => {
-        if (this.value?.includes(item)) {
-          period.setAttribute(attributes.VALUE, item);
+    if (this.#hasPeriod()) {
+      this.locale?.calendar().dayPeriods?.forEach((dayPeriod: string) => {
+        if (this.value?.toLowerCase().includes(dayPeriod?.toLowerCase())) {
+          this.period = dayPeriod;
         }
       });
     }
@@ -378,47 +345,70 @@ export default class IdsTimePicker extends Base {
     const dropdown: any = ({
       id,
       label,
-      options
+      options,
+      value,
+      padStart
     }: any) => `
-      <ids-dropdown id="${id}" label="${label}" value="${options[0]}" size="xs">
+      <ids-dropdown id="${id}" label="${label}" value="${value}" size="xs">
         <ids-list-box>
           ${options.map((option: any) => `
             <ids-list-box-option id="timepicker-${id}-${option}" value="${option}">
-              ${(`0${option}`).slice(-2)}
+              ${padStart ? `${option}`.padStart(2, '0') : option}
             </ids-list-box-option>
           `).join('')}
         </ids-list-box>
       </ids-dropdown>
     `;
 
-    const options = this.#options();
-    const hours = dropdown({ id: 'hours', label: this.locale?.translate('Hours') || 'Hours', options: options.hours });
-    const minutes = dropdown({ id: 'minutes', label: this.locale?.translate('Minutes') || 'Minutes', options: options.minutes });
-    const seconds = this.#hasSeconds() && dropdown({ id: 'seconds', label: this.locale?.translate('Seconds') || 'Seconds', options: options.seconds });
-    const period = this.#hasPeriod() && dropdown({ id: 'period', label: this.locale?.translate('Period') || 'Period', options: options.period });
+    const hours = dropdown({
+      id: 'hours',
+      label: this.locale?.translate('Hours') || 'Hours',
+      options: this.#is12Hours() ? TIME.TWELVE : TIME.TWENTYFOUR,
+      value: this.hours,
+      padStart: this.format.includes('HH') || this.format.includes('hh')
+    });
+    const minutes = dropdown({
+      id: 'minutes',
+      label: this.locale?.translate('Minutes') || 'Minutes',
+      options: this.minuteInterval ? range(0, 59, this.minuteInterval) : TIME.SIXTY,
+      value: this.minutes,
+      padStart: true
+    });
+    const seconds = this.#hasSeconds() && dropdown({
+      id: 'seconds',
+      label: this.locale?.translate('Seconds') || 'Seconds',
+      options: this.secondInterval ? range(0, 59, this.secondInterval) : TIME.SIXTY,
+      value: this.seconds,
+      padStart: true
+    });
+    const dayPeriods = this.locale?.calendar().dayPeriods;
+    const period = this.#hasPeriod() && dayPeriods && dropdown({
+      id: 'period',
+      label: this.locale?.translate('Period') || 'Period',
+      options: dayPeriods,
+      value: this.period
+    });
 
-    const separator = '<span class="separator">&nbsp;</span>';
+    const separator = '<span class="separator colons">:</span>';
     const spacer = '<span class="separator">&nbsp;</span>';
 
     const numbers = [hours, minutes, seconds].filter(Boolean).join(separator);
 
-    return <any>[numbers, period].filter(Boolean).join(spacer);
+    return [numbers, period].filter(Boolean).join(spacer);
   }
 
-  /**
-   * Gets an object containing the dropdown-field values for hours|minutes|seconds|period
-   * @returns {object} an object keyed by hours|minutes|seconds|period
-   */
-  #options() {
-    type TimeConfig = { hours: number, minutes: number, seconds: number, period: string[] };
-    const timeOptions: TimeConfig = {
-      hours: this.#is12Hours() ? TIME.TWELVE : TIME.TWENTYFOUR,
-      minutes: this.minuteInterval ? range(0, 59, this.minuteInterval) : TIME.SIXTY,
-      seconds: this.secondInterval ? range(0, 59, this.secondInterval) : TIME.SIXTY,
-      period: TIME.PERIOD,
-    };
+  #setTimeOnField(): void {
+    const date = new Date();
+    const dayPeriodIndex = this.locale?.calendar().dayPeriods?.indexOf(this.period);
+    const hours24 = this.hours + (dayPeriodIndex === -1 ? 0 : dayPeriodIndex) * 12;
 
-    return timeOptions;
+    date.setHours(hours24, this.minutes, this.seconds);
+
+    const value = this.locale.formatDate(date, { pattern: this.format });
+
+    if (this.input) {
+      this.input.value = value;
+    }
   }
 
   /**
@@ -509,12 +499,11 @@ export default class IdsTimePicker extends Base {
   set value(value: string) {
     if (!this.disabled && !this.readonly) {
       this.setAttribute(attributes.VALUE, value);
+      this.#parseInputValue();
 
       if (this.input) {
         this.input.value = value;
       }
-
-      this.#parseInputValue();
     }
   }
 
@@ -773,49 +762,83 @@ export default class IdsTimePicker extends Base {
     }
   }
 
-  /**
-   * Set the input-field's timestring value using.
-   *
-   * @param {object} timeunits set values for the timepicker
-   * @param {string|number} timeunits.hours number of hours to show
-   * @param {string|number} timeunits.minutes number of minutes to show
-   * @param {string|number} timeunits.seconds number of seconds to show
-   * @param {string} timeunits.period am or pm
-   * @returns {object} this class-instance object for chaining
-   */
-  setTimeOnField({
-    hours,
-    minutes,
-    seconds,
-    period,
-  }: any = {}): object {
-    const { dropdowns } = this.elements;
-    const values = {
-      hours: hours ?? dropdowns.hours?.value ?? '00',
-      minutes: minutes ?? dropdowns.minutes?.value ?? '00',
-      seconds: seconds ?? dropdowns.seconds?.value ?? '00',
-      period: (this.hasPeriod && (period ?? dropdowns.period?.value)) || '',
-    };
+  get hours(): number {
+    const attrVal = this.getAttribute('hours');
 
-    const datestring = new Date().toDateString();
-    const timestring = [values.hours, values.minutes, values.seconds].join(':');
-    const datetime = new Date(`${datestring} ${timestring} ${values.period}`);
-
-    if (datetime.getTime()) {
-      const value = datetime.toLocaleTimeString(this.container.locale, {
-        hour12: !this.#is24Hours(),
-        hour: '2-digit',
-        minute: '2-digit',
-        [this.#hasSeconds() ? 'second' : '']: '2-digit',
-      });
-
-      this.value = value.replace(/^24/, '00');
-      this.triggerEvent('change', this, {
-        bubbles: true,
-        detail: { elem: this, value: this.value }
-      });
+    if (attrVal) {
+      return stringToNumber(attrVal);
     }
 
-    return this;
+    return 1;
+  }
+
+  set hours(val: string | number | null) {
+    if (val) {
+      this.setAttribute('hours', val);
+    } else {
+      this.removeAttribute('hours');
+    }
+
+    this.container.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, this.hours);
+  }
+
+  get minutes(): number {
+    const attrVal = this.getAttribute('minutes');
+
+    if (attrVal) {
+      return stringToNumber(attrVal);
+    }
+
+    return 0;
+  }
+
+  set minutes(val: string | number | null) {
+    if (val) {
+      this.setAttribute('minutes', val);
+    } else {
+      this.removeAttribute('minutes');
+    }
+
+    this.container.querySelector('ids-dropdown#minutes')?.setAttribute(attributes.VALUE, this.minutes);
+  }
+
+  get seconds(): number {
+    const attrVal = this.getAttribute('seconds');
+
+    if (attrVal) {
+      return stringToNumber(attrVal);
+    }
+
+    return 0;
+  }
+
+  set seconds(val: string | number | null) {
+    if (val) {
+      this.setAttribute('seconds', val);
+    } else {
+      this.removeAttribute('seconds');
+    }
+
+    this.container.querySelector('ids-dropdown#seconds')?.setAttribute(attributes.VALUE, this.seconds);
+  }
+
+  get period(): number {
+    const attrVal = this.getAttribute('period');
+
+    if (attrVal && this.locale?.calendar()?.dayPeriods.includes(attrVal)) {
+      return attrVal;
+    }
+
+    return this.locale?.calendar()?.dayPeriods[0];
+  }
+
+  set period(val: string | number | null) {
+    if (val) {
+      this.setAttribute('period', val);
+    } else {
+      this.removeAttribute('period');
+    }
+
+    this.container.querySelector('ids-dropdown#period')?.setAttribute(attributes.VALUE, this.period);
   }
 }

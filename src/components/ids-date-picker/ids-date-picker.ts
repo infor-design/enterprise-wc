@@ -1061,10 +1061,10 @@ class IdsDatePicker extends Base {
 
     if (!this.#hasTime() || !timePicker) return date;
 
-    const hours: number = Number(timePicker?.elements.dropdowns.hours?.value) || 0;
-    const minutes: number = Number(timePicker?.elements.dropdowns.minutes?.value) || 0;
-    const seconds: number = Number(timePicker?.elements.dropdowns.seconds?.value) || 0;
-    const period: string | undefined = timePicker?.elements.dropdowns.period?.value;
+    const hours: number = timePicker?.hours || 1;
+    const minutes: number = timePicker?.minutes || 0;
+    const seconds: number = timePicker?.seconds || 0;
+    const period: string = timePicker?.period;
     const dayPeriodIndex = this.locale?.calendar().dayPeriods?.indexOf(period);
     const hours24 = (hours % 12) + (dayPeriodIndex === -1 ? 0 : dayPeriodIndex) * 12;
 

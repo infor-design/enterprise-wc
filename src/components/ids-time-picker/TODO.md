@@ -9,13 +9,13 @@ Keep this file in sync with #636
 - [ ] Add option to limit hours [similar to this Enterprise issue](https://github.com/infor-design/enterprise/issues/5880)
 - [ ] Review theme colors for accuracy (should be inherited from IdsTriggerField)
 - [ ] Add ARIA-attributes
-- [ ] Fix onOutsideClick() (ids-time-picker width too-wide, but inline-flex breaks alignment) - maybe get rid of the div
-- [ ] Add config for enabling/disabling leading-zeros on hours, minutes, and seconds (depends on localized date string `h` vs. `hh` or `m` vs. `mm`)
+- [x] Fix onOutsideClick() (ids-time-picker width too-wide, but inline-flex breaks alignment) - maybe get rid of the div
+- [x] Add config for enabling/disabling leading-zeros on hours, minutes, and seconds (depends on localized date string `h` vs. `hh` or `m` vs. `mm`)
 - [ ] Replace the `range()` with the Date object or some other API, so we don't have to assume manually. See [Ed's comment](https://github.com/infor-design/enterprise-wc/pull/432#discussion_r756304951).
 - [x] Separate out the "picker contents" to a separate, embeddable form element (could potentially be shared by this component and the Date Picker's "Date/Time" view)
 - [x] Allow reset of the Time Picker's value ([#623](https://github.com/infor-design/enterprise-wc/issues/623))
 - [ ] `useCurrentTime` setting/attribute and functionality
-- [ ] Day periods AM/PM from locace calendar
+- [x] Day periods AM/PM from locace calendar
 
 ## Minor
 

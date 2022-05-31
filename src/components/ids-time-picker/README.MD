@@ -110,8 +110,6 @@ It's also possible to control the intervals of minutes and seconds available for
 
 ## Events
 
-- `mouseup` {MouseEvent} Clicking the clock-icon will toggle the popup window.
-
 ## Methods
 
 - `show()` Open the timepicker's popup window
