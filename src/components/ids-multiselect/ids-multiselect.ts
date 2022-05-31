@@ -34,6 +34,9 @@ class IdsMultiselect extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.#populateSelected();
+    Base.prototype.connectedCallback.apply(this);
+
+
     requestAnimationFrame(() => {
       this.resetDirtyTracker();
     });
@@ -161,6 +164,7 @@ class IdsMultiselect extends Base {
   }
 
   #handleOptionClick(e:any) {
+    e.preventDefault();
     if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
       const targetOption = e.target;
       if (this.#selectedList.find((value) => value === targetOption.getAttribute('value'))) {
@@ -236,21 +240,16 @@ class IdsMultiselect extends Base {
       unselectedOptions = this.querySelectorAll('ids-list-box.options ids-list-box-option');
       unselectedOptions.forEach((option) => {
         if (this.#selectedList.includes(option.getAttribute('value'))) {
-          window.requestAnimationFrame(() => {
-            // check change
-            selectedOptionsContainer
-              .insertBefore(option, selectedOptionsContainer.children[selectedOptionsContainer.children.length]);
-            option.querySelector('ids-checkbox').checked = true;
-          });
+          selectedOptionsContainer
+            .insertBefore(option, selectedOptionsContainer.children[selectedOptionsContainer.children.length]);
+          option.querySelector('ids-checkbox').checked = true;
         }
       });
     } else {
       selectedOptions.forEach((option) => {
         if (!this.#selectedList.includes(option.getAttribute('value'))) {
-          window.requestAnimationFrame(() => {
-            option.querySelector('ids-checkbox').checked = 'false';
-            optionsContainer.insertBefore(option, optionsContainer.children[optionsContainer.children.length]);
-          });
+          option.querySelector('ids-checkbox').checked = 'false';
+          optionsContainer.insertBefore(option, optionsContainer.children[optionsContainer.children.length]);
         }
       });
     }
