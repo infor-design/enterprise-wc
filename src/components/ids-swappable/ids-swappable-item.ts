@@ -222,7 +222,6 @@ export default class IdsSwappableItem extends Base {
    * Handle the keyboard events
    */
   #handleKeyEvents() {
-    /* TODO: needs review
     this.listen(['Enter', 'ArrowUp', 'ArrowDown'], this, (e: any) => {
       e.preventDefault();
 
@@ -248,7 +247,6 @@ export default class IdsSwappableItem extends Base {
         }
       }
     });
-    */
   }
 
   /**

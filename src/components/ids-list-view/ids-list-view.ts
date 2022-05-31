@@ -565,4 +565,28 @@ export default class IdsListView extends Base {
     p.querySelector('div[part="list-item"]').classList.add('placeholder'); // for styling the placeholder
     return p;
   }
+
+  /**
+   * Return #selectedLiIndex
+   * @returns {any} selectedLiIndex
+   */
+  getSelectedLiIndex() {
+    return this.#selectedLiIndex;
+  }
+
+  /**
+   * Set selected li index (on click)
+   * @param {number} idx selected li index
+   */
+  setSelectedLiIndex(idx: number) {
+    this.#selectedLiIndex = idx;
+  }
+
+  /**
+   * Return #focusedLiIndex
+   * @returns {any} focusedLiIndex
+   */
+  getFocusedLiIndex() {
+    return this.#focusedLiIndex;
+  }
 }

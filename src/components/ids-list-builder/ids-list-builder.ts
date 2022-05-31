@@ -365,6 +365,9 @@ export default class IdsListBuilder extends Base {
 
   #attachKeyboardListeners(): void {
     this.getAllSwappableItems().forEach((li: any) => {
+      li.unlisten('Enter');
+      li.unlisten('ArrowUp');
+      li.unlisten('ArrowDown');
       this.#attachKeyboardListenersForLi(li);
     });
   }
@@ -379,6 +382,10 @@ export default class IdsListBuilder extends Base {
     this.offEvent('click', li);
     this.onEvent('click', li, () => {
       this.focusLi(li);
+      if (this.getSelectedLiIndex() !== this.getFocusedLiIndex()) {
+        this.#unfocusAnySelectedLiEditor();
+      }
+      this.setSelectedLiIndex(this.getFocusedLiIndex());
     });
   }
 
@@ -394,6 +401,9 @@ export default class IdsListBuilder extends Base {
       switch (event.key) {
         case 'Enter': // edits the list item
           event.preventDefault();
+          if (this.getSelectedLiIndex() !== this.getFocusedLiIndex()) {
+            this.toggleSelectedLi(li);
+          }
           this.#toggleEditor();
           break;
         case ' ': // selects the list item
