@@ -154,10 +154,10 @@ class IdsMultiselect extends Base {
 
   #handleTagRemove(e:any) {
     const removedSelection = this.#selectedList.indexOf(e.target.closest('ids-tag').id);
-        if (removedSelection > -1) {
-          this.#selectedList.splice(removedSelection, 1);
-        }
-        this.#updateList(false);
+    if (removedSelection > -1) {
+      this.#selectedList.splice(removedSelection, 1);
+    }
+    this.#updateList(false);
   }
 
   #handleOptionClick(e:any) {
@@ -236,21 +236,21 @@ class IdsMultiselect extends Base {
       unselectedOptions = this.querySelectorAll('ids-list-box.options ids-list-box-option');
       unselectedOptions.forEach((option) => {
         if (this.#selectedList.includes(option.getAttribute('value'))) {
-          //window.requestAnimationFrame(() => {
+          window.requestAnimationFrame(() => {
             // check change
             selectedOptionsContainer
               .insertBefore(option, selectedOptionsContainer.children[selectedOptionsContainer.children.length]);
             option.querySelector('ids-checkbox').checked = true;
-          //});
+          });
         }
       });
     } else {
       selectedOptions.forEach((option) => {
         if (!this.#selectedList.includes(option.getAttribute('value'))) {
-          //window.requestAnimationFrame(() => {
+          window.requestAnimationFrame(() => {
             option.querySelector('ids-checkbox').checked = 'false';
             optionsContainer.insertBefore(option, optionsContainer.children[optionsContainer.children.length]);
-          //});
+          });
         }
       });
     }
