@@ -32,8 +32,8 @@ class IdsMultiselect extends Base {
    * Invoked each time the custom element is add into a document-connected element
    */
   connectedCallback() {
+    super.connectedCallback();
     this.#populateSelected();
-    Base.prototype.connectedCallback.apply(this);
     requestAnimationFrame(() => {
       this.resetDirtyTracker();
     });
