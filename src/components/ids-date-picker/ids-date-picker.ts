@@ -904,7 +904,11 @@ class IdsDatePicker extends Base {
 
     // Set time picker value
     if (this.#hasTime()) {
-      this.container.querySelector('ids-time-picker')?.setAttribute(attributes.VALUE, this.#triggerField?.value);
+      const timePicker = this.container.querySelector('ids-time-picker');
+
+      if (timePicker) {
+        timePicker.value = this.#triggerField?.value;
+      }
     }
 
     if (!this.useRange) {
@@ -1061,10 +1065,10 @@ class IdsDatePicker extends Base {
 
     if (!this.#hasTime() || !timePicker) return date;
 
-    const hours: number = timePicker?.hours || 1;
-    const minutes: number = timePicker?.minutes || 0;
-    const seconds: number = timePicker?.seconds || 0;
-    const period: string = timePicker?.period;
+    const hours: number = timePicker.hours;
+    const minutes: number = timePicker.minutes;
+    const seconds: number = timePicker.seconds;
+    const period: string = timePicker.period;
     const dayPeriodIndex = this.locale?.calendar().dayPeriods?.indexOf(period);
     const hours24 = (hours % 12) + (dayPeriodIndex === -1 ? 0 : dayPeriodIndex) * 12;
 
