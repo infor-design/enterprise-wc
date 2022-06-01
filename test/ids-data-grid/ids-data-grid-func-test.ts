@@ -240,7 +240,7 @@ describe('IdsDataGrid Component', () => {
       dataGrid.columns = [];
       dataGrid.data = [];
       dataGrid.syncAndRerenderBody();
-      dataGrid.virtualScroll = null;
+      dataGrid.virtualScroll = {};
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
     });
 

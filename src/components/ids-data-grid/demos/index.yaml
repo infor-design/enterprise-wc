@@ -8,21 +8,45 @@
   - link: example.html
     type: Main Example
     description: Shows a basic datagrid with formatters
+  - link: auto-fit-bottom.html
+    type: Example
+    description: Showing a datagrid that sizes to the bottom of the page
+  - link: auto-fit.html
+    type: Example
+    description: Showing a datagrid that sizes to the size of the parent container
+  - link: columns-custom-css.html
+    type: Example
+    description: Showing initialy hidden columns
+  - link: columns-auto.html
+    type: Example
+    description: Showing auto column widths
+  - link: columns-fixed.html
+    type: Example
+    description: Showing fixed column widths
+  - link: columns-hidden.html
+    type: Example
+    description: Showing how to add custom styles to cells
+  - link: columns-percent.html
+    type: Example
+    description: Showing percent column widths
+  - link: filter-trigger-fields.html
+    type: Example
+    description: Showing a filter row with date, time, dropdown
+  - link: filter-custom.html
+    type: Example
+    description: Showing a filter row with custom filter inputs
+  - link: filter.html
+    type: Example
+    description: Showing a filter row
   - link: list-style.html
     type: Example
     description: Shows a datagrid with readonly list styling
-  - link: multiple-selection.html
-    type: Example
-    description: Shows a datagrid with multiple selection
-  - link: single-selection.html
-    type: Example
-    description: Shows a datagrid with single selection
   - link: mixed-selection.html
     type: Example
     escription: Shows a datagrid with mixed selection
-  - link: virtual-scroll.html
+  - link: multiple-selection.html
     type: Example
-    description: Shows a basic datagrid with virtual scrolling
+    description: Shows a datagrid with multiple selection
   - link: pagination-client-side.html
     type: Example
     description: Showing a datagrid with client-side pagination
@@ -32,31 +56,16 @@
   - link: pagination-standalone.html
     type: Example
     description: Showing a datagrid with standalone pagination
-  - link: auto-fit.html
-    type: Example
-    description: Showing a datagrid that sizes to the size of the parent container
-  - link: auto-fit-bottom.html
-    type: Example
-    description: Showing a datagrid that sizes to the bottom of the page
-  - link: filter-books.html
-    type: Example
-    description: Showing a filter row
-  - link: filter-custom.html
-    type: Example
-    description: Showing a filter row with custom filter inputs
-  - link: columns-hidden.html
-    type: Example
-    description: Showing how to add custom styles to cells
-  - link: columns-custom-css.html
-    type: Example
-    description: Showing initialy hidden columns
-  - link: columns-auto.html
-    type: Example
-    description: Showing auto size columns
-  - link: standalone-css.html
-    type: Standalone CSS
-    description: Shows a css only styles table
   - link: side-by-side.html
     type: Side by Side
     description: Showing a datagrid next to a 4.x datagrid
+  - link: single-selection.html
+    type: Example
+    description: Shows a datagrid with single selection
+  - link: standalone-css.html
+    type: Standalone CSS
+    description: Shows a css only styles table
+  - link: virtual-scroll.html
+    type: Example
+    description: Shows a basic datagrid with virtual scrolling
 

@@ -4,15 +4,13 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 
 ## Next
 
-- [ ] column widths: percent
-- [ ] column widths: fixed
-
 ## Major
 
 - [x] Hidden Columns
-- [ ] Column Sizes/Widths/Reorder
+- [x] Column Sizes/Widths
+- [ ] Column Reorder
 - [ ] Frozen Columns
-- [ ] Formatters left: Checkbox, Badge, Tag, Alerts, Image, Favorite, Card (slots), Password, Targeted Achievement, etc.
+- [ ] Formatters left: Checkbox, Badge, Tag, Alerts, Image, Favorite, Card (templates), Password, Targeted Achievement etc.
 - [ ] Fix icon and field sizes on http://localhost:4300/ids-data-grid/filter.html
 - [ ] Save Settings [example](https://main-enterprise.demo.design.infor.com/components/datagrid/test-save-settings.html)
 - [ ] Empty Message [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-empty-message.html)
@@ -29,6 +27,7 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 - [ ] Tree [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-tree.html)
 - [x] Text align headers and cells [example](https://main-enterprise.demo.design.infor.com/components/datagrid/test-alerts-right-align.html)
 - [x] Css class/Colors
+- [ ] Custom Formatters and Editors Example
 
 ## Minor
 
@@ -39,10 +38,8 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 - [ ] Keyword Search [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-keyword-search.html)
 - [ ] Nested Datagrid [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-nested-grids.html)
 - [ ] Editor Placeholder [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-placeholder.html)
-
 - [ ] Context Menu
 - [ ] Paste/Copy from Excel [example](https://main-enterprise.demo.design.infor.com/components/datagrid/test-copy-paste-from-excel.html)
-- [ ] Custom Formatters and Editors Example
 - [ ] Summary Row [example](https://main-enterprise.demo.design.infor.com/components/datagrid/test-summary-row-pager.html)
 - [x] Automation id's
 - [ ] Errors and Validation

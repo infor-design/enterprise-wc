@@ -322,7 +322,7 @@ export default class IdsDataGrid extends Base {
    */
   rowTemplate(row: Record<string, unknown>, index: number) {
     let rowClasses = `${row?.rowSelected ? ' selected' : ''}`;
-    rowClasses += `${row?.rowSelected && this.rowSelected === 'mixed' ? ' mixed' : ''}`;
+    rowClasses += `${row?.rowSelected ? ' mixed' : ''}`;
     rowClasses += `${row?.rowActivated ? ' activated' : ''}`;
 
     return `
@@ -470,7 +470,6 @@ export default class IdsDataGrid extends Base {
    */
   setColumnWidths() {
     let css = '';
-    let colsWithoutWidth = 0;
 
     if (!this.shadowRoot.styleSheets) {
       return;
@@ -487,20 +486,17 @@ export default class IdsDataGrid extends Base {
       if (column.id === 'selectionCheckbox' || column.id === 'selectionRadio') {
         column.width = 45;
       }
-      if (column.width && this.visibleColumns.length === i + 1) {
-        css += `minmax(250px, 1fr)`;
+      if (column.width && typeof column.width === 'string') {
+        css += `minmax(${column.width}, 1fr) `;
       }
-      if (column.width && this.visibleColumns.length !== i + 1) {
+      if (column.width && typeof column.width === 'number') {
         css += `${column.width}px `;
       }
       if (!column.width) {
-        colsWithoutWidth++;
+        css += `minmax(110px, 1fr)`;
       }
+      console.log(css, this.visibleColumns.length, i);
     });
-
-    if (colsWithoutWidth) {
-      css += ` repeat(${colsWithoutWidth}, minmax(110px, 1fr))`;
-    }
 
     styleSheet.insertRule(`:host {
       --ids-data-grid-column-widths: ${css} !important;
