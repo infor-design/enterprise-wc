@@ -10,18 +10,20 @@
 
   width: fit-content;
 
-  ids-button {
+  .popup-btn {
+    @include w-full();
+
     align-items: center;
-    height: 45px;
-    width: 100%;
     border-top: 1px solid var(--ids-color-palette-slate-30);
 
     &::part(button) {
-      color: var(--ids-color-palette-azure-70);
+      @include h-full();
+      @include p-0();
+      @include text-azure-70();
+      @include py-12();
+
       align-items: center;
       justify-content: center;
-      height: 100%;
-      padding: 0;
     }
   }
 
@@ -35,21 +37,23 @@
 
   ids-list-box,
   ids-list-box-option {
-    width: 100%;
+    @include w-full();
   }
 
   ids-popup {
     &::part(popup) {
-      margin: 0;
-      padding: 0;
+      @include m-0();
+      @include p-0();
     }
   }
 
   .dropdowns {
     @include flex();
-    @include p-8();
 
     flex-direction: row;
+    padding-inline-start: 15px;
+    padding-inline-end: 15px;
+    padding-top: 15px;
   }
 
   .dropdown::part(trigger-field) {
@@ -67,23 +71,21 @@
     }
   }
 
-  &[mode='contrast'].is-open {
-    ids-trigger-button::part(button) {
-      @include text-azure-90();
-    }
-
-    ids-trigger-field::part(field-container) {
-      @include border-azure-90();
-    }
-  }
-
   .separator {
-    @include mx-4();
+    width: 12px;
+    display: inline-block;
+    height: 38px;
+    margin-top: 23px;
 
-    color: var(--ids-color-font-muted, #606066);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+    &.colons {
+      @include text-slate-60();
+
+      width: 17px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 38px;
+    }
   }
 
   @include breakpoint-xs-down {
@@ -92,32 +94,54 @@
       align-items: center;
       width: $input-size-sm;
     }
+
+    .separator {
+      display: none;
+    }
   }
 
-  // Handle Themes
+  // Themes
   &[mode='dark'] {
-    @include border-slate-60();
-    @include text-white();
-  }
+    .separator.colons {
+      @include text-slate-30();
+    }
 
-  &[mode='dark'] ::slotted(ids-icon) {
-    @include text-slate-10();
-  }
+    .popup-btn {
+      border-top-color: var(--ids-color-palette-slate-50);
 
-  &[mode='dark'] ::slotted(ids-icon:hover) {
-    @include text-white();
+      &::part(button) {
+        @include text-azure-60();
+      }
+    }
+
+    ids-popup::part(popup) {
+      @include bg-slate-80();
+    }
+
+    ids-popup::part(arrow)::after {
+      border-bottom-color: var(--ids-color-palette-slate-80);
+    }
   }
 
   &[mode='contrast'] {
-    @include border-slate-20();
-    @include text-slate-100();
-  }
+    .separator.colons {
+      @include text-slate-90();
+    }
 
-  &[mode='contrast'] ::slotted(ids-icon) {
-    @include text-slate-100();
-  }
+    .popup-btn {
+      &::part(button) {
+        @include text-azure-90();
+      }
+    }
 
-  &[mode='contrast'] ::slotted(ids-icon:hover) {
-    @include text-black();
+    &.is-open {
+      ids-trigger-button::part(button) {
+        @include text-azure-90();
+      }
+
+      ids-trigger-field::part(field-container) {
+        @include border-azure-90();
+      }
+    }
   }
 }
