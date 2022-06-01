@@ -52,7 +52,7 @@ export default class IdsTimePicker extends Base {
   }
 
   disconnectedCallback() {
-    this.hide();
+    this.close();
   }
 
   /**
@@ -188,7 +188,7 @@ export default class IdsTimePicker extends Base {
   onOutsideClick(e: any): void {
     if ((!this.autoselect && !e.path?.includes(this.popup))
     || (this.autoselect && !e.path?.includes(this.popup) && !e.path?.includes(this.input))) {
-      this.hide();
+      this.close();
     }
   }
 
@@ -200,9 +200,9 @@ export default class IdsTimePicker extends Base {
   #attachKeyboardListeners(): IdsTimePicker {
     this.listen(['ArrowDown', 'Escape', 'Backspace'], this, (e: KeyboardEvent) => {
       if (e.key === 'ArrowDown') {
-        this.show();
+        this.open();
       } else if (e.key === 'Escape' || e.key === 'Backspace') {
-        this.hide();
+        this.close();
       }
     });
 
@@ -231,7 +231,7 @@ export default class IdsTimePicker extends Base {
     this.offEvent('click.time-picker-set');
     this.onEvent('click.time-picker-set', this.container.querySelector('.popup-btn'), () => {
       this.#setTimeOnField();
-      this.hide();
+      this.close();
     });
 
     this.offEvent('click.time-picker-popup');
@@ -242,7 +242,7 @@ export default class IdsTimePicker extends Base {
     this.offEvent('focus.time-picker-input');
     this.onEvent('focus.time-picker-input', this.input, () => {
       if (this.autoselect) {
-        this.show();
+        this.open();
       }
     });
 
@@ -421,7 +421,7 @@ export default class IdsTimePicker extends Base {
   /**
    * Close the timepicker's popup window
    */
-  hide() {
+  close() {
     if (this.popup) {
       this.popup.visible = false;
       this.removeOpenEvents();
@@ -433,7 +433,7 @@ export default class IdsTimePicker extends Base {
   /**
    * Open the timepicker's popup window
    */
-  show() {
+  open() {
     if (!this.popup.visible && !this.disabled && !this.readonly) {
       const { bottom } = this.#triggerButton.getBoundingClientRect();
       const positionBottom = (bottom + 100) < window.innerHeight;
@@ -455,9 +455,9 @@ export default class IdsTimePicker extends Base {
    */
   #toggleTimePopup() {
     if (this.popup.visible) {
-      this.hide();
+      this.close();
     } else {
-      this.show();
+      this.open();
     }
   }
 

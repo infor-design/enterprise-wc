@@ -130,8 +130,8 @@ timePicker.popup.addEventListener('hide');
 
 ## Methods
 
-- `show()` Open the timepicker's popup window
-- `hide()` Close the timepicker's popup window
+- `open()` Open the timepicker's popup window
+- `close()` Close the timepicker's popup window
 
 ## Themeable Parts (TODO)
 
