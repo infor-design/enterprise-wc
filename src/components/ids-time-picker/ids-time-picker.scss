@@ -52,6 +52,10 @@
     flex-direction: row;
   }
 
+  .dropdown::part(trigger-field) {
+    justify-content: center;
+  }
+
   // Is open state
   &.is-open {
     ids-trigger-button::part(button) {

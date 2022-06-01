@@ -353,7 +353,7 @@ export default class IdsTimePicker extends Base {
       value,
       padStart
     }: any) => `
-      <ids-dropdown id="${id}" label="${label}" value="${value}" size="xs">
+      <ids-dropdown id="${id}" class="dropdown" label="${label}" value="${value}" size="xs">
         <ids-list-box>
           ${options.map((option: any) => `
             <ids-list-box-option id="timepicker-${id}-${option}" value="${option}">
