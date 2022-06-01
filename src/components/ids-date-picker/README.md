@@ -237,7 +237,7 @@ The Date Picker is a complex control to code for accessibility.
 **4.x to 5.x**
 - Listeners for input and popup events should be added to references `input` and `popup` now. See Events section.
 - `disable/readonly/tabbable` are now attributes not methods
-- If using events events are now plain JS events for example: change
+- If using events, events are now plain JS events for example: change
 - Markup has changed to a custom element `<ids-date-picker></ids-date-picker>`
 - Can now be imported as a single JS file and used with encapsulated styles
 - Instead of `onOpenCalendar` callback there are `show`, `hide` popup plain JS events and a date for calendar can be set as date picker `year`, `month`, `day` settings when calendar popup is opened

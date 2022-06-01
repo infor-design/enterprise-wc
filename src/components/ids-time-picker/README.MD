@@ -107,8 +107,26 @@ It's also possible to control the intervals of minutes and seconds available for
 - `embeddable` {boolean} Set whether or not to show only hours/minutes/seconds dropdowns without input
 - `minute-interval` {number} Set minutes dropdown options interval
 - `second-interval` {number} Set seconds dropdown options interval
+- `hours` {number} Set initial value for hours dropdown in the popup or retrieve the dropdown value
+- `minutes` {number} Set initial value for minutes dropdown in the popup or retrieve the dropdown value
+- `seconds` {number} Set initial value for seconds dropdown in the popup or retrieve the dropdown value
+- `period` {number} Set initial value for period dropdown in the popup or retrieve the dropdown value
 
 ## Events
+- Event listeners for input (trigger field) `blur`, `change`, `focus`, `select`, `keydown`, `keypress`, `keyup`, `click`, `dbclick`, `beforetriggerclicked`, `triggerclicked` events can be added to `input` component property:
+
+```js
+const timePicker = document.querySelector('ids-time-picker');
+
+timePicker.input.addEventListener('change');
+```
+- Event listeners for popup `show`, `hide` events can be added to `popup` property:
+```js
+const timePicker = document.querySelector('ids-time-picker');
+
+timePicker.popup.addEventListener('show');
+timePicker.popup.addEventListener('hide');
+```
 
 ## Methods
 
@@ -138,8 +156,9 @@ It's also possible to control the intervals of minutes and seconds available for
 - Timepicker can be invoked with `$('#my-element').timepicker()`.
 
 **4.x to 5.x**
-
-- Timepicker are now custom elements `<ids-time-picker></ids-time-picker>`
+- Listeners for input and popup events should be added to references `input` and `popup` now. See Events section.
+- `disable/readonly/tabbable` are now attributes not methods
+- Timepicker are now custom element `<ids-time-picker></ids-time-picker>`
 - If using events, events are now plain JS events
 - Can now be imported as a single JS file and used with encapsulated styles
 

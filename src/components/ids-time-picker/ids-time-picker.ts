@@ -68,10 +68,14 @@ export default class IdsTimePicker extends Base {
       attributes.DISABLED,
       attributes.EMBEDDABLE,
       attributes.FORMAT,
+      attributes.HOURS,
       attributes.LABEL,
+      attributes.MINUTES,
       attributes.NO_MARGINS,
+      attributes.PERIOD,
       attributes.PLACEHOLDER,
       attributes.READONLY,
+      attributes.SECONDS,
       attributes.SIZE,
       attributes.VALUE
     ];
@@ -397,6 +401,9 @@ export default class IdsTimePicker extends Base {
     return [numbers, period].filter(Boolean).join(spacer);
   }
 
+  /**
+   * Set the input-field's timestring value
+   */
   #setTimeOnField(): void {
     const date = new Date();
     const dayPeriodIndex = this.locale?.calendar().dayPeriods?.indexOf(this.period);
@@ -564,9 +571,9 @@ export default class IdsTimePicker extends Base {
 
   /**
    * Sets the disabled attribute
-   * @param {boolean} value - true or false
+   * @param {boolean|string|null} value - true or false
    */
-  set disabled(value) {
+  set disabled(value: boolean | string | null) {
     const boolVal = stringToBool(value);
 
     if (boolVal) {
@@ -588,9 +595,9 @@ export default class IdsTimePicker extends Base {
 
   /**
    * Sets the readonly attribute
-   * @param {boolean | string} value - true or false
+   * @param {boolean|string|null} value - true or false
    */
-  set readonly(value: boolean | string) {
+  set readonly(value: boolean | string | null) {
     const boolVal = stringToBool(value);
 
     if (boolVal) {
@@ -654,9 +661,9 @@ export default class IdsTimePicker extends Base {
 
   /**
    * Sets the no margins attribute
-   * @param {boolean} value The value for no margins attribute
+   * @param {string|boolean|null} value The value for no margins attribute
    */
-  set noMargins(value: boolean) {
+  set noMargins(value: string | boolean | null) {
     const boolVal = stringToBool(value);
 
     if (boolVal) {
@@ -712,7 +719,6 @@ export default class IdsTimePicker extends Base {
     }
 
     this.#renderDropdowns();
-    this.#parseInputValue();
   }
 
   /**
@@ -737,7 +743,6 @@ export default class IdsTimePicker extends Base {
     }
 
     this.#renderDropdowns();
-    this.#parseInputValue();
   }
 
   /**
@@ -762,68 +767,96 @@ export default class IdsTimePicker extends Base {
     }
   }
 
+  /**
+   * hours attribute, default is 1
+   * @returns {number} hours attribute value converted to number
+   */
   get hours(): number {
-    const attrVal = this.getAttribute('hours');
+    const numberVal = stringToNumber(this.getAttribute(attributes.HOURS));
 
-    if (attrVal) {
-      return stringToNumber(attrVal);
+    if (!Number.isNaN(numberVal)) {
+      return numberVal;
     }
 
     return 1;
   }
 
-  set hours(val: string | number | null) {
-    if (val) {
-      this.setAttribute('hours', val);
+  /**
+   * Set hours attribute and update value in hours dropdown
+   * @param {string|number|null} value hours param value
+   */
+  set hours(value: string | number | null) {
+    if (value) {
+      this.setAttribute(attributes.HOURS, value);
     } else {
-      this.removeAttribute('hours');
+      this.removeAttribute(attributes.HOURS);
     }
 
     this.container.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, this.hours);
   }
 
+  /**
+   * minutes attribute, default is 0
+   * @returns {number} minutes attribute value converted to number
+   */
   get minutes(): number {
-    const attrVal = this.getAttribute('minutes');
+    const numberVal = stringToNumber(this.getAttribute(attributes.MINUTES));
 
-    if (attrVal) {
-      return stringToNumber(attrVal);
+    if (!Number.isNaN(numberVal)) {
+      return numberVal;
     }
 
     return 0;
   }
 
-  set minutes(val: string | number | null) {
-    if (val) {
-      this.setAttribute('minutes', val);
+  /**
+   * Set minutes attribute and update value in minutes dropdown
+   * @param {string|number|null} value minutes param value
+   */
+  set minutes(value: string | number | null) {
+    if (value) {
+      this.setAttribute(attributes.MINUTES, value);
     } else {
-      this.removeAttribute('minutes');
+      this.removeAttribute(attributes.MINUTES);
     }
 
     this.container.querySelector('ids-dropdown#minutes')?.setAttribute(attributes.VALUE, this.minutes);
   }
 
+  /**
+   * seconds attribute, default is 0
+   * @returns {number} seconds attribute value converted to number
+   */
   get seconds(): number {
-    const attrVal = this.getAttribute('seconds');
+    const numberVal = stringToNumber(this.getAttribute(attributes.SECONDS));
 
-    if (attrVal) {
-      return stringToNumber(attrVal);
+    if (!Number.isNaN(numberVal)) {
+      return numberVal;
     }
 
     return 0;
   }
 
-  set seconds(val: string | number | null) {
-    if (val) {
-      this.setAttribute('seconds', val);
+  /**
+   * Set seconds attribute and update value in seconds dropdown
+   * @param {string|number|null} value seconds param value
+   */
+  set seconds(value: string | number | null) {
+    if (value) {
+      this.setAttribute(attributes.SECONDS, value);
     } else {
-      this.removeAttribute('seconds');
+      this.removeAttribute(attributes.SECONDS);
     }
 
     this.container.querySelector('ids-dropdown#seconds')?.setAttribute(attributes.VALUE, this.seconds);
   }
 
-  get period(): number {
-    const attrVal = this.getAttribute('period');
+  /**
+   * period attribute, default is first day period in locale calendar
+   * @returns {string} period attribute value
+   */
+  get period(): string {
+    const attrVal = this.getAttribute(attributes.PERIOD);
 
     if (attrVal && this.locale?.calendar()?.dayPeriods.includes(attrVal)) {
       return attrVal;
@@ -832,11 +865,15 @@ export default class IdsTimePicker extends Base {
     return this.locale?.calendar()?.dayPeriods[0];
   }
 
-  set period(val: string | number | null) {
-    if (val) {
-      this.setAttribute('period', val);
+  /**
+   * Set period attribute and update value in period dropdown
+   * @param {string|null} value period param value
+   */
+  set period(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.PERIOD, value);
     } else {
-      this.removeAttribute('period');
+      this.removeAttribute(attributes.PERIOD);
     }
 
     this.container.querySelector('ids-dropdown#period')?.setAttribute(attributes.VALUE, this.period);
