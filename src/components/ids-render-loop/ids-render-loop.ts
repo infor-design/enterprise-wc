@@ -15,7 +15,7 @@ export default class IdsRenderLoop {
 
   startTime = 0;
 
-  lastStopTime? = 0;
+  lastStopTime: number | undefined = 0;
 
   resumeTime = 0;
 

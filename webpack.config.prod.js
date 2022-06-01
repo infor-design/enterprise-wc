@@ -139,6 +139,6 @@ module.exports = {
       ]
     })
   ],
-  devtool: 'source-map',
+  devtool: isProduction ? false : 'source-map',
   mode: isProduction ? 'production' : 'development',
 };
