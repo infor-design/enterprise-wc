@@ -17,3 +17,4 @@ Keep this file in sync with #683
 - [ ] test: figure out how to get coveralls + Jest to detect certain parts of code
 - [ ] test: figure out why ids-tab.selected = false doesn't trigger in Jest
 - [ ] test: resolve aXe color contrast issues (disabled state, similar to other components)
+- [ ] test: re-enable skipped Percy tests, resolve missing initial selected state (no selected state is present in the tests, but exists when the browser loads the same test page)
