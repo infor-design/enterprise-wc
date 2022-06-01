@@ -198,10 +198,8 @@ export default class IdsTimePicker extends Base {
    * @returns {IdsTimePicker} this class-instance object for chaining
    */
   #attachKeyboardListeners(): IdsTimePicker {
-    this.listen(['ArrowDown', 'Enter', 'Escape', 'Backspace'], this, (e: KeyboardEvent) => {
-      if (e.key === 'Enter') {
-        this.#setTimeOnField();
-      } else if (e.key === 'ArrowDown') {
+    this.listen(['ArrowDown', 'Escape', 'Backspace'], this, (e: KeyboardEvent) => {
+      if (e.key === 'ArrowDown') {
         this.show();
       } else if (e.key === 'Escape' || e.key === 'Backspace') {
         this.hide();
@@ -230,14 +228,16 @@ export default class IdsTimePicker extends Base {
       }
     });
 
-    // using on mouseup, because on click interferes with on Enter
-    this.onEvent('mouseup', this.container.querySelector('.popup-btn'), () => {
+    this.offEvent('click.time-picker-set');
+    this.onEvent('click.time-picker-set', this.container.querySelector('.popup-btn'), () => {
       this.#setTimeOnField();
       this.hide();
     });
 
-    // using on mouseup, because on click interferes with on Enter
-    this.onEvent('mouseup', this.#triggerButton, () => this.#toggleTimePopup());
+    this.offEvent('click.time-picker-popup');
+    this.onEvent('click.time-picker-popup', this.#triggerButton, () => {
+      this.#toggleTimePopup();
+    });
 
     this.offEvent('focus.time-picker-input');
     this.onEvent('focus.time-picker-input', this.input, () => {
@@ -252,7 +252,7 @@ export default class IdsTimePicker extends Base {
       this.#renderDropdowns();
     });
 
-    // Input value change triggers component value change
+    // Change component value on input value change
     this.offEvent('change.time-picker-input');
     this.onEvent('change.time-picker-input', this.input, (e: any) => {
       this.setAttribute(attributes.VALUE, e.detail.value);
