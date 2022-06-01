@@ -81,8 +81,8 @@ export default class IdsDataGrid extends Base {
       attributes.LIST_STYLE,
       attributes.ROW_HEIGHT,
       attributes.ROW_SELECTION,
-      attributes.SUPRESS_ROW_DEACTIVATION,
-      attributes.SUPRESS_ROW_DESELECTION,
+      attributes.SUPPRESS_ROW_DEACTIVATION,
+      attributes.SUPPRESS_ROW_DESELECTION,
       attributes.VIRTUAL_SCROLL,
       attributes.MODE,
       attributes.VERSION
@@ -701,30 +701,30 @@ export default class IdsDataGrid extends Base {
    * i.e. once a row is selected, it remains selected until another row is selected in its place.
    * @param {string|boolean} value true or false
    */
-  set supressRowDeselection(value) {
+  set suppressRowDeselection(value) {
     if (stringToBool(value)) {
-      this.setAttribute(attributes.SUPRESS_ROW_DESELECTION, value);
+      this.setAttribute(attributes.SUPPRESS_ROW_DESELECTION, value);
     } else {
-      this.removeAttribute(attributes.SUPRESS_ROW_DESELECTION);
+      this.removeAttribute(attributes.SUPPRESS_ROW_DESELECTION);
     }
   }
 
-  get supressRowDeselection() { return this.getAttribute(attributes.SUPRESS_ROW_DESELECTION) || false; }
+  get suppressRowDeselection() { return this.getAttribute(attributes.SUPPRESS_ROW_DESELECTION) || false; }
 
   /**
    * Set to true to prevent rows from being deactivated if clicked.
    * i.e. once a row is activated, it remains activated until another row is activated in its place.
    * @param {string|boolean} value true or false
    */
-  set supressRowDeactivation(value) {
+  set suppressRowDeactivation(value) {
     if (stringToBool(value)) {
-      this.setAttribute(attributes.SUPRESS_ROW_DEACTIVATION, value);
+      this.setAttribute(attributes.SUPPRESS_ROW_DEACTIVATION, value);
     } else {
-      this.removeAttribute(attributes.SUPRESS_ROW_DEACTIVATION);
+      this.removeAttribute(attributes.SUPPRESS_ROW_DEACTIVATION);
     }
   }
 
-  get supressRowDeactivation() { return this.getAttribute(attributes.SUPRESS_ROW_DEACTIVATION) || false; }
+  get suppressRowDeactivation() { return this.getAttribute(attributes.SUPPRESS_ROW_DEACTIVATION) || false; }
 
   /**
    * Resync the selected rows array's indexes
@@ -781,7 +781,7 @@ export default class IdsDataGrid extends Base {
       return;
     }
     const isSelected = row.classList.contains('selected');
-    if (isSelected && !this.supressRowDeselection) {
+    if (isSelected && !this.suppressRowDeselection) {
       this.deSelectRow(row.getAttribute('aria-rowindex') - 1);
     } else {
       const index = row.getAttribute('aria-rowindex') - 1;
@@ -808,7 +808,7 @@ export default class IdsDataGrid extends Base {
     const isActivated = row.classList.contains('activated');
     const currentRow = row.getAttribute('aria-rowindex') - 1;
 
-    if (isActivated && !this.supressRowDeactivation) {
+    if (isActivated && !this.suppressRowDeactivation) {
       this.deActivateRow(currentRow);
     } else {
       this.deActivateRow(this.state.activatedRow);

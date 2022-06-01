@@ -113,18 +113,18 @@ describe('IdsTimePicker Component', () => {
     timepicker.setAttribute(attributes.FORMAT, 'hh:mm');
     timepicker.replaceWith(timepicker);
 
-    expect(timepicker.intervals.minutes).toBeFalsy();
+    expect(timepicker.minuteInterval).toBeFalsy();
 
     timepicker.setAttribute(attributes.MINUTE_INTERVAL, '5');
-    expect(timepicker.intervals.minutes).toBe(5);
+    expect(timepicker.minuteInterval).toBe(5);
     expect(timepicker.options.minutes).toStrictEqual([0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]);
 
     timepicker.setAttribute(attributes.MINUTE_INTERVAL, '10');
-    expect(timepicker.intervals.minutes).toBe(10);
+    expect(timepicker.minuteInterval).toBe(10);
     expect(timepicker.options.minutes).toStrictEqual([0, 10, 20, 30, 40, 50]);
 
     timepicker.setAttribute(attributes.MINUTE_INTERVAL, '15');
-    expect(timepicker.intervals.minutes).toBe(15);
+    expect(timepicker.minuteInterval).toBe(15);
     expect(timepicker.options.minutes).toStrictEqual([0, 15, 30, 45]);
   });
 
@@ -148,18 +148,18 @@ describe('IdsTimePicker Component', () => {
     timepicker.setAttribute(attributes.FORMAT, 'hh:mm:ss');
     timepicker.replaceWith(timepicker);
 
-    expect(timepicker.intervals.seconds).toBeFalsy();
+    expect(timepicker.secondInterval).toBeFalsy();
 
     timepicker.setAttribute(attributes.SECOND_INTERVAL, '5');
-    expect(timepicker.intervals.seconds).toBe(5);
+    expect(timepicker.secondInterval).toBe(5);
     expect(timepicker.options.seconds).toStrictEqual([0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]);
 
     timepicker.setAttribute(attributes.SECOND_INTERVAL, '10');
-    expect(timepicker.intervals.seconds).toBe(10);
+    expect(timepicker.secondInterval).toBe(10);
     expect(timepicker.options.seconds).toStrictEqual([0, 10, 20, 30, 40, 50]);
 
     timepicker.setAttribute(attributes.SECOND_INTERVAL, '15');
-    expect(timepicker.intervals.seconds).toBe(15);
+    expect(timepicker.secondInterval).toBe(15);
     expect(timepicker.options.seconds).toStrictEqual([0, 15, 30, 45]);
   });
 

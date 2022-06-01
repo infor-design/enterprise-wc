@@ -51,8 +51,8 @@ The datagrid selection feature involves the setting `rowSelection`. This can be 
 
 - `false` No selection enabled.
 - `multiple` Allows multiple rows to be selected. When doing this it is recommended to add a `formatters.selectionCheckbox` for the first column.
-- `single` Allows a single row to be selected. When doing this you can optionally to add a `formatters.selectionRadio` for the first column. You can use the `supressRowDeselection` if you want one row to always be selected.
-- `mixed` Allows multiple rows to be selected by clicking only on the checkbox or <kbd>Space</kbd> key. If clicking a row then that row is activated, meaning it is the current row and something might be shown based on the data of that row. You can use the `supressRowDeactivation` if you want one row to always be selected.
+- `single` Allows a single row to be selected. When doing this you can optionally to add a `formatters.selectionRadio` for the first column. You can use the `suppressRowDeselection` if you want one row to always be selected.
+- `mixed` Allows multiple rows to be selected by clicking only on the checkbox or <kbd>Space</kbd> key. If clicking a row then that row is activated, meaning it is the current row and something might be shown based on the data of that row. You can use the `suppressRowDeactivation` if you want one row to always be selected.
 
 Here is a code example for multi select
 
@@ -96,8 +96,8 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 - `rowHeight` {string | `'xs'` | `'sm'` | `'md'` | `'lg'`} Sets the height of each row
 - `data` {Array<object>} Sets the columns array of the datagrid. See column settings.
 - `rowSelection` {string|boolean} Set the row selection mode between false, 'single', 'multiple' and 'mixed
-- `supressRowDeactivation` {boolean} Set to true to prevent rows from being deactivated if clicked. i.e. once a row is activated, it remains activated until another row is activated in its place.
-- `supressRowDeselection`  {boolean} Set to true to prevent rows from being deselected if click or space bar the row. i.e. once a row is selected, it remains selected until another row is selected in its place.
+- `suppressRowDeactivation` {boolean} Set to true to prevent rows from being deactivated if clicked. i.e. once a row is activated, it remains activated until another row is activated in its place.
+- `suppressRowDeselection`  {boolean} Set to true to prevent rows from being deselected if click or space bar the row. i.e. once a row is selected, it remains selected until another row is selected in its place.
 
 ## Column Settings (General)
 
