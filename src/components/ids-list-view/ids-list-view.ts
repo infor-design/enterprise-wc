@@ -142,6 +142,11 @@ export default class IdsListView extends Base {
     });
   }
 
+  onClick(item: HTMLLIElement) {
+    this.focusLi(item);
+    if (this.selectable) this.toggleSelectedLi(item);
+  }
+
   focusLi(li: HTMLLIElement) {
     if (li) {
       const prevFocus = this.getFocusedLi();
@@ -162,8 +167,8 @@ export default class IdsListView extends Base {
   }
 
   getFocusedLi() {
-    const savedFocusedLi = this.container.querySelector(`ids-swappable-item[role="listitem"][index="${this.#focusedLiIndex}"]`);
-    const val = savedFocusedLi ?? this.container.querySelector('ids-swappable-item[role="listitem"][tabindex="0"]');
+    const savedFocusedLi = this.container.querySelector(`div[part="list-item"][index="${this.#focusedLiIndex}"]`);
+    const val = savedFocusedLi ?? this.container.querySelector('div[part="list-item"][tabindex="0"]');
     return val;
   }
 
@@ -189,6 +194,7 @@ export default class IdsListView extends Base {
         <div
           part="list-item"
           tabindex="-1"
+          index="${index}"
         >
           ${this.itemTemplate(item)}
         </div>
@@ -520,7 +526,9 @@ export default class IdsListView extends Base {
    * @param {any} item the selected list item to toggle
    */
   toggleSelectedLi(item: any) {
-    if (item.tagName === 'IDS-SWAPPABLE-ITEM') {
+    if (
+      (item.tagName === 'DIV' && item.getAttribute('part') === 'list-item')
+      || item.tagName === 'IDS-SWAPPABLE-ITEM') {
       if (this.selectable === 'single') {
         const prevSelectedLi: HTMLLIElement = this.selectedLi;
         if (item !== prevSelectedLi && prevSelectedLi) {

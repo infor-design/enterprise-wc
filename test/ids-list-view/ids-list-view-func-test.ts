@@ -177,20 +177,20 @@ describe('IdsListView Component', () => {
   });
 
   it('can use arrow keys to navigate', () => {
-    listView.shadowRoot.querySelector('[part="list-item"]').click();
-    expect(listView.shadowRoot.querySelector('[part="list-item"][tabindex="0"] ids-text').innerHTML).toContain('Steampan Lid');
-    listView.shadowRoot.querySelector('[part="list-item"]').focus();
+    listView.shadowRoot.querySelector('div[part="list-item"]').click();
+    expect(listView.shadowRoot.querySelector('div[part="list-item"][tabindex="0"] ids-text').innerHTML).toContain('Steampan Lid');
+    listView.shadowRoot.querySelector('div[part="list-item"]').focus();
     let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
     listView.dispatchEvent(event);
-    expect(listView.shadowRoot.querySelector('[part="list-item"][tabindex="0"] ids-text').innerHTML).toContain('Coconut - Creamed, Pure');
+    expect(listView.shadowRoot.querySelector('div[part="list-item"][tabindex="0"] ids-text').innerHTML).toContain('Coconut - Creamed, Pure');
 
     event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
     listView.dispatchEvent(event);
-    expect(listView.shadowRoot.querySelector('[part="list-item"][tabindex="0"] ids-text').innerHTML).toContain('Steampan Lid');
+    expect(listView.shadowRoot.querySelector('div[part="list-item"][tabindex="0"] ids-text').innerHTML).toContain('Steampan Lid');
 
     // Does nothing just the bounds case
     event = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
     listView.dispatchEvent(event);
-    expect(listView.shadowRoot.querySelector('[part="list-item"][tabindex="0"] ids-text').innerHTML).toContain('Steampan Lid');
+    expect(listView.shadowRoot.querySelector('div[part="list-item"][tabindex="0"] ids-text').innerHTML).toContain('Steampan Lid');
   });
 });

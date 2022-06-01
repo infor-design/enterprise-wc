@@ -441,6 +441,16 @@ export default class IdsListBuilder extends Base {
   }
 
   /**
+   * Get focused Li
+   * @returns {any} focused Li
+   */
+  getFocusedLi(): any {
+    const savedFocusedLi = this.container.querySelector(`ids-swappable-item[role="listitem"][index="${this.getFocusedLiIndex()}"]`);
+    const val = savedFocusedLi ?? this.container.querySelector('ids-swappable-item[role="listitem"][tabindex="0"]');
+    return val;
+  }
+
+  /**
    * Reset indices
    * @returns {void}
    */
