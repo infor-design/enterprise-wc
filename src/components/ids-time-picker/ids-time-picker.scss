@@ -1,6 +1,4 @@
-/* Ids Time Picker Component */
 @import '../../core/ids-base';
-@import '../ids-input/ids-input';
 @import '../../mixins/sass/ids-hide-mixin';
 
 :host([size='full']) .ids-time-picker {
@@ -54,6 +52,27 @@
     flex-direction: row;
   }
 
+  // Is open state
+  &.is-open {
+    ids-trigger-button::part(button) {
+      @include text-azure-60();
+    }
+
+    ids-trigger-field::part(field-container) {
+      @include border-azure-60();
+    }
+  }
+
+  &[mode='contrast'].is-open {
+    ids-trigger-button::part(button) {
+      @include text-azure-90();
+    }
+
+    ids-trigger-field::part(field-container) {
+      @include border-azure-90();
+    }
+  }
+
   .separator {
     @include mx-4();
 
@@ -61,11 +80,10 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    margin-bottom: -8px;
   }
 
   @include breakpoint-xs-down {
-    #dropdowns {
+    .dropdowns {
       flex-direction: column;
       align-items: center;
       width: $input-size-sm;
@@ -74,7 +92,6 @@
 
   // Handle Themes
   &[mode='dark'] {
-    // @include bg-slate-60();
     @include border-slate-60();
     @include text-white();
   }
@@ -88,7 +105,6 @@
   }
 
   &[mode='contrast'] {
-    // @include bg-slate-20();
     @include border-slate-20();
     @include text-slate-100();
   }
@@ -98,48 +114,6 @@
   }
 
   &[mode='contrast'] ::slotted(ids-icon:hover) {
-    @include text-black();
-  }
-
-  &[version='classic'][mode='light'] {
-    // @include bg-graphite-20();
-    @include border-graphite-20();
-    @include text-black();
-  }
-
-  &[version='classic'][mode='light'] ::slotted(ids-icon) {
-    @include text-graphite-100();
-  }
-
-  &[version='classic'][mode='light'] ::slotted(ids-icon:hover) {
-    @include text-black();
-  }
-
-  &[version='classic'][mode='dark'] {
-    // @include bg-graphite-60();
-    @include border-graphite-60();
-    @include text-white();
-  }
-
-  &[version='classic'][mode='dark'] ::slotted(ids-icon) {
-    @include text-graphite-10();
-  }
-
-  &[version='classic'][mode='dark'] ::slotted(ids-icon:hover) {
-    @include text-white();
-  }
-
-  &[version='classic'][mode='contrast'] {
-    // @include bg-graphite-40();
-    @include border-graphite-40();
-    @include text-black();
-  }
-
-  &[version='classic'][mode='contrast'] ::slotted(ids-icon) {
-    @include text-graphite-100();
-  }
-
-  &[version='classic'][mode='contrast'] ::slotted(ids-icon:hover) {
     @include text-black();
   }
 }

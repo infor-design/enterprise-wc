@@ -376,7 +376,7 @@ export default class IdsTimePicker extends Base {
       label: this.locale?.translate('Minutes') || 'Minutes',
       options: this.minuteInterval ? range(0, 59, this.minuteInterval) : TIME.SIXTY,
       value: this.minutes,
-      padStart: true
+      padStart: this.format.includes('mm')
     });
     const seconds = this.#hasSeconds() && dropdown({
       id: 'seconds',
@@ -425,6 +425,8 @@ export default class IdsTimePicker extends Base {
     if (this.popup) {
       this.popup.visible = false;
       this.removeOpenEvents();
+
+      this.container.classList.remove('is-open');
     }
   }
 
@@ -443,6 +445,8 @@ export default class IdsTimePicker extends Base {
       this.popup.visible = true;
 
       this.addOpenEvents();
+
+      this.container.classList.add('is-open');
     }
   }
 
