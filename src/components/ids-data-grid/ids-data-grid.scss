@@ -120,7 +120,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     @include relative();
 
     height: 16px;
-    left: -6px;
+    margin-inline-start: -12px;
     width: 18px;
   }
 
@@ -210,6 +210,16 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    // Text Alignment
+    &.align-center > *:first-child {
+      margin: 0 auto;
+    }
+
+    &.align-right > *:first-child {
+      margin-inline-start: auto;
+      margin-inline-end: 0;
     }
 
     // Readonly Cell

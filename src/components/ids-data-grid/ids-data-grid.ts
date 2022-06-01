@@ -176,7 +176,6 @@ export default class IdsDataGrid extends Base {
     }
 
     const template = document.createElement('template');
-    const dir = this.container?.getAttribute('dir');
     const html = this.template();
 
     // Render and append styles
@@ -207,11 +206,6 @@ export default class IdsDataGrid extends Base {
     }
 
     this.#applyAutoFit();
-
-    // Set back direction
-    if (dir) {
-      this.container.setAttribute('dir', dir);
-    }
 
     // Set back selection
     this.#setHeaderCheckbox();
@@ -288,7 +282,7 @@ export default class IdsDataGrid extends Base {
       <span
         class="ids-data-grid-header-cell"
         part="header-cell"
-        data-column-id="${column.id}"
+        column-id="${column.id}"
         role="columnheader"
       >
         ${headerContentWrapperTemplate}
@@ -334,7 +328,7 @@ export default class IdsDataGrid extends Base {
     return `
       <div role="row" part="row" aria-rowindex="${index + 1}" class="ids-data-grid-row${rowClasses}">
         ${this.visibleColumns.map((column: IdsDataGridColumn, j: number) => `
-          <span role="cell" part="${this.#cssPart(column, index, j)}" class="ids-data-grid-cell${column?.readonly ? ` readonly` : ``}" aria-colindex="${j + 1}">
+          <span role="cell" part="${this.#cssPart(column, index, j)}" class="ids-data-grid-cell${column?.readonly ? ` readonly` : ``}${column?.align ? ` align-${column?.align}` : ``}" aria-colindex="${j + 1}">
             ${this.cellTemplate(row, column, index + 1, this)}
           </span>
         `).join('')}
@@ -384,7 +378,7 @@ export default class IdsDataGrid extends Base {
       const sortableHeaderCell = e.target.closest('.is-sortable')?.closest('.ids-data-grid-header-cell');
       if (sortableHeaderCell) {
         this.setSortColumn(
-          sortableHeaderCell.getAttribute('data-column-id'),
+          sortableHeaderCell.getAttribute('column-id'),
           sortableHeaderCell.getAttribute('aria-sort') !== 'ascending'
         );
       }
@@ -394,11 +388,13 @@ export default class IdsDataGrid extends Base {
     const body = this.shadowRoot.querySelector('.ids-data-grid-body');
     this.offEvent('click.body', body);
     this.onEvent('click.body', body, (e: any) => {
-      const cell = e.target.closest('.ids-data-grid-cell');
+      const cell = (e.target as any).closest('.ids-data-grid-cell');
       const cellNum = cell.getAttribute('aria-colindex') - 1;
       const row = cell.parentNode;
+      const rowNum = row.getAttribute('aria-rowindex') - 1;
       const isHyperlink = this.visibleColumns[cellNum]?.formatter?.name === 'hyperlink' && e.target?.nodeName === 'IDS-HYPERLINK';
-      this.setActiveCell(cellNum, row.getAttribute('aria-rowindex') - 1, isHyperlink);
+      const isClickable = this.visibleColumns[cellNum]?.formatter?.name === 'button' && e.target?.nodeName === 'IDS-BUTTON';
+      this.setActiveCell(cellNum, rowNum, isHyperlink);
 
       if (this.rowSelection === 'mixed') {
         if (cell.children[0].classList.contains('ids-datagrid-checkbox-container')) {
@@ -407,6 +403,13 @@ export default class IdsDataGrid extends Base {
           this.#handleRowActivation(row);
         }
         return;
+      }
+      if (isClickable && this.visibleColumns[cellNum].click !== undefined) {
+        (this.visibleColumns[cellNum] as any).click({
+          rowData: this.data[rowNum],
+          columnData: this.visibleColumns[cellNum],
+          event: e
+        });
       }
       this.#handleRowSelection(row);
     });
@@ -506,12 +509,14 @@ export default class IdsDataGrid extends Base {
 
   /**
    * Set the sort column and sort direction
-   * @param {string} id The field id to sort on
+   * @param {string} id The column id to sort on
    * @param {boolean} ascending Set in ascending (lowest first) or descending (lowest last)
    */
   setSortColumn(id : string, ascending = true) {
+    const column = this.columnDataById(id);
+    const sortField = column?.field !== column?.id ? column?.field : column?.id;
     this.sortColumn = { id, ascending };
-    this.datasource.sort(id, ascending, null);
+    this.datasource.sort(sortField, ascending, null);
     this.#syncSelectedRows();
     this.#syncActivatedRow();
     this.rerender();
@@ -529,7 +534,7 @@ export default class IdsDataGrid extends Base {
       .map((sorted) => sorted.closest('.ids-data-grid-header-cell'));
     sortedHeaders.forEach((header) => header.removeAttribute('aria-sort'));
 
-    const header = this.shadowRoot.querySelector(`[data-column-id="${id}"]`);
+    const header = this.shadowRoot.querySelector(`[column-id="${id}"]`);
     if (header && sortedHeaders.includes(header)) {
       header.setAttribute('aria-sort', ascending ? 'ascending' : 'descending');
     }
@@ -548,7 +553,7 @@ export default class IdsDataGrid extends Base {
    * Get the visible column data (via hidden attributes)
    * @returns {object} The visible column data
    */
-  get visibleColumns() {
+  get visibleColumns(): Array<IdsDataGridColumn> {
     return this.columns?.filter((column: IdsDataGridColumn) => !column.hidden);
   }
 
@@ -558,7 +563,7 @@ export default class IdsDataGrid extends Base {
    * @returns {object} The column data
    */
   columnDataByHeaderElem(elem: HTMLElement) {
-    const columnId = elem?.getAttribute('data-column-id');
+    const columnId = elem?.getAttribute('column-id');
     return this.columnDataById(columnId || '');
   }
 

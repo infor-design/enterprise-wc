@@ -1,4 +1,5 @@
 import '../ids-hyperlink/ids-hyperlink';
+import '../ids-button/ids-button';
 import type { IdsDataGridColumn } from './ids-data-grid-column';
 
 /* eslint-disable jsdoc/require-returns */
@@ -16,6 +17,14 @@ export default class IdsDataGridFormatters {
     const value: unknown = rowData[columnData.field || ''];
     const str = ((value === null || value === undefined || value === '') ? '' : value);
     return (str as string);
+  }
+
+  /** Used to check if an editor should be disabled */
+  columnDisabled(row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>): boolean {
+    const isTrue = (v: any) => (typeof v !== 'undefined' && v !== null && ((typeof v === 'boolean' && v === true) || (typeof v === 'string' && v.toLowerCase() === 'true')));
+    const disabled = col.disabled;
+
+    return typeof disabled === 'function' ? disabled(row, value, col, item) : isTrue(disabled);
   }
 
   /** Formats Text */
@@ -94,5 +103,15 @@ export default class IdsDataGridFormatters {
   /** Shows a selection radio column */
   selectionRadio(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
     return `<span class="ids-datagrid-radio-container"><span role="radio" aria-checked="${rowData?.rowSelected ? 'true' : 'false'}" aria-label="${columnData.name}" class="ids-datagrid-radio${rowData?.rowSelected ? ' checked' : ''}"></span></span>`;
+  }
+
+  /** Shows an ids-button */
+  button(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
+    const value: any = this.nullToObj(rowData, columnData);
+    // Type / disabled / icon / text
+    return `<ids-button tabindex="-1" ${columnData.text || ''}${this.columnDisabled(index, value, columnData, rowData) ? ' disabled="true"' : ''}${columnData.type ? ` type="${columnData.type}"` : ' type="tertiary"'}>
+      <span class="audible">${columnData.text || ' Button'}</span>
+      ${columnData.icon ? `<ids-icon slot="icon" icon="${columnData.icon}"></ids-icon>` : ''}
+    </ids-button>`;
   }
 }

@@ -50,6 +50,9 @@
   - link: columns-custom-css.html
     type: Example
     description: Showing initialy hidden columns
+  - link: columns-auto.html
+    type: Example
+    description: Showing auto size columns
   - link: standalone-css.html
     type: Standalone CSS
     description: Shows a css only styles table

@@ -14,7 +14,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
       <div class=\\"ids-data-grid-header\\" role=\\"rowgroup\\" part=\\"header\\">
         <div role=\\"row\\" class=\\"ids-data-grid-row\\">
           
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"selectionCheckbox\\" role=\\"columnheader\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"selectionCheckbox\\" role=\\"columnheader\\">
         
       <span class=\\"ids-data-grid-header-cell-content-wrapper vertical-align-center\\">
         <span class=\\"ids-data-grid-header-text\\">
@@ -29,7 +29,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"rowNumber\\" role=\\"columnheader\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"rowNumber\\" role=\\"columnheader\\">
         
       <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
         <span class=\\"ids-data-grid-header-text\\">
@@ -41,7 +41,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"description\\" role=\\"columnheader\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"description\\" role=\\"columnheader\\">
         
       <span class=\\"ids-data-grid-header-cell-content-wrapper is-sortable\\">
         <span class=\\"ids-data-grid-header-text\\">
@@ -58,7 +58,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"ledger\\" role=\\"columnheader\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"ledger\\" role=\\"columnheader\\">
         
       <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
         <span class=\\"ids-data-grid-header-text\\">
@@ -70,7 +70,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"publishDate\\" role=\\"columnheader\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"publishDate\\" role=\\"columnheader\\">
         
       <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
         <span class=\\"ids-data-grid-header-text\\">
@@ -82,7 +82,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"publishTime\\" role=\\"columnheader\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"publishTime\\" role=\\"columnheader\\">
         
       <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
         <span class=\\"ids-data-grid-header-text\\">
@@ -94,7 +94,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"price\\" role=\\"columnheader\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"price\\" role=\\"columnheader\\">
         
       <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
         <span class=\\"ids-data-grid-header-text\\">
@@ -106,7 +106,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"bookCurrency\\" role=\\"columnheader\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"bookCurrency\\" role=\\"columnheader\\">
         
       <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
         <span class=\\"ids-data-grid-header-text\\">
@@ -118,7 +118,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"transactionCurrency\\" role=\\"columnheader\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"transactionCurrency\\" role=\\"columnheader\\">
         
       <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
         <span class=\\"ids-data-grid-header-text\\">
@@ -130,7 +130,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"integer\\" role=\\"columnheader\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"integer\\" role=\\"columnheader\\">
         
       <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
         <span class=\\"ids-data-grid-header-text\\">
@@ -142,7 +142,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"location\\" role=\\"columnheader\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"location\\" role=\\"columnheader\\">
         
       <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
         <span class=\\"ids-data-grid-header-text\\">
@@ -154,7 +154,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"postHistory\\" role=\\"columnheader\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"postHistory\\" role=\\"columnheader\\">
         
       <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
         <span class=\\"ids-data-grid-header-text\\">
@@ -166,7 +166,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"active\\" role=\\"columnheader\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"active\\" role=\\"columnheader\\">
         
       <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
         <span class=\\"ids-data-grid-header-text\\">
@@ -178,7 +178,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"convention\\" role=\\"columnheader\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"convention\\" role=\\"columnheader\\">
         
       <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
         <span class=\\"ids-data-grid-header-text\\">
@@ -190,7 +190,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"methodSwitch\\" role=\\"columnheader\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"methodSwitch\\" role=\\"columnheader\\">
         
       <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
         <span class=\\"ids-data-grid-header-text\\">
@@ -202,7 +202,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"trackDeprecationHistory\\" role=\\"columnheader\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"trackDeprecationHistory\\" role=\\"columnheader\\">
         
       <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
         <span class=\\"ids-data-grid-header-text\\">
@@ -214,7 +214,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"useForEmployee\\" role=\\"columnheader\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"useForEmployee\\" role=\\"columnheader\\">
         
       <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
         <span class=\\"ids-data-grid-header-text\\">
@@ -226,7 +226,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"deprecationHistory\\" role=\\"columnheader\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"deprecationHistory\\" role=\\"columnheader\\">
         
       <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
         <span class=\\"ids-data-grid-header-text\\">
@@ -246,7 +246,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       <div role=\\"row\\" part=\\"row\\" aria-rowindex=\\"1\\" class=\\"ids-data-grid-row\\">
         
-          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"1\\" tabindex=\\"0\\">
+          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell align-center\\" aria-colindex=\\"1\\" tabindex=\\"0\\">
             <span class=\\"ids-datagrid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-datagrid-checkbox\\"></span></span>
           </span>
         
@@ -322,7 +322,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
     
       <div role=\\"row\\" part=\\"row\\" aria-rowindex=\\"2\\" class=\\"ids-data-grid-row\\">
         
-          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"1\\">
+          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell align-center\\" aria-colindex=\\"1\\">
             <span class=\\"ids-datagrid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-datagrid-checkbox\\"></span></span>
           </span>
         
@@ -398,7 +398,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
     
       <div role=\\"row\\" part=\\"row\\" aria-rowindex=\\"3\\" class=\\"ids-data-grid-row\\">
         
-          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"1\\">
+          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell align-center\\" aria-colindex=\\"1\\">
             <span class=\\"ids-datagrid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-datagrid-checkbox\\"></span></span>
           </span>
         
@@ -474,7 +474,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
     
       <div role=\\"row\\" part=\\"row\\" aria-rowindex=\\"4\\" class=\\"ids-data-grid-row\\">
         
-          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"1\\">
+          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell align-center\\" aria-colindex=\\"1\\">
             <span class=\\"ids-datagrid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-datagrid-checkbox\\"></span></span>
           </span>
         
@@ -550,7 +550,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
     
       <div role=\\"row\\" part=\\"row\\" aria-rowindex=\\"5\\" class=\\"ids-data-grid-row\\">
         
-          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"1\\">
+          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell align-center\\" aria-colindex=\\"1\\">
             <span class=\\"ids-datagrid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-datagrid-checkbox\\"></span></span>
           </span>
         
@@ -626,7 +626,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
     
       <div role=\\"row\\" part=\\"row\\" aria-rowindex=\\"6\\" class=\\"ids-data-grid-row\\">
         
-          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"1\\">
+          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell align-center\\" aria-colindex=\\"1\\">
             <span class=\\"ids-datagrid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-datagrid-checkbox\\"></span></span>
           </span>
         
@@ -702,7 +702,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
     
       <div role=\\"row\\" part=\\"row\\" aria-rowindex=\\"7\\" class=\\"ids-data-grid-row\\">
         
-          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"1\\">
+          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell align-center\\" aria-colindex=\\"1\\">
             <span class=\\"ids-datagrid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-datagrid-checkbox\\"></span></span>
           </span>
         
@@ -778,7 +778,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
     
       <div role=\\"row\\" part=\\"row\\" aria-rowindex=\\"8\\" class=\\"ids-data-grid-row\\">
         
-          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"1\\">
+          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell align-center\\" aria-colindex=\\"1\\">
             <span class=\\"ids-datagrid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-datagrid-checkbox\\"></span></span>
           </span>
         
@@ -854,7 +854,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
     
       <div role=\\"row\\" part=\\"row\\" aria-rowindex=\\"9\\" class=\\"ids-data-grid-row\\">
         
-          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"1\\">
+          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell align-center\\" aria-colindex=\\"1\\">
             <span class=\\"ids-datagrid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-datagrid-checkbox\\"></span></span>
           </span>
         

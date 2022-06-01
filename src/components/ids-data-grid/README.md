@@ -93,7 +93,7 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 - `alternateRowShading` {boolean} For better scan-ability you can shade alternate rows.
 - `listStyle` {boolean} Sets the style of the grid to list style for simple readonly lists.
 - `columns` {Array<object>} Sets the data array of the datagrid. This can be a JSON Array.
-- `rowHeight` {string | 'xs' | 'sm' | 'md' | 'lg'} Sets the height of each row
+- `rowHeight` {string | `'xs'` | `'sm'` | `'md'` | `'lg'`} Sets the height of each row
 - `data` {Array<object>} Sets the columns array of the datagrid. See column settings.
 - `rowSelection` {string|boolean} Set the row selection mode between false, 'single', 'multiple' and 'mixed
 - `supressRowDeactivation` {boolean} Set to true to prevent rows from being deactivated if clicked. i.e. once a row is activated, it remains activated until another row is activated in its place.
@@ -101,24 +101,24 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 
 ## Column Settings (General)
 
-|Setting|Description|
-|---|---|
-|`id` | The unique id of the column. Each column in the grid should have some unique id.|
-|`sortable` | If false, the column cannot be sorted.|
-|`resizable` | If false the column will not be resizable, thus is a fixed size and can never be changed by the user by dragging the left and right edge.|
-|`readonly` | If true the cell will be set to readonly color, indicating no editing.|
-|`formatter` | Controls how the data is rendered in the cell.|
-|`hidden` | Excludes the column from being added to the DOM.|
-|`align` | Can be `left` or `right` or `center`. Note that `center` has limited column type support.|
-|`width` | The column width, this can be an integer for pixel width or a percent for example `10%`, if left off the columns will be sized to contents and to fit the width of the grid using the internal algorithm.|
-|`cssPart` | Allows you to set the name of a css part that can be used to customize the cell's css. This can be a string or a function. See the columns-custom-css example. The default cssPart for cells is called `cell` and it also can be used for more global changes.  |
+|Setting|Type|Description|
+|---|---|---|
+|`id` | {string} | The unique id of the column. Each column in the grid should have some unique id.|
+|`sortable` | {boolean} | If false, the column cannot be sorted.|
+|`resizable` | {boolean} | If false the column will not be resizable, thus is a fixed size and can never be changed by the user by dragging the left and right edge.|
+|`readonly` | {boolean|Function} | If true the cell will be set to readonly color, indicating no editing.|
+|`formatter`| {Function} | Controls how the data is rendered in the cell.|
+|`hidden` | {boolean} | Excludes the column from being added to the DOM.|
+|`align` | {string} | Can be `left` or `right` or `center`. |
+|`width` | {number|string} | The column width, this can be an integer for fixed pixel width or a percent for example `10%`, if left off the columns will be sized to contents and to fit the width of the grid using the css table browsers handling (this is known as `auto` columns). I.E. There are three column configurations: `auto`, `fixed` and `percent`. |
+|`cssPart` | {string} | Allows you to set the name of a css part that can be used to customize the cell's css. This can be a string or a function. See the columns-custom-css example. The default cssPart for cells is called `cell` and it also can be used for more global changes.  |
 
 ## Column Settings (Specific)
 
-|Setting|Description|
-|---|---|
-|`href` | Used to create the href for hyperlink formatters. This can be a string or a function that can work dynamically. It can also replace `{{value}}` with the current value. |
-|`text` | Used to create the txt value for hyperlink formatters if a hard coded link text is needed. |
+|Setting|Type|Description|
+|---|---|---|
+|`href` | {string|Function} | Used to create the href for hyperlink formatters. This can be a string or a function that can work dynamically. It can also replace `{{value}}` with the current value. |
+|`text` | {string} | Used to create the txt value for hyperlink formatters if a hard coded link text is needed. |
 
 ## Formatters
 
@@ -133,8 +133,9 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 |`integer` | Formats number data as a integer string in the specified locale. For additional options you can pass them in with `column.formatOptions`. |
 |`selectionCheckbox` | Displays a checkbox column for selection when using `rowSelection="mixed"` or `rowSelection="multiple"`|
 |`selectionRadio` | Displays a checkbox column for selection when using `rowSelection="single"` |
+| `button` | Displays an `ids-button` the other column settings like `type` can be used to set the button type as can `icon` by set for icon only buttons. Use the `click` setting/function to get an event handler. |
 
-### Formatters (Deprecated from 4.x)
+### Deprecated Formatters (Deprecated from 4.x)
 
 - `Input` No longer suggested to use, use simple list instead
 - `Status, Color` No longer used
@@ -548,7 +549,7 @@ The following events are relevant to data-grid filters.
 - <kbd>Page Up</kbd> moves focus to the first cell in the current column
 - <kbd>Page Down</kbd> moves focus to the last cell in the current column
 - <kbd>Enter</kbd> toggles edit mode on the cell if it is editable. There is also an "auto edit detection". If the user starts typing then edit mode will happen automatically without enter.
-- <kbd>Space</kbd> Toggles the activate row. If supressRowDeselection is set it will be ignored on deselect.
+- <kbd>Space</kbd> Toggles the activate row. If suppressRowDeselection is set it will be ignored on deselect.
 - <kbd>F2</kbd> toggles actionable mode. Pressing the <kbd>Tab</kbd> key while in actionable mode moves focus to the next actionable cell. While in actionable mode you can do things like type + enter. This will move you down a row when you hit enter. If the cell has a control that uses down arrow (like the drop downs or lookups that are editable). Then the user needs to hit enter to enable the edit mode on that cell.
 - <kbd>Triple Click</kbd> Not a keyboard shortcut, but if you have text in a cell that is overflowed a triple click will select all the text even the part that is invisible.
 - <kbd>Ctrl+A (PC) / Cmd+A (Mac)</kbd> If the grid is mixed or multi select this will select all rows.
@@ -571,6 +572,7 @@ The following events are relevant to data-grid filters.
 - If using properties/settings these are now attributes or as plain properties for example: data, virtual-scroll
 - Markup has changed to a custom element `<ids-data-grid></ids-data-grid>`
 - Can now be imported as a single JS file and used with encapsulated styles
+- `Drill Down` Formatter is now covered by `Button` formatter with `icon="drilldown"`
 
 ## Accessibility Guidelines
 

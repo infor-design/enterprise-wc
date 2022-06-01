@@ -214,7 +214,7 @@ export default class IdsDataGridFilters {
    * @returns {HTMLElement|undefined} The filter wrapper element
    */
   filterWrapperById(columnId: string | undefined) {
-    return this.root.shadowRoot.querySelector(`.ids-data-grid-header-cell[data-column-id="${columnId}"]
+    return this.root.shadowRoot.querySelector(`.ids-data-grid-header-cell[column-id="${columnId}"]
       .ids-data-grid-header-cell-filter-wrapper`);
   }
 

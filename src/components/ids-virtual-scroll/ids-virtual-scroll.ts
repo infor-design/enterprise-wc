@@ -214,7 +214,7 @@ export default class IdsVirtualScroll extends Base {
     this.removeAttribute(attributes.BUFFER_SIZE);
   }
 
-  get bufferSize(): number { return this.getAttribute(attributes.BUFFER_SIZE) || 30; }
+  get bufferSize(): number { return this.getAttribute(attributes.BUFFER_SIZE) || 25; }
 
   /**
    * Set the scroll top position and scroll down to that location

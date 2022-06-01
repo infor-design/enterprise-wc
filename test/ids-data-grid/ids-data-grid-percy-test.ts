@@ -64,15 +64,21 @@ describe('Ids Data Grid List Style Percy Tests', () => {
 });
 
 describe('Ids Data Grid Other Percy Tests', () => {
-  it('should not have visual regressions in auto fit(percy)', async () => {
+  it('should not have visual regressions in auto fit (percy)', async () => {
     await page.goto('http://localhost:4444/ids-data-grid/auto-fit.html', { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('ids-layout-grid-cell');
     await percySnapshot(page, 'ids-data-grid-auto-fit-light');
   });
 
-  it('should not have visual regressions in auto fit(percy)', async () => {
+  it('should not have visual regressions in auto fit to bottom (percy)', async () => {
     await page.goto('http://localhost:4444/ids-data-grid/auto-fit-bottom.html', { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('ids-layout-grid-cell');
     await percySnapshot(page, 'ids-data-grid-auto-fit-bottom-light');
+  });
+
+  it('should not have visual regressions in auto columns (percy)', async () => {
+    await page.goto('http://localhost:4300/ids-data-grid/columns-auto.html', { waitUntil: ['networkidle2', 'load'] });
+    await page.waitForSelector('ids-layout-grid-cell');
+    await percySnapshot(page, 'ids-data-grid-auto-columns-light');
   });
 });

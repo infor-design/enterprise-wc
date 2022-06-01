@@ -24,6 +24,8 @@ export interface IdsDataGridColumn {
   formatter?: (rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number, api: any) => string;
   /** Enable Href / Link Columns */
   href?: string | ((rowData: Record<string, unknown>, columnData: IdsDataGridColumn) => string);
+  /** Fire for clickable formatters (like button) */
+  click?: string | ((rowData: Record<string, unknown>, columnData: IdsDataGridColumn, event: MouseEvent) => void);
   /** Options to pass to the formatter */
   formatOptions?: IdsDataGridColumnFormatOptions;
   /** Column Filter to use */
@@ -67,4 +69,12 @@ export interface IdsDataGridColumn {
   rowActivated?: boolean;
   /** True if the row is selected */
   cssPart?: string | ((rowIndex: number, cellIndex: number) => string);
+  /** Pass the type option to formatters that support it */
+  type?: string;
+  /** Disable the column with a boolean of a dynamic function */
+  disabled?: boolean | ((row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>) => boolean);
+  /** Name of the icon too use for formatters that support it */
+  icon?: string;
+  /** Align the column to either `left`, `center` or `right` */
+  align?: string;
 }

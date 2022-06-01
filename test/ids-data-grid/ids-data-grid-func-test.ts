@@ -236,6 +236,14 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-cell').length).toEqual(dataGrid.columns.length * 9);
     });
 
+    it('skips re-rerender of no data', () => {
+      dataGrid.columns = [];
+      dataGrid.data = [];
+      dataGrid.syncAndRerenderBody();
+      dataGrid.virtualScroll = null;
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
+    });
+
     it('renders with no errors on empty data and columns', () => {
       const errors = jest.spyOn(global.console, 'error');
 
@@ -416,6 +424,31 @@ describe('IdsDataGrid Component', () => {
 
       expect(dataGrid.shadowRoot.querySelectorAll('[part="custom-cell"]').length).toEqual(14);
     });
+
+    it('supports setting cell alignment', () => {
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        align: 'center'
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency',
+        align: 'right'
+      },
+      {
+        id: 'transactionCurrency',
+        name: 'Transaction Currency',
+        field: 'transactionCurrency',
+        align: 'left'
+      }];
+
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row > .ids-data-grid-cell:nth-child(1)').classList.contains('align-center')).toBeTruthy();
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row > .ids-data-grid-cell:nth-child(2)').classList.contains('align-right')).toBeTruthy();
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row > .ids-data-grid-cell:nth-child(3)').classList.contains('align-left')).toBeTruthy();
+    });
   });
 
   describe('Sorting Tests', () => {
@@ -460,7 +493,7 @@ describe('IdsDataGrid Component', () => {
 
     it('sets sort state via the API', () => {
       dataGrid.setSortState('description');
-      expect(dataGrid.shadowRoot.querySelectorAll('[data-column-id]')[2].getAttribute('aria-sort')).toBe('ascending');
+      expect(dataGrid.shadowRoot.querySelectorAll('[column-id]')[2].getAttribute('aria-sort')).toBe('ascending');
     });
 
     it('handles wrong ID on sort', () => {
@@ -494,13 +527,35 @@ describe('IdsDataGrid Component', () => {
       expect(mockCallback.mock.calls.length).toBe(0);
       expect(errors).not.toHaveBeenCalled();
     });
+
+    it('resets direction on sort', async () => {
+      container.language = 'ar';
+      await processAnimFrame();
+      expect(dataGrid.getAttribute('dir')).toEqual('rtl');
+
+      const headers = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell');
+      headers[2].querySelector('.ids-data-grid-header-cell-content-wrapper').click();
+
+      expect(dataGrid.getAttribute('dir')).toEqual('rtl');
+    });
   });
 
   describe('Container / Height Tests', () => {
     it('supports auto fit', () => {
       dataGrid.autoFit = true;
+      dataGrid.rerender();
       expect(dataGrid.getAttribute('auto-fit')).toEqual('true');
       dataGrid.autoFit = false;
+      dataGrid.rerender();
+      expect(dataGrid.getAttribute('auto-fit')).toBeFalsy();
+    });
+
+    it('supports auto fit bottom', () => {
+      dataGrid.autoFit = 'bottom';
+      dataGrid.rerender();
+      expect(dataGrid.getAttribute('auto-fit')).toEqual('bottom');
+      dataGrid.autoFit = false;
+      dataGrid.rerender();
       expect(dataGrid.getAttribute('auto-fit')).toBeFalsy();
     });
   });
@@ -653,6 +708,17 @@ describe('IdsDataGrid Component', () => {
         .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink')).toBeFalsy();
     });
 
+    it('can focus with the hyperlink when clicked instead of the cell', () => {
+      dataGrid.columns[10].href = '#';
+      const link = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink');
+      expect(link.innerHTML).toEqual('United States');
+
+      const mouseClick = new MouseEvent('click', { bubbles: true });
+      link.dispatchEvent(mouseClick);
+      // No Easy way to check has focus
+      expect(link.nodeName).toEqual('IDS-HYPERLINK');
+    });
+
     it('can render with the hyperlink formatter (with href function)', () => {
       dataGrid.columns[10].href = (row: any) => {
         if (row.book === 101) {
@@ -666,6 +732,98 @@ describe('IdsDataGrid Component', () => {
 
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[6]
         .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink')).toBeFalsy();
+    });
+
+    it('can render with the button formatter (with click function)', () => {
+      const clickListener = jest.fn();
+      dataGrid.columns = [{
+        id: 'button',
+        name: 'button',
+        sortable: false,
+        resizable: false,
+        formatter: dataGrid.formatters.button,
+        icon: 'settings',
+        align: 'center',
+        type: 'icon',
+        click: clickListener,
+        text: 'button'
+      }];
+
+      const button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
+      expect(button.textContent).toContain('button');
+      expect(button.querySelector('ids-icon')).toBeTruthy();
+
+      const mouseClick = new MouseEvent('click', { bubbles: true });
+      expect(clickListener).toHaveBeenCalledTimes(0);
+      button.dispatchEvent(mouseClick);
+      expect(clickListener).toHaveBeenCalledTimes(1);
+    });
+
+    it('can render with the button formatter defaults', () => {
+      dataGrid.columns = [{
+        id: 'button',
+        name: 'button',
+        sortable: false,
+        resizable: false,
+        formatter: dataGrid.formatters.button,
+        align: 'center'
+      }];
+
+      const button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
+      expect(button.textContent).toContain('Button');
+      expect(button.type).toBe('tertiary');
+      expect(button.querySelector('ids-icon')).toBeFalsy();
+    });
+
+    it('can render disabled buttons', () => {
+      dataGrid.columns = [{
+        id: 'button',
+        name: 'button',
+        sortable: false,
+        resizable: false,
+        formatter: dataGrid.formatters.button,
+        icon: 'settings',
+        align: 'center',
+        disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
+        text: 'button'
+      }];
+
+      const button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
+      expect(button.disabled).toBeTruthy();
+      const button2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-button');
+      expect(button2.disabled).toBeFalsy();
+    });
+
+    it('can disabled formatters edge cases', () => {
+      dataGrid.columns = [{
+        id: 'test',
+        name: 'test',
+        formatter: dataGrid.formatters.button,
+        disabled: undefined
+      }];
+
+      let button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
+      expect(button.disabled).toBeFalsy();
+
+      dataGrid.columns = [{
+        id: 'test',
+        name: 'test',
+        formatter: dataGrid.formatters.button,
+        disabled: true
+      }];
+
+      button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
+      expect(button.disabled).toBeTruthy();
+
+      dataGrid.columns = [{
+        id: 'test',
+        name: 'test',
+        formatter: dataGrid.formatters.button,
+        disabled: 'true'
+      }];
+
+      button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
+      expect(button.disabled).toBeTruthy();
     });
   });
 
@@ -878,7 +1036,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.getAttribute('row-selection')).toBeFalsy();
     });
 
-    it('keeps selections on sort for single and multiple selection', () => {
+    it('keeps selections on sort for single selection', () => {
       const newColumns = deepClone(columns());
       newColumns[0].id = 'selectionRadio';
       newColumns[0].formatter = formatters.selectionRadio;

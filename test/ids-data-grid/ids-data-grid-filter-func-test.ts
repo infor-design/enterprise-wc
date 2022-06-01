@@ -266,7 +266,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
       field: 'description',
       sortable: true
     };
-    const elem = dataGrid.shadowRoot.querySelector('[data-column-id="description"]');
+    const elem = dataGrid.shadowRoot.querySelector('[column-id="description"]');
     const columnData = dataGrid.columnDataByHeaderElem(elem);
 
     expect(columnData).toEqual(expect.objectContaining(columnShouldContain));
