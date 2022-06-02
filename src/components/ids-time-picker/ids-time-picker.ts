@@ -14,12 +14,6 @@ const range: any = (start: any, stop: any, step = 1) => (
   start > stop ? [] : [start, ...range(start + Math.abs(step), stop, step)]
 );
 
-const TIME = {
-  TWELVE: range(1, 12),
-  TWENTYFOUR: range(0, 23),
-  SIXTY: range(0, 59),
-};
-
 /**
  * IDS TimePicker Component
  * @type {IdsTimePicker}
@@ -153,7 +147,7 @@ export default class IdsTimePicker extends Base {
             <ids-icon slot="icon" icon="clock"></ids-icon>
           </ids-trigger-button>
         </ids-trigger-field>
-        <ids-popup type="menu">
+        <ids-popup type="menu" tabindex="-1">
           <section slot="content">
             <div class="dropdowns"></div>
             <ids-button class="popup-btn" hidden="${this.autoupdate}">
@@ -367,21 +361,21 @@ export default class IdsTimePicker extends Base {
     const hours = dropdown({
       id: 'hours',
       label: this.locale?.translate('Hours') || 'Hours',
-      options: this.#is12Hours() ? TIME.TWELVE : TIME.TWENTYFOUR,
+      options: range(1, this.#is12Hours() ? 12 : 23),
       value: this.hours,
       padStart: this.format.includes('HH') || this.format.includes('hh')
     });
     const minutes = dropdown({
       id: 'minutes',
       label: this.locale?.translate('Minutes') || 'Minutes',
-      options: this.minuteInterval ? range(0, 59, this.minuteInterval) : TIME.SIXTY,
+      options: range(0, 59, this.minuteInterval),
       value: this.minutes,
       padStart: this.format.includes('mm')
     });
     const seconds = this.#hasSeconds() && dropdown({
       id: 'seconds',
       label: this.locale?.translate('Seconds') || 'Seconds',
-      options: this.secondInterval ? range(0, 59, this.secondInterval) : TIME.SIXTY,
+      options: range(0, 59, this.secondInterval),
       value: this.seconds,
       padStart: true
     });
@@ -427,6 +421,7 @@ export default class IdsTimePicker extends Base {
       this.removeOpenEvents();
 
       this.container.classList.remove('is-open');
+      this.popup.setAttribute('tabindex', -1);
     }
   }
 
@@ -435,18 +430,16 @@ export default class IdsTimePicker extends Base {
    */
   open() {
     if (!this.popup.visible && !this.disabled && !this.readonly) {
-      const { bottom } = this.#triggerButton.getBoundingClientRect();
-      const positionBottom = (bottom + 100) < window.innerHeight;
-
       this.popup.alignTarget = this.input;
       this.popup.arrowTarget = this.#triggerButton;
-      this.popup.align = positionBottom ? 'bottom, left' : 'top, left';
-      this.popup.arrow = positionBottom ? 'bottom' : 'top';
+      this.popup.align = 'bottom, right';
+      this.popup.arrow = 'bottom';
       this.popup.visible = true;
 
       this.addOpenEvents();
 
       this.container.classList.add('is-open');
+      this.popup.removeAttribute('tabindex');
     }
   }
 
@@ -702,11 +695,17 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * minute-interval attribute
+   * minute-interval attribute, default is 5
    * @returns {number} minuteInterval value
    */
   get minuteInterval(): number {
-    return stringToNumber(this.getAttribute(attributes.MINUTE_INTERVAL));
+    const numberVal = stringToNumber(this.getAttribute(attributes.MINUTE_INTERVAL));
+
+    if (!Number.isNaN(numberVal)) {
+      return numberVal;
+    }
+
+    return 5;
   }
 
   /**
@@ -716,7 +715,7 @@ export default class IdsTimePicker extends Base {
   set minuteInterval(val: string | number | null) {
     const numberVal = stringToNumber(val);
 
-    if (numberVal) {
+    if (!Number.isNaN(numberVal)) {
       this.setAttribute(attributes.MINUTE_INTERVAL, numberVal);
     } else {
       this.removeAttribute(attributes.MINUTE_INTERVAL);
@@ -726,11 +725,17 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * second-interval attribute
+   * second-interval attribute, default is 5
    * @returns {number} secondInterval value
    */
   get secondInterval(): number {
-    return stringToNumber(this.getAttribute(attributes.SECOND_INTERVAL));
+    const numberVal = stringToNumber(this.getAttribute(attributes.SECOND_INTERVAL));
+
+    if (!Number.isNaN(numberVal)) {
+      return numberVal;
+    }
+
+    return 5;
   }
 
   /**
@@ -740,7 +745,7 @@ export default class IdsTimePicker extends Base {
   set secondInterval(val: string | number | null) {
     const numberVal = stringToNumber(val);
 
-    if (numberVal) {
+    if (!Number.isNaN(numberVal)) {
       this.setAttribute(attributes.SECOND_INTERVAL, numberVal);
     } else {
       this.removeAttribute(attributes.SECOND_INTERVAL);
