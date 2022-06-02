@@ -308,7 +308,6 @@ export default class IdsModal extends Base {
     this.removeAttribute('aria-hidden');
 
     // Focus the correct element
-    this.capturesFocus = true;
     this.#setModalFocus();
 
     this.addOpenEvents();
@@ -484,7 +483,6 @@ export default class IdsModal extends Base {
     if (this.visible) {
       // Fixes a Chrome Bug where time staggering is needed for focus to occur
       const timeoutCallback = () => {
-        console.log('------------2');
         this.#setModalFocus();
       };
       renderLoop.register(new IdsRenderLoopItem({
