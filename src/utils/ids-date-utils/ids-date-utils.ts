@@ -305,3 +305,19 @@ export function weeksInRange(startDate: any, endDate: any, startsOn = 0) {
 
   return Math.ceil((firstDayOfWeekIndex + daysInRange) / 7);
 }
+
+/**
+ * Gets date of first day of the week by year and week number.
+ * @param {Date} year a year where
+ * @param {Date} week week number
+ * @param {number} startsOn day of the week to start on. Sunday is 0, Monday is 1, and so on
+ * @returns {Date} date of first day of the week
+ */
+export function weekNumberToDate(year: number, week: number, startsOn = 0): Date {
+  const daysInRange: number = ((week - 1) * 7) + startsOn;
+  const firstDayOfYearDate: Date = new Date(year, 0, 1);
+  const fristDayIndex: number = firstDayOfYearDate.getDay();
+  const days: number = fristDayIndex > 4 ? daysInRange + (8 - fristDayIndex) : daysInRange - (fristDayIndex - 1);
+
+  return new Date(year, 0, days);
+}
