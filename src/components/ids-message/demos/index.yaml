@@ -2,8 +2,8 @@
  component: Message
  link: ids-message
  description: Displays a Message Dialog
- category: Navigation and Interaction
- keywords: Modal, Dialog, error, message
+ category: Messages and Alerts
+ keywords: Modal, Dialog, error, message, alert
  examples:
   - link: example.html
     type: Main Example

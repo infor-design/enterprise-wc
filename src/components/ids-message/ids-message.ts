@@ -44,6 +44,8 @@ export default class IdsMessage extends Base {
 
     // Update status and correct
     this.status = this.getAttribute(attributes.STATUS);
+    // Update opacity and correct
+    this.opacity = this.getAttribute(attributes.OPACITY);
 
     // Sanitizes the HTML in the component
     const currentContentEl = this.querySelector('*:not([slot])');
@@ -90,10 +92,13 @@ export default class IdsMessage extends Base {
    * @param {string} val the desired opacity of the overlay
    */
   set opacity(val: string) {
-    this.state.opacity = val;
+    if (val) {
+      console.log(val);
+      this.state.opacity = val;
 
-    const overlayElem = this.shadowRoot.querySelector('ids-overlay');
-    overlayElem.opacity = val;
+      const overlayElem = this.shadowRoot.querySelector('ids-overlay');
+      overlayElem.opacity = val;
+    }
   }
 
   /**
