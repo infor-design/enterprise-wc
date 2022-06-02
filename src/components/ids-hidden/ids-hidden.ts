@@ -1,5 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import { attributes, Breakpoints, breakpoints } from '../../core/ids-attributes';
+import { attributes, Breakpoints } from '../../core/ids-attributes';
+import { isWidthBelow, isWidthAbove } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import Base from './ids-hidden-base';
 
@@ -43,7 +44,7 @@ export default class IdsHidden extends Base {
    */
   set hideDown(val: keyof Breakpoints) {
     if (val) {
-      const mqUp = this.isWidthDown(breakpoints[val]);
+      const mqUp = isWidthBelow(val);
       this.setAttribute(attributes.HIDE_DOWN, val);
       mqUp.addEventListener('change', () => {
         this.checkScreen(mqUp);
@@ -71,7 +72,7 @@ export default class IdsHidden extends Base {
    */
   set hideUp(val: keyof Breakpoints) {
     if (val) {
-      const mqUp = this.isWidthUp(breakpoints[val]);
+      const mqUp = isWidthAbove(val);
       this.setAttribute(attributes.HIDE_UP, val);
       mqUp.addEventListener('change', () => {
         this.checkScreen(mqUp);
@@ -129,27 +130,5 @@ export default class IdsHidden extends Base {
       this.removeAttribute('hidden');
       this.setAttribute('visible', true);
     }
-  }
-
-  /**
-   * Check for max width media query.
-   * @param {string} width size of the breakpoint
-   * @returns {MediaQueryList} media query
-   * @memberof IdsHidden
-   */
-  isWidthDown(width: string): MediaQueryList {
-    const mq = window.matchMedia(`(max-width: ${width})`);
-    return mq;
-  }
-
-  /**
-   * Check for min width media query.
-   * @param {string} width size of the breakpoint
-   * @returns {MediaQueryList} media query
-   * @memberof IdsHidden
-   */
-  isWidthUp(width: string): MediaQueryList {
-    const mq = window.matchMedia(`(min-width: ${width})`);
-    return mq;
   }
 }

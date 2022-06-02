@@ -1,4 +1,4 @@
-import { attributes } from '../../core/ids-attributes';
+import { attributes, Breakpoints } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 
 import Base from './ids-modal-base';
@@ -15,6 +15,8 @@ import '../ids-modal-button/ids-modal-button';
 
 // Import Styles
 import styles from './ids-modal.scss';
+
+type IdsModalFullsizeAttributeValue = null | 'null' | '' | keyof Breakpoints | 'always';
 
 // When a user clicks the Modal Buttons, this is the delay between
 // the click and the "hiding" of the Modal.
@@ -50,6 +52,7 @@ export default class IdsModal extends Base {
   static get attributes(): Array<string> {
     return [
       ...super.attributes,
+      attributes.FULLSIZE,
       attributes.MESSAGE_TITLE,
       attributes.VISIBLE
     ];
@@ -138,6 +141,45 @@ export default class IdsModal extends Base {
    */
   get buttons(): NodeList {
     return this.querySelectorAll('[slot="buttons"]');
+  }
+
+  get fullsize(): IdsModalFullsizeAttributeValue {
+    return this.getAttribute(attributes.FULLSIZE);
+  }
+
+  set fullsize(val: IdsModalFullsizeAttributeValue) {
+    const current = this.fullsize;
+    const clearRespondUp = () => {
+      if (this.respondUp) {
+        this.respondUp = undefined;
+        this.onBreakpointUpResponse = undefined;
+      }
+    };
+
+    if (current !== val) {
+      switch (val) {
+        case 'always':
+          clearRespondUp();
+          this.setAttribute(attributes.FULLSIZE, 'always');
+          this.container.classList.add(attributes.FULLSIZE);
+          break;
+        case null:
+        case 'null':
+        case '':
+          clearRespondUp();
+          this.removeAttribute(attributes.FULLSIZE);
+          this.container.classList.remove(attributes.FULLSIZE);
+          break;
+        default:
+          this.setAttribute(attributes.FULLSIZE, val);
+          this.respondUp = val;
+          this.onBreakpointUpResponse = (detectedBreakpoint: string, matches: boolean) => {
+            this.container.classList[matches ? 'remove' : 'add'](attributes.FULLSIZE);
+          };
+          this.respondToCurrentBreakpoint();
+          break;
+      }
+    }
   }
 
   /**
