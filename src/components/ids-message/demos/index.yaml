@@ -20,3 +20,6 @@ examples:
   - link: modal-event.html
     type: Modal events listener example
     description: Showing modal events triggers on message
+  - link: side-by-side.html
+    type: Side by side example
+    description: Showing a modal side by side with 4.x
