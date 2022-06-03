@@ -187,4 +187,8 @@
   }
 }
 
+ids-checkbox::part(root) {
+  @include mb-0;
+}
+
 @include tree-node-badge();
