@@ -140,10 +140,13 @@ class IdsMonthView extends Base {
       attributes.FIRST_DAY_OF_WEEK,
       attributes.IS_DATEPICKER,
       attributes.MONTH,
+      attributes.SHOW_PICKLIST_MONTH,
+      attributes.SHOW_PICKLIST_WEEK,
+      attributes.SHOW_PICKLIST_WEEK,
       attributes.SHOW_TODAY,
       attributes.START_DATE,
       attributes.USE_RANGE,
-      attributes.YEAR,
+      attributes.YEAR
     ];
   }
 
@@ -404,6 +407,9 @@ class IdsMonthView extends Base {
             year="${this.year}"
             day="${this.day}"
             first-day-of-week="${this.firstDayOfWeek}"
+            show-picklist-month="${this.showPicklistMonth}"
+            show-picklist-year="${this.showPicklistYear}"
+            show-picklist-week="${this.showPicklistWeek}"
             show-today=${this.showToday}"
           ></ids-date-picker>
           ${todayBtn}
@@ -422,6 +428,11 @@ class IdsMonthView extends Base {
               value="${this.#formatMonthText()}"
               year="${this.year}"
               month="${this.month}"
+              day="${this.day}"
+              first-day-of-week="${this.firstDayOfWeek}"
+              show-picklist-month="${this.showPicklistMonth}"
+              show-picklist-year="${this.showPicklistYear}"
+              show-picklist-week="${this.showPicklistWeek}"
             ></ids-date-picker>
           </div>
         </ids-toolbar-section>
@@ -1677,6 +1688,52 @@ class IdsMonthView extends Base {
     };
 
     this.#renderMonth();
+  }
+
+  get showPicklistYear(): boolean {
+    const attrVal = this.getAttribute(attributes.SHOW_PICKLIST_YEAR);
+
+    if (attrVal) {
+      return stringToBool(attrVal);
+    }
+
+    return true;
+  }
+
+  set showPicklistYear(val: string | boolean | null) {
+    const boolVal = stringToBool(val);
+
+    this.setAttribute(attributes.SHOW_PICKLIST_YEAR, boolVal);
+  }
+
+  get showPicklistMonth(): boolean {
+    const attrVal = this.getAttribute(attributes.SHOW_PICKLIST_MONTH);
+
+    if (attrVal) {
+      return stringToBool(attrVal);
+    }
+
+    return true;
+  }
+
+  set showPicklistMonth(val: string | boolean | null) {
+    const boolVal = stringToBool(val);
+
+    this.setAttribute(attributes.SHOW_PICKLIST_MONTH, boolVal);
+  }
+
+  get showPicklistWeek(): boolean {
+    return stringToBool(this.getAttribute(attributes.SHOW_PICKLIST_WEEK));
+  }
+
+  set showPicklistWeek(val: string | boolean | null) {
+    const boolVal = stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.SHOW_PICKLIST_WEEK, boolVal);
+    } else {
+      this.removeAttribute(attributes.SHOW_PICKLIST_WEEK);
+    }
   }
 }
 

@@ -112,6 +112,9 @@ class IdsDatePicker extends Base {
       attributes.READONLY,
       attributes.SECOND_INTERVAL,
       attributes.SHOW_CLEAR,
+      attributes.SHOW_PICKLIST_MONTH,
+      attributes.SHOW_PICKLIST_WEEK,
+      attributes.SHOW_PICKLIST_WEEK,
       attributes.SHOW_TODAY,
       attributes.SIZE,
       attributes.TABBABLE,
@@ -559,8 +562,11 @@ class IdsDatePicker extends Base {
         const btnDownYear: HTMLElement = this.container.querySelector('.is-btn-down.is-year-nav');
         const btnUpMonth: HTMLElement = this.container.querySelector('.is-btn-up.is-month-nav');
         const btnDownMonth: HTMLElement = this.container.querySelector('.is-btn-down.is-month-nav');
+        const btnUpWeek: HTMLElement = this.container.querySelector('.is-btn-up.is-week-nav');
+        const btnDownWeek: HTMLElement = this.container.querySelector('.is-btn-down.is-week-nav');
         const monthSelected = this.container.querySelector('.is-month.is-selected');
         const yearSelected = this.container.querySelector('.is-year.is-selected');
+        const weekSelected = this.container.querySelector('.is-week.is-selected');
 
         // Enter on picklist year btn up
         if (key === 13 && btnUpYear?.matches(':focus')) {
@@ -575,6 +581,16 @@ class IdsDatePicker extends Base {
         // Enter on picklist month btn up/down
         if (key === 13 && (btnUpMonth?.matches(':focus') || btnDownMonth?.matches(':focus'))) {
           this.#picklistMonthPaged();
+        }
+
+        // Enter on picklist week btn up
+        if (key === 13 && btnUpWeek?.matches(':focus')) {
+          this.#picklistWeekPaged(false);
+        }
+
+        // Enter on picklist week btn down
+        if (key === 13 && btnDownWeek?.matches(':focus')) {
+          this.#picklistWeekPaged(true);
         }
 
         // Arrow Up on picklist month
@@ -651,6 +667,46 @@ class IdsDatePicker extends Base {
           el?.focus();
         }
 
+        // Arrow Up on picklist week
+        if (key === 38 && weekSelected?.matches(':focus')) {
+          const weekIndex: number = stringToNumber(weekSelected.dataset.week) - 1;
+          const week: number = this.#getWeekNumber(weekIndex);
+          const el: HTMLElement = this.container.querySelector(`.is-week[data-week="${week}"]`);
+
+          this.#unselectPicklist('week');
+
+          if (!el) {
+            btnUpWeek?.focus();
+
+            return;
+          }
+
+          this.#selectPicklistEl(el);
+          this.#setWeekDate(week);
+
+          el?.focus();
+        }
+
+        // Arrow Down on picklist year
+        if (key === 40 && weekSelected?.matches(':focus')) {
+          const weekIndex: number = stringToNumber(weekSelected.dataset.week) + 1;
+          const week: number = this.#getWeekNumber(weekIndex);
+          const el: HTMLElement = this.container.querySelector(`.is-week[data-week="${week}"]`);
+
+          this.#unselectPicklist('week');
+
+          if (!el) {
+            btnDownWeek?.focus();
+
+            return;
+          }
+
+          this.#selectPicklistEl(el);
+          this.#setWeekDate(week);
+
+          el?.focus();
+        }
+
         // Arrow Up on year btn up
         if (key === 38 && btnUpYear?.matches(':focus')) {
           btnDownYear?.focus();
@@ -716,6 +772,40 @@ class IdsDatePicker extends Base {
           this.#unselectPicklist('month');
           this.#selectPicklistEl(el);
           this.month = el.dataset.month;
+          el?.focus();
+        }
+
+        // Arrow Up on week btn up
+        if (key === 38 && btnUpWeek?.matches(':focus')) {
+          btnDownWeek?.focus();
+
+          return;
+        }
+
+        // Arrow Down on week btn down
+        if (key === 40 && btnDownWeek?.matches(':focus')) {
+          btnUpWeek?.focus();
+
+          return;
+        }
+
+        // Arrow Up on week btn down
+        if (key === 38 && btnDownWeek?.matches(':focus')) {
+          const el: HTMLElement = this.container.querySelector('.is-week.is-last');
+
+          this.#unselectPicklist('month');
+          this.#selectPicklistEl(el);
+          this.#setWeekDate(stringToNumber(el?.dataset.week));
+          el?.focus();
+        }
+
+        // Arrow Down on week btn up
+        if (key === 40 && btnUpWeek?.matches(':focus')) {
+          const el: HTMLElement = this.container.querySelector('.is-week');
+
+          this.#unselectPicklist('week');
+          this.#selectPicklistEl(el);
+          this.#setWeekDate(stringToNumber(el?.dataset.week));
           el?.focus();
         }
       // Regular date picker keyboard events
@@ -845,10 +935,6 @@ class IdsDatePicker extends Base {
     }
   }
 
-  #getTotalWeeks() {
-    return weekNumber(new Date(this.year, 11, 31), this.firstDayOfWeek);
-  }
-
   #getPicklistMonths(): string | undefined {
     const monthsList: Array<string> = MONTH_KEYS.map((item) => this.locale?.translate(`MonthWide${item}`));
 
@@ -865,12 +951,10 @@ class IdsDatePicker extends Base {
 
   #getPicklistWeeks(): string | undefined {
     const currentWeek: number = weekNumber(new Date(this.year, this.month, this.day));
-    const totalWeeks: number = this.#getTotalWeeks();
     const startWeek: number = currentWeek <= PICKLIST_LENGTH ? 1 : currentWeek - 2;
-    // Get number of weeks in the year by getting week number of the last day of the year
     const weeks: string = Array.from({ length: PICKLIST_LENGTH }).map((_, index) => {
-      const indexWeek: number = startWeek + index;
-      const week: number = indexWeek > totalWeeks ? indexWeek % totalWeeks : indexWeek;
+      const weekIndex: number = startWeek + index;
+      const week: number = this.#getWeekNumber(weekIndex);
 
       return `<li
         data-week="${week}"
@@ -904,45 +988,51 @@ class IdsDatePicker extends Base {
     if (!this.isDropdown) return;
 
     const template = `
-      <div class="picklist-section">
-        <ul class="picklist-list">
-          <li class="picklist-item is-btn-up is-week-nav">
-            <ids-text audible="true" translate-text="true">PreviousWeek</ids-text>
-            <ids-icon icon="chevron-up"></ids-icon>
-          </li>
-          ${this.#getPicklistWeeks()}
-          <li class="picklist-item is-btn-down is-week-nav">
-            <ids-text audible="true" translate-text="true">NextWeek</ids-text>
-            <ids-icon icon="chevron-down"></ids-icon>
-          </li>
-        </ul>
-      </div>
-      <div class="picklist-section">
-        <ul class="picklist-list">
-          <li class="picklist-item is-btn-up is-month-nav">
-            <ids-text audible="true" translate-text="true">PreviousMonth</ids-text>
-            <ids-icon icon="chevron-up"></ids-icon>
-          </li>
-          ${this.#getPicklistMonths()}
-          <li class="picklist-item is-btn-down is-month-nav">
-            <ids-text audible="true" translate-text="true">NextMonth</ids-text>
-            <ids-icon icon="chevron-down"></ids-icon>
-          </li>
-        </ul>
-      </div>
-      <div class="picklist-section">
-        <ul class="picklist-list">
-          <li class="picklist-item is-btn-up is-year-nav">
-            <ids-text audible="true" translate-text="true">PreviousYear</ids-text>
-            <ids-icon icon="chevron-up"></ids-icon>
-          </li>
-          ${this.#getPicklistYears()}
-          <li class="picklist-item is-btn-down is-year-nav">
-            <ids-text audible="true" translate-text="true">NextYear</ids-text>
-            <ids-icon icon="chevron-down"></ids-icon>
-          </li>
-        </ul>
-      </div>
+      ${this.showPicklistWeek ? `
+        <div class="picklist-section">
+          <ul class="picklist-list">
+            <li class="picklist-item is-btn-up is-week-nav">
+              <ids-text audible="true" translate-text="true">PreviousWeek</ids-text>
+              <ids-icon icon="chevron-up"></ids-icon>
+            </li>
+            ${this.#getPicklistWeeks()}
+            <li class="picklist-item is-btn-down is-week-nav">
+              <ids-text audible="true" translate-text="true">NextWeek</ids-text>
+              <ids-icon icon="chevron-down"></ids-icon>
+            </li>
+          </ul>
+        </div>
+      ` : ''}
+      ${this.showPicklistMonth && !this.showPicklistWeek ? `
+        <div class="picklist-section">
+          <ul class="picklist-list">
+            <li class="picklist-item is-btn-up is-month-nav">
+              <ids-text audible="true" translate-text="true">PreviousMonth</ids-text>
+              <ids-icon icon="chevron-up"></ids-icon>
+            </li>
+            ${this.#getPicklistMonths()}
+            <li class="picklist-item is-btn-down is-month-nav">
+              <ids-text audible="true" translate-text="true">NextMonth</ids-text>
+              <ids-icon icon="chevron-down"></ids-icon>
+            </li>
+          </ul>
+        </div>
+      ` : ''}
+      ${this.showPicklistYear ? `
+        <div class="picklist-section">
+          <ul class="picklist-list">
+            <li class="picklist-item is-btn-up is-year-nav">
+              <ids-text audible="true" translate-text="true">PreviousYear</ids-text>
+              <ids-icon icon="chevron-up"></ids-icon>
+            </li>
+            ${this.#getPicklistYears()}
+            <li class="picklist-item is-btn-down is-year-nav">
+              <ids-text audible="true" translate-text="true">NextYear</ids-text>
+              <ids-icon icon="chevron-down"></ids-icon>
+            </li>
+          </ul>
+        </div>
+      ` : ''}
     `;
 
     this.container.querySelectorAll('.picklist-section').forEach((el: HTMLElement) => el?.remove());
@@ -996,21 +1086,15 @@ class IdsDatePicker extends Base {
     });
   }
 
+  /**
+   * Helper to loop through the week list and increase/descrese week depends on the param
+   * @param {boolean} isNext increase/descrese picklist week
+   */
   #picklistWeekPaged(isNext: boolean) {
-    const totalWeeks = this.#getTotalWeeks();
-
     this.container.querySelectorAll('.picklist-item.is-week').forEach((el: any) => {
       const elWeek: number = stringToNumber(el.dataset.week);
       const weekIndex: number = isNext ? elWeek + PICKLIST_LENGTH : elWeek - PICKLIST_LENGTH;
-      let week = weekIndex;
-
-      if (weekIndex > totalWeeks) {
-        week = weekIndex % totalWeeks;
-      }
-
-      if (weekIndex < 1) {
-        week = totalWeeks + weekIndex;
-      }
+      const week = this.#getWeekNumber(weekIndex);
 
       el.dataset.week = week;
       el.querySelector('ids-text').textContent = week;
@@ -1019,6 +1103,28 @@ class IdsDatePicker extends Base {
         this.#selectPicklistEl(el);
       }
     });
+  }
+
+  #getWeekNumber(weekIndex: number) {
+    // Get number of weeks in the year by getting week number of the last day of the year
+    const totalWeeks = weekNumber(new Date(this.year, 11, 31), this.firstDayOfWeek);
+
+    if (weekIndex > totalWeeks) {
+      return weekIndex % totalWeeks;
+    }
+
+    if (weekIndex < 1) {
+      return totalWeeks + weekIndex;
+    }
+
+    return weekIndex;
+  }
+
+  #setWeekDate(week: number) {
+    const date = weekNumberToDate(this.year, week, this.firstDayOfWeek);
+
+    this.month = date.getMonth();
+    this.day = date.getDate();
   }
 
   /**
@@ -1850,10 +1956,12 @@ class IdsDatePicker extends Base {
       this.#selectPicklistEl(monthEl);
       this.#selectPicklistEl(yearEl);
       this.#selectPicklistEl(weekEl);
+
       picklistBtns.forEach((item: HTMLElement) => {
         item.setAttribute('tabindex', '0');
       });
-      monthEl?.focus();
+
+      this.container.querySelector('.picklist-item.is-selected')?.focus();
 
       this.setAttribute(attributes.EXPANDED, boolVal);
     } else {
@@ -2062,6 +2170,56 @@ class IdsDatePicker extends Base {
     }
 
     btn?.classList.toggle('is-visible', boolVal);
+  }
+
+  get showPicklistYear(): boolean {
+    const attrVal = this.getAttribute(attributes.SHOW_PICKLIST_YEAR);
+
+    if (attrVal) {
+      return stringToBool(attrVal);
+    }
+
+    return true;
+  }
+
+  set showPicklistYear(val: string | boolean | null) {
+    const boolVal = stringToBool(val);
+
+    this.setAttribute(attributes.SHOW_PICKLIST_YEAR, boolVal);
+    this.#monthView?.setAttribute(attributes.SHOW_PICKLIST_YEAR, boolVal);
+  }
+
+  get showPicklistMonth(): boolean {
+    const attrVal = this.getAttribute(attributes.SHOW_PICKLIST_MONTH);
+
+    if (attrVal) {
+      return stringToBool(attrVal);
+    }
+
+    return true;
+  }
+
+  set showPicklistMonth(val: string | boolean | null) {
+    const boolVal = stringToBool(val);
+
+    this.setAttribute(attributes.SHOW_PICKLIST_MONTH, boolVal);
+    this.#monthView?.setAttribute(attributes.SHOW_PICKLIST_MONTH, boolVal);
+  }
+
+  get showPicklistWeek(): boolean {
+    return stringToBool(this.getAttribute(attributes.SHOW_PICKLIST_WEEK));
+  }
+
+  set showPicklistWeek(val: string | boolean | null) {
+    const boolVal = stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.SHOW_PICKLIST_WEEK, boolVal);
+      this.#monthView?.setAttribute(attributes.SHOW_PICKLIST_WEEK, boolVal);
+    } else {
+      this.removeAttribute(attributes.SHOW_PICKLIST_WEEK);
+      this.#monthView?.removeAttribute(attributes.SHOW_PICKLIST_WEEK);
+    }
   }
 }
 
