@@ -1,10 +1,8 @@
 @import '../../core/ids-base';
 
 :host {
-  contain: layout;
   overflow: visible;
   display: inline-flex;
-  position: relative;
   height: fit-content;
   width: fit-content;
   padding: 1px;
@@ -18,16 +16,16 @@
   & .no-color {
     border: 1px solid #bbb;
     border-radius: 2px;
+    position: relative;
 
     &::before {
       transform: rotate(-45deg);
       border-top: 2px solid #da1217;
       content: '';
       left: 0;
-      position: absolute;
-      right: -5px;
-      top: calc(50% - 1px);
+      right: 0;
       overflow: hidden;
+      position: absolute;
       width: 100%;
     }
 

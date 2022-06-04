@@ -59,9 +59,6 @@ ids-input::part(container) {
 }
 
 .color-popup {
-  // removed `contain: content` because it prevents tooltip from appearing
-  // contain: content;
-
   display: grid;
   grid-template-columns: repeat(10, 20px);
   overflow: visible;
