@@ -44,6 +44,7 @@ export default class IdsColorPicker extends Base {
   /** Reference to internal Popup */
   readonly popup: any = this.container.querySelector('ids-popup');
 
+  /** Invoked each time the custom element is added to the DOM */
   connectedCallback() {
     super.connectedCallback?.();
 
@@ -53,21 +54,30 @@ export default class IdsColorPicker extends Base {
 
     this.append(new IdsColor());
 
-    this.swatches.forEach((swatch: any) => {
-      swatch.classList.add('outlined');
-      swatch.setAttribute(attributes.TABINDEX, '-1');
-    });
-
     this.#updateColor(this.value);
-
+    this.#configureSwatches();
+    this.#detachEventHandlers();
     this.#attachEventHandlers();
   }
 
+  /** Invoked each time the custom element is removed from the DOM */
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.#detachEventHandlers();
+  }
+
   /** @returns {string[]} this component's observable attributes */
-  static get attributes() {
+  static get attributes(): string[] {
     return [
       ...super.attributes,
       attributes.ADVANCED,
+      attributes.CHECKED,
+      attributes.DISABLED,
+      attributes.SUPPRESS_LABELS,
+      attributes.READONLY,
+      attributes.TABBABLE,
+      attributes.TABINDEX,
+      attributes.SUPPRESS_TOOLTIPS,
     ];
   }
 
@@ -129,7 +139,7 @@ export default class IdsColorPicker extends Base {
         ${this.readonly ? 'readonly="true"' : ''}
         tabbable="false"
       >
-        <ids-text audible="true">color picker trigger</ids-text>
+        <ids-text audible="true" translate-text="true">ColorPickerTriggerButton</ids-text>
         <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
       </ids-trigger-button>
       <ids-popup type="menu"><slot slot="content" class="color-popup"></slot></ids-popup>
@@ -168,7 +178,7 @@ export default class IdsColorPicker extends Base {
           type="color"
           ${!this.advanced || this.disabled || this.readonly ? 'disabled="true"' : ''}
         />
-        <ids-text audible="true">Pick Custom Color</ids-text>
+        <ids-text audible="true" translate-text="true">ColorPickerSelection</ids-text>
       </label>
     `;
   }
@@ -238,8 +248,7 @@ export default class IdsColorPicker extends Base {
    * @returns {string} - string value from the value attribute
    */
   get value(): string {
-    const [firstSwatch] = this.swatches;
-    return super.value ?? (firstSwatch?.label || '');
+    return super.value ?? '';
   }
 
   /**
@@ -260,50 +269,6 @@ export default class IdsColorPicker extends Base {
    */
   get advanced(): boolean | string {
     return stringToBool(this.getAttribute(attributes.ADVANCED)) || false;
-  }
-
-  /**
-   * Sets the labels attribute to show labels instead of color-hex values
-   * @param {boolean | string} value - true if color-swatch labels should show instead of hexes
-   */
-  set labels(value: boolean | string) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.LABELS, !!value);
-    } else {
-      this.removeAttribute(attributes.LABELS);
-    }
-
-    this.#configureSwatches();
-  }
-
-  /**
-   * Gets the labels attribute
-   * @returns {boolean} - true if color-swatch labels should show instead of hexes
-   */
-  get labels(): boolean {
-    return stringToBool(this.getAttribute(attributes.LABELS)) || false;
-  }
-
-  /**
-   * Sets the tooltips attribute
-   * @param {boolean | string} value - true if color-swatch tooltips should show
-   */
-  set tooltips(value: boolean | string) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.TOOLTIPS, !!value);
-    } else {
-      this.removeAttribute(attributes.TOOLTIPS);
-    }
-
-    this.#configureSwatches();
-  }
-
-  /**
-   * Gets the tooltips attribute
-   * @returns {boolean} - true if color-swatch tooltips should show
-   */
-  get tooltips(): boolean {
-    return stringToBool(this.getAttribute(attributes.TOOLTIPS)) || false;
   }
 
   /**
@@ -361,13 +326,61 @@ export default class IdsColorPicker extends Base {
   }
 
   /**
+   * Show color-hex values instead of labels
+   * @param {boolean | string} value - true if color-swatch labels should show instead of hexes
+   */
+  set suppressLabels(value: boolean | string) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.SUPPRESS_LABELS, true);
+    } else {
+      this.removeAttribute(attributes.SUPPRESS_LABELS);
+    }
+
+    this.#configureSwatches();
+  }
+
+  /**
+   * Gets the labels attribute
+   * @returns {boolean} - true if color-swatch labels should show instead of hexes
+   */
+  get suppressLabels(): boolean {
+    if (this.advanced) return true;
+
+    return stringToBool(this.getAttribute(attributes.SUPPRESS_LABELS)) || false;
+  }
+
+  /**
+   * Sets the tooltips attribute
+   * @param {boolean | string} value - true if color-swatch tooltips should show
+   */
+  set suppressTooltips(value: boolean | string) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.SUPPRESS_TOOLTIPS, true);
+    } else {
+      this.removeAttribute(attributes.SUPPRESS_TOOLTIPS);
+    }
+
+    this.#configureSwatches();
+  }
+
+  /**
+   * Gets the tooltips attribute
+   * @returns {boolean} - true if color-swatch tooltips should show
+   */
+  get suppressTooltips(): boolean {
+    if (this.advanced) return true;
+
+    return stringToBool(this.getAttribute(attributes.SUPPRESS_TOOLTIPS)) || false;
+  }
+
+  /**
    * Closes the Color Picker's Popup
    * @returns {void}
    */
   close(): void {
     this.popup.visible = false;
     this.removeOpenEvents();
-    this.swatches.forEach((swatch: any) => swatch.setAttribute(attributes.TABINDEX, '-1'));
+    this.#configureSwatches();
   }
 
   /**
@@ -388,7 +401,6 @@ export default class IdsColorPicker extends Base {
     this.popup.visible = true;
     this.addOpenEvents();
     this.#configureSwatches();
-    this.swatches[0].swatch.focus();
   }
 
   /**
@@ -403,7 +415,7 @@ export default class IdsColorPicker extends Base {
   /** Handle events */
   #attachEventHandlers(): void {
     // Respond to clicks on Color Picker swatches
-    this.onEvent('click', this.container, (event: MouseEvent) => {
+    this.onEvent('click.color-picker-container', this.container, (event: MouseEvent) => {
       const isEditable = !stringToBool(this.readonly)
       && !stringToBool(this.disabled);
 
@@ -421,23 +433,23 @@ export default class IdsColorPicker extends Base {
     });
 
     // Respond to click events on the swatch
-    this.onEvent('click', this.colorInput, () => {
+    this.onEvent('click.color-picker-input', this.colorInput, () => {
       if (!this.advanced) {
         this.#openCloseColorpicker();
       }
     });
 
     // Respond to change events from the swatch input
-    this.onEvent('input', this.colorInput, (e: any) => {
+    this.onEvent('input.color-picker-input', this.colorInput, (e: any) => {
       this.#updateColor(e.target.value);
     });
 
     // Respond to change events from the text-field input
-    this.onEvent('input', this.textInput, (e: any) => {
+    this.onEvent('input.color-picker-text', this.textInput, (e: any) => {
       this.#updateColor(e.target.value);
     });
 
-    this.onEvent('keydown', this, (e: any) => {
+    this.onEvent('keydown.color-picker', this, (e: any) => {
       if (e.target.name === 'id-color-picker') {
         e.preventDefault();
       }
@@ -461,7 +473,7 @@ export default class IdsColorPicker extends Base {
     });
 
     // Respond to Keyup events on swatches and buttons
-    this.onEvent('keydown', this.popup, (e: any) => {
+    this.onEvent('keydown.color-picker-popup', this.popup, (e: any) => {
       const popupKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space', ' '];
 
       if (popupKeys.includes(e.key)) {
@@ -499,14 +511,42 @@ export default class IdsColorPicker extends Base {
     });
   }
 
+  /** Handle events */
+  #detachEventHandlers(): void {
+    // Respond to clicks on Color Picker swatches
+    this.offEvent('click.color-picker-container', this.container);
+
+    // Respond to click events on the swatch
+    this.offEvent('click.color-picker-input', this.colorInput);
+
+    // Respond to change events from the swatch input
+    this.offEvent('input.color-picker-input', this.colorInput);
+
+    // Respond to change events from the text-field input
+    this.offEvent('input.color-picker-text', this.textInput);
+
+    this.offEvent('keydown.color-picker', this);
+
+    // Respond to Keyup events on swatches and buttons
+    this.onEvent('keydown.color-picker-popup', this.popup);
+  }
+
   /** Configure disabled/labels/tooltips attributes on IdsColor swatches */
   #configureSwatches(): void {
     this.swatches.forEach((swatch: IdsColor) => {
-      swatch.disabled = !this.tooltips;
-      swatch.tooltip = !this.tooltips ? '' : (this.tooltip || swatch.label);
-      swatch.tooltip = this.labels ? swatch.tooltip : swatch.hex;
-      swatch.removeAttribute(attributes.TABINDEX);
+      swatch.classList.add('outlined');
+      swatch.disabled = this.suppressTooltips;
+      swatch.tooltip = this.suppressTooltips ? '' : (this.tooltip || swatch.label);
+      swatch.tooltip = this.suppressLabels ? swatch.hex : swatch.tooltip;
+
+      if (this.popup.visible) {
+        swatch.removeAttribute(attributes.TABINDEX);
+      } else {
+        swatch.setAttribute(attributes.TABINDEX, '-1');
+      }
     });
+
+    (this.#findColorSwatch(this.value) || this.swatches[0])?.swatch?.focus();
   }
 
   /**
@@ -536,6 +576,7 @@ export default class IdsColorPicker extends Base {
     if (this.advanced) {
       return this.colorInput.value;
     }
+
     const checked = this.querySelectorAll('ids-color[checked]')?.[0];
     return checked?.hex;
   }
@@ -561,8 +602,12 @@ export default class IdsColorPicker extends Base {
    * @param {string} value - the color's hex-value or label
    */
   #updateColor(value: string): void {
-    const colorSwatch = this.#findColorSwatch(value);
-    this.value = colorSwatch?.hex || value;
+    if (value) {
+      const colorSwatch = this.#findColorSwatch(value);
+      this.value = colorSwatch?.hex || value;
+    } else {
+      this.value = '';
+    }
   }
 
   /**
@@ -574,6 +619,7 @@ export default class IdsColorPicker extends Base {
     if (checkedColor) {
       checkedColor.removeAttribute(attributes.CHECKED);
     }
+
     if (colorSwatch) {
       colorSwatch.setAttribute(attributes.CHECKED, '');
     }
@@ -590,7 +636,12 @@ export default class IdsColorPicker extends Base {
 
     this.colorPreview.hex = targetColorValue;
     this.colorInput.value = targetColorValue;
-    this.textInput.value = (this.labels && colorSwatch?.label) || colorSwatch?.hex || this.textInput.value;
+
+    if (targetColorValue) {
+      this.textInput.value = (!this.suppressLabels && colorSwatch?.label) || colorSwatch?.hex || this.textInput.value;
+    } else {
+      this.textInput.value = '';
+    }
 
     if (this.dirtyTracker) {
       this.setDirtyTracker(this.textInput.value);

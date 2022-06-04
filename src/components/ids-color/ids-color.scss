@@ -40,7 +40,8 @@
 
 :host(.outlined:hover),
 :host(.outlined:focus),
-:host(.outlined:focus-visible) {
+:host(.outlined:focus-visible),
+:host(.outlined:focus-within) {
   box-shadow: 0 0 3px 2px #0072ed4d;
   outline: 1px solid var(--ids-color-palette-azure-60);
 }

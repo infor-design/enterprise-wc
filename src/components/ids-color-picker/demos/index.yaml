@@ -9,6 +9,6 @@
     type: Main Example
     description: Shows a color picker and states
   - link: example-sizes.html
-    type: Example Sizes
+    type: Example
     description: Shows a color picker's different field sizes
 

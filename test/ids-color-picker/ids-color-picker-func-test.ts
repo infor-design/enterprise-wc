@@ -24,6 +24,7 @@ describe('Ids Color Picker Component', () => {
   });
 
   afterEach(async () => {
+    colorpicker.remove();
     document.body.innerHTML = '';
     colorpicker = null;
   });
@@ -97,25 +98,36 @@ describe('Ids Color Picker Component', () => {
   });
 
   it('has a labels attribute', () => {
-    colorpicker.labels = false;
-    expect(colorpicker.labels).toEqual(false);
-    expect(colorpicker.hasAttribute('labels')).toEqual(false);
-    expect(colorpicker.getAttribute('labels')).toBeFalsy();
+    colorpicker.suppressLabels = false;
+    expect(colorpicker.suppressLabels).toEqual(false);
+    expect(colorpicker.hasAttribute('suppress-labels')).toEqual(false);
+    expect(colorpicker.getAttribute('suppress-labels')).toBeFalsy();
 
-    colorpicker.labels = true;
-    expect(colorpicker.labels).toEqual(true);
-    expect(colorpicker.getAttribute('labels')).toEqual('true');
+    colorpicker.suppressLabels = true;
+    expect(colorpicker.suppressLabels).toEqual(true);
+    expect(colorpicker.getAttribute('suppress-labels')).toEqual('true');
   });
 
-  it('has a tooltips attribute', () => {
-    colorpicker.tooltips = false;
-    expect(colorpicker.tooltips).toEqual(false);
-    expect(colorpicker.hasAttribute('tooltips')).toEqual(false);
-    expect(colorpicker.getAttribute('tooltips')).toBeFalsy();
+  it('has a suppressTooltips attribute', () => {
+    colorpicker.suppressTooltips = false;
+    expect(colorpicker.suppressTooltips).toEqual(false);
+    expect(colorpicker.hasAttribute('suppress-tooltips')).toEqual(false);
+    expect(colorpicker.getAttribute('suppress-tooltips')).toBeFalsy();
 
-    colorpicker.tooltips = true;
-    expect(colorpicker.tooltips).toEqual(true);
-    expect(colorpicker.getAttribute('tooltips')).toEqual('true');
+    colorpicker.suppressTooltips = true;
+    expect(colorpicker.suppressTooltips).toEqual(true);
+    expect(colorpicker.getAttribute('suppress-tooltips')).toEqual('true');
+  });
+
+  it('suppresses lables and tooltips when IdsColorPicker.advanced is true', () => {
+    expect(colorpicker.advanced).toEqual(false);
+    expect(colorpicker.suppressLabels).toEqual(false);
+    expect(colorpicker.suppressTooltips).toEqual(false);
+
+    colorpicker.advanced = true;
+    expect(colorpicker.advanced).toEqual(true);
+    expect(colorpicker.suppressLabels).toEqual(true);
+    expect(colorpicker.suppressTooltips).toEqual(true);
   });
 
   it('should close on outside click', () => {
@@ -344,44 +356,48 @@ describe('Ids Color Picker Component', () => {
       expect(swatch.tooltip).toBe('');
     });
 
-    it('hides color-swatch tooltips when IdsColorPicker.tooltips is false', () => {
+    it('hides color-swatch tooltips when IdsColorPicker.suppressTooltips is true', () => {
       expect(colorpicker.popup.visible).toBe(true);
-      expect(colorpicker.tooltips).toBe(false);
+      expect(colorpicker.suppressTooltips).toBe(false);
+      expect(colorpicker.hasAttribute('suppress-tooltips')).toBe(false);
 
       // hover mouse over color swatch and check that swatch.tooltip is visible
       // check that swatch.disabled is false and tooltip is visible and popuplated
       const [swatch] = colorpicker.swatches;
-      expect(swatch.tooltip).toBe('');
-      expect(swatch.disabled).toBe(true);
+      expect(swatch.disabled).toBe(false);
+      expect(swatch.tooltip).toBe('ruby-10');
+
+      colorpicker.suppressTooltips = true;
+      expect(colorpicker.suppressTooltips).toBe(true);
+      expect(colorpicker.hasAttribute('suppress-tooltips')).toBe(true);
+      expect(colorpicker.getAttribute('suppress-tooltips')).toBe('true');
+
       swatch.dispatchEvent(new MouseEvent('mouseover'));
       expect(swatch.popup.visible).toBe(false);
       expect(swatch.popup.innerText).toBe('');
     });
 
-    it('shows color-swatch tooltips when IdsColorPicker.tooltips is true', () => {
+    it('shows color-swatch tooltips when IdsColorPicker.suppressTooltips is false', () => {
       expect(colorpicker.popup.visible).toBe(true);
-      expect(colorpicker.tooltips).toBe(false);
+      expect(colorpicker.suppressTooltips).toBe(false);
+      expect(colorpicker.hasAttribute('suppress-tooltips')).toBe(false);
 
-      const [swatch] = colorpicker.swatches;
-      expect(swatch.disabled).toBe(true);
-      expect(swatch.tooltip).toBe('');
-      expect(swatch.label).toBeTruthy();
-
-      // TODO: CSS variables don't work in jsDom, so hex is never properly calculated for defaultSwatches
-      // expect(swatch.hex).toBeTruthy();
-
-      swatch.hex = '#000000';
-
-      colorpicker.value = swatch.hex;
-      colorpicker.tooltips = true;
-      expect(colorpicker.tooltips).toBe(true);
-
+      let [swatch] = colorpicker.swatches;
       expect(swatch.disabled).toBe(false);
-      expect(swatch.tooltip).toBe(swatch.hex);
+      expect(swatch.tooltip).toBe(swatch.label);
+
+      colorpicker.suppressTooltips = true;
+      expect(colorpicker.suppressTooltips).toBe(true);
+      expect(colorpicker.hasAttribute('suppress-tooltips')).toBe(true);
+      expect(colorpicker.getAttribute('suppress-tooltips')).toBe('true');
 
       swatch.dispatchEvent(new MouseEvent('mouseover'));
-      expect(swatch.popup.innerText).toBe(swatch.hex);
-      expect(swatch.popup.visible).toBe(true);
+      expect(swatch.popup.visible).toBe(false);
+      expect(swatch.popup.innerText).toBe('');
+
+      [swatch] = colorpicker.swatches;
+      expect(swatch.disabled).toBe(true);
+      expect(swatch.tooltip).toBe('');
     });
 
     it('focuses next color-swatch on ArrowRight', () => {

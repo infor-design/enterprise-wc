@@ -63,7 +63,7 @@ export default class IdsColor extends Base {
   set disabled(value: boolean | string) {
     const booleanValue = stringToBool(value);
     if (booleanValue) {
-      this.setAttribute(attributes.DISABLED, booleanValue.toString());
+      this.setAttribute(attributes.DISABLED, true);
     } else {
       this.removeAttribute(attributes.DISABLED);
     }
@@ -156,11 +156,19 @@ export default class IdsColor extends Base {
   /** Hide this color swatch's tooltip */
   hideTooltip(): void { this.popup.visible = false; }
 
+  /** Invoked each time the custom element is added to the DOM */
   connectedCallback(): void {
     if (!this.hasAttribute(attributes.HEX)) {
       this.setAttribute(attributes.HEX, '');
     }
+    this.#detachEventHandlers();
     this.#attachEventHandlers();
+  }
+
+  /** Invoked each time the custom element is removed from the DOM */
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.#detachEventHandlers();
   }
 
   /** Handle events */
@@ -170,5 +178,13 @@ export default class IdsColor extends Base {
     this.onEvent('mouseover', this, this.showTooltip);
     this.onEvent('mouseout', this, this.hideTooltip);
     this.onEvent('mouseleave', this, this.hideTooltip);
+  }
+
+  /** Detach event handlers */
+  #detachEventHandlers(): void {
+    this.offEvent('mouseenter', this);
+    this.offEvent('mouseover', this);
+    this.offEvent('mouseout', this);
+    this.offEvent('mouseleave', this);
   }
 }

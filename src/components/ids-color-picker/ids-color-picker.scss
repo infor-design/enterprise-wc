@@ -4,6 +4,7 @@
   @include mb-16();
 
   display: block;
+  position: relative;
   max-width: $input-size-sm;
 
   input {

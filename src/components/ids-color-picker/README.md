@@ -13,8 +13,8 @@ The Color Picker by default supports colors within a pre-configured palette of I
 - `label` {string} Sets the label attribute which will be displayed above the color picker web component `label="Color Picker"`
 - `disabled` {boolean} Sets the disabled attribute which will disabled the entire color picker web component `disabled="true"` Valid values are 'true' | 'false'
 - `readonly` {boolean} Sets the readonly attribute. Valid values are 'true' | 'false'
-- `labels` {boolean} If true, the color-swatchs will display labels instead of the hex-values. Valid values are 'true' | 'false'
-- `tooltips` {boolean} If true, the color-swatchs will display tooltips on mouseover. Valid values are 'true' | 'false'
+- `suppress-labels` {boolean} If true, the color-swatches will display hex-values instead of labels. Valid values are 'true' | 'false'
+- `suppress-tooltips` {boolean} If true, the color-swatches will not display tooltips on mouseover. Valid values are 'true' | 'false'
 - `validate` {string} set the validation rule `required`.
 - `mode` {string} Sets the theme mode
 - `version` {string} Sets the theme version
@@ -22,6 +22,16 @@ The Color Picker by default supports colors within a pre-configured palette of I
 ## Code Examples
 
 A basic use case of the color picker with a few color options.
+```html
+<ids-color-picker></ids-color-picker>
+```
+
+The basic color-picker with labels and tooltips disabled
+```html
+<ids-color-picker suppress-labels suppress-tooltips></ids-color-picker>
+```
+
+A basic use case of the color picker with custom color options.
 ```html
 <ids-color-picker>
   <ids-color hex="#b94e4e"></ids-color>
