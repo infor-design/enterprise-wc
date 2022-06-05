@@ -208,9 +208,6 @@ export default class IdsColorPicker extends Base {
       ...Object.values(colorPalette.slate),
       ...Object.values(colorPalette['classic-slate']),
       ...Object.values(colorPalette.graphite),
-      // ...Object.values(colorPalette.alert),
-      // ...Object.values(colorPalette['alert-dark']),
-      // ...Object.values(colorPalette['alert-contrast']),
     ].map((cssVar) => {
       const color = new IdsColor();
       const [cssVarName, label, colorCategory, colorCode] = cssVar.match(COLOR_PALETTE_CSS_VAR_REGEX) || [];
@@ -257,10 +254,12 @@ export default class IdsColorPicker extends Base {
    */
   set advanced(value: boolean | string) {
     if (stringToBool(value)) {
-      this.setAttribute(attributes.ADVANCED, '');
-      return;
+      this.setAttribute(attributes.ADVANCED, true);
+      this.colorInput.removeAttribute(attributes.DISABLED);
+    } else {
+      this.removeAttribute(attributes.ADVANCED);
+      this.colorInput.setAttribute(attributes.DISABLED, true);
     }
-    this.removeAttribute(attributes.ADVANCED);
   }
 
   /**

@@ -52,8 +52,12 @@ describe('Ids Color Picker Component', () => {
   it('renders with advanced', () => {
     colorpicker = createFromTemplate(`<ids-color-picker id="color-picker-1" advanced="true" value="#941E1E" label="Readonly Color Picker"></ids-color-picker>`);
     expect(colorpicker.advanced).toBeTruthy();
+    expect(colorpicker.colorInput.hasAttribute('disabled')).toBe(false);
+    expect(colorpicker.colorInput.getAttribute('disabled')).toBeFalsy();
     colorpicker.advanced = false;
     expect(colorpicker.getAttribute('advanced')).toBeFalsy();
+    expect(colorpicker.colorInput.hasAttribute('disabled')).toBe(true);
+    expect(colorpicker.colorInput.getAttribute('disabled')).toBeTruthy();
   });
 
   it('has a default value of blank', () => {
