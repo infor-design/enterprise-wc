@@ -618,7 +618,7 @@ describe('Ids Date Picker e2e Tests', () => {
         '<ids-date-picker id="e2e-datepicker-time" value="2/3/2010 08:24 AM" format="M/d/yyyy hh:mm a"></ids-date-picker>'
       );
 
-      (document.querySelector as any)('#e2e-datepicker-time').show();
+      (document.querySelector as any)('#e2e-datepicker-time').open();
     });
 
     // If time picker appears from format
@@ -662,9 +662,9 @@ describe('Ids Date Picker e2e Tests', () => {
 
     // Changing date picker input
     await page.evaluate(() => {
-      (document.querySelector as any)('#e2e-datepicker-time').hide();
+      (document.querySelector as any)('#e2e-datepicker-time').close();
       (document.querySelector as any)('#e2e-datepicker-time').value = '2/3/2010 11:00 PM';
-      (document.querySelector as any)('#e2e-datepicker-time').show();
+      (document.querySelector as any)('#e2e-datepicker-time').open();
     });
 
     expect(+(await getTimeValues()).hours).toEqual(11);
@@ -673,10 +673,10 @@ describe('Ids Date Picker e2e Tests', () => {
 
     // Changing format
     await page.evaluate(() => {
-      (document.querySelector as any)('#e2e-datepicker-time').hide();
+      (document.querySelector as any)('#e2e-datepicker-time').close();
       (document.querySelector as any)('#e2e-datepicker-time').format = 'M/d/yyyy HH:mm:ss';
       (document.querySelector as any)('#e2e-datepicker-time').value = '2/3/2010 23:25:44';
-      (document.querySelector as any)('#e2e-datepicker-time').show();
+      (document.querySelector as any)('#e2e-datepicker-time').open();
     });
 
     expect(+(await getTimeValues()).hours).toEqual(23);
@@ -737,7 +737,7 @@ describe('Ids Date Picker e2e Tests', () => {
 
       component.format = 'yyyy-MM-dd';
       component.value = '2022-05-16';
-      component.show();
+      component.open();
     });
 
     // Parsing
@@ -755,7 +755,7 @@ describe('Ids Date Picker e2e Tests', () => {
     // Formatting
     await page.evaluate(() => {
       const component = (document.querySelector as any)('#e2e-datepicker-value');
-      component.hide();
+      component.close();
 
       component.year = 2018;
       component.month = 2;
@@ -782,7 +782,7 @@ describe('Ids Date Picker e2e Tests', () => {
       if (component) {
         component.format = 'M/d/yyyy';
         component.value = '3/4/2016';
-        component.show();
+        component.open();
       }
     });
 

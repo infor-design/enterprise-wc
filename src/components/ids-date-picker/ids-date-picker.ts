@@ -1355,7 +1355,7 @@ class IdsDatePicker extends Base {
    * Public method to open calendar popup
    * @returns {void}
    */
-  show(): void {
+  open(): void {
     this.#togglePopup(true);
   }
 
@@ -1363,7 +1363,7 @@ class IdsDatePicker extends Base {
    * Public method to close calendar popup
    * @returns {void}
    */
-  hide(): void {
+  close(): void {
     this.#togglePopup(false);
   }
 

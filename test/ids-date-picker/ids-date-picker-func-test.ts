@@ -441,11 +441,11 @@ describe('IdsDatePicker Component Tests', () => {
       component.popup.addEventListener('show', mockShowCallback);
       component.popup.addEventListener('hide', mockHideCallback);
 
-      component.show();
+      component.open();
 
       expect(mockShowCallback).toHaveBeenCalled();
 
-      component.hide();
+      component.close();
 
       expect(mockHideCallback).toHaveBeenCalled();
     });
@@ -561,7 +561,7 @@ describe('IdsDatePicker Component Tests', () => {
 
       component.value = '';
       component.format = 'MMM yyyy';
-      component.show();
+      component.open();
 
       const monthView = component.container.querySelector('ids-month-view');
       monthView.dispatchEvent(daySelectedEvent(new Date(2000, 2, 1)));
@@ -590,40 +590,40 @@ describe('IdsDatePicker Component Tests', () => {
     });
 
     it('should parse date with custom format', () => {
-      component.hide();
+      component.close();
       component.format = 'MMM yyyy';
       component.value = 'Feb 2020';
       const monthView = component.container.querySelector('ids-month-view');
-      component.show();
+      component.open();
 
       expect(monthView.activeDate).toEqual(new Date(2020, 1, 1));
-      component.hide();
+      component.close();
 
       component.format = 'MMMM d';
       component.value = 'August 3';
-      component.show();
+      component.open();
 
       expect(monthView.activeDate.getMonth()).toEqual(7);
       expect(monthView.activeDate.getDate()).toEqual(3);
-      component.hide();
+      component.close();
 
       component.format = 'yyyy';
       component.value = '2010';
-      component.show();
+      component.open();
 
       expect(monthView.activeDate.getFullYear()).toEqual(2010);
-      component.hide();
+      component.close();
 
       component.format = 'MMM dd, yyyy';
       component.value = 'Jan 01, 2010';
-      component.show();
+      component.open();
 
       expect(monthView.activeDate).toEqual(new Date(2010, 0, 1));
-      component.hide();
+      component.close();
 
       component.format = 'yyyy-MM-dd';
       component.value = '2012-03-04';
-      component.show();
+      component.open();
 
       expect(monthView.activeDate).toEqual(new Date(2012, 2, 4));
     });

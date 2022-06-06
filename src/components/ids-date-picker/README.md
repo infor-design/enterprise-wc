@@ -60,8 +60,8 @@ The `ids-date-picker` is a web component to support date entry
 - `second-interval` {number} Set time picker seconds dropdown options interval
 
 ## Methods
-- `show()` - opens calendar popup
-- `hide()` - closes calendar popup
+- `open()` - opens calendar popup
+- `close()` - closes calendar popup
 
 ## Events
 - `dayselected` - Fires when a day is selected or range selection is completed
