@@ -1,9 +1,9 @@
 @import '../../core/ids-base';
 
 ::slotted(.options) {
-  border-top: 1px solid #B7B7BA;
+  border-top: 1px solid #b7b7ba;
   padding-top: 4px;
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
 .ids-checkbox {
@@ -16,22 +16,16 @@
 }
 
 ids-trigger-field {
-
   ids-tag {
     display: flex;
     align-self: center;
     margin-top: 4px;
     margin-left: 4px;
-
-    /*&[disabled="true"]{
-
-    }*/
   }
 }
 
-:host([tags=true]) {
+:host([tags='true']) {
   ids-trigger-field {
-
     &::part(content-area) {
       width: 100%;
       display: flex;
@@ -40,6 +34,7 @@ ids-trigger-field {
       max-height: 120px;
       overflow-y: auto;
     }
+
     &::part(input) {
       flex: 1;
     }
