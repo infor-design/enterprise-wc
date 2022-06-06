@@ -90,8 +90,14 @@
     padding-bottom: 0;
   }
 
-  &[mode='dark'] ids-popup::part(popup) {
-    @include bg-slate-80();
+  &[mode='dark'] {
+    ids-popup::part(popup) {
+      @include bg-slate-80();
+    }
+
+    ids-popup::part(arrow)::after {
+      border-bottom-color: var(--ids-color-palette-slate-80);
+    }
   }
 
   .popup-footer {
