@@ -94,9 +94,18 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     &:first-child {
       border-left-style: hidden;
     }
+
+    &.align-center .ids-data-grid-header-cell-content {
+      justify-content: center;
+    }
+
+    &.align-right .ids-data-grid-header-cell-content {
+      direction: rtl;
+      justify-content: flex-start;
+    }
   }
 
-  .ids-data-grid-header-cell-content-wrapper {
+  .ids-data-grid-header-cell-content {
     @include flex();
   }
 
@@ -660,6 +669,10 @@ table.ids-data-grid {
 
     &:last-child {
       border-left-style: hidden;
+    }
+
+    &.align-right .ids-data-grid-header-cell-content {
+      direction: ltr;
     }
   }
 }

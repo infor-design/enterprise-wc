@@ -710,7 +710,7 @@ export default class IdsDataGridFilters {
       }
     });
 
-    this.root.headerCheckbox?.closest('.ids-data-grid-header-cell-content-wrapper')?.classList?.add('vertical-align-center');
+    this.root.headerCheckbox?.closest('.ids-data-grid-header-cell-content')?.classList?.add('vertical-align-center');
   }
 
   /**

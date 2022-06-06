@@ -77,4 +77,6 @@ export interface IdsDataGridColumn {
   icon?: string;
   /** Align the column to either `left`, `center` or `right` */
   align?: string;
+  /** Seperately align the header to either `left`, `center` or `right` */
+  headerAlign?: string;
 }

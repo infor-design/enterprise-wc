@@ -14,12 +14,15 @@
   - link: auto-fit.html
     type: Example
     description: Showing a data grid that sizes to the size of the parent container
-  - link: columns-custom-css.html
-    type: Example
-    description: Showing initialy hidden columns
   - link: columns-auto.html
     type: Example
     description: Showing auto column widths
+  - link: columns-alignment.html
+    type: Example
+    description: Showing column and header alignment
+  - link: columns-custom-css.html
+    type: Example
+    description: Showing initialy hidden columns
   - link: columns-fixed.html
     type: Example
     description: Showing fixed column widths

@@ -4,8 +4,8 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 
 ## Next
 
-- change the way the column variable is appended
-- header alignment (center, right, left)
+- grouped headers
+- column resize
 
 ## Major
 
@@ -21,7 +21,7 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 - [ ] Export Csv and Xls [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-export-from-button.html)
 - [ ] Grouped Headers [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-grouped-headers.html)
 - [ ] Toolbar [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-custom-toolbar.html)
-- [ ] Editors / Editing / Dirty [example](https://www.w3.org/TR/wai-aria-practices/examples/grid/dataGrids.html)
+- [ ] Editors / Editing / Dirty [example](https://www.w3.org/TR/wai-aria-practices/examples/grid/dataGrids.html) including https://github.com/infor-design/enterprise/issues/6338
 - [ ] Keyboard Navigation (included tabbable/not tabbable) see [standards](https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-for-layout-grids) (actionable mode, X cell navigation, X row navigation)
 - [ ] More Accessibility see [standards](https://design.infor.com/code/ids-enterprise/latest/listview#accessibility)
 - [ ] Disabled Rows [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-disabled-rows.html) test on http://localhost:4300/ids-data-grid/columns-formatters.html with disabled checkboxes
@@ -48,4 +48,3 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 - [x] Automation id's
 - [ ] Errors and Validation
 - [ ] Xss Tests
-- [ ] https://github.com/infor-design/enterprise/issues/6338

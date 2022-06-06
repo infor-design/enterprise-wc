@@ -181,11 +181,11 @@ export default class IdsDataGrid extends Base {
     // Render and append styles
     this.shadowRoot.innerHTML = '';
     this.hasStyles = false;
-    this.appendStyles();
-    this.setColumnWidths();
     template.innerHTML = html;
     this.shadowRoot.appendChild(template.content.cloneNode(true));
     this.container = this.shadowRoot.querySelector('.ids-data-grid');
+    this.appendStyles();
+    this.setColumnWidths();
     super.rerender();
 
     // Setup virtual scrolling
@@ -261,7 +261,7 @@ export default class IdsDataGrid extends Base {
       ${(column.id !== 'selectionRadio' && column.id !== 'selectionCheckbox' && column.name) ? column.name : ''}
     `.trim();
 
-    let cssClasses = 'ids-data-grid-header-cell-content-wrapper';
+    let cssClasses = 'ids-data-grid-header-cell-content';
     cssClasses += column.sortable ? ' is-sortable' : '';
 
     // Content row cell template
@@ -276,11 +276,15 @@ export default class IdsDataGrid extends Base {
 
     // Filter row cell template
     const headerFilterWrapperTemplate = this.filters?.filterTemplate(column) || '';
+    let align = column.align ? ` align-${column.align}` : '';
+    if (column.headerAlign) {
+      align += ` align-${column.headerAlign}`;
+    }
 
     // Header cell template
     const html = `
       <span
-        class="ids-data-grid-header-cell"
+        class="ids-data-grid-header-cell${align}"
         part="header-cell"
         column-id="${column.id}"
         role="columnheader"
@@ -479,16 +483,6 @@ export default class IdsDataGrid extends Base {
   setColumnWidths() {
     let css = '';
 
-    if (!this.shadowRoot.styleSheets) {
-      return;
-    }
-
-    const styleSheet = this.shadowRoot.styleSheets[0];
-
-    if (!styleSheet) {
-      return;
-    }
-
     this.visibleColumns.forEach((column: IdsDataGridColumn) => {
       // Special Columns
       if (column.id === 'selectionCheckbox' || column.id === 'selectionRadio') {
@@ -505,9 +499,7 @@ export default class IdsDataGrid extends Base {
       }
     });
 
-    styleSheet.insertRule(`:host {
-      --ids-data-grid-column-widths: ${css} !important;
-    }`);
+    this.container.style.setProperty('--ids-data-grid-column-widths', css);
   }
 
   /**

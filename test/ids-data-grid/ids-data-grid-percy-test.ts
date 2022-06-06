@@ -99,4 +99,10 @@ describe('Ids Data Grid Other Percy Tests', () => {
     await page.waitForSelector('ids-layout-grid-cell');
     await percySnapshot(page, 'ids-data-grid-columns-formatters-light');
   });
+
+  it('should not have visual regressions in column formatters (percy)', async () => {
+    await page.goto('http://localhost:4300/ids-data-grid/columns-alignment.html', { waitUntil: ['networkidle2', 'load'] });
+    await page.waitForSelector('ids-layout-grid-cell');
+    await percySnapshot(page, 'ids-data-grid-columns-alignment-light');
+  });
 });
