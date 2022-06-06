@@ -156,12 +156,20 @@ export default class IdsModal extends Base {
       }
     };
 
+    const breakpointResponse = (detectedBreakpoint: string, matches: boolean) => {
+      this.container.classList[matches ? 'remove' : 'add'](attributes.FULLSIZE);
+      this.popup.width = matches ? '' : '100%';
+      this.popup.height = matches ? '' : '100%';
+    };
+
     if (current !== val) {
       switch (val) {
         case 'always':
           clearRespondUp();
           this.setAttribute(attributes.FULLSIZE, 'always');
-          this.container.classList.add(attributes.FULLSIZE);
+          this.popup.classList.add(attributes.FULLSIZE);
+          this.popup.width = '100%';
+          this.popup.height = '100%';
           break;
         case null:
         case 'null':
@@ -169,13 +177,13 @@ export default class IdsModal extends Base {
           clearRespondUp();
           this.removeAttribute(attributes.FULLSIZE);
           this.container.classList.remove(attributes.FULLSIZE);
+          this.popup.width = '';
+          this.popup.height = '';
           break;
         default:
           this.setAttribute(attributes.FULLSIZE, val);
           this.respondUp = val;
-          this.onBreakpointUpResponse = (detectedBreakpoint: string, matches: boolean) => {
-            this.container.classList[matches ? 'remove' : 'add'](attributes.FULLSIZE);
-          };
+          this.onBreakpointUpResponse = breakpointResponse;
           this.respondToCurrentBreakpoint();
           break;
       }

@@ -1,6 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { camelCase, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import {
   getClosest,
@@ -1481,5 +1482,41 @@ export default class IdsPopup extends Base {
       arrowEl.hidden = true;
     }
     arrowEl.style[targetMargin] = `${d}px`;
+  }
+
+  set height(val: string) {
+    const newHeight = stripHTML(val);
+    const currentHeight = this.height;
+    if (currentHeight !== newHeight) {
+      if (newHeight.length) {
+        this.container.style.height = newHeight;
+        this.setAttribute(attributes.HEIGHT, newHeight);
+      } else {
+        this.container.style.height = '';
+        this.removeAttribute(attributes.HEIGHT);
+      }
+    }
+  }
+
+  get height(): string {
+    return this.container.style.height;
+  }
+
+  set width(val: string) {
+    const newWidth = stripHTML(val);
+    const currentWidth = this.width;
+    if (currentWidth !== newWidth) {
+      if (newWidth.length) {
+        this.container.style.width = newWidth;
+        this.setAttribute(attributes.WIDTH, newWidth);
+      } else {
+        this.container.style.width = '';
+        this.removeAttribute(attributes.WIDTH);
+      }
+    }
+  }
+
+  get width(): string {
+    return this.container.style.width;
   }
 }
