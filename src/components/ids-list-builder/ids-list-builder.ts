@@ -391,6 +391,8 @@ export default class IdsListBuilder extends Base {
 
     this.onEvent('click', li, () => {
       this.focusLi(li);
+      li.offEvent('click');
+
       if (!(this.getAllSelectedLiIndex().includes(+this.getFocusedLiIndex()))) {
         this.#unfocusAnySelectedLiEditor();
         this.toggleSelectedLi(li);
