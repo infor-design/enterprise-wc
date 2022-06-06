@@ -34,12 +34,7 @@ class IdsMultiselect extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.#populateSelected();
-    Base.prototype.connectedCallback.apply(this);
-
-
-    requestAnimationFrame(() => {
-      this.resetDirtyTracker();
-    });
+    this.resetDirtyTracker();
   }
 
   /**
@@ -88,7 +83,6 @@ class IdsMultiselect extends Base {
     if (valueSafe !== this.getAttribute(stringToNumber(attributes.MAX))) {
       if (valueSafe) {
         this.setAttribute(attributes.MAX, value);
-        // #updateMaxSelections(value);
       } else {
         this.removeAttribute(attributes.MAX);
       }
@@ -249,6 +243,7 @@ class IdsMultiselect extends Base {
       selectedOptions.forEach((option) => {
         if (!this.#selectedList.includes(option.getAttribute('value'))) {
           option.querySelector('ids-checkbox').checked = 'false';
+          option.classList.remove('.is-selected');
           optionsContainer.insertBefore(option, optionsContainer.children[optionsContainer.children.length]);
         }
       });
