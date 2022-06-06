@@ -270,7 +270,7 @@ export default class IdsColorPicker extends Base {
 
   /** @see IdsClearableMixin.appendClearableButton() */
   appendClearableButton() {
-    const noColorSwatch = this.swatches.find((e: IdsColor) => !e.hex);
+    const noColorSwatch = this.swatches.find((e: IdsColor) => !e.getAttribute(attributes.HEX));
     if (!noColorSwatch) {
       this.append(new IdsColor());
       this.#configureSwatches();
@@ -279,7 +279,7 @@ export default class IdsColorPicker extends Base {
 
   /** @see IdsClearableMixin.removeClearableButton() */
   removeClearableButton() {
-    const noColorSwatch = this.swatches.find((e: IdsColor) => !e.hex);
+    const noColorSwatch = this.swatches.find((e: IdsColor) => !e.getAttribute(attributes.HEX));
     noColorSwatch?.remove();
   }
 

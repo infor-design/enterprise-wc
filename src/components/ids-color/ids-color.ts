@@ -158,7 +158,6 @@ export default class IdsColor extends Base {
 
   /** Invoked each time the custom element is added to the DOM */
   connectedCallback(): void {
-    this.#detachEventHandlers();
     this.#attachEventHandlers();
   }
 
@@ -170,18 +169,20 @@ export default class IdsColor extends Base {
 
   /** Handle events */
   #attachEventHandlers(): void {
+    this.#detachEventHandlers();
+
     this.popup.target = this;
-    this.onEvent('mouseenter', this, this.showTooltip);
-    this.onEvent('mouseover', this, this.showTooltip);
-    this.onEvent('mouseout', this, this.hideTooltip);
-    this.onEvent('mouseleave', this, this.hideTooltip);
+    this.onEvent('mouseenter.ids-color-tooltip', this, this.showTooltip);
+    this.onEvent('mouseover.ids-color-tooltip', this, this.showTooltip);
+    this.onEvent('mouseout.ids-color-tooltip', this, this.hideTooltip);
+    this.onEvent('mouseleave.ids-color-tooltip', this, this.hideTooltip);
   }
 
   /** Detach event handlers */
   #detachEventHandlers(): void {
-    this.offEvent('mouseenter', this);
-    this.offEvent('mouseover', this);
-    this.offEvent('mouseout', this);
-    this.offEvent('mouseleave', this);
+    this.offEvent('mouseenter.ids-color-tooltip', this);
+    this.offEvent('mouseover.ids-color-tooltip', this);
+    this.offEvent('mouseout.ids-color-tooltip', this);
+    this.offEvent('mouseleave.ids-color-tooltip', this);
   }
 }

@@ -186,7 +186,7 @@ describe('Ids Color Picker Component', () => {
     expect(colorpicker.swatches).toBeTruthy();
   });
 
-  it.skip('should select on enter', () => {
+  it('should select on enter', () => {
     colorpicker = createFromTemplate(`<ids-color-picker id="color-picker-1" readonly="true" value="#941E1E" label="Readonly Color Picker"><ids-color hex="#383838"></ids-color></ids-color-picker>`);
     colorpicker.popup.visible = true;
     (document.querySelector('#color-picker-1 > ids-color[hex="#383838"]') as any).focus();
@@ -197,7 +197,7 @@ describe('Ids Color Picker Component', () => {
     expect(colorpicker.value).toEqual('#383838');
   });
 
-  it.skip('should select on enter when checked', () => {
+  it('should select on enter when checked', () => {
     colorpicker = createFromTemplate(`<ids-color-picker id="color-picker-1" readonly="true" value="#941E1E" label="Readonly Color Picker"><ids-color hex="#999999" checked="true"></ids-color></ids-color-picker>`);
     colorpicker.popup.visible = true;
     (document.querySelector('#color-picker-1 > ids-color[hex="#999999"]') as any).focus();
