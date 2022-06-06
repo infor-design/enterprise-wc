@@ -6,10 +6,20 @@
  keywords: Modal, Dialog
  examples:
   - link: example.html
+    type: Main Example
     description: Showing a simple modal example
+  - link: focus.html
+    type: Example
+    description: Demonstrates Focus Capture behavior
+  - link: fullsize.html
+    type: Example
+    description: Demonstrates Breakpoints and "fullsize" behavior
   - link: nested.html
+    Type: Example
     description: Showing a test page for nested modals
   - link: side-by-side.html
+    type: Example
     description: Showing a modal side by side with 4.x
   - link: visible.html
+    type: Example
     description: Showing a modal thats always visible
