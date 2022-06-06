@@ -294,6 +294,9 @@ export default class IdsListBuilder extends Base {
 
       const newEntry = true;
       this.#insertSelectedLiWithEditor(newEntry);
+      this.focusLi(newSwappableItem);
+      this.#attachClickListenersForLi(newSwappableItem);
+      this.#attachKeyboardListenersForLi(newSwappableItem);
 
       this.triggerEvent('itemAdd', this, {
         detail: this.getListItemData(newSwappableItem)
