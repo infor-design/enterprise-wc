@@ -197,18 +197,18 @@ describe('Ids Date Picker e2e Tests', () => {
   });
 
   it('should handle validation', async () => {
-    let isRequired = await page.$eval('#e2e-datepicker-required', (el: any) => el.validate === 'required');
+    let isRequired = await page.$eval('#e2e-datepicker-required', (el: any) => el.validate?.includes('required'));
     let validationEvents = await page.$eval('#e2e-datepicker-required', (el: any) => el.validationEvents);
 
     expect(isRequired).toBeTruthy();
-    expect(validationEvents).toEqual('change blur');
+    expect(validationEvents).toEqual('blur');
 
     await page.evaluate(() => {
       (document.querySelector as any)('#e2e-datepicker-required').validate = null;
       (document.querySelector as any)('#e2e-datepicker-required').validationEvents = null;
     });
 
-    isRequired = await page.$eval('#e2e-datepicker-required', (el: any) => el.validate === 'required');
+    isRequired = await page.$eval('#e2e-datepicker-required', (el: any) => el.validate?.includes('required'));
     validationEvents = await page.$eval('#e2e-datepicker-required', (el: any) => el.validationEvents);
 
     expect(isRequired).toBeFalsy();

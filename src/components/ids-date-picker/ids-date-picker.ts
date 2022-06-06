@@ -205,6 +205,7 @@ class IdsDatePicker extends Base {
             placeholder="${this.placeholder}"
             size="${this.size}"
             ${this.validate ? `validate="${this.validate}"` : ''}
+            validation-events="${this.validationEvents}"
             value="${this.value}"
             ${colorVariant}${fieldHeight}${compact}${noMargins}${labelState}
           >
