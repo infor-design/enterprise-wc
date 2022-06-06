@@ -935,36 +935,10 @@ class IdsDatePicker extends Base {
     }
   }
 
-  #getPicklistMonths(): string | undefined {
-    const monthsList: Array<string> = MONTH_KEYS.map((item) => this.locale?.translate(`MonthWide${item}`));
-
-    const months: string = monthsList?.map((item: string, index: number) => `<li
-        data-month="${index}"
-        class="picklist-item is-month${index === PICKLIST_LENGTH - 1 || index === 11 ? ' is-last' : ''}"
-      ><ids-text>${item}</ids-text></li>`).filter(
-      (_, index: number) => (this.month <= PICKLIST_LENGTH - 1 && index <= PICKLIST_LENGTH - 1)
-        || (this.month > PICKLIST_LENGTH - 1 && index > PICKLIST_LENGTH - 1)
-    ).join('');
-
-    return months;
-  }
-
-  #getPicklistWeeks(): string | undefined {
-    const currentWeek: number = weekNumber(new Date(this.year, this.month, this.day));
-    const startWeek: number = currentWeek <= PICKLIST_LENGTH ? 1 : currentWeek - 2;
-    const weeks: string = Array.from({ length: PICKLIST_LENGTH }).map((_, index) => {
-      const weekIndex: number = startWeek + index;
-      const week: number = this.#getWeekNumber(weekIndex);
-
-      return `<li
-        data-week="${week}"
-        class="picklist-item is-week${index === PICKLIST_LENGTH - 1 ? ' is-last' : ''}"
-      ><ids-text>${week}</ids-text></li>`;
-    }).join('');
-
-    return weeks;
-  }
-
+  /**
+   * Get a list of years to be attached to the picklist
+   * @returns {string|undefined} years list items
+   */
   #getPicklistYears(): string | undefined {
     const disabledSettings: IdsDisableSettings = getClosest(this, 'ids-month-view')?.disable;
     const startYear: number = this.year - 2;
@@ -979,6 +953,44 @@ class IdsDatePicker extends Base {
     }).join('');
 
     return years;
+  }
+
+  /**
+   * Get a list of months to be attached to the picklist
+   * @returns {string|undefined} months list items
+   */
+  #getPicklistMonths(): string | undefined {
+    const monthsList: Array<string> = MONTH_KEYS.map((item) => this.locale?.translate(`MonthWide${item}`));
+
+    const months: string = monthsList?.map((item: string, index: number) => `<li
+        data-month="${index}"
+        class="picklist-item is-month${index === PICKLIST_LENGTH - 1 || index === 11 ? ' is-last' : ''}"
+      ><ids-text>${item}</ids-text></li>`).filter(
+      (_, index: number) => (this.month <= PICKLIST_LENGTH - 1 && index <= PICKLIST_LENGTH - 1)
+        || (this.month > PICKLIST_LENGTH - 1 && index > PICKLIST_LENGTH - 1)
+    ).join('');
+
+    return months;
+  }
+
+  /**
+   * Get a list of week numbers to be attached to the picklist
+   * @returns {string|undefined} week numbers items
+   */
+  #getPicklistWeeks(): string | undefined {
+    const currentWeek: number = weekNumber(new Date(this.year, this.month, this.day));
+    const startWeek: number = currentWeek <= PICKLIST_LENGTH ? 1 : currentWeek - 2;
+    const weeks: string = Array.from({ length: PICKLIST_LENGTH }).map((_, index) => {
+      const weekIndex: number = startWeek + index;
+      const week: number = this.#getWeekNumber(weekIndex);
+
+      return `<li
+        data-week="${week}"
+        class="picklist-item is-week${index === PICKLIST_LENGTH - 1 ? ' is-last' : ''}"
+      ><ids-text>${week}</ids-text></li>`;
+    }).join('');
+
+    return weeks;
   }
 
   /**
@@ -1040,7 +1052,7 @@ class IdsDatePicker extends Base {
   }
 
   /**
-   * Helper to loop through the year list and increase/descrese year depends on the param
+   * Loop through the year list and increase/descrese year depends on the param
    * @param {boolean} isNext increase/descrese picklist year
    */
   #picklistYearPaged(isNext: boolean) {
@@ -1066,7 +1078,7 @@ class IdsDatePicker extends Base {
   }
 
   /**
-   * Helper to cycle through the entire list of the months
+   * Loop through the entire list of the months
    */
   #picklistMonthPaged() {
     const monthsList: Array<string> = MONTH_KEYS.map((item) => this.locale?.translate(`MonthWide${item}`));
@@ -1087,7 +1099,7 @@ class IdsDatePicker extends Base {
   }
 
   /**
-   * Helper to loop through the week list and increase/descrese week depends on the param
+   * Loop through the week list and increase/descrese week depends on the param
    * @param {boolean} isNext increase/descrese picklist week
    */
   #picklistWeekPaged(isNext: boolean) {
@@ -1105,8 +1117,13 @@ class IdsDatePicker extends Base {
     });
   }
 
+  /**
+   * Helper to get week number from paginated index
+   * @param {number} weekIndex index number as it comes from the paged loop
+   * @returns {number} week number
+   */
   #getWeekNumber(weekIndex: number) {
-    // Get number of weeks in the year by getting week number of the last day of the year
+    // Get total number of weeks in the year by getting week number of the last day of the year
     const totalWeeks = weekNumber(new Date(this.year, 11, 31), this.firstDayOfWeek);
 
     if (weekIndex > totalWeeks) {
@@ -1120,6 +1137,10 @@ class IdsDatePicker extends Base {
     return weekIndex;
   }
 
+  /**
+   * Set month and day params based on week number
+   * @param {number} week number of a week
+   */
   #setWeekDate(week: number) {
     const date = weekNumberToDate(this.year, week, this.firstDayOfWeek);
 
@@ -2172,6 +2193,10 @@ class IdsDatePicker extends Base {
     btn?.classList.toggle('is-visible', boolVal);
   }
 
+  /**
+   * show-picklist-year attribute, default is true
+   * @returns {boolean} showPicklistYear param converted to boolean from attribute value
+   */
   get showPicklistYear(): boolean {
     const attrVal = this.getAttribute(attributes.SHOW_PICKLIST_YEAR);
 
@@ -2182,6 +2207,10 @@ class IdsDatePicker extends Base {
     return true;
   }
 
+  /**
+   * Whether or not to show a list of years in the picklist
+   * @param {string | boolean | null} val value to be set as show-picklist-year attribute converted to boolean
+   */
   set showPicklistYear(val: string | boolean | null) {
     const boolVal = stringToBool(val);
 
@@ -2189,6 +2218,10 @@ class IdsDatePicker extends Base {
     this.#monthView?.setAttribute(attributes.SHOW_PICKLIST_YEAR, boolVal);
   }
 
+  /**
+   * show-picklist-month attribute, default is true
+   * @returns {boolean} showPicklistMonth param converted to boolean from attribute value
+   */
   get showPicklistMonth(): boolean {
     const attrVal = this.getAttribute(attributes.SHOW_PICKLIST_MONTH);
 
@@ -2199,6 +2232,10 @@ class IdsDatePicker extends Base {
     return true;
   }
 
+  /**
+   * Whether or not to show a list of months in the picklist
+   * @param {string | boolean | null} val value to be set as show-picklist-month attribute converted to boolean
+   */
   set showPicklistMonth(val: string | boolean | null) {
     const boolVal = stringToBool(val);
 
@@ -2206,10 +2243,18 @@ class IdsDatePicker extends Base {
     this.#monthView?.setAttribute(attributes.SHOW_PICKLIST_MONTH, boolVal);
   }
 
+  /**
+   * show-picklist-week attribute
+   * @returns {boolean} showPicklistWeek param converted to boolean from attribute value
+   */
   get showPicklistWeek(): boolean {
     return stringToBool(this.getAttribute(attributes.SHOW_PICKLIST_WEEK));
   }
 
+  /**
+   * Whether or not to show week numbers in the picklist
+   * @param {string | boolean | null} val value to be set as show-picklist-week attribute converted to boolean
+   */
   set showPicklistWeek(val: string | boolean | null) {
     const boolVal = stringToBool(val);
 

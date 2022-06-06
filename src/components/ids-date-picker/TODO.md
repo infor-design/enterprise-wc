@@ -22,9 +22,8 @@ https://www.figma.com/file/y1oT4NPGJA78EzUNssZYsG/Calendar?node-id=1%3A2269&view
 
 ## Minor
 
-- [] Add week numbers when design approved https://github.com/infor-design/enterprise/issues/5785
-- [] Add mobility changes when design approved https://github.com/infor-design/enterprise/issues/5763 (some need to be confirmed)
+- [x] Add week numbers when design approved https://github.com/infor-design/enterprise/issues/5785
+- [x] Add mobility changes when design approved https://github.com/infor-design/enterprise/issues/5763 (some need to be confirmed)
 - [x] Add test for this case https://github.com/infor-design/enterprise/issues/5255
 - [x] Add side by side example
-- [] Fix bug https://github.com/infor-design/enterprise/issues/4605
 - [x] Figure out https://main-enterprise.demo.design.infor.com/components/datepicker/example-month-year-format.html if needed?

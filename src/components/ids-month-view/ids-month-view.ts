@@ -1690,6 +1690,10 @@ class IdsMonthView extends Base {
     this.#renderMonth();
   }
 
+  /**
+   * show-picklist-year attribute, default is true
+   * @returns {boolean} showPicklistYear param converted to boolean from attribute value
+   */
   get showPicklistYear(): boolean {
     const attrVal = this.getAttribute(attributes.SHOW_PICKLIST_YEAR);
 
@@ -1700,12 +1704,20 @@ class IdsMonthView extends Base {
     return true;
   }
 
+  /**
+   * Whether or not to show a list of years in the toolbar datepicker picklist
+   * @param {string | boolean | null} val value to be set as show-picklist-year attribute converted to boolean
+   */
   set showPicklistYear(val: string | boolean | null) {
     const boolVal = stringToBool(val);
 
     this.setAttribute(attributes.SHOW_PICKLIST_YEAR, boolVal);
   }
 
+  /**
+   * show-picklist-month attribute, default is true
+   * @returns {boolean} showPicklistMonth param converted to boolean from attribute value
+   */
   get showPicklistMonth(): boolean {
     const attrVal = this.getAttribute(attributes.SHOW_PICKLIST_MONTH);
 
@@ -1716,16 +1728,28 @@ class IdsMonthView extends Base {
     return true;
   }
 
+  /**
+   * Whether or not to show a list of months in the toolbar datepicker picklist
+   * @param {string | boolean | null} val value to be set as show-picklist-month attribute converted to boolean
+   */
   set showPicklistMonth(val: string | boolean | null) {
     const boolVal = stringToBool(val);
 
     this.setAttribute(attributes.SHOW_PICKLIST_MONTH, boolVal);
   }
 
+  /**
+   * show-picklist-week attribute
+   * @returns {boolean} showPicklistWeek param converted to boolean from attribute value
+   */
   get showPicklistWeek(): boolean {
     return stringToBool(this.getAttribute(attributes.SHOW_PICKLIST_WEEK));
   }
 
+  /**
+   * Whether or not to show week numbers in the toolbar datepicker picklist
+   * @param {string | boolean | null} val value to be set as show-picklist-week attribute converted to boolean
+   */
   set showPicklistWeek(val: string | boolean | null) {
     const boolVal = stringToBool(val);
 

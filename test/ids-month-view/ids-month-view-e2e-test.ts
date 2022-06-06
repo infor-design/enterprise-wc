@@ -974,4 +974,65 @@ describe('Ids Month View e2e Tests', () => {
 
     expect(todayEl).not.toBeNull();
   });
+
+  it('should show week numbers picklist', async () => {
+    await page.evaluate(() => {
+      document.querySelector('ids-container')?.insertAdjacentHTML(
+        'afterbegin',
+        `<ids-month-view
+          id="e2e-month-view-week"
+          compact="true"
+          show-picklist-week="true"
+          year="2022"
+          month="5"
+          day="6"
+        ></ids-month-view>`
+      );
+
+      // Expand picklist
+      const datePicker = (document.querySelector('#e2e-month-view-week') as any)?.container.querySelector('ids-date-picker');
+
+      if (datePicker) {
+        datePicker.expanded = true;
+      }
+    });
+
+    const getSelectedWeek = () => page.$eval(
+      '#e2e-month-view-week',
+      (el: any) => el?.container.querySelector('ids-date-picker')
+        ?.container.querySelector('.is-week.is-selected')?.textContent
+    );
+
+    // If week numbers picklist is set month picklist doesn't appear
+    const monthPicker = await page.$eval('#e2e-month-view-week', (el: any) => el?.container.querySelector('.is-month'));
+
+    expect(monthPicker).toBeNull();
+
+    // Current week number
+    expect(+await getSelectedWeek()).toEqual(23);
+
+    // Select another week, first in the list
+    await page.$eval(
+      '#e2e-month-view-week',
+      (el: any) => el?.container.querySelector('ids-date-picker')?.container.querySelector('.is-week')?.click()
+    );
+
+    expect(+await getSelectedWeek()).toEqual(21);
+
+    // Up/down buttons
+    await page.$eval(
+      '#e2e-month-view-week',
+      (el: any) => el?.container.querySelector('ids-date-picker')?.container.querySelector('.is-week-nav')?.click()
+    );
+
+    expect(+await getSelectedWeek()).toEqual(15);
+
+    await page.$eval(
+      '#e2e-month-view-week',
+      (el: any) => el?.container.querySelector('ids-date-picker')
+        ?.container.querySelector('.is-btn-down.is-week-nav')?.click()
+    );
+
+    expect(+await getSelectedWeek()).toEqual(21);
+  });
 });
