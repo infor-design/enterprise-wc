@@ -17,7 +17,7 @@ examples:
   - link: overlay-opacity.html
     type: Overlay opacity message example
     description: Showing a list of messages with different opacity
-  - link: modal-event.html
+  - link: events.html
     type: Modal events listener example
     description: Showing modal events triggers on message
   - link: side-by-side.html
