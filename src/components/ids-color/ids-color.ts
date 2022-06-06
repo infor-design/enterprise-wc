@@ -158,9 +158,6 @@ export default class IdsColor extends Base {
 
   /** Invoked each time the custom element is added to the DOM */
   connectedCallback(): void {
-    if (!this.hasAttribute(attributes.HEX)) {
-      this.setAttribute(attributes.HEX, '');
-    }
     this.#detachEventHandlers();
     this.#attachEventHandlers();
   }

@@ -11,6 +11,7 @@ The Color Picker by default supports colors within a pre-configured palette of I
 ## Settings and Attributes
 - `value` {string} Sets the value attribute to displayed the color of selected `value="#b94e4e"`
 - `label` {string} Sets the label attribute which will be displayed above the color picker web component `label="Color Picker"`
+- `clearable` {boolean} Sets the clearable attribute which will add the empty color swatch to the list of colors `clearable="true"` Valid values are 'true' | 'false'
 - `disabled` {boolean} Sets the disabled attribute which will disabled the entire color picker web component `disabled="true"` Valid values are 'true' | 'false'
 - `readonly` {boolean} Sets the readonly attribute. Valid values are 'true' | 'false'
 - `suppress-labels` {boolean} If true, the color-swatches will display hex-values instead of labels. Valid values are 'true' | 'false'

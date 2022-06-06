@@ -46,17 +46,14 @@ export default class IdsColorPicker extends Base {
 
   /** Invoked each time the custom element is added to the DOM */
   connectedCallback() {
-    super.connectedCallback?.();
-
     if (!this.swatches.length) {
       this.append(...this.defaultSwatches);
     }
 
-    this.append(new IdsColor());
+    super.connectedCallback?.();
 
     this.#updateColor(this.value);
     this.#configureSwatches();
-    this.#detachEventHandlers();
     this.#attachEventHandlers();
   }
 
@@ -72,6 +69,7 @@ export default class IdsColorPicker extends Base {
       ...super.attributes,
       attributes.ADVANCED,
       attributes.CHECKED,
+      attributes.CLEARABLE,
       attributes.DISABLED,
       attributes.SUPPRESS_LABELS,
       attributes.READONLY,
@@ -213,7 +211,7 @@ export default class IdsColorPicker extends Base {
       const [cssVarName, label, colorCategory, colorCode] = cssVar.match(COLOR_PALETTE_CSS_VAR_REGEX) || [];
       color.label = label;
       color.tooltip = `${colorCategory} ${colorCode}`;
-      color.hex = getComputedStyle(document.documentElement).getPropertyValue(cssVarName);
+      color.hex = getComputedStyle(this.parentElement).getPropertyValue(cssVarName) || `var(${cssVarName})`;
       color.classList.add((Number(colorCode) < 40) ? 'light' : 'dark');
       return color;
     });
@@ -268,6 +266,21 @@ export default class IdsColorPicker extends Base {
    */
   get advanced(): boolean | string {
     return stringToBool(this.getAttribute(attributes.ADVANCED)) || false;
+  }
+
+  /** @see IdsClearableMixin.appendClearableButton() */
+  appendClearableButton() {
+    const noColorSwatch = this.swatches.find((e: IdsColor) => !e.hex);
+    if (!noColorSwatch) {
+      this.append(new IdsColor());
+      this.#configureSwatches();
+    }
+  }
+
+  /** @see IdsClearableMixin.removeClearableButton() */
+  removeClearableButton() {
+    const noColorSwatch = this.swatches.find((e: IdsColor) => !e.hex);
+    noColorSwatch?.remove();
   }
 
   /**
@@ -413,6 +426,8 @@ export default class IdsColorPicker extends Base {
 
   /** Handle events */
   #attachEventHandlers(): void {
+    this.#detachEventHandlers();
+
     // Respond to clicks on Color Picker swatches
     this.onEvent('click.color-picker-container', this.container, (event: MouseEvent) => {
       const isEditable = !stringToBool(this.readonly)

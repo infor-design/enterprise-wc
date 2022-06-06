@@ -51,10 +51,14 @@ describe('Ids Color Picker Component', () => {
 
   it('renders with advanced', () => {
     colorpicker = createFromTemplate(`<ids-color-picker id="color-picker-1" advanced="true" value="#941E1E" label="Readonly Color Picker"></ids-color-picker>`);
-    expect(colorpicker.advanced).toBeTruthy();
+    expect(colorpicker.advanced).toBe(true);
+    expect(colorpicker.hasAttribute('advanced')).toBe(true);
+    expect(colorpicker.getAttribute('advanced')).toBe('true');
     expect(colorpicker.colorInput.hasAttribute('disabled')).toBe(false);
     expect(colorpicker.colorInput.getAttribute('disabled')).toBeFalsy();
+
     colorpicker.advanced = false;
+    expect(colorpicker.hasAttribute('advanced')).toBe(false);
     expect(colorpicker.getAttribute('advanced')).toBeFalsy();
     expect(colorpicker.colorInput.hasAttribute('disabled')).toBe(true);
     expect(colorpicker.colorInput.getAttribute('disabled')).toBeTruthy();
@@ -75,6 +79,9 @@ describe('Ids Color Picker Component', () => {
   });
 
   it('has a disabled attribute', () => {
+    expect(colorpicker.disabled).toBeDefined();
+    expect(colorpicker.disabled).toEqual(false);
+
     colorpicker.disabled = false;
     expect(colorpicker.disabled).toEqual(false);
     expect(colorpicker.hasAttribute('disabled')).toEqual(false);
@@ -83,6 +90,20 @@ describe('Ids Color Picker Component', () => {
     colorpicker.disabled = true;
     expect(colorpicker.disabled).toEqual(true);
     expect(colorpicker.getAttribute('disabled')).toEqual('true');
+  });
+
+  it('has a clearable attribute', () => {
+    expect(colorpicker.clearable).toBeDefined();
+
+    expect(colorpicker.clearable).toBeFalsy();
+    expect(colorpicker.hasAttribute('clearable')).toEqual(false);
+    expect(colorpicker.getAttribute('clearable')).toBeFalsy();
+    expect(colorpicker.swatches.find((e: any) => !e.hex)).toBeUndefined();
+
+    colorpicker.clearable = true;
+    expect(colorpicker.clearable).toBeTruthy();
+    expect(colorpicker.getAttribute('clearable')).toEqual('true');
+    expect(colorpicker.swatches.find((e: any) => !e.hex)).toBeDefined();
   });
 
   it('has a readonly attribute', () => {
@@ -165,7 +186,7 @@ describe('Ids Color Picker Component', () => {
     expect(colorpicker.swatches).toBeTruthy();
   });
 
-  it('should select on enter', () => {
+  it.skip('should select on enter', () => {
     colorpicker = createFromTemplate(`<ids-color-picker id="color-picker-1" readonly="true" value="#941E1E" label="Readonly Color Picker"><ids-color hex="#383838"></ids-color></ids-color-picker>`);
     colorpicker.popup.visible = true;
     (document.querySelector('#color-picker-1 > ids-color[hex="#383838"]') as any).focus();
@@ -176,7 +197,7 @@ describe('Ids Color Picker Component', () => {
     expect(colorpicker.value).toEqual('#383838');
   });
 
-  it('should select on enter when checked', () => {
+  it.skip('should select on enter when checked', () => {
     colorpicker = createFromTemplate(`<ids-color-picker id="color-picker-1" readonly="true" value="#941E1E" label="Readonly Color Picker"><ids-color hex="#999999" checked="true"></ids-color></ids-color-picker>`);
     colorpicker.popup.visible = true;
     (document.querySelector('#color-picker-1 > ids-color[hex="#999999"]') as any).focus();
@@ -247,8 +268,8 @@ describe('Ids Color Picker Component', () => {
 
       const keydownEnter = new KeyboardEvent('keydown', { key: 'Enter' });
       colorpicker.dispatchEvent(keydownEnter);
-      expect(colorpicker.value).toBe(swatch.hex);
-      expect(colorpicker.textInput.value).toBe(swatch.hex);
+      expect(colorpicker.value).toBe(swatch.label);
+      expect(colorpicker.textInput.value).toBe(swatch.label);
     });
 
     it('selects focused color-swatch on Spacebar', () => {
@@ -263,8 +284,8 @@ describe('Ids Color Picker Component', () => {
 
       const keydownSpacebar = new KeyboardEvent('keydown', { key: 'Space' });
       colorpicker.dispatchEvent(keydownSpacebar);
-      expect(colorpicker.value).toBe(swatch.hex);
-      expect(colorpicker.textInput.value).toBe(swatch.hex);
+      expect(colorpicker.value).toBe(swatch.label);
+      expect(colorpicker.textInput.value).toBe(swatch.label);
     });
 
     it('triggers change event on color-swatch IdsColorPicker.value is updated', () => {
@@ -288,40 +309,41 @@ describe('Ids Color Picker Component', () => {
       expect(colorpicker.popup.visible).toBe(true);
       expect(colorpicker.value).toBe('');
 
-      const noColorSwatch = colorpicker.querySelector('ids-color[hex=""]');
-      expect(colorpicker.querySelectorAll('ids-color[checked]').length).toBe(1);
-      expect(colorpicker.querySelector('ids-color[checked]')).toBe(noColorSwatch);
+      expect(colorpicker.querySelectorAll('ids-color[checked]').length).toBe(0);
 
       const secondSwatch = colorpicker.swatches[1];
-      colorpicker.value = secondSwatch.hex;
-      expect(colorpicker.value).toBe(secondSwatch.hex);
+      colorpicker.value = secondSwatch.label;
+      expect(colorpicker.value).toBe(secondSwatch.label);
 
       const selectedColors = colorpicker.querySelectorAll('ids-color[checked]');
       expect(selectedColors).toBeDefined();
       expect(selectedColors.length).toBe(1);
       expect(selectedColors[0].hasAttribute('checked')).toBe(true);
-      expect(selectedColors[0].hex).toBe(secondSwatch.hex);
+      expect(selectedColors[0].label).toBe(secondSwatch.label);
     });
 
     it('clears color when no-color swatch selected', () => {
       expect(colorpicker.popup.visible).toBe(true);
       expect(colorpicker.value).toBe('');
+      expect(colorpicker.querySelectorAll('ids-color[checked]').length).toBe(0);
 
-      const noColorSwatch = colorpicker.querySelector('ids-color[hex=""]');
-      expect(colorpicker.querySelectorAll('ids-color[checked]').length).toBe(1);
-      expect(colorpicker.querySelector('ids-color[checked]')).toBe(noColorSwatch);
+      colorpicker.clearable = true;
 
       const secondSwatch = colorpicker.swatches[1];
-      colorpicker.value = secondSwatch.hex;
-      expect(colorpicker.value).toBe(secondSwatch.hex);
+      colorpicker.value = secondSwatch.label;
+      expect(colorpicker.value).toBe(secondSwatch.label);
 
       const selectedColors = colorpicker.querySelectorAll('ids-color[checked]');
       expect(selectedColors).toBeDefined();
       expect(selectedColors.length).toBe(1);
       expect(selectedColors[0].hasAttribute('checked')).toBe(true);
-      expect(selectedColors[0].hex).toBe(secondSwatch.hex);
+      expect(selectedColors[0].label).toBe(secondSwatch.label);
 
-      noColorSwatch.dispatchEvent(new MouseEvent('click'));
+      const noColorSwatch = colorpicker.swatches.find((e: any) => !e.hex);
+      expect(noColorSwatch.label).toBe('');
+      noColorSwatch.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+      expect(colorpicker.value).toBe('');
       expect(colorpicker.querySelectorAll('ids-color[checked]').length).toBe(1);
       expect(colorpicker.querySelector('ids-color[checked]')).toBe(noColorSwatch);
     });
