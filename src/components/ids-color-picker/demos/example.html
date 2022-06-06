@@ -11,9 +11,11 @@
       <ids-text font-size="12" type="h1">Color Picker</ids-text>
     </ids-layout-grid>
 
-    <ids-layout-grid auto="true">
+    <ids-layout-grid auto="true" cols="3">
       <ids-layout-grid-cell>
         <ids-color-picker label="Default Color Picker"></ids-color-picker>
+
+        <ids-color-picker label="Clearable Color Picker" value="ruby-80" clearable></ids-color-picker>
 
         <ids-color-picker label="Custom Colors" value="#B94E4E">
           <ids-color hex="#1A1A1A"></ids-color>
@@ -93,14 +95,14 @@
         <ids-color-picker label="Suppress Tooltips" value="#3B1470" suppress-tooltips></ids-color-picker>
 
         <ids-color-picker label="Suppress Lables + Tooltips" value="#3B1470" suppress-labels suppress-tooltips></ids-color-picker>
+      </ids-layout-grid-cell>
 
-        <ids-color-picker label="Clearable Color Picker" value="ruby-80" clearable></ids-color-picker>
-
+      <ids-layout-grid-cell>
         <ids-color-picker label="Disabled Color Picker" value="#941E1E" disabled></ids-color-picker>
 
         <ids-color-picker label="Readonly Color Picker" value="#941E1E" readonly="true"></ids-color-picker>
 
-        <ids-color-picker label="Validation" validate="required"></ids-color-picker>
+        <ids-color-picker label="Validation" validate="required" clearable></ids-color-picker>
 
         <ids-color-picker label="Dirty Tracker" value="#E66467" dirty-tracker></ids-color-picker>
 
