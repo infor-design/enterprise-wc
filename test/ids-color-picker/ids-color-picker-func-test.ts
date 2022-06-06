@@ -348,7 +348,34 @@ describe('Ids Color Picker Component', () => {
       expect(colorpicker.querySelector('ids-color[checked]')).toBe(noColorSwatch);
     });
 
-    it.todo('shows outline on when color-swatch is hovered');
+    it('color swatches have "outlined" class for hover', () => {
+      expect(colorpicker.popup.visible).toBe(true);
+
+      const [first, second, third] = colorpicker.swatches;
+      expect(first.classList.contains('outlined')).toBe(true);
+      expect(second.classList.contains('outlined')).toBe(true);
+      expect(third.classList.contains('outlined')).toBe(true);
+    });
+
+    it('does not have "tabindex" when IdsColorPicker.popup is visible', () => {
+      expect(colorpicker.popup.visible).toBe(true);
+
+      const [first, second, third] = colorpicker.swatches;
+      expect(first.hasAttribute('tabindex')).toBe(false);
+      expect(second.hasAttribute('tabindex')).toBe(false);
+      expect(third.hasAttribute('tabindex')).toBe(false);
+    });
+
+    it('has "tabindex" -1 when IdsColorPicker.popup is hidden to prevent tab interference', () => {
+      expect(colorpicker.popup.visible).toBe(true);
+      colorpicker.close();
+      expect(colorpicker.popup.visible).toBe(false);
+
+      const [first, second, third] = colorpicker.swatches;
+      expect(first.getAttribute('tabindex')).toBe('-1');
+      expect(second.getAttribute('tabindex')).toBe('-1');
+      expect(third.getAttribute('tabindex')).toBe('-1');
+    });
 
     it('shows color-swatch labels when IdsColorPicker.labels is true', () => {
       colorpicker.innerHTML = '';
