@@ -32,11 +32,9 @@ class IdsMultiselect extends Base {
    * Invoked each time the custom element is add into a document-connected element
    */
   connectedCallback() {
+    super.connectedCallback();
     this.#populateSelected();
-    Base.prototype.connectedCallback.apply(this);
-    requestAnimationFrame(() => {
-      this.resetDirtyTracker();
-    });
+    this.resetDirtyTracker();
   }
 
   /**
@@ -85,7 +83,6 @@ class IdsMultiselect extends Base {
     if (valueSafe !== this.getAttribute(stringToNumber(attributes.MAX))) {
       if (valueSafe) {
         this.setAttribute(attributes.MAX, value);
-        // #updateMaxSelections(value);
       } else {
         this.removeAttribute(attributes.MAX);
       }
@@ -154,13 +151,14 @@ class IdsMultiselect extends Base {
 
   #handleTagRemove(e:any) {
     const removedSelection = this.#selectedList.indexOf(e.target.closest('ids-tag').id);
-        if (removedSelection > -1) {
-          this.#selectedList.splice(removedSelection, 1);
-        }
-        this.#updateList(false);
+    if (removedSelection > -1) {
+      this.#selectedList.splice(removedSelection, 1);
+    }
+    this.#updateList(false);
   }
 
   #handleOptionClick(e:any) {
+    e.preventDefault();
     if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
       const targetOption = e.target;
       if (this.#selectedList.find((value) => value === targetOption.getAttribute('value'))) {
@@ -236,21 +234,17 @@ class IdsMultiselect extends Base {
       unselectedOptions = this.querySelectorAll('ids-list-box.options ids-list-box-option');
       unselectedOptions.forEach((option) => {
         if (this.#selectedList.includes(option.getAttribute('value'))) {
-          //window.requestAnimationFrame(() => {
-            // check change
-            selectedOptionsContainer
-              .insertBefore(option, selectedOptionsContainer.children[selectedOptionsContainer.children.length]);
-            option.querySelector('ids-checkbox').checked = true;
-          //});
+          selectedOptionsContainer
+            .insertBefore(option, selectedOptionsContainer.children[selectedOptionsContainer.children.length]);
+          option.querySelector('ids-checkbox').checked = true;
         }
       });
     } else {
       selectedOptions.forEach((option) => {
         if (!this.#selectedList.includes(option.getAttribute('value'))) {
-          //window.requestAnimationFrame(() => {
-            option.querySelector('ids-checkbox').checked = 'false';
-            optionsContainer.insertBefore(option, optionsContainer.children[optionsContainer.children.length]);
-          //});
+          option.querySelector('ids-checkbox').checked = 'false';
+          option.classList.remove('.is-selected');
+          optionsContainer.insertBefore(option, optionsContainer.children[optionsContainer.children.length]);
         }
       });
     }

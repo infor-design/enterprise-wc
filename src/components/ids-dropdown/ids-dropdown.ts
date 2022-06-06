@@ -622,7 +622,6 @@ export default class IdsDropdown extends Base {
     this.onEvent('click', this, (e: any) => {
       if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
         this.value = e.target.getAttribute('value');
-        return;
       }
 
       if (e.target.closest('ids-list-box-option')) {
@@ -743,7 +742,6 @@ export default class IdsDropdown extends Base {
    * Set the dirty tracking feature on to indicate a changed dropdown
    * @param {boolean|string} value If true will set `dirty-tracker` attribute
    */
-  /*
   set dirtyTracker(value: boolean | string) {
     const val = stringToBool(value);
     if (val) {
@@ -756,7 +754,6 @@ export default class IdsDropdown extends Base {
   }
 
   get dirtyTracker(): string { return this.getAttribute(attributes.DIRTY_TRACKER); }
-  */
 
   /**
    * Pass down `validate` attribute into IdsTriggerField
