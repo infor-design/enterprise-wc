@@ -337,12 +337,12 @@ export default class IdsDropdown extends Base {
     const valueSafe = stringToBool(value);
     if (valueSafe) {
       this.setAttribute(attributes.GROUP, valueSafe);
-      return
+      return;
     }
     this.removeAttribute(attributes.GROUP);
   }
 
-  get group(){
+  get group() {
     return this.getAttribute(attributes.GROUP);
   }
 

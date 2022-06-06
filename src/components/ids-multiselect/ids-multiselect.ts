@@ -195,10 +195,6 @@ class IdsMultiselect extends Base {
     }
   }
 
-  /**
-   * TODO: this maybe relevant to select feature update to dropdown or maybe overwritten.
-   */
-
   #updateDisplay() {
     let newValue = '';
     if (this.tags) {
