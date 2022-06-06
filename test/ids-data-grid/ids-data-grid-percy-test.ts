@@ -79,18 +79,24 @@ describe('Ids Data Grid Other Percy Tests', () => {
   it('should not have visual regressions in auto columns (percy)', async () => {
     await page.goto('http://localhost:4300/ids-data-grid/columns-auto.html', { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('ids-layout-grid-cell');
-    await percySnapshot(page, 'ids-data-grid-auto-columns-light');
+    await percySnapshot(page, 'ids-data-grid-columns-auto-light');
   });
 
   it('should not have visual regressions in fixed columns (percy)', async () => {
     await page.goto('http://localhost:4300/ids-data-grid/columns-fixed.html', { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('ids-layout-grid-cell');
-    await percySnapshot(page, 'ids-data-grid-fixed-columns-light');
+    await percySnapshot(page, 'ids-data-grid-columns-fixed-light');
   });
 
   it('should not have visual regressions in percent columns (percy)', async () => {
     await page.goto('http://localhost:4300/ids-data-grid/columns-percent.html', { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('ids-layout-grid-cell');
-    await percySnapshot(page, 'ids-data-grid-percent-columns-light');
+    await percySnapshot(page, 'ids-data-grid-columns-percent-light');
+  });
+
+  it('should not have visual regressions in column formatters (percy)', async () => {
+    await page.goto('http://localhost:4300/ids-data-grid/columns-formatters.html', { waitUntil: ['networkidle2', 'load'] });
+    await page.waitForSelector('ids-layout-grid-cell');
+    await percySnapshot(page, 'ids-data-grid-columns-formatters-light');
   });
 });

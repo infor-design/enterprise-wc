@@ -2,7 +2,7 @@ import '../ids-data-grid';
 import booksJSON from '../../../assets/data/books.json';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-columns-auto');
+const dataGrid: any = document.querySelector('#data-grid-columns-percent');
 const container: any = document.querySelector('ids-container');
 
 if (dataGrid) {

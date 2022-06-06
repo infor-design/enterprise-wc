@@ -7,13 +7,13 @@
  examples:
   - link: example.html
     type: Main Example
-    description: Shows a basic datagrid with formatters
+    description: Shows a basic data grid with formatters
   - link: auto-fit-bottom.html
     type: Example
-    description: Showing a datagrid that sizes to the bottom of the page
+    description: Showing a data grid that sizes to the bottom of the page
   - link: auto-fit.html
     type: Example
-    description: Showing a datagrid that sizes to the size of the parent container
+    description: Showing a data grid that sizes to the size of the parent container
   - link: columns-custom-css.html
     type: Example
     description: Showing initialy hidden columns
@@ -23,6 +23,9 @@
   - link: columns-fixed.html
     type: Example
     description: Showing fixed column widths
+  - link: columns-formatters.html
+    type: Example
+    description: Showing every formatter
   - link: columns-hidden.html
     type: Example
     description: Showing how to add custom styles to cells
@@ -40,32 +43,32 @@
     description: Showing a filter row
   - link: list-style.html
     type: Example
-    description: Shows a datagrid with readonly list styling
+    description: Shows a data grid with readonly list styling
   - link: mixed-selection.html
     type: Example
-    escription: Shows a datagrid with mixed selection
+    escription: Shows a data grid with mixed selection
   - link: multiple-selection.html
     type: Example
-    description: Shows a datagrid with multiple selection
+    description: Shows a data grid with multiple selection
   - link: pagination-client-side.html
     type: Example
-    description: Showing a datagrid with client-side pagination
+    description: Showing a data grid with client-side pagination
   - link: pagination-server-side.html
     type: Example
-    description: Showing a datagrid with server-side pagination
+    description: Showing a data grid with server-side pagination
   - link: pagination-standalone.html
     type: Example
-    description: Showing a datagrid with standalone pagination
+    description: Showing a data grid with standalone pagination
   - link: side-by-side.html
     type: Side by Side
-    description: Showing a datagrid next to a 4.x datagrid
+    description: Showing a data grid next to a 4.x data grid
   - link: single-selection.html
     type: Example
-    description: Shows a datagrid with single selection
+    description: Shows a data grid with single selection
   - link: standalone-css.html
     type: Standalone CSS
     description: Shows a css only styles table
   - link: virtual-scroll.html
     type: Example
-    description: Shows a basic datagrid with virtual scrolling
+    description: Shows a basic data grid with virtual scrolling
 

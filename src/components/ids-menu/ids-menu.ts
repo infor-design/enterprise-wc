@@ -260,7 +260,7 @@ export default class IdsMenu extends Base {
   }
 
   /**
-   * Set the data array of the datagrid
+   * Set the data array of the data grid
    * @param {Array<any>|object} value The array to use
    * @returns {void}
    */

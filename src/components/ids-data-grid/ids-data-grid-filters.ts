@@ -685,7 +685,7 @@ export default class IdsDataGridFilters {
       }
 
       // Timepicker needs a different element to use for targeting outside clicks
-      // (normally it targets the body tag, but this causes usability issues when combined with datagrid)
+      // (normally it targets the body tag, but this causes usability issues when combined with data grid)
       if (timePicker) {
         timePicker.popupOpenEventsTarget = timePicker.closest('.ids-data-grid');
         timePicker.elements.popup.y = 16;

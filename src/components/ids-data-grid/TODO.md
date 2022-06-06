@@ -4,6 +4,9 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 
 ## Next
 
+- change the way the column variable is appended
+- header alignment (center, right, left)
+
 ## Major
 
 - [x] Hidden Columns
@@ -21,7 +24,7 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 - [ ] Editors / Editing / Dirty [example](https://www.w3.org/TR/wai-aria-practices/examples/grid/dataGrids.html)
 - [ ] Keyboard Navigation (included tabbable/not tabbable) see [standards](https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-for-layout-grids) (actionable mode, X cell navigation, X row navigation)
 - [ ] More Accessibility see [standards](https://design.infor.com/code/ids-enterprise/latest/listview#accessibility)
-- [ ] Disabled Rows [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-disabled-rows.html)
+- [ ] Disabled Rows [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-disabled-rows.html) test on http://localhost:4300/ids-data-grid/columns-formatters.html with disabled checkboxes
 - [ ] Grouped Rows [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-grouping-filter.html)
 - [ ] Tooltips [example](https://main-enterprise.demo.design.infor.com/components/datagrid/tooltips.html)
 - [ ] Tree [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-tree.html)
@@ -39,6 +42,7 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 - [ ] Nested Datagrid [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-nested-grids.html)
 - [ ] Editor Placeholder [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-placeholder.html)
 - [ ] Context Menu
+- [ ] Contextual Toolbar
 - [ ] Paste/Copy from Excel [example](https://main-enterprise.demo.design.infor.com/components/datagrid/test-copy-paste-from-excel.html)
 - [ ] Summary Row [example](https://main-enterprise.demo.design.infor.com/components/datagrid/test-summary-row-pager.html)
 - [x] Automation id's

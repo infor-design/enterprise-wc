@@ -7,7 +7,7 @@ const cssLink = `<link href="${css}" rel="stylesheet">`;
 document.querySelector('head')?.insertAdjacentHTML('afterbegin', cssLink);
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-columns-css');
+const dataGrid: any = document.querySelector('#data-grid-custom-css');
 const container: any = document.querySelector('ids-container');
 
 if (dataGrid) {

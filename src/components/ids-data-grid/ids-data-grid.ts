@@ -238,12 +238,12 @@ export default class IdsDataGrid extends Base {
    */
   headerCellTemplate(column: IdsDataGridColumn) {
     const selectionCheckBoxTemplate = `
-      <span class="ids-datagrid-checkbox-container">
+      <span class="ids-data-grid-checkbox-container">
         <span
           role="checkbox"
           aria-checked="false"
           aria-label="${column.name}"
-          class="ids-datagrid-checkbox"
+          class="ids-data-grid-checkbox"
         >
         </span>
       </span>
@@ -358,7 +358,7 @@ export default class IdsDataGrid extends Base {
    * @param {object} row The data item for the row
    * @param {object} column The column data for the row
    * @param {object} index The running index
-   * @param {object} api The entire datagrid api
+   * @param {object} api The entire data grid api
    * @returns {string} The template to display
    */
   cellTemplate(row: Record<string, unknown>, column: IdsDataGridColumn, index: number, api: this) {
@@ -393,29 +393,37 @@ export default class IdsDataGrid extends Base {
       const row = cell.parentNode;
       const rowNum = row.getAttribute('aria-rowindex') - 1;
       const isHyperlink = this.visibleColumns[cellNum]?.formatter?.name === 'hyperlink' && e.target?.nodeName === 'IDS-HYPERLINK';
-      const isClickable = this.visibleColumns[cellNum]?.formatter?.name === 'button' && e.target?.nodeName === 'IDS-BUTTON';
+      const isButton = this.visibleColumns[cellNum]?.formatter?.name === 'button' && e.target?.nodeName === 'IDS-BUTTON';
+      const isClickable = isButton || isHyperlink;
+
+      // Focus Cell
       this.setActiveCell(cellNum, rowNum, isHyperlink);
 
+      // Handle mixed selection
       if (this.rowSelection === 'mixed') {
-        if (cell.children[0].classList.contains('ids-datagrid-checkbox-container')) {
+        if (cell.children[0].classList.contains('ids-data-grid-checkbox-container')) {
           this.#handleRowSelection(row);
         } else {
           this.#handleRowActivation(row);
         }
         return;
       }
-      if (isClickable && this.visibleColumns[cellNum].click !== undefined) {
+
+      // Handle click callbacks
+      if (isClickable && this.visibleColumns[cellNum].click !== undefined && !e.target?.getAttribute('disabled')) {
         (this.visibleColumns[cellNum] as any).click({
           rowData: this.data[rowNum],
           columnData: this.visibleColumns[cellNum],
           event: e
         });
       }
+
+      // Handle selection if not disabled
       this.#handleRowSelection(row);
     });
 
     // Add a click to the table header
-    this.headerCheckbox = this.shadowRoot.querySelector('.ids-data-grid-header .ids-datagrid-checkbox-container .ids-datagrid-checkbox');
+    this.headerCheckbox = this.shadowRoot.querySelector('.ids-data-grid-header .ids-data-grid-checkbox-container .ids-data-grid-checkbox');
     this.offEvent('click.select', this.headerCheckbox);
     this.onEvent('click.select', this.headerCheckbox, (e: any) => {
       if (e.target.classList.contains('checked') || e.target.classList.contains('indeterminate')) {
@@ -481,7 +489,7 @@ export default class IdsDataGrid extends Base {
       return;
     }
 
-    this.visibleColumns.forEach((column: IdsDataGridColumn, i: number) => {
+    this.visibleColumns.forEach((column: IdsDataGridColumn) => {
       // Special Columns
       if (column.id === 'selectionCheckbox' || column.id === 'selectionRadio') {
         column.width = 45;
@@ -495,7 +503,6 @@ export default class IdsDataGrid extends Base {
       if (!column.width) {
         css += `minmax(110px, 1fr)`;
       }
-      console.log(css, this.visibleColumns.length, i);
     });
 
     styleSheet.insertRule(`:host {
@@ -583,7 +590,7 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
-   * Set the columns array of the datagrid
+   * Set the columns array of the data grid
    * @param {Array} value The array to use
    */
   set columns(value) {
@@ -594,7 +601,7 @@ export default class IdsDataGrid extends Base {
   get columns() { return this?.currentColumns || [{ id: '', name: '' }]; }
 
   /**
-   * Set the data array of the datagrid
+   * Set the data array of the data grid
    * @param {Array} value The array to use
    */
   set data(value) {
@@ -840,14 +847,14 @@ export default class IdsDataGrid extends Base {
     }
 
     if (this.rowSelection === 'multiple' || this.rowSelection === 'mixed') {
-      const checkbox = row.querySelector('.ids-datagrid-checkbox');
+      const checkbox = row.querySelector('.ids-data-grid-checkbox');
       checkbox?.classList.add('checked');
       checkbox?.setAttribute('aria-checked', 'true');
     }
 
     if (this.rowSelection === 'single') {
       this.deSelectAllRows();
-      const radio = row.querySelector('.ids-datagrid-radio');
+      const radio = row.querySelector('.ids-data-grid-radio');
       radio?.classList.add('checked');
       radio?.setAttribute('aria-checked', 'true');
     }
@@ -883,13 +890,13 @@ export default class IdsDataGrid extends Base {
     row.classList.remove('selected');
 
     if (this.rowSelection === 'multiple' || this.rowSelection === 'mixed') {
-      const checkbox = row.querySelector('.ids-datagrid-checkbox');
+      const checkbox = row.querySelector('.ids-data-grid-checkbox');
       checkbox?.classList.remove('checked');
       checkbox?.setAttribute('aria-checked', 'false');
     }
 
     if (this.rowSelection === 'single') {
-      const radio = row.querySelector('.ids-datagrid-radio');
+      const radio = row.querySelector('.ids-data-grid-radio');
       radio?.classList.remove('checked');
       radio?.setAttribute('aria-checked', 'false');
     }

@@ -2,24 +2,24 @@
 
 ## Description
 
-The datagrid component (ids-data-grid) is used to arrange tabular data in rows and columns for easier scanning and comparison. Data grids are very configurable in both design and functionality and they can be found within almost every product/app.
+The data grid component (ids-data-grid) is used to arrange tabular data in rows and columns for easier scanning and comparison. Data grids are very configurable in both design and functionality and they can be found within almost every product/app.
 
 You should pass an array of objects in to the grid on the `dataset` object. Also pass the `columns` array for the column information. There are a number of events described in the events and API section, as well as the column settings.
 
-A Read-Only Datagrid uses "Formatters" to render cell content. A number of these are listed in the API section and it is possible to create your own.
+A Read-Only data grid uses "Formatters" to render cell content. A number of these are listed in the API section and it is possible to create your own.
 
 ## Use Cases
 
-- The datagrid component is most useful when it is used for categorically sorting dense and repetitive information. Each individual item is listed down the Y axis of the chart, and their shared attribute categories are listed along the X axis. The resulting cells are filled with information that is relevant to the corresponding item and attribute.
+- The data grid component is most useful when it is used for categorically sorting dense and repetitive information. Each individual item is listed down the Y axis of the chart, and their shared attribute categories are listed along the X axis. The resulting cells are filled with information that is relevant to the corresponding item and attribute.
 
 ## Terminology
 
-- **Datagrid Title**: The name of the datagrid optionally appearing above the grid and describing the contents.
-- **Options**: An optionally actions menu button with datagrid functionality that operates on the entire datagrid contents.
-- **Cell**: Body elements of the datagrid that contain an object's value or attribute. Cells should only contain one type of content or it can be confusing and hurt accessibility.
+- **Title**: The name of the data grid optionally appearing above the grid and describing the contents.
+- **Options**: An optionally actions menu button with functionality that operates on the entire data grid.
+- **Cell**: Body elements of the data grid that contain an object's value or attribute. Cells should only contain one type of content or it can be confusing and hurt accessibility.
 - **Header Cell**: These cells contain the names of the columns in the grid and related functions like filtering and sorting. All cells below the header cell will hold values related to the attribute in the header cell.
 - **Column**: Cells stacked vertically that contain values relate to the attribute found on the top header cell.
-- **Row**: Each row contains one cell per column in the DataGrid, and each cell displays a single value in the bound data item.
+- **Row**: Each row contains one cell per column in the data grid, and each cell displays a single value in the bound data item.
 
 ## Themeable Parts
 
@@ -33,7 +33,7 @@ A Read-Only Datagrid uses "Formatters" to render cell content. A number of these
 
 ## Features (With Code Examples)
 
-A datagrid is created by adding an `ids-data-grid` html element in the page and setting the options either inline in the markup or in the JS part of the code. You can only use simple types (string, boolean ect) for inline markup so passing the data and column arrangement is always done in the JS part. The data will be an array of objects so its in the correct tabular form. The columns are also an array of object but with defined options and types. (See Columns in next section)
+A data grid is created by adding an `ids-data-grid` html element in the page and setting the options either inline in the markup or in the JS part of the code. You can only use simple types (string, boolean ect) for inline markup so passing the data and column arrangement is always done in the JS part. The data will be an array of objects so its in the correct tabular form. The columns are also an array of object but with defined options and types. (See Columns in next section)
 
 ```html
 <ids-data-grid id="data-grid-1" data-automation-id="data-grid-1-automation" alternate-row-shading="true"></ids-data-grid>
@@ -47,7 +47,7 @@ dataGrid.columns = columns;
 
 ### Selection
 
-The datagrid selection feature involves the setting `rowSelection`. This can be one of several values.
+The data grid selection feature involves the setting `rowSelection`. This can be one of several values.
 
 - `false` No selection enabled.
 - `multiple` Allows multiple rows to be selected. When doing this it is recommended to add a `formatters.selectionCheckbox` for the first column.
@@ -92,9 +92,9 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 - `virtualScroll` {boolean} When virtual scroll is used the grid can render many thousands of rows and only the rows visible in the scroll area are rendered for performance. This setting has limitations such as the rows need to be fixed size.
 - `alternateRowShading` {boolean} For better scan-ability you can shade alternate rows.
 - `listStyle` {boolean} Sets the style of the grid to list style for simple readonly lists.
-- `columns` {Array<object>} Sets the data array of the datagrid. This can be a JSON Array.
+- `columns` {Array<object>} Sets the data array of the data grid. This can be a JSON Array.
 - `rowHeight` {string | `'xs'` | `'sm'` | `'md'` | `'lg'`} Sets the height of each row
-- `data` {Array<object>} Sets the columns array of the datagrid. See column settings.
+- `data` {Array<object>} Sets the columns array of the data grid. See column settings.
 - `rowSelection` {string|boolean} Set the row selection mode between false, 'single', 'multiple' and 'mixed
 - `suppressRowDeactivation` {boolean} Set to true to prevent rows from being deactivated if clicked. i.e. once a row is activated, it remains activated until another row is activated in its place.
 - `suppressRowDeselection`  {boolean} Set to true to prevent rows from being deselected if click or space bar the row. i.e. once a row is selected, it remains selected until another row is selected in its place.
@@ -110,6 +110,7 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 |`formatter`| {Function} | Controls how the data is rendered in the cell.|
 |`hidden` | {boolean} | Excludes the column from being added to the DOM.|
 |`align` | {string} | Can be `left` or `right` or `center`. |
+|`disabled` | {boolean|Function} | Sets the cell contents to disabled, can also use a callback to determine this dynamically. Only checkboxes, radios, buttons and link columns can be disabled at this time. Selection columns require disabled rows in order to not be clickable/selectable. |
 |`width` | {number|string} | The column width, this can be an integer for fixed pixel width or a percent for example `10%`, if left off the columns will be sized to contents and to fit the width of the grid using the css table browsers handling (this is known as `auto` columns). I.E. There are three column configurations: `auto`, `fixed` and `percent`. |
 |`cssPart` | {string} | Allows you to set the name of a css part that can be used to customize the cell's css. This can be a string or a function. See the columns-custom-css example. The default cssPart for cells is called `cell` and it also can be used for more global changes.  |
 
@@ -556,8 +557,8 @@ The following events are relevant to data-grid filters.
 
 ## Responsive Guidelines
 
-- By default, datagrid grows depending on the amount of contents within and will scroll if necessary under the header. It stops growing when it reaches the size of the parent container.
-- `autoFit` property or `auto-fit` attribute can be set manually to make the datagrid size fill and be responsive to the size of the screen, regardless of the amount of contents.
+- By default, data grid grows depending on the amount of contents within and will scroll if necessary under the header. It stops growing when it reaches the size of the parent container.
+- `autoFit` property or `auto-fit` attribute can be set manually to make the data grid size fill and be responsive to the size of the screen, regardless of the amount of contents.
 
 ## Converting from Previous Versions (Breaking Changes)
 
@@ -565,7 +566,7 @@ The following events are relevant to data-grid filters.
 - Counts have all new markup and classes.
 
 **4.x to 5.x**
-- Datagrid has all new markup and a custom element but similarly named options
+- Data grid has all new markup and a custom element but similarly named options
 - Still uses same columns and data set options. Some column options enhanced and changed.
 - If using events events are now plain JS events for example: sorted, rendered
 - Some Api Functions have changed

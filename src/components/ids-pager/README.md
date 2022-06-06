@@ -172,7 +172,7 @@ All elements will flip to the alternate side in Right To Left mode, including us
 **3.x to 4.x**
 
 - This did not exist as a standalone component
-- Datagrid paging has new options - see datagrid docs
+- Datagrid paging has new options - see data grid docs
 
 **4.x to 5.x**
 

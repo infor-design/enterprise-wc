@@ -236,11 +236,10 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-cell').length).toEqual(dataGrid.columns.length * 9);
     });
 
-    it('skips re-rerender of no data', () => {
+    it('skips re-rerender if no data', () => {
       dataGrid.columns = [];
       dataGrid.data = [];
       dataGrid.syncAndRerenderBody();
-      dataGrid.virtualScroll = {};
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
     });
 
@@ -323,6 +322,9 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.rowPixelHeight).toEqual(35);
 
       dataGrid.rowHeight = 'xs';
+      expect(dataGrid.rowPixelHeight).toEqual(30);
+
+      dataGrid.syncAndRerenderBody();
       expect(dataGrid.rowPixelHeight).toEqual(30);
     });
   });
@@ -449,6 +451,24 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row > .ids-data-grid-cell:nth-child(2)').classList.contains('align-right')).toBeTruthy();
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row > .ids-data-grid-cell:nth-child(3)').classList.contains('align-left')).toBeTruthy();
     });
+
+    it('supports setting percent width', () => {
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        align: 'center',
+        width: '50%'
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency',
+        align: 'right',
+        width: '50%'
+      }];
+      // TODO: fix this test when we change why the styleSheet is set
+    });
   });
 
   describe('Sorting Tests', () => {
@@ -491,9 +511,27 @@ describe('IdsDataGrid Component', () => {
       expect(mockCallback.mock.calls.length).toBe(1);
     });
 
+    it('can sort by field vs id', () => {
+      const mockCallback = jest.fn((x) => {
+        expect(x.detail.elem).toBeTruthy();
+        expect(x.detail.sortColumn.id).toEqual('publishTime');
+        expect(x.detail.sortColumn.ascending).toEqual(true);
+      });
+
+      dataGrid.addEventListener('sort', mockCallback);
+      dataGrid.setSortColumn('publishTime');
+
+      expect(mockCallback.mock.calls.length).toBe(1);
+    });
+
     it('sets sort state via the API', () => {
       dataGrid.setSortState('description');
       expect(dataGrid.shadowRoot.querySelectorAll('[column-id]')[2].getAttribute('aria-sort')).toBe('ascending');
+    });
+
+    it('wont error in columnDataByHeaderElem', () => {
+      const badQuery = dataGrid.container.querySelector('.ids-data-grid-header-cell:nth-child(1000)');
+      expect(dataGrid.columnDataByHeaderElem(badQuery)).toBe(undefined);
     });
 
     it('handles wrong ID on sort', () => {
@@ -622,10 +660,10 @@ describe('IdsDataGrid Component', () => {
 
     it('can render with the password formatter', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[16].querySelector('.text-ellipsis').innerHTML).toEqual('**');
+        .querySelectorAll('.ids-data-grid-cell')[16].querySelector('.text-ellipsis').innerHTML).toEqual('••');
 
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
-        .querySelectorAll('.ids-data-grid-cell')[16].querySelector('.text-ellipsis').innerHTML).toEqual('**');
+        .querySelectorAll('.ids-data-grid-cell')[16].querySelector('.text-ellipsis').innerHTML).toEqual('••');
     });
 
     it('can render with the rowNumber formatter', () => {
@@ -732,6 +770,15 @@ describe('IdsDataGrid Component', () => {
 
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[6]
         .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink')).toBeFalsy();
+    });
+
+    it('can render disabled hyperlink', () => {
+      dataGrid.columns[10].disabled = (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101;
+      dataGrid.rerender();
+      const link = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-hyperlink');
+      expect(link.disabled).toBeTruthy();
+      const link2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-hyperlink');
+      expect(link2.disabled).toBeFalsy();
     });
 
     it('can render with the button formatter (with click function)', () => {
@@ -1026,7 +1073,22 @@ describe('IdsDataGrid Component', () => {
       dataGrid.rowSelection = 'single';
       dataGrid.columns = newColumns;
 
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-datagrid-radio').length).toEqual(9);
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-radio').length).toEqual(9);
+    });
+
+    it('can disable the selectionRadio', () => {
+      const newColumns = deepClone(columns());
+      newColumns[0].id = 'selectionRadio';
+      newColumns[0].formatter = formatters.selectionRadio;
+      newColumns[0].disabled = (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101;
+      dataGrid.rowSelection = 'single';
+      dataGrid.columns = newColumns;
+
+      dataGrid.rerender();
+      const radio = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelectorAll('.ids-data-grid-cell .ids-data-grid-radio')[0];
+      expect(radio.classList.contains('disabled')).toBeTruthy();
+      const radio2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelectorAll('.ids-data-grid-cell .ids-data-grid-radio')[0];
+      expect(radio2.classList.contains('disabled')).toBeFalsy();
     });
 
     it('removes rowSelection on setting to false', () => {
@@ -1100,6 +1162,21 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.selectedRows.length).toBe(9);
       dataGrid.headerCheckbox.click();
       expect(dataGrid.selectedRows.length).toBe(0);
+    });
+
+    it('can disable the selectionCheckbox', () => {
+      const newColumns = deepClone(columns());
+      newColumns[0].id = 'selectionCheckbox';
+      newColumns[0].formatter = formatters.selectionCheckbox;
+      newColumns[0].disabled = (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101;
+      dataGrid.rowSelection = 'multiple';
+      dataGrid.columns = newColumns;
+
+      dataGrid.rerender();
+      const link = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelectorAll('.ids-data-grid-cell .ids-data-grid-checkbox')[0];
+      expect(link.classList.contains('disabled')).toBeTruthy();
+      const link2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelectorAll('.ids-data-grid-cell .ids-data-grid-checkbox')[0];
+      expect(link2.classList.contains('disabled')).toBeFalsy();
     });
 
     it('can select a row with space key', () => {
