@@ -3,7 +3,12 @@
  */
 import IdsInput from '../../src/components/ids-input/ids-input';
 import { IdsMaskOptions } from '../../src/components/ids-mask/ids-mask-common';
-import { autoCorrectedDatePipe, dateMask, numberMask } from '../../src/components/ids-mask/ids-masks';
+import {
+  autoCorrectedDatePipe,
+  dateMask,
+  rangeDateMask,
+  numberMask
+} from '../../src/components/ids-mask/ids-masks';
 
 const CREDIT_CARD_MASK = [/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
 const PHONE_NUMBER_MASK = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
@@ -137,6 +142,33 @@ describe('IdsInput (Masked)', () => {
     input.value = '01012020';
 
     expect(input.value).toEqual('01/01/2020');
+  });
+
+  it('can format range dates', () => {
+    input.mask = rangeDateMask;
+    input.maskPipe = autoCorrectedDatePipe;
+    input.maskOptions = {
+      format: 'M/d/yyyy',
+      delimeter: ' - ',
+      symbols: {
+        separator: '/'
+      }
+    };
+    input.value = '111111111111111111';
+
+    expect(input.value).toEqual('11/11/1111 - 11/11/1111');
+
+    input.value = '';
+    input.value = '10/15/2018 - 10/20/2018';
+
+    expect(input.value).toEqual('10/15/2018 - 10/20/2018');
+
+    // Change the date format
+    input.maskOptions.format = 'MM/dd/yyyy';
+    input.value = '';
+    input.value = '0101202001082020';
+
+    expect(input.value).toEqual('01/01/2020 - 01/08/2020');
   });
 
   it('can use the shorthand "date" to actviate the built-in date mask', () => {
