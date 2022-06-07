@@ -28,21 +28,40 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ===================================================================
+  // Resize Observer for displaying current window width
+  const sizeDisplayEl: any = document.querySelector('#current-window-width');
+  const ro = new ResizeObserver(() => {
+    sizeDisplayEl.innerHTML = `${window.innerWidth}px`;
+  });
+  ro.observe(document.querySelector('body') as any);
+
+  // ===================================================================
   // Build the Radio Buttons that represent different fullsize settings
   const sizeRadioContainer: any = document.querySelector('#sizes');
-  const fullsizeValues: Array<any> = [null, ...Object.keys(breakpoints).reverse(), 'always'];
+  const fullsizeValues: Array<string | null> = [null, ...Object.keys(breakpoints).reverse(), 'always'];
 
   // Render IdsRadios representing actual breakpoint values
   let radioHTML = '';
   fullsizeValues.forEach((val) => {
     let radioText = val;
+    let breakpointSize = '';
+    let checked = '';
+
+    if (val !== null && val !== 'always') {
+      breakpointSize = breakpoints[val];
+    }
     if (val === null) {
       radioText = 'Never';
+      checked = ' checked';
     }
     if (val === 'always') {
-      radioText = 'always';
+      radioText = 'Always';
     }
-    radioHTML += `<ids-radio value="${val}" label="${radioText}"></ids-radio>`;
+    if (breakpointSize.length) {
+      radioText += ` (${breakpointSize})`;
+    }
+
+    radioHTML += `<ids-radio value="${val}" label="${radioText}"${checked}></ids-radio>`;
   });
   sizeRadioContainer.insertAdjacentHTML('beforeend', radioHTML);
 

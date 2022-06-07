@@ -149,23 +149,17 @@ export default class IdsModal extends Base {
 
   set fullsize(val: IdsModalFullsizeAttributeValue) {
     const current = this.fullsize;
-    const clearRespondUp = () => {
-      if (this.respondUp) {
-        this.respondUp = undefined;
-        this.onBreakpointUpResponse = undefined;
+    const clearResponse = () => {
+      if (this.respondDown) {
+        this.respondDown = undefined;
+        this.onBreakpointDownResponse = undefined;
       }
-    };
-
-    const breakpointResponse = (detectedBreakpoint: string, matches: boolean) => {
-      this.container.classList[matches ? 'remove' : 'add'](attributes.FULLSIZE);
-      this.popup.width = matches ? '' : '100%';
-      this.popup.height = matches ? '' : '100%';
     };
 
     if (current !== val) {
       switch (val) {
         case 'always':
-          clearRespondUp();
+          clearResponse();
           this.setAttribute(attributes.FULLSIZE, 'always');
           this.popup.classList.add(attributes.FULLSIZE);
           this.popup.width = '100%';
@@ -174,7 +168,7 @@ export default class IdsModal extends Base {
         case null:
         case 'null':
         case '':
-          clearRespondUp();
+          clearResponse();
           this.removeAttribute(attributes.FULLSIZE);
           this.container.classList.remove(attributes.FULLSIZE);
           this.popup.width = '';
@@ -182,8 +176,12 @@ export default class IdsModal extends Base {
           break;
         default:
           this.setAttribute(attributes.FULLSIZE, val);
-          this.respondUp = val;
-          this.onBreakpointUpResponse = breakpointResponse;
+          this.respondDown = val;
+          this.onBreakpointDownResponse = (detectedBreakpoint: string, matches: boolean) => {
+            this.container.classList[matches ? 'add' : 'remove'](attributes.FULLSIZE);
+            this.popup.width = matches ? '100%' : '';
+            this.popup.height = matches ? '100%' : '';
+          };
           this.respondToCurrentBreakpoint();
           break;
       }

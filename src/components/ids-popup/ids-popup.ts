@@ -114,7 +114,10 @@ export default class IdsPopup extends Base {
     if (this.open) {
       for (const entry of entries) {
         if (entry.target.tagName.toLowerCase() === 'ids-container') {
+          const animated = this.animated;
+          this.animated = false;
           this.#fixPlacementOnResize();
+          this.animated = animated;
         } else {
           this.#fix3dMatrixOnResize();
         }
@@ -127,6 +130,7 @@ export default class IdsPopup extends Base {
    * CSS property, if applicable.
    */
   #fixPlacementOnResize(): void {
+    this.#remove3dMatrix();
     this.place();
     this.#fix3dMatrixOnResize();
   }
@@ -136,16 +140,11 @@ export default class IdsPopup extends Base {
    * CSS property, if applicable.
    */
   #fix3dMatrixOnResize(): void {
-    requestAnimationFrame(() => {
-      this.style.transition = 'none';
-      this.#remove3dMatrix();
-      requestAnimationFrame(() => {
-        this.#correct3dMatrix();
-        requestAnimationFrame(() => {
-          this.style.transition = '';
-        });
-      });
-    });
+    this.style.transition = 'none';
+    this.container.style.transition = 'none';
+    this.#correct3dMatrix();
+    this.style.transition = '';
+    this.container.style.transition = '';
   }
 
   /**
@@ -1307,8 +1306,8 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   #renderPlacementWithTransform(): void {
-    this.style.left = `50%`;
-    this.style.top = `50%`;
+    // this.style.left = `50%`;
+    // this.style.top = `50%`;
   }
 
   /**
