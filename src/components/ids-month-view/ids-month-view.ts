@@ -1089,8 +1089,8 @@ class IdsMonthView extends Base {
       const month: number = date.getMonth();
       const year: number = date.getFullYear();
       const dateMatch: boolean = day === this.day && year === this.year && month === this.month;
-      const isSelected: boolean = !this.isDatePicker && !this.useRange && dateMatch;
-      const isSelectedWithRange: boolean = !this.isDatePicker && this.useRange && !this.rangeSettings.start && dateMatch;
+      const isSelected: boolean = !this.useRange && dateMatch;
+      const isSelectedWithRange: boolean = this.useRange && !this.rangeSettings.start && dateMatch;
       const isDisabled: boolean = this.isDisabledByDate(date);
       const isAlternate: boolean = !this.#isDisplayRange() && (date < firstDayOfRange || date > lastDayOfRange);
       const legend: any = this.#getLegendByDate(date);
