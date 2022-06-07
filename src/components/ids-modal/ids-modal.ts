@@ -156,32 +156,32 @@ export default class IdsModal extends Base {
       }
     };
 
+    const makeFullsize = (doFullsize: boolean) => {
+      this.popup.classList[doFullsize ? 'add' : 'remove'](attributes.FULLSIZE);
+      this.popup.width = doFullsize ? '100%' : '';
+      this.popup.height = doFullsize ? '100%' : '';
+      this.popup.place();
+      this.popup.correct3dMatrix();
+    };
+
     if (current !== val) {
       switch (val) {
         case 'always':
           clearResponse();
-          this.setAttribute(attributes.FULLSIZE, 'always');
-          this.popup.classList.add(attributes.FULLSIZE);
-          this.popup.width = '100%';
-          this.popup.height = '100%';
+          makeFullsize(true);
           break;
         case null:
         case 'null':
         case '':
           clearResponse();
           this.removeAttribute(attributes.FULLSIZE);
-          this.container.classList.remove(attributes.FULLSIZE);
-          this.popup.width = '';
-          this.popup.height = '';
+          makeFullsize(false);
           break;
         default:
           this.setAttribute(attributes.FULLSIZE, val);
           this.respondDown = val;
           this.onBreakpointDownResponse = (detectedBreakpoint: string, matches: boolean) => {
-            this.container.classList[matches ? 'add' : 'remove'](attributes.FULLSIZE);
-            this.popup.width = matches ? '100%' : '';
-            this.popup.height = matches ? '100%' : '';
-            this.popup.correct3dMatrix();
+            makeFullsize(matches);
           };
           this.respondToCurrentBreakpoint();
           break;

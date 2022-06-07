@@ -29,15 +29,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ===================================================================
   // Resize Observer for displaying current window width
-  const sizeDisplayEl: any = document.querySelector('#current-window-width');
+  const sizeDisplayEls: Array<any> = [...document.querySelectorAll('.current-window-width')];
   const ro = new ResizeObserver(() => {
-    sizeDisplayEl.innerHTML = `${window.innerWidth}px`;
+    sizeDisplayEls.forEach((el) => {
+      el.innerHTML = `${window.innerWidth}px`;
+    });
   });
   ro.observe(document.querySelector('body') as any);
 
   // ===================================================================
   // Build the Radio Buttons that represent different fullsize settings
   const sizeRadioContainer: any = document.querySelector('#sizes');
+  const breakDisplayEl: any = document.querySelector('#break');
   const fullsizeValues: Array<string | null> = [null, ...Object.keys(breakpoints).reverse(), 'always'];
 
   // Render IdsRadios representing actual breakpoint values
@@ -67,8 +70,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Change the fullsize setting on the Modal sample when radios are changed
   sizeRadioContainer.addEventListener('change', (e: Event) => {
-    if (e.target) {
-      modal.fullsize = (e.target as any).value;
+    const target: any = e.target;
+    let selected;
+
+    if (target) {
+      selected = target.querySelector(`ids-radio[value="${target.value}"]`);
+    }
+
+    if (selected) {
+      modal.fullsize = selected.value;
+      breakDisplayEl.innerHTML = `"${selected.label}"`;
     }
   });
 });
