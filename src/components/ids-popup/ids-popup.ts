@@ -114,10 +114,7 @@ export default class IdsPopup extends Base {
     if (this.open) {
       for (const entry of entries) {
         if (entry.target.tagName.toLowerCase() === 'ids-container') {
-          const animated = this.animated;
-          this.animated = false;
           this.#fixPlacementOnResize();
-          this.animated = animated;
         } else {
           this.#fix3dMatrixOnResize();
         }
@@ -142,7 +139,7 @@ export default class IdsPopup extends Base {
   #fix3dMatrixOnResize(): void {
     this.style.transition = 'none';
     this.container.style.transition = 'none';
-    this.#correct3dMatrix();
+    this.correct3dMatrix();
     this.style.transition = '';
     this.container.style.transition = '';
   }
@@ -946,13 +943,14 @@ export default class IdsPopup extends Base {
 
     // Change transparency/visibility
     this.container.classList.add('open');
+    this.open = true;
 
     if (this.animated) {
       await waitForTransitionEnd(this.container, 'opacity');
     }
 
     // Unblur if needed
-    this.#correct3dMatrix();
+    this.correct3dMatrix();
 
     this.triggerEvent('show', this, {
       bubbles: true,
@@ -960,8 +958,6 @@ export default class IdsPopup extends Base {
         elem: this
       }
     });
-
-    this.open = true;
   }
 
   /**
@@ -1317,7 +1313,7 @@ export default class IdsPopup extends Base {
    * Adapted from https://stackoverflow.com/a/42256897
    * @returns {void}
    */
-  #correct3dMatrix(): void {
+  correct3dMatrix(): void {
     if (this.positionStyle !== 'viewport') {
       return;
     }

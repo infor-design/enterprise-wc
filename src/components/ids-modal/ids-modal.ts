@@ -181,6 +181,7 @@ export default class IdsModal extends Base {
             this.container.classList[matches ? 'add' : 'remove'](attributes.FULLSIZE);
             this.popup.width = matches ? '100%' : '';
             this.popup.height = matches ? '100%' : '';
+            this.popup.correct3dMatrix();
           };
           this.respondToCurrentBreakpoint();
           break;
@@ -366,6 +367,9 @@ export default class IdsModal extends Base {
         value: undefined
       }
     });
+
+    this.popup.animated = false;
+    this.respondToCurrentBreakpoint();
   }
 
   /**
@@ -383,6 +387,8 @@ export default class IdsModal extends Base {
       this.visible = false;
       return;
     }
+
+    this.popup.animated = true;
 
     this.removeOpenEvents();
     this.overlay.visible = false;

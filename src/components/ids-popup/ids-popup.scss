@@ -214,6 +214,10 @@
     }
   }
 
+  &:not(.animated) {
+    transform: none;
+  }
+
   // style: "none" (temporary)
   // maybe makes sense to be "custom"?
   &.none {

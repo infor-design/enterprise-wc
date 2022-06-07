@@ -122,11 +122,16 @@ const IdsBreakpointMixin = (superclass: any): any => class extends superclass {
   // General
 
   respondToCurrentBreakpoint(): void {
-    if (this.#mqUp && this.#mqUp.matches) {
-      this.#mqUp.dispatchEvent(new MediaQueryListEvent('change', { bubbles: true }));
+    const simulateChangeEvent = (mq: MediaQueryList) => new MediaQueryListEvent('change', {
+      bubbles: true,
+      matches: mq.matches
+    });
+
+    if (this.#mqUp) {
+      this.#mqUp.dispatchEvent(simulateChangeEvent(this.#mqUp));
     }
-    if (this.#mqDown && this.#mqDown.matches) {
-      this.#mqDown.dispatchEvent(new MediaQueryListEvent('change', { bubbles: true }));
+    if (this.#mqDown) {
+      this.#mqDown.dispatchEvent(simulateChangeEvent(this.#mqDown));
     }
   }
 };
