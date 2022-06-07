@@ -14,6 +14,9 @@
   - link: fullsize.html
     type: Example
     description: Demonstrates Breakpoints and "fullsize" behavior
+  - link: keep-open.html
+    type: Example
+    description: Demonstrates how to keep a Modal from closing when clicking outside
   - link: nested.html
     Type: Example
     description: Showing a test page for nested modals

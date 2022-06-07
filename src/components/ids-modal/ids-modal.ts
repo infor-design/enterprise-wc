@@ -619,11 +619,6 @@ export default class IdsModal extends Base {
     if (!e || !e?.target) {
       return;
     }
-
-    const isOverlay = (e.target as any).tagName.toUpperCase() === 'IDS-OVERLAY';
-    if (this.isEqualNode(e.target) || isOverlay) {
-      return;
-    }
     this.hide();
   }
 }
