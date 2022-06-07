@@ -127,7 +127,7 @@
     border-top-color: var(--ids-color-palette-slate-50);
   }
 
-  .popup-btn-clear::part(button) {
+  .popup-btn:not(.popup-btn-apply)::part(button) {
     @include text-slate-60();
 
     &:hover {
@@ -135,13 +135,11 @@
     }
   }
 
-  .popup-btn:not([hidden]) + .popup-btn:not([hidden])::part(button) {
-    &:not(:focus) {
-      border-left-color: var(--ids-color-palette-slate-30);
-    }
+  .popup-btn:not([hidden]):not(:last-child):not(:focus)::part(button) {
+    border-right-color: var(--ids-color-palette-slate-30);
   }
 
-  &[mode='dark'] .popup-btn-clear::part(button) {
+  &[mode='dark'] .popup-btn:not(.popup-btn-apply)::part(button) {
     @include text-slate-30();
 
     &:hover {
@@ -149,13 +147,11 @@
     }
   }
 
-  &[mode='dark'] .popup-btn:not([hidden]) + .popup-btn:not([hidden])::part(button) {
-    &:not(:focus) {
-      border-left-color: var(--ids-color-palette-slate-50);
-    }
+  &[mode='dark'] .popup-btn:not([hidden]):not(:last-child):not(:focus)::part(button) {
+    border-right-color: var(--ids-color-palette-slate-50);
   }
 
-  &[mode='contrast'] .popup-btn-clear::part(button) {
+  &[mode='contrast'] .popup-btn:not(.popup-btn-apply)::part(button) {
     @include text-slate-80();
 
     &:hover {

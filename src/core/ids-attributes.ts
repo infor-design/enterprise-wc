@@ -265,6 +265,7 @@ export const attributes = {
   SELECTION: 'selection',
   SHAPE: 'shape',
   SHOW_BROWSE_LINK: 'show-browse-link',
+  SHOW_CANCEL: 'show-cancel',
   SHOW_CLEAR: 'show-clear',
   SHOW_HORIZONTAL_GRID_LINES: 'show-horizontal-grid-lines',
   SHOW_PICKLIST_MONTH: 'show-picklist-month',

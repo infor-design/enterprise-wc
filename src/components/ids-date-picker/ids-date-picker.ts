@@ -60,6 +60,7 @@ const PICKLIST_LENGTH = 6;
  * @part popup - the popup with calendar
  * @part footer - footer of the popup
  * @part btn-clear - the clear button in the calendar popup
+ * @part btn-cancel - the cancel button in the calendar popup
  * @part btn-apply - the apply button in the calendar popup
  */
 @customElement('ids-date-picker')
@@ -111,6 +112,7 @@ class IdsDatePicker extends Base {
       attributes.PLACEHOLDER,
       attributes.READONLY,
       attributes.SECOND_INTERVAL,
+      attributes.SHOW_CANCEL,
       attributes.SHOW_CLEAR,
       attributes.SHOW_PICKLIST_MONTH,
       attributes.SHOW_PICKLIST_WEEK,
@@ -233,11 +235,11 @@ class IdsDatePicker extends Base {
                 use-range="${this.useRange}"
               ></ids-month-view>
               <div class="popup-footer" part="footer">
+                <ids-button class="popup-btn popup-btn-cancel" hidden>
+                  <ids-text translate-text="true" font-weight="bold" part="btn-cancel">Cancel</ids-text>
+                </ids-button>
                 <ids-button class="popup-btn popup-btn-clear" hidden part="btn-clear">
-                  <ids-text
-                    translate-text="true"
-                    font-weight="bold"
-                  >Clear</ids-text>
+                  <ids-text translate-text="true" font-weight="bold">Clear</ids-text>
                 </ids-button>
                 <ids-button class="popup-btn popup-btn-apply" hidden part="btn-apply">
                   <ids-text translate-text="true" font-weight="bold">Apply</ids-text>
@@ -287,15 +289,21 @@ class IdsDatePicker extends Base {
   #attachExpandedListener() {
     this.offEvent('expanded.date-picker-expand');
     this.onEvent('expanded.date-picker-expand', this.#monthView?.container?.querySelector('ids-date-picker'), (e: any) => {
-      const btn = this.container.querySelector('.popup-btn-apply');
+      const btnApply = this.container.querySelector('.popup-btn-apply');
+      const btnCancel = this.container.querySelector('.popup-btn-cancel');
 
-      btn?.setAttribute('hidden', !(e.detail.expanded || (this.useRange && !this.rangeSettings.selectWeek)));
-      btn?.classList.toggle('is-visible', e.detail.expanded || (this.useRange && !this.rangeSettings.selectWeek));
+      btnApply?.setAttribute('hidden', !(e.detail.expanded || (this.useRange && !this.rangeSettings.selectWeek)));
+      btnApply?.classList.toggle('is-visible', e.detail.expanded || (this.useRange && !this.rangeSettings.selectWeek));
 
       if (e.detail.expanded) {
-        btn.removeAttribute('disabled');
+        btnApply.removeAttribute('disabled');
+
+        if (this.showCancel) {
+          btnCancel?.removeAttribute('hidden');
+        }
       } else {
-        btn?.setAttribute('disabled', !(this.rangeSettings.start && this.rangeSettings.end));
+        btnApply?.setAttribute('disabled', !(this.rangeSettings.start && this.rangeSettings.end));
+        btnCancel?.setAttribute('hidden', !e.detail.expanded);
       }
     });
   }
@@ -2192,6 +2200,28 @@ class IdsDatePicker extends Base {
     }
 
     btn?.classList.toggle('is-visible', boolVal);
+  }
+
+  /**
+   * show-cancel attribute
+   * @returns {boolean} showCancel param converted to boolean from attribute value
+   */
+  get showCancel(): boolean {
+    return stringToBool(this.getAttribute(attributes.SHOW_CANCEL));
+  }
+
+  /**
+   * Set whether or not to show cancel button when the picker is expanded
+   * @param {string|boolean|null} val show-cancel attribute value
+   */
+  set showCancel(val: string | boolean | null) {
+    const boolVal = stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.SHOW_CANCEL, boolVal);
+    } else {
+      this.removeAttribute(attributes.SHOW_CANCEL);
+    }
   }
 
   /**
