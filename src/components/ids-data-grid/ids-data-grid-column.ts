@@ -3,6 +3,17 @@ export interface IdsDataGridColumnFormatOptions {
   style?: string;
 }
 
+export interface IdsDataGridColumnGroup {
+  /* Set the id for the column group object */
+  id?: string;
+  /* Set the title/name for the column group */
+  name?: string;
+  /* Set the number of columns to span */
+  colspan: number,
+  /** Align the column text to either `left`, `center` or `right` */
+  align?: string;
+}
+
 export interface IdsDataGridColumn {
   /** The columns unique id */
   id: string;

@@ -45,6 +45,42 @@ dataGrid.data = dataset;
 dataGrid.columns = columns;
 ```
 
+### Column Groups
+
+Setting column groups allows you to add a second level of columns in your header and the ability to group the first level. This is useful for when you have a large number of columns and you want to group them into logical or related sections.
+
+Column groups are achieved by providing an array to the `columnGroups` setting. Only one level of column groups can be defined.
+
+```js
+dataGrid.columnGroups = [
+{
+    colspan: 3,
+    id: 'group1',
+    name: 'Column Group One',
+    align: 'center'
+},
+{
+    colspan: 2,
+    id: 'group2',
+    name: 'Column Group Two'
+},
+{
+    colspan: 2,
+    id: 'group3',
+    name: 'Column Group Three',
+    align: 'right'
+},
+{
+    colspan: 11,
+    id: 'group4',
+    name: 'Column Group Four',
+    align: 'left'
+}
+];
+```
+
+If the column is hidden it will be automatically removed from the `colspan`. If in the last group you didn't provided a bug enough `colspan` it will be set to the remaining columns. The `name` text can be right or left aligned and given an id. The only required property is `colspan`.
+
 ### Selection
 
 The data grid selection feature involves the setting `rowSelection`. This can be one of several values.
@@ -93,6 +129,7 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 - `alternateRowShading` {boolean} For better scan-ability you can shade alternate rows.
 - `listStyle` {boolean} Sets the style of the grid to list style for simple readonly lists.
 - `columns` {Array<object>} Sets the data array of the data grid. This can be a JSON Array.
+- `columnGroups` {Array<object>} Allows you to group columns together in logical sets. See section below for details.
 - `rowHeight` {string | `'xs'` | `'sm'` | `'md'` | `'lg'`} Sets the height of each row
 - `data` {Array<object>} Sets the columns array of the data grid. See column settings.
 - `rowSelection` {string|boolean} Set the row selection mode between false, 'single', 'multiple' and 'mixed
@@ -109,8 +146,8 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 |`readonly` | {boolean|Function} | If true the cell will be set to readonly color, indicating no editing.|
 |`formatter`| {Function} | Controls how the data is rendered in the cell.|
 |`hidden` | {boolean} | Excludes the column from being added to the DOM.|
-|`align` | {string} | Can be `left` or `right` or `center`. |
-|`disabled` | {boolean|Function} | Sets the cell contents to disabled, can also use a callback to determine this dynamically. Only checkboxes, radios, buttons and link columns can be disabled at this time. Selection columns require disabled rows in order to not be clickable/selectable. |
+|`align` | {string} | Can be `left` or `right` or `center` to align both the cell and the header. Left is the default so does not need to be specified. |
+|`headerAlign` | {string} | Can be `left` or `right` or `center` to align just the header. Left is the default so does not need to be specified. |
 |`width` | {number|string} | The column width, this can be an integer for fixed pixel width or a percent for example `10%`, if left off the columns will be sized to contents and to fit the width of the grid using the css table browsers handling (this is known as `auto` columns). I.E. There are three column configurations: `auto`, `fixed` and `percent`. |
 |`cssPart` | {string} | Allows you to set the name of a css part that can be used to customize the cell's css. This can be a string or a function. See the columns-custom-css example. The default cssPart for cells is called `cell` and it also can be used for more global changes.  |
 
@@ -120,6 +157,7 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 |---|---|---|
 |`href` | {string|Function} | Used to create the href for hyperlink formatters. This can be a string or a function that can work dynamically. It can also replace `{{value}}` with the current value. |
 |`text` | {string} | Used to create the txt value for hyperlink formatters if a hard coded link text is needed. |
+|`disabled` | {boolean|Function} | Sets the cell contents to disabled, can also use a callback to determine this dynamically. Only checkboxes, radios, buttons and link columns can be disabled at this time. Selection columns require disabled rows in order to not be clickable/selectable. |
 
 ## Formatters
 

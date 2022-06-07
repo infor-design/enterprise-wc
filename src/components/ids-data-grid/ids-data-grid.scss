@@ -80,6 +80,15 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     top: 0;
   }
 
+  // Grouped Headers
+  .ids-data-grid-column-groups {
+    @include border-0();
+    @include border-b-1();
+    @include border-solid();
+
+    border-color: $cell-border-color;
+  }
+
   // Header Cell Area
   .ids-data-grid-header-cell {
     @include border-0();

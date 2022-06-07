@@ -10,7 +10,7 @@ import IdsDataGridFilters, { IdsDataGridFilterConditions } from './ids-data-grid
 import '../ids-virtual-scroll/ids-virtual-scroll';
 
 import styles from './ids-data-grid.scss';
-import { IdsDataGridColumn } from './ids-data-grid-column';
+import { IdsDataGridColumn, IdsDataGridColumnGroup } from './ids-data-grid-column';
 
 const rowHeights: any = {
   xs: 30,
@@ -185,7 +185,7 @@ export default class IdsDataGrid extends Base {
     this.shadowRoot.appendChild(template.content.cloneNode(true));
     this.container = this.shadowRoot.querySelector('.ids-data-grid');
     this.appendStyles();
-    this.setColumnWidths();
+    this.#setColumnWidths();
     super.rerender();
 
     // Setup virtual scrolling
@@ -227,12 +227,12 @@ export default class IdsDataGrid extends Base {
         </div>
       </div>
     `;
-    return html;
+
+    return this.columnGroupsTemplate() + html;
   }
 
   /**
    * Returns the markup for a header cell.
-   * @private
    * @param {IdsDataGridColumn} column The column info
    * @returns {string} The resuling header cell template
    */
@@ -278,7 +278,7 @@ export default class IdsDataGrid extends Base {
     const headerFilterWrapperTemplate = this.filters?.filterTemplate(column) || '';
     let align = column.align ? ` align-${column.align}` : '';
     if (column.headerAlign) {
-      align += ` align-${column.headerAlign}`;
+      align = ` align-${column.headerAlign}`;
     }
 
     // Header cell template
@@ -295,6 +295,36 @@ export default class IdsDataGrid extends Base {
     `;
 
     return html;
+  }
+
+  /**
+   * Returns the markup for the grouped header cells.
+   * @returns {string} The resuling header cell template
+   */
+  columnGroupsTemplate() : string {
+    if (!this.columnGroups) {
+      return '';
+    }
+    let columnGroupHtml = `<div class="ids-data-grid-header column-groups" role="rowgroup" part="header">
+    <div role="row" class="ids-data-grid-row ids-data-grid-column-groups">`;
+
+    this.columnGroups.forEach((columnGroup: IdsDataGridColumnGroup) => {
+      const align = columnGroup.align ? ` align-${columnGroup.align}` : '';
+
+      // Header cell template
+      const html = `<span class="ids-data-grid-header-cell${align}" part="header-cell" column-group-id="${columnGroup.id || 'id'}" role="columnheader">
+        <span class="ids-data-grid-header-cell-content">
+          <span class="ids-data-grid-header-text">
+            ${columnGroup.name || ''}
+          </span>
+        </span>
+      </span>`;
+      columnGroupHtml += html;
+    });
+
+    columnGroupHtml += '</div></div>';
+
+    return columnGroupHtml;
   }
 
   /**
@@ -374,7 +404,7 @@ export default class IdsDataGrid extends Base {
    * @private
    */
   #attachEventHandlers() {
-    const header = this.shadowRoot.querySelector('.ids-data-grid-header');
+    const header = this.shadowRoot.querySelector('.ids-data-grid-header:not(.column-groups)');
 
     // Add a sort Handler
     this.offEvent('click.sort', header);
@@ -480,8 +510,8 @@ export default class IdsDataGrid extends Base {
    * and setting the css variable.
    * @private
    */
-  setColumnWidths() {
-    let css = '';
+  #setColumnWidths() {
+    let colWidths = '';
 
     this.visibleColumns.forEach((column: IdsDataGridColumn) => {
       // Special Columns
@@ -489,17 +519,42 @@ export default class IdsDataGrid extends Base {
         column.width = 45;
       }
       if (column.width && typeof column.width === 'string') {
-        css += `minmax(${column.width}, 1fr) `;
+        colWidths += `minmax(${column.width}, 1fr) `;
       }
       if (column.width && typeof column.width === 'number') {
-        css += `${column.width}px `;
+        colWidths += `${column.width}px `;
       }
       if (!column.width) {
-        css += `minmax(110px, 1fr)`;
+        colWidths += `minmax(110px, 1fr)`;
       }
     });
 
-    this.container.style.setProperty('--ids-data-grid-column-widths', css);
+    this.container.style.setProperty('--ids-data-grid-column-widths', colWidths);
+    this.#setColumnGroupsWidth();
+  }
+
+  /**
+   * Set the column groups widths based on the provided colspans.
+   * With some error handling.
+   * @private
+   */
+  #setColumnGroupsWidth() {
+    if (this.columnGroups) {
+      let counter = 1;
+
+      const groupElems = this.container.querySelector('.ids-data-grid-column-groups').childNodes;
+      this.columnGroups.forEach((group: IdsDataGridColumnGroup, index: number) => {
+        let colspan = group.colspan;
+        // decrease if hidden
+        for (let i = 1; i <= colspan; i++) {
+          if (this.columns[counter]?.hidden) {
+            colspan -= 1;
+          }
+          counter++;
+        }
+        groupElems[index].style.gridColumnStart = `span ${colspan}`;
+      });
+    }
   }
 
   /**
@@ -582,7 +637,7 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
-   * Set the columns array of the data grid
+   * Set the columns of the data grid
    * @param {Array} value The array to use
    */
   set columns(value) {
@@ -593,7 +648,18 @@ export default class IdsDataGrid extends Base {
   get columns() { return this?.currentColumns || [{ id: '', name: '' }]; }
 
   /**
-   * Set the data array of the data grid
+   * Set the columns groups of the data grid
+   * @param {Array} value The array to use
+   */
+  set columnGroups(value) {
+    this.state.columnsGroups = value;
+    this.rerender();
+  }
+
+  get columnGroups() { return this.state?.columnsGroups || null; }
+
+  /**
+   * Set the data of the data grid
    * @param {Array} value The array to use
    */
   set data(value) {

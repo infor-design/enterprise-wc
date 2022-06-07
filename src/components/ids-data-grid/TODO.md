@@ -4,7 +4,6 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 
 ## Next
 
-- grouped headers
 - column resize
 
 ## Major
@@ -19,7 +18,7 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 - [ ] Empty Message [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-empty-message.html)
 - [ ] Expandable Row [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-expandable-row.html)
 - [ ] Export Csv and Xls [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-export-from-button.html)
-- [ ] Grouped Headers [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-grouped-headers.html)
+- [x] Grouped Headers [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-grouped-headers.html)
 - [ ] Toolbar [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-custom-toolbar.html)
 - [ ] Editors / Editing / Dirty [example](https://www.w3.org/TR/wai-aria-practices/examples/grid/dataGrids.html) including https://github.com/infor-design/enterprise/issues/6338
 - [ ] Keyboard Navigation (included tabbable/not tabbable) see [standards](https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-for-layout-grids) (actionable mode, X cell navigation, X row navigation)

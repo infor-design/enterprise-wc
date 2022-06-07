@@ -452,6 +452,37 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row > .ids-data-grid-cell:nth-child(3)').classList.contains('align-left')).toBeTruthy();
     });
 
+    it('supports setting header alignment', () => {
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        align: 'center',
+        headerAlign: 'right'
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency',
+        align: 'right',
+        headerAlign: 'center'
+      },
+      {
+        id: 'transactionCurrency',
+        name: 'Transaction Currency',
+        field: 'transactionCurrency',
+        align: 'left',
+        headerAlign: 'center'
+      }];
+
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row > .ids-data-grid-cell:nth-child(1)').classList.contains('align-center')).toBeTruthy();
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row > .ids-data-grid-cell:nth-child(2)').classList.contains('align-right')).toBeTruthy();
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row > .ids-data-grid-cell:nth-child(3)').classList.contains('align-left')).toBeTruthy();
+      expect(dataGrid.container.querySelector('.ids-data-grid-header-cell:nth-child(1)').classList.contains('align-right')).toBeTruthy();
+      expect(dataGrid.container.querySelector('.ids-data-grid-header-cell:nth-child(2)').classList.contains('align-center')).toBeTruthy();
+      expect(dataGrid.container.querySelector('.ids-data-grid-header-cell:nth-child(3)').classList.contains('align-center')).toBeTruthy();
+    });
+
     it('supports setting percent width', () => {
       dataGrid.columns = [{
         id: 'price',
@@ -468,6 +499,43 @@ describe('IdsDataGrid Component', () => {
         width: '50%'
       }];
       // TODO: fix this test when we change why the styleSheet is set
+    });
+
+    it('supports column groups', () => {
+      dataGrid.columns[3].hidden = true;
+
+      dataGrid.columnGroups = [
+        {
+          colspan: 3,
+          id: 'group1',
+          name: 'Column Group One',
+          align: 'center'
+        },
+        {
+          colspan: 2,
+          id: 'group2',
+          name: ''
+        },
+        {
+          colspan: 2,
+          id: 'group3',
+          name: 'Column Group Three',
+          align: 'right'
+        },
+        {
+          colspan: 10,
+          name: 'Column Group Four',
+          align: 'left'
+        }
+      ];
+      const nodes = dataGrid.container.querySelectorAll('.ids-data-grid-column-groups > *');
+      expect(nodes.length).toEqual(4);
+      expect(nodes[0].textContent).toContain('Column Group One');
+      expect(nodes[1].textContent.replace(/^\s+|\s+$/gm, '')).toBe('');
+      expect(nodes[3].textContent).toContain('Column Group Four');
+      expect(nodes[3].getAttribute('column-group-id')).toBe('id');
+      expect(nodes[0].classList.contains('align-center')).toBeTruthy();
+      expect(nodes[2].classList.contains('align-right')).toBeTruthy();
     });
   });
 
