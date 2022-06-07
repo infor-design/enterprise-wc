@@ -340,199 +340,53 @@ class IdsDatePicker extends Base {
 
       this.offEvent('dayselected.date-picker-calendar');
       this.onEvent('dayselected.date-picker-calendar', this.#monthView, (e: IdsDayselectedEvent) => {
-        const inputDate: Date = this.locale.parseDate(this.value, { dateFormat: this.format });
-
-        // Clear action
-        // Deselect the selected date by clicking to the selected date
-        if (isValidDate(inputDate) && inputDate.getTime() === e.detail.date.getTime()) {
-          this.value = '';
-          if (this.#monthView.selectDay) {
-            this.#monthView.selectDay();
-          }
-          this.#triggerSelectedEvent();
-
-          return;
-        }
-
-        if (this.useRange) {
-          if (this.rangeSettings.selectWeek) {
-            this.value = [
-              this.locale.formatDate(this.#setTime(e.detail.rangeStart as Date), { pattern: this.format }),
-              this.rangeSettings.separator,
-              e.detail.rangeEnd && this.locale.formatDate(this.#setTime(e.detail.rangeEnd), { pattern: this.format })
-            ].filter(Boolean).join('');
-
-            this.#togglePopup(false);
-            this.focus();
-            this.#triggerSelectedEvent();
-
-            return;
-          }
-
-          const btnApply: HTMLElement = this.container.querySelector('.popup-btn-apply');
-
-          if (e.detail.rangeStart && e.detail.rangeEnd) {
-            btnApply?.removeAttribute('disabled');
-          } else {
-            btnApply?.setAttribute('disabled', 'true');
-          }
-        } else {
-          this.value = this.locale.formatDate(
-            this.#setTime(e.detail.date),
-            { pattern: this.format }
-          );
-          this.#togglePopup(false);
-          this.focus();
-          this.#triggerSelectedEvent();
-        }
+        this.#handleDaySelectedEvent(e);
       });
 
-      this.offEvent('click.date-picker-clear');
-      this.onEvent('click.date-picker-clear', this.container.querySelector('.popup-btn-clear'), (e: any) => {
+      this.offEvent('click.date-picker-footer');
+      this.onEvent('click.date-picker-footer', this.container.querySelector('.popup-footer'), (e: MouseEvent) => {
+        if (!e.target) return;
         e.stopPropagation();
 
-        if (!this.isCalendarToolbar) {
-          this.value = '';
-          this.rangeSettings = {
-            start: null,
-            end: null
-          };
-          this.#triggerField?.focus();
-          this.#triggerSelectedEvent();
+        if ((e.target as HTMLElement).closest('.popup-btn-apply')) {
+          this.#handleApplyEvent(e);
         }
 
-        this.#togglePopup(false);
-      });
-
-      this.offEvent('click.date-picker-apply');
-      this.onEvent('click.date-picker-apply', this.container.querySelector('.popup-btn-apply'), (e: any) => {
-        e.stopPropagation();
-
-        const picklist = this.#monthView?.container?.querySelector('ids-date-picker');
-
-        if (picklist?.expanded) {
-          const { month, year, day } = picklist;
-
-          this.#monthView.year = year;
-          this.#monthView.month = month;
-          this.#monthView.day = day;
-
-          picklist.expanded = false;
-
-          return;
-        }
-
-        if (this.useRange) {
-          if (this.rangeSettings.end || (this.rangeSettings.start && !this.rangeSettings.end)) {
-            this.value = [
-              this.locale.formatDate(this.#setTime(this.rangeSettings.start), { pattern: this.format }),
-              this.rangeSettings.separator,
-              this.locale.formatDate(
-                this.#setTime(this.rangeSettings.end ?? this.#monthView.activeDate),
-                { pattern: this.format }
-              ),
-            ].filter(Boolean).join('');
-
-            this.#togglePopup(false);
+        if ((e.target as HTMLElement).closest('.popup-btn-clear')) {
+          if (!this.isCalendarToolbar) {
+            this.value = '';
+            this.rangeSettings = {
+              start: null,
+              end: null
+            };
             this.#triggerField?.focus();
             this.#triggerSelectedEvent();
-          } else {
-            this.value = this.locale.formatDate(
-              this.#setTime(this.rangeSettings.start ?? this.#monthView.activeDate),
-              { pattern: this.format }
-            );
-            this.rangeSettings = {
-              start: this.#monthView.activeDate
-            };
           }
 
-          return;
+          this.#togglePopup(false);
         }
 
-        this.value = this.locale.formatDate(
-          this.#setTime(this.#monthView.activeDate),
-          { pattern: this.format }
-        );
-        this.#togglePopup(false);
-        this.#triggerField?.focus();
-        this.#triggerSelectedEvent();
+        if ((e.target as HTMLElement).closest('.popup-btn-cancel')) {
+          const picklist = this.#monthView?.container.querySelector('ids-date-picker');
+
+          if (picklist?.expanded) {
+            picklist.expanded = false;
+          }
+        }
       });
     }
 
     if (this.isDropdown) {
       this.offEvent('click.date-picker-dropdown');
-      this.onEvent('click.date-picker-dropdown', this.container.querySelector('ids-toggle-button'), (e: any) => {
+      this.onEvent('click.date-picker-dropdown', this.container.querySelector('ids-toggle-button'), (e: MouseEvent) => {
         e.stopPropagation();
 
         this.expanded = !this.expanded;
       });
 
       this.offEvent('click.date-picker-picklist');
-      this.onEvent('click.date-picker-picklist', this.container.querySelector('.picklist'), (e: any) => {
-        if (!e.target) return;
-        e.stopPropagation();
-        const btnUpYear: HTMLElement = e.target.closest('.is-btn-up.is-year-nav');
-        const btnDownYear: HTMLElement = e.target.closest('.is-btn-down.is-year-nav');
-        const btnUpMonth: HTMLElement = e.target.closest('.is-btn-up.is-month-nav');
-        const btnDownMonth: HTMLElement = e.target.closest('.is-btn-down.is-month-nav');
-        const btnUpWeek: HTMLElement = e.target.closest('.is-btn-up.is-week-nav');
-        const btnDownWeek: HTMLElement = e.target.closest('.is-btn-down.is-week-nav');
-        const monthItem: HTMLElement = e.target.closest('.is-month');
-        const yearItem: HTMLElement = e.target.closest('.is-year');
-        const weekItem: HTMLElement = e.target.closest('.is-week');
-
-        if (btnUpYear) {
-          this.#picklistYearPaged(false);
-        }
-
-        if (btnDownYear) {
-          this.#picklistYearPaged(true);
-        }
-
-        if (btnUpMonth || btnDownMonth) {
-          this.#picklistMonthPaged();
-        }
-
-        if (btnUpWeek) {
-          this.#picklistWeekPaged(false);
-        }
-
-        if (btnDownWeek) {
-          this.#picklistWeekPaged(true);
-        }
-
-        if (monthItem) {
-          this.#unselectPicklist('month');
-          this.#selectPicklistEl(monthItem);
-          monthItem.focus();
-
-          this.month = monthItem.dataset.month as string;
-        }
-
-        if (yearItem) {
-          const disabledSettings: IdsDisableSettings = getClosest(this, 'ids-month-view')?.disable;
-          const isDisabled: boolean | undefined = disabledSettings?.years?.includes(stringToNumber(yearItem.dataset.year));
-
-          if (isDisabled) return;
-
-          this.#unselectPicklist('year');
-          this.#selectPicklistEl(yearItem);
-          yearItem.focus();
-
-          this.year = yearItem.dataset.year as string;
-        }
-
-        if (weekItem) {
-          this.#unselectPicklist('week');
-          this.#selectPicklistEl(weekItem);
-          weekItem.focus();
-
-          const week = stringToNumber(weekItem.dataset.week);
-          const date = weekNumberToDate(this.year, week, this.firstDayOfWeek);
-
-          this.month = date.getMonth();
-          this.day = date.getDate();
-        }
+      this.onEvent('click.date-picker-picklist', this.container.querySelector('.picklist'), (e: MouseEvent) => {
+        this.#handlePicklistEvent(e);
       });
     }
 
@@ -553,333 +407,12 @@ class IdsDatePicker extends Base {
 
   /**
    * Establish Internal Keyboard shortcuts
-   * @returns {object} this class-instance object for chaining
+   * @returns {IdsDatePicker} this class-instance object for chaining
    */
-  #attachKeyboardListeners(): object {
+  #attachKeyboardListeners(): IdsDatePicker {
     this.offEvent('keydown.date-picker-keyboard');
-    this.onEvent('keydown.date-picker-keyboard', this, (e: any) => {
-      const key = e.keyCode;
-      const stopEvent = () => {
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-        e.preventDefault();
-      };
-
-      // Date Picker Dropdown keyboard events
-      if (this.isDropdown) {
-        const btnUpYear: HTMLElement = this.container.querySelector('.is-btn-up.is-year-nav');
-        const btnDownYear: HTMLElement = this.container.querySelector('.is-btn-down.is-year-nav');
-        const btnUpMonth: HTMLElement = this.container.querySelector('.is-btn-up.is-month-nav');
-        const btnDownMonth: HTMLElement = this.container.querySelector('.is-btn-down.is-month-nav');
-        const btnUpWeek: HTMLElement = this.container.querySelector('.is-btn-up.is-week-nav');
-        const btnDownWeek: HTMLElement = this.container.querySelector('.is-btn-down.is-week-nav');
-        const monthSelected = this.container.querySelector('.is-month.is-selected');
-        const yearSelected = this.container.querySelector('.is-year.is-selected');
-        const weekSelected = this.container.querySelector('.is-week.is-selected');
-
-        // Enter on picklist year btn up
-        if (key === 13 && btnUpYear?.matches(':focus')) {
-          this.#picklistYearPaged(false);
-        }
-
-        // Enter on picklist year btn down
-        if (key === 13 && btnDownYear?.matches(':focus')) {
-          this.#picklistYearPaged(true);
-        }
-
-        // Enter on picklist month btn up/down
-        if (key === 13 && (btnUpMonth?.matches(':focus') || btnDownMonth?.matches(':focus'))) {
-          this.#picklistMonthPaged();
-        }
-
-        // Enter on picklist week btn up
-        if (key === 13 && btnUpWeek?.matches(':focus')) {
-          this.#picklistWeekPaged(false);
-        }
-
-        // Enter on picklist week btn down
-        if (key === 13 && btnDownWeek?.matches(':focus')) {
-          this.#picklistWeekPaged(true);
-        }
-
-        // Arrow Up on picklist month
-        if (key === 38 && monthSelected?.matches(':focus')) {
-          const month = this.month - 1;
-          const el = this.container.querySelector(`.is-month[data-month="${month}"]`);
-
-          this.#unselectPicklist('month');
-
-          if (!el) {
-            btnUpMonth?.focus();
-
-            return;
-          }
-
-          this.#selectPicklistEl(el);
-          this.month = month;
-          el?.focus();
-        }
-
-        // Arrow Down on picklist month
-        if (key === 40 && monthSelected?.matches(':focus')) {
-          const month = this.month + 1;
-          const el = this.container.querySelector(`.is-month[data-month="${month}"]`);
-
-          this.#unselectPicklist('month');
-
-          if (!el) {
-            btnDownMonth?.focus();
-
-            return;
-          }
-
-          this.#selectPicklistEl(el);
-          this.month = month;
-          el?.focus();
-        }
-
-        // Arrow Up on picklist year
-        if (key === 38 && yearSelected?.matches(':focus')) {
-          const year = this.year - 1;
-
-          const el = this.container.querySelector(`.is-year[data-year="${year}"]`);
-
-          this.#unselectPicklist('year');
-
-          if (!el) {
-            btnUpYear?.focus();
-
-            return;
-          }
-
-          this.#selectPicklistEl(el);
-          this.year = year;
-          el?.focus();
-        }
-
-        // Arrow Down on picklist year
-        if (key === 40 && yearSelected?.matches(':focus')) {
-          const year = this.year + 1;
-
-          const el = this.container.querySelector(`.is-year[data-year="${year}"]`);
-
-          this.#unselectPicklist('year');
-
-          if (!el) {
-            btnDownYear?.focus();
-
-            return;
-          }
-
-          this.#selectPicklistEl(el);
-          this.year = year;
-          el?.focus();
-        }
-
-        // Arrow Up on picklist week
-        if (key === 38 && weekSelected?.matches(':focus')) {
-          const weekIndex: number = stringToNumber(weekSelected.dataset.week) - 1;
-          const week: number = this.#getWeekNumber(weekIndex);
-          const el: HTMLElement = this.container.querySelector(`.is-week[data-week="${week}"]`);
-
-          this.#unselectPicklist('week');
-
-          if (!el) {
-            btnUpWeek?.focus();
-
-            return;
-          }
-
-          this.#selectPicklistEl(el);
-          this.#setWeekDate(week);
-
-          el?.focus();
-        }
-
-        // Arrow Down on picklist year
-        if (key === 40 && weekSelected?.matches(':focus')) {
-          const weekIndex: number = stringToNumber(weekSelected.dataset.week) + 1;
-          const week: number = this.#getWeekNumber(weekIndex);
-          const el: HTMLElement = this.container.querySelector(`.is-week[data-week="${week}"]`);
-
-          this.#unselectPicklist('week');
-
-          if (!el) {
-            btnDownWeek?.focus();
-
-            return;
-          }
-
-          this.#selectPicklistEl(el);
-          this.#setWeekDate(week);
-
-          el?.focus();
-        }
-
-        // Arrow Up on year btn up
-        if (key === 38 && btnUpYear?.matches(':focus')) {
-          btnDownYear?.focus();
-
-          return;
-        }
-
-        // Arrow Down on year btn down
-        if (key === 40 && btnDownYear?.matches(':focus')) {
-          btnUpYear?.focus();
-
-          return;
-        }
-
-        // Arrow Up on year btn down
-        if (key === 38 && btnDownYear?.matches(':focus')) {
-          const el = this.container.querySelector('.is-year.is-last');
-
-          this.#unselectPicklist('year');
-          this.#selectPicklistEl(el);
-          this.year = el?.dataset.year;
-          el?.focus();
-        }
-
-        // Arrow Down on year btn up
-        if (key === 40 && btnUpYear?.matches(':focus')) {
-          const el = this.container.querySelector('.is-year');
-
-          this.#unselectPicklist('year');
-          this.#selectPicklistEl(el);
-          this.year = el.dataset.year;
-          el?.focus();
-        }
-
-        // Arrow Up on month btn up
-        if (key === 38 && btnUpMonth?.matches(':focus')) {
-          btnDownMonth?.focus();
-
-          return;
-        }
-
-        // Arrow Down on month btn down
-        if (key === 40 && btnDownMonth?.matches(':focus')) {
-          btnUpMonth?.focus();
-
-          return;
-        }
-
-        // Arrow Up on month btn down
-        if (key === 38 && btnDownMonth?.matches(':focus')) {
-          const el = this.container.querySelector('.is-month.is-last');
-
-          this.#unselectPicklist('month');
-          this.#selectPicklistEl(el);
-          this.month = el?.dataset.month;
-          el?.focus();
-        }
-
-        // Arrow Down on month btn up
-        if (key === 40 && btnUpMonth?.matches(':focus')) {
-          const el = this.container.querySelector('.is-month');
-
-          this.#unselectPicklist('month');
-          this.#selectPicklistEl(el);
-          this.month = el.dataset.month;
-          el?.focus();
-        }
-
-        // Arrow Up on week btn up
-        if (key === 38 && btnUpWeek?.matches(':focus')) {
-          btnDownWeek?.focus();
-
-          return;
-        }
-
-        // Arrow Down on week btn down
-        if (key === 40 && btnDownWeek?.matches(':focus')) {
-          btnUpWeek?.focus();
-
-          return;
-        }
-
-        // Arrow Up on week btn down
-        if (key === 38 && btnDownWeek?.matches(':focus')) {
-          const el: HTMLElement = this.container.querySelector('.is-week.is-last');
-
-          this.#unselectPicklist('month');
-          this.#selectPicklistEl(el);
-          this.#setWeekDate(stringToNumber(el?.dataset.week));
-          el?.focus();
-        }
-
-        // Arrow Down on week btn up
-        if (key === 40 && btnUpWeek?.matches(':focus')) {
-          const el: HTMLElement = this.container.querySelector('.is-week');
-
-          this.#unselectPicklist('week');
-          this.#selectPicklistEl(el);
-          this.#setWeekDate(stringToNumber(el?.dataset.week));
-          el?.focus();
-        }
-      // Regular date picker keyboard events
-      } else {
-        // Arrow Down opens calendar popup
-        if (key === 40 && !this.#popup?.visible) {
-          stopEvent();
-
-          this.#togglePopup(true);
-        }
-
-        // Escape closes calendar popup
-        if (key === 27) {
-          stopEvent();
-
-          this.#togglePopup(false);
-          this.focus();
-        }
-
-        // Tab will loop focus inside calendar popup
-        if (key === 9 && this.#popup?.visible) {
-          // First focusable in the calendar popup is dropdown datepicker
-          const firstFocusable = this.#monthView?.container?.querySelector('ids-date-picker');
-          // Last focusable element
-          const btnClear = this.container.querySelector('.popup-btn-clear.is-visible')?.container;
-          const btnApply = this.container.querySelector('.popup-btn-apply.is-visible')?.container;
-          const dateSelected = this.#monthView?.container.querySelector('td.is-selected');
-          const lastFocusable = btnApply || btnClear || dateSelected;
-
-          if (!e.shiftKey && lastFocusable?.matches(':focus')) {
-            stopEvent();
-
-            firstFocusable.focus();
-          }
-
-          if (e.shiftKey && firstFocusable.hasFocus) {
-            stopEvent();
-
-            lastFocusable.focus();
-          }
-        }
-
-        // 't' sets today date excluding cases where wide/abbreviated months in the input
-        if (key === 84 && !this.isCalendarToolbar && !this.format.includes('MMM')) {
-          stopEvent();
-
-          this.#changeDate('today');
-        }
-
-        if (!this.isCalendarToolbar && !this.value.includes('-')) {
-          // '+' increments day
-          if (key === 187 || key === 107) {
-            stopEvent();
-
-            this.#changeDate('next-day');
-          }
-
-          // '-' decrements day
-          if (key === 189 || key === 109) {
-            stopEvent();
-
-            this.#changeDate('previous-day');
-          }
-        }
-      }
+    this.onEvent('keydown.date-picker-keyboard', this, (e: KeyboardEvent) => {
+      this.#handleKeyDownEvent(e);
     });
 
     return this;
@@ -1202,6 +735,515 @@ class IdsDatePicker extends Base {
     };
 
     this.triggerEvent('dayselected', this, args);
+  }
+
+  /**
+   * Selected event handler
+   * @param {IdsDayselectedEvent} e event from the calendar day selection
+   */
+  #handleDaySelectedEvent(e: IdsDayselectedEvent): void {
+    const inputDate: Date = this.locale.parseDate(this.value, { dateFormat: this.format });
+
+    // Clear action
+    // Deselect the selected date by clicking to the selected date
+    if (isValidDate(inputDate) && inputDate.getTime() === e.detail.date.getTime()) {
+      this.value = '';
+      if (this.#monthView.selectDay) {
+        this.#monthView.selectDay();
+      }
+      this.#triggerSelectedEvent();
+
+      return;
+    }
+
+    if (this.useRange) {
+      if (this.rangeSettings.selectWeek) {
+        this.value = [
+          this.locale.formatDate(this.#setTime(e.detail.rangeStart as Date), { pattern: this.format }),
+          this.rangeSettings.separator,
+          e.detail.rangeEnd && this.locale.formatDate(this.#setTime(e.detail.rangeEnd), { pattern: this.format })
+        ].filter(Boolean).join('');
+
+        this.#togglePopup(false);
+        this.focus();
+        this.#triggerSelectedEvent();
+
+        return;
+      }
+
+      const btnApply: HTMLElement = this.container.querySelector('.popup-btn-apply');
+
+      if (e.detail.rangeStart && e.detail.rangeEnd) {
+        btnApply?.removeAttribute('disabled');
+      } else {
+        btnApply?.setAttribute('disabled', 'true');
+      }
+    } else {
+      this.value = this.locale.formatDate(
+        this.#setTime(e.detail.date),
+        { pattern: this.format }
+      );
+      this.#togglePopup(false);
+      this.focus();
+      this.#triggerSelectedEvent();
+    }
+  }
+
+  /**
+   * Click to apply button event handler
+   * @param {MouseEvent} e click event
+   */
+  #handleApplyEvent(e: MouseEvent): void {
+    e.stopPropagation();
+
+    const picklist = this.#monthView?.container?.querySelector('ids-date-picker');
+
+    if (picklist?.expanded) {
+      const { month, year, day } = picklist;
+
+      this.#monthView.year = year;
+      this.#monthView.month = month;
+      this.#monthView.day = day;
+
+      picklist.expanded = false;
+
+      return;
+    }
+
+    if (this.useRange) {
+      if (this.rangeSettings.end || (this.rangeSettings.start && !this.rangeSettings.end)) {
+        this.value = [
+          this.locale.formatDate(this.#setTime(this.rangeSettings.start), { pattern: this.format }),
+          this.rangeSettings.separator,
+          this.locale.formatDate(
+            this.#setTime(this.rangeSettings.end ?? this.#monthView.activeDate),
+            { pattern: this.format }
+          ),
+        ].filter(Boolean).join('');
+
+        this.#togglePopup(false);
+        this.#triggerField?.focus();
+        this.#triggerSelectedEvent();
+      } else {
+        this.value = this.locale.formatDate(
+          this.#setTime(this.rangeSettings.start ?? this.#monthView.activeDate),
+          { pattern: this.format }
+        );
+        this.rangeSettings = {
+          start: this.#monthView.activeDate
+        };
+      }
+
+      return;
+    }
+
+    this.value = this.locale.formatDate(
+      this.#setTime(this.#monthView.activeDate),
+      { pattern: this.format }
+    );
+    this.#togglePopup(false);
+    this.#triggerField?.focus();
+    this.#triggerSelectedEvent();
+  }
+
+  /**
+   * Click to picklist elements event handler
+   * @param {MouseEvent} e click event
+   */
+  #handlePicklistEvent(e: MouseEvent) {
+    if (!e.target) return;
+    e.stopPropagation();
+    const btnUpYear: HTMLElement | null = (e.target as HTMLElement).closest('.is-btn-up.is-year-nav');
+    const btnDownYear: HTMLElement | null = (e.target as HTMLElement).closest('.is-btn-down.is-year-nav');
+    const btnUpMonth: HTMLElement | null = (e.target as HTMLElement).closest('.is-btn-up.is-month-nav');
+    const btnDownMonth: HTMLElement | null = (e.target as HTMLElement).closest('.is-btn-down.is-month-nav');
+    const btnUpWeek: HTMLElement | null = (e.target as HTMLElement).closest('.is-btn-up.is-week-nav');
+    const btnDownWeek: HTMLElement | null = (e.target as HTMLElement).closest('.is-btn-down.is-week-nav');
+    const monthItem: HTMLElement | null = (e.target as HTMLElement).closest('.is-month');
+    const yearItem: HTMLElement | null = (e.target as HTMLElement).closest('.is-year');
+    const weekItem: HTMLElement | null = (e.target as HTMLElement).closest('.is-week');
+
+    if (btnUpYear) {
+      this.#picklistYearPaged(false);
+    }
+
+    if (btnDownYear) {
+      this.#picklistYearPaged(true);
+    }
+
+    if (btnUpMonth || btnDownMonth) {
+      this.#picklistMonthPaged();
+    }
+
+    if (btnUpWeek) {
+      this.#picklistWeekPaged(false);
+    }
+
+    if (btnDownWeek) {
+      this.#picklistWeekPaged(true);
+    }
+
+    if (monthItem) {
+      this.#unselectPicklist('month');
+      this.#selectPicklistEl(monthItem);
+      monthItem.focus();
+
+      this.month = monthItem.dataset.month as string;
+    }
+
+    if (yearItem) {
+      const disabledSettings: IdsDisableSettings = getClosest(this, 'ids-month-view')?.disable;
+      const isDisabled: boolean | undefined = disabledSettings?.years?.includes(stringToNumber(yearItem.dataset.year));
+
+      if (isDisabled) return;
+
+      this.#unselectPicklist('year');
+      this.#selectPicklistEl(yearItem);
+      yearItem.focus();
+
+      this.year = yearItem.dataset.year as string;
+    }
+
+    if (weekItem) {
+      this.#unselectPicklist('week');
+      this.#selectPicklistEl(weekItem);
+      weekItem.focus();
+
+      const week = stringToNumber(weekItem.dataset.week);
+      const date = weekNumberToDate(this.year, week, this.firstDayOfWeek);
+
+      this.month = date.getMonth();
+      this.day = date.getDate();
+    }
+  }
+
+  /**
+   * Keyboard events handler
+   * @param {KeyboardEvent} e keyboard event
+   */
+  #handleKeyDownEvent(e: KeyboardEvent): void {
+    const key = e.keyCode;
+    const stopEvent = () => {
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      e.preventDefault();
+    };
+
+    // Date Picker Dropdown keyboard events
+    if (this.isDropdown) {
+      const btnUpYear: HTMLElement = this.container.querySelector('.is-btn-up.is-year-nav');
+      const btnDownYear: HTMLElement = this.container.querySelector('.is-btn-down.is-year-nav');
+      const btnUpMonth: HTMLElement = this.container.querySelector('.is-btn-up.is-month-nav');
+      const btnDownMonth: HTMLElement = this.container.querySelector('.is-btn-down.is-month-nav');
+      const btnUpWeek: HTMLElement = this.container.querySelector('.is-btn-up.is-week-nav');
+      const btnDownWeek: HTMLElement = this.container.querySelector('.is-btn-down.is-week-nav');
+      const monthSelected = this.container.querySelector('.is-month.is-selected');
+      const yearSelected = this.container.querySelector('.is-year.is-selected');
+      const weekSelected = this.container.querySelector('.is-week.is-selected');
+
+      // Enter on picklist year btn up
+      if (key === 13 && btnUpYear?.matches(':focus')) {
+        this.#picklistYearPaged(false);
+      }
+
+      // Enter on picklist year btn down
+      if (key === 13 && btnDownYear?.matches(':focus')) {
+        this.#picklistYearPaged(true);
+      }
+
+      // Enter on picklist month btn up/down
+      if (key === 13 && (btnUpMonth?.matches(':focus') || btnDownMonth?.matches(':focus'))) {
+        this.#picklistMonthPaged();
+      }
+
+      // Enter on picklist week btn up
+      if (key === 13 && btnUpWeek?.matches(':focus')) {
+        this.#picklistWeekPaged(false);
+      }
+
+      // Enter on picklist week btn down
+      if (key === 13 && btnDownWeek?.matches(':focus')) {
+        this.#picklistWeekPaged(true);
+      }
+
+      // Arrow Up on picklist month
+      if (key === 38 && monthSelected?.matches(':focus')) {
+        const month = this.month - 1;
+        const el = this.container.querySelector(`.is-month[data-month="${month}"]`);
+
+        this.#unselectPicklist('month');
+
+        if (!el) {
+          btnUpMonth?.focus();
+
+          return;
+        }
+
+        this.#selectPicklistEl(el);
+        this.month = month;
+        el?.focus();
+      }
+
+      // Arrow Down on picklist month
+      if (key === 40 && monthSelected?.matches(':focus')) {
+        const month = this.month + 1;
+        const el = this.container.querySelector(`.is-month[data-month="${month}"]`);
+
+        this.#unselectPicklist('month');
+
+        if (!el) {
+          btnDownMonth?.focus();
+
+          return;
+        }
+
+        this.#selectPicklistEl(el);
+        this.month = month;
+        el?.focus();
+      }
+
+      // Arrow Up on picklist year
+      if (key === 38 && yearSelected?.matches(':focus')) {
+        const year = this.year - 1;
+
+        const el = this.container.querySelector(`.is-year[data-year="${year}"]`);
+
+        this.#unselectPicklist('year');
+
+        if (!el) {
+          btnUpYear?.focus();
+
+          return;
+        }
+
+        this.#selectPicklistEl(el);
+        this.year = year;
+        el?.focus();
+      }
+
+      // Arrow Down on picklist year
+      if (key === 40 && yearSelected?.matches(':focus')) {
+        const year = this.year + 1;
+
+        const el = this.container.querySelector(`.is-year[data-year="${year}"]`);
+
+        this.#unselectPicklist('year');
+
+        if (!el) {
+          btnDownYear?.focus();
+
+          return;
+        }
+
+        this.#selectPicklistEl(el);
+        this.year = year;
+        el?.focus();
+      }
+
+      // Arrow Up on picklist week
+      if (key === 38 && weekSelected?.matches(':focus')) {
+        const weekIndex: number = stringToNumber(weekSelected.dataset.week) - 1;
+        const week: number = this.#getWeekNumber(weekIndex);
+        const el: HTMLElement = this.container.querySelector(`.is-week[data-week="${week}"]`);
+
+        this.#unselectPicklist('week');
+
+        if (!el) {
+          btnUpWeek?.focus();
+
+          return;
+        }
+
+        this.#selectPicklistEl(el);
+        this.#setWeekDate(week);
+
+        el?.focus();
+      }
+
+      // Arrow Down on picklist year
+      if (key === 40 && weekSelected?.matches(':focus')) {
+        const weekIndex: number = stringToNumber(weekSelected.dataset.week) + 1;
+        const week: number = this.#getWeekNumber(weekIndex);
+        const el: HTMLElement = this.container.querySelector(`.is-week[data-week="${week}"]`);
+
+        this.#unselectPicklist('week');
+
+        if (!el) {
+          btnDownWeek?.focus();
+
+          return;
+        }
+
+        this.#selectPicklistEl(el);
+        this.#setWeekDate(week);
+
+        el?.focus();
+      }
+
+      // Arrow Up on year btn up
+      if (key === 38 && btnUpYear?.matches(':focus')) {
+        btnDownYear?.focus();
+
+        return;
+      }
+
+      // Arrow Down on year btn down
+      if (key === 40 && btnDownYear?.matches(':focus')) {
+        btnUpYear?.focus();
+
+        return;
+      }
+
+      // Arrow Up on year btn down
+      if (key === 38 && btnDownYear?.matches(':focus')) {
+        const el = this.container.querySelector('.is-year.is-last');
+
+        this.#unselectPicklist('year');
+        this.#selectPicklistEl(el);
+        this.year = el?.dataset.year;
+        el?.focus();
+      }
+
+      // Arrow Down on year btn up
+      if (key === 40 && btnUpYear?.matches(':focus')) {
+        const el = this.container.querySelector('.is-year');
+
+        this.#unselectPicklist('year');
+        this.#selectPicklistEl(el);
+        this.year = el.dataset.year;
+        el?.focus();
+      }
+
+      // Arrow Up on month btn up
+      if (key === 38 && btnUpMonth?.matches(':focus')) {
+        btnDownMonth?.focus();
+
+        return;
+      }
+
+      // Arrow Down on month btn down
+      if (key === 40 && btnDownMonth?.matches(':focus')) {
+        btnUpMonth?.focus();
+
+        return;
+      }
+
+      // Arrow Up on month btn down
+      if (key === 38 && btnDownMonth?.matches(':focus')) {
+        const el = this.container.querySelector('.is-month.is-last');
+
+        this.#unselectPicklist('month');
+        this.#selectPicklistEl(el);
+        this.month = el?.dataset.month;
+        el?.focus();
+      }
+
+      // Arrow Down on month btn up
+      if (key === 40 && btnUpMonth?.matches(':focus')) {
+        const el = this.container.querySelector('.is-month');
+
+        this.#unselectPicklist('month');
+        this.#selectPicklistEl(el);
+        this.month = el.dataset.month;
+        el?.focus();
+      }
+
+      // Arrow Up on week btn up
+      if (key === 38 && btnUpWeek?.matches(':focus')) {
+        btnDownWeek?.focus();
+
+        return;
+      }
+
+      // Arrow Down on week btn down
+      if (key === 40 && btnDownWeek?.matches(':focus')) {
+        btnUpWeek?.focus();
+
+        return;
+      }
+
+      // Arrow Up on week btn down
+      if (key === 38 && btnDownWeek?.matches(':focus')) {
+        const el: HTMLElement = this.container.querySelector('.is-week.is-last');
+
+        this.#unselectPicklist('month');
+        this.#selectPicklistEl(el);
+        this.#setWeekDate(stringToNumber(el?.dataset.week));
+        el?.focus();
+      }
+
+      // Arrow Down on week btn up
+      if (key === 40 && btnUpWeek?.matches(':focus')) {
+        const el: HTMLElement = this.container.querySelector('.is-week');
+
+        this.#unselectPicklist('week');
+        this.#selectPicklistEl(el);
+        this.#setWeekDate(stringToNumber(el?.dataset.week));
+        el?.focus();
+      }
+    // Regular date picker keyboard events
+    } else {
+      // Arrow Down opens calendar popup
+      if (key === 40 && !this.#popup?.visible) {
+        stopEvent();
+
+        this.#togglePopup(true);
+      }
+
+      // Escape closes calendar popup
+      if (key === 27) {
+        stopEvent();
+
+        this.#togglePopup(false);
+        this.focus();
+      }
+
+      // Tab will loop focus inside calendar popup
+      if (key === 9 && this.#popup?.visible) {
+        // First focusable in the calendar popup is dropdown datepicker
+        const firstFocusable = this.#monthView?.container?.querySelector('ids-date-picker');
+        // Last focusable element
+        const btnClear = this.container.querySelector('.popup-btn-clear.is-visible')?.container;
+        const btnApply = this.container.querySelector('.popup-btn-apply.is-visible')?.container;
+        const dateSelected = this.#monthView?.container.querySelector('td.is-selected');
+        const lastFocusable = btnApply || btnClear || dateSelected;
+
+        if (!e.shiftKey && lastFocusable?.matches(':focus')) {
+          stopEvent();
+
+          firstFocusable.focus();
+        }
+
+        if (e.shiftKey && firstFocusable.hasFocus) {
+          stopEvent();
+
+          lastFocusable.focus();
+        }
+      }
+
+      // 't' sets today date excluding cases where wide/abbreviated months in the input
+      if (key === 84 && !this.isCalendarToolbar && !this.format.includes('MMM')) {
+        stopEvent();
+
+        this.#changeDate('today');
+      }
+
+      if (!this.isCalendarToolbar && !this.value.includes('-')) {
+        // '+' increments day
+        if (key === 187 || key === 107) {
+          stopEvent();
+
+          this.#changeDate('next-day');
+        }
+
+        // '-' decrements day
+        if (key === 189 || key === 109) {
+          stopEvent();
+
+          this.#changeDate('previous-day');
+        }
+      }
+    }
   }
 
   /**
