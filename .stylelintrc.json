@@ -30,6 +30,7 @@
       "ignore": ["custom-elements"]
     }],
     "string-quotes": "single",
+    "import-notation": null,
     "scss/at-mixin-argumentless-call-parentheses": null,
     "scss/dollar-variable-empty-line-before": null,
     "alpha-value-notation": "number",
