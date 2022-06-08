@@ -234,8 +234,8 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
       @include ellipsis();
     }
 
-    // input text-align: [left, center, right]
-    &.left {
+    // input text-align: [start, center, end]
+    &.start {
       text-align: start;
     }
 
@@ -243,7 +243,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
       text-align: center;
     }
 
-    &.right {
+    &.end {
       text-align: end;
     }
   }

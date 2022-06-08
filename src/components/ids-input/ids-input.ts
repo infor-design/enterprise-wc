@@ -19,7 +19,7 @@ import styles from './ids-input.scss';
 let instanceCounter = 0;
 
 // Setting defaults text-align
-type IdsInputAlignment = 'left' | 'center' | 'right';
+type IdsInputAlignment = 'start' | 'center' | 'end';
 
 /**
  * IdsInput defines its template in a way that can be overridden by other
@@ -790,12 +790,12 @@ export default class IdsInput extends Base {
 
   /**
    * Sets the text alignment
-   * @param {IdsInputAlignment} value [left, center, right]
+   * @param {IdsInputAlignment} value [start, center, end]
    */
   set textAlign(value: IdsInputAlignment) {
     const textAlign = TEXT_ALIGN[value] || TEXT_ALIGN.default;
     this.setAttribute(attributes.TEXT_ALIGN, textAlign);
-    this.input?.classList.remove('left', 'center', 'right');
+    this.input?.classList.remove('start', 'center', 'end');
     this.input?.classList.add(textAlign);
   }
 

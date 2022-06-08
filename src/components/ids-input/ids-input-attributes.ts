@@ -21,10 +21,10 @@ const SIZES: any = {
 
 // Setting defaults text-align
 const TEXT_ALIGN: any = {
-  default: 'left',
-  left: 'left',
+  default: 'start',
+  start: 'start',
   center: 'center',
-  right: 'right'
+  end: 'end'
 };
 
 const instanceCounter = 0;
