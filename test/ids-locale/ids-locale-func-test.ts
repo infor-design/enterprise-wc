@@ -553,7 +553,7 @@ describe('IdsLocale API', () => {
 
       await locale.setLanguage('zh-CN');
 
-      expect(locale.translate('StrikeThrough')).toEqual('穿透');
+      expect(locale.translate('StrikeThrough')).toEqual('删除线');
       expect(locale.translate('InsertAnchor')).toEqual('插入定位标记');
     });
 
