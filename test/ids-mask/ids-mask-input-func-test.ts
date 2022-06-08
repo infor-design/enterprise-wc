@@ -3,6 +3,7 @@
  */
 import IdsInput from '../../src/components/ids-input/ids-input';
 import { IdsMaskOptions } from '../../src/components/ids-mask/ids-mask-common';
+import IdsContainer from '../../src/components/ids-container/ids-container';
 import {
   autoCorrectedDatePipe,
   dateMask,
@@ -17,6 +18,8 @@ describe('IdsInput (Masked)', () => {
   let input: any;
 
   beforeEach(async () => {
+    const container: any = new IdsContainer();
+    document.body.appendChild(container);
     const elem: any = new IdsInput();
     document.body.appendChild(elem);
     input = document.querySelector('ids-input');
@@ -122,7 +125,6 @@ describe('IdsInput (Masked)', () => {
     input.mask = dateMask;
     input.maskPipe = autoCorrectedDatePipe;
     input.maskOptions = {
-      format: 'M/d/yyyy',
       symbols: {
         separator: '/'
       }
@@ -144,11 +146,16 @@ describe('IdsInput (Masked)', () => {
     expect(input.value).toEqual('01/01/2020');
   });
 
+  it('can use the shorthand "date" to actviate the built-in date mask', () => {
+    input.mask = 'date';
+
+    expect(input.mask.toString()).toEqual(dateMask.toString());
+  });
+
   it('can format range dates', () => {
     input.mask = rangeDateMask;
     input.maskPipe = autoCorrectedDatePipe;
     input.maskOptions = {
-      format: 'M/d/yyyy',
       delimeter: ' - ',
       symbols: {
         separator: '/'
@@ -171,10 +178,10 @@ describe('IdsInput (Masked)', () => {
     expect(input.value).toEqual('01/01/2020 - 01/08/2020');
   });
 
-  it('can use the shorthand "date" to actviate the built-in date mask', () => {
-    input.mask = 'date';
+  it('can use the shorthand "rangeDate" to actviate the built-in range date mask', () => {
+    input.mask = 'rangeDate';
 
-    expect(input.mask.toString()).toEqual(dateMask.toString());
+    expect(input.mask.toString()).toEqual(rangeDateMask.toString());
   });
 
   it('can convert a string-based mask to an array internally', () => {
