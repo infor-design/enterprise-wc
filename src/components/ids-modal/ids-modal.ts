@@ -161,7 +161,9 @@ export default class IdsModal extends Base {
       this.popup.width = doFullsize ? '100%' : '';
       this.popup.height = doFullsize ? '100%' : '';
       this.popup.place();
-      this.popup.correct3dMatrix();
+      if (this.popup.open) {
+        this.popup.correct3dMatrix();
+      }
     };
 
     if (current !== val) {
@@ -352,7 +354,11 @@ export default class IdsModal extends Base {
     // Animation-in needs the Modal to appear in front (z-index), so this occurs on the next tick
     this.style.zIndex = zCounter.increment();
     this.overlay.visible = true;
+
     this.popup.visible = true;
+    if (this.popup.animated) {
+      await waitForTransitionEnd(this.popup.container, 'opacity');
+    }
 
     this.removeAttribute('aria-hidden');
 

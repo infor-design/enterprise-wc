@@ -111,8 +111,8 @@ export default class IdsOverlay extends Base {
       });
     } else if (!val && cl.contains('visible')) {
       // Make hidden
-      cl.remove('visible');
       await this.#changeOpacity(0);
+      cl.remove('visible');
     }
   }
 }
