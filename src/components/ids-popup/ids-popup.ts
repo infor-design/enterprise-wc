@@ -119,6 +119,7 @@ export default class IdsPopup extends Base {
           this.#fix3dMatrixOnResize();
         }
       }
+      this.#checkViewportPositionScrolling();
     }
   });
 
@@ -764,6 +765,21 @@ export default class IdsPopup extends Base {
     const thisCl = this.container.classList;
     if (currentStyle) thisCl.remove(`position-${currentStyle}`);
     thisCl.add(`position-${newStyle}`);
+  }
+
+  /**
+   * Runs on viewport resize to correct a CSS class that controls scrolling behavior within viewport-positioned popups
+   */
+  #checkViewportPositionScrolling(): void {
+    const cl = this.container.classList;
+    cl.remove('fit-viewport');
+
+    const wrapperScrollHeight = this.wrapper.getBoundingClientRect().height;
+    const containerScrollHeight = this.container.getBoundingClientRect().height;
+    const needsFixing = wrapperScrollHeight > containerScrollHeight;
+    if (needsFixing) {
+      cl.add('fit-viewport');
+    }
   }
 
   /**

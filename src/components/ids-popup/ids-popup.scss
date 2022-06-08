@@ -190,9 +190,15 @@
     // Boundaries
     min-height: 15%;
     min-width: 15%;
-    max-height: calc(100% - 16px);
-    max-width: calc(100% - 16px);
+    max-height: 100%;
+    max-width: 100%;
     overflow: hidden;
+
+    // When the height of `.content-wrapper` exceeds that of `.ids-popup`,
+    // ResizeObserver automatically appends this class to enable scrolling of inner content
+    &.fit-viewport {
+      height: 100%;
+    }
 
     // Override some default animation styles to add the correct
     // `translate(X/Y/Z/3d)` values to an existing transform property.
@@ -790,15 +796,6 @@
     }
   }
 }
-
-/*
-// Media queries setup
-@media screen and (min-width: $breakpoint-sm) {
-  .ids-popup.position-viewport.animation-scale-in {
-    width: auto;
-  }
-}
-*/
 
 // RTL Fixes
 :host([dir='rtl']) {

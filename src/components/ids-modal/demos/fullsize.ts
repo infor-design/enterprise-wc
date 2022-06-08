@@ -55,10 +55,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (val === null) {
       radioText = 'Never';
-      checked = ' checked';
     }
     if (val === 'always') {
       radioText = 'Always';
+    }
+    if (val === 'sm') {
+      checked = ' checked';
     }
     if (breakpointSize.length) {
       radioText += ` (${breakpointSize})`;

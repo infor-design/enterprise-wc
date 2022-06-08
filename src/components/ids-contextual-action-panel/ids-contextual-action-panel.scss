@@ -1,31 +1,28 @@
-@import '../../core/ids-base';
+@import '../ids-modal/ids-modal.scss';
 
 $cap-header-height: 50px;
 $cap-header-bg-color: var(--ids-color-palette-slate-10);
 $cap-header-border-color: var(--ids-color-palette-slate-20);
 
-:host {
-  @include block();
-  @include fixed();
-
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-}
-
-:host(:not([visible])) {
-  pointer-events: none;
-}
-
 .ids-modal-header {
   @include border-1();
   @include border-solid();
   @include border-transparent();
+  @include p-0();
 
   background-color: $cap-header-bg-color;
   border-bottom-color: $cap-header-border-color;
   height: $cap-header-height;
+}
+
+.ids-modal-content {
+  @include px-0();
+
+  height: calc(100% - $cap-header-height);
+}
+
+.ids-modal-footer {
+  @include mt-0();
 }
 
 ::slotted(ids-toolbar) {

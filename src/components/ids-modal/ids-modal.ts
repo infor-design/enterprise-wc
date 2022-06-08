@@ -93,6 +93,7 @@ export default class IdsModal extends Base {
 
     this.attachEventHandlers();
     this.shouldUpdate = true;
+    this.#setFullsizeDefault();
   }
 
   disconnectedCallback(): void {
@@ -144,7 +145,7 @@ export default class IdsModal extends Base {
   }
 
   get fullsize(): IdsModalFullsizeAttributeValue {
-    return this.getAttribute(attributes.FULLSIZE);
+    return this.popup.classList.contains('can-fullsize');
   }
 
   set fullsize(val: IdsModalFullsizeAttributeValue) {
@@ -170,6 +171,7 @@ export default class IdsModal extends Base {
       switch (val) {
         case 'always':
           clearResponse();
+          this.popup.classList.add(`can-fullsize`);
           makeFullsize(true);
           break;
         case null:
@@ -177,10 +179,12 @@ export default class IdsModal extends Base {
         case '':
           clearResponse();
           this.removeAttribute(attributes.FULLSIZE);
+          this.popup.classList.remove('can-fullsize');
           makeFullsize(false);
           break;
         default:
           this.setAttribute(attributes.FULLSIZE, val);
+          this.popup.classList.add(`can-fullsize`);
           this.respondDown = val;
           this.onBreakpointDownResponse = (detectedBreakpoint: string, matches: boolean) => {
             makeFullsize(matches);
@@ -188,6 +192,18 @@ export default class IdsModal extends Base {
           this.respondToCurrentBreakpoint();
           break;
       }
+    }
+  }
+
+  /**
+   * Runs on connectedCallback or any refresh to adjust the `fullsize` attribute, if set
+   */
+  #setFullsizeDefault(): void {
+    // Default all Modals to `sm` fullsize
+    if (this.hasAttribute(attributes.FULLSIZE)) {
+      this.fullsize = this.getAttribute(attributes.FULLSIZE);
+    } else {
+      this.fullsize = 'sm';
     }
   }
 
