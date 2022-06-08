@@ -32,4 +32,7 @@
   - link: standalone-css.html
     type: Standalone CSS
     description: Showing a input that works with css only
+  - link: context-menu.html
+    type: Context menu example
+    description: Showing context menu on input
 
