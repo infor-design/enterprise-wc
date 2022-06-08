@@ -337,12 +337,12 @@ export default class IdsDropdown extends Base {
     const valueSafe = stringToBool(value);
     if (valueSafe) {
       this.setAttribute(attributes.GROUP, valueSafe);
-      return
+      return;
     }
     this.removeAttribute(attributes.GROUP);
   }
 
-  get group(){
+  get group() {
     return this.getAttribute(attributes.GROUP);
   }
 
@@ -655,26 +655,39 @@ export default class IdsDropdown extends Base {
       e.stopImmediatePropagation();
       e.preventDefault();
 
-      const selected: any = this.selected;
+      const listOptions = [...this.querySelectorAll('ids-list-box-option')];
+      const selected: any = this.#determineSelected();
       if (e.key === 'ArrowUp' && e.altKey) {
         this.value = selected?.getAttribute('value') || '';
         this.close();
         return;
       }
 
-      if (e.key === 'ArrowDown' && selected?.nextElementSibling) {
-        selected.classList.remove('is-selected');
-        selected.setAttribute('tabindex', '-1');
-        selected.nextElementSibling.classList.add('is-selected');
-        selected.nextElementSibling.setAttribute('tabindex', '0');
-        (selected.nextElementSibling as any).focus();
+      if (e.key === 'ArrowDown' && listOptions.indexOf(selected) !== -1) { //selected?.nextElementSibling
+        const indexOfSelected = listOptions.indexOf(selected);
+        if (indexOfSelected !== listOptions.length - 1) {
+          selected.classList.remove('is-selected');
+          selected.setAttribute('tabindex', '-1');
+          listOptions[indexOfSelected + 1].classList.add('is-selected');
+          listOptions[indexOfSelected + 1].setAttribute('tabindex', '0');
+          (listOptions[indexOfSelected + 1] as any).focus();
+        }
+        //selected.nextElementSibling.classList.add('is-selected');
+        //selected.nextElementSibling.setAttribute('tabindex', '0');
+        //(selected.nextElementSibling as any).focus();
       }
-      if (e.key === 'ArrowUp' && selected?.previousElementSibling) {
-        selected.classList.remove('is-selected');
-        selected.setAttribute('tabindex', '-1');
-        selected.previousElementSibling.classList.add('is-selected');
-        selected.previousElementSibling.setAttribute('tabindex', '0');
-        (selected.previousElementSibling as any).focus();
+      if (e.key === 'ArrowUp' && listOptions.indexOf(selected) !== -1) {
+        const indexOfSelected = listOptions.indexOf(selected);
+        if (indexOfSelected !== 0) {
+          selected.classList.remove('is-selected');
+          selected.setAttribute('tabindex', '-1');
+          listOptions[indexOfSelected - 1].classList.add('is-selected');
+          listOptions[indexOfSelected - 1].setAttribute('tabindex', '0');
+          (listOptions[indexOfSelected - 1] as any).focus();
+        }
+        //selected.previousElementSibling.classList.add('is-selected');
+        //selected.previousElementSibling.setAttribute('tabindex', '0');
+        //(selected.previousElementSibling as any).focus();
       }
     });
 
@@ -710,6 +723,14 @@ export default class IdsDropdown extends Base {
       this.close(true);
     });
     return this;
+  }
+
+  /**
+   * determines which option should be treated as selected for the purpose of navigation
+   * @returns the list option to base arrow navigation on
+   */
+  #determineSelected() {
+    return this.selected;
   }
 
   /**
