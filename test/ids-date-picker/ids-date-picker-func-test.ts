@@ -27,6 +27,13 @@ describe('IdsDatePicker Component Tests', () => {
       component.month = 9;
       component.year = 2021;
       component.day = 18;
+      component.showClear = true;
+      component.showCancel = true;
+      component.showPicklistYear = false;
+      component.showPicklistMonth = false;
+      component.showPicklistWeek = true;
+      component.minuteInterval = 5;
+      component.secondInterval = 5;
 
       await container.setLanguage('en');
       await container.setLocale('en-US');
@@ -70,6 +77,13 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.month).toEqual(9);
       expect(component.year).toEqual(2021);
       expect(component.day).toEqual(18);
+      expect(component.showClear).toBeTruthy();
+      expect(component.showCancel).toBeTruthy();
+      expect(component.showPicklistYear).toBeFalsy();
+      expect(component.showPicklistMonth).toBeFalsy();
+      expect(component.showPicklistWeek).toBeTruthy();
+      expect(component.minuteInterval).toEqual(5);
+      expect(component.secondInterval).toEqual(5);
     });
 
     it('should change properties', () => {
@@ -82,6 +96,11 @@ describe('IdsDatePicker Component Tests', () => {
       component.month = 10;
       component.year = 2020;
       component.day = 19;
+      component.showClear = false;
+      component.showCancel = false;
+      component.showPicklistYear = true;
+      component.showPicklistMonth = true;
+      component.showPicklistWeek = false;
 
       expect(component.tabbable).toBeTruthy();
       expect(component.showToday).toBeTruthy();
@@ -94,6 +113,11 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.month).toEqual(10);
       expect(component.year).toEqual(2020);
       expect(component.day).toEqual(19);
+      expect(component.showClear).toBeFalsy();
+      expect(component.showCancel).toBeFalsy();
+      expect(component.showPicklistYear).toBeTruthy();
+      expect(component.showPicklistMonth).toBeTruthy();
+      expect(component.showPicklistWeek).toBeFalsy();
 
       // Reset to defaults
       component.tabbable = null;
@@ -499,6 +523,20 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.month).toEqual((new Date()).getMonth());
       expect(component.year).toEqual((new Date()).getFullYear());
       expect(component.day).toEqual((new Date()).getDate());
+      expect(component.showPicklistYear).toBeTruthy();
+      expect(component.showPicklistMonth).toBeTruthy();
+      expect(component.showPicklistWeek).toBeFalsy();
+      expect(component.showClear).toBeFalsy();
+      expect(component.showCancel).toBeFalsy();
+      expect(component.disable).toEqual({
+        dates: [],
+        years: [],
+        minDate: '',
+        maxDate: '',
+        dayOfWeek: [],
+        isEnable: false
+      });
+      expect(component.hasFocus).toBeFalsy();
     });
 
     it('should not expand if not dropdown', () => {
@@ -686,6 +724,38 @@ describe('IdsDatePicker Component Tests', () => {
       component.input.checkValidation();
 
       expect(isValid).toBeFalsy();
+    });
+
+    it('should get/set range settings', () => {
+      expect(component.rangeSettings).toEqual({
+        start: null,
+        end: null,
+        separator: ' - ',
+        minDays: 0,
+        maxDays: 0,
+        selectForward: false,
+        selectBackward: false,
+        includeDisabled: false,
+        selectWeek: false
+      });
+
+      component.rangeSettings = {
+        start: '5/11/2020',
+        end: '5/14/2020',
+        selectWeek: true
+      };
+
+      expect(component.rangeSettings).toEqual({
+        start: '5/11/2020',
+        end: '5/14/2020',
+        separator: ' - ',
+        minDays: 0,
+        maxDays: 0,
+        selectForward: false,
+        selectBackward: false,
+        includeDisabled: false,
+        selectWeek: true
+      });
     });
   });
 });
