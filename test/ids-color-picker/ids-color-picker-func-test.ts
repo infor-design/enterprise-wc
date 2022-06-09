@@ -3,8 +3,8 @@
  */
 import '../helpers/resize-observer-mock';
 import waitFor from '../helpers/wait-for';
+import IdsColor from '../../src/components/ids-color/ids-color';
 import IdsColorPicker from '../../src/components/ids-color-picker/ids-color-picker';
-import '../../src/components/ids-color/ids-color';
 
 describe('Ids Color Picker Component', () => {
   let colorpicker: any;
@@ -24,8 +24,14 @@ describe('Ids Color Picker Component', () => {
   });
 
   afterEach(async () => {
+    colorpicker.remove();
     document.body.innerHTML = '';
     colorpicker = null;
+  });
+
+  it('renders invisible popup correctly', () => {
+    expect(colorpicker.popup.visible).toBe(false);
+    expect(colorpicker).toMatchSnapshot();
   });
 
   it('renders with no errors', () => {
@@ -50,37 +56,108 @@ describe('Ids Color Picker Component', () => {
 
   it('renders with advanced', () => {
     colorpicker = createFromTemplate(`<ids-color-picker id="color-picker-1" advanced="true" value="#941E1E" label="Readonly Color Picker"></ids-color-picker>`);
-    expect(colorpicker.advanced).toBeTruthy();
+    expect(colorpicker.advanced).toBe(true);
+    expect(colorpicker.hasAttribute('advanced')).toBe(true);
+    expect(colorpicker.getAttribute('advanced')).toBe('true');
+    expect(colorpicker.colorInput.hasAttribute('disabled')).toBe(false);
+    expect(colorpicker.colorInput.getAttribute('disabled')).toBeFalsy();
+
     colorpicker.advanced = false;
+    expect(colorpicker.hasAttribute('advanced')).toBe(false);
     expect(colorpicker.getAttribute('advanced')).toBeFalsy();
+    expect(colorpicker.colorInput.hasAttribute('disabled')).toBe(true);
+    expect(colorpicker.colorInput.getAttribute('disabled')).toBeTruthy();
+  });
+
+  it('has a default value of blank', () => {
+    expect(colorpicker.value).toEqual('');
+    expect(colorpicker.getAttribute('value')).toBeFalsy();
   });
 
   it('has a value attribute', () => {
     colorpicker.value = '#000000';
+    expect(colorpicker.value).toEqual('#000000');
     expect(colorpicker.getAttribute('value')).toEqual('#000000');
     colorpicker.value = '';
+    expect(colorpicker.value).toEqual('');
     expect(colorpicker.getAttribute('value')).toEqual('');
   });
 
   it('has a disabled attribute', () => {
+    expect(colorpicker.disabled).toBeDefined();
+    expect(colorpicker.disabled).toEqual(false);
+
     colorpicker.disabled = false;
-    expect(colorpicker.getAttribute('disabled')).toEqual(null);
+    expect(colorpicker.disabled).toEqual(false);
+    expect(colorpicker.hasAttribute('disabled')).toEqual(false);
+    expect(colorpicker.getAttribute('disabled')).toBeFalsy();
 
     colorpicker.disabled = true;
+    expect(colorpicker.disabled).toEqual(true);
     expect(colorpicker.getAttribute('disabled')).toEqual('true');
+  });
+
+  it('has a clearable attribute', () => {
+    expect(colorpicker.clearable).toBeDefined();
+
+    expect(colorpicker.clearable).toBeFalsy();
+    expect(colorpicker.hasAttribute('clearable')).toEqual(false);
+    expect(colorpicker.getAttribute('clearable')).toBeFalsy();
+    expect(colorpicker.swatches.find((e: any) => !e.hex)).toBeUndefined();
+
+    colorpicker.clearable = true;
+    expect(colorpicker.clearable).toBeTruthy();
+    expect(colorpicker.getAttribute('clearable')).toEqual('true');
+    expect(colorpicker.swatches.find((e: any) => !e.hex)).toBeDefined();
   });
 
   it('has a readonly attribute', () => {
     colorpicker.readonly = false;
+    expect(colorpicker.readonly).toEqual(false);
+    expect(colorpicker.hasAttribute('readonly')).toEqual(false);
     expect(colorpicker.getAttribute('readonly')).toBeFalsy();
 
     colorpicker.readonly = true;
+    expect(colorpicker.readonly).toEqual(true);
     expect(colorpicker.getAttribute('readonly')).toEqual('true');
   });
 
   it('has a label attribute', () => {
     colorpicker.label = 'Ids Color Picker';
     expect(colorpicker.getAttribute('label')).toEqual('Ids Color Picker');
+  });
+
+  it('has a labels attribute', () => {
+    colorpicker.suppressLabels = false;
+    expect(colorpicker.suppressLabels).toEqual(false);
+    expect(colorpicker.hasAttribute('suppress-labels')).toEqual(false);
+    expect(colorpicker.getAttribute('suppress-labels')).toBeFalsy();
+
+    colorpicker.suppressLabels = true;
+    expect(colorpicker.suppressLabels).toEqual(true);
+    expect(colorpicker.getAttribute('suppress-labels')).toEqual('true');
+  });
+
+  it('has a suppressTooltips attribute', () => {
+    colorpicker.suppressTooltips = false;
+    expect(colorpicker.suppressTooltips).toEqual(false);
+    expect(colorpicker.hasAttribute('suppress-tooltips')).toEqual(false);
+    expect(colorpicker.getAttribute('suppress-tooltips')).toBeFalsy();
+
+    colorpicker.suppressTooltips = true;
+    expect(colorpicker.suppressTooltips).toEqual(true);
+    expect(colorpicker.getAttribute('suppress-tooltips')).toEqual('true');
+  });
+
+  it('suppresses lables and tooltips when IdsColorPicker.advanced is true', () => {
+    expect(colorpicker.advanced).toEqual(false);
+    expect(colorpicker.suppressLabels).toEqual(false);
+    expect(colorpicker.suppressTooltips).toEqual(false);
+
+    colorpicker.advanced = true;
+    expect(colorpicker.advanced).toEqual(true);
+    expect(colorpicker.suppressLabels).toEqual(true);
+    expect(colorpicker.suppressTooltips).toEqual(true);
   });
 
   it('should close on outside click', () => {
@@ -101,15 +178,15 @@ describe('Ids Color Picker Component', () => {
     waitFor(() => expect(colorpicker.popup.visible).toBeTruthy());
   });
 
-  it('should not open if readnly', () => {
+  it('should not open if readonly', () => {
     colorpicker.readonly = true;
     expect(colorpicker.popup.visible).toEqual(false);
     colorpicker.triggerEvent('click', colorpicker.container);
     expect(colorpicker.popup.visible).toEqual(false);
   });
 
-  it('should be able to open with show', () => {
-    colorpicker.show();
+  it('should be able to open with IdsColorPicker.open()', () => {
+    colorpicker.open();
     expect(colorpicker.popup.visible).toEqual(true);
     expect(colorpicker.swatches).toBeTruthy();
   });
@@ -134,5 +211,352 @@ describe('Ids Color Picker Component', () => {
     const enterKeyEvent = new KeyboardEvent('keydown', ({ key: 'Enter', target: hex, bubbles: true } as any));
     hex.dispatchEvent(enterKeyEvent);
     expect(colorpicker.value).toEqual('#999999');
+  });
+
+  describe('When Popup is Closed', () => {
+    it('toggles popup open/close when trigger button clicked', () => {
+      expect(colorpicker.popup.visible).toBe(false);
+      colorpicker.triggerBtn.click();
+      expect(colorpicker.popup.visible).toBe(true);
+      colorpicker.triggerBtn.click();
+      expect(colorpicker.popup.visible).toBe(false);
+    });
+
+    it('opens popup on Enter', () => {
+      expect(colorpicker.popup.visible).toBe(false);
+      const keydownEnter = new KeyboardEvent('keydown', { key: 'Enter' });
+      colorpicker.dispatchEvent(keydownEnter);
+      expect(colorpicker.popup.visible).toBe(true);
+    });
+
+    it('opens popup on ArrowDown', () => {
+      expect(colorpicker.popup.visible).toBe(false);
+      const keydownArrowDown = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+      colorpicker.dispatchEvent(keydownArrowDown);
+      expect(colorpicker.popup.visible).toBe(true);
+    });
+  });
+
+  describe('When Popup is Open', () => {
+    beforeEach(() => {
+      colorpicker.open();
+      expect(colorpicker.popup.visible).toBe(true);
+    });
+
+    afterEach(() => {
+      colorpicker.close();
+      expect(colorpicker.popup.visible).toBe(false);
+    });
+
+    it('renders visible popup correctly', () => {
+      expect(colorpicker.popup.visible).toBe(true);
+      expect(colorpicker).toMatchSnapshot();
+    });
+
+    it('closes popup on Escape', () => {
+      expect(colorpicker.popup.visible).toBe(true);
+      const keydownEscape = new KeyboardEvent('keydown', { key: 'Escape' });
+      colorpicker.dispatchEvent(keydownEscape);
+      expect(colorpicker.popup.visible).toBe(false);
+    });
+
+    it('focuses first color-swatch on open', () => {
+      expect(colorpicker.popup.visible).toBe(true);
+      const [swatch] = colorpicker.swatches;
+      expect(document.activeElement).toBe(swatch);
+    });
+
+    it('selects focused color-swatch on Enter', () => {
+      expect(colorpicker.popup.visible).toBe(true);
+
+      colorpicker.value = '';
+      expect(colorpicker.textInput.value).toBe('');
+
+      const [swatch] = colorpicker.swatches;
+      swatch.focus();
+      expect(document.activeElement).toBe(swatch);
+
+      const keydownEnter = new KeyboardEvent('keydown', { key: 'Enter' });
+      colorpicker.dispatchEvent(keydownEnter);
+      expect(colorpicker.value).toBe(swatch.label);
+      expect(colorpicker.textInput.value).toBe(swatch.label);
+    });
+
+    it('selects focused color-swatch on Spacebar', () => {
+      expect(colorpicker.popup.visible).toBe(true);
+
+      colorpicker.value = '';
+      expect(colorpicker.textInput.value).toBe('');
+
+      const [swatch] = colorpicker.swatches;
+      swatch.focus();
+      expect(document.activeElement).toBe(swatch);
+
+      const keydownSpacebar = new KeyboardEvent('keydown', { key: 'Space' });
+      colorpicker.dispatchEvent(keydownSpacebar);
+      expect(colorpicker.value).toBe(swatch.label);
+      expect(colorpicker.textInput.value).toBe(swatch.label);
+    });
+
+    it('triggers change event on color-swatch IdsColorPicker.value is updated', () => {
+      expect(colorpicker.popup.visible).toBe(true);
+
+      const changeHandler = jest.fn((evt) => {
+        expect(evt.detail.elem).toBe(colorpicker);
+        expect(evt.detail.value).toBe(colorpicker.value);
+      });
+
+      colorpicker.addEventListener('change', changeHandler);
+
+      colorpicker.value = 'c';
+      expect(colorpicker.value).toBe('c');
+      expect(colorpicker.textInput.value).toBe('c');
+      expect(changeHandler).toHaveBeenCalled();
+      // expect(changeHandler).toHaveBeenCalledTimes(1);
+    });
+
+    it('shows checkmark on selected color-swatch', () => {
+      expect(colorpicker.popup.visible).toBe(true);
+      expect(colorpicker.value).toBe('');
+
+      expect(colorpicker.querySelectorAll('ids-color[checked]').length).toBe(0);
+
+      const secondSwatch = colorpicker.swatches[1];
+      colorpicker.value = secondSwatch.label;
+      expect(colorpicker.value).toBe(secondSwatch.label);
+
+      const selectedColors = colorpicker.querySelectorAll('ids-color[checked]');
+      expect(selectedColors).toBeDefined();
+      expect(selectedColors.length).toBe(1);
+      expect(selectedColors[0].hasAttribute('checked')).toBe(true);
+      expect(selectedColors[0].label).toBe(secondSwatch.label);
+    });
+
+    it('clears color when no-color swatch selected', () => {
+      expect(colorpicker.popup.visible).toBe(true);
+      expect(colorpicker.value).toBe('');
+      expect(colorpicker.querySelectorAll('ids-color[checked]').length).toBe(0);
+
+      colorpicker.clearable = true;
+
+      const secondSwatch = colorpicker.swatches[1];
+      colorpicker.value = secondSwatch.label;
+      expect(colorpicker.value).toBe(secondSwatch.label);
+
+      const selectedColors = colorpicker.querySelectorAll('ids-color[checked]');
+      expect(selectedColors).toBeDefined();
+      expect(selectedColors.length).toBe(1);
+      expect(selectedColors[0].hasAttribute('checked')).toBe(true);
+      expect(selectedColors[0].label).toBe(secondSwatch.label);
+
+      const noColorSwatch = colorpicker.swatches.find((e: any) => !e.hex);
+      expect(noColorSwatch.label).toBe('');
+      noColorSwatch.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+      expect(colorpicker.value).toBe('');
+      expect(colorpicker.querySelectorAll('ids-color[checked]').length).toBe(1);
+      expect(colorpicker.querySelector('ids-color[checked]')).toBe(noColorSwatch);
+    });
+
+    it('color swatches have "outlined" class for hover', () => {
+      expect(colorpicker.popup.visible).toBe(true);
+
+      const [first, second, third] = colorpicker.swatches;
+      expect(first.classList.contains('outlined')).toBe(true);
+      expect(second.classList.contains('outlined')).toBe(true);
+      expect(third.classList.contains('outlined')).toBe(true);
+    });
+
+    it('does not have "tabindex" when IdsColorPicker.popup is visible', () => {
+      expect(colorpicker.popup.visible).toBe(true);
+
+      const [first, second, third] = colorpicker.swatches;
+      expect(first.hasAttribute('tabindex')).toBe(false);
+      expect(second.hasAttribute('tabindex')).toBe(false);
+      expect(third.hasAttribute('tabindex')).toBe(false);
+    });
+
+    it('has "tabindex" -1 when IdsColorPicker.popup is hidden to prevent tab interference', () => {
+      expect(colorpicker.popup.visible).toBe(true);
+      colorpicker.close();
+      expect(colorpicker.popup.visible).toBe(false);
+
+      const [first, second, third] = colorpicker.swatches;
+      expect(first.getAttribute('tabindex')).toBe('-1');
+      expect(second.getAttribute('tabindex')).toBe('-1');
+      expect(third.getAttribute('tabindex')).toBe('-1');
+    });
+
+    it('shows color-swatch labels when IdsColorPicker.labels is true', () => {
+      colorpicker.innerHTML = '';
+      let swatch = new IdsColor();
+      swatch.hex = '#000000';
+      swatch.label = 'Black';
+      colorpicker.appendChild(swatch);
+
+      colorpicker.labels = true;
+      expect(colorpicker.labels).toBe(true);
+
+      swatch = colorpicker.swatches[0];
+      expect(swatch.hex).toBe('#000000');
+      expect(swatch.label).toBe('Black');
+      expect(swatch.tooltip).toBe('');
+    });
+
+    it('shows color-swatch hex when IdsColorPicker.labels is false', () => {
+      colorpicker.innerHTML = '';
+      let swatch = new IdsColor();
+      swatch.hex = '#000000';
+      swatch.label = 'Black';
+      colorpicker.appendChild(swatch);
+
+      colorpicker.labels = false;
+      expect(colorpicker.labels).toBe(false);
+
+      swatch = colorpicker.swatches[0];
+      expect(swatch.hex).toBe('#000000');
+      expect(swatch.label).toBe('Black');
+      expect(swatch.tooltip).toBe('');
+    });
+
+    it('hides color-swatch tooltips when IdsColorPicker.suppressTooltips is true', () => {
+      expect(colorpicker.popup.visible).toBe(true);
+      expect(colorpicker.suppressTooltips).toBe(false);
+      expect(colorpicker.hasAttribute('suppress-tooltips')).toBe(false);
+
+      // hover mouse over color swatch and check that swatch.tooltip is visible
+      // check that swatch.disabled is false and tooltip is visible and popuplated
+      const [swatch] = colorpicker.swatches;
+      expect(swatch.disabled).toBe(false);
+      expect(swatch.tooltip).toBe('ruby-10');
+
+      colorpicker.suppressTooltips = true;
+      expect(colorpicker.suppressTooltips).toBe(true);
+      expect(colorpicker.hasAttribute('suppress-tooltips')).toBe(true);
+      expect(colorpicker.getAttribute('suppress-tooltips')).toBe('true');
+
+      swatch.dispatchEvent(new MouseEvent('mouseover'));
+      expect(swatch.popup.visible).toBe(false);
+      expect(swatch.popup.innerText).toBe('');
+    });
+
+    it('shows color-swatch tooltips when IdsColorPicker.suppressTooltips is false', () => {
+      expect(colorpicker.popup.visible).toBe(true);
+      expect(colorpicker.suppressTooltips).toBe(false);
+      expect(colorpicker.hasAttribute('suppress-tooltips')).toBe(false);
+
+      let [swatch] = colorpicker.swatches;
+      expect(swatch.disabled).toBe(false);
+      expect(swatch.tooltip).toBe(swatch.label);
+
+      colorpicker.suppressTooltips = true;
+      expect(colorpicker.suppressTooltips).toBe(true);
+      expect(colorpicker.hasAttribute('suppress-tooltips')).toBe(true);
+      expect(colorpicker.getAttribute('suppress-tooltips')).toBe('true');
+
+      swatch.dispatchEvent(new MouseEvent('mouseover'));
+      expect(swatch.popup.visible).toBe(false);
+      expect(swatch.popup.innerText).toBe('');
+
+      [swatch] = colorpicker.swatches;
+      expect(swatch.disabled).toBe(true);
+      expect(swatch.tooltip).toBe('');
+    });
+
+    it('focuses next color-swatch on ArrowRight', () => {
+      expect(colorpicker.popup.visible).toBe(true);
+
+      const [firstColor, secondColor, thirdColor] = colorpicker.swatches;
+      firstColor.swatch.focus();
+      expect(document.activeElement).toBe(firstColor);
+
+      const keydownArrowRight = new KeyboardEvent('keydown', { key: 'ArrowRight' });
+      colorpicker.popup.dispatchEvent(keydownArrowRight);
+      expect(document.activeElement).toBe(secondColor);
+
+      colorpicker.popup.dispatchEvent(keydownArrowRight);
+      expect(document.activeElement).toBe(thirdColor);
+    });
+
+    it('focuses previous color-swatch on ArrowLeft', () => {
+      expect(colorpicker.popup.visible).toBe(true);
+
+      const [firstColor, secondColor, thirdColor] = colorpicker.swatches;
+      thirdColor.swatch.focus();
+      expect(document.activeElement).toBe(thirdColor);
+
+      const keydownArrowLeft = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
+      colorpicker.popup.dispatchEvent(keydownArrowLeft);
+      expect(document.activeElement).toBe(secondColor);
+
+      colorpicker.popup.dispatchEvent(keydownArrowLeft);
+      expect(document.activeElement).toBe(firstColor);
+    });
+
+    // TODO: add NUM_COLUMNS as configurable attribute to colorpicker
+    const NUM_COLUMNS = 10;
+    it('focuses downward color-swatch on ArrowDown', () => {
+      expect(colorpicker.popup.visible).toBe(true);
+
+      const firstColor = colorpicker.swatches[0];
+      const lastColor = colorpicker.swatches[colorpicker.swatches.length - 1];
+      firstColor.swatch.focus();
+      expect(document.activeElement).toBe(firstColor);
+
+      const keydownArrowDown = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+      colorpicker.popup.dispatchEvent(keydownArrowDown);
+      expect(document.activeElement).toBe(colorpicker.swatches[NUM_COLUMNS]);
+
+      colorpicker.popup.dispatchEvent(keydownArrowDown);
+      expect(document.activeElement).toBe(colorpicker.swatches[NUM_COLUMNS * 2]);
+
+      lastColor.swatch.focus();
+      colorpicker.popup.dispatchEvent(keydownArrowDown);
+      expect(document.activeElement).toBe(lastColor);
+    });
+
+    it('focuses upward color-swatch on ArrowUp', () => {
+      expect(colorpicker.popup.visible).toBe(true);
+
+      const activeColor = colorpicker.swatches[NUM_COLUMNS * 2];
+      activeColor.swatch.focus();
+      expect(document.activeElement).toBe(activeColor);
+
+      const keydownArrowUp = new KeyboardEvent('keydown', { key: 'ArrowUp' });
+      colorpicker.popup.dispatchEvent(keydownArrowUp);
+      expect(document.activeElement).toBe(colorpicker.swatches[NUM_COLUMNS]);
+
+      colorpicker.popup.dispatchEvent(keydownArrowUp);
+      expect(document.activeElement).toBe(colorpicker.swatches[0]);
+
+      colorpicker.popup.dispatchEvent(keydownArrowUp);
+      expect(document.activeElement).toBe(colorpicker.swatches[0]);
+    });
+
+    it('focuses last color-swatch on ArrowLeft when first color-swatch active', () => {
+      expect(colorpicker.popup.visible).toBe(true);
+
+      const firstColor = colorpicker.swatches[0];
+      const lastColor = colorpicker.swatches[colorpicker.swatches.length - 1];
+      firstColor.swatch.focus();
+      expect(document.activeElement).toBe(firstColor);
+
+      const keydownArrowLeft = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
+      colorpicker.popup.dispatchEvent(keydownArrowLeft);
+      expect(document.activeElement).toBe(lastColor);
+    });
+
+    it('focuses first color-swatch on ArrowRight when last color-swatch active', () => {
+      expect(colorpicker.popup.visible).toBe(true);
+
+      const firstColor = colorpicker.swatches[0];
+      const lastColor = colorpicker.swatches[colorpicker.swatches.length - 1];
+      lastColor.swatch.focus();
+      expect(document.activeElement).toBe(lastColor);
+
+      const keydownArrowRight = new KeyboardEvent('keydown', { key: 'ArrowRight' });
+      colorpicker.popup.dispatchEvent(keydownArrowRight);
+      expect(document.activeElement).toBe(firstColor);
+    });
   });
 });
