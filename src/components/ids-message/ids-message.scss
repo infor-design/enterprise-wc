@@ -14,23 +14,23 @@
   }
 
   &.error {
-    @include text-alert-error();
+    color: var(--ids-color-palette-ruby-50);
   }
 
   &.warning {
-    @include text-alert-warning();
+    color: var(--ids-color-status-warning);
   }
 
   &.alert {
-    @include text-alert-warning();
+    color: var(--ids-color-status-warning);
   }
 
   &.success {
-    @include text-alert-success();
+    color: var(--ids-color-palette-emerald-60);
   }
 
   &.info {
-    @include text-alert-info();
+    color: var(--ids-color-brand-primary-base);
   }
 }
 
