@@ -469,14 +469,6 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * Gets the time format to use in the picker. Defaults to the current locale's time format or english ("hh:mm a")
-   * @returns {string} the time format being used
-   */
-  get format(): string {
-    return this.getAttribute(attributes.FORMAT) || this.locale?.calendar().timeFormat || 'hh:mm a';
-  }
-
-  /**
    * Sets the time format to use in the picker.
    * @param {string|null} value - a variation of "hh:mm:ss a"
    */
@@ -491,10 +483,12 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * Gets a timestring that matches the format specified by this.format()
-   * @returns {string} the current timestring value of the timepicker
+   * Gets the time format to use in the picker. Defaults to the current locale's time format or english ("hh:mm a")
+   * @returns {string} the time format being used
    */
-  get value(): string { return this.getAttribute(attributes.VALUE) || ''; }
+  get format(): string {
+    return this.getAttribute(attributes.FORMAT) || this.locale?.calendar().timeFormat || 'hh:mm a';
+  }
 
   /**
    * Sets a current timestring-value of the timepickers input-field
@@ -512,12 +506,10 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * Gets the autoselect attribute
-   * @returns {boolean} true if autoselect is enabled
+   * Gets a timestring that matches the format specified by this.format()
+   * @returns {string} the current timestring value of the timepicker
    */
-  get autoselect(): boolean {
-    return stringToBool(this.getAttribute(attributes.AUTOSELECT));
-  }
+  get value(): string { return this.getAttribute(attributes.VALUE) || ''; }
 
   /**
    * Sets the autoselect attribute
@@ -534,11 +526,11 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * Gets the autoupdate attribute
+   * Gets the autoselect attribute
    * @returns {boolean} true if autoselect is enabled
    */
-  get autoupdate(): boolean {
-    return stringToBool(this.getAttribute(attributes.AUTOUPDATE));
+  get autoselect(): boolean {
+    return stringToBool(this.getAttribute(attributes.AUTOSELECT));
   }
 
   /**
@@ -559,11 +551,11 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * Gets the disabled attribute
-   * @returns {boolean} true if the timepicker is disabled
+   * Gets the autoupdate attribute
+   * @returns {boolean} true if autoselect is enabled
    */
-  get disabled(): boolean {
-    return stringToBool(this.getAttribute(attributes.DISABLED));
+  get autoupdate(): boolean {
+    return stringToBool(this.getAttribute(attributes.AUTOUPDATE));
   }
 
   /**
@@ -583,11 +575,11 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * Gets the readonly attribute
-   * @returns {boolean} true if the timepicker is in readonly mode
+   * Gets the disabled attribute
+   * @returns {boolean} true if the timepicker is disabled
    */
-  get readonly(): boolean {
-    return stringToBool(this.getAttribute(attributes.READONLY));
+  get disabled(): boolean {
+    return stringToBool(this.getAttribute(attributes.DISABLED));
   }
 
   /**
@@ -607,10 +599,12 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * Gets the label attribute
-   * @returns {string} default is ""
+   * Gets the readonly attribute
+   * @returns {boolean} true if the timepicker is in readonly mode
    */
-  get label(): string { return this.getAttribute(attributes.LABEL) ?? ''; }
+  get readonly(): boolean {
+    return stringToBool(this.getAttribute(attributes.READONLY));
+  }
 
   /**
    * Sets the label attribute
@@ -627,12 +621,10 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * Get the placeholder attribute
+   * Gets the label attribute
    * @returns {string} default is ""
    */
-  get placeholder(): string {
-    return this.getAttribute(attributes.PLACEHOLDER) ?? '';
-  }
+  get label(): string { return this.getAttribute(attributes.LABEL) ?? ''; }
 
   /**
    * Sets the placeholder attribute
@@ -649,11 +641,11 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * no-margins attribute
-   * @returns {boolean} noMargins parameter
+   * Get the placeholder attribute
+   * @returns {string} default is ""
    */
-  get noMargins(): boolean {
-    return stringToBool(this.getAttribute(attributes.NO_MARGINS));
+  get placeholder(): string {
+    return this.getAttribute(attributes.PLACEHOLDER) ?? '';
   }
 
   /**
@@ -673,11 +665,11 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * Get the size attribute
-   * @returns {string} default is "sm"
+   * no-margins attribute
+   * @returns {boolean} noMargins parameter
    */
-  get size(): string {
-    return this.getAttribute(attributes.SIZE) ?? 'sm';
+  get noMargins(): boolean {
+    return stringToBool(this.getAttribute(attributes.NO_MARGINS));
   }
 
   /**
@@ -695,17 +687,11 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * minute-interval attribute, default is 5
-   * @returns {number} minuteInterval value
+   * Get the size attribute
+   * @returns {string} default is "sm"
    */
-  get minuteInterval(): number {
-    const numberVal = stringToNumber(this.getAttribute(attributes.MINUTE_INTERVAL));
-
-    if (!Number.isNaN(numberVal)) {
-      return numberVal;
-    }
-
-    return 5;
+  get size(): string {
+    return this.getAttribute(attributes.SIZE) ?? 'sm';
   }
 
   /**
@@ -725,11 +711,11 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * second-interval attribute, default is 5
-   * @returns {number} secondInterval value
+   * minute-interval attribute, default is 5
+   * @returns {number} minuteInterval value
    */
-  get secondInterval(): number {
-    const numberVal = stringToNumber(this.getAttribute(attributes.SECOND_INTERVAL));
+  get minuteInterval(): number {
+    const numberVal = stringToNumber(this.getAttribute(attributes.MINUTE_INTERVAL));
 
     if (!Number.isNaN(numberVal)) {
       return numberVal;
@@ -755,11 +741,17 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * embeddable attribute
-   * @returns {boolean} whether or not to show only hours/minutes/seconds dropdowns without input
+   * second-interval attribute, default is 5
+   * @returns {number} secondInterval value
    */
-  get embeddable(): boolean {
-    return stringToBool(this.getAttribute(attributes.EMBEDDABLE));
+  get secondInterval(): number {
+    const numberVal = stringToNumber(this.getAttribute(attributes.SECOND_INTERVAL));
+
+    if (!Number.isNaN(numberVal)) {
+      return numberVal;
+    }
+
+    return 5;
   }
 
   /**
@@ -777,17 +769,11 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * hours attribute, default is 1
-   * @returns {number} hours attribute value converted to number
+   * embeddable attribute
+   * @returns {boolean} whether or not to show only hours/minutes/seconds dropdowns without input
    */
-  get hours(): number {
-    const numberVal = stringToNumber(this.getAttribute(attributes.HOURS));
-
-    if (!Number.isNaN(numberVal)) {
-      return numberVal;
-    }
-
-    return 1;
+  get embeddable(): boolean {
+    return stringToBool(this.getAttribute(attributes.EMBEDDABLE));
   }
 
   /**
@@ -805,17 +791,17 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * minutes attribute, default is 0
-   * @returns {number} minutes attribute value converted to number
+   * hours attribute, default is 1
+   * @returns {number} hours attribute value converted to number
    */
-  get minutes(): number {
-    const numberVal = stringToNumber(this.getAttribute(attributes.MINUTES));
+  get hours(): number {
+    const numberVal = stringToNumber(this.getAttribute(attributes.HOURS));
 
     if (!Number.isNaN(numberVal)) {
       return numberVal;
     }
 
-    return 0;
+    return 1;
   }
 
   /**
@@ -833,11 +819,11 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * seconds attribute, default is 0
-   * @returns {number} seconds attribute value converted to number
+   * minutes attribute, default is 0
+   * @returns {number} minutes attribute value converted to number
    */
-  get seconds(): number {
-    const numberVal = stringToNumber(this.getAttribute(attributes.SECONDS));
+  get minutes(): number {
+    const numberVal = stringToNumber(this.getAttribute(attributes.MINUTES));
 
     if (!Number.isNaN(numberVal)) {
       return numberVal;
@@ -861,17 +847,17 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * period attribute, default is first day period in locale calendar
-   * @returns {string} period attribute value
+   * seconds attribute, default is 0
+   * @returns {number} seconds attribute value converted to number
    */
-  get period(): string {
-    const attrVal = this.getAttribute(attributes.PERIOD);
+  get seconds(): number {
+    const numberVal = stringToNumber(this.getAttribute(attributes.SECONDS));
 
-    if (attrVal && this.locale?.calendar()?.dayPeriods.includes(attrVal)) {
-      return attrVal;
+    if (!Number.isNaN(numberVal)) {
+      return numberVal;
     }
 
-    return this.locale?.calendar()?.dayPeriods[0];
+    return 0;
   }
 
   /**
@@ -886,5 +872,19 @@ export default class IdsTimePicker extends Base {
     }
 
     this.container.querySelector('ids-dropdown#period')?.setAttribute(attributes.VALUE, this.period);
+  }
+
+  /**
+   * period attribute, default is first day period in locale calendar
+   * @returns {string} period attribute value
+   */
+  get period(): string {
+    const attrVal = this.getAttribute(attributes.PERIOD);
+
+    if (attrVal && this.locale?.calendar()?.dayPeriods.includes(attrVal)) {
+      return attrVal;
+    }
+
+    return this.locale?.calendar()?.dayPeriods[0];
   }
 }
