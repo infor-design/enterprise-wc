@@ -55,6 +55,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const messageConfTriggerBtn = document.querySelector('#message-confirmation-trigger');
   setupMessage(messageConfEl, messageConfTriggerBtn);
 
+  // Huge Text Message
+  const messageHugeTextEl = document.querySelector('#message-huge-text');
+  const messageHugeTextTriggerBtn = document.querySelector('#message-huge-text-trigger');
+  setupMessage(messageHugeTextEl, messageHugeTextTriggerBtn);
+
   // No Buttons Message
   const messageNoButtonsEl = document.querySelector('#message-no-buttons');
   const messageNoButtonsBtn = document.querySelector('#message-no-buttons-trigger');
