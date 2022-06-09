@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <div class="ids-layout-grid">
+    <h1 class="ids-text ids-text-12">Tree (Standalone CSS)</h1>
+  </div>
+
+  <div class="ids-layout-grid ids-layout-grid-cols-2 ids-layout-grid-gap-md">
+    <div class="ids-layout-grid-cell">
+
+      <ul id="tree-demo" class="ids-tree">
+        <li class="ids-tree-node">
+          <span class="node-container">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18"
+              width="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true">
+              <path
+                d="M1.5.5h14v11.77c0 2.888-2.28 5.23-5.09 5.23H1.5V.5z"
+                stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path>
+            </svg>
+            <span class="ids-text ids-text-16">Home</span>
+          </span>
+        </li>
+        <li class="ids-tree-node" selected>
+          <span class="node-container">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18"
+              width="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true">
+              <path
+                d="M1.5.5h14v11.77c0 2.888-2.28 5.23-5.09 5.23H1.5V.5z"
+                stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path>
+            </svg>
+            <span class="ids-text ids-text-16">About Us</span>
+          </span>
+        </li>
+        <li class="ids-tree-node expanded">
+          <span class="node-container">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18"
+              width="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true">
+              <path
+                d="M14.5 6.077V3.5H9l-3.27-2H.5v14m0 0h6.538M.5 15.5l3-9h14l-1.531 5.591c-.642 2.245-2.694 3.409-5.03 3.409H.5z"
+                stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path>
+            </svg>
+            <span class="ids-text ids-text-16">Public Folders</span>
+          </span>
+          <ul class="group-nodes">
+            <li class="ids-tree-node expanded">
+              <span class="node-container">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18"
+                  width="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true">
+                  <path
+                    d="M14.5 6.077V3.5H9l-3.27-2H.5v14m0 0h6.538M.5 15.5l3-9h14l-1.531 5.591c-.642 2.245-2.694 3.409-5.03 3.409H.5z"
+                    stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path>
+                </svg>
+                <span class="ids-text ids-text-16">Leadership</span>
+              </span>
+              <ul class="group-nodes">
+                <li class="ids-tree-node">
+                  <span class="node-container">
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18"
+                      width="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true">
+                      <path
+                        d="M1.5.5h14v11.77c0 2.888-2.28 5.23-5.09 5.23H1.5V.5z"
+                        stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path>
+                    </svg>
+                    <span class="ids-text ids-text-16">Leadership 2nd</span>
+                  </span>
+                </li>
+                <li class="ids-tree-node" disabled>
+                  <span class="node-container">
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18"
+                      width="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true">
+                      <path
+                        d="M1.5.5h14v11.77c0 2.888-2.28 5.23-5.09 5.23H1.5V.5z"
+                        stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path>
+                    </svg>
+                    <span class="ids-text ids-text-16">History</span>
+                  </span>
+                </li>
+                <li class="ids-tree-node">
+                  <span class="node-container">
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18"
+                      width="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true">
+                      <path
+                        d="M1.5.5h14v11.77c0 2.888-2.28 5.23-5.09 5.23H1.5V.5z"
+                        stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path>
+                    </svg>
+                    <span class="ids-text ids-text-16">Careers Last</span>
+                  </span>
+                </li>
+              </ul>
+            </li>
+            <li class="ids-tree-node">
+              <span class="node-container">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18"
+                  width="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true">
+                  <path
+                    d="M1.5.5h14v11.77c0 2.888-2.28 5.23-5.09 5.23H1.5V.5z"
+                    stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path>
+                </svg>
+                <span class="ids-text ids-text-16">History 2nd</span>
+              </span>
+            </li>
+            <li class="ids-tree-node">
+              <span class="node-container">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18"
+                  width="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true">
+                  <path
+                    d="M1.5.5h14v11.77c0 2.888-2.28 5.23-5.09 5.23H1.5V.5z"
+                    stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path>
+                </svg>
+                <span class="ids-text ids-text-16">Careers</span>
+              </span>
+            </li>
+          </ul>
+        </li>
+        <li class="ids-tree-node collapsed">
+          <span class="node-container">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18"
+              width="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true">
+              <path
+                d="M.5 4.5h11.214M.5 16.5h11.77c2.888 0 5.23-2.442 5.23-5.454V4.5h-5.885l-5.884-3H.5v15z"
+                stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path>
+            </svg>
+            <span class="ids-text ids-text-16">Icons</span>
+          </span>
+        </li>
+        <li class="ids-tree-node">
+          <span class="node-container">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18"
+              width="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true">
+              <path
+                d="M1.5.5h14v11.77c0 2.888-2.28 5.23-5.09 5.23H1.5V.5z"
+                stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path>
+            </svg>
+            <span class="ids-text ids-text-16">Blog</span>
+          </span>
+        </li>
+        <li class="ids-tree-node">
+          <span class="node-container">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18"
+              width="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true">
+              <path
+                d="M1.5.5h14v11.77c0 2.888-2.28 5.23-5.09 5.23H1.5V.5z"
+                stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path>
+            </svg>
+            <span class="ids-text ids-text-16">Contact</span>
+          </span>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</body>
+</html>

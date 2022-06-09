@@ -1,0 +1,12 @@
+/* Ids Line Chart Component */
+@import '../../components/ids-axis-chart/ids-axis-chart';
+
+.ids-axis-chart {
+  .bars {
+    @for $i from 1 through 21 {
+      rect.color-#{$i}:not([fill]) {
+        fill: var(--ids-chart-color-#{$i});
+      }
+    }
+  }
+}

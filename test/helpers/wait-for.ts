@@ -78,7 +78,7 @@ export default async function waitFor(
         || container?.shadowRoot?.querySelector?.(selectorOrAssertionCb)
         );
 
-        return expect(elem && (elem instanceof HTMLElement))[`toBe${truthyOrFalsy}`]();
+        return expect(elem && (elem instanceof HTMLElement || elem instanceof SVGElement))[`toBe${truthyOrFalsy}`]();
       });
     default:
       throw new TypeError('waitFor requires a dom query string or an assertion callback');
