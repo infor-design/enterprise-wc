@@ -5,6 +5,7 @@
 All components in this version are now web components compared to 4.x. Each component can now be imported as a single JS file and used with encapsulated styles.
 For more details on breaking changes see each component in the individual README.md files.
 
+- `[Colorpicker]` The colorpicker component was bugfixed and enhanced to include features found in legacy codebase. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-color-picker/README.md) for details. ([#551](https://github.com/infor-design/enterprise-wc/issues/551))
 - `[About]` The about component was converted. See the [README](https://github.com/infor-design/enterprise-wc/blob/todo-passthrough/src/components/ids-about/README.md#converting-from-previous-versions-breaking-changes) for details. ([#308](https://github.com/infor-design/enterprise-wc/issues/308))
 - `[Accordion]` The accordion component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-accordion//README.md##converting-from-previous-versions) for details. ([#168](https://github.com/infor-design/enterprise-wc/issues/168))
 - `[ActionSheet]` The action sheet component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-action-sheet/README.md#converting-from-previous-versions) for details. ([#348](https://github.com/infor-design/enterprise-wc/issues/348))

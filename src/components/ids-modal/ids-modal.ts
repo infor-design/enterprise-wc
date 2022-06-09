@@ -308,7 +308,6 @@ export default class IdsModal extends Base {
     this.removeAttribute('aria-hidden');
 
     // Focus the correct element
-    this.capturesFocus = true;
     this.#setModalFocus();
 
     this.addOpenEvents();
@@ -457,7 +456,11 @@ export default class IdsModal extends Base {
     const selectorStr = focusableSelectors.join(', ');
 
     const focusable = [...this.querySelectorAll(selectorStr)];
-    if (focusable.length) {
+
+    // Right action btn should have focus
+    if (focusable.length === 2) {
+      focusable[1].focus();
+    } else if (focusable.length) {
       focusable[0].focus();
     }
   }

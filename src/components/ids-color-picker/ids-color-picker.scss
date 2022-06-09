@@ -4,7 +4,42 @@
   @include mb-16();
 
   display: block;
-  width: $input-size-sm;
+  position: relative;
+  max-width: $input-size-sm;
+
+  input {
+    @include ellipsis();
+  }
+
+  &.xs {
+    max-width: $border-input-size-xs;
+
+    input {
+      margin: 0;
+      padding: 0;
+      visibility: hidden;
+    }
+  }
+
+  &.sm {
+    max-width: $border-input-size-sm;
+  }
+
+  &.mm {
+    max-width: $border-input-size-mm;
+  }
+
+  &.md {
+    max-width: $border-input-size-md;
+  }
+
+  &.lg {
+    max-width: $border-input-size-lg;
+  }
+
+  &.full {
+    max-width: $border-input-size-full;
+  }
 }
 
 ids-input::part(container) {
@@ -24,38 +59,39 @@ ids-input::part(container) {
 }
 
 .color-popup {
-  contain: content;
   display: grid;
-  gap: 4px;
   grid-template-columns: repeat(10, 20px);
-  overflow: auto;
+  overflow: visible;
   padding: var(--ids-number-spacing-base);
-  width: 239px;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+  column-gap: 8px;
+  row-gap: 4px;
+  width: auto;
 }
 
-.color-preview {
-  display: block;
-  height: $input-field-height-md - 4;
-  margin: 0 1px;
-  width: $input-field-height-md - 4;
-  cursor: pointer;
-}
+.advanced-color-picker {
+  position: unset;
+  bottom: 0;
+  right: 0;
 
-ids-trigger-button .color-preview {
-  display: block;
-  height: 36px;
-  width: 36px;
-  cursor: pointer;
-  position: absolute;
-  z-index: 1;
-}
+  .color-input {
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 30px;
+    z-index: -10;
 
-.color-input {
-  display: block;
-  height: calc(100% + 12px);
-  margin: 0;
-  padding: 0;
-  opacity: 0;
+    // The visibility: hidden style behaves like a combination of opacity: 0 and pointer-events: none.
+    // Regarding the accessibility, opacity: 0 is the only property which makes the
+    // element accessible in the tab order, and the element's content can be read by screen readers.
+    opacity: 0;
+
+    // visibility: hidden;
+  }
 }
 
 .color-input-value {
