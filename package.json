@@ -78,7 +78,7 @@
     "mini-css-extract-plugin": "^2.6.0",
     "mutationobserver-shim": "^0.3.7",
     "nodemon": "^2.0.16",
-    "puppeteer": "^14.3.0",
+    "puppeteer": "^13.7.0",
     "remark-cli": "^10.0.1",
     "remark-preset-lint-markdown-style-guide": "^5.1.2",
     "rimraf": "^3.0.2",
