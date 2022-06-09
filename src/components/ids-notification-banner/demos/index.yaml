@@ -2,7 +2,7 @@
  component: Notification Banner
  link: ids-notification-banner
  description: Displays a Top Level Application Message
- category: Navigation and Interaction
+ category: Messages and Alerts
  keywords: Modal, Dialog
  examples:
   - link: example.html

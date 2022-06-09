@@ -290,6 +290,7 @@ export const attributes = {
   STEP_NUMBER: 'step-number',
   STICKY: 'sticky',
   SUBMENU: 'submenu',
+  SUPPRESS_LABELS: 'suppress-labels',
   SUPPRESS_ROW_DEACTIVATION: 'suppress-row-deactivation',
   SUPPRESS_ROW_DESELECTION: 'suppress-row-deselection',
   SUPPRESS_TOOLTIPS: 'suppress-tooltips',
