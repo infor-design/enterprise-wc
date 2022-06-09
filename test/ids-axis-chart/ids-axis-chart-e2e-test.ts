@@ -28,7 +28,7 @@ describe('Ids Axis Chart e2e Tests', () => {
     expect(attr).toEqual('rgb(0, 84, 177)');
   });
 
-  it('should not have memory leaks', async () => {
+  it.skip('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', `<ids-axis-chart id="test">test</ids-axis-chart>`);
