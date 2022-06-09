@@ -139,6 +139,7 @@
   height: auto;
 
   ::slotted([slot='card-content']) {
+    pointer-events: none;
     width: 100%;
   }
 
