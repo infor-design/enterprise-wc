@@ -408,6 +408,25 @@ export function dateMask(rawValue = '', options: IdsMaskOptions = {}): IdsMaskGe
 }
 
 /**
+ * Range Date Mask
+ * @param {string} rawValue the un-formatted value that will eventually be masked.
+ * @param {IdsMaskOptions} options masking options
+ * @returns {IdsMaskGeneratorResult} containing a mask that will match a formatted date,
+ */
+export function rangeDateMask(rawValue = '', options: IdsMaskOptions = {}): IdsMaskGeneratorResult {
+  const parts: Array<string> = rawValue.split(options.delimeter);
+  const delimiterArr: Array<string> = options.delimeter.split('');
+  const firstDate: IdsMaskGeneratorResult = dateMask(parts[0], options);
+  const secondDate: IdsMaskGeneratorResult = dateMask(parts[1], options);
+
+  return {
+    mask: firstDate.mask.concat(delimiterArr.concat(secondDate.mask as any)),
+    literals: delimiterArr,
+    literalRegex: secondDate.literalRegex
+  };
+}
+
+/**
  * Generates a pipe function that can be applied to a Mask API that will correct
  * shorthand numeric dates.
  * NOTE: DOES NOT WORK FOR DATES WITH ALPHABETIC CONTENT. Do not use this if your

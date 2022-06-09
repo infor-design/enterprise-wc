@@ -8,9 +8,9 @@
   - link: example.html
     type: Main Example
     description: Past dates. Full size view
-  - link: current-month.html
+  - link: compact.html
     type: Example
-    description: Current month, year and day. Compact view
+    description: Shows compact view with legend
   - link: range-in-month.html
     type: Example
     description: Range of dates. More than one month view. No toolbar

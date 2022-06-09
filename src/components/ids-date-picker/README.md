@@ -58,10 +58,13 @@ The `ids-date-picker` is a web component to support date entry
 - `mask` `{true|false}` - Whether or not to enable date mask for the input. `format` attribute will be set as mask options format
 - `minute-interval` {number} Set time picker minutes dropdown options interval
 - `second-interval` {number} Set time picker seconds dropdown options interval
+- `show-picklist-year` `{true|false}` Whether or not to show a list of years in the picklist, default if true
+- `show-picklist-month` `{true|false}` Whether or not to show a list of months in the picklist, default is true
+- `show-picklist-week` `{true|false}` Whether or not to show week numbers in the picklist
 
 ## Methods
-- `show()` - opens calendar popup
-- `hide()` - closes calendar popup
+- `open()` - opens calendar popup
+- `close()` - closes calendar popup
 
 ## Events
 - `dayselected` - Fires when a day is selected or range selection is completed
@@ -89,8 +92,8 @@ datePicker.popup.addEventListener('hide');
 - `input` allows you to further style the input element
 - `popup` allows you to further style the popup element
 - `footer` - allows you to further style the popup footer
-- `start-button` - allows you to further style the clear/cancel button in the popup footer
-- `end-button` - allows you to further style the apply button in the popup footer
+- `btn-clear` - allows you to further style the clear button
+- `btn-apply ` - allows you to further style the apply button
 
 ## Features (With Code Examples)
 With no settings. Showing empty input field with no label or placeholder.
@@ -242,3 +245,4 @@ The Date Picker is a complex control to code for accessibility.
 - Can now be imported as a single JS file and used with encapsulated styles
 - Instead of `onOpenCalendar` callback there are `show`, `hide` popup plain JS events and a date for calendar can be set as date picker `year`, `month`, `day` settings when calendar popup is opened
 - To use date picker with time picker `format` attribute should contain time i.e. `M/d/yyyy hh:mm a`
+- Added week numbers option to the calendar picklist
