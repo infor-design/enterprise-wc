@@ -518,17 +518,39 @@ export default class IdsDropdown extends Base {
    * @private
    */
   #loadDataSet(dataset: any) {
-    let html = '';
-    const listbox = this.querySelector('ids-list-box');
-    listbox.innerHTML = '';
-    dataset.forEach((option: any) => {
-      html += `<ids-list-box-option
+    if (this.group) {
+      const groupCount = dataset
+        .reduce(
+          (previousTotal:number, currentOption:any) => { return currentOption.label === true ? previousTotal++ : previousTotal, 0 }
+        );
+      let html = '';
+      const listbox = this.querySelector('ids-list-box');
+      listbox.innerHTML = '';
+      dataset.forEach((option: any) => {
+        if (option.label) {
+          html += `<label for="${option.label}" class="label">${option.label}</label>`
+        } else {
+          html += `<ids-list-box-option
+          value="${option.value}">${option.label}
+          </ids-list-box-option>`;
+        }
+      });
+      listbox.insertAdjacentHTML('afterbegin', html);
+      this.#insertBlankOption();
+      this.value = this.getAttribute('value');
+    } else {
+      let html = '';
+      const listbox = this.querySelector('ids-list-box');
+      listbox.innerHTML = '';
+      dataset.forEach((option: any) => {
+        html += `<ids-list-box-option
         value="${option.value}">${option.label}
         </ids-list-box-option>`;
-    });
-    listbox.insertAdjacentHTML('afterbegin', html);
-    this.#insertBlankOption();
-    this.value = this.getAttribute('value');
+      });
+      listbox.insertAdjacentHTML('afterbegin', html);
+      this.#insertBlankOption();
+      this.value = this.getAttribute('value');
+    }
   }
 
   /**
