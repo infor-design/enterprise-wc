@@ -223,7 +223,7 @@ class IdsMultiselect extends Base {
     let selectedOptionsContainer = this.querySelector('.selected-options');
     if (addItem) {
       if (!selectedOptionsContainer) {
-        this.insertAdjacentHTML('afterbegin', `<ids-listbox class="selected-options" id="selected-options">
+        this.insertAdjacentHTML('afterbegin', `<ids-listbox class="selected-options">
         </ids-listbox>`);
         selectedOptionsContainer = this.querySelector('.selected-options');
       }
