@@ -148,7 +148,7 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 |`hidden` | {boolean} | Excludes the column from being added to the DOM.|
 |`align` | {string} | Can be `left` or `right` or `center` to align both the cell and the header. Left is the default so does not need to be specified. |
 |`headerAlign` | {string} | Can be `left` or `right` or `center` to align just the header. Left is the default so does not need to be specified. |
-|`width` | {number|string} | The column width, this can be an integer for fixed pixel width or a percent for example `10%`, if left off the columns will be sized to contents and to fit the width of the grid using the css table browsers handling (this is known as `auto` columns). I.E. There are three column configurations: `auto`, `fixed` and `percent`. |
+|`width` | {number|string} | The column width, this can be an integer for fixed pixel width or a percent for example `10%`, if left off the columns will be sized to contents and to fit the width of the grid using the css table browsers handling (this is known as `auto` columns). I.E. There are three column configurations: `auto`, `fixed` and `percent`. In addition one can specify any css grid column setting like `fr` or `ch`. In order to make what was called a `stretchColumn` in previous versions you can set the width to`minmax(130px, 4fr)`. This is some minimum width and a `fr` unit equal to the remaining number of columns (see example columns-stretch.html). For a spacer column you just need to specify one extra column at the end (see example columns-fixed.html) but this is not recommended for how it looks. |
 |`minWidth` | {number} | The minimum width used to prevent resizing a column below this size. |
 |`maxWidth` | {number} | The maximum width used to prevent resizing a column above this size. |
 |`cssPart` | {string} | Allows you to set the name of a css part that can be used to customize the cell's css. This can be a string or a function. See the columns-custom-css example. The default cssPart for cells is called `cell` and it also can be used for more global changes.  |
@@ -615,6 +615,8 @@ The following events are relevant to data-grid filters.
 - Can now be imported as a single JS file and used with encapsulated styles
 - `Drill Down` Formatter is now covered by `Button` formatter with `icon="drilldown"`
 - `textOverflow` setting is now by default
+- `stretchColumn` is now more flexible and can be achieved by setting a column width to `minmax(130px, 4fr)`. I.E. some min width and a `fr` unit equal to the remaining number of columns (or similar variations).
+- split columns are not supported anymore but could be done with a custom formatter if needed
 
 ## Accessibility Guidelines
 

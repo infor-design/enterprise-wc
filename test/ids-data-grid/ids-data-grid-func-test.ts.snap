@@ -9,7 +9,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 1`] = `
 
 exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
 "
-      <div class=\\"ids-data-grid\\" role=\\"table\\" part=\\"table\\" aria-label=\\"Data Grid\\" data-row-height=\\"lg\\" mode=\\"light\\" version=\\"new\\" style=\\"--ids-data-grid-column-widths: 45px 65px minmax(110px, 1fr)minmax(110px, 1fr)minmax(110px, 1fr)minmax(110px, 1fr)minmax(110px, 1fr)minmax(110px, 1fr)minmax(110px, 1fr)minmax(110px, 1fr)minmax(110px, 1fr)minmax(110px, 1fr)minmax(110px, 1fr)minmax(110px, 1fr)minmax(110px, 1fr)minmax(110px, 1fr)minmax(110px, 1fr)minmax(110px, 1fr);\\">
+      <div class=\\"ids-data-grid\\" role=\\"table\\" part=\\"table\\" aria-label=\\"Data Grid\\" data-row-height=\\"lg\\" mode=\\"light\\" version=\\"new\\" style=\\"--ids-data-grid-column-widths: 45px 65px minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) ;\\">
       
       <div class=\\"ids-data-grid-header\\" role=\\"rowgroup\\" part=\\"header\\">
         <div role=\\"row\\" class=\\"ids-data-grid-row\\">

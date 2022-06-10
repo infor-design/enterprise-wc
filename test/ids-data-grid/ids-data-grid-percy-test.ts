@@ -105,4 +105,16 @@ describe('Ids Data Grid Other Percy Tests', () => {
     await page.waitForSelector('ids-layout-grid-cell');
     await percySnapshot(page, 'ids-data-grid-columns-alignment-light');
   });
+
+  it('should not have visual regressions in column groups (percy)', async () => {
+    await page.goto('http://localhost:4300/ids-data-grid/columns-groups.html', { waitUntil: ['networkidle2', 'load'] });
+    await page.waitForSelector('ids-layout-grid-cell');
+    await percySnapshot(page, 'ids-data-grid-columns-groups-light');
+  });
+
+  it('should not have visual regressions in column stretch (percy)', async () => {
+    await page.goto('http://localhost:4300/ids-data-grid/columns-stretch.html', { waitUntil: ['networkidle2', 'load'] });
+    await page.waitForSelector('ids-layout-grid-cell');
+    await percySnapshot(page, 'ids-data-grid-columns-stretch-light');
+  });
 });

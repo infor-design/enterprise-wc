@@ -41,6 +41,9 @@
   - link: columns-resize.html
     type: Example
     description: Showing resizing columns
+  - link: columns-stretch.html
+    type: Example
+    description: Showing a stretch column
   - link: filter-trigger-fields.html
     type: Example
     description: Showing a filter row with date, time, dropdown

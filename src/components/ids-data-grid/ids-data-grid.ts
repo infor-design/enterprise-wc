@@ -586,14 +586,21 @@ export default class IdsDataGrid extends Base {
       if (column.id === 'selectionCheckbox' || column.id === 'selectionRadio') {
         column.width = 45;
       }
-      if (column.width && typeof column.width === 'string') {
+      // Percent Columns
+      if (column.width && typeof column.width === 'string' && column.width.indexOf('%') > -1) {
         colWidths += `minmax(${column.width}, 1fr) `;
       }
+      // Other (fr, ch)
+      if (column.width && typeof column.width === 'string' && column.width.indexOf('%') === -1) {
+        colWidths += `${column.width} `;
+      }
+      // Fixed pixel
       if (column.width && typeof column.width === 'number') {
         colWidths += `${column.width}px `;
       }
+      // Default 110px or stretch to fit
       if (!column.width) {
-        colWidths += `minmax(110px, 1fr)`;
+        colWidths += `minmax(110px, 1fr) `;
       }
     });
 

@@ -498,7 +498,25 @@ describe('IdsDataGrid Component', () => {
         align: 'right',
         width: '50%'
       }];
-      // TODO: fix this test when we change why the styleSheet is set
+      expect(dataGrid.container.style.getPropertyValue('--ids-data-grid-column-widths')).toEqual('minmax(50%, 1fr) minmax(50%, 1fr) ');
+    });
+
+    it('supports setting custom width', () => {
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        align: 'center',
+        width: 'minmax(130px, 2fr)'
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency',
+        align: 'right',
+        width: '50%'
+      }];
+      expect(dataGrid.container.style.getPropertyValue('--ids-data-grid-column-widths')).toEqual('minmax(130px, 2fr) minmax(50%, 1fr) ');
     });
 
     it('supports column groups', () => {

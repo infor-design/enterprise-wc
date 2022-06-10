@@ -4,8 +4,7 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 
 ## Next
 
-- filter row
-- grouped columns
+- grouped columns (resize)
 
 ## Major
 
@@ -21,7 +20,7 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 - [ ] Export Csv and Xls [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-export-from-button.html)
 - [x] Grouped Headers [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-grouped-headers.html)
 - [ ] Toolbar [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-custom-toolbar.html)
-- [ ] Editors / Editing / Dirty [example](https://www.w3.org/TR/wai-aria-practices/examples/grid/dataGrids.html) including https://github.com/infor-design/enterprise/issues/6338
+- [ ] Editors / Editing / Dirty [example](https://www.w3.org/TR/wai-aria-practices/examples/grid/dataGrids.html) including https://github.com/infor-design/enterprise/issues/6338 and a way to veto selection [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-beforeselect-veto.html)
 - [ ] Keyboard Navigation (included tabbable/not tabbable) see [standards](https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-for-layout-grids) (actionable mode, X cell navigation, X row navigation)
 - [ ] More Accessibility see [standards](https://design.infor.com/code/ids-enterprise/latest/listview#accessibility)
 - [ ] Disabled Rows [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-disabled-rows.html) test on http://localhost:4300/ids-data-grid/columns-formatters.html with disabled checkboxes
@@ -31,19 +30,18 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 - [x] Text align headers and cells [example](https://main-enterprise.demo.design.infor.com/components/datagrid/test-alerts-right-align.html)
 - [x] Css class/Colors
 - [ ] Custom Formatters and Editors Example
+- [ ] Context Menu
 
 ## Minor
 
 - [ ] Row Reorder [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-row-reorder.html)
-- [ ] Add a way to veto selection [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-beforeselect-veto.html)
-- [ ] Colspans [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-colspan.html)
 - [ ] Keyword Search [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-keyword-search.html)
 - [ ] Nested Datagrid [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-nested-grids.html)
 - [ ] Editor Placeholder [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-placeholder.html)
-- [ ] Context Menu
 - [ ] Contextual Toolbar
 - [ ] Paste/Copy from Excel [example](https://main-enterprise.demo.design.infor.com/components/datagrid/test-copy-paste-from-excel.html)
 - [ ] Summary Row [example](https://main-enterprise.demo.design.infor.com/components/datagrid/test-summary-row-pager.html)
 - [x] Automation id's
 - [ ] Errors and Validation
 - [ ] Xss Tests
+- [ ] Colspans [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-colspan.html)
