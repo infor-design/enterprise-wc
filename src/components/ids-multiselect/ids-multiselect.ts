@@ -49,6 +49,10 @@ class IdsMultiselect extends Base {
     ];
   }
 
+  /**
+   * Sets the disabled attribute
+   * @param {string|boolean} value string value from the disabled attribute
+   */
   set disabled(value) {
     if (this.tag) {
       this.querySelectorAll('ids-tag').forEach((element:HTMLElement) => {
@@ -59,10 +63,18 @@ class IdsMultiselect extends Base {
     super.disabled = value;
   }
 
+  /**
+   * Gets the value of the disabled property
+   * @returns a boolean indicating the elements disabled status
+   */
   get disabled() {
     return super.disabled;
   }
 
+  /**
+   * Sets the tags attribute which determines if selected options are displayed as tags
+   * @param {string|boolean} value string or boolean that sets the use of tag attribute
+   */
   set tags(value) {
     const valueSafe = stringToBool(value);
     if (valueSafe !== this.getAttribute(attributes.TAGS)) {
@@ -74,6 +86,9 @@ class IdsMultiselect extends Base {
     }
   }
 
+  /**
+   *
+   */
   get tags() {
     return stringToBool(this.getAttribute(attributes.TAGS));
   }
