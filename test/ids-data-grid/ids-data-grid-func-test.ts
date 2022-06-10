@@ -537,6 +537,113 @@ describe('IdsDataGrid Component', () => {
       expect(nodes[0].classList.contains('align-center')).toBeTruthy();
       expect(nodes[2].classList.contains('align-right')).toBeTruthy();
     });
+
+    it('supports column resize', async () => {
+      (window as any).getComputedStyle = () => ({ width: 200 });
+
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        align: 'center',
+        resizable: true,
+        minWidth: 100,
+        width: 200,
+        maxWidth: 300
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency',
+        align: 'right',
+        minWidth: 100,
+        resizable: true,
+        maxWidth: 300
+      }];
+
+      const nodes = dataGrid.container.querySelectorAll('.resizer');
+      expect(nodes.length).toEqual(2);
+
+      // Fake a resize
+      const mousedown = new MouseEvent('mousedown', { clientX: 224, bubbles: true });
+      // Wrong target
+      nodes[0].parentNode.dispatchEvent(mousedown);
+      nodes[0].dispatchEvent(mousedown);
+      expect(dataGrid.isResizing).toBeTruthy();
+      expect(dataGrid.columns[0].width).toBe(200);
+
+      let mousemove = new MouseEvent('mousemove', { clientX: 200, bubbles: true });
+      document.dispatchEvent(mousemove);
+      expect(dataGrid.columns[0].width).toBe(176);
+
+      mousemove = new MouseEvent('mouseup', { clientX: 190, bubbles: true });
+      document.dispatchEvent(mousemove);
+      expect(dataGrid.columns[0].width).toBe(176);
+    });
+
+    it('supports column resize on RTL', async () => {
+      (window as any).getComputedStyle = () => ({ width: 200 });
+
+      container.language = 'ar';
+      await processAnimFrame();
+
+      expect(dataGrid.locale.isRTL()).toBe(true);
+
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        align: 'center',
+        resizable: true,
+        minWidth: 100,
+        width: 200,
+        maxWidth: 300
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency',
+        align: 'right',
+        minWidth: 100,
+        resizable: true,
+        maxWidth: 300
+      }];
+
+      const nodes = dataGrid.container.querySelectorAll('.resizer');
+      expect(nodes.length).toEqual(2);
+
+      // Fake a resize
+      const mousedown = new MouseEvent('mousedown', { clientX: 224, bubbles: true });
+      // Wrong target
+      nodes[0].parentNode.dispatchEvent(mousedown);
+      nodes[0].dispatchEvent(mousedown);
+      expect(dataGrid.isResizing).toBeTruthy();
+      expect(dataGrid.columns[0].width).toBe(200);
+
+      let mousemove = new MouseEvent('mousemove', { clientX: 200, bubbles: true });
+      document.dispatchEvent(mousemove);
+      expect(dataGrid.columns[0].width).toBe(224);
+
+      // Stop Moving
+      mousemove = new MouseEvent('mouseup', { clientX: 190, bubbles: true });
+      document.dispatchEvent(mousemove);
+      expect(dataGrid.columns[0].width).toBe(224);
+    });
+
+    it('supports getting columnIdxById', () => {
+      expect(dataGrid.columnIdxById('rowNumber')).toEqual(1);
+      expect(dataGrid.columnIdxById('xxx')).toEqual(-1);
+    });
+
+    it('supports setting column width', () => {
+      dataGrid.setColumnWidth('description', 101);
+      expect(dataGrid.columns[2].width).toEqual(101);
+    });
+
+    it('supports not setting min column width (12)', () => {
+      dataGrid.setColumnWidth('description', 1);
+      expect(dataGrid.columns[2].width).toEqual(undefined);
+    });
   });
 
   describe('Sorting Tests', () => {
@@ -632,6 +739,16 @@ describe('IdsDataGrid Component', () => {
 
       expect(mockCallback.mock.calls.length).toBe(0);
       expect(errors).not.toHaveBeenCalled();
+    });
+
+    it('skips sort on resize click ', () => {
+      const mockCallback = jest.fn();
+      dataGrid.isResizing = true;
+      dataGrid.addEventListener('sort', mockCallback);
+      const headers = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell');
+      headers[2].querySelector('.ids-data-grid-header-cell-content').click();
+
+      expect(mockCallback.mock.calls.length).toBe(0);
     });
 
     it('resets direction on sort', async () => {

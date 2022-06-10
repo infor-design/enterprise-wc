@@ -98,19 +98,33 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     background-color: $header-bg-color;
     border-color: $cell-border-color;
     min-height: 35px;
+    position: relative;
 
     // Hide first border
     &:first-child {
       border-left-style: hidden;
     }
 
-    &.align-center .ids-data-grid-header-cell-content {
+    &.align-center .ids-data-grid-header-cell-content,
+    &.align-center .ids-data-grid-header-cell-filter-wrapper {
       justify-content: center;
     }
 
-    &.align-right .ids-data-grid-header-cell-content {
+    &.align-right .ids-data-grid-header-cell-content,
+    &.align-right .ids-data-grid-header-cell-filter-wrapper {
       direction: rtl;
       justify-content: flex-start;
+    }
+
+    .resizer {
+      cursor: col-resize;
+      display: inline;
+      height: 100%;
+      position: absolute;
+      left: calc(100% - 4px);
+      top: 0;
+      width: 6px;
+      z-index: 2;
     }
   }
 
@@ -120,7 +134,6 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
   .ids-data-grid-header-text {
     @include block();
-    @include px-16();
     @include py-8();
     @include font-bold();
     @include text-14();
@@ -129,6 +142,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     overflow: hidden;
     text-align: left;
     text-overflow: ellipsis;
+    text-indent: 16px;
     user-select: none;
     white-space: nowrap;
   }
@@ -137,8 +151,9 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   .sort-indicator {
     @include relative();
 
-    height: 16px;
-    margin-inline-start: -12px;
+    overflow: hidden;
+    height: 32px;
+    margin-inline-start: 2px;
     width: 18px;
   }
 
@@ -332,8 +347,6 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
   // Negates the padding
   .ids-data-grid-header-text .ids-data-grid-checkbox-container {
-    margin-left: -3px;
-    margin-top: 1px;
     width: 20px;
 
     .ids-data-grid-checkbox:not(.checked):not(.indeterminate) {
@@ -680,8 +693,14 @@ table.ids-data-grid {
       border-left-style: hidden;
     }
 
-    &.align-right .ids-data-grid-header-cell-content {
+    &.align-right .ids-data-grid-header-cell-content,
+    &.align-right .ids-data-grid-header-cell-filter-wrapper {
       direction: ltr;
+    }
+
+    .resizer {
+      margin-right: auto;
+      margin-left: -4px;
     }
   }
 }

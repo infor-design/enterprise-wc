@@ -256,6 +256,8 @@ export default class IdsDataGrid extends Base {
       </span>
     `;
 
+    const resizerTemplate = `<span class="resizer"></span>`;
+
     const headerContentTemplate = `
       ${(column.id !== 'selectionRadio' && column.id === 'selectionCheckbox') ? selectionCheckBoxTemplate : ''}
       ${(column.id !== 'selectionRadio' && column.id !== 'selectionCheckbox' && column.name) ? column.name : ''}
@@ -271,7 +273,7 @@ export default class IdsDataGrid extends Base {
           ${headerContentTemplate}
         </span>
         ${column.sortable ? sortIndicatorTemplate : ''}
-      </span>
+      </span>${column.resizable ? resizerTemplate : ''}
     `;
 
     // Filter row cell template
@@ -409,6 +411,12 @@ export default class IdsDataGrid extends Base {
     // Add a sort Handler
     this.offEvent('click.sort', header);
     this.onEvent('click.sort', header, (e: any) => {
+      // Dont sort on resize
+      if (this.isResizing) {
+        this.isResizing = false;
+        return;
+      }
+
       const sortableHeaderCell = e.target.closest('.is-sortable')?.closest('.ids-data-grid-header-cell');
       if (sortableHeaderCell) {
         this.setSortColumn(
@@ -479,6 +487,66 @@ export default class IdsDataGrid extends Base {
     });
 
     this.filters?.attachFilterEventHandlers();
+    this.#attachResizeHandlers();
+  }
+
+  /**
+   * Establish Drag handlers for resize
+   * Based on https://htmldom.dev/resize-columns-of-a-table/
+   * @private
+   */
+  #attachResizeHandlers() {
+    // Track the current position of mouse
+    let x = 0;
+    let w = 0;
+    let columnId = '';
+
+    const header = this.shadowRoot.querySelector('.ids-data-grid-header:not(.column-groups)');
+    const mouseMoveHandler = (e: MouseEvent) => {
+      // Determine how far the mouse has been moved
+      const dx = e.clientX - x;
+      // Update the width of column to ${w + dx}px
+      this.setColumnWidth(columnId, w + (!this.locale.isRTL() ? dx : -dx));
+    };
+
+    // When user releases the mouse, remove the existing event listeners
+    const mouseUpHandler = () => {
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
+
+      header.style.cursor = '';
+      requestAnimationFrame(() => {
+        this.isResizing = false;
+      });
+    };
+
+    // Add a resize Handler
+    this.offEvent('mousedown.resize', header);
+    this.onEvent('mousedown.resize', header, (e: MouseEvent) => {
+      const target = (e.target as any);
+      if (!target.classList.contains('resizer')) {
+        return;
+      }
+
+      // Get the current mouse position
+      x = e.clientX;
+
+      // Calculate the current width of column
+      const col = target.closest('.ids-data-grid-header-cell');
+      const colStyles = window.getComputedStyle(col);
+      columnId = col.getAttribute('column-id');
+      w = parseInt(colStyles.width, 10);
+
+      // Attach listeners for document's events
+      document.addEventListener('mousemove', mouseMoveHandler);
+      document.addEventListener('mouseup', mouseUpHandler);
+
+      // Import the cursor behavior
+      header.style.cursor = 'col-resize';
+
+      // Prevent a click causing a sort
+      this.isResizing = true;
+    });
   }
 
   /**
@@ -534,6 +602,25 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
+   * Set one column's width
+   * @param {string} columnId The column id
+   * @param {number} width The column id (or field) to sort
+   */
+  setColumnWidth(columnId: string, width: number) {
+    const idx = this.columnIdxById(columnId);
+    const col = this.columnDataById(columnId);
+    // Constrain to a min and max width
+    const minWidth = col.minWidth || 12;
+    const maxWidth = col.maxWidth || Number.MAX_SAFE_INTEGER;
+
+    if (this.columns[idx] && width >= minWidth && width <= maxWidth) {
+      this.columns[idx].width = width;
+      this.#setColumnWidths();
+      this.#setColumnGroupsWidth();
+    }
+  }
+
+  /**
    * Set the column groups widths based on the provided colspans.
    * With some error handling.
    * @private
@@ -559,8 +646,8 @@ export default class IdsDataGrid extends Base {
 
   /**
    * Set the sort column and sort direction
-   * @param {string} id The column id to sort on
-   * @param {boolean} ascending Set in ascending (lowest first) or descending (lowest last)
+   * @param {string} id The column id (or field) to sort
+   * @param {boolean} ascending Sort ascending (lowest first) or descending (lowest last)
    */
   setSortColumn(id : string, ascending = true) {
     const column = this.columnDataById(id);
@@ -576,8 +663,8 @@ export default class IdsDataGrid extends Base {
 
   /**
    * Set the sort column and sort direction on the UI only
-   * @param {string} id The field id to sort on
-   * @param {boolean} ascending Set in ascending (lowest first) or descending (lowest last)
+   * @param {string} id The column id (or field) to set
+   * @param {boolean} ascending Sort ascending (lowest first) or descending (lowest last)
    */
   setSortState(id: string, ascending = true) {
     const sortedHeaders = [...this.shadowRoot.querySelectorAll('.is-sortable')]
@@ -597,6 +684,15 @@ export default class IdsDataGrid extends Base {
    */
   columnDataById(columnId: string) {
     return this.columns?.filter((column: IdsDataGridColumn) => column.id === columnId)[0];
+  }
+
+  /**
+   * Get column index by given column id
+   * @param {string} columnId The column id
+   * @returns {number} The column index
+   */
+  columnIdxById(columnId: string): number {
+    return this.columns?.findIndex((column: IdsDataGridColumn) => column.id === columnId);
   }
 
   /**

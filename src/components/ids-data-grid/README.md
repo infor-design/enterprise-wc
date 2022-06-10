@@ -149,6 +149,8 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 |`align` | {string} | Can be `left` or `right` or `center` to align both the cell and the header. Left is the default so does not need to be specified. |
 |`headerAlign` | {string} | Can be `left` or `right` or `center` to align just the header. Left is the default so does not need to be specified. |
 |`width` | {number|string} | The column width, this can be an integer for fixed pixel width or a percent for example `10%`, if left off the columns will be sized to contents and to fit the width of the grid using the css table browsers handling (this is known as `auto` columns). I.E. There are three column configurations: `auto`, `fixed` and `percent`. |
+|`minWidth` | {number} | The minimum width used to prevent resizing a column below this size. |
+|`maxWidth` | {number} | The maximum width used to prevent resizing a column above this size. |
 |`cssPart` | {string} | Allows you to set the name of a css part that can be used to customize the cell's css. This can be a string or a function. See the columns-custom-css example. The default cssPart for cells is called `cell` and it also can be used for more global changes.  |
 
 ## Column Settings (Specific)
@@ -612,6 +614,7 @@ The following events are relevant to data-grid filters.
 - Markup has changed to a custom element `<ids-data-grid></ids-data-grid>`
 - Can now be imported as a single JS file and used with encapsulated styles
 - `Drill Down` Formatter is now covered by `Button` formatter with `icon="drilldown"`
+- `textOverflow` setting is now by default
 
 ## Accessibility Guidelines
 

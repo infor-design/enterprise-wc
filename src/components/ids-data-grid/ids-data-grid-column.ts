@@ -25,6 +25,8 @@ export interface IdsDataGridColumn {
   text?: string;
   /** Allow column sorting */
   sortable?: boolean;
+  /** Allow column resizing */
+  resizable?: boolean;
   /** Make the column readonly */
   readonly?: boolean;
   /** Allow column sorting */
