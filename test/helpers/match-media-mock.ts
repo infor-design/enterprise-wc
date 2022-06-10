@@ -3,6 +3,11 @@
  *
  * @see https://jestjs.io/docs/manual-mocks#mocking-methods-which-are-not-implemented-in-jsdom
  */
+/*
+Object.defineProperty(window, 'MediaQueryList', {});
+
+Object.defineProperty(window, 'MediaQueryListener', {});
+*/
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
@@ -16,4 +21,19 @@ Object.defineProperty(window, 'matchMedia', {
     removeEventListener: jest.fn(),
     dispatchEvent: jest.fn(),
   })),
+});
+
+Object.defineProperty(window, 'MediaQueryListEvent', {
+  writable: true,
+  value: jest.fn().mockImplementation((type, opts) => class extends Event {
+    constructor() {
+      super(type, opts);
+      this.matches = opts.matches;
+      this.media = opts.media;
+    }
+
+    matches: boolean;
+
+    media: string;
+  })
 });

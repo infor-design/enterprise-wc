@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
+import '../helpers/match-media-mock';
 import wait from '../helpers/wait';
 
 import IdsModal from '../../src/components/ids-modal/ids-modal';
@@ -174,8 +175,8 @@ describe('IdsModal Component', () => {
     modal.onOutsideClick({ noValue: false });
     expect(modal.visible).toBeTruthy();
 
-    const overlay = new IdsOverlay();
-    modal.onOutsideClick({ target: overlay });
+    modal.onOutsideClick = () => {};
+    document.body.dispatchEvent(new Event('click', { bubbles: true }));
     expect(modal.visible).toBeTruthy();
   });
 

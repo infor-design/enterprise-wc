@@ -35,9 +35,9 @@ const IdsBreakpointMixin = (superclass: any): any => class extends superclass {
   // ===============================================
   // Respond Up
 
-  #mqUp?: MediaQueryList;
+  #mqUp?: MediaQueryList | any;
 
-  #mqUpChangeHandler?: ((e: MediaQueryListEvent) => void) | any;
+  #mqUpChangeHandler?: ((e: MediaQueryListEvent | any) => void) | any;
 
   onBreakpointUpResponse?: IdsBreakpointResponseCallback;
 
@@ -58,7 +58,7 @@ const IdsBreakpointMixin = (superclass: any): any => class extends superclass {
   #setupRespondUp(val: keyof Breakpoints) {
     this.#teardownRespondUp();
     this.#mqUp = isWidthAbove(val);
-    this.#mqUpChangeHandler = (e: MediaQueryListEvent): void => {
+    this.#mqUpChangeHandler = (e: MediaQueryListEvent | any): void => {
       if (typeof this.onBreakpointUpResponse === 'function') {
         this.onBreakpointUpResponse(val, e.matches);
       }
@@ -80,7 +80,7 @@ const IdsBreakpointMixin = (superclass: any): any => class extends superclass {
 
   #mqDown?: MediaQueryList;
 
-  #mqDownChangeHandler?: ((e: MediaQueryListEvent) => void) | any;
+  #mqDownChangeHandler?: ((e: MediaQueryListEvent | any) => void) | any;
 
   onBreakpointDownResponse?: IdsBreakpointResponseCallback;
 
@@ -101,7 +101,7 @@ const IdsBreakpointMixin = (superclass: any): any => class extends superclass {
   #setupRespondDown(val: keyof Breakpoints) {
     this.#teardownRespondDown();
     this.#mqDown = isWidthBelow(val);
-    this.#mqDownChangeHandler = (e: MediaQueryListEvent): void => {
+    this.#mqDownChangeHandler = (e: MediaQueryListEvent | any): void => {
       if (typeof this.onBreakpointDownResponse === 'function') {
         this.onBreakpointDownResponse(val, e.matches);
       }
@@ -122,7 +122,7 @@ const IdsBreakpointMixin = (superclass: any): any => class extends superclass {
   // General
 
   respondToCurrentBreakpoint(): void {
-    const simulateChangeEvent = (mq: MediaQueryList) => new MediaQueryListEvent('change', {
+    const simulateChangeEvent = (mq: MediaQueryList | any) => new MediaQueryListEvent('change', {
       bubbles: true,
       matches: mq.matches
     });
