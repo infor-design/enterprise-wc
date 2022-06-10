@@ -1,4 +1,4 @@
-import { attributes, Breakpoints } from '../../core/ids-attributes';
+import { attributes, breakpoints, Breakpoints } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 
 import Base from './ids-modal-base';
@@ -45,6 +45,7 @@ export default class IdsModal extends Base {
     if (!this.state) {
       this.state = {};
     }
+    this.state.fullsize = '';
     this.state.overlay = null;
     this.state.messageTitle = null;
   }
@@ -144,12 +145,20 @@ export default class IdsModal extends Base {
     return this.querySelectorAll('[slot="buttons"]');
   }
 
+  /**
+   * @returns {IdsModalFullsizeAttributeValue} the breakpoint at which
+   * the Modal will change from normal mode to fullsize mode
+   */
   get fullsize(): IdsModalFullsizeAttributeValue {
-    return this.popup.classList.contains('can-fullsize');
+    return this.state.fullsize;
   }
 
+  /**
+   * @param {IdsModalFullsizeAttributeValue} val the breakpoint at which
+   * the Modal will change from normal mode to fullsize mode
+   */
   set fullsize(val: IdsModalFullsizeAttributeValue) {
-    const current = this.fullsize;
+    const current = this.state.fullsize;
     const clearResponse = () => {
       if (this.respondDown) {
         this.respondDown = undefined;
@@ -167,28 +176,34 @@ export default class IdsModal extends Base {
       }
     };
 
+    const safeVal = `${val}`;
     if (current !== val) {
       switch (val) {
         case 'always':
           clearResponse();
+          this.state.fullsize = 'always';
           this.popup.classList.add(`can-fullsize`);
           makeFullsize(true);
           break;
         case null:
         case 'null':
         case '':
+          this.state.fullsize = '';
           clearResponse();
           this.removeAttribute(attributes.FULLSIZE);
           this.popup.classList.remove('can-fullsize');
           makeFullsize(false);
           break;
         default:
-          this.setAttribute(attributes.FULLSIZE, val);
-          this.popup.classList.add(`can-fullsize`);
-          this.respondDown = val;
-          this.onBreakpointDownResponse = (detectedBreakpoint: string, matches: boolean) => {
-            makeFullsize(matches);
-          };
+          if (Object.keys(breakpoints).includes(safeVal)) {
+            this.state.fullsize = safeVal;
+            this.setAttribute(attributes.FULLSIZE, safeVal);
+            this.popup.classList.add(`can-fullsize`);
+            this.respondDown = safeVal;
+            this.onBreakpointDownResponse = (detectedBreakpoint: string, matches: boolean) => {
+              makeFullsize(matches);
+            };
+          }
           this.respondToCurrentBreakpoint();
           break;
       }
