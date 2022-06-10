@@ -164,11 +164,13 @@ export default class IdsTab extends Base {
         this.container.classList.remove(attributes.SELECTED);
         this.container?.children?.[0]?.removeAttribute?.(attributes.FONT_WEIGHT);
         this.setAttribute(htmlAttributes.TABINDEX, '-1');
+        this.container.setAttribute(htmlAttributes.TABINDEX, '-1');
       } else {
         this.setAttribute(attributes.SELECTED, '');
         this.container?.children?.[0]?.setAttribute?.(attributes.FONT_WEIGHT, 'bold');
         this.container.classList.add(attributes.SELECTED);
         this.setAttribute(htmlAttributes.TABINDEX, '0');
+        this.container.setAttribute(htmlAttributes.TABINDEX, '0');
         this.#select(newValue);
       }
       this.setAttribute(htmlAttributes.ARIA_SELECTED, `${newValue}`);

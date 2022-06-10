@@ -243,6 +243,15 @@ export default class IdsTabs extends Base {
         this.#selectTab(elem);
       }
     });
+
+    // Focusing via keyboard on an IdsTab doesn't automatically fire its `focus()` method.
+    // This listener applies to all tabs in the list
+    this.onEvent('focusin.tabs', this, (e: FocusEvent) => {
+      const elem: any = e.target;
+      if (elem && elem.tagName === 'IDS-TAB') {
+        elem.focus();
+      }
+    });
   }
 
   /**
