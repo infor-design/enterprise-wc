@@ -23,3 +23,6 @@
   - link: axe.html
     type: Test
     description: Test page for axe scans
+  - link: side-by-side.html
+    type: Side by Side
+    description: Shows date picker side by side with a 4.x date picker

@@ -11,7 +11,7 @@ export default function debounce(
   func: { apply: (arg0: any, arg1: any[]) => void; },
   threshold: number,
   execAsap?: boolean
-): object {
+): any {
   let timeout: any;
 
   return function debounced(this: any, ...args: any[]) {

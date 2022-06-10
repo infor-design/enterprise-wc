@@ -11,14 +11,28 @@ The Color Picker by default supports colors within a pre-configured palette of I
 ## Settings and Attributes
 - `value` {string} Sets the value attribute to displayed the color of selected `value="#b94e4e"`
 - `label` {string} Sets the label attribute which will be displayed above the color picker web component `label="Color Picker"`
+- `clearable` {boolean} Sets the clearable attribute which will add the empty color swatch to the list of colors `clearable="true"` Valid values are 'true' | 'false'
 - `disabled` {boolean} Sets the disabled attribute which will disabled the entire color picker web component `disabled="true"` Valid values are 'true' | 'false'
-- `readyonly` {boolean} Sets the readonly attribute. Valid values are 'true' | 'false'
+- `readonly` {boolean} Sets the readonly attribute. Valid values are 'true' | 'false'
+- `suppress-labels` {boolean} If true, the color-swatches will display hex-values instead of labels. Valid values are 'true' | 'false'
+- `suppress-tooltips` {boolean} If true, the color-swatches will not display tooltips on mouseover. Valid values are 'true' | 'false'
+- `validate` {string} set the validation rule `required`.
 - `mode` {string} Sets the theme mode
 - `version` {string} Sets the theme version
 
 ## Code Examples
 
 A basic use case of the color picker with a few color options.
+```html
+<ids-color-picker></ids-color-picker>
+```
+
+The basic color-picker with labels and tooltips disabled
+```html
+<ids-color-picker suppress-labels suppress-tooltips></ids-color-picker>
+```
+
+A basic use case of the color picker with custom color options.
 ```html
 <ids-color-picker>
   <ids-color hex="#b94e4e"></ids-color>
@@ -63,5 +77,6 @@ The IDS Color Picker component is now a WebComponent. The custom colors are the 
 
 ## Keyboard Guidelines
 
-- <kbd>Tab/Shift+Tab</kbd>
-- <kbd>Enter</kbd>
+- <kbd>Tab / Shift+Tab</kbd>: To navigate color swatches
+- <kbd>ArrowDown / ArrowLeft / ArrowRight / ArrowUp</kbd>: To navigate color swatches
+- <kbd>Enter / Space</kbd>: To select currently focuses color-swatch

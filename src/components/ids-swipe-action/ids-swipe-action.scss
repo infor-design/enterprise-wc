@@ -24,6 +24,11 @@
   display: none;
 }
 
+// Hide scroll bar in Firefox
+.swipe-container {
+  scrollbar-width: none;
+}
+
 // Snaps into view
 .ids-swipe-element {
   @include antialiased();
