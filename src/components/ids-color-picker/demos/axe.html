@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container padding="8">
+    <main role="main">
+      <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+
+      <ids-layout-grid auto="true">
+        <h1>
+          <ids-text font-size="12" type="h1">Color Picker AXE Test</ids-text>
+        </h1>
+      </ids-layout-grid>
+      <ids-layout-grid cols="2" gap="sm">
+        <ids-layout-grid-cell col-start="1" row-start="1">
+          <ids-color-picker id="colorpicker-axe" label="Color Picker Field" value="#FF0000"></ids-color-picker>
+        </ids-layout-grid-cell>
+      </ids-layout-grid>
+    </main>
+  </ids-container>
+</body>
+</html>

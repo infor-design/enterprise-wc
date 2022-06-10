@@ -35,6 +35,9 @@ If both start and end dates are set calendar toolbar will not be displayed.
   - `maxDate` `{string}` - Disable up to a maximum date
   - `dayOfWeek` `{Array}` - Disable a specific of days of the week 0-6
   - `isEnable` `{boolean}` - Enables the disabled dates. Default is false
+- `show-picklist-year` `{true|false}` Whether or not to show a list of years in the toolbar datepicker picklist, default if true
+- `show-picklist-month` `{true|false}` Whether or not to show a list of months in the toolbar datepicker picklist, default is true
+- `show-picklist-week` `{true|false}` Whether or not to show week numbers in the toolbar datepicker picklist
 
 ## Events
 - `dayselected` - Fires when a day is selected

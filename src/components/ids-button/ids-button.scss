@@ -267,6 +267,26 @@ button {
 .ids-modal-button[mode='dark'] {
   &:not(.ids-modal-icon-button) {
     @include bg-transparent();
+
+    &.btn-primary {
+      color: var(--ids-color-brand-primary-lighter);
+
+      &:focus {
+        box-shadow: 0 0 3px 1px var(--ids-color-brand-primary-lighter);
+      }
+
+      &:hover {
+        color: var(--ids-color-palette-azure-30);
+      }
+    }
+
+    &.btn-secondary {
+      color: var(--ids-color-palette-slate-30);
+
+      &:hover {
+        color: var(--ids-color-palette-white);
+      }
+    }
   }
 }
 
