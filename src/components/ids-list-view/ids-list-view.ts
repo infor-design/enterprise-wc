@@ -185,7 +185,7 @@ export default class IdsListView extends Base {
       ${this.sortable ? `<ids-swappable-item
         role="listitem"
         tabindex="-1"
-        tabbable="false"
+        tabbable="${index === 0 ? 'true' : 'false'}"
         index="${index}"
         id="id_item_${index + 1}"
         aria-posinset="${index + 1}"
