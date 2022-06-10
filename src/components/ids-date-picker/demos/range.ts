@@ -1,3 +1,5 @@
+import '../ids-date-picker';
+
 (async function init() {
   const container: any = document.querySelector('ids-container');
   // Set Locale and wait for it to load

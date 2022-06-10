@@ -7,7 +7,7 @@ describe('Ids Pie Chart Percy Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('pierce/.chart-legend');
     await page.waitForSelector('[mode="light"]');
-    await percySnapshot(page, 'ids-pie-chart-new-light');
+    await percySnapshot(page, 'ids-pie-chart-new-light', { widths: [1280] });
   });
 
   it('should not have visual regressions in new dark theme (percy)', async () => {
@@ -17,7 +17,7 @@ describe('Ids Pie Chart Percy Tests', () => {
     });
     await page.waitForSelector('[mode="dark"]');
     await page.waitForSelector('pierce/.chart-legend');
-    await percySnapshot(page, 'ids-pie-chart-new-dark');
+    await percySnapshot(page, 'ids-pie-chart-new-dark', { widths: [1280] });
   });
 
   it('should not have visual regressions in new contrast theme (percy)', async () => {
@@ -27,24 +27,24 @@ describe('Ids Pie Chart Percy Tests', () => {
     });
     await page.waitForSelector('[mode="contrast"]');
     await page.waitForSelector('pierce/.chart-legend');
-    await percySnapshot(page, 'ids-pie-chart-new-contrast');
+    await percySnapshot(page, 'ids-pie-chart-new-contrast', { widths: [1280] });
   });
 
   it('should not have visual regressions with custom colors', async () => {
     await page.goto('http://localhost:4444/ids-pie-chart/colors.html', { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('pierce/.chart-legend');
-    await percySnapshot(page, 'ids-pie-chart-colors');
+    await percySnapshot(page, 'ids-pie-chart-colors', { widths: [1280] });
   });
 
   it('should not have visual regressions with accessible patterns', async () => {
     await page.goto('http://localhost:4444/ids-pie-chart/patterns.html', { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('pierce/.chart-legend');
-    await percySnapshot(page, 'ids-pie-chart-patterns');
+    await percySnapshot(page, 'ids-pie-chart-patterns', { widths: [1280] });
   });
 
   it('should not have visual regressions with donuts', async () => {
     await page.goto('http://localhost:4444/ids-pie-chart/donut.html', { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('pierce/.chart-legend');
-    await percySnapshot(page, 'ids-pie-chart-donut');
+    await percySnapshot(page, 'ids-pie-chart-donut', { widths: [1280] });
   });
 });

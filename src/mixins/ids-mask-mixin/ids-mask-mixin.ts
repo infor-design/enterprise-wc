@@ -1,6 +1,6 @@
 import maskAPI from '../../components/ids-mask/ids-mask-global';
 import { convertPatternFromString, PLACEHOLDER_CHAR, IdsMaskOptions } from '../../components/ids-mask/ids-mask-common';
-import { dateMask, numberMask } from '../../components/ids-mask/ids-masks';
+import { dateMask, numberMask, rangeDateMask } from '../../components/ids-mask/ids-masks';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
@@ -127,6 +127,14 @@ const IdsMaskMixin = (superclass: any) => class extends superclass {
         // Using 'date' as a string automatically connects the standard date mask function
         case 'date':
           trueVal = dateMask;
+          this.onLocaleChange = (locale: any) => {
+            if (!this.maskOptions.format) {
+              this.maskOptions.format = locale.calendar().dateFormat.short;
+            }
+          };
+          break;
+        case 'rangeDate':
+          trueVal = rangeDateMask;
           this.onLocaleChange = (locale: any) => {
             if (!this.maskOptions.format) {
               this.maskOptions.format = locale.calendar().dateFormat.short;

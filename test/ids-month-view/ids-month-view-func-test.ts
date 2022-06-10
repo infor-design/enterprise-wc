@@ -20,6 +20,9 @@ describe('IdsMonthView Component (using properties)', () => {
     component.day = 15;
     component.firstDayOfWeek = 1;
     component.showToday = true;
+    component.showPicklistYear = false;
+    component.showPicklistMonth = false;
+    component.showPicklistWeek = true;
 
     await container.setLanguage('en');
     await container.setLocale('en-US');
@@ -57,6 +60,9 @@ describe('IdsMonthView Component (using properties)', () => {
     expect(component.day).toEqual(15);
     expect(component.firstDayOfWeek).toEqual(1);
     expect(component.showToday).toBeTruthy();
+    expect(component.showPicklistYear).toBeFalsy();
+    expect(component.showPicklistMonth).toBeFalsy();
+    expect(component.showPicklistWeek).toBeTruthy();
   });
 
   it('should change properties', () => {
@@ -65,6 +71,9 @@ describe('IdsMonthView Component (using properties)', () => {
     component.day = 22;
     component.firstDayOfWeek = 2;
     component.showToday = false;
+    component.showPicklistYear = true;
+    component.showPicklistMonth = true;
+    component.showPicklistWeek = false;
 
     expect(component.month).toEqual(4);
     expect(component.year).toEqual(2019);
@@ -86,6 +95,9 @@ describe('IdsMonthView Component (using properties)', () => {
     expect(component.day).toEqual(now.getDate());
     expect(component.firstDayOfWeek).toEqual(0);
     expect(component.showToday).toBeFalsy();
+    expect(component.showPicklistYear).toBeTruthy();
+    expect(component.showPicklistMonth).toBeTruthy();
+    expect(component.showPicklistWeek).toBeFalsy();
   });
 
   it('should change legend property', () => {
@@ -289,6 +301,63 @@ describe('IdsMonthView Component (range of dates)', () => {
     expect(component.year).toEqual(now.getFullYear());
     expect(component.month).toEqual(now.getMonth());
     expect(component.day).toEqual(now.getDate());
+  });
+
+  it('should get/set range settings', () => {
+    expect(component.rangeSettings).toEqual({
+      start: null,
+      end: null,
+      separator: ' - ',
+      minDays: 0,
+      maxDays: 0,
+      selectForward: false,
+      selectBackward: false,
+      includeDisabled: false,
+      selectWeek: false
+    });
+
+    component.rangeSettings = {
+      start: '5/11/2020',
+      end: '5/14/2020',
+      selectWeek: true
+    };
+
+    expect(component.rangeSettings).toEqual({
+      start: '5/11/2020',
+      end: '5/14/2020',
+      separator: ' - ',
+      minDays: 0,
+      maxDays: 0,
+      selectForward: false,
+      selectBackward: false,
+      includeDisabled: false,
+      selectWeek: true
+    });
+  });
+
+  it('should get/set disable settings', () => {
+    expect(component.disable).toEqual({
+      dates: [],
+      years: [],
+      minDate: '',
+      maxDate: '',
+      dayOfWeek: [],
+      isEnable: false
+    });
+
+    component.disable = {
+      dates: [],
+      years: [2021]
+    };
+
+    expect(component.disable).toEqual({
+      dates: [],
+      years: [2021],
+      minDate: '',
+      maxDate: '',
+      dayOfWeek: [],
+      isEnable: false
+    });
   });
 });
 
