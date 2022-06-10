@@ -226,8 +226,10 @@ export default class IdsListBuilder extends Base {
    */
   #removeAllSelectedLi(): void {
     const items = this.allSelectedLi;
+    const indexOfItems = [];
 
     for (const item of items) {
+      indexOfItems.push(item.getAttribute('index'));
       this.triggerEvent('itemDelete', this, {
         detail: this.getListItemData(item)
       });
@@ -239,6 +241,14 @@ export default class IdsListBuilder extends Base {
     this.resetIndices();
     this.updateDataFromDOM();
     this.resetSelectedLiIndex();
+
+    for (const index of indexOfItems) {
+      const liItem = this.shadowRoot.querySelector(`ids-swappable-item[index="${index}"]`);
+
+      if (liItem) {
+        this.toggleSelectedLi(liItem);
+      }
+    }
   }
 
   /**
