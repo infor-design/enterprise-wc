@@ -185,4 +185,34 @@ describe('IdsModal Component', () => {
     modal.onOutsideClick({ target: document.body });
     expect(modal.visible).toBeFalsy();
   });
+
+  it('can be placed in fullsize mode', () => {
+    expect(modal.fullsize).toBe('sm'); // default
+    expect(modal.container.classList.contains('can-fullsize')).toBeTruthy();
+
+    modal.fullsize = 'lg';
+
+    expect(modal.fullsize).toBe('lg');
+    expect(modal.container.classList.contains('can-fullsize')).toBeTruthy();
+
+    modal.fullsize = 'always';
+
+    expect(modal.fullsize).toBe('always');
+    expect(modal.container.classList.contains('can-fullsize')).toBeTruthy();
+
+    modal.fullsize = null;
+
+    expect(modal.fullsize).toBe('');
+    expect(modal.container.classList.contains('can-fullsize')).toBeFalsy();
+
+    modal.setAttribute('fullsize', 'xs');
+
+    expect(modal.fullsize).toBe('xs');
+    expect(modal.container.classList.contains('can-fullsize')).toBeTruthy();
+
+    modal.setAttribute('fullsize', '');
+
+    expect(modal.fullsize).toBe('');
+    expect(modal.container.classList.contains('can-fullsize')).toBeFalsy();
+  });
 });
