@@ -92,6 +92,16 @@ const popup = document.querySelector('#my-popup');
 await popup.place();
 ```
 
+### Size
+
+IdsPopup size can be controlled with the `width` and `height` properties.  These are convenience properties that set CSS-friendly size values on the IdsPopup's shadow root container:
+
+```html
+<ids-popup id="my-popup" width="100%" height="100%" x="10" y="10" align="top, left" alignTarget="#my-button" visible="true">
+    <div slot="content">My Popup</div>
+</ids-popup>
+```
+
 ### Place
 
 The Popup's coordinates/offsets can be set individually.  The action of using the x/y setters will change the stored position internally, but will not automatically be rendered.  Also, the position will not be rendered if the Popup is not visible.
