@@ -17,7 +17,7 @@ describe('Ids Bar Chart e2e Tests', () => {
     await (expect(page) as any).toPassAxeTests({ disabledRules: ['color-contrast'] });
   });
 
-  it('should not have memory leaks', async () => {
+  it.skip('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', `<ids-axis-chart id="test">test</ids-axis-chart>`);
