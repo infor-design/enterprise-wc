@@ -394,7 +394,8 @@ export default class IdsModal extends Base {
     this.removeAttribute('aria-hidden');
 
     // Focus the correct element
-    this.#setModalFocus();
+    this.capturesFocus = true;
+    this.setFocus('last');
 
     this.addOpenEvents();
     this.triggerEvent('show', this, {
@@ -526,37 +527,6 @@ export default class IdsModal extends Base {
   }
 
   /**
-   * Focuses the first-possible element within the Modal
-   * @returns {void}
-   */
-  #setModalFocus(): void {
-    const focusableSelectors = [
-      'button',
-      'ids-button',
-      'ids-menu-button',
-      'ids-modal-button',
-      'ids-toggle-button',
-      '[href]',
-      'input',
-      'ids-input',
-      'select',
-      'textarea',
-      'ids-textarea',
-      '[tabindex]:not([tabindex="-1"]'
-    ];
-    const selectorStr = focusableSelectors.join(', ');
-
-    const focusable = [...this.querySelectorAll(selectorStr)];
-
-    // Right action btn should have focus
-    if (focusable.length === 2) {
-      focusable[1].focus();
-    } else if (focusable.length) {
-      focusable[0].focus();
-    }
-  }
-
-  /**
    * Focuses the defined target element, if applicable
    * @returns {void}
    */
@@ -574,7 +544,7 @@ export default class IdsModal extends Base {
     if (this.visible) {
       // Fixes a Chrome Bug where time staggering is needed for focus to occur
       const timeoutCallback = () => {
-        this.#setModalFocus();
+        this.setFocus('last');
       };
       renderLoop.register(new IdsRenderLoopItem({
         duration: 30,
