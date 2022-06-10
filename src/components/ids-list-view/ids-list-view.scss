@@ -1,4 +1,5 @@
 @import '../../core/ids-base';
+@import './ids-list-view-embellishment';
 
 .ids-list-view {
   height: 100%;
@@ -16,14 +17,19 @@
 
     div[part='list-item'],
     li {
+      @include bg-white();
       @include list-none();
       @include py-12();
       @include px-20();
 
       border: 1px solid transparent;
-      border-bottom-color: var(--ids-color-palette-slate-20);
+      border-top-color: var(--ids-color-palette-slate-20);
       contain: content;
       cursor: pointer;
+
+      &:first-child {
+        @include mt-2();
+      }
 
       &:focus {
         @include border-azure-40();
@@ -35,6 +41,73 @@
       &.sortable {
         background-color: transparent;
         border: none;
+        cursor: inherit;
+
+        &:first-child {
+          @include mt-0();
+        }
+      }
+
+      &[disabled] {
+        @include cursor-default();
+        @include no-select();
+        @include text-slate-30();
+
+        pointer-events: none;
+
+        &:focus {
+          @include border-transparent();
+
+          border-top-color: var(--ids-color-palette-slate-20);
+          box-shadow: none;
+        }
+      }
+
+      &[disabled] ids-badge::part(badge) {
+        background-color: var(--ids-color-palette-slate-30);
+        border-color: var(--ids-color-palette-slate-30);
+      }
+
+      &[disabled] ids-hyperlink::part(link) {
+        @include text-slate-30();
+      }
+
+      &[disabled] ids-image {
+        @include bg-opacity-50();
+      }
+    }
+  }
+
+  &.selectable-single .ids-list-view-body,
+  &.selectable-multiple .ids-list-view-body,
+  &.selectable-mixed .ids-list-view-body {
+    div[part='list-item']:not([disabled]):not(.sortable),
+    li:not([disabled]):not(.sortable) {
+      &:hover,
+      &[activated],
+      &[selected]:not([hide-selected-color]) {
+        @include bg-azure-10();
+      }
+    }
+  }
+
+  &.selectable-multiple,
+  &.selectable-mixed {
+    .list-item-area {
+      display: flex;
+      align-items: center;
+
+      .list-item-checkbox {
+        @include pr-20();
+
+        flex-grow: 0;
+        flex-shrink: 0;
+        max-height: 16px;
+        max-width: 16px;
+      }
+
+      .list-item-checkbox[disabled]::part(checkmark) {
+        @include bg-transparent();
       }
     }
   }
@@ -49,33 +122,100 @@ ids-swappable-item[over] {
   border: 1px dashed var(--ids-color-palette-slate-80);
 }
 
-// Handle Themes
-.ids-list-view[mode='light'] div[part='list-item'],
-.ids-list-view:not([mode]) div[part='list-item'] {
-  @include bg-white();
+// Handle Themes (dark)
+.ids-list-view[mode='dark'] {
+  div[part='list-item'] {
+    @include bg-slate-90();
+
+    border-top-color: var(--ids-color-palette-slate-70);
+
+    &:focus {
+      @include border-azure-70();
+
+      box-shadow: none;
+    }
+
+    &[disabled] {
+      @include text-slate-50();
+
+      &:focus {
+        border-top-color: var(--ids-color-palette-slate-70);
+      }
+
+      ids-hyperlink::part(link) {
+        @include text-slate-50();
+      }
+
+      ids-badge::part(badge) {
+        @include text-slate-50();
+
+        background-color: var(--ids-color-palette-slate-80);
+        border-color: var(--ids-color-palette-slate-80);
+      }
+    }
+  }
+
+  &.selectable-single .ids-list-view-body,
+  &.selectable-multiple .ids-list-view-body,
+  &.selectable-mixed .ids-list-view-body {
+    div[part='list-item']:not([disabled]),
+    li:not([disabled]) {
+      &:hover,
+      &[activated],
+      &[selected]:not([hide-selected-color]) {
+        @include bg-azure-100();
+      }
+    }
+  }
 }
 
-.ids-list-view[mode='dark'] div[part='list-item'] {
-  @include bg-slate-90();
-  @include border-slate-70();
-}
+// Handle Themes (contrast)
+.ids-list-view[mode='contrast'] {
+  div[part='list-item'] {
+    @include bg-white();
+    @include text-black();
 
-.ids-list-view[mode='contrast'] div[part='list-item'] {
-  @include bg-slate-10();
-  @include border-slate-60();
-}
+    border-top-color: var(--ids-color-palette-slate-60);
 
-.ids-list-view[version='classic'][mode='light'] div[part='list-item'] {
-  @include bg-graphite-10();
-  @include border-graphite-30();
-}
+    &:focus {
+      @include border-azure-70();
 
-.ids-list-view[version='classic'][mode='dark'] div[part='list-item'] {
-  @include bg-classic-slate-90();
-  @include border-graphite-50();
-}
+      + div[part='list-item'] {
+        border-top-color: transparent;
+      }
+    }
 
-.ids-list-view[version='classic'][mode='contrast'] div[part='list-item'] {
-  @include bg-graphite-20();
-  @include border-graphite-60();
+    &[disabled] {
+      &:focus {
+        border-top-color: var(--ids-color-palette-slate-60);
+
+        + div[part='list-item'] {
+          border-top-color: var(--ids-color-palette-slate-60);
+        }
+      }
+    }
+  }
+
+  &.selectable-single .ids-list-view-body,
+  &.selectable-multiple .ids-list-view-body,
+  &.selectable-mixed .ids-list-view-body {
+    div[part='list-item']:not([disabled]),
+    li:not([disabled]) {
+      &:hover,
+      &[activated],
+      &[selected]:not([hide-selected-color]) {
+        @include bg-azure-20();
+      }
+    }
+  }
+
+  &.selectable-single,
+  &.selectable-multiple,
+  &.selectable-mixed {
+    .list-item-area .list-item-checkbox[disabled]::part(checkmark) {
+      @include border-slate-30();
+
+      border-color: var(--ids-color-palette-slate-30);
+    }
+  }
 }

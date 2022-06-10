@@ -52,12 +52,47 @@ export function stringToNumber(val?: string | number | any): number {
 }
 
 /**
+ * Adjust conditional statements if template found any as:
+ * ${#var} True ${/var}
+ * ${^var} False ${/var}
+ * @param {string} str The string to inject into
+ * @param {string} obj The string to inject into
+ * @returns {string} The return string
+ */
+export function adjustConditions(str: string, obj: string): string {
+  const regex = /\${(#|\^)(.+?)}/g;
+  if (!regex.test(str)) return str;
+
+  // adjuat end tag if use inside html node as attribute.
+  // ex. `<div ${#var}x<${/var}>test</div>`
+  str = str.replace(/\${=(.+?)\s(.+?)}/g, `\${/$2}`);
+
+  str.match(regex)?.forEach((match) => {
+    const key: any = match.replace(/\$|{|#|\^|}/g, '');
+    const re = `\\\${(#|\\^)${key}}(.+?)\\\${\\/${key}}`;
+
+    str = str.replace(new RegExp(re, 's'), (m, k) => {
+      const isTrue = k === '#';
+      if (!((isTrue && obj[key]) || (!isTrue && !obj[key]))) return '';
+
+      const re2 = `\\\${(#|\\^)${key}}|\\\${\\/${key}}`;
+      return m.replace(new RegExp(re2, 'gs'), '');
+    });
+  });
+  return str;
+}
+
+/**
  * Inject template variables in a string
  * @param {string} str The string to inject into
  * @param {any} obj The string to inject into
  * @returns {string} The return string
  */
 export function injectTemplate(str: string, obj: any): string {
+  // Adjust conditions
+  str = adjustConditions(str, obj);
+
+  // Replace all other keys with data
   return str.replace(/\${(.*?)}/g, (_x, g) => obj[g]);
 }
 

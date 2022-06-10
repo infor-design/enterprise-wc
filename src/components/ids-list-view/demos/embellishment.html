@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">List View - Embellishment types</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="2" gap="xl">
+      <ids-layout-grid-cell col-span="1">
+        <div class="parent-container">
+        <ids-card>
+          <div slot="card-header">
+            <ids-text font-size="20" type="h2">Product List</ids-text>
+          </div>
+          <div slot="card-content">
+            <ids-list-view id="demo-lv-embellishment">
+              <template>
+                <div class="flex">
+                  ${#imgStatus}
+                  <div class="mr-12">
+                    <ids-image class="ids-img-10" alt="Photo of Evyn" round user-status="available" tabindex="0"></ids-image>
+                  </div>
+                  ${/imgStatus}
+                  ${#imgSrc}
+                  <div class="pr-8">
+                    <ids-image class="placeholder-154-120" alt="image-md 154x120" size="md" tabindex="0"></ids-image>
+                  </div>
+                  ${/imgSrc}
+                  <div class="flex-grow-1">
+                    ${#escalated}
+                      ${#disabled}
+                        <ids-text font-size="12" type="span" status="error" disabled>Escalated (${escalated}X)</ids-text>
+                      ${/disabled}
+                      ${^disabled}
+                        <ids-text font-size="12" type="span" status="error">Escalated (${escalated}X)</ids-text>
+                      ${/disabled}
+                    ${/escalated}
+                    <div class="flex gap-4">
+                      <ids-text font-size="16" font-weight="bold" type="p">${productName}</ids-text>
+                      ${^inStock}
+                        <ids-badge color="error">Out of stock</ids-badge>
+                      ${/inStock}
+                    </div>
+                    <ids-hyperlink href="https://www.example.com/${productId}" target="_blank">${productId}</ids-hyperlink>
+                    <ids-text font-size="12" type="span">Count: ${units}</ids-text>
+                    <ids-text font-size="12" type="span">Price: $ ${unitPrice}</ids-text>
+                    <ids-text font-size="12" type="span" text-align="end">$ ${totalPrice}</ids-text>
+                  </div>
+                </div>
+              </template>
+            </ids-list-view>
+          </div>
+        </ids-card>
+        </div>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

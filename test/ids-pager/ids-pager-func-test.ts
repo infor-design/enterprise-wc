@@ -114,6 +114,57 @@ describe('IdsPager Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
+  it('should set label text for button and number list', async () => {
+    const el = await createElemViaTemplate(HTMLSnippets.NUMBER_LIST_NAV);
+    const btn = el.querySelector('ids-pager-button');
+    const listEl = el.querySelector('ids-pager-number-list');
+    const defaultListLabel = 'Go to page {num} of {total}';
+
+    expect(btn.label).toEqual(null);
+    expect(btn.getAttribute('label')).toEqual(null);
+    expect(listEl.label).toEqual(defaultListLabel);
+    expect(listEl.getAttribute('label')).toEqual(null);
+    btn.setAttribute('label', 'test');
+    listEl.setAttribute('label', 'test2');
+
+    expect(btn.label).toEqual('test');
+    expect(btn.getAttribute('label')).toEqual('test');
+    expect(listEl.label).toEqual('test2');
+    expect(listEl.getAttribute('label')).toEqual('test2');
+    btn.removeAttribute('label');
+    listEl.removeAttribute('label');
+
+    expect(btn.label).toEqual(null);
+    expect(btn.getAttribute('label')).toEqual(null);
+    expect(listEl.label).toEqual(defaultListLabel);
+    expect(listEl.getAttribute('label')).toEqual(null);
+  });
+
+  it('should set the number of step on page number list', async () => {
+    const el = await createElemViaTemplate(HTMLSnippets.NUMBER_LIST_NAV);
+    const listEl = el.querySelector('ids-pager-number-list');
+    const defaultStep = 3;
+
+    expect(listEl.step).toEqual(defaultStep);
+    expect(listEl.getAttribute('step')).toEqual(null);
+    listEl.setAttribute('step', '2');
+
+    expect(listEl.step).toEqual(2);
+    expect(listEl.getAttribute('step')).toEqual('2');
+    listEl.setAttribute('step', '-1');
+
+    expect(listEl.step).toEqual(-1);
+    expect(listEl.getAttribute('step')).toEqual('-1');
+    listEl.removeAttribute('step');
+
+    expect(listEl.step).toEqual(defaultStep);
+    expect(listEl.getAttribute('step')).toEqual(null);
+    listEl.setAttribute('step', 'test');
+
+    expect(listEl.step).toEqual(defaultStep);
+    expect(listEl.getAttribute('step')).toEqual(null);
+  });
+
   it('has slots: start, middle, end', async () => {
     elem = await createElemViaTemplate(HTMLSnippets.DOUBLE_SIDED_CONTENT);
     const { slots } = elem.elements;
@@ -442,6 +493,29 @@ describe('IdsPager Component', () => {
     const pageNumberButtons = elem.shadowRoot.querySelectorAll('ids-button');
 
     expect(pageNumberButtons.length).toEqual(pageCount);
+  });
+
+  it('should fire event when clicked on number list button', async () => {
+    const pageSize = 10;
+    const total = 100;
+
+    const el = await createElemViaTemplate(
+      `<ids-pager-number-list page-number="10" step="-1" page-size="${pageSize}" total="${total}"></ids-pager-number-list>`
+    );
+
+    const cbClick = jest.fn();
+    const cbPageNumberChange = jest.fn();
+    el.container.addEventListener('click', cbClick);
+    el.addEventListener('click', cbPageNumberChange);
+
+    const pageCount = Math.ceil(total / pageSize);
+    const pageNumberButtons = el.shadowRoot.querySelectorAll('ids-button');
+
+    expect(pageNumberButtons.length).toEqual(pageCount);
+    pageNumberButtons[0].click();
+
+    expect(cbClick).toBeCalledTimes(1);
+    expect(cbPageNumberChange).toBeCalledTimes(1);
   });
 
   it('creates an ids-pager-input and pageSize can be set and read predictably', async () => {

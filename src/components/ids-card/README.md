@@ -21,6 +21,7 @@ A card is a UI design pattern that groups related information in a flexible-size
 - `card` allows you to further style the main card element
 - `header` allows you to further style the card header element
 - `content` allows you to further style the card content element
+- `footer` allows you to further style the card footer element
 
 ## Features (With Code Examples)
 
@@ -42,6 +43,34 @@ A card can be an actionable with the behavior of a button.
 <ids-card actionable="true">
   <div slot="actionable-text">
     <ids-text font-size="16" type="p">Actionable Button Card</ids-text>
+  </div>
+</ids-card>
+```
+
+A card with footer element.
+
+```html
+<ids-card>
+  <div slot="card-header">
+    <ids-text font-size="20" type="h2">Card Title One</ids-text>
+  </div>
+  <div slot="card-content">
+  </div>
+  <div slot="card-footer">
+  </div>
+</ids-card>
+```
+
+A card with footer element and vertical no-padding.
+
+```html
+<ids-card>
+  <div slot="card-header">
+    <ids-text font-size="20" type="h2">Card Title One</ids-text>
+  </div>
+  <div slot="card-content">
+  </div>
+  <div slot="card-footer" no-padding>
   </div>
 </ids-card>
 ```

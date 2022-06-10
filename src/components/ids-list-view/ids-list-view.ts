@@ -1,17 +1,54 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import { injectTemplate, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import {
+  injectTemplate,
+  stringToBool,
+  stringToNumber
+} from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsDataSource from '../../core/ids-data-source';
 import '../ids-virtual-scroll/ids-virtual-scroll';
+import '../ids-checkbox/ids-checkbox';
 import Base from './ids-list-view-base';
 import '../ids-swappable/ids-swappable';
 import '../ids-swappable/ids-swappable-item';
 
 import styles from './ids-list-view.scss';
 
-const DEFAULT_HEIGHT = '100%';
-const SELECTABLE_OPTIONS = ['single', 'multiple'];
+export interface IdsListViewActivatedItem {
+  /** The index value in current dataset */
+  index: number;
+  /** The data node in current dataset */
+  data: any;
+}
+
+export interface IdsListViewSelectedItem {
+  /** The index value in current dataset */
+  index: number;
+  /** The data node in current dataset */
+  data: any;
+}
+
+export interface IdsListViewItemInfo {
+  /** The DOM element, if available */
+  item?: HTMLElement;
+  /** The index value in current dataset */
+  index: number;
+  /** The data node in current dataset */
+  data: any;
+}
+
+// Default settings
+const LIST_VIEW_DEFAULTS = {
+  allowDeactivate: false, // Use with Mixed selection only
+  allowDeselect: true, // Use with Single selection only
+  hideCheckboxes: false, // Only apply to selectable multiple
+  height: '100%',
+  label: 'Ids list view',
+  selectableOptions: ['single', 'multiple', 'mixed'],
+  sortable: false,
+  virtualScroll: false
+};
 
 /**
  * IDS List View Component
@@ -32,20 +69,36 @@ export default class IdsListView extends Base {
   /** The currently focused list item */
   #focusedLiIndex: any = 0;
 
-  /** The currently selected list item */
-  #selectedLiIndex: any;
+  /** The currently activated list item */
+  #activatedIndex = -1;
+
+  /** The currently target while selecting */
+  #isTargetCheckbox = false;
+
+  /** The currently apply state while single selecting */
+  #isApply = false;
+
+  /** The currently list size */
+  #size = 0;
 
   /** The datasource container */
   datasource: Record<string, any> = new IdsDataSource();
+
+  /**
+   * @returns {Array<string>} Drawer vetoable events
+   */
+  vetoableEventTypes = [
+    'beforeitemactivated',
+    'beforeitemdeactivated',
+    'beforeselected',
+    'beforedeselected'
+  ];
 
   connectedCallback() {
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
     this.dataKeys = this.#extractTemplateLiteralsFromHTML(this.defaultTemplate);
     super.connectedCallback();
     this.#attachEventListeners();
-    if (!this.sortable) {
-      this.#attachKeyboardListeners();
-    }
   }
 
   /**
@@ -54,12 +107,15 @@ export default class IdsListView extends Base {
    */
   static get attributes() {
     return [
-      attributes.SORTABLE,
-      attributes.SELECTABLE,
+      ...super.attributes,
+      attributes.ALLOW_DEACTIVATE,
+      attributes.ALLOW_DESELECT,
       attributes.HEIGHT,
+      attributes.HIDE_CHECKBOXES,
       attributes.ITEM_HEIGHT,
-      attributes.MODE,
-      attributes.VERSION,
+      attributes.LABEL,
+      attributes.SELECTABLE,
+      attributes.SORTABLE,
       attributes.VIRTUAL_SCROLL
     ];
   }
@@ -88,64 +144,250 @@ export default class IdsListView extends Base {
    * @returns {void}
    */
   #addSortableStyles(): void {
-    this.getAllLi().forEach((li: HTMLLIElement) => {
+    this.getAllLi().forEach((li: HTMLElement) => {
       li.classList.add('sortable');
     });
   }
 
+  /**
+   * Get the item info for given element.
+   * @param {HTMLElement} el The element.
+   * @returns {IdsListViewItemInfo|null} Item info, or null if item not found.
+   */
+  #itemInfo(el: any): IdsListViewItemInfo | null {
+    const item = el?.getAttribute('role') === 'option'
+      ? el : el?.closest('[role="option"]');
+    const index = stringToNumber(item?.getAttribute('index'));
+    return Number.isNaN(index) ? null : { item, index, data: this.data[index] };
+  }
+
+  /**
+   * Get the list item DOM element.
+   * @param {number} index The value of data index.
+   * @returns {HTMLElement|null} The DOM element, or null if item not found.
+   */
+  #itemByIndex(index: number): HTMLElement | null {
+    return Number.isNaN(index) ? null
+      : this.container.querySelector(`div[part="list-item"][index="${index}"]`);
+  }
+
+  /**
+   * Get data index for given page index.
+   * @param {number} index The page index value.
+   * @returns {number|null} The data index.
+   */
+  dataIndex(index: number): number | null {
+    const idx = stringToNumber(index);
+    if (Number.isNaN(idx)) return null;
+    return (idx >= 0 && idx < this.#size)
+      ? idx + ((this.pageNumber - 1) * this.#size) : null;
+  }
+
+  /**
+   * Get page index for given data index.
+   * @param {number} dataIndex The data index value.
+   * @returns {number|null} The paga index.
+   */
+  pageIndex(dataIndex: number): number | null {
+    let idx = stringToNumber(dataIndex);
+    if (Number.isNaN(idx)) return null;
+    idx -= (this.pageNumber - 1) * this.#size;
+    return (idx >= 0 && idx < this.#size) ? idx : null;
+  }
+
+  /**
+   * Check if given data index in current page.
+   * @param {number} dataIndex The data index value.
+   * @returns {boolean} True, if data index in current page
+   */
+  isInPage(dataIndex: number): boolean {
+    const idx = stringToNumber(dataIndex);
+    if (Number.isNaN(idx)) return false;
+
+    let end = this.pageNumber * this.#size;
+    let start = end - this.#size;
+
+    if (this.virtualScroll) {
+      end = this.virtualScrollContainer.lastEnd;
+      start = this.virtualScrollContainer.lastStart;
+    }
+
+    return dataIndex >= start && dataIndex < end;
+  }
+
+  /**
+   * Handle on click
+   * @private
+   * @param {any} e The event.
+   * @returns {void}
+   */
+  #handleOnClick(e: any): void {
+    const itemInfo = this.#itemInfo(e.target);
+    if (itemInfo) {
+      this.#isTargetCheckbox = e.target?.classList.contains('list-item-checkbox');
+      if (this.#isTargetCheckbox) e.preventDefault();
+      this.#setSelection(itemInfo);
+    }
+  }
+
+  /**
+   * Handle on keydown
+   * @private
+   * @param {KeyboardEvent} e The event.
+   * @returns {void}
+   */
+  #handleOnKeydown(e: KeyboardEvent): void {
+    switch (e.code) {
+      case 'ArrowUp':
+        e.preventDefault();
+        this.focusLi(this.getPreviousLi(this.getFocusedLi()));
+        break;
+      case 'ArrowDown':
+        e.preventDefault();
+        this.focusLi(this.getNextLi(this.getFocusedLi()));
+        break;
+      case 'Space':
+        e.preventDefault();
+        break;
+      default:
+        break;
+    }
+  }
+
+  /**
+   * Handle on keyup
+   * @private
+   * @param {KeyboardEvent} e The event.
+   * @returns {void}
+   */
+  #handleOnKeyup(e: KeyboardEvent): void {
+    if (/^(Space|Enter)$/g.test(e.code)) {
+      e.preventDefault();
+      e.stopPropagation();
+      const focusedLi = this.getFocusedLi();
+      // Mixed selectable, should do selection instead of activation if use keyboard
+      if (this.selectable === 'mixed') {
+        const cb: any = focusedLi.querySelector('.list-item-checkbox');
+        if (cb) cb.checked = !cb.checked;
+        this.#isTargetCheckbox = true;
+      }
+      this.#setSelection(this.#itemInfo(focusedLi));
+    }
+  }
+
+  /**
+   * Handle on after virtual scroll
+   * @private
+   * @param {CustomEvent} e The event.
+   * @returns {void}
+   */
+  #handleOnAfterVirtualScroll(e: CustomEvent): void {
+    const { startIndex, endIndex } = e.detail || {};
+    this.#adjustVirtualScrollIndexes(startIndex);
+    for (let i = startIndex; i < endIndex; i++) {
+      if (this.data?.[i]?.itemSelected) {
+        const item = this.#itemByIndex(i);
+        const cb: any = item?.querySelector('.list-item-checkbox');
+        if (cb) cb.checked = true;
+        item?.setAttribute('selected', '');
+        item?.setAttribute('aria-selected', 'true');
+        if (this.selectable === 'mixed') item?.setAttribute('hide-selected-color', '');
+      }
+      if (this.data?.[i]?.itemActivated) {
+        this.#itemByIndex(i)?.setAttribute('activated', '');
+      }
+    }
+  }
+
   #attachEventListeners() {
+    // Fire click
+    this.offEvent('click.listview', this.container);
+    this.onEvent('click.listview', this.container, (e: any) => {
+      const args = this.#itemInfo(e.target);
+      if (args) this.#triggerEvent('click', { ...args, originalEvent: e });
+    });
+
+    // Fire dblclick
+    this.offEvent('dblclick.listview', this.container);
+    this.onEvent('dblclick.listview', this.container, (e: any) => {
+      const itemInfo = this.#itemInfo(e.target);
+      if (itemInfo) this.#triggerEvent('dblclick', { ...itemInfo, originalEvent: e });
+    });
+
     // attaching both event listeners causes focus issues, so do it conditionally based on the sortable prop
     if (this.sortable) {
       this.#addSortableStyles();
     } else {
-      this.#attachClickListeners(); // for focusing list items
+      // Set selection/activation by ckick
+      this.offEvent('click.listview-selection', this.container);
+      this.onEvent('click.listview-selection', this.container, (e: any) => this.#handleOnClick(e));
+
+      this.offEvent('keydown.listview-selection', this.container);
+      this.onEvent('keydown.listview-selection', this.container, (e: any) => this.#handleOnKeydown(e));
+
+      this.offEvent('keyup.listview-selection', this.container);
+      this.onEvent('keyup.listview-selection', this.container, (e: any) => this.#handleOnKeyup(e));
+
+      this.offEvent('aftervirtualscroll.listview', this.virtualScrollContainer);
+      this.onEvent('aftervirtualscroll.listview', this.virtualScrollContainer, (e: CustomEvent) => this.#handleOnAfterVirtualScroll(e));
     }
   }
 
-  #attachClickListeners() {
-    this.getAllLi().forEach((item: HTMLLIElement) => {
-      this.#attachClickListenersForItems(item);
-    });
-  }
-
   /**
-   * Each click on an item - always set that to focus, toggle the selected feature
-   * @param {HTMLLIElement} item The item to listen on
+   * Set the selection for given item
+   * @private
+   * @param {any} itemInfo The item and index.
    * @returns {void}
    */
-  #attachClickListenersForItems(item: HTMLLIElement) {
-    this.onEvent('click', item, () => {
-      this.onClick(item);
-    });
-  }
+  #setSelection(itemInfo: IdsListViewItemInfo | null): void {
+    if (!itemInfo) return;
 
-  /**
-   * Attach keyboard functinality to the list items
-   * @returns {void}
-   */
-  #attachKeyboardListeners() {
-    this.onEvent('keydown', this, (event: KeyboardEvent) => {
-      switch (event.key) {
-        case 'ArrowUp':
-          event.preventDefault();
-          this.focusLi(this.getPreviousLi(this.getFocusedLi()));
-          break;
-        case 'ArrowDown':
-          event.preventDefault();
-          this.focusLi(this.getNextLi(this.getFocusedLi()));
-          break;
-        default:
-          break;
+    const { item, index } = itemInfo;
+    const dataIndex = this.dataIndex(index);
+    let isVeto = true;
+
+    if (this.selectable) {
+      const selected: any = this.selected;
+
+      // Single
+      if (this.selectable === 'single') {
+        isVeto = this.#selectInPage(index);
       }
-    });
+
+      // Multiple
+      if (this.selectable === 'multiple') {
+        if (selected.some((d: any) => d.index === dataIndex)) {
+          isVeto = this.#deselectInPage(index);
+        } else {
+          isVeto = this.#selectInPage(index);
+        }
+      }
+
+      // Mixed
+      if (this.selectable === 'mixed') {
+        if (this.#isTargetCheckbox) {
+          // Selection
+          if (selected.some((d: any) => d.index === dataIndex)) {
+            isVeto = this.#deselectInPage(index);
+          } else {
+            isVeto = this.#selectInPage(index);
+          }
+        } else {
+          // Activation
+          this.#activateItemInPage(index);
+        }
+      }
+    }
+
+    if (isVeto) this.focusLi(item);
   }
 
-  onClick(item: HTMLLIElement) {
-    this.focusLi(item);
-    if (this.selectable) this.toggleSelectedLi(item);
-  }
-
-  focusLi(li: HTMLLIElement) {
+  /**
+   * Set the focus for given list item.
+   * @param {any} li The list item.
+   * @returns {void}
+   */
+  focusLi(li?: HTMLElement | null): void {
     if (li) {
       const prevFocus = this.getFocusedLi();
       // remove tabindex from previous focus
@@ -159,37 +401,108 @@ export default class IdsListView extends Base {
     }
   }
 
-  getFocusedLi() {
+  /**
+   * Get currently focused list item.
+   * @returns {HTMLElement} The focused list item.
+   */
+  getFocusedLi(): HTMLElement {
     const savedFocusedLi = this.container.querySelector(`div[part="list-item"][index="${this.#focusedLiIndex}"]`);
     const val = savedFocusedLi ?? this.container.querySelector('div[part="list-item"][tabindex="0"]');
     return val;
   }
 
-  getPreviousLi(li: any) {
-    return this.sortable
-      ? li.parentElement.previousElementSibling?.firstElementChild // needs to navigate outside to ids-draggable wrapper
-      : li.previousElementSibling;
+  /**
+   * Get previous list item for a given list item.
+   * @param {any} li The list item.
+   * @returns {HTMLElement|undefined} The previous list item
+   */
+  getPreviousLi(li: any): HTMLElement | undefined {
+    let idx = li && typeof li.getAttribute === 'function' ? li.getAttribute('index') : null;
+    idx = stringToNumber(idx);
+    if (Number.isNaN(idx)) return;
+    const items = [...this.getAllLi()].slice(0, (idx + 1));
+    const prev = (item: any): any => (
+      this.sortable
+        ? item.parentElement.previousElementSibling?.firstElementChildwrapper
+        : item.previousElementSibling
+    );
+    let prevLi = li;
+    items.reverse().some((item: any) => {
+      prevLi = prev(item);
+      return !prevLi?.hasAttribute('disabled');
+    });
+    return prevLi;
   }
 
-  getNextLi(li: any) {
-    return this.sortable
-      ? li.parentElement.nextElementSibling?.firstElementChild
-      : li.nextElementSibling;
+  /**
+   * Get next list item for a given list item.
+   * @param {any} li The list item.
+   * @returns {HTMLElement|undefined} The next list item
+   */
+  getNextLi(li: any): HTMLElement | undefined {
+    let idx = li && typeof li.getAttribute === 'function' ? li.getAttribute('index') : null;
+    idx = stringToNumber(idx);
+    if (Number.isNaN(idx)) return;
+    const items = [...this.getAllLi()].slice(idx);
+    const next = (item: any): any => (
+      this.sortable
+        ? item.parentElement.nextElementSibling?.firstElementChild
+        : item.nextElementSibling
+    );
+    let nextLi = li;
+    items.some((item: any) => {
+      nextLi = next(item);
+      return !nextLi?.hasAttribute('disabled');
+    });
+    return nextLi;
   }
 
-  listItemTemplateFunc() {
-    const func = (item: any, index: number) => `
-      ${this.sortable ? `<ids-swappable-item>` : ''}
-        <div
-          part="list-item"
-          role="listitem"
-          tabindex="-1"
-          index="${index}"
-        >
-          ${this.itemTemplate(item)}
-        </div>
-      ${this.sortable ? `</ids-swappable-item>` : ''}
-    `;
+  /**
+   * Get template function for list item.
+   * @returns {Function} The list item template function.
+   */
+  listItemTemplateFunc(): any {
+    const itemTemplate = (item: any, index: number) => {
+      if (this.selectable === 'multiple' || this.selectable === 'mixed') {
+        const checked = item.itemSelected ? ' checked' : '';
+        const disabled = item.disabled ? ' disabled' : '';
+        let checkbox = `<ids-checkbox class="list-item-checkbox" label="cb-item-${index}" label-audible="true"${checked}${disabled}></ids-checkbox>`;
+        if (this.selectable === 'multiple' && this.hideCheckboxes) checkbox = '';
+        return `
+          <div class="list-item-area">
+            ${checkbox}
+            <div class="list-item-content">
+              ${this.itemTemplate(item)}
+            </div>
+          </div>`;
+      }
+      return this.itemTemplate(item);
+    };
+
+    const func = (item: any, index: number) => {
+      const disabled = item.disabled ? ' disabled' : '';
+      const tabindex = `tabindex="${typeof index !== 'undefined' && !index ? '0' : '-1'}"`;
+      const activated = item.itemActivated ? ' activated' : '';
+      let selected = '';
+      if (item.itemSelected) {
+        selected = ' selected aria-selected="true"';
+        if (this.selectable === 'mixed') selected += ' hide-selected-color';
+      }
+      return `
+        ${this.sortable ? `<ids-swappable-item${disabled}>` : ''}
+          <div
+            part="list-item"
+            role="option"
+            index="${index}"
+            aria-posinset="${index + 1}"
+            aria-setsize="${this.#size}"
+            ${tabindex}${activated}${selected}${disabled}
+          >
+            ${itemTemplate(item, index)}
+          </div>
+        ${this.sortable ? `</ids-swappable-item>` : ''}
+      `;
+    };
 
     return func;
   }
@@ -199,11 +512,12 @@ export default class IdsListView extends Base {
    * @returns {string} html
    */
   staticScrollTemplate(): string {
+    const selectable = this.selectable ? ` ${this.selectableClass()}` : '';
     return `
-      <div class="ids-list-view">
-        <div class="ids-list-view-body" role="list">
+      <div class="ids-list-view${selectable}">
+        <div class="ids-list-view-body" role="listbox" aria-label="${this.label}">
           ${this.sortable ? `<ids-swappable>` : ''}
-            ${this.data.length > 0 ? this.data?.map(this.listItemTemplateFunc()).join('') : ''}
+            ${this.data?.length > 0 ? this.data.map(this.listItemTemplateFunc()).join('') : ''}
           ${this.sortable ? `</ids-swappable>` : ''}
         </div>
       </div>
@@ -215,13 +529,14 @@ export default class IdsListView extends Base {
    * @returns {string} html
    */
   virtualScrollTemplate(): string {
+    const selectable = this.selectable ? ` ${this.selectableClass()}` : '';
     const html = `
-      <div class="ids-list-view">
+      <div class="ids-list-view${selectable}">
         <ids-virtual-scroll
           height="${this.height}"
           item-height="${this.itemHeight}"
         >
-          <div class="ids-list-view-body" role="list" part="contents"></div>
+          <div class="ids-list-view-body" role="listbox" aria-label="${this.label}" part="contents"></div>
         </ids-virtual-scroll>
       </div>
     `;
@@ -248,10 +563,65 @@ export default class IdsListView extends Base {
     return injectTemplate(this.defaultTemplate, item);
   }
 
-  #refocus() {
-    // focused item is in range
-    if (this.getFocusedLi() && this.#focusedLiIndex >= 0) {
-      this.focusLi(this.getFocusedLi());
+  /**
+   * Set the pager template for listview
+   * @returns {string} the default pager template for list-view
+   */
+  pagerTemplate(): string {
+    return `
+      <ids-pager-button label="Previous page" previous></ids-pager-button>
+      <ids-pager-number-list label="Page {num} of {total}"></ids-pager-number-list>
+      <ids-pager-button label="Next page" next></ids-pager-button>
+    `;
+  }
+
+  /**
+   * Adjust list items all indexes for virtual scroll
+   * @private
+   * @param {number} startIndex The starting data index.
+   * @returns {void}
+   */
+  #adjustVirtualScrollIndexes(startIndex: number): void {
+    const items = this.getAllLi();
+    const len = items.length;
+    if (startIndex === 0) items[0]?.setAttribute('tabindex', 0);
+    items.forEach((item: any, i: number) => {
+      item?.setAttribute('index', i + startIndex);
+      item?.setAttribute('aria-posinset', i + 1);
+      item?.setAttribute('aria-setsize', len);
+    });
+  }
+
+  /**
+   * Toggle checkboxes
+   * @private
+   * @returns {void}
+   */
+  #toggleCheckboxes(): void {
+    if (this.selectable === 'multiple') {
+      const val = this.hideCheckboxes;
+      const isCheckbox = !!(this.body?.querySelector('.list-item-checkbox'));
+      if (val && isCheckbox) {
+        // remove
+        this.body?.querySelectorAll('.list-item-checkbox').forEach((cb: any) => cb?.remove());
+      } else if (!val && !isCheckbox) {
+        // add
+        this.getAllLi().forEach((item: any) => {
+          if (!item) return;
+          const index = item.getAttribute('index');
+          const isSelected = item.hasAttribute('selected');
+          const isDisabled = item.hasAttribute('disabled');
+          const checked = isSelected ? ' checked' : '';
+          const disabled = isDisabled ? ' disabled' : '';
+          const itemArea = item.querySelector('.list-item-area');
+          itemArea?.insertAdjacentHTML('afterbegin', `
+            <ids-checkbox
+             class="list-item-checkbox"
+             label="cb-item-${index}"
+             label-audible="true"${checked}${disabled}></ids-checkbox>
+          `);
+        });
+      }
     }
   }
 
@@ -276,54 +646,64 @@ export default class IdsListView extends Base {
   }
 
   /**
-   * Render the list by applying the template
+   * Rerender the list by re applying the template
    * @private
    */
-  render(): void {
-    super.render();
+  rerender() {
+    if (!this.data || !this.initialized) {
+      if (!this.data?.length) this.getAllLi().forEach((li: HTMLElement) => li?.remove());
+      return;
+    }
+    // Set list size
+    this.#size = this.pagination === 'none' ? this.pageTotal : this.pageSize;
 
-    if (!this.virtualScroll && this.data?.length > 0) {
-      this.#attachEventListeners();
+    const dir = this.container?.getAttribute('dir');
+    const html = this.template();
+    this.container?.remove();
+
+    const referenceElem: any = this.shadowRoot.querySelector('style');
+    if (referenceElem) {
+      referenceElem.insertAdjacentHTML('afterend', html);
+    } else {
+      const template = document.createElement('template');
+      template.innerHTML = html;
+      this.shadowRoot.appendChild(template.content.cloneNode(true));
     }
 
-    if (this.virtualScroll && this.data?.length > 0) {
-      requestAnimationFrame(() => {
-        // reattach event listeners and refocus any focused list item
-        this.onEvent('aftervirtualscroll', this.virtualScrollContainer, () => {
-          this.#attachEventListeners();
-          if (this.#focusedLiIndex >= 0) this.#refocus();
-        });
+    this.container = this.shadowRoot.querySelector('.ids-list-view');
+    super.rerender();
 
+    // Setup virtual scrolling
+    if (this.data?.length > 0) {
+      if (this.virtualScroll) {
         // set the virtual-scroll item-height attribute
         const itemHeight = this.itemHeight || this.#checkTemplateHeight(`
           <div part="list-item" tabindex="-1" id="height-tester">
             ${this.itemTemplate(this.datasource.data[0])}
           </div>
         `);
-
-        this.virtualScrollContainer.itemHeight = itemHeight; // calls renderItems()
-
+        this.virtualScrollContainer.itemHeight = itemHeight;
         this.virtualScrollContainer.itemTemplate = this.listItemTemplateFunc();
-        this.virtualScrollContainer.data = this.data; // calls renderItems()
-
-        // give the first list-item a tabbable index on first render
-        const firstItem = this.container.querySelector('div[part="list-item"]');
-        if (firstItem) firstItem.setAttribute('tabindex', '0');
-
-        // reattach event listeners and refocus any focused list item
-        this.onEvent('aftervirtualscroll', this.virtualScrollContainer, () => {
-          this.#attachEventListeners();
-          if (this.#focusedLiIndex >= 0) this.#refocus();
-          if (this.selectable) this.#reselect();
-        });
-      });
+        this.virtualScrollContainer.data = this.data;
+      }
+      this.#attachEventListeners();
     }
 
+    // Adjust height
     this.adjustHeight();
+
+    // Set back direction
+    if (dir) {
+      this.container.setAttribute('dir', dir);
+    }
   }
 
   get virtualScrollContainer() {
     return this.container.querySelector('ids-virtual-scroll');
+  }
+
+  get body() {
+    return this.container.querySelector('.ids-list-view-body');
   }
 
   /**
@@ -341,7 +721,7 @@ export default class IdsListView extends Base {
    * @param  {string} itemTemplate The item template
    * @returns {number} The item height
    */
-  #checkTemplateHeight(itemTemplate: string) {
+  #checkTemplateHeight(itemTemplate: string): number {
     this.container.insertAdjacentHTML('beforeEnd', itemTemplate);
     const tester = this.shadowRoot.querySelector('#height-tester');
     const height = tester.offsetHeight;
@@ -351,14 +731,35 @@ export default class IdsListView extends Base {
   }
 
   /**
+   * Get boolean property value for given attribute.
+   * @param  {string} attributeName The attribute name.
+   * @param  {boolean} defaultValue The default value.
+   * @returns {boolean} The property value
+   */
+  boolVal(attributeName: string, defaultValue: boolean): boolean {
+    return this.hasAttribute(attributeName)
+      ? stringToBool(this.getAttribute(attributeName))
+      : defaultValue;
+  }
+
+  /**
+   * Get the list of all data from dataset
+   * @returns {Array} value The array to use
+   */
+  get ds(): Array<any> { return this.datasource?.allData || this.data; }
+
+  /**
    * Set the data array of the listview
    * @param {Array | null} value The array to use
    */
   set data(value: any) {
-    if (this.datasource) {
-      this.datasource.data = value || [];
-      this.render();
+    if (value) {
+      this.datasource.data = value;
+      this.initialized = true;
+    } else {
+      this.datasource.data = [];
     }
+    this.rerender();
   }
 
   get data(): any { return this?.datasource?.data || []; }
@@ -368,15 +769,17 @@ export default class IdsListView extends Base {
    * @param {string | boolean} value true to use virtual scrolling
    */
   set virtualScroll(value: string | boolean) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.VIRTUAL_SCROLL, value.toString());
+    if (/boolean|string/g.test(typeof value)) {
+      this.setAttribute(attributes.VIRTUAL_SCROLL, value);
     } else {
       this.removeAttribute(attributes.VIRTUAL_SCROLL);
     }
-    this.render();
+    this.rerender();
   }
 
-  get virtualScroll(): string | boolean { return stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
+  get virtualScroll(): boolean {
+    return this.boolVal(attributes.VIRTUAL_SCROLL, LIST_VIEW_DEFAULTS.virtualScroll);
+  }
 
   /**
    * Set the expected height of the viewport for virtual scrolling
@@ -386,12 +789,12 @@ export default class IdsListView extends Base {
     if (value) {
       this.setAttribute(attributes.HEIGHT, value);
     } else {
-      this.setAttribute(attributes.HEIGHT, DEFAULT_HEIGHT);
+      this.setAttribute(attributes.HEIGHT, LIST_VIEW_DEFAULTS.height);
     }
   }
 
   get height(): string | number {
-    return this.getAttribute(attributes.HEIGHT) || DEFAULT_HEIGHT;
+    return this.getAttribute(attributes.HEIGHT) || LIST_VIEW_DEFAULTS.height;
   }
 
   /**
@@ -412,14 +815,18 @@ export default class IdsListView extends Base {
 
   /**
    * Set the selection mode of the listview
-   * @param {string} value true to use virtual scrolling
+   * @param {string} value The value
    */
   set selectable(value: string) {
-    if (SELECTABLE_OPTIONS.includes(value)) {
+    this.container.classList.remove(...this.selectableClass(true));
+
+    if (LIST_VIEW_DEFAULTS.selectableOptions.includes(value)) {
       this.setAttribute(attributes.SELECTABLE, value);
+      this.container.classList.add(this.selectableClass());
     } else {
       this.removeAttribute(attributes.SELECTABLE);
     }
+    this.rerender();
   }
 
   get selectable(): string {
@@ -427,98 +834,479 @@ export default class IdsListView extends Base {
   }
 
   /**
-   * Getter that returns the selected list items
-   * @returns {NodeList | HTMLElement} a list if multiselect is enabled, else the single selected list item
+   * Get class name/s with prefixed value
+   * @param {boolean|undefined} isAll If true, will return all classes as array
+   * @returns {string|Array<string>} The class name with prefix
    */
-  get selectedLi(): any {
-    const savedSelectedLi = this.selectable === 'multiple'
-      ? this.container.querySelectorAll(`div[part=list-item][selected='selected']`)
-      : this.container.querySelector(`div[part="list-item"][index="${this.#selectedLiIndex}"]`);
-    return savedSelectedLi;
+  selectableClass(isAll?: boolean): string | Array<string> {
+    const prefixed = (v: string) => `selectable-${v}`;
+    let r: string | Array<string> = '';
+    if (isAll) r = LIST_VIEW_DEFAULTS.selectableOptions.map((v) => prefixed(v));
+    if (this.selectable !== null) r = prefixed(this.selectable);
+    return r;
   }
 
   /**
-   * Handles the sortable property and reflects it on the DOM
-   * @param {string | boolean} value the sortable parameter
+   * Get the activated item
+   * @returns {IdsListViewActivatedItem|null} The activated item
    */
-  set sortable(value) {
-    const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.SORTABLE, val);
+  get activatedItem(): IdsListViewActivatedItem | Array<IdsListViewActivatedItem> | null {
+    if (!this.ds || this.selectable !== 'mixed') return null;
+    const singleArgs = (index: number) => (index > -1 ? { index, data: this.ds[index] } : null);
+    return singleArgs(this.ds.findIndex((d: any) => d.itemActivated));
+  }
+
+  /**
+   * Get the selected item/s
+   * @returns {IdsListViewSelectedItem|Array<IdsListViewSelectedItem>|null} single item, or List of all selected items
+   */
+  get selected(): IdsListViewSelectedItem | Array<IdsListViewSelectedItem> | null {
+    if (!this.ds || !this.selectable) return null;
+    const singleArgs = (index: number) => (index > -1 ? { index, data: this.ds[index] } : null);
+    return this.selectable === 'single'
+      ? singleArgs(this.ds.findIndex((d: any) => d.itemSelected))
+      : this.ds.map((data: any, index: number) => ({ index, data })).filter((d: any) => d.data.itemSelected);
+  }
+
+  /**
+   * Handles the sortable property and reflects it on the DOM.
+   * @param {boolean|string} value The sortable parameter.
+   */
+  set sortable(value: boolean | string) {
+    if (/boolean|string/g.test(typeof value)) {
+      this.setAttribute(attributes.SORTABLE, value);
     } else {
       this.removeAttribute(attributes.SORTABLE);
     }
   }
 
-  get sortable() {
-    return this.hasAttribute(attributes.SORTABLE);
+  get sortable(): boolean {
+    return this.boolVal(attributes.SORTABLE, LIST_VIEW_DEFAULTS.sortable);
   }
 
   /**
-   * Helper function that toggles the 'selected' attribute of an element, then focuses on that element
-   * @param {Element} item the item to add/remove the selected attribute
-   * @param {boolean} switchValue optional switch values to force add/remove the selected attribute
+   * Sets the items to be allow deactivate for mixed selection only.
+   * @param {boolean|string} value The value.
    */
-  toggleSelectedAttribute(item: HTMLLIElement, switchValue?: boolean) {
-    const unselect = () => {
-      item.removeAttribute('selected');
-      this.#selectedLiIndex = null;
-    };
-
-    const select = () => {
-      item.setAttribute('selected', 'selected');
-      this.#selectedLiIndex = item.getAttribute('index');
-    };
-
-    if (switchValue === true) {
-      select();
-    } else if (switchValue === false) {
-      unselect();
+  set allowDeactivate(value: boolean | string) {
+    if (/boolean|string/g.test(typeof value)) {
+      this.setAttribute(attributes.ALLOW_DEACTIVATE, value);
     } else {
-      // otherwise toggle it depending on whether or not it has the attribute already
-      const hasSelectedAttribute = item.getAttribute('selected');
-      if (hasSelectedAttribute) {
-        unselect();
-      } else {
-        select();
-      }
-
-      this.focusLi(item);
+      this.removeAttribute(attributes.ALLOW_DEACTIVATE);
     }
   }
 
+  get allowDeactivate(): boolean {
+    return this.boolVal(attributes.ALLOW_DEACTIVATE, LIST_VIEW_DEFAULTS.allowDeactivate);
+  }
+
   /**
-   * Toggles the selected list item
-   * @param {any} item the selected list item to toggle
+   * Sets the items to be allow deselect for single selection only.
+   * @param {boolean|string} value The value.
    */
-  toggleSelectedLi(item: any) {
-    if (
-      (item.tagName === 'DIV' && item.getAttribute('part') === 'list-item')
-      || item.tagName === 'IDS-SWAPPABLE-ITEM') {
-      if (this.selectable === 'single') {
-        const prevSelectedLi: HTMLLIElement = this.selectedLi;
-        if (item !== prevSelectedLi && prevSelectedLi) {
-          // unselect previous item if it's selected
-          this.toggleSelectedAttribute(prevSelectedLi);
+  set allowDeselect(value: boolean | string) {
+    if (/boolean|string/g.test(typeof value)) {
+      this.setAttribute(attributes.ALLOW_DESELECT, value);
+    } else {
+      this.removeAttribute(attributes.ALLOW_DESELECT);
+    }
+  }
+
+  get allowDeselect(): boolean {
+    return this.boolVal(attributes.ALLOW_DESELECT, LIST_VIEW_DEFAULTS.allowDeselect);
+  }
+
+  /**
+   * Checkboxes will not render if true, only apply to multiple selection.
+   * @param {boolean|string} value The value.
+   */
+  set hideCheckboxes(value: boolean | string) {
+    if (/boolean|string/g.test(typeof value)) {
+      this.setAttribute(attributes.HIDE_CHECKBOXES, value);
+    } else {
+      this.removeAttribute(attributes.HIDE_CHECKBOXES);
+    }
+    this.#toggleCheckboxes();
+  }
+
+  get hideCheckboxes(): boolean {
+    return this.boolVal(attributes.HIDE_CHECKBOXES, LIST_VIEW_DEFAULTS.hideCheckboxes);
+  }
+
+  /**
+   * Set the aria label text
+   * @param {string} value The label text
+   */
+  set label(value: string) {
+    if (value) {
+      this.setAttribute(attributes.LABEL, value);
+    } else {
+      this.removeAttribute(attributes.LABEL);
+    }
+    this.body?.setAttribute('aria-label', this.label);
+  }
+
+  get label() {
+    return this.getAttribute(attributes.LABEL) || LIST_VIEW_DEFAULTS.label;
+  }
+
+  /**
+   * Set checkbox state in given listview item.
+   * @private
+   * @param {HTMLElement} item The listview item.
+   * @param {boolean} isChecked The value to be set.
+   * @returns {void}
+   */
+  #setCheckbox(item: any, isChecked = false): void {
+    const cb = item?.querySelector('.list-item-checkbox');
+    if (cb) cb.checked = isChecked;
+  }
+
+  /**
+   * Trigger the given event.
+   * @private
+   * @param {string} eventtName The event name to be trigger.
+   * @param {object} args Extra data.
+   * @returns {void}
+   */
+  #triggerEvent(eventtName: string, args: object = {}): void {
+    this.triggerEvent(eventtName, this, { bubbles: true, detail: { elem: this, ...args } });
+  }
+
+  /**
+   * Set a list item to be activated, in current page and data.
+   * @param {number} index the zero based index.
+   * @returns {boolean} Is veto.
+   */
+  #activateItemInPage(index: number): boolean {
+    if (this.data?.[index]?.disabled) return true;
+
+    const dataIndex = this.dataIndex(index) as number;
+
+    if (this.#activatedIndex !== -1) {
+      const activatedIndex = this.ds.findIndex((d: any) => d.itemActivated);
+      this.#isApply = true;
+      if (activatedIndex === dataIndex) {
+        if (!this.allowDeactivate) return true;
+        if (this.isInPage(activatedIndex)) {
+          return this.#deactivateItemInPage(this.pageIndex(activatedIndex) as number);
         }
+        return this.deactivateItem(activatedIndex);
       }
-      this.toggleSelectedAttribute(item);
+      if (this.isInPage(activatedIndex)) {
+        if (!this.#deactivateItemInPage(this.pageIndex(activatedIndex) as number)) {
+          return false;
+        }
+      } else if (!this.deactivateItem(activatedIndex)) return false;
     }
+
+    const item = this.#itemByIndex(index);
+    const args = () => ({ item, index, dataIndex, data: this.data[index] }); // eslint-disable-line
+    if (!this.triggerVetoableEvent('beforeitemactivated', { ...args() })) {
+      return false;
+    }
+    item?.setAttribute('activated', '');
+    this.#activatedIndex = dataIndex;
+    this.data[index].itemActivated = true;
+    this.#triggerEvent('itemactivated', { ...args() });
+
+    this.focusLi(item);
+    return true;
   }
 
   /**
-   * Select the list item again
-   * @returns {void }
+   * Set a list item to be deactivated, in current page and data.
+   * @param {number} index the zero based index
+   * @returns {boolean} Is veto.
    */
-  #reselect(): void {
-    const prevSelectedLi = this.selectedLi;
-    if (prevSelectedLi) {
-      this.toggleSelectedAttribute(prevSelectedLi, true);
-    } else if (this.selectable === 'multiple') {
-      if (prevSelectedLi.length > 0) {
-        prevSelectedLi.forEach((l: HTMLLIElement) => {
-          this.toggleSelectedAttribute(l, true);
-        });
+  #deactivateItemInPage(index: number): boolean {
+    if (this.data?.[index]?.disabled) return true;
+    if (this.#activatedIndex === -1) return true;
+
+    const dataIndex = this.dataIndex(index);
+
+    if (this.#isApply) this.#isApply = false;
+    else {
+      const activatedIndex = this.ds.findIndex((d: any) => d.itemActivated);
+      if (activatedIndex === dataIndex && !this.allowDeactivate) return false;
+    }
+
+    const item = this.#itemByIndex(index);
+    const args = () => ({ item, index, dataIndex, data: this.data[index] }); // eslint-disable-line
+    if (!this.triggerVetoableEvent('beforeitemdeactivated', { ...args() })) {
+      return false;
+    }
+    delete this.data[index].itemActivated;
+    item?.removeAttribute('activated');
+    this.#activatedIndex = -1;
+    this.#triggerEvent('itemdeactivated', { ...args() });
+    this.focusLi(item);
+    return true;
+  }
+
+  /**
+   * Set a list item to be activated, in dataset.
+   * @param {number} dataIndex the zero based dataIndex
+   * @returns {boolean} Is veto.
+   */
+  activateItem(dataIndex: number): boolean {
+    if (this.ds?.[dataIndex]?.disabled || dataIndex === -1) return true;
+
+    if (this.isInPage(dataIndex)) {
+      return this.#activateItemInPage(this.pageIndex(dataIndex) as number);
+    }
+
+    if (this.#activatedIndex !== -1) {
+      const activatedIndex = this.ds.findIndex((d: any) => d.itemActivated);
+      this.#isApply = true;
+      if (activatedIndex === dataIndex) {
+        if (!this.allowDeactivate) return true;
+        if (this.isInPage(activatedIndex)) {
+          return this.#deactivateItemInPage(this.pageIndex(activatedIndex) as number);
+        }
+        return this.deactivateItem(activatedIndex);
+      }
+      if (this.isInPage(activatedIndex)) {
+        if (!this.#deactivateItemInPage(this.pageIndex(activatedIndex) as number)) {
+          return false;
+        }
+      } else if (!this.deactivateItem(activatedIndex)) return false;
+    }
+
+    const args = () => ({ dataIndex, data: this.ds[dataIndex] });
+    if (!this.triggerVetoableEvent('beforeitemactivated', { ...args() })) {
+      return false;
+    }
+
+    this.#activatedIndex = dataIndex;
+    this.ds[dataIndex].itemActivated = true;
+    this.#triggerEvent('itemactivated', { ...args() });
+
+    return true;
+  }
+
+  /**
+   * Set a list item to be deactivated, in dataset
+   * @param {number} dataIndex the zero based dataIndex
+   * @returns {boolean} False, if veto.
+   */
+  deactivateItem(dataIndex: number): boolean {
+    if (this.ds?.[dataIndex]?.disabled) return true;
+    if (this.#activatedIndex === -1) return true;
+
+    if (this.isInPage(dataIndex)) {
+      return this.#deactivateItemInPage(this.pageIndex(dataIndex) as number);
+    }
+
+    if (this.#isApply) this.#isApply = false;
+    else {
+      const activatedIndex = this.ds.findIndex((d: any) => d.itemActivated);
+      if (activatedIndex === dataIndex && !this.allowDeactivate) return false;
+    }
+
+    const args = () => ({ dataIndex, data: this.ds[dataIndex] });
+    if (!this.triggerVetoableEvent('beforeitemdeactivated', { ...args() })) {
+      return false;
+    }
+    delete this.ds[dataIndex].itemActivated;
+    this.#activatedIndex = -1;
+    this.#triggerEvent('itemdeactivated', { ...args() });
+
+    return true;
+  }
+
+  /**
+   * Set a list item to be selected, in current page and data.
+   * @private
+   * @param {number} index the zero based index.
+   * @returns {boolean} Is veto.
+   */
+  #selectInPage(index: number): boolean {
+    if (this.data?.[index]?.disabled) return true;
+
+    const dataIndex = this.dataIndex(index);
+    const selected: any = this.selected;
+
+    if (this.selectable === 'single' && selected) {
+      const isSame = selected.index === dataIndex;
+      if (isSame && !this.allowDeselect) return true;
+      this.#isApply = true;
+      if (this.isInPage(selected.index)) {
+        if (!this.#deselectInPage(this.pageIndex(selected.index) as number)) {
+          return false;
+        }
+      } else if (!this.deselect(selected.index)) return false;
+      if (isSame) return true;
+    }
+    const item = this.#itemByIndex(index);
+    const cb: any = item?.querySelector('.list-item-checkbox');
+    const key = this.selectable === 'single' ? 'selectedItem' : 'selectedItems';
+    const args = { item, index, dataIndex, data: this.data[index] };// eslint-disable-line
+    this.#isTargetCheckbox = false;
+    if (!this.triggerVetoableEvent('beforeselected', { ...args, [key]: this.selected })) {
+      this.#setCheckbox(item, false);
+      return false;
+    }
+    this.data[index].itemSelected = true;
+
+    if (cb) cb.checked = true;
+    item?.setAttribute('selected', '');
+    if (this.selectable === 'mixed') item?.setAttribute('hide-selected-color', '');
+    this.#triggerEvent('selected', { ...args, [key]: this.selected });
+    this.focusLi(item);
+
+    return true;
+  }
+
+  /**
+   * Set a list item to be deselected, in current page and data.
+   * @private
+   * @param {number} index the zero based index.
+   * @returns {boolean} Is veto.
+   */
+  #deselectInPage(index: number): boolean {
+    if (this.data?.[index]?.disabled) return true;
+
+    const selected: any = this.selected;
+    if (!selected || (/^(multiple|mixed)$/g.test(this.selectable) && !selected.length)) return true;
+
+    if (this.selectable === 'single') {
+      if (this.#isApply) this.#isApply = false;
+      else if (this.dataIndex(index) === selected.index && !this.allowDeselect) return false;
+    }
+    const item = this.#itemByIndex(index);
+    const dataIndex = this.dataIndex(index);
+    const cb: any = item?.querySelector('.list-item-checkbox');
+    const key = this.selectable === 'single' ? 'selectedItem' : 'selectedItems';
+    const args = { item, index, dataIndex, data: this.data[index] };// eslint-disable-line
+    this.#isTargetCheckbox = false;
+    if (!this.triggerVetoableEvent('beforedeselected', { ...args, [key]: this.selected })) {
+      this.#setCheckbox(item, true);
+      return false;
+    }
+    delete this.data[index].itemSelected;
+
+    if (cb) cb.checked = false;
+    item?.removeAttribute('selected');
+    item?.removeAttribute('hide-selected-color');
+    this.#triggerEvent('deselected', { ...args, [key]: this.selected });
+    this.focusLi(item);
+
+    return true;
+  }
+
+  /**
+   * Set a list item to be selected, in dataset.
+   * @param {number} dataIndex the zero based dataIndex.
+   * @returns {boolean} Is veto.
+   */
+  select(dataIndex: number): boolean {
+    if (this.ds?.[dataIndex]?.disabled) return true;
+
+    if (this.isInPage(dataIndex)) {
+      return this.#selectInPage(this.pageIndex(dataIndex) as number);
+    }
+
+    const selected: any = this.selected;
+
+    if (this.selectable === 'single' && selected) {
+      const isSame = selected.index === dataIndex;
+      if (isSame && !this.allowDeselect) return true;
+      this.#isApply = true;
+      if (this.isInPage(selected.index)) {
+        if (!this.#deselectInPage(this.pageIndex(selected.index) as number)) {
+          return false;
+        }
+      } else if (!this.deselect(selected.index)) return false;
+      if (isSame) return true;
+    }
+
+    const key = this.selectable === 'single' ? 'selectedItem' : 'selectedItems';
+    const args = { dataIndex, data: this.ds[dataIndex] };
+    if (!this.triggerVetoableEvent('beforeselected', { ...args, [key]: this.selected })) {
+      return false;
+    }
+    this.ds[dataIndex].itemSelected = true;
+    this.#triggerEvent('selected', { ...args, [key]: this.selected });
+
+    return true;
+  }
+
+  /**
+   * Set a list item to be deselected, in dataset.
+   * @param {number} dataIndex the zero based dataIndex.
+   * @returns {boolean} False, if veto.
+   */
+  deselect(dataIndex: number): boolean {
+    if (this.ds?.[dataIndex]?.disabled) return true;
+
+    const selected: any = this.selected;
+    if (!selected || (/^(multiple|mixed)$/g.test(this.selectable) && !selected.length)) return true;
+
+    if (this.isInPage(dataIndex)) {
+      return this.#deselectInPage(this.pageIndex(dataIndex) as any);
+    }
+
+    if (this.selectable === 'single') {
+      if (this.#isApply) this.#isApply = false;
+      else if (dataIndex === selected.index && !this.allowDeselect) return false;
+    }
+    const key = this.selectable === 'single' ? 'selectedItem' : 'selectedItems';
+    const args = { dataIndex, data: this.ds[dataIndex] };
+    if (!this.triggerVetoableEvent('beforedeselected', { ...args, [key]: this.selected })) {
+      return false;
+    }
+    delete this.ds[dataIndex].itemSelected;
+    this.#triggerEvent('deselected', { ...args, [key]: this.selected });
+
+    return true;
+  }
+
+  /**
+   * Set a all list items to be selected.
+   * @returns {void}
+   */
+  selectAll(): void {
+    this.toggleAll();
+  }
+
+  /**
+   * Set a all list items to be deselected.
+   * @returns {void}
+   */
+  deselectAll(): void {
+    this.toggleAll(true);
+  }
+
+  /**
+   * Set all list items to be selected or deselected.
+   * @param {boolean} isDeselect If true will deselect all items, otherwise select all.
+   * @returns {void}
+   */
+  toggleAll(isDeselect?: boolean): void {
+    const action = isDeselect ? 'deselect' : 'select';
+    if (this.selectable) {
+      const selected: any = this.selected;
+      let key: any;
+      let len = 0;
+
+      // Single
+      if (this.selectable === 'single') {
+        key = 'selectedItem';
+        len = selected ? 1 : 0;
+        if (isDeselect && len) this[action](selected.index);
+        if (!isDeselect && !len) this[action](0);
+      }
+
+      // Multiple or Mixed
+      if (/multiple|mixed/g.test(this.selectable)) {
+        key = 'selectedItems';
+        len = selected.length;
+        this.ds?.forEach((d: any, i: number) => this[action](i));
+      }
+
+      if ((this.selected as any)?.length !== len) {
+        this.#triggerEvent('selectionchanged', { [key]: this.selected });
       }
     }
   }
@@ -531,7 +1319,7 @@ export default class IdsListView extends Base {
     super.onDragStart(el);
 
     const li = el.querySelector('div[part="list-item"]');
-    this.onClick(li);
+    this.#setSelection(li);
   }
 
   /**

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">List View - Events</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2" class="inline">Events</ids-text>
+        <ids-text font-size="14" class="inline">(watch the logs for the events in console)</ids-text><br />
+        <ids-text font-size="14" font-weight="bold" class="inline">&mdash; beforeselected:</ids-text>
+        <ids-text font-size="14" class="inline">Fire before selected an item.</ids-text>
+        <br />
+        <ids-radio-group horizontal="true" id="radio-lv-beforeselected">
+          <ids-radio value="true" label="True" checked="true"></ids-radio>
+          <ids-radio value="false" label="False"></ids-radio>
+        </ids-radio-group>
+        <ids-text font-size="14" font-weight="bold" class="inline">&mdash; selected:</ids-text>
+        <ids-text font-size="14" class="inline">Will fire after selected an item.</ids-text><br />
+        <ids-text font-size="14" font-weight="bold" class="inline">&mdash; beforedeselected:</ids-text>
+        <ids-text font-size="14" class="inline">Fire before deselected an item.</ids-text>
+        <br />
+        <ids-radio-group horizontal="true" id="radio-lv-beforedeselected">
+          <ids-radio value="true" label="True" checked="true"></ids-radio>
+          <ids-radio value="false" label="False"></ids-radio>
+        </ids-radio-group>
+        <ids-text font-size="14" font-weight="bold" class="inline">&mdash; deselected:</ids-text>
+        <ids-text font-size="14" class="inline">Will fire after deselected an item.</ids-text><br />
+        <ids-text font-size="14" font-weight="bold" class="inline">&mdash; beforeitemactivated:</ids-text>
+        <ids-text font-size="14" class="inline">Fire before activated an item.</ids-text>
+        <br />
+        <ids-radio-group horizontal="true" id="radio-lv-beforeitemactivated">
+          <ids-radio value="true" label="True" checked="true"></ids-radio>
+          <ids-radio value="false" label="False"></ids-radio>
+        </ids-radio-group>
+        <ids-text font-size="14" font-weight="bold" class="inline">&mdash; activated:</ids-text>
+        <ids-text font-size="14" class="inline">Will fire after activated an item.</ids-text><br />
+        <ids-text font-size="14" font-weight="bold" class="inline">&mdash; beforeitemdeactivated:</ids-text>
+        <ids-text font-size="14" class="inline">Fire before deactivated an item.</ids-text>
+        <br />
+        <ids-radio-group horizontal="true" id="radio-lv-beforeitemdeactivated">
+          <ids-radio value="true" label="True" checked="true"></ids-radio>
+          <ids-radio value="false" label="False"></ids-radio>
+        </ids-radio-group>
+        <ids-text font-size="14" font-weight="bold" class="inline">&mdash; itemdeactivated:</ids-text>
+        <ids-text font-size="14" class="inline">Will fire after deactivated an item.</ids-text><br />
+
+        <ids-text font-size="14" font-weight="bold" class="inline">&mdash; selectionchanged:</ids-text>
+        <ids-text font-size="14" class="inline">Fires after selection changed, when use with selectAll(), deselectAll() or toggleAll().</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="2" gap="xl">
+      <ids-layout-grid-cell col-span="1">
+        <div class="parent-container">
+            <ids-list-view
+              id="demo-lv-events"
+              item-height="76"
+              selectable="mixed"
+              pagination="client-side"
+              page-number="1"
+              page-size="5"
+            >
+              <template>
+                <ids-text font-size="16" type="h2">${productName}</ids-text>
+                <ids-text font-size="12" type="span">Count: ${units}</ids-text>
+                <ids-text font-size="12" type="span">Price: $ ${unitPrice}</ids-text>
+              </template>
+            </ids-list-view>
+        </div>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

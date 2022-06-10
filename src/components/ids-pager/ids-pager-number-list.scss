@@ -30,3 +30,7 @@ ids-button:not([selected]):hover {
   @include border-b-1();
   @include border-azure-60();
 }
+
+.divider {
+  @include inline-flex();
+}

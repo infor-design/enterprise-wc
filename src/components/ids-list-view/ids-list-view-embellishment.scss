@@ -1,0 +1,197 @@
+// Flex
+.flex {
+  display: flex;
+}
+
+// Flex grow/shrink
+.flex-grow-0 {
+  flex-grow: 0;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
+}
+
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
+
+.flex-shrink-1 {
+  flex-shrink: 1;
+}
+
+// Flex direction
+$flex-direction-list: row row-reverse column column-reverse;
+
+@each $flex-direction in $flex-direction-list {
+  .flex-direction-#{$flex-direction} {
+    flex-direction: $flex-direction;
+  }
+}
+
+// Flex wrap
+$flex-wrap-list: nowrap wrap wrap-reverse;
+
+@each $flex-wrap in $flex-wrap-list {
+  .flex-wrap-#{$flex-wrap} {
+    flex-wrap: $flex-wrap;
+  }
+}
+
+// Flex align-items
+$align-items-list: start end flex-start flex-end center baseline stretch;
+
+@each $align-items in $align-items-list {
+  .align-items-#{$align-items} {
+    align-items: $align-items;
+  }
+}
+
+// Flex justify-content
+$justify-content-list: start end flex-start flex-end center left right space-between space-around space-evenly;
+
+@each $justify-content in $justify-content-list {
+  .justify-content-#{$justify-content} {
+    justify-content: $justify-content;
+  }
+}
+
+// Flex align-self
+$align-self-list: auto baseline center stretch flex-start flex-end;
+
+@each $align-self in $align-self-list {
+  .align-self-#{$align-self} {
+    align-self: $align-self;
+  }
+}
+
+// Flex align-content
+$align-content-list: flex-start flex-end center space-between space-around space-evenly stretch start end baseline;
+
+@each $align-content in $align-content-list {
+  .align-content-#{$align-content} {
+    align-content: $align-content;
+  }
+}
+
+// Units
+$units: 0 1 2 4 8 12 16 20 24 28 32 36 40;
+
+// Flex gap
+@each $gap in $units {
+  .gap-#{$gap} {
+    gap: #{$gap}px;
+  }
+}
+
+// Flex row-gap
+@each $row-gap in $units {
+  .row-gap-#{$row-gap} {
+    row-gap: #{$row-gap}px;
+  }
+}
+
+// Flex column-gap
+@each $column-gap in $units {
+  .column-gap-#{$column-gap} {
+    column-gap: #{$column-gap}px;
+  }
+}
+
+// Padding
+@each $p in $units {
+  .p-#{$p} {
+    padding: #{$p}px;
+  }
+}
+
+// Padding inline start
+@each $pl in $units {
+  .pl-#{$pl} {
+    padding-inline-start: #{$pl}px;
+  }
+}
+
+// Padding inline end
+@each $pr in $units {
+  .pr-#{$pr} {
+    padding-inline-end: #{$pr}px;
+  }
+}
+
+// Padding block start
+@each $pt in $units {
+  .pt-#{$pt} {
+    padding-block-start: #{$pt}px;
+  }
+}
+
+// Padding block end
+@each $pb in $units {
+  .pb-#{$pb} {
+    padding-block-end: #{$pb}px;
+  }
+}
+
+// Padding inline
+@each $px in $units {
+  .px-#{$px} {
+    padding-inline: #{$px}px;
+  }
+}
+
+// Padding block
+@each $py in $units {
+  .py-#{$py} {
+    padding-block: #{$py}px;
+  }
+}
+
+// Margin
+@each $m in $units {
+  .m-#{$m} {
+    margin: #{$m}px;
+  }
+}
+
+// Margin inline start
+@each $ml in $units {
+  .ml-#{$ml} {
+    margin-inline-start: #{$ml}px;
+  }
+}
+
+// Margin inline end
+@each $mr in $units {
+  .mr-#{$mr} {
+    margin-inline-end: #{$mr}px;
+  }
+}
+
+// Margin block start
+@each $mt in $units {
+  .mt-#{$mt} {
+    margin-block-start: #{$mt}px;
+  }
+}
+
+// Margin block end
+@each $mb in $units {
+  .mb-#{$mb} {
+    margin-block-end: #{$mb}px;
+  }
+}
+
+// Margin inline
+@each $mx in $units {
+  .mx-#{$mx} {
+    margin-inline: #{$mx}px;
+  }
+}
+
+// Margin block
+@each $my in $units {
+  .my-#{$my} {
+    margin-block: #{$my}px;
+  }
+}

@@ -8,6 +8,7 @@ This component styles arbitrary text elements using the design guidelines.
 
 - When you need static text on a page
 - When you need disabled appearing text in a page
+- When you need text to display status state in a page
 
 ## Typography
 
@@ -108,6 +109,25 @@ Learn more about this topic [here](https://www.interaction-design.org/literature
 - **Disabled**: Text can be disabled, this is usually done with some other element in mind. For example a disabled field label
 - **Audible**: Text that does not appear in the page but is read by users with screen readers in order to give them information.
 
+### Text alignments
+
+Sets the horizontal alignment of the content inside a block element, setting can be specified in one of the following ways:
+
+- **Start**: It is same as left if direction is left-to-right and right if direction is right-to-left.
+- **End**: It is same as right if direction is left-to-right and left if direction is right-to-left.
+- **Center**: The content will be center align.
+- **Justify**: The content will be justified. Text should be spaced to line up its left and right edges to the left and right edges, except for the last line.
+
+### Text status
+
+Text can be display the status state in a page. It will show bullet character along text. Text and bullet both are display in varius colors based on type of status, available options are as:
+
+- **Base**: Show the base status, normal color for bullet and text.
+- **Error**: Show the error status, error color for built and text.
+- **Info**: Show the info status, info color for built and text.
+- **Success**: Show the success status, success color for built and text.
+- **Warning**: Show the warning status, warning color for built and text.
+
 ## Features (With Code Examples)
 
 A normal text element used as a web component in size 16px.
@@ -128,6 +148,16 @@ Using the data/label.
 <ids-text data="true">Some random data</ids-text>
 ```
 
+Using the text alignments.
+```html
+<ids-text text-align="end">Some text display as end align</ids-text>
+```
+
+Using the text status.
+```html
+<ids-text status="error">Error</ids-text>
+```
+
 ## Settings and Attributes
 
 - `type` {boolean} Set the type of element it is usually h1-h6. Defaults to span
@@ -140,6 +170,8 @@ Using the data/label.
 - `color-variant` {string} can be set to "alternate" to display contrasting color for text via the [IdsColorVariantMixin](../../src/mixins/ids-color-variant/README.md)
 - `data` {boolean} Sets the css of the text to the according theme
 - `label` {boolean} Sets the css of the text to the according theme
+- `text-align` {string} Sets the text alignments `start`, `end`, `center`, `justify`
+- `status` {string} Sets the text status `base`, `error`, `info`, `success`, `warning`
 
 ## Themeable Parts
 
@@ -151,6 +183,8 @@ Using the data/label.
 - Size
 - Disabled
 - Color Variant (alternate)
+- Status
+- Text alignment
 
 ## Keyboard Guidelines
 

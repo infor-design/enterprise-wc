@@ -25,6 +25,7 @@ export default class IdsCard extends Base {
   }
 
   connectedCallback() {
+    this.#setFooterClass();
     this.#handleEvents();
     super.connectedCallback();
   }
@@ -63,6 +64,9 @@ export default class IdsCard extends Base {
           </div>
           <div class="ids-card-checkbox ${this.selection === 'multiple' ? '' : 'hidden'}">
             <ids-checkbox></ids-checkbox>
+          </div>
+          <div class="ids-card-footer" part="footer">
+            <slot name="card-footer"></slot>
           </div>
         </div>
       </div>
@@ -138,6 +142,21 @@ export default class IdsCard extends Base {
     }
 
     return this;
+  }
+
+  /**
+   * Set css class for footer
+   * @private
+   * @returns {void}
+   */
+  #setFooterClass(): void {
+    const footerSlot = this.querySelector('[slot="card-footer"]');
+    this.container.classList[footerSlot ? 'add' : 'remove']('has-footer');
+    if (footerSlot) {
+      const noPadding = footerSlot.hasAttribute(attributes.NO_PADDING);
+      const footer = this.container.querySelector('.ids-card-footer');
+      footer?.classList[noPadding ? 'add' : 'remove'](attributes.NO_PADDING);
+    }
   }
 
   /**
