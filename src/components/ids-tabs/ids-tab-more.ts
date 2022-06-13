@@ -218,9 +218,8 @@ export default class IdsTabMore extends Base {
 
     this.container.querySelector('#count').innerHTML = `${overflowed}`;
 
-    const visibleActions = this.hasVisibleActions();
-    this.hidden = !visibleActions;
-    if (!visibleActions) {
+    this.hidden = !this.hasVisibleActions();
+    if (!this.hasVisibleActions()) {
       this.menu.hide();
     }
 
@@ -333,10 +332,10 @@ export default class IdsTabMore extends Base {
 
     if (this.locale?.isRTL()) {
       // Beyond left edge
-      return tabRect.left < moreTabRect.right;
+      return tabRect.left < moreTabRect.right - 1;
     }
     // Beyond right edge
-    return tabRect.right > moreTabRect.left;
+    return tabRect.right > moreTabRect.left + 1;
   }
 
   #configureMenu() {
