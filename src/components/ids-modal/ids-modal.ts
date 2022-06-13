@@ -401,13 +401,19 @@ export default class IdsModal extends Base {
     this.triggerEvent('show', this, {
       bubbles: true,
       detail: {
-        elem: this,
-        value: undefined
+        elem: this
       }
     });
 
     this.popup.animated = false;
     this.respondToCurrentBreakpoint();
+
+    this.triggerEvent('aftershow', this, {
+      bubbles: true,
+      detail: {
+        elem: this
+      }
+    });
   }
 
   /**
@@ -446,12 +452,18 @@ export default class IdsModal extends Base {
     this.triggerEvent('hide', this, {
       bubbles: true,
       detail: {
-        elem: this,
-        value: undefined
+        elem: this
       }
     });
 
     this.#setTargetFocus();
+
+    this.triggerEvent('afterhide', this, {
+      bubbles: true,
+      detail: {
+        elem: this
+      }
+    });
   }
 
   /**
