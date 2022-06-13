@@ -403,6 +403,14 @@ describe('IdsTimePicker Component', () => {
     expect(embeddableTimePicker.getAttribute(attributes.EMBEDDABLE)).toBeFalsy();
   });
 
+  it('should handle tabbable setting', () => {
+    expect(timepicker.tabbable).toBeTruthy();
+
+    timepicker.tabbable = false;
+    expect(timepicker.tabbable).toBeFalsy();
+    expect(timepicker.getAttribute(attributes.TABBABLE)).toBe('false');
+  });
+
   it('can validate/enforce required', () => {
     let isValid;
     timepicker.value = '';

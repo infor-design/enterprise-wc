@@ -14,28 +14,6 @@ describe('Ids Time Picker e2e Tests', () => {
     await expect(page.title()).resolves.toMatch('IDS Time Picker Component');
   });
 
-  it('setting the language will update the labels', async () => {
-    // timepicker.format = 'hh:mm:ss a';
-
-    // const getLabel = (id: string) => timepicker?.container.querySelector(id)?.label;
-
-    // expect(getLabel('#hours')).toBe('Hours');
-    // expect(getLabel('#minutes')).toBe('Minutes');
-    // expect(getLabel('#seconds')).toBe('Seconds');
-    // expect(getLabel('#period')).toBe('Period');
-
-    // await (document.querySelector('ids-container') as any).setLocale('de-DE');
-
-    // timepicker.open();
-
-    // expect(getLabel('#hours')).toBe('Stunden');
-    // expect(getLabel('#minutes')).toBe('Minuten');
-    // expect(getLabel('#seconds')).toBe('Sekunden');
-    // expect(getLabel('#period')).toBe('Zeitraum');
-  });
-
-  // it.skip('setting the locale will update the dropdowns and field', () => {});
-
   it('should change value on input value change', async () => {
     // Set value to the input
     await page.$eval(
@@ -62,5 +40,106 @@ describe('Ids Time Picker e2e Tests', () => {
     );
 
     expect(value).toEqual('');
+  });
+
+  it('setting the language will update the labels', async () => {
+    await page.$eval('#e2e-timepicker-required', (el: any) => {
+      el?.setAttribute('format', 'hh:mm:ss a');
+    });
+
+    const getLabels = async (): Promise<any> => {
+      const labels: Promise<any> = await page.$eval(
+        '#e2e-timepicker-required',
+        (el: any) => ({
+          hours: el?.container.querySelector('ids-dropdown#hours')?.label,
+          minutes: el?.container.querySelector('ids-dropdown#minutes')?.label,
+          seconds: el?.container.querySelector('ids-dropdown#seconds')?.label,
+          period: el?.container.querySelector('ids-dropdown#period')?.label
+        })
+      );
+
+      return labels;
+    };
+
+    expect((await getLabels() as any).hours).toBe('Hours');
+    expect((await getLabels() as any).minutes).toBe('Minutes');
+    expect((await getLabels() as any).seconds).toBe('Seconds');
+    expect((await getLabels() as any).period).toBe('Period');
+
+    await page.evaluate(async () => {
+      const container: any = document.querySelector('ids-container');
+
+      if (container) {
+        await container.setLocale('de-DE');
+        await container.setLanguage('de');
+      }
+    });
+
+    expect((await getLabels() as any).hours).toBe('Stunden');
+    expect((await getLabels() as any).minutes).toBe('Minuten');
+    expect((await getLabels() as any).seconds).toBe('Sekunden');
+    expect((await getLabels() as any).period).toBe('Zeitraum');
+  });
+
+  it('setting the locale will update the dropdowns and field', async () => {
+    await page.evaluate(async () => {
+      const container: any = document.querySelector('ids-container');
+      const component: any = document.querySelector('#e2e-timepicker-required');
+
+      if (container) {
+        await container.setLocale('en-US');
+        await container.setLanguage('en');
+      }
+
+      if (component) {
+        component.format = null;
+        component.open();
+      }
+    });
+
+    const getDropdowns = async (): Promise<any> => {
+      const dropdowns: Promise<any> = await page.$eval(
+        '#e2e-timepicker-required',
+        (el: any) => ({
+          hours: el?.container.querySelector('ids-dropdown#hours')?.label,
+          minutes: el?.container.querySelector('ids-dropdown#minutes')?.label,
+          seconds: el?.container.querySelector('ids-dropdown#seconds')?.label,
+          period: el?.container.querySelector('ids-dropdown#period')?.label
+        })
+      );
+
+      return dropdowns;
+    };
+
+    // h:mm a
+    expect((await getDropdowns() as any).hours).toBeDefined();
+    expect((await getDropdowns() as any).minutes).toBeDefined();
+    expect((await getDropdowns() as any).seconds).not.toBeDefined();
+    expect((await getDropdowns() as any).period).toBeDefined();
+
+    await page.evaluate(async () => {
+      const container: any = document.querySelector('ids-container');
+
+      if (container) {
+        await container.setLocale('fr-CA');
+        await container.setLanguage('fr');
+      }
+    });
+
+    // 'HH:mm'
+    expect((await getDropdowns() as any).hours).toBeDefined();
+    expect((await getDropdowns() as any).minutes).toBeDefined();
+    expect((await getDropdowns() as any).seconds).not.toBeDefined();
+    expect((await getDropdowns() as any).period).not.toBeDefined();
+
+    // custom hh:mm:ss a
+    await page.$eval('#e2e-timepicker-required', (el: any) => {
+      el?.setAttribute('format', 'hh:mm:ss a');
+    });
+
+    expect((await getDropdowns() as any).hours).toBeDefined();
+    expect((await getDropdowns() as any).minutes).toBeDefined();
+    expect((await getDropdowns() as any).seconds).toBeDefined();
+    expect((await getDropdowns() as any).period).toBeDefined();
   });
 });

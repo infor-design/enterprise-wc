@@ -139,6 +139,7 @@ export default class IdsTimePicker extends Base {
     return `
       <div class="ids-time-picker">
         <ids-trigger-field
+          ${this.id ? `id="${this.id}"` : ''}
           ${colorVariant}${fieldHeight}${compact}${noMargins}${labelState}
           label="${this.label}"
           size="${this.size}"
