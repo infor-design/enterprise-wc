@@ -103,7 +103,7 @@ export default class IdsTabMore extends Base {
    * @returns {Array<any>} array of IdsTab elements that can be placed in Overflow
    */
   get availableOverflowTabs() {
-    return [...this.parentElement.querySelectorAll('ids-tab')];
+    return this.parentElement.tabListElements;
   }
 
   /**
@@ -111,7 +111,7 @@ export default class IdsTabMore extends Base {
    * @returns {string} the template for the More Actions Menu Group
    */
   #moreActionsMenuTemplate(): string {
-    const childTabs: Array<any> = [...this.parentElement.querySelectorAll('ids-tab')];
+    const childTabs: Array<any> = this.availableOverflowTabs;
     const renderedTabItems = childTabs?.map((i: HTMLElement) => this.#moreActionsItemTemplate(i)).join('') || '';
 
     // Cycle through tabs, if present, and render a menu item that represents them
@@ -330,14 +330,14 @@ export default class IdsTabMore extends Base {
     }
 
     const tabRect = tab.getBoundingClientRect();
-    const moreTabRect = this.getBoundingClientRect();
+    const moreTabRect = this.parentElement.moreContainer.getBoundingClientRect();
 
     if (this.locale?.isRTL()) {
       // Beyond left edge
-      return tabRect.left < moreTabRect.right - 3;
+      return tabRect.left < moreTabRect.right;
     }
     // Beyond right edge
-    return tabRect.right > moreTabRect.left + 3;
+    return tabRect.right > moreTabRect.left;
   }
 
   #configureMenu() {

@@ -89,6 +89,7 @@ export default class IdsTabs extends Base {
     const moreTab = this.querySelector('ids-tab-more');
     if (moreTab) {
       moreTab.refreshOverflowedItems();
+      this.container.classList[!moreTab.hidden ? 'add' : 'remove']('has-more-actions');
     }
   }
 
@@ -135,6 +136,21 @@ export default class IdsTabs extends Base {
    */
   get tabListContainer() {
     return this.container.querySelector('.ids-tabs-list');
+  }
+
+  /**
+   * @returns {HTMLElement} More Container
+   */
+  get moreContainer() {
+    return this.container.querySelector('.ids-tabs-list-more');
+  }
+
+  /**
+   * @returns {Array<HTMLElement>} tabs that are connected to this component's Main slot
+   */
+  get tabListElements() {
+    const mainSlot = this.container.querySelector('slot:not([name])');
+    return mainSlot.assignedElements();
   }
 
   /**

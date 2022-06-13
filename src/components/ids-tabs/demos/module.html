@@ -14,17 +14,17 @@
       <ids-tabs color-variant="module" value="contracts">
         <ids-tab value="app-menu" actionable>
           <ids-icon icon="menu"></ids-icon>
-          <ids-text font-size="12" type="span"></ids-text>
+          <ids-text type="span" audible>Toggle Application Menu</ids-text>
         </ids-tab>
         <ids-tab value="contracts">Contracts</ids-tab>
         <ids-tab value="opportunities">Opportunities</ids-tab>
         <ids-tab value="attachments" disabled>Attachments</ids-tab>
         <ids-tab value="notes">Notes</ids-tab>
-        <ids-tab value="add" actionable>
+        <ids-tab slot="more" value="add" actionable>
           <ids-icon icon="add"></ids-icon>
           <ids-text type="span" audible>Add New Tab</ids-text>
         </ids-tab>
-        <ids-tab value="reset" actionable>
+        <ids-tab slot="more" value="reset" actionable>
           <ids-icon icon="reset"></ids-icon>
           <ids-text type="span" audible>Remove User-added Tabs</ids-text>
         </ids-tab>
@@ -36,7 +36,7 @@
           <ids-toolbar-section>
             <ids-toolbar-section type="title">
               <ids-text font-size="20" color-variant="alternate" type="h1">Module Tabs</ids-text>
-              <ids-text font-size="14" color-variant="alternate">ids-tabs used for Ming.le shell</ids-text>
+              <ids-text font-size="14" color-variant="alternate">Top-Level Tabs</ids-text>
             </ids-toolbar-section>
           </ids-toolbar-section>
           <ids-toolbar-section type="buttonset" align="end">

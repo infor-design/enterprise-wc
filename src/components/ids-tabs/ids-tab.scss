@@ -67,25 +67,15 @@ $ids-tab-vertical-height: 42px;
 // Border/Themes for Module Tabs
 
 // None
-:host(ids-tab[color-variant='module']:not([mode]):not(:last-child)),
-.ids-tabs-container.color-variant-module:not([mode]) .ids-tab:not(:last-child) {
+:host(ids-tab[color-variant='module']:not([mode]):not(:last-child)) {
+// .ids-tabs-container.color-variant-module:not([mode]) .ids-tab:not(:last-child) {
   border-right: 1px solid var(--ids-color-palette-azure-100);
-}
-
-:host(ids-tab-more[color-variant='module']:not([mode])),
-.ids-tabs-container.color-variant-module:not([mode]) .ids-tab.more {
-  border-left: 1px solid var(--ids-color-palette-azure-100);
 }
 
 // Light
-:host(ids-tab[color-variant='module'][mode='light']:not(:last-child)),
-.ids-tabs-container.color-variant-module[mode='light'] .ids-tab:not(:last-child) {
+:host(ids-tab[color-variant='module'][mode='light']:not(:last-child)) {
+//.ids-tabs-container.color-variant-module[mode='light'] .ids-tab:not(:last-child) {
   border-right: 1px solid var(--ids-color-palette-azure-100);
-}
-
-:host(ids-tab-more[color-variant='module'][mode='light']),
-.ids-tabs-container.color-variant-module[mode='light'] .ids-tab.more {
-  border-left: 1px solid var(--ids-color-palette-azure-100);
 }
 
 // Dark
@@ -94,20 +84,10 @@ $ids-tab-vertical-height: 42px;
   border-right: 1px solid var(--ids-color-palette-slate-100);
 }
 
-:host(ids-tab-more[color-variant='module'][mode='dark']),
-.ids-tabs-container.color-variant-module[mode='dark'] .ids-tab.more {
-  border-left: 1px solid var(--ids-color-palette-slate-100);
-}
-
 // Contrast
 :host(ids-tab[color-variant='module'][mode='contrast']:not(:last-child)),
 .ids-tabs-container.color-variant-module[mode='contrast'] .ids-tab:not(:last-child) {
   border-right: 1px solid var(--ids-color-palette-azure-100);
-}
-
-:host(ids-tab-more[color-variant='module'][mode='contrast']),
-.ids-tabs-container.color-variant-module[mode='contrast'] .ids-tab.more {
-  border-left: 1px solid var(--ids-color-palette-azure-100);
 }
 
 // Spacing rules for Module Tabs
