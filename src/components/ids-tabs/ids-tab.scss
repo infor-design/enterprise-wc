@@ -67,14 +67,14 @@ $ids-tab-vertical-height: 42px;
 // Border/Themes for Module Tabs
 
 // None
-:host(ids-tab[color-variant='module']:not([mode]):not(:last-child)) {
-// .ids-tabs-container.color-variant-module:not([mode]) .ids-tab:not(:last-child) {
+:host(ids-tab[color-variant='module']:not([mode]):not(:last-child)),
+.ids-tabs-container.color-variant-module:not([mode]) .ids-tab:not(:last-child) {
   border-right: 1px solid var(--ids-color-palette-azure-100);
 }
 
 // Light
-:host(ids-tab[color-variant='module'][mode='light']:not(:last-child)) {
-//.ids-tabs-container.color-variant-module[mode='light'] .ids-tab:not(:last-child) {
+:host(ids-tab[color-variant='module'][mode='light']:not(:last-child)),
+.ids-tabs-container.color-variant-module[mode='light'] .ids-tab:not(:last-child) {
   border-right: 1px solid var(--ids-color-palette-azure-100);
 }
 
