@@ -32,12 +32,8 @@ export default class IdsTabMore extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.#attachMoreMenuEvents();
-
-    // Connect the menu items to their Toolbar items after everything is rendered
-    requestAnimationFrame(() => {
-      this.#configureMenu();
-      this.renderOverflowedItems();
-    });
+    this.#configureMenu();
+    this.renderOverflowedItems();
   }
 
   /**
@@ -222,8 +218,9 @@ export default class IdsTabMore extends Base {
 
     this.container.querySelector('#count').innerHTML = `${overflowed}`;
 
-    this.hidden = !this.hasVisibleActions();
-    if (!this.hasVisibleActions) {
+    const visibleActions = this.hasVisibleActions();
+    this.hidden = !visibleActions;
+    if (!visibleActions) {
       this.menu.hide();
     }
 
@@ -262,20 +259,22 @@ export default class IdsTabMore extends Base {
     const moreActionsGroup = this.moreActionsGroup;
     const parentTabs = this.availableOverflowTabs;
     const overflowMenuItems = this.overflowMenuItems;
-    parentTabs.forEach((tab: any, i: number) => {
-      // Draws new "missing" menu items that may have
-      // been added by a slotchange or other event
-      let menuItem = overflowMenuItems[i];
-      if (!menuItem) {
-        moreActionsGroup.insertAdjacentHTML('beforeend', this.#moreActionsItemTemplate(tab));
-        menuItem = moreActionsGroup[moreActionsGroup.length - 1];
-      }
+    if (parentTabs?.length) {
+      parentTabs.forEach((tab: any, i: number) => {
+        // Draws new "missing" menu items that may have
+        // been added by a slotchange or other event
+        let menuItem = overflowMenuItems[i];
+        if (!menuItem) {
+          moreActionsGroup.insertAdjacentHTML('beforeend', this.#moreActionsItemTemplate(tab));
+          menuItem = moreActionsGroup[moreActionsGroup.length - 1];
+        }
 
-      menuItem.overflowTarget = tab;
-      if (menuItem.submenu) {
-        handleSubmenu(menuItem, menuItem.overflowTarget.menuEl);
-      }
-    });
+        menuItem.overflowTarget = tab;
+        if (menuItem.submenu) {
+          handleSubmenu(menuItem, menuItem.overflowTarget.menuEl);
+        }
+      });
+    }
   }
 
   /**
