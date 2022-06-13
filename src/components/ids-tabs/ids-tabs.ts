@@ -64,7 +64,7 @@ export default class IdsTabs extends Base {
         <slot></slot>
       </div>
       <div class="ids-tabs-list-more">
-        <slot name="more"></slot>
+        <slot name="fixed"></slot>
       </div>
     </div>`;
   }
@@ -86,11 +86,7 @@ export default class IdsTabs extends Base {
    * Runs whenever the Tab List's size is altered
    */
   #resize(): void {
-    const moreTab = this.querySelector('ids-tab-more');
-    if (moreTab) {
-      moreTab.refreshOverflowedItems();
-      this.container.classList[!moreTab.hidden ? 'add' : 'remove']('has-more-actions');
-    }
+    this.#refreshOverflowedTabs();
   }
 
   /**
@@ -288,7 +284,7 @@ export default class IdsTabs extends Base {
    * Configures any slotted `ids-tab-more` components present
    */
   #connectMoreTabs() {
-    this.querySelector('ids-tab-more')?.setAttribute('slot', 'more');
+    this.querySelector('ids-tab-more')?.setAttribute('slot', 'fixed');
   }
 
   /**
@@ -369,6 +365,7 @@ export default class IdsTabs extends Base {
       moreTab.renderOverflowedItems();
       moreTab.refreshOverflowedItems();
     }
+    this.container.classList[!moreTab.hidden ? 'add' : 'remove']('has-more-actions');
   }
 
   /**
