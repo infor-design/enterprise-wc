@@ -21,7 +21,7 @@ The `ids-date-picker` is a web component to support date entry
 - `readonly` {true|false} - Whether or not the input should be readonly
 - `tabbable` {true|false} - Whether or not the trigger button should be tabbable
 - `size` {'xs'|'sm'|'mm'|'md'|'lg'|'full'} - Size (width) of the field. Default is `sm`
-- `validate` {'required'|string} - Input validation rules
+- `validate` {'required'|'date'|'rangeDate'|string} - Input validation rules
 - `validation-events` {string} - Input validation events, `change blur` as default
 - `format` {'locale'|string|null} - Input date format, if not set defaults to locale calendar date format. Examples: `yyyy-MM-dd`, `d/M/yyyy`, `dd/MM/yyyy`
 - `is-calendar-toolbar` {true|false} - Whether or not the component is used in calendar toolbar. Uses text instead of input

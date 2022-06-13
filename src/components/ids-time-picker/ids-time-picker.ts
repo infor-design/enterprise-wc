@@ -63,6 +63,7 @@ export default class IdsTimePicker extends Base {
       attributes.EMBEDDABLE,
       attributes.FORMAT,
       attributes.HOURS,
+      attributes.ID,
       attributes.LABEL,
       attributes.MINUTES,
       attributes.NO_MARGINS,
@@ -71,7 +72,10 @@ export default class IdsTimePicker extends Base {
       attributes.READONLY,
       attributes.SECONDS,
       attributes.SIZE,
-      attributes.VALUE
+      attributes.TABBABLE,
+      attributes.VALIDATE,
+      attributes.VALIDATION_EVENTS,
+      attributes.VALUE,
     ];
   }
 
@@ -140,7 +144,10 @@ export default class IdsTimePicker extends Base {
           size="${this.size}"
           placeholder="${this.placeholder}"
           value="${this.value}"
-          disabled="${this.disabled}">
+          disabled="${this.disabled}"
+          ${this.validate ? `validate="${this.validate}"` : ''}
+          validation-events="${this.validationEvents}"
+        >
           <ids-text audible="true" translate-text="true">UseArrow</ids-text>
           <ids-trigger-button slot="trigger-end">
             <ids-text audible="true" translate-text="true">TimepickerTriggerButton</ids-text>
@@ -432,7 +439,7 @@ export default class IdsTimePicker extends Base {
     if (!this.popup.visible && !this.disabled && !this.readonly) {
       this.popup.alignTarget = this.input;
       this.popup.arrowTarget = this.#triggerButton;
-      this.popup.align = 'bottom, right';
+      this.popup.align = 'bottom, left';
       this.popup.arrow = 'bottom';
       this.popup.visible = true;
 
@@ -881,10 +888,96 @@ export default class IdsTimePicker extends Base {
   get period(): string {
     const attrVal = this.getAttribute(attributes.PERIOD);
 
-    if (attrVal && this.locale?.calendar()?.dayPeriods.includes(attrVal)) {
+    if (attrVal && this.locale?.calendar()?.dayPeriods?.map(
+      (item: string) => item.toLowerCase()
+    ).includes(attrVal.toString().toLowerCase())) {
       return attrVal;
     }
 
     return this.locale?.calendar()?.dayPeriods[0];
   }
+
+  /**
+   * Set trigger field/input validation
+   * @param {string|null} val validate param
+   */
+  set validate(val: string | null) {
+    if (val) {
+      this.setAttribute(attributes.VALIDATE, val);
+      this.input?.setAttribute(attributes.VALIDATE, val);
+      this.input?.setAttribute(attributes.VALIDATION_EVENTS, this.validationEvents);
+      this.input?.handleValidation();
+    } else {
+      this.removeAttribute(attributes.VALIDATE);
+      this.input?.removeAttribute(attributes.VALIDATE);
+      this.input?.removeAttribute(attributes.VALIDATION_EVENTS);
+      this.input?.handleValidation();
+    }
+  }
+
+  /**
+   * validate attribute
+   * @returns {string|null} validate param
+   */
+  get validate(): string | null { return this.getAttribute(attributes.VALIDATE); }
+
+  /**
+   * Set which input events to fire validation on
+   * @param {string|null} val validation-events attribute
+   */
+  set validationEvents(val: string | null) {
+    if (val) {
+      this.setAttribute(attributes.VALIDATION_EVENTS, val);
+      this.input?.setAttribute(attributes.VALIDATION_EVENTS, val);
+    } else {
+      this.removeAttribute(attributes.VALIDATION_EVENTS);
+      this.input?.removeAttribute(attributes.VALIDATION_EVENTS);
+    }
+  }
+
+  /**
+   * validation-events attributes
+   * @returns {string} validationEvents param. Default is 'change blur'
+   */
+  get validationEvents(): string { return this.getAttribute(attributes.VALIDATION_EVENTS) ?? 'change blur'; }
+
+  /**
+   * Set trigger field tabbable attribute
+   * @param {boolean|string|null} val true of false depending if the trigger field is tabbable
+   */
+  set tabbable(val: boolean | string | null) {
+    this.setAttribute(attributes.TABBABLE, val);
+    this.input?.setAttribute(attributes.TABBABLE, val);
+  }
+
+  /**
+   * tabbable attribute
+   * @returns {boolean} tabbable param
+   */
+  get tabbable(): boolean {
+    const attrVal = this.getAttribute(attributes.TABBABLE);
+
+    // tabbable by default
+    return attrVal !== null ? stringToBool(attrVal) : true;
+  }
+
+  /**
+   * Set trigger field/input id attribute
+   * @param {string} val id
+   */
+  set id(val: string) {
+    if (val) {
+      this.setAttribute(attributes.ID, val);
+      this.input?.setAttribute(attributes.ID, val);
+    } else {
+      this.removeAttribute(attributes.ID);
+      this.input?.removeAttribute(attributes.ID);
+    }
+  }
+
+  /**
+   * id attribute
+   * @returns {string} id param
+   */
+  get id(): string { return this.getAttribute(attributes.ID) ?? ''; }
 }

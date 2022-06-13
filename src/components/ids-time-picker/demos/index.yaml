@@ -10,4 +10,4 @@
     description: Shows all ids-time-picker combinations
   - link: open.html
     type: Test
-    description: Test a time-picker open for visual tests
+    description: Test page for axe scans and percy screenshots

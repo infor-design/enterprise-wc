@@ -105,12 +105,14 @@ It's also possible to control the intervals of minutes and seconds available for
 - `noMargins` {boolean} sets whether or not no-margins around the component.
 - `size` {'sm' | 'md' | 'lg' | 'full' | string} Sets the size of the input-field's width
 - `embeddable` {boolean} Set whether or not to show only hours/minutes/seconds dropdowns without input
-- `minute-interval` {number} Set minutes dropdown options interval
-- `second-interval` {number} Set seconds dropdown options interval
+- `minute-interval` {number} Set minutes dropdown options interval. Default is 5
+- `second-interval` {number} Set seconds dropdown options interval. Default is 5
 - `hours` {number} Set initial value for hours dropdown in the popup or retrieve the dropdown value
 - `minutes` {number} Set initial value for minutes dropdown in the popup or retrieve the dropdown value
 - `seconds` {number} Set initial value for seconds dropdown in the popup or retrieve the dropdown value
 - `period` {number} Set initial value for period dropdown in the popup or retrieve the dropdown value
+- `validate` {'required'|string} - Input validation rules
+- `validation-events` {string} - Input validation events, `change blur` as default
 
 ## Events
 - Event listeners for input (trigger field) `blur`, `change`, `focus`, `select`, `keydown`, `keypress`, `keyup`, `click`, `dbclick`, `beforetriggerclicked`, `triggerclicked` events can be added to `input` component property:

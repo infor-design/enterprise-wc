@@ -14,14 +14,16 @@
 
     <ids-layout-grid auto="true" cols="4">
       <ids-layout-grid-cell>
-        <ids-time-picker label="Time Picker - autoselect" autoselect></ids-time-picker>
-        <ids-time-picker label="Time Picker - autoupdate" autoupdate value="1:00 AM"></ids-time-picker>
-        <ids-time-picker label="Time Picker - disabled" disabled value="12:30 PM"></ids-time-picker>
-        <ids-time-picker label="Time Picker - readonly" readonly value="12:30 PM"></ids-time-picker>
-        <ids-time-picker label="Time Picker - placeholder" placeholder="Start date"></ids-time-picker>
+        <ids-time-picker label="Time Picker - autoselect" id="e2e-timepicker-autoselect" autoselect></ids-time-picker>
+        <ids-time-picker label="Time Picker - autoupdate" id="e2e-timepicker-autoupdate" autoupdate value="1:00 AM"></ids-time-picker>
+        <ids-time-picker label="Time Picker - required" id="e2e-timepicker-required" validate="required" validation-events="blur"></ids-time-picker>
+        <ids-time-picker label="Time Picker - disabled" id="e2e-timepicker-disabled" disabled value="12:30 PM"></ids-time-picker>
+        <ids-time-picker label="Time Picker - readonly" id="e2e-timepicker-readonly" readonly value="12:30 PM"></ids-time-picker>
+        <ids-time-picker label="Dirty Tracker" format="hh:mm" id="e2e-timepicker-tracker" value="10:30" dirty-tracker="true"></ids-time-picker>
       </ids-layout-grid-cell>
 
       <ids-layout-grid-cell>
+        <ids-time-picker label="Time Picker - placeholder" placeholder="Start date"></ids-time-picker>
         <ids-time-picker label="Uses Current Locale" id="e2e-timepicker-locale"></ids-time-picker>
         <ids-time-picker label="12 Hour - hh:mm:ss a" format="hh:mm:ss a" value="10:30:00 AM"></ids-time-picker>
         <ids-time-picker label="12 Hour - hh:mm:ss" format="hh:mm:ss" value="10:30:00"></ids-time-picker>
@@ -31,7 +33,6 @@
       <ids-layout-grid-cell>
         <ids-time-picker label="24 Hour - HH:mm:ss" format="HH:mm:ss" value="14:30:00"></ids-time-picker>
         <ids-time-picker label="24 Hour - HH:mm" format="HH:mm" value="14:30"></ids-time-picker>
-        <ids-time-picker label="Dirty Tracker" format="hh:mm" value="10:30" dirty-tracker="true"></ids-time-picker>
       </ids-layout-grid-cell>
 
       <ids-layout-grid-cell>
