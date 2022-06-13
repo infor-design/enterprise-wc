@@ -78,7 +78,6 @@ export default class IdsForm extends Base {
       const idsFormComponents: IdsElement[] = this.getIdsFormComponents();
       [...idsFormComponents].forEach((el) => {
         el.setAttribute('compact', value)
-        console.log(el)
       });
     }
   }
@@ -186,7 +185,8 @@ export default class IdsForm extends Base {
 
   getIdsFormComponents(): IdsElement[] {
     const idsElements: IdsElement[] = this.getIdsElements();
-    const idsFormComponents: IdsElement[] = idsElements.filter((item) => (item.nodeName === 'IDS-ALERT' || item.nodeName === 'IDS-CHECKBOX' || item.nodeName === 'IDS-CHECKBOX-GROUP' || item.nodeName === 'IDS-COLOR-PICKER' || item.nodeName === 'IDS-DATA-LABEL' || item.nodeName === 'IDS-TIME-PICKER' || item.nodeName === 'IDS-DATE-PICKER' || item.nodeName === 'IDS-DROPDOWN' || item.nodeName === 'IDS-EDITOR' || item.nodeName === 'IDS-INPUT' || item.nodeName === 'IDS-LOOKUP'));
+    const idsFormComponents: IdsElement[] = idsElements.filter((item) => item.isFormComponent === true);
+    console.log(idsFormComponents);
     return idsFormComponents;
   }
 

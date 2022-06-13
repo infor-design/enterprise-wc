@@ -58,6 +58,8 @@ export default class IdsTextarea extends Base {
     super();
   }
 
+  isFormComponent: boolean = true;
+
   /**
    * Return the attributes we handle as getters/setters
    * @returns {Array<string>} The attributes in an array

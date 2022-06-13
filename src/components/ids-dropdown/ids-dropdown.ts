@@ -35,6 +35,8 @@ export default class IdsDropdown extends Base {
     this.state = { selectedIndex: 0 };
   }
 
+  isFormComponent: boolean = true;
+
   /**
    * Invoked each time the custom element is appended into a document-connected element.
    */

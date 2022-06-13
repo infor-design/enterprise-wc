@@ -23,6 +23,8 @@ export default class IdsAlert extends Base {
     super();
   }
 
+  isFormComponent: boolean = true;
+
   connectedCallback() {
     super.connectedCallback();
   }

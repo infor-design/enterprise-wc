@@ -38,6 +38,8 @@ export default class IdsTimePicker extends Base {
     super();
   }
 
+  isFormComponent: boolean = true;
+
   /**
    * Get a list of element dependencies for this component
    * @returns {object} of elements

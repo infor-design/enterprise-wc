@@ -21,6 +21,8 @@ export default class IdsColorPicker extends Base {
     super();
   }
 
+  isFormComponent: boolean = true;
+
   // Reference to internal Popup
   get popup(): any {
     return this.container.querySelector('ids-popup');

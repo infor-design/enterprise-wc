@@ -33,6 +33,8 @@ export default class IdsLookup extends Base {
     super();
   }
 
+  isFormComponent: boolean = true;
+
   /** Reference to the trigger field */
   triggerField = this.shadowRoot?.querySelector('ids-trigger-field');
 

@@ -28,6 +28,8 @@ export default class IdsSearchField extends Base {
     super();
   }
 
+  isFormComponent: boolean = true;
+
   /**
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
