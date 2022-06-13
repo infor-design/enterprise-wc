@@ -11,3 +11,6 @@
   - link: open.html
     type: Test
     description: Test page for axe scans and percy screenshots
+  - link: side-by-side.html
+    type: Side by Side
+    description: Shows time picker side by side with a 4.x time picker
