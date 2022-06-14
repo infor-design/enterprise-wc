@@ -3,12 +3,6 @@
  *
  * @see https://jestjs.io/docs/manual-mocks#mocking-methods-which-are-not-implemented-in-jsdom
  */
-/*
-Object.defineProperty(window, 'MediaQueryList', {});
-
-Object.defineProperty(window, 'MediaQueryListener', {});
-*/
-
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
   value: jest.fn().mockImplementation((query) => ({

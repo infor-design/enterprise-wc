@@ -34,6 +34,10 @@ $modal-border-style: 1px solid var(--ids-color-palette-slate-30);
 .ids-modal-content {
   @include px-16();
   @include pt-20();
+
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow: auto;
 }
 
 .ids-modal-header + .ids-modal-content {
@@ -62,12 +66,6 @@ $modal-border-style: 1px solid var(--ids-color-palette-slate-30);
   justify-content: space-around;
   height: 100%;
   width: 100%;
-}
-
-.ids-modal-content {
-  flex-grow: 1;
-  flex-shrink: 1;
-  overflow: auto;
 }
 
 ::slotted([slot='buttons']) {
