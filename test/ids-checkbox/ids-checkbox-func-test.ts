@@ -263,7 +263,6 @@ describe('IdsCheckbox Component', () => {
     cb.setAttribute('color', 'ruby07');
     cb.setAttribute('disabled', 'true');
     cb.setAttribute('horizontal', 'true');
-    debugger;
     // cb.setAttribute('checked', 'true');
     cb.setAttribute('label-required', 'false');
     cb.setAttribute('indeterminate', 'true');

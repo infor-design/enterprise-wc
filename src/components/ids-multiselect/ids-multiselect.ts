@@ -65,7 +65,7 @@ class IdsMultiselect extends Base {
 
   /**
    * Gets the value of the disabled property
-   * @returns a boolean indicating the elements disabled status
+   * @returns {boolean} a boolean indicating the elements disabled status
    */
   get disabled() {
     return super.disabled;
@@ -87,12 +87,17 @@ class IdsMultiselect extends Base {
   }
 
   /**
-   *
+   * returns whether the multiselect is set to display selections as tags
+   * @returns {boolean} a boolean indicating tags setting
    */
   get tags() {
     return stringToBool(this.getAttribute(attributes.TAGS));
   }
 
+  /**
+   * sets the max possible selections for multiselect
+   * @param {string|number} value the max number of selections allowed
+   */
   set max(value: any) {
     const valueSafe = stringToNumber(value);
     if (valueSafe !== this.getAttribute(stringToNumber(attributes.MAX))) {
@@ -104,13 +109,17 @@ class IdsMultiselect extends Base {
     }
   }
 
+  /**
+   * returns the maximum number of allowed selections
+   * @returns {number} the maximum number of selectable options
+   */
   get max() {
     return stringToNumber(this.getAttribute(attributes.MAX));
   }
 
   /**
-   * Set the value of the dropdown using the value/id attribute if present
-   * @param {Array} value The value/id to use
+   * Set the selected values of the multiselect using the provided array
+   * @param {Array} value the array of values to set as selected
    */
   set value(value: any) {
     let matched = true;
@@ -145,6 +154,10 @@ class IdsMultiselect extends Base {
     this.#selectedList = value;
   }
 
+  /**
+   * returns an array of the values that have been selected
+   * @returns {Array} the array of values
+   */
   get value() { return this.#selectedList; }
 
   attachClickEvent() {
@@ -162,10 +175,6 @@ class IdsMultiselect extends Base {
       e.preventDefault();
       this.input.focus();
     });
-
-    /**
-     * TO DO: update to select and group functionality to follow updates to ids-dropdown
-     */
 
     if (this.tags) {
       this.onEvent('beforetagremove', this.input, (e:any) => {
