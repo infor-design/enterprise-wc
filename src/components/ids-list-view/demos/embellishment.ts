@@ -23,8 +23,8 @@ const totalPrice = (data: any) => data.map(
 // Add some extra key/value to few noeds to demo
 const extra = (data: any) => {
   data[1].inStock = false;
-  data[3].imgStatus = true;
-  data[4].imgSrc = true;
+  data[3].imgStatus = 'images/10.jpg';
+  data[4].imgSrc = 'images/placeholder-154x120.png';
   return data;
 };
 
@@ -39,7 +39,8 @@ const setData = async () => {
   let data = await res.json();
   data = extra(data);
   data = totalPrice(data);
-  listView.data = data;
+  console.log(data.slice(0, 50))
+  listView.data = data.slice(0, 50);
 
   // images
   [...listView.container.querySelectorAll('.ids-img-10')].forEach((img: any) => {
