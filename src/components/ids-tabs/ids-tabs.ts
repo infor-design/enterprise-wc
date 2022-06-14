@@ -364,8 +364,8 @@ export default class IdsTabs extends Base {
     if (moreTab) {
       moreTab.renderOverflowedItems();
       moreTab.refreshOverflowedItems();
+      this.container.classList[!moreTab.hidden ? 'add' : 'remove']('has-more-actions');
     }
-    this.container.classList[!moreTab.hidden ? 'add' : 'remove']('has-more-actions');
   }
 
   /**
