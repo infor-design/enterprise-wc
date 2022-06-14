@@ -74,6 +74,7 @@ export const attributes = {
   COMPACT: 'compact',
   COMPLETED_LABEL: 'completed-label',
   COMPONENT_NAME: 'component-name',
+  CONDITION: 'condition',
   COPYRIGHT_YEAR: 'copyright-year',
   COUNT: 'count',
   CSS_CLASS: 'css-class',
