@@ -61,6 +61,7 @@ export default class IdsTimePicker extends Base {
       attributes.AUTOUPDATE,
       attributes.DISABLED,
       attributes.EMBEDDABLE,
+      attributes.END_HOUR,
       attributes.FORMAT,
       attributes.HOURS,
       attributes.ID,
@@ -72,6 +73,7 @@ export default class IdsTimePicker extends Base {
       attributes.READONLY,
       attributes.SECONDS,
       attributes.SIZE,
+      attributes.START_HOUR,
       attributes.TABBABLE,
       attributes.VALIDATE,
       attributes.VALIDATION_EVENTS,
@@ -286,23 +288,23 @@ export default class IdsTimePicker extends Base {
       { dateFormat: this.format }
     );
     const hours = inputDate?.getHours();
-    const hours12 = hours === 0 ? 12 : hours % 12;
+    const hours12 = hours === 0 || hours === 12 ? 12 : hours % 12;
     const minutes = inputDate?.getMinutes();
     const seconds = inputDate?.getSeconds();
 
-    if (this.#is24Hours() && hours && hours !== this.hours) {
+    if (this.#is24Hours() && hours !== this.hours) {
       this.hours = hours;
     }
 
-    if (this.#is12Hours() && hours && hours12 !== this.hours) {
+    if (this.#is12Hours() && hours12 !== this.hours) {
       this.hours = hours12;
     }
 
-    if (minutes && minutes !== this.minutes) {
+    if (minutes !== this.minutes) {
       this.minutes = minutes;
     }
 
-    if (seconds && seconds !== this.seconds) {
+    if (seconds !== this.seconds) {
       this.seconds = seconds;
     }
 
@@ -369,7 +371,7 @@ export default class IdsTimePicker extends Base {
     const hours = dropdown({
       id: 'hours',
       label: this.locale?.translate('Hours') || 'Hours',
-      options: range(1, this.#is12Hours() ? 12 : 23),
+      options: this.#getHourOptions(),
       value: this.hours,
       padStart: this.format.includes('HH') || this.format.includes('hh')
     });
@@ -387,7 +389,7 @@ export default class IdsTimePicker extends Base {
       value: this.seconds,
       padStart: true
     });
-    const dayPeriods = this.locale?.calendar().dayPeriods;
+    const dayPeriods = this.#getDayPeriodsWithRange();
     const period = this.#hasPeriod() && dayPeriods && dropdown({
       id: 'period',
       label: this.locale?.translate('Period') || 'Period',
@@ -403,13 +405,97 @@ export default class IdsTimePicker extends Base {
     return [numbers, period].filter(Boolean).join(spacer);
   }
 
+  #getHourOptions(): Array<number> {
+    if (!this.#hasHourRange()) {
+      return range(this.#is12Hours() ? 1 : 0, this.#is12Hours() ? 12 : 23);
+    }
+
+    if (this.#is24Hours()) {
+      return range(this.startHour, this.endHour > 23 ? 23 : this.endHour);
+    }
+
+    const dayPeriodIndex = this.locale?.calendar().dayPeriods?.indexOf(this.period);
+
+    // Including 12AM or 12PM to the range
+    if ((dayPeriodIndex === 0 && (this.startHour === 0 || this.endHour === 24))
+      || (dayPeriodIndex === 1 && (this.startHour <= 12 && this.endHour >= 12))
+    ) {
+      return [...range(this.#getPeriodStartHour(), this.#getPeriodEndHour()), 12];
+    }
+
+    return range(this.#getPeriodStartHour(), this.#getPeriodEndHour());
+  }
+
+  #hasHourRange(): boolean {
+    return this.startHour > 0 || this.endHour < 24;
+  }
+
+  #getPeriodStartHour() {
+    const dayPeriodIndex = this.locale?.calendar().dayPeriods?.indexOf(this.period);
+
+    if (this.startHour <= 12 && dayPeriodIndex === 1) {
+      return 1;
+    }
+
+    if (this.startHour > 12) {
+      return this.startHour % 12;
+    }
+
+    return this.startHour > 0 ? this.startHour : 1;
+  }
+
+  #getPeriodEndHour() {
+    const dayPeriodIndex = this.locale?.calendar().dayPeriods?.indexOf(this.period);
+
+    if (this.endHour >= 12 && dayPeriodIndex === 0) {
+      return 11;
+    }
+
+    if (dayPeriodIndex === 1) {
+      return this.endHour % 12;
+    }
+
+    return this.endHour > 0 ? this.endHour : 1;
+  }
+
+  #getDayPeriodsWithRange(): Array<string> {
+    const dayPeriods: Array<string> = this.locale?.calendar().dayPeriods || [];
+
+    if (!this.#hasHourRange()) {
+      return dayPeriods;
+    }
+
+    // Do not include out of range day period
+    return dayPeriods.reduce((prev: Array<string>, curr: string, index: number) => {
+      const amInRange = index === 0 && (this.startHour < 12 || this.startHour === 0);
+      const pmInRange = index === 1 && this.endHour >= 12;
+
+      if (amInRange || pmInRange) {
+        return [...prev, curr];
+      }
+
+      return prev;
+    }, []);
+  }
+
   /**
    * Set the input-field's timestring value
    */
   #setTimeOnField(): void {
-    const date = new Date();
-    const dayPeriodIndex = this.locale?.calendar().dayPeriods?.indexOf(this.period);
-    const hours24 = this.hours + (dayPeriodIndex === -1 ? 0 : dayPeriodIndex) * 12;
+    const date: Date = new Date();
+    const dayPeriodIndex: number = this.locale?.calendar().dayPeriods?.indexOf(this.period);
+
+    let hours24: number;
+
+    if (this.hours === 12 && this.#hasPeriod()) {
+      if (dayPeriodIndex === 0) {
+        hours24 = 0;
+      } else {
+        hours24 = this.hours;
+      }
+    } else {
+      hours24 = this.hours + (dayPeriodIndex === -1 ? 0 : dayPeriodIndex) * 12;
+    }
 
     date.setHours(hours24, this.minutes, this.seconds);
 
@@ -810,6 +896,10 @@ export default class IdsTimePicker extends Base {
       return numberVal;
     }
 
+    if (this.#hasHourRange()) {
+      return this.#getPeriodStartHour();
+    }
+
     return 1;
   }
 
@@ -880,7 +970,13 @@ export default class IdsTimePicker extends Base {
       this.removeAttribute(attributes.PERIOD);
     }
 
-    this.container.querySelector('ids-dropdown#period')?.setAttribute(attributes.VALUE, this.period);
+    // Updating hours dropdown with AM/PM range
+    if (this.#hasHourRange()) {
+      this.#renderDropdowns();
+      this.container.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, this.#getPeriodStartHour());
+    } else {
+      this.container.querySelector('ids-dropdown#period')?.setAttribute(attributes.VALUE, this.period);
+    }
   }
 
   /**
@@ -889,14 +985,14 @@ export default class IdsTimePicker extends Base {
    */
   get period(): string {
     const attrVal = this.getAttribute(attributes.PERIOD);
+    const dayPeriods = this.#getDayPeriodsWithRange();
 
-    if (attrVal && this.locale?.calendar()?.dayPeriods?.map(
-      (item: string) => item.toLowerCase()
-    ).includes(attrVal.toString().toLowerCase())) {
+    if (attrVal && dayPeriods.map((item: string) => item.toLowerCase())
+      .includes(attrVal.toString().toLowerCase())) {
       return attrVal;
     }
 
-    return this.locale?.calendar()?.dayPeriods[0];
+    return dayPeriods[0];
   }
 
   /**
@@ -982,4 +1078,52 @@ export default class IdsTimePicker extends Base {
    * @returns {string} id param
    */
   get id(): string { return this.getAttribute(attributes.ID) ?? ''; }
+
+  set startHour(val: number | string | null) {
+    if (val) {
+      this.setAttribute(attributes.START_HOUR, val);
+    } else {
+      this.removeAttribute(attributes.START_HOUR);
+    }
+
+    this.#renderDropdowns();
+  }
+
+  /**
+   * start-hour attribute, default is 0
+   * @returns {number} startHour param converted to number from attribute value
+   */
+  get startHour(): number {
+    const numberVal = stringToNumber(this.getAttribute(attributes.START_HOUR));
+
+    if (!Number.isNaN(numberVal) && numberVal >= 0) {
+      return numberVal;
+    }
+
+    return 0;
+  }
+
+  set endHour(val: number | string | null) {
+    if (val) {
+      this.setAttribute(attributes.END_HOUR, val);
+    } else {
+      this.removeAttribute(attributes.END_HOUR);
+    }
+
+    this.#renderDropdowns();
+  }
+
+  /**
+   * end-hour attribute, default is 24
+   * @returns {number} endHour param converted to number from attribute value
+   */
+  get endHour(): number {
+    const numberVal = stringToNumber(this.getAttribute(attributes.END_HOUR));
+
+    if (!Number.isNaN(numberVal) && numberVal <= 24) {
+      return numberVal;
+    }
+
+    return 24;
+  }
 }
