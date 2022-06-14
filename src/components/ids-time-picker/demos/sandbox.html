@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Time Picker</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true" cols="4">
+      <ids-layout-grid-cell>
+        <ids-time-picker label="12 Hour - h:mm:ss a" format="h:mm:ss a" value="10:30:00 AM"></ids-time-picker>
+        <ids-time-picker label="12 Hour - hh:mm:ss" format="hh:mm:ss" value="10:30:00"></ids-time-picker>
+        <ids-time-picker label="12 Hour - hh:mm" format="hh:mm" value="10:30"></ids-time-picker>
+        <ids-time-picker label="24 Hour - H:mm:ss" format="H:mm:ss" value="14:30:00"></ids-time-picker>
+        <ids-time-picker label="24 Hour - HH:mm" format="HH:mm" value="14:30"></ids-time-picker>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+  </ids-container>
+</body>
+</html>

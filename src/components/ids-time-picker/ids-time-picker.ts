@@ -438,10 +438,11 @@ export default class IdsTimePicker extends Base {
    */
   open() {
     if (!this.popup.visible && !this.disabled && !this.readonly) {
-      this.popup.alignTarget = this.input;
+      this.popup.alignTarget = this.input?.container.querySelector('.field-container');
       this.popup.arrowTarget = this.#triggerButton;
-      this.popup.align = 'bottom, left';
+      this.popup.align = `bottom, ${this.locale.isRTL() || ['md', 'lg', 'full'].includes(this.size) ? 'right' : 'left'}`;
       this.popup.arrow = 'bottom';
+      this.popup.y = 16;
       this.popup.visible = true;
 
       this.addOpenEvents();

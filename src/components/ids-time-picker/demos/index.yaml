@@ -8,6 +8,15 @@
   - link: example.html
     type: Main Example
     description: Shows all ids-time-picker combinations
+  - link: sizes.html
+    type: Example
+    description: Showing width and height size variations
+  - link: intervals.html
+    type: Example
+    description: Showing minutes/seconds intervals
+  - link: sandbox.html
+    type: Sandbox
+    description: Showing various time formats and other scenarios
   - link: open.html
     type: Test
     description: Test page for axe scans and percy screenshots

@@ -1,15 +1,7 @@
 @import '../../core/ids-base';
 @import '../../mixins/sass/ids-hide-mixin';
 
-:host([size='full']) .ids-time-picker {
-  @include w-full();
-}
-
 .ids-time-picker {
-  @include flex();
-
-  width: fit-content;
-
   .popup-btn {
     @include w-full();
 
