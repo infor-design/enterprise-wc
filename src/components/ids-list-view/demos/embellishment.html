@@ -22,22 +22,22 @@
             <ids-list-view id="demo-lv-embellishment">
               <template>
                 <div class="flex">
-                  <ids-hidden value="${imgStatus}" condition="true">
+                  <ids-hidden value="${imgStatus}" condition="false">
                     <div class="mr-12">
-                      <ids-image class="ids-img-10" alt="Photo of Evyn" round user-status="available" tabindex="0"></ids-image>
+                      <ids-image class="ids-img-10" alt="${imgStatus}" round user-status="available" tabindex="0"></ids-image>
                     </div>
                   </ids-hidden>
-                  <ids-hidden value="${imgSrc}" condition="true">
+                  <ids-hidden value="${imgSrc}" condition="false">
                     <div class="pr-8">
-                      <ids-image class="placeholder-154-120" alt="image-md 154x120" size="md" tabindex="0"></ids-image>
+                      <ids-image class="placeholder-154-120" alt="${imgSrc}" size="md" tabindex="0"></ids-image>
                     </div>
                   </ids-hidden>
                   <div class="flex-grow-1">
-                    <ids-hidden value="${escalated}" condition="true">
-                      <ids-hidden value="${disabled}" condition="true">
+                    <ids-hidden value="${escalated}" condition="false">
+                      <ids-hidden value="${disabled}" condition="false">
                         <ids-text font-size="12" type="span" status="error" disabled>Escalated (${escalated}X)</ids-text>
                       </ids-hidden>
-                      <ids-hidden value="${disabled}" condition="false">
+                      <ids-hidden value="${disabled}" condition="true">
                         <ids-text font-size="12" type="span" status="error">Escalated (${escalated}X)</ids-text>
                       </ids-hidden>
                     </ids-hidden>

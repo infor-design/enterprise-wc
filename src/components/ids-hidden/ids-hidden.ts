@@ -152,7 +152,7 @@ export default class IdsHidden extends Base {
    */
   set value(val: string) {
     if (val) {
-      this.setAttribute(attributes.VALUE, val);
+      this.setAttribute(attributes.VALUE, val === 'undefined' ? '' : val);
     } else {
       this.removeAttribute(attributes.VALUE);
     }
@@ -192,6 +192,7 @@ export default class IdsHidden extends Base {
     let condition: string | boolean = this.condition;
     let value: string | boolean = this.value;
     let isMatch = false;
+    value = value === 'undefined' ? '' : value;
     if (condition === 'false' || condition === 'true') {
       condition = stringToBool(condition);
       value = (value === 'false' || value === 'true') ? stringToBool(value) : value;
