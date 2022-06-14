@@ -93,7 +93,7 @@ export default class IdsOverlay extends Base {
    * @returns {Promise} fulfilled after a CSS transition completes.
    */
   async #changeOpacity(val: any): Promise<any> {
-    return transitionToPromise(this.container, 'opacity', `${val}`);
+    return transitionToPromise(this.container, 'background-color', `rgba(0 0 0 / ${val})`);
   }
 
   /**
