@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 import {
-  adjustConditions,
   camelCase,
   stringToBool,
   stringToNumber,
@@ -45,39 +44,6 @@ describe('IdsStringUtils Tests', () => {
     const template = 'Test String <b>${field}</b>'; //eslint-disable-line
 
     expect(injectTemplate(template, obj)).toEqual('Test String <b>test-value</b>');
-  });
-
-  it('can adjuat conditional statement in template', () => {
-    /* eslint-disable */
-    let obj: any = { field: 'test-value', escalated: 2 };
-    let template = 'Test String <b>test-value</b>';
-
-    expect(adjustConditions(template, obj)).toEqual('Test String <b>test-value</b>');
-    template = '${#escalated}${escalated}X - ${/escalated}Test String <b>${field}</b>';
-
-    expect(adjustConditions(template, obj)).toEqual('${escalated}X - Test String <b>${field}</b>');
-    template = '${^escalated}${escalated}X - ${/escalated}Test String <b>${field}</b>';
-
-    expect(adjustConditions(template, obj)).toEqual('Test String <b>${field}</b>');
-    obj = { escalated: 1, disabled: true };
-    template = '${#escalated}${#disabled}(disabled-true)${/disabled}${^disabled}(disabled-false)${/disabled}${escalated}X - ${/escalated}Test String <b>${field}</b>';
-
-    expect(adjustConditions(template, obj)).toEqual('(disabled-true)${escalated}X - Test String <b>${field}</b>');
-
-    obj = { escalated: 1, disabled: false };
-
-    expect(adjustConditions(template, obj)).toEqual('(disabled-false)${escalated}X - Test String <b>${field}</b>');
-    obj = { escalated: 0, disabled: true };
-
-    expect(adjustConditions(template, obj)).toEqual('Test String <b>${field}</b>');
-    obj = { escalated: 1, disabled: true };
-    template = 'Test String <b>${field}</b><div${#disabled} disabled${/disabled}>test</div>';
-
-    expect(adjustConditions(template, obj)).toEqual('Test String <b>${field}</b><div disabled>test</div>');
-    obj = { escalated: 1, disabled: false };
-
-    expect(adjustConditions(template, obj)).toEqual('Test String <b>${field}</b><div>test</div>');
-    /* eslint-enable */
   });
 
   it('can test if a character is printable', () => {

@@ -6,6 +6,7 @@ import '../../ids-badge/ids-badge';
 import '../../ids-card/ids-card';
 import '../../ids-hyperlink/ids-hyperlink';
 import '../../ids-image/ids-image';
+import '../../ids-hidden/ids-hidden';
 import IdsImg10 from '../../../assets/images/10.jpg';
 import placeHolderImg154120 from '../../../assets/images/placeholder-154x120.png';
 
