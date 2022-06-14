@@ -1338,30 +1338,28 @@ export default class IdsPopup extends Base {
     // The original style should be defined in the animation-style class, not inline.
     this.#remove3dMatrix();
 
-    requestAnimationFrame(() => {
-      // gets the current computed style
-      const style = window.getComputedStyle(this.container, null);
-      const mx = style.getPropertyValue('-webkit-transform')
-        || style.getPropertyValue('-moz-transform')
-        || style.getPropertyValue('transform') || false;
-      if (!mx) {
-        return;
-      }
+    // gets the current computed style
+    const style = window.getComputedStyle(this.container, null);
+    const mx = style.getPropertyValue('-webkit-transform')
+      || style.getPropertyValue('-moz-transform')
+      || style.getPropertyValue('transform') || false;
+    if (!mx) {
+      return;
+    }
 
-      // Corrects `matrix3d` coordinate values to be whole numbers
-      const values: any = mx.replace(/ |\(|\)|matrix3d/g, '').split(',');
-      for (let i = 0; i < values.length; i++) {
-        if (i === 0 && values[i] < 1) values[i] = 1;
-        if (i > 0 && (values[i] > 4 || values[i] < -4)) {
-          values[i] = Math.ceil(values[i]);
-        }
-        if (i === values.length - 1 && values[i] > 1) {
-          values[i] = 1;
-        }
+    // Corrects `matrix3d` coordinate values to be whole numbers
+    const values: any = mx.replace(/ |\(|\)|matrix3d/g, '').split(',');
+    for (let i = 0; i < values.length; i++) {
+      if (i === 0 && values[i] < 1) values[i] = 1;
+      if (i > 0 && (values[i] > 4 || values[i] < -4)) {
+        values[i] = Math.ceil(values[i]);
       }
+      if (i === values.length - 1 && values[i] > 1) {
+        values[i] = 1;
+      }
+    }
 
-      this.container.style.transform = `matrix3d(${values.join()})`;
-    });
+    this.container.style.transform = `matrix3d(${values.join()})`;
   }
 
   /**
