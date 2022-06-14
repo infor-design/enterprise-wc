@@ -9,23 +9,23 @@
     <h1 class="ids-text ids-text-12">Tabs (Standalone CSS)</h1>
   </div>
 
-  <div class="ids-layout-grid ids-layout-grid-cols-4 ids-layout-grid-gap-md">
-    <div class="ids-layout-grid-cell ids-layout-grid-col-span-4">
+  <div class="ids-layout-grid ids-layout-grid-auto">
+    <div class="ids-layout-grid-cell">
       <div class="ids-tabs-container" mode="light" version="new">
-        <div class="ids-tab-container">
+        <div class="ids-tabs-list">
           <div class="ids-tab selected ids-text" tabindex="0">
             Contracts
             <div class="selection-underline"></div>
           </div>
-        </div>
-        <div class="ids-tab-container">
-          <div class="ids-tab ids-text" tabindex="0">Opportunities</div>
-        </div>
-        <div class="ids-tab-container">
-          <div class="ids-tab ids-text" tabindex="0">Attachments</div>
-        </div>
-        <div class="ids-tab-container">
-          <div class="ids-tab ids-text" tabindex="0">Notes</div>
+          <div class="ids-tab-container">
+            <div class="ids-tab ids-text" tabindex="0">Opportunities</div>
+          </div>
+          <div class="ids-tab-container">
+            <div class="ids-tab ids-text disabled" tabindex="-1">Attachments</div>
+          </div>
+          <div class="ids-tab-container">
+            <div class="ids-tab ids-text" tabindex="0">Notes</div>
+          </div>
         </div>
       </div>
     </div>
@@ -35,23 +35,23 @@
     <h1 class="ids-text ids-text-12">Tabs Standalone CSS (Vertical)</h1>
   </div>
 
-  <div class="ids-layout-grid ids-layout-grid-cols-4 ids-layout-grid-gap-md">
-    <div class="ids-layout-grid-cell ids-layout-grid-col-span-1">
-      <div class="ids-tabs-container" mode="light" version="new" orientation="vertical">
-        <div class="ids-tab-container" orientation="vertical">
-          <div class="ids-tab selected ids-text vertical" tabindex="0">
-            Contracts
+  <div class="ids-layout-grid ids-layout-grid-auto">
+    <div class="ids-layout-grid-cell">
+      <div class="ids-tabs-container orientation-vertical" mode="light" version="new">
+        <div class="ids-tabs-list">
+          <div class="ids-tab selected orientation-vertical" tabindex="0">
+            <span class="ids-text">Contracts</span>
             <div class="selection-underline"></div>
           </div>
-        </div>
-        <div class="ids-tab-container" orientation="vertical">
-          <div class="ids-tab ids-text vertical" tabindex="0">Opportunities</div>
-        </div>
-        <div class="ids-tab-container vertical" orientation="vertical">
-          <div class="ids-tab ids-text vertical" tabindex="0">Attachments</div>
-        </div>
-        <div class="ids-tab-container vertical" orientation="vertical">
-          <div class="ids-tab ids-text vertical" tabindex="0">Notes</div>
+          <div class="ids-tab ids-text orientation-vertical" tabindex="0">
+            <span class="ids-text">Opportunities</span>
+          </div>
+          <div class="ids-tab ids-text orientation-vertical disabled" tabindex="-1">
+            <span class="ids-text">Attachments</span>
+          </div>
+          <div class="ids-tab ids-text orientation-vertical" tabindex="0">
+            <span class="ids-text">Notes</span>
+          </div>
         </div>
       </div>
     </div>
