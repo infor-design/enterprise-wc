@@ -373,15 +373,4 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export type Breakpoints = { [index: string]: string };
-
-export const breakpoints: Breakpoints = {
-  xxl: '1440px',
-  xl: '1280px',
-  lg: '1024px',
-  md: '840px',
-  sm: '600px',
-  xs: '360px'
-};
-
 export const version = '0.0.0-beta.22';

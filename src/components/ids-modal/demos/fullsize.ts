@@ -1,4 +1,4 @@
-import { breakpoints } from '../../../core/ids-attributes';
+import { breakpoints } from '../../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
 import '../../ids-radio/ids-radio-group';
 import '../../ids-radio/ids-radio';
 

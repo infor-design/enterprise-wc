@@ -1,5 +1,5 @@
-import { attributes, Breakpoints } from '../../core/ids-attributes';
-import { isWidthAbove, isWidthBelow } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
+import { attributes } from '../../core/ids-attributes';
+import { Breakpoints, isWidthAbove, isWidthBelow } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
 
 type IdsBreakpointRespondAttribute = keyof Breakpoints | null;
 type IdsBreakpointResponseCallback = (val: keyof Breakpoints, matches: boolean) => void;

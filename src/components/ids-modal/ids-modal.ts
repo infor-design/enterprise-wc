@@ -1,4 +1,5 @@
-import { attributes, breakpoints, Breakpoints } from '../../core/ids-attributes';
+import { attributes } from '../../core/ids-attributes';
+import { breakpoints, Breakpoints } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
 import { customElement, scss } from '../../core/ids-decorators';
 
 import Base from './ids-modal-base';

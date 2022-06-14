@@ -1,6 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import { attributes, Breakpoints } from '../../core/ids-attributes';
-import { isWidthBelow, isWidthAbove } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
+import { attributes } from '../../core/ids-attributes';
+import { Breakpoints, isWidthBelow, isWidthAbove } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import Base from './ids-hidden-base';
 
