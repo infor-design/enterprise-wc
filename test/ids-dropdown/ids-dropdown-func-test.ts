@@ -410,10 +410,13 @@ describe('IdsDropdown Component', () => {
 
   it('should not open by clicking on label', async () => {
     await waitFor(() => expect(dropdown.labelEl).toBeTruthy());
+    expect(dropdown.labelEl).toBeTruthy();
     dropdown.labelEl.click();
     await waitFor(() => expect(dropdown.popup.visible).toBeFalsy());
+    expect(dropdown.popup.visible).toBeFalsy();
     dropdown.input.shadowRoot.querySelector('.field-container').click();
     await waitFor(() => expect(dropdown.popup.visible).toBeTruthy());
+    expect(dropdown.popup.visible).toBeTruthy();
     expect(dropdown.popup.visible).toEqual(true);
   });
 

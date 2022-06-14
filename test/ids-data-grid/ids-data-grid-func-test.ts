@@ -893,16 +893,16 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.selectedRows.length).toBe(1);
     });
 
-    it('handles supress row deselection', () => {
+    it('handles suppress row deselection', () => {
       dataGrid.rowSelection = 'single';
-      dataGrid.supressRowDeselection = false;
+      dataGrid.suppressRowDeselection = false;
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(1)').click();
       expect(dataGrid.selectedRows.length).toBe(1);
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(1)').click();
       expect(dataGrid.selectedRows.length).toBe(0);
 
-      dataGrid.supressRowDeselection = true;
-      expect(dataGrid.supressRowDeselection).toBeTruthy();
+      dataGrid.suppressRowDeselection = true;
+      expect(dataGrid.suppressRowDeselection).toBeTruthy();
 
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(1)').click();
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(1)').click();
@@ -924,16 +924,16 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Activation Tests', () => {
-    it('handles supress row deactivation', () => {
+    it('handles suppress row deactivation', () => {
       dataGrid.rowSelection = 'mixed';
-      dataGrid.supressRowDeactivation = false;
+      dataGrid.suppressRowDeactivation = false;
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(2)').click();
       expect(dataGrid.activatedRow.index).toBe(1);
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(2)').click();
       expect(dataGrid.activatedRow).toBeFalsy();
 
-      dataGrid.supressRowDeactivation = true;
-      expect(dataGrid.supressRowDeactivation).toBeTruthy();
+      dataGrid.suppressRowDeactivation = true;
+      expect(dataGrid.suppressRowDeactivation).toBeTruthy();
 
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(2)').click();
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(2)').click();

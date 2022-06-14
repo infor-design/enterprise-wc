@@ -6,7 +6,7 @@ describe('Ids Multiselect e2e Tests', () => {
   });
 
   it('should not have errors', async () => {
-    await expect(page.title()).resolves.toMatch('IDS Step Chart Component');
+    await expect(page.title()).resolves.toMatch('IDS Multiselect Component');
   });
 
   it('Should pass an Axe accessibility test', async () => {

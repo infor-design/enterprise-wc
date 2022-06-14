@@ -152,7 +152,7 @@ export default class IdsCheckbox extends Base {
    * @returns {void}
    */
   attachNativeEvents(): void {
-    const events = ['focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
+    const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       this.onEvent(evt, this.input, (e: Event) => {
         e.stopPropagation();

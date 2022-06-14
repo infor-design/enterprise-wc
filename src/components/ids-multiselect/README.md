@@ -87,4 +87,3 @@ IdsMultiselect inherits most of it's settings from ids-dropdown, please refer to
 - `tags` {boolean} sets whether to use tags to display selected values
 - `value` {Array} Sets the selected options to match the items in the array. this is no longer set as an Attribute but as a Property.
 - `selectedIndex` no longer provides functionality in ids-multiselect
-
