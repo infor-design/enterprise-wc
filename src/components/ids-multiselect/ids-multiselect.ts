@@ -153,6 +153,16 @@ class IdsMultiselect extends Base {
       this.#handleOptionClick(e);
     });
 
+    this.onEvent('click', this.input.fieldContainer, () => {
+      this.toggle();
+    });
+
+    // Should not open if clicked on label
+    this.onEvent('click', this.labelEl, (e: MouseEvent) => {
+      e.preventDefault();
+      this.input.focus();
+    });
+
     /**
      * TO DO: update to select and group functionality to follow updates to ids-dropdown
      */
@@ -203,10 +213,6 @@ class IdsMultiselect extends Base {
         this.#updateDisplay();
         this.#updateList(true);
       }
-    }
-
-    if (e.target.isEqualNode(this)) {
-      this.toggle();
     }
   }
 

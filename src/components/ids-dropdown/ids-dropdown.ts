@@ -628,9 +628,13 @@ export default class IdsDropdown extends Base {
       if (e.target.closest('ids-list-box-option')) {
         this.value = e.target.closest('ids-list-box-option').getAttribute('value');
       }
-      if (e.target.isEqualNode(this)) {
+      /* if (e.target.isEqualNode(this)) {
         this.toggle();
-      }
+      } */
+    });
+
+    this.onEvent('click', this.input.fieldContainer, () => {
+      this.toggle();
     });
 
     // Should not open if clicked on label

@@ -380,8 +380,8 @@ describe('IdsMultiselect Component', () => {
 
   it('supports clicking input to open', async () => {
     await waitFor(() => expect(multiselect.container).toBeTruthy());
-
-    multiselect.container.click();
+    multiselect.input.shadowRoot.querySelector('.field-container').click();
+    await waitFor(() => expect(multiselect.popup.visible).toBeTruthy());
     expect(multiselect.popup.visible).toEqual(true);
   });
 
