@@ -4,6 +4,7 @@ const TYPES: any = {
   text: 'text',
   password: 'password',
   number: 'number',
+  phone: 'tel',
   email: 'email',
   color: 'color'
 };

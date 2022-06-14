@@ -803,12 +803,12 @@ export default class IdsInput extends Base {
 
   /**
    * Sets the input type
-   * @param {string} value [text, password, number, email]
+   * @param {string} value [text, password, number, phone, email]
    */
   set type(value: string) {
     const type = TYPES[value];
     if (type) {
-      this.setAttribute(attributes.TYPE, type);
+      this.setAttribute(attributes.TYPE, value);
       this.input.setAttribute(attributes.TYPE, type);
       return;
     }
