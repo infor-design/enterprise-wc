@@ -1015,16 +1015,13 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   place(): void {
-    if (this.visible) {
-      if (this.positionStyle === 'viewport') {
-        this.#placeInViewport();
+    // NOTE: position-style="viewport" is driven by CSS only
+    if (this.visible && this.positionStyle !== 'viewport') {
+      const { alignTarget } = this;
+      if (!alignTarget) {
+        this.#placeAtCoords();
       } else {
-        const { alignTarget } = this;
-        if (!alignTarget) {
-          this.#placeAtCoords();
-        } else {
-          this.#placeAgainstTarget();
-        }
+        this.#placeAgainstTarget();
       }
     }
   }
@@ -1195,14 +1192,6 @@ export default class IdsPopup extends Base {
   }
 
   /**
-   * Places the Popup in relation to the center of the viewport
-   * @returns {void}
-   */
-  #placeInViewport() {
-    this.#renderPlacementWithTransform();
-  }
-
-  /**
    * Optional callback that can be used to adjust the Popup's placement
    * after all internal adjustments are made.
    * @param {DOMRect} popupRect a Rect object representing the current state of the popup.
@@ -1310,16 +1299,6 @@ export default class IdsPopup extends Base {
   #renderPlacementInPixels(popupRect: DOMRect): void {
     this.style.left = `${popupRect.x}px`;
     this.style.top = `${popupRect.y}px`;
-  }
-
-  /**
-   * Renders the position of the Popup with CSS transforms (applied mostly with CSS).
-   * See the IdsPopup CSS styles for the `animation-style-*` classes for modifying the Transform values.
-   * @returns {void}
-   */
-  #renderPlacementWithTransform(): void {
-    // this.style.left = `50%`;
-    // this.style.top = `50%`;
   }
 
   /**
