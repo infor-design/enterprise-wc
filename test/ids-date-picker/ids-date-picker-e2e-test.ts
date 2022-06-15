@@ -699,11 +699,11 @@ describe('Ids Date Picker e2e Tests', () => {
         }
 
         if (minutes) {
-          minutes.value = 12;
+          minutes.value = 15;
         }
 
         if (seconds) {
-          seconds.value = 14;
+          seconds.value = 20;
         }
 
         if (period) {
@@ -716,7 +716,7 @@ describe('Ids Date Picker e2e Tests', () => {
       }
     );
 
-    expect(value).toEqual('2/3/2010 10:12:14 PM');
+    expect(value).toEqual('2/3/2010 10:15:20 PM');
 
     // Remove time picker
     await page.evaluate(() => {

@@ -20,6 +20,60 @@ The Timepicker Component provides a click/touch user interface for setting a tim
 - **Disabled**: Timepicker can be disabled so it cannot be followed or clicked.
 - **Readonly**: Timepicker can be set to readonly so it cannot be edited.
 
+## Settings (Attributes)
+
+- `autoselect` {boolean} Automatically opens the popup on focus.
+- `autoupdate` {boolean} Automatically updates the time string value and hides the "Set Time" button.
+- `colorVariant` {string} set the current color variant.
+- `compact` {boolean} sets the component to be compact mode.
+- `dirty-tracker` {boolean} sets the dirty tracking feature on to indicate a changed field. See [Ids Dirty Tracker Mixin](../../mixins/ids-dirty-tracker-mixin/README.md) for more information.
+- `disabled` {boolean} Disables the timepicker
+- `fieldHeight` {string} defines the field height. See [Ids Field Height Mixin](../../mixins/ids-field-height-mixin/README.md) for more information.
+- `readonly` {boolean} Makes the timepicker readonly
+- `label` {string} Set the timepicker's label
+- `labelState` {string} indicates that a label is hidden (note that for accessibility reasons, `label` should still be specified). See [Ids Label State Mixin](../../mixins/ids-label-state-mixin/README.md) for more information.
+- `placeholder` {string} Set the timepicker's placeholder
+- `noMargins` {boolean} sets whether or not no-margins around the component.
+- `size` {'sm' | 'md' | 'lg' | 'full' | string} Sets the size of the input-field's width
+- `embeddable` {boolean} Set whether or not to show only hours/minutes/seconds dropdowns without input
+- `minute-interval` {number} Set minutes dropdown options interval. Default is 5
+- `second-interval` {number} Set seconds dropdown options interval. Default is 5
+- `hours` {number} Set initial value for hours dropdown in the popup or retrieve the dropdown value
+- `minutes` {number} Set initial value for minutes dropdown in the popup or retrieve the dropdown value
+- `seconds` {number} Set initial value for seconds dropdown in the popup or retrieve the dropdown value
+- `period` {number} Set initial value for period dropdown in the popup or retrieve the dropdown value
+- `validate` {'required'|string} - Input validation rules
+- `validation-events` {string} - Input validation events, `change blur` as default
+- `start-hour` {number} - Set the start of limit hours. Default is 0
+- `end-hour` {number} - Set the end of limit hours. Default is 24
+
+## Events
+- Event listeners for input (trigger field) `blur`, `change`, `focus`, `select`, `keydown`, `keypress`, `keyup`, `click`, `dbclick`, `beforetriggerclicked`, `triggerclicked` events can be added to `input` component property:
+
+```js
+const timePicker = document.querySelector('ids-time-picker');
+
+timePicker.input.addEventListener('change');
+```
+- Event listeners for popup `show`, `hide` events can be added to `popup` property:
+```js
+const timePicker = document.querySelector('ids-time-picker');
+
+timePicker.popup.addEventListener('show');
+timePicker.popup.addEventListener('hide');
+```
+
+## Methods
+
+- `open()` Open the timepicker's popup window
+- `close()` Close the timepicker's popup window
+
+## Themeable Parts (TODO)
+
+- `label` allows you to further style the label text
+- `input` allows you to further style the input element
+- `popup` allows you to further style the timepicker's popup window
+
 ## Features (With Code Examples)
 
 A normal timepicker used as a web component.
@@ -88,58 +142,6 @@ It's also possible to control the intervals of minutes and seconds available for
     - IdsPopupOpenEventsMixin,
     - IdsThemeMixin
     - IdsLocaleMixin
-
-## Settings (Attributes)
-
-- `autoselect` {boolean} Automatically opens the popup on focus.
-- `autoupdate` {boolean} Automatically updates the time string value and hides the "Set Time" button.
-- `colorVariant` {string} set the current color variant.
-- `compact` {boolean} sets the component to be compact mode.
-- `dirty-tracker` {boolean} sets the dirty tracking feature on to indicate a changed field. See [Ids Dirty Tracker Mixin](../../mixins/ids-dirty-tracker-mixin/README.md) for more information.
-- `disabled` {boolean} Disables the timepicker
-- `fieldHeight` {string} defines the field height. See [Ids Field Height Mixin](../../mixins/ids-field-height-mixin/README.md) for more information.
-- `readonly` {boolean} Makes the timepicker readonly
-- `label` {string} Set the timepicker's label
-- `labelState` {string} indicates that a label is hidden (note that for accessibility reasons, `label` should still be specified). See [Ids Label State Mixin](../../mixins/ids-label-state-mixin/README.md) for more information.
-- `placeholder` {string} Set the timepicker's placeholder
-- `noMargins` {boolean} sets whether or not no-margins around the component.
-- `size` {'sm' | 'md' | 'lg' | 'full' | string} Sets the size of the input-field's width
-- `embeddable` {boolean} Set whether or not to show only hours/minutes/seconds dropdowns without input
-- `minute-interval` {number} Set minutes dropdown options interval. Default is 5
-- `second-interval` {number} Set seconds dropdown options interval. Default is 5
-- `hours` {number} Set initial value for hours dropdown in the popup or retrieve the dropdown value
-- `minutes` {number} Set initial value for minutes dropdown in the popup or retrieve the dropdown value
-- `seconds` {number} Set initial value for seconds dropdown in the popup or retrieve the dropdown value
-- `period` {number} Set initial value for period dropdown in the popup or retrieve the dropdown value
-- `validate` {'required'|string} - Input validation rules
-- `validation-events` {string} - Input validation events, `change blur` as default
-
-## Events
-- Event listeners for input (trigger field) `blur`, `change`, `focus`, `select`, `keydown`, `keypress`, `keyup`, `click`, `dbclick`, `beforetriggerclicked`, `triggerclicked` events can be added to `input` component property:
-
-```js
-const timePicker = document.querySelector('ids-time-picker');
-
-timePicker.input.addEventListener('change');
-```
-- Event listeners for popup `show`, `hide` events can be added to `popup` property:
-```js
-const timePicker = document.querySelector('ids-time-picker');
-
-timePicker.popup.addEventListener('show');
-timePicker.popup.addEventListener('hide');
-```
-
-## Methods
-
-- `open()` Open the timepicker's popup window
-- `close()` Close the timepicker's popup window
-
-## Themeable Parts (TODO)
-
-- `label` allows you to further style the label text
-- `input` allows you to further style the input element
-- `popup` allows you to further style the timepicker's popup window
 
 ## Keyboard Guidelines
 

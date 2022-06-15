@@ -405,6 +405,10 @@ export default class IdsTimePicker extends Base {
     return [numbers, period].filter(Boolean).join(spacer);
   }
 
+  /**
+   * Get options list for hours dropdown
+   * @returns {Array<number>} options
+   */
   #getHourOptions(): Array<number> {
     if (!this.#hasHourRange()) {
       return range(this.#is12Hours() ? 1 : 0, this.#is12Hours() ? 12 : 23);
@@ -417,7 +421,7 @@ export default class IdsTimePicker extends Base {
     const dayPeriodIndex = this.locale?.calendar().dayPeriods?.indexOf(this.period);
 
     // Including 12AM or 12PM to the range
-    if ((dayPeriodIndex === 0 && (this.startHour === 0 || this.endHour === 24))
+    if ((dayPeriodIndex === 0 && this.startHour === 0)
       || (dayPeriodIndex === 1 && (this.startHour <= 12 && this.endHour >= 12))
     ) {
       return [...range(this.#getPeriodStartHour(), this.#getPeriodEndHour()), 12];
@@ -426,14 +430,20 @@ export default class IdsTimePicker extends Base {
     return range(this.#getPeriodStartHour(), this.#getPeriodEndHour());
   }
 
+  /**
+   * @returns {boolean} true if range is set
+   */
   #hasHourRange(): boolean {
     return this.startHour > 0 || this.endHour < 24;
   }
 
-  #getPeriodStartHour() {
-    const dayPeriodIndex = this.locale?.calendar().dayPeriods?.indexOf(this.period);
+  /**
+   * @returns {number} start hour in range by day period
+   */
+  #getPeriodStartHour(): number {
+    const dayPeriodIndex: number = this.locale?.calendar().dayPeriods?.indexOf(this.period);
 
-    if (this.startHour <= 12 && dayPeriodIndex === 1) {
+    if ((this.startHour <= 12 && dayPeriodIndex === 1) || this.startHour === 0) {
       return 1;
     }
 
@@ -441,13 +451,16 @@ export default class IdsTimePicker extends Base {
       return this.startHour % 12;
     }
 
-    return this.startHour > 0 ? this.startHour : 1;
+    return this.startHour;
   }
 
+  /**
+   * @returns {number} end hour in range by day period
+   */
   #getPeriodEndHour() {
     const dayPeriodIndex = this.locale?.calendar().dayPeriods?.indexOf(this.period);
 
-    if (this.endHour >= 12 && dayPeriodIndex === 0) {
+    if ((this.endHour >= 12 && dayPeriodIndex === 0) || this.endHour === 24) {
       return 11;
     }
 
@@ -455,9 +468,12 @@ export default class IdsTimePicker extends Base {
       return this.endHour % 12;
     }
 
-    return this.endHour > 0 ? this.endHour : 1;
+    return this.endHour;
   }
 
+  /**
+   * @returns {Array<string>} list of available day periods
+   */
   #getDayPeriodsWithRange(): Array<string> {
     const dayPeriods: Array<string> = this.locale?.calendar().dayPeriods || [];
 
@@ -539,7 +555,7 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * Close the timepicker's popup window
+   * Toggle visibility for the timepicker's popup window
    */
   #toggleTimePopup() {
     if (this.popup.visible) {
@@ -876,7 +892,7 @@ export default class IdsTimePicker extends Base {
    * @param {string|number|null} value hours param value
    */
   set hours(value: string | number | null) {
-    if (value) {
+    if (value !== null) {
       this.setAttribute(attributes.HOURS, value);
     } else {
       this.removeAttribute(attributes.HOURS);
@@ -973,7 +989,7 @@ export default class IdsTimePicker extends Base {
     // Updating hours dropdown with AM/PM range
     if (this.#hasHourRange()) {
       this.#renderDropdowns();
-      this.container.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, this.#getPeriodStartHour());
+      this.container.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, this.#getHourOptions()[0]);
     } else {
       this.container.querySelector('ids-dropdown#period')?.setAttribute(attributes.VALUE, this.period);
     }
@@ -1079,6 +1095,10 @@ export default class IdsTimePicker extends Base {
    */
   get id(): string { return this.getAttribute(attributes.ID) ?? ''; }
 
+  /**
+   * Set start of limited hours range
+   * @param {string | number | null} val to be set as end-hour attribute
+   */
   set startHour(val: number | string | null) {
     if (val) {
       this.setAttribute(attributes.START_HOUR, val);
@@ -1103,6 +1123,10 @@ export default class IdsTimePicker extends Base {
     return 0;
   }
 
+  /**
+   * Set end of limited hours range
+   * @param {string | number | null} val to be set as end-hour attribute
+   */
   set endHour(val: number | string | null) {
     if (val) {
       this.setAttribute(attributes.END_HOUR, val);

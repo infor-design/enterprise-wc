@@ -229,6 +229,145 @@ describe('IdsTimePicker Component', () => {
     expect(timepicker.value).toBe('10:00 AM');
   });
 
+  it('should set 12 am/pm time', () => {
+    timepicker.autoupdate = true;
+
+    timepicker.hours = 12;
+    timepicker.minutes = 0;
+    timepicker.period = 'AM';
+
+    expect(timepicker.value).toBe('12:00 AM');
+
+    timepicker.period = 'PM';
+
+    expect(timepicker.value).toBe('12:00 PM');
+
+    timepicker.hours = null;
+
+    expect(timepicker.value).toBe('1:00 PM');
+  });
+
+  it('should parse input value', () => {
+    expect(timepicker.value).toBe('');
+
+    timepicker.value = '12:22 AM';
+
+    expect(timepicker.hours).toBe(12);
+    expect(timepicker.minutes).toBe(22);
+    expect(timepicker.period).toBe('AM');
+
+    timepicker.value = '12:22 PM';
+
+    expect(timepicker.hours).toBe(12);
+    expect(timepicker.minutes).toBe(22);
+    expect(timepicker.period).toBe('PM');
+
+    timepicker.value = '1:59 AM';
+
+    expect(timepicker.hours).toBe(1);
+    expect(timepicker.minutes).toBe(59);
+    expect(timepicker.period).toBe('AM');
+
+    timepicker.value = '';
+
+    expect(timepicker.hours).toBe(1);
+    expect(timepicker.minutes).toBe(0);
+    expect(timepicker.period).toBe('AM');
+
+    timepicker.format = 'HH:mm:ss';
+
+    timepicker.value = '23:12:18';
+
+    expect(timepicker.hours).toBe(23);
+    expect(timepicker.minutes).toBe(12);
+    expect(timepicker.seconds).toBe(18);
+
+    timepicker.value = '00:00:00';
+
+    expect(timepicker.hours).toBe(0);
+    expect(timepicker.minutes).toBe(0);
+    expect(timepicker.seconds).toBe(0);
+
+    timepicker.value = '12:00:00';
+
+    expect(timepicker.hours).toBe(12);
+    expect(timepicker.minutes).toBe(0);
+    expect(timepicker.seconds).toBe(0);
+  });
+
+  it('should handle option to limit hours', () => {
+    const getOptions = (id: string): Array<number> => Array.from(timepicker.container.querySelector(id)?.options)
+      .map((item: any) => +item.textContent);
+
+    timepicker.value = '';
+    timepicker.format = 'HH:mm:ss';
+    expect(timepicker.startHour).toBe(0);
+    expect(timepicker.endHour).toBe(24);
+
+    timepicker.startHour = 5;
+    timepicker.endHour = 15;
+
+    timepicker.replaceWith(timepicker);
+    expect(getOptions('#hours')).toEqual([5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+
+    timepicker.startHour = 0;
+    timepicker.endHour = 5;
+
+    timepicker.replaceWith(timepicker);
+    expect(getOptions('#hours')).toEqual([0, 1, 2, 3, 4, 5]);
+
+    timepicker.startHour = 12;
+    timepicker.endHour = 18;
+
+    timepicker.replaceWith(timepicker);
+    expect(getOptions('#hours')).toEqual([12, 13, 14, 15, 16, 17, 18]);
+
+    timepicker.startHour = null;
+    timepicker.endHour = null;
+    expect(timepicker.startHour).toBe(0);
+    expect(timepicker.endHour).toBe(24);
+
+    timepicker.format = 'h:mm a';
+
+    timepicker.startHour = 5;
+    timepicker.endHour = 15;
+
+    timepicker.replaceWith(timepicker);
+    expect(getOptions('#hours')).toEqual([5, 6, 7, 8, 9, 10, 11]);
+
+    timepicker.period = 'PM';
+
+    expect(getOptions('#hours')).toEqual([1, 2, 3, 12]);
+
+    timepicker.startHour = 18;
+    timepicker.endHour = 23;
+
+    timepicker.replaceWith(timepicker);
+    timepicker.period = 'PM';
+    expect(getOptions('#hours')).toEqual([6, 7, 8, 9, 10, 11]);
+
+    timepicker.startHour = 0;
+    timepicker.endHour = 11;
+    timepicker.period = 'AM';
+    expect(getOptions('#hours')).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+
+    timepicker.startHour = 18;
+    timepicker.endHour = 24;
+    timepicker.period = 'PM';
+    timepicker.replaceWith(timepicker);
+
+    expect(getOptions('#hours')).toEqual([6, 7, 8, 9, 10, 11]);
+
+    timepicker.startHour = 0;
+    timepicker.endHour = 13;
+    timepicker.period = 'AM';
+    timepicker.replaceWith(timepicker);
+    expect(getOptions('#hours')).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+
+    timepicker.period = 'PM';
+    expect(getOptions('#hours')).toEqual([1, 12]);
+  });
+
   it('does not render period (am/pm)', () => {
     timepicker.autoupdate = true;
     timepicker.format = 'hh:mm';
