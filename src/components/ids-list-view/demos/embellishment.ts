@@ -1,11 +1,12 @@
 import '../ids-list-view';
-import productsJSON from '../../../assets/data/products.json';
+import productsJSON from '../../../assets/data/products-100.json';
 
 // Supporting components
 import '../../ids-badge/ids-badge';
 import '../../ids-card/ids-card';
 import '../../ids-hyperlink/ids-hyperlink';
 import '../../ids-image/ids-image';
+import '../../ids-layout-flex/ids-layout-flex';
 import '../../ids-hidden/ids-hidden';
 import IdsImg10 from '../../../assets/images/10.jpg';
 import placeHolderImg154120 from '../../../assets/images/placeholder-154x120.png';
@@ -39,7 +40,7 @@ const setData = async () => {
   let data = await res.json();
   data = extra(data);
   data = totalPrice(data);
-  listView.data = data.slice(0, 50);
+  listView.data = data;
 
   // images
   [...listView.container.querySelectorAll('.ids-img-10')].forEach((img: any) => {

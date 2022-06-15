@@ -1,7 +1,7 @@
 // Supporting components
 import '../ids-list-view';
 import '../../ids-radio/ids-radio';
-import productsJSON from '../../../assets/data/products.json';
+import productsJSON from '../../../assets/data/products-100.json';
 
 // Example for populating the List View
 const listView: any = document.querySelector('#demo-lv-events');
@@ -21,9 +21,7 @@ if (listView) {
    * EVENTS
    */
   const radioBeforeSelected: any = document.querySelector('#radio-lv-beforeselected');
-  const radioBeforeDeselected: any = document.querySelector('#radio-lv-beforedeselected');
   const radioBeforeItemActivated: any = document.querySelector('#radio-lv-beforeitemactivated');
-  const radioBeforeItemDeactivated: any = document.querySelector('#radio-lv-beforeitemdeactivated');
 
   // display console logs
   const show = (type: string, detail: string, veto?: boolean) => {
@@ -43,9 +41,7 @@ if (listView) {
   });
   // before deselected
   listView.addEventListener('beforedeselected', (e: any) => {
-    const veto = radioBeforeDeselected.value;
-    show('beforedeselected', e.detail, veto);
-    e.detail.response(veto);
+    show('beforedeselected', e.detail);
   });
   // after deselected
   listView.addEventListener('deselected', (e: any) => {
@@ -63,16 +59,10 @@ if (listView) {
   });
   // before item deactivated
   listView.addEventListener('beforeitemdeactivated', (e: any) => {
-    const veto = radioBeforeItemDeactivated.value;
-    show('beforeitemdeactivated', e.detail, veto);
-    e.detail.response(veto);
+    show('beforeitemdeactivated', e.detail);
   });
   // after item deactivated
   listView.addEventListener('itemdeactivated', (e: any) => {
     show('itemdeactivated', e.detail);
-  });
-  // after selection changed
-  listView.addEventListener('selectionchanged', (e: any) => {
-    show('selectionchanged', e.detail);
   });
 }

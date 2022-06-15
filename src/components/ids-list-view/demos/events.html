@@ -13,47 +13,15 @@
 
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
-        <ids-text font-size="12" type="h2" class="inline">Events</ids-text>
-        <ids-text font-size="14" class="inline">(watch the logs for the events in console)</ids-text><br />
-        <ids-text font-size="14" font-weight="bold" class="inline">&mdash; beforeselected:</ids-text>
-        <ids-text font-size="14" class="inline">Fire before selected an item.</ids-text>
-        <br />
-        <ids-radio-group horizontal="true" id="radio-lv-beforeselected">
-          <ids-radio value="true" label="True" checked="true"></ids-radio>
-          <ids-radio value="false" label="False"></ids-radio>
+        <ids-radio-group label="Select veto?" id="radio-lv-beforeselected" horizontal="true">
+          <ids-radio value="false" label="Veto"></ids-radio>
+          <ids-radio value="true" label="not Veto" checked></ids-radio>
         </ids-radio-group>
-        <ids-text font-size="14" font-weight="bold" class="inline">&mdash; selected:</ids-text>
-        <ids-text font-size="14" class="inline">Will fire after selected an item.</ids-text><br />
-        <ids-text font-size="14" font-weight="bold" class="inline">&mdash; beforedeselected:</ids-text>
-        <ids-text font-size="14" class="inline">Fire before deselected an item.</ids-text>
-        <br />
-        <ids-radio-group horizontal="true" id="radio-lv-beforedeselected">
-          <ids-radio value="true" label="True" checked="true"></ids-radio>
-          <ids-radio value="false" label="False"></ids-radio>
+        <ids-radio-group label="Activate veto?" id="radio-lv-beforeitemactivated" horizontal="true">
+          <ids-radio value="false" label="Veto"></ids-radio>
+          <ids-radio value="true" label="not Veto" checked></ids-radio>
         </ids-radio-group>
-        <ids-text font-size="14" font-weight="bold" class="inline">&mdash; deselected:</ids-text>
-        <ids-text font-size="14" class="inline">Will fire after deselected an item.</ids-text><br />
-        <ids-text font-size="14" font-weight="bold" class="inline">&mdash; beforeitemactivated:</ids-text>
-        <ids-text font-size="14" class="inline">Fire before activated an item.</ids-text>
-        <br />
-        <ids-radio-group horizontal="true" id="radio-lv-beforeitemactivated">
-          <ids-radio value="true" label="True" checked="true"></ids-radio>
-          <ids-radio value="false" label="False"></ids-radio>
-        </ids-radio-group>
-        <ids-text font-size="14" font-weight="bold" class="inline">&mdash; activated:</ids-text>
-        <ids-text font-size="14" class="inline">Will fire after activated an item.</ids-text><br />
-        <ids-text font-size="14" font-weight="bold" class="inline">&mdash; beforeitemdeactivated:</ids-text>
-        <ids-text font-size="14" class="inline">Fire before deactivated an item.</ids-text>
-        <br />
-        <ids-radio-group horizontal="true" id="radio-lv-beforeitemdeactivated">
-          <ids-radio value="true" label="True" checked="true"></ids-radio>
-          <ids-radio value="false" label="False"></ids-radio>
-        </ids-radio-group>
-        <ids-text font-size="14" font-weight="bold" class="inline">&mdash; itemdeactivated:</ids-text>
-        <ids-text font-size="14" class="inline">Will fire after deactivated an item.</ids-text><br />
-
-        <ids-text font-size="14" font-weight="bold" class="inline">&mdash; selectionchanged:</ids-text>
-        <ids-text font-size="14" class="inline">Fires after selection changed, when use with selectAll(), deselectAll() or toggleAll().</ids-text>
+        <ids-text font-size="14">watch the logs for the events in console</ids-text>
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
@@ -65,7 +33,6 @@
               item-height="76"
               selectable="mixed"
               pagination="client-side"
-              page-number="1"
               page-size="5"
             >
               <template>

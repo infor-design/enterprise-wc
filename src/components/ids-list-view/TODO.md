@@ -19,4 +19,4 @@
 - [ ] Add search bar https://main-enterprise.demo.design.infor.com/components/listview/example-search.html
 - [ ] Fix keyboad with virtual-scroll option
 - [ ] Sync sortable option as list-view: styles, selection, click, hover, focus, keyboad etc.
-- [ ] Add more embellishment types ([#661](https://github.com/infor-design/enterprise-wc/issues/661))
+- [ ] Add more embellishment types ([#763](https://github.com/infor-design/enterprise-wc/issues/763))

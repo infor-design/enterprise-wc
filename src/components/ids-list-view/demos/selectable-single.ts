@@ -1,6 +1,6 @@
 // Supporting components
 import '../ids-list-view';
-import productsJSON from '../../../assets/data/products.json';
+import productsJSON from '../../../assets/data/products-100.json';
 
 // Example for populating the List View
 const listView: any = document.querySelector('#demo-lv-selectable-single');

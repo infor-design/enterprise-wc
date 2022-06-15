@@ -56,7 +56,6 @@ List view with pagination and mixed selectable type.
   item-height="76"
   selectable="mixed"
   pagination="client-side"
-  page-number="1"
   page-size="5"
 >
   <template>
@@ -83,7 +82,6 @@ List view with pagination with card footer.
     <ids-list-view
       id="list-view-1"
       pagination="client-side"
-      page-number="1"
       page-size="10",
       pager-container="#cardfooter-list-view-1"
     >
@@ -133,14 +131,14 @@ List view with embellishment types.
 
 ## Settings and Attributes
 
-- `allowDeactivate` {boolean} sets the items to be allow deactivate for mixed selection only
-- `allowDeselect` {boolean} sets the items to be allow deselect for single selection only
 - `height` {number|string} sets the expected height of the viewport for virtual scrolling
 - `hideCheckboxes` {boolean} sets the checkboxes to not render if true, only apply to multiple selection
 - `itemHeight` {number|string} sets the expected height of each item
 - `label` {string} sets the aria label text
 - `selectable` {string} sets the selection mode of the listview: `single`, `multiple`, `mixed`
 - `sortable` {boolean} sets the items to be sortable
+- `suppressDeactivation` {boolean} sets the items to be suppress deactivation for mixed selection only
+- `suppressDeselection` {boolean} sets the items to be suppress deselection for single selection only
 - `virtualScroll` {boolean} sets the list view to use virtual scrolling for a large amount of items
 
 ## Themeable Parts
@@ -178,7 +176,6 @@ List view with embellishment types.
 - `deselect(dataIndex: number): boolean` Set a list item to be deselect, in dataset
 - `selectAll(): void` Set a all list items to be selected
 - `deselectAll(): void` Set a all list items to be deselected
-- `toggleAll(isDeselect?: boolean): void` Set all list items to be selected or deselected
 
 ## States and Variations (With Code Examples)
 

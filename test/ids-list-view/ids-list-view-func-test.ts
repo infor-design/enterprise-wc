@@ -2,7 +2,8 @@
  * @jest-environment jsdom
  */
 import IdsListView from '../../src/components/ids-list-view/ids-list-view';
-import dataset from '../../src/assets/data/products.json';
+import dataset from '../../src/assets/data/products-100.json';
+import datasetProducts from '../../src/assets/data/products.json';
 import processAnimFrame from '../helpers/process-anim-frame';
 import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
 
@@ -10,13 +11,13 @@ import '../../src/components/ids-card/ids-card';
 
 // Default settings
 const LIST_VIEW_DEFAULTS = {
-  allowDeactivate: false, // Use with Mixed selection only
-  allowDeselect: true, // Use with Single selection only
   hideCheckboxes: false, // Only apply to selectable multiple
   height: '100%',
   label: 'Ids list view',
   selectableOptions: ['single', 'multiple', 'mixed'],
   sortable: false,
+  suppressDeactivation: false, // Use with Mixed selection only
+  suppressDeselection: true, // Use with Single selection only
   virtualScroll: false
 };
 
@@ -70,7 +71,7 @@ describe('IdsListView Component', () => {
     listView.virtualScroll = true;
     listView.innerHTML = '<template><ids-text type="h2">${productName}</ids-text></template></ids-list-view>'; //eslint-disable-line
     document.body.appendChild(listView);
-    listView.data = dataset;
+    listView.data = datasetProducts;
     await processAnimFrame();
 
     expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(listView.shadowRoot.querySelector('ids-virtual-scroll').visibleItemCount());
@@ -84,7 +85,7 @@ describe('IdsListView Component', () => {
     document.body.appendChild(listView);
     listView.data = dataset;
 
-    expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(1000);
+    expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(100);
     expect(errors).not.toHaveBeenCalled();
   });
 
@@ -105,7 +106,7 @@ describe('IdsListView Component', () => {
     listView.virtualScroll = null;
     await processAnimFrame();
     expect(listView.getAttribute('virtual-scroll')).toEqual(null);
-    expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(1000);
+    expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(100);
   });
 
   it('render with empty data', () => {
@@ -113,7 +114,7 @@ describe('IdsListView Component', () => {
     expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(0);
     listView.container?.setAttribute('dir', 'rtl');
     listView.data = deepClone(dataset);
-    expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(1000);
+    expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(100);
     listView.data = [];
     expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(0);
   });
@@ -177,7 +178,7 @@ describe('IdsListView Component', () => {
   });
 
   it('single selects with virtualScroll on click', async () => {
-    const ds: any = deepClone(dataset);
+    const ds: any = deepClone(datasetProducts);
     ds[0].itemSelected = true;
     ds[3].itemActivated = true;
     document.body.innerHTML = '';
@@ -221,10 +222,10 @@ describe('IdsListView Component', () => {
     expect(listView.selected).toEqual(expect.objectContaining({ index: 0 }));
     listView.container.querySelector(sel(3)).click();
     expect(listView.selected).toEqual(expect.objectContaining({ index: 2 }));
-    listView.allowDeselect = false;
+    listView.suppressDeselection = false;
     listView.container.querySelector(sel(3)).click();
     expect(listView.selected).toEqual(expect.objectContaining({ index: 2 }));
-    listView.allowDeselect = true;
+    listView.suppressDeselection = true;
     listView.container.querySelector(sel(3)).click();
     expect(listView.selected).toEqual(null);
     listView.deselectAll();
@@ -263,7 +264,7 @@ describe('IdsListView Component', () => {
     listView.container.querySelector(sel(3)).click();
     expect(listView.activatedItem).toEqual(expect.objectContaining({ index: 2 }));
     listView.container.querySelector(sel(3)).click();
-    listView.allowDeactivate = true;
+    listView.suppressDeactivation = true;
     listView.container.querySelector(sel(3)).click();
     expect(listView.selected.length).toEqual(2);
     expect(listView.activatedItem).toEqual(null);
@@ -353,9 +354,9 @@ describe('IdsListView Component', () => {
     listView.shadowRoot.querySelector('ids-pager-number-list')
       .shadowRoot.querySelector('ids-button[data-id="1"]').click();
     await processAnimFrame();
-    listView.allowDeselect = false;
+    listView.suppressDeselection = false;
     listView.select(3);
-    listView.allowDeselect = true;
+    listView.suppressDeselection = true;
     listView.select(3);
     listView.select(4);
     listView.select(4);
@@ -378,7 +379,7 @@ describe('IdsListView Component', () => {
     listView.selectable = 'multiple';
     expect(listView.selected.length).toEqual(0);
     listView.selectAll();
-    expect(listView.selected.length).toEqual(999);
+    expect(listView.selected.length).toEqual(99);
     listView.deselectAll();
     expect(listView.selected.length).toEqual(0);
     expect(mockCallback).toHaveBeenCalled();
@@ -404,7 +405,7 @@ describe('IdsListView Component', () => {
     expect(listView.activatedItem).toEqual(expect.objectContaining({ index: 3 }));
     listView.deactivateItem(3);
     expect(listView.activatedItem).toEqual(expect.objectContaining({ index: 3 }));
-    listView.allowDeactivate = true;
+    listView.suppressDeactivation = true;
     listView.deactivateItem(3);
     expect(listView.activatedItem).toEqual(null);
     listView.activateItem(10);
@@ -412,7 +413,7 @@ describe('IdsListView Component', () => {
     listView.activateItem(9);
     listView.activateItem(8);
     listView.deactivateItem(12);
-    listView.allowDeactivate = false;
+    listView.suppressDeactivation = false;
     listView.shadowRoot.querySelector('ids-pager-number-list')
       .shadowRoot.querySelector('ids-button[data-id="3"]').click();
     await processAnimFrame();
@@ -422,7 +423,7 @@ describe('IdsListView Component', () => {
     listView.shadowRoot.querySelector('ids-pager-number-list')
       .shadowRoot.querySelector('ids-button[data-id="1"]').click();
     await processAnimFrame();
-    listView.allowDeactivate = true;
+    listView.suppressDeactivation = true;
     listView.activateItem(8);
     listView.deactivateItem(8);
     expect(listView.activatedItem).toEqual(null);
@@ -473,7 +474,7 @@ describe('IdsListView Component', () => {
     await processAnimFrame();
     listView = document.querySelector('#lv-card-example');
     listView.data = dataset;
-    listView.pageTotal = 1000;
+    listView.pageTotal = 100;
     await processAnimFrame();
     expect(listView).toBeTruthy();
     expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(5);
@@ -508,38 +509,38 @@ describe('IdsListView Component', () => {
 
   it('should set the setting to allow deselect', async () => {
     listView.selectable = 'single';
-    expect(listView.getAttribute('allow-deselect')).toEqual(null);
-    expect(listView.allowDeselect).toEqual(LIST_VIEW_DEFAULTS.allowDeselect);
-    listView.setAttribute('allow-deselect', 'true');
-    expect(listView.getAttribute('allow-deselect')).toEqual('true');
-    expect(listView.allowDeselect).toEqual(true);
-    listView.setAttribute('allow-deselect', 'false');
-    expect(listView.getAttribute('allow-deselect')).toEqual('false');
-    expect(listView.allowDeselect).toEqual(false);
-    listView.setAttribute('allow-deselect', 'test');
-    expect(listView.getAttribute('allow-deselect')).toEqual('test');
-    expect(listView.allowDeselect).toEqual(true);
-    listView.removeAttribute('allow-deselect');
-    expect(listView.getAttribute('allow-deselect')).toEqual(null);
-    expect(listView.allowDeselect).toEqual(LIST_VIEW_DEFAULTS.allowDeselect);
+    expect(listView.getAttribute('suppress-deselection')).toEqual(null);
+    expect(listView.suppressDeselection).toEqual(LIST_VIEW_DEFAULTS.suppressDeselection);
+    listView.setAttribute('suppress-deselection', 'true');
+    expect(listView.getAttribute('suppress-deselection')).toEqual('true');
+    expect(listView.suppressDeselection).toEqual(true);
+    listView.setAttribute('suppress-deselection', 'false');
+    expect(listView.getAttribute('suppress-deselection')).toEqual('false');
+    expect(listView.suppressDeselection).toEqual(false);
+    listView.setAttribute('suppress-deselection', 'test');
+    expect(listView.getAttribute('suppress-deselection')).toEqual('test');
+    expect(listView.suppressDeselection).toEqual(true);
+    listView.removeAttribute('suppress-deselection');
+    expect(listView.getAttribute('suppress-deselection')).toEqual(null);
+    expect(listView.suppressDeselection).toEqual(LIST_VIEW_DEFAULTS.suppressDeselection);
   });
 
   it('should set the setting to allow deactivate', async () => {
     listView.selectable = 'mixed';
-    expect(listView.getAttribute('allow-deactivate')).toEqual(null);
-    expect(listView.allowDeactivate).toEqual(LIST_VIEW_DEFAULTS.allowDeactivate);
-    listView.setAttribute('allow-deactivate', 'true');
-    expect(listView.getAttribute('allow-deactivate')).toEqual('true');
-    expect(listView.allowDeactivate).toEqual(true);
-    listView.setAttribute('allow-deactivate', 'false');
-    expect(listView.getAttribute('allow-deactivate')).toEqual('false');
-    expect(listView.allowDeactivate).toEqual(false);
-    listView.setAttribute('allow-deactivate', 'test');
-    expect(listView.getAttribute('allow-deactivate')).toEqual('test');
-    expect(listView.allowDeactivate).toEqual(true);
-    listView.removeAttribute('allow-deactivate');
-    expect(listView.getAttribute('allow-deactivate')).toEqual(null);
-    expect(listView.allowDeactivate).toEqual(LIST_VIEW_DEFAULTS.allowDeactivate);
+    expect(listView.getAttribute('suppress-deactivation')).toEqual(null);
+    expect(listView.suppressDeactivation).toEqual(LIST_VIEW_DEFAULTS.suppressDeactivation);
+    listView.setAttribute('suppress-deactivation', 'true');
+    expect(listView.getAttribute('suppress-deactivation')).toEqual('true');
+    expect(listView.suppressDeactivation).toEqual(true);
+    listView.setAttribute('suppress-deactivation', 'false');
+    expect(listView.getAttribute('suppress-deactivation')).toEqual('false');
+    expect(listView.suppressDeactivation).toEqual(false);
+    listView.setAttribute('suppress-deactivation', 'test');
+    expect(listView.getAttribute('suppress-deactivation')).toEqual('test');
+    expect(listView.suppressDeactivation).toEqual(true);
+    listView.removeAttribute('suppress-deactivation');
+    expect(listView.getAttribute('suppress-deactivation')).toEqual(null);
+    expect(listView.suppressDeactivation).toEqual(LIST_VIEW_DEFAULTS.suppressDeactivation);
   });
 
   it('should set the setting to hide checkboxes', async () => {
@@ -585,7 +586,7 @@ describe('IdsListView Component', () => {
     listView.virtualScroll = true;
     listView.innerHTML = '<template><ids-text type="h2">${productName}</ids-text></template></ids-list-view>'; //eslint-disable-line
     document.body.appendChild(listView);
-    listView.data = dataset;
+    listView.data = datasetProducts;
     await processAnimFrame();
     expect(listView.isInPage(3)).toEqual(true);
   });
@@ -700,7 +701,7 @@ describe('IdsListView Component', () => {
     expect(listView.activatedItem).toEqual(expect.objectContaining({ index: 3 }));
     listView.container.querySelector(sel(4)).click();
     expect(listView.activatedItem).toEqual(expect.objectContaining({ index: 3 }));
-    listView.allowDeactivate = true;
+    listView.suppressDeactivation = true;
     veto = false;
     listView.container.querySelector(sel(4)).click();
     expect(listView.activatedItem).toEqual(expect.objectContaining({ index: 3 }));

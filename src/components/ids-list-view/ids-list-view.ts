@@ -40,13 +40,13 @@ export interface IdsListViewItemInfo {
 
 // Default settings
 const LIST_VIEW_DEFAULTS = {
-  allowDeactivate: false, // Use with Mixed selection only
-  allowDeselect: true, // Use with Single selection only
   hideCheckboxes: false, // Only apply to selectable multiple
   height: '100%',
   label: 'Ids list view',
   selectableOptions: ['single', 'multiple', 'mixed'],
   sortable: false,
+  suppressDeactivation: false, // Use with Mixed selection only
+  suppressDeselection: true, // Use with Single selection only
   virtualScroll: false
 };
 
@@ -108,8 +108,8 @@ export default class IdsListView extends Base {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.ALLOW_DEACTIVATE,
-      attributes.ALLOW_DESELECT,
+      attributes.SUPPRESS_DEACTIVATION,
+      attributes.SUPPRESS_DESELECTION,
       attributes.HEIGHT,
       attributes.HIDE_CHECKBOXES,
       attributes.ITEM_HEIGHT,
@@ -885,35 +885,35 @@ export default class IdsListView extends Base {
   }
 
   /**
-   * Sets the items to be allow deactivate for mixed selection only.
+   * Sets the items to be suppress deactivation for mixed selection only.
    * @param {boolean|string} value The value.
    */
-  set allowDeactivate(value: boolean | string) {
+  set suppressDeactivation(value: boolean | string) {
     if (/boolean|string/g.test(typeof value)) {
-      this.setAttribute(attributes.ALLOW_DEACTIVATE, value);
+      this.setAttribute(attributes.SUPPRESS_DEACTIVATION, value);
     } else {
-      this.removeAttribute(attributes.ALLOW_DEACTIVATE);
+      this.removeAttribute(attributes.SUPPRESS_DEACTIVATION);
     }
   }
 
-  get allowDeactivate(): boolean {
-    return this.boolVal(attributes.ALLOW_DEACTIVATE, LIST_VIEW_DEFAULTS.allowDeactivate);
+  get suppressDeactivation(): boolean {
+    return this.boolVal(attributes.SUPPRESS_DEACTIVATION, LIST_VIEW_DEFAULTS.suppressDeactivation);
   }
 
   /**
-   * Sets the items to be allow deselect for single selection only.
+   * Sets the items to be suppress deselection for single selection only.
    * @param {boolean|string} value The value.
    */
-  set allowDeselect(value: boolean | string) {
+  set suppressDeselection(value: boolean | string) {
     if (/boolean|string/g.test(typeof value)) {
-      this.setAttribute(attributes.ALLOW_DESELECT, value);
+      this.setAttribute(attributes.SUPPRESS_DESELECTION, value);
     } else {
-      this.removeAttribute(attributes.ALLOW_DESELECT);
+      this.removeAttribute(attributes.SUPPRESS_DESELECTION);
     }
   }
 
-  get allowDeselect(): boolean {
-    return this.boolVal(attributes.ALLOW_DESELECT, LIST_VIEW_DEFAULTS.allowDeselect);
+  get suppressDeselection(): boolean {
+    return this.boolVal(attributes.SUPPRESS_DESELECTION, LIST_VIEW_DEFAULTS.suppressDeselection);
   }
 
   /**
@@ -987,7 +987,7 @@ export default class IdsListView extends Base {
       const activatedIndex = this.ds.findIndex((d: any) => d.itemActivated);
       this.#isApply = true;
       if (activatedIndex === dataIndex) {
-        if (!this.allowDeactivate) return true;
+        if (!this.suppressDeactivation) return true;
         if (this.isInPage(activatedIndex)) {
           return this.#deactivateItemInPage(this.pageIndex(activatedIndex) as number);
         }
@@ -1028,7 +1028,7 @@ export default class IdsListView extends Base {
     if (this.#isApply) this.#isApply = false;
     else {
       const activatedIndex = this.ds.findIndex((d: any) => d.itemActivated);
-      if (activatedIndex === dataIndex && !this.allowDeactivate) return false;
+      if (activatedIndex === dataIndex && !this.suppressDeactivation) return false;
     }
 
     const item = this.#itemByIndex(index);
@@ -1060,7 +1060,7 @@ export default class IdsListView extends Base {
       const activatedIndex = this.ds.findIndex((d: any) => d.itemActivated);
       this.#isApply = true;
       if (activatedIndex === dataIndex) {
-        if (!this.allowDeactivate) return true;
+        if (!this.suppressDeactivation) return true;
         if (this.isInPage(activatedIndex)) {
           return this.#deactivateItemInPage(this.pageIndex(activatedIndex) as number);
         }
@@ -1101,7 +1101,7 @@ export default class IdsListView extends Base {
     if (this.#isApply) this.#isApply = false;
     else {
       const activatedIndex = this.ds.findIndex((d: any) => d.itemActivated);
-      if (activatedIndex === dataIndex && !this.allowDeactivate) return false;
+      if (activatedIndex === dataIndex && !this.suppressDeactivation) return false;
     }
 
     const args = () => ({ dataIndex, data: this.ds[dataIndex] });
@@ -1129,7 +1129,7 @@ export default class IdsListView extends Base {
 
     if (this.selectable === 'single' && selected) {
       const isSame = selected.index === dataIndex;
-      if (isSame && !this.allowDeselect) return true;
+      if (isSame && !this.suppressDeselection) return true;
       this.#isApply = true;
       if (this.isInPage(selected.index)) {
         if (!this.#deselectInPage(this.pageIndex(selected.index) as number)) {
@@ -1172,7 +1172,7 @@ export default class IdsListView extends Base {
 
     if (this.selectable === 'single') {
       if (this.#isApply) this.#isApply = false;
-      else if (this.dataIndex(index) === selected.index && !this.allowDeselect) return false;
+      else if (this.dataIndex(index) === selected.index && !this.suppressDeselection) return false;
     }
     const item = this.#itemByIndex(index);
     const dataIndex = this.dataIndex(index);
@@ -1211,7 +1211,7 @@ export default class IdsListView extends Base {
 
     if (this.selectable === 'single' && selected) {
       const isSame = selected.index === dataIndex;
-      if (isSame && !this.allowDeselect) return true;
+      if (isSame && !this.suppressDeselection) return true;
       this.#isApply = true;
       if (this.isInPage(selected.index)) {
         if (!this.#deselectInPage(this.pageIndex(selected.index) as number)) {
@@ -1249,7 +1249,7 @@ export default class IdsListView extends Base {
 
     if (this.selectable === 'single') {
       if (this.#isApply) this.#isApply = false;
-      else if (dataIndex === selected.index && !this.allowDeselect) return false;
+      else if (dataIndex === selected.index && !this.suppressDeselection) return false;
     }
     const key = this.selectable === 'single' ? 'selectedItem' : 'selectedItems';
     const args = { dataIndex, data: this.ds[dataIndex] };
