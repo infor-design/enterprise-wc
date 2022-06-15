@@ -39,7 +39,6 @@ const setData = async () => {
   let data = await res.json();
   data = extra(data);
   data = totalPrice(data);
-  console.log(data.slice(0, 50))
   listView.data = data.slice(0, 50);
 
   // images
