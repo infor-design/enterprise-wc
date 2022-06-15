@@ -249,6 +249,8 @@ describe('IdsTimePicker Component', () => {
 
   it('should parse input value', () => {
     expect(timepicker.value).toBe('');
+    timepicker.minuteInterval = 1;
+    timepicker.secondInterval = 1;
 
     timepicker.value = '12:22 AM';
 

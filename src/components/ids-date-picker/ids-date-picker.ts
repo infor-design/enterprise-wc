@@ -9,7 +9,7 @@ import {
   stringToNumber
 } from '../../utils/ids-string-utils/ids-string-utils';
 import {
-  addDate, subtractDate, isValidDate, umalquraToGregorian, weekNumberToDate, weekNumber
+  addDate, subtractDate, isValidDate, umalquraToGregorian, weekNumberToDate, weekNumber, hoursTo24
 } from '../../utils/ids-date-utils/ids-date-utils';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
@@ -1467,9 +1467,8 @@ class IdsDatePicker extends Base {
     const seconds: number = timePicker.seconds;
     const period: string = timePicker.period;
     const dayPeriodIndex = this.locale?.calendar().dayPeriods?.indexOf(period);
-    const hours24 = (hours % 12) + (dayPeriodIndex === -1 ? 0 : dayPeriodIndex) * 12;
 
-    date.setHours(hours24, minutes, seconds);
+    date.setHours(hoursTo24(hours, dayPeriodIndex), minutes, seconds);
 
     return date;
   }
@@ -1758,6 +1757,8 @@ class IdsDatePicker extends Base {
           embeddable="true"
           value="${this.value}"
           format="${this.format}"
+          minute-interval="${this.minuteInterval}"
+          second-interval="${this.secondInterval}"
         ></ids-time-picker>
       `);
     }
@@ -2185,12 +2186,10 @@ class IdsDatePicker extends Base {
 
     if (numberVal) {
       this.setAttribute(attributes.MINUTE_INTERVAL, numberVal);
+      timePicker?.setAttribute(attributes.MINUTE_INTERVAL, numberVal);
     } else {
       this.removeAttribute(attributes.MINUTE_INTERVAL);
-    }
-
-    if (timePicker) {
-      timePicker.minuteInterval = numberVal;
+      timePicker?.removeAttribute(attributes.MINUTE_INTERVAL);
     }
   }
 
@@ -2212,12 +2211,10 @@ class IdsDatePicker extends Base {
 
     if (numberVal) {
       this.setAttribute(attributes.SECOND_INTERVAL, numberVal);
+      timePicker?.setAttribute(attributes.SECOND_INTERVAL, numberVal);
     } else {
       this.removeAttribute(attributes.SECOND_INTERVAL);
-    }
-
-    if (timePicker) {
-      timePicker.secondInterval = numberVal;
+      timePicker?.removeAttribute(attributes.SECOND_INTERVAL);
     }
   }
 

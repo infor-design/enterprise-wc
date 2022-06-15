@@ -1,6 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
+import { hoursTo24 } from '../../utils/ids-date-utils/ids-date-utils';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import Base from './ids-time-picker-base';
@@ -501,19 +502,7 @@ export default class IdsTimePicker extends Base {
     const date: Date = new Date();
     const dayPeriodIndex: number = this.locale?.calendar().dayPeriods?.indexOf(this.period);
 
-    let hours24: number;
-
-    if (this.hours === 12 && this.#hasPeriod()) {
-      if (dayPeriodIndex === 0) {
-        hours24 = 0;
-      } else {
-        hours24 = this.hours;
-      }
-    } else {
-      hours24 = this.hours + (dayPeriodIndex === -1 ? 0 : dayPeriodIndex) * 12;
-    }
-
-    date.setHours(hours24, this.minutes, this.seconds);
+    date.setHours(hoursTo24(this.hours, dayPeriodIndex), this.minutes, this.seconds);
 
     const value = this.locale.formatDate(date, { pattern: this.format });
 
@@ -913,7 +902,7 @@ export default class IdsTimePicker extends Base {
     }
 
     if (this.#hasHourRange()) {
-      return this.#getPeriodStartHour();
+      return this.#getHourOptions()[0];
     }
 
     return 1;
@@ -941,7 +930,8 @@ export default class IdsTimePicker extends Base {
     const numberVal = stringToNumber(this.getAttribute(attributes.MINUTES));
 
     if (!Number.isNaN(numberVal)) {
-      return numberVal;
+      // Round to the interval
+      return Math.round(numberVal / this.minuteInterval) * this.minuteInterval;
     }
 
     return 0;
@@ -969,7 +959,8 @@ export default class IdsTimePicker extends Base {
     const numberVal = stringToNumber(this.getAttribute(attributes.SECONDS));
 
     if (!Number.isNaN(numberVal)) {
-      return numberVal;
+      // Round to the interval
+      return Math.round(numberVal / this.secondInterval) * this.secondInterval;
     }
 
     return 0;
@@ -1001,10 +992,13 @@ export default class IdsTimePicker extends Base {
    */
   get period(): string {
     const attrVal = this.getAttribute(attributes.PERIOD);
-    const dayPeriods = this.#getDayPeriodsWithRange();
+    const dayPeriods: Array<string> = this.#getDayPeriodsWithRange();
+    const dayPeriodExists: boolean = dayPeriods.map((item: string) => item.toLowerCase())
+      .includes(attrVal?.toString().toLowerCase());
 
-    if (attrVal && dayPeriods.map((item: string) => item.toLowerCase())
-      .includes(attrVal.toString().toLowerCase())) {
+    if (!this.#hasPeriod()) return '';
+
+    if (attrVal && dayPeriodExists) {
       return attrVal;
     }
 

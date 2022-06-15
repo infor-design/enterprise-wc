@@ -349,3 +349,23 @@ export function weekNumber(date: Date, startsOn = 0) {
   // Number of weeks in range
   return 1 + Math.ceil((rangeEnd - rangeStart) / msInWeek);
 }
+
+/**
+ * Convert 12/24 hour format to 24 hour format based on day period
+ * @param {number} hours in 12 or 24 hour format
+ * @param {number} dayPeriodIndex 0 or 1 if time format with day period
+ * @returns {number} hours in 24 hour format
+ */
+export function hoursTo24(hours: number, dayPeriodIndex?: number | undefined): number {
+  const hasDayPeriod: boolean = (dayPeriodIndex as number) >= 0;
+
+  if (hours === 12 && hasDayPeriod) {
+    if (dayPeriodIndex === 0) {
+      return 0;
+    }
+
+    return hours;
+  }
+
+  return hours + (!hasDayPeriod ? 0 : (dayPeriodIndex as number)) * 12;
+}
