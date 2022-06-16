@@ -575,6 +575,9 @@ export default class IdsTimePicker extends Base {
 
       this.container.classList.add('is-open');
       this.popup.removeAttribute('tabindex');
+
+      // Focus hours dropdown
+      this.container.querySelector('#hours')?.container.querySelector('ids-trigger-field')?.focus();
     }
   }
 
