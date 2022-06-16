@@ -979,7 +979,7 @@ class IdsLocale {
             hasDayPeriodsFirst = true;
           }
 
-          if (dirtyDateString.includes(thisLocaleCalendar.dayPeriods[0])) {
+          if (dirtyDateString?.toLowerCase()?.includes(thisLocaleCalendar.dayPeriods[0]?.toLowerCase())) {
             dateObj.a = 'AM';
 
             if (dateObj.h) {
@@ -989,7 +989,7 @@ class IdsLocale {
             }
           }
 
-          if (dirtyDateString.includes(thisLocaleCalendar.dayPeriods[1])) {
+          if (dirtyDateString?.toLowerCase()?.includes(thisLocaleCalendar.dayPeriods[1]?.toLowerCase())) {
             dateObj.a = 'PM';
 
             if (dateObj.h) {
