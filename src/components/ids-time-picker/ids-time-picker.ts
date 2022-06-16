@@ -25,6 +25,16 @@ const range: any = (start: any, stop: any, step = 1) => (
  * @mixes IdsPopupOpenEventsMixin
  * @mixes IdsThemeMixin
  * @mixes IdsLocaleMixin
+ * @part container - the container of the component
+ * @part trigger-button - the trigger button
+ * @part icon - the icon in the trigger button
+ * @part input - the input element
+ * @part popup - the popup with dropdowns
+ * @part btn-set - the set button in the popup
+ * @part hours - the hours dropdown
+ * @part minutes - the minutes dropdown
+ * @part seconds - the seconds dropdown
+ * @part period - the period dropdown
  */
 @customElement('ids-time-picker')
 @scss(styles)
@@ -129,8 +139,8 @@ export default class IdsTimePicker extends Base {
    */
   template() {
     if (this.embeddable) {
-      return `<div class="ids-time-picker">
-        <div class="dropdowns"></div>
+      return `<div class="ids-time-picker" part="container">
+        <div class="dropdowns" part="dropdowns"></div>
       </div>`;
     }
 
@@ -141,7 +151,7 @@ export default class IdsTimePicker extends Base {
     const noMargins = this.noMargins ? ' no-margins' : '';
 
     return `
-      <div class="ids-time-picker">
+      <div class="ids-time-picker" part="container">
         <ids-trigger-field
           ${this.id ? `id="${this.id}"` : ''}
           ${colorVariant}${fieldHeight}${compact}${noMargins}${labelState}
@@ -152,17 +162,18 @@ export default class IdsTimePicker extends Base {
           disabled="${this.disabled}"
           ${this.validate ? `validate="${this.validate}"` : ''}
           validation-events="${this.validationEvents}"
+          part="input"
         >
           <ids-text audible="true" translate-text="true">UseArrow</ids-text>
-          <ids-trigger-button slot="trigger-end">
+          <ids-trigger-button slot="trigger-end" part="trigger-button">
             <ids-text audible="true" translate-text="true">TimepickerTriggerButton</ids-text>
-            <ids-icon slot="icon" icon="clock"></ids-icon>
+            <ids-icon slot="icon" icon="clock" part="icon"></ids-icon>
           </ids-trigger-button>
         </ids-trigger-field>
-        <ids-popup type="menu" tabindex="-1">
+        <ids-popup type="menu" tabindex="-1" part="popup">
           <section slot="content">
-            <div class="dropdowns"></div>
-            <ids-button class="popup-btn" hidden="${this.autoupdate}">
+            <div class="dropdowns" part="dropdowns"></div>
+            <ids-button class="popup-btn" hidden="${this.autoupdate}" part="btn-set">
               <ids-text translate-text="true" font-weight="bold">SetTime</ids-text>
             </ids-button>
           </section>
@@ -361,7 +372,7 @@ export default class IdsTimePicker extends Base {
       value,
       padStart
     }: any) => `
-      <ids-dropdown id="${id}" class="dropdown" label="${label}" value="${value}" size="xs">
+      <ids-dropdown id="${id}" class="dropdown" label="${label}" value="${value}" size="xs" part="${id}">
         <ids-list-box>
           ${options.map((option: any) => `
             <ids-list-box-option id="timepicker-${id}-${option}" value="${option}">

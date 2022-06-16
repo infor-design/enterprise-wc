@@ -4,7 +4,7 @@
 
 The Timepicker Component provides a click/touch user interface for setting a time.
 
-## Use Cases (TODO)
+## Use Cases
 
 - Entering an exact, unrestricted time (allowing any time to be entered, such as 11:39). In this use case, users should be allowed to either type the time values or select them.
 - Entering time intervals (e.g., allowing time entry only in specific set intervals, such as 15 or 30 minutes). In this case, you should either prevent users from manually entering the minute values or automatically correct manual entries to the nearest interval
@@ -69,11 +69,19 @@ timePicker.popup.addEventListener('hide');
 - `open()` Open the timepicker's popup window
 - `close()` Close the timepicker's popup window
 
-## Themeable Parts (TODO)
+## Themeable Parts
 
-- `label` allows you to further style the label text
-- `input` allows you to further style the input element
-- `popup` allows you to further style the timepicker's popup window
+- `container` allowing to style the container of the component
+- `trigger-button` allowing to style the trigger button
+- `icon` allowing to style the icon in the trigger button
+- `input` allowing to style the input element
+- `popup` allowing to style the popup with dropdowns
+- `btn-set` allowing to style the set button in the popup
+- `hours` allowing to style the hours dropdown
+- `minutes` allowing to style the minutes dropdown
+- `seconds` allowing to style the seconds dropdown
+- `period` allowing to style the period dropdown
+
 
 ## Features (With Code Examples)
 
