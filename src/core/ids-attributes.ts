@@ -125,6 +125,7 @@ export const attributes = {
   FONT_WEIGHT: 'font-weight',
   FORMAT: 'format',
   FORMATTER_WIDTH: 'formatter-width',
+  FULLSIZE: 'fullsize',
   GAP: 'gap',
   GAP_X: 'gap-x',
   GAP_Y: 'gap-y',
@@ -251,6 +252,8 @@ export const attributes = {
   RESET: 'reset',
   RESIZABLE: 'resizable',
   RESIZE_ON_DRAG_END: 'resize-on-drag-end',
+  RESPOND_DOWN: 'respond-down',
+  RESPOND_UP: 'respond-up',
   RESULT: 'result',
   REVEAL: 'reveal',
   REVEALABLE_PASSWORD: 'revealable-password',
@@ -381,24 +384,6 @@ export const htmlAttributes = {
 
 export const prefix = {
   PREFIX: 'ids'
-};
-
-export type Breakpoints = {
-  xxl: string;
-  xl: string;
-  lg: string;
-  md: string;
-  sm: string;
-  xs: string;
-};
-
-export const breakpoints: Breakpoints = {
-  xxl: '1440px',
-  xl: '1280px',
-  lg: '1024px',
-  md: '840px',
-  sm: '600px',
-  xs: '360px'
 };
 
 export const version = '0.0.0-beta.22';

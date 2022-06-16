@@ -1,5 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import { attributes, Breakpoints, breakpoints } from '../../core/ids-attributes';
+import { attributes } from '../../core/ids-attributes';
+import { Breakpoints, isWidthBelow, isWidthAbove } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import Base from './ids-hidden-base';
 
@@ -46,7 +47,7 @@ export default class IdsHidden extends Base {
    */
   set hideDown(val: keyof Breakpoints) {
     if (val) {
-      const mqUp = this.isWidthDown(breakpoints[val]);
+      const mqUp = isWidthBelow(val);
       this.setAttribute(attributes.HIDE_DOWN, val);
       mqUp.addEventListener('change', () => {
         this.checkScreen(mqUp);
@@ -74,7 +75,7 @@ export default class IdsHidden extends Base {
    */
   set hideUp(val: keyof Breakpoints) {
     if (val) {
-      const mqUp = this.isWidthUp(breakpoints[val]);
+      const mqUp = isWidthAbove(val);
       this.setAttribute(attributes.HIDE_UP, val);
       mqUp.addEventListener('change', () => {
         this.checkScreen(mqUp);

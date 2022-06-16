@@ -1,4 +1,5 @@
 import { attributes } from '../../core/ids-attributes';
+import { breakpoints, Breakpoints } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
 import { customElement, scss } from '../../core/ids-decorators';
 
 import Base from './ids-modal-base';
@@ -15,6 +16,8 @@ import '../ids-modal-button/ids-modal-button';
 
 // Import Styles
 import styles from './ids-modal.scss';
+
+type IdsModalFullsizeAttributeValue = null | 'null' | '' | keyof Breakpoints | 'always';
 
 // When a user clicks the Modal Buttons, this is the delay between
 // the click and the "hiding" of the Modal.
@@ -43,6 +46,7 @@ export default class IdsModal extends Base {
     if (!this.state) {
       this.state = {};
     }
+    this.state.fullsize = '';
     this.state.overlay = null;
     this.state.messageTitle = null;
   }
@@ -50,6 +54,7 @@ export default class IdsModal extends Base {
   static get attributes(): Array<string> {
     return [
       ...super.attributes,
+      attributes.FULLSIZE,
       attributes.MESSAGE_TITLE,
       attributes.VISIBLE
     ];
@@ -90,6 +95,7 @@ export default class IdsModal extends Base {
 
     this.attachEventHandlers();
     this.shouldUpdate = true;
+    this.#setFullsizeDefault();
   }
 
   disconnectedCallback(): void {
@@ -138,6 +144,83 @@ export default class IdsModal extends Base {
    */
   get buttons(): NodeList {
     return this.querySelectorAll('[slot="buttons"]');
+  }
+
+  /**
+   * @returns {IdsModalFullsizeAttributeValue} the breakpoint at which
+   * the Modal will change from normal mode to fullsize mode
+   */
+  get fullsize(): IdsModalFullsizeAttributeValue {
+    return this.state.fullsize;
+  }
+
+  /**
+   * @param {IdsModalFullsizeAttributeValue} val the breakpoint at which
+   * the Modal will change from normal mode to fullsize mode
+   */
+  set fullsize(val: IdsModalFullsizeAttributeValue) {
+    const current = this.state.fullsize;
+    const clearResponse = () => {
+      if (this.respondDown) {
+        this.respondDown = undefined;
+        this.onBreakpointDownResponse = undefined;
+      }
+    };
+
+    const makeFullsize = (doFullsize: boolean) => {
+      this.popup.classList[doFullsize ? 'add' : 'remove'](attributes.FULLSIZE);
+      this.popup.width = doFullsize ? '100%' : '';
+      this.popup.height = doFullsize ? '100%' : '';
+      this.popup.place();
+      if (this.popup.open) {
+        this.popup.correct3dMatrix();
+      }
+    };
+
+    const safeVal = `${val}`;
+    if (current !== val) {
+      switch (val) {
+        case 'always':
+          clearResponse();
+          this.state.fullsize = 'always';
+          this.popup.classList.add(`can-fullsize`);
+          makeFullsize(true);
+          break;
+        case null:
+        case 'null':
+        case '':
+          this.state.fullsize = '';
+          clearResponse();
+          this.removeAttribute(attributes.FULLSIZE);
+          this.popup.classList.remove('can-fullsize');
+          makeFullsize(false);
+          break;
+        default:
+          if (Object.keys(breakpoints).includes(safeVal)) {
+            this.state.fullsize = safeVal;
+            this.setAttribute(attributes.FULLSIZE, safeVal);
+            this.popup.classList.add(`can-fullsize`);
+            this.respondDown = safeVal;
+            this.onBreakpointDownResponse = (detectedBreakpoint: string, matches: boolean) => {
+              makeFullsize(matches);
+            };
+          }
+          this.respondToCurrentBreakpoint();
+          break;
+      }
+    }
+  }
+
+  /**
+   * Runs on connectedCallback or any refresh to adjust the `fullsize` attribute, if set
+   */
+  #setFullsizeDefault(): void {
+    // Default all Modals to `sm` fullsize
+    if (this.hasAttribute(attributes.FULLSIZE)) {
+      this.fullsize = this.getAttribute(attributes.FULLSIZE);
+    } else {
+      this.fullsize = 'sm';
+    }
   }
 
   /**
@@ -303,19 +386,33 @@ export default class IdsModal extends Base {
     // Animation-in needs the Modal to appear in front (z-index), so this occurs on the next tick
     this.style.zIndex = zCounter.increment();
     this.overlay.visible = true;
+
     this.popup.visible = true;
+    if (this.popup.animated) {
+      await waitForTransitionEnd(this.popup.container, 'opacity');
+    }
 
     this.removeAttribute('aria-hidden');
 
     // Focus the correct element
-    this.#setModalFocus();
+    this.capturesFocus = true;
+    this.setFocus('last');
 
     this.addOpenEvents();
     this.triggerEvent('show', this, {
       bubbles: true,
       detail: {
-        elem: this,
-        value: undefined
+        elem: this
+      }
+    });
+
+    this.popup.animated = false;
+    this.respondToCurrentBreakpoint();
+
+    this.triggerEvent('aftershow', this, {
+      bubbles: true,
+      detail: {
+        elem: this
       }
     });
   }
@@ -336,6 +433,8 @@ export default class IdsModal extends Base {
       return;
     }
 
+    this.popup.animated = true;
+
     this.removeOpenEvents();
     this.overlay.visible = false;
     this.popup.visible = false;
@@ -354,12 +453,18 @@ export default class IdsModal extends Base {
     this.triggerEvent('hide', this, {
       bubbles: true,
       detail: {
-        elem: this,
-        value: undefined
+        elem: this
       }
     });
 
     this.#setTargetFocus();
+
+    this.triggerEvent('afterhide', this, {
+      bubbles: true,
+      detail: {
+        elem: this
+      }
+    });
   }
 
   /**
@@ -435,37 +540,6 @@ export default class IdsModal extends Base {
   }
 
   /**
-   * Focuses the first-possible element within the Modal
-   * @returns {void}
-   */
-  #setModalFocus(): void {
-    const focusableSelectors = [
-      'button',
-      'ids-button',
-      'ids-menu-button',
-      'ids-modal-button',
-      'ids-toggle-button',
-      '[href]',
-      'input',
-      'ids-input',
-      'select',
-      'textarea',
-      'ids-textarea',
-      '[tabindex]:not([tabindex="-1"]'
-    ];
-    const selectorStr = focusableSelectors.join(', ');
-
-    const focusable = [...this.querySelectorAll(selectorStr)];
-
-    // Right action btn should have focus
-    if (focusable.length === 2) {
-      focusable[1].focus();
-    } else if (focusable.length) {
-      focusable[0].focus();
-    }
-  }
-
-  /**
    * Focuses the defined target element, if applicable
    * @returns {void}
    */
@@ -483,7 +557,7 @@ export default class IdsModal extends Base {
     if (this.visible) {
       // Fixes a Chrome Bug where time staggering is needed for focus to occur
       const timeoutCallback = () => {
-        this.#setModalFocus();
+        this.setFocus('last');
       };
       renderLoop.register(new IdsRenderLoopItem({
         duration: 30,
@@ -563,11 +637,6 @@ export default class IdsModal extends Base {
    */
   onOutsideClick(e: MouseEvent): void {
     if (!e || !e?.target) {
-      return;
-    }
-
-    const isOverlay = (e.target as any).tagName.toUpperCase() === 'IDS-OVERLAY';
-    if (this.isEqualNode(e.target) || isOverlay) {
       return;
     }
     this.hide();
