@@ -23,3 +23,6 @@
   - link: side-by-side.html
     type: Side by Side
     description: Shows time picker side by side with a 4.x time picker
+  - link: standalone-css.html
+    type: Standalone CSS
+    description: Showing a limited time picker that works with css only
