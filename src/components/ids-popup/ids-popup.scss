@@ -190,15 +190,20 @@
     // Boundaries
     min-height: 15%;
     min-width: 15%;
-    max-height: calc(100% - 16px);
-    max-width: calc(100% - 16px);
+    max-height: 100%;
+    max-width: 100%;
     overflow: hidden;
+
+    // When the height of `.content-wrapper` exceeds that of `.ids-popup`,
+    // ResizeObserver automatically appends this class to enable scrolling of inner content
+    &.fit-viewport {
+      height: 100%;
+    }
 
     // Override some default animation styles to add the correct
     // `translate(X/Y/Z/3d)` values to an existing transform property.
     &.animation-scale-in {
       transform: perspective(1000px) translate3d(-50%, -50%, -500px);
-      width: calc(100% - 16px);
 
       &.open {
         transform: perspective(1000px) translate3d(-50%, -50%, 0);
@@ -213,6 +218,10 @@
         transform: perspective(1000px) translate3d(-50%, -50%, 0);
       }
     }
+  }
+
+  &:not(.animated) {
+    transform: none;
   }
 
   // style: "none" (temporary)
@@ -429,6 +438,9 @@
 
 .content-wrapper {
   @include static();
+
+  height: 100%;
+  width: 100%;
 }
 
 // =====================================================
@@ -782,13 +794,6 @@
     &::after {
       border-right-color: var(--ids-color-palette-graphite-80);
     }
-  }
-}
-
-// Media queries setup
-@media screen and (min-width: $breakpoint-sm) {
-  .ids-popup.position-viewport.animation-scale-in {
-    width: auto;
   }
 }
 

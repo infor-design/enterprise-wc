@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
+import '../helpers/match-media-mock';
 import IdsErrorPage from '../../src/components/ids-error-page/ids-error-page';
 
 describe('Ids Error Page Tests', () => {
