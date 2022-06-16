@@ -120,11 +120,12 @@ class IdsDatePicker extends Base {
       attributes.SHOW_TODAY,
       attributes.SIZE,
       attributes.TABBABLE,
+      attributes.USE_CURRENT_TIME,
       attributes.USE_RANGE,
       attributes.VALIDATE,
       attributes.VALIDATION_EVENTS,
       attributes.VALUE,
-      attributes.YEAR
+      attributes.YEAR,
     ];
   }
 
@@ -1759,6 +1760,7 @@ class IdsDatePicker extends Base {
           format="${this.format}"
           minute-interval="${this.minuteInterval}"
           second-interval="${this.secondInterval}"
+          use-current-time="${this.useCurrentTime}"
         ></ids-time-picker>
       `);
     }
@@ -2338,6 +2340,31 @@ class IdsDatePicker extends Base {
     } else {
       this.removeAttribute(attributes.SHOW_PICKLIST_WEEK);
       this.#monthView?.removeAttribute(attributes.SHOW_PICKLIST_WEEK);
+    }
+  }
+
+  /**
+   * use-current-time attribute
+   * @returns {number} useCurrentTime param converted to boolean from attribute value
+   */
+  get useCurrentTime(): boolean {
+    return stringToBool(this.getAttribute(attributes.USE_CURRENT_TIME));
+  }
+
+  /**
+   * Set whether or not to show current time in the time picker
+   * @param {string|boolean|null} val useCurrentTime param value
+   */
+  set useCurrentTime(val: string | boolean | null) {
+    const boolVal = stringToBool(val);
+    const timePicker = this.container.querySelector('ids-time-picker');
+
+    if (boolVal) {
+      this.setAttribute(attributes.USE_CURRENT_TIME, boolVal);
+      timePicker?.setAttribute(attributes.USE_CURRENT_TIME, boolVal);
+    } else {
+      this.removeAttribute(attributes.USE_CURRENT_TIME);
+      timePicker?.removeAttribute(attributes.USE_CURRENT_TIME);
     }
   }
 }

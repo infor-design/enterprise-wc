@@ -46,6 +46,7 @@ The Timepicker Component provides a click/touch user interface for setting a tim
 - `validation-events` {string} - Input validation events, `change blur` as default
 - `start-hour` {number} - Set the start of limit hours. Default is 0
 - `end-hour` {number} - Set the end of limit hours. Default is 24
+- `use-current-time` {true|false} - Set whether or not to show current time in the dropdowns
 
 ## Events
 - Event listeners for input (trigger field) `blur`, `change`, `focus`, `select`, `keydown`, `keypress`, `keyup`, `click`, `dbclick`, `beforetriggerclicked`, `triggerclicked` events can be added to `input` component property:

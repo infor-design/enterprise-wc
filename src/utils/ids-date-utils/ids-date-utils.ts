@@ -369,3 +369,12 @@ export function hoursTo24(hours: number, dayPeriodIndex?: number | undefined): n
 
   return hours + (!hasDayPeriod ? 0 : (dayPeriodIndex as number)) * 12;
 }
+
+/**
+ * Convert 24 hour format to 12 hour format
+ * @param {number} hours in 24 hour format
+ * @returns {number} hours in 12 hour format
+ */
+export function hoursTo12(hours: number): number {
+  return hours === 0 || hours === 12 ? 12 : hours % 12;
+}

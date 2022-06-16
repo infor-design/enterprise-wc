@@ -58,6 +58,7 @@ The `ids-date-picker` is a web component to support date entry
 - `mask` `{true|false}` - Whether or not to enable date mask for the input. `format` attribute will be set as mask options format
 - `minute-interval` {number} Set time picker minutes dropdown options interval
 - `second-interval` {number} Set time picker seconds dropdown options interval
+- `use-current-time` {true|false} - Set whether or not to show current time in the time picker dropdowns
 - `show-picklist-year` `{true|false}` Whether or not to show a list of years in the picklist, default if true
 - `show-picklist-month` `{true|false}` Whether or not to show a list of months in the picklist, default is true
 - `show-picklist-week` `{true|false}` Whether or not to show week numbers in the picklist

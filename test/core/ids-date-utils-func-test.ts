@@ -9,6 +9,7 @@ import {
   firstDayOfMonthDate,
   firstDayOfWeekDate,
   gregorianToUmalqura,
+  hoursTo12,
   hoursTo24,
   isDaylightSavingTime,
   isTodaysDate,
@@ -223,5 +224,14 @@ describe('IdsDateUtils Tests', () => {
     expect(hoursTo24(1)).toEqual(1);
     expect(hoursTo24(12)).toEqual(12);
     expect(hoursTo24(22)).toEqual(22);
+  });
+
+  it('should convert hours to 12 hour format', () => {
+    expect(hoursTo12(0)).toEqual(12);
+    expect(hoursTo12(12)).toEqual(12);
+    expect(hoursTo12(1)).toEqual(1);
+    expect(hoursTo12(13)).toEqual(1);
+    expect(hoursTo12(23)).toEqual(11);
+    expect(hoursTo12(18)).toEqual(6);
   });
 });

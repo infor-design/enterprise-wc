@@ -6,6 +6,7 @@ import '../helpers/resize-observer-mock';
 import IdsTimePicker from '../../src/components/ids-time-picker/ids-time-picker';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import { attributes } from '../../src/core/ids-attributes';
+import { hoursTo12 } from '../../src/utils/ids-date-utils/ids-date-utils';
 
 describe('IdsTimePicker Component', () => {
   let timepicker: any;
@@ -370,6 +371,40 @@ describe('IdsTimePicker Component', () => {
     expect(getOptions('#hours')).toEqual([1, 12]);
   });
 
+  it('should show current time', () => {
+    timepicker.format = 'HH:mm:ss';
+    timepicker.minuteInterval = 1;
+    timepicker.secondInterval = 1;
+    timepicker.useCurrentTime = true;
+    timepicker.value = '';
+
+    expect(timepicker.hours).toEqual(new Date().getHours());
+    expect(timepicker.minutes).toEqual(new Date().getMinutes());
+    expect(timepicker.seconds).toEqual(new Date().getSeconds());
+
+    timepicker.value = '22:33:44';
+
+    expect(timepicker.hours).toEqual(22);
+    expect(timepicker.minutes).toEqual(33);
+    expect(timepicker.seconds).toEqual(44);
+
+    timepicker.format = 'hh:mm:ss a';
+    timepicker.value = '';
+
+    expect(timepicker.hours).toEqual(hoursTo12(new Date().getHours()));
+    expect(timepicker.minutes).toEqual(new Date().getMinutes());
+    expect(timepicker.seconds).toEqual(new Date().getSeconds());
+    expect(timepicker.period).toEqual(new Date().getHours() >= 12 ? 'PM' : 'AM');
+
+    timepicker.useCurrentTime = null;
+    timepicker.value = '';
+
+    expect(timepicker.hours).toEqual(1);
+    expect(timepicker.minutes).toEqual(0);
+    expect(timepicker.seconds).toEqual(0);
+    expect(timepicker.period).toEqual('AM');
+  });
+
   it('does not render period (am/pm)', () => {
     timepicker.autoupdate = true;
     timepicker.format = 'hh:mm';
@@ -574,6 +609,20 @@ describe('IdsTimePicker Component', () => {
 
     timepicker.validationEvents = 'blur';
     expect(timepicker.getAttribute(attributes.VALIDATION_EVENTS)).toBe('blur');
+  });
+
+  it('can validate time', () => {
+    let isValid;
+    timepicker.value = '1:00 AM';
+    timepicker.validate = 'time';
+    timepicker.input.addEventListener('validate', (e: any) => {
+      isValid = e.detail.isValid;
+    });
+    timepicker.input.checkValidation();
+    expect(isValid).toBeTruthy();
+
+    timepicker.value = '99:00 AM';
+    expect(isValid).toBeFalsy();
   });
 
   it('should render field height', () => {

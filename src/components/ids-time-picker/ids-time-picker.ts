@@ -1,7 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
-import { hoursTo24, isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
+import { hoursTo12, hoursTo24, isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import Base from './ids-time-picker-base';
@@ -76,6 +76,7 @@ export default class IdsTimePicker extends Base {
       attributes.SIZE,
       attributes.START_HOUR,
       attributes.TABBABLE,
+      attributes.USE_CURRENT_TIME,
       attributes.VALIDATE,
       attributes.VALIDATION_EVENTS,
       attributes.VALUE,
@@ -237,7 +238,10 @@ export default class IdsTimePicker extends Base {
     this.onEvent('click.time-picker-set', this.container.querySelector('.popup-btn'), () => {
       this.#setTimeOnField();
       this.close();
-      this.input?.focus();
+
+      if (!this.autoupdate) {
+        this.input?.focus();
+      }
     });
 
     this.offEvent('click.time-picker-popup');
@@ -287,16 +291,17 @@ export default class IdsTimePicker extends Base {
    */
   #parseInputValue(): void {
     const inputDate: Date = this.locale?.parseDate(
-      this.value,
+      this.input?.value || this.value,
       { dateFormat: this.format }
     );
-    const hours = inputDate?.getHours();
-    const hours12 = hours === 0 || hours === 12 ? 12 : hours % 12;
+    const hours24 = inputDate?.getHours();
+    const hours12 = hoursTo12(hours24);
     const minutes = inputDate?.getMinutes();
     const seconds = inputDate?.getSeconds();
+    const period = inputDate && this.locale?.calendar()?.dayPeriods[hours24 >= 12 ? 1 : 0];
 
-    if (this.#is24Hours() && hours !== this.hours) {
-      this.hours = hours;
+    if (this.#is24Hours() && hours24 !== this.hours) {
+      this.hours = hours24;
     }
 
     if (this.#is12Hours() && hours12 !== this.hours) {
@@ -312,11 +317,7 @@ export default class IdsTimePicker extends Base {
     }
 
     if (this.#hasPeriod()) {
-      this.locale?.calendar().dayPeriods?.forEach((dayPeriod: string) => {
-        if (this.value?.toLowerCase().includes(dayPeriod?.toLowerCase())) {
-          this.period = dayPeriod;
-        }
-      });
+      this.period = period;
     }
   }
 
@@ -534,6 +535,15 @@ export default class IdsTimePicker extends Base {
         }
       });
     }
+  }
+
+  /**
+   * @param {number} value minutes or seconds to be rounded
+   * @param {number} interval for value to be rounded to
+   * @returns {number} rounded value
+   */
+  #roundToInterval(value: number, interval: number): number {
+    return Math.round(value / interval) * interval;
   }
 
   /**
@@ -930,6 +940,16 @@ export default class IdsTimePicker extends Base {
       return this.#getHourOptions()[0];
     }
 
+    if (this.useCurrentTime && Number.isNaN(numberVal)) {
+      const hours24Now = new Date().getHours();
+
+      if (this.#is12Hours()) {
+        return hoursTo12(hours24Now);
+      }
+
+      return hours24Now;
+    }
+
     return 1;
   }
 
@@ -955,10 +975,16 @@ export default class IdsTimePicker extends Base {
     const numberVal = stringToNumber(this.getAttribute(attributes.MINUTES));
 
     if (!Number.isNaN(numberVal)) {
-      // Round to the interval
-      return Math.round(numberVal / this.minuteInterval) * this.minuteInterval;
+      return this.#roundToInterval(numberVal, this.minuteInterval);
     }
 
+    if (this.useCurrentTime && Number.isNaN(numberVal)) {
+      const minutesNow = new Date().getMinutes();
+
+      return this.#roundToInterval(minutesNow, this.minuteInterval);
+    }
+
+    // Default
     return 0;
   }
 
@@ -984,10 +1010,16 @@ export default class IdsTimePicker extends Base {
     const numberVal = stringToNumber(this.getAttribute(attributes.SECONDS));
 
     if (!Number.isNaN(numberVal)) {
-      // Round to the interval
-      return Math.round(numberVal / this.secondInterval) * this.secondInterval;
+      return this.#roundToInterval(numberVal, this.secondInterval);
     }
 
+    if (this.useCurrentTime && Number.isNaN(numberVal)) {
+      const secondsNow = new Date().getSeconds();
+
+      return this.#roundToInterval(secondsNow, this.secondInterval);
+    }
+
+    // Default
     return 0;
   }
 
@@ -1025,6 +1057,16 @@ export default class IdsTimePicker extends Base {
 
     if (attrVal && dayPeriodExists) {
       return attrVal;
+    }
+
+    if (this.useCurrentTime) {
+      const hours24Now = new Date().getHours();
+
+      if (hours24Now >= 12) {
+        return dayPeriods[1];
+      }
+
+      return dayPeriods[0];
     }
 
     return dayPeriods[0];
@@ -1118,7 +1160,7 @@ export default class IdsTimePicker extends Base {
 
   /**
    * Set start of limited hours range
-   * @param {string | number | null} val to be set as end-hour attribute
+   * @param {string|number|null} val to be set as end-hour attribute
    */
   set startHour(val: number | string | null) {
     if (val) {
@@ -1146,7 +1188,7 @@ export default class IdsTimePicker extends Base {
 
   /**
    * Set end of limited hours range
-   * @param {string | number | null} val to be set as end-hour attribute
+   * @param {string|number|null} val to be set as end-hour attribute
    */
   set endHour(val: number | string | null) {
     if (val) {
@@ -1170,5 +1212,29 @@ export default class IdsTimePicker extends Base {
     }
 
     return 24;
+  }
+
+  /**
+   * Set whether or not to show current time in the dropdowns
+   * @param {string|boolean|null} val useCurrentTime param value
+   */
+  set useCurrentTime(val: string | boolean | null) {
+    const boolVal = stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.USE_CURRENT_TIME, boolVal);
+    } else {
+      this.removeAttribute(attributes.USE_CURRENT_TIME);
+    }
+
+    this.#renderDropdowns();
+  }
+
+  /**
+   * use-current-time attribute
+   * @returns {number} useCurrentTime param converted to boolean from attribute value
+   */
+  get useCurrentTime(): boolean {
+    return stringToBool(this.getAttribute(attributes.USE_CURRENT_TIME));
   }
 }
