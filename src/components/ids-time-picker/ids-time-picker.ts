@@ -1,7 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
-import { hoursTo24 } from '../../utils/ids-date-utils/ids-date-utils';
+import { hoursTo24, isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import Base from './ids-time-picker-base';
@@ -237,6 +237,7 @@ export default class IdsTimePicker extends Base {
     this.onEvent('click.time-picker-set', this.container.querySelector('.popup-btn'), () => {
       this.#setTimeOnField();
       this.close();
+      this.input?.focus();
     });
 
     this.offEvent('click.time-picker-popup');
@@ -255,6 +256,7 @@ export default class IdsTimePicker extends Base {
     this.offEvent('languagechange.time-picker-container');
     this.onEvent('languagechange.time-picker-container', getClosest(this, 'ids-container'), () => {
       this.#renderDropdowns();
+      this.#setTimeValidation();
     });
 
     // Change component value on input value change
@@ -508,6 +510,29 @@ export default class IdsTimePicker extends Base {
 
     if (this.input) {
       this.input.value = value;
+    }
+  }
+
+  /**
+   * Valid time validation extend validation mixin
+   */
+  #setTimeValidation(): void {
+    if (this.validate?.includes('time')) {
+      this.input?.addValidationRule({
+        id: 'time',
+        type: 'error',
+        message: this.locale?.translate('InvalidTime'),
+        check: (input: any) => {
+          if (!input.value) return true;
+
+          const date: Date | undefined = this.locale.parseDate(
+            input.value,
+            this.format
+          );
+
+          return isValidDate(date);
+        }
+      });
     }
   }
 
@@ -1021,6 +1046,8 @@ export default class IdsTimePicker extends Base {
       this.input?.removeAttribute(attributes.VALIDATION_EVENTS);
       this.input?.handleValidation();
     }
+
+    this.#setTimeValidation();
   }
 
   /**

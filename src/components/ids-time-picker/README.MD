@@ -42,7 +42,7 @@ The Timepicker Component provides a click/touch user interface for setting a tim
 - `minutes` {number} Set initial value for minutes dropdown in the popup or retrieve the dropdown value
 - `seconds` {number} Set initial value for seconds dropdown in the popup or retrieve the dropdown value
 - `period` {number} Set initial value for period dropdown in the popup or retrieve the dropdown value
-- `validate` {'required'|string} - Input validation rules
+- `validate` {'required'|'time'|string} - Input validation rules
 - `validation-events` {string} - Input validation events, `change blur` as default
 - `start-hour` {number} - Set the start of limit hours. Default is 0
 - `end-hour` {number} - Set the end of limit hours. Default is 24
