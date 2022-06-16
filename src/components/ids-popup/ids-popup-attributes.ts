@@ -39,9 +39,11 @@ const POPUP_PROPERTIES = [
   attributes.ANIMATED,
   attributes.ANIMATION_STYLE,
   attributes.BLEED,
+  attributes.HEIGHT,
   attributes.POSITION_STYLE,
   attributes.TYPE,
   attributes.VISIBLE,
+  attributes.WIDTH,
   attributes.X,
   attributes.Y
 ];
