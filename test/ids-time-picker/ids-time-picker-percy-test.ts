@@ -8,7 +8,7 @@ describe('Ids Time Picker Percy Tests', () => {
     await page.evaluate(() => {
       (document.querySelector('#e2e-timepicker-percy-axe') as any).open();
     });
-    await page.waitForSelector('pierce/.dropdowns', { visible: true });
+    await page.waitForFunction(() => (document as any).querySelector('#e2e-timepicker-percy-axe')?.popup.visible);
     await percySnapshot(page, 'ids-time-picker-new-light');
   });
 
@@ -18,7 +18,7 @@ describe('Ids Time Picker Percy Tests', () => {
       document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');
       (document.querySelector('#e2e-timepicker-percy-axe') as any).open();
     });
-    await page.waitForSelector('pierce/.dropdowns', { visible: true });
+    await page.waitForFunction(() => (document as any).querySelector('#e2e-timepicker-percy-axe')?.popup.visible);
     await percySnapshot(page, 'ids-time-picker-new-dark');
   });
 
@@ -28,7 +28,7 @@ describe('Ids Time Picker Percy Tests', () => {
       document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'contrast');
       (document.querySelector('#e2e-timepicker-percy-axe') as any).open();
     });
-    await page.waitForSelector('pierce/.dropdowns', { visible: true });
+    await page.waitForFunction(() => (document as any).querySelector('#e2e-timepicker-percy-axe')?.popup.visible);
     await percySnapshot(page, 'ids-time-picker-new-contrast');
   });
 });
