@@ -1,4 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import '../ids-popup/ids-popup';
 import Base from './ids-popup-menu-base';
 
@@ -18,6 +20,13 @@ import styles from './ids-popup-menu.scss';
 export default class IdsPopupMenu extends Base {
   constructor() {
     super();
+  }
+
+  static get attributes() {
+    return [
+      ...super.attributes,
+      attributes.WIDTH
+    ];
   }
 
   /**
@@ -241,6 +250,34 @@ export default class IdsPopupMenu extends Base {
     if (this.target) {
       this.target.focus();
     }
+  }
+
+  /**
+   * Sets width of the Popup
+   * @param {string | null} value css width value
+   */
+  set width(value: string | null) {
+    const currentValue = this.width;
+    const newValue = typeof value === 'string' ? stripHTML(value) : '';
+    if (currentValue !== newValue) {
+      if (newValue.length) {
+        this.setAttribute(attributes.WIDTH, `${newValue}`);
+      } else {
+        this.removeAttribute(attributes.WIDTH);
+      }
+    }
+
+    this.setAttribute(attributes.WIDTH, value);
+    this.container.style.width = value;
+  }
+
+  /**
+   * Gets width
+   * @returns {string | null} width value
+   */
+  get width(): string | null {
+    const width = this.container.style.width;
+    return (width.length ? width : null);
   }
 
   /**
