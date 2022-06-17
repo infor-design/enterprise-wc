@@ -5,7 +5,9 @@ describe('Ids Time Picker Percy Tests', () => {
 
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await page.waitForTimeout(200);
+    await page.evaluate(() => {
+      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'light');
+    });
     await percySnapshot(page, 'ids-time-picker-new-light');
   });
 
@@ -14,7 +16,6 @@ describe('Ids Time Picker Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');
     });
-    await page.waitForTimeout(200);
     await percySnapshot(page, 'ids-time-picker-new-dark');
   });
 
@@ -23,7 +24,6 @@ describe('Ids Time Picker Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'contrast');
     });
-    await page.waitForTimeout(200);
     await percySnapshot(page, 'ids-time-picker-new-contrast');
   });
 });
