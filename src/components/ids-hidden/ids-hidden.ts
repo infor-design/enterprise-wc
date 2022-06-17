@@ -215,26 +215,4 @@ export default class IdsHidden extends Base {
       this.setAttribute('visible', true);
     }
   }
-
-  /**
-   * Check for max width media query.
-   * @param {string} width size of the breakpoint
-   * @returns {MediaQueryList} media query
-   * @memberof IdsHidden
-   */
-  isWidthDown(width: string): MediaQueryList {
-    const mq = window.matchMedia(`(max-width: ${width})`);
-    return mq;
-  }
-
-  /**
-   * Check for min width media query.
-   * @param {string} width size of the breakpoint
-   * @returns {MediaQueryList} media query
-   * @memberof IdsHidden
-   */
-  isWidthUp(width: string): MediaQueryList {
-    const mq = window.matchMedia(`(min-width: ${width})`);
-    return mq;
-  }
 }
