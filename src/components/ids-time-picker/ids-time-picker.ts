@@ -587,6 +587,11 @@ export default class IdsTimePicker extends Base {
       this.container.classList.add('is-open');
       this.popup.removeAttribute('tabindex');
 
+      // Update dropdown values each time the popup is opened if using current time
+      if (!this.input?.value && this.useCurrentTime) {
+        this.#parseInputValue();
+      }
+
       // Focus hours dropdown
       this.container.querySelector('#hours')?.container.querySelector('ids-trigger-field')?.focus();
     }
@@ -972,7 +977,7 @@ export default class IdsTimePicker extends Base {
    * @param {string|number|null} value minutes param value
    */
   set minutes(value: string | number | null) {
-    if (value) {
+    if (value !== null) {
       this.setAttribute(attributes.MINUTES, value);
     } else {
       this.removeAttribute(attributes.MINUTES);
@@ -1007,7 +1012,7 @@ export default class IdsTimePicker extends Base {
    * @param {string|number|null} value seconds param value
    */
   set seconds(value: string | number | null) {
-    if (value) {
+    if (value !== null) {
       this.setAttribute(attributes.SECONDS, value);
     } else {
       this.removeAttribute(attributes.SECONDS);
