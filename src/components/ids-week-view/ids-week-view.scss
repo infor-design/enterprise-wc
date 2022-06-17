@@ -16,17 +16,17 @@ $hour-row-height: 25px;
   @include border-slate-20();
 
   flex-direction: column;
-  overflow: auto;
+  overflow: hidden;
 
   // Make the component fit to the height of the viewport
   // excluding component top offset
-  height: calc(100vh - 26px - var(--offset-top, 0px));
+  max-height: calc(100vh - 26px - var(--offset-top, 0px));
 
   .week-view-header {
-    @include sticky();
     @include border-slate-20();
     @include bg-white();
 
+    display: block;
     border-bottom-width: 1px;
     border-bottom-style: solid;
     left: 0;
@@ -142,13 +142,13 @@ $hour-row-height: 25px;
   .week-view-container {
     @include bg-white();
 
-    flex-shrink: 0;
+    overflow: auto;
 
     th {
       @include sticky();
       @include bg-white();
 
-      top: 51px;
+      top: 0;
       z-index: 3;
     }
   }
@@ -270,6 +270,10 @@ $hour-row-height: 25px;
       @include border-azure-90();
     }
   }
+}
+
+ids-toolbar ids-menu-button[menu='view-picker'] {
+  margin: 0 8px;
 }
 
 // Text direction

@@ -25,6 +25,7 @@ import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 
 import styles from './ids-week-view.scss';
 import IdsCalendarEvent, { CalendarEventData, CalendarEventTypeData } from '../ids-calendar/ids-calendar-event';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 interface DayMapData {
   key: number;
@@ -38,6 +39,7 @@ interface DayMapData {
  * @mixes IdsLocaleMixin
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
+ * @mixes IdsCalendarEventsMixin
  */
 @customElement('ids-week-view')
 @scss(styles)
@@ -52,6 +54,7 @@ export default class IdsWeekView extends Base {
 
   connectedCallback() {
     super.connectedCallback();
+    this.setDirection();
     this.#renderToolbar();
     this.#attachEventHandlers();
   }
@@ -78,7 +81,7 @@ export default class IdsWeekView extends Base {
       attributes.SHOW_TODAY,
       attributes.START_DATE,
       attributes.START_HOUR,
-      attributes.TIMELINE_INTERVAL,
+      attributes.TIMELINE_INTERVAL
     ];
   }
 
@@ -108,14 +111,14 @@ export default class IdsWeekView extends Base {
 
     // Respond to parent changing language
     this.offEvent('languagechange.week-view-container');
-    this.onEvent('languagechange.week-view-container', this.closest('ids-container'), () => {
+    this.onEvent('languagechange.week-view-container', getClosest(this, 'ids-container'), () => {
       this.#renderWeek();
       this.#attachOffsetTop();
     });
 
     // Respond to parent changing locale
     this.offEvent('localechange.week-view-container');
-    this.onEvent('localechange.week-view-container', this.closest('ids-container'), () => {
+    this.onEvent('localechange.week-view-container', getClosest(this, 'ids-container'), () => {
       this.#renderWeek();
       this.#attachDatepicker();
     });
@@ -130,8 +133,8 @@ export default class IdsWeekView extends Base {
     if (!this.locale) {
       return;
     }
-
-    const toolbarTemplate = `<ids-toolbar class="week-view-header" tabbable="true">
+    const isDayView = daysDiff(this.startDate, this.endDate) === 1;
+    const toolbarTemplate = `<ids-toolbar tabbable="true" class="week-view-header">
       <ids-toolbar-section type="buttonset">
         <ids-button class="week-view-btn-previous">
           <ids-text audible="true" translate-text="true">PreviousMonth</ids-text>
@@ -154,6 +157,7 @@ export default class IdsWeekView extends Base {
             >Today</ids-text>
           </ids-button>` : ''}
       </ids-toolbar-section>
+      ${this.viewPicker ? this.createViewPickerTemplate(isDayView ? 'day' : 'week') : ''}
     </ids-toolbar>`;
 
     // Clear/add HTML
@@ -180,6 +184,11 @@ export default class IdsWeekView extends Base {
       this.#changeDate('next');
     });
 
+    this.offEvent('dayselected.week-view-datepicker');
+    this.onEvent('dayselected.week-view-datepicker', this.container.querySelector('ids-date-picker'), (e: CustomEvent) => {
+      this.#datepickerChangeDate(e.detail.date);
+    });
+
     if (this.showToday) {
       this.offEvent('click.week-view-today');
       this.onEvent('click.week-view-today', this.container.querySelector('.week-view-btn-today'), () => {
@@ -189,10 +198,14 @@ export default class IdsWeekView extends Base {
       this.offEvent('click.week-view-today');
     }
 
-    this.offEvent('dayselected.week-view-datepicker');
-    this.onEvent('dayselected.week-view-datepicker', this.container.querySelector('ids-date-picker'), (e: CustomEvent) => {
-      this.#datepickerChangeDate(e.detail.date);
-    });
+    if (this.viewPicker) {
+      const viewPicker = this.container.querySelector('#view-picker');
+      this.offEvent('selected', viewPicker);
+      this.onEvent('selected', viewPicker, (evt: CustomEvent) => {
+        evt.stopPropagation();
+        this.triggerViewChange(evt.detail.value, this.state.activeDate);
+      });
+    }
   }
 
   /**
@@ -273,6 +286,7 @@ export default class IdsWeekView extends Base {
       this.endDate = endDate;
     });
 
+    this.state.activeDate = this.startDate;
     this.#attachDatepicker();
   }
 
@@ -286,20 +300,6 @@ export default class IdsWeekView extends Base {
 
     this.startDate = hasIrregularDays ? date : firstDayOfWeekDate(date, this.firstDayOfWeek);
     this.endDate = addDate(this.startDate, diff - 1, 'days');
-  }
-
-  /**
-   * Creates date key used in component
-   * Format - [year][month][date]
-   * @param {Date} date Date obj
-   * @returns {number} 20200421
-   */
-  #generateDateKey(date: Date): number {
-    const year = date.getFullYear();
-    const month = date.getMonth().toString();
-    const day = date.getDate().toString();
-
-    return parseInt(`${year}${month.padStart(2, '0')}${day.padStart(2, '0')}`);
   }
 
   /**
@@ -347,7 +347,7 @@ export default class IdsWeekView extends Base {
       const dayNumeric = this.locale.formatDate(date, { day: 'numeric' });
       const weekday = this.locale.formatDate(date, { weekday: 'short' });
       const isToday = isTodaysDate(new Date(date));
-      const dataKey = this.#generateDateKey(new Date(date));
+      const dataKey = this.generateDateKey(new Date(date));
 
       return `
         <th data-key="${dataKey}">
@@ -389,7 +389,7 @@ export default class IdsWeekView extends Base {
         </td>
         ${cellTemplate}
       </tr>
-      <tr class="week-view-half-hour-row" data-hour="${hour}">
+      <tr class="week-view-half-hour-row" data-hour="${hour}.5">
         <td>
           <div class="week-view-cell-wrapper"></div>
         </td>
@@ -437,7 +437,7 @@ export default class IdsWeekView extends Base {
     });
 
     this.#renderTimeline();
-    this.renderEventsFromData();
+    this.renderEventsData();
   }
 
   /**
@@ -506,14 +506,6 @@ export default class IdsWeekView extends Base {
   }
 
   /**
-   * Removes IdsCalendarEvent components from week view
-   */
-  #removeAllEvents() {
-    const events = this.container.querySelectorAll('ids-calendar-event');
-    events.forEach((event: IdsCalendarEvent) => event.remove());
-  }
-
-  /**
    * Gets number of hours of Date (ex. 3:15am => 3.25)
    * @param {Date} date Date object
    * @param {boolean} rounded If true, rounds down to nearest half hour
@@ -535,19 +527,21 @@ export default class IdsWeekView extends Base {
    * Renders all events currently set or returned in beforeEventsRender function
    * @param {boolean} forceRender if true, skips beforeEventRender
    */
-  async renderEventsFromData(forceRender = false) {
+  async renderEventsData(forceRender = false) {
     if (!forceRender && typeof this.state.beforeEventsRender === 'function') {
-      this.state.eventsData = await this.state.beforeEventsRender(this.startDate, this.endDate);
+      this.eventsData = await this.state.beforeEventsRender(this.startDate, this.endDate);
+      return;
     }
 
-    this.#removeAllEvents();
+    this.removeAllEvents();
 
-    if (!this.state.hasRendered || !this.state.eventsData?.length) return;
+    if (!this.state.hasRendered || !this.eventsData?.length) return;
 
-    this.state.eventsData.forEach((event: CalendarEventData) => {
+    this.eventsData.forEach((event: CalendarEventData) => {
       const eventStart = new Date(event.starts);
+      const eventEnd = new Date(event.ends);
 
-      if (this.startDate <= eventStart && eventStart < this.endDate) {
+      if (this.startDate <= eventEnd && eventStart < this.endDate) {
         this.#renderEvent(event);
       }
     });
@@ -574,7 +568,7 @@ export default class IdsWeekView extends Base {
    */
   #createCalendarEvent(eventData: CalendarEventData, cssClass?: string[]): IdsCalendarEvent {
     const calendarEvent = new IdsCalendarEvent();
-    const eventType = this.state.eventTypesData?.find((et: CalendarEventTypeData) => et.id === eventData.type);
+    const eventType = this.eventTypesData?.find((et: CalendarEventTypeData) => et.id === eventData.type);
 
     calendarEvent.eventTypeData = eventType;
     calendarEvent.eventData = eventData;
@@ -597,8 +591,8 @@ export default class IdsWeekView extends Base {
     // get day containers
     const startDate = new Date(eventData.starts);
     const endDate = new Date(eventData.ends);
-    const startKey = this.#generateDateKey(startDate);
-    const endKey = this.#generateDateKey(endDate);
+    const startKey = this.generateDateKey(startDate);
+    const endKey = this.generateDateKey(endDate);
     const days = this.dayMap.filter((day) => day.key >= startKey && day.key <= endKey);
 
     // get event hour count
@@ -973,46 +967,12 @@ export default class IdsWeekView extends Base {
   }
 
   /**
-   * Set calendar events to display on week view
-   * @param {CalendarEventData[]} data array of events
-   */
-  set eventsData(data: CalendarEventData[]) {
-    this.state.eventsData = data;
-    this.renderEventsFromData(true);
-  }
-
-  /**
-   * Gets calendar events
-   * @returns {CalendarEventData[]} array of events
-   */
-  get eventsData(): CalendarEventData[] {
-    return this.state.eventsData;
-  }
-
-  /**
-   * Set event types for week view
-   * @param {CalendarEventTypeData[]} data array of event types
-   */
-  set eventTypesData(data: CalendarEventTypeData[]) {
-    this.state.eventTypesData = data;
-    this.renderEventsFromData(true);
-  }
-
-  /**
-   * Gets event types of week view
-   * @returns {CalendarEventTypeData[]} array of event types
-   */
-  get eventTypesData(): CalendarEventTypeData[] {
-    return this.state.eventTypesData;
-  }
-
-  /**
    * Allows setting async function to fetch calendar event data
    * Passes startDate and endDate as callback arguments
    * @param {Function} fn Async function
    */
   set beforeEventsRender(fn: (startDate: Date, endDate: Date) => Promise<CalendarEventData[]>) {
     this.state.beforeEventsRender = fn;
-    this.renderEventsFromData();
+    this.renderEventsData();
   }
 }

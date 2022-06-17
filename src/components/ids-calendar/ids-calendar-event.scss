@@ -146,6 +146,55 @@
   }
 }
 
+// Month View Version
+.ids-calendar-event.is-month-view {
+  @include absolute;
+
+  display: block;
+  width: calc(100% - 10px);
+  margin: 0 5px;
+  height: 16px;
+
+  &.calendar-event-start,
+  &.calendar-event-ends.all-day {
+    margin: 0;
+    width: calc(100% - 5px);
+  }
+
+  &.calendar-event-start {
+    &:not(.rtl) {
+      right: 0;
+    }
+
+    &.rtl {
+      left: 0;
+    }
+  }
+
+  &.calendar-event-continue {
+    width: 100%;
+    margin: 0;
+  }
+
+  &.calendar-event-ends.all-day {
+    &:not(.rtl) {
+      left: 0;
+    }
+
+    &.rtl {
+      right: 0;
+    }
+  }
+
+  &.hidden {
+    display: none;
+  }
+
+  .calendar-event-content {
+    padding: 0 5px;
+  }
+}
+
 // All day event styles
 .ids-calendar-event.all-day {
   top: 1px;

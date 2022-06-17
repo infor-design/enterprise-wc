@@ -29,6 +29,9 @@ export type CalendarEventTypeData = {
 @customElement('ids-calendar-event')
 @scss(styles)
 export default class IdsCalendarEvent extends Base {
+  // Property used to position overlapping events in month view
+  #order = 0;
+
   constructor() {
     super();
   }
@@ -327,5 +330,21 @@ export default class IdsCalendarEvent extends Base {
    */
   get overflow(): string {
     return this.getAttribute(attributes.OVERFLOW) || 'ellipsis';
+  }
+
+  /**
+   * Sets order property
+   * @param {number} val order number
+   */
+  set order(val: number) {
+    this.#order = val;
+  }
+
+  /**
+   * Gets order property
+   * @returns {number} order number
+   */
+  get order(): number {
+    return this.#order;
   }
 }
