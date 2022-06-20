@@ -202,7 +202,6 @@ export default class IdsCheckbox extends Base {
       }
     }
 
-
     if (!this.#triggeredChange && this.input) {
       this.triggerEvent('change', this.input, { bubbles: true });
     }
