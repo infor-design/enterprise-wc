@@ -4,14 +4,22 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 
 ## Next
 
-- grouped columns (resize)
+- TODOS
+
+## Performance
+
+- Blinky columns on Load
+- Change Locale
+- Change Theme
+- Row Number Formatter
+- loading 1000 or more rows in non-virtualized mode
 
 ## Major
 
 - [x] Hidden Columns
 - [x] Column Sizes/Widths
 - [ ] Column Reorder
-- [ ] Frozen Columns
+- [x] Frozen Columns
 - [ ] Formatters left: Checkbox, Badge, Tag, Alerts, Image, Favorite, Card (templates), Targeted Achievement etc.
 - [ ] Fix icon and field sizes on http://localhost:4300/ids-data-grid/filter.html
 - [ ] Save Settings [example](https://main-enterprise.demo.design.infor.com/components/datagrid/test-save-settings.html)
@@ -45,3 +53,4 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 - [ ] Errors and Validation
 - [ ] Xss Tests
 - [ ] Colspans [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-colspan.html)
+- [ ] Column Groups with Frozen Columns

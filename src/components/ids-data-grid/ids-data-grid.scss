@@ -74,10 +74,10 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
   // Header Styles
   .ids-data-grid-header {
-    @include z-2();
     @include sticky();
 
     top: 0;
+    z-index: 4; // Higher than the frozen columns
   }
 
   // Grouped Headers
@@ -102,7 +102,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
     // Hide first border
     &:first-child {
-      border-left-style: hidden;
+      border-inline-start-width: 0;
     }
 
     &.align-center .ids-data-grid-header-cell-content,
@@ -125,6 +125,46 @@ $header-bg-color: var(--ids-color-palette-slate-80);
       top: 0;
       width: 6px;
       z-index: 2;
+    }
+
+    // Frozen Cells
+    &.frozen {
+      background-color: $header-bg-color;
+      position: sticky;
+      z-index: 3;
+    }
+
+    // Change borders for frozen column scrolling
+    &.frozen-last {
+      border-inline-end-width: 1px;
+
+      + .ids-data-grid-header-cell {
+        border-inline-start-width: 0;
+      }
+    }
+
+    &.frozen-left {
+      position: sticky;
+      left: 0;
+
+      // Dynamically added widths - @TODO use a loop
+      &:nth-of-type(2) {
+        left: var(--ids-data-grid-frozen-column-left-width-2);
+      }
+
+      &:nth-of-type(3) {
+        left: var(--ids-data-grid-frozen-column-left-width-3);
+      }
+    }
+
+    &.frozen-right {
+      position: sticky;
+      right: 0;
+
+      // Wierd centering bug (frozen right)
+      .ids-data-grid-header-cell-content {
+        display: inline-flex;
+      }
     }
   }
 
@@ -228,7 +268,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
     // Hide first/last border
     &:first-child {
-      border-left-style: hidden;
+      border-inline-start-width: 0;
     }
 
     // Negate link margins
@@ -266,6 +306,42 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
       outline: 1px solid var(--ids-color-palette-azure-60);
       outline-offset: -1px;
+    }
+
+    // Frozen Cells
+    &.frozen {
+      @include bg-white();
+
+      position: sticky;
+      z-index: 3;
+    }
+
+    // Change borders for scrolling
+    &.frozen-last {
+      border-inline-end-width: 1px;
+
+      + .ids-data-grid-cell {
+        border-inline-start-width: 0;
+      }
+    }
+
+    &.frozen-left {
+      position: sticky;
+      left: 0;
+
+      // Dynamically added widths - @TODO use a loop
+      &:nth-of-type(2) {
+        left: var(--ids-data-grid-frozen-column-left-width-2);
+      }
+
+      &:nth-of-type(3) {
+        left: var(--ids-data-grid-frozen-column-left-width-3);
+      }
+    }
+
+    &.frozen-right {
+      position: sticky;
+      right: 0;
     }
   }
 
@@ -391,7 +467,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
     // Change Cell Borders/BG
     .ids-data-grid-cell {
-      border-left: 0;
+      border-inline-start-width: 0;
       border-top: 1px solid var(--ids-color-palette-slate-20);
 
       &.readonly {
@@ -427,9 +503,15 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   }
 }
 
+// Used for Frozen Columns
+.ids-data-grid-body,
+.ids-data-grid-header {
+  min-width: fit-content;
+}
+
 // Standalone Css Borders
 table.ids-data-grid {
-  outline: 1px solid var(--ids-color-palette-azure-30);
+  outline: 1px solid var(--ids-color-palette-slate-30);
 }
 
 // Dark Theme
@@ -464,6 +546,10 @@ table.ids-data-grid {
 
     &.readonly {
       @include bg-slate-70();
+    }
+
+    &.frozen {
+      @include bg-slate-90();
     }
 
     .ids-data-grid-checkbox {
@@ -676,21 +762,21 @@ table.ids-data-grid {
   // Hide first/last border
   .ids-data-grid-cell {
     &:first-child {
-      border-left-style: solid;
+      border-inline-end-width: 1px;
     }
 
     &:last-child {
-      border-left-style: hidden;
+      border-inline-start-width: 0;
     }
   }
 
   .ids-data-grid-header-cell {
     &:first-child {
-      border-left-style: solid;
+      border-inline-end-width: 1px;
     }
 
     &:last-child {
-      border-left-style: hidden;
+      border-inline-start-width: 0;
     }
 
     &.align-right .ids-data-grid-header-cell-content,

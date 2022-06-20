@@ -29,6 +29,9 @@
   - link: columns-formatters.html
     type: Example
     description: Showing every formatter
+  - link: columns-frozen.html
+    type: Example
+    description: Showing frozen columns
   - link: columns-groups.html
     type: Example
     description: Showing column groups (grouped headers)

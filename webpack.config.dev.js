@@ -19,7 +19,6 @@ module.exports = {
   },
   mode: isProduction ? 'production' : 'development',
   optimization: {
-    moduleIds: 'deterministic',
     splitChunks: {
       chunks: 'async'
     },

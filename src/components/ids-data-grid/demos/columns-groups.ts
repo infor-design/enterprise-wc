@@ -36,51 +36,59 @@ if (dataGrid) {
       name: 'Description',
       field: 'description',
       sortable: true,
-      formatter: dataGrid.formatters.text
+      formatter: dataGrid.formatters.text,
+      resizable: true,
     });
     columns.push({
       id: 'ledger',
       name: 'Ledger',
       field: 'ledger',
       formatter: dataGrid.formatters.text,
+      resizable: true,
       hidden: true
     });
     columns.push({
       id: 'publishDate',
       name: 'Pub. Date',
       field: 'publishDate',
-      formatter: dataGrid.formatters.date
+      formatter: dataGrid.formatters.date,
+      resizable: true,
     });
     columns.push({
       id: 'publishTime',
       name: 'Pub. Time',
       field: 'publishDate',
-      formatter: dataGrid.formatters.time
+      formatter: dataGrid.formatters.time,
+      resizable: true,
     });
     columns.push({
       id: 'price',
       name: 'Price',
       field: 'price',
       formatter: dataGrid.formatters.decimal,
+      resizable: true,
       formatOptions: { locale: 'en-US' } // Data Values are in en-US
     });
     columns.push({
       id: 'bookCurrency',
       name: 'Currency',
       field: 'bookCurrency',
-      formatter: dataGrid.formatters.text
+      formatter: dataGrid.formatters.text,
+      resizable: true,
     });
     columns.push({
       id: 'transactionCurrency',
       name: 'Transaction Currency',
       field: 'transactionCurrency',
       formatter: dataGrid.formatters.text,
+      resizable: true,
     });
     columns.push({
       id: 'integer',
       name: 'Price (Int)',
       field: 'price',
       formatter: dataGrid.formatters.integer,
+      resizable: true,
       formatOptions: { locale: 'en-US' } // Data Values are in en-US
     });
     columns.push({
@@ -88,43 +96,50 @@ if (dataGrid) {
       name: 'Location',
       field: 'location',
       formatter: dataGrid.formatters.hyperlink,
+      resizable: true,
       href: '#'
     });
     columns.push({
       id: 'postHistory',
       name: 'Post History',
       field: 'postHistory',
-      formatter: dataGrid.formatters.text
+      formatter: dataGrid.formatters.text,
+      resizable: true,
     });
     columns.push({
       id: 'active',
       name: 'Active',
       field: 'active',
-      formatter: dataGrid.formatters.text
+      formatter: dataGrid.formatters.text,
+      resizable: true,
     });
     columns.push({
       id: 'convention',
       name: 'Convention',
       field: 'convention',
-      formatter: dataGrid.formatters.text
+      formatter: dataGrid.formatters.text,
+      resizable: true,
     });
     columns.push({
       id: 'methodSwitch',
       name: 'Method Switch',
       field: 'methodSwitch',
-      formatter: dataGrid.formatters.text
+      formatter: dataGrid.formatters.text,
+      resizable: true,
     });
     columns.push({
       id: 'trackDeprecationHistory',
       name: 'Track Deprecation History',
       field: 'trackDeprecationHistory',
-      formatter: dataGrid.formatters.dropdown
+      formatter: dataGrid.formatters.dropdown,
+      resizable: true,
     });
     columns.push({
       id: 'useForEmployee',
       name: 'Use For Employee',
       field: 'useForEmployee',
       formatter: dataGrid.formatters.password,
+      resizable: true,
       hidden: true
     });
     columns.push({
@@ -132,6 +147,7 @@ if (dataGrid) {
       name: 'Deprecation History',
       field: 'deprecationHistory',
       formatter: dataGrid.formatters.text,
+      resizable: true,
       hidden: true
     });
 

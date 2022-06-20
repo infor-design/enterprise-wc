@@ -92,4 +92,6 @@ export interface IdsDataGridColumn {
   align?: string;
   /** Seperately align the header to either `left`, `center` or `right` */
   headerAlign?: string;
+  /** Freeze the columns to either the `left` or `right` sides */
+  frozen?: string;
 }

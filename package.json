@@ -18,6 +18,7 @@
     "build:demos:verbose": "npx webpack --config ./webpack.config.dev.js --progress profile",
     "build:stats": "npx rimraf build/dist/production && npx webpack --config ./webpack.config.dist.js --mode production",
     "start": "npx rimraf build/development && node --max-old-space-size=8192 node_modules/webpack/bin/webpack serve --live-reload --open --config ./webpack.config.dev.js",
+    "start:filter": "npm --components=data-grid run start",
     "start:watch": "nodemon --watch webpack.config.dev.js --exec \"npx webpack serve --config ./webpack.config.dev.js\"",
     "lint": "npx eslint src test && npx stylelint src/**/**/*.scss --config .stylelintrc.json && npm run mdlint && npx htmlhint 'src/**/*.html'",
     "mdlint": "npx remark . -f",

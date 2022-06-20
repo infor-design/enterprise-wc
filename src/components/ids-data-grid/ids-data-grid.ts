@@ -223,7 +223,7 @@ export default class IdsDataGrid extends Base {
     const html = `
       <div class="ids-data-grid-header" role="rowgroup" part="header">
         <div role="row" class="ids-data-grid-row">
-          ${this.visibleColumns.map((columnData: any) => `${this.headerCellTemplate(columnData)}`).join('')}
+          ${this.visibleColumns.map((columnData: any, index: number) => `${this.headerCellTemplate(columnData, index)}`).join('')}
         </div>
       </div>
     `;
@@ -234,9 +234,10 @@ export default class IdsDataGrid extends Base {
   /**
    * Returns the markup for a header cell.
    * @param {IdsDataGridColumn} column The column info
+   * @param {number} index The column index
    * @returns {string} The resuling header cell template
    */
-  headerCellTemplate(column: IdsDataGridColumn) {
+  headerCellTemplate(column: IdsDataGridColumn, index: number) {
     const selectionCheckBoxTemplate = `
       <span class="ids-data-grid-checkbox-container">
         <span
@@ -283,11 +284,16 @@ export default class IdsDataGrid extends Base {
       align = ` align-${column.headerAlign}`;
     }
 
+    // Frozen Classes
+    const lastFrozen = this.leftFrozenColumns.length;
+    const frozen = column?.frozen ? ` frozen frozen-${column?.frozen}${index === lastFrozen ? ' frozen-last' : ''}` : '';
+
     // Header cell template
     const html = `
       <span
-        class="ids-data-grid-header-cell${align}"
+        class="ids-data-grid-header-cell${align}${frozen}"
         part="header-cell"
+        aria-colindex="${index + 1}"
         column-id="${column.id}"
         role="columnheader"
       >
@@ -353,18 +359,20 @@ export default class IdsDataGrid extends Base {
    * Return the row's markup
    * @private
    * @param {Record<string, unknown>} row The row data object
-   * @param {number} index [description]
+   * @param {number} index The row index for aria
    * @returns {string} The html string for the row
    */
   rowTemplate(row: Record<string, unknown>, index: number) {
     let rowClasses = `${row?.rowSelected ? ' selected' : ''}`;
-    rowClasses += `${row?.rowSelected ? ' mixed' : ''}`;
+    rowClasses += `${row?.rowSelected && this.rowSelection === 'mixed' ? ' mixed' : ''}`;
     rowClasses += `${row?.rowActivated ? ' activated' : ''}`;
+
+    const frozenLast = this.leftFrozenColumns.length;
 
     return `
       <div role="row" part="row" aria-rowindex="${index + 1}" class="ids-data-grid-row${rowClasses}">
         ${this.visibleColumns.map((column: IdsDataGridColumn, j: number) => `
-          <span role="cell" part="${this.#cssPart(column, index, j)}" class="ids-data-grid-cell${column?.readonly ? ` readonly` : ``}${column?.align ? ` align-${column?.align}` : ``}" aria-colindex="${j + 1}">
+          <span role="cell" part="${this.#cssPart(column, index, j)}" class="ids-data-grid-cell${column?.readonly ? ` readonly` : ``}${column?.align ? ` align-${column?.align}` : ``}${column?.frozen ? ` frozen frozen-${column?.frozen}${j === frozenLast ? ' frozen-last' : ''}` : ``}" aria-colindex="${j + 1}">
             ${this.cellTemplate(row, column, index + 1, this)}
           </span>
         `).join('')}
@@ -431,6 +439,8 @@ export default class IdsDataGrid extends Base {
     this.offEvent('click.body', body);
     this.onEvent('click.body', body, (e: any) => {
       const cell = (e.target as any).closest('.ids-data-grid-cell');
+      if (!cell) return;
+
       const cellNum = cell.getAttribute('aria-colindex') - 1;
       const row = cell.parentNode;
       const rowNum = row.getAttribute('aria-rowindex') - 1;
@@ -567,8 +577,9 @@ export default class IdsDataGrid extends Base {
     });
 
     // Handle Selection
-    this.listen([' '], this, () => {
+    this.listen([' '], this, (e: Event) => {
       this.#handleRowSelection(this.rowByIndex(this.activeCell.row));
+      e.preventDefault();
     });
     return this;
   }
@@ -580,10 +591,11 @@ export default class IdsDataGrid extends Base {
    */
   #setColumnWidths() {
     let colWidths = '';
+    const total = this.visibleColumns.length;
 
-    this.visibleColumns.forEach((column: IdsDataGridColumn) => {
+    this.visibleColumns.forEach((column: IdsDataGridColumn, index: number) => {
       // Special Columns
-      if (column.id === 'selectionCheckbox' || column.id === 'selectionRadio') {
+      if ((column.id === 'selectionCheckbox' || column.id === 'selectionRadio') && !column.width) {
         column.width = 45;
       }
       // Percent Columns
@@ -602,6 +614,10 @@ export default class IdsDataGrid extends Base {
       if (!column.width) {
         colWidths += `minmax(110px, 1fr) `;
       }
+
+      if (column?.frozen && index > 0 && index < total - 1) {
+        this.container.style.setProperty(`--ids-data-grid-frozen-column-left-width-${index + 1}`, `${this.visibleColumns[index - 1].width}px`);
+      }
     });
 
     this.container.style.setProperty('--ids-data-grid-column-widths', colWidths);
@@ -609,7 +625,7 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
-   * Set one column's width
+   * Set one column's width (used for resizing)
    * @param {string} columnId The column id
    * @param {number} width The column id (or field) to sort
    */
@@ -704,16 +720,40 @@ export default class IdsDataGrid extends Base {
 
   /**
    * Get the visible column data (via hidden attributes)
-   * @returns {object} The visible column data
+   * @returns {Array<IdsDataGridColumn>} The visible column data
    */
   get visibleColumns(): Array<IdsDataGridColumn> {
     return this.columns?.filter((column: IdsDataGridColumn) => !column.hidden);
   }
 
   /**
+   * Get the columns frozen on the right
+   * @returns {Array<IdsDataGridColumn>} The frozen column data
+   */
+  get rightFrozenColumns(): Array<IdsDataGridColumn> {
+    return this.columns?.filter((column: IdsDataGridColumn) => !column.hidden && column.frozen === 'right');
+  }
+
+  /**
+   * Get the columns frozen on the left
+   * @returns {Array<IdsDataGridColumn>} The frozen column data
+   */
+  get leftFrozenColumns(): Array<IdsDataGridColumn> {
+    return this.columns?.filter((column: IdsDataGridColumn) => !column.hidden && column.frozen === 'right');
+  }
+
+  /**
+   * Return true if any columns are frozen
+   * @returns {Array<IdsDataGridColumn>} The frozen column data
+   */
+  get hasFrozenColumns(): boolean {
+    return this.leftFrozenColumns.length > 0 || this.rightFrozenColumns.length > 0;
+  }
+
+  /**
    * Get column data by given column header element
    * @param {HTMLElement} elem The column header element
-   * @returns {object} The column data
+   * @returns {IdsDataGridColumn} The column data
    */
   columnDataByHeaderElem(elem: HTMLElement) {
     const columnId = elem?.getAttribute('column-id');
@@ -1241,7 +1281,6 @@ export default class IdsDataGrid extends Base {
    * @returns {object} the current active cell
    */
   setActiveCell(cell: number, row: number, nofocus?: boolean) {
-    // TODO Hidden Columns
     if (row < 0 || cell < 0 || row > this.data.length - 1 || cell > this.visibleColumns.length - 1) {
       return this.activeCell;
     }
