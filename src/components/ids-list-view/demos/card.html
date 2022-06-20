@@ -8,7 +8,7 @@
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
     <ids-layout-grid auto="true">
-      <ids-text font-size="12" type="h1">List View</ids-text>
+      <ids-text font-size="12" type="h1">List View - wrapped in ids-card</ids-text>
     </ids-layout-grid>
 
     <ids-layout-grid cols="2" gap="xl">
@@ -19,13 +19,20 @@
             <ids-text font-size="20" type="h2">Product List</ids-text>
           </div>
           <div slot="card-content">
-            <ids-list-view id="card-example">
+            <ids-list-view
+              id="demo-lv-card"
+              pagination="client-side"
+              page-size="10",
+              pager-container="#lv-card-footer"
+            >
               <template>
                 <ids-text font-size="16" type="h2">${productName}</ids-text>
                 <ids-text font-size="12" type="span">Count: ${units}</ids-text>
                 <ids-text font-size="12" type="span">Price: $ ${unitPrice}</ids-text>
               </template>
             </ids-list-view>
+          </div>
+          <div slot="card-footer" id="lv-card-footer" no-padding>
           </div>
         </ids-card>
         </div>

@@ -24,8 +24,11 @@ export default class IdsHidden extends Base {
    */
   static get attributes(): Array<string> {
     return [
+      attributes.CONDITION,
       attributes.HIDE_UP,
-      attributes.HIDE_DOWN
+      attributes.HIDE_DOWN,
+      attributes.VALUE,
+      attributes.VISIBLE,
     ];
   }
 
@@ -101,9 +104,11 @@ export default class IdsHidden extends Base {
   set visible(val: boolean) {
     const isValTruthy = stringToBool(val);
     if (isValTruthy) {
-      this.setAttribute('visible', true);
+      this.setAttribute(attributes.VISIBLE, true);
+      this.hidden = false;
     } else {
-      this.removeAttribute('visible');
+      this.removeAttribute(attributes.VISIBLE);
+      this.hidden = true;
     }
   }
 
@@ -114,7 +119,55 @@ export default class IdsHidden extends Base {
    * @memberof IdsHidden
    */
   get visible() {
-    return this.getAttribute('visible');
+    return this.getAttribute(attributes.VISIBLE);
+  }
+
+  /**
+   * Set the compare condition
+   * @param {string} val the value to compare
+   * @memberof IdsHidden
+   */
+  set condition(val: string) {
+    if (val) {
+      this.setAttribute(attributes.CONDITION, val);
+    } else {
+      this.removeAttribute(attributes.CONDITION);
+    }
+    this.checkCompare();
+  }
+
+  /**
+   * Get the compare condition
+   * @returns {boolean} visible
+   * @readonly
+   * @memberof IdsHidden
+   */
+  get condition() {
+    return this.getAttribute(attributes.CONDITION);
+  }
+
+  /**
+   * Set the compare value
+   * @param {boolean} val the value to compare
+   * @memberof IdsHidden
+   */
+  set value(val: string) {
+    if (val) {
+      this.setAttribute(attributes.VALUE, val === 'undefined' ? '' : val);
+    } else {
+      this.removeAttribute(attributes.VALUE);
+    }
+    this.checkCompare();
+  }
+
+  /**
+   * Get the compare value
+   * @returns {string} the value to compare
+   * @readonly
+   * @memberof IdsHidden
+   */
+  get value() {
+    return this.getAttribute(attributes.VALUE);
   }
 
   /**
@@ -124,6 +177,37 @@ export default class IdsHidden extends Base {
    */
   checkScreen(mq: MediaQueryList) {
     if (mq.matches) {
+      this.hidden = true;
+      this.removeAttribute('visible');
+    } else {
+      this.removeAttribute('hidden');
+      this.setAttribute('visible', true);
+    }
+  }
+
+  /**
+   * Check value agains the comparison
+   * @memberof IdsHidden
+   */
+  checkCompare() {
+    let condition: string | boolean = this.condition;
+    let value: string | boolean = this.value;
+    let isMatch = false;
+    value = value === 'undefined' ? '' : value;
+    if (condition === 'false' || condition === 'true') {
+      condition = stringToBool(condition);
+      value = (value === 'false' || value === 'true') ? stringToBool(value) : value;
+      if (condition && value) {
+        isMatch = true;
+      }
+      if (!condition && !value) {
+        isMatch = true;
+      }
+    } else {
+      isMatch = this.value === this.condition;
+    }
+
+    if (isMatch) {
       this.hidden = true;
       this.removeAttribute('visible');
     } else {

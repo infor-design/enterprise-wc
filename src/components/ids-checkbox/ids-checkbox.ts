@@ -54,6 +54,13 @@ export default class IdsCheckbox extends Base {
   }
 
   /**
+   * Internal change event detection trigger.
+   * @private
+   * @type {boolean}
+   */
+  #triggeredChange = false;
+
+  /**
    * Custom Element `attributeChangedCallback` implementation
    * @param {string} name The name of attribute changed
    * @param {any} oldValue The old value
@@ -111,7 +118,7 @@ export default class IdsCheckbox extends Base {
       <div${rootClass}${color} part="root">
         <label${labelClass} part="label">
           <input part="input" type="checkbox"${checkboxClass}${disabled}${checked}>
-          <span class="checkmark${checked}"></span>
+          <span class="checkmark${checked}" part="checkmark"></span>
           <ids-text${audible} class="label-checkbox" part="label-checkbox">${this.label}</ids-text>
         </label>
       </div>
@@ -126,6 +133,7 @@ export default class IdsCheckbox extends Base {
   attachCheckboxChangeEvent(): void {
     this.onEvent('change', this.input, (e: Event) => {
       this.indeterminate = false;
+      this.#triggeredChange = true;
       this.checked = this.input.checked;
       this.triggerEvent(e.type, this, {
         detail: {
@@ -144,9 +152,10 @@ export default class IdsCheckbox extends Base {
    * @returns {void}
    */
   attachNativeEvents(): void {
-    const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
+    const events = ['focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       this.onEvent(evt, this.input, (e: Event) => {
+        e.stopPropagation();
         this.triggerEvent(e.type, this, {
           detail: {
             elem: this,
@@ -176,6 +185,9 @@ export default class IdsCheckbox extends Base {
   set checked(value: boolean | string) {
     const checkmark = this.shadowRoot.querySelector('.checkmark');
     const val = stringToBool(value);
+    if (this.checked === val) {
+      return;
+    }
     if (val) {
       this.setAttribute(attributes.CHECKED, val);
       checkmark?.classList.add(attributes.CHECKED);
@@ -189,6 +201,11 @@ export default class IdsCheckbox extends Base {
         this.input.checked = false;
       }
     }
+
+    if (!this.#triggeredChange && this.input) {
+      this.triggerEvent('change', this.input, { bubbles: true });
+    }
+    this.#triggeredChange = false;
   }
 
   get checked(): boolean | string { return this.getAttribute(attributes.CHECKED); }

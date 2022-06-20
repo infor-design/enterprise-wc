@@ -45,8 +45,9 @@ export default class IdsPagerButton extends Base {
     return [
       attributes.DISABLED,
       attributes.FIRST,
-      attributes.LAST,
+      attributes.LABEL,
       attributes.LANGUAGE,
+      attributes.LAST,
       attributes.NAV_DISABLED,
       attributes.NEXT,
       attributes.PAGE_NUMBER,
@@ -252,6 +253,22 @@ export default class IdsPagerButton extends Base {
   }
 
   /**
+   * Set the aria label text
+   * @param {string} value The label text
+   */
+  set label(value: string) {
+    if (value) {
+      this.setAttribute(attributes.LABEL, value);
+    } else {
+      this.removeAttribute(attributes.LABEL);
+    }
+  }
+
+  get label() {
+    return this.getAttribute(attributes.LABEL);
+  }
+
+  /**
    * Handles click functionality dependent on whether this
    * button is disabled and the type of button it is set to;
    * will bubble up an appropriate event to parent ids-pager
@@ -317,7 +334,7 @@ export default class IdsPagerButton extends Base {
           this.removeAttribute(type);
         }
       }
-      this.button?.button?.setAttribute?.('aria-label', attribute);
+      this.button?.button?.setAttribute?.('aria-label', this.label || attribute);
     } else {
       this.removeAttribute(attribute);
     }

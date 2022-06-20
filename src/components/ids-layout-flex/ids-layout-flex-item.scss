@@ -1,0 +1,31 @@
+/* Ids Layout Flex Item Component */
+
+// Align-self
+$align-self-list: auto baseline center stretch flex-start flex-end;
+
+@each $align-self in $align-self-list {
+  :host([align-self='#{$align-self}']),
+  .ids-layout-flex-item-align-self-#{$align-self} {
+    align-self: $align-self;
+  }
+}
+
+// Flex-grow
+$flex-grow-list: 0 1;
+
+@each $flex-grow in $flex-grow-list {
+  :host([grow='#{$flex-grow}']),
+  .ids-layout-flex-item-grow-#{$flex-grow} {
+    flex-grow: $flex-grow;
+  }
+}
+
+// Flex-shrink
+$flex-shrink-list: 0 1;
+
+@each $flex-shrink in $flex-shrink-list {
+  :host([shrink='#{$flex-shrink}']),
+  .ids-layout-flex-item-shrink-#{$flex-shrink} {
+    flex-shrink: $flex-shrink;
+  }
+}
