@@ -60,16 +60,6 @@ export default class IdsCalendar extends Base {
   }
 
   /**
-   * Allows setting async function to fetch calendar event data
-   * Passes startDate and endDate as callback arguments
-   * @param {Function} fn Async function
-   */
-  set beforeEventsRender(fn: (startDate: Date, endDate: Date) => Promise<CalendarEventData[]>) {
-    this.state.beforeEventsRender = fn;
-    this.renderEventsData();
-  }
-
-  /**
    * Setting for calendar details pane
    * @param {boolean|string} val show/hides details
    */
@@ -79,7 +69,7 @@ export default class IdsCalendar extends Base {
       this.updateEventDetails(this.state.selected);
       this.container.classList.add('show-details');
     } else {
-      this.container.querySelector('#calendar-details-pane').innerHTML = '';
+      this.container.querySelector('.calendar-details-pane').innerHTML = '';
       this.removeAttribute(attributes.SHOW_DETAILS);
       this.container.classList.remove('show-details');
     }
@@ -124,8 +114,11 @@ export default class IdsCalendar extends Base {
 
     if (isValidDate(date)) {
       this.activeDate = date;
-      this.changeView(this.state.view);
       this.setAttribute(attributes.DATE, val);
+      if (!this.state.skipRender) {
+        this.changeView(this.state.view);
+        this.updateEventDetails();
+      }
     } else {
       this.removeAttribute(attributes.DATE);
     }
@@ -157,9 +150,9 @@ export default class IdsCalendar extends Base {
   template(): string {
     return `
       <div class="ids-calendar">
-        <div id="calendar-legend-pane"><slot name="legend"></slot></div>
-        <div id="calendar-view-pane"></div>
-        <div id="calendar-details-pane"></div>
+        <div class="calendar-legend-pane"><slot name="legend"></slot></div>
+        <div class="calendar-view-pane"></div>
+        <div class="calendar-details-pane"></div>
       </div>
     `;
   }
@@ -215,18 +208,25 @@ export default class IdsCalendar extends Base {
   #attachEventHandlers(): void {
     this.onEvent('dayselected', this.container, (evt: CustomEvent) => {
       evt.stopPropagation();
-      this.activeDate = evt.detail.date || this.activeDate;
+      this.#updateActiveDate(evt.detail.date);
       this.state.selected = evt.detail?.events || [];
       this.updateEventDetails(evt.detail?.events);
     });
 
     this.onEvent('viewchange', this.container, (evt: CustomEvent) => {
       evt.stopPropagation();
-      this.activeDate = evt.detail.date || this.activeDate;
+      this.#updateActiveDate(evt.detail.date);
       this.changeView(evt.detail.view);
+      this.renderEventsData();
     });
 
-    this.onEvent('change', this.container.querySelector('#calendar-legend-pane'), (evt: any) => {
+    this.onEvent('datechange', this.container, (evt: CustomEvent) => {
+      evt.stopPropagation();
+      this.#updateActiveDate(evt.detail.date);
+      this.renderEventsData();
+    });
+
+    this.onEvent('change', this.container.querySelector('.calendar-legend-pane'), (evt: any) => {
       evt.stopPropagation();
       this.#toggleEventType(evt.detail.elem, evt.detail.checked);
       this.relayCalendarData();
@@ -236,8 +236,9 @@ export default class IdsCalendar extends Base {
     this.onEvent('overflow-click', this.container, (evt: CustomEvent) => {
       evt.stopPropagation();
       if (evt.detail.date) {
-        this.activeDate = evt.detail.date;
+        this.#updateActiveDate(evt.detail.date);
         this.changeView('day');
+        this.updateEventDetails(this.state.selected);
       }
     });
 
@@ -266,8 +267,6 @@ export default class IdsCalendar extends Base {
    * @param {CalendarViewTypes} view month | week | day
    */
   changeView(view: CalendarViewTypes = 'month'): void {
-    if (this.state.view === view) return;
-
     const template = view === 'month'
       ? this.#createMonthTemplate()
       : this.#createWeekTemplate(view === 'day');
@@ -275,7 +274,6 @@ export default class IdsCalendar extends Base {
     this.insertViewTemplate(template);
     this.relayCalendarData();
     this.state.view = view;
-    this.updateEventDetails(this.state.selected);
   }
 
   /**
@@ -283,7 +281,7 @@ export default class IdsCalendar extends Base {
    * @param {string} template view component template
    */
   insertViewTemplate(template: string): void {
-    const container = this.container.querySelector('#calendar-view-pane');
+    const container = this.container.querySelector('.calendar-view-pane');
     container.innerHTML = template;
   }
 
@@ -298,6 +296,30 @@ export default class IdsCalendar extends Base {
       viewElem.eventsData = eventsData;
       viewElem.eventTypesData = this.eventTypesData;
     }
+  }
+
+  /**
+   * Updates active date
+   * Reflects date attribute without re-render
+   * @param {Date} date active date
+   */
+  #updateActiveDate(date: Date): void {
+    this.state.skipRender = true;
+    date = date || this.activeDate;
+    const dateAttr = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+    this.setAttribute('date', dateAttr);
+    this.state.skipRender = false;
+  }
+
+  #getSelectedEvents(): CalendarEventData[] {
+    // if month view, query events and update details
+    const view = this.getView();
+    if (view && view.tagName === 'IDS-MONTH-VIEW') {
+      this.state.selected = view.getActiveDayEvents();
+      return this.state.selected;
+    }
+
+    return [];
   }
 
   /**
@@ -427,7 +449,7 @@ export default class IdsCalendar extends Base {
    * @param {CalendarEventData[]} selected selected calendar events data
    */
   updateEventDetails(selected?: CalendarEventData[]): void {
-    const container = this.container.querySelector('#calendar-details-pane');
+    const container = this.container.querySelector('.calendar-details-pane');
     if (!this.showDetails || !container) return;
 
     // if not month view, clear details container
@@ -437,7 +459,7 @@ export default class IdsCalendar extends Base {
       return;
     }
 
-    selected = selected || [];
+    selected = selected || this.#getSelectedEvents() || [];
     selected = this.#filterEventsByType(selected);
     const details = selected.map((event: CalendarEventData) => this.#formatDetailData(event));
 
@@ -509,7 +531,8 @@ export default class IdsCalendar extends Base {
         name: item.label,
         color: `${item.color}-60`,
         dayOfWeek: [],
-        cssClass: 'event-type'
+        cssClass: 'event-type',
+        fontSize: 14
       }));
     }
 
@@ -531,6 +554,31 @@ export default class IdsCalendar extends Base {
     }
   }
 
+  get startDate(): Date {
+    const start = this.getView().startDate;
+
+    if (!start) {
+      const date = new Date(this.activeDate);
+      date.setDate(1);
+      return date;
+    }
+
+    return start;
+  }
+
+  get endDate(): Date {
+    const end = this.getView().endDate;
+
+    if (!end) {
+      const date = new Date(this.activeDate);
+      date.setMonth(date.getMonth() + 1);
+      date.setDate(0);
+      return date;
+    }
+
+    return end;
+  }
+
   /**
    * Renders calendar events
    * @param {boolean} forceRender skip events fetch and render data
@@ -545,6 +593,6 @@ export default class IdsCalendar extends Base {
     if (!Array.isArray(this.eventsData)) return;
 
     this.relayCalendarData();
-    this.updateEventDetails(this.state.selected);
+    this.updateEventDetails();
   }
 }

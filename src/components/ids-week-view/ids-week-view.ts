@@ -287,6 +287,7 @@ export default class IdsWeekView extends Base {
     });
 
     this.state.activeDate = this.startDate;
+    this.triggerDateChange(this.startDate);
     this.#attachDatepicker();
   }
 
@@ -964,15 +965,5 @@ export default class IdsWeekView extends Base {
     }
 
     this.#renderTimeline();
-  }
-
-  /**
-   * Allows setting async function to fetch calendar event data
-   * Passes startDate and endDate as callback arguments
-   * @param {Function} fn Async function
-   */
-  set beforeEventsRender(fn: (startDate: Date, endDate: Date) => Promise<CalendarEventData[]>) {
-    this.state.beforeEventsRender = fn;
-    this.renderEventsData();
   }
 }

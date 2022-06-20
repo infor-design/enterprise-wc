@@ -52,6 +52,16 @@ const IdsCalendarEventsMixin = (superclass: any) => class extends superclass {
   }
 
   /**
+   * Allows setting async function to fetch calendar event data
+   * Passes startDate and endDate as callback arguments
+   * @param {Function} fn Async function
+   */
+  set beforeEventsRender(fn: (startDate: Date, endDate: Date) => Promise<CalendarEventData[]>) {
+    this.state.beforeEventsRender = fn;
+    this.renderEventsData();
+  }
+
+  /**
    * Sets whether view picker is visible in toolbar
    * @param {string|boolean} value show view picker if true
    */
@@ -107,7 +117,7 @@ const IdsCalendarEventsMixin = (superclass: any) => class extends superclass {
   }
 
   /**
-   * Create view picker template
+   * Create view picker template used in month/week views
    * @param {string} view month | week \ day
    * @returns {string} view picker template
    */
@@ -136,6 +146,11 @@ const IdsCalendarEventsMixin = (superclass: any) => class extends superclass {
     `;
   }
 
+  /**
+   * Trigger viewchange event used in month/week views
+   * @param {string} view moth | week | day
+   * @param {Date} activeDate date
+   */
   triggerViewChange(view: 'month' | 'week' | 'day', activeDate?: Date): void {
     if (!view) return;
 
@@ -145,6 +160,15 @@ const IdsCalendarEventsMixin = (superclass: any) => class extends superclass {
         elem: this,
         date: activeDate
       },
+      bubbles: true,
+      cancelable: true,
+      composed: true
+    });
+  }
+
+  triggerDateChange(date: Date) {
+    this.triggerEvent('datechange', this, {
+      detail: { date },
       bubbles: true,
       cancelable: true,
       composed: true

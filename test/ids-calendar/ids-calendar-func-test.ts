@@ -220,7 +220,7 @@ describe('IdsCalendar Component', () => {
   });
 
   it('updates event type checked states when change event is triggered', () => {
-    const wrapper = component.container.querySelector('#calendar-legend-pane');
+    const wrapper = component.container.querySelector('.calendar-legend-pane');
     const elem = document.createElement('input');
     const checked = false;
 

@@ -69,23 +69,23 @@
   width: 100%;
 }
 
-#calendar-legend-pane,
-#calendar-details-pane {
+.calendar-legend-pane,
+.calendar-details-pane {
   display: none;
   width: 220px;
   height: auto;
 }
 
-.ids-calendar.show-legend #calendar-legend-pane,
-.ids-calendar.show-details #calendar-details-pane {
+.ids-calendar.show-legend .calendar-legend-pane,
+.ids-calendar.show-details .calendar-details-pane {
   display: block;
 }
 
-#calendar-view-pane {
+.calendar-view-pane {
   flex-grow: 1;
 }
 
-#calendar-details-pane {
+.calendar-details-pane {
   @include palette-colors('ids-accordion-header', background-color, '::part(header)');
 
   ids-accordion-header::part(header) {
@@ -168,12 +168,12 @@ ids-accordion-panel::part(content) {
     display: block;
   }
 
-  .ids-calendar.show-legend #calendar-legend-pane {
+  .ids-calendar.show-legend .calendar-legend-pane {
     display: none;
   }
 
-  #calendar-view-pane,
-  #calendar-details-pane {
+  .calendar-view-pane,
+  .calendar-details-pane {
     width: 100%;
   }
 }

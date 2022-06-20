@@ -221,6 +221,20 @@ class IdsMonthView extends Base {
         .forEach((item: HTMLElement) => item.classList.remove('range-next', 'range-prev'));
     });
 
+    // Events Overflow click event
+    this.onEvent('click.overflow', this.container, (evt: any) => {
+      if (evt.target.tagName === 'IDS-TEXT' && evt.target.classList.contains('events-overflow')) {
+        evt.stopPropagation();
+        const date = new Date(evt.target.getAttribute('data-date'))
+        this.triggerEvent('overflow-click', this, {
+          detail: { date },
+          bubbles: true,
+          cancelable: true,
+          composed: true
+        });
+      }
+    });
+
     return this;
   }
 
@@ -558,9 +572,9 @@ class IdsMonthView extends Base {
     const template = this.legend.length > 0 ? `
       <div class="month-view-legend">
         ${this.legend.map((item: any) => `
-          <div class="month-view-legend-item">
+          <div class="month-view-legend-item ${item.cssClass || ''}">
             <span class="month-view-legend-swatch" data-color="${item.color}"></span>
-            <ids-text class="month-view-legend-text">${item.name}</ids-text>
+            <ids-text class="month-view-legend-text" ${item.fontSize ? `font-size="${item.fontSize}"` : ''}>${item.name}</ids-text>
           </div>
         `).join('')}
       </div>
@@ -797,6 +811,7 @@ class IdsMonthView extends Base {
       }
     }
 
+    this.triggerDateChange(this.activeDate);
     this.#attachDatepicker();
   }
 
@@ -1192,6 +1207,18 @@ class IdsMonthView extends Base {
   }
 
   /**
+   * Gets calendar events within the selected/active day
+   * @returns {CalendarEventData[]} calendar events data
+   */
+  getActiveDayEvents(): CalendarEventData[] {
+    const activeDay = this.getSelectedDay();
+    const eventElems = activeDay ? [...activeDay.querySelectorAll('ids-calendar-event')] : [];
+    const events = eventElems.map((elem: any) => elem.eventData);
+
+    return events;
+  }
+
+  /**
    * Trigger selected event with current params
    * @returns {void}
    */
@@ -1215,10 +1242,7 @@ class IdsMonthView extends Base {
 
     // For full-sized non datepicker month view
     if (!this.compact && !this.isDatePicker) {
-      const selected = this.getSelectedDay();
-      const eventElems = selected ? [...selected.querySelectorAll('ids-calendar-event')] : [];
-      const events = eventElems.map((elem: any) => elem.eventData);
-      args.detail.events = events;
+      args.detail.events = this.getActiveDayEvents();
     }
 
     this.triggerEvent('dayselected', this, args);
