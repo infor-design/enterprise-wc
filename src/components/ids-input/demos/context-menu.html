@@ -11,6 +11,14 @@
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-popup-menu id="popupmenu" target="#context-menu">
+      <ids-menu-group>
+        <ids-menu-item>Option 1</ids-menu-item>
+        <ids-menu-item>Option 2</ids-menu-item>
+        <ids-menu-item>Option 3</ids-menu-item>
+      </ids-menu-group>
+    </ids-popup-menu>
+
     <ids-layout-grid cols="3" gap="md">
       <ids-layout-grid-cell>
         <ids-layout-grid-cell>
@@ -18,11 +26,11 @@
             id="context-menu"
             placeholder="Type some text"
             size="full"
-            label="Text Input"
+            label="Text Input (With Context Menu)"
           ></ids-input>
         </ids-layout-grid-cell>
       </ids-layout-grid>
-    <ids-popup-menu id="popupmenu" target="#context-menu"></ids-popup-menu>
+    </ids-layout-grid>
   </ids-container>
 </body>
 

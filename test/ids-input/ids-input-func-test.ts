@@ -734,7 +734,7 @@ describe('IdsInput Component', () => {
     input = template.content.childNodes[0];
     document.body.appendChild(input);
     await processAnimFrame();
-    
+
     expect(input.container.classList).toContain('readonly-background');
     input.readonlyBackground = false;
     expect(input.container.classList).not.toContain('readonly-background');
@@ -746,7 +746,7 @@ describe('IdsInput Component', () => {
     input = template.content.childNodes[0];
     document.body.appendChild(input);
     await processAnimFrame();
-    
+
     expect(input.container.classList).toContain('is-active');
     input.active = false;
     expect(input.container.classList).not.toContain('is-active');

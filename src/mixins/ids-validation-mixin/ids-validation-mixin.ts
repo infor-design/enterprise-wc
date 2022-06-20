@@ -550,7 +550,7 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
         const hostCompoment = input.getRootNode().host;
         const val = input.value;
         if (input instanceof Date) {
-          return input && input.getTime && !isNaN(input.getTime());
+          return input && input.getTime && !Number.isNaN(input.getTime());
         }
 
         const parsedDate = hostCompoment.locale.parseDate(val, {});

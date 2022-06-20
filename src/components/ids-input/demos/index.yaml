@@ -36,6 +36,6 @@
     type: Standalone CSS
     description: Showing a input that works with css only
   - link: context-menu.html
-    type: Context menu example
+    type: Example
     description: Showing context menu on input
 

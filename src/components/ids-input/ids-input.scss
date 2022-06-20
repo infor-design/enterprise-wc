@@ -106,7 +106,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
 
   align-items: baseline;
   display: flex;
-
+  	
   // Ability to center label from parent element
   justify-content: inherit;
 
@@ -951,8 +951,10 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   font-weight: var(--ids-number-font-weight-bold);
 }
 
+/* stylelint-disable property-no-vendor-prefix */
 .ids-input-field[type='number']::-webkit-inner-spin-button,
 .ids-input-field[type='number']::-webkit-outer-spin-button {
   appearance: none;
   -webkit-appearance: none;
 }
+/* stylelint-enable property-no-vendor-prefix */
