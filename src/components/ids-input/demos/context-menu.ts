@@ -4,7 +4,7 @@ import '../../ids-popup/ids-popup';
 
 // Example for populating the Popup Menu
 const popupmenuEl: any = document.querySelector('#popupmenu');
-const popupEl = popupmenuEl.popup;
+
 if (popupmenuEl) {
   // Standard menu configuration
   document.addEventListener('DOMContentLoaded', () => {
@@ -13,5 +13,8 @@ if (popupmenuEl) {
     });
   });
 
-  popupEl.align = 'top, left';
+  // Hack for now
+  requestAnimationFrame(() => {
+    popupmenuEl.target = (document.querySelector('#context-menu') as any)?.container.querySelector('input');
+  });
 }
