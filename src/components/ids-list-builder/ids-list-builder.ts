@@ -298,6 +298,9 @@ export default class IdsListBuilder extends Base {
 
       newSwappableItem.setAttribute('selected', '');
       const listItem = newSwappableItem.querySelector('div[part="list-item"]');
+
+      const listItemText = listItem.querySelector('ids-text');
+      listItemText.innerHTML = 'New Value';
       // remove any selected attribute on li that may have propogated from the clone
       if (listItem?.getAttribute('selected')) listItem.removeAttribute('selected');
       this.resetIndices();
