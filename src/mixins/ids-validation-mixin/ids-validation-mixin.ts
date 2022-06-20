@@ -1,8 +1,5 @@
 import { attributes } from '../../core/ids-attributes';
 import { isObjectAndNotEmpty } from '../../utils/ids-object-utils/ids-object-utils';
-import IdsLocale from '../../components/ids-locale/ids-locale';
-
-const locale = new IdsLocale();
 
 export type IdsValidationErrorMessageTypes = {
   /** The unique id in the check messages */
@@ -550,12 +547,13 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
 
     date: {
       check(input: any) {
+        const hostCompoment = input.getRootNode().host;
         const val = input.value;
         if (input instanceof Date) {
           return input && input.getTime && !isNaN(input.getTime());
         }
 
-        const parsedDate = locale.parseDate(val, {});
+        const parsedDate = hostCompoment.locale.parseDate(val, {});
         return !(((parsedDate === undefined) && val !== ''));
       },
       message: 'Invalid Date',
@@ -565,58 +563,17 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
 
     time: {
       check(input: any) {
-        let val = input.value;
-        val = val.replace(/ /g, '');
-        let pattern = locale.calendar('').timeFormat;
+        const hostCompoment = input.getRootNode().host;
+        const val = input.value;
+        const pattern = hostCompoment.locale.calendar(hostCompoment.locale.locale.name).timeFormat;
 
-        const is24Hour = (pattern.match('HH') || pattern.match('H') || []).length > 0;
-        const maxHours = is24Hour ? 24 : 12;
-        const sep = val.indexOf(locale.calendar('').dateFormat.timeSeparator);
-        let valueHours = 0;
-        let valueMins = 0;
-        let valueSecs = 0;
-        let valueM;
-
-        if (val === '') {
-          return true;
-        }
-
-        valueHours = parseInt(val.substring(0, sep), 10);
-        valueMins = parseInt(val.substring(sep + 1, sep + 3), 10);
-
-        if (valueHours.toString().length < 1 || isNaN(valueHours) ||
-          valueHours < 0 || valueHours > maxHours) {
-          return false;
-        }
-        if (valueMins.toString().length < 1 || isNaN(valueMins) ||
-          valueMins < 0 || valueMins > 59) {
-          return false;
-        }
-        if (valueSecs.toString().length < 1 || isNaN(valueSecs) ||
-          valueSecs, 10 < 0 || valueSecs > 59) {
-          return false;
-        }
-
-        // AM/PM
-        if (!is24Hour) {
-          if (valueHours < 1) {
-            return false;
-          }
-          const period0 = new RegExp(locale.calendar('').dayPeriods[0], 'i');
-          const period1 = new RegExp(locale.calendar('').dayPeriods[1], 'i');
-
-          valueM = val.match(period0) || val.match(period1) || [];
-          if (valueM.length === 0) {
-            return false;
-          }
-        }
-
-        return true;
+        const parsedTime = hostCompoment.locale.parseDate(val, { pattern });
+        return !(((parsedTime === undefined) && val !== ''));
       },
       message: 'Invalid Time',
       type: 'error',
       id: 'time'
-    },
+    }
   };
 
   /**
