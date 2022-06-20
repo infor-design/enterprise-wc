@@ -506,9 +506,14 @@
 .ids-month-view.is-date-picker,
 .ids-month-view.is-fullsize {
   .month-view-legend {
-    max-width: 300px;
     text-align: center;
   }
+}
+
+// Legend for month
+.month-view-legend-item.event-type .month-view-legend-swatch {
+  border-radius: 10px;
+  opacity: 1;
 }
 
 // Themes

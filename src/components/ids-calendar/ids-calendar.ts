@@ -8,6 +8,7 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { dateDiff, isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
+import { breakpoints } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
 
 type CalendarEventDetail = {
   subject: string;
@@ -34,6 +35,10 @@ type CalendarViewTypes = 'month' | 'week' | 'day';
 @scss(styles)
 export default class IdsCalendar extends Base {
   activeDate: Date = new Date();
+
+  #mobileBreakpoint = parseInt(breakpoints.md);
+
+  #resizeObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => this.#onResize(entries));
 
   constructor() {
     super();
@@ -71,7 +76,7 @@ export default class IdsCalendar extends Base {
   set showDetails(val: boolean | string) {
     if (stringToBool(val)) {
       this.setAttribute(attributes.SHOW_DETAILS, '');
-      this.updateEventDetails();
+      this.updateEventDetails(this.state.selected);
       this.container.classList.add('show-details');
     } else {
       this.container.querySelector('#calendar-details-pane').innerHTML = '';
@@ -141,6 +146,7 @@ export default class IdsCalendar extends Base {
     this.setDirection();
     this.changeView('month');
     this.#attachEventHandlers();
+    this.#resizeObserver.observe(this.container);
     super.connectedCallback();
   }
 
@@ -210,6 +216,7 @@ export default class IdsCalendar extends Base {
     this.onEvent('dayselected', this.container, (evt: CustomEvent) => {
       evt.stopPropagation();
       this.activeDate = evt.detail.date || this.activeDate;
+      this.state.selected = evt.detail?.events || [];
       this.updateEventDetails(evt.detail?.events);
     });
 
@@ -223,7 +230,7 @@ export default class IdsCalendar extends Base {
       evt.stopPropagation();
       this.#toggleEventType(evt.detail.elem, evt.detail.checked);
       this.relayCalendarData();
-      this.updateEventDetails();
+      this.updateEventDetails(this.state.selected);
     });
 
     this.onEvent('overflow-click', this.container, (evt: CustomEvent) => {
@@ -236,7 +243,7 @@ export default class IdsCalendar extends Base {
 
     // Respond to parent changing locale
     this.onEvent('localechange.week-view-container', this.closest('ids-container'), () => {
-      this.updateEventDetails();
+      this.updateEventDetails(this.state.selected);
     });
   }
 
@@ -268,7 +275,7 @@ export default class IdsCalendar extends Base {
     this.insertViewTemplate(template);
     this.relayCalendarData();
     this.state.view = view;
-    this.updateEventDetails();
+    this.updateEventDetails(this.state.selected);
   }
 
   /**
@@ -431,6 +438,7 @@ export default class IdsCalendar extends Base {
     }
 
     selected = selected || [];
+    selected = this.#filterEventsByType(selected);
     const details = selected.map((event: CalendarEventData) => this.#formatDetailData(event));
 
     container.innerHTML = this.state.isMobile
@@ -465,10 +473,10 @@ export default class IdsCalendar extends Base {
     const accordion = `
       <ids-accordion id="event-types-legend" slot="legend">
         <ids-accordion-panel expanded="true">
-          <ids-accordion-header slot="header" expander-type="caret">
+          <ids-accordion-header slot="header" expander-type="caret" expanded="true">
             <ids-text>Legend</ids-text>
           </ids-accordion-header>
-          <div slot="content">${checkboxes}</div>
+          <div slot="content"><p>${checkboxes}</p></div>
         </ids-accordion-panel>
       </ids-accordion>
     `;
@@ -508,6 +516,26 @@ export default class IdsCalendar extends Base {
     component.legend = legendData;
   }
 
+  /**
+   * Handle resize changes and toggle mobile/desktop elements
+   * @param {ResizeObserverEntry[]} entries resize entries
+   */
+  #onResize(entries: ResizeObserverEntry[]) {
+    const width = entries[0].contentRect.width;
+    const isMobile = width <= this.#mobileBreakpoint;
+
+    if (this.state.isMobile !== isMobile) {
+      this.state.isMobile = isMobile;
+      this.updateEventDetails(this.state.selected);
+      this.#toggleMonthLegend(this.eventTypesData, isMobile);
+    }
+  }
+
+  /**
+   * Renders calendar events
+   * @param {boolean} forceRender skip events fetch and render data
+   * @returns {Promise<CalendarEventData>} calendar events
+   */
   async renderEventsData(forceRender = false) {
     if (!forceRender && typeof this.state.beforeEventsRender === 'function') {
       this.eventsData = await this.state.beforeEventsRender(this.startDate, this.endDate);
@@ -517,6 +545,6 @@ export default class IdsCalendar extends Base {
     if (!Array.isArray(this.eventsData)) return;
 
     this.relayCalendarData();
-    this.updateEventDetails();
+    this.updateEventDetails(this.state.selected);
   }
 }
