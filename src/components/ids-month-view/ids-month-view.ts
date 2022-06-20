@@ -225,7 +225,7 @@ class IdsMonthView extends Base {
     this.onEvent('click.overflow', this.container, (evt: any) => {
       if (evt.target.tagName === 'IDS-TEXT' && evt.target.classList.contains('events-overflow')) {
         evt.stopPropagation();
-        const date = new Date(evt.target.getAttribute('data-date'))
+        const date = new Date(evt.target.getAttribute('data-date'));
         this.triggerEvent('overflow-click', this, {
           detail: { date },
           bubbles: true,

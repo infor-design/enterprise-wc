@@ -166,6 +166,10 @@ const IdsCalendarEventsMixin = (superclass: any) => class extends superclass {
     });
   }
 
+  /**
+   * Triggers date change event used in month/week views
+   * @param {Date} date date
+   */
   triggerDateChange(date: Date) {
     this.triggerEvent('datechange', this, {
       detail: { date },

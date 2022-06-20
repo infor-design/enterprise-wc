@@ -128,7 +128,7 @@ export default class IdsCalendar extends Base {
    * @returns {Date} date
    */
   get date(): Date {
-    const date = new Date(this.getAttribute('date'));
+    const date = new Date(this.getAttribute(attributes.DATE));
     return isValidDate(date) ? date : new Date();
   }
 
@@ -554,6 +554,9 @@ export default class IdsCalendar extends Base {
     }
   }
 
+  /**
+   * @returns {Date} start date
+   */
   get startDate(): Date {
     const start = this.getView().startDate;
 
@@ -566,6 +569,9 @@ export default class IdsCalendar extends Base {
     return start;
   }
 
+  /**
+   * @returns {Date} end date
+   */
   get endDate(): Date {
     const end = this.getView().endDate;
 
