@@ -54,11 +54,6 @@ export default class IdsCalendar extends Base {
     ];
   }
 
-  onEventTypesChange(data: CalendarEventTypeData[]) {
-    this.renderLegend(data);
-    this.#toggleMonthLegend(data, this.state.isMobile);
-  }
-
   /**
    * Setting for calendar details pane
    * @param {boolean|string} val show/hides details
@@ -133,7 +128,7 @@ export default class IdsCalendar extends Base {
   }
 
   /**
-   * Ids Calendar Component life-cycle hook
+   * Ids Calendar Component connected life-cycle hook
    */
   connectedCallback(): void {
     this.setDirection();
@@ -141,6 +136,23 @@ export default class IdsCalendar extends Base {
     this.#attachEventHandlers();
     this.#resizeObserver.observe(this.container);
     super.connectedCallback();
+  }
+
+  /**
+   * Ids Calendar Component disconnected life-cycle hook
+   */
+  disconnectedCallback() {
+    this.#resizeObserver?.disconnect();
+    super.disconnectedCallback?.();
+  }
+
+  /**
+   * Handle event type data changes
+   * @param {CalendarEventTypeData[]} data event types
+   */
+  onEventTypesChange(data: CalendarEventTypeData[]) {
+    this.renderLegend(data);
+    this.#toggleMonthLegend(data, this.state.isMobile);
   }
 
   /**
