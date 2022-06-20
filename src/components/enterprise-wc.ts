@@ -37,6 +37,7 @@ import './ids-hyperlink/ids-hyperlink';
 import './ids-icon/ids-icon';
 import './ids-image/ids-image';
 import './ids-input/ids-input';
+import './ids-layout-flex/ids-layout-flex';
 import './ids-layout-grid/ids-layout-grid';
 import './ids-line-chart/ids-line-chart';
 import './ids-list-box/ids-list-box';

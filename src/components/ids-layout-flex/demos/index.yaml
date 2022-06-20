@@ -1,0 +1,13 @@
+---
+ component: Layout Flex
+ link: ids-layout-flex
+ description: Responsive Flex
+ category: Layouts
+ keywords: List, List View, Listview, Grid, flex, flexbox, Responsively
+ examples:
+  - link: example.html
+    type: Main Example
+    description: Shows a layout grid
+  - link: standalone-css.html
+    type: Standalone CSS
+    description: Showing a layout flex that works with css only

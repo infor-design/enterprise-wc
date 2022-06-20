@@ -1,0 +1,89 @@
+/* Ids Layout Flex Component */
+@import './ids-layout-flex-item';
+
+:host,
+.ids-layout-flex {
+  display: flex;
+}
+
+:host([display='inline-flex']),
+.ids-layout-flex-display-inline-flex {
+  display: inline-flex;
+}
+
+// Align-content
+$align-content-list: flex-start flex-end center space-between space-around space-evenly stretch start end baseline;
+
+@each $align-content in $align-content-list {
+  :host([align-content='#{$align-content}']),
+  .ids-layout-flex-align-content-#{$align-content} {
+    align-content: $align-content;
+  }
+}
+
+// Align-items
+$align-items-list: start end flex-start flex-end center baseline stretch;
+
+@each $align-items in $align-items-list {
+  :host([align-items='#{$align-items}']),
+  .ids-layout-flex-align-items-#{$align-items} {
+    align-items: $align-items;
+  }
+}
+
+// Direction
+$flex-direction-list: row row-reverse column column-reverse;
+
+@each $flex-direction in $flex-direction-list {
+  :host([direction='#{$flex-direction}']),
+  .ids-layout-flex-direction-#{$flex-direction} {
+    flex-direction: $flex-direction;
+  }
+}
+
+// Justify-content
+$justify-content-list: start end flex-start flex-end center left right space-between space-around space-evenly;
+
+@each $justify-content in $justify-content-list {
+  :host([justify-content='#{$justify-content}']),
+  .ids-layout-flex-justify-content-#{$justify-content} {
+    justify-content: $justify-content;
+  }
+}
+
+// Wrap
+$flex-wrap-list: nowrap wrap wrap-reverse;
+
+@each $flex-wrap in $flex-wrap-list {
+  :host([wrap='#{$flex-wrap}']),
+  .ids-layout-flex-wrap-#{$flex-wrap} {
+    flex-wrap: $flex-wrap;
+  }
+}
+
+// Units
+$units: 0 1 2 4 8 12 16 20 24 28 32 36 40;
+
+// Gap for both horizontal and vertical
+@each $gap in $units {
+  :host([gap='#{$gap}']),
+  .ids-layout-flex-gap-#{$gap} {
+    gap: #{$gap}px;
+  }
+}
+
+// Horizontal gap (row-gap)
+@each $gap-x in $units {
+  :host([gap-x='#{$gap-x}']),
+  .ids-layout-flex-gap-x-#{$gap-x} {
+    row-gap: #{$gap-x}px;
+  }
+}
+
+// Vertical gap (column-gap)
+@each $gap-y in $units {
+  :host([gap-y='#{$gap-y}']),
+  .ids-layout-flex-gap-y-#{$gap-y} {
+    column-gap: #{$gap-y}px;
+  }
+}

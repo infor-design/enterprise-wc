@@ -23,6 +23,9 @@
   - link: info.html
     type: Example
     description: Showing cards with various info
+  - link: footer.html
+    type: Example
+    description: Showing cards with footer
   - link: side-by-side.html
     type: Side by Side
     description: Showing a card with a 4.x card
