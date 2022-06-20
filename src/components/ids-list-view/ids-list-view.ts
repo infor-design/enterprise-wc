@@ -635,6 +635,17 @@ export default class IdsListView extends Base {
   }
 
   /**
+   * Toggles the selected list item
+   * @param {any} item the selected list item to toggle
+   */
+  toggleSelectedLi(item: any) {
+    if (!this.selectable || !item) return;
+    if (item.tagName === 'IDS-SWAPPABLE-ITEM') {
+      item.selected = !item.selected;
+    }
+  }
+
+  /**
    * Update data from DOM
    * @returns {void}
    */
@@ -903,13 +914,6 @@ export default class IdsListView extends Base {
 
   get sortable(): boolean {
     return this.boolVal(attributes.SORTABLE, LIST_VIEW_DEFAULTS.sortable);
-  }
-
-  /*
-   * Reset selected list item index
-   */
-  resetSelectedLiIndex() {
-    this.#selectedLiIndex = null;
   }
 
   /**
@@ -1358,14 +1362,6 @@ export default class IdsListView extends Base {
     const p = super.createPlaceholderNode(node);
     p.querySelector('div[part="list-item"]').classList.add('placeholder'); // for styling the placeholder
     return p;
-  }
-
-  /**
-   * Return #selectedLiIndex
-   * @returns {any} selectedLiIndex
-   */
-  getSelectedLiIndex(): any {
-    return this.#selectedLiIndex;
   }
 
   /**

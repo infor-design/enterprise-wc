@@ -240,7 +240,6 @@ export default class IdsListBuilder extends Base {
 
     this.resetIndices();
     this.updateDataFromDOM();
-    this.resetSelectedLiIndex();
 
     for (const index of indexOfItems) {
       const liItem = this.shadowRoot.querySelector(`ids-swappable-item[index="${index}"]`);
