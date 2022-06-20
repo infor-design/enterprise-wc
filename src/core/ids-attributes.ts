@@ -5,7 +5,10 @@ export const attributes = {
   ACTIVE: 'active',
   ADVANCED: 'advanced',
   ALIGN: 'align',
+  ALIGN_CONTENT: 'align-content',
   ALIGN_EDGE: 'align-edge',
+  ALIGN_ITEMS: 'align-items',
+  ALIGN_SELF: 'align-self',
   ALIGN_TARGET: 'align-target',
   ALIGN_X: 'align-x',
   ALIGN_X_LABELS: 'alignXLabels',
@@ -72,6 +75,7 @@ export const attributes = {
   COMPACT: 'compact',
   COMPLETED_LABEL: 'completed-label',
   COMPONENT_NAME: 'component-name',
+  CONDITION: 'condition',
   COPYRIGHT_YEAR: 'copyright-year',
   COUNT: 'count',
   CSS_CLASS: 'css-class',
@@ -83,6 +87,7 @@ export const attributes = {
   DELIMITER: 'delimiter',
   DESCRIPTION: 'description',
   DEVICE_SPECS: 'device-specs',
+  DIRECTION: 'direction',
   DIRTY_TRACKER: 'dirty-tracker',
   DISABLED: 'disabled',
   DISABLE_EVENTS: 'disable-native-events',
@@ -120,17 +125,20 @@ export const attributes = {
   FONT_WEIGHT: 'font-weight',
   FORMAT: 'format',
   FORMATTER_WIDTH: 'formatter-width',
+  FULLSIZE: 'fullsize',
   GAP: 'gap',
   GAP_X: 'gap-x',
   GAP_Y: 'gap-y',
   GROUP: 'group',
   GROUPED: 'grouped',
   GROUP_DISABLED: 'group-disabled',
+  GROW: 'grow',
   HANDLE: 'handle',
   HEIGHT: 'height',
   HEX: 'hex',
   HIDDEN: 'hidden',
   HIDDEN_BY_FILTER: 'hidden-by-filter',
+  HIDE_CHECKBOXES: 'hide-checkboxes',
   HIDE_DOWN: 'hide-down',
   HIDE_UP: 'hide-up',
   HITBOX: 'hitbox',
@@ -149,6 +157,7 @@ export const attributes = {
   IS_DROPDOWN: 'is-dropdown',
   ITEM_HEIGHT: 'item-height',
   JUSTIFY: 'justify',
+  JUSTIFY_CONTENT: 'justify-content',
   KEEP_OPEN: 'keep-open',
   LABEL: 'label',
   LABEL_AUDIBLE: 'label-audible',
@@ -243,6 +252,8 @@ export const attributes = {
   RESET: 'reset',
   RESIZABLE: 'resizable',
   RESIZE_ON_DRAG_END: 'resize-on-drag-end',
+  RESPOND_DOWN: 'respond-down',
+  RESPOND_UP: 'respond-up',
   RESULT: 'result',
   REVEAL: 'reveal',
   REVEALABLE_PASSWORD: 'revealable-password',
@@ -275,6 +286,7 @@ export const attributes = {
   SHOW_TODAY: 'show-today',
   SHOW_TOOLTIP: 'show-tooltip',
   SHOW_VERTICAL_GRID_LINES: 'show-vertical-grid-lines',
+  SHRINK: 'shrink',
   SIZE: 'size',
   SORTABLE: 'sortable',
   SOURCE_FORMATTER: 'source-formatter',
@@ -292,6 +304,8 @@ export const attributes = {
   STICKY: 'sticky',
   SUBMENU: 'submenu',
   SUPPRESS_LABELS: 'suppress-labels',
+  SUPPRESS_DEACTIVATION: 'suppress-deactivation',
+  SUPPRESS_DESELECTION: 'suppress-deselection',
   SUPPRESS_ROW_DEACTIVATION: 'suppress-row-deactivation',
   SUPPRESS_ROW_DESELECTION: 'suppress-row-deselection',
   SUPPRESS_TOOLTIPS: 'suppress-tooltips',
@@ -343,6 +357,7 @@ export const attributes = {
   VIRTUAL_SCROLL: 'virtual-scroll',
   VISIBLE: 'visible',
   WIDTH: 'width',
+  WRAP: 'wrap',
   X: 'x',
   XSS_IGNORED_TAGS: 'xss-ignored-tags',
   X_AXIS_FORMATTER: 'x-axis-formatter',
@@ -359,6 +374,7 @@ export const attributes = {
 export const htmlAttributes = {
   ARIA_LABEL: 'aria-label',
   ARIA_ORIENTATION: 'aria-orientation',
+  ARIA_SELECTED: 'aria-selected',
   ARIA_VALUEMAX: 'aria-valuemax',
   ARIA_VALUEMIN: 'aria-valuemin',
   ARIA_VALUENOW: 'aria-valuenow',
@@ -369,24 +385,6 @@ export const htmlAttributes = {
 
 export const prefix = {
   PREFIX: 'ids'
-};
-
-export type Breakpoints = {
-  xxl: string;
-  xl: string;
-  lg: string;
-  md: string;
-  sm: string;
-  xs: string;
-};
-
-export const breakpoints: Breakpoints = {
-  xxl: '1440px',
-  xl: '1280px',
-  lg: '1024px',
-  md: '840px',
-  sm: '600px',
-  xs: '360px'
 };
 
 export const version = '0.0.0-beta.22';

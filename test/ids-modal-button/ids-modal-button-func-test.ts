@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
+import '../helpers/match-media-mock';
 import wait from '../helpers/wait';
 
 import '../../src/components/ids-modal/ids-modal';

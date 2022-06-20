@@ -12,6 +12,8 @@
 }
 
 .ids-popup-menu {
+  text-align: start;
+
   &:not([hidden]) {
     @include block();
 

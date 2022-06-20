@@ -59,6 +59,25 @@ export function getClosest(node: any, selector: string) {
 }
 
 /**
+ * Traverses thru Shadow DOM if necessary to find parent node until matching the provided selector or until body.
+ * @param {HTMLElement} node the node to check
+ * @param {string|undefined} selector containing a CSS selector to be used for matching
+ * @returns {Array<HTMLElement>} the list of parent elements
+ */
+export function parents(node: any, selector = 'body'): Array<HTMLElement> {
+  const parentsList = [];
+  for (
+    let parent: any = node?.parentNode;
+    parent;
+    parent = parent.toString() === '[object ShadowRoot]' ? parent.host : parent?.parentNode
+  ) {
+    parentsList.push(parent);
+    if (parent.matches?.(selector)) break;
+  }
+  return parentsList;
+}
+
+/**
  * Changes a CSS property with a transition,
  * @param {HTMLElement} el the element to act on
  * @param {string} property the CSS property with an attached transition to manipulate

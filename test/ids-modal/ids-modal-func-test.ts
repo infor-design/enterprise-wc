@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
+import '../helpers/match-media-mock';
 import wait from '../helpers/wait';
 
 import IdsModal from '../../src/components/ids-modal/ids-modal';
@@ -174,8 +175,8 @@ describe('IdsModal Component', () => {
     modal.onOutsideClick({ noValue: false });
     expect(modal.visible).toBeTruthy();
 
-    const overlay = new IdsOverlay();
-    modal.onOutsideClick({ target: overlay });
+    modal.onOutsideClick = () => {};
+    document.body.dispatchEvent(new Event('click', { bubbles: true }));
     expect(modal.visible).toBeTruthy();
   });
 
@@ -183,5 +184,35 @@ describe('IdsModal Component', () => {
     modal.show();
     modal.onOutsideClick({ target: document.body });
     expect(modal.visible).toBeFalsy();
+  });
+
+  it('can be placed in fullsize mode', () => {
+    expect(modal.fullsize).toBe('sm'); // default
+    expect(modal.container.classList.contains('can-fullsize')).toBeTruthy();
+
+    modal.fullsize = 'lg';
+
+    expect(modal.fullsize).toBe('lg');
+    expect(modal.container.classList.contains('can-fullsize')).toBeTruthy();
+
+    modal.fullsize = 'always';
+
+    expect(modal.fullsize).toBe('always');
+    expect(modal.container.classList.contains('can-fullsize')).toBeTruthy();
+
+    modal.fullsize = null;
+
+    expect(modal.fullsize).toBe('');
+    expect(modal.container.classList.contains('can-fullsize')).toBeFalsy();
+
+    modal.setAttribute('fullsize', 'xs');
+
+    expect(modal.fullsize).toBe('xs');
+    expect(modal.container.classList.contains('can-fullsize')).toBeTruthy();
+
+    modal.setAttribute('fullsize', '');
+
+    expect(modal.fullsize).toBe('');
+    expect(modal.container.classList.contains('can-fullsize')).toBeFalsy();
   });
 });

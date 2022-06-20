@@ -118,7 +118,7 @@ export default class IdsCheckbox extends Base {
       <div${rootClass}${color} part="root">
         <label${labelClass} part="label">
           <input part="input" type="checkbox"${checkboxClass}${disabled}${checked}>
-          <span class="checkmark${checked}"></span>
+          <span class="checkmark${checked}" part="checkmark"></span>
           <ids-text${audible} class="label-checkbox" part="label-checkbox">${this.label}</ids-text>
         </label>
       </div>
@@ -152,7 +152,7 @@ export default class IdsCheckbox extends Base {
    * @returns {void}
    */
   attachNativeEvents(): void {
-    const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
+    const events = ['focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       this.onEvent(evt, this.input, (e: Event) => {
         e.stopPropagation();
@@ -202,7 +202,8 @@ export default class IdsCheckbox extends Base {
       }
     }
 
-    if (!this.#triggeredChange) {
+
+    if (!this.#triggeredChange && this.input) {
       this.triggerEvent('change', this.input, { bubbles: true });
     }
     this.#triggeredChange = false;
