@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">List View - Events</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-radio-group label="Select veto?" id="radio-lv-beforeselected" horizontal="true">
+          <ids-radio value="false" label="Veto"></ids-radio>
+          <ids-radio value="true" label="not Veto" checked></ids-radio>
+        </ids-radio-group>
+        <ids-radio-group label="Activate veto?" id="radio-lv-beforeitemactivated" horizontal="true">
+          <ids-radio value="false" label="Veto"></ids-radio>
+          <ids-radio value="true" label="not Veto" checked></ids-radio>
+        </ids-radio-group>
+        <ids-text font-size="14">watch the logs for the events in console</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="2" gap="xl">
+      <ids-layout-grid-cell col-span="1">
+        <div class="parent-container">
+            <ids-list-view
+              id="demo-lv-events"
+              item-height="76"
+              selectable="mixed"
+              pagination="client-side"
+              page-size="5"
+            >
+              <template>
+                <ids-text font-size="16" type="h2">${productName}</ids-text>
+                <ids-text font-size="12" type="span">Count: ${units}</ids-text>
+                <ids-text font-size="12" type="span">Price: $ ${unitPrice}</ids-text>
+              </template>
+            </ids-list-view>
+        </div>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

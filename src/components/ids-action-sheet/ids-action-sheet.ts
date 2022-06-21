@@ -1,5 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import { attributes, breakpoints } from '../../core/ids-attributes';
+import { attributes } from '../../core/ids-attributes';
+import { breakpoints } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-action-sheet-base';

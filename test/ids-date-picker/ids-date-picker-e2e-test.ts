@@ -618,7 +618,13 @@ describe('Ids Date Picker e2e Tests', () => {
         '<ids-date-picker id="e2e-datepicker-time" value="2/3/2010 08:24 AM" format="M/d/yyyy hh:mm a"></ids-date-picker>'
       );
 
-      (document.querySelector as any)('#e2e-datepicker-time').open();
+      const component: any = document.querySelector('#e2e-datepicker-time');
+
+      if (component) {
+        component.minuteInterval = 1;
+        component.secondInterval = 1;
+        component.open();
+      }
     });
 
     // If time picker appears from format
@@ -673,14 +679,20 @@ describe('Ids Date Picker e2e Tests', () => {
 
     // Changing format
     await page.evaluate(() => {
-      (document.querySelector as any)('#e2e-datepicker-time').close();
-      (document.querySelector as any)('#e2e-datepicker-time').format = 'M/d/yyyy HH:mm:ss';
-      (document.querySelector as any)('#e2e-datepicker-time').value = '2/3/2010 23:25:44';
-      (document.querySelector as any)('#e2e-datepicker-time').open();
+      const component: any = document.querySelector('#e2e-datepicker-time');
+
+      if (component) {
+        component.close();
+        component.minuteInterval = 1;
+        component.secondInterval = 1;
+        component.format = 'M/d/yyyy HH:mm:ss';
+        component.value = '2/3/2010 23:22:44';
+        component.open();
+      }
     });
 
     expect(+(await getTimeValues()).hours).toEqual(23);
-    expect(+(await getTimeValues()).minutes).toEqual(25);
+    expect(+(await getTimeValues()).minutes).toEqual(22);
     expect(+(await getTimeValues()).seconds).toEqual(44);
 
     // Time picker dropdowns value to the input
@@ -699,11 +711,11 @@ describe('Ids Date Picker e2e Tests', () => {
         }
 
         if (minutes) {
-          minutes.value = 12;
+          minutes.value = 15;
         }
 
         if (seconds) {
-          seconds.value = 14;
+          seconds.value = 20;
         }
 
         if (period) {
@@ -716,7 +728,7 @@ describe('Ids Date Picker e2e Tests', () => {
       }
     );
 
-    expect(value).toEqual('2/3/2010 10:12:14 PM');
+    expect(value).toEqual('2/3/2010 10:15:20 PM');
 
     // Remove time picker
     await page.evaluate(() => {

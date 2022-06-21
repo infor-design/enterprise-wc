@@ -9,7 +9,7 @@ import {
   stringToNumber
 } from '../../utils/ids-string-utils/ids-string-utils';
 import {
-  addDate, subtractDate, isValidDate, umalquraToGregorian, weekNumberToDate, weekNumber
+  addDate, subtractDate, isValidDate, umalquraToGregorian, weekNumberToDate, weekNumber, hoursTo24
 } from '../../utils/ids-date-utils/ids-date-utils';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
@@ -120,11 +120,12 @@ class IdsDatePicker extends Base {
       attributes.SHOW_TODAY,
       attributes.SIZE,
       attributes.TABBABLE,
+      attributes.USE_CURRENT_TIME,
       attributes.USE_RANGE,
       attributes.VALIDATE,
       attributes.VALIDATION_EVENTS,
       attributes.VALUE,
-      attributes.YEAR
+      attributes.YEAR,
     ];
   }
 
@@ -1298,7 +1299,11 @@ class IdsDatePicker extends Base {
 
     // Set time picker value
     if (this.#hasTime()) {
-      this.container.querySelector('ids-time-picker')?.setAttribute(attributes.VALUE, this.#triggerField?.value);
+      const timePicker = this.container.querySelector('ids-time-picker');
+
+      if (timePicker) {
+        timePicker.value = this.#triggerField?.value;
+      }
     }
 
     if (!this.useRange) {
@@ -1458,14 +1463,13 @@ class IdsDatePicker extends Base {
 
     if (!this.#hasTime() || !timePicker) return date;
 
-    const hours: number = Number(timePicker?.elements.dropdowns.hours?.value) || 0;
-    const minutes: number = Number(timePicker?.elements.dropdowns.minutes?.value) || 0;
-    const seconds: number = Number(timePicker?.elements.dropdowns.seconds?.value) || 0;
-    const period: string | undefined = timePicker?.elements.dropdowns.period?.value;
+    const hours: number = timePicker.hours;
+    const minutes: number = timePicker.minutes;
+    const seconds: number = timePicker.seconds;
+    const period: string = timePicker.period;
     const dayPeriodIndex = this.locale?.calendar().dayPeriods?.indexOf(period);
-    const hours24 = (hours % 12) + (dayPeriodIndex === -1 ? 0 : dayPeriodIndex) * 12;
 
-    date.setHours(hours24, minutes, seconds);
+    date.setHours(hoursTo24(hours, dayPeriodIndex), minutes, seconds);
 
     return date;
   }
@@ -1754,6 +1758,9 @@ class IdsDatePicker extends Base {
           embeddable="true"
           value="${this.value}"
           format="${this.format}"
+          minute-interval="${this.minuteInterval}"
+          second-interval="${this.secondInterval}"
+          use-current-time="${this.useCurrentTime}"
         ></ids-time-picker>
       `);
     }
@@ -2181,12 +2188,10 @@ class IdsDatePicker extends Base {
 
     if (numberVal) {
       this.setAttribute(attributes.MINUTE_INTERVAL, numberVal);
+      timePicker?.setAttribute(attributes.MINUTE_INTERVAL, numberVal);
     } else {
       this.removeAttribute(attributes.MINUTE_INTERVAL);
-    }
-
-    if (timePicker) {
-      timePicker.minuteInterval = numberVal;
+      timePicker?.removeAttribute(attributes.MINUTE_INTERVAL);
     }
   }
 
@@ -2208,12 +2213,10 @@ class IdsDatePicker extends Base {
 
     if (numberVal) {
       this.setAttribute(attributes.SECOND_INTERVAL, numberVal);
+      timePicker?.setAttribute(attributes.SECOND_INTERVAL, numberVal);
     } else {
       this.removeAttribute(attributes.SECOND_INTERVAL);
-    }
-
-    if (timePicker) {
-      timePicker.secondInterval = numberVal;
+      timePicker?.removeAttribute(attributes.SECOND_INTERVAL);
     }
   }
 
@@ -2337,6 +2340,31 @@ class IdsDatePicker extends Base {
     } else {
       this.removeAttribute(attributes.SHOW_PICKLIST_WEEK);
       this.#monthView?.removeAttribute(attributes.SHOW_PICKLIST_WEEK);
+    }
+  }
+
+  /**
+   * use-current-time attribute
+   * @returns {number} useCurrentTime param converted to boolean from attribute value
+   */
+  get useCurrentTime(): boolean {
+    return stringToBool(this.getAttribute(attributes.USE_CURRENT_TIME));
+  }
+
+  /**
+   * Set whether or not to show current time in the time picker
+   * @param {string|boolean|null} val useCurrentTime param value
+   */
+  set useCurrentTime(val: string | boolean | null) {
+    const boolVal = stringToBool(val);
+    const timePicker = this.container.querySelector('ids-time-picker');
+
+    if (boolVal) {
+      this.setAttribute(attributes.USE_CURRENT_TIME, boolVal);
+      timePicker?.setAttribute(attributes.USE_CURRENT_TIME, boolVal);
+    } else {
+      this.removeAttribute(attributes.USE_CURRENT_TIME);
+      timePicker?.removeAttribute(attributes.USE_CURRENT_TIME);
     }
   }
 }

@@ -223,6 +223,12 @@ export default class IdsMenuItem extends Base {
     if (toolbarParent) {
       return toolbarParent.menu;
     }
+
+    const tabMoreParent = this.closest('ids-tab-more');
+    if (tabMoreParent) {
+      return tabMoreParent.container.querySelector('ids-popup-menu');
+    }
+
     return this.closest('ids-menu, ids-popup-menu');
   }
 

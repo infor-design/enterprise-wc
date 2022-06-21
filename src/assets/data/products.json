@@ -6,7 +6,8 @@
       "inStock":true,
       "units":"9",
       "unitPrice":23,
-      "color":"Green"
+      "color":"Green",
+      "escalated": 2
    },
    {
       "id":2,
@@ -15,7 +16,9 @@
       "inStock":true,
       "units":"588",
       "unitPrice":18,
-      "color":"Yellow"
+      "color":"Yellow",
+      "disabled": true,
+      "escalated": 1
    },
    {
       "id":3,
