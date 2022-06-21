@@ -559,6 +559,8 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
           options.dateFormat = dateFormat;
         }
 
+        this.message = hostCompoment.locale.translate('Invalid Date', { showBrackets: false });
+
         const parsedDate = hostCompoment.locale.parseDate(val, options);
         return !(((parsedDate === undefined) && val !== ''));
       },
@@ -572,6 +574,8 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
         const hostCompoment = input.getRootNode().host;
         const val = input.value;
         const pattern = hostCompoment.locale.calendar(hostCompoment.locale.locale.name).timeFormat;
+
+        this.message = hostCompoment.locale.translate('Invalid Time', { showBrackets: false });
 
         const parsedTime = hostCompoment.locale.parseDate(val, { pattern });
         return !(((parsedTime === undefined) && val !== ''));
