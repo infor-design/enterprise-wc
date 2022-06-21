@@ -10,10 +10,10 @@ Displays a set of related data objects and their attributes in list format.
 - Used to display relevant objects. The list view container can feature checkboxes, search bar, hyperlinks, and other elements.
 - Allows users to assign/remove objects. Displays when one or more rows are selected.
 - Can alert users of updates on objects.
-- Lists may be single or multiple selected
+- Lists may be single, multiple or mixed selected
 - You can have a fixed list toolbar on top, which may contain a title and filtering/search options
 - You can have a contextual action toolbar for selected items
-- Paging is supported
+- Pagination is supported
 
 ## Terminology
 
@@ -48,11 +48,134 @@ The template shows the use of a string substitution to access the data element. 
   listView.data = products;
 ```
 
+List view with pagination and mixed selectable type.
+
+```html
+<ids-list-view
+  id="list-view-1"
+  item-height="76"
+  selectable="mixed"
+  pagination="client-side"
+  page-size="5"
+>
+  <template>
+    <ids-text font-size="16" type="h2">${productName}</ids-text>
+    <ids-text font-size="12" type="span">Count: ${units}</ids-text>
+    <ids-text font-size="12" type="span">Price: $ ${unitPrice}</ids-text>
+  </template>
+</ids-list-view>
+```
+
+```js
+  const listView = document.querySelector('#list-view-1');
+  listView.data = products;
+```
+
+List view with pagination with card footer.
+
+```html
+<ids-card>
+  <div slot="card-header">
+    <ids-text font-size="20" type="h2">Product List</ids-text>
+  </div>
+  <div slot="card-content">
+    <ids-list-view
+      id="list-view-1"
+      pagination="client-side"
+      page-size="10",
+      pager-container="#cardfooter-list-view-1"
+    >
+      <template>
+        <ids-text font-size="16" type="h2">${productName}</ids-text>
+        <ids-text font-size="12" type="span">Count: ${units}</ids-text>
+        <ids-text font-size="12" type="span">Price: $ ${unitPrice}</ids-text>
+      </template>
+    </ids-list-view>
+  </div>
+  <div id="cardfooter-list-view-1" slot="card-footer" no-padding>
+  </div>
+</ids-card>
+```
+
+```js
+  const listView = document.querySelector('#list-view-1');
+  listView.data = products;
+```
+
+List view with embellishment types.
+
+```html
+<ids-list-view id="list-view-1">
+  <template>
+    ${#escalated}
+      ${#disabled}
+        <ids-text font-size="12" type="span" status="error" disabled>Escalated (${escalated}X)</ids-text>
+      ${/disabled}
+      ${^disabled}
+        <ids-text font-size="12" type="span" status="error">Escalated (${escalated}X)</ids-text>
+      ${/disabled}
+    ${/escalated}
+    <ids-text font-size="16" font-weight="bold" type="p">${productName}</ids-text>
+    <ids-hyperlink href="https://www.example.com/${productId}" target="_blank">${productId}</ids-hyperlink>
+    <ids-text font-size="12" type="span">Count: ${units}</ids-text>
+    <ids-text font-size="12" type="span">Price: $ ${unitPrice}</ids-text>
+    <ids-text font-size="12" type="span" text-align="end">$ ${totalPrice}</ids-text>
+  </template>
+</ids-list-view>
+```
+
+```js
+  const listView = document.querySelector('#list-view-1');
+  listView.data = products;
+```
+
+## Settings and Attributes
+
+- `height` {number|string} sets the expected height of the viewport for virtual scrolling
+- `hideCheckboxes` {boolean} sets the checkboxes to not render if true, only apply to multiple selection
+- `itemHeight` {number|string} sets the expected height of each item
+- `label` {string} sets the aria label text
+- `selectable` {string} sets the selection mode of the listview: `single`, `multiple`, `mixed`
+- `sortable` {boolean} sets the items to be sortable
+- `suppressDeactivation` {boolean} sets the items to be suppress deactivation for mixed selection only
+- `suppressDeselection` {boolean} sets the items to be suppress deselection for single selection only
+- `virtualScroll` {boolean} sets the list view to use virtual scrolling for a large amount of items
+
 ## Themeable Parts
 
 - `container` allows you to further style the root container element
 - `list` allows you to further style the `<ul>` elements text element
 - `listitem` allows you to further style the `<li>` elements text element
+
+## Events
+
+- `beforeselected` Fires before selected an item, you can return false in the response to veto
+- `selected` Fires after selected an item
+- `beforedeselected` Fires before deselected an item, you can return false in the response to veto
+- `deselected` Fires after deselected an item
+- `beforeitemactivated` Fires before activated an item, you can return false in the response to veto
+- `itemactivated` Fires after activated an item
+- `beforeitemdeactivated` Fires before deactivated an item, you can return false in the response to veto
+- `itemdeactivated` Fires after deactivated an item
+- `selectionchanged` Fires after selection changed, when use with selectAll(), deselectAll() or toggleAll()
+
+## Methods
+
+- `getAllLi(): array<unknown>` Get list of all items
+- `getAllSwappableItems(): array<unknown>` Get list of all swappable items
+- `dataIndex(index: number): number|null` Get data index for given page index
+- `pageIndex(dataIndex: number): number|null` Get page index for given data index
+- `isInPage(dataIndex: number): boolean` Check if given data index in current page
+- `focusLi(li?: HTMLElement|null): void` Set the focus for given list item
+- `getFocusedLi(): HTMLElement` Get currently focused list item
+- `getPreviousLi(li: HTMLElement): HTMLElement|undefined` Get previous list item for a given list item
+- `getNextLi(li: HTMLElement): HTMLElement|undefined` Get next list item for a given list item
+- `activateItem(dataIndex: number): boolean` Set a list item to be activated, in dataset
+- `deactivateItem(dataIndex: number): boolean` Set a list item to be deactivated, in dataset
+- `select(dataIndex: number): boolean` Set a list item to be selected, in dataset
+- `deselect(dataIndex: number): boolean` Set a list item to be deselect, in dataset
+- `selectAll(): void` Set a all list items to be selected
+- `deselectAll(): void` Set a all list items to be deselected
 
 ## States and Variations (With Code Examples)
 

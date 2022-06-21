@@ -1,10 +1,13 @@
 ---
  component: Hidden
  link: ids-hidden
- description: Input field for time and dates
+ description: Hide and Show content on values / breakpoints
  category: Layouts
  keywords: hide, responsive, hidden
  examples:
   - link: example.html
     type: Main Example
     description: Shows all ids-hidden combinations
+  - link: value-compare.html
+    type: Example
+    description: Shows hiding and showing based on a value

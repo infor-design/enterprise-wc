@@ -58,6 +58,7 @@ export function stringToNumber(val?: string | number | any): number {
  * @returns {string} The return string
  */
 export function injectTemplate(str: string, obj: any): string {
+  // Replace all other keys with data
   return str.replace(/\${(.*?)}/g, (_x, g) => obj[g]);
 }
 

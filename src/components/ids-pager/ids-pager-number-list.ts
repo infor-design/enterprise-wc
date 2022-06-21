@@ -1,6 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-pager-number-list-base';
 import '../ids-text/ids-text';
@@ -32,10 +32,12 @@ export default class IdsPagerNumberList extends Base {
   static get attributes(): Array<string> {
     return [
       attributes.DISABLED,
+      attributes.LABEL,
       attributes.PAGE_NUMBER,
-      attributes.PARENT_DISABLED,
-      attributes.TOTAL,
       attributes.PAGE_SIZE,
+      attributes.PARENT_DISABLED,
+      attributes.STEP,
+      attributes.TOTAL,
       attributes.VALUE
     ];
   }
@@ -45,6 +47,7 @@ export default class IdsPagerNumberList extends Base {
 
     window.requestAnimationFrame(() => {
       this.#populatePageNumberButtons();
+      this.#attachEventHandlers();
     });
 
     super.connectedCallback?.();
@@ -178,6 +181,41 @@ export default class IdsPagerNumberList extends Base {
   }
 
   /**
+   * Set the aria label text
+   * @param {string} value The label text
+   */
+  set label(value: string) {
+    if (value) {
+      this.setAttribute(attributes.LABEL, value);
+    } else {
+      this.removeAttribute(attributes.LABEL);
+    }
+  }
+
+  get label() {
+    return this.getAttribute(attributes.LABEL) || 'Go to page {num} of {total}';
+  }
+
+  /**
+   * Set the number of step for page number list
+   * @param {number|string} value The number of steps
+   */
+  set step(value: number | string) {
+    const val = stringToNumber(this.getAttribute(attributes.STEP));
+    if (!Number.isNaN(val)) {
+      this.setAttribute(attributes.STEP, val);
+      return;
+    }
+    this.removeAttribute(attributes.STEP);
+  }
+
+  /** @returns {number} The number of steps */
+  get step(): number {
+    const val = stringToNumber(this.getAttribute(attributes.STEP));
+    return !Number.isNaN(val) ? val : 3;
+  }
+
+  /**
    * update visible button disabled state
    * based on parentDisabled and disabled attribs
    */
@@ -191,31 +229,121 @@ export default class IdsPagerNumberList extends Base {
     }
   }
 
-  #populatePageNumberButtons(): void {
-    let pageNumberHtml = '';
-    const pageCount = this.pageCount;
-    if (!pageCount) {
-      return;
+  /**
+   * Establish Internal Event Handlers
+   * @private
+   * @returns {object} The object for chaining.
+   */
+  #attachEventHandlers(): this {
+    // Fire page number change event.
+    this.onEvent('click.pager-numberlist', this.container, (e: any) => {
+      const value = e.target?.getAttribute?.('data-id');
+      if (value) {
+        this.triggerEvent('pagenumberchange', this, {
+          bubbles: true,
+          detail: { elem: this, value }
+        });
+      }
+    });
+
+    return this;
+  }
+
+  /**
+   * Get the list of pagination limit.
+   * @private
+   * @param {number} pageNumber The current page number
+   * @param {number} pageCount Total count
+   * @param {number} step Total count
+   * @returns {Array<unknown>} The list of pagination data
+   */
+  #paginationLimit(pageNumber: number, pageCount: number, step = 3): Array<unknown> {
+    step = Math.max(1, step); // Step not less then one
+
+    // Ensure current page isn't out of range
+    if (pageNumber < 1) pageNumber = 1;
+    if (pageNumber > pageCount) pageNumber = pageCount;
+
+    // Collection to return
+    const pagination: any[] = [];
+
+    // Set object to be selected or not
+    const content = (num: number) => (num === pageNumber
+      ? { pageNumber: num, selected: true } : { pageNumber: num });
+
+    // Add to collection from given start to end
+    const add = (start: number, end: number) => {
+      for (let i = start; i < end; i++) {
+        pagination.push(content(i));
+      }
+    };
+
+    // First page add to collection
+    const first = () => {
+      pagination.push(content(1));
+      pagination.push({ pageNumber: -1, divider: true });
+    };
+
+    // Last page add to collection
+    const last = () => {
+      pagination.push({ pageNumber: -1, divider: true });
+      pagination.push(content(pageCount));
+    };
+
+    if (pageCount < step * 2 + 6) {
+      add(1, pageCount + 1);
+    } else if (pageNumber < step * 2 + 1) {
+      add(1, step * 2 + 4);
+      last();
+    } else if (pageNumber > pageCount - step * 2) {
+      first();
+      add(pageCount - step * 2 - 2, pageCount + 1);
+    } else {
+      first();
+      add(pageNumber - step, pageNumber + step + 1);
+      last();
     }
-    for (let n = 1; n <= pageCount; n++) {
-      pageNumberHtml += `<ids-button ${this.disabledOverall ? 'disabled' : ''}>${n}</ids-button>`;
+
+    return pagination;
+  }
+
+  #populatePageNumberButtons(): void {
+    const pageCount = this.pageCount;
+    if (!pageCount) return;
+
+    const pageNumber = this.pageNumber;
+    const disabled = this.disabledOverall ? ' disabled' : '';
+    const selected = (p: any) => (p.selected ? ' selected' : '');
+    const addButton = (p: any) => `
+      <ids-button data-id="${p.pageNumber}"${selected(p)}${disabled}>${p.pageNumber}</ids-button>
+    `;
+    let pageNumberHtml = '';
+
+    if (this.step === -1) {
+      // Show all
+      const content = (num: number) => (num === pageNumber
+        ? { pageNumber: num, selected: true } : { pageNumber: num });
+      for (let i = 1; i <= pageCount; i++) {
+        pageNumberHtml += addButton(content(i));
+      }
+    } else {
+      // Show with limit
+      this.#paginationLimit(pageNumber, pageCount, this.step).forEach((p: any) => {
+        if (p.divider) {
+          pageNumberHtml += '<p class="divider">&#8230;</p>'; // horizontal ellipsis
+        } else {
+          pageNumberHtml += addButton(p);
+        }
+      });
     }
 
     this.container.innerHTML = pageNumberHtml;
 
-    for (let n = 1; n <= pageCount; n++) {
-      const numberButton = this.container.children[n - 1];
-      numberButton.button.setAttribute('aria-label', `Go to page ${n}`);
-      if (n === this.pageNumber) {
-        numberButton.setAttribute(attributes.SELECTED, '');
-      }
-
-      numberButton.addEventListener('click', () => {
-        this.triggerEvent('pagenumberchange', this, {
-          bubbles: true,
-          detail: { elem: this, value: n }
-        });
-      });
-    }
+    // Add aria
+    const label = (id: any) => this.label.replace('{num}', `${id}`).replace('{total}', `${pageCount}`);
+    this.container.querySelectorAll('ids-button[data-id]').forEach((btn: any) => {
+      const id = btn?.getAttribute('data-id');
+      if (id) btn?.button?.setAttribute('aria-label', label(id));
+    });
   }
 }

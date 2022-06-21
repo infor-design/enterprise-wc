@@ -8,9 +8,21 @@
   - link: example.html
     type: Main Example
     description: Shows a list view
-  - link: selectable.html
+  - link: selectable-single.html
     type: Example
-    description: Showing a list view with the selectable functionality
+    description: Showing a list view with the single selection functionality
+  - link: selectable-multiple.html
+    type: Example
+    description: Showing a list view with the multiple selection functionality
+  - link: selectable-mixed.html
+    type: Example
+    description: Showing a list view with the mixed selection functionality
+  - link: pagination.html
+    type: Example
+    description: Showing a list view with the pagination functionality
+  - link: events.html
+    type: Example
+    description: Showing a list view with events
   - link: card.html
     type: Example
     description: Showing a list view wrapped in ids-card
@@ -20,6 +32,9 @@
   - link: virtual-scroll.html
     type: Example
     description: Showing a list view using virtual scroll
+  - link: embellishment.html
+    type: Example
+    description: Showing a list view using embellishment types
   - link: side-by-side.html
     type: Side by Side
     description: Showing a list view side by side with a 4.x busy indicator
