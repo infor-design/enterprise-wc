@@ -53,6 +53,7 @@ export default class IdsTimePicker extends Base {
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
     this.#renderDropdowns();
+    this.#applyMask();
     super.connectedCallback();
   }
 
@@ -162,6 +163,7 @@ export default class IdsTimePicker extends Base {
           disabled="${this.disabled}"
           ${this.validate ? `validate="${this.validate}"` : ''}
           validation-events="${this.validationEvents}"
+          ${this.mask ? 'mask="date"' : ''}
           part="input"
         >
           <ids-text audible="true" translate-text="true">UseArrow</ids-text>
@@ -558,6 +560,15 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
+   * Applying ids-mask to the input when changing locale or format
+   */
+  #applyMask() {
+    if (this.input && this.mask) {
+      this.input.maskOptions = { format: this.format };
+    }
+  }
+
+  /**
    * Close the timepicker's popup window
    */
   close() {
@@ -636,6 +647,7 @@ export default class IdsTimePicker extends Base {
     }
 
     this.#renderDropdowns();
+    this.#applyMask();
   }
 
   /**
@@ -1257,5 +1269,31 @@ export default class IdsTimePicker extends Base {
    */
   get useCurrentTime(): boolean {
     return stringToBool(this.getAttribute(attributes.USE_CURRENT_TIME));
+  }
+
+  /**
+   * Enable/disable mask for the input
+   * @param {string|boolean|null} val mask param value
+   */
+  set mask(val: string | boolean | null) {
+    const boolVal = stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.MASK, boolVal);
+      this.input?.setAttribute(attributes.MASK, 'date');
+    } else {
+      this.removeAttribute(attributes.MASK);
+      this.input?.removeAttribute(attributes.MASK);
+    }
+  }
+
+  /**
+   * mask attribute
+   * @returns {boolean} mask param converted to boolean from attribute value
+   */
+  get mask(): boolean {
+    const attrVal = this.getAttribute(attributes.MASK);
+
+    return stringToBool(attrVal);
   }
 }
