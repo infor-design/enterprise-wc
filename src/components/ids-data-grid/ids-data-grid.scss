@@ -121,7 +121,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
       display: inline;
       height: 100%;
       position: absolute;
-      left: calc(100% - 4px);
+      margin-inline-start: calc(100% - 4px);
       top: 0;
       width: 6px;
       z-index: 2;
@@ -147,13 +147,11 @@ $header-bg-color: var(--ids-color-palette-slate-80);
       position: sticky;
       left: 0;
 
-      // Dynamically added widths - @TODO use a loop
-      &:nth-of-type(2) {
-        left: var(--ids-data-grid-frozen-column-left-width-2);
-      }
-
-      &:nth-of-type(3) {
-        left: var(--ids-data-grid-frozen-column-left-width-3);
+      // Dynamically added widths
+      @for $i from 2 through 10 {
+        &:nth-of-type(#{$i}) {
+          left: var(--ids-data-grid-frozen-column-left-width-#{$i});
+        }
       }
     }
 
@@ -329,13 +327,11 @@ $header-bg-color: var(--ids-color-palette-slate-80);
       position: sticky;
       left: 0;
 
-      // Dynamically added widths - @TODO use a loop
-      &:nth-of-type(2) {
-        left: var(--ids-data-grid-frozen-column-left-width-2);
-      }
-
-      &:nth-of-type(3) {
-        left: var(--ids-data-grid-frozen-column-left-width-3);
+      // Dynamically added widths
+      @for $i from 2 through 10 {
+        &:nth-of-type(#{$i}) {
+          left: var(--ids-data-grid-frozen-column-left-width-#{$i});
+        }
       }
     }
 
@@ -759,34 +755,11 @@ table.ids-data-grid {
 
 // Handle RTL
 :host([dir='rtl']) {
-  // Hide first/last border
-  .ids-data-grid-cell {
-    &:first-child {
-      border-inline-end-width: 1px;
-    }
-
-    &:last-child {
-      border-inline-start-width: 0;
-    }
-  }
-
+  // Negate right alignment
   .ids-data-grid-header-cell {
-    &:first-child {
-      border-inline-end-width: 1px;
-    }
-
-    &:last-child {
-      border-inline-start-width: 0;
-    }
-
     &.align-right .ids-data-grid-header-cell-content,
     &.align-right .ids-data-grid-header-cell-filter-wrapper {
       direction: ltr;
-    }
-
-    .resizer {
-      margin-right: auto;
-      margin-left: -4px;
     }
   }
 }

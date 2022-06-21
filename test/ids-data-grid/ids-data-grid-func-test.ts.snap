@@ -8,15 +8,13 @@ exports[`IdsDataGrid Component Paging Tests renders pager 1`] = `
 `;
 
 exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
-"
-      <div class=\\"ids-data-grid\\" role=\\"table\\" part=\\"table\\" aria-label=\\"Data Grid\\" data-row-height=\\"lg\\" mode=\\"light\\" version=\\"new\\" style=\\"--ids-data-grid-column-widths: 45px 65px minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) ;\\">
-      
+"<style nonce=\\"0a59a005\\">:host { background-color: transparent; }</style>
+      <div class=\\"ids-data-grid\\" role=\\"table\\" part=\\"table\\" aria-label=\\"Data Grid\\" data-row-height=\\"lg\\" mode=\\"light\\" version=\\"new\\" style=\\"--ids-data-grid-column-widths: 20px 65px minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) ;\\">
       <div class=\\"ids-data-grid-header\\" role=\\"rowgroup\\" part=\\"header\\">
         <div role=\\"row\\" class=\\"ids-data-grid-row\\">
           
-      <span class=\\"ids-data-grid-header-cell align-center\\" part=\\"header-cell\\" column-id=\\"selectionCheckbox\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content vertical-align-center\\">
+      <span class=\\"ids-data-grid-header-cell align-center\\" part=\\"header-cell\\" aria-colindex=\\"1\\" column-id=\\"selectionCheckbox\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content vertical-align-center\\">
         <span class=\\"ids-data-grid-header-text\\">
           <span class=\\"ids-data-grid-checkbox-container\\">
         <span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-data-grid-checkbox\\">
@@ -25,25 +23,21 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"rowNumber\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"2\\" column-id=\\"rowNumber\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           #
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"description\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content is-sortable\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"3\\" column-id=\\"description\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content is-sortable\\">
         <span class=\\"ids-data-grid-header-text\\">
           Description
         </span>
@@ -54,194 +48,162 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
       </span>
     
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"ledger\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"4\\" column-id=\\"ledger\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Ledger
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"publishDate\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"5\\" column-id=\\"publishDate\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Pub. Date
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"publishTime\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"6\\" column-id=\\"publishTime\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Pub. Time
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"price\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"7\\" column-id=\\"price\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Price
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"bookCurrency\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"8\\" column-id=\\"bookCurrency\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Currency
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"transactionCurrency\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"9\\" column-id=\\"transactionCurrency\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Transaction Currency
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"integer\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"10\\" column-id=\\"integer\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Price (Int)
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"location\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"11\\" column-id=\\"location\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Location
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"postHistory\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"12\\" column-id=\\"postHistory\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Post History
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"active\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"13\\" column-id=\\"active\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Active
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"convention\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"14\\" column-id=\\"convention\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Convention
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"methodSwitch\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"15\\" column-id=\\"methodSwitch\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Method Switch
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"trackDeprecationHistory\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"16\\" column-id=\\"trackDeprecationHistory\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Track Deprecation History
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"useForEmployee\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"17\\" column-id=\\"useForEmployee\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Use For Employee
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" column-id=\\"deprecationHistory\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"18\\" column-id=\\"deprecationHistory\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Deprecation History
         </span>
         
       </span>
-    
         
       </span>
     
         </div>
       </div>
     
-      
       <div class=\\"ids-data-grid-body\\" part=\\"contents\\" role=\\"rowgroup\\">
         
       <div role=\\"row\\" part=\\"row\\" aria-rowindex=\\"1\\" class=\\"ids-data-grid-row\\">
@@ -929,9 +891,8 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
       </div>
     
       </div>
-    
-      </div>
-    <style nonce=\\"0a59a005\\">:host { background-color: transparent; }</style><ids-pager page-number=\\"1\\" page-size=\\"10\\" total=\\"9\\">
+    </div>
+    <ids-pager page-number=\\"1\\" page-size=\\"10\\" total=\\"9\\">
       <ids-pager-button first=\\"\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\" total=\\"9\\"></ids-pager-button>
       <ids-pager-button previous=\\"\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\" total=\\"9\\"></ids-pager-button>
       <ids-pager-input page-number=\\"1\\" page-size=\\"10\\" total=\\"9\\"></ids-pager-input>

@@ -36,7 +36,7 @@ A Read-Only data grid uses "Formatters" to render cell content. A number of thes
 A data grid is created by adding an `ids-data-grid` html element in the page and setting the options either inline in the markup or in the JS part of the code. You can only use simple types (string, boolean ect) for inline markup so passing the data and column arrangement is always done in the JS part. The data will be an array of objects so its in the correct tabular form. The columns are also an array of object but with defined options and types. (See Columns in next section)
 
 ```html
-<ids-data-grid id="data-grid-1" data-automation-id="data-grid-1-automation" alternate-row-shading="true"></ids-data-grid>
+<ids-data-grid id="data-grid-1" data-automation-id="data-grid-1-automation"></ids-data-grid>
 ```
 
 ```js
@@ -152,6 +152,7 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 |`minWidth` | {number} | The minimum width used to prevent resizing a column below this size. |
 |`maxWidth` | {number} | The maximum width used to prevent resizing a column above this size. |
 |`cssPart` | {string} | Allows you to set the name of a css part that can be used to customize the cell's css. This can be a string or a function. See the columns-custom-css example. The default cssPart for cells is called `cell` and it also can be used for more global changes.  |
+|`frozen` | {string} | Sets the column to be frozen on either left or right side by passing `left` or `right`. See the `columns-frozen` example for a working example. Frozen columns currently have some limitations to be addressed in the future. |
 
 ## Column Settings (Specific)
 
@@ -617,6 +618,7 @@ The following events are relevant to data-grid filters.
 - `textOverflow` setting is now by default
 - `stretchColumn` is now more flexible and can be achieved by setting a column width to `minmax(130px, 4fr)`. I.E. some min width and a `fr` unit equal to the remaining number of columns (or similar variations).
 - split columns are not supported anymore but could be done with a custom formatter if needed
+- `frozenColumns` setting is now set on each column by adding `frozen: 'left'` or `frozen: 'right'` to the column definition.
 
 ## Accessibility Guidelines
 

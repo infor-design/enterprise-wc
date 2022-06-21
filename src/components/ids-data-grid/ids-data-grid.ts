@@ -145,14 +145,8 @@ export default class IdsDataGrid extends Base {
     if ((this.columns.length === 0 && this.data.length === 0) || !this.initialized) {
       return;
     }
-    const template = document.createElement('template');
-    template.innerHTML = this.bodyTemplate();
-    const elem = this.virtualScroll ? this.virtualScrollContainer : this.elements.body;
-    elem.remove();
-    this.container.appendChild(template.content.cloneNode(true));
-
+    this.elements.body.innerHTML = this.bodyTemplate();
     this.#syncPager();
-    this.#attachEventHandlers();
     this.#setHeaderCheckbox();
   }
 
@@ -175,16 +169,9 @@ export default class IdsDataGrid extends Base {
       return;
     }
 
-    const template = document.createElement('template');
-    const html = this.template();
-
-    // Render and append styles
-    this.shadowRoot.innerHTML = '';
-    this.hasStyles = false;
-    template.innerHTML = html;
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
-    this.container = this.shadowRoot.querySelector('.ids-data-grid');
-    this.appendStyles();
+    const header = this.headerTemplate();
+    const body = this.bodyTemplate();
+    this.container.innerHTML = header + body;
     this.#setColumnWidths();
     super.rerender();
 
@@ -268,14 +255,12 @@ export default class IdsDataGrid extends Base {
     cssClasses += column.sortable ? ' is-sortable' : '';
 
     // Content row cell template
-    const headerContentWrapperTemplate = `
-      <span class="${cssClasses}">
+    const headerContentWrapperTemplate = `<span class="${cssClasses}">
         <span class="ids-data-grid-header-text">
           ${headerContentTemplate}
         </span>
         ${column.sortable ? sortIndicatorTemplate : ''}
-      </span>${column.resizable ? resizerTemplate : ''}
-    `;
+      </span>${column.resizable ? resizerTemplate : ''}`;
 
     // Filter row cell template
     const headerFilterWrapperTemplate = this.filters?.filterTemplate(column) || '';
@@ -286,7 +271,7 @@ export default class IdsDataGrid extends Base {
 
     // Frozen Classes
     const lastFrozen = this.leftFrozenColumns.length;
-    const frozen = column?.frozen ? ` frozen frozen-${column?.frozen}${index === lastFrozen ? ' frozen-last' : ''}` : '';
+    const frozen = column?.frozen ? ` frozen frozen-${column?.frozen}${index + 1 === lastFrozen ? ' frozen-last' : ''}` : '';
 
     // Header cell template
     const html = `
@@ -372,7 +357,7 @@ export default class IdsDataGrid extends Base {
     return `
       <div role="row" part="row" aria-rowindex="${index + 1}" class="ids-data-grid-row${rowClasses}">
         ${this.visibleColumns.map((column: IdsDataGridColumn, j: number) => `
-          <span role="cell" part="${this.#cssPart(column, index, j)}" class="ids-data-grid-cell${column?.readonly ? ` readonly` : ``}${column?.align ? ` align-${column?.align}` : ``}${column?.frozen ? ` frozen frozen-${column?.frozen}${j === frozenLast ? ' frozen-last' : ''}` : ``}" aria-colindex="${j + 1}">
+          <span role="cell" part="${this.#cssPart(column, index, j)}" class="ids-data-grid-cell${column?.readonly ? ` readonly` : ``}${column?.align ? ` align-${column?.align}` : ``}${column?.frozen ? ` frozen frozen-${column?.frozen}${j + 1 === frozenLast ? ' frozen-last' : ''}` : ``}" aria-colindex="${j + 1}">
             ${this.cellTemplate(row, column, index + 1, this)}
           </span>
         `).join('')}
@@ -439,7 +424,6 @@ export default class IdsDataGrid extends Base {
     this.offEvent('click.body', body);
     this.onEvent('click.body', body, (e: any) => {
       const cell = (e.target as any).closest('.ids-data-grid-cell');
-      if (!cell) return;
 
       const cellNum = cell.getAttribute('aria-colindex') - 1;
       const row = cell.parentNode;
@@ -739,7 +723,7 @@ export default class IdsDataGrid extends Base {
    * @returns {Array<IdsDataGridColumn>} The frozen column data
    */
   get leftFrozenColumns(): Array<IdsDataGridColumn> {
-    return this.columns?.filter((column: IdsDataGridColumn) => !column.hidden && column.frozen === 'right');
+    return this.columns?.filter((column: IdsDataGridColumn) => !column.hidden && column.frozen === 'left');
   }
 
   /**
@@ -1264,12 +1248,17 @@ export default class IdsDataGrid extends Base {
    * @private
    */
   #applyAutoFit() {
+    if (this.autoFitSet) {
+      return;
+    }
     if (this.autoFit === 'bottom') {
       const spaceFromTop = this.getBoundingClientRect().y;
       this.container.style.height = `calc(100vh - ${spaceFromTop + 16}px)`;
+      this.autoFitSet = true;
     }
     if (this.autoFit === true) {
       this.container.style.height = '100%';
+      this.autoFitSet = true;
     }
   }
 

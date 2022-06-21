@@ -261,6 +261,7 @@ describe('IdsDataGrid Component', () => {
       dataGrid = new IdsDataGrid();
       dataGrid.alternateRowShading = true;
       document.body.appendChild(dataGrid);
+      expect(dataGrid.template()).toContain('alt-row-shading');
       dataGrid.columns = columns();
       dataGrid.data = dataset;
 
@@ -425,6 +426,58 @@ describe('IdsDataGrid Component', () => {
       }];
 
       expect(dataGrid.shadowRoot.querySelectorAll('[part="custom-cell"]').length).toEqual(14);
+    });
+
+    it('supports setting frozen columns', () => {
+      expect(dataGrid.hasFrozenColumns).toEqual(false);
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        frozen: 'left'
+      },
+      {
+        id: 'col1',
+        name: 'Currency',
+        field: 'bookCurrency',
+        frozen: 'left'
+      },
+      {
+        id: 'col2',
+        name: 'Currency',
+        field: 'bookCurrency',
+        frozen: 'left'
+      },
+      {
+        id: 'col3',
+        name: 'Currency',
+        field: 'bookCurrency'
+      },
+      {
+        id: 'col4',
+        name: 'Currency',
+        field: 'bookCurrency'
+      },
+      {
+        id: 'col5',
+        name: 'Currency',
+        field: 'bookCurrency'
+      },
+      {
+        id: 'transactionCurrency',
+        name: 'Transaction Currency',
+        field: 'transactionCurrency',
+        frozen: 'right'
+      }];
+
+      expect(dataGrid.shadowRoot.querySelectorAll('.frozen').length).toEqual(40);
+      expect(dataGrid.shadowRoot.querySelectorAll('.frozen-right').length).toEqual(10);
+      expect(dataGrid.shadowRoot.querySelectorAll('.frozen-left').length).toEqual(30);
+      expect(dataGrid.shadowRoot.querySelectorAll('.frozen-last').length).toEqual(10);
+
+      expect(dataGrid.rightFrozenColumns.length).toEqual(1);
+      expect(dataGrid.leftFrozenColumns.length).toEqual(3);
+      expect(dataGrid.hasFrozenColumns).toEqual(true);
     });
 
     it('supports setting cell alignment', () => {
@@ -656,6 +709,20 @@ describe('IdsDataGrid Component', () => {
     it('supports setting column width', () => {
       dataGrid.setColumnWidth('description', 101);
       expect(dataGrid.columns[2].width).toEqual(101);
+    });
+
+    it('supports setting column width defaults', () => {
+      const newColumns = deepClone(columns());
+      newColumns[0].id = 'selectionCheckbox';
+      newColumns[0].formatter = formatters.selectionCheckbox;
+      newColumns[0].width = null;
+      dataGrid.columns = newColumns;
+      expect(dataGrid.columns[0].width).toBe(45);
+      expect(dataGrid.columns[0].id).toBe('selectionCheckbox');
+      dataGrid.setColumnWidth('description', 101);
+      expect(dataGrid.columns[0].width).toBe(45);
+      dataGrid.setColumnWidth('selectionCheckbox', 101);
+      expect(dataGrid.columns[0].width).toBe(101);
     });
 
     it('supports not setting min column width (12)', () => {
@@ -1360,7 +1427,7 @@ describe('IdsDataGrid Component', () => {
       newColumns[0].formatter = formatters.selectionCheckbox;
       dataGrid.rowSelection = 'multiple';
       dataGrid.columns = newColumns;
-
+      dataGrid.rerender();
       dataGrid.headerCheckbox.click();
       expect(dataGrid.selectedRows.length).toBe(9);
       dataGrid.headerCheckbox.click();

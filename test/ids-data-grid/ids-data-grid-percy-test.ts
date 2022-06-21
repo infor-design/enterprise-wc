@@ -117,4 +117,10 @@ describe('Ids Data Grid Other Percy Tests', () => {
     await page.waitForSelector('ids-layout-grid-cell');
     await percySnapshot(page, 'ids-data-grid-columns-stretch-light');
   });
+
+  it('should not have visual regressions in column frozen (percy)', async () => {
+    await page.goto('http://localhost:4300/ids-data-grid/columns-frozen.html', { waitUntil: ['networkidle2', 'load'] });
+    await page.waitForSelector('ids-layout-grid-cell');
+    await percySnapshot(page, 'ids-data-grid-columns-frozen-light');
+  });
 });

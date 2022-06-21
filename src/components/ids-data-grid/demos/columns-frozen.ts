@@ -24,16 +24,6 @@ if (dataGrid) {
       align: 'center',
       frozen: 'left'
     });
-    /* TODO: Test for performance
-    columns.push({
-      id: 'rowNumber',
-      name: '#',
-      formatter: dataGrid.formatters.rowNumber,
-      sortable: false,
-      readonly: true,
-      frozen: 'left',
-    });
-    */
     columns.push({
       id: 'id',
       name: 'ID',
@@ -42,7 +32,7 @@ if (dataGrid) {
       frozen: 'left',
       sortable: true,
       resizable: true,
-      width: 100,
+      width: 90,
       filterType: dataGrid.filters.text
     });
     columns.push({
@@ -138,8 +128,7 @@ if (dataGrid) {
     const setData = async () => {
       const res = await fetch(url);
       const data = await res.json();
-      // TODO: Test for peformance
-      dataGrid.data = data; // .slice(0, 100);
+      dataGrid.data = data.slice(0, 100);
     };
 
     setData();
