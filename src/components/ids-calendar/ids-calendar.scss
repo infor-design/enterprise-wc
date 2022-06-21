@@ -31,24 +31,6 @@
   }
 }
 
-// LTR styles
-.ids-calendar:not(.rtl) {
-  @include palette-colors('.detail-item', border-left-color);
-
-  .detail-item {
-    border-left-width: 4px;
-  }
-}
-
-// RTL styles
-.ids-calendar.rtl {
-  @include palette-colors('.detail-item', border-right-color);
-
-  .detail-item {
-    border-right-width: 4px;
-  }
-}
-
 // Dark mode
 .ids-calendar[mode='dark'] {
   .detail-item {
@@ -108,19 +90,22 @@ ids-accordion-panel::part(content) {
 }
 
 .calendar-events-list {
+  @include palette-colors('.detail-item', border-inline-start-color);
+
   margin-top: 20px;
   padding: 0;
 
   .detail-item {
+    border-style: solid;
+    border-color: var(--ids-color-palette-slate-20);
+    border-width: 1px;
+    border-top-width: 0;
+    border-inline-start-width: 4px;
     display: flex;
     flex-direction: row;
     list-style: none;
     align-items: center;
     padding: 15px;
-    border-style: solid;
-    border-color: var(--ids-color-palette-slate-20);
-    border-width: 1px;
-    border-top-width: 0;
 
     &:first-child {
       border-top-width: 1px;

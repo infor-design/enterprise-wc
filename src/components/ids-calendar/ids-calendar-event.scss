@@ -1,23 +1,12 @@
 @import '../../core/ids-base';
 
 @mixin event-border-accent($color) {
-  // direction ltr
-  &:not(.rtl):not(.calendar-event-continue):not(.calendar-event-ends) {
-    border-left-width: 5px;
-    border-left-color: $color;
+  &:not(.calendar-event-continue):not(.calendar-event-ends) {
+    border-inline-start-width: 5px;
+    border-inline-start-color: $color;
 
     &:focus {
-      border-left-color: var(--ids-color-palette-azure-60);
-    }
-  }
-
-  // direction rtl
-  &.rtl:not(.calendar-event-continue):not(.calendar-event-ends) {
-    border-right-width: 5px;
-    border-right-color: $color;
-
-    &:focus {
-      border-right-color: var(--ids-color-palette-azure-60);
+      border-inline-start-color: var(--ids-color-palette-azure-60);
     }
   }
 
@@ -146,44 +135,72 @@
   }
 }
 
-// Month View Version
+// All day event styles
+.ids-calendar-event.all-day {
+  top: 1px;
+
+  &.calendar-event-start,
+  &.calendar-event-continue,
+  &.calendar-event-ends {
+    border-radius: 0;
+  }
+
+  // first of multi day
+  &.calendar-event-start {
+    border-start-start-radius: 3px;
+    border-end-start-radius: 3px;
+  }
+
+  &.calendar-event-continue {
+    width: calc(100% + 2px);
+    margin-inline-start: -1px;
+  }
+
+  // end of multiday
+  &.calendar-event-ends {
+    border-end-end-radius: 3px;
+    border-start-end-radius: 3px;
+  }
+
+  &.calendar-event-continue,
+  &.calendar-event-ends {
+    .calendar-event-title {
+      color: transparent;
+    }
+  }
+}
+
+// Month View Styles
 .ids-calendar-event.is-month-view {
+  $month-margin: 5px;
+
   @include absolute;
 
   display: block;
-  width: calc(100% - 10px);
-  margin: 0 5px;
   height: 16px;
 
+  &:not(.all-day) {
+    width: calc(100% - ($month-margin * 2));
+    margin: 0 $month-margin;
+  }
+
   &.calendar-event-start,
-  &.calendar-event-ends.all-day {
-    margin: 0;
-    width: calc(100% - 5px);
+  &.calendar-event-continue,
+  &.calendar-event-ends {
+    width: calc(100% - $month-margin);
   }
 
   &.calendar-event-start {
-    &:not(.rtl) {
-      right: 0;
-    }
-
-    &.rtl {
-      left: 0;
-    }
+    margin-inline-start: $month-margin;
   }
 
   &.calendar-event-continue {
     width: 100%;
-    margin: 0;
+    margin-inline-start: 0;
   }
 
-  &.calendar-event-ends.all-day {
-    &:not(.rtl) {
-      left: 0;
-    }
-
-    &.rtl {
-      right: 0;
-    }
+  &.calendar-event-ends {
+    margin-inline-end: $month-margin;
   }
 
   &.hidden {
@@ -192,50 +209,5 @@
 
   .calendar-event-content {
     padding: 0 5px;
-  }
-}
-
-// All day event styles
-.ids-calendar-event.all-day {
-  top: 1px;
-
-  // first of multi day
-  &.calendar-event-start {
-    border-radius: 3px 0 0 3px;
-
-    &.rtl {
-      border-radius: 0 3px 3px 0;
-    }
-  }
-
-  // middle of multi day
-  &.calendar-event-continue {
-    border-radius: 0;
-  }
-
-  // end of multiday
-  &.calendar-event-ends {
-    border-radius: 0 3px 3px 0;
-
-    &.rtl {
-      border-radius: 3px 0 0 3px;
-    }
-  }
-
-  &.calendar-event-continue,
-  &.calendar-event-ends {
-    width: calc(100% + 1px);
-
-    .calendar-event-title {
-      color: transparent;
-    }
-
-    &:not(.rtl) {
-      left: -1px;
-    }
-
-    &.rtl {
-      right: -1px;
-    }
   }
 }

@@ -1923,9 +1923,13 @@ class IdsMonthView extends Base {
           if (days > 1) {
             const extraCss = ['all-day'];
 
-            extraCss.push(i === 0 ? 'calendar-event-start' : 'calendar-event-continue');
-            if (i === days - 1) {
+            // css classes for multi day events
+            if (i === 0) {
+              extraCss.push('calendar-event-start');
+            } else if (i === days - 1) {
               extraCss.push('calendar-event-ends');
+            } else {
+              extraCss.push('calendar-event-continue');
             }
 
             calendarEvent.cssClass = extraCss;
@@ -1955,7 +1959,7 @@ class IdsMonthView extends Base {
     const date = `${month}/${day}/${year}`;
     const tmpl = `
       <ids-text data-date="${date}" class="events-overflow" font-size="12">
-        ${calendarEvents.length - MAX_EVENT_COUNT}+ more
+        ${calendarEvents.length - MAX_EVENT_COUNT}+ ${this.locale.translate('More')}
       </ids-text>
     `;
 
