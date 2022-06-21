@@ -1,4 +1,4 @@
-describe('Ids Week View e2e Tests', () => {
+describe('Ids Calendar e2e Tests', () => {
   const url = 'http://localhost:4444/ids-calendar/example.html';
 
   beforeAll(async () => {
