@@ -90,25 +90,21 @@ export default class IdsPopupMenu extends Base {
       }
     });
 
-    // When the underlying Popup triggers its "show" event,
-    // focus on the derived focusTarget, and pass the event to the Host element.
+    // When the underlying Popup triggers its "show" event, pass the event to the Host element.
     this.onEvent('show', this.container, (e: CustomEvent) => {
+      if (!this.parentMenuItem) {
+        this.triggerEvent('show', this, e);
+      }
       requestAnimationFrame(() => {
         this.focusTarget?.focus();
-        if (!this.parentMenuItem) {
-          this.triggerEvent('show', this, e);
-        }
       });
     });
 
-    // When the underlying Popup triggers its "hide" event,
-    // pass the event to the Host element.
+    // When the underlying Popup triggers its "hide" event, pass the event to the Host element.
     this.onEvent('hide', this.container, (e: CustomEvent) => {
-      requestAnimationFrame(() => {
-        if (!this.parentMenuItem) {
-          this.triggerEvent('hide', this, e);
-        }
-      });
+      if (!this.parentMenuItem) {
+        this.triggerEvent('hide', this, e);
+      }
     });
 
     // Set up all the events specifically-related to the "trigger" type
