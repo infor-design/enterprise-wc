@@ -1,5 +1,5 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import { attributes } from '../../core/ids-attributes';
+import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import {
   MENU_ITEM_SIZE, MENU_DEFAULTS, safeForAttribute
 } from './ids-menu-attributes';
@@ -365,12 +365,12 @@ export default class IdsMenuItem extends Base {
    */
   set icon(val) {
     if (typeof val !== 'string' || !val.length) {
-      this.removeAttribute('icon');
+      this.removeAttribute(attributes.ICON);
       this.state.icon = undefined;
       this.removeIcon();
     } else {
       this.state.icon = val;
-      this.setAttribute('icon', val);
+      this.setAttribute(attributes.ICON, val);
       this.appendIcon(val);
     }
 
@@ -475,21 +475,21 @@ export default class IdsMenuItem extends Base {
     const icon = this.container.querySelector('ids-icon[icon="dropdown"]');
     if (val === true || val === 'true') {
       if (this.submenu) {
-        this.submenu.setAttribute('slot', 'submenu');
-        this.submenu.setAttribute('aria-expanded', this.submenu.visible ? 'true' : 'false');
+        this.submenu.setAttribute(htmlAttributes.SLOT, 'submenu');
+        this.submenu.setAttribute(htmlAttributes.ARIA_EXPANDED, this.submenu.visible ? 'true' : 'false');
       }
-      this.a.setAttribute('role', 'button');
-      this.a.setAttribute('aria-haspopup', 'true');
+      this.a.setAttribute(htmlAttributes.ROLE, 'button');
+      this.a.setAttribute(htmlAttributes.ARIA_HASPOPUP, 'true');
       if (!icon) {
         this.a.insertAdjacentHTML('beforeend', this.templateSubmenuIcon());
       }
       this.value = null;
     } else {
       if (this.submenu) {
-        this.submenu.removeAttribute('aria-expanded');
+        this.submenu.removeAttribute(htmlAttributes.ARIA_EXPANDED);
       }
-      this.a.setAttribute('role', 'menuitem');
-      this.a.removeAttribute('aria-haspopup');
+      this.a.setAttribute(htmlAttributes.ROLE, 'menuitem');
+      this.a.removeAttribute(htmlAttributes.ARIA_HASPOPUP);
       icon?.remove();
     }
   }
@@ -510,13 +510,13 @@ export default class IdsMenuItem extends Base {
       if (!check) {
         this.a.insertAdjacentHTML('afterbegin', this.templateCheck());
       }
-      this.a.setAttribute('role', selectType === 'multiple' ? 'menuitemcheckbox' : 'menuitemradio');
-      this.a.setAttribute('aria-checked', this.selected ? 'true' : 'false');
+      this.a.setAttribute(htmlAttributes.ROLE, selectType === 'multiple' ? 'menuitemcheckbox' : 'menuitemradio');
+      this.a.setAttribute(htmlAttributes.ARIA_CHECKED, this.selected ? 'true' : 'false');
     } else {
       this.container.classList.remove('has-checkmark', 'has-multi-checkmark');
       check?.remove();
-      this.a.setAttribute('role', this.hasSubmenu ? 'button' : 'menuitem');
-      this.a.removeAttribute('aria-checked');
+      this.a.setAttribute(htmlAttributes.ROLE, this.hasSubmenu ? 'button' : 'menuitem');
+      this.a.removeAttribute(htmlAttributes.ARIA_CHECKED);
     }
   }
 
@@ -544,18 +544,18 @@ export default class IdsMenuItem extends Base {
     // Store true state
     this.state.selected = trueVal;
     this.container.classList[trueVal ? 'add' : 'remove']('selected');
-    this.a.setAttribute('aria-checked', trueVal ? 'true' : 'false');
+    this.a.setAttribute(htmlAttributes.ARIA_CHECKED, trueVal ? 'true' : 'false');
 
     // Sync the attribute
     const shouldUpdate = this.shouldUpdate;
-    const currentAttr = this.hasAttribute('selected');
+    const currentAttr = this.hasAttribute(attributes.SELECTED);
     if (trueVal && !currentAttr) {
       this.shouldUpdate = false;
-      this.setAttribute('selected', '');
+      this.setAttribute(attributes.SELECTED, '');
       this.shouldUpdate = shouldUpdate;
     } else if (!trueVal && currentAttr) {
       this.shouldUpdate = false;
-      this.removeAttribute('selected');
+      this.removeAttribute(attributes.SELECTED);
       this.shouldUpdate = shouldUpdate;
     }
 
@@ -674,7 +674,7 @@ export default class IdsMenuItem extends Base {
     if (!safeForAttribute(val)) {
       const shouldUpdate = this.shouldUpdate;
       this.shouldUpdate = false;
-      this.removeAttribute('value');
+      this.removeAttribute(attributes.VALUE);
       this.shouldUpdate = shouldUpdate;
     }
   }
@@ -694,7 +694,7 @@ export default class IdsMenuItem extends Base {
     if (!this.hasSubmenu || (this.hasSubmenu && !this.submenu.hidden)) {
       return;
     }
-    this.a.setAttribute('aria-expanded', 'true');
+    this.a.setAttribute(htmlAttributes.ARIA_EXPANDED, 'true');
     this.menu.hideSubmenus(this);
     this.submenu.show();
   }
@@ -707,7 +707,7 @@ export default class IdsMenuItem extends Base {
     if (!this.hasSubmenu || (this.hasSubmenu && this.submenu.hidden)) {
       return;
     }
-    this.a.setAttribute('aria-expanded', 'false');
+    this.a.setAttribute(htmlAttributes.ARIA_EXPANDED, 'false');
     this.submenu.hide();
   }
 

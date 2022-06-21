@@ -43,8 +43,8 @@ export default class IdsPopupMenu extends Base {
    */
   connectedCallback(): void {
     super.connectedCallback?.();
-    if (!this.hasAttribute('hidden')) {
-      this.setAttribute('hidden', '');
+    if (!this.hasAttribute(attributes.HIDDEN)) {
+      this.setAttribute(attributes.HIDDEN, '');
     }
 
     // If this Popupmenu is a submenu, and no target is pre-defined,

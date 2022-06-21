@@ -1,3 +1,4 @@
+import { htmlAttributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { isValidGroup, isUsableItem } from './ids-menu-attributes';
@@ -101,7 +102,7 @@ export default class IdsMenu extends Base {
     super.connectedCallback?.();
     this.attachEventHandlers();
     this.attachKeyboardListeners();
-    this.setAttribute('role', 'none');
+    this.setAttribute(htmlAttributes.ROLE, 'none');
 
     // After repaint
     requestAnimationFrame(() => {

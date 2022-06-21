@@ -380,6 +380,7 @@ export const attributes = {
 // Standard HTMLElement attribute names
 // Please keep constants alphabetized
 export const htmlAttributes = {
+  ARIA_CHECKED: 'aria-checked',
   ARIA_EXPANDED: 'aria-expanded',
   ARIA_HASPOPUP: 'aria-haspopup',
   ARIA_LABEL: 'aria-label',
@@ -393,6 +394,7 @@ export const htmlAttributes = {
   ARIA_VALUENOW: 'aria-valuenow',
   ARIA_VALUETEXT: 'aria-valuetext',
   ROLE: 'role',
+  SLOT: 'slot',
   TABINDEX: 'tabIndex'
 };
 

@@ -106,14 +106,14 @@ export default class IdsMenuButton extends Base {
    * @returns {string|null} an ID selector string matching a menu
    */
   get menu() {
-    return this.getAttribute('menu');
+    return this.getAttribute(attributes.MENU);
   }
 
   /**
    * @param {string|null} val an ID selector string
    */
   set menu(val) {
-    this.setAttribute('menu', `${val}`);
+    this.setAttribute(attributes.MENU, `${val}`);
     this.configureMenu();
   }
 
