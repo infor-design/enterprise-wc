@@ -13,6 +13,12 @@ const fontWeightClasses = ['bold', 'lighter'];
 // These types will have a CSS style class appended to them
 const typesCssClasses = ['label', 'legend', 'span'];
 
+// Text alignments
+const TEXT_ALIGNMENTS = ['start', 'end', 'center', 'justify'];
+
+// Statuses
+const STATUSES = ['base', 'error', 'info', 'success', 'warning'];
+
 /**
  * IDS Text Component
  * @type {IdsText}
@@ -55,6 +61,8 @@ export default class IdsText extends Base {
       attributes.LOCALE,
       attributes.MODE,
       attributes.OVERFLOW,
+      attributes.STATUS,
+      attributes.TEXT_ALIGN,
       attributes.TRANSLATE_TEXT,
       attributes.TYPE,
       attributes.VERSION,
@@ -69,6 +77,8 @@ export default class IdsText extends Base {
     const tag = this.type || 'span';
 
     let classList = 'ids-text';
+    classList += this.status ? ` ${this.statusClass()}` : '';
+    classList += this.textAlign ? ` ${this.textAlignClass()}` : '';
     classList += this.color === 'unset' ? ' ids-text-color-unset' : '';
     classList += (this.overflow === 'ellipsis') ? ' ellipsis' : '';
     classList += ((this.audible)) ? ' audible' : '';
@@ -310,6 +320,62 @@ export default class IdsText extends Base {
 
   get overflow(): string | null {
     return this.getAttribute('overflow');
+  }
+
+  /**
+   * Set the given text align
+   * @param {string} value The value
+   */
+  set textAlign(value: string) {
+    if (TEXT_ALIGNMENTS.includes(value)) {
+      this.setAttribute(attributes.TEXT_ALIGN, value);
+    } else {
+      this.removeAttribute(attributes.TEXT_ALIGN);
+    }
+    this.container.classList.remove(...this.textAlignClass(true));
+    if (this.textAlign) this.container.classList.add(this.textAlignClass());
+  }
+
+  get textAlign(): string {
+    return this.getAttribute(attributes.TEXT_ALIGN);
+  }
+
+  /**
+   * Get text-align class name/s with prefixed value
+   * @param {boolean|undefined} isAll If true, will return all classes as array
+   * @returns {string|Array<string>} The class name with prefix
+   */
+  textAlignClass(isAll?: boolean): string | Array<string> {
+    const prefixed = (v: string) => `text-align-${v}`;
+    return isAll ? TEXT_ALIGNMENTS.map((v) => prefixed(v)) : prefixed(this.textAlign);
+  }
+
+  /**
+   * Set the given status
+   * @param {string} value The value
+   */
+  set status(value: string) {
+    if (STATUSES.includes(value)) {
+      this.setAttribute(attributes.STATUS, value);
+    } else {
+      this.removeAttribute(attributes.STATUS);
+    }
+    this.container.classList.remove(...this.statusClass(true));
+    if (this.status) this.container.classList.add(this.statusClass());
+  }
+
+  get status(): string {
+    return this.getAttribute(attributes.STATUS);
+  }
+
+  /**
+   * Get status class name/s with prefixed value
+   * @param {boolean|undefined} isAll If true, will return all classes as array
+   * @returns {string|Array<string>} The class name with prefix
+   */
+  statusClass(isAll?: boolean): string | Array<string> {
+    const prefixed = (v: string) => `status-${v}`;
+    return isAll ? STATUSES.map((v) => prefixed(v)) : prefixed(this.status);
   }
 
   /**
