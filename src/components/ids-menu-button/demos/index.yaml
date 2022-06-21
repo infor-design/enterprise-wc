@@ -12,5 +12,8 @@
     type: Example
     description: Demonstrates how to update the text value of the menu button on selection
   - link: side-by-side.html
-    type: Example
+    type: Side-by-side Example
     description: Showing a menu button side by side with 4.x
+  - link: standalone-css.html
+    type: Standalone CSS
+    description: Showing a menu button that works with css only
