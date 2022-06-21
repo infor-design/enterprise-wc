@@ -246,6 +246,11 @@ describe('IdsTimePicker Component', () => {
     timepicker.hours = null;
 
     expect(timepicker.value).toBe('1:00 PM');
+
+    timepicker.minutes = null;
+    timepicker.seconds = null;
+
+    expect(timepicker.value).toBe('1:00 PM');
   });
 
   it('should parse input value', () => {
@@ -515,6 +520,17 @@ describe('IdsTimePicker Component', () => {
     expect(timepicker.popup.visible).toBeFalsy();
   });
 
+  it('should set ID', () => {
+    expect(timepicker.id).toEqual('');
+
+    timepicker.id = 'example';
+    expect(timepicker.id).toEqual('example');
+    expect(timepicker.input?.getAttribute('id')).toEqual('example');
+
+    timepicker.id = null;
+    expect(timepicker.id).toEqual('');
+  });
+
   it('can be disabled', () => {
     const morning = '01:00:00 AM';
     const evening = '06:30:00 PM';
@@ -735,5 +751,20 @@ describe('IdsTimePicker Component', () => {
     expect(timepicker.dirtyTracker).toEqual(false);
     expect(timepicker.getAttribute('dirty-tracker')).toEqual(null);
     expect(timepicker.input.getAttribute('dirty-tracker')).toEqual(null);
+  });
+
+  it('should set mask', () => {
+    expect(timepicker.mask).toBeFalsy();
+
+    timepicker.mask = true;
+    expect(timepicker.mask).toBeTruthy();
+    expect(timepicker.input?.getAttribute('mask')).toEqual('date');
+
+    timepicker.format = 'HH:mm:ss';
+    expect(timepicker.input.maskOptions.format).toEqual(timepicker.format);
+
+    timepicker.mask = null;
+    expect(timepicker.mask).toBeFalsy();
+    expect(timepicker.input?.getAttribute('mask')).toBeNull();
   });
 });
