@@ -553,7 +553,13 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
           return input && input.getTime && !Number.isNaN(input.getTime());
         }
 
-        const parsedDate = hostCompoment.locale.parseDate(val, {});
+        const dateFormat = hostCompoment.format;
+        const options: any = {};
+        if (dateFormat) {
+          options.dateFormat = dateFormat;
+        }
+
+        const parsedDate = hostCompoment.locale.parseDate(val, options);
         return !(((parsedDate === undefined) && val !== ''));
       },
       message: 'Invalid Date',

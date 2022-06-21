@@ -57,6 +57,7 @@ export default class IdsTriggerField extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.FORMAT,
       attributes.TABBABLE
     ];
   }
@@ -190,6 +191,25 @@ export default class IdsTriggerField extends Base {
 
   get readonly(): boolean {
     return super.readonly;
+  }
+
+  /**
+   * Set format for date, time
+   * @param {string} val date, time format
+   */
+  set format(val: string) {
+    if (val) {
+      this.setAttribute(attributes.FORMAT, val);
+    } else {
+      this.removeAttribute(attributes.FORMAT);
+    }
+  }
+
+  /**
+   * Return format
+   */
+  get format(): string {
+    return this.getAttribute(attributes.FORMAT)
   }
 
   /**
