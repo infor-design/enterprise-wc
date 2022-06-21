@@ -74,6 +74,12 @@
     @include text-slate-10();
   }
 
+  ids-accordion-header ids-text::part(text) {
+    overflow: hidden;
+    width: 150px;
+    white-space: nowrap;
+  }
+
   .panel-content {
     padding-top: 15px;
     padding-bottom: 15px;

@@ -1828,11 +1828,19 @@ class IdsMonthView extends Base {
     }
   }
 
-  #removeAllEvents() {
+  /**
+   * Remove month view calendar events and overflow elements
+   */
+  removeAllEvents(): void {
     const events = this.container.querySelectorAll('.events-container');
     events.forEach((container: Element) => { container.innerHTML = ''; });
   }
 
+  /**
+   * Groups calendar events by day using dateKey as key
+   * @param {CalendarEventData[]} events calendar events data
+   * @returns {Record<string, Array<CalendarEventData>>} collection of calendar events
+   */
   #groupEventsByDay(events: CalendarEventData[]): Record<string, Array<CalendarEventData>> {
     const dayEvents: Record<string, Array<CalendarEventData>> = {};
 
@@ -1845,6 +1853,11 @@ class IdsMonthView extends Base {
     return dayEvents;
   }
 
+  /**
+   * Filter calendar events data by current month
+   * @param {CalendarEventData[]} data calendar events data
+   * @returns {CalendarEventData[]} calendar events within month
+   */
   filterEventsByMonth(data: CalendarEventData[] = []): CalendarEventData[] {
     return data.filter((event) => {
       const eventStart = new Date(event.starts);
@@ -1853,7 +1866,11 @@ class IdsMonthView extends Base {
     });
   }
 
-  async renderEventsData(forceRender = false) {
+  /**
+   * Render Calendar Events data inside month view
+   * @param {boolean} forceRender skip data fetch
+   */
+  async renderEventsData(forceRender = false): Promise<void> {
     if (!forceRender && typeof this.state.beforeEventsRender === 'function') {
       const startDate = this.startDate || new Date(this.year, this.month, 1);
       const endDate = this.endDate || new Date(this.year, this.month + 1, 0);
@@ -1861,7 +1878,7 @@ class IdsMonthView extends Base {
       return;
     }
 
-    this.#removeAllEvents();
+    this.removeAllEvents();
 
     if (!this.state.hasRendered || !this.eventsData?.length) return;
 
@@ -1875,7 +1892,13 @@ class IdsMonthView extends Base {
     }
   }
 
-  #countDays(startDate: Date, endDate: Date) {
+  /**
+   * Counts days between provided start and end dates
+   * @param {Date} startDate start date
+   * @param {Date} endDate end date
+   * @returns {number} duration in days
+   */
+  #countDays(startDate: Date, endDate: Date): number {
     const start = new Date(startDate);
     const end = new Date(endDate);
     let days = 0;
@@ -1888,6 +1911,11 @@ class IdsMonthView extends Base {
     return days;
   }
 
+  /**
+   * Renders calendar events within corresponding date's table cell
+   * @param {string} dateKey generated date key
+   * @param {CalendarEventData[]} events calendar events
+   */
   #renderDayEvents(dateKey: string, events: CalendarEventData[]): void {
     const container = this.container.querySelector(`.events-container[data-key="${dateKey}"]`);
     const orders = [...container.querySelectorAll('ids-calendar-event')].map((elem) => elem.order);
@@ -1951,7 +1979,13 @@ class IdsMonthView extends Base {
     }
   }
 
-  #renderEventsOverflow(container: any, dateKey: string) {
+  /**
+   * Renders clickable event overflow element
+   * Specifies number of calendar events overflowing the container
+   * @param {HTMLElement} container date specific event container elemeent
+   * @param {string} dateKey generated date key
+   */
+  #renderEventsOverflow(container: any, dateKey: string): void {
     const calendarEvents = [...container.querySelectorAll('ids-calendar-event')];
     const year = dateKey.substring(0, 4);
     const month = parseInt(dateKey.substring(4, 6)) + 1;

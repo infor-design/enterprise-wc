@@ -178,7 +178,7 @@ export default class IdsCalendar extends Base {
     const panels = data.map((item: CalendarEventDetail) => `
       <ids-accordion-panel expanded="false">
         <ids-accordion-header color="${item.color}" slot="header">
-          <ids-text font-weight="bold">${item.shortSubject || item.subject}</ids-text>
+          <ids-text font-weight="bold" overflow="ellipsis">${item.shortSubject || item.subject}</ids-text>
         </ids-accordion-header>
         <div slot="content" class="panel-content">
           ${item.status ? `<ids-data-label label="${this.locale.translate('Status')}">${item.status}</ids-data-label><hr>` : ''}

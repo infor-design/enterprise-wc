@@ -87,6 +87,12 @@
     @include w-full;
 
     padding: 2px 5px;
+
+    ids-text {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
   }
 
   .calendar-event-icon {
