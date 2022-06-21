@@ -593,7 +593,9 @@ export default class IdsTimePicker extends Base {
       }
 
       // Focus hours dropdown
-      this.container.querySelector('#hours')?.container.querySelector('ids-trigger-field')?.focus();
+      if (!this.autoselect) {
+        this.container.querySelector('#hours')?.container.querySelector('ids-trigger-field')?.focus();
+      }
     }
   }
 
