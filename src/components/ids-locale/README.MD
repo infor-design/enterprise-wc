@@ -277,7 +277,6 @@ locale.parseDate('2020-02-26 下午12:00', { dateFormat: 'yyyy/M/d ah:mm', local
 - ShowAsUndefined option is deprecated, now undefined locales will all be shown in square brackets
 - Round option on formatNumber is deprecated
 - Options on formatNumber now use toLocaleString options (which are similar)
-- `parseDate` is now much more limited and cannot parse long formats
 - Its technically not possible to provide a new translation file as the files are in the npm folder. So if you want to add a new translation or locale lets us know and we will add it. You might have to sync the translations.
 - `toUpperCase` can now be done with `toLocaleUpperCase` so is deprecated
 - `toLowerCase` can now be done with `toLocaleLowerCase` so is deprecated

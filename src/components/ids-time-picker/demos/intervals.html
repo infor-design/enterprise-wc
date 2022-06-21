@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Time Picker Intervals</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true" cols="4">
+      <ids-layout-grid-cell>
+        <ids-time-picker label="5-minutes 5-seconds interval (default)" format="hh:mm:ss"></ids-time-picker>
+        <ids-time-picker label="15-minutes interval" format="h:mm" minute-interval="15"></ids-time-picker>
+        <ids-time-picker label="10-minutes interval" format="hh:mm" minute-interval="10"></ids-time-picker>
+        <ids-time-picker label="1-minute interval" format="h:mm" minute-interval="1"></ids-time-picker>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-time-picker label="15-seconds interval" format="h:mm:ss" second-interval="15"></ids-time-picker>
+        <ids-time-picker label="10-seconds interval" format="hh:mm:ss" second-interval="10"></ids-time-picker>
+        <ids-time-picker label="1-second interval" format="h:mm:ss" second-interval="1"></ids-time-picker>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+  </ids-container>
+</body>
+</html>

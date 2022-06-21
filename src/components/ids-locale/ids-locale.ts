@@ -956,9 +956,13 @@ class IdsLocale {
           dateObj.h = hasDayPeriodsFirst ? dateObj.h : value.length === 1 ? `0${value}` : value;
           break;
         case 'ss':
-          if (numberValue < 0 || numberValue > 60) {
-            dateObj.ss = 0;
-            break;
+          if (numberValue < 0 || numberValue >= 60) {
+            if (!options?.strictTime) {
+              dateObj.ss = 0;
+              break;
+            } else {
+              return undefined;
+            }
           }
           dateObj.ss = value;
           break;
@@ -966,9 +970,13 @@ class IdsLocale {
           dateObj.ms = value;
           break;
         case 'mm':
-          if (numberValue < 0 || numberValue > 60) {
-            dateObj.mm = 0;
-            break;
+          if (numberValue < 0 || numberValue >= 60) {
+            if (!options?.strictTime) {
+              dateObj.mm = 0;
+              break;
+            } else {
+              return undefined;
+            }
           }
           dateObj.mm = value;
           break;
@@ -979,7 +987,7 @@ class IdsLocale {
             hasDayPeriodsFirst = true;
           }
 
-          if (dirtyDateString.includes(thisLocaleCalendar.dayPeriods[0])) {
+          if (dirtyDateString?.toLowerCase()?.includes(thisLocaleCalendar.dayPeriods[0]?.toLowerCase())) {
             dateObj.a = 'AM';
 
             if (dateObj.h) {
@@ -989,7 +997,7 @@ class IdsLocale {
             }
           }
 
-          if (dirtyDateString.includes(thisLocaleCalendar.dayPeriods[1])) {
+          if (dirtyDateString?.toLowerCase()?.includes(thisLocaleCalendar.dayPeriods[1]?.toLowerCase())) {
             dateObj.a = 'PM';
 
             if (dateObj.h) {
