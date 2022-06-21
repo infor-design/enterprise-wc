@@ -541,7 +541,7 @@ export default class IdsTimePicker extends Base {
 
           const date: Date | undefined = this.locale.parseDate(
             input.value,
-            this.format
+            { dateFormat: this.format, strictTime: true }
           );
 
           return isValidDate(date);
