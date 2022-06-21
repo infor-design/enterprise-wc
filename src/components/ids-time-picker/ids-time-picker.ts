@@ -250,7 +250,7 @@ export default class IdsTimePicker extends Base {
       this.#setTimeOnField();
       this.close();
 
-      if (!this.autoupdate) {
+      if (!(this.autoupdate || this.autoselect)) {
         this.input?.focus();
       }
     });
