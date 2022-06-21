@@ -127,21 +127,21 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
-   * Sync and then rerender body rows
+   * Sync and then redraw body rows
    * @returns {void}
    */
-  syncAndRerenderBody() {
+  redrawBody() {
     this.#syncSelectedRows();
     this.#syncActivatedRow();
-    this.#rerenderBody();
+    this.#redrawBodyTemplate();
   }
 
   /**
-   * Rerender body rows
+   * redraw body rows
    * @private
    * @returns {void}
    */
-  #rerenderBody() {
+  #redrawBodyTemplate() {
     if ((this.columns.length === 0 && this.data.length === 0) || !this.initialized) {
       return;
     }
@@ -161,10 +161,10 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
-   * Rerender the list by re applying the template
+   * redraw the list by re applying the template
    * @private
    */
-  rerender() {
+  redraw() {
     if ((this.columns.length === 0 && this.data.length === 0) || !this.initialized) {
       return;
     }
@@ -472,12 +472,12 @@ export default class IdsDataGrid extends Base {
     // Handle the Locale Change
     this.offEvent('languagechange.data-grid-container');
     this.onEvent('languagechange.data-grid-container', this.closest('ids-container'), () => {
-      this.rerender();
+      this.redraw();
     });
 
     this.offEvent('localechange.data-grid-container');
     this.onEvent('localechange.data-grid-container', this.closest('ids-container'), () => {
-      this.rerender();
+      this.redraw();
     });
 
     this.filters?.attachFilterEventHandlers();
@@ -661,9 +661,7 @@ export default class IdsDataGrid extends Base {
     const sortField = column?.field !== column?.id ? column?.field : column?.id;
     this.sortColumn = { id, ascending };
     this.datasource.sort(sortField, ascending, null);
-    this.#syncSelectedRows();
-    this.#syncActivatedRow();
-    this.rerender();
+    this.redrawBody();
     this.setSortState(id, ascending);
     this.triggerEvent('sort', this, { detail: { elem: this, sortColumn: this.sortColumn } });
   }
@@ -769,7 +767,7 @@ export default class IdsDataGrid extends Base {
    */
   set columns(value) {
     this.currentColumns = value ? deepClone(value) : [{ id: '', name: '' }];
-    this.rerender();
+    this.redraw();
   }
 
   get columns() { return this?.currentColumns || [{ id: '', name: '' }]; }
@@ -780,7 +778,7 @@ export default class IdsDataGrid extends Base {
    */
   set columnGroups(value) {
     this.state.columnsGroups = value;
-    this.rerender();
+    this.redraw();
   }
 
   get columnGroups() { return this.state?.columnsGroups || null; }
@@ -793,7 +791,7 @@ export default class IdsDataGrid extends Base {
     if (value) {
       this.datasource.data = value;
       this.initialized = true;
-      this.rerender();
+      this.redraw();
       return;
     }
 
@@ -812,7 +810,7 @@ export default class IdsDataGrid extends Base {
     } else {
       this.removeAttribute(attributes.VIRTUAL_SCROLL);
     }
-    this.rerender();
+    this.redraw();
   }
 
   get virtualScroll(): boolean { return stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
@@ -848,7 +846,7 @@ export default class IdsDataGrid extends Base {
     }
 
     if (this.virtualScroll) {
-      this.rerender();
+      this.redraw();
     }
   }
 

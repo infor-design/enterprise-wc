@@ -591,7 +591,7 @@ export default class IdsDataGridFilters {
     };
 
     this.root.datasource.filter(checkRow);
-    this.root.syncAndRerenderBody();
+    this.root.redrawBody();
 
     // Fires after filter action occurs
     if (isCleared || isFilterApply) {

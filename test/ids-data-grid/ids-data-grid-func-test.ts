@@ -239,7 +239,7 @@ describe('IdsDataGrid Component', () => {
     it('skips re-rerender if no data', () => {
       dataGrid.columns = [];
       dataGrid.data = [];
-      dataGrid.syncAndRerenderBody();
+      dataGrid.redrawBody();
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
     });
 
@@ -325,7 +325,7 @@ describe('IdsDataGrid Component', () => {
       dataGrid.rowHeight = 'xs';
       expect(dataGrid.rowPixelHeight).toEqual(30);
 
-      dataGrid.syncAndRerenderBody();
+      dataGrid.redrawBody();
       expect(dataGrid.rowPixelHeight).toEqual(30);
     });
   });
@@ -851,19 +851,19 @@ describe('IdsDataGrid Component', () => {
   describe('Container / Height Tests', () => {
     it('supports auto fit', () => {
       dataGrid.autoFit = true;
-      dataGrid.rerender();
+      dataGrid.redraw();
       expect(dataGrid.getAttribute('auto-fit')).toEqual('true');
       dataGrid.autoFit = false;
-      dataGrid.rerender();
+      dataGrid.redraw();
       expect(dataGrid.getAttribute('auto-fit')).toBeFalsy();
     });
 
     it('supports auto fit bottom', () => {
       dataGrid.autoFit = 'bottom';
-      dataGrid.rerender();
+      dataGrid.redraw();
       expect(dataGrid.getAttribute('auto-fit')).toEqual('bottom');
       dataGrid.autoFit = false;
-      dataGrid.rerender();
+      dataGrid.redraw();
       expect(dataGrid.getAttribute('auto-fit')).toBeFalsy();
     });
   });
@@ -972,7 +972,7 @@ describe('IdsDataGrid Component', () => {
 
     it('can render with the decimal formatter (with defaults)', () => {
       delete dataGrid.columns[6].formatOptions;
-      dataGrid.rerender();
+      dataGrid.redraw();
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
         .querySelectorAll('.ids-data-grid-cell')[6].querySelector('.text-ellipsis').innerHTML).toEqual('12.99');
 
@@ -990,7 +990,7 @@ describe('IdsDataGrid Component', () => {
 
     it('can render with the integer formatter (with defaults)', () => {
       delete dataGrid.columns[9].formatOptions;
-      dataGrid.rerender();
+      dataGrid.redraw();
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
         .querySelectorAll('.ids-data-grid-cell')[9].querySelector('.text-ellipsis').innerHTML).toEqual('13');
 
@@ -1008,7 +1008,7 @@ describe('IdsDataGrid Component', () => {
 
     it('can render with the hyperlink formatter (with default href)', () => {
       delete dataGrid.columns[10].href;
-      dataGrid.rerender();
+      dataGrid.redraw();
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
         .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink').innerHTML).toEqual('United States');
 
@@ -1034,7 +1034,7 @@ describe('IdsDataGrid Component', () => {
         }
         return `${row.book}`;
       };
-      dataGrid.rerender();
+      dataGrid.redraw();
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2]
         .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink').getAttribute('href')).toEqual('102');
 
@@ -1044,7 +1044,7 @@ describe('IdsDataGrid Component', () => {
 
     it('can render disabled hyperlink', () => {
       dataGrid.columns[10].disabled = (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101;
-      dataGrid.rerender();
+      dataGrid.redraw();
       const link = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-hyperlink');
       expect(link.disabled).toBeTruthy();
       const link2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-hyperlink');
@@ -1354,7 +1354,7 @@ describe('IdsDataGrid Component', () => {
       dataGrid.rowSelection = 'single';
       dataGrid.columns = newColumns;
 
-      dataGrid.rerender();
+      dataGrid.redraw();
       const radio = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelectorAll('.ids-data-grid-cell .ids-data-grid-radio')[0];
       expect(radio.classList.contains('disabled')).toBeTruthy();
       const radio2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelectorAll('.ids-data-grid-cell .ids-data-grid-radio')[0];
@@ -1427,7 +1427,7 @@ describe('IdsDataGrid Component', () => {
       newColumns[0].formatter = formatters.selectionCheckbox;
       dataGrid.rowSelection = 'multiple';
       dataGrid.columns = newColumns;
-      dataGrid.rerender();
+      dataGrid.redraw();
       dataGrid.headerCheckbox.click();
       expect(dataGrid.selectedRows.length).toBe(9);
       dataGrid.headerCheckbox.click();
@@ -1442,7 +1442,7 @@ describe('IdsDataGrid Component', () => {
       dataGrid.rowSelection = 'multiple';
       dataGrid.columns = newColumns;
 
-      dataGrid.rerender();
+      dataGrid.redraw();
       const link = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelectorAll('.ids-data-grid-cell .ids-data-grid-checkbox')[0];
       expect(link.classList.contains('disabled')).toBeTruthy();
       const link2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelectorAll('.ids-data-grid-cell .ids-data-grid-checkbox')[0];
