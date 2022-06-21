@@ -101,6 +101,7 @@ export default class IdsMenu extends Base {
     super.connectedCallback?.();
     this.attachEventHandlers();
     this.attachKeyboardListeners();
+    this.setAttribute('role', 'none');
 
     // After repaint
     requestAnimationFrame(() => {
@@ -124,7 +125,7 @@ export default class IdsMenu extends Base {
       slot = ` slot="content"`;
     }
 
-    return `<div class="ids-menu"${id}${slot} role="menu" part="menu"><slot></slot></div>`;
+    return `<nav class="ids-menu"${id}${slot} part="menu" role="none"><slot></slot></nav>`;
   }
 
   /**

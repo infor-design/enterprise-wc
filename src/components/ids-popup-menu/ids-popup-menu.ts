@@ -1,5 +1,5 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import { attributes } from '../../core/ids-attributes';
+import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import '../ids-popup/ids-popup';
 import Base from './ids-popup-menu-base';
@@ -174,7 +174,7 @@ export default class IdsPopupMenu extends Base {
     if (!this.popup.visible) return;
 
     this.hidden = true;
-    this.popup.querySelector('nav')?.removeAttribute('role');
+    this.#removeVisibleARIA();
     this.lastHovered = undefined;
 
     // Hide the Ids Popup and all Submenus
@@ -195,7 +195,7 @@ export default class IdsPopupMenu extends Base {
     }
 
     this.hidden = false;
-    this.popup.querySelector('nav')?.setAttribute('role', 'menu');
+    this.#setVisibleARIA();
 
     // Hide any "open" submenus (in the event the menu is already open and being positioned)
     this.hideSubmenus();
@@ -205,6 +205,19 @@ export default class IdsPopupMenu extends Base {
     this.popup.place();
 
     this.addOpenEvents();
+  }
+
+  #setVisibleARIA(): void {
+    this.popup.querySelector('nav')?.setAttribute(htmlAttributes.ROLE, 'menu');
+    const items: Array<any> = [...this.querySelectorAll('ids-menu-item')];
+    items.forEach((item, i) => {
+      item.a.setAttribute(htmlAttributes.ARIA_POSINSET, i + 1);
+      item.a.setAttribute(htmlAttributes.ARIA_SETSIZE, items.length);
+    });
+  }
+
+  #removeVisibleARIA(): void {
+    this.popup.querySelector('nav')?.removeAttribute(htmlAttributes.ROLE);
   }
 
   /**

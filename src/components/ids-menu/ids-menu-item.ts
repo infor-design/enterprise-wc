@@ -52,15 +52,14 @@ export default class IdsMenuItem extends Base {
     }
 
     // Check
-    const check = '<span class="check" part="check"></span>';
+    const check = this.templateCheck();
 
     // Icon
     let icon = '';
     if (this.state?.icon) {
-      const viewbox = this.viewbox ? ` viewbox="${this.viewbox}"` : '';
-      icon = `<ids-icon slot="icon" icon="${this.state.icon}"${viewbox} size="${MENU_ITEM_SIZE}" part="icon"></ids-icon>`;
+      icon = this.templateDisplayIcon(this.state.icon);
     }
-    const iconSlot = `<slot name="icon">${icon}</slot>`;
+    const iconSlot = `<span class="ids-menu-item-icon" role="presentation"><slot name="icon">${icon}</slot></span>`;
 
     // Selected
     let selectedClass = '';
@@ -96,12 +95,25 @@ export default class IdsMenuItem extends Base {
     const textSlot = `<span class="ids-menu-item-text" part="text"><slot></slot></span>`;
 
     // Main
-    return `<li role="none" part="menu-item" class="ids-menu-item${disabledClass}${selectedClass}${submenuClass}${textClass}">
-      <a ${tabindex} ${disabledAttr}>
+    return `<div role="none" part="menu-item" class="ids-menu-item${disabledClass}${selectedClass}${submenuClass}${textClass}">
+      <a role="menuitem" ${tabindex} ${disabledAttr}>
         ${check}${iconSlot}${textSlot}
       </a>
       <slot name="submenu"></slot>
-    </li>`;
+    </div>`;
+  }
+
+  templateCheck() {
+    return '<span class="check" part="check" role="presentation"></span>';
+  }
+
+  templateDisplayIcon(icon: string) {
+    const viewbox = this.viewbox ? ` viewbox="${this.viewbox}"` : '';
+    return `<ids-icon slot="icon" icon="${icon}"${viewbox} size="${MENU_ITEM_SIZE}" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>`;
+  }
+
+  templateSubmenuIcon() {
+    return `<ids-icon slot="icon" icon="dropdown" size="${MENU_ITEM_SIZE}" class="ids-icon ids-menu-item-submenu-icon"></ids-icon>`;
   }
 
   /**
@@ -393,8 +405,7 @@ export default class IdsMenuItem extends Base {
     if (icon) {
       icon.icon = iconName;
     } else {
-      const viewbox = this.viewbox ? ` viewbox="${this.viewbox}"` : '';
-      this.insertAdjacentHTML('afterbegin', `<ids-icon slot="icon" icon="${iconName}"${viewbox} size="${MENU_ITEM_SIZE}" class="ids-icon ids-menu-item-display-icon"></ids-icon>`);
+      this.insertAdjacentHTML('afterbegin', this.templateDisplayIcon(iconName));
     }
   }
 
@@ -463,18 +474,22 @@ export default class IdsMenuItem extends Base {
   decorateSubmenu(val: boolean | string) {
     const icon = this.container.querySelector('ids-icon[icon="dropdown"]');
     if (val === true || val === 'true') {
-      this.submenu.setAttribute('slot', 'submenu');
+      if (this.submenu) {
+        this.submenu.setAttribute('slot', 'submenu');
+        this.submenu.setAttribute('aria-expanded', this.submenu.visible ? 'true' : 'false');
+      }
       this.a.setAttribute('role', 'button');
       this.a.setAttribute('aria-haspopup', 'true');
-      this.a.setAttribute('aria-expanded', 'false');
       if (!icon) {
-        this.a.insertAdjacentHTML('beforeend', `<ids-icon slot="icon" icon="dropdown" size="${MENU_ITEM_SIZE}" class="ids-icon ids-menu-item-submenu-icon"></ids-icon>`);
+        this.a.insertAdjacentHTML('beforeend', this.templateSubmenuIcon());
       }
       this.value = null;
     } else {
+      if (this.submenu) {
+        this.submenu.removeAttribute('aria-expanded');
+      }
       this.a.setAttribute('role', 'menuitem');
       this.a.removeAttribute('aria-haspopup');
-      this.a.removeAttribute('aria-expanded');
       icon?.remove();
     }
   }
@@ -493,12 +508,14 @@ export default class IdsMenuItem extends Base {
       this.container.classList.add(selectType === 'multiple' ? 'has-multi-checkmark' : 'has-checkmark');
       this.container.classList.remove(selectType === 'multiple' ? 'has-checkmark' : 'has-multi-checkmark');
       if (!check) {
-        this.a.insertAdjacentHTML('afterbegin', `<span class="check"></span>`);
+        this.a.insertAdjacentHTML('afterbegin', this.templateCheck());
       }
+      this.a.setAttribute('role', selectType === 'multiple' ? 'menuitemcheckbox' : 'menuitemradio');
       this.a.setAttribute('aria-checked', this.selected ? 'true' : 'false');
     } else {
       this.container.classList.remove('has-checkmark', 'has-multi-checkmark');
       check?.remove();
+      this.a.setAttribute('role', this.hasSubmenu ? 'button' : 'menuitem');
       this.a.removeAttribute('aria-checked');
     }
   }
@@ -572,22 +589,17 @@ export default class IdsMenuItem extends Base {
    * @returns {void}
    */
   set tabIndex(val) {
-    // Remove the webcomponent tabindex
-    this.shouldUpdate = false;
-    this.removeAttribute(attributes.TABINDEX);
-    this.shouldUpdate = true;
-
     const trueVal = Number(val);
-
-    // Mirror tabindex on the shadow DOM anchor
-    if (Number.isNaN(trueVal) || trueVal < -1) {
-      this.state.tabIndex = 0;
-      this.a.setAttribute(attributes.TABINDEX, '0');
-      return;
+    if (this.state.tabIndex !== trueVal) {
+      // Mirror tabindex on the shadow DOM anchor
+      if (Number.isNaN(trueVal) || trueVal < -1) {
+        this.state.tabIndex = 0;
+        this.a.setAttribute(attributes.TABINDEX, '0');
+      } else {
+        this.state.tabIndex = trueVal;
+        this.a.setAttribute(attributes.TABINDEX, `${trueVal}`);
+      }
     }
-
-    this.state.tabIndex = trueVal;
-    this.a.setAttribute(attributes.TABINDEX, `${trueVal}`);
   }
 
   /**
