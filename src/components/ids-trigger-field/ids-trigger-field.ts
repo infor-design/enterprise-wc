@@ -207,9 +207,10 @@ export default class IdsTriggerField extends Base {
 
   /**
    * Return format
+   * @returns {string} return date format
    */
   get format(): string {
-    return this.getAttribute(attributes.FORMAT)
+    return this.getAttribute(attributes.FORMAT);
   }
 
   /**

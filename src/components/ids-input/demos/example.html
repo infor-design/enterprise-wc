@@ -19,7 +19,7 @@
         <ids-input type="text" label="Dirty Tracking" dirty-tracker="true" placeholder="Dirty Tracking" value="02006"></ids-input>
         <ids-input type="text" label="Clearable" placeholder="Clearable text Field" validate="email" clearable="true"></ids-input>
         <ids-input type="text" label="Autoselect" value="Text select on focus" autoselect="true"></ids-input>
-        <ids-input type="text" label="Date" validate="date"></ids-input>
+        <ids-input type="text" label="Date" validate="date" mask="date"></ids-input>
         <ids-input type="text" label="Time" validate="time"></ids-input>
       </ids-layout-grid-cell>
 
@@ -63,8 +63,8 @@
         <br><br>
         <ids-text font-size="12" type="h2">Ids Input - Phone/Number</ids-text>
         <br>
-        <ids-input type="phone" label="Phone Number"></ids-input>
-        <ids-input type="number" label="Number"></ids-input>
+        <ids-input type="phone" label="Phone Number" mask="number"></ids-input>
+        <ids-input type="number" label="Number" mask="number"></ids-input>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>
