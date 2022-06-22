@@ -549,8 +549,8 @@ class IdsMonthView extends Base {
     });
 
     if (this.viewPicker) {
-      this.offEvent('selected', viewPicker);
-      this.onEvent('selected', viewPicker, (evt: CustomEvent) => {
+      this.offEvent('selected.month-view-picker', viewPicker);
+      this.onEvent('selected.month-view-picker', viewPicker, (evt: CustomEvent) => {
         evt.stopPropagation();
         this.triggerViewChange(evt.detail.value);
       });

@@ -200,8 +200,8 @@ export default class IdsWeekView extends Base {
 
     if (this.viewPicker) {
       const viewPicker = this.container.querySelector('#view-picker');
-      this.offEvent('selected', viewPicker);
-      this.onEvent('selected', viewPicker, (evt: CustomEvent) => {
+      this.offEvent('selected.week-view-picker', viewPicker);
+      this.onEvent('selected.week-view-picker', viewPicker, (evt: CustomEvent) => {
         evt.stopPropagation();
         this.triggerViewChange(evt.detail.value, this.state.activeDate);
       });

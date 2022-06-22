@@ -218,39 +218,39 @@ export default class IdsCalendar extends Base {
    * Attach calendar event handlers
    */
   #attachEventHandlers(): void {
-    this.offEvent('dayselected');
-    this.onEvent('dayselected', this.container, (evt: CustomEvent) => {
+    this.offEvent('dayselected.calendar-container');
+    this.onEvent('dayselected.calendar-container', this.container, (evt: CustomEvent) => {
       evt.stopPropagation();
       this.#updateActiveDate(evt.detail.date);
       this.state.selected = evt.detail?.events || [];
       this.updateEventDetails(evt.detail?.events);
     });
 
-    this.offEvent('viewchange');
-    this.onEvent('viewchange', this.container, (evt: CustomEvent) => {
+    this.offEvent('viewchange.calendar-container');
+    this.onEvent('viewchange.calendar-container', this.container, (evt: CustomEvent) => {
       evt.stopPropagation();
       this.#updateActiveDate(evt.detail.date);
       this.changeView(evt.detail.view);
       this.renderEventsData();
     });
 
-    this.offEvent('datechange');
-    this.onEvent('datechange', this.container, (evt: CustomEvent) => {
+    this.offEvent('datechange.calendar-container');
+    this.onEvent('datechange.calendar-container', this.container, (evt: CustomEvent) => {
       evt.stopPropagation();
       this.#updateActiveDate(evt.detail.date);
       this.renderEventsData();
     });
 
-    this.offEvent('change');
-    this.onEvent('change', this.container.querySelector('.calendar-legend-pane'), (evt: any) => {
+    this.offEvent('change.calendar-legend');
+    this.onEvent('change.calendar-legend', this.container.querySelector('.calendar-legend-pane'), (evt: any) => {
       evt.stopPropagation();
       this.#toggleEventType(evt.detail.elem, evt.detail.checked);
       this.relayCalendarData();
       this.updateEventDetails(this.state.selected);
     });
 
-    this.offEvent('overflow-click');
-    this.onEvent('overflow-click', this.container, (evt: CustomEvent) => {
+    this.offEvent('overflow-click.calendar-container');
+    this.onEvent('overflow-click.calendar-container', this.container, (evt: CustomEvent) => {
       evt.stopPropagation();
       if (evt.detail.date) {
         this.#updateActiveDate(evt.detail.date);
