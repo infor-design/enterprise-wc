@@ -88,7 +88,7 @@ export default class IdsMenuGroup extends Base {
   }
 
   #getGeneratedLabel() {
-    const str = this.locale.translate('MenuGroup');
+    const str = this.locale?.translate('MenuGroup') || '';
     return str.replace('{0}', this.items.length);
   }
 
@@ -144,6 +144,8 @@ export default class IdsMenuGroup extends Base {
    * @returns {any} [IdsMenuHeader] containing a menu
    */
   get header() {
+    const prevHeader = this.previousElementSibling;
+    if (prevHeader && prevHeader.tagName === 'IDS-MENU-HEADER') return prevHeader;
     return this.querySelector('ids-menu-header');
   }
 
