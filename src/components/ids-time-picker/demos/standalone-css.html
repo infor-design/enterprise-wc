@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body hidden>
+  <div class="ids-layout-grid">
+    <h1 class="ids-text ids-text-12">TIME PICKER (Standalone CSS)</h1>
+  </div>
+  <div class="ids-layout-grid">
+    <div class="ids-layout-grid-cell">
+      <div class="ids-time-picker field-height-md">
+        <div class="ids-trigger-field ids-input field-height-md sm">
+          <label class="ids-label-text" for="timepicker-standalone-css">
+            <span class="ids-text label">Time Picker</span>
+          </label>
+          <div class="field-container">
+            <input id="timepicker-standalone-css" type="text" class="ids-input-field left readonly-background" value="" placeholder="Start time">
+            <button class="ids-trigger-button ids-icon-button align-icon-start field-height-md">
+              <svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M8.5 4.423V11l4-1.5m5-.5A8.5 8.5 0 019 17.5 8.5 8.5 0 01.5 9 8.5 8.5 0 019 .5 8.5 8.5 0 0117.5 9z" stroke="currentColor" vector-effect="non-scaling-stroke"></path></svg>
+            </button>
+          </div>
+        </div>
+        <div class="ids-popup position-absolute menu open">
+          <div class="arrow bottom"></div>
+          <div class="content-wrapper">
+            <div class="dropdowns">
+              <div class="ids-dropdown dropdown field-height-md">
+                <div class="ids-trigger-field ids-input readonly-background field-height-md xs">
+                  <label class="ids-label-text" for="hours">
+                    <span class="ids-text label">Hours</span>
+                  </label>
+                  <div class="field-container">
+                    <input id="hours" type="text" class="ids-input-field left" value="1">
+                    <button class="ids-trigger-button ids-icon-button align-icon-start field-height-md">
+                      <svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18" viewBox="0 0 18 18" aria-hidden="true"><path clip-rule="evenodd" d="M4 6l5 6 5-6H4z" fill="currentColor" fill-rule="evenodd" stroke="none"></path></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <span class="separator colons">:</span>
+              <div class="ids-dropdown dropdown field-height-md">
+                <div class="ids-trigger-field ids-input readonly-background field-height-md xs">
+                  <label class="ids-label-text" for="minutes">
+                    <span class="ids-text label">Minutes</span>
+                  </label>
+                  <div class="field-container">
+                    <input id="minutes" type="text" class="ids-input-field left" value="00">
+                    <button class="ids-trigger-button ids-icon-button align-icon-start field-height-md">
+                      <svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18" viewBox="0 0 18 18" aria-hidden="true"><path clip-rule="evenodd" d="M4 6l5 6 5-6H4z" fill="currentColor" fill-rule="evenodd" stroke="none"></path></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <span class="separator"></span>
+              <div class="ids-dropdown dropdown field-height-md">
+                <div class="ids-trigger-field ids-input readonly-background field-height-md xs">
+                  <label class="ids-label-text" for="period">
+                    <span class="ids-text label">Period</span>
+                  </label>
+                  <div class="field-container">
+                    <input id="period" type="text" class="ids-input-field left" value="AM">
+                    <button class="ids-trigger-button ids-icon-button align-icon-start field-height-md">
+                      <svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18" viewBox="0 0 18 18" aria-hidden="true"><path clip-rule="evenodd" d="M4 6l5 6 5-6H4z" fill="currentColor" fill-rule="evenodd" stroke="none"></path></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="ids-button popup-btn">
+              <span class="ids-text bold">Set Time</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
