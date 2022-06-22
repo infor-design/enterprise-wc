@@ -12,6 +12,8 @@ const POPUP_INTERACTION_EVENT_NAMES = [
   'click.trigger',
   'contextmenu.trigger',
   'hoverend.trigger',
+  'mouseenter.trigger',
+  'mouseleave.trigger',
   'sloped-mouseleave.trigger'
 ];
 

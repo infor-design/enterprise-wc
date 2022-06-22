@@ -18,6 +18,8 @@ import styles from './ids-popup-menu.scss';
 @customElement('ids-popup-menu')
 @scss(styles)
 export default class IdsPopupMenu extends Base {
+  #previouslyHoveredItem: null | any;
+
   constructor() {
     super();
   }
@@ -62,9 +64,11 @@ export default class IdsPopupMenu extends Base {
    * @returns {void}
    */
   disconnectedCallback(): void {
+    super.disconnectedCallback?.();
     if (this.hasOpenEvents) {
       this.hide();
     }
+    this.#previouslyHoveredItem = null;
   }
 
   /**
@@ -106,6 +110,31 @@ export default class IdsPopupMenu extends Base {
         this.triggerEvent('hide', this, e);
       }
     });
+
+    // Detect mouseover events between `ids-menu-item` elements in the same menu tree (sibling items),
+    // and close a sibling submenu, if applicable.
+    if (this.trigger === 'hover') {
+      this.onEvent('mouseover', this, (e: MouseEvent) => {
+        if (!this.parentMenuItem) {
+          const target = (e.target as HTMLElement);
+          const isMenuItem = target?.tagName === 'IDS-MENU-ITEM';
+          const prev = this.#previouslyHoveredItem;
+          if (isMenuItem) {
+            this.#previouslyHoveredItem = target;
+            e.stopPropagation();
+
+            if (prev
+              && !prev.isEqualNode(target)
+              && (target.parentElement === prev.parentElement || target.contains(prev) || prev.contains(target))
+            ) {
+              if (prev.hasSubmenu) {
+                prev.submenu.hide();
+              }
+            }
+          }
+        }
+      });
+    }
 
     // Set up all the events specifically-related to the "trigger" type
     this.refreshTriggerEvents();
@@ -358,10 +387,14 @@ export default class IdsPopupMenu extends Base {
   /**
    * Inherited from the Popup Interactions Mixin.
    * Runs after a `mouseleave` event occurs from this menu
+   * @param {CustomEvent} e IDS `sloped-mouseleave`
    * @returns {void}
    */
-  onCancelTriggerHover(): void {
-    this.hide();
+  onCancelTriggerHover(e: CustomEvent): void {
+    const newTargetNode = e.detail.mouseLeaveNode;
+    if (!this.contains(newTargetNode) && !this.isEqualNode(newTargetNode)) {
+      this.hide();
+    }
   }
 
   /**

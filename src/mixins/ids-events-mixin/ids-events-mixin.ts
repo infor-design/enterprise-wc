@@ -403,8 +403,27 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
     this.hoverEndOn = true;
   }
 
+  /**
+   * Setup a custom 'sloped-mouseleave' event that fires after a delay,
+   * and if mouse coordinates land within a "safe" area.
+   * @private
+   * @param {string} eventName The event name with optional namespace
+   * @param {HTMLElement} target The DOM element to register
+   * @param {object} options Additional event settings (passive, once, bubbles ect)
+   */
   #addSlopedMouseLeaveListener(eventName: string, target: HTMLElement, options?: Record<string, unknown>) {
-    // Setup events
+    const dispatchCustomEvent = (mouseLeaveNode: any, originalEvent: MouseEvent) => {
+      const event = new CustomEvent(this.#getEventBaseName(eventName), {
+        detail: {
+          originalEvent,
+          mouseLeaveNode
+        }
+      });
+      target.dispatchEvent(event);
+      this.#clearSlopedMouseLeaveTimer();
+    };
+
+    // `mouseleave` listener persists until removed manually
     this.onEvent('mouseleave.eventsmixin', target, (e: MouseEvent) => {
       if (!this.slopedMouseLeaveTimer) {
         this.startX = e.pageX;
@@ -415,9 +434,7 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
             const outOfBoundsX = (this.trackedX - this.startX) > 3.5;
             const outOfBoundsY = (this.trackedY - this.startY) > 3.5;
             if (outOfBoundsX || outOfBoundsY) {
-              const event = new CustomEvent(this.#getEventBaseName(eventName), e);
-              target.dispatchEvent(event);
-              this.clearSlopedMouseLeaveTimer();
+              dispatchCustomEvent(document.elementFromPoint(this.trackedX, this.trackedY), e);
             }
           }
         }));
@@ -428,13 +445,17 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
         });
 
         this.onEvent('mouseenter.eventsmixin', target, () => {
-          this.clearSlopedMouseLeaveTimer();
+          this.#clearSlopedMouseLeaveTimer();
         });
       }
     });
   }
 
-  clearSlopedMouseLeaveTimer() {
+  /**
+   * Clears a previously-set timer for checking sloped `mouseleave` events
+   * @private
+   */
+  #clearSlopedMouseLeaveTimer(): void {
     this.slopedMouseLeaveTimer?.destroy(true);
     this.slopedMouseLeaveTimer = null;
     this.detachEventsByName('mousemove.eventsmixin');
@@ -445,11 +466,15 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
     this.trackedY = null;
   }
 
+  /**
+   * Removes previously-set sloped `mouseleave` event listener
+   * @private
+   */
   #removeSlopedMouseLeaveListener() {
     if (!this.slopedMouseLeaveTimer) return;
 
     this.detachEventsByName('mouseleave.eventsmixin');
-    this.clearSlopedMouseLeaveTimer();
+    this.#clearSlopedMouseLeaveTimer();
   }
 
   /**
