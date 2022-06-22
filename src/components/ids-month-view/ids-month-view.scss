@@ -61,7 +61,7 @@
   // Legend mutual
   .month-view-legend {
     margin: 0 auto;
-    padding: 10px 5px;
+    padding: 10px 5px 0;
   }
 
   .month-view-legend-swatch,
@@ -92,7 +92,7 @@
     @include relative();
     @include text-slate-80();
 
-    padding: 0 17px 0 8px;
+    padding: 0 10px 0 8px;
     top: -2px;
   }
 
@@ -352,6 +352,7 @@
 
   .month-view-legend {
     padding-top: 27px;
+    max-width: 300px;
   }
 }
 

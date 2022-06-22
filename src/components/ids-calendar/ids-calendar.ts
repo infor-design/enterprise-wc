@@ -218,6 +218,7 @@ export default class IdsCalendar extends Base {
    * Attach calendar event handlers
    */
   #attachEventHandlers(): void {
+    this.offEvent('dayselected');
     this.onEvent('dayselected', this.container, (evt: CustomEvent) => {
       evt.stopPropagation();
       this.#updateActiveDate(evt.detail.date);
@@ -225,6 +226,7 @@ export default class IdsCalendar extends Base {
       this.updateEventDetails(evt.detail?.events);
     });
 
+    this.offEvent('viewchange');
     this.onEvent('viewchange', this.container, (evt: CustomEvent) => {
       evt.stopPropagation();
       this.#updateActiveDate(evt.detail.date);
@@ -232,12 +234,14 @@ export default class IdsCalendar extends Base {
       this.renderEventsData();
     });
 
+    this.offEvent('datechange');
     this.onEvent('datechange', this.container, (evt: CustomEvent) => {
       evt.stopPropagation();
       this.#updateActiveDate(evt.detail.date);
       this.renderEventsData();
     });
 
+    this.offEvent('change');
     this.onEvent('change', this.container.querySelector('.calendar-legend-pane'), (evt: any) => {
       evt.stopPropagation();
       this.#toggleEventType(evt.detail.elem, evt.detail.checked);
@@ -245,6 +249,7 @@ export default class IdsCalendar extends Base {
       this.updateEventDetails(this.state.selected);
     });
 
+    this.offEvent('overflow-click');
     this.onEvent('overflow-click', this.container, (evt: CustomEvent) => {
       evt.stopPropagation();
       if (evt.detail.date) {
@@ -254,9 +259,10 @@ export default class IdsCalendar extends Base {
       }
     });
 
-    // Respond to parent changing locale
-    this.onEvent('localechange.week-view-container', this.closest('ids-container'), () => {
+    this.offEvent('localechange.calendar-container');
+    this.onEvent('localechange.calendar-container', this.closest('ids-container'), () => {
       this.updateEventDetails(this.state.selected);
+      this.renderLegend(this.eventTypesData);
     });
   }
 
@@ -492,6 +498,9 @@ export default class IdsCalendar extends Base {
    * @param {CalendarEventTypeData[]} eventTypes event types
    */
   renderLegend(eventTypes: CalendarEventTypeData[] = []): void {
+    // remove previous accordion
+    this.querySelector('#event-types-legend')?.remove();
+
     if (!this.showLegend || !eventTypes.length || this.querySelector('[slot="legend"]')) return;
 
     const checkboxes = eventTypes.map((item: CalendarEventTypeData) => `
@@ -499,8 +508,9 @@ export default class IdsCalendar extends Base {
         class="event-type-checkbox"
         checked="${item.checked}"
         data-id="${item.id}" 
-        label="${item.label}" 
-        color="${item.color}07">
+        label="${item.translationKey ? this.locale.translate(item.translationKey) : item.label}" 
+        color="${item.color}07"
+        disabled="${item.disabled || 'false'}">
       </ids-checkbox>
     `).join('');
 
@@ -508,7 +518,7 @@ export default class IdsCalendar extends Base {
       <ids-accordion id="event-types-legend" slot="legend">
         <ids-accordion-panel expanded="true">
           <ids-accordion-header slot="header" expander-type="caret" expanded="true">
-            <ids-text>Legend</ids-text>
+            <ids-text translate-text="true">Legend</ids-text>
           </ids-accordion-header>
           <div slot="content"><p>${checkboxes}</p></div>
         </ids-accordion-panel>

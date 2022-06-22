@@ -24,6 +24,7 @@ export type CalendarEventTypeData = {
   translationKey: string;
   color: 'amber' | 'amethyst' | 'azure' | 'emerald' | 'ruby' | 'slate' | 'turquoise';
   checked: boolean;
+  disabled?: boolean
 };
 
 @customElement('ids-calendar-event')

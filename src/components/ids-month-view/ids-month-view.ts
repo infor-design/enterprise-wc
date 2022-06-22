@@ -1893,25 +1893,6 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * Counts days between provided start and end dates
-   * @param {Date} startDate start date
-   * @param {Date} endDate end date
-   * @returns {number} duration in days
-   */
-  #countDays(startDate: Date, endDate: Date): number {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    let days = 0;
-
-    while (start < end) {
-      days++;
-      start.setDate(start.getDate() + 1);
-    }
-
-    return days;
-  }
-
-  /**
    * Renders calendar events within corresponding date's table cell
    * @param {string} dateKey generated date key
    * @param {CalendarEventData[]} events calendar events
@@ -1927,7 +1908,7 @@ class IdsMonthView extends Base {
     events.forEach((event: CalendarEventData, index: number) => {
       const start = new Date(event.starts);
       const end = new Date(event.ends);
-      const days = this.#countDays(start, end);
+      const days = daysDiff(start, end) || 1;
 
       for (let i = 0; i < days; i++) {
         const calendarEvent = new IdsCalendarEvent();
@@ -1948,10 +1929,10 @@ class IdsMonthView extends Base {
         const dateCell = this.container.querySelector(`td[data-year="${year}"][data-month="${month}"][data-day="${day}"]`);
 
         if (dateCell) {
+          // multi day events
           if (days > 1) {
             const extraCss = ['all-day'];
 
-            // css classes for multi day events
             if (i === 0) {
               extraCss.push('calendar-event-start');
             } else if (i === days - 1) {
@@ -1963,12 +1944,15 @@ class IdsMonthView extends Base {
             calendarEvent.cssClass = extraCss;
           }
 
+          // hide overflowing event elements
           if (calendarEvent.order > MAX_EVENT_COUNT - 1) {
             calendarEvent.cssClass = ['hidden'];
             isOverflowing = true;
           }
 
+          // position event element vertically
           calendarEvent.yOffset = `${(calendarEvent.order * 16) + BASE_Y_OFFSET}px`;
+
           dateCell.querySelector('.events-container')?.appendChild(calendarEvent);
         }
       }
