@@ -24,4 +24,17 @@ document.addEventListener('DOMContentLoaded', () => {
   testInput?.addEventListener('change', (e: any) => {
     console.info('Test Input Change Event: ', e.target?.value);
   });
+
+  // Set up masks
+  const phoneInput: any = document.querySelector('#phone-input');
+  if (!phoneInput) return;
+  phoneInput.mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+
+  const numberInput: any = document.querySelector('#number-input');
+  numberInput.mask = 'number';
+  numberInput.maskOptions = {
+    allowDecimal: true,
+    decimalLimit: 2,
+    integerLimit: 3
+  };
 });
