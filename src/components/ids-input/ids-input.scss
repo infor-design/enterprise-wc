@@ -107,6 +107,9 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   align-items: baseline;
   display: flex;
 
+  // Ability to center label from parent element
+  justify-content: inherit;
+
   // Simulate standard label text size while empty with a non-breaking space
   &.empty {
     &::before {
@@ -231,8 +234,8 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
       @include ellipsis();
     }
 
-    // input text-align: [left, center, right]
-    &.left {
+    // input text-align: [start, center, end]
+    &.start {
       text-align: start;
     }
 
@@ -240,7 +243,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
       text-align: center;
     }
 
-    &.right {
+    &.end {
       text-align: end;
     }
   }
@@ -947,3 +950,11 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
 .highlight {
   font-weight: var(--ids-number-font-weight-bold);
 }
+
+/* stylelint-disable property-no-vendor-prefix */
+.ids-input-field[type='number']::-webkit-inner-spin-button,
+.ids-input-field[type='number']::-webkit-outer-spin-button {
+  appearance: none;
+  -webkit-appearance: none;
+}
+/* stylelint-enable property-no-vendor-prefix */

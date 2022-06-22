@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-popup-menu id="popupmenu" trigger="contextmenu">
+      <ids-menu-group>
+        <ids-menu-item>Option 1</ids-menu-item>
+        <ids-menu-item>Option 2</ids-menu-item>
+        <ids-menu-item>Option 3</ids-menu-item>
+        <ids-menu-item>Option 4</ids-menu-item>
+        <ids-menu-item>Option 5</ids-menu-item>
+      </ids-menu-group>
+    </ids-popup-menu>
+
+    <ids-layout-grid auto="true" gap="md">
+      <ids-layout-grid-cell>
+          <ids-input
+            id="context-menu"
+            placeholder="Right Click Me"
+            label="Text Input (With Context Menu)"
+          ></ids-input>
+        </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+
+</html>
