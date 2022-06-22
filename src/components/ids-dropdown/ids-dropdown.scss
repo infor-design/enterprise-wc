@@ -35,6 +35,7 @@ ids-trigger-button {
   border-top: 1px solid #b7b7ba;
   padding-top: 4px;
 }
+
 :host([aria-expanded='false']) ::slotted(ids-list-box) {
   display: none;
 }
