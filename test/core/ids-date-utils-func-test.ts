@@ -2,25 +2,27 @@
  * @jest-environment jsdom
  */
 import {
-  isTodaysDate,
-  firstDayOfWeekDate,
-  lastDayOfWeekDate,
-  dateDiff,
   addDate,
+  dateDiff,
   daysDiff,
+  daysInMonth,
+  firstDayOfMonthDate,
+  firstDayOfWeekDate,
+  gregorianToUmalqura,
+  hoursTo12,
+  hoursTo24,
+  isDaylightSavingTime,
+  isTodaysDate,
+  isValidDate,
+  lastDayOfMonthDate,
+  lastDayOfWeekDate,
   monthDiff,
   subtractDate,
-  isValidDate,
-  isDaylightSavingTime,
-  weeksInMonth,
-  daysInMonth,
   umalquraToGregorian,
-  gregorianToUmalqura,
-  firstDayOfMonthDate,
-  lastDayOfMonthDate,
-  weeksInRange,
+  weekNumber,
   weekNumberToDate,
-  weekNumber
+  weeksInMonth,
+  weeksInRange,
 } from '../../src/utils/ids-date-utils/ids-date-utils';
 
 describe('IdsDateUtils Tests', () => {
@@ -203,5 +205,33 @@ describe('IdsDateUtils Tests', () => {
     expect(weekNumber(new Date(2026, 11, 27), 1)).toEqual(52);
     expect(weekNumber(new Date(2026, 0, 4), 1)).toEqual(1);
     expect(weekNumber(new Date(2022, 5, 26), 1)).toEqual(25);
+  });
+
+  it('should convert hours to 24 hour format', () => {
+    // AM
+    expect(hoursTo24(12, 0)).toEqual(0);
+    expect(hoursTo24(1, 0)).toEqual(1);
+    expect(hoursTo24(10, 0)).toEqual(10);
+    expect(hoursTo24(11, 0)).toEqual(11);
+    // PM
+    expect(hoursTo24(12, 1)).toEqual(12);
+    expect(hoursTo24(1, 1)).toEqual(13);
+    expect(hoursTo24(6, 1)).toEqual(18);
+    expect(hoursTo24(11, 1)).toEqual(23);
+
+    // 24 hour format
+    expect(hoursTo24(0)).toEqual(0);
+    expect(hoursTo24(1)).toEqual(1);
+    expect(hoursTo24(12)).toEqual(12);
+    expect(hoursTo24(22)).toEqual(22);
+  });
+
+  it('should convert hours to 12 hour format', () => {
+    expect(hoursTo12(0)).toEqual(12);
+    expect(hoursTo12(12)).toEqual(12);
+    expect(hoursTo12(1)).toEqual(1);
+    expect(hoursTo12(13)).toEqual(1);
+    expect(hoursTo12(23)).toEqual(11);
+    expect(hoursTo12(18)).toEqual(6);
   });
 });

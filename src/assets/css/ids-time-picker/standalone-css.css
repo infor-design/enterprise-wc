@@ -1,0 +1,31 @@
+.ids-trigger-button {
+  margin-inline-end: 4px;
+  flex-shrink: 0;
+}
+
+.arrow.bottom {
+  margin-left: -12px;
+}
+
+.ids-time-picker .ids-popup.menu {
+  margin: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  position: absolute;
+  width: 286px;
+}
+
+.ids-button:not([mode]).popup-btn {
+  height: 100%;
+  padding: 0;
+  color: var(--ids-color-palette-azure-70);
+  padding-top: 12px;
+  padding-bottom: 12px;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid var(--ids-color-palette-slate-30);
+}
+
+.ids-trigger-field.xs {
+  justify-content: center;
+}
