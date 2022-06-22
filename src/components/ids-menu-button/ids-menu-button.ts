@@ -29,6 +29,7 @@ export default class IdsMenuButton extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.DISABLED,
       attributes.DROPDOWN_ICON,
       attributes.FORMATTER_WIDTH,
       attributes.ID,
@@ -67,6 +68,22 @@ export default class IdsMenuButton extends Base {
       return ['ids-menu-button', 'ids-icon-button'];
     }
     return ['ids-menu-button'];
+  }
+
+  /**
+   * @param {boolean | string} val true if the component should be disabledd
+   */
+  set disabled(val: boolean | string) {
+    super.disabled = val;
+    const truthyVal = stringToBool(val);
+    this.menuEl.disabled = truthyVal;
+  }
+
+  /**
+   * @returns {boolean} true if the component is disabled
+   */
+  get disabled(): boolean {
+    return super.disabled;
   }
 
   /**
