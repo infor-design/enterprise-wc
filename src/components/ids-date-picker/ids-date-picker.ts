@@ -1742,8 +1742,10 @@ class IdsDatePicker extends Base {
   set format(val: string | null) {
     if (val) {
       this.setAttribute(attributes.FORMAT, val);
+      this.#triggerField?.setAttribute(attributes.FORMAT, val);
     } else {
       this.removeAttribute(attributes.FORMAT);
+      this.#triggerField?.removeAttribute(attributes.FORMAT);
     }
 
     if (this.placeholder) {
