@@ -57,13 +57,6 @@ export default class IdsTabs extends Base {
   }
 
   /**
-   * @returns {Array<string>} Drawer vetoable events
-   */
-  vetoableEventTypes = [
-    'beforetabremove',
-  ];
-
-  /**
    * @returns {string} template for Tab List
    */
   template() {
@@ -265,7 +258,9 @@ export default class IdsTabs extends Base {
       const elem: any = e.target;
       if (elem) {
         if (elem.tagName === 'IDS-TAB') {
-          this.#selectTab(elem);
+          if (!elem.disabled) {
+            this.#selectTab(elem);
+          }
         }
         if (elem.tagName === 'IDS-TRIGGER-BUTTON') {
           e.stopPropagation();
@@ -273,6 +268,11 @@ export default class IdsTabs extends Base {
           this.#dismissTab(tab);
         }
       }
+    });
+
+    // Removes the tab from the list on `tabremove` events
+    this.onEvent('tabremove', this, (e: CustomEvent) => {
+      e.detail.elem.remove();
     });
 
     // Focusing via keyboard on an IdsTab doesn't automatically fire its `focus()` method.
@@ -352,7 +352,7 @@ export default class IdsTabs extends Base {
    * @returns {void}
    */
   #selectTab(tab: any): void {
-    if (!tab || tab.disabled) return;
+    if (!tab) return;
 
     if (tab.actionable) {
       if (typeof tab.onAction === 'function') {
@@ -380,19 +380,9 @@ export default class IdsTabs extends Base {
    */
   #dismissTab(tab: any): void {
     if (!tab) return;
-    if (!this.triggerVetoableEvent('beforetabremove')) return;
 
-    const value = tab.value;
-    tab.remove();
+    tab.dismiss();
     this.#correctSelectedTab();
-
-    this.triggerEvent('tabremove', this, {
-      bubbles: true,
-      detail: {
-        elem: tab,
-        value
-      }
-    });
   }
 
   /**

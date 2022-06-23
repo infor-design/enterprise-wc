@@ -52,6 +52,13 @@ export default class IdsTab extends Base {
   colorVariants = ['alternate', 'module'];
 
   /**
+   * @returns {Array<string>} Drawer vetoable events
+   */
+  vetoableEventTypes = [
+    'beforetabremove',
+  ];
+
+  /**
    * Create the Template for the contents
    * @returns {string} the template to render
    */
@@ -163,7 +170,7 @@ export default class IdsTab extends Base {
     } else {
       this.removeAttribute(attributes.DISMISSIBLE);
       this.container.classList.remove(attributes.DISMISSIBLE);
-      this.querySelector('ids-trigger-button').remove();
+      this.dismissibleBtnEl.remove();
     }
   }
 
@@ -175,6 +182,14 @@ export default class IdsTab extends Base {
   }
 
   /**
+   * Provides a reference to a close button, if applicable
+   * @returns {HTMLElement | null} IdsTriggerButton
+   */
+  get dismissibleBtnEl(): any {
+    return this.querySelector('ids-trigger-button');
+  }
+
+  /**
    * @param {boolean | string} isDisabled true if the tab should become disabled
    */
   set disabled(isDisabled: boolean | string) {
@@ -182,9 +197,15 @@ export default class IdsTab extends Base {
     if (newValue) {
       this.setAttribute(attributes.DISABLED, '');
       this.container.classList.add(attributes.DISABLED);
+      if (this.dismissibleBtnEl) {
+        this.dismissibleBtnEl.disabled = true;
+      }
     } else {
       this.removeAttribute(attributes.DISABLED);
       this.container.classList.remove(attributes.DISABLED);
+      if (this.dismissibleBtnEl) {
+        this.dismissibleBtnEl.disabled = false;
+      }
     }
   }
 
@@ -321,12 +342,32 @@ export default class IdsTab extends Base {
     }
   };
 
-  focus() {
+  /**
+   * Dismisses this tab, if possible
+   */
+  dismiss(): void {
+    if (this.dismissible) {
+      if (!this.triggerVetoableEvent('beforetabremove')) return;
+
+      this.triggerEvent('tabremove', this, {
+        bubbles: true,
+        detail: {
+          elem: this,
+          value: this.value
+        }
+      });
+    }
+  }
+
+  /**
+   * Causes the tab to become focused
+   */
+  focus(): void {
     this.container.focus();
   }
 
   onColorVariantRefresh(): void {
-    const closeBtn = this.querySelector('ids-trigger-button');
+    const closeBtn = this.dismissibleBtnEl;
     if (closeBtn) {
       const target = this.#getDismissibleVariant();
       closeBtn.colorVariant = target;
