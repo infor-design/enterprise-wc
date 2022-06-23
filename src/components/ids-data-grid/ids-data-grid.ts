@@ -245,6 +245,7 @@ export default class IdsDataGrid extends Base {
     `;
 
     const resizerTemplate = `<span class="resizer"></span>`;
+    const reorderTemplate = `<div class="reorderer" draggable="true"><ids-icon icon="drag" size="medium"></ids-icon></div>`;
 
     const headerContentTemplate = `
       ${(column.id !== 'selectionRadio' && column.id === 'selectionCheckbox') ? selectionCheckBoxTemplate : ''}
@@ -260,7 +261,7 @@ export default class IdsDataGrid extends Base {
           ${headerContentTemplate}
         </span>
         ${column.sortable ? sortIndicatorTemplate : ''}
-      </span>${column.resizable ? resizerTemplate : ''}`;
+      </span>${column.resizable ? resizerTemplate : ''}${column.reorderable ? reorderTemplate : ''}`;
 
     // Filter row cell template
     const headerFilterWrapperTemplate = this.filters?.filterTemplate(column) || '';
@@ -482,6 +483,7 @@ export default class IdsDataGrid extends Base {
 
     this.filters?.attachFilterEventHandlers();
     this.#attachResizeHandlers();
+    this.#attachReorderHandlers();
   }
 
   /**
@@ -541,6 +543,31 @@ export default class IdsDataGrid extends Base {
       // Prevent a click causing a sort
       this.isResizing = true;
     });
+  }
+
+  /**
+   * Establish Reorder handlers for moving columns
+   * @private
+   */
+  #attachReorderHandlers() {
+    const header = this.shadowRoot.querySelector('.ids-data-grid-header:not(.column-groups)');
+    const dragStartHandler = (e: DragEvent) => {
+      const target = (e.target as any);
+      if (!target.classList.contains('reorderer')) {
+        return;
+      }
+
+      e?.dataTransfer?.setDragImage(target.parentNode, 10, 38);
+    };
+    const dragEnterHandler = (e: DragEvent) => {
+      if ((e.target as any).style) (e.target as any).style.background = '#800';
+    };
+
+    this.offEvent('dragstart.resize', header);
+    this.onEvent('dragstart.resize', header, dragStartHandler);
+
+    this.offEvent('dragenter.resize', header);
+    this.onEvent('dragenter.resize', header, dragEnterHandler);
   }
 
   /**

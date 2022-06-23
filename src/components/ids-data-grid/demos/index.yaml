@@ -41,6 +41,9 @@
   - link: columns-percent.html
     type: Example
     description: Showing percent column widths
+  - link: columns-reorderable.html
+    type: Example
+    description: Showing reorderable (movable) columns
   - link: columns-resize.html
     type: Example
     description: Showing resizing columns

@@ -29,6 +29,8 @@ export interface IdsDataGridColumn {
   resizable?: boolean;
   /** Make the column readonly */
   readonly?: boolean;
+  /** Adds a drag indicator and allows the columns to be moved by dragging */
+  reorderable?: boolean;
   /** Allow column sorting */
   width?: number | string;
   /** Hide a column to be shown later */

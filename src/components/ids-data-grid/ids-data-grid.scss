@@ -116,6 +116,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
       justify-content: flex-start;
     }
 
+    // Resizing Cells
     .resizer {
       cursor: col-resize;
       display: inline;
@@ -127,7 +128,31 @@ $header-bg-color: var(--ids-color-palette-slate-80);
       z-index: 2;
     }
 
-    // Frozen Cells
+    // Reorderable Cells
+    .reorderer {
+      cursor: move;
+      display: inline;
+      height: 18px;
+      opacity: 0;
+      position: absolute;
+      inset-inline-start: 7px;
+      top: 8px;
+      width: 3px;
+
+      ids-icon {
+        position: absolute;
+        color: var(--ids-color-palette-white);
+        inset-inline-start: -7px;
+        text-align: center;
+        top: 0;
+      }
+    }
+
+    &:hover .reorderer {
+      opacity: 1;
+    }
+
+    // Reorderable Cells
     &.frozen {
       background-color: $header-bg-color;
       position: sticky;
