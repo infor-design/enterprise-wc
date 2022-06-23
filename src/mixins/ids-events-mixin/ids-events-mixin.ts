@@ -1,6 +1,7 @@
 import renderLoop from '../../components/ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../../components/ids-render-loop/ids-render-loop-item';
 import { stringToBool, isPrintable } from '../../utils/ids-string-utils/ids-string-utils';
+import { getEventBaseName } from './ids-events-common';
 
 /**
  * A mixin that adds event handler functionality that is also safely torn down when a component is
@@ -58,7 +59,7 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
     if (eventName.indexOf('swipe') === 0) {
       this.#addSwipeListener(eventName, target, options);
     }
-    target.addEventListener(this.#getEventBaseName(eventName), callback, options);
+    target.addEventListener(getEventBaseName(eventName), callback, options);
     this.handledEvents.set(eventName, { target, callback, options });
   }
 
@@ -105,7 +106,7 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
 
     const targetApplied = target || handler?.target;
     if (handler?.callback && targetApplied?.removeEventListener) {
-      targetApplied.removeEventListener(this.#getEventBaseName(eventName), handler.callback, options || handler.options);
+      targetApplied.removeEventListener(getEventBaseName(eventName), handler.callback, options || handler.options);
     }
   }
 
@@ -116,7 +117,7 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
    * @param {object} [options = {}] The custom data to send
    */
   triggerEvent(eventName: string, target: any, options = {}) {
-    const event = new CustomEvent(this.#getEventBaseName(eventName), options);
+    const event = new CustomEvent(getEventBaseName(eventName), options);
     target.dispatchEvent(event);
   }
 
@@ -385,7 +386,7 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
         this.timer = renderLoop.register(new IdsRenderLoopItem({
           duration: options?.delay || 400,
           timeoutCallback: () => {
-            const event = new MouseEvent(this.#getEventBaseName(eventName), e);
+            const event = new MouseEvent(getEventBaseName(eventName), e);
             target.dispatchEvent(event);
             this.clearTimer();
           }
@@ -413,7 +414,7 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
    */
   #addSlopedMouseLeaveListener(eventName: string, target: HTMLElement, options?: Record<string, unknown>) {
     const dispatchCustomEvent = (mouseLeaveNode: any, originalEvent: MouseEvent) => {
-      const event = new CustomEvent(this.#getEventBaseName(eventName), {
+      const event = new CustomEvent(getEventBaseName(eventName), {
         detail: {
           originalEvent,
           mouseLeaveNode
@@ -550,15 +551,6 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
     this.keyDownEndOn = false;
     this.timer = null;
     this.detachEventsByName('keydown.eventsmixin');
-  }
-
-  /**
-   * Returns an event's "base" event without it's namespace
-   * @param {string} fullEventName the full event name
-   * @returns {string} the base event name
-   */
-  #getEventBaseName(fullEventName: string): string {
-    return fullEventName.split('.')[0];
   }
 };
 
