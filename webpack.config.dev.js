@@ -28,7 +28,7 @@ module.exports = {
     modules: ['node_modules']
   },
   infrastructureLogging: {
-    level: 'error' // or 'verbose' if any debug info is needed
+    level: 'error' // 'error' is minimal or 'verbose' if more info is needed
   },
   watchOptions: {
     aggregateTimeout: 2000,
@@ -53,8 +53,15 @@ module.exports = {
     rules: [
       {
         test: /\.ts?$/,
-        use: 'ts-loader',
-        exclude: [/node_modules/]
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              transpileOnly: true,
+            }
+          }
+        ],
+        exclude: [/node_modules/],
       },
       {
         test: /\.(png|jpe?g|gif|svg|json|css|pdf|csv|xml)$/i,
