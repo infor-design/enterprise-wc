@@ -81,12 +81,38 @@
     height: 16px;
   }
 
+  .month-view-legend-item.event-type .month-view-legend-swatch {
+    border-radius: 10px;
+    opacity: 1;
+    width: 14px;
+    height: 14px;
+  }
+
   .month-view-legend-text {
     @include relative();
     @include text-slate-80();
 
     padding: 0 10px 0 8px;
     top: -2px;
+  }
+
+  .events-container {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+
+    .events-overflow {
+      position: absolute;
+      bottom: 0;
+      cursor: pointer;
+      text-indent: 12px;
+    }
+
+    ids-text::part(text) {
+      text-transform: capitalize;
+    }
   }
 }
 
@@ -326,6 +352,7 @@
 
   .month-view-legend {
     padding-top: 27px;
+    max-width: 300px;
   }
 }
 
@@ -486,9 +513,14 @@
 .ids-month-view.is-date-picker,
 .ids-month-view.is-fullsize {
   .month-view-legend {
-    max-width: 300px;
     text-align: center;
   }
+}
+
+// Legend for month
+.month-view-legend-item.event-type .month-view-legend-swatch {
+  border-radius: 10px;
+  opacity: 1;
 }
 
 // Themes
@@ -710,6 +742,10 @@
   .month-view-legend-text {
     @include text-black();
   }
+}
+
+ids-toolbar ids-menu-button[menu='view-picker'] {
+  margin-inline-end: 8px;
 }
 
 // Text direction
