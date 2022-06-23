@@ -18,8 +18,6 @@ import styles from './ids-popup-menu.scss';
 @customElement('ids-popup-menu')
 @scss(styles)
 export default class IdsPopupMenu extends Base {
-  #previouslyHoveredItem: null | any;
-
   constructor() {
     super();
   }
@@ -51,10 +49,10 @@ export default class IdsPopupMenu extends Base {
 
     // If this Popupmenu is a submenu, and no target is pre-defined,
     // align the menu against the parent menu item.
-    if (this.parentMenuItem && !this.target) {
+    if (this.parentMenuItem) {
       this.popupDelay = 200;
-      this.trigger = 'hover';
       this.target = this.parentMenuItem;
+      this.trigger = 'hover';
       this.popup.align = 'right, top';
       this.popup.alignEdge = 'right';
     }
@@ -68,7 +66,6 @@ export default class IdsPopupMenu extends Base {
     if (this.hasOpenEvents) {
       this.hide();
     }
-    this.#previouslyHoveredItem = null;
   }
 
   /**
@@ -110,31 +107,6 @@ export default class IdsPopupMenu extends Base {
         this.triggerEvent('hide', this, e);
       }
     });
-
-    // Detect mouseover events between `ids-menu-item` elements in the same menu tree (sibling items),
-    // and close a sibling submenu, if applicable.
-    if (this.trigger === 'hover') {
-      this.onEvent('mouseover', this, (e: MouseEvent) => {
-        if (!this.parentMenuItem) {
-          const target = (e.target as HTMLElement);
-          const isMenuItem = target?.tagName === 'IDS-MENU-ITEM';
-          const prev = this.#previouslyHoveredItem;
-          if (isMenuItem) {
-            this.#previouslyHoveredItem = target;
-            e.stopPropagation();
-
-            if (prev
-              && !prev.isEqualNode(target)
-              && (target.parentElement === prev.parentElement || target.contains(prev) || prev.contains(target))
-            ) {
-              if (prev.hasSubmenu) {
-                prev.submenu.hide();
-              }
-            }
-          }
-        }
-      });
-    }
 
     // Set up all the events specifically-related to the "trigger" type
     this.refreshTriggerEvents();
@@ -380,6 +352,11 @@ export default class IdsPopupMenu extends Base {
    */
   onTriggerHover(): void {
     if (!this.target.disabled && !this.target.hidden) {
+      // Hide all submenus attached to parent menu items (except this one)
+      if (this.parentMenuItem) {
+        this.parentMenuItem.menu.hideSubmenus(this.target);
+      }
+
       this.showIfAble();
     }
   }

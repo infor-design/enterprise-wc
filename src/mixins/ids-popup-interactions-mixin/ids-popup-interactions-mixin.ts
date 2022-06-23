@@ -111,13 +111,16 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
    * @param {string} val a valid trigger type
    */
   set trigger(val) {
+    const current = this.state.trigger;
     let trueTriggerType = val;
     if (!POPUP_TRIGGER_TYPES.includes(val)) {
       trueTriggerType = POPUP_TRIGGER_TYPES[0];
     }
-    this.removeTriggerEvents();
-    this.state.trigger = trueTriggerType;
-    this.refreshTriggerEvents();
+    if (current !== trueTriggerType) {
+      this.removeTriggerEvents();
+      this.state.trigger = trueTriggerType;
+      this.refreshTriggerEvents();
+    }
   }
 
   /**
