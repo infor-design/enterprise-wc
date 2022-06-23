@@ -130,7 +130,7 @@ describe('IdsListBuilder Component', () => {
   it('renders correctly', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.VANILLA_COMPONENT);
     expect(idsListBuilder.outerHTML).toMatchSnapshot();
-    expect(idsListBuilder.container.querySelector('#button-add')).toBeTruthy();
+    expect(idsListBuilder.shadowRoot.querySelector('#button-add')).toBeTruthy();
   });
 
   it('injects template correctly and sets data correctly', async () => {
@@ -140,7 +140,7 @@ describe('IdsListBuilder Component', () => {
 
   it('renders the header', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
-    expect(idsListBuilder.container.querySelector('#button-add')).toBeTruthy();
+    expect(idsListBuilder.shadowRoot.querySelector('#button-add')).toBeTruthy();
   });
 
   it('add new list item to non-empty list', async () => {
@@ -149,10 +149,10 @@ describe('IdsListBuilder Component', () => {
     const clickEvent = new MouseEvent('click');
 
     // click add button
-    const addBtnElem = idsListBuilder.container.querySelector('#button-add');
+    const addBtnElem = idsListBuilder.shadowRoot.querySelector('#button-add');
     addBtnElem.dispatchEvent(clickEvent);
 
-    const listItems = idsListBuilder.container.querySelectorAll('ids-swappable-item[role=listitem]');
+    const listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
     expect(listItems.length).toEqual(sampleData1.length + 1);
 
     const itemInputElem = listItems[0].querySelector('ids-input');
@@ -166,10 +166,10 @@ describe('IdsListBuilder Component', () => {
     const clickEvent = new MouseEvent('click');
 
     // click add button
-    const addBtnElem = idsListBuilder.container.querySelector('#button-add');
+    const addBtnElem = idsListBuilder.shadowRoot.querySelector('#button-add');
     addBtnElem.dispatchEvent(clickEvent);
 
-    const listItems = idsListBuilder.container.querySelectorAll('ids-swappable-item[role=listitem]');
+    const listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
     expect(listItems.length).toEqual(1);
 
     const itemInputElem = listItems[0].querySelector('ids-input');
@@ -183,8 +183,8 @@ describe('IdsListBuilder Component', () => {
     const clickEvent = new MouseEvent('click');
 
     // click edit button
-    const editBtnElem = idsListBuilder.container.querySelector('#button-edit');
-    const listItems = idsListBuilder.container.querySelectorAll('ids-swappable-item[role=listitem]');
+    const editBtnElem = idsListBuilder.shadowRoot.querySelector('#button-edit');
+    const listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
 
     // select first item and edit
     listItems[0].dispatchEvent(clickEvent);
@@ -201,8 +201,8 @@ describe('IdsListBuilder Component', () => {
     idsListBuilder.data = sampleData1;
     const clickEvent = new MouseEvent('click');
 
-    const removeBtnElem = idsListBuilder.container.querySelector('#button-delete');
-    let listItems = idsListBuilder.container.querySelectorAll('ids-swappable-item[role=listitem]');
+    const removeBtnElem = idsListBuilder.shadowRoot.querySelector('#button-delete');
+    let listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
     expect(listItems.length).toEqual(sampleData1.length);
 
     // click remove button without selection
@@ -213,7 +213,7 @@ describe('IdsListBuilder Component', () => {
     listItems[0].dispatchEvent(clickEvent);
     removeBtnElem.dispatchEvent(clickEvent);
 
-    listItems = idsListBuilder.container.querySelectorAll('ids-swappable-item[role=listitem]');
+    listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
     expect(listItems.length).toEqual(sampleData1.length - 1);
   });
 
@@ -222,8 +222,8 @@ describe('IdsListBuilder Component', () => {
     idsListBuilder.data = sampleData1;
     const clickEvent = new MouseEvent('click');
 
-    const moveUpBtnElem = idsListBuilder.container.querySelector('#button-up');
-    const listItems = idsListBuilder.container.querySelectorAll('ids-swappable-item[role=listitem]');
+    const moveUpBtnElem = idsListBuilder.shadowRoot.querySelector('#button-up');
+    const listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
     expect(listItems.length).toEqual(sampleData1.length);
 
     // click move up button without selection
@@ -243,8 +243,8 @@ describe('IdsListBuilder Component', () => {
     idsListBuilder.data = sampleData1;
     const clickEvent = new MouseEvent('click');
 
-    const moveDownBtnElem = idsListBuilder.container.querySelector('#button-down');
-    const listItems = idsListBuilder.container.querySelectorAll('ids-swappable-item[role=listitem]');
+    const moveDownBtnElem = idsListBuilder.shadowRoot.querySelector('#button-down');
+    const listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
     expect(listItems.length).toEqual(sampleData1.length);
 
     // click move up button without selection
@@ -264,7 +264,7 @@ describe('IdsListBuilder Component', () => {
     idsListBuilder.data = sampleData1;
     const clickEvent = new MouseEvent('click');
 
-    const listItems = idsListBuilder.container.querySelectorAll('ids-swappable-item[role=listitem]');
+    const listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
     listItems[0].dispatchEvent(clickEvent);
 
     // toggle editor
@@ -278,12 +278,12 @@ describe('IdsListBuilder Component', () => {
     expect(itemInputElem).toBeFalsy();
 
     // arrow down
-    idsListBuilder.dispatchEvent(createKeyboardEvent('ArrowDown'));
+    listItems[0].dispatchEvent(createKeyboardEvent('ArrowDown'));
     expect(listItems[0].getAttribute('tabindex')).toBe('-1');
     expect(listItems[1].getAttribute('tabindex')).toBe('0');
     expect(listItems[2].getAttribute('tabindex')).toBe('-1');
 
-    idsListBuilder.dispatchEvent(createKeyboardEvent('ArrowDown'));
+    listItems[1].dispatchEvent(createKeyboardEvent('ArrowDown'));
     expect(listItems[0].getAttribute('tabindex')).toBe('-1');
     expect(listItems[1].getAttribute('tabindex')).toBe('-1');
     expect(listItems[2].getAttribute('tabindex')).toBe('0');
@@ -292,7 +292,7 @@ describe('IdsListBuilder Component', () => {
     expect(idsListBuilder.selectedLi.getAttribute('index')).toBe('2');
 
     // arrow up
-    idsListBuilder.dispatchEvent(createKeyboardEvent('ArrowUp'));
+    listItems[2].dispatchEvent(createKeyboardEvent('ArrowUp'));
     expect(listItems[0].getAttribute('tabindex')).toBe('-1');
     expect(listItems[1].getAttribute('tabindex')).toBe('0');
     expect(listItems[2].getAttribute('tabindex')).toBe('-1');
@@ -310,7 +310,7 @@ describe('IdsListBuilder Component', () => {
     }
 
     listItems[0].dispatchEvent(createKeyboardEvent('Delete'));
-    expect(idsListBuilder.container.querySelectorAll('ids-swappable-item[role=listitem]')).toHaveLength(2);
+    expect(idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]')).toHaveLength(2);
   });
 
   it('update list item editor value', async () => {
@@ -319,10 +319,10 @@ describe('IdsListBuilder Component', () => {
     const clickEvent = new MouseEvent('click');
 
     // click add button
-    const addBtnElem = idsListBuilder.container.querySelector('#button-add');
+    const addBtnElem = idsListBuilder.shadowRoot.querySelector('#button-add');
     addBtnElem.dispatchEvent(clickEvent);
 
-    const listItems = idsListBuilder.container.querySelectorAll('ids-swappable-item[role=listitem]');
+    const listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
     expect(listItems.length).toEqual(1);
 
     const itemInputElem = listItems[0].querySelector('ids-input');
@@ -338,6 +338,6 @@ describe('IdsListBuilder Component', () => {
   // TODO: Errors are thrown when the button is clicked for no items
   it.skip('can add items with the button when empty', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
-    idsListBuilder.container.querySelector('#button-add').click();
+    idsListBuilder.shadowRoot.querySelector('#button-add').click();
   });
 });

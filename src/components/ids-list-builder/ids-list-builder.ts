@@ -187,7 +187,8 @@ export default class IdsListBuilder extends Base {
 
       if (!this.#selectedLiEditor) {
         const i = new IdsInput();
-        const listItem = this.selectedLi.querySelector('div[part="list-item"]');
+        const selectorStr = this.selectable === 'single' ? 'div[part="list-item"]' : '.list-item-content';
+        const listItem = this.selectedLi.querySelector(selectorStr);
 
         // insert into DOM
         listItem.insertBefore(i, listItem.querySelector('ids-text'));
@@ -266,7 +267,7 @@ export default class IdsListBuilder extends Base {
    */
   #attachClickListeners(): void {
     // Add button
-    this.onEvent('click', this.container.querySelector('#button-add'), () => {
+    this.onEvent('click', this.shadowRoot.querySelector('#button-add'), () => {
       this.#unfocusAnySelectedLiEditor();
       let newSwappableItem;
 
@@ -276,13 +277,14 @@ export default class IdsListBuilder extends Base {
         this.dataKeys.forEach((key: string) => {
           newItemData[key] = 'New Value';
         });
+        this.shadowRoot.querySelector('.ids-list-builder')?.remove();
         this.data = [newItemData];
-        newSwappableItem = this.container.querySelector('ids-swappable-item');
+        newSwappableItem = this.shadowRoot.querySelector('ids-swappable-item');
       } else {
         const selectionNull = !this.selectedLi;
         // if an item is selected, create a node under it, otherwise create a node above the first item
 
-        let targetDraggableItem = selectionNull ? this.container.querySelector('ids-swappable-item') : this.selectedLi;
+        let targetDraggableItem = selectionNull ? this.shadowRoot.querySelector('ids-swappable-item') : this.selectedLi;
         if (!targetDraggableItem) {
           targetDraggableItem = new IdsSwappableItem();
         }
@@ -316,7 +318,7 @@ export default class IdsListBuilder extends Base {
     });
 
     // Up button
-    this.onEvent('click', this.container.querySelector('#button-up'), () => {
+    this.onEvent('click', this.shadowRoot.querySelector('#button-up'), () => {
       if (this.selectedLi) {
         this.#unfocusAnySelectedLiEditor();
 
@@ -335,7 +337,7 @@ export default class IdsListBuilder extends Base {
     });
 
     // Down button
-    this.onEvent('click', this.container.querySelector('#button-down'), () => {
+    this.onEvent('click', this.shadowRoot.querySelector('#button-down'), () => {
       if (this.selectedLi) {
         this.#unfocusAnySelectedLiEditor();
 
@@ -354,12 +356,12 @@ export default class IdsListBuilder extends Base {
     });
 
     // Edit button
-    this.onEvent('click', this.container.querySelector('#button-edit'), () => {
+    this.onEvent('click', this.shadowRoot.querySelector('#button-edit'), () => {
       this.#insertSelectedLiWithEditor();
     });
 
     // Delete button
-    this.onEvent('click', this.container.querySelector('#button-delete'), () => {
+    this.onEvent('click', this.shadowRoot.querySelector('#button-delete'), () => {
       this.#removeAllSelectedLi();
     });
 
@@ -445,9 +447,11 @@ export default class IdsListBuilder extends Base {
           this.#unfocusAnySelectedLiEditor();
           break;
         case 'ArrowUp':
+          this.focusLi(this.getFocusedLi().previousElementSibling);
           this.#unfocusAnySelectedLiEditor();
           break;
         case 'ArrowDown':
+          this.focusLi(this.getFocusedLi().nextElementSibling);
           this.#unfocusAnySelectedLiEditor();
           break;
         case 'Delete':
