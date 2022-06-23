@@ -11,6 +11,9 @@
   - link: counts.html
     type: Example
     description: Shows tabs with a count for each tab
+  - link: dismissible.html
+    type: Example
+    description: Shows tabs that are dismissible by way of an inline trigger button
   - link: header-tabs.html
     type: Example
     description: Shows header tabs

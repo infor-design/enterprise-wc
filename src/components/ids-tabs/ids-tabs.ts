@@ -1,5 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import Base from './ids-tabs-base';
 import IdsHeader from '../ids-header/ids-header';
@@ -54,6 +55,13 @@ export default class IdsTabs extends Base {
       attributes.VALUE
     ];
   }
+
+  /**
+   * @returns {Array<string>} Drawer vetoable events
+   */
+  vetoableEventTypes = [
+    'beforetabremove',
+  ];
 
   /**
    * @returns {string} template for Tab List
@@ -147,6 +155,10 @@ export default class IdsTabs extends Base {
   get tabListElements() {
     const mainSlot = this.container.querySelector('slot:not([name])');
     return mainSlot.assignedElements();
+  }
+
+  get lastTab(): any {
+    return [...this.querySelectorAll('ids-tab')].pop();
   }
 
   /**
@@ -251,8 +263,15 @@ export default class IdsTabs extends Base {
 
     this.onEvent('click.tabs', this, (e: PointerEvent) => {
       const elem: any = e.target;
-      if (elem && elem.tagName === 'IDS-TAB') {
-        this.#selectTab(elem);
+      if (elem) {
+        if (elem.tagName === 'IDS-TAB') {
+          this.#selectTab(elem);
+        }
+        if (elem.tagName === 'IDS-TRIGGER-BUTTON') {
+          e.stopPropagation();
+          const tab = getClosest(elem, 'ids-tab');
+          this.#dismissTab(tab);
+        }
       }
     });
 
@@ -274,9 +293,7 @@ export default class IdsTabs extends Base {
     this.onEvent('slotchange', this.container, () => {
       this.#connectMoreTabs();
       this.#refreshOverflowedTabs();
-      if (!this.hasTab(this.value)) {
-        this.#selectTab(this.lastNavigableTab);
-      }
+      this.#correctSelectedTab();
     });
   }
 
@@ -353,6 +370,37 @@ export default class IdsTabs extends Base {
           current.selected = false;
         }
       }
+    }
+  }
+
+  /**
+   * Dismisses (removes) a Tab from the Tab List
+   * @param {any} tab the new tab to select
+   * @returns {void}
+   */
+  #dismissTab(tab: any): void {
+    if (!tab) return;
+    if (!this.triggerVetoableEvent('beforetabremove')) return;
+
+    const value = tab.value;
+    tab.remove();
+    this.#correctSelectedTab();
+
+    this.triggerEvent('tabremove', this, {
+      bubbles: true,
+      detail: {
+        elem: tab,
+        value
+      }
+    });
+  }
+
+  /**
+   * Detects if a Tab no longer exists and selects an available one
+   */
+  #correctSelectedTab(): void {
+    if (!this.hasTab(this.value)) {
+      this.#selectTab(this.lastNavigableTab || this.lastTab);
     }
   }
 

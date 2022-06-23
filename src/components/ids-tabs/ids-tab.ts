@@ -38,6 +38,7 @@ export default class IdsTab extends Base {
       ...super.attributes,
       attributes.ACTIONABLE,
       attributes.COUNT,
+      attributes.DISMISSIBLE,
       attributes.DISABLED,
       attributes.SELECTED,
       attributes.VALUE
@@ -79,7 +80,27 @@ export default class IdsTab extends Base {
       </ids-text>`;
     }
 
-    return `<div ${cssClassAttr} tabindex="-1" part="container">${innerContent}</div>`;
+    return `<div ${cssClassAttr} tabindex="-1" part="container">
+      ${innerContent}
+      <slot name="close"></slot>
+    </div>`;
+  }
+
+  /**
+   * @returns {string} draws the dismissible button
+   */
+  #templateDismissible(): string {
+    let colorVariant = '';
+    if (this.colorVariant) {
+      colorVariant = ` color-variant="${this.#getDismissibleVariant()}"`;
+    }
+    return `<ids-trigger-button slot="close" label="Close"${colorVariant}>
+      <ids-icon slot="icon" icon="close" size="xsmall"></ids-icon>
+    </ids-trigger-button>`;
+  }
+
+  #getDismissibleVariant() {
+    return this.colorVariant === 'module' ? 'alternate' : this.colorVariant;
   }
 
   connectedCallback() {
@@ -129,6 +150,28 @@ export default class IdsTab extends Base {
    */
   get actionable(): boolean {
     return this.hasAttribute(attributes.ACTIONABLE);
+  }
+
+  /**
+   * @param {boolean} isDismissible true if this Tab should contain an "X" icon used for dismissal
+   */
+  set dismissible(isDismissible: boolean | string) {
+    if (stringToBool(isDismissible)) {
+      this.setAttribute(attributes.DISMISSIBLE, '');
+      this.container.classList.add(attributes.DISMISSIBLE);
+      this.insertAdjacentHTML('beforeend', this.#templateDismissible());
+    } else {
+      this.removeAttribute(attributes.DISMISSIBLE);
+      this.container.classList.remove(attributes.DISMISSIBLE);
+      this.querySelector('ids-trigger-button').remove();
+    }
+  }
+
+  /**
+   * @returns {boolean} true if this Tab should contain an "X" icon used for dismissal
+   */
+  get dismissible(): boolean {
+    return this.hasAttribute(attributes.DISMISSIBLE);
   }
 
   /**
@@ -280,5 +323,13 @@ export default class IdsTab extends Base {
 
   focus() {
     this.container.focus();
+  }
+
+  onColorVariantRefresh(): void {
+    const closeBtn = this.querySelector('ids-trigger-button');
+    if (closeBtn) {
+      const target = this.#getDismissibleVariant();
+      closeBtn.colorVariant = target;
+    }
   }
 }
