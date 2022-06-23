@@ -141,7 +141,8 @@ export default class IdsCheckbox extends Base {
           nativeEvent: e,
           value: this.value,
           checked: this.input.checked
-        }
+        },
+        bubbles: true
       });
     });
   }

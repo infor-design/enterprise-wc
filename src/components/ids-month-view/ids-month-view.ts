@@ -36,10 +36,13 @@ import '../ids-trigger-field/ids-trigger-button';
 
 // Import Styles
 import styles from './ids-month-view.scss';
+import IdsCalendarEvent, { CalendarEventData, CalendarEventTypeData } from '../ids-calendar/ids-calendar-event';
 
 const MIN_MONTH = 0;
 const MAX_MONTH = 11;
 const WEEK_LENGTH = 7;
+const BASE_Y_OFFSET = 35;
+const MAX_EVENT_COUNT = 3;
 
 export type IdsRangeSettings = {
   start?: any,
@@ -68,8 +71,12 @@ export type IdsDayselectedEvent = {
     date: Date,
     useRange: boolean,
     rangeStart: Date | null,
-    rangeEnd: Date | null
-  }
+    rangeEnd: Date | null,
+    events?: CalendarEventData[]
+  },
+  bubbles?: boolean;
+  cancelable?: boolean;
+  composed?: boolean;
 };
 
 export type IdsLegend = {
@@ -86,6 +93,7 @@ export type IdsLegend = {
  * @mixes IdsLocaleMixin
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
+ * @mixes IdsCalendarEventsMixin
  * @part container - the container of the component
  * @part table-container - the container of the calendar table
  */
@@ -211,6 +219,20 @@ class IdsMonthView extends Base {
     this.onEvent('mouseleave.month-view-range', this.container.querySelector('tbody'), () => {
       this.container.querySelectorAll('td')
         .forEach((item: HTMLElement) => item.classList.remove('range-next', 'range-prev'));
+    });
+
+    // Events Overflow click event
+    this.onEvent('click.overflow', this.container, (evt: any) => {
+      if (evt.target.tagName === 'IDS-TEXT' && evt.target.classList.contains('events-overflow')) {
+        evt.stopPropagation();
+        const date = new Date(evt.target.getAttribute('data-date'));
+        this.triggerEvent('overflow-click', this, {
+          detail: { date },
+          bubbles: true,
+          cancelable: true,
+          composed: true
+        });
+      }
     });
 
     return this;
@@ -414,6 +436,7 @@ class IdsMonthView extends Base {
           ></ids-date-picker>
           ${todayBtn}
         </ids-toolbar-section>
+        ${this.viewPicker ? this.createViewPickerTemplate('month') : ''}
       ` : `
         <ids-toolbar-section favor>
           <div class="datepicker-section">
@@ -467,6 +490,7 @@ class IdsMonthView extends Base {
   #attachToolbarEvents(): void {
     const buttonSet = this.container.querySelector('ids-toolbar-section.toolbar-buttonset');
     const toolbarDatepicker = this.container.querySelector('ids-date-picker');
+    const viewPicker = this.container.querySelector('#view-picker');
 
     this.offEvent('click.month-view-buttons');
     this.onEvent('click.month-view-buttons', buttonSet, (e: MouseEvent) => {
@@ -523,6 +547,14 @@ class IdsMonthView extends Base {
         this.container.querySelector('td.is-selected')?.setAttribute('tabindex', 0);
       }
     });
+
+    if (this.viewPicker) {
+      this.offEvent('selected.month-view-picker', viewPicker);
+      this.onEvent('selected.month-view-picker', viewPicker, (evt: CustomEvent) => {
+        evt.stopPropagation();
+        this.triggerViewChange(evt.detail.value);
+      });
+    }
   }
 
   /**
@@ -540,9 +572,9 @@ class IdsMonthView extends Base {
     const template = this.legend.length > 0 ? `
       <div class="month-view-legend">
         ${this.legend.map((item: any) => `
-          <div class="month-view-legend-item">
+          <div class="month-view-legend-item ${item.cssClass || ''}">
             <span class="month-view-legend-swatch" data-color="${item.color}"></span>
-            <ids-text class="month-view-legend-text">${item.name}</ids-text>
+            <ids-text class="month-view-legend-text" ${item.fontSize ? `font-size="${item.fontSize}"` : ''}>${item.name}</ids-text>
           </div>
         `).join('')}
       </div>
@@ -779,6 +811,7 @@ class IdsMonthView extends Base {
       }
     }
 
+    this.triggerDateChange(this.activeDate);
     this.#attachDatepicker();
   }
 
@@ -1075,6 +1108,7 @@ class IdsMonthView extends Base {
       : lastDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
     const rangeStartsOn = firstDayOfWeekDate(firstDayOfRange, this.firstDayOfWeek);
     const now: Date = new Date();
+    const isCompact = this.compact;
 
     return Array.from({ length: WEEK_LENGTH }).map((_, index) => {
       const date: Date = addDate(rangeStartsOn, (weekIndex * WEEK_LENGTH) + index, 'days');
@@ -1109,6 +1143,7 @@ class IdsMonthView extends Base {
         ? 'aria-selected="true" tabindex="0" role="gridcell"' : 'role="link"';
       const dataAttr: string = [`data-year="${year}"`, `data-month="${month}"`, `data-day="${day}"`].join(' ');
       const colorAttr: string = legend ? `data-color="${legend.color}"` : '';
+      const dateKey = this.generateDateKey(new Date(year, month, day));
 
       return `<td aria-label="${ariaLabel}" ${dataAttr} ${classAttr} ${selectedAttr} ${colorAttr}>
         <span class="day-container">
@@ -1118,6 +1153,7 @@ class IdsMonthView extends Base {
             font-size="14"
           >${dayText}</ids-text>
         </span>
+        ${isCompact ? '' : `<div class="events-container" data-key="${dateKey}"></div>`}
       </td>`;
     }).join('');
   }
@@ -1163,6 +1199,23 @@ class IdsMonthView extends Base {
 
     this.#renderWeekDays();
     this.#colorToVar();
+    this.state.hasRendered = true;
+
+    if (!this.compact && !this.isDatePicker) {
+      this.renderEventsData();
+    }
+  }
+
+  /**
+   * Gets calendar events within the selected/active day
+   * @returns {CalendarEventData[]} calendar events data
+   */
+  getActiveDayEvents(): CalendarEventData[] {
+    const activeDay = this.getSelectedDay();
+    const eventElems = activeDay ? [...activeDay.querySelectorAll('ids-calendar-event')] : [];
+    const events = eventElems.map((elem: any) => elem.eventData);
+
+    return events;
   }
 
   /**
@@ -1181,8 +1234,16 @@ class IdsMonthView extends Base {
         useRange: this.useRange,
         rangeStart: this.useRange && this.rangeSettings.start ? new Date(this.rangeSettings.start) : null,
         rangeEnd: this.useRange && this.rangeSettings.end ? new Date(this.rangeSettings.end) : null
-      }
+      },
+      bubbles: true,
+      cancelable: true,
+      composed: true
     };
+
+    // For full-sized non datepicker month view
+    if (!this.compact && !this.isDatePicker) {
+      args.detail.events = this.getActiveDayEvents();
+    }
 
     this.triggerEvent('dayselected', this, args);
   }
@@ -1262,13 +1323,20 @@ class IdsMonthView extends Base {
   }
 
   /**
+   * Queries selected day cell element
+   * @returns {HTMLElement} selected day
+   */
+  getSelectedDay(): HTMLElement | null {
+    const selectedQuery = `td[data-year="${this.year}"][data-month="${this.month}"][data-day="${this.day}"]`;
+    return this.container.querySelector(selectedQuery);
+  }
+
+  /**
    * Focuses the active/selected day
    * @returns {void}
    */
   focus(): void {
-    const selectedQuery = `td[data-year="${this.year}"][data-month="${this.month}"][data-day="${this.day}"]`;
-
-    this.container.querySelector(selectedQuery)?.focus();
+    this.getSelectedDay()?.focus();
   }
 
   /**
@@ -1758,6 +1826,162 @@ class IdsMonthView extends Base {
     } else {
       this.removeAttribute(attributes.SHOW_PICKLIST_WEEK);
     }
+  }
+
+  /**
+   * Remove month view calendar events and overflow elements
+   */
+  removeAllEvents(): void {
+    const events = this.container.querySelectorAll('.events-container');
+    events.forEach((container: Element) => { container.innerHTML = ''; });
+  }
+
+  /**
+   * Groups calendar events by day using dateKey as key
+   * @param {CalendarEventData[]} events calendar events data
+   * @returns {Record<string, Array<CalendarEventData>>} collection of calendar events
+   */
+  #groupEventsByDay(events: CalendarEventData[]): Record<string, Array<CalendarEventData>> {
+    const dayEvents: Record<string, Array<CalendarEventData>> = {};
+
+    events.forEach((event: CalendarEventData) => {
+      const dateKey = this.generateDateKey(new Date(event.starts)).toString();
+      if (!dayEvents[dateKey]) dayEvents[dateKey] = [];
+      dayEvents[dateKey].push(event);
+    });
+
+    return dayEvents;
+  }
+
+  /**
+   * Filter calendar events data by current month
+   * @param {CalendarEventData[]} data calendar events data
+   * @returns {CalendarEventData[]} calendar events within month
+   */
+  filterEventsByMonth(data: CalendarEventData[] = []): CalendarEventData[] {
+    return data.filter((event) => {
+      const eventStart = new Date(event.starts);
+      return this.startDate && this.endDate ? this.startDate <= eventStart && eventStart < this.endDate
+        : eventStart.getMonth() === this.month && eventStart.getFullYear() === this.year;
+    });
+  }
+
+  /**
+   * Render Calendar Events data inside month view
+   * @param {boolean} forceRender skip data fetch
+   */
+  async renderEventsData(forceRender = false): Promise<void> {
+    if (!forceRender && typeof this.state.beforeEventsRender === 'function') {
+      const startDate = this.startDate || new Date(this.year, this.month, 1);
+      const endDate = this.endDate || new Date(this.year, this.month + 1, 0);
+      this.eventsData = await this.state.beforeEventsRender(startDate, endDate);
+      return;
+    }
+
+    this.removeAllEvents();
+
+    if (!this.state.hasRendered || !this.eventsData?.length) return;
+
+    const eventsInRange = this.filterEventsByMonth(this.eventsData);
+    const monthEvents = this.#groupEventsByDay(eventsInRange);
+
+    for (const dateKey in monthEvents) {
+      if (monthEvents.hasOwnProperty(dateKey)) {
+        this.#renderDayEvents(dateKey, monthEvents[dateKey]);
+      }
+    }
+  }
+
+  /**
+   * Renders calendar events within corresponding date's table cell
+   * @param {string} dateKey generated date key
+   * @param {CalendarEventData[]} events calendar events
+   */
+  #renderDayEvents(dateKey: string, events: CalendarEventData[]): void {
+    const container = this.container.querySelector(`.events-container[data-key="${dateKey}"]`);
+    const orders = [...container.querySelectorAll('ids-calendar-event')].map((elem) => elem.order);
+    const baseOrder = orders.length ? Math.max(...orders) + 1 : 0;
+    let isOverflowing = false;
+
+    if (!container) return;
+
+    events.forEach((event: CalendarEventData, index: number) => {
+      const start = new Date(event.starts);
+      const end = new Date(event.ends);
+      const days = daysDiff(start, end) || 1;
+
+      for (let i = 0; i < days; i++) {
+        const calendarEvent = new IdsCalendarEvent();
+        const eventType = this.eventTypesData?.find((et: CalendarEventTypeData) => et.id === event.type);
+        const eventOrder = baseOrder + index;
+        calendarEvent.eventTypeData = eventType;
+        calendarEvent.eventData = event;
+        calendarEvent.cssClass = ['is-month-view'];
+        calendarEvent.order = eventOrder;
+
+        if (i > 0) {
+          start.setDate(start.getDate() + 1);
+        }
+
+        const day = start.getDate();
+        const year = start.getFullYear();
+        const month = start.getMonth();
+        const dateCell = this.container.querySelector(`td[data-year="${year}"][data-month="${month}"][data-day="${day}"]`);
+
+        if (dateCell) {
+          // multi day events
+          if (days > 1) {
+            const extraCss = ['all-day'];
+
+            if (i === 0) {
+              extraCss.push('calendar-event-start');
+            } else if (i === days - 1) {
+              extraCss.push('calendar-event-ends');
+            } else {
+              extraCss.push('calendar-event-continue');
+            }
+
+            calendarEvent.cssClass = extraCss;
+          }
+
+          // hide overflowing event elements
+          if (calendarEvent.order > MAX_EVENT_COUNT - 1) {
+            calendarEvent.cssClass = ['hidden'];
+            isOverflowing = true;
+          }
+
+          // position event element vertically
+          calendarEvent.yOffset = `${(calendarEvent.order * 16) + BASE_Y_OFFSET}px`;
+
+          dateCell.querySelector('.events-container')?.appendChild(calendarEvent);
+        }
+      }
+    });
+
+    if (isOverflowing) {
+      this.#renderEventsOverflow(container, dateKey);
+    }
+  }
+
+  /**
+   * Renders clickable event overflow element
+   * Specifies number of calendar events overflowing the container
+   * @param {HTMLElement} container date specific event container elemeent
+   * @param {string} dateKey generated date key
+   */
+  #renderEventsOverflow(container: any, dateKey: string): void {
+    const calendarEvents = [...container.querySelectorAll('ids-calendar-event')];
+    const year = dateKey.substring(0, 4);
+    const month = parseInt(dateKey.substring(4, 6)) + 1;
+    const day = dateKey.substring(6);
+    const date = `${month}/${day}/${year}`;
+    const tmpl = `
+      <ids-text data-date="${date}" class="events-overflow" font-size="12">
+        ${calendarEvents.length - MAX_EVENT_COUNT}+ ${this.locale.translate('More')}
+      </ids-text>
+    `;
+
+    container.insertAdjacentHTML('beforeEnd', tmpl);
   }
 }
 
