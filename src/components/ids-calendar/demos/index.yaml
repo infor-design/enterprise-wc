@@ -1,0 +1,10 @@
+---
+ component: Calendar
+ link: ids-calendar
+ description: Displays month, week, day views
+ category: Layouts
+ keywords: calendar, date, day, week, month, toolbar, time
+ examples:
+  - link: example.html
+    type: Main Example
+    description: Default Calendar View

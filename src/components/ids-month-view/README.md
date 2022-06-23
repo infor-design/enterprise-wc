@@ -39,6 +39,10 @@ If both start and end dates are set calendar toolbar will not be displayed.
 - `show-picklist-month` `{true|false}` Whether or not to show a list of months in the toolbar datepicker picklist, default is true
 - `show-picklist-week` `{true|false}` Whether or not to show week numbers in the toolbar datepicker picklist
 
+## Settings (Properties)
+- `eventsData` `{Array<CalendarEventData>}` - Array of calendar event data to populate the month view
+- `eventTypesData` `{Array<CalendarEventTypeData>}` - Array of calendar event types used to categorize calendar events
+
 ## Events
 - `dayselected` - Fires when a day is selected
 

@@ -111,8 +111,8 @@ describe('IdsWeekView Component (using properties)', () => {
     expect(component.endHour).toEqual(endHour);
     expect(component.showTimeline).toBeFalsy();
     expect(component.timelineInterval).toEqual(interval);
-    expect(component.eventsData).toBeUndefined();
-    expect(component.eventTypesData).toBeUndefined();
+    expect(component.eventsData).toBeDefined();
+    expect(component.eventTypesData).toBeDefined();
   });
 
   it('should change properties', () => {
