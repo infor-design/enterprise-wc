@@ -543,6 +543,46 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
       message: 'Email address not valid',
       type: 'error',
       id: 'email'
+    },
+
+    date: {
+      check(input: any) {
+        const hostCompoment = input.getRootNode().host;
+        const val = input.value;
+        if (input instanceof Date) {
+          return input && input.getTime && !Number.isNaN(input.getTime());
+        }
+
+        const dateFormat = hostCompoment.format;
+        const options: any = {};
+        if (dateFormat) {
+          options.dateFormat = dateFormat;
+        }
+
+        this.message = hostCompoment.locale.translate('Invalid Date', { showBrackets: false });
+
+        const parsedDate = hostCompoment.locale.parseDate(val, options);
+        return !(((parsedDate === undefined) && val !== ''));
+      },
+      message: 'Invalid Date',
+      type: 'error',
+      id: 'date'
+    },
+
+    time: {
+      check(input: any) {
+        const hostCompoment = input.getRootNode().host;
+        const val = input.value;
+        const pattern = hostCompoment.locale.calendar(hostCompoment.locale.locale.name).timeFormat;
+
+        this.message = hostCompoment.locale.translate('Invalid Time', { showBrackets: false });
+
+        const parsedTime = hostCompoment.locale.parseDate(val, { pattern });
+        return !(((parsedTime === undefined) && val !== ''));
+      },
+      message: 'Invalid Time',
+      type: 'error',
+      id: 'time'
     }
   };
 

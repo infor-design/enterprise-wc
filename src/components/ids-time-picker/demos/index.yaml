@@ -8,6 +8,21 @@
   - link: example.html
     type: Main Example
     description: Shows all ids-time-picker combinations
+  - link: sizes.html
+    type: Example
+    description: Showing width and height size variations
+  - link: intervals.html
+    type: Example
+    description: Showing minutes/seconds intervals
+  - link: sandbox.html
+    type: Sandbox
+    description: Showing various time formats and other scenarios
   - link: open.html
     type: Test
-    description: Test a time-picker open for visual tests
+    description: Test page for axe scans and percy screenshots
+  - link: side-by-side.html
+    type: Side by Side
+    description: Shows time picker side by side with a 4.x time picker
+  - link: standalone-css.html
+    type: Standalone CSS
+    description: Showing a limited time picker that works with css only

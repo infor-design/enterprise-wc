@@ -21,7 +21,7 @@ The `ids-date-picker` is a web component to support date entry
 - `readonly` {true|false} - Whether or not the input should be readonly
 - `tabbable` {true|false} - Whether or not the trigger button should be tabbable
 - `size` {'xs'|'sm'|'mm'|'md'|'lg'|'full'} - Size (width) of the field. Default is `sm`
-- `validate` {'required'|string} - Input validation rules
+- `validate` {'required'|'date'|'rangeDate'|string} - Input validation rules
 - `validation-events` {string} - Input validation events, `change blur` as default
 - `format` {'locale'|string|null} - Input date format, if not set defaults to locale calendar date format. Examples: `yyyy-MM-dd`, `d/M/yyyy`, `dd/MM/yyyy`
 - `is-calendar-toolbar` {true|false} - Whether or not the component is used in calendar toolbar. Uses text instead of input
@@ -58,6 +58,7 @@ The `ids-date-picker` is a web component to support date entry
 - `mask` `{true|false}` - Whether or not to enable date mask for the input. `format` attribute will be set as mask options format
 - `minute-interval` {number} Set time picker minutes dropdown options interval
 - `second-interval` {number} Set time picker seconds dropdown options interval
+- `use-current-time` {true|false} - Set whether or not to show current time in the time picker dropdowns
 - `show-picklist-year` `{true|false}` Whether or not to show a list of years in the picklist, default if true
 - `show-picklist-month` `{true|false}` Whether or not to show a list of months in the picklist, default is true
 - `show-picklist-week` `{true|false}` Whether or not to show week numbers in the picklist
@@ -240,7 +241,7 @@ The Date Picker is a complex control to code for accessibility.
 **4.x to 5.x**
 - Listeners for input and popup events should be added to references `input` and `popup` now. See Events section.
 - `disable/readonly/tabbable` are now attributes not methods
-- If using events events are now plain JS events for example: change
+- If using events, events are now plain JS events for example: change
 - Markup has changed to a custom element `<ids-date-picker></ids-date-picker>`
 - Can now be imported as a single JS file and used with encapsulated styles
 - Instead of `onOpenCalendar` callback there are `show`, `hide` popup plain JS events and a date for calendar can be set as date picker `year`, `month`, `day` settings when calendar popup is opened

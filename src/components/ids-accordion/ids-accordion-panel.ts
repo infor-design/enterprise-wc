@@ -337,7 +337,7 @@ export default class IdsAccordionPanel extends Base {
       delete this.paneCloseListener;
     }
 
-    this.pane.style.display = '';
+    this.pane.style.display = 'block';
 
     requestAnimationFrame(() => {
       this.container.classList.add('expanded');

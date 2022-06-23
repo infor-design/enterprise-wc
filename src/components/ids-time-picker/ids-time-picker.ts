@@ -1,6 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
+import { hoursTo12, hoursTo24, isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import Base from './ids-time-picker-base';
@@ -14,13 +15,6 @@ const range: any = (start: any, stop: any, step = 1) => (
   start > stop ? [] : [start, ...range(start + Math.abs(step), stop, step)]
 );
 
-const TIME = {
-  TWELVE: range(1, 12),
-  TWENTYFOUR: range(0, 23),
-  SIXTY: range(0, 59),
-  PERIOD: ['AM', 'PM'],
-};
-
 /**
  * IDS TimePicker Component
  * @type {IdsTimePicker}
@@ -31,6 +25,16 @@ const TIME = {
  * @mixes IdsPopupOpenEventsMixin
  * @mixes IdsThemeMixin
  * @mixes IdsLocaleMixin
+ * @part container - the container of the component
+ * @part trigger-button - the trigger button
+ * @part icon - the icon in the trigger button
+ * @part input - the input element
+ * @part popup - the popup with dropdowns
+ * @part btn-set - the set button in the popup
+ * @part hours - the hours dropdown
+ * @part minutes - the minutes dropdown
+ * @part seconds - the seconds dropdown
+ * @part period - the period dropdown
  */
 @customElement('ids-time-picker')
 @scss(styles)
@@ -40,23 +44,21 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * Get a list of element dependencies for this component
-   * @returns {object} of elements
+   * Elements for internal usage
+   * @private
    */
-  get elements() {
-    return {
-      dropdowns: {
-        wrapper: this.container.querySelector('div#dropdowns'),
-        hours: this.container.querySelector('ids-dropdown#hours'),
-        minutes: this.container.querySelector('ids-dropdown#minutes'),
-        seconds: this.container.querySelector('ids-dropdown#seconds'),
-        period: this.container.querySelector('ids-dropdown#period'),
-      },
-      popup: this.container.querySelector('ids-popup'),
-      triggerButton: this.container.querySelector('ids-trigger-button'),
-      triggerField: this.container.querySelector('ids-trigger-field'),
-      setTimeButton: this.container.querySelector('ids-button#set-time'),
-    };
+  #triggerButton = this.container.querySelector('ids-trigger-button');
+
+  connectedCallback() {
+    this.#attachEventHandlers();
+    this.#attachKeyboardListeners();
+    this.#renderDropdowns();
+    this.#applyMask();
+    super.connectedCallback();
+  }
+
+  disconnectedCallback() {
+    this.close();
   }
 
   /**
@@ -71,13 +73,24 @@ export default class IdsTimePicker extends Base {
       attributes.AUTOUPDATE,
       attributes.DISABLED,
       attributes.EMBEDDABLE,
+      attributes.END_HOUR,
       attributes.FORMAT,
+      attributes.HOURS,
+      attributes.ID,
       attributes.LABEL,
+      attributes.MINUTES,
       attributes.NO_MARGINS,
+      attributes.PERIOD,
       attributes.PLACEHOLDER,
       attributes.READONLY,
+      attributes.SECONDS,
       attributes.SIZE,
-      attributes.VALUE
+      attributes.START_HOUR,
+      attributes.TABBABLE,
+      attributes.USE_CURRENT_TIME,
+      attributes.VALIDATE,
+      attributes.VALIDATION_EVENTS,
+      attributes.VALUE,
     ];
   }
 
@@ -92,7 +105,9 @@ export default class IdsTimePicker extends Base {
    * @returns {void}
    */
   onColorVariantRefresh(): void {
-    this.elements.triggerField.colorVariant = this.colorVariant;
+    if (this.input) {
+      this.input.colorVariant = this.colorVariant;
+    }
   }
 
   /**
@@ -100,7 +115,9 @@ export default class IdsTimePicker extends Base {
    * @returns {void}
    */
   onlabelStateChange(): void {
-    this.elements.triggerField.labelState = this.labelState;
+    if (this.input) {
+      this.input.labelState = this.labelState;
+    }
   }
 
   /**
@@ -110,51 +127,61 @@ export default class IdsTimePicker extends Base {
   onFieldHeightChange(val: string) {
     if (val) {
       const attr = val === 'compact' ? { name: 'compact', val: '' } : { name: 'field-height', val };
-      this.elements.triggerField.setAttribute(attr.name, attr.val);
+      this.input?.setAttribute(attr.name, attr.val);
     } else {
-      this.elements.triggerField.removeAttribute('compact');
-      this.elements.triggerField.removeAttribute('field-height');
+      this.input?.removeAttribute('compact');
+      this.input?.removeAttribute('field-height');
     }
   }
 
   /**
-   * @see IdsElement.getAttribute()
-   * @override
-   * @param {string} name the attribute's name
-   * @returns {string} the attribute's value
+   * Create the Template for the contents
+   * @returns {string} HTML for the template
    */
-  getAttribute(name: string): string {
-    const value = super.getAttribute(name);
-    return value === 'false' ? false : value;
-  }
-
-  /**
-   * Invoked each time an attribute is changed on a custom element.
-   * @param {string} name - the attribute's name
-   * @param {string} oldValue - the attribute's old value
-   * @param {string} newValue - the attribute's new value
-   */
-  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-    super.attributeChangedCallback(name, oldValue, newValue);
-
-    if (oldValue !== newValue) {
-      switch (name) {
-        case attributes.FORMAT:
-          this.elements.dropdowns.wrapper.innerHTML = this.dropdowns();
-          if (this.value) {
-            this.setTimeOnField();
-          }
-          break;
-        case attributes.AUTOUPDATE:
-          this.elements.setTimeButton?.classList.remove('hidden');
-          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-          stringToBool(newValue) && this.elements.setTimeButton?.classList.add('hidden');
-          break;
-        default:
-        // handle default case
-          break;
-      }
+  template() {
+    if (this.embeddable) {
+      return `<div class="ids-time-picker" part="container">
+        <div class="dropdowns" part="dropdowns"></div>
+      </div>`;
     }
+
+    const colorVariant = this.colorVariant ? ` color-variant="${this.colorVariant}"` : '';
+    const fieldHeight = this.fieldHeight ? ` field-height="${this.fieldHeight}"` : '';
+    const labelState = this.labelState ? ` label-state="${this.labelState}"` : '';
+    const compact = this.compact ? ' compact' : '';
+    const noMargins = this.noMargins ? ' no-margins' : '';
+
+    return `
+      <div class="ids-time-picker" part="container">
+        <ids-trigger-field
+          ${this.id ? `id="${this.id}"` : ''}
+          ${colorVariant}${fieldHeight}${compact}${noMargins}${labelState}
+          label="${this.label}"
+          size="${this.size}"
+          placeholder="${this.placeholder}"
+          value="${this.value}"
+          disabled="${this.disabled}"
+          ${this.validate ? `validate="${this.validate}"` : ''}
+          validation-events="${this.validationEvents}"
+          ${this.mask ? 'mask="date"' : ''}
+          part="input"
+        >
+          <ids-text audible="true" translate-text="true">UseArrow</ids-text>
+          <ids-trigger-button slot="trigger-end" part="trigger-button">
+            <ids-text audible="true" translate-text="true">TimepickerTriggerButton</ids-text>
+            <ids-icon slot="icon" icon="clock" part="icon"></ids-icon>
+          </ids-trigger-button>
+        </ids-trigger-field>
+        <ids-popup type="menu" tabindex="-1" part="popup">
+          <section slot="content">
+            <div class="dropdowns" part="dropdowns"></div>
+            <ids-button class="popup-btn" hidden="${this.autoupdate}" part="btn-set">
+              <ids-text translate-text="true" font-weight="bold">SetTime</ids-text>
+            </ids-button>
+          </section>
+        </ids-popup>
+      <div>
+    `;
   }
 
   /**
@@ -164,47 +191,464 @@ export default class IdsTimePicker extends Base {
    */
   onDirtyTrackerChange(value: boolean) {
     if (value) {
-      this.elements.triggerField?.setAttribute(attributes.DIRTY_TRACKER, value);
+      this.input?.setAttribute(attributes.DIRTY_TRACKER, value);
     } else {
-      this.elements.triggerField?.removeAttribute(attributes.DIRTY_TRACKER);
+      this.input?.removeAttribute(attributes.DIRTY_TRACKER);
     }
   }
 
   /**
-   * @readonly
+   * Runs when a click event is propagated to the window.
+   * @private
+   * @see IdsPopupOpenEventsMixin.addOpenEvents()
+   * @param {MouseEvent} e the original click event
+   * @returns {void}
+   */
+  onOutsideClick(e: any): void {
+    if ((!this.autoselect && !e.path?.includes(this.popup))
+    || (this.autoselect && !e.path?.includes(this.popup) && !e.path?.includes(this.input))) {
+      this.close();
+    }
+  }
+
+  /**
+   * Establish Internal Keyboard shortcuts
+   * @private
+   * @returns {IdsTimePicker} this class-instance object for chaining
+   */
+  #attachKeyboardListeners(): IdsTimePicker {
+    this.listen(['ArrowDown', 'Escape', 'Backspace'], this, (e: KeyboardEvent) => {
+      if (e.key === 'ArrowDown') {
+        this.open();
+      } else if (e.key === 'Escape' || e.key === 'Backspace') {
+        this.close();
+      }
+    });
+
+    return this;
+  }
+
+  /**
+   * Establish Internal Event Handlers
+   * @returns {IdsTimePicker} this class-instance object for chaining
+   * @private
+   */
+  #attachEventHandlers(): IdsTimePicker {
+    this.offEvent('change.time-picker-dropdowns');
+    this.onEvent('change.time-picker-dropdowns', this.container.querySelector('.dropdowns'), (e: any) => {
+      const currentId = e.detail?.elem?.id;
+
+      if (!currentId) return;
+
+      this.setAttribute(currentId, e.detail.value);
+
+      if (this.autoupdate) {
+        this.#setTimeOnField();
+      }
+    });
+
+    this.offEvent('click.time-picker-set');
+    this.onEvent('click.time-picker-set', this.container.querySelector('.popup-btn'), () => {
+      this.#setTimeOnField();
+      this.close();
+
+      if (!(this.autoupdate || this.autoselect)) {
+        this.input?.focus();
+      }
+    });
+
+    this.offEvent('click.time-picker-popup');
+    this.onEvent('click.time-picker-popup', this.#triggerButton, () => {
+      this.#toggleTimePopup();
+    });
+
+    this.offEvent('focus.time-picker-input');
+    this.onEvent('focus.time-picker-input', this.input, () => {
+      if (this.autoselect) {
+        this.open();
+      }
+    });
+
+    // Translate Labels
+    this.offEvent('languagechange.time-picker-container');
+    this.onEvent('languagechange.time-picker-container', getClosest(this, 'ids-container'), () => {
+      this.#renderDropdowns();
+      this.#setTimeValidation();
+    });
+
+    // Change component value on input value change
+    this.offEvent('change.time-picker-input');
+    this.onEvent('change.time-picker-input', this.input, (e: any) => {
+      this.setAttribute(attributes.VALUE, e.detail.value);
+    });
+
+    return this;
+  }
+
+  /**
+   * Render dropdowns
+   */
+  #renderDropdowns(): void {
+    // Clear before rendering
+    this.container.querySelectorAll('.dropdowns ids-dropdown, .dropdowns .separator')
+      .forEach((item: HTMLElement) => {
+        item.remove();
+      });
+
+    // Adding dropdowns
+    this.container.querySelector('.dropdowns')?.insertAdjacentHTML('afterbegin', this.#dropdowns());
+  }
+
+  /**
+   * Parse input date and populate dropdowns
+   */
+  #parseInputValue(): void {
+    const inputDate: Date = this.locale?.parseDate(
+      this.input?.value || this.value,
+      { dateFormat: this.format }
+    );
+    const hours24 = inputDate?.getHours();
+    const hours12 = hoursTo12(hours24);
+    const minutes = inputDate?.getMinutes();
+    const seconds = inputDate?.getSeconds();
+    const period = inputDate && this.locale?.calendar()?.dayPeriods[hours24 >= 12 ? 1 : 0];
+
+    if (this.#is24Hours() && hours24 !== this.hours) {
+      this.hours = hours24;
+    }
+
+    if (this.#is12Hours() && hours12 !== this.hours) {
+      this.hours = hours12;
+    }
+
+    if (minutes !== this.minutes) {
+      this.minutes = minutes;
+    }
+
+    if (seconds !== this.seconds) {
+      this.seconds = seconds;
+    }
+
+    if (this.#hasPeriod()) {
+      this.period = period;
+    }
+  }
+
+  /**
    * @returns {boolean} returns true if the timepicker format includes seconds ("ss")
    */
-  get hasSeconds() { return this.format.toLowerCase().includes('ss'); }
+  #hasSeconds(): boolean {
+    return this.format.toLowerCase().includes('ss');
+  }
 
   /**
-   * @readonly
    * @returns {boolean} returns true if the timepicker format includes the am/pm period (" a")
    */
-  get hasPeriod(): boolean { return this.is12Hours && this.format.toLowerCase().includes(' a'); }
+  #hasPeriod(): boolean {
+    return this.#is12Hours() && this.format.toLowerCase().includes(' a');
+  }
 
   /**
-   * @readonly
    * @returns {boolean} returns true if the timepicker is using a 12-Hour format ("hh")
    */
-  get is12Hours(): boolean { return this.format.includes('h'); }
+  #is12Hours(): boolean {
+    return this.format.includes('h');
+  }
 
   /**
-   * @readonly
    * @returns {boolean} returns true if the timepicker is using a 24-Hour format ("HH")
    */
-  get is24Hours(): boolean { return this.format.includes('H') || !this.hasPeriod; }
+  #is24Hours(): boolean {
+    return this.format.includes('H') || !this.#hasPeriod();
+  }
 
   /**
-   * @readonly
-   * @returns {boolean} returns true if the timepicker's popup is open
+   * Creates the HTML the timepicker's dropdown fields
+   * @returns {string} an array of HTML for the timepicker's dropdowns
    */
-  get isOpen(): boolean { return !!this.elements.popup.visible; }
+  #dropdowns(): string {
+    const dropdown: any = ({
+      id,
+      label,
+      options,
+      value,
+      padStart
+    }: any) => `
+      <ids-dropdown id="${id}" class="dropdown" label="${label}" value="${value}" size="xs" part="${id}">
+        <ids-list-box>
+          ${options.map((option: any) => `
+            <ids-list-box-option id="timepicker-${id}-${option}" value="${option}">
+              ${padStart ? `${option}`.padStart(2, '0') : option}
+            </ids-list-box-option>
+          `).join('')}
+        </ids-list-box>
+      </ids-dropdown>
+    `;
+
+    const hours = dropdown({
+      id: 'hours',
+      label: this.locale?.translate('Hours') || 'Hours',
+      options: this.#getHourOptions(),
+      value: this.hours,
+      padStart: this.format.includes('HH') || this.format.includes('hh')
+    });
+    const minutes = dropdown({
+      id: 'minutes',
+      label: this.locale?.translate('Minutes') || 'Minutes',
+      options: range(0, 59, this.minuteInterval),
+      value: this.minutes,
+      padStart: this.format.includes('mm')
+    });
+    const seconds = this.#hasSeconds() && dropdown({
+      id: 'seconds',
+      label: this.locale?.translate('Seconds') || 'Seconds',
+      options: range(0, 59, this.secondInterval),
+      value: this.seconds,
+      padStart: true
+    });
+    const dayPeriods = this.#getDayPeriodsWithRange();
+    const period = this.#hasPeriod() && dayPeriods && dropdown({
+      id: 'period',
+      label: this.locale?.translate('Period') || 'Period',
+      options: dayPeriods,
+      value: this.period
+    });
+
+    const separator = '<span class="separator colons">:</span>';
+    const spacer = '<span class="separator">&nbsp;</span>';
+
+    const numbers = [hours, minutes, seconds].filter(Boolean).join(separator);
+
+    return [numbers, period].filter(Boolean).join(spacer);
+  }
+
+  /**
+   * Get options list for hours dropdown
+   * @returns {Array<number>} options
+   */
+  #getHourOptions(): Array<number> {
+    if (!this.#hasHourRange()) {
+      return range(this.#is12Hours() ? 1 : 0, this.#is12Hours() ? 12 : 23);
+    }
+
+    if (this.#is24Hours()) {
+      return range(this.startHour, this.endHour > 23 ? 23 : this.endHour);
+    }
+
+    const dayPeriodIndex = this.locale?.calendar().dayPeriods?.indexOf(this.period);
+
+    // Including 12AM or 12PM to the range
+    if ((dayPeriodIndex === 0 && this.startHour === 0)
+      || (dayPeriodIndex === 1 && (this.startHour <= 12 && this.endHour >= 12))
+    ) {
+      return [...range(this.#getPeriodStartHour(), this.#getPeriodEndHour()), 12];
+    }
+
+    return range(this.#getPeriodStartHour(), this.#getPeriodEndHour());
+  }
+
+  /**
+   * @returns {boolean} true if range is set
+   */
+  #hasHourRange(): boolean {
+    return this.startHour > 0 || this.endHour < 24;
+  }
+
+  /**
+   * @returns {number} start hour in range by day period
+   */
+  #getPeriodStartHour(): number {
+    const dayPeriodIndex: number = this.locale?.calendar().dayPeriods?.indexOf(this.period);
+
+    if ((this.startHour <= 12 && dayPeriodIndex === 1) || this.startHour === 0) {
+      return 1;
+    }
+
+    if (this.startHour > 12) {
+      return this.startHour % 12;
+    }
+
+    return this.startHour;
+  }
+
+  /**
+   * @returns {number} end hour in range by day period
+   */
+  #getPeriodEndHour() {
+    const dayPeriodIndex = this.locale?.calendar().dayPeriods?.indexOf(this.period);
+
+    if ((this.endHour >= 12 && dayPeriodIndex === 0) || this.endHour === 24) {
+      return 11;
+    }
+
+    if (dayPeriodIndex === 1) {
+      return this.endHour % 12;
+    }
+
+    return this.endHour;
+  }
+
+  /**
+   * @returns {Array<string>} list of available day periods
+   */
+  #getDayPeriodsWithRange(): Array<string> {
+    const dayPeriods: Array<string> = this.locale?.calendar().dayPeriods || [];
+
+    if (!this.#hasHourRange()) {
+      return dayPeriods;
+    }
+
+    // Do not include out of range day period
+    return dayPeriods.reduce((prev: Array<string>, curr: string, index: number) => {
+      const amInRange = index === 0 && (this.startHour < 12 || this.startHour === 0);
+      const pmInRange = index === 1 && this.endHour >= 12;
+
+      if (amInRange || pmInRange) {
+        return [...prev, curr];
+      }
+
+      return prev;
+    }, []);
+  }
+
+  /**
+   * Set the input-field's timestring value
+   */
+  #setTimeOnField(): void {
+    const date: Date = new Date();
+    const dayPeriodIndex: number = this.locale?.calendar().dayPeriods?.indexOf(this.period);
+
+    date.setHours(hoursTo24(this.hours, dayPeriodIndex), this.minutes, this.seconds);
+
+    const value = this.locale.formatDate(date, { pattern: this.format });
+
+    if (this.input) {
+      this.input.value = value;
+    }
+  }
+
+  /**
+   * Valid time validation extend validation mixin
+   */
+  #setTimeValidation(): void {
+    if (this.validate?.includes('time')) {
+      this.input?.addValidationRule({
+        id: 'time',
+        type: 'error',
+        message: this.locale?.translate('InvalidTime'),
+        check: (input: any) => {
+          if (!input.value) return true;
+
+          const date: Date | undefined = this.locale.parseDate(
+            input.value,
+            { dateFormat: this.format, strictTime: true }
+          );
+
+          return isValidDate(date);
+        }
+      });
+    }
+  }
+
+  /**
+   * @param {number} value minutes or seconds to be rounded
+   * @param {number} interval for value to be rounded to
+   * @returns {number} rounded value
+   */
+  #roundToInterval(value: number, interval: number): number {
+    return Math.round(value / interval) * interval;
+  }
+
+  /**
+   * Applying ids-mask to the input when changing locale or format
+   */
+  #applyMask() {
+    if (this.input && this.mask) {
+      this.input.maskOptions = { format: this.format };
+    }
+  }
+
+  /**
+   * Close the timepicker's popup window
+   */
+  close() {
+    if (this.popup) {
+      this.popup.visible = false;
+      this.removeOpenEvents();
+
+      this.container.classList.remove('is-open');
+      this.popup.setAttribute('tabindex', -1);
+    }
+  }
+
+  /**
+   * Open the timepicker's popup window
+   */
+  open() {
+    if (!this.popup.visible && !this.disabled && !this.readonly) {
+      this.popup.alignTarget = this.input?.container.querySelector('.field-container');
+      this.popup.arrowTarget = this.#triggerButton;
+      this.popup.align = `bottom, ${this.locale.isRTL() || ['md', 'lg', 'full'].includes(this.size) ? 'right' : 'left'}`;
+      this.popup.arrow = 'bottom';
+      this.popup.y = 16;
+      this.popup.visible = true;
+
+      this.addOpenEvents();
+
+      this.container.classList.add('is-open');
+      this.popup.removeAttribute('tabindex');
+
+      // Update dropdown values each time the popup is opened if using current time
+      if (!this.input?.value && this.useCurrentTime) {
+        this.#parseInputValue();
+      }
+
+      // Focus hours dropdown
+      if (!this.autoselect) {
+        this.container.querySelector('#hours')?.container.querySelector('ids-trigger-field')?.focus();
+      }
+    }
+  }
+
+  /**
+   * Toggle visibility for the timepicker's popup window
+   */
+  #toggleTimePopup() {
+    if (this.popup.visible) {
+      this.close();
+    } else {
+      this.open();
+    }
+  }
+
+  /**
+   * @returns {any} reference to the IdsPopup component
+   */
+  get popup(): any {
+    return this.container.querySelector('ids-popup');
+  }
+
+  /**
+   * @returns {HTMLInputElement} Reference to the IdsTriggerField
+   */
+  get input(): any {
+    return this.container.querySelector('ids-trigger-field');
+  }
 
   /**
    * Sets the time format to use in the picker.
-   * @param {string} value - a variation of "hh:mm:ss a"
+   * @param {string|null} value - a variation of "hh:mm:ss a"
    */
-  set format(value: string) { this.setAttribute(attributes.FORMAT, value); }
+  set format(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.FORMAT, value);
+    } else {
+      this.removeAttribute(attributes.FORMAT);
+    }
+
+    this.#renderDropdowns();
+    this.#applyMask();
+  }
 
   /**
    * Gets the time format to use in the picker. Defaults to the current locale's time format or english ("hh:mm a")
@@ -221,12 +665,11 @@ export default class IdsTimePicker extends Base {
   set value(value: string) {
     if (!this.disabled && !this.readonly) {
       this.setAttribute(attributes.VALUE, value);
-
-      if (this.elements.triggerField) {
-        this.elements.triggerField.value = value;
-      }
-
       this.#parseInputValue();
+
+      if (this.input) {
+        this.input.value = value;
+      }
     }
   }
 
@@ -238,65 +681,88 @@ export default class IdsTimePicker extends Base {
 
   /**
    * Sets the autoselect attribute
-   * @param {boolean} value - true or false
+   * @param {boolean|string|null} value - true or false
    */
   set autoselect(value) {
-    this.setAttribute(attributes.AUTOSELECT, stringToBool(value));
+    const boolVal = stringToBool(value);
+
+    if (boolVal) {
+      this.setAttribute(attributes.AUTOSELECT, boolVal);
+    } else {
+      this.removeAttribute(attributes.AUTOSELECT);
+    }
   }
 
   /**
    * Gets the autoselect attribute
    * @returns {boolean} true if autoselect is enabled
    */
-  get autoselect(): boolean { return stringToBool(this.getAttribute(attributes.AUTOSELECT)); }
+  get autoselect(): boolean {
+    return stringToBool(this.getAttribute(attributes.AUTOSELECT));
+  }
 
   /**
    * Sets the autoupdate attribute
    * @param {boolean} value - true or false
    */
   set autoupdate(value: boolean) {
-    this.setAttribute(attributes.AUTOUPDATE, stringToBool(value));
+    const boolVal = stringToBool(value);
+    const popupBtn = this.container.querySelector('.popup-btn');
+
+    if (boolVal) {
+      this.setAttribute(attributes.AUTOUPDATE, boolVal);
+      popupBtn?.setAttribute('hidden', boolVal);
+    } else {
+      this.removeAttribute(attributes.AUTOUPDATE);
+      popupBtn?.removeAttribute('hidden');
+    }
   }
 
   /**
    * Gets the autoupdate attribute
    * @returns {boolean} true if autoselect is enabled
    */
-  get autoupdate(): boolean { return stringToBool(this.getAttribute(attributes.AUTOUPDATE)); }
+  get autoupdate(): boolean {
+    return stringToBool(this.getAttribute(attributes.AUTOUPDATE));
+  }
 
   /**
    * Sets the disabled attribute
-   * @param {boolean} value - true or false
+   * @param {boolean|string|null} value - true or false
    */
-  set disabled(value) {
-    const disabled = stringToBool(value);
-    this.setAttribute(attributes.DISABLED, disabled);
-    if (this.elements.triggerField) {
-      this.elements.triggerField.disabled = disabled;
-    }
-    if (this.elements.triggerButton) {
-      this.elements.triggerButton.disabled = disabled;
+  set disabled(value: boolean | string | null) {
+    const boolVal = stringToBool(value);
+
+    if (boolVal) {
+      this.setAttribute(attributes.DISABLED, boolVal);
+      this.input?.setAttribute(attributes.DISABLED, boolVal);
+    } else {
+      this.removeAttribute(attributes.DISABLED);
+      this.input?.removeAttribute(attributes.DISABLED);
     }
   }
 
   /**
    * Gets the disabled attribute
-   * @returns {boolean | string} true if the timepicker is disabled
+   * @returns {boolean} true if the timepicker is disabled
    */
-  get disabled(): boolean | string { return this.getAttribute(attributes.DISABLED) ?? false; }
+  get disabled(): boolean {
+    return stringToBool(this.getAttribute(attributes.DISABLED));
+  }
 
   /**
    * Sets the readonly attribute
-   * @param {boolean | string} value - true or false
+   * @param {boolean|string|null} value - true or false
    */
-  set readonly(value: boolean | string) {
-    const readonly = stringToBool(value);
-    this.setAttribute(attributes.READONLY, readonly);
-    if (this.elements.triggerField) {
-      this.elements.triggerField.readonly = readonly;
-    }
-    if (this.elements.triggerButton) {
-      this.elements.triggerButton.readonly = readonly;
+  set readonly(value: boolean | string | null) {
+    const boolVal = stringToBool(value);
+
+    if (boolVal) {
+      this.setAttribute(attributes.READONLY, boolVal);
+      this.input?.setAttribute(attributes.READONLY, boolVal);
+    } else {
+      this.removeAttribute(attributes.READONLY);
+      this.input?.removeAttribute(attributes.READONLY);
     }
   }
 
@@ -304,16 +770,21 @@ export default class IdsTimePicker extends Base {
    * Gets the readonly attribute
    * @returns {boolean} true if the timepicker is in readonly mode
    */
-  get readonly(): boolean | string { return this.getAttribute(attributes.READONLY) ?? false; }
+  get readonly(): boolean {
+    return stringToBool(this.getAttribute(attributes.READONLY));
+  }
 
   /**
    * Sets the label attribute
-   * @param {string} value - the label's text
+   * @param {string|null} value - the label's text
    */
-  set label(value: string) {
-    this.setAttribute(attributes.LABEL, value);
-    if (this.elements.triggerField) {
-      this.elements.triggerField.label = value;
+  set label(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.LABEL, value);
+      this.input?.setAttribute(attributes.LABEL, value);
+    } else {
+      this.removeAttribute(attributes.LABEL);
+      this.input?.removeAttribute(attributes.LABEL);
     }
   }
 
@@ -328,9 +799,12 @@ export default class IdsTimePicker extends Base {
    * @param {string} value - the placeholder's text
    */
   set placeholder(value: string) {
-    this.setAttribute(attributes.PLACEHOLDER, value);
-    if (this.elements.triggerField) {
-      this.elements.triggerField.placeholder = value;
+    if (value) {
+      this.setAttribute(attributes.PLACEHOLDER, value);
+      this.input?.setAttribute(attributes.PLACEHOLDER, value);
+    } else {
+      this.removeAttribute(attributes.PLACEHOLDER);
+      this.input?.removeAttribute(attributes.PLACEHOLDER);
     }
   }
 
@@ -338,22 +812,30 @@ export default class IdsTimePicker extends Base {
    * Get the placeholder attribute
    * @returns {string} default is ""
    */
-  get placeholder(): string { return this.getAttribute(attributes.PLACEHOLDER) ?? ''; }
+  get placeholder(): string {
+    return this.getAttribute(attributes.PLACEHOLDER) ?? '';
+  }
 
   /**
    * Sets the no margins attribute
-   * @param {boolean} value The value for no margins attribute
+   * @param {string|boolean|null} value The value for no margins attribute
    */
-  set noMargins(value: boolean) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.NO_MARGINS, '');
-      this.elements?.triggerField?.setAttribute(attributes.NO_MARGINS, '');
-      return;
+  set noMargins(value: string | boolean | null) {
+    const boolVal = stringToBool(value);
+
+    if (boolVal) {
+      this.setAttribute(attributes.NO_MARGINS, boolVal);
+      this.input?.setAttribute(attributes.NO_MARGINS, boolVal);
+    } else {
+      this.removeAttribute(attributes.NO_MARGINS);
+      this.input?.removeAttribute(attributes.NO_MARGINS);
     }
-    this.removeAttribute(attributes.NO_MARGINS);
-    this.elements?.triggerField?.removeAttribute(attributes.NO_MARGINS);
   }
 
+  /**
+   * no-margins attribute
+   * @returns {boolean} noMargins parameter
+   */
   get noMargins(): boolean {
     return stringToBool(this.getAttribute(attributes.NO_MARGINS));
   }
@@ -368,21 +850,16 @@ export default class IdsTimePicker extends Base {
     } else {
       this.removeAttribute(attributes.SIZE);
     }
-    this.elements?.triggerField?.setAttribute(attributes.SIZE, this.size);
+
+    this.input?.setAttribute(attributes.SIZE, this.size);
   }
 
   /**
    * Get the size attribute
    * @returns {string} default is "sm"
    */
-  get size(): string { return this.getAttribute(attributes.SIZE) ?? 'sm'; }
-
-  /**
-   * minute-interval attribute
-   * @returns {number} minuteInterval value
-   */
-  get minuteInterval(): number {
-    return stringToNumber(this.getAttribute(attributes.MINUTE_INTERVAL));
+  get size(): string {
+    return this.getAttribute(attributes.SIZE) ?? 'sm';
   }
 
   /**
@@ -392,22 +869,27 @@ export default class IdsTimePicker extends Base {
   set minuteInterval(val: string | number | null) {
     const numberVal = stringToNumber(val);
 
-    if (numberVal) {
+    if (!Number.isNaN(numberVal)) {
       this.setAttribute(attributes.MINUTE_INTERVAL, numberVal);
     } else {
       this.removeAttribute(attributes.MINUTE_INTERVAL);
     }
 
     this.#renderDropdowns();
-    this.#parseInputValue();
   }
 
   /**
-   * second-interval attribute
-   * @returns {number} secondInterval value
+   * minute-interval attribute, default is 5
+   * @returns {number} minuteInterval value
    */
-  get secondInterval(): number {
-    return stringToNumber(this.getAttribute(attributes.SECOND_INTERVAL));
+  get minuteInterval(): number {
+    const numberVal = stringToNumber(this.getAttribute(attributes.MINUTE_INTERVAL));
+
+    if (!Number.isNaN(numberVal)) {
+      return numberVal;
+    }
+
+    return 5;
   }
 
   /**
@@ -417,45 +899,27 @@ export default class IdsTimePicker extends Base {
   set secondInterval(val: string | number | null) {
     const numberVal = stringToNumber(val);
 
-    if (numberVal) {
+    if (!Number.isNaN(numberVal)) {
       this.setAttribute(attributes.SECOND_INTERVAL, numberVal);
     } else {
       this.removeAttribute(attributes.SECOND_INTERVAL);
     }
 
     this.#renderDropdowns();
-    this.#parseInputValue();
   }
 
   /**
-   * Gets an object containing the dropdown-field values for hours|minutes|seconds|period
-   * @returns {object} an object keyed by hours|minutes|seconds|period
+   * second-interval attribute, default is 5
+   * @returns {number} secondInterval value
    */
-  get options() {
-    type TimeConfig = { hours: number, minutes: number, seconds: number, period: string[] };
-    const timeOptions: TimeConfig = {
-      hours: this.is12Hours ? TIME.TWELVE : TIME.TWENTYFOUR,
-      minutes: this.minuteInterval ? range(0, 59, this.minuteInterval) : TIME.SIXTY,
-      seconds: this.secondInterval ? range(0, 59, this.secondInterval) : TIME.SIXTY,
-      period: TIME.PERIOD,
-    };
+  get secondInterval(): number {
+    const numberVal = stringToNumber(this.getAttribute(attributes.SECOND_INTERVAL));
 
-    return timeOptions;
-  }
+    if (!Number.isNaN(numberVal)) {
+      return numberVal;
+    }
 
-  /**
-   * @returns {HTMLInputElement} Reference to the IdsTriggerField
-   */
-  get input() {
-    return this.elements.triggerField;
-  }
-
-  /**
-   * embeddable attribute
-   * @returns {boolean} whether or not to show only hours/minutes/seconds dropdowns without input
-   */
-  get embeddable(): boolean {
-    return stringToBool(this.getAttribute(attributes.EMBEDDABLE));
+    return 5;
   }
 
   /**
@@ -473,351 +937,363 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * Create the Template for the contents
-   * @returns {string} HTML for the template
+   * embeddable attribute
+   * @returns {boolean} whether or not to show only hours/minutes/seconds dropdowns without input
    */
-  template() {
-    if (this.embeddable) {
-      return `<div class="ids-time-picker">
-        <div id="dropdowns">${this.dropdowns()}</div>
-      </div>`;
-    }
-
-    const colorVariant = this.colorVariant ? ` color-variant="${this.colorVariant}"` : '';
-    const fieldHeight = this.fieldHeight ? ` field-height="${this.fieldHeight}"` : '';
-    const labelState = this.labelState ? ` label-state="${this.labelState}"` : '';
-    const compact = this.compact ? ' compact' : '';
-    const noMargins = this.noMargins ? ' no-margins' : '';
-
-    return `
-      <div class="ids-time-picker">
-        <ids-trigger-field
-          ${colorVariant}${fieldHeight}${compact}${noMargins}${labelState}
-          label="${this.label}"
-          size="${this.size}"
-          placeholder="${this.placeholder}"
-          value="${this.value}"
-          disabled="${this.disabled}">
-          <ids-text audible="true" translate-text="true">UseArrow</ids-text>
-          <ids-trigger-button slot="trigger-end">
-            <ids-text audible="true" translate-text="true">TimepickerTriggerButton</ids-text>
-            <ids-icon slot="icon" icon="clock"></ids-icon>
-          </ids-trigger-button>
-        </ids-trigger-field>
-        <ids-popup
-          type="menu"
-          align-target="ids-trigger-field"
-          align="bottom, left"
-          arrow="bottom">
-          <section slot="content">
-            <div id="dropdowns">${this.dropdowns()}</div>
-            <ids-button id="set-time" class="${this.autoupdate ? 'hidden' : ''}">
-              Set Time
-            </ids-button>
-          </section>
-        </ids-popup>
-      <div>
-    `;
+  get embeddable(): boolean {
+    return stringToBool(this.getAttribute(attributes.EMBEDDABLE));
   }
 
   /**
-   * Creates the HTML the timepicker's dropdown fields
-   * @returns {string} an array of HTML for the timepicker's dropdowns
+   * Set hours attribute and update value in hours dropdown
+   * @param {string|number|null} value hours param value
    */
-  dropdowns(): string {
-    const dropdown: any = ({
-      id,
-      label,
-      options
-    }: any) => `
-      <ids-dropdown id="${id}" label="${label}" value="${options[0]}" size="xs">
-        <ids-list-box>
-          ${options.map((option: any) => `
-            <ids-list-box-option id="timepicker-${id}-${option}" value="${option}">
-              ${(`0${option}`).slice(-2)}
-            </ids-list-box-option>
-          `).join('')}
-        </ids-list-box>
-      </ids-dropdown>
-    `;
-
-    const options = this.options;
-    const hours = dropdown({ id: 'hours', label: this.locale?.translate('Hours') || 'Hours', options: options.hours });
-    const minutes = dropdown({ id: 'minutes', label: this.locale?.translate('Minutes') || 'Minutes', options: options.minutes });
-    const seconds = this.hasSeconds && dropdown({ id: 'seconds', label: this.locale?.translate('Seconds') || 'Seconds', options: options.seconds });
-    const period = this.hasPeriod && dropdown({ id: 'period', label: this.locale?.translate('Period') || 'Period', options: options.period });
-
-    const separator = '<span class="separator">&nbsp;</span>';
-    const spacer = '<span class="separator">&nbsp;</span>';
-
-    const numbers = [hours, minutes, seconds].filter(Boolean).join(separator);
-    return <any>[numbers, period].filter(Boolean).join(spacer);
-  }
-
-  /**
-   * Invoked each time the custom element is appended into a document-connected element.
-   * @private
-   */
-  connectedCallback() {
-    super.connectedCallback();
-
-    if (!this.disabled && !this.readonly) {
-      this.#attachEventHandlers();
-      this.#attachKeyboardListeners();
-    }
-  }
-
-  disconnectedCallback() {
-    this.closeTimePopup();
-  }
-
-  /**
-   * Close the timepicker's popup window
-   */
-  closeTimePopup() {
-    if (this.elements.popup) {
-      this.elements.popup.visible = false;
-      this.removeOpenEvents();
-    }
-  }
-
-  /**
-   * Open the timepicker's popup window
-   */
-  openTimePopup() {
-    const { triggerField, popup, triggerButton } = this.elements;
-
-    if (!this.isOpen) {
-      const { bottom } = triggerButton.getBoundingClientRect();
-      const positionBottom = (bottom + 100) < window.innerHeight;
-
-      popup.alignTarget = triggerField;
-      popup.arrowTarget = triggerButton;
-      popup.align = positionBottom ? 'bottom, left' : 'top, left';
-      popup.arrow = positionBottom ? 'bottom' : 'top';
-      popup.visible = true;
-
-      this.addOpenEvents();
-    }
-  }
-
-  /**
-   * Close the timepicker's popup window
-   */
-  toggleTimePopup() {
-    if (this.isOpen) {
-      this.closeTimePopup();
+  set hours(value: string | number | null) {
+    if (value !== null) {
+      this.setAttribute(attributes.HOURS, value);
     } else {
-      this.openTimePopup();
+      this.removeAttribute(attributes.HOURS);
+    }
+
+    this.container.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, this.hours);
+  }
+
+  /**
+   * hours attribute, default is 1
+   * @returns {number} hours attribute value converted to number
+   */
+  get hours(): number {
+    const numberVal = stringToNumber(this.getAttribute(attributes.HOURS));
+
+    if (!Number.isNaN(numberVal)) {
+      return numberVal;
+    }
+
+    if (this.#hasHourRange()) {
+      return this.#getHourOptions()[0];
+    }
+
+    if (this.useCurrentTime && Number.isNaN(numberVal)) {
+      const hours24Now = new Date().getHours();
+
+      if (this.#is12Hours()) {
+        return hoursTo12(hours24Now);
+      }
+
+      return hours24Now;
+    }
+
+    return 1;
+  }
+
+  /**
+   * Set minutes attribute and update value in minutes dropdown
+   * @param {string|number|null} value minutes param value
+   */
+  set minutes(value: string | number | null) {
+    if (value !== null) {
+      this.setAttribute(attributes.MINUTES, value);
+    } else {
+      this.removeAttribute(attributes.MINUTES);
+    }
+
+    this.container.querySelector('ids-dropdown#minutes')?.setAttribute(attributes.VALUE, this.minutes);
+  }
+
+  /**
+   * minutes attribute, default is 0
+   * @returns {number} minutes attribute value converted to number
+   */
+  get minutes(): number {
+    const numberVal = stringToNumber(this.getAttribute(attributes.MINUTES));
+
+    if (!Number.isNaN(numberVal)) {
+      return this.#roundToInterval(numberVal, this.minuteInterval);
+    }
+
+    if (this.useCurrentTime && Number.isNaN(numberVal)) {
+      const minutesNow = new Date().getMinutes();
+
+      return this.#roundToInterval(minutesNow, this.minuteInterval);
+    }
+
+    // Default
+    return 0;
+  }
+
+  /**
+   * Set seconds attribute and update value in seconds dropdown
+   * @param {string|number|null} value seconds param value
+   */
+  set seconds(value: string | number | null) {
+    if (value !== null) {
+      this.setAttribute(attributes.SECONDS, value);
+    } else {
+      this.removeAttribute(attributes.SECONDS);
+    }
+
+    this.container.querySelector('ids-dropdown#seconds')?.setAttribute(attributes.VALUE, this.seconds);
+  }
+
+  /**
+   * seconds attribute, default is 0
+   * @returns {number} seconds attribute value converted to number
+   */
+  get seconds(): number {
+    const numberVal = stringToNumber(this.getAttribute(attributes.SECONDS));
+
+    if (!Number.isNaN(numberVal)) {
+      return this.#roundToInterval(numberVal, this.secondInterval);
+    }
+
+    if (this.useCurrentTime && Number.isNaN(numberVal)) {
+      const secondsNow = new Date().getSeconds();
+
+      return this.#roundToInterval(secondsNow, this.secondInterval);
+    }
+
+    // Default
+    return 0;
+  }
+
+  /**
+   * Set period attribute and update value in period dropdown
+   * @param {string|null} value period param value
+   */
+  set period(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.PERIOD, value);
+    } else {
+      this.removeAttribute(attributes.PERIOD);
+    }
+
+    // Updating hours dropdown with AM/PM range
+    if (this.#hasHourRange()) {
+      this.#renderDropdowns();
+      this.container.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, this.#getHourOptions()[0]);
+    } else {
+      this.container.querySelector('ids-dropdown#period')?.setAttribute(attributes.VALUE, this.period);
     }
   }
 
   /**
-   * Set the input-field's timestring value using.
-   *
-   * @param {object} timeunits set values for the timepicker
-   * @param {string|number} timeunits.hours number of hours to show
-   * @param {string|number} timeunits.minutes number of minutes to show
-   * @param {string|number} timeunits.seconds number of seconds to show
-   * @param {string} timeunits.period am or pm
-   * @returns {object} this class-instance object for chaining
+   * period attribute, default is first day period in locale calendar
+   * @returns {string} period attribute value
    */
-  setTimeOnField({
-    hours,
-    minutes,
-    seconds,
-    period,
-  }: any = {}): object {
-    const { dropdowns } = this.elements;
-    const values = {
-      hours: hours ?? dropdowns.hours?.value ?? '00',
-      minutes: minutes ?? dropdowns.minutes?.value ?? '00',
-      seconds: seconds ?? dropdowns.seconds?.value ?? '00',
-      period: (this.hasPeriod && (period ?? dropdowns.period?.value)) || '',
-    };
+  get period(): string {
+    const attrVal = this.getAttribute(attributes.PERIOD);
+    const dayPeriods: Array<string> = this.#getDayPeriodsWithRange();
+    const dayPeriodExists: boolean = dayPeriods.map((item: string) => item.toLowerCase())
+      .includes(attrVal?.toString().toLowerCase());
 
-    const datestring = new Date().toDateString();
-    const timestring = [values.hours, values.minutes, values.seconds].join(':');
-    const datetime = new Date(`${datestring} ${timestring} ${values.period}`);
+    if (!this.#hasPeriod()) return '';
 
-    if (datetime.getTime()) {
-      const value = datetime.toLocaleTimeString(this.container.locale, {
-        hour12: !this.is24Hours,
-        hour: '2-digit',
-        minute: '2-digit',
-        [this.hasSeconds ? 'second' : '']: '2-digit',
-      });
-
-      this.value = value.replace(/^24/, '00');
-      this.triggerEvent('change', this, {
-        bubbles: true,
-        detail: { elem: this, value: this.value }
-      });
+    if (attrVal && dayPeriodExists) {
+      return attrVal;
     }
 
-    return this;
+    if (this.useCurrentTime) {
+      const hours24Now = new Date().getHours();
+
+      if (hours24Now >= 12) {
+        return dayPeriods[1];
+      }
+
+      return dayPeriods[0];
+    }
+
+    return dayPeriods[0];
   }
 
   /**
-   * Runs when a click event is propagated to the window.
-   * @private
-   * @see IdsPopupOpenEventsMixin.addOpenEvents()
-   * @param {MouseEvent} e the original click event
-   * @returns {void}
+   * Set trigger field/input validation
+   * @param {string|null} val validate param
    */
-  onOutsideClick(e: any): void {
-    if (e.target !== this && this.isOpen) {
-      this.closeTimePopup();
+  set validate(val: string | null) {
+    if (val) {
+      this.setAttribute(attributes.VALIDATE, val);
+      this.input?.setAttribute(attributes.VALIDATE, val);
+      this.input?.setAttribute(attributes.VALIDATION_EVENTS, this.validationEvents);
+      this.input?.handleValidation();
+    } else {
+      this.removeAttribute(attributes.VALIDATE);
+      this.input?.removeAttribute(attributes.VALIDATE);
+      this.input?.removeAttribute(attributes.VALIDATION_EVENTS);
+      this.input?.handleValidation();
+    }
+
+    this.#setTimeValidation();
+  }
+
+  /**
+   * validate attribute
+   * @returns {string|null} validate param
+   */
+  get validate(): string | null { return this.getAttribute(attributes.VALIDATE); }
+
+  /**
+   * Set which input events to fire validation on
+   * @param {string|null} val validation-events attribute
+   */
+  set validationEvents(val: string | null) {
+    if (val) {
+      this.setAttribute(attributes.VALIDATION_EVENTS, val);
+      this.input?.setAttribute(attributes.VALIDATION_EVENTS, val);
+    } else {
+      this.removeAttribute(attributes.VALIDATION_EVENTS);
+      this.input?.removeAttribute(attributes.VALIDATION_EVENTS);
     }
   }
 
   /**
-   * Establish Internal Event Handlers
-   * @private
-   * @returns {object} this class-instance object for chaining
+   * validation-events attributes
+   * @returns {string} validationEvents param. Default is 'change blur'
    */
-  #attachEventHandlers(): object {
-    const {
-      dropdowns,
-      triggerField,
-      triggerButton,
-      setTimeButton,
-    } = this.elements;
+  get validationEvents(): string { return this.getAttribute(attributes.VALIDATION_EVENTS) ?? 'change blur'; }
 
-    this.onEvent('change', this.container, (e: any) => {
-      const currentId = e.detail?.elem?.id;
-      if (!currentId || !this.autoupdate) return;
-
-      if (currentId === dropdowns?.hours?.id) {
-        this.setTimeOnField({ hours: e.detail.value });
-      } else if (currentId === dropdowns?.minutes?.id) {
-        this.setTimeOnField({ minutes: e.detail.value });
-      } else if (currentId === dropdowns?.seconds?.id) {
-        this.setTimeOnField({ seconds: e.detail.value });
-      } else if (currentId === dropdowns?.period?.id) {
-        this.setTimeOnField({ period: e.detail.value });
-      }
-    });
-
-    // using on mouseup, because on click interferes with on Enter
-    this.onEvent('mouseup', setTimeButton, () => {
-      this.setTimeOnField();
-      this.closeTimePopup();
-    });
-
-    // using on mouseup, because on click interferes with on Enter
-    this.onEvent('mouseup', triggerButton, () => this.toggleTimePopup());
-    this.onEvent('focus', triggerField, () => this.autoselect && this.openTimePopup());
-
-    // Translate Labels
-    this.offEvent('languagechange.time-picker-container');
-    this.onEvent('languagechange.time-picker-container', getClosest(this, 'ids-container'), () => {
-      const {
-        hours,
-        minutes,
-        period,
-        seconds,
-      } = this.elements.dropdowns;
-      if (hours) {
-        hours.label = this.locale?.translate('Hours') || 'Hours';
-      }
-      if (minutes) {
-        minutes.label = this.locale?.translate('Minutes') || 'Minutes';
-      }
-      if (period) {
-        period.label = this.locale?.translate('Period') || 'Period';
-      }
-      if (seconds) {
-        seconds.label = this.locale?.translate('Seconds') || 'Seconds';
-      }
-    });
-
-    // Change Locale if not set by a setting initially
-    const formatSet = this.getAttribute('format') !== null;
-    this.offEvent('localechange.time-picker-container');
-    this.onEvent('localechange.time-picker-container', getClosest(this, 'ids-container'), async () => {
-      if (!formatSet) {
-        this.format = this.locale?.calendar().timeFormat;
-      }
-    });
-
-    // Input value change triggers component value change
-    this.offEvent('change.time-picker-input');
-    this.onEvent('change.time-picker-input', this.elements.triggerField, (e: any) => {
-      this.setAttribute(attributes.VALUE, e.detail.value);
-    });
-
-    return this;
+  /**
+   * Set trigger field tabbable attribute
+   * @param {boolean|string|null} val true of false depending if the trigger field is tabbable
+   */
+  set tabbable(val: boolean | string | null) {
+    this.setAttribute(attributes.TABBABLE, val);
+    this.input?.setAttribute(attributes.TABBABLE, val);
   }
 
   /**
-   * Establish Internal Keyboard shortcuts
-   * @private
-   * @returns {object} this class-instance object for chaining
+   * tabbable attribute
+   * @returns {boolean} tabbable param
    */
-  #attachKeyboardListeners(): object {
-    this.listen(['ArrowDown', 'Enter', 'Escape', 'Backspace'], this, (e: KeyboardEvent) => {
-      if (e.key === 'Enter') {
-        this.setTimeOnField();
-      } else if (e.key === 'ArrowDown') {
-        this.openTimePopup();
-      } else if (e.key === 'Escape' || e.key === 'Backspace') {
-        this.closeTimePopup();
-      }
-    });
+  get tabbable(): boolean {
+    const attrVal = this.getAttribute(attributes.TABBABLE);
 
-    return this;
+    // tabbable by default
+    return attrVal !== null ? stringToBool(attrVal) : true;
   }
 
   /**
-   * Render dropdowns
+   * Set trigger field/input id attribute
+   * @param {string} val id
    */
-  #renderDropdowns(): void {
-    // Clear before rendering
-    this.container.querySelectorAll('#dropdowns ids-dropdown, #dropdowns .separator')
-      .forEach((item: HTMLElement) => {
-        item.remove();
-      });
-
-    // Adding dropdowns
-    this.container.querySelector('#dropdowns').insertAdjacentHTML('afterbegin', this.dropdowns());
+  set id(val: string) {
+    if (val) {
+      this.setAttribute(attributes.ID, val);
+      this.input?.setAttribute(attributes.ID, val);
+    } else {
+      this.removeAttribute(attributes.ID);
+      this.input?.removeAttribute(attributes.ID);
+    }
   }
 
   /**
-   * Parse input date and populate dropdowns
+   * id attribute
+   * @returns {string} id param
    */
-  #parseInputValue(): void {
-    const {
-      hours, minutes, seconds, period
-    } = this.elements.dropdowns;
+  get id(): string { return this.getAttribute(attributes.ID) ?? ''; }
 
-    const inputDate: Date = this.locale?.parseDate(
-      this.value,
-      { dateFormat: this.format }
-    );
-
-    if (hours && this.is24Hours && inputDate) {
-      hours.value = inputDate.getHours();
+  /**
+   * Set start of limited hours range
+   * @param {string|number|null} val to be set as end-hour attribute
+   */
+  set startHour(val: number | string | null) {
+    if (val) {
+      this.setAttribute(attributes.START_HOUR, val);
+    } else {
+      this.removeAttribute(attributes.START_HOUR);
     }
 
-    if (hours && this.is12Hours && inputDate) {
-      hours.value = inputDate.getHours() === 0 ? 12 : inputDate.getHours() % 12;
+    this.#renderDropdowns();
+  }
+
+  /**
+   * start-hour attribute, default is 0
+   * @returns {number} startHour param converted to number from attribute value
+   */
+  get startHour(): number {
+    const numberVal = stringToNumber(this.getAttribute(attributes.START_HOUR));
+
+    if (!Number.isNaN(numberVal) && numberVal >= 0) {
+      return numberVal;
     }
 
-    if (minutes && inputDate) {
-      minutes.value = inputDate.getMinutes();
+    return 0;
+  }
+
+  /**
+   * Set end of limited hours range
+   * @param {string|number|null} val to be set as end-hour attribute
+   */
+  set endHour(val: number | string | null) {
+    if (val) {
+      this.setAttribute(attributes.END_HOUR, val);
+    } else {
+      this.removeAttribute(attributes.END_HOUR);
     }
 
-    if (seconds && inputDate) {
-      seconds.value = inputDate.getSeconds();
+    this.#renderDropdowns();
+  }
+
+  /**
+   * end-hour attribute, default is 24
+   * @returns {number} endHour param converted to number from attribute value
+   */
+  get endHour(): number {
+    const numberVal = stringToNumber(this.getAttribute(attributes.END_HOUR));
+
+    if (!Number.isNaN(numberVal) && numberVal <= 24) {
+      return numberVal;
     }
 
-    if (period && inputDate) {
-      this.locale?.calendar().dayPeriods?.forEach((item: string) => {
-        if (this.value?.includes(item)) {
-          period.setAttribute(attributes.VALUE, item);
-        }
-      });
+    return 24;
+  }
+
+  /**
+   * Set whether or not to show current time in the dropdowns
+   * @param {string|boolean|null} val useCurrentTime param value
+   */
+  set useCurrentTime(val: string | boolean | null) {
+    const boolVal = stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.USE_CURRENT_TIME, boolVal);
+    } else {
+      this.removeAttribute(attributes.USE_CURRENT_TIME);
     }
+
+    this.#renderDropdowns();
+  }
+
+  /**
+   * use-current-time attribute
+   * @returns {number} useCurrentTime param converted to boolean from attribute value
+   */
+  get useCurrentTime(): boolean {
+    return stringToBool(this.getAttribute(attributes.USE_CURRENT_TIME));
+  }
+
+  /**
+   * Enable/disable mask for the input
+   * @param {string|boolean|null} val mask param value
+   */
+  set mask(val: string | boolean | null) {
+    const boolVal = stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.MASK, boolVal);
+      this.input?.setAttribute(attributes.MASK, 'date');
+    } else {
+      this.removeAttribute(attributes.MASK);
+      this.input?.removeAttribute(attributes.MASK);
+    }
+  }
+
+  /**
+   * mask attribute
+   * @returns {boolean} mask param converted to boolean from attribute value
+   */
+  get mask(): boolean {
+    const attrVal = this.getAttribute(attributes.MASK);
+
+    return stringToBool(attrVal);
   }
 }

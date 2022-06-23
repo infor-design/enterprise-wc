@@ -84,6 +84,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.showPicklistWeek).toBeTruthy();
       expect(component.minuteInterval).toEqual(5);
       expect(component.secondInterval).toEqual(5);
+      expect(component.useCurrentTime).toBeFalsy();
     });
 
     it('should change properties', () => {
@@ -101,6 +102,7 @@ describe('IdsDatePicker Component Tests', () => {
       component.showPicklistYear = true;
       component.showPicklistMonth = true;
       component.showPicklistWeek = false;
+      component.useCurrentTime = true;
 
       expect(component.tabbable).toBeTruthy();
       expect(component.showToday).toBeTruthy();
@@ -118,6 +120,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.showPicklistYear).toBeTruthy();
       expect(component.showPicklistMonth).toBeTruthy();
       expect(component.showPicklistWeek).toBeFalsy();
+      expect(component.useCurrentTime).toBeTruthy();
 
       // Reset to defaults
       component.tabbable = null;
@@ -130,6 +133,9 @@ describe('IdsDatePicker Component Tests', () => {
       component.month = null;
       component.year = null;
       component.day = null;
+      component.minuteInterval = null;
+      component.secondInterval = null;
+      component.useCurrentTime = null;
 
       expect(component.tabbable).toBeTruthy();
       expect(component.showToday).toBeTruthy();
@@ -141,6 +147,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.month).toEqual((new Date()).getMonth());
       expect(component.year).toEqual((new Date()).getFullYear());
       expect(component.day).toEqual((new Date()).getDate());
+      expect(component.useCurrentTime).toBeFalsy();
     });
 
     it('should not change value when disabled or readonly', () => {
@@ -703,6 +710,19 @@ describe('IdsDatePicker Component Tests', () => {
       component.input.checkValidation();
 
       expect(isValid).toBeFalsy();
+
+      component.validate = null;
+      expect(component.validate).toBeNull();
+
+      expect(component.validationEvents).toEqual('change blur');
+
+      component.validationEvents = 'blur';
+
+      expect(component.validationEvents).toEqual('blur');
+
+      component.validationEvents = null;
+
+      expect(component.validationEvents).toEqual('change blur');
     });
 
     it('should validate unavailable dates', () => {
