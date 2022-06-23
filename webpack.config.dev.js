@@ -39,7 +39,7 @@ module.exports = {
     liveReload: false,
     port: 4300,
     devMiddleware: {
-      writeToDisk: false,
+      writeToDisk: true,
     },
     static: {
       directory: path.resolve(__dirname, `./build/demos/${isProduction ? 'production' : 'development'}`),
