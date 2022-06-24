@@ -12,7 +12,9 @@ const POPUP_INTERACTION_EVENT_NAMES = [
   'click.trigger',
   'contextmenu.trigger',
   'hoverend.trigger',
-  'mouseleave.trigger'
+  'mouseenter.trigger',
+  'mouseleave.trigger',
+  'sloped-mouseleave.trigger'
 ];
 
 /**
@@ -109,13 +111,16 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
    * @param {string} val a valid trigger type
    */
   set trigger(val) {
+    const current = this.state.trigger;
     let trueTriggerType = val;
     if (!POPUP_TRIGGER_TYPES.includes(val)) {
       trueTriggerType = POPUP_TRIGGER_TYPES[0];
     }
-    this.removeTriggerEvents();
-    this.state.trigger = trueTriggerType;
-    this.refreshTriggerEvents();
+    if (current !== trueTriggerType) {
+      this.removeTriggerEvents();
+      this.state.trigger = trueTriggerType;
+      this.refreshTriggerEvents();
+    }
   }
 
   /**
@@ -172,11 +177,11 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
             this.onTriggerHover(e);
           }
         }, { delay: this.popupDelay });
-        this.onEvent('mouseleave.trigger', targetElem, (e: Event) => {
+        this.onEvent('sloped-mouseleave.trigger', targetElem, (e: Event) => {
           if (typeof this.onCancelTriggerHover === 'function') {
             this.onCancelTriggerHover(e);
           }
-        });
+        }, { delay: this.popupDelay });
         this.onEvent('click.trigger', targetElem, (e: Event) => {
           if (typeof this.onTriggerHoverClick === 'function') {
             this.onTriggerHoverClick(e);

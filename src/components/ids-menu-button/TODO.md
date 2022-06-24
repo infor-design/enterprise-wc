@@ -2,4 +2,8 @@
 
 ## Major
 
-- [ ] Add option that replaces text with the selected item https://main-enterprise.demo.design.infor.com/components/button/example-menubutton-replace-text.html
+- [x] Add option that replaces text with the selected item https://main-enterprise.demo.design.infor.com/components/button/example-menubutton-replace-text.html
+
+## Minor
+
+- [ ] Fix skipped test problem (accurate `aria-label` on IdsMenuGroup)
