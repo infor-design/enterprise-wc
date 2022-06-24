@@ -410,7 +410,7 @@ export default class IdsListBuilder extends Base {
       if (!(this.getAllSelectedLiIndex().includes(+this.getFocusedLiIndex()))) {
         this.#unfocusAnySelectedLiEditor();
         this.toggleSelectedLi(li);
-      } else if (!this.#selectedLiEditor && this.selectable !== 'single') {
+      } else if (!this.#selectedLiEditor) {
         this.toggleSelectedLi(li);
       }
     });
