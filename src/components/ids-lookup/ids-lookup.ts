@@ -37,7 +37,10 @@ export default class IdsLookup extends Base {
   triggerField = this.shadowRoot?.querySelector('ids-trigger-field');
 
   /** Reference to the trigger button */
-  triggerButton = this.shadowRoot?.querySelector('ids-trigger-button');
+  triggerButton = this.shadowRoot?.querySelector('ids-trigger-button[part="trigger-lookup"]');
+
+  /** Reference to the trigger button */
+  triggerClearButton = this.shadowRoot?.querySelector('ids-trigger-button[part="trigger-clearable"]');
 
   /**
    * Invoked each time the custom element is appended into a document-connected element.
@@ -61,6 +64,9 @@ export default class IdsLookup extends Base {
     }
     this.modal.target = this.triggerButton;
     this.modal.trigger = 'click';
+
+    // Hide clear btn
+    this.triggerClearButton.container.style.display = 'none';
 
     this
       .#handleEvents()
@@ -105,7 +111,14 @@ export default class IdsLookup extends Base {
       ${this.validate && this.validationEvents ? ` validation-events="${this.validationEvents}"` : ''}>
       <ids-trigger-button
         slot="trigger-end"
-        part="trigger-button"
+        part="trigger-clearable"
+      >
+        <ids-text audible="true">LookupTriggerButton</ids-text>
+        <ids-icon slot="icon" icon="close" size="small" part="icon"></ids-icon>
+      </ids-trigger-button>
+      <ids-trigger-button
+        slot="trigger-end"
+        part="trigger-lookup"
         tabbable="${this.tabbable}"
         disabled="${this.disabled}"
         readonly="${this.readonly}">
@@ -175,6 +188,12 @@ export default class IdsLookup extends Base {
   set value(value: string) {
     this.setAttribute('value', value);
     this.triggerField.value = value;
+
+    if (value && !this.disabled && !this.readonly) {
+      this.#showClearButton();
+    } else {
+      this.#hideClearButton();
+    }
 
     if (this.value === value) {
       // Send the change event{
@@ -417,6 +436,20 @@ export default class IdsLookup extends Base {
   }
 
   /**
+   * Hide clear button when value is empty
+   */
+  #hideClearButton(): void {
+    this.triggerClearButton.container.style.display = 'none';
+  }
+
+  /**
+   * Show clear button when value is not empty
+   */
+  #showClearButton(): void {
+    this.triggerClearButton.container.style.display = 'flex';
+  }
+
+  /**
    * Set the value in the input for the selected row(s)
    * @private
    */
@@ -444,6 +477,19 @@ export default class IdsLookup extends Base {
         this.modal.hide();
         this.#setInputValue();
       }
+    });
+
+    this.onEvent('change.lookup', this.triggerField, (e: CustomEvent) => {
+      if (this.triggerField.value) {
+        this.#showClearButton();
+      } else {
+        this.#hideClearButton();
+      }
+    });
+
+    this.onEvent('click.clearable', this.triggerClearButton, (e: CustomEvent) => {
+      this.value = '';
+      this.dataGrid.deSelectAllRows();
     });
 
     this.modal.addEventListener('beforeshow', (e: CustomEvent) => {
