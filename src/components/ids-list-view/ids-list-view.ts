@@ -649,6 +649,8 @@ export default class IdsListView extends Base {
    * @param {boolean} switchValue optional switch values to force add/remove the selected attribute
    */
   toggleSelectedAttribute(item: HTMLLIElement, switchValue?: boolean) {
+    if (!this.selectable || item?.tagName !== 'IDS-SWAPPABLE-ITEM') return;
+
     const unselect = () => {
       item.removeAttribute('selected');
       item.removeAttribute('aria-selected');
