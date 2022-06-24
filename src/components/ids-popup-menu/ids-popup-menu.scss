@@ -1,19 +1,11 @@
 @import '../ids-menu/ids-menu-base';
 @import '../../mixins/sass/ids-hide-mixin';
 
-:host {
-  &:not([hidden]) {
-    @include block();
-  }
-}
-
 :host(.hide-sm-down) {
   @include hide-sm-down();
 }
 
 .ids-popup-menu {
-  text-align: start;
-
   &:not([hidden]) {
     @include block();
 
