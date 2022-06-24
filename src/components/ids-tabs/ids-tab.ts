@@ -79,17 +79,21 @@ export default class IdsTab extends Base {
         <slot></slot>
       </ids-text>`;
     } else if (hasCount) {
-      innerContent = `<ids-text overflow="ellipsis" font-size="28"${selectedAttr}>
-        ${this.getAttribute(attributes.COUNT)}
-      </ids-text>
-      <ids-text overflow="ellipsis" size="22">
-        <slot></slot>
-      </ids-text>`;
+      innerContent = `<div class="ids-tab-count-container">
+        <ids-text overflow="ellipsis" font-size="28"${selectedAttr}>
+          ${this.getAttribute(attributes.COUNT)}
+        </ids-text>
+        <ids-text overflow="ellipsis" size="22">
+          <slot></slot>
+        </ids-text>
+      </div>`;
     }
 
     return `<div ${cssClassAttr} tabindex="-1" part="container">
       ${innerContent}
-      <slot name="close"></slot>
+      <div class="ids-tab-trigger-container">
+        <slot name="close"></slot>
+      </div>
     </div>`;
   }
 
