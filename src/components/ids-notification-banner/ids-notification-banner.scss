@@ -2,14 +2,15 @@
 
 .ids-notification-banner {
   @include flex();
-  @include p-8();
+  @include pl-8();
 
   align-items: center;
+  height: 44px;
 }
 
 ids-alert {
   @include flex();
-  @include mx-8();
+  @include mr-8();
 }
 
 ids-text::part(text) {
@@ -24,11 +25,17 @@ ids-hyperlink::part(link) {
   white-space: nowrap;
   line-height: 1;
   padding: 0;
-  margin-left: 5px;
+  margin: 0 8px;
 }
 
 .ids-notification-banner-button {
+  height: 100%;
   margin-inline-start: auto;
+
+  ids-button {
+    height: 100%;
+    width: 44px;
+  }
 }
 
 .ids-notification-banner-message {
