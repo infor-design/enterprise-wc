@@ -82,6 +82,7 @@ export const attributes = {
   CURSOR: 'cursor',
   CYCLES_FOCUS: 'cycles-focus',
   DATA: 'data',
+  DATE: 'date',
   DAY: 'day',
   DELAY: 'delay',
   DELIMITER: 'delimiter',
@@ -282,7 +283,9 @@ export const attributes = {
   SHOW_BROWSE_LINK: 'show-browse-link',
   SHOW_CANCEL: 'show-cancel',
   SHOW_CLEAR: 'show-clear',
+  SHOW_DETAILS: 'show-details',
   SHOW_HORIZONTAL_GRID_LINES: 'show-horizontal-grid-lines',
+  SHOW_LEGEND: 'show-legend',
   SHOW_PICKLIST_MONTH: 'show-picklist-month',
   SHOW_PICKLIST_WEEK: 'show-picklist-week',
   SHOW_PICKLIST_YEAR: 'show-picklist-year',
@@ -358,6 +361,7 @@ export const attributes = {
   VERSION: 'version',
   VERTICAL: 'vertical',
   VIEW: 'view',
+  VIEW_PICKER: 'view-picker',
   VIEWBOX: 'viewbox',
   VIRTUAL_SCROLL: 'virtual-scroll',
   VISIBLE: 'visible',
@@ -377,14 +381,21 @@ export const attributes = {
 // Standard HTMLElement attribute names
 // Please keep constants alphabetized
 export const htmlAttributes = {
+  ARIA_CHECKED: 'aria-checked',
+  ARIA_EXPANDED: 'aria-expanded',
+  ARIA_HASPOPUP: 'aria-haspopup',
   ARIA_LABEL: 'aria-label',
+  ARIA_LABELLED_BY: 'aria-labelledby',
   ARIA_ORIENTATION: 'aria-orientation',
+  ARIA_POSINSET: 'aria-posinset',
   ARIA_SELECTED: 'aria-selected',
+  ARIA_SETSIZE: 'aria-setsize',
   ARIA_VALUEMAX: 'aria-valuemax',
   ARIA_VALUEMIN: 'aria-valuemin',
   ARIA_VALUENOW: 'aria-valuenow',
   ARIA_VALUETEXT: 'aria-valuetext',
   ROLE: 'role',
+  SLOT: 'slot',
   TABINDEX: 'tabIndex'
 };
 

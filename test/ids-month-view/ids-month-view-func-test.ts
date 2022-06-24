@@ -5,6 +5,8 @@ import '../helpers/resize-observer-mock';
 
 import IdsMonthView from '../../src/components/ids-month-view/ids-month-view';
 import IdsContainer from '../../src/components/ids-container/ids-container';
+import eventsData from '../../src/assets/data/events.json';
+import eventTypesData from '../../src/assets/data/event-types.json';
 
 const name = 'ids-month-view';
 
@@ -120,6 +122,15 @@ describe('IdsMonthView Component (using properties)', () => {
     component.useRange = false;
 
     expect(component.useRange).toBeFalsy();
+  });
+
+  it('can render calendar events', () => {
+    component.year = 2019;
+    component.month = 9;
+    component.day = 15;
+    component.eventTypeData = eventTypesData;
+    component.eventsData = eventsData;
+    expect(component.container.querySelectorAll('ids-calendar-event').length).toBeTruthy();
   });
 });
 

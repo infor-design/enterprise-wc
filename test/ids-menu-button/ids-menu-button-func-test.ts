@@ -8,6 +8,14 @@ import IdsMenuButton from '../../src/components/ids-menu-button/ids-menu-button'
 import IdsPopupMenu from '../../src/components/ids-popup-menu/ids-popup-menu';
 import waitFor from '../helpers/wait-for';
 
+const testMenuContents = `
+  <ids-menu-group select="multiple">
+    <ids-menu-item id="item1" value="1">Item 1</ids-menu-item>
+    <ids-menu-item id="item2" value="2">Item 2</ids-menu-item>
+    <ids-menu-item id="item3" value="3" selected="true">Item 3</ids-menu-item>
+  </ids-menu-group>
+`;
+
 describe('IdsMenuButton Component', () => {
   let buttonEl: any;
   let menuEl: any;
@@ -218,14 +226,7 @@ describe('IdsMenuButton Component', () => {
   });
 
   it('can set/get data of menu', () => {
-    const menuGroupHTML = `
-      <ids-menu-group select="multiple">
-        <ids-menu-item id="item1" value="1">Item 1</ids-menu-item>
-        <ids-menu-item id="item2" value="2">Item 2</ids-menu-item>
-        <ids-menu-item id="item3" value="3" selected="true">Item 3</ids-menu-item>
-      </ids-menu-group>
-    `;
-    menuEl.insertAdjacentHTML('afterbegin', menuGroupHTML);
+    menuEl.insertAdjacentHTML('afterbegin', testMenuContents);
 
     // check default values
     const initialExpected = ['3'];
@@ -243,5 +244,20 @@ describe('IdsMenuButton Component', () => {
     expect(menuValues.length).toBe(2);
     expect(menuValues).toEqual(expected);
     expect(buttonValues).toEqual(menuValues);
+  });
+
+  it('can be disabled/enabled', () => {
+    menuEl.innerHTML = testMenuContents;
+    buttonEl.disabled = true;
+
+    expect(buttonEl.disabled).toBeTruthy();
+    expect(menuEl.disabled).toBeTruthy();
+    expect(menuEl.querySelector('ids-menu-item').disabled).toBeTruthy();
+
+    buttonEl.disabled = false;
+
+    expect(buttonEl.disabled).toBeFalsy();
+    expect(menuEl.disabled).toBeFalsy();
+    expect(menuEl.querySelector('ids-menu-item').disabled).toBeFalsy();
   });
 });

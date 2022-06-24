@@ -138,6 +138,7 @@
   @include box-border();
 
   contain: content;
+  display: none;
   height: 0;
   overflow: hidden;
   transition: height $transition-length $transition-ease;

@@ -8,6 +8,7 @@ describe('Ids Time Picker Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'light');
     });
+    await page.waitForSelector('pierce/.popup-btn');
     await percySnapshot(page, 'ids-time-picker-new-light');
   });
 
@@ -16,6 +17,7 @@ describe('Ids Time Picker Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');
     });
+    await page.waitForSelector('pierce/.popup-btn');
     await percySnapshot(page, 'ids-time-picker-new-dark');
   });
 
@@ -24,6 +26,7 @@ describe('Ids Time Picker Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'contrast');
     });
+    await page.waitForSelector('pierce/.popup-btn');
     await percySnapshot(page, 'ids-time-picker-new-contrast');
   });
 });
