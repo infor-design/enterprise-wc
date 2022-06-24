@@ -313,7 +313,7 @@ export default class IdsTabs extends Base {
     let nextTab: any = currentTab.nextElementSibling;
 
     // If next sibling isn't a tab or is disabled, try this method again on the found sibling
-    if (nextTab && (!nextTab.tagName.includes('IDS-TAB') || nextTab.disabled || nextTab.hasAttribute('overflowed'))) {
+    if (nextTab && (!nextTab.tagName.includes('IDS-TAB') || nextTab.tagName.includes('IDS-TAB-DIVIDER') || nextTab.disabled || nextTab.hasAttribute('overflowed'))) {
       return this.nextTab(nextTab);
     }
 
@@ -334,7 +334,7 @@ export default class IdsTabs extends Base {
     let prevTab: any = currentTab.previousElementSibling;
 
     // If previous sibling isn't a tab or is disabled, try this method again on the found sibling
-    if (prevTab && (!prevTab.tagName.includes('IDS-TAB') || prevTab.disabled || prevTab.hasAttribute('overflowed'))) {
+    if (prevTab && (!prevTab.tagName.includes('IDS-TAB') || prevTab.tagName.includes('IDS-TAB-DIVIDER') || prevTab.disabled || prevTab.hasAttribute('overflowed'))) {
       return this.prevTab(prevTab);
     }
 
