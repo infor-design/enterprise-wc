@@ -71,6 +71,13 @@
       vertical-align: middle;
     }
 
+    // Wraps slotted icons inside menu items and needs its own centering rules
+    .ids-menu-item-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     ids-icon,
     .ids-icon,
     .ids-menu-item-display-icon {

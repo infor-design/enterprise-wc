@@ -1,3 +1,4 @@
+import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { isValidGroup, isUsableItem } from './ids-menu-attributes';
@@ -10,6 +11,7 @@ import './ids-menu-item';
 import '../ids-separator/ids-separator';
 
 import styles from './ids-menu.scss';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 /**
  * IDS Menu Component
@@ -28,6 +30,13 @@ export default class IdsMenu extends Base {
     this.state = {};
     this.lastHovered = undefined;
     this.lastNavigated = undefined;
+  }
+
+  static get attributes(): Array<string> {
+    return [
+      ...super.attributes,
+      attributes.DISABLED,
+    ];
   }
 
   /**
@@ -101,6 +110,7 @@ export default class IdsMenu extends Base {
     super.connectedCallback?.();
     this.attachEventHandlers();
     this.attachKeyboardListeners();
+    this.setAttribute(htmlAttributes.ROLE, 'none');
 
     // After repaint
     requestAnimationFrame(() => {
@@ -124,7 +134,7 @@ export default class IdsMenu extends Base {
       slot = ` slot="content"`;
     }
 
-    return `<div class="ids-menu"${id}${slot} role="menu" part="menu"><slot></slot></div>`;
+    return `<nav class="ids-menu"${id}${slot} part="menu" role="none"><slot></slot></nav>`;
   }
 
   /**
@@ -389,6 +399,41 @@ export default class IdsMenu extends Base {
       }
     });
     return submenus;
+  }
+
+  /**
+   * @param {boolean | string} val true if the component should be disabled
+   */
+  set disabled(val: boolean | string) {
+    const safeVal = stringToBool(val);
+    if (safeVal) {
+      this.setAttribute(attributes.DISABLED, '');
+      this.#disableItems();
+    } else {
+      this.removeAttribute(attributes.DISABLED);
+      this.#enableItems();
+    }
+  }
+
+  /**
+   * @returns {boolean} true if the component is disabled
+   */
+  get disabled() {
+    return this.hasAttribute(attributes.DISABLED);
+  }
+
+  #disableItems(): void {
+    this.container.classList.add('disabled');
+    this.items.forEach((item: any) => {
+      item.disabled = true;
+    });
+  }
+
+  #enableItems(): void {
+    this.container.classList.remove('disabled');
+    this.items.forEach((item: any) => {
+      item.disabled = false;
+    });
   }
 
   /**

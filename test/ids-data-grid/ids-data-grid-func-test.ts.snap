@@ -902,13 +902,13 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         <ids-menu-button id=\\"pager-size-menu-button\\" menu=\\"pager-size-menu\\" role=\\"button\\" dropdown-icon=\\"\\" aria-controls=\\"pager-size-menu\\">
           <span slot=\\"text\\">10 Records per page</span>
         </ids-menu-button>
-        <ids-popup-menu id=\\"pager-size-menu\\" target=\\"#pager-size-menu-button\\" trigger=\\"click\\" hidden=\\"\\">
-          <ids-menu-group style=\\"min-width: 175px; text-align: left;\\">
-            <ids-menu-item icon=\\"no-check\\" value=\\"5\\"><ids-icon slot=\\"icon\\" size=\\"medium\\" class=\\"ids-icon ids-menu-item-display-icon\\"></ids-icon>5</ids-menu-item>
-            <ids-menu-item icon=\\"no-check\\" value=\\"10\\"><ids-icon slot=\\"icon\\" size=\\"medium\\" class=\\"ids-icon ids-menu-item-display-icon\\"></ids-icon>10</ids-menu-item>
-            <ids-menu-item icon=\\"no-check\\" value=\\"25\\"><ids-icon slot=\\"icon\\" size=\\"medium\\" class=\\"ids-icon ids-menu-item-display-icon\\"></ids-icon>25</ids-menu-item>
-            <ids-menu-item icon=\\"no-check\\" value=\\"50\\"><ids-icon slot=\\"icon\\" size=\\"medium\\" class=\\"ids-icon ids-menu-item-display-icon\\"></ids-icon>50</ids-menu-item>
-            <ids-menu-item icon=\\"no-check\\" value=\\"100\\"><ids-icon slot=\\"icon\\" size=\\"medium\\" class=\\"ids-icon ids-menu-item-display-icon\\"></ids-icon>100</ids-menu-item>
+        <ids-popup-menu id=\\"pager-size-menu\\" target=\\"#pager-size-menu-button\\" trigger=\\"click\\" role=\\"none\\" hidden=\\"\\">
+          <ids-menu-group role=\\"group\\" aria-label=\\"Menu group containing 5 item(s)\\" style=\\"min-width: 175px; text-align: left;\\">
+            <ids-menu-item icon=\\"no-check\\" value=\\"5\\"><ids-icon slot=\\"icon\\" size=\\"medium\\" part=\\"icon\\" class=\\"ids-icon ids-menu-item-display-icon\\"></ids-icon>5</ids-menu-item>
+            <ids-menu-item icon=\\"no-check\\" value=\\"10\\"><ids-icon slot=\\"icon\\" size=\\"medium\\" part=\\"icon\\" class=\\"ids-icon ids-menu-item-display-icon\\"></ids-icon>10</ids-menu-item>
+            <ids-menu-item icon=\\"no-check\\" value=\\"25\\"><ids-icon slot=\\"icon\\" size=\\"medium\\" part=\\"icon\\" class=\\"ids-icon ids-menu-item-display-icon\\"></ids-icon>25</ids-menu-item>
+            <ids-menu-item icon=\\"no-check\\" value=\\"50\\"><ids-icon slot=\\"icon\\" size=\\"medium\\" part=\\"icon\\" class=\\"ids-icon ids-menu-item-display-icon\\"></ids-icon>50</ids-menu-item>
+            <ids-menu-item icon=\\"no-check\\" value=\\"100\\"><ids-icon slot=\\"icon\\" size=\\"medium\\" part=\\"icon\\" class=\\"ids-icon ids-menu-item-display-icon\\"></ids-icon>100</ids-menu-item>
           </ids-menu-group>
         </ids-popup-menu>
       </div>

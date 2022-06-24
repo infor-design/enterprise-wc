@@ -36,6 +36,9 @@
 .ids-popup {
   @include antialiased();
 
+  // Positions the arrow correctly
+  position: relative;
+
   // This style is always applied when IdsPopup is not visible
   // (goes hand-in-hand with `aria-hidden="true"` on the host element
   &:not(.open) {
