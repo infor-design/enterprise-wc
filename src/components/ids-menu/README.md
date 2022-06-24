@@ -21,6 +21,7 @@ The IdsMenu Component provides the ui for a menu. This includes groups, icons, s
 
 ## Attributes and Properties (ids-menu-group)
 
+- `disabled` {boolean} true if the entire menu should become disabled
 - `keepopen` {boolean} true if selection of an item within this group should cause the parent menu to close
 - `selection` {string} The type of selection to set this group between `single` and `multiple` or `none`
 

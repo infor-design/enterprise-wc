@@ -1,6 +1,6 @@
 // Import Core
 import { customElement, scss } from '../../core/ids-decorators';
-import { attributes } from '../../core/ids-attributes';
+import { attributes, htmlAttributes } from '../../core/ids-attributes';
 
 // Import Base and Mixins
 import Base from './ids-menu-group-base';
@@ -38,7 +38,7 @@ export default class IdsMenuGroup extends Base {
   }
 
   template() {
-    return `<ul class="ids-menu-group" role="group"><slot></slot></ul>`;
+    return `<div class="ids-menu-group" role="none"><slot></slot></div>`;
   }
 
   /**
@@ -47,6 +47,8 @@ export default class IdsMenuGroup extends Base {
   connectedCallback() {
     super.connectedCallback?.();
     this.#attachEventHandlers();
+    this.setAttribute(htmlAttributes.ROLE, 'group');
+
     this.refresh();
   }
 
@@ -70,11 +72,24 @@ export default class IdsMenuGroup extends Base {
    * @returns {void}
    */
   refresh() {
-    if (this.header?.id) {
-      this.setAttribute('aria-labelledby', `${this.header.id}`);
+    const header = this.header;
+    if (header) {
+      if (this.header?.id) {
+        this.setAttribute(htmlAttributes.ARIA_LABELLED_BY, `${this.header.id}`);
+        this.removeAttribute(htmlAttributes.ARIA_LABEL);
+      } else {
+        this.setAttribute(htmlAttributes.ARIA_LABEL, `${this.header.textContent}`);
+        this.removeAttribute(htmlAttributes.ARIA_LABELLED_BY);
+      }
     } else {
-      this.removeAttribute('aria-labelledby');
+      this.setAttribute(htmlAttributes.ARIA_LABEL, this.#getGeneratedLabel());
+      this.removeAttribute(htmlAttributes.ARIA_LABELLED_BY);
     }
+  }
+
+  #getGeneratedLabel() {
+    const str = this.locale?.translate('MenuGroup') || '';
+    return str.replace('{0}', this.items.length);
   }
 
   /**
@@ -129,7 +144,9 @@ export default class IdsMenuGroup extends Base {
    * @returns {any} [IdsMenuHeader] containing a menu
    */
   get header() {
-    return this.previousElementSibling?.tagName === 'IDS-MENU-HEADER' && this.previousElementSibling;
+    const prevHeader = this.previousElementSibling;
+    if (prevHeader && prevHeader.tagName === 'IDS-MENU-HEADER') return prevHeader;
+    return this.querySelector('ids-menu-header');
   }
 
   /**

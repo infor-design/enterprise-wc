@@ -435,6 +435,18 @@ describe('IdsMenu Component', () => {
     expect(item1.selected).toBeFalsy();
   });
 
+  it('can be disabled/enabled', async () => {
+    menu.disabled = true;
+
+    expect(menu.container.classList.contains('disabled')).toBeTruthy();
+    expect(item1.disabled).toBeTruthy();
+
+    menu.disabled = false;
+
+    expect(menu.container.classList.contains('disabled')).toBeFalsy();
+    expect(item1.disabled).toBeFalsy();
+  });
+
   describe('IdsMenuItem', () => {
     it('can render a new item correctly', () => {
       const newItem = new IdsMenuItem();

@@ -262,6 +262,7 @@ const messages = {
   Median: { id: 'Median', value: 'Median', comment: 'Median in Mathematics' },
   Medium: { id: 'Medium', value: 'Medium', comment: 'Describes a Medium sized Row Height in a grid/list. NOTE: Please change french to Petite (Moyenne form)' },
   Menu: { id: 'Menu', value: 'Menu', comment: 'Menu tooltip' },
+  MenuGroup: { id: 'MenuGroup', value: 'Menu group containing {0} item(s)', comment: 'Describes the number of menu items contained inside the group (accessibility when items are focused)' },
   MillionsAbbrev: { id: 'MillionsAbbrev', value: '{0}M', comment: 'Refers to a value in a chart in millions. i.e. 1M, 100M' },
   MingleShare: { id: 'MingleShare', value: 'Share with Ming.le', comment: 'Share the contextual object/action in the mingle system' },
   Minimize: { id: 'Minimize', value: 'Minimize', comment: 'Minimize tooltip' },
