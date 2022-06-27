@@ -23,6 +23,14 @@
   }
 }
 
+:host([dir='rtl']:hover) {
+  &::before {
+    left: unset;
+    right: 5px;
+    transform: translate(0, -56%);
+  }
+}
+
 :host(:focus) {
   border: 1px solid var(--ids-color-palette-azure-40);
   box-shadow: 0 0 4px 1px rgb(54 138 192 / 0.3);
