@@ -1365,6 +1365,7 @@ export default class IdsDataGrid extends Base {
     }
     if (this.autoFit === true) {
       this.container.style.height = '100%';
+      this.wrapper.style.height = '100%';
       this.autoFitSet = true;
     }
   }

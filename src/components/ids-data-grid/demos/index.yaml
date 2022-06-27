@@ -8,6 +8,9 @@
   - link: example.html
     type: Main Example
     description: Shows a basic data grid with formatters
+  - link: alternate-row-shading.html
+    type: Example
+    description: Showing alternate row shading
   - link: auto-fit-bottom.html
     type: Example
     description: Showing a data grid that sizes to the bottom of the page

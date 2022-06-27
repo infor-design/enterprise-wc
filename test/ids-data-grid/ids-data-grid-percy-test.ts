@@ -77,49 +77,55 @@ describe('Ids Data Grid Other Percy Tests', () => {
   });
 
   it('should not have visual regressions in auto columns (percy)', async () => {
-    await page.goto('http://localhost:4300/ids-data-grid/columns-auto.html', { waitUntil: ['networkidle2', 'load'] });
+    await page.goto('http://localhost:4444/ids-data-grid/columns-auto.html', { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('ids-layout-grid-cell');
     await percySnapshot(page, 'ids-data-grid-columns-auto-light');
   });
 
   it('should not have visual regressions in fixed columns (percy)', async () => {
-    await page.goto('http://localhost:4300/ids-data-grid/columns-fixed.html', { waitUntil: ['networkidle2', 'load'] });
+    await page.goto('http://localhost:4444/ids-data-grid/columns-fixed.html', { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('ids-layout-grid-cell');
     await percySnapshot(page, 'ids-data-grid-columns-fixed-light');
   });
 
   it('should not have visual regressions in percent columns (percy)', async () => {
-    await page.goto('http://localhost:4300/ids-data-grid/columns-percent.html', { waitUntil: ['networkidle2', 'load'] });
+    await page.goto('http://localhost:4444/ids-data-grid/columns-percent.html', { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('ids-layout-grid-cell');
     await percySnapshot(page, 'ids-data-grid-columns-percent-light');
   });
 
   it('should not have visual regressions in column formatters (percy)', async () => {
-    await page.goto('http://localhost:4300/ids-data-grid/columns-formatters.html', { waitUntil: ['networkidle2', 'load'] });
+    await page.goto('http://localhost:4444/ids-data-grid/columns-formatters.html', { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('ids-layout-grid-cell');
     await percySnapshot(page, 'ids-data-grid-columns-formatters-light');
   });
 
   it('should not have visual regressions in column formatters (percy)', async () => {
-    await page.goto('http://localhost:4300/ids-data-grid/columns-alignment.html', { waitUntil: ['networkidle2', 'load'] });
+    await page.goto('http://localhost:4444/ids-data-grid/columns-alignment.html', { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('ids-layout-grid-cell');
     await percySnapshot(page, 'ids-data-grid-columns-alignment-light');
   });
 
   it('should not have visual regressions in column groups (percy)', async () => {
-    await page.goto('http://localhost:4300/ids-data-grid/columns-groups.html', { waitUntil: ['networkidle2', 'load'] });
+    await page.goto('http://localhost:4444/ids-data-grid/columns-groups.html', { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('ids-layout-grid-cell');
     await percySnapshot(page, 'ids-data-grid-columns-groups-light');
   });
 
   it('should not have visual regressions in column stretch (percy)', async () => {
-    await page.goto('http://localhost:4300/ids-data-grid/columns-stretch.html', { waitUntil: ['networkidle2', 'load'] });
+    await page.goto('http://localhost:4444/ids-data-grid/columns-stretch.html', { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('ids-layout-grid-cell');
     await percySnapshot(page, 'ids-data-grid-columns-stretch-light');
   });
 
   it('should not have visual regressions in column frozen (percy)', async () => {
-    await page.goto('http://localhost:4300/ids-data-grid/columns-frozen.html', { waitUntil: ['networkidle2', 'load'] });
+    await page.goto('http://localhost:4444/ids-data-grid/columns-frozen.html', { waitUntil: ['networkidle2', 'load'] });
+    await page.waitForSelector('ids-layout-grid-cell');
+    await percySnapshot(page, 'ids-data-grid-columns-frozen-light');
+  });
+
+  it('should not have visual regressions in column frozen (percy)', async () => {
+    await page.goto('http://localhost:4444/ids-data-grid/alternate-row-shading.html', { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('ids-layout-grid-cell');
     await percySnapshot(page, 'ids-data-grid-columns-frozen-light');
   });

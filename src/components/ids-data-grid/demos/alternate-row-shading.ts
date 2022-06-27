@@ -2,7 +2,7 @@ import '../ids-data-grid';
 import booksJSON from '../../../assets/data/books.json';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-columns-auto');
+const dataGrid: any = document.querySelector('#data-grid-alt-row-shading');
 const container: any = document.querySelector('ids-container');
 
 if (dataGrid) {
@@ -24,11 +24,6 @@ if (dataGrid) {
       icon: 'drilldown',
       type: 'icon',
       align: 'center',
-      disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
-      click: (rowData: any) => {
-        console.info('Drilldown clicked', rowData);
-      },
-      text: 'Drill Down',
       width: 56
     });
     columns.push({
@@ -36,7 +31,8 @@ if (dataGrid) {
       name: 'Description',
       field: 'description',
       sortable: true,
-      formatter: dataGrid.formatters.text
+      formatter: dataGrid.formatters.text,
+      width: '20%'
     });
     columns.push({
       id: 'ledger',
@@ -44,21 +40,24 @@ if (dataGrid) {
       field: 'ledger',
       sortable: true,
       formatter: dataGrid.formatters.text,
-      hidden: true
+      hidden: true,
+      width: '20%'
     });
     columns.push({
       id: 'publishDate',
       name: 'Pub. Date',
       field: 'publishDate',
       sortable: true,
-      formatter: dataGrid.formatters.date
+      formatter: dataGrid.formatters.date,
+      width: '20%'
     });
     columns.push({
       id: 'publishTime',
       name: 'Pub. Time',
       field: 'publishDate',
       sortable: true,
-      formatter: dataGrid.formatters.time
+      formatter: dataGrid.formatters.time,
+      width: '20%'
     });
     columns.push({
       id: 'price',
@@ -67,7 +66,8 @@ if (dataGrid) {
       align: 'right',
       sortable: true,
       formatter: dataGrid.formatters.decimal,
-      formatOptions: { locale: 'en-US' } // Data Values are in en-US
+      formatOptions: { locale: 'en-US' },
+      width: '20%'
     });
 
     dataGrid.columns = columns;
