@@ -81,6 +81,7 @@
   position: relative;
   margin: -1px;
 }
+
 ::slotted(ids-tab:not([orientation='vertical'])) {
   margin-inline-start: 3px;
 }
