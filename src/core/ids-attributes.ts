@@ -97,6 +97,7 @@ export const attributes = {
   DISPLAY_TIME: 'display-time',
   DONUT: 'donut',
   DONUT_TEXT: 'donut-text',
+  DRAG_MODE: 'drag-mode',
   DRAGGABLE: 'draggable',
   DRAGGING: 'dragging',
   DROPDOWN_ICON: 'dropdown-icon',

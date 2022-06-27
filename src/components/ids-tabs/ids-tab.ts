@@ -121,6 +121,7 @@ export default class IdsTab extends Base {
     this.setAttribute(htmlAttributes.ARIA_SELECTED, `${Boolean(this.selected)}`);
     this.setAttribute(htmlAttributes.TABINDEX, stringToBool(this.selected) ? '0' : '-1');
     this.setAttribute(htmlAttributes.ARIA_LABEL, this.#getReadableAriaLabel());
+    this.#detectSwappable();
   }
 
   /**
@@ -345,6 +346,14 @@ export default class IdsTab extends Base {
       idsText.container.setAttribute('data-text', `"${slotNode.textContent.trim()}"`);
     }
   };
+
+  /**
+   * Sets/removes CSS classes on this tab that control "swappable" display
+   */
+  #detectSwappable(): void {
+    const swappableParent = this.parentElement && this.parentElement.tagName === 'IDS-SWAPPABLE-ITEM';
+    this.container.classList[swappableParent ? 'add' : 'remove']('swappable');
+  }
 
   /**
    * Dismisses this tab, if possible

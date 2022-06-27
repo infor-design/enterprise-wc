@@ -318,6 +318,13 @@ $ids-tab-vertical-height: 42px;
   }
 
   // =================================================
+  // Tabs combined with IdsSwappable create "swappable" tabs
+
+  &.swappable {
+    @include pl-8();
+  }
+
+  // =================================================
   // Light Mode
 
   &:not([mode]),
