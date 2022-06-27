@@ -11,3 +11,9 @@
   - link: autocomplete.html
     type: Example
     description: Showing a lookup with autocomplete input
+  - link: pagination-client.html
+    type: Example
+    description: Showing a lookup with client-side pagination
+  - link: pagination-server.html
+    type: Example
+    description: Showing a lookup with server-side pagination

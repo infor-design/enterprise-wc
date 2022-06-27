@@ -86,6 +86,7 @@ export default class IdsLookup extends Base {
       attributes.FIELD,
       attributes.LABEL,
       attributes.MODE,
+      attributes.PAGINATION,
       attributes.READONLY,
       attributes.TABBABLE,
       attributes.TITLE,
@@ -293,6 +294,24 @@ export default class IdsLookup extends Base {
       return true;
     }
     return stringToBool(this.getAttribute(attributes.TABBABLE));
+  }
+
+  /**
+   * Set the pagination to lookup data-grid
+   * @param {string} value client/server side rendering
+   */
+  set pagination(value: string) {
+    this.setAttribute(attributes.PAGINATION, value);
+    this.dataGrid.setAttribute(attributes.PAGINATION, value);
+    this.dataGrid.setAttribute(attributes.PAGE_NUMBER, 1);
+    this.dataGrid.setAttribute(attributes.PAGE_SIZE, 10);
+  }
+
+  /**
+   * Get pagination setting
+   */
+  get pagination(): string {
+    return this.getAttribute(attributes.PAGINATION);
   }
 
   /**

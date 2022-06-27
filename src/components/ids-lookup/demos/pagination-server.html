@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid>
+      <ids-text font-size="12" type="h1">Lookup (Pagination)</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-lookup
+          id="lookup-1"
+          label="Pagination Client Lookup"
+          title="Select an Item"
+          field="description"
+          value="102,103"
+          dirty-tracker="true"
+          pagination="server-side"
+        ></ids-lookup>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>
