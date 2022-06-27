@@ -141,14 +141,16 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 |Setting|Type|Description|
 |---|---|---|
 |`id` | {string} | The unique id of the column. Each column in the grid should have some unique id.|
-|`sortable` | {boolean} | If false, the column cannot be sorted.|
-|`resizable` | {boolean} | If false the column will not be resizable, thus is a fixed size and can never be changed by the user by dragging the left and right edge.|
-|`readonly` | {boolean|Function} | If true the cell will be set to readonly color, indicating no editing.|
+|`sortable` | {boolean} | If false, the column cannot be sorted. When completed a `sorted` event will fire.|
+|`resizable` | {boolean} | If false the column will not be resizable, thus is a fixed size and can never be changed by the user by dragging the left and right edge.  When completed a `columnresized` event will fire. See the `columns-resizable` example for a working example. |
+|`reorderable` | {boolean} | If true the column can be dragged into another position with adjacent columns. When completed a `columnmoved` event will fire. See the `columns-reorderable` example for a working example. This currently does not work with grouped columns. |
+|`readonly` | {boolean or Function} | If true the cell will be set to readonly color, indicating no editing.|
 |`formatter`| {Function} | Controls how the data is rendered in the cell.|
 |`hidden` | {boolean} | Excludes the column from being added to the DOM.|
 |`align` | {string} | Can be `left` or `right` or `center` to align both the cell and the header. Left is the default so does not need to be specified. |
 |`headerAlign` | {string} | Can be `left` or `right` or `center` to align just the header. Left is the default so does not need to be specified. |
-|`width` | {number|string} | The column width, this can be an integer for fixed pixel width or a percent for example `10%`, if left off the columns will be sized to contents and to fit the width of the grid using the css table browsers handling (this is known as `auto` columns). I.E. There are three column configurations: `auto`, `fixed` and `percent`. In addition one can specify any css grid column setting like `fr` or `ch`. In order to make what was called a `stretchColumn` in previous versions you can set the width to`minmax(130px, 4fr)`. This is some minimum width and a `fr` unit equal to the remaining number of columns (see example columns-stretch.html). For a spacer column you just need to specify one extra column at the end (see example columns-fixed.html) but this is not recommended for how it looks. |
+|`width` | {number or string} | The column width, this can be an integer for fixed pixel width or a percent for example `10%`, if left off the columns will be sized to contents and to fit the width of the grid using the css table browsers handling (this is known as `auto` columns). I.E. There are three column configurations: `auto`, `fixed` and `percent`.
+In addition one can specify any css grid column setting like `fr` or `ch`. In order to make what was called a `stretchColumn` in previous versions you can set the width to`minmax(130px, 4fr)`. This is some minimum width and a `fr` unit equal to the remaining number of columns (see example columns-stretch.html). For a spacer column you just need to specify one extra column at the end (see example columns-fixed.html) but this is not recommended for how it looks. |
 |`minWidth` | {number} | The minimum width used to prevent resizing a column below this size. |
 |`maxWidth` | {number} | The maximum width used to prevent resizing a column above this size. |
 |`cssPart` | {string} | Allows you to set the name of a css part that can be used to customize the cell's css. This can be a string or a function. See the columns-custom-css example. The default cssPart for cells is called `cell` and it also can be used for more global changes.  |
@@ -191,8 +193,8 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 
 ## Events
 
-- `activecellchange` Fires when the active cell changes with the keyboard or by click.
-- `sort` Fires when the sort column is changed.
+- `activecellchanged` Fires when the active cell changes with the keyboard or by click.
+- `sorted` Fires when the sort column is changed.
 - `selectionchanged` Fires any time the selection changes.
 - `activationchanged` Fires any time the active row changes.
 - `rowselected` Fires for each row that is selected.
@@ -201,8 +203,15 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 - `rowdeactivated` Fires for each row that is deactivated.
 - `filtered` Fires after a filter action occurs, clear or apply filter condition.
 - `filteroperatorchanged` Fires once a filter operator changed.
-- `openfilterrow` Fires after the filter row is opened by the user.
-- `closefilterrow` Fires after the filter row is closed by the user.
+- `filterrowopened` Fires after the filter row is opened by the user.
+- `filterrowclosed` Fires after the filter row is closed by the user.
+- `columnresized` Fires when a column is resized or setColumnWidth is called.
+- `columnmoved` Fires when a column is moved / reordered or moveColumn is called
+
+## Methods
+
+-- `setColumnWidth` Can be used to set the width of a column.
+-- `setColumnVisibility` Can be used to set the visibility of a column.
 
 ## Filters
 
@@ -556,8 +565,8 @@ The following events are relevant to data-grid filters.
 
 - `filtered` Fires after a filter action occurs, clear or apply filter condition.
 - `filteroperatorchanged` Fires once a filter operator changed.
-- `openfilterrow` Fires after the filter row is opened by the user.
-- `closefilterrow` Fires after the filter row is closed by the user.
+- `filterrowopened` Fires after the filter row is opened by the user.
+- `filterrowclosed` Fires after the filter row is closed by the user.
 
 ## States and Variations
 
@@ -607,7 +616,7 @@ The following events are relevant to data-grid filters.
 - Counts have all new markup and classes.
 
 **4.x to 5.x**
-- Data grid has all new markup and a custom element but similarly named options
+- Data grid has all new markup and a custom element but some similarly named options
 - Still uses same columns and data set options. Some column options enhanced and changed.
 - If using events events are now plain JS events for example: sorted, rendered
 - Some Api Functions have changed
@@ -619,6 +628,7 @@ The following events are relevant to data-grid filters.
 - `stretchColumn` is now more flexible and can be achieved by setting a column width to `minmax(130px, 4fr)`. I.E. some min width and a `fr` unit equal to the remaining number of columns (or similar variations).
 - split columns are not supported anymore but could be done with a custom formatter if needed
 - `frozenColumns` setting is now set on each column by adding `frozen: 'left'` or `frozen: 'right'` to the column definition.
+- Some events are renamed see the events section for more details, also the signature of the events has changed.
 
 ## Accessibility Guidelines
 

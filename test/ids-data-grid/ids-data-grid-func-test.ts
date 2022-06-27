@@ -204,6 +204,10 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell').length).toEqual(dataGrid.columns.length);
     });
 
+    it('can get the header element with a setter', () => {
+      expect(dataGrid.header.querySelectorAll('.ids-data-grid-header-cell').length).toEqual(dataGrid.columns.length);
+    });
+
     it('skips render column no styleSheets in headless browsers', () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
@@ -339,6 +343,13 @@ describe('IdsDataGrid Component', () => {
       dataGrid.columns = columns();
 
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-body').length).toEqual(1);
+    });
+
+    it('can hide / show column with setColumnVisible', () => {
+      dataGrid.setColumnVisible('description', false);
+      expect(dataGrid.shadowRoot.querySelectorAll('[column-id="description"]').length).toEqual(0);
+      dataGrid.setColumnVisible('description', true);
+      expect(dataGrid.shadowRoot.querySelectorAll('[column-id="description"]').length).toEqual(1);
     });
 
     it('renders column when set to empty', () => {
@@ -739,7 +750,7 @@ describe('IdsDataGrid Component', () => {
         expect(x.detail.sortColumn.ascending).toEqual(true);
       });
 
-      dataGrid.addEventListener('sort', mockCallback);
+      dataGrid.addEventListener('sorted', mockCallback);
       dataGrid.setSortColumn('description', true);
 
       expect(mockCallback.mock.calls.length).toBe(1);
@@ -752,7 +763,7 @@ describe('IdsDataGrid Component', () => {
         expect(x.detail.sortColumn.ascending).toEqual(false);
       });
 
-      dataGrid.addEventListener('sort', mockCallback);
+      dataGrid.addEventListener('sorted', mockCallback);
       dataGrid.setSortColumn('description', false);
 
       expect(mockCallback.mock.calls.length).toBe(1);
@@ -765,7 +776,7 @@ describe('IdsDataGrid Component', () => {
         expect(x.detail.sortColumn.ascending).toEqual(true);
       });
 
-      dataGrid.addEventListener('sort', mockCallback);
+      dataGrid.addEventListener('sorted', mockCallback);
       dataGrid.setSortColumn('description');
 
       expect(mockCallback.mock.calls.length).toBe(1);
@@ -778,7 +789,7 @@ describe('IdsDataGrid Component', () => {
         expect(x.detail.sortColumn.ascending).toEqual(true);
       });
 
-      dataGrid.addEventListener('sort', mockCallback);
+      dataGrid.addEventListener('sorted', mockCallback);
       dataGrid.setSortColumn('publishTime');
 
       expect(mockCallback.mock.calls.length).toBe(1);
@@ -808,7 +819,7 @@ describe('IdsDataGrid Component', () => {
         expect(x.detail.sortColumn.ascending).toEqual(true);
       });
 
-      dataGrid.addEventListener('sort', mockCallback);
+      dataGrid.addEventListener('sorted', mockCallback);
       const headers = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell');
       headers[2].querySelector('.ids-data-grid-header-cell-content').click();
 
@@ -845,6 +856,239 @@ describe('IdsDataGrid Component', () => {
       headers[2].querySelector('.ids-data-grid-header-cell-content').click();
 
       expect(dataGrid.getAttribute('dir')).toEqual('rtl');
+    });
+  });
+
+  describe('Reordering Tests', () => {
+    it('supports column reorder', async () => {
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        reorderable: true,
+        width: 200,
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency',
+        minWidth: 100,
+        reorderable: true,
+      },
+      {
+        id: 'other',
+        name: 'ledger',
+        field: 'ledger',
+        minWidth: 100,
+        reorderable: false,
+      }];
+
+      const cols = (dataGrid).columns;
+      const nodes = dataGrid.container.querySelectorAll('.reorderer');
+      expect(nodes.length).toEqual(2);
+
+      // Fake a Drag
+      const dragstart = new MouseEvent('dragstart', { bubbles: true });
+      nodes[0].dispatchEvent(dragstart);
+      expect(nodes[0].parentNode.classList.contains('active-drag-column')).toBeTruthy();
+      const dragover: any = new CustomEvent('dragover', { bubbles: true, dataTransfer: { } } as any);
+      dragover.pageY = '1';
+      Object.assign(dragover, {
+        dataTransfer: { setData: jest.fn(), effectAllowed: 'move' }
+      });
+      nodes[1].dispatchEvent(dragover);
+
+      // simulate dragging
+      const dragenter = new MouseEvent('dragenter', { bubbles: true });
+      nodes[1].dispatchEvent(dragenter);
+      nodes[0].dispatchEvent(dragenter);
+      nodes[1].dispatchEvent(dragstart);
+
+      const dragstart2 = new MouseEvent('dragstart', { bubbles: true });
+      nodes[1].dispatchEvent(dragstart2);
+      nodes[0].dispatchEvent(dragenter);
+      nodes[1].dispatchEvent(dragenter);
+      nodes[0].dispatchEvent(dragenter);
+
+      dataGrid.locale.isRTL = () => true;
+      nodes[1].dispatchEvent(dragenter);
+      nodes[0].dispatchEvent(dragenter);
+      expect(dataGrid.wrapper.querySelector('.ids-data-grid-sort-arrows').style.display).toBe('block');
+
+      const dragend = new MouseEvent('dragend', { bubbles: true });
+      nodes[1].dispatchEvent(dragend);
+      expect(nodes[0].parentNode.classList.contains('active-drag-column')).toBeFalsy();
+      expect(dataGrid.wrapper.querySelector('.ids-data-grid-sort-arrows').style.display).toBe('none');
+
+      const drop = new MouseEvent('drop', { bubbles: true });
+      nodes[1].dispatchEvent(drop);
+
+      // Overall success
+      expect(cols[0].id).toBe('price');
+      expect(cols[1].id).toBe('bookCurrency');
+      expect(cols[2].id).toBe('other');
+    });
+
+    it('supports dragging right', async () => {
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        reorderable: true,
+        width: 200,
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency',
+        minWidth: 100,
+        reorderable: true,
+      },
+      {
+        id: 'other',
+        name: 'ledger',
+        field: 'ledger',
+        minWidth: 100,
+        reorderable: true,
+      }];
+
+      const cols = (dataGrid).columns;
+      const nodes = dataGrid.container.querySelectorAll('.reorderer');
+
+      // Fake a Drag
+      const dragstart = new MouseEvent('dragstart', { bubbles: true });
+      nodes[2].dispatchEvent(dragstart);
+
+      // simulate dragging
+      const dragenter = new MouseEvent('dragenter', { bubbles: true });
+      nodes[1].dispatchEvent(dragenter);
+      nodes[0].dispatchEvent(dragenter);
+      expect(dataGrid.wrapper.querySelector('.ids-data-grid-sort-arrows').style.display).toBe('block');
+
+      const dragend = new MouseEvent('dragend', { bubbles: true });
+      nodes[0].dispatchEvent(dragend);
+
+      const drop = new MouseEvent('drop', { bubbles: true });
+      nodes[0].dispatchEvent(drop);
+
+      // Overall success
+      expect(cols[0].id).toBe('other');
+      expect(cols[1].id).toBe('price');
+      expect(cols[2].id).toBe('bookCurrency');
+    });
+
+    it('supports dragging when right to left', async () => {
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        reorderable: true,
+        width: 200,
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency',
+        minWidth: 100,
+        reorderable: true,
+      },
+      {
+        id: 'other',
+        name: 'ledger',
+        field: 'ledger',
+        minWidth: 100,
+        reorderable: true,
+      }];
+
+      container.language = 'ar';
+      await processAnimFrame();
+      expect(dataGrid.getAttribute('dir')).toEqual('rtl');
+
+      const cols = (dataGrid).columns;
+      const nodes = dataGrid.container.querySelectorAll('.reorderer');
+
+      // Fake a Drag
+      const dragstart = new MouseEvent('dragstart', { bubbles: true });
+      nodes[2].dispatchEvent(dragstart);
+
+      // simulate dragging
+      const dragenter = new MouseEvent('dragenter', { bubbles: true });
+      nodes[1].dispatchEvent(dragenter);
+      nodes[0].dispatchEvent(dragenter);
+      expect(dataGrid.wrapper.querySelector('.ids-data-grid-sort-arrows').style.display).toBe('block');
+
+      const dragend = new MouseEvent('dragend', { bubbles: true });
+      nodes[0].dispatchEvent(dragend);
+
+      const drop = new MouseEvent('drop', { bubbles: true });
+      nodes[0].dispatchEvent(drop);
+
+      // Overall success
+      expect(cols[0].id).toBe('other');
+      expect(cols[1].id).toBe('price');
+      expect(cols[2].id).toBe('bookCurrency');
+    });
+
+    it('supports stopping reorder on non-reorderable', async () => {
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        reorderable: false,
+        width: 200,
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency',
+        minWidth: 100,
+        reorderable: true,
+      },
+      {
+        id: 'other',
+        name: 'ledger',
+        field: 'ledger',
+        minWidth: 100,
+        reorderable: false,
+      }];
+
+      const headers = dataGrid.container.querySelectorAll('.ids-data-grid-header-cell');
+      const dragstart = new MouseEvent('dragstart', { bubbles: true });
+      headers[0].dispatchEvent(dragstart);
+      expect(dataGrid.shadowRoot.querySelector('.active-drag-column')).toBeFalsy();
+    });
+
+    it('supports moveColumn', async () => {
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        reorderable: true,
+        width: 200,
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency',
+        minWidth: 100,
+        reorderable: true,
+      },
+      {
+        id: 'other',
+        name: 'ledger',
+        field: 'ledger',
+        minWidth: 100,
+        reorderable: false,
+      }];
+
+      const cols = (dataGrid).columns;
+      expect(cols[0].id).toBe('price');
+      expect(cols[1].id).toBe('bookCurrency');
+      expect(cols[2].id).toBe('other');
+      dataGrid.moveColumn(0, 1);
+      expect(cols[0].id).toBe('bookCurrency');
+      expect(cols[1].id).toBe('price');
+      expect(cols[2].id).toBe('other');
     });
   });
 
@@ -1142,6 +1386,66 @@ describe('IdsDataGrid Component', () => {
       button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
       expect(button.disabled).toBeTruthy();
     });
+
+    it('can render with the badge formatter (with color function)', () => {
+      const colorListener = jest.fn(() => 'info');
+      dataGrid.columns = [{
+        id: 'badge',
+        name: 'badge',
+        sortable: false,
+        resizable: false,
+        formatter: dataGrid.formatters.badge,
+        icon: 'settings',
+        align: 'center',
+        color: colorListener,
+        field: 'ledger'
+      }];
+
+      // Empty row
+      const badge = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-badge');
+      expect(badge).toBeFalsy();
+
+      const badge2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-badge');
+      expect(badge2.textContent).toContain('CORE');
+      expect(badge2.getAttribute('color')).toBe('info');
+      expect(colorListener).toHaveBeenCalledTimes(6);
+    });
+
+    it('can render with the badge formatter with color class', () => {
+      dataGrid.columns = [{
+        id: 'badge',
+        name: 'badge',
+        sortable: false,
+        resizable: false,
+        formatter: dataGrid.formatters.badge,
+        icon: 'settings',
+        align: 'center',
+        color: 'error',
+        field: 'ledger'
+      }];
+
+      // Empty row
+      const badge = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-badge');
+      expect(badge.textContent).toContain('CORE');
+      expect(badge.getAttribute('color')).toBe('error');
+    });
+
+    it('can render with the badge formatter with no color class', () => {
+      dataGrid.columns = [{
+        id: 'badge',
+        name: 'badge',
+        sortable: false,
+        resizable: false,
+        formatter: dataGrid.formatters.badge,
+        icon: 'settings',
+        align: 'center',
+        field: 'ledger'
+      }];
+
+      // Empty row
+      const badge = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-badge');
+      expect(badge.getAttribute('color')).toBe(null);
+    });
   });
 
   describe('Keyboard Tests', () => {
@@ -1262,7 +1566,7 @@ describe('IdsDataGrid Component', () => {
         expect(x.detail.activeCell.node).toBeTruthy();
       });
 
-      dataGrid.addEventListener('activecellchange', mockCallback);
+      dataGrid.addEventListener('activecellchanged', mockCallback);
       const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
       dataGrid.dispatchEvent(event);
 
@@ -1272,7 +1576,7 @@ describe('IdsDataGrid Component', () => {
     it('fires activecellchange event on click', () => {
       const mockCallback = jest.fn();
 
-      dataGrid.addEventListener('activecellchange', mockCallback);
+      dataGrid.addEventListener('activecellchanged', mockCallback);
       dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[3]
         .querySelectorAll('.ids-data-grid-cell')[3].click();
 

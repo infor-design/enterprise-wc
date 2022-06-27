@@ -128,24 +128,48 @@ $header-bg-color: var(--ids-color-palette-slate-80);
       z-index: 2;
     }
 
+    &:last-child .resizer {
+      // Prevents un needed scrollbar
+      margin-inline-start: calc(100% - 6px);
+    }
+
     // Reorderable Cells
     .reorderer {
       cursor: move;
       display: inline;
-      height: 18px;
+      height: 33px;
       opacity: 0;
       position: absolute;
       inset-inline-start: 7px;
-      top: 8px;
-      width: 3px;
+      top: 0;
+      width: 4px;
 
       ids-icon {
         position: absolute;
         color: var(--ids-color-palette-white);
         inset-inline-start: -7px;
         text-align: center;
-        top: 0;
+        top: 9px;
       }
+    }
+
+    &.align-right .reorderer {
+      inset-inline-end: 7px;
+      inset-inline-start: initial;
+    }
+
+    &.dragging {
+      background-color: $header-bg-color !important;
+      display: block;
+      width: 110px;
+
+      .reorderer {
+        opacity: 1;
+      }
+    }
+
+    &.active-drag-column {
+      background-color: var(--ids-color-palette-slate-40);
     }
 
     &:hover .reorderer {
@@ -297,6 +321,11 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     // Negate link margins
     ids-hyperlink {
       margin: 8px;
+    }
+
+    ids-badge {
+      padding-inline-start: 8px;
+      padding-inline-end: 8px;
     }
 
     // Text ellipsis
@@ -535,6 +564,37 @@ table.ids-data-grid {
   outline: 1px solid var(--ids-color-palette-slate-30);
 }
 
+// Drag arrows for sorting
+.ids-data-grid-sort-arrows {
+  display: none;
+  height: 34px;
+  position: absolute;
+  left: 25px;
+  z-index: 1;
+
+  &::before,
+  &::after {
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    content: '';
+    display: inline-block;
+    height: 0;
+    left: -6px;
+    position: absolute;
+    width: 0;
+  }
+
+  &::before {
+    border-top: 5px solid $header-bg-color;
+    top: -6px;
+  }
+
+  &::after {
+    border-bottom: 5px solid $header-bg-color;
+    bottom: -9px;
+  }
+}
+
 // Dark Theme
 .ids-data-grid[mode='dark'] {
   @include bg-slate-90();
@@ -543,6 +603,18 @@ table.ids-data-grid {
   .ids-data-grid-header-cell {
     @include bg-slate-20();
     @include border-slate-80();
+
+    .reorderer ids-icon {
+      color: var(--ids-color-palette-slate-100);
+    }
+
+    &.dragging {
+      background-color: var(--ids-color-palette-slate-20) !important;
+    }
+
+    &.active-drag-column {
+      background-color: var(--ids-color-palette-slate-10);
+    }
   }
 
   .ids-data-grid-header-text {
@@ -658,13 +730,37 @@ table.ids-data-grid {
   }
 }
 
+:host([mode='dark']) {
+  .ids-data-grid-sort-arrows {
+    &::before {
+      border-top: 5px solid var(--ids-color-palette-slate-20);
+    }
+
+    &::after {
+      border-bottom: 5px solid var(--ids-color-palette-slate-20);
+    }
+  }
+}
+
 // Contrast Theme
 .ids-data-grid[mode='contrast'] {
   @include bg-white();
 
   .ids-data-grid-header-cell {
     @include bg-slate-70();
-    @include border-slate-50();
+    @include border-slate-40();
+
+    .reorderer ids-icon {
+      color: var(--ids-color-palette-slate-10);
+    }
+
+    &.dragging {
+      background-color: var(--ids-color-palette-slate-70) !important;
+    }
+
+    &.active-drag-column {
+      background-color: var(--ids-color-palette-slate-50);
+    }
   }
 
   .ids-data-grid-header-text {

@@ -153,7 +153,7 @@ describe('IdsToolbar Component', () => {
     expect(toolbar.type).toEqual('formatter');
   });
 
-  it('can be set type formatter', () => {
+  it('can be set to type formatter', () => {
     expect(toolbar.getAttribute('type')).toEqual(null);
     expect(toolbar.type).toEqual(null);
     toolbar.type = 'formatter';
@@ -162,6 +162,15 @@ describe('IdsToolbar Component', () => {
     toolbar.type = 'test';
     expect(toolbar.getAttribute('type')).toEqual(null);
     expect(toolbar.type).toEqual(null);
+  });
+
+  it('can set padding', () => {
+    expect(toolbar.getAttribute('padding')).toEqual(null);
+    expect(toolbar.padding).toEqual(null);
+    toolbar.padding = '5';
+    expect(toolbar.getAttribute('padding')).toEqual('5');
+    expect(toolbar.padding).toEqual('5');
+    expect(toolbar.container.style.paddingBottom).toEqual('5px');
   });
 
   it('can be disabled and enabled', () => {

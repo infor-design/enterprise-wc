@@ -12,6 +12,21 @@
     </ids-layout-grid>
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
+        <ids-toolbar padding="5">
+          <ids-toolbar-section type="buttonset" align="end">
+            <ids-button id="hide-show" role="button">
+              <span slot="text">Hide Column</span>
+            </ids-button>
+          </ids-toolbar-section>
+
+          <ids-toolbar-more-actions overflow>
+            <ids-menu-group>
+              <ids-menu-item value="1">Option One</ids-menu-item>
+              <ids-menu-item value="2">Option Two</ids-menu-item>
+              <ids-menu-item value="3">Option Three</ids-menu-item>
+            </ids-menu-group>
+          </ids-toolbar-more-actions>
+        </ids-toolbar>
         <ids-data-grid id="data-grid-columns-hidden" label="Books" row-selection="multiple"></ids-data-grid>
       </ids-layout-grid-cell>
     </ids-layout-grid>

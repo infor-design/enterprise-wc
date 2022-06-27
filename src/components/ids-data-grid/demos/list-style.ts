@@ -29,6 +29,7 @@ const container: any = document.querySelector('ids-container');
     formatter: dataGrid.formatters.rowNumber,
     sortable: false,
     readonly: true,
+    resizable: true,
     width: 65
   });
   columns.push({
@@ -36,6 +37,7 @@ const container: any = document.querySelector('ids-container');
     name: 'Company Name',
     field: 'companyName',
     formatter: dataGrid.formatters.hyperlink,
+    resizable: true,
     href: '#'
   });
   columns.push({
@@ -43,6 +45,7 @@ const container: any = document.querySelector('ids-container');
     name: 'Phone',
     field: 'phone',
     sortable: true,
+    resizable: true,
     formatter: dataGrid.formatters.text
   });
   columns.push({
@@ -50,6 +53,7 @@ const container: any = document.querySelector('ids-container');
     name: 'Location',
     field: 'location',
     sortable: true,
+    resizable: true,
     formatter: dataGrid.formatters.text
   });
   columns.push({

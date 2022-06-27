@@ -119,10 +119,19 @@ if (dataGrid) {
       width: 200
     });
     columns.push({
+      id: 'badge',
+      name: 'Badge',
+      field: 'price',
+      color: 'info',
+      sortable: true,
+      formatter: dataGrid.formatters.badge,
+      width: 75
+    });
+    columns.push({
       id: 'more',
-      name: 'Actions',
+      name: '',
       sortable: false,
-      resizable: false,
+      resizable: true,
       formatter: dataGrid.formatters.button,
       icon: 'more',
       type: 'icon',

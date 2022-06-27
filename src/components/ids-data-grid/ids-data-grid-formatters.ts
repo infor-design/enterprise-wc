@@ -1,5 +1,6 @@
 import '../ids-hyperlink/ids-hyperlink';
 import '../ids-button/ids-button';
+import '../ids-badge/ids-badge';
 import type { IdsDataGridColumn } from './ids-data-grid-column';
 
 /* eslint-disable jsdoc/require-returns */
@@ -19,12 +20,19 @@ export default class IdsDataGridFormatters {
     return (str as string);
   }
 
-  /** Used to check if an editor should be disabled */
+  /** Used to check if the column should show as disabled */
   columnDisabled(row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>): boolean {
     const isTrue = (v: any) => (typeof v !== 'undefined' && v !== null && ((typeof v === 'boolean' && v === true) || (typeof v === 'string' && v.toLowerCase() === 'true')));
     const disabled = col.disabled;
 
     return typeof disabled === 'function' ? disabled(row, value, col, item) : isTrue(disabled);
+  }
+
+  /** Used to get the color via the function  or text */
+  color(row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>): string | undefined {
+    const color = col.color;
+
+    return typeof color === 'function' ? color(row, value, col, item) : color;
   }
 
   /** Formats Text */
@@ -112,9 +120,18 @@ export default class IdsDataGridFormatters {
   button(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const value: any = this.nullToObj(rowData, columnData);
     // Type / disabled / icon / text
-    return `<ids-button tabindex="-1" ${columnData.text || ''}${this.columnDisabled(index, value, columnData, rowData) ? ' disabled="true"' : ''}${columnData.type ? ` type="${columnData.type}"` : ' type="tertiary"'}>
+    return `<ids-button tabindex="-1" ${this.columnDisabled(index, value, columnData, rowData) ? ' disabled="true"' : ''}${columnData.type ? ` type="${columnData.type}"` : ' type="tertiary"'}>
       <span class="audible">${columnData.text || ' Button'}</span>
       ${columnData.icon ? `<ids-icon slot="icon" icon="${columnData.icon}"></ids-icon>` : ''}
     </ids-button>`;
+  }
+
+  /** Shows an ids-badge */
+  badge(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
+    const value: any = this.nullToObj(rowData, columnData);
+    if (!value) return '';
+    const color = this.color(index, value, columnData, rowData);
+
+    return `<ids-badge color="${color || ''}">${value}</ids-badge>`;
   }
 }

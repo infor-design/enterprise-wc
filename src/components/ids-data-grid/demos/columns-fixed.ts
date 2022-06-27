@@ -32,6 +32,7 @@ if (dataGrid) {
       name: 'Description',
       field: 'description',
       sortable: true,
+      resizable: true,
       formatter: dataGrid.formatters.text,
       width: 200
     });
@@ -40,6 +41,7 @@ if (dataGrid) {
       name: 'Ledger',
       field: 'ledger',
       sortable: true,
+      resizable: true,
       formatter: dataGrid.formatters.text,
       hidden: true,
       width: 200
@@ -49,6 +51,7 @@ if (dataGrid) {
       name: 'Pub. Date',
       field: 'publishDate',
       sortable: true,
+      resizable: true,
       formatter: dataGrid.formatters.date,
       width: 200
     });
@@ -57,6 +60,7 @@ if (dataGrid) {
       name: 'Pub. Time',
       field: 'publishDate',
       sortable: true,
+      resizable: true,
       formatter: dataGrid.formatters.time,
       width: 200
     });
@@ -66,6 +70,7 @@ if (dataGrid) {
       field: 'price',
       align: 'right',
       sortable: true,
+      resizable: true,
       formatter: dataGrid.formatters.decimal,
       formatOptions: { locale: 'en-US' },
       width: 200
@@ -74,7 +79,8 @@ if (dataGrid) {
       id: 'spacer',
       name: '',
       field: '',
-      sortable: false
+      sortable: false,
+      resizable: true,
     });
 
     dataGrid.columns = columns;

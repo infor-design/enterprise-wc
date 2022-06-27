@@ -2,17 +2,14 @@
 
 Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 
-## Next
-
-- Add: hide/show/toggle column (setColumnVisible, setColumnsVisible)
-
 ## Major
 
 - [x] Hidden Columns
 - [x] Column Sizes/Widths
-- [ ] Column Reorder
+- [x] Column Reorder
 - [x] Frozen Columns
-- [ ] Formatters left: Checkbox, Badge, Tag, Alerts, Image, Favorite, Card (templates), Targeted Achievement etc.
+- [ ] Place popupmenu in the root of the grid so it will not be cut off
+- [ ] Formatters left: Checkbox, Tag, Alerts, Image, Favorite, Card (templates), Targeted Achievement etc.
 - [ ] Fix icon and field sizes on http://localhost:4300/ids-data-grid/filter.html
 - [ ] Save Settings [example](https://main-enterprise.demo.design.infor.com/components/datagrid/test-save-settings.html)
 - [ ] Empty Message [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-empty-message.html)

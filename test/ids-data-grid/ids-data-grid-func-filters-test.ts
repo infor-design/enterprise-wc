@@ -445,6 +445,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     dataGrid.applyFilter([]);
 
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
+    dataGrid.applyFilter([{ columnId: 'test', operator: 'in-range', value: 'test' }]);
   });
 
   it('should filter contains', () => {
@@ -739,8 +740,8 @@ describe('IdsDataGrid Component Filter Tests', () => {
       expect(x.detail.elem).toBeTruthy();
       expect(x.detail.filterable).toEqual(dataGrid.filterable);
     });
-    dataGrid.addEventListener('openfilterrow', mockCallback);
-    dataGrid.addEventListener('closefilterrow', mockCallback);
+    dataGrid.addEventListener('filterrowopened', mockCallback);
+    dataGrid.addEventListener('filterrowclosed', mockCallback);
 
     dataGrid.filterable = false;
 
