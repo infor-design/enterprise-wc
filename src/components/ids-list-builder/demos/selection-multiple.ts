@@ -1,7 +1,7 @@
 import bikesJSON from '../../../assets/data/bikes.json';
 
 // Example for populating the List Builder with Ajax
-const listBuilder1: any = document.querySelector('#list-builder-1');
+const listBuilder2: any = document.querySelector('#list-builder-2');
 
 const addEventListeners = (element: any) => {
   const eventList = [
@@ -25,9 +25,8 @@ const setData = async () => {
   const res = await fetch((bikesJSON as any));
   const data = await res.json();
 
-  listBuilder1.data = data;
-
-  addEventListeners(listBuilder1);
+  listBuilder2.data = data;
+  addEventListeners(listBuilder2);
 };
 
 setData();

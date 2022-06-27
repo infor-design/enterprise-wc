@@ -34,7 +34,6 @@ export default class IdsListBuilder extends Base {
 
   connectedCallback() {
     this.sortable = true;
-    this.selectable = 'single';
     // list-builder is not designed to handle thousands of items, so doesnt support virtual scroll
     this.virtualScroll = false;
     this.itemHeight = 46; // hard-coded
@@ -62,25 +61,25 @@ export default class IdsListBuilder extends Base {
           <div class="header">
             <ids-toolbar tabbable="true">
               <ids-toolbar-section type="buttonset">
-                <ids-button id="button-add">
+                <ids-button id="button-add" color-variant="alternate">
                   <span slot="text" class="audible">Add List Item</span>
                   <ids-icon slot="icon" icon="add"></ids-icon>
                 </ids-button>
                 <div class="separator"></div>
-                <ids-button id="button-up">
+                <ids-button id="button-up" color-variant="alternate">
                   <span slot="text" class="audible">Move Up List Item</span>
                   <ids-icon slot="icon" icon="arrow-up"></ids-icon>
                 </ids-button>
-                <ids-button id="button-down">
+                <ids-button id="button-down" color-variant="alternate">
                   <span slot="text" class="audible">Move Down List Item</span>
                   <ids-icon slot="icon" icon="arrow-down"></ids-icon>
                 </ids-button>
                 <div class="separator"></div>
-                <ids-button id="button-edit">
+                <ids-button id="button-edit" color-variant="alternate">
                   <span slot="text" class="audible">Edit List Item</span>
                   <ids-icon slot="icon" icon="edit"></ids-icon>
                 </ids-button>
-                <ids-button id="button-delete">
+                <ids-button id="button-delete" color-variant="alternate">
                   <span slot="text" class="audible">Delete Down List Item</span>
                   <ids-icon slot="icon" icon="delete"></ids-icon>
                 </ids-button>
@@ -90,6 +89,26 @@ export default class IdsListBuilder extends Base {
           ${super.template()}
       </div>
     `;
+  }
+
+  /**
+   * Set the selection mode of the listview
+   * @param {string} value true to use virtual scrolling
+   */
+  set selectable(value: string) {
+    super.selectable = value;
+  }
+
+  get selectable(): string {
+    return super.selectable;
+  }
+
+  get dataKeys(): Array<any> {
+    return super.dataKeys;
+  }
+
+  set dataKeys(val: Array<any>) {
+    super.dataKeys = val;
   }
 
   get data(): Array<any> {
@@ -162,9 +181,14 @@ export default class IdsListBuilder extends Base {
    */
   #insertSelectedLiWithEditor(newEntry: boolean | null = false): void {
     if (this.selectedLi) {
+      this.triggerEvent('itemChange', this, {
+        detail: this.getListItemData(this.selectedLi)
+      });
+
       if (!this.#selectedLiEditor) {
         const i = new IdsInput();
-        const listItem = this.selectedLi.querySelector('div[part="list-item"]');
+        const selectorStr = this.selectable === 'single' ? 'div[part="list-item"]' : '.list-item-content';
+        const listItem = this.selectedLi.querySelector(selectorStr);
 
         // insert into DOM
         listItem.insertBefore(i, listItem.querySelector('ids-text'));
@@ -182,7 +206,6 @@ export default class IdsListBuilder extends Base {
 
         // update inner text on keyup
         this.onEvent('keyup', i, () => this.#updateSelectedLiWithEditorValue());
-        this.onEvent('blur', i, () => this.#unfocusAnySelectedLiEditor(), { once: true });
       } else {
         this.#selectedLiEditor.focus();
       }
@@ -191,6 +214,41 @@ export default class IdsListBuilder extends Base {
 
   get selectedLi() {
     return this.shadowRoot.querySelector('ids-swappable-item[selected]');
+  }
+
+  get allSelectedLi() {
+    return this.shadowRoot.querySelectorAll('ids-swappable-item[selected]');
+  }
+
+  /**
+   * Remove selected list item
+   * @private
+   * @returns {void}
+   */
+  #removeAllSelectedLi(): void {
+    const items = this.allSelectedLi;
+    const indexOfItems = [];
+
+    for (const item of items) {
+      indexOfItems.push(item.getAttribute('index'));
+      this.triggerEvent('itemDelete', this, {
+        detail: this.getListItemData(item)
+      });
+
+      item.remove();
+      if (this.#selectedLiEditor) this.#selectedLiEditor = null;
+    }
+
+    this.resetIndices();
+    this.updateDataFromDOM();
+
+    for (const index of indexOfItems) {
+      const liItem = this.shadowRoot.querySelector(`ids-swappable-item[index="${index}"]`);
+
+      if (liItem) {
+        this.toggleSelectedLi(liItem);
+      }
+    }
   }
 
   /**
@@ -209,75 +267,106 @@ export default class IdsListBuilder extends Base {
    */
   #attachClickListeners(): void {
     // Add button
-    this.onEvent('click', this.container.querySelector('#button-add'), () => {
+    this.onEvent('click', this.shadowRoot.querySelector('#button-add'), () => {
       this.#unfocusAnySelectedLiEditor();
+      let newSwappableItem;
 
-      const selectionNull = !this.selectedLi;
-      // if an item is selected, create a node under it, otherwise create a node above the first item
-
-      let targetDraggableItem = selectionNull ? this.container.querySelector('ids-swappable-item') : this.selectedLi;
-      if (!targetDraggableItem) {
-        targetDraggableItem = new IdsSwappableItem();
-      }
-      const newDraggableItem = targetDraggableItem.cloneNode(true);
-      newDraggableItem.setAttribute('selected', '');
-
-      const insertionLocation = selectionNull ? targetDraggableItem : targetDraggableItem.nextSibling;
-      if (targetDraggableItem.parentNode) {
-        targetDraggableItem.parentNode.insertBefore(newDraggableItem, insertionLocation);
-        targetDraggableItem.removeAttribute('selected');
+      if (!this.data.length) {
+        // if list is empty, add new item data to the source data
+        const newItemData: { [key: string]: any } = {};
+        this.dataKeys.forEach((key: string) => {
+          newItemData[key] = 'New Value';
+        });
+        this.shadowRoot.querySelector('.ids-list-builder')?.remove();
+        this.data = [newItemData];
+        newSwappableItem = this.shadowRoot.querySelector('ids-swappable-item');
       } else {
-        this.container.querySelector('ids-swappable').appendChild(newDraggableItem);
+        const selectionNull = !this.selectedLi;
+        // if an item is selected, create a node under it, otherwise create a node above the first item
+
+        let targetDraggableItem = selectionNull ? this.shadowRoot.querySelector('ids-swappable-item') : this.selectedLi;
+        if (!targetDraggableItem) {
+          targetDraggableItem = new IdsSwappableItem();
+        }
+        newSwappableItem = targetDraggableItem.cloneNode(true);
+
+        const insertionLocation = selectionNull ? targetDraggableItem : targetDraggableItem.nextSibling;
+        if (targetDraggableItem.parentNode) {
+          targetDraggableItem.parentNode.insertBefore(newSwappableItem, insertionLocation);
+          targetDraggableItem.removeAttribute('selected');
+        }
       }
 
-      const listItem = newDraggableItem.querySelector('div[part="list-item"]');
+      newSwappableItem.setAttribute('selected', '');
+      const listItem = newSwappableItem.querySelector('div[part="list-item"]');
+
+      const listItemText = listItem.querySelector('ids-text');
+      listItemText.innerHTML = 'New Value';
       // remove any selected attribute on li that may have propogated from the clone
       if (listItem?.getAttribute('selected')) listItem.removeAttribute('selected');
       this.resetIndices();
 
       const newEntry = true;
       this.#insertSelectedLiWithEditor(newEntry);
+      this.focusLi(newSwappableItem);
+      this.#attachClickListenersForLi(newSwappableItem);
+      this.#attachKeyboardListenersForLi(newSwappableItem);
+
+      this.triggerEvent('itemAdd', this, {
+        detail: this.getListItemData(newSwappableItem)
+      });
     });
 
     // Up button
-    this.onEvent('click', this.container.querySelector('#button-up'), () => {
+    this.onEvent('click', this.shadowRoot.querySelector('#button-up'), () => {
       if (this.selectedLi) {
         this.#unfocusAnySelectedLiEditor();
 
-        const prev = this.selectedLi.previousSibling?.previousSibling;
+        const prev = this.selectedLi?.previousElementSibling;
         if (prev) {
           this.swap(this.selectedLi, prev);
         }
         this.updateDataFromDOM();
+
+        this.triggerEvent('itemMoveUp', this, {
+          detail: {
+            dataSet: this.data
+          }
+        });
       }
     });
 
     // Down button
-    this.onEvent('click', this.container.querySelector('#button-down'), () => {
+    this.onEvent('click', this.shadowRoot.querySelector('#button-down'), () => {
       if (this.selectedLi) {
         this.#unfocusAnySelectedLiEditor();
 
-        const next = this.selectedLi.nextElementSibling?.nextElementSibling;
+        const next = this.selectedLi?.nextElementSibling;
         if (next) {
-          this.swap(this.selectedLi, next);
+          this.swap(next, this.selectedLi);
         }
         this.updateDataFromDOM();
+
+        this.triggerEvent('itemMoveDown', this, {
+          detail: {
+            dataSet: this.data
+          }
+        });
       }
     });
 
     // Edit button
-    this.onEvent('click', this.container.querySelector('#button-edit'), () => {
+    this.onEvent('click', this.shadowRoot.querySelector('#button-edit'), () => {
       this.#insertSelectedLiWithEditor();
     });
 
     // Delete button
-    this.onEvent('click', this.container.querySelector('#button-delete'), () => {
-      if (this.selectedLi) {
-        this.selectedLi.remove();
-        if (this.#selectedLiEditor) this.#selectedLiEditor = null;
-        this.resetIndices();
-        this.updateDataFromDOM();
-      }
+    this.onEvent('click', this.shadowRoot.querySelector('#button-delete'), () => {
+      this.#removeAllSelectedLi();
+    });
+
+    this.getAllSwappableItems().forEach((li: any) => {
+      this.#attachClickListenersForLi(li);
     });
   }
 
@@ -285,28 +374,103 @@ export default class IdsListBuilder extends Base {
    * Add/remove the editor in one function,
    * used when `Enter` key is hit on a selected list item
    * @private
-   * @param {Event | any} e event
    * @returns {void}
    */
-  #toggleEditor(e: Event | any): void {
+  #toggleEditor(): void {
     if (this.selectedLi) {
       if (!this.#selectedLiEditor) {
         this.#insertSelectedLiWithEditor();
       } else {
-        if (e.key === 'Enter') {
-          this.#selectedLiEditor.blur();
-          return;
-        }
         this.#unfocusAnySelectedLiEditor();
       }
       this.focusLi(this.selectedLi);
     }
   }
 
-  #attachKeyboardListeners() {
-    this.listen('Enter', this.selectedLi, (e: Event | any) => {
-      this.#toggleEditor(e);
+  #attachKeyboardListeners(): void {
+    this.getAllSwappableItems().forEach((li: any) => {
+      this.#attachKeyboardListenersForLi(li);
     });
+  }
+
+  /**
+   * Helper function to attach mouse events to each individual item
+   * @private
+   * @param {any} li the list item
+   * @returns {void}
+   */
+  #attachClickListenersForLi(li: any): void {
+    li.offEvent('click');
+    this.offEvent('click', li);
+
+    this.onEvent('click', li, () => {
+      this.focusLi(li);
+      li.offEvent('click');
+
+      if (!(this.getAllSelectedLiIndex().includes(+this.getFocusedLiIndex()))) {
+        this.#unfocusAnySelectedLiEditor();
+        this.toggleSelectedLi(li);
+      } else if (!this.#selectedLiEditor) {
+        this.toggleSelectedLi(li);
+      }
+    });
+  }
+
+  /**
+   * Helper function to attach keyboard events to each individual item
+   * @private
+   * @param {any} li the list item
+   * @returns {void}
+   */
+  #attachKeyboardListenersForLi(li: any): void {
+    li.unlisten('Enter');
+    li.unlisten('ArrowUp');
+    li.unlisten('ArrowDown');
+    this.offEvent('keydown', li);
+
+    this.onEvent('keydown', li, (event: KeyboardEvent) => {
+      switch (event.key) {
+        case 'Enter': // edits the list item
+          event.preventDefault();
+          if (!(this.getAllSelectedLiIndex().includes(+this.getFocusedLiIndex()))) {
+            this.toggleSelectedLi(li);
+          }
+          this.#toggleEditor();
+          break;
+        case ' ': // selects the list item
+          if (!this.#selectedLiEditor) {
+            event.preventDefault(); // prevent container from scrolling
+            this.toggleSelectedLi(li);
+          }
+          break;
+        case 'Tab':
+          this.#unfocusAnySelectedLiEditor();
+          break;
+        case 'ArrowUp':
+          this.focusLi(this.getFocusedLi().previousElementSibling);
+          this.#unfocusAnySelectedLiEditor();
+          break;
+        case 'ArrowDown':
+          this.focusLi(this.getFocusedLi().nextElementSibling);
+          this.#unfocusAnySelectedLiEditor();
+          break;
+        case 'Delete':
+          this.#removeAllSelectedLi();
+          break;
+        default:
+          break;
+      }
+    });
+  }
+
+  /**
+   * Get focused Li
+   * @returns {any} focused Li
+   */
+  getFocusedLi(): any {
+    const savedFocusedLi = this.container.querySelector(`ids-swappable-item[role="listitem"][index="${this.getFocusedLiIndex()}"]`);
+    const val = savedFocusedLi ?? this.container.querySelector('ids-swappable-item[role="listitem"][tabindex="0"]');
+    return val;
   }
 
   /**
@@ -314,8 +478,12 @@ export default class IdsListBuilder extends Base {
    * @returns {void}
    */
   resetIndices(): void {
-    this.container.querySelectorAll('ids-swappable-item').forEach((x: HTMLElement, i: number) => {
+    const listItems = this.container.querySelectorAll('ids-swappable-item');
+    listItems.forEach((x: HTMLElement, i: number) => {
       x.setAttribute('index', i.toString());
+      x.setAttribute('id', `id_item_${i + 1}`);
+      x.setAttribute('aria-posinset', `${i + 1}`);
+      x.setAttribute('aria-setsize', listItems.length.toString());
     });
   }
 }
