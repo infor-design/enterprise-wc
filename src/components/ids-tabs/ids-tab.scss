@@ -127,6 +127,9 @@ $ids-tab-vertical-height: 42px;
   }
 }
 
+// =================================================
+// Main Container Styles
+
 .ids-tab {
   @include px-4();
   @include border-1();
@@ -279,6 +282,7 @@ $ids-tab-vertical-height: 42px;
 
   // =================================================
   // Structural rules for Module Tabs color variant
+
   &.color-variant-module {
     // Scoped to the first child text element to avoid conflicts with menus
     > ids-text,
@@ -313,7 +317,9 @@ $ids-tab-vertical-height: 42px;
     &:focus-visible,
     &:focus,
     &:focus-within {
-      @include ids-tabs-focus-border();
+      &:not(.disabled) {
+        @include ids-tabs-focus-border();
+      }
     }
   }
 

@@ -247,6 +247,18 @@ export default class IdsTabs extends Base {
       }
     });
 
+    // Listen for Delete (Mac) or Backspace (PC) for removal events
+    const dismissOnKeystroke = (e: CustomEvent) => {
+      const elem: any = e.target;
+      if (elem) {
+        if (elem.tagName === 'IDS-TAB') {
+          this.#dismissTab(elem);
+        }
+      }
+    };
+    this.listen('Delete', this, dismissOnKeystroke);
+    this.listen('Backspace', this, dismissOnKeystroke);
+
     this.onEvent('tabselect', this, (e: CustomEvent) => {
       const elem: any = e.target;
       if (elem && elem.tagName === 'IDS-TAB') {

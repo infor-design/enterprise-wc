@@ -179,6 +179,9 @@ export default class IdsSwappableItem extends Base {
   #dragStart(event: any) {
     event.dataTransfer?.setData('text/plain', event.target.innerText);
     this.setAttribute(attributes.DRAGGING, '');
+    [...this.children].forEach((elem) => {
+      elem.setAttribute(attributes.DRAGGING, '');
+    });
   }
 
   /**
@@ -189,6 +192,9 @@ export default class IdsSwappableItem extends Base {
       this.setAttribute(attributes.DRAGGABLE, 'false');
     }
     this.removeAttribute(attributes.DRAGGING);
+    [...this.children].forEach((elem) => {
+      elem.removeAttribute(attributes.DRAGGING, '');
+    });
     this.removeAttribute(attributes.SELECTED);
     this.removeAttribute(attributes.OVER);
   }
