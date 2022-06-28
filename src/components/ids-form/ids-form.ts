@@ -45,6 +45,7 @@ export default class IdsForm extends Base {
   static get attributes(): string[] {
     return [
       ...super.attributes,
+      attributes.ACTION,
       attributes.AUTOCOMPLETE,
       attributes.COMPACT,
       attributes.ID,
@@ -56,7 +57,6 @@ export default class IdsForm extends Base {
   }
 
   connectedCallback() {
-    this.getIdsFormComponents();
     this.#attachEventHandlers();
   }
 
@@ -66,6 +66,23 @@ export default class IdsForm extends Base {
    */
   template(): string {
     return `<form><slot></slot></form>`
+  }
+
+  /**
+   * Sets the action attribute
+   * @param {string} value string value for action
+   */
+
+  set action(value: string) {
+    if(value) {
+      const form: HTMLElement[] = this.shadowRoot.childNodes
+      form[1].setAttribute('action', value);
+      this.setAttribute('action', value);
+    }
+  }
+
+  get action(): string {
+    return this.getAttribute('action') || '';
   }
 
   /**
@@ -92,6 +109,8 @@ export default class IdsForm extends Base {
    */
   set id(value: number | string | any) {
     if(value) {
+      const form: HTMLElement[] = this.shadowRoot.childNodes
+      form[1].setAttribute('id', value);
       this.setAttribute('id', value);
     }
   }
@@ -106,6 +125,8 @@ export default class IdsForm extends Base {
    */
   set method(value: string) {
     if(value) {
+      const form: HTMLElement[] = this.shadowRoot.childNodes
+      form[1].setAttribute('method', value);
       this.setAttribute('method', value);
     }
   }
@@ -120,6 +141,8 @@ export default class IdsForm extends Base {
    */
   set name(value: string) {
     if(value) {
+      const form: HTMLElement[] = this.shadowRoot.childNodes
+      form[1].setAttribute('name', value);
       this.setAttribute('name', value);
     }
   }
@@ -134,6 +157,8 @@ export default class IdsForm extends Base {
    */
   set target(value: string) {
     if(value) {
+      const form: HTMLElement[] = this.shadowRoot.childNodes
+      form[1].setAttribute('target', value);
       this.setAttribute('target', value);
     }
   }
@@ -148,6 +173,8 @@ export default class IdsForm extends Base {
    */
   set title(value: string) {
     if(value) {
+      const form: HTMLElement[] = this.shadowRoot.childNodes
+      form[1].setAttribute('title', value);
       this.setAttribute('title', value);
     }
   }
@@ -162,10 +189,16 @@ export default class IdsForm extends Base {
    * @returns {void}
    */
   #attachEventHandlers(): void {
-    //onEvent('click', this, () => this.#submitIdsForm())
+    this.#submitIdsForm();
   }
+
+  /**
+   * Returns an array containing only IdsElements
+   * @private
+   * @returns {IdsElement[]}
+   */
   
-  getIdsElements(): IdsElement[] {
+  #getIdsElements(): IdsElement[] {
     let IdsElements: IdsElement[] = [];
     const idsForm: IdsForm = this;
     const findIdsElements = (el: IdsElement | any) => {
@@ -184,13 +217,16 @@ export default class IdsForm extends Base {
   }
 
   getIdsFormComponents(): IdsElement[] {
-    const idsElements: IdsElement[] = this.getIdsElements();
+    const idsElements: IdsElement[] = this.#getIdsElements();
     const idsFormComponents: IdsElement[] = idsElements.filter((item) => item.isFormComponent === true);
-    console.log(idsFormComponents);
     return idsFormComponents;
   }
 
-  // #submitIdsForm(): void {
-
-  // }
+  #submitIdsForm(): void {
+    this.onEvent('click', this, () => {
+      const idsFormEl: IdsElement[] = this.getIdsFormComponents();
+      const formValues: object[] = []
+      idsFormEl.forEach( el => formValues.push({name: el.nodeName, value: el.value}));
+    })
+  }
 }

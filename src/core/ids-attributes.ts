@@ -3,6 +3,7 @@ export const attributes = {
   ACCEPT: 'accept',
   ACTIONABLE: 'actionable',
   ACTIVE: 'active',
+  ACTION: 'action',
   ADVANCED: 'advanced',
   ALIGN: 'align',
   ALIGN_EDGE: 'align-edge',
