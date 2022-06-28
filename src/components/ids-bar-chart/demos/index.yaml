@@ -17,6 +17,9 @@
   - link: patterns.html
     type: Example
     description: Shows configuring custom patterns for accessibility
+  - link: selectable.html
+    type: Example
+    description: Shows configuring selection
   - link: no-animation.html
     type: Example
     description: Shows configuring no animation
