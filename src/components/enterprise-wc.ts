@@ -48,6 +48,7 @@ import './ids-menu/ids-menu';
 import './ids-menu-button/ids-menu-button';
 import './ids-message/ids-message';
 import './ids-modal/ids-modal';
+import './ids-multiselect/ids-multiselect';
 import './ids-notification-banner/ids-notification-banner';
 import './ids-pager/ids-pager';
 import './ids-pie-chart/ids-pie-chart';

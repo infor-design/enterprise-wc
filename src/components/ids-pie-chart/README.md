@@ -69,6 +69,7 @@ A chart can also be a `donut`. If used provided or `donut-text` for the center. 
 - IdsPieChart
   - IdsElement
 - Mixins
+  IdsChartSelectionMixin
   IdsChartLegendMixin
   IdsLocaleMixin
   IdsEventsMixin
@@ -98,6 +99,7 @@ The following data attributes can be used on the data passed to a chart. If usin
 - `title` {string} The topic of the chart. This will be used only for accessibility / screen readers and should always be set.
 - `suppress-tooltips` {boolean} Disable the tooltips (they are currently experimental).
 - `legendFormatter` {Function} A function to format the legend text for each data point.
+- `selectable` {boolean} Sets the selection mode.
 
 Here is an example of a pie chart with a legendFormatter.
 
@@ -187,6 +189,10 @@ Or you can modify the tooltip in the slot.
 ## Events
 
 - `rendered` Fires each time the chart is rendered or rerendered (on resize).
+- `beforeselected` Fires before selected, you can return false in the response to veto.
+- `selected` Fires after selected.
+- `beforedeselected` Fires before deselected, you can return false in the response to veto.
+- `deselected` Fires after deselected.
 
 ## Methods
 

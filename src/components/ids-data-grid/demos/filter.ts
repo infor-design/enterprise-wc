@@ -25,6 +25,8 @@ const container: any = document.querySelector('ids-container');
     name: 'ID',
     field: 'id',
     width: 80,
+    resizable: true,
+    reorderable: true,
     sortable: true,
     formatter: dataGrid.formatters.text,
   });
@@ -33,6 +35,8 @@ const container: any = document.querySelector('ids-container');
     name: 'Color',
     field: 'color',
     sortable: true,
+    resizable: true,
+    reorderable: true,
     formatter: dataGrid.formatters.text,
     filterType: dataGrid.filters.text
   });
@@ -41,6 +45,8 @@ const container: any = document.querySelector('ids-container');
     name: 'Product Id',
     field: 'productId',
     sortable: true,
+    resizable: true,
+    reorderable: true,
     filterType: dataGrid.filters.integer,
     formatter: dataGrid.formatters.integer
   });
@@ -49,6 +55,8 @@ const container: any = document.querySelector('ids-container');
     name: 'Product Name',
     field: 'productName',
     sortable: true,
+    resizable: true,
+    reorderable: true,
     formatter: dataGrid.formatters.text,
     filterType: dataGrid.filters.text,
     filterTerms: [{
@@ -68,6 +76,9 @@ const container: any = document.querySelector('ids-container');
     name: 'In Stock',
     field: 'inStock',
     sortable: true,
+    resizable: true,
+    reorderable: true,
+    align: 'center',
     formatter: dataGrid.formatters.text,
     filterType: dataGrid.filters.checkbox
   });
@@ -76,6 +87,8 @@ const container: any = document.querySelector('ids-container');
     name: 'Unit Price',
     field: 'unitPrice',
     sortable: true,
+    resizable: true,
+    reorderable: true,
     formatter: dataGrid.formatters.integer,
     filterType: dataGrid.filters.integer
   });
@@ -84,6 +97,8 @@ const container: any = document.querySelector('ids-container');
     name: 'Units',
     field: 'units',
     sortable: true,
+    resizable: true,
+    reorderable: true,
     formatter: dataGrid.formatters.text,
     filterType: dataGrid.filters.text
   });

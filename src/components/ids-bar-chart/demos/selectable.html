@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Bar Chart - Selectable</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-bar-chart selectable id="selectable-example" title="A bar chart showing component usage with selectable settings" width="700" height="500" stacked="true"></ids-bar-chart>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+  </ids-container>
+</body>
+</html>

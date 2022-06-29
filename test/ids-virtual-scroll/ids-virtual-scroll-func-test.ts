@@ -110,7 +110,7 @@ describe('IdsVirtualScroll Component', () => {
   it('has a simple default template', () => {
     const elem = new IdsVirtualScroll();
     elem.stringTemplate = '<div class="ids-virtual-scroll-item">${productName}</div>'; //eslint-disable-line
-    const template = elem.itemTemplate({ productName: 'test' });
+    const template = elem.itemTemplate({ productName: 'test' }, 0);
     expect(template).toEqual('<div class="ids-virtual-scroll-item">test</div>');
   });
 
@@ -130,7 +130,7 @@ describe('IdsVirtualScroll Component', () => {
     expect(virtualScroll.scrollTop).toEqual((index * virtualScroll.itemHeight).toString());
   });
 
-  it.only('can reset the scrollTop', () => {
+  it('can reset the scrollTop', () => {
     expect(virtualScroll.scrollTop).toEqual('0');
     virtualScroll.scrollTop = null;
     virtualScroll.scrollTop = 100;

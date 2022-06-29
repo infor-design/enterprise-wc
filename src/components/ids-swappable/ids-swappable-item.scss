@@ -73,3 +73,15 @@
 :host([mode='dark'][dragging]) {
   background-color: var(--ids-color-brand-primary-base);
 }
+
+// Fixes slotted IdsTabs to appear flush with their containers
+// (IdsSwappableItem causes a 1px boundary as a result of its required transparent border)
+// @TODO: Relocate this to another component / review wrapping, separation of concerns
+::slotted(ids-tab) {
+  position: relative;
+  margin: -1px;
+}
+
+::slotted(ids-tab:not([orientation='vertical'])) {
+  margin-inline-start: 3px;
+}
