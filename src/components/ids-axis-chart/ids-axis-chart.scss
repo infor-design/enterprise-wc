@@ -88,6 +88,14 @@
   }
 }
 
+.ids-chart-container {
+  &.selectable {
+    .audible {
+      font-size: 1px;
+    }
+  }
+}
+
 // Center an Empty Message
 ids-empty-message:not([hidden]),
 ::slotted(ids-empty-message:not([hidden])) {

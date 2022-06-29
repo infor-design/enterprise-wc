@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const addTab: any = document.querySelector('ids-tab[value="add"]');
   addTab.onAction = () => {
-    addTab.insertAdjacentHTML('beforebegin', `<ids-tab color-variant="module" value="new-tab-${newTabCount}">New Tab ${newTabCount}</ids-tab>`);
+    addTab.insertAdjacentHTML('beforebegin', `<ids-tab color-variant="module" value="new-tab-${newTabCount}" dismissible>New Tab ${newTabCount}</ids-tab>`);
     tabContentContainer.insertAdjacentHTML('beforeend', `<ids-tab-content value="new-tab-${newTabCount}">
       <ids-layout-grid auto="true">
         <ids-layout-grid-cell>

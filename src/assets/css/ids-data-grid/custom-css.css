@@ -1,0 +1,7 @@
+ids-data-grid::part(cell) {
+  background-color: #ebf9f1;
+}
+
+ids-data-grid::part(custom-cell) {
+  background-color: #e6f1fd;
+}

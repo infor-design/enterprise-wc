@@ -111,8 +111,24 @@ $ids-tab-vertical-height: 42px;
 }
 
 ::slotted(ids-icon) {
+  color: currentColor;
   pointer-events: none;
 }
+
+::slotted(ids-trigger-button) {
+  color: currentColor;
+  height: fit-content;
+  place-self: center;
+}
+
+:host([count]) {
+  ::slotted(ids-trigger-button) {
+    @include pl-8();
+  }
+}
+
+// =================================================
+// Main Container Styles
 
 .ids-tab {
   @include px-4();
@@ -149,6 +165,14 @@ $ids-tab-vertical-height: 42px;
   }
 
   // =================================================
+  // Trigger Button Slot
+
+  .ids-tab-trigger-container {
+    display: flex;
+    place-content: center;
+  }
+
+  // =================================================
   // Actionable
 
   &.actionable {
@@ -160,6 +184,11 @@ $ids-tab-vertical-height: 42px;
 
   &.count {
     @include px-12();
+
+    .ids-tab-count-container {
+      display: flex;
+      flex-direction: column;
+    }
   }
 
   // =================================================
@@ -188,9 +217,6 @@ $ids-tab-vertical-height: 42px;
 
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: flex-end;
 
       // Show the underline
       @include ids-tabs-selected-underline();
@@ -256,6 +282,7 @@ $ids-tab-vertical-height: 42px;
 
   // =================================================
   // Structural rules for Module Tabs color variant
+
   &.color-variant-module {
     // Scoped to the first child text element to avoid conflicts with menus
     > ids-text,
@@ -271,11 +298,36 @@ $ids-tab-vertical-height: 42px;
       min-width: $ids-tab-actionable-min-width;
     }
 
+    &.dismissible {
+      justify-content: space-around;
+
+      > ids-text,
+      > .ids-text {
+        flex-grow: 1;
+      }
+
+      ::slotted(ids-trigger-button),
+      > .ids-trigger-button,
+      > ids-trigger-button {
+        flex-grow: 0;
+        flex-shrink: 1;
+      }
+    }
+
     &:focus-visible,
     &:focus,
     &:focus-within {
-      @include ids-tabs-focus-border();
+      &:not(.disabled) {
+        @include ids-tabs-focus-border();
+      }
     }
+  }
+
+  // =================================================
+  // Tabs combined with IdsSwappable create "swappable" tabs
+
+  &.swappable {
+    @include pl-8();
   }
 
   // =================================================

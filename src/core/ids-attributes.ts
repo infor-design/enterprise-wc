@@ -97,6 +97,7 @@ export const attributes = {
   DISPLAY_TIME: 'display-time',
   DONUT: 'donut',
   DONUT_TEXT: 'donut-text',
+  DRAG_MODE: 'drag-mode',
   DRAGGABLE: 'draggable',
   DRAGGING: 'dragging',
   DROPDOWN_ICON: 'dropdown-icon',
@@ -151,6 +152,7 @@ export const attributes = {
   ICON_SIZE: 'icon-size',
   ID: 'id',
   INDETERMINATE: 'indeterminate',
+  INHERIT_COLOR: 'inherit-color',
   INITIALS: 'initials',
   INLINE: 'inline',
   IS_CALENDAR_TOOLBAR: 'is-calendar-toolbar',
@@ -403,4 +405,4 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '0.0.0-beta.22';
+export const version = '0.0.0-beta.23';

@@ -284,7 +284,7 @@ describe('IdsLookup Component', () => {
     expect(lookup.dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-cell').length).toEqual(54);
   });
 
-  it('should be able to set datagrid settings', () => {
+  it('should be able to set dataGrid settings', () => {
     lookup.columns = columns();
     lookup.data = dataset;
     lookup.dataGridSettings = {

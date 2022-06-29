@@ -1030,7 +1030,7 @@ export default class IdsTree extends Base {
   get collapseIcon(): string | null { return IdsTreeShared.getVal(this, attributes.COLLAPSE_ICON); }
 
   /**
-   * Set the data array of the datagrid
+   * Set the data array of the tree
    * @param {Array} value The array to use
    */
   set data(value: Array<any>) {

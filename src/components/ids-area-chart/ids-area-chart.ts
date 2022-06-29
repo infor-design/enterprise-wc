@@ -18,6 +18,9 @@ import styles from './ids-area-chart.scss';
 export default class IdsAreaChart extends Base {
   constructor() {
     super();
+
+    // Setup default values
+    this.DEFAULT_SELECTABLE = false;
   }
 
   /**
@@ -53,9 +56,22 @@ export default class IdsAreaChart extends Base {
           areas += `M${point.left},${point.top}L${point.left},${(this as any).markerData.gridBottom}L${pointGroup[index + 1]?.left},${(this as any).markerData.gridBottom}L${pointGroup[index + 1]?.left},${pointGroup[index + 1]?.top}`;
         }
       });
-      areaHTML += `<path class="color-${groupIndex + 1} animate" part="area" d="${areas}Z" fill="var(${(this as any).color(groupIndex)})"}>
+      areaHTML += `<path class="color-${groupIndex + 1} animate" part="area" d="${areas}Z" fill="var(${(this as any).color(groupIndex)})"} group-index="${groupIndex}">
       </path>`;
     });
     return areaHTML;
+  }
+
+  /**
+   * Return chart elements that get selection
+   * @returns {Array<SVGElement>} The elements
+   */
+  get selectionElements(): Array<SVGElement> {
+    if (!this.selectable) return [];
+    return [
+      ...this.container.querySelectorAll('.areas [part="area"]'),
+      ...this.container.querySelectorAll('.markers [part="marker"]'),
+      ...this.container.querySelectorAll('.marker-lines [part="line"]')
+    ];
   }
 }
