@@ -338,7 +338,7 @@ export default class IdsCard extends Base {
   get target() { return this.getAttribute('target'); }
 
   /**
-   * Set target for actionable link card
+   * Set target for an actionable link card
    * @param {string} value target value for ids-hyperlink
    */
   set target(value) {
