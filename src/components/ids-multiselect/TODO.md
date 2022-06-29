@@ -4,11 +4,11 @@ Keep this file in sync with [#741](https://github.com/infor-design/enterprise-wc
 
 ## Major
 
-- [ ] Keyboard functionality that works with groupped selection options
-- [ ] respecting initial sorting of option groups
+- [ ] Keyboard functionality that works with grouped selection options
+- [ ] Respecting initial sorting of option groups
 - [ ] Issue where options that have been deselected but are still highlighted
-- [ ] need to implement Keep Open on selection
+- [ ] Need to implement Keep Open on selection
 
 ## Minor
 
-- [ ] visual bug with selection options checkbox color matches back ground color
+- [ ] visual bug with selection options checkbox color matches background color

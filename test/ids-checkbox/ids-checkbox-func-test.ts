@@ -272,8 +272,6 @@ describe('IdsCheckbox Component', () => {
     expect(rootEl.classList).toContain('disabled');
     expect(rootEl.classList).toContain('horizontal');
     expect(cb.getAttribute('horizontal')).toEqual('true');
-    // expect(cb.getAttribute('checked')).toEqual('true');
-    // expect(cb.checked).toEqual('true');
     expect(cb.getAttribute('indeterminate')).toEqual('true');
   });
 
