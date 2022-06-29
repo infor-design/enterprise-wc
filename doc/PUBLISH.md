@@ -2,13 +2,13 @@
 
 ## Making a package in npm
 
-- Search for `0.0.0-beta.22` and replace with `0.0.0-beta.22`
-- It will be in`package.json`, `package-dist.json`, about tests, and `src/core/ids-attributes.js`
-- Make and push a tag with `git tag 0.0.0-beta.22 && git push origin --tags`
+- Search for `0.0.0-beta.23` and replace with `0.0.0-beta.23`
+- It will be in`package.json`, `package-dist.json`, about tests, and `src/core/ids-attributes.js` and this file.
+- Make and push a tag with `git tag 0.0.0-beta.23 && git push origin --tags`
 - Run command `npm run publish:dry-run` to test first if you wish
 - Run command `npm run publish:npm` or `publish:debug` (we may want to publish debuggable code for a period of time of stability)
 - Create a release on GitHub using [`gh`](https://cli.github.com/manual/gh_release_create) with `brew install gh`
-- Run command `gh release create 0.0.0-beta.22 --title "0.0.0-beta.22" --notes-file "doc/CHANGELOG.md"`
+- Run command `gh release create 0.0.0-beta.23 --title "0.0.0-beta.23" --notes-file "doc/CHANGELOG.md"`
 
 ## Working with local changes
 

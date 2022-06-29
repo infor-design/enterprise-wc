@@ -402,4 +402,4 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '0.0.0-beta.22';
+export const version = '0.0.0-beta.23';
