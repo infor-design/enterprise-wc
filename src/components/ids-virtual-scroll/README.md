@@ -8,7 +8,7 @@ For this to work items must be fixed height. We set the item count and item temp
 
 ## Use Cases
 
-- For a datagrid or list with thousands of elements that do not all need to be loaded at one time
+- For a data grid or list with thousands of elements that do not all need to be loaded at one time
 - For a feed similar to a twitter or facebook feed
 
 ## Terminology

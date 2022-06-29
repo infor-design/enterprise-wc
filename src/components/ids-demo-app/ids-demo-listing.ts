@@ -88,7 +88,7 @@ export default class IdsDemoListing extends Base {
   }
 
   /**
-   * Set the yaml on the datagrid
+   * Set the yaml on the data grid
    * @param {string} value of the label text
    */
   set data(value: Record<string, any>) {
@@ -100,7 +100,7 @@ export default class IdsDemoListing extends Base {
   }
 
   /**
-   * Set the datagrid columns
+   * Set the data grid columns
    */
   #attachColumns = () => {
     const columns = [];
