@@ -204,8 +204,7 @@ export default class IdsSwappableItem extends Base {
    * @param {any} event dragstart event
    */
   #dragOver(event: any) {
-    event.dataTransfer.dropEffect = 'move';
-
+    if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
     if (this.hasAttribute(attributes.DRAGGING)) {
       this.removeAttribute(attributes.OVER);
     } else {
