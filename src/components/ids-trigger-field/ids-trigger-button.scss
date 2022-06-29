@@ -77,13 +77,17 @@
   }
 
   // ===================================================
+  // Inherit Color setting
   // Reset themed button colors on Trigger Buttons,
   // which are presumably slotted into another component
   // that should inherit colors from its parent.
-  &:not([mode]),
-  &[mode='light'],
-  &[mode='dark'],
-  &[mode='contrast'] {
-    color: currentColor;
+
+  &.inherit-color {
+    &:not([mode]),
+    &[mode='light'],
+    &[mode='dark'],
+    &[mode='contrast'] {
+      color: currentColor;
+    }
   }
 }

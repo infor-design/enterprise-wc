@@ -152,6 +152,7 @@ export const attributes = {
   ICON_SIZE: 'icon-size',
   ID: 'id',
   INDETERMINATE: 'indeterminate',
+  INHERIT_COLOR: 'inherit-color',
   INITIALS: 'initials',
   INLINE: 'inline',
   IS_CALENDAR_TOOLBAR: 'is-calendar-toolbar',
