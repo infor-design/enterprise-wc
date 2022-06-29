@@ -211,6 +211,18 @@ export default class IdsCard extends Base {
     });
   }
 
+  redraw() {
+    const template = document.createElement('template');
+    const html = this.template();
+
+    // Render and append styles
+    this.shadowRoot.innerHTML = '';
+    this.hasStyles = false;
+    this.appendStyles();
+    template.innerHTML = html;
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
+  }
+
   /**
    * Set the card to auto fit to its parent size
    * @param {boolean|null} value The auto fit
@@ -248,9 +260,11 @@ export default class IdsCard extends Base {
     const val = stringToBool(value);
     if (stringToBool(value)) {
       this.setAttribute(attributes.ACTIONABLE, val);
+      this.redraw();
       return;
     }
     this.removeAttribute(attributes.ACTIONABLE);
+    this.redraw();
   }
 
   get actionable() { return stringToBool(this.getAttribute(attributes.ACTIONABLE)); }
@@ -284,10 +298,11 @@ export default class IdsCard extends Base {
   set href(url) {
     if (url) {
       this.setAttribute('href', url);
+      this.redraw();
       this.container.querySelector('ids-hyperlink')?.setAttribute('href', url);
     } else {
       this.removeAttribute('href');
-      this.container.querySelector('ids-hyperlink')?.removeAttribute('href');
+      this.redraw();
     }
   }
 
@@ -330,9 +345,10 @@ export default class IdsCard extends Base {
     if (value) {
       this.setAttribute('target', value);
       this.container.querySelector('ids-hyperlink')?.setAttribute('target', value);
+      this.redraw();
     } else {
       this.removeAttribute('target');
-      this.container.querySelector('ids-hyperlink')?.removeAttribute('target');
+      this.redraw();
     }
   }
 

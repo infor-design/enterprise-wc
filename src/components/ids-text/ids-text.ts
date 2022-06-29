@@ -1,4 +1,4 @@
-import fontSizes from 'ids-identity/dist/theme-new/tokens/web/ui.config.font-sizes';
+// import fontSizes from 'ids-identity/dist/theme-new/tokens/web/ui.config.font-sizes';
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
@@ -120,7 +120,7 @@ export default class IdsText extends Base {
    * i.e. 10, 12, 16 ect increasing by increments of 4
    */
   set fontSize(value: string | null) {
-    fontSizes?.forEach((size: string) => {
+    [].forEach((size: string) => {
       this.container?.classList.remove(`ids-text-${Object.keys(size)}`);
     });
 
