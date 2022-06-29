@@ -31,6 +31,11 @@ ids-trigger-button {
   margin: 0 8px 0 0;
 }
 
+::slotted(.sub-group) {
+  border-top: 1px solid #b7b7ba;
+  padding-top: 4px;
+}
+
 :host([aria-expanded='false']) ::slotted(ids-list-box) {
   display: none;
 }

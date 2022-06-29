@@ -42,6 +42,7 @@ export default class IdsTag extends Base {
       attributes.COLOR,
       attributes.CLICKABLE,
       attributes.DISMISSIBLE,
+      attributes.DISABLED,
       attributes.MODE,
       attributes.VERSION
     ];
@@ -163,7 +164,11 @@ export default class IdsTag extends Base {
     // Handle Clicking the x for dismissible
     const closeIcon = this.querySelector('ids-icon[icon="close"]');
     if (closeIcon) {
-      this.onEvent('click', closeIcon, () => this.dismiss());
+      this.onEvent('click', closeIcon, () => {
+        if (!this.disabled) {
+          this.dismiss();
+        }
+      });
     }
 
     // Ensure icon is always last
@@ -212,13 +217,13 @@ export default class IdsTag extends Base {
     const response = (veto: any) => {
       canDismiss = !!veto;
     };
-    this.triggerEvent('beforetagremove', this, { detail: { elem: this, response } });
+    this.triggerEvent('beforetagremove', this, { bubbles: true, detail: { elem: this, response } });
 
     if (!canDismiss) {
       return;
     }
 
-    this.triggerEvent('tagremove', this, { detail: { elem: this } });
+    this.triggerEvent('tagremove', this, { bubbles: true, detail: { elem: this } });
     this.remove();
     this.triggerEvent('aftertagremove', this, { detail: { elem: this } });
   }
