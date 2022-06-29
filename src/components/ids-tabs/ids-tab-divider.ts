@@ -25,6 +25,6 @@ export default class IdsTabDivider extends Base {
   }
 
   connectedCallback() {
-    this.setAttribute('role', 'presentation');
+    this.setAttribute('role', 'separator');
   }
 }

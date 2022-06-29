@@ -1,5 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import Base from './ids-tabs-base';
 import IdsHeader from '../ids-header/ids-header';
@@ -149,6 +150,10 @@ export default class IdsTabs extends Base {
     return mainSlot.assignedElements();
   }
 
+  get lastTab(): any {
+    return [...this.querySelectorAll('ids-tab')].pop();
+  }
+
   /**
    * @readonly
    * @returns {any} [IdsTab | null] The last possible tab with a usable value in the list
@@ -242,6 +247,18 @@ export default class IdsTabs extends Base {
       }
     });
 
+    // Listen for Delete (Mac) or Backspace (PC) for removal events
+    const dismissOnKeystroke = (e: CustomEvent) => {
+      const elem: any = e.target;
+      if (elem) {
+        if (elem.tagName === 'IDS-TAB') {
+          this.#dismissTab(elem);
+        }
+      }
+    };
+    this.listen('Delete', this, dismissOnKeystroke);
+    this.listen('Backspace', this, dismissOnKeystroke);
+
     this.onEvent('tabselect', this, (e: CustomEvent) => {
       const elem: any = e.target;
       if (elem && elem.tagName === 'IDS-TAB') {
@@ -251,9 +268,23 @@ export default class IdsTabs extends Base {
 
     this.onEvent('click.tabs', this, (e: PointerEvent) => {
       const elem: any = e.target;
-      if (elem && elem.tagName === 'IDS-TAB') {
-        this.#selectTab(elem);
+      if (elem) {
+        if (elem.tagName === 'IDS-TAB') {
+          if (!elem.disabled) {
+            this.#selectTab(elem);
+          }
+        }
+        if (elem.tagName === 'IDS-TRIGGER-BUTTON') {
+          e.stopPropagation();
+          const tab = getClosest(elem, 'ids-tab');
+          this.#dismissTab(tab);
+        }
       }
+    });
+
+    // Removes the tab from the list on `tabremove` events
+    this.onEvent('tabremove', this, (e: CustomEvent) => {
+      e.detail.elem.remove();
     });
 
     // Focusing via keyboard on an IdsTab doesn't automatically fire its `focus()` method.
@@ -274,9 +305,7 @@ export default class IdsTabs extends Base {
     this.onEvent('slotchange', this.container, () => {
       this.#connectMoreTabs();
       this.#refreshOverflowedTabs();
-      if (!this.hasTab(this.value)) {
-        this.#selectTab(this.lastNavigableTab);
-      }
+      this.#correctSelectedTab();
     });
   }
 
@@ -296,7 +325,7 @@ export default class IdsTabs extends Base {
     let nextTab: any = currentTab.nextElementSibling;
 
     // If next sibling isn't a tab or is disabled, try this method again on the found sibling
-    if (nextTab && (!nextTab.tagName.includes('IDS-TAB') || nextTab.disabled || nextTab.hasAttribute('overflowed'))) {
+    if (nextTab && (!nextTab.tagName.includes('IDS-TAB') || nextTab.tagName.includes('IDS-TAB-DIVIDER') || nextTab.disabled || nextTab.hasAttribute('overflowed'))) {
       return this.nextTab(nextTab);
     }
 
@@ -317,7 +346,7 @@ export default class IdsTabs extends Base {
     let prevTab: any = currentTab.previousElementSibling;
 
     // If previous sibling isn't a tab or is disabled, try this method again on the found sibling
-    if (prevTab && (!prevTab.tagName.includes('IDS-TAB') || prevTab.disabled || prevTab.hasAttribute('overflowed'))) {
+    if (prevTab && (!prevTab.tagName.includes('IDS-TAB') || prevTab.tagName.includes('IDS-TAB-DIVIDER') || prevTab.disabled || prevTab.hasAttribute('overflowed'))) {
       return this.prevTab(prevTab);
     }
 
@@ -335,7 +364,7 @@ export default class IdsTabs extends Base {
    * @returns {void}
    */
   #selectTab(tab: any): void {
-    if (!tab || tab.disabled) return;
+    if (!tab) return;
 
     if (tab.actionable) {
       if (typeof tab.onAction === 'function') {
@@ -353,6 +382,27 @@ export default class IdsTabs extends Base {
           current.selected = false;
         }
       }
+    }
+  }
+
+  /**
+   * Dismisses (removes) a Tab from the Tab List
+   * @param {any} tab the new tab to select
+   * @returns {void}
+   */
+  #dismissTab(tab: any): void {
+    if (!tab) return;
+
+    tab.dismiss();
+    this.#correctSelectedTab();
+  }
+
+  /**
+   * Detects if a Tab no longer exists and selects an available one
+   */
+  #correctSelectedTab(): void {
+    if (!this.hasTab(this.value)) {
+      this.#selectTab(this.lastNavigableTab || this.lastTab);
     }
   }
 
