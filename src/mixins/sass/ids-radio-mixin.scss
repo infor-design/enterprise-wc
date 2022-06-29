@@ -75,6 +75,7 @@
 
 @mixin radio-disabled-checked() {
   @include bg-slate-30();
+  @include border-slate-30();
 }
 
 @mixin radio-disabled-text {

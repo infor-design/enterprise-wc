@@ -38,6 +38,7 @@ export default class IdsTab extends Base {
       ...super.attributes,
       attributes.ACTIONABLE,
       attributes.COUNT,
+      attributes.DISMISSIBLE,
       attributes.DISABLED,
       attributes.SELECTED,
       attributes.VALUE
@@ -49,6 +50,13 @@ export default class IdsTab extends Base {
    * @returns {Array<string>} List of available color variants for this component
    */
   colorVariants = ['alternate', 'module'];
+
+  /**
+   * @returns {Array<string>} Drawer vetoable events
+   */
+  vetoableEventTypes = [
+    'beforetabremove',
+  ];
 
   /**
    * Create the Template for the contents
@@ -71,15 +79,39 @@ export default class IdsTab extends Base {
         <slot></slot>
       </ids-text>`;
     } else if (hasCount) {
-      innerContent = `<ids-text overflow="ellipsis" font-size="28"${selectedAttr}>
-        ${this.getAttribute(attributes.COUNT)}
-      </ids-text>
-      <ids-text overflow="ellipsis" size="22">
-        <slot></slot>
-      </ids-text>`;
+      innerContent = `<div class="ids-tab-count-container">
+        <ids-text overflow="ellipsis" font-size="28"${selectedAttr}>
+          ${this.getAttribute(attributes.COUNT)}
+        </ids-text>
+        <ids-text overflow="ellipsis" size="22">
+          <slot></slot>
+        </ids-text>
+      </div>`;
     }
 
-    return `<div ${cssClassAttr} tabindex="-1" part="container">${innerContent}</div>`;
+    return `<div ${cssClassAttr} tabindex="-1" part="container">
+      ${innerContent}
+      <div class="ids-tab-trigger-container">
+        <slot name="close"></slot>
+      </div>
+    </div>`;
+  }
+
+  /**
+   * @returns {string} draws the dismissible button
+   */
+  #templateDismissible(): string {
+    let colorVariant = '';
+    if (this.colorVariant) {
+      colorVariant = ` color-variant="${this.#getDismissibleVariant()}"`;
+    }
+    return `<ids-trigger-button slot="close" label="Close"${colorVariant} inherit-color>
+      <ids-icon slot="icon" icon="close" size="xsmall"></ids-icon>
+    </ids-trigger-button>`;
+  }
+
+  #getDismissibleVariant() {
+    return this.colorVariant === 'module' ? 'alternate' : this.colorVariant;
   }
 
   connectedCallback() {
@@ -89,6 +121,7 @@ export default class IdsTab extends Base {
     this.setAttribute(htmlAttributes.ARIA_SELECTED, `${Boolean(this.selected)}`);
     this.setAttribute(htmlAttributes.TABINDEX, stringToBool(this.selected) ? '0' : '-1');
     this.setAttribute(htmlAttributes.ARIA_LABEL, this.#getReadableAriaLabel());
+    this.#detectSwappable();
   }
 
   /**
@@ -132,6 +165,36 @@ export default class IdsTab extends Base {
   }
 
   /**
+   * @param {boolean} isDismissible true if this Tab should contain an "X" icon used for dismissal
+   */
+  set dismissible(isDismissible: boolean | string) {
+    if (stringToBool(isDismissible)) {
+      this.setAttribute(attributes.DISMISSIBLE, '');
+      this.container.classList.add(attributes.DISMISSIBLE);
+      this.insertAdjacentHTML('beforeend', this.#templateDismissible());
+    } else {
+      this.removeAttribute(attributes.DISMISSIBLE);
+      this.container.classList.remove(attributes.DISMISSIBLE);
+      this.dismissibleBtnEl.remove();
+    }
+  }
+
+  /**
+   * @returns {boolean} true if this Tab should contain an "X" icon used for dismissal
+   */
+  get dismissible(): boolean {
+    return this.hasAttribute(attributes.DISMISSIBLE);
+  }
+
+  /**
+   * Provides a reference to a close button, if applicable
+   * @returns {HTMLElement | null} IdsTriggerButton
+   */
+  get dismissibleBtnEl(): any {
+    return this.querySelector('ids-trigger-button');
+  }
+
+  /**
    * @param {boolean | string} isDisabled true if the tab should become disabled
    */
   set disabled(isDisabled: boolean | string) {
@@ -139,9 +202,15 @@ export default class IdsTab extends Base {
     if (newValue) {
       this.setAttribute(attributes.DISABLED, '');
       this.container.classList.add(attributes.DISABLED);
+      if (this.dismissibleBtnEl) {
+        this.dismissibleBtnEl.disabled = true;
+      }
     } else {
       this.removeAttribute(attributes.DISABLED);
       this.container.classList.remove(attributes.DISABLED);
+      if (this.dismissibleBtnEl) {
+        this.dismissibleBtnEl.disabled = false;
+      }
     }
   }
 
@@ -278,7 +347,45 @@ export default class IdsTab extends Base {
     }
   };
 
-  focus() {
-    this.container.focus();
+  /**
+   * Sets/removes CSS classes on this tab that control "swappable" display
+   */
+  #detectSwappable(): void {
+    const swappableParent = this.parentElement && this.parentElement.tagName === 'IDS-SWAPPABLE-ITEM';
+    this.container.classList[swappableParent ? 'add' : 'remove']('swappable');
+  }
+
+  /**
+   * Dismisses this tab, if possible
+   */
+  dismiss(): void {
+    if (this.dismissible) {
+      if (!this.triggerVetoableEvent('beforetabremove')) return;
+
+      this.triggerEvent('tabremove', this, {
+        bubbles: true,
+        detail: {
+          elem: this,
+          value: this.value
+        }
+      });
+    }
+  }
+
+  /**
+   * Causes the tab to become focused
+   */
+  focus(): void {
+    if (!this.disabled) {
+      this.container.focus();
+    }
+  }
+
+  onColorVariantRefresh(): void {
+    const closeBtn = this.dismissibleBtnEl;
+    if (closeBtn) {
+      const target = this.#getDismissibleVariant();
+      closeBtn.colorVariant = target;
+    }
   }
 }

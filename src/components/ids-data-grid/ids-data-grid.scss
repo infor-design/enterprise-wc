@@ -74,10 +74,19 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
   // Header Styles
   .ids-data-grid-header {
-    @include z-2();
     @include sticky();
 
     top: 0;
+    z-index: 4; // Higher than the frozen columns
+  }
+
+  // Grouped Headers
+  .ids-data-grid-column-groups {
+    @include border-0();
+    @include border-b-1();
+    @include border-solid();
+
+    border-color: $cell-border-color;
   }
 
   // Header Cell Area
@@ -89,20 +98,129 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     background-color: $header-bg-color;
     border-color: $cell-border-color;
     min-height: 35px;
+    position: relative;
 
     // Hide first border
     &:first-child {
-      border-left-style: hidden;
+      border-inline-start-width: 0;
+    }
+
+    &.align-center .ids-data-grid-header-cell-content,
+    &.align-center .ids-data-grid-header-cell-filter-wrapper {
+      justify-content: center;
+    }
+
+    &.align-right .ids-data-grid-header-cell-content,
+    &.align-right .ids-data-grid-header-cell-filter-wrapper {
+      direction: rtl;
+      justify-content: flex-start;
+    }
+
+    // Resizing Cells
+    .resizer {
+      cursor: col-resize;
+      display: inline;
+      height: 100%;
+      position: absolute;
+      margin-inline-start: calc(100% - 4px);
+      top: 0;
+      width: 6px;
+      z-index: 2;
+    }
+
+    &:last-child .resizer {
+      // Prevents un needed scrollbar
+      margin-inline-start: calc(100% - 6px);
+    }
+
+    // Reorderable Cells
+    .reorderer {
+      cursor: move;
+      display: inline;
+      height: 33px;
+      opacity: 0;
+      position: absolute;
+      inset-inline-start: 7px;
+      top: 0;
+      width: 4px;
+
+      ids-icon {
+        position: absolute;
+        color: var(--ids-color-palette-white);
+        inset-inline-start: -7px;
+        text-align: center;
+        top: 9px;
+      }
+    }
+
+    &.align-right .reorderer {
+      inset-inline-end: 7px;
+      inset-inline-start: initial;
+    }
+
+    &.dragging {
+      background-color: $header-bg-color !important;
+      display: block;
+      width: 110px;
+
+      .reorderer {
+        opacity: 1;
+      }
+    }
+
+    &.active-drag-column {
+      background-color: var(--ids-color-palette-slate-40);
+    }
+
+    &:hover .reorderer {
+      opacity: 1;
+    }
+
+    // Reorderable Cells
+    &.frozen {
+      background-color: $header-bg-color;
+      position: sticky;
+      z-index: 3;
+    }
+
+    // Change borders for frozen column scrolling
+    &.frozen-last {
+      border-inline-end-width: 1px;
+
+      + .ids-data-grid-header-cell {
+        border-inline-start-width: 0;
+      }
+    }
+
+    &.frozen-left {
+      position: sticky;
+      left: 0;
+
+      // Dynamically added widths
+      @for $i from 2 through 10 {
+        &:nth-of-type(#{$i}) {
+          left: var(--ids-data-grid-frozen-column-left-width-#{$i});
+        }
+      }
+    }
+
+    &.frozen-right {
+      position: sticky;
+      right: 0;
+
+      // Wierd centering bug (frozen right)
+      .ids-data-grid-header-cell-content {
+        display: inline-flex;
+      }
     }
   }
 
-  .ids-data-grid-header-cell-content-wrapper {
+  .ids-data-grid-header-cell-content {
     @include flex();
   }
 
   .ids-data-grid-header-text {
     @include block();
-    @include px-16();
     @include py-8();
     @include font-bold();
     @include text-14();
@@ -111,6 +229,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     overflow: hidden;
     text-align: left;
     text-overflow: ellipsis;
+    text-indent: 16px;
     user-select: none;
     white-space: nowrap;
   }
@@ -119,8 +238,9 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   .sort-indicator {
     @include relative();
 
-    height: 16px;
-    left: -6px;
+    overflow: hidden;
+    height: 32px;
+    margin-inline-start: 2px;
     width: 18px;
   }
 
@@ -195,12 +315,17 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
     // Hide first/last border
     &:first-child {
-      border-left-style: hidden;
+      border-inline-start-width: 0;
     }
 
     // Negate link margins
     ids-hyperlink {
       margin: 8px;
+    }
+
+    ids-badge {
+      padding-inline-start: 8px;
+      padding-inline-end: 8px;
     }
 
     // Text ellipsis
@@ -210,6 +335,16 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    // Text Alignment
+    &.align-center > *:first-child {
+      margin: 0 auto;
+    }
+
+    &.align-right > *:first-child {
+      margin-inline-start: auto;
+      margin-inline-end: 0;
     }
 
     // Readonly Cell
@@ -224,16 +359,50 @@ $header-bg-color: var(--ids-color-palette-slate-80);
       outline: 1px solid var(--ids-color-palette-azure-60);
       outline-offset: -1px;
     }
+
+    // Frozen Cells
+    &.frozen {
+      @include bg-white();
+
+      position: sticky;
+      z-index: 3;
+    }
+
+    // Change borders for scrolling
+    &.frozen-last {
+      border-inline-end-width: 1px;
+
+      + .ids-data-grid-cell {
+        border-inline-start-width: 0;
+      }
+    }
+
+    &.frozen-left {
+      position: sticky;
+      left: 0;
+
+      // Dynamically added widths
+      @for $i from 2 through 10 {
+        &:nth-of-type(#{$i}) {
+          left: var(--ids-data-grid-frozen-column-left-width-#{$i});
+        }
+      }
+    }
+
+    &.frozen-right {
+      position: sticky;
+      right: 0;
+    }
   }
 
   // Selection Checkbox
-  .ids-datagrid-checkbox-container {
+  .ids-data-grid-checkbox-container {
     display: flex;
     justify-content: center;
     width: 100%;
   }
 
-  .ids-datagrid-checkbox {
+  .ids-data-grid-checkbox {
     @include checkbox-unchecked();
     @include cursor-pointer();
 
@@ -241,11 +410,19 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     left: 0;
     top: 0;
 
+    &.disabled {
+      @include checkbox-disabled-unchecked();
+    }
+
     &.checked {
       @include checkbox-checked();
 
       &::after {
         @include checkbox-checked-after();
+      }
+
+      &.disabled {
+        @include checkbox-disabled-checked(light);
       }
     }
 
@@ -259,13 +436,13 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   }
 
   // Selection Radio
-  .ids-datagrid-radio-container {
+  .ids-data-grid-radio-container {
     display: flex;
     justify-content: center;
     width: 100%;
   }
 
-  .ids-datagrid-radio {
+  .ids-data-grid-radio {
     @include radio-unchecked();
     @include cursor-pointer();
 
@@ -277,22 +454,28 @@ $header-bg-color: var(--ids-color-palette-slate-80);
       @include radio-unchecked-after();
     }
 
+    &.disabled {
+      @include radio-disabled-unchecked();
+    }
+
     &.checked {
       @include radio-checked();
 
       &::after {
         @include radio-checked-after();
       }
+
+      &.disabled {
+        @include radio-disabled-checked();
+      }
     }
   }
 
   // Negates the padding
-  .ids-data-grid-header-text .ids-datagrid-checkbox-container {
-    margin-left: -3px;
-    margin-top: 1px;
+  .ids-data-grid-header-text .ids-data-grid-checkbox-container {
     width: 20px;
 
-    .ids-datagrid-checkbox:not(.checked):not(.indeterminate) {
+    .ids-data-grid-checkbox:not(.checked):not(.indeterminate) {
       @include bg-white();
       @include border-white();
     }
@@ -334,7 +517,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
     // Change Cell Borders/BG
     .ids-data-grid-cell {
-      border-left: 0;
+      border-inline-start-width: 0;
       border-top: 1px solid var(--ids-color-palette-slate-20);
 
       &.readonly {
@@ -362,17 +545,54 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     }
 
     // Change Header Checkbox
-    .ids-data-grid-header-text .ids-datagrid-checkbox-container {
-      .ids-datagrid-checkbox:not(.checked):not(.indeterminate) {
+    .ids-data-grid-header-text .ids-data-grid-checkbox-container {
+      .ids-data-grid-checkbox:not(.checked):not(.indeterminate) {
         @include border-slate-70();
       }
     }
   }
 }
 
+// Used for Frozen Columns
+.ids-data-grid-body,
+.ids-data-grid-header {
+  min-width: fit-content;
+}
+
 // Standalone Css Borders
 table.ids-data-grid {
-  outline: 1px solid var(--ids-color-palette-azure-30);
+  outline: 1px solid var(--ids-color-palette-slate-30);
+}
+
+// Drag arrows for sorting
+.ids-data-grid-sort-arrows {
+  display: none;
+  height: 34px;
+  position: absolute;
+  left: 25px;
+  z-index: 1;
+
+  &::before,
+  &::after {
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    content: '';
+    display: inline-block;
+    height: 0;
+    left: -6px;
+    position: absolute;
+    width: 0;
+  }
+
+  &::before {
+    border-top: 5px solid $header-bg-color;
+    top: -6px;
+  }
+
+  &::after {
+    border-bottom: 5px solid $header-bg-color;
+    bottom: -9px;
+  }
 }
 
 // Dark Theme
@@ -383,6 +603,18 @@ table.ids-data-grid {
   .ids-data-grid-header-cell {
     @include bg-slate-20();
     @include border-slate-80();
+
+    .reorderer ids-icon {
+      color: var(--ids-color-palette-slate-100);
+    }
+
+    &.dragging {
+      background-color: var(--ids-color-palette-slate-20) !important;
+    }
+
+    &.active-drag-column {
+      background-color: var(--ids-color-palette-slate-10);
+    }
   }
 
   .ids-data-grid-header-text {
@@ -409,12 +641,26 @@ table.ids-data-grid {
       @include bg-slate-70();
     }
 
-    .ids-datagrid-checkbox {
-      @include border-slate-30();
+    &.frozen {
+      @include bg-slate-90();
     }
 
-    .ids-datagrid-checkbox.checked {
+    .ids-data-grid-checkbox {
+      @include border-slate-40();
+
+      &.disabled {
+        @include bg-slate-50();
+        @include border-slate-50();
+      }
+    }
+
+    .ids-data-grid-checkbox.checked {
       @include border-azure-60();
+
+      &.disabled {
+        @include bg-slate-50();
+        @include border-slate-50();
+      }
     }
   }
 
@@ -444,8 +690,8 @@ table.ids-data-grid {
     }
 
     // Change Header Checkbox
-    .ids-data-grid-header-text .ids-datagrid-checkbox-container {
-      .ids-datagrid-checkbox:not(.checked):not(.indeterminate) {
+    .ids-data-grid-header-text .ids-data-grid-checkbox-container {
+      .ids-data-grid-checkbox:not(.checked):not(.indeterminate) {
         @include border-slate-40();
       }
     }
@@ -458,13 +704,41 @@ table.ids-data-grid {
     background-color: #334d60;
   }
 
-  .ids-datagrid-radio {
-    @include border-slate-40();
+  .ids-data-grid-radio {
+    @include border-slate-20();
+
+    &.disabled {
+      @include border-slate-60();
+    }
+
+    &.checked.disabled {
+      @include border-slate-60();
+      @include bg-slate-60();
+
+      &::after {
+        @include border-slate-90();
+        @include bg-slate-90();
+      }
+    }
   }
 
-  .ids-data-grid-header-text .ids-datagrid-checkbox-container .ids-datagrid-checkbox:not(.checked):not(.indeterminate) {
-    @include bg-transparent();
-    @include border-slate-90();
+  .ids-data-grid-header-text .ids-data-grid-checkbox-container {
+    .ids-data-grid-checkbox:not(.checked):not(.indeterminate) {
+      @include bg-transparent();
+      @include border-slate-90();
+    }
+  }
+}
+
+:host([mode='dark']) {
+  .ids-data-grid-sort-arrows {
+    &::before {
+      border-top: 5px solid var(--ids-color-palette-slate-20);
+    }
+
+    &::after {
+      border-bottom: 5px solid var(--ids-color-palette-slate-20);
+    }
   }
 }
 
@@ -474,7 +748,19 @@ table.ids-data-grid {
 
   .ids-data-grid-header-cell {
     @include bg-slate-70();
-    @include border-slate-50();
+    @include border-slate-40();
+
+    .reorderer ids-icon {
+      color: var(--ids-color-palette-slate-10);
+    }
+
+    &.dragging {
+      background-color: var(--ids-color-palette-slate-70) !important;
+    }
+
+    &.active-drag-column {
+      background-color: var(--ids-color-palette-slate-50);
+    }
   }
 
   .ids-data-grid-header-text {
@@ -506,8 +792,22 @@ table.ids-data-grid {
       outline: 1px solid var(--ids-color-palette-azure-80);
     }
 
-    .ids-datagrid-checkbox:not(.checked):not(.indeterminate) {
+    .ids-data-grid-checkbox {
       @include border-slate-90();
+
+      &.disabled {
+        @include bg-slate-60();
+        @include border-slate-60();
+      }
+    }
+
+    .ids-data-grid-checkbox.checked {
+      @include border-azure-90();
+
+      &.disabled {
+        @include bg-slate-60();
+        @include border-slate-60();
+      }
     }
   }
 
@@ -544,6 +844,29 @@ table.ids-data-grid {
     }
   }
 
+  .ids-data-grid-radio {
+    @include bg-white();
+    @include border-slate-90();
+
+    &.disabled {
+      @include border-slate-60();
+    }
+
+    &.checked {
+      @include bg-azure-90();
+      @include border-azure-90();
+    }
+
+    &.checked.disabled {
+      @include bg-slate-40();
+      @include border-slate-40();
+
+      &::after {
+        @include bg-white();
+      }
+    }
+  }
+
   // Selection
   .ids-data-grid-row.selected:not(.mixed) .ids-data-grid-cell,
   .ids-data-grid-row.activated .ids-data-grid-cell {
@@ -551,232 +874,13 @@ table.ids-data-grid {
   }
 }
 
-// Classic - Light Theme
-.ids-data-grid[version='classic'][mode='light'] {
-  @include bg-white();
-
-  .ids-data-grid-header-cell {
-    @include bg-graphite-70();
-    @include border-classic-slate-30();
-  }
-
-  .ids-data-grid-header-text {
-    @include text-white();
-  }
-
-  .is-sortable .sort-indicator ids-icon {
-    @include text-classic-slate-40();
-  }
-
-  [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
-    @include text-white();
-  }
-
-  [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
-    @include text-white();
-  }
-
-  .ids-data-grid-cell {
-    @include border-classic-slate-30();
-    @include text-graphite-100();
-
-    &.readonly {
-      @include bg-graphite-10();
-    }
-  }
-
-  // List Style Feature
-  &.is-list-style {
-    background-color: transparent;
-
-    // Change Header Color
-    .ids-data-grid-header-cell {
-      @include bg-graphite-20();
-      @include border-graphite-20();
-    }
-
-    .ids-data-grid-header-text {
-      @include text-graphite-60();
-    }
-
-    // Change Cell Borders/BG
-    .ids-data-grid-cell {
-      border-top: 1px solid var(--ids-color-palette-graphite-30);
-
-      &.readonly {
-        @include bg-graphite-20();
-      }
-    }
-
-    // Change Sort Icon
-    .is-sortable .sort-indicator ids-icon {
-      @include text-graphite-50();
-    }
-
-    [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
-      @include text-graphite-30();
-    }
-
-    [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
-      @include text-graphite-30();
-    }
-  }
-}
-
-// Handle Classic - Dark Theme
-.ids-data-grid[version='classic'][mode='dark'] {
-  @include bg-classic-slate-80();
-
-  .ids-data-grid-header-cell {
-    @include bg-graphite-30();
-    @include border-classic-slate-50();
-  }
-
-  .ids-data-grid-header-text {
-    @include text-classic-slate-100();
-  }
-
-  .is-sortable .sort-indicator ids-icon {
-    @include text-classic-slate-40();
-  }
-
-  [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
-    @include text-classic-slate-100();
-  }
-
-  [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
-    @include text-classic-slate-100();
-  }
-
-  .ids-data-grid-cell {
-    @include border-classic-slate-50();
-    @include text-white();
-
-    &.readonly {
-      @include bg-classic-slate-70();
-    }
-  }
-
-  // List Style Feature
-  &.is-list-style {
-    // Change Header Color
-    .ids-data-grid-header-cell {
-      @include bg-classic-slate-70();
-      @include border-classic-slate-70();
-    }
-
-    .ids-data-grid-header-text {
-      @include text-classic-slate-30();
-    }
-
-    // Change Sort Icon
-    .is-sortable .sort-indicator ids-icon {
-      @include text-classic-slate-10();
-    }
-
-    [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
-      @include text-classic-slate-40();
-    }
-
-    [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
-      @include text-classic-slate-40();
-    }
-  }
-}
-
-// Handle Classic - Contrast Theme
-.ids-data-grid[version='classic'][mode='contrast'] {
-  @include bg-graphite-10();
-
-  .ids-data-grid-header-cell {
-    @include bg-graphite-70();
-    @include border-graphite-50();
-  }
-
-  .ids-data-grid-header-text {
-    @include text-white();
-  }
-
-  .is-sortable .sort-indicator ids-icon {
-    @include text-graphite-40();
-  }
-
-  [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
-    @include text-white();
-  }
-
-  [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
-    @include text-white();
-  }
-
-  .ids-data-grid-cell {
-    @include border-graphite-60();
-    @include text-graphite-100();
-
-    &.readonly {
-      @include bg-graphite-30();
-    }
-
-    &:focus {
-      box-shadow: 0 0 0 1px var(--ids-color-palette-azure-80);
-      outline: 1px solid var(--ids-color-palette-azure-80);
-    }
-  }
-
-  // List Style Feature
-  &.is-list-style {
-    // Change Header Color
-    .ids-data-grid-header-cell {
-      @include bg-graphite-30();
-      @include border-graphite-30();
-    }
-
-    .ids-data-grid-header-text {
-      @include text-graphite-100();
-    }
-
-    // Change Cell Borders/BG
-    .ids-data-grid-cell {
-      &.readonly {
-        @include bg-graphite-20();
-      }
-    }
-
-    // Change Sort Icon
-    .is-sortable .sort-indicator ids-icon {
-      @include text-graphite-60();
-    }
-
-    [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
-      @include text-graphite-40();
-    }
-
-    [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
-      @include text-graphite-40();
-    }
-  }
-}
-
 // Handle RTL
 :host([dir='rtl']) {
-  // Hide first/last border
-  .ids-data-grid-cell {
-    &:first-child {
-      border-left-style: solid;
-    }
-
-    &:last-child {
-      border-left-style: hidden;
-    }
-  }
-
+  // Negate right alignment
   .ids-data-grid-header-cell {
-    &:first-child {
-      border-left-style: solid;
-    }
-
-    &:last-child {
-      border-left-style: hidden;
+    &.align-right .ids-data-grid-header-cell-content,
+    &.align-right .ids-data-grid-header-cell-filter-wrapper {
+      direction: ltr;
     }
   }
 }

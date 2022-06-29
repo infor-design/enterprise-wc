@@ -8,6 +8,8 @@ import Base from './ids-swappable-item-base';
 import styles from './ids-swappable-item.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
+type IdsSwappableDragMode = 'select' | 'always';
+
 /**
  * IDS Swappable Item Component
  * @type {IdsSwappableItem}
@@ -24,14 +26,18 @@ export default class IdsSwappableItem extends Base {
 
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute('tabbable', 'true');
-    this.setAttribute('draggable', 'false');
+    this.setAttribute(attributes.TABBABLE, 'true');
+    if (!this.hasAttribute(attributes.DRAG_MODE)) {
+      this.setAttribute(attributes.DRAG_MODE, 'select');
+    }
+    this.setAttribute(attributes.DRAGGABLE, this.dragMode === 'select' ? 'false' : 'true');
     this.attachEventListeners();
   }
 
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.DRAG_MODE,
       attributes.DRAGGING,
       attributes.ORIGINAL_TEXT,
       attributes.OVER,
@@ -42,6 +48,19 @@ export default class IdsSwappableItem extends Base {
 
   template(): string {
     return `<slot></slot>`;
+  }
+
+  set dragMode(value: IdsSwappableDragMode) {
+    if (value === 'select') {
+      this.setAttribute(attributes.DRAGGABLE, 'false');
+    } else {
+      // "always"
+      this.setAttribute(attributes.DRAGGABLE, 'true');
+    }
+  }
+
+  get dragMode(): IdsSwappableDragMode {
+    return this.getAttribute(attributes.DRAG_MODE);
   }
 
   /**
@@ -58,7 +77,9 @@ export default class IdsSwappableItem extends Base {
     } else {
       this.removeAttribute(attributes.SELECTED);
       this.removeAttribute('aria-selected');
-      this.setAttribute('draggable', 'false');
+      if (this.dragMode === 'select') {
+        this.setAttribute('draggable', 'false');
+      }
     }
   }
 
@@ -158,22 +179,32 @@ export default class IdsSwappableItem extends Base {
   #dragStart(event: any) {
     event.dataTransfer?.setData('text/plain', event.target.innerText);
     this.setAttribute(attributes.DRAGGING, '');
+    [...this.children].forEach((elem) => {
+      elem.setAttribute(attributes.DRAGGING, '');
+    });
   }
 
   /**
    * Handle functionality for the dragend event
    */
   #dragEnd() {
-    this.setAttribute(attributes.DRAGGABLE, 'false');
+    if (this.dragMode === 'select') {
+      this.setAttribute(attributes.DRAGGABLE, 'false');
+    }
     this.removeAttribute(attributes.DRAGGING);
+    [...this.children].forEach((elem) => {
+      elem.removeAttribute(attributes.DRAGGING, '');
+    });
     this.removeAttribute(attributes.SELECTED);
     this.removeAttribute(attributes.OVER);
   }
 
   /**
    * Handle functionality for the dragover event
+   * @param {any} event dragstart event
    */
-  #dragOver() {
+  #dragOver(event: any) {
+    if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
     if (this.hasAttribute(attributes.DRAGGING)) {
       this.removeAttribute(attributes.OVER);
     } else {
@@ -193,16 +224,24 @@ export default class IdsSwappableItem extends Base {
    * ids-swappable is not set to selection
    */
   #toggleSelect() {
-    if (this.selected) {
+    const clearSelection = () => {
       this.removeAttribute(attributes.SELECTED);
-      this.querySelector('div[part="list-item"]')?.removeAttribute(attributes.SELECTED, 'selected');
+      this.querySelector('div[part="list-item"]')?.removeAttribute(attributes.SELECTED);
+    };
+
+    if (this.dragMode === 'select') {
+      if (this.selected) {
+        clearSelection();
+      } else {
+        this.allItems.forEach((item: any) => {
+          item.removeAttribute(attributes.SELECTED);
+          item.querySelector('div[part="list-item"]')?.removeAttribute(attributes.SELECTED);
+        });
+        this.setAttribute(attributes.SELECTED, '');
+        this.querySelector('div[part="list-item"]')?.setAttribute(attributes.SELECTED, 'selected');
+      }
     } else {
-      this.allItems.forEach((item: any) => {
-        item.removeAttribute(attributes.SELECTED);
-        item.querySelector('div[part="list-item"]')?.removeAttribute(attributes.SELECTED);
-      });
-      this.setAttribute(attributes.SELECTED, '');
-      this.querySelector('div[part="list-item"]')?.setAttribute(attributes.SELECTED, 'selected');
+      clearSelection();
     }
   }
 
@@ -275,8 +314,8 @@ export default class IdsSwappableItem extends Base {
     this.offEvent('drop', this, () => this.#dragEnd());
     this.onEvent('drop', this, () => this.#dragEnd());
 
-    this.offEvent('dragover', this, () => this.#dragOver());
-    this.onEvent('dragover', this, () => this.#dragOver());
+    this.offEvent('dragover', this, (e: any) => this.#dragOver(e));
+    this.onEvent('dragover', this, (e: any) => this.#dragOver(e));
 
     this.offEvent('dragleave', this, () => this.#dragLeave());
     this.onEvent('dragleave', this, () => this.#dragLeave());

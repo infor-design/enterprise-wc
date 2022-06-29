@@ -142,27 +142,40 @@ class IdsDataSource {
    * Sort the dataset
    * @param {string} field The dataset field
    * @param {boolean} reverse Sort ascending or descending
-   * @param {Function|null} primer Optional primer function
    */
-  sort(field: string, reverse: boolean, primer: any) {
-    const sort = this.sortFunction(field, reverse, primer);
+  sort(field: string, reverse: boolean) {
+    const sort = this.sortFunction(field, reverse);
     this.#currentData.sort(sort);
   }
 
   /**
    * An overridable array sort function
    * @param {string} field The dataset field
-   * @param {boolean} reverse Sort ascending or descending
-   * @param {Function} primer Primer function
-   * @returns {object} The sorted dataset or it uses
+   * @param {any} ascending Sort ascending or descending
+   * @returns {object} The sorted dataset
    */
-  sortFunction(field: string, reverse: boolean, primer: any) {
-    const key = (x: any) => (primer ? primer(x[field]) : x[field]);
+  sortFunction(field: string, ascending: any) {
+    const primer = (a: any) => {
+      a = (a === undefined || a === null ? '' : a);
+      if (typeof a === 'string') {
+        a = a.toUpperCase();
+      }
+      return a;
+    };
+
+    const key = (x: any) => primer(x[field]);
+    ascending = !ascending ? -1 : 1;
 
     return (a: any, b: any) => {
-      const A = key(a);
-      const B = key(b);
-      return ((A < B) ? -1 : ((A > B) ? 1 : 0)) * [-1, 1][+!!reverse]; // eslint-disable-line
+      a = key(a);
+      b = key(b);
+
+      if (typeof a !== typeof b) {
+        a = a.toString().toLowerCase();
+        b = b.toString().toLowerCase();
+      }
+
+      return ascending * (Number(a > b) - Number(b > a));
     };
   }
 

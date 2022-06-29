@@ -28,6 +28,24 @@
   &.hidden {
     display: none;
   }
+
+  &.selectable {
+    .audible {
+      font-size: 1px;
+    }
+
+    .slice {
+      cursor: pointer;
+
+      &[selected] {
+        opacity: 1;
+      }
+
+      &.not-selected {
+        opacity: 0.5;
+      }
+    }
+  }
 }
 
 // Donut Chart

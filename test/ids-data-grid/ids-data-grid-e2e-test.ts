@@ -24,6 +24,6 @@ describe('Ids Data Grid Virtual Scroll e2e Tests', () => {
     await page.waitForSelector('pierce/.ids-data-grid-row');
 
     const count = (await page.$$('pierce/.ids-data-grid-row')).length;
-    expect(count).toEqual(21);
+    expect(count).toEqual(63);
   });
 });

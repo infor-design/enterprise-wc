@@ -5,6 +5,9 @@ describe('Ids List Builder Percy Tests', () => {
 
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    await page.evaluate(() => {
+      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'light');
+    });
     await page.waitForSelector('pierce/#button-delete');
     await percySnapshot(page, 'ids-list-builder-new-light');
   });

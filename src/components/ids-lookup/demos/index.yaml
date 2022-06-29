@@ -1,9 +1,9 @@
 ---
  component: Lookup
  link: ids-lookup
- description: Select from a datagrid list
+ description: Select from a data grid list
  category: Form Inputs
- keywords: datagrid, lookup, selection
+ keywords: datagrid, lookup, selection, data grid
  examples:
   - link: example.html
     type: Main Example

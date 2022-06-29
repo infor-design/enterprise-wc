@@ -1,8 +1,13 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
-import { injectTemplate, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { QUALITATIVE_COLORS } from '../ids-axis-chart/ids-chart-colors';
 import { patternData } from '../ids-axis-chart/ids-pattern-data';
+import {
+  injectTemplate,
+  stringToBool,
+  stringToNumber,
+  kebabCase
+} from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-pie-chart-base';
 import IdsDataSource from '../../core/ids-data-source';
@@ -22,11 +27,22 @@ type IdsPieChartData = {
   patternColor?: string,
 };
 
+type IdsPieChartSelected = {
+  data?: any,
+  index?: number | string,
+  slice?: SVGElement
+};
+
+type IdsPieChartSelectedBy = {
+  index?: number | string
+};
+
 /**
  * IDS Pie Chart Component
  * @type {IdsPieChart}
  * @inherits IdsElement
  * @mixes IdsChartLegendMixin
+ * @mixes IdsChartSelectionMixin
  * @mixes IdsLocaleMixin
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
@@ -40,12 +56,21 @@ export default class IdsPieChart extends Base {
     super();
 
     // Setup default values
-    this.state = {};
+    if (!this.state) this.state = {};
+    this.DEFAULT_SELECTABLE = false;
     this.legendPlacement = 'right';
   }
 
   /** Reference to datasource API */
   datasource = new IdsDataSource();
+
+  /**
+   * @returns {Array<string>} Drawer vetoable events
+   */
+  vetoableEventTypes = [
+    'beforeselected',
+    'beforedeselected'
+  ];
 
   /**
    * Invoked each time the custom element is connected to the DOM.
@@ -61,9 +86,18 @@ export default class IdsPieChart extends Base {
   }
 
   /**
+   * On selectable change
+   */
+  onSelectableChange(): void {
+    this.legendsClickable?.(this.selectable);
+  }
+
+  /**
    * Invoked after rendering
    */
   rendered(): void {
+    this.legendsClickable?.(this.selectable);
+    this.#preSelected();
     this.#attachTooltipEvents();
   }
 
@@ -180,7 +214,7 @@ export default class IdsPieChart extends Base {
       if (typeof this.legendFormatter === 'function') {
         legendValue = this.legendFormatter(slice, this.percents[index], this);
       }
-      legend += `<a href="#"}>
+      legend += `<a href="#legend-${kebabCase(slice.name || index)}" data-index="${index}" class="chart-legend-item">
         <div class="swatch${colorClass}">${patternSvg}</div>
         ${legendValue}
         </a>`;
@@ -259,7 +293,7 @@ export default class IdsPieChart extends Base {
       const stroke = data?.[index].pattern ? `url(#${data?.[index].pattern})` : this.color(index);
 
       circles += `<g role="listitem">
-        <circle class="slice${colorClass}" part="circle" stroke="${stroke}" stroke-width="${strokeWidth}" index="${index}" percent="${percent.total}" r="${radius}" cx="${cx}" cy="${cy}" stroke-dasharray="${dashArray}" stroke-dashoffset="${this.animated ? dashArray : dashOffset}" transform="rotate(${angle} ${cx} ${cy})"></circle>
+        <circle class="slice${colorClass}" part="circle" stroke="${stroke}" stroke-width="${strokeWidth}" index="${index}" percent="${percent.total}" r="${radius}" cx="${cx}" cy="${cy}" stroke-dasharray="${dashArray}" stroke-dashoffset="${this.animated ? dashArray : dashOffset}" transform="rotate(${angle} ${cx} ${cy})" pointer-events="stroke"></circle>
         <text class="audible">${data?.[index].name}  ${percent.rounded}%</text>
         </g>`;
       filled += percent.total;
@@ -316,6 +350,15 @@ export default class IdsPieChart extends Base {
    */
   get viewBoxSize(): number {
     return 100;
+  }
+
+  /**
+   * Return chart elements that get selection
+   * @returns {Array<SVGElement>} The elements
+   */
+  get selectionElements(): Array<SVGElement> {
+    if (!this.selectable) return [];
+    return [...this.container.querySelectorAll('.slice')];
   }
 
   /**
@@ -438,6 +481,104 @@ export default class IdsPieChart extends Base {
     this.container.parentElement.classList.remove('empty');
     this.emptyMessage.style.height = '';
     this.emptyMessage.setAttribute('hidden', '');
+  }
+
+  /**
+   * Set initially selected
+   * @private
+   * @returns {void}
+   */
+  #preSelected(): void {
+    if (!this.initialized || !this.selectable || !this.data?.length || !this.selectionElements?.length) return;
+
+    const index = this.data[0]?.data?.findIndex((n: any) => n.selected);
+    if (typeof index === 'number' && index > -1) {
+      const target = this.selectionElements[index];
+      if (!target) return;
+      this.selectionElements.forEach((el: SVGElement) => {
+        if (el === target) el.setAttribute('selected', '');
+        else el.classList.add('not-selected');
+      });
+    }
+  }
+
+  /**
+   * Get currently selected
+   * @returns {IdsPieChartSelected} selected.
+   */
+  getSelected(): IdsPieChartSelected {
+    const selected: any = this.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'))[0];
+    if (!selected) return {};
+
+    const i: any = selected.getAttribute('index');
+    const data: any = this.data[0].data?.[i];
+    return { slice: selected, index: i, data };
+  }
+
+  /**
+   * Set selected by give indexes
+   * @param {IdsPieChartSelectedBy} opt The in comeing options
+   * @returns {void}
+   */
+  setSelected(opt: IdsPieChartSelectedBy): void {
+    if (!this.initialized || !this.selectable || !this.data?.length || !this.selectionElements?.length) return;
+
+    const index = stringToNumber(opt.index);
+    if (!Number.isNaN(index)) this.setSelection(index);
+  }
+
+  /**
+   * Set the selection for given index
+   * @private
+   * @param {number|string} index The index value
+   * @returns {boolean} False, if veto.
+   */
+  setSelection(index: any): boolean {
+    const target = this.selectionElements?.[index];
+    if (!target) return false;
+
+    let data: any;
+
+    // Deselect
+    const deselect = (elem: SVGElement, idx: number): boolean => {
+      data = this.data[0].data?.[idx];
+      if (!this.triggerVetoableEvent('beforedeselected', { slice: elem, index: idx, data })) {
+        return false;
+      }
+      if (data) delete data.selected;
+      this.selectionElements.forEach((el: SVGElement) => el.classList.remove('not-selected'));
+      elem.removeAttribute('selected');
+      this.triggerEvent('deselected', this, {
+        bubbles: true,
+        detail: { elem: this, slice: elem, index: idx, data } // eslint-disable-line
+      });
+      return true;
+    };
+
+    // Previously selected
+    const idxSelected = this.selectionElements.findIndex((el: SVGElement) => el.hasAttribute('selected'));
+    if (idxSelected > -1) {
+      if (`${idxSelected}` === `${index}`) return deselect(target, idxSelected);
+      if (!deselect(this.selectionElements[idxSelected], idxSelected)) return false;
+    }
+
+    // Traget slices
+    data = this.data[0].data?.[index];
+    if (!this.triggerVetoableEvent('beforeselected', { slice: target, index, data })) {
+      return false;
+    }
+    this.selectionElements.forEach((el: SVGElement) => {
+      if (el === target) el.setAttribute('selected', '');
+      else el.classList.add('not-selected');
+    });
+
+    if (data) data.selected = true;
+    this.triggerEvent('selected', this, {
+      bubbles: true,
+      detail: { elem: this, slice: target, index, data } // eslint-disable-line
+    });
+
+    return true;
   }
 
   /**

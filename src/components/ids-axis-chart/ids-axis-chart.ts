@@ -67,6 +67,7 @@ type IdsChartDimensions = {
  * IDS Axis Chart Component
  * @type {IdsAxisChart}
  * @inherits IdsElement
+ * @mixes IdsChartSelectionMixin
  * @mixes IdsEventsMixin
  * @part container - the outside container element
  * @part chart - the svg outer element
@@ -87,6 +88,21 @@ export default class IdsAxisChart extends Base {
 
   /** Reference to datasource API */
   datasource = new IdsDataSource();
+
+  /**
+   * @returns {Array<string>} Drawer vetoable events
+   */
+  vetoableEventTypes = [
+    'beforeselected',
+    'beforedeselected'
+  ];
+
+  /**
+   * On selectable change
+   */
+  onSelectableChange(): void {
+    this.legendsClickable?.(this.selectable);
+  }
 
   /**
    * Invoked each time the custom element is appended
@@ -235,6 +251,7 @@ export default class IdsAxisChart extends Base {
     this.legend.innerHTML = this.legendTemplate();
 
     this.adjustLabels();
+    this.legendsClickable?.(this.selectable);
 
     // Completed Event and Callback
     this.triggerEvent('rendered', this, { svg: this.svg, data: this.data, markerData: this.markerData });
