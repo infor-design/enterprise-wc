@@ -201,8 +201,11 @@ export default class IdsSwappableItem extends Base {
 
   /**
    * Handle functionality for the dragover event
+   * @param {any} event dragstart event
    */
-  #dragOver() {
+  #dragOver(event: any) {
+    event.dataTransfer.dropEffect = 'move';
+
     if (this.hasAttribute(attributes.DRAGGING)) {
       this.removeAttribute(attributes.OVER);
     } else {
@@ -312,8 +315,8 @@ export default class IdsSwappableItem extends Base {
     this.offEvent('drop', this, () => this.#dragEnd());
     this.onEvent('drop', this, () => this.#dragEnd());
 
-    this.offEvent('dragover', this, () => this.#dragOver());
-    this.onEvent('dragover', this, () => this.#dragOver());
+    this.offEvent('dragover', this, (e: any) => this.#dragOver(e));
+    this.onEvent('dragover', this, (e: any) => this.#dragOver(e));
 
     this.offEvent('dragleave', this, () => this.#dragLeave());
     this.onEvent('dragleave', this, () => this.#dragLeave());
