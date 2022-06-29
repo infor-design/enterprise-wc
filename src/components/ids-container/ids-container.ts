@@ -39,6 +39,11 @@ export default class IdsContainer extends Base {
       this.offEvent('load.container', window);
     });
 
+    // In some cases the page may be loaded
+    if (document.readyState === 'complete') {
+      this.removeAttribute('hidden');
+    }
+
     // Set initial lang and locale
     this.setAttribute('language', this.state.locale.state.language);
     this.setAttribute('locale', this.state.locale.state.localeName);
