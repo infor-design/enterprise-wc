@@ -28,6 +28,29 @@
       }
     }
   }
+
+  .markers [part='marker'],
+  .marker-lines [part='line'] {
+    outline: none;
+  }
+}
+
+.ids-chart-container.selectable {
+  .ids-axis-chart {
+    .markers [part='marker'],
+    .marker-lines [part='line'] {
+      cursor: pointer;
+
+      &.selected,
+      &[selected] {
+        opacity: 1;
+      }
+
+      &.not-selected {
+        opacity: 0.35;
+      }
+    }
+  }
 }
 
 // End animation at the right place

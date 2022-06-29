@@ -84,4 +84,38 @@ describe('IdsLineChart Component', () => {
     lineChart.rerender();
     expect(lineChart.shadowRoot.querySelector('.chart-legend').innerHTML).toMatchSnapshot();
   });
+
+  it('should get/set selected by api', async () => {
+    lineChart.setSelected();
+    let selected = lineChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    let selectedClass = lineChart.selectionElements.filter((el: SVGElement) => el.classList.contains('selected'));
+    expect(selected.length).toEqual(0);
+    expect(selectedClass.length).toEqual(0);
+    expect(lineChart.getSelected()).toEqual({});
+    lineChart.selectable = true;
+
+    lineChart.setSelected('test');
+    expect(lineChart.getSelected()).toEqual({});
+    selected = lineChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    selectedClass = lineChart.selectionElements.filter((el: SVGElement) => el.classList.contains('selected'));
+    expect(selected.length).toEqual(0);
+    expect(selectedClass.length).toEqual(0);
+    expect(lineChart.getSelected()).toEqual({});
+
+    lineChart.setSelected({ groupIndex: 0 });
+    selected = lineChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    selectedClass = lineChart.selectionElements.filter((el: SVGElement) => el.classList.contains('selected'));
+    expect(selected.length).toEqual(1);
+    expect(selectedClass.length).toEqual(7);
+    expect(lineChart.getSelected().groupIndex).toEqual('0');
+    expect(lineChart.getSelected().index).toEqual(undefined);
+
+    lineChart.setSelected({ groupIndex: 1, index: 2 });
+    selected = lineChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    selectedClass = lineChart.selectionElements.filter((el: SVGElement) => el.classList.contains('selected'));
+    expect(selected.length).toEqual(1);
+    expect(selectedClass.length).toEqual(7);
+    expect(lineChart.getSelected().groupIndex).toEqual('1');
+    expect(lineChart.getSelected().index).toEqual('2');
+  });
 });
