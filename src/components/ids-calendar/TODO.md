@@ -7,7 +7,13 @@ Keep this file in sync with #673, #757
 - [x] [Add Events to it](https://main-enterprise.demo.design.infor.com/components/calendar/test-allow-single-pane.html)
 - [x] [Picker (toggle monthview/weekview/day view)](https://main-enterprise.demo.design.infor.com/components/calendar/test-allow-single-pane.html)
 - [x] [Legend](https://main-enterprise.demo.design.infor.com/components/calendar/test-allow-single-pane.html)
-- [] [Editing -> with modal](https://main-enterprise.demo.design.infor.com/components/calendar/test-allow-single-pane.html)
-- [] [Clear Events](https://main-enterprise.demo.design.infor.com/components/calendar/test-allow-single-pane.html)
-- [] [Add New Events with API)](https://main-enterprise.demo.design.infor.com/components/calendar/test-allow-single-pane.html)
-- [] [Add Event with modal](https://main-enterprise.demo.design.infor.com/components/calendar/test-allow-single-pane.html)
+- [x] [Editing -> with modal](https://main-enterprise.demo.design.infor.com/components/calendar/test-allow-single-pane.html)
+- [x] [Clear Events](https://main-enterprise.demo.design.infor.com/components/calendar/test-allow-single-pane.html)
+- [x] [Add New Events with API)](https://main-enterprise.demo.design.infor.com/components/calendar/test-allow-single-pane.html)
+- [x] [Add Event with modal](https://main-enterprise.demo.design.infor.com/components/calendar/test-allow-single-pane.html)
+- [ ] [Validation for event creation forms](https://main-enterprise.demo.design.infor.com/components/calendar/test-allow-single-pane.html)
+
+## Minor
+- [ ] [RTL and translations for editing form](https://main-enterprise.demo.design.infor.com/components/calendar/test-allow-single-pane.html)
+- [ ] [Is All Day Checkbox Disables Hour Inputs](https://main-enterprise.demo.design.infor.com/components/calendar/test-allow-single-pane.html)
+- [ ] [Improve styles to match enterprise](https://main-enterprise.demo.design.infor.com/components/calendar/test-allow-single-pane.html)

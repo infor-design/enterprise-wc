@@ -154,6 +154,68 @@ ids-accordion-panel::part(content) {
   margin: 0 3px;
 }
 
+// Calendar event form styles
+$event-form-width: 320px;
+$event-form-padding: 20px;
+$event-form-input-width: $event-form-width - ($event-form-padding * 2);
+
+#event-form-popup::part(popup) {
+  padding-top: 0;
+}
+
+#event-form-container {
+  @include palette-colors('#event-form-header', background-color);
+
+  width: $event-form-width;
+  display: block;
+  position: relative;
+}
+
+.inline-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#event-form {
+  box-sizing: border-box;
+  padding: 8px $event-form-padding;
+
+  ids-input,
+  ids-dropdown,
+  ids-textarea {
+    max-width: $event-form-input-width;
+  }
+
+  ids-list-box {
+    max-width: $event-form-input-width - 2;
+  }
+
+  ids-list-box-option {
+    text-align: left;
+  }
+
+  ids-date-picker,
+  ids-time-picker {
+    width: 128px;
+  }
+}
+
+#event-form-header {
+  align-items: center;
+  color: var(--ids-color-palette-slate-10);
+  height: 40px;
+  padding: 0 $event-form-padding;
+
+  ids-button::part(button) {
+    color: var(--ids-color-palette-slate-10);
+  }
+}
+
+#event-form-actions ids-button {
+  flex-grow: 1;
+}
+
 @media (max-width: $breakpoint-md) {
   .ids-calendar {
     display: block;

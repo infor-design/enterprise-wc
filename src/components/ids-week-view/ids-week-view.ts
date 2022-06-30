@@ -10,8 +10,7 @@ import {
   firstDayOfWeekDate,
   isTodaysDate,
   isValidDate,
-  lastDayOfWeekDate,
-  dateDiff
+  lastDayOfWeekDate
 } from '../../utils/ids-date-utils/ids-date-utils';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
@@ -597,8 +596,7 @@ export default class IdsWeekView extends Base {
     const days = this.dayMap.filter((day) => day.key >= startKey && day.key <= endKey);
 
     // get event hour count
-    const hours = dateDiff(startDate, endDate, true);
-    const isAllDay = hours >= 24;
+    const isAllDay = stringToBool(eventData.isAllDay);
 
     // Event is intraday
     if (days.length === 1 && !isAllDay) {

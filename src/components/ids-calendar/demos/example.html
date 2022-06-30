@@ -6,7 +6,30 @@
 </head>
 <body>
   <ids-container role="main" padding="8" hidden>
-    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-toolbar>
+      <ids-toolbar-section align="end" type="fluid">
+        <ids-menu-button menu="add-event" value="${view}">
+          <ids-icon slot="icon" icon="add"></ids-icon>
+          <span class="audible">Add Event</span>
+        </ids-menu-button>
+        <ids-popup-menu id="add-event" trigger="click">
+          <ids-menu-group>
+            <ids-menu-item value="add-api">
+              <ids-text>Add Event (API)</ids-text>
+            </ids-menu-item>
+            <ids-menu-item value="add-modal">
+              <ids-text>Add Event (Modal)</ids-text>
+            </ids-menu-item>
+            <ids-menu-item value="clear">
+              <ids-text>Clear Events</ids-text>
+            </ids-menu-item>
+          </ids-menu-group>
+        </ids-popup-menu>
+
+        <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+      </ids-toolbar-section>
+    </ids-toolbar>
+
     <ids-layout-grid auto="true">
       <ids-text font-size="12" type="h1">Calendar View</ids-text>
     </ids-layout-grid>

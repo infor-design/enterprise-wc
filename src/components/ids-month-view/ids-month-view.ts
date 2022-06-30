@@ -1893,6 +1893,16 @@ class IdsMonthView extends Base {
   }
 
   /**
+   * Counts number of days for calendar events
+   * @param {Date} start start date
+   * @param {Date} end end date
+   * @returns {number} days
+   */
+  #countDays(start: Date, end: Date): number {
+    return Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+  }
+
+  /**
    * Renders calendar events within corresponding date's table cell
    * @param {string} dateKey generated date key
    * @param {CalendarEventData[]} events calendar events
@@ -1908,7 +1918,7 @@ class IdsMonthView extends Base {
     events.forEach((event: CalendarEventData, index: number) => {
       const start = new Date(event.starts);
       const end = new Date(event.ends);
-      const days = daysDiff(start, end) || 1;
+      const days = this.#countDays(start, end) || 1;
 
       for (let i = 0; i < days; i++) {
         const calendarEvent = new IdsCalendarEvent();

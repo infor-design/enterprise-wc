@@ -9,6 +9,7 @@ import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { dateDiff, isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
 import { breakpoints } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
+import IdsPopup from '../ids-popup/ids-popup';
 
 type CalendarEventDetail = {
   subject: string;
@@ -214,6 +215,81 @@ export default class IdsCalendar extends Base {
     return `<ul class="calendar-events-list">${listItems}</ul>`;
   }
 
+  createNewEvent(id: string, modal = false) {
+    const date = new Date(this.activeDate);
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+
+    const event: CalendarEventData = {
+      id,
+      subject: 'New Event',
+      isAllDay: 'true',
+      starts: new Date(year, month, day).toISOString(),
+      ends: new Date(year, month, day, 23, 59, 59, 999).toISOString(),
+      type: 'dto',
+      comments: 'New Event Comments'
+    };
+
+    if (modal) {
+      const view = this.getView();
+      const target = view.tagName === 'IDS-MONTH-VIEW' ? view.getSelectedDay() : this.container;
+      this.#attachFormPopup(target, event);
+    } else {
+      this.addEvent(event);
+    }
+  }
+
+  #eventFormTemplate(data: CalendarEventData): string {
+    const eventType = this.getEventTypeById(data.type);
+    const eventTypeOptions = this.eventTypesData.map((item: CalendarEventTypeData) => `
+      <ids-list-box-option value="${item.id}">
+        <ids-text>${item.label}</ids-text>
+      </ids-list-box-option>
+    `).join('');
+    const start = new Date(data.starts);
+    const end = new Date(data.ends);
+    const formattedStart = this.locale.formatDate(start);
+    const formattedEnd = this.locale.formatDate(end);
+    const startHour = this.locale.formatHour(start.getHours() + (start.getMinutes() / 60));
+    const endHour = this.locale.formatHour(end.getHours() + (end.getMinutes() / 60));
+
+    return `
+      <div slot="content" id="event-form-container">
+        <div id="event-form-header" class="inline-container" color="${eventType?.color || 'azure'}">
+          <ids-text font-size="16" font-weight="bold">${eventType?.label || ''}</ids-text>
+          <ids-button data-action="close">
+            <ids-icon slot="icon" icon="close"></ids-icon>
+          </ids-button>
+        </div>
+        <form id="event-form" data-id="${data.id}">
+          <ids-input id="event-subject" type="text" label="Subject" value="${data.subject}"></ids-input>
+          <ids-dropdown id="event-type" label="Event Types" value="${data.type}">
+            <ids-list-box>${eventTypeOptions}</ids-list-box>
+          </ids-dropdown>
+          <ids-checkbox id="event-is-all-day" label="All Day" checked="${data.isAllDay}"></ids-checkbox>
+          <div class="inline-container">
+            <ids-date-picker id="event-from-date" label="From" size="sm" value="${formattedStart}" mask></ids-date-picker>
+            <ids-time-picker id="event-from-hour" label="&nbsp" size="sm" value="${startHour}"></ids-time-picker>
+          </div>
+          <div class="inline-container">
+            <ids-date-picker id="event-to-date" label="To" size="sm" value="${formattedEnd}" mask></ids-date-picker>
+            <ids-time-picker id="event-to-hour" label="&nbsp" size="sm" value="${endHour}"></ids-time-picker>
+          </div>
+          <ids-textarea id="event-comments" label="Comments" autoselect="true">${data.comments || ''}</ids-textarea>
+          <div id="event-form-actions" class="inline-container">
+            <ids-button data-action="close">
+              <idx-test translate-text="true" slot="text">Cancel</idx-test>
+            </ids-button>
+            <ids-button data-action="submit" type="submit">
+              <idx-test translate-text="true" slot="text">Submit</idx-test>
+            </ids-button>
+          </div>
+        </form>
+      </div>
+    `;
+  }
+
   /**
    * Attach calendar event handlers
    */
@@ -264,6 +340,121 @@ export default class IdsCalendar extends Base {
       this.updateEventDetails(this.state.selected);
       this.renderLegend(this.eventTypesData);
     });
+
+    this.offEvent('click-calendar-event', this);
+    this.onEvent('click-calendar-event', this, (evt: CustomEvent) => {
+      const elem = evt.detail.elem;
+      this.#removePopup();
+      this.#attachFormPopup(elem.container, elem.eventData);
+    });
+  }
+
+  /**
+   * Get IdsPopup containg calendar event form
+   * @returns {IdsPopup} popup component
+   */
+  #getEventFormPopup(): IdsPopup {
+    return this.container.querySelector('#event-form-popup');
+  }
+
+  /**
+   * Attach calendar event form handlers
+   */
+  #attachFormEventHandlers(): void {
+    this.offEvent('click.calendar-event-form', this.#getEventFormPopup());
+    this.onEvent('click.calendar-event-form', this.#getEventFormPopup(), (evt: any) => {
+      if (evt.target && evt.target.tagName === 'IDS-BUTTON') {
+        evt.stopPropagation();
+        const action = evt.target.getAttribute('data-action');
+        if (!action) return;
+
+        if (action === 'close') {
+          this.#removePopup();
+          return;
+        }
+
+        if (action === 'submit') {
+          const formElem = this.#getEventFormPopup().querySelector('#event-form');
+          this.#submitEventForm(formElem);
+          this.#removePopup();
+        }
+      }
+    });
+  }
+
+  /**
+   * Insert event form popup into view.
+   * Attach it to provided calendar event
+   * @param {HTMLElement} target target to attach popup to
+   * @param {CalendarEventData} eventData calendar event component
+   */
+  #attachFormPopup(target: HTMLElement, eventData: CalendarEventData): void {
+    const template = `
+      <ids-popup 
+        id="event-form-popup"
+        arrow="right"
+        x="160"  
+        align="center" 
+        animated="false" 
+        visible="false"
+        type="menu" 
+        position-style="absolute">
+        ${this.#eventFormTemplate(eventData)}
+      </ids-popup>
+    `;
+
+    this.container.insertAdjacentHTML('beforeend', template);
+    const popup = this.#getEventFormPopup();
+    popup.alignTarget = target;
+    popup.place();
+    popup.visible = true;
+
+    this.#attachFormEventHandlers();
+  }
+
+  /**
+   * Remove calendar event form popup
+   */
+  #removePopup(): void {
+    const popup = this.#getEventFormPopup();
+
+    if (popup) {
+      this.offEvent('click.calendar-event-form', popup);
+      popup.remove();
+    }
+  }
+
+  #submitEventForm(formElem: any) {
+    // id
+    const id = formElem.getAttribute('data-id');
+
+    // subject
+    const subject = formElem.querySelector('#event-subject')?.value;
+
+    // event type
+    const type = formElem.querySelector('#event-type')?.value;
+
+    // is all day
+    const isAllDay = formElem.querySelector('#event-is-all-day')?.checked === 'true' ? 'true' : 'false';
+
+    // From dates
+    const fromDate = formElem.querySelector('#event-from-date')?.value;
+    const fromHour = formElem.querySelector('#event-from-hour')?.value;
+    const starts = new Date(`${fromDate} ${fromHour}`).toISOString();
+
+    // To Dates
+    const toDate = formElem.querySelector('#event-to-date')?.value;
+    const toHour = formElem.querySelector('#event-to-hour')?.value;
+    const ends = new Date(`${toDate} ${toHour}`).toISOString();
+
+    // Comments
+    const comments = formElem.querySelector('#event-comments')?.value;
+
+    const eventData: CalendarEventData = {
+      id, subject, type, isAllDay, starts, ends, comments
+    };
+
+    this.updateEvent(eventData);
   }
 
   /**
@@ -273,7 +464,7 @@ export default class IdsCalendar extends Base {
    */
   #toggleEventType(checkbox: IdsCheckbox, checked: boolean): void {
     const id = checkbox.getAttribute('data-id');
-    const eventType = this.eventTypesData?.find((item: CalendarEventTypeData) => item.id === id);
+    const eventType = this.getEventTypeById(id);
 
     if (eventType) {
       eventType.checked = checked;
@@ -451,7 +642,7 @@ export default class IdsCalendar extends Base {
   #formatDetailData(event: CalendarEventData): CalendarEventDetail {
     const startDate = new Date(event.starts);
     const endDate = new Date(event.ends);
-    const eventType = this.eventTypesData?.find((item: CalendarEventTypeData) => item.id === event.type);
+    const eventType = this.getEventTypeById(event.type);
 
     return {
       ...event,
@@ -487,10 +678,50 @@ export default class IdsCalendar extends Base {
   }
 
   /**
+   * Add new calendar event data to collection
+   * @param {CalendarEventData} eventData event data
+   */
+  addEvent(eventData: CalendarEventData): void {
+    this.eventsData = this.eventsData.concat(eventData);
+
+    this.triggerEvent('eventadded', this, {
+      detail: { eventData },
+      bubbles: true,
+      cancelable: true,
+      composed: true
+    });
+  }
+
+  /**
+   * Update existing calendar event and rerender events
+   * If event doesn't exist, it creates new calendar event
+   * @param {CalendarEventData} data event data
+   */
+  updateEvent(data: CalendarEventData): void {
+    const events: CalendarEventData[] = this.eventsData.slice(0);
+    const event = events.find((item: CalendarEventData) => item.id === data.id);
+
+    if (event) {
+      const eventData = Object.assign(event, data);
+      this.eventsData = events;
+
+      this.triggerEvent('eventupdated', this, {
+        detail: { eventData },
+        bubbles: true,
+        cancelable: true,
+        composed: true
+      });
+    } else {
+      this.addEvent(data);
+    }
+  }
+
+  /**
    * Remove calendar events data and components
    */
-  removeAllEvents(): void {
+  clearEvents(): void {
     this.eventsData = [];
+    this.beforeEventsRender = null;
   }
 
   /**

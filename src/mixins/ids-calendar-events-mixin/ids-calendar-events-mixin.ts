@@ -178,6 +178,15 @@ const IdsCalendarEventsMixin = (superclass: any) => class extends superclass {
       composed: true
     });
   }
+
+  /**
+   * Gets calendar event type by id
+   * @param {string} id event type id
+   * @returns {CalendarEventTypeData} calendar event type
+   */
+  getEventTypeById(id: string): CalendarEventTypeData | undefined {
+    return this.#eventTypesData.find((item: CalendarEventTypeData) => id === item.id);
+  }
 };
 
 export default IdsCalendarEventsMixin;
