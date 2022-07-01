@@ -17,3 +17,6 @@
   - link: pagination-server.html
     type: Example
     description: Showing a lookup with server-side pagination
+  - link: filter.html
+    type: Example
+    description: Showing a lookup with filtering
