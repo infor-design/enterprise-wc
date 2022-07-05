@@ -211,6 +211,9 @@ export default class IdsCard extends Base {
     });
   }
 
+  /**
+   * Redraw the template when some properties change.
+   */
   redraw() {
     const template = document.createElement('template');
     const html = this.template();
@@ -221,6 +224,19 @@ export default class IdsCard extends Base {
     this.appendStyles();
     template.innerHTML = html;
     this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this.container = this.shadowRoot.querySelector('.ids-card');
+
+    if (this.height) {
+      const link = this.container.querySelector('ids-hyperlink')?.container;
+      this.setAttribute(attributes.HEIGHT, this.height);
+      this.container.style.height = `${this.height}px`;
+      if (link) link.style.height = `${this.height}px`;
+      this.querySelector('[slot]').classList.add('fixed-height');
+    }
+
+    if (this.actionable && this.href) {
+      this.setupRipple();
+    }
   }
 
   /**
