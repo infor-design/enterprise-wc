@@ -6,6 +6,7 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import Base from './ids-pager-base';
 
 import './ids-pager-button';
+import './ids-pager-dropdown';
 import './ids-pager-input';
 import './ids-pager-number-list';
 

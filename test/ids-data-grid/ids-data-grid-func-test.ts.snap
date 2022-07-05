@@ -892,25 +892,12 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
       </div>
     
       </div>
-    </div><ids-pager page-size=\\"10\\" page-number=\\"1\\" total=\\"9\\">
-      <ids-pager-button first=\\"\\" total=\\"9\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\"></ids-pager-button>
-      <ids-pager-button previous=\\"\\" total=\\"9\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\"></ids-pager-button>
-      <ids-pager-input total=\\"9\\" page-number=\\"1\\" page-size=\\"10\\"></ids-pager-input>
-      <ids-pager-button next=\\"\\" total=\\"9\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\"></ids-pager-button>
-      <ids-pager-button last=\\"\\" total=\\"9\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\"></ids-pager-button>
-      <div slot=\\"end\\">
-        <ids-menu-button id=\\"pager-size-menu-button\\" menu=\\"pager-size-menu\\" role=\\"button\\" dropdown-icon=\\"dropdown\\" aria-controls=\\"pager-size-menu\\">
-          <span slot=\\"text\\">10 Records per page</span>
-        </ids-menu-button>
-        <ids-popup-menu id=\\"pager-size-menu\\" target=\\"#pager-size-menu-button\\" trigger-type=\\"click\\" role=\\"none\\" hidden=\\"\\">
-          <ids-menu-group select=\\"single\\" role=\\"group\\" aria-label=\\"Menu group containing 5 item(s)\\" style=\\"min-width: 175px; text-align: left;\\">
-            <ids-menu-item value=\\"5\\">5</ids-menu-item>
-            <ids-menu-item value=\\"10\\">10</ids-menu-item>
-            <ids-menu-item value=\\"25\\">25</ids-menu-item>
-            <ids-menu-item value=\\"50\\">50</ids-menu-item>
-            <ids-menu-item value=\\"100\\">100</ids-menu-item>
-          </ids-menu-group>
-        </ids-popup-menu>
-      </div>
-    </ids-pager></div>"
+    </div></div><ids-pager page-number=\\"1\\" page-size=\\"10\\" total=\\"9\\">
+      <ids-pager-button first=\\"\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\" total=\\"9\\"></ids-pager-button>
+      <ids-pager-button previous=\\"\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\" total=\\"9\\"></ids-pager-button>
+      <ids-pager-input page-number=\\"1\\" page-size=\\"10\\" total=\\"9\\"></ids-pager-input>
+      <ids-pager-button next=\\"\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\" total=\\"9\\"></ids-pager-button>
+      <ids-pager-button last=\\"\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\" total=\\"9\\"></ids-pager-button>
+      <ids-pager-dropdown slot=\\"end\\" page-size=\\"10\\" page-number=\\"1\\" total=\\"9\\"></ids-pager-dropdown>
+    </ids-pager>"
 `;

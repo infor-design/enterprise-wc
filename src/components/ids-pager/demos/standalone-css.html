@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <div class="ids-layout-grid">
+    <h1 class="ids-text ids-text-12">Ids Pager (Standalone CSS)</h1>
+  </div>
+  <div class="ids-layout-grid">
+    <div class="ids-layout-grid-cell">
+      <div class="ids-pager" page-number="1" page-size="20" total="200" id="ids-pager-example">
+
+
+        <button id="test-pager-button-first" class="ids-icon-button ids-pager-button first">
+          <span class="audible">First Page Button</span>
+          <svg class="ids-icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18"
+            width="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true">
+            <path
+              d="M15.5 17.5L7 9 15.5.5M1.5 0v18"
+              stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path>
+          </svg>
+        </button>
+
+        <button id="test-pager-button-previous" class="ids-icon-button ids-pager-button previous">
+          <span class="audible">First Page Button</span>
+          <svg class="ids-icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18"
+            width="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true">
+            <path
+              d="M13.5 16.5L5 9l8.5-7.5v15z"
+              stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path>
+          </svg>
+        </button>
+
+        <div class="ids-input ids-pager-input">
+          <!-- <label for="input-size-small" class="ids-label-text audible">Pager Input</label> -->
+          <span class="ids-text ids-text-16">Page </span>
+          <div class="field-container sm">
+            <input class="ids-input-field" name="input-size-small" value="1" />
+          </div>
+          <span class="ids-text ids-text-16"> of 10</span>
+        </div>
+
+        <button id="test-pager-button-next" class="ids-icon-button ids-pager-button next">
+          <span class="audible">First Page Button</span>
+          <svg class="ids-icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18"
+            width="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true">
+            <path
+              d="M4.5 16.5L13 9 4.5 1.5v15z"
+              stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path>
+          </svg>
+        </button>
+
+        <button id="test-pager-button-last" class="ids-icon-button ids-pager-button last">
+          <span class="audible">First Page Button</span>
+          <svg class="ids-icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18"
+            width="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true">
+            <path
+              d="M1.5.5L10 9l-8.5 8.5m14 .5V0"
+              stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path>
+          </svg>
+        </button>
+
+        <span class="ids-pager-button" previous></span>
+        <span class="ids-pager-input"></span>
+        <span class="ids-pager-button" next></span>
+        <span class="ids-pager-button" last></span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
