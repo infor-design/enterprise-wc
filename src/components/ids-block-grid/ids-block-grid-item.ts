@@ -28,10 +28,10 @@ export default class IdsBlockgridItem extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback();
     this
       .#handleEvents()
       .#attachKeyboardListeners();
-    super.connectedCallback();
   }
 
   template() {

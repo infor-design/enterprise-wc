@@ -47,9 +47,9 @@ export default class IdsToastMessage extends Base {
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
+    super.connectedCallback();
     this.#setTimer();
     this.#attachEventHandlers();
-    super.connectedCallback();
   }
 
   /**

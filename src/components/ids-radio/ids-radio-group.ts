@@ -48,11 +48,11 @@ export default class IdsRadioGroup extends Base {
    * @returns {void}
    */
   connectedCallback() {
+    super.connectedCallback();
     const slot = this.shadowRoot.querySelector('slot');
     this.onEvent('slotchange', slot, () => {
       this.afterChildrenReady();
     });
-    super.connectedCallback();
   }
 
   /**

@@ -75,8 +75,8 @@ class [IdsComponent] extends Base {
    * Invoked each time the custom element is add into a document-connected element
    */
   connectedCallback() {
+    super.connectedCallback();
     this.#attachEventHandlers();
-    super.connectedCallback(); // Some mixins require this
   }
 
   /**
@@ -164,8 +164,8 @@ constructor() {
 
 ```js
 connectedCallback() {
-  this.#attachEventHandlers();
   super.connectedCallback();
+  this.#attachEventHandlers();
 }
 ```
 

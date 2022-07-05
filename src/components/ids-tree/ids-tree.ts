@@ -32,8 +32,8 @@ export default class IdsTree extends Base {
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
-    this.#init();
     super.connectedCallback();
+    this.#init();
   }
 
   /**

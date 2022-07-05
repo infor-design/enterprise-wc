@@ -15,8 +15,8 @@ export default class IdsThemeSwitcher extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback();
     this.#attachEventHandlers();
-    super.connectedCallback?.();
   }
 
   /**

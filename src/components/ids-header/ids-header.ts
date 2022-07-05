@@ -23,7 +23,7 @@ export default class IdsHeader extends Base {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
     this.#refreshVariants();
   }
 

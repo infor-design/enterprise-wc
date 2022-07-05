@@ -22,12 +22,12 @@ export default class IdsDataLabel extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback();
     this.offEvent('languagechange');
     this.onEvent('languagechange', this.closest('ids-container'), (e: CustomEvent) => {
       this.language = e.detail.language.name;
     });
     this.language = this.closest('ids-container')?.getAttribute('language');
-    super.connectedCallback();
   }
 
   /**

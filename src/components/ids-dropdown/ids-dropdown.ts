@@ -39,6 +39,7 @@ export default class IdsDropdown extends Base {
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
+    super.connectedCallback();
     this.popup = this.container.querySelector('ids-popup');
     this.trigger = this.container.querySelector('ids-trigger-button');
     this.listBox = this.querySelector('ids-list-box');
@@ -49,7 +50,6 @@ export default class IdsDropdown extends Base {
       .#attachEventHandlers()
       .#attachKeyboardListeners();
 
-    super.connectedCallback();
     this.#configurePopup();
   }
 

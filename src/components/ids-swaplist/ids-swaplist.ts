@@ -33,6 +33,7 @@ export default class IdsSwapList extends Base {
   datasource = new IdsDataSource();
 
   connectedCallback() {
+    super.connectedCallback();
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
     this.attachEventHandlers();
   }

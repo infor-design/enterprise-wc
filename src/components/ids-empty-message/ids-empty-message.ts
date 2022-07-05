@@ -28,6 +28,7 @@ export default class IdsEmptyMessage extends Base {
    * Invoked each time the custom element is add into a document-connected element
    */
   connectedCallback() {
+    super.connectedCallback();
     this.#attachEventHandlers();
   }
 

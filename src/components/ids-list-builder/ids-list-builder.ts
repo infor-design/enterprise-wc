@@ -33,12 +33,12 @@ export default class IdsListBuilder extends Base {
   placeholder: any;
 
   connectedCallback() {
+    super.connectedCallback();
     this.sortable = true;
     // list-builder is not designed to handle thousands of items, so doesnt support virtual scroll
     this.virtualScroll = false;
     this.itemHeight = 46; // hard-coded
     this.#attachEventListeners();
-    super.connectedCallback();
   }
 
   /**

@@ -43,6 +43,7 @@ export default class IdsLookup extends Base {
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
+    super.connectedCallback();
     // Setup some internal refs
     this.state = {
       dataGridSettings: {
@@ -65,7 +66,6 @@ export default class IdsLookup extends Base {
     this
       .#handleEvents()
       .#handleKeys();
-    super.connectedCallback();
   }
 
   /**

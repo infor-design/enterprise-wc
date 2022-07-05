@@ -104,6 +104,7 @@ export default class IdsSlider extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback();
     this.slider = this.container.querySelector('.slider');
     this.trackArea = this.container.querySelector('.track-area');
     this.progressTrack = this.container.querySelector('.track-progress');
@@ -131,7 +132,6 @@ export default class IdsSlider extends Base {
       this.container.querySelector('.thumb-draggable.secondary').remove();
     }
 
-    super.connectedCallback();
     this.#attachEventListeners();
     this.#attachUIStyles();
     this.#attachARIA();

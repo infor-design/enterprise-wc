@@ -34,10 +34,10 @@ export default class IdsHierarchyItem extends Base {
    * @returns {void}
    */
   connectedCallback() {
+    super.connectedCallback();
     this.#prevSelected = false;
     this.#hasNestedItems();
     this.#attachEventHandlers();
-    super.connectedCallback();
   }
 
   /**

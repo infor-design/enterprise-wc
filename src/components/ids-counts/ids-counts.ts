@@ -24,6 +24,7 @@ export default class IdsCounts extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback();
     this.#textProperties();
   }
 

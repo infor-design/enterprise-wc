@@ -36,7 +36,7 @@ export default class IdsAbout extends Base {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
   }
 
   /**

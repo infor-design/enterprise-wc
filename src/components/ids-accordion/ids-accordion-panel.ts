@@ -27,7 +27,7 @@ export default class IdsAccordionPanel extends Base {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
     this.#setTitles();
     this.#attachEventHandlers();
     this.#refreshContentAlignment(this.contentAlignment);

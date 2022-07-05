@@ -41,9 +41,9 @@ export default class IdsTreeNode extends Base {
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
+    super.connectedCallback();
     this.nodeContainer = this.shadowRoot?.querySelector('.node-container');
     this.groupNodesEl = this.shadowRoot?.querySelector('.group-nodes');
-    super.connectedCallback();
     this.#attachEventListeners();
   }
 

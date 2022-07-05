@@ -23,6 +23,7 @@ export default class IdsVirtualScroll extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback();
     this.initialized = false;
     this.datasource = new IdsDataSource();
     // eslint-disable-next-line no-template-curly-in-string

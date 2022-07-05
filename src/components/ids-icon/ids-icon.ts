@@ -383,12 +383,6 @@ export default class IdsIcon extends Base {
     this.container.classList.remove('vertical');
   }
 
-  attributeChangedCallback(name: string | number, oldValue: any, newValue: any) {
-    if (oldValue !== newValue) {
-      this[name] = newValue;
-    }
-  }
-
   #updateBadge(): void {
     let badge = this.shadowRoot.querySelector('span');
     if (!badge) {

@@ -18,7 +18,7 @@ export default class IdsContextualActionPanel extends Base {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
     this.#refreshHeader();
 
     this.popup.animationStyle = 'slide-from-bottom';

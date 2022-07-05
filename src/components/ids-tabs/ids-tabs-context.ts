@@ -21,7 +21,7 @@ export default class IdsTabsContext extends Base {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
 
     this.onEvent('tabselect', this, (e: { stopPropagation: () => void; target: { value: any; onAction?: CallableFunction }; }) => {
       e.stopPropagation();

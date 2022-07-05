@@ -37,7 +37,7 @@ export default class IdsText extends Base {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
     this.#attachEventHandlers();
   }
 

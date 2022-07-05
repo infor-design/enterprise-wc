@@ -95,9 +95,9 @@ export default class IdsListView extends Base {
   ];
 
   connectedCallback() {
+    super.connectedCallback();
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
     this.dataKeys = this.#extractTemplateLiteralsFromHTML(this.defaultTemplate);
-    super.connectedCallback();
     this.#attachEventListeners();
   }
 

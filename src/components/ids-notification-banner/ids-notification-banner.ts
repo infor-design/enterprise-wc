@@ -34,9 +34,9 @@ export default class IdsNotificationBanner extends Base {
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
+    super.connectedCallback();
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
-    super.connectedCallback();
   }
 
   /**

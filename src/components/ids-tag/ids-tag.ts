@@ -27,7 +27,7 @@ export default class IdsTag extends Base {
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
     this
       .#attachEventHandlers()
       .#attachKeyboardListeners();

@@ -4,7 +4,6 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-checkbox-base';
 import '../ids-text/ids-text';
-import attribs from './ids-checkbox-attributes';
 
 import styles from './ids-checkbox.scss';
 
@@ -61,35 +60,14 @@ export default class IdsCheckbox extends Base {
   #triggeredChange = false;
 
   /**
-   * Custom Element `attributeChangedCallback` implementation
-   * @param {string} name The name of attribute changed
-   * @param {any} oldValue The old value
-   * @param {any} newValue The new value
-   * @returns {void}
-   */
-  attributeChangedCallback(
-    name: string,
-    oldValue: any,
-    newValue: any
-  ): void {
-    if (oldValue !== newValue) {
-      attribs.forEach((attribute) => {
-        if (name === attribute.name) {
-          this[attribute.prop] = newValue;
-        }
-      });
-    }
-  }
-
-  /**
    * Custom Element `connectedCallback` implementation
    * @returns {void}
    */
   connectedCallback(): void {
+    super.connectedCallback();
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
     this.#attachEventHandlers();
-    super.connectedCallback();
   }
 
   /**
@@ -97,10 +75,6 @@ export default class IdsCheckbox extends Base {
    * @returns {string} The template.
    */
   template(): string {
-    if (!this.label && !this.labelAudible) {
-      this.label = '&nbsp;';
-    }
-
     // Checkbox
     const color = this.color ? ` color="${this.color}"` : '';
     const audible = stringToBool(this.labelAudible) ? ' audible="true"' : '';
@@ -308,7 +282,14 @@ export default class IdsCheckbox extends Base {
     }
   }
 
-  get label(): boolean | string { return this.getAttribute(attributes.LABEL) || ''; }
+  get label(): boolean | string {
+    const attr = this.getAttribute(attributes.LABEL);
+    const labelAudibleAttr = this.getAttribute(attributes.LABEL_AUDIBLE);
+    if (!attr && !labelAudibleAttr) {
+      return '&nbsp;';
+    }
+    return attr || '';
+  }
 
   /**
    * Set the `label-audible` attribute
@@ -324,7 +305,14 @@ export default class IdsCheckbox extends Base {
     }
   }
 
-  get labelAudible(): boolean | string { return this.getAttribute(attributes.LABEL_AUDIBLE); }
+  get labelAudible(): boolean | string {
+    const attr = this.getAttribute(attributes.LABEL_AUDIBLE);
+    const labelAttr = this.getAttribute(attributes.LABEL);
+    if (!labelAttr && !attr) {
+      return '&nbsp;';
+    }
+    return attr;
+  }
 
   /**
    * Sets the checkbox to required

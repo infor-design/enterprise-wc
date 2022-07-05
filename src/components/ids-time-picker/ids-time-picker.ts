@@ -50,11 +50,11 @@ export default class IdsTimePicker extends Base {
   #triggerButton = this.container.querySelector('ids-trigger-button');
 
   connectedCallback() {
+    super.connectedCallback();
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
     this.#renderDropdowns();
     this.#applyMask();
-    super.connectedCallback();
   }
 
   disconnectedCallback() {

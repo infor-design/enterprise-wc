@@ -24,7 +24,7 @@ export default class IdsMenuHeader extends Base {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
     this.setAttribute(htmlAttributes.ROLE, 'none');
   }
 

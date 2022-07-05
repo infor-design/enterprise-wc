@@ -42,7 +42,7 @@ export default class IdsMenuButton extends Base {
    * @returns {void}
    */
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
 
     requestAnimationFrame(() => {
       this.configureMenu();
@@ -95,7 +95,7 @@ export default class IdsMenuButton extends Base {
     const icon = this.dropdownIconEl;
     if (trueVal) {
       if (!icon) {
-        this.container.insertAdjacentHTML('beforeend', `<ids-icon icon="${iconName}" class="ids-icon dropdown-icon"></ids-icon>`);
+        this.container?.insertAdjacentHTML('beforeend', `<ids-icon icon="${iconName}" class="ids-icon dropdown-icon"></ids-icon>`);
       } else {
         icon.icon = iconName;
       }
@@ -116,7 +116,7 @@ export default class IdsMenuButton extends Base {
    * @returns {HTMLElement|null} the decorative dropdown icon element
    */
   get dropdownIconEl() {
-    return this.container.querySelector('ids-icon:not([slot])');
+    return this.container?.querySelector('ids-icon:not([slot])');
   }
 
   /**

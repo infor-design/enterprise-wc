@@ -58,8 +58,8 @@ export default class IdsUploadAdvancedFile extends Base {
    * @returns {void}
    */
   connectedCallback() {
+    super.connectedCallback();
     this.#attachEventHandlers();
-    super.connectedCallback?.();
   }
 
   /**

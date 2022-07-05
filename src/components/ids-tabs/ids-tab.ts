@@ -115,7 +115,7 @@ export default class IdsTab extends Base {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
 
     this.setAttribute(htmlAttributes.ROLE, 'tab');
     this.setAttribute(htmlAttributes.ARIA_SELECTED, `${Boolean(this.selected)}`);

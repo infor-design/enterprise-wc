@@ -47,11 +47,11 @@ export default class IdsSwitch extends Base {
    * @returns {void}
    */
   connectedCallback() {
+    super.connectedCallback();
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
 
     this.#attachEventHandlers();
-    super.connectedCallback();
   }
 
   /**

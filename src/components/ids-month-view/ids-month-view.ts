@@ -105,9 +105,9 @@ class IdsMonthView extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback();
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
-    super.connectedCallback();
   }
 
   #currentLegend = [];

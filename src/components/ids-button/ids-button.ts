@@ -69,11 +69,11 @@ export default class IdsButton extends Base {
    * @returns {void}
    */
   connectedCallback(): void {
+    super.connectedCallback();
     const isIconButton = this.button.classList.contains('ids-icon-button');
     this.setupRipple(this.button, isIconButton ? 35 : 50);
     this.setIconAlignment();
     this.shouldUpdate = true;
-    super.connectedCallback();
   }
 
   /**

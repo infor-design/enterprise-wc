@@ -237,7 +237,7 @@ export default class IdsWizard extends Base {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
     this.updateHrefURIs();
     if (window.location.hash.length) {
       const uriHash:never | string = window.location.hash.substr(1);

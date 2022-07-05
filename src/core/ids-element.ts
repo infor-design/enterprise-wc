@@ -10,8 +10,12 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   constructor() {
     super();
     this.addBaseName();
-    this.render();
     this.#appendHostCss();
+  }
+
+  /** Run the template when a component Is inserted */
+  connectedCallback() {
+    this.render();
   }
 
   /** Component's name */
@@ -41,7 +45,7 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
    * @param {string} newValue The property new value
    */
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-    if (oldValue !== newValue) {
+    if (oldValue !== newValue && this.shadowRoot && this.container) {
       this[camelCase(name)] = newValue;
     }
   }

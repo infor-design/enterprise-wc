@@ -58,8 +58,8 @@ export default class IdsDataGrid extends Base {
   }
 
   connectedCallback() {
-    this.state = { selectedRows: [], activatedRow: null };
     super.connectedCallback();
+    this.state = { selectedRows: [], activatedRow: null };
   }
 
   /** Reference to datasource API */

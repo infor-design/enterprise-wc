@@ -28,7 +28,7 @@ export default class IdsContainer extends Base {
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
     if (this.reset) {
       this.#addReset();
     }
@@ -84,7 +84,7 @@ export default class IdsContainer extends Base {
    * @param {string} value sets the padding to the container
    */
   set padding(value: string) {
-    this.container.style.padding = `${value}px`;
+    if (this.container) this.container.style.padding = `${value}px`;
     this.setAttribute(attributes.PADDING, value.toString());
   }
 

@@ -107,7 +107,7 @@ export default class IdsMenu extends Base {
    * @returns {void}
    */
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
     this.attachEventHandlers();
     this.attachKeyboardListeners();
     this.setAttribute(htmlAttributes.ROLE, 'none');

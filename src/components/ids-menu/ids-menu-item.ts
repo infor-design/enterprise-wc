@@ -164,10 +164,10 @@ export default class IdsMenuItem extends Base {
    * @returns {void}
    */
   connectedCallback() {
+    super.connectedCallback();
     this.refresh();
     this.attachEventHandlers();
     this.shouldUpdate = true;
-    super.connectedCallback?.();
   }
 
   /**

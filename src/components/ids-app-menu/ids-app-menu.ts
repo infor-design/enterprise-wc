@@ -25,7 +25,7 @@ export default class IdsAppMenu extends Base {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
     this.edge = 'start';
     this.type = 'app-menu';
     this.#connectSearchField();

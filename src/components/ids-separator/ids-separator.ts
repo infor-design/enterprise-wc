@@ -23,7 +23,7 @@ export default class IdsSeparator extends Base {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
   }
 
   static get attributes(): Array<string> {

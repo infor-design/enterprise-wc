@@ -167,7 +167,7 @@ export default class IdsInput extends Base {
    */
   templateHostAttributes(): void {
     if (!this.id) {
-      this.setAttribute?.(attributes.ID, `ids-input-${++instanceCounter}`);
+      this.generatedId = `ids-input-${instanceCounter++}`;
     }
   }
 
@@ -863,7 +863,7 @@ export default class IdsInput extends Base {
   }
 
   get id(): string {
-    return this.getAttribute(attributes.ID);
+    return this.getAttribute(attributes.ID) || this.generatedId;
   }
 
   /**

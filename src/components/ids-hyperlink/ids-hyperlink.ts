@@ -23,11 +23,10 @@ export default class IdsHyperlink extends Base {
   }
 
   connectedCallback() {
-    if (!this.getAttribute('role')) {
-      this.setAttribute('role', 'link');
-    }
     super.connectedCallback();
     if (!(this.getAttribute('role'))) this.setAttribute('role', 'link');
+    // eslint-disable-next-line no-self-assign
+    this.href = this.href;
   }
 
   /**

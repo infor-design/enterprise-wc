@@ -25,9 +25,9 @@ export default class IdsCard extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback();
     this.#setFooterClass();
     this.#handleEvents();
-    super.connectedCallback();
   }
 
   /**

@@ -50,7 +50,7 @@ export default class IdsColorPicker extends Base {
       this.append(...this.defaultSwatches);
     }
 
-    super.connectedCallback?.();
+    super.connectedCallback();
 
     this.#updateColor(this.value);
     this.#configureSwatches();

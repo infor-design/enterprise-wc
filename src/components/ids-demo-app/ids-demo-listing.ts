@@ -15,6 +15,7 @@ export default class IdsDemoListing extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback();
     this.#attachColumns();
   }
 

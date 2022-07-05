@@ -131,11 +131,11 @@ export default class IdsCalendar extends Base {
    * Ids Calendar Component connected life-cycle hook
    */
   connectedCallback(): void {
+    super.connectedCallback();
     this.setDirection();
     this.changeView('month');
     this.#attachEventHandlers();
     this.#resizeObserver.observe(this.container);
-    super.connectedCallback();
   }
 
   /**
@@ -348,12 +348,12 @@ export default class IdsCalendar extends Base {
     const date = this.activeDate;
 
     return `
-      <ids-month-view 
+      <ids-month-view
         view-picker
         show-today
-        month="${date.getMonth()}" 
-        day="${date.getDate()}" 
-        year="${date.getFullYear()}" 
+        month="${date.getMonth()}"
+        day="${date.getDate()}"
+        year="${date.getFullYear()}"
       ></ids-month-view>
     `;
   }
@@ -375,9 +375,9 @@ export default class IdsCalendar extends Base {
     }
 
     return `
-      <ids-week-view 
-        start-date="${startDate}" 
-        end-date="${endDate}" 
+      <ids-week-view
+        start-date="${startDate}"
+        end-date="${endDate}"
         view-picker
       ></ids-week-view>
     `;
@@ -504,11 +504,11 @@ export default class IdsCalendar extends Base {
     if (!this.showLegend || !eventTypes.length || this.querySelector('[slot="legend"]')) return;
 
     const checkboxes = eventTypes.map((item: CalendarEventTypeData) => `
-      <ids-checkbox 
+      <ids-checkbox
         class="event-type-checkbox"
         checked="${item.checked}"
-        data-id="${item.id}" 
-        label="${item.translationKey ? this.locale.translate(item.translationKey) : item.label}" 
+        data-id="${item.id}"
+        label="${item.translationKey ? this.locale.translate(item.translationKey) : item.label}"
         color="${item.color}07"
         disabled="${item.disabled || 'false'}">
       </ids-checkbox>

@@ -21,12 +21,12 @@ export default class IdsRating extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback();
     if (!this.readonly) {
       this.#attachEventHandlers();
     } else {
       this.updateHalfStar(this.ratingArr);
     }
-    super.connectedCallback();
   }
 
   ratingArr = [...this.container.children];

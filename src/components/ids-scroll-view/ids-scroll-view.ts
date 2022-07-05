@@ -34,6 +34,7 @@ export default class IdsScrollView extends Base {
    * Invoked each time the custom element is add into a document-connected element
    */
   connectedCallback() {
+    super.connectedCallback();
     this.controls = this.shadowRoot.querySelector('.ids-scroll-view-controls');
     this.#renderButtons();
     this.#attachEventHandlers();
