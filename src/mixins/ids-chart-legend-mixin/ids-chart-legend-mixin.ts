@@ -20,8 +20,8 @@ const IdsChartLegendMixin = (superclass: any) => class extends superclass {
   }
 
   connectedCallback() {
-    this.attachLegendEvents();
     super.connectedCallback?.();
+    this.attachLegendEvents();
   }
 
   /**
