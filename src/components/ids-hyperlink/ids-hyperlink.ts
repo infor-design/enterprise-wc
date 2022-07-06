@@ -25,8 +25,6 @@ export default class IdsHyperlink extends Base {
   connectedCallback() {
     super.connectedCallback();
     if (!(this.getAttribute('role'))) this.setAttribute('role', 'link');
-    // eslint-disable-next-line no-self-assign
-    this.href = this.href;
   }
 
   /**

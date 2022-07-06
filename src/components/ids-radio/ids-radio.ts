@@ -8,17 +8,6 @@ import './ids-radio-group';
 
 import styles from './ids-radio.scss';
 
-const attribs = [
-  { name: 'checked', prop: 'checked' },
-  { name: 'color', prop: 'color' },
-  { name: 'disabled', prop: 'disabled' },
-  { name: 'group-disabled', prop: 'groupDisabled' },
-  { name: 'horizontal', prop: 'horizontal' },
-  { name: 'label', prop: 'label' },
-  { name: 'validation-has-error', prop: 'validationHasError' },
-  { name: 'value', prop: 'value' }
-];
-
 /**
  * IDS Radio Component
  * @type {IdsRadio}
@@ -56,27 +45,6 @@ export default class IdsRadio extends Base {
       attributes.VALIDATION_HAS_ERROR,
       attributes.VALUE
     ];
-  }
-
-  /**
-   * Custom Element `attributeChangedCallback` implementation
-   * @param {string} name The name of attribute changed
-   * @param {any} oldValue The old value
-   * @param {any} newValue The new value
-   * @returns {void}
-   */
-  attributeChangedCallback(
-    name: string,
-    oldValue: any,
-    newValue: any
-  ): void {
-    if (oldValue !== newValue) {
-      attribs.forEach((attribute) => {
-        if (name === attribute.name) {
-          this[attribute.prop] = newValue;
-        }
-      });
-    }
   }
 
   /**

@@ -22,10 +22,10 @@ A standard Text Input is a basic input element:
 <ids-input label="First Name"></ids-input>
 ```
 
-Set the types, available types are `'text'|'password'|'number'|'email' | 'color'` and default type is `type="text"`.
+Set the types, available types are `'text'|'password'|'email'|'color'` and default type is `type="text"`.
 
 ```html
-<ids-input type="number" label="Xtra Small"></ids-input>
+<ids-input type="password" label="Xtra Small"></ids-input>
 ```
 
 Set the sizes, available sizes are `'xs'|'sm'|'mm'|'md'|'lg'|'full'` and default type is `size="md"`.

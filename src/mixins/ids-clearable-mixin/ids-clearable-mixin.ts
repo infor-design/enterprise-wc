@@ -24,6 +24,9 @@ const IdsClearableMixin = (superclass: any): any => class extends superclass {
 
   connectedCallback() {
     super.connectedCallback?.();
+  }
+
+  rendered() {
     this.handleClearable();
   }
 
@@ -221,7 +224,7 @@ const IdsClearableMixin = (superclass: any): any => class extends superclass {
     } else {
       this.removeAttribute(attributes.CLEARABLE);
     }
-    this.handleClearable();
+    if (this.container) this.handleClearable();
   }
 
   get clearable() { return this.getAttribute(attributes.CLEARABLE); }

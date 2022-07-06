@@ -111,6 +111,7 @@ export default class IdsButton extends Base {
    * @returns {void}
    */
   refreshProtoClasses() {
+    if (!this.button) return;
     const cl = this.button.classList;
     const newProtoClass = this.protoClasses;
 
@@ -175,7 +176,7 @@ export default class IdsButton extends Base {
    * @returns {HTMLButtonElement} reference to the true button element used in the Shadow Root
    */
   get button(): HTMLButtonElement {
-    return this.shadowRoot.querySelector('button');
+    return this.shadowRoot?.querySelector('button');
   }
 
   /**
@@ -529,11 +530,11 @@ export default class IdsButton extends Base {
   set noMargins(n: boolean | string) {
     if (stringToBool(n)) {
       this.setAttribute(attributes.NO_MARGINS, '');
-      this.container.classList.add(attributes.NO_MARGINS);
+      this.container?.classList.add(attributes.NO_MARGINS);
       return;
     }
     this.removeAttribute(attributes.NO_MARGINS);
-    this.container.classList.remove(attributes.NO_MARGINS);
+    this.container?.classList.remove(attributes.NO_MARGINS);
   }
 
   get noMargins(): boolean {

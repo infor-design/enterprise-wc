@@ -9,13 +9,15 @@ import styles from './ids-element.scss';
 export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   constructor() {
     super();
-    this.addBaseName();
+    this.delayedProps = [];
+    this.#addBaseName();
     this.#appendHostCss();
   }
 
   /** Run the template when a component Is inserted */
   connectedCallback() {
     this.render();
+    this.#updateAttributes();
   }
 
   /** Component's name */
@@ -31,7 +33,7 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
    * Add the component name and baseclass
    * @private
    */
-  addBaseName() {
+  #addBaseName() {
     // Add the base class and version
     this.name = this.nodeName?.toLowerCase();
     this.IdsVersion = version;
@@ -45,9 +47,28 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
    * @param {string} newValue The property new value
    */
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-    if (oldValue !== newValue && this.shadowRoot && this.container) {
+    if (oldValue === newValue) return;
+
+    if (this.shadowRoot && this.container) {
       this[camelCase(name)] = newValue;
+    } else {
+      this.delayedProps.push({ name: camelCase(name), value: newValue });
     }
+  }
+
+  /**
+   * Re apply some DOM based attributes
+   * @private
+   */
+  #updateAttributes() {
+    requestAnimationFrame(() => {
+      for (let index = 0; index < this.delayedProps.length; index++) {
+        this[this.delayedProps[index].name] = this.delayedProps[index].value;
+      }
+
+      if (this.rendered) this.rendered();
+      // new Event for fully mountedCallback ?
+    });
   }
 
   /**
@@ -118,14 +139,6 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
     if (this.shadowRoot?.firstElementChild.nodeName !== 'STYLE' && !this.container) {
       this.container = this.shadowRoot?.firstElementChild;
     }
-
-    // Runs on next next paint to be sure rendered() fully
-    if (this.rendered) {
-      requestAnimationFrame(() => {
-        this.rendered();
-      });
-    }
-
     return this;
   }
 
