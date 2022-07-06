@@ -10,6 +10,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { dateDiff, isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
 import { breakpoints } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
 import IdsPopup from '../ids-popup/ids-popup';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 type CalendarEventDetail = {
   id: string;
@@ -41,6 +42,8 @@ export default class IdsCalendar extends Base {
   #mobileBreakpoint = parseInt(breakpoints.md);
 
   #resizeObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => this.#onResize(entries));
+
+  #selectedEventId = '';
 
   constructor() {
     super();
@@ -136,7 +139,7 @@ export default class IdsCalendar extends Base {
     this.setDirection();
     this.changeView('month');
     this.#attachEventHandlers();
-    this.#resizeObserver.observe(this.container);
+    this.#resizeObserver.observe(getClosest(this, 'ids-container'));
     super.connectedCallback();
   }
 
@@ -216,7 +219,12 @@ export default class IdsCalendar extends Base {
     return `<ul class="calendar-events-list">${listItems}</ul>`;
   }
 
-  createNewEvent(id: string, modal = false) {
+  /**
+   * Creates new calendar event
+   * @param {string} id user defined id
+   * @param {boolean} isModal opens modal if true
+   */
+  createNewEvent(id: string, isModal = false): void {
     const date = new Date(this.activeDate);
     const year = date.getFullYear();
     const month = date.getMonth();
@@ -226,37 +234,65 @@ export default class IdsCalendar extends Base {
       id,
       subject: 'New Event',
       isAllDay: 'true',
-      starts: new Date(year, month, day).toISOString(),
+      starts: new Date(year, month, day, 0, 0, 0).toISOString(),
       ends: new Date(year, month, day, 23, 59, 59, 999).toISOString(),
       type: 'dto',
       comments: 'New Event Comments'
     };
 
-    if (modal) {
+    if (isModal) {
       const view = this.getView();
       const target = view.tagName === 'IDS-MONTH-VIEW' ? view.getSelectedDay() : this.container;
-      this.#attachFormPopup(target, event);
+      this.#insertFormPopup(target, event);
     } else {
       this.addEvent(event);
     }
   }
 
+  /**
+   * Create calendar event form template
+   * @param {CalendarEventData} data event data
+   * @returns {string} event form template
+   */
   #eventFormTemplate(data: CalendarEventData): string {
+    const start = new Date(data.starts);
+    const end = new Date(data.ends);
     const eventType = this.getEventTypeById(data.type);
+
+    // Ids List Box Option template
     const eventTypeOptions = this.eventTypesData.map((item: CalendarEventTypeData) => `
       <ids-list-box-option value="${item.id}">
         <ids-text>${item.label}</ids-text>
       </ids-list-box-option>
     `).join('');
-    const start = new Date(data.starts);
-    const end = new Date(data.ends);
-    const formattedStart = this.locale.formatDate(start);
-    const formattedEnd = this.locale.formatDate(end);
-    const startHour = this.locale.formatHour(start.getHours() + (start.getMinutes() / 60));
-    const endHour = this.locale.formatHour(end.getHours() + (end.getMinutes() / 60));
+
+    // Ids Date Picker template
+    const datePicker = (id: string, labelKey: string, date: Date) => `
+      <ids-date-picker 
+        id="${id}" 
+        label="${this.locale.translate(labelKey)}" 
+        size="full" 
+        year="${date.getFullYear()}" 
+        month="${date.getMonth()}" 
+        day="${date.getDate()}"
+        value="${this.locale.formatDate(date)}"
+        mask>
+      </ids-date-picker>
+    `;
+
+    // Ids Time Picker template
+    const timePicker = (id: string, date: Date) => `
+      <ids-time-picker 
+        id="${id}" 
+        label="&nbsp" 
+        size="full" 
+        disabled="${stringToBool(data.isAllDay)}"
+        value="${this.locale.formatHour(date.getHours() + (date.getMinutes() / 60))}">
+      </ids-time-picker>
+    `;
 
     return `
-      <form id="event-form" data-id="${data.id}" slot="content" color="${eventType.color || 'azure'}">
+      <form id="event-form" data-id="${data.id}" slot="content">
         <div id="event-form-header" class="inline-container" color="${eventType?.color || 'azure'}">
           <ids-text font-size="16" font-weight="bold">${eventType?.label || ''}</ids-text>
           <ids-button data-action="close">
@@ -264,27 +300,27 @@ export default class IdsCalendar extends Base {
           </ids-button>
         </div>
         <div id="event-form-content">
-          <ids-input size="full" id="event-subject" type="text" label="Subject" value="${data.subject}"></ids-input>
-          <ids-dropdown size="full" id="event-type" label="Event Types" value="${data.type}">
+          <ids-input size="full" id="event-subject" type="text" label="${this.locale.translate('Subject')}" value="${data.subject}"></ids-input>
+          <ids-dropdown size="full" id="event-type" label="${this.locale.translate('EventType')}" value="${data.type}">
             <ids-list-box>${eventTypeOptions}</ids-list-box>
           </ids-dropdown>
-          <ids-checkbox id="event-is-all-day" label="All Day" checked="${data.isAllDay}"></ids-checkbox>
+          <ids-checkbox id="event-is-all-day" label="${this.locale.translate('AllDay')}" checked="${data.isAllDay}"></ids-checkbox>
           <div class="inline-container">
-            <ids-date-picker id="event-from-date" label="From" size="full" value="${formattedStart}" mask></ids-date-picker>
-            <ids-time-picker id="event-from-hour" label="&nbsp" size="full" value="${startHour}"></ids-time-picker>
+            ${datePicker('event-from-date', 'From', start)}
+            ${timePicker('event-from-hour', start)}
           </div>
           <div class="inline-container">
-            <ids-date-picker id="event-to-date" label="To" size="full" value="${formattedEnd}" mask></ids-date-picker>
-            <ids-time-picker id="event-to-hour" label="&nbsp" size="full" value="${endHour}"></ids-time-picker>
+            ${datePicker('event-to-date', 'To', end)}
+            ${timePicker('event-to-hour', end)}
           </div>
-          <ids-textarea size="full" id="event-comments" label="Comments" autoselect="true">${data.comments || ''}</ids-textarea>
+          <ids-textarea size="full" id="event-comments" label="${this.locale.translate('Comments')}" autoselect="true">${data.comments || ''}</ids-textarea>
         </div>
         <div id="event-form-actions" class="inline-container">
           <ids-button data-action="close">
-            <idx-test translate-text="true" slot="text">Cancel</idx-test>
+            <ids-text translate-text="true" slot="text">Cancel</ids-text>
           </ids-button>
-          <ids-button data-action="submit" type="submit">
-            <idx-test translate-text="true" slot="text">Submit</idx-test>
+          <ids-button data-action="submit">
+            <ids-text translate-text="true" slot="text">Submit</ids-text>
           </ids-button>
         </div>
       </form>
@@ -321,6 +357,7 @@ export default class IdsCalendar extends Base {
     this.offEvent('change.calendar-legend');
     this.onEvent('change.calendar-legend', this.container.querySelector('.calendar-legend-pane'), (evt: any) => {
       evt.stopPropagation();
+      this.#removePopup();
       this.#toggleEventType(evt.detail.elem, evt.detail.checked);
       this.relayCalendarData();
       this.updateEventDetails(this.state.selected);
@@ -349,9 +386,11 @@ export default class IdsCalendar extends Base {
         evt.stopImmediatePropagation();
         const id = detailItem.getAttribute('data-id');
         const eventData = this.getEventById(id);
+
         if (eventData) {
+          this.#selectedEventId = id;
           this.#removePopup();
-          this.#attachFormPopup(this.container, eventData);
+          this.#insertFormPopup(this.container, eventData);
         }
       }
     });
@@ -359,8 +398,9 @@ export default class IdsCalendar extends Base {
     this.offEvent('click-calendar-event', this);
     this.onEvent('click-calendar-event', this, (evt: CustomEvent) => {
       const elem = evt.detail.elem;
+      this.#selectedEventId = elem.eventData.id;
       this.#removePopup();
-      this.#attachFormPopup(elem.container, elem.eventData);
+      this.#insertFormPopup(elem.container, elem.eventData);
     });
   }
 
@@ -401,6 +441,8 @@ export default class IdsCalendar extends Base {
     this.offEvent('change.calendar-event-form', popup);
     this.onEvent('change.calendar-event-form', popup, (evt: any) => {
       evt.stopPropagation();
+      const checked = evt.detail.checked;
+      this.#toggleTimePickers(checked);
     });
   }
 
@@ -410,7 +452,7 @@ export default class IdsCalendar extends Base {
    * @param {HTMLElement} target target to attach popup to
    * @param {CalendarEventData} eventData calendar event component
    */
-  #attachFormPopup(target: HTMLElement, eventData: CalendarEventData): void {
+  #insertFormPopup(target: HTMLElement, eventData: CalendarEventData): void {
     const template = `
       <ids-popup 
         id="event-form-popup"
@@ -426,15 +468,34 @@ export default class IdsCalendar extends Base {
     `;
 
     this.container.insertAdjacentHTML('beforeend', template);
-    const popup = this.#getEventFormPopup();
-    this.#positionFormPopup(target, popup);
+    this.positionFormPopup(target);
     this.#attachFormEventHandlers();
+    this.#getEventFormPopup().querySelector('#event-subject').focus();
   }
 
-  #positionFormPopup(target: HTMLElement, popup: any) {
-    popup.alignTarget = target;
-    popup.place();
-    popup.visible = true;
+  #toggleTimePickers(disable: boolean): void {
+    const popup = this.#getEventFormPopup();
+
+    if (popup) {
+      popup.querySelectorAll('ids-time-picker').forEach((elem: any) => {
+        elem.disabled = disable;
+      });
+    }
+  }
+
+  /**
+   * Aligns form popup with provided html target element
+   * @param {HTMLElement} target element
+   */
+  positionFormPopup(target: HTMLElement): void {
+    const popup = this.#getEventFormPopup();
+
+    if (popup && target) {
+      popup.alignTarget = undefined;
+      popup.alignTarget = target;
+      popup.place();
+      popup.visible = true;
+    }
   }
 
   /**
@@ -450,35 +511,36 @@ export default class IdsCalendar extends Base {
   }
 
   #submitEventForm(formElem: any) {
-    // id
     const id = formElem.getAttribute('data-id');
-
-    // subject
     const subject = formElem.querySelector('#event-subject')?.value;
-
-    // event type
     const type = formElem.querySelector('#event-type')?.value;
-
-    // is all day
-    const isAllDay = formElem.querySelector('#event-is-all-day')?.checked === 'true' ? 'true' : 'false';
-
-    // From dates
-    const fromDate = formElem.querySelector('#event-from-date')?.value;
-    const fromHour = formElem.querySelector('#event-from-hour')?.value;
-    const starts = new Date(`${fromDate} ${fromHour}`).toISOString();
-
-    // To Dates
-    const toDate = formElem.querySelector('#event-to-date')?.value;
-    const toHour = formElem.querySelector('#event-to-hour')?.value;
-    const ends = new Date(`${toDate} ${toHour}`).toISOString();
-
-    // Comments
+    const isAllDayBool = formElem.querySelector('#event-is-all-day')?.checked;
+    const isAllDay = isAllDayBool === 'true' ? 'true' : 'false';
     const comments = formElem.querySelector('#event-comments')?.value;
+    const fromDate = formElem.querySelector('#event-from-date');
+    const fromHours = formElem.querySelector('#event-from-hour');
+    const starts: string = new Date(
+      fromDate.year,
+      fromDate.month,
+      fromDate.day,
+      isAllDayBool ? 0 : fromHours.hours24,
+      isAllDayBool ? 0 : fromHours.minutes,
+      isAllDayBool ? 0 : fromHours.seconds
+    ).toISOString();
+    const toDate = formElem.querySelector('#event-to-date');
+    const toHours = formElem.querySelector('#event-to-hour');
+    const ends = new Date(
+      toDate.year,
+      toDate.month,
+      toDate.day,
+      isAllDayBool ? 23 : toHours.hours24,
+      isAllDayBool ? 59 : toHours.minutes,
+      isAllDayBool ? 59 : toHours.seconds
+    ).toISOString();
 
-    const eventData: CalendarEventData = {
+    const eventData = {
       id, subject, type, isAllDay, starts, ends, comments
     };
-
     this.updateEvent(eventData);
   }
 
@@ -829,6 +891,7 @@ export default class IdsCalendar extends Base {
       this.state.isMobile = isMobile;
       this.updateEventDetails(this.state.selected);
       this.#toggleMonthLegend(this.eventTypesData, isMobile);
+      this.positionFormPopup(this.getView().getEventElemById(this.#selectedEventId)?.container);
     }
   }
 

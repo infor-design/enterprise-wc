@@ -211,6 +211,15 @@ const IdsCalendarEventsMixin = (superclass: any) => class extends superclass {
   }
 
   /**
+   * Get IdsCalendarEvent elem by id
+   * @param {string} id event id
+   * @returns {IdsCalendarEvent} calendar event component
+   */
+  getEventElemById(id: string): IdsCalendarEvent | undefined {
+    return this.container?.querySelector(`ids-calendar-event[data-id="${id}"]`);
+  }
+
+  /**
    * Gets calendar event type by id
    * @param {string} id event type id
    * @returns {CalendarEventTypeData} calendar event type

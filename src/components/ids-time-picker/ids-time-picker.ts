@@ -987,6 +987,19 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
+   * Gets hours in 24 hour format
+   * @returns {number} input value in 24 hours format
+   */
+  get hours24(): number {
+    const inputDate: Date = this.locale?.parseDate(
+      this.input?.value || this.value,
+      { dateFormat: this.format }
+    );
+
+    return inputDate.getHours();
+  }
+
+  /**
    * Set minutes attribute and update value in minutes dropdown
    * @param {string|number|null} value minutes param value
    */
