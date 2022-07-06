@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const fs = require('fs');
 const archiver = require('archiver');
 const yaml = require('js-yaml');
@@ -81,7 +82,8 @@ const getFileContents = (filePath) => {
     const fileData = fs.readFileSync(filePath, 'utf-8');
     return fileData;
   } catch (e) {
-    console.warn(`${filePath} file not found`);
+    // eslint-disable-next-line no-console
+    console.error(`${filePath} file not found`);
     return false;
   }
 };
