@@ -62,6 +62,7 @@ export default class IdsDropdown extends Base {
       ...super.attributes,
       attributes.ALLOW_BLANK,
       attributes.DISABLED,
+      attributes.GROUP,
       attributes.LABEL,
       attributes.NO_MARGINS,
       attributes.READONLY,
@@ -236,9 +237,9 @@ export default class IdsDropdown extends Base {
       return;
     }
     this.#clearSelected();
-    this.#selectOption(elem);
-    this.#selectIcon(elem);
-    this.#selectTooltip(elem);
+    this.selectOption(elem);
+    this.selectIcon(elem);
+    this.selectTooltip(elem);
     this.input.value = (elem as any).textContent.trim();
     this.state.selectedIndex = [...(elem.parentElement as any).children].indexOf(elem);
 
@@ -279,7 +280,7 @@ export default class IdsDropdown extends Base {
    * Set the selected option by index
    * @param {number} value the index to use
    */
-  set selectedIndex(value) {
+  set selectedIndex(value:number) {
     if (Number.isInteger(value) && this.options[value]) {
       const elem = this.options[value];
       this.value = elem.getAttribute('value');
@@ -291,7 +292,7 @@ export default class IdsDropdown extends Base {
 
   /**
    * Returns the currently available options
-   * @returns {Array} the array of options
+   * @returns {Array<any>} the array of options
    */
   get options() {
     return this.querySelectorAll('ids-list-box-option');
@@ -326,6 +327,23 @@ export default class IdsDropdown extends Base {
 
   get readonly() {
     return stringToBool(this.getAttribute(attributes.READONLY)) || false;
+  }
+
+  /**
+   * Sets the group attribute
+   * @param {string|boolean} value string value from the disabled attribute
+   */
+  set group(value) {
+    const valueSafe = stringToBool(value);
+    if (valueSafe) {
+      this.setAttribute(attributes.GROUP, valueSafe);
+      return;
+    }
+    this.removeAttribute(attributes.GROUP);
+  }
+
+  get group() {
+    return this.getAttribute(attributes.GROUP);
   }
 
   /**
@@ -385,7 +403,7 @@ export default class IdsDropdown extends Base {
    * @private
    * @param {HTMLElement} option the option to select
    */
-  #selectOption(option: HTMLElement) {
+  selectOption(option: HTMLElement) {
     option?.setAttribute('aria-selected', 'true');
     option?.classList.add('is-selected');
   }
@@ -395,7 +413,7 @@ export default class IdsDropdown extends Base {
    * @private
    * @param {HTMLElement} option the option to select
    */
-  #selectIcon(option: HTMLElement) {
+  selectIcon(option: HTMLElement) {
     let dropdownIcon = this.input?.querySelector('ids-icon[slot="trigger-start"]');
     if (!this.hasIcons) {
       if (dropdownIcon) {
@@ -424,7 +442,7 @@ export default class IdsDropdown extends Base {
    * @private
    * @param {HTMLElement} option the option to select
    */
-  #selectTooltip(option: HTMLElement) {
+  selectTooltip(option: HTMLElement) {
     const tooltip = option.getAttribute('tooltip');
     if (tooltip) {
       this.tooltip = tooltip;
@@ -482,7 +500,7 @@ export default class IdsDropdown extends Base {
     }
 
     // Trigger an async callback for contents
-    if (this.state.beforeShow) {
+    if (typeof this.state.beforeShow === 'function') {
       const stuff = await this.state.beforeShow();
       this.#loadDataSet(stuff);
     }
@@ -503,6 +521,7 @@ export default class IdsDropdown extends Base {
     let html = '';
     const listbox = this.querySelector('ids-list-box');
     listbox.innerHTML = '';
+
     dataset.forEach((option: any) => {
       html += `<ids-list-box-option
         value="${option.value}">${option.label}
@@ -571,27 +590,7 @@ export default class IdsDropdown extends Base {
       this.#typeAhead(e.detail.keys);
     });
 
-    // Handle Clicking with the mouse on options
-    this.onEvent('click', this, (e: any) => {
-      if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
-        this.value = e.target.getAttribute('value');
-        return;
-      }
-
-      if (e.target.closest('ids-list-box-option')) {
-        this.value = e.target.closest('ids-list-box-option').getAttribute('value');
-      }
-    });
-
-    this.onEvent('click', this.input.fieldContainer, () => {
-      this.toggle();
-    });
-
-    // Should not open if clicked on label
-    this.onEvent('click', this.labelEl, (e: MouseEvent) => {
-      e.preventDefault();
-      this.input.focus();
-    });
+    this.attachClickEvent();
 
     // Disable text selection on tab (extra info in the screen reader)
     this.onEvent('focus', this.input, () => {
@@ -614,6 +613,35 @@ export default class IdsDropdown extends Base {
     });
 
     return this;
+  }
+
+  /**
+   * Handle Clicking with the mouse on options
+   *  @public
+   */
+  attachClickEvent() {
+    this.onEvent('click', this, (e: any) => {
+      if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
+        this.value = e.target.getAttribute('value');
+      }
+
+      if (e.target.closest('ids-list-box-option')) {
+        this.value = e.target.closest('ids-list-box-option').getAttribute('value');
+      }
+      /* if (e.target.isEqualNode(this)) {
+        this.toggle();
+      } */
+    });
+
+    this.onEvent('click', this.input.fieldContainer, () => {
+      this.toggle();
+    });
+
+    // Should not open if clicked on label
+    this.onEvent('click', this.labelEl, (e: MouseEvent) => {
+      e.preventDefault();
+      this.input.focus();
+    });
   }
 
   /**

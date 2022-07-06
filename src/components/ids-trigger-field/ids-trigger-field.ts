@@ -91,6 +91,7 @@ export default class IdsTriggerField extends Base {
       ${labelHtml}
       <div class="field-container" part="field-container">
         <slot name="trigger-start"></slot>
+        <slot class="content-area" part="content-area"></slot>
         <input
           part="input"
           id="${this.id}-input"

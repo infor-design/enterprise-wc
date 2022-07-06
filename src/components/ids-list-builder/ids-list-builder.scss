@@ -22,7 +22,8 @@
   }
 
   // Editing State
-  .ids-list-view-body div[part='list-item'].is-editing > ids-text {
+  .ids-list-view-body div[part='list-item'].is-editing > ids-text,
+  .ids-list-view-body .list-item-content.is-editing > ids-text {
     display: none;
   }
 
@@ -81,6 +82,7 @@
       position: relative;
       min-height: 44px;
       width: 100%;
+      height: 48px;
 
       &:hover span::after {
         position: absolute;

@@ -101,6 +101,14 @@ Some items slotted in IdsTabs should not spill into the "More Actions" area and 
 
 When this component is present in a tab list, it will only be displayed when there is not enough space to display all other tabs present.  When clicking on this tab, it opens an [IdsPopupMenu](../ids-popup-menu/README.md) containing menu items that reflect all tabs currently "overflowed" (in practice, the tabs that are hidden).  Selecting an item from the menu causes the menu item's corresponding tab to be activated.
 
+### Dismissible Tabs
+
+Tabs can be configured to display an optional [IdsTriggerButton](../ids-trigger-field/README.md) (marked with an "X") that will remove it from the tab list when clicked.  If a content pane with a matching `value` attribute exists, the IdsTabsContext element locates and removes it. When a tab is dismissed, it emits a `tabremove` event.
+
+```html
+<ids-tab value="one" dismissible>Example One</dismissible>
+```
+
 ## Settings and Attributes
 
 ### Tab Container Settings (`ids-tabs`)

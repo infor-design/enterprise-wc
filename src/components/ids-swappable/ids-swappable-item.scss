@@ -23,6 +23,14 @@
   }
 }
 
+:host([dir='rtl']:hover) {
+  &::before {
+    left: unset;
+    right: 5px;
+    transform: translate(0, -56%);
+  }
+}
+
 :host(:focus) {
   border: 1px solid var(--ids-color-palette-azure-40);
   box-shadow: 0 0 4px 1px rgb(54 138 192 / 0.3);
@@ -64,4 +72,16 @@
 :host([mode='dark'][selected]),
 :host([mode='dark'][dragging]) {
   background-color: var(--ids-color-brand-primary-base);
+}
+
+// Fixes slotted IdsTabs to appear flush with their containers
+// (IdsSwappableItem causes a 1px boundary as a result of its required transparent border)
+// @TODO: Relocate this to another component / review wrapping, separation of concerns
+::slotted(ids-tab) {
+  position: relative;
+  margin: -1px;
+}
+
+::slotted(ids-tab:not([orientation='vertical'])) {
+  margin-inline-start: 3px;
 }

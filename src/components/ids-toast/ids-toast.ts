@@ -59,8 +59,6 @@ export default class IdsToast extends Base {
       attributes.ALLOW_LINK,
       attributes.AUDIBLE,
       attributes.DRAGGABLE,
-      attributes.LANGUAGE,
-      attributes.LOCALE,
       attributes.POSITION,
       attributes.PROGRESS_BAR,
       attributes.SAVE_POSITION,

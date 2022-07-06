@@ -2,7 +2,7 @@
 
 ## Description
 
-A lookup is an input element that opens a modal with a datagrid list for selecting grid rows.
+A lookup is an input element that opens a modal with a data grid list for selecting grid rows.
 
 Allows for users to select from multiple complex options via input field component. Single selection and multi selection can be possible in the modal dialog list with the addition of checkboxes.
 
@@ -13,7 +13,7 @@ Allows for users to select from multiple complex options via input field compone
 
 ## Terminology
 
-- **Grid/Datagrid**: Refers to a datagrid when in a lookup as apposed to a responsive grid.
+- **Grid/Data Grid**: Refers to a data grid when in a lookup as apposed to a responsive grid.
 
 ## Features (With Code Examples)
 
@@ -41,9 +41,9 @@ If necessary you can provide your own custom modal to the lookup. When doing thi
 - `disabled` {boolean} Set the lookup to disabled state.
 - `readonly` {boolean} Set the lookup to readonly state.
 - `tabbable` {boolean} Turns on the functionality allow the trigger to be tabbable. For accessibility reasons this should be on in most cases and this is the default.
-- `gridSettings` {object} An object containing name/value pairs for all the settings you want to pass to the datagrid in the modal
-- `columns` {Array<object>} Set the data array of the datagrid. This can be a JSON Array.
-- `data` {Array<object>} Set the columns array of the datagrid. See column settings.
+- `gridSettings` {object} An object containing name/value pairs for all the settings you want to pass to the data grid in the modal
+- `columns` {Array<object>} Set the data array of the data grid. This can be a JSON Array.
+- `data` {Array<object>} Set the columns array of the data grid. See column settings.
 - `validate` {'required' | string} Sets the validation routine to use
 - `validationEvents` {'blur' | string} Sets the validation events to use
 
@@ -55,7 +55,7 @@ If necessary you can provide your own custom modal to the lookup. When doing thi
 - `trigger-button` allows you to further style the trigger button
 - `icon` allows you to further style the icon in the trigger button
 - `modal`  allows you to further style the modal dialog container
-- `data-grid` allows you to further style the dataGrid element
+- `data-grid` allows you to further style the data grid element
 
 ## States and Variations (With Code Examples)
 

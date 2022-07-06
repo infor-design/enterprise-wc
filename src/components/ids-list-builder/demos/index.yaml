@@ -7,4 +7,7 @@
  examples:
   - link: example.html
     type: Main Example
-    description: Showing various List Builder examples
+    description: Showing a basic single select list builder
+  - link: selection-multiple.html
+    type: Example
+    description: Showing a multiple select list builder

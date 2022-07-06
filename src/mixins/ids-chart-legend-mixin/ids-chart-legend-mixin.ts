@@ -1,5 +1,6 @@
 import { attributes } from '../../core/ids-attributes';
 import { checkOverflow } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { kebabCase } from '../../utils/ids-string-utils/ids-string-utils';
 
 /**
  * A mixin that adds selection functionality to components
@@ -19,6 +20,7 @@ const IdsChartLegendMixin = (superclass: any) => class extends superclass {
   }
 
   connectedCallback() {
+    this.attachLegendEvents();
     super.connectedCallback?.();
   }
 
@@ -43,14 +45,14 @@ const IdsChartLegendMixin = (superclass: any) => class extends superclass {
    */
   legendTemplate(setting = 'name') {
     let legend = `<div class="chart-legend">`;
-    const count = this.data.length;
 
     this.data.forEach((group: any, index: number) => {
+      const text = group[setting] ? group[setting] : group.name;
       const patternSvg = group.pattern ? `<svg width="12" height="12" xmlns="http://www.w3.org/2000/svg">
         <rect width="12" height="12" fill="url(#${group.pattern})"></rect>
       </svg>` : '';
       const colorClass = group.pattern ? '' : `color-${index + 1}`;
-      legend += `<a${count > 1 ? ' href="#"' : ' aria-hidden="true"'}><div class="swatch ${colorClass}">${patternSvg}</div>${group[setting] ? group[setting] : group.name}</a>`;
+      legend += `<a href="#legend-${kebabCase(text)}" data-index="${index}" class="chart-legend-item"><div class="swatch ${colorClass}">${patternSvg}</div>${text}</a>`;
     });
     legend += `</div>`;
     return legend;
@@ -68,6 +70,62 @@ const IdsChartLegendMixin = (superclass: any) => class extends superclass {
     if (checkOverflow(legend)) {
       legend.outerHTML = this.legendTemplate('abbreviatedName');
     }
+  }
+
+  /**
+   * Adjust legends clickable
+   * @param {boolean} selectable The selectable value
+   * @returns {void}
+   */
+  legendsClickable(selectable: boolean): void {
+    const legends = [...this.shadowRoot.querySelectorAll('.chart-legend-item')];
+    if (!legends[0]) return;
+
+    let isChanged = false;
+    this.legendsHref = this.legendsHref || legends.map((el: HTMLElement) => el.getAttribute('href'));
+    if (selectable && !legends[0].hasAttribute('href')) {
+      legends.forEach((el: HTMLElement, index: number) => {
+        el.setAttribute('href', this.legendsHref[index] ?? '#');
+        el.removeAttribute('aria-hidden');
+      });
+      isChanged = true;
+    } else if (!selectable && legends[0].hasAttribute('href')) {
+      legends.forEach((el: HTMLElement) => {
+        el.setAttribute('aria-hidden', 'true');
+        el.removeAttribute('href');
+      });
+      isChanged = true;
+    }
+
+    if (isChanged) {
+      this[selectable ? 'attachLegendEvents' : 'detachLegendEvents']();
+    }
+  }
+
+  /**
+   * Setup handlers on legend elements
+   * @returns {void}
+   */
+  attachLegendEvents(): void {
+    const legend = this.shadowRoot.querySelector('slot[name="legend"]');
+    this.offEvent('click.chartlegend', legend);
+    this.onEvent('click.chartlegend', legend, async (e: any) => {
+      const target = e.target;
+      if (target?.classList?.contains('chart-legend-item')) {
+        e.preventDefault();
+        const idx = target.getAttribute('data-index');
+        this.setSelection?.(idx, true);
+      }
+    });
+  }
+
+  /**
+   * Detatch legend handlers on elements
+   * @returns {void}
+   */
+  detachLegendEvents(): void {
+    const legend = this.shadowRoot.querySelector('slot[name="legend"]');
+    this.offEvent('click.chartlegend', legend);
   }
 };
 

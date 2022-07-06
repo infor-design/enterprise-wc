@@ -1,0 +1,10 @@
+---
+ component: Multiselect
+ link: ids-multiselect
+ description: Select multiple values from a list
+ category: Form Inputs
+ keywords: input, text, form, dropdown, multiselect
+ examples:
+  - link: example.html
+    type: Main Example
+    description: Shows all multiselect settings and states

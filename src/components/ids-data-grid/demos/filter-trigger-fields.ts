@@ -3,7 +3,7 @@ import '../../ids-container/ids-container';
 import booksJSON from '../../../assets/data/books.json';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-filter-books');
+const dataGrid: any = document.querySelector('#data-grid-filter-triggers');
 const container: any = document.querySelector('ids-container');
 
 (async function init() {

@@ -135,6 +135,10 @@ export default class IdsListView extends Base {
     return this.container.querySelectorAll('div[part="list-item"]');
   }
 
+  /**
+   * Return all swappable items
+   * @returns {any} List of all swappable items
+   */
   getAllSwappableItems(): any {
     return this.container.querySelectorAll('ids-swappable-item');
   }
@@ -395,6 +399,11 @@ export default class IdsListView extends Base {
         prevFocus?.setAttribute('tabindex', '-1');
         this.#focusedLiIndex = li.getAttribute('index');
       }
+
+      // Set accessbility
+      const container = this.container.querySelector('.ids-list-view-body');
+      container.setAttribute('aria-activedescendant', li.getAttribute('id'));
+
       // init new focus
       li.setAttribute('tabindex', '0'); // this clears after every render
       li.focus();
@@ -489,7 +498,16 @@ export default class IdsListView extends Base {
         if (this.selectable === 'mixed') selected += ' hide-selected-color';
       }
       return `
-        ${this.sortable ? `<ids-swappable-item${disabled}>` : ''}
+        ${this.sortable ? `<ids-swappable-item
+            role="listitem"
+            tabindex="-1"
+            tabbable="${index === 0 ? 'true' : 'false'}"
+            index="${index}"
+            id="id_item_${index + 1}"
+            aria-posinset="${index + 1}"
+            aria-setsize="${this.data.length}"
+            ${disabled}
+          >` : ''}
           <div
             part="list-item"
             role="option"
@@ -516,7 +534,7 @@ export default class IdsListView extends Base {
     return `
       <div class="ids-list-view${selectable}">
         <div class="ids-list-view-body" role="listbox" aria-label="${this.label}">
-          ${this.sortable ? `<ids-swappable>` : ''}
+          ${this.sortable ? `<ids-swappable selection=${this.selectable}>` : ''}
             ${this.data?.length > 0 ? this.data.map(this.listItemTemplateFunc()).join('') : ''}
           ${this.sortable ? `</ids-swappable>` : ''}
         </div>
@@ -622,6 +640,64 @@ export default class IdsListView extends Base {
           `);
         });
       }
+    }
+  }
+
+  /**
+   * Helper function that toggles the 'selected' attribute of an element, then focuses on that element
+   * @param {Element} item the item to add/remove the selected attribute
+   * @param {boolean} switchValue optional switch values to force add/remove the selected attribute
+   */
+  toggleSelectedAttribute(item: HTMLLIElement, switchValue?: boolean) {
+    if (!this.selectable || item?.tagName !== 'IDS-SWAPPABLE-ITEM') return;
+
+    const unselect = () => {
+      item.removeAttribute('selected');
+      item.removeAttribute('aria-selected');
+      this.#activatedIndex = -1;
+    };
+
+    const select = () => {
+      item.setAttribute('selected', 'selected');
+      item.setAttribute('aria-selected', 'true');
+      this.#activatedIndex = parseInt(item.getAttribute('index') || '-1');
+
+      this.triggerEvent('itemSelect', this, {
+        detail: this.getListItemData(item)
+      });
+    };
+
+    if (switchValue === true) {
+      select();
+    } else if (switchValue === false) {
+      unselect();
+    } else {
+      // otherwise toggle it depending on whether or not it has the attribute already
+      const hasSelectedAttribute = item.hasAttribute('selected');
+      if (hasSelectedAttribute) {
+        unselect();
+      } else {
+        select();
+      }
+
+      this.focusLi(item);
+    }
+  }
+
+  /**
+   * Toggles the selected list item
+   * @param {any} item the selected list item to toggle
+   */
+  toggleSelectedLi(item: any) {
+    if (!this.selectable || !item) return;
+    if (item.tagName === 'IDS-SWAPPABLE-ITEM') {
+      if (this.selectable === 'single') {
+        const prevSelectedLi: HTMLLIElement = this.selectedLi;
+        if (item !== prevSelectedLi && prevSelectedLi) {
+          this.toggleSelectedAttribute(prevSelectedLi);
+        }
+      }
+      this.toggleSelectedAttribute(item);
     }
   }
 
@@ -763,6 +839,18 @@ export default class IdsListView extends Base {
   }
 
   get data(): any { return this?.datasource?.data || []; }
+
+  /**
+   * Set the data array of the listview
+   * @param {Array | null} value The array to use
+   */
+  set dataKeys(value: any) {
+    if (this.datasource) {
+      this.datasource.dataKeys = value || [];
+    }
+  }
+
+  get dataKeys(): any { return this?.datasource?.dataKeys || []; }
 
   /**
    * Set the list view to use virtual scrolling for a large amount of elements.
@@ -1312,27 +1400,13 @@ export default class IdsListView extends Base {
   }
 
   /**
-   * Overrides the ids-sortable-mixin function to focus on item
-   * @param {Element} el element to be dragged
+   * Get data for list item
+   * @param {Element} item list item
+   * @returns {any} data object
    */
-  onDragStart(el: any) {
-    super.onDragStart(el);
-
-    const li = el.querySelector('div[part="list-item"]');
-    this.#setSelection(li);
-  }
-
-  /**
-   * Overrides the ids-sortable-mixin function to focus on item
-   * @param {Element} el element to be dragged
-   */
-  onDragEnd(el: any) {
-    super.onDragEnd(el);
-
-    const li = el.querySelector('div[part="list-item"]');
-    li.focus();
-
-    this.updateDataFromDOM();
+  getListItemData(item: Element) {
+    const dataIdx = item.getAttribute('index');
+    return dataIdx ? this.data[dataIdx] : {};
   }
 
   /**
@@ -1344,5 +1418,27 @@ export default class IdsListView extends Base {
     const p = super.createPlaceholderNode(node);
     p.querySelector('div[part="list-item"]').classList.add('placeholder'); // for styling the placeholder
     return p;
+  }
+
+  /**
+   * Return #focusedLiIndex
+   * @returns {any} focusedLiIndex
+   */
+  getFocusedLiIndex(): any {
+    return this.#focusedLiIndex;
+  }
+
+  /**
+   * Return all selected Li indexes
+   * @returns {any} List of selected li index
+   */
+  getAllSelectedLiIndex(): any {
+    const listOfIndex: any[] = [];
+    this.container.querySelectorAll('ids-swappable-item[selected]')
+      .forEach((item: Element) => {
+        listOfIndex.push(+(item.getAttribute('index') ?? -1));
+      });
+
+    return listOfIndex;
   }
 }
