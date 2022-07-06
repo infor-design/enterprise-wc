@@ -1956,7 +1956,7 @@ class IdsMonthView extends Base {
 
           // hide overflowing event elements
           if (calendarEvent.order > MAX_EVENT_COUNT - 1) {
-            calendarEvent.cssClass = ['hidden'];
+            calendarEvent.hidden = true;
             isOverflowing = true;
           }
 
@@ -1981,13 +1981,14 @@ class IdsMonthView extends Base {
    */
   #renderEventsOverflow(container: any, dateKey: string): void {
     const calendarEvents = [...container.querySelectorAll('ids-calendar-event')];
+    const hiddenEvents = calendarEvents.filter((elem: IdsCalendarEvent) => elem.hidden);
     const year = dateKey.substring(0, 4);
     const month = parseInt(dateKey.substring(4, 6)) + 1;
     const day = dateKey.substring(6);
     const date = `${month}/${day}/${year}`;
     const tmpl = `
       <ids-text data-date="${date}" class="events-overflow" font-size="12">
-        ${calendarEvents.length - MAX_EVENT_COUNT}+ ${this.locale.translate('More')}
+        ${hiddenEvents.length}+ ${this.locale.translate('More')}
       </ids-text>
     `;
 

@@ -12,6 +12,7 @@ import { breakpoints } from '../../utils/ids-breakpoint-utils/ids-breakpoint-uti
 import IdsPopup from '../ids-popup/ids-popup';
 
 type CalendarEventDetail = {
+  id: string;
   subject: string;
   dateRange: string;
   duration: string;
@@ -201,7 +202,7 @@ export default class IdsCalendar extends Base {
    */
   detailListTemplate(data: CalendarEventDetail[]): string {
     const listItems = data.map((item: CalendarEventDetail) => `
-      <li color="${item.color}" class="detail-item">
+      <li color="${item.color}" class="detail-item" tabindex="0" data-id="${item.id}">
         <div class="calendar-detail-content">
           <ids-text font-size="18" font-weight="bold">${item.subject}</ids-text>
           <ids-text font-size="14">${item.dateRange}</ids-text>
@@ -255,38 +256,38 @@ export default class IdsCalendar extends Base {
     const endHour = this.locale.formatHour(end.getHours() + (end.getMinutes() / 60));
 
     return `
-      <div slot="content" id="event-form-container">
+      <form id="event-form" data-id="${data.id}" slot="content" color="${eventType.color || 'azure'}">
         <div id="event-form-header" class="inline-container" color="${eventType?.color || 'azure'}">
           <ids-text font-size="16" font-weight="bold">${eventType?.label || ''}</ids-text>
           <ids-button data-action="close">
             <ids-icon slot="icon" icon="close"></ids-icon>
           </ids-button>
         </div>
-        <form id="event-form" data-id="${data.id}">
-          <ids-input id="event-subject" type="text" label="Subject" value="${data.subject}"></ids-input>
-          <ids-dropdown id="event-type" label="Event Types" value="${data.type}">
+        <div id="event-form-content">
+          <ids-input size="full" id="event-subject" type="text" label="Subject" value="${data.subject}"></ids-input>
+          <ids-dropdown size="full" id="event-type" label="Event Types" value="${data.type}">
             <ids-list-box>${eventTypeOptions}</ids-list-box>
           </ids-dropdown>
           <ids-checkbox id="event-is-all-day" label="All Day" checked="${data.isAllDay}"></ids-checkbox>
           <div class="inline-container">
-            <ids-date-picker id="event-from-date" label="From" size="sm" value="${formattedStart}" mask></ids-date-picker>
-            <ids-time-picker id="event-from-hour" label="&nbsp" size="sm" value="${startHour}"></ids-time-picker>
+            <ids-date-picker id="event-from-date" label="From" size="full" value="${formattedStart}" mask></ids-date-picker>
+            <ids-time-picker id="event-from-hour" label="&nbsp" size="full" value="${startHour}"></ids-time-picker>
           </div>
           <div class="inline-container">
-            <ids-date-picker id="event-to-date" label="To" size="sm" value="${formattedEnd}" mask></ids-date-picker>
-            <ids-time-picker id="event-to-hour" label="&nbsp" size="sm" value="${endHour}"></ids-time-picker>
+            <ids-date-picker id="event-to-date" label="To" size="full" value="${formattedEnd}" mask></ids-date-picker>
+            <ids-time-picker id="event-to-hour" label="&nbsp" size="full" value="${endHour}"></ids-time-picker>
           </div>
-          <ids-textarea id="event-comments" label="Comments" autoselect="true">${data.comments || ''}</ids-textarea>
-          <div id="event-form-actions" class="inline-container">
-            <ids-button data-action="close">
-              <idx-test translate-text="true" slot="text">Cancel</idx-test>
-            </ids-button>
-            <ids-button data-action="submit" type="submit">
-              <idx-test translate-text="true" slot="text">Submit</idx-test>
-            </ids-button>
-          </div>
-        </form>
-      </div>
+          <ids-textarea size="full" id="event-comments" label="Comments" autoselect="true">${data.comments || ''}</ids-textarea>
+        </div>
+        <div id="event-form-actions" class="inline-container">
+          <ids-button data-action="close">
+            <idx-test translate-text="true" slot="text">Cancel</idx-test>
+          </ids-button>
+          <ids-button data-action="submit" type="submit">
+            <idx-test translate-text="true" slot="text">Submit</idx-test>
+          </ids-button>
+        </div>
+      </form>
     `;
   }
 
@@ -341,6 +342,20 @@ export default class IdsCalendar extends Base {
       this.renderLegend(this.eventTypesData);
     });
 
+    this.onEvent('click.details-item', this.container.querySelector('.calendar-details-pane'), (evt: any) => {
+      const detailItem = evt.target.closest('.detail-item');
+      if (detailItem) {
+        evt.stopPropagation();
+        evt.stopImmediatePropagation();
+        const id = detailItem.getAttribute('data-id');
+        const eventData = this.getEventById(id);
+        if (eventData) {
+          this.#removePopup();
+          this.#attachFormPopup(this.container, eventData);
+        }
+      }
+    });
+
     this.offEvent('click-calendar-event', this);
     this.onEvent('click-calendar-event', this, (evt: CustomEvent) => {
       const elem = evt.detail.elem;
@@ -361,8 +376,10 @@ export default class IdsCalendar extends Base {
    * Attach calendar event form handlers
    */
   #attachFormEventHandlers(): void {
-    this.offEvent('click.calendar-event-form', this.#getEventFormPopup());
-    this.onEvent('click.calendar-event-form', this.#getEventFormPopup(), (evt: any) => {
+    const popup = this.#getEventFormPopup();
+
+    this.offEvent('click.calendar-event-form', popup);
+    this.onEvent('click.calendar-event-form', popup, (evt: any) => {
       if (evt.target && evt.target.tagName === 'IDS-BUTTON') {
         evt.stopPropagation();
         const action = evt.target.getAttribute('data-action');
@@ -379,6 +396,11 @@ export default class IdsCalendar extends Base {
           this.#removePopup();
         }
       }
+    });
+
+    this.offEvent('change.calendar-event-form', popup);
+    this.onEvent('change.calendar-event-form', popup, (evt: any) => {
+      evt.stopPropagation();
     });
   }
 
@@ -405,11 +427,14 @@ export default class IdsCalendar extends Base {
 
     this.container.insertAdjacentHTML('beforeend', template);
     const popup = this.#getEventFormPopup();
+    this.#positionFormPopup(target, popup);
+    this.#attachFormEventHandlers();
+  }
+
+  #positionFormPopup(target: HTMLElement, popup: any) {
     popup.alignTarget = target;
     popup.place();
     popup.visible = true;
-
-    this.#attachFormEventHandlers();
   }
 
   /**
@@ -615,7 +640,7 @@ export default class IdsCalendar extends Base {
 
     // Day(s)
     if (hours >= 24) {
-      const days = hours / 24;
+      const days = Math.round(hours / 24);
       const dayStr = this.locale.translate(days === 1 ? 'Day' : 'Days');
       return `${this.locale.parseNumber(days.toString())} ${dayStr}`;
     }

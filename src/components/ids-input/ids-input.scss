@@ -16,7 +16,7 @@ $border-input-size-sm: $input-size-sm - 2;
 $border-input-size-md: $input-size-md - 2;
 $border-input-size-mm: $input-size-mm - 2;
 $border-input-size-lg: $input-size-lg - 2;
-$border-input-size-full: $input-size-full - 2;
+$border-input-size-full: calc($input-size-full - 2px);
 $border-input-field-height-compact: $input-compact-height - 2;
 $border-input-field-height-xs: $input-field-height-xs - 2;
 $border-input-field-height-sm: $input-field-height-sm - 2;
