@@ -1,3 +1,9 @@
+# 1.0.0-beta.1
+
+## 1.0.0-beta.1 Fixes
+
+- `[Card]` Fixed the `height` setting which was not working. ([#788](https://github.com/infor-design/enterprise-wc/pull/788))
+
 # 1.0.0-beta.0
 
 ## 1.0.0-beta.0 Breaking Changes
