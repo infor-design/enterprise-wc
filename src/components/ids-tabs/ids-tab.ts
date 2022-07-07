@@ -127,7 +127,7 @@ export default class IdsTab extends Base {
   /**
    * Refresh component's bindings after render
    */
-  rendered() {
+  mountedCallback() {
     this.offEvent('slotchange');
 
     // When any of this item's slots change,

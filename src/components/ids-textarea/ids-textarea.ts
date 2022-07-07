@@ -91,8 +91,8 @@ export default class IdsTextarea extends Base {
    * @returns {void}
    */
   connectedCallback(): void {
-    this.#attachEventHandlers();
     super.connectedCallback();
+    this.#attachEventHandlers();
   }
 
   /**

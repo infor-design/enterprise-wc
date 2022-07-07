@@ -76,13 +76,13 @@ export default class IdsPieChart extends Base {
    * Invoked each time the custom element is connected to the DOM.
    */
   connectedCallback(): void {
+    super.connectedCallback();
     this.svg = this.shadowRoot.querySelector('svg');
     this.emptyMessage = this.querySelector('ids-empty-message') || this.shadowRoot.querySelector('ids-empty-message');
     this.legend = this.shadowRoot.querySelector('[name="legend"]');
 
     this.#attachEventHandlers();
     this.rerender();
-    super.connectedCallback?.();
   }
 
   /**
@@ -95,7 +95,7 @@ export default class IdsPieChart extends Base {
   /**
    * Invoked after rendering
    */
-  rendered(): void {
+  mountedCallback(): void {
     this.legendsClickable?.(this.selectable);
     this.#preSelected();
     this.#attachTooltipEvents();
@@ -123,7 +123,7 @@ export default class IdsPieChart extends Base {
     // Completed Event and Callback
     this.triggerEvent('rendered', this, { svg: this.svg, data: this.data, markerData: this.markerData });
     if (this.rendered) {
-      this?.rendered();
+      this?.mountedCallback();
     }
   }
 

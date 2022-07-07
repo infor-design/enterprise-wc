@@ -50,7 +50,7 @@ export default class IdsBarChart extends Base {
     ];
   }
 
-  rendered() {
+  mountedCallback() {
     this.#adjustVerticalLines();
     this.#preSelected();
     this.attachTooltipEvents();

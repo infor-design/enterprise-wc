@@ -71,7 +71,7 @@ describe('IdsSwipeAction Component', () => {
 
   it('renders scroll position on reveal', (done) => {
     swipeAction.swipeType = 'reveal';
-    swipeAction.rendered();
+    swipeAction.mountedCallback();
 
     setTimeout(() => {
       expect(swipeAction.container.scrollLeft).toEqual(85);
@@ -80,7 +80,7 @@ describe('IdsSwipeAction Component', () => {
 
     swipeAction.container.scrollLeft = 0;
     swipeAction.swipeType = 'continuous';
-    swipeAction.rendered();
+    swipeAction.mountedCallback();
     expect(swipeAction.container.scrollLeft).toEqual(0);
   });
 
@@ -97,14 +97,14 @@ describe('IdsSwipeAction Component', () => {
 
   it('can click the right button and reset scroll', () => {
     swipeAction.swipeType = 'reveal';
-    swipeAction.rendered();
+    swipeAction.mountedCallback();
     document.querySelector<any>('#action-right-continuous').click();
     expect(swipeAction.container.scrollLeft).toEqual(0);
   });
 
   it('can click the left button and reset scroll', () => {
     swipeAction.swipeType = 'reveal';
-    swipeAction.rendered();
+    swipeAction.mountedCallback();
     document.querySelector<any>('#action-left-continuous').click();
     expect(swipeAction.container.scrollLeft).toEqual(0);
   });

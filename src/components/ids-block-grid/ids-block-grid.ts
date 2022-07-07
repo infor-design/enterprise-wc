@@ -18,6 +18,10 @@ export default class IdsBlockgrid extends Base {
     super();
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+  }
+
   static get attributes() {
     return [
       attributes.ALIGN,
@@ -44,7 +48,6 @@ export default class IdsBlockgrid extends Base {
     if (this.data.length === 0) {
       return;
     }
-
     const template = document.createElement('template');
     const html = this.template();
 
@@ -116,7 +119,7 @@ export default class IdsBlockgrid extends Base {
    * @param {string} value The selection value
    */
   set selection(value) {
-    this.syncSelectionOnItems();
+    this.#syncSelectionOnItems();
   }
 
   get selection() {
@@ -126,7 +129,7 @@ export default class IdsBlockgrid extends Base {
   /**
    * Add selection value to all block-grid-items
    */
-  syncSelectionOnItems() {
+  #syncSelectionOnItems() {
     this.querySelectorAll('ids-block-grid-item').forEach((item: any) => item.setAttribute(attributes.SELECTION, this.selection));
   }
 }

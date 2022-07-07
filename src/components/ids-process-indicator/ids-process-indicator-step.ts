@@ -23,7 +23,7 @@ export default class IdsProcessStep extends Base {
   }
 
   connectedCallback(): void {
-    super.connectedCallback?.();
+    super.connectedCallback();
 
     requestAnimationFrame(() => {
       const parentElement = this.parentElement;

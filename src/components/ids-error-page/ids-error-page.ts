@@ -25,7 +25,7 @@ export default class IdsErrorPage extends Base {
   }
 
   connectedCallback(): void {
-    super.connectedCallback?.();
+    super.connectedCallback();
     this.#attachEventHandlers();
   }
 

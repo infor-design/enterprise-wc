@@ -72,13 +72,12 @@ export default class IdsUploadAdvanced extends Base {
    * @returns {void}
    */
   connectedCallback(): void {
+    super.connectedCallback();
     this.fileInput = this.shadowRoot.querySelector('.file-input');
     this.droparea = this.shadowRoot.querySelector('.droparea');
 
     this.files = [];
-
     this.#attachEventHandlers();
-    super.connectedCallback?.();
   }
 
   /**

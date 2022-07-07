@@ -213,7 +213,7 @@ export default class IdsMasthead extends Base {
     this.renderBreakpoint();
   }
 
-  rendered() { this.renderBreakpoint(); }
+  mountedCallback() { this.renderBreakpoint(); }
 
   /**
    * Rearranges user's slots in masthead according to desktop, tablet and mobile viewports.

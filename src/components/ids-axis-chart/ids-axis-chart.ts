@@ -108,12 +108,13 @@ export default class IdsAxisChart extends Base {
    * Invoked each time the custom element is appended
    */
   connectedCallback(): void {
+    super.connectedCallback?.();
     this.svg = this.shadowRoot.querySelector('svg');
     this.emptyMessage = this.querySelector('ids-empty-message') || this.shadowRoot.querySelector('ids-empty-message');
     this.legend = this.shadowRoot.querySelector('[name="legend"]');
     this.#attachEventHandlers();
+    // TODO: Is this still needed?
     this.rerender();
-    super.connectedCallback?.();
   }
 
   /**
@@ -255,8 +256,8 @@ export default class IdsAxisChart extends Base {
 
     // Completed Event and Callback
     this.triggerEvent('rendered', this, { svg: this.svg, data: this.data, markerData: this.markerData });
-    if (this.rendered) {
-      this?.rendered();
+    if (this.mountedCallback) {
+      this?.mountedCallback();
     }
   }
 

@@ -43,14 +43,9 @@ export default class IdsPagerNumberList extends Base {
   }
 
   connectedCallback(): void {
-    // give parent a chance to reflect attributes
-
-    window.requestAnimationFrame(() => {
-      this.#populatePageNumberButtons();
-      this.#attachEventHandlers();
-    });
-
-    super.connectedCallback?.();
+    super.connectedCallback();
+    this.#populatePageNumberButtons();
+    this.#attachEventHandlers();
   }
 
   /**

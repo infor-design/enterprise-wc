@@ -32,6 +32,7 @@ export default class IdsExpandableArea extends Base {
   }
 
   connectedCallback(): void {
+    super.connectedCallback();
     this.expander = this.shadowRoot?.querySelector('[data-expander]');
     this.expanderDefault = this.shadowRoot?.querySelector('[name="expander-default"]');
     this.expanderExpanded = this.shadowRoot?.querySelector('[name="expander-expanded"]');

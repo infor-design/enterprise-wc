@@ -83,10 +83,10 @@ class IdsDatePicker extends Base {
   #triggerField = this.container.querySelector('ids-trigger-field');
 
   connectedCallback(): void {
+    super.connectedCallback();
     this.#attachEventHandlers();
     this.#attachExpandedListener();
     this.#attachKeyboardListeners();
-    super.connectedCallback();
   }
 
   /**

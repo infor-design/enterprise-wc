@@ -55,6 +55,7 @@ export default class IdsPagerInput extends Base {
   }
 
   connectedCallback(): void {
+    super.connectedCallback();
     this.input = this.shadowRoot.querySelector('ids-input');
 
     this.onEvent('change', this.input, () => {
@@ -90,12 +91,9 @@ export default class IdsPagerInput extends Base {
     }
 
     // give parent a chance to reflect attributes
-
     window.requestAnimationFrame(() => {
       this.#updatePageCountShown();
     });
-
-    super.connectedCallback?.();
   }
 
   /** @param {string|number} value The number of items to show per page */

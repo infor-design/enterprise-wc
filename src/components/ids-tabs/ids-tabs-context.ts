@@ -36,7 +36,7 @@ export default class IdsTabsContext extends Base {
     });
   }
 
-  rendered() {
+  mountedCallback() {
     this.value = this.querySelector('[selected]')?.value;
   }
 

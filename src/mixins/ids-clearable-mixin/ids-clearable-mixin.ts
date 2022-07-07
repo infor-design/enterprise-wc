@@ -26,7 +26,7 @@ const IdsClearableMixin = (superclass: any): any => class extends superclass {
     super.connectedCallback?.();
   }
 
-  rendered() {
+  mountedCallback() {
     this.handleClearable();
   }
 
@@ -46,8 +46,11 @@ const IdsClearableMixin = (superclass: any): any => class extends superclass {
   }
 
   refreshClearableButtonStyles() {
-    this.removeClearableButton();
-    this.appendClearableButton();
+    const xButton = this.shadowRoot.querySelector('.btn-clear');
+    if (!xButton) {
+      this.removeClearableButton();
+      this.appendClearableButton();
+    }
   }
 
   #initClearableButton() {

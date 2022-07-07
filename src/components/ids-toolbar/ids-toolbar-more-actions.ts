@@ -34,7 +34,7 @@ export default class IdsToolbarMoreActions extends Base {
   }
 
   connectedCallback(): void {
-    super.connectedCallback?.();
+    super.connectedCallback();
 
     requestAnimationFrame(() => {
       this.render();

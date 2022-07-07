@@ -115,14 +115,13 @@ export default class IdsEditor extends Base {
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback(): void {
+    super.connectedCallback();
     this.#initToolbar();
     this.#initContent();
     this.modalElementsValue();
     this.#setParagraphSeparator();
     this.#attachEventHandlers();
     this.#initView();
-
-    super.connectedCallback?.();
   }
 
   disconnectedCallback() {

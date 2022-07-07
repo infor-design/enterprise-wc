@@ -167,7 +167,7 @@ describe('IdsBarChart Component', () => {
   it('wont error if no vertical lines', () => {
     const errors = jest.spyOn(global.console, 'error');
     barChart.shadowRoot.querySelector('.vertical-lines').remove();
-    barChart.rendered();
+    barChart.mountedCallback();
     expect(errors).not.toHaveBeenCalled();
   });
 

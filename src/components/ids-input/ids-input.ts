@@ -109,7 +109,6 @@ export default class IdsInput extends Base {
    */
   connectedCallback(): void {
     super.connectedCallback();
-
     this.#attachEventHandlers();
 
     if (this.hasAttribute(attributes.AUTOSELECT)) {

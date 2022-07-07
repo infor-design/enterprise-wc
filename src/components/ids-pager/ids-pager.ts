@@ -65,11 +65,10 @@ export default class IdsPager extends Base {
   }
 
   connectedCallback(): void {
+    super.connectedCallback();
     this.onEvent('pagenumberchange', this, (e: CustomEvent) => {
       this.pageNumber = e.detail.value;
     });
-
-    super.connectedCallback?.();
   }
 
   /**

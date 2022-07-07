@@ -29,12 +29,9 @@ export default class IdsAccordion extends Base {
     this.#handleEvents();
     this.#handleKeys();
 
-    // Assign depth-dependent styles, and re-apply them on changes
-    requestAnimationFrame(() => {
-      this.#assignDepthDependentStyles();
-      this.#contentObserver.observe((this as any), {
-        childList: true
-      });
+    this.#assignDepthDependentStyles();
+    this.#contentObserver.observe((this as any), {
+      childList: true
     });
   }
 

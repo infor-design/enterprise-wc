@@ -49,7 +49,7 @@ export default class IdsToggleButton extends Base {
    * @returns {void}
    */
   connectedCallback(): void {
-    super.connectedCallback?.();
+    super.connectedCallback();
     this.refreshIcon();
     this.refreshText();
   }

@@ -48,8 +48,7 @@ export default class IdsPopup extends Base {
   }
 
   connectedCallback(): void {
-    super.connectedCallback?.();
-
+    super.connectedCallback();
     // Always setup link to containing element first
     this.containingElem = getClosest((this as any), 'ids-container') || document.body;
 

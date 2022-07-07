@@ -41,7 +41,7 @@ export default class IdsToolbar extends Base {
   }
 
   connectedCallback(): void {
-    super.connectedCallback?.();
+    super.connectedCallback();
     this.setAttribute('role', 'toolbar');
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();

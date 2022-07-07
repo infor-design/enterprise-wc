@@ -57,9 +57,9 @@ export default class IdsCalendarEvent extends Base {
    * Invoked when ids-calendar-event is added to the DOM
    */
   connectedCallback(): void {
+    super.connectedCallback();
     this.#attachEventHandlers();
     this.setDirection();
-    super.connectedCallback();
   }
 
   /**

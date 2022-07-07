@@ -88,7 +88,7 @@ export default class IdsSpinbox extends Base {
     }
   }
 
-  rendered() {
+  mountedCallback() {
     this.#updateDisabledButtonStates();
   }
 

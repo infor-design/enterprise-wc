@@ -42,7 +42,7 @@ export default class IdsPopupMenu extends Base {
    * @returns {void}
    */
   connectedCallback(): void {
-    super.connectedCallback?.();
+    super.connectedCallback();
     if (!this.hasAttribute(attributes.HIDDEN)) {
       this.setAttribute(attributes.HIDDEN, '');
     }

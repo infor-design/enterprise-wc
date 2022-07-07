@@ -104,9 +104,9 @@ export default class IdsToolbarSection extends Base {
   }
 
   connectedCallback(): void {
+    super.connectedCallback();
     setCssClassFromGroup(this.type, this.container, SECTION_TYPES);
     setCssClassFromGroup(this.toolbarType, this.container, TOOLBAR_TYPES);
-    super.connectedCallback();
   }
 
   /**

@@ -41,7 +41,7 @@ export default class IdsSwipeAction extends Base {
    * Scroll to the center container on render
    * @private
    */
-  rendered() {
+  mountedCallback() {
     this.leftButton = this.querySelector('[slot="action-left"]');
     this.rightButton = this.querySelector('[slot="action-right"]');
     if (this.leftButton && this.swipeType === 'reveal') {

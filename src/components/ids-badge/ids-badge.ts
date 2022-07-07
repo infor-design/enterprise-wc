@@ -19,11 +19,15 @@ export default class IdsBadge extends Base {
     super();
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+  }
+
   /**
    * Return the attributes we handle as getters/setters
-   * @returns {Array} The attributes in an array
+   * @returns {Array} The attribute in an array
    */
-  static get attributes() {
+  static get attributes(): string[] {
     return [
       attributes.COLOR,
       attributes.MODE,
@@ -32,12 +36,19 @@ export default class IdsBadge extends Base {
   }
 
   /**
+   * Do not run shape initially as it is set in the template
+   * @returns {Array} The attributes that should be skipped
+   */
+  get delayedAttributes(): string[] {
+    return [attributes.SHAPE];
+  }
+
+  /**
    * Create the Template for the contents
    * @returns {string} The Template
    */
   template() {
-    const shape = this.shape;
-    return `<span class="ids-badge ${shape}" part="badge"><slot></slot></span>`;
+    return `<span class="ids-badge ${this.shape}" part="badge"><slot></slot></span>`;
   }
 
   /**
@@ -56,7 +67,8 @@ export default class IdsBadge extends Base {
     } else {
       this.removeAttribute('shape');
     }
-    this.container.setAttribute('class', `ids-badge ${this.shape}`);
+    this.container.classList.remove('normal', 'round');
+    this.container.classList.add(this.shape);
   }
 
   /**

@@ -57,17 +57,25 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   }
 
   /**
+   * Do not run some attributes initially (for example if combinedor consumed in the initial template)
+   * @returns {Array} The attributes that should be skipped
+   */
+  get delayedAttributes(): string[] {
+    return [];
+  }
+
+  /**
    * Re apply some DOM based attributes
    * @private
    */
   #updateAttributes() {
     requestAnimationFrame(() => {
       for (let index = 0; index < this.delayedProps.length; index++) {
+        if (this.delayedAttributes.includes(this.delayedProps[index].name)) continue;
         this[this.delayedProps[index].name] = this.delayedProps[index].value;
       }
 
-      if (this.rendered) this.rendered();
-      // new Event for fully mountedCallback ?
+      if (this.mountedCallback) this.mountedCallback();
     });
   }
 
