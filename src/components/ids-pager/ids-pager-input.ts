@@ -91,9 +91,7 @@ export default class IdsPagerInput extends Base {
     }
 
     // give parent a chance to reflect attributes
-    window.requestAnimationFrame(() => {
-      this.#updatePageCountShown();
-    });
+    this.#updatePageCountShown();
   }
 
   /** @param {string|number} value The number of items to show per page */

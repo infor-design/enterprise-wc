@@ -112,7 +112,7 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
    * @returns {object} The object for chaining.
    */
   render() {
-    if (!this.template) {
+    if (!this.template || this.shadowRoot) {
       return this;
     }
 
