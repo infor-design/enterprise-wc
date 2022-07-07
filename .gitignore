@@ -19,3 +19,8 @@ report.*.json
 
 # AWS
 .aws-sam/
+
+# generated docs
+apidocs
+docs
+docs.zip
