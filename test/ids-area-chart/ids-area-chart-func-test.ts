@@ -10,12 +10,6 @@ import '../helpers/resize-observer-mock';
 describe('IdsAreaChart Component', () => {
   let areaChart: any;
 
-  // const getContext2D: any = jest.fn((t: any) => ({
-  //   measureText: jest.fn((n: any) => ({ width: t && n ? 120 : 100 }))
-  // }));
-
-  // HTMLCanvasElement.prototype.getContext = getContext2D;
-
   beforeEach(async () => {
     areaChart = new IdsAreaChart();
     document.body.appendChild(areaChart);
