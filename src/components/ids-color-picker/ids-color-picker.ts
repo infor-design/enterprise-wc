@@ -46,11 +46,10 @@ export default class IdsColorPicker extends Base {
 
   /** Invoked each time the custom element is added to the DOM */
   connectedCallback() {
+    super.connectedCallback();
     if (!this.swatches.length) {
       this.append(...this.defaultSwatches);
     }
-
-    super.connectedCallback();
 
     this.#updateColor(this.value);
     this.#configureSwatches();

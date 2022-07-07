@@ -164,20 +164,6 @@ export default class IdsStepChart extends Base {
     }
   }
 
-  // eslint-disable-next-line jsdoc/require-returns
-  /**
-   * Custom Element `attributeChangedCallback` implementation
-   * @param {string} name The name of attribute changed
-   * @param {any} oldValue The old value
-   * @param {any} newValue The new value
-   * @returns {void}
-   */
-  attributeChangedCallback(name: string, oldValue: any, newValue: any) {
-    if (oldValue !== newValue && name !== 'step-count') {
-      this[name] = newValue;
-    }
-  }
-
   /**
    * Create the Template for the contents
    * @returns {string} The template

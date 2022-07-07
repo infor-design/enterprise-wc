@@ -1,3 +1,9 @@
+# 1.0.0-beta.1
+
+## 1.0.0-beta.1 Fixes
+
+- `[General]` Fixed the initialization lifecycle of all components. ([#789](https://github.com/infor-design/enterprise-wc/issues/789))
+
 # 1.0.0-beta.0
 
 ## 1.0.0-beta.0 Breaking Changes
