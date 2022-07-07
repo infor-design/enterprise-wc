@@ -4,10 +4,17 @@
 import IdsAreaChart from '../../src/components/ids-area-chart/ids-area-chart';
 import dataset from '../../src/assets/data/components.json';
 import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
+import '../helpers/canvas-mock';
 import '../helpers/resize-observer-mock';
 
 describe('IdsAreaChart Component', () => {
   let areaChart: any;
+
+  // const getContext2D: any = jest.fn((t: any) => ({
+  //   measureText: jest.fn((n: any) => ({ width: t && n ? 120 : 100 }))
+  // }));
+
+  // HTMLCanvasElement.prototype.getContext = getContext2D;
 
   beforeEach(async () => {
     areaChart = new IdsAreaChart();
