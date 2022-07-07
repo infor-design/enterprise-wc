@@ -473,6 +473,10 @@ export default class IdsCalendar extends Base {
     this.#getEventFormPopup().querySelector('#event-subject').focus();
   }
 
+  /**
+   * Enables/Disabled time pickers inside event form
+   * @param {boolean} disable boolean
+   */
   #toggleTimePickers(disable: boolean): void {
     const popup = this.#getEventFormPopup();
 
@@ -510,6 +514,10 @@ export default class IdsCalendar extends Base {
     }
   }
 
+  /**
+   * Gets values from event form and updates event
+   * @param {HTMLElement} formElem form element
+   */
   #submitEventForm(formElem: any) {
     const id = formElem.getAttribute('data-id');
     const subject = formElem.querySelector('#event-subject')?.value;
