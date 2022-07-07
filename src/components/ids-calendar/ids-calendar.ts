@@ -772,7 +772,10 @@ export default class IdsCalendar extends Base {
     this.eventsData = this.eventsData.concat(eventData);
 
     this.triggerEvent('eventadded', this, {
-      detail: { eventData },
+      detail: {
+        elem: this,
+        value: eventData
+      },
       bubbles: true,
       cancelable: true,
       composed: true
@@ -793,7 +796,10 @@ export default class IdsCalendar extends Base {
       this.eventsData = events;
 
       this.triggerEvent('eventupdated', this, {
-        detail: { eventData },
+        detail: {
+          elem: this,
+          value: eventData
+        },
         bubbles: true,
         cancelable: true,
         composed: true

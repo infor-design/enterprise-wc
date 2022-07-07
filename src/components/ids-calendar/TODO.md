@@ -11,7 +11,3 @@ Keep this file in sync with #673, #757
 - [x] [Clear Events](https://main-enterprise.demo.design.infor.com/components/calendar/test-allow-single-pane.html)
 - [x] [Add New Events with API)](https://main-enterprise.demo.design.infor.com/components/calendar/test-allow-single-pane.html)
 - [x] [Add Event with modal](https://main-enterprise.demo.design.infor.com/components/calendar/test-allow-single-pane.html)
-
-## Minor
-- [x] [RTL and translations for editing form](https://main-enterprise.demo.design.infor.com/components/calendar/test-allow-single-pane.html)
-- [x] [Is All Day Checkbox Disables Hour Inputs](https://main-enterprise.demo.design.infor.com/components/calendar/test-allow-single-pane.html)
