@@ -74,19 +74,23 @@ class IdsDatePicker extends Base {
    * Elements for internal usage
    * @private
    */
-  #monthView = this.container.querySelector('ids-month-view');
+  #monthView: any;
 
-  #popup = this.container.querySelector('ids-popup');
+  #popup: any;
 
-  #triggerButton = this.container.querySelector('ids-trigger-button');
+  #triggerButton: any;
 
-  #triggerField = this.container.querySelector('ids-trigger-field');
+  #triggerField: any;
 
   connectedCallback(): void {
     super.connectedCallback();
     this.#attachEventHandlers();
     this.#attachExpandedListener();
     this.#attachKeyboardListeners();
+    this.#monthView = this.container.querySelector('ids-month-view');
+    this.#popup = this.container.querySelector('ids-popup');
+    this.#triggerButton = this.container.querySelector('ids-trigger-button');
+    this.#triggerField = this.container.querySelector('ids-trigger-field');
   }
 
   /**

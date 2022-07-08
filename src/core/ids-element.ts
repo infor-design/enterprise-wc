@@ -74,7 +74,6 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
         if (this.delayedAttributes.includes(this.delayedProps[index].name)) continue;
         this[this.delayedProps[index].name] = this.delayedProps[index].value;
       }
-
       if (this.mountedCallback) this.mountedCallback();
     });
   }

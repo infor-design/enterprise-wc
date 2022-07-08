@@ -108,6 +108,7 @@ class IdsMonthView extends Base {
     super.connectedCallback();
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
+    this.#renderMonth();
   }
 
   #currentLegend = [];
@@ -155,6 +156,15 @@ class IdsMonthView extends Base {
       attributes.START_DATE,
       attributes.USE_RANGE,
       attributes.YEAR
+    ];
+  }
+
+  get delayedAttributes(): Array<string> {
+    return [
+      attributes.DAY,
+      attributes.FIRST_DAY_OF_WEEK,
+      attributes.MONTH,
+      attributes.YEAR,
     ];
   }
 
