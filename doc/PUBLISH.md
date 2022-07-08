@@ -29,13 +29,13 @@ Normally re-running the `publish:link` task is sufficient to update the local NP
 First, check the local NPM repo for the `ids-enterprise-wc` package:
 
 ```sh
-$ npm ls --global
+npm ls --global
 ```
 
 If the package exists, remove it:
 
 ```sh
-$ npm rm --global ids-enterprise-wc
+npm rm --global ids-enterprise-wc
 ```
 
 After this, the package should no longer exist in the global NPM repo.
