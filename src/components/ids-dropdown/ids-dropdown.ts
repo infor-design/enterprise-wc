@@ -479,7 +479,7 @@ export default class IdsDropdown extends Base {
   }
 
   #configurePopup() {
-    this.popup.alignTarget = this.input.fieldContainer;
+    this.popup.alignTarget = this.input.fieldContainer.querySelector('input');
     this.popup.align = 'bottom, left';
     this.popup.arrow = 'none';
     this.popup.y = -1;
@@ -623,14 +623,12 @@ export default class IdsDropdown extends Base {
     this.onEvent('click', this, (e: any) => {
       if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
         this.value = e.target.getAttribute('value');
+        return;
       }
 
       if (e.target.closest('ids-list-box-option')) {
         this.value = e.target.closest('ids-list-box-option').getAttribute('value');
       }
-      /* if (e.target.isEqualNode(this)) {
-        this.toggle();
-      } */
     });
 
     this.onEvent('click', this.input.fieldContainer, () => {

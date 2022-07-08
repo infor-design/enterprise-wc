@@ -52,6 +52,23 @@ export default class IdsIcon extends Base {
   }
 
   /**
+   * Only Run these setters on change
+   * @returns {Array} The attributes to delay
+   */
+  get delayedAttributes(): string[] {
+    return [
+      attributes.BADGE_COLOR,
+      attributes.BADGE_POSITION,
+      attributes.HEIGHT,
+      attributes.ICON,
+      attributes.SIZE,
+      attributes.VERTICAL,
+      attributes.VIEWBOX,
+      attributes.WIDTH
+    ];
+  }
+
+  /**
    * Handle change events
    */
   #attachEventHandlers() {
@@ -327,12 +344,14 @@ export default class IdsIcon extends Base {
     const isPathData = pathData.hasOwnProperty(value);
     const isEmptyPathData = emptyIconPathData.hasOwnProperty(value);
     if (value && (isPathData || isEmptyPathData)) {
-      svgElem.style.display = '';
       this.setAttribute(attributes.ICON, value);
-      svgElem.innerHTML = this.iconData();
+      if (svgElem) {
+        svgElem.style.display = '';
+        svgElem.innerHTML = this.iconData();
+      }
     } else {
       this.removeAttribute(attributes.ICON);
-      svgElem.style.display = 'none';
+      if (svgElem) svgElem.style.display = 'none';
     }
   }
 

@@ -211,7 +211,7 @@ export default class IdsToastMessage extends Base {
       this.onEvent(event, toast, (e: MouseEvent) => {
         isPausePlay = !!/mousedown|touchstart/i.test(e.type);
         updateTimer();
-      });
+      }, { passive: true });
     });
 
     const keyEvents = [`keydown.toast-${id}`, `keyup.toast-${id}`];

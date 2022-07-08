@@ -127,7 +127,7 @@ export default class IdsEditor extends Base {
   disconnectedCallback() {
     super.disconnectedCallback?.();
 
-    // Cleanup markings might still present
+    // Cleanup marking that might still be present
     [
       ...qsAll('#errormessage-modal, #hyperlink-modal, #insertimage-modal', this.shadowRoot),
       ...qsAll(

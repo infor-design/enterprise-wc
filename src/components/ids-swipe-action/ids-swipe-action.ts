@@ -105,7 +105,7 @@ export default class IdsSwipeAction extends Base {
     if (this.swipeType === 'continuous') {
       this.onEvent('swipe', this, (e: CustomEvent) => {
         this.querySelector(`[slot="action-${e.detail.direction === 'left' ? 'right' : 'left'}"`).click();
-      }, { scrollContainer: this.container });
+      }, { scrollContainer: this.container, passive: true });
     }
 
     // Close on click

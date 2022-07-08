@@ -45,14 +45,20 @@ export default class IdsDataLabel extends Base {
     ];
   }
 
+  get delayedAttributes() {
+    return [
+      attributes.LABEL,
+      attributes.LABEL_POSITION
+    ];
+  }
+
   /**
    * Create the Template for the contents
    * @returns {string} The template
    */
   template(): string {
-    return `
-      <div class="${this.labelClass}">
-        <ids-text class="label" font-size="16"></ids-text>
+    return `<div class="${this.labelClass}">
+        <ids-text class="label" font-size="16">${this.label}<span class="colon">${this.colon}</span></ids-text>
         <ids-text class="description" font-size="16"><slot></slot></ids-text>
       </div>
     `;
@@ -79,7 +85,6 @@ export default class IdsDataLabel extends Base {
     if (value) {
       this.setAttribute(attributes.LABEL_POSITION, value);
       this.container.className = `${value}-positioned`;
-      this.container.querySelector('.label').innerHTML = `${value}<span class="colon">${this.colon}</span>`;
     }
   }
 

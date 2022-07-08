@@ -43,6 +43,10 @@ export default class IdsEmptyMessage extends Base {
     ];
   }
 
+  get delayedAttributes(): string[] {
+    return [attributes.ICON];
+  }
+
   iconData(): string {
     return (<any>pathData)[this.icon];
   }
