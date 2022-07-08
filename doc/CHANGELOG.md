@@ -1,6 +1,14 @@
-# 1.0.0-beta.0
+# What's New with Enterprise Web Components
 
-## 1.0.0-beta.0 Breaking Changes
+## 1.0.0-beta.1
+
+### 1.0.0-beta.1 Fixes
+
+- `[Card]` Fixed the `height` setting which was not working. ([#788](https://github.com/infor-design/enterprise-wc/pull/788))
+
+## 1.0.0-beta.0
+
+### 1.0.0-beta.0 Breaking Changes
 
 All components in this version are now web components compared to 4.x. Each component can now be imported as a single JS file and used with encapsulated styles.
 For more details on breaking changes see each component in the individual README.md files.
