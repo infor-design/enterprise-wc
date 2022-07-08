@@ -121,7 +121,7 @@ describe('IdsAxisChart Component', () => {
   });
 
   it('supports setting textWidths', () => {
-    expect(axisChart.textWidths.left).toEqual(4);
+    expect(axisChart.textWidths.left).toEqual(-16);
     expect(axisChart.textWidths.right).toEqual(0);
     const newTextWidths = {
       left: 40, right: 40, top: 40, bottom: 40
