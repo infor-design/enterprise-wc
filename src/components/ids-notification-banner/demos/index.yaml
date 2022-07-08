@@ -14,3 +14,6 @@
   - link: card.html
     type: Example
     description: Showing adding notification banners in a card/widget
+  - link: side-by-side.html
+    type: Example
+    description: Showing a notification banners side by side with 4.x
