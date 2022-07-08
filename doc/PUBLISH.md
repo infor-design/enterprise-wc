@@ -20,7 +20,7 @@ Normally, this is done simply with `npm link` and the local NPM repository on yo
 - copies `package-dist.json` and other files to mimic a real package,
 - finally runs `npm link` in the correct dist folder
 
-After running this task, go to the root folder of the destination project and run `npm link ids-enterprise-wc` to install the symlinked copy of the components.
+After running this task, go to the root folder of the destination project and run `npm link ids-enterprise-wc` to install the symlinked copy of the components.  Note that if you've previously run `npm install` and already have a copy of the Ids Web Components package, you must remove that dependency with `npm uninstall` or deletion before making the link.
 
 ### Removing local changes
 
