@@ -23,34 +23,18 @@ export default class IdsColorPicker extends Base {
     super();
   }
 
-  /**
-   * Reference to swatch input
-   * (Used in the advanced color picker to retain `input[type="color"]` state)
-   */
-  readonly colorInput: any = this.container.querySelector('.color-input');
-
-  /** Reference to the color preview */
-  readonly colorPreview: any = this.container.querySelector('.color-preview');
-
-  /** Reference to the color picker input */
-  readonly colorPickerInput: any = this.container.querySelector('ids-trigger-field');
-
-  /** Reference to the color picker text-field */
-  readonly textInput: any = this.container.querySelector('#ids-color-picker-input');
-
-  /** Reference to the color picker's trigger button */
-  readonly triggerBtn: any = this.container.querySelector('ids-trigger-button');
-
-  /** Reference to internal Popup */
-  readonly popup: any = this.container.querySelector('ids-popup');
-
   /** Invoked each time the custom element is added to the DOM */
   connectedCallback() {
     super.connectedCallback();
+    this.colorInput = this.container.querySelector('.color-input');
+    this.colorPreview = this.container.querySelector('.color-preview');
+    this.colorPickerInput = this.container.querySelector('ids-trigger-field');
+    this.textInput = this.container.querySelector('#ids-color-picker-input');
+    this.triggerBtn = this.container.querySelector('ids-trigger-button');
+
     if (!this.swatches.length) {
       this.append(...this.defaultSwatches);
     }
-
     this.#updateColor(this.value);
     this.#configureSwatches();
     this.#attachEventHandlers();

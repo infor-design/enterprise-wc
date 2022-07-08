@@ -149,7 +149,7 @@ describe('Ids Color Picker Component', () => {
     expect(colorpicker.getAttribute('suppress-tooltips')).toEqual('true');
   });
 
-  it('suppresses lables and tooltips when IdsColorPicker.advanced is true', () => {
+  it('suppresses labels and tooltips when IdsColorPicker.advanced is true', () => {
     expect(colorpicker.advanced).toEqual(false);
     expect(colorpicker.suppressLabels).toEqual(false);
     expect(colorpicker.suppressTooltips).toEqual(false);
