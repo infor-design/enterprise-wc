@@ -17,7 +17,7 @@ For guidelines on when and where to use the components see the [design.infor.com
 - SVG-based iconography for high DPI screens and scaling
 - Built-in, extendible localization system
 - Built-in mitigation of XSS exploits
-- 100% Functional Test Coverage
+- 85-100% Functional Test Coverage
 - Passes all code security scans and is fully CSP compliant
 - Well documented in `.md` format
 - Contains an extensive [Change log](./doc/CHANGELOG.md) which lists any and all breaking changes
