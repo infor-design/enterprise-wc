@@ -276,15 +276,18 @@ export default class IdsAxisChart extends Base {
       y: [...this.svg.querySelectorAll('.labels.y-labels text')]
     };
 
+    // Adjust y-max text width
+    this.#yMaxTextWidth += this.margins.left;
+
     // X-labels
-    let calcX: any = (x: any) => stringToNumber(x) - this.#yMaxTextWidth - this.margins.left - (this.margins.leftInner / 2);
-    let newX = labels.x.map((label: any) => calcX(label.getAttribute('x'))).reverse();
+    let calcX: any = (x: any) => stringToNumber(x) - this.#yMaxTextWidth;
+    const newX = labels.x.map((label: any) => calcX(label.getAttribute('x'))).reverse();
     labels.x.forEach((label: any, i: number) => label.setAttribute('x', newX[i]));
 
     // Y-labels
-    calcX = (x: any) => `-${stringToNumber(x) + this.#yMaxTextWidth + this.margins.leftInner}px`;
-    newX = labels.y.map((label: any) => calcX(label.getAttribute('x')));
-    labels.y.forEach((label: any, i: number) => label.style.setProperty('--ids-axis-chart-ylabels-x', newX[i]));
+    calcX = (x: any) => `-${stringToNumber(x) + this.#yMaxTextWidth}px`;
+    labels.y.forEach((label: any) => label
+      .style.setProperty('--ids-axis-chart-ylabels-x', calcX(label.getAttribute('x'))));
   }
 
   /** The marker data to use to draw the chart */
@@ -818,7 +821,7 @@ export default class IdsAxisChart extends Base {
       const w = this.calculateTextRenderWidth(v);
       if (w > maxWidth) maxWidth = w;
     });
-    this.#yMaxTextWidth = maxWidth;
+    this.#yMaxTextWidth = maxWidth - this.margins.left;
   }
 
   /**
