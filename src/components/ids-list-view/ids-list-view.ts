@@ -574,7 +574,7 @@ export default class IdsListView extends Base {
 
   /**
    * Return an item's html injecting any values from the dataset as needed.
-   * @param  {object} item The item to generate
+   * @param {object} item The item to generate
    * @returns {string} The html for this item
    */
   itemTemplate(item: any): string {
@@ -794,7 +794,7 @@ export default class IdsListView extends Base {
   /**
    * Calculate the height of a template element.
    * @private
-   * @param  {string} itemTemplate The item template
+   * @param {string} itemTemplate The item template
    * @returns {number} The item height
    */
   #checkTemplateHeight(itemTemplate: string): number {
@@ -808,8 +808,8 @@ export default class IdsListView extends Base {
 
   /**
    * Get boolean property value for given attribute.
-   * @param  {string} attributeName The attribute name.
-   * @param  {boolean} defaultValue The default value.
+   * @param {string} attributeName The attribute name.
+   * @param {boolean} defaultValue The default value.
    * @returns {boolean} The property value
    */
   boolVal(attributeName: string, defaultValue: boolean): boolean {

@@ -114,7 +114,7 @@ export default class IdsBlockgridItem extends Base {
   /**
    * Handle single/multiple selection change
    * @private
-   * @param  {object} e Actual event
+   * @param {object} e Actual event
    */
   #handleSelectionChange(e: any) {
     this.container.focus();
@@ -130,7 +130,7 @@ export default class IdsBlockgridItem extends Base {
   /**
    * Change single selection for block item
    * @private
-   * @param  {object} e Actual event
+   * @param {object} e Actual event
    */
   #handleSingleSelectionChange(e: any) {
     if (this.selected === 'true') {
@@ -161,7 +161,7 @@ export default class IdsBlockgridItem extends Base {
   /**
    * Change multiple selection for block item
    * @private
-   * @param  {object} e Actual event
+   * @param {object} e Actual event
    */
   #handleMultiMixedSelectionChange(e: any) {
     this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, this.selected !== 'true');

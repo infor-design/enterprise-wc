@@ -19,11 +19,6 @@ export default class IdsTriggerButton extends Base {
    */
   constructor() {
     super();
-
-    // Trigger it the first time since we have no template
-    if (stringToBool(this.readonly)) {
-      this.readonly = true;
-    }
   }
 
   /**

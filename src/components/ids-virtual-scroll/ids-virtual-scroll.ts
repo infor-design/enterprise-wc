@@ -264,8 +264,8 @@ export default class IdsVirtualScroll extends Base {
 
   /**
    * Return a item's html injecting any values from the dataset as needed.
-   * @param  {object} item The item to generate
-   * @param  {number} index the index for the template
+   * @param {object} item The item to generate
+   * @param {number} index the index for the template
    * @returns {string} The html for this item
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

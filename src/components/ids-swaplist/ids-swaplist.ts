@@ -177,7 +177,7 @@ export default class IdsSwapList extends Base {
 
   /**
    * Return an item's html injecting any values from the dataset as needed.
-   * @param  {any} item The item to generate
+   * @param {any} item The item to generate
    * @returns {string} The html for this item
    */
   itemTemplate(item: any): any {

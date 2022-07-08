@@ -260,9 +260,9 @@ export default class IdsWizard extends Base {
 
   /**
    * Handle Setting changes of observed properties
-   * @param  {string} name The property name
-   * @param  {string} oldValue The property old value
-   * @param  {string} newValue The property new value
+   * @param {string} name The property name
+   * @param {string} oldValue The property old value
+   * @param {string} newValue The property new value
    */
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     super.attributeChangedCallback(name, oldValue, newValue);

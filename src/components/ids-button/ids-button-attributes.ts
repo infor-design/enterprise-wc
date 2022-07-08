@@ -16,7 +16,7 @@ const BUTTON_DEFAULTS: any = {
   cssClass: [],
   disabled: false,
   hidden: false,
-  tabIndex: true,
+  tabIndex: 0,
   type: BUTTON_TYPES[0]
 };
 

@@ -196,7 +196,7 @@ export default class IdsUpload extends Base {
   /**
    * Dispatch change event
    * @private
-   * @param  {object} e Actual event
+   * @param {object} e Actual event
    * @returns {void}
    */
   dispatchChangeEvent(e: CustomEvent): void {
@@ -204,8 +204,8 @@ export default class IdsUpload extends Base {
      * Trigger event on parent and compose the args
      * will fire change event
      * @private
-     * @param  {object} elem Actual event
-     * @param  {string} value The updated input element value
+     * @param {object} elem Actual event
+     * @param {string} value The updated input element value
      */
     this.triggerEvent('change', this, {
       detail: {

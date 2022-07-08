@@ -395,8 +395,8 @@ export default class IdsTextarea extends Base {
            * Trigger event on parent and compose the args
            * will fire nativeEvents.
            * @private
-           * @param  {object} elem Actual event
-           * @param  {string} value The updated element value
+           * @param {object} elem Actual event
+           * @param {string} value The updated element value
            */
           this.triggerEvent(e.type, this, {
             detail: { elem: this, nativeEvent: e, value: this.value }

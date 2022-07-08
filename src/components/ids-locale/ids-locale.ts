@@ -186,7 +186,7 @@ class IdsLocale {
   /**
    * Add an object full of translations to the given locale.
    * @param {string} lang The language to add them to.
-   * @param  {object} messages Strings in the form of
+   * @param {object} messages Strings in the form of
    */
   extendTranslations(lang: string, messages: any) {
     if (!this.loadedLanguages.has(lang)) {
@@ -373,7 +373,7 @@ class IdsLocale {
 
   /**
    * Convert a number in arabic/chinese or hindi numerals to an "english" number.
-   * @param  {string} string The string number in arabic/chinese or hindi
+   * @param {string} string The string number in arabic/chinese or hindi
    * @returns {number} The english number.
    */
   convertNumberToEnglish(string: string): number {
@@ -529,7 +529,7 @@ class IdsLocale {
 
   /**
    * Convert the two digit year year to the correct four digit year.
-   * @param  {number} twoDigitYear The two digit year.
+   * @param {number} twoDigitYear The two digit year.
    * @returns {number} Converted 3 digit year.
    */
   twoToFourDigitYear(twoDigitYear: any) {
@@ -1181,13 +1181,13 @@ class IdsLocale {
   /**
    * Format out the date into parts.
    * @private
-   * @param  {Array} formatParts An array of the format bits.
-   * @param  {Array} dateStringParts An array of the date parts.
-   * @param  {string} filter1 The first option to filter.
-   * @param  {string} filter2 The second option to filter.
-   * @param  {string} filter3 The third option to filter.
-   * @param  {string} filter4 The fourth option to filter.
-   * @param  {string} filter5 The fifth option to filter.
+   * @param {Array} formatParts An array of the format bits.
+   * @param {Array} dateStringParts An array of the date parts.
+   * @param {string} filter1 The first option to filter.
+   * @param {string} filter2 The second option to filter.
+   * @param {string} filter3 The third option to filter.
+   * @param {string} filter4 The fourth option to filter.
+   * @param {string} filter5 The fifth option to filter.
    * @returns {string} The filtered out date part.
    */
   #determineDatePart(

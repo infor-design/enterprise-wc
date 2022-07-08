@@ -34,26 +34,24 @@ describe('IdsButton Component', () => {
     expect(btn.shouldUpdate).toBeTruthy();
   });
 
-  it('renders correctly', () => {
+  it('renders correctly', async () => {
     const elem: any = new IdsButton();
+    document.body.appendChild(elem);
     elem.cssClass = 'test-class';
     elem.disabled = true;
     elem.icon = 'add';
     elem.text = 'test';
     elem.state.type = 'icon';
-    document.body.appendChild(elem);
-    elem.template();
     expect(elem.outerHTML).toMatchSnapshot();
   });
 
   it('renders icons on the opposite side correctly', () => {
     const elem: any = new IdsButton();
+    document.body.appendChild(elem);
     elem.id = 'test-button';
     elem.icon = 'settings';
     elem.iconAlign = 'end';
     elem.text = 'Settings';
-    document.body.appendChild(elem);
-    elem.template();
     expect(elem.outerHTML).toMatchSnapshot();
   });
 
@@ -126,9 +124,9 @@ describe('IdsButton Component', () => {
     btn.setAttribute('tabindex', '-1');
 
     expect(btn.hasAttribute('focusable')).toBeFalsy();
-    expect(btn.tabIndex).toEqual(-1);
-    expect(btn.button.getAttribute('tabindex')).toEqual('-1');
-    expect(btn.state.tabIndex).toEqual(-1);
+    expect(btn.tabIndex).toEqual(0);
+    expect(btn.button.getAttribute('tabindex')).toEqual('0');
+    expect(btn.state.tabIndex).toEqual(0);
 
     btn.setAttribute('tabindex', '0');
 

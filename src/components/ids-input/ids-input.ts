@@ -500,8 +500,8 @@ export default class IdsInput extends Base {
          * Trigger event on parent and compose the args
          * will fire nativeEvents.
          * @private
-         * @param  {object} elem Actual event
-         * @param  {string} value The updated input element value
+         * @param {object} elem Actual event
+         * @param {string} value The updated input element value
          */
         this.triggerEvent(e.type, this, {
           detail: {

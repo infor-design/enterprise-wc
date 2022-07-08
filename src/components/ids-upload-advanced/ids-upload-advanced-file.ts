@@ -275,7 +275,7 @@ export default class IdsUploadAdvancedFile extends Base {
 
   /**
    * Abort handler
-   * @param  {any} e The event
+   * @param {any} e The event
    * @returns {void}
    */
   abortHandler(e = null): void {

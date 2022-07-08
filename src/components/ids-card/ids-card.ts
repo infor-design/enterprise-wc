@@ -175,7 +175,7 @@ export default class IdsCard extends Base {
   /**
    * Change single selection for cards
    * @private
-   * @param  {object} e Actual event
+   * @param {object} e Actual event
    */
   #handleSingleSelectionChange(e: Event) {
     const cardElements = document.querySelectorAll('ids-card[selection="single"]');
@@ -195,7 +195,7 @@ export default class IdsCard extends Base {
   /**
    * Change multiple selection for cards
    * @private
-   * @param  {object} e Actual event
+   * @param {object} e Actual event
    */
   #handleMultipleSelectionChange(e: Event) {
     this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, this.selected !== 'true');

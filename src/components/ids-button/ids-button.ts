@@ -28,40 +28,9 @@ import styles from './ids-button.scss';
 export default class IdsButton extends Base {
   constructor() {
     super();
-    this.state = {};
     Object.keys(BUTTON_DEFAULTS).forEach((prop) => {
       this.state[prop] = BUTTON_DEFAULTS[prop];
     });
-    this.shouldUpdate = true;
-  }
-
-  /**
-   * Override `attributeChangedCallback` from IdsElement to wrap its normal operation in a
-   * check for a true `shouldUpdate` property.
-   * @param  {string} name The property name
-   * @param  {string} oldValue The property old value
-   * @param  {string} newValue The property new value
-   */
-  attributeChangedCallback(name: any, oldValue: any, newValue: string) {
-    if (this.shouldUpdate) {
-      switch (name) {
-      // Convert "tabindex" to "tabIndex"
-        case 'tabindex':
-          if (Number.isNaN(Number.parseInt(newValue))) {
-            this.tabIndex = null;
-          }
-          this.tabIndex = Number(newValue);
-          break;
-        case 'width':
-          if (oldValue !== newValue) {
-            this.width = newValue;
-          }
-          break;
-        default:
-          super.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
-          break;
-      }
-    }
   }
 
   /**
@@ -605,7 +574,7 @@ export default class IdsButton extends Base {
         }
         return;
       }
-      if (this.button.classList.contains(typeClassName)) {
+      if (this.button.classList?.contains(typeClassName)) {
         this.button.classList.remove(typeClassName);
       }
     });
