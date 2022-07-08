@@ -17,6 +17,9 @@
   - link: responsive.html
     type: Example
     description: Shows a responsive chart
+  - link: no-animation.html
+    type: Example
+    description: Shows a line chart without animation
   - link: side-by-side.html
     type: Side by Side
     description: Shows chart side by side with a 4.x chart
