@@ -17,3 +17,6 @@
   - link: side-by-side.html
     type: Example
     description: Showing a notification banners side by side with 4.x
+  - link: standalone-css.html
+    type: Standalone CSS
+    description: Showing a notification banner with standalone CSS
