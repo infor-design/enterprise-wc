@@ -209,7 +209,7 @@ export default class IdsCheckbox extends Base {
     this.#triggeredChange = false;
   }
 
-  get checked(): boolean | string { return this.getAttribute(attributes.CHECKED); }
+  get checked(): boolean { return stringToBool(this.getAttribute(attributes.CHECKED)); }
 
   /**
    *  Sets the checkbox color to one of the colors in our color palette for example emerald07
