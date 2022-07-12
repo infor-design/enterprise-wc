@@ -13,8 +13,9 @@
 
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
-        <ids-dropdown id="dropdown-1" label="Normal Dropdown with Dirty Tracker" value="ca" dirty-tracker="true">
-          <ids-list-box class="sub-group">
+        <ids-dropdown id="dropdown-1" label="Normal Dropdown with Dirty Tracker" group="true" value="ca" dirty-tracker="true">
+          <ids-list-box class="sub-group" label="Group One A">
+            <label for="Group One" class="group-label">Group One</label>
             <ids-list-box-option id="hi" value="hi">Hawaii</ids-list-box-option>
             <ids-list-box-option id="id" value="id">Idaho</ids-list-box-option>
             <ids-list-box-option id="il" value="il">Illinois</ids-list-box-option>
@@ -23,6 +24,7 @@
             <ids-list-box-option id="ks" value="ks">Kansas</ids-list-box-option>
           </ids-list-box>
           <ids-list-box class="sub-group">
+              <label for="Group Two" class="group-label">Group Two</label>
               <ids-list-box-option id="ky" value="ky">Kentucky</ids-list-box-option>
               <ids-list-box-option id="la" value="la">Louisiana</ids-list-box-option>
               <ids-list-box-option id="me" value="me">Maine</ids-list-box-option>

@@ -518,18 +518,38 @@ export default class IdsDropdown extends Base {
    * @private
    */
   #loadDataSet(dataset: any) {
-    let html = '';
-    const listbox = this.querySelector('ids-list-box');
-    listbox.innerHTML = '';
-
-    dataset.forEach((option: any) => {
-      html += `<ids-list-box-option
+    if (this.group) {
+      let html = '';
+      this.innerHtml = '';
+      dataset.forEach((option: any, index: number) => {
+        if (option.label) {
+          if (index !== 0) {
+            html += `</ids-listbox>`;
+          }
+          html += `<ids-listbox class="sub-group">
+          <label for="${option.label}" class="group-label">${option.label}</label>`;
+        } else {
+          html += `<ids-list-box-option
+          value="${option.value}">${option.label}
+          </ids-list-box-option>`;
+        }
+      });
+      this.insertAdjacentHTML('afterbegin', html);
+      this.#insertBlankOption();
+      this.value = this.getAttribute('value');
+    } else {
+      let html = '';
+      const listbox = this.querySelector('ids-list-box');
+      listbox.innerHTML = '';
+      dataset.forEach((option: any) => {
+        html += `<ids-list-box-option
         value="${option.value}">${option.label}
         </ids-list-box-option>`;
-    });
-    listbox.insertAdjacentHTML('afterbegin', html);
-    this.#insertBlankOption();
-    this.value = this.getAttribute('value');
+      });
+      listbox.insertAdjacentHTML('afterbegin', html);
+      this.#insertBlankOption();
+      this.value = this.getAttribute('value');
+    }
   }
 
   /**

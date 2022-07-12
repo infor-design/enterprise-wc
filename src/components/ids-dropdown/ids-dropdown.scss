@@ -10,6 +10,16 @@ ids-trigger-button {
   position: relative;
 }
 
+.group-label {
+  display: block;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 300px;
+  scroll-behavior: smooth;
+  min-width: $input-size-xs - 2;
+  width: 298px;
+}
+
 // Icon Placement
 .icon-container {
   @include text-slate-100();
