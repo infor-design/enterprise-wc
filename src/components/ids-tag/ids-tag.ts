@@ -120,7 +120,6 @@ export default class IdsTag extends Base {
     if (isDismissible) {
       this.setAttribute('dismissible', value.toString());
       this.container.classList.add('focusable');
-      this.container.setAttribute('tabindex', '0');
       this.#appendIcon('close');
       this.#attachKeyboardListeners();
       return;
@@ -128,7 +127,6 @@ export default class IdsTag extends Base {
 
     this.removeAttribute('dismissible');
     this.#removeIcon('close');
-    this.container.removeAttribute('tabindex');
     this.container.classList.remove('focusable');
   }
 
@@ -174,7 +172,7 @@ export default class IdsTag extends Base {
     // Ensure icon is always last
     let isChanging = false;
     this.onEvent('slotchange', this.shadowRoot.querySelector('slot'), () => {
-      if (this.dismissible && !isChanging && this.lastElementChild.nodeName !== 'IDS-ICON') {
+      if (this.dismissible && !isChanging && this.lastElementChild?.nodeName !== 'IDS-ICON') {
         isChanging = true;
         this.#removeIcon('close');
         this.#appendIcon('close');
