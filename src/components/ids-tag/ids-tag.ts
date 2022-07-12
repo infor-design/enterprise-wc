@@ -64,21 +64,25 @@ export default class IdsTag extends Base {
   set color(value: string) {
     if (value) {
       this.setAttribute('color', value);
-      if (value.substring(0, 1) === '#') {
-        this.container.style.backgroundColor = value;
-        this.container.style.borderColor = value;
-        return;
-      }
-
-      this.container.classList.remove('secondary', 'info', 'success', 'warning', 'error');
-      this.container.classList.add(value);
-      return;
+    } else {
+      this.removeAttribute('color');
     }
 
-    this.removeAttribute('color');
-    this.container.style.backgroundColor = '';
-    this.container.style.borderColor = '';
-    this.container.style.color = '';
+    if (this.container) {
+      this.container.classList.remove('secondary', 'info', 'success', 'warning', 'error');
+      this.container.style.backgroundColor = '';
+      this.container.style.borderColor = '';
+      this.container.style.color = '';
+
+      if (value) {
+        if (value.substring(0, 1) === '#') {
+          this.container.style.backgroundColor = value;
+          this.container.style.borderColor = value;
+        } else {
+          this.container.classList.add(value);
+        }
+      }
+    }
   }
 
   get color(): string { return this.getAttribute('color'); }
@@ -119,15 +123,20 @@ export default class IdsTag extends Base {
     const isDismissible = stringToBool(value);
     if (isDismissible) {
       this.setAttribute('dismissible', value.toString());
-      this.container.classList.add('focusable');
-      this.#appendIcon('close');
-      this.#attachKeyboardListeners();
-      return;
+    } else {
+      this.removeAttribute('dismissible');
     }
 
-    this.removeAttribute('dismissible');
-    this.#removeIcon('close');
-    this.container.classList.remove('focusable');
+    if (this.container) {
+      if (isDismissible) {
+        this.container.classList.add('focusable');
+        this.#appendIcon('close');
+        this.#attachKeyboardListeners();
+      } else {
+        this.#removeIcon('close');
+        this.container.classList.remove('focusable');
+      }
+    }
   }
 
   get dismissible(): boolean { return stringToBool(this.getAttribute('dismissible')); }
@@ -140,15 +149,20 @@ export default class IdsTag extends Base {
     const isClickable = stringToBool(value);
     if (isClickable) {
       this.setAttribute('clickable', value.toString());
-      this.container.classList.add('focusable');
-      this.container.setAttribute('tabindex', '0');
-      this.#attachKeyboardListeners();
-      return;
+    } else {
+      this.removeAttribute('clickable');
     }
 
-    this.removeAttribute('clickable');
-    this.container.removeAttribute('tabindex');
-    this.container.classList.remove('focusable');
+    if (this.container) {
+      if (isClickable) {
+        this.container.classList.add('focusable');
+        this.container.setAttribute('tabindex', '0');
+        this.#attachKeyboardListeners();
+      } else {
+        this.container.removeAttribute('tabindex');
+        this.container.classList.remove('focusable');
+      }
+    }
   }
 
   get clickable(): boolean { return this.getAttribute('clickable'); }
