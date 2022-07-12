@@ -63,9 +63,9 @@ export default class IdsTag extends Base {
    */
   set color(value: string) {
     if (value) {
-      this.setAttribute('color', value);
+      this.setAttribute(attributes.COLOR, value);
     } else {
-      this.removeAttribute('color');
+      this.removeAttribute(attributes.COLOR);
     }
 
     if (this.container) {
@@ -85,7 +85,7 @@ export default class IdsTag extends Base {
     }
   }
 
-  get color(): string { return this.getAttribute('color'); }
+  get color(): string { return this.getAttribute(attributes.COLOR); }
 
   /**
    * Check if an icon exists if not add it
@@ -122,24 +122,24 @@ export default class IdsTag extends Base {
   set dismissible(value: boolean) {
     const isDismissible = stringToBool(value);
     if (isDismissible) {
-      this.setAttribute('dismissible', value.toString());
+      this.setAttribute(attributes.DISMISSIBLE, value.toString());
     } else {
-      this.removeAttribute('dismissible');
+      this.removeAttribute(attributes.DISMISSIBLE);
     }
 
     if (this.container) {
       if (isDismissible) {
-        this.container.classList.add('focusable');
+        this.container.classList.add(attributes.FOCUSABLE);
         this.#appendIcon('close');
         this.#attachKeyboardListeners();
       } else {
         this.#removeIcon('close');
-        this.container.classList.remove('focusable');
+        this.container.classList.remove(attributes.FOCUSABLE);
       }
     }
   }
 
-  get dismissible(): boolean { return stringToBool(this.getAttribute('dismissible')); }
+  get dismissible(): boolean { return stringToBool(this.getAttribute(attributes.DISMISSIBLE)); }
 
   /**
    * If set to true the tag has focus state and becomes a clickable linnk
@@ -148,24 +148,24 @@ export default class IdsTag extends Base {
   set clickable(value: boolean) {
     const isClickable = stringToBool(value);
     if (isClickable) {
-      this.setAttribute('clickable', value.toString());
+      this.setAttribute(attributes.CLICKABLE, value.toString());
     } else {
-      this.removeAttribute('clickable');
+      this.removeAttribute(attributes.CLICKABLE);
     }
 
     if (this.container) {
       if (isClickable) {
-        this.container.classList.add('focusable');
-        this.container.setAttribute('tabindex', '0');
+        this.container.classList.add(attributes.FOCUSABLE);
+        this.container.setAttribute(attributes.TABINDEX, '0');
         this.#attachKeyboardListeners();
       } else {
-        this.container.removeAttribute('tabindex');
-        this.container.classList.remove('focusable');
+        this.container.removeAttribute(attributes.TABINDEX);
+        this.container.classList.remove(attributes.FOCUSABLE);
       }
     }
   }
 
-  get clickable(): boolean { return this.getAttribute('clickable'); }
+  get clickable(): boolean { return this.getAttribute(attributes.CLICKABLE); }
 
   /**
    * Establish Internal Event Handlers
