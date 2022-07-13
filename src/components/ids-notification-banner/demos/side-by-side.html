@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/ids-enterprise@4.60.0/dist/js/sohoxi.js"></script>
+  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid cols="3" gap="md">
+      <ids-text font-size="12" type="h1">Notification Banner</ids-text>
+    </ids-layout-grid>
+
+    <ids-notification-banner
+      id="ids-notification-banner-0"
+      message-text="DTO rejected by your manager for Sept 30, 2018."
+      type="success"
+      link="https://infor.com"
+    >
+    </ids-notification-banner>
+
+    <ids-notification-banner
+      id="ids-notification-banner-1"
+      message-text="Notification Banner with no link"
+      type="alert"
+    >
+    </ids-notification-banner>
+
+    <ids-notification-banner
+      id="ids-notification-banner-2"
+      message-text="Notification Banner with custom link text."
+      type="info"
+      link="https://infor.com"
+      link-text="Learn More"
+    >
+    </ids-notification-banner>
+
+    <ids-notification-banner
+      id="ids-notification-banner-3"
+      message-text="DTO rejected by your manager for Sept 30, 2018."
+      type="error"
+      link="https://infor.com"
+    >
+    </ids-notification-banner>
+
+    <ids-notification-banner
+      id="ids-notification-banner-4"
+      message-text="Notification Banner with no link"
+      type="fakeType">
+    </ids-notification-banner>
+
+
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h2">4.x Notification Banner</ids-text>
+    </ids-layout-grid>
+
+    <div class="svg hidden">
+      <div class="svg-icons">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-icons">
+          <symbol id="icon-success" viewBox="0 0 18 18" aria-hidden="true"><path d="M7.038 12.923l-.39.312.366.458.394-.434-.37-.336zM17 9a8 8 0 01-8 8v1a9 9 0 009-9h-1zm-8 8a8 8 0 01-8-8H0a9 9 0 009 9v-1zM1 9a8 8 0 018-8V0a9 9 0 00-9 9h1zm8-8a8 8 0 018 8h1a9 9 0 00-9-9v1zM4.033 9.966l2.615 3.27.78-.625-2.614-3.27-.781.625zm3.375 3.293l6.539-7.192-.74-.673-6.538 7.193.74.672z" fill="currentColor" stroke="none"></path></symbol>
+          <symbol id="icon-close" viewBox="0 0 18 18" aria-hidden="true"><path d="M17.5.5l-17 17m17 0L.5.5" stroke="currentColor" vector-effect="non-scaling-stroke"></path></symbol>
+          <symbol id="icon-alert" viewBox="0 0 18 18" aria-hidden="true"><path d="M8.847 8v4m0 1v1m0-12l-8 14.5h16l-8-14.5z" stroke="currentColor" vector-effect="non-scaling-stroke"></path></symbol>
+          <symbol id="icon-info" viewBox="0 0 18 18"><path d="M9 18a9 9 0 009-9h-1a8 8 0 01-8 8v1zm9-9a9 9 0 00-9-9v1a8 8 0 018 8h1zM9 0a9 9 0 00-9 9h1a8 8 0 018-8V0zM0 9a9 9 0 009 9v-1a8 8 0 01-8-8H0zm9.5 3.923v-5h-1v5h1zM9.5 6V5h-1v1h1z" fill="currentColor" stroke="none"></path></symbol>
+          <symbol id="icon-error" viewBox="0 0 18 18" aria-hidden="true"><path d="M9 1a8 8 0 018 8h1a9 9 0 00-9-9v1zm8 8a8 8 0 01-8 8v1a9 9 0 009-9h-1zm-8 8a8 8 0 01-8-8H0a9 9 0 009 9v-1zM1 9a8 8 0 018-8V0a9 9 0 00-9 9h1zm7.5-4.423V9.5h1V4.577h-1zm0 6.538V12.5h1v-1.385h-1z" fill="currentColor" stroke="none"></path></symbol>
+        </svg>
+      </div>
+    </div>
+
+    <div>
+      <div id="mock-header"></div>
+    </div>
+  </ids-container>
+</body>
+</html>
