@@ -73,13 +73,13 @@ export default class IdsNotificationBanner extends Base {
         </div>
 
         ${this.link !== null ? `<div part="link">
-          <ids-hyperlink href="${this.link}" target="_blank">${this.linkText === null ? 'Click to view' : this.linkText}</ids-hyperlink>
+          <ids-hyperlink font-size="16" href="${this.link}" target="_blank">${this.linkText === null ? 'Click to view' : this.linkText}</ids-hyperlink>
         </div>` : ''}
 
         <div class="ids-notification-banner-button" part="button">
           <ids-button type="tertiary">
             <span class="audible">Close Button</span>
-            <ids-icon slot="icon" icon="close" size="medium"></ids-icon>
+            <ids-icon slot="icon" icon="close" size="small"></ids-icon>
           </ids-button>
         </div>
       </div>
