@@ -26,7 +26,8 @@
   }
 
   // Button elements should fill the space inside shadow root
-  button {
+  button,
+  .ids-icon-button {
     justify-content: center;
     height: 100%;
     width: 100%;
