@@ -226,7 +226,6 @@ span.ids-breadcrumb-divider {
 
 // Create the / between breadcrumbs
 ::slotted(*:not(:first-child))::before,
-a.ids-hyperlink:not(:first-child)::before,
 span.ids-breadcrumb-divider:not(:first-child)::before {
   @include antialiased();
 
