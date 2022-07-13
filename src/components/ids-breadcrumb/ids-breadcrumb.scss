@@ -209,9 +209,13 @@ $header-gradient-transparent-classic-contrast: rgb(0 74 153 / 0);
   }
 }
 
-a.ids-hyperlink {
+a.ids-hyperlink, span.ids-hyperlink {
   @include text-14();
   @include text-slate-60();
+
+  &:not(.ids-hyperlink-color-unset):not([mode]){
+    @include text-slate-60();
+  }
 }
 
 ::slotted(*),
@@ -221,7 +225,8 @@ a.ids-hyperlink {
 
 // Create the / between breadcrumbs
 ::slotted(*:not(:first-child))::before,
-a.ids-hyperlink:not(:first-child)::before {
+a.ids-hyperlink:not(:first-child)::before,
+span.ids-hyperlink:not(:first-child)::before  {
   @include antialiased();
 
   color: inherit;
