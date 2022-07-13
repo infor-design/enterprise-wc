@@ -73,10 +73,10 @@ const IdsColorVariantMixin = (superclass: any) => class extends superclass {
    * @returns {void}
    */
   #refreshColorVariant(oldVariantName?: string | null, newVariantName?: string | null): void {
-    const cl = this.container.classList;
+    const cl = this.container?.classList;
 
-    if (oldVariantName) cl.remove(`color-variant-${oldVariantName}`);
-    if (newVariantName) cl.add(`color-variant-${newVariantName}`);
+    if (oldVariantName) cl?.remove(`color-variant-${oldVariantName}`);
+    if (newVariantName) cl?.add(`color-variant-${newVariantName}`);
 
     // Fire optional callback
     if (typeof this.onColorVariantRefresh === 'function') {

@@ -64,7 +64,7 @@ export default class IdsHyperlink extends Base {
    * @param {string} value Set the link's href to some link
    */
   set href(value: string) {
-    if (value) {
+    if (this.container) {
       this.setAttribute(attributes.HREF, value);
       this.container.setAttribute(attributes.HREF, value);
       return;

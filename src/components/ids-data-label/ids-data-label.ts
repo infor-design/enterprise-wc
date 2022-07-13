@@ -71,6 +71,10 @@ export default class IdsDataLabel extends Base {
   set label(value: string) {
     if (value) {
       this.setAttribute(attributes.LABEL, value);
+    }
+
+    if (this.container) {
+      this.setAttribute(attributes.LABEL, value);
       this.container.querySelector('.label').innerHTML = `${value}<span class="colon">${this.colon}</span>`;
     }
   }

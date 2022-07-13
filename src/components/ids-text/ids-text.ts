@@ -63,7 +63,6 @@ export default class IdsText extends Base {
       attributes.TEXT_ALIGN,
       attributes.TRANSLATE_TEXT,
       attributes.TYPE,
-      attributes.VERSION,
     ];
   }
 
@@ -399,7 +398,7 @@ export default class IdsText extends Base {
    * @private
    */
   async #translateAsync() {
-    if (!this.locale) {
+    if (!this.locale || !this.getAttribute('translation-key')) {
       return;
     }
 
