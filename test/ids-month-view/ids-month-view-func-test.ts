@@ -47,6 +47,12 @@ describe('IdsMonthView Component (using properties)', () => {
     expect(component.outerHTML).toMatchSnapshot();
   });
 
+  it('can be instantiated with createElement', () => {
+    const errors = jest.spyOn(global.console, 'error');
+    document.createElement('ids-month-view');
+    expect(errors).not.toHaveBeenCalled();
+  });
+
   it('can be destroyed', () => {
     const errors = jest.spyOn(global.console, 'error');
 
@@ -375,7 +381,7 @@ describe('IdsMonthView Component (range of dates)', () => {
 describe('IdsMonthView Component (compact and datepicker)', () => {
   let component: any;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     const container: any = new IdsContainer();
     document.body.appendChild(container);
     container.insertAdjacentHTML('beforeend', `
@@ -387,7 +393,7 @@ describe('IdsMonthView Component (compact and datepicker)', () => {
     component = document.querySelector(name);
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     document.body.innerHTML = '';
     component = null;
   });

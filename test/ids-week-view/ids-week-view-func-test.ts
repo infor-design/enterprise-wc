@@ -10,6 +10,7 @@ import {
   firstDayOfWeekDate,
   lastDayOfWeekDate
 } from '../../src/utils/ids-date-utils/ids-date-utils';
+import processAnimFrame from '../helpers/process-anim-frame';
 
 const name = 'ids-week-view';
 const startDate = '11/08/2021';
@@ -133,9 +134,11 @@ describe('IdsWeekView Component (using properties)', () => {
     expect(component.timelineInterval).toEqual(defaultInterval);
   });
 
-  it('can add calendar events', () => {
+  it('can add calendar events', async () => {
     component.eventTypesData = EVENT_TYPES;
     component.eventsData = EVENTS_ITEMS;
+
+    await processAnimFrame();
 
     const expectedEventCount = 2;
     expect(component.container.querySelectorAll('ids-calendar-event')?.length).toBe(expectedEventCount);
