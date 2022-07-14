@@ -158,22 +158,29 @@ export default class IdsCheckbox extends Base {
    * @param {boolean|string} value If true will set `checked` attribute
    */
   set checked(value: boolean | string) {
-    const checkmark = this.shadowRoot.querySelector('.checkmark');
     const val = stringToBool(value);
     if (this.checked === val) {
       return;
     }
+
     if (val) {
       this.setAttribute(attributes.CHECKED, val);
-      checkmark?.classList.add(attributes.CHECKED);
-      if (this.input) {
-        this.input.checked = true;
-      }
     } else {
       this.removeAttribute(attributes.CHECKED);
-      checkmark?.classList.remove(attributes.CHECKED);
-      if (this.input) {
-        this.input.checked = false;
+    }
+
+    const checkmark = this.shadowRoot?.querySelector('.checkmark');
+    if (checkmark) {
+      if (val) {
+        checkmark?.classList.add(attributes.CHECKED);
+        if (this.input) {
+          this.input.checked = true;
+        }
+      } else {
+        checkmark?.classList.remove(attributes.CHECKED);
+        if (this.input) {
+          this.input.checked = false;
+        }
       }
     }
 
@@ -190,7 +197,7 @@ export default class IdsCheckbox extends Base {
    * @param {boolean|string} value If true will set `color` attribute
    */
   set color(value: boolean | string) {
-    const rootEl = this.shadowRoot.querySelector('.ids-checkbox');
+    const rootEl = this.shadowRoot?.querySelector('.ids-checkbox');
     if (value) {
       this.setAttribute(attributes.COLOR, value.toString());
       rootEl?.setAttribute(attributes.COLOR, value.toString());
@@ -207,7 +214,7 @@ export default class IdsCheckbox extends Base {
    * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value: boolean | string) {
-    const rootEl = this.shadowRoot.querySelector('.ids-checkbox');
+    const rootEl = this.shadowRoot?.querySelector('.ids-checkbox');
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
@@ -229,7 +236,7 @@ export default class IdsCheckbox extends Base {
    * @param {boolean|string} value If true will set `horizontal` attribute
    */
   set horizontal(value: boolean | string) {
-    const rootEl = this.shadowRoot.querySelector('.ids-checkbox');
+    const rootEl = this.shadowRoot?.querySelector('.ids-checkbox');
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.HORIZONTAL, val.toString());

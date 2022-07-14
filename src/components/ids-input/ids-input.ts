@@ -409,7 +409,7 @@ export default class IdsInput extends Base {
    * @returns {void}
    */
   setLabelText(value: string): void {
-    const labelEl = this.#labelEl || this.shadowRoot.querySelector(`[for="${this.id}-input"]`);
+    const labelEl = this.#labelEl || (this.shadowRoot && this.shadowRoot.querySelector(`[for="${this.id}-input"]`));
     if (labelEl) {
       labelEl.querySelector('ids-text').innerHTML = value || '';
       labelEl.classList[value ? 'remove' : 'add']('empty');
