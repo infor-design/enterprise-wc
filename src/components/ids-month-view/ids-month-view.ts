@@ -208,13 +208,13 @@ class IdsMonthView extends Base {
 
     // Day select event
     this.offEvent('click.month-view-dayselect');
-    this.onEvent('click.month-view-dayselect', this.container.querySelector('tbody'), (e: MouseEvent) => {
+    this.onEvent('click.month-view-dayselect', this.container?.querySelector('tbody'), (e: MouseEvent) => {
       this.#daySelectClick((e.target as HTMLElement).closest('td'));
     });
 
     // Range selection event
     this.offEvent('mouseover.month-view-range');
-    this.onEvent('mouseover.month-view-range', this.container.querySelector('tbody'), (e: MouseEvent) => {
+    this.onEvent('mouseover.month-view-range', this.container?.querySelector('tbody'), (e: MouseEvent) => {
       const element = (e.target as HTMLElement).closest('td');
 
       if (!element) return;
@@ -226,8 +226,8 @@ class IdsMonthView extends Base {
 
     // Clear range selection when hover outside
     this.offEvent('mouseleave.month-view-range');
-    this.onEvent('mouseleave.month-view-range', this.container.querySelector('tbody'), () => {
-      this.container.querySelectorAll('td')
+    this.onEvent('mouseleave.month-view-range', this.container?.querySelector('tbody'), () => {
+      this.container?.querySelectorAll('td')
         .forEach((item: HTMLElement) => item.classList.remove('range-next', 'range-prev'));
     });
 
@@ -261,7 +261,7 @@ class IdsMonthView extends Base {
       this.offEvent('keydown.month-view-keyboard');
     } else {
       this.offEvent('keydown.month-view-keyboard');
-      this.onEvent('keydown.month-view-keyboard', this.container.querySelector('.month-view-table'), (e: KeyboardEvent) => {
+      this.onEvent('keydown.month-view-keyboard', this.container?.querySelector('.month-view-table'), (e: KeyboardEvent) => {
         const key = e.keyCode;
 
         if (keys.includes(key)) {
@@ -405,7 +405,7 @@ class IdsMonthView extends Base {
    */
   #renderToolbar(): void {
     if (this.#isDisplayRange()) {
-      this.container.querySelector('ids-toolbar')?.remove();
+      this.container?.querySelector('ids-toolbar')?.remove();
       this.#detachToolbarEvents();
 
       return;
@@ -487,8 +487,8 @@ class IdsMonthView extends Base {
     </ids-toolbar>`;
 
     // Clear/add HTML
-    this.container.querySelector('ids-toolbar')?.remove();
-    this.container.insertAdjacentHTML('afterbegin', toolbarTemplate);
+    this.container?.querySelector('ids-toolbar')?.remove();
+    this.container?.insertAdjacentHTML('afterbegin', toolbarTemplate);
 
     // Toolbar events
     this.#attachToolbarEvents();
@@ -498,9 +498,9 @@ class IdsMonthView extends Base {
    * Add next/previous/today click events when toolbar is attached
    */
   #attachToolbarEvents(): void {
-    const buttonSet = this.container.querySelector('ids-toolbar-section.toolbar-buttonset');
-    const toolbarDatepicker = this.container.querySelector('ids-date-picker');
-    const viewPicker = this.container.querySelector('#view-picker');
+    const buttonSet = this.container?.querySelector('ids-toolbar-section.toolbar-buttonset');
+    const toolbarDatepicker = this.container?.querySelector('ids-date-picker');
+    const viewPicker = this.container?.querySelector('#view-picker');
 
     this.offEvent('click.month-view-buttons');
     this.onEvent('click.month-view-buttons', buttonSet, (e: MouseEvent) => {
@@ -547,14 +547,15 @@ class IdsMonthView extends Base {
     this.onEvent('expanded.month-view-picklist', toolbarDatepicker, (e: CustomEvent) => {
       const expanded: boolean = e.detail.expanded;
 
-      this.container.querySelector('.btn-today')?.setAttribute('hidden', expanded);
-      this.container.querySelector('.btn-apply')?.setAttribute('hidden', !expanded);
-      this.container.querySelector('.btn-previous')?.setAttribute('hidden', expanded);
-      this.container.querySelector('.btn-next')?.setAttribute('hidden', expanded);
+      this.container?.querySelector('.btn-today')?.setAttribute('hidden', expanded.toString());
+      this.container?.querySelector('.btn-apply')?.setAttribute('hidden', (!expanded).toString());
+      this.container?.querySelector('.btn-previous')?.setAttribute('hidden', expanded.toString());
+      this.container?.querySelector('.btn-next')?.setAttribute('hidden', expanded.toString());
+
       if (expanded) {
-        this.container.querySelector('td.is-selected')?.removeAttribute('tabindex');
+        this.container?.querySelector('td.is-selected')?.removeAttribute('tabindex');
       } else {
-        this.container.querySelector('td.is-selected')?.setAttribute('tabindex', 0);
+        this.container?.querySelector('td.is-selected')?.setAttribute('tabindex', '0');
       }
     });
 
@@ -591,9 +592,8 @@ class IdsMonthView extends Base {
     ` : '';
 
     // Clear/add HTML
-    this.container.querySelector('.month-view-legend')?.remove();
-    this.container.querySelector('.month-view-container')
-      .insertAdjacentHTML('beforeend', template);
+    this.container?.querySelector('.month-view-legend')?.remove();
+    this.container?.querySelector('.month-view-container')?.insertAdjacentHTML('beforeend', template);
 
     this.#colorToVar();
   }
@@ -614,7 +614,7 @@ class IdsMonthView extends Base {
    */
   #attachDatepicker(): void {
     const text = this.#formatMonthText();
-    const datepicker = this.container.querySelector('ids-date-picker');
+    const datepicker = this.container?.querySelector('ids-date-picker');
 
     if (!this.#isDisplayRange() && datepicker) {
       datepicker.value = text;
@@ -913,7 +913,7 @@ class IdsMonthView extends Base {
    * Helper to clear range selection CSS classes
    */
   #clearRangeClasses(): void {
-    this.container.querySelectorAll('td')
+    this.container?.querySelectorAll('td')
       .forEach(
         (item: HTMLElement) => item.classList.remove(
           'range-next',
@@ -943,7 +943,7 @@ class IdsMonthView extends Base {
         `[data-month="${rangeDay.getMonth()}"]`,
         `[data-day="${rangeDay.getDate()}"]`
       ].join('');
-      const element = this.container.querySelector(selectedQuery);
+      const element = this.container?.querySelector(selectedQuery);
 
       element?.classList.add('range-selection');
 
@@ -952,7 +952,7 @@ class IdsMonthView extends Base {
       }
 
       if ((index === 0 || index === days) && !this.rangeSettings.selectWeek) {
-        element?.setAttribute('aria-selected', true);
+        element?.setAttribute('aria-selected', 'true');
         element?.setAttribute('role', 'gridcell');
         element?.classList.add('is-selected');
       }
@@ -1042,11 +1042,11 @@ class IdsMonthView extends Base {
             `[data-day="${rangeDay.getDate()}"]`
           ].join('');
 
-          this.container.querySelector(selectedQuery)
+          this.container?.querySelector(selectedQuery)
             ?.classList.add(diff > 0 ? 'range-next' : 'range-prev');
 
           if (!this.#rangeSettings.includeDisabled) {
-            this.container.querySelector(selectedQuery)?.classList.add('not-included');
+            this.container?.querySelector(selectedQuery)?.classList.add('not-included');
           }
         });
       }
@@ -1189,8 +1189,8 @@ class IdsMonthView extends Base {
     }).join('');
 
     // Clear/add HTML
-    this.container.querySelectorAll('thead th').forEach((el: HTMLElement) => el.remove());
-    this.container.querySelector('thead tr').insertAdjacentHTML('beforeend', weekDaysTemplate);
+    this.container?.querySelectorAll('thead th').forEach((el: Element) => el.remove());
+    this.container?.querySelector('thead tr')?.insertAdjacentHTML('beforeend', weekDaysTemplate);
   }
 
   /**
@@ -1204,8 +1204,8 @@ class IdsMonthView extends Base {
     const rowsTemplate = Array.from({ length: weeksCount }).map((_, weekIndex) => `<tr>${this.#getCellTemplate(weekIndex)}</tr>`).join('');
 
     // Clear/add HTML
-    this.container.querySelectorAll('tbody tr').forEach((el: HTMLElement) => el.remove());
-    this.container.querySelector('tbody').insertAdjacentHTML('beforeend', rowsTemplate);
+    this.container?.querySelectorAll('tbody tr').forEach((el: Element) => el.remove());
+    this.container?.querySelector('tbody')?.insertAdjacentHTML('beforeend', rowsTemplate);
 
     this.#renderWeekDays();
     this.#colorToVar();
@@ -1266,18 +1266,18 @@ class IdsMonthView extends Base {
    */
   selectDay(year?: any, month?: any, day?: any): void {
     // Clear before
-    this.container.querySelectorAll('td.is-selected')?.forEach((item: HTMLElement) => {
+    this.container?.querySelectorAll('td.is-selected')?.forEach((item: Element) => {
       item?.removeAttribute('aria-selected');
       item?.removeAttribute('tabindex');
       item?.setAttribute('role', 'link');
       item?.classList.remove('is-selected');
     });
     const selectedQuery = `td[data-year="${year}"][data-month="${month}"][data-day="${day}"]`;
-    const selected = this.container.querySelector(selectedQuery);
+    const selected = this.container?.querySelector(selectedQuery);
 
     // Selectable attributes
-    selected?.setAttribute('tabindex', 0);
-    selected?.setAttribute('aria-selected', true);
+    selected?.setAttribute('tabindex', '0');
+    selected?.setAttribute('aria-selected', 'true');
     selected?.setAttribute('role', 'gridcell');
     selected?.classList.add('is-selected');
   }
@@ -1321,7 +1321,7 @@ class IdsMonthView extends Base {
    * Iterate legend items with color data and add color css variable
    */
   #colorToVar(): void {
-    this.container.querySelectorAll('[data-color]')
+    this.container?.querySelectorAll('[data-color]')
       .forEach((el: any) => {
         const color = el.dataset.color;
         const isHex = color?.includes('#');
@@ -1338,7 +1338,7 @@ class IdsMonthView extends Base {
    */
   getSelectedDay(): HTMLElement | null {
     const selectedQuery = `td[data-year="${this.year}"][data-month="${this.month}"][data-day="${this.day}"]`;
-    return this.container.querySelector(selectedQuery);
+    return this.container?.querySelector(selectedQuery) || null;
   }
 
   /**
@@ -1381,8 +1381,10 @@ class IdsMonthView extends Base {
       this.removeAttribute(attributes.SHOW_TODAY);
     }
 
-    this.#renderToolbar();
-    this.#attachDatepicker();
+    if (this.container) {
+      this.#renderToolbar();
+      this.#attachDatepicker();
+    }
   }
 
   /**
@@ -1413,6 +1415,8 @@ class IdsMonthView extends Base {
     } else {
       this.removeAttribute(attributes.MONTH);
     }
+
+    if (!this.container) return;
 
     // Month change in range calendar doesn't trigger a rerender, just selects a day
     if (this.#isDisplayRange()) {
@@ -1452,6 +1456,8 @@ class IdsMonthView extends Base {
     } else {
       this.removeAttribute(attributes.YEAR);
     }
+
+    if (!this.container) return;
 
     // Year change in range calendar doesn't trigger a rerender, just selects a day
     if (this.#isDisplayRange()) {
@@ -1493,6 +1499,8 @@ class IdsMonthView extends Base {
       this.removeAttribute(attributes.DAY);
     }
 
+    if (!this.container) return;
+
     if (!(this.rangeSettings.start || this.useRange) && !this.isDatePicker) {
       this.selectDay(this.year, this.month, validates ? numberVal : this.day);
     }
@@ -1528,9 +1536,11 @@ class IdsMonthView extends Base {
       this.removeAttribute(attributes.START_DATE);
     }
 
-    this.#renderToolbar();
-    this.#renderMonth();
-    this.#attachKeyboardListeners();
+    if (this.container) {
+      this.#renderToolbar();
+      this.#renderMonth();
+      this.#attachKeyboardListeners();
+    }
   }
 
   /**
@@ -1559,9 +1569,11 @@ class IdsMonthView extends Base {
       this.removeAttribute(attributes.END_DATE);
     }
 
-    this.#renderToolbar();
-    this.#renderMonth();
-    this.#attachKeyboardListeners();
+    if (this.container) {
+      this.#renderToolbar();
+      this.#renderMonth();
+      this.#attachKeyboardListeners();
+    }
   }
 
   /**
@@ -1593,8 +1605,10 @@ class IdsMonthView extends Base {
       this.removeAttribute(attributes.FIRST_DAY_OF_WEEK);
     }
 
-    this.#renderMonth();
-    this.#attachDatepicker();
+    if (this.container) {
+      this.#renderMonth();
+      this.#attachDatepicker();
+    }
   }
 
   /**
@@ -1621,11 +1635,14 @@ class IdsMonthView extends Base {
     }
 
     // Toggle container CSS class
-    this.container.classList.toggle('is-fullsize', !boolVal);
-    this.container.classList.toggle('is-compact', boolVal);
-    // Render related views
-    this.#renderToolbar();
-    this.#renderWeekDays();
+    this.container?.classList.toggle('is-fullsize', !boolVal);
+    this.container?.classList.toggle('is-compact', boolVal);
+
+    if (this.container) {
+      // Render related views
+      this.#renderToolbar();
+      this.#renderWeekDays();
+    }
   }
 
   /**
@@ -1652,7 +1669,7 @@ class IdsMonthView extends Base {
     }
 
     // Toggle container CSS class
-    this.container.classList.toggle('is-date-picker', boolVal);
+    this.container?.classList.toggle('is-date-picker', boolVal);
   }
 
   /**
@@ -1673,10 +1690,12 @@ class IdsMonthView extends Base {
       this.#currentLegend = [];
       this.#renderMonth();
       this.#renderLegend();
-      this.container.classList.remove('has-legend');
+      this.container?.classList.remove('has-legend');
 
       return;
     }
+
+    if (!this.container) return;
 
     // Check if legend validates
     if (
@@ -1689,7 +1708,7 @@ class IdsMonthView extends Base {
       this.#currentLegend = deepClone(val);
       this.#renderMonth();
       this.#renderLegend();
-      this.container.classList.add('has-legend');
+      this.container?.classList.add('has-legend');
     } else {
       throw new Error('ids-month-view: Invalid legend data provided');
     }
@@ -1711,6 +1730,8 @@ class IdsMonthView extends Base {
       ...this.#rangeSettings,
       ...deepClone(val)
     };
+
+    if (!this.container) return;
 
     if (this.useRange && val?.start) {
       this.selectDay();
@@ -1842,8 +1863,9 @@ class IdsMonthView extends Base {
    * Remove month view calendar events and overflow elements
    */
   removeAllEvents(): void {
-    const events = this.container.querySelectorAll('.events-container');
-    events.forEach((container: Element) => { container.innerHTML = ''; });
+    this.container
+      ?.querySelectorAll('.events-container')
+      .forEach((container: Element) => { container.innerHTML = ''; });
   }
 
   /**
@@ -1908,12 +1930,12 @@ class IdsMonthView extends Base {
    * @param {CalendarEventData[]} events calendar events
    */
   #renderDayEvents(dateKey: string, events: CalendarEventData[]): void {
-    const container = this.container.querySelector(`.events-container[data-key="${dateKey}"]`);
-    const orders = [...container.querySelectorAll('ids-calendar-event')].map((elem) => elem.order);
+    if (!this.container) return;
+
+    const eventsContainer = this.container?.querySelector(`.events-container[data-key="${dateKey}"]`);
+    const orders = [...(eventsContainer?.querySelectorAll('ids-calendar-event')) || []].map((elem: any) => elem.order);
     const baseOrder = orders.length ? Math.max(...orders) + 1 : 0;
     let isOverflowing = false;
-
-    if (!container) return;
 
     events.forEach((event: CalendarEventData, index: number) => {
       const start = new Date(event.starts);
@@ -1936,7 +1958,7 @@ class IdsMonthView extends Base {
         const day = start.getDate();
         const year = start.getFullYear();
         const month = start.getMonth();
-        const dateCell = this.container.querySelector(`td[data-year="${year}"][data-month="${month}"][data-day="${day}"]`);
+        const dateCell = this.container?.querySelector(`td[data-year="${year}"][data-month="${month}"][data-day="${day}"]`);
 
         if (dateCell) {
           // multi day events
@@ -1961,26 +1983,28 @@ class IdsMonthView extends Base {
           }
 
           // position event element vertically
-          calendarEvent.yOffset = `${(calendarEvent.order * 16) + BASE_Y_OFFSET}px`;
+          calendarEvent.setAttribute(attributes.Y_OFFSET, `${(calendarEvent.order * 16) + BASE_Y_OFFSET}px`);
 
-          dateCell.querySelector('.events-container')?.appendChild(calendarEvent);
+          dateCell.querySelector('.events-container')?.appendChild(calendarEvent as any);
         }
       }
     });
 
-    if (isOverflowing) {
-      this.#renderEventsOverflow(container, dateKey);
+    if (isOverflowing && eventsContainer) {
+      this.#renderEventsOverflow(eventsContainer, dateKey);
     }
   }
 
   /**
    * Renders clickable event overflow element
    * Specifies number of calendar events overflowing the container
-   * @param {HTMLElement} container date specific event container elemeent
+   * @param {Element} eventsContainer date specific event container elemeent
    * @param {string} dateKey generated date key
    */
-  #renderEventsOverflow(container: any, dateKey: string): void {
-    const calendarEvents = [...container.querySelectorAll('ids-calendar-event')];
+  #renderEventsOverflow(eventsContainer: Element | undefined, dateKey: string): void {
+    if (!eventsContainer) return;
+
+    const calendarEvents = [...eventsContainer.querySelectorAll('ids-calendar-event')];
     const year = dateKey.substring(0, 4);
     const month = parseInt(dateKey.substring(4, 6)) + 1;
     const day = dateKey.substring(6);
@@ -1991,7 +2015,7 @@ class IdsMonthView extends Base {
       </ids-text>
     `;
 
-    container.insertAdjacentHTML('beforeEnd', tmpl);
+    eventsContainer.insertAdjacentHTML('beforeend', tmpl);
   }
 }
 
