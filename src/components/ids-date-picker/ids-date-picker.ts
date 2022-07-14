@@ -84,13 +84,13 @@ class IdsDatePicker extends Base {
 
   connectedCallback(): void {
     super.connectedCallback();
-    this.#attachEventHandlers();
-    this.#attachExpandedListener();
-    this.#attachKeyboardListeners();
     this.#monthView = this.container.querySelector('ids-month-view');
     this.#popup = this.container.querySelector('ids-popup');
     this.#triggerButton = this.container.querySelector('ids-trigger-button');
     this.#triggerField = this.container.querySelector('ids-trigger-field');
+    this.#attachEventHandlers();
+    this.#attachExpandedListener();
+    this.#attachKeyboardListeners();
   }
 
   /**
@@ -119,7 +119,6 @@ class IdsDatePicker extends Base {
       attributes.SHOW_CANCEL,
       attributes.SHOW_CLEAR,
       attributes.SHOW_PICKLIST_MONTH,
-      attributes.SHOW_PICKLIST_WEEK,
       attributes.SHOW_PICKLIST_WEEK,
       attributes.SHOW_TODAY,
       attributes.SIZE,
@@ -196,7 +195,7 @@ class IdsDatePicker extends Base {
           </ids-trigger-button>
         ` : ``}
         ${this.isDropdown ? `
-          <ids-toggle-button icon-off="dropdown" icon-align="end" class="dropdown-btn">
+          <ids-toggle-button icon-off="dropdown" icon-on="dropdown" icon="dropdown" icon-align="end" class="dropdown-btn">
             <ids-icon slot="icon" icon="dropdown" class="dropdown-btn-icon"></ids-icon>
             <ids-text slot="text" class="dropdown-btn-text" font-size="20">${this.value}</ids-text>
           </ids-toggle-button>
@@ -1504,8 +1503,8 @@ class IdsDatePicker extends Base {
    * @param {string|null} val value param
    */
   set value(val: string | null) {
-    const textEl = this.container.querySelector('.datepicker-text');
-    const dropdownEl = this.container.querySelector('.dropdown-btn-text');
+    const textEl = this.container?.querySelector('.datepicker-text');
+    const dropdownEl = this.container?.querySelector('.dropdown-btn-text');
 
     if (!this.disabled && !this.readonly) {
       this.setAttribute(attributes.VALUE, val);
