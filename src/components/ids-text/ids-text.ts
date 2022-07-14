@@ -117,17 +117,20 @@ export default class IdsText extends Base {
    * i.e. 10, 12, 16 ect increasing by increments of 4
    */
   set fontSize(value: string | null) {
-    fontSizes?.forEach((size: string) => {
-      this.container?.classList.remove(`ids-text-${Object.keys(size)}`);
-    });
-
     if (value) {
       this.setAttribute(attributes.FONT_SIZE, value);
-      this.container?.classList.add(`ids-text-${value}`);
-      return;
+    } else {
+      this.removeAttribute(attributes.FONT_SIZE);
     }
 
-    this.removeAttribute(attributes.FONT_SIZE);
+    if (this.container) {
+      fontSizes?.forEach((size: string) => {
+        this.container.classList.remove(`ids-text-${Object.keys(size)}`);
+      });
+      if (value) {
+        this.container.classList.add(`ids-text-${value}`);
+      }
+    }
   }
 
   get fontSize(): string | null { return this.getAttribute(attributes.FONT_SIZE); }
@@ -148,15 +151,19 @@ export default class IdsText extends Base {
         break;
     }
 
-    this.container?.classList.remove(...fontWeightClasses);
-
     if (hasValue) {
       this.setAttribute(attributes.FONT_WEIGHT, value);
-      this.container?.classList.add(value);
-      return;
+    } else {
+      this.removeAttribute(attributes.FONT_WEIGHT);
     }
 
-    this.removeAttribute(attributes.FONT_WEIGHT);
+    if (this.container) {
+      this.container.classList.remove(...fontWeightClasses);
+
+      if (hasValue) {
+        this.container.classList.add(value);
+      }
+    }
   }
 
   get fontWeight(): string | null {
@@ -186,9 +193,11 @@ export default class IdsText extends Base {
    * @returns {void}
    */
   #setTypeClass(value: string | null): void {
-    this.container.classList.remove(...typesCssClasses);
-    if (typesCssClasses.includes(value || '')) {
-      this.container.classList.add(value);
+    if (this.container) {
+      this.container.classList.remove(...typesCssClasses);
+      if (typesCssClasses.includes(value || '')) {
+        this.container.classList.add(value);
+      }
     }
   }
 
@@ -199,17 +208,19 @@ export default class IdsText extends Base {
   set color(value: string | null) {
     if (value === 'unset') {
       this.setAttribute(attributes.COLOR, value);
-      this.container.classList.add('ids-text-color-unset');
+      if (this.container) this.container.classList.add('ids-text-color-unset');
       return;
     }
     if (typeof value === 'string') {
       this.setAttribute(attributes.COLOR, value);
-      this.container.classList.remove('ids-text-color-unset');
-      this.container.style.color = `var(--ids-color-palette-${value})`;
+      if (this.container) {
+        this.container.classList.remove('ids-text-color-unset');
+        this.container.style.color = `var(--ids-color-palette-${value})`;
+      }
       return;
     }
     this.removeAttribute(attributes.COLOR);
-    this.container.classList.remove('ids-text-color-unset');
+    if (this.container) this.container.classList.remove('ids-text-color-unset');
   }
 
   get color(): string | null {
@@ -223,7 +234,7 @@ export default class IdsText extends Base {
   set audible(value: boolean | string) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.AUDIBLE, value);
-      if (!this.container?.classList.contains(attributes.AUDIBLE)) {
+      if (this.container && !this.container.classList.contains(attributes.AUDIBLE)) {
         this.container.classList.add('audible');
       }
     } else {
@@ -255,12 +266,12 @@ export default class IdsText extends Base {
   set error(value: boolean) {
     const val = stringToBool(value);
     if (val) {
-      this.container.classList.add('error');
+      if (this.container) this.container.classList.add('error');
       this.setAttribute(attributes.ERROR, value);
       return;
     }
     this.removeAttribute(attributes.ERROR);
-    this.container.classList.remove('error');
+    if (this.container) this.container.classList.remove('error');
   }
 
   get error(): boolean { return stringToBool(this.getAttribute(attributes.ERROR)); }
@@ -272,12 +283,12 @@ export default class IdsText extends Base {
   set label(value: boolean) {
     const val = stringToBool(value);
     if (val) {
-      this.container.classList.add('label');
+      if (this.container) this.container.classList.add('label');
       this.setAttribute(attributes.LABEL, value);
       return;
     }
     this.removeAttribute(attributes.LABEL);
-    this.container.classList.remove('label');
+    if (this.container) this.container.classList.remove('label');
   }
 
   get label(): boolean { return stringToBool(this.getAttribute(attributes.LABEL)); }
@@ -289,12 +300,12 @@ export default class IdsText extends Base {
   set data(value: boolean | string) {
     const val = stringToBool(value);
     if (val) {
-      this.container.classList.add('data');
+      if (this.container) this.container.classList.add('data');
       this.setAttribute(attributes.DATA, value);
       return;
     }
     this.removeAttribute(attributes.DATA);
-    this.container.classList.remove('data');
+    if (this.container) this.container.classList.remove('data');
   }
 
   get data(): boolean { return stringToBool(this.getAttribute(attributes.DATA)); }
@@ -329,8 +340,11 @@ export default class IdsText extends Base {
     } else {
       this.removeAttribute(attributes.TEXT_ALIGN);
     }
-    this.container.classList.remove(...this.textAlignClass(true));
-    if (this.textAlign) this.container.classList.add(this.textAlignClass());
+
+    if (this.container) {
+      this.container.classList.remove(...this.textAlignClass(true));
+      if (this.textAlign) this.container.classList.add(this.textAlignClass());
+    }
   }
 
   get textAlign(): string {
@@ -357,8 +371,11 @@ export default class IdsText extends Base {
     } else {
       this.removeAttribute(attributes.STATUS);
     }
-    this.container.classList.remove(...this.statusClass(true));
-    if (this.status) this.container.classList.add(this.statusClass());
+
+    if (this.container) {
+      this.container.classList.remove(...this.statusClass(true));
+      if (this.status) this.container.classList.add(this.statusClass());
+    }
   }
 
   get status(): string {
