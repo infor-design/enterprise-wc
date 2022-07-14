@@ -37,4 +37,16 @@ document.addEventListener('DOMContentLoaded', () => {
     decimalLimit: 2,
     integerLimit: 3
   };
+
+  const dateInput: any = document.querySelector('#date-input');
+  dateInput.mask = 'date';
+  dateInput.maskOptions = {
+    format: 'M/d/yyyy'
+  };
+
+  const timeInput: any = document.querySelector('#time-input');
+  timeInput.mask = 'time';
+  timeInput.maskOptions = {
+    format: 'hh:mm a'
+  };
 });

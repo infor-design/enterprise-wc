@@ -33,17 +33,12 @@ export default class IdsLookup extends Base {
     super();
   }
 
-  /** Reference to the trigger field */
-  triggerField = this.shadowRoot?.querySelector('ids-trigger-field');
-
-  /** Reference to the trigger button */
-  triggerButton = this.shadowRoot?.querySelector('ids-trigger-button');
-
   /**
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
     super.connectedCallback();
+
     // Setup some internal refs
     this.state = {
       dataGridSettings: {
@@ -62,6 +57,12 @@ export default class IdsLookup extends Base {
     }
     this.modal.target = this.triggerButton;
     this.modal.trigger = 'click';
+
+    // Reference to the trigger field
+    this.triggerField = this.shadowRoot?.querySelector('ids-trigger-field');
+
+    /// Reference to the trigger button
+    this.triggerButton = this.shadowRoot?.querySelector('ids-trigger-button');
 
     this
       .#handleEvents()
@@ -162,7 +163,7 @@ export default class IdsLookup extends Base {
    */
   onDirtyTrackerChange(value: boolean) {
     if (value) {
-      this.container?.setAttribute(attributes.DIRTY_TRACKER, value);
+      this.container?.setAttribute(attributes.DIRTY_TRACKER, value.toString());
     } else {
       this.container?.removeAttribute(attributes.DIRTY_TRACKER);
     }
@@ -436,6 +437,7 @@ export default class IdsLookup extends Base {
    * @returns {object} The object for chaining.
    */
   #handleEvents() {
+    debugger;
     this.onEvent('click.lookup', this.modal, (e: CustomEvent) => {
       if ((e.target as any).getAttribute('id') === 'modal-cancel-btn') {
         this.modal.hide();

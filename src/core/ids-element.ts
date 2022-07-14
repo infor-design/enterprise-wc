@@ -9,7 +9,7 @@ import styles from './ids-element.scss';
 export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   constructor() {
     super();
-    this.delayedProps = [];
+    this.skippedAttributes = [];
     this.#addBaseName();
     this.#appendHostCss();
   }
@@ -52,7 +52,7 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
     if (this.shadowRoot && this.container) {
       this[camelCase(name)] = newValue;
     } else {
-      this.delayedProps.push({ name: camelCase(name), value: newValue });
+      this.skippedAttributes.push({ name: camelCase(name), value: newValue });
     }
   }
 
@@ -70,9 +70,9 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
    */
   #updateAttributes() {
     requestAnimationFrame(() => {
-      for (let index = 0; index < this.delayedProps.length; index++) {
-        if (this.delayedAttributes.includes(this.delayedProps[index].name)) continue;
-        this[this.delayedProps[index].name] = this.delayedProps[index].value;
+      for (let index = 0; index < this.skippedAttributes.length; index++) {
+        if (this.delayedAttributes.includes(this.skippedAttributes[index].name)) continue;
+        this[this.skippedAttributes[index].name] = this.skippedAttributes[index].value;
       }
       if (this.mountedCallback) this.mountedCallback();
     });

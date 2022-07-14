@@ -52,6 +52,18 @@ export default class IdsLoadingIndicator extends Base {
     ];
   }
 
+  static get delayedAttributes(): Array<string> {
+    return [
+      attributes.LINEAR,
+      attributes.MODE,
+      attributes.PERCENTAGE_VISIBLE,
+      attributes.PROGRESS,
+      attributes.STICKY,
+      attributes.TYPE,
+      attributes.VERSION
+    ];
+  }
+
   /**
    * Return the Template for the contents
    * @returns {string} The template
@@ -121,10 +133,10 @@ export default class IdsLoadingIndicator extends Base {
     const hasValue = !Number.isNaN(Number.parseFloat(value));
     if (hasValue) {
       this.setAttribute(attributes.PROGRESS, parseFloat(value));
-      this.shadowRoot.querySelector('svg')?.style?.setProperty?.('--progress', value);
+      this.shadowRoot?.querySelector('svg')?.style?.setProperty?.('--progress', value);
     } else {
       this.removeAttribute(attributes.PROGRESS);
-      this.shadowRoot.querySelector('svg')?.style?.removeProperty?.('--progress');
+      this.shadowRoot?.querySelector('svg')?.style?.removeProperty?.('--progress');
     }
 
     this.updatePercentageVisible();
@@ -175,7 +187,7 @@ export default class IdsLoadingIndicator extends Base {
   }
 
   updatePercentageVisible(): void {
-    const percentageEl = this.shadowRoot.querySelector('[part="percentage-text"]');
+    const percentageEl = this.shadowRoot?.querySelector('[part="percentage-text"]');
 
     if (percentageEl) {
       percentageEl.remove();
@@ -184,7 +196,7 @@ export default class IdsLoadingIndicator extends Base {
     if (this.percentageVisible && (this.type !== 'sticky')) {
       const template = document.createElement('template');
       template.innerHTML = getPercentageTextHtml({ type: this.type, progress: this.progress });
-      this.shadowRoot.appendChild(template.content.cloneNode(true));
+      this.shadowRoot?.appendChild(template.content.cloneNode(true));
     }
   }
 

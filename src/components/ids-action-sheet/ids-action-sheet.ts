@@ -108,7 +108,7 @@ export default class IdsActionSheet extends Base {
    */
   onOutsideClick() {
     this.onEvent('click', this.overlay, () => this.dismiss());
-    this.onEvent('touchstart', this.overlay, () => this.dismiss());
+    this.onEvent('touchstart', this.overlay, () => this.dismiss(), { passive: true });
   }
 
   /**
@@ -116,7 +116,7 @@ export default class IdsActionSheet extends Base {
    */
   onCancelClick() {
     this.onEvent('click', this.cancelBtn, () => this.dismiss());
-    this.onEvent('touchstart', this.cancelBtn, () => this.dismiss());
+    this.onEvent('touchstart', this.cancelBtn, () => this.dismiss(), { passive: true });
   }
 
   /**

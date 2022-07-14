@@ -46,7 +46,11 @@ export default class IdsExpandableArea extends Base {
    * @returns {Array} The attributes in an array
    */
   static get attributes(): Array<string> {
-    return [attributes.EXPANDED, attributes.TYPE, attributes.MODE, attributes.VERSION];
+    return [
+      attributes.EXPANDED,
+      attributes.TYPE,
+      attributes.MODE
+    ];
   }
 
   /**
