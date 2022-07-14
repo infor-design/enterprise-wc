@@ -4,6 +4,7 @@
 import IdsAreaChart from '../../src/components/ids-area-chart/ids-area-chart';
 import dataset from '../../src/assets/data/components.json';
 import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
+import '../helpers/canvas-mock';
 import '../helpers/resize-observer-mock';
 
 describe('IdsAreaChart Component', () => {
