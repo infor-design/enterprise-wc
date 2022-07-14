@@ -75,9 +75,9 @@ export default class IdsIcon extends Base {
     this.offEvent('languagechange.icon-container');
     this.onEvent('languagechange.icon-container', this.closest('ids-container'), () => {
       if (this.isMirrored(this.icon)) {
-        this.container.classList.add('mirrored');
+        this.container?.classList.add('mirrored');
       } else {
-        this.container.classList.remove('mirrored');
+        this.container?.classList.remove('mirrored');
       }
     });
   }
@@ -102,13 +102,7 @@ export default class IdsIcon extends Base {
     let template = `<svg part="svg" xmlns="http://www.w3.org/2000/svg"${this.isMirrored(this.icon) ? ` class="mirrored"` : ''} stroke="currentColor" fill="none" height="${height}" width="${width}" viewBox="${viewBox}" aria-hidden="true">
       ${this.iconData()}
     </svg>`;
-    if (this.badgePosition || this.badgeColor) {
-      if (!this.badgePosition) {
-        this.badgePosition = `bottom-right`;
-      }
-      if (!this.badgeColor) {
-        this.badgeColor = `info`;
-      }
+    if (this.badgePosition && this.badgeColor) {
       template += `<span class="notification-badge ${this.badgePosition} ${this.badgeColor}"></span>`;
     }
     return template;
@@ -252,7 +246,9 @@ export default class IdsIcon extends Base {
   /**
    * @returns {string} position of notification badge
    */
-  get badgePosition(): string { return this.getAttribute(attributes.BADGE_POSITION); }
+  get badgePosition(): string {
+    return this.getAttribute(attributes.BADGE_POSITION);
+  }
 
   /**
    * @param {string} value sets the postion of the notification badge
@@ -384,7 +380,7 @@ export default class IdsIcon extends Base {
     if (this.viewbox) {
       viewboxSize = this.viewbox;
     }
-    this.container.setAttribute('viewBox', viewboxSize);
+    this.container?.setAttribute('viewBox', viewboxSize);
   }
 
   /** @returns {string|boolean} Whether or not the icon is vertical */
@@ -395,11 +391,11 @@ export default class IdsIcon extends Base {
     const isVertical = stringToBool(value);
     if (isVertical) {
       this.setAttribute(attributes.VERTICAL, value);
-      this.container.classList.add('vertical');
+      this.container?.classList.add('vertical');
       return;
     }
     this.removeAttribute(attributes.VERTICAL);
-    this.container.classList.remove('vertical');
+    this.container?.classList.remove('vertical');
   }
 
   #updateBadge(): void {

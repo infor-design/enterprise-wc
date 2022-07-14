@@ -7,7 +7,7 @@
  examples:
   - link: example.html
     type: Main Example
-    description: Shows a layout grid
+    description: Shows a layout flex component
   - link: standalone-css.html
     type: Standalone CSS
     description: Showing a layout flex that works with css only

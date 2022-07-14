@@ -126,6 +126,7 @@ const IdsMaskMixin = (superclass: any) => class extends superclass {
       switch (val) {
         // Using 'date' as a string automatically connects the standard date mask function
         case 'date':
+        case 'time':
           trueVal = dateMask;
           this.onLocaleChange = (locale: any) => {
             if (!this.maskOptions.format) {

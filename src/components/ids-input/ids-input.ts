@@ -60,9 +60,6 @@ type IdsInputTemplateVariables = {
 @customElement('ids-input')
 @scss(styles)
 export default class IdsInput extends Base {
-  /**
-   * Call the constructor and then initialize
-   */
   constructor() {
     super();
   }
@@ -277,7 +274,7 @@ export default class IdsInput extends Base {
    * @returns {HTMLElement} the caps lock indicator icon, if one exists
    */
   get capsLockIcon(): HTMLElement {
-    return this.container.querySelector('#caps-lock-indicator');
+    return this.container?.querySelector('#caps-lock-indicator');
   }
 
   /**
@@ -286,7 +283,7 @@ export default class IdsInput extends Base {
    *  that wraps the input and any triggering elements or icons
    */
   get fieldContainer(): HTMLElement {
-    return this.container.querySelector('.field-container');
+    return this.container?.querySelector('.field-container');
   }
 
   /**
@@ -393,13 +390,13 @@ export default class IdsInput extends Base {
         msgNodes.forEach((x: any) => x.classList.remove(options.prop2));
 
         this.input?.setAttribute(options.prop1, 'true');
-        this.container.classList.add(options.prop1);
+        this.container?.classList.add(options.prop1);
         this.container?.querySelector?.('ids-text')?.setAttribute?.(options.prop1, 'true');
         msgNodes.forEach((x: any) => x.classList.add(options.prop1));
       } else {
         this.input?.removeAttribute(options.prop1);
-        this.container.classList.remove(options.prop1);
-        this.container.querySelector('ids-text')?.removeAttribute(options.prop1);
+        this.container?.classList.remove(options.prop1);
+        this.container?.querySelector('ids-text')?.removeAttribute(options.prop1);
         msgNodes.forEach((x: any) => x.classList.remove(options.prop1));
       }
     }
@@ -447,7 +444,7 @@ export default class IdsInput extends Base {
       }
     } else {
       this.onEvent(eventName, this.input, () => {
-        requestAnimationFrame(() => { // Safari has delay
+        requestAnimationFrame(() => { // Safari needs a delay
           this.input?.select();
         });
       });
@@ -595,10 +592,10 @@ export default class IdsInput extends Base {
     const className = 'is-active';
     if (val) {
       this.setAttribute(attributes.ACTIVE, val.toString());
-      this.container.classList.add(className);
+      this.container?.classList.add(className);
     } else {
       this.removeAttribute(attributes.ACTIVE);
-      this.container.classList.remove(className);
+      this.container?.classList.remove(className);
     }
   }
 
@@ -629,11 +626,11 @@ export default class IdsInput extends Base {
     const className = 'bg-transparent';
     if (val) {
       this.setAttribute(attributes.BG_TRANSPARENT, val.toString());
-      this.container.classList.add(className);
+      this.container?.classList.add(className);
       this.input?.classList.add(className);
     } else {
       this.removeAttribute(attributes.BG_TRANSPARENT);
-      this.container.classList.remove(className);
+      this.container?.classList.remove(className);
       this.input?.classList.remove(className);
     }
   }
@@ -759,10 +756,10 @@ export default class IdsInput extends Base {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.READONLY_BACKGROUND, val.toString());
-      this.container.classList.add(attributes.READONLY_BACKGROUND);
+      this.container?.classList.add(attributes.READONLY_BACKGROUND);
     } else {
       this.removeAttribute(attributes.READONLY_BACKGROUND);
-      this.container.classList.remove(attributes.READONLY_BACKGROUND);
+      this.container?.classList.remove(attributes.READONLY_BACKGROUND);
     }
   }
 
@@ -885,11 +882,11 @@ export default class IdsInput extends Base {
   set noMargins(n: boolean | string) {
     if (stringToBool(n)) {
       this.setAttribute(attributes.NO_MARGINS, '');
-      this.container.classList.add('no-margins');
+      this.container?.classList.add('no-margins');
       return;
     }
     this.removeAttribute(attributes.NO_MARGINS);
-    this.container.classList.remove('no-margins');
+    this.container?.classList.remove('no-margins');
   }
 
   get noMargins(): boolean {
