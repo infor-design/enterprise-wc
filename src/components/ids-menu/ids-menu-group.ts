@@ -48,7 +48,6 @@ export default class IdsMenuGroup extends Base {
     super.connectedCallback();
     this.#attachEventHandlers();
     this.setAttribute(htmlAttributes.ROLE, 'group');
-
     this.refresh();
   }
 

@@ -438,7 +438,6 @@ export default class IdsLookup extends Base {
    * @returns {object} The object for chaining.
    */
   #handleEvents() {
-    debugger;
     this.onEvent('click.lookup', this.modal, (e: CustomEvent) => {
       if ((e.target as any).getAttribute('id') === 'modal-cancel-btn') {
         this.modal.hide();

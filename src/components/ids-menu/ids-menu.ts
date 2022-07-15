@@ -423,14 +423,14 @@ export default class IdsMenu extends Base {
   }
 
   #disableItems(): void {
-    this.container.classList.add('disabled');
+    this.container?.classList.add('disabled');
     this.items.forEach((item: any) => {
       item.disabled = true;
     });
   }
 
   #enableItems(): void {
-    this.container.classList.remove('disabled');
+    this.container?.classList.remove('disabled');
     this.items.forEach((item: any) => {
       item.disabled = false;
     });

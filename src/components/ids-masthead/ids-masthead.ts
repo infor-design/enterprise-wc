@@ -53,13 +53,13 @@ export default class IdsMasthead extends Base {
    */
   get elements() {
     return {
-      logo: this.container.querySelector('#logo-wrapper'),
-      title: this.container.querySelector('#title'),
+      logo: this.container?.querySelector('#logo-wrapper'),
+      title: this.container?.querySelector('#title'),
       sections: {
-        start: this.container.querySelector('ids-toolbar-section#start'),
-        center: this.container.querySelector('ids-toolbar-section#center'),
-        end: this.container.querySelector('ids-toolbar-section#end'),
-        more: this.container.querySelector('ids-toolbar-more-actions#more'),
+        start: this.container?.querySelector('ids-toolbar-section#start'),
+        center: this.container?.querySelector('ids-toolbar-section#center'),
+        end: this.container?.querySelector('ids-toolbar-section#end'),
+        more: this.container?.querySelector('ids-toolbar-more-actions#more'),
       },
     };
   }
@@ -117,6 +117,13 @@ export default class IdsMasthead extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.ICON,
+      attributes.TITLE,
+    ];
+  }
+
+  get delayedAttributes() {
+    return [
       attributes.ICON,
       attributes.TITLE,
     ];
@@ -212,8 +219,6 @@ export default class IdsMasthead extends Base {
     this.#attachEventHandlers();
     this.renderBreakpoint();
   }
-
-  mountedCallback() { this.renderBreakpoint(); }
 
   /**
    * Rearranges user's slots in masthead according to desktop, tablet and mobile viewports.

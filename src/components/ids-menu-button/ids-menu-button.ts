@@ -43,11 +43,8 @@ export default class IdsMenuButton extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
-
-    requestAnimationFrame(() => {
-      this.configureMenu();
-      this.attachEventHandlers();
-    });
+    this.configureMenu();
+    this.attachEventHandlers();
   }
 
   /**
@@ -247,19 +244,19 @@ export default class IdsMenuButton extends Base {
       if ((typeof last === 'number' && !Number.isNaN(last))) {
         val = `${value}px`;
       } else if (/(px|em|vw|vh|ch|%)$/g.test(value) && !Number.isNaN(parseInt(value, 10))) {
-        this.container.classList[/%$/g.test(value) ? 'add' : 'remove']('formatter-width-percentage');
+        this.container?.classList[/%$/g.test(value) ? 'add' : 'remove']('formatter-width-percentage');
         val = value;
       }
     }
 
     if (val) {
       this.setAttribute(attributes.FORMATTER_WIDTH, value);
-      this.container.classList.add(attributes.FORMATTER_WIDTH);
-      this.container.style.minWidth = val;
+      this.container?.classList.add(attributes.FORMATTER_WIDTH);
+      if (this.container) this.container.style.minWidth = val;
     } else {
       this.removeAttribute(attributes.FORMATTER_WIDTH);
-      this.container.classList.remove(attributes.FORMATTER_WIDTH);
-      this.container.style.minWidth = '';
+      this.container?.classList.remove(attributes.FORMATTER_WIDTH);
+      if (this.container) this.container.style.minWidth = '';
     }
   }
 }

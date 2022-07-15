@@ -65,19 +65,6 @@ export default class IdsModal extends Base {
    */
   vetoableEventTypes: Array<string> = ['beforeshow', 'beforehide'];
 
-  /**
-   * Handle Setting changes of the value has changed by calling the getter
-   * in the extending class.
-   * @param {string} name The property name
-   * @param {string} oldValue The property old value
-   * @param {string} newValue The property new value
-   */
-  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-    if (this.shouldUpdate) {
-      super.attributeChangedCallback(name, oldValue, newValue);
-    }
-  }
-
   connectedCallback(): void {
     super.connectedCallback?.();
 

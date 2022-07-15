@@ -527,7 +527,6 @@ describe('IdsMultiselect Component', () => {
   });
 
   it('selects on enter when open', () => {
-    debugger;
     multiselect.open();
     let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
     multiselect.dispatchEvent(event);
@@ -539,7 +538,6 @@ describe('IdsMultiselect Component', () => {
   });
 
   it('selects on space when open', () => {
-    debugger;
     multiselect.open();
     let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
     multiselect.dispatchEvent(event);

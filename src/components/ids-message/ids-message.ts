@@ -95,7 +95,7 @@ export default class IdsMessage extends Base {
     if (val) {
       this.state.opacity = val;
 
-      const overlayElem = this.shadowRoot.querySelector('ids-overlay');
+      const overlayElem = this.shadowRoot?.querySelector('ids-overlay');
       overlayElem.opacity = val;
     }
   }
@@ -154,7 +154,7 @@ export default class IdsMessage extends Base {
    * @returns {void}
    */
   #refreshStatus(val: string): void {
-    const header = this.container.querySelector('.ids-modal-header');
+    const header = this.container?.querySelector('.ids-modal-header');
     let icon = header.querySelector('ids-icon');
     if (val && val !== MESSAGE_STATUSES[0]) {
       if (!icon) {
