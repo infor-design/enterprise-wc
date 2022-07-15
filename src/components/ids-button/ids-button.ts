@@ -173,6 +173,8 @@ export default class IdsButton extends Base {
     }
 
     // Remove/Set CSS classes on the actual inner Button component
+    if (!this.button) return;
+
     const buttonCl = this.button.classList;
     const buttonClArr = Array.from(buttonCl);
     prevClasses.forEach((cssClass) => {
@@ -206,10 +208,7 @@ export default class IdsButton extends Base {
 
     this.shouldUpdate = true;
     this.state.disabled = isValueTruthy;
-
-    if (this.button) {
-      this.button.disabled = isValueTruthy;
-    }
+    if (this.button) this.button.disabled = isValueTruthy;
   }
 
   get disabled(): boolean {
@@ -230,10 +229,7 @@ export default class IdsButton extends Base {
 
     this.shouldUpdate = true;
     this.state.hidden = isValueTruthy;
-
-    if (this.button) {
-      this.button.hidden = isValueTruthy;
-    }
+    if (this.button) this.button.hidden = isValueTruthy;
   }
 
   /**
@@ -252,13 +248,13 @@ export default class IdsButton extends Base {
 
     if (Number.isNaN(trueVal) || trueVal < -1) {
       this.state.tabIndex = 0;
-      this.button.setAttribute(attributes.TABINDEX, '0');
+      this.button?.setAttribute(attributes.TABINDEX, '0');
       this.removeAttribute(attributes.TABINDEX);
       return;
     }
 
     this.state.tabIndex = trueVal;
-    this.button.setAttribute(attributes.TABINDEX, `${trueVal}`);
+    this.button?.setAttribute(attributes.TABINDEX, `${trueVal}`);
   }
 
   /**
@@ -336,17 +332,17 @@ export default class IdsButton extends Base {
     if (!w) {
       this.removeAttribute('width');
       this.style.width = '';
-      this.button.style.width = '';
+      if (this.button) this.button.style.width = '';
       return;
     }
 
     // if percentage passed set width to host
     if (w.indexOf('%') !== -1) {
       this.style.width = w;
-      this.button.style.width = '';
+      if (this.button) this.button.style.width = '';
     } else {
       this.style.width = '';
-      this.button.style.width = w;
+      if (this.button) this.button.style.width = w;
     }
 
     this.setAttribute('width', w);
@@ -390,6 +386,8 @@ export default class IdsButton extends Base {
    * @private
    */
   setIconAlignment(): void {
+    if (!this.button) return;
+
     const alignment = this.iconAlign || 'start';
     const iconStr = this.icon;
     this.button.classList.remove(...ICON_ALIGN);
@@ -518,10 +516,10 @@ export default class IdsButton extends Base {
     const trueVal = stringToBool(val);
     if (isTruthy !== trueVal) {
       if (trueVal) {
-        this.container.classList.add('no-padding');
+        this.container?.classList.add('no-padding');
         this.setAttribute('no-padding', 'true');
       } else {
-        this.container.classList.remove('no-padding');
+        this.container?.classList.remove('no-padding');
         this.removeAttribute('no-padding');
       }
     }
@@ -531,7 +529,7 @@ export default class IdsButton extends Base {
    * @returns {boolean | string} true if the button does not currently have standard padding rules applied
    */
   get noPadding(): boolean | string {
-    return this.container.classList.contains('no-padding');
+    return stringToBool(this.getAttribute(attributes.NO_PADDING)); // this.container.classList.contains('no-padding');
   }
 
   /**
@@ -540,10 +538,12 @@ export default class IdsButton extends Base {
   set square(value: boolean) {
     const isTruthy = stringToBool(value);
 
-    if (isTruthy && !this.button.classList.contains('square')) {
-      this.button.classList.add('square');
-    } else if (!isTruthy && this.button.classList.contains('square')) {
-      this.button.classList.remove('square');
+    if (this.button) {
+      if (isTruthy && !this.button.classList.contains('square')) {
+        this.button.classList.add('square');
+      } else if (!isTruthy && this.button.classList.contains('square')) {
+        this.button.classList.remove('square');
+      }
     }
 
     if (isTruthy && !this.hasAttribute(attributes.SQUARE)) {
@@ -566,18 +566,20 @@ export default class IdsButton extends Base {
    * @param {string | null} val desired type class
    */
   setTypeClass(val: string | null) {
-    BUTTON_TYPES.forEach((type) => {
-      const typeClassName = `btn-${type}`;
-      if (val === type) {
-        if (type !== 'default' && !this.button.classList.contains(typeClassName)) {
-          this.button.classList.add(typeClassName);
+    if (this.button) {
+      BUTTON_TYPES.forEach((type) => {
+        const typeClassName = `btn-${type}`;
+        if (val === type) {
+          if (type !== 'default' && !this.button.classList.contains(typeClassName)) {
+            this.button.classList.add(typeClassName);
+          }
+          return;
         }
-        return;
-      }
-      if (this.button.classList?.contains(typeClassName)) {
-        this.button.classList.remove(typeClassName);
-      }
-    });
+        if (this.button.classList.contains(typeClassName)) {
+          this.button.classList.remove(typeClassName);
+        }
+      });
+    }
   }
 
   /**
