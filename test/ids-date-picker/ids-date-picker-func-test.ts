@@ -443,7 +443,7 @@ describe('IdsDatePicker Component Tests', () => {
     });
 
     it('should change placeholder by format', () => {
-      expect(component.getAttribute('placeholder')).toBeNull();
+      expect(component.getAttribute('placeholder')).toBe('false');
 
       component.setAttribute('placeholder', true);
       expect(component.placeholder).toBe('yyyy-MM-dd');
