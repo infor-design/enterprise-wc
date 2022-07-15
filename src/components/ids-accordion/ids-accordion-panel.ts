@@ -99,7 +99,7 @@ export default class IdsAccordionPanel extends Base {
    * @param {*} thisAlignment the alignment rule to set
    */
   #refreshContentAlignment(thisAlignment = null) {
-    applyContentAlignmentClass(this.container.classList, thisAlignment);
+    applyContentAlignmentClass(this.container?.classList, thisAlignment);
   }
 
   /**
@@ -123,7 +123,7 @@ export default class IdsAccordionPanel extends Base {
    * @returns {HTMLElement|null} the expander button
    */
   get expander(): HTMLElement | null {
-    return this.container.querySelector('.ids-accordion-panel-expander');
+    return this.container?.querySelector('.ids-accordion-panel-expander');
   }
 
   /**
@@ -131,7 +131,7 @@ export default class IdsAccordionPanel extends Base {
    * @returns {HTMLElement|null} the inner expand/collapse pane element
    */
   get pane(): HTMLElement | null {
-    return this.container.querySelector('.ids-accordion-pane');
+    return this.container?.querySelector('.ids-accordion-pane');
   }
 
   /**
@@ -244,14 +244,14 @@ export default class IdsAccordionPanel extends Base {
    * @returns {boolean} true if this panel appears "nested"
    */
   get nested(): boolean {
-    return this.container.classList.contains('nested');
+    return this.container?.classList.contains('nested');
   }
 
   /**
    * @param {boolean} val true if this panel should appear "nested"
    */
   set nested(val: boolean) {
-    this.container.classList[stringToBool(val) ? 'add' : 'remove']('nested');
+    this.container?.classList[stringToBool(val) ? 'add' : 'remove']('nested');
   }
 
   /**
@@ -298,7 +298,7 @@ export default class IdsAccordionPanel extends Base {
       }
 
       this.pane.style.height = `${this.pane.scrollHeight}px`;
-      this.container.classList.remove('expanded');
+      this.container?.classList.remove('expanded');
 
       if (this.header) {
         this.header.expanded = false;

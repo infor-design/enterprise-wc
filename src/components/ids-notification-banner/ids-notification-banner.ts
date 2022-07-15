@@ -53,6 +53,19 @@ export default class IdsNotificationBanner extends Base {
   }
 
   /**
+   * Return the properties we only handle updates on
+   * @returns {Array} The properties in an array
+   */
+  get delayedAttributes(): Array<any> {
+    return [
+      attributes.MESSAGE_TEXT,
+      attributes.LINK,
+      attributes.LINK_TEXT,
+      attributes.TYPE
+    ];
+  }
+
+  /**
    * Create the Template for the contents
    * @returns {string} The template
    */
@@ -65,8 +78,10 @@ export default class IdsNotificationBanner extends Base {
       alertIcon = this.type;
     }
 
+    const type = (!this.type || TYPES[this.type] === undefined) ? TYPES.success.type : this.type;
+
     return `
-      <div class="ids-notification-banner" part="container">
+      <div class="ids-notification-banner" part="container" type="${type}">
         <ids-alert icon="${alertIcon}"></ids-alert>
         <div class="ids-notification-banner-message" part="message">
           <ids-text overflow="ellipsis">${this.messageText !== null ? this.messageText : 'Enter Message Text.'}</ids-text>
@@ -95,10 +110,10 @@ export default class IdsNotificationBanner extends Base {
     if (!value || TYPES[value] === undefined) {
       this.removeAttribute(attributes.TYPE);
       this.setAttribute(attributes.TYPE, TYPES.success.type);
-      this.container.setAttribute(attributes.TYPE, TYPES.success.type);
+      this.container?.setAttribute(attributes.TYPE, TYPES.success.type);
     } else {
       this.setAttribute(attributes.TYPE, value);
-      this.container.setAttribute(attributes.TYPE, value);
+      this.container?.setAttribute(attributes.TYPE, value);
     }
   }
 
@@ -140,7 +155,7 @@ export default class IdsNotificationBanner extends Base {
    * @returns {object} The object for chaining.
    */
   #attachEventHandlers(): object {
-    const closeBtn = this.container.querySelector('ids-button');
+    const closeBtn = this.container?.querySelector('ids-button');
     this.onEvent('click', closeBtn, () => this.dismiss());
     return this;
   }
@@ -151,7 +166,7 @@ export default class IdsNotificationBanner extends Base {
    * @returns {object} This API object for chaining
    */
   #attachKeyboardListeners(): object {
-    const closeBtn = this.container.querySelector('ids-button');
+    const closeBtn = this.container?.querySelector('ids-button');
     this.listen('Enter', closeBtn, () => this.dismiss());
     return this;
   }
@@ -170,8 +185,8 @@ export default class IdsNotificationBanner extends Base {
       link,
       linkText
     } = notification;
-    const messageTextEl = this.container.querySelector('[part="message"]');
-    const alertIcon = this.container.querySelector('ids-alert');
+    const messageTextEl = this.container?.querySelector('[part="message"]');
+    const alertIcon = this.container?.querySelector('ids-alert');
 
     // Set properties
     if (id) {
@@ -179,8 +194,8 @@ export default class IdsNotificationBanner extends Base {
     }
     this.type = type;
     this.messageText = messageText;
-    alertIcon.setAttribute('icon', this.type);
-    messageTextEl.innerHTML = `<ids-text overflow="ellipsis">${this.messageText}</ids-text>`;
+    alertIcon?.setAttribute('icon', this.type);
+    if (messageTextEl) messageTextEl.innerHTML = `<ids-text overflow="ellipsis">${this.messageText}</ids-text>`;
 
     // Check for link and create the necassary elements.
     if (notification.link) {
@@ -190,7 +205,7 @@ export default class IdsNotificationBanner extends Base {
       this.linkText = linkText === undefined ? 'Click to view' : linkText;
       linkPart.innerHTML = `<ids-hyperlink href="${this.link}" target="_blank">${this.linkText}</ids-hyperlink>`;
       // Insert after the message text.
-      messageTextEl.parentNode.insertBefore(linkPart, messageTextEl.nextSibling);
+      messageTextEl?.parentNode?.insertBefore(linkPart, messageTextEl.nextSibling);
     }
 
     // Check if parent container is defined to prepend
