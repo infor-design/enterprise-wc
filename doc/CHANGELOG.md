@@ -4,7 +4,7 @@
 
 ### 1.0.0-beta.1 Fixes
 
-- `[App Meny]` Fixed the footer by creating two examples for the app menu, one only including the Infor logo and the other only including the toolbar options. ([#776](https://github.com/infor-design/enterprise-wc/pull/776))
+- `[App Menu]` Fixed the footer by creating two examples for the app menu, one only including the Infor logo and the other only including the toolbar options. ([#776](https://github.com/infor-design/enterprise-wc/pull/776))
 - `[Breadcrumb]` Fixed a styling with the focus state and incorrect colors. ([#777](https://github.com/infor-design/enterprise-wc/pull/788))
 - `[Card]` Fixed the `height` setting which was not working. ([#788](https://github.com/infor-design/enterprise-wc/pull/777))
 
