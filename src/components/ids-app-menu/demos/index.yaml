@@ -9,7 +9,7 @@
     type: Main Example
     description: Shows a basic app menu
   - link: example-footer.html
-    type: Main Example
+    type: Example
     description: Shows a basic app menu with the old footer design
   - link: sandbox.html
     type: Sandbox
