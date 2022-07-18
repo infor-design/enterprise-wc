@@ -101,9 +101,12 @@ export default class IdsDropdown extends Base {
     if (val) {
       const attr = val === 'compact' ? { name: 'compact', val: '' } : { name: 'field-height', val };
       this.input.setAttribute(attr.name, attr.val);
+      this.listBox?.setAttribute(attr.name, attr.val);
     } else {
       this.input.removeAttribute('compact');
       this.input.removeAttribute('field-height');
+      this.listBox?.removeAttribute('compact');
+      this.listBox?.removeAttribute('field-height');
     }
   }
 

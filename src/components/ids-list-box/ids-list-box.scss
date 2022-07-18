@@ -8,6 +8,12 @@ $border-input-size-sm: $input-size-sm - 2;
 $border-input-size-md: $input-size-md - 2;
 $border-input-size-mm: $input-size-mm - 2;
 $border-input-size-lg: $input-size-lg - 2;
+$border-input-field-height-compact: $input-field-height-xs - 2;
+$border-input-field-height-xs: $input-field-height-xs - 2;
+$border-input-field-height-sm: $input-field-height-sm - 2;
+$border-input-field-height-md: $input-field-height-md - 2;
+$border-input-field-height-lg: $input-field-height-lg - 2;
+
 :host {
   display: block;
   overflow-x: hidden;
@@ -18,7 +24,7 @@ $border-input-size-lg: $input-size-lg - 2;
   width: 298px;
 }
 
-// Sizes
+// Width Sizes
 :host([size='xs']) {
   &,
   ::slotted(ids-list-box-option) {
@@ -58,5 +64,37 @@ $border-input-size-lg: $input-size-lg - 2;
   &,
   ::slotted(ids-list-box-option) {
     width: $input-size-full;
+  }
+}
+
+// Height Sizes
+:host([compact]),
+:host([field-height='xs']) {
+  ::slotted(ids-list-box-option) {
+    @include text-14();
+
+    min-height: $border-input-field-height-compact;
+    line-height: $border-input-field-height-compact;
+  }
+}
+
+:host([field-height='sm']) {
+  ::slotted(ids-list-box-option) {
+    min-height: $border-input-field-height-sm;
+    line-height: $border-input-field-height-sm;
+  }
+}
+
+:host([field-height='md']) {
+  ::slotted(ids-list-box-option) {
+    min-height: $border-input-field-height-md;
+    line-height: $border-input-field-height-md;
+  }
+}
+
+:host([field-height='lg']) {
+  ::slotted(ids-list-box-option) {
+    min-height: $border-input-field-height-lg;
+    line-height: $border-input-field-height-lg;
   }
 }
