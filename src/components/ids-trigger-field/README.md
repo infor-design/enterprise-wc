@@ -60,13 +60,34 @@ Example usage with buttons on both sides of input.
 </ids-trigger-field>
 ```
 
+The `inline` attribute can be applied the IdsTriggerButton to alter the size of the field when the field height changes. Since trigger buttons are "square", they will respect the settings and fit the size of the field.
+
+Example usage with `inline` attribute enabled in ids-trigger-buttons.
+
+```html
+<ids-trigger-field size="sm" label="Select an option">
+  <ids-trigger-button slot="trigger-end" inline>
+    <ids-text>Show options</ids-text>
+    <ids-icon slot="icon" icon="dropdown"></ids-icon>
+  </ids-trigger-button>
+</ids-trigger-field>
+```
+
 ## Settings and Attributes
 
-- `disabled` {boolean} set disabled state.
-- `label` {string} This adds a label to the trigger field
-- `size` {string} set the input size, it will set `md` as defaults
-- `tabbable` {boolean} Turns on the functionality allow the trigger to be tabbable. For accessibility reasons this should be on in most cases and this is the default.
-- `delimiter` {string} The delimiter to use when multiple values are selected.
+- Ids Trigger Field Component
+  - `disabled` {boolean} set disabled state.
+  - `label` {string} This adds a label to the trigger field
+  - `size` {string} set the input size, it will set `md` as defaults
+  - `tabbable` {boolean} Turns on the functionality allow the trigger to be tabbable. For accessibility reasons this should be on in most cases and this is the default.
+  - `delimiter` {string} The delimiter to use when multiple values are selected.
+
+- Ids Trigger Button Component
+  - `inline` {boolean} when some components alter the trigger button style to enable `inline`, it will:
+    - Set one visible border on the trigger botton:
+      - left side if slotted with "trigger-end"
+      - right side if slotted with "trigger-start"
+    - Alter the size of the trigger button to fit the size of the field if `field-height` or `compact` are set on IdsTriggerField.
 
 ## Converting from Previous Versions (Breaking Changes)
 
