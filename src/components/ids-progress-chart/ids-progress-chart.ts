@@ -71,14 +71,16 @@ export default class IdsProgressChart extends Base {
    * @param {string} value The icon name
    */
   set icon(value: string) {
-    const icon = this.container.querySelector('.icon');
+    const icon = this.container?.querySelector('.icon');
     if (value) {
-      icon.style.display = '';
-      icon.style.margin = '0 4px';
+      if (icon) {
+        icon.style.display = '';
+        icon.style.margin = '0 4px';
+      }
       this.setAttribute(attributes.ICON, value);
       icon.setAttribute(attributes.ICON, value);
     } else {
-      icon.style.display = 'none';
+      if (icon) icon.style.display = 'none';
       this.setAttribute(attributes.ICON, '');
       icon.setAttribute(attributes.ICON, '');
     }
@@ -111,17 +113,17 @@ export default class IdsProgressChart extends Base {
 
       // only color the icons and progress labels if it's error, caution, or warning
       if (includesAlert) {
-        const progressLabel = this.container.querySelector('.label-progress');
+        const progressLabel = this.container?.querySelector('.label-progress');
         progressLabel.style.color = prop;
 
-        const icon = this.container.querySelector('ids-icon');
+        const icon = this.container?.querySelector('ids-icon');
         icon.style.color = prop;
       }
     } else if (this.color.substring(0, 1) !== '#') {
       prop = `var(--ids-color-palette-${this.color})`;
     }
 
-    const bar = this.container.querySelector('.bar-progress');
+    const bar = this.container?.querySelector('.bar-progress');
     bar.style.backgroundColor = prop;
   }
 
@@ -131,6 +133,7 @@ export default class IdsProgressChart extends Base {
    * @private
    */
   #updateLabel(labelType: string): void {
+    if (!this.container) return;
     if (labelType === attributes.LABEL) {
       this.container.querySelector('.label-main').innerHTML = this.label;
     } else if (labelType === attributes.LABEL_PROGRESS) {
@@ -150,7 +153,7 @@ export default class IdsProgressChart extends Base {
     // make sure that prog / tot doesn't exceed 1 -- will happen if prog > tot
     const percentage = Math.floor((prog / tot > 1 ? 1 : prog / tot) * 100);
     this.percentage = percentage;
-    this.container.querySelector('.bar-progress').style.width = `${percentage}%`;
+    if (this.container) this.container.querySelector('.bar-progress').style.width = `${percentage}%`;
   }
 
   /**
@@ -233,8 +236,8 @@ export default class IdsProgressChart extends Base {
   set size(value: string) {
     const prop = value === 'small' ? value : DEFAULT_SIZE;
     this.setAttribute(attributes.SIZE, prop);
-    const icon = this.container.querySelector('.icon');
-    icon.setAttribute('size', prop);
+    const icon = this.container?.querySelector('.icon');
+    icon?.setAttribute('size', prop);
     this.#updateSize();
   }
 
