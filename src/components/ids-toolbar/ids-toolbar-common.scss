@@ -20,7 +20,7 @@
   &.fluid {
     flex: 1 0 auto;
 
-    &:not(.favor) {
+    &:not(.favor):not(.fluid) {
       flex: 0 1 auto;
       overflow-x: hidden;
       overflow-y: auto;

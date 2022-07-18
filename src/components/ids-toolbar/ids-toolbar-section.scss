@@ -19,6 +19,7 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
   ::slotted(*) {
     transition: opacity $transition-length $transition-ease;
     opacity: 1;
+    margin: auto;
   }
 
   ::slotted([overflowed]) {
