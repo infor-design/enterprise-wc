@@ -27,7 +27,7 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
     pointer-events: none;
   }
 
-  ::slotted(.fluid){
+  ::slotted(.fluid) {
     margin: 0;
   }
 
