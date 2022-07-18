@@ -37,6 +37,16 @@ export default class IdsProgressBar extends Base {
     ];
   }
 
+  get delayedAttributes(): Array<string> {
+    return [
+      attributes.DISABLED,
+      attributes.LABEL,
+      attributes.LABEL_AUDIBLE,
+      attributes.MAX,
+      attributes.VALUE
+    ];
+  }
+
   /**
    * Inner template contents
    * @returns {string} The template
@@ -61,7 +71,7 @@ export default class IdsProgressBar extends Base {
    * @returns {void}
    */
   #updateValue(val: string): void {
-    const bar = this.shadowRoot.querySelector('.progress-bar');
+    const bar = this.shadowRoot?.querySelector('.progress-bar');
     if (bar) {
       const v = bar.getAttribute(attributes.VALUE);
       if (val !== null && v !== val.toString()) {
@@ -94,7 +104,7 @@ export default class IdsProgressBar extends Base {
    * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value: boolean | string) {
-    const rootEl = this.shadowRoot.querySelector('.ids-progress-bar');
+    const rootEl = this.shadowRoot?.querySelector('.ids-progress-bar');
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
@@ -117,7 +127,7 @@ export default class IdsProgressBar extends Base {
     } else {
       this.removeAttribute(attributes.LABEL);
     }
-    const labelText = this.shadowRoot.querySelector('.progress-label ids-text');
+    const labelText = this.shadowRoot?.querySelector('.progress-label ids-text');
     if (labelText) {
       labelText.innerHTML = value ? value.toString() : '';
     }
@@ -130,8 +140,8 @@ export default class IdsProgressBar extends Base {
    * @param {boolean|string} value If true will set `label-audible` attribute
    */
   set labelAudible(value: boolean | string) {
-    const rootEl = this.shadowRoot.querySelector('.ids-progress-bar');
-    const labelText = this.shadowRoot.querySelector('.progress-label ids-text');
+    const rootEl = this.shadowRoot?.querySelector('.ids-progress-bar');
+    const labelText = this.shadowRoot?.querySelector('.progress-label ids-text');
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.LABEL_AUDIBLE, val.toString());
@@ -151,7 +161,7 @@ export default class IdsProgressBar extends Base {
    * @param {string} value of the `max` property
    */
   set max(value: string) {
-    const bar = this.shadowRoot.querySelector('.progress-bar');
+    const bar = this.shadowRoot?.querySelector('.progress-bar');
     const v = (value || MAX).toString();
     this.setAttribute(attributes.MAX, v);
     bar?.setAttribute(attributes.MAX, v);
