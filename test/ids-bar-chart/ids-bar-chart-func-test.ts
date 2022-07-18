@@ -4,6 +4,7 @@
 import IdsBarChart from '../../src/components/ids-bar-chart/ids-bar-chart';
 import dataset from '../../src/assets/data/components.json';
 import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
+import '../helpers/canvas-mock';
 import '../helpers/resize-observer-mock';
 
 describe('IdsBarChart Component', () => {

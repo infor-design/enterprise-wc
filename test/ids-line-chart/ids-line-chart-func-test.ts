@@ -3,6 +3,7 @@
  */
 import IdsLineChart from '../../src/components/ids-line-chart/ids-line-chart';
 import dataset from '../../src/assets/data/components.json';
+import '../helpers/canvas-mock';
 import '../helpers/resize-observer-mock';
 
 describe('IdsLineChart Component', () => {
