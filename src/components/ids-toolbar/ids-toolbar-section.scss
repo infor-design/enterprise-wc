@@ -27,6 +27,10 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
     pointer-events: none;
   }
 
+  ::slotted(.fluid){
+    margin: 0;
+  }
+
   // ================================================
   // Built-in Section Type Styles
 
