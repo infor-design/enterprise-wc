@@ -817,8 +817,10 @@ export default class IdsDropdown extends Base {
   set size(value: string) {
     if (value) {
       this.setAttribute(attributes.SIZE, value);
+      this.listBox?.setAttribute(attributes.SIZE, value);
     } else {
       this.removeAttribute(attributes.SIZE);
+      this.listBox?.removeAttribute(attributes.SIZE);
     }
     this.input.setAttribute(attributes.SIZE, this.size);
   }
