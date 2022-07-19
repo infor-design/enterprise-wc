@@ -101,9 +101,12 @@ export default class IdsDropdown extends Base {
     if (val) {
       const attr = val === 'compact' ? { name: 'compact', val: '' } : { name: 'field-height', val };
       this.input?.setAttribute(attr.name, attr.val);
+      this.listBox?.setAttribute(attr.name, attr.val);
     } else {
       this.input?.removeAttribute('compact');
       this.input?.removeAttribute('field-height');
+      this.listBox?.removeAttribute('compact');
+      this.listBox?.removeAttribute('field-height');
     }
   }
 
@@ -827,8 +830,10 @@ export default class IdsDropdown extends Base {
   set size(value: string) {
     if (value) {
       this.setAttribute(attributes.SIZE, value);
+      this.listBox?.setAttribute(attributes.SIZE, value);
     } else {
       this.removeAttribute(attributes.SIZE);
+      this.listBox?.removeAttribute(attributes.SIZE);
     }
     if (this.input) this.input.setAttribute(attributes.SIZE, this.size);
   }

@@ -52,8 +52,14 @@
     <!-- Playback controls -->
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
-        <ids-toggle-button id="loop-playback-btn" icon-off="play" icon-on="pause" text-off="Play Loop" text-on="Pause Loop" pressed="true"></ids-toggle-button>
-        <ids-toggle-button id="item-playback-btn" icon-off="play" icon-on="pause" text-off="Play Item" text-on="Pause Item" pressed="true"></ids-toggle-button>
+        <ids-toggle-button id="loop-playback-btn" icon-off="play" icon-on="pause" text-off="Play Loop" text-on="Pause Loop" pressed="true">
+          <ids-icon slot="icon" icon="pause"></ids-icon>
+          <span slot="text"></span>
+        </ids-toggle-button>
+        <ids-toggle-button id="item-playback-btn" icon-off="play" icon-on="pause" text-off="Play Item" text-on="Pause Item" pressed="true">
+          <ids-icon slot="icon" icon="pause"></ids-icon>
+          <span slot="text"></span>
+        </ids-toggle-button>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>
