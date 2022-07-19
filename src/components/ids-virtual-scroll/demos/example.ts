@@ -8,17 +8,16 @@ if (head) {
 }
 
 // Example for populating the Virtual Scoller
-const virtualScrollUl: any = document.querySelector('#virtual-scroll-1');
+const virtualScrollList: any = document.querySelector('#virtual-scroll-1');
 const virtualScrollTable: any = document.querySelector('#virtual-scroll-2');
-if (virtualScrollUl) {
+if (virtualScrollList) {
   const url: any = productsJSON;
-
   const setData = async () => {
     const res = await fetch(url);
     const data = await res.json();
     // Setup the list view
-    virtualScrollUl.data = data;
-    virtualScrollUl.itemTemplate = (item: any) => `<div part="list-item">${item.productName}</div>`;
+    virtualScrollList.data = data;
+    virtualScrollList.itemTemplate = (item: any) => `<div part="list-item">${item.productName}</div>`;
     // Set up the table
     virtualScrollTable.scrollTarget = document.querySelector('.ids-data-grid');
     virtualScrollTable.itemTemplate = (item: any) => `<div part="row" role="row" class="ids-data-grid-row">

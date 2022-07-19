@@ -137,29 +137,6 @@ export default class IdsMenuItem extends Base {
   }
 
   /**
-   * Override `attributeChangedCallback` from IdsElement to wrap its normal operation in a
-   * check for a true `shouldUpdate` property.
-   * @param {string} name The property name
-   * @param {string} oldValue The property old value
-   * @param {string} newValue The property new value
-   */
-  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-    if (this.shouldUpdate) {
-      switch (name) {
-      // Convert "tabindex" to "tabIndex"
-        case 'tabindex':
-          if (oldValue !== newValue) {
-            this.tabIndex = Number(newValue);
-          }
-          break;
-        default:
-          super.attributeChangedCallback(name, oldValue, newValue);
-          break;
-      }
-    }
-  }
-
-  /**
    * Menu-level `connectedCallback` implementation
    * @returns {void}
    */

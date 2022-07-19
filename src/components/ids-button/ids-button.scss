@@ -203,7 +203,8 @@ button {
   }
 }
 
-.btn-swipe-action-right {
+.btn-swipe-action-right,
+.btn-swipe-action-right[mode='light'] {
   @include bg-azure-70();
   @include text-white();
 
@@ -215,10 +216,6 @@ button {
   &:active {
     @include bg-azure-80();
   }
-}
-
-.btn-swipe-action-right[mode='light'] {
-  @include text-white();
 }
 
 .btn-swipe-action-left[mode='dark'] {

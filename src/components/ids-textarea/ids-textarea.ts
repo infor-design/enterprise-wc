@@ -134,7 +134,7 @@ export default class IdsTextarea extends Base {
    * @returns {HTMLTextAreaElement} reference to this component's inner text input element
    */
   get input(): HTMLTextAreaElement {
-    return this.container.querySelector('textarea');
+    return this.container?.querySelector('textarea');
   }
 
   /**
@@ -143,7 +143,7 @@ export default class IdsTextarea extends Base {
    *  that wraps the input and any triggering elements or icons
    */
   get fieldContainer(): HTMLElement {
-    return this.container.querySelector('.field-container');
+    return this.container?.querySelector('.field-container');
   }
 
   /**
@@ -162,18 +162,18 @@ export default class IdsTextarea extends Base {
       };
       if (options.val) {
         this.input?.removeAttribute(options.prop2);
-        this.container.classList.remove(options.prop2);
-        this.container.querySelector('ids-text').removeAttribute(options.prop2);
+        this.container?.classList.remove(options.prop2);
+        this.container?.querySelector('ids-text').removeAttribute(options.prop2);
         msgNodes.forEach((x: HTMLElement) => x.classList.remove(options.prop2));
 
         this.input?.setAttribute(options.prop1, 'true');
-        this.container.classList.add(options.prop1);
-        this.container.querySelector('ids-text').setAttribute(options.prop1, 'true');
+        this.container?.classList.add(options.prop1);
+        this.container?.querySelector('ids-text').setAttribute(options.prop1, 'true');
         msgNodes.forEach((x: HTMLElement) => x.classList.add(options.prop1));
       } else {
         this.input?.removeAttribute(options.prop1);
-        this.container.classList.remove(options.prop1);
-        this.container.querySelector('ids-text').removeAttribute(options.prop1);
+        this.container?.classList.remove(options.prop1);
+        this.container?.querySelector('ids-text').removeAttribute(options.prop1);
         msgNodes.forEach((x: HTMLElement) => x.classList.remove(options.prop1));
       }
     }
@@ -260,11 +260,8 @@ export default class IdsTextarea extends Base {
       const maxHeight = parseInt((this.autogrowMaxHeight as any), 10) || 0;
       const oldHeight = this.input.offsetHeight;
 
-      // Need delay, when initial value more then max on first load
-      requestAnimationFrame(() => {
-        this.adjustHeight(oldHeight, maxHeight);
-        this.autogrowProcessing = null;
-      });
+      this.adjustHeight(oldHeight, maxHeight);
+      this.autogrowProcessing = null;
     }
   }
 
@@ -302,7 +299,7 @@ export default class IdsTextarea extends Base {
       if (!elem) {
         elem = document.createElement('span');
         elem.className = 'textarea-character-counter';
-        this.container.appendChild(elem);
+        this.container?.appendChild(elem);
       }
       this.updateCounter();
     } else {

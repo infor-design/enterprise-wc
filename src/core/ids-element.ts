@@ -57,8 +57,8 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   }
 
   /**
-   * Do not run some attributes initially (for example if combinedor consumed in the initial template)
-   * @returns {Array} The attributes that should be skipped
+   * Return the attributes we only update after initial render
+   * @returns {Array} The attributes to be delayed
    */
   get delayedAttributes(): string[] {
     return [];

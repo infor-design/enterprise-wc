@@ -43,14 +43,9 @@ export default class IdsTimePicker extends Base {
     super();
   }
 
-  /**
-   * Elements for internal usage
-   * @private
-   */
-  #triggerButton = this.container.querySelector('ids-trigger-button');
-
   connectedCallback() {
     super.connectedCallback();
+    this.triggerButton = this.container.querySelector('ids-trigger-button');
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
     this.#renderDropdowns();
@@ -258,7 +253,7 @@ export default class IdsTimePicker extends Base {
     });
 
     this.offEvent('click.time-picker-popup');
-    this.onEvent('click.time-picker-popup', this.#triggerButton, () => {
+    this.onEvent('click.time-picker-popup', this.triggerButton, () => {
       this.#toggleTimePopup();
     });
 
@@ -587,7 +582,7 @@ export default class IdsTimePicker extends Base {
   open() {
     if (!this.popup.visible && !this.disabled && !this.readonly) {
       this.popup.alignTarget = this.input?.container.querySelector('.field-container');
-      this.popup.arrowTarget = this.#triggerButton;
+      this.popup.arrowTarget = this.triggerButton;
       this.popup.align = `bottom, ${this.locale.isRTL() || ['md', 'lg', 'full'].includes(this.size) ? 'right' : 'left'}`;
       this.popup.arrow = 'bottom';
       this.popup.y = 16;
@@ -707,7 +702,7 @@ export default class IdsTimePicker extends Base {
    */
   set autoupdate(value: boolean) {
     const boolVal = stringToBool(value);
-    const popupBtn = this.container.querySelector('.popup-btn');
+    const popupBtn = this.container?.querySelector('.popup-btn');
 
     if (boolVal) {
       this.setAttribute(attributes.AUTOUPDATE, boolVal);
@@ -955,7 +950,7 @@ export default class IdsTimePicker extends Base {
       this.removeAttribute(attributes.HOURS);
     }
 
-    this.container.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, this.hours);
+    this.container?.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, this.hours);
   }
 
   /**
@@ -997,7 +992,7 @@ export default class IdsTimePicker extends Base {
       this.removeAttribute(attributes.MINUTES);
     }
 
-    this.container.querySelector('ids-dropdown#minutes')?.setAttribute(attributes.VALUE, this.minutes);
+    this.container?.querySelector('ids-dropdown#minutes')?.setAttribute(attributes.VALUE, this.minutes);
   }
 
   /**
@@ -1032,7 +1027,7 @@ export default class IdsTimePicker extends Base {
       this.removeAttribute(attributes.SECONDS);
     }
 
-    this.container.querySelector('ids-dropdown#seconds')?.setAttribute(attributes.VALUE, this.seconds);
+    this.container?.querySelector('ids-dropdown#seconds')?.setAttribute(attributes.VALUE, this.seconds);
   }
 
   /**
@@ -1070,9 +1065,9 @@ export default class IdsTimePicker extends Base {
     // Updating hours dropdown with AM/PM range
     if (this.#hasHourRange()) {
       this.#renderDropdowns();
-      this.container.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, this.#getHourOptions()[0]);
+      this.container?.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, this.#getHourOptions()[0]);
     } else {
-      this.container.querySelector('ids-dropdown#period')?.setAttribute(attributes.VALUE, this.period);
+      this.container?.querySelector('ids-dropdown#period')?.setAttribute(attributes.VALUE, this.period);
     }
   }
 

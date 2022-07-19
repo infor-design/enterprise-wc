@@ -80,8 +80,7 @@ export default class IdsSwipeAction extends Base {
   static get attributes() {
     return [
       attributes.MODE,
-      attributes.SWIPE_TYPE,
-      attributes.VERSION
+      attributes.SWIPE_TYPE
     ];
   }
 
@@ -126,12 +125,12 @@ export default class IdsSwipeAction extends Base {
   set swipeType(value: string | null) {
     if (value === 'continuous') {
       this.setAttribute(attributes.SWIPE_TYPE, value);
-      this.container.classList.add('continuous');
+      this.container?.classList.add('continuous');
       return;
     }
 
     this.removeAttribute(attributes.SWIPE_TYPE);
-    this.container.classList.remove('continuous');
+    this.container?.classList.remove('continuous');
   }
 
   get swipeType(): string { return this.getAttribute(attributes.SWIPE_TYPE) || 'reveal'; }

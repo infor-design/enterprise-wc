@@ -37,8 +37,19 @@ export default class IdsSwitch extends Base {
       attributes.CHECKED,
       attributes.DISABLED,
       attributes.LABEL,
-      attributes.LANGUAGE,
       attributes.VALUE
+    ];
+  }
+
+  /**
+   * Return the attributes we only update after initial render
+   * @returns {Array} The attributes in an array
+   */
+  get delayedAttributes(): string[] {
+    return [
+      attributes.CHECKED,
+      attributes.DISABLED,
+      attributes.LABEL
     ];
   }
 

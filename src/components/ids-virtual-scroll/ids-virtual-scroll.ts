@@ -225,7 +225,7 @@ export default class IdsVirtualScroll extends Base {
     const val = parseFloat(value);
     if (!(Number.isNaN(val))) {
       this.setAttribute(attributes.SCROLL_TOP, val.toString());
-      this.container.scrollTop = val;
+      if (this.container) this.container.scrollTop = val;
       this.renderItems(false);
       return;
     }

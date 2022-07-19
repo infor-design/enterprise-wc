@@ -66,6 +66,13 @@ export default class IdsToastMessage extends Base {
     ];
   }
 
+  get delayedAttributes(): Array<string> {
+    return [
+      attributes.AUDIBLE,
+      attributes.PROGRESS_BAR
+    ];
+  }
+
   /**
    * Create the Template for the contents
    * @returns {string} The template
@@ -78,7 +85,7 @@ export default class IdsToastMessage extends Base {
         <ids-text slot="text" audible="true">
           <slot name="close-button-label">${d.closeButtonLabel}</slot>
         </ids-text>
-        <ids-icon slot="icon" icon="close" part="close-button-icon" size="xsmall"></ids-icon>
+        <ids-icon slot="icon" icon="close" part="close-button-icon" size="small"></ids-icon>
       </ids-trigger-button>`;
 
     const progress = this.progressBar ? '<div class="progress-bar" part="progress-bar"></div>' : '';

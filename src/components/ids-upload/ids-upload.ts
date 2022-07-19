@@ -105,8 +105,8 @@ export default class IdsUpload extends Base {
    */
   connectedCallback(): void {
     super.connectedCallback();
-    this.trigger = this.shadowRoot.querySelector('.trigger');
-    this.fileInput = this.shadowRoot.querySelector(`#${ID}`);
+    this.trigger = this.shadowRoot?.querySelector('.trigger');
+    this.fileInput = this.shadowRoot?.querySelector(`#${ID}`);
 
     this.files = this.fileInput.files;
     this.#attachEventHandlers();
@@ -444,7 +444,7 @@ export default class IdsUpload extends Base {
    * @param {string | undefined} value The label for filetype
    */
   set labelFiletype(value: string | undefined) {
-    const labelEL = this.shadowRoot.querySelector('.label-filetype');
+    const labelEL = this.shadowRoot?.querySelector('.label-filetype');
     if (value) {
       this.setAttribute(attributes.LABEL_FILETYPE, value);
       labelEL.textContent = value;
@@ -479,7 +479,7 @@ export default class IdsUpload extends Base {
    * @param {boolean|string} value of the `multiple` property
    */
   set multiple(value: boolean | string) {
-    this.fileInput = this.shadowRoot.querySelector(`#${ID}`);
+    this.fileInput = this.shadowRoot?.querySelector(`#${ID}`);
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.MULTIPLE, val.toString());
@@ -557,12 +557,12 @@ export default class IdsUpload extends Base {
 
     if (val) {
       this.setAttribute(attributes.READONLY, val.toString());
-      this.container.classList.add(attributes.READONLY);
+      this.container?.classList.add(attributes.READONLY);
       this.textInput.readonlyBackground = false;
       this.trigger.readonly = true;
     } else {
       this.removeAttribute(attributes.READONLY);
-      this.container.classList.remove(attributes.READONLY);
+      this.container?.classList.remove(attributes.READONLY);
       this.textInput.readonlyBackground = true;
       this.trigger.readonly = false;
     }
@@ -609,7 +609,7 @@ export default class IdsUpload extends Base {
    * @param {string | null} value The label for trigger button
    */
   set triggerLabel(value: string | null) {
-    const labelEL = this.shadowRoot.querySelector('.trigger-label');
+    const labelEL = this.shadowRoot?.querySelector('.trigger-label');
     if (value) {
       this.setAttribute(attributes.TRIGGER_LABEL, value);
       labelEL.textContent = value;

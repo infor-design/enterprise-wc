@@ -28,9 +28,8 @@ export default class IdsTag extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
-    this
-      .#attachEventHandlers()
-      .#attachKeyboardListeners();
+    this.#attachEventHandlers();
+    this.#attachKeyboardListeners();
   }
 
   /**
@@ -185,7 +184,7 @@ export default class IdsTag extends Base {
 
     // Ensure icon is always last
     let isChanging = false;
-    this.onEvent('slotchange', this.shadowRoot.querySelector('slot'), () => {
+    this.onEvent('slotchange', this.shadowRoot?.querySelector('slot'), () => {
       if (this.dismissible && !isChanging && this.lastElementChild?.nodeName !== 'IDS-ICON') {
         isChanging = true;
         this.#removeIcon('close');

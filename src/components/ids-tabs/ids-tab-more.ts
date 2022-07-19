@@ -216,7 +216,7 @@ export default class IdsTabMore extends Base {
       }
     });
 
-    this.container.querySelector('#count').innerHTML = `${overflowed}`;
+    if (this.container) this.container.querySelector('#count').innerHTML = `${overflowed}`;
 
     this.hidden = !this.hasVisibleActions();
     if (!this.hasVisibleActions()) {
