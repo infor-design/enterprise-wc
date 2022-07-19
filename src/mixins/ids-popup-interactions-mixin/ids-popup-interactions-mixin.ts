@@ -48,7 +48,9 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
 
   connectedCallback() {
     super.connectedCallback?.();
-    this.refreshTriggerEvents();
+    if (this.target) {
+      this.refreshTriggerEvents();
+    }
   }
 
   disconnectedCallback() {
@@ -80,7 +82,7 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
    * @returns {any} [HTMLElement|undefined] reference to a target element, if applicable
    */
   get target() {
-    return this.popup.alignTarget;
+    return this.popup?.alignTarget;
   }
 
   /**
@@ -125,7 +127,7 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
    * Causes events related to the Popupmenu's "trigger" style to be unbound/rebound
    */
   refreshTriggerEvents() {
-    if (this.hasTriggerEvents || !this.target) {
+    if (this.hasTriggerEvents) {
       return;
     }
     const targetElem = this.popup.alignTarget || window;
