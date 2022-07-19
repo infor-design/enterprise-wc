@@ -515,7 +515,7 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   #refreshAnimated(): void {
-    this.container.classList[this.animated ? 'add' : 'remove']('animated');
+    this.container?.classList[this.animated ? 'add' : 'remove']('animated');
   }
 
   /**
@@ -552,6 +552,7 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   #refreshAnimationStyle(currentStyle: string, newStyle: string) {
+    if (!this.container) return;
     const thisCl = this.container.classList;
     if (currentStyle) thisCl.remove(`animation-${currentStyle}`);
     thisCl.add(`animation-${newStyle}`);
@@ -659,6 +660,8 @@ export default class IdsPopup extends Base {
    * @param {string} newDir a CSS class representing a Popup Arrow direction
    */
   #setArrowDirection(currentDir: string | null, newDir: string | null) {
+    if (!this.container) return;
+
     const arrowElCl = this.arrowEl.classList;
     const isNone = newDir === 'none';
 
@@ -761,6 +764,7 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   #refreshPositionStyle(currentStyle: string, newStyle: string) {
+    if (!this.container) return;
     const thisCl = this.container.classList;
     if (currentStyle) thisCl.remove(`position-${currentStyle}`);
     thisCl.add(`position-${newStyle}`);
@@ -770,6 +774,7 @@ export default class IdsPopup extends Base {
    * Runs on viewport resize to correct a CSS class that controls scrolling behavior within viewport-positioned popups
    */
   #checkViewportPositionScrolling(): void {
+    if (!this.container) return;
     const cl = this.container.classList;
     cl.remove('fit-viewport');
 
@@ -815,6 +820,7 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   #refreshPopupTypeClass(currentType: string, newType: string) {
+    if (!this.container) return;
     const thisCl = this.container.classList;
     if (currentType) thisCl.remove(currentType);
     thisCl.add(newType);
@@ -857,6 +863,7 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   async refreshVisibility() {
+    if (!this.container) return;
     const cl = this.container.classList;
     if (this.#visible && !cl.contains('open')) {
       await this.show();
