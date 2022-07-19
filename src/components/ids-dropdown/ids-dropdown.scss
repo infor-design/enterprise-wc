@@ -24,7 +24,10 @@ ids-trigger-button {
 }
 
 :host([size='full']) {
-  @include w-full();
+  &,
+  ids-popup {
+    @include w-full();
+  }
 }
 
 :host([dir='rtl']) .icon-container {
