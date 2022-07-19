@@ -27,7 +27,7 @@ export default class IdsScrollView extends Base {
   }
 
   static get attributes() {
-    return [attributes.MODE, attributes.VERSION];
+    return [attributes.MODE];
   }
 
   /**

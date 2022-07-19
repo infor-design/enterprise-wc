@@ -1,7 +1,7 @@
 // Supporting Components
 import '../../ids-toggle-button/ids-toggle-button';
+import renderLoop from '../ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop-item';
-import renderLoop from '../ids-render-loop';
 
 // When the DOM Loads, register a loop that counts durations
 // of both the loop and an individual item, as well as sets up play/stop.

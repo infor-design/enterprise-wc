@@ -7,25 +7,31 @@
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
-    <ids-layout-grid auto="true">
-      <ids-text font-size="12" type="h1">Rating (4 stars / clickable)</ids-text>
-    </ids-layout-grid>
 
     <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Separator</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="12" gap="md">
       <ids-layout-grid-cell>
-        <ids-rating value="4"></ids-rating>
+        <ids-text>Left</ids-text>
+        <ids-separator></ids-separator>
+        <ids-text>Right</ids-text>
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
     <ids-layout-grid auto="true">
-      <ids-text font-size="12" type="h2">Rating (Half Stars / Readonly)</ids-text>
+      <ids-text font-size="12" type="h1">Separator (Vertical)</ids-text>
     </ids-layout-grid>
 
-    <ids-layout-grid auto="true">
+    <ids-layout-grid cols="12" gap="md">
       <ids-layout-grid-cell>
-        <ids-rating value="3.5" readonly="true"></ids-rating>
+        <ids-text>Top</ids-text>
+        <ids-separator vertical="true"></ids-separator>
+        <ids-text>Bottom</ids-text>
       </ids-layout-grid-cell>
     </ids-layout-grid>
+
   </ids-container>
 </body>
 </html>

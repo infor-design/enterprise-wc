@@ -20,16 +20,17 @@ export default class IdsRating extends Base {
     super();
   }
 
+  ratingArr: Array<any> = [];
+
   connectedCallback() {
     super.connectedCallback();
+    this.ratingArr = [...this.container.children];
     if (!this.readonly) {
       this.#attachEventHandlers();
     } else {
       this.updateHalfStar(this.ratingArr);
     }
   }
-
-  ratingArr = [...this.container.children];
 
   /**
    * Create the template for the rating contents
@@ -56,8 +57,7 @@ export default class IdsRating extends Base {
       attributes.READONLY,
       attributes.SIZE,
       attributes.STARS,
-      attributes.VALUE,
-      attributes.VERSION
+      attributes.VALUE
     ];
   }
 
