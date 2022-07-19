@@ -75,7 +75,7 @@ export default class IdsBlockgrid extends Base {
       `;
       this.appendChild(gridItem);
     });
-    super.rerender();
+    super.rerender?.();
   }
 
   /**

@@ -1,6 +1,5 @@
 import { attributes } from '../../core/ids-attributes';
 import IdsDataSource from '../../core/ids-data-source';
-import { parents } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import '../../components/ids-pager/ids-pager';
 import '../../components/ids-button/ids-button';
@@ -19,29 +18,9 @@ const PAGINATION_TYPES = {
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsPagerMixin = (superclass: any) => class extends superclass {
-  /**
-   * The internal IdsPager component
-   * @private
-   */
-  #pager: any;
-
-  /**
-   * The pager container element, user location to add pager
-   * @private
-   */
-  #pagerContainer: any;
-
-  /**
-   * Gets the internal IdsPager component
-   * @returns {HTMLElement} pager
-   */
-  get pager() {
-    if (!this.#pager) {
-      this.#pager = document.createElement('ids-pager');
-    }
-    return this.#pager;
-  }
+const IdsPagerMixin = (superclass: any): any => class extends superclass {
+  /** Reference to the internal IdsPager component */
+  readonly pager: any = document.createElement('ids-pager');
 
   /**
    * Gets the internal IdsDataSource object
@@ -51,13 +30,6 @@ const IdsPagerMixin = (superclass: any) => class extends superclass {
 
   constructor() {
     super();
-
-    const pageNumber = Math.max(this.pageNumber || 1, 1);
-    const pageSize = Math.max(this.pageSize || 0, 1);
-
-    this.pager.innerHTML = this.pagerTemplate();
-    this.pager.pageNumber = pageNumber;
-    this.pager.pageSize = pageSize;
   }
 
   /**
@@ -88,12 +60,12 @@ const IdsPagerMixin = (superclass: any) => class extends superclass {
           <span slot="text">${pageSize} Records per page</span>
         </ids-menu-button>
         <ids-popup-menu id="pager-size-menu" target="#pager-size-menu-button" trigger="click">
-          <ids-menu-group>
-            <ids-menu-item icon="${pageSize === 5 ? 'check' : 'no-check'}" value="5">5</ids-menu-item>
-            <ids-menu-item icon="${pageSize === 10 ? 'check' : 'no-check'}" value="10">10</ids-menu-item>
-            <ids-menu-item icon="${pageSize === 25 ? 'check' : 'no-check'}" value="25">25</ids-menu-item>
-            <ids-menu-item icon="${pageSize === 50 ? 'check' : 'no-check'}" value="50">50</ids-menu-item>
-            <ids-menu-item icon="${pageSize === 100 ? 'check' : 'no-check'}" value="100">100</ids-menu-item>
+          <ids-menu-group select="single">
+            <ids-menu-item value="5">5</ids-menu-item>
+            <ids-menu-item value="10">10</ids-menu-item>
+            <ids-menu-item value="25">25</ids-menu-item>
+            <ids-menu-item value="50">50</ids-menu-item>
+            <ids-menu-item value="100">100</ids-menu-item>
           </ids-menu-group>
         </ids-popup-menu>
       </div>
@@ -132,10 +104,10 @@ const IdsPagerMixin = (superclass: any) => class extends superclass {
    * Set the page-size attribute
    * @param {number} value - new the page-size
    */
-  set pageSize(value) {
+  set pageSize(value: number) {
     this.setAttribute(attributes.PAGE_SIZE, value);
-    this.pager.pageSize = value;
-    this.datasource.pageSize = value;
+    this.pager.pageSize = Number(value);
+    this.datasource.pageSize = Number(value);
 
     const popupButton: any = this.pager.querySelector('ids-menu-button');
     if (popupButton) popupButton.text = `${value} Records per page`;
@@ -164,15 +136,6 @@ const IdsPagerMixin = (superclass: any) => class extends superclass {
   get pageTotal() { return parseInt(this.getAttribute(attributes.PAGE_TOTAL)) || this.datasource.total; }
 
   /**
-   * Rerenders the IdsPager component
-   * @private
-   */
-  rerender() {
-    super.rerender?.();
-    this.#attachPager();
-  }
-
-  /**
    * Invoked each time the custom element is appended into a document-connected element.
    * @private
    */
@@ -182,75 +145,52 @@ const IdsPagerMixin = (superclass: any) => class extends superclass {
   }
 
   /**
-   * Get pager container element to place pager.
-   * @private
-   * @returns {HTMLElement|null} The container.
-   */
-  #getPagerContainer(): HTMLElement | null {
-    const selector = this.getAttribute('pager-container');
-    let container = null;
-    if (selector) {
-      container = this.shadowRoot.querySelector(selector);
-      if (!container) {
-        const parentsList = parents(this, 'ids-container');
-        for (let i = 0, l = parentsList.length; i < l; i++) {
-          const parent = parentsList[i].shadowRoot || parentsList[i];
-          container = parent.querySelector(selector);
-          if (container) break;
-        }
-      }
-    }
-    return container;
-  }
-
-  /**
    * Appends IdsPager to this.shadowRoot if pagination is enabled.
    * @private
    */
   #attachPager() {
-    const pager = this.shadowRoot?.querySelector('ids-pager');
+    this.pager.remove();
+
     if (!this.pagination || this.pagination === PAGINATION_TYPES.NONE) {
-      pager?.remove();
       return;
     }
 
+    const pageNumber = Math.max(this.pageNumber || 1, 1);
+    const pageSize = Math.max(this.pageSize || 0, 1);
+
+    this.datasource.pageSize = pageSize;
+    this.pager.innerHTML = this.pagerTemplate();
     this.pager.total = this.datasource.total;
-    this.datasource.pageSize = this.pageSize;
+    this.pager.pageNumber = pageNumber;
+    this.pager.pageSize = pageSize;
+    this.container?.after(this.pager);
+
+    const shouldUpdate = [
+      PAGINATION_TYPES.CLIENT_SIDE,
+      PAGINATION_TYPES.SERVER_SIDE,
+    ].includes(this.pagination);
 
     this.offEvent('pagenumberchange', this.pager);
-    this.onEvent('pagenumberchange', this.pager, ({ detail }: any) => {
-      const shouldUpdate = [
-        PAGINATION_TYPES.CLIENT_SIDE,
-        PAGINATION_TYPES.SERVER_SIDE,
-      ].includes(this.pagination);
-
-      if (shouldUpdate) {
-        this.pageNumber = detail.value;
-
-        // TODO: find a better way/trigger to load results without rebuilding entire component
-        this.rerender();
+    this.onEvent('pagenumberchange', this.pager, (event: CustomEvent) => {
+      const newPageNumber = Number(event.detail.value);
+      const oldPageNumber = Number(this.pageNumber);
+      if (shouldUpdate && newPageNumber !== oldPageNumber) {
+        this.pageNumber = newPageNumber;
       }
     });
-
-    // User location to add pager
-    this.#pagerContainer = this.#pagerContainer || this.#getPagerContainer();
-
-    if (pager) {
-      pager.replaceWith(this.pager);
-    } else if (this.#pagerContainer) {
-      [...this.#pagerContainer.childNodes].forEach((child) => this.#pagerContainer.removeChild(child));
-      this.#pagerContainer.append(this.pager as any);
-    } else {
-      this.shadowRoot?.append(this.pager);
-    }
 
     const popupMenu: any = this.pager.querySelector('ids-popup-menu');
     if (popupMenu) {
       const popupMenuGroup = popupMenu.querySelector('ids-menu-group');
 
-      popupMenu.popup.type = 'menu';
-      popupMenuGroup.style.minWidth = '175px';
-      popupMenuGroup.style.textAlign = 'left';
+      if (popupMenu.popup) {
+        popupMenu.popup.type = 'menu';
+      }
+
+      if (popupMenuGroup) {
+        popupMenuGroup.style.minWidth = '175px';
+        popupMenuGroup.style.textAlign = 'left';
+      }
 
       this.offEvent('selected', popupMenu);
       this.onEvent('selected', popupMenu, (evt: CustomEvent) => {
@@ -258,11 +198,14 @@ const IdsPagerMixin = (superclass: any) => class extends superclass {
         const newPageSize = evt.detail?.value || oldPageSize;
         if (newPageSize !== oldPageSize) {
           this.pageSize = newPageSize;
-          popupMenu.querySelectorAll('ids-menu-item').forEach((item: any) => {
-            item.icon = parseInt(item.value) === parseInt(newPageSize) ? 'check' : 'no-check';
-          });
 
-          this.rerender();
+          this.triggerEvent('pagenumberchange', this.pager, {
+            bubbles: true,
+            detail: {
+              elem: this.pager,
+              value: this.pageNumber,
+            }
+          });
         }
       });
     }
