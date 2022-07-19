@@ -49,6 +49,12 @@ export default class IdsSwapList extends Base {
     ];
   }
 
+  get delayedAttributes() {
+    return [
+      attributes.COUNT
+    ];
+  }
+
   /**
    * Set the data array of the swaplist
    * @param {any | null} value The array to use
@@ -105,7 +111,7 @@ export default class IdsSwapList extends Base {
    * @memberof IdsSwapList
    */
   get selectedItems(): any {
-    return this.container.querySelectorAll('ids-swappable-item[selected]');
+    return this.container?.querySelectorAll('ids-swappable-item[selected]');
   }
 
   /**
@@ -245,7 +251,7 @@ export default class IdsSwapList extends Base {
    * Render the swaplist and attach event handlers
    */
   render() {
-    super.render();
+    super.render(true);
 
     if (this.data?.length > 0) {
       this.attachEventHandlers();

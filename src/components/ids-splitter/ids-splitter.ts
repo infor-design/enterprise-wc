@@ -29,7 +29,6 @@ const SPLITTER_DEFAULTS = {
   label: 'Resize',
   resizeOnDragEnd: false
 };
-
 // Align to be used only
 const ALIGN = ['start', 'end'];
 
@@ -79,6 +78,14 @@ export default class IdsSplitter extends Base {
       attributes.DISABLED,
       attributes.LABEL,
       attributes.RESIZE_ON_DRAG_END
+    ];
+  }
+
+  get delayedAttributes(): Array<string> {
+    return [
+      attributes.ALIGN,
+      attributes.AXIS,
+      attributes.DISABLED
     ];
   }
 
@@ -298,19 +305,15 @@ export default class IdsSplitter extends Base {
    * @returns {void}
    */
   #init(): void {
-    window.addEventListener('load', () => {
-      window.requestAnimationFrame(() => {
-        this.#destroy();
-        this.#setProp();
-        this.#setContainer();
-        this.#initialSizes();
-        this.#addSplitBars();
-        this.#setPairs();
-        this.#positionSplitBars();
-        this.#attachEventHandlers();
-        this.#setInitialCollapsed();
-      });
-    });
+    this.#destroy();
+    this.#setProp();
+    this.#setContainer();
+    this.#initialSizes();
+    this.#addSplitBars();
+    this.#setPairs();
+    this.#positionSplitBars();
+    this.#attachEventHandlers();
+    this.#setInitialCollapsed();
   }
 
   /**
@@ -319,9 +322,7 @@ export default class IdsSplitter extends Base {
    * @returns {void}
    */
   #reInit(): void {
-    window.requestAnimationFrame(() => {
-      this.#init();
-    });
+    this.#init();
   }
 
   /**

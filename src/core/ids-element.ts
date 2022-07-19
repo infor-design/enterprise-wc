@@ -108,10 +108,11 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
 
   /**
    * Render the component using the defined template.
+   * @param {string} force force to (re)render the component
    * @returns {object} The object for chaining.
    */
-  render() {
-    if (!this.template || this.shadowRoot) {
+  render(force?: boolean) {
+    if ((!this.template || this.shadowRoot) && !force) {
       return this;
     }
 

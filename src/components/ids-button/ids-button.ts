@@ -123,6 +123,10 @@ export default class IdsButton extends Base {
       cssClass += ' square';
     }
 
+    if (this.hasAttribute(attributes.NO_PADDING)) {
+      cssClass += ' no-padding';
+    }
+
     if (this.protoClasses.length) {
       protoClasses = `${this.protoClasses.join(' ')}`;
     }

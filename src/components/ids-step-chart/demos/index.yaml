@@ -6,4 +6,5 @@
  keywords: process, steops, readonly, data
  examples:
   - link: example.html
+    type: Main Example
     description: Showing the basic step chart
