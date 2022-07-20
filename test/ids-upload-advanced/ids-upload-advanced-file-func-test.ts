@@ -171,11 +171,12 @@ describe('IdsUploadAdvancedFile Component', () => {
   });
 
   it('should renders template', () => {
-    document.body.innerHTML = '';
     el = document.createElement('ids-upload-advanced-file');
     el.setAttribute('disabled', 'true');
-    el.template();
+
+    document.body.appendChild(el);
     const rootEl = el.shadowRoot.querySelector('.ids-upload-advanced-file');
+
     expect(el.disabled).toEqual('true');
     expect(rootEl.classList).toContain('disabled');
   });

@@ -362,7 +362,7 @@ describe('IdsUploadAdvanced Component', () => {
     el.setAttribute('accept', '.jpg');
     el.setAttribute('disabled', 'true');
     el.setAttribute('max-files-in-process', '1');
-    el.template();
+    document.body.appendChild(el);
     const rootEl = el.shadowRoot.querySelector('.ids-upload-advanced');
     expect(el.disabled).toEqual('true');
     expect(rootEl.classList).toContain('disabled');

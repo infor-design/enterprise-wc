@@ -37,9 +37,7 @@ export default class IdsTriggerButton extends Base {
 
   connectedCallback() {
     super.connectedCallback();
-    if (this.getAttribute(attributes.INLINE)) {
-      this.inline = true;
-    }
+    this.inline = stringToBool(this.getAttribute(attributes.INLINE));
   }
 
   /**
