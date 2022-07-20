@@ -73,6 +73,16 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
   }
 
   /**
+   * @param {number} pageNumber - a page number to start with
+   * @param {number} pageSize - number of items to return
+   * @returns {Array} the paginated data
+   * @see IdsDataSource.paginate()
+   */
+  paginate(pageNumber = 1, pageSize = 10) {
+    return this.datasource.paginate(pageNumber, pageSize);
+  }
+
+  /**
    * Sets the pagination attribute
    * @param {string} value - none|client-side|standalone
    */
