@@ -142,7 +142,7 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
 
         // Announce Popup control with `aria-controls` on the target
         if (targetElem.id && targetElem !== 'window') {
-          this.target.setAttribute('aria-controls', `${this.id}`);
+          this.target?.setAttribute('aria-controls', `${this.id}`);
         }
 
         // Open/Close the menu when the trigger element is clicked
