@@ -61,6 +61,7 @@ export default class IdsDropdown extends Base {
     return [
       ...super.attributes,
       attributes.ALLOW_BLANK,
+      attributes.AUTOCOMPLETE,
       attributes.DISABLED,
       attributes.GROUP,
       attributes.LABEL,
@@ -829,4 +830,25 @@ export default class IdsDropdown extends Base {
   }
 
   get size(): string { return this.getAttribute(attributes.SIZE) ?? 'md'; }
+
+  /**
+   * Set autocomplete attribute
+   * @param {string | boolean | null} value autocomplete value
+   */
+  set autocomplete(value: string | boolean | null) {
+    const val = stringToBool(value);
+    if (val) {
+      this.setAttribute(attributes.AUTOCOMPLETE, val);
+    } else {
+      this.removeAttribute(attributes.AUTOCOMPLETE);
+    }
+  }
+
+  /**
+   * Get the autocomplete attribute
+   * @returns {boolean} autocomplete attribute value
+   */
+  get autocomplete(): boolean {
+    return stringToBool(this.getAttribute(attributes.AUTOCOMPLETE));
+  }
 }
