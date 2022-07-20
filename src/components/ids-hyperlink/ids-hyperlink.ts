@@ -51,7 +51,25 @@ export default class IdsHyperlink extends Base {
    * @returns {string} The template
    */
   template(): string {
-    return `<a class="ids-hyperlink" part="link"><slot></slot></a>`;
+    const disabledAttr = this.disabled ? ' disabled' : '';
+    const hrefAttr = this.href ? ` href="${this.href}"` : '';
+    const tabIndexAttr = this.disabled ? ' tabindex="-1"' : '';
+    const targetAttr = this.target ? ` target="${this.target}"` : '';
+
+    const colorClass = this.color === 'unset' ? ' ids-hyperlink-color-unset' : '';
+    const fontSizeClass = this.fontSize ? ` ids-text-${this.fontSize}` : '';
+    const fontWeightClass = this.fontWeight ? ` ${this.fontWeight}` : '';
+    const textDecorationClass = this.textDecoration ? ` ids-text-decoration-${this.textDecoration}"` : '';
+
+    return `<a
+      class="ids-hyperlink${colorClass}${fontSizeClass}${fontWeightClass}${textDecorationClass}"
+      ${disabledAttr}
+      ${hrefAttr}
+      ${tabIndexAttr}
+      ${targetAttr}
+      part="link">
+        <slot></slot>
+    </a>`;
   }
 
   /**
@@ -64,13 +82,13 @@ export default class IdsHyperlink extends Base {
    * @param {string} value Set the link's href to some link
    */
   set href(value: string) {
-    if (this.container) {
+    if (value) {
       this.setAttribute(attributes.HREF, value);
-      this.container.setAttribute(attributes.HREF, value);
+      this.container?.setAttribute(attributes.HREF, value);
       return;
     }
     this.removeAttribute(attributes.HREF);
-    this.container.removeAttribute(attributes.HREF);
+    this.container?.removeAttribute(attributes.HREF);
   }
 
   get href(): string { return this.getAttribute(attributes.HREF); }
@@ -82,11 +100,11 @@ export default class IdsHyperlink extends Base {
   set target(value: string) {
     if (value) {
       this.setAttribute(attributes.TARGET, value);
-      this.container.setAttribute(attributes.TARGET, value);
+      this.container?.setAttribute(attributes.TARGET, value);
       return;
     }
     this.removeAttribute(attributes.TARGET);
-    this.container.removeAttribute(attributes.TARGET);
+    this.container?.removeAttribute(attributes.TARGET);
   }
 
   get target(): string { return this.getAttribute(attributes.TARGET); }
@@ -99,17 +117,16 @@ export default class IdsHyperlink extends Base {
   set textDecoration(value: string) {
     if (value?.toLowerCase() === 'none') {
       this.setAttribute(attributes.TEXT_DECORATION, value);
-      this.container.classList.add('ids-text-decoration-none');
+      this.container?.classList.add('ids-text-decoration-none');
       return;
     }
     if (value?.toLowerCase() === 'hover') {
       this.setAttribute(attributes.TEXT_DECORATION, value);
-      this.container.classList.add('ids-text-decoration-hover');
+      this.container?.classList.add('ids-text-decoration-hover');
       return;
     }
     this.removeAttribute(attributes.TEXT_DECORATION);
-    this.container.classList.remove('ids-text-decoration-none');
-    this.container.classList.remove('ids-text-decoration-hover');
+    this.container?.classList.remove('ids-text-decoration-none', 'ids-text-decoration-hover');
   }
 
   get textDecoration(): string { return this.getAttribute(attributes.TEXT_DECORATION); }
@@ -122,13 +139,13 @@ export default class IdsHyperlink extends Base {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, `${value}`);
-      this.container.setAttribute(attributes.DISABLED, `${value}`);
-      this.container.setAttribute('tabindex', '-1');
+      this.container?.setAttribute(attributes.DISABLED, `${value}`);
+      this.container?.setAttribute('tabindex', '-1');
       return;
     }
     this.removeAttribute(attributes.DISABLED);
-    this.container.removeAttribute(attributes.DISABLED);
-    this.container.removeAttribute('tabindex');
+    this.container?.removeAttribute(attributes.DISABLED);
+    this.container?.removeAttribute('tabindex');
   }
 
   get disabled(): boolean { return this.getAttribute(attributes.DISABLED); }
@@ -141,10 +158,10 @@ export default class IdsHyperlink extends Base {
   set color(value: string | null) {
     if (value === 'unset') {
       this.setAttribute(attributes.COLOR, value);
-      this.container.classList.add('ids-hyperlink-color-unset');
+      this.container?.classList.add('ids-hyperlink-color-unset');
     } else {
       this.removeAttribute(attributes.COLOR);
-      this.container.classList.remove('ids-hyperlink-color-unset');
+      this.container?.classList.remove('ids-hyperlink-color-unset');
     }
   }
 
