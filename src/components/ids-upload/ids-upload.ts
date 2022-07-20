@@ -148,7 +148,7 @@ export default class IdsUpload extends Base {
         </label>
         <input id="${ID}" type="file" class="ids-upload-filetype" aria-hidden="true" tabindex="-1"${accept}${multiple}${value} />
         <ids-trigger-field
-          readonly
+          readonly="true"
           ${readonlyBG}
           ${colorVariant}${fieldHeight}${compact}${noMargins}${labelState}
           ${clearableForced}${dirtyTracker}${disabled}${label}${placeholder}${size}${validate}${validationEvents}${textEllipsis}${value}
