@@ -129,3 +129,15 @@
     text-align: right;
   }
 }
+
+div.ids-modal {
+  pointer-events: initial;
+}
+
+@media (max-width: $breakpoint-sm) {
+  div.ids-modal {
+    margin-left: calc(300px - 50%);
+    margin-right: 5%;
+  }
+}
+
