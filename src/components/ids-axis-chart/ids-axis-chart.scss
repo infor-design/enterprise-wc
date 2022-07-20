@@ -219,3 +219,21 @@ ids-empty-message:not([hidden]),
     fill: var(--ids-color-palette-classic-slate-100);
   }
 }
+
+// Move Stuff for RTL
+:host([dir='rtl']) {
+  .ids-axis-chart {
+    transform: scale(-1, 1);
+  }
+
+  .labels {
+    &.x-labels text {
+      transform: scale(-1, 1);
+      transform-origin: unset;
+    }
+
+    &.y-labels text {
+      transform: scale(-1, 1) translate(var(--ids-axis-chart-ylabels-x, -45px), 0);
+    }
+  }
+}
