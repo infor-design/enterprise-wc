@@ -231,7 +231,7 @@ export default class IdsCard extends Base {
       this.setAttribute(attributes.HEIGHT, this.height);
       this.container.style.height = `${this.height}px`;
       if (link) link.style.height = `${this.height}px`;
-      this.querySelector('[slot]').classList.add('fixed-height');
+      this.querySelector('[slot]')?.classList.add('fixed-height');
     }
 
     if (this.actionable && this.href) {
@@ -276,11 +276,11 @@ export default class IdsCard extends Base {
     const val = stringToBool(value);
     if (stringToBool(value)) {
       this.setAttribute(attributes.ACTIONABLE, val);
-      this.redraw();
+      if (this.container) this.redraw();
       return;
     }
     this.removeAttribute(attributes.ACTIONABLE);
-    this.redraw();
+    if (this.container) this.redraw();
   }
 
   get actionable() { return stringToBool(this.getAttribute(attributes.ACTIONABLE)); }
@@ -291,10 +291,10 @@ export default class IdsCard extends Base {
    */
   set overflow(value) {
     if (value === 'hidden') {
-      this.container.querySelector('.ids-card-content').classList.add('overflow-hidden');
+      if (this.container) this.container.querySelector('.ids-card-content').classList.add('overflow-hidden');
       this.setAttribute(attributes.OVERFLOW, value);
     } else {
-      this.container.querySelector('.ids-card-content').classList.remove('overflow-hidden');
+      if (this.container) this.container.querySelector('.ids-card-content').classList.remove('overflow-hidden');
       this.removeAttribute(attributes.OVERFLOW);
     }
   }
@@ -314,11 +314,15 @@ export default class IdsCard extends Base {
   set href(url) {
     if (url) {
       this.setAttribute('href', url);
-      this.redraw();
-      this.container.querySelector('ids-hyperlink')?.setAttribute('href', url);
+      if (this.container) {
+        this.redraw();
+        this.container.querySelector('ids-hyperlink')?.setAttribute('href', url);
+      }
     } else {
       this.removeAttribute('href');
-      this.redraw();
+      if (this.container) {
+        this.redraw();
+      }
     }
   }
 
@@ -333,17 +337,23 @@ export default class IdsCard extends Base {
    * @param {number} height height in pixels
    */
   set height(height) {
-    const link = this.container.querySelector('ids-hyperlink')?.container;
+    const getLink = () => this.container.querySelector('ids-hyperlink')?.container;
     if (height) {
       this.setAttribute(attributes.HEIGHT, height);
-      this.container.style.height = `${height}px`;
-      if (link) link.style.height = `${height}px`;
-      this.querySelector('[slot]').classList.add('fixed-height');
+      if (this.container) {
+        this.container.style.height = `${height}px`;
+        const linkEl = getLink();
+        if (linkEl) linkEl.style.height = `${height}px`;
+      }
+      this.querySelector('[slot]')?.classList.add('fixed-height');
     } else {
       this.removeAttribute(attributes.HEIGHT);
-      this.container.style.height = '';
-      if (link) link.container.style.height = '';
-      this.querySelector('[slot]').classList.remove('fixed-height');
+      if (this.container) {
+        this.container.style.height = '';
+        const linkEl = getLink();
+        if (linkEl) linkEl.style.height = '';
+      }
+      this.querySelector('[slot]')?.classList.remove('fixed-height');
     }
   }
 
@@ -360,11 +370,15 @@ export default class IdsCard extends Base {
   set target(value) {
     if (value) {
       this.setAttribute('target', value);
-      this.container.querySelector('ids-hyperlink')?.setAttribute('target', value);
-      this.redraw();
+      if (this.container) {
+        this.container.querySelector('ids-hyperlink')?.setAttribute('target', value);
+        this.redraw();
+      }
     } else {
       this.removeAttribute('target');
-      this.redraw();
+      if (this.container) {
+        this.redraw();
+      }
     }
   }
 

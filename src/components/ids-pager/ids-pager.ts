@@ -48,6 +48,7 @@ export default class IdsPager extends Base {
       attributes.DISABLED,
       attributes.MODE,
       attributes.TOTAL, // has to be in this order
+      attributes.PAGE_COUNT,
       attributes.PAGE_SIZE,
       attributes.PAGE_NUMBER,
       attributes.VERSION
@@ -66,8 +67,12 @@ export default class IdsPager extends Base {
 
   connectedCallback(): void {
     super.connectedCallback();
-    this.onEvent('pagenumberchange', this, (e: CustomEvent) => {
-      this.pageNumber = e.detail.value;
+    this.onEvent('pagenumberchange', this, (event: CustomEvent) => {
+      const newPageNumber = Number(event.detail.value);
+      const oldPageNumber = Number(this.pageNumber);
+      if (newPageNumber !== oldPageNumber) {
+        this.pageNumber = newPageNumber;
+      }
     });
   }
 

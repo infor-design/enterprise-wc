@@ -60,16 +60,19 @@ export default class IdsDataGrid extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.state = { selectedRows: [], activatedRow: null };
+
+    this.#attachEventHandlers();
+    this.#attachKeyboardListeners();
   }
 
   /** Reference to datasource API */
-  datasource: any = new IdsDataSource();
+  readonly datasource: any = new IdsDataSource();
 
   /** Filters instance attached to component  */
-  filters = new IdsDataGridFilters(this);
+  readonly filters = new IdsDataGridFilters(this);
 
   /** API for list of formatters */
-  formatters: any = new IdsDataGridFormatters();
+  readonly formatters: any = new IdsDataGridFormatters();
 
   /**
    * Return the attributes we handle as getters/setters
@@ -151,18 +154,7 @@ export default class IdsDataGrid extends Base {
       return;
     }
     this.body.innerHTML = this.bodyTemplate();
-    this.#syncPager();
     this.#setHeaderCheckbox();
-  }
-
-  /**
-   * Sync pager to refresh updated dataset
-   * @private
-   * @returns {void}
-   */
-  #syncPager() {
-    this.pager.total = this.datasource.total;
-    this.pager.pageNumber = this.datasource.pageNumber;
   }
 
   /**
@@ -178,7 +170,6 @@ export default class IdsDataGrid extends Base {
     const body = this.bodyTemplate();
     this.container.innerHTML = header + body;
     this.#setColumnWidths();
-    super.rerender();
 
     // Setup virtual scrolling
     if (this.virtualScroll && this.data.length > 0) {
@@ -190,11 +181,8 @@ export default class IdsDataGrid extends Base {
       this.virtualScrollContainer.data = this.data;
     }
 
-    this.#attachEventHandlers();
-
     if (this.data.length > 0) {
       this.setActiveCell(0, 0, true);
-      this.#attachKeyboardListeners();
     }
 
     this.#applyAutoFit();
@@ -647,6 +635,10 @@ export default class IdsDataGrid extends Base {
    * @returns {object} This API object for chaining
    */
   #attachKeyboardListeners() {
+    if (this.data.length < 1) {
+      return;
+    }
+
     // Handle arrow navigation
     this.listen(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], this, (e: KeyboardEvent) => {
       const key = e.key;

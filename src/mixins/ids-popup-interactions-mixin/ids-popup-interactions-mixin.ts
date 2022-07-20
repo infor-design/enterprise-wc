@@ -75,7 +75,7 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
    * @returns {any} reference to the inner Popup component
    */
   get popup() {
-    return this.shadowRoot.querySelector('ids-popup');
+    return this.shadowRoot?.querySelector('ids-popup');
   }
 
   /**
