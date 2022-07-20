@@ -51,7 +51,6 @@ export default class IdsWizard extends Base {
   });
 
   resizeObserver = new ResizeObserver(() => {
-    console.log('resizeObserverresizeObserver');
     this.fitAndSizeElements();
   });
 
@@ -60,7 +59,6 @@ export default class IdsWizard extends Base {
    * within the space available
    */
   fitAndSizeElements() {
-    console.log('fitAndSizeElements');
     const labelEls: any[] = [];
 
     for (let i = 0; i < this.children.length; i++) {
@@ -75,7 +73,6 @@ export default class IdsWizard extends Base {
         const { width } = stepRects[i];
 
         labelEls[i].style.maxWidth = `${width}px`;
-        console.log(width)
       }
     });
   }
@@ -294,7 +291,7 @@ export default class IdsWizard extends Base {
     this.resizeObserver.observe(this.container);
 
     this.shouldUpdateCallbacks = false;
-  };
+  }
 
   /**
    * updates hrefURIs at select points
