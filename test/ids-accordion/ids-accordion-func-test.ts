@@ -235,11 +235,6 @@ describe('IdsAccordion Component', () => {
     expect(accordion.allowOnePane).toBeFalsy();
   });
 
-  it('supports color variants', async () => {
-    accordion = await createAccordion(accordion, 'app-menu');
-    expect(accordion.colorVariant).toBe('app-menu');
-  });
-
   it('has a reference to its panels', () => {
     expect(accordion.panels.length).toBe(3);
     expect(accordion.panels.includes(panel3));

@@ -70,10 +70,10 @@ export default class IdsActionSheet extends Base {
     const isValTruthy = stringToBool(val);
     if (isValTruthy && !this.hidden) {
       this.setAttribute(attributes.VISIBLE, true);
-      this.overlay.setAttribute(attributes.VISIBLE, true);
+      this.overlay?.setAttribute(attributes.VISIBLE, true);
     } else {
       this.removeAttribute(attributes.VISIBLE);
-      this.overlay.removeAttribute(attributes.VISIBLE);
+      this.overlay?.removeAttribute(attributes.VISIBLE);
     }
   }
 
@@ -124,7 +124,7 @@ export default class IdsActionSheet extends Base {
    */
   dismiss() {
     this.removeAttribute(attributes.VISIBLE);
-    this.overlay.removeAttribute(attributes.VISIBLE);
+    this.overlay?.removeAttribute(attributes.VISIBLE);
   }
 
   /**
@@ -147,10 +147,10 @@ export default class IdsActionSheet extends Base {
       this.hidden = true;
       this.overlay.hidden = true;
       this.removeAttribute('visible');
-      this.overlay.removeAttribute(attributes.VISIBLE);
+      this.overlay?.removeAttribute(attributes.VISIBLE);
     } else {
       this.removeAttribute('hidden');
-      this.overlay.removeAttribute('hidden');
+      this.overlay?.removeAttribute('hidden');
     }
   }
 
