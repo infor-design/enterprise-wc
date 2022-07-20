@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
-import waitFor from '../helpers/wait-for';
+import waitForTimeout from '../helpers/wait-for-timeout';
 import IdsColor from '../../src/components/ids-color/ids-color';
 import IdsColorPicker from '../../src/components/ids-color-picker/ids-color-picker';
 
@@ -163,19 +163,19 @@ describe('Ids Color Picker Component', () => {
   it('should close on outside click', () => {
     expect(colorpicker.popup.visible).toEqual(false);
     colorpicker.triggerEvent('click', colorpicker.container);
-    waitFor(() => expect(colorpicker.popup.visible).toBeTruthy());
+    waitForTimeout(() => expect(colorpicker.popup.visible).toBeTruthy());
     colorpicker.onOutsideClick();
-    waitFor(() => expect(colorpicker.popup.visible).toBeFalsy());
+    waitForTimeout(() => expect(colorpicker.popup.visible).toBeFalsy());
   });
 
   it('should not close on click outside if no onOutsideClick', () => {
     expect(colorpicker.popup.visible).toEqual(false);
     colorpicker.triggerEvent('click', colorpicker.container);
-    waitFor(() => expect(colorpicker.popup.visible).toBeTruthy());
+    waitForTimeout(() => expect(colorpicker.popup.visible).toBeTruthy());
     colorpicker.addOpenEvents();
     colorpicker.onOutsideClick = null;
     colorpicker.triggerEvent('click', document.body);
-    waitFor(() => expect(colorpicker.popup.visible).toBeTruthy());
+    waitForTimeout(() => expect(colorpicker.popup.visible).toBeTruthy());
   });
 
   it('should not open if readonly', () => {

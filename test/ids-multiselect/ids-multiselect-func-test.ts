@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
-import waitFor from '../helpers/wait-for';
+import waitForTimeout from '../helpers/wait-for-timeout';
 import wait from '../helpers/wait';
 import processAnimFrame from '../helpers/process-anim-frame';
 
@@ -132,7 +132,7 @@ describe('IdsMultiselect Component', () => {
   it('supports validation', async () => {
     multiselect = createFromTemplate(`<ids-multiselect id="multiselect-5" label="Dropdown with Icons" validate="true">
      </ids-multiselect>`);
-    await waitFor(() => expect(multiselect.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
+    await waitForTimeout(() => expect(multiselect.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
 
     multiselect.validate = 'required';
     multiselect.validationEvents = 'blur change';
@@ -335,20 +335,20 @@ describe('IdsMultiselect Component', () => {
   it('supports type ahead to select', async () => {
     expect(multiselect.popup.visible).toEqual(false);
     expect(multiselect.value).toContain('opt2');
-    await waitFor(() => expect(multiselect.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
+    await waitForTimeout(() => expect(multiselect.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
     multiselect.triggerEvent('keydownend', multiselect, { detail: { keys: 'option thr' } });
 
     expect(multiselect.value).toContain('opt3');
   });
 
   it('supports type ahead when open', async () => {
-    await waitFor(() => expect(multiselect.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
+    await waitForTimeout(() => expect(multiselect.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
     multiselect.open();
     multiselect.triggerEvent('keydownend', multiselect, { detail: { keys: 'option four' } });
     const event = new KeyboardEvent('keydown', { key: 'Enter' });
     multiselect.dispatchEvent(event);
 
-    await waitFor(() => expect(multiselect.popup.visible).toEqual(false));
+    await waitForTimeout(() => expect(multiselect.popup.visible).toEqual(false));
     expect(multiselect.popup.visible).toEqual(false);
     expect(multiselect.value).toContain('opt4');
   }); */
@@ -356,7 +356,7 @@ describe('IdsMultiselect Component', () => {
   it('ignores type ahead to open when no matches', async () => {
     multiselect.triggerEvent('keydownend', multiselect, { detail: { keys: 'xxxxx' } });
 
-    await waitFor(() => expect(multiselect.popup.visible).toEqual(false));
+    await waitForTimeout(() => expect(multiselect.popup.visible).toEqual(false));
     expect(multiselect.popup.visible).toEqual(false);
   });
 
@@ -367,21 +367,21 @@ describe('IdsMultiselect Component', () => {
     multiselect.disabled = true;
     multiselect.triggerEvent('keydownend', multiselect, { detail: { keys: 'option thr' } });
 
-    await waitFor(() => expect(multiselect.popup.visible).toEqual(false));
+    await waitForTimeout(() => expect(multiselect.popup.visible).toEqual(false));
     expect(multiselect.popup.visible).toEqual(false);
   });
 
   it('supports clicking trigger to open', async () => {
-    await waitFor(() => expect(multiselect.trigger).toBeTruthy());
+    await waitForTimeout(() => expect(multiselect.trigger).toBeTruthy());
 
     multiselect.trigger.click();
     expect(multiselect.popup.visible).toEqual(true);
   });
 
   it('supports clicking input to open', async () => {
-    await waitFor(() => expect(multiselect.container).toBeTruthy());
+    await waitForTimeout(() => expect(multiselect.container).toBeTruthy());
     multiselect.input.shadowRoot.querySelector('.field-container').click();
-    await waitFor(() => expect(multiselect.popup.visible).toBeTruthy());
+    await waitForTimeout(() => expect(multiselect.popup.visible).toBeTruthy());
     expect(multiselect.popup.visible).toEqual(true);
   });
 

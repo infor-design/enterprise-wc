@@ -4,7 +4,7 @@
 import '../../src/components/ids-accordion/ids-accordion';
 import IdsAccordionHeader from '../../src/components/ids-accordion/ids-accordion-header';
 import IdsContainer from '../../src/components/ids-container/ids-container';
-import waitFor from '../helpers/wait-for';
+import waitForTimeout from '../helpers/wait-for-timeout';
 
 import createFromTemplate from '../helpers/create-from-template';
 
@@ -170,13 +170,13 @@ describe('IdsAccordion Component', () => {
   it('can be expanded/collapsed programmatically', async () => {
     // Expand
     header.expanded = true;
-    await waitFor(() => expect(panel.expanded).toEqual(true));
-    await waitFor(() => expect(header.expanded).toEqual(panel.expanded));
+    await waitForTimeout(() => expect(panel.expanded).toEqual(true));
+    await waitForTimeout(() => expect(header.expanded).toEqual(panel.expanded));
 
     // Collapse
     header.expanded = false;
-    await waitFor(() => expect(panel.expanded).toEqual(false));
-    await waitFor(() => expect(header.expanded).toEqual(panel.expanded));
+    await waitForTimeout(() => expect(panel.expanded).toEqual(false));
+    await waitForTimeout(() => expect(header.expanded).toEqual(panel.expanded));
   });
 
   it('can select the next panel when pressing the ArrowDown key', () => {
@@ -214,7 +214,7 @@ describe('IdsAccordion Component', () => {
         panel.pane.style.height = `0px`;
       });
     });
-    await waitFor(() => expect(panel.pane.style.height).toEqual('0px'));
+    await waitForTimeout(() => expect(panel.pane.style.height).toEqual('0px'));
   });
 
   it('supports setting mode', () => {
@@ -307,7 +307,7 @@ describe('IdsAccordion Component', () => {
 
   it('has headers that are aware of their expanded status', async () => {
     panel.expanded = true;
-    await waitFor(() => expect(header.expanded).toBeTruthy());
+    await waitForTimeout(() => expect(header.expanded).toBeTruthy());
   });
 
   it('can select headers', () => {
@@ -322,10 +322,10 @@ describe('IdsAccordion Component', () => {
   });
 
   it('can change its headers expander type', async () => {
-    await waitFor(() => expect(header.expanderType).toBe('caret'));
+    await waitForTimeout(() => expect(header.expanderType).toBe('caret'));
 
     header.expanderType = 'plus-minus';
-    await waitFor(() => expect(header.expanderType).toBe('plus-minus'));
+    await waitForTimeout(() => expect(header.expanderType).toBe('plus-minus'));
   });
 
   it('can add/remove icons from accordion headers', () => {
@@ -345,7 +345,7 @@ describe('IdsAccordion Component', () => {
     const icon = header.container.querySelector('.ids-accordion-expander-icon');
     expect(icon.getAttribute('icon')).toBe('caret-down');
     header.toggleExpanderIcon(true);
-    await waitFor(() => expect(icon.getAttribute('icon')).toBe('caret-down'));
+    await waitForTimeout(() => expect(icon.getAttribute('icon')).toBe('caret-down'));
   });
 
   it('should update with container language change', () => {

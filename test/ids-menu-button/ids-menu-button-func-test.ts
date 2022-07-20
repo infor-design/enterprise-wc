@@ -6,7 +6,7 @@ import '../helpers/resize-observer-mock';
 import IdsIcon from '../../src/components/ids-icon/ids-icon';
 import IdsMenuButton from '../../src/components/ids-menu-button/ids-menu-button';
 import IdsPopupMenu from '../../src/components/ids-popup-menu/ids-popup-menu';
-import waitFor from '../helpers/wait-for';
+import waitForTimeout from '../helpers/wait-for-timeout';
 
 const testMenuContents = `
   <ids-menu-group select="multiple">
@@ -113,10 +113,10 @@ describe('IdsMenuButton Component', () => {
     const waitForOpts = { timeout: 2000 };
 
     menuEl.show();
-    await waitFor(() => expect(buttonEl.button.classList.contains('is-active')).toBeTruthy(), waitForOpts);
+    await waitForTimeout(() => expect(buttonEl.button.classList.contains('is-active')).toBeTruthy(), waitForOpts);
 
     menuEl.hide();
-    await waitFor(() => expect(buttonEl.button.classList.contains('is-active')).toBeFalsy(), waitForOpts);
+    await waitForTimeout(() => expect(buttonEl.button.classList.contains('is-active')).toBeFalsy(), waitForOpts);
   });
 
   it('shows/hides the menu when the button is clicked', (done) => {

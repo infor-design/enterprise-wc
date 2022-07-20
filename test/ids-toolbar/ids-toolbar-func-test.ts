@@ -4,7 +4,7 @@
 import '../helpers/resize-observer-mock';
 
 import IdsToolbar from '../../src/components/ids-toolbar/ids-toolbar';
-import waitFor from '../helpers/wait-for';
+import waitForTimeout from '../helpers/wait-for-timeout';
 import processAnimFrame from '../helpers/process-anim-frame';
 
 const exampleHTML = `
@@ -314,10 +314,10 @@ describe('IdsToolbar Component', () => {
     document.body.addEventListener('selected', selectedEventListener);
 
     toolbar.triggerSelectedEvent(button1);
-    await waitFor(() => expect(selectedEventListener).toHaveBeenCalledTimes(1));
+    await waitForTimeout(() => expect(selectedEventListener).toHaveBeenCalledTimes(1));
 
     // Try using an element from outside the Toolbar.  It shouldn't trigger an event
     toolbar.triggerSelectedEvent(document.body);
-    await waitFor(() => expect(selectedEventListener).toHaveBeenCalledTimes(1));
+    await waitForTimeout(() => expect(selectedEventListener).toHaveBeenCalledTimes(1));
   });
 });

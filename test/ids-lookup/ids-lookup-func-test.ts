@@ -5,7 +5,7 @@
 import '../helpers/resize-observer-mock';
 import '../helpers/match-media-mock';
 import createFromTemplate from '../helpers/create-from-template';
-import waitFor from '../helpers/wait-for';
+import waitForTimeout from '../helpers/wait-for-timeout';
 import dataset from '../../src/assets/data/books.json';
 
 import '../../src/components/ids-data-grid/ids-data-grid';
@@ -316,7 +316,7 @@ describe('IdsLookup Component', () => {
 
   it('supports changing validation dynamically', async () => {
     lookup = createFromTemplate(lookup, `<ids-lookup id="lookup-5" label="Dynamic Validation"></ids-lookup>`);
-    await waitFor(() => expect(lookup.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
+    await waitForTimeout(() => expect(lookup.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
 
     (document.querySelector('ids-lookup') as any).validate = 'required';
     const triggerElem = lookup.shadowRoot.querySelector('ids-trigger-field');
@@ -335,7 +335,7 @@ describe('IdsLookup Component', () => {
   it('supports validation', async () => {
     lookup = createFromTemplate(lookup, `<ids-lookup id="lookup-5" label="Dropdown with Icons" validate="true">
      </ids-lookup>`);
-    await waitFor(() => expect(lookup.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
+    await waitForTimeout(() => expect(lookup.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
 
     lookup.validate = 'required';
     lookup.validationEvents = 'blur change';

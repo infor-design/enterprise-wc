@@ -3,7 +3,7 @@
  */
 import processAnimFrame from '../helpers/process-anim-frame';
 import createFromTemplate from '../helpers/create-from-template';
-import waitFor from '../helpers/wait-for';
+import waitForTimeout from '../helpers/wait-for-timeout';
 import simulateMouseDownEvents from '../helpers/simulate-mouse-down-events';
 import '../../src/components/ids-spinbox/ids-spinbox';
 import '../../src/components/ids-container/ids-container';
@@ -226,14 +226,14 @@ describe('IdsSpinbox Component', () => {
       [...elem.querySelectorAll('ids-trigger-button')]
     );
 
-    await waitFor(() => expect(
+    await waitForTimeout(() => expect(
       getIdsButtons().find((el) => el.hasAttribute('disabled'))
     ).not.toEqual(undefined));
 
     elem.removeAttribute('readonly');
     elem.setAttribute('disabled', true);
 
-    await waitFor(() => expect(
+    await waitForTimeout(() => expect(
       getIdsButtons().find((el) => el.hasAttribute('disabled'))
     ).not.toEqual(undefined));
   });

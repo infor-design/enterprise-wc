@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
-import waitFor from '../helpers/wait-for';
+import waitForTimeout from '../helpers/wait-for-timeout';
 import IdsUploadAdvanced from '../../src/components/ids-upload-advanced/ids-upload-advanced';
 
 describe('IdsUploadAdvanced Component', () => {
@@ -476,7 +476,7 @@ describe('IdsUploadAdvanced Component', () => {
       expect(elem.status).toEqual('in-process');
     });
     toolbararea.dispatchEvent(new Event('transitionend'));
-    waitFor(() => expect(toolbararea).toBeFalsy());
+    waitForTimeout(() => expect(toolbararea).toBeFalsy());
   });
 
   it('should cancel upload single file', () => {

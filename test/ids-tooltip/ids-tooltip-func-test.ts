@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
-import waitFor from '../helpers/wait-for';
+import waitForTimeout from '../helpers/wait-for-timeout';
 
 import IdsTooltip from '../../src/components/ids-tooltip/ids-tooltip';
 import IdsButton from '../../src/components/ids-button/ids-button';
@@ -124,7 +124,7 @@ describe('IdsTooltip Component', () => {
   it('shows on click and then hides on tooltip click', async () => {
     tooltip.trigger = 'click';
     button.click();
-    waitFor(() => expect(tooltip.visible).toBeTruthy());
+    waitForTimeout(() => expect(tooltip.visible).toBeTruthy());
     expect(tooltip.visible).toEqual(true);
     tooltip.popup.click();
     expect(tooltip.visible).toEqual(false);
@@ -134,7 +134,7 @@ describe('IdsTooltip Component', () => {
     tooltip.trigger = 'click';
     tooltip.visible = true;
     button.click();
-    waitFor(() => expect(tooltip.visible).toBeTruthy());
+    waitForTimeout(() => expect(tooltip.visible).toBeTruthy());
     expect(tooltip.visible).toEqual(false);
     button.click();
     expect(tooltip.visible).toEqual(true);
@@ -143,14 +143,14 @@ describe('IdsTooltip Component', () => {
   it('shows on keyboard focusin', () => {
     tooltip.trigger = 'click';
     button.dispatchEvent(new CustomEvent('keyboardfocus'));
-    waitFor(() => expect(tooltip.visible).toBeTruthy());
+    waitForTimeout(() => expect(tooltip.visible).toBeTruthy());
     expect(tooltip.visible).toEqual(true);
   });
 
   it('shows on focusin and then hides on focusout', async () => {
     tooltip.trigger = 'focus';
     button.dispatchEvent(new Event('focusin'));
-    waitFor(() => expect(tooltip.visible).toBeTruthy());
+    waitForTimeout(() => expect(tooltip.visible).toBeTruthy());
     expect(tooltip.visible).toEqual(true);
     button.dispatchEvent(new Event('focusout'));
     expect(tooltip.visible).toEqual(false);
@@ -164,7 +164,7 @@ describe('IdsTooltip Component', () => {
 
   it('shows on longpress', async () => {
     button.triggerEvent('longpress', button, { delay: 1 });
-    waitFor(() => expect(tooltip.visible).toBeTruthy());
+    waitForTimeout(() => expect(tooltip.visible).toBeTruthy());
     expect(tooltip.visible).toEqual(true);
   });
 
