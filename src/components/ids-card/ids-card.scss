@@ -312,6 +312,14 @@
   ids-hyperlink::part(link) {
     height: inherit;
   }
+
+  ids-button {
+    height: inherit;
+  }
+
+  ids-button::part(button) {
+    height: inherit;
+  }
 }
 
 // Handle Themes
