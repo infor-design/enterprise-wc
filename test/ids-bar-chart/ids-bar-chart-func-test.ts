@@ -6,6 +6,8 @@ import dataset from '../../src/assets/data/components.json';
 import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
 import '../helpers/canvas-mock';
 import '../helpers/resize-observer-mock';
+import processAnimFrame from '../helpers/process-anim-frame';
+// import '../../src/components/ids-popup/ids-popup';
 
 describe('IdsBarChart Component', () => {
   let barChart: any;
@@ -153,16 +155,15 @@ describe('IdsBarChart Component', () => {
     expect(barChart.container.querySelectorAll('[index="2"]').length).toBe(3);
   });
 
-  it('shows a tooltip on hover', (done) => {
+  it('shows a tooltip on hover', async () => {
     barChart.animated = false;
     const rect = barChart.container.querySelector('rect');
     rect.dispatchEvent(new CustomEvent('hoverend'));
     const tooltip: any = barChart.container.querySelector('ids-tooltip');
-    setTimeout(() => {
-      expect(tooltip.visible).toEqual(true);
-      expect(tooltip.textContent).toEqual('Jan 100');
-      done();
-    }, 1);
+    await processAnimFrame();
+
+    expect(tooltip.visible).toEqual(true);
+    expect(tooltip.textContent).toEqual('Jan 100');
   });
 
   it('wont error if no vertical lines', () => {
@@ -326,7 +327,7 @@ describe('IdsBarChart Component', () => {
     expect(selected.length).toEqual(3);
   });
 
-  it('should set pre selected group elements', () => {
+  it('should set pre selected group elements', async () => {
     document.body.innerHTML = '';
     const ds = deepClone(dataset);
     (ds as any)[0].selected = true;
@@ -336,9 +337,10 @@ describe('IdsBarChart Component', () => {
     barChart.animated = false;
     document.body.appendChild(barChart);
     barChart.data = ds;
+    await processAnimFrame();
 
     const selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
-    expect(selected.length).toEqual(6);
+    expect(selected.length).toEqual(3);
   });
 
   it('should set pre selected item elements', () => {

@@ -256,6 +256,7 @@ export default class IdsAxisChart extends Base {
 
     this.adjustLabels();
     this.#adjustRTL();
+
     this.legendsClickable?.(this.selectable);
 
     // Completed Event and Callback

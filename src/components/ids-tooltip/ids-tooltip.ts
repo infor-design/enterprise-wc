@@ -4,7 +4,8 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-tooltip-base';
 import styles from './ids-tooltip.scss';
-import IdsPopup from '../ids-popup/ids-popup';
+import type IdsPopup from '../ids-popup/ids-popup';
+import '../ids-popup/ids-popup';
 
 /**
  * IDS Tooltip Component
