@@ -932,7 +932,12 @@ export default class IdsPopup extends Base {
    * @param {boolean} doShow true if the Popup should be displayed before placing
    * @param {boolean} doPlacement true if the component should run its placement routine
    */
-  setPosition(x = null, y = null, doShow = null, doPlacement = null) {
+  setPosition(
+    x: number | null = null,
+    y: number | null = null,
+    doShow: boolean | null = null,
+    doPlacement: boolean | null = null
+  ) {
     const elem: any = this;
     if (!Number.isNaN(x)) elem.x = x;
     if (!Number.isNaN(y)) elem.y = y;

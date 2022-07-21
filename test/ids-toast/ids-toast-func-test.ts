@@ -49,6 +49,13 @@ describe('IdsToast Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
+  it('renders using document.createElement with no errors', () => {
+    const errors = jest.spyOn(global.console, 'error');
+    const toastElem = document.createElement('ids-toast');
+    document.body.appendChild(toastElem);
+    expect(errors).not.toHaveBeenCalled();
+  });
+
   it('renders correctly', () => {
     expect(toast.outerHTML).toMatchSnapshot();
     options.messageId = 'test-message-id';
@@ -431,7 +438,8 @@ describe('IdsToast Component', () => {
     expect(toast.getAttribute('dir')).toEqual('rtl');
   });
 
-  it('should remove toast  host element', async () => {
+  it('should remove toast host element', async () => {
+    toast.destroyOnComplete = false;
     toast.show(options);
     let toastContainer = toast.toastContainer();
     let messageEl = toastContainer.querySelector('ids-toast-message');
@@ -533,6 +541,8 @@ describe('IdsToast Component', () => {
   });
 
   it('should handle toast message progress bar', async () => {
+    toast.destroyOnComplete = false;
+
     options.progressBar = true;
     toast.show(options);
     let toastContainer = toast.toastContainer();
@@ -558,6 +568,7 @@ describe('IdsToast Component', () => {
 
     expect(messageEl).toBeFalsy();
     options.progressBar = true;
+    toast.destroyOnComplete = true;
     toast.show(options);
     toastContainer = toast.toastContainer();
     messageEl = toastContainer.querySelector('ids-toast-message');
