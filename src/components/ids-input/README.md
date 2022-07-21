@@ -74,9 +74,9 @@ Set the Text Align to Text Input this way:
 
 ```html
 <ids-input label="Default align (left)" value="Default align"></ids-input>
-<ids-input label="Left align" value="Left align" text-align="left"></ids-input>
+<ids-input label="Left align" value="Left align" text-align="start"></ids-input>
 <ids-input label="Center align" value="Center align" text-align="center"></ids-input>
-<ids-input label="Right align" value="Right align" text-align="right"></ids-input>
+<ids-input label="Right align" value="Right align" text-align="end"></ids-input>
 ```
 
 Set the caps lock alert indicator this way:
