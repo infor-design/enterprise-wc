@@ -49,7 +49,7 @@ export default class IdsRadioGroup extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
-    const slot = this.shadowRoot.querySelector('slot');
+    const slot = this.shadowRoot?.querySelector('slot');
     this.onEvent('slotchange', slot, () => {
       this.afterChildrenReady();
     });
@@ -80,8 +80,8 @@ export default class IdsRadioGroup extends Base {
    * @returns {void}
    */
   afterChildrenReady(): void {
-    this.input = this.shadowRoot.querySelector('.ids-radio-group');
-    this.labelEl = this.shadowRoot.querySelector('.group-label-text');
+    this.input = this.shadowRoot?.querySelector('.ids-radio-group');
+    this.labelEl = this.shadowRoot?.querySelector('.group-label-text');
 
     this.setValue();
     this.handleHorizontal();
@@ -131,7 +131,7 @@ export default class IdsRadioGroup extends Base {
    */
   handleDisabled(): void {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
-    const rootEl = this.shadowRoot.querySelector('.ids-radio-group');
+    const rootEl = this.shadowRoot?.querySelector('.ids-radio-group');
 
     if (stringToBool(this.disabled)) {
       this.labelEl?.setAttribute('aria-disabled', 'true');
@@ -150,7 +150,7 @@ export default class IdsRadioGroup extends Base {
    */
   handleHorizontal(): void {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
-    const rootEl = this.shadowRoot.querySelector('.ids-radio-group');
+    const rootEl = this.shadowRoot?.querySelector('.ids-radio-group');
     if (stringToBool(this.horizontal)) {
       rootEl?.classList.add(attributes.HORIZONTAL);
       radioArr.forEach((r: any) => r.setAttribute(attributes.HORIZONTAL, true));
@@ -279,22 +279,27 @@ export default class IdsRadioGroup extends Base {
    * @param {string} value of the `label` text property
    */
   set label(value: string) {
-    const rootEl = this.shadowRoot.querySelector('.ids-radio-group');
-    let labelText = this.shadowRoot.querySelector('.group-label-text');
+    const rootEl = this.shadowRoot?.querySelector('.ids-radio-group');
+    let labelText = this.shadowRoot?.querySelector('.group-label-text');
+
     if (value) {
       this.setAttribute(attributes.LABEL, value);
+
       if (!labelText) {
         labelText = document.createElement('ids-text');
         labelText.className = 'group-label-text';
-        const refEl = this.shadowRoot.querySelector('slot');
+        const refEl = this.shadowRoot?.querySelector('slot') || null;
         rootEl?.insertBefore(labelText, refEl);
-        labelText = this.shadowRoot.querySelector('.group-label-text');
+        labelText = this.shadowRoot?.querySelector('.group-label-text');
       }
-      labelText.innerHTML = value;
+
+      if (labelText) {
+        labelText.innerHTML = value;
+      }
       return;
     }
     this.removeAttribute(attributes.LABEL);
-    labelText = this.shadowRoot.querySelector('.group-label-text');
+    labelText = this.shadowRoot?.querySelector('.group-label-text');
     labelText?.remove();
   }
 
