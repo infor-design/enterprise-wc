@@ -156,6 +156,9 @@ describe('IdsTabs Tests', () => {
       </ids-tabs>`
     );
 
+    // wait for ids element to fire #updateAttributes() rAF
+    await processAnimFrame();
+
     elem.orientation = 'horizontal';
     await processAnimFrame();
 
@@ -304,10 +307,12 @@ describe('IdsTabs Tests', () => {
       `<ids-tab count="20" value="eggs">Eggs In a Basket</ids-tab>`
     );
 
+    // wait for ids element to fire #updateAttributes() rAF
+    await processAnimFrame();
+
     expect(elem.getAttribute('count')).toEqual('20');
 
     elem.count = '';
-    await processAnimFrame();
     expect(elem.hasAttribute('count')).toEqual(false);
 
     elem.count = '20';

@@ -191,6 +191,7 @@ export default class IdsTag extends Base {
     // Handle Clicking the x for dismissible
     const closeIcon = this.querySelector('ids-icon[icon="close"]');
     if (closeIcon) {
+      this.offEvent('click', closeIcon);
       this.onEvent('click', closeIcon, () => {
         if (!this.disabled) {
           this.dismiss();
@@ -200,6 +201,7 @@ export default class IdsTag extends Base {
 
     // Ensure icon is always last
     let isChanging = false;
+    this.offEvent('slotchange', this.shadowRoot?.querySelector('slot'));
     this.onEvent('slotchange', this.shadowRoot?.querySelector('slot'), () => {
       if (this.dismissible && !isChanging && this.lastElementChild?.nodeName !== 'IDS-ICON') {
         isChanging = true;
