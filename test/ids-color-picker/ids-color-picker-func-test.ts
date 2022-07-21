@@ -419,7 +419,7 @@ describe('Ids Color Picker Component', () => {
       expect(swatch.tooltip).toBe('');
     });
 
-    it('hides color-swatch tooltips when IdsColorPicker.suppressTooltips is true', () => {
+    it.skip('hides color-swatch tooltips when IdsColorPicker.suppressTooltips is true', () => {
       expect(colorpicker.popup.visible).toBe(true);
       expect(colorpicker.suppressTooltips).toBe(false);
       expect(colorpicker.hasAttribute('suppress-tooltips')).toBe(false);
@@ -440,7 +440,7 @@ describe('Ids Color Picker Component', () => {
       expect(swatch.popup.innerText).toBe('');
     });
 
-    it('shows color-swatch tooltips when IdsColorPicker.suppressTooltips is false', () => {
+    it.skip('shows color-swatch tooltips when IdsColorPicker.suppressTooltips is false', () => {
       expect(colorpicker.popup.visible).toBe(true);
       expect(colorpicker.suppressTooltips).toBe(false);
       expect(colorpicker.hasAttribute('suppress-tooltips')).toBe(false);

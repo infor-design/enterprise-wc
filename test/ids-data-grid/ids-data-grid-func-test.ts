@@ -148,9 +148,9 @@ describe('IdsDataGrid Component', () => {
 
     container = new IdsContainer();
     dataGrid = new IdsDataGrid();
-    dataGrid.shadowRoot.styleSheets = [window.StyleSheet];
     container.appendChild(dataGrid);
     document.body.appendChild(container);
+    dataGrid.shadowRoot.styleSheets = [window.StyleSheet];
     dataGrid.columns = columns();
     dataGrid.data = dataset;
   });
@@ -196,8 +196,8 @@ describe('IdsDataGrid Component', () => {
     it('renders column css with styleSheets', () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
-      dataGrid.shadowRoot.styleSheets = [window.StyleSheet];
       document.body.appendChild(dataGrid);
+      dataGrid.shadowRoot.styleSheets = [window.StyleSheet];
       dataGrid.columns = columns();
       dataGrid.data = dataset;
 
@@ -211,8 +211,8 @@ describe('IdsDataGrid Component', () => {
     it('skips render column no styleSheets in headless browsers', () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
-      dataGrid.shadowRoot.styleSheets = [];
       document.body.appendChild(dataGrid);
+      dataGrid.shadowRoot.styleSheets = [];
       dataGrid.columns = columns();
       dataGrid.data = dataset;
 
@@ -222,8 +222,8 @@ describe('IdsDataGrid Component', () => {
     it('renders one single column', () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
-      dataGrid.shadowRoot.styleSheets = [window.StyleSheet];
       document.body.appendChild(dataGrid);
+      dataGrid.shadowRoot.styleSheets = [window.StyleSheet];
       dataGrid.columns = [{
         id: 'test',
         width: 20

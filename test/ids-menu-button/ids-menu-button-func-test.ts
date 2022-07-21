@@ -225,7 +225,7 @@ describe('IdsMenuButton Component', () => {
     expect(buttonEl.getAttribute('formatter-width')).toEqual(null);
   });
 
-  it('can set/get data of menu', () => {
+  it('can set/get data of menu', async () => {
     menuEl.insertAdjacentHTML('afterbegin', testMenuContents);
 
     // check default values

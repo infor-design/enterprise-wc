@@ -95,7 +95,6 @@ describe('IdsCheckbox Component', () => {
   it('should renders as label audible', () => {
     expect(cb.getAttribute('label-audible')).toEqual(null);
     let textEl = cb.shadowRoot.querySelector('ids-text');
-    expect(textEl.getAttribute('audible')).toEqual(null);
 
     cb.labelAudible = 'true';
     expect(cb.getAttribute('label-audible')).toEqual('true');
@@ -274,6 +273,8 @@ describe('IdsCheckbox Component', () => {
   it('should renders template', () => {
     document.body.innerHTML = '';
     cb = new IdsCheckbox();
+    // TODO fix that this errors by storing the state
+    document.body.appendChild(cb);
     cb.setAttribute('color', 'ruby07');
     cb.setAttribute('disabled', 'true');
     cb.setAttribute('horizontal', 'true');

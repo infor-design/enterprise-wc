@@ -60,9 +60,6 @@ export default class IdsDataGrid extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.state = { selectedRows: [], activatedRow: null };
-
-    this.#attachEventHandlers();
-    this.#attachKeyboardListeners();
   }
 
   /** Reference to datasource API */
@@ -192,6 +189,9 @@ export default class IdsDataGrid extends Base {
 
     // Attach post filters setting
     this.filters.attachPostFiltersSetting();
+
+    this.#attachEventHandlers();
+    this.#attachKeyboardListeners();
   }
 
   /**

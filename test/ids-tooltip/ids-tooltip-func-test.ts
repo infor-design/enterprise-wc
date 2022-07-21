@@ -17,18 +17,19 @@ describe('IdsTooltip Component', () => {
 
   beforeEach(async () => {
     const buttonElem: any = new IdsButton();
+    // TODO Will not work when appended last
+    document.body.appendChild(buttonElem);
     buttonElem.id = 'button-1';
     buttonElem.text = 'Test Button';
-    document.body.appendChild(buttonElem);
     button = document.querySelector('ids-button');
 
     const tooltipElem: any = new IdsTooltip();
+    document.body.appendChild(tooltipElem);
     tooltipElem.delay = 1;
     tooltipElem.target = '#button-1';
     tooltipElem.innerHTML = 'Additional Information';
     tooltipElem.id = 'test-id';
     tooltipElem.setAttribute('data-automation-id', 'test-id');
-    document.body.appendChild(tooltipElem);
     tooltip = document.querySelector('ids-tooltip');
   });
 
