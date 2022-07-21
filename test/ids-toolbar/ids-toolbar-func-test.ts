@@ -257,6 +257,7 @@ describe('IdsToolbar Component', () => {
   });
 
   it('skips disabled items while navigating', () => {
+    button3.setAttribute('disabled', 'true');
     button2.focus();
     toolbar.navigate(1, true);
 
