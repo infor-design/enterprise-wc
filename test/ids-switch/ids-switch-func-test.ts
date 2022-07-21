@@ -3,6 +3,7 @@
  */
 import IdsSwitch from '../../src/components/ids-switch/ids-switch';
 import IdsContainer from '../../src/components/ids-container/ids-container';
+import processAnimFrame from '../helpers/process-anim-frame';
 
 describe('IdsSwitch Component', () => {
   let el: any;
@@ -114,12 +115,16 @@ describe('IdsSwitch Component', () => {
     });
   });
 
-  it('should renders template', () => {
+  it('should renders template', async () => {
     document.body.innerHTML = '';
     el = document.createElement('ids-switch');
     el.setAttribute('disabled', true);
     el.setAttribute('checked', true);
-    el.template();
+    document.body.appendChild(el);
+
+    // wait for ids element to fire #updateAttributes() rAF
+    await processAnimFrame();
+
     expect(el.getAttribute('disabled')).toEqual('true');
     expect(el.input.hasAttribute('disabled')).toBe(true);
     const rootEl = el.shadowRoot.querySelector('.ids-switch');
