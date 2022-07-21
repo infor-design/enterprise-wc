@@ -34,7 +34,10 @@ ids-trigger-button {
 }
 
 :host([size='full']) {
-  @include w-full();
+  &,
+  ids-popup {
+    @include w-full();
+  }
 }
 
 :host([dir='rtl']) .icon-container {
@@ -44,4 +47,8 @@ ids-trigger-button {
 ::slotted(.sub-group) {
   border-top: 1px solid #b7b7ba;
   padding-top: 4px;
+}
+
+:host([aria-expanded='false']) ::slotted(ids-list-box) {
+  display: none;
 }

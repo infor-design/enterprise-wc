@@ -1,9 +1,11 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import { attributes } from '../../core/ids-attributes';
+import { attributes, htmlAttributes } from '../../core/ids-attributes';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import Base from './ids-tabs-base';
 import IdsHeader from '../ids-header/ids-header';
 import './ids-tab';
+import './ids-tab-more';
 import './ids-tab-divider';
 
 import styles from './ids-tabs.scss';
@@ -25,6 +27,24 @@ export default class IdsTabs extends Base {
     super();
   }
 
+  connectedCallback() {
+    super.connectedCallback?.();
+    this.setAttribute(htmlAttributes.ROLE, 'tablist');
+    this.#connectMoreTabs();
+    this.#detectParentColorVariant();
+    this.#attachEventHandlers();
+    this.#ro.observe(this.container as any);
+
+    const selected: any = this.querySelector('[selected]') || this.querySelector('[value]');
+    this.#selectTab(selected);
+    this.#attachAfterRenderEvents();
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback?.();
+    this.#ro.disconnect();
+  }
+
   /**
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
@@ -37,30 +57,48 @@ export default class IdsTabs extends Base {
   }
 
   /**
-   * Inherited from `IdsColorVariantMixin`
-   * @returns {Array<string>} List of available color variants for this component
-   */
-  colorVariants = ['alternate'];
-
-  /**
    * @returns {string} template for Tab List
    */
   template() {
-    return '<slot></slot>';
+    return `<div class="ids-tabs-container">
+      <div class="ids-tabs-list">
+        <slot></slot>
+      </div>
+      <div class="ids-tabs-list-more">
+        <slot name="fixed"></slot>
+      </div>
+    </div>`;
   }
 
   /**
-   * WebComponent's `connectedCallback` implementation
+   * Watches for changes to the Tab List size and recalculates overflowed tabs, if applicable
+   * @private
+   * @property {ResizeObserver} ro this Popup component's resize observer
    */
-  connectedCallback() {
-    super.connectedCallback?.();
-    this.setAttribute('role', 'tablist');
+  #ro = new ResizeObserver((entries) => {
+    for (const entry of entries) {
+      if (entry.target.classList.contains('ids-tabs-container')) {
+        this.#resize();
+      }
+    }
+  });
 
-    this.#detectParentColorVariant();
-    this.#refreshSelectionState(null, this.getAttribute('value'));
-    this.#attachEventHandlers();
+  /**
+   * Runs whenever the Tab List's size is altered
+   */
+  #resize(): void {
+    this.#refreshOverflowedTabs();
   }
 
+  /**
+   * Inherited from `IdsColorVariantMixin`
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  colorVariants = ['alternate', 'module'];
+
+  /**
+   * @property {string} value stores a tab's value (used for syncing tab state with displayed content)
+   */
   #value = '';
 
   /**
@@ -73,7 +111,7 @@ export default class IdsTabs extends Base {
     if (isValidValue && currentValue !== value) {
       this.#value = value;
       this.setAttribute(attributes.VALUE, value);
-      this.#refreshSelectionState(currentValue, value);
+      this.#selectTab(this.querySelector(`ids-tab[value="${value}"]`));
       this.triggerEvent('change', this, {
         bubbles: false,
         detail: { elem: this, value }
@@ -88,6 +126,40 @@ export default class IdsTabs extends Base {
    */
   get value() {
     return this.#value;
+  }
+
+  /**
+   * @returns {HTMLElement} Tab List container element reference from the shadow root
+   */
+  get tabListContainer() {
+    return this.container.querySelector('.ids-tabs-list');
+  }
+
+  /**
+   * @returns {HTMLElement} More Container
+   */
+  get moreContainer() {
+    return this.container.querySelector('.ids-tabs-list-more');
+  }
+
+  /**
+   * @returns {Array<HTMLElement>} tabs that are connected to this component's Main slot
+   */
+  get tabListElements() {
+    const mainSlot = this.container.querySelector('slot:not([name])');
+    return mainSlot.assignedElements();
+  }
+
+  get lastTab(): any {
+    return [...this.querySelectorAll('ids-tab')].pop();
+  }
+
+  /**
+   * @readonly
+   * @returns {any} [IdsTab | null] The last possible tab with a usable value in the list
+   */
+  get lastNavigableTab(): any {
+    return [...this.querySelectorAll('ids-tab[value]:not([actionable]):not([disabled]):not([overflowed])')].pop();
   }
 
   /**
@@ -135,26 +207,19 @@ export default class IdsTabs extends Base {
   #attachEventHandlers() {
     // Reusable handlers
     const nextTabHandler = (e: Event) => {
-      this.nextTab((e.target as any).closest('ids-tab')).focus();
+      this.nextTab((e.target as any).closest('ids-tab, ids-tab-more')).focus();
+      this.tabListContainer.scrollLeft = 0;
     };
     const prevTabHandler = (e: Event) => {
-      this.prevTab((e.target as any).closest('ids-tab')).focus();
-    };
-    const selectTabHandler = (e: Event) => {
-      const tab = (e.target as any).closest('ids-tab');
-      if (tab) {
-        this.value = tab.value;
-      }
+      this.prevTab((e.target as any).closest('ids-tab, ids-tab-more')).focus();
+      this.tabListContainer.scrollLeft = 0;
     };
 
     // Add key listeners and consider orientation for assignments
-    if (this.orientation !== 'vertical') {
-      this.listen('ArrowLeft', this, prevTabHandler);
-      this.listen('ArrowRight', this, nextTabHandler);
-    } else {
-      this.listen('ArrowUp', this, prevTabHandler);
-      this.listen('ArrowDown', this, nextTabHandler);
-    }
+    this.listen('ArrowLeft', this, prevTabHandler);
+    this.listen('ArrowRight', this, nextTabHandler);
+    this.listen('ArrowUp', this, prevTabHandler);
+    this.listen('ArrowDown', this, nextTabHandler);
 
     // Home/End keys should navigate to beginning/end of Tab list respectively
     this.listen('Home', this, () => {
@@ -165,9 +230,90 @@ export default class IdsTabs extends Base {
     });
 
     // Add Events/Key listeners for Tab Selection via click/keyboard
-    this.onEvent('click.tabs', this, selectTabHandler);
-    this.listen('Enter', this, selectTabHandler);
-    this.onEvent('tabselect', this, selectTabHandler);
+    this.listen('Enter', this, (e: KeyboardEvent) => {
+      const elem: any = e.target;
+      if (elem) {
+        if (elem.tagName === 'IDS-TAB') {
+          this.#selectTab(elem);
+        }
+        if (elem.tagName === 'IDS-TAB-MORE') {
+          if (!elem.menu.visible) {
+            elem.menu.showIfAble();
+          } else {
+            elem.menu.hide();
+            elem.focus();
+          }
+        }
+      }
+    });
+
+    // Listen for Delete (Mac) or Backspace (PC) for removal events
+    const dismissOnKeystroke = (e: CustomEvent) => {
+      const elem: any = e.target;
+      if (elem) {
+        if (elem.tagName === 'IDS-TAB') {
+          this.#dismissTab(elem);
+        }
+      }
+    };
+    this.listen('Delete', this, dismissOnKeystroke);
+    this.listen('Backspace', this, dismissOnKeystroke);
+
+    this.onEvent('tabselect', this, (e: CustomEvent) => {
+      const elem: any = e.target;
+      if (elem && elem.tagName === 'IDS-TAB') {
+        this.#selectTab(elem);
+      }
+    });
+
+    this.onEvent('click.tabs', this, (e: PointerEvent) => {
+      const elem: any = e.target;
+      if (elem) {
+        if (elem.tagName === 'IDS-TAB') {
+          if (!elem.disabled) {
+            this.#selectTab(elem);
+          }
+        }
+        if (elem.tagName === 'IDS-TRIGGER-BUTTON') {
+          e.stopPropagation();
+          const tab = getClosest(elem, 'ids-tab');
+          this.#dismissTab(tab);
+        }
+      }
+    });
+
+    // Removes the tab from the list on `tabremove` events
+    this.onEvent('tabremove', this, (e: CustomEvent) => {
+      e.detail.elem.remove();
+    });
+
+    // Focusing via keyboard on an IdsTab doesn't automatically fire its `focus()` method.
+    // This listener applies to all tabs in the list
+    this.onEvent('focusin.tabs', this, (e: FocusEvent) => {
+      const elem: any = e.target;
+      if (elem && elem.tagName === 'IDS-TAB') {
+        elem.focus();
+      }
+    });
+  }
+
+  /**
+   * Attaches event handlers that should be applied after rendering occurs
+   */
+  #attachAfterRenderEvents(): void {
+    // Refreshes the tab list on change
+    this.onEvent('slotchange', this.container, () => {
+      this.#connectMoreTabs();
+      this.#refreshOverflowedTabs();
+      this.#correctSelectedTab();
+    });
+  }
+
+  /**
+   * Configures any slotted `ids-tab-more` components present
+   */
+  #connectMoreTabs() {
+    this.querySelector('ids-tab-more')?.setAttribute('slot', 'fixed');
   }
 
   /**
@@ -179,7 +325,7 @@ export default class IdsTabs extends Base {
     let nextTab: any = currentTab.nextElementSibling;
 
     // If next sibling isn't a tab or is disabled, try this method again on the found sibling
-    if (nextTab && (nextTab.tagName !== 'IDS-TAB' || nextTab.disabled)) {
+    if (nextTab && (!nextTab.tagName.includes('IDS-TAB') || nextTab.tagName.includes('IDS-TAB-DIVIDER') || nextTab.disabled || nextTab.hasAttribute('overflowed'))) {
       return this.nextTab(nextTab);
     }
 
@@ -200,7 +346,7 @@ export default class IdsTabs extends Base {
     let prevTab: any = currentTab.previousElementSibling;
 
     // If previous sibling isn't a tab or is disabled, try this method again on the found sibling
-    if (prevTab && (prevTab.tagName !== 'IDS-TAB' || prevTab.disabled)) {
+    if (prevTab && (!prevTab.tagName.includes('IDS-TAB') || prevTab.tagName.includes('IDS-TAB-DIVIDER') || prevTab.disabled || prevTab.hasAttribute('overflowed'))) {
       return this.prevTab(prevTab);
     }
 
@@ -213,30 +359,62 @@ export default class IdsTabs extends Base {
   }
 
   /**
-   * Sets the ids-tab selection states based on the current value
-   * @param {string} currentValue the current tab value
-   * @param {string} newValue the new tab value
+   * Selects a tab and syncs the entire tab list with the new selection
+   * @param {any} tab the new tab to select
    * @returns {void}
    */
-  #refreshSelectionState(currentValue: any, newValue: string) {
-    if (!this.children.length) {
+  #selectTab(tab: any): void {
+    if (!tab) return;
+
+    if (tab.actionable) {
+      if (typeof tab.onAction === 'function') {
+        tab.onAction(tab.selected);
+      }
       return;
     }
 
-    const tabs = [...this.children];
-    const previouslySelectedTab = tabs.find((el) => el.value === currentValue);
-
-    if (!newValue) {
-      newValue = tabs.find((el) => el.selected)?.value;
-      if (!newValue) {
-        newValue = tabs[0].value;
+    if (!tab.selected) {
+      const current = this.querySelector('[selected]');
+      if (!current || (current && tab !== current)) {
+        tab.selected = true;
+        this.value = tab.value;
+        if (current) {
+          current.selected = false;
+        }
       }
     }
-    const newSelectedTab = tabs.find((el) => el.value === newValue);
+  }
 
-    if (previouslySelectedTab !== newSelectedTab) {
-      if (previouslySelectedTab) previouslySelectedTab.selected = false;
-      if (newSelectedTab) newSelectedTab.selected = true;
+  /**
+   * Dismisses (removes) a Tab from the Tab List
+   * @param {any} tab the new tab to select
+   * @returns {void}
+   */
+  #dismissTab(tab: any): void {
+    if (!tab) return;
+
+    tab.dismiss();
+    this.#correctSelectedTab();
+  }
+
+  /**
+   * Detects if a Tab no longer exists and selects an available one
+   */
+  #correctSelectedTab(): void {
+    if (!this.hasTab(this.value)) {
+      this.#selectTab(this.lastNavigableTab || this.lastTab);
+    }
+  }
+
+  /**
+   * Attempts to refresh state of the Tab List related to overflowed tabs, if applicable
+   */
+  #refreshOverflowedTabs(): void {
+    const moreTab = this.querySelector('ids-tab-more');
+    if (moreTab) {
+      moreTab.renderOverflowedItems();
+      moreTab.refreshOverflowedItems();
+      this.container.classList[!moreTab.hidden ? 'add' : 'remove']('has-more-actions');
     }
   }
 
@@ -245,7 +423,7 @@ export default class IdsTabs extends Base {
    * @returns {void}
    */
   onColorVariantRefresh(): void {
-    const tabs = [...this.querySelectorAll('ids-tab')];
+    const tabs = [...this.querySelectorAll('ids-tab, ids-tab-more')];
     tabs.forEach((tab) => {
       tab.colorVariant = this.colorVariant;
     });
@@ -256,9 +434,10 @@ export default class IdsTabs extends Base {
    * @returns {void}
    */
   onOrientationRefresh(): void {
-    const tabs = [...this.querySelectorAll('ids-tab')];
+    const tabs = [...this.querySelectorAll('ids-tab, ids-tab-more')];
     tabs.forEach((tab) => {
       tab.orientation = this.orientation;
     });
+    this.#resize();
   }
 }

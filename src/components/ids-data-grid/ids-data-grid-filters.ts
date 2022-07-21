@@ -214,7 +214,7 @@ export default class IdsDataGridFilters {
    * @returns {HTMLElement|undefined} The filter wrapper element
    */
   filterWrapperById(columnId: string | undefined) {
-    return this.root.shadowRoot.querySelector(`.ids-data-grid-header-cell[data-column-id="${columnId}"]
+    return this.root.shadowRoot.querySelector(`.ids-data-grid-header-cell[column-id="${columnId}"]
       .ids-data-grid-header-cell-filter-wrapper`);
   }
 
@@ -591,7 +591,7 @@ export default class IdsDataGridFilters {
     };
 
     this.root.datasource.filter(checkRow);
-    this.root.syncAndRerenderBody();
+    this.root.redrawBody();
 
     // Fires after filter action occurs
     if (isCleared || isFilterApply) {
@@ -685,10 +685,9 @@ export default class IdsDataGridFilters {
       }
 
       // Timepicker needs a different element to use for targeting outside clicks
-      // (normally it targets the body tag, but this causes usability issues when combined with datagrid)
+      // (normally it targets the body tag, but this causes usability issues when combined with data grid)
       if (timePicker) {
         timePicker.popupOpenEventsTarget = timePicker.closest('.ids-data-grid');
-        timePicker.elements.popup.y = 16;
       }
 
       // Integer type mask
@@ -710,7 +709,7 @@ export default class IdsDataGridFilters {
       }
     });
 
-    this.root.headerCheckbox?.closest('.ids-data-grid-header-cell-content-wrapper')?.classList?.add('vertical-align-center');
+    this.root.headerCheckbox?.closest('.ids-data-grid-header-cell-content')?.classList?.add('vertical-align-center');
   }
 
   /**

@@ -1,3 +1,4 @@
+import IdsBreakpointMixin from '../../mixins/ids-breakpoint-mixin/ids-breakpoint-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsFocusCaptureMixin from '../../mixins/ids-focus-capture-mixin/ids-focus-capture-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
@@ -8,13 +9,15 @@ import IdsXssMixin from '../../mixins/ids-xss-mixin/ids-xss-mixin';
 import IdsElement from '../../core/ids-element';
 
 const Base = IdsXssMixin(
-  IdsFocusCaptureMixin(
-    IdsKeyboardMixin(
-      IdsPopupInteractionsMixin(
-        IdsPopupOpenEventsMixin(
-          IdsThemeMixin(
-            IdsEventsMixin(
-              IdsElement
+  IdsBreakpointMixin(
+    IdsFocusCaptureMixin(
+      IdsKeyboardMixin(
+        IdsPopupInteractionsMixin(
+          IdsPopupOpenEventsMixin(
+            IdsThemeMixin(
+              IdsEventsMixin(
+                IdsElement
+              )
             )
           )
         )

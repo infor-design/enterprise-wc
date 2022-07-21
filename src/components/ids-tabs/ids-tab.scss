@@ -1,24 +1,134 @@
 @import '../../core/ids-base';
 
-:host(ids-tab:not([orientation='vertical']):first-child),
-.ids-tab-container:not([orientation='vertical']):first-child {
+$ids-tab-alternate-color-semi-transparent: rgba(255 255 255 / 0.7);
+$ids-tab-alternate-color-disabled: rgba(255 255 255 / 0.4);
+
+$ids-tab-min-width: 135px;
+$ids-tab-actionable-min-width: 44px;
+$ids-tab-vertical-height: 42px;
+
+@mixin ids-tabs-focus-border() {
+  &::before {
+    @include border-1();
+    @include border-solid();
+
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    content: '';
+    pointer-events: none;
+  }
+}
+
+// Adds the "underline" element for selected state.
+// cannot read css var for color in ::after
+// without shadowDOM scope so need .selection-underline div
+// as workaround
+@mixin ids-tabs-selected-underline() {
+  &::after,
+  & .selection-underline {
+    position: absolute;
+    bottom: 0;
+    height: 3px;
+    left: -1px;
+    width: calc(100% + 2px);
+    z-index: 1;
+    pointer-events: none;
+    content: '';
+  }
+}
+
+:host(:not([hidden])) {
+  display: block;
+}
+
+// Spacing rules for Horizontal Tab Lists
+
+:host(ids-tab:not([orientation='vertical']):not([color-variant='module']):first-child),
+:host(ids-tab-more:not([orientation='vertical']):not([color-variant='module']):first-child),
+.ids-tabs-container:not(.orientation-vertical):not(.color-variant-module) [class*='ids-tab']:first-child {
   @include ml-4;
 }
 
-:host(ids-tab:not([orientation='vertical']):last-child),
-.ids-tab-container:not([orientation='vertical']):last-child {
+:host(ids-tab:not([orientation='vertical']):not([color-variant='module']):last-child),
+:host(ids-tab-more:not([orientation='vertical']):not([color-variant='module']):last-child),
+.ids-tabs-container:not(.orientation-vertical):not(.color-variant-module) [class*='ids-tab']:last-child {
   @include mr-4;
 }
 
-:host(ids-tab:not([orientation='vertical']):not(:last-child)),
-.ids-tab-container:not([orientation='vertical']):not(:last-child) {
+:host(ids-tab:not([orientation='vertical']):not([color-variant='module']):not(:last-child)),
+:host(ids-tab-more:not([orientation='vertical']):not([color-variant='module']):not(:last-child)),
+.ids-tabs-container:not(.orientation-vertical):not(.color-variant-module) [class*='ids-tab']:not(:last-child) {
   @include mr-8;
 }
 
+// Border/Themes for Module Tabs
+
+// None
+:host(ids-tab[color-variant='module']:not([mode]):not(:last-child)),
+.ids-tabs-container.color-variant-module:not([mode]) .ids-tab:not(:last-child) {
+  border-right: 1px solid var(--ids-color-palette-azure-100);
+}
+
+// Light
+:host(ids-tab[color-variant='module'][mode='light']:not(:last-child)),
+.ids-tabs-container.color-variant-module[mode='light'] .ids-tab:not(:last-child) {
+  border-right: 1px solid var(--ids-color-palette-azure-100);
+}
+
+// Dark
+:host(ids-tab[color-variant='module'][mode='dark']:not(:last-child)),
+.ids-tabs-container.color-variant-module[mode='dark'] .ids-tab:not(:last-child) {
+  border-right: 1px solid var(--ids-color-palette-slate-100);
+}
+
+// Contrast
+:host(ids-tab[color-variant='module'][mode='contrast']:not(:last-child)),
+.ids-tabs-container.color-variant-module[mode='contrast'] .ids-tab:not(:last-child) {
+  border-right: 1px solid var(--ids-color-palette-azure-100);
+}
+
+// Spacing rules for Module Tabs
+
+:host(ids-tab[color-variant='module']:not([orientation='vertical']):not([actionable])),
+:host(ids-tab-more[color-variant='module']:not([orientation='vertical']):not([actionable])),
+.ids-tab-container.color-variant-module:not(.orientation-vertical):not(.actionable) [class*='ids-tab'] {
+  flex-grow: 1;
+}
+
 :host(ids-tab:focus-visible),
-.ids-tab-container:focus-visible {
+:host(ids-tab-more:focus-visible),
+.ids-tab-container [class*='ids-tab']:focus-visible {
   outline: none;
 }
+
+// "More Tabs" tab flex rules
+
+:host(ids-tab-more) {
+  margin-block-end: auto;
+}
+
+::slotted(ids-icon) {
+  color: currentColor;
+  pointer-events: none;
+}
+
+::slotted(ids-trigger-button) {
+  color: currentColor;
+  height: fit-content;
+  place-self: center;
+}
+
+:host([count]) {
+  ::slotted(ids-trigger-button) {
+    @include pl-8();
+  }
+}
+
+// =================================================
+// Main Container Styles
 
 .ids-tab {
   @include px-4();
@@ -28,70 +138,123 @@
   box-sizing: border-box;
   position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-end;
   list-style: none outside none;
   border-color: transparent;
   height: 100%;
-
-  &:hover {
-    @include text-slate-100();
-
-    &:not(.orientation-vertical)::after,
-    &:not(.orientation-vertical) .selection-underline {
-      @include bg-slate-100();
-
-      position: absolute;
-      bottom: 0;
-      height: 3px;
-      left: -1px;
-      width: calc(100% + 2px);
-      z-index: 1;
-      pointer-events: none;
-      content: '';
-    }
-  }
+  user-select: none;
 
   &:focus-visible,
-  &:focus {
+  &:focus,
+  &:focus-within {
     @include shadow();
     @include border-solid();
 
     outline: none;
   }
 
-  &:focus-visible:not(.color-variant-alternate),
-  &:focus:not(.color-variant-alternate),
-  &:focus-within:not(.color-variant-alternate) {
-    @include border-azure-60();
+  &:not(.selected) {
+    cursor: pointer;
   }
 
-  &.color-variant-alternate:focus-visible,
-  &.color-variant-alternate:focus,
-  &.color-variant-alternate:focus-within {
-    @include border-white();
+  &.selected {
+    cursor: default;
+
+    &.ids-text {
+      @include font-bold();
+    }
   }
 
-  &.color-variant-alternate:hover::after {
-    @include bg-white();
+  // =================================================
+  // Trigger Button Slot
+
+  .ids-tab-trigger-container {
+    display: flex;
+    place-content: center;
   }
 
-  &.selected.orientation-vertical:focus::before {
-    position: absolute;
-    top: 1px;
-    left: 1px;
-    width: calc(100% - 4px);
-    height: calc(100% - 4px);
-    border: 1px solid #fff;
-    content: '';
+  // =================================================
+  // Actionable
+
+  &.actionable {
+    cursor: pointer;
+  }
+
+  // =================================================
+  // Counts
+
+  &.count {
+    @include px-12();
+
+    .ids-tab-count-container {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  // =================================================
+  // Disabled
+
+  &.disabled {
+    cursor: default;
     pointer-events: none;
   }
 
-  /* a little bit hacky, but needed to allow the
-   * text to be bolded without shuddering the widths;
-   * text-content is set in ids-tab => rendered()
-   *  */
+  // =================================================
+  // Orientation-specific layouts
+
+  &:not(.orientation-vertical) {
+    @include pb-8();
+
+    border-bottom-width: 0;
+
+    &:not(.count) {
+      @include pt-8();
+    }
+
+    // Round borders on regular horizontal tabs
+    &:not(.color-variant-module) {
+      @include rounded-default();
+
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+
+      // Show the underline
+      @include ids-tabs-selected-underline();
+
+      // Hide the underline on disabled
+      &.disabled {
+        &::after,
+        & .selection-underline {
+          display: none;
+        }
+      }
+    }
+
+    &.color-variant-module {
+      justify-content: center;
+    }
+  }
+
+  &.orientation-vertical {
+    @include px-24();
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: $ids-tab-vertical-height;
+
+    &.selected {
+      &:focus {
+        @include ids-tabs-focus-border();
+      }
+    }
+  }
+
+  // =================================================
+  // Makes text appear bolded without shuddering the widths;
+  // Text Content is set in IdsTab `rendered();`
 
   ids-text::part(text),
   .ids-tab.ids-text {
@@ -99,14 +262,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-  }
-
-  &.color-variant-alternate:not(.selected) {
-    color: rgba(255 255 255 / 0.7);
-  }
-
-  &.color-variant-alternate.selected {
-    color: var(--ids-color-palette-white);
   }
 
   & ids-text::part(text)::after,
@@ -125,132 +280,455 @@
     }
   }
 
-  &:not(.orientation-vertical):not(.count) {
-    @include pt-8;
-  }
+  // =================================================
+  // Structural rules for Module Tabs color variant
 
-  &:not(.orientation-vertical) {
-    @include rounded-default();
-    @include pb-8();
+  &.color-variant-module {
+    // Scoped to the first child text element to avoid conflicts with menus
+    > ids-text,
+    > .ids-text {
+      text-align: center;
+    }
 
-    border-bottom-width: 0;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
+    &:not(.actionable) {
+      min-width: $ids-tab-min-width;
+    }
 
-  &.orientation-vertical {
-    @include pl-24();
+    &.actionable {
+      min-width: $ids-tab-actionable-min-width;
+    }
 
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    width: 100%;
-    height: 42px;
+    &.dismissible {
+      justify-content: space-around;
 
-    &.selected {
-      @include border-none();
-      @include bg-azure-60();
-      @include text-white();
+      > ids-text,
+      > .ids-text {
+        flex-grow: 1;
+      }
+
+      ::slotted(ids-trigger-button),
+      > .ids-trigger-button,
+      > ids-trigger-button {
+        flex-grow: 0;
+        flex-shrink: 1;
+      }
+    }
+
+    &:focus-visible,
+    &:focus,
+    &:focus-within {
+      &:not(.disabled) {
+        @include ids-tabs-focus-border();
+      }
     }
   }
-}
 
-.ids-tab:not(.selected) {
-  @include text-slate-70;
+  // =================================================
+  // Tabs combined with IdsSwappable create "swappable" tabs
 
-  cursor: pointer;
-}
-
-.ids-tab.selected {
-  @include text-azure-60;
-
-  cursor: default;
-
-  &.ids-text {
-    @include font-bold();
+  &.swappable {
+    @include pl-8();
   }
 
-  &:not(.orientation-vertical)::after,
-  /* cannot read css var for color in :after
-   * without shadowDOM scope so need .selection-underline div
-   * as workaround */
-  &:not(.orientation-vertical) .selection-underline {
-    position: absolute;
-    bottom: 0;
-    height: 3px;
-    left: -1px;
-    width: calc(100% + 2px);
-    z-index: 1;
-    pointer-events: none;
-    content: '';
+  // =================================================
+  // Light Mode
+
+  &:not([mode]),
+  &[mode='light'] {
+    // =================================================
+    // Light Mode / Default Color Variant
+
+    &:not([class*='color-variant-']) {
+      @include text-slate-70;
+
+      &:hover {
+        @include text-slate-100();
+      }
+
+      &.selected {
+        @include text-azure-60;
+      }
+
+      &:focus-visible,
+      &:focus,
+      &:focus-within {
+        @include border-azure-60();
+      }
+
+      &.disabled {
+        @include text-slate-30();
+      }
+
+      // Horizontal Tab Styles
+      &:not(.orientation-vertical) {
+        &:hover {
+          &::after,
+          & .selection-underline {
+            @include bg-slate-100();
+          }
+        }
+
+        &.selected {
+          &::after,
+          & .selection-underline {
+            @include bg-azure-60();
+          }
+        }
+      }
+
+      &.orientation-vertical {
+        &.selected {
+          @include border-none();
+          @include bg-azure-60();
+          @include text-white();
+
+          &:focus {
+            @include border-none();
+
+            &::before {
+              @include border-white();
+            }
+          }
+        }
+      }
+    }
+
+    // =================================================
+    // Light Mode / Alternate Color Variant
+
+    &.color-variant-alternate {
+      color: $ids-tab-alternate-color-semi-transparent;
+
+      &:hover {
+        @include text-white();
+
+        &::after {
+          background-color: $ids-tab-alternate-color-semi-transparent;
+        }
+      }
+
+      &:focus-visible,
+      &:focus,
+      &:focus-within {
+        @include border-white();
+      }
+
+      &.selected {
+        color: var(--ids-color-palette-white);
+      }
+
+      &.disabled {
+        color: $ids-tab-alternate-color-disabled;
+
+        &.selected {
+          color: $ids-tab-alternate-color-disabled;
+        }
+      }
+
+      // Horizontal Tab Styles
+      &:not(.orientation-vertical) {
+        &.selected {
+          &::after,
+          & .selection-underline {
+            @include bg-white();
+          }
+        }
+      }
+    }
+
+    // =================================================
+    // Light Mode / Module Tabs Color Variant
+
+    &.color-variant-module {
+      @include bg-azure-70();
+      @include text-azure-10();
+
+      &:hover {
+        @include text-white();
+        @include bg-azure-100();
+      }
+
+      &.selected {
+        @include bg-azure-60();
+        @include text-white();
+      }
+
+      &.disabled {
+        @include bg-azure-50();
+        @include text-azure-20();
+      }
+    }
   }
 
-  &:not(.orientation-vertical):not(.color-variant-alternate)::after,
-  &:not(.orientation-vertical):not(.color-variant-alternate) .selection-underline {
-    @include bg-azure-60();
-  }
+  // =================================================
+  // Dark Mode
 
-  &.color-variant-alternate:not(.orientation-vertical)::after,
-  &.color-variant-alternate:not(.orientation-vertical) .selection-underline {
-    @include bg-white();
-  }
-}
+  &[mode='dark'] {
+    // =================================================
+    // Dark Mode / Default Color Variant
 
-.ids-tab.count {
-  @include px-12();
-}
-
-:host(ids-tab[mode='dark']) {
-  .ids-tab {
-    &:not(.selected) {
+    &:not([class*='color-variant-']) {
       @include text-slate-20;
-    }
 
-    &:hover {
-      @include text-white();
+      &:hover {
+        @include text-white();
+      }
 
-      &:not(.orientation-vertical)::after,
-      &:not(.orientation-vertical) .selection-underline {
-        @include bg-white();
+      &:focus-visible,
+      &:focus,
+      &:focus-within {
+        @include border-azure-40();
+      }
+
+      &.selected {
+        @include text-azure-40();
+      }
+
+      &.disabled {
+        @include text-slate-60();
+      }
+
+      &:not(.orientation-vertical) {
+        &:hover {
+          &::after,
+          & .selection-underline {
+            @include bg-white();
+          }
+        }
+
+        &.selected {
+          &::after,
+          & .selection-underline {
+            @include bg-azure-40();
+          }
+        }
+      }
+
+      &.orientation-vertical {
+        &.selected {
+          @include border-none();
+          @include bg-azure-60();
+          @include text-white();
+
+          &:focus {
+            @include border-none();
+
+            &::before {
+              @include border-white();
+            }
+          }
+        }
       }
     }
 
-    &:focus-visible:not(.color-variant-alternate),
-    &:focus:not(.color-variant-alternate),
-    &:focus-within:not(.color-variant-alternate) {
-      @include border-azure-40();
+    // =================================================
+    // Dark Mode / Alternate Color Variant
+
+    &.color-variant-alternate {
+      color: $ids-tab-alternate-color-semi-transparent;
+
+      &:hover {
+        @include text-white();
+
+        &::after {
+          background-color: $ids-tab-alternate-color-semi-transparent;
+        }
+      }
+
+      &:focus-visible,
+      &:focus,
+      &:focus-within {
+        @include border-white();
+      }
+
+      &.selected {
+        color: var(--ids-color-palette-white);
+      }
+
+      &.disabled {
+        color: $ids-tab-alternate-color-disabled;
+
+        &.selected {
+          color: $ids-tab-alternate-color-disabled;
+        }
+      }
+
+      // Horizontal Tab Styles
+      &:not(.orientation-vertical) {
+        &.selected {
+          &::after,
+          & .selection-underline {
+            @include bg-white();
+          }
+        }
+      }
     }
 
-    &.selected {
-      @include text-azure-40;
+    // =================================================
+    // Dark Mode / Module Tabs Color Variant
 
-      &:not(.orientation-vertical):not(.color-variant-alternate)::after,
-      &:not(.orientation-vertical):not(.color-variant-alternate) .selection-underline {
-        @include bg-azure-40();
+    &.color-variant-module {
+      @include bg-slate-70();
+      @include text-slate-10();
+
+      &:hover {
+        @include text-white();
+        @include bg-slate-100();
+      }
+
+      &.selected {
+        @include bg-slate-60();
+        @include text-white();
+      }
+
+      &.disabled {
+        @include bg-slate-50();
+        @include text-slate-30();
+      }
+    }
+  }
+
+  // =================================================
+  // Contrast Mode
+
+  &[mode='contrast'] {
+    // =================================================
+    // Contrast Mode / Default Color Variant
+
+    &:not([class*='color-variant-']) {
+      @include text-slate-100;
+
+      &:hover::after {
+        @include bg-slate-100;
+      }
+
+      &:focus-visible,
+      &:focus,
+      &:focus-within {
+        @include border-azure-90();
+      }
+
+      &.selected {
+        @include text-azure-90;
+      }
+
+      &.disabled {
+        @include text-slate-40();
+      }
+
+      &:not(.orientation-vertical) {
+        &.selected {
+          &::after,
+          & .selection-underline {
+            @include bg-azure-90();
+          }
+        }
+      }
+
+      &.orientation-vertical {
+        &.selected {
+          @include border-none();
+          @include bg-azure-90();
+          @include text-white();
+
+          &:focus {
+            @include border-none();
+
+            &::before {
+              @include border-white();
+            }
+          }
+        }
+      }
+    }
+
+    // =================================================
+    // Contrast Mode / Alternate Color Variant
+
+    &.color-variant-alternate {
+      @include text-slate-10();
+
+      &:hover {
+        text-decoration: underline;
+
+        &::after {
+          background-color: $ids-tab-alternate-color-semi-transparent;
+        }
+      }
+
+      &:focus-visible,
+      &:focus,
+      &:focus-within {
+        @include border-slate-10();
+      }
+
+      &.selected {
+        @include text-azure-10();
+      }
+
+      &.disabled {
+        color: $ids-tab-alternate-color-disabled;
+
+        &.selected {
+          color: $ids-tab-alternate-color-disabled;
+        }
+      }
+
+      &:not(.orientation-vertical) {
+        &.selected {
+          &::after,
+          & .selection-underline {
+            @include bg-white();
+          }
+        }
+      }
+    }
+
+    // =================================================
+    // Contrast Mode / Module Tabs Color Variant
+
+    &.color-variant-module {
+      @include bg-azure-80();
+      @include text-azure-10();
+
+      &:hover {
+        @include bg-azure-100();
+        @include text-white();
+      }
+
+      &.selected {
+        @include bg-azure-60();
+        @include text-white();
+
+        text-decoration: underline;
+      }
+
+      &.disabled {
+        @include bg-azure-50();
+        @include text-azure-20();
       }
     }
   }
 }
 
-:host(ids-tab[mode='contrast']) {
-  .ids-tab {
-    &:not(.selected) {
-      @include text-slate-100;
-    }
+// "More" Tab's text content and icons are centered
+.tab-more-text {
+  display: inline-flex;
+  align-items: center;
 
-    &:focus-visible:not(.color-variant-alternate),
-    &:focus:not(.color-variant-alternate),
-    &:focus-within:not(.color-variant-alternate) {
-      @include border-azure-90();
-    }
-
-    &.selected {
-      @include text-azure-90;
-
-      &:not(.orientation-vertical):not(.color-variant-alternate)::after,
-      &:not(.orientation-vertical):not(.color-variant-alternate) .selection-underline {
-        @include bg-azure-90();
-      }
-    }
+  > *:not(.last-child) {
+    @include pr-4();
   }
+
+  ids-text,
+  .ids-text {
+    display: inline-block;
+  }
+}
+
+// Popupmenus inside of the "More Tabs" tab, or Dropdown tabs
+ids-popup-menu,
+.ids-popup-menu {
+  position: absolute;
+  width: 100%;
 }

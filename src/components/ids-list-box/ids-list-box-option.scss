@@ -24,6 +24,19 @@
   @include text-white();
 }
 
+:host(.multiselect-option.is-selected) {
+  @include bg-white();
+  @include text-black();
+}
+
+:host(.multiselect-option.is-selected:focus) {
+  @include bg-slate-20();
+}
+
+:host(.multiselect-option.is-selected:hover) {
+  @include bg-slate-20();
+}
+
 :host(:hover:not(.is-selected)),
 :host(.is-focused) {
   @include bg-slate-20();

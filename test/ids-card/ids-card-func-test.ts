@@ -118,17 +118,19 @@ describe('IdsCard Component', () => {
     // when user click card container
     card.dispatchEvent(clickEvent);
     expect(card.selected).toBe('true');
-    expect(checkboxElem.checked).toBe('true');
+    expect(checkboxElem.checked).toBeTruthy();
 
     card.dispatchEvent(clickEvent);
     expect(card.selected).toBe('false');
+    expect(checkboxElem.checked).toBeFalsy();
 
     checkboxElem.dispatchEvent(clickEvent);
     expect(card.selected).toBe('true');
-    expect(checkboxElem.checked).toBe('true');
+    expect(checkboxElem.checked).toBeTruthy();
 
     checkboxElem.dispatchEvent(clickEvent);
     expect(card.selected).toBe('false');
+    expect(checkboxElem.checked).toBeFalsy();
   });
 
   it('should fire selectionchanged event', async () => {
@@ -145,6 +147,32 @@ describe('IdsCard Component', () => {
     card.dispatchEvent(clickEvent);
 
     expect(mockCallback.mock.calls.length).toBe(1);
+  });
+
+  it('should set no header setting', () => {
+    expect(card.getAttribute('no-header')).toEqual(null);
+    expect(card.noHeader).toEqual(null);
+    card.noHeader = true;
+
+    expect(card.getAttribute('no-header')).toEqual('true');
+    expect(card.noHeader).toEqual('true');
+    card.noHeader = false;
+
+    expect(card.getAttribute('no-header')).toEqual(null);
+    expect(card.noHeader).toEqual(null);
+  });
+
+  it('should set css class for footer', () => {
+    document.body.innerHTML = '';
+    const elem: any = new IdsCard();
+    elem.innerHTML = `
+      <div slot="card-header"></div>
+      <div slot="card-content"></div>
+      <div slot="card-footer"></div>`;
+    document.body.appendChild(elem);
+    card = document.querySelector('ids-card');
+
+    expect(card.container.classList.contains('has-footer')).toEqual(true);
   });
 
   describe('Actionable Ids Card', () => {

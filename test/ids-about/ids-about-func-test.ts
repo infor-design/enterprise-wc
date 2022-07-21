@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
+import '../helpers/match-media-mock';
 import processAnimFrame from '../helpers/process-anim-frame';
 
 import IdsAbout from '../../src/components/ids-about/ids-about';

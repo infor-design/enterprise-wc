@@ -1,5 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import { attributes, Breakpoints, breakpoints } from '../../core/ids-attributes';
+import { attributes } from '../../core/ids-attributes';
+import { Breakpoints, isWidthBelow, isWidthAbove } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import Base from './ids-hidden-base';
 
@@ -23,8 +24,11 @@ export default class IdsHidden extends Base {
    */
   static get attributes(): Array<string> {
     return [
+      attributes.CONDITION,
       attributes.HIDE_UP,
-      attributes.HIDE_DOWN
+      attributes.HIDE_DOWN,
+      attributes.VALUE,
+      attributes.VISIBLE,
     ];
   }
 
@@ -43,7 +47,7 @@ export default class IdsHidden extends Base {
    */
   set hideDown(val: keyof Breakpoints) {
     if (val) {
-      const mqUp = this.isWidthDown(breakpoints[val]);
+      const mqUp = isWidthBelow(val);
       this.setAttribute(attributes.HIDE_DOWN, val);
       mqUp.addEventListener('change', () => {
         this.checkScreen(mqUp);
@@ -71,7 +75,7 @@ export default class IdsHidden extends Base {
    */
   set hideUp(val: keyof Breakpoints) {
     if (val) {
-      const mqUp = this.isWidthUp(breakpoints[val]);
+      const mqUp = isWidthAbove(val);
       this.setAttribute(attributes.HIDE_UP, val);
       mqUp.addEventListener('change', () => {
         this.checkScreen(mqUp);
@@ -100,9 +104,11 @@ export default class IdsHidden extends Base {
   set visible(val: boolean) {
     const isValTruthy = stringToBool(val);
     if (isValTruthy) {
-      this.setAttribute('visible', true);
+      this.setAttribute(attributes.VISIBLE, true);
+      this.hidden = false;
     } else {
-      this.removeAttribute('visible');
+      this.removeAttribute(attributes.VISIBLE);
+      this.hidden = true;
     }
   }
 
@@ -113,7 +119,55 @@ export default class IdsHidden extends Base {
    * @memberof IdsHidden
    */
   get visible() {
-    return this.getAttribute('visible');
+    return this.getAttribute(attributes.VISIBLE);
+  }
+
+  /**
+   * Set the compare condition
+   * @param {string} val the value to compare
+   * @memberof IdsHidden
+   */
+  set condition(val: string) {
+    if (val) {
+      this.setAttribute(attributes.CONDITION, val);
+    } else {
+      this.removeAttribute(attributes.CONDITION);
+    }
+    this.checkCompare();
+  }
+
+  /**
+   * Get the compare condition
+   * @returns {boolean} visible
+   * @readonly
+   * @memberof IdsHidden
+   */
+  get condition() {
+    return this.getAttribute(attributes.CONDITION);
+  }
+
+  /**
+   * Set the compare value
+   * @param {boolean} val the value to compare
+   * @memberof IdsHidden
+   */
+  set value(val: string) {
+    if (val) {
+      this.setAttribute(attributes.VALUE, val === 'undefined' ? '' : val);
+    } else {
+      this.removeAttribute(attributes.VALUE);
+    }
+    this.checkCompare();
+  }
+
+  /**
+   * Get the compare value
+   * @returns {string} the value to compare
+   * @readonly
+   * @memberof IdsHidden
+   */
+  get value() {
+    return this.getAttribute(attributes.VALUE);
   }
 
   /**
@@ -132,24 +186,33 @@ export default class IdsHidden extends Base {
   }
 
   /**
-   * Check for max width media query.
-   * @param {string} width size of the breakpoint
-   * @returns {MediaQueryList} media query
+   * Check value agains the comparison
    * @memberof IdsHidden
    */
-  isWidthDown(width: string): MediaQueryList {
-    const mq = window.matchMedia(`(max-width: ${width})`);
-    return mq;
-  }
+  checkCompare() {
+    let condition: string | boolean = this.condition;
+    let value: string | boolean = this.value;
+    let isMatch = false;
+    value = value === 'undefined' ? '' : value;
+    if (condition === 'false' || condition === 'true') {
+      condition = stringToBool(condition);
+      value = (value === 'false' || value === 'true') ? stringToBool(value) : value;
+      if (condition && value) {
+        isMatch = true;
+      }
+      if (!condition && !value) {
+        isMatch = true;
+      }
+    } else {
+      isMatch = this.value === this.condition;
+    }
 
-  /**
-   * Check for min width media query.
-   * @param {string} width size of the breakpoint
-   * @returns {MediaQueryList} media query
-   * @memberof IdsHidden
-   */
-  isWidthUp(width: string): MediaQueryList {
-    const mq = window.matchMedia(`(min-width: ${width})`);
-    return mq;
+    if (isMatch) {
+      this.hidden = true;
+      this.removeAttribute('visible');
+    } else {
+      this.removeAttribute('hidden');
+      this.setAttribute('visible', true);
+    }
   }
 }

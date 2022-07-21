@@ -11,9 +11,15 @@
   - link: counts.html
     type: Example
     description: Shows tabs with a count for each tab
+  - link: dismissible.html
+    type: Example
+    description: Shows tabs that are dismissible by way of an inline trigger button
   - link: header-tabs.html
     type: Example
     description: Shows header tabs
+  - link: module.html
+    type: Example
+    description: Shows Module Tabs example
   - link: vertical.html
     type: Example
     description: Shows vertical tabs
@@ -23,3 +29,6 @@
   - link: standalone-css.html
     type: Standalone CSS
     description: Showing limited tabs that works with css only
+  - link: swappable.html
+    type: Example
+    description: Shows how to create swappable tabs

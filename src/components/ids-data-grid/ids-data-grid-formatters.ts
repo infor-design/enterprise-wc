@@ -1,4 +1,6 @@
 import '../ids-hyperlink/ids-hyperlink';
+import '../ids-button/ids-button';
+import '../ids-badge/ids-badge';
 import type { IdsDataGridColumn } from './ids-data-grid-column';
 
 /* eslint-disable jsdoc/require-returns */
@@ -18,6 +20,21 @@ export default class IdsDataGridFormatters {
     return (str as string);
   }
 
+  /** Used to check if the column should show as disabled */
+  columnDisabled(row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>): boolean {
+    const isTrue = (v: any) => (typeof v !== 'undefined' && v !== null && ((typeof v === 'boolean' && v === true) || (typeof v === 'string' && v.toLowerCase() === 'true')));
+    const disabled = col.disabled;
+
+    return typeof disabled === 'function' ? disabled(row, value, col, item) : isTrue(disabled);
+  }
+
+  /** Used to get the color via the function  or text */
+  color(row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>): string | undefined {
+    const color = col.color;
+
+    return typeof color === 'function' ? color(row, value, col, item) : color;
+  }
+
   /** Formats Text */
   text(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
     return `<span class="text-ellipsis">${this.nullToString(rowData, columnData)}</span>`;
@@ -25,7 +42,7 @@ export default class IdsDataGridFormatters {
 
   /** Masks text with stars */
   password(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
-    return `<span class="text-ellipsis">${this.nullToString(rowData, columnData).replace(/./g, '*')}</span>`;
+    return `<span class="text-ellipsis">${this.nullToString(rowData, columnData).replace(/./g, '•')}</span>`;
   }
 
   /** Formats a sequencing running count of rows */
@@ -66,12 +83,13 @@ export default class IdsDataGridFormatters {
   }
 
   /** Formats number data as a ids-hyperlink */
-  hyperlink(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
+  hyperlink(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const value = columnData.text || this.nullToString(rowData, columnData);
     if (!value) {
       return '';
     }
     let colHref: any = columnData.href || '#';
+    const isDisabled = this.columnDisabled(index, value, columnData, rowData);
 
     // Support for dynamic links based on content
     if (columnData.href && typeof columnData.href === 'function') {
@@ -83,16 +101,37 @@ export default class IdsDataGridFormatters {
     } else {
       colHref = colHref.replace('{{value}}', value);
     }
-    return `<ids-hyperlink href="${colHref}" tabindex="-1">${value}</ids-hyperlink>`;
+    return `<ids-hyperlink href="${colHref}" tabindex="-1" ${isDisabled ? ' disabled="true"' : ''}>${value}</ids-hyperlink>`;
   }
 
   /** Shows a selection checkbox column */
-  selectionCheckbox(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
-    return `<span class="ids-datagrid-checkbox-container"><span role="checkbox" aria-checked="${rowData?.rowSelected ? 'true' : 'false'}" aria-label="${columnData.name}" class="ids-datagrid-checkbox${rowData?.rowSelected ? ' checked' : ''}"></span></span>`;
+  selectionCheckbox(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
+    const isDisabled = this.columnDisabled(index, '', columnData, rowData);
+    return `<span class="ids-data-grid-checkbox-container"><span role="checkbox" aria-checked="${rowData?.rowSelected ? 'true' : 'false'}" aria-label="${columnData.name}" class="ids-data-grid-checkbox${rowData?.rowSelected ? ' checked' : ''}${isDisabled ? ' disabled' : ''}"></span></span>`;
   }
 
   /** Shows a selection radio column */
-  selectionRadio(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
-    return `<span class="ids-datagrid-radio-container"><span role="radio" aria-checked="${rowData?.rowSelected ? 'true' : 'false'}" aria-label="${columnData.name}" class="ids-datagrid-radio${rowData?.rowSelected ? ' checked' : ''}"></span></span>`;
+  selectionRadio(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
+    const isDisabled = this.columnDisabled(index, '', columnData, rowData);
+    return `<span class="ids-data-grid-radio-container"><span role="radio" aria-checked="${rowData?.rowSelected ? 'true' : 'false'}" aria-label="${columnData.name}" class="ids-data-grid-radio${rowData?.rowSelected ? ' checked' : ''}${isDisabled ? ' disabled' : ''}"></span></span>`;
+  }
+
+  /** Shows an ids-button */
+  button(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
+    const value: any = this.nullToObj(rowData, columnData);
+    // Type / disabled / icon / text
+    return `<ids-button tabindex="-1" ${this.columnDisabled(index, value, columnData, rowData) ? ' disabled="true"' : ''}${columnData.type ? ` type="${columnData.type}"` : ' type="tertiary"'}>
+      <span class="audible">${columnData.text || ' Button'}</span>
+      ${columnData.icon ? `<ids-icon slot="icon" icon="${columnData.icon}"></ids-icon>` : ''}
+    </ids-button>`;
+  }
+
+  /** Shows an ids-badge */
+  badge(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
+    const value: any = this.nullToObj(rowData, columnData);
+    if (!value) return '';
+    const color = this.color(index, value, columnData, rowData);
+
+    return `<ids-badge color="${color || ''}">${value}</ids-badge>`;
   }
 }

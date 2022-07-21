@@ -9,11 +9,11 @@ describe('Ids Dropdown e2e Tests', () => {
     await expect(page.title()).resolves.toMatch('IDS Dropdown Component');
   });
 
-  /* it('should pass Axe accessibility tests', async () => {
+  it.skip('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
 
     // Using newer aria-description
     await (expect(page) as any).toPassAxeTests({ disabledRules: ['aria-valid-attr', 'color-contrast'] });
-  }); */
+  });
 });

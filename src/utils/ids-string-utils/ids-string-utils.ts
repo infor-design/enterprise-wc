@@ -8,6 +8,15 @@ export function camelCase(str: string): string {
 }
 
 /**
+ * Convert a string into kebab case
+ * @param  {string} str The value to be converted
+ * @returns {string} The return string
+ */
+export function kebabCase(str: string): string {
+  return str?.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/[\s_]+/g, '-').toLowerCase();
+}
+
+/**
  * Removes all duplicate characters from a string and returns another string
  * containing ALL unique characters.  Useful for construction of REGEX objects
  * with characters from an input field, etc.
@@ -58,6 +67,7 @@ export function stringToNumber(val?: string | number | any): number {
  * @returns {string} The return string
  */
 export function injectTemplate(str: string, obj: any): string {
+  // Replace all other keys with data
   return str.replace(/\${(.*?)}/g, (_x, g) => obj[g]);
 }
 

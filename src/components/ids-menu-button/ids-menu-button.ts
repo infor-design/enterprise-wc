@@ -1,7 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { getClosestRootNode } from '../../utils/ids-dom-utils/ids-dom-utils';
-import { attributes } from '../../core/ids-attributes';
+import { attributes, htmlAttributes } from '../../core/ids-attributes';
 
 import Base from './ids-menu-button-base';
 import '../ids-icon/ids-icon';
@@ -29,6 +29,7 @@ export default class IdsMenuButton extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.DISABLED,
       attributes.DROPDOWN_ICON,
       attributes.FORMATTER_WIDTH,
       attributes.ID,
@@ -70,6 +71,22 @@ export default class IdsMenuButton extends Base {
   }
 
   /**
+   * @param {boolean | string} val true if the component should be disabledd
+   */
+  set disabled(val: boolean | string) {
+    super.disabled = val;
+    const truthyVal = stringToBool(val);
+    this.menuEl.disabled = truthyVal;
+  }
+
+  /**
+   * @returns {boolean} true if the component is disabled
+   */
+  get disabled(): boolean {
+    return super.disabled;
+  }
+
+  /**
    * @param {string|undefined} val referencing an icon string name to use
    */
   set dropdownIcon(val) {
@@ -106,14 +123,14 @@ export default class IdsMenuButton extends Base {
    * @returns {string|null} an ID selector string matching a menu
    */
   get menu() {
-    return this.getAttribute('menu');
+    return this.getAttribute(attributes.MENU);
   }
 
   /**
    * @param {string|null} val an ID selector string
    */
   set menu(val) {
-    this.setAttribute('menu', `${val}`);
+    this.setAttribute(attributes.MENU, `${val}`);
     this.configureMenu();
   }
 
@@ -161,6 +178,8 @@ export default class IdsMenuButton extends Base {
     this.setPopupArrow();
     this.menuEl.trigger = 'click';
     this.menuEl.target = this;
+
+    this.setAttribute(htmlAttributes.ARIA_HASPOPUP, 'menu');
 
     // ====================================================================
     // Setup menu-specific event listeners, if they aren't already applied

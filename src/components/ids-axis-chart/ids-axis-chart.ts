@@ -1,6 +1,6 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
-import { injectTemplate, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { injectTemplate, stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 import { QUALITATIVE_COLORS } from './ids-chart-colors';
 import { patternData } from './ids-pattern-data';
 import NiceScale from './ids-nice-scale';
@@ -67,6 +67,7 @@ type IdsChartDimensions = {
  * IDS Axis Chart Component
  * @type {IdsAxisChart}
  * @inherits IdsElement
+ * @mixes IdsChartSelectionMixin
  * @mixes IdsEventsMixin
  * @part container - the outside container element
  * @part chart - the svg outer element
@@ -87,6 +88,21 @@ export default class IdsAxisChart extends Base {
 
   /** Reference to datasource API */
   datasource = new IdsDataSource();
+
+  /**
+   * @returns {Array<string>} Drawer vetoable events
+   */
+  vetoableEventTypes = [
+    'beforeselected',
+    'beforedeselected'
+  ];
+
+  /**
+   * On selectable change
+   */
+  onSelectableChange(): void {
+    this.legendsClickable?.(this.selectable);
+  }
 
   /**
    * Invoked each time the custom element is appended
@@ -166,6 +182,9 @@ export default class IdsAxisChart extends Base {
     });
   }
 
+  /** Max width for y-labels text */
+  #yMaxTextWidth = 0;
+
   /** Holds the resize observer object */
   #resizeObserver?: ResizeObserver = undefined;
 
@@ -235,12 +254,40 @@ export default class IdsAxisChart extends Base {
     this.legend.innerHTML = this.legendTemplate();
 
     this.adjustLabels();
+    this.#adjustRTL();
+    this.legendsClickable?.(this.selectable);
 
     // Completed Event and Callback
     this.triggerEvent('rendered', this, { svg: this.svg, data: this.data, markerData: this.markerData });
     if (this.rendered) {
       this?.rendered();
     }
+  }
+
+  /**
+   * Adjust RTL
+   * @private
+   */
+  #adjustRTL(): void {
+    if (!this.locale?.isRTL()) return;
+
+    const labels = {
+      x: [...this.svg.querySelectorAll('.labels.x-labels text')],
+      y: [...this.svg.querySelectorAll('.labels.y-labels text')]
+    };
+
+    // Adjust y-max text width
+    this.#yMaxTextWidth += this.margins.left;
+
+    // X-labels
+    let calcX: any = (x: any) => stringToNumber(x) - this.#yMaxTextWidth;
+    const newX = labels.x.map((label: any) => calcX(label.getAttribute('x'))).reverse();
+    labels.x.forEach((label: any, i: number) => label.setAttribute('x', newX[i]));
+
+    // Y-labels
+    calcX = (x: any) => `-${stringToNumber(x) + this.#yMaxTextWidth}px`;
+    labels.y.forEach((label: any) => label
+      .style.setProperty('--ids-axis-chart-ylabels-x', calcX(label.getAttribute('x'))));
   }
 
   /** The marker data to use to draw the chart */
@@ -310,6 +357,9 @@ export default class IdsAxisChart extends Base {
     for (let i = (scale.niceMin || 0); i <= (scale.niceMax); i += (scale.tickSpacing || 0)) {
       this.markerData.scaleY.push(i);
     }
+
+    // Set max text width for y-labels
+    this.yMaxTextWidth();
 
     // Calculate the Data Points / Locations
     this.markerData.points = [];
@@ -760,6 +810,34 @@ export default class IdsAxisChart extends Base {
   }
 
   /**
+   * Set the max width to render y-axis
+   * @private
+   * @returns {void}
+   */
+  yMaxTextWidth(): void {
+    let maxWidth = 0;
+    this.markerData.scaleY?.slice().forEach((value: any) => {
+      const v = this.formatYLabel(value);
+      const w = this.calculateTextRenderWidth(v);
+      if (w > maxWidth) maxWidth = w;
+    });
+    this.#yMaxTextWidth = maxWidth - this.margins.left;
+  }
+
+  /**
+   * Calculates the width to render given text string.
+   * @private
+   * @param  {string} text The text to render.
+   * @returns {number} Calculated text width in pixels.
+   */
+  calculateTextRenderWidth(text: string): number {
+    this.canvas = this.canvas || document.createElement('canvas');
+    const context = this.canvas.getContext('2d');
+    context.font = '400 16px arial';
+    return context.measureText(text).width;
+  }
+
+  /**
    * Set the left, right, top, bottom margins
    * @param {object} value The margin values
    */
@@ -792,7 +870,7 @@ export default class IdsAxisChart extends Base {
 
   get textWidths(): IdsChartDimensions {
     return this.state.textWidths || {
-      left: this.legendPlacement === 'left' ? 34 : 4, // TODO: Calculate this
+      left: this.legendPlacement === 'left' ? 34 : (this.#yMaxTextWidth || 4), // TODO: Calculate this
       right: 0,
       top: 0,
       bottom: 24

@@ -6,6 +6,10 @@
   .areas {
     fill-opacity: 0.2;
 
+    [part='area'] {
+      outline: none;
+    }
+
     @for $i from 1 through 21 {
       path.color-#{$i} {
         /* stylelint-disable-next-line custom-property-pattern */
@@ -16,6 +20,21 @@
 
   .animate {
     animation: fadein 2.8s cubic-bezier(0.17, 0.04, 0.03, 0.94) forwards;
+  }
+}
+
+.ids-chart-container.selectable {
+  .ids-axis-chart .areas [part='area'] {
+    cursor: pointer;
+
+    &.selected,
+    &[selected] {
+      opacity: 1;
+    }
+
+    &.not-selected {
+      opacity: 0.35;
+    }
   }
 }
 

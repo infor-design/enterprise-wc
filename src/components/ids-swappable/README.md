@@ -4,7 +4,8 @@
 IdsSwappable is an abstract component that provides functionality for drag and drop between items or lists. It consists of two components `ids-swappable` which is a container for and number of `ids-swappable-item`. The `ids-swappable-item` makes use of s single `slot` where the user can use virtually any component they would like, most commonly `ids-text` or `ids-card`.
 
 ## Use Cases
-IdsSwappable is used to create the IdsSwaplist, which is used to move objects between 2 or more lists, but is not limited to this use case. It can also be used to create standalone sortable/swappable lists.
+
+IdsSwappable is used to create the [IdsSwaplist](../ids-swaplist/README.md), which is used to move objects between 2 or more lists, but is not limited to this use case. It can also be used to create standalone sortable/swappable element collections.
 
 ## Features (With Code Samples)
 
@@ -41,12 +42,37 @@ data.forEach((d) => {
     `;
 });
 ```
+
+### Mix with other components
+
+Some components support composition with IdsSwappable, such as [IdsTabs](../ids-tabs/README.md).  Since Tabs have their own process for handling selection, using `dragMode="always"` ensures tabs can be moved around regardless of selection:
+
+```html
+<ids-tabs>
+    <ids-swappable dropzone="move">
+        <ids-swappable-item drag-mode="always">
+            <ids-tab value="contracts">Contracts</ids-tab>
+        </ids-swappable-item>
+        <ids-swappable-item drag-mode="always">
+            <ids-tab value="opportunities">Opportunities</ids-tab>
+        </ids-swappable-item>
+        <ids-swappable-item drag-mode="always">
+            <ids-tab value="attachments" disabled>Attachments</ids-tab>
+        </ids-swappable-item>
+        <ids-swappable-item drag-mode="always">
+            <ids-tab value="notes">Notes</ids-tab>
+        </ids-swappable-item>
+    </ids-swappable>
+</ids-tabs>
+```
+
 ## Settings (Attributes)
 
 ### ids-swappable
 **selectedItems** Sets the multi-select attribute. Defaults to false.
 
 ### ids-swappable-item
+**drag-mode** Defines how/when dragging can occur.  By default (`select`), swappable items must first be selected in order to be dragged.  Setting to `always` makes dragging possible at all times.
 **selected** Sets the selected attribute. Items need to be selected before that can be dragged.
 **originalText** Sets the originalText attribute. This happens when the component is connected and is used to revert the text after item is dropped.
 **tabbable** Sets if the item is tabbable. Defaults to true.

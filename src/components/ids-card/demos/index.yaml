@@ -10,7 +10,13 @@
     description: Shows two side by side cards
   - link: auto-height.html
     type: Example
-    description: Shows an auto height card
+    description: Shows a card that sizes to its content
+  - link: auto-fit.html
+    type: Example
+    description: Shows a size the fits to the bottom of the page
+  - link: height.html
+    type: Example
+    description: Shows a fixed height card
   - link: single-selection.html
     type: Example
     description: Showing cards with single selection
@@ -23,6 +29,9 @@
   - link: info.html
     type: Example
     description: Showing cards with various info
+  - link: footer.html
+    type: Example
+    description: Showing cards with footer
   - link: side-by-side.html
     type: Side by Side
     description: Showing a card with a 4.x card

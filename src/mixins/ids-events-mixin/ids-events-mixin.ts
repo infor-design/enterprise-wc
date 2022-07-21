@@ -1,6 +1,7 @@
 import renderLoop from '../../components/ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../../components/ids-render-loop/ids-render-loop-item';
 import { stringToBool, isPrintable } from '../../utils/ids-string-utils/ids-string-utils';
+import { getEventBaseName } from './ids-events-common';
 
 /**
  * A mixin that adds event handler functionality that is also safely torn down when a component is
@@ -49,13 +50,16 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
     if (eventName.indexOf('hoverend') === 0) {
       this.#addHoverEndListener(eventName, target, options);
     }
+    if (eventName.indexOf('sloped-mouseleave') === 0) {
+      this.#addSlopedMouseLeaveListener(eventName, target, options);
+    }
     if (eventName.indexOf('keydownend') === 0) {
       this.#addKeyDownEndListener(eventName, target, options);
     }
     if (eventName.indexOf('swipe') === 0) {
       this.#addSwipeListener(eventName, target, options);
     }
-    target.addEventListener(eventName.split('.')[0], callback, options);
+    target.addEventListener(getEventBaseName(eventName), callback, options);
     this.handledEvents.set(eventName, { target, callback, options });
   }
 
@@ -85,6 +89,11 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
       return;
     }
 
+    if (eventName.indexOf('sloped-mouseleave') === 0 && handler?.callback) {
+      this.#removeSlopedMouseLeaveListener();
+      return;
+    }
+
     if (eventName.indexOf('keydownend') === 0 && handler?.callback) {
       this.#removeKeyDownEndListener();
       return;
@@ -97,7 +106,7 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
 
     const targetApplied = target || handler?.target;
     if (handler?.callback && targetApplied?.removeEventListener) {
-      targetApplied.removeEventListener(eventName.split('.')[0], handler.callback, options || handler.options);
+      targetApplied.removeEventListener(getEventBaseName(eventName), handler.callback, options || handler.options);
     }
   }
 
@@ -108,7 +117,7 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
    * @param {object} [options = {}] The custom data to send
    */
   triggerEvent(eventName: string, target: any, options = {}) {
-    const event = new CustomEvent(eventName.split('.')[0], options);
+    const event = new CustomEvent(getEventBaseName(eventName), options);
     target.dispatchEvent(event);
   }
 
@@ -154,6 +163,7 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
     this.#removeLongPressListener();
     this.#removeKeyboardFocusListener();
     this.#removeHoverEndListener();
+    this.#removeSlopedMouseLeaveListener();
     this.#removeKeyDownEndListener();
     this.#removeSwipeListener();
   }
@@ -376,7 +386,7 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
         this.timer = renderLoop.register(new IdsRenderLoopItem({
           duration: options?.delay || 400,
           timeoutCallback: () => {
-            const event = new MouseEvent('hoverend', e);
+            const event = new MouseEvent(getEventBaseName(eventName), e);
             target.dispatchEvent(event);
             this.clearTimer();
           }
@@ -392,6 +402,80 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
       this.clearTimer();
     });
     this.hoverEndOn = true;
+  }
+
+  /**
+   * Setup a custom 'sloped-mouseleave' event that fires after a delay,
+   * and if mouse coordinates land within a "safe" area.
+   * @private
+   * @param {string} eventName The event name with optional namespace
+   * @param {HTMLElement} target The DOM element to register
+   * @param {object} options Additional event settings (passive, once, bubbles ect)
+   */
+  #addSlopedMouseLeaveListener(eventName: string, target: HTMLElement, options?: Record<string, unknown>) {
+    const dispatchCustomEvent = (mouseLeaveNode: any, originalEvent: MouseEvent) => {
+      const event = new CustomEvent(getEventBaseName(eventName), {
+        detail: {
+          originalEvent,
+          mouseLeaveNode
+        }
+      });
+      target.dispatchEvent(event);
+      this.#clearSlopedMouseLeaveTimer();
+    };
+
+    // `mouseleave` listener persists until removed manually
+    this.onEvent('mouseleave.eventsmixin', target, (e: MouseEvent) => {
+      if (!this.slopedMouseLeaveTimer) {
+        this.startX = e.pageX;
+        this.startY = e.pageY;
+        this.slopedMouseLeaveTimer = renderLoop.register(new IdsRenderLoopItem({
+          duration: options?.delay || 400,
+          timeoutCallback: () => {
+            const outOfBoundsX = (this.trackedX - this.startX) > 3.5;
+            const outOfBoundsY = (this.trackedY - this.startY) > 3.5;
+            if (outOfBoundsX || outOfBoundsY) {
+              dispatchCustomEvent(document.elementFromPoint(this.trackedX, this.trackedY), e);
+            }
+          }
+        }));
+
+        this.onEvent('mousemove.eventsmixin', document, (ev: MouseEvent) => {
+          this.trackedX = ev.pageX;
+          this.trackedY = ev.pageY;
+        });
+
+        this.onEvent('mouseenter.eventsmixin', target, () => {
+          this.#clearSlopedMouseLeaveTimer();
+        });
+      }
+    });
+  }
+
+  /**
+   * Clears a previously-set timer for checking sloped `mouseleave` events
+   * @private
+   */
+  #clearSlopedMouseLeaveTimer(): void {
+    this.slopedMouseLeaveTimer?.destroy(true);
+    this.slopedMouseLeaveTimer = null;
+    this.detachEventsByName('mousemove.eventsmixin');
+    this.detachEventsByName('mouseenter.eventsmixin');
+    this.startX = null;
+    this.startY = null;
+    this.trackedX = null;
+    this.trackedY = null;
+  }
+
+  /**
+   * Removes previously-set sloped `mouseleave` event listener
+   * @private
+   */
+  #removeSlopedMouseLeaveListener() {
+    if (!this.slopedMouseLeaveTimer) return;
+
+    this.detachEventsByName('mouseleave.eventsmixin');
+    this.#clearSlopedMouseLeaveTimer();
   }
 
   /**
@@ -449,10 +533,11 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
       return;
     }
     this.hoverEndOn = false;
-    this.timer = null;
     this.detachEventsByName('click.eventsmixin');
+    this.detachEventsByName('mousemove.eventsmixin');
     this.detachEventsByName('mouseleave.eventsmixin');
     this.detachEventsByName('mouseenter.eventsmixin');
+    this.clearTimer();
   }
 
   /**

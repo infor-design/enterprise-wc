@@ -1,6 +1,6 @@
 import '../ids-list-view';
 import '../../ids-card/ids-card';
-import productsJSON from '../../../assets/data/products.json';
+import productsJSON from '../../../assets/data/products-100.json';
 import css from '../../../assets/css/ids-list-view/side-by-side.css';
 
 const cssLink = `<link href="${css}" rel="stylesheet">`;

@@ -1,14 +1,16 @@
 /**
  * @jest-environment jsdom
  */
-import '../../src/components/ids-data-grid/ids-data-grid';
-import IdsDataGridFormatters from '../../src/components/ids-data-grid/ids-data-grid-formatters';
-import IdsLookup from '../../src/components/ids-lookup/ids-lookup';
 
 import '../helpers/resize-observer-mock';
+import '../helpers/match-media-mock';
 import createFromTemplate from '../helpers/create-from-template';
 import waitFor from '../helpers/wait-for';
 import dataset from '../../src/assets/data/books.json';
+
+import '../../src/components/ids-data-grid/ids-data-grid';
+import IdsDataGridFormatters from '../../src/components/ids-data-grid/ids-data-grid-formatters';
+import IdsLookup from '../../src/components/ids-lookup/ids-lookup';
 
 describe('IdsLookup Component', () => {
   let lookup: any;
@@ -282,7 +284,7 @@ describe('IdsLookup Component', () => {
     expect(lookup.dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-cell').length).toEqual(54);
   });
 
-  it('should be able to set datagrid settings', () => {
+  it('should be able to set dataGrid settings', () => {
     lookup.columns = columns();
     lookup.data = dataset;
     lookup.dataGridSettings = {

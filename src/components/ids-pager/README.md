@@ -30,10 +30,13 @@ The IDS Pager Component is used to provide an interface for browsing paginated d
 ## Settings (ids-pager-number-list)
 
 - `disabled` {boolean} whether to override the natural or parent-disabled functionality to specifically disable the number buttons in this component.
+- `label` {string} sets the aria label text
+- `step` {number} sets the number of step for page number list
 
 ## Settings (ids-pager-button)
 
 - `disabled` {boolean} whether to override natural or parent-disabled functionality to specifically disable this button.
+- `label` {string} sets the aria label text
 
 ## Settings (ids-pager-input)
 
@@ -79,6 +82,33 @@ A pager with numbered-page-buttons for navigation, surrounded by navigation butt
     <ids-pager-button next></ids-pager-button>
   </section>
   <section slot="end">Right-Aligned Content</section>
+</ids-pager>
+```
+
+A pager with numbered-page-buttons for navigation, with custom steps limit:
+```html
+<ids-pager page-size="20" page-number="10" total="1500">
+  <ids-pager-button previous></ids-pager-button>
+  <ids-pager-number-list step="2"></ids-pager-number-list>
+  <ids-pager-button next></ids-pager-button>
+</ids-pager>
+```
+
+A pager with numbered-page-buttons for navigation, with show all step buttons (no-limit):
+```html
+<ids-pager page-size="20" page-number="10" total="500">
+  <ids-pager-button previous></ids-pager-button>
+  <ids-pager-number-list step="-1"></ids-pager-number-list>
+  <ids-pager-button next></ids-pager-button>
+</ids-pager>
+```
+
+A pager with aria-label:
+```html
+<ids-pager page-size="20" page-number="10" total="1500">
+  <ids-pager-button label="Previous page" previous></ids-pager-button>
+  <ids-pager-number-list label="Page {num} of {total}"></ids-pager-number-list>
+  <ids-pager-button label="Next page" next></ids-pager-button>
 </ids-pager>
 ```
 
@@ -172,7 +202,7 @@ All elements will flip to the alternate side in Right To Left mode, including us
 **3.x to 4.x**
 
 - This did not exist as a standalone component
-- Datagrid paging has new options - see datagrid docs
+- Datagrid paging has new options - see data grid docs
 
 **4.x to 5.x**
 

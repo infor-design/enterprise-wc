@@ -5,6 +5,7 @@ import IdsAxisChart from '../../src/components/ids-axis-chart/ids-axis-chart';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import '../../src/components/ids-empty-message/ids-empty-message';
 import '../../src/components/ids-text/ids-text';
+import '../helpers/canvas-mock';
 import '../helpers/resize-observer-mock';
 import dataset from '../../src/assets/data/components.json';
 import processAnimFrame from '../helpers/process-anim-frame';
@@ -120,7 +121,7 @@ describe('IdsAxisChart Component', () => {
   });
 
   it('supports setting textWidths', () => {
-    expect(axisChart.textWidths.left).toEqual(4);
+    expect(axisChart.textWidths.left).toEqual(-axisChart.margins.left);
     expect(axisChart.textWidths.right).toEqual(0);
     const newTextWidths = {
       left: 40, right: 40, top: 40, bottom: 40
@@ -337,5 +338,12 @@ describe('IdsAxisChart Component', () => {
 
     expect(axisChart.container.parentNode.querySelectorAll('.swatch')[1].classList.contains('color-2')).toBeTruthy();
     expect(axisChart.color(1)).toEqual('var(color-2)');
+  });
+
+  it('should adjust RTL', async () => {
+    container.language = 'ar';
+    await processAnimFrame();
+
+    expect(axisChart.locale.isRTL()).toBe(true);
   });
 });

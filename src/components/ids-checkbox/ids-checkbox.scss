@@ -7,6 +7,10 @@
   top: calc(50% - 8px);
 }
 
+:host([no-margin]) .ids-checkbox {
+  @include m-0();
+}
+
 .ids-checkbox {
   @include mb-8();
 

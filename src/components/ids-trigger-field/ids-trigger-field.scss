@@ -1,6 +1,15 @@
 @import '../../core/ids-base';
 @import '../ids-input/ids-input';
 
+// Ability to center label
+:host([part='trigger-field']) {
+  justify-content: flex-start;
+}
+
+.ids-trigger-field {
+  justify-content: inherit;
+}
+
 .ids-trigger-field-slot-trigger-start,
 ::slotted(*[slot='trigger-start']:first-of-type:not([inline])) {
   @include ml-4();

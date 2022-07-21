@@ -2,7 +2,7 @@ import '../ids-data-grid';
 import productsJSON from '../../../assets/data/products.json';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-1');
+const dataGrid: any = document.querySelector('#data-grid-virtual-scroll');
 
 // Do an ajax request
 const url: any = productsJSON;

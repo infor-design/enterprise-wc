@@ -10,3 +10,8 @@
 .ids-popup.tooltip.standalone {
   position: relative;
 }
+
+// Adjust Stuff for RTL
+ids-popup[dir='rtl']::part(arrow)::after {
+  display: none;
+}

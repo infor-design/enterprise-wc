@@ -589,7 +589,7 @@ describe('IdsLocale API', () => {
   });
 
   describe('Number Formatting', () => {
-    it.only('should be able too get numbers easily', async () => {
+    it('should be able too get numbers easily', async () => {
       await locale.setLocale('en-US');
       expect(locale.numbers().decimal).toEqual('.');
       await locale.setLocale('de-DE');
@@ -1939,6 +1939,20 @@ describe('IdsLocale API', () => {
       expect(locale.parseDate('June 20', 'MMMM d').getDate()).toEqual(20);
       expect(locale.parseDate('2020 June', 'yyyy MMMM').getTime()).toEqual(new Date(2020, 5, 1, 0, 0, 0).getTime());
       expect(locale.parseDate('02', 'dd').getDate()).toEqual(2);
+    });
+
+    it('should stricly parse time', async () => {
+      await locale.setLocale('en-US');
+
+      // Strict
+      expect(locale.parseDate('14:77 AM', { dateFormat: 'hh:mm a', strictTime: true })).not.toBeDefined();
+      expect(locale.parseDate('13:77 AM', { dateFormat: 'h:mm a', strictTime: true })).not.toBeDefined();
+      expect(locale.parseDate('29:33:99', { dateFormat: 'HH:mm:ss', strictTime: true })).not.toBeDefined();
+      expect(locale.parseDate('29:33:99', { dateFormat: 'H:mm:ss', strictTime: true })).not.toBeDefined();
+
+      // Non strict
+      expect(locale.parseDate('11:77:99', { dateFormat: 'H:mm:ss' }).getSeconds()).toEqual(0);
+      expect(locale.parseDate('11:77:99', { dateFormat: 'H:mm:ss' }).getMinutes()).toEqual(0);
     });
   });
 

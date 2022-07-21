@@ -1,7 +1,8 @@
 import { attributes } from '../../core/ids-attributes';
 import IdsDataSource from '../../core/ids-data-source';
-import IdsPager from '../../components/ids-pager/ids-pager';
+import { parents } from '../../utils/ids-dom-utils/ids-dom-utils';
 
+import '../../components/ids-pager/ids-pager';
 import '../../components/ids-button/ids-button';
 import '../../components/ids-menu-button/ids-menu-button';
 
@@ -23,13 +24,24 @@ const IdsPagerMixin = (superclass: any) => class extends superclass {
    * The internal IdsPager component
    * @private
    */
-  #pager = new IdsPager();
+  #pager: any;
+
+  /**
+   * The pager container element, user location to add pager
+   * @private
+   */
+  #pagerContainer: any;
 
   /**
    * Gets the internal IdsPager component
-   * @returns {IdsPager} pager
+   * @returns {HTMLElement} pager
    */
-  get pager() { return this.#pager; }
+  get pager() {
+    if (!this.#pager) {
+      this.#pager = document.createElement('ids-pager');
+    }
+    return this.#pager;
+  }
 
   /**
    * Gets the internal IdsDataSource object
@@ -43,7 +55,29 @@ const IdsPagerMixin = (superclass: any) => class extends superclass {
     const pageNumber = Math.max(this.pageNumber || 1, 1);
     const pageSize = Math.max(this.pageSize || 0, 1);
 
-    this.#pager.innerHTML = `
+    this.pager.innerHTML = this.pagerTemplate();
+    this.pager.pageNumber = pageNumber;
+    this.pager.pageSize = pageSize;
+  }
+
+  /**
+   * Return the attributes we handle as getters/setters
+   * @private
+   * @returns {Array} The attributes in an array
+   */
+  static get attributes() {
+    return [
+      ...super.attributes,
+      attributes.PAGINATION,
+      attributes.PAGE_NUMBER,
+      attributes.PAGE_SIZE,
+      attributes.PAGE_TOTAL,
+    ];
+  }
+
+  pagerTemplate() {
+    const pageSize = Math.max(this.pageSize || 0, 1);
+    return `
       <ids-pager-button first></ids-pager-button>
       <ids-pager-button previous></ids-pager-button>
       <ids-pager-input></ids-pager-input>
@@ -64,24 +98,6 @@ const IdsPagerMixin = (superclass: any) => class extends superclass {
         </ids-popup-menu>
       </div>
     `;
-
-    this.#pager.pageNumber = pageNumber;
-    this.#pager.pageSize = pageSize;
-  }
-
-  /**
-   * Return the attributes we handle as getters/setters
-   * @private
-   * @returns {Array} The attributes in an array
-   */
-  static get attributes() {
-    return [
-      ...super.attributes,
-      attributes.PAGINATION,
-      attributes.PAGE_NUMBER,
-      attributes.PAGE_SIZE,
-      attributes.PAGE_TOTAL,
-    ];
   }
 
   /**
@@ -122,7 +138,7 @@ const IdsPagerMixin = (superclass: any) => class extends superclass {
     this.datasource.pageSize = value;
 
     const popupButton: any = this.pager.querySelector('ids-menu-button');
-    popupButton.text = `${value} Records per page`;
+    if (popupButton) popupButton.text = `${value} Records per page`;
   }
 
   /**
@@ -166,6 +182,28 @@ const IdsPagerMixin = (superclass: any) => class extends superclass {
   }
 
   /**
+   * Get pager container element to place pager.
+   * @private
+   * @returns {HTMLElement|null} The container.
+   */
+  #getPagerContainer(): HTMLElement | null {
+    const selector = this.getAttribute('pager-container');
+    let container = null;
+    if (selector) {
+      container = this.shadowRoot.querySelector(selector);
+      if (!container) {
+        const parentsList = parents(this, 'ids-container');
+        for (let i = 0, l = parentsList.length; i < l; i++) {
+          const parent = parentsList[i].shadowRoot || parentsList[i];
+          container = parent.querySelector(selector);
+          if (container) break;
+        }
+      }
+    }
+    return container;
+  }
+
+  /**
    * Appends IdsPager to this.shadowRoot if pagination is enabled.
    * @private
    */
@@ -194,32 +232,40 @@ const IdsPagerMixin = (superclass: any) => class extends superclass {
       }
     });
 
+    // User location to add pager
+    this.#pagerContainer = this.#pagerContainer || this.#getPagerContainer();
+
     if (pager) {
       pager.replaceWith(this.pager);
+    } else if (this.#pagerContainer) {
+      [...this.#pagerContainer.childNodes].forEach((child) => this.#pagerContainer.removeChild(child));
+      this.#pagerContainer.append(this.pager as any);
     } else {
       this.shadowRoot?.append(this.pager);
     }
 
     const popupMenu: any = this.pager.querySelector('ids-popup-menu');
-    const popupMenuGroup = popupMenu.querySelector('ids-menu-group');
+    if (popupMenu) {
+      const popupMenuGroup = popupMenu.querySelector('ids-menu-group');
 
-    popupMenu.popup.type = 'menu';
-    popupMenuGroup.style.minWidth = '175px';
-    popupMenuGroup.style.textAlign = 'left';
+      popupMenu.popup.type = 'menu';
+      popupMenuGroup.style.minWidth = '175px';
+      popupMenuGroup.style.textAlign = 'left';
 
-    this.offEvent('selected', popupMenu);
-    this.onEvent('selected', popupMenu, (evt: CustomEvent) => {
-      const oldPageSize = this.pageSize;
-      const newPageSize = evt.detail?.value || oldPageSize;
-      if (newPageSize !== oldPageSize) {
-        this.pageSize = newPageSize;
-        popupMenu.querySelectorAll('ids-menu-item').forEach((item: any) => {
-          item.icon = parseInt(item.value) === parseInt(newPageSize) ? 'check' : 'no-check';
-        });
+      this.offEvent('selected', popupMenu);
+      this.onEvent('selected', popupMenu, (evt: CustomEvent) => {
+        const oldPageSize = this.pageSize;
+        const newPageSize = evt.detail?.value || oldPageSize;
+        if (newPageSize !== oldPageSize) {
+          this.pageSize = newPageSize;
+          popupMenu.querySelectorAll('ids-menu-item').forEach((item: any) => {
+            item.icon = parseInt(item.value) === parseInt(newPageSize) ? 'check' : 'no-check';
+          });
 
-        this.rerender();
-      }
-    });
+          this.rerender();
+        }
+      });
+    }
   }
 };
 

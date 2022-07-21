@@ -20,25 +20,39 @@ export default class IdsTabsContext extends Base {
     super();
   }
 
+  connectedCallback() {
+    super.connectedCallback?.();
+
+    this.onEvent('tabselect', this, (e: { stopPropagation: () => void; target: { value: any; onAction?: CallableFunction }; }) => {
+      e.stopPropagation();
+      this.value = e.target.value;
+    });
+
+    // On `tabremove` events, remove a tab's corresponding content pane
+    this.onEvent('tabremove', this, (e: CustomEvent) => {
+      e.stopPropagation();
+      const content = this.querySelector(`ids-tab-content[value="${e.detail.value}"]`);
+      content?.remove();
+    });
+  }
+
+  rendered() {
+    this.value = this.querySelector('[selected]')?.value;
+  }
+
   /**
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
   static get attributes() {
-    return [attributes.VALUE];
+    return [
+      ...super.attributes,
+      attributes.VALUE
+    ];
   }
 
   template() {
     return '<slot></slot>';
-  }
-
-  connectedCallback() {
-    super.connectedCallback?.();
-
-    this.onEvent('tabselect', this, (e: { stopPropagation: () => void; target: { value: any; }; }) => {
-      e.stopPropagation();
-      this.value = e.target.value;
-    });
   }
 
   /** @param {string} value The value representing a currently selected tab */
