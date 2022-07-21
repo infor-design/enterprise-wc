@@ -307,7 +307,7 @@ export default class IdsSlider extends Base {
    * @returns {string} the primary Slider thumb's label contents
    */
   get label(): string {
-    return this.#label;
+    return this.#label || stripHTML(this.getAttribute(attributes.LABEL));
   }
 
   /**
@@ -333,7 +333,7 @@ export default class IdsSlider extends Base {
    * @returns {string} the primary Slider thumb's label contents
    */
   get labelSecondary(): string {
-    return this.#labelSecondary;
+    return this.#labelSecondary || stripHTML(this.getAttribute(attributes.LABEL_SECONDARY));
   }
 
   /**
