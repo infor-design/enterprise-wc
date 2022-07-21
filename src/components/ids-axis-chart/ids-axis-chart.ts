@@ -610,7 +610,7 @@ export default class IdsAxisChart extends Base {
 
   /**
    * Format the value for the x label in a variety of ways
-   * @param {string} value The value to format value
+   * @param {string|Function} value The value to format value
    * @returns {string} The formatted value
    * @private
    */

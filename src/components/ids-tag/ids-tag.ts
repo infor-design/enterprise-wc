@@ -30,6 +30,7 @@ export default class IdsTag extends Base {
     super.connectedCallback();
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
+    this.#setContainerColor(this.color);
   }
 
   /**
@@ -42,8 +43,7 @@ export default class IdsTag extends Base {
       attributes.CLICKABLE,
       attributes.DISMISSIBLE,
       attributes.DISABLED,
-      attributes.MODE,
-      attributes.VERSION
+      attributes.MODE
     ];
   }
 
@@ -66,9 +66,19 @@ export default class IdsTag extends Base {
     } else {
       this.removeAttribute(attributes.COLOR);
     }
+    this.#setContainerColor(value);
+    this.#addDimissibleIcon();
+  }
 
+  get color(): string { return this.getAttribute(attributes.COLOR); }
+
+  /**
+   * Set the tag color on the element style
+   * @param {string} value The color value
+   */
+  #setContainerColor(value: string) {
     if (this.container) {
-      this.container.classList.remove('secondary', 'info', 'success', 'warning', 'error');
+      this.container?.classList.remove('secondary', 'info', 'success', 'warning', 'error');
       this.container.style.backgroundColor = '';
       this.container.style.borderColor = '';
       this.container.style.color = '';
@@ -83,8 +93,6 @@ export default class IdsTag extends Base {
       }
     }
   }
-
-  get color(): string { return this.getAttribute(attributes.COLOR); }
 
   /**
    * Check if an icon exists if not add it
@@ -126,8 +134,18 @@ export default class IdsTag extends Base {
       this.removeAttribute(attributes.DISMISSIBLE);
     }
 
+    this.#addDimissibleIcon();
+  }
+
+  get dismissible(): boolean { return stringToBool(this.getAttribute(attributes.DISMISSIBLE)); }
+
+  /**
+   * Add the dismissible icon if the tag is dismissible
+   * @private
+   */
+  #addDimissibleIcon() {
     if (this.container) {
-      if (isDismissible) {
+      if (this.dismissible) {
         this.container.classList.add(attributes.FOCUSABLE);
         this.#appendIcon('close');
         this.#attachKeyboardListeners();
@@ -138,10 +156,8 @@ export default class IdsTag extends Base {
     }
   }
 
-  get dismissible(): boolean { return stringToBool(this.getAttribute(attributes.DISMISSIBLE)); }
-
   /**
-   * If set to true the tag has focus state and becomes a clickable linnk
+   * If set to true the tag has focus state and becomes a clickable link
    * @param {boolean} value true of false depending if the tag is clickable
    */
   set clickable(value: boolean) {
