@@ -200,7 +200,7 @@ export default class IdsMenuItem extends Base {
    * @returns {HTMLAnchorElement} reference to the Menu Item's anchor
    */
   get a() {
-    return this.shadowRoot.querySelector('a');
+    return this.shadowRoot?.querySelector('a');
   }
 
   /**
@@ -239,6 +239,9 @@ export default class IdsMenuItem extends Base {
     this.state.disabled = trueVal;
 
     const a = this.a;
+
+    if (!a) return;
+
     const shouldUpdate = this.shouldUpdate;
     const currentAttr = this.hasAttribute(attributes.DISABLED);
 
@@ -246,7 +249,7 @@ export default class IdsMenuItem extends Base {
       a.disabled = true;
       a.setAttribute(attributes.DISABLED, '');
       this.tabIndex = -1;
-      this.container.classList.add(attributes.DISABLED);
+      this.container?.classList.add(attributes.DISABLED);
       if (!currentAttr) {
         this.shouldUpdate = false;
         this.setAttribute(attributes.DISABLED, '');
@@ -258,7 +261,7 @@ export default class IdsMenuItem extends Base {
     a.disabled = false;
     a.removeAttribute(attributes.DISABLED);
     this.tabIndex = 0;
-    this.container.classList.remove(attributes.DISABLED);
+    this.container?.classList.remove(attributes.DISABLED);
     if (currentAttr) {
       this.shouldUpdate = false;
       this.removeAttribute(attributes.DISABLED);
@@ -281,10 +284,10 @@ export default class IdsMenuItem extends Base {
     const newValue = stringToBool(val);
     if (newValue) {
       this.setAttribute(attributes.HIDDEN, '');
-      this.container.classList.add(attributes.HIDDEN);
+      this.container?.classList.add(attributes.HIDDEN);
     } else {
       this.removeAttribute(attributes.HIDDEN);
-      this.container.classList.remove(attributes.HIDDEN);
+      this.container?.classList.remove(attributes.HIDDEN);
     }
   }
 
@@ -311,7 +314,7 @@ export default class IdsMenuItem extends Base {
     }
 
     this.state.highlighted = trueVal;
-    this.container.classList[trueVal ? 'add' : 'remove']('highlighted');
+    this.container?.classList[trueVal ? 'add' : 'remove']('highlighted');
   }
 
   /**
@@ -404,7 +407,7 @@ export default class IdsMenuItem extends Base {
    */
   decorateForIcon() {
     const hasIcons = this.group.itemIcons.length > 0;
-    this.container.classList[hasIcons ? 'add' : 'remove']('has-icon');
+    this.container?.classList[hasIcons ? 'add' : 'remove']('has-icon');
   }
 
   /**
@@ -438,7 +441,7 @@ export default class IdsMenuItem extends Base {
    */
   detectSubmenu() {
     const hasSubmenu = this.hasSubmenu;
-    this.container.classList[hasSubmenu ? 'add' : 'remove']('has-submenu');
+    this.container?.classList[hasSubmenu ? 'add' : 'remove']('has-submenu');
     this.decorateSubmenu(hasSubmenu);
     return hasSubmenu;
   }
@@ -449,24 +452,24 @@ export default class IdsMenuItem extends Base {
    * with icons and correct aria attributes
    */
   decorateSubmenu(val: boolean | string) {
-    const icon = this.container.querySelector('ids-icon[icon="dropdown"]');
+    const icon = this.container?.querySelector('ids-icon[icon="dropdown"]');
     if (val === true || val === 'true') {
       if (this.submenu) {
         this.submenu.setAttribute(htmlAttributes.SLOT, 'submenu');
         this.submenu.setAttribute(htmlAttributes.ARIA_EXPANDED, this.submenu.visible ? 'true' : 'false');
       }
-      this.a.setAttribute(htmlAttributes.ROLE, 'button');
-      this.a.setAttribute(htmlAttributes.ARIA_HASPOPUP, 'true');
+      this.a?.setAttribute(htmlAttributes.ROLE, 'button');
+      this.a?.setAttribute(htmlAttributes.ARIA_HASPOPUP, 'true');
       if (!icon) {
-        this.a.insertAdjacentHTML('beforeend', this.templateSubmenuIcon());
+        this.a?.insertAdjacentHTML('beforeend', this.templateSubmenuIcon());
       }
       this.value = null;
     } else {
       if (this.submenu) {
         this.submenu.removeAttribute(htmlAttributes.ARIA_EXPANDED);
       }
-      this.a.setAttribute(htmlAttributes.ROLE, 'menuitem');
-      this.a.removeAttribute(htmlAttributes.ARIA_HASPOPUP);
+      this.a?.setAttribute(htmlAttributes.ROLE, 'menuitem');
+      this.a?.removeAttribute(htmlAttributes.ARIA_HASPOPUP);
       icon?.remove();
     }
   }
@@ -479,21 +482,21 @@ export default class IdsMenuItem extends Base {
   detectSelectability() {
     const selectType = this.group.select;
     const isSelectable = selectType !== null && !this.submenu;
-    const check = this.container.querySelector('span.check');
+    const check = this.container?.querySelector('span.check');
 
     if (isSelectable) {
-      this.container.classList.add(selectType === 'multiple' ? 'has-multi-checkmark' : 'has-checkmark');
-      this.container.classList.remove(selectType === 'multiple' ? 'has-checkmark' : 'has-multi-checkmark');
+      this.container?.classList.add(selectType === 'multiple' ? 'has-multi-checkmark' : 'has-checkmark');
+      this.container?.classList.remove(selectType === 'multiple' ? 'has-checkmark' : 'has-multi-checkmark');
       if (!check) {
-        this.a.insertAdjacentHTML('afterbegin', this.templateCheck());
+        this.a?.insertAdjacentHTML('afterbegin', this.templateCheck());
       }
-      this.a.setAttribute(htmlAttributes.ROLE, selectType === 'multiple' ? 'menuitemcheckbox' : 'menuitemradio');
-      this.a.setAttribute(htmlAttributes.ARIA_CHECKED, this.selected ? 'true' : 'false');
+      this.a?.setAttribute(htmlAttributes.ROLE, selectType === 'multiple' ? 'menuitemcheckbox' : 'menuitemradio');
+      this.a?.setAttribute(htmlAttributes.ARIA_CHECKED, this.selected ? 'true' : 'false');
     } else {
-      this.container.classList.remove('has-checkmark', 'has-multi-checkmark');
+      this.container?.classList.remove('has-checkmark', 'has-multi-checkmark');
       check?.remove();
-      this.a.setAttribute(htmlAttributes.ROLE, this.hasSubmenu ? 'button' : 'menuitem');
-      this.a.removeAttribute(htmlAttributes.ARIA_CHECKED);
+      this.a?.setAttribute(htmlAttributes.ROLE, this.hasSubmenu ? 'button' : 'menuitem');
+      this.a?.removeAttribute(htmlAttributes.ARIA_CHECKED);
     }
   }
 
@@ -520,8 +523,8 @@ export default class IdsMenuItem extends Base {
 
     // Store true state
     this.state.selected = trueVal;
-    this.container.classList[trueVal ? 'add' : 'remove']('selected');
-    this.a.setAttribute(htmlAttributes.ARIA_CHECKED, trueVal ? 'true' : 'false');
+    this.container?.classList[trueVal ? 'add' : 'remove']('selected');
+    this.a?.setAttribute(htmlAttributes.ARIA_CHECKED, trueVal ? 'true' : 'false');
 
     // Sync the attribute
     const shouldUpdate = this.shouldUpdate;
@@ -571,10 +574,10 @@ export default class IdsMenuItem extends Base {
       // Mirror tabindex on the shadow DOM anchor
       if (Number.isNaN(trueVal) || trueVal < -1) {
         this.state.tabIndex = 0;
-        this.a.setAttribute(attributes.TABINDEX, '0');
+        this.a?.setAttribute(attributes.TABINDEX, '0');
       } else {
         this.state.tabIndex = trueVal;
-        this.a.setAttribute(attributes.TABINDEX, `${trueVal}`);
+        this.a?.setAttribute(attributes.TABINDEX, `${trueVal}`);
       }
     }
   }
@@ -671,7 +674,7 @@ export default class IdsMenuItem extends Base {
     if (!this.hasSubmenu || (this.hasSubmenu && !this.submenu.hidden)) {
       return;
     }
-    this.a.setAttribute(htmlAttributes.ARIA_EXPANDED, 'true');
+    this.a?.setAttribute(htmlAttributes.ARIA_EXPANDED, 'true');
     this.menu.hideSubmenus(this);
     this.submenu.show();
   }
@@ -684,7 +687,7 @@ export default class IdsMenuItem extends Base {
     if (!this.hasSubmenu || (this.hasSubmenu && this.submenu.hidden)) {
       return;
     }
-    this.a.setAttribute(htmlAttributes.ARIA_EXPANDED, 'false');
+    this.a?.setAttribute(htmlAttributes.ARIA_EXPANDED, 'false');
     this.submenu.hide();
   }
 
@@ -694,7 +697,7 @@ export default class IdsMenuItem extends Base {
    * @returns {void}
    */
   focus() {
-    if (!this.hidden && !this.disabled) this.a.focus();
+    if (!this.hidden && !this.disabled) this.a?.focus();
   }
 
   /**

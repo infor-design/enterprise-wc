@@ -134,6 +134,7 @@ export default class IdsProgressChart extends Base {
    */
   #updateLabel(labelType: string): void {
     if (!this.container) return;
+
     if (labelType === attributes.LABEL) {
       this.container.querySelector('.label-main').innerHTML = this.label;
     } else if (labelType === attributes.LABEL_PROGRESS) {
@@ -153,7 +154,9 @@ export default class IdsProgressChart extends Base {
     // make sure that prog / tot doesn't exceed 1 -- will happen if prog > tot
     const percentage = Math.floor((prog / tot > 1 ? 1 : prog / tot) * 100);
     this.percentage = percentage;
-    if (this.container) this.container.querySelector('.bar-progress').style.width = `${percentage}%`;
+
+    const progressBar = this.container?.querySelector('.bar-progress');
+    if (progressBar) progressBar.style.width = `${percentage}%`;
   }
 
   /**
@@ -161,9 +164,12 @@ export default class IdsProgressChart extends Base {
    * @private
    */
   #updateSize(): void {
-    const bar = this.container.querySelector('.bar');
-    bar.style.minHeight = this.size === 'small' ? '10px' : '28px';
-    bar.style.borderRadius = this.size === 'small' ? '0px' : '2px';
+    const bar = this.container?.querySelector('.bar');
+
+    if (bar) {
+      bar.style.minHeight = this.size === 'small' ? '10px' : '28px';
+      bar.style.borderRadius = this.size === 'small' ? '0px' : '2px';
+    }
   }
 
   /**

@@ -251,7 +251,7 @@ export default class IdsMenu extends Base {
    * @private
    */
   renderFromData() {
-    if (this.data?.length === 0) {
+    if (this.data?.length === 0 || !this.shadowRoot) {
       return;
     }
 

@@ -9,7 +9,7 @@ import styles from './ids-popup-menu.scss';
 /**
  * IDS Popup Menu Component
  * @type {IdsPopupMenu}
- * @inherits IdsElement
+ * @inherits IdsMenu
  * @mixes IdsEventsMixin
  * @mixes IdsPopupOpenEventsMixin
  * @mixes IdsPopupInteractionsMixin
@@ -278,7 +278,10 @@ export default class IdsPopupMenu extends Base {
     }
 
     this.setAttribute(attributes.WIDTH, value);
-    this.container.style.width = value;
+
+    if (this.container) {
+      this.container.style.width = value;
+    }
   }
 
   /**
@@ -286,7 +289,7 @@ export default class IdsPopupMenu extends Base {
    * @returns {string | null} width value
    */
   get width(): string | null {
-    const width = this.container.style.width;
+    const width = this.container?.style.width;
     return (width.length ? width : null);
   }
 
