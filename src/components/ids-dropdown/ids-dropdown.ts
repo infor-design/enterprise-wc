@@ -50,7 +50,7 @@ export default class IdsDropdown extends Base {
       .#attachEventHandlers()
       .#attachKeyboardListeners();
 
-    this.#configurePopup();
+    this.value = this.getAttribute('value');
   }
 
   /**
@@ -146,7 +146,7 @@ export default class IdsDropdown extends Base {
           <ids-icon slot="icon" icon="dropdown" part="icon"></ids-icon>
         </ids-trigger-button>
       </ids-trigger-field>
-      <ids-popup type="menu" part="popup">
+      <ids-popup type="dropdown" part="popup">
         <slot slot="content">
         </slot>
       </ids-popup>
@@ -492,11 +492,12 @@ export default class IdsDropdown extends Base {
   #configurePopup() {
     if (!this.popup) return;
 
+    this.popup.type = 'dropdown';
     this.popup.alignTarget = this.input.fieldContainer.querySelector('input');
     this.popup.align = 'bottom, left';
     this.popup.arrow = 'none';
     this.popup.y = -1;
-    this.popup.type = 'dropdown';
+    this.popup.x = -1;
 
     // Fix aria if the menu is closed
     if (!this.popup.visible) {
@@ -519,6 +520,7 @@ export default class IdsDropdown extends Base {
     }
 
     // Open the popup and add a class
+    this.#configurePopup();
     this.popup.visible = true;
     this.addOpenEvents();
     if (this.input) this.input.active = true;

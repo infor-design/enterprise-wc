@@ -41,7 +41,7 @@ describe('IdsRadioGroup Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('should dirty tracking', () => {
+  it('should handle dirty tracking', () => {
     expect(rg.getAttribute('dirty-tracker')).toEqual(null);
     expect(rg.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
     expect(rg.labelEl.querySelector('.msg-dirty')).toBeFalsy();

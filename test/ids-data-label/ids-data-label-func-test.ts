@@ -61,7 +61,7 @@ describe('IdsDataLabel Component', () => {
     expect(dataLabel.label).toEqual('test');
     expect(dataLabel.container.querySelector('.label').innerHTML).toEqual('test<span class="colon"></span>');
     dataLabel.label = '';
-    expect(dataLabel.label).toEqual('test');
+    expect(dataLabel.label).toEqual('');
   });
 
   it('renders for french', async () => {

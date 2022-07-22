@@ -49,7 +49,7 @@ describe('IdsCheckbox Component', () => {
     expect(cb.getAttribute('checked')).toBe(null);
   });
 
-  it('should dirty tracking', () => {
+  it('should handle dirty tracking', () => {
     expect(cb.getAttribute('dirty-tracker')).toEqual(null);
     expect(cb.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
     expect(cb.labelEl.querySelector('.msg-dirty')).toBeFalsy();

@@ -232,7 +232,7 @@ describe('IdsDropdown Component', () => {
   });
 
   it('should show dirty indicator on change', () => {
-    expect(dropdown.dirty).toEqual({ original: 'Option Two' });
+    expect(dropdown.dirty).toEqual({ original: '' });
     dropdown.dirtyTracker = true;
     dropdown.value = 'opt3';
     expect(dropdown.dirty).toEqual({ original: 'Option Two' });

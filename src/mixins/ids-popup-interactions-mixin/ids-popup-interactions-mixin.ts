@@ -93,7 +93,7 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
     if (val !== this.popup.alignTarget) {
       this.removeTriggerEvents();
       if (typeof val === typeof '') {
-        val = this.parentNode.querySelector(val) || this.parentNode;
+        val = this.parentNode?.querySelector(val) || this.parentNode;
       }
       this.popup.alignTarget = val;
       this.refreshTriggerEvents();
