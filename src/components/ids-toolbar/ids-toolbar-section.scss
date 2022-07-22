@@ -64,8 +64,10 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
     flex-grow: 1;
     align-items: center;
 
-    ::slotted(*) {
-      margin: auto !important;
+    &.align-center-even {
+      ::slotted(*) {
+        margin: auto !important;
+      }
     }
   }
 
