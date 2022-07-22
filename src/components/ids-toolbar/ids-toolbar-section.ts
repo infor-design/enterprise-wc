@@ -162,6 +162,7 @@ export default class IdsToolbarSection extends Base {
       trueVal = SECTION_ALIGNS[0];
     } else {
       this.setAttribute('align', val);
+      this.container.classList.add(`align-${val}`);
     }
   }
 
