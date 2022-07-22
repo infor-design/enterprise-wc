@@ -131,9 +131,9 @@ export default class IdsColor extends Base {
 
   /** @param {SwatchSizesType} value The color swatch's size (xs, sm, mm, md, lg) */
   set size(value: SwatchSizesType) {
-    this.swatch.classList.remove(...SwatchSizes);
+    this.swatch?.classList.remove(...SwatchSizes);
     if (SwatchSizes.includes(value)) {
-      this.swatch.classList.add(value);
+      this.swatch?.classList.add(value);
       this.setAttribute(attributes.SIZE, value);
     }
   }
