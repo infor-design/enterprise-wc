@@ -17,7 +17,7 @@ describe('IdsTooltip Component', () => {
 
   beforeEach(async () => {
     const buttonElem: any = new IdsButton();
-    // TODO Will not work when appended last
+    // TODO Changing order of the appendChilds causes the test to fail
     document.body.appendChild(buttonElem);
     buttonElem.id = 'button-1';
     buttonElem.text = 'Test Button';
