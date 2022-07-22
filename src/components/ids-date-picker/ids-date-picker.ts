@@ -151,7 +151,7 @@ class IdsDatePicker extends Base {
    * @returns {void}
    */
   onlabelStateChange(): void {
-    this.#triggerField.labelState = this.labelState;
+    if (this.#triggerField) this.#triggerField.labelState = this.labelState;
   }
 
   /**
@@ -159,6 +159,7 @@ class IdsDatePicker extends Base {
    * @param {string} val the new field height setting
    */
   onFieldHeightChange(val: string) {
+    if (!this.#triggerField) return;
     if (val) {
       const attr = val === 'compact' ? { name: 'compact', val: '' } : { name: 'field-height', val };
       this.#triggerField.setAttribute(attr.name, attr.val);

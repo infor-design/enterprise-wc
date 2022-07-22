@@ -137,8 +137,8 @@ describe('IdsDataGrid Component Filter Tests', () => {
 
     container = new IdsContainer();
     dataGrid = new IdsDataGrid();
-    container.appendChild(dataGrid);
     document.body.appendChild(container);
+    container.appendChild(dataGrid);
     dataGrid.shadowRoot.styleSheets = [window.StyleSheet];
     dataGrid.columns = columns();
     dataGrid.data = dataset;
@@ -712,7 +712,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     input.value = '12.99';
     input.dispatchEvent(new Event('keydownend'));
 
-    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(1);
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
   });
 
   it('fires filtered event when apply or clear conditions', () => {
