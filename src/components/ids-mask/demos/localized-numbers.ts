@@ -5,7 +5,6 @@ import { deepClone } from '../../../utils/ids-deep-clone-utils/ids-deep-clone-ut
 
 document.addEventListener('DOMContentLoaded', () => {
   const pageContainer: any = document.querySelector('ids-container');
-  const dropdown: any = document.querySelector('ids-dropdown');
 
   // Uses the defined integer/decimal limits to create an IdsInput
   // `placeholder` definition based on the actual length of the mask.
@@ -98,12 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
       input.maskOptions.decimalLimit = 6;
     }
     createPlaceholder(input);
-  });
-
-  // ===================================================
-  // Change the IdsContainer's locale setting when the dropdown is modified
-  dropdown.addEventListener('change', async (e: any) => {
-    await pageContainer.setLocale(e.target.value);
   });
 
   // Change localized strings on all number inputs when the Page container's locale changes
