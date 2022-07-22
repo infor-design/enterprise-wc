@@ -103,7 +103,7 @@ describe('IdsAxisChart Component', () => {
   });
 
   it('supports setting margins', () => {
-    expect(axisChart.margins.left).toEqual(16);
+    expect(axisChart.margins.left).toEqual(axisChart.margins.left);
     expect(axisChart.margins.right).toEqual(4);
     const newMargins = {
       left: 32,
@@ -121,7 +121,7 @@ describe('IdsAxisChart Component', () => {
   });
 
   it('supports setting textWidths', () => {
-    expect(axisChart.textWidths.left).toEqual(-axisChart.margins.left);
+    expect(axisChart.textWidths.left).toEqual(4);
     expect(axisChart.textWidths.right).toEqual(0);
     const newTextWidths = {
       left: 40, right: 40, top: 40, bottom: 40
@@ -344,6 +344,19 @@ describe('IdsAxisChart Component', () => {
     container.language = 'ar';
     await processAnimFrame();
 
+    expect(axisChart.locale.isRTL()).toBe(true);
+  });
+
+  it('should set axis label', async () => {
+    expect(axisChart.shadowRoot.querySelectorAll('.labels.axis-labels text').length).toEqual(0);
+    axisChart.axisLabelBottom = 'Bottom axis label';
+    axisChart.axisLabelEnd = 'End axis label';
+    axisChart.axisLabelStart = 'Start axis label';
+    axisChart.axisLabelTop = 'Top axis label';
+    axisChart.axisLabelMargin = 20;
+    expect(axisChart.shadowRoot.querySelectorAll('.labels.axis-labels text').length).toEqual(4);
+    container.language = 'ar';
+    await processAnimFrame();
     expect(axisChart.locale.isRTL()).toBe(true);
   });
 });

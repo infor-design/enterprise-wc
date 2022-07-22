@@ -112,6 +112,7 @@ export default class IdsAxisChart extends Base {
     this.svg = this.shadowRoot.querySelector('svg');
     this.emptyMessage = this.querySelector('ids-empty-message') || this.shadowRoot.querySelector('ids-empty-message');
     this.legend = this.shadowRoot.querySelector('[name="legend"]');
+    this.#resetAxisLabelsText();
     this.#attachEventHandlers();
     // TODO: Is this still needed?
     this.rerender();
@@ -135,6 +136,11 @@ export default class IdsAxisChart extends Base {
       ...super.attributes,
       attributes.ANIMATED,
       attributes.ALIGN_X_LABELS,
+      attributes.AXIS_LABEL_BOTTOM,
+      attributes.AXIS_LABEL_END,
+      attributes.AXIS_LABEL_MARGIN,
+      attributes.AXIS_LABEL_START,
+      attributes.AXIS_LABEL_TOP,
       attributes.DATA,
       attributes.GROUPED,
       attributes.HEIGHT,
@@ -279,15 +285,15 @@ export default class IdsAxisChart extends Base {
     };
 
     // Adjust y-max text width
-    this.#yMaxTextWidth += this.margins.left;
+    const extra = this.#yMaxTextWidth + this.margins.left;
 
     // X-labels
-    let calcX: any = (x: any) => stringToNumber(x) - this.#yMaxTextWidth;
+    let calcX: any = (x: any) => stringToNumber(x) - extra;
     const newX = labels.x.map((label: any) => calcX(label.getAttribute('x'))).reverse();
     labels.x.forEach((label: any, i: number) => label.setAttribute('x', newX[i]));
 
     // Y-labels
-    calcX = (x: any) => `-${stringToNumber(x) + this.#yMaxTextWidth}px`;
+    calcX = (x: any) => `-${stringToNumber(x) + extra}px`;
     labels.y.forEach((label: any) => label
       .style.setProperty('--ids-axis-chart-ylabels-x', calcX(label.getAttribute('x'))));
   }
@@ -455,6 +461,9 @@ export default class IdsAxisChart extends Base {
     <g class="labels y-labels">
       ${this.#yLabels()}
     </g>
+    <g class="labels axis-labels">
+      ${this.#axisLabels()}
+    </g>
     `;
   }
 
@@ -554,6 +563,91 @@ export default class IdsAxisChart extends Base {
   }
 
   /**
+   * Holds the axis labels text object
+   * @private
+   */
+  #axisLabelsText?: {
+    bottom: string,
+    end: string,
+    start: string,
+    top: string
+  };
+
+  /**
+   * Reset the axis labels
+   * @private
+   * @returns {void}
+   */
+  #resetAxisLabelsText(): void {
+    this.#axisLabelsText = {
+      bottom: '',
+      end: '',
+      start: '',
+      top: ''
+    };
+  }
+
+  /**
+   * Set the axis labels
+   * @private
+   * @param {'bottom'|'end'|'start'|'top'} opt The option
+   * @returns {void}
+   */
+  #setAxisLabels(opt: 'bottom' | 'end' | 'start' | 'top'): void {
+    if (!this.#axisLabelsText) return;
+
+    const current = this.#axisLabelsText[opt];
+    const labels = {
+      bottom: this.axisLabelBottom,
+      end: this.axisLabelEnd,
+      start: this.axisLabelStart,
+      top: this.axisLabelTop
+    };
+
+    if (typeof current !== 'undefined' && current !== labels[opt]) {
+      this.#axisLabelsText[opt] = labels[opt] || '';
+      if (this.initialized) this.rerender();
+    }
+  }
+
+  /**
+   * Return the axis label for the svg
+   * @private
+   * @returns {string} The axis label markup
+   */
+  #axisLabels(): string {
+    if (!this.#axisLabelsText) return '';
+
+    // Size
+    const gap = 12;
+    const inline = { start: gap, mid: this.width / 2, end: this.width - gap };
+    const block = { start: gap, mid: this.height / 2, end: this.height - gap };
+
+    // Position
+    const isRTL = this.locale?.isRTL();
+    const scale = isRTL ? ' scale(-1, 1)' : '';
+    const transform = {
+      top: `translate(${inline.mid}, ${block.start})${scale}`,
+      bottom: `translate(${inline.mid}, ${block.end})${scale}`,
+      start: `translate(${inline.start}, ${block.mid}) rotate(-90)${scale}`,
+      end: `translate(${inline.end}, ${block.mid}) rotate(90)${scale}`
+    };
+
+    // HTML
+    let html = '';
+    ['top', 'bottom', 'start', 'end'].forEach((type: string) => {
+      if ((this.#axisLabelsText as any)[type]) {
+        html += `<text
+          class="axis-label-${type}"
+          transform="${(transform as any)[type]}"
+        >${(this.#axisLabelsText as any)[type]}</text>`;
+      }
+    });
+
+    return html;
+  }
+
+  /**
    * Return the y line data for the svg
    * @private
    * @returns {string} The y line markup
@@ -650,7 +744,8 @@ export default class IdsAxisChart extends Base {
   #xLabels(): string {
     let labelHtml = '';
     let left = this.textWidths.left + this.margins.left + (this.margins.leftInner * 2);
-    const height = Number(this.height) - this.margins.top - this.margins.bottom + this.margins.bottomInner;
+    let height = Number(this.height) - this.margins.top - this.margins.bottom + this.margins.bottomInner;
+    if (this.axisLabelTop) height += this.axisLabelMargin;
 
     for (let index = 0; index < this.markerData.markerCount; index++) {
       const value = this.#formatXLabel((this.data as any)[0]?.data[index]?.name);
@@ -755,7 +850,10 @@ export default class IdsAxisChart extends Base {
     this.rerender();
   }
 
-  get height() { return parseFloat(this.getAttribute(attributes.HEIGHT)) || 500; }
+  get height(): number {
+    const value = stringToNumber(this.getAttribute(attributes.HEIGHT));
+    return !Number.isNaN(value) ? value : 500;
+  }
 
   /**
    * The width of the chart (in pixels) or 'inherit' from the parent
@@ -774,7 +872,10 @@ export default class IdsAxisChart extends Base {
     this.rerender();
   }
 
-  get width() { return parseFloat(this.getAttribute(attributes.WIDTH)) || 700; }
+  get width(): number {
+    const value = stringToNumber(this.getAttribute(attributes.WIDTH));
+    return !Number.isNaN(value) ? value : 700;
+  }
 
   /**
    * Get the parent element's width and height
@@ -823,7 +924,7 @@ export default class IdsAxisChart extends Base {
       const w = this.calculateTextRenderWidth(v);
       if (w > maxWidth) maxWidth = w;
     });
-    this.#yMaxTextWidth = maxWidth - this.margins.left;
+    this.#yMaxTextWidth = maxWidth;
   }
 
   /**
@@ -850,14 +951,28 @@ export default class IdsAxisChart extends Base {
 
   get margins() {
     return this.state?.margins || {
-      left: 16,
-      right: this.legendPlacement === 'right' ? 150 : 4, // TODO: Calculate this
-      top: 16,
-      bottom: 12,
+      left: this.axisLabelsMargin.start,
+      right: (this.legendPlacement === 'right' ? 150 : 4) + this.axisLabelsMargin.end,
+      top: 16 + this.axisLabelsMargin.top,
+      bottom: 12 + this.axisLabelsMargin.bottom,
       leftInner: 8,
       rightInner: 8,
       topInner: 0,
       bottomInner: 12
+    };
+  }
+
+  /**
+   * Get axis labels margin
+   * @returns {{ bottom: number, end: number, start: number, top: number }} The calc values
+   */
+  get axisLabelsMargin(): { bottom: number; end: number; start: number; top: number; } {
+    const margin = this.axisLabelMargin;
+    return {
+      bottom: this.axisLabelBottom ? margin : 0,
+      end: this.axisLabelEnd ? margin : 0,
+      start: this.axisLabelStart ? margin : 0,
+      top: this.axisLabelTop ? margin : 0
     };
   }
 
@@ -1077,5 +1192,92 @@ export default class IdsAxisChart extends Base {
 
   get stacked(): boolean {
     return stringToBool(this.getAttribute(attributes.STACKED)) || false;
+  }
+
+  /**
+   * Set the bottom axis label text
+   * @param {string} value of the text
+   */
+  set axisLabelBottom(value: string) {
+    if (value) {
+      this.setAttribute(attributes.AXIS_LABEL_BOTTOM, value);
+    } else {
+      this.removeAttribute(attributes.AXIS_LABEL_BOTTOM);
+    }
+    this.#setAxisLabels('bottom');
+  }
+
+  get axisLabelBottom() {
+    return this.getAttribute(attributes.AXIS_LABEL_BOTTOM);
+  }
+
+  /**
+   * Set the end axis label text
+   * @param {string} value of the text
+   */
+  set axisLabelEnd(value: string) {
+    if (value) {
+      this.setAttribute(attributes.AXIS_LABEL_END, value);
+    } else {
+      this.removeAttribute(attributes.AXIS_LABEL_END);
+    }
+    this.#setAxisLabels('end');
+  }
+
+  get axisLabelEnd() {
+    return this.getAttribute(attributes.AXIS_LABEL_END);
+  }
+
+  /**
+   * Set the margin for axis label text
+   * @param {string|number} value of the margin
+   */
+  set axisLabelMargin(value: string | number) {
+    const val = stringToNumber(this.getAttribute(attributes.AXIS_LABEL_MARGIN));
+    if (!Number.isNaN(val)) {
+      this.setAttribute(attributes.AXIS_LABEL_MARGIN, val);
+    } else {
+      this.removeAttribute(attributes.AXIS_LABEL_MARGIN);
+    }
+    this.#setAxisLabels('end');
+  }
+
+  get axisLabelMargin(): number {
+    const value = stringToNumber(this.getAttribute(attributes.AXIS_LABEL_MARGIN));
+    return !Number.isNaN(value) ? value : 16;
+  }
+
+  /**
+   * Set the start axis label text
+   * @param {string} value of the text
+   */
+  set axisLabelStart(value: string) {
+    if (value) {
+      this.setAttribute(attributes.AXIS_LABEL_START, value);
+    } else {
+      this.removeAttribute(attributes.AXIS_LABEL_START);
+    }
+    this.#setAxisLabels('start');
+  }
+
+  get axisLabelStart() {
+    return this.getAttribute(attributes.AXIS_LABEL_START);
+  }
+
+  /**
+   * Set the top axis label text
+   * @param {string} value of the text
+   */
+  set axisLabelTop(value: string) {
+    if (value) {
+      this.setAttribute(attributes.AXIS_LABEL_TOP, value);
+    } else {
+      this.removeAttribute(attributes.AXIS_LABEL_TOP);
+    }
+    this.#setAxisLabels('top');
+  }
+
+  get axisLabelTop() {
+    return this.getAttribute(attributes.AXIS_LABEL_TOP);
   }
 }
