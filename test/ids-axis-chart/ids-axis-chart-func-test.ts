@@ -266,13 +266,6 @@ describe('IdsAxisChart Component', () => {
     expect(axisChart.shadowRoot.querySelectorAll('.x-labels text')[1].textContent).toEqual('Feb');
   });
 
-  it('fires rendered callback', async () => {
-    const renderedListener = jest.fn();
-    axisChart.rendered = renderedListener;
-    axisChart.rerender();
-    expect(renderedListener).toBeCalledTimes(1);
-  });
-
   it('can set the legend placement', async () => {
     expect(axisChart.legendPlacement).toEqual('bottom');
     axisChart.legendPlacement = 'left';
