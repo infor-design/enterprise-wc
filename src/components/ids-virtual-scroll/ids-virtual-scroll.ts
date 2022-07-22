@@ -23,9 +23,9 @@ export default class IdsVirtualScroll extends Base {
   }
 
   connectedCallback() {
+    this.datasource = new IdsDataSource();
     super.connectedCallback();
     this.initialized = false;
-    this.datasource = new IdsDataSource();
     // eslint-disable-next-line no-template-curly-in-string
     this.stringTemplate = '<div class="ids-virtual-scroll-item" part="list-item">${productName}</div>';
     this.applyHeight();
@@ -289,7 +289,7 @@ export default class IdsVirtualScroll extends Base {
       return;
     }
 
-    this.datasource.data = null;
+    if (this.datasource) this.datasource.data = null;
   }
 
   get data(): Array<any> {
