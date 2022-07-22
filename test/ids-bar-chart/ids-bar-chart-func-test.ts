@@ -16,26 +16,27 @@ describe('IdsBarChart Component', () => {
     document.body.appendChild(barChart);
     barChart.animated = false;
     barChart.data = dataset;
+    await processAnimFrame();
   });
 
   afterEach(async () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
+  it('renders with no errors', async () => {
     const errors = jest.spyOn(global.console, 'error');
 
     document.body.innerHTML = '';
     barChart = new IdsBarChart();
-    barChart.animated = false;
     document.body.appendChild(barChart);
+    barChart.animated = false;
     barChart.data = dataset;
-
+    await processAnimFrame();
     barChart.remove();
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('can set custom colors', () => {
+  it('can set custom colors', async () => {
     barChart.data = [{
       data: [{
         name: 'Jan',
@@ -57,7 +58,8 @@ describe('IdsBarChart Component', () => {
       color: 'var(--ids-color-palette-azure-20)',
       name: 'Series 2'
     }];
-    barChart.rerender();
+    barChart.redraw();
+    await processAnimFrame();
 
     // Note: This doesnt test this really well since jest doesnt support stylesheets - see also the percy test
     expect(barChart.container.parentNode.querySelectorAll('.swatch')[0].classList.contains('color-1')).toBeTruthy();
@@ -69,11 +71,11 @@ describe('IdsBarChart Component', () => {
     expect(barChart.color(1)).toEqual('var(color-2)');
   });
 
-  it('can set accessible patterns', () => {
+  it('can set accessible patterns', async () => {
     document.body.innerHTML = '';
     barChart = new IdsBarChart();
-    barChart.animated = false;
     document.body.appendChild(barChart);
+    barChart.animated = false;
 
     // Mock stylesheets
     barChart.shadowRoot.styleSheets = [{
@@ -102,6 +104,7 @@ describe('IdsBarChart Component', () => {
       name: 'Series 2',
       pattern: 'exes'
     }];
+    await processAnimFrame();
 
     expect(barChart.container.parentNode.querySelectorAll('.swatch svg')[0].querySelector('rect').getAttribute('fill')).toEqual('url(#circles)');
     expect(barChart.shadowRoot.querySelectorAll('.color-1')[0].getAttribute('fill')).toEqual('url(#circles)');
@@ -115,18 +118,20 @@ describe('IdsBarChart Component', () => {
   it('can set barPercentage', () => {
     expect(barChart.barPercentage).toEqual(0.5);
     barChart.barPercentage = 1.5;
-    barChart.rerender();
+    barChart.redraw();
     expect(barChart.getAttribute('bar-percentage')).toEqual('1.5');
   });
 
-  it('renders animated elements', () => {
+  it('renders animated elements', async () => {
     document.body.innerHTML = '';
     document.body.insertAdjacentHTML('beforeend', `<ids-bar-chart animated="true"></ids-bar-chart>`);
     barChart = document.querySelector('ids-bar-chart');
     barChart.width = 500;
     barChart.height = 500;
     barChart.data = dataset;
-    barChart.rerender();
+    barChart.redraw();
+    await processAnimFrame();
+
     expect(barChart.container.querySelectorAll('animate')).toHaveLength(36);
     barChart.animated = false;
     barChart.remove();
@@ -135,19 +140,20 @@ describe('IdsBarChart Component', () => {
   it('can set category percentage', () => {
     expect(barChart.categoryPercentage).toEqual(0.9);
     barChart.categoryPercentage = 1.5;
-    barChart.rerender();
+    barChart.redraw();
     expect(barChart.getAttribute('category-percentage')).toEqual('1.5');
   });
 
-  it('supports stacked chart', () => {
+  it('supports stacked chart', async () => {
     document.body.innerHTML = '';
     barChart = new IdsBarChart();
-    barChart.animated = false;
     document.body.appendChild(barChart);
+    barChart.animated = false;
     barChart.width = 500;
     barChart.height = 500;
     barChart.stacked = true;
     barChart.data = dataset;
+    await processAnimFrame();
 
     expect(barChart.container.querySelectorAll('[index="0"]').length).toBe(3);
     expect(barChart.container.querySelectorAll('[index="1"]').length).toBe(3);
@@ -168,11 +174,11 @@ describe('IdsBarChart Component', () => {
   it('wont error if no vertical lines', () => {
     const errors = jest.spyOn(global.console, 'error');
     barChart.shadowRoot.querySelector('.vertical-lines').remove();
-    barChart.mountedCallback();
+    barChart.redraw();
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('shows a custom tooltip on hover', (done) => {
+  it('shows a custom tooltip on hover', async () => {
     document.body.innerHTML = '';
     barChart = new IdsBarChart();
     barChart.animated = false;
@@ -201,18 +207,18 @@ describe('IdsBarChart Component', () => {
       }],
       name: 'Series 2'
     }];
+    await processAnimFrame();
 
     const rect = barChart.container.querySelector('rect');
     rect.dispatchEvent(new CustomEvent('hoverend'));
     const tooltip: any = barChart.container.querySelector('ids-tooltip');
-    setTimeout(() => {
-      expect(tooltip.visible).toEqual(true);
-      expect(tooltip.textContent).toEqual('Test Tooltip');
-      done();
-    }, 1);
+    await processAnimFrame();
+
+    expect(tooltip.visible).toEqual(true);
+    expect(tooltip.textContent).toEqual('Test Tooltip');
   });
 
-  it('shows a stacked tooltip on hover', (done) => {
+  it('shows a stacked tooltip on hover', async () => {
     document.body.innerHTML = '';
     barChart = new IdsBarChart();
     barChart.stacked = true;
@@ -238,17 +244,17 @@ describe('IdsBarChart Component', () => {
       }],
       name: 'Series 2'
     }];
+    await processAnimFrame();
 
     const rect = barChart.container.querySelector('rect');
     rect.dispatchEvent(new CustomEvent('hoverend'));
     const tooltip: any = barChart.container.querySelector('ids-tooltip');
-    setTimeout(() => {
-      expect(tooltip.visible).toEqual(true);
-      expect(tooltip.textContent).toContain('Jan');
-      expect(tooltip.textContent).toContain('Series 1');
-      expect(tooltip.textContent).toContain('Series 2');
-      done();
-    }, 1);
+    await processAnimFrame();
+
+    expect(tooltip.visible).toEqual(true);
+    expect(tooltip.textContent).toContain('Jan');
+    expect(tooltip.textContent).toContain('Series 1');
+    expect(tooltip.textContent).toContain('Series 2');
   });
 
   it('should set selectable', () => {
@@ -332,26 +338,27 @@ describe('IdsBarChart Component', () => {
     (ds as any)[0].selected = true;
 
     barChart = new IdsBarChart();
+    document.body.appendChild(barChart);
     barChart.selectable = true;
     barChart.animated = false;
-    document.body.appendChild(barChart);
     barChart.data = ds;
     await processAnimFrame();
 
     const selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
-    expect(selected.length).toEqual(3);
+    expect(selected.length).toEqual(8);
   });
 
-  it('should set pre selected item elements', () => {
+  it('should set pre selected item elements', async () => {
     document.body.innerHTML = '';
     const ds = deepClone(dataset);
     (ds as any)[1].data[1].selected = true;
 
     barChart = new IdsBarChart();
+    document.body.appendChild(barChart);
     barChart.selectable = true;
     barChart.animated = false;
-    document.body.appendChild(barChart);
     barChart.data = ds;
+    await processAnimFrame();
 
     const selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
     expect(selected.length).toEqual(3);
