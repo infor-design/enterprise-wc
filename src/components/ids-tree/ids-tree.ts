@@ -268,7 +268,7 @@ export default class IdsTree extends Base {
    * @private
    * @returns {void}
    */
-  #rerender() {
+  #redraw() {
     if (this.data.length === 0) {
       return;
     }
@@ -1036,7 +1036,7 @@ export default class IdsTree extends Base {
   set data(value: Array<any>) {
     if (value && value.constructor === Array) {
       this.datasource.data = value;
-      this.#rerender();
+      this.#redraw();
       return;
     }
     this.datasource.data = null;

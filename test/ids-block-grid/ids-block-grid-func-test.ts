@@ -282,7 +282,7 @@ describe('IdsBlockgridItem Component', () => {
 
     const pager = blockgridEl.shadowRoot.querySelector('ids-pager');
     expect(pager).toBeFalsy();
-    blockgridEl.rerender();
+    blockgridEl.redraw();
     expect(pager).toBeFalsy();
   });
 });

@@ -282,7 +282,7 @@ export default class IdsLineChart extends Base {
    */
   set markerSize(value) {
     this.setAttribute(attributes.MARKER_SIZE, value);
-    this.rerender();
+    this.redraw();
   }
 
   get markerSize() {

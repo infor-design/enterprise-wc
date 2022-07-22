@@ -269,27 +269,27 @@ describe('IdsAxisChart Component', () => {
   it('can set the legend placement', async () => {
     expect(axisChart.legendPlacement).toEqual('bottom');
     axisChart.legendPlacement = 'left';
-    axisChart.rerender();
+    axisChart.redraw();
     expect(axisChart.container.parentNode.classList.contains('legend-left')).toBeTruthy();
     axisChart.legendPlacement = 'right';
-    axisChart.rerender();
+    axisChart.redraw();
     expect(axisChart.container.parentNode.classList.contains('legend-right')).toBeTruthy();
     axisChart.legendPlacement = 'bottom';
-    axisChart.rerender();
+    axisChart.redraw();
     expect(axisChart.container.parentNode.classList.contains('legend-bottom')).toBeTruthy();
   });
 
   it('can set alignXLabels', () => {
     expect(axisChart.alignXLabels).toEqual('start');
     axisChart.alignXLabels = 'middle';
-    axisChart.rerender();
+    axisChart.redraw();
     expect(axisChart.container.querySelector('.x-labels text').getAttribute('text-anchor')).toEqual('middle');
   });
 
   it('can set animationSpeed', () => {
     expect(axisChart.animationSpeed).toEqual(0.8);
     axisChart.animationSpeed = 1.5;
-    axisChart.rerender();
+    axisChart.redraw();
     expect(axisChart.getAttribute('animation-speed')).toEqual('1.5');
   });
 
@@ -324,7 +324,7 @@ describe('IdsAxisChart Component', () => {
       color: 'var(--ids-color-palette-azure-20)',
       name: 'Series 2'
     }];
-    axisChart.rerender();
+    axisChart.redraw();
 
     expect(axisChart.container.parentNode.querySelectorAll('.swatch')[0].classList.contains('color-1')).toBeTruthy();
     expect(axisChart.color(0)).toEqual('var(color-1)');

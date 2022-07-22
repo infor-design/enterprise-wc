@@ -725,7 +725,7 @@ export default class IdsListView extends Base {
    * Rerender the list by re applying the template
    * @private
    */
-  rerender() {
+  redraw() {
     if (!this.data || !this.initialized) {
       if (!this.data?.length) this.getAllLi()?.forEach((li: HTMLElement) => li?.remove());
       return;
@@ -835,7 +835,7 @@ export default class IdsListView extends Base {
     } else {
       this.datasource.data = [];
     }
-    this.rerender();
+    this.redraw();
   }
 
   get data(): any { return this?.datasource?.data || []; }
@@ -862,7 +862,7 @@ export default class IdsListView extends Base {
     } else {
       this.removeAttribute(attributes.VIRTUAL_SCROLL);
     }
-    this.rerender();
+    this.redraw();
   }
 
   get virtualScroll(): boolean {
@@ -914,7 +914,7 @@ export default class IdsListView extends Base {
     } else {
       this.removeAttribute(attributes.SELECTABLE);
     }
-    this.rerender();
+    this.redraw();
   }
 
   get selectable(): string {

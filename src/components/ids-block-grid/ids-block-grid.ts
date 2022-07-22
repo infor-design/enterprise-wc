@@ -44,7 +44,7 @@ export default class IdsBlockgrid extends Base {
    * Rerender the list by re applying the template
    * @private
    */
-  rerender() {
+  redraw() {
     if (this.data.length === 0) {
       return;
     }
@@ -85,7 +85,7 @@ export default class IdsBlockgrid extends Base {
   set data(value) {
     if (value) {
       this.datasource.data = value;
-      this.rerender();
+      this.redraw();
       return;
     }
 
