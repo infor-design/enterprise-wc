@@ -200,6 +200,7 @@ export default class IdsDropdown extends Base {
     const selected = this.selectedOption || this.querySelector('ids-list-box-option');
     this.listBox?.setAttribute('tabindex', '0');
     this.listBox?.setAttribute('aria-activedescendant', selected?.id || this.selectedIndex);
+
     if (selected) {
       selected.classList.add('is-selected');
       selected.setAttribute('tabindex', '0');
@@ -560,11 +561,17 @@ export default class IdsDropdown extends Base {
   /**
    * Inherited from the Popup Open Events Mixin.
    * Runs when a click event is propagated to the window.
-   * @private
+   * @param {PointerEvent} e native pointer event
    * @returns {void}
    */
-  onOutsideClick(): void {
-    this.close(true);
+  onOutsideClick(e: any): void {
+    if (!this.autocomplete) {
+      this.close(true);
+    }
+
+    if (this.autocomplete && !(e.path?.includes(this.popup) || e.path?.includes(this.input.fieldContainer))) {
+      this.close(true);
+    }
   }
 
   /**
@@ -600,10 +607,42 @@ export default class IdsDropdown extends Base {
    * @returns {object} The object for chaining.
    */
   #attachEventHandlers() {
-    this.attachClickEvent();
+    this.onEvent('mousedown', this.listBox, (e: any) => {
+      const option = e.target.closest('ids-list-box-option');
+
+      if (option) {
+        this.value = option.getAttribute(attributes.VALUE);
+      }
+    });
+
+    this.offEvent('click.dropdown-input');
+    this.onEvent('click.dropdown-input', this.input.input, () => {
+      if (!this.autocomplete) {
+        this.toggle();
+      }
+
+      // Stays opened when clicking to input in autocomplete
+      if (this.autocomplete && !this.popup.visible) {
+        this.open();
+      }
+    });
+
+    // Should not open if clicked on label
+    this.offEvent('click.dropdown-label');
+    this.onEvent('click.dropdown-label', this.labelEl, (e: MouseEvent) => {
+      e.preventDefault();
+
+      this.input.focus();
+    });
+
+    this.offEvent('click.dropdown-popup');
+    this.onEvent('click.dropdown-popup', this.trigger, () => {
+      this.toggle();
+    });
 
     // Disable text selection on tab (extra info in the screen reader)
-    this.onEvent('focus', this.input, () => {
+    this.offEvent('focus.dropdown-input');
+    this.onEvent('focus.dropdown-input', this.input, () => {
       (window.getSelection() as any).removeAllRanges();
     });
 
@@ -611,15 +650,6 @@ export default class IdsDropdown extends Base {
     this.offEvent('languagechange.dropdown-container');
     this.onEvent('languagechange.dropdown-container', this.closest('ids-container'), () => {
       this.#addAria();
-    });
-
-    // Listen to IdsPopup's `hide/show` events and control some attributes
-    // on ListBox items for accessibility purposes.
-    this.onEvent('hide', this.popup, () => {
-
-    });
-    this.onEvent('show', this.popup, () => {
-
     });
 
     return this;
@@ -635,37 +665,6 @@ export default class IdsDropdown extends Base {
 
   #removeAutocompleteEvents() {
     this.offEvent('keydownend.dropdown-autocomplete');
-    this.offEvent('blur.dropdown-autocomplete');
-  }
-
-  /**
-   * Handle Clicking with the mouse on options
-   *  @public
-   */
-  attachClickEvent() {
-    this.onEvent('mousedown', this.listBox, (e: any) => {
-      const option = e.target.closest('ids-list-box-option');
-
-      if (option) {
-        this.value = option.getAttribute(attributes.VALUE);
-      }
-    });
-
-    this.onEvent('click', this.input.fieldContainer, () => {
-      if (!this.autocomplete) {
-        this.toggle();
-      }
-
-      if (this.autocomplete && !this.popup.visible) {
-        this.open();
-      }
-    });
-
-    // Should not open if clicked on label
-    this.onEvent('click', this.labelEl, (e: MouseEvent) => {
-      e.preventDefault();
-      this.input.focus();
-    });
   }
 
   /**
@@ -778,7 +777,6 @@ export default class IdsDropdown extends Base {
 
     this.listBox.innerHTML = results || `<ids-list-box-option>${this.locale.translate('NoResults')}</ids-list-box-option>`;
     // select first match
-    // insert blank
   }
 
   /**
