@@ -314,11 +314,6 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.popup.visible).toEqual(true);
     dropdown.close();
     expect(dropdown.popup.visible).toEqual(false);
-    dropdown.open();
-    expect(dropdown.popup.visible).toEqual(true);
-    dropdown.close(true);
-    dropdown.querySelector('ids-list-box-option.is-selected').classList.remove('is-selected');
-    expect(dropdown.popup.visible).toEqual(false);
   });
 
   it('can click outside an open list to close it', (done) => {
@@ -403,9 +398,9 @@ describe('IdsDropdown Component', () => {
 
   it('supports clicking input to open', async () => {
     await waitFor(() => expect(dropdown.container).toBeTruthy());
-    dropdown.input.shadowRoot.querySelector('.field-container').click();
+    dropdown.input.input.click();
     await waitFor(() => expect(dropdown.popup.visible).toBeTruthy());
-    expect(dropdown.popup.visible).toEqual(true);
+    expect(dropdown.popup.visible).toBeTruthy();
   });
 
   it('should not open by clicking on label', async () => {
@@ -414,10 +409,9 @@ describe('IdsDropdown Component', () => {
     dropdown.labelEl.click();
     await waitFor(() => expect(dropdown.popup.visible).toBeFalsy());
     expect(dropdown.popup.visible).toBeFalsy();
-    dropdown.input.shadowRoot.querySelector('.field-container').click();
+    dropdown.input.input.click();
     await waitFor(() => expect(dropdown.popup.visible).toBeTruthy());
     expect(dropdown.popup.visible).toBeTruthy();
-    expect(dropdown.popup.visible).toEqual(true);
   });
 
   it('should not set icon if setting has-icon as false', async () => {
@@ -597,7 +591,6 @@ describe('IdsDropdown Component', () => {
     dropdown.dispatchEvent(event);
     event = new KeyboardEvent('keydown', { key: 'Tab' });
     dropdown.dispatchEvent(event);
-    dropdown.querySelector('ids-list-box-option.is-selected').dispatchEvent(event);
 
     expect(dropdown.popup.visible).toEqual(false);
     expect(dropdown.value).toEqual('opt3');
@@ -607,7 +600,6 @@ describe('IdsDropdown Component', () => {
     dropdown.dispatchEvent(event);
     event = new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true });
     dropdown.dispatchEvent(event);
-    dropdown.querySelector('ids-list-box-option.is-selected').dispatchEvent(event);
 
     expect(dropdown.popup.visible).toEqual(false);
     expect(dropdown.value).toEqual('opt4');
