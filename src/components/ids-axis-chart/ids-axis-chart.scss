@@ -78,8 +78,10 @@
       text-anchor: end;
     }
 
-    &.axis-label {
-      @include text-16();
+    &.axis-labels text {
+      @include font-bold();
+
+      text-anchor: middle;
     }
   }
 
