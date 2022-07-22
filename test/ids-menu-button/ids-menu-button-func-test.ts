@@ -7,6 +7,7 @@ import IdsIcon from '../../src/components/ids-icon/ids-icon';
 import IdsMenuButton from '../../src/components/ids-menu-button/ids-menu-button';
 import IdsPopupMenu from '../../src/components/ids-popup-menu/ids-popup-menu';
 import waitForTimeout from '../helpers/wait-for-timeout';
+import processAnimFrame from '../helpers/process-anim-frame';
 
 const testMenuContents = `
   <ids-menu-group select="multiple">
@@ -187,7 +188,7 @@ describe('IdsMenuButton Component', () => {
     expect(menuEl.visible).toBeFalsy();
   });
 
-  it('focuses the button when the menu is closed with the `Escape` key', () => {
+  it('focuses the button when the menu is closed with the `Escape` key', (done) => {
     const closeEvent = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true });
     menuEl.show();
 
@@ -197,6 +198,7 @@ describe('IdsMenuButton Component', () => {
 
       setTimeout(() => {
         expect((document as any).activeElement.isEqualNode(buttonEl)).toBeTruthy();
+        done();
       }, 20);
     }, 20);
   });
@@ -227,6 +229,9 @@ describe('IdsMenuButton Component', () => {
 
   it('can set/get data of menu', async () => {
     menuEl.insertAdjacentHTML('afterbegin', testMenuContents);
+
+    // wait for ids-element to #updateAttribute
+    await processAnimFrame();
 
     // check default values
     const initialExpected = ['3'];
