@@ -154,7 +154,7 @@ export default class IdsDropdown extends Base {
             tabbable="false"
             disabled="${this.disabled}"
           >
-            <ids-text audible="true">Dropdown Button</ids-text>
+            <ids-text audible="true" translate-text="true">DropdownTriggerButton</ids-text>
             <ids-icon slot="icon" icon="dropdown" part="icon"></ids-icon>
           </ids-trigger-button>
         </ids-trigger-field>
