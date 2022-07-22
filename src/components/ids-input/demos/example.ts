@@ -1,3 +1,7 @@
+// Supporting components
+import '../ids-input';
+import '../../ids-button/ids-button';
+
 document.addEventListener('DOMContentLoaded', () => {
   const btnEnable: any = document.querySelector('#btn-input-enable');
   const btnDisable: any = document.querySelector('#btn-input-disable');
@@ -36,17 +40,5 @@ document.addEventListener('DOMContentLoaded', () => {
     allowDecimal: true,
     decimalLimit: 2,
     integerLimit: 3
-  };
-
-  const dateInput: any = document.querySelector('#date-input');
-  dateInput.mask = 'date';
-  dateInput.maskOptions = {
-    format: 'M/d/yyyy'
-  };
-
-  const timeInput: any = document.querySelector('#time-input');
-  timeInput.mask = 'time';
-  timeInput.maskOptions = {
-    format: 'hh:mm a'
   };
 });

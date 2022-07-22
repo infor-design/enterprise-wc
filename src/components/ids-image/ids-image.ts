@@ -177,7 +177,6 @@ export default class IdsImage extends Base {
     if (val) {
       this.setAttribute(attributes.ALT, val);
       img?.setAttribute(attributes.ALT, val);
-
       return;
     }
 

@@ -7,15 +7,14 @@ import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-u
 import '../helpers/canvas-mock';
 import '../helpers/resize-observer-mock';
 import processAnimFrame from '../helpers/process-anim-frame';
-// import '../../src/components/ids-popup/ids-popup';
 
 describe('IdsBarChart Component', () => {
   let barChart: any;
 
   beforeEach(async () => {
     barChart = new IdsBarChart();
-    barChart.animated = false;
     document.body.appendChild(barChart);
+    barChart.animated = false;
     barChart.data = dataset;
   });
 

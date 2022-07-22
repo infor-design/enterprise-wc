@@ -407,7 +407,7 @@ export default class IdsIcon extends Base {
 
     if ((!this.badgeColor || !this.badgePosition) && badge) {
       this.className = '';
-    } else {
+    } else if (badge) {
       badge.className = '';
       badge.classList.add(`notification-badge`, `${this.badgePosition}`, `${this.badgeColor}`);
     }

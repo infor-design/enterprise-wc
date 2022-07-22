@@ -374,9 +374,9 @@ export default class IdsModal extends Base {
     if (this.container) {
       const footer = this.container.querySelector('.ids-modal-footer');
       if (this.buttons.length) {
-        footer.removeAttribute(attributes.HIDDEN);
+        footer?.removeAttribute(attributes.HIDDEN);
       } else {
-        footer.setAttribute(attributes.HIDDEN, '');
+        footer?.setAttribute(attributes.HIDDEN, '');
       }
     }
 
