@@ -76,7 +76,9 @@ export default class IdsPopup extends Base {
    * @returns {string} The template
    */
   template(): string {
-    return `<div class="ids-popup" part="popup">
+    const animatedClass = this.animated ? ' animated' : '';
+
+    return `<div class="ids-popup${animatedClass}" part="popup">
       <div class="arrow" part="arrow"></div>
       <div class="content-wrapper">
         <slot name="content"></slot>

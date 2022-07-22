@@ -44,7 +44,7 @@ export default class IdsAbout extends Base {
    * @returns {string} The template
    */
   template(): string {
-    return `<ids-popup part="modal" class="ids-modal ids-about" type="custom" position-style="viewport">
+    return `<ids-popup part="modal" class="ids-modal ids-about" type="modal" position-style="viewport">
       <div class="ids-modal-container" slot="content">
         <div class="ids-modal-header">
           <slot name="icon"></slot>

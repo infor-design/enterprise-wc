@@ -101,7 +101,7 @@ export default class IdsModal extends Base {
     const extraFooterClass = extraClass ? ` ${extraClass}-footer` : '';
     const footerHidden = this.buttons.length ? '' : ' hidden';
 
-    return `<ids-popup part="modal" class="ids-modal" type="custom" position-style="viewport">
+    return `<ids-popup part="modal" class="ids-modal" type="modal" position-style="viewport">
       <div class="ids-modal-container" slot="content">
         <div class="ids-modal-header${extraHeaderClass}">
           <slot name="title"></slot>
@@ -368,6 +368,16 @@ export default class IdsModal extends Base {
     if (!this.visible) {
       this.visible = true;
       return;
+    }
+
+    // Check if buttons have been added/removed, and adjust the footer visibility (if applicable)
+    if (this.container) {
+      const footer = this.container.querySelector('.ids-modal-footer');
+      if (this.buttons.length) {
+        footer.removeAttribute(attributes.HIDDEN);
+      } else {
+        footer.setAttribute(attributes.HIDDEN, '');
+      }
     }
 
     // Animation-in needs the Modal to appear in front (z-index), so this occurs on the next tick
