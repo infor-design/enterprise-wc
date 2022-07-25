@@ -80,9 +80,9 @@ export default class IdsPopupMenu extends Base {
   attachEventHandlers(): void {
     super.attachEventHandlers();
 
-    // Hide the menu when an item is selected
+    // Hide the menu when an item is "picked"
     // (only if `keep-open` attribute is not present)
-    this.onEvent('selected', this, (e: CustomEvent) => {
+    this.onEvent('pick', this, (e: CustomEvent) => {
       if (this.visible) {
         const item = e.detail.elem;
         if (!item?.group?.keepOpen) {

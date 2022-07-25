@@ -250,10 +250,11 @@ export default class IdsButton extends Base {
   set tabIndex(val: number | string | null) {
     const trueVal = Number(val);
 
+    this.removeAttribute(attributes.TABINDEX);
+
     if (Number.isNaN(trueVal) || trueVal < -1) {
       this.state.tabIndex = 0;
       this.button?.setAttribute(attributes.TABINDEX, '0');
-      this.removeAttribute(attributes.TABINDEX);
       return;
     }
 

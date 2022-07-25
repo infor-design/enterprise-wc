@@ -112,6 +112,11 @@ export default class IdsMenu extends Base {
     this.attachKeyboardListeners();
     this.setAttribute(htmlAttributes.ROLE, 'none');
 
+    // If a dataset has been loaded, render it
+    if (this.data) {
+      this.renderFromData();
+    }
+
     // After repaint
     requestAnimationFrame(() => {
       this.makeTabbable(this.detectTabbable());

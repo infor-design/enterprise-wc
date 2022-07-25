@@ -49,10 +49,25 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     if (oldValue === newValue) return;
 
+    /**
+     * Fixes our handling of kebab-to-camelCase conversions in some specific cases
+     * where HTMLElement uses different casing internally.
+     * @param {string} thisName the attribute name to check
+     * @returns {string} corrected camelCase (or not) attribute name
+     */
+    const getAttributeName = (thisName: string): string => {
+      switch (thisName) {
+        case 'tabindex':
+          return (typeof this.tabIndex === 'number') ? 'tabIndex' : 'tabindex';
+        default:
+          return camelCase(thisName);
+      }
+    };
+
     if (this.shadowRoot && this.container) {
-      this[camelCase(name)] = newValue;
+      this[getAttributeName(name)] = newValue;
     } else {
-      this.skippedAttributes.push({ attribute: name, name: camelCase(name), value: newValue });
+      this.skippedAttributes.push({ attribute: name, name: getAttributeName(name), value: newValue });
     }
   }
 

@@ -34,7 +34,8 @@ export default class IdsMenuItem extends Base {
     // Build state object
     this.state = {};
     Object.keys(MENU_DEFAULTS).forEach((prop) => {
-      this.state[prop] = MENU_DEFAULTS[prop];
+      const attr = this.getAttribute(prop);
+      this.state[prop] = attr || MENU_DEFAULTS[prop];
     });
     this.shouldUpdate = true;
   }
@@ -475,16 +476,22 @@ export default class IdsMenuItem extends Base {
   }
 
   /**
+   * @returns {boolean} true if this item is able to be selected
+   */
+  get isSelectable(): boolean {
+    return this.group?.select !== null && !this.submenu;
+  }
+
+  /**
    * Decorates the menu for selectability, adding/removing a checkmark
    * @private
    * @returns {void}
    */
   detectSelectability() {
     const selectType = this.group.select;
-    const isSelectable = selectType !== null && !this.submenu;
     const check = this.container?.querySelector('span.check');
 
-    if (isSelectable) {
+    if (this.isSelectable) {
       this.container?.classList.add(selectType === 'multiple' ? 'has-multi-checkmark' : 'has-checkmark');
       this.container?.classList.remove(selectType === 'multiple' ? 'has-checkmark' : 'has-multi-checkmark');
       if (!check) {
@@ -521,30 +528,40 @@ export default class IdsMenuItem extends Base {
       return;
     }
 
-    // Store true state
-    this.state.selected = trueVal;
-    this.container?.classList[trueVal ? 'add' : 'remove']('selected');
-    this.a?.setAttribute(htmlAttributes.ARIA_CHECKED, trueVal ? 'true' : 'false');
+    if (this.state.selected !== trueVal) {
+      if (this.isSelectable) {
+        this.state.selected = trueVal;
 
-    // Sync the attribute
-    const shouldUpdate = this.shouldUpdate;
-    const currentAttr = this.hasAttribute(attributes.SELECTED);
-    if (trueVal && !currentAttr) {
-      this.shouldUpdate = false;
-      this.setAttribute(attributes.SELECTED, '');
-      this.shouldUpdate = shouldUpdate;
-    } else if (!trueVal && currentAttr) {
-      this.shouldUpdate = false;
-      this.removeAttribute(attributes.SELECTED);
-      this.shouldUpdate = shouldUpdate;
+        if (trueVal) {
+          this.setAttribute(attributes.SELECTED, '');
+        } else {
+          this.removeAttribute(attributes.SELECTED);
+        }
+
+        this.container?.classList[trueVal ? 'add' : 'remove']('selected');
+        this.a?.setAttribute(htmlAttributes.ARIA_CHECKED, trueVal ? 'true' : 'false');
+      }
+
+      // Build/Fire a `selected` event for performing other actions.
+      // This event only fires when selection type changes.
+      if (trueVal || this.group?.select === 'multiple') {
+        this.triggerEvent(duringEventName, this, {
+          bubbles: true,
+          detail: {
+            elem: this,
+            value: this.value
+          }
+        });
+      }
     }
 
-    // Build/Fire a `selected` event for performing other actions.
-    this.triggerEvent(duringEventName, this, {
+    // This event always fires
+    this.triggerEvent('pick', this, {
       bubbles: true,
       detail: {
         elem: this,
-        value: this.value
+        value: this.value,
+        selected: trueVal
       }
     });
   }
@@ -564,13 +581,15 @@ export default class IdsMenuItem extends Base {
   }
 
   /**
-   * Passes a tabindex attribute from the custom element to the button
+   * Passes a tabindex attribute from the custom element to the hyperlink
    * @param {any} val [number|string] the tabindex value
    * @returns {void}
    */
   set tabIndex(val) {
     const trueVal = Number(val);
     if (this.state.tabIndex !== trueVal) {
+      this.removeAttribute(attributes.TABINDEX);
+
       // Mirror tabindex on the shadow DOM anchor
       if (Number.isNaN(trueVal) || trueVal < -1) {
         this.state.tabIndex = 0;
@@ -583,7 +602,7 @@ export default class IdsMenuItem extends Base {
   }
 
   /**
-   * @returns {any} [number] the current tabindex number for the button
+   * @returns {any} [number] the current tabindex number for the hyperlink
    */
   get tabIndex() {
     return this.state.tabIndex;
