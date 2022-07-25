@@ -350,43 +350,57 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.querySelectorAll('ids-list-box-option').length).toEqual(59);
   });
 
-  it('supports type ahead to select', async () => {
-    expect(dropdown.popup.visible).toEqual(false);
-    expect(dropdown.value).toEqual('opt2');
-    await waitFor(() => expect(dropdown.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
-    dropdown.triggerEvent('keydownend', dropdown, { detail: { keys: 'option thr' } });
-
-    expect(dropdown.value).toEqual('opt3');
-  });
-
-  it('supports type ahead when open', async () => {
-    await waitFor(() => expect(dropdown.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
+  it('supports type ahead to filter and select an option', async () => {
+    expect(dropdown.autocomplete).toBeFalsy();
+    // Turn on autocomplete
+    dropdown.autocomplete = true;
+    expect(dropdown.autocomplete).toBeTruthy();
     dropdown.open();
-    dropdown.triggerEvent('keydownend', dropdown, { detail: { keys: 'option four' } });
-    const event = new KeyboardEvent('keydown', { key: 'Enter' });
-    dropdown.dispatchEvent(event);
-
-    await waitFor(() => expect(dropdown.popup.visible).toEqual(false));
-    expect(dropdown.popup.visible).toEqual(false);
-    expect(dropdown.value).toEqual('opt4');
+    expect(dropdown.popup.visible).toBeTruthy();
+    expect(dropdown.value).toEqual('opt2');
+    // Typing v letter (only Option Five to match)
+    dropdown.input.value = 'v';
+    dropdown.input.dispatchEvent(new KeyboardEvent('keydown', { key: 'v' }));
+    // Keydownend delay
+    await wait(600);
+    expect(dropdown.querySelectorAll('ids-list-box-option').length).toEqual(1);
+    expect(dropdown.querySelector('ids-list-box-option')?.getAttribute('value')).toEqual('opt5');
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    expect(dropdown.value).toEqual('opt5');
+    // Populate initial options
+    expect(dropdown.querySelectorAll('ids-list-box-option').length).toEqual(6);
+    // Turn off autocomplete
+    dropdown.autocomplete = false;
+    expect(dropdown.autocomplete).toBeFalsy();
   });
 
-  it('ignores type ahead to open when no matches', async () => {
-    dropdown.triggerEvent('keydownend', dropdown, { detail: { keys: 'xxxxx' } });
-
-    await waitFor(() => expect(dropdown.popup.visible).toEqual(false));
-    expect(dropdown.popup.visible).toEqual(false);
+  it('supports type ahead to show No Results option when nothing found', async () => {
+    // Turn on autocomplete
+    dropdown.autocomplete = true;
+    expect(dropdown.autocomplete).toBeTruthy();
+    dropdown.open();
+    // Typing y letter (no matches)
+    dropdown.input.value = 'y';
+    dropdown.input.dispatchEvent(new KeyboardEvent('keydown', { key: 'y' }));
+    // Keydownend delay
+    await wait(600);
+    expect(dropdown.querySelectorAll('ids-list-box-option').length).toEqual(1);
+    expect(dropdown.querySelector('ids-list-box-option')?.textContent).toEqual('No results');
   });
 
   it('ignores type ahead when readonly', async () => {
     dropdown.readonly = true;
-    dropdown.triggerEvent('keydownend', dropdown, { detail: { keys: 'option thr' } });
-
-    dropdown.disabled = true;
-    dropdown.triggerEvent('keydownend', dropdown, { detail: { keys: 'option thr' } });
-
-    await waitFor(() => expect(dropdown.popup.visible).toEqual(false));
-    expect(dropdown.popup.visible).toEqual(false);
+    // Turn on autocomplete
+    dropdown.autocomplete = true;
+    expect(dropdown.autocomplete).toBeTruthy();
+    dropdown.open();
+    // Typing y letter (no matches)
+    dropdown.input.value = 'y';
+    dropdown.input.dispatchEvent(new KeyboardEvent('keydown', { key: 'y' }));
+    // Keydownend delay
+    await wait(600);
+    // Has initial options
+    expect(dropdown.querySelectorAll('ids-list-box-option').length).toEqual(6);
   });
 
   it('supports clicking trigger to open', async () => {
@@ -727,5 +741,15 @@ describe('IdsDropdown Component', () => {
        </ids-dropdown>`
     );
     expect(dropdown.container).toBeTruthy();
+  });
+
+  it('should set/unset group attribute', () => {
+    expect(dropdown.group).toBeNull();
+
+    dropdown.group = true;
+    expect(dropdown.group).toBeTruthy();
+
+    dropdown.group = false;
+    expect(dropdown.group).toBeFalsy();
   });
 });

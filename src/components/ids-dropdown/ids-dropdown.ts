@@ -221,7 +221,7 @@ export default class IdsDropdown extends Base {
     const selected = this.selected;
 
     if (selected) {
-      this.#deselectOption(selected);
+      this.deselectOption(selected);
     }
   }
 
@@ -420,7 +420,11 @@ export default class IdsDropdown extends Base {
     }
   }
 
-  #deselectOption(option: HTMLElement) {
+  /**
+   * Removes selected attributes from an option
+   * @param {HTMLElement} option element to remove attributes
+   */
+  deselectOption(option: HTMLElement) {
     option?.removeAttribute('aria-selected');
     option?.classList.remove('is-selected');
     option?.setAttribute('tabindex', '-1');
@@ -473,7 +477,7 @@ export default class IdsDropdown extends Base {
   #clearSelected() {
     const option = this.querySelector('ids-list-box-option[aria-selected]');
 
-    this.#deselectOption(option);
+    this.deselectOption(option);
   }
 
   /**
@@ -548,9 +552,7 @@ export default class IdsDropdown extends Base {
     listbox.innerHTML = '';
 
     dataset.forEach((option: IdsListBoxOption) => {
-      html += `<ids-list-box-option
-        value="${option.value}">${option.label}
-        </ids-list-box-option>`;
+      html += this.#templatelistBoxOption(option);
     });
     listbox.insertAdjacentHTML('afterbegin', html);
     this.#insertBlankOption();
@@ -597,9 +599,9 @@ export default class IdsDropdown extends Base {
       this.input.focus();
     }
 
-    // In case unfinished autocomplete (typing is in process)
-    // closing popup will reset dropdown to the initial value
     if (this.autocomplete) {
+      // In case unfinished autocomplete (typing is in process)
+      // closing popup will reset dropdown to the initial value
       this.input.setAttribute(attributes.READONLY, true);
       const initialValue: string | null | undefined = this.selectedOption?.textContent;
       this.input.value = initialValue || '';
@@ -607,7 +609,6 @@ export default class IdsDropdown extends Base {
 
       // Replace trigger button icon
       const triggerIcon = this.container.querySelector('ids-icon[slot="icon"]');
-
       if (triggerIcon?.icon === 'search') {
         triggerIcon.icon = 'dropdown';
       }
@@ -729,14 +730,14 @@ export default class IdsDropdown extends Base {
       }
 
       if (e.key === 'ArrowDown' && selected?.nextElementSibling) {
-        this.#deselectOption(selected);
+        this.deselectOption(selected);
         this.selectOption(selected.nextElementSibling);
 
         selected.nextElementSibling.focus();
       }
 
       if (e.key === 'ArrowUp' && selected?.previousElementSibling) {
-        this.#deselectOption(selected);
+        this.deselectOption(selected);
         this.selectOption(selected.previousElementSibling);
 
         selected.previousElementSibling.focus();
@@ -807,8 +808,7 @@ export default class IdsDropdown extends Base {
 
     if (results) {
       this.listBox.innerHTML = results;
-      // Select first match
-      this.selectOption(this.options[0]);
+      this.#selectFirstOption();
     } else {
       this.listBox.innerHTML = `<ids-list-box-option>${this.locale.translate('NoResults')}</ids-list-box-option>`;
     }
@@ -822,9 +822,26 @@ export default class IdsDropdown extends Base {
   }
 
   /**
+   * Select first no blank with value option
+   */
+  #selectFirstOption() {
+    this.#clearSelected();
+
+    if (this.options.length > 0) {
+      const firstWithValue = [...this.options].filter((item) => {
+        const value = item.getAttribute(attributes.VALUE);
+
+        return value && value !== 'blank';
+      })[0];
+
+      this.selectOption(firstWithValue);
+    }
+  }
+
+  /**
    * Create the list box option template.
-   * @param {IdsListBoxOption} option sets the label of the option
-   * @returns {string} ids-list-box-option template.
+   * @param {IdsListBoxOption} option id, value, label object
+   * @returns {string} ids-list-box-option template
    */
   #templatelistBoxOption(option: IdsListBoxOption): string {
     return `<ids-list-box-option${option.id ? ` id=${option.id} ` : ' '}value="${option.value}">${option.label}</ids-list-box-option>`;
@@ -833,7 +850,7 @@ export default class IdsDropdown extends Base {
   /**
    * Find matches between the input value and the dataset
    * @param {string | RegExp} inputValue value of the input field
-   * @returns {IdsListBoxOptions} containing matched values.
+   * @returns {IdsListBoxOptions} containing matched values
    */
   #findMatches(inputValue: string | RegExp): IdsListBoxOptions {
     return this.#optionsData.filter((option: IdsListBoxOption) => {
@@ -959,7 +976,7 @@ export default class IdsDropdown extends Base {
 
   /**
    * Get the autocomplete attribute
-   * @returns {boolean} autocomplete attribute value
+   * @returns {boolean} autocomplete attribute value converted to boolean
    */
   get autocomplete(): boolean {
     return stringToBool(this.getAttribute(attributes.AUTOCOMPLETE));
