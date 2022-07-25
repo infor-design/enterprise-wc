@@ -8,7 +8,7 @@ describe('Ids Action Sheet Percy Tests', () => {
     await page.evaluate(() => {
       (document.querySelector('#icon-button') as any).click();
     });
-    await page.waitForTimeout(200); // approx. time for a Modal to show
+    await page.waitForSelector('ids-action-sheet[visible]');
     await percySnapshot(page, 'ids-action-sheet-example', { widths: [375] });
   });
 });
