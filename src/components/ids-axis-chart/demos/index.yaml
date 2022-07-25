@@ -14,3 +14,6 @@
   - link: colors.html
     description: Shows configuring custom colors
     type: Example
+  - link: axis-label.html
+    type: Example
+    description: Shows configuring axis label
