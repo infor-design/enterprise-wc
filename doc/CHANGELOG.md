@@ -11,7 +11,6 @@
 - `[Card]` Fixed the `height` setting which was not working. ([#788](https://github.com/infor-design/enterprise-wc/pull/777))
 - `[Radio]` Fixed incorrect colors in constrast mode. ([#775](https://github.com/infor-design/enterprise-wc/pull/775))
 
-
 ## 1.0.0-beta.0
 
 ### 1.0.0-beta.0 Breaking Changes
