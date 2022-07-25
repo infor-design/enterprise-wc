@@ -115,7 +115,7 @@ export default class IdsAxisChart extends Base {
     this.#resetAxisLabelsText();
     this.#attachEventHandlers();
     // TODO: Is this still needed?
-    this.rerender();
+    this.redraw();
   }
 
   /**
@@ -180,7 +180,7 @@ export default class IdsAxisChart extends Base {
    */
   #attachEventHandlers(): void {
     this.onEvent('localechange.about-container', this.closest('ids-container'), async () => {
-      this.rerender();
+      this.redraw();
       this.shadowRoot.querySelector('ids-empty-message ids-text').textContent = this.locale?.translate('NoData');
     });
 
@@ -232,7 +232,7 @@ export default class IdsAxisChart extends Base {
         this.width = 'inherit';
       }
       this.initialized = true;
-      this.rerender();
+      this.redraw();
       this.reanimate();
     }
 
@@ -244,7 +244,7 @@ export default class IdsAxisChart extends Base {
    * Redraw the chart
    * @private
    */
-  rerender(): void {
+  redraw(): void {
     if (!this.initialized) {
       return;
     }
@@ -606,7 +606,7 @@ export default class IdsAxisChart extends Base {
 
     if (typeof current !== 'undefined' && current !== labels[opt]) {
       this.#axisLabelsText[opt] = labels[opt] || '';
-      if (this.initialized) this.rerender();
+      if (this.initialized) this.redraw();
     }
   }
 
@@ -847,7 +847,7 @@ export default class IdsAxisChart extends Base {
     }
     this.setAttribute(attributes.HEIGHT, height);
     this.svg.setAttribute(attributes.HEIGHT, height);
-    this.rerender();
+    this.redraw();
   }
 
   get height(): number {
@@ -869,7 +869,7 @@ export default class IdsAxisChart extends Base {
     this.setAttribute(attributes.WIDTH, width);
     this.svg.setAttribute(attributes.WIDTH, width);
     this.#setContainerWidth(Number(width));
-    this.rerender();
+    this.redraw();
   }
 
   get width(): number {
@@ -946,7 +946,7 @@ export default class IdsAxisChart extends Base {
    */
   set margins(value) {
     this.state.margins = value;
-    this.rerender();
+    this.redraw();
   }
 
   get margins() {
@@ -982,7 +982,7 @@ export default class IdsAxisChart extends Base {
    */
   set textWidths(value) {
     this.state.textWidths = value;
-    this.rerender();
+    this.redraw();
   }
 
   get textWidths(): IdsChartDimensions {
@@ -1003,7 +1003,7 @@ export default class IdsAxisChart extends Base {
       this.#hideEmptyMessage();
       this.datasource.data = value as any;
       this.initialized = true;
-      this.rerender();
+      this.redraw();
       this.reanimate();
       return;
     }
@@ -1018,7 +1018,7 @@ export default class IdsAxisChart extends Base {
    */
   set yAxisMin(value: number) {
     this.setAttribute(attributes.Y_AXIS_MIN, value);
-    this.rerender();
+    this.redraw();
   }
 
   get yAxisMin(): number { return parseInt(this.getAttribute(attributes.Y_AXIS_MIN)) || 0; }
@@ -1029,7 +1029,7 @@ export default class IdsAxisChart extends Base {
    */
   set showVerticalGridLines(value: boolean) {
     this.setAttribute(attributes.SHOW_VERTICAL_GRID_LINES, value);
-    this.rerender();
+    this.redraw();
   }
 
   get showVerticalGridLines(): boolean {
@@ -1046,7 +1046,7 @@ export default class IdsAxisChart extends Base {
    */
   set showHorizontalGridLines(value: boolean) {
     this.setAttribute(attributes.SHOW_HORIZONTAL_GRID_LINES, value);
-    this.rerender();
+    this.redraw();
   }
 
   get showHorizontalGridLines(): boolean {
@@ -1084,7 +1084,7 @@ export default class IdsAxisChart extends Base {
    */
   set xAxisFormatter(value: any) {
     this.state.xAxisFormatter = value;
-    this.rerender();
+    this.redraw();
   }
 
   get xAxisFormatter(): any {
@@ -1097,7 +1097,7 @@ export default class IdsAxisChart extends Base {
    */
   set yAxisFormatter(value: string | ((value: unknown, data: Array<IdsChartData>, api: this) => string)) {
     this.state.yAxisFormatter = value;
-    this.rerender();
+    this.redraw();
   }
 
   get yAxisFormatter(): any {
@@ -1138,7 +1138,7 @@ export default class IdsAxisChart extends Base {
   set animated(value: boolean) {
     const animated = stringToBool(this.animated);
     this.setAttribute(attributes.ANIMATED, value);
-    this.rerender();
+    this.redraw();
 
     if (animated) {
       this.reanimate();
@@ -1174,7 +1174,7 @@ export default class IdsAxisChart extends Base {
    */
   set alignXLabels(value: string) {
     this.setAttribute(attributes.ALIGN_X_LABELS, value);
-    this.rerender();
+    this.redraw();
   }
 
   get alignXLabels(): string {
@@ -1187,7 +1187,7 @@ export default class IdsAxisChart extends Base {
    */
   set stacked(value: boolean) {
     this.setAttribute(attributes.STACKED, value);
-    this.rerender();
+    this.redraw();
   }
 
   get stacked(): boolean {

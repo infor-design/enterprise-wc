@@ -20,23 +20,18 @@ exports[`IdsLoadingIndicator Component renders circular/indeterminate (default) 
 `;
 
 exports[`IdsLoadingIndicator Component renders linear/determinate indicator without error 1`] = `
-"
-      <svg xmlns=\\"http://www.w3.org/2000/svg\\" class=\\"linear-indicator determinate\\" part=\\"container\\" style=\\"--progress: 45;\\">
+"<svg xmlns=\\"http://www.w3.org/2000/svg\\" class=\\"linear-indicator determinate\\" part=\\"container\\" style=\\"--progress: 45;\\">
         <rect width=\\"100%\\" height=\\"75%\\" y=\\"12.5%\\" class=\\"overall\\" part=\\"overall\\"></rect>
         <rect width=\\"100%\\" height=\\"100%\\" class=\\"progress\\" part=\\"progress\\"></rect>
       </svg>
       <div class=\\"progress-percentage linear\\" part=\\"percentage-text\\">
     <ids-text font-size=\\"14\\" font-weight=\\"bold\\" color=\\"unset\\" label=\\"\\">
       45<span class=\\"percentage\\">%</span></ids-text>
-  </div><div class=\\"progress-percentage linear\\" part=\\"percentage-text\\">
-    <ids-text font-size=\\"14\\" font-weight=\\"bold\\" color=\\"unset\\" label=\\"\\">
-      45<span class=\\"percentage\\">%</span></ids-text>
   </div>"
 `;
 
 exports[`IdsLoadingIndicator Component renders linear/indeterminate indicator without error 1`] = `
-"
-      <svg xmlns=\\"http://www.w3.org/2000/svg\\" class=\\"linear-indicator indeterminate\\" part=\\"container\\">
+"<svg xmlns=\\"http://www.w3.org/2000/svg\\" class=\\"linear-indicator indeterminate\\" part=\\"container\\">
         <rect width=\\"100%\\" height=\\"75%\\" y=\\"12.5%\\" class=\\"overall\\" part=\\"overall\\"></rect>
         <rect width=\\"100%\\" height=\\"100%\\" class=\\"progress\\" part=\\"progress\\"></rect>
       </svg>
@@ -44,8 +39,7 @@ exports[`IdsLoadingIndicator Component renders linear/indeterminate indicator wi
 `;
 
 exports[`IdsLoadingIndicator Component renders sticky/indeterminate indicator without error 1`] = `
-"
-      <svg xmlns=\\"http://www.w3.org/2000/svg\\" class=\\"linear-indicator sticky indeterminate\\" part=\\"container\\">
+"<svg xmlns=\\"http://www.w3.org/2000/svg\\" class=\\"linear-indicator sticky indeterminate\\" part=\\"container\\">
         <rect width=\\"100%\\" height=\\"75%\\" y=\\"0%\\" class=\\"overall\\" part=\\"overall\\"></rect>
         <rect width=\\"100%\\" height=\\"100%\\" class=\\"progress\\" part=\\"progress\\"></rect>
       </svg>

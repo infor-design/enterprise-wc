@@ -41,7 +41,7 @@ describe('IdsLineChart Component', () => {
   it('supports disabling animation', () => {
     expect(lineChart.shadowRoot.querySelectorAll('animate').length).toBe(21);
     lineChart.animated = false;
-    lineChart.rerender();
+    lineChart.redraw();
     expect(lineChart.shadowRoot.querySelectorAll('animate').length).toEqual(0);
   });
 
@@ -67,7 +67,7 @@ describe('IdsLineChart Component', () => {
       color: 'var(--ids-color-palette-azure-20)',
       name: 'Series 2'
     }];
-    lineChart.rerender();
+    lineChart.redraw();
 
     expect(lineChart.container.parentNode.querySelectorAll('.swatch')[0].classList.contains('color-1')).toBeTruthy();
     expect(lineChart.shadowRoot.querySelectorAll('circle')[0].classList.contains('color-1')).toBeTruthy();
@@ -82,7 +82,7 @@ describe('IdsLineChart Component', () => {
   it('supports short labels', () => {
     // Needs a real DOM to test properly
     lineChart.width = 300;
-    lineChart.rerender();
+    lineChart.redraw();
     expect(lineChart.shadowRoot.querySelector('.chart-legend').innerHTML).toMatchSnapshot();
   });
 

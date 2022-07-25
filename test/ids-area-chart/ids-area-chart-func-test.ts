@@ -61,7 +61,7 @@ describe('IdsAreaChart Component', () => {
       color: 'var(--ids-color-palette-azure-20)',
       name: 'Series 2'
     }];
-    areaChart.rerender();
+    areaChart.redraw();
 
     expect(areaChart.container.parentNode.querySelectorAll('.swatch')[0].classList.contains('color-1')).toBeTruthy();
     expect(areaChart.shadowRoot.querySelectorAll('circle')[0].classList.contains('color-1')).toBeTruthy();

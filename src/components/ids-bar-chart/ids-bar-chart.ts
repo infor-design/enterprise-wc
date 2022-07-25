@@ -50,8 +50,12 @@ export default class IdsBarChart extends Base {
     ];
   }
 
-  mountedCallback() {
+  connectedCallback() {
+    super.connectedCallback();
     this.#adjustVerticalLines();
+  }
+
+  mountedCallback(): void {
     this.#preSelected();
     this.attachTooltipEvents();
   }
@@ -336,7 +340,7 @@ export default class IdsBarChart extends Base {
    */
   set barPercentage(value: number) {
     this.setAttribute(attributes.BAR_PERCENTAGE, value);
-    this.rerender();
+    this.redraw();
   }
 
   get barPercentage(): number {
@@ -353,7 +357,7 @@ export default class IdsBarChart extends Base {
    */
   set categoryPercentage(value: number) {
     this.setAttribute(attributes.CATEGORY_PERCENTAGE, value);
-    this.rerender();
+    this.redraw();
   }
 
   get categoryPercentage(): number {

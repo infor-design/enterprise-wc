@@ -132,7 +132,7 @@ export default class IdsListView extends Base {
    * @returns {any} List of all list item elements
    */
   getAllLi(): any {
-    return this.container.querySelectorAll('div[part="list-item"]');
+    return this.container?.querySelectorAll('div[part="list-item"]');
   }
 
   /**
@@ -725,9 +725,9 @@ export default class IdsListView extends Base {
    * Rerender the list by re applying the template
    * @private
    */
-  rerender() {
+  redraw() {
     if (!this.data || !this.initialized) {
-      if (!this.data?.length) this.getAllLi().forEach((li: HTMLElement) => li?.remove());
+      if (!this.data?.length) this.getAllLi()?.forEach((li: HTMLElement) => li?.remove());
       return;
     }
     // Set list size
@@ -747,7 +747,7 @@ export default class IdsListView extends Base {
     }
 
     this.container = this.shadowRoot.querySelector('.ids-list-view');
-    super.rerender();
+    // super.render(true);
 
     // Setup virtual scrolling
     if (this.data?.length > 0) {
@@ -835,7 +835,7 @@ export default class IdsListView extends Base {
     } else {
       this.datasource.data = [];
     }
-    this.rerender();
+    this.redraw();
   }
 
   get data(): any { return this?.datasource?.data || []; }
@@ -862,7 +862,7 @@ export default class IdsListView extends Base {
     } else {
       this.removeAttribute(attributes.VIRTUAL_SCROLL);
     }
-    this.rerender();
+    this.redraw();
   }
 
   get virtualScroll(): boolean {
@@ -906,7 +906,7 @@ export default class IdsListView extends Base {
    * @param {string} value The value
    */
   set selectable(value: string) {
-    this.container.classList.remove(...this.selectableClass(true));
+    this.container?.classList.remove(...this.selectableClass(true));
 
     if (LIST_VIEW_DEFAULTS.selectableOptions.includes(value)) {
       this.setAttribute(attributes.SELECTABLE, value);
@@ -914,7 +914,7 @@ export default class IdsListView extends Base {
     } else {
       this.removeAttribute(attributes.SELECTABLE);
     }
-    this.rerender();
+    this.redraw();
   }
 
   get selectable(): string {
