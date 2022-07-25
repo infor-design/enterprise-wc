@@ -199,11 +199,10 @@ export default class IdsDropdown extends Base {
     // Add aria for the open state
     const selected = this.selectedOption || this.querySelector('ids-list-box-option');
     this.listBox?.setAttribute('tabindex', '0');
-    this.listBox?.setAttribute('aria-activedescendant', selected?.id || this.selectedIndex);
 
     if (selected) {
-      selected.classList.add('is-selected');
-      selected.setAttribute('tabindex', '0');
+      this.selectOption(selected);
+
       if (!this.autocomplete) {
         selected.focus();
       }
@@ -220,10 +219,9 @@ export default class IdsDropdown extends Base {
     this.listBox?.removeAttribute('tabindex');
 
     const selected = this.selected;
+
     if (selected) {
-      selected.classList.remove('is-selected');
-      selected.setAttribute('tabindex', '-1');
-      this.selectedOption?.classList.add('is-selected');
+      this.#deselectOption(selected);
     }
   }
 
@@ -409,12 +407,23 @@ export default class IdsDropdown extends Base {
 
   /**
    * Set the aria and state on the element
-   * @private
    * @param {HTMLElement} option the option to select
+   * @private
    */
   selectOption(option: HTMLElement) {
     option?.setAttribute('aria-selected', 'true');
     option?.classList.add('is-selected');
+    option?.setAttribute('tabindex', '0');
+
+    if (option?.id) {
+      this.listBox?.setAttribute('aria-activedescendant', option.id);
+    }
+  }
+
+  #deselectOption(option: HTMLElement) {
+    option?.removeAttribute('aria-selected');
+    option?.classList.remove('is-selected');
+    option?.setAttribute('tabindex', '-1');
   }
 
   /**
@@ -463,10 +472,8 @@ export default class IdsDropdown extends Base {
    */
   #clearSelected() {
     const option = this.querySelector('ids-list-box-option[aria-selected]');
-    if (option) {
-      option.removeAttribute('aria-selected');
-      option.classList.remove('is-selected');
-    }
+
+    this.#deselectOption(option);
   }
 
   /**
@@ -521,10 +528,12 @@ export default class IdsDropdown extends Base {
 
     // Focus and select input when autocomplete is enabled
     if (this.autocomplete) {
+      this.input.removeAttribute(attributes.READONLY);
       this.input.focus();
       this.input.input.select();
     }
 
+    this.container.classList.add('is-open');
     this.#setAriaOnMenuOpen();
   }
 
@@ -587,6 +596,24 @@ export default class IdsDropdown extends Base {
     if (!noFocus) {
       this.input.focus();
     }
+
+    // In case unfinished autocomplete (typing is in process)
+    // closing popup will reset dropdown to the initial value
+    if (this.autocomplete) {
+      this.input.setAttribute(attributes.READONLY, true);
+      const initialValue: string | null | undefined = this.selectedOption?.textContent;
+      this.input.value = initialValue || '';
+      this.#loadDataSet(this.#optionsData);
+
+      // Replace trigger button icon
+      const triggerIcon = this.container.querySelector('ids-icon[slot="icon"]');
+
+      if (triggerIcon?.icon === 'search') {
+        triggerIcon.icon = 'dropdown';
+      }
+    }
+
+    this.container.classList.remove('is-open');
   }
 
   /**
@@ -607,11 +634,36 @@ export default class IdsDropdown extends Base {
    * @returns {object} The object for chaining.
    */
   #attachEventHandlers() {
-    this.onEvent('mousedown', this.listBox, (e: any) => {
-      const option = e.target.closest('ids-list-box-option');
+    this.attachClickEvent();
 
-      if (option) {
-        this.value = option.getAttribute(attributes.VALUE);
+    // Disable text selection on tab (extra info in the screen reader)
+    this.offEvent('focus.dropdown-input');
+    this.onEvent('focus.dropdown-input', this.input, () => {
+      (window.getSelection() as any).removeAllRanges();
+    });
+
+    // Handle the Locale Change
+    this.offEvent('languagechange.dropdown-container');
+    this.onEvent('languagechange.dropdown-container', this.closest('ids-container'), () => {
+      this.#addAria();
+    });
+
+    return this;
+  }
+
+  attachClickEvent() {
+    this.offEvent('click.dropdown-list-box');
+    this.onEvent('click.dropdown-list-box', this.listBox, (e: any) => {
+      if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
+        this.value = e.target.getAttribute('value');
+      }
+
+      if (e.target.closest('ids-list-box-option')) {
+        this.value = e.target.closest('ids-list-box-option').getAttribute('value');
+      }
+
+      if (this.autocomplete) {
+        this.close();
       }
     });
 
@@ -639,20 +691,6 @@ export default class IdsDropdown extends Base {
     this.onEvent('click.dropdown-popup', this.trigger, () => {
       this.toggle();
     });
-
-    // Disable text selection on tab (extra info in the screen reader)
-    this.offEvent('focus.dropdown-input');
-    this.onEvent('focus.dropdown-input', this.input, () => {
-      (window.getSelection() as any).removeAllRanges();
-    });
-
-    // Handle the Locale Change
-    this.offEvent('languagechange.dropdown-container');
-    this.onEvent('languagechange.dropdown-container', this.closest('ids-container'), () => {
-      this.#addAria();
-    });
-
-    return this;
   }
 
   #attachAutocompleteEvents() {
@@ -691,25 +729,17 @@ export default class IdsDropdown extends Base {
       }
 
       if (e.key === 'ArrowDown' && selected?.nextElementSibling) {
-        selected.classList.remove('is-selected');
-        selected.setAttribute('tabindex', '-1');
-        selected?.removeAttribute('aria-selected');
-        selected.nextElementSibling.classList.add('is-selected');
-        selected.nextElementSibling.setAttribute('tabindex', '0');
-        selected.nextElementSibling.setAttribute('aria-selected', true);
-        (selected.nextElementSibling as any).focus();
-        this.listBox?.setAttribute('aria-activedescendant', selected.nextElementSibling?.id || this.selectedIndex);
+        this.#deselectOption(selected);
+        this.selectOption(selected.nextElementSibling);
+
+        selected.nextElementSibling.focus();
       }
 
       if (e.key === 'ArrowUp' && selected?.previousElementSibling) {
-        selected.classList.remove('is-selected');
-        selected.setAttribute('tabindex', '-1');
-        selected?.removeAttribute('aria-selected');
-        selected.previousElementSibling.classList.add('is-selected');
-        selected.previousElementSibling.setAttribute('tabindex', '0');
-        selected.previousElementSibling.setAttribute('aria-selected', true);
-        (selected.previousElementSibling as any).focus();
-        this.listBox?.setAttribute('aria-activedescendant', selected.previousElementSibling?.id || this.selectedIndex);
+        this.#deselectOption(selected);
+        this.selectOption(selected.previousElementSibling);
+
+        selected.previousElementSibling.focus();
       }
     });
 
@@ -730,7 +760,7 @@ export default class IdsDropdown extends Base {
       this.close();
     });
 
-    // Move to Next on Tab
+    // Select on Tab
     this.listen(['Tab'], this, (e: KeyboardEvent) => {
       if (!this.popup.visible) {
         return;
@@ -775,8 +805,20 @@ export default class IdsDropdown extends Base {
       });
     }).join('');
 
-    this.listBox.innerHTML = results || `<ids-list-box-option>${this.locale.translate('NoResults')}</ids-list-box-option>`;
-    // select first match
+    if (results) {
+      this.listBox.innerHTML = results;
+      // Select first match
+      this.selectOption(this.options[0]);
+    } else {
+      this.listBox.innerHTML = `<ids-list-box-option>${this.locale.translate('NoResults')}</ids-list-box-option>`;
+    }
+
+    // Replace trigger button icon
+    const triggerIcon = this.container.querySelector('ids-icon[slot="icon"]');
+
+    if (triggerIcon?.icon === 'dropdown') {
+      triggerIcon.icon = 'search';
+    }
   }
 
   /**
@@ -906,13 +948,13 @@ export default class IdsDropdown extends Base {
     if (val) {
       this.setAttribute(attributes.AUTOCOMPLETE, val);
       this.#attachAutocompleteEvents();
-      this.input?.removeAttribute(attributes.READONLY);
       this.#setOptionsData();
     } else {
       this.removeAttribute(attributes.AUTOCOMPLETE);
       this.#removeAutocompleteEvents();
-      this.input?.setAttribute(attributes.READONLY, true);
     }
+
+    this.container.classList.toggle('autocomplete', val);
   }
 
   /**
