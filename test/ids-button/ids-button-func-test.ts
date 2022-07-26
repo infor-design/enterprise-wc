@@ -130,7 +130,7 @@ describe('IdsButton Component', () => {
 
     btn.setAttribute('tabindex', '0');
 
-    expect(btn.hasAttribute('tabindex')).toBeTruthy();
+    expect(btn.hasAttribute('tabindex')).toBeFalsy();
     expect(btn.tabIndex).toEqual(0);
     expect(btn.button.getAttribute('tabindex')).toEqual('0');
     expect(btn.state.tabIndex).toEqual(0);
