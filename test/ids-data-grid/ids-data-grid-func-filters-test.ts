@@ -712,7 +712,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     input.value = '12.99';
     input.dispatchEvent(new Event('keydownend'));
 
-    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(1);
   });
 
   it('fires filtered event when apply or clear conditions', () => {
