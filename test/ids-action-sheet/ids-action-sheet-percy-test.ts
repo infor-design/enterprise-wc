@@ -6,7 +6,7 @@ describe('Ids Action Sheet Percy Tests', () => {
   it('should not have visual regressions when cancel button is not visible', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
-      (document.querySelector('#icon-menu') as any).click();
+      (document.querySelector('#icon-button') as any).click();
     });
     await page.waitForSelector('ids-action-sheet[visible]');
     await percySnapshot(page, 'ids-action-sheet-example', { widths: [375] });
