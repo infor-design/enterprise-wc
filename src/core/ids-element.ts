@@ -91,6 +91,7 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
         if (this.delayedAttributes.includes(name)) continue;
         this[name] = value;
       }
+      this.skippedAttributes = [];
       if (this.mountedCallback) this.mountedCallback();
     });
   }
