@@ -168,3 +168,10 @@ export default class IdsActionSheet extends Base {
     this.onCancelClick();
   }
 }
+
+const btn = document.querySelector('#icon-button') as HTMLElement | null;
+
+btn?.addEventListener('click', () => {
+  // eslint-disable-next-line no-console
+  console.log('button clicked');
+});
