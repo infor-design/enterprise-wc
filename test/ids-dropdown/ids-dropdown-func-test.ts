@@ -351,16 +351,16 @@ describe('IdsDropdown Component', () => {
   });
 
   it('supports type ahead to filter and select an option', async () => {
-    expect(dropdown.autocomplete).toBeFalsy();
-    // Turn on autocomplete
-    dropdown.autocomplete = true;
-    expect(dropdown.autocomplete).toBeTruthy();
+    expect(dropdown.typeahead).toBeFalsy();
+    // Turn on typeahead
+    dropdown.typeahead = true;
+    expect(dropdown.typeahead).toBeTruthy();
     dropdown.open();
     expect(dropdown.popup.visible).toBeTruthy();
     expect(dropdown.value).toEqual('opt2');
     // Typing v letter (only Option Five to match)
     dropdown.input.value = 'v';
-    dropdown.input.dispatchEvent(new KeyboardEvent('keydown', { key: 'v' }));
+    dropdown.input?.input.dispatchEvent(new KeyboardEvent('keydown', { key: 'v' }));
     // Keydownend delay
     await wait(600);
     expect(dropdown.querySelectorAll('ids-list-box-option').length).toEqual(1);
@@ -369,19 +369,19 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.value).toEqual('opt5');
     // Populate initial options
     expect(dropdown.querySelectorAll('ids-list-box-option').length).toEqual(6);
-    // Turn off autocomplete
-    dropdown.autocomplete = false;
-    expect(dropdown.autocomplete).toBeFalsy();
+    // Turn off typeahead
+    dropdown.typeahead = false;
+    expect(dropdown.typeahead).toBeFalsy();
   });
 
   it('supports type ahead to show No Results option when nothing found', async () => {
-    // Turn on autocomplete
-    dropdown.autocomplete = true;
-    expect(dropdown.autocomplete).toBeTruthy();
+    // Turn on typeahead
+    dropdown.typeahead = true;
+    expect(dropdown.typeahead).toBeTruthy();
     dropdown.open();
     // Typing y letter (no matches)
     dropdown.input.value = 'y';
-    dropdown.input.dispatchEvent(new KeyboardEvent('keydown', { key: 'y' }));
+    dropdown.input?.input.dispatchEvent(new KeyboardEvent('keydown', { key: 'y' }));
     // Keydownend delay
     await wait(600);
     expect(dropdown.querySelectorAll('ids-list-box-option').length).toEqual(1);
@@ -390,9 +390,9 @@ describe('IdsDropdown Component', () => {
 
   it('ignores type ahead when readonly', async () => {
     dropdown.readonly = true;
-    // Turn on autocomplete
-    dropdown.autocomplete = true;
-    expect(dropdown.autocomplete).toBeTruthy();
+    // Turn on typeahead
+    dropdown.typeahead = true;
+    expect(dropdown.typeahead).toBeTruthy();
     dropdown.open();
     // Typing y letter (no matches)
     dropdown.input.value = 'y';
