@@ -459,7 +459,8 @@ class IdsDatePicker extends Base {
       }
       this.removeOpenEvents();
 
-      if (this.rangeSettings.selectWeek || !this.useRange) {
+      // if (((this.rangeSettings.start && this.rangeSettings.end) || !this.useRange))
+      if (!this.useRange || this.value) {
         this.#popup.visible = false;
         this.#popup.setAttribute('tabindex', -1);
       }
@@ -837,9 +838,6 @@ class IdsDatePicker extends Base {
           start: this.#monthView.activeDate
         };
       }
-
-      this.#popup.visible = false;
-      this.#popup.setAttribute('tabindex', -1);
 
       return;
     }
