@@ -513,8 +513,9 @@ export default class IdsDropdown extends Base {
 
   /**
    * Open the dropdown list
+   * @param {boolean} shouldSelect whether or not the input text should be selected
    */
-  async open() {
+  async open(shouldSelect = false) {
     if (this.disabled || this.readonly) {
       return;
     }
@@ -530,11 +531,14 @@ export default class IdsDropdown extends Base {
     this.addOpenEvents();
     this.input.active = true;
 
-    // Focus and select input when autocomplete is enabled
+    // Focus and select input when typeahead is enabled
     if (this.typeahead) {
       this.input.removeAttribute(attributes.READONLY);
       this.input.focus();
-      this.input.input.select();
+    }
+
+    if (shouldSelect) {
+      this.input?.input.select();
     }
 
     this.container.classList.add('is-open');
@@ -606,6 +610,7 @@ export default class IdsDropdown extends Base {
       const initialValue: string | null | undefined = this.selectedOption?.textContent;
       this.input.value = initialValue || '';
       this.#loadDataSet(this.#optionsData);
+      (window.getSelection() as Selection).removeAllRanges();
 
       // Replace trigger button icon
       const triggerIcon = this.container.querySelector('ids-icon[slot="icon"]');
@@ -623,7 +628,7 @@ export default class IdsDropdown extends Base {
    */
   toggle(): void {
     if (!this.popup.visible) {
-      this.open();
+      this.open(this.typeahead);
     } else {
       this.close();
     }
@@ -640,7 +645,7 @@ export default class IdsDropdown extends Base {
     // Disable text selection on tab (extra info in the screen reader)
     this.offEvent('focus.dropdown-input');
     this.onEvent('focus.dropdown-input', this.input, () => {
-      (window.getSelection() as any).removeAllRanges();
+      (window.getSelection() as Selection).removeAllRanges();
     });
 
     // Handle the Locale Change
@@ -676,7 +681,7 @@ export default class IdsDropdown extends Base {
 
       // Stays opened when clicking to input in typeahead
       if (this.typeahead && !this.popup.visible) {
-        this.open();
+        this.open(true);
       }
     });
 
@@ -697,8 +702,8 @@ export default class IdsDropdown extends Base {
   #attachTypeaheadEvents() {
     // Handle Key Typeahead
     this.offEvent('keydownend.dropdown-typeahead');
-    this.onEvent('keydownend.dropdown-typeahead', this.input, () => {
-      this.#typeAhead();
+    this.onEvent('keydownend.dropdown-typeahead', this.input?.input, (e: CustomEvent) => {
+      this.#typeAhead(e.detail.keys);
     });
   }
 
@@ -715,7 +720,7 @@ export default class IdsDropdown extends Base {
     // Handle up and down arrow
     this.listen(['ArrowDown', 'ArrowUp'], this, (e: KeyboardEvent) => {
       if (!this.popup.visible) {
-        this.open();
+        this.open(this.typeahead);
         return;
       }
       e.stopPropagation();
@@ -723,6 +728,7 @@ export default class IdsDropdown extends Base {
       e.preventDefault();
 
       const selected: any = this.selected;
+
       if (e.key === 'ArrowUp' && e.altKey) {
         this.value = selected?.getAttribute(attributes.VALUE) || '';
         this.close();
@@ -750,9 +756,12 @@ export default class IdsDropdown extends Base {
     });
 
     // Select or Open on space/enter
-    this.listen([' ', 'Enter'], this, () => {
+    this.listen([' ', 'Enter'], this, (e: KeyboardEvent) => {
+      // Excluding space key when typing
+      if (e.key === ' ' && this.typeahead) return;
+
       if (!this.popup.visible) {
-        this.open();
+        this.open(this.typeahead);
         return;
       }
 
@@ -780,11 +789,18 @@ export default class IdsDropdown extends Base {
 
   /**
    * Handle typeahead functionality
+   * @param {string} text keydownend event detail keys
    * @returns {void}
    */
-  #typeAhead() {
+  #typeAhead(text: string) {
     if (this.readonly || this.disabled) {
       return;
+    }
+
+    // Accepts the keyboard input while closed
+    if (!this.popup.visible) {
+      this.input.value = text;
+      this.open(false);
     }
 
     const inputValue: string = this.input.value;
