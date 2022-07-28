@@ -8,9 +8,9 @@
   - link: example.html
     type: Main Example
     description: Shows basic dropdown with states
-  - link: autocomplete.html
+  - link: typeahead.html
     type: Example
-    description: Showing a dropdown with autocomplete
+    description: Showing a dropdown with typeahead
   - link: sizes.html
     type: Example
     description: Showing width and height size variations

@@ -8,12 +8,12 @@
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
     <ids-layout-grid auto="true">
-      <ids-text font-size="12" type="h1">Dropdown - Autocomplete</ids-text>
+      <ids-text font-size="12" type="h1">Dropdown - Typeahead</ids-text>
     </ids-layout-grid>
 
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
-        <ids-dropdown autocomplete="true" label="Dropdown autocomplete" value="ca">
+        <ids-dropdown typeahead="true" label="Dropdown typeahead" value="ca">
           <ids-list-box>
             <ids-list-box-option id="ca" value="ca">California</ids-list-box-option>
             <ids-list-box-option id="hi" value="hi">Hawaii</ids-list-box-option>
@@ -59,7 +59,7 @@
           </ids-list-box>
         </ids-dropdown>
 
-        <ids-dropdown autocomplete="true" allow-blank="true" label="Dropdown autocomplete with blank option" value="ca">
+        <ids-dropdown typeahead="true" allow-blank="true" label="Dropdown typeahead with blank option" value="ca">
           <ids-list-box>
             <ids-list-box-option value="ca">California</ids-list-box-option>
             <ids-list-box-option value="hi">Hawaii</ids-list-box-option>

@@ -349,6 +349,7 @@ export const attributes = {
   TRIGGER_LABEL: 'trigger-label',
   TRUNCATE: 'truncate',
   TYPE: 'type',
+  TYPEAHEAD: 'typeahead',
   UNIQUE_ID: 'unique-id',
   URL: 'url',
   USE_CURRENT_TIME: 'use-current-time',

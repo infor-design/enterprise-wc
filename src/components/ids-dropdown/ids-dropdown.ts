@@ -69,13 +69,13 @@ export default class IdsDropdown extends Base {
     return [
       ...super.attributes,
       attributes.ALLOW_BLANK,
-      attributes.AUTOCOMPLETE,
       attributes.DISABLED,
       attributes.GROUP,
       attributes.LABEL,
       attributes.NO_MARGINS,
       attributes.READONLY,
       attributes.SIZE,
+      attributes.TYPEAHEAD,
       attributes.VALUE
     ];
   }
@@ -136,7 +136,7 @@ export default class IdsDropdown extends Base {
     return `
       <div class="ids-dropdown">
         <ids-trigger-field
-          ${!this.autocomplete ? ' readonly="true"' : ''}
+          ${!this.typeahead ? ' readonly="true"' : ''}
           ${this.disabled ? ' disabled="true"' : ''}
           ${this.readonly ? '' : ' readonly-background'}
           cursor="pointer"
@@ -203,7 +203,7 @@ export default class IdsDropdown extends Base {
     if (selected) {
       this.selectOption(selected);
 
-      if (!this.autocomplete) {
+      if (!this.typeahead) {
         selected.focus();
       }
     }
@@ -531,7 +531,7 @@ export default class IdsDropdown extends Base {
     this.input.active = true;
 
     // Focus and select input when autocomplete is enabled
-    if (this.autocomplete) {
+    if (this.typeahead) {
       this.input.removeAttribute(attributes.READONLY);
       this.input.focus();
       this.input.input.select();
@@ -576,11 +576,11 @@ export default class IdsDropdown extends Base {
    * @returns {void}
    */
   onOutsideClick(e: any): void {
-    if (!this.autocomplete) {
+    if (!this.typeahead) {
       this.close(true);
     }
 
-    if (this.autocomplete && !(e.path?.includes(this.popup) || e.path?.includes(this.input.fieldContainer))) {
+    if (this.typeahead && !(e.path?.includes(this.popup) || e.path?.includes(this.input.fieldContainer))) {
       this.close(true);
     }
   }
@@ -599,8 +599,8 @@ export default class IdsDropdown extends Base {
       this.input.focus();
     }
 
-    if (this.autocomplete) {
-      // In case unfinished autocomplete (typing is in process)
+    if (this.typeahead) {
+      // In case unfinished typeahead (typing is in process)
       // closing popup will reset dropdown to the initial value
       this.input.setAttribute(attributes.READONLY, true);
       const initialValue: string | null | undefined = this.selectedOption?.textContent;
@@ -663,19 +663,19 @@ export default class IdsDropdown extends Base {
         this.value = e.target.closest('ids-list-box-option').getAttribute('value');
       }
 
-      if (this.autocomplete) {
+      if (this.typeahead) {
         this.close();
       }
     });
 
     this.offEvent('click.dropdown-input');
     this.onEvent('click.dropdown-input', this.input.input, () => {
-      if (!this.autocomplete) {
+      if (!this.typeahead) {
         this.toggle();
       }
 
-      // Stays opened when clicking to input in autocomplete
-      if (this.autocomplete && !this.popup.visible) {
+      // Stays opened when clicking to input in typeahead
+      if (this.typeahead && !this.popup.visible) {
         this.open();
       }
     });
@@ -694,16 +694,16 @@ export default class IdsDropdown extends Base {
     });
   }
 
-  #attachAutocompleteEvents() {
+  #attachTypeaheadEvents() {
     // Handle Key Typeahead
-    this.offEvent('keydownend.dropdown-autocomplete');
-    this.onEvent('keydownend.dropdown-autocomplete', this.input, () => {
+    this.offEvent('keydownend.dropdown-typeahead');
+    this.onEvent('keydownend.dropdown-typeahead', this.input, () => {
       this.#typeAhead();
     });
   }
 
-  #removeAutocompleteEvents() {
-    this.offEvent('keydownend.dropdown-autocomplete');
+  #removeTypeaheadEvents() {
+    this.offEvent('keydownend.dropdown-typeahead');
   }
 
   /**
@@ -956,29 +956,29 @@ export default class IdsDropdown extends Base {
   get size(): string { return this.getAttribute(attributes.SIZE) ?? 'md'; }
 
   /**
-   * Set autocomplete attribute
-   * @param {string | boolean | null} value autocomplete value
+   * Set typeahead attribute
+   * @param {string | boolean | null} value typeahead value
    */
-  set autocomplete(value: string | boolean | null) {
+  set typeahead(value: string | boolean | null) {
     const val = stringToBool(value);
 
     if (val) {
-      this.setAttribute(attributes.AUTOCOMPLETE, val);
-      this.#attachAutocompleteEvents();
+      this.setAttribute(attributes.TYPEAHEAD, val);
+      this.#attachTypeaheadEvents();
       this.#setOptionsData();
     } else {
-      this.removeAttribute(attributes.AUTOCOMPLETE);
-      this.#removeAutocompleteEvents();
+      this.removeAttribute(attributes.TYPEAHEAD);
+      this.#removeTypeaheadEvents();
     }
 
-    this.container.classList.toggle('autocomplete', val);
+    this.container.classList.toggle('typeahead', val);
   }
 
   /**
-   * Get the autocomplete attribute
-   * @returns {boolean} autocomplete attribute value converted to boolean
+   * Get the typeahead attribute
+   * @returns {boolean} typeahead attribute value converted to boolean
    */
-  get autocomplete(): boolean {
-    return stringToBool(this.getAttribute(attributes.AUTOCOMPLETE));
+  get typeahead(): boolean {
+    return stringToBool(this.getAttribute(attributes.TYPEAHEAD));
   }
 }

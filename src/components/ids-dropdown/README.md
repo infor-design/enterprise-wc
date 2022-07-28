@@ -138,7 +138,7 @@ The promise should resolve and return data with id, value and label info.
 - `mode` {'light' | 'dark' | 'contrast' | string} Set the theme mode
 - `version` {'new' | 'classic' | string} Set the theme version
 - `selectedIndex` {number} Sets the the selected option by index
-- `autocomplete` { true | false } - Enable/disable autocomplete (type ahead) functionality
+- `typeahead` { true | false } - Enable/disable typeahead functionality
 
 ## Events
 
