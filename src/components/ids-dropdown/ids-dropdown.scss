@@ -20,7 +20,7 @@ ids-trigger-button {
 }
 
 :host([mode='light']) {
-  .autocomplete.is-open ids-trigger-field::part(field-container) {
+  .typeahead.is-open ids-trigger-field::part(field-container) {
     @include bg-slate-10();
   }
 }
@@ -30,7 +30,7 @@ ids-trigger-button {
     color: var(--ids-color-palette-slate-10);
   }
 
-  .autocomplete.is-open ids-trigger-field::part(field-container) {
+  .typeahead.is-open ids-trigger-field::part(field-container) {
     @include bg-slate-80();
   }
 }

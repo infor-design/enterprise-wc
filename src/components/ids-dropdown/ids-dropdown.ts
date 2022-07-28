@@ -779,11 +779,7 @@ export default class IdsDropdown extends Base {
   }
 
   /**
-   * Open the list and move to the key pressed item
-   * @param {string} keyString The last pressed key to use
-   */
-  /**
-   * Display matches from the dataset
+   * Handle typeahead functionality
    * @returns {void}
    */
   #typeAhead() {
