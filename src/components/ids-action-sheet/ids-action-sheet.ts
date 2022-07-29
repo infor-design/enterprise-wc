@@ -96,6 +96,7 @@ export default class IdsActionSheet extends Base {
       idsButton.innerText = val;
     } else {
       this.removeAttribute(attributes.BTN_TEXT);
+      idsButton.innerText = val;
       idsButton.style.display = 'none';
     }
   }
@@ -168,10 +169,3 @@ export default class IdsActionSheet extends Base {
     this.onCancelClick();
   }
 }
-
-const btn = document.querySelector('#icon-button') as HTMLElement | null;
-
-btn?.addEventListener('click', () => {
-  // eslint-disable-next-line no-console
-  console.log('button clicked');
-});
