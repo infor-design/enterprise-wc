@@ -90,7 +90,7 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
    * as a CSS Selector referencing an element, that the Popupmenu will align against.
    */
   set target(val) {
-    if (val !== this.popup.alignTarget) {
+    if (this.popup && val !== this.popup.alignTarget) {
       this.removeTriggerEvents();
       if (typeof val === typeof '') {
         val = this.parentNode?.querySelector(val) || this.parentNode;
@@ -127,7 +127,7 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
    * Causes events related to the Popupmenu's "trigger" style to be unbound/rebound
    */
   refreshTriggerEvents() {
-    if (this.hasTriggerEvents) {
+    if (this.hasTriggerEvents || !this.popup) {
       return;
     }
     const targetElem = this.popup.alignTarget || window;

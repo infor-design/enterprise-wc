@@ -62,9 +62,7 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
       }
     };
 
-    if (this.shadowRoot && this.container) {
-      this[getAttributeName(name)] = newValue;
-    }
+    this[getAttributeName(name)] = newValue;
   }
 
   /**

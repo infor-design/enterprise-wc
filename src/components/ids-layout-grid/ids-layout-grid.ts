@@ -1,3 +1,4 @@
+/* eslint-disable no-self-assign */
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import {
@@ -10,7 +11,7 @@ import {
 } from './ids-layout-grid-attributes';
 
 import Base from './ids-layout-grid-base';
-import IdsLayoutGridCell from './ids-layout-grid-cell';
+import './ids-layout-grid-cell';
 
 import styles from './ids-layout-grid.scss';
 
@@ -41,7 +42,6 @@ export default class IdsLayoutGrid extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.#setDefaults();
-    this.aGridCell = new IdsLayoutGridCell();
   }
 
   template(): string {
@@ -104,7 +104,6 @@ export default class IdsLayoutGrid extends Base {
    * @param {boolean | string | null} value true or false/nothing
    */
   set auto(value: boolean | string | null) {
-    console.log('auto', value);
     if (value) {
       this.setAttribute(attributes.AUTO, value.toString());
       this.classList.add(autoGridClass);
