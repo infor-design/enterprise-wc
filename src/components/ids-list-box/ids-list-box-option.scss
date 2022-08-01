@@ -107,3 +107,7 @@
 ::slotted(ids-check-box) {
   line-height: normal;
 }
+
+::slotted(.highlight) {
+  font-weight: var(--ids-number-font-weight-bold);
+}
