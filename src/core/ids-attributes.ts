@@ -346,6 +346,7 @@ export const attributes = {
   TRANSLATE_TEXT: 'translate-text',
   TRIGGER: 'trigger',
   TRIGGERFIELD: 'triggerfield',
+  TRIGGER_ELEM: 'trigger-elem',
   TRIGGER_LABEL: 'trigger-label',
   TRUNCATE: 'truncate',
   TYPE: 'type',

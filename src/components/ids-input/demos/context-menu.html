@@ -11,7 +11,7 @@
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
-    <ids-popup-menu id="popupmenu" trigger="contextmenu">
+    <ids-popup-menu id="popupmenu" trigger-elem="#context-menu" trigger="contextmenu">
       <ids-menu-group>
         <ids-menu-item>Option 1</ids-menu-item>
         <ids-menu-item>Option 2</ids-menu-item>
@@ -20,6 +20,18 @@
         <ids-menu-item>Option 5</ids-menu-item>
       </ids-menu-group>
     </ids-popup-menu>
+
+    <ids-layout-grid auto="true" gap="md">
+      <ids-layout-grid-cell>
+        <ids-text type="h1" font-size="12">Ids Input combined with IdsPopupMenu</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true" gap="md">
+      <ids-layout-grid-cell>
+        <ids-text type="p">Right-click the IdsInput to open a context menu</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
 
     <ids-layout-grid auto="true" gap="md">
       <ids-layout-grid-cell>
