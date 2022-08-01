@@ -82,6 +82,8 @@ class IdsDatePicker extends Base {
 
   #triggerField = this.container.querySelector('ids-trigger-field');
 
+  #minDayInput = this.container.querySelector('#e2e-datepicker-min');
+
   connectedCallback(): void {
     this.#attachEventHandlers();
     this.#attachExpandedListener();
@@ -459,8 +461,7 @@ class IdsDatePicker extends Base {
       }
       this.removeOpenEvents();
 
-      // if (((this.rangeSettings.start && this.rangeSettings.end) || !this.useRange))
-      if (!this.useRange || this.value) {
+      if (((!this.rangeSettings.start && !this.rangeSettings.end) || !this.useRange) || this.value) {
         this.#popup.visible = false;
         this.#popup.setAttribute('tabindex', -1);
       }
@@ -817,6 +818,14 @@ class IdsDatePicker extends Base {
 
     if (this.useRange) {
       if (this.rangeSettings.end || (this.rangeSettings.start && !this.rangeSettings.end)) {
+        if (this.#minDayInput) {
+          if (this.rangeSettings.start === this.rangeSettings.end) {
+            this.rangeSettings.end = new Date(this.rangeSettings.end + (5 * 24 * 60 * 60 * 1000));
+            // eslint-disable-next-line no-console
+            console.log(this.rangeSettings.end);
+          }
+        }
+
         this.value = [
           this.locale.formatDate(this.#setTime(this.rangeSettings.start), { pattern: this.format }),
           this.rangeSettings.separator,
