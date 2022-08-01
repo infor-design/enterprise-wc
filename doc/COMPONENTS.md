@@ -227,7 +227,6 @@ template() {
 - Add a getter/setter for each properties. One point is that you should always do the attributes in two ways:
   - read in the template for initial render
   - in the setter to adjust for setting later
-  - you can use the delayedAttributes() array to only call it in this case
 
 ```js
 set settingName(value: string) {

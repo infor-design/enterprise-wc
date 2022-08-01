@@ -66,13 +66,6 @@ export default class IdsToastMessage extends Base {
     ];
   }
 
-  get delayedAttributes(): Array<string> {
-    return [
-      attributes.AUDIBLE,
-      attributes.PROGRESS_BAR
-    ];
-  }
-
   /**
    * Create the Template for the contents
    * @returns {string} The template

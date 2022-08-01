@@ -36,14 +36,6 @@ export default class IdsBadge extends Base {
   }
 
   /**
-   * Do not run shape initially as it is set in the template
-   * @returns {Array} The attributes that should be skipped
-   */
-  get delayedAttributes(): string[] {
-    return [attributes.SHAPE];
-  }
-
-  /**
    * Create the Template for the contents
    * @returns {string} The Template
    */

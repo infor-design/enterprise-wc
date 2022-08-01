@@ -37,16 +37,6 @@ export default class IdsProgressBar extends Base {
     ];
   }
 
-  get delayedAttributes(): Array<string> {
-    return [
-      attributes.DISABLED,
-      attributes.LABEL,
-      attributes.LABEL_AUDIBLE,
-      attributes.MAX,
-      attributes.VALUE
-    ];
-  }
-
   /**
    * Inner template contents
    * @returns {string} The template

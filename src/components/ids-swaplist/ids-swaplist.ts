@@ -49,12 +49,6 @@ export default class IdsSwapList extends Base {
     ];
   }
 
-  get delayedAttributes() {
-    return [
-      attributes.COUNT
-    ];
-  }
-
   /**
    * Set the data array of the swaplist
    * @param {any | null} value The array to use

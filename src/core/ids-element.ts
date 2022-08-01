@@ -9,7 +9,6 @@ import styles from './ids-element.scss';
 export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   constructor() {
     super();
-    this.skippedAttributes = [];
     this.#addBaseName();
     this.#appendHostCss();
   }
@@ -17,7 +16,6 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   /** Run the template when a component Is inserted */
   connectedCallback() {
     this.render();
-    this.#updateAttributes();
   }
 
   /** Component's name */
@@ -66,34 +64,7 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
 
     if (this.shadowRoot && this.container) {
       this[getAttributeName(name)] = newValue;
-    } else {
-      this.skippedAttributes.push({ attribute: name, name: getAttributeName(name), value: newValue });
     }
-  }
-
-  /**
-   * Return the attributes we only update after initial render
-   * @returns {Array} The attributes to be delayed
-   */
-  get delayedAttributes(): string[] {
-    return [];
-  }
-
-  /**
-   * Re apply some DOM based attributes
-   * @private
-   */
-  #updateAttributes() {
-    requestAnimationFrame(() => {
-      for (let index = 0; index < this.skippedAttributes.length; index++) {
-        const { attribute, name, value } = this.skippedAttributes[index];
-        if (this.delayedAttributes.includes(attribute)) continue;
-        if (this.delayedAttributes.includes(name)) continue;
-        this[name] = value;
-      }
-      this.skippedAttributes = [];
-      if (this.mountedCallback) this.mountedCallback();
-    });
   }
 
   /**

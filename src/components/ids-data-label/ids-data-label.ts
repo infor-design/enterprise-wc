@@ -45,13 +45,6 @@ export default class IdsDataLabel extends Base {
     ];
   }
 
-  get delayedAttributes() {
-    return [
-      attributes.LABEL,
-      attributes.LABEL_POSITION
-    ];
-  }
-
   /**
    * Create the Template for the contents
    * @returns {string} The template
@@ -60,8 +53,7 @@ export default class IdsDataLabel extends Base {
     return `<div class="${this.labelClass}">
         <ids-text class="label" font-size="16">${this.label}<span class="colon">${this.colon}</span></ids-text>
         <ids-text class="description" font-size="16"><slot></slot></ids-text>
-      </div>
-    `;
+      </div>`;
   }
 
   /**

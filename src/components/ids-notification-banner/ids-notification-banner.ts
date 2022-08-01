@@ -53,19 +53,6 @@ export default class IdsNotificationBanner extends Base {
   }
 
   /**
-   * Return the properties we only handle updates on
-   * @returns {Array} The properties in an array
-   */
-  get delayedAttributes(): Array<any> {
-    return [
-      attributes.MESSAGE_TEXT,
-      attributes.LINK,
-      attributes.LINK_TEXT,
-      attributes.TYPE
-    ];
-  }
-
-  /**
    * Create the Template for the contents
    * @returns {string} The template
    */

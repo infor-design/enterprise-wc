@@ -81,14 +81,6 @@ export default class IdsSplitter extends Base {
     ];
   }
 
-  get delayedAttributes(): Array<string> {
-    return [
-      attributes.ALIGN,
-      attributes.AXIS,
-      attributes.DISABLED
-    ];
-  }
-
   /**
    * Create the Template for the contents
    * @returns {string} The template

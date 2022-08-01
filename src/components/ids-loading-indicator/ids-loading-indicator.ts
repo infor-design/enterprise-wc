@@ -52,18 +52,6 @@ export default class IdsLoadingIndicator extends Base {
     ];
   }
 
-  static get delayedAttributes(): Array<string> {
-    return [
-      attributes.LINEAR,
-      attributes.MODE,
-      attributes.PERCENTAGE_VISIBLE,
-      attributes.PROGRESS,
-      attributes.STICKY,
-      attributes.TYPE,
-      attributes.VERSION
-    ];
-  }
-
   /**
    * Return the Template for the contents
    * @returns {string} The template

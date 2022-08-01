@@ -35,12 +35,6 @@ export default class IdsSkiplink extends Base {
     ];
   }
 
-  get delayedAttributes(): Array<string> {
-    return [
-      attributes.HREF
-    ];
-  }
-
   /**
    * Inner template contents
    * @returns {string} The template

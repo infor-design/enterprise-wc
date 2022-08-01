@@ -106,25 +106,11 @@ describe('IdsAlert Component', () => {
     expect(el.container.getAttribute('mode')).toEqual('dark');
   });
 
-  it('supports setting version', () => {
-    el = new IdsAlert();
-    document.body.appendChild(el);
-    el.version = 'classic';
-    expect(el.container.getAttribute('version')).toEqual('classic');
-  });
-
   it('supports setting size', () => {
     expect(el.size).toEqual('normal');
     el.size = 'small';
     expect(el.size).toEqual('small');
     el.size = '';
     expect(el.size).toEqual('normal');
-  });
-
-  it('supports remaping some icons', () => {
-    el.icon = 'warning';
-    expect(el.shadowRoot?.querySelector('ids-icon')?.getAttribute('icon')).toEqual('alert');
-    el.icon = 'warning-solid';
-    expect(el.shadowRoot?.querySelector('ids-icon')?.getAttribute('icon')).toEqual('alert-solid');
   });
 });

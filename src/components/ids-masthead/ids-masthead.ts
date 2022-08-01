@@ -122,13 +122,6 @@ export default class IdsMasthead extends Base {
     ];
   }
 
-  get delayedAttributes() {
-    return [
-      attributes.ICON,
-      attributes.TITLE,
-    ];
-  }
-
   /**
    * Sets the icon attribute
    * @param {string} value - the icon name

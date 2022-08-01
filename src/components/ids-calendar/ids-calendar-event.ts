@@ -55,13 +55,6 @@ export default class IdsCalendarEvent extends Base {
     ];
   }
 
-  get delayedAttributes(): string[] {
-    return [
-      'width',
-      'xOffset'
-    ];
-  }
-
   /**
    * Invoked when ids-calendar-event is added to the DOM
    */

@@ -42,18 +42,6 @@ export default class IdsSwitch extends Base {
   }
 
   /**
-   * Return the attributes we only update after initial render
-   * @returns {Array} The attributes in an array
-   */
-  get delayedAttributes(): string[] {
-    return [
-      attributes.CHECKED,
-      attributes.DISABLED,
-      attributes.LABEL
-    ];
-  }
-
-  /**
    * Custom Element `connectedCallback` implementation
    * @returns {void}
    */

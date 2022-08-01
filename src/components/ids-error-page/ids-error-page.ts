@@ -39,15 +39,6 @@ export default class IdsErrorPage extends Base {
     ];
   }
 
-  get delayedAttributes(): string[] {
-    return [
-      attributes.BUTTON_TEXT,
-      attributes.DESCRIPTION,
-      attributes.ICON,
-      attributes.LABEL
-    ];
-  }
-
   template(): string {
     return `<ids-popup part="modal" class="ids-modal ids-error" type="modal" position-style="viewport">
       <div class="ids-modal-container" slot="content">

@@ -164,12 +164,6 @@ export default class IdsSlider extends Base {
     ];
   }
 
-  get delayedAttributes(): Array<string> {
-    return [
-      attributes.LABEL
-    ];
-  }
-
   /**
    * Create the Template for the contents
    * @returns {string} The template

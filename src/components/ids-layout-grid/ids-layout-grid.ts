@@ -104,6 +104,7 @@ export default class IdsLayoutGrid extends Base {
    * @param {boolean | string | null} value true or false/nothing
    */
   set auto(value: boolean | string | null) {
+    console.log('auto', value);
     if (value) {
       this.setAttribute(attributes.AUTO, value.toString());
       this.classList.add(autoGridClass);

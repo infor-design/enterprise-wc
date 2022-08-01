@@ -13,8 +13,7 @@ const IdsThemeMixin = (superclass: any) => class extends superclass {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.MODE,
-      attributes.VERSION
+      attributes.MODE
     ];
   }
 
@@ -47,22 +46,12 @@ const IdsThemeMixin = (superclass: any) => class extends superclass {
    * @param {string} value The mode value for example: light, dark, or contrast
    */
   set mode(value: string) {
+    if (value === undefined) value = 'light';
     this.setAttribute('mode', value);
     this.container.setAttribute('mode', value);
   }
 
   get mode(): string { return this.getAttribute('mode') || 'light'; }
-
-  /**
-   * Set the theme to a particular theme version
-   * @param {string} value The version value for example: classic or new
-   */
-  set version(value: string) {
-    this.setAttribute('version', value);
-    this.container.setAttribute('version', value);
-  }
-
-  get version(): string { return this.getAttribute('version') || 'new'; }
 };
 
 export default IdsThemeMixin;

@@ -52,23 +52,6 @@ export default class IdsIcon extends Base {
   }
 
   /**
-   * Only Run these setters on change
-   * @returns {Array} The attributes to delay
-   */
-  get delayedAttributes(): string[] {
-    return [
-      attributes.BADGE_COLOR,
-      attributes.BADGE_POSITION,
-      attributes.HEIGHT,
-      attributes.ICON,
-      attributes.SIZE,
-      attributes.VERTICAL,
-      attributes.VIEWBOX,
-      attributes.WIDTH
-    ];
-  }
-
-  /**
    * Handle change events
    */
   #attachEventHandlers() {

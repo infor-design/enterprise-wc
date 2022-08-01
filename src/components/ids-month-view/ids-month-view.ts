@@ -159,15 +159,6 @@ class IdsMonthView extends Base {
     ];
   }
 
-  get delayedAttributes(): Array<string> {
-    return [
-      attributes.DAY,
-      attributes.FIRST_DAY_OF_WEEK,
-      attributes.MONTH,
-      attributes.YEAR,
-    ];
-  }
-
   /**
    * Inner template contents
    * @returns {string} The template
