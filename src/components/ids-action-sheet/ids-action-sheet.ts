@@ -89,7 +89,7 @@ export default class IdsActionSheet extends Base {
    * @param {string} val the inner text of the cancel btn
    */
   set cancelBtnText(val: string) {
-    const idsButton = document.querySelector('ids-action-sheet')?.shadowRoot?.querySelector('ids-button') as HTMLElement;
+    const idsButton = this.shadowRoot?.querySelector('ids-button');
     if (val) {
       this.setAttribute(attributes.BTN_TEXT, val);
       idsButton.style.display = 'inline-flex';
@@ -105,7 +105,7 @@ export default class IdsActionSheet extends Base {
    * @returns {string} the inner text of the cancel btn
    */
   get cancelBtnText(): string {
-    return this.getAttribute(attributes.BTN_TEXT);
+    return this.getAttribute(attributes.BTN_TEXT || 'Cancel');
   }
 
   /**

@@ -11,10 +11,8 @@ describe('Ids Action Sheet Percy Tests', () => {
     });
     await page.waitForSelector('ids-action-sheet[visible]');
     await page.evaluate(() => {
-      const idsButton = document.querySelector('ids-action-sheet')?.shadowRoot?.querySelector('ids-button') as HTMLInputElement;
-      if (idsButton !== undefined) {
-        idsButton.outerText = '';
-      }
+      const actionSheet = document.querySelector('ids-action-sheet') as any;
+      actionSheet.cancelBtnText = '';
     });
     await percySnapshot(page, 'ids-action-sheet-example', { widths: [375] });
   });
