@@ -12,7 +12,6 @@ import styles from './ids-pager-input.scss';
  * IDS PagerInput Component
  *
  * @type {IdsPagerInput}
- * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
  * @inherits IdsElement
  * @part container ids-pager-button container

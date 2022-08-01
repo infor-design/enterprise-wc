@@ -747,7 +747,8 @@ export default class IdsListView extends Base {
     }
 
     this.container = this.shadowRoot.querySelector('.ids-list-view');
-    // super.render(true);
+
+    // super.rerender?.(true);
 
     // Setup virtual scrolling
     if (this.data?.length > 0) {
