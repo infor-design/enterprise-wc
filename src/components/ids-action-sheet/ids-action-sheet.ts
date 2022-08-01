@@ -27,6 +27,7 @@ export default class IdsActionSheet extends Base {
     super.connectedCallback();
     this.overlay = this.shadowRoot.querySelector('ids-overlay');
     this.cancelBtn = this.shadowRoot.querySelector('[part="cancel-btn"]');
+    this.setAttribute(attributes.CANCEL_BTN_TEXT, 'Cancel');
     this.#attachEventHandlers();
     this.#hideOnDesktop();
   }
@@ -37,7 +38,7 @@ export default class IdsActionSheet extends Base {
    */
   static get attributes() {
     return [
-      attributes.BTN_TEXT,
+      attributes.CANCEL_BTN_TEXT,
       attributes.VISIBLE
     ];
   }
@@ -54,7 +55,7 @@ export default class IdsActionSheet extends Base {
           <slot></slot>
           <ids-button type="secondary" part="cancel-btn">
             <span slot="text">
-              ${this.cancelBtnText === null ? 'Cancel' : this.cancelBtnText}
+              ${this.cancelBtnText === null ? attributes.CANCEL_BTN_TEXT : this.cancelBtnText}
             </span>
           </ids-button>
         </div>
@@ -91,11 +92,11 @@ export default class IdsActionSheet extends Base {
   set cancelBtnText(val: string) {
     const idsButton = this.shadowRoot?.querySelector('ids-button');
     if (val) {
-      this.setAttribute(attributes.BTN_TEXT, val);
+      this.setAttribute(attributes.CANCEL_BTN_TEXT, val);
       idsButton.style.display = 'inline-flex';
       idsButton.innerText = val;
     } else {
-      this.removeAttribute(attributes.BTN_TEXT);
+      this.removeAttribute(attributes.CANCEL_BTN_TEXT);
       idsButton.innerText = val;
       idsButton.style.display = 'none';
     }
@@ -105,7 +106,7 @@ export default class IdsActionSheet extends Base {
    * @returns {string} the inner text of the cancel btn
    */
   get cancelBtnText(): string {
-    return this.getAttribute(attributes.BTN_TEXT || 'Cancel');
+    return this.getAttribute(attributes.CANCEL_BTN_TEXT);
   }
 
   /**
