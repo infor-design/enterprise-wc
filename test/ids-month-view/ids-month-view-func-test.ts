@@ -14,10 +14,10 @@ const year = 2021;
 const day = 15;
 const showToday = true;
 
-describe('IdsWeekView Component initialization', () => {
+describe('IdsMonthView Component initialization', () => {
   let container: any;
 
-  const setupComopnent = (component: any) => {
+  const setupComponent = (component: any) => {
     component.month = month;
     component.year = year;
     component.day = day;
@@ -43,13 +43,13 @@ describe('IdsWeekView Component initialization', () => {
   it('can render via document.createElement (append early)', () => {
     const component: any = document.createElement('ids-month-view');
     container.appendChild(component);
-    setupComopnent(component);
+    setupComponent(component);
     testComponent(component);
   });
 
   it('can render via document.createElement (append late)', () => {
     const component: any = document.createElement('ids-month-view');
-    setupComopnent(component);
+    setupComponent(component);
     container.appendChild(component);
     testComponent(component);
   });

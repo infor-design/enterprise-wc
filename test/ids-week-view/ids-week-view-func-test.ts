@@ -62,7 +62,7 @@ const EVENT_TYPES = [
 describe('IdsWeekView Component initialization', () => {
   let container: any;
 
-  const setupComopnent = (component: any) => {
+  const setupComponent = (component: any) => {
     component.startDate = startDate;
     component.endDate = endDate;
     component.startHour = startHour;
@@ -92,13 +92,13 @@ describe('IdsWeekView Component initialization', () => {
   it('can render via document.createElement (append early)', () => {
     const component: any = document.createElement('ids-week-view');
     container.appendChild(component);
-    setupComopnent(component);
+    setupComponent(component);
     testComponent(component);
   });
 
   it('can render via document.createElement (append late)', () => {
     const component: any = document.createElement('ids-week-view');
-    setupComopnent(component);
+    setupComponent(component);
     container.appendChild(component);
     testComponent(component);
   });

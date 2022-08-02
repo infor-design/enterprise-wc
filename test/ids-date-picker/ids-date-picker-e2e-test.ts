@@ -615,8 +615,7 @@ describe('Ids Date Picker e2e Tests', () => {
     expect(value).toEqual('');
   });
 
-  // TODO - re-enable when ids-time-picker lifecycle fixed (wc #789)
-  it.skip('should handle time', async () => {
+  it('should handle time', async () => {
     await page.evaluate(() => {
       (document as any).querySelector('ids-container').insertAdjacentHTML(
         'afterbegin',
