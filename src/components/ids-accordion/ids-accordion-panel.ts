@@ -44,8 +44,7 @@ export default class IdsAccordionPanel extends Base {
       ...super.attributes,
       attributes.DISABLED,
       attributes.EXPANDED,
-      attributes.MODE,
-      attributes.VERSION,
+      attributes.MODE
     ];
   }
 

@@ -5,6 +5,7 @@ import IdsButton from '../../src/components/ids-button/ids-button';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';
 import processAnimFrame from '../helpers/process-anim-frame';
+import '../../src/components/ids-icon/ids-icon';
 
 describe('IdsButton Component', () => {
   let btn: any;
@@ -226,7 +227,7 @@ describe('IdsButton Component', () => {
     expect(btn.state.text).toEqual('');
   });
 
-  it('can add/remove its icon', () => {
+  it('can add/remove its icon', async () => {
     btn.icon = 'settings';
 
     expect(btn.getAttribute('icon')).toBe('settings');

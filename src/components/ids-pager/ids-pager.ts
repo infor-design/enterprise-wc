@@ -49,8 +49,7 @@ export default class IdsPager extends Base {
       attributes.TOTAL, // has to be in this order
       attributes.PAGE_COUNT,
       attributes.PAGE_SIZE,
-      attributes.PAGE_NUMBER,
-      attributes.VERSION
+      attributes.PAGE_NUMBER
     ];
   }
 

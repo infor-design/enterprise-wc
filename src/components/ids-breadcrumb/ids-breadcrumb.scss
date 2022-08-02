@@ -155,39 +155,6 @@ $header-gradient-transparent-classic-contrast: rgb(0 74 153 / 0);
           );
       }
     }
-
-    &[version='classic'][mode='light'] {
-      nav.truncate::before {
-        background-image:
-          linear-gradient(
-            to right,
-            $header-gradient-opaque-classic-light,
-            $header-gradient-transparent-classic-light
-          );
-      }
-    }
-
-    &[version='classic'][mode='dark'] {
-      nav.truncate::before {
-        background-image:
-          linear-gradient(
-            to right,
-            $header-gradient-opaque-classic-dark,
-            $header-gradient-transparent-classic-dark
-          );
-      }
-    }
-
-    &[version='classic'][mode='contrast'] {
-      nav.truncate::before {
-        background-image:
-          linear-gradient(
-            to right,
-            $header-gradient-opaque-classic-contrast,
-            $header-gradient-transparent-classic-contrast
-          );
-      }
-    }
   }
 }
 

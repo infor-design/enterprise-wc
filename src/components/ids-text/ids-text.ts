@@ -79,6 +79,7 @@ export default class IdsText extends Base {
     classList += this.color === 'unset' ? ' ids-text-color-unset' : '';
     classList += (this.overflow === 'ellipsis') ? ' ellipsis' : '';
     classList += ((this.audible)) ? ' audible' : '';
+    classList += ((this.label)) ? ' label' : '';
     classList += this.fontSize ? ` ids-text-${this.fontSize}` : '';
     classList += (this.fontWeight === 'bold' || this.fontWeight === 'lighter')
       ? ` ${this.fontWeight}` : '';
@@ -86,7 +87,6 @@ export default class IdsText extends Base {
     return `<${tag}
       class="${classList}"
       mode="${this.mode}"
-      version="${this.version}"
       part="text"
     ><slot></slot>
     </${tag}>`;

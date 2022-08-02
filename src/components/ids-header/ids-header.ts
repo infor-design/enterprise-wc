@@ -31,8 +31,7 @@ export default class IdsHeader extends Base {
     return [
       ...super.attributes,
       attributes.COLOR,
-      attributes.MODE,
-      attributes.VERSION
+      attributes.MODE
     ];
   }
 

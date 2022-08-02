@@ -65,7 +65,7 @@ export default class IdsTriggerButton extends Base {
     }
 
     this.removeAttribute(attributes.TABBABLE);
-    button.tabIndex = -1;
+    if (button) button.tabIndex = -1;
   }
 
   get tabbable(): boolean { return stringToBool(this.getAttribute(attributes.TABBABLE)); }
@@ -79,7 +79,7 @@ export default class IdsTriggerButton extends Base {
     const button = this.shadowRoot?.querySelector('button');
     if (isReadonly) {
       this.setAttribute(attributes.READONLY, '');
-      button.tabIndex = -1;
+      if (button) button.tabIndex = -1;
       return;
     }
     button.tabIndex = this.tabbable ? 0 : -1;

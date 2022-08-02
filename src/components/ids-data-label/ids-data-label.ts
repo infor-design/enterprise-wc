@@ -40,8 +40,7 @@ export default class IdsDataLabel extends Base {
       attributes.LABEL,
       attributes.LABEL_POSITION,
       attributes.LANGUAGE,
-      attributes.MODE,
-      attributes.VERSION
+      attributes.MODE
     ];
   }
 

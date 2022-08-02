@@ -41,8 +41,7 @@ export default class IdsHyperlink extends Base {
       attributes.FONT_WEIGHT,
       attributes.MODE,
       attributes.TARGET,
-      attributes.TEXT_DECORATION,
-      attributes.VERSION
+      attributes.TEXT_DECORATION
     ];
   }
 

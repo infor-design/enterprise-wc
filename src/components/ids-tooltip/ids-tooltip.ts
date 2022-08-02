@@ -51,7 +51,6 @@ export default class IdsTooltip extends Base {
       attributes.MODE,
       attributes.TARGET,
       attributes.TRIGGER,
-      attributes.VERSION,
       attributes.VISIBLE
     ];
   }

@@ -60,22 +60,4 @@
     @include bg-slate-80();
     @include text-slate-30();
   }
-
-  // Classic Version: Light Mode
-  &[mode='light'][version='classic'] {
-    @include bg-classic-slate-80();
-    @include text-graphite-30();
-  }
-
-  // Classic Version: Dark Mode
-  &[mode='dark'][version='classic'] {
-    @include bg-classic-slate-80();
-    @include text-slate-10();
-  }
-
-  // Classic Version: Contrast Mode
-  &[mode='contrast'][version='classic'] {
-    @include bg-classic-slate-80();
-    @include text-slate-10();
-  }
 }

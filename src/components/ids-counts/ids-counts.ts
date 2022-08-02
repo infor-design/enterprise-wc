@@ -42,8 +42,7 @@ export default class IdsCounts extends Base {
       attributes.COLOR,
       attributes.COMPACT,
       attributes.HREF,
-      attributes.MODE,
-      attributes.VERSION
+      attributes.MODE
     ];
   }
 

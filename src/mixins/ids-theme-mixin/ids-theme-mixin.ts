@@ -33,11 +33,9 @@ const IdsThemeMixin = (superclass: any) => class extends superclass {
     }
 
     this.mode = this.switcher.mode;
-    this.version = this.switcher.version;
 
     this.onEvent('themechanged', this.switcher, (e: CustomEvent) => {
       this.mode = e.detail.mode;
-      this.version = e.detail.version;
     });
   }
 

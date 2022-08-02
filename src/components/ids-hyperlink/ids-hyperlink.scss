@@ -161,61 +161,6 @@
       }
     }
 
-    &[version='classic'][mode='light'] {
-      @include text-azure-70();
-
-      &:focus {
-        box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
-      }
-
-      &:hover:not([disabled]):not(.ids-text-decoration-hover):not(.disabled),
-      &:active:not([disabled]):not(.ids-text-decoration-hover):not(.disabled) {
-        @include text-azure-80();
-      }
-
-      &.disabled,
-      &[disabled] {
-        @include text-graphite-40();
-      }
-    }
-
-    &[version='classic'][mode='dark'] {
-      @include text-azure-40();
-
-      &:focus {
-        box-shadow: 0 0 4px 3px rgb(141 201 230 / 0.3);
-      }
-
-      &:hover:not([disabled]):not(.ids-text-decoration-hover):not(.disabled),
-      &:active:not([disabled]):not(.ids-text-decoration-hover):not(.disabled) {
-        @include text-azure-50();
-      }
-
-      &.disabled,
-      &[disabled] {
-        @include text-classic-slate-50();
-      }
-    }
-
-    &[version='classic'][mode='contrast'] {
-      @include text-azure-90();
-
-      &:focus {
-        border: 1px solid var(--ids-color-palette-azure-90);
-        box-shadow: 0 0 4px 2px rgb(41 41 41 / 0.3);
-      }
-
-      &:hover:not([disabled]):not(.ids-text-decoration-hover):not(.disabled),
-      &:active:not([disabled]):not(.ids-text-decoration-hover):not(.disabled) {
-        @include text-azure-100();
-      }
-
-      &.disabled,
-      &[disabled] {
-        @include text-classic-slate-50();
-      }
-    }
-
     // ===============================================
     // Color Variants
     &.color-variant-breadcrumb {
@@ -247,33 +192,6 @@
         }
       }
 
-      &[version='classic'][mode='light'] {
-        @include text-slate-60();
-
-        &.disabled,
-        &[disabled] {
-          @include text-slate-30();
-        }
-      }
-
-      &[version='classic'][mode='dark'] {
-        @include text-slate-40();
-
-        &.disabled,
-        &[disabled] {
-          @include text-classic-slate-50();
-        }
-      }
-
-      &[version='classic'][mode='contrast'] {
-        @include text-slate-80();
-
-        &.disabled,
-        &[disabled] {
-          @include text-slate-50();
-        }
-      }
-
       &:not([mode]) {
         @include text-slate-60();
       }
@@ -295,18 +213,6 @@
       }
 
       &[mode='contrast'] {
-        @include text-white();
-      }
-
-      &[version='classic'][mode='light'] {
-        @include text-white();
-      }
-
-      &[version='classic'][mode='dark'] {
-        @include text-white();
-      }
-
-      &[version='classic'][mode='contrast'] {
         @include text-white();
       }
     }

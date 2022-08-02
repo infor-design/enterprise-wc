@@ -29,9 +29,6 @@ export default class IdsThemeSwitcher extends Base {
   #attachEventHandlers() {
     this.onEvent('selected.themeswitcher', this.popup, (e: CustomEvent) => {
       const val = e.detail.elem.value;
-      if (val === 'classic' || val === 'new') {
-        this.version = val;
-      }
       if (val === 'light' || val === 'dark' || val === 'contrast') {
         this.mode = val;
       }
@@ -147,22 +144,6 @@ export default class IdsThemeSwitcher extends Base {
   }
 
   get mode(): string { return this.getAttribute('mode') || 'light'; }
-
-  /**
-   * Set the theme to a particular theme version
-   * @param {string} value The version value for example: classic or new
-   */
-  set version(value: string) {
-    if (value) {
-      this.setAttribute('version', value);
-      this.triggerEvent('themechanged', this, { detail: { elem: this, mode: this.mode, version: value } });
-      return;
-    }
-
-    this.removeAttribute('version');
-  }
-
-  get version(): string { return this.getAttribute('version') || 'new'; }
 
   /**
    * Implements callback from IdsColorVariantMixin used to

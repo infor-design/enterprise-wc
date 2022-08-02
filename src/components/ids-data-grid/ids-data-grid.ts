@@ -90,8 +90,7 @@ export default class IdsDataGrid extends Base {
       attributes.SUPPRESS_ROW_DEACTIVATION,
       attributes.SUPPRESS_ROW_DESELECTION,
       attributes.VIRTUAL_SCROLL,
-      attributes.MODE,
-      attributes.VERSION
+      attributes.MODE
     ];
   }
 
@@ -113,8 +112,7 @@ export default class IdsDataGrid extends Base {
       <div class="ids-data-grid${cssClasses}"
         role="table" part="table" aria-label="${this.label}"
         data-row-height="${this.rowHeight}"
-        mode="${this.mode}"
-        version="${this.version}">
+        mode="${this.mode}">
       ${this.headerTemplate()}
       ${this.bodyTemplate()}
       </div></div>`;

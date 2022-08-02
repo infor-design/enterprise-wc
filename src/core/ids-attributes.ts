@@ -366,7 +366,6 @@ export const attributes = {
   VALIDATION_TYPE: 'validation-type',
   VALUE: 'value',
   VALUE_SECONDARY: 'value-secondary',
-  VERSION: 'version',
   VERTICAL: 'vertical',
   VIEW: 'view',
   VIEW_PICKER: 'view-picker',

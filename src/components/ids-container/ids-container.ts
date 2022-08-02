@@ -62,7 +62,7 @@ export default class IdsContainer extends Base {
       attributes.PADDING,
       attributes.RESET,
       attributes.SCROLLABLE,
-      attributes.VERSION
+      attributes.MODE
     ];
   }
 

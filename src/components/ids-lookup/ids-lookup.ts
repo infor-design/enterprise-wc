@@ -85,8 +85,7 @@ export default class IdsLookup extends Base {
       attributes.READONLY,
       attributes.TABBABLE,
       attributes.TITLE,
-      attributes.VALUE,
-      attributes.VERSION
+      attributes.VALUE
     ];
   }
 

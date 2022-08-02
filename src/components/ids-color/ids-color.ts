@@ -45,8 +45,7 @@ export default class IdsColor extends Base {
       attributes.HEX,
       attributes.MODE,
       attributes.SIZE,
-      attributes.TOOLTIP,
-      attributes.VERSION
+      attributes.TOOLTIP
     ];
   }
 
