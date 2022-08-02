@@ -429,8 +429,7 @@ describe('Ids Month View e2e Tests', () => {
     expect(year).toEqual(now.getFullYear());
   });
 
-  // TODO - Enable after datepicker lifecycle fixed
-  it.skip('should handle month/year picklist when compact', async () => {
+  it('should handle month/year picklist when compact', async () => {
     await page.evaluate((el: any) => {
       const component = document.querySelector(el);
 
@@ -976,8 +975,7 @@ describe('Ids Month View e2e Tests', () => {
     expect(todayEl).not.toBeNull();
   });
 
-  // TODO - Enable after datepicker lifecycle fixed
-  it.skip('should show week numbers picklist', async () => {
+  it('should show week numbers picklist', async () => {
     await page.evaluate(() => {
       document.querySelector('ids-container')?.insertAdjacentHTML(
         'afterbegin',

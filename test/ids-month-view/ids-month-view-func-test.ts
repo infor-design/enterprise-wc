@@ -9,6 +9,64 @@ import eventsData from '../../src/assets/data/events.json';
 import eventTypesData from '../../src/assets/data/event-types.json';
 
 const name = 'ids-month-view';
+const month = 0;
+const year = 2021;
+const day = 15;
+const showToday = true;
+
+describe('IdsWeekView Component initialization', () => {
+  let container: any;
+
+  const setupComopnent = (component: any) => {
+    component.month = month;
+    component.year = year;
+    component.day = day;
+    component.showToday = showToday;
+  };
+
+  const testComponent = (component: any) => {
+    expect(component.month).toEqual(month);
+    expect(component.year).toEqual(year);
+    expect(component.day).toEqual(day);
+    expect(component.showToday).toEqual(showToday);
+  };
+
+  beforeEach(() => {
+    container = new IdsContainer();
+    document.body.appendChild(container);
+  });
+
+  afterEach(() => {
+    document.body.innerHTML = '';
+  });
+
+  it('can render via document.createElement (append early)', () => {
+    const component: any = document.createElement('ids-month-view');
+    container.appendChild(component);
+    setupComopnent(component);
+    testComponent(component);
+  });
+
+  it('can render via document.createElement (append late)', () => {
+    const component: any = document.createElement('ids-month-view');
+    setupComopnent(component);
+    container.appendChild(component);
+    testComponent(component);
+  });
+
+  it('can render html template', () => {
+    container.insertAdjacentHTML('beforeend', `
+      <ids-month-view
+        month="${month}"
+        day="${day}"
+        year="${year}"
+        show-today="${showToday}">
+      </ids-month-view>
+    `);
+    const component = document.querySelector('ids-month-view');
+    testComponent(component);
+  });
+});
 
 describe('IdsMonthView Component (using properties)', () => {
   let component: any;

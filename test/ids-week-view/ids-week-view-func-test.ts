@@ -10,7 +10,6 @@ import {
   firstDayOfWeekDate,
   lastDayOfWeekDate
 } from '../../src/utils/ids-date-utils/ids-date-utils';
-import processAnimFrame from '../helpers/process-anim-frame';
 
 const name = 'ids-week-view';
 const startDate = '11/08/2021';
@@ -60,10 +59,70 @@ const EVENT_TYPES = [
   }
 ];
 
+describe('IdsWeekView Component initialization', () => {
+  let container: any;
+
+  const setupComopnent = (component: any) => {
+    component.startDate = startDate;
+    component.endDate = endDate;
+    component.startHour = startHour;
+    component.endHour = endHour;
+    component.firstDayOfWeek = startFirstDayOfWeek;
+    component.showTimeline = true;
+  };
+
+  const testComponent = (component: any) => {
+    expect(component.startDate.toISOString()).toEqual(new Date(startDate).toISOString());
+    expect(component.endDate.toISOString()).toEqual(addDate(new Date(endDate), 1, 'days').toISOString());
+    expect(component.firstDayOfWeek).toEqual(startFirstDayOfWeek);
+    expect(component.startHour).toEqual(startHour);
+    expect(component.endHour).toEqual(endHour);
+    expect(component.showTimeline).toBeTruthy();
+  };
+
+  beforeEach(() => {
+    container = new IdsContainer();
+    document.body.appendChild(container);
+  });
+
+  afterEach(() => {
+    document.body.innerHTML = '';
+  });
+
+  it('can render via document.createElement (append early)', () => {
+    const component: any = document.createElement('ids-week-view');
+    container.appendChild(component);
+    setupComopnent(component);
+    testComponent(component);
+  });
+
+  it('can render via document.createElement (append late)', () => {
+    const component: any = document.createElement('ids-week-view');
+    setupComopnent(component);
+    container.appendChild(component);
+    testComponent(component);
+  });
+
+  it('can render html template', () => {
+    container.insertAdjacentHTML('beforeend', `
+      <ids-week-view
+        start-date="${startDate}"
+        end-date="${endDate}"
+        start-hour="${startHour}"
+        end-hour="${endHour}"
+        first-day-of-week="${startFirstDayOfWeek}"
+        show-timeline="${true}">
+      </ids-week-view>
+    `);
+    const component = document.querySelector('ids-week-view');
+    testComponent(component);
+  });
+});
+
 describe('IdsWeekView Component (using properties)', () => {
   let component: any;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     const container: any = new IdsContainer();
     document.body.appendChild(container);
     component = new IdsWeekView();
@@ -74,13 +133,10 @@ describe('IdsWeekView Component (using properties)', () => {
     component.endHour = endHour;
     component.showTimeline = false;
     component.timelineInterval = interval;
-
-    await container.setLanguage('en');
-    await container.setLocale('en-US');
     container.appendChild(component);
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     document.body.innerHTML = '';
     component = null;
   });
@@ -134,13 +190,11 @@ describe('IdsWeekView Component (using properties)', () => {
     expect(component.timelineInterval).toEqual(defaultInterval);
   });
 
-  it('can add calendar events', async () => {
+  it('can add calendar events', () => {
     component.eventTypesData = EVENT_TYPES;
     component.eventsData = EVENTS_ITEMS;
 
-    await processAnimFrame();
-
-    const expectedEventCount = 2;
+    const expectedEventCount = EVENTS_ITEMS.length;
     expect(component.container.querySelectorAll('ids-calendar-event')?.length).toBe(expectedEventCount);
   });
 });
@@ -148,7 +202,7 @@ describe('IdsWeekView Component (using properties)', () => {
 describe('IdsWeekView Component (using attributes)', () => {
   let component: any;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     const container: any = new IdsContainer();
     document.body.appendChild(container);
     container.insertAdjacentHTML('beforeend', `
@@ -165,7 +219,7 @@ describe('IdsWeekView Component (using attributes)', () => {
     component = document.querySelector(name);
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     document.body.innerHTML = '';
     component = null;
   });
@@ -200,14 +254,14 @@ describe('IdsWeekView Component (using attributes)', () => {
 describe('IdsWeekView Component (empty)', () => {
   let component: any;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     const container: any = new IdsContainer();
     document.body.appendChild(container);
     container.insertAdjacentHTML('beforeend', `<ids-week-view></ids-week-view>`);
     component = document.querySelector(name);
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     document.body.innerHTML = '';
     component = null;
   });
