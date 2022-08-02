@@ -281,7 +281,7 @@ class IdsDatePicker extends Base {
    * @returns {void}
    */
   onOutsideClick(e: any): void {
-    if (!e.composedPath()?.includes(this.popup)) {
+    if (!e.composedPath()?.includes(this.#popup)) {
       this.#togglePopup(false);
     }
   }
