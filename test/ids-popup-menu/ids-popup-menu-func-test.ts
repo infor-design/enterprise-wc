@@ -258,6 +258,19 @@ describe('IdsPopupMenu Component', () => {
     expect(menu.triggerType).toEqual('contextmenu');
   });
 
+  it('can set a triggering element separately from the target', () => {
+    const triggerElem = document.createElement('input');
+    triggerElem.id = 'test-input';
+    triggerElem.type = 'text';
+    document.body.appendChild(triggerElem);
+
+    menu.triggerType = 'click';
+    menu.triggerElem = triggerElem;
+    triggerElem.click();
+
+    expect(menu.visible).toBeTruthy();
+  });
+
   it('can set a target as an element', () => {
     const targetElem = document.createElement('button');
     targetElem.id = 'test-button';
