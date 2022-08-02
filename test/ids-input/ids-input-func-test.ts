@@ -670,11 +670,6 @@ describe('IdsInput Component', () => {
     expect(input.container.getAttribute('mode')).toEqual('dark');
   });
 
-  it('supports setting version', () => {
-    input.version = 'classic';
-    expect(input.container.getAttribute('version')).toEqual('classic');
-  });
-
   it('supports setting cursor', () => {
     input.cursor = 'pointer';
     expect(input.shadowRoot.querySelector('input').style.cursor).toEqual('pointer');

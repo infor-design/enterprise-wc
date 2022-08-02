@@ -49,7 +49,7 @@ export default class IdsActionSheet extends Base {
   template(): string {
     return `
       <div class="ids-action-sheet">
-        <ids-overlay opacity=".7"></ids-overlay>
+        <ids-overlay opacity=".5"></ids-overlay>
         <div class="ids-action-sheet-inner">
           <slot></slot>
           <ids-button type="secondary" part="cancel-btn">

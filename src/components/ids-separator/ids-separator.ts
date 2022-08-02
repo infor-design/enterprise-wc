@@ -67,6 +67,6 @@ export default class IdsSeparator extends Base {
   }
 
   get vertical() {
-    return this.container.classList.contains('vertical');
+    return this.container?.classList.contains('vertical');
   }
 }

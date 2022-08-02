@@ -126,11 +126,6 @@ describe('IdsListView Component', () => {
     expect(listView.container.getAttribute('mode')).toEqual('dark');
   });
 
-  it('supports setting version', () => {
-    listView.version = 'classic';
-    expect(listView.container.getAttribute('version')).toEqual('classic');
-  });
-
   it('supports setting height', () => {
     listView.height = '600px';
     expect(listView.getAttribute('height')).toEqual('600px');

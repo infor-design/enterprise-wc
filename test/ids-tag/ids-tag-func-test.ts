@@ -203,11 +203,6 @@ describe('IdsTag Component', () => {
     expect(tag.container.getAttribute('mode')).toEqual('dark');
   });
 
-  it('supports setting version', () => {
-    tag.version = 'classic';
-    expect(tag.container.getAttribute('version')).toEqual('classic');
-  });
-
   it('should be able to set attributes before append', async () => {
     const elem: any = new IdsTag();
     elem.color = 'red';

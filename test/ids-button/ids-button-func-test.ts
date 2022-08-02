@@ -343,11 +343,6 @@ describe('IdsButton Component', () => {
     expect(btn.container.getAttribute('mode')).toEqual('dark');
   });
 
-  it('supports setting version', () => {
-    btn.version = 'classic';
-    expect(btn.container.getAttribute('version')).toEqual('classic');
-  });
-
   it('supports setting color variants', async () => {
     await expectEnumAttributeBehavior({
       elem: btn,

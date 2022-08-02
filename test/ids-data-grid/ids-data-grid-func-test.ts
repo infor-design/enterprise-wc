@@ -1599,11 +1599,6 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.container.getAttribute('mode')).toEqual('dark');
     });
 
-    it('supports setting version', () => {
-      dataGrid.version = 'classic';
-      expect(dataGrid.container.getAttribute('version')).toEqual('classic');
-    });
-
     it('renders with listStyle option', () => {
       dataGrid.listStyle = true;
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').classList.contains('is-list-style')).toBeTruthy();

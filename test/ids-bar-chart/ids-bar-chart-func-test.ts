@@ -345,7 +345,7 @@ describe('IdsBarChart Component', () => {
     await processAnimFrame();
 
     const selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
-    expect(selected.length).toEqual(8);
+    expect(selected.length).toEqual(6);
   });
 
   it('should set pre selected item elements', async () => {
