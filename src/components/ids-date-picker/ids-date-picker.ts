@@ -460,11 +460,8 @@ class IdsDatePicker extends Base {
         this.#monthView.selectDay();
       }
       this.removeOpenEvents();
-
-      if (((!this.rangeSettings.start && !this.rangeSettings.end) || !this.useRange) || this.value) {
-        this.#popup.visible = false;
-        this.#popup.setAttribute('tabindex', -1);
-      }
+      this.#popup.visible = false;
+      this.#popup.setAttribute('tabindex', -1);
 
       this.container.classList.remove('is-open');
 
@@ -819,7 +816,7 @@ class IdsDatePicker extends Base {
 
     if (this.useRange) {
       if (this.rangeSettings.end || (this.rangeSettings.start && !this.rangeSettings.end)) {
-        if (this.#rangePickerMin && val.minDays !== undefined) {
+        if (this.#rangePickerMin && (val.minDays !== undefined)) {
           if (this.rangeSettings.start === this.rangeSettings.end) {
             this.rangeSettings.end = new Date(this.rangeSettings.end + (val.minDays * 24 * 60 * 60 * 1000));
           }
