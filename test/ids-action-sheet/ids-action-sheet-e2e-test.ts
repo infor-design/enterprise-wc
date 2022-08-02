@@ -46,7 +46,7 @@ describe('Ids Action Sheet e2e Tests', () => {
     let isVisible = await mobilePage.evaluate(`document.querySelector("ids-action-sheet").visible`);
     const cancelBtn = await mobilePage.evaluate(`document.querySelector("ids-action-sheet").cancelBtnText = ''`);
     expect(isVisible).toEqual(false);
-    expect(cancelBtn).toEqual(true);
+    expect(cancelBtn).toEqual('');
     await mobilePage.evaluate(`document.querySelector("#icon-button").click()`);
     isVisible = await mobilePage.evaluate(`document.querySelector("ids-action-sheet").visible`);
     expect(isVisible).toEqual(true);
