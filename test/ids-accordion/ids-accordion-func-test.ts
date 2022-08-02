@@ -222,11 +222,6 @@ describe('IdsAccordion Component', () => {
     expect(accordion.container.getAttribute('mode')).toEqual('dark');
   });
 
-  it('supports setting version', () => {
-    accordion.version = 'classic';
-    expect(accordion.container.getAttribute('version')).toEqual('classic');
-  });
-
   it('supports setting allow one pane', () => {
     accordion.allowOnePane = true;
     expect(accordion.allowOnePane).toBeTruthy();

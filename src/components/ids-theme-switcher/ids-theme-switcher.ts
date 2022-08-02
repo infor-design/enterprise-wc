@@ -16,6 +16,9 @@ export default class IdsThemeSwitcher extends Base {
 
   connectedCallback() {
     super.connectedCallback();
+    this.popup = this.shadowRoot.querySelector('ids-popup-menu');
+    this.menuButton = this.shadowRoot.querySelector('ids-menu-button');
+    this.menuButton.configureMenu();
     this.#attachEventHandlers();
   }
 
@@ -24,7 +27,7 @@ export default class IdsThemeSwitcher extends Base {
    * @private
    */
   #attachEventHandlers() {
-    this.onEvent('selected.themeswitcher', this.shadowRoot.querySelector('ids-popup-menu'), (e: CustomEvent) => {
+    this.onEvent('selected.themeswitcher', this.popup, (e: CustomEvent) => {
       const val = e.detail.elem.value;
       if (val === 'classic' || val === 'new') {
         this.version = val;
@@ -120,7 +123,7 @@ export default class IdsThemeSwitcher extends Base {
    * @returns {Array} The attributes in an array
    */
   static get attributes(): Array<any> {
-    return [...super.attributes, attributes.LANGUAGE, attributes.MODE, attributes.VERSION];
+    return [...super.attributes, attributes.LANGUAGE, attributes.MODE];
   }
 
   /**

@@ -33,6 +33,10 @@ export default class IdsContainer extends Base {
       this.#addReset();
     }
 
+    // Set initial lang and locale
+    this.setAttribute('language', this.state.locale.state.language);
+    this.setAttribute('locale', this.state.locale.state.localeName);
+
     // Remove hidden for FOUC
     this.onEvent('load.container', window, () => {
       this.removeAttribute('hidden');
@@ -43,10 +47,7 @@ export default class IdsContainer extends Base {
     if (document.readyState === 'complete') {
       this.removeAttribute('hidden');
     }
-
-    // Set initial lang and locale
-    this.setAttribute('language', this.state.locale.state.language);
-    this.setAttribute('locale', this.state.locale.state.localeName);
+    if (this.padding) this.container.style.padding = `${this.padding}px`;
   }
 
   /**
