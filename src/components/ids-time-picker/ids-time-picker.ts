@@ -205,8 +205,9 @@ export default class IdsTimePicker extends Base {
    * @returns {void}
    */
   onOutsideClick(e: any): void {
-    if ((!this.autoselect && !e.composedPath()?.includes(this.popup))
-    || (this.autoselect && !e.composedPath()?.includes(this.popup) && !e.composedPath()?.includes(this.input))) {
+    const path = e.path || (e.composedPath && e.composedPath());
+    if ((!this.autoselect && !path?.includes(this.popup))
+    || (this.autoselect && !path?.includes(this.popup) && !path?.includes(this.input))) {
       this.close();
     }
   }
