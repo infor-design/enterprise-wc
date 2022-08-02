@@ -1231,14 +1231,14 @@ class IdsDatePicker extends Base {
 
       if (!this.isCalendarToolbar && !this.value.includes('-')) {
         // '+' increments day
-        if (key === 187 || key === 107) {
+        if (key === 187 || key === 107 || key === 61) {
           stopEvent();
 
           this.#changeDate('next-day');
         }
 
         // '-' decrements day
-        if (key === 189 || key === 109) {
+        if (key === 189 || key === 109 || key === 173) {
           stopEvent();
 
           this.#changeDate('previous-day');

@@ -63,6 +63,12 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
 
     flex-grow: 1;
     align-items: center;
+
+    &.align-center-even {
+      ::slotted(*) {
+        margin: auto !important;
+      }
+    }
   }
 
   // Contains Searchfields
