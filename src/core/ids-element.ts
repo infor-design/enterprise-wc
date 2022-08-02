@@ -45,7 +45,8 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
    * @param {string} newValue The property new value
    */
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-    if (oldValue === newValue) return;
+    // Prevent double calls
+    if (oldValue === newValue || (new Error() as any).stack?.indexOf(`set ${name}`) > -1) return;
 
     /**
      * Fixes our handling of kebab-to-camelCase conversions in some specific cases

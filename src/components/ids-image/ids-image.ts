@@ -173,7 +173,7 @@ export default class IdsImage extends Base {
    * @param {string} val alt attribute value
    */
   set alt(val: string) {
-    const img = this.shadowRoot.querySelector('img');
+    const img = this.shadowRoot?.querySelector('img');
     if (val) {
       this.setAttribute(attributes.ALT, val);
       img?.setAttribute(attributes.ALT, val);

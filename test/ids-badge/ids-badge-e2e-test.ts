@@ -19,7 +19,7 @@ describe('Ids Badge e2e Tests', () => {
     await (expect(page) as any).toPassAxeTests({ disabledRules: ['color-contrast'] });
   });
 
-  it.skip('should not have memory leaks', async () => {
+  it('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', `<ids-badge id="test" color="error">1500</ids-badge>`);
@@ -27,5 +27,62 @@ describe('Ids Badge e2e Tests', () => {
     });
 
     expect(await countObjects(page)).toEqual(numberOfObjects);
+  });
+
+  it('should be able to createElement', async () => {
+    let hasError = false;
+    try {
+      await page.evaluate(() => {
+        document.createElement('ids-badge');
+      });
+    } catch (err) {
+      hasError = true;
+    }
+    await expect(hasError).toEqual(false);
+  });
+
+  it('should be able to set attributes before append', async () => {
+    let hasError = false;
+    try {
+      await page.evaluate(() => {
+        const elem: any = document.createElement('ids-badge');
+        elem.color = 'error';
+        document.body.appendChild(elem);
+      });
+    } catch (err) {
+      hasError = true;
+    }
+    await expect(hasError).toEqual(false);
+  });
+
+  it('should be able to set attributes after append', async () => {
+    let hasError = false;
+    try {
+      await page.evaluate(() => {
+        const elem:any = document.createElement('ids-badge');
+        document.body.appendChild(elem);
+        elem.icon = 'error';
+      });
+    } catch (err) {
+      hasError = true;
+    }
+    await expect(hasError).toEqual(false);
+  });
+
+  it('should be able to set attributes after insertAdjacentHTML', async () => {
+    let hasError = false;
+    try {
+      await page.evaluate(() => {
+        document.body.insertAdjacentHTML('beforeend', '<ids-badge id="test" color="error"></ids-badge>');
+        const elem:any = document.querySelector('#test');
+        elem.color = 'info';
+      });
+    } catch (err) {
+      hasError = true;
+    }
+
+    const value = await page.evaluate('document.querySelector("#test").container.getAttribute("color")');
+    await expect(value).toEqual('info');
+    await expect(hasError).toEqual(false);
   });
 });

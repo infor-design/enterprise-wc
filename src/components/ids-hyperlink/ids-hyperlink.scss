@@ -103,7 +103,7 @@
   // =========================================
   // Theme colors are applied when `color="unset"` is not set
   &:not(.ids-hyperlink-color-unset) {
-    &[version='new'][mode='light'],
+    &[mode='light'],
     &:not([mode]) {
       @include text-azure-60();
 
@@ -123,7 +123,7 @@
       }
     }
 
-    &[version='new'][mode='dark'] {
+    &[mode='dark'] {
       @include text-azure-40();
 
       &:focus {
@@ -142,7 +142,7 @@
       }
     }
 
-    &[version='new'][mode='contrast'] {
+    &[mode='contrast'] {
       @include text-azure-90();
 
       &:focus {
@@ -219,7 +219,7 @@
     // ===============================================
     // Color Variants
     &.color-variant-breadcrumb {
-      &[version='new'][mode='light'],
+      &[mode='light'],
       &:not([mode]) {
         @include text-slate-60();
 
@@ -229,7 +229,7 @@
         }
       }
 
-      &[version='new'][mode='dark'] {
+      &[mode='dark'] {
         @include text-slate-40();
 
         &.disabled,
@@ -238,7 +238,7 @@
         }
       }
 
-      &[version='new'][mode='contrast'] {
+      &[mode='contrast'] {
         @include text-slate-80();
 
         &.disabled,
@@ -285,16 +285,16 @@
         opacity: 0.7;
       }
 
-      &[version='new'][mode='light'],
+      &[mode='light'],
       &:not([mode]) {
         @include text-white();
       }
 
-      &[version='new'][mode='dark'] {
+      &[mode='dark'] {
         @include text-white();
       }
 
-      &[version='new'][mode='contrast'] {
+      &[mode='contrast'] {
         @include text-white();
       }
 

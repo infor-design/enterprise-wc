@@ -356,7 +356,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
 // =======================================================
 // Handle Themes
 
-.ids-input[version='new'][mode='light'],
+.ids-input[mode='light'],
 .ids-input:not([mode]) {
   .field-container {
     @include bg-white();
@@ -485,7 +485,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   }
 }
 
-.ids-input[version='new'][mode='dark'] {
+.ids-input[mode='dark'] {
   .field-container {
     @include bg-transparent();
     @include border-slate-40();
@@ -590,7 +590,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   }
 }
 
-.ids-input[version='new'][mode='contrast'] {
+.ids-input[mode='contrast'] {
   .field-container {
     @include bg-white();
     @include border-slate-40();
