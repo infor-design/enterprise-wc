@@ -15,7 +15,6 @@ import styles from './ids-pager-button.scss';
  * @type {IdsPagerButton}
  * @inherits IdsElement
  * @mixes IdsLocaleMixin
- * @mixes IdsEventsMixin
  * @part button - the `ids-button` component
  * @part icon - the `ids-icon` component
  */

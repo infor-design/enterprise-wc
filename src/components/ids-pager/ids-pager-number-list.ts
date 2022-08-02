@@ -244,101 +244,54 @@ export default class IdsPagerNumberList extends Base {
     return this;
   }
 
-  /**
-   * Get the list of pagination limit.
-   * @private
-   * @param {number} pageNumber The current page number
-   * @param {number} pageCount Total count
-   * @param {number} step Total count
-   * @returns {Array<unknown>} The list of pagination data
-   */
-  #paginationLimit(pageNumber: number, pageCount: number, step = 3): Array<unknown> {
-    step = Math.max(1, step); // Step not less then one
-
-    // Ensure current page isn't out of range
-    if (pageNumber < 1) pageNumber = 1;
-    if (pageNumber > pageCount) pageNumber = pageCount;
-
-    // Collection to return
-    const pagination: any[] = [];
-
-    // Set object to be selected or not
-    const content = (num: number) => (num === pageNumber
-      ? { pageNumber: num, selected: true } : { pageNumber: num });
-
-    // Add to collection from given start to end
-    const add = (start: number, end: number) => {
-      for (let i = start; i < end; i++) {
-        pagination.push(content(i));
-      }
-    };
-
-    // First page add to collection
-    const first = () => {
-      pagination.push(content(1));
-      pagination.push({ pageNumber: -1, divider: true });
-    };
-
-    // Last page add to collection
-    const last = () => {
-      pagination.push({ pageNumber: -1, divider: true });
-      pagination.push(content(pageCount));
-    };
-
-    if (pageCount < step * 2 + 6) {
-      add(1, pageCount + 1);
-    } else if (pageNumber < step * 2 + 1) {
-      add(1, step * 2 + 4);
-      last();
-    } else if (pageNumber > pageCount - step * 2) {
-      first();
-      add(pageCount - step * 2 - 2, pageCount + 1);
-    } else {
-      first();
-      add(pageNumber - step, pageNumber + step + 1);
-      last();
-    }
-
-    return pagination;
+  #attachAria(): void {
+    const pageCount = this.pageCount;
+    const label = (id: any) => this.label.replace('{num}', `${id}`).replace('{total}', `${pageCount}`);
+    this.container.querySelectorAll('ids-button[data-id]').forEach((btn: any) => {
+      const id = btn?.getAttribute('data-id');
+      if (id) btn?.button?.setAttribute('aria-label', label(id));
+    });
   }
 
   #populatePageNumberButtons(): void {
     const pageCount = this.pageCount;
     if (!pageCount) return;
 
-    const pageNumber = this.pageNumber;
+    const pageNumber = Number(this.pageNumber);
     const disabled = this.disabledOverall ? ' disabled' : '';
-    const selected = (p: any) => (p.selected ? ' selected' : '');
-    const addButton = (p: any) => `
-      <ids-button data-id="${p.pageNumber}"${selected(p)}${disabled}>${p.pageNumber}</ids-button>
-    `;
-    let pageNumberHtml = '';
 
-    if (this.step === -1) {
-      // Show all
-      const content = (num: number) => (num === pageNumber
-        ? { pageNumber: num, selected: true } : { pageNumber: num });
-      for (let i = 1; i <= pageCount; i++) {
-        pageNumberHtml += addButton(content(i));
-      }
+    const buttons = [...new Array(pageCount)].map((value, key) => {
+      const buttonNumber = key + 1;
+      const selected = (buttonNumber === pageNumber) ? ' selected' : '';
+
+      return `
+        <ids-button data-id="${buttonNumber}"${selected}${disabled}>${buttonNumber}</ids-button>
+      `;
+    });
+
+    const firstButton = buttons[0];
+    const lastButton = buttons[buttons.length - 1];
+    const divider = '<p class="divider">&#8230;</p>'; // horizontal ellipsis
+
+    const leftBufferSize = Number(this.step);
+    const rightBufferSize = leftBufferSize;
+    const totalBufferSize = leftBufferSize + rightBufferSize;
+    const showStart = (pageNumber - totalBufferSize) < 1;
+    const showEnd = (pageNumber + totalBufferSize) > pageCount;
+
+    let visibleButtons = [];
+    if (showStart) {
+      const startButtons = buttons.slice(0, totalBufferSize + rightBufferSize);
+      visibleButtons = startButtons.concat([divider, lastButton]);
+    } else if (showEnd) {
+      const endButtons = buttons.slice(-1 * (totalBufferSize + leftBufferSize));
+      visibleButtons = [firstButton, divider].concat(endButtons);
     } else {
-      // Show with limit
-      this.#paginationLimit(pageNumber, pageCount, this.step).forEach((p: any) => {
-        if (p.divider) {
-          pageNumberHtml += '<p class="divider">&#8230;</p>'; // horizontal ellipsis
-        } else {
-          pageNumberHtml += addButton(p);
-        }
-      });
+      const middleButtons = buttons.slice(pageNumber - leftBufferSize, pageNumber + rightBufferSize);
+      visibleButtons = [firstButton, divider].concat([...middleButtons, divider, lastButton]);
     }
 
-    this.container.innerHTML = pageNumberHtml;
-
-    // Add aria
-    const label = (id: any) => this.label.replace('{num}', `${id}`).replace('{total}', `${pageCount}`);
-    this.container.querySelectorAll('ids-button[data-id]').forEach((btn: any) => {
-      const id = btn?.getAttribute('data-id');
-      if (id) btn?.button?.setAttribute('aria-label', label(id));
-    });
+    this.container.innerHTML = visibleButtons.join('');
+    this.#attachAria();
   }
 }

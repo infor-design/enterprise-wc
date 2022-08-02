@@ -15,7 +15,6 @@ import styles from './ids-pager.scss';
  * IDS Pager Component
  * @type {IdsPager}
  * @inherits IdsElement
- * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  * @part container the overall ids-pager container
  */

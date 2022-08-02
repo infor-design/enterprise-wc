@@ -47,6 +47,14 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
     ];
   }
 
+  pageListTemplate() {
+    return `
+      <ids-pager-button label="Previous page" previous></ids-pager-button>
+      <ids-pager-number-list label="Page {num} of {total}"></ids-pager-number-list>
+      <ids-pager-button label="Next page" next></ids-pager-button>
+    `;
+  }
+
   pagerTemplate() {
     const pageSize = Math.max(this.pageSize || 0, 1);
     return `

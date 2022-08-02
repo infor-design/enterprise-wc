@@ -56,6 +56,7 @@ export default class IdsWeekView extends Base {
     super.connectedCallback();
     this.setDirection();
     this.#renderToolbar();
+    this.#renderWeek();
     this.#attachEventHandlers();
   }
 
