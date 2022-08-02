@@ -109,7 +109,7 @@ export default class IdsTreeMap extends Base {
       this.removeAttribute(attributes.TITLE);
     }
 
-    const titleText = this.shadowRoot.querySelector('[part="title"]');
+    const titleText = this.shadowRoot?.querySelector('[part="title"]');
     if (titleText) {
       titleText.innerHTML = value ? value.toString() : '';
     }
