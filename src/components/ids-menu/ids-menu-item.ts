@@ -48,7 +48,7 @@ export default class IdsMenuItem extends Base {
     let disabledClass = '';
     let disabledAttr = '';
     if (this.state?.disabled) {
-      disabledClass = ' is-disabled';
+      disabledClass = ' disabled';
       disabledAttr = ' disabled';
     }
 
@@ -57,40 +57,23 @@ export default class IdsMenuItem extends Base {
 
     // Icon
     let icon = '';
-    if (this.state?.icon) {
-      icon = this.templateDisplayIcon(this.state.icon);
-    }
+    if (this.state?.icon) icon = this.templateDisplayIcon(this.state.icon);
     const iconSlot = `<span class="ids-menu-item-icon" role="presentation"><slot name="icon">${icon}</slot></span>`;
 
     // Selected
     let selectedClass = '';
-    if (this.state?.selected) {
-      selectedClass = ' selected';
-    }
+    if (this.state?.selected) selectedClass = ' selected';
 
     // Submenu
     let submenuClass = '';
-    if (this.submenu) {
-      submenuClass = ' has-submenu';
-    }
+    if (this.submenu) submenuClass = ' has-submenu';
 
     // Tabindex
     let tabindex = 'tabindex="0"';
-    if (this.state?.tabIndex && !this.state?.disabled) {
-      tabindex = ` tabindex="${this.state.tabIndex}"`;
-    }
+    if (this.state?.tabIndex && !this.state?.disabled) tabindex = ` tabindex="${this.state.tabIndex}"`;
 
     // TextAlign
-    let textClass = '';
-    if (this.textAlign === 'center') {
-      textClass = ' text-center';
-    }
-    if (this.textAlign === 'start') {
-      textClass = ' text-start';
-    }
-    if (this.textAlign === 'end') {
-      textClass = ' text-end';
-    }
+    const textClass = ` text-${this.textAlign}`;
 
     // Text
     const textSlot = `<span class="ids-menu-item-text" part="text"><slot></slot></span>`;

@@ -1,6 +1,6 @@
 // Import Core
 import { customElement, scss } from '../../core/ids-decorators';
-import { attributes, htmlAttributes } from '../../core/ids-attributes';
+import { htmlAttributes } from '../../core/ids-attributes';
 
 // Import Base and Mixins
 import Base from './ids-menu-header-base';
@@ -30,9 +30,7 @@ export default class IdsMenuHeader extends Base {
 
   static get attributes() {
     return [
-      ...super.attributes,
-      attributes.MODE,
-      attributes.VERSION
+      ...super.attributes
     ];
   }
 

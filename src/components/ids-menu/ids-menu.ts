@@ -128,18 +128,16 @@ export default class IdsMenu extends Base {
    * @returns {string} The template
    */
   template() {
-    // Setup the attributes on the top-level menu container
     let id;
-    if (this.id) {
-      id = ` id="${this.id}"`;
-    }
+    if (this.id) id = ` id="${this.id}"`;
+
+    let disabledClass = '';
+    if (this.disabled) disabledClass = ' disabled';
 
     let slot = '';
-    if (this.tagName.toLowerCase() === 'ids-popup-menu') {
-      slot = ` slot="content"`;
-    }
+    if (this.tagName.toLowerCase() === 'ids-popup-menu') slot = ` slot="content"`;
 
-    return `<nav class="ids-menu"${id}${slot} part="menu" role="none"><slot></slot></nav>`;
+    return `<nav class="ids-menu${disabledClass}"${id}${slot} part="menu" role="none"><slot></slot></nav>`;
   }
 
   /**
