@@ -1,8 +1,50 @@
 /**
  * @jest-environment jsdom
  */
+import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsTreeMap from '../../src/components/ids-treemap/ids-treemap';
 import '../helpers/resize-observer-mock';
+
+describe('IdsTreemap Component initialization', () => {
+  let container: any;
+
+  const setupComponent = (component: any) => {
+    component.title = 'Storage Utilization (78 GB)';
+  };
+
+  const checkProperties = (component: any) => {
+    expect(component.title).toEqual('Storage Utilization (78 GB)');
+  };
+
+  beforeEach(() => {
+    container = new IdsContainer();
+    document.body.appendChild(container);
+  });
+
+  afterEach(() => {
+    document.body.innerHTML = '';
+  });
+
+  it('can render via document.createElement (append early)', () => {
+    const component: any = document.createElement('ids-treemap');
+    container.appendChild(component);
+    setupComponent(component);
+    checkProperties(component);
+  });
+
+  it('can render via document.createElement (append late)', () => {
+    const component: any = document.createElement('ids-treemap');
+    setupComponent(component);
+    container.appendChild(component);
+    checkProperties(component);
+  });
+
+  it('can render html template', () => {
+    container.insertAdjacentHTML('beforeend', `<ids-treemap title="Storage Utilization (78 GB)"></ids-treemap>`);
+    const component = document.querySelector('ids-treemap');
+    checkProperties(component);
+  });
+});
 
 describe('IdsTreeMap Component', () => {
   let treemap: any;
