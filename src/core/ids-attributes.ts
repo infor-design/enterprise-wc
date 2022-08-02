@@ -348,6 +348,7 @@ export const attributes = {
   TRIGGERFIELD: 'triggerfield',
   TRIGGER_ELEM: 'trigger-elem',
   TRIGGER_LABEL: 'trigger-label',
+  TRIGGER_TYPE: 'trigger-type',
   TRUNCATE: 'truncate',
   TYPE: 'type',
   TYPEAHEAD: 'typeahead',

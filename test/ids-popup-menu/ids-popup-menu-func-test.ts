@@ -244,18 +244,18 @@ describe('IdsPopupMenu Component', () => {
   });
 
   it('can change its trigger type', () => {
-    menu.trigger = 'click';
+    menu.triggerType = 'click';
 
-    expect(menu.trigger).toEqual('click');
+    expect(menu.triggerType).toEqual('click');
 
-    menu.trigger = 'immediate';
+    menu.triggerType = 'immediate';
 
-    expect(menu.trigger).toEqual('immediate');
+    expect(menu.triggerType).toEqual('immediate');
 
     // Junk values get reset to `contextmenu`
-    menu.trigger = 'howdy';
+    menu.triggerType = 'howdy';
 
-    expect(menu.trigger).toEqual('contextmenu');
+    expect(menu.triggerType).toEqual('contextmenu');
   });
 
   it('can set a target as an element', () => {
@@ -303,7 +303,7 @@ describe('IdsPopupMenu Component', () => {
     document.body.appendChild(targetElem);
 
     menu.target = targetElem;
-    menu.trigger = 'click';
+    menu.triggerType = 'click';
 
     const clickEvent = new MouseEvent('click', { bubbles: true });
 
@@ -324,7 +324,7 @@ describe('IdsPopupMenu Component', () => {
   it('can trigger by click without a target', (done) => {
     const clickEvent = new MouseEvent('click', { bubbles: true });
 
-    menu.trigger = 'click';
+    menu.triggerType = 'click';
 
     document.body.dispatchEvent(clickEvent);
 

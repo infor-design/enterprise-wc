@@ -31,7 +31,7 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
     if (!this.state) {
       this.state = {};
     }
-    this.state.trigger = POPUP_TRIGGER_TYPES[0];
+    this.state.triggerType = POPUP_TRIGGER_TYPES[0];
     this.state.triggerElem = null;
     this.state.currentTriggerElem = null;
   }
@@ -44,7 +44,7 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
     return [
       ...super.attributes,
       attributes.TARGET,
-      attributes.TRIGGER,
+      attributes.TRIGGER_TYPE,
       attributes.TRIGGER_ELEM
     ];
   }
@@ -106,22 +106,22 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
   /**
    * @returns {string} the type of action that will trigger this Popupmenu
    */
-  get trigger(): HTMLElement {
-    return this.state.trigger;
+  get triggerType(): HTMLElement {
+    return this.state.triggerType;
   }
 
   /**
    * @param {string} val a valid trigger type
    */
-  set trigger(val: string | HTMLElement) {
-    const current = this.state.trigger;
+  set triggerType(val: string | HTMLElement) {
+    const current = this.state.triggerType;
     let trueTriggerType = val;
     if (!POPUP_TRIGGER_TYPES.includes(val as string)) {
       trueTriggerType = POPUP_TRIGGER_TYPES[0];
     }
     if (current !== trueTriggerType) {
       this.removeTriggerEvents();
-      this.state.trigger = trueTriggerType;
+      this.state.triggerType = trueTriggerType;
       this.refreshTriggerEvents();
     }
   }
@@ -165,7 +165,7 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
     this.state.currentTriggerElem = targetElem;
 
     // Based on the trigger type, bind new events
-    switch (this.state.trigger) {
+    switch (this.state.triggerType) {
       case 'click':
       // Configure some settings for opening
         this.popup.align = 'bottom, left';

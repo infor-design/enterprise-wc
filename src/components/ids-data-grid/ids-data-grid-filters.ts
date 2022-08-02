@@ -843,7 +843,7 @@ export default class IdsDataGridFilters {
         id="btn-${id}"
         menu="menu-${id}"
         square="true"
-        trigger="click"
+        trigger-type="click"
         ${disabled}${readonly}
         dropdown-icon>
         <span slot="text" class="audible">${sel.label}</span>
