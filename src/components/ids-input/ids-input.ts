@@ -376,6 +376,8 @@ export default class IdsInput extends Base {
    */
   setInputState(prop: string): void {
     if (prop === attributes.READONLY || prop === attributes.DISABLED) {
+      if (!this.shadowRoot) return;
+
       const msgNodes = [].slice.call(this.shadowRoot.querySelectorAll('.validation-message'));
       const options = {
         prop1: prop,
