@@ -217,9 +217,9 @@ export default class IdsMenuButton extends Base {
    */
   setActiveState(isActive: boolean) {
     if (isActive) {
-      this.button.classList.add('is-active');
+      this.button?.classList.add('is-active');
     } else {
-      this.button.classList.remove('is-active');
+      this.button?.classList.remove('is-active');
     }
   }
 
@@ -230,7 +230,7 @@ export default class IdsMenuButton extends Base {
     if (!this.menuEl || !this.menuEl.popup) {
       return;
     }
-    this.menuEl.popup.container.style.minWidth = `${this.button.clientWidth}px`;
+    this.menuEl.popup.container.style.minWidth = `${this.button?.clientWidth}px`;
   }
 
   /**

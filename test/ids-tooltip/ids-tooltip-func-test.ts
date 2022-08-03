@@ -51,6 +51,20 @@ describe('IdsTooltip Component', () => {
     expect(tooltip.shadowRoot.innerHTML).toMatchSnapshot();
   });
 
+  it('renders via document.createElement (append late)', () => {
+    const errors = jest.spyOn(global.console, 'error');
+    const elem = document.createElement('ids-tooltip');
+
+    elem.setAttribute('id', 'tooltip-example');
+    elem.setAttribute('target', '#button-1');
+    elem.setAttribute('data-automation-id', 'tooltip-example');
+    elem.innerHTML = 'Additional Information';
+    document.body.appendChild(elem);
+
+    expect(document.querySelectorAll('ids-tooltip').length).toEqual(2);
+    expect(errors).not.toHaveBeenCalled();
+  });
+
   it('handles two or more elements can share a tooltip', (done) => {
     const buttonElem: any = new IdsButton();
     buttonElem.id = 'button-2';

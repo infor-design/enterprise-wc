@@ -35,7 +35,6 @@ export default class IdsToolbarMoreActions extends Base {
 
   connectedCallback(): void {
     super.connectedCallback();
-    this.button.configureMenu();
 
     requestAnimationFrame(() => {
       this.render();
@@ -229,14 +228,14 @@ export default class IdsToolbarMoreActions extends Base {
     }
 
     this.button.disabled = trueVal;
-    this.container.classList[trueVal ? 'add' : 'remove'](attributes.DISABLED);
+    this.container?.classList[trueVal ? 'add' : 'remove'](attributes.DISABLED);
   }
 
   /**
    * @returns {boolean} true if the More Actions menu is currently disabled
    */
   get disabled(): boolean {
-    return this.container?.classList.contains(attributes.DISABLED);
+    return !!this.container?.classList.contains(attributes.DISABLED);
   }
 
   /**
@@ -267,10 +266,10 @@ export default class IdsToolbarMoreActions extends Base {
   set toolbarType(value: string) {
     if (TOOLBAR_TYPES.includes(value)) {
       this.setAttribute(attributes.TOOLBAR_TYPE, value);
-      this.container.classList.add(value);
+      this.container?.classList.add(value);
     } else {
       this.removeAttribute(attributes.TOOLBAR_TYPE);
-      this.container.classList.remove(TOOLBAR_TYPES[0]);
+      this.container?.classList.remove(TOOLBAR_TYPES[0]);
     }
   }
 

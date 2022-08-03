@@ -126,10 +126,10 @@ const IdsCalendarEventsMixin = (superclass: any) => class extends superclass {
 
     return `
       <ids-toolbar-section align="end">
-        <ids-menu-button menu="view-picker" value="${view}" dropdown-icon>
+        <ids-menu-button id="view-picker-btn" menu="view-picker" value="${view}" dropdown-icon>
           <span slot="text"><ids-text translate-text="true">${value}</ids-text></span>
-        </ids-menu-button>
-        <ids-popup-menu id="view-picker" trigger-type="click">
+        </ids-menu-button>      
+        <ids-popup-menu id="view-picker" trigger-type="click" target="#view-picker-btn">
           <ids-menu-group select="single">
             <ids-menu-item value="month" selected="${view === 'month'}">
               <ids-text translate-text="true">Month</ids-text>

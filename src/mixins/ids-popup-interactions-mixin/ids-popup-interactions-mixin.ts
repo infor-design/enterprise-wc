@@ -51,14 +51,26 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
 
   connectedCallback() {
     super.connectedCallback?.();
-    if (this.triggerElem || this.target) {
-      this.refreshTriggerEvents();
-    }
+    this.#setInitialState();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback?.();
     this.removeTriggerEvents();
+  }
+
+  #setInitialState() {
+    const targetSelector = this.getAttribute(attributes.TARGET);
+    const initTarget = this.parentNode?.querySelector(targetSelector);
+
+    if (this.popup && initTarget) {
+      this.popup.alignTarget = initTarget;
+    }
+
+    if (this.triggerElem || initTarget) {
+      this.removeTriggerEvents();
+      this.refreshTriggerEvents();
+    }
   }
 
   /**
