@@ -696,6 +696,7 @@ export default class IdsEditor extends Base {
     this.#elems.hyperlinkBtn = this.querySelector('[editor-action="hyperlink"]');
     // Formatblock
     this.#elems.formatblock = { btn: this.querySelector('[editor-action="formatblock"]'), items: {} };
+    this.#elems.formatblock.btn?.configureMenu();
     this.#elems.formatblock.btn?.menuEl?.items?.forEach((item: any) => {
       const text = item.text || item.textContent?.trim();
       this.#elems.formatblock.items[item.value] = { text, value: item.value };

@@ -570,6 +570,7 @@ export default class IdsInput extends Base {
    * @private
    */
   #passwordVisibilityHandler(): void {
+    if (!this.shadowRoot) return;
     const passwordButton = this.shadowRoot.querySelector(`.show-hide-password`);
     const passwordField = this.shadowRoot.querySelector(`.ids-input-field`);
     if (passwordButton) {
