@@ -35,6 +35,7 @@ export default class IdsToolbarMoreActions extends Base {
 
   connectedCallback(): void {
     super.connectedCallback();
+    this.button.configureMenu();
 
     requestAnimationFrame(() => {
       this.render();
