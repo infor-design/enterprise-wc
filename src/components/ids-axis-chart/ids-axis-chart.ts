@@ -267,8 +267,8 @@ export default class IdsAxisChart extends Base {
 
     // Completed Event and Callback
     this.triggerEvent('rendered', this, { svg: this.svg, data: this.data, markerData: this.markerData });
-    if (this.mountedCallback) {
-      this?.mountedCallback();
+    if (this.afterConnectedCallback) {
+      this?.afterConnectedCallback();
     }
   }
 

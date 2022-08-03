@@ -136,7 +136,7 @@ export default class IdsDropdown extends Base {
     return `
     <div class="ids-dropdown">
       <ids-trigger-field
-        ${!this.typeahead ? ' readonly="true"' : ''}
+        ${!this.typeahead && !this.disabled ? ' readonly="true"' : ''}
         ${this.disabled ? ' disabled="true"' : ''}
         ${this.readonly ? '' : ' readonly-background'}
         cursor="pointer"
@@ -366,6 +366,7 @@ export default class IdsDropdown extends Base {
   set disabled(value) {
     const isDisabled = stringToBool(value);
     if (isDisabled) {
+      this.removeAttribute(attributes.READONLY);
       if (this.input) {
         this.input.disabled = true;
         this.input.readonly = false;
@@ -507,11 +508,11 @@ export default class IdsDropdown extends Base {
     if (!this.popup) return;
 
     this.popup.type = 'dropdown';
-    this.popup.alignTarget = this.input.fieldContainer.querySelector('input');
+    this.popup.alignTarget = this.input.fieldContainer;
     this.popup.align = 'bottom, left';
     this.popup.arrow = 'none';
     this.popup.y = -1;
-    this.popup.x = -1;
+    this.popup.x = 0;
 
     // Fix aria if the menu is closed
     if (!this.popup.visible) {
@@ -593,7 +594,8 @@ export default class IdsDropdown extends Base {
       this.close(true);
     }
 
-    if (this.typeahead && !(e.path?.includes(this.popup) || e.path?.includes(this.input.fieldContainer))) {
+    if (this.typeahead && !(e.composedPath()?.includes(this.popup)
+      || e.composedPath()?.includes(this.input.fieldContainer))) {
       this.close(true);
     }
   }
@@ -673,7 +675,6 @@ export default class IdsDropdown extends Base {
     this.onEvent('click.dropdown-list-box', this.listBox, (e: any) => {
       if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
         this.value = e.target.getAttribute('value');
-        return;
       }
 
       if (e.target.closest('ids-list-box-option')) {

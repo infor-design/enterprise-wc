@@ -95,7 +95,7 @@ export default class IdsPieChart extends Base {
   /**
    * Invoked after rendering
    */
-  mountedCallback(): void {
+  afterConnectedCallback(): void {
     this.legendsClickable?.(this.selectable);
     this.#preSelected();
     this.#attachTooltipEvents();
@@ -122,9 +122,6 @@ export default class IdsPieChart extends Base {
 
     // Completed Event and Callback
     this.triggerEvent('rendered', this, { svg: this.svg, data: this.data, markerData: this.markerData });
-    if (this.rendered) {
-      this?.mountedCallback();
-    }
   }
 
   /**

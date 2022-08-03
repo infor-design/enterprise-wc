@@ -52,7 +52,7 @@ export default class IdsLineChart extends Base {
     ];
   }
 
-  mountedCallback() {
+  afterConnectedCallback() {
     this.#preSelected();
     this.attachTooltipEvents();
   }

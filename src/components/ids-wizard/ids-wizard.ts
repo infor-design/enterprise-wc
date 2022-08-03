@@ -256,14 +256,14 @@ export default class IdsWizard extends Base {
       attributes: true,
       subtree: true
     });
-    this.mountedCallback();
+    this.#afterConnectedCallback();
   }
 
   /**
    * Binds associated callbacks and cleans
    * old handlers when template refreshes
    */
-  mountedCallback() {
+  #afterConnectedCallback() {
     if (!this.shouldUpdateCallbacks) {
       return;
     }
