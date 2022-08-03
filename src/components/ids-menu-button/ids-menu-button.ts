@@ -43,6 +43,9 @@ export default class IdsMenuButton extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
+    if (this.hasAttribute(attributes.DROPDOWN_ICON)) {
+      this.#configureDropdownIcon(true);
+    }
     this.configureMenu();
     this.attachEventHandlers();
   }
@@ -83,22 +86,32 @@ export default class IdsMenuButton extends Base {
     return super.disabled;
   }
 
+  #configureDropdownIcon(doShow: boolean): void {
+    const icon = this.dropdownIconEl;
+    const iconType = (this.dropdownIcon && this.dropdownIcon.length) ? this.dropdownIcon : 'dropdown';
+
+    if (doShow) {
+      if (!icon) {
+        this.container?.insertAdjacentHTML('beforeend', `<ids-icon icon="${iconType}" class="ids-icon dropdown-icon"></ids-icon>`);
+      } else {
+        icon.icon = iconType;
+      }
+    } else if (icon) {
+      icon.remove();
+    }
+  }
+
   /**
    * @param {string|undefined} val referencing an icon string name to use
    */
   set dropdownIcon(val) {
     const trueVal = stringToBool(val);
-    const iconName = (typeof val === 'string' && val.length) ? `${val}` : 'dropdown';
-    const icon = this.dropdownIconEl;
     if (trueVal) {
-      if (!icon) {
-        this.container?.insertAdjacentHTML('beforeend', `<ids-icon icon="${iconName}" class="ids-icon dropdown-icon"></ids-icon>`);
-      } else {
-        icon.icon = iconName;
-      }
-    } else if (icon) {
-      icon.remove();
+      this.setAttribute(attributes.DROPDOWN_ICON, (typeof val === 'string' && val.length) ? `${val}` : 'dropdown');
+    } else {
+      this.removeAttribute(attributes.DROPDOWN_ICON);
     }
+    this.#configureDropdownIcon(trueVal);
     this.setPopupArrow();
   }
 
@@ -106,7 +119,7 @@ export default class IdsMenuButton extends Base {
    * @returns {string|undefined} containing the type of icon being displayed as the Dropdown Icon
    */
   get dropdownIcon() {
-    return this.dropdownIconEl?.icon;
+    return this.getAttribute(attributes.DROPDOWN_ICON);
   }
 
   /**
@@ -204,9 +217,9 @@ export default class IdsMenuButton extends Base {
    */
   setActiveState(isActive: boolean) {
     if (isActive) {
-      this.button.classList.add('is-active');
+      this.button?.classList.add('is-active');
     } else {
-      this.button.classList.remove('is-active');
+      this.button?.classList.remove('is-active');
     }
   }
 
@@ -217,7 +230,7 @@ export default class IdsMenuButton extends Base {
     if (!this.menuEl || !this.menuEl.popup) {
       return;
     }
-    this.menuEl.popup.container.style.minWidth = `${this.button.clientWidth}px`;
+    this.menuEl.popup.container.style.minWidth = `${this.button?.clientWidth}px`;
   }
 
   /**

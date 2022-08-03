@@ -539,7 +539,7 @@ export default class IdsCalendar extends Base {
     const accordion = `
       <ids-accordion id="event-types-legend" slot="legend">
         <ids-accordion-panel expanded="true">
-          <ids-accordion-header slot="header" expander-type="caret" expanded="true">
+          <ids-accordion-header slot="header" expander-type="caret">
             <ids-text translate-text="true">Legend</ids-text>
           </ids-accordion-header>
           <div slot="content"><p>${checkboxes}</p></div>
