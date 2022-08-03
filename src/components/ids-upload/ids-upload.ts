@@ -660,11 +660,11 @@ export default class IdsUpload extends Base {
   set value(val: string | null) {
     if (val) {
       this.setAttribute(attributes.VALUE, val);
-      this.textInput.value = val;
+      if (this.textInput) this.textInput.value = val;
     } else {
       this.removeAttribute(attributes.VALUE);
       this.fileInput.value = null;
-      this.textInput.value = '';
+      if (this.textInput) this.textInput.value = '';
     }
     this.files = this.fileInput.files;
   }

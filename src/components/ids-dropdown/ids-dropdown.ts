@@ -134,43 +134,34 @@ export default class IdsDropdown extends Base {
     this.hasIcons = this.querySelector('ids-list-box-option ids-icon') !== null;
 
     return `
-      <div class="ids-dropdown">
-        <ids-trigger-field
-          ${!this.typeahead ? ' readonly="true"' : ''}
-          ${this.disabled ? ' disabled="true"' : ''}
-          ${this.readonly ? '' : ' readonly-background'}
-          cursor="pointer"
-          size="${this.size}"
-          label="${this.label}"
-          part="trigger-field"
-          ${colorVariant}${fieldHeight}${compact}${noMargins}${labelState}
-
-          ${this.validate ? ` validate="${this.validate}"` : ''}
-          ${this.validate && this.validationEvents ? ` validation-events="${this.validationEvents}"` : ''}
+    <div class="ids-dropdown">
+      <ids-trigger-field
+        ${!this.typeahead ? ' readonly="true"' : ''}
+        ${this.disabled ? ' disabled="true"' : ''}
+        ${this.readonly ? '' : ' readonly-background'}
+        cursor="pointer"
+        size="${this.size}"
+        label="${this.label}"
+        part="trigger-field"
+        ${colorVariant}${fieldHeight}${compact}${noMargins}${labelState}
+        ${this.validate ? ` validate="${this.validate}"` : ''}
+        ${this.validate && this.validationEvents ? ` validation-events="${this.validationEvents}"` : ''}
+      >
+        <ids-trigger-button
+          slot="trigger-end"
+          part="trigger-button"
+          tabbable="false"
+          disabled="${this.disabled}"
         >
-<<<<<<< HEAD
-          <ids-text audible="true">Dropdown Button</ids-text>
+          <ids-text audible="true" translate-text="true">DropdownTriggerButton</ids-text>
           <ids-icon slot="icon" icon="dropdown" part="icon"></ids-icon>
         </ids-trigger-button>
       </ids-trigger-field>
-      <ids-popup type="dropdown" part="popup">
-=======
-          <ids-trigger-button
-            slot="trigger-end"
-            part="trigger-button"
-            tabbable="false"
-            disabled="${this.disabled}"
-          >
-            <ids-text audible="true" translate-text="true">DropdownTriggerButton</ids-text>
-            <ids-icon slot="icon" icon="dropdown" part="icon"></ids-icon>
-          </ids-trigger-button>
-        </ids-trigger-field>
-      <ids-popup type="menu" part="popup">
->>>>>>> 6663f6a9204c9dd6ce8e1e7e3886839bbccc633a
-        <slot slot="content">
-        </slot>
-      </ids-popup>
-    </div>`;
+    <ids-popup type="menu" part="popup">
+      <slot slot="content">
+      </slot>
+    </ids-popup>
+  </div>`;
   }
 
   /**

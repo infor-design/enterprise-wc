@@ -276,13 +276,13 @@ export default class IdsColorPicker extends Base {
 
     if (value) {
       this.colorPickerInput?.setAttribute(attributes.DISABLED, '');
-      this.triggerBtn.setAttribute(attributes.DISABLED, '');
-      this.triggerBtn.setAttribute(attributes.TABBABLE, 'false');
+      this.triggerBtn?.setAttribute(attributes.DISABLED, '');
+      this.triggerBtn?.setAttribute(attributes.TABBABLE, 'false');
       return;
     }
     this.colorPickerInput?.removeAttribute(attributes.DISABLED);
-    this.triggerBtn.removeAttribute(attributes.DISABLED);
-    this.triggerBtn.setAttribute(attributes.TABBABLE, this.tabbable);
+    this.triggerBtn?.removeAttribute(attributes.DISABLED);
+    this.triggerBtn?.setAttribute(attributes.TABBABLE, this.tabbable);
   }
 
   /**
@@ -631,17 +631,17 @@ export default class IdsColorPicker extends Base {
     const colorSwatch = this.#findColorSwatch(value);
     const targetColorValue = colorSwatch?.hex || value;
 
-    this.colorPreview.hex = targetColorValue;
-    this.colorInput.value = targetColorValue;
+    this.colorPreview?.setAttribute('hex', targetColorValue);
+    this.colorInput?.setAttribute('value', targetColorValue);
 
     if (targetColorValue) {
-      this.textInput.value = (!this.suppressLabels && colorSwatch?.label) || colorSwatch?.hex || this.textInput.value;
+      this.textInput?.setAttribute('value', (!this.suppressLabels && colorSwatch?.label) || colorSwatch?.hex || this.textInput?.value);
     } else {
-      this.textInput.value = '';
+      this.textInput?.setAttribute('value', '');
     }
 
     if (this.dirtyTracker) {
-      this.setDirtyTracker(this.textInput.value);
+      this.setDirtyTracker(this.textInput?.value);
     }
   }
 }

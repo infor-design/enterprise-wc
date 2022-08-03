@@ -52,7 +52,7 @@ export default class IdsPopupMenu extends Base {
     if (this.parentMenuItem) {
       this.popupDelay = 200;
       this.target = this.parentMenuItem;
-      this.trigger = 'hover';
+      this.triggerType = 'hover';
       this.popup.align = 'right, top';
       this.popup.alignEdge = 'right';
     }

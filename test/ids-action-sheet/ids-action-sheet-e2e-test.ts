@@ -38,4 +38,17 @@ describe('Ids Action Sheet e2e Tests', () => {
     isVisible = await mobilePage.evaluate(`document.querySelector("ids-action-sheet").visible`);
     expect(isVisible).toEqual(true);
   });
+
+  it('should not display cancel button when cancelBtnText is an empty string', async () => {
+    const mobilePage = await browser.newPage();
+    await mobilePage.setViewport({ width: 599, height: 9999, deviceScaleFactor: 1 });
+    await mobilePage.goto(url);
+    let isVisible = await mobilePage.evaluate(`document.querySelector("ids-action-sheet").visible`);
+    const cancelBtn = await mobilePage.evaluate(`document.querySelector("ids-action-sheet").cancelBtnText = ''`);
+    expect(isVisible).toEqual(false);
+    expect(cancelBtn).toEqual('');
+    await mobilePage.evaluate(`document.querySelector("#icon-button").click()`);
+    isVisible = await mobilePage.evaluate(`document.querySelector("ids-action-sheet").visible`);
+    expect(isVisible).toEqual(true);
+  });
 });

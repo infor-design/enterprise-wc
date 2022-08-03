@@ -63,7 +63,7 @@ export default class IdsLookup extends Base {
     this.triggerButton = this.shadowRoot?.querySelector('ids-trigger-button');
 
     this.modal.target = this.triggerButton;
-    this.modal.trigger = 'click';
+    this.modal.triggerType = 'click';
 
     this
       .#handleEvents()

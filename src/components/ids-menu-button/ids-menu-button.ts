@@ -173,7 +173,7 @@ export default class IdsMenuButton extends Base {
     }
     this.resizeMenu();
     this.setPopupArrow();
-    this.menuEl.trigger = 'click';
+    this.menuEl.triggerType = 'click';
     this.menuEl.target = this;
 
     this.setAttribute(htmlAttributes.ARIA_HASPOPUP, 'menu');

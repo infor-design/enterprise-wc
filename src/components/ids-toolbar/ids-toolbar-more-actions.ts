@@ -69,7 +69,7 @@ export default class IdsToolbarMoreActions extends Base {
         <ids-icon slot="icon" icon="${icon}"></ids-icon>
         <span class="audible">More Actions Button</span>
       </ids-menu-button>
-      <ids-popup-menu id="${menuId}" target="#${menuButtonId}" trigger="click">
+      <ids-popup-menu id="${menuId}" target="#${menuButtonId}" trigger-type="click">
         <slot></slot>
       </ids-popup-menu>
     </div>`;
