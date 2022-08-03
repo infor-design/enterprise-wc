@@ -82,8 +82,6 @@ class IdsDatePicker extends Base {
 
   #triggerField = this.container.querySelector('ids-trigger-field');
 
-  #rangePickerMin = this.container.querySelector('#e2e-datepicker-min');
-
   connectedCallback(): void {
     this.#attachEventHandlers();
     this.#attachExpandedListener();
@@ -352,7 +350,7 @@ class IdsDatePicker extends Base {
         e.stopPropagation();
 
         if ((e.target as HTMLElement).closest('.popup-btn-apply')) {
-          this.#handleApplyEvent(e, this.rangeSettings);
+          this.#handleApplyEvent(e);
         }
 
         if ((e.target as HTMLElement).closest('.popup-btn-clear')) {
@@ -795,9 +793,8 @@ class IdsDatePicker extends Base {
   /**
    * Click to apply button event handler
    * @param {MouseEvent} e click event
-   * @param {IdsRangeSettings} val min day set
    */
-  #handleApplyEvent(e: MouseEvent, val: IdsRangeSettings): void {
+  #handleApplyEvent(e: MouseEvent): void {
     e.stopPropagation();
 
     const picklist = this.#monthView?.container?.querySelector('ids-date-picker');
@@ -816,9 +813,9 @@ class IdsDatePicker extends Base {
 
     if (this.useRange) {
       if (this.rangeSettings.end || (this.rangeSettings.start && !this.rangeSettings.end)) {
-        if (this.#rangePickerMin && (val.minDays !== undefined)) {
+        if (this.rangeSettings.minDays) {
           if (this.rangeSettings.start === this.rangeSettings.end) {
-            this.rangeSettings.end = new Date(this.rangeSettings.end + (val.minDays * 24 * 60 * 60 * 1000));
+            this.rangeSettings.end = new Date(this.rangeSettings.start + (this.rangeSettings.minDays * 24 * 60 * 60 * 1000));
           }
         }
 

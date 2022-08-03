@@ -4,7 +4,7 @@
 
 ### 1.0.0-beta.1 Fixes
 
-- `[ActionSheet]` Updated event path for clicking event and ensured appropriate date input for Range - Min(N) Days. ([#780](https://github.com/infor-design/enterprise-wc/pull/780))
+- `[DatePicker]` Updated event path for clicking event and ensured appropriate date input for Range - Min(N) Days. ([#780](https://github.com/infor-design/enterprise-wc/pull/780))
 - `[AppMenu]` Fixed the footer by creating two examples for the app menu, one only including the Infor logo and the other only including the toolbar options. ([#776](https://github.com/infor-design/enterprise-wc/pull/776))
 - `[About]` Fixed scrolling issue with pointer event and adjusted text to screen size. ([#701](https://github.com/infor-design/enterprise-wc/pull/701))
 - `[Breadcrumb]` Fixed a styling with the focus state and incorrect colors. ([#777](https://github.com/infor-design/enterprise-wc/pull/788))
