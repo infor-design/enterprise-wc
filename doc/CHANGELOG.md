@@ -11,6 +11,7 @@
 - `[Breadcrumb]` Fixed a styling with the focus state and incorrect colors. ([#777](https://github.com/infor-design/enterprise-wc/pull/788))
 - `[Card]` Fixed the `height` setting which was not working. ([#788](https://github.com/infor-design/enterprise-wc/pull/777))
 - `[DatePicker]` Fixed keyboard events to accomodate to Firefox browser (which was not working). ([#779](https://github.com/infor-design/enterprise-wc/issues/779))
+- `[PieChart]` Improved the tooltip placement logic and some cleanup. ([#736](https://github.com/infor-design/enterprise-wc/issues/736))
 - `[Radio]` Fixed incorrect colors in constrast mode. ([#775](https://github.com/infor-design/enterprise-wc/pull/775))
 
 ## 1.0.0-beta.0

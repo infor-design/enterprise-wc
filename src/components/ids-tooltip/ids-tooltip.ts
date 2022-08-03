@@ -94,7 +94,7 @@ export default class IdsTooltip extends Base {
     // Events to show on hover
     if (this.trigger === 'hover') {
       this.onEvent('hoverend.tooltip', targetElem, (e: Event) => {
-        this.popup.alignTarget = e.currentTarget;
+        if (!this.popup?.alignTarget) this.popup.alignTarget = e.currentTarget;
         this.visible = true;
       }, { delay: this.delay });
       this.onEvent('mouseleave.tooltip', targetElem, () => {

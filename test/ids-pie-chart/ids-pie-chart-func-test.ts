@@ -190,6 +190,44 @@ describe('IdsPieChart Component', () => {
     }, 1);
   });
 
+  it('shows tooltip on hover with donut', () => {
+    const ds = [{
+      data: [
+        { value: 1, name: 'slice1', tooltip: 'slice1' },
+        { value: 2, name: 'slice2', tooltip: 'slice2' },
+        { value: 3, name: 'slice3', tooltip: 'slice3' },
+        { value: 4, name: 'slice4', tooltip: 'slice4' },
+        { value: 5, name: 'slice5', tooltip: 'slice5' },
+        { value: 6, name: 'slice6', tooltip: 'slice6' },
+        { value: 7, name: 'slice7', tooltip: 'slice7' },
+        { value: 8, name: 'slice8', tooltip: 'slice8' },
+        { value: 9, name: 'slice9', tooltip: 'slice9' },
+        { value: 10, name: 'slice10', tooltip: 'slice10' },
+        { value: 11, name: 'slice11', tooltip: 'slice11' },
+        { value: 12, name: 'slice12', tooltip: 'slice12' },
+        { value: 13, name: 'slice13', tooltip: 'slice13' },
+        { value: 14, name: 'slice14', tooltip: 'slice14' },
+        { value: 15, name: 'slice15', tooltip: 'slice15' },
+        { value: 16, name: 'slice16', tooltip: 'slice16' }
+      ]
+    }];
+    document.body.innerHTML = '';
+    pieChart = new IdsPieChart();
+    pieChart.animated = false;
+    document.body.appendChild(pieChart);
+    pieChart.donut = true;
+    pieChart.donutText = 'Test';
+    pieChart.data = ds;
+
+    const tooltip: any = pieChart.shadowRoot.querySelector('ids-tooltip');
+
+    [...pieChart.container.querySelectorAll('.slice')].forEach((slice: any, i: number) => {
+      slice.dispatchEvent(new CustomEvent('hoverend'));
+      expect(tooltip.visible).toEqual(true);
+      expect(tooltip.textContent).toEqual(ds[0].data[i].tooltip);
+    });
+  });
+
   it('renders an empty message with empty data', async () => {
     expect(pieChart.emptyMessage.getAttribute('hidden')).toEqual('');
     pieChart.data = [];
