@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Link the About to its trigger button
   about.target = triggerBtn;
-  about.trigger = 'click';
+  about.triggerType = 'click';
 
   // Disable the trigger button when showing the Modal.
   about.addEventListener('beforeshow', () => {

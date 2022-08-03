@@ -58,7 +58,7 @@ export const toolbarTemplate = `
         tooltip="Choose Font Style"
         formatter-width="125px"
         dropdown-icon
-        trigger="click">
+        trigger-type="click">
         <span slot="text">Normal Text</span>
       </ids-menu-button>
       <ids-popup-menu id="menu-formatblock-{instanceCounter}" target="#btn-formatblock-{instanceCounter}">
