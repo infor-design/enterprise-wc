@@ -938,10 +938,10 @@ export default class IdsDataGrid extends Base {
   set rowHeight(value) {
     if (value) {
       this.setAttribute(attributes.ROW_HEIGHT, value);
-      this.shadowRoot.querySelector('.ids-data-grid').setAttribute('data-row-height', value);
+      this.shadowRoot?.querySelector('.ids-data-grid').setAttribute('data-row-height', value);
     } else {
       this.removeAttribute(attributes.ROW_HEIGHT);
-      this.shadowRoot.querySelector('.ids-data-grid').setAttribute('data-row-height', 'lg');
+      this.shadowRoot?.querySelector('.ids-data-grid').setAttribute('data-row-height', 'lg');
     }
 
     if (this.virtualScroll) {
@@ -958,10 +958,10 @@ export default class IdsDataGrid extends Base {
   set listStyle(value) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.LIST_STYLE, value);
-      this.shadowRoot.querySelector('.ids-data-grid').classList.add('is-list-style');
+      this.shadowRoot?.querySelector('.ids-data-grid').classList.add('is-list-style');
     } else {
       this.removeAttribute(attributes.LIST_STYLE);
-      this.shadowRoot.querySelector('.ids-data-grid').classList.remove('is-list-style');
+      this.shadowRoot?.querySelector('.ids-data-grid').classList.remove('is-list-style');
     }
   }
 
