@@ -87,14 +87,14 @@ describe('IdsMenuButton Component', () => {
     buttonEl.dropdownIcon = null;
     iconEl = buttonEl.button.querySelector('ids-icon');
 
-    expect(buttonEl.dropdownIcon).toBe(undefined);
+    expect(buttonEl.dropdownIcon).toBe(null);
     expect(iconEl).toBe(null);
 
     // Try removing it again (runs the else clause in `set dropdownIcon`)
-    buttonEl.dropdownIcon = undefined;
+    buttonEl.dropdownIcon = null;
     iconEl = buttonEl.button.querySelector('ids-icon');
 
-    expect(buttonEl.dropdownIcon).toBe(undefined);
+    expect(buttonEl.dropdownIcon).toBe(null);
     expect(iconEl).toBe(null);
   });
 
