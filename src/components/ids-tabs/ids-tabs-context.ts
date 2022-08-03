@@ -34,6 +34,7 @@ export default class IdsTabsContext extends Base {
       const content = this.querySelector(`ids-tab-content[value="${e.detail.value}"]`);
       content?.remove();
     });
+    this.mountedCallback();
   }
 
   mountedCallback() {

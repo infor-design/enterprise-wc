@@ -46,7 +46,7 @@ export default class IdsSeparator extends Base {
     if (this.parentElement?.tagName === 'IDS-MENU-GROUP') {
       tagName = 'li';
     }
-    return `<${tagName} part="separator" class="ids-separator"></${tagName}>`;
+    return `<${tagName} part="separator" class="ids-separator${this.vertical ? ' vertical' : ''} "></${tagName}>`;
   }
 
   /**
@@ -57,10 +57,10 @@ export default class IdsSeparator extends Base {
     const trueVal = stringToBool(val);
     if (current !== trueVal) {
       if (trueVal) {
-        this.container.classList.add('vertical');
+        this.container?.classList.add('vertical');
         this.setAttribute('vertical', '');
       } else {
-        this.container.classList.remove('vertical');
+        this.container?.classList.remove('vertical');
         this.removeAttribute('vertical');
       }
     }

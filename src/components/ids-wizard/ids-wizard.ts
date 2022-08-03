@@ -256,6 +256,7 @@ export default class IdsWizard extends Base {
       attributes: true,
       subtree: true
     });
+    this.mountedCallback();
   }
 
   /**

@@ -29,6 +29,8 @@ export default class IdsColor extends Base {
     this.swatch = this.shadowRoot.querySelector('.ids-color');
     this.icon = this.shadowRoot.querySelector('ids-icon');
     this.popup = this.shadowRoot.querySelector('ids-tooltip');
+
+    if (this.hex) this.hex = this.getAttribute(attributes.HEX);
   }
 
   /** Invoked each time the custom element is removed from the DOM */

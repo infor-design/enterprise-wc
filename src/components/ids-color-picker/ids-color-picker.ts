@@ -25,6 +25,9 @@ export default class IdsColorPicker extends Base {
 
   /** Invoked each time the custom element is added to the DOM */
   connectedCallback() {
+    if (!this.swatches.length) {
+      this.append(...this.defaultSwatches);
+    }
     super.connectedCallback();
     this.colorInput = this.container.querySelector('.color-input');
     this.colorPreview = this.container.querySelector('.color-preview');
@@ -32,9 +35,6 @@ export default class IdsColorPicker extends Base {
     this.textInput = this.container.querySelector('#ids-color-picker-input');
     this.triggerBtn = this.container.querySelector('ids-trigger-button');
 
-    if (!this.swatches.length) {
-      this.append(...this.defaultSwatches);
-    }
     this.#updateColor(this.value);
     this.#configureSwatches();
     this.#attachEventHandlers();
@@ -143,7 +143,7 @@ export default class IdsColorPicker extends Base {
       lg: 'lg',
     }[fieldHeight] || 'md';
 
-    return `<ids-color disabled tabindex="-1" class="color-preview" size="${fieldSwatchSize}"></ids-color>`;
+    return `<ids-color${this.disabled ? ' disabled' : ''} tabindex="-1" class="color-preview" size="${fieldSwatchSize}"></ids-color>`;
   }
 
   /**
@@ -186,9 +186,7 @@ export default class IdsColorPicker extends Base {
       ...Object.values(colorPalette.azure),
       ...Object.values(colorPalette.turquoise),
       ...Object.values(colorPalette.amethyst),
-      ...Object.values(colorPalette.slate),
-      ...Object.values(colorPalette['classic-slate']),
-      ...Object.values(colorPalette.graphite),
+      ...Object.values(colorPalette.slate)
     ].map((cssVar) => {
       const color = new IdsColor();
       const [cssVarName, label, colorCategory, colorCode] = cssVar.match(COLOR_PALETTE_CSS_VAR_REGEX) || [];
@@ -532,9 +530,8 @@ export default class IdsColorPicker extends Base {
   #configureSwatches(): void {
     this.swatches.forEach((swatch: IdsColor) => {
       swatch.classList.add('outlined');
-      swatch.disabled = this.suppressTooltips;
-      swatch.tooltip = this.suppressTooltips ? '' : (this.tooltip || swatch.label);
-      swatch.tooltip = this.suppressLabels ? swatch.hex : swatch.tooltip;
+      swatch.tooltip = this.suppressLabels ? (this.tooltip || swatch.hex) : (this.tooltip || swatch.label);
+      if (this.suppressTooltips) swatch.tooltip = '';
 
       if (this.popup.visible) {
         swatch.removeAttribute(attributes.TABINDEX);
@@ -627,21 +624,22 @@ export default class IdsColorPicker extends Base {
    * @param {string} colorValue the value to update
    */
   #updateColorPickerValues(colorValue?: string): void {
+    if (!this.colorPreview || !this.colorInput) return;
     const value = colorValue ?? this.#getSelectedSwatchValue();
     const colorSwatch = this.#findColorSwatch(value);
     const targetColorValue = colorSwatch?.hex || value;
 
-    this.colorPreview?.setAttribute('hex', targetColorValue);
-    this.colorInput?.setAttribute('value', targetColorValue);
+    this.colorPreview.hex = targetColorValue;
+    this.colorInput.value = targetColorValue === '' ? '#ffffff' : targetColorValue;
 
     if (targetColorValue) {
-      this.textInput?.setAttribute('value', (!this.suppressLabels && colorSwatch?.label) || colorSwatch?.hex || this.textInput?.value);
+      this.textInput.value = (!this.suppressLabels && colorSwatch?.label) || colorSwatch?.hex || this.textInput.value;
     } else {
-      this.textInput?.setAttribute('value', '');
+      this.textInput.value = '';
     }
 
     if (this.dirtyTracker) {
-      this.setDirtyTracker(this.textInput?.value);
+      this.setDirtyTracker(this.textInput.value);
     }
   }
 }

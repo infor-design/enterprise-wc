@@ -46,12 +46,14 @@
 
 :host([disabled]) {
   opacity: 0.5;
+
+  .ids-color {
+    cursor: default;
+  }
 }
 
 .ids-color {
   background-color: var(--ids-color-palette-black);
-
-  // contain: content;
   cursor: pointer;
   display: inline-flex;
   align-items: center;

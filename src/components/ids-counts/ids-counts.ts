@@ -26,6 +26,7 @@ export default class IdsCounts extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.#textProperties();
+    if (this.color) this.color = this.getAttribute(attributes.COLOR);
   }
 
   #textProperties() {
@@ -64,9 +65,9 @@ export default class IdsCounts extends Base {
    * base (blue), caution, danger, success, warning, or a hex code with the "#"
    */
   set color(value: string) {
-    if (this.href) this.container.setAttribute('color', '');
+    if (this.href) this.container?.setAttribute('color', '');
     const color = value[0] === '#' ? value : `var(--ids-color-status-${value})`;
-    this.container.style.color = color;
+    if (this.container) this.container.style.color = color;
     this.querySelectorAll('ids-text').forEach((node: any) => {
       node.color = 'unset';
       node.shadowRoot.querySelector('span').style.color = value;
