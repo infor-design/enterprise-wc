@@ -46,7 +46,7 @@ export default class IdsSeparator extends Base {
     if (this.parentElement?.tagName === 'IDS-MENU-GROUP') {
       tagName = 'li';
     }
-    return `<${tagName} part="separator" class="ids-separator"></${tagName}>`;
+    return `<${tagName} part="separator" class="ids-separator${this.vertical ? ' vertical' : ''} "></${tagName}>`;
   }
 
   /**

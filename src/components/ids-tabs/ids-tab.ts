@@ -122,6 +122,7 @@ export default class IdsTab extends Base {
     this.setAttribute(htmlAttributes.TABINDEX, stringToBool(this.selected) ? '0' : '-1');
     this.setAttribute(htmlAttributes.ARIA_LABEL, this.#getReadableAriaLabel());
     this.#detectSwappable();
+    this.mountedCallback();
   }
 
   /**

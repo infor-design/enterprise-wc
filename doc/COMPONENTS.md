@@ -183,8 +183,6 @@ constructor() {
 ```js
 constructor() // setters or called with no container or shadowRoot
 connectedCallback() // container / shadowRoot is established and added to DOM
-// After all setters are with a container or shadowRoot - this is a temporary workaround
-mountedCallback() // Should avoid
 ```
 
 Example:

@@ -58,6 +58,8 @@ export default class IdsToolbar extends Base {
       });
     });
     super.connectedCallback();
+
+    if (this.padding) this.padding = this.getAttribute(attributes.PADDING);
   }
 
   disconnectedCallback(): void {
@@ -344,11 +346,8 @@ export default class IdsToolbar extends Base {
    * @param {string | number} value sets the padding to the container
    */
   set padding(value: string | number) {
+    if (this.container) this.container.style.paddingBottom = !value ? '' : `${value}px`;
     this.setAttribute(attributes.PADDING, value.toString());
-
-    if (this.container) {
-      this.container.style.paddingBottom = !value ? '' : `${value}px`;
-    }
   }
 
   get padding(): string {

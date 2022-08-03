@@ -24,9 +24,6 @@ const IdsClearableMixin = (superclass: any): any => class extends superclass {
 
   connectedCallback() {
     super.connectedCallback?.();
-  }
-
-  mountedCallback() {
     this.handleClearable();
   }
 
