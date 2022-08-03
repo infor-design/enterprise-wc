@@ -33,7 +33,13 @@ export default class IdsTree extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
-    this.#init();
+
+    // if data set before connected
+    if (this.datasource?.data?.length) {
+      this.#redraw();
+    } else {
+      this.#init();
+    }
   }
 
   /**
@@ -269,15 +275,18 @@ export default class IdsTree extends Base {
    * @returns {void}
    */
   #redraw() {
-    if (this.data.length === 0) {
+    if (this.data.length === 0 || !this.shadowRoot) {
       return;
     }
 
     const slot = this.shadowRoot.querySelector('slot');
-    const { data, html } = this.#htmlAndData();
-    slot.innerHTML = html;
-    this.#nodesData = data;
-    this.#init();
+
+    if (slot) {
+      const { data, html } = this.#htmlAndData();
+      this.#nodesData = data;
+      slot.innerHTML = html;
+      this.#init();
+    }
   }
 
   /**
