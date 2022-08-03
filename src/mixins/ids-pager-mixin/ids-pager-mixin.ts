@@ -47,6 +47,31 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
     ];
   }
 
+  /**
+   * Handle Setting changes of the value has changed by calling the getter
+   * in the extending class.
+   * @param {string} name The property name
+   * @param {string} oldValue The property old value
+   * @param {string} newValue The property new value
+   */
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    super.attributeChangedCallback(name, oldValue, newValue);
+
+    if (oldValue === newValue) {
+      return;
+    }
+
+    const shouldRedraw = [
+      attributes.PAGE_NUMBER,
+      attributes.PAGE_SIZE,
+      attributes.PAGE_TOTAL,
+    ].includes(name);
+
+    if (shouldRedraw) {
+      this.connectedCallback();
+    }
+  }
+
   pageListTemplate() {
     return `
       <ids-pager-button label="Previous page" previous></ids-pager-button>
@@ -201,8 +226,7 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
     this.offEvent('pagenumberchange', this.pager);
     this.onEvent('pagenumberchange', this.pager, (event: CustomEvent) => {
       const newPageNumber = Number(event.detail.value);
-      const oldPageNumber = Number(this.pageNumber);
-      if (shouldUpdate && newPageNumber !== oldPageNumber) {
+      if (shouldUpdate) {
         this.pageNumber = newPageNumber;
       }
     });

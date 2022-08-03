@@ -723,7 +723,6 @@ export default class IdsListView extends Base {
 
   /**
    * Rerender the list by re applying the template
-   * @private
    */
   redraw() {
     if (!this.data || !this.initialized) {
@@ -826,6 +825,30 @@ export default class IdsListView extends Base {
   get ds(): Array<any> { return this.datasource?.allData || this.data; }
 
   /**
+   * Handle Setting changes of the value has changed by calling the getter
+   * in the extending class.
+   * @param {string} name The property name
+   * @param {string} oldValue The property old value
+   * @param {string} newValue The property new value
+   */
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    super.attributeChangedCallback(name, oldValue, newValue);
+
+    if (oldValue === newValue) {
+      return;
+    }
+
+    const shouldRedraw = [
+      attributes.SELECTABLE,
+      attributes.VIRTUAL_SCROLL,
+    ].includes(name);
+
+    if (shouldRedraw) {
+      this.connectedCallback();
+    }
+  }
+
+  /**
    * Set the data array of the listview
    * @param {Array | null} value The array to use
    */
@@ -836,7 +859,6 @@ export default class IdsListView extends Base {
     } else {
       this.datasource.data = [];
     }
-    this.redraw();
   }
 
   get data(): any { return this?.datasource?.data || []; }
@@ -863,7 +885,6 @@ export default class IdsListView extends Base {
     } else {
       this.removeAttribute(attributes.VIRTUAL_SCROLL);
     }
-    this.redraw();
   }
 
   get virtualScroll(): boolean {
@@ -915,7 +936,6 @@ export default class IdsListView extends Base {
     } else {
       this.removeAttribute(attributes.SELECTABLE);
     }
-    this.redraw();
   }
 
   get selectable(): string {
