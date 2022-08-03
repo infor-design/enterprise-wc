@@ -53,9 +53,9 @@ export default class IdsRadio extends Base {
    */
   connectedCallback(): void {
     super.connectedCallback();
-    this.input = this.shadowRoot.querySelector('input[type="radio"]');
-    this.labelEl = this.shadowRoot.querySelector('label');
-    this.rootEl = this.shadowRoot.querySelector('.ids-radio');
+    this.input = this.shadowRoot?.querySelector('input[type="radio"]');
+    this.labelEl = this.shadowRoot?.querySelector('label');
+    this.rootEl = this.shadowRoot?.querySelector('.ids-radio');
 
     if (this.checked && !this.input.getAttribute(attributes.CHECKED)) {
       this.checked = true;
@@ -154,7 +154,7 @@ export default class IdsRadio extends Base {
    * @param {boolean|string} value If true will set `checked` attribute
    */
   set checked(value: boolean | string) {
-    const circle = this.shadowRoot.querySelector('.circle');
+    const circle = this.shadowRoot?.querySelector('.circle');
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.CHECKED, val.toString());
@@ -200,7 +200,7 @@ export default class IdsRadio extends Base {
    * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value: boolean | string) {
-    const labelText = this.shadowRoot.querySelector('.label-text');
+    const labelText = this.shadowRoot?.querySelector('.label-text');
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
@@ -225,7 +225,7 @@ export default class IdsRadio extends Base {
    * @param {boolean|string} value If true will set `group-disabled` attribute
    */
   set groupDisabled(value: boolean | string) {
-    const labelText = this.shadowRoot.querySelector('.label-text');
+    const labelText = this.shadowRoot?.querySelector('.label-text');
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.GROUP_DISABLED, val.toString());
