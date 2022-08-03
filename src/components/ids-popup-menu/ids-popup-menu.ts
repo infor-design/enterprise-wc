@@ -160,7 +160,7 @@ export default class IdsPopupMenu extends Base {
    * @returns {boolean} true if the Popup Menu is currently being displayed
    */
   get visible(): boolean {
-    return this.popup.visible;
+    return !!this.popup?.visible;
   }
 
   /**

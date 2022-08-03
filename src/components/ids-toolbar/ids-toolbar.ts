@@ -186,7 +186,7 @@ export default class IdsToolbar extends Base {
       this.removeAttribute(attributes.DISABLED);
     }
 
-    this.container.classList[trueVal ? 'add' : 'remove'](attributes.DISABLED);
+    this.container?.classList[trueVal ? 'add' : 'remove'](attributes.DISABLED);
 
     // Set disabled state on all relevant subcomponents
     const setDisabledState = (elem: any) => {
@@ -205,7 +205,7 @@ export default class IdsToolbar extends Base {
    * @returns {boolean} true if the toolbar is currently disabled
    */
   get disabled(): boolean {
-    return this.container.classList.contains(attributes.DISABLED);
+    return !!this.container?.classList?.contains(attributes.DISABLED);
   }
 
   /**
@@ -300,7 +300,7 @@ export default class IdsToolbar extends Base {
       this.removeAttribute(attributes.TABBABLE);
     }
 
-    this.container.classList[trueVal ? 'add' : 'remove'](attributes.TABBABLE);
+    this.container?.classList[trueVal ? 'add' : 'remove'](attributes.TABBABLE);
 
     // Try to use a currently-focused element
     this.makeTabbable(this.focused);
@@ -310,7 +310,7 @@ export default class IdsToolbar extends Base {
    * @returns {boolean} true if the toolbar is fully tabbable
    */
   get tabbable(): boolean {
-    return this.container.classList.contains(attributes.TABBABLE);
+    return !!this.container?.classList.contains(attributes.TABBABLE);
   }
 
   /**
@@ -344,8 +344,11 @@ export default class IdsToolbar extends Base {
    * @param {string | number} value sets the padding to the container
    */
   set padding(value: string | number) {
-    this.container.style.paddingBottom = !value ? '' : `${value}px`;
     this.setAttribute(attributes.PADDING, value.toString());
+
+    if (this.container) {
+      this.container.style.paddingBottom = !value ? '' : `${value}px`;
+    }
   }
 
   get padding(): string {
@@ -360,11 +363,11 @@ export default class IdsToolbar extends Base {
    * @returns {void}
    */
   #setType(oldType: string | null, newType: string | null) {
-    const cl = this.container.classList;
+    const cl = this.container?.classList;
 
     // Update CSS Class for main Toolbar type
-    if (oldType) cl.remove(`type-${oldType}`);
-    if (newType) cl.add(`type-${newType}`);
+    if (oldType) cl?.remove(`type-${oldType}`);
+    if (newType) cl?.add(`type-${newType}`);
 
     // If using a "formatter" type, change the buttons/separators/etc to use the alternate style
     this.sections.forEach((s) => {

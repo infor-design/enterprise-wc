@@ -114,6 +114,17 @@ describe('IdsToolbar Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
+  it('can render via document.createElement (append late)', () => {
+    const errors = jest.spyOn(global.console, 'error');
+    const elem = document.createElement('ids-toolbar');
+
+    elem.insertAdjacentHTML('afterbegin', exampleHTML);
+    document.body.appendChild(elem);
+
+    expect(document.body.querySelectorAll('ids-toolbar').length).toEqual(2);
+    expect(errors).not.toHaveBeenCalled();
+  });
+
   it('can get a list of its sections', () => {
     const sections = toolbar.sections;
 

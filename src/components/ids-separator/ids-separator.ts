@@ -57,16 +57,16 @@ export default class IdsSeparator extends Base {
     const trueVal = stringToBool(val);
     if (current !== trueVal) {
       if (trueVal) {
-        this.container.classList.add('vertical');
+        this.container?.classList.add('vertical');
         this.setAttribute('vertical', '');
       } else {
-        this.container.classList.remove('vertical');
+        this.container?.classList.remove('vertical');
         this.removeAttribute('vertical');
       }
     }
   }
 
-  get vertical() {
-    return this.container?.classList.contains('vertical');
+  get vertical(): boolean {
+    return !!this.container?.classList.contains('vertical');
   }
 }

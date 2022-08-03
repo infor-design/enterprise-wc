@@ -158,8 +158,7 @@ describe('IdsToolbarMoreActions Component', () => {
   });
 });
 
-// @TODO need an issue to resolve why this can't find overflow items
-describe.skip('IdsToolbarMoreActions Component (initialized with overflow)', () => {
+describe('IdsToolbarMoreActions Component (initialized with overflow)', () => {
   let toolbar: any;
   let selectedEventListener: any;
 
