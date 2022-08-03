@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Links the Modal to its trigger button (sets up click/focus events)
   modal.target = triggerBtn;
-  modal.trigger = 'click';
+  modal.triggerType = 'click';
 
   if (!triggerBtn || !checkboxCapture || !checkboxCycle) {
     return;

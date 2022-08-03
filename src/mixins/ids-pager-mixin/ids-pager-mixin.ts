@@ -87,7 +87,7 @@ const IdsPagerMixin = (superclass: any) => class extends superclass {
         <ids-menu-button id="pager-size-menu-button" menu="pager-size-menu" role="button" dropdown-icon>
           <span slot="text">${pageSize} Records per page</span>
         </ids-menu-button>
-        <ids-popup-menu id="pager-size-menu" target="#pager-size-menu-button" trigger="click">
+        <ids-popup-menu id="pager-size-menu" target="#pager-size-menu-button" trigger-type="click">
           <ids-menu-group>
             <ids-menu-item icon="${pageSize === 5 ? 'check' : 'no-check'}" value="5">5</ids-menu-item>
             <ids-menu-item icon="${pageSize === 10 ? 'check' : 'no-check'}" value="10">10</ids-menu-item>
