@@ -55,7 +55,7 @@ export default class IdsBarChart extends Base {
     this.#adjustVerticalLines();
   }
 
-  mountedCallback(): void {
+  afterConnectedCallback(): void {
     this.#preSelected();
     this.attachTooltipEvents();
   }

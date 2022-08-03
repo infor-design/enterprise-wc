@@ -277,7 +277,7 @@ export default class IdsPopupMenu extends Base {
       }
     }
 
-    this.setAttribute(attributes.WIDTH, value);
+    // this.setAttribute(attributes.WIDTH, value);
 
     if (this.container) {
       this.container.style.width = value;
