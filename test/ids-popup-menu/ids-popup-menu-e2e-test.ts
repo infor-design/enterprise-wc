@@ -1,10 +1,12 @@
+import countObjects from '../helpers/count-objects';
+
 describe('Ids Popup Menu e2e Tests', () => {
   const url = 'http://localhost:4444/ids-popup-menu/example.html';
   const menuItemSelector = '#item-six'; // ids-menu-item with sub level ids-popup-menu
   const subPopupMenuSelector = `${menuItemSelector} > ids-popup-menu`; // reference to sub level ids-popup-menu
   const popupHoverDelay = 500; // popupDelay configured in ids-popup-interactions-mixin.js
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
   });
 
@@ -56,5 +58,71 @@ describe('Ids Popup Menu e2e Tests', () => {
     // check that sub popupmenu is visible
     const isVisible = await page.$eval(subPopupMenuSelector, (el: any) => el?.visible);
     expect(isVisible).toBeTruthy();
+  });
+
+  it.skip('should not have memory leaks', async () => {
+    const numberOfObjects = await countObjects(page);
+    await page.evaluate(() => {
+      document.body.insertAdjacentHTML('beforeend', `<ids-popup-menu id="test" width="550px"></ids-popup-menu>`);
+      document.querySelector('#test')?.remove();
+    });
+    expect(await countObjects(page)).toEqual(numberOfObjects);
+  });
+
+  it('should be able to createElement', async () => {
+    let hasError = false;
+    try {
+      await page.evaluate(() => {
+        document.createElement('ids-popup-menu');
+      });
+    } catch (err) {
+      hasError = true;
+    }
+    await expect(hasError).toEqual(false);
+  });
+
+  it('should be able to set attributes before append', async () => {
+    let hasError = false;
+    try {
+      await page.evaluate(() => {
+        const elem: any = document.createElement('ids-popup-menu');
+        elem.type = 'menu';
+        document.body.appendChild(elem);
+      });
+    } catch (err) {
+      hasError = true;
+    }
+    await expect(hasError).toEqual(false);
+  });
+
+  it('should be able to set attributes after append', async () => {
+    let hasError = false;
+    try {
+      await page.evaluate(() => {
+        const elem: any = document.createElement('ids-popup-menu');
+        document.body.appendChild(elem);
+        elem.width = '550px';
+      });
+    } catch (err) {
+      hasError = true;
+    }
+    await expect(hasError).toEqual(false);
+  });
+
+  it('should be able to set attributes after insertAdjacentHTML', async () => {
+    let hasError = false;
+    try {
+      await page.evaluate(() => {
+        document.body.insertAdjacentHTML('beforeend', `<ids-popup-menu id="test"></ids-popup-menu>`);
+        const elem: any = document.querySelector('#test');
+        elem.width = '550px';
+      });
+    } catch (err) {
+      hasError = true;
+    }
+
+    const value = await page.evaluate('document.querySelector("#test").getAttribute("width")');
+    await expect(value).toEqual('550px');
+    await expect(hasError).toEqual(false);
   });
 });

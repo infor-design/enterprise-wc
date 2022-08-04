@@ -43,8 +43,12 @@ export default class IdsPopupMenu extends Base {
    */
   connectedCallback(): void {
     super.connectedCallback();
+
     if (!this.hasAttribute(attributes.HIDDEN)) {
       this.setAttribute(attributes.HIDDEN, '');
+    }
+    if (this.hasAttribute(attributes.WIDTH)) {
+      this.#setMenuWidth(this.getAttribute(attributes.WIDTH));
     }
 
     // If this Popupmenu is a submenu, and no target is pre-defined,
@@ -276,12 +280,7 @@ export default class IdsPopupMenu extends Base {
         this.removeAttribute(attributes.WIDTH);
       }
     }
-
-    // this.setAttribute(attributes.WIDTH, value);
-
-    if (this.container) {
-      this.container.style.width = value;
-    }
+    this.#setMenuWidth(newValue);
   }
 
   /**
@@ -291,6 +290,13 @@ export default class IdsPopupMenu extends Base {
   get width(): string | null {
     const width = this.container?.style.width;
     return (width.length ? width : null);
+  }
+
+  #setMenuWidth(targetWidth: string | null): void {
+    if (targetWidth === null) targetWidth = '';
+    if (this.container) {
+      this.container.style.width = targetWidth;
+    }
   }
 
   /**

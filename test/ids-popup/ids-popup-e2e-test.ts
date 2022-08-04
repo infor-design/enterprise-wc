@@ -20,7 +20,7 @@ describe('Ids Popup e2e Tests', () => {
   it('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
-      document.body.insertAdjacentHTML('beforeend', `<ids-popup id="test" type="menu" align="left, top"></ids-alert>`);
+      document.body.insertAdjacentHTML('beforeend', `<ids-popup id="test" type="menu" align="left, top"></ids-popup>`);
       document.querySelector('#test')?.remove();
     });
     expect(await countObjects(page)).toEqual(numberOfObjects);
@@ -70,7 +70,7 @@ describe('Ids Popup e2e Tests', () => {
     let hasError = false;
     try {
       await page.evaluate(() => {
-        document.body.insertAdjacentHTML('beforeend', `<ids-popup id="test" align="left, top"></ids-alert>`);
+        document.body.insertAdjacentHTML('beforeend', `<ids-popup id="test" align="left, top"></ids-popup>`);
         const elem: any = document.querySelector('#test');
         elem.type = 'menu';
       });
