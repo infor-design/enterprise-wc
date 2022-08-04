@@ -1,7 +1,7 @@
 [{
    "data": [{
      "name": "Item A",
-     "tooltip": "<b>Item A</b> ${percent}%",
+     "tooltip": "<b>Item A</b> ${value}%",
      "value": 10.1
    },{
      "name": "Item B",
