@@ -28,7 +28,7 @@ export default class IdsRating extends Base {
     if (!this.readonly) {
       this.#attachEventHandlers();
     } else {
-      this.updateHalfStar(this.ratingArr);
+      this.#updateHalfStar(this.ratingArr);
     }
   }
 
@@ -89,7 +89,7 @@ export default class IdsRating extends Base {
         element.classList.remove('active');
         element.classList.remove('is-half');
       });
-      this.updateHalfStar(this.ratingArr);
+      this.#updateHalfStar(this.ratingArr);
     }
   }
 
@@ -118,7 +118,7 @@ export default class IdsRating extends Base {
   set readonly(ro: string | boolean) {
     if (ro && this.readonly) {
       this.offEvent('click', this.container);
-      this.updateHalfStar(this.ratingArr);
+      this.#updateHalfStar(this.ratingArr);
       this.setAttribute('readonly', ro.toString());
     }
 
@@ -198,18 +198,18 @@ export default class IdsRating extends Base {
    * Sets and updates value attribute for halfstar
    * @param {any} arr NodeList
    */
-  updateHalfStar(arr: any) {
+  #updateHalfStar(arr: any) {
     const value = this.value;
     const roundValue = Math.round(value);
     for (let i = 0; i < roundValue; i++) {
-      arr[i].classList.add('active');
-      arr[i].setAttribute('icon', 'star-filled');
+      arr[i]?.classList.add('active');
+      arr[i]?.setAttribute('icon', 'star-filled');
     }
     if (value < roundValue) {
       const activeArr = arr.filter((act: { classList: { contains: (arg0: string) => any; }; }) => act.classList.contains('active'));
       const lastItem = activeArr[activeArr.length - 1];
-      lastItem.classList.add('is-half');
-      lastItem.setAttribute('icon', 'star-half');
+      lastItem?.classList.add('is-half');
+      lastItem?.setAttribute('icon', 'star-half');
     }
   }
 }

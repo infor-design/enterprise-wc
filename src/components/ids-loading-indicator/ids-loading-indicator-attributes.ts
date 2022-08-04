@@ -3,8 +3,7 @@ import { buildClassAttrib } from '../../utils/ids-string-utils/ids-string-utils'
 
 const getPercentageTextHtml = ({ progress, type = 'circular' }:{ progress:any, type?:string }) => (
   `<div class="progress-percentage ${type}" part="percentage-text">
-    <ids-text font-size="14" font-weight="bold" color="unset" label>
-      ${progress}<span class="percentage">%</span></ids-text>
+    <ids-text font-size="14" font-weight="bold" color="unset" label>${progress}</ids-text>
   </div>`
 );
 

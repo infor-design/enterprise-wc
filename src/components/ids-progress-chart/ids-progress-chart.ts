@@ -78,11 +78,11 @@ export default class IdsProgressChart extends Base {
         icon.style.margin = '0 4px';
       }
       this.setAttribute(attributes.ICON, value);
-      icon.setAttribute(attributes.ICON, value);
+      icon?.setAttribute(attributes.ICON, value);
     } else {
       if (icon) icon.style.display = 'none';
       this.setAttribute(attributes.ICON, '');
-      icon.setAttribute(attributes.ICON, '');
+      icon?.setAttribute(attributes.ICON, '');
     }
   }
 
