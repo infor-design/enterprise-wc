@@ -36,6 +36,20 @@ describe('IdsToggleButton Component', () => {
     expect(btn.shouldUpdate).toBeTruthy();
   });
 
+  it('can render via document.createElement (append early)', () => {
+    const errors = jest.spyOn(global.console, 'error');
+    const elem: any = document.createElement('ids-toggle-button');
+
+    document.body.appendChild(elem);
+    elem.id = 'test-button';
+    elem.textOn = 'Test Button (On)';
+    elem.iconOff = 'star-filled';
+    elem.textOff = 'Test Button (Off)';
+    elem.iconOff = 'star-outlined';
+
+    expect(errors).not.toHaveBeenCalled();
+  });
+
   it('can be pressed/unpressed', () => {
     btn.pressed = true;
 

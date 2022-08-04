@@ -34,10 +34,10 @@ export default class IdsTabsContext extends Base {
       const content = this.querySelector(`ids-tab-content[value="${e.detail.value}"]`);
       content?.remove();
     });
-    this.mountedCallback();
+    this.#afterConnectedCallback();
   }
 
-  mountedCallback() {
+  #afterConnectedCallback() {
     this.value = this.querySelector('[selected]')?.value;
   }
 

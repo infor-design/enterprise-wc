@@ -112,6 +112,9 @@ export default class IdsAxisChart extends Base {
     this.svg = this.shadowRoot.querySelector('svg');
     this.emptyMessage = this.querySelector('ids-empty-message') || this.shadowRoot.querySelector('ids-empty-message');
     this.legend = this.shadowRoot.querySelector('[name="legend"]');
+    if (this.getAttribute(attributes.WIDTH)) this.width = this.getAttribute(attributes.WIDTH);
+    if (this.getAttribute(attributes.HEIGHT)) this.height = this.getAttribute(attributes.HEIGHT);
+
     this.#resetAxisLabelsText();
     this.#attachEventHandlers();
     // TODO: Is this still needed?
@@ -267,8 +270,8 @@ export default class IdsAxisChart extends Base {
 
     // Completed Event and Callback
     this.triggerEvent('rendered', this, { svg: this.svg, data: this.data, markerData: this.markerData });
-    if (this.mountedCallback) {
-      this?.mountedCallback();
+    if (this.afterConnectedCallback) {
+      this?.afterConnectedCallback();
     }
   }
 
@@ -846,7 +849,7 @@ export default class IdsAxisChart extends Base {
       this.#attachResizeObserver();
     }
     this.setAttribute(attributes.HEIGHT, height);
-    this.svg.setAttribute(attributes.HEIGHT, height);
+    this.svg?.setAttribute(attributes.HEIGHT, height);
     this.redraw();
   }
 
@@ -867,7 +870,7 @@ export default class IdsAxisChart extends Base {
       this.#attachResizeObserver();
     }
     this.setAttribute(attributes.WIDTH, width);
-    this.svg.setAttribute(attributes.WIDTH, width);
+    this.svg?.setAttribute(attributes.WIDTH, width);
     this.#setContainerWidth(Number(width));
     this.redraw();
   }

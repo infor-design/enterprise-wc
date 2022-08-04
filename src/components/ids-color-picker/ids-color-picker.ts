@@ -234,10 +234,10 @@ export default class IdsColorPicker extends Base {
   set advanced(value: boolean | string) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.ADVANCED, true);
-      this.colorInput.removeAttribute(attributes.DISABLED);
+      this.colorInput?.removeAttribute(attributes.DISABLED);
     } else {
       this.removeAttribute(attributes.ADVANCED);
-      this.colorInput.setAttribute(attributes.DISABLED, true);
+      this.colorInput?.setAttribute(attributes.DISABLED, true);
     }
   }
 
@@ -301,12 +301,12 @@ export default class IdsColorPicker extends Base {
 
     if (value) {
       this.colorPickerInput?.setAttribute(attributes.READONLY, '');
-      this.triggerBtn.setAttribute(attributes.DISABLED, '');
+      this.triggerBtn?.setAttribute(attributes.DISABLED, '');
       this.colorPickerInput?.removeAttribute(attributes.DISABLED);
       return;
     }
     this.colorPickerInput?.removeAttribute(attributes.READONLY);
-    this.triggerBtn.removeAttribute(attributes.DISABLED);
+    this.triggerBtn?.removeAttribute(attributes.DISABLED);
     this.colorPickerInput?.removeAttribute(attributes.DISABLED);
   }
 

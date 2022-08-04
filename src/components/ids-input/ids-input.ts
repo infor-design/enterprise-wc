@@ -376,6 +376,8 @@ export default class IdsInput extends Base {
    */
   setInputState(prop: string): void {
     if (prop === attributes.READONLY || prop === attributes.DISABLED) {
+      if (!this.shadowRoot) return;
+
       const msgNodes = [].slice.call(this.shadowRoot.querySelectorAll('.validation-message'));
       const options = {
         prop1: prop,
@@ -570,6 +572,7 @@ export default class IdsInput extends Base {
    * @private
    */
   #passwordVisibilityHandler(): void {
+    if (!this.shadowRoot) return;
     const passwordButton = this.shadowRoot.querySelector(`.show-hide-password`);
     const passwordField = this.shadowRoot.querySelector(`.ids-input-field`);
     if (passwordButton) {

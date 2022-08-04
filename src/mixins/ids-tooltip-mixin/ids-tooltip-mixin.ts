@@ -49,6 +49,9 @@ const IdsTooltipMixin = (superclass: any) => class extends superclass {
     if (this.fieldContainer instanceof HTMLElement || this.fieldContainer instanceof SVGElement) {
       return this.fieldContainer;
     }
+    if (this.shadowRoot?.querySelector('ids-trigger-field')?.fieldContainer instanceof HTMLElement || this.shadowRoot?.querySelector('ids-trigger-field')?.fieldContainer instanceof SVGElement) {
+      return this.shadowRoot.querySelector('ids-trigger-field').fieldContainer;
+    }
     return this;
   }
 

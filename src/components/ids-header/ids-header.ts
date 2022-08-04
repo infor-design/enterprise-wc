@@ -25,6 +25,8 @@ export default class IdsHeader extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.#refreshVariants();
+    // Set initial color
+    if (this.getAttribute('color')) this.color = this.getAttribute('color');
   }
 
   static get attributes() {
@@ -70,7 +72,8 @@ export default class IdsHeader extends Base {
       return;
     }
     const sanitzedVal = stripHTML(c);
-    this.container.style.backgroundColor = sanitzedVal;
+    // TODO Use Css Variables to set the color
+    if (this.container) this.container.style.backgroundColor = sanitzedVal;
     this.setAttribute('color', sanitzedVal);
   }
 

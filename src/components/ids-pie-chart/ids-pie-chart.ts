@@ -80,6 +80,8 @@ export default class IdsPieChart extends Base {
     this.svg = this.shadowRoot.querySelector('svg');
     this.emptyMessage = this.querySelector('ids-empty-message') || this.shadowRoot.querySelector('ids-empty-message');
     this.legend = this.shadowRoot.querySelector('[name="legend"]');
+    if (this.getAttribute(attributes.WIDTH)) this.width = this.getAttribute(attributes.WIDTH);
+    if (this.getAttribute(attributes.HEIGHT)) this.height = this.getAttribute(attributes.HEIGHT);
 
     this.#attachEventHandlers();
     this.redraw();
@@ -95,7 +97,7 @@ export default class IdsPieChart extends Base {
   /**
    * Invoked after rendering
    */
-  mountedCallback(): void {
+  afterConnectedCallback(): void {
     this.legendsClickable?.(this.selectable);
     this.#preSelected();
     this.#attachTooltipEvents();
@@ -122,9 +124,6 @@ export default class IdsPieChart extends Base {
 
     // Completed Event and Callback
     this.triggerEvent('rendered', this, { svg: this.svg, data: this.data, markerData: this.markerData });
-    if (this.rendered) {
-      this?.mountedCallback();
-    }
   }
 
   /**
@@ -624,7 +623,7 @@ export default class IdsPieChart extends Base {
    */
   set height(value: number | string) {
     this.setAttribute(attributes.HEIGHT, value);
-    this.svg.setAttribute(attributes.HEIGHT, value);
+    this.svg?.setAttribute(attributes.HEIGHT, value);
     this.redraw();
   }
 
@@ -639,7 +638,7 @@ export default class IdsPieChart extends Base {
    */
   set width(value: number | string) {
     this.setAttribute(attributes.WIDTH, value);
-    this.svg.setAttribute(attributes.WIDTH, value);
+    this.svg?.setAttribute(attributes.WIDTH, value);
     this.redraw();
   }
 

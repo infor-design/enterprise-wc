@@ -49,9 +49,16 @@ describe('IdsToast Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders using document.createElement with no errors', () => {
+  it('renders using document.createElement with no errors (append late)', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const toastElem = document.createElement('ids-toast');
+    const toastElem: any = document.createElement('ids-toast');
+
+    toastElem.position = 'bottom-end';
+    toastElem.allowLink = true;
+    toastElem.audible = true;
+    toastElem.draggable = true;
+    toastElem.timeout = 2000;
+
     document.body.appendChild(toastElem);
     expect(errors).not.toHaveBeenCalled();
   });
