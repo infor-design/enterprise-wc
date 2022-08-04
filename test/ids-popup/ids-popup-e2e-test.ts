@@ -1,15 +1,14 @@
 import countObjects from '../helpers/count-objects';
 
-describe('Ids Button e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-button/example.html';
+describe('Ids Popup e2e Tests', () => {
+  const url = 'http://localhost:4444/ids-popup/example.html';
 
   beforeEach(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    // await page.waitForTimeout(2000);
   });
 
   it('should not have errors', async () => {
-    await expect(page.title()).resolves.toMatch('IDS Button Component');
+    await expect(page.title()).resolves.toMatch('IDS Popup Component');
   });
 
   it('should pass Axe accessibility tests', async () => {
@@ -21,7 +20,7 @@ describe('Ids Button e2e Tests', () => {
   it('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
-      document.body.insertAdjacentHTML('beforeend', `<ids-button id="test" type="primary" icon="settings">My Button</ids-button>`);
+      document.body.insertAdjacentHTML('beforeend', `<ids-popup id="test" type="menu" align="left, top"></ids-popup>`);
       document.querySelector('#test')?.remove();
     });
     expect(await countObjects(page)).toEqual(numberOfObjects);
@@ -31,7 +30,7 @@ describe('Ids Button e2e Tests', () => {
     let hasError = false;
     try {
       await page.evaluate(() => {
-        document.createElement('ids-button');
+        document.createElement('ids-popup');
       });
     } catch (err) {
       hasError = true;
@@ -43,8 +42,8 @@ describe('Ids Button e2e Tests', () => {
     let hasError = false;
     try {
       await page.evaluate(() => {
-        const elem: any = document.createElement('ids-button');
-        elem.type = 'primary';
+        const elem: any = document.createElement('ids-popup');
+        elem.type = 'menu';
         document.body.appendChild(elem);
       });
     } catch (err) {
@@ -57,9 +56,9 @@ describe('Ids Button e2e Tests', () => {
     let hasError = false;
     try {
       await page.evaluate(() => {
-        const elem: any = document.createElement('ids-button');
+        const elem: any = document.createElement('ids-popup');
         document.body.appendChild(elem);
-        elem.type = 'primary';
+        elem.type = 'menu';
       });
     } catch (err) {
       hasError = true;
@@ -71,16 +70,16 @@ describe('Ids Button e2e Tests', () => {
     let hasError = false;
     try {
       await page.evaluate(() => {
-        document.body.insertAdjacentHTML('beforeend', `<ids-button id="test"></ids-button>`);
+        document.body.insertAdjacentHTML('beforeend', `<ids-popup id="test" align="left, top"></ids-popup>`);
         const elem: any = document.querySelector('#test');
-        elem.type = 'primary';
+        elem.type = 'menu';
       });
     } catch (err) {
       hasError = true;
     }
 
     const value = await page.evaluate('document.querySelector("#test").getAttribute("type")');
-    await expect(value).toEqual('primary');
+    await expect(value).toEqual('menu');
     await expect(hasError).toEqual(false);
   });
 });

@@ -246,7 +246,7 @@ class IdsDatePicker extends Base {
                 <ids-button class="popup-btn popup-btn-clear" hidden part="btn-clear">
                   <ids-text translate-text="true" font-weight="bold">Clear</ids-text>
                 </ids-button>
-                <ids-button class="popup-btn popup-btn-apply" hidden part="btn-apply">
+                <ids-button class="popup-btn popup-btn-apply" ${this.useRange ? 'disabled' : 'hidden'} part="btn-apply">
                   <ids-text translate-text="true" font-weight="bold">Apply</ids-text>
                 </ids-button>
               </div>

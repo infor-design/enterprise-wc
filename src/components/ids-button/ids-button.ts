@@ -407,7 +407,16 @@ export default class IdsButton extends Base {
     }
 
     // Re-arrange the slots
-    this.button.innerHTML = this.#templateSlots();
+    const iconSlot = this.button.querySelector('slot[name="icon"]');
+    if (!iconSlot) {
+      return;
+    }
+
+    if (alignment === 'end') {
+      this.button.appendChild(iconSlot);
+    } else {
+      this.button.prepend(iconSlot);
+    }
   }
 
   /**
