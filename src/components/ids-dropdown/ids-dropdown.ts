@@ -615,11 +615,7 @@ export default class IdsDropdown extends Base {
       this.#loadDataSet(this.#optionsData);
       (window.getSelection() as Selection).removeAllRanges();
 
-      // Replace trigger button icon
-      const triggerIcon = this.container.querySelector('ids-icon[slot="icon"]');
-      if (triggerIcon?.icon === 'search') {
-        triggerIcon.icon = 'dropdown';
-      }
+      this.#triggerIconChange('dropdown');
     }
 
     this.container.classList.remove('is-open');
@@ -696,9 +692,17 @@ export default class IdsDropdown extends Base {
       this.input.focus();
     });
 
-    this.offEvent('click.dropdown-popup');
-    this.onEvent('click.dropdown-popup', this.trigger, () => {
-      this.toggle();
+    this.offEvent('click.dropdown-trigger');
+    this.onEvent('click.dropdown-trigger', this.trigger, () => {
+      // Acts as value clearer if the x button is activated
+      if (this.trigger.dataset.clearable) {
+        this.#loadDataSet(this.#optionsData);
+        this.value = 'blank';
+        this.#triggerIconChange('search');
+        this.input.focus();
+      } else {
+        this.toggle();
+      }
     });
   }
 
@@ -828,11 +832,24 @@ export default class IdsDropdown extends Base {
       this.listBox.innerHTML = `<ids-list-box-option>${this.locale.translate('NoResults')}</ids-list-box-option>`;
     }
 
-    // Replace trigger button icon
+    this.#triggerIconChange(this.clearable && inputValue ? 'close' : 'search');
+  }
+
+  #triggerIconChange(icon: string) {
     const triggerIcon = this.container.querySelector('ids-icon[slot="icon"]');
 
-    if (triggerIcon?.icon === 'dropdown') {
-      triggerIcon.icon = 'search';
+    if (triggerIcon?.icon) {
+      triggerIcon.icon = icon;
+
+      if (icon === 'close') {
+        triggerIcon.size = 'small';
+        this.trigger.setAttribute(attributes.NO_MARGINS, '');
+        this.trigger.setAttribute('data-clearable', true);
+      } else {
+        triggerIcon.size = 'normal';
+        this.trigger.removeAttribute(attributes.NO_MARGINS);
+        this.trigger.removeAttribute('data-clearable');
+      }
     }
   }
 
@@ -1006,6 +1023,10 @@ export default class IdsDropdown extends Base {
       this.setAttribute(attributes.CLEARABLE, boolVal);
     } else {
       this.removeAttribute(attributes.CLEARABLE);
+    }
+
+    if (this.typeahead) {
+      this.allowBlank = boolVal;
     }
   }
 
