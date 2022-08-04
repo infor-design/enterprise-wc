@@ -59,10 +59,10 @@ describe('IdsPieChart Component', () => {
     await processAnimFrame();
 
     // Note: This doesnt test this really well since jest doesnt support stylesheets - see also the percy test
-    expect(pieChart.container.parentNode.querySelectorAll('.swatch')[0].classList.contains('color-1')).toBeTruthy();
+    expect(pieChart.svgContainer.parentNode.querySelectorAll('.swatch')[0].classList.contains('color-1')).toBeTruthy();
     expect(pieChart.color(0)).toEqual('var(--ids-color-palette-azure-80)');
 
-    expect(pieChart.container.parentNode.querySelectorAll('.swatch')[1].classList.contains('color-2')).toBeTruthy();
+    expect(pieChart.svgContainer.parentNode.querySelectorAll('.swatch')[1].classList.contains('color-2')).toBeTruthy();
     expect(pieChart.color(1)).toEqual('var(color-2)');
   });
 
@@ -91,11 +91,11 @@ describe('IdsPieChart Component', () => {
         pattern: 'exes'
       }]
     }];
-    await processAnimFrame();
-    expect(pieChart.container.parentNode.querySelectorAll('.swatch svg')[0].querySelector('rect').getAttribute('fill')).toEqual('url(#circles)');
+
+    expect(pieChart.svgContainer.parentNode.querySelectorAll('.swatch svg')[0].querySelector('rect').getAttribute('fill')).toEqual('url(#circles)');
     expect(pieChart.shadowRoot.querySelectorAll('.slice')[0].getAttribute('stroke')).toEqual('url(#circles)');
 
-    expect(pieChart.container.parentNode.querySelectorAll('.swatch svg')[1].querySelector('rect').getAttribute('fill')).toEqual('url(#exes)');
+    expect(pieChart.svgContainer.parentNode.querySelectorAll('.swatch svg')[1].querySelector('rect').getAttribute('fill')).toEqual('url(#exes)');
     expect(pieChart.shadowRoot.querySelectorAll('.slice')[1].getAttribute('stroke')).toEqual('url(#exes)');
   });
 
@@ -118,16 +118,14 @@ describe('IdsPieChart Component', () => {
     expect(pieChart.container.querySelector('.donut-text').innerHTML).toBe('Test Update');
   });
 
-  it.skip('shows a tooltip on hover', async () => {
+  it('shows a tooltip on hover', async () => {
     pieChart.animated = false;
-    await processAnimFrame();
     const slice = pieChart.container.querySelector('.slice');
     slice.dispatchEvent(new CustomEvent('hoverend'));
     const tooltip: any = pieChart.shadowRoot.querySelector('ids-tooltip');
     await processAnimFrame();
-
     expect(tooltip.visible).toEqual(true);
-    expect(tooltip.textContent).toEqual('Item A 11%');
+    expect(tooltip.textContent).toEqual('Item A 10.1');
   });
 
   it('can suppress tooltips', async () => {
@@ -190,6 +188,44 @@ describe('IdsPieChart Component', () => {
     await processAnimFrame();
     expect(tooltip.visible).toEqual(true);
     expect(tooltip.textContent).toEqual('Jan 0');
+  });
+
+  it('shows tooltip on hover with donut', () => {
+    const ds = [{
+      data: [
+        { value: 1, name: 'slice1', tooltip: 'slice1' },
+        { value: 1, name: 'slice2', tooltip: 'slice2' },
+        { value: 1, name: 'slice3', tooltip: 'slice3' },
+        { value: 1, name: 'slice4', tooltip: 'slice4' },
+        { value: 1, name: 'slice5', tooltip: 'slice5' },
+        { value: 1, name: 'slice6', tooltip: 'slice6' },
+        { value: 1, name: 'slice7', tooltip: 'slice7' },
+        { value: 1, name: 'slice8', tooltip: 'slice8' },
+        { value: 1, name: 'slice9', tooltip: 'slice9' },
+        { value: 1, name: 'slice10', tooltip: 'slice10' },
+        { value: 1, name: 'slice11', tooltip: 'slice11' },
+        { value: 1, name: 'slice12', tooltip: 'slice12' },
+        { value: 1, name: 'slice13', tooltip: 'slice13' },
+        { value: 1, name: 'slice14', tooltip: 'slice14' },
+        { value: 1, name: 'slice15', tooltip: 'slice15' },
+        { value: 1, name: 'slice16', tooltip: 'slice16' }
+      ]
+    }];
+    document.body.innerHTML = '';
+    pieChart = new IdsPieChart();
+    pieChart.animated = false;
+    document.body.appendChild(pieChart);
+    pieChart.donut = true;
+    pieChart.donutText = 'Test';
+    pieChart.data = ds;
+
+    const tooltip: any = pieChart.shadowRoot.querySelector('ids-tooltip');
+
+    [...pieChart.container.querySelectorAll('.slice')].forEach((slice: any, i: number) => {
+      slice.dispatchEvent(new CustomEvent('hoverend'));
+      expect(tooltip.visible).toEqual(true);
+      expect(tooltip.textContent).toEqual(ds[0].data[i].tooltip);
+    });
   });
 
   it('renders an empty message with empty data', async () => {
