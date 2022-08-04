@@ -287,11 +287,13 @@ export default class IdsPagerNumberList extends Base {
       const endButtons = buttons.slice(-1 * (totalBufferSize + leftBufferSize));
       visibleButtons = [firstButton, divider].concat(endButtons);
     } else {
-      const middleButtons = buttons.slice(pageNumber - leftBufferSize, pageNumber + rightBufferSize);
+      const middleButtons = buttons.slice(pageNumber - leftBufferSize - 1, pageNumber + rightBufferSize);
       visibleButtons = [firstButton, divider].concat([...middleButtons, divider, lastButton]);
     }
 
-    this.container.innerHTML = visibleButtons.join('');
-    this.#attachAria();
+    if (this.container) {
+      this.container.innerHTML = visibleButtons.join('');
+      this.#attachAria();
+    }
   }
 }

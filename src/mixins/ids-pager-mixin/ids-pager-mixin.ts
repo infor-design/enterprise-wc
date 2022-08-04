@@ -61,13 +61,13 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
       return;
     }
 
-    const shouldRedraw = [
+    const shouldReload = [
       attributes.PAGE_NUMBER,
       attributes.PAGE_SIZE,
       attributes.PAGE_TOTAL,
     ].includes(name);
 
-    if (shouldRedraw) {
+    if (shouldReload) {
       this.connectedCallback();
     }
   }
@@ -92,23 +92,13 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
         <ids-menu-button id="pager-size-menu-button" menu="pager-size-menu" role="button" dropdown-icon>
           <span slot="text">${pageSize} Records per page</span>
         </ids-menu-button>
-<<<<<<< HEAD
-        <ids-popup-menu id="pager-size-menu" target="#pager-size-menu-button" trigger="click">
+        <ids-popup-menu id="pager-size-menu" target="#pager-size-menu-button" trigger-type="click">
           <ids-menu-group select="single">
             <ids-menu-item value="5">5</ids-menu-item>
             <ids-menu-item value="10">10</ids-menu-item>
             <ids-menu-item value="25">25</ids-menu-item>
             <ids-menu-item value="50">50</ids-menu-item>
             <ids-menu-item value="100">100</ids-menu-item>
-=======
-        <ids-popup-menu id="pager-size-menu" target="#pager-size-menu-button" trigger-type="click">
-          <ids-menu-group>
-            <ids-menu-item icon="${pageSize === 5 ? 'check' : 'no-check'}" value="5">5</ids-menu-item>
-            <ids-menu-item icon="${pageSize === 10 ? 'check' : 'no-check'}" value="10">10</ids-menu-item>
-            <ids-menu-item icon="${pageSize === 25 ? 'check' : 'no-check'}" value="25">25</ids-menu-item>
-            <ids-menu-item icon="${pageSize === 50 ? 'check' : 'no-check'}" value="50">50</ids-menu-item>
-            <ids-menu-item icon="${pageSize === 100 ? 'check' : 'no-check'}" value="100">100</ids-menu-item>
->>>>>>> a543ac697bdf62f515f663b9e7e65400df2608a6
           </ids-menu-group>
         </ids-popup-menu>
       </div>
@@ -225,9 +215,8 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
 
     this.offEvent('pagenumberchange', this.pager);
     this.onEvent('pagenumberchange', this.pager, (event: CustomEvent) => {
-      const newPageNumber = Number(event.detail.value);
       if (shouldUpdate) {
-        this.pageNumber = newPageNumber;
+        this.pageNumber = Number(event.detail.value);
       }
     });
 

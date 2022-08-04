@@ -834,18 +834,21 @@ export default class IdsListView extends Base {
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     super.attributeChangedCallback(name, oldValue, newValue);
 
-    if (oldValue === newValue) {
+    const skipRedraw = [
+      attributes.SUPPRESS_DEACTIVATION,
+      attributes.SUPPRESS_DESELECTION,
+      attributes.HEIGHT,
+      attributes.HIDE_CHECKBOXES,
+      attributes.ITEM_HEIGHT,
+      attributes.LABEL,
+      attributes.SORTABLE,
+    ].includes(name);
+
+    if (skipRedraw || (oldValue === newValue)) {
       return;
     }
 
-    const shouldRedraw = [
-      attributes.SELECTABLE,
-      attributes.VIRTUAL_SCROLL,
-    ].includes(name);
-
-    if (shouldRedraw) {
-      this.connectedCallback();
-    }
+    this.redraw();
   }
 
   /**
