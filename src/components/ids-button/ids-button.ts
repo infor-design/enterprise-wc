@@ -39,10 +39,17 @@ export default class IdsButton extends Base {
    */
   connectedCallback(): void {
     super.connectedCallback();
+    this.#setInitialState();
+    this.shouldUpdate = true;
+  }
+
+  #setInitialState() {
+    if (this.hasAttribute(attributes.ICON)) this.appendIcon(this.getAttribute(attributes.ICON));
+    if (this.hasAttribute(attributes.TEXT)) this.appendText(this.getAttribute(attributes.TEXT));
+
     const isIconButton = this.button.classList.contains('ids-icon-button');
     this.setupRipple(this.button, isIconButton ? 35 : 50);
     this.setIconAlignment();
-    this.shouldUpdate = true;
   }
 
   /**
@@ -96,9 +103,7 @@ export default class IdsButton extends Base {
     let cssClass = '';
     let protoClasses = '';
     let disabled = '';
-    let icon = '';
     let tabIndex = 'tabindex="0"';
-    let text = '';
     let type = '';
     if (this.state?.cssClass) {
       cssClass = ` ${this.state.cssClass.join(' ')}`;
@@ -108,12 +113,6 @@ export default class IdsButton extends Base {
     }
     if (this.state?.tabIndex) {
       tabIndex = `tabindex="${this.state.tabIndex}"`;
-    }
-    if (this.state?.icon) {
-      icon = `<ids-icon slot="icon" part="icon" icon="${this.state.icon}"></ids-icon>`;
-    }
-    if (this.state?.text) {
-      text = `<span slot="text" part="text">${this.state.text}</span>`;
     }
     if (this.state && this.state?.type !== 'default') {
       type = ` btn-${this.state.type}`;
@@ -131,17 +130,22 @@ export default class IdsButton extends Base {
       protoClasses = `${this.protoClasses.join(' ')}`;
     }
 
-    let alignCSS = ' align-icon-start';
-    let namedSlots = `<slot name="icon" part="icon">${icon}</slot><slot name="text">${text}</slot>`;
-    if (this.state?.iconAlign === 'end') {
-      alignCSS = ' align-icon-end';
-      namedSlots = `<slot name="text" part="text">${text}</slot><slot name="icon">${icon}</slot>`;
-    }
+    const alignCSS = this.state?.iconAlign === 'end'
+      ? ' align-icon-end'
+      : ' align-icon-start';
+
+    const slots = this.#templateSlots();
 
     return `<button part="button" class="${protoClasses}${type}${alignCSS}${cssClass}" ${tabIndex}${disabled}>
-      ${namedSlots}
-      <slot>${icon}${text}</slot>
+      ${slots}
     </button>`;
+  }
+
+  #templateSlots() {
+    const namedSlots = this.state?.iconAlign === 'end'
+      ? `<slot name="text" part="text"></slot><slot name="icon"></slot>`
+      : `<slot name="icon" part="icon"></slot><slot name="text"></slot>`;
+    return `${namedSlots}<slot></slot>`;
   }
 
   /**
@@ -403,16 +407,7 @@ export default class IdsButton extends Base {
     }
 
     // Re-arrange the slots
-    const iconSlot = this.button.querySelector('slot[name="icon"]');
-    if (!iconSlot) {
-      return;
-    }
-
-    if (alignment === 'end') {
-      this.button.appendChild(iconSlot);
-    } else {
-      this.button.prepend(iconSlot);
-    }
+    this.button.innerHTML = this.#templateSlots();
   }
 
   /**
