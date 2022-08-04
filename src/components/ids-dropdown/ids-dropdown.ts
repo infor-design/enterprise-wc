@@ -585,7 +585,9 @@ export default class IdsDropdown extends Base {
       this.close(true);
     }
 
-    if (this.typeahead && !(e.path?.includes(this.popup) || e.path?.includes(this.input.fieldContainer))) {
+    if (this.typeahead
+      && !(e.composedPath()?.includes(this.popup)
+      || e.composedPath()?.includes(this.input.fieldContainer))) {
       this.close(true);
     }
   }
@@ -895,8 +897,6 @@ export default class IdsDropdown extends Base {
     } else {
       this.removeAttribute(attributes.DIRTY_TRACKER);
     }
-
-    this.handleDirtyTracker();
   }
 
   get dirtyTracker(): string { return this.getAttribute(attributes.DIRTY_TRACKER); }
