@@ -176,6 +176,17 @@ class IdsMultiselect extends Base {
       this.input.focus();
     });
 
+    this.offEvent('click.dropdown-trigger');
+    this.onEvent('click.dropdown-trigger', this.trigger, () => {
+      // Acts as value clearer if the x button is activated
+      if (this.trigger.dataset.clearable) {
+        this.value = [];
+        this.#updateList(false);
+      } else {
+        this.toggle();
+      }
+    });
+
     if (this.tags) {
       this.onEvent('beforetagremove', this.input, (e:any) => {
         this.#handleTagRemove(e);

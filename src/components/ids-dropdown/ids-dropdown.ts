@@ -485,7 +485,6 @@ export default class IdsDropdown extends Base {
    * Insert blank option into list box
    */
   #insertBlankOption(): void {
-    if (!this.allowBlank) return;
     const list = this.querySelector('ids-list-box');
     const blankOption = '<ids-list-box-option value="blank" aria-label="Blank">&nbsp;</ids-list-box-option>';
     this.#removeBlank();
@@ -560,7 +559,9 @@ export default class IdsDropdown extends Base {
       html += this.#templatelistBoxOption(option);
     });
     listbox.insertAdjacentHTML('afterbegin', html);
-    this.#insertBlankOption();
+    if (this.allowBlank) {
+      this.#insertBlankOption();
+    }
     this.value = this.getAttribute(attributes.VALUE);
   }
 
@@ -614,7 +615,9 @@ export default class IdsDropdown extends Base {
       this.input.value = initialValue || '';
       this.#loadDataSet(this.#optionsData);
       (window.getSelection() as Selection).removeAllRanges();
+    }
 
+    if (this.clearable || this.typeahead) {
       this.#triggerIconChange('dropdown');
     }
 
@@ -696,9 +699,14 @@ export default class IdsDropdown extends Base {
     this.onEvent('click.dropdown-trigger', this.trigger, () => {
       // Acts as value clearer if the x button is activated
       if (this.trigger.dataset.clearable) {
-        this.#loadDataSet(this.#optionsData);
+        if (this.typeahead) {
+          this.#loadDataSet(this.#optionsData);
+        }
+        this.#triggerIconChange(this.typeahead ? 'search' : 'dropdown');
+        if (!this.allowBlank) {
+          this.#insertBlankOption();
+        }
         this.value = 'blank';
-        this.#triggerIconChange('search');
         this.input.focus();
       } else {
         this.toggle();
@@ -791,6 +799,13 @@ export default class IdsDropdown extends Base {
       this.value = selected?.getAttribute(attributes.VALUE) || '';
       this.close(true);
     });
+
+    this.listen(['Backspace', 'Delete'], this, () => {
+      if (this.clearable && this.input.value) {
+        this.#triggerIconChange('close');
+      }
+    });
+
     return this;
   }
 
@@ -842,7 +857,7 @@ export default class IdsDropdown extends Base {
   #triggerIconChange(icon: string) {
     const triggerIcon = this.container.querySelector('ids-icon[slot="icon"]');
 
-    if (triggerIcon?.icon) {
+    if (triggerIcon?.icon && triggerIcon.icon !== icon) {
       triggerIcon.icon = icon;
 
       if (icon === 'close') {
@@ -1027,10 +1042,6 @@ export default class IdsDropdown extends Base {
       this.setAttribute(attributes.CLEARABLE, boolVal);
     } else {
       this.removeAttribute(attributes.CLEARABLE);
-    }
-
-    if (this.typeahead) {
-      this.allowBlank = boolVal;
     }
   }
 
