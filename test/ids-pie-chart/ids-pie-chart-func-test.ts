@@ -120,7 +120,7 @@ describe('IdsPieChart Component', () => {
     const tooltip: any = pieChart.shadowRoot.querySelector('ids-tooltip');
     setTimeout(() => {
       expect(tooltip.visible).toEqual(true);
-      expect(tooltip.textContent).toEqual('Item A 11%');
+      expect(tooltip.textContent).toEqual('Item A 10.1');
       done();
     }, 1);
   });
