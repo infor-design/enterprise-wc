@@ -59,13 +59,6 @@ describe('IdsThemeSwitcher Component', () => {
     expect(switcher.getAttribute('mode')).toBeFalsy();
   });
 
-  it('can set mode and then clear it to default', () => {
-    switcher.version = 'classic';
-    switcher.version = '';
-    expect(switcher.version).toEqual('new');
-    expect(switcher.getAttribute('version')).toBeFalsy();
-  });
-
   it('supports setting color variants', async () => {
     await expectEnumAttributeBehavior({
       elem: switcher.container,

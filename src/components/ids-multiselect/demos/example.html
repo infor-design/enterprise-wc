@@ -8,26 +8,13 @@
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
     <ids-layout-grid auto="true">
-      <ids-text font-size="12" type="h1">Multiselect Dropdowns</ids-text>
+      <ids-text font-size="12" type="h1">Multiselect</ids-text>
     </ids-layout-grid>
 
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
-        <ids-multiselect id="dropdown-1" tags="true" disabled="true" label="Test Dropdown" max="3" dirty-tracker="true">
-          <ids-listbox class="selected-options">
-            <ids-list-box-option class="multiselect-option" id="nj" value="nj"><ids-checkbox no-margin checked="true" label="New Jersey" class="justify-center"></ids-checkbox></ids-list-box-option>
-          </ids-listbox>
-          <ids-list-box class="options">
-            <ids-list-box-option class="multiselect-option" id="al" value="al"><ids-checkbox no-margin label="Alabama" class="justify-center"></ids-checkbox></ids-list-box-option>
-            <ids-list-box-option class="multiselect-option" id="ak" value="ak"><ids-checkbox no-margin label="Alaska" class="justify-center"></ids-checkbox></ids-list-box-option>
-            <ids-list-box-option class="multiselect-option" id="az" value="az"><ids-checkbox no-margin label="Arizona" class="justify-center"></ids-checkbox></ids-list-box-option>
-            <ids-list-box-option class="multiselect-option" id="ar" value="ar"><ids-checkbox no-margin label="Arkansas" class="justify-center"></ids-checkbox></ids-list-box-option>
-            <ids-list-box-option class="multiselect-option" id="ca" value="ca"><ids-checkbox no-margin label="California" class="justify-center"></ids-checkbox></ids-list-box-option>
-            <ids-list-box-option class="multiselect-option" id="co" value="co"><ids-checkbox no-margin label="Colorado" class="justify-center"></ids-checkbox></ids-list-box-option>
-          </ids-list-box>
-        </ids-multiselect>
 
-        <ids-multiselect id="dropdown-2" label="Test Dropdown (max choices 3)" max="3" dirty-tracker="true">
+        <ids-multiselect id="dropdown-1" label="Multiselect (with max 3 choices 3 and dirty tracker)" max="3" dirty-tracker="true">
           <ids-listbox class="selected-options">
             <ids-list-box-option class="multiselect-option" id="nj2" value="nj" tooltip="The State of New Jersey"><ids-checkbox no-margin checked="true" label="New Jersey" class="justify-center"></ids-checkbox></ids-list-box-option>
           </ids-listbox>
@@ -41,7 +28,7 @@
           </ids-list-box>
         </ids-multiselect>
 
-        <ids-multiselect id="dropdown-3" tags="true" label="Test Dropdown (tags and 10 max choices)" max="10" dirty-tracker="true">
+        <ids-multiselect id="dropdown-2" tags="true" label="Multiselect (with tags and max 4 choices)" max="4" dirty-tracker="true">
           <ids-list-box class="options">
             <ids-list-box-option class="multiselect-option" id="al3" value="al"><ids-checkbox no-margin label="Alabama" class="justify-center"></ids-checkbox></ids-list-box-option>
             <ids-list-box-option class="multiselect-option" id="ak3" value="ak"><ids-checkbox no-margin label="Alaska" class="justify-center"></ids-checkbox></ids-list-box-option>
@@ -56,6 +43,21 @@
             <ids-list-box-option class="multiselect-option" id="nm3" value="nm"><ids-checkbox no-margin label="New Mexico" class="justify-center"></ids-checkbox></ids-list-box-option>
           </ids-list-box>
         </ids-multiselect>
+
+        <ids-multiselect id="dropdown-3" tags="true" disabled="true" label="Disabled Multiselect" max="3" dirty-tracker="true">
+          <ids-listbox class="selected-options">
+            <ids-list-box-option class="multiselect-option" id="nj" value="nj"><ids-checkbox no-margin checked="true" label="New Jersey" class="justify-center"></ids-checkbox></ids-list-box-option>
+          </ids-listbox>
+          <ids-list-box class="options">
+            <ids-list-box-option class="multiselect-option" id="al" value="al"><ids-checkbox no-margin label="Alabama" class="justify-center"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option class="multiselect-option" id="ak" value="ak"><ids-checkbox no-margin label="Alaska" class="justify-center"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option class="multiselect-option" id="az" value="az"><ids-checkbox no-margin label="Arizona" class="justify-center"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option class="multiselect-option" id="ar" value="ar"><ids-checkbox no-margin label="Arkansas" class="justify-center"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option class="multiselect-option" id="ca" value="ca"><ids-checkbox no-margin label="California" class="justify-center"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option class="multiselect-option" id="co" value="co"><ids-checkbox no-margin label="Colorado" class="justify-center"></ids-checkbox></ids-list-box-option>
+          </ids-list-box>
+        </ids-multiselect>
+
       </ids-layout-grid-cell>
     </ids-layout-grid>
 

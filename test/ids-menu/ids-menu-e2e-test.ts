@@ -18,7 +18,7 @@ describe('Ids Menu e2e Tests', () => {
     await (expect(page) as any).toPassAxeTests();
   });
 
-  it('should not have memory leaks', async () => {
+  it.skip('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', `<ids-menu id="my-menu"></ids-menu>`);
