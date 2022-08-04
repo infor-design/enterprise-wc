@@ -835,6 +835,10 @@ export default class IdsDropdown extends Base {
     this.#triggerIconChange(this.clearable && inputValue ? 'close' : 'search');
   }
 
+  /**
+   * Helper to replace trigger button icon
+   * @param {string} icon ids-icon icon value
+   */
   #triggerIconChange(icon: string) {
     const triggerIcon = this.container.querySelector('ids-icon[slot="icon"]');
 
@@ -1013,7 +1017,7 @@ export default class IdsDropdown extends Base {
   }
 
   /**
-   * When set the trigger button will have a clearable x button
+   * When set the trigger button will be a clearable x button when typing started
    * @param {boolean|string|null} value clearable value
    */
   set clearable(value: boolean | string | null) {
