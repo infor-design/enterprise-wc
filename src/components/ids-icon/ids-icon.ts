@@ -345,9 +345,9 @@ export default class IdsIcon extends Base {
   set size(value: string) {
     if (value && sizes[value]) {
       const size = sizes[this.size];
-      this.setAttribute(attributes.SIZE, value);
       this.container?.setAttribute('height', size);
       this.container?.setAttribute('width', size);
+      this.setAttribute(attributes.SIZE, value);
     } else {
       this.removeAttribute(attributes.SIZE);
     }
