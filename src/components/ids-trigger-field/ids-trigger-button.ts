@@ -60,7 +60,7 @@ export default class IdsTriggerButton extends Base {
 
     if (isTabbable) {
       this.setAttribute(attributes.TABBABLE, '');
-      button.tabIndex = 0;
+      if (button) button.tabIndex = 0;
       return;
     }
 
@@ -82,7 +82,7 @@ export default class IdsTriggerButton extends Base {
       if (button) button.tabIndex = -1;
       return;
     }
-    button.tabIndex = this.tabbable ? 0 : -1;
+    if (button) button.tabIndex = this.tabbable ? 0 : -1;
     this.removeAttribute(attributes.READONLY);
   }
 

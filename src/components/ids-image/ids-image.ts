@@ -24,6 +24,7 @@ export default class IdsImage extends Base {
 
   connectedCallback() {
     super.connectedCallback();
+    if (this.userStatus) this.userStatus = this.getAttribute('user-status');
   }
 
   /**
@@ -59,7 +60,7 @@ export default class IdsImage extends Base {
       return `<div class="ids-image placeholder"><span class="audible">Placeholder Image</span><ids-icon icon="insert-image"></ids-icon></div>`;
     }
 
-    return `<img class="ids-image" src="${this.src}"/>`;
+    return `<img class="ids-image" src="${this.src}" alt="${this.alt}"/>`;
   }
 
   /**
@@ -70,10 +71,10 @@ export default class IdsImage extends Base {
     this.offEvent('error.image');
     this.onEvent('error.image', img, () => {
       // Removing img on error loading
-      this.shadowRoot.querySelector('img').remove();
+      this.shadowRoot?.querySelector('img').remove();
 
       // Adding placeholder element
-      this.shadowRoot.appendChild(this.#getPlaceholderEl());
+      this.shadowRoot?.appendChild(this.#getPlaceholderEl());
     });
   }
 
@@ -124,18 +125,17 @@ export default class IdsImage extends Base {
    * @param {string} val src attribute value
    */
   set src(val: string) {
-    let img = this.shadowRoot.querySelector('img');
+    let img = this.shadowRoot?.querySelector('img');
 
     if (val && !this.placeholder) {
       if (img) {
         img.setAttribute(attributes.SRC, val);
       } else {
         // Removing placeholder
-        this.shadowRoot.querySelector('.placeholder')?.remove();
-
+        this.shadowRoot?.querySelector('.placeholder')?.remove();
         // Adding image element
         img = this.#getImgEl(val, this.alt);
-        this.shadowRoot.appendChild(img);
+        this.shadowRoot?.appendChild(img);
       }
 
       if (this.fallback) {
@@ -143,18 +143,15 @@ export default class IdsImage extends Base {
       }
 
       this.setAttribute(attributes.SRC, val);
-
       return;
     }
 
     if (img) {
       // Removing image element
       img.remove();
-
       this.#detachOnErrorEvent();
-
       // Adding placeholder element
-      this.shadowRoot.appendChild(this.#getPlaceholderEl());
+      this.shadowRoot?.appendChild(this.#getPlaceholderEl());
     }
 
     this.removeAttribute(attributes.SRC);
@@ -343,16 +340,14 @@ export default class IdsImage extends Base {
    */
   set userStatus(val: string | null) {
     const status = this.#getStatus(val);
-    const element = this.shadowRoot.querySelector('.user-status');
+    const element = this.shadowRoot?.querySelector('.user-status');
 
     // Clear element before rerender
     element?.remove();
 
     if (status) {
-      this.shadowRoot.appendChild(this.#getStatusEl(status));
-
+      this.shadowRoot?.appendChild(this.#getStatusEl(status));
       this.setAttribute(attributes.USER_STATUS, status);
-
       return;
     }
 
@@ -385,23 +380,20 @@ export default class IdsImage extends Base {
    * @param {string|null} val initials parameter value
    */
   set initials(val) {
-    const element = this.shadowRoot.querySelector('.ids-image');
+    const element = this.shadowRoot?.querySelector('.ids-image');
     const cropText = val?.substring(0, 2);
 
     // Clear element before rerender
     element?.remove();
 
     if (val) {
-      this.shadowRoot.appendChild(this.#getInitialsEl(cropText));
-
+      this.shadowRoot?.appendChild(this.#getInitialsEl(cropText));
       this.setAttribute(attributes.INITIALS, val);
-
       return;
     }
 
     // Add placeholder if initials removed
-    this.shadowRoot.appendChild(this.#getPlaceholderEl());
-
+    this.shadowRoot?.appendChild(this.#getPlaceholderEl());
     this.removeAttribute(attributes.INITIALS);
   }
 }
