@@ -69,6 +69,7 @@ export default class IdsDropdown extends Base {
     return [
       ...super.attributes,
       attributes.ALLOW_BLANK,
+      attributes.CLEARABLE,
       attributes.DISABLED,
       attributes.GROUP,
       attributes.LABEL,
@@ -993,4 +994,20 @@ export default class IdsDropdown extends Base {
   get typeahead(): boolean {
     return stringToBool(this.getAttribute(attributes.TYPEAHEAD));
   }
+
+  /**
+   * When set the trigger button will have a clearable x button
+   * @param {boolean|string|null} value clearable value
+   */
+  set clearable(value: boolean | string | null) {
+    const boolVal = stringToBool(value);
+
+    if (boolVal) {
+      this.setAttribute(attributes.CLEARABLE, boolVal);
+    } else {
+      this.removeAttribute(attributes.CLEARABLE);
+    }
+  }
+
+  get clearable() { return stringToBool(this.getAttribute(attributes.CLEARABLE)); }
 }
