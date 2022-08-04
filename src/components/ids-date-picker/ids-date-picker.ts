@@ -1379,7 +1379,7 @@ class IdsDatePicker extends Base {
    */
   #setDateValidation(): void {
     if (this.validate?.includes('date')) {
-      this.#triggerField.addValidationRule({
+      this.#triggerField?.addValidationRule({
         id: 'date',
         type: 'error',
         message: this.locale?.translate('InvalidDate'),
