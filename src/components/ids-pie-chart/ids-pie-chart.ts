@@ -77,6 +77,7 @@ export default class IdsPieChart extends Base {
    */
   connectedCallback(): void {
     this.svg = this.shadowRoot.querySelector('svg');
+    this.svgContainer = this.shadowRoot.querySelector('.ids-chart-svg-container');
     this.emptyMessage = this.querySelector('ids-empty-message') || this.shadowRoot.querySelector('ids-empty-message');
     this.legend = this.shadowRoot.querySelector('[name="legend"]');
 
@@ -117,6 +118,7 @@ export default class IdsPieChart extends Base {
 
     this.#calculate();
     this.#addColorVariables();
+    this.#setSliceAngles();
     this.legend.innerHTML = this.legendTemplate();
     this.svg.innerHTML = this.chartTemplate();
 
@@ -151,8 +153,10 @@ export default class IdsPieChart extends Base {
    */
   template(): string {
     return `<div class="ids-chart-container" part="container">
-      <svg class="ids-pie-chart" part="chart"${this.width ? ` width="${this.width}"` : ''}${this.height ? ` height="${this.height}"` : ''} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${this.viewBoxSize} ${this.viewBoxSize}">
-      </svg>
+      <div class="ids-chart-svg-container">
+        <svg class="ids-pie-chart" part="chart"${this.width ? ` width="${this.width}"` : ''}${this.height ? ` height="${this.height}"` : ''} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${this.viewBoxSize} ${this.viewBoxSize}">
+        </svg>
+      </div>
       <slot name="legend">
       </slot>
       <slot name="empty-message">
@@ -380,6 +384,99 @@ export default class IdsPieChart extends Base {
   }
 
   /**
+   * Convert angle degree to radians
+   * @private
+   * @param {number} degree The degree
+   * @returns {number} calculated radians value
+   */
+  #degreeToRadians(degree: number): number {
+    return (degree * (Math.PI / 180));
+  }
+
+  /**
+   * Hold the angles for each slice
+   * @private
+   */
+  #sliceAngles: { startAngle: number, endAngle: number, midAngle: number }[] = [];
+
+  /**
+   * Set the angles for each slice
+   * @private
+   * @returns {void}
+   */
+  #setSliceAngles(): void {
+    this.#sliceAngles = [];
+    const totals = this.totals;
+    let startAngle = this.#degreeToRadians(-90);
+
+    this.data?.[0]?.data?.forEach((d: any) => {
+      const endAngle = ((d.value / totals) * Math.PI * 2) + startAngle;
+      const midAngle = (startAngle + endAngle) / 2;
+      this.#sliceAngles.push({ startAngle, midAngle, endAngle });
+      startAngle = endAngle;
+    });
+  }
+
+  /**
+   * Get the midpoint position for given slice index
+   * @private
+   * @param {number} index The slice index
+   * @param {number} extra Any extra desired padding
+   * @returns {{ x: number, y: number, midAngle: number }} The calculated position
+   */
+  #midPosition(index: number, extra = 0): { x: number, y: number, midAngle: number } {
+    const width = this.svg.clientWidth;
+    const height = this.svg.clientHeight;
+    const radius = (Math.min(width, height) / 2) - (this.donut ? 8 : 0);
+
+    // Center position
+    const { x: offsetX, y: offsetY } = this.svgContainer.getBoundingClientRect();
+    const cx = (width / 2) + offsetX - this.#tooltipDotSize;
+    const cy = (height / 2) + offsetY - this.#tooltipDotSize;
+
+    const { midAngle } = this.#sliceAngles[index];
+    return {
+      x: cx + (Math.cos(midAngle) * (radius + extra)),
+      y: cy + (Math.sin(midAngle) * (radius + extra)),
+      midAngle
+    };
+  }
+
+  /**
+   * Hold the size for tooltip dot
+   * @private
+   */
+  #tooltipDotSize = 2;
+
+  /**
+   * Hold the tooltip dots
+   * @private
+   */
+  #tooltipDots: HTMLSpanElement[] = [];
+
+  /**
+   * Adjust the position of tooltip dots and add if run first time.
+   * @private
+   * @returns {void}
+   */
+  #adjustTooltipDots(): void {
+    this.#tooltipDots = this.svgContainer.parentElement.querySelectorAll('#dots .dot');
+    // Add for first time
+    if (!this.#tooltipDots.length) {
+      const html = `<div id="dots">${this.#sliceAngles.map(() => '<span class="dot"></span>').join('')}`;
+      this.svgContainer.parentElement.insertAdjacentHTML('beforeend', html);
+      this.#tooltipDots = this.svgContainer.parentElement.querySelectorAll('#dots .dot');
+    }
+    // Set positions
+    this.#tooltipDots.forEach((dot: any, i: number) => {
+      const { x, y } = this.#midPosition(i);
+      dot.style.setProperty('--ids-pie-chart-tooltip-dot-size', `${this.#tooltipDotSize}px`);
+      dot.style.setProperty('left', `${x}px`);
+      dot.style.setProperty('top', `${y}px`);
+    });
+  }
+
+  /**
    * Setup handlers on tooltip elements
    */
   #attachTooltipEvents(): void {
@@ -387,15 +484,20 @@ export default class IdsPieChart extends Base {
       return;
     }
 
+    const tooltip = this.svgContainer.parentElement.querySelector('ids-tooltip');
+
     // Need one event per bar due to the nature of the events for tooltip
-    this.tooltipElements().forEach((element: SVGElement) => {
-      this.onEvent('hoverend', element, async (e: MouseEvent) => {
-        const tooltip = this.container.parentElement.querySelector('ids-tooltip');
+    this.tooltipElements().forEach((element: SVGElement, index: number) => {
+      this.onEvent('hoverend', element, async () => {
         tooltip.innerHTML = this.#tooltipContent(element);
         tooltip.target = element;
-        this.#positionTooltip(tooltip, e);
+        this.#positionTooltip(tooltip, index);
       });
     });
+
+    // TODO: Find a way to work without initial visible call
+    // Issue first time popup arrow not align position
+    tooltip.popup.visible = true;
   }
 
   /**
@@ -412,18 +514,26 @@ export default class IdsPieChart extends Base {
    * Return the data for a tooltip accessed by index
    * @private
    * @param {SVGElement} tooltip the tooltip component
-   * @param {MouseEvent} e the event element
+   * @param {number} index the index
    */
-  #positionTooltip(tooltip: any, e: any) {
-    tooltip.popup.onPlace = (popupRect: any) => {
-      popupRect.x = e.clientX - 45;
-      popupRect.y = e.clientY - 50;
-      tooltip.popup.arrowEl.style.marginLeft = '';
-      tooltip.popup.arrowEl.style.marginTop = '';
-      return popupRect;
-    };
-    tooltip.popup.x = e.clientX - 45;
-    tooltip.popup.y = e.clienty - 50;
+  #positionTooltip(tooltip: any, index: number) {
+    this.#adjustTooltipDots();
+    tooltip.popup.alignTarget = this.#tooltipDots[index];
+
+    // Arrow placement
+    const { midAngle } = this.#sliceAngles[index];
+    const rads = midAngle + this.#degreeToRadians(90);
+    const piQuart = Math.PI / 4;
+    let placement = null;
+
+    // https://www.wyzant.com/resources/lessons/math/trigonometry/unit-circle
+    if ((rads <= piQuart && rads >= 0) || rads > (7 * piQuart)) placement = 'top';
+    else if (rads <= (3 * piQuart) && rads >= piQuart) placement = 'right';
+    else if (rads <= (5 * piQuart) && rads >= (3 * piQuart)) placement = 'bottom';
+    else if (rads <= (7 * piQuart) && rads >= (5 * piQuart)) placement = 'left';
+    tooltip.placement = placement;
+
+    // Show tooltip
     tooltip.visible = true;
   }
 
@@ -467,7 +577,7 @@ export default class IdsPieChart extends Base {
    */
   #showEmptyMessage() {
     this.svg.classList.add('hidden');
-    this.container.parentElement.classList.add('empty');
+    this.svgContainer.parentElement.classList.add('empty');
     this.emptyMessage.style.height = `${this.height}px`;
     this.emptyMessage.removeAttribute('hidden');
   }
@@ -478,7 +588,7 @@ export default class IdsPieChart extends Base {
    */
   #hideEmptyMessage() {
     this.svg.classList.remove('hidden');
-    this.container.parentElement.classList.remove('empty');
+    this.svgContainer.parentElement.classList.remove('empty');
     this.emptyMessage.style.height = '';
     this.emptyMessage.setAttribute('hidden', '');
   }
