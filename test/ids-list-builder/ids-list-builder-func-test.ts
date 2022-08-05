@@ -69,7 +69,7 @@ const HTMLSnippets = {
   ),
 };
 
-describe('IdsListBuilder Component', () => {
+describe.skip('IdsListBuilder Component', () => {
   let idsListBuilder: IdsListBuilder | any;
 
   const createElemViaTemplate = async (innerHTML: any) => {
