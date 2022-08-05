@@ -730,12 +730,17 @@ export default class IdsListView extends Base {
       if (!this.data?.length) this.getAllLi()?.forEach((li: HTMLElement) => li?.remove());
       return;
     }
+
     // Set list size
     this.#size = this.pagination === 'none' ? this.pageTotal : this.pageSize;
 
     const dir = this.container?.getAttribute('dir');
     const html = this.template();
-    this.container?.remove();
+    if (this.container?.parentElement) {
+      this.container?.parentElement.remove();
+    } else {
+      this.container?.remove();
+    }
 
     const referenceElem: any = this.shadowRoot.querySelector('style');
     if (referenceElem) {
@@ -853,16 +858,23 @@ export default class IdsListView extends Base {
    * @param {Array | null} value The array to use
    */
   set data(value: any) {
+    const wasInitialized = this.initialized;
     if (value) {
+      this.initialized = true;
       this.datasource.data = value;
       this.loaded = true;
+
+      // Reload data when changed
+      if (wasInitialized) {
+        this.redraw();
+      }
     } else {
       this.datasource.data = [];
       this.loaded = false;
     }
   }
 
-  get data(): any { return this?.datasource?.data || []; }
+  get data(): any { return this?.datasource?.data || ''; }
 
   /**
    * Used to determine if data has been loaded into IdsListView

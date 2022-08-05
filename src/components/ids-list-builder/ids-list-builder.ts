@@ -33,11 +33,8 @@ export default class IdsListBuilder extends Base {
   placeholder: any;
 
   connectedCallback() {
-    super.connectedCallback();
     this.sortable = true;
-    // list-builder is not designed to handle thousands of items, so doesnt support virtual scroll
-    this.virtualScroll = false;
-    this.itemHeight = 46; // hard-coded
+    super.connectedCallback();
     this.#attachEventListeners();
   }
 
@@ -485,5 +482,17 @@ export default class IdsListBuilder extends Base {
       x.setAttribute('aria-posinset', `${i + 1}`);
       x.setAttribute('aria-setsize', listItems.length.toString());
     });
+  }
+
+  set virtualScroll(value: string | boolean) {
+    // Do nothing
+  }
+
+  /**
+   * List builder does not support VS
+   * @returns {boolean} false
+   */
+  get virtualScroll(): boolean {
+    return false;
   }
 }

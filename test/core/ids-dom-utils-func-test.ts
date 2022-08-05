@@ -16,7 +16,7 @@ describe('IdsDomUtils Tests', () => {
     document.body.innerHTML = '';
   });
 
-  it.skip('can find parent nodes until matching the provided selector', async () => {
+  it('can find parent nodes until matching the provided selector', async () => {
     document.body.innerHTML = `
       <ids-container role="main" padding="8" hidden>
         <ids-layout-grid cols="2" gap="md">

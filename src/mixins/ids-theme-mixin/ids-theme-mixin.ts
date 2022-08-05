@@ -46,7 +46,7 @@ const IdsThemeMixin = (superclass: any) => class extends superclass {
   set mode(value: string) {
     if (value === undefined) value = 'light';
     this.setAttribute('mode', value);
-    this.container.setAttribute('mode', value);
+    this.container?.setAttribute('mode', value);
   }
 
   get mode(): string { return this.getAttribute('mode') || 'light'; }
