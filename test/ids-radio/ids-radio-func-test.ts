@@ -168,7 +168,7 @@ describe('IdsRadio Component', () => {
     });
   });
 
-  it('should renders template', () => {
+  it('should render template', () => {
     document.body.innerHTML = '';
     const html = '<ids-radio label="test" value="test-val" disabled="true" horizontal="true" checked="true" color="emerald07"></ids-radio>';
     document.body.innerHTML = html;

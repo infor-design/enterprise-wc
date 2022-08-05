@@ -170,7 +170,7 @@ describe('IdsUploadAdvancedFile Component', () => {
     expect(el.getAttribute('value')).toEqual(null);
   });
 
-  it('should renders template', () => {
+  it('should render template', () => {
     el = document.createElement('ids-upload-advanced-file');
     el.setAttribute('disabled', 'true');
 

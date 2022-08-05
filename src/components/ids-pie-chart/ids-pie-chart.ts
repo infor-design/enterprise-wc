@@ -75,20 +75,16 @@ export default class IdsPieChart extends Base {
    * Invoked each time the custom element is connected to the DOM.
    */
   connectedCallback(): void {
-    super.connectedCallback();
+    super.connectedCallback?.();
     this.legendPlacement = 'right';
     this.svg = this.shadowRoot.querySelector('svg');
     this.svgContainer = this.shadowRoot.querySelector('.ids-chart-svg-container');
     this.emptyMessage = this.querySelector('ids-empty-message') || this.shadowRoot.querySelector('ids-empty-message');
     this.legend = this.shadowRoot.querySelector('[name="legend"]');
-    if (this.getAttribute(attributes.WIDTH)) this.width = this.getAttribute(attributes.WIDTH);
-    if (this.getAttribute(attributes.HEIGHT)) this.height = this.getAttribute(attributes.HEIGHT);
 
-    this.#attachEventHandlers();
     this.redraw();
     this.legendsClickable?.(this.selectable);
-    this.#preSelected();
-    this.#attachTooltipEvents();
+    this.#attachEventHandlers();
   }
 
   /**
@@ -117,6 +113,8 @@ export default class IdsPieChart extends Base {
     this.#setSliceAngles();
     this.legend.innerHTML = this.legendTemplate();
     this.svg.innerHTML = this.chartTemplate();
+    this.#attachTooltipEvents();
+    this.#preSelected();
 
     // Completed Event and Callback
     this.triggerEvent('rendered', this, { svg: this.svg, data: this.data, markerData: this.markerData });
@@ -691,7 +689,7 @@ export default class IdsPieChart extends Base {
   set title(value) {
     this.setAttribute(attributes.TITLE, value);
     const title = this.container?.querySelectorAll(attributes.TITLE);
-    if (title && title.length > 1) {
+    if (title?.length > 1) {
       title[1].textContent = value;
     }
   }

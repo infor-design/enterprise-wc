@@ -94,7 +94,7 @@ describe('IdsProgressBar Component', () => {
     expect(el.max).toEqual('100');
   });
 
-  it('should renders template', () => {
+  it('should render template', () => {
     document.body.innerHTML = '';
     el = document.createElement('ids-progress-bar');
     el.setAttribute('disabled', 'true');

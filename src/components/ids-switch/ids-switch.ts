@@ -161,8 +161,8 @@ export default class IdsSwitch extends Base {
    * @param {boolean|string} value If true will set `checked` attribute
    */
   set checked(value: boolean | string) {
-    const slider = this.shadowRoot.querySelector('.slider');
-    this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
+    const slider = this.shadowRoot?.querySelector('.slider');
+    this.input = this.shadowRoot?.querySelector('input[type="checkbox"]');
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.CHECKED, val.toString());
@@ -182,10 +182,10 @@ export default class IdsSwitch extends Base {
    * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value: boolean | string) {
-    this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
-    const rootEl = this.shadowRoot.querySelector('.ids-switch');
+    this.input = this.shadowRoot?.querySelector('input[type="checkbox"]');
+    const rootEl = this.shadowRoot?.querySelector('.ids-switch');
     const val = stringToBool(value);
-    const labelText = this.shadowRoot.querySelector('.label-text');
+    const labelText = this.shadowRoot?.querySelector('.label-text');
 
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
@@ -207,7 +207,7 @@ export default class IdsSwitch extends Base {
    * @param {string | null} value of the `label` text property
    */
   set label(value: string | null) {
-    const labelText = this.shadowRoot.querySelector('.label-text') || document.createElement('span');
+    const labelText = this.shadowRoot?.querySelector('.label-text') || document.createElement('span');
     if (value) {
       this.setAttribute(attributes.LABEL, value);
       labelText.innerHTML = value;
@@ -224,14 +224,14 @@ export default class IdsSwitch extends Base {
    * @param {string | null} val the value property
    */
   set value(val: string | null) {
-    this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
+    this.input = this.shadowRoot?.querySelector('input[type="checkbox"]');
 
     if (val) {
       this.setAttribute(attributes.VALUE, val);
     } else {
       this.removeAttribute(attributes.VALUE);
     }
-    this.input.setAttribute(attributes.VALUE, (val || ''));
+    this.input?.setAttribute(attributes.VALUE, (val || ''));
   }
 
   get value(): string | null { return this.getAttribute(attributes.VALUE); }

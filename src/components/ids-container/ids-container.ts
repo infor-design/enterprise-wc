@@ -149,7 +149,7 @@ export default class IdsContainer extends Base {
   async setLanguage(value: string) {
     await this.state.locale.setLanguage(value);
     this.language = value;
-    this.triggerEvent('languagechange', this, { detail: { elem: this, language: this.language, locale: this.state.locale } });
+    this.triggerEvent('languagechange', this, { detail: { elem: this, language: this.language, locale: this.state?.locale } });
   }
 
   /**
@@ -162,7 +162,7 @@ export default class IdsContainer extends Base {
       this.state.locale.updateLangTag(this, value);
       this.setAttribute('language', value);
       requestAnimationFrame(() => {
-        this.triggerEvent('languagechange', this, { detail: { elem: this, language: this.language, locale: this.state.locale } });
+        this.triggerEvent('languagechange', this, { detail: { elem: this, language: this.language, locale: this.state?.locale } });
       });
     }
   }
@@ -172,7 +172,7 @@ export default class IdsContainer extends Base {
    * @returns {object} The language data object
    */
   get language(): string {
-    return this.state.locale?.language;
+    return this.state?.locale?.language;
   }
 
   /**
@@ -186,7 +186,7 @@ export default class IdsContainer extends Base {
       this.setAttribute('locale', value);
       this.setAttribute('language', lang);
       this.state.locale.updateLangTag(this, lang);
-      this.triggerEvent('localechange', this, { detail: { elem: this, language: this.language, locale: this.state.locale } });
+      this.triggerEvent('localechange', this, { detail: { elem: this, language: this.language, locale: this.state?.locale } });
     }
   }
 
@@ -203,7 +203,7 @@ export default class IdsContainer extends Base {
       this.state.locale.updateLangTag(this, lang);
 
       requestAnimationFrame(() => {
-        this.triggerEvent('localechange', this, { detail: { elem: this, language: this.language, locale: this.state.locale } });
+        this.triggerEvent('localechange', this, { detail: { elem: this, language: this.language, locale: this.state?.locale } });
       });
     }
   }

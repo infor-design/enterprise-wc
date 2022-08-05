@@ -356,7 +356,7 @@ describe('IdsUploadAdvanced Component', () => {
     expect(fileElems.length).toEqual(1);
   });
 
-  it('should renders template', () => {
+  it('should render template', () => {
     document.body.innerHTML = '';
     el = document.createElement('ids-upload-advanced');
     el.setAttribute('accept', '.jpg');

@@ -270,7 +270,7 @@ describe('IdsCheckbox Component', () => {
     });
   });
 
-  it('should renders template', () => {
+  it('should render template', () => {
     document.body.innerHTML = '';
     cb = new IdsCheckbox();
     // TODO fix that this errors by storing the state

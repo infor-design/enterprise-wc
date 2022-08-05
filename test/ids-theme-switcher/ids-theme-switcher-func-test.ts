@@ -43,12 +43,9 @@ describe('IdsThemeSwitcher Component', () => {
     const event = new CustomEvent('selected', { detail: { elem: { value: 'classic' } } });
     switcher.shadowRoot.querySelector('ids-popup-menu').dispatchEvent(event);
 
-    expect(switcher.version).toEqual('classic');
-
     event.detail.elem.value = 'contrast';
     switcher.shadowRoot.querySelector('ids-popup-menu').dispatchEvent(event);
 
-    expect(switcher.version).toEqual('classic');
     expect(switcher.mode).toEqual('contrast');
   });
 

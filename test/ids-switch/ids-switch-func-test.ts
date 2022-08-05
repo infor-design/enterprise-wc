@@ -115,7 +115,7 @@ describe('IdsSwitch Component', () => {
     });
   });
 
-  it('should renders template', async () => {
+  it('should render template', async () => {
     document.body.innerHTML = '';
     el = document.createElement('ids-switch');
     el.setAttribute('disabled', true);

@@ -374,7 +374,7 @@ describe('IdsRadioGroup Component', () => {
     });
   });
 
-  it('should renders template', () => {
+  it('should render template', () => {
     document.body.innerHTML = '';
     const html = '<ids-radio-group label="test" value="test-val" disabled="true" horizontal="true"></ids-radio-group>';
     document.body.innerHTML = html;
