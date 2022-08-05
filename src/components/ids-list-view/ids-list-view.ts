@@ -856,10 +856,9 @@ export default class IdsListView extends Base {
     if (value) {
       this.datasource.data = value;
       this.loaded = true;
-      this.setAttribute(attributes.LOADED, true);
     } else {
       this.datasource.data = [];
-      this.setAttribute(attributes.LOADED, false);
+      this.loaded = false;
     }
   }
 
