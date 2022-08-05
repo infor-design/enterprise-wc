@@ -32,8 +32,8 @@ export default class IdsTabMore extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.#attachMoreMenuEvents();
-    this.#configureMenu();
     this.renderOverflowedItems();
+    this.#configureMenu();
   }
 
   /**
@@ -342,6 +342,7 @@ export default class IdsTabMore extends Base {
     this.menu.width = '100%';
     this.menu.popup.align = 'bottom, left';
     this.menu.popup.y = -10;
+    this.menu.popup.alignTarget = this.container;
   }
 
   #attachMoreMenuEvents(): void {

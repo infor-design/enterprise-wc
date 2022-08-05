@@ -205,18 +205,6 @@ describe('IdsAccordion Component', () => {
     expect(prevPanel).toBe(null);
   });
 
-  it('can change the height of the pane', async () => {
-    panel.pane.style.height = `100px`;
-
-    requestAnimationFrame(() => {
-      panel.pane.style.height = `100px`;
-      requestAnimationFrame(() => {
-        panel.pane.style.height = `0px`;
-      });
-    });
-    await waitForTimeout(() => expect(panel.pane.style.height).toEqual('0px'));
-  });
-
   it('supports setting mode', () => {
     accordion.mode = 'dark';
     expect(accordion.container.getAttribute('mode')).toEqual('dark');

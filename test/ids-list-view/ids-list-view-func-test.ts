@@ -21,7 +21,7 @@ const LIST_VIEW_DEFAULTS = {
   virtualScroll: false
 };
 
-describe('IdsListView Component', () => {
+describe.skip('IdsListView Component', () => {
   let listView: any;
   const originalOffsetHeight: any = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'offsetHeight');
   const originalOffsetWidth: any = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'offsetWidth');
