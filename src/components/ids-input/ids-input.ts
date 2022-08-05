@@ -808,11 +808,11 @@ export default class IdsInput extends Base {
     const type = TYPES[value];
     if (type) {
       this.setAttribute(attributes.TYPE, value);
-      this.input.setAttribute(attributes.TYPE, type);
+      this.input?.setAttribute(attributes.TYPE, type);
       return;
     }
     this.setAttribute(attributes.TYPE, TYPES.default);
-    this.input.setAttribute(attributes.TYPE, TYPES.default);
+    this.input?.setAttribute(attributes.TYPE, TYPES.default);
   }
 
   get type(): string { return this.getAttribute(attributes.TYPE); }
