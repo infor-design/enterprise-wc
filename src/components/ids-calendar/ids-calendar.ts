@@ -65,11 +65,12 @@ export default class IdsCalendar extends Base {
     if (stringToBool(val)) {
       this.setAttribute(attributes.SHOW_DETAILS, '');
       this.updateEventDetails(this.state.selected);
-      this.container.classList.add('show-details');
+      this.container?.classList.add('show-details');
     } else {
-      this.container.querySelector('.calendar-details-pane').innerHTML = '';
+      const detailsPane = this.container?.querySelector('.calendar-details-pane');
+      if (detailsPane) detailsPane.innerHTML = '';
       this.removeAttribute(attributes.SHOW_DETAILS);
-      this.container.classList.remove('show-details');
+      this.container?.classList.remove('show-details');
     }
   }
 
@@ -88,11 +89,11 @@ export default class IdsCalendar extends Base {
     if (stringToBool(val)) {
       this.setAttribute(attributes.SHOW_LEGEND, '');
       this.renderLegend(this.eventTypesData);
-      this.container.classList.add('show-legend');
+      this.container?.classList.add('show-legend');
     } else {
       this.removeAttribute(attributes.SHOW_LEGEND);
       this.querySelector('#event-types-legend')?.remove();
-      this.container.classList.remove('show-legend');
+      this.container?.classList.remove('show-legend');
     }
   }
 
@@ -126,7 +127,7 @@ export default class IdsCalendar extends Base {
    * @returns {Date} date
    */
   get date(): Date {
-    const date = new Date(this.getAttribute(attributes.DATE));
+    const date = new Date(this.getAttribute(attributes.DATE) || Date.now());
     return isValidDate(date) ? date : new Date();
   }
 
@@ -245,7 +246,7 @@ export default class IdsCalendar extends Base {
     });
 
     this.offEvent('change.calendar-legend');
-    this.onEvent('change.calendar-legend', this.container.querySelector('.calendar-legend-pane'), (evt: any) => {
+    this.onEvent('change.calendar-legend', this.container?.querySelector('.calendar-legend-pane'), (evt: any) => {
       evt.stopPropagation();
       this.#toggleEventType(evt.detail.elem, evt.detail.checked);
       this.relayCalendarData();
@@ -326,8 +327,9 @@ export default class IdsCalendar extends Base {
    * @param {string} template view component template
    */
   insertViewTemplate(template: string): void {
-    const container = this.container.querySelector('.calendar-view-pane');
-    container.innerHTML = template;
+    const viewPane = this.container?.querySelector('.calendar-view-pane');
+
+    if (viewPane) viewPane.innerHTML = template;
   }
 
   /**
@@ -489,7 +491,7 @@ export default class IdsCalendar extends Base {
    * @param {CalendarEventData[]} selected selected calendar events data
    */
   updateEventDetails(selected?: CalendarEventData[]): void {
-    const container = this.container.querySelector('.calendar-details-pane');
+    const container = this.container?.querySelector('.calendar-details-pane');
     if (!this.showDetails || !container) return;
 
     // if not month view, clear details container
@@ -554,8 +556,8 @@ export default class IdsCalendar extends Base {
    * Gets current view component
    * @returns {IdsMonthView|IdsWeekView} current view component
    */
-  getView(): IdsMonthView | IdsWeekView {
-    return this.container.querySelector('ids-month-view') || this.container.querySelector('ids-week-view');
+  getView(): IdsMonthView | IdsWeekView | null {
+    return this.container?.querySelector('ids-month-view') || this.container?.querySelector('ids-week-view');
   }
 
   /**
@@ -602,7 +604,7 @@ export default class IdsCalendar extends Base {
    * @returns {Date} start date
    */
   get startDate(): Date {
-    const start = this.getView().startDate;
+    const start = this.getView()?.startDate;
 
     if (!start) {
       const date = this.date;
@@ -617,7 +619,7 @@ export default class IdsCalendar extends Base {
    * @returns {Date} end date
    */
   get endDate(): Date {
-    const end = this.getView().endDate;
+    const end = this.getView()?.endDate;
 
     if (!end) {
       const date = this.date;
