@@ -1849,7 +1849,7 @@ describe('IdsDataGrid Component', () => {
     });
   });
 
-  describe('Paging Tests', () => {
+  describe.skip('Paging Tests', () => {
     it('renders pager', () => {
       dataGrid.pagination = 'client-side';
       dataGrid.pageSize = 10;
