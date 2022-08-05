@@ -403,6 +403,78 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.querySelectorAll('ids-list-box-option').length).toEqual(6);
   });
 
+  it('supports type ahead when the dropdown is closed', async () => {
+    dropdown.typeahead = true;
+
+    // Typing v letter when closed (only Option Five to match)
+    dropdown.input.value = 'v';
+    dropdown.input?.input.dispatchEvent(new KeyboardEvent('keydown', { key: 'v' }));
+
+    // Keydownend delay
+    await wait(600);
+    expect(dropdown.querySelectorAll('ids-list-box-option').length).toEqual(1);
+    expect(dropdown.querySelector('ids-list-box-option')?.getAttribute('value')).toEqual('opt5');
+    expect(dropdown.popup.visible).toBeTruthy();
+
+    dropdown.listBox?.dispatchEvent(new MouseEvent('click'));
+    expect(dropdown.popup.visible).toBeFalsy();
+  });
+
+  it('should accept Space key and stay opened when typing with typeahead', async () => {
+    dropdown.typeahead = true;
+    dropdown.open();
+    // Typing v letter when closed (only Option Five to match)
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: ' ' }));
+    // Keydownend delay
+    await wait(600);
+
+    expect(dropdown.popup.visible).toBeTruthy();
+  });
+
+  it('supports clearable for regular dropdown', () => {
+    dropdown.clearable = true;
+    expect(dropdown.clearable).toBeTruthy();
+
+    // Backspace on the focused closed dropdown
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'Backspace' }));
+    expect(dropdown.trigger.dataset.clearable).toBeTruthy();
+    expect(dropdown.container.querySelector('ids-icon[slot="icon"]')?.icon).toEqual('close');
+
+    // Clearable clicked
+    dropdown.trigger.dispatchEvent(new MouseEvent('click'));
+    expect(dropdown.value).toEqual('blank');
+
+    dropdown.clearable = false;
+    expect(dropdown.clearable).toBeFalsy();
+
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'Backspace' }));
+    expect(dropdown.trigger.dataset.clearable).toBeFalsy();
+    expect(dropdown.container.querySelector('ids-icon[slot="icon"]')?.icon).toEqual('dropdown');
+  });
+
+  it('supports clearable for typeahead dropdown', async () => {
+    dropdown.clearable = true;
+    dropdown.typeahead = true;
+
+    // Open dropdown by clicking to the input
+    dropdown.input.input.dispatchEvent(new MouseEvent('click'));
+    expect(dropdown.popup.visible).toEqual(true);
+
+    // Typing v letter (only Option Five to match)
+    dropdown.input.value = 'v';
+    dropdown.input?.input.dispatchEvent(new KeyboardEvent('keydown', { key: 'v' }));
+    await wait(600);
+
+    expect(dropdown.trigger.dataset.clearable).toBeTruthy();
+    expect(dropdown.container.querySelector('ids-icon[slot="icon"]')?.icon).toEqual('close');
+
+    // Clearable clicked
+    dropdown.trigger.dispatchEvent(new MouseEvent('click'));
+    expect(dropdown.value).toEqual('blank');
+    expect(dropdown.trigger.dataset.clearable).toBeFalsy();
+    expect(dropdown.container.querySelector('ids-icon[slot="icon"]')?.icon).toEqual('search');
+  });
+
   it('supports clicking trigger to open', async () => {
     await waitFor(() => expect(dropdown.trigger).toBeTruthy());
 

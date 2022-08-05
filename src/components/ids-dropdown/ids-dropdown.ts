@@ -816,10 +816,6 @@ export default class IdsDropdown extends Base {
    * @returns {void}
    */
   #typeAhead(text: string) {
-    if (this.readonly || this.disabled) {
-      return;
-    }
-
     // Accepts the keyboard input while closed
     const excludeKeys = ['Backspace', 'Delete'];
 
@@ -859,8 +855,6 @@ export default class IdsDropdown extends Base {
    * @param {boolean|undefined} clearable whether or not to add clearable attributes
    */
   #triggerIconChange(icon: string, clearable?: boolean) {
-    if (!icon) return;
-
     const triggerIcon = this.container.querySelector('ids-icon[slot="icon"]');
 
     if (triggerIcon?.icon && triggerIcon.icon !== icon) {

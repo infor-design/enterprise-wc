@@ -139,7 +139,7 @@ The promise should resolve and return data with id, value and label info.
 - `version` {'new' | 'classic' | string} Set the theme version
 - `selectedIndex` {number} Sets the the selected option by index
 - `typeahead` {true | false} - Enable/disable typeahead functionality
-- `clearable` {true | false} set (x) button to clear text on click/key to input.
+- `clearable` {true | false} - Set (x) button to clear input value
 
 ## Events
 
