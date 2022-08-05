@@ -375,6 +375,7 @@ export default class IdsUploadAdvanced extends Base {
    * @returns {void}
    */
   setDisabled(): void {
+    if (!this.shadowRoot) return;
     const rootEl = this.shadowRoot.querySelector('.ids-upload-advanced');
     const alertError = this.shadowRoot.querySelector('.errorarea .status ids-alert');
     const link = this.shadowRoot.querySelector('ids-hyperlink');

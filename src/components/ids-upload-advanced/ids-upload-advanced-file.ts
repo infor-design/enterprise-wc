@@ -145,6 +145,8 @@ export default class IdsUploadAdvancedFile extends Base {
    * @returns {void}
    */
   toggleDisabled(value: boolean | string): void {
+    if (!this.shadowRoot) return;
+
     const el = {
       root: this.shadowRoot.querySelector('.ids-upload-advanced-file'),
       progress: this.shadowRoot.querySelector('ids-progress-bar'),
@@ -442,8 +444,8 @@ export default class IdsUploadAdvancedFile extends Base {
   set fileName(value: string | undefined) {
     if (value) {
       this.setAttribute(attributes.FILE_NAME, value.toString());
-      const el = this.shadowRoot.querySelector('.file-name span');
-      el.innerHTML = this.fileName;
+      const el = this.shadowRoot?.querySelector('.file-name span');
+      if (el) el.innerHTML = this.fileName;
     } else {
       this.removeAttribute(attributes.FILE_NAME);
     }
@@ -460,8 +462,8 @@ export default class IdsUploadAdvancedFile extends Base {
   set size(value: string | number | undefined) {
     if (value) {
       this.setAttribute(attributes.SIZE, value.toString());
-      const el = this.shadowRoot.querySelector('.size');
-      el.innerHTML = this.sizeFormatted;
+      const el = this.shadowRoot?.querySelector('.size');
+      if (el) el.innerHTML = this.sizeFormatted;
     } else {
       this.removeAttribute(attributes.SIZE);
     }

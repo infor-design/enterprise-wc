@@ -322,7 +322,7 @@ export default class IdsButton extends Base {
    * @returns {string} containing 'start' or 'end'
    */
   get iconAlign(): string {
-    return this.state.iconAlign;
+    return this.state?.iconAlign || 'start';
   }
 
   /**

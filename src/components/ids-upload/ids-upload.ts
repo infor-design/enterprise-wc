@@ -349,7 +349,7 @@ export default class IdsUpload extends Base {
    * @returns {any} The textInput element
    */
   get textInput(): any {
-    return this.shadowRoot.querySelector('ids-trigger-field');
+    return this.shadowRoot?.querySelector('ids-trigger-field');
   }
 
   /**

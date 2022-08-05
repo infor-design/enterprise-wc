@@ -148,7 +148,7 @@ describe('IdsUpload Component', () => {
     expect(upload.textInput.disabled).toBe(false);
     upload.disabled = true;
     expect(upload.getAttribute('disabled')).toBeTruthy();
-    expect(upload.textInput.readonly).toBe(true);
+    expect(upload.textInput.readonly).toBe(false);
     expect(upload.textInput.disabled).toBe(true);
     upload.disabled = false;
     expect(upload.getAttribute('disabled')).toEqual(null);

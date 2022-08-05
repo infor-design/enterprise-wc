@@ -78,7 +78,8 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
     }
     delete this.cssStyles;
     delete this.popupOpenEventsTarget;
-    delete this.state;
+    // TODO: Can this be added
+    // delete this.state;
   }
 
   /**
