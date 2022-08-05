@@ -46,18 +46,8 @@ export default class IdsToolbar extends Base {
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
     this.#resizeObserver.observe(this);
-
-    // After repaint
-    requestAnimationFrame(() => {
-      this.#setType(null, this.type);
-      this.makeTabbable(this.detectTabbable());
-
-      // Perform resize calculation after all children have rendered
-      requestAnimationFrame(() => {
-        this.#resize();
-      });
-    });
-    super.connectedCallback();
+    this.#setType(null, this.type);
+    this.makeTabbable(this.detectTabbable());
 
     if (this.padding) this.padding = this.getAttribute(attributes.PADDING);
   }
