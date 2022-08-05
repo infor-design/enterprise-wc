@@ -726,7 +726,7 @@ export default class IdsListView extends Base {
    * Rerender the list by re applying the template
    */
   redraw() {
-    if (!this.data || !this.initialized) {
+    if (!this.data || !this.loaded) {
       if (!this.data?.length) this.getAllLi()?.forEach((li: HTMLElement) => li?.remove());
       return;
     }
@@ -855,7 +855,7 @@ export default class IdsListView extends Base {
   set data(value: any) {
     if (value) {
       this.datasource.data = value;
-      this.initialized = true;
+      this.loaded = true;
       this.setAttribute(attributes.LOADED, true);
     } else {
       this.datasource.data = [];
@@ -864,6 +864,14 @@ export default class IdsListView extends Base {
   }
 
   get data(): any { return this?.datasource?.data || []; }
+
+  /**
+   * Used to determine if data has been loaded into IdsListView
+   * @param {Array | null} value The array to use
+   */
+  set loaded(value: any) { this.setAttribute(attributes.LOADED, !!value); }
+
+  get loaded(): any { return stringToBool(attributes.LOADED); }
 
   /**
    * Set the data array of the listview
