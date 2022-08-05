@@ -1,4 +1,4 @@
-import countObjects from "../helpers/count-objects";
+import countObjects from '../helpers/count-objects';
 
 describe('Ids Time Picker e2e Tests', () => {
   const url = 'http://localhost:4444/ids-time-picker/example.html';

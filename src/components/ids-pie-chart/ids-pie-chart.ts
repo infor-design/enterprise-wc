@@ -86,6 +86,9 @@ export default class IdsPieChart extends Base {
 
     this.#attachEventHandlers();
     this.redraw();
+    this.legendsClickable?.(this.selectable);
+    this.#preSelected();
+    this.#attachTooltipEvents();
   }
 
   /**
@@ -93,15 +96,6 @@ export default class IdsPieChart extends Base {
    */
   onSelectableChange(): void {
     this.legendsClickable?.(this.selectable);
-  }
-
-  /**
-   * Invoked after rendering
-   */
-  afterConnectedCallback(): void {
-    this.legendsClickable?.(this.selectable);
-    this.#preSelected();
-    this.#attachTooltipEvents();
   }
 
   /**

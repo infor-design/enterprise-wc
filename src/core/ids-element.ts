@@ -5,6 +5,7 @@ import styles from './ids-element.scss';
 
 /**
  * IDS Base Element
+ * TODO: Remove IdsEventsMixins
  */
 export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   constructor() {
@@ -28,7 +29,7 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   state?: Record<string, unknown>;
 
   /**
-   * Add the component name and baseclass
+   * Add the component version and baseclass
    * @private
    */
   #addBaseName() {
@@ -77,6 +78,7 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
     }
     delete this.cssStyles;
     delete this.popupOpenEventsTarget;
+    delete this.state;
   }
 
   /**
@@ -123,8 +125,11 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
       this.attachShadow({ mode: 'open' });
     }
 
+    // TODO: Is this the fastest way to do this but why use constructed style sheets
+    // TODO: Can it be done in one shot (including the remove above)
     this.appendStyles();
     template.innerHTML = templateHTML;
+    // TODO: Is insertAdjacentHTML faster than appendChild vs creating a template
     this.shadowRoot?.appendChild(template.content.cloneNode(true));
 
     this.container = this.shadowRoot?.querySelector(`.${this.name}`);
@@ -188,6 +193,7 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
     if (!win.idsStylesAdded) {
       const doc = (document.head as any);
       const style = document.createElement('style');
+      // TODO This can work without a replace
       style.textContent = styles.replace(':host {', ':root {');
       style.id = 'ids-styles';
       style.setAttribute('nonce', this.nonce);

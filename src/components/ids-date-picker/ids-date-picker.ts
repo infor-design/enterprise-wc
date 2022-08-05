@@ -973,6 +973,13 @@ class IdsDatePicker extends Base {
         this.#picklistWeekPaged(true);
       }
 
+      // Enter on selected month/year will switch focus between the two
+      if (key === 13 && monthSelected?.matches(':focus')) {
+        yearSelected?.focus();
+      } else if (key === 13 && yearSelected?.matches(':focus')) {
+        monthSelected?.focus();
+      }
+
       // Arrow Up on picklist month
       if (key === 38 && monthSelected?.matches(':focus')) {
         const month = this.month - 1;
