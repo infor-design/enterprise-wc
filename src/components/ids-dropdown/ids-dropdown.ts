@@ -626,7 +626,7 @@ export default class IdsDropdown extends Base {
       (window.getSelection() as Selection).removeAllRanges();
 
       // Replace trigger button icon
-      const triggerIcon = this.container.querySelector('ids-icon[slot="icon"]');
+      const triggerIcon = this.container?.querySelector('ids-icon[slot="icon"]');
       if (triggerIcon?.icon === 'search') {
         triggerIcon.icon = 'dropdown';
       }
@@ -996,7 +996,7 @@ export default class IdsDropdown extends Base {
       this.#removeTypeaheadEvents();
     }
 
-    this.container.classList.toggle('typeahead', val);
+    this.container?.classList.toggle('typeahead', val);
   }
 
   /**
