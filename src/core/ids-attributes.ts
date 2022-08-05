@@ -186,6 +186,7 @@ export const attributes = {
   LINK: 'link',
   LINK_TEXT: 'link-text',
   LIST_STYLE: 'list-style',
+  LOADED: 'loaded',
   LOCALE: 'locale',
   MARGINS: 'margins',
   MARKER_SIZE: 'marker-size',

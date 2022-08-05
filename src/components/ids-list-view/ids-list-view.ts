@@ -108,14 +108,15 @@ export default class IdsListView extends Base {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.SUPPRESS_DEACTIVATION,
-      attributes.SUPPRESS_DESELECTION,
+      attributes.LOADED,
       attributes.HEIGHT,
       attributes.HIDE_CHECKBOXES,
       attributes.ITEM_HEIGHT,
       attributes.LABEL,
       attributes.SELECTABLE,
       attributes.SORTABLE,
+      attributes.SUPPRESS_DEACTIVATION,
+      attributes.SUPPRESS_DESELECTION,
       attributes.VIRTUAL_SCROLL
     ];
   }
@@ -833,22 +834,18 @@ export default class IdsListView extends Base {
    */
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     super.attributeChangedCallback(name, oldValue, newValue);
-
-    const skipRedraw = [
-      attributes.SUPPRESS_DEACTIVATION,
-      attributes.SUPPRESS_DESELECTION,
-      attributes.HEIGHT,
-      attributes.HIDE_CHECKBOXES,
-      attributes.ITEM_HEIGHT,
-      attributes.LABEL,
-      attributes.SORTABLE,
+    const shouldRedraw = [
+      attributes.LOADED,
+      attributes.SELECTABLE,
+      attributes.VIRTUAL_SCROLL,
+      attributes.PAGE_NUMBER,
+      attributes.PAGE_SIZE,
+      attributes.PAGE_TOTAL,
     ].includes(name);
 
-    if (skipRedraw || (oldValue === newValue)) {
-      return;
+    if (shouldRedraw && (oldValue !== newValue)) {
+      this.redraw();
     }
-
-    this.redraw();
   }
 
   /**
@@ -859,8 +856,10 @@ export default class IdsListView extends Base {
     if (value) {
       this.datasource.data = value;
       this.initialized = true;
+      this.setAttribute(attributes.LOADED, true);
     } else {
       this.datasource.data = [];
+      this.setAttribute(attributes.LOADED, false);
     }
   }
 
