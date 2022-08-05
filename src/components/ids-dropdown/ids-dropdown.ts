@@ -702,7 +702,7 @@ export default class IdsDropdown extends Base {
         if (this.typeahead) {
           this.#loadDataSet(this.#optionsData);
         }
-        this.#triggerIconChange(this.typeahead ? 'search' : 'dropdown');
+        this.#triggerIconChange(this.typeahead && this.popup.visible ? 'search' : 'dropdown');
         if (!this.allowBlank) {
           this.#insertBlankOption();
         }
@@ -800,8 +800,9 @@ export default class IdsDropdown extends Base {
       this.close(true);
     });
 
+    // Delete/backspace should activate the clearable button
     this.listen(['Backspace', 'Delete'], this, () => {
-      if (this.clearable && this.input.value) {
+      if (this.clearable && (this.input.value || this.value?.length !== 0)) {
         this.#triggerIconChange('close');
       }
     });
@@ -820,7 +821,9 @@ export default class IdsDropdown extends Base {
     }
 
     // Accepts the keyboard input while closed
-    if (!this.popup.visible) {
+    const excludeKeys = ['Backspace', 'Delete'];
+
+    if (!this.popup.visible && !excludeKeys.some((item) => text?.includes(item))) {
       this.input.value = text;
       this.open(false);
     }
