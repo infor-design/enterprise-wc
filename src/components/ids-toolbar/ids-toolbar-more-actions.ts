@@ -35,17 +35,9 @@ export default class IdsToolbarMoreActions extends Base {
 
   connectedCallback(): void {
     super.connectedCallback();
-
-    requestAnimationFrame(() => {
-      this.render();
-      this.#refresh();
-      this.#attachEventHandlers();
-
-      // Connect the menu items to their Toolbar items after everything is rendered
-      requestAnimationFrame(() => {
-        this.#connectOverflowedItems();
-      });
-    });
+    this.#refresh();
+    this.#attachEventHandlers();
+    this.#connectOverflowedItems();
   }
 
   disconnectedCallback(): void {
