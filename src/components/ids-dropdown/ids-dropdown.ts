@@ -933,6 +933,8 @@ export default class IdsDropdown extends Base {
     } else {
       this.removeAttribute(attributes.DIRTY_TRACKER);
     }
+
+    this.handleDirtyTracker();
   }
 
   get dirtyTracker(): string { return this.getAttribute(attributes.DIRTY_TRACKER); }
