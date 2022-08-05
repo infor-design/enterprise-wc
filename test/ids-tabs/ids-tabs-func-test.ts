@@ -384,16 +384,6 @@ describe('IdsTabs Tests', () => {
     expect(elem.hasAttribute('color-variant')).toBeFalsy();
   });
 
-  it('gets/sets the ids-tab-content active flag reliably', async () => {
-    elem = await createFromTemplate(elem, TAB_CONTEXT_HTML);
-    const contentElem = elem.querySelector('ids-tab-content');
-
-    expectFlagAttributeBehavior({
-      elem: contentElem,
-      attribute: 'active'
-    });
-  });
-
   it('sets the ids-tab-content value directly', async () => {
     elem = await createFromTemplate(elem, TAB_CONTEXT_HTML);
     const contentElem = elem.querySelector('ids-tab-content');
