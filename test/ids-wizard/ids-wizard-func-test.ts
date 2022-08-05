@@ -52,6 +52,21 @@ describe('IdsWizard Tests', () => {
     expect(elem.stepNumber).toEqual(2);
   });
 
+  it('render via document.createElement (append laate)', () => {
+    const errors = jest.spyOn(global.console, 'error');
+    const wizardElem: any = document.createElement('ids-wizard');
+
+    wizardElem.innerHTML = `
+      <ids-wizard-step>Step One</ids-wizard-step>
+      <ids-wizard-step>Step Two</ids-wizard-step>
+      <ids-wizard-step>Step Three</ids-wizard-step>
+    `;
+    wizardElem.stepNumber = '2';
+    document.body.appendChild(wizardElem);
+
+    expect(errors).not.toHaveBeenCalled();
+  });
+
   it('initializes without step number and it is set to -1', () => {
     elem = createFromTemplate(
       elem,

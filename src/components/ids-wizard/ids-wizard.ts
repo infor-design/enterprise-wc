@@ -62,9 +62,12 @@ export default class IdsWizard extends Base {
     const labelEls: any[] = [];
 
     for (let i = 0; i < this.children.length; i++) {
-      const labelEl = this.getStepEl(this, i + 1).children[1];
-      labelEl.style.maxWidth = 'unset';
-      labelEls.push(labelEl);
+      const labelEl = this.getStepEl(this, i + 1)?.children[1];
+
+      if (labelEl) {
+        labelEl.style.maxWidth = 'unset';
+        labelEls.push(labelEl);
+      }
     }
 
     window.requestAnimationFrame(() => {
@@ -336,9 +339,7 @@ export default class IdsWizard extends Base {
    * @returns {HTMLElement} the step element
    */
   getStepEl(wizardEl: IdsWizard, stepNumber: number): IdsWizard {
-    return wizardEl?.shadowRoot?.querySelector(
-      `.step[step-number="${stepNumber}"]`
-    );
+    return wizardEl?.shadowRoot?.querySelector(`.step[step-number="${stepNumber}"]`);
   }
 
   /**
