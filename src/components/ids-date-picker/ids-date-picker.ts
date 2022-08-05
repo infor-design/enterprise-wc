@@ -814,7 +814,7 @@ class IdsDatePicker extends Base {
     if (this.useRange) {
       if (this.rangeSettings.end || (this.rangeSettings.start && !this.rangeSettings.end)) {
         if (this.rangeSettings.minDays && this.rangeSettings.start === this.rangeSettings.end) {
-          this.rangeSettings.end = new Date(this.rangeSettings.start + (this.rangeSettings.minDays * 24 * 60 * 60 * 1000));
+          this.rangeSettings.end = addDate(this.rangeSettings.start, this.rangeSettings.minDays, 'days');
         }
 
         this.value = [
