@@ -176,12 +176,14 @@ class IdsMultiselect extends Base {
       this.input.focus();
     });
 
-    this.offEvent('click.dropdown-trigger');
-    this.onEvent('click.dropdown-trigger', this.trigger, () => {
+    this.offEvent('click.multiselect-trigger');
+    this.onEvent('click.multiselect-trigger', this.trigger, (e: MouseEvent) => {
+      e.stopPropagation();
       // Acts as value clearer if the x button is activated
       if (this.trigger.dataset.clearable) {
         this.value = [];
         this.#updateList(false);
+        this.close();
       } else {
         this.toggle();
       }

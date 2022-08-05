@@ -803,7 +803,7 @@ export default class IdsDropdown extends Base {
     // Delete/backspace should activate the clearable button
     this.listen(['Backspace', 'Delete'], this, () => {
       if (this.clearable && (this.input.value || this.value?.length !== 0)) {
-        this.#triggerIconChange('close');
+        this.#triggerIconChange('close', true);
       }
     });
 
@@ -850,20 +850,23 @@ export default class IdsDropdown extends Base {
       this.listBox.innerHTML = `<ids-list-box-option>${this.locale.translate('NoResults')}</ids-list-box-option>`;
     }
 
-    this.#triggerIconChange(this.clearable && inputValue ? 'close' : 'search');
+    this.#triggerIconChange(this.clearable && inputValue ? 'close' : 'search', stringToBool(this.clearable && inputValue));
   }
 
   /**
    * Helper to replace trigger button icon
    * @param {string} icon ids-icon icon value
+   * @param {boolean|undefined} clearable whether or not to add clearable attributes
    */
-  #triggerIconChange(icon: string) {
+  #triggerIconChange(icon: string, clearable?: boolean) {
+    if (!icon) return;
+
     const triggerIcon = this.container.querySelector('ids-icon[slot="icon"]');
 
     if (triggerIcon?.icon && triggerIcon.icon !== icon) {
       triggerIcon.icon = icon;
 
-      if (icon === 'close') {
+      if (clearable) {
         triggerIcon.size = 'small';
         this.trigger.setAttribute(attributes.NO_MARGINS, '');
         this.trigger.setAttribute('data-clearable', true);
