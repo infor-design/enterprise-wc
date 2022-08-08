@@ -71,7 +71,7 @@ button {
     @include block();
   }
 
-  &:not(.no-padding):not(.ids-icon-button):not(.ids-icon-button):not(.ids-trigger-button) {
+  &:not(.no-padding):not(.ids-icon-button):not(.ids-trigger-button) {
     @include ids-standard-button-padding();
   }
 

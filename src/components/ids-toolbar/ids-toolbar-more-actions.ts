@@ -352,6 +352,7 @@ export default class IdsToolbarMoreActions extends Base {
       this.menu.popup.align = 'bottom, right';
       this.menu.popup.alignEdge = 'bottom';
     }
+    this.onColorVariantRefresh();
   }
 
   /**
