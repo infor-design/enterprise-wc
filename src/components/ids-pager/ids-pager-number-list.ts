@@ -51,6 +51,8 @@ export default class IdsPagerNumberList extends Base {
    * @param {string} newValue The property new value
    */
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    super.attributeChangedCallback(name, oldValue, newValue);
+
     if (oldValue === newValue) return;
 
     const shouldRerender = [

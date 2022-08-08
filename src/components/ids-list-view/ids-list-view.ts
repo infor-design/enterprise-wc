@@ -839,6 +839,9 @@ export default class IdsListView extends Base {
    */
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     super.attributeChangedCallback(name, oldValue, newValue);
+
+    if (oldValue === newValue) return;
+
     const shouldRedraw = [
       attributes.LOADED,
       attributes.SELECTABLE,
@@ -848,7 +851,7 @@ export default class IdsListView extends Base {
       attributes.PAGE_TOTAL,
     ].includes(name);
 
-    if (shouldRedraw && (oldValue !== newValue)) {
+    if (shouldRedraw) {
       this.redraw();
     }
   }
