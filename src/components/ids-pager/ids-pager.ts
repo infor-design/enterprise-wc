@@ -46,25 +46,80 @@ export default class IdsPager extends Base {
     return [
       attributes.DISABLED,
       attributes.MODE,
+      attributes.STEP,
       attributes.TOTAL, // has to be in this order
+      attributes.TYPE,
       attributes.PAGE_COUNT,
       attributes.PAGE_SIZE,
       attributes.PAGE_NUMBER
     ];
   }
 
+  /**
+   * React to attributes changing on the web-component
+   * @param {string} name The property name
+   * @param {string} oldValue The property old value
+   * @param {string} newValue The property new value
+   */
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    const shouldRerender = [
+      attributes.PAGE_NUMBER,
+      attributes.PAGE_SIZE,
+      attributes.STEP,
+      attributes.TOTAL,
+      attributes.TYPE,
+    ].includes(name);
+
+    if (shouldRerender) {
+      if (oldValue !== newValue) {
+        this.connectedCallback();
+      }
+
+      this.#syncChildren(name, newValue);
+    }
+  }
+
   template(): string {
-    return (
-      `<div class="ids-pager">
+    switch (this.type) {
+      case 'list': return this.templatePagerList();
+      default: return this.templatePagerButtons();
+    }
+  }
+
+  templatePagerButtons(): string {
+    return `
+      <div class="ids-pager">
         <section class="pager-section start"><slot name="start"></slot></section>
         <section class="pager-section middle" role="navigation"><slot></slot></section>
         <section class="pager-section end"><slot name="end"></slot></section>
-      </div>`
-    );
+      </div>
+    `;
+  }
+
+  /**
+   * Set the pager template for listview
+   * @returns {string} the default pager template for list-view
+   */
+  templatePagerList(): string {
+    return `
+      <div class="ids-pager">
+        <ids-pager-button label="Previous page" previous></ids-pager-button>
+        <ids-pager-number-list
+          label="Page {num} of {total}"
+          page-number="${this.pageNumber}"
+          page-size="${this.pageSize}"
+          total="${this.total}"
+          step="${this.step}"
+        >
+        </ids-pager-number-list>
+        <ids-pager-button label="Next page" next></ids-pager-button>
+      </div>
+    `;
   }
 
   connectedCallback(): void {
     super.connectedCallback();
+    this.offEvent('pagenumberchange', this);
     this.onEvent('pagenumberchange', this, (event: CustomEvent) => {
       const newPageNumber = Number(event.detail.value);
       const oldPageNumber = Number(this.pageNumber);
@@ -81,16 +136,19 @@ export default class IdsPager extends Base {
    * @private
    */
   #syncChildren(attribute: any, value: any): void {
-    const input = this.querySelector('ids-pager-input');
-    if (input) {
-      input.setAttribute(attribute, value);
-    }
-    const list = this.querySelector('ids-pager-number-list');
-    if (list) {
-      list.setAttribute(attribute, value);
-    }
-    this.querySelectorAll('ids-pager-button')?.forEach((button: HTMLButtonElement) => {
-      button.setAttribute(attribute, value);
+    const pagerChildSelectors = [
+      'ids-pager-input',
+      'ids-pager-number-list',
+      'ids-pager-button',
+    ].join(', ');
+
+    const pagerChildren = [
+      ...(this.shadowRoot?.querySelectorAll(pagerChildSelectors) || []),
+      ...this.querySelectorAll(pagerChildSelectors),
+    ];
+
+    pagerChildren.forEach((element: HTMLElement) => {
+      element.setAttribute(attribute, value);
     });
   }
 
@@ -128,7 +186,6 @@ export default class IdsPager extends Base {
       nextValue = Number.parseInt(value as any);
     }
     this.setAttribute(attributes.PAGE_SIZE, nextValue);
-    this.#syncChildren(attributes.PAGE_SIZE, nextValue);
     this.#keepPageNumberInBounds();
   }
 
@@ -151,7 +208,6 @@ export default class IdsPager extends Base {
     }
 
     this.setAttribute(attributes.PAGE_NUMBER, nextValue);
-    this.#syncChildren(attributes.PAGE_NUMBER, nextValue);
   }
 
   /** @returns {number} value A 1-based-index for the page number displayed */
@@ -166,6 +222,19 @@ export default class IdsPager extends Base {
       : null;
   }
 
+  /**
+   * Set the number of step for page number list
+   * @param {number|string} value The number of steps
+   */
+  set step(value: number | string) {
+    this.setAttribute(attributes.STEP, value);
+  }
+
+  /** @returns {number|string} value The number of steps */
+  get step(): number | string {
+    return Number(this.getAttribute(attributes.STEP)) || 0;
+  }
+
   /** @param {number} value The number of items to track */
   set total(value) {
     let nextValue;
@@ -178,15 +247,24 @@ export default class IdsPager extends Base {
     }
 
     this.setAttribute(attributes.TOTAL, nextValue);
-    this.#syncChildren(attributes.TOTAL, nextValue);
     this.#keepPageNumberInBounds();
   }
 
-  /**
-   * @returns {number} The number of items for pager is tracking
-   */
+  /** @returns {number} The number of items for pager is tracking */
   get total(): number {
     return parseInt(this.getAttribute(attributes.TOTAL));
+  }
+
+  /** @param {number} value The number of items to track */
+  set type(value: 'buttons' | 'list') {
+    this.setAttribute(attributes.TYPE, value);
+  }
+
+  /**
+   * @returns {'buttons' | 'list'} Type of pager that should be displayed
+   */
+  get type(): 'buttons' | 'list' {
+    return this.getAttribute(attributes.TYPE);
   }
 
   #keepPageNumberInBounds(): void {

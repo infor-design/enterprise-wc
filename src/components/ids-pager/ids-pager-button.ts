@@ -270,6 +270,7 @@ export default class IdsPagerButton extends Base {
   #triggerPageNumberChange(value: number) {
     this.triggerEvent('pagenumberchange', this, {
       bubbles: true,
+      composed: true,
       detail: { elem: this, value }
     });
   }

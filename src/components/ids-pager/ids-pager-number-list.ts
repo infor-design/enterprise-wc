@@ -18,6 +18,8 @@ import styles from './ids-pager-number-list.scss';
 @customElement('ids-pager-number-list')
 @scss(styles)
 export default class IdsPagerNumberList extends Base {
+  readonly DEFAULT_STEP = 3;
+
   constructor() {
     super();
   }
@@ -40,6 +42,27 @@ export default class IdsPagerNumberList extends Base {
       attributes.TOTAL,
       attributes.VALUE
     ];
+  }
+
+  /**
+   * React to attributes changing on the web-component
+   * @param {string} name The property name
+   * @param {string} oldValue The property old value
+   * @param {string} newValue The property new value
+   */
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    if (oldValue === newValue) return;
+
+    const shouldRerender = [
+      attributes.PAGE_NUMBER,
+      attributes.PAGE_SIZE,
+      attributes.STEP,
+      attributes.TOTAL,
+    ].includes(name);
+
+    if (shouldRerender) {
+      this.connectedCallback();
+    }
   }
 
   connectedCallback(): void {
@@ -96,7 +119,7 @@ export default class IdsPagerNumberList extends Base {
 
   /** @returns {number} A value 1-based page number displayed */
   get pageNumber(): number {
-    return parseInt(this.getAttribute(attributes.PAGE_NUMBER));
+    return parseInt(this.getAttribute(attributes.PAGE_NUMBER)) || 1;
   }
 
   /** @param {number} value The number of items to track */
@@ -207,7 +230,7 @@ export default class IdsPagerNumberList extends Base {
   /** @returns {number} The number of steps */
   get step(): number {
     const val = stringToNumber(this.getAttribute(attributes.STEP));
-    return !Number.isNaN(val) ? val : 3;
+    return !Number.isNaN(val) ? val : this.DEFAULT_STEP;
   }
 
   /**
@@ -231,11 +254,13 @@ export default class IdsPagerNumberList extends Base {
    */
   #attachEventHandlers(): this {
     // Fire page number change event.
+    this.offEvent('click.pager-numberlist', this.container);
     this.onEvent('click.pager-numberlist', this.container, (e: any) => {
       const value = e.target?.getAttribute?.('data-id');
       if (value) {
         this.triggerEvent('pagenumberchange', this, {
           bubbles: true,
+          composed: true,
           detail: { elem: this, value }
         });
       }
@@ -280,7 +305,9 @@ export default class IdsPagerNumberList extends Base {
     const showEnd = (pageNumber + totalBufferSize) > pageCount;
 
     let visibleButtons = [];
-    if (showStart) {
+    if (this.step < 1) {
+      visibleButtons = [...buttons];
+    } else if (showStart) {
       const startButtons = buttons.slice(0, totalBufferSize + rightBufferSize);
       visibleButtons = startButtons.concat([divider, lastButton]);
     } else if (showEnd) {

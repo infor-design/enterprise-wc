@@ -20,7 +20,7 @@ const PAGINATION_TYPES = {
  */
 const IdsPagerMixin = (superclass: any): any => class extends superclass {
   /** Reference to the internal IdsPager component */
-  readonly pager: any = document.createElement('ids-pager');
+  readonly pager: any = this.querySelector('ids-pager') || document.createElement('ids-pager');
 
   /**
    * Gets the internal IdsDataSource object
@@ -70,14 +70,6 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
     if (shouldReload) {
       this.connectedCallback();
     }
-  }
-
-  pageListTemplate() {
-    return `
-      <ids-pager-button label="Previous page" previous></ids-pager-button>
-      <ids-pager-number-list label="Page {num} of {total}"></ids-pager-number-list>
-      <ids-pager-button label="Next page" next></ids-pager-button>
-    `;
   }
 
   pagerTemplate() {

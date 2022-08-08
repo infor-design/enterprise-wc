@@ -239,7 +239,9 @@ export default class IdsPagerInput extends Base {
   #updatePageCountShown(): void {
     const pageCount = this.pageCount;
     const pageCountShown = (pageCount === null) ? 'N/A' : pageCount;
-    this.shadowRoot.querySelector('span.page-count').textContent = pageCountShown;
+    if (this.shadowRoot) {
+      this.shadowRoot.querySelector('span.page-count').textContent = pageCountShown;
+    }
   }
 
   /**
