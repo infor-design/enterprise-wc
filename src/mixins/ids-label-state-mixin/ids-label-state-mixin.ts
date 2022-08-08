@@ -1,5 +1,6 @@
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
-import { stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { stripTags, stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 /**
  * A mixin that will provide the container element of an IdsInputComponent with a class
@@ -27,8 +28,50 @@ const IdsLabelStateMixin = (superclass: any) => class extends superclass {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.LABEL,
+      attributes.LABEL_REQUIRED,
       attributes.LABEL_STATE
     ];
+  }
+
+  /**
+   * Set the `label` text
+   * @param {string} value of the `label` text property
+   */
+  set label(value: string) {
+    const newValue = stripHTML(value);
+    const currentValue = this.label;
+
+    if (newValue !== currentValue) {
+      if (value) {
+        this.setAttribute(attributes.LABEL, value.toString());
+      } else {
+        this.removeAttribute(attributes.LABEL);
+      }
+      this.setLabelText(value);
+    }
+  }
+
+  get label(): string { return this.getAttribute(attributes.LABEL) || ''; }
+
+  /**
+   * Set `label-required` attribute
+   * @param {string} value The `label-required` attribute
+   */
+  set labelRequired(value: string | boolean) {
+    const isValid = typeof value !== 'undefined' && value !== null;
+    const val = isValid ? stringToBool(value) : true;
+    if (isValid) {
+      this.setAttribute(attributes.LABEL_REQUIRED, val);
+    } else {
+      this.removeAttribute(attributes.LABEL_REQUIRED);
+    }
+    this.labelEl?.classList[!val ? 'add' : 'remove']('no-required-indicator');
+  }
+
+  get labelRequired(): boolean {
+    const value = this.getAttribute(attributes.LABEL_REQUIRED);
+    return value !== null ? stringToBool(value) : true;
   }
 
   /**

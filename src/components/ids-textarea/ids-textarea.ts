@@ -1,7 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import Base from './ids-textarea-base';
 
@@ -103,6 +102,8 @@ export default class IdsTextarea extends Base {
     // Textarea
     const value = this.value || '';
     const rows = this.rows ? ` rows="${this.rows}"` : '';
+    const hiddenLabelCss = !this.label || this.getAttribute(attributes.LABEL_STATE) === 'hidden' ? ' empty' : '';
+    const requiredLabelCss = !this.labelRequired ? ' no-required-indicator' : '';
     const maxlength = this.maxlength ? ` maxlength="${this.maxlength}"` : '';
     const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
     const isPrintable = stringToBool(this.printable) || this.printable === null;
@@ -119,8 +120,8 @@ export default class IdsTextarea extends Base {
       <div class="ids-textarea${textareaState}">
         ${printable}
         <slot class="hidden"></slot>
-        <label for="${ID}" class="label-text">
-          <ids-text part="label">${this.label}</ids-text>
+        <label for="${ID}" class="ids-label-text${hiddenLabelCss}${requiredLabelCss}">
+          <ids-text part="label" label ${textareaState} color-unset>${this.label}</ids-text>
         </label>
         <div class="field-container ${this.size}">
           <textarea part="textarea" id="${ID}"${textareaClass}${placeholder}${textareaState}${maxlength}${rows}>${value}</textarea>
@@ -243,9 +244,10 @@ export default class IdsTextarea extends Base {
    * @returns {void}
    */
   setLabelText(value: string): void {
-    const labelText = this.shadowRoot?.querySelector(`[for="${ID}"] ids-text`);
-    if (labelText) {
-      labelText.innerHTML = value || '';
+    const labelEl = this.#labelEl || this.shadowRoot?.querySelector(`[for="${ID}"]`);
+    if (labelEl) {
+      labelEl.querySelector('ids-text').innerHTML = value || '';
+      labelEl.classList[value ? 'remove' : 'add']('empty');
     }
   }
 
@@ -591,48 +593,12 @@ export default class IdsTextarea extends Base {
   #labelEl?: HTMLLabelElement;
 
   /**
-   * Set the `label` text
-   * @param {string} value of the `label` text property
-   */
-  set label(value: string) {
-    const newValue = stripHTML(value);
-    const currentValue = this.label;
-
-    if (newValue !== currentValue) {
-      if (value) {
-        this.setAttribute(attributes.LABEL, value.toString());
-      } else {
-        this.removeAttribute(attributes.LABEL);
-      }
-      this.setLabelText(value);
-    }
-  }
-
-  get label(): string { return this.getAttribute(attributes.LABEL) || ''; }
-
-  /**
    * @readonly
    * @returns {HTMLLabelElement} the inner `label` element
    */
   get labelEl(): HTMLLabelElement | null {
     return this.#labelEl || this.shadowRoot?.querySelector(`[for="${ID}"]`) || null;
   }
-
-  /**
-   * Set `label-required` attribute
-   * @param {string|null} value The `label-required` attribute
-   */
-  set labelRequired(value: string | null) {
-    const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.LABEL_REQUIRED, val.toString());
-    } else {
-      this.removeAttribute(attributes.LABEL_REQUIRED);
-    }
-    this.labelEl?.classList[!val ? 'add' : 'remove']('no-required-indicator');
-  }
-
-  get labelRequired(): string | null { return this.getAttribute(attributes.LABEL_REQUIRED); }
 
   /**
    * Set the `maxlength` of textarea

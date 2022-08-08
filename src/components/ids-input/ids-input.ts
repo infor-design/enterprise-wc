@@ -200,9 +200,10 @@ export default class IdsInput extends Base {
     containerClass += stringToBool(this.noMargins) ? ' no-margins' : '';
 
     const ariaLabel = this.hasAttribute(attributes.LABEL_STATE) && this.label ? `aria-label="${this.label}"` : '';
-    const hiddenLabelCss = !this.label || this.hasAttribute(attributes.LABEL_HIDDEN) ? ' empty' : '';
+    const hiddenLabelCss = !this.label || this.getAttribute(attributes.LABEL_STATE) === 'hidden' ? ' empty' : '';
+    const requiredLabelCss = !this.labelRequired ? ' no-required-indicator' : '';
     const labelHtml = `<label
-      class="ids-label-text${hiddenLabelCss}"
+      class="ids-label-text${hiddenLabelCss}${requiredLabelCss}"
       for="${this.id}-input"
       part="label"
       ${attrs.readonly}
@@ -677,47 +678,7 @@ export default class IdsInput extends Base {
   /**
    * internal reference to a label element a user provides
    */
-  #labelEl: any;
-
-  /**
-   * Set the `label` text
-   * @param {string} value of the `label` text property
-   */
-  set label(value: string) {
-    const newValue = stripHTML(value);
-    const currentValue = this.label;
-
-    if (newValue !== currentValue) {
-      if (value) {
-        this.setAttribute(attributes.LABEL, value.toString());
-      } else {
-        this.removeAttribute(attributes.LABEL);
-      }
-      this.setLabelText(value);
-    }
-  }
-
-  get label(): string { return this.getAttribute(attributes.LABEL) || ''; }
-
-  /**
-   * Set `label-required` attribute
-   * @param {string} value The `label-required` attribute
-   */
-  set labelRequired(value: string | boolean) {
-    const isValid = typeof value !== 'undefined' && value !== null;
-    const val = isValid ? stringToBool(value) : true;
-    if (isValid) {
-      this.setAttribute(attributes.LABEL_REQUIRED, val);
-    } else {
-      this.removeAttribute(attributes.LABEL_REQUIRED);
-    }
-    this.labelEl?.classList[!val ? 'add' : 'remove']('no-required-indicator');
-  }
-
-  get labelRequired(): boolean {
-    const value = this.getAttribute(attributes.LABEL_REQUIRED);
-    return value !== null ? stringToBool(value) : true;
-  }
+  #labelEl?: HTMLLabelElement;
 
   /**
    * Set the `placeholder` of input
