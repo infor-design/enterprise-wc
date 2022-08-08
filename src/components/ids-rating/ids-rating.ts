@@ -30,6 +30,7 @@ export default class IdsRating extends Base {
     } else {
       this.#updateHalfStar(this.ratingArr);
     }
+    if (this.getAttribute('value')) this.value = this.getAttribute('value') || '0';
   }
 
   /**

@@ -185,11 +185,11 @@ export default class IdsDataGrid extends Base {
     // Set back selection
     this.#setHeaderCheckbox();
 
-    // Attach post filters setting
-    this.filters.attachPostFiltersSetting();
-
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
+
+    // Attach post filters setting
+    this.filters.attachPostFiltersSetting();
   }
 
   /**
