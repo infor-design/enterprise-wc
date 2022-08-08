@@ -12,6 +12,7 @@
 - `[Card]` Fixed the `height` setting which was not working. ([#788](https://github.com/infor-design/enterprise-wc/pull/777))
 - `[DatePicker]` Fixed frozen page when "Enter" or "Shift" key is pressed when selecting month and year. ([#778](https://github.com/infor-design/enterprise-wc/issues/778))
 - `[DatePicker]` Fixed keyboard events to accomodate to Firefox browser (which was not working). ([#779](https://github.com/infor-design/enterprise-wc/issues/779))
+- `[PieChart]` Improved the tooltip placement logic and some cleanup. ([#736](https://github.com/infor-design/enterprise-wc/issues/736))
 - `[PopupMenu]` Added `triggerElem` property for separating the element triggering a Popup from the element in which the Popup aligns against.  ([#769](https://github.com/infor-design/enterprise-wc/issues/769))
 - `[Radio]` Fixed incorrect colors in constrast mode. ([#775](https://github.com/infor-design/enterprise-wc/pull/775))
 
