@@ -865,7 +865,7 @@ class IdsMonthView extends Base {
     const maxDays = this.rangeSettings.maxDays;
     const minRangeExceeded = (minDays as number) > 0 && Math.abs(diff) < (minDays as number);
     const maxRangeExceeded = (maxDays as number) > 0 && Math.abs(diff) > (maxDays as number);
-    const minRangeDate = diff > 0
+    const minRangeDate = diff >= 0
       ? addDate(startDate, (minDays as number), 'days')
       : subtractDate(startDate, (minDays as number), 'days');
 

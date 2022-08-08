@@ -813,8 +813,8 @@ class IdsDatePicker extends Base {
 
     if (this.useRange) {
       if (this.rangeSettings.end || (this.rangeSettings.start && !this.rangeSettings.end)) {
-        if (this.rangeSettings.minDays && this.rangeSettings.start === this.rangeSettings.end) {
-          this.rangeSettings.end = addDate(this.rangeSettings.start, this.rangeSettings.minDays, 'days');
+        if (this.rangeSettings.minDays && (this.rangeSettings.start === this.rangeSettings.end)) {
+          this.rangeSettings.start = subtractDate(this.rangeSettings.start, this.rangeSettings.minDays, 'days');
         }
 
         this.value = [
