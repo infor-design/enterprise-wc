@@ -19,8 +19,8 @@ const PAGINATION_TYPES = {
  * @returns {any} The extended object
  */
 const IdsPagerMixin = (superclass: any): any => class extends superclass {
-  /** Reference to the internal IdsPager component */
-  readonly pager: any = this.querySelector('ids-pager') || document.createElement('ids-pager');
+  /** Reference to the user-provided IdsPager component */
+  #pager: any;
 
   /**
    * Gets the internal IdsDataSource object
@@ -30,6 +30,47 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
 
   constructor() {
     super();
+  }
+
+  /**
+   * Set the internal IdsPager component
+   * @param {IdsPager} pager
+   */
+  set pager(pager: any) {
+    this.#pager = pager;
+
+    const pageNumber = Math.max(this.pageNumber || 1, 1);
+    const pageSize = Math.max(this.pageSize || 0, 1);
+
+    this.datasource.pageSize = pageSize;
+    this.pager.innerHTML = this.pagerTemplate();
+    this.pager.total = this.datasource.total;
+    this.pager.pageNumber = pageNumber;
+    this.pager.pageSize = pageSize;
+
+    const popupMenu: any = this.pager.querySelector('ids-popup-menu');
+    if (popupMenu) {
+      const popupMenuGroup = popupMenu.querySelector('ids-menu-group');
+
+      if (popupMenu.popup) {
+        popupMenu.popup.type = 'menu';
+      }
+
+      if (popupMenuGroup) {
+        popupMenuGroup.style.minWidth = '175px';
+        popupMenuGroup.style.textAlign = 'left';
+      }
+    }
+
+    this.#attachEventListeners();
+  }
+
+  /**
+   * Get the internal IdsPager component
+   * @returns {IdsPager} object
+   */
+  get pager(): any {
+    return this.#pager || this.querySelector('ids-pager') || document.createElement('ids-pager');
   }
 
   /**
@@ -184,47 +225,22 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
    * @private
    */
   #attachPager() {
-    this.pager.remove();
-
-    if (!this.pagination || this.pagination === PAGINATION_TYPES.NONE) {
-      return;
+    if (this.pagination && this.pagination !== PAGINATION_TYPES.NONE) {
+      this.pager.remove();
+      const currentPager = this.pager;
+      this.pager = currentPager;
+      this.container?.after(this.pager);
     }
+  }
 
-    const pageNumber = Math.max(this.pageNumber || 1, 1);
-    const pageSize = Math.max(this.pageSize || 0, 1);
-
-    this.datasource.pageSize = pageSize;
-    this.pager.innerHTML = this.pagerTemplate();
-    this.pager.total = this.datasource.total;
-    this.pager.pageNumber = pageNumber;
-    this.pager.pageSize = pageSize;
-    this.container?.after(this.pager);
-
-    const shouldUpdate = [
-      PAGINATION_TYPES.CLIENT_SIDE,
-      PAGINATION_TYPES.SERVER_SIDE,
-    ].includes(this.pagination);
-
+  #attachEventListeners() {
     this.offEvent('pagenumberchange', this.pager);
     this.onEvent('pagenumberchange', this.pager, (event: CustomEvent) => {
-      if (shouldUpdate) {
-        this.pageNumber = Number(event.detail.value);
-      }
+      this.pageNumber = Number(event.detail.value);
     });
 
     const popupMenu: any = this.pager.querySelector('ids-popup-menu');
     if (popupMenu) {
-      const popupMenuGroup = popupMenu.querySelector('ids-menu-group');
-
-      if (popupMenu.popup) {
-        popupMenu.popup.type = 'menu';
-      }
-
-      if (popupMenuGroup) {
-        popupMenuGroup.style.minWidth = '175px';
-        popupMenuGroup.style.textAlign = 'left';
-      }
-
       this.offEvent('selected', popupMenu);
       this.onEvent('selected', popupMenu, (evt: CustomEvent) => {
         const oldPageSize = this.pageSize;
