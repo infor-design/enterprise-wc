@@ -5,8 +5,7 @@ describe('Ids List Builder Percy Tests', () => {
 
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await page.waitForSelector('ids-swappable-item');
-    await page.waitForTimeout(220);
+    await page.waitForSelector('pierce/ids-swappable-item');
     await percySnapshot(page, 'ids-list-builder-new-light', { widths: [1280] });
   });
 
@@ -15,8 +14,7 @@ describe('Ids List Builder Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');
     });
-    await page.waitForSelector('ids-swappable-item');
-    await page.waitForTimeout(220);
+    await page.waitForSelector('pierce/ids-swappable-item');
     await percySnapshot(page, 'ids-list-builder-new-dark', { widths: [1280] });
   });
 
@@ -25,8 +23,7 @@ describe('Ids List Builder Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'contrast');
     });
-    await page.waitForSelector('ids-swappable-item');
-    await page.waitForTimeout(220);
+    await page.waitForSelector('pierce/ids-swappable-item');
     await percySnapshot(page, 'ids-list-builder-new-contrast', { widths: [1280] });
   });
 });
