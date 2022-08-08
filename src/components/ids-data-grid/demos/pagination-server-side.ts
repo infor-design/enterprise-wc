@@ -91,7 +91,7 @@ const container: any = document.querySelector('ids-container');
 
   populatePaginatedDatagrid(1, 10); // load data for 1st page
 
-  dataGrid.pager.addEventListener('pagenumberchange', async (e: CustomEvent) => {
+  dataGrid.pager.addEventListener('pagenumberchange', (e: CustomEvent) => {
     console.info(`server-side page # ${e.detail.value}`);
     const pageNumber = e.detail.value;
     const pageSize = dataGrid.pageSize;
