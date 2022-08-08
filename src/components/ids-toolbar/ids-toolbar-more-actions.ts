@@ -37,7 +37,11 @@ export default class IdsToolbarMoreActions extends Base {
     super.connectedCallback();
     this.#refresh();
     this.#attachEventHandlers();
-    this.#connectOverflowedItems();
+
+    // wait for parent toolbar to finish rendering
+    requestAnimationFrame(() => {
+      this.#connectOverflowedItems();
+    });
   }
 
   disconnectedCallback(): void {
