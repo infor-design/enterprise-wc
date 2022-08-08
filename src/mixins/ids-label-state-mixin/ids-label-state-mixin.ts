@@ -1,4 +1,4 @@
-import { attributes } from '../../core/ids-attributes';
+import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 /**
@@ -15,20 +15,13 @@ const IdsLabelStateMixin = (superclass: any) => class extends superclass {
       this.state = {};
     }
     this.state.labelState = null;
-
-    // Overrides the IdsElement `render` method to also include an update
-    // to label style after it runs, keeping the visual state in-sync.
-    this.render = () => {
-      super.render();
-      if (this.hasAttribute(attributes.LABEL_STATE)) {
-        this.labelState = this.getAttribute(attributes.LABEL_STATE);
-      }
-    };
   }
 
   connectedCallback() {
     super.connectedCallback?.();
-    this.labelState = this.getAttribute(attributes.LABEL_STATE);
+    if (this.hasAttribute(attributes.LABEL_STATE)) {
+      this.labelState = this.getAttribute(attributes.LABEL_STATE);
+    }
   }
 
   static get attributes() {
@@ -47,7 +40,7 @@ const IdsLabelStateMixin = (superclass: any) => class extends superclass {
    * @returns {string|null} the current state of the field label's visibility
    */
   get labelState() {
-    return this.state?.labelState;
+    return this.state?.labelState || null;
   }
 
   /**
@@ -98,10 +91,10 @@ const IdsLabelStateMixin = (superclass: any) => class extends superclass {
   #setlabelState(doHide: boolean | string = false) {
     if (doHide) {
       this.#hideLabel();
-      this.input?.setAttribute('aria-label', this.label);
+      this.input?.setAttribute(htmlAttributes.ARIA_LABEL, this.label);
     } else {
       this.#showLabel();
-      this.input?.removeAttribute('aria-label');
+      this.input?.removeAttribute(htmlAttributes.ARIA_LABEL);
     }
   }
 
