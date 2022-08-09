@@ -6,16 +6,16 @@
 </head>
 <body>
   <ids-container role="main" padding="8" hidden>
-    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
-    <ids-layout-grid>
-      <ids-text font-size="12" type="h1">Lookup (Pagination)</ids-text>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Lookup (With Filter)</ids-text>
     </ids-layout-grid>
 
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
         <ids-lookup
           id="lookup-1"
-          label="Pagination Client Lookup"
+          label="Lookup (Filterable)"
           title="Select an Item"
           field="description"
           value="102,103"
