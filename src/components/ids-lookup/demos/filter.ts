@@ -52,6 +52,7 @@ const container: Element | any = document.querySelector('ids-container');
     name: 'Price',
     field: 'price',
     formatter: lookup.dataGrid.formatters.decimal,
+    filterType: lookup.dataGrid.filters.decimal,
     formatOptions: { locale: 'en-US' } // Data Values are in en-US
   });
   columns.push({
