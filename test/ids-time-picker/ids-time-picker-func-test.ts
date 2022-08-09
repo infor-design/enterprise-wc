@@ -44,6 +44,18 @@ describe('IdsTimePicker Component', () => {
     expect(timepicker.container.querySelectorAll('.separator')).toHaveLength(1);
   });
 
+  it('render via document.createElement (append late)', () => {
+    const errors = jest.spyOn(global.console, 'error');
+    const elem: any = document.createElement('ids-time-picker');
+
+    elem.format = 'hh:mm';
+    elem.value = '12:00';
+    document.body.appendChild(elem);
+
+    expect(elem.value).toBe('12:00');
+    expect(errors).not.toHaveBeenCalled();
+  });
+
   it('renders placeholder', () => {
     expect(timepicker.placeholder).toBe('');
 

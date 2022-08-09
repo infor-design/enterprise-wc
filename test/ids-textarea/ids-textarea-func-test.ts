@@ -35,6 +35,19 @@ describe('IdsTextarea Component', () => {
     expect(textarea.placeholder).toEqual(null);
   });
 
+  it('renders with document.createElement (append late)', () => {
+    const errors = jest.spyOn(global.console, 'error');
+    const elem: any = document.createElement('ids-textarea');
+
+    elem.placeholder = 'Placeholder Text';
+    elem.value = 'Test Content';
+    document.body.appendChild(elem);
+
+    expect(elem.placeholder).toEqual('Placeholder Text');
+    expect(elem.value).toEqual('Test Content');
+    expect(errors).not.toHaveBeenCalled();
+  });
+
   it('should set label text', () => {
     expect(textarea.labelEl.textContent.trim()).toBe('');
     textarea.label = 'test';

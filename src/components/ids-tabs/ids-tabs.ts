@@ -28,7 +28,7 @@ export default class IdsTabs extends Base {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
     this.setAttribute(htmlAttributes.ROLE, 'tablist');
     this.#connectMoreTabs();
     this.#detectParentColorVariant();

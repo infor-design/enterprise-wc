@@ -6,7 +6,7 @@ exports[`IdsCheckbox Component should renders as label audible 1`] = `
         <label part=\\"label\\">
           <input part=\\"input\\" type=\\"checkbox\\" class=\\"checkbox\\">
           <span class=\\"checkmark\\" part=\\"checkmark\\"></span>
-          <ids-text audible=\\"true\\" class=\\"label-checkbox\\" part=\\"label-checkbox\\">&nbsp;</ids-text>
+          <ids-text audible=\\"true\\" class=\\"label-checkbox\\" part=\\"label-checkbox\\"></ids-text>
         </label>
       </div>
     "

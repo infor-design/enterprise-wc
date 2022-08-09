@@ -7,7 +7,4 @@
  examples:
   - link: example.html
     type: Main Example
-    description: Shows basic lookup with states
-  - link: autocomplete.html
-    type: Example
-    description: Showing a lookup with autocomplete input
+    description: Shows several lookup types and states

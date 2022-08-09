@@ -39,7 +39,7 @@ function areJestFakeTimersEnabled() {
  * but does not look for the CSS "hidden" flag itself.
  * @returns {Promise} promise which waits for given callback to return true
  */
-export default async function waitFor(
+export default async function waitForTimeout(
   selectorOrAssertionCb: any,
   {
     container = window.document,
@@ -71,7 +71,7 @@ export default async function waitFor(
     case 'function':
       break;
     case 'string':
-      return waitFor(() => {
+      return waitForTimeout(() => {
         const truthyOrFalsy = hidden ? 'Falsy' : 'Truthy';
         const elem = (
           container.querySelector?.(selectorOrAssertionCb)

@@ -62,33 +62,3 @@
     @include text-white();
   }
 }
-
-.ids-container[version='classic'][mode='light'] {
-  @include bg-graphite-10();
-  @include text-graphite-60();
-
-  &.color-variant-alternate {
-    @include bg-graphite-70();
-    @include text-graphite-20();
-  }
-}
-
-.ids-container[version='classic'][mode='dark'] {
-  @include bg-classic-slate-90();
-  @include text-classic-slate-10();
-
-  &.color-variant-alternate {
-    @include bg-graphite-90();
-    @include text-classic-slate-10();
-  }
-}
-
-.ids-container[version='classic'][mode='contrast'] {
-  @include bg-graphite-20();
-  @include text-graphite-80();
-
-  &.color-variant-alternate {
-    @include bg-graphite-90();
-    @include text-graphite-20();
-  }
-}

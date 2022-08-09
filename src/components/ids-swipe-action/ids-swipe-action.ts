@@ -35,13 +35,14 @@ export default class IdsSwipeAction extends Base {
     this.leftButton = this.querySelector('[slot="action-left"]');
     this.rightButton = this.querySelector('[slot="action-right"]');
     this.#attachEventHandlers();
+    this.#afterConnectedCallback();
   }
 
   /**
    * Scroll to the center container on render
    * @private
    */
-  rendered() {
+  #afterConnectedCallback() {
     this.leftButton = this.querySelector('[slot="action-left"]');
     this.rightButton = this.querySelector('[slot="action-right"]');
     if (this.leftButton && this.swipeType === 'reveal') {
@@ -80,8 +81,7 @@ export default class IdsSwipeAction extends Base {
   static get attributes() {
     return [
       attributes.MODE,
-      attributes.SWIPE_TYPE,
-      attributes.VERSION
+      attributes.SWIPE_TYPE
     ];
   }
 
@@ -105,7 +105,7 @@ export default class IdsSwipeAction extends Base {
     if (this.swipeType === 'continuous') {
       this.onEvent('swipe', this, (e: CustomEvent) => {
         this.querySelector(`[slot="action-${e.detail.direction === 'left' ? 'right' : 'left'}"`).click();
-      }, { scrollContainer: this.container });
+      }, { scrollContainer: this.container, passive: true });
     }
 
     // Close on click
@@ -126,12 +126,12 @@ export default class IdsSwipeAction extends Base {
   set swipeType(value: string | null) {
     if (value === 'continuous') {
       this.setAttribute(attributes.SWIPE_TYPE, value);
-      this.container.classList.add('continuous');
+      this.container?.classList.add('continuous');
       return;
     }
 
     this.removeAttribute(attributes.SWIPE_TYPE);
-    this.container.classList.remove('continuous');
+    this.container?.classList.remove('continuous');
   }
 
   get swipeType(): string { return this.getAttribute(attributes.SWIPE_TYPE) || 'reveal'; }

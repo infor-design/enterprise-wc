@@ -254,8 +254,6 @@ $ids-tab-vertical-height: 42px;
 
   // =================================================
   // Makes text appear bolded without shuddering the widths;
-  // Text Content is set in IdsTab `rendered();`
-
   ids-text::part(text),
   .ids-tab.ids-text {
     display: inline-flex;

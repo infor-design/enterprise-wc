@@ -137,9 +137,9 @@ describe('IdsDataGrid Component Filter Tests', () => {
 
     container = new IdsContainer();
     dataGrid = new IdsDataGrid();
-    dataGrid.shadowRoot.styleSheets = [window.StyleSheet];
-    container.appendChild(dataGrid);
     document.body.appendChild(container);
+    container.appendChild(dataGrid);
+    dataGrid.shadowRoot.styleSheets = [window.StyleSheet];
     dataGrid.columns = columns();
     dataGrid.data = dataset;
   });

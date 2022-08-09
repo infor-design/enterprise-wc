@@ -19,8 +19,8 @@ export default class IdsHierarchy extends Base {
    * @returns {void}
    */
   connectedCallback() {
+    super.connectedCallback();
     this.#selectItem();
-    super.connectedCallback?.();
   }
 
   template(): string {

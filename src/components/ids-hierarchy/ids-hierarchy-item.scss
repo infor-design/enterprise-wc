@@ -101,7 +101,7 @@
   }
 
   // Handle themes - Selected
-  .ids-hierarchy-item[version='new'][mode='dark'] {
+  .ids-hierarchy-item[mode='dark'] {
     .leaf {
       box-shadow: 0 0 0 5px rgba(141 201 230 / 0.3);
     }
@@ -153,16 +153,13 @@ ids-button[part='icon-btn'] {
 }
 
 // Handle Themes
-.ids-hierarchy-item[version='classic'][mode='light'],
-.ids-hierarchy-item[version='classic'][mode='contrast'],
-.ids-hierarchy-item[version='new'][mode='contrast'] {
+.ids-hierarchy-item[mode='contrast'] {
   .leaf-inside {
     background-color: var(--ids-color-palette-white);
   }
 }
 
-.ids-hierarchy-item[version='classic'][mode='dark'],
-.ids-hierarchy-item[version='new'][mode='dark'] {
+.ids-hierarchy-item[mode='dark'] {
   .leaf {
     border-color: var(--ids-color-palette-slate-70);
   }

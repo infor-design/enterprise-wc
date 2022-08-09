@@ -1,6 +1,6 @@
 import percySnapshot from '@percy/puppeteer';
 
-describe('Ids Color Picker Percy Tests', () => {
+describe('Ids Error Page Percy Tests', () => {
   const url = 'http://localhost:4444/ids-error-page/example.html';
 
   it('should not have visual regressions in new light theme (percy)', async () => {

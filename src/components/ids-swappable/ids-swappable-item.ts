@@ -100,7 +100,7 @@ export default class IdsSwappableItem extends Base {
    * @memberof IdsSwappableItem
    */
   get selectedItems(): any {
-    return this.parentElement.shadowRoot.querySelectorAll('[selected]');
+    return this.parentElement?.shadowRoot?.querySelectorAll('[selected]');
   }
 
   /**

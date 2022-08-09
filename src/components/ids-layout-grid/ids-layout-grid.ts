@@ -10,7 +10,7 @@ import {
 } from './ids-layout-grid-attributes';
 
 import Base from './ids-layout-grid-base';
-import IdsLayoutGridCell from './ids-layout-grid-cell';
+import './ids-layout-grid-cell';
 
 import styles from './ids-layout-grid.scss';
 
@@ -39,8 +39,8 @@ export default class IdsLayoutGrid extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback();
     this.#setDefaults();
-    this.aGridCell = new IdsLayoutGridCell();
   }
 
   template(): string {

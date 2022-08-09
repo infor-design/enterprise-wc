@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
-import waitFor from '../helpers/wait-for';
+import waitForTimeout from '../helpers/wait-for-timeout';
 import wait from '../helpers/wait';
 import processAnimFrame from '../helpers/process-anim-frame';
 
@@ -142,7 +142,7 @@ describe('IdsDropdown Component', () => {
   it('supports validation', async () => {
     dropdown = createFromTemplate(`<ids-dropdown id="dropdown-5" label="Dropdown with Icons" validate="true">
      </ids-dropdown>`);
-    await waitFor(() => expect(dropdown.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
+    await waitForTimeout(() => expect(dropdown.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
 
     dropdown.validate = 'required';
     dropdown.validationEvents = 'blur change';
@@ -207,7 +207,7 @@ describe('IdsDropdown Component', () => {
       </ids-list-box>
     </ids-dropdown>`);
 
-    await waitFor(() => expect(dropdown.getAttribute('tooltip')).toBeTruthy());
+    await waitForTimeout(() => expect(dropdown.getAttribute('tooltip')).toBeTruthy());
     expect(dropdown.tooltip).toEqual('Additional Info on Option Two');
   });
 
@@ -404,27 +404,27 @@ describe('IdsDropdown Component', () => {
   });
 
   it('supports clicking trigger to open', async () => {
-    await waitFor(() => expect(dropdown.trigger).toBeTruthy());
+    await waitForTimeout(() => expect(dropdown.trigger).toBeTruthy());
 
     dropdown.trigger.click();
     expect(dropdown.popup.visible).toEqual(true);
   });
 
   it('supports clicking input to open', async () => {
-    await waitFor(() => expect(dropdown.container).toBeTruthy());
+    await waitForTimeout(() => expect(dropdown.container).toBeTruthy());
     dropdown.input.input.click();
-    await waitFor(() => expect(dropdown.popup.visible).toBeTruthy());
+    await waitForTimeout(() => expect(dropdown.popup.visible).toBeTruthy());
     expect(dropdown.popup.visible).toBeTruthy();
   });
 
   it('should not open by clicking on label', async () => {
-    await waitFor(() => expect(dropdown.labelEl).toBeTruthy());
+    await waitForTimeout(() => expect(dropdown.labelEl).toBeTruthy());
     expect(dropdown.labelEl).toBeTruthy();
     dropdown.labelEl.click();
-    await waitFor(() => expect(dropdown.popup.visible).toBeFalsy());
+    await waitForTimeout(() => expect(dropdown.popup.visible).toBeFalsy());
     expect(dropdown.popup.visible).toBeFalsy();
     dropdown.input.input.click();
-    await waitFor(() => expect(dropdown.popup.visible).toBeTruthy());
+    await waitForTimeout(() => expect(dropdown.popup.visible).toBeTruthy());
     expect(dropdown.popup.visible).toBeTruthy();
   });
 

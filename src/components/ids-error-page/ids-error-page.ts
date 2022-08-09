@@ -25,7 +25,7 @@ export default class IdsErrorPage extends Base {
   }
 
   connectedCallback(): void {
-    super.connectedCallback?.();
+    super.connectedCallback();
     this.#attachEventHandlers();
   }
 
@@ -40,7 +40,7 @@ export default class IdsErrorPage extends Base {
   }
 
   template(): string {
-    return `<ids-popup part="modal" class="ids-modal ids-error" type="custom" position-style="viewport">
+    return `<ids-popup part="modal" class="ids-modal ids-error" type="modal" position-style="viewport">
       <div class="ids-modal-container" slot="content">
         <ids-empty-message icon="${this.icon ?? DEFAULT_ICON}">
           <ids-text

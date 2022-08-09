@@ -1,6 +1,6 @@
 /**
  * Convert a string in presumed kebab case to camel case
- * @param  {string} str [description]
+ * @param {string} str [description]
  * @returns {string} The return string
  */
 export function camelCase(str: string): string {
@@ -9,7 +9,7 @@ export function camelCase(str: string): string {
 
 /**
  * Convert a string into kebab case
- * @param  {string} str The value to be converted
+ * @param {string} str The value to be converted
  * @returns {string} The return string
  */
 export function kebabCase(str: string): string {
@@ -74,7 +74,7 @@ export function injectTemplate(str: string, obj: any): string {
 /**
  * Combines classes and considers truthy/falsy +
  * doesn't pollute the attribs/DOM
- * @param  {...any} classes classes/expressions
+ * @param {...any} classes classes/expressions
  * @returns {string} ` class="c1 c2..."` || ""
  */
 export function buildClassAttrib(...classes: any): string {

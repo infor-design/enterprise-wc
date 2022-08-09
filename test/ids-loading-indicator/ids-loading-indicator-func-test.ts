@@ -145,9 +145,4 @@ describe('IdsLoadingIndicator Component', () => {
     elem.mode = 'dark';
     expect(elem.getAttribute('mode')).toEqual('dark');
   });
-
-  it('supports setting version', () => {
-    elem.version = 'classic';
-    expect(elem.getAttribute('version')).toEqual('classic');
-  });
 });

@@ -28,6 +28,7 @@ export default class IdsEmptyMessage extends Base {
    * Invoked each time the custom element is add into a document-connected element
    */
   connectedCallback() {
+    super.connectedCallback();
     this.#attachEventHandlers();
   }
 
@@ -78,14 +79,14 @@ export default class IdsEmptyMessage extends Base {
   get icon(): string { return this.getAttribute(attributes.ICON); }
 
   set icon(value: string) {
-    const svgIcon = this.shadowRoot.querySelector('svg');
+    const svgIcon = this.shadowRoot?.querySelector('svg');
     if (value && (<any>pathData)[value]) {
-      svgIcon.style.display = '';
+      if (svgIcon) svgIcon.style.display = '';
       this.setAttribute(attributes.ICON, value);
-      svgIcon.innerHTML = this.iconData();
+      if (svgIcon) svgIcon.innerHTML = this.iconData();
     } else {
       this.removeAttribute(attributes.ICON);
-      svgIcon.style.display = 'none';
+      if (svgIcon) svgIcon.style.display = 'none';
     }
   }
 }
