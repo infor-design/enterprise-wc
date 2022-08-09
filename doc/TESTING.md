@@ -80,14 +80,6 @@ We should have one visual regression image per component. When you PR a test an 
 
 ## e2e Test Tips
 
-### Animations
-
-In some cases you might want to speed  up animations for a page. To speed up animations 3 times you can use.
-
-```js
-await page._client.send('Animation.setPlaybackRate', { playbackRate: 3 });
-```
-
 ## Coverage
 
 - To run in coverage mode (which may take more time than just running tests alone), use the command `npm run test:coverage`
