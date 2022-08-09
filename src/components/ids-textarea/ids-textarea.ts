@@ -42,6 +42,7 @@ const CHAR_REMAINING_TEXT = 'Characters left {0}';
  * @mixes IdsEventsMixin
  * @mixes IdsClearableMixin
  * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsLabelStateMixin
  * @mixes IdsValidationMixin
  * @mixes IdsThemeMixin
  * @part textarea - the textarea element
@@ -71,8 +72,6 @@ export default class IdsTextarea extends Base {
       attributes.CHAR_REMAINING_TEXT,
       attributes.CHARACTER_COUNTER,
       attributes.DISABLED,
-      attributes.LABEL,
-      attributes.LABEL_REQUIRED,
       attributes.MAXLENGTH,
       attributes.PLACEHOLDER,
       attributes.PRINTABLE,

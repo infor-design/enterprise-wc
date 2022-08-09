@@ -47,6 +47,7 @@ type IdsInputTemplateVariables = {
  * @mixes IdsClearableMixin
  * @mixes IdsColorVariantMixin
  * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsLabelStateMixin
  * @mixes IdsMaskMixin
  * @mixes IdsValidationMixin
  * @mixes IdsThemeMixin
@@ -81,8 +82,6 @@ export default class IdsInput extends Base {
       attributes.CAPS_LOCK,
       attributes.CURSOR,
       attributes.DISABLED,
-      attributes.LABEL,
-      attributes.LABEL_REQUIRED,
       attributes.ID,
       attributes.NO_MARGINS,
       attributes.PLACEHOLDER,
