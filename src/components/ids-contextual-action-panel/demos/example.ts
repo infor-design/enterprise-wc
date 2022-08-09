@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Links the CAP to its trigger button (sets up click/focus events)
   cap.target = triggerBtn;
-  cap.trigger = 'click';
+  cap.triggerType = 'click';
 
   // Disable the trigger button when showing the CAP.
   cap.addEventListener('beforeshow', () => {

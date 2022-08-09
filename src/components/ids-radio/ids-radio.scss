@@ -139,7 +139,7 @@
   }
 }
 
-.ids-radio[mode='contrast'] {
+.ids-radio[mode='contrast']:not([color]) {
   input[type='radio'] ~ .circle {
     @include bg-white();
     @include border-slate-90();

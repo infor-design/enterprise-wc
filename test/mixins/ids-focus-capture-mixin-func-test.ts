@@ -58,7 +58,7 @@ describe('IdsFocusCaptureMixin)', () => {
     document.body.appendChild(afterBtn);
 
     modal.target = triggerBtn;
-    modal.trigger = 'click';
+    modal.triggerType = 'click';
   });
 
   afterEach(async () => {
@@ -231,7 +231,7 @@ describe('IdsFocusCaptureMixin (empty)', () => {
     document.body.appendChild(afterBtn);
 
     modal.target = triggerBtn;
-    modal.trigger = 'click';
+    modal.triggerType = 'click';
   });
 
   afterEach(async () => {

@@ -9,6 +9,18 @@
   &.empty {
     flex-direction: column;
   }
+
+  .dot {
+    @include absolute();
+    @include border-transparent();
+    @include border-solid();
+    @include rounded-round();
+    @include w-0();
+
+    display: inline-block;
+    border-width: var(--ids-pie-chart-tooltip-dot-size, 0);
+    height: 0;
+  }
 }
 
 // Responsive Pie
