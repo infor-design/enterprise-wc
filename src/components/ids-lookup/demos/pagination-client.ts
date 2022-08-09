@@ -87,7 +87,10 @@ const container: Element | any = document.querySelector('ids-container');
     const res = await fetch(url);
     const data = await res.json();
     lookup.dataGridSettings = {
-      rowSelection: 'multiple'
+      rowSelection: 'multiple',
+      pageSize: 10,
+      pageNumber: 1,
+      pagination: 'client-side'
     };
     lookup.data = data;
   };

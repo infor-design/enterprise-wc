@@ -36,6 +36,11 @@ If necessary you can provide your own custom modal to the lookup. When doing thi
 </ids-lookup>
 ```
 
+Its possible to set many of the datagrid settings by passing the settings to the gridSettings property.
+
+```html
+```
+
 ## Settings and Attributes
 
 - `disabled` {boolean} Set the lookup to disabled state.
@@ -57,7 +62,7 @@ If necessary you can provide your own custom modal to the lookup. When doing thi
 - `modal`  allows you to further style the modal dialog container
 - `data-grid` allows you to further style the data grid element
 
-## States and Variations (With Code Examples)
+## States and Variations
 
 - Default: The normal, unaltered state for lookups.
 - Hover: The state where a user moves over the lookup field with their cursor.

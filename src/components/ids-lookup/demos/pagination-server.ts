@@ -87,9 +87,12 @@ const container: Element | any = document.querySelector('ids-container');
     const res = await fetch(url);
     const data = await res.json();
     lookup.dataGridSettings = {
-      rowSelection: 'multiple'
+      rowSelection: 'multiple',
+      pageSize: 10,
+      pageNumber: 1,
+      pagination: 'server-side'
     };
-    
+
     // Fake server side pagination
     const paginateData = (pageNumber = 1, pageSize = 10) => {
       const last = pageNumber * pageSize;

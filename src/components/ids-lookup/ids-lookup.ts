@@ -33,20 +33,17 @@ export default class IdsLookup extends Base {
     super();
   }
 
-  /** Reference to the trigger field */
-  triggerField = this.shadowRoot?.querySelector('ids-trigger-field');
-
-  /** Reference to the trigger button */
-  triggerButton = this.shadowRoot?.querySelector('ids-trigger-button[part="trigger-lookup"]');
-
-  /** Reference to the trigger button */
-  triggerClearButton = this.shadowRoot?.querySelector('ids-trigger-button[part="trigger-clearable"]');
-
   /**
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
-    // Setup some internal refs
+    super.connectedCallback();
+
+    this.triggerField = this.shadowRoot?.querySelector('ids-trigger-field');
+    this.triggerButton = this.shadowRoot?.querySelector('ids-trigger-button[part="trigger-lookup"]');
+    this.triggerClearButton = this.shadowRoot?.querySelector('ids-trigger-button[part="trigger-clearable"]');
+
+    // Setup some datagrid defaults
     this.state = {
       dataGridSettings: {
         rowSelection: 'multiple'
@@ -87,6 +84,8 @@ export default class IdsLookup extends Base {
       attributes.LABEL,
       attributes.MODE,
       attributes.PAGINATION,
+      attributes.PAGE_NUMBER,
+      attributes.PAGE_SIZE,
       attributes.READONLY,
       attributes.TABBABLE,
       attributes.TITLE,
@@ -297,24 +296,6 @@ export default class IdsLookup extends Base {
   }
 
   /**
-   * Set the pagination to lookup data-grid
-   * @param {string} value client/server side rendering
-   */
-  set pagination(value: string) {
-    this.setAttribute(attributes.PAGINATION, value);
-    this.dataGrid.setAttribute(attributes.PAGINATION, value);
-    this.dataGrid.setAttribute(attributes.PAGE_NUMBER, 1);
-    this.dataGrid.setAttribute(attributes.PAGE_SIZE, 10);
-  }
-
-  /**
-   * Get pagination setting
-   */
-  get pagination(): string {
-    return this.getAttribute(attributes.PAGINATION);
-  }
-
-  /**
    * Set the columns array of the data grid
    * @param {Record<string, unknown> | undefined} value The array to use
    */
@@ -498,7 +479,7 @@ export default class IdsLookup extends Base {
       }
     });
 
-    this.onEvent('change.lookup', this.triggerField, (e: CustomEvent) => {
+    this.onEvent('change.lookup', this.triggerField, () => {
       if (this.triggerField.value) {
         this.#showClearButton();
       } else {
@@ -506,7 +487,7 @@ export default class IdsLookup extends Base {
       }
     });
 
-    this.onEvent('click.clearable', this.triggerClearButton, (e: CustomEvent) => {
+    this.onEvent('click.clearable', this.triggerClearButton, () => {
       this.value = '';
       this.dataGrid.deSelectAllRows();
     });
