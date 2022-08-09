@@ -300,14 +300,15 @@ export default class IdsPagerNumberList extends Base {
     const lastButton = buttons[buttons.length - 1];
     const divider = '<p class="divider">&#8230;</p>'; // horizontal ellipsis
 
-    const leftBufferSize = Number(this.step);
+    const step = Number(this.step);
+    const leftBufferSize = step;
     const rightBufferSize = leftBufferSize;
     const totalBufferSize = leftBufferSize + rightBufferSize;
     const showStart = (pageNumber - totalBufferSize) < 1;
     const showEnd = (pageNumber + totalBufferSize) > pageCount;
 
     let visibleButtons = [];
-    if (this.step < 1) {
+    if (step < 1 || step >= pageCount) {
       visibleButtons = [...buttons];
     } else if (showStart) {
       const startButtons = buttons.slice(0, totalBufferSize + rightBufferSize);
