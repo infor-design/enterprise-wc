@@ -95,7 +95,7 @@ export default class IdsMessage extends Base {
     if (val) {
       this.state.opacity = val;
 
-      const overlayElem = this.shadowRoot.querySelector('ids-overlay');
+      const overlayElem = this.shadowRoot?.querySelector('ids-overlay');
       overlayElem.opacity = val;
     }
   }
@@ -154,15 +154,19 @@ export default class IdsMessage extends Base {
    * @returns {void}
    */
   #refreshStatus(val: string): void {
-    const header = this.container.querySelector('.ids-modal-header');
-    let icon = header.querySelector('ids-icon');
+    const header = this.container?.querySelector('.ids-modal-header');
+    let icon = header?.querySelector('ids-icon');
+
     if (val && val !== MESSAGE_STATUSES[0]) {
       if (!icon) {
-        header.insertAdjacentHTML('afterbegin', `<ids-icon slot="icon" icon="${val}" class="ids-icon ids-message-status"></ids-icon>`);
-        icon = header.querySelector('ids-icon');
+        header?.insertAdjacentHTML('afterbegin', `<ids-icon slot="icon" icon="${val}" class="ids-icon ids-message-status"></ids-icon>`);
+        icon = header?.querySelector('ids-icon');
       }
-      icon.icon = val;
-      this.#setIconColor(icon, val);
+
+      if (icon) {
+        icon.icon = val;
+        this.#setIconColor(icon, val);
+      }
     } else {
       icon?.remove();
     }
@@ -170,11 +174,11 @@ export default class IdsMessage extends Base {
 
   /**
    * Changes the color of the Status Icon
-   * @param {any} iconEl the icon element to update
+   * @param {Element} iconEl the icon element to update
    * @param {string} thisStatus the status string to apply as a CSS class
    * @returns {void}
    */
-  #setIconColor(iconEl: any, thisStatus: string): void {
+  #setIconColor(iconEl: Element, thisStatus: string): void {
     const iconElClassList = iconEl.classList;
     MESSAGE_STATUSES.forEach((status) => {
       if (thisStatus !== 'none' && thisStatus === status) {

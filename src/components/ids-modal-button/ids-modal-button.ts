@@ -22,7 +22,7 @@ export default class IdsModalButton extends Base {
    * Toggle-Button-level `connectedCallback` implementation (adds an icon refresh)
    */
   connectedCallback(): void {
-    super.connectedCallback?.();
+    super.connectedCallback();
   }
 
   /**

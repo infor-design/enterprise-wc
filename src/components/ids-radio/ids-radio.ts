@@ -8,17 +8,6 @@ import './ids-radio-group';
 
 import styles from './ids-radio.scss';
 
-const attribs = [
-  { name: 'checked', prop: 'checked' },
-  { name: 'color', prop: 'color' },
-  { name: 'disabled', prop: 'disabled' },
-  { name: 'group-disabled', prop: 'groupDisabled' },
-  { name: 'horizontal', prop: 'horizontal' },
-  { name: 'label', prop: 'label' },
-  { name: 'validation-has-error', prop: 'validationHasError' },
-  { name: 'value', prop: 'value' }
-];
-
 /**
  * IDS Radio Component
  * @type {IdsRadio}
@@ -59,35 +48,14 @@ export default class IdsRadio extends Base {
   }
 
   /**
-   * Custom Element `attributeChangedCallback` implementation
-   * @param {string} name The name of attribute changed
-   * @param {any} oldValue The old value
-   * @param {any} newValue The new value
-   * @returns {void}
-   */
-  attributeChangedCallback(
-    name: string,
-    oldValue: any,
-    newValue: any
-  ): void {
-    if (oldValue !== newValue) {
-      attribs.forEach((attribute) => {
-        if (name === attribute.name) {
-          this[attribute.prop] = newValue;
-        }
-      });
-    }
-  }
-
-  /**
    * Custom Element `connectedCallback` implementation
    * @returns {void}
    */
   connectedCallback(): void {
     super.connectedCallback();
-    this.input = this.shadowRoot.querySelector('input[type="radio"]');
-    this.labelEl = this.shadowRoot.querySelector('label');
-    this.rootEl = this.shadowRoot.querySelector('.ids-radio');
+    this.input = this.shadowRoot?.querySelector('input[type="radio"]');
+    this.labelEl = this.shadowRoot?.querySelector('label');
+    this.rootEl = this.shadowRoot?.querySelector('.ids-radio');
 
     if (this.checked && !this.input.getAttribute(attributes.CHECKED)) {
       this.checked = true;
@@ -157,8 +125,8 @@ export default class IdsRadio extends Base {
          * Trigger event on parent and compose the args
          * will fire nativeEvents.
          * @private
-         * @param  {object} elem Actual event
-         * @param  {string} value The updated input element value
+         * @param {object} elem Actual event
+         * @param {string} value The updated input element value
          */
         this.triggerEvent(e.type, this, {
           elem: this,
@@ -186,7 +154,7 @@ export default class IdsRadio extends Base {
    * @param {boolean|string} value If true will set `checked` attribute
    */
   set checked(value: boolean | string) {
-    const circle = this.shadowRoot.querySelector('.circle');
+    const circle = this.shadowRoot?.querySelector('.circle');
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.CHECKED, val.toString());
@@ -232,7 +200,7 @@ export default class IdsRadio extends Base {
    * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value: boolean | string) {
-    const labelText = this.shadowRoot.querySelector('.label-text');
+    const labelText = this.shadowRoot?.querySelector('.label-text');
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
@@ -257,7 +225,7 @@ export default class IdsRadio extends Base {
    * @param {boolean|string} value If true will set `group-disabled` attribute
    */
   set groupDisabled(value: boolean | string) {
-    const labelText = this.shadowRoot.querySelector('.label-text');
+    const labelText = this.shadowRoot?.querySelector('.label-text');
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.GROUP_DISABLED, val.toString());

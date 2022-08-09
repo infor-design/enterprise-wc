@@ -216,12 +216,6 @@
         @include checkbox-disabled-checked(contrast);
       }
     }
-
-    &[mode='light'][version='classic'][color='#{$name}'] input[type='checkbox'] {
-      &:disabled:checked ~ .checkmark {
-        @include checkbox-disabled-checked(classicLight);
-      }
-    }
   }
 }
 

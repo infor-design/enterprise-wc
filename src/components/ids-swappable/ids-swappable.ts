@@ -22,6 +22,7 @@ export default class IdsSwappable extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback();
     this.setAttribute('dropzone', 'move');
     this.attachEventListeners();
   }

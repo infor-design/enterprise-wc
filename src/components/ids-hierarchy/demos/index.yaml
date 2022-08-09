@@ -6,6 +6,8 @@
  keywords: Hierarchy, Card, Cards
  examples:
   - link: example.html
+    type: Main Example
     description: Shows minimal hierarchy
   - link: lazy-load.html
+    type: Example
     description: Shows hierarchy with lazy loading

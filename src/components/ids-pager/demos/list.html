@@ -6,18 +6,15 @@
 </head>
 <body>
   <ids-container role="main" padding="8" hidden>
-    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
     <ids-layout-grid auto="true">
       <ids-text font-size="12" type="h1">List Style Pager</ids-text>
     </ids-layout-grid>
 
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
-        <ids-text font-size="12" type="h2">Large - Step: 3 (default)</ids-text>
-        <ids-pager page-size="20" page-number="10" total="1500">
-          <ids-pager-button previous></ids-pager-button>
-          <ids-pager-number-list></ids-pager-number-list>
-          <ids-pager-button next></ids-pager-button>
+        <ids-text font-size="12" type="h2">Large - Step: 3</ids-text>
+        <ids-pager type="list" step="3" page-size="20" page-number="10" total="1500">
         </ids-pager>
       </ids-layout-grid-cell>
     </ids-layout-grid>
@@ -25,10 +22,7 @@
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
         <ids-text font-size="12" type="h2">Medium - Step: 2</ids-text>
-        <ids-pager page-size="20" page-number="10" total="1500">
-          <ids-pager-button previous></ids-pager-button>
-          <ids-pager-number-list step="2"></ids-pager-number-list>
-          <ids-pager-button next></ids-pager-button>
+        <ids-pager type="list" step="2" page-size="20" page-number="10" total="1500">
         </ids-pager>
       </ids-layout-grid-cell>
     </ids-layout-grid>
@@ -36,21 +30,15 @@
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
         <ids-text font-size="12" type="h2">Small - Step: 1</ids-text>
-        <ids-pager page-size="20" page-number="10" total="1500">
-          <ids-pager-button previous></ids-pager-button>
-          <ids-pager-number-list step="1"></ids-pager-number-list>
-          <ids-pager-button next></ids-pager-button>
+        <ids-pager type="list" step="1" page-size="20" page-number="10" total="1500">
         </ids-pager>
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
-        <ids-text font-size="12" type="h2">Show all - Step: -1</ids-text>
-        <ids-pager page-size="20" page-number="10" total="500">
-          <ids-pager-button previous></ids-pager-button>
-          <ids-pager-number-list step="-1"></ids-pager-number-list>
-          <ids-pager-button next></ids-pager-button>
+        <ids-text font-size="12" type="h2">Show all - Step: 0 (default)</ids-text>
+        <ids-pager type="list" step="0" page-size="20" page-number="10" total="500">
         </ids-pager>
       </ids-layout-grid-cell>
     </ids-layout-grid>
@@ -58,10 +46,7 @@
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
         <ids-text font-size="12" type="h2">Aria-label</ids-text>
-        <ids-pager page-size="20" page-number="10" total="1500">
-          <ids-pager-button label="Previous page" previous></ids-pager-button>
-          <ids-pager-number-list label="Page {num} of {total}"></ids-pager-number-list>
-          <ids-pager-button label="Next page" next></ids-pager-button>
+        <ids-pager type="list" step="3" page-size="20" page-number="10" total="1500">
         </ids-pager>
       </ids-layout-grid-cell>
     </ids-layout-grid>

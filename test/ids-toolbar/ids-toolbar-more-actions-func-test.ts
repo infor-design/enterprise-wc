@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
-import waitFor from '../helpers/wait-for';
+import waitForTimeout from '../helpers/wait-for-timeout';
 import createFromTemplate from '../helpers/create-from-template';
 
 import IdsToolbar from '../../src/components/ids-toolbar/ids-toolbar';
@@ -114,13 +114,13 @@ describe('IdsToolbarMoreActions Component', () => {
   it('can activate/deactivate display of overflowed menu items', async () => {
     sectionMore.overflow = true;
 
-    waitFor(() => expect(sectionMore.querySelector('[more-actions]')).toBeDefined());
-    waitFor(() => expect(sectionMore.overflowItems.length).toBe(4));
+    waitForTimeout(() => expect(sectionMore.querySelector('[more-actions]')).toBeDefined());
+    waitForTimeout(() => expect(sectionMore.overflowItems.length).toBe(4));
 
     sectionMore.overflow = false;
 
-    waitFor(() => expect(sectionMore.querySelector('[more-actions]')).not.toBeDefined());
-    waitFor(() => expect(sectionMore.overflowItems.length).toBe(0));
+    waitForTimeout(() => expect(sectionMore.querySelector('[more-actions]')).not.toBeDefined());
+    waitForTimeout(() => expect(sectionMore.overflowItems.length).toBe(0));
   });
 
   it('always returns a "more" type', () => {
@@ -148,18 +148,17 @@ describe('IdsToolbarMoreActions Component', () => {
   it('can programatically open/close its menu', async () => {
     sectionMore.visible = true;
 
-    waitFor(() => expect(sectionMore.hasAttribute('visible').toBeTruthy()));
+    waitForTimeout(() => expect(sectionMore.hasAttribute('visible').toBeTruthy()));
     expect(sectionMore.visible).toBeTruthy();
 
     sectionMore.visible = false;
 
-    waitFor(() => expect(sectionMore.hasAttribute('visible').toBeFalsy()));
+    waitForTimeout(() => expect(sectionMore.hasAttribute('visible').toBeFalsy()));
     expect(sectionMore.visible).toBeFalsy();
   });
 });
 
-// @TODO need an issue to resolve why this can't find overflow items
-describe.skip('IdsToolbarMoreActions Component (initialized with overflow)', () => {
+describe('IdsToolbarMoreActions Component (initialized with overflow)', () => {
   let toolbar: any;
   let selectedEventListener: any;
 
@@ -186,6 +185,6 @@ describe.skip('IdsToolbarMoreActions Component (initialized with overflow)', () 
     const toolbarElem: any = document.querySelector('#my-toolbar');
     toolbarElem.triggerSelectedEvent(overflowItemButton1);
 
-    waitFor(() => expect(selectedEventListener).toHaveBeenCalledTimes(1));
+    waitForTimeout(() => expect(selectedEventListener).toHaveBeenCalledTimes(1));
   });
 });

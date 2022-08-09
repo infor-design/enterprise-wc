@@ -122,54 +122,6 @@ $split-bar-size: 21px;
       }
     }
   }
-
-  // classic light
-  &[version='classic'][mode='light'] {
-    .ids-splitter-split-bar {
-      border-color: var(--ids-color-palette-graphite-30);
-
-      .split-bar:hover {
-        background-color: var(--ids-color-palette-graphite-20);
-      }
-
-      &[is-dragging] .split-bar,
-      &:focus .split-bar {
-        background-color: var(--ids-color-palette-graphite-20);
-      }
-    }
-  }
-
-  // classic dark
-  &[version='classic'][mode='dark'] {
-    .ids-splitter-split-bar {
-      border-color: var(--ids-color-palette-classic-slate-50);
-
-      .split-bar:hover {
-        background-color: var(--ids-color-palette-classic-slate-70);
-      }
-
-      &[is-dragging] .split-bar,
-      &:focus .split-bar {
-        background-color: var(--ids-color-palette-classic-slate-70);
-      }
-    }
-  }
-
-  // classic contrast
-  &[version='classic'][mode='contrast'] {
-    .ids-splitter-split-bar {
-      border-color: var(--ids-color-palette-graphite-40);
-
-      .split-bar:hover {
-        background-color: var(--ids-color-palette-graphite-30);
-      }
-
-      &[is-dragging] .split-bar,
-      &:focus .split-bar {
-        background-color: var(--ids-color-palette-graphite-30);
-      }
-    }
-  }
 }
 
 ::slotted(ids-splitter-pane) {

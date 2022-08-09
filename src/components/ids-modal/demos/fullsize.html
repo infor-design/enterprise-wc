@@ -10,16 +10,16 @@
 
 <body>
   <ids-container role="main" padding="8" hidden>
-    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
     <ids-modal id="my-modal" aria-labelledby="my-modal-title">
       <ids-text slot="title" font-size="24" type="h2" id="my-modal-title">Active IDS Modal</ids-text>
       <ids-modal-button slot="buttons" id="modal-close-btn" type="primary">
         <span slot="text">OK</span>
       </ids-modal-button>
-      <p align="left">This modal will appear fullsize when the browser viewport is below the <span id="break">"sm (600px)"</span> breakpoint.<br /><br />
+      <ids-text>This modal will appear fullsize when the browser viewport is below the <span id="break">"sm (600px)"</span> breakpoint.<br /><br />
         <ids-text font-size="16">Current Window Width:</ids-text>
         <ids-text class="current-window-width" font-size="16" font-weight="bold"></ids-text>
-      </p>
+      </ids-text>
     </ids-modal>
 
     <ids-layout-grid auto="true">

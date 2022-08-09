@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
    * Variant Toast
    * show toast message with variant settings
    */
-  const isChecked = (sel: any) => document.querySelector(sel)?.checked === 'true';
+  const isChecked = (sel: any) => document.querySelector(sel)?.checked;
   const btnToastVariant = document.querySelector('#btn-toast-variant');
 
   btnToastVariant?.addEventListener('click', () => {

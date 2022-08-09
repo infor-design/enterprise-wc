@@ -5,13 +5,18 @@ import styles from './ids-element.scss';
 
 /**
  * IDS Base Element
+ * TODO: Remove IdsEventsMixins
  */
 export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   constructor() {
     super();
-    this.addBaseName();
-    this.render();
+    this.#addBaseName();
     this.#appendHostCss();
+  }
+
+  /** Run the template when a component Is inserted */
+  connectedCallback() {
+    this.render();
   }
 
   /** Component's name */
@@ -24,10 +29,10 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   state?: Record<string, unknown>;
 
   /**
-   * Add the component name and baseclass
+   * Add the component version and baseclass
    * @private
    */
-  addBaseName() {
+  #addBaseName() {
     // Add the base class and version
     this.name = this.nodeName?.toLowerCase();
     this.IdsVersion = version;
@@ -41,9 +46,25 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
    * @param {string} newValue The property new value
    */
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-    if (oldValue !== newValue) {
-      this[camelCase(name)] = newValue;
-    }
+    // TODO: Prevent double calls
+    if (oldValue === newValue) return;
+
+    /**
+     * Fixes our handling of kebab-to-camelCase conversions in some specific cases
+     * where HTMLElement uses different casing internally.
+     * @param {string} thisName the attribute name to check
+     * @returns {string} corrected camelCase (or not) attribute name
+     */
+    const getAttributeName = (thisName: string): string => {
+      switch (thisName) {
+        case 'tabindex':
+          return (typeof this.tabIndex === 'number') ? 'tabIndex' : 'tabindex';
+        default:
+          return camelCase(thisName);
+      }
+    };
+
+    this[getAttributeName(name)] = newValue;
   }
 
   /**
@@ -57,6 +78,8 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
     }
     delete this.cssStyles;
     delete this.popupOpenEventsTarget;
+    // TODO: Can this be added
+    // delete this.state;
   }
 
   /**
@@ -76,10 +99,11 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
 
   /**
    * Render the component using the defined template.
+   * @param {string} force force to (re)render the component
    * @returns {object} The object for chaining.
    */
-  render() {
-    if (!this.template) {
+  render(force?: boolean) {
+    if ((!this.template || this.shadowRoot) && !force) {
       return this;
     }
 
@@ -102,8 +126,11 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
       this.attachShadow({ mode: 'open' });
     }
 
+    // TODO: Is this the fastest way to do this but why use constructed style sheets
+    // TODO: Can it be done in one shot (including the remove above)
     this.appendStyles();
     template.innerHTML = templateHTML;
+    // TODO: Is insertAdjacentHTML faster than appendChild vs creating a template
     this.shadowRoot?.appendChild(template.content.cloneNode(true));
 
     this.container = this.shadowRoot?.querySelector(`.${this.name}`);
@@ -114,14 +141,6 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
     if (this.shadowRoot?.firstElementChild.nodeName !== 'STYLE' && !this.container) {
       this.container = this.shadowRoot?.firstElementChild;
     }
-
-    // Runs on next next paint to be sure rendered() fully
-    if (this.rendered) {
-      requestAnimationFrame(() => {
-        this.rendered();
-      });
-    }
-
     return this;
   }
 
@@ -175,6 +194,7 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
     if (!win.idsStylesAdded) {
       const doc = (document.head as any);
       const style = document.createElement('style');
+      // TODO This can work without a replace
       style.textContent = styles.replace(':host {', ':root {');
       style.id = 'ids-styles';
       style.setAttribute('nonce', this.nonce);

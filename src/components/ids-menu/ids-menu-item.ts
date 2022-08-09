@@ -34,7 +34,8 @@ export default class IdsMenuItem extends Base {
     // Build state object
     this.state = {};
     Object.keys(MENU_DEFAULTS).forEach((prop) => {
-      this.state[prop] = MENU_DEFAULTS[prop];
+      const attr = this.getAttribute(prop);
+      this.state[prop] = attr || MENU_DEFAULTS[prop];
     });
     this.shouldUpdate = true;
   }
@@ -47,7 +48,7 @@ export default class IdsMenuItem extends Base {
     let disabledClass = '';
     let disabledAttr = '';
     if (this.state?.disabled) {
-      disabledClass = ' is-disabled';
+      disabledClass = ' disabled';
       disabledAttr = ' disabled';
     }
 
@@ -56,40 +57,23 @@ export default class IdsMenuItem extends Base {
 
     // Icon
     let icon = '';
-    if (this.state?.icon) {
-      icon = this.templateDisplayIcon(this.state.icon);
-    }
+    if (this.state?.icon) icon = this.templateDisplayIcon(this.state.icon);
     const iconSlot = `<span class="ids-menu-item-icon" role="presentation"><slot name="icon">${icon}</slot></span>`;
 
     // Selected
     let selectedClass = '';
-    if (this.state?.selected) {
-      selectedClass = ' selected';
-    }
+    if (this.state?.selected) selectedClass = ' selected';
 
     // Submenu
     let submenuClass = '';
-    if (this.submenu) {
-      submenuClass = ' has-submenu';
-    }
+    if (this.submenu) submenuClass = ' has-submenu';
 
     // Tabindex
     let tabindex = 'tabindex="0"';
-    if (this.state?.tabIndex && !this.state?.disabled) {
-      tabindex = ` tabindex="${this.state.tabIndex}"`;
-    }
+    if (this.state?.tabIndex && !this.state?.disabled) tabindex = ` tabindex="${this.state.tabIndex}"`;
 
     // TextAlign
-    let textClass = '';
-    if (this.textAlign === 'center') {
-      textClass = ' text-center';
-    }
-    if (this.textAlign === 'start') {
-      textClass = ' text-start';
-    }
-    if (this.textAlign === 'end') {
-      textClass = ' text-end';
-    }
+    const textClass = ` text-${this.textAlign}`;
 
     // Text
     const textSlot = `<span class="ids-menu-item-text" part="text"><slot></slot></span>`;
@@ -137,37 +121,14 @@ export default class IdsMenuItem extends Base {
   }
 
   /**
-   * Override `attributeChangedCallback` from IdsElement to wrap its normal operation in a
-   * check for a true `shouldUpdate` property.
-   * @param {string} name The property name
-   * @param {string} oldValue The property old value
-   * @param {string} newValue The property new value
-   */
-  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-    if (this.shouldUpdate) {
-      switch (name) {
-      // Convert "tabindex" to "tabIndex"
-        case 'tabindex':
-          if (oldValue !== newValue) {
-            this.tabIndex = Number(newValue);
-          }
-          break;
-        default:
-          super.attributeChangedCallback(name, oldValue, newValue);
-          break;
-      }
-    }
-  }
-
-  /**
    * Menu-level `connectedCallback` implementation
    * @returns {void}
    */
   connectedCallback() {
+    super.connectedCallback();
     this.refresh();
     this.attachEventHandlers();
     this.shouldUpdate = true;
-    super.connectedCallback?.();
   }
 
   /**
@@ -223,7 +184,7 @@ export default class IdsMenuItem extends Base {
    * @returns {HTMLAnchorElement} reference to the Menu Item's anchor
    */
   get a() {
-    return this.shadowRoot.querySelector('a');
+    return this.shadowRoot?.querySelector('a');
   }
 
   /**
@@ -262,6 +223,9 @@ export default class IdsMenuItem extends Base {
     this.state.disabled = trueVal;
 
     const a = this.a;
+
+    if (!a) return;
+
     const shouldUpdate = this.shouldUpdate;
     const currentAttr = this.hasAttribute(attributes.DISABLED);
 
@@ -269,7 +233,7 @@ export default class IdsMenuItem extends Base {
       a.disabled = true;
       a.setAttribute(attributes.DISABLED, '');
       this.tabIndex = -1;
-      this.container.classList.add(attributes.DISABLED);
+      this.container?.classList.add(attributes.DISABLED);
       if (!currentAttr) {
         this.shouldUpdate = false;
         this.setAttribute(attributes.DISABLED, '');
@@ -281,7 +245,7 @@ export default class IdsMenuItem extends Base {
     a.disabled = false;
     a.removeAttribute(attributes.DISABLED);
     this.tabIndex = 0;
-    this.container.classList.remove(attributes.DISABLED);
+    this.container?.classList.remove(attributes.DISABLED);
     if (currentAttr) {
       this.shouldUpdate = false;
       this.removeAttribute(attributes.DISABLED);
@@ -304,10 +268,10 @@ export default class IdsMenuItem extends Base {
     const newValue = stringToBool(val);
     if (newValue) {
       this.setAttribute(attributes.HIDDEN, '');
-      this.container.classList.add(attributes.HIDDEN);
+      this.container?.classList.add(attributes.HIDDEN);
     } else {
       this.removeAttribute(attributes.HIDDEN);
-      this.container.classList.remove(attributes.HIDDEN);
+      this.container?.classList.remove(attributes.HIDDEN);
     }
   }
 
@@ -334,7 +298,7 @@ export default class IdsMenuItem extends Base {
     }
 
     this.state.highlighted = trueVal;
-    this.container.classList[trueVal ? 'add' : 'remove']('highlighted');
+    this.container?.classList[trueVal ? 'add' : 'remove']('highlighted');
   }
 
   /**
@@ -427,7 +391,7 @@ export default class IdsMenuItem extends Base {
    */
   decorateForIcon() {
     const hasIcons = this.group.itemIcons.length > 0;
-    this.container.classList[hasIcons ? 'add' : 'remove']('has-icon');
+    this.container?.classList[hasIcons ? 'add' : 'remove']('has-icon');
   }
 
   /**
@@ -461,7 +425,7 @@ export default class IdsMenuItem extends Base {
    */
   detectSubmenu() {
     const hasSubmenu = this.hasSubmenu;
-    this.container.classList[hasSubmenu ? 'add' : 'remove']('has-submenu');
+    this.container?.classList[hasSubmenu ? 'add' : 'remove']('has-submenu');
     this.decorateSubmenu(hasSubmenu);
     return hasSubmenu;
   }
@@ -472,26 +436,33 @@ export default class IdsMenuItem extends Base {
    * with icons and correct aria attributes
    */
   decorateSubmenu(val: boolean | string) {
-    const icon = this.container.querySelector('ids-icon[icon="dropdown"]');
+    const icon = this.container?.querySelector('ids-icon[icon="dropdown"]');
     if (val === true || val === 'true') {
       if (this.submenu) {
         this.submenu.setAttribute(htmlAttributes.SLOT, 'submenu');
         this.submenu.setAttribute(htmlAttributes.ARIA_EXPANDED, this.submenu.visible ? 'true' : 'false');
       }
-      this.a.setAttribute(htmlAttributes.ROLE, 'button');
-      this.a.setAttribute(htmlAttributes.ARIA_HASPOPUP, 'true');
+      this.a?.setAttribute(htmlAttributes.ROLE, 'button');
+      this.a?.setAttribute(htmlAttributes.ARIA_HASPOPUP, 'true');
       if (!icon) {
-        this.a.insertAdjacentHTML('beforeend', this.templateSubmenuIcon());
+        this.a?.insertAdjacentHTML('beforeend', this.templateSubmenuIcon());
       }
       this.value = null;
     } else {
       if (this.submenu) {
         this.submenu.removeAttribute(htmlAttributes.ARIA_EXPANDED);
       }
-      this.a.setAttribute(htmlAttributes.ROLE, 'menuitem');
-      this.a.removeAttribute(htmlAttributes.ARIA_HASPOPUP);
+      this.a?.setAttribute(htmlAttributes.ROLE, 'menuitem');
+      this.a?.removeAttribute(htmlAttributes.ARIA_HASPOPUP);
       icon?.remove();
     }
+  }
+
+  /**
+   * @returns {boolean} true if this item is able to be selected
+   */
+  get isSelectable(): boolean {
+    return this.group?.select !== null && !this.submenu;
   }
 
   /**
@@ -501,22 +472,21 @@ export default class IdsMenuItem extends Base {
    */
   detectSelectability() {
     const selectType = this.group.select;
-    const isSelectable = selectType !== null && !this.submenu;
-    const check = this.container.querySelector('span.check');
+    const check = this.container?.querySelector('span.check');
 
-    if (isSelectable) {
-      this.container.classList.add(selectType === 'multiple' ? 'has-multi-checkmark' : 'has-checkmark');
-      this.container.classList.remove(selectType === 'multiple' ? 'has-checkmark' : 'has-multi-checkmark');
+    if (this.isSelectable) {
+      this.container?.classList.add(selectType === 'multiple' ? 'has-multi-checkmark' : 'has-checkmark');
+      this.container?.classList.remove(selectType === 'multiple' ? 'has-checkmark' : 'has-multi-checkmark');
       if (!check) {
-        this.a.insertAdjacentHTML('afterbegin', this.templateCheck());
+        this.a?.insertAdjacentHTML('afterbegin', this.templateCheck());
       }
-      this.a.setAttribute(htmlAttributes.ROLE, selectType === 'multiple' ? 'menuitemcheckbox' : 'menuitemradio');
-      this.a.setAttribute(htmlAttributes.ARIA_CHECKED, this.selected ? 'true' : 'false');
+      this.a?.setAttribute(htmlAttributes.ROLE, selectType === 'multiple' ? 'menuitemcheckbox' : 'menuitemradio');
+      this.a?.setAttribute(htmlAttributes.ARIA_CHECKED, this.selected ? 'true' : 'false');
     } else {
-      this.container.classList.remove('has-checkmark', 'has-multi-checkmark');
+      this.container?.classList.remove('has-checkmark', 'has-multi-checkmark');
       check?.remove();
-      this.a.setAttribute(htmlAttributes.ROLE, this.hasSubmenu ? 'button' : 'menuitem');
-      this.a.removeAttribute(htmlAttributes.ARIA_CHECKED);
+      this.a?.setAttribute(htmlAttributes.ROLE, this.hasSubmenu ? 'button' : 'menuitem');
+      this.a?.removeAttribute(htmlAttributes.ARIA_CHECKED);
     }
   }
 
@@ -541,30 +511,40 @@ export default class IdsMenuItem extends Base {
       return;
     }
 
-    // Store true state
-    this.state.selected = trueVal;
-    this.container.classList[trueVal ? 'add' : 'remove']('selected');
-    this.a.setAttribute(htmlAttributes.ARIA_CHECKED, trueVal ? 'true' : 'false');
+    if (this.state.selected !== trueVal) {
+      if (this.isSelectable) {
+        this.state.selected = trueVal;
 
-    // Sync the attribute
-    const shouldUpdate = this.shouldUpdate;
-    const currentAttr = this.hasAttribute(attributes.SELECTED);
-    if (trueVal && !currentAttr) {
-      this.shouldUpdate = false;
-      this.setAttribute(attributes.SELECTED, '');
-      this.shouldUpdate = shouldUpdate;
-    } else if (!trueVal && currentAttr) {
-      this.shouldUpdate = false;
-      this.removeAttribute(attributes.SELECTED);
-      this.shouldUpdate = shouldUpdate;
+        if (trueVal) {
+          this.setAttribute(attributes.SELECTED, '');
+        } else {
+          this.removeAttribute(attributes.SELECTED);
+        }
+
+        this.container?.classList[trueVal ? 'add' : 'remove']('selected');
+        this.a?.setAttribute(htmlAttributes.ARIA_CHECKED, trueVal ? 'true' : 'false');
+      }
+
+      // Build/Fire a `selected` event for performing other actions.
+      // This event only fires when selection type changes.
+      if (trueVal || this.group?.select === 'multiple') {
+        this.triggerEvent(duringEventName, this, {
+          bubbles: true,
+          detail: {
+            elem: this,
+            value: this.value
+          }
+        });
+      }
     }
 
-    // Build/Fire a `selected` event for performing other actions.
-    this.triggerEvent(duringEventName, this, {
+    // This event always fires
+    this.triggerEvent('pick', this, {
       bubbles: true,
       detail: {
         elem: this,
-        value: this.value
+        value: this.value,
+        selected: trueVal
       }
     });
   }
@@ -584,26 +564,28 @@ export default class IdsMenuItem extends Base {
   }
 
   /**
-   * Passes a tabindex attribute from the custom element to the button
+   * Passes a tabindex attribute from the custom element to the hyperlink
    * @param {any} val [number|string] the tabindex value
    * @returns {void}
    */
   set tabIndex(val) {
     const trueVal = Number(val);
     if (this.state.tabIndex !== trueVal) {
+      this.removeAttribute(attributes.TABINDEX);
+
       // Mirror tabindex on the shadow DOM anchor
       if (Number.isNaN(trueVal) || trueVal < -1) {
         this.state.tabIndex = 0;
-        this.a.setAttribute(attributes.TABINDEX, '0');
+        this.a?.setAttribute(attributes.TABINDEX, '0');
       } else {
         this.state.tabIndex = trueVal;
-        this.a.setAttribute(attributes.TABINDEX, `${trueVal}`);
+        this.a?.setAttribute(attributes.TABINDEX, `${trueVal}`);
       }
     }
   }
 
   /**
-   * @returns {any} [number] the current tabindex number for the button
+   * @returns {any} [number] the current tabindex number for the hyperlink
    */
   get tabIndex() {
     return this.state.tabIndex;
@@ -694,7 +676,7 @@ export default class IdsMenuItem extends Base {
     if (!this.hasSubmenu || (this.hasSubmenu && !this.submenu.hidden)) {
       return;
     }
-    this.a.setAttribute(htmlAttributes.ARIA_EXPANDED, 'true');
+    this.a?.setAttribute(htmlAttributes.ARIA_EXPANDED, 'true');
     this.menu.hideSubmenus(this);
     this.submenu.show();
   }
@@ -707,7 +689,7 @@ export default class IdsMenuItem extends Base {
     if (!this.hasSubmenu || (this.hasSubmenu && this.submenu.hidden)) {
       return;
     }
-    this.a.setAttribute(htmlAttributes.ARIA_EXPANDED, 'false');
+    this.a?.setAttribute(htmlAttributes.ARIA_EXPANDED, 'false');
     this.submenu.hide();
   }
 
@@ -717,7 +699,7 @@ export default class IdsMenuItem extends Base {
    * @returns {void}
    */
   focus() {
-    if (!this.hidden && !this.disabled) this.a.focus();
+    if (!this.hidden && !this.disabled) this.a?.focus();
   }
 
   /**

@@ -21,7 +21,7 @@ export default class IdsTabsContext extends Base {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
 
     this.onEvent('tabselect', this, (e: { stopPropagation: () => void; target: { value: any; onAction?: CallableFunction }; }) => {
       e.stopPropagation();
@@ -34,9 +34,10 @@ export default class IdsTabsContext extends Base {
       const content = this.querySelector(`ids-tab-content[value="${e.detail.value}"]`);
       content?.remove();
     });
+    this.#afterConnectedCallback();
   }
 
-  rendered() {
+  #afterConnectedCallback() {
     this.value = this.querySelector('[selected]')?.value;
   }
 

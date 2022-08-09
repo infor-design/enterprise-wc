@@ -78,35 +78,6 @@ describe('Ids Color Component', () => {
     expect(color.popup.visible).toEqual(true);
   });
 
-  it('hides tooltip-popup when IdsColor.tooltip is empty', () => {
-    color.hex = '#000000';
-    color.tooltip = '';
-    color.showTooltip();
-
-    expect(color.getAttribute('tooltip')).toEqual('');
-    expect(color.tooltip).toEqual('');
-    expect(color.popup.innerText).toEqual('');
-    expect(color.popup.visible).toEqual(false);
-  });
-
-  it('hides tooltip when IdsColor.disabled is true', () => {
-    color.hex = '#000000';
-    color.tooltip = 'Black';
-
-    expect(color.hasAttribute('disabled')).toEqual(false);
-    color.disabled = true;
-    expect(color.disabled).toEqual(true);
-    expect(color.hasAttribute('disabled')).toEqual(true);
-    expect(color.getAttribute('disabled')).toEqual('true');
-
-    color.showTooltip();
-
-    expect(color.getAttribute('tooltip')).toEqual('Black');
-    expect(color.tooltip).toEqual('');
-    expect(color.popup.innerText).toEqual('');
-    expect(color.popup.visible).toEqual(false);
-  });
-
   it.skip('shows black checkmark when IdsColor.class contains "light" class', () => {
     color.hex = '#FFFFFF';
     color.classList.add('light');

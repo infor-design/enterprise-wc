@@ -53,13 +53,13 @@ export default class IdsMasthead extends Base {
    */
   get elements() {
     return {
-      logo: this.container.querySelector('#logo-wrapper'),
-      title: this.container.querySelector('#title'),
+      logo: this.container?.querySelector('#logo-wrapper'),
+      title: this.container?.querySelector('#title'),
       sections: {
-        start: this.container.querySelector('ids-toolbar-section#start'),
-        center: this.container.querySelector('ids-toolbar-section#center'),
-        end: this.container.querySelector('ids-toolbar-section#end'),
-        more: this.container.querySelector('ids-toolbar-more-actions#more'),
+        start: this.container?.querySelector('ids-toolbar-section#start'),
+        center: this.container?.querySelector('ids-toolbar-section#center'),
+        end: this.container?.querySelector('ids-toolbar-section#end'),
+        more: this.container?.querySelector('ids-toolbar-more-actions#more'),
       },
     };
   }
@@ -129,7 +129,10 @@ export default class IdsMasthead extends Base {
    */
   set icon(value: string) {
     this.setAttribute(attributes.ICON, value);
-    this.elements.logo.innerHTML = this.logo();
+
+    if (this.elements.logo) {
+      this.elements.logo.innerHTML = this.logo();
+    }
   }
 
   /**
@@ -145,7 +148,10 @@ export default class IdsMasthead extends Base {
    */
   set title(value: string) {
     this.setAttribute(attributes.TITLE, value);
-    this.elements.title.innerHTML = value;
+
+    if (this.elements.title) {
+      this.elements.title.innerHTML = value;
+    }
   }
 
   /**
@@ -213,8 +219,6 @@ export default class IdsMasthead extends Base {
     this.renderBreakpoint();
   }
 
-  rendered() { this.renderBreakpoint(); }
-
   /**
    * Rearranges user's slots in masthead according to desktop, tablet and mobile viewports.
    *
@@ -224,7 +228,7 @@ export default class IdsMasthead extends Base {
     const { start, center, end } = this.slots;
     const { more } = this.elements.sections;
 
-    if (more.menu?.popup) {
+    if (more?.menu?.popup) {
       more.menu.popup.type = 'menu-alt';
     }
 
@@ -232,17 +236,17 @@ export default class IdsMasthead extends Base {
       start.slot = 'start';
       center.slot = 'center';
       end.slot = 'end';
-      more.classList.add('hidden');
+      more?.classList.add('hidden');
     } else if (this.isTablet) {
       start.slot = 'start';
       center.slot = 'more';
       end.slot = 'more';
-      more.classList.remove('hidden');
+      more?.classList.remove('hidden');
     } else if (this.isMobile) {
       start.slot = 'more';
       center.slot = 'more';
       end.slot = 'more';
-      more.classList.remove('hidden');
+      more?.classList.remove('hidden');
     }
 
     this.#restyleButtons();
