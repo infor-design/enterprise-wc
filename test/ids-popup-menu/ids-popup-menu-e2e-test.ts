@@ -1,3 +1,5 @@
+import { AxePuppeteer } from '@axe-core/puppeteer';
+
 describe('Ids Popup Menu e2e Tests', () => {
   const url = 'http://localhost:4444/ids-popup-menu/example.html';
   const menuItemSelector = '#item-six'; // ids-menu-item with sub level ids-popup-menu
@@ -12,11 +14,11 @@ describe('Ids Popup Menu e2e Tests', () => {
     await expect(page.title()).resolves.toMatch('IDS Popup Menu Component');
   });
 
-  // @TODO: Revisit and figure out accessibility issues
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await (expect(page) as any).toPassAxeTests();
+    const results = await new AxePuppeteer(page).analyze();
+    expect(results.violations.length).toBe(0);
   });
 
   it('should open sub popup menu when menu item hovered', async () => {

@@ -1,3 +1,4 @@
+import { AxePuppeteer } from '@axe-core/puppeteer';
 import countObjects from '../helpers/count-objects';
 
 describe('Ids Badge e2e Tests', () => {
@@ -16,7 +17,8 @@ describe('Ids Badge e2e Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
 
     // @TODO: Remove setting after #669 is fixed
-    await (expect(page) as any).toPassAxeTests({ disabledRules: ['color-contrast'] });
+    const results = await new AxePuppeteer(page).disableRules('color-contrast').analyze();
+    expect(results.violations.length).toBe(0);
   });
 
   it('should not have memory leaks', async () => {

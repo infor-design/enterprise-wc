@@ -1,19 +1,19 @@
+import { AxePuppeteer } from '@axe-core/puppeteer';
+
 describe('Ids Progress Chart e2e Tests', () => {
-  const exampleUrl = 'http://localhost:4444/ids-progress-chart/example.html';
+  const url = 'http://localhost:4444/ids-progress-chart/example.html';
 
   it('should not have errors', async () => {
-    await page.goto(exampleUrl, { waitUntil: ['domcontentloaded', 'networkidle0'] });
+    await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0'] });
     await expect(page.title()).resolves.toMatch('IDS Progress Chart Component');
   });
 
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
-    await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
-    /**
-     * TODO: need to discuss w/ design team before enabling axe tests for progress-chart
-     * The colors for ids-color-status-warning and ids-color-status-warning
-     * both fail axe tests against both light and dark mode backgrounds
-     */
-    await (expect(page) as any).toPassAxeTests({ disabledRules: ['color-contrast'] });
+    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    // The colors for ids-color-status-warning and ids-color-status-warning
+    // both fail axe tests against both light and dark mode backgrounds
+    const results = await new AxePuppeteer(page).disableRules(['color-contrast']).analyze();
+    expect(results.violations.length).toBe(0);
   });
 });

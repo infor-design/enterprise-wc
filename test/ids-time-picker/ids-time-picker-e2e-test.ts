@@ -1,3 +1,5 @@
+import { AxePuppeteer } from '@axe-core/puppeteer';
+
 describe('Ids Time Picker e2e Tests', () => {
   const url = 'http://localhost:4444/ids-time-picker/example.html';
   const axeUrl = 'http://localhost:4444/ids-time-picker/open.html';
@@ -5,8 +7,9 @@ describe('Ids Time Picker e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(axeUrl, { waitUntil: ['networkidle2', 'load'] });
+    const results = await new AxePuppeteer(page).disableRules(['aria-valid-attr']).analyze();
     // Using newer aria-description for ids-dropdown
-    await (expect(page) as any).toPassAxeTests({ disabledRules: ['aria-valid-attr'] });
+    expect(results.violations.length).toBe(0);
   });
 
   it('should not have errors', async () => {

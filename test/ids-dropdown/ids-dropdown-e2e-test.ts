@@ -1,3 +1,5 @@
+import { AxePuppeteer } from '@axe-core/puppeteer';
+
 describe('Ids Dropdown e2e Tests', () => {
   const url = 'http://localhost:4444/ids-dropdown/example.html';
 
@@ -14,6 +16,7 @@ describe('Ids Dropdown e2e Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
 
     // Using newer aria-description
-    await (expect(page) as any).toPassAxeTests({ disabledRules: ['aria-valid-attr', 'color-contrast'] });
+    const results = await new AxePuppeteer(page).disableRules(['aria-valid-attr', 'color-contrast']).analyze();
+    expect(results.violations.length).toBe(0);
   });
 });

@@ -483,17 +483,20 @@ it('should not have errors', async () => {
 Add axe test.
 
 ```js
-it('should pass Axe accessibility tests', async () => {
-  await page.setBypassCSP(true);
-  await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-  await (expect(page) as any).toPassAxeTests();
-});
+  import { AxePuppeteer } from '@axe-core/puppeteer';
+  ...
+  it('should pass Axe accessibility tests', async () => {
+    await page.setBypassCSP(true);
+    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    const results = await new AxePuppeteer(page).analyze();
+    expect(results.violations.length).toBe(0);
+  });
 ```
 
 Note that you can ignore some rules if they do not make sense. For example some designs might not be accessible for color contrast.
 
 ```js
-await (expect(page) as any).toPassAxeTests({ disabledRules: ['color-contrast', 'aria-required-children', 'aria-required-parent'] });
+await new AxePuppeteer(page).disableRules(['color-contrast', 'region']).analyze();
 ```
 
 In the future we will add many more e2e tests, including tests for BDD (test steps for QA).

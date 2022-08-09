@@ -1,3 +1,5 @@
+import { AxePuppeteer } from '@axe-core/puppeteer';
+
 describe('Ids Date Picker e2e Tests', () => {
   const url = 'http://localhost:4444/ids-date-picker/example.html';
   const axeUrl = 'http://localhost:4444/ids-date-picker/axe.html';
@@ -5,7 +7,8 @@ describe('Ids Date Picker e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(axeUrl, { waitUntil: ['networkidle2', 'load'] });
-    await (expect(page) as any).toPassAxeTests();
+    const results = await new AxePuppeteer(page).analyze();
+    expect(results.violations.length).toBe(0);
   });
 
   it('should not have errors', async () => {
