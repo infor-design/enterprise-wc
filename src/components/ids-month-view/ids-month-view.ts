@@ -879,7 +879,7 @@ class IdsMonthView extends Base {
     if (rangeStarted && !maxRangeExceeded && (canSelectBoth || selectBackward || selectForward)) {
       if (minRangeExceeded) {
         this.rangeSettings.end = dateTime >= startTime ? minRangeDate.getTime() : this.rangeSettings.start;
-        this.rangeSettings.start = dateTime <= startTime ? minRangeDate.getTime() : this.rangeSettings.start;
+        this.rangeSettings.start = subtractDate(this.rangeSettings.end, (minDays as number), 'days');
 
         this.#renderRangeSelection();
 
