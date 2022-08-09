@@ -105,8 +105,8 @@ export default class IdsUpload extends Base {
    */
   connectedCallback(): void {
     super.connectedCallback();
-    this.trigger = this.shadowRoot.querySelector('.trigger');
-    this.fileInput = this.shadowRoot.querySelector(`#${ID}`);
+    this.trigger = this.shadowRoot?.querySelector('.trigger');
+    this.fileInput = this.shadowRoot?.querySelector(`#${ID}`);
 
     this.files = this.fileInput.files;
     this.#attachEventHandlers();
@@ -148,7 +148,7 @@ export default class IdsUpload extends Base {
         </label>
         <input id="${ID}" type="file" class="ids-upload-filetype" aria-hidden="true" tabindex="-1"${accept}${multiple}${value} />
         <ids-trigger-field
-          readonly
+          readonly="true"
           ${readonlyBG}
           ${colorVariant}${fieldHeight}${compact}${noMargins}${labelState}
           ${clearableForced}${dirtyTracker}${disabled}${label}${placeholder}${size}${validate}${validationEvents}${textEllipsis}${value}
@@ -196,7 +196,7 @@ export default class IdsUpload extends Base {
   /**
    * Dispatch change event
    * @private
-   * @param  {object} e Actual event
+   * @param {object} e Actual event
    * @returns {void}
    */
   dispatchChangeEvent(e: CustomEvent): void {
@@ -204,8 +204,8 @@ export default class IdsUpload extends Base {
      * Trigger event on parent and compose the args
      * will fire change event
      * @private
-     * @param  {object} elem Actual event
-     * @param  {string} value The updated input element value
+     * @param {object} elem Actual event
+     * @param {string} value The updated input element value
      */
     this.triggerEvent('change', this, {
       detail: {
@@ -349,7 +349,7 @@ export default class IdsUpload extends Base {
    * @returns {any} The textInput element
    */
   get textInput(): any {
-    return this.shadowRoot.querySelector('ids-trigger-field');
+    return this.shadowRoot?.querySelector('ids-trigger-field');
   }
 
   /**
@@ -444,7 +444,7 @@ export default class IdsUpload extends Base {
    * @param {string | undefined} value The label for filetype
    */
   set labelFiletype(value: string | undefined) {
-    const labelEL = this.shadowRoot.querySelector('.label-filetype');
+    const labelEL = this.shadowRoot?.querySelector('.label-filetype');
     if (value) {
       this.setAttribute(attributes.LABEL_FILETYPE, value);
       labelEL.textContent = value;
@@ -479,7 +479,7 @@ export default class IdsUpload extends Base {
    * @param {boolean|string} value of the `multiple` property
    */
   set multiple(value: boolean | string) {
-    this.fileInput = this.shadowRoot.querySelector(`#${ID}`);
+    this.fileInput = this.shadowRoot?.querySelector(`#${ID}`);
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.MULTIPLE, val.toString());
@@ -557,12 +557,12 @@ export default class IdsUpload extends Base {
 
     if (val) {
       this.setAttribute(attributes.READONLY, val.toString());
-      this.container.classList.add(attributes.READONLY);
+      this.container?.classList.add(attributes.READONLY);
       this.textInput.readonlyBackground = false;
       this.trigger.readonly = true;
     } else {
       this.removeAttribute(attributes.READONLY);
-      this.container.classList.remove(attributes.READONLY);
+      this.container?.classList.remove(attributes.READONLY);
       this.textInput.readonlyBackground = true;
       this.trigger.readonly = false;
     }
@@ -609,7 +609,7 @@ export default class IdsUpload extends Base {
    * @param {string | null} value The label for trigger button
    */
   set triggerLabel(value: string | null) {
-    const labelEL = this.shadowRoot.querySelector('.trigger-label');
+    const labelEL = this.shadowRoot?.querySelector('.trigger-label');
     if (value) {
       this.setAttribute(attributes.TRIGGER_LABEL, value);
       labelEL.textContent = value;
@@ -660,11 +660,11 @@ export default class IdsUpload extends Base {
   set value(val: string | null) {
     if (val) {
       this.setAttribute(attributes.VALUE, val);
-      this.textInput.value = val;
+      if (this.textInput) this.textInput.value = val;
     } else {
       this.removeAttribute(attributes.VALUE);
       this.fileInput.value = null;
-      this.textInput.value = '';
+      if (this.textInput) this.textInput.value = '';
     }
     this.files = this.fileInput.files;
   }

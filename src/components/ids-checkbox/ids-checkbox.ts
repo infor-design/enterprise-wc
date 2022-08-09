@@ -4,7 +4,6 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-checkbox-base';
 import '../ids-text/ids-text';
-import attribs from './ids-checkbox-attributes';
 
 import styles from './ids-checkbox.scss';
 
@@ -48,8 +47,7 @@ export default class IdsCheckbox extends Base {
       attributes.LABEL_REQUIRED,
       attributes.LABEL_AUDIBLE,
       attributes.VALUE,
-      attributes.MODE,
-      attributes.VERSION
+      attributes.MODE
     ];
   }
 
@@ -61,35 +59,14 @@ export default class IdsCheckbox extends Base {
   #triggeredChange = false;
 
   /**
-   * Custom Element `attributeChangedCallback` implementation
-   * @param {string} name The name of attribute changed
-   * @param {any} oldValue The old value
-   * @param {any} newValue The new value
-   * @returns {void}
-   */
-  attributeChangedCallback(
-    name: string,
-    oldValue: any,
-    newValue: any
-  ): void {
-    if (oldValue !== newValue) {
-      attribs.forEach((attribute) => {
-        if (name === attribute.name) {
-          this[attribute.prop] = newValue;
-        }
-      });
-    }
-  }
-
-  /**
    * Custom Element `connectedCallback` implementation
    * @returns {void}
    */
   connectedCallback(): void {
+    super.connectedCallback();
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
     this.#attachEventHandlers();
-    super.connectedCallback();
   }
 
   /**
@@ -97,10 +74,6 @@ export default class IdsCheckbox extends Base {
    * @returns {string} The template.
    */
   template(): string {
-    if (!this.label && !this.labelAudible) {
-      this.label = '&nbsp;';
-    }
-
     // Checkbox
     const color = this.color ? ` color="${this.color}"` : '';
     const audible = stringToBool(this.labelAudible) ? ' audible="true"' : '';
@@ -184,22 +157,29 @@ export default class IdsCheckbox extends Base {
    * @param {boolean|string} value If true will set `checked` attribute
    */
   set checked(value: boolean | string) {
-    const checkmark = this.shadowRoot.querySelector('.checkmark');
     const val = stringToBool(value);
     if (this.checked === val) {
       return;
     }
+
     if (val) {
       this.setAttribute(attributes.CHECKED, val);
-      checkmark?.classList.add(attributes.CHECKED);
-      if (this.input) {
-        this.input.checked = true;
-      }
     } else {
       this.removeAttribute(attributes.CHECKED);
-      checkmark?.classList.remove(attributes.CHECKED);
-      if (this.input) {
-        this.input.checked = false;
+    }
+
+    const checkmark = this.shadowRoot?.querySelector('.checkmark');
+    if (checkmark) {
+      if (val) {
+        checkmark?.classList.add(attributes.CHECKED);
+        if (this.input) {
+          this.input.checked = true;
+        }
+      } else {
+        checkmark?.classList.remove(attributes.CHECKED);
+        if (this.input) {
+          this.input.checked = false;
+        }
       }
     }
 
@@ -216,7 +196,7 @@ export default class IdsCheckbox extends Base {
    * @param {boolean|string} value If true will set `color` attribute
    */
   set color(value: boolean | string) {
-    const rootEl = this.shadowRoot.querySelector('.ids-checkbox');
+    const rootEl = this.shadowRoot?.querySelector('.ids-checkbox');
     if (value) {
       this.setAttribute(attributes.COLOR, value.toString());
       rootEl?.setAttribute(attributes.COLOR, value.toString());
@@ -233,7 +213,7 @@ export default class IdsCheckbox extends Base {
    * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value: boolean | string) {
-    const rootEl = this.shadowRoot.querySelector('.ids-checkbox');
+    const rootEl = this.shadowRoot?.querySelector('.ids-checkbox');
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
@@ -255,7 +235,7 @@ export default class IdsCheckbox extends Base {
    * @param {boolean|string} value If true will set `horizontal` attribute
    */
   set horizontal(value: boolean | string) {
-    const rootEl = this.shadowRoot.querySelector('.ids-checkbox');
+    const rootEl = this.shadowRoot?.querySelector('.ids-checkbox');
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.HORIZONTAL, val.toString());
@@ -308,7 +288,14 @@ export default class IdsCheckbox extends Base {
     }
   }
 
-  get label(): boolean | string { return this.getAttribute(attributes.LABEL) || ''; }
+  get label(): boolean | string {
+    const attr = this.getAttribute(attributes.LABEL);
+    const labelAudibleAttr = this.getAttribute(attributes.LABEL_AUDIBLE);
+    if (!attr && !labelAudibleAttr) {
+      return '&nbsp;';
+    }
+    return attr || '';
+  }
 
   /**
    * Set the `label-audible` attribute
@@ -324,7 +311,14 @@ export default class IdsCheckbox extends Base {
     }
   }
 
-  get labelAudible(): boolean | string { return this.getAttribute(attributes.LABEL_AUDIBLE); }
+  get labelAudible(): boolean | string {
+    const attr = this.getAttribute(attributes.LABEL_AUDIBLE);
+    const labelAttr = this.getAttribute(attributes.LABEL);
+    if (!labelAttr && !attr) {
+      return '&nbsp;';
+    }
+    return attr;
+  }
 
   /**
    * Sets the checkbox to required

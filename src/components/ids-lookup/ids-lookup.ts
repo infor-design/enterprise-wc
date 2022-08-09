@@ -68,7 +68,6 @@ export default class IdsLookup extends Base {
     this
       .#handleEvents()
       .#handleKeys();
-    super.connectedCallback();
   }
 
   /**
@@ -89,8 +88,7 @@ export default class IdsLookup extends Base {
       attributes.READONLY,
       attributes.TABBABLE,
       attributes.TITLE,
-      attributes.VALUE,
-      attributes.VERSION
+      attributes.VALUE
     ];
   }
 
@@ -175,7 +173,7 @@ export default class IdsLookup extends Base {
    */
   onDirtyTrackerChange(value: boolean) {
     if (value) {
-      this.container?.setAttribute(attributes.DIRTY_TRACKER, value);
+      this.container?.setAttribute(attributes.DIRTY_TRACKER, value.toString());
     } else {
       this.container?.removeAttribute(attributes.DIRTY_TRACKER);
     }

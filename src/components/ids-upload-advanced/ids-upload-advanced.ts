@@ -62,7 +62,6 @@ export default class IdsUploadAdvanced extends Base {
       attributes.PARAM_NAME,
       attributes.SHOW_BROWSE_LINK,
       attributes.URL,
-      attributes.VERSION,
       attributes.MODE
     ];
   }
@@ -72,13 +71,12 @@ export default class IdsUploadAdvanced extends Base {
    * @returns {void}
    */
   connectedCallback(): void {
+    super.connectedCallback();
     this.fileInput = this.shadowRoot.querySelector('.file-input');
     this.droparea = this.shadowRoot.querySelector('.droparea');
 
     this.files = [];
-
     this.#attachEventHandlers();
-    super.connectedCallback?.();
   }
 
   /**
@@ -377,6 +375,7 @@ export default class IdsUploadAdvanced extends Base {
    * @returns {void}
    */
   setDisabled(): void {
+    if (!this.shadowRoot) return;
     const rootEl = this.shadowRoot.querySelector('.ids-upload-advanced');
     const alertError = this.shadowRoot.querySelector('.errorarea .status ids-alert');
     const link = this.shadowRoot.querySelector('ids-hyperlink');

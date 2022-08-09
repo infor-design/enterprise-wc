@@ -552,7 +552,7 @@ describe('IdsEditor Component', () => {
     expect(content).toEqual('<img src="test.png" />');
   });
 
-  it('should dirty tracking', async () => {
+  it('should handle dirty tracking', async () => {
     container.setLanguage('ar');
     await processAnimFrame();
     editor.dirtyTracker = true;

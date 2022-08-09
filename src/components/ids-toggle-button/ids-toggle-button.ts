@@ -21,14 +21,6 @@ const DEFAULT_ICON_ON = 'star-filled';
 export default class IdsToggleButton extends Base {
   constructor() {
     super();
-    this.icons = {
-      off: DEFAULT_ICON_OFF,
-      on: DEFAULT_ICON_ON
-    };
-    this.texts = {
-      off: '',
-      on: ''
-    };
   }
 
   /**
@@ -49,7 +41,7 @@ export default class IdsToggleButton extends Base {
    * @returns {void}
    */
   connectedCallback(): void {
-    super.connectedCallback?.();
+    super.connectedCallback();
     this.refreshIcon();
     this.refreshText();
   }
@@ -100,14 +92,8 @@ export default class IdsToggleButton extends Base {
    * @returns {void}
    */
   set iconOff(val: string) {
-    let isValid = false;
     if (typeof val === 'string' && val.length) {
-      isValid = true;
-    }
-    this.icons.off = isValid ? val : DEFAULT_ICON_OFF;
-
-    if (isValid) {
-      this.setAttribute('icon-off', this.icons.off);
+      this.setAttribute('icon-off', val);
     } else {
       this.removeAttribute('icon-off');
     }
@@ -119,7 +105,7 @@ export default class IdsToggleButton extends Base {
    * @returns {string} the current icon representing the `unpressed/off` state
    */
   get iconOff(): string {
-    return this.icons.off;
+    return this.getAttribute('icon-off') || DEFAULT_ICON_OFF;
   }
 
   /**
@@ -128,14 +114,8 @@ export default class IdsToggleButton extends Base {
    * @returns {void}
    */
   set iconOn(val: string) {
-    let isValid = false;
     if (typeof val === 'string' && val.length) {
-      isValid = true;
-    }
-    this.icons.on = isValid ? val : DEFAULT_ICON_ON;
-
-    if (isValid) {
-      this.setAttribute('icon-on', this.icons.on);
+      this.setAttribute('icon-on', val);
     } else {
       this.removeAttribute('icon-on');
     }
@@ -146,7 +126,7 @@ export default class IdsToggleButton extends Base {
    * @returns {string} the current icon representing the `pressed/on` state
    */
   get iconOn(): string {
-    return this.icons.on;
+    return this.getAttribute('icon-on') || DEFAULT_ICON_ON;
   }
 
   /**
@@ -156,11 +136,9 @@ export default class IdsToggleButton extends Base {
    */
   set textOff(val: string) {
     if (typeof val !== 'string' || !val.length) {
-      this.texts.off = '';
       this.removeAttribute('text-off');
     } else {
-      this.texts.off = val;
-      this.setAttribute('text-off', this.texts.off);
+      this.setAttribute('text-off', val);
     }
     this.refreshText();
   }
@@ -169,7 +147,7 @@ export default class IdsToggleButton extends Base {
    * @returns {string} the current icon representing the `unpressed/off` state
    */
   get textOff(): string {
-    return this.texts.off;
+    return this.getAttribute('text-off') || '';
   }
 
   /**
@@ -179,11 +157,9 @@ export default class IdsToggleButton extends Base {
    */
   set textOn(val: string) {
     if (typeof val !== 'string' || !val.length) {
-      this.texts.on = '';
       this.removeAttribute('text-on');
     } else {
-      this.texts.on = val;
-      this.setAttribute('text-on', this.texts.on);
+      this.setAttribute('text-on', val);
     }
     this.refreshText();
   }
@@ -192,7 +168,7 @@ export default class IdsToggleButton extends Base {
    * @returns {string} the current icon representing the `pressed/on` state
    */
   get textOn(): string {
-    return this.texts.on;
+    return this.getAttribute('text-on') || '';
   }
 
   /**

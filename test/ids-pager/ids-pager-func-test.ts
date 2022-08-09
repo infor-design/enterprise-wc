@@ -66,7 +66,7 @@ const HTMLSnippets = {
   )
 };
 
-describe('IdsPager Component', () => {
+describe.skip('IdsPager Component', () => {
   let elem: any;
   let container: any;
 

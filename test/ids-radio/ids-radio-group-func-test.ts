@@ -41,7 +41,7 @@ describe('IdsRadioGroup Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('should dirty tracking', () => {
+  it('should handle dirty tracking', () => {
     expect(rg.getAttribute('dirty-tracker')).toEqual(null);
     expect(rg.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
     expect(rg.labelEl.querySelector('.msg-dirty')).toBeFalsy();
@@ -374,7 +374,7 @@ describe('IdsRadioGroup Component', () => {
     });
   });
 
-  it('should renders template', () => {
+  it('should render template', () => {
     document.body.innerHTML = '';
     const html = '<ids-radio-group label="test" value="test-val" disabled="true" horizontal="true"></ids-radio-group>';
     document.body.innerHTML = html;

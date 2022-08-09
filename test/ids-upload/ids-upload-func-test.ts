@@ -105,7 +105,6 @@ describe('IdsUpload Component', () => {
     upload.fieldHeight = 'lg';
     upload.labelState = 'hidden';
     upload.noMargins = true;
-    upload.template();
     expect(upload.fileInput.getAttribute('accept')).toEqual('.jpg');
     expect(upload.fileInput.getAttribute('multiple')).toEqual('multiple');
     expect(upload.textInput.getAttribute('dirty-tracker')).toEqual('true');
@@ -121,7 +120,6 @@ describe('IdsUpload Component', () => {
     expect(upload.textInput.labelState).toEqual('hidden');
     expect(upload.textInput.noMargins).toEqual(true);
     upload.compact = true;
-    upload.template();
     expect(upload.textInput.compact).toEqual(true);
   });
 
@@ -150,7 +148,7 @@ describe('IdsUpload Component', () => {
     expect(upload.textInput.disabled).toBe(false);
     upload.disabled = true;
     expect(upload.getAttribute('disabled')).toBeTruthy();
-    expect(upload.textInput.readonly).toBe(true);
+    expect(upload.textInput.readonly).toBe(false);
     expect(upload.textInput.disabled).toBe(true);
     upload.disabled = false;
     expect(upload.getAttribute('disabled')).toEqual(null);

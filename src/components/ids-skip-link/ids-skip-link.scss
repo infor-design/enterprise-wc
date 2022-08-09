@@ -40,18 +40,3 @@
   @include bg-slate-10();
   @include border-slate-60();
 }
-
-.ids-hyperlink[version='classic'][mode='light'] {
-  @include bg-white();
-  @include border-graphite-30();
-}
-
-.ids-hyperlink[version='classic'][mode='dark'] {
-  @include bg-classic-slate-70();
-  @include border-classic-slate-50();
-}
-
-.ids-hyperlink[version='classic'][mode='contrast'] {
-  @include bg-graphite-10();
-  @include border-graphite-60();
-}

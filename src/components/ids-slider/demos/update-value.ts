@@ -16,5 +16,5 @@ document.addEventListener('DOMContentLoaded', () => {
     input.value = formatValue(e.detail.value);
   };
   slider.onEvent('ids-slider-drag', slider, changeInputOnSliderChange);
-  slider.onEvent('change', slider, changeInputOnSliderChange);
+  slider.onEvent('input', slider, changeInputOnSliderChange);
 });

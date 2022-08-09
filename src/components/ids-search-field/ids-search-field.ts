@@ -59,9 +59,9 @@ export default class IdsSearchField extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback();
     this.#attachEventHandlers();
     this.#attachKeyboardListener();
-    super.connectedCallback();
 
     if (!this.placeholder) {
       this.placeholder = DEFAULT_PLACEHOLDER;

@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Preconfigure the Popup
   popupEl.align = 'top, left';
 
-  // Log to the console on `selected`
-  popupmenuEl.addEventListener('selected', (e: any) => {
-    console.info(`Item "${e.detail.elem.text}" was selected`);
+  // Log to the console on `deselected` (selected events are covered by index.ts)
+  popupmenuEl.addEventListener('deselected', (e: any) => {
+    console.info(`Item "${e.detail.elem.text}" was deselected`);
   });
 });

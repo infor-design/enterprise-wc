@@ -55,15 +55,3 @@
     background-color: var(--ids-color-palette-slate-60);
   }
 }
-
-.ids-separator[version='classic'][mode='light'] {
-  @include text-classic-slate-30();
-}
-
-.ids-separator[version='classic'][mode='dark'] {
-  @include bg-classic-slate-50();
-}
-
-.ids-separator[version='classic'][mode='contrast'] {
-  @include bg-graphite-60();
-}

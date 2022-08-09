@@ -23,7 +23,7 @@ export default class IdsProcessStep extends Base {
   }
 
   connectedCallback(): void {
-    super.connectedCallback?.();
+    super.connectedCallback();
 
     requestAnimationFrame(() => {
       const parentElement = this.parentElement;
@@ -71,7 +71,9 @@ export default class IdsProcessStep extends Base {
         <ids-text part="label" hidden class="label">
           ${this.label}
         </ids-text>
-        <span class="step"></span>
+        <span class="step">
+          ${this.#getStatusIcon(this.status)}
+        </span>
         <div class="details">
           <slot name="detail"></slot>
         </div>
@@ -136,6 +138,19 @@ export default class IdsProcessStep extends Base {
   }
 
   /**
+   * Get step icon based on status
+   * @param {string} status step status
+   * @returns {string} icon template
+   */
+  #getStatusIcon(status: string): string {
+    if (status === 'cancelled') {
+      return `<ids-icon icon="close" size="xsmall"></ids-icon>`;
+    }
+
+    return '';
+  }
+
+  /**
    * Sets the label for the step
    * @param {string} value The step name
    */
@@ -160,13 +175,15 @@ export default class IdsProcessStep extends Base {
     if (statuses.includes(val)) {
       this.#setString(attributes.STATUS, val);
 
-      const idsIcons = this.container.querySelectorAll('ids-icon');
-      if (idsIcons.length > 0) {
-        idsIcons.forEach((icon: HTMLElement) => icon.remove());
-      }
+      this.container
+        ?.querySelectorAll('ids-icon')
+        ?.forEach((icon: Element) => icon.remove());
 
-      if (val === 'cancelled') {
-        this.container.querySelector('.step').insertAdjacentHTML('beforeend', `<ids-icon icon="close" size="xsmall"></ids-icon>`);
+      const statusIcon = this.#getStatusIcon(val);
+      if (statusIcon) {
+        this.container
+          ?.querySelector('.step')
+          ?.insertAdjacentHTML('beforeend', `<ids-icon icon="close" size="xsmall"></ids-icon>`);
       }
     }
   }

@@ -10,12 +10,12 @@ exports[`IdsDataGrid Component Paging Tests renders pager 1`] = `
 exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
 "<style nonce=\\"0a59a005\\">:host { background-color: transparent; }</style><div class=\\"ids-data-grid-wrapper\\">
       <span class=\\"ids-data-grid-sort-arrows\\"></span>
-      <div class=\\"ids-data-grid\\" role=\\"table\\" part=\\"table\\" aria-label=\\"Data Grid\\" data-row-height=\\"lg\\" mode=\\"light\\" version=\\"new\\" style=\\"--ids-data-grid-column-widths: 20px 65px minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) ;\\">
+      <div class=\\"ids-data-grid\\" role=\\"table\\" part=\\"table\\" aria-label=\\"Data Grid\\" data-row-height=\\"lg\\" mode=\\"light\\" style=\\"--ids-data-grid-column-widths: 20px 65px minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) ;\\">
       <div class=\\"ids-data-grid-header\\" role=\\"rowgroup\\" part=\\"header\\">
         <div role=\\"row\\" class=\\"ids-data-grid-row\\">
           
       <span class=\\"ids-data-grid-header-cell align-center\\" part=\\"header-cell\\" aria-colindex=\\"1\\" column-id=\\"selectionCheckbox\\" role=\\"columnheader\\">
-        <span class=\\"ids-data-grid-header-cell-content vertical-align-center\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           <span class=\\"ids-data-grid-checkbox-container\\">
         <span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-data-grid-checkbox\\">
@@ -892,25 +892,25 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
       </div>
     
       </div>
-    </div></div><ids-pager page-number=\\"1\\" page-size=\\"10\\" total=\\"9\\">
-      <ids-pager-button first=\\"\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\" total=\\"9\\"></ids-pager-button>
-      <ids-pager-button previous=\\"\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\" total=\\"9\\"></ids-pager-button>
-      <ids-pager-input page-number=\\"1\\" page-size=\\"10\\" total=\\"9\\"></ids-pager-input>
-      <ids-pager-button next=\\"\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\" total=\\"9\\"></ids-pager-button>
-      <ids-pager-button last=\\"\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\" total=\\"9\\"></ids-pager-button>
+    </div><ids-pager page-size=\\"10\\" page-number=\\"1\\" total=\\"9\\">
+      <ids-pager-button first=\\"\\" total=\\"9\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\"></ids-pager-button>
+      <ids-pager-button previous=\\"\\" total=\\"9\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\"></ids-pager-button>
+      <ids-pager-input total=\\"9\\" page-number=\\"1\\" page-size=\\"10\\"></ids-pager-input>
+      <ids-pager-button next=\\"\\" total=\\"9\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\"></ids-pager-button>
+      <ids-pager-button last=\\"\\" total=\\"9\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\"></ids-pager-button>
       <div slot=\\"end\\">
-        <ids-menu-button id=\\"pager-size-menu-button\\" menu=\\"pager-size-menu\\" role=\\"button\\" dropdown-icon=\\"\\" aria-controls=\\"pager-size-menu\\">
+        <ids-menu-button id=\\"pager-size-menu-button\\" menu=\\"pager-size-menu\\" role=\\"button\\" dropdown-icon=\\"dropdown\\" aria-controls=\\"pager-size-menu\\">
           <span slot=\\"text\\">10 Records per page</span>
         </ids-menu-button>
         <ids-popup-menu id=\\"pager-size-menu\\" target=\\"#pager-size-menu-button\\" trigger-type=\\"click\\" role=\\"none\\" hidden=\\"\\">
-          <ids-menu-group role=\\"group\\" aria-label=\\"Menu group containing 5 item(s)\\" style=\\"min-width: 175px; text-align: left;\\">
-            <ids-menu-item icon=\\"no-check\\" value=\\"5\\"><ids-icon slot=\\"icon\\" size=\\"medium\\" part=\\"icon\\" class=\\"ids-icon ids-menu-item-display-icon\\"></ids-icon>5</ids-menu-item>
-            <ids-menu-item icon=\\"no-check\\" value=\\"10\\"><ids-icon slot=\\"icon\\" size=\\"medium\\" part=\\"icon\\" class=\\"ids-icon ids-menu-item-display-icon\\"></ids-icon>10</ids-menu-item>
-            <ids-menu-item icon=\\"no-check\\" value=\\"25\\"><ids-icon slot=\\"icon\\" size=\\"medium\\" part=\\"icon\\" class=\\"ids-icon ids-menu-item-display-icon\\"></ids-icon>25</ids-menu-item>
-            <ids-menu-item icon=\\"no-check\\" value=\\"50\\"><ids-icon slot=\\"icon\\" size=\\"medium\\" part=\\"icon\\" class=\\"ids-icon ids-menu-item-display-icon\\"></ids-icon>50</ids-menu-item>
-            <ids-menu-item icon=\\"no-check\\" value=\\"100\\"><ids-icon slot=\\"icon\\" size=\\"medium\\" part=\\"icon\\" class=\\"ids-icon ids-menu-item-display-icon\\"></ids-icon>100</ids-menu-item>
+          <ids-menu-group select=\\"single\\" role=\\"group\\" aria-label=\\"Menu group containing 5 item(s)\\" style=\\"min-width: 175px; text-align: left;\\">
+            <ids-menu-item value=\\"5\\">5</ids-menu-item>
+            <ids-menu-item value=\\"10\\">10</ids-menu-item>
+            <ids-menu-item value=\\"25\\">25</ids-menu-item>
+            <ids-menu-item value=\\"50\\">50</ids-menu-item>
+            <ids-menu-item value=\\"100\\">100</ids-menu-item>
           </ids-menu-group>
         </ids-popup-menu>
       </div>
-    </ids-pager>"
+    </ids-pager></div>"
 `;

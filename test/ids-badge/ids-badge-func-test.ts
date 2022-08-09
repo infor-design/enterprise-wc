@@ -102,8 +102,23 @@ describe('IdsBadge Component', () => {
     expect(badge.container.getAttribute('mode')).toEqual('dark');
   });
 
-  it('supports setting version', () => {
-    badge.version = 'classic';
-    expect(badge.container.getAttribute('version')).toEqual('classic');
+  it('should be able to set attributes before append', async () => {
+    const elem: any = new IdsBadge();
+    elem.color = 'error';
+    elem.shape = 'round';
+    document.body.appendChild(elem);
+
+    expect(elem.container.getAttribute('color')).toEqual('error');
+    expect(elem.container.classList.contains('round')).toBeTruthy();
+  });
+
+  it('should be able to set attributes after append', async () => {
+    const elem: any = new IdsBadge();
+    document.body.appendChild(elem);
+    elem.color = 'error';
+    elem.shape = 'round';
+
+    expect(elem.container.classList.contains('round')).toBeTruthy();
+    expect(elem.container.getAttribute('color')).toEqual('error');
   });
 });

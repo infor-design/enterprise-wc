@@ -370,7 +370,7 @@ describe('IdsInput Component', () => {
     expect(input.labelEl.querySelector('.msg-dirty')).toBeFalsy();
   });
 
-  it('should dirty tracking', () => {
+  it('should handle dirty tracking', () => {
     expect(input.getAttribute('dirty-tracker')).toEqual(null);
     expect(input.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
     expect(input.labelEl.querySelector('.msg-dirty')).toBeFalsy();
@@ -668,11 +668,6 @@ describe('IdsInput Component', () => {
   it('supports setting mode', () => {
     input.mode = 'dark';
     expect(input.container.getAttribute('mode')).toEqual('dark');
-  });
-
-  it('supports setting version', () => {
-    input.version = 'classic';
-    expect(input.container.getAttribute('version')).toEqual('classic');
   });
 
   it('supports setting cursor', () => {

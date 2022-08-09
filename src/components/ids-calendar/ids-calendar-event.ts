@@ -33,6 +33,8 @@ export default class IdsCalendarEvent extends Base {
   // Property used to position overlapping events in month view
   #order = 0;
 
+  #cssClass: string[] = [];
+
   constructor() {
     super();
   }
@@ -57,9 +59,11 @@ export default class IdsCalendarEvent extends Base {
    * Invoked when ids-calendar-event is added to the DOM
    */
   connectedCallback(): void {
+    super.connectedCallback();
     this.#attachEventHandlers();
     this.setDirection();
-    super.connectedCallback();
+    this.refreshContent();
+    this.recalc();
   }
 
   /**
@@ -67,7 +71,13 @@ export default class IdsCalendarEvent extends Base {
    * @returns {string} html
    */
   template(): string {
-    return `<a class="ids-calendar-event" href="#">${this.contentTemplate()}</a>`;
+    const cssClass = this.#cssClass.join(' ');
+
+    return `
+      <a class="ids-calendar-event ${cssClass}" href="#" color="${this.color}">
+        ${this.contentTemplate()}
+      </a>
+    `;
   }
 
   /**
@@ -84,7 +94,7 @@ export default class IdsCalendarEvent extends Base {
     const icon = this.eventData.icon ? `<ids-icon class="calendar-event-icon" icon="${this.eventData.icon}" height="11" width="11"></ids-icon>` : '';
 
     return `<div class="calendar-event-content">
-      <ids-text class="calendar-event-title" inline font-size="12" color="unset" overflow="${overflow}" tooltip="${tooltip}">
+      <ids-text class="calendar-event-title" inline font-size="12" overflow="${overflow}" tooltip="${tooltip}">
         ${icon} ${text} ${displayTime}
       </ids-text>
     </div>`;
@@ -127,7 +137,38 @@ export default class IdsCalendarEvent extends Base {
    * Refreshses calendar event content with current settings
    */
   refreshContent(): void {
-    this.container.innerHTML = this.contentTemplate();
+    if (this.container) {
+      this.container.innerHTML = this.contentTemplate();
+    }
+  }
+
+  /**
+   * Updates calendar event dimensions and position
+   */
+  recalc(): void {
+    if (!this.container) return;
+
+    // resize
+    if (this.height) {
+      this.container.style.height = this.height;
+    }
+
+    if (this.width) {
+      this.container.style.width = this.width;
+    }
+
+    // reposition
+    if (this.yOffset) {
+      this.container.style.top = this.yOffset;
+    }
+
+    if (this.locale?.isRTL()) {
+      this.container.style.right = this.xOffset || '';
+      this.container.style.removeProperty('left');
+    } else {
+      this.container.style.removeProperty('right');
+      this.container.style.left = this.xOffset || '';
+    }
   }
 
   /**
@@ -172,9 +213,9 @@ export default class IdsCalendarEvent extends Base {
     if (this.cachedEvent) this.cachedEvent.type = data?.id;
 
     if (data?.color) {
-      this.container.setAttribute('color', data?.color);
+      this.container?.setAttribute('color', data?.color);
     } else {
-      this.container.removeAttribute('color');
+      this.container?.removeAttribute('color');
     }
   }
 
@@ -192,7 +233,7 @@ export default class IdsCalendarEvent extends Base {
    */
   set yOffset(value: string | null) {
     this.setAttribute(attributes.Y_OFFSET, value);
-    this.container.style.top = value;
+    this.recalc();
   }
 
   /**
@@ -210,14 +251,7 @@ export default class IdsCalendarEvent extends Base {
    */
   set xOffset(value: string | null) {
     this.setAttribute(attributes.X_OFFSET, value);
-
-    if (this.locale?.isRTL()) {
-      this.container.style.right = value;
-      this.container.style.left = null;
-    } else {
-      this.container.style.right = null;
-      this.container.style.left = value;
-    }
+    this.recalc();
   }
 
   /**
@@ -233,7 +267,7 @@ export default class IdsCalendarEvent extends Base {
    */
   set height(value: string | null) {
     this.setAttribute(attributes.HEIGHT, value);
-    this.container.style.height = value;
+    this.recalc();
   }
 
   /**
@@ -250,7 +284,7 @@ export default class IdsCalendarEvent extends Base {
    */
   set width(value: string | null) {
     this.setAttribute(attributes.WIDTH, value);
-    this.container.style.width = value;
+    this.recalc();
   }
 
   /**
@@ -266,7 +300,8 @@ export default class IdsCalendarEvent extends Base {
    * @param {Array<string>} value array of css classes
    */
   set cssClass(value: string[]) {
-    this.container.classList.add(...value);
+    this.#cssClass = this.#cssClass.concat(value);
+    this.container?.classList.add(...value);
   }
 
   /**
@@ -347,5 +382,13 @@ export default class IdsCalendarEvent extends Base {
    */
   get order(): number {
     return this.#order;
+  }
+
+  /**
+   * Gets color property from event type data
+   * @returns {string} color
+   */
+  get color(): string {
+    return this.eventTypeData?.color || 'azure';
   }
 }

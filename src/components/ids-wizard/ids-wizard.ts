@@ -45,7 +45,7 @@ export default class IdsWizard extends Base {
       if (type === 'childList') {
         this.shouldUpdateCallbacks = true;
         this.updateHrefURIs();
-        this.render();
+        this.render(true);
       }
     }
   });
@@ -62,9 +62,12 @@ export default class IdsWizard extends Base {
     const labelEls: any[] = [];
 
     for (let i = 0; i < this.children.length; i++) {
-      const labelEl = this.getStepEl(this, i + 1).children[1];
-      labelEl.style.maxWidth = 'unset';
-      labelEls.push(labelEl);
+      const labelEl = this.getStepEl(this, i + 1)?.children[1];
+
+      if (labelEl) {
+        labelEl.style.maxWidth = 'unset';
+        labelEls.push(labelEl);
+      }
     }
 
     window.requestAnimationFrame(() => {
@@ -237,7 +240,7 @@ export default class IdsWizard extends Base {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
     this.updateHrefURIs();
     if (window.location.hash.length) {
       const uriHash:never | string = window.location.hash.substr(1);
@@ -256,63 +259,14 @@ export default class IdsWizard extends Base {
       attributes: true,
       subtree: true
     });
-  }
-
-  /**
-   * Handle Setting changes of observed properties
-   * @param  {string} name The property name
-   * @param  {string} oldValue The property old value
-   * @param  {string} newValue The property new value
-   */
-  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-    super.attributeChangedCallback(name, oldValue, newValue);
-
-    // when we change the step number, we want to track any
-    // size changes we defined for maxWidth, so that we
-    // don't see any kind of flicker via remeasure (ResizeObserver
-    // does not have an option not to dispatch initially).
-
-    // We also want to render the changes quickly,
-    // and focus trap the selected step if needed
-    // so that focus isn't lost suddenly
-
-    if (oldValue !== newValue) {
-      const activeStepNumber = document.activeElement?.getAttribute('step-number');
-
-      // track any label widths
-      const resizedWidthsMap = new Map();
-      for (let i = 0; i < this.children?.length; i++) {
-        const labelEl = this.getStepEl(this, i + 1).children?.[1];
-
-        if (labelEl.style.maxWidth && labelEl.style.maxWidth !== 'unset') {
-          resizedWidthsMap.set(i + 1, labelEl.style.maxWidth);
-        }
-      }
-
-      this.shouldUpdateCallbacks = true;
-      this.render();
-
-      if ((typeof activeStepNumber === 'string') && parseInt(activeStepNumber)) {
-        const currentStep = this.shadowRoot.querySelector(
-          `[step-number="${activeStepNumber}"]`
-        );
-
-        currentStep?.focus();
-
-        // restore label widths after render
-        for (const [stepNumber, width] of resizedWidthsMap) {
-          const labelEl = this.getStepEl(this, stepNumber)?.children?.[1];
-          labelEl.style.maxWidth = width;
-        }
-      }
-    }
+    this.#afterConnectedCallback();
   }
 
   /**
    * Binds associated callbacks and cleans
    * old handlers when template refreshes
    */
-  rendered = () => {
+  #afterConnectedCallback() {
     if (!this.shouldUpdateCallbacks) {
       return;
     }
@@ -341,7 +295,7 @@ export default class IdsWizard extends Base {
     this.resizeObserver.observe(this.container);
 
     this.shouldUpdateCallbacks = false;
-  };
+  }
 
   /**
    * updates hrefURIs at select points
@@ -385,9 +339,7 @@ export default class IdsWizard extends Base {
    * @returns {HTMLElement} the step element
    */
   getStepEl(wizardEl: IdsWizard, stepNumber: number): IdsWizard {
-    return wizardEl?.shadowRoot?.querySelector(
-      `.step[step-number="${stepNumber}"]`
-    );
+    return wizardEl?.shadowRoot?.querySelector(`.step[step-number="${stepNumber}"]`);
   }
 
   /**

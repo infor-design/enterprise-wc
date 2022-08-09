@@ -17,7 +17,7 @@ describe('Ids Pie Chart e2e Tests', () => {
     await (expect(page) as any).toPassAxeTests({ disabledRules: ['color-contrast'] });
   });
 
-  it.skip('should not have memory leaks', async () => {
+  it('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', `<ids-pie-chart id="test"></ids-pie-chart>`);

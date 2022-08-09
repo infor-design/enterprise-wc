@@ -45,10 +45,9 @@ export default class IdsMenuGroup extends Base {
    * @returns {void}
    */
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
     this.#attachEventHandlers();
     this.setAttribute(htmlAttributes.ROLE, 'group');
-
     this.refresh();
   }
 

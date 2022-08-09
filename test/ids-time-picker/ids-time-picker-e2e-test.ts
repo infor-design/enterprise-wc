@@ -1,3 +1,5 @@
+import countObjects from '../helpers/count-objects';
+
 describe('Ids Time Picker e2e Tests', () => {
   const url = 'http://localhost:4444/ids-time-picker/example.html';
   const axeUrl = 'http://localhost:4444/ids-time-picker/open.html';
@@ -141,5 +143,18 @@ describe('Ids Time Picker e2e Tests', () => {
     expect((await getDropdowns() as any).minutes).toBeDefined();
     expect((await getDropdowns() as any).seconds).toBeDefined();
     expect((await getDropdowns() as any).period).toBeDefined();
+  });
+
+  it('should not have memory leaks', async () => {
+    const numberOfObjects = await countObjects(page);
+    await page.evaluate(() => {
+      const template = `
+        <ids-time-picker id="test" format="hh:mm" value="12:00"></ids-time-picker>
+      `;
+      document.body.insertAdjacentHTML('beforeend', template);
+      document.querySelector('#test')?.remove();
+    });
+
+    expect(await countObjects(page)).toEqual(numberOfObjects);
   });
 });
