@@ -4,6 +4,7 @@
 import IdsPieChart from '../../src/components/ids-pie-chart/ids-pie-chart';
 import dataset from '../../src/assets/data/items-single.json';
 import IdsContainer from '../../src/components/ids-container/ids-container';
+import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
 import '../helpers/resize-observer-mock';
 
 describe('IdsPieChart Component', () => {
@@ -54,10 +55,10 @@ describe('IdsPieChart Component', () => {
     pieChart.rerender();
 
     // Note: This doesnt test this really well since jest doesnt support stylesheets - see also the percy test
-    expect(pieChart.container.parentNode.querySelectorAll('.swatch')[0].classList.contains('color-1')).toBeTruthy();
+    expect(pieChart.svgContainer.parentNode.querySelectorAll('.swatch')[0].classList.contains('color-1')).toBeTruthy();
     expect(pieChart.color(0)).toEqual('var(--ids-color-palette-azure-80)');
 
-    expect(pieChart.container.parentNode.querySelectorAll('.swatch')[1].classList.contains('color-2')).toBeTruthy();
+    expect(pieChart.svgContainer.parentNode.querySelectorAll('.swatch')[1].classList.contains('color-2')).toBeTruthy();
     expect(pieChart.color(1)).toEqual('var(color-2)');
   });
 
@@ -87,10 +88,10 @@ describe('IdsPieChart Component', () => {
       }]
     }];
 
-    expect(pieChart.container.parentNode.querySelectorAll('.swatch svg')[0].querySelector('rect').getAttribute('fill')).toEqual('url(#circles)');
+    expect(pieChart.svgContainer.parentNode.querySelectorAll('.swatch svg')[0].querySelector('rect').getAttribute('fill')).toEqual('url(#circles)');
     expect(pieChart.shadowRoot.querySelectorAll('.slice')[0].getAttribute('stroke')).toEqual('url(#circles)');
 
-    expect(pieChart.container.parentNode.querySelectorAll('.swatch svg')[1].querySelector('rect').getAttribute('fill')).toEqual('url(#exes)');
+    expect(pieChart.svgContainer.parentNode.querySelectorAll('.swatch svg')[1].querySelector('rect').getAttribute('fill')).toEqual('url(#exes)');
     expect(pieChart.shadowRoot.querySelectorAll('.slice')[1].getAttribute('stroke')).toEqual('url(#exes)');
   });
 
@@ -119,7 +120,7 @@ describe('IdsPieChart Component', () => {
     const tooltip: any = pieChart.shadowRoot.querySelector('ids-tooltip');
     setTimeout(() => {
       expect(tooltip.visible).toEqual(true);
-      expect(tooltip.textContent).toEqual('Item A 11%');
+      expect(tooltip.textContent).toEqual('Item A 10.1');
       done();
     }, 1);
   });
@@ -187,6 +188,44 @@ describe('IdsPieChart Component', () => {
       expect(tooltip.textContent).toEqual('Jan 0');
       done();
     }, 1);
+  });
+
+  it('shows tooltip on hover with donut', () => {
+    const ds = [{
+      data: [
+        { value: 1, name: 'slice1', tooltip: 'slice1' },
+        { value: 1, name: 'slice2', tooltip: 'slice2' },
+        { value: 1, name: 'slice3', tooltip: 'slice3' },
+        { value: 1, name: 'slice4', tooltip: 'slice4' },
+        { value: 1, name: 'slice5', tooltip: 'slice5' },
+        { value: 1, name: 'slice6', tooltip: 'slice6' },
+        { value: 1, name: 'slice7', tooltip: 'slice7' },
+        { value: 1, name: 'slice8', tooltip: 'slice8' },
+        { value: 1, name: 'slice9', tooltip: 'slice9' },
+        { value: 1, name: 'slice10', tooltip: 'slice10' },
+        { value: 1, name: 'slice11', tooltip: 'slice11' },
+        { value: 1, name: 'slice12', tooltip: 'slice12' },
+        { value: 1, name: 'slice13', tooltip: 'slice13' },
+        { value: 1, name: 'slice14', tooltip: 'slice14' },
+        { value: 1, name: 'slice15', tooltip: 'slice15' },
+        { value: 1, name: 'slice16', tooltip: 'slice16' }
+      ]
+    }];
+    document.body.innerHTML = '';
+    pieChart = new IdsPieChart();
+    pieChart.animated = false;
+    document.body.appendChild(pieChart);
+    pieChart.donut = true;
+    pieChart.donutText = 'Test';
+    pieChart.data = ds;
+
+    const tooltip: any = pieChart.shadowRoot.querySelector('ids-tooltip');
+
+    [...pieChart.container.querySelectorAll('.slice')].forEach((slice: any, i: number) => {
+      slice.dispatchEvent(new CustomEvent('hoverend'));
+      expect(tooltip.visible).toEqual(true);
+      expect(tooltip.textContent).toEqual(ds[0].data[i].tooltip);
+    });
   });
 
   it('renders an empty message with empty data', async () => {
@@ -266,5 +305,138 @@ describe('IdsPieChart Component', () => {
     expect(pieChart.title).toBe('Test Title');
     expect(pieChart.shadowRoot.querySelectorAll('title')[0].textContent).toBe('');
     expect(pieChart.shadowRoot.querySelectorAll('title')[1].textContent).toBe('Test Title');
+  });
+
+  it('should set selectable', () => {
+    expect(pieChart.selectable).toEqual(false);
+    expect(pieChart.getAttribute('selectable')).toEqual(null);
+    pieChart.selectable = true;
+    expect(pieChart.selectable).toEqual(true);
+    expect(pieChart.getAttribute('selectable')).toEqual('');
+    pieChart.selectable = false;
+    expect(pieChart.selectable).toEqual(false);
+    expect(pieChart.getAttribute('selectable')).toEqual(null);
+  });
+
+  it('should select/deselect by click', () => {
+    expect(pieChart.selectionElements.length).toEqual(0);
+    expect(pieChart.setSelection()).toEqual(false);
+    const triggerClick = (el: any) => el.dispatchEvent(new Event('click', { bubbles: true }));
+    pieChart.selectable = true;
+    let selected = pieChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(0);
+
+    let elem = pieChart.shadowRoot.querySelector('.chart-legend-item:nth-child(1)');
+    triggerClick(elem);
+    selected = pieChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(1);
+    elem = pieChart.shadowRoot.querySelector('.chart-legend-item:nth-child(1)');
+    triggerClick(elem);
+    selected = pieChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(0);
+
+    elem = pieChart.shadowRoot.querySelector('.slice[index="2"]');
+    triggerClick(elem);
+    selected = pieChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(1);
+    elem = pieChart.shadowRoot.querySelector('.slice[index="0"]');
+    triggerClick(elem);
+    selected = pieChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(1);
+    elem = pieChart.shadowRoot.querySelector('.slice[index="0"]');
+    triggerClick(elem);
+    selected = pieChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(0);
+  });
+
+  it('should set pre selected elements', () => {
+    document.body.innerHTML = '';
+    const ds = deepClone(dataset);
+    (ds as any)[0].data[2].selected = true;
+
+    container = new IdsContainer();
+    pieChart = new IdsPieChart();
+    pieChart.selectable = true;
+    pieChart.animated = false;
+    document.body.appendChild(container);
+    container.appendChild(pieChart);
+    pieChart.data = ds;
+
+    const selected = pieChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(1);
+  });
+
+  it('should veto before selected', async () => {
+    let veto: boolean;
+    pieChart.addEventListener('beforeselected', (e: CustomEvent) => {
+      e.detail.response(veto);
+    });
+    veto = false;
+    const triggerClick = (el: any) => el.dispatchEvent(new Event('click', { bubbles: true }));
+    pieChart.selectable = true;
+
+    let selected = pieChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(0);
+
+    let elem = pieChart.shadowRoot.querySelector('.chart-legend-item:nth-child(1)');
+    triggerClick(elem);
+    selected = pieChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(0);
+    veto = true;
+    elem = pieChart.shadowRoot.querySelector('.chart-legend-item:nth-child(1)');
+    triggerClick(elem);
+    selected = pieChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(1);
+  });
+
+  it('should veto before deselected', async () => {
+    let veto: boolean;
+    pieChart.addEventListener('beforedeselected', (e: CustomEvent) => {
+      e.detail.response(veto);
+    });
+
+    const triggerClick = (el: any) => el.dispatchEvent(new Event('click', { bubbles: true }));
+    pieChart.selectable = true;
+
+    let selected = pieChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(0);
+
+    let elem = pieChart.shadowRoot.querySelector('.chart-legend-item:nth-child(1)');
+    triggerClick(elem);
+    selected = pieChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(1);
+    veto = false;
+    elem = pieChart.shadowRoot.querySelector('.chart-legend-item:nth-child(1)');
+    triggerClick(elem);
+    selected = pieChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(1);
+    elem = pieChart.shadowRoot.querySelector('.chart-legend-item:nth-child(2)');
+    triggerClick(elem);
+    selected = pieChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(1);
+    veto = true;
+    elem = pieChart.shadowRoot.querySelector('.chart-legend-item:nth-child(1)');
+    triggerClick(elem);
+    selected = pieChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(0);
+  });
+
+  it('should get/set selected by api', async () => {
+    pieChart.setSelected();
+    let selected = pieChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(0);
+    expect(pieChart.getSelected()).toEqual({});
+    pieChart.selectable = true;
+
+    pieChart.setSelected('test');
+    expect(pieChart.getSelected()).toEqual({});
+    selected = pieChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(0);
+    expect(pieChart.getSelected()).toEqual({});
+
+    pieChart.setSelected({ index: 0 });
+    selected = pieChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(1);
+    expect(pieChart.getSelected().index).toEqual('0');
   });
 });

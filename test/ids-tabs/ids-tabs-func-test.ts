@@ -11,6 +11,7 @@ import '../../src/components/ids-tabs/ids-tabs-context';
 import '../../src/components/ids-tabs/ids-tab-content';
 
 import IdsHeader from '../../src/components/ids-header/ids-header';
+import '../../src/components/ids-swappable/ids-swappable';
 import '../../src/components/ids-text/ids-text';
 import createFromTemplate from '../helpers/create-from-template';
 
@@ -40,6 +41,25 @@ const TAB_CONTEXT_HTML = (
     <ids-tab-content value="b">B</ids-tab-content>
     <ids-tab-content value="c">C</ids-tab-content>
   </ids-tabs-context>`
+);
+
+const TAB_SWAPPABLE_HTML = (
+  `<ids-tabs>
+    <ids-swappable dropzone="move">
+      <ids-swappable-item drag-mode="always">
+        <ids-tab value="contracts">Contracts</ids-tab>
+      </ids-swappable-item>
+      <ids-swappable-item drag-mode="always">
+        <ids-tab value="opportunities">Opportunities</ids-tab>
+      </ids-swappable-item>
+      <ids-swappable-item drag-mode="always">
+        <ids-tab value="attachments" disabled>Attachments</ids-tab>
+      </ids-swappable-item>
+      <ids-swappable-item drag-mode="always">
+        <ids-tab value="notes">Notes</ids-tab>
+      </ids-swappable-item>
+    </ids-swappable>
+  </ids-tabs>`
 );
 
 describe('IdsTabs Tests', () => {
@@ -112,6 +132,18 @@ describe('IdsTabs Tests', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
+  it('renders a set of swappable tabs with no errors', async () => {
+    const errors = jest.spyOn(global.console, 'error');
+    elem = await createFromTemplate(elem, TAB_SWAPPABLE_HTML);
+
+    const tab1 = elem.querySelector('ids-tab');
+    const swapItem1 = elem.querySelector('ids-swappable-item');
+
+    expect(swapItem1.getAttribute('drag-mode')).toBe('always');
+    expect(tab1.container.classList.contains('swappable')).toBeTruthy();
+    expect(errors).not.toHaveBeenCalled();
+  });
+
   it('creates tabs with vertical orientation, then sets them horizontal', async () => {
     const errors = jest.spyOn(global.console, 'error');
     elem = await createFromTemplate(
@@ -171,7 +203,7 @@ describe('IdsTabs Tests', () => {
 
     expect(elem.outerHTML).toMatchSnapshot();
     expect(errors).not.toHaveBeenCalled();
-    expect(elem.querySelector('ids-tab-divider').getAttribute('role')).toEqual('presentation');
+    expect(elem.querySelector('ids-tab-divider').getAttribute('role')).toEqual('separator');
   });
 
   it('renders with partial counts set, and triggers no error', async () => {

@@ -11,6 +11,9 @@
   - link: colors.html
     type: Example
     description: Shows configuring custom colors
+  - link: selectable.html
+    type: Example
+    description: Shows configuring selection
   - link: no-animation.html
     type: Example
     description: Shows configuring no animation

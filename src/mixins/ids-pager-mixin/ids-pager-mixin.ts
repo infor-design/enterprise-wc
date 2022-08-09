@@ -1,8 +1,8 @@
 import { attributes } from '../../core/ids-attributes';
 import IdsDataSource from '../../core/ids-data-source';
-import IdsPager from '../../components/ids-pager/ids-pager';
 import { parents } from '../../utils/ids-dom-utils/ids-dom-utils';
 
+import '../../components/ids-pager/ids-pager';
 import '../../components/ids-button/ids-button';
 import '../../components/ids-menu-button/ids-menu-button';
 
@@ -24,7 +24,7 @@ const IdsPagerMixin = (superclass: any) => class extends superclass {
    * The internal IdsPager component
    * @private
    */
-  #pager = new IdsPager();
+  #pager: any;
 
   /**
    * The pager container element, user location to add pager
@@ -34,9 +34,14 @@ const IdsPagerMixin = (superclass: any) => class extends superclass {
 
   /**
    * Gets the internal IdsPager component
-   * @returns {IdsPager} pager
+   * @returns {HTMLElement} pager
    */
-  get pager() { return this.#pager; }
+  get pager() {
+    if (!this.#pager) {
+      this.#pager = document.createElement('ids-pager');
+    }
+    return this.#pager;
+  }
 
   /**
    * Gets the internal IdsDataSource object
@@ -50,9 +55,9 @@ const IdsPagerMixin = (superclass: any) => class extends superclass {
     const pageNumber = Math.max(this.pageNumber || 1, 1);
     const pageSize = Math.max(this.pageSize || 0, 1);
 
-    this.#pager.innerHTML = this.pagerTemplate();
-    this.#pager.pageNumber = pageNumber;
-    this.#pager.pageSize = pageSize;
+    this.pager.innerHTML = this.pagerTemplate();
+    this.pager.pageNumber = pageNumber;
+    this.pager.pageSize = pageSize;
   }
 
   /**
@@ -82,7 +87,7 @@ const IdsPagerMixin = (superclass: any) => class extends superclass {
         <ids-menu-button id="pager-size-menu-button" menu="pager-size-menu" role="button" dropdown-icon>
           <span slot="text">${pageSize} Records per page</span>
         </ids-menu-button>
-        <ids-popup-menu id="pager-size-menu" target="#pager-size-menu-button" trigger="click">
+        <ids-popup-menu id="pager-size-menu" target="#pager-size-menu-button" trigger-type="click">
           <ids-menu-group>
             <ids-menu-item icon="${pageSize === 5 ? 'check' : 'no-check'}" value="5">5</ids-menu-item>
             <ids-menu-item icon="${pageSize === 10 ? 'check' : 'no-check'}" value="10">10</ids-menu-item>

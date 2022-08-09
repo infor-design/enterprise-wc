@@ -3,6 +3,8 @@
  */
 import IdsBarChart from '../../src/components/ids-bar-chart/ids-bar-chart';
 import dataset from '../../src/assets/data/components.json';
+import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
+import '../helpers/canvas-mock';
 import '../helpers/resize-observer-mock';
 
 describe('IdsBarChart Component', () => {
@@ -247,5 +249,194 @@ describe('IdsBarChart Component', () => {
       expect(tooltip.textContent).toContain('Series 2');
       done();
     }, 1);
+  });
+
+  it('should set selectable', () => {
+    expect(barChart.selectable).toEqual(undefined);
+    expect(barChart.getAttribute('selectable')).toEqual(null);
+    barChart.selectable = true;
+    expect(barChart.selectable).toEqual(true);
+    expect(barChart.getAttribute('selectable')).toEqual('');
+    barChart.selectable = false;
+    expect(barChart.selectable).toEqual(false);
+    expect(barChart.getAttribute('selectable')).toEqual(null);
+  });
+
+  it('should select/deselect by click', () => {
+    expect(barChart.selectionElements.length).toEqual(0);
+    expect(barChart.setSelection()).toEqual(false);
+    const triggerClick = (el: any) => el.dispatchEvent(new Event('click', { bubbles: true }));
+    barChart.selectable = true;
+    let selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(0);
+
+    let elem = barChart.shadowRoot.querySelector('.chart-legend-item:nth-child(1)');
+    triggerClick(elem);
+    selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(6);
+    elem = barChart.shadowRoot.querySelector('.chart-legend-item:nth-child(1)');
+    triggerClick(elem);
+    selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(0);
+
+    elem = barChart.shadowRoot.querySelector('.bar[group-index="1"][index="2"]');
+    triggerClick(elem);
+    selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(3);
+    elem = barChart.shadowRoot.querySelector('.bar[group-index="1"][index="2"]');
+    triggerClick(elem);
+    selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(0);
+  });
+
+  it('should switch select to other elements', () => {
+    const triggerClick = (el: any) => el.dispatchEvent(new Event('click', { bubbles: true }));
+    barChart.selectable = true;
+    let selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(0);
+
+    let elem = barChart.shadowRoot.querySelector('.chart-legend-item:nth-child(1)');
+    triggerClick(elem);
+    selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(6);
+
+    elem = barChart.shadowRoot.querySelector('.bar[group-index="1"][index="2"]');
+    triggerClick(elem);
+    selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(3);
+
+    elem = barChart.shadowRoot.querySelector('.chart-legend-item:nth-child(2)');
+    triggerClick(elem);
+    selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(6);
+
+    elem = barChart.shadowRoot.querySelector('.chart-legend-item:nth-child(1)');
+    triggerClick(elem);
+    selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(6);
+
+    elem = barChart.shadowRoot.querySelector('.bar[group-index="0"][index="2"]');
+    triggerClick(elem);
+    selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(3);
+
+    elem = barChart.shadowRoot.querySelector('.bar[group-index="1"][index="3"]');
+    triggerClick(elem);
+    selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(3);
+  });
+
+  it('should set pre selected group elements', () => {
+    document.body.innerHTML = '';
+    const ds = deepClone(dataset);
+    (ds as any)[0].selected = true;
+
+    barChart = new IdsBarChart();
+    barChart.selectable = true;
+    barChart.animated = false;
+    document.body.appendChild(barChart);
+    barChart.data = ds;
+
+    const selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(6);
+  });
+
+  it('should set pre selected item elements', () => {
+    document.body.innerHTML = '';
+    const ds = deepClone(dataset);
+    (ds as any)[1].data[1].selected = true;
+
+    barChart = new IdsBarChart();
+    barChart.selectable = true;
+    barChart.animated = false;
+    document.body.appendChild(barChart);
+    barChart.data = ds;
+
+    const selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(3);
+  });
+
+  it('should veto before selected', async () => {
+    let veto: boolean;
+    barChart.addEventListener('beforeselected', (e: CustomEvent) => {
+      e.detail.response(veto);
+    });
+    veto = false;
+    const triggerClick = (el: any) => el.dispatchEvent(new Event('click', { bubbles: true }));
+    barChart.selectable = true;
+
+    let selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(0);
+
+    let elem = barChart.shadowRoot.querySelector('.chart-legend-item:nth-child(1)');
+    triggerClick(elem);
+    selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(0);
+    veto = true;
+    elem = barChart.shadowRoot.querySelector('.chart-legend-item:nth-child(1)');
+    triggerClick(elem);
+    selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(6);
+  });
+
+  it('should veto before deselected', async () => {
+    let veto: boolean;
+    barChart.addEventListener('beforedeselected', (e: CustomEvent) => {
+      e.detail.response(veto);
+    });
+
+    const triggerClick = (el: any) => el.dispatchEvent(new Event('click', { bubbles: true }));
+    barChart.selectable = true;
+
+    let selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(0);
+
+    let elem = barChart.shadowRoot.querySelector('.chart-legend-item:nth-child(1)');
+    triggerClick(elem);
+    selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(6);
+    veto = false;
+    elem = barChart.shadowRoot.querySelector('.chart-legend-item:nth-child(1)');
+    triggerClick(elem);
+    selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(6);
+    elem = barChart.shadowRoot.querySelector('.chart-legend-item:nth-child(2)');
+    triggerClick(elem);
+    selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(6);
+    veto = true;
+    elem = barChart.shadowRoot.querySelector('.chart-legend-item:nth-child(1)');
+    triggerClick(elem);
+    selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(0);
+  });
+
+  it('should get/set selected by api', async () => {
+    barChart.setSelected();
+    let selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(0);
+    expect(barChart.getSelected()).toEqual({});
+    barChart.selectable = true;
+
+    barChart.setSelected('test');
+    expect(barChart.getSelected()).toEqual({});
+    selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(0);
+
+    barChart.setSelected({ groupIndex: 0 });
+    expect(barChart.getSelected().groupIndex).toEqual('0');
+    selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(6);
+
+    barChart.setSelected({ groupIndex: 1, index: 2 });
+    expect(barChart.getSelected().indexes).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ group: '0', index: '2' }),
+        expect.objectContaining({ group: '1', index: '2' }),
+        expect.objectContaining({ group: '2', index: '2' })
+      ])
+    );
+    selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
+    expect(selected.length).toEqual(3);
   });
 });

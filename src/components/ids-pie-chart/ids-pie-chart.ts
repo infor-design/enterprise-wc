@@ -1,8 +1,13 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
-import { injectTemplate, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { QUALITATIVE_COLORS } from '../ids-axis-chart/ids-chart-colors';
 import { patternData } from '../ids-axis-chart/ids-pattern-data';
+import {
+  injectTemplate,
+  stringToBool,
+  stringToNumber,
+  kebabCase
+} from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-pie-chart-base';
 import IdsDataSource from '../../core/ids-data-source';
@@ -22,11 +27,22 @@ type IdsPieChartData = {
   patternColor?: string,
 };
 
+type IdsPieChartSelected = {
+  data?: any,
+  index?: number | string,
+  slice?: SVGElement
+};
+
+type IdsPieChartSelectedBy = {
+  index?: number | string
+};
+
 /**
  * IDS Pie Chart Component
  * @type {IdsPieChart}
  * @inherits IdsElement
  * @mixes IdsChartLegendMixin
+ * @mixes IdsChartSelectionMixin
  * @mixes IdsLocaleMixin
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
@@ -40,7 +56,8 @@ export default class IdsPieChart extends Base {
     super();
 
     // Setup default values
-    this.state = {};
+    if (!this.state) this.state = {};
+    this.DEFAULT_SELECTABLE = false;
     this.legendPlacement = 'right';
   }
 
@@ -48,10 +65,19 @@ export default class IdsPieChart extends Base {
   datasource = new IdsDataSource();
 
   /**
+   * @returns {Array<string>} Drawer vetoable events
+   */
+  vetoableEventTypes = [
+    'beforeselected',
+    'beforedeselected'
+  ];
+
+  /**
    * Invoked each time the custom element is connected to the DOM.
    */
   connectedCallback(): void {
     this.svg = this.shadowRoot.querySelector('svg');
+    this.svgContainer = this.shadowRoot.querySelector('.ids-chart-svg-container');
     this.emptyMessage = this.querySelector('ids-empty-message') || this.shadowRoot.querySelector('ids-empty-message');
     this.legend = this.shadowRoot.querySelector('[name="legend"]');
 
@@ -61,9 +87,18 @@ export default class IdsPieChart extends Base {
   }
 
   /**
+   * On selectable change
+   */
+  onSelectableChange(): void {
+    this.legendsClickable?.(this.selectable);
+  }
+
+  /**
    * Invoked after rendering
    */
   rendered(): void {
+    this.legendsClickable?.(this.selectable);
+    this.#preSelected();
     this.#attachTooltipEvents();
   }
 
@@ -83,6 +118,7 @@ export default class IdsPieChart extends Base {
 
     this.#calculate();
     this.#addColorVariables();
+    this.#setSliceAngles();
     this.legend.innerHTML = this.legendTemplate();
     this.svg.innerHTML = this.chartTemplate();
 
@@ -117,8 +153,10 @@ export default class IdsPieChart extends Base {
    */
   template(): string {
     return `<div class="ids-chart-container" part="container">
-      <svg class="ids-pie-chart" part="chart"${this.width ? ` width="${this.width}"` : ''}${this.height ? ` height="${this.height}"` : ''} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${this.viewBoxSize} ${this.viewBoxSize}">
-      </svg>
+      <div class="ids-chart-svg-container">
+        <svg class="ids-pie-chart" part="chart"${this.width ? ` width="${this.width}"` : ''}${this.height ? ` height="${this.height}"` : ''} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${this.viewBoxSize} ${this.viewBoxSize}">
+        </svg>
+      </div>
       <slot name="legend">
       </slot>
       <slot name="empty-message">
@@ -180,7 +218,7 @@ export default class IdsPieChart extends Base {
       if (typeof this.legendFormatter === 'function') {
         legendValue = this.legendFormatter(slice, this.percents[index], this);
       }
-      legend += `<a href="#"}>
+      legend += `<a href="#legend-${kebabCase(slice.name || index)}" data-index="${index}" class="chart-legend-item">
         <div class="swatch${colorClass}">${patternSvg}</div>
         ${legendValue}
         </a>`;
@@ -259,7 +297,7 @@ export default class IdsPieChart extends Base {
       const stroke = data?.[index].pattern ? `url(#${data?.[index].pattern})` : this.color(index);
 
       circles += `<g role="listitem">
-        <circle class="slice${colorClass}" part="circle" stroke="${stroke}" stroke-width="${strokeWidth}" index="${index}" percent="${percent.total}" r="${radius}" cx="${cx}" cy="${cy}" stroke-dasharray="${dashArray}" stroke-dashoffset="${this.animated ? dashArray : dashOffset}" transform="rotate(${angle} ${cx} ${cy})"></circle>
+        <circle class="slice${colorClass}" part="circle" stroke="${stroke}" stroke-width="${strokeWidth}" index="${index}" percent="${percent.total}" r="${radius}" cx="${cx}" cy="${cy}" stroke-dasharray="${dashArray}" stroke-dashoffset="${this.animated ? dashArray : dashOffset}" transform="rotate(${angle} ${cx} ${cy})" pointer-events="stroke"></circle>
         <text class="audible">${data?.[index].name}  ${percent.rounded}%</text>
         </g>`;
       filled += percent.total;
@@ -319,6 +357,15 @@ export default class IdsPieChart extends Base {
   }
 
   /**
+   * Return chart elements that get selection
+   * @returns {Array<SVGElement>} The elements
+   */
+  get selectionElements(): Array<SVGElement> {
+    if (!this.selectable) return [];
+    return [...this.container.querySelectorAll('.slice')];
+  }
+
+  /**
    * Return chart elements that get tooltips
    * @private
    * @returns {Array<SVGElement>} The elements
@@ -337,6 +384,99 @@ export default class IdsPieChart extends Base {
   }
 
   /**
+   * Convert angle degree to radians
+   * @private
+   * @param {number} degree The degree
+   * @returns {number} calculated radians value
+   */
+  #degreeToRadians(degree: number): number {
+    return (degree * (Math.PI / 180));
+  }
+
+  /**
+   * Hold the angles for each slice
+   * @private
+   */
+  #sliceAngles: { startAngle: number, endAngle: number, midAngle: number }[] = [];
+
+  /**
+   * Set the angles for each slice
+   * @private
+   * @returns {void}
+   */
+  #setSliceAngles(): void {
+    this.#sliceAngles = [];
+    const totals = this.totals;
+    let startAngle = this.#degreeToRadians(-90);
+
+    this.data?.[0]?.data?.forEach((d: any) => {
+      const endAngle = ((d.value / totals) * Math.PI * 2) + startAngle;
+      const midAngle = (startAngle + endAngle) / 2;
+      this.#sliceAngles.push({ startAngle, midAngle, endAngle });
+      startAngle = endAngle;
+    });
+  }
+
+  /**
+   * Get the midpoint position for given slice index
+   * @private
+   * @param {number} index The slice index
+   * @param {number} extra Any extra desired padding
+   * @returns {{ x: number, y: number, midAngle: number }} The calculated position
+   */
+  #midPosition(index: number, extra = 0): { x: number, y: number, midAngle: number } {
+    const width = this.svg.clientWidth;
+    const height = this.svg.clientHeight;
+    const radius = (Math.min(width, height) / 2) - (this.donut ? 8 : 0);
+
+    // Center position
+    const { x: offsetX, y: offsetY } = this.svgContainer.getBoundingClientRect();
+    const cx = (width / 2) + offsetX - this.#tooltipDotSize;
+    const cy = (height / 2) + offsetY - this.#tooltipDotSize;
+
+    const { midAngle } = this.#sliceAngles[index];
+    return {
+      x: cx + (Math.cos(midAngle) * (radius + extra)),
+      y: cy + (Math.sin(midAngle) * (radius + extra)),
+      midAngle
+    };
+  }
+
+  /**
+   * Hold the size for tooltip dot
+   * @private
+   */
+  #tooltipDotSize = 2;
+
+  /**
+   * Hold the tooltip dots
+   * @private
+   */
+  #tooltipDots: HTMLSpanElement[] = [];
+
+  /**
+   * Adjust the position of tooltip dots and add if run first time.
+   * @private
+   * @returns {void}
+   */
+  #adjustTooltipDots(): void {
+    this.#tooltipDots = this.svgContainer.parentElement.querySelectorAll('#dots .dot');
+    // Add for first time
+    if (!this.#tooltipDots.length) {
+      const html = `<div id="dots">${this.#sliceAngles.map(() => '<span class="dot"></span>').join('')}`;
+      this.svgContainer.parentElement.insertAdjacentHTML('beforeend', html);
+      this.#tooltipDots = this.svgContainer.parentElement.querySelectorAll('#dots .dot');
+    }
+    // Set positions
+    this.#tooltipDots.forEach((dot: any, i: number) => {
+      const { x, y } = this.#midPosition(i);
+      dot.style.setProperty('--ids-pie-chart-tooltip-dot-size', `${this.#tooltipDotSize}px`);
+      dot.style.setProperty('left', `${x}px`);
+      dot.style.setProperty('top', `${y}px`);
+    });
+  }
+
+  /**
    * Setup handlers on tooltip elements
    */
   #attachTooltipEvents(): void {
@@ -344,15 +484,20 @@ export default class IdsPieChart extends Base {
       return;
     }
 
+    const tooltip = this.svgContainer.parentElement.querySelector('ids-tooltip');
+
     // Need one event per bar due to the nature of the events for tooltip
-    this.tooltipElements().forEach((element: SVGElement) => {
-      this.onEvent('hoverend', element, async (e: MouseEvent) => {
-        const tooltip = this.container.parentElement.querySelector('ids-tooltip');
+    this.tooltipElements().forEach((element: SVGElement, index: number) => {
+      this.onEvent('hoverend', element, async () => {
         tooltip.innerHTML = this.#tooltipContent(element);
         tooltip.target = element;
-        this.#positionTooltip(tooltip, e);
+        this.#positionTooltip(tooltip, index);
       });
     });
+
+    // TODO: Find a way to work without initial visible call
+    // Issue first time popup arrow not align position
+    tooltip.popup.visible = true;
   }
 
   /**
@@ -369,18 +514,26 @@ export default class IdsPieChart extends Base {
    * Return the data for a tooltip accessed by index
    * @private
    * @param {SVGElement} tooltip the tooltip component
-   * @param {MouseEvent} e the event element
+   * @param {number} index the index
    */
-  #positionTooltip(tooltip: any, e: any) {
-    tooltip.popup.onPlace = (popupRect: any) => {
-      popupRect.x = e.clientX - 45;
-      popupRect.y = e.clientY - 50;
-      tooltip.popup.arrowEl.style.marginLeft = '';
-      tooltip.popup.arrowEl.style.marginTop = '';
-      return popupRect;
-    };
-    tooltip.popup.x = e.clientX - 45;
-    tooltip.popup.y = e.clienty - 50;
+  #positionTooltip(tooltip: any, index: number) {
+    this.#adjustTooltipDots();
+    tooltip.popup.alignTarget = this.#tooltipDots[index];
+
+    // Arrow placement
+    const { midAngle } = this.#sliceAngles[index];
+    const rads = midAngle + this.#degreeToRadians(90);
+    const piQuart = Math.PI / 4;
+    let placement = null;
+
+    // https://www.wyzant.com/resources/lessons/math/trigonometry/unit-circle
+    if ((rads <= piQuart && rads >= 0) || rads > (7 * piQuart)) placement = 'top';
+    else if (rads <= (3 * piQuart) && rads >= piQuart) placement = 'right';
+    else if (rads <= (5 * piQuart) && rads >= (3 * piQuart)) placement = 'bottom';
+    else if (rads <= (7 * piQuart) && rads >= (5 * piQuart)) placement = 'left';
+    tooltip.placement = placement;
+
+    // Show tooltip
     tooltip.visible = true;
   }
 
@@ -424,7 +577,7 @@ export default class IdsPieChart extends Base {
    */
   #showEmptyMessage() {
     this.svg.classList.add('hidden');
-    this.container.parentElement.classList.add('empty');
+    this.svgContainer.parentElement.classList.add('empty');
     this.emptyMessage.style.height = `${this.height}px`;
     this.emptyMessage.removeAttribute('hidden');
   }
@@ -435,9 +588,107 @@ export default class IdsPieChart extends Base {
    */
   #hideEmptyMessage() {
     this.svg.classList.remove('hidden');
-    this.container.parentElement.classList.remove('empty');
+    this.svgContainer.parentElement.classList.remove('empty');
     this.emptyMessage.style.height = '';
     this.emptyMessage.setAttribute('hidden', '');
+  }
+
+  /**
+   * Set initially selected
+   * @private
+   * @returns {void}
+   */
+  #preSelected(): void {
+    if (!this.initialized || !this.selectable || !this.data?.length || !this.selectionElements?.length) return;
+
+    const index = this.data[0]?.data?.findIndex((n: any) => n.selected);
+    if (typeof index === 'number' && index > -1) {
+      const target = this.selectionElements[index];
+      if (!target) return;
+      this.selectionElements.forEach((el: SVGElement) => {
+        if (el === target) el.setAttribute('selected', '');
+        else el.classList.add('not-selected');
+      });
+    }
+  }
+
+  /**
+   * Get currently selected
+   * @returns {IdsPieChartSelected} selected.
+   */
+  getSelected(): IdsPieChartSelected {
+    const selected: any = this.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'))[0];
+    if (!selected) return {};
+
+    const i: any = selected.getAttribute('index');
+    const data: any = this.data[0].data?.[i];
+    return { slice: selected, index: i, data };
+  }
+
+  /**
+   * Set selected by give indexes
+   * @param {IdsPieChartSelectedBy} opt The in comeing options
+   * @returns {void}
+   */
+  setSelected(opt: IdsPieChartSelectedBy): void {
+    if (!this.initialized || !this.selectable || !this.data?.length || !this.selectionElements?.length) return;
+
+    const index = stringToNumber(opt.index);
+    if (!Number.isNaN(index)) this.setSelection(index);
+  }
+
+  /**
+   * Set the selection for given index
+   * @private
+   * @param {number|string} index The index value
+   * @returns {boolean} False, if veto.
+   */
+  setSelection(index: any): boolean {
+    const target = this.selectionElements?.[index];
+    if (!target) return false;
+
+    let data: any;
+
+    // Deselect
+    const deselect = (elem: SVGElement, idx: number): boolean => {
+      data = this.data[0].data?.[idx];
+      if (!this.triggerVetoableEvent('beforedeselected', { slice: elem, index: idx, data })) {
+        return false;
+      }
+      if (data) delete data.selected;
+      this.selectionElements.forEach((el: SVGElement) => el.classList.remove('not-selected'));
+      elem.removeAttribute('selected');
+      this.triggerEvent('deselected', this, {
+        bubbles: true,
+        detail: { elem: this, slice: elem, index: idx, data } // eslint-disable-line
+      });
+      return true;
+    };
+
+    // Previously selected
+    const idxSelected = this.selectionElements.findIndex((el: SVGElement) => el.hasAttribute('selected'));
+    if (idxSelected > -1) {
+      if (`${idxSelected}` === `${index}`) return deselect(target, idxSelected);
+      if (!deselect(this.selectionElements[idxSelected], idxSelected)) return false;
+    }
+
+    // Traget slices
+    data = this.data[0].data?.[index];
+    if (!this.triggerVetoableEvent('beforeselected', { slice: target, index, data })) {
+      return false;
+    }
+    this.selectionElements.forEach((el: SVGElement) => {
+      if (el === target) el.setAttribute('selected', '');
+      else el.classList.add('not-selected');
+    });
+
+    if (data) data.selected = true;
+    this.triggerEvent('selected', this, {
+      bubbles: true,
+      detail: { elem: this, slice: target, index, data } // eslint-disable-line
+    });
+
+    return true;
   }
 
   /**

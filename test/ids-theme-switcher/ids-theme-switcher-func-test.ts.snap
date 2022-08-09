@@ -4,12 +4,12 @@ exports[`IdsThemeSwitcher Component renders correctly 1`] = `
 "<ids-menu-button id=\\"ids-theme-switcher\\" menu=\\"ids-theme-menu\\" mode=\\"light\\" version=\\"new\\" aria-controls=\\"ids-theme-menu\\">
             <ids-icon slot=\\"icon\\" icon=\\"more\\"></ids-icon>
             <span class=\\"audible\\">Theme Switcher</span>
-        </ids-menu-button><ids-popup-menu id=\\"ids-theme-menu\\" target=\\"#ids-theme-switcher\\" trigger=\\"click\\" mode=\\"light\\" version=\\"new\\" hidden=\\"\\">
-        <ids-menu-group>
+        </ids-menu-button><ids-popup-menu id=\\"ids-theme-menu\\" target=\\"#ids-theme-switcher\\" trigger-type=\\"click\\" mode=\\"light\\" version=\\"new\\" role=\\"none\\" hidden=\\"\\">
+        <ids-menu-group role=\\"group\\" aria-label=\\"Menu group containing 2 item(s)\\">
     <ids-menu-item mode=\\"light\\" version=\\"new\\">
         undefined
-        <ids-popup-menu slot=\\"submenu\\" mode=\\"light\\" version=\\"new\\" hidden=\\"\\">
-          <ids-menu-group select=\\"single\\">
+        <ids-popup-menu slot=\\"submenu\\" aria-expanded=\\"false\\" mode=\\"light\\" version=\\"new\\" role=\\"none\\" hidden=\\"\\">
+          <ids-menu-group select=\\"single\\" role=\\"group\\" aria-label=\\"Menu group containing 3 item(s)\\">
             <ids-menu-item selected=\\"true\\" value=\\"light\\" mode=\\"light\\" version=\\"new\\">undefined</ids-menu-item>
             <ids-menu-item value=\\"dark\\" mode=\\"light\\" version=\\"new\\">undefined</ids-menu-item>
             <ids-menu-item value=\\"contrast\\" mode=\\"light\\" version=\\"new\\">undefined</ids-menu-item>
@@ -18,8 +18,8 @@ exports[`IdsThemeSwitcher Component renders correctly 1`] = `
       </ids-menu-item>
       <ids-menu-item mode=\\"light\\" version=\\"new\\">
         undefined
-        <ids-popup-menu slot=\\"submenu\\" mode=\\"light\\" version=\\"new\\" hidden=\\"\\">
-          <ids-menu-group select=\\"single\\" id=\\"locale-menu\\">
+        <ids-popup-menu slot=\\"submenu\\" aria-expanded=\\"false\\" mode=\\"light\\" version=\\"new\\" role=\\"none\\" hidden=\\"\\">
+          <ids-menu-group select=\\"single\\" id=\\"locale-menu\\" role=\\"group\\" aria-label=\\"Menu group containing 8 item(s)\\">
             <ids-menu-item selected=\\"true\\" value=\\"en-US\\" mode=\\"light\\" version=\\"new\\">undefined (en-US)</ids-menu-item>
             <ids-menu-item value=\\"de-DE\\" mode=\\"light\\" version=\\"new\\">undefined (de-DE)</ids-menu-item>
             <ids-menu-item value=\\"uk-UA\\" mode=\\"light\\" version=\\"new\\">undefined (uk-UA)</ids-menu-item>

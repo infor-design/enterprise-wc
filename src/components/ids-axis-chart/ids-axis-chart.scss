@@ -78,13 +78,23 @@
       text-anchor: end;
     }
 
-    &.axis-label {
-      @include text-16();
+    &.axis-labels text {
+      @include font-bold();
+
+      text-anchor: middle;
     }
   }
 
   .audible {
     opacity: 0;
+  }
+}
+
+.ids-chart-container {
+  &.selectable {
+    .audible {
+      font-size: 1px;
+    }
   }
 }
 
@@ -209,5 +219,23 @@ ids-empty-message:not([hidden]),
   // Axis Text
   .labels text {
     fill: var(--ids-color-palette-classic-slate-100);
+  }
+}
+
+// Move Stuff for RTL
+:host([dir='rtl']) {
+  .ids-axis-chart {
+    transform: scale(-1, 1);
+  }
+
+  .labels {
+    &.x-labels text {
+      transform: scale(-1, 1);
+      transform-origin: unset;
+    }
+
+    &.y-labels text {
+      transform: scale(-1, 1) translate(var(--ids-axis-chart-ylabels-x, -45px), 0);
+    }
   }
 }

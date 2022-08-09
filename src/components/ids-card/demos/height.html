@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Card Fixed Height (and actionable)</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid cols="4" gap="md">
+      <ids-layout-grid-cell>
+        <ids-card actionable="true" height="100" href="#" target="_self">
+            <div slot="card-content">
+             <ids-text type="h2" font-size="16" font-weight="bold" color="slate-100">Card Title</ids-text>
+              <ids-text type="h2" font-size="16" color="slate-60">Additional Card Info</ids-text>
+          </div>
+        </ids-card>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

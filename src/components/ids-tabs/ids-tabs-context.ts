@@ -27,6 +27,13 @@ export default class IdsTabsContext extends Base {
       e.stopPropagation();
       this.value = e.target.value;
     });
+
+    // On `tabremove` events, remove a tab's corresponding content pane
+    this.onEvent('tabremove', this, (e: CustomEvent) => {
+      e.stopPropagation();
+      const content = this.querySelector(`ids-tab-content[value="${e.detail.value}"]`);
+      content?.remove();
+    });
   }
 
   rendered() {

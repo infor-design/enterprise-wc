@@ -1,7 +1,7 @@
 @import '../../core/ids-base';
 
 :host {
-  display: block;
+  display: inherit;
   border: 1px dashed transparent;
   height: 100%;
 }

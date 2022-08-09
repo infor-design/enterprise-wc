@@ -109,6 +109,21 @@ To achieve this it is recommended to use the `color` setting and pick one of the
  }]
 ```
 
+You can add axis labels all around (bottom, end, start, top).
+
+```html
+<ids-axis-chart
+  axis-label-bottom="Bottom axis label"
+  axis-label-end="End axis label"
+  axis-label-start="Start axis label"
+  axis-label-top="Top axis label"
+  width="700"
+  height="400"
+  id="axis-label-example"
+  title="A axis chart showing component usage with axis-label"
+></ids-axis-chart>
+```
+
 ## Class Hierarchy
 
 - IdsAxisChart
@@ -117,6 +132,8 @@ To achieve this it is recommended to use the `color` setting and pick one of the
   IdsEventsMixin
   IdsLocaleMixin
   IdsThemeMixin
+  IdsChartLegendMixin
+  IdsChartSelectionMixin
 
 ## Data Settings
 
@@ -141,10 +158,20 @@ The following data attributes can be used on the data passed to a chart.
 - `showHorizontalGridLines` {boolean}  Show the horizontal axis grid lines (default: true)
 - `yAxisFormatter` {object | Function} Sets the format on the y axis items. This can either be settings that are passed to `Intl.NumberFormat` or a formatter function. The formatter function will get three parameters (value, data, api) and should return a string based on the axis value. The y axis is not always a number so it does not default to `Intl.NumberFormat`. The default is `{ notation: 'compact', compactDisplay: 'short' }`.
 - `xAxisFormatter` {Function} Sets the format on the x axis items. The formatter function will get three parameters (value, data, api) and should return a string based on the axis value. The x axis is not always a number so it does not default to `Intl.NumberFormat`. See the [Intl.NumberFormat api](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) for more details and examples on formatting options.
+- `selectable` {boolean} Sets the selection mode.
+- `axisLabelBottom` {string} Option to add bottom axis label.
+- `axisLabelEnd` {string} Option to add horizantly end side axis label.
+- `axisLabelStart` {string} Option to add horizantly start side axis label.
+- `axisLabelTop` {string} Option to add top axis label.
+- `axisLabelMargin` {string|number} Axis label margin value.
 
 ## Events
 
 - `rendered` Fires each time the chart is rendered or rerendered (on resize).
+- `beforeselected` Fires before selected, you can return false in the response to veto.
+- `selected` Fires after selected.
+- `beforedeselected` Fires before deselected, you can return false in the response to veto.
+- `deselected` Fires after deselected.
 
 ## Themeable Parts
 
@@ -155,6 +182,7 @@ The following data attributes can be used on the data passed to a chart.
 
 - Theme
 - Legends
+- Selectable
 
 ## Responsive Guidelines
 

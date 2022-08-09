@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Menu Buttons</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-checkbox id="toggle-disabled-menubutton" label="Toggle menu button's disabled state"></ids-checkbox>
+        <ids-checkbox id="force-menu-show" label="Force the Popup Menu to show"></ids-checkbox>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="4" gap="md">
+      <ids-layout-grid-cell>
+        <ids-menu-button id="menu-button" icon="settings" type="tertiary" menu="my-menu" dropdown-icon>
+          <span slot="text">Settings</span>
+        </ids-menu-button>
+        <ids-popup-menu id="my-menu" target="menu-button" trigger-type="click">
+          <ids-menu-group>
+            <ids-menu-item>Item One</ids-menu-item>
+            <ids-menu-item disabled>Item Two</ids-menu-item>
+            <ids-menu-item>Item Three</ids-menu-item>
+            <ids-separator></ids-separator>
+            <ids-menu-item>Item Four</ids-menu-item>
+          </ids-menu-group>
+          <ids-separator></ids-separator>
+          <ids-menu-group>
+            <ids-menu-header>Icon Items</ids-menu-header>
+            <ids-menu-item icon="settings">Settings</ids-menu-item>
+          </ids-menu-group>
+          <ids-menu-group select="single" id="sizes">
+            <ids-menu-header>Single-selectable Items</ids-menu-header>
+            <ids-menu-item value="single-item-one">Single Item One</ids-menu-item>
+            <ids-menu-item value="single-item-two" selected="true">Single item Two</ids-menu-item>
+          </ids-menu-group>
+          <ids-separator></ids-separator>
+          <ids-menu-group select="multiple" keep-open="true">
+            <ids-menu-header>Multi-selectable Items</ids-menu-header>
+            <ids-menu-item selected="true" value="multi-item-one">Multi-item One</ids-menu-item>
+            <ids-menu-item value="multi-item-two">Multi-item Two</ids-menu-item>
+          </ids-menu-group>
+          <ids-separator></ids-separator>
+          <ids-menu-group>
+            <ids-menu-header>Item with a Submenu</ids-menu-header>
+            <ids-menu-item>
+              Settings
+              <ids-popup-menu>
+                <ids-menu-group>
+                  <ids-menu-item>Sub-item One</ids-menu-item>
+                  <ids-menu-item>Sub-item Two</ids-menu-item>
+                  <ids-menu-item>Sub-item Three</ids-menu-item>
+                </ids-menu-group>
+              </ids-popup-menu>
+            </ids-menu-item>
+          </ids-menu-group>
+          <ids-separator></ids-separator>
+          <ids-menu-group>
+            <ids-menu-header>Item with Icon and a Submenu</ids-menu-header>
+            <ids-menu-item icon="settings">
+              Settings
+              <ids-popup-menu>
+                <ids-menu-group>
+                  <ids-menu-item>Sub-item One</ids-menu-item>
+                  <ids-menu-item>Sub-item Two</ids-menu-item>
+                  <ids-menu-item>Sub-item Three</ids-menu-item>
+                </ids-menu-group>
+              </ids-popup-menu>
+            </ids-menu-item>
+          </ids-menu-group>
+        </ids-popup-menu>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+
+</html>

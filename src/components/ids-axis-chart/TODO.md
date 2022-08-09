@@ -4,8 +4,9 @@ Keep in sync with #515
 
 ## Major
 
-- [ ] Interaction: When clicking the line it should select with focusable Legend (for selection)
-- [ ] Rendering: RTL axis on the wrong side https://stackoverflow.com/questions/42147119/how-to-flip-svg-coordinates
+- [x] Interaction: When clicking the line it should select with focusable Legend (for selection)
+- [x] Rendering: RTL axis on the wrong side https://stackoverflow.com/questions/42147119/how-to-flip-svg-coordinates
+- [x] Rendering: Axis Labels all around (bottom, end, start, top)
 - [ ] Rendering: Axis and Rotated Labels
 - [x] Chart Types: Line Chart
 - [x] Chart Types: Area Chart

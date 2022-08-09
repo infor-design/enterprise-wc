@@ -115,7 +115,7 @@ describe('IdsBlockgridItem Component', () => {
     expect(blockgridItemEl.selected).toBe('false');
   });
 
-  it('support block grid selection multiple', () => {
+  it('supports block grid multiple selection', () => {
     const blockgridItemEl2 = new IdsBlockgridItem();
     blockgridEl.appendChild(blockgridItemEl2);
     blockgridItemEl2.selection = 'multiple';
@@ -127,12 +127,12 @@ describe('IdsBlockgridItem Component', () => {
     const checkboxEl2 = blockgridItemEl2.shadowRoot.querySelector('ids-checkbox');
 
     blockgridItemEl.dispatchEvent(clickEvent);
-    expect(checkboxEl.checked).toBe('true');
-    expect(checkboxEl2.checked).not.toBe('true');
+    expect(checkboxEl.checked).toBeTruthy();
+    expect(checkboxEl2.checked).toBeFalsy();
 
     blockgridItemEl2.dispatchEvent(clickEvent);
-    expect(checkboxEl.checked).toBe('true');
-    expect(checkboxEl2.checked).toBe('true');
+    expect(checkboxEl.checked).toBeTruthy();
+    expect(checkboxEl2.checked).toBeTruthy();
   });
 
   it('support block grid selection multiple keyboard', () => {

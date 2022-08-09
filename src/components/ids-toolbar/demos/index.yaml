@@ -29,7 +29,7 @@
   - link: side-by-side.html
     type: Side by Side
     description: Showing a toolbar side by side working with 4.x
-  - link: tabbale.html
+  - link: tabbable.html
     type: Example
     description: Demos the tabbable setting to disable tabbing
   - link: standalone-css.html

@@ -19,18 +19,34 @@ ids-trigger-button {
   top: 2px;
 }
 
-:host([mode='dark']) .icon-container {
-  color: var(--ids-color-palette-slate-10);
+:host([mode='light']) {
+  .typeahead.is-open ids-trigger-field::part(field-container) {
+    @include bg-slate-10();
+  }
+}
+
+:host([mode='dark']) {
+  .icon-container {
+    color: var(--ids-color-palette-slate-10);
+  }
+
+  .typeahead.is-open ids-trigger-field::part(field-container) {
+    @include bg-slate-80();
+  }
 }
 
 :host([size='full']) {
-  @include w-full();
+  &,
+  ids-popup {
+    @include w-full();
+  }
 }
 
 :host([dir='rtl']) .icon-container {
   margin: 0 8px 0 0;
 }
 
-:host([aria-expanded='false']) ::slotted(ids-list-box) {
-  display: none;
+::slotted(.sub-group) {
+  border-top: 1px solid #b7b7ba;
+  padding-top: 4px;
 }

@@ -664,7 +664,8 @@ export default class IdsPopup extends Base {
     const isNone = newDir === 'none';
 
     this.arrowEl.hidden = isNone;
-    if (currentDir) arrowElCl.remove(currentDir);
+    if (currentDir === '') arrowElCl.remove(...ARROW_TYPES);
+    else if (currentDir) arrowElCl.remove(currentDir);
     if (newDir && !isNone) arrowElCl.add(newDir);
   }
 

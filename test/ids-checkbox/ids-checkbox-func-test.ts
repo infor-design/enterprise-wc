@@ -29,10 +29,24 @@ describe('IdsCheckbox Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('should renders checked', () => {
-    cb.checked = 'true';
-    expect(cb.getAttribute('checked')).toEqual('true');
-    expect(cb.checked).toEqual('true');
+  it('should render a checked checkbox', () => {
+    expect(cb.checked).toBe(false);
+
+    cb.checked = true;
+    expect(cb.checked).toEqual(true);
+    expect(cb.getAttribute('checked')).toBeDefined();
+
+    cb.checked = false;
+    expect(cb.checked).toEqual(false);
+    expect(cb.getAttribute('checked')).toBe(null);
+
+    cb.setAttribute('checked', true);
+    expect(cb.checked).toEqual(true);
+    expect(cb.getAttribute('checked')).toBeDefined();
+
+    cb.removeAttribute('checked');
+    expect(cb.checked).toEqual(false);
+    expect(cb.getAttribute('checked')).toBe(null);
   });
 
   it('should dirty tracking', () => {
@@ -263,7 +277,7 @@ describe('IdsCheckbox Component', () => {
     cb.setAttribute('color', 'ruby07');
     cb.setAttribute('disabled', 'true');
     cb.setAttribute('horizontal', 'true');
-    cb.setAttribute('checked', 'true');
+    // cb.setAttribute('checked', 'true');
     cb.setAttribute('label-required', 'false');
     cb.setAttribute('indeterminate', 'true');
     cb.template();
@@ -272,8 +286,6 @@ describe('IdsCheckbox Component', () => {
     expect(rootEl.classList).toContain('disabled');
     expect(rootEl.classList).toContain('horizontal');
     expect(cb.getAttribute('horizontal')).toEqual('true');
-    expect(cb.getAttribute('checked')).toEqual('true');
-    expect(cb.checked).toEqual('true');
     expect(cb.getAttribute('indeterminate')).toEqual('true');
   });
 

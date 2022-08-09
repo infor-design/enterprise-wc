@@ -34,6 +34,7 @@ export default class IdsToolbar extends Base {
     return [
       ...super.attributes,
       attributes.DISABLED,
+      attributes.PADDING,
       attributes.TABBABLE,
       attributes.TYPE
     ];
@@ -336,6 +337,19 @@ export default class IdsToolbar extends Base {
 
   get type(): string | null {
     return this.getAttribute(attributes.TYPE) ?? null;
+  }
+
+  /**
+   * If set to number the container will have padding added (in pixels)
+   * @param {string | number} value sets the padding to the container
+   */
+  set padding(value: string | number) {
+    this.container.style.paddingBottom = !value ? '' : `${value}px`;
+    this.setAttribute(attributes.PADDING, value.toString());
+  }
+
+  get padding(): string {
+    return this.getAttribute(attributes.PADDING);
   }
 
   /**

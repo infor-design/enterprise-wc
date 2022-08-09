@@ -11,7 +11,7 @@ export const attributes = {
   ALIGN_SELF: 'align-self',
   ALIGN_TARGET: 'align-target',
   ALIGN_X: 'align-x',
-  ALIGN_X_LABELS: 'alignXLabels',
+  ALIGN_X_LABELS: 'align-x-labels',
   ALIGN_Y: 'align-y',
   ALLOW_BLANK: 'allow-blank',
   ALLOW_LINK: 'allow-link',
@@ -35,17 +35,22 @@ export const attributes = {
   AUTO_HEIGHT: 'auto-height',
   AUTO_START: 'auto-start',
   AXIS: 'axis',
+  AXIS_LABEL_BOTTOM: 'axis-label-bottom',
+  AXIS_LABEL_END: 'axis-label-end',
+  AXIS_LABEL_MARGIN: 'axis-label-margin',
+  AXIS_LABEL_START: 'axis-label-start',
+  AXIS_LABEL_TOP: 'axis-label-top',
   BADGE_COLOR: 'badge-color',
   BADGE_POSITION: 'badge-position',
   BAR_PERCENTAGE: 'bar-percentage',
   BG_TRANSPARENT: 'bg-transparent',
   BLEED: 'bleed',
   BOLD: 'bold',
-  BTN_TEXT: 'btn-text',
   BUFFER_SIZE: 'buffer-size',
   BUTTONS: 'buttons',
   BUTTON_TEXT: 'button-text',
   CANCEL: 'cancel',
+  CANCEL_BTN_TEXT: 'cancel-btn-text',
   CAPS_LOCK: 'caps-lock',
   CAPTURES_FOCUS: 'captures-focus',
   CARD_HEIGHT: 'card-height',
@@ -97,6 +102,7 @@ export const attributes = {
   DISPLAY_TIME: 'display-time',
   DONUT: 'donut',
   DONUT_TEXT: 'donut-text',
+  DRAG_MODE: 'drag-mode',
   DRAGGABLE: 'draggable',
   DRAGGING: 'dragging',
   DROPDOWN_ICON: 'dropdown-icon',
@@ -151,6 +157,7 @@ export const attributes = {
   ICON_SIZE: 'icon-size',
   ID: 'id',
   INDETERMINATE: 'indeterminate',
+  INHERIT_COLOR: 'inherit-color',
   INITIALS: 'initials',
   INLINE: 'inline',
   IS_CALENDAR_TOOLBAR: 'is-calendar-toolbar',
@@ -322,6 +329,7 @@ export const attributes = {
   TABBABLE: 'tabbable',
   TABINDEX: 'tabindex',
   TARGET: 'target',
+  TAGS: 'tags',
   TEXT: 'text',
   TEXT_ALIGN: 'text-align',
   TEXT_DECORATION: 'text-decoration',
@@ -338,9 +346,12 @@ export const attributes = {
   TRANSLATE_TEXT: 'translate-text',
   TRIGGER: 'trigger',
   TRIGGERFIELD: 'triggerfield',
+  TRIGGER_ELEM: 'trigger-elem',
   TRIGGER_LABEL: 'trigger-label',
+  TRIGGER_TYPE: 'trigger-type',
   TRUNCATE: 'truncate',
   TYPE: 'type',
+  TYPEAHEAD: 'typeahead',
   UNIQUE_ID: 'unique-id',
   URL: 'url',
   USE_CURRENT_TIME: 'use-current-time',
@@ -380,14 +391,21 @@ export const attributes = {
 // Standard HTMLElement attribute names
 // Please keep constants alphabetized
 export const htmlAttributes = {
+  ARIA_CHECKED: 'aria-checked',
+  ARIA_EXPANDED: 'aria-expanded',
+  ARIA_HASPOPUP: 'aria-haspopup',
   ARIA_LABEL: 'aria-label',
+  ARIA_LABELLED_BY: 'aria-labelledby',
   ARIA_ORIENTATION: 'aria-orientation',
+  ARIA_POSINSET: 'aria-posinset',
   ARIA_SELECTED: 'aria-selected',
+  ARIA_SETSIZE: 'aria-setsize',
   ARIA_VALUEMAX: 'aria-valuemax',
   ARIA_VALUEMIN: 'aria-valuemin',
   ARIA_VALUENOW: 'aria-valuenow',
   ARIA_VALUETEXT: 'aria-valuetext',
   ROLE: 'role',
+  SLOT: 'slot',
   TABINDEX: 'tabIndex'
 };
 
@@ -395,4 +413,4 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '0.0.0-beta.22';
+export const version = '1.0.0-beta.0';
