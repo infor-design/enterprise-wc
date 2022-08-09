@@ -37,6 +37,7 @@ export default class IdsToolbarMoreActions extends Base {
     super.connectedCallback();
     this.#refresh();
     this.#attachEventHandlers();
+    this.button?.configureMenu?.();
 
     // wait for parent toolbar to finish rendering
     requestAnimationFrame(() => {

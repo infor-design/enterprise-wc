@@ -481,6 +481,9 @@ class IdsMonthView extends Base {
     this.container?.querySelector('ids-toolbar')?.remove();
     this.container?.insertAdjacentHTML('afterbegin', toolbarTemplate);
 
+    // Configure View Picker
+    if (this.viewPicker) this.viewPickerConnected();
+
     // Toolbar events
     this.#attachToolbarEvents();
   }
@@ -491,7 +494,6 @@ class IdsMonthView extends Base {
   #attachToolbarEvents(): void {
     const buttonSet = this.container?.querySelector('ids-toolbar-section.toolbar-buttonset');
     const toolbarDatepicker = this.container?.querySelector('ids-date-picker');
-    const viewPicker = this.container?.querySelector('#view-picker');
 
     this.offEvent('click.month-view-buttons');
     this.onEvent('click.month-view-buttons', buttonSet, (e: MouseEvent) => {
@@ -551,11 +553,7 @@ class IdsMonthView extends Base {
     });
 
     if (this.viewPicker) {
-      this.offEvent('selected.month-view-picker', viewPicker);
-      this.onEvent('selected.month-view-picker', viewPicker, (evt: CustomEvent) => {
-        evt.stopPropagation();
-        this.triggerViewChange(evt.detail.value);
-      });
+      this.attachViewPickerEvents('month');
     }
   }
 

@@ -63,7 +63,7 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
     const targetSelector = this.getAttribute(attributes.TARGET);
     const initTarget = this.parentNode?.querySelector(targetSelector);
 
-    if (this.popup && initTarget) {
+    if (this.popup && initTarget && !this.target) {
       this.popup.alignTarget = initTarget;
     }
 

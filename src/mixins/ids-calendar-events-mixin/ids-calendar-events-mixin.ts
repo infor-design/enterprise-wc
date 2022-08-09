@@ -147,11 +147,38 @@ const IdsCalendarEventsMixin = (superclass: any) => class extends superclass {
   }
 
   /**
+   * Handle view picker after render
+   */
+  viewPickerConnected(): void {
+    const button = this.container?.querySelector('#view-picker-btn');
+
+    if (button) {
+      button.configureMenu();
+    }
+  }
+
+  /**
+   * Attach view picker events
+   * @param {string} view month | week
+   */
+  attachViewPickerEvents(view: 'month' | 'week') {
+    const menu = this.container?.querySelector('#view-picker');
+
+    if (menu && view) {
+      this.offEvent(`selected.${view}-view-picker`, menu);
+      this.onEvent(`selected.${view}-view-picker`, menu, (evt: CustomEvent) => {
+        evt.stopPropagation();
+        this.#triggerViewChange(evt.detail.value);
+      });
+    }
+  }
+
+  /**
    * Trigger viewchange event used in month/week views
    * @param {string} view moth | week | day
    * @param {Date} activeDate date
    */
-  triggerViewChange(view: 'month' | 'week' | 'day', activeDate?: Date): void {
+  #triggerViewChange(view: 'month' | 'week' | 'day', activeDate?: Date): void {
     if (!view) return;
 
     this.triggerEvent('viewchange', this, {

@@ -166,6 +166,9 @@ export default class IdsWeekView extends Base {
     this.container?.querySelector('ids-toolbar')?.remove();
     this.container?.insertAdjacentHTML('afterbegin', toolbarTemplate);
 
+    // Configure view picker
+    if (this.viewPicker) this.viewPickerConnected();
+
     // Toolbar events
     this.#attachToolbarEvents();
 
@@ -201,12 +204,7 @@ export default class IdsWeekView extends Base {
     }
 
     if (this.viewPicker) {
-      const viewPicker = this.container?.querySelector('#view-picker');
-      this.offEvent('selected.week-view-picker', viewPicker);
-      this.onEvent('selected.week-view-picker', viewPicker, (evt: CustomEvent) => {
-        evt.stopPropagation();
-        this.triggerViewChange(evt.detail.value, this.state.activeDate);
-      });
+      this.attachViewPickerEvents('week');
     }
   }
 
