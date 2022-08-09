@@ -967,13 +967,6 @@ class IdsDatePicker extends Base {
         this.#picklistWeekPaged(true);
       }
 
-      // Enter on selected month/year will switch focus between the two
-      if (key === 13 && monthSelected?.matches(':focus')) {
-        yearSelected?.focus();
-      } else if (key === 13 && yearSelected?.matches(':focus')) {
-        monthSelected?.focus();
-      }
-
       // Arrow Up on picklist month
       if (key === 38 && monthSelected?.matches(':focus')) {
         const month = this.month - 1;
@@ -1250,6 +1243,19 @@ class IdsDatePicker extends Base {
 
           this.#changeDate('previous-day');
         }
+      }
+
+      const btnApply = this.container.querySelector('.popup-btn-apply');
+      const yearState = this.#monthView.container?.querySelector('ids-date-picker').shadowRoot?.querySelector('.is-year.is-selected');
+      const monthState = this.#monthView.container?.querySelector('ids-date-picker').shadowRoot?.querySelector('.is-month.is-selected');
+
+      // Enter on selected month will move focus to picklist year
+      // Enter on selected year will move focus to Apply button
+      if (key === 13 && monthState?.matches(':focus')) {
+        yearState?.focus();
+      } else if (key === 13 && yearState?.matches(':focus')) {
+        stopEvent();
+        btnApply?.focus();
       }
     }
   }
