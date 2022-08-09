@@ -22,11 +22,11 @@ export default class IdsHierarchyLegendItem extends Base {
    * @returns {void}
    */
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
   }
 
   disconnectedCallback() {
-    super.disconnectedCallback?.();
+    super.disconnectedCallback();
   }
 
   /**

@@ -49,7 +49,7 @@ describe('Ids Tooltip e2e Tests', () => {
   it('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
-      document.body.insertAdjacentHTML('beforeend', `<ids-axis-chart id="test">test</ids-axis-chart>`);
+      document.body.insertAdjacentHTML('beforeend', `<ids-tooltip id="test">test</ids-tooltip>`);
       document.querySelector('#test')?.remove();
     });
     expect(await countObjects(page)).toEqual(numberOfObjects);

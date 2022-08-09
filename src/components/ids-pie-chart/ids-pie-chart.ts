@@ -58,7 +58,6 @@ export default class IdsPieChart extends Base {
     // Setup default values
     if (!this.state) this.state = {};
     this.DEFAULT_SELECTABLE = false;
-    this.legendPlacement = 'right';
   }
 
   /** Reference to datasource API */
@@ -76,14 +75,16 @@ export default class IdsPieChart extends Base {
    * Invoked each time the custom element is connected to the DOM.
    */
   connectedCallback(): void {
+    super.connectedCallback?.();
+    this.legendPlacement = 'right';
     this.svg = this.shadowRoot.querySelector('svg');
     this.svgContainer = this.shadowRoot.querySelector('.ids-chart-svg-container');
     this.emptyMessage = this.querySelector('ids-empty-message') || this.shadowRoot.querySelector('ids-empty-message');
     this.legend = this.shadowRoot.querySelector('[name="legend"]');
 
+    this.redraw();
+    this.legendsClickable?.(this.selectable);
     this.#attachEventHandlers();
-    this.rerender();
-    super.connectedCallback?.();
   }
 
   /**
@@ -94,19 +95,10 @@ export default class IdsPieChart extends Base {
   }
 
   /**
-   * Invoked after rendering
-   */
-  rendered(): void {
-    this.legendsClickable?.(this.selectable);
-    this.#preSelected();
-    this.#attachTooltipEvents();
-  }
-
-  /**
    * Invoked when redrawing the chart
    * @private
    */
-  rerender(): void {
+  redraw(): void {
     if (!this.initialized) {
       return;
     }
@@ -121,12 +113,11 @@ export default class IdsPieChart extends Base {
     this.#setSliceAngles();
     this.legend.innerHTML = this.legendTemplate();
     this.svg.innerHTML = this.chartTemplate();
+    this.#attachTooltipEvents();
+    this.#preSelected();
 
     // Completed Event and Callback
     this.triggerEvent('rendered', this, { svg: this.svg, data: this.data, markerData: this.markerData });
-    if (this.rendered) {
-      this?.rendered();
-    }
   }
 
   /**
@@ -176,7 +167,7 @@ export default class IdsPieChart extends Base {
    */
   #attachEventHandlers(): void {
     this.onEvent('localechange.pie', this.closest('ids-container'), async () => {
-      this.rerender();
+      this.redraw();
       this.shadowRoot.querySelector('ids-empty-message ids-text').textContent = this.locale?.translate('NoData');
     });
 
@@ -233,7 +224,7 @@ export default class IdsPieChart extends Base {
    */
   set legendFormatter(value: any) {
     this.state.legendFormatter = value;
-    this.rerender();
+    this.redraw();
   }
 
   get legendFormatter(): any {
@@ -577,7 +568,7 @@ export default class IdsPieChart extends Base {
    */
   #showEmptyMessage() {
     this.svg.classList.add('hidden');
-    this.svgContainer.parentElement.classList.add('empty');
+    this.svgContainer?.parentElement.classList.add('empty');
     this.emptyMessage.style.height = `${this.height}px`;
     this.emptyMessage.removeAttribute('hidden');
   }
@@ -588,7 +579,7 @@ export default class IdsPieChart extends Base {
    */
   #hideEmptyMessage() {
     this.svg.classList.remove('hidden');
-    this.svgContainer.parentElement.classList.remove('empty');
+    this.svgContainer?.parentElement.classList.remove('empty');
     this.emptyMessage.style.height = '';
     this.emptyMessage.setAttribute('hidden', '');
   }
@@ -697,8 +688,8 @@ export default class IdsPieChart extends Base {
    */
   set title(value) {
     this.setAttribute(attributes.TITLE, value);
-    const title = this.container.querySelectorAll(attributes.TITLE);
-    if (title.length > 1) {
+    const title = this.container?.querySelectorAll(attributes.TITLE);
+    if (title?.length > 1) {
       title[1].textContent = value;
     }
   }
@@ -711,7 +702,7 @@ export default class IdsPieChart extends Base {
    */
   set donut(value) {
     this.setAttribute(attributes.DONUT, value);
-    this.rerender();
+    this.redraw();
   }
 
   get donut() { return stringToBool(this.getAttribute(attributes.DONUT)) || false; }
@@ -722,7 +713,7 @@ export default class IdsPieChart extends Base {
    */
   set donutText(value) {
     this.setAttribute(attributes.DONUT_TEXT, value);
-    const textElem = this.container.querySelector('.donut-text');
+    const textElem = this.container?.querySelector('.donut-text');
     if (textElem) textElem.innerHTML = value;
   }
 
@@ -734,8 +725,8 @@ export default class IdsPieChart extends Base {
    */
   set height(value: number | string) {
     this.setAttribute(attributes.HEIGHT, value);
-    this.svg.setAttribute(attributes.HEIGHT, value);
-    this.rerender();
+    this.svg?.setAttribute(attributes.HEIGHT, value);
+    this.redraw();
   }
 
   get height() {
@@ -749,8 +740,8 @@ export default class IdsPieChart extends Base {
    */
   set width(value: number | string) {
     this.setAttribute(attributes.WIDTH, value);
-    this.svg.setAttribute(attributes.WIDTH, value);
-    this.rerender();
+    this.svg?.setAttribute(attributes.WIDTH, value);
+    this.redraw();
   }
 
   get width() {
@@ -767,7 +758,7 @@ export default class IdsPieChart extends Base {
       this.#hideEmptyMessage();
       this.datasource.data = value as any;
       this.initialized = true;
-      this.rerender();
+      this.redraw();
       return;
     }
     this.datasource.data = [];
@@ -801,7 +792,7 @@ export default class IdsPieChart extends Base {
    */
   set animated(value: boolean) {
     this.setAttribute(attributes.ANIMATED, value);
-    this.rerender();
+    this.redraw();
   }
 
   get animated(): boolean {
@@ -822,7 +813,7 @@ export default class IdsPieChart extends Base {
     if (suppressed) {
       this.#detachTooltipEvents();
     }
-    this.rerender();
+    this.redraw();
   }
 
   get suppressTooltips(): boolean {

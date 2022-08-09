@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const dateInput: any = document.querySelector('#mask-date');
   dateInput.mask = 'date';
   dateInput.maskOptions = {
-    format: 'M/d/yyyy HH:mm a'
+    format: 'M/d/yyyy hh:mm a'
   };
 
   // Number Input - use `number` string to pre-configure the internal Number Mask

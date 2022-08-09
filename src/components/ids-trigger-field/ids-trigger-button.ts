@@ -19,11 +19,6 @@ export default class IdsTriggerButton extends Base {
    */
   constructor() {
     super();
-
-    // Trigger it the first time since we have no template
-    if (stringToBool(this.readonly)) {
-      this.readonly = true;
-    }
   }
 
   /**
@@ -41,10 +36,8 @@ export default class IdsTriggerButton extends Base {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
-    if (this.getAttribute(attributes.INLINE)) {
-      this.inline = true;
-    }
+    super.connectedCallback();
+    this.inline = stringToBool(this.getAttribute(attributes.INLINE));
   }
 
   /**
@@ -67,12 +60,12 @@ export default class IdsTriggerButton extends Base {
 
     if (isTabbable) {
       this.setAttribute(attributes.TABBABLE, '');
-      button.tabIndex = 0;
+      if (button) button.tabIndex = 0;
       return;
     }
 
     this.removeAttribute(attributes.TABBABLE);
-    button.tabIndex = -1;
+    if (button) button.tabIndex = -1;
   }
 
   get tabbable(): boolean { return stringToBool(this.getAttribute(attributes.TABBABLE)); }
@@ -86,10 +79,10 @@ export default class IdsTriggerButton extends Base {
     const button = this.shadowRoot?.querySelector('button');
     if (isReadonly) {
       this.setAttribute(attributes.READONLY, '');
-      button.tabIndex = -1;
+      if (button) button.tabIndex = -1;
       return;
     }
-    button.tabIndex = this.tabbable ? 0 : -1;
+    if (button) button.tabIndex = this.tabbable ? 0 : -1;
     this.removeAttribute(attributes.READONLY);
   }
 

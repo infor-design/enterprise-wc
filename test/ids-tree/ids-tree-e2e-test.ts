@@ -1,4 +1,5 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
+import countObjects from '../helpers/count-objects';
 
 describe('Ids Tree e2e Tests', () => {
   const url = 'http://localhost:4444/ids-tree/example.html';
@@ -18,5 +19,22 @@ describe('Ids Tree e2e Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     const results = await new AxePuppeteer(page).disableRules(['aria-required-parent']).analyze();
     expect(results.violations.length).toBe(0);
+  });
+
+  it('should not have memory leaks', async () => {
+    const numberOfObjects = await countObjects(page);
+
+    await page.evaluate(() => {
+      const template = `
+        <ids-tree id="test">
+          <ids-tree-node id="node0">Test (node0)</ids-tree-node>
+          <ids-tree-node id="node1">Test (node1)</ids-tree-node>
+        </ids-tree>
+      `;
+      document.body.insertAdjacentHTML('beforeend', template);
+      document.querySelector('#test')?.remove();
+    });
+
+    expect(await countObjects(page)).toEqual(numberOfObjects);
   });
 });

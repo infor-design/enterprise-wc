@@ -14,13 +14,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // Implement `onPlace` callback to alter popup values and provide logging
   popup.onPlace = (popupRect: any) => {
     // eslint-disable-next-line
-    console.log('Before `onPlace` occurs:', popupRect.x, popupRect.y);
+    console.info('Before `onPlace` occurs:', popupRect.x, popupRect.y);
 
     popupRect.x += 100;
     popupRect.y += 50;
 
     // eslint-disable-next-line
-    console.log('After `onPlace` occurs:', popupRect.x, popupRect.y);
+    console.info('After `onPlace` occurs:', popupRect.x, popupRect.y);
 
     return popupRect;
   };

@@ -6,4 +6,5 @@
  keywords: swap, drag , drop, list, swappable, sortable
  examples:
   - link: example.html
+    type: Main Example
     description: Showing a basic swappable list

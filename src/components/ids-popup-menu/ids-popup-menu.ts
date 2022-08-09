@@ -9,7 +9,7 @@ import styles from './ids-popup-menu.scss';
 /**
  * IDS Popup Menu Component
  * @type {IdsPopupMenu}
- * @inherits IdsElement
+ * @inherits IdsMenu
  * @mixes IdsEventsMixin
  * @mixes IdsPopupOpenEventsMixin
  * @mixes IdsPopupInteractionsMixin
@@ -42,9 +42,13 @@ export default class IdsPopupMenu extends Base {
    * @returns {void}
    */
   connectedCallback(): void {
-    super.connectedCallback?.();
+    super.connectedCallback();
+
     if (!this.hasAttribute(attributes.HIDDEN)) {
       this.setAttribute(attributes.HIDDEN, '');
+    }
+    if (this.hasAttribute(attributes.WIDTH)) {
+      this.#setMenuWidth(this.getAttribute(attributes.WIDTH));
     }
 
     // If this Popupmenu is a submenu, and no target is pre-defined,
@@ -80,9 +84,9 @@ export default class IdsPopupMenu extends Base {
   attachEventHandlers(): void {
     super.attachEventHandlers();
 
-    // Hide the menu when an item is selected
+    // Hide the menu when an item is "picked"
     // (only if `keep-open` attribute is not present)
-    this.onEvent('selected', this, (e: CustomEvent) => {
+    this.onEvent('pick', this, (e: CustomEvent) => {
       if (this.visible) {
         const item = e.detail.elem;
         if (!item?.group?.keepOpen) {
@@ -160,7 +164,7 @@ export default class IdsPopupMenu extends Base {
    * @returns {boolean} true if the Popup Menu is currently being displayed
    */
   get visible(): boolean {
-    return this.popup.visible;
+    return !!this.popup?.visible;
   }
 
   /**
@@ -276,9 +280,7 @@ export default class IdsPopupMenu extends Base {
         this.removeAttribute(attributes.WIDTH);
       }
     }
-
-    this.setAttribute(attributes.WIDTH, value);
-    this.container.style.width = value;
+    this.#setMenuWidth(newValue);
   }
 
   /**
@@ -286,8 +288,15 @@ export default class IdsPopupMenu extends Base {
    * @returns {string | null} width value
    */
   get width(): string | null {
-    const width = this.container.style.width;
+    const width = this.container?.style.width;
     return (width.length ? width : null);
+  }
+
+  #setMenuWidth(targetWidth: string | null): void {
+    if (targetWidth === null) targetWidth = '';
+    if (this.container) {
+      this.container.style.width = targetWidth;
+    }
   }
 
   /**

@@ -523,7 +523,11 @@ describe('Ids Date Picker e2e Tests', () => {
         'afterbegin',
         '<ids-date-picker id="e2e-range-picker" use-range="true" value="2/7/2018 - 2/22/2018"></ids-date-picker>'
       );
+    });
 
+    await page.waitForTimeout(400);
+
+    await page.evaluate(() => {
       (document.querySelector as any)('#e2e-range-picker').rangeSettings = {
         start: '2/3/2019',
         end: '3/15/2019'

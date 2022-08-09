@@ -74,7 +74,7 @@ class IdsDataSource {
    */
   get data() {
     if (this.pageSize && this.pageSize < this.total) {
-      return this.pager(this.pageNumber, this.pageSize);
+      return this.paginate(this.pageNumber, this.pageSize);
     }
 
     return this.#currentData;
@@ -121,7 +121,7 @@ class IdsDataSource {
    * @param {number} pageSize - number of items to return
    * @returns {Array} the paginated data
    */
-  pager(pageNumber = 1, pageSize = 10) {
+  paginate(pageNumber = 1, pageSize = 10) {
     pageNumber = Math.max(pageNumber || 1, 1);
     pageSize = pageSize || 1;
 

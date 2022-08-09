@@ -6,6 +6,8 @@
  keywords: alert, error, info, warning
  examples:
   - link: example.html
+    type: Main Example
     description: Shows all alert types
   - link: side-by-side.html
+    type: Side by Side
     description: Showing a alert side by side with a 4.x alert

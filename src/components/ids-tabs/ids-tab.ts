@@ -115,19 +115,20 @@ export default class IdsTab extends Base {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
 
     this.setAttribute(htmlAttributes.ROLE, 'tab');
     this.setAttribute(htmlAttributes.ARIA_SELECTED, `${Boolean(this.selected)}`);
     this.setAttribute(htmlAttributes.TABINDEX, stringToBool(this.selected) ? '0' : '-1');
     this.setAttribute(htmlAttributes.ARIA_LABEL, this.#getReadableAriaLabel());
     this.#detectSwappable();
+    this.#afterConnectedCallback();
   }
 
   /**
    * Refresh component's bindings after render
    */
-  rendered() {
+  #afterConnectedCallback() {
     this.offEvent('slotchange');
 
     // When any of this item's slots change,
@@ -150,10 +151,10 @@ export default class IdsTab extends Base {
   set actionable(isActionable: boolean | string) {
     if (stringToBool(isActionable)) {
       this.setAttribute(attributes.ACTIONABLE, '');
-      this.container.classList.add(attributes.ACTIONABLE);
+      this.container?.classList.add(attributes.ACTIONABLE);
     } else {
       this.removeAttribute(attributes.ACTIONABLE);
-      this.container.classList.remove(attributes.ACTIONABLE);
+      this.container?.classList.remove(attributes.ACTIONABLE);
     }
   }
 
@@ -170,11 +171,11 @@ export default class IdsTab extends Base {
   set dismissible(isDismissible: boolean | string) {
     if (stringToBool(isDismissible)) {
       this.setAttribute(attributes.DISMISSIBLE, '');
-      this.container.classList.add(attributes.DISMISSIBLE);
+      this.container?.classList.add(attributes.DISMISSIBLE);
       this.insertAdjacentHTML('beforeend', this.#templateDismissible());
     } else {
       this.removeAttribute(attributes.DISMISSIBLE);
-      this.container.classList.remove(attributes.DISMISSIBLE);
+      this.container?.classList.remove(attributes.DISMISSIBLE);
       this.dismissibleBtnEl.remove();
     }
   }
@@ -201,13 +202,13 @@ export default class IdsTab extends Base {
     const newValue = stringToBool(isDisabled);
     if (newValue) {
       this.setAttribute(attributes.DISABLED, '');
-      this.container.classList.add(attributes.DISABLED);
+      this.container?.classList.add(attributes.DISABLED);
       if (this.dismissibleBtnEl) {
         this.dismissibleBtnEl.disabled = true;
       }
     } else {
       this.removeAttribute(attributes.DISABLED);
-      this.container.classList.remove(attributes.DISABLED);
+      this.container?.classList.remove(attributes.DISABLED);
       if (this.dismissibleBtnEl) {
         this.dismissibleBtnEl.disabled = false;
       }
@@ -230,16 +231,16 @@ export default class IdsTab extends Base {
     if (currentValue !== newValue) {
       if (!newValue) {
         this.removeAttribute(attributes.SELECTED);
-        this.container.classList.remove(attributes.SELECTED);
+        this.container?.classList.remove(attributes.SELECTED);
         this.container?.children?.[0]?.removeAttribute?.(attributes.FONT_WEIGHT);
         this.setAttribute(htmlAttributes.TABINDEX, '-1');
-        this.container.setAttribute(htmlAttributes.TABINDEX, '-1');
+        this.container?.setAttribute(htmlAttributes.TABINDEX, '-1');
       } else {
         this.setAttribute(attributes.SELECTED, '');
         this.container?.children?.[0]?.setAttribute?.(attributes.FONT_WEIGHT, 'bold');
-        this.container.classList.add(attributes.SELECTED);
+        this.container?.classList.add(attributes.SELECTED);
         this.setAttribute(htmlAttributes.TABINDEX, '0');
-        this.container.setAttribute(htmlAttributes.TABINDEX, '0');
+        this.container?.setAttribute(htmlAttributes.TABINDEX, '0');
         this.#select(newValue);
       }
       this.setAttribute(htmlAttributes.ARIA_SELECTED, `${newValue}`);
@@ -303,7 +304,7 @@ export default class IdsTab extends Base {
       if (this.hasAttribute(attributes.COUNT)) {
         this.removeAttribute(attributes.COUNT);
       }
-      this.container.classList.remove(attributes.COUNT);
+      this.container?.classList.remove(attributes.COUNT);
       return;
     }
 
@@ -311,7 +312,7 @@ export default class IdsTab extends Base {
       return;
     }
 
-    this.container.classList.add(attributes.COUNT);
+    this.container?.classList.add(attributes.COUNT);
 
     if (this.getAttribute(attributes.COUNT) !== value) {
       this.setAttribute(attributes.COUNT, value);
@@ -343,7 +344,7 @@ export default class IdsTab extends Base {
     const slotNode = idsText?.querySelector('slot')?.assignedNodes?.()?.[0];
 
     if (slotNode && idsText) {
-      idsText.container.setAttribute('data-text', `"${slotNode.textContent.trim()}"`);
+      idsText.container?.setAttribute('data-text', `"${slotNode.textContent.trim()}"`);
     }
   };
 
@@ -352,7 +353,7 @@ export default class IdsTab extends Base {
    */
   #detectSwappable(): void {
     const swappableParent = this.parentElement && this.parentElement.tagName === 'IDS-SWAPPABLE-ITEM';
-    this.container.classList[swappableParent ? 'add' : 'remove']('swappable');
+    this.container?.classList[swappableParent ? 'add' : 'remove']('swappable');
   }
 
   /**
@@ -377,7 +378,7 @@ export default class IdsTab extends Base {
    */
   focus(): void {
     if (!this.disabled) {
-      this.container.focus();
+      this.container?.focus();
     }
   }
 

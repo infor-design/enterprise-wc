@@ -3,7 +3,6 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-separator-base';
-
 import styles from './ids-separator.scss';
 
 /**
@@ -23,7 +22,7 @@ export default class IdsSeparator extends Base {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
   }
 
   static get attributes(): Array<string> {
@@ -47,7 +46,7 @@ export default class IdsSeparator extends Base {
     if (this.parentElement?.tagName === 'IDS-MENU-GROUP') {
       tagName = 'li';
     }
-    return `<${tagName} part="separator" class="ids-separator"></${tagName}>`;
+    return `<${tagName} part="separator" class="ids-separator${this.vertical ? ' vertical' : ''} "></${tagName}>`;
   }
 
   /**
@@ -58,16 +57,16 @@ export default class IdsSeparator extends Base {
     const trueVal = stringToBool(val);
     if (current !== trueVal) {
       if (trueVal) {
-        this.container.classList.add('vertical');
+        this.container?.classList.add('vertical');
         this.setAttribute('vertical', '');
       } else {
-        this.container.classList.remove('vertical');
+        this.container?.classList.remove('vertical');
         this.removeAttribute('vertical');
       }
     }
   }
 
-  get vertical() {
-    return this.container.classList.contains('vertical');
+  get vertical(): boolean {
+    return !!this.container?.classList.contains('vertical');
   }
 }

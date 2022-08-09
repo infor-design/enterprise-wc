@@ -3,7 +3,7 @@
  */
 import IdsDataLabel from '../../src/components/ids-data-label/ids-data-label';
 import IdsContainer from '../../src/components/ids-container/ids-container';
-import waitFor from '../helpers/wait-for';
+import waitForTimeout from '../helpers/wait-for-timeout';
 import processAnimFrame from '../helpers/process-anim-frame';
 
 describe('IdsDataLabel Component', () => {
@@ -43,15 +43,15 @@ describe('IdsDataLabel Component', () => {
     expect(dataLabel.container.classList).toContain('top-positioned');
 
     dataLabel.labelPosition = 'left';
-    await waitFor(() => expect(dataLabel.container.classList[0]).toEqual('left-positioned'));
+    await waitForTimeout(() => expect(dataLabel.container.classList[0]).toEqual('left-positioned'));
     expect(dataLabel.labelClass).toEqual('left-positioned');
 
     dataLabel.labelPosition = 'top';
-    await waitFor(() => expect(dataLabel.container.classList[0]).toEqual('top-positioned'));
+    await waitForTimeout(() => expect(dataLabel.container.classList[0]).toEqual('top-positioned'));
     expect(dataLabel.labelClass).toEqual('top-positioned');
 
     dataLabel.labelPosition = '';
-    await waitFor(() => expect(dataLabel.container.classList[0]).toEqual('top-positioned'));
+    await waitForTimeout(() => expect(dataLabel.container.classList[0]).toEqual('top-positioned'));
     expect(dataLabel.labelClass).toEqual('top-positioned');
   });
 
@@ -61,7 +61,7 @@ describe('IdsDataLabel Component', () => {
     expect(dataLabel.label).toEqual('test');
     expect(dataLabel.container.querySelector('.label').innerHTML).toEqual('test<span class="colon"></span>');
     dataLabel.label = '';
-    expect(dataLabel.label).toEqual('test');
+    expect(dataLabel.label).toEqual('');
   });
 
   it('renders for french', async () => {

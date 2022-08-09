@@ -51,6 +51,7 @@ export default class IdsDraggable extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback();
     this.#updateHandleElem();
 
     // style the cursor element
@@ -59,7 +60,6 @@ export default class IdsDraggable extends Base {
     this.#cursorEl.style.width = `${CURSOR_EL_SIZE}px`;
     this.#cursorEl.style.height = `${CURSOR_EL_SIZE}px`;
     this.#cursorEl.style.cursor = this.#getCursorStyle();
-    super.connectedCallback?.();
   }
 
   /**

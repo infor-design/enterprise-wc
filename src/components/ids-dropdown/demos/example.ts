@@ -1,3 +1,4 @@
+import '../ids-dropdown';
 import statesJSON from '../../../assets/data/states.json';
 
 const dropdown: any = document.querySelector('#dropdown-1');

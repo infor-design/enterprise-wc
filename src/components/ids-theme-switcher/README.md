@@ -22,7 +22,7 @@ We include a theme switcher component that can be visual or non visual. If visua
 Add an ids-theme-switcher to the page near the top and set the version and mode properties.
 
 ```html
-<ids-theme-switcher version="new" mode="dark"></ids-theme-switcher>
+<ids-theme-switcher mode="dark"></ids-theme-switcher>
 ```
 
 ## Settings and Attributes

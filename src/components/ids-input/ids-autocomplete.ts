@@ -19,7 +19,7 @@ const IdsAutoComplete = (superclass: any) => class extends superclass {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
 
     if (!this.autocomplete) {
       this.destroyAutocomplete();

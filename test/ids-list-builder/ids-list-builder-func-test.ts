@@ -281,12 +281,10 @@ describe('IdsListBuilder Component', () => {
     listItems[0].dispatchEvent(createKeyboardEvent('ArrowDown'));
     expect(listItems[0].getAttribute('tabindex')).toBe('-1');
     expect(listItems[1].getAttribute('tabindex')).toBe('0');
-    expect(listItems[2].getAttribute('tabindex')).toBe('-1');
 
     listItems[1].dispatchEvent(createKeyboardEvent('ArrowDown'));
     expect(listItems[0].getAttribute('tabindex')).toBe('-1');
     expect(listItems[1].getAttribute('tabindex')).toBe('-1');
-    expect(listItems[2].getAttribute('tabindex')).toBe('0');
 
     listItems[2].dispatchEvent(createKeyboardEvent(' '));
     expect(idsListBuilder.selectedLi.getAttribute('index')).toBe('2');
@@ -295,7 +293,6 @@ describe('IdsListBuilder Component', () => {
     listItems[2].dispatchEvent(createKeyboardEvent('ArrowUp'));
     expect(listItems[0].getAttribute('tabindex')).toBe('-1');
     expect(listItems[1].getAttribute('tabindex')).toBe('0');
-    expect(listItems[2].getAttribute('tabindex')).toBe('-1');
 
     listItems[1].dispatchEvent(createKeyboardEvent(' '));
     expect(idsListBuilder.selectedLi.getAttribute('index')).toBe('1');

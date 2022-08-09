@@ -69,6 +69,17 @@ describe('IdsCalendar Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
+  it('renders via document.createElement (append late)', () => {
+    const errors = jest.spyOn(global.console, 'error');
+    const elem: any = document.createElement('ids-calendar');
+
+    elem.date = '10/22/2019';
+    container.appendChild(elem);
+
+    expect(elem.date.getTime()).toEqual(new Date('10/22/2019').getTime());
+    expect(errors).not.toHaveBeenCalled();
+  });
+
   it('can be destroyed', () => {
     const errors = jest.spyOn(global.console, 'error');
 

@@ -20,18 +20,6 @@ This mixin adds functionality to change the theme on a component. To use it you 
 .ids-container[mode='contrast'] {
   @include bg-slate-10();
 }
-
-.ids-container[version='classic'][mode='light'] {
-  @include bg-graphite-10();
-}
-
-.ids-container[version='classic'][mode='dark'] {
-  @include bg-classic-slate-80();
-}
-
-.ids-container[version='classic'][mode='contrast'] {
-  @include bg-graphite-20();
-}
 ```
 
 5. In addition you should expose some of the component elements as `parts` do this in the comments and in the template. This gives a way to customize the styles outside of the web components, for flexibility and possible style customizations.

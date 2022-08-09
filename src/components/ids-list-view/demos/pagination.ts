@@ -13,6 +13,7 @@ if (listView) {
     const res = await fetch(url);
     const data = await res.json();
     listView.data = data;
+    listView.pageTotal = data.length;
   };
 
   setData();

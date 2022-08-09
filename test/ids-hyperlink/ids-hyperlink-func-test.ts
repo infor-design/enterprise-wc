@@ -100,11 +100,6 @@ describe('IdsHyperlink Component', () => {
     expect(elem.container.getAttribute('mode')).toEqual('dark');
   });
 
-  it('supports setting version', () => {
-    elem.version = 'classic';
-    expect(elem.container.getAttribute('version')).toEqual('classic');
-  });
-
   it('unsets the color', () => {
     elem.color = 'unset';
     expect(elem.getAttribute('color')).toEqual('unset');

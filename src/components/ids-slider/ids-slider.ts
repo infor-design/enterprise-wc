@@ -104,34 +104,34 @@ export default class IdsSlider extends Base {
   }
 
   connectedCallback() {
-    this.slider = this.container.querySelector('.slider');
-    this.trackArea = this.container.querySelector('.track-area');
-    this.progressTrack = this.container.querySelector('.track-progress');
-    this.track = this.container.querySelector('.track');
-    this.tickContainer = this.container.querySelector('.tick-container');
+    super.connectedCallback();
+    this.slider = this.container?.querySelector('.slider');
+    this.trackArea = this.container?.querySelector('.track-area');
+    this.progressTrack = this.container?.querySelector('.track-progress');
+    this.track = this.container?.querySelector('.track');
+    this.tickContainer = this.container?.querySelector('.tick-container');
 
     this.#mouseHover = false;
-    this.thumb = this.container.querySelector('.thumb');
-    this.thumbDraggable = this.container.querySelector('.thumb-draggable');
-    this.thumbShadow = this.container.querySelector('.thumb-shadow');
-    this.tooltip = this.container.querySelector('.tooltip');
-    this.tooltipText = this.container.querySelector('.tooltip .text');
-    this.tooltipPin = this.container.querySelector('.tooltip .pin');
-    this.lastTick = this.container.querySelector('.tick:last-child');
-    this.firstTick = this.container.querySelector('.tick:first-child');
+    this.thumb = this.container?.querySelector('.thumb');
+    this.thumbDraggable = this.container?.querySelector('.thumb-draggable');
+    this.thumbShadow = this.container?.querySelector('.thumb-shadow');
+    this.tooltip = this.container?.querySelector('.tooltip');
+    this.tooltipText = this.container?.querySelector('.tooltip .text');
+    this.tooltipPin = this.container?.querySelector('.tooltip .pin');
+    this.lastTick = this.container?.querySelector('.tick:last-child');
+    this.firstTick = this.container?.querySelector('.tick:first-child');
 
     if (this.type === 'range') {
-      this.thumbSecondary = this.container.querySelector('.thumb.secondary');
-      this.thumbDraggableSecondary = this.container.querySelector('.thumb-draggable.secondary');
-      this.thumbShadowSecondary = this.container.querySelector('.thumb-shadow.secondary');
-      this.tooltipSecondary = this.container.querySelector('.tooltip.secondary');
-      this.tooltipTextSecondary = this.container.querySelector('.tooltip.secondary .text.secondary');
-      this.tooltipPinSecondary = this.container.querySelector('.tooltip .pin.secondary');
+      this.thumbSecondary = this.container?.querySelector('.thumb.secondary');
+      this.thumbDraggableSecondary = this.container?.querySelector('.thumb-draggable.secondary');
+      this.thumbShadowSecondary = this.container?.querySelector('.thumb-shadow.secondary');
+      this.tooltipSecondary = this.container?.querySelector('.tooltip.secondary');
+      this.tooltipTextSecondary = this.container?.querySelector('.tooltip.secondary .text.secondary');
+      this.tooltipPinSecondary = this.container?.querySelector('.tooltip .pin.secondary');
     } else {
-      this.container.querySelector('.thumb-draggable.secondary').remove();
+      this.container?.querySelector('.thumb-draggable.secondary').remove();
     }
 
-    super.connectedCallback();
     this.#attachEventListeners();
     this.#attachUIStyles();
     this.#attachARIA();
@@ -139,7 +139,7 @@ export default class IdsSlider extends Base {
     // @TODO find a better way to apply animation/transition rules after the component loads (#698)
     setTimeout(() => {
       this.#toggleAnimations(true);
-    }, 80);
+    }, 300);
   }
 
   /**
@@ -218,7 +218,7 @@ export default class IdsSlider extends Base {
     if (val) {
       if (this.readonly) this.readonly = false;
       this.setAttribute(attributes.DISABLED, '');
-      this.container.classList.add(attributes.DISABLED);
+      this.container?.classList.add(attributes.DISABLED);
       this.thumbDraggable.disabled = true;
       this.thumbDraggable.setAttribute(attributes.TABINDEX, '-1');
       this.#updateTooltipDisplay(true);
@@ -229,7 +229,7 @@ export default class IdsSlider extends Base {
       }
     } else {
       this.removeAttribute(attributes.DISABLED);
-      this.container.classList.remove(attributes.DISABLED);
+      this.container?.classList.remove(attributes.DISABLED);
       this.thumbDraggable.disabled = false;
       this.thumbDraggable.setAttribute(attributes.TABINDEX, '0');
       if (this.type === 'range') {
@@ -256,7 +256,7 @@ export default class IdsSlider extends Base {
     if (val) {
       if (this.disabled) this.disabled = false;
       this.setAttribute(attributes.READONLY, '');
-      this.container.classList.add(attributes.READONLY);
+      this.container?.classList.add(attributes.READONLY);
       this.thumbDraggable.disabled = true;
       if (this.type === 'range') {
         this.thumbDraggableSecondary.disabled = true;
@@ -264,7 +264,7 @@ export default class IdsSlider extends Base {
       }
     } else {
       this.removeAttribute(attributes.READONLY);
-      this.container.classList.remove(attributes.READONLY);
+      this.container?.classList.remove(attributes.READONLY);
       this.thumbDraggable.disabled = false;
       if (this.type === 'range') this.thumbDraggableSecondary.disabled = false;
     }
@@ -301,7 +301,7 @@ export default class IdsSlider extends Base {
    * @returns {string} the primary Slider thumb's label contents
    */
   get label(): string {
-    return this.#label;
+    return this.#label || stripHTML(this.getAttribute(attributes.LABEL));
   }
 
   /**
@@ -327,7 +327,7 @@ export default class IdsSlider extends Base {
    * @returns {string} the primary Slider thumb's label contents
    */
   get labelSecondary(): string {
-    return this.#labelSecondary;
+    return this.#labelSecondary || stripHTML(this.getAttribute(attributes.LABEL_SECONDARY));
   }
 
   /**
@@ -346,7 +346,7 @@ export default class IdsSlider extends Base {
       if (this.type === 'range') this.thumbDraggableSecondary.setAttribute(htmlAttributes.ARIA_ORIENTATION, 'horizontal');
     }
     if (val) {
-      this.container.classList.add('vertical');
+      this.container?.classList.add('vertical');
       this.slider.classList.add('vertical');
       this.progressTrack.classList.add('vertical');
       this.track.classList.add('vertical');
@@ -480,32 +480,32 @@ export default class IdsSlider extends Base {
 
     if (labels.length === stepNumber) {
       // check amount of label elements -- add or remove accordingly
-      let labelElements = this.container.querySelectorAll('.label');
-      const ticks = this.container.querySelectorAll('.tick');
+      let labelElements = this.container?.querySelectorAll('.label');
+      const ticks = this.container?.querySelectorAll('.tick');
 
-      if (labelElements.length !== stepNumber) {
+      if (labelElements?.length !== stepNumber) {
         const x = Math.abs(stepNumber - labelElements.length);
         const labelAttr = !this.disabled ? ' label' : '';
 
         for (let i = 0; i < x; i++) {
           if (labelElements.length < stepNumber) {
-            ticks[ticks.length - 1 - i].insertAdjacentHTML('afterbegin', `<ids-text${labelAttr} class="label"></ids-text>`);
+            ticks[ticks.length - 1 - i]?.insertAdjacentHTML('afterbegin', `<ids-text${labelAttr} class="label"></ids-text>`);
           }
         }
         // grab fresh label elements group
-        labelElements = this.container.querySelectorAll('.label');
+        labelElements = this.container?.querySelectorAll('.label');
       }
       // set the innerHTML for each label in the array
 
       if (labels.length === labelElements.length) {
-        labelElements.forEach((x: { innerHTML: any; classList: { add: (arg0: string) => any; }; }, i: number) => {
+        labelElements?.forEach((x: { innerHTML: any; classList: { add: (arg0: string) => any; }; }, i: number) => {
           x.innerHTML = this.vertical ? labels[labels.length - 1 - i] : labels[i];
           if (this.vertical) x.classList.add('vertical'); // add vertical styles
         });
       }
     } else {
       // set labels to be empty
-      const labelElements = this.container.querySelectorAll('.label');
+      const labelElements = this.container?.querySelectorAll('.label');
       labelElements.forEach((x: { innerHTML: string; }) => {
         x.innerHTML = '';
       });
@@ -535,16 +535,16 @@ export default class IdsSlider extends Base {
 
       if (parseInt(value) >= 2) {
         this.setAttribute('step-number', value);
-        const stepLength = this.container.querySelectorAll('.tick').length;
+        const stepLength = this.container?.querySelectorAll('.tick').length;
 
         if (stepLength !== this.stepNumber) {
           const x = Math.abs(stepLength - this.stepNumber);
           for (let i = 0; i < x; i++) {
             // remove or add ticks accordingly
             if (stepLength > this.stepNumber) {
-              this.container.querySelector('.tick').remove();
+              this.container?.querySelector('.tick').remove();
             } else {
-              this.container.querySelector('.tick:last-child').insertAdjacentHTML('afterend', `<span class="tick"></span>`);
+              this.container?.querySelector('.tick:last-child').insertAdjacentHTML('afterend', `<span class="tick"></span>`);
             }
           }
         }
@@ -769,7 +769,7 @@ export default class IdsSlider extends Base {
     } else {
       this.setAttribute(attributes.TYPE, DEFAULT_TYPE);
     }
-    this.container.classList[value === 'range' ? 'add' : 'remove']('range');
+    this.container?.classList[value === 'range' ? 'add' : 'remove']('range');
   }
 
   /**
@@ -832,7 +832,7 @@ export default class IdsSlider extends Base {
       color = this.color;
     }
 
-    const ticks = this.container.querySelectorAll('.tick');
+    const ticks = this.container?.querySelectorAll('.tick');
 
     if (color) {
       let colorString = color;
@@ -1152,7 +1152,7 @@ export default class IdsSlider extends Base {
    * @param {boolean} toggleOn true if slider elements should be animated
    */
   #toggleAnimations(toggleOn: boolean): void {
-    this.container.classList[toggleOn ? 'add' : 'remove']('animated');
+    this.container?.classList[toggleOn ? 'add' : 'remove']('animated');
   }
 
   /**

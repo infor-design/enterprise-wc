@@ -1,8 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import IdsIcon from '../ids-icon/ids-icon';
-import IdsTooltip from '../ids-tooltip/ids-tooltip';
 import Base from './ids-color-base';
 
 import styles from './ids-color.scss';
@@ -20,14 +18,25 @@ type SwatchSizesType = typeof SwatchSizes[number];
 @customElement('ids-color')
 @scss(styles)
 export default class IdsColor extends Base {
-  readonly swatch: HTMLElement = this.shadowRoot.querySelector('.ids-color');
-
-  readonly icon: IdsIcon = this.shadowRoot.querySelector('ids-icon');
-
-  readonly popup: IdsTooltip = this.shadowRoot.querySelector('ids-tooltip');
-
   constructor() {
     super();
+  }
+
+  /** Invoked each time the custom element is added to the DOM */
+  connectedCallback(): void {
+    super.connectedCallback();
+    this.#attachEventHandlers();
+    this.swatch = this.shadowRoot.querySelector('.ids-color');
+    this.icon = this.shadowRoot.querySelector('ids-icon');
+    this.popup = this.shadowRoot.querySelector('ids-tooltip');
+
+    if (this.hex) this.hex = this.getAttribute(attributes.HEX);
+  }
+
+  /** Invoked each time the custom element is removed from the DOM */
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.#detachEventHandlers();
   }
 
   /** @returns {string[]} this component's observable attributes */
@@ -38,8 +47,7 @@ export default class IdsColor extends Base {
       attributes.HEX,
       attributes.MODE,
       attributes.SIZE,
-      attributes.TOOLTIP,
-      attributes.VERSION
+      attributes.TOOLTIP
     ];
   }
 
@@ -79,17 +87,18 @@ export default class IdsColor extends Base {
 
   /** @param {string} value The hex code color to use */
   set hex(value: string) {
-    this.container.classList.remove('no-color');
-
-    if (!value || value.toLowerCase() === 'transparent') {
-      value = '';
-      this.container.classList.add('no-color');
-      this.container.style.backgroundColor = 'transparent';
-    } else {
-      this.container.style.backgroundColor = value?.trim();
-    }
-
     this.setAttribute(attributes.HEX, value?.trim());
+    if (this.container) {
+      this.container.classList.remove('no-color');
+
+      if (!value || value.toLowerCase() === 'transparent') {
+        value = '';
+        this.container.classList.add('no-color');
+        this.container.style.backgroundColor = 'transparent';
+      } else {
+        this.container.style.backgroundColor = value?.trim();
+      }
+    }
   }
 
   /** @returns {string} The hex code being used */
@@ -110,7 +119,6 @@ export default class IdsColor extends Base {
   /** @param {string} value Text for this color swatch's tooltip */
   set tooltip(value: string) {
     this.setAttribute(attributes.TOOLTIP, value);
-    this.popup.innerText = String(value).toLowerCase();
   }
 
   /** @returns {string} The tooltip for this color swatch */
@@ -124,9 +132,9 @@ export default class IdsColor extends Base {
 
   /** @param {SwatchSizesType} value The color swatch's size (xs, sm, mm, md, lg) */
   set size(value: SwatchSizesType) {
-    this.swatch.classList.remove(...SwatchSizes);
+    this.swatch?.classList.remove(...SwatchSizes);
     if (SwatchSizes.includes(value)) {
-      this.swatch.classList.add(value);
+      this.swatch?.classList.add(value);
       this.setAttribute(attributes.SIZE, value);
     }
   }
@@ -138,44 +146,31 @@ export default class IdsColor extends Base {
 
   /** Show this color swatch's tooltip */
   showTooltip(): void {
-    if (!this.popup) return;
+    if (this.disabled || !this.popup || !this.tooltip) return;
+
+    this.popup.target = this;
+    this.popup.innerText = String(this.tooltip).toLowerCase();
 
     if (this.popup.popup) {
       this.popup.popup.positionStyle = 'fixed';
     }
 
-    if (this.disabled || !this.tooltip) {
-      this.popup.innerText = '';
-      this.popup.visible = false;
-    } else {
-      this.popup.innerText = String(this.tooltip).trim();
-      this.popup.visible = true;
-    }
+    this.popup.innerText = String(this.tooltip).trim();
+    this.popup.visible = true;
   }
 
   /** Hide this color swatch's tooltip */
   hideTooltip(): void { this.popup.visible = false; }
 
-  /** Invoked each time the custom element is added to the DOM */
-  connectedCallback(): void {
-    this.#attachEventHandlers();
-  }
-
-  /** Invoked each time the custom element is removed from the DOM */
-  disconnectedCallback(): void {
-    super.disconnectedCallback();
-    this.#detachEventHandlers();
-  }
-
   /** Handle events */
   #attachEventHandlers(): void {
     this.#detachEventHandlers();
 
-    this.popup.target = this;
     this.onEvent('mouseenter.ids-color-tooltip', this, this.showTooltip);
     this.onEvent('mouseover.ids-color-tooltip', this, this.showTooltip);
     this.onEvent('mouseout.ids-color-tooltip', this, this.hideTooltip);
     this.onEvent('mouseleave.ids-color-tooltip', this, this.hideTooltip);
+    this.onEvent('click.ids-color-tooltip', this, this.hideTooltip);
   }
 
   /** Detach event handlers */

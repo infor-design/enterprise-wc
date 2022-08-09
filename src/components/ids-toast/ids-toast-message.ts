@@ -47,9 +47,9 @@ export default class IdsToastMessage extends Base {
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
+    super.connectedCallback();
     this.#setTimer();
     this.#attachEventHandlers();
-    super.connectedCallback();
   }
 
   /**
@@ -78,7 +78,7 @@ export default class IdsToastMessage extends Base {
         <ids-text slot="text" audible="true">
           <slot name="close-button-label">${d.closeButtonLabel}</slot>
         </ids-text>
-        <ids-icon slot="icon" icon="close" part="close-button-icon" size="xsmall"></ids-icon>
+        <ids-icon slot="icon" icon="close" part="close-button-icon" size="small"></ids-icon>
       </ids-trigger-button>`;
 
     const progress = this.progressBar ? '<div class="progress-bar" part="progress-bar"></div>' : '';
@@ -211,7 +211,7 @@ export default class IdsToastMessage extends Base {
       this.onEvent(event, toast, (e: MouseEvent) => {
         isPausePlay = !!/mousedown|touchstart/i.test(e.type);
         updateTimer();
-      });
+      }, { passive: true });
     });
 
     const keyEvents = [`keydown.toast-${id}`, `keyup.toast-${id}`];

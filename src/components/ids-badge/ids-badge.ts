@@ -19,11 +19,16 @@ export default class IdsBadge extends Base {
     super();
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+    if (this.color) this.color = this.getAttribute('color');
+  }
+
   /**
    * Return the attributes we handle as getters/setters
-   * @returns {Array} The attributes in an array
+   * @returns {Array} The attribute in an array
    */
-  static get attributes() {
+  static get attributes(): string[] {
     return [
       attributes.COLOR,
       attributes.MODE,
@@ -36,8 +41,7 @@ export default class IdsBadge extends Base {
    * @returns {string} The Template
    */
   template() {
-    const shape = this.shape;
-    return `<span class="ids-badge ${shape}" part="badge"><slot></slot></span>`;
+    return `<span class="ids-badge ${this.shape}" part="badge"><slot></slot></span>`;
   }
 
   /**
@@ -56,7 +60,8 @@ export default class IdsBadge extends Base {
     } else {
       this.removeAttribute('shape');
     }
-    this.container.setAttribute('class', `ids-badge ${this.shape}`);
+    this.container?.classList.remove('normal', 'round');
+    this.container?.classList.add(this.shape);
   }
 
   /**
@@ -72,21 +77,25 @@ export default class IdsBadge extends Base {
   set color(value: string | null) {
     if (value) {
       this.setAttribute('color', value);
-      this.container.setAttribute('color', value);
+      this.container?.setAttribute('color', value);
       let statusColor;
-      this.container.style.backgroundColor = statusColor;
-      this.container.style.borderColor = statusColor;
+      if (this.container) {
+        this.container.style.backgroundColor = statusColor;
+        this.container.style.borderColor = statusColor;
+      }
 
       if (value === 'error' || value === 'info' || value === 'warning') {
-        this.container.classList.add('ids-white');
+        this.container?.classList.add('ids-white');
       }
     } else {
       this.removeAttribute('color');
-      this.container.removeAttribute('color');
-      this.container.style.backgroundColor = '';
-      this.container.style.borderColor = '';
-      this.container.style.color = '';
-      this.container.style.position = '';
+      if (this.container) {
+        this.container?.removeAttribute('color');
+        this.container.style.backgroundColor = '';
+        this.container.style.borderColor = '';
+        this.container.style.color = '';
+        this.container.style.position = '';
+      }
     }
   }
 }
