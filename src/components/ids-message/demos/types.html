@@ -6,7 +6,7 @@
 </head>
 <body>
   <ids-container role="main" padding="8" hidden>
-    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
     <!-- Error Message -->
     <ids-message id="message-error" status="error">
       <ids-text slot="title" font-size="24" type="h2" id="message-error-title">Lost connection</ids-text>
@@ -96,19 +96,29 @@
       <ids-layout-grid-cell>
         <ids-button type="secondary" id="message-error-trigger">Error Example</ids-button>
       </ids-layout-grid-cell>
-      <ids-layout-grid-cell>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+        <ids-layout-grid-cell>
         <ids-button type="secondary" id="message-alert-trigger">Alert Example</ids-button>
       </ids-layout-grid-cell>
-      <ids-layout-grid-cell>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+        <ids-layout-grid-cell>
         <ids-button type="secondary" id="message-success-trigger">Success Example</ids-button>
       </ids-layout-grid-cell>
-      <ids-layout-grid-cell>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+        <ids-layout-grid-cell>
         <ids-button type="secondary" id="message-info-trigger">Info Example</ids-button>
       </ids-layout-grid-cell>
-      <ids-layout-grid-cell>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+        <ids-layout-grid-cell>
         <ids-button type="secondary" id="message-confirmation-trigger">Confirmation Example</ids-button>
       </ids-layout-grid-cell>
-      <ids-layout-grid-cell>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+        <ids-layout-grid-cell>
         <ids-button type="secondary" id="message-huge-text-trigger">Huge Text Example</ids-button>
       </ids-layout-grid-cell>
     </ids-layout-grid>
@@ -123,7 +133,9 @@
       <ids-layout-grid-cell>
         <ids-button type="secondary" id="message-allow-tags-trigger">Allow Tags</ids-button>
       </ids-layout-grid-cell>
-      <ids-layout-grid-cell>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+        <ids-layout-grid-cell>
         <ids-button type="secondary" id="message-disallow-tags-trigger">Disallow Tags</ids-button>
       </ids-layout-grid-cell>
     </ids-layout-grid>

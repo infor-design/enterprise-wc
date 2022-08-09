@@ -6,6 +6,8 @@ import booksJSON from '../../../assets/data/books.json';
 // Example for populating the DataGrid
 const lookup: Element | any = document.querySelector('#lookup-1');
 const container: Element | any = document.querySelector('ids-container');
+const autocompleteLookup: Element | any = document.querySelector('#lookup-6');
+const autocomplete: Element | any = autocompleteLookup?.shadowRoot?.querySelector('ids-trigger-field');
 
 (async function init() {
   // Set a Locale and wait for it to load
@@ -60,6 +62,7 @@ const container: Element | any = document.querySelector('ids-container');
   });
 
   lookup.columns = columns;
+  autocompleteLookup.columns = columns;
 
   const addEventListeners = () => {
     lookup.addEventListener('change', () => {
@@ -83,13 +86,17 @@ const container: Element | any = document.querySelector('ids-container');
     rowSelection: 'multiple'
   };
 
+  autocompleteLookup.dataGridSettings = {
+    rowSelection: 'multiple'
+  };
+
   const setData = async () => {
     const res = await fetch(url);
     const data = await res.json();
-    lookup.dataGridSettings = {
-      rowSelection: 'multiple'
-    };
+
     lookup.data = data;
+    autocomplete.data = data;
+    autocompleteLookup.data = data;
   };
 
   setData();

@@ -69,6 +69,11 @@ const container: any = document.querySelector('ids-container');
   const data = await response.json();
   dataGrid.columns = columns;
   dataGrid.data = data;
+  dataGrid.pageTotal = data.length;
+  dataGrid.pager.addEventListener('pagenumberchange', (e: CustomEvent) => {
+    console.info(`client-side page # ${e.detail.value}`);
+    dataGrid.redrawBody();
+  });
 
   console.info('Loading Time:', window.performance.now());
 }());

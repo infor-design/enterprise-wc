@@ -69,11 +69,6 @@ describe('IdsContainer Component', () => {
     expect(container.container.getAttribute('mode')).toEqual('dark');
   });
 
-  it('supports setting version', () => {
-    container.version = 'classic';
-    expect(container.container.getAttribute('version')).toEqual('classic');
-  });
-
   it('supports setting language', () => {
     container.language = 'ar';
     expect(container.getAttribute('language')).toEqual('ar');

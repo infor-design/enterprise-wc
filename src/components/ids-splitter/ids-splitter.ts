@@ -29,7 +29,6 @@ const SPLITTER_DEFAULTS = {
   label: 'Resize',
   resizeOnDragEnd: false
 };
-
 // Align to be used only
 const ALIGN = ['start', 'end'];
 
@@ -99,8 +98,8 @@ export default class IdsSplitter extends Base {
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
-    this.#init();
     super.connectedCallback();
+    this.#init();
   }
 
   /**
@@ -298,19 +297,15 @@ export default class IdsSplitter extends Base {
    * @returns {void}
    */
   #init(): void {
-    window.addEventListener('load', () => {
-      window.requestAnimationFrame(() => {
-        this.#destroy();
-        this.#setProp();
-        this.#setContainer();
-        this.#initialSizes();
-        this.#addSplitBars();
-        this.#setPairs();
-        this.#positionSplitBars();
-        this.#attachEventHandlers();
-        this.#setInitialCollapsed();
-      });
-    });
+    this.#destroy();
+    this.#setProp();
+    this.#setContainer();
+    this.#initialSizes();
+    this.#addSplitBars();
+    this.#setPairs();
+    this.#positionSplitBars();
+    this.#attachEventHandlers();
+    this.#setInitialCollapsed();
   }
 
   /**
@@ -319,9 +314,7 @@ export default class IdsSplitter extends Base {
    * @returns {void}
    */
   #reInit(): void {
-    window.requestAnimationFrame(() => {
-      this.#init();
-    });
+    this.#init();
   }
 
   /**
@@ -1117,7 +1110,7 @@ export default class IdsSplitter extends Base {
    */
   set align(value: string) {
     const prefixed = (v: string) => `align-${v}`;
-    this.container.classList.remove(...ALIGN.map((v) => prefixed(v)));
+    this.container?.classList.remove(...ALIGN.map((v) => prefixed(v)));
     let className;
     if (ALIGN.indexOf(value) > -1) {
       this.setAttribute(attributes.ALIGN, value);
@@ -1126,7 +1119,7 @@ export default class IdsSplitter extends Base {
       this.removeAttribute(attributes.ALIGN);
       className = prefixed(SPLITTER_DEFAULTS.align);
     }
-    this.container.classList.add(className);
+    this.container?.classList.add(className);
     this.#reInit();
   }
 
@@ -1141,7 +1134,7 @@ export default class IdsSplitter extends Base {
    */
   set axis(value: string) {
     const prefixed = (v: string) => `axis-${v}`;
-    this.container.classList.remove(...AXIS.map((v) => prefixed(v)));
+    this.container?.classList.remove(...AXIS.map((v) => prefixed(v)));
     let className;
     if (AXIS.indexOf(value) > -1) {
       this.setAttribute(attributes.AXIS, value);
@@ -1150,7 +1143,7 @@ export default class IdsSplitter extends Base {
       this.removeAttribute(attributes.AXIS);
       className = prefixed(SPLITTER_DEFAULTS.axis);
     }
-    this.container.classList.add(className);
+    this.container?.classList.add(className);
     this.#reInit();
   }
 

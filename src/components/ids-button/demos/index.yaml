@@ -8,18 +8,6 @@
   - link: example.html
     type: Main Example
     description: Shows most available buttons
-  - link: button.html
-    type: Example
-    description: Shows form buttons
-  - link: disabled-button.html
-    type: Example
-    description: Shows disabled buttons
-  - link: icon-button-align-right.html
-    type: Example
-    description: Shows an icon aligned to the right of text
-  - link: icon-button.html
-    type: Example
-    description: Shows icon buttons
   - link: responsive.html
     type: Example
     description: Showing a button width setting

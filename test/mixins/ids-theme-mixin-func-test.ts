@@ -33,7 +33,6 @@ describe('IdsThemeMixin Tests', () => {
   it('fires themechanged event', () => {
     const mockCallback = jest.fn((x) => {
       expect(x.detail.mode).toEqual('dark');
-      expect(x.detail.version).toEqual('new');
     });
 
     switcher.addEventListener('themechanged', mockCallback);

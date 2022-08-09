@@ -20,8 +20,8 @@ const IdsChartLegendMixin = (superclass: any) => class extends superclass {
   }
 
   connectedCallback() {
-    this.attachLegendEvents();
     super.connectedCallback?.();
+    this.attachLegendEvents();
   }
 
   /**
@@ -78,6 +78,7 @@ const IdsChartLegendMixin = (superclass: any) => class extends superclass {
    * @returns {void}
    */
   legendsClickable(selectable: boolean): void {
+    if (!this.shadowRoot) return;
     const legends = [...this.shadowRoot.querySelectorAll('.chart-legend-item')];
     if (!legends[0]) return;
 

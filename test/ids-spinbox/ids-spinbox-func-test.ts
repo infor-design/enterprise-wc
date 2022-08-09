@@ -3,7 +3,7 @@
  */
 import processAnimFrame from '../helpers/process-anim-frame';
 import createFromTemplate from '../helpers/create-from-template';
-import waitFor from '../helpers/wait-for';
+import waitForTimeout from '../helpers/wait-for-timeout';
 import simulateMouseDownEvents from '../helpers/simulate-mouse-down-events';
 import '../../src/components/ids-spinbox/ids-spinbox';
 import '../../src/components/ids-container/ids-container';
@@ -34,7 +34,7 @@ describe('IdsSpinbox Component', () => {
 
   it('renders from HTML Template with no errors', async () => {
     elem = await createFromTemplate(elem, DEFAULT_SPINBOX_HTML);
-
+    await processAnimFrame();
     const errors = jest.spyOn(global.console, 'error');
     expect(document.querySelectorAll('ids-spinbox').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
@@ -42,7 +42,7 @@ describe('IdsSpinbox Component', () => {
 
   it('removes max value and then can set value with no ceiling', async () => {
     elem = await createFromTemplate(elem, DEFAULT_SPINBOX_HTML);
-
+    await processAnimFrame();
     elem.max = '';
     elem.value = 10000;
     expect(elem.value).toEqual('10000');
@@ -50,7 +50,7 @@ describe('IdsSpinbox Component', () => {
 
   it('sets the label placeholder with no errors', async () => {
     elem = await createFromTemplate(elem, DEFAULT_SPINBOX_HTML);
-
+    await processAnimFrame();
     elem.placeholder = 'This is helpful';
     expect(elem.placeholder).toEqual('This is helpful');
 
@@ -60,7 +60,7 @@ describe('IdsSpinbox Component', () => {
 
   it('removes min value and then can set value with no floor', async () => {
     elem = await createFromTemplate(elem, DEFAULT_SPINBOX_HTML);
-
+    await processAnimFrame();
     elem.min = '';
     elem.value = -10000;
     expect(elem.value).toEqual('-10000');
@@ -68,7 +68,7 @@ describe('IdsSpinbox Component', () => {
 
   it('updates min value but can only set a value to min floor', async () => {
     elem = await createFromTemplate(elem, DEFAULT_SPINBOX_HTML);
-
+    await processAnimFrame();
     elem.min = -10000;
     elem.value = -100000;
     expect(elem.value).toEqual('-10000');
@@ -76,7 +76,7 @@ describe('IdsSpinbox Component', () => {
 
   it('updates max value but can only set a value to max ceiling', async () => {
     elem = await createFromTemplate(elem, DEFAULT_SPINBOX_HTML);
-
+    await processAnimFrame();
     elem.max = 10000;
     elem.value = 100000;
     expect(elem.value).toEqual('10000');
@@ -84,7 +84,7 @@ describe('IdsSpinbox Component', () => {
 
   it('renders from HTML Template with no errors', async () => {
     elem = await createFromTemplate(elem, DEFAULT_SPINBOX_HTML);
-
+    await processAnimFrame();
     const errors = jest.spyOn(global.console, 'error');
     expect(document.querySelectorAll('ids-spinbox').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
@@ -93,6 +93,7 @@ describe('IdsSpinbox Component', () => {
   it('presses the increment and decrement buttons with no errors', async () => {
     const errors = jest.spyOn(global.console, 'error');
     elem = await createFromTemplate(elem, DEFAULT_SPINBOX_HTML);
+    await processAnimFrame();
     expect(document.querySelectorAll('ids-spinbox').length).toEqual(1);
 
     const [
@@ -113,6 +114,7 @@ describe('IdsSpinbox Component', () => {
 
   it('increments the value until max, and then cannot increment anymore', async () => {
     elem = await createFromTemplate(elem, DEFAULT_SPINBOX_HTML);
+    await processAnimFrame();
 
     const [
       /* eslint-disable no-unused-vars */
@@ -138,6 +140,7 @@ describe('IdsSpinbox Component', () => {
 
   it('decrements the value until min, and then cannot decrement anymore', async () => {
     elem = await createFromTemplate(elem, DEFAULT_SPINBOX_HTML);
+    await processAnimFrame();
 
     const [
       decrementButton,
@@ -164,6 +167,8 @@ describe('IdsSpinbox Component', () => {
 
   it('presses the ArrowUp key to increment after clicking the input', async () => {
     elem = await createFromTemplate(elem, DEFAULT_SPINBOX_HTML);
+    await processAnimFrame();
+
     elem.focus();
     elem.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp' }));
     await processAnimFrame();
@@ -173,6 +178,8 @@ describe('IdsSpinbox Component', () => {
 
   it('presses the ArrowDown key to decrement after clicking the input', async () => {
     elem = await createFromTemplate(elem, DEFAULT_SPINBOX_HTML);
+    await processAnimFrame();
+
     elem.focus();
     elem.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
     await processAnimFrame();
@@ -186,6 +193,8 @@ describe('IdsSpinbox Component', () => {
         value="0"
         dirty-tracker="true"
       ></ids-spinbox>`);
+    await processAnimFrame();
+
     expect(document.querySelectorAll('ids-spinbox').length).toEqual(1);
     expect(elem.dirtyTracker).toEqual(true);
 
@@ -197,6 +206,7 @@ describe('IdsSpinbox Component', () => {
   it('toggles the disabled state with no issues', async () => {
     const errors = jest.spyOn(global.console, 'error');
     elem = await createFromTemplate(elem, DEFAULT_SPINBOX_HTML);
+    await processAnimFrame();
 
     elem.disabled = true;
     expect(elem.disabled).toBeTruthy();
@@ -211,6 +221,7 @@ describe('IdsSpinbox Component', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     elem = await createFromTemplate(elem, `<ids-spinbox readonly value="10"></ids-spinbox>`);
+    await processAnimFrame();
     expect(elem.readonly).toBeTruthy();
 
     elem.setAttribute('readonly', false);
@@ -221,19 +232,20 @@ describe('IdsSpinbox Component', () => {
 
   it('disables its trigger buttons if the field is disabled or readonly', async () => {
     elem = await createFromTemplate(elem, `<ids-spinbox readonly value="10"></ids-spinbox>`);
+    await processAnimFrame();
 
     const getIdsButtons = () => (
       [...elem.querySelectorAll('ids-trigger-button')]
     );
 
-    await waitFor(() => expect(
+    await waitForTimeout(() => expect(
       getIdsButtons().find((el) => el.hasAttribute('disabled'))
     ).not.toEqual(undefined));
 
     elem.removeAttribute('readonly');
     elem.setAttribute('disabled', true);
 
-    await waitFor(() => expect(
+    await waitForTimeout(() => expect(
       getIdsButtons().find((el) => el.hasAttribute('disabled'))
     ).not.toEqual(undefined));
   });
@@ -249,6 +261,7 @@ describe('IdsSpinbox Component', () => {
   it('changes the value in input to empty, then presses increment button and value is cleared then one added', async () => {
     const value = 10;
     elem = await createFromTemplate(elem, `<ids-spinbox readonly value="${value}"></ids-spinbox>`);
+    await processAnimFrame();
     elem.input.value = '';
     await processAnimFrame();
     await processAnimFrame();
@@ -269,7 +282,7 @@ describe('IdsSpinbox Component', () => {
 
   it('sets the value to one not divisible by steps and has it auto-rounded to nearest-step in both directions', async () => {
     elem = await createFromTemplate(elem, `<ids-spinbox value="23" step="5"></ids-spinbox>`);
-
+    await processAnimFrame();
     expect(elem.value).toEqual('25');
 
     elem.value = '22';
@@ -279,6 +292,7 @@ describe('IdsSpinbox Component', () => {
 
   it('can change language from the container', async () => {
     container = await createFromTemplate(container, `<ids-container id="test-container">${DEFAULT_SPINBOX_HTML}</ids-container>`);
+    await processAnimFrame();
     elem = container.querySelector('ids-spinbox');
 
     container.language = 'de';

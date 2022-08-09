@@ -517,8 +517,8 @@ describe('IdsPopupMenu Component', () => {
       }, 20);
     });
 
-    it('will not close the menu if selected from a `keep-open` group', (done) => {
-      const selectedEvent = new CustomEvent('selected', {
+    it('will not close the menu if picked from a `keep-open` group', (done) => {
+      const pickEvent = new CustomEvent('pick', {
         bubbles: true,
         detail: { elem: item1 }
       });
@@ -526,14 +526,14 @@ describe('IdsPopupMenu Component', () => {
       menu.show();
 
       setTimeout(() => {
-        menu.dispatchEvent(selectedEvent);
+        menu.dispatchEvent(pickEvent);
 
         setTimeout(() => {
           expect(menu.popup.visible).toBeTruthy();
 
           // Remove keep-open and try selecting the item again
           group1.keepOpen = false;
-          menu.dispatchEvent(selectedEvent);
+          menu.dispatchEvent(pickEvent);
 
           setTimeout(() => {
             expect(menu.popup.visible).toBeFalsy();

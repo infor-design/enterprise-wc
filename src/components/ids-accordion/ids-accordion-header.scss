@@ -37,39 +37,6 @@
       @include text-slate-100();
     }
   }
-
-  // Classic Light Mode Styles
-  &[version='classic'][mode='light'] {
-    @include text-graphite-100();
-
-    border-bottom-color: var(--ids-color-palette-graphite-20);
-
-    ids-icon {
-      @include text-graphite-100();
-    }
-  }
-
-  // Classic Dark Mode Styles
-  &[version='classic'][mode='dark'] {
-    @include text-white();
-
-    border-bottom-color: var(--ids-color-palette-classic-slate-100);
-
-    ids-icon {
-      @include text-slate-10();
-    }
-  }
-
-  // Classic Contrast Mode Styles
-  &[version='classic'][mode='contrast'] {
-    @include text-black();
-
-    border-bottom-color: var(--ids-color-palette-classic-slate-40);
-
-    ids-icon {
-      @include text-slate-100();
-    }
-  }
 }
 
 @mixin accordion-header-focus-colors() {
@@ -100,27 +67,6 @@
       box-shadow: 0 0 4px 2px rgb(41 41 41 / 0.3);
     }
   }
-
-  // Classic Light Mode Styles
-  &[version='classic'][mode='light'] {
-    &:focus {
-      @include border-azure-60();
-    }
-  }
-
-  // Classic Dark Mode Styles
-  &[version='classic'][mode='dark'] {
-    &:focus {
-      @include border-azure-60();
-    }
-  }
-
-  // Classic Contrast Mode Styles
-  &[version='classic'][mode='contrast'] {
-    &:focus {
-      @include border-azure-50();
-    }
-  }
 }
 
 @mixin accordion-header-disabled-colors() {
@@ -145,33 +91,6 @@
 
     ids-icon {
       color: var(--ids-color-palette-slate-60);
-    }
-  }
-
-  // Classic Light Mode Styles
-  &[version='classic'][mode='light'] {
-    color: var(--ids-color-palette-classic-slate-30);
-
-    ids-icon {
-      color: var(--ids-color-palette-classic-slate-30);
-    }
-  }
-
-  // Classic Dark Mode Styles
-  &[version='classic'][mode='dark'] {
-    color: var(--ids-color-palette-classic-slate-50);
-
-    ids-icon {
-      color: var(--ids-color-palette-classic-slate-50);
-    }
-  }
-
-  // Classic Contrast Mode Styles
-  &[version='classic'][mode='contrast'] {
-    color: var(--ids-color-palette-classic-slate-60);
-
-    ids-icon {
-      color: var(--ids-color-palette-classic-slate-60);
     }
   }
 }

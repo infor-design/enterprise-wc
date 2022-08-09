@@ -33,16 +33,12 @@ export default class IdsLookup extends Base {
     super();
   }
 
-  /** Reference to the trigger field */
-  triggerField = this.shadowRoot?.querySelector('ids-trigger-field');
-
-  /** Reference to the trigger button */
-  triggerButton = this.shadowRoot?.querySelector('ids-trigger-button');
-
   /**
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
+    super.connectedCallback();
+
     // Setup some internal refs
     this.state = {
       dataGridSettings: {
@@ -59,13 +55,19 @@ export default class IdsLookup extends Base {
     if (!this.modal) {
       this.modal = this.shadowRoot?.querySelector('ids-modal');
     }
+
+    // Reference to the trigger field
+    this.triggerField = this.shadowRoot?.querySelector('ids-trigger-field');
+
+    /// Reference to the trigger button
+    this.triggerButton = this.shadowRoot?.querySelector('ids-trigger-button');
+
     this.modal.target = this.triggerButton;
     this.modal.triggerType = 'click';
 
     this
       .#handleEvents()
       .#handleKeys();
-    super.connectedCallback();
   }
 
   /**
@@ -83,8 +85,7 @@ export default class IdsLookup extends Base {
       attributes.READONLY,
       attributes.TABBABLE,
       attributes.TITLE,
-      attributes.VALUE,
-      attributes.VERSION
+      attributes.VALUE
     ];
   }
 
@@ -162,7 +163,7 @@ export default class IdsLookup extends Base {
    */
   onDirtyTrackerChange(value: boolean) {
     if (value) {
-      this.container?.setAttribute(attributes.DIRTY_TRACKER, value);
+      this.container?.setAttribute(attributes.DIRTY_TRACKER, value.toString());
     } else {
       this.container?.removeAttribute(attributes.DIRTY_TRACKER);
     }

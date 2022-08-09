@@ -5,6 +5,7 @@ import IdsButton from '../../src/components/ids-button/ids-button';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';
 import processAnimFrame from '../helpers/process-anim-frame';
+import '../../src/components/ids-icon/ids-icon';
 
 describe('IdsButton Component', () => {
   let btn: any;
@@ -34,26 +35,24 @@ describe('IdsButton Component', () => {
     expect(btn.shouldUpdate).toBeTruthy();
   });
 
-  it('renders correctly', () => {
+  it('renders correctly', async () => {
     const elem: any = new IdsButton();
+    document.body.appendChild(elem);
     elem.cssClass = 'test-class';
     elem.disabled = true;
     elem.icon = 'add';
     elem.text = 'test';
     elem.state.type = 'icon';
-    document.body.appendChild(elem);
-    elem.template();
     expect(elem.outerHTML).toMatchSnapshot();
   });
 
   it('renders icons on the opposite side correctly', () => {
     const elem: any = new IdsButton();
+    document.body.appendChild(elem);
     elem.id = 'test-button';
     elem.icon = 'settings';
     elem.iconAlign = 'end';
     elem.text = 'Settings';
-    document.body.appendChild(elem);
-    elem.template();
     expect(elem.outerHTML).toMatchSnapshot();
   });
 
@@ -132,7 +131,7 @@ describe('IdsButton Component', () => {
 
     btn.setAttribute('tabindex', '0');
 
-    expect(btn.hasAttribute('tabindex')).toBeTruthy();
+    expect(btn.hasAttribute('tabindex')).toBeFalsy();
     expect(btn.tabIndex).toEqual(0);
     expect(btn.button.getAttribute('tabindex')).toEqual('0');
     expect(btn.state.tabIndex).toEqual(0);
@@ -228,7 +227,7 @@ describe('IdsButton Component', () => {
     expect(btn.state.text).toEqual('');
   });
 
-  it('can add/remove its icon', () => {
+  it('can add/remove its icon', async () => {
     btn.icon = 'settings';
 
     expect(btn.getAttribute('icon')).toBe('settings');
@@ -343,11 +342,6 @@ describe('IdsButton Component', () => {
   it('supports setting mode', () => {
     btn.mode = 'dark';
     expect(btn.container.getAttribute('mode')).toEqual('dark');
-  });
-
-  it('supports setting version', () => {
-    btn.version = 'classic';
-    expect(btn.container.getAttribute('version')).toEqual('classic');
   });
 
   it('supports setting color variants', async () => {

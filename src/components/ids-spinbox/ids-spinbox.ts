@@ -88,10 +88,6 @@ export default class IdsSpinbox extends Base {
     }
   }
 
-  rendered() {
-    this.#updateDisabledButtonStates();
-  }
-
   #appendTriggerButtons() {
     const startBtn = this.querySelector('[slot="trigger-start"]');
     if (!startBtn) {
@@ -151,6 +147,7 @@ export default class IdsSpinbox extends Base {
 
     this.#configureMask();
     this.#attachEventHandlers();
+    this.#updateDisabledButtonStates();
   }
 
   /**

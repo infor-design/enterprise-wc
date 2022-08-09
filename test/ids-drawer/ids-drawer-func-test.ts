@@ -7,7 +7,7 @@ import '../../src/components/ids-button/ids-button';
 
 import createFromTemplate from '../helpers/create-from-template';
 import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';
-import waitFor from '../helpers/wait-for';
+import waitForTimeout from '../helpers/wait-for-timeout';
 
 describe('IdsDrawer Component', () => {
   let elem: any;
@@ -85,7 +85,7 @@ describe('IdsDrawer Component', () => {
 
     // Click the target to open the drawer
     btn.click();
-    await waitFor(() => expect(elem.visible).toBeTruthy());
+    await waitForTimeout(() => expect(elem.visible).toBeTruthy());
     elem.hide();
 
     // Disconnect the drawer from the button
@@ -94,7 +94,7 @@ describe('IdsDrawer Component', () => {
 
     // Click the target again.  It shouldn't open the drawer
     btn.click();
-    await waitFor(() => expect(elem.visible).toBeFalsy());
+    await waitForTimeout(() => expect(elem.visible).toBeFalsy());
 
     // Try setting to null a second time (addresses coverage)
     elem.target = null;
@@ -130,7 +130,7 @@ describe('IdsDrawer Component', () => {
       e.detail.response(false);
     });
     elem.show();
-    await waitFor(() => expect(elem.visible).toBeTruthy());
+    await waitForTimeout(() => expect(elem.visible).toBeTruthy());
     elem.hide();
 
     expect(elem.visible).toBeTruthy();
@@ -143,7 +143,7 @@ describe('IdsDrawer Component', () => {
     container.appendChild(elem2);
 
     await container.setLanguage('ar');
-    waitFor(() => expect(elem.getAttribute('dir')).toBe('rtl'));
+    waitForTimeout(() => expect(elem.getAttribute('dir')).toBe('rtl'));
   });
 
   it('should call hide on outside click', async () => {

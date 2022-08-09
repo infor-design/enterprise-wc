@@ -6,18 +6,25 @@
  keywords: Mask, Type
  examples:
   - link: example.html
+    type: Main Example
     description: Shows a basic masic scenarios
   - link: mask-attribute.html
+    type: Example
     description: Shows a mask set but a string attribute
   - link: number-leading-zeros.html
+    type: Example
     description: Shows a test with leading zeros
   - link: localized-dates.html
+    type: Example
     desrciption: Shows masked input fields containing dates that are fixed to the current Locale
   - link: localized-numbers.html
+    type: Example
     desrciption: Shows masked input fields containing numbers that are fixed to the current Locale
   - link: prefix-suffix.html
+    type: Example
     description: Shows adding a prefix or suffix to the mask
   - link: side-by-side.html
+    type: Side By Side
     description: Showing a mask side by side with 4.x
 
 

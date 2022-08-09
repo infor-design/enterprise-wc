@@ -34,11 +34,8 @@ export default class IdsListBuilder extends Base {
 
   connectedCallback() {
     this.sortable = true;
-    // list-builder is not designed to handle thousands of items, so doesnt support virtual scroll
-    this.virtualScroll = false;
-    this.itemHeight = 46; // hard-coded
-    this.#attachEventListeners();
     super.connectedCallback();
+    this.#attachEventListeners();
   }
 
   /**
@@ -468,8 +465,8 @@ export default class IdsListBuilder extends Base {
    * @returns {any} focused Li
    */
   getFocusedLi(): any {
-    const savedFocusedLi = this.container.querySelector(`ids-swappable-item[role="listitem"][index="${this.getFocusedLiIndex()}"]`);
-    const val = savedFocusedLi ?? this.container.querySelector('ids-swappable-item[role="listitem"][tabindex="0"]');
+    const savedFocusedLi = this.container?.querySelector(`ids-swappable-item[role="listitem"][index="${this.getFocusedLiIndex()}"]`);
+    const val = savedFocusedLi ?? this.container?.querySelector('ids-swappable-item[role="listitem"][tabindex="0"]');
     return val;
   }
 
@@ -478,12 +475,24 @@ export default class IdsListBuilder extends Base {
    * @returns {void}
    */
   resetIndices(): void {
-    const listItems = this.container.querySelectorAll('ids-swappable-item');
-    listItems.forEach((x: HTMLElement, i: number) => {
+    const listItems = this.container?.querySelectorAll('ids-swappable-item');
+    listItems?.forEach((x: HTMLElement, i: number) => {
       x.setAttribute('index', i.toString());
       x.setAttribute('id', `id_item_${i + 1}`);
       x.setAttribute('aria-posinset', `${i + 1}`);
       x.setAttribute('aria-setsize', listItems.length.toString());
     });
+  }
+
+  set virtualScroll(value: string | boolean) {
+    // Do nothing
+  }
+
+  /**
+   * List builder does not support VS
+   * @returns {boolean} false
+   */
+  get virtualScroll(): boolean {
+    return false;
   }
 }

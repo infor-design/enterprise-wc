@@ -203,8 +203,27 @@ describe('IdsTag Component', () => {
     expect(tag.container.getAttribute('mode')).toEqual('dark');
   });
 
-  it('supports setting version', () => {
-    tag.version = 'classic';
-    expect(tag.container.getAttribute('version')).toEqual('classic');
+  it('should be able to set attributes before append', async () => {
+    const elem: any = new IdsTag();
+    elem.color = 'red';
+    elem.clickable = true;
+    elem.dismissible = true;
+    document.body.appendChild(elem);
+
+    expect(elem.getAttribute('color')).toEqual('red');
+    expect(elem.getAttribute('clickable')).toEqual('true');
+    expect(elem.getAttribute('dismissible')).toEqual('true');
+  });
+
+  it('should be able to set attributes after append', async () => {
+    const elem: any = new IdsTag();
+    document.body.appendChild(elem);
+    elem.color = 'red';
+    elem.clickable = true;
+    elem.dismissible = true;
+
+    expect(elem.getAttribute('color')).toEqual('red');
+    expect(elem.getAttribute('clickable')).toEqual('true');
+    expect(elem.getAttribute('dismissible')).toEqual('true');
   });
 });

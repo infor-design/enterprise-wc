@@ -153,7 +153,7 @@ describe('Ids Week View e2e Tests', () => {
 
     const timelineShiftCssVar = await page.$eval(name, (el: any) => el.shadowRoot?.querySelector('.week-view-hour-row')?.style.cssText);
 
-    expect(timelineShiftCssVar).toEqual('--timeline-shift: 0px;');
+    expect(timelineShiftCssVar).toEqual('--timeline-shift:0px;');
   });
 
   it('should show/hide timeline', async () => {

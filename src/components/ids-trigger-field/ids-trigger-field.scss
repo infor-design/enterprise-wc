@@ -20,13 +20,10 @@
   @include mr-4();
 }
 
-.ids-input[version='new'][mode='light'].color-variant-alternate-formatter,
+.ids-input[mode='light'].color-variant-alternate-formatter,
 .ids-input:not([mode]).color-variant-alternate-formatter,
-.ids-input[version='new'][mode='dark'].color-variant-alternate-formatter,
-.ids-input[version='new'][mode='contrast'].color-variant-alternate-formatter,
-.ids-input[version='classic'][mode='light'].color-variant-alternate-formatter,
-.ids-input[version='classic'][mode='dark'].color-variant-alternate-formatter,
-.ids-input[version='classic'][mode='contrast'].color-variant-alternate-formatter {
+.ids-input[mode='dark'].color-variant-alternate-formatter,
+.ids-input[mode='contrast'].color-variant-alternate-formatter {
   &:focus-within {
     .field-container {
       box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-60);

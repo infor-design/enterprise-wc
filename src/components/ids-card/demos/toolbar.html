@@ -6,8 +6,11 @@
 </head>
 <body>
   <ids-container role="main" padding="8" hidden>
-    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
-    <ids-layout-grid cols="3" gap="md">
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Card (Toolbar)</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid cols="2" gap="md">
       <ids-layout-grid-cell>
         <ids-card auto-fit="true">
           <div slot="card-header">

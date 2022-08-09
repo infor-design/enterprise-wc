@@ -19,6 +19,7 @@ export default class IdsProcessIndicator extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback();
     this.#setActiveStepLabel();
   }
 

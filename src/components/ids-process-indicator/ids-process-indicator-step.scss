@@ -122,26 +122,6 @@
       color: var(--ids-color-palette-slate-90);
     }
   }
-
-  // CLASSIC
-  &[version='classic'] {
-    &[mode='light'] {
-      --bg-color: #eee;
-    }
-
-    &[mode='dark'] {
-      --bg-color: #212224;
-
-      ids-text::part(text) {
-        color: var(--ids-color-palette-slate-30);
-      }
-    }
-
-    &[mode='contrast'] {
-      --bg-color: #d3d3d3;
-      --base-color: var(--ids-color-palette-classic-slate-30);
-    }
-  }
 }
 
 // step styling based on status

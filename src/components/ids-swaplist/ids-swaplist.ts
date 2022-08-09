@@ -33,6 +33,7 @@ export default class IdsSwapList extends Base {
   datasource = new IdsDataSource();
 
   connectedCallback() {
+    super.connectedCallback();
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
     this.attachEventHandlers();
   }
@@ -104,7 +105,7 @@ export default class IdsSwapList extends Base {
    * @memberof IdsSwapList
    */
   get selectedItems(): any {
-    return this.container.querySelectorAll('ids-swappable-item[selected]');
+    return this.container?.querySelectorAll('ids-swappable-item[selected]');
   }
 
   /**
@@ -176,7 +177,7 @@ export default class IdsSwapList extends Base {
 
   /**
    * Return an item's html injecting any values from the dataset as needed.
-   * @param  {any} item The item to generate
+   * @param {any} item The item to generate
    * @returns {string} The html for this item
    */
   itemTemplate(item: any): any {
@@ -244,7 +245,7 @@ export default class IdsSwapList extends Base {
    * Render the swaplist and attach event handlers
    */
   render() {
-    super.render();
+    super.render(true);
 
     if (this.data?.length > 0) {
       this.attachEventHandlers();

@@ -84,7 +84,7 @@ export default class IdsTreeMap extends Base {
    */
   set data(value: TreemapDataSet[]) {
     this.d = value;
-    this.render();
+    this.render(true);
   }
 
   /**
@@ -109,7 +109,7 @@ export default class IdsTreeMap extends Base {
       this.removeAttribute(attributes.TITLE);
     }
 
-    const titleText = this.shadowRoot.querySelector('[part="title"]');
+    const titleText = this.shadowRoot?.querySelector('[part="title"]');
     if (titleText) {
       titleText.innerHTML = value ? value.toString() : '';
     }
@@ -170,10 +170,9 @@ export default class IdsTreeMap extends Base {
    */
   templateGroups(rect: TreemapDataSet): string {
     const textOffset = 8;
-
     return `
       <g
-        fill=${rect.data.color}
+        fill=${rect?.data?.color || '#003876'}
         class="treemap-rect"
       >
         <rect
@@ -189,7 +188,7 @@ export default class IdsTreeMap extends Base {
           y="${rect.y + textOffset * 3}"
           stroke-width="0"
         >
-          ${rect.data.text}
+          ${rect?.data?.text || 'Empty'}
         </text>
         <text
           fill="white"
@@ -197,7 +196,7 @@ export default class IdsTreeMap extends Base {
           y="${rect.y + textOffset * 6}"
           stroke-width="0"
         >
-          ${rect.data.label}
+          ${rect?.data?.label || '0%'}
         </text>
       </g>
     `;
@@ -213,14 +212,6 @@ export default class IdsTreeMap extends Base {
       <ids-text type="span" font-weight="bold" part="title">
         ${typeof this.title === 'string' ? this.title : 'Add Treemap Title'}
       </ids-text>`;
-  }
-
-  /**
-   * Render the treemap by applying the template
-   * @private
-   */
-  render() {
-    super.render();
   }
 
   /**

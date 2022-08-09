@@ -1,3 +1,7 @@
+// Supporting components
+import '../ids-input';
+import '../../ids-button/ids-button';
+
 document.addEventListener('DOMContentLoaded', () => {
   const btnEnable: any = document.querySelector('#btn-input-enable');
   const btnDisable: any = document.querySelector('#btn-input-disable');
