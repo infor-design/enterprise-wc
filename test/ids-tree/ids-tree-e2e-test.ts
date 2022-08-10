@@ -1,3 +1,4 @@
+import { AxePuppeteer } from '@axe-core/puppeteer';
 import countObjects from '../helpers/count-objects';
 
 describe('Ids Tree e2e Tests', () => {
@@ -16,7 +17,8 @@ describe('Ids Tree e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await (expect(page) as any).toPassAxeTests({ disabledRules: ['aria-required-parent'] });
+    const results = await new AxePuppeteer(page).disableRules(['aria-required-parent']).analyze();
+    expect(results.violations.length).toBe(0);
   });
 
   it('should not have memory leaks', async () => {
