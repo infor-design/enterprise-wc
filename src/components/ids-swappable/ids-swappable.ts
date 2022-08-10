@@ -196,8 +196,6 @@ export default class IdsSwappable extends Base {
     el.removeAttribute('aria-grabbed');
     el.removeAttribute('aria-dropeffect');
     el.classList.remove('is-hidden');
-    el.removeAttribute(attributes.SELECTED);
-    el.removeAttribute('aria-selected');
   }
 
   /**
